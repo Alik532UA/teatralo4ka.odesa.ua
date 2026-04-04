@@ -1,0 +1,5 @@
+# allow crawling everything by default
+User-agent: *
+Disallow:
+Host: https://teatralo4ka.odesa.ua
+Sitemap: https://teatralo4ka.odesa.ua/sitemap.xml
