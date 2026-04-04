@@ -93,28 +93,24 @@
 	}
 
 	.hero__social-btn {
-		width: 44px;
-		height: 44px;
-		background: white;
-		border-radius: 12px;
+		width: 48px;
+		height: 48px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-		border: 1px solid rgba(0,0,0,0.03);
 		overflow: hidden;
 	}
 
 	.hero__social-btn img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 	}
 
 	.hero__social-btn:hover {
-		transform: scale(1.03);
-		box-shadow: 0 8px 25px rgba(0,95,174,0.15);
+		transform: scale(1.15);
 	}
 
 	@keyframes fadeInLeft {

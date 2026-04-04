@@ -261,15 +261,16 @@
 	/* Logo area — positioned to the left, overlapping like in reference */
 	.header__logo-area {
 		position: absolute;
-		top: 10px;
-		left: 30px;
+		top: 15px;
+		left: 35px;
 		z-index: 300;
 		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 		transform-origin: top left;
+		transform: scale(1.3);
 	}
 
 	.header__logo-area:hover {
-		transform: scale(1.05);
+		transform: scale(1.35);
 	}
 
 	.header__logo-link {
@@ -278,13 +279,13 @@
 	}
 
 	.scrolled .header__logo-area {
-		transform: scale(0.65);
+		transform: scale(0.85);
 		top: 5px;
 		left: 20px;
 	}
 
 	.scrolled .header__logo-area:hover {
-		transform: scale(0.7);
+		transform: scale(0.9);
 	}
 
 	/* Navigation bar */
