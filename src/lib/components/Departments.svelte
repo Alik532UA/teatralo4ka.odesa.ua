@@ -5,22 +5,26 @@
 		{
 			title: 'Музичне',
 			description: 'Вокал, хор, фортепіано, гітара',
-			image: `${base}/png/МузичнеВідділення.png`
+			image: `${base}/png/МузичнеВідділення.png`,
+			href: `${base}/departments/music`
 		},
 		{
 			title: 'Театральне',
 			description: 'Акторська майстерність, сценічна мова, танець',
-			image: `${base}/png/ТеатральнеВідділення.png`
+			image: `${base}/png/ТеатральнеВідділення.png`,
+			href: `${base}/departments/theatre`
 		},
 		{
 			title: 'Відділення естетичного виховання',
 			description: 'Развиток смаку, етикету, творчого мислення та культурної впевненості',
-			image: `${base}/png/ЕстетичнеВідділення.png`
+			image: `${base}/png/ЕстетичнеВідділення.png`,
+			href: `${base}/departments/aesthetic`
 		},
 		{
 			title: 'Художнє',
 			description: 'Живопис, композиція, малювання',
-			image: `${base}/png/МузичнеВідділення.png`
+			image: `${base}/png/ХудожнеВідділення.png`,
+			href: `${base}/departments/art`
 		}
 	];
 
@@ -28,17 +32,20 @@
 		{
 			title: 'Дорослі',
 			description: 'Програми творчого розвитку та сценічної впевненості для дорослих',
-			image: `${base}/png/Викладачка1.png`
+			image: `${base}/png/Викладачка1.png`,
+			href: `${base}/residents/adults`
 		},
 		{
 			title: 'Діти',
 			description: 'Заняття у легкому форматі гри, уяви та перших сценічних кроків',
-			image: `${base}/png/Учні1.png`
+			image: `${base}/png/Учні1.png`,
+			href: `${base}/residents/kids`
 		},
 		{
 			title: 'Випускники',
 			description: 'Спільнота випускників, події, майстер-класи і творчі зустрічі',
-			image: `${base}/png/Випускники3.png`
+			image: `${base}/png/Випускники3.png`,
+			href: `${base}/residents/graduates`
 		}
 	];
 
@@ -46,17 +53,20 @@
 		{
 			title: 'ТеатрPRO',
 			description: 'Практичний проєкт для сценічної практики та командної роботи',
-			image: `${base}/png/Новини1.png`
+			image: `${base}/png/Новини1.png`,
+			href: `${base}/projects/teatr-pro`
 		},
 		{
 			title: 'ВЕСНА.ОДЕСА.ТЕАТР',
 			description: 'Сезонний культурний проєкт із відкритими показами та подіями',
-			image: `${base}/png/Новини1.png`
+			image: `${base}/png/Новини1.png`,
+			href: `${base}/projects/spring-odessa-theatre`
 		},
 		{
 			title: 'ФЕСТИВАЛЬ',
 			description: 'Фестивальний напрям із виступами, конкурсами та творчим обміном',
-			image: `${base}/png/Новини1.png`
+			image: `${base}/png/Новини1.png`,
+			href: `${base}/projects/festival`
 		}
 	];
 
@@ -64,17 +74,20 @@
 		{
 			title: 'ВСТУПИТИ',
 			description: 'Умови вступу, програми навчання та покрокова подача заявки',
-			image: `${base}/png/АнкетаВступника.png`
+			image: `${base}/png/АнкетаВступника.png`,
+			href: `${base}/admission`
 		},
 		{
 			title: 'КОНТАКТИ',
 			description: 'Телефон, пошта та актуальні способи звʼязку зі школою',
-			image: `${base}/png/Контакти2.png`
+			image: `${base}/png/Контакти2.png`,
+			href: `${base}/competitions`
 		},
 		{
 			title: 'ІСТОРІЯ',
 			description: 'Історія створення школи, цінності та основні етапи розвитку',
-			image: `${base}/png/Історія3.png`
+			image: `${base}/png/Історія3.png`,
+			href: `${base}/history`
 		}
 	];
 </script>
@@ -92,7 +105,7 @@
 						<div class="deps__content">
 							<h3 class="deps__title">{item.title}</h3>
 							<p class="deps__desc">{item.description}</p>
-							<a href="#signup" class="deps__btn">дізнатися більше</a>
+							<a href={item.href} class="deps__btn">дізнатися більше</a>
 						</div>
 					</article>
 				{/each}
@@ -110,7 +123,7 @@
 						<div class="deps__content">
 							<h3 class="deps__title">{dep.title}</h3>
 							<p class="deps__desc">{dep.description}</p>
-							<a href="#signup" class="deps__btn">дізнатися більше</a>
+							<a href={dep.href} class="deps__btn">дізнатися більше</a>
 						</div>
 					</article>
 				{/each}
@@ -128,7 +141,7 @@
 						<div class="deps__content">
 							<h3 class="deps__title">{resident.title}</h3>
 							<p class="deps__desc">{resident.description}</p>
-							<a href="#signup" class="deps__btn">дізнатися більше</a>
+							<a href={resident.href} class="deps__btn">дізнатися більше</a>
 						</div>
 					</article>
 				{/each}
@@ -146,7 +159,7 @@
 						<div class="deps__content">
 							<h3 class="deps__title">{project.title}</h3>
 							<p class="deps__desc">{project.description}</p>
-							<a href="#signup" class="deps__btn">дізнатися більше</a>
+							<a href={project.href} class="deps__btn">дізнатися більше</a>
 						</div>
 					</article>
 				{/each}
