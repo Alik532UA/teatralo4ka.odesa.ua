@@ -4,6 +4,7 @@
 	import LocationIcon from "./icons/LocationIcon.svelte";
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";
+	import { base } from "$app/paths";
 	import { t } from "svelte-i18n";
 
 	let isPianoOpen = $state(false);

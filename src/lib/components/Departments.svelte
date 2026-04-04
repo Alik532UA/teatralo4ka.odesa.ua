@@ -1,26 +1,26 @@
 <script lang="ts">
-	import { Music, Theater, Sparkles, Palette, UserRound, Baby, GraduationCap, Drama, CalendarDays, Trophy, PenLine, Phone, ScrollText } from 'lucide-svelte';
+	import { base } from '$app/paths';
 
 	const departments = [
 		{
 			title: 'Музичне',
 			description: 'Вокал, хор, фортепіано, гітара',
-			icon: 'music'
+			image: `${base}/png/МузичнеВідділення.png`
 		},
 		{
 			title: 'Театральне',
 			description: 'Акторська майстерність, сценічна мова, танець',
-			icon: 'theater'
+			image: `${base}/png/ТеатральнеВідділення.png`
 		},
 		{
 			title: 'Відділення естетичного виховання',
-			description: 'Розвиток смаку, етикету, творчого мислення та культурної впевненості',
-			icon: 'aesthetic'
+			description: 'Развиток смаку, етикету, творчого мислення та культурної впевненості',
+			image: `${base}/png/ЕстетичнеВідділення.png`
 		},
 		{
 			title: 'Художнє',
 			description: 'Живопис, композиція, малювання',
-			icon: 'art'
+			image: `${base}/png/МузичнеВідділення.png`
 		}
 	];
 
@@ -28,17 +28,17 @@
 		{
 			title: 'Дорослі',
 			description: 'Програми творчого розвитку та сценічної впевненості для дорослих',
-			icon: 'adult'
+			image: `${base}/png/Викладачка1.png`
 		},
 		{
 			title: 'Діти',
 			description: 'Заняття у легкому форматі гри, уяви та перших сценічних кроків',
-			icon: 'kids'
+			image: `${base}/png/Учні1.png`
 		},
 		{
 			title: 'Випускники',
 			description: 'Спільнота випускників, події, майстер-класи і творчі зустрічі',
-			icon: 'alumni'
+			image: `${base}/png/Випускники3.png`
 		}
 	];
 
@@ -46,17 +46,17 @@
 		{
 			title: 'ТеатрPRO',
 			description: 'Практичний проєкт для сценічної практики та командної роботи',
-			icon: 'theaterpro'
+			image: `${base}/png/Новини1.png`
 		},
 		{
 			title: 'ВЕСНА.ОДЕСА.ТЕАТР',
 			description: 'Сезонний культурний проєкт із відкритими показами та подіями',
-			icon: 'spring'
+			image: `${base}/png/Новини1.png`
 		},
 		{
 			title: 'ФЕСТИВАЛЬ',
 			description: 'Фестивальний напрям із виступами, конкурсами та творчим обміном',
-			icon: 'festival'
+			image: `${base}/png/Новини1.png`
 		}
 	];
 
@@ -64,17 +64,17 @@
 		{
 			title: 'ВСТУПИТИ',
 			description: 'Умови вступу, програми навчання та покрокова подача заявки',
-			icon: 'apply'
+			image: `${base}/png/АнкетаВступника.png`
 		},
 		{
 			title: 'КОНТАКТИ',
 			description: 'Телефон, пошта та актуальні способи звʼязку зі школою',
-			icon: 'contacts'
+			image: `${base}/png/Контакти2.png`
 		},
 		{
 			title: 'ІСТОРІЯ',
 			description: 'Історія створення школи, цінності та основні етапи розвитку',
-			icon: 'history'
+			image: `${base}/png/Історія3.png`
 		}
 	];
 </script>
@@ -87,19 +87,13 @@
 				{#each departments as dep}
 					<article class="deps__card">
 						<div class="deps__media" aria-hidden="true">
-							{#if dep.icon === 'music'}
-								<Music size={44} strokeWidth={1.8} />
-							{:else if dep.icon === 'theater'}
-								<Theater size={44} strokeWidth={1.8} />
-							{:else if dep.icon === 'aesthetic'}
-								<Sparkles size={44} strokeWidth={1.8} />
-							{:else}
-								<Palette size={44} strokeWidth={1.8} />
-							{/if}
+							<img src={dep.image} alt={dep.title} class="deps__img" />
 						</div>
-						<h3 class="deps__title">{dep.title}</h3>
-						<p class="deps__desc">{dep.description}</p>
-						<a href="#signup" class="deps__btn">дізнатися більше</a>
+						<div class="deps__content">
+							<h3 class="deps__title">{dep.title}</h3>
+							<p class="deps__desc">{dep.description}</p>
+							<a href="#signup" class="deps__btn">дізнатися більше</a>
+						</div>
 					</article>
 				{/each}
 			</div>
@@ -111,17 +105,13 @@
 				{#each residents as resident}
 					<article class="deps__card deps__card--compact">
 						<div class="deps__media" aria-hidden="true">
-							{#if resident.icon === 'adult'}
-								<UserRound size={44} strokeWidth={1.8} />
-							{:else if resident.icon === 'kids'}
-								<Baby size={44} strokeWidth={1.8} />
-							{:else}
-								<GraduationCap size={44} strokeWidth={1.8} />
-							{/if}
+							<img src={resident.image} alt={resident.title} class="deps__img" />
 						</div>
-						<h3 class="deps__title">{resident.title}</h3>
-						<p class="deps__desc">{resident.description}</p>
-						<a href="#signup" class="deps__btn">дізнатися більше</a>
+						<div class="deps__content">
+							<h3 class="deps__title">{resident.title}</h3>
+							<p class="deps__desc">{resident.description}</p>
+							<a href="#signup" class="deps__btn">дізнатися більше</a>
+						</div>
 					</article>
 				{/each}
 			</div>
@@ -133,17 +123,13 @@
 				{#each projects as project}
 					<article class="deps__card deps__card--compact">
 						<div class="deps__media" aria-hidden="true">
-							{#if project.icon === 'theaterpro'}
-								<Drama size={44} strokeWidth={1.8} />
-							{:else if project.icon === 'spring'}
-								<CalendarDays size={44} strokeWidth={1.8} />
-							{:else}
-								<Trophy size={44} strokeWidth={1.8} />
-							{/if}
+							<img src={project.image} alt={project.title} class="deps__img" />
 						</div>
-						<h3 class="deps__title">{project.title}</h3>
-						<p class="deps__desc">{project.description}</p>
-						<a href="#signup" class="deps__btn">дізнатися більше</a>
+						<div class="deps__content">
+							<h3 class="deps__title">{project.title}</h3>
+							<p class="deps__desc">{project.description}</p>
+							<a href="#signup" class="deps__btn">дізнатися більше</a>
+						</div>
 					</article>
 				{/each}
 			</div>
@@ -155,17 +141,13 @@
 				{#each info as item}
 					<article class="deps__card deps__card--compact">
 						<div class="deps__media" aria-hidden="true">
-							{#if item.icon === 'apply'}
-								<PenLine size={44} strokeWidth={1.8} />
-							{:else if item.icon === 'contacts'}
-								<Phone size={44} strokeWidth={1.8} />
-							{:else}
-								<ScrollText size={44} strokeWidth={1.8} />
-							{/if}
+							<img src={item.image} alt={item.title} class="deps__img" />
 						</div>
-						<h3 class="deps__title">{item.title}</h3>
-						<p class="deps__desc">{item.description}</p>
-						<a href="#signup" class="deps__btn">дізнатися більше</a>
+						<div class="deps__content">
+							<h3 class="deps__title">{item.title}</h3>
+							<p class="deps__desc">{item.description}</p>
+							<a href="#signup" class="deps__btn">дізнатися більше</a>
+						</div>
 					</article>
 				{/each}
 			</div>
@@ -202,8 +184,9 @@
 		font-size: clamp(1.7rem, 4vw, 2.4rem);
 		font-weight: 900;
 		color: var(--color-deep-ocean);
-		margin: 0 0 1.5rem;
+		margin: 0 0 2rem;
 		text-transform: uppercase;
+		text-align: center;
 	}
 
 	.deps__grid {
@@ -217,24 +200,63 @@
 	}
 
 	.deps__card {
-		background: white;
+		background: var(--color-white);
 		border-radius: 30px;
-		padding: 1.6rem;
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+		overflow: hidden;
+		box-shadow: var(--shadow-sm);
 		display: flex;
 		flex-direction: column;
-		gap: 0.9rem;
-		justify-content: space-between;
-		align-items: center;
-		text-align: center;
-		min-height: 240px;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-		border: 1px solid rgba(0,0,0,0.03);
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		border: 1px solid rgba(0,0,0,0.05);
+	}
+
+	:global(.dark-theme) .deps__card {
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(255, 255, 255, 0.1);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 	}
 
 	.deps__card:hover {
 		transform: translateY(-8px);
-		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow-lg);
+		border-color: var(--color-sea-blue);
+	}
+
+	.deps__media {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		background: var(--color-light-blue);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+		transition: transform 0.5s ease;
+		overflow: hidden;
+	}
+
+	:global(.dark-theme) .deps__media {
+		background: rgba(0, 95, 174, 0.1);
+	}
+
+	.deps__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.deps__card:hover .deps__img {
+		transform: scale(1.1);
+	}
+
+	.deps__content {
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.8rem;
+		flex: 1;
+		text-align: center;
+		justify-content: flex-start;
 	}
 
 	.deps__title {
@@ -243,6 +265,11 @@
 		font-weight: 800;
 		color: var(--color-deep-ocean);
 		margin: 0;
+		transition: color 0.3s ease;
+	}
+
+	:global(.dark-theme) .deps__title {
+		color: var(--color-sky-blue);
 	}
 
 	.deps__desc {
@@ -253,24 +280,8 @@
 		opacity: 0.8;
 	}
 
-	.deps__media {
-		width: 80px;
-		height: 80px;
-		border-radius: 20px;
-		background: var(--color-light-blue);
-		color: var(--color-deep-ocean);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex: 0 0 auto;
-		transition: transform 0.3s ease;
-	}
-
-	.deps__card:hover .deps__media {
-		transform: scale(1.1);
-	}
-
 	.deps__btn {
+		margin-top: auto;
 		display: inline-block;
 		align-self: center;
 		background: var(--color-deep-ocean);
@@ -281,12 +292,22 @@
 		font-weight: 700;
 		font-size: 0.85rem;
 		letter-spacing: 0.2px;
-		transition: background 0.25s, transform 0.2s;
+		transition: all 0.3s ease;
+	}
+
+	:global(.dark-theme) .deps__btn {
+		background: var(--color-sea-blue);
 	}
 
 	.deps__btn:hover {
 		background: var(--color-sea-blue);
 		transform: translateY(-2px);
+		box-shadow: 0 5px 15px rgba(0, 95, 174, 0.3);
+	}
+
+	:global(.dark-theme) .deps__btn:hover {
+		background: var(--color-sky-blue);
+		color: var(--color-deep-ocean);
 	}
 
 	@media (max-width: 1024px) {
