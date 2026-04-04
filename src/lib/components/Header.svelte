@@ -524,10 +524,14 @@
 		font-size: 0.8rem;
 		padding: 0.6rem 1.5rem;
 		transition: transform var(--transition-base), background-color var(--transition-base), color var(--transition-base);
+		color: var(--color-deep-ocean);
+		border-color: var(--color-deep-ocean);
 	}
 
 	.header__cta:hover {
 		transform: scale(1.03);
+		background: var(--color-deep-ocean);
+		color: var(--color-white);
 	}
 
 	/* Burger */
