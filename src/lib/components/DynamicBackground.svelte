@@ -2,17 +2,18 @@
 	import Particles from "./backgrounds/Particles.svelte";
 	import Waves from "./backgrounds/Waves.svelte";
 	import FloatingShapes from "./backgrounds/FloatingShapes.svelte";
+	import MiniIcons from "./backgrounds/MiniIcons.svelte";
 	import { onMount } from "svelte";
 
 	let { backgroundType = 0, theme = "light", enabled = false } = $props<{
-		backgroundType?: 0 | 1 | 2 | 3;
+		backgroundType?: 0 | 1 | 2 | 3 | 4;
 		theme?: "light" | "dark";
 		enabled?: boolean;
 	}>();
 
 	let fixedHeight = $state("100vh");
 	let lastWidth = 0;
-	let prevState: { enabled: boolean; backgroundType: 0 | 1 | 2 | 3 } | null = null;
+	let prevState: { enabled: boolean; backgroundType: 0 | 1 | 2 | 3 | 4 } | null = null;
 	let isVisible = $derived(enabled && backgroundType !== 0);
 
 	// Debug logs - expanded logging for transitions
@@ -79,6 +80,9 @@
 	</div>
 	<div class="bg-layer" class:active={backgroundType === 3}>
 		<FloatingShapes {theme} />
+	</div>
+	<div class="bg-layer" class:active={backgroundType === 4}>
+		<MiniIcons {theme} />
 	</div>
 </div>
 

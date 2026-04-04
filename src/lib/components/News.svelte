@@ -176,6 +176,11 @@
 		padding: 4rem 0 6rem;
 		overflow: hidden;
 		position: relative;
+		transition: background 0.8s ease;
+	}
+
+	:global(.app.with-dynamic-bg) .news {
+		background: transparent;
 	}
 
 	.news__header {
@@ -193,6 +198,7 @@
 		justify-content: center;
 		gap: 1.5rem;
 		margin-bottom: 1rem;
+		transition: color 0.3s ease;
 	}
 
 	.news__subtitle {
@@ -218,7 +224,7 @@
 	.focus-card {
 		flex: 0 0 600px;
 		height: 400px;
-		background: white;
+		background: var(--color-white);
 		border-radius: 40px;
 		display: flex;
 		overflow: hidden;
@@ -227,6 +233,12 @@
 		transform: scale(0.85);
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
 		border: 1px solid rgba(0, 0, 0, 0.03);
+	}
+
+	:global(.dark-theme) .focus-card {
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(255, 255, 255, 0.1);
+		box-shadow: 0 40px 80px rgba(0, 0, 0, 0.3);
 	}
 
 	.focus-card.is-active {
@@ -241,6 +253,7 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
+		overflow: hidden;
 	}
 
 	:global(.focus-card__placeholder) {
@@ -274,9 +287,14 @@
 		letter-spacing: 0.05em;
 	}
 
+	:global(.dark-theme) .tag {
+		background: var(--color-sea-blue);
+		color: var(--color-white);
+	}
+
 	.date {
 		font-size: 0.9rem;
-		color: #888;
+		color: var(--color-muted-text);
 		font-weight: 500;
 	}
 
@@ -287,6 +305,11 @@
 		color: var(--color-deep-ocean);
 		line-height: 1.2;
 		margin-bottom: 1rem;
+		transition: color 0.3s ease;
+	}
+
+	:global(.dark-theme) .focus-card__title {
+		color: var(--color-dark-text);
 	}
 
 	.focus-card__excerpt {
@@ -312,6 +335,10 @@
 		transition: all 0.3s ease;
 	}
 
+	:global(.dark-theme) .btn-more {
+		background: var(--color-sea-blue);
+	}
+
 	.btn-more:hover {
 		transform: translateY(-3px);
 		box-shadow: 0 10px 20px rgba(27, 94, 123, 0.2);
@@ -324,7 +351,7 @@
 		width: 60px;
 		height: 60px;
 		border-radius: 50%;
-		background: white;
+		background: var(--color-white);
 		border: none;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
@@ -335,6 +362,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	:global(.dark-theme) .nav-btn {
+		background: var(--color-ice-blue);
+		color: var(--color-deep-ocean);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 	}
 
 	.nav-btn:hover {
@@ -362,7 +395,7 @@
 		height: 6px;
 		border-radius: 3px;
 		border: none;
-		background: #cbd5e0;
+		background: var(--color-border);
 		cursor: pointer;
 		transition: all 0.3s ease;
 	}

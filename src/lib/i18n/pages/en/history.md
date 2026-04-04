@@ -1,15 +1,17 @@
 ---
-title: "Art Theatre School of Odesa – a True Temple of Arts!"
+title: "Odessa Theatre School – a True Temple of Arts!"
 date: "2026-04-04"
 author: "Administration"
 category: "history"
 lang: "en"
 seo:
-  title: "History - Art Theatre School of Odesa"
+  title: "History - Odessa Theatre School"
   description: "Complete history of the founding and development of the Odesa Theatre School, traditions, teachers, and student achievements."
 status: "published"
 version: "1.0.0"
 ---
+
+# History
 
 The school was founded in March 1992 at the initiative of E.I. Hurvits, who was then the head of the Zhovtnevyi district of Odesa and rightly believed that the unique building at 3 Sabaneyev Bridge, with its beauty, architecture, and history, should belong to the young generation of Odesa residents, who together with their teachers would turn it into a real Temple of Art.
 

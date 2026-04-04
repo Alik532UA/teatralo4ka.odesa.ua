@@ -35,6 +35,7 @@
 		"bgParticles": "Particles",
 		"bgWaves": "Waves",
 		"bgShapes": "Shapes",
+		"bgMiniIcon": "Mini icon",
 		"blur": "Blur Effect",
 		"debugNote": "This is a temporary settings menu. We will choose and approve the preferred option, then hide this menu."
 	},

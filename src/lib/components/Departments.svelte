@@ -82,6 +82,24 @@
 <section class="deps" id="departments">
 	<div class="deps__container">
 		<div class="deps__block">
+			<h2 class="deps__heading sr-only">Корисна інформація</h2>
+			<div class="deps__grid">
+				{#each info as item}
+					<article class="deps__card deps__card--compact">
+						<div class="deps__media" aria-hidden="true">
+							<img src={item.image} alt={item.title} class="deps__img" />
+						</div>
+						<div class="deps__content">
+							<h3 class="deps__title">{item.title}</h3>
+							<p class="deps__desc">{item.description}</p>
+							<a href="#signup" class="deps__btn">дізнатися більше</a>
+						</div>
+					</article>
+				{/each}
+			</div>
+		</div>
+
+		<div class="deps__block">
 			<h2 class="deps__heading">Відділення</h2>
 			<div class="deps__grid deps__grid--wide">
 				{#each departments as dep}
@@ -128,24 +146,6 @@
 						<div class="deps__content">
 							<h3 class="deps__title">{project.title}</h3>
 							<p class="deps__desc">{project.description}</p>
-							<a href="#signup" class="deps__btn">дізнатися більше</a>
-						</div>
-					</article>
-				{/each}
-			</div>
-		</div>
-
-		<div class="deps__block">
-			<h2 class="deps__heading">Корисна інформація</h2>
-			<div class="deps__grid">
-				{#each info as item}
-					<article class="deps__card deps__card--compact">
-						<div class="deps__media" aria-hidden="true">
-							<img src={item.image} alt={item.title} class="deps__img" />
-						</div>
-						<div class="deps__content">
-							<h3 class="deps__title">{item.title}</h3>
-							<p class="deps__desc">{item.description}</p>
 							<a href="#signup" class="deps__btn">дізнатися більше</a>
 						</div>
 					</article>
@@ -269,7 +269,7 @@
 	}
 
 	:global(.dark-theme) .deps__title {
-		color: var(--color-sky-blue);
+		color: var(--color-dark-text);
 	}
 
 	.deps__desc {

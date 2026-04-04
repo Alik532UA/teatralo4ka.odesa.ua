@@ -5,11 +5,11 @@
 	let { isOpen = false } = $props<{ isOpen: boolean }>();
 
 	type BackgroundOption = {
-		id: 0 | 1 | 2 | 3;
+		id: 0 | 1 | 2 | 3 | 4;
 		label: () => string;
 	};
 
-	const selectDynamicBackground = (type: 0 | 1 | 2 | 3) => {
+	const selectDynamicBackground = (type: 0 | 1 | 2 | 3 | 4) => {
 		console.log("[DebugSettingsDropdown] Selecting background:", {
 			type,
 			currentType: ui.backgroundType,
@@ -40,6 +40,7 @@
 		{ id: 1, label: () => $t('settings.bgParticles') },
 		{ id: 2, label: () => $t('settings.bgWaves') },
 		{ id: 3, label: () => $t('settings.bgShapes') },
+		{ id: 4, label: () => $t('settings.bgMiniIcon') },
 	];
 </script>
 

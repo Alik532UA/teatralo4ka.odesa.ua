@@ -1,7 +1,7 @@
 class UIState {
 	isMenuOpen = $state(false);
 	theme = $state<'light' | 'dark'>('light');
-	backgroundType = $state<0 | 1 | 2 | 3>(2);
+	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
 	// Debug toggles
@@ -21,9 +21,9 @@ class UIState {
 			}
 			
 			// Read background type from localStorage
-			const savedBg = localStorage.getItem('backgroundType') as '0' | '1' | '2' | '3' | null;
+			const savedBg = localStorage.getItem('backgroundType') as '0' | '1' | '2' | '3' | '4' | null;
 			if (savedBg) {
-				this.backgroundType = parseInt(savedBg) as 0 | 1 | 2 | 3;
+				this.backgroundType = parseInt(savedBg) as 0 | 1 | 2 | 3 | 4;
 			}
 
 			// Read debug settings from localStorage
@@ -95,7 +95,7 @@ class UIState {
 		}
 	};
 
-	setBackgroundType = (type: 0 | 1 | 2 | 3) => {
+	setBackgroundType = (type: 0 | 1 | 2 | 3 | 4) => {
 		const oldType = this.backgroundType;
 		this.backgroundType = type;
 		console.log("[UIState] Background type changed:", {

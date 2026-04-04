@@ -2,6 +2,22 @@
 	import Wave from "./Wave.svelte";
 	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
+	import { onMount } from "svelte";
+
+	const images = [
+		`${base}/photo/DSC_1405.jpg`,
+		`${base}/photo/DJI_0759 v02.jpg`
+	];
+
+	let currentImageIndex = $state(0);
+
+	onMount(() => {
+		const interval = setInterval(() => {
+			currentImageIndex = (currentImageIndex + 1) % images.length;
+		}, 10000);
+
+		return () => clearInterval(interval);
+	});
 </script>
 
 <section class="hero" id="hero-section" aria-label="Головна секція">
@@ -37,15 +53,18 @@
 		<!-- 3. Image (Right) -->
 		<div class="hero__image-wrap">
 			<div class="hero__image" id="hero-image">
-				<img
-					src={`${base}/photo/DSC_1405.jpg`}
-					alt=""
-					width="1200"
-					height="900"
-					loading="eager"
-					fetchpriority="high"
-					decoding="async"
-				/>
+				{#each images as img, i}
+					<img
+						src={img}
+						alt=""
+						width="1200"
+						height="900"
+						loading="eager"
+						fetchpriority="high"
+						decoding="async"
+						class:active={currentImageIndex === i}
+					/>
+				{/each}
 			</div>
 			<!-- Decorative blue cloud shapes -->
 			<div class="hero__cloud hero__cloud--1" aria-hidden="true"></div>
@@ -161,16 +180,25 @@
 		overflow: hidden;
 		box-shadow: var(--theme-image-shadow);
 		cursor: pointer;
+		position: relative;
 	}
 
 	.hero__image img {
+		position: absolute;
+		top: 0;
+		left: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: opacity 1.2s ease-in-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+		opacity: 0;
 	}
 
-	.hero__image:hover img {
+	.hero__image img.active {
+		opacity: 1;
+	}
+
+	.hero__image:hover img.active {
 		transform: scale(1.08);
 	}
 
