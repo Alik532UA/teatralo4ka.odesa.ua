@@ -113,7 +113,7 @@
 	}
 
 	.hero__social-btn:hover {
-		transform: translateX(5px) scale(1.05);
+		transform: scale(1.03);
 		box-shadow: 0 8px 25px rgba(0,95,174,0.15);
 	}
 

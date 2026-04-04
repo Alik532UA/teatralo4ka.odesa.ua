@@ -264,18 +264,27 @@
 		top: 10px;
 		left: 30px;
 		z-index: 300;
-		filter: drop-shadow(0 4px 12px rgba(27, 94, 123, 0.15));
-		transition: transform var(--transition-base);
+		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+		transform-origin: top left;
+	}
+
+	.header__logo-area:hover {
+		transform: scale(1.05);
 	}
 
 	.header__logo-link {
 		display: block;
+		line-height: 0;
 	}
 
 	.scrolled .header__logo-area {
-		transform: scale(0.7);
-		top: 2px;
+		transform: scale(0.65);
+		top: 5px;
 		left: 20px;
+	}
+
+	.scrolled .header__logo-area:hover {
+		transform: scale(0.7);
 	}
 
 	/* Navigation bar */
@@ -510,10 +519,14 @@
 		color: var(--color-golden);
 	}
 
-	/* CTA Button */
 	.header__cta {
 		font-size: 0.8rem;
 		padding: 0.6rem 1.5rem;
+		transition: transform var(--transition-base), background-color var(--transition-base), color var(--transition-base);
+	}
+
+	.header__cta:hover {
+		transform: scale(1.03);
 	}
 
 	/* Burger */

@@ -217,7 +217,7 @@
 	}
 
 	.deps__card:hover {
-		transform: translateY(-8px);
+		transform: scale(1.02);
 		box-shadow: var(--shadow-lg);
 		border-color: var(--color-sea-blue);
 	}
@@ -301,7 +301,7 @@
 
 	.deps__btn:hover {
 		background: var(--color-sea-blue);
-		transform: translateY(-2px);
+		transform: scale(1.03);
 		box-shadow: 0 5px 15px rgba(0, 95, 174, 0.3);
 	}
 

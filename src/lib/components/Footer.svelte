@@ -259,7 +259,7 @@
 	.footer__btn-order:hover {
 		background: var(--color-deep-ocean);
 		color: var(--theme-footer-order-hover-text);
-		transform: translateY(-2px);
+		transform: scale(1.03);
 	}
 
 	.footer__contacts {
@@ -311,7 +311,7 @@
 	}
 
 	.footer__social-link:hover {
-		transform: translateY(-3px);
+		transform: scale(1.03);
 		box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 	}
 
