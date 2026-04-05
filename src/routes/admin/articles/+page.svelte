@@ -1,89 +1,91 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
 	import { goto } from '$app/navigation';
-	import { getArticles, deleteArticle, type Article } from '$lib/services/articles';
-	import { locale } from 'svelte-i18n';
+	import { base } from '$app/paths';
+	import { deleteArticle, fetchAllArticles } from '$lib/services/admin-articles';
+	import { getDisplayDate, type Article } from '$lib/services/articles';
+	import { ARTICLE_CATEGORIES, type ArticleCategory } from '$lib/config/categories';
+	import { locale, t } from 'svelte-i18n';
+	import { get } from 'svelte/store';
 
 	let articles = $state<Article[]>([]);
 	let loading = $state(true);
 
 	async function loadAll() {
 		loading = true;
-		const uk = await getArticles(undefined, 'uk');
-		const en = await getArticles(undefined, 'en');
-		articles = [...uk, ...en].sort((a, b) => b.createdAt?.seconds - a.createdAt?.seconds);
+		articles = await fetchAllArticles();
 		loading = false;
 	}
 
 	$effect(() => {
 		if (!authService.loading && !authService.isAuthenticated) {
-			goto('/admin/login');
+			goto(`${base}/admin/login`);
 		} else {
 			loadAll();
 		}
 	});
 
 	async function handleDelete(id: string | undefined) {
-		if (!id || !confirm('Ви впевнені, що хочете видалити цю статтю?')) return;
+		if (!id || !confirm(get(t)('admin.articles.deleteConfirm'))) return;
 		try {
 			await deleteArticle(id);
 			articles = articles.filter(a => a.id !== id);
 		} catch (e) {
 			console.error(e);
-			alert('Помилка при видаленні');
+			alert(get(t)('admin.editor.errorUpdate'));
 		}
 	}
 
-	function formatDate(timestamp: any) {
-		if (!timestamp) return '-';
+	function formatDate(article: Article) {
+		const timestamp = getDisplayDate(article);
+		if (!timestamp) return get(t)('admin.editor.dateHidden');
 		return timestamp.toDate().toLocaleDateString('uk-UA');
 	}
 </script>
 
 <section class="admin-articles container" style="padding: 160px 24px;">
 	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);">Управління контентом</h1>
+		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.articles.title')}</h1>
 		<div style="display: flex; gap: 1rem;">
-			<a href="/admin" class="btn btn-outline">Панель</a>
-			<a href="/admin/articles/new" class="btn btn-primary">+ Створити</a>
+			<a href="{base}/admin" class="btn btn-outline">{$t('admin.articles.backToPanel')}</a>
+			<a href="{base}/admin/articles/new" class="btn btn-primary">+ {$t('admin.articles.createBtn')}</a>
 		</div>
 	</div>
 
-	<div style="background: white; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;">
+	<div style="background: var(--theme-dynamic-card-bg); border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;">
 		{#if loading}
-			<p style="padding: 3rem; text-align: center;">Завантаження...</p>
+			<p style="padding: 3rem; text-align: center;">{$t('admin.articles.loading')}</p>
 		{:else if articles.length === 0}
-			<p style="padding: 3rem; text-align: center; opacity: 0.5;">Статей поки немає.</p>
+			<p style="padding: 3rem; text-align: center; opacity: 0.5;">{$t('admin.articles.noArticles')}</p>
 		{:else}
 			<table style="width: 100%; border-collapse: collapse; text-align: left;">
 				<thead>
-					<tr style="background: #f8f9fa; border-bottom: 1px solid #eee;">
-						<th style="padding: 1.5rem;">Заголовок</th>
-						<th style="padding: 1.5rem;">Мова</th>
-						<th style="padding: 1.5rem;">Категорія</th>
-						<th style="padding: 1.5rem;">Дата</th>
-						<th style="padding: 1.5rem;">Статус</th>
-						<th style="padding: 1.5rem; text-align: right;">Дії</th>
+					   <tr style="background: var(--theme-dynamic-section-bg); border-bottom: 1px solid var(--color-border);">
+						<th style="padding: 1.5rem;">{$t('admin.articles.tableTitle')}</th>
+						<th style="padding: 1.5rem;">{$t('admin.articles.tableCategory')}</th>
+						<th style="padding: 1.5rem;">{$t('admin.articles.tableDate')}</th>
+						<th style="padding: 1.5rem;">{$t('admin.articles.tableStatus')}</th>
+						<th style="padding: 1.5rem; text-align: right;">{$t('admin.articles.tableActions')}</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each articles as article}
 						<tr style="border-bottom: 1px solid #f5f5f5;">
-							<td style="padding: 1.5rem; font-weight: 600;">{article.title}</td>
-							<td style="padding: 1.5rem;"><span style="text-transform: uppercase; font-size: 0.8rem; background: #eee; padding: 0.2rem 0.5rem; border-radius: 4px;">{article.lang}</span></td>
-							<td style="padding: 1.5rem;">{article.category === 'news' ? 'Новина' : 'Оголошення'}</td>
-							<td style="padding: 1.5rem;">{formatDate(article.createdAt)}</td>
+							<td style="padding: 1.5rem; font-weight: 600;">{article.translations?.uk?.title || 'No Title'}</td>
+							<td style="padding: 1.5rem;">{ARTICLE_CATEGORIES[article.category as ArticleCategory]?.uk || article.category}</td>
+							<td style="padding: 1.5rem;">{formatDate(article)}</td>
 							<td style="padding: 1.5rem;">
-								{#if article.isPublished}
-									<span style="color: green;">● Опубліковано</span>
-								{:else}
-									<span style="color: orange;">● Чернетка</span>
-								{/if}
+								<span style="color: {article.translations?.uk?.isPublished ? '#2e7d32' : '#f5a623'};">
+									UK: {article.translations?.uk?.isPublished ? '●' : '○'}
+								</span>
+								<span style="margin-left: 1rem; color: {article.translations?.en?.isPublished ? '#2e7d32' : '#f5a623'};">
+									EN: {article.translations?.en?.isPublished ? '●' : '○'}
+								</span>
 							</td>
 							<td style="padding: 1.5rem; text-align: right;">
 								<div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-									<a href="/admin/articles/{article.id}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">Редагувати</a>
-									<button onclick={() => handleDelete(article.id)} class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem; color: red; border: 1px solid red; background: none; border-radius: 12px; cursor: pointer;">Видалити</button>
+									<a href="{base}/admin/articles/{article.id}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">{$t('admin.articles.edit')}</a>
+									   <button onclick={() => handleDelete(article.id)} class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem; color: var(--color-danger, #d32f2f); border: 1px solid var(--color-danger, #d32f2f); background: none; border-radius: 12px; cursor: pointer;">{$t('admin.articles.delete')}</button>
 								</div>
 							</td>
 						</tr>

@@ -134,13 +134,14 @@
 
 	// --- Gallery Logic ---
 	// Placeholder for gallery data, replace with actual data if needed
+	// Use random images from static/photo/
 	const galleryImages = [
-		{ src: `${base}/departments/folk.png`, alt: 'Gallery Image 1', title: 'Folk Music Exhibit' },
-		{ src: `${base}/departments/piano.png`, alt: 'Gallery Image 2', title: 'Piano Recital Photo' },
-		{ src: `${base}/departments/pop.png`, alt: 'Gallery Image 3', title: 'Pop Music Performance' },
-		{ src: `${base}/departments/strings.png`, alt: 'Gallery Image 4', title: 'Strings Ensemble' },
-		{ src: `${base}/departments/theory.png`, alt: 'Gallery Image 5', title: 'Music Theory Workshop' },
-		{ src: `${base}/departments/vocal.png`, alt: 'Gallery Image 6', title: 'Vocal Performance' },
+		{ src: `${base}/photo/013.jpg`, alt: 'Gallery Photo 013', title: 'Фото 013' },
+		{ src: `${base}/photo/035.jpg`, alt: 'Gallery Photo 035', title: 'Фото 035' },
+		{ src: `${base}/photo/059.jpg`, alt: 'Gallery Photo 059', title: 'Фото 059' },
+		{ src: `${base}/photo/125.jpg`, alt: 'Gallery Photo 125', title: 'Фото 125' },
+		{ src: `${base}/photo/495.jpg`, alt: 'Gallery Photo 495', title: 'Фото 495' },
+		{ src: `${base}/photo/5.jpg`, alt: 'Gallery Photo 5', title: 'Фото 5' },
 	];
 </script>
 

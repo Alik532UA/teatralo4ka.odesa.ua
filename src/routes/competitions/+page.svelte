@@ -1,23 +1,19 @@
 <script lang="ts">
 	import { locale } from 'svelte-i18n';
-	import { loadPageContent } from '$lib/i18n/loader';
-	import type { PageContent } from '$lib/i18n/types';
 	import { seo } from '$lib/services/seo.svelte';
 
-	let content = $state<PageContent | null>(null);
+	let { data } = $props();
+
+	let content = $derived($locale === 'en' ? data.en : data.uk);
 
 	$effect(() => {
-		const lang = $locale || 'uk';
-		loadPageContent(lang, 'competitions').then(res => {
-			content = res;
-			if (res) {
-				seo.update({
-					title: res.metadata.seo.title,
-					description: res.metadata.seo.description,
-					ogImage: res.metadata.seo.ogImage
-				});
-			}
-		});
+		if (content) {
+			seo.update({
+				title: content.metadata.seo.title,
+				description: content.metadata.seo.description,
+				ogImage: content.metadata.seo.ogImage
+			});
+		}
 	});
 </script>
 

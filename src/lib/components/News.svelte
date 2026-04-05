@@ -8,8 +8,9 @@
 	import { onMount, untrack } from "svelte";
 	import { base } from "$app/paths";
 	import { CarouselController } from "$lib/controllers/Carousel.svelte";
-	import { getArticles, type Article } from "$lib/services/articles";
-	import { locale } from "svelte-i18n";
+	import { getArticles, getDisplayDate, type Article } from "$lib/services/articles";
+	import { ARTICLE_CATEGORIES, type ArticleCategory } from "$lib/config/categories";
+	import { locale, t } from "svelte-i18n";
 
 	let articles = $state<Article[]>([]);
 	let loading = $state(true);
@@ -18,11 +19,13 @@
 
 	async function loadNews() {
 		const lang = ($locale as "uk" | "en") || "uk";
-		articles = await getArticles("news", lang);
+		// Fetch articles for current language
+		articles = await getArticles(lang, true);
 		
 		if (articles.length > 0) {
-			// Ініціалізуємо карусель тільки коли є дані
 			carousel = new CarouselController(articles.length + 2, 1);
+		} else {
+			carousel = null;
 		}
 		loading = false;
 	}
@@ -77,10 +80,15 @@
 		else if (e.key === "ArrowRight") carousel.next();
 	}
 
-	function formatDate(timestamp: any) {
-		if (!timestamp) return "";
-		const date = timestamp.toDate();
-		return date.toLocaleDateString($locale || 'uk', { day: 'numeric', month: 'short', year: 'numeric' });
+	function formatDate(article: Article) {
+		const lang = ($locale as "uk" | "en") || "uk";
+		const timestamp = getDisplayDate(article);
+		if (!timestamp) return '';
+		return timestamp.toDate().toLocaleDateString(lang === 'uk' ? 'uk-UA' : 'en-US', { 
+			day: 'numeric', 
+			month: 'short', 
+			year: 'numeric' 
+		});
 	}
 </script>
 
@@ -91,19 +99,19 @@
 		<div class="news__header">
 			<div class="news__title-group">
 				<h2 class="news__title" id="news-title">
-					НОВИНИ ТА ПОДІЇ
+					{$t('news.title')}
 					<BirdIcon className="news__title-bird" size={45} />
 				</h2>
-				<p class="news__subtitle">Будьте в курсі життя нашої школи</p>
+				<p class="news__subtitle">{$t('news.subtitle')}</p>
 			</div>
 		</div>
 
 		{#if loading}
 			<div style="height: 480px; display: flex; align-items: center; justify-content: center;">
-				<p>Завантаження новин...</p>
+				<p>{$t('news.loading')}</p>
 			</div>
 		{:else if articles.length > 0 && carousel}
-			<div class="focus-viewport" role="region" aria-label="Карусель новин" aria-roledescription="carousel">
+			<div class="focus-viewport" role="region" aria-label={$t('news.title')} aria-roledescription="carousel">
 				<div
 					class="focus-track"
 					style="
@@ -121,7 +129,7 @@
 				<button class="nav-btn nav-btn--next" onclick={carousel.next} aria-label="Наступний слайд">→</button>
 			</div>
 
-			<div class="focus-dots" role="tablist" aria-label="Вибір новини">
+			<div class="focus-dots" role="tablist" aria-label={$t('news.title')}>
 				{#each articles as _, i}
 					<button
 						class="f-dot"
@@ -135,13 +143,14 @@
 			</div>
 		{:else}
 			<div style="height: 480px; display: flex; align-items: center; justify-content: center; opacity: 0.5;">
-				<p>Наразі новин немає.</p>
+				<p>{$t('news.empty')}</p>
 			</div>
 		{/if}
 	</div>
 </section>
 
 {#snippet NewsCard(item: Article, i: number)}
+	{@const translation = item.translations?.[$locale as 'uk' | 'en']}
 	<article
 		class="focus-card"
 		class:is-active={carousel?.currentIndex === i}
@@ -153,18 +162,18 @@
 		</div>
 		<div class="focus-card__content">
 			<div class="focus-card__meta">
-				<span class="tag">{item.category === 'news' ? 'Новина' : 'Оголошення'}</span>
-				<time class="date">{formatDate(item.createdAt)}</time>
+				<span class="tag">{ARTICLE_CATEGORIES[item.category as ArticleCategory]?.[$locale === 'en' ? 'en' : 'uk'] || item.category}</span>
+				<time class="date">{formatDate(item)}</time>
 			</div>
-			<h3 class="focus-card__title">{item.title}</h3>
+			<h3 class="focus-card__title">{translation?.title || ''}</h3>
 			<div class="focus-card__excerpt">
-				<p>{item.content.substring(0, 150)}...</p>
+				<p>{(translation?.content || '').substring(0, 150)}...</p>
 			</div>
 			<a
 				href={`${base}/news/${item.id}`}
 				class="btn-more"
 				tabindex={carousel?.currentIndex === i ? 0 : -1}
-			>Читати далі →</a>
+			>{$t('news.readMore')}</a>
 		</div>
 	</article>
 {/snippet}
