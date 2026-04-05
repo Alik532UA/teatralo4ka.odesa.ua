@@ -14,10 +14,10 @@
 		{#if fallback}
 			{@render fallback()}
 		{:else}
-			<div class="error-container">
+			<div class="error-container" data-testid="error-boundary-container">
 				<h2>Ой, сталася помилка!</h2>
 				<p>Щось пішло не так під час завантаження цього компонента.</p>
-				<button onclick={() => error = null}>Спробувати знову</button>
+				<button onclick={() => error = null} data-testid="error-boundary-retry">Спробувати знову</button>
 			</div>
 		{/if}
 	{:else}

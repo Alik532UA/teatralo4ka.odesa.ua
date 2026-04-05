@@ -68,8 +68,8 @@
 						<p style="opacity: 0.6; font-size: 0.8rem;">UID: {user.id}</p>
 						
 						<div style="margin-top: 1.5rem;">
-							<label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Роль</label>
-							<select bind:value={user.role} style="padding: 0.5rem; border-radius: 8px; border: 1px solid #ddd; width: 100%;">
+							<label for="role-{user.id}" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Роль</label>
+							<select id="role-{user.id}" bind:value={user.role} style="padding: 0.5rem; border-radius: 8px; border: 1px solid #ddd; width: 100%;">
 								<option value="superadmin">Супер-адмін</option>
 								<option value="admin">Адмін школи</option>
 								<option value="moderator">Модератор</option>
@@ -78,11 +78,11 @@
 					</div>
 
 					<div>
-						<label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Школа (ID)</label>
-						<input type="text" bind:value={user.schoolId} style="padding: 0.5rem; border-radius: 8px; border: 1px solid #ddd; width: 100%;" />
+						<label for="school-{user.id}" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Школа (ID)</label>
+						<input id="school-{user.id}" type="text" bind:value={user.schoolId} style="padding: 0.5rem; border-radius: 8px; border: 1px solid #ddd; width: 100%;" />
 						
 						<div style="margin-top: 1.5rem; display: grid; gap: 0.5rem;">
-							<label style="font-weight: 600;">Дозволи</label>
+							<span style="font-weight: 600; display: block; margin-bottom: 0.5rem;">Дозволи</span>
 							<label style="display: flex; gap: 0.5rem; align-items: center; cursor: pointer;">
 								<input type="checkbox" bind:checked={user.permissions.canCreate} /> Створення
 							</label>

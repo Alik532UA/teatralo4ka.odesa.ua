@@ -38,7 +38,7 @@
 			content: value,
 			onUpdate: ({ editor }) => {
 				// Отримуємо чистий Markdown при кожній зміні
-				const markdown = (editor.storage.markdown as any).getMarkdown();
+				const markdown = (editor.storage as any).markdown.getMarkdown();
 				value = markdown;
 				if (onchange) onchange(markdown);
 			},
@@ -47,8 +47,8 @@
 
 	// Реактивність: оновлення контенту редактора при зміні value ззовні (наприклад, зміна мови)
 	$effect(() => {
-		if (editor && value !== (editor.storage.markdown as any).getMarkdown()) {
-			editor.commands.setContent(value || '', false);
+		if (editor && value !== (editor.storage as any).markdown.getMarkdown()) {
+			editor.commands.setContent(value || '', { emitUpdate: false });
 		}
 	});
 
@@ -71,110 +71,122 @@
 	}
 </script>
 
-<div class="rich-editor">
-	{#if editor}
-		<div class="toolbar">
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('bold')} 
-				onclick={() => editor?.chain().focus().toggleBold().run()}
-				title="Жирний"
-			><b>B</b></button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('italic')} 
-				onclick={() => editor?.chain().focus().toggleItalic().run()}
-				title="Курсив"
-			><i>I</i></button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('underline')} 
-				onclick={() => editor?.chain().focus().toggleUnderline().run()}
-				title="Підкреслений"
-			><u>U</u></button>
+<div class="rich-editor" data-testid="rich-editor-container">
+   {#if editor}
+	   <div class="toolbar" data-testid="rich-editor-toolbar">
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('bold')} 
+			   onclick={() => editor?.chain().focus().toggleBold().run()}
+			   title="Жирний"
+			   data-testid="rich-btn-bold"
+		   ><b>B</b></button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('italic')} 
+			   onclick={() => editor?.chain().focus().toggleItalic().run()}
+			   title="Курсив"
+			   data-testid="rich-btn-italic"
+		   ><i>I</i></button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('underline')} 
+			   onclick={() => editor?.chain().focus().toggleUnderline().run()}
+			   title="Підкреслений"
+			   data-testid="rich-btn-underline"
+		   ><u>U</u></button>
 
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('strike')} 
-				onclick={() => editor?.chain().focus().toggleStrike().run()}
-				title="Закреслений"
-			><s>S</s></button>
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('strike')} 
+			   onclick={() => editor?.chain().focus().toggleStrike().run()}
+			   title="Закреслений"
+			   data-testid="rich-btn-strike"
+		   ><s>S</s></button>
 
-			<div class="separator"></div>
+		   <div class="separator"></div>
 
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('heading', { level: 1 })} 
-				onclick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
-			>H1</button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('heading', { level: 2 })} 
-				onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
-			>H2</button>
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('heading', { level: 1 })} 
+			   onclick={() => editor?.chain().focus().toggleHeading({ level: 1 }).run()}
+			   data-testid="rich-btn-h1"
+		   >H1</button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('heading', { level: 2 })} 
+			   onclick={() => editor?.chain().focus().toggleHeading({ level: 2 }).run()}
+			   data-testid="rich-btn-h2"
+		   >H2</button>
 
-			<div class="separator"></div>
+		   <div class="separator"></div>
 
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('bulletList')} 
-				onclick={() => editor?.chain().focus().toggleBulletList().run()}
-				title="Список"
-			>• Список</button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('orderedList')} 
-				onclick={() => editor?.chain().focus().toggleOrderedList().run()}
-				title="Нумерований список"
-			>1. Список</button>
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('bulletList')} 
+			   onclick={() => editor?.chain().focus().toggleBulletList().run()}
+			   title="Список"
+			   data-testid="rich-btn-bullet"
+		   >• Список</button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('orderedList')} 
+			   onclick={() => editor?.chain().focus().toggleOrderedList().run()}
+			   title="Нумерований список"
+			   data-testid="rich-btn-ordered"
+		   >1. Список</button>
 
-			<div class="separator"></div>
+		   <div class="separator"></div>
 
-			<button 
-				type="button"
-				class="tool-btn" 
-				class:active={editor.isActive('link')} 
-				onclick={toggleLink}
-				title="Посилання"
-			>🔗</button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				onclick={() => editor?.chain().focus().toggleBlockquote().run()}
-				class:active={editor.isActive('blockquote')}
-				title="Цитата"
-			>❝</button>
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   class:active={editor.isActive('link')} 
+			   onclick={toggleLink}
+			   title="Посилання"
+			   data-testid="rich-btn-link"
+		   >🔗</button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   onclick={() => editor?.chain().focus().toggleBlockquote().run()}
+			   class:active={editor.isActive('blockquote')}
+			   title="Цитата"
+			   data-testid="rich-btn-quote"
+		   >❝</button>
 
-			<button 
-				type="button"
-				class="tool-btn" 
-				onclick={() => editor?.chain().focus().undo().run()}
-				title="Відмінити"
-			>↶</button>
-			
-			<button 
-				type="button"
-				class="tool-btn" 
-				onclick={() => editor?.chain().focus().redo().run()}
-				title="Повторити"
-			>↷</button>
-		</div>
-	{/if}
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   onclick={() => editor?.chain().focus().undo().run()}
+			   title="Відмінити"
+			   data-testid="rich-btn-undo"
+		   >↶</button>
+           
+		   <button 
+			   type="button"
+			   class="tool-btn" 
+			   onclick={() => editor?.chain().focus().redo().run()}
+			   title="Повторити"
+			   data-testid="rich-btn-redo"
+		   >↷</button>
+	   </div>
+   {/if}
 
-	<div bind:this={element} class="editor-content"></div>
+   <div bind:this={element} class="editor-content" data-testid="rich-editor-content"></div>
 </div>
 
 <style>

@@ -44,42 +44,45 @@
 	];
 </script>
 
-<div class="header__settings-dropdown header__settings-dropdown-debug">
-	<div class="header__settings-group">
-		<span class="header__settings-label">{$t('settings.dynamicBg')}</span>
-		<div class="header__settings-options" style="flex-direction: column;">
-			{#each backgrounds as bg}
-				<button
-					class="header__settings-opt"
-					class:active={(bg.id === 0 && !ui.enableDynamicBackground) ||
-						(bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
-					onclick={() => selectDynamicBackground(bg.id)}
-					style="text-align: left;"
-				>
-					{bg.label()}
-				</button>
-			{/each}
-		</div>
+<div class="header__settings-dropdown header__settings-dropdown-debug" data-testid="debug-settings-dropdown">
+	<div class="header__settings-group" data-testid="debug-bg-group">
+	   <span class="header__settings-label">{$t('settings.dynamicBg')}</span>
+	   <div class="header__settings-options" style="flex-direction: column;" data-testid="debug-bg-options">
+		   {#each backgrounds as bg, i}
+			   <button
+				   class="header__settings-opt"
+				   class:active={(bg.id === 0 && !ui.enableDynamicBackground) ||
+					   (bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
+				   onclick={() => selectDynamicBackground(bg.id)}
+				   style="text-align: left;"
+				   data-testid={`debug-bg-btn-${i}`}
+			   >
+				   {bg.label()}
+			   </button>
+		   {/each}
+	   </div>
 	</div>
 
-	<div class="header__settings-group">
-		<span class="header__settings-label">{$t('settings.blur')}</span>
-		<div class="header__settings-options">
-			<button
-				class="header__settings-opt"
-				class:active={!ui.enableBlurEffect}
-				onclick={() => ui.toggleBlurEffect()}
-			>
-				Вимк
-			</button>
-			<button
-				class="header__settings-opt"
-				class:active={ui.enableBlurEffect}
-				onclick={() => ui.toggleBlurEffect()}
-			>
-				Вкл
-			</button>
-		</div>
+	<div class="header__settings-group" data-testid="debug-blur-group">
+	   <span class="header__settings-label">{$t('settings.blur')}</span>
+	   <div class="header__settings-options" data-testid="debug-blur-options">
+		   <button
+			   class="header__settings-opt"
+			   class:active={!ui.enableBlurEffect}
+			   onclick={() => ui.toggleBlurEffect()}
+			   data-testid="debug-blur-off-btn"
+		   >
+			   Вимк
+		   </button>
+		   <button
+			   class="header__settings-opt"
+			   class:active={ui.enableBlurEffect}
+			   onclick={() => ui.toggleBlurEffect()}
+			   data-testid="debug-blur-on-btn"
+		   >
+			   Вкл
+		   </button>
+	   </div>
 	</div>
 
 </div>

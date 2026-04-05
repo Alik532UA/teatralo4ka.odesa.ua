@@ -65,8 +65,8 @@
 	});
 </script>
 
-<div class="mde-container">
-	<textarea bind:this={textarea}></textarea>
+<div class="mde-container" data-testid="markdown-editor-container">
+	<textarea bind:this={textarea} data-testid="markdown-editor-textarea"></textarea>
 </div>
 
 <style>

@@ -72,44 +72,45 @@
 </script>
 
 {#if isOpen}
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<!-- svelte-ignore a11y_no_static_element_interactions -->
-	<div class="piano-modal" transition:fade={{ duration: 300 }} onclick={(e) => e.target === e.currentTarget && onClose()}>
-		<button class="close-btn" onclick={onClose}>&times;</button>
-		
-		<section id="wrap">
-			<header>
-				<h2 class="piano-hint">{$t("piano.hint")}</h2>
-			</header>
-			<section id="main">
-				<div class="nowplaying">
-					{#if nowPlaying}
-						<span class="note-name">{$t(`piano.notes.${nowPlaying}`)}</span>
-						<span class="note-divider">|</span>
-						<span class="note-symbol">{nowPlaying}</span>
-					{/if}
-				</div>
-				<div class="keys">
-					{#each keysData as key}
-						<div 
-							class="key" 
-							class:sharp={key.sharp} 
-							class:playing={activeKeys.has(key.keyCode)}
-							data-key={key.keyCode} 
-							data-note={key.note}
-							onclick={() => playNote(key.keyCode)}
-						>
-							<span class="hints">{key.hint}</span>
-						</div>
-					{/each}
-				</div>
+   <!-- svelte-ignore a11y_click_events_have_key_events -->
+   <!-- svelte-ignore a11y_no_static_element_interactions -->
+   <div class="piano-modal" transition:fade={{ duration: 300 }} onclick={(e) => e.target === e.currentTarget && onClose()} data-testid="piano-modal">
+	   <button class="close-btn" onclick={onClose} data-testid="piano-modal-close">&times;</button>
+       
+	   <section id="wrap">
+		   <header>
+			   <h2 class="piano-hint">{$t("piano.hint")}</h2>
+		   </header>
+		   <section id="main">
+			   <div class="nowplaying">
+				   {#if nowPlaying}
+					   <span class="note-name">{$t(`piano.notes.${nowPlaying}`)}</span>
+					   <span class="note-divider">|</span>
+					   <span class="note-symbol">{nowPlaying}</span>
+				   {/if}
+			   </div>
+			   <div class="keys" data-testid="piano-keys">
+				   {#each keysData as key, i}
+					   <div 
+						   class="key" 
+						   class:sharp={key.sharp} 
+						   class:playing={activeKeys.has(key.keyCode)}
+						   data-key={key.keyCode} 
+						   data-note={key.note}
+						   onclick={() => playNote(key.keyCode)}
+						   data-testid={`piano-key-${i}`}
+					   >
+						   <span class="hints">{key.hint}</span>
+					   </div>
+				   {/each}
+			   </div>
 
-				{#each keysData as key}
-					<audio data-key={key.keyCode} src={getAudioSrc(key.keyCode)}></audio>
-				{/each}
-			</section>
-		</section>
-	</div>
+			   {#each keysData as key}
+				   <audio data-key={key.keyCode} src={getAudioSrc(key.keyCode)}></audio>
+			   {/each}
+		   </section>
+	   </section>
+   </div>
 {/if}
 
 <style>

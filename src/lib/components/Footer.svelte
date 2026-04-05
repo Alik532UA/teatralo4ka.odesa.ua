@@ -10,7 +10,7 @@
 	let isPianoOpen = $state(false);
 </script>
 
-<footer class="footer" id="main-footer">
+<footer class="footer" id="main-footer" data-testid="footer-container">
 	<div class="container">
 		<div class="footer__content">
 			<!-- 1. Button "грати" - Piano Keyboard Style -->
@@ -18,6 +18,7 @@
 				class="footer__btn-piano"
 				onclick={() => (isPianoOpen = true)}
 				aria-label={$t("footer.play")}
+				data-testid="footer-piano-btn"
 			>
 				<div class="footer__piano-visual">
 					<span class="footer__piano-white"></span>
@@ -34,7 +35,7 @@
 			</button>
 
 			<!-- 2. Contacts Group -->
-			<div class="footer__contacts">
+			<div class="footer__contacts" data-testid="footer-contacts">
 				<!-- Address -->
 				<div class="footer__info" id="footer-address">
 					<div class="footer__info-item">
@@ -44,6 +45,7 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							class="footer__link"
+							data-testid="footer-address-link"
 						>
 							{$t("footer.address")}
 						</a>
@@ -53,7 +55,7 @@
 					<div class="footer__info-item">
 						<PhoneIcon className="footer__icon" size={18} />
 						<div>
-							<a href="tel:+380487236101" class="footer__link"
+							<a href="tel:+380487236101" class="footer__link" data-testid="footer-phone-link"
 								>{$t("footer.phone")}</a
 							>
 						</div>
@@ -66,7 +68,9 @@
 						<div>
 							<a
 								href="mailto:{$t('footer.email')}"
-								class="footer__link">{$t("footer.email")}</a
+								class="footer__link"
+								data-testid="footer-email-link"
+							>{$t("footer.email")}</a
 							>
 						</div>
 					</div>
@@ -74,13 +78,14 @@
 			</div>
 
 			<!-- 3. Social icons -->
-			<div class="footer__social" id="footer-social">
+			<div class="footer__social" id="footer-social" data-testid="footer-social">
 				<a
 					href={$t("footer.facebook")}
 					class="footer__social-link"
 					aria-label="Facebook"
 					target="_blank"
 					rel="noopener noreferrer"
+					data-testid="footer-facebook-link"
 				>
 					<img src={`${base}/social_media/facebook-se-512-50.png`} alt="Facebook" width="24" height="24" />
 				</a>
@@ -90,41 +95,45 @@
 					aria-label="Instagram"
 					target="_blank"
 					rel="noopener noreferrer"
+					data-testid="footer-instagram-link"
 				>
 					<img src={`${base}/social_media/instagram-se-512-50.png`} alt="Instagram" width="24" height="24" />
 				</a>
 				{#if $t('footer.telegram')}
-					<a
-						href={$t("footer.telegram")}
-						class="footer__social-link"
-						aria-label="Telegram"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="Telegram" width="24" height="24" />
-					</a>
+					   <a
+						   href={$t("footer.telegram")}
+						   class="footer__social-link"
+						   aria-label="Telegram"
+						   target="_blank"
+						   rel="noopener noreferrer"
+						   data-testid="footer-telegram-link"
+					   >
+						   <img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="Telegram" width="24" height="24" />
+					   </a>
 				{/if}
 				{#if $t('footer.youtube')}
-					<a
-						href={$t("footer.youtube")}
-						class="footer__social-link"
-						aria-label="YouTube"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YouTube" width="24" height="24" />
-					</a>
+					   <a
+						   href={$t("footer.youtube")}
+						   class="footer__social-link"
+						   aria-label="YouTube"
+						   target="_blank"
+						   rel="noopener noreferrer"
+						   data-testid="footer-youtube-link"
+					   >
+						   <img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YouTube" width="24" height="24" />
+					   </a>
 				{/if}
 				{#if $t('footer.tiktok')}
-					<a
-						href={$t("footer.tiktok")}
-						class="footer__social-link"
-						aria-label="TikTok"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						<img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TikTok" width="24" height="24" />
-					</a>
+					   <a
+						   href={$t("footer.tiktok")}
+						   class="footer__social-link"
+						   aria-label="TikTok"
+						   target="_blank"
+						   rel="noopener noreferrer"
+						   data-testid="footer-tiktok-link"
+					   >
+						   <img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TikTok" width="24" height="24" />
+					   </a>
 				{/if}
 			</div>
 
@@ -133,6 +142,7 @@
 				href="https://alik532ua.github.io/DigitalWorkshop/?tab=promo&theme=colorful"
 				target="_blank"
 				class="footer__btn-order"
+				data-testid="footer-order-btn"
 			>
 				{$t("footer.order")}
 			</a>

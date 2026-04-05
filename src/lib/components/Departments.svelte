@@ -92,76 +92,76 @@
 	];
 </script>
 
-<section class="deps" id="departments">
-	<div class="deps__container">
-		<div class="deps__block">
+<section class="deps" id="departments" data-testid="departments-section">
+	<div class="deps__container" data-testid="departments-container">
+		<div class="deps__block" data-testid="info-block">
 			<h2 class="deps__heading sr-only">Корисна інформація</h2>
-			<div class="deps__grid">
-				{#each info as item}
-					<article class="deps__card deps__card--compact">
-						<div class="deps__media" aria-hidden="true">
-							<img src={item.image} alt={item.title} class="deps__img" />
-						</div>
-						<div class="deps__content">
-							<h3 class="deps__title">{item.title}</h3>
-							<p class="deps__desc">{item.description}</p>
-							<a href={item.href} class="deps__btn">дізнатися більше</a>
-						</div>
-					</article>
+			<div class="deps__grid" data-testid="info-grid">
+				{#each info as item, i}
+				   <article class="deps__card deps__card--compact" data-testid={`info-card-${i}`}>
+					   <div class="deps__media" aria-hidden="true">
+						   <img src={item.image} alt={item.title} class="deps__img" />
+					   </div>
+					   <div class="deps__content">
+						   <h3 class="deps__title">{item.title}</h3>
+						   <p class="deps__desc">{item.description}</p>
+						   <a href={item.href} class="deps__btn" data-testid={`info-btn-${i}`}>дізнатися більше</a>
+					   </div>
+				   </article>
 				{/each}
 			</div>
 		</div>
 
-		<div class="deps__block">
+		<div class="deps__block" data-testid="departments-block">
 			<h2 class="deps__heading">Відділення</h2>
-			<div class="deps__grid deps__grid--wide">
-				{#each departments as dep}
-					<article class="deps__card">
-						<div class="deps__media" aria-hidden="true">
-							<img src={dep.image} alt={dep.title} class="deps__img" />
-						</div>
-						<div class="deps__content">
-							<h3 class="deps__title">{dep.title}</h3>
-							<p class="deps__desc">{dep.description}</p>
-							<a href={dep.href} class="deps__btn">дізнатися більше</a>
-						</div>
-					</article>
+			<div class="deps__grid deps__grid--wide" data-testid="departments-grid">
+				{#each departments as dep, i}
+				   <article class="deps__card" data-testid={`department-card-${i}`}>
+					   <div class="deps__media" aria-hidden="true">
+						   <img src={dep.image} alt={dep.title} class="deps__img" />
+					   </div>
+					   <div class="deps__content">
+						   <h3 class="deps__title">{dep.title}</h3>
+						   <p class="deps__desc">{dep.description}</p>
+						   <a href={dep.href} class="deps__btn" data-testid={`department-btn-${i}`}>дізнатися більше</a>
+					   </div>
+				   </article>
 				{/each}
 			</div>
 		</div>
 
-		<div class="deps__block">
+		<div class="deps__block" data-testid="residents-block">
 			<h2 class="deps__heading">Мешканці</h2>
-			<div class="deps__grid">
-				{#each residents as resident}
-					<article class="deps__card deps__card--compact">
-						<div class="deps__media" aria-hidden="true">
-							<img src={resident.image} alt={resident.title} class="deps__img" />
-						</div>
-						<div class="deps__content">
-							<h3 class="deps__title">{resident.title}</h3>
-							<p class="deps__desc">{resident.description}</p>
-							<a href={resident.href} class="deps__btn">дізнатися більше</a>
-						</div>
-					</article>
+			<div class="deps__grid" data-testid="residents-grid">
+				{#each residents as resident, i}
+				   <article class="deps__card deps__card--compact" data-testid={`resident-card-${i}`}>
+					   <div class="deps__media" aria-hidden="true">
+						   <img src={resident.image} alt={resident.title} class="deps__img" />
+					   </div>
+					   <div class="deps__content">
+						   <h3 class="deps__title">{resident.title}</h3>
+						   <p class="deps__desc">{resident.description}</p>
+						   <a href={resident.href} class="deps__btn" data-testid={`resident-btn-${i}`}>дізнатися більше</a>
+					   </div>
+				   </article>
 				{/each}
 			</div>
 		</div>
 
-		<div class="deps__block">
+		<div class="deps__block" data-testid="projects-block">
 			<h2 class="deps__heading">Проєкти</h2>
-			<div class="deps__grid">
-				{#each projects as project}
-					<article class="deps__card deps__card--compact">
-						<div class="deps__media" aria-hidden="true">
-							<img src={project.image} alt={project.title} class="deps__img" />
-						</div>
-						<div class="deps__content">
-							<h3 class="deps__title">{project.title}</h3>
-							<p class="deps__desc">{project.description}</p>
-							<a href={project.href} class="deps__btn">дізнатися більше</a>
-						</div>
-					</article>
+			<div class="deps__grid" data-testid="projects-grid">
+				{#each projects as project, i}
+				   <article class="deps__card deps__card--compact" data-testid={`project-card-${i}`}>
+					   <div class="deps__media" aria-hidden="true">
+						   <img src={project.image} alt={project.title} class="deps__img" />
+					   </div>
+					   <div class="deps__content">
+						   <h3 class="deps__title">{project.title}</h3>
+						   <p class="deps__desc">{project.description}</p>
+						   <a href={project.href} class="deps__btn" data-testid={`project-btn-${i}`}>дізнатися більше</a>
+					   </div>
+				   </article>
 				{/each}
 			</div>
 		</div>

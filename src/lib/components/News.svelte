@@ -94,15 +94,15 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-<section class="news" id="news-section" aria-labelledby="news-title">
-	<div class="container">
-		<div class="news__header">
-			<div class="news__title-group">
-				<h2 class="news__title" id="news-title">
+<section class="news" id="news-section" aria-labelledby="news-title" data-testid="news-section">
+	<div class="container" data-testid="news-container">
+		<div class="news__header" data-testid="news-header">
+			<div class="news__title-group" data-testid="news-title-group">
+				<h2 class="news__title" id="news-title" data-testid="news-title">
 					{$t('news.title')}
 					<BirdIcon className="news__title-bird" size={45} />
 				</h2>
-				<p class="news__subtitle">{$t('news.subtitle')}</p>
+				<p class="news__subtitle" data-testid="news-subtitle">{$t('news.subtitle')}</p>
 			</div>
 		</div>
 
@@ -111,34 +111,36 @@
 				<p>{$t('news.loading')}</p>
 			</div>
 		{:else if articles.length > 0 && carousel}
-			<div class="focus-viewport" role="region" aria-label={$t('news.title')} aria-roledescription="carousel">
+			<div class="focus-viewport" role="region" aria-label={$t('news.title')} aria-roledescription="carousel" data-testid="news-carousel">
 				<div
-					class="focus-track"
-					style="
-						transform: translateX(calc(50% - 300px - {carousel.currentIndex * 620}px));
-						transition: {carousel.isTransitioning ? 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'};
-					"
-					aria-live="polite"
+				   class="focus-track"
+				   style="
+					   transform: translateX(calc(50% - 300px - {carousel.currentIndex * 620}px));
+					   transition: {carousel.isTransitioning ? 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'};
+				   "
+				   aria-live="polite"
+				   data-testid="news-carousel-track"
 				>
 					{#each infiniteNews as item, i}
 						{@render NewsCard(item, i)}
 					{/each}
 				</div>
 
-				<button class="nav-btn nav-btn--prev" onclick={carousel.prev} aria-label="Попередній слайд">←</button>
-				<button class="nav-btn nav-btn--next" onclick={carousel.next} aria-label="Наступний слайд">→</button>
+				<button class="nav-btn nav-btn--prev" onclick={carousel.prev} aria-label="Попередній слайд" data-testid="news-prev-btn">←</button>
+				<button class="nav-btn nav-btn--next" onclick={carousel.next} aria-label="Наступний слайд" data-testid="news-next-btn">→</button>
 			</div>
 
-			<div class="focus-dots" role="tablist" aria-label={$t('news.title')}>
+			<div class="focus-dots" role="tablist" aria-label={$t('news.title')} data-testid="news-dots">
 				{#each articles as _, i}
-					<button
-						class="f-dot"
-						role="tab"
-						class:active={(carousel.currentIndex - 1 + articles.length) % articles.length === i}
-						onclick={() => carousel?.goTo(i + 1)}
-						aria-label="Перейти до новини {i + 1}"
-						aria-selected={(carousel.currentIndex - 1 + articles.length) % articles.length === i}
-					></button>
+				   <button
+					   class="f-dot"
+					   role="tab"
+					   class:active={(carousel.currentIndex - 1 + articles.length) % articles.length === i}
+					   onclick={() => carousel?.goTo(i + 1)}
+					   aria-label="Перейти до новини {i + 1}"
+					   aria-selected={(carousel.currentIndex - 1 + articles.length) % articles.length === i}
+					   data-testid={`news-dot-${i}`}
+				   ></button>
 				{/each}
 			</div>
 		{:else}
@@ -156,6 +158,7 @@
 		class:is-active={carousel?.currentIndex === i}
 		role="group"
 		aria-roledescription="slide"
+		data-testid={`news-card-${i}`}
 	>
 		<div class="focus-card__img-wrap" style="background: linear-gradient(45deg, #e0eafc, #cfdef3)">
 			<PhotoIcon size={64} className="focus-card__placeholder" />
@@ -173,6 +176,7 @@
 				href={`${base}/news/${item.id}`}
 				class="btn-more"
 				tabindex={carousel?.currentIndex === i ? 0 : -1}
+				data-testid={`news-readmore-${i}`}
 			>{$t('news.readMore')}</a>
 		</div>
 	</article>

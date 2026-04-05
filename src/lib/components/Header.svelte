@@ -82,148 +82,164 @@
 	});
 </script>
 
-<a href="#main-content" class="skip-link">
+<a href="#main-content" class="skip-link" data-testid="skip-link">
 	Перейти до основного контенту
 </a>
 
-<header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header">
-	<div class="header__logo-area">
-		<a
-			href={`${base}/`}
-			class="header__logo-link"
-			aria-label="На головну"
-			onclick={ui.closeMenu}
-		>
-			<Logo size="large" />
-		</a>
-	</div>
+<header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
+	   <div class="header__logo-area" data-testid="logo-area">
+		   <a
+			   href={`${base}/`}
+			   class="header__logo-link"
+			   aria-label="На головну"
+			   onclick={ui.closeMenu}
+			   data-testid="logo-link"
+		   >
+			   <Logo size="large" />
+		   </a>
+	   </div>
 
-	<div class="header__bar">
-		<nav class="header__nav" aria-label="Головне меню" id="main-nav">
-			<ul class="header__nav-list" class:open={ui.isMenuOpen}>
-				{#each navItems as item, i}
-					<li class="header__nav-item">
-						<a
-							href={item.href}
-							class="header__nav-link"
-							class:active={page.url.pathname === item.href}
-							id="nav-{item.href.replace('/', '') || 'home'}"
-						>
-							{item.label}
-						</a>
-					</li>
-				{/each}
-			</ul>
-		</nav>
+	<div class="header__bar" data-testid="header-bar">
+		   <nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="main-nav">
+			   <ul class="header__nav-list" class:open={ui.isMenuOpen} data-testid="nav-list">
+				   {#each navItems as item, i}
+					   <li class="header__nav-item" data-testid={`nav-item-${i}`}> 
+						   <a
+							   href={item.href}
+							   class="header__nav-link"
+							   class:active={page.url.pathname === item.href}
+							   id={`nav-${item.href.replace('/', '') || 'home'}`}
+							   data-testid={`nav-link-${i}`}
+						   >
+							   {item.label}
+						   </a>
+					   </li>
+				   {/each}
+			   </ul>
+		   </nav>
 
-		<a
-			href={`${base}/admission`}
-			class="btn btn-outline header__cta"
-			id="header-cta"
-		>
-			{$t("nav.admission")}
-		</a>
+		   <a
+			   href={`${base}/admission`}
+			   class="btn btn-outline header__cta"
+			   id="header-cta"
+			   data-testid="admission-cta"
+		   >
+			   {$t("nav.admission")}
+		   </a>
 
-		<div class="header__settings" class:open={settingsOpen} bind:this={settingsRef}>
-			<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen}>
-				<SettingsIcon size={24} />
-			</button>
-			<div class="header__settings-dropdown">
-				<div class="header__settings-group">
-					<span class="header__settings-label"
-						>{$t("settings.language")}</span
-					>
-					<div class="header__settings-options">
-						<button
-							class="header__settings-opt"
-							class:active={$locale === "uk"}
-							onclick={() => changeLanguage("uk")}>UA</button
-						>
-						<button
-							class="header__settings-opt"
-							class:active={$locale === "en"}
-							onclick={() => changeLanguage("en")}>EN</button
-						>
-					</div>
-				</div>
-				<div class="header__settings-group">
-					<span class="header__settings-label"
-						>{$t("settings.theme")}</span
-					>
-					<div class="header__settings-options">
-						<button
-							class="header__settings-opt"
-							class:active={ui.theme === "light"}
-							onclick={() => {
-								if (ui.theme === "dark") toggleTheme();
-							}}>{$t("settings.light")}</button
-						>
-						<button
-							class="header__settings-opt"
-							class:active={ui.theme === "dark"}
-							onclick={() => {
-								if (ui.theme === "light") toggleTheme();
-							}}>{$t("settings.dark")}</button
-						>
-					</div>
-				</div>
-			</div>
-			<DebugSettingsDropdown isOpen={settingsOpen} />
-		</div>
+		   <div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
+			   <button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
+				   <SettingsIcon size={24} />
+			   </button>
+			   <div class="header__settings-dropdown" data-testid="settings-dropdown">
+				   <div class="header__settings-group" data-testid="settings-language-group">
+					   <span class="header__settings-label"
+						   >{$t("settings.language")}</span
+					   >
+					   <div class="header__settings-options" data-testid="settings-language-options">
+						   <button
+							   class="header__settings-opt"
+							   class:active={$locale === "uk"}
+							   onclick={() => changeLanguage("uk")}
+							   data-testid="lang-uk-btn"
+						   >UA</button
+						   >
+						   <button
+							   class="header__settings-opt"
+							   class:active={$locale === "en"}
+							   onclick={() => changeLanguage("en")}
+							   data-testid="lang-en-btn"
+						   >EN</button
+						   >
+					   </div>
+				   </div>
+				   <div class="header__settings-group" data-testid="settings-theme-group">
+					   <span class="header__settings-label"
+						   >{$t("settings.theme")}</span
+					   >
+					   <div class="header__settings-options" data-testid="settings-theme-options">
+						   <button
+							   class="header__settings-opt"
+							   class:active={ui.theme === "light"}
+							   onclick={() => {
+								   if (ui.theme === "dark") toggleTheme();
+							   }}
+							   data-testid="theme-light-btn"
+						   >{$t("settings.light")}</button
+						   >
+						   <button
+							   class="header__settings-opt"
+							   class:active={ui.theme === "dark"}
+							   onclick={() => {
+								   if (ui.theme === "light") toggleTheme();
+							   }}
+							   data-testid="theme-dark-btn"
+						   >{$t("settings.dark")}</button
+						   >
+					   </div>
+				   </div>
+			   </div>
+			   <DebugSettingsDropdown isOpen={settingsOpen} />
+		   </div>
 
-		<button
-			class="header__burger"
-			onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
-			aria-label="Відкрити меню"
-			aria-expanded={ui.isMenuOpen}
-			id="burger-menu"
-		>
-			<Menu size={24} />
-		</button>
+		   <button
+			   class="header__burger"
+			   onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
+			   aria-label="Відкрити меню"
+			   aria-expanded={ui.isMenuOpen}
+			   id="burger-menu"
+			   data-testid="burger-menu-btn"
+		   >
+			   <Menu size={24} />
+		   </button>
 	</div>
 
 	<!-- Mobile overlay menu -->
-	{#if ui.isMenuOpen}
-		<div
-			class="header__mobile-overlay"
-			role="dialog"
-			aria-modal="true"
-			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
-			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
-		>
-			<button
-				class="header__mobile-close"
-				onclick={ui.closeMenu}
-				aria-label="Закрити меню"
-			>
-				<X size={24} />
-			</button>
-			<nav aria-label="Мобільне меню">
-				<ul class="header__mobile-list">
-					{#each navItems as item}
-						<li>
-							<a
-								href={item.href}
-								class="header__mobile-link"
-								onclick={ui.closeMenu}
-							>
-								{item.label}
-							</a>
-						</li>
-					{/each}
-					<li>
-						<a
-							href={`${base}/admission`}
-							class="btn btn-primary header__mobile-cta"
-							onclick={ui.closeMenu}
-						>
-							{$t("nav.admission")}
-						</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	{/if}
+	   {#if ui.isMenuOpen}
+		   <div
+			   class="header__mobile-overlay"
+			   role="dialog"
+			   aria-modal="true"
+			   in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
+			   out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
+			   data-testid="mobile-overlay"
+		   >
+			   <button
+				   class="header__mobile-close"
+				   onclick={ui.closeMenu}
+				   aria-label="Закрити меню"
+				   data-testid="mobile-close-btn"
+			   >
+				   <X size={24} />
+			   </button>
+			   <nav aria-label="Мобільне меню" data-testid="mobile-nav">
+				   <ul class="header__mobile-list" data-testid="mobile-nav-list">
+					   {#each navItems as item, i}
+						   <li data-testid={`mobile-nav-item-${i}`}>
+							   <a
+								   href={item.href}
+								   class="header__mobile-link"
+								   onclick={ui.closeMenu}
+								   data-testid={`mobile-nav-link-${i}`}
+							   >
+								   {item.label}
+							   </a>
+						   </li>
+					   {/each}
+					   <li data-testid="mobile-admission-item">
+						   <a
+							   href={`${base}/admission`}
+							   class="btn btn-primary header__mobile-cta"
+							   onclick={ui.closeMenu}
+							   data-testid="mobile-admission-btn"
+						   >
+							   {$t("nav.admission")}
+						   </a>
+					   </li>
+				   </ul>
+			   </nav>
+		   </div>
+	   {/if}
 </header>
 
 <style>
