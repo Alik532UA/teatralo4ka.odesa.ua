@@ -5,6 +5,7 @@
 	import { base } from '$app/paths';
 	import { authService } from '$lib/states/auth.svelte';
 	import { t } from 'svelte-i18n';
+	import { Mail, Lock } from 'lucide-svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -41,26 +42,36 @@
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;">
-			<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-				<label for="email">{$t('admin.login.email')}</label>
-				<input 
-					type="email" 
-					id="email" 
-					bind:value={email} 
-					required 
-					style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;" 
-				/>
+			<div class="form-group">
+				<label class="form-label" for="email">{$t('admin.login.email')}</label>
+				<div class="input-with-icon">
+					<Mail size={18} class="input-icon" />
+					<input 
+						type="email" 
+						id="email" 
+						bind:value={email} 
+						required 
+						class="form-input"
+						style="padding-left: 3.5rem;"
+						data-testid="admin-login-email-input"
+					/>
+				</div>
 			</div>
 
-			<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-				<label for="password">{$t('admin.login.password')}</label>
-				<input 
-					type="password" 
-					id="password" 
-					bind:value={password} 
-					required 
-					style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;" 
-				/>
+			<div class="form-group">
+				<label class="form-label" for="password">{$t('admin.login.password')}</label>
+				<div class="input-with-icon">
+					<Lock size={18} class="input-icon" />
+					<input 
+						type="password" 
+						id="password" 
+						bind:value={password} 
+						required 
+						class="form-input"
+						style="padding-left: 3.5rem;"
+						data-testid="admin-login-password-input"
+					/>
+				</div>
 			</div>
 
 			<button 
@@ -68,9 +79,31 @@
 				disabled={loading}
 				class="btn btn-primary"
 				style="width: 100%; border: none; cursor: pointer;"
+				data-testid="admin-login-submit-btn"
 			>
 				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
 			</button>
 		</form>
 	</div>
 </section>
+
+<style>
+	.input-with-icon {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	:global(.input-icon) {
+		position: absolute;
+		left: 1.25rem;
+		color: var(--color-ocean);
+		opacity: 0.5;
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+	}
+
+	.input-with-icon:focus-within :global(.input-icon) {
+		opacity: 1;
+	}
+</style>

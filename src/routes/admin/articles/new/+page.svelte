@@ -10,9 +10,9 @@
 	import RichTextEditor from '$lib/components/ui/RichTextEditor.svelte';
 	import { t } from 'svelte-i18n';
 	import { get } from 'svelte/store';
+	import { Languages, Eye, EyeOff, CheckCircle2, XCircle, Settings, ChevronLeft, LayoutPanelTop, FilePlus } from 'lucide-svelte';
 
 	let category = $state<ArticleCategory | string>('news');
-	let author = $state('Адміністрація');
 	let dateMode = $state<'createdAt' | 'updatedAt' | 'custom' | 'hidden'>('createdAt');
 	let customDateStr = $state(new Date().toISOString().split('T')[0]);
 	let loading = $state(false);
@@ -30,14 +30,15 @@
 		}
 	});
 
-	async function handleSubmit() {
+	async function handleSubmit(e: Event) {
+		e.preventDefault();
 		loading = true;
 		try {
 			const customDate = dateMode === 'custom' ? Timestamp.fromDate(new Date(customDateStr)) : null;
 
 			await addArticle({
 				category,
-				author,
+				author: '', // Буде перезаписано сервісом, але обов'язкове для типу
 				dateMode,
 				customDate,
 				translations
@@ -52,83 +53,171 @@
 	}
 </script>
 
-<section class="admin-article-new container" style="padding: 160px 24px;">
-	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.editor.newTitle')}</h1>
-		<a href="{base}/admin/articles" class="btn btn-outline">{$t('admin.editor.backToList')}</a>
+<section class="admin-article-new container" style="padding: 120px 24px;">
+	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+		<div style="display: flex; align-items: center; gap: 1rem;">
+			<a href="{base}/admin/articles" class="btn btn-outline" style="padding: 0.5rem 1rem;" title="Назад до списку">
+				<ChevronLeft size={20} />
+			</a>
+			<h1 style="margin: 0; font-size: 2rem;">{$t('admin.editor.newTitle')}</h1>
+		</div>
+		
+		<button type="submit" form="new-form" disabled={loading} class="btn btn-primary" data-testid="admin-article-new-submit-btn">
+			{loading ? $t('admin.editor.saving') : $t('admin.editor.saveBtn')}
+		</button>
 	</div>
 
-	<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
-		<!-- Форма -->
-		<form onsubmit={handleSubmit} style="display: flex; flex-direction: column; gap: 1.5rem; background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-			
-			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-					<label for="category">{$t('admin.editor.category')}</label>
-					<select id="category" bind:value={category} style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;">
+	<form id="new-form" onsubmit={handleSubmit} style="display: flex; flex-direction: column; gap: 2rem;">
+		<!-- Container 1: Settings -->
+		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+				<Settings size={22} />
+				<h2 style="margin: 0; font-size: 1.5rem;">Налаштування публікації</h2>
+			</div>
+
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
+				<div class="form-group">
+					<label class="form-label" for="category">{$t('admin.editor.category')}</label>
+					<select id="category" bind:value={category} class="form-select" data-testid="admin-article-new-category-select">
 						{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels]}
 							<option value={key}>{labels.uk}</option>
 						{/each}
 					</select>
 				</div>
-				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-					<label for="author">{$t('admin.editor.author')}</label>
-					<input type="text" id="author" bind:value={author} style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;" />
-				</div>
-			</div>
 
-			<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: end;">
-				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-					<label for="dateMode">{$t('admin.editor.dateMode')}</label>
-					<select id="dateMode" bind:value={dateMode} style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;">
-						<option value="createdAt">{$t('admin.editor.dateCreatedAt')}</option>
-						<option value="updatedAt">{$t('admin.editor.dateUpdatedAt')}</option>
-						<option value="custom">{$t('admin.editor.dateCustom')}</option>
-						<option value="hidden">{$t('admin.editor.dateHidden')}</option>
-					</select>
-				</div>
-				{#if dateMode === 'custom'}
-					<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-						<input type="date" bind:value={customDateStr} style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+					<div class="form-group">
+						<label class="form-label" for="dateMode">{$t('admin.editor.dateMode')}</label>
+						<select id="dateMode" bind:value={dateMode} class="form-select" data-testid="admin-article-new-date-mode-select">
+							<option value="createdAt">{$t('admin.editor.dateCreatedAt')}</option>
+							<option value="updatedAt">{$t('admin.editor.dateUpdatedAt')}</option>
+							<option value="custom">{$t('admin.editor.dateCustom')}</option>
+							<option value="hidden">{$t('admin.editor.dateHidden')}</option>
+						</select>
 					</div>
-				{/if}
-			</div>
 
-			<div style="display: flex; gap: 0.5rem; margin-top: 1rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
-				<button type="button" class="btn" class:btn-primary={activeLang === 'uk'} class:btn-outline={activeLang !== 'uk'} onclick={() => activeLang = 'uk'}>Українська</button>
-				<button type="button" class="btn" class:btn-primary={activeLang === 'en'} class:btn-outline={activeLang !== 'en'} onclick={() => activeLang = 'en'}>English</button>
-			</div>
-
-			<div style="display: flex; flex-direction: column; gap: 1.5rem;">
-				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-					<label for="title">{$t('admin.editor.titleLabel')} ({activeLang})</label>
-					<input type="text" id="title" bind:value={translations[activeLang].title} required style="padding: 0.8rem; border-radius: 12px; border: 1px solid #ddd;" />
-				</div>
-
-				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-					<label for="content">{$t('admin.editor.contentLabel')} ({activeLang})</label>
-					<RichTextEditor bind:value={translations[activeLang].content} onchange={(v) => translations[activeLang].content = v} />
-				</div>
-
-				<div style="display: flex; align-items: center; gap: 1rem;">
-					<input type="checkbox" id="isPublished" bind:checked={translations[activeLang].isPublished} />
-					<label for="isPublished">{$t('admin.editor.publishLabel')} ({activeLang})</label>
+					{#if dateMode !== 'hidden'}
+						<div class="form-group">
+							<label class="form-label" for="customDate">Дата відображення</label>
+							<input 
+								type="date" 
+								id="customDate"
+								value={dateMode === 'custom' ? customDateStr : new Date().toISOString().split('T')[0]} 
+								oninput={(e) => dateMode === 'custom' && (customDateStr = e.currentTarget.value)}
+								disabled={dateMode !== 'custom'}
+								class="form-input"
+								data-testid="admin-article-new-custom-date-input" 
+							/>
+						</div>
+					{/if}
 				</div>
 			</div>
 
-			<button type="submit" disabled={loading} class="btn btn-primary" style="width: 100%; border: none; margin-top: 1rem;">
-				{loading ? $t('admin.editor.saving') : $t('admin.editor.saveBtn')}
-			</button>
-		</form>
+			<!-- Languages & Publication -->
+			<div style="display: flex; flex-direction: column; gap: 1rem;">
+				<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">
+					<Languages size={18} />
+					Мови та статус
+				</div>
+				
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+					{#each ['uk', 'en'] as lang}
+						<div 
+							class="lang-card"
+							style="padding: 1.25rem; border-radius: 20px; border: 2px solid {activeLang === lang ? 'var(--color-ocean)' : 'rgba(0,0,0,0.05)'}; background: {activeLang === lang ? 'rgba(0, 119, 190, 0.05)' : 'transparent'}; cursor: pointer; transition: all 0.2s;"
+							onclick={() => activeLang = lang as 'uk' | 'en'}
+							onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && (activeLang = lang as 'uk' | 'en')}
+							role="button"
+							tabindex="0"
+						>
+							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+								<span style="font-weight: 700; color: var(--color-deep-ocean);">{lang === 'uk' ? 'Українська' : 'English'}</span>
+								{#if translations[lang as 'uk' | 'en'].isPublished}
+									<div style="color: #22c55e; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 700;">
+										<CheckCircle2 size={16} /> Опубліковано
+									</div>
+								{:else}
+									<div style="color: #94a3b8; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 700;">
+										<EyeOff size={16} /> Чернетка
+									</div>
+								{/if}
+							</div>
+							
+							<div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; cursor: pointer; color: var(--color-dark-text);">
+								<input 
+									type="checkbox" 
+									class="form-checkbox"
+									bind:checked={translations[lang as 'uk' | 'en'].isPublished} 
+									data-testid="admin-article-new-published-checkbox-{lang}"
+									onclick={(e) => e.stopPropagation()}
+								/>
+								<span>Публікувати цю версію</span>
+							</div>
+						</div>
+					{/each}
+				</div>
+			</div>
 
-		<!-- Попередній перегляд -->
-		<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow-y: auto; max-height: 850px;">
-			<h2 style="margin-bottom: 1rem; opacity: 0.5;">{$t('admin.editor.preview')} ({activeLang})</h2>
-			<hr style="margin-bottom: 2rem; opacity: 0.1;" />
-			<div class="prose">
-				<h1>{translations[activeLang].title || $t('admin.editor.titleLabel') + '...'}</h1>
-				{@html DOMPurify.sanitize(marked.parse(translations[activeLang].content || $t('admin.editor.previewEmpty')) as string)}
+			<div class="form-group" style="margin-top: 2.5rem;">
+				<label class="form-label" for="title">Заголовок статті ({activeLang === 'uk' ? 'укр' : 'англ'})</label>
+				<input type="text" id="title" bind:value={translations[activeLang].title} required class="form-input" placeholder="Введіть заголовок..." data-testid="admin-article-new-title-input" />
 			</div>
 		</div>
-	</div>
+
+		<!-- Container 2: Editor -->
+		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="admin-article-new-rich-text-editor-container">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+				<FilePlus size={22} />
+				<h2 style="margin: 0; font-size: 1.5rem;">Контент статті ({activeLang === 'uk' ? 'укр' : 'англ'})</h2>
+			</div>
+			<RichTextEditor bind:value={translations[activeLang].content} onchange={(v) => translations[activeLang].content = v} data-testid="admin-article-new-rich-text-editor" />
+		</div>
+
+		<!-- Container 3: Preview -->
+		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+				<LayoutPanelTop size={22} />
+				<h2 style="margin: 0; font-size: 1.5rem;">Попередній перегляд</h2>
+				<div style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700; color: {translations[activeLang].isPublished ? '#22c55e' : '#94a3b8'}">
+					{#if translations[activeLang].isPublished}
+						<Eye size={18} /> Опубліковано ({activeLang})
+					{:else}
+						<EyeOff size={18} /> Чернетка ({activeLang})
+					{/if}
+				</div>
+			</div>
+
+			<div class="preview-container" style="background: var(--theme-dynamic-section-bg); padding: 3rem; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05);">
+				<article class="prose" style="max-width: 1000px; margin: 0 auto;">
+					<h1 style="font-size: 3rem; margin-top: 0;">{translations[activeLang].title || 'Заголовок статті...'}</h1>
+					{@html DOMPurify.sanitize(marked.parse(translations[activeLang].content || 'Тут з’явиться вміст статті...') as string)}
+				</article>
+			</div>
+		</div>
+
+		<div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+			<button type="submit" disabled={loading} class="btn btn-primary btn-large" style="padding: 1rem 4rem; font-size: 1.1rem;" data-testid="admin-article-new-submit-btn-bottom">
+				{loading ? $t('admin.editor.saving') : $t('admin.editor.saveBtn')}
+			</button>
+		</div>
+	</form>
 </section>
+
+<style>
+	.lang-card:hover {
+		border-color: var(--color-ocean) !important;
+		opacity: 0.9;
+	}
+
+	.btn-large {
+		height: 60px;
+		border-radius: 30px;
+	}
+
+	:global(.prose img) {
+		max-width: 100%;
+		border-radius: 24px;
+		margin: 2rem 0;
+		box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+	}
+</style>

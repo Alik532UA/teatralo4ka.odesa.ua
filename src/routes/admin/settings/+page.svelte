@@ -67,7 +67,7 @@
 <section class="admin-settings container" style="padding: 160px 24px;">
 	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
 		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.dashboard.settingsTitle')}</h1>
-		<a href="{base}/admin" class="btn btn-outline">{$t('admin.editor.backToList')}</a>
+		<a href="{base}/admin" class="btn btn-outline" data-testid="admin-settings-back-btn">{$t('admin.editor.backToList')}</a>
 	</div>
 
 	{#if loading}
@@ -76,41 +76,41 @@
 		<form onsubmit={handleSubmit} style="background: var(--theme-dynamic-card-bg); padding: 3rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
 			<div style="grid-column: span 2; display: flex; flex-direction: column; gap: 0.5rem;">
 				<label for="siteTitle">{$t('admin.editor.titleLabel')}</label>
-				<input type="text" id="siteTitle" bind:value={siteTitle} required style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="text" id="siteTitle" bind:value={siteTitle} required style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-title-input" />
 			</div>
 
 			<div style="display: flex; flex-direction: column; gap: 0.5rem;">
 				<h3 style="margin-bottom: 0.5rem; color: var(--color-deep-ocean);">{$t('admin.dashboard.contacts')}</h3>
 				<label for="phone">{$t('admin.dashboard.phone')}</label>
-				<input type="text" id="phone" bind:value={phone} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="text" id="phone" bind:value={phone} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-phone-input" />
 				
 				<label for="email" style="margin-top: 1rem;">Email</label>
-				<input type="email" id="email" bind:value={email} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="email" id="email" bind:value={email} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-email-input" />
 				
 				<label for="address" style="margin-top: 1rem;">{$t('admin.dashboard.address')}</label>
-				<input type="text" id="address" bind:value={address} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="text" id="address" bind:value={address} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-address-input" />
 			</div>
 
 			<div style="display: flex; flex-direction: column; gap: 0.5rem;">
 				<h3 style="margin-bottom: 0.5rem; color: var(--color-deep-ocean);">{$t('admin.dashboard.socials')}</h3>
 				<label for="facebook">{$t('admin.dashboard.facebook')}</label>
-				<input type="url" id="facebook" bind:value={facebookUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="url" id="facebook" bind:value={facebookUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-facebook-input" />
 				
 				<label for="instagram">{$t('admin.dashboard.instagram')}</label>
-				<input type="url" id="instagram" bind:value={instagramUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="url" id="instagram" bind:value={instagramUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-instagram-input" />
 				
 				<label for="telegram">{$t('admin.dashboard.telegram')}</label>
-				<input type="url" id="telegram" bind:value={telegramUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="url" id="telegram" bind:value={telegramUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-telegram-input" />
 
 				<label for="youtube">{$t('admin.dashboard.youtube')}</label>
-				<input type="url" id="youtube" bind:value={youtubeUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="url" id="youtube" bind:value={youtubeUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-youtube-input" />
 
 				<label for="tiktok">{$t('admin.dashboard.tiktok')}</label>
-				<input type="url" id="tiktok" bind:value={tiktokUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" />
+				<input type="url" id="tiktok" bind:value={tiktokUrl} style="padding: 1rem; border-radius: 12px; border: 1px solid #ddd;" data-testid="admin-settings-tiktok-input" />
 			</div>
 
 			<div style="grid-column: span 2; margin-top: 2rem;">
-				<button type="submit" disabled={saving} class="btn btn-primary" style="width: 100%; border: none; padding: 1.2rem;">
+				<button type="submit" disabled={saving} class="btn btn-primary" style="width: 100%; border: none; padding: 1.2rem;" data-testid="admin-settings-submit-btn">
 					{saving ? $t('admin.editor.saving') : $t('admin.editor.saveBtn')}
 				</button>
 			</div>

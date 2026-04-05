@@ -47,8 +47,8 @@
 	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
 		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.articles.title')}</h1>
 		<div style="display: flex; gap: 1rem;">
-			<a href="{base}/admin" class="btn btn-outline">{$t('admin.articles.backToPanel')}</a>
-			<a href="{base}/admin/articles/new" class="btn btn-primary">+ {$t('admin.articles.createBtn')}</a>
+			<a href="{base}/admin" class="btn btn-outline" data-testid="admin-articles-list-back-btn">{$t('admin.articles.backToPanel')}</a>
+			<a href="{base}/admin/articles/new" class="btn btn-primary" data-testid="admin-articles-list-create-btn">+ {$t('admin.articles.createBtn')}</a>
 		</div>
 	</div>
 
@@ -70,7 +70,7 @@
 				</thead>
 				<tbody>
 					{#each articles as article}
-						<tr style="border-bottom: 1px solid #f5f5f5;">
+						<tr style="border-bottom: 1px solid #f5f5f5;" data-testid="admin-articles-list-row-{article.id}">
 							<td style="padding: 1.5rem; font-weight: 600;">{article.translations?.uk?.title || 'No Title'}</td>
 							<td style="padding: 1.5rem;">{ARTICLE_CATEGORIES[article.category as ArticleCategory]?.uk || article.category}</td>
 							<td style="padding: 1.5rem;">{formatDate(article)}</td>
@@ -84,8 +84,8 @@
 							</td>
 							<td style="padding: 1.5rem; text-align: right;">
 								<div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-									<a href="{base}/admin/articles/{article.id}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;">{$t('admin.articles.edit')}</a>
-									   <button onclick={() => handleDelete(article.id)} class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem; color: var(--color-danger, #d32f2f); border: 1px solid var(--color-danger, #d32f2f); background: none; border-radius: 12px; cursor: pointer;">{$t('admin.articles.delete')}</button>
+									<a href="{base}/admin/articles/{article.id}" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.9rem;" data-testid="admin-articles-list-edit-{article.id}">{$t('admin.articles.edit')}</a>
+									   <button onclick={() => handleDelete(article.id)} class="btn" style="padding: 0.4rem 0.8rem; font-size: 0.9rem; color: var(--color-danger, #d32f2f); border: 1px solid var(--color-danger, #d32f2f); background: none; border-radius: 12px; cursor: pointer;" data-testid="admin-articles-list-delete-{article.id}">{$t('admin.articles.delete')}</button>
 								</div>
 							</td>
 						</tr>

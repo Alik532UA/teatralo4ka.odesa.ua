@@ -34,8 +34,8 @@
 					{/if}
 				</p>
 				<div class="error-actions">
-					<button onclick={reset}>Спробувати знову</button>
-					<button onclick={() => location.reload()}>Оновити сторінку</button>
+					<button onclick={reset} data-testid="error-boundary-reset-btn">Спробувати знову</button>
+					<button onclick={() => location.reload()} data-testid="error-boundary-reload-btn">Оновити сторінку</button>
 				</div>
 			</div>
 		</div>

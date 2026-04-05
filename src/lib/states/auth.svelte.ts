@@ -3,13 +3,14 @@ import { auth, db } from "../firebase/config";
 import { doc, getDoc } from "firebase/firestore";
 
 export interface UserProfile {
-  role: 'superadmin' | 'admin' | 'moderator';
+  role: 'superadmin' | 'admin' | 'moderator' | 'assistant';
   schoolId: string;
   permissions: {
     canCreate: boolean;
     canEdit: boolean;
     canDelete: boolean;
   };
+  email?: string;
 }
 
 class AuthService {
@@ -21,19 +22,34 @@ class AuthService {
     onAuthStateChanged(auth, async (u) => {
       this.user = u;
       if (u) {
+        let foundProfile: UserProfile | null = null;
+
+        // 1. Пробуємо за UID
         try {
-          // Завантажуємо профіль з Firestore
           const docRef = doc(db, "users", u.uid);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
-            this.profile = docSnap.data() as UserProfile;
-          } else {
-            this.profile = null;
+            foundProfile = docSnap.data() as UserProfile;
           }
         } catch (e) {
-          console.error("Помилка завантаження профілю:", e);
-          this.profile = null;
+          console.warn("Не вдалося завантажити профіль за UID (можливо, документа ще немає)");
         }
+
+        // 2. Пробуємо за Email (якщо за UID не знайшли)
+        if (!foundProfile && u.email) {
+          try {
+            const emailDocRef = doc(db, "users", u.email.toLowerCase());
+            const emailDocSnap = await getDoc(emailDocRef);
+            if (emailDocSnap.exists()) {
+              foundProfile = emailDocSnap.data() as UserProfile;
+              console.log("Профіль підхоплено за Email:", u.email);
+            }
+          } catch (e) {
+            console.error("Помилка доступу за Email (перевірте Firestore Rules):", e);
+          }
+        }
+
+        this.profile = foundProfile;
       } else {
         this.profile = null;
       }
@@ -46,7 +62,6 @@ class AuthService {
   }
 
   get isAuthorized() {
-    // Користувач авторизований, якщо у нього є профіль у цій системі
     return !!this.profile;
   }
 }

@@ -165,9 +165,10 @@
 						transform: translateX(calc(50% - 300px - {currentIndex * 620}px));
 						transition: {isTransitioning ? 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'};
 					"
+					data-testid="news-page-carousel-track"
 				>
 					{#each infiniteNews as item, i}
-						<article class="focus-card" class:is-active={currentIndex === i}>
+						<article class="focus-card" class:is-active={currentIndex === i} data-testid="news-page-card-{i}">
 							<div class="focus-card__img-wrap" style="background: linear-gradient(45deg, {item.color}, #fff)">
 								<PhotoIcon size={64} className="focus-card__placeholder" />
 							</div>
@@ -178,26 +179,27 @@
 								</div>
 								<h3 class="focus-card__title">{item.title}</h3>
 								<p class="focus-card__excerpt">{item.excerpt}</p>
-								<a href="{base}/news/{item.id}" class="btn-more">Читати далі →</a>
+								<a href="{base}/news/{item.id}" class="btn-more" data-testid="news-page-readmore-{i}">Читати далі →</a>
 							</div>
 						</article>
 					{/each}
 				</div>
 
 				{#if newsItems.length > 1}
-					<button class="nav-btn nav-btn--prev" onclick={prev} aria-label="Попередній слайд">←</button>
-					<button class="nav-btn nav-btn--next" onclick={next} aria-label="Наступний слайд">→</button>
+					<button class="nav-btn nav-btn--prev" onclick={prev} aria-label="Попередній слайд" data-testid="news-page-prev-btn">←</button>
+					<button class="nav-btn nav-btn--next" onclick={next} aria-label="Наступний слайд" data-testid="news-page-next-btn">→</button>
 				{/if}
 			</div>
 
 			{#if newsItems.length > 1}
-				<div class="focus-dots">
+				<div class="focus-dots" data-testid="news-page-dots">
 					{#each newsItems as _, i}
 						<button
 							class="f-dot"
 							class:active={(currentIndex - 1 + newsItems.length) % newsItems.length === i}
 							onclick={() => goTo(i)}
 							aria-label="Слайд {i + 1}"
+							data-testid="news-page-dot-{i}"
 						></button>
 					{/each}
 				</div>

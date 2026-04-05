@@ -30,8 +30,8 @@
 			<p>У вас немає прав для керування цим сайтом. Будь ласка, зверніться до головного адміністратора для отримання доступу.</p>
 			
 			<div class="denied-actions">
-				<a href="https://t.me/alik532" target="_blank" class="btn btn-primary">Написати адміністратору</a>
-				<button onclick={handleLogout} class="btn btn-outline">Вийти з акаунту</button>
+				<a href="https://t.me/alik532" target="_blank" class="btn btn-primary" data-testid="admin-access-denied-contact-btn">Написати адміністратору</a>
+				<button onclick={handleLogout} class="btn btn-outline" data-testid="admin-access-denied-logout-btn">Вийти з акаунту</button>
 			</div>
 		</div>
 	</section>

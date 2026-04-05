@@ -177,16 +177,17 @@
 			</div>
 		</div>
 
-		<div class="focus-viewport">
+		<div class="focus-viewport" data-testid="test-page-news-carousel">
 			<div
 				class="focus-track"
 				style="
 					transform: translateX(calc(50% - 300px - {currentIndex * 620}px));
 					transition: {isTransitioning ? 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'};
 				"
+				data-testid="test-page-news-track"
 			>
 				{#each infiniteNews as item, i}
-					<article class="focus-card" class:is-active={currentIndex === i}>
+					<article class="focus-card" class:is-active={currentIndex === i} data-testid="test-page-news-card-{i}">
 						<div class="focus-card__img-wrap" style="background: linear-gradient(45deg, {(item as any).color || '#eee'}, #fff)">
 							<PhotoIcon size={64} className="focus-card__placeholder" />
 						</div>
@@ -197,23 +198,24 @@
 							</div>
 							<h3 class="focus-card__title">{item.title}</h3>
 							<p class="focus-card__excerpt">Дізнайтеся більше про останні події, успіхи наших учнів та цікаві заходи у мистецькій школі.</p>
-							<a href={`${base}/news/${item.id}`} class="btn-more">Читати далі →</a>
+							<a href={`${base}/news/${item.id}`} class="btn-more" data-testid="test-page-news-readmore-{i}">Читати далі →</a>
 						</div>
 					</article>
 				{/each}
 			</div>
 
-			<button class="nav-btn nav-btn--prev" onclick={prev} aria-label="Попередній слайд">←</button>
-			<button class="nav-btn nav-btn--next" onclick={next} aria-label="Наступний слайд">→</button>
+			<button class="nav-btn nav-btn--prev" onclick={prev} aria-label="Попередній слайд" data-testid="test-page-news-prev-btn">←</button>
+			<button class="nav-btn nav-btn--next" onclick={next} aria-label="Наступний слайд" data-testid="test-page-news-next-btn">→</button>
 		</div>
 
-		<div class="focus-dots">
+		<div class="focus-dots" data-testid="test-page-news-dots">
 			{#each newsItems as _, i}
 				<button
 					class="f-dot"
 					class:active={(currentIndex - 1 + newsItems.length) % newsItems.length === i}
 					onclick={() => goTo(i)}
 					aria-label="Слайд {i + 1}"
+					data-testid="test-page-news-dot-{i}"
 				></button>
 			{/each}
 		</div>
@@ -240,11 +242,11 @@
 		<p class="g-showcase__subtitle">Сучасні та стильні шаблони у стилі сайту</p>
 
 		<!-- 1. Modern Bento Grid -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-bento-block">
 			<h3 class="g-block__title">1. Bento Grid (Адаптивна сітка)</h3>
-			<div class="g-bento">
+			<div class="g-bento" data-testid="test-page-gallery-bento-grid">
 				{#each galleryImages as img, i}
-					<div class="g-bento__item g-bento__item--{i}">
+					<div class="g-bento__item g-bento__item--{i}" data-testid="test-page-gallery-bento-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-bento__overlay">
 							<span class="g-bento__caption">{img.title}</span>
@@ -255,11 +257,11 @@
 		</div>
 
 		<!-- 2. Flex Accordion -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-accordion-block">
 			<h3 class="g-block__title">2. Flex-Акордеон (Інтерактивний)</h3>
-			<div class="g-accordion">
-				{#each galleryImages.slice(0, 5) as img}
-					<div class="g-accordion__item">
+			<div class="g-accordion" data-testid="test-page-gallery-accordion">
+				{#each galleryImages.slice(0, 5) as img, i}
+					<div class="g-accordion__item" data-testid="test-page-gallery-accordion-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-accordion__content">
 							<span class="g-accordion__title">{img.title}</span>
@@ -270,11 +272,11 @@
 		</div>
 
 		<!-- 3. Soft Cards Grid (News Style) -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-soft-cards-block">
 			<h3 class="g-block__title">3. Soft Cards (У стилі секції Новин)</h3>
-			<div class="g-cards">
-				{#each galleryImages as img}
-					<div class="g-card">
+			<div class="g-cards" data-testid="test-page-gallery-soft-cards-grid">
+				{#each galleryImages as img, i}
+					<div class="g-card" data-testid="test-page-gallery-soft-card-{i}">
 						<div class="g-card__img-wrap">
 							<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						</div>
@@ -288,11 +290,11 @@
 		</div>
 
 		<!-- 4. Asymmetric Focus -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-asym-block">
 			<h3 class="g-block__title">4. Асиметричний Фокус</h3>
-			<div class="g-asym">
+			<div class="g-asym" data-testid="test-page-gallery-asym-grid">
 				{#each galleryImages.slice(0, 3) as img, i}
-					<div class="g-asym__item g-asym__item--{i}">
+					<div class="g-asym__item g-asym__item--{i}" data-testid="test-page-gallery-asym-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-asym__label">{img.title}</div>
 					</div>
@@ -301,11 +303,11 @@
 		</div>
 
 		<!-- 5. Horizontal Snap Scroll -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-scroll-block">
 			<h3 class="g-block__title">5. Свайп-карусель (Snap Scroll)</h3>
-			<div class="g-scroll">
-				{#each [...galleryImages, ...galleryImages] as img}
-					<div class="g-scroll__item">
+			<div class="g-scroll" data-testid="test-page-gallery-scroll-container">
+				{#each [...galleryImages, ...galleryImages] as img, i}
+					<div class="g-scroll__item" data-testid="test-page-gallery-scroll-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-scroll__overlay">
 							<span class="g-scroll__title">{img.title}</span>
@@ -316,10 +318,10 @@
 		</div>
 
 		<!-- 6. Featured Hero Stack -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-hero-stack-block">
 			<h3 class="g-block__title">6. Hero Stack (Акцентна Галерея)</h3>
-			<div class="g-feat">
-				<div class="g-feat__main">
+			<div class="g-feat" data-testid="test-page-gallery-hero-stack">
+				<div class="g-feat__main" data-testid="test-page-gallery-hero-main">
 					<img src={galleryImages[0].src} alt={galleryImages[0].alt} loading="lazy" decoding="async" />
 					<div class="g-feat__main-info">
 						<span class="g-feat__tag">Популярне</span>
@@ -327,8 +329,8 @@
 					</div>
 				</div>
 				<div class="g-feat__side">
-					{#each galleryImages.slice(1, 4) as img}
-						<div class="g-feat__side-item">
+					{#each galleryImages.slice(1, 4) as img, i}
+						<div class="g-feat__side-item" data-testid="test-page-gallery-hero-side-{i}">
 							<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						</div>
 					{/each}
@@ -337,11 +339,11 @@
 		</div>
 
 		<!-- 7. Bento Grid 3:4 Proportions -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-bento-3x4-block">
 			<h3 class="g-block__title">7. Bento Grid (Пропорції 3:4)</h3>
-			<div class="g-bento-3x4">
-				{#each galleryImages as img}
-					<div class="g-bento-3x4__item">
+			<div class="g-bento-3x4" data-testid="test-page-gallery-bento-3x4-grid">
+				{#each galleryImages as img, i}
+					<div class="g-bento-3x4__item" data-testid="test-page-gallery-bento-3x4-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-bento-3x4__overlay">
 							<span class="g-bento-3x4__caption">{img.title}</span>
@@ -352,11 +354,11 @@
 		</div>
 
 		<!-- 8. Bento Grid 4:3 Proportions -->
-		<div class="g-block">
+		<div class="g-block" data-testid="test-page-gallery-bento-4x3-block">
 			<h3 class="g-block__title">8. Bento Grid (Пропорції 4:3)</h3>
-			<div class="g-bento-4x3">
-				{#each galleryImages as img}
-					<div class="g-bento-4x3__item">
+			<div class="g-bento-4x3" data-testid="test-page-gallery-bento-4x3-grid">
+				{#each galleryImages as img, i}
+					<div class="g-bento-4x3__item" data-testid="test-page-gallery-bento-4x3-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="g-bento-4x3__overlay">
 							<span class="g-bento-4x3__caption">{img.title}</span>
@@ -370,17 +372,17 @@
 </section>
 
 <!-- Gallery Section -->
-<section class="gallery-section" id="gallery-section">
+<section class="gallery-section" id="gallery-section" data-testid="test-page-standard-gallery-section">
 	<div class="container">
 		<h2 class="gallery-section__title">Галерея</h2>
 		<p class="gallery-section__subtitle">Різноманітні варіанти відображення галереї</p>
 
 		<!-- Gallery Template 1: Grid Layout -->
-		<div class="gallery-template-1">
+		<div class="gallery-template-1" data-testid="test-page-gallery-template-1">
 			<h3>Шаблон 1: Стандартна Сітка</h3>
 			<div class="gallery-grid">
 				{#each galleryImages as img, i}
-					<div class="gallery-item">
+					<div class="gallery-item" data-testid="test-page-gallery-template-1-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="gallery-caption">{img.title}</div>
 					</div>
@@ -389,11 +391,11 @@
 		</div>
 
 		<!-- Gallery Template 2: Dynamic Grid Layout -->
-		<div class="gallery-template-2">
+		<div class="gallery-template-2" data-testid="test-page-gallery-template-2">
 			<h3>Шаблон 2: Динамічна Сітка</h3>
 			<div class="gallery-dynamic-grid">
 				{#each galleryImages as img, i}
-					<div class="gallery-item-dynamic">
+					<div class="gallery-item-dynamic" data-testid="test-page-gallery-template-2-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="gallery-caption">{img.title}</div>
 					</div>
@@ -402,11 +404,11 @@
 		</div>
 
 		<!-- Gallery Template 3: Masonry Layout -->
-		<div class="gallery-template-3">
+		<div class="gallery-template-3" data-testid="test-page-gallery-template-3">
 			<h3>Шаблон 3: Колонки (Masonry Layout)</h3>
 			<div class="gallery-masonry">
 				{#each galleryImages as img, i}
-					<div class="gallery-item-masonry">
+					<div class="gallery-item-masonry" data-testid="test-page-gallery-template-3-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="gallery-caption">{img.title}</div>
 					</div>
@@ -415,11 +417,11 @@
 		</div>
 
 		<!-- Gallery Template 4: Minimalist Card List -->
-		<div class="gallery-template-4">
+		<div class="gallery-template-4" data-testid="test-page-gallery-template-4">
 			<h3>Шаблон 4: Мінімалістичний Список</h3>
 			<div class="gallery-minimal-list">
 				{#each galleryImages as img, i}
-					<div class="gallery-item-minimal">
+					<div class="gallery-item-minimal" data-testid="test-page-gallery-template-4-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="gallery-caption">{img.title}</div>
 					</div>
@@ -428,16 +430,16 @@
 		</div>
 
 		<!-- Gallery Template 5: Hero Image Gallery -->
-		<div class="gallery-template-5">
+		<div class="gallery-template-5" data-testid="test-page-gallery-template-5">
 			<h3>Шаблон 5: Галерея з Акцентом</h3>
 			<div class="gallery-hero">
-				<div class="gallery-hero-main">
+				<div class="gallery-hero-main" data-testid="test-page-gallery-template-5-main">
 					<img src={galleryImages[0].src} alt={galleryImages[0].alt} loading="lazy" decoding="async" />
 					<div class="gallery-caption">{galleryImages[0].title}</div>
 				</div>
 				<div class="gallery-hero-thumbnails">
 					{#each galleryImages.slice(1, 4) as img, i}
-						<div class="gallery-thumb">
+						<div class="gallery-thumb" data-testid="test-page-gallery-template-5-thumb-{i}">
 							<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						</div>
 					{/each}
@@ -446,11 +448,11 @@
 		</div>
 
 		<!-- Gallery Template 6: Overlay Caption -->
-		<div class="gallery-template-6">
+		<div class="gallery-template-6" data-testid="test-page-gallery-template-6">
 			<h3>Шаблон 6: Підписи при Наведенні</h3>
 			<div class="gallery-overlay-caption">
 				{#each galleryImages as img, i}
-					<div class="gallery-item-overlay">
+					<div class="gallery-item-overlay" data-testid="test-page-gallery-template-6-item-{i}">
 						<img src={img.src} alt={img.alt} loading="lazy" decoding="async" />
 						<div class="gallery-caption-overlay">{img.title}</div>
 					</div>

@@ -25,19 +25,19 @@
 	<div class="hero__content container">
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social">
-			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook">
+			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb">
 				<img src={`${base}/social_media/facebook-se-512-50.png`} alt="FB" />
 			</a>
-			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram">
+			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig">
 				<img src={`${base}/social_media/instagram-se-512-50.png`} alt="IG" />
 			</a>
-			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram">
+			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg">
 				<img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="TG" />
 			</a>
-			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube">
+			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt">
 				<img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YT" />
 			</a>
-			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok">
+			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt">
 				<img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TT" />
 			</a>
 		</div>

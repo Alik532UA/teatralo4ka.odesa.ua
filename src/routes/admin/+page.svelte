@@ -31,8 +31,7 @@
    <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="news-card">
     <h2 style="margin-bottom: 1rem;" data-testid="news-card-title">{$t('admin.dashboard.newsTitle')}</h2>
     <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="news-card-desc">{$t('admin.dashboard.newsDesc')}</p>
-    <div style="display: flex; gap: 1rem;" data-testid="news-card-actions">
-     <a href="{base}/admin/articles" class="btn btn-primary" data-testid="news-list-btn">{$t('admin.dashboard.listBtn')}</a>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="news-card-actions">     <a href="{base}/admin/articles" class="btn btn-primary" data-testid="news-list-btn">{$t('admin.dashboard.listBtn')}</a>
      <a href="{base}/admin/articles/new" class="btn btn-outline" data-testid="news-add-btn">+ {$t('admin.dashboard.addBtn')}</a>
     </div>
    </div>
