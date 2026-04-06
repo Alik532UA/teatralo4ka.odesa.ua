@@ -175,28 +175,28 @@
 				<a href="tel:+380487236304" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+38 048 723 63 04</strong>
+						<strong>+380487236304</strong>
 						<span>директор</span>
 					</div>
 				</a>
 				<a href="tel:+380487236101" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+38 048 723 61 01</strong>
+						<strong>+380487236101</strong>
 						<span>секретар</span>
 					</div>
 				</a>
 				<a href="tel:+380487233259" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+38 048 723 32 59</strong>
+						<strong>+380487233259</strong>
 						<span>завуч</span>
 					</div>
 				</a>
 				<a href="tel:+380487234203" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+38 048 723 42 03</strong>
+						<strong>+380487234203</strong>
 						<span>вахта</span>
 					</div>
 				</a>
