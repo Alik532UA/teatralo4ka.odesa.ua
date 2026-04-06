@@ -342,6 +342,13 @@
 			border-radius: 20px;
 		}
 
+		/* Центрування останньої картки, якщо кількість непарна */
+		.deps__card:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
+			width: calc(50% - 0.375rem); /* Половина ширини з урахуванням gap 0.75rem */
+			margin: 0 auto;
+		}
+
 		.deps__content {
 			padding: 1rem 0.5rem;
 			gap: 0.5rem;
