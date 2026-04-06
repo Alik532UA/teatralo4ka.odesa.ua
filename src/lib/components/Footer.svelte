@@ -175,28 +175,28 @@
 				<a href="tel:+380487236304" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+380487236304</strong>
+						<strong><span class="phone-desktop">+38 048 723 63 04</span><span class="phone-mobile">+380487236304</span></strong>
 						<span>директор</span>
 					</div>
 				</a>
 				<a href="tel:+380487236101" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+380487236101</strong>
+						<strong><span class="phone-desktop">+38 048 723 61 01</span><span class="phone-mobile">+380487236101</span></strong>
 						<span>секретар</span>
 					</div>
 				</a>
 				<a href="tel:+380487233259" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+380487233259</strong>
+						<strong><span class="phone-desktop">+38 048 723 32 59</span><span class="phone-mobile">+380487233259</span></strong>
 						<span>завуч</span>
 					</div>
 				</a>
 				<a href="tel:+380487234203" class="phone-item">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
-						<strong>+380487234203</strong>
+						<strong><span class="phone-desktop">+38 048 723 42 03</span><span class="phone-mobile">+380487234203</span></strong>
 						<span>вахта</span>
 					</div>
 				</a>
@@ -518,5 +518,11 @@
 			order: 4;
 			flex: 0 0 auto;
 		}
+	}
+
+	.phone-mobile { display: none; }
+	@media (max-width: 460px) {
+		.phone-desktop { display: none; }
+		.phone-mobile { display: inline; }
 	}
 </style>
