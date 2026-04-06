@@ -6,8 +6,10 @@
 	import EmailIcon from "./icons/EmailIcon.svelte";
 	import { base } from "$app/paths";
 	import { t } from "svelte-i18n";
+	import { Phone, X } from "lucide-svelte";
 
 	let isPianoOpen = $state(false);
+	let isPhonesModalOpen = $state(false);
 </script>
 
 <footer class="footer" id="main-footer" data-testid="footer-container">
@@ -55,9 +57,14 @@
 					<div class="footer__info-item">
 						<PhoneIcon className="footer__icon" size={18} />
 						<div>
-							<a href="tel:+380487236101" class="footer__link" data-testid="footer-phone-link"
-								>{$t("footer.phone")}</a
+							<button 
+								class="footer__link" 
+								style="background: none; border: none; padding: 0; cursor: pointer; font: inherit;"
+								onclick={() => (isPhonesModalOpen = true)}
+								data-testid="footer-phone-btn"
 							>
+								{$t("footer.phone")}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -152,7 +159,131 @@
 
 <PianoModal isOpen={isPianoOpen} onClose={() => (isPianoOpen = false)} />
 
+{#if isPhonesModalOpen}
+	<div class="modal-overlay" onclick={() => (isPhonesModalOpen = false)} role="button" tabindex="0" onkeydown={(e) => e.key === 'Escape' && (isPhonesModalOpen = false)}>
+		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title">
+			<div class="modal-header">
+				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
+					Контакти
+				</h2>
+				<button class="btn-close" aria-label="Закрити" onclick={() => (isPhonesModalOpen = false)}>
+					<X size={24} />
+				</button>
+			</div>
+			
+			<div class="phones-list">
+				<a href="tel:+380487236304" class="phone-item">
+					<div class="phone-icon-wrap"><Phone size={20} /></div>
+					<div class="phone-text">
+						<strong>+38 048 723 63 04</strong>
+						<span>директор</span>
+					</div>
+				</a>
+				<a href="tel:+380487236101" class="phone-item">
+					<div class="phone-icon-wrap"><Phone size={20} /></div>
+					<div class="phone-text">
+						<strong>+38 048 723 61 01</strong>
+						<span>секретар</span>
+					</div>
+				</a>
+				<a href="tel:+380487233259" class="phone-item">
+					<div class="phone-icon-wrap"><Phone size={20} /></div>
+					<div class="phone-text">
+						<strong>+38 048 723 32 59</strong>
+						<span>завуч</span>
+					</div>
+				</a>
+				<a href="tel:+380487234203" class="phone-item">
+					<div class="phone-icon-wrap"><Phone size={20} /></div>
+					<div class="phone-text">
+						<strong>+38 048 723 42 03</strong>
+						<span>вахта</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <style>
+	/* Phones Modal */
+	.modal-overlay {
+		position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+		background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+		display: flex; align-items: center; justify-content: center;
+		z-index: 1000; padding: 20px;
+	}
+	.phones-modal {
+		background: var(--theme-dynamic-card-bg, #ffffff);
+		border-radius: 24px; padding: 2.5rem;
+		max-width: 400px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+		display: flex; flex-direction: column; gap: 1.5rem;
+		color: var(--color-body-text);
+		border: 1px solid rgba(0,0,0,0.05);
+	}
+	:global(.dark-theme) .phones-modal {
+		background: var(--theme-dynamic-card-bg, #1a2a3a);
+		border-color: rgba(255,255,255,0.1);
+	}
+	.modal-header {
+		display: flex; justify-content: space-between; align-items: center;
+		margin-bottom: 0.5rem;
+	}
+	:global(.dark-theme) .modal-header h2 {
+		color: var(--color-dark-text) !important;
+	}
+	.btn-close {
+		background: none; border: none; color: inherit; cursor: pointer;
+		padding: 0.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+		transition: background 0.2s; opacity: 0.6;
+	}
+	.btn-close:hover { background: rgba(0,0,0,0.05); opacity: 1; }
+	:global(.dark-theme) .btn-close:hover { background: rgba(255,255,255,0.1); }
+	
+	.phones-list {
+		display: flex; flex-direction: column; gap: 1rem;
+	}
+	.phone-item {
+		display: flex; align-items: center; gap: 1.2rem;
+		padding: 1rem; border-radius: 16px; background: rgba(0,0,0,0.02);
+		text-decoration: none; color: inherit; transition: all 0.2s;
+		border: 1px solid transparent;
+	}
+	:global(.dark-theme) .phone-item {
+		background: rgba(255,255,255,0.03);
+	}
+	.phone-item:hover {
+		background: var(--color-white);
+		box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+		border-color: rgba(0,0,0,0.05);
+		transform: translateY(-2px);
+	}
+	:global(.dark-theme) .phone-item:hover {
+		background: rgba(255,255,255,0.05);
+		box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+		border-color: rgba(255,255,255,0.1);
+	}
+	.phone-icon-wrap {
+		width: 44px; height: 44px; border-radius: 12px;
+		background: var(--color-light-blue); color: var(--color-deep-ocean);
+		display: flex; align-items: center; justify-content: center;
+	}
+	:global(.dark-theme) .phone-icon-wrap {
+		background: rgba(255,255,255,0.1); color: var(--color-dark-text);
+	}
+	.phone-text {
+		display: flex; flex-direction: column; gap: 0.2rem;
+	}
+	.phone-text strong {
+		font-size: 1.1rem; color: var(--color-deep-ocean);
+	}
+	:global(.dark-theme) .phone-text strong {
+		color: var(--color-dark-text);
+	}
+	.phone-text span {
+		font-size: 0.85rem; opacity: 0.7; text-transform: uppercase; font-weight: 600;
+	}
+
 	.footer {
 		background: var(--color-white);
 		padding: var(--space-xl) 0;
