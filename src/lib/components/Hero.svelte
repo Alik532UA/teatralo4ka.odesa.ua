@@ -254,15 +254,37 @@
 		}
 
 		.hero__content {
-			grid-template-columns: 1fr;
+			display: flex;
+			flex-direction: column;
 			gap: var(--space-xl);
 			text-align: center;
+		}
+
+		.hero__text {
+			display: contents; /* Allows children to participate in flex layout */
+		}
+
+		.hero__title {
+			order: 1;
+			margin-bottom: 0;
+		}
+
+		.hero__image-wrap {
+			order: 2;
+		}
+
+		.hero__subtitle {
+			order: 3;
+			margin-top: 0;
+			margin-bottom: 0;
 		}
 
 		.hero__social {
 			position: static;
 			justify-content: center;
-			margin-bottom: var(--space-lg);
+			order: 4;
+			margin-top: var(--space-md);
+			margin-bottom: 0;
 		}
 
 		.hero__image {
