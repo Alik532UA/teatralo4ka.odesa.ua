@@ -738,21 +738,23 @@
 		z-index: 1000; padding: 20px;
 	}
 	.delete-modal {
-		background: white; border-radius: 24px; padding: 2.5rem;
-		max-width: 500px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+		background: var(--card-bg); border-radius: 24px; padding: 2.5rem;
+		max-width: 500px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
 		display: flex; flex-direction: column; gap: 1.5rem;
+		color: var(--text-main);
 	}
 	.modal-header { display: flex; align-items: center; gap: 1rem; color: #ef4444; font-size: 1.5rem; font-family: var(--font-heading); }
 	.delete-input {
-		padding: 1rem; border-radius: 12px; border: 2px solid #e2e8f0;
+		padding: 1rem; border-radius: 12px; border: 2px solid var(--card-border);
+		background: transparent; color: var(--text-main);
 		outline: none; transition: all 0.2s; font-size: 1.1rem; text-align: center;
 	}
 	.delete-input:focus { border-color: #ef4444; }
 	.modal-footer { display: flex; gap: 1rem; margin-top: 1rem; }
-	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid #e2e8f0; background: white; cursor: pointer; font-weight: 600; }
+	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-weight: 600; }
 	.btn-confirm-delete {
 		flex: 1; padding: 1rem; border-radius: 14px; border: none;
-		background: #e2e8f0; color: #a0aec0; cursor: not-allowed;
+		background: rgba(160, 174, 192, 0.2); color: #a0aec0; cursor: not-allowed;
 		font-weight: 700; transition: all 0.2s;
 	}
 	.btn-confirm-delete.is-ready { background: #ef4444; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }

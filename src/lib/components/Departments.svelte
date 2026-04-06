@@ -333,12 +333,36 @@
 	@media (max-width: 640px) {
 		.deps__grid,
 		.deps__grid--wide {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
 		}
 
 		.deps__card {
 			min-height: auto;
-			padding: 2rem;
+			border-radius: 20px;
+		}
+
+		.deps__content {
+			padding: 1rem 0.5rem;
+			gap: 0.5rem;
+		}
+
+		.deps__title {
+			font-size: 0.95rem;
+		}
+
+		.deps__desc {
+			font-size: 0.8rem;
+			display: -webkit-box;
+			-webkit-line-clamp: 3;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.deps__btn {
+			padding: 0.4rem 0.8rem;
+			font-size: 0.75rem;
+			border-radius: 10px;
 		}
 	}
 </style>
