@@ -34,7 +34,8 @@ const config = {
 				'/admission',
 				'/test'
 			],
-			handleHttpError: 'warn'
+			handleHttpError: 'warn',
+			handleUnseenRoutes: 'ignore'
 		}
 	}
 };

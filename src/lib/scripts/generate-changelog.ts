@@ -31,7 +31,11 @@ function generateChangelog() {
       changelog += '\n\n';
     });
 
-    const outputPath = path.join(process.cwd(), '.private', 'CHANGELOG_CONTENT.md');
+    const outDir = path.join(process.cwd(), '.private');
+    if (!fs.existsSync(outDir)) {
+      fs.mkdirSync(outDir, { recursive: true });
+    }
+    const outputPath = path.join(outDir, 'CHANGELOG_CONTENT.md');
     fs.writeFileSync(outputPath, changelog);
     console.log(`✅ Changelog generated at ${outputPath}`);
   } catch (error) {
