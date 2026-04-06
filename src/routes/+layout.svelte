@@ -141,7 +141,7 @@
 		url: SITE_FALLBACK_ORIGIN,
 		logo: `${SITE_FALLBACK_ORIGIN}${base}/logo-800px484px.png`,
 		description: safeT('seo.org.description', SEO_FALLBACK[activeLang].orgDescription),
-		telephone: '+38 048 723 81 10',
+		telephone: '+380 48 723 81 10',
 		email: 'dmsh-5odesa@ukr.net',
 		address: {
 			'@type': 'PostalAddress',
