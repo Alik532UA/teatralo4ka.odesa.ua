@@ -3,7 +3,7 @@
 	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc } from 'firebase/firestore';
+	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where } from 'firebase/firestore';
 	import { db } from '$lib/firebase/config';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
@@ -89,8 +89,16 @@
 	async function loadUsers() {
 		loading = true;
 		try {
-			const q = query(collection(db, 'users'), orderBy('email'));
+			let q;
+			if (isSuperAdmin) {
+				console.log('loadUsers: Loading ALL users (SuperAdmin mode)');
+				q = query(collection(db, 'users'), orderBy('email'));
+			} else {
+				console.log('loadUsers: Loading users for project:', DEFAULT_PROJECT_ID);
+				q = query(collection(db, 'users'), where('projectIds', 'array-contains', DEFAULT_PROJECT_ID));
+			}
 			const snapshot = await getDocs(q);
+			console.log('loadUsers: Fetched', snapshot.docs.length, 'users');
 			users = snapshot.docs.map(d => {
 				const data = d.data();
 
@@ -112,6 +120,7 @@
 					email: data.email, 
 					isSuperAdmin: data.isSuperAdmin,
 					projects: safeProjects,
+					projectIds: data.projectIds || Object.keys(safeProjects), // Fallback if missing
 					originalProjectsJson: JSON.stringify(safeProjects)
 				};
 			});
@@ -175,6 +184,7 @@
 							permissions: newUser.permissions
 						}
 					},
+					projectIds: [newUser.projectId],
 					lastModifiedProject: newUser.projectId,
 					createdAt: new Date().toISOString()
 				});
@@ -183,6 +193,7 @@
 				const updatedProjects = { ...existingUser.projects, [newUser.projectId]: { role: newUser.role, permissions: newUser.permissions } };
 				await updateDoc(userRef, {
 					projects: updatedProjects,
+					projectIds: Object.keys(updatedProjects),
 					lastModifiedProject: newUser.projectId
 				});
 			}
@@ -219,6 +230,7 @@
 			
 			await updateDoc(userRef, {
 				projects: updatedProjects,
+				projectIds: Object.keys(updatedProjects),
 				lastModifiedProject: projectId
 			});
 			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Права успішно оновлено');
@@ -244,7 +256,10 @@
 			const userRef = doc(db, 'users', user.id);
 			const updatedProjects = { ...user.projects };
 			delete updatedProjects[projectId];
-			await updateDoc(userRef, { projects: updatedProjects });
+			await updateDoc(userRef, { 
+				projects: updatedProjects,
+				projectIds: Object.keys(updatedProjects)
+			});
 			toast.success('Доступ видалено');
 			await loadUsers();
 		} catch (e) {

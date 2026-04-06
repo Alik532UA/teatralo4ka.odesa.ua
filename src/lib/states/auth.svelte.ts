@@ -79,6 +79,12 @@ class AuthService {
         if (foundByEmail && foundProfile) {
           try {
             console.log("Запуск міграції профілю Email -> UID...");
+            
+            // Ensure projectIds exists before migration to avoid rule failures if it was created before the architectural change
+            if (!foundProfile.projectIds && foundProfile.projects) {
+                foundProfile.projectIds = Object.keys(foundProfile.projects);
+            }
+            
             await setDoc(doc(db, "users", u.uid), foundProfile);
             await deleteDoc(emailDocRef);
             console.log("Міграція успішна!");
