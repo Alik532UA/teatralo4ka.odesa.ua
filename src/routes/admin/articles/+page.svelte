@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
+	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { deleteArticle, fetchAllArticles } from '$lib/services/admin-articles';
@@ -26,13 +27,14 @@
 	});
 
 	async function handleDelete(id: string | undefined) {
-		if (!id || !confirm(get(t)('admin.articles.deleteConfirm'))) return;
+		if (!id || !(await toast.confirm(get(t)('admin.articles.deleteConfirm')))) return;
 		try {
 			await deleteArticle(id);
 			articles = articles.filter(a => a.id !== id);
-		} catch (e) {
+			toast.success('Статтю видалено');
+		} catch (e: any) {
 			console.error(e);
-			alert(get(t)('admin.editor.errorUpdate'));
+			toast.error(e.message || get(t)('admin.editor.errorUpdate'));
 		}
 	}
 

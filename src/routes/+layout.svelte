@@ -2,6 +2,8 @@
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import DynamicBackground from '$lib/components/DynamicBackground.svelte';
+	import Toast from '$lib/components/ui/Toast.svelte';
+	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
 	import '$lib/styles/global.css';
 	import '$lib/i18n';
 	import { browser } from '$app/environment';
@@ -205,6 +207,9 @@
 		</main>
 		<Footer />
 	</div>
+
+	<Toast />
+	<ConfirmModal />
 {/await}
 
 <style>

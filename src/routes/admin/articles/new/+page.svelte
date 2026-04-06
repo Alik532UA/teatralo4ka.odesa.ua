@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
+	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { addArticle } from '$lib/services/admin-articles';
@@ -43,10 +44,11 @@
 				customDate,
 				translations
 			});
+			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Статтю створено');
 			goto(`${base}/admin/articles`);
-		} catch (e) {
+		} catch (e: any) {
 			console.error(e);
-			alert(get(t)('admin.editor.errorSave'));
+			toast.error(e.message || get(t)('admin.editor.errorSave'));
 		} finally {
 			loading = false;
 		}
@@ -143,15 +145,18 @@
 								{/if}
 							</div>
 							
-							<div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; cursor: pointer; color: var(--color-dark-text);">
-								<input 
-									type="checkbox" 
-									class="form-checkbox"
-									bind:checked={translations[lang as 'uk' | 'en'].isPublished} 
-									data-testid="admin-article-new-published-checkbox-{lang}"
-									onclick={(e) => e.stopPropagation()}
-								/>
-								<span>Публікувати цю версію</span>
+							<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.9rem; color: var(--color-dark-text);">
+								<span style="opacity: 0.7;">Статус публікації</span>
+								<label class="switch-label">
+									<input 
+										type="checkbox" 
+										class="switch-input"
+										bind:checked={translations[lang as 'uk' | 'en'].isPublished} 
+										data-testid="admin-article-new-published-checkbox-{lang}"
+										onclick={(e) => e.stopPropagation()}
+									/>
+									<span class="switch-slider"></span>
+								</label>
 							</div>
 						</div>
 					{/each}

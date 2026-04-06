@@ -1,43 +1,87 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
+	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc } from 'firebase/firestore';
 	import { db } from '$lib/firebase/config';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
-	import { Shield, School, CheckSquare, Save, ChevronLeft, User as UserIcon, AlertCircle, Users, GraduationCap, UserCog, UserCheck, UserPlus, X, Trash2 } from 'lucide-svelte';
+	import { get } from 'svelte/store';
+	import { Shield, School, Save, ChevronLeft, User as UserIcon, Users, GraduationCap, UserCog, UserCheck, UserPlus, X, Trash2, FolderKey, FileText, Key } from 'lucide-svelte';
 
-	// Отримуємо ID школи з оточення
-	const DEFAULT_SCHOOL_ID = import.meta.env.VITE_SCHOOL_ID || 'as5';
+	const DEFAULT_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
-	// Ієрархія ролей
-	const ROLE_HIERARCHY = [
-		{ id: 'superadmin', label: 'Супер-адмін', icon: Shield, color: '#ef4444' },
-		{ id: 'admin', label: 'Адмін школи', icon: School, color: '#3b82f6' },
-		{ id: 'moderator', label: 'Модератор', icon: UserCog, color: '#10b981' },
-		{ id: 'assistant', label: 'Помічник', icon: GraduationCap, color: '#f59e0b' }
+	const ROLES = [
+		{ id: 'admin', label: 'admin.users.projectAdmins', icon: School, color: '#3b82f6' },
+		{ id: 'moderator', label: 'admin.users.moderators', icon: UserCog, color: '#10b981' },
+		{ id: 'assistant', label: 'admin.users.assistants', icon: GraduationCap, color: '#f59e0b' }
 	];
 
 	let users = $state<any[]>([]);
 	let loading = $state(true);
 	let savingId = $state<string | null>(null);
 
-	// Стан для форми додавання
 	let showAddForm = $state(false);
 	let newUser = $state({
 		email: '',
 		role: 'assistant',
-		schoolId: DEFAULT_SCHOOL_ID,
+		projectId: DEFAULT_PROJECT_ID,
 		permissions: {
 			canCreate: true,
 			canEdit: true,
-			canDelete: false
+			canDelete: false,
+			canManageUsers: false
 		}
 	});
 
+	const isSuperAdmin = $derived(authService.profile?.isSuperAdmin === true);
+	const adminProjects = $derived(
+		isSuperAdmin 
+			? Object.keys(authService.profile?.projects || {}) 
+			: (authService.profile?.projects?.[DEFAULT_PROJECT_ID]?.permissions?.canManageUsers 
+				? [DEFAULT_PROJECT_ID] 
+				: [])
+	);
+
+	const groupedUsers = $derived.by(() => {
+		const groups = {
+			superadmin: [] as any[],
+			admin: [] as any[],
+			moderator: [] as any[],
+			assistant: [] as any[]
+		};
+
+		for (const user of users) {
+			// If superadmin - show all. If not - only users in the current project
+			if (isSuperAdmin || (user.projects && user.projects[DEFAULT_PROJECT_ID])) {
+				if (user.isSuperAdmin) {
+					groups.superadmin.push(user);
+				} else {
+					let highestRole = 'assistant';
+					// For superadmin, use the overall highest role.
+					// For project admin, use the role in the current project.
+					if (isSuperAdmin) {
+						for (const pData of Object.values(user.projects) as any[]) {
+							if (pData.role === 'admin') {
+								highestRole = 'admin';
+								break;
+							} else if (pData.role === 'moderator' && highestRole !== 'admin') {
+								highestRole = 'moderator';
+							}
+						}
+					} else {
+						highestRole = user.projects[DEFAULT_PROJECT_ID]?.role || 'assistant';
+					}
+					groups[highestRole as keyof typeof groups].push(user);
+				}
+			}
+		}
+		return groups;
+	});
+
 	$effect(() => {
-		if (!authService.loading && authService.profile?.role !== 'superadmin') {
+		if (!authService.loading && !isSuperAdmin && adminProjects.length === 0) {
 			goto(`${base}/admin`);
 		}
 	});
@@ -47,7 +91,30 @@
 		try {
 			const q = query(collection(db, 'users'), orderBy('email'));
 			const snapshot = await getDocs(q);
-			users = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+			users = snapshot.docs.map(d => {
+				const data = d.data();
+
+				// Ensure permissions exist to prevent undefined binding errors
+				const safeProjects = { ...data.projects };
+				for (const pid in safeProjects) {
+					if (!safeProjects[pid].permissions) {
+						safeProjects[pid].permissions = {
+							canCreate: false,
+							canEdit: false,
+							canDelete: false,
+							canManageUsers: false
+						};
+					}
+				}
+
+				return { 
+					id: d.id, 
+					email: data.email, 
+					isSuperAdmin: data.isSuperAdmin,
+					projects: safeProjects,
+					originalProjectsJson: JSON.stringify(safeProjects)
+				};
+			});
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -57,318 +124,406 @@
 
 	onMount(loadUsers);
 
-	async function addUser() {
+	function canManageProject(projectId: string, targetRole: string) {
+		if (isSuperAdmin) return true;
+
+		// Strict scope: only the current project
+		if (projectId !== DEFAULT_PROJECT_ID) return false;
+
+		// Check permissions in the current project
+		const myData = authService.profile?.projects?.[DEFAULT_PROJECT_ID];
+		if (!myData?.permissions?.canManageUsers) return false;
+
+		const myRole = myData.role;
+
+		// Superadmin cannot be managed by project admins
+		if (targetRole === 'superadmin') return false;
+
+		// Admin can manage moderators and assistants
+		if (myRole === 'admin' && (targetRole === 'moderator' || targetRole === 'assistant')) return true;
+
+		// Moderator can manage ONLY assistants
+		if (myRole === 'moderator' && targetRole === 'assistant') return true;
+
+		// Assistant cannot manage anyone (even if they have canManageUsers=true, it only grants visibility)
+		return false;
+	}
+	async function handleAddSubmit() {
 		const email = newUser.email.toLowerCase().trim();
 		if (!email.includes('@')) {
-			alert('Введіть коректний Email');
+			toast.error('Введіть коректний Email');
 			return;
 		}
 
-		// Перевірка на дублікат за Email
-		const exists = users.find(u => u.email.toLowerCase() === email);
-		if (exists) {
-			alert('Користувач із таким Email уже існує в системі');
+		if (!canManageProject(newUser.projectId, newUser.role)) {
+			toast.error('У вас немає прав надавати цей рівень доступу у цьому проєкті.');
 			return;
 		}
 
+		const existingUser = users.find(u => u.email.toLowerCase() === email);
 		savingId = 'new';
+		
 		try {
-			// ВИКОРИСТОВУЄМО EMAIL ЯК ID ДОКУМЕНТА (це критично для безпеки та пошуку без query)
-			const newDocRef = doc(db, 'users', email);
-			await setDoc(newDocRef, {
-				email: email,
-				role: newUser.role,
-				schoolId: newUser.schoolId,
-				permissions: newUser.permissions,
-				createdAt: new Date().toISOString()
-			});
+			if (!existingUser) {
+				const newDocRef = doc(db, 'users', email);
+				await setDoc(newDocRef, {
+					email: email,
+					isSuperAdmin: false,
+					projects: {
+						[newUser.projectId]: {
+							role: newUser.role,
+							permissions: newUser.permissions
+						}
+					},
+					lastModifiedProject: newUser.projectId,
+					createdAt: new Date().toISOString()
+				});
+			} else {
+				const userRef = doc(db, 'users', existingUser.id);
+				const updatedProjects = { ...existingUser.projects, [newUser.projectId]: { role: newUser.role, permissions: newUser.permissions } };
+				await updateDoc(userRef, {
+					projects: updatedProjects,
+					lastModifiedProject: newUser.projectId
+				});
+			}
 			
-			alert('Користувача успішно додано до системи. Тепер він може входити.');
+			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Користувача / Доступ успішно додано.');
 			showAddForm = false;
 			newUser.email = '';
 			await loadUsers();
 		} catch (e) {
 			console.error(e);
-			alert('Помилка при додаванні: ' + (e as Error).message);
+			toast.error('Помилка: ' + (e as Error).message);
 		} finally {
 			savingId = null;
 		}
 	}
 
-	async function updateUser(user: any) {
-		if (authService.user?.uid === user.id) {
-			alert('Ви не можете змінити власні права доступу з міркувань безпеки.');
+	async function updateProjectAccess(user: any, projectId: string) {
+		if (isSelf(user.id)) {
+			toast.error('Ви не можете змінити власні права.');
+			return;
+		}
+		const pData = user.projects[projectId];
+		if (!canManageProject(projectId, pData.role)) {
+			toast.error('У вас немає прав для зміни цього доступу.');
 			return;
 		}
 
-		savingId = user.id;
+		savingId = `${user.id}-${projectId}`;
 		try {
 			const userRef = doc(db, 'users', user.id);
+			const updatedProjects = { ...user.projects };
+			// Ensure we are assigning the reference directly to avoid dot-notation path parsing by Firestore
+			updatedProjects[projectId] = pData;
+			
 			await updateDoc(userRef, {
-				role: user.role,
-				schoolId: user.schoolId,
-				permissions: user.permissions
+				projects: updatedProjects,
+				lastModifiedProject: projectId
 			});
-			alert('Дані користувача оновлено успішно');
+			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Права успішно оновлено');
+			user.originalProjectsJson = JSON.stringify(user.projects);
 		} catch (e) {
 			console.error(e);
-			alert('Помилка при оновленні: ' + (e as Error).message);
+			toast.error('Помилка при оновленні: ' + (e as Error).message);
 		} finally {
 			savingId = null;
 		}
 	}
 
-	async function deleteUser(user: any) {
+	async function removeProjectAccess(user: any, projectId: string) {
 		if (isSelf(user.id)) return;
-		if (!confirm(`Ви впевнені, що хочете видалити доступ для ${user.email}?`)) return;
+		if (!canManageProject(projectId, user.projects[projectId].role)) {
+			toast.error('У вас немає прав для видалення цього доступу.');
+			return;
+		}
+		if (!(await toast.confirm(`Видалити доступ до проєкту ${projectId}?`))) return;
 
-		savingId = user.id;
+		savingId = `${user.id}-${projectId}`;
 		try {
-			await deleteDoc(doc(db, 'users', user.id));
+			const userRef = doc(db, 'users', user.id);
+			const updatedProjects = { ...user.projects };
+			delete updatedProjects[projectId];
+			await updateDoc(userRef, { projects: updatedProjects });
+			toast.success('Доступ видалено');
 			await loadUsers();
 		} catch (e) {
 			console.error(e);
-			alert('Помилка при видаленні');
+			toast.error('Помилка при видаленні');
 		} finally {
 			savingId = null;
 		}
 	}
 
-	// Групування користувачів за ролями для відображення ієрархії
-	const groupedUsers = $derived(() => {
-		const groups: Record<string, any[]> = {};
-		ROLE_HIERARCHY.forEach(role => groups[role.id] = []);
-		
-		users.forEach(u => {
-			if (groups[u.role]) groups[u.role].push(u);
-			else {
-				if (!groups['assistant']) groups['assistant'] = [];
-				groups['assistant'].push(u);
-			}
-		});
-		return groups;
-	});
+	// Delete Modal State
+	let deleteConfirmModal = $state<{ open: boolean, user: any | null }>({ open: false, user: null });
+	let deleteConfirmInput = $state('');
+
+	async function deleteFullUser(user: any) {
+		if (isSelf(user.id)) return;
+
+		const canDelete = isSuperAdmin || (user.projects[DEFAULT_PROJECT_ID] && canManageProject(DEFAULT_PROJECT_ID, user.projects[DEFAULT_PROJECT_ID].role));
+
+		if (!canDelete) {
+			toast.error('У вас немає прав для видалення цього користувача.');
+			return;
+		}
+
+		deleteConfirmModal = { open: true, user };
+		deleteConfirmInput = '';
+	}
+
+	async function handleModalDelete() {
+		if (deleteConfirmInput.toLowerCase() !== 'delete' || !deleteConfirmModal.user) return;
+
+		const user = deleteConfirmModal.user;
+		savingId = user.id;
+		deleteConfirmModal = { open: false, user: null };
+
+		try {
+			await deleteDoc(doc(db, 'users', user.id));
+			toast.success('Акаунт успішно видалено');
+			await loadUsers();
+		} catch (e) {
+			console.error(e);
+			toast.error('Помилка при видаленні');
+		} finally {
+			savingId = null;
+		}
+	}
 
 	function isSelf(userId: string) {
-		return userId === authService.user?.uid;
+		const currentUser = authService.user;
+		if (!currentUser) return false;
+		return userId === currentUser.uid || userId.toLowerCase() === currentUser.email?.toLowerCase();
 	}
 </script>
 
 <section class="admin-users container" style="padding: 120px 24px; max-width: 1400px; margin: 0 auto;">
-	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4rem;">
+	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
 		<div style="display: flex; align-items: center; gap: 1.5rem;">
 			<a href="{base}/admin" class="btn-back" title="Назад">
 				<ChevronLeft size={24} />
 			</a>
 			<div>
-				<h1 style="margin: 0; font-size: 2.5rem; font-family: var(--font-heading); color: var(--color-deep-ocean);">Керування ієрархією</h1>
-				<p style="margin: 0.5rem 0 0; opacity: 0.6; font-size: 1.1rem;">Налаштування доступів та ролей персоналу</p>
+				<h1 style="margin: 0; font-size: 2.5rem; font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.users.title')}</h1>
+				<p style="margin: 0.5rem 0 0; opacity: 0.6; font-size: 1.1rem;">{$t('admin.users.subtitle')}</p>
 			</div>
 		</div>
 		
 		<div style="display: flex; gap: 1rem;">
 			<button class="btn-add" onclick={() => showAddForm = !showAddForm}>
 				{#if showAddForm}
-					<X size={20} /> Скасувати
+					<X size={20} /> {$t('admin.users.cancel')}
 				{:else}
-					<UserPlus size={20} /> Додати користувача
+					<UserPlus size={20} /> {$t('admin.users.grantAccess')}
 				{/if}
 			</button>
 			<div class="stats-badge">
 				<Users size={20} />
-				<span>Всього: {users.length}</span>
+				<span>{$t('admin.users.total')}: {users.length}</span>
 			</div>
 		</div>
 	</div>
 
-	{#if showAddForm}
-		<div class="add-user-panel">
-			<h2 style="margin-top: 0; display: flex; align-items: center; gap: 1rem; color: white;">
-				<UserPlus /> Новий акаунт у системі
-			</h2>
-			<p style="opacity: 0.8; margin-bottom: 2.5rem;">Вкажіть email користувача, якого ви вже зареєстрували через Firebase Auth консоль.</p>
-			
-			<div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; align-items: start;">
-				<div class="form-group-white">
-					<label for="new-email">Email користувача</label>
-					<input type="email" id="new-email" bind:value={newUser.email} placeholder="example@email.com" />
-				</div>
-				
-				<div class="form-group-white">
-					<label for="new-role">Призначити ранг</label>
-					<select id="new-role" bind:value={newUser.role}>
-						{#each ROLE_HIERARCHY as r}
-							<option value={r.id}>{r.label}</option>
-						{/each}
-					</select>
-				</div>
-
-				<div class="form-group-white">
-					<label for="new-school">ID школи</label>
-					<input type="text" id="new-school" bind:value={newUser.schoolId} />
-				</div>
-			</div>
-
-			<div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
-				<div class="checkbox-group-white">
-					<label><input type="checkbox" bind:checked={newUser.permissions.canCreate} /> Створення</label>
-					<label><input type="checkbox" bind:checked={newUser.permissions.canEdit} /> Редагування</label>
-					<label><input type="checkbox" bind:checked={newUser.permissions.canDelete} /> Видалення</label>
-				</div>
-				<button 
-					class="btn-confirm-add" 
-					onclick={addUser} 
-					disabled={savingId === 'new' || !newUser.email}
-				>
-					{savingId === 'new' ? 'Створення...' : 'Підтвердити додавання'}
-				</button>
-			</div>
-		</div>
-	{/if}
-
 	{#if loading}
 		<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; gap: 1.5rem;">
 			<div class="loader"></div>
-			<p style="font-size: 1.1rem; opacity: 0.7;">Завантаження структури організації...</p>
+			<p style="font-size: 1.1rem; opacity: 0.7;">{$t('admin.dashboard.loading')}</p>
 		</div>
 	{:else}
-		<div class="hierarchy-container">
-			{#each ROLE_HIERARCHY as roleInfo, index}
-				{@const roleUsers = groupedUsers()[roleInfo.id] || []}
-				{#if roleUsers.length > 0 || index > 0} 
-					<div class="role-group" style="--role-color: {roleInfo.color}">
-						<div class="role-header">
-							<div class="role-icon-box">
-								<roleInfo.icon size={24} />
-							</div>
-							<div class="role-title-line">
-								<h2>{roleInfo.label}</h2>
-								<span class="count-tag">{roleUsers.length}</span>
-								<div class="line"></div>
-							</div>
-						</div>
-
-						{#if roleUsers.length > 0}
-							<div class="users-grid">
-								{#each roleUsers as user}
-									<div class="user-card {isSelf(user.id) ? 'is-self' : ''}" data-testid="admin-users-row-{user.id}">
-										{#if isSelf(user.id)}
-											<div class="self-tag">
-												<UserCheck size={14} /> ЦЕ ВИ (ЛИШЕ ПЕРЕГЛЯД)
-											</div>
-										{/if}
-
-										<div class="user-main-info">
-											<div class="user-avatar">
-												<UserIcon size={24} />
-											</div>
-											<div class="user-text">
-												<h3>{user.email}</h3>
-												<code>ID: {user.id}</code>
-											</div>
-										</div>
-
-										<div class="user-settings">
-											<div class="setting-item">
-												<label for="role-{user.id}">Ранг</label>
-												<select 
-													id="role-{user.id}" 
-													bind:value={user.role} 
-													disabled={isSelf(user.id)}
-													class="custom-select"
-												>
-													{#each ROLE_HIERARCHY as r}
-														<option value={r.id}>{r.label}</option>
-													{/each}
-												</select>
-											</div>
-
-											<div class="setting-item">
-												<label for="school-{user.id}">Прив'язка до школи</label>
-												<div class="input-with-icon">
-													<School size={16} />
-													<input 
-														id="school-{user.id}" 
-														type="text" 
-														bind:value={user.schoolId} 
-														disabled={isSelf(user.id)}
-														placeholder="Введіть ID школи"
-													/>
-												</div>
-											</div>
-
-											<div class="permissions-block">
-												<span class="group-title">Спеціальні дозволи</span>
-												<div class="checkbox-group">
-													<label class="custom-checkbox">
-														<input type="checkbox" bind:checked={user.permissions.canCreate} disabled={isSelf(user.id)} />
-														<span>Створення статей</span>
-													</label>
-													<label class="custom-checkbox">
-														<input type="checkbox" bind:checked={user.permissions.canEdit} disabled={isSelf(user.id)} />
-														<span>Редагування</span>
-													</label>
-													<label class="custom-checkbox">
-														<input type="checkbox" bind:checked={user.permissions.canDelete} disabled={isSelf(user.id)} />
-														<span>Видалення</span>
-													</label>
-												</div>
-											</div>
-										</div>
-
-										<div class="card-actions" style="display: flex; gap: 1rem;">
-											<button 
-												onclick={() => updateUser(user)} 
-												disabled={savingId === user.id || isSelf(user.id)}
-												class="btn-save {savingId === user.id ? 'loading' : ''}"
-												style="flex-grow: 1;"
-											>
-												{#if savingId === user.id}
-													<div class="mini-loader"></div>
-													...
-												{:else}
-													<Save size={18} />
-													Оновити
-												{/if}
-											</button>
-											
-											{#if !isSelf(user.id)}
-												<button 
-													onclick={() => deleteUser(user)} 
-													disabled={savingId === user.id}
-													class="btn-delete"
-													title="Видалити доступ"
-												>
-													<Trash2 size={18} />
-												</button>
-											{/if}
-										</div>
-									</div>
-								{/each}
-							</div>
-						{:else}
-							<div class="empty-role">
-								<p>У цій категорії поки немає користувачів</p>
-							</div>
-						{/if}
+		<div class="users-hierarchy">
+			{#if groupedUsers.superadmin.length > 0}
+				<div class="role-section">
+					<h2 class="role-title">
+						<Shield size={32} color="#ef4444" />
+						{$t('admin.users.superadmins')}
+					</h2>
+					<div class="users-grid">
+						{#each groupedUsers.superadmin as user}
+							{@render userCard(user)}
+						{/each}
 					</div>
-				{/if}
-			{/each}
+				</div>
+			{/if}
+
+			{#if groupedUsers.admin.length > 0}
+				<div class="role-section">
+					<h2 class="role-title">
+						<School size={32} color="#3b82f6" />
+						{$t('admin.users.projectAdmins')}
+					</h2>
+					<div class="users-grid">
+						{#each groupedUsers.admin as user}
+							{@render userCard(user)}
+						{/each}
+					</div>
+				</div>
+			{/if}
+
+			{#if groupedUsers.moderator.length > 0}
+				<div class="role-section">
+					<h2 class="role-title">
+						<UserCog size={32} color="#10b981" />
+						{$t('admin.users.moderators')}
+					</h2>
+					<div class="users-grid">
+						{#each groupedUsers.moderator as user}
+							{@render userCard(user)}
+						{/each}
+					</div>
+				</div>
+			{/if}
+
+			{#if groupedUsers.assistant.length > 0}
+				<div class="role-section">
+					<h2 class="role-title">
+						<GraduationCap size={32} color="#f59e0b" />
+						{$t('admin.users.assistants')}
+					</h2>
+					<div class="users-grid">
+						{#each groupedUsers.assistant as user}
+							{@render userCard(user)}
+						{/each}
+					</div>
+				</div>
+			{/if}
+		</div>
+	{/if}
+
+	{#if deleteConfirmModal.open}
+		<div class="modal-overlay" onclick={() => deleteConfirmModal = { open: false, user: null }}>
+			<div class="delete-modal" onclick={(e) => e.stopPropagation()}>
+				<div class="modal-header">
+					<Trash2 size={32} />
+					<span>{$t('admin.users.confirmDeleteTitle') || 'Підтвердження видалення'}</span>
+				</div>
+				<p style="font-size: 1.1rem; line-height: 1.6;">
+					{$t('admin.users.confirmDeleteText') || 'Ви впевнені, що хочете видалити акаунт'} 
+					<strong>{deleteConfirmModal.user?.email}</strong>? 
+					{$t('admin.users.confirmDeleteWarning') || 'Ця дія незворотна.'}
+				</p>
+				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+					<label for="delete-confirm" style="font-size: 0.9rem; opacity: 0.7;">
+						{$t('admin.users.typeDelete') || 'Введіть "delete" для підтвердження:'}
+					</label>
+					<input 
+						type="text" 
+						id="delete-confirm" 
+						class="delete-input" 
+						bind:value={deleteConfirmInput} 
+						placeholder="delete" 
+						autocomplete="off"
+					/>
+				</div>
+				<div class="modal-footer">
+					<button class="btn-cancel-modal" onclick={() => deleteConfirmModal = { open: false, user: null }}>
+						{$t('admin.users.cancel')}
+					</button>
+					<button 
+						class="btn-confirm-delete {deleteConfirmInput.toLowerCase() === 'delete' ? 'is-ready' : ''}" 
+						disabled={deleteConfirmInput.toLowerCase() !== 'delete'}
+						onclick={handleModalDelete}
+					>
+						{$t('admin.users.deleteBtn') || 'Видалити'}
+					</button>
+				</div>
+			</div>
 		</div>
 	{/if}
 </section>
+
+<!-- ===================== User Card (Modern Switches) ===================== -->
+{#snippet userCard(user: any)}
+	{@const hasChanges = JSON.stringify(user.projects) !== user.originalProjectsJson}
+	<div class="user-card v3-modern {isSelf(user.id) ? 'is-self' : ''} {hasChanges ? 'has-changes' : ''}" data-testid="admin-users-row-{user.id}">
+		{#if isSelf(user.id)}<div class="self-tag"><UserCheck size={14} /> {$t('admin.users.itsYou')}</div>{/if}
+		<div class="v3-header">
+			<div class="user-avatar" style={user.isSuperAdmin ? 'background: #ef4444; color: white;' : ''}>
+				{#if user.isSuperAdmin}<Shield size={24} />{:else}<UserIcon size={24} />{/if}
+			</div>
+			<div class="v3-user-info">
+				<h3>{user.email}</h3>
+				<code>ID: {user.id}</code>
+			</div>
+			<div style="display: flex; gap: 1rem; align-items: center;">
+				{#if hasChanges}
+					<span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
+				{/if}
+				{#if !isSelf(user.id) && user.projects[DEFAULT_PROJECT_ID] && canManageProject(DEFAULT_PROJECT_ID, user.projects[DEFAULT_PROJECT_ID].role)}
+					<button 
+						onclick={() => updateProjectAccess(user, DEFAULT_PROJECT_ID)} 
+						disabled={savingId === `${user.id}-${DEFAULT_PROJECT_ID}` || !hasChanges}
+						class="btn-save-small v3-header-save {hasChanges ? 'is-active' : ''}"
+					>
+						{#if savingId === `${user.id}-${DEFAULT_PROJECT_ID}`}...{:else}<Save size={18} /> {$t('admin.users.save')}{/if}
+					</button>
+				{/if}
+				{#if !isSelf(user.id) && (isSuperAdmin || (user.projects[DEFAULT_PROJECT_ID] && canManageProject(DEFAULT_PROJECT_ID, user.projects[DEFAULT_PROJECT_ID].role)))}
+					<button class="btn-delete-full" onclick={() => deleteFullUser(user)} title="Видалити акаунт">
+						<Trash2 size={18} />
+					</button>
+				{/if}
+			</div>
+		</div>
+
+		<div class="v3-projects">
+			{#if Object.keys(user.projects).length === 0}
+				<div class="v3-empty">{$t('admin.users.noProjects')}</div>
+			{/if}
+			{#each Object.entries(user.projects) as [projectId, pDataRaw]}
+				{@const pData = pDataRaw as any}
+				<div class="v3-project-row">
+					<div class="v3-left">
+						<div class="v3-project-title">
+							<strong>{projectId}</strong>
+							{#if !isSelf(user.id) && canManageProject(projectId, pData.role)}
+								<button class="btn-icon" onclick={() => removeProjectAccess(user, projectId)}><X size={14} /></button>
+							{/if}
+						</div>
+						<select bind:value={pData.role} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} class="form-select v3-select">
+							{#each ROLES as r}<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>{/each}
+						</select>
+					</div>
+					<div class="v3-right">
+						<div class="v3-switch-group">
+							<span class="v3-group-label">{$t('admin.users.permsContent')}</span>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canCreate} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.create')}</span>
+							</label>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canEdit} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.edit')}</span>
+							</label>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canDelete} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.delete')}</span>
+							</label>
+						</div>
+						<div class="v3-switch-group">
+							<span class="v3-group-label">{$t('admin.users.permsAdmin')}</span>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canManageUsers} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.manageUsers')}</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			{/each}
+		</div>
+	</div>
+{/snippet}
 
 <style>
 	:global(:root) {
 		--card-bg: var(--theme-dynamic-card-bg, #ffffff);
 		--card-border: rgba(0,0,0,0.05);
 		--text-main: var(--color-deep-ocean, #1a2a3a);
-	}
-
-	.hierarchy-container {
-		display: flex;
-		flex-direction: column;
-		gap: 4rem;
 	}
 
 	.add-user-panel {
@@ -399,21 +554,18 @@
 		color: white;
 		outline: none;
 	}
+	.add-user-panel select option { color: black; }
 
-	.add-user-panel select option {
-		color: black;
+	.perms-split {
+		display: flex; gap: 3rem;
 	}
 
-	.checkbox-group-white {
-		display: flex;
-		gap: 2rem;
+	.perms-group {
+		display: flex; gap: 1rem; align-items: center;
 	}
 
-	.checkbox-group-white label {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		cursor: pointer;
+	.perms-label {
+		opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;
 	}
 
 	.btn-confirm-add {
@@ -426,11 +578,7 @@
 		cursor: pointer;
 		transition: all 0.2s;
 	}
-
-	.btn-confirm-add:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-	}
+	.btn-confirm-add:disabled { opacity:0.5; }
 
 	.btn-add {
 		background: var(--color-ocean);
@@ -443,324 +591,163 @@
 		align-items: center;
 		gap: 0.7rem;
 		cursor: pointer;
-		transition: all 0.2s;
 	}
 
-	.btn-add:hover {
-		filter: brightness(1.1);
-	}
-
-	.role-group {
-		position: relative;
-	}
-
-	.role-header {
+	.users-hierarchy {
 		display: flex;
-		align-items: center;
-		gap: 1.5rem;
-		margin-bottom: 2rem;
+		flex-direction: column;
+		gap: 4rem;
 	}
 
-	.role-icon-box {
-		width: 56px;
-		height: 56px;
-		background: var(--role-color);
-		color: white;
-		border-radius: 16px;
+	.role-section {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: 0 8px 20px -5px var(--role-color);
+		flex-direction: column;
+		gap: 2rem;
 	}
 
-	.role-title-line {
+	.role-title {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		flex-grow: 1;
-	}
-
-	.role-title-line h2 {
+		font-family: var(--font-heading);
+		font-size: 2.2rem;
+		color: var(--color-deep-ocean);
 		margin: 0;
-		font-size: 1.5rem;
-		font-weight: 700;
-		color: var(--text-main);
-	}
-
-	.count-tag {
-		background: rgba(0,0,0,0.05);
-		padding: 0.2rem 0.8rem;
-		border-radius: 20px;
-		font-size: 0.9rem;
-		font-weight: 600;
-		opacity: 0.6;
-	}
-
-	.role-title-line .line {
-		height: 1px;
-		background: linear-gradient(90deg, rgba(0,0,0,0.1) 0%, transparent 100%);
-		flex-grow: 1;
+		padding-bottom: 1rem;
+		border-bottom: 2px solid rgba(0,0,0,0.05);
 	}
 
 	.users-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+		display: flex;
+		flex-direction: column;
 		gap: 2rem;
-		padding-left: 1.5rem;
-		border-left: 2px solid rgba(0,0,0,0.03);
 	}
 
 	.user-card {
 		background: var(--card-bg);
 		border-radius: 28px;
-		padding: 2rem;
+		padding: 0;
 		border: 1px solid var(--card-border);
 		box-shadow: 0 10px 40px rgba(0,0,0,0.03);
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		position: relative;
+		overflow: hidden;
 		transition: all 0.3s ease;
-		position: relative;
 	}
-
-	.user-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 20px 50px rgba(0,0,0,0.06);
-		border-color: var(--role-color);
-	}
-
-	.user-card.is-self {
-		background: rgba(0,0,0,0.01);
-		border-style: dashed;
-		opacity: 0.8;
-	}
-
+	.user-card.is-self { background: rgba(0,0,0,0.01); border-style: dashed; }
+	.user-card.has-changes { border: 2px solid #f97316 !important; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.15); }
+	
 	.self-tag {
-		position: absolute;
-		top: 1rem;
-		right: 1rem;
-		background: var(--text-main);
-		color: white;
-		padding: 0.3rem 0.8rem;
-		border-radius: 12px;
-		font-size: 0.7rem;
-		font-weight: 700;
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
+		position: absolute; top: 1rem; right: 4rem;
+		background: var(--text-main); color: white; padding: 0.3rem 0.8rem;
+		border-radius: 12px; font-size: 0.7rem; font-weight: 700;
+		display: flex; align-items: center; gap: 0.4rem;
+		z-index: 10;
 	}
-
-	.user-main-info {
-		display: flex;
-		align-items: center;
-		gap: 1.25rem;
-	}
-
 	.user-avatar {
-		width: 48px;
-		height: 48px;
-		background: rgba(0,0,0,0.05);
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--text-main);
+		width: 48px; height: 48px; background: rgba(0,0,0,0.05); border-radius: 50%;
+		display: flex; align-items: center; justify-content: center; color: var(--text-main);
 	}
 
-	.user-text h3 {
-		margin: 0;
-		font-size: 1.15rem;
-		word-break: break-all;
-	}
-
-	.user-text code {
-		font-size: 0.8rem;
-		opacity: 0.5;
-	}
-
-	.setting-item {
-		margin-bottom: 1.5rem;
-	}
-
-	.setting-item label {
-		display: block;
-		font-weight: 600;
-		font-size: 0.9rem;
-		margin-bottom: 0.6rem;
-		opacity: 0.7;
-	}
-
-	.custom-select, .input-with-icon input {
-		width: 100%;
-		padding: 0.8rem 1rem;
-		border-radius: 12px;
-		border: 1px solid rgba(0,0,0,0.1);
-		background: rgba(0,0,0,0.02);
-		font-size: 1rem;
-		outline: none;
-		transition: border-color 0.2s;
-	}
-
-	.input-with-icon {
-		position: relative;
-		display: flex;
-		align-items: center;
-	}
-
-	.input-with-icon :global(svg) {
-		position: absolute;
-		left: 1rem;
-		opacity: 0.4;
-	}
-
-	.input-with-icon input {
-		padding-left: 3rem;
-	}
-
-	.permissions-block {
-		margin-top: 1.5rem;
-	}
-
-	.group-title {
-		display: block;
-		font-weight: 600;
-		font-size: 0.9rem;
-		margin-bottom: 1rem;
-		opacity: 0.7;
-		color: var(--text-main);
-	}
-
-	.checkbox-group {
-		display: grid;
-		gap: 0.8rem;
-	}
-
-	.custom-checkbox {
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
-		cursor: pointer;
-		font-size: 0.95rem;
-	}
-
-	.custom-checkbox input {
-		width: 18px;
-		height: 18px;
-		accent-color: var(--role-color);
-	}
-
-	.btn-save {
-		padding: 1rem;
-		border-radius: 16px;
-		border: none;
-		background: var(--role-color);
-		color: white;
-		font-weight: 700;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.8rem;
-		cursor: pointer;
-		transition: all 0.2s;
-	}
-
-	.btn-save:disabled {
-		opacity: 0.3;
-		cursor: not-allowed;
-	}
-
-	.btn-save:not(:disabled):hover {
-		filter: brightness(1.1);
-		transform: translateY(-2px);
-		box-shadow: 0 8px 20px -5px var(--role-color);
-	}
+	/* V3 Modern Switches Layout Styles */
+	.v3-header { background: rgba(0,0,0,0.02); padding: 1.5rem 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; gap: 1.5rem; }
+	.v3-user-info { flex: 1; }
+	.v3-user-info h3 { margin: 0; font-size: 1.2rem; word-break: break-all; }
+	.v3-user-info code { opacity: 0.5; font-size: 0.85rem; }
+	.v3-projects { display: flex; flex-direction: column; }
+	.v3-project-row { display: flex; border-bottom: 1px solid rgba(0,0,0,0.03); padding: 1.5rem 2rem; gap: 3rem; }
+	.v3-project-row:last-child { border-bottom: none; }
+	.v3-empty { padding: 2rem; opacity: 0.5; text-align: center; }
+	.v3-left { width: 250px; display: flex; flex-direction: column; gap: 1rem; }
+	.v3-project-title { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; }
+	.v3-select { padding: 0.6rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); outline: none; }
+	.v3-save { padding: 0.8rem; border-radius: 12px; }
+	.v3-right { flex: 1; display: flex; gap: 3rem; }
+	.v3-switch-group { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
+	.v3-group-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.6; font-weight: 700; }
 	
-	.btn-delete {
-		width: 48px;
-		height: 48px;
-		border-radius: 16px;
-		border: 1px solid rgba(239, 68, 68, 0.2);
-		background: rgba(239, 68, 68, 0.05);
-		color: #ef4444;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		transition: all 0.2s;
-	}
-	
-	.btn-delete:hover {
-		background: #ef4444;
-		color: white;
-	}
-
-	.btn-back {
-		width: 48px;
-		height: 48px;
-		border-radius: 14px;
-		border: 1px solid rgba(0,0,0,0.1);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--text-main);
-		transition: all 0.2s;
-	}
-
-	.btn-back:hover {
-		background: rgba(0,0,0,0.05);
-	}
-
-	.stats-badge {
-		background: var(--text-main);
-		color: white;
-		padding: 0.6rem 1.2rem;
-		border-radius: 16px;
-		display: flex;
-		align-items: center;
-		gap: 0.8rem;
+	.unsaved-badge {
+		color: #f97316;
+		font-size: 0.85rem;
 		font-weight: 600;
+		animation: pulse 2s infinite;
 	}
 
-	.empty-role {
-		padding: 2rem;
-		background: rgba(0,0,0,0.02);
-		border-radius: 20px;
-		border: 1px dashed rgba(0,0,0,0.1);
-		text-align: center;
-		color: rgba(0,0,0,0.4);
-		margin-left: 1.5rem;
+	@keyframes pulse {
+		0% { opacity: 0.6; }
+		50% { opacity: 1; }
+		100% { opacity: 0.6; }
 	}
 
-	.loader {
-		width: 48px;
-		height: 48px;
-		border: 4px solid var(--color-ocean);
-		border-bottom-color: transparent;
-		border-radius: 50%;
-		animation: rotation 1s linear infinite;
+	/* Common UI Elements */
+	.btn-save-small { 
+		background: #e2e8f0; 
+		color: #94a3b8; 
+		border: none; 
+		padding: 0.5rem 1rem; 
+		border-radius: 8px; 
+		cursor: not-allowed; 
+		font-weight: 600; 
+		font-size: 0.9rem; 
+		display: flex; 
+		align-items: center; 
+		gap: 0.5rem; 
+		transition: all 0.2s; 
+		opacity: 0.7; 
 	}
+	.btn-save-small.is-active { 
+		background: #10b981 !important; 
+		color: white;
+		opacity: 1; 
+		cursor: pointer; 
+		box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); 
+	}
+	.btn-save-small.is-active:hover { transform: translateY(-1px); box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3); }
 
-	.mini-loader {
-		width: 18px;
-		height: 18px;
-		border: 2px solid white;
-		border-bottom-color: transparent;
-		border-radius: 50%;
-		animation: rotation 1s linear infinite;
-	}
+	.btn-icon { background: none; border: none; color: #ef4444; cursor: pointer; padding: 0.2rem; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+	.btn-icon:hover { background: rgba(239,68,68,0.1); }
+	.btn-delete-full { background: rgba(239,68,68,0.1); color: #ef4444; border: none; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+	.btn-delete-full:hover { background: #ef4444; color: white; }
+	.btn-back { width: 48px; height: 48px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: all 0.2s; }
+	.btn-back:hover { background: rgba(0,0,0,0.05); }
+	.stats-badge { background: var(--text-main); color: white; padding: 0.6rem 1.2rem; border-radius: 16px; display: flex; align-items: center; gap: 0.8rem; font-weight: 600; }
+	.loader { width: 48px; height: 48px; border: 4px solid var(--color-ocean); border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; }
+	@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-	@keyframes rotation {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
+	/* Modal Delete Confirmation */
+	.modal-overlay {
+		position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+		background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+		display: flex; align-items: center; justify-content: center;
+		z-index: 1000; padding: 20px;
 	}
+	.delete-modal {
+		background: white; border-radius: 24px; padding: 2.5rem;
+		max-width: 500px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+		display: flex; flex-direction: column; gap: 1.5rem;
+	}
+	.modal-header { display: flex; align-items: center; gap: 1rem; color: #ef4444; font-size: 1.5rem; font-family: var(--font-heading); }
+	.delete-input {
+		padding: 1rem; border-radius: 12px; border: 2px solid #e2e8f0;
+		outline: none; transition: all 0.2s; font-size: 1.1rem; text-align: center;
+	}
+	.delete-input:focus { border-color: #ef4444; }
+	.modal-footer { display: flex; gap: 1rem; margin-top: 1rem; }
+	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid #e2e8f0; background: white; cursor: pointer; font-weight: 600; }
+	.btn-confirm-delete {
+		flex: 1; padding: 1rem; border-radius: 14px; border: none;
+		background: #e2e8f0; color: #a0aec0; cursor: not-allowed;
+		font-weight: 700; transition: all 0.2s;
+	}
+	.btn-confirm-delete.is-ready { background: #ef4444; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 
 	@media (max-width: 900px) {
-		.users-grid {
-			grid-template-columns: 1fr;
-		}
-		
-		.user-card {
-			grid-template-columns: 1fr;
-		}
+		.v3-project-row { flex-direction: column; gap: 1.5rem; }
+		.v3-left { width: 100%; }
+		.v3-right { flex-direction: column; gap: 1.5rem; }
+		.perms-split { flex-direction: column; gap: 1.5rem; }
+		.add-user-panel { padding: 1.5rem; }
+		.add-user-panel > div { grid-template-columns: 1fr !important; }
 	}
 </style>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
+	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
@@ -50,7 +51,7 @@
 			if ((article as any).createdAt?.toDate) createdAtDate = (article as any).createdAt.toDate();
 			if ((article as any).updatedAt?.toDate) updatedAtDate = (article as any).updatedAt.toDate();
 		} else {
-			alert(get(t)('admin.editor.errorNotFound'));
+			toast.error(get(t)('admin.editor.errorNotFound'));
 			goto(`${base}/admin/articles`);
 		}
 		loading = false;
@@ -80,10 +81,11 @@
 				customDate,
 				translations
 			});
+			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Статтю оновлено');
 			goto(`${base}/admin/articles`);
-		} catch (e) {
+		} catch (e: any) {
 			console.error(e);
-			alert(get(t)('admin.editor.errorUpdate'));
+			toast.error(e.message || get(t)('admin.editor.errorUpdate'));
 		} finally {
 			saving = false;
 		}
@@ -186,17 +188,19 @@
 									{/if}
 								</div>
 
-								<div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; cursor: pointer; color: var(--color-dark-text);">
-									<input 
-										type="checkbox" 
-										class="form-checkbox"
-										bind:checked={translations[lang as 'uk' | 'en'].isPublished} 
-										data-testid="admin-article-edit-published-checkbox-{lang}"
-										onclick={(e) => e.stopPropagation()}
-									/>
-									<span>Публікувати цю версію</span>
-								</div>
-							</div>
+								<div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 0.9rem; color: var(--color-dark-text);">
+									<span style="opacity: 0.7;">Статус публікації</span>
+									<label class="switch-label">
+										<input 
+											type="checkbox" 
+											class="switch-input"
+											bind:checked={translations[lang as 'uk' | 'en'].isPublished} 
+											data-testid="admin-article-edit-published-checkbox-{lang}"
+											onclick={(e) => e.stopPropagation()}
+										/>
+										<span class="switch-slider"></span>
+									</label>
+								</div>							</div>
 
 						{/each}
 					</div>

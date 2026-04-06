@@ -32,10 +32,10 @@ export interface Article {
   };
 }
 
-const schoolId = import.meta.env.VITE_SCHOOL_ID;
+const projectId = import.meta.env.VITE_PROJECT_ID;
 
 export async function getArticleById(id: string) {
-  const docRef = doc(db, "schools", schoolId, "articles", id);
+  const docRef = doc(db, "projects", projectId, "articles", id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { id: docSnap.id, ...docSnap.data() } as Article;
@@ -44,7 +44,7 @@ export async function getArticleById(id: string) {
 }
 
 export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string) {
-  const articlesRef = collection(db, "schools", schoolId, "articles");
+  const articlesRef = collection(db, "projects", projectId, "articles");
   
   // Базовий запит (сортування за createdAt, бо це єдине поле, яке гарантовано є в усіх нових записах для індексу)
   let q = query(articlesRef, orderBy("createdAt", "desc"));

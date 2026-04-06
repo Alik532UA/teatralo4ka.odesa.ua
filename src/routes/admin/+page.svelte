@@ -16,6 +16,13 @@
 		await signOut(auth);
 		goto(`${base}/`);
 	}
+
+	const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
+
+	const canManageUsers = $derived(
+		authService.profile?.isSuperAdmin === true || 
+		authService.profile?.projects?.[PROJECT_ID]?.permissions?.canManageUsers === true
+	);
 </script>
 
 <section class="admin-dashboard container" style="padding: 160px 24px;" data-testid="admin-dashboard-container">
@@ -42,7 +49,7 @@
     <a href="{base}/admin/settings" class="btn btn-outline" data-testid="settings-btn">{$t('admin.dashboard.settingsBtn')}</a>
    </div>
 
-    {#if authService.profile?.role === 'superadmin'}
+    {#if canManageUsers}
      <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="users-card">
       <h2 style="margin-bottom: 1rem;" data-testid="users-card-title">{$t('admin.dashboard.usersTitle')}</h2>
       <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="users-card-desc">{$t('admin.dashboard.usersDesc')}</p>

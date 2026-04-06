@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/states/auth.svelte';
+	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { getSettings, updateSettings, type SiteSettings } from '$lib/services/settings';
@@ -54,10 +55,10 @@
 				youtubeUrl,
 				tiktokUrl
 			});
-			alert($t('admin.dashboard.saveSuccess'));
-		} catch (e) {
+			toast.success($t('admin.dashboard.saveSuccess') || 'Збережено успішно');
+		} catch (e: any) {
 			console.error(e);
-			alert($t('admin.editor.errorSave'));
+			toast.error(e.message || $t('admin.editor.errorSave'));
 		} finally {
 			saving = false;
 		}

@@ -16,42 +16,42 @@ import { auth, db } from "../firebase/config";
 import type { Article } from "./articles";
 import type { ArticleCategory } from "../config/categories";
 
-const SITE_SCHOOL_ID = import.meta.env.VITE_SCHOOL_ID;
+const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
-async function getSchoolId(): Promise<string> {
+async function getProjectId(): Promise<string> {
   const user = auth.currentUser;
   if (!user) throw new Error("Not authenticated");
 
   const token = await user.getIdTokenResult();
 
   if (token.claims?.role === "superadmin") {
-    return SITE_SCHOOL_ID;
+    return SITE_PROJECT_ID;
   }
 
-  const schoolId = token.claims?.schoolId as string | undefined;
-  if (!schoolId) {
-    console.warn("No schoolId in token claims, assuming single-tenant mode for backward compatibility or emulator");
-    return SITE_SCHOOL_ID; // Fallback for transition
+  const projectId = token.claims?.projectId as string | undefined;
+  if (!projectId) {
+    console.warn("No projectId in token claims, assuming single-tenant mode for backward compatibility or emulator");
+    return SITE_PROJECT_ID; // Fallback for transition
   }
   
-  if (schoolId !== SITE_SCHOOL_ID) {
-    throw new Error("Token schoolId does not match site schoolId");
+  if (projectId !== SITE_PROJECT_ID) {
+    throw new Error("Token projectId does not match site projectId");
   }
   
-  return schoolId;
+  return projectId;
 }
 
 export async function fetchAllArticles() {
-  const schoolId = await getSchoolId();
-  const articlesRef = collection(db, "schools", schoolId, "articles");
+  const projectId = await getProjectId();
+  const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
 }
 
 export async function getAdminArticleById(id: string) {
-  const schoolId = await getSchoolId();
-  const docRef = doc(db, "schools", schoolId, "articles", id);
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "articles", id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { id: docSnap.id, ...docSnap.data() } as Article;
@@ -60,32 +60,94 @@ export async function getAdminArticleById(id: string) {
 }
 
 export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updatedAt">) {
-  const schoolId = await getSchoolId();
-  
+  const projectId = await getProjectId();
+
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, '0');
   const dateId = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
-  
-  const docRef = doc(db, "schools", schoolId, "articles", dateId);
 
-  await setDoc(docRef, {
-    ...data,
+  const docRef = doc(db, "projects", projectId, "articles", dateId);
+
+  // Для сумісності з правилами Firestore isValidArticle:
+  // Правила очікують title, content, lang, isPublished на верхньому рівні
+  const ukData = data.translations?.uk || { title: 'No Title', content: '', isPublished: false };
+
+  const payloadToSave = {
+    // ТІЛЬКИ ті ключі, які дозволені в firestore.rules:
+    title: ukData.title || 'Untitled',
+    content: ukData.content || '',
+    category: data.category,
+    lang: 'uk',
     author: auth.currentUser?.displayName || auth.currentUser?.email || "Адміністрація",
+    isPublished: ukData.isPublished || false,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-  });
-  
+    // Додаткові поля, які були в data (translations, dateMode, customDate)
+    // ми повинні додати до правил, якщо хочемо їх зберігати!
+    // АБО тимчасово додаємо їх в базу і розширюємо правила. 
+    translations: data.translations,
+    dateMode: data.dateMode,
+    customDate: data.customDate
+  };
+
+  // DEBUG LOGS
+  console.log("=== FIRESTORE WRITE DEBUG ===");
+  console.log("Target Project ID:", projectId);
+  console.log("Current User UID:", auth.currentUser?.uid);
+  console.log("Payload keys:", Object.keys(payloadToSave));
+  console.log("Payload values (except content):", { ...payloadToSave, content: `[Length: ${payloadToSave.content.length}]` });
+  console.log("title length:", payloadToSave.title.length);
+  console.log("content length:", payloadToSave.content.length);
+  console.log("category length:", payloadToSave.category.length);
+  console.log("============================");
+
+  try {
+    await setDoc(docRef, payloadToSave);
+  } catch (error: any) {
+    console.error("Firestore setDoc Error in addArticle:", error);
+    if (error.code === 'permission-denied') {
+      throw new Error(`Недостатньо прав для публікації. Перевірте чи всі обов'язкові поля заповнені. Деталі: Title len: ${payloadToSave.title.length}, Content len: ${payloadToSave.content.length}`);
+    }
+    throw error;
+  }
+
   return docRef;
 }
 
 export async function updateArticle(articleId: string, data: Partial<Article>) {
-  const schoolId = await getSchoolId();
-  const ref = doc(db, "schools", schoolId, "articles", articleId);
-  return updateDoc(ref, { ...data, updatedAt: serverTimestamp() });
+  const projectId = await getProjectId();
+  const ref = doc(db, "projects", projectId, "articles", articleId);
+
+  const updatePayload: any = { ...data, updatedAt: serverTimestamp() };
+
+  // Якщо оновлюються переклади, треба оновити і кореневі поля для валідації
+  if (data.translations?.uk) {
+    updatePayload.title = data.translations.uk.title || 'Untitled';
+    updatePayload.content = data.translations.uk.content || '';
+    updatePayload.lang = 'uk';
+    updatePayload.isPublished = data.translations.uk.isPublished || false;
+  }
+
+  // DEBUG LOGS
+  console.log("=== FIRESTORE UPDATE DEBUG ===");
+  console.log("Target Project ID:", projectId);
+  console.log("Current User UID:", auth.currentUser?.uid);
+  console.log("Update Payload keys:", Object.keys(updatePayload));
+  console.log("==============================");
+
+  try {
+    return await updateDoc(ref, updatePayload);
+  } catch (error: any) {
+    console.error("Firestore updateDoc Error in updateArticle:", error);
+    if (error.code === 'permission-denied') {
+      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 5000 символів або чи не минуло менше 20 секунд з останнього редагування.");
+    }
+    throw error;
+  }
 }
 
 export async function deleteArticle(articleId: string) {
-  const schoolId = await getSchoolId();
-  const ref = doc(db, "schools", schoolId, "articles", articleId);
+  const projectId = await getProjectId();
+  const ref = doc(db, "projects", projectId, "articles", articleId);
   return deleteDoc(ref);
 }
