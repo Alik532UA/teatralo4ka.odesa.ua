@@ -28,9 +28,11 @@
 			toast.success(
 				"Електронну адресу скопійовано!",
 				6000,
-				"Написати листа",
-				() => {
-					window.location.href = `mailto:${email}`;
+				{
+					label: "Відкрити поштовий клієнт",
+					onAction: () => {
+						window.location.href = `mailto:${email}`;
+					}
 				}
 			);
 		});

@@ -2,9 +2,9 @@ import {
   doc, 
   getDoc, 
   setDoc,
-  Timestamp 
+  serverTimestamp 
 } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { auth, db } from "../firebase/config";
 
 export interface SiteSettings {
   siteTitle: string;
@@ -19,11 +19,29 @@ export interface SiteSettings {
   updatedAt: any;
 }
 
-const SETTINGS_DOC_ID = "global_settings";
-const COLLECTION_NAME = "settings";
+const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+
+async function getProjectId(): Promise<string> {
+  const user = auth.currentUser;
+  if (!user) throw new Error("Not authenticated");
+
+  const token = await user.getIdTokenResult();
+
+  if (token.claims?.role === "superadmin") {
+    return SITE_PROJECT_ID;
+  }
+
+  const projectId = token.claims?.projectId as string | undefined;
+  if (!projectId) {
+    return SITE_PROJECT_ID; 
+  }
+  
+  return projectId;
+}
 
 export async function getSettings(): Promise<SiteSettings | null> {
-  const docRef = doc(db, COLLECTION_NAME, SETTINGS_DOC_ID);
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "site");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnap.data() as SiteSettings;
@@ -32,9 +50,10 @@ export async function getSettings(): Promise<SiteSettings | null> {
 }
 
 export async function updateSettings(settings: Omit<SiteSettings, "updatedAt">) {
-  const docRef = doc(db, COLLECTION_NAME, SETTINGS_DOC_ID);
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "site");
   return await setDoc(docRef, {
     ...settings,
-    updatedAt: Timestamp.now()
+    updatedAt: serverTimestamp()
   });
 }

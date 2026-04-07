@@ -19,9 +19,11 @@
 			toast.success(
 				"Електронну адресу скопійовано до буфера обміну!",
 				6000,
-				"Відкрити пошту",
-				() => {
-					window.location.href = `mailto:${email}`;
+				{
+					label: "Відкрити поштовий клієнт",
+					onAction: () => {
+						window.location.href = `mailto:${email}`;
+					}
 				}
 			);
 		});
@@ -186,7 +188,7 @@
 		tabindex="0"
 		aria-label="Закрити модальне вікно"
 	>
-		<div class="phones-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0">
+		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0">
 			<div class="modal-header">
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
 					Контакти
@@ -489,12 +491,6 @@
 
 	.footer__link {
 		transition: color var(--transition-fast);
-		color: inherit;
-		background: none;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		font: inherit;
 	}
 
 	.footer__link:hover {

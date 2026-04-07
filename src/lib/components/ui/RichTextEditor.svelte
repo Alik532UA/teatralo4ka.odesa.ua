@@ -46,6 +46,11 @@
 	onMount(() => {
 		editor = new Editor({
 			element: element,
+			editorProps: {
+				attributes: {
+					'data-testid': `${testId}-content`
+				}
+			},
 			extensions: [
 				StarterKit.configure({
 					heading: {

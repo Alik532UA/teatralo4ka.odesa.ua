@@ -31,6 +31,6 @@ version: "1.0.0"
 3. Copy of the child's birth certificate
 4. Medical certificate from a doctor stating that there are no contraindications to additional loads.
 
-**Document submission:** from June 2 to June 25, 2025
-**Address:** 24 Sofiivska St, Odesa
-**Phones:** 048-723-63-04, 048-723-32-59
+**Document submission:** from June 2 to June 25, 2025  
+**Address:** [24 Sofiivska St, Odesa](https://maps.app.goo.gl/ya4gki6tuZv36Tjz8)  
+**Phones:** [+380 48 723 63 04](tel:+380487236304), [+380 48 723 32 59](tel:+380487233259)

@@ -24,21 +24,21 @@ async function getProjectId(): Promise<string> {
 
   const token = await user.getIdTokenResult();
 
+  // If superadmin, they can work with any project defined in env
   if (token.claims?.role === "superadmin") {
     return SITE_PROJECT_ID;
   }
 
-  const projectId = token.claims?.projectId as string | undefined;
-  if (!projectId) {
-    console.warn("No projectId in token claims, assuming single-tenant mode for backward compatibility or emulator");
-    return SITE_PROJECT_ID; // Fallback for transition
-  }
+  // If regular admin, they must have a projectId claim
+  const tokenProjectId = token.claims?.projectId as string | undefined;
   
-  if (projectId !== SITE_PROJECT_ID) {
-    throw new Error("Token projectId does not match site projectId");
+  if (tokenProjectId) {
+    return tokenProjectId;
   }
-  
-  return projectId;
+
+  // Fallback if no projectId in token (backward compatibility)
+  console.warn("No projectId in token claims, using SITE_PROJECT_ID");
+  return SITE_PROJECT_ID;
 }
 
 export async function fetchAllArticles() {
@@ -82,9 +82,8 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     isPublished: ukData.isPublished || false,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
+    coverUrl: ukData.coverUrl || '',
     // Додаткові поля, які були в data (translations, dateMode, customDate)
-    // ми повинні додати до правил, якщо хочемо їх зберігати!
-    // АБО тимчасово додаємо їх в базу і розширюємо правила. 
     translations: data.translations,
     dateMode: data.dateMode,
     customDate: data.customDate
@@ -126,6 +125,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
     updatePayload.content = data.translations.uk.content || '';
     updatePayload.lang = 'uk';
     updatePayload.isPublished = data.translations.uk.isPublished || false;
+    updatePayload.coverUrl = data.translations.uk.coverUrl || '';
   }
 
   // DEBUG LOGS
@@ -140,7 +140,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   } catch (error: any) {
     console.error("Firestore updateDoc Error in updateArticle:", error);
     if (error.code === 'permission-denied') {
-      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 5000 символів або чи не минуло менше 20 секунд з останнього редагування.");
+      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 50 000 символів або чи не минуло менше 20 секунд з останнього редагування.");
     }
     throw error;
   }

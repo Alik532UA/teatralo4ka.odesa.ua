@@ -17,6 +17,7 @@
 	let isTransitioning = $state(true);
 	let mounted = $state(false);
 	let loading = $state(true);
+	let isAnimating = $state(false);
 
 	const colors = ["#FF6B6B", "#4ECDC4", "#FFE66D", "#1A535C", "#F7FFF7", "#FF9F1C"];
 
@@ -47,7 +48,8 @@
 						date: dateStr,
 						category: categoryName,
 						excerpt: plainText.length > 150 ? plainText.slice(0, 150) + '...' : plainText,
-						color: colors[index % colors.length]
+						color: colors[index % colors.length],
+						coverUrl: translation.coverUrl || ''
 					};
 				});
 
@@ -73,32 +75,46 @@
 	});
 
 	function next() {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
+		if (isAnimating || infiniteNews.length <= 1) return;
+		isAnimating = true;
 		currentIndex++;
-		if (currentIndex >= infiniteNews.length - 1) {
-			setTimeout(() => {
-				isTransitioning = false;
-				currentIndex = 1;
-				setTimeout(() => (isTransitioning = true), 50);
-			}, 700);
-		}
 	}
 
 	function prev() {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
+		if (isAnimating || infiniteNews.length <= 1) return;
+		isAnimating = true;
 		currentIndex--;
-		if (currentIndex <= 0) {
-			setTimeout(() => {
-				isTransitioning = false;
-				currentIndex = infiniteNews.length - 2;
-				setTimeout(() => (isTransitioning = true), 50);
-			}, 700);
-		}
 	}
 
 	function goTo(i: number) {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
+		if (isAnimating || infiniteNews.length <= 1) return;
+		if (i + 1 === currentIndex) return; // вже на цьому слайді — не блокувати carousel
+		isAnimating = true;
 		currentIndex = i + 1;
+	}
+
+	function handleTransitionEnd(e: TransitionEvent) {
+		// Ігноруємо transitionend від дочірніх елементів (.focus-card transition: all),
+		// які спливають вгору і можуть спрацювати раніше ніж translateX треку
+		if (e.target !== e.currentTarget) return;
+		if (e.propertyName !== 'transform') return;
+		if (currentIndex >= infiniteNews.length - 1) {
+			isTransitioning = false;
+			currentIndex = 1;
+			requestAnimationFrame(() => requestAnimationFrame(() => {
+				isTransitioning = true;
+				isAnimating = false;
+			}));
+		} else if (currentIndex <= 0) {
+			isTransitioning = false;
+			currentIndex = infiniteNews.length - 2;
+			requestAnimationFrame(() => requestAnimationFrame(() => {
+				isTransitioning = true;
+				isAnimating = false;
+			}));
+		} else {
+			isAnimating = false;
+		}
 	}
 
 	$effect(() => {
@@ -137,19 +153,12 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <!-- News Section -->
-<div class="news-divider news-divider--top" aria-hidden="true" style="margin-top: 100px;">
-	<div class="news-divider__wave">
-		<Wave height={80} amplitude={15} frequency={5} speed={0.003} color="#005fae" strokeWidth={15} />
-	</div>
-</div>
-
-<section class="news" id="news-section" aria-labelledby="news-title">
+<section class="news" id="news-section" aria-labelledby="news-title" style="padding-top: 140px;">
 	<div class="container">
 		<div class="news__header">
 			<div class="news__title-group">
 				<h2 class="news__title" id="news-title">
 					НОВИНИ ТА ПОДІЇ
-					<BirdIcon className="news__title-bird" size={45} />
 				</h2>
 				<p class="news__subtitle">Будьте в курсі життя нашої школи</p>
 			</div>
@@ -166,11 +175,16 @@
 						transition: {isTransitioning ? 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' : 'none'};
 					"
 					data-testid="news-page-carousel-track"
+					ontransitionend={handleTransitionEnd}
 				>
 					{#each infiniteNews as item, i}
 						<article class="focus-card" class:is-active={currentIndex === i} data-testid="news-page-card-{i}">
-							<div class="focus-card__img-wrap" style="background: linear-gradient(45deg, {item.color}, #fff)">
+						<div class="focus-card__img-wrap" style={item.coverUrl ? '' : `background: linear-gradient(45deg, ${item.color}, var(--color-white))`}>
+							{#if item.coverUrl}
+								<img src={item.coverUrl} alt={item.title} class="focus-card__img" />
+							{:else}
 								<PhotoIcon size={64} className="focus-card__placeholder" />
+							{/if}
 							</div>
 							<div class="focus-card__content">
 								<div class="focus-card__meta">
@@ -210,41 +224,7 @@
 	</div>
 </section>
 
-<div class="news-divider news-divider--bottom" aria-hidden="true">
-	<div class="news-divider__wave">
-		<Wave height={100} amplitude={15} frequency={5} speed={0.003} color="#005fae" strokeWidth={15} />
-	</div>
-</div>
-
 <style>
-	.news-divider {
-		position: relative;
-		height: 80px;
-		z-index: 10;
-		background: linear-gradient(180deg, #ffffff 0%, var(--color-light-blue) 100%);
-	}
-
-	.news-divider--bottom {
-		height: 100px;
-		background: linear-gradient(180deg, var(--color-light-blue) 0%, #ffffff 100%);
-	}
-
-	.news-divider__wave {
-		position: absolute;
-		left: 0;
-		right: 0;
-		width: 100%;
-		line-height: 0;
-	}
-
-	.news-divider--top .news-divider__wave {
-		bottom: -1px;
-	}
-
-	.news-divider--bottom .news-divider__wave {
-		top: -1px;
-	}
-
 	.news {
 		background: var(--color-light-blue);
 		padding: 4rem 0 6rem;
@@ -292,7 +272,7 @@
 	.focus-card {
 		flex: 0 0 600px;
 		height: 400px;
-		background: white;
+		background: var(--color-white);
 		border-radius: 40px;
 		display: flex;
 		overflow: hidden;
@@ -315,6 +295,14 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
+		overflow: hidden;
+	}
+
+	.focus-card__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
 	:global(.focus-card__placeholder) {
@@ -350,7 +338,7 @@
 
 	.date {
 		font-size: 0.9rem;
-		color: #888;
+		color: var(--color-muted-text);
 		font-weight: 500;
 	}
 
@@ -398,7 +386,7 @@
 		width: 60px;
 		height: 60px;
 		border-radius: 50%;
-		background: white;
+		background: var(--color-white);
 		border: none;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
@@ -436,7 +424,7 @@
 		height: 6px;
 		border-radius: 3px;
 		border: none;
-		background: #cbd5e0;
+		background: var(--color-border);
 		cursor: pointer;
 		transition: all 0.3s ease;
 	}

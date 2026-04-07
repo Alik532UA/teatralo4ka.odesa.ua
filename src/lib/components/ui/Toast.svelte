@@ -23,15 +23,15 @@
 			</div>
 			<div class="toast-content">
 				<div class="toast-message">{msg.message}</div>
-				{#if msg.actionLabel && msg.onAction}
+				{#if msg.action}
 					<button 
 						class="toast-action" 
 						onclick={() => {
-							msg.onAction?.();
+							msg.action?.onAction();
 							toast.remove(msg.id);
 						}}
 					>
-						{msg.actionLabel}
+						{toast.getActionLabel(msg.action)}
 					</button>
 				{/if}
 			</div>

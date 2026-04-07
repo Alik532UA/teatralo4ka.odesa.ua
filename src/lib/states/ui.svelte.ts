@@ -5,6 +5,12 @@ class UIState {
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
+
+	get isMobile() {
+		if (typeof window === 'undefined') return false;
+		return window.innerWidth <= 768;
+	}
+
 	// Debug toggles
 	enableDynamicBackground = $state(true);
 	enableBlurEffect = $state(true);

@@ -17,7 +17,6 @@
 	let navRef: HTMLDivElement | null = $state(null);
 
 	function toggleSettings() {
-		// Toggle logic stays simple
 		settingsOpen = !settingsOpen;
 	}
 
@@ -148,7 +147,6 @@
 	</div>
 
 	<div class="header__bar" data-testid="header-bar">
-		<div class="header__left-placeholder"></div>
 		<div class="header__desktop-nav-group">
 			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="main-nav">
 				<ul class="header__nav-list" data-testid="nav-list">
@@ -181,7 +179,6 @@
 					class="header__burger header__burger--desktop"
 					class:open={navOpen}
 					onclick={toggleNav}
-					onmouseenter={() => { if (!navOpen) navOpen = true; }}
 					aria-label="Відкрити меню"
 					aria-expanded={navOpen}
 					data-testid="burger-menu-btn"
@@ -190,15 +187,7 @@
 				</button>
 
 				{#if navOpen}
-					<div 
-						class="header__nav-dropdown" 
-						data-testid="nav-dropdown" 
-						role="menu"
-						tabindex="-1"
-						in:fly={{ y: 10, duration: 200 }} 
-						out:fly={{ y: 10, duration: 150 }}
-						onmouseleave={closeNav}
-					>
+					<div class="header__nav-dropdown" data-testid="nav-dropdown" in:fly={{ y: 10, duration: 200 }} out:fly={{ y: 10, duration: 150 }}>
 						{#each mobileNavGroups as group, gIndex}
 							<div class="header__nav-dropdown-group" class:header__nav-dropdown-group--hidden={gIndex === 0}>
 								{#if group.title}
@@ -225,52 +214,62 @@
 								<div class="header__nav-dropdown-divider"></div>
 							{/if}
 						{/each}
+						
+						<!-- Desktop Settings Item in Menu -->
+						<div class="header__nav-dropdown-divider"></div>
+						<div class="header__nav-dropdown-group">
+							<button 
+								class="header__nav-dropdown-link"
+								onclick={(e) => { e.stopPropagation(); toggleSettings(); closeNav(); }}
+							>
+								<SettingsIcon size={18} />
+								<span>Налаштування</span>
+							</button>
+						</div>
 					</div>
 				{/if}
 			</div>
+		</div>
 
-			<!-- Desktop Settings Button (moved from dropdown) -->
-			<div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
-				<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
-					<SettingsIcon size={24} />
-				</button>
-				{#if settingsOpen}
-					<div class="header__settings-popover">
-						<div class="header__settings-dropdown" data-testid="settings-dropdown">
-							<div class="header__settings-group">
-								<span class="header__settings-label">{$t("settings.language")}</span>
-								<div class="header__settings-options">
-									<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
-									<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
-								</div>
-							</div>
-							<div class="header__settings-group">
-								<span class="header__settings-label">{$t("settings.theme")}</span>
-								<div class="header__settings-options">
-									<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "light") return; toggleTheme(); }}>{$t("settings.light")}</button>
-									<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "dark") return; toggleTheme(); }}>{$t("settings.dark")}</button>
-								</div>
+		<!-- Main Settings Container (Handles both desktop and mobile through context) -->
+		<div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
+			<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
+				<SettingsIcon size={24} />
+			</button>
+			{#if settingsOpen}
+				<div class="header__settings-popover" onmouseleave={closeSettings} role="presentation">
+					<div class="header__settings-dropdown" data-testid="settings-dropdown">
+						<div class="header__settings-group">
+							<span class="header__settings-label">{$t("settings.language")}</span>
+							<div class="header__settings-options">
+								<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
+								<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
 							</div>
 						</div>
-						<DebugSettingsDropdown isOpen={settingsOpen} />
+						<div class="header__settings-group">
+							<span class="header__settings-label">{$t("settings.theme")}</span>
+							<div class="header__settings-options">
+								<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "light") return; toggleTheme(); }}>{$t("settings.light")}</button>
+								<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "dark") return; toggleTheme(); }}>{$t("settings.dark")}</button>
+							</div>
+						</div>
 					</div>
-				{/if}
-			</div>
+					<DebugSettingsDropdown isOpen={settingsOpen} />
+				</div>
+			{/if}
 		</div>
 
-		<div class="header__actions-group">
-			<button
-				class="header__burger header__burger--mobile"
-				onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
-				aria-label="Відкрити меню"
-				aria-expanded={ui.isMenuOpen}
-				id="burger-menu"
-				data-testid="burger-menu-btn-mobile"
-			>
-				<span class="header__burger-text">МЕНЮ</span>
-				<Menu size={20} />
-			</button>
-		</div>
+		<button
+			class="header__burger header__burger--mobile"
+			onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
+			aria-label="Відкрити меню"
+			aria-expanded={ui.isMenuOpen}
+			id="burger-menu"
+			data-testid="burger-menu-btn-mobile"
+		>
+			<span class="header__burger-text">МЕНЮ</span>
+			<Menu size={20} />
+		</button>
 	</div>
 
 	{#if ui.isMenuOpen}
@@ -421,26 +420,14 @@
 	.header__bar {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: flex-end;
 		gap: var(--space-xl);
 		width: 100%;
-		padding: var(--space-lg) var(--space-xl) var(--space-lg) 0;
+		padding: var(--space-lg) var(--space-xl) var(--space-lg) 200px;
 		box-shadow: var(--shadow-sm);
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out both;
-		background: rgba(255, 255, 255, 0.7);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-	}
-
-	:global(.dark-theme) .header__bar {
-		background: rgba(15, 23, 42, 0.7);
-	}
-
-	.header__left-placeholder {
-		width: 200px;
-		flex-shrink: 0;
 	}
 
 	.header__desktop-nav-group {
@@ -449,15 +436,16 @@
 		justify-content: center;
 		gap: var(--space-xl);
 		flex: 1;
+		margin-right: 40px;
 	}
 
-	.header__actions-group {
-		width: 200px;
-		flex-shrink: 0;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-		gap: var(--space-sm);
+	.header__bar::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--color-white), transparent 30%);
+		backdrop-filter: blur(12px);
+		z-index: -1;
 	}
 
 	.scrolled .header__bar {
@@ -548,13 +536,21 @@
 	}
 
 	.header__nav-dropdown-link {
-		display: block;
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		width: 100%;
 		padding: var(--space-xs) var(--space-sm);
 		font-size: 0.9rem;
 		font-weight: 600;
 		color: var(--color-deep-ocean);
 		border-radius: var(--radius-sm);
 		transition: all var(--transition-fast);
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
+		text-transform: none;
 	}
 
 	.header__nav-dropdown-link:hover,
@@ -564,29 +560,10 @@
 		padding-left: var(--space-md);
 	}
 
-	.header__nav-settings-toggle {
-		display: flex;
-		align-items: center;
-		gap: var(--space-sm);
-		width: 100%;
-		border: none;
-		background: none;
-		cursor: pointer;
-		font-family: inherit;
-		text-transform: uppercase;
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-muted-text);
-		letter-spacing: 0.05em;
-	}
-
-	.header__nav-settings-toggle:hover {
-		color: var(--color-sea-blue);
-	}
-
 	.header__nav-dropdown-cta {
 		background: var(--color-sea-blue);
 		color: var(--color-white) !important;
+		justify-content: center;
 		text-align: center;
 		margin-bottom: var(--space-xs);
 	}
@@ -626,21 +603,16 @@
 		position: absolute;
 		top: 100%;
 		right: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
+		padding-top: 5px;
 		z-index: 330;
-		padding-top: 10px;
 	}
 
 	.header__settings-dropdown {
-		position: static;
 		width: 220px;
 		background: var(--color-white);
 		border-radius: var(--radius-lg);
 		box-shadow: var(--shadow-lg);
 		padding: var(--space-md);
-		z-index: 331;
 	}
 
 	.header__settings-group {
@@ -847,18 +819,33 @@
 	}
 
 	@media (max-width: 1024px) {
-		.header__left-placeholder, .header__actions-group { width: 160px; }
+		.header__bar { padding-left: 160px; }
 		.header__logo-area { left: 15px; }
 	}
 
-	@media (max-width: 768px) {
-		.header__nav, .header__cta, .header__burger--desktop {
+	@media (min-width: 1025px) {
+		.header__bar > .header__settings:not(.open) {
 			display: none;
 		}
-		.header__desktop-nav-group, .header__left-placeholder { display: none; }
+		
+		.header__bar > .header__settings.open {
+			position: absolute;
+			top: calc(100% + 5px);
+			right: var(--space-xl);
+		}
+
+		.header__bar > .header__settings.open .header__settings-btn {
+			display: none;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.header__nav, .header__cta, .header__burger--desktop, .header__bar > .header__settings {
+			display: none;
+		}
+		.header__desktop-nav-group { display: none; }
 		.header__burger--mobile { display: flex; }
-		.header__bar { justify-content: flex-end; }
-		.header__actions-group { width: auto; }
+		.header__bar { padding-left: 120px; }
 		.header__logo-area { top: 5px; left: 10px; transform: scale(1); }
 		.header__logo-area :global(.logo-svg) { width: 90px; height: 90px; }
 		.scrolled .header__logo-area { transform: scale(0.8); top: 0; }

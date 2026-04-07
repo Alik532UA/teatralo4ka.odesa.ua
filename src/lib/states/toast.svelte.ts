@@ -1,11 +1,17 @@
+import { ui } from './ui.svelte';
+
 export type ToastType = 'success' | 'error' | 'info';
+
+export interface ToastAction {
+	label: string | { mobile: string; desktop: string };
+	onAction: () => void;
+}
 
 export interface ToastMessage {
 	id: number;
 	type: ToastType;
 	message: string;
-	actionLabel?: string;
-	onAction?: () => void;
+	action?: ToastAction;
 }
 
 class ToastState {
@@ -18,25 +24,30 @@ class ToastState {
 
 	private nextId = 0;
 
-	add(type: ToastType, message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
+	add(type: ToastType, message: string, duration = 4000, action?: ToastAction) {
 		const id = this.nextId++;
-		this.messages.push({ id, type, message, actionLabel, onAction });
+		this.messages.push({ id, type, message, action });
 		
 		setTimeout(() => {
 			this.remove(id);
 		}, duration);
 	}
 
-	success(message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
-		this.add('success', message, duration, actionLabel, onAction);
+	success(message: string, duration = 4000, action?: ToastAction) {
+		this.add('success', message, duration, action);
 	}
 
-	error(message: string, duration = 5000, actionLabel?: string, onAction?: () => void) {
-		this.add('error', message, duration, actionLabel, onAction);
+	error(message: string, duration = 5000, action?: ToastAction) {
+		this.add('error', message, duration, action);
 	}
 
-	info(message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
-		this.add('info', message, duration, actionLabel, onAction);
+	info(message: string, duration = 4000, action?: ToastAction) {
+		this.add('info', message, duration, action);
+	}
+
+	getActionLabel(action: ToastAction): string {
+		if (typeof action.label === 'string') return action.label;
+		return ui.isMobile ? action.label.mobile : action.label.desktop;
 	}
 
 	remove(id: number) {

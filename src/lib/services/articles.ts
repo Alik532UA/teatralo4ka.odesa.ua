@@ -16,6 +16,7 @@ export interface ArticleTranslation {
   title: string;
   content: string;
   isPublished: boolean;
+  coverUrl?: string;
 }
 
 export interface Article {
@@ -46,11 +47,18 @@ export async function getArticleById(id: string) {
 export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string) {
   const articlesRef = collection(db, "projects", projectId, "articles");
   
-  // Базовий запит (сортування за createdAt, бо це єдине поле, яке гарантовано є в усіх нових записах для індексу)
-  let q = query(articlesRef, orderBy("createdAt", "desc"));
+  // Фільтр isPublished на рівні запиту обов'язковий для неавторизованих користувачів:
+  // Firestore перевіряє rule per-document під час list-запиту, і якщо хоча б один
+  // документ не проходить rule (resource.data.isPublished == true для анонімів) —
+  // весь запит падає з permission-denied.
+  let q = publishedOnly
+    ? query(articlesRef, where("isPublished", "==", true), orderBy("createdAt", "desc"))
+    : query(articlesRef, orderBy("createdAt", "desc"));
   
   if (category) {
-    q = query(articlesRef, where("category", "==", category), orderBy("createdAt", "desc"));
+    q = publishedOnly
+      ? query(articlesRef, where("isPublished", "==", true), where("category", "==", category), orderBy("createdAt", "desc"))
+      : query(articlesRef, where("category", "==", category), orderBy("createdAt", "desc"));
   }
 
   const snapshot = await getDocs(q);

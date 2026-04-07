@@ -3,7 +3,7 @@
 	import { toast } from '$lib/states/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where } from 'firebase/firestore';
+	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where, serverTimestamp } from 'firebase/firestore';
 	import { db } from '$lib/firebase/config';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
@@ -186,7 +186,7 @@
 					},
 					projectIds: [newUser.projectId],
 					lastModifiedProject: newUser.projectId,
-					createdAt: new Date().toISOString()
+					createdAt: serverTimestamp()
 				});
 			} else {
 				const userRef = doc(db, 'users', existingUser.id);
@@ -258,7 +258,8 @@
 			delete updatedProjects[projectId];
 			await updateDoc(userRef, { 
 				projects: updatedProjects,
-				projectIds: Object.keys(updatedProjects)
+				projectIds: Object.keys(updatedProjects),
+				lastModifiedProject: projectId
 			});
 			toast.success('Доступ видалено');
 			await loadUsers();
@@ -277,10 +278,11 @@
 	async function deleteFullUser(user: any) {
 		if (isSelf(user.id)) return;
 
-		const canDelete = isSuperAdmin || (user.projects[DEFAULT_PROJECT_ID] && canManageProject(DEFAULT_PROJECT_ID, user.projects[DEFAULT_PROJECT_ID].role));
+		// Firestore rules дозволяють delete тільки superadmin або самому собі (uid == userId)
+		const canDelete = isSuperAdmin;
 
 		if (!canDelete) {
-			toast.error('У вас немає прав для видалення цього користувача.');
+			toast.error('Видалення користувачів доступне тільки суперадміну.');
 			return;
 		}
 

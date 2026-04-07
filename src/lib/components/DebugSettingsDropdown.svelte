@@ -56,7 +56,7 @@
 						(bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
 					onclick={() => selectDynamicBackground(bg.id)}
 					style="text-align: left;"
-					data-testid={`debug-bg-btn-${i}`}
+					data-testid={`debug-bg-${i}-button`}
 				>
 					{bg.label()}
 				</button>
@@ -71,7 +71,7 @@
 				class="header__settings-opt"
 				class:active={!ui.enableBlurEffect}
 				onclick={() => ui.toggleBlurEffect()}
-				data-testid="debug-blur-off-btn"
+				data-testid="debug-blur-off-button"
 			>
 				Вимк
 			</button>
@@ -79,7 +79,7 @@
 				class="header__settings-opt"
 				class:active={ui.enableBlurEffect}
 				onclick={() => ui.toggleBlurEffect()}
-				data-testid="debug-blur-on-btn"
+				data-testid="debug-blur-on-button"
 			>
 				Вкл
 			</button>
