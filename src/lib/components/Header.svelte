@@ -12,17 +12,26 @@
 
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
+	let navOpen = $state(false);
 	let settingsRef: HTMLDivElement | null = $state(null);
+	let navRef: HTMLDivElement | null = $state(null);
 
 	function toggleSettings() {
-		if (ui.isMenuOpen) {
-			ui.closeMenu();
-		}
+		// Toggle logic stays simple
 		settingsOpen = !settingsOpen;
+	}
+
+	function toggleNav() {
+		if (settingsOpen) settingsOpen = false;
+		navOpen = !navOpen;
 	}
 
 	function closeSettings() {
 		settingsOpen = false;
+	}
+
+	function closeNav() {
+		navOpen = false;
 	}
 
 	function toggleTheme() {
@@ -33,25 +42,67 @@
 	async function changeLanguage(lang: string) {
 		if (ui.enableBlurEffect) {
 			ui.isLangChanging = true;
-			// Чекаємо повної тривалості блюру (0.3s) ДО зміни мови
 			await new Promise((r) => setTimeout(r, 300));
 		}
 
 		locale.set(lang);
 
 		if (ui.enableBlurEffect) {
-			// Даємо час на розчинення блюру
 			setTimeout(() => {
 				ui.isLangChanging = false;
 			}, 300);
 		}
 	}
 
-	const navItems = $derived([
+	interface NavItem {
+		label: string;
+		href: string;
+		type?: 'cta';
+	}
+
+	const navItems: NavItem[] = $derived([
 		{ label: $t("nav.home"), href: `${base}/` },
 		{ label: $t("nav.about"), href: `${base}/about` },
 		{ label: $t("nav.history"), href: `${base}/history` },
-		{ label: $t("nav.contests"), href: `${base}/competitions` },
+		{ label: $t("nav.contacts"), href: `${base}/contacts` },
+	]);
+
+	interface NavGroup {
+		title?: string;
+		items: NavItem[];
+	}
+
+	const mobileNavGroups: NavGroup[] = $derived([
+		{
+			items: [
+				{ label: $t("nav.admission"), href: `${base}/admission`, type: 'cta' },
+				{ label: $t("nav.home"), href: `${base}/` },
+				{ label: $t("nav.contacts"), href: `${base}/contacts` },
+				{ label: $t("nav.history"), href: `${base}/history` },
+			]
+		},
+		{
+			title: $t("nav.departments"),
+			items: [
+				{ label: $t("nav.theatre"), href: `${base}/departments/theatre` },
+				{ label: $t("nav.aesthetic"), href: `${base}/departments/aesthetic` },
+				{ label: $t("nav.music"), href: `${base}/departments/music` },
+				{ label: $t("nav.art"), href: `${base}/departments/art` },
+			]
+		},
+		{
+			title: $t("nav.residents"),
+			items: [
+				{ label: $t("nav.adults"), href: `${base}/residents/adults` },
+				{ label: $t("nav.kids"), href: `${base}/residents/kids` },
+				{ label: $t("nav.graduates"), href: `${base}/residents/graduates` },
+			]
+		},
+		{
+			items: [
+				{ label: $t("nav.projects"), href: `${base}/projects` },
+			]
+		}
 	]);
 
 	$effect(() => {
@@ -63,19 +114,16 @@
 	});
 
 	$effect(() => {
-		if (ui.isMenuOpen && settingsOpen) {
-			settingsOpen = false;
-		}
-	});
-
-	$effect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
 			if (settingsOpen && settingsRef && !settingsRef.contains(e.target as Node)) {
 				closeSettings();
 			}
+			if (navOpen && navRef && !navRef.contains(e.target as Node)) {
+				closeNav();
+			}
 		};
 
-		if (settingsOpen) {
+		if (settingsOpen || navOpen) {
 			document.addEventListener('mousedown', handleClickOutside);
 			return () => document.removeEventListener('mousedown', handleClickOutside);
 		}
@@ -87,159 +135,225 @@
 </a>
 
 <header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
-	   <div class="header__logo-area" data-testid="logo-area">
-		   <a
-			   href={`${base}/`}
-			   class="header__logo-link"
-			   aria-label="На головну"
-			   onclick={ui.closeMenu}
-			   data-testid="logo-link"
-		   >
-			   <Logo size="large" />
-		   </a>
-	   </div>
-
-	<div class="header__bar" data-testid="header-bar">
-		   <nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="main-nav">
-			   <ul class="header__nav-list" class:open={ui.isMenuOpen} data-testid="nav-list">
-				   {#each navItems as item, i}
-					   <li class="header__nav-item" data-testid={`nav-item-${i}`}> 
-						   <a
-							   href={item.href}
-							   class="header__nav-link"
-							   class:active={page.url.pathname === item.href}
-							   id={`nav-${item.href.replace('/', '') || 'home'}`}
-							   data-testid={`nav-link-${i}`}
-						   >
-							   {item.label}
-						   </a>
-					   </li>
-				   {/each}
-			   </ul>
-		   </nav>
-
-		   <a
-			   href={`${base}/admission`}
-			   class="btn btn-outline header__cta"
-			   id="header-cta"
-			   data-testid="admission-cta"
-		   >
-			   {$t("nav.admission")}
-		   </a>
-
-		   <div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
-			   <button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
-				   <SettingsIcon size={24} />
-			   </button>
-			   <div class="header__settings-dropdown" data-testid="settings-dropdown">
-				   <div class="header__settings-group" data-testid="settings-language-group">
-					   <span class="header__settings-label"
-						   >{$t("settings.language")}</span
-					   >
-					   <div class="header__settings-options" data-testid="settings-language-options">
-						   <button
-							   class="header__settings-opt"
-							   class:active={$locale === "uk"}
-							   onclick={() => changeLanguage("uk")}
-							   data-testid="lang-uk-btn"
-						   >UA</button
-						   >
-						   <button
-							   class="header__settings-opt"
-							   class:active={$locale === "en"}
-							   onclick={() => changeLanguage("en")}
-							   data-testid="lang-en-btn"
-						   >EN</button
-						   >
-					   </div>
-				   </div>
-				   <div class="header__settings-group" data-testid="settings-theme-group">
-					   <span class="header__settings-label"
-						   >{$t("settings.theme")}</span
-					   >
-					   <div class="header__settings-options" data-testid="settings-theme-options">
-						   <button
-							   class="header__settings-opt"
-							   class:active={ui.theme === "light"}
-							   onclick={() => {
-								   if (ui.theme === "dark") toggleTheme();
-							   }}
-							   data-testid="theme-light-btn"
-						   >{$t("settings.light")}</button
-						   >
-						   <button
-							   class="header__settings-opt"
-							   class:active={ui.theme === "dark"}
-							   onclick={() => {
-								   if (ui.theme === "light") toggleTheme();
-							   }}
-							   data-testid="theme-dark-btn"
-						   >{$t("settings.dark")}</button
-						   >
-					   </div>
-				   </div>
-			   </div>
-			   <DebugSettingsDropdown isOpen={settingsOpen} />
-		   </div>
-
-		   <button
-			   class="header__burger"
-			   onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
-			   aria-label="Відкрити меню"
-			   aria-expanded={ui.isMenuOpen}
-			   id="burger-menu"
-			   data-testid="burger-menu-btn"
-		   >
-			   <Menu size={24} />
-		   </button>
+	<div class="header__logo-area" data-testid="logo-area">
+		<a
+			href={`${base}/`}
+			class="header__logo-link"
+			aria-label="На головну"
+			onclick={ui.closeMenu}
+			data-testid="logo-link"
+		>
+			<Logo size="large" />
+		</a>
 	</div>
 
-	<!-- Mobile overlay menu -->
-	   {#if ui.isMenuOpen}
-		   <div
-			   class="header__mobile-overlay"
-			   role="dialog"
-			   aria-modal="true"
-			   in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
-			   out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
-			   data-testid="mobile-overlay"
-		   >
-			   <button
-				   class="header__mobile-close"
-				   onclick={ui.closeMenu}
-				   aria-label="Закрити меню"
-				   data-testid="mobile-close-btn"
-			   >
-				   <X size={24} />
-			   </button>
-			   <nav aria-label="Мобільне меню" data-testid="mobile-nav">
-				   <ul class="header__mobile-list" data-testid="mobile-nav-list">
-					   {#each navItems as item, i}
-						   <li data-testid={`mobile-nav-item-${i}`}>
-							   <a
-								   href={item.href}
-								   class="header__mobile-link"
-								   onclick={ui.closeMenu}
-								   data-testid={`mobile-nav-link-${i}`}
-							   >
-								   {item.label}
-							   </a>
-						   </li>
-					   {/each}
-					   <li data-testid="mobile-admission-item">
-						   <a
-							   href={`${base}/admission`}
-							   class="btn btn-primary header__mobile-cta"
-							   onclick={ui.closeMenu}
-							   data-testid="mobile-admission-btn"
-						   >
-							   {$t("nav.admission")}
-						   </a>
-					   </li>
-				   </ul>
-			   </nav>
-		   </div>
-	   {/if}
+	<div class="header__bar" data-testid="header-bar">
+		<div class="header__left-placeholder"></div>
+		<div class="header__desktop-nav-group">
+			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="main-nav">
+				<ul class="header__nav-list" data-testid="nav-list">
+					{#each navItems as item, i}
+						<li class="header__nav-item" data-testid={`nav-item-${i}`}> 
+							<a
+								href={item.href}
+								class="header__nav-link"
+								class:active={page.url.pathname === item.href}
+								data-testid={`nav-link-${i}`}
+							>
+								{item.label}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</nav>
+
+			<a
+				href={`${base}/admission`}
+				class="btn btn-outline header__cta"
+				id="header-cta"
+				data-testid="admission-cta"
+			>
+				{$t("nav.admission")}
+			</a>
+
+			<div class="header__nav-manager" bind:this={navRef} data-testid="header-nav-manager">
+				<button
+					class="header__burger header__burger--desktop"
+					class:open={navOpen}
+					onclick={toggleNav}
+					onmouseenter={() => { if (!navOpen) navOpen = true; }}
+					aria-label="Відкрити меню"
+					aria-expanded={navOpen}
+					data-testid="burger-menu-btn"
+				>
+					<Menu size={24} />
+				</button>
+
+				{#if navOpen}
+					<div 
+						class="header__nav-dropdown" 
+						data-testid="nav-dropdown" 
+						role="menu"
+						tabindex="-1"
+						in:fly={{ y: 10, duration: 200 }} 
+						out:fly={{ y: 10, duration: 150 }}
+						onmouseleave={closeNav}
+					>
+						{#each mobileNavGroups as group, gIndex}
+							<div class="header__nav-dropdown-group" class:header__nav-dropdown-group--hidden={gIndex === 0}>
+								{#if group.title}
+									<span class="header__nav-dropdown-label">{group.title}</span>
+								{/if}
+								<ul class="header__nav-dropdown-list">
+									{#each group.items as item, i}
+										<li>
+											<a 
+												href={item.href} 
+												class="header__nav-dropdown-link" 
+												class:header__nav-dropdown-cta={item.type === 'cta'}
+												class:active={page.url.pathname === item.href}
+												onclick={closeNav}
+												data-testid={`nav-dropdown-link-${gIndex}-${i}`}
+											>
+												{item.label}
+											</a>
+										</li>
+									{/each}
+								</ul>
+							</div>
+							{#if gIndex < mobileNavGroups.length - 1 && gIndex !== 0}
+								<div class="header__nav-dropdown-divider"></div>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+			</div>
+
+			<!-- Desktop Settings Button (moved from dropdown) -->
+			<div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
+				<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
+					<SettingsIcon size={24} />
+				</button>
+				{#if settingsOpen}
+					<div class="header__settings-popover">
+						<div class="header__settings-dropdown" data-testid="settings-dropdown">
+							<div class="header__settings-group">
+								<span class="header__settings-label">{$t("settings.language")}</span>
+								<div class="header__settings-options">
+									<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
+									<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
+								</div>
+							</div>
+							<div class="header__settings-group">
+								<span class="header__settings-label">{$t("settings.theme")}</span>
+								<div class="header__settings-options">
+									<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "light") return; toggleTheme(); }}>{$t("settings.light")}</button>
+									<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "dark") return; toggleTheme(); }}>{$t("settings.dark")}</button>
+								</div>
+							</div>
+						</div>
+						<DebugSettingsDropdown isOpen={settingsOpen} />
+					</div>
+				{/if}
+			</div>
+		</div>
+
+		<div class="header__actions-group">
+			<button
+				class="header__burger header__burger--mobile"
+				onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
+				aria-label="Відкрити меню"
+				aria-expanded={ui.isMenuOpen}
+				id="burger-menu"
+				data-testid="burger-menu-btn-mobile"
+			>
+				<span class="header__burger-text">МЕНЮ</span>
+				<Menu size={20} />
+			</button>
+		</div>
+	</div>
+
+	{#if ui.isMenuOpen}
+		<div
+			class="header__mobile-overlay"
+			role="dialog"
+			aria-modal="true"
+			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
+			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
+			data-testid="mobile-overlay"
+		>
+			<div class="header__mobile-controls">
+				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
+					<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
+						<SettingsIcon size={24} />
+					</button>
+					{#if settingsOpen}
+						<div class="header__settings-popover">
+							<div class="header__settings-dropdown">
+								<div class="header__settings-group">
+									<span class="header__settings-label">{$t("settings.language")}</span>
+									<div class="header__settings-options">
+										<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
+										<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
+									</div>
+								</div>
+								<div class="header__settings-group">
+									<span class="header__settings-label">{$t("settings.theme")}</span>
+									<div class="header__settings-options">
+										<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "dark") toggleTheme(); }}>{$t("settings.light")}</button>
+										<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "light") toggleTheme(); }}>{$t("settings.dark")}</button>
+									</div>
+								</div>
+							</div>
+							<DebugSettingsDropdown isOpen={settingsOpen} />
+						</div>
+					{/if}
+				</div>
+
+				<button
+					class="header__mobile-close"
+					onclick={ui.closeMenu}
+					aria-label="Закрити меню"
+					data-testid="mobile-close-btn"
+				>
+					<X size={24} />
+				</button>
+			</div>
+
+			<nav aria-label="Мобільне меню" data-testid="mobile-nav" class="header__mobile-nav">
+				<div class="header__mobile-container">
+					<ul class="header__mobile-list" data-testid="mobile-nav-list">
+						{#each mobileNavGroups as group, gIndex}
+							<li class="header__mobile-group">
+								{#if group.title}
+									<h3 class="header__mobile-group-title">{group.title}</h3>
+								{/if}
+								<ul class="header__mobile-sublist">
+									{#each group.items as item, i}
+										<li data-testid={`mobile-nav-item-${gIndex}-${i}`}>
+											<a
+												href={item.href}
+												class="header__mobile-link"
+												class:header__mobile-cta={item.type === 'cta'}
+												class:active={page.url.pathname === item.href}
+												onclick={ui.closeMenu}
+												data-testid={`mobile-nav-link-${gIndex}-${i}`}
+											>
+												{item.label}
+											</a>
+										</li>
+									{/each}
+								</ul>
+								{#if gIndex < mobileNavGroups.length - 1}
+									<div class="header__mobile-divider"></div>
+								{/if}
+							</li>
+						{/each}
+					</ul>
+				</div>
+			</nav>
+		</div>
+	{/if}
 </header>
 
 <style>
@@ -274,7 +388,6 @@
 		transition: all var(--transition-base);
 	}
 
-	/* Logo area — positioned to the left, overlapping like in reference */
 	.header__logo-area {
 		position: absolute;
 		top: 15px;
@@ -300,43 +413,57 @@
 		left: 20px;
 	}
 
-	.scrolled .header__logo-area:hover {
-		transform: scale(0.9);
+	@keyframes fadeInDown {
+		from { opacity: 0; transform: translateY(-30px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
-	/* Navigation bar */
 	.header__bar {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: space-between;
 		gap: var(--space-xl);
 		width: 100%;
-		padding: var(--space-lg) var(--space-xl) var(--space-lg) 200px;
+		padding: var(--space-lg) var(--space-xl) var(--space-lg) 0;
 		box-shadow: var(--shadow-sm);
 		transition: all var(--transition-base);
 		position: relative;
+		animation: fadeInDown 0.8s ease-out both;
+		background: rgba(255, 255, 255, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 	}
 
-	.header__bar::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: color-mix(in srgb, var(--color-white), transparent 30%);
-		backdrop-filter: blur(12px);
-		z-index: -1;
+	:global(.dark-theme) .header__bar {
+		background: rgba(15, 23, 42, 0.7);
+	}
+
+	.header__left-placeholder {
+		width: 200px;
+		flex-shrink: 0;
+	}
+
+	.header__desktop-nav-group {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-xl);
+		flex: 1;
+	}
+
+	.header__actions-group {
+		width: 200px;
+		flex-shrink: 0;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		gap: var(--space-sm);
 	}
 
 	.scrolled .header__bar {
 		padding-top: var(--space-md);
 		padding-bottom: var(--space-md);
 		box-shadow: var(--shadow-md);
-	}
-
-	/* Navigation */
-	.header__nav {
-		flex: 1;
-		display: flex;
-		justify-content: center;
 	}
 
 	.header__nav-list {
@@ -374,7 +501,102 @@
 		border-radius: 1px;
 	}
 
-	/* Settings */
+	.header__nav-manager {
+		position: relative;
+		z-index: 320;
+	}
+
+	.header__nav-dropdown {
+		position: absolute;
+		top: calc(100% + 15px);
+		right: 0;
+		width: 280px;
+		background: var(--color-white);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-lg);
+		padding: var(--space-lg);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		z-index: 330;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	.header__nav-dropdown-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+	}
+
+	.header__nav-dropdown-group--hidden {
+		display: none;
+	}
+
+	.header__nav-dropdown-label {
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		color: var(--color-muted-text);
+		letter-spacing: 0.05em;
+		margin-bottom: 2px;
+	}
+
+	.header__nav-dropdown-list {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+
+	.header__nav-dropdown-link {
+		display: block;
+		padding: var(--space-xs) var(--space-sm);
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--color-deep-ocean);
+		border-radius: var(--radius-sm);
+		transition: all var(--transition-fast);
+	}
+
+	.header__nav-dropdown-link:hover,
+	.header__nav-dropdown-link.active {
+		background: var(--color-ice-blue);
+		color: var(--color-sea-blue);
+		padding-left: var(--space-md);
+	}
+
+	.header__nav-settings-toggle {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		width: 100%;
+		border: none;
+		background: none;
+		cursor: pointer;
+		font-family: inherit;
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		font-weight: 700;
+		color: var(--color-muted-text);
+		letter-spacing: 0.05em;
+	}
+
+	.header__nav-settings-toggle:hover {
+		color: var(--color-sea-blue);
+	}
+
+	.header__nav-dropdown-cta {
+		background: var(--color-sea-blue);
+		color: var(--color-white) !important;
+		text-align: center;
+		margin-bottom: var(--space-xs);
+	}
+
+	.header__nav-dropdown-divider {
+		height: 1px;
+		background: rgba(0, 0, 0, 0.05);
+		margin: 2px 0;
+	}
+
 	.header__settings {
 		position: relative;
 		margin-left: var(--space-sm);
@@ -391,6 +613,8 @@
 		color: var(--color-deep-ocean);
 		transition: all var(--transition-base);
 		background: var(--color-ice-blue);
+		border: none;
+		cursor: pointer;
 	}
 
 	.header__settings.open .header__settings-btn {
@@ -398,34 +622,29 @@
 		transform: rotate(45deg);
 	}
 
-	.header__settings-dropdown {
+	.header__settings-popover {
 		position: absolute;
 		top: 100%;
 		right: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		z-index: 330;
+		padding-top: 10px;
+	}
+
+	.header__settings-dropdown {
+		position: static;
 		width: 220px;
 		background: var(--color-white);
 		border-radius: var(--radius-lg);
 		box-shadow: var(--shadow-lg);
 		padding: var(--space-md);
-		opacity: 0;
-		visibility: hidden;
-		transform: translateY(10px);
-		transition: all var(--transition-base);
-		z-index: 330;
-	}
-
-	.header__settings.open .header__settings-dropdown {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(5px);
+		z-index: 331;
 	}
 
 	.header__settings-group {
 		margin-bottom: var(--space-md);
-	}
-
-	.header__settings-group:last-child {
-		margin-bottom: 0;
 	}
 
 	.header__settings-label {
@@ -454,10 +673,9 @@
 		border-radius: var(--radius-sm);
 		transition: all var(--transition-fast);
 		color: var(--color-deep-ocean);
-	}
-
-	.header__settings-opt:hover {
-		background: rgba(255, 255, 255, 0.5);
+		border: none;
+		cursor: pointer;
+		background: transparent;
 	}
 
 	.header__settings-opt.active {
@@ -466,80 +684,10 @@
 		color: var(--color-golden);
 	}
 
-	/* Debug dropdown - same styles as main dropdown */
-	:global(.header__settings-dropdown-debug) {
-		position: absolute;
-		top: calc(100% + 170px);
-		right: 0;
-		width: 220px;
-		background: var(--color-white);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--shadow-lg);
-		padding: var(--space-md);
-		opacity: 0;
-		visibility: hidden;
-		transform: translateY(10px);
-		transition: all var(--transition-base);
-		z-index: 329;
-	}
-
-	.header__settings.open :global(.header__settings-dropdown-debug) {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(5px);
-	}
-
-	/* Inherit styles for debug dropdown content */
-	:global(.header__settings-dropdown-debug .header__settings-group) {
-		margin-bottom: var(--space-md);
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-group:last-child) {
-		margin-bottom: 0;
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-label) {
-		display: block;
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-muted-text);
-		text-transform: uppercase;
-		margin-bottom: var(--space-xs);
-		letter-spacing: 0.05em;
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-options) {
-		display: flex;
-		gap: var(--space-xs);
-		background: var(--color-ice-blue);
-		padding: 4px;
-		border-radius: var(--radius-md);
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-opt) {
-		flex: 1;
-		padding: 6px;
-		font-size: 0.8rem;
-		font-weight: 700;
-		border-radius: var(--radius-sm);
-		transition: all var(--transition-fast);
-		color: var(--color-deep-ocean);
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-opt:hover) {
-		background: rgba(255, 255, 255, 0.5);
-	}
-
-	:global(.header__settings-dropdown-debug .header__settings-opt.active) {
-		background: var(--color-white);
-		box-shadow: var(--shadow-sm);
-		color: var(--color-golden);
-	}
-
 	.header__cta {
 		font-size: 0.8rem;
 		padding: 0.6rem 1.5rem;
-		transition: transform var(--transition-base), background-color var(--transition-base), color var(--transition-base);
+		transition: all var(--transition-base);
 		color: var(--color-deep-ocean);
 		border-color: var(--color-deep-ocean);
 	}
@@ -550,48 +698,72 @@
 		color: var(--color-white);
 	}
 
-	/* Burger */
 	.header__burger {
-		display: none;
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		color: var(--color-deep-ocean);
 		background: var(--color-ice-blue);
 		transition: all var(--transition-base);
-		z-index: 180;
+		border: none;
+		cursor: pointer;
 	}
 
-	.header__burger:hover {
-		background: var(--color-sky-blue);
+	.header__burger--mobile {
+		display: none;
+		padding: 0 1.2rem;
+		width: auto;
+		border-radius: var(--radius-full);
+		background: var(--color-white);
+		box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 	}
 
-	/* Mobile overlay */
+	.header__burger-text {
+		font-family: var(--font-heading);
+		font-weight: 800;
+		font-size: 0.85rem;
+		letter-spacing: 0.05em;
+		margin-right: 0.5rem;
+	}
+
 	.header__mobile-overlay {
 		position: fixed;
 		inset: 0;
 		background: color-mix(in srgb, var(--color-white), transparent 2%);
 		backdrop-filter: blur(20px);
-		z-index: 250;
+		z-index: 400;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		will-change: transform, opacity;
+		justify-content: flex-start;
+		padding: var(--space-2xl) var(--space-xl);
 	}
 
-	.header.menu-open .header__settings,
-	.header.menu-open .header__burger {
-		z-index: 180;
+	.header__mobile-controls {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--space-2xl);
+		position: relative;
+		z-index: 420;
+	}
+
+	.header__mobile-controls .header__settings {
+		margin-left: 0;
+	}
+
+	.header__mobile-controls .header__settings-dropdown {
+		left: 0;
+		right: auto;
 	}
 
 	.header__mobile-close {
-		position: fixed;
-		top: var(--space-lg);
-		right: var(--space-xl);
-		width: 40px;
-		height: 40px;
+		width: 44px;
+		height: 44px;
 		border-radius: 50%;
 		display: flex;
 		align-items: center;
@@ -599,97 +771,96 @@
 		color: var(--color-deep-ocean);
 		background: var(--color-ice-blue);
 		transition: all var(--transition-base);
-		z-index: 110;
 		border: none;
 		cursor: pointer;
 	}
 
-	.header.scrolled .header__mobile-close {
-		top: var(--space-md);
-	}
-
-	.header__mobile-close:hover {
-		background: var(--color-sky-blue);
-		transform: rotate(90deg);
+	.header__mobile-nav {
+		width: 100%;
+		max-width: 500px;
+		max-height: 80vh;
+		overflow-y: auto;
 	}
 
 	.header__mobile-list {
 		display: flex;
 		flex-direction: column;
+		gap: var(--space-lg);
+		list-style: none;
+		padding: 0;
+	}
+
+	.header__mobile-group {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
 		align-items: center;
-		gap: var(--space-xl);
+	}
+
+	.header__mobile-group-title {
+		font-family: var(--font-heading);
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		opacity: 0.5;
+	}
+
+	.header__mobile-sublist {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-md);
+		list-style: none;
+		padding: 0;
+		width: 100%;
 	}
 
 	.header__mobile-link {
 		font-family: var(--font-heading);
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		font-weight: 700;
 		color: var(--color-deep-ocean);
-		transition: color var(--transition-fast);
+		transition: all var(--transition-fast);
+		text-align: center;
+		display: block;
+		padding: 0.5rem;
 	}
 
-	.header__mobile-link:hover {
-		color: var(--color-golden);
+	.header__mobile-link:hover, .header__mobile-link.active {
+		color: var(--color-vibrant-blue);
+		transform: scale(1.05);
 	}
 
 	.header__mobile-cta {
-		margin-top: var(--space-lg);
-		font-size: 1rem;
-		padding: 1rem 2.5rem;
+		background: var(--color-sea-blue);
+		color: var(--color-white) !important;
+		padding: 0.8rem 2rem;
+		border-radius: var(--radius-full);
+		box-shadow: 0 4px 15px rgba(33, 150, 186, 0.3);
 	}
 
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
+	.header__mobile-divider {
+		width: 60px;
+		height: 2px;
+		background: var(--color-sky-blue);
+		opacity: 0.3;
+		margin-top: var(--space-md);
 	}
 
-	/* Responsive */
 	@media (max-width: 1024px) {
-		.header__bar {
-			padding-left: 160px;
-		}
-
-		.header__logo-area {
-			left: 15px;
-		}
-
-		.scrolled .header__logo-area {
-			left: 10px;
-		}
+		.header__left-placeholder, .header__actions-group { width: 160px; }
+		.header__logo-area { left: 15px; }
 	}
 
 	@media (max-width: 768px) {
-		.header__nav,
-		.header__cta {
+		.header__nav, .header__cta, .header__burger--desktop {
 			display: none;
 		}
-
-		.header__burger {
-			display: flex;
-		}
-
-		.header__bar {
-			padding-left: 120px;
-			justify-content: flex-end;
-		}
-
-		.header__logo-area {
-			top: 5px;
-			left: 10px;
-		}
-
-		.header__logo-area :global(.logo-svg) {
-			width: 90px;
-			height: 90px;
-		}
-
-		.scrolled .header__logo-area {
-			transform: scale(0.8);
-			top: 0;
-		}
+		.header__desktop-nav-group, .header__left-placeholder { display: none; }
+		.header__burger--mobile { display: flex; }
+		.header__bar { justify-content: flex-end; }
+		.header__actions-group { width: auto; }
+		.header__logo-area { top: 5px; left: 10px; transform: scale(1); }
+		.header__logo-area :global(.logo-svg) { width: 90px; height: 90px; }
+		.scrolled .header__logo-area { transform: scale(0.8); top: 0; }
 	}
 </style>

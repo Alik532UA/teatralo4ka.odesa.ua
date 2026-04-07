@@ -5,7 +5,7 @@ export const pageMetadataSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Date must be in YYYY-MM-DD format" }),
   lastModified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   author: z.string().optional(),
-  category: z.enum(['about', 'history', 'admission', 'news', 'competitions', 'departments', 'general']),
+  category: z.enum(['about', 'history', 'admission', 'news', 'contacts', 'departments', 'general']),
   lang: z.enum(['uk', 'en']),
   seo: z.object({
     title: z.string().min(10).max(100),

@@ -4,8 +4,8 @@ import type { PageServerLoad } from './$types';
 export const prerender = true;
 
 export const load: PageServerLoad = async () => {
-  const uk = loadPageWithMetadata('uk', 'competitions');
-  const en = loadPageWithMetadata('en', 'competitions');
+  const uk = loadPageWithMetadata('uk', 'contacts');
+  const en = loadPageWithMetadata('en', 'contacts');
 
   return {
     uk,

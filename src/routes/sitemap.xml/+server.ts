@@ -2,7 +2,7 @@ import type { RequestHandler } from './$types';
 
 const SITE_URL = 'https://teatralo4ka.odesa.ua';
 
-const routes = ['/', '/about', '/history', '/competitions', '/admission'];
+const routes = ['/', '/about', '/history', '/contacts', '/admission'];
 
 export const GET: RequestHandler = async () => {
 	const now = new Date().toISOString();

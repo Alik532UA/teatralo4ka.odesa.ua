@@ -30,7 +30,7 @@ const config = {
 				'/',
 				'/about',
 				'/history',
-				'/competitions',
+				'/contacts',
 				'/admission',
 				'/test'
 			],

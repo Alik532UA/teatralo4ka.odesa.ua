@@ -3,6 +3,9 @@
 	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
 	import { onMount } from "svelte";
+	import { MapPinned, Phone, Mail } from "lucide-svelte";
+	import { ui } from "$lib/states/ui.svelte";
+	import { toast } from "$lib/states/toast.svelte";
 
 	const images = [
 		`${base}/photo/DSC_1405.jpg`,
@@ -18,6 +21,20 @@
 
 		return () => clearInterval(interval);
 	});
+
+	function handleEmailClick() {
+		const email = $t("footer.email");
+		navigator.clipboard.writeText(email).then(() => {
+			toast.success(
+				"Електронну адресу скопійовано!",
+				6000,
+				"Написати листа",
+				() => {
+					window.location.href = `mailto:${email}`;
+				}
+			);
+		});
+	}
 </script>
 
 <section class="hero" id="hero-section" aria-label="Головна секція">
@@ -70,6 +87,19 @@
 			<div class="hero__cloud hero__cloud--1" aria-hidden="true"></div>
 			<div class="hero__cloud hero__cloud--2" aria-hidden="true"></div>
 		</div>
+
+		<!-- 4. Mobile Contacts -->
+		<div class="hero__contacts">
+			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label="Карта">
+				<MapPinned size={24} />
+			</a>
+			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label="Телефони">
+				<Phone size={24} />
+			</button>
+			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label="Email">
+				<Mail size={24} />
+			</button>
+		</div>
 	</div>
 </section>
 
@@ -111,6 +141,15 @@
 		animation: fadeInLeft 0.8s ease-out;
 	}
 
+	@media (min-width: 1025px) {
+		.hero__social {
+			display: none;
+		}
+		.hero__content {
+			grid-template-columns: 1fr 1fr; /* Adjust grid since social is gone */
+		}
+	}
+
 	.hero__social-btn {
 		width: 48px;
 		height: 48px;
@@ -133,15 +172,25 @@
 	}
 
 	@keyframes fadeInLeft {
-		from { opacity: 0; transform: translateX(-20px); }
+		from { opacity: 0; transform: translateX(-30px); }
 		to { opacity: 1; transform: translateX(0); }
+	}
+
+	@keyframes fadeInRight {
+		from { opacity: 0; transform: translateX(30px); }
+		to { opacity: 1; transform: translateX(0); }
+	}
+
+	@keyframes fadeInUp {
+		from { opacity: 0; transform: translateY(30px); }
+		to { opacity: 1; transform: translateY(0); }
 	}
 
 	/* Text — Highest Layer */
 	.hero__text {
 		position: relative;
 		z-index: 10;
-		animation: fadeInUp 0.8s ease-out;
+		animation: fadeInLeft 0.8s ease-out;
 	}
 
 	.hero__title {
@@ -169,7 +218,7 @@
 	.hero__image-wrap {
 		position: relative;
 		z-index: 2;
-		animation: fadeInUp 0.8s ease-out 0.2s both;
+		animation: fadeInRight 0.8s ease-out 0.2s both;
 	}
 
 	.hero__image {
@@ -233,10 +282,40 @@
 		left: -30px;
 	}
 
+	/* Mobile Contacts */
+	.hero__contacts {
+		display: none;
+		gap: var(--space-lg);
+		justify-content: center;
+		z-index: 10;
+		margin-top: var(--space-md);
+	}
+
+	.hero__contact-btn {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		background: var(--color-white);
+		color: var(--color-deep-ocean);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid rgba(0,0,0,0.05);
+		box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		cursor: pointer;
+	}
+
+	.hero__contact-btn:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+		color: var(--color-sea-blue);
+	}
+
 	/* Responsive */
 	@media (max-width: 1024px) {
 		.hero__content {
-			grid-template-columns: 1fr 1.2fr;
+			grid-template-columns: 60px 1fr 1.2fr;
 			gap: var(--space-xl);
 		}
 		.hero__social {
@@ -267,16 +346,19 @@
 		.hero__title {
 			order: 1;
 			margin-bottom: 0;
+			animation: fadeInUp 0.8s ease-out both;
 		}
 
 		.hero__image-wrap {
 			order: 2;
+			animation: fadeInUp 0.8s ease-out 0.2s both;
 		}
 
 		.hero__subtitle {
 			order: 3;
 			margin-top: 0;
 			margin-bottom: 0;
+			animation: fadeInUp 0.8s ease-out 0.4s both;
 		}
 
 		.hero__social {
@@ -285,6 +367,13 @@
 			order: 4;
 			margin-top: var(--space-md);
 			margin-bottom: 0;
+			animation: fadeInUp 0.8s ease-out 0.6s both;
+		}
+
+		.hero__contacts {
+			display: flex;
+			order: 5;
+			animation: fadeInUp 0.8s ease-out 0.8s both;
 		}
 
 		.hero__image {

@@ -3,7 +3,7 @@ export interface PageMetadata {
   date: string;
   lastModified?: string;
   author?: string;
-  category: 'about' | 'history' | 'admission' | 'news' | 'competitions';
+  category: 'about' | 'history' | 'admission' | 'news' | 'contacts';
   lang: 'uk' | 'en';
   seo: {
     title: string;

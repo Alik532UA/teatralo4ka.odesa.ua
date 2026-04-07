@@ -2,7 +2,7 @@
 title: "Contacts"
 date: "2026-04-04"
 author: "Administration"
-category: "competitions"
+category: "contacts"
 lang: "en"
 seo:
   title: "Contacts - Odessa Theatre School"

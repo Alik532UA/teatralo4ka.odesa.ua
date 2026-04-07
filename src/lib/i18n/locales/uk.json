@@ -7,9 +7,19 @@
 		"home": "Головна",
 		"about": "Про Школу",
 		"history": "Історія",
-		"contests": "Контакти",
+		"contacts": "Контакти",
 		"announcements": "Оголошення",
-		"admission": "ДЛЯ ВСТУПУ"
+		"admission": "ДЛЯ ВСТУПУ",
+		"departments": "Відділення",
+		"residents": "Мешканці",
+		"projects": "Проєкти",
+		"adults": "Дорослі",
+		"kids": "Діти",
+		"graduates": "Випускники",
+		"theatre": "Театральне відділення",
+		"aesthetic": "Відділення естетичного виховання",
+		"music": "Музичне відділення",
+		"art": "Художнє відділення"
 	},
 	"footer": {
 		"address": "вул. Софіївська, 24, Одеса",
@@ -96,7 +106,7 @@
 	"history": {
 		"title": "Історія"
 	},
-	"competitions": {
+	"contacts": {
 		"title": "Контакти"
 	},
 	"admission": {
@@ -177,7 +187,7 @@
 			"confirmDeleteTitle": "Підтвердження видалення",
 			"confirmDeleteText": "Ви впевнені, що хочете видалити акаунт",
 			"confirmDeleteWarning": "Ця дія незворотна.",
-			"typeDelete": "Введіть \"delete\" для підтвердження:",
+			"typeDelete": "Введіть \"delete\" для припинення:",
 			"deleteBtn": "Видалити"
 		},
 		"editor": {
@@ -241,7 +251,7 @@
 				"title": "Історія",
 				"description": "Історія Одеської театральної школи від перших згадок до сучасності."
 			},
-			"competitions": {
+			"contacts": {
 				"title": "Контакти",
 				"description": "Адреса, телефони та контакти Одеської театральної школи."
 			},

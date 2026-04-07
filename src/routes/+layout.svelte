@@ -22,7 +22,7 @@
 	});
 
 	const SITE_FALLBACK_ORIGIN = 'https://teatralo4ka.odesa.ua';
-	type SeoPageKey = 'home' | 'about' | 'history' | 'competitions' | 'admission';
+	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission';
 	type SeoLangKey = 'uk' | 'en';
 	const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -47,7 +47,7 @@
 					title: 'Історія',
 					description: 'Історія Одеської театральної школи від перших згадок до сучасності.'
 				},
-				competitions: {
+				contacts: {
 					title: 'Конкурси',
 					description:
 						'Творчі конкурси та фестивалі Одеської театральної школи для підтримки юних талантів.'
@@ -68,7 +68,7 @@
 				home: {
 					title: 'Odessa Theatre School',
 					description:
-						'Official website of Odessa Theatre School. Departments, gallery, history, competitions, and admission details.'
+						'Official website of Odessa Theatre School. Departments, gallery, history, contacts, and admission details.'
 				},
 				about: {
 					title: 'About School',
@@ -79,10 +79,10 @@
 					title: 'History',
 					description: 'The history of Odessa Theatre School from early records to the present day.'
 				},
-				competitions: {
-					title: 'Competitions',
+				contacts: {
+					title: 'contacts',
 					description:
-						'Creative competitions and festivals of Odessa Theatre School that support young talents.'
+						'Creative contacts and festivals of Odessa Theatre School that support young talents.'
 				},
 				admission: {
 					title: 'Admission',
@@ -111,8 +111,8 @@
 				return 'about';
 			case '/history':
 				return 'history';
-			case '/competitions':
-				return 'competitions';
+			case '/contacts':
+				return 'contacts';
 			case '/admission':
 				return 'admission';
 			default:

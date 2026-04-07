@@ -7,7 +7,7 @@
 		"home": "Home",
 		"about": "About School",
 		"history": "History",
-		"contests": "Contacts",
+		"contacts": "Contacts",
 		"announcements": "Announcements",
 		"admission": "ADMISSION"
 	},
@@ -21,7 +21,7 @@
 		"youtube": "https://www.youtube.com/user/dtschool/",
 		"tiktok": "https://www.tiktok.com/@teatralo4ka_official/",
 		"play": "play",
-		"order": "order website"
+		"order": "order a website"
 	},
 	"settings": {
 		"title": "Settings",
@@ -30,73 +30,73 @@
 		"light": "Light",
 		"dark": "Dark",
 		"dynamicBg": "Dynamic Background",
-		"bgType": "Background Type",
+		"bgType": "BG Type",
 		"bgNone": "None",
 		"bgParticles": "Particles",
 		"bgWaves": "Waves",
 		"bgShapes": "Shapes",
 		"bgMiniIcon": "Mini icon",
-		"blur": "Blur Effect",
-		"debugNote": "This is a temporary settings menu. We will choose and approve the preferred option, then hide this menu."
+		"blur": "Blur effect",
+		"debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
 	},
 	"departments": {
-		"description": "Today, the school has 6 departments where 335 students study:",
-		"additional_info": "Over 40 teachers work at our school – true professionals who find an approach to every student and help unlock talent. The educational process takes place in 19 classrooms, filled with music, inspiration, and creativity.",
+		"description": "Today the school has 6 departments with 335 students:",
+		"additional_info": "More than 40 teachers work in our school — true professionals who find an approach to each student and help reveal talent. The educational process takes place in 19 classrooms filled with music, inspiration, and creativity.",
 		"list": {
 			"piano": "Piano Department",
 			"strings": "String Instruments Department",
 			"vocal": "Solo Singing Department",
-			"pop": "Pop Music Department",
+			"pop": "Pop Department",
 			"theory": "Theoretical Disciplines Department",
 			"folk": "Folk Instruments Department"
 		}
 	},
 	"piano": {
-		"hint": "Play using your mouse or keyboard. Hover over the piano to see which computer keys correspond to the notes.",
+		"hint": "Play using your mouse or keyboard. Hover over the piano to see which keyboard keys correspond to the notes.",
 		"notes": {
-			"C": "do",
-			"C#": "do#",
-			"D": "re",
-			"D#": "re#",
-			"E": "mi",
-			"F": "fa",
-			"F#": "fa#",
-			"G": "sol",
-			"G#": "sol#",
-			"A": "la",
-			"A#": "la#",
-			"B": "si"
+			"C": "C",
+			"C#": "C#",
+			"D": "D",
+			"D#": "D#",
+			"E": "E",
+			"F": "F",
+			"F#": "F#",
+			"G": "G",
+			"G#": "G#",
+			"A": "A",
+			"A#": "A#",
+			"B": "B"
 		}
 	},
 	"gallery": {
 		"title": "SCHOOL GALLERY",
-		"subtitle": "Moments of creative life of our community",
+		"subtitle": "Moments of our community's creative life",
 		"items": {
-			"process": "Creative Process",
-			"talents": "Our Talents",
-			"atmosphere": "Artistic Atmosphere",
-			"evenings": "Musical Evenings",
-			"virtuosos": "Young Virtuosos",
-			"harmony": "World of Harmony"
+			"process": "Creative process",
+			"talents": "Our talents",
+			"atmosphere": "Artistic atmosphere",
+			"evenings": "Musical evenings",
+			"virtuosos": "Young virtuosos",
+			"harmony": "World of harmony"
 		}
 	},
 	"about": {
 		"title": "About School",
 		"gallery": {
-			"edu": "Art Education",
-			"workshop": "Creative Workshop",
-			"musicians": "Young Musicians",
-			"stage": "Stage Performance",
-			"lesson": "Music Lesson",
-			"talents": "Our Talents",
+			"edu": "Artistic education",
+			"workshop": "Creative workshop",
+			"musicians": "Young musicians",
+			"stage": "Performance on stage",
+			"lesson": "Music lesson",
+			"talents": "Our talents",
 			"festival": "Festival",
-			"event": "Art Event"
+			"event": "Artistic event"
 		}
 	},
 	"history": {
 		"title": "History"
 	},
-	"competitions": {
+	"contacts": {
 		"title": "Contacts"
 	},
 	"admission": {
@@ -104,17 +104,17 @@
 	},
 	"admin": {
 		"dashboard": {
-			"title": "Admin Dashboard",
+			"title": "Admin Panel",
 			"logout": "Logout",
 			"newsTitle": "News & Announcements",
-			"newsDesc": "Manage publications on the website.",
+			"newsDesc": "Manage publications on the site.",
 			"listBtn": "Articles List",
 			"addBtn": "Add Article",
 			"settingsTitle": "Site Settings",
 			"settingsDesc": "Contacts, social media, site title.",
 			"settingsBtn": "Go to Settings",
 			"usersTitle": "Users",
-			"usersDesc": "Manage administrators and moderators.",
+			"usersDesc": "Manage admins and moderators.",
 			"usersBtn": "Manage Access",
 			"loading": "Loading...",
 			"contacts": "Contacts",
@@ -130,7 +130,7 @@
 		},
 		"articles": {
 			"title": "Content Management",
-			"backToPanel": "Dashboard",
+			"backToPanel": "Panel",
 			"createBtn": "Create",
 			"tableTitle": "Title (UK)",
 			"tableCategory": "Category",
@@ -145,16 +145,16 @@
 		},
 		"users": {
 			"title": "Access Management",
-			"subtitle": "Manage employee permissions in projects",
+			"subtitle": "Configuring staff rights in projects",
 			"back": "Back",
 			"cancel": "Cancel",
 			"grantAccess": "Grant Access",
 			"total": "Total",
-			"projectAdmin": "Project Administrator",
+			"projectAdmin": "Project Admin",
 			"moderator": "Moderator",
 			"assistant": "Assistant",
-			"grantAccessTitle": "Grant access to project",
-			"grantAccessDesc": "Enter email (new or existing) to assign them a role in the project.",
+			"grantAccessTitle": "Grant Access to Project",
+			"grantAccessDesc": "Enter an email (new or existing) to assign a role in the project.",
 			"emailLabel": "User Email",
 			"projectIdLabel": "Project ID",
 			"roleLabel": "Assign Role",
@@ -163,19 +163,19 @@
 			"create": "Create",
 			"edit": "Edit",
 			"delete": "Delete",
-			"manageUsers": "View list of admins and moderators",
+			"manageUsers": "View admins and moderators list",
 			"confirm": "Confirm",
-			"superadmins": "Super Administrators",
-			"projectAdmins": "Project Administrators",
+			"superadmins": "Superadmins",
+			"projectAdmins": "Project Admins",
 			"moderators": "Moderators",
 			"assistants": "Assistants",
 			"itsYou": "IT'S YOU",
 			"accesses": "Accesses:",
-			"noProjects": "No projects assigned.",
+			"noProjects": "No assigned projects.",
 			"save": "Save",
-			"unsavedChanges": "unsaved changes exist",
-			"confirmDeleteTitle": "Confirm Deletion",
-			"confirmDeleteText": "Are you sure you want to delete the account",
+			"unsavedChanges": "unsaved changes",
+			"confirmDeleteTitle": "Delete Confirmation",
+			"confirmDeleteText": "Are you sure you want to delete account",
 			"confirmDeleteWarning": "This action is irreversible.",
 			"typeDelete": "Type \"delete\" to confirm:",
 			"deleteBtn": "Delete"
@@ -189,8 +189,8 @@
 			"dateMode": "Display Date",
 			"dateCreatedAt": "Creation Date",
 			"dateUpdatedAt": "Update Date",
-			"dateCustom": "Set Manually",
-			"dateHidden": "Do Not Display",
+			"dateCustom": "Set manually",
+			"dateHidden": "Don't display",
 			"titleLabel": "Title",
 			"contentLabel": "Content",
 			"publishLabel": "Published",
@@ -205,7 +205,7 @@
 			"errorNotFound": "Article not found"
 		},
 		"login": {
-			"title": "Admin Login",
+			"title": "Login to Admin Panel",
 			"email": "Email",
 			"password": "Password",
 			"btn": "Login",
@@ -215,7 +215,7 @@
 	},
 	"news": {
 		"title": "NEWS & EVENTS",
-		"subtitle": "Stay tuned with our school life",
+		"subtitle": "Stay up to date with the life of our school",
 		"loading": "Loading news...",
 		"empty": "No news at the moment.",
 		"readMore": "Read more →",
@@ -226,28 +226,28 @@
 		"brandTitle": "Odessa Theatre School",
 		"org": {
 			"name": "Odessa Theatre School",
-			"description": "Odessa Theatre School: music education for children and youth in Odesa, creative growth, and concert activity."
+			"description": "Odessa Theatre School: music education for children and youth in Odesa, creative development and concert activities."
 		},
 		"pages": {
 			"home": {
 				"title": "Odessa Theatre School",
-				"description": "Official website of Odessa Theatre School. Departments, gallery, history, competitions, and admission details."
+				"description": "Official website of Odessa Theatre School. Departments, gallery, history, contacts and admission conditions."
 			},
 			"about": {
 				"title": "About School",
-				"description": "Learn more about Odessa Theatre School: creative life, performances, teachers, and students."
+				"description": "Learn more about Odessa Theatre School: creative life, performances, teachers and students."
 			},
 			"history": {
 				"title": "History",
-				"description": "The history of Odessa Theatre School from early records to the present day."
+				"description": "History of Odessa Theatre School from the first mentions to the present day."
 			},
-			"competitions": {
+			"contacts": {
 				"title": "Contacts",
-				"description": "Address, phone numbers, and contacts of the Odessa Theatre School."
+				"description": "Address, phone numbers and contacts of Odessa Theatre School."
 			},
 			"admission": {
 				"title": "Admission",
-				"description": "Admission information for Odessa Theatre School: documents, contacts, and study conditions."
+				"description": "Information for admission to Odessa Theatre School: documents, contacts and study conditions."
 			}
 		}
 	}

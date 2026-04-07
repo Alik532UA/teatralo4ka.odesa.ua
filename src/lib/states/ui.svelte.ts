@@ -1,5 +1,6 @@
 class UIState {
 	isMenuOpen = $state(false);
+	isPhonesModalOpen = $state(false);
 	theme = $state<'light' | 'dark'>('light');
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);

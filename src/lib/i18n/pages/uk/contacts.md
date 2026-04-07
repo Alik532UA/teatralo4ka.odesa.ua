@@ -2,7 +2,7 @@
 title: "Контакти"
 date: "2026-04-04"
 author: "Адміністрація"
-category: "competitions"
+category: "contacts"
 lang: "uk"
 seo:
   title: "Контакти - Одеська театральна школа"

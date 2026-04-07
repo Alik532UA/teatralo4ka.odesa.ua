@@ -7,11 +7,28 @@
 	import { base } from "$app/paths";
 	import { t } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
+	import { ui } from "$lib/states/ui.svelte";
+	import { toast } from "$lib/states/toast.svelte";
 
 	let isPianoOpen = $state(false);
-	let isPhonesModalOpen = $state(false);
+
+	function handleEmailClick(e: MouseEvent) {
+		e.preventDefault();
+		const email = $t("footer.email");
+		navigator.clipboard.writeText(email).then(() => {
+			toast.success(
+				"Електронну адресу скопійовано до буфера обміну!",
+				6000,
+				"Відкрити пошту",
+				() => {
+					window.location.href = `mailto:${email}`;
+				}
+			);
+		});
+	}
 </script>
 
+<div class="footer-spacer" aria-hidden="true"></div>
 <footer class="footer" id="main-footer" data-testid="footer-container">
 	<div class="container">
 		<div class="footer__content">
@@ -43,7 +60,7 @@
 					<div class="footer__info-item">
 						<LocationIcon className="footer__icon" size={18} />
 						<a
-							href="https://maps.app.goo.gl/khSVpMmKieTdW2Ao7"
+							href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8"
 							target="_blank"
 							rel="noopener noreferrer"
 							class="footer__link"
@@ -60,7 +77,7 @@
 							<button 
 								class="footer__link" 
 								style="background: none; border: none; padding: 0; cursor: pointer; font: inherit;"
-								onclick={() => (isPhonesModalOpen = true)}
+								onclick={() => (ui.isPhonesModalOpen = true)}
 								data-testid="footer-phone-btn"
 							>
 								{$t("footer.phone")}
@@ -76,6 +93,7 @@
 							<a
 								href="mailto:{$t('footer.email')}"
 								class="footer__link"
+								onclick={handleEmailClick}
 								data-testid="footer-email-link"
 							>{$t("footer.email")}</a
 							>
@@ -159,14 +177,21 @@
 
 <PianoModal isOpen={isPianoOpen} onClose={() => (isPianoOpen = false)} />
 
-{#if isPhonesModalOpen}
-	<div class="modal-overlay" onclick={() => (isPhonesModalOpen = false)} role="button" tabindex="0" onkeydown={(e) => e.key === 'Escape' && (isPhonesModalOpen = false)}>
-		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title">
+{#if ui.isPhonesModalOpen}
+	<div 
+		class="modal-overlay" 
+		onclick={() => (ui.isPhonesModalOpen = false)} 
+		onkeydown={(e) => e.key === 'Escape' && (ui.isPhonesModalOpen = false)}
+		role="button"
+		tabindex="0"
+		aria-label="Закрити модальне вікно"
+	>
+		<div class="phones-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0">
 			<div class="modal-header">
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
 					Контакти
 				</h2>
-				<button class="btn-close" aria-label="Закрити" onclick={() => (isPhonesModalOpen = false)}>
+				<button class="btn-close" aria-label="Закрити" onclick={() => (ui.isPhonesModalOpen = false)}>
 					<X size={24} />
 				</button>
 			</div>
@@ -211,7 +236,7 @@
 		position: fixed; top: 0; left: 0; width: 100%; height: 100%;
 		background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
 		display: flex; align-items: center; justify-content: center;
-		z-index: 1000; padding: 20px;
+		z-index: 10000; padding: 20px;
 	}
 	.phones-modal {
 		background: var(--theme-dynamic-card-bg, #ffffff);
@@ -284,17 +309,61 @@
 		font-size: 0.85rem; opacity: 0.7; text-transform: uppercase; font-weight: 600;
 	}
 
+	@keyframes fadeInUp {
+		from { opacity: 0; transform: translateY(30px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
 	.footer {
 		background: var(--color-white);
 		padding: var(--space-xl) 0;
 		position: relative;
 		border: none;
-		margin-top: 100px; /* Space for the wave */
+		/* margin-top: 100px; /* Space for the wave */
 		transition: background 800ms ease-in-out;
+		z-index: 100;
+		animation: fadeInUp 0.8s ease-out both;
+	}
+
+	.footer-spacer {
+		display: none;
+		height: 80px;
+	}
+
+	@media (min-width: 1025px) {
+		.footer {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			padding: var(--space-md) 0;
+			background: color-mix(in srgb, var(--color-white), transparent 15%);
+			backdrop-filter: blur(12px);
+			box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
+			border-top: 1px solid rgba(0,0,0,0.05);
+		}
+		
+		:global(.dark-theme) .footer {
+			background: color-mix(in srgb, var(--color-dark-bg, #0f172a), transparent 15%);
+			border-top-color: rgba(255,255,255,0.05);
+		}
+
+		.footer-spacer {
+			display: block;
+		}
 	}
 
 	:global(.app.with-dynamic-bg) .footer {
 		background: transparent;
+	}
+
+	@media (min-width: 1025px) {
+		:global(.app.with-dynamic-bg) .footer {
+			background: color-mix(in srgb, var(--color-white), transparent 60%);
+		}
+		:global(.dark-theme.app.with-dynamic-bg) .footer {
+			background: color-mix(in srgb, #000, transparent 60%);
+		}
 	}
 
 	/* Content layout */
@@ -420,6 +489,12 @@
 
 	.footer__link {
 		transition: color var(--transition-fast);
+		color: inherit;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		font: inherit;
 	}
 
 	.footer__link:hover {
@@ -439,8 +514,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--color-white);
-		border: 1px solid rgba(0,0,0,0.05);
+		background: transparent;
+		border: none;
 		transition: all var(--transition-base);
 		overflow: hidden;
 	}
@@ -491,14 +566,14 @@
 	@media (max-width: 768px) {
 		.footer__contacts {
 			flex-direction: column;
-			gap: var(--space-sm);
+			gap: var(--space-md);
 		}
 		.footer__content {
 			flex-direction: row;
 			flex-wrap: wrap;
 			justify-content: center;
 			align-items: center;
-			gap: var(--space-sm) var(--space-md);
+			gap: var(--space-xl) var(--space-xl);
 		}
 		.footer__contacts {
 			order: 1;
@@ -509,6 +584,7 @@
 			order: 2;
 			width: 100%;
 			justify-content: center;
+			gap: var(--space-md);
 		}
 		.footer__btn-piano {
 			order: 3;

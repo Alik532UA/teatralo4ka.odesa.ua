@@ -81,7 +81,7 @@
 			title: 'КОНТАКТИ',
 			description: 'Телефон, пошта та актуальні способи звʼязку зі школою',
 			image: `${base}/png/Контакти2.png`,
-			href: `${base}/competitions`
+			href: `${base}/contacts`
 		},
 		{
 			title: 'ІСТОРІЯ',
@@ -212,6 +212,11 @@
 		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 
+	@keyframes fadeInUp {
+		from { opacity: 0; transform: translateY(30px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
 	.deps__card {
 		background: var(--color-white);
 		border-radius: 30px;
@@ -221,7 +226,15 @@
 		flex-direction: column;
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 		border: 1px solid rgba(0,0,0,0.05);
+		animation: fadeInUp 0.8s ease-out both;
 	}
+
+	.deps__card:nth-child(1) { animation-delay: 0.1s; }
+	.deps__card:nth-child(2) { animation-delay: 0.2s; }
+	.deps__card:nth-child(3) { animation-delay: 0.3s; }
+	.deps__card:nth-child(4) { animation-delay: 0.4s; }
+	.deps__card:nth-child(5) { animation-delay: 0.5s; }
+	.deps__card:nth-child(6) { animation-delay: 0.6s; }
 
 	:global(.dark-theme) .deps__card {
 		background: rgba(255, 255, 255, 0.03);
@@ -362,6 +375,7 @@
 			font-size: 0.8rem;
 			display: -webkit-box;
 			-webkit-line-clamp: 3;
+			line-clamp: 3;
 			-webkit-box-orient: vertical;
 			overflow: hidden;
 		}

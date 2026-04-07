@@ -37,7 +37,7 @@ Over these 3 festival years, ATSH Odesa has hosted representatives from 18 Ukrai
 
 All these years the school has been proud of its wonderful teachers who have worked since its foundation – true professionals: **S.N. Ryska, S.V. Kyseliova, O.V. Prorok**.
 
-The school is proud of its brilliant students who conquer the juries of festivals and competitions of all levels every year. Our children successfully perform on professional theatre stages and in films like 'Catch Kaidash', 'Butterfly Vision' (Cannes Film Festival), and others.
+The school is proud of its brilliant students who conquer the juries of festivals and contacts of all levels every year. Our children successfully perform on professional theatre stages and in films like 'Catch Kaidash', 'Butterfly Vision' (Cannes Film Festival), and others.
 
 Our children imperceptibly turn into graduates, into successful people, who do not forget their alma mater – the Art Theatre School.
 

@@ -4,6 +4,8 @@ export interface ToastMessage {
 	id: number;
 	type: ToastType;
 	message: string;
+	actionLabel?: string;
+	onAction?: () => void;
 }
 
 class ToastState {
@@ -16,25 +18,25 @@ class ToastState {
 
 	private nextId = 0;
 
-	add(type: ToastType, message: string, duration = 4000) {
+	add(type: ToastType, message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
 		const id = this.nextId++;
-		this.messages.push({ id, type, message });
+		this.messages.push({ id, type, message, actionLabel, onAction });
 		
 		setTimeout(() => {
 			this.remove(id);
 		}, duration);
 	}
 
-	success(message: string, duration = 4000) {
-		this.add('success', message, duration);
+	success(message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
+		this.add('success', message, duration, actionLabel, onAction);
 	}
 
-	error(message: string, duration = 5000) {
-		this.add('error', message, duration);
+	error(message: string, duration = 5000, actionLabel?: string, onAction?: () => void) {
+		this.add('error', message, duration, actionLabel, onAction);
 	}
 
-	info(message: string, duration = 4000) {
-		this.add('info', message, duration);
+	info(message: string, duration = 4000, actionLabel?: string, onAction?: () => void) {
+		this.add('info', message, duration, actionLabel, onAction);
 	}
 
 	remove(id: number) {

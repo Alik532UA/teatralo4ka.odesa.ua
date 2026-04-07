@@ -407,11 +407,18 @@
 	{/if}
 
 	{#if deleteConfirmModal.open}
-		<div class="modal-overlay" onclick={() => deleteConfirmModal = { open: false, user: null }}>
-			<div class="delete-modal" onclick={(e) => e.stopPropagation()}>
+		<div 
+			class="modal-overlay" 
+			onclick={() => deleteConfirmModal = { open: false, user: null }}
+			onkeydown={(e) => e.key === 'Escape' && (deleteConfirmModal = { open: false, user: null })}
+			role="button"
+			tabindex="0"
+			aria-label="Закрити модальне вікно"
+		>
+			<div class="delete-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" tabindex="0">
 				<div class="modal-header">
 					<Trash2 size={32} />
-					<span>{$t('admin.users.confirmDeleteTitle') || 'Підтвердження видалення'}</span>
+					<span id="delete-modal-title">{$t('admin.users.confirmDeleteTitle') || 'Підтвердження видалення'}</span>
 				</div>
 				<p style="font-size: 1.1rem; line-height: 1.6;">
 					{$t('admin.users.confirmDeleteText') || 'Ви впевнені, що хочете видалити акаунт'} 
@@ -446,7 +453,8 @@
 			</div>
 		</div>
 	{/if}
-</section>
+	</section>
+
 
 <!-- ===================== User Card (Modern Switches) ===================== -->
 {#snippet userCard(user: any)}
@@ -541,60 +549,6 @@
 		--text-main: var(--color-deep-ocean, #1a2a3a);
 	}
 
-	.add-user-panel {
-		margin-bottom: 4rem;
-		background: var(--color-deep-ocean);
-		color: white;
-		padding: 3rem;
-		border-radius: 32px;
-		box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-	}
-
-	.add-user-panel .form-group-white {
-		display: flex;
-		flex-direction: column;
-		gap: 0.8rem;
-	}
-
-	.add-user-panel label {
-		font-weight: 600;
-		font-size: 0.9rem;
-	}
-
-	.add-user-panel input, .add-user-panel select {
-		padding: 1rem;
-		border-radius: 12px;
-		border: 1px solid rgba(255,255,255,0.2);
-		background: rgba(255,255,255,0.1);
-		color: white;
-		outline: none;
-	}
-	.add-user-panel select option { color: black; }
-
-	.perms-split {
-		display: flex; gap: 3rem;
-	}
-
-	.perms-group {
-		display: flex; gap: 1rem; align-items: center;
-	}
-
-	.perms-label {
-		opacity: 0.6; font-size: 0.8rem; text-transform: uppercase; font-weight: 700;
-	}
-
-	.btn-confirm-add {
-		background: var(--color-accent);
-		color: white;
-		padding: 1rem 2.5rem;
-		border-radius: 16px;
-		border: none;
-		font-weight: 700;
-		cursor: pointer;
-		transition: all 0.2s;
-	}
-	.btn-confirm-add:disabled { opacity:0.5; }
-
 	.btn-add {
 		background: var(--color-ocean);
 		color: white;
@@ -652,7 +606,7 @@
 	}
 	.user-card.is-self { background: rgba(0,0,0,0.01); border-style: dashed; }
 	.user-card.has-changes { border: 2px solid #f97316 !important; box-shadow: 0 10px 40px rgba(249, 115, 22, 0.15); }
-	
+
 	.self-tag {
 		position: absolute; top: 1rem; right: 4rem;
 		background: var(--text-main); color: white; padding: 0.3rem 0.8rem;
@@ -677,11 +631,10 @@
 	.v3-left { width: 250px; display: flex; flex-direction: column; gap: 1rem; }
 	.v3-project-title { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; }
 	.v3-select { padding: 0.6rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); outline: none; }
-	.v3-save { padding: 0.8rem; border-radius: 12px; }
 	.v3-right { flex: 1; display: flex; gap: 3rem; }
 	.v3-switch-group { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
 	.v3-group-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.6; font-weight: 700; }
-	
+
 	.unsaved-badge {
 		color: #f97316;
 		font-size: 0.85rem;
@@ -736,12 +689,16 @@
 		background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
 		display: flex; align-items: center; justify-content: center;
 		z-index: 1000; padding: 20px;
+		border: none;
+		cursor: pointer;
 	}
 	.delete-modal {
 		background: var(--card-bg); border-radius: 24px; padding: 2.5rem;
 		max-width: 500px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
 		display: flex; flex-direction: column; gap: 1.5rem;
 		color: var(--text-main);
+		text-align: left;
+		cursor: default;
 	}
 	.modal-header { display: flex; align-items: center; gap: 1rem; color: #ef4444; font-size: 1.5rem; font-family: var(--font-heading); }
 	.delete-input {
@@ -763,8 +720,5 @@
 		.v3-project-row { flex-direction: column; gap: 1.5rem; }
 		.v3-left { width: 100%; }
 		.v3-right { flex-direction: column; gap: 1.5rem; }
-		.perms-split { flex-direction: column; gap: 1.5rem; }
-		.add-user-panel { padding: 1.5rem; }
-		.add-user-panel > div { grid-template-columns: 1fr !important; }
 	}
 </style>
