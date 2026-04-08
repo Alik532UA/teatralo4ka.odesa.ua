@@ -46,7 +46,7 @@ service cloud.firestore {
              (!('title' in block) || (block.title is string && block.title.size() <= 150)) &&
              (!('content' in block) || (block.content is string && block.content.size() <= 50000)) &&
              (!('isPublished' in block) || block.isPublished is bool) &&
-             (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 500));
+             (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 2048));
     }
 
     function isValidTranslations(translations) {
@@ -57,7 +57,7 @@ service cloud.firestore {
 
     // FIX S3, S4, S5, S10, S11: Повна валідація статті
     function isValidArticle(data) {
-      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug']) &&
+      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug', 'type']) &&
              data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
              data.content is string && data.content.size() <= 50000 &&
              data.category is string && data.category.size() > 0 && data.category.size() <= 32 &&
@@ -66,13 +66,14 @@ service cloud.firestore {
              data.isPublished is bool &&
              data.createdAt is timestamp &&
              data.updatedAt is timestamp &&
-             (!('coverUrl' in data) || (data.coverUrl is string && data.coverUrl.size() <= 500)) &&
+             (!('coverUrl' in data) || (data.coverUrl is string && data.coverUrl.size() <= 2048)) &&
              (!('dateMode' in data) || (data.dateMode is string && data.dateMode.size() <= 20)) &&
              (!('customDate' in data) || data.customDate == null || 
                (data.customDate is timestamp && 
                 data.customDate > timestamp.date(2020, 1, 1) && 
                 data.customDate < request.time + duration.value(365, 'd'))) &&
              (!('slug' in data) || (data.slug is string && data.slug.size() > 0 && data.slug.size() <= 100 && data.slug.matches('[a-z0-9_]+'))) &&
+             (!('type' in data) || data.type in ['article', 'page']) &&
              (!('translations' in data) || isValidTranslations(data.translations));
     }
 
@@ -105,7 +106,8 @@ service cloud.firestore {
     }
 
     match /projects/{projectId} {
-      allow read: if true;
+      // ЗАХИСТ: Метадані проєкту доступні лише учасникам (запобігає перерахуванню всіх проєктів).
+      allow read: if isSignedIn() && (isSuperAdmin() || belongsToProject(projectId));
       // ЗАХИСТ: Звичайні адміни більше не можуть видалити школу цілком (Тільки Суперадмін).
       // Адміни можуть тільки оновлювати поля (наприклад, назву, регіон).
       allow write: if (isSuperAdmin() && request.method == 'delete') || 
@@ -146,6 +148,13 @@ service cloud.firestore {
           ) ||
           // СЦЕНАРІЙ Б: Адмін школи створює нового користувача (додає його по Email)
           (
+            // ЗАХИСТ: ID документа має бути email-формат (запобігає створенню фейкових UID-документів)
+            userId.matches('.*@.*[.].*') &&
+            // ЗАХИСТ: Тільки дозволені поля (запобігає ін'єкції довільних полів)
+            request.resource.data.keys().hasOnly(['email', 'isSuperAdmin', 'projects', 'projectIds', 'lastModifiedProject', 'createdAt', '_createdByUid']) &&
+            // АУДИТ: Хто створив цей документ (для відстеження pre-seed атак)
+            request.resource.data._createdByUid == request.auth.uid &&
+            request.resource.data.email is string &&
             'lastModifiedProject' in request.resource.data &&
             request.resource.data.isSuperAdmin == false &&
             request.resource.data.projects.keys().hasOnly([request.resource.data.lastModifiedProject]) &&
@@ -167,10 +176,13 @@ service cloud.firestore {
         isSignedIn() && (
           // СЦЕНАРІЙ 1: Користувач оновлює сам себе (обмежено поля)
           (request.auth.uid == userId && 
-           request.resource.data.keys().hasOnly(['email', 'name', 'projects', 'projectIds', 'isSuperAdmin', 'lastModifiedProject', 'createdAt', 'updatedAt', 'avatar', 'phone']) &&
+           request.resource.data.keys().hasOnly(['email', 'name', 'projects', 'projectIds', 'isSuperAdmin', 'lastModifiedProject', 'createdAt', 'updatedAt', 'avatar', 'phone', '_createdByUid']) &&
            request.resource.data.isSuperAdmin == resource.data.isSuperAdmin &&
            request.resource.data.projects == resource.data.projects &&
-           request.resource.data.projectIds == resource.data.projectIds) || // Захист: юзер не може змінити свій projectIds
+           request.resource.data.projectIds == resource.data.projectIds &&
+           // ЗАХИСТ: Юзер не може змінити дату створення та аудит-мітку
+           request.resource.data.createdAt == resource.data.createdAt &&
+           (!('_createdByUid' in resource.data) || request.resource.data._createdByUid == resource.data._createdByUid)) ||
           
           // СЦЕНАРІЙ 2: Адмін/модератор керує користувачем
           (

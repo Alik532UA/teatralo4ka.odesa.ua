@@ -184,28 +184,36 @@
 	}
 
 	function loadDraftFromFile(e: Event) {
-		const file = (e.target as HTMLInputElement).files?.[0];
-		if (!file) return;
-		const reader = new FileReader();
-		reader.onload = (event) => {
-			try {
-				const data = JSON.parse(event.target?.result as string);
-				category = data.category || category;
-				dateMode = data.dateMode || dateMode;
-				customDateStr = data.customDateStr || customDateStr;
-				differentCovers = data.differentCovers || false;
-				if (data.translations) {
-					translations = {
-						uk: { ...translations.uk, ...data.translations.uk },
-						en: { ...translations.en, ...data.translations.en }
-					};
+		const files = (e.target as HTMLInputElement).files;
+		if (!files || files.length === 0) return;
+		let loaded = 0;
+		let failed = 0;
+		for (const file of files) {
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				try {
+					const data = JSON.parse(event.target?.result as string);
+					category = data.category || category;
+					dateMode = data.dateMode || dateMode;
+					customDateStr = data.customDateStr || customDateStr;
+					differentCovers = data.differentCovers || false;
+					if (data.translations) {
+						translations = {
+							uk: { ...translations.uk, ...data.translations.uk },
+							en: { ...translations.en, ...data.translations.en }
+						};
+					}
+					loaded++;
+				} catch {
+					failed++;
 				}
-				toast.success(get(t)('admin.editor.loadDraftFile'));
-			} catch {
-				toast.error('Помилка при читанні файлу');
-			}
-		};
-		reader.readAsText(file);
+				if (loaded + failed === files.length) {
+					if (loaded > 0) toast.success(get(t)('admin.editor.loadDraftFile'));
+					if (failed > 0) toast.error(get(t)('admin.editor.draftFileError'));
+				}
+			};
+			reader.readAsText(file);
+		}
 		(e.target as HTMLInputElement).value = '';
 	}
 </script>
@@ -234,27 +242,26 @@
 	</div>
 {/if}
 
-<section class="admin-article-form container" style="padding: 120px 24px;">
-	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
-		<div style="display: flex; align-items: center; gap: 1rem;">
-			<a href="{base}/admin/articles" class="btn btn-outline" style="padding: 0.5rem 1rem;" title={$t('admin.editor.backToList')}>
-				<ChevronLeft size={20} />
+<section class="admin-article-form container" style="padding: 120px 24px 80px;">
+	<div class="af-header">
+		<div class="af-title-group">
+			<a href="{base}/admin/articles" class="af-back-btn" title={$t('admin.editor.backToList')}>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
-			<h1 style="margin: 0; font-size: 2rem;">
+			<h1 class="af-title">
 				{mode === 'create' ? $t('admin.editor.newTitle') : $t('admin.editor.editTitle')}
 			</h1>
 		</div>
-		<div style="display: flex; gap: 1rem;">
-			<div class="draft-actions" style="display: flex; gap: 0.5rem;">
-				<button type="button" class="btn btn-outline" onclick={saveDraftToFile} title={$t('admin.editor.saveDraftFile')}>
-					<FileDown size={18} />
-				</button>
-				<label class="btn btn-outline" style="cursor: pointer;" title={$t('admin.editor.loadDraftFile')}>
-					<Paperclip size={18} />
-					<input type="file" accept=".json" onchange={loadDraftFromFile} style="display: none;" />
-				</label>
-			</div>
-			<button type="submit" form={formId} disabled={submitting} class="btn btn-primary" data-testid="{tp}-submit-button">
+		<div class="af-actions">
+			<button type="button" class="af-icon-btn" onclick={saveDraftToFile} title={$t('admin.editor.saveDraftFile')}>
+				<FileDown size={18} />
+			</button>
+			<label class="af-icon-btn" style="cursor: pointer;" title={$t('admin.editor.loadDraftFile')}>
+				<Paperclip size={18} />
+				<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
+			</label>
+			<button type="submit" form={formId} disabled={submitting} class="af-submit-btn" data-testid="{tp}-submit-button">
+				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
 				{submitting
 					? (mode === 'create' ? $t('admin.editor.saving') : $t('admin.editor.updating'))
 					: (mode === 'create' ? $t('admin.editor.saveBtn') : $t('admin.editor.updateBtn'))
@@ -536,7 +543,7 @@
 				<label class="btn btn-outline" style="cursor: pointer;" data-testid="{tp}-load-draft-file-button-bottom">
 					<Paperclip size={18} style="margin-right: 0.5rem;" />
 					{$t('admin.editor.loadDraftFile')}
-					<input type="file" accept=".json" onchange={loadDraftFromFile} style="display: none;" />
+					<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
 				</label>
 			</div>
 			<button type="submit" disabled={submitting} class="btn btn-primary btn-large" style="padding: 1rem 4rem; font-size: 1.1rem;" data-testid="{tp}-submit-button-bottom">
@@ -597,5 +604,93 @@
 		font-weight: 700;
 		color: var(--color-deep-ocean);
 		margin: 0;
+	}
+
+	/* Article form header */
+	.af-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 3rem;
+		gap: 1rem;
+	}
+	.af-title-group {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		min-width: 0;
+	}
+	.af-back-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 2px solid var(--color-border);
+		color: var(--color-muted-text);
+		text-decoration: none;
+		flex-shrink: 0;
+		transition: border-color 0.15s, color 0.15s;
+	}
+	.af-back-btn:hover {
+		border-color: var(--color-sea-blue);
+		color: var(--color-sea-blue);
+	}
+	.af-title {
+		font-family: var(--font-heading);
+		color: var(--color-deep-ocean);
+		font-size: 1.8rem;
+		margin: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.af-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-shrink: 0;
+	}
+	.af-icon-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 12px;
+		border: 2px solid var(--color-border);
+		background: none;
+		color: var(--color-muted-text);
+		cursor: pointer;
+		transition: border-color 0.15s, color 0.15s, background 0.15s;
+	}
+	.af-icon-btn:hover {
+		border-color: var(--color-sea-blue);
+		color: var(--color-sea-blue);
+		background: rgba(33, 150, 186, 0.07);
+	}
+	.af-submit-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.55rem 1.4rem;
+		border-radius: 14px;
+		background: var(--color-sea-blue);
+		color: #fff;
+		border: none;
+		font-size: 0.9rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: opacity 0.15s, transform 0.15s;
+		white-space: nowrap;
+	}
+	.af-submit-btn:hover:not(:disabled) {
+		opacity: 0.88;
+		transform: translateY(-1px);
+	}
+	.af-submit-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 </style>

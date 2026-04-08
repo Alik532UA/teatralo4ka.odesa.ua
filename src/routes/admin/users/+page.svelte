@@ -183,7 +183,8 @@
 					},
 					projectIds: [newUser.projectId],
 					lastModifiedProject: newUser.projectId,
-					createdAt: serverTimestamp()
+					createdAt: serverTimestamp(),
+					_createdByUid: authService.user?.uid ?? ''
 				});
 			} else {
 				const userRef = doc(db, 'users', existingUser.id);
@@ -313,30 +314,23 @@
 	}
 </script>
 
-<section class="admin-users container" style="padding: 120px 24px; max-width: 1400px; margin: 0 auto;">
-	<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-		<div style="display: flex; align-items: center; gap: 1.5rem;">
-			<a href="{base}/admin" class="btn-back" title="Назад">
-				<ChevronLeft size={24} />
+<section class="admin-users container" style="padding: 140px 24px 80px; max-width: 1400px; margin: 0 auto;">
+	<div class="uh-header">
+		<div class="uh-title-group">
+			<a href="{base}/admin" class="uh-back-btn" title={$t('admin.editor.backToList')}>
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<div>
-				<h1 style="margin: 0; font-size: 2.5rem; font-family: var(--font-heading); color: var(--color-deep-ocean);">{$t('admin.users.title')}</h1>
-				<p style="margin: 0.5rem 0 0; opacity: 0.6; font-size: 1.1rem;">{$t('admin.users.subtitle')}</p>
+				<h1 class="uh-title">{$t('admin.users.title')}</h1>
+				<p class="uh-subtitle">{$t('admin.users.subtitle')}</p>
 			</div>
+			{#if !loading}<span class="uh-count">{users.length}</span>{/if}
 		</div>
-		
-		<div style="display: flex; gap: 1rem;">
-			<button class="btn-add" onclick={() => showAddForm = !showAddForm}>
-				{#if showAddForm}
-					<X size={20} /> {$t('admin.users.cancel')}
-				{:else}
-					<UserPlus size={20} /> {$t('admin.users.grantAccess')}
-				{/if}
+		<div class="uh-actions">
+			<button class="uh-grant-btn" onclick={() => showAddForm = !showAddForm}>
+				<UserPlus size={18} />
+				{showAddForm ? $t('admin.users.cancel') : $t('admin.users.grantAccess')}
 			</button>
-			<div class="stats-badge">
-				<Users size={20} />
-				<span>{$t('admin.users.total')}: {users.length}</span>
-			</div>
 		</div>
 	</div>
 
@@ -402,6 +396,92 @@
 					</div>
 				</div>
 			{/if}
+		</div>
+	{/if}
+
+	{#if showAddForm}
+		<div
+			class="modal-overlay"
+			onclick={() => showAddForm = false}
+			onkeydown={(e) => e.key === 'Escape' && (showAddForm = false)}
+			role="button"
+			tabindex="0"
+			aria-label="Закрити"
+		>
+			<div class="add-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="0">
+				<div class="modal-header" style="color: var(--color-sea-blue, #2196ba);">
+					<UserPlus size={28} />
+					<span>{$t('admin.users.grantAccess')}</span>
+					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label="Закрити"><X size={20} /></button>
+				</div>
+
+				<div class="add-form-body">
+					<!-- Email -->
+					<label class="add-label" for="new-user-email">{$t('admin.users.emailLabel') || 'Email'}</label>
+					<input
+						id="new-user-email"
+						type="email"
+						class="add-input"
+						bind:value={newUser.email}
+						placeholder="user@example.com"
+						autocomplete="off"
+					/>
+
+					<!-- Project -->
+					{#if isSuperAdmin}
+						<label class="add-label" for="new-user-project">{$t('admin.users.projectLabel') || 'Проєкт'}</label>
+						<input id="new-user-project" type="text" class="add-input" bind:value={newUser.projectId} />
+					{/if}
+
+					<!-- Role -->
+					<label class="add-label" for="new-user-role">{$t('admin.users.roleLabel') || 'Роль'}</label>
+					<select id="new-user-role" class="add-input add-select" bind:value={newUser.role}>
+						{#each ROLES as r}
+							<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>
+						{/each}
+					</select>
+
+					<!-- Permissions -->
+					<span class="add-label">{$t('admin.users.permsContent')}</span>
+					<div class="add-perms">
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canCreate} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.create')}</span>
+						</label>
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canEdit} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.edit')}</span>
+						</label>
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canDelete} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.delete')}</span>
+						</label>
+					</div>
+					<span class="add-label">{$t('admin.users.permsAdmin')}</span>
+					<div class="add-perms">
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canManageUsers} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.manageUsers')}</span>
+						</label>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button class="btn-cancel-modal" onclick={() => showAddForm = false}>{$t('admin.users.cancel')}</button>
+					<button
+						class="btn-confirm-delete is-ready"
+						style="background: var(--color-sea-blue, #2196ba); box-shadow: 0 4px 12px rgba(33,150,186,0.3);"
+						onclick={handleAddSubmit}
+						disabled={savingId === 'new' || !newUser.email.includes('@')}
+					>
+						{#if savingId === 'new'}...{:else}<UserPlus size={16} /> {$t('admin.users.grantAccess')}{/if}
+					</button>
+				</div>
+			</div>
 		</div>
 	{/if}
 
@@ -490,7 +570,7 @@
 		</div>
 
 		<div class="v3-projects">
-			{#if Object.keys(user.projects).length === 0}
+			{#if Object.keys(user.projects).length === 0 && !user.isSuperAdmin}
 				<div class="v3-empty">{$t('admin.users.noProjects')}</div>
 			{/if}
 			{#each Object.entries(user.projects) as [projectId, pDataRaw]}
@@ -546,19 +626,6 @@
 		--card-bg: var(--theme-dynamic-card-bg, #ffffff);
 		--card-border: rgba(0,0,0,0.05);
 		--text-main: var(--color-deep-ocean, #1a2a3a);
-	}
-
-	.btn-add {
-		background: var(--color-ocean);
-		color: white;
-		padding: 0.6rem 1.5rem;
-		border-radius: 16px;
-		border: none;
-		font-weight: 600;
-		display: flex;
-		align-items: center;
-		gap: 0.7rem;
-		cursor: pointer;
 	}
 
 	.users-hierarchy {
@@ -676,9 +743,6 @@
 	.btn-icon:hover { background: rgba(239,68,68,0.1); }
 	.btn-delete-full { background: rgba(239,68,68,0.1); color: #ef4444; border: none; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
 	.btn-delete-full:hover { background: #ef4444; color: white; }
-	.btn-back { width: 48px; height: 48px; border-radius: 14px; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; color: var(--text-main); transition: all 0.2s; }
-	.btn-back:hover { background: rgba(0,0,0,0.05); }
-	.stats-badge { background: var(--text-main); color: white; padding: 0.6rem 1.2rem; border-radius: 16px; display: flex; align-items: center; gap: 0.8rem; font-weight: 600; }
 	.loader { width: 48px; height: 48px; border: 4px solid var(--color-ocean); border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; }
 	@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -714,6 +778,107 @@
 		font-weight: 700; transition: all 0.2s;
 	}
 	.btn-confirm-delete.is-ready { background: #ef4444; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+
+	/* Add user modal */
+	.add-modal {
+		background: var(--card-bg); border-radius: 24px; padding: 2.5rem;
+		max-width: 480px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+		display: flex; flex-direction: column; gap: 1.25rem;
+		color: var(--text-main); text-align: left; cursor: default;
+	}
+	.add-modal-close {
+		margin-left: auto; background: none; border: none; color: var(--text-main);
+		opacity: 0.5; cursor: pointer; display: flex; align-items: center; padding: 0.25rem;
+		border-radius: 6px; transition: opacity 0.15s;
+	}
+	.add-modal-close:hover { opacity: 1; }
+	.add-form-body { display: flex; flex-direction: column; gap: 0.6rem; }
+	.add-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin-top: 0.5rem; }
+	.add-input {
+		padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--card-border);
+		background: transparent; color: var(--text-main); outline: none;
+		font-size: 1rem; transition: border-color 0.15s; width: 100%; box-sizing: border-box;
+	}
+	.add-input:focus { border-color: var(--color-sea-blue, #2196ba); }
+	.add-select { cursor: pointer; }
+	.add-perms { display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; }
+
+	/* Users page header */
+	.uh-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 2.5rem;
+		gap: 1rem;
+	}
+	.uh-title-group {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+	}
+	.uh-back-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		border: 2px solid var(--color-border);
+		color: var(--color-muted-text);
+		text-decoration: none;
+		flex-shrink: 0;
+		transition: border-color 0.15s, color 0.15s;
+	}
+	.uh-back-btn:hover {
+		border-color: var(--color-sea-blue);
+		color: var(--color-sea-blue);
+	}
+	.uh-title {
+		font-family: var(--font-heading);
+		color: var(--color-deep-ocean);
+		font-size: 1.8rem;
+		margin: 0 0 0.2rem;
+	}
+	.uh-subtitle {
+		margin: 0;
+		opacity: 0.6;
+		font-size: 0.95rem;
+	}
+	.uh-count {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 28px;
+		height: 28px;
+		padding: 0 8px;
+		background: var(--color-sea-blue);
+		color: #fff;
+		border-radius: 20px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+	.uh-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
+	.uh-grant-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.55rem 1.2rem;
+		border-radius: 14px;
+		background: var(--color-sea-blue);
+		color: #fff;
+		border: none;
+		font-size: 0.9rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: opacity 0.15s, transform 0.15s;
+		white-space: nowrap;
+	}
+	.uh-grant-btn:hover { opacity: 0.88; transform: translateY(-1px); }
 
 	@media (max-width: 900px) {
 		.v3-project-row { flex-direction: column; gap: 1.5rem; }

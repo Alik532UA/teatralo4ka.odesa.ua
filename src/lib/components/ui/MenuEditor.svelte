@@ -14,7 +14,9 @@
 		onLoadArticles: () => void;
 		onchange: (menu: MenuConfig) => void;
 		onsave?: () => void;
+		onreset?: () => void;
 		saving?: boolean;
+		hasChanges?: boolean;
 	}
 
 	let {
@@ -27,7 +29,9 @@
 		onLoadArticles,
 		onchange,
 		onsave,
+		onreset,
 		saving = false,
+		hasChanges = false,
 	}: Props = $props();
 
 	// ── Add-item state ───────────────────────────────────────────────────────
@@ -280,7 +284,7 @@
 	}
 </script>
 
-<div class="me-card">
+<div class="me-card {hasChanges ? 'has-changes' : ''}">
 	<h2 class="me-title">{title}</h2>
 	{#if description}<p class="me-desc">{description}</p>{/if}
 
@@ -302,9 +306,7 @@
 						{#if item.visible}<Eye size={15} />{:else}<EyeOff size={15} />{/if}
 					</button>
 					<button type="button" class="me-btn" onclick={() => startEditItem(item)} title={$t('admin.menuEditor.btnEdit')}><Pencil size={15} /></button>
-					{#if item.custom}
-						<button type="button" class="me-btn me-btn--del" onclick={() => deleteItem(i)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
-						{/if}
+					<button type="button" class="me-btn me-btn--del" onclick={() => deleteItem(i)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
 					</div>
 				</li>
 
@@ -352,9 +354,7 @@
 					<button type="button" class="me-btn" onclick={() => toggleExpand(section.id)} title={$t('admin.menuEditor.btnExpand')}>
 						{#if expandedIds.has(section.id)}<ChevronUp size={15} />{:else}<ChevronDown size={15} />{/if}
 					</button>
-					{#if section.custom}
-						<button type="button" class="me-btn me-btn--del" onclick={() => deleteSection(si)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
-					{/if}
+					<button type="button" class="me-btn me-btn--del" onclick={() => deleteSection(si)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
 				</div>
 			</div>
 
@@ -395,9 +395,7 @@
 								{#if item.visible}<Eye size={15} />{:else}<EyeOff size={15} />{/if}
 							</button>
 							<button type="button" class="me-btn" onclick={() => startEditItem(item, section.id)} title={$t('admin.menuEditor.btnEdit')}><Pencil size={15} /></button>
-							{#if item.custom}
-								<button type="button" class="me-btn me-btn--del" onclick={() => deleteSectionItem(si, ii)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
-								{/if}
+							<button type="button" class="me-btn me-btn--del" onclick={() => deleteSectionItem(si, ii)} title={$t('admin.menuEditor.btnDelete')}><Trash2 size={15} /></button>
 							</div>
 						</div>
 
@@ -526,9 +524,21 @@
 		</div>
 	{/if}
 	{#if onsave}
-		<button type="button" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; border: none; padding: 1rem;" onclick={onsave} disabled={saving}>
-			{saving ? $t('admin.menuEditor.saving') : $t('admin.menuEditor.save')}
-		</button>
+		<div class="me-save-footer">
+			{#if onreset}
+				<button type="button" class="me-reset-btn" onclick={onreset} disabled={saving}>
+					{$t('admin.menuEditor.resetDefaults')}
+				</button>
+			{/if}
+			<div class="me-save-right">
+				{#if hasChanges}
+					<span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
+				{/if}
+				<button type="button" class="btn-save-small {hasChanges ? 'is-active' : ''}" onclick={onsave} disabled={saving || !hasChanges} style="border: none;">
+					{#if saving}{$t('admin.menuEditor.saving')}{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.menuEditor.save')}{/if}
+				</button>
+			</div>
+		</div>
 	{/if}
 </div>
 
@@ -842,4 +852,119 @@
 		outline: none;
 		border-color: var(--color-sea-blue);
 	}
+
+	:global(.me-card.has-changes) {
+		border: 2px solid #f97316 !important;
+		box-shadow: 0 10px 40px rgba(249, 115, 22, 0.15);
+	}
+
+	.me-save-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 2rem;
+	}
+
+	.me-save-right {
+		display: flex;
+		align-items: center;
+	}
+
+	.me-reset-btn {
+		padding: 0.5rem 1rem;
+		background: none;
+		border: 2px solid var(--color-border);
+		border-radius: 8px;
+		cursor: pointer;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--color-muted-text);
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.me-reset-btn:hover:not(:disabled) {
+		border-color: #ef4444;
+		color: #ef4444;
+	}
+
+	.me-reset-btn:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	.me-save-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-top: 2rem;
+	}
+
+	.me-save-right {
+		display: flex;
+		align-items: center;
+	}
+
+	.me-reset-btn {
+		padding: 0.5rem 1rem;
+		background: none;
+		border: 2px solid var(--color-border);
+		border-radius: 8px;
+		cursor: pointer;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--color-muted-text);
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.me-reset-btn:hover:not(:disabled) {
+		border-color: #ef4444;
+		color: #ef4444;
+	}
+
+	.me-reset-btn:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
+
+	:global(.unsaved-badge) {
+		font-size: 0.7rem;
+		font-weight: 700;
+		color: #f97316;
+		background: rgba(249, 115, 22, 0.1);
+		padding: 0.3rem 0.6rem;
+		border-radius: 12px;
+		margin-right: 1rem;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	:global(.btn-save-small) {
+		background: #e2e8f0;
+		color: #94a3b8;
+		border: none;
+		padding: 0.6rem 1.2rem;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		font-weight: 600;
+		cursor: not-allowed;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		transition: all 0.2s;
+		opacity: 0.7;
+	}
+
+	:global(.btn-save-small.is-active) {
+		background: #10b981 !important;
+		color: white;
+		opacity: 1;
+		cursor: pointer;
+		box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+	}
+
+	:global(.btn-save-small.is-active):hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+	}
+
 </style>

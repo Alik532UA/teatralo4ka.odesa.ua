@@ -255,6 +255,7 @@
       "draftActions": "Draft Actions",
       "saveDraftFile": "Save draft to file",
       "loadDraftFile": "Load from file",
+      "draftFileError": "Error reading file",
       "uploadFromDevice": "Upload from device",
       "uploadInstructionTitle": "How to Upload an Image",
       "uploadInstructionText": "Direct upload from your device is not available in this version of the site. You can use a free image hosting service:",
@@ -347,7 +348,8 @@
       "btnShow": "Show",
       "btnEdit": "Edit",
       "btnDelete": "Delete",
-      "btnExpand": "Expand"
+      "btnExpand": "Expand",
+      "resetDefaults": "Reset to defaults"
     },
     "login": {
       "title": "Login to Admin Panel",
