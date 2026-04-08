@@ -245,8 +245,94 @@ button {
 /* Mobile: < 640px */
 /* Tablet: 640px - 1024px */
 /* Desktop: > 1024px */
+/* --- Unified Dropdown Menu Styles --- */
+.dropdown-menu-unified {
+	background: color-mix(in srgb, var(--color-surface), transparent 30%);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-lg);
+	padding: var(--space-md);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-sm);
+}
 
-/* --- Form Elements --- */
+:global(.app.with-dynamic-bg) .dropdown-menu-unified {
+	background: color-mix(in srgb, var(--color-surface), transparent 60%);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+}
+
+:global(.dark-theme) .dropdown-menu-unified {
+	background: color-mix(in srgb, var(--color-dark-bg, #0f172a), transparent 30%);
+}
+
+:global(.dark-theme.app.with-dynamic-bg) .dropdown-menu-unified {
+	background: color-mix(in srgb, var(--color-dark-bg, #000), transparent 60%);
+}
+
+.dropdown-group-unified {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+}
+
+.dropdown-label-unified {
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: var(--color-muted-text);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 2px;
+}
+
+.dropdown-options-unified {
+	display: flex;
+	gap: var(--space-xs);
+	background: var(--color-ice-blue);
+	padding: 4px;
+	border-radius: var(--radius-md);
+}
+
+:global(.dark-theme) .dropdown-options-unified {
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-opt-unified {
+	flex: 1;
+	padding: 6px 10px;
+	font-size: 0.8rem;
+	font-weight: 700;
+	border-radius: var(--radius-sm);
+	transition: all var(--transition-fast);
+	color: var(--color-deep-ocean);
+	border: none;
+	cursor: pointer;
+	background: transparent;
+	text-align: center;
+}
+
+:global(.dark-theme) .dropdown-opt-unified {
+	color: var(--color-dark-text);
+}
+
+.dropdown-opt-unified:hover {
+	background: rgba(255, 255, 255, 0.3);
+}
+
+.dropdown-opt-unified.active {
+	background: var(--color-surface);
+	box-shadow: var(--shadow-sm);
+	color: var(--color-golden);
+}
+
+:global(.dark-theme) .dropdown-opt-unified.active {
+	background: var(--color-sea-blue);
+	color: var(--color-white);
+}
+
 .form-group {
 	display: flex;
 	flex-direction: column;
@@ -265,8 +351,8 @@ button {
 	padding: 0.875rem 1.25rem;
 	font-family: var(--font-body);
 	font-size: 1rem;
-	color: var(--color-dark-text);
-	background: var(--color-white);
+	color: var(--color-text-primary);
+	background: var(--color-surface);
 	border: 2px solid rgba(0, 95, 174, 0.1);
 	border-radius: var(--radius-md);
 	transition: all var(--transition-base);

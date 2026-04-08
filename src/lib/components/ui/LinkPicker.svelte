@@ -1,0 +1,210 @@
+<script lang="ts">
+	import type { MenuLinkType } from '$lib/services/settings';
+
+	interface Props {
+		linkType: MenuLinkType;
+		href: string;
+		labelUk?: string;
+		labelEn?: string;
+		showLabels?: boolean;
+		articlesList: { slug: string; titleUk: string; titleEn: string }[];
+		articlesLoading: boolean;
+		knownPages: { value: string; labelUk: string; labelEn: string }[];
+		onLoadArticles: () => void;
+		onchange: (patch: { linkType?: MenuLinkType; href?: string; labelUk?: string; labelEn?: string }) => void;
+	}
+
+	let {
+		linkType,
+		href,
+		labelUk = '',
+		labelEn = '',
+		showLabels = false,
+		articlesList,
+		articlesLoading,
+		knownPages,
+		onLoadArticles,
+		onchange,
+	}: Props = $props();
+
+	function setLinkType(t: MenuLinkType) {
+		if (t === linkType) return;
+		let newHref = href;
+		let patch: Parameters<typeof onchange>[0] = { linkType: t };
+		if (t === 'page') {
+			newHref = knownPages[0]?.value ?? '/';
+			patch.href = newHref;
+			if (showLabels) {
+				const page = knownPages.find(p => p.value === newHref);
+				patch.labelUk = page?.labelUk ?? newHref;
+				patch.labelEn = page?.labelEn ?? newHref;
+			}
+		} else if (t === 'article') {
+			onLoadArticles();
+			newHref = '';
+			patch.href = '';
+		} else {
+			newHref = '';
+			patch.href = '';
+		}
+		onchange(patch);
+	}
+
+	function selectPage(value: string) {
+		const page = knownPages.find(p => p.value === value);
+		const patch: Parameters<typeof onchange>[0] = { href: value };
+		if (showLabels && page) {
+			patch.labelUk = page.labelUk;
+			patch.labelEn = page.labelEn;
+		}
+		onchange(patch);
+	}
+
+	function selectArticle(slug: string) {
+		const article = articlesList.find(a => a.slug === slug);
+		const patch: Parameters<typeof onchange>[0] = { href: slug };
+		if (showLabels && article) {
+			patch.labelUk = article.titleUk;
+			patch.labelEn = article.titleEn;
+		}
+		onchange(patch);
+	}
+</script>
+
+<div class="link-picker">
+	<div class="lp-type-tabs">
+		{#each [['page', 'Сторінка'], ['article', 'Стаття'], ['url', 'URL']] as [t, label]}
+			<button type="button" class="lp-tab" class:lp-tab--active={linkType === t} onclick={() => setLinkType(t as MenuLinkType)}>
+				{label}
+			</button>
+		{/each}
+	</div>
+
+	{#if linkType === 'page'}
+		<select
+			class="lp-select"
+			value={href}
+			onchange={(e) => selectPage((e.target as HTMLSelectElement).value)}
+		>
+			{#each knownPages as p}
+				<option value={p.value}>{p.labelUk}</option>
+			{/each}
+		</select>
+	{:else if linkType === 'article'}
+		{#if articlesLoading}
+			<p class="lp-hint">Завантаження статей…</p>
+		{:else}
+			<select
+				class="lp-select"
+				value={href}
+				onchange={(e) => selectArticle((e.target as HTMLSelectElement).value)}
+			>
+				<option value="">— Оберіть статтю —</option>
+				{#each articlesList as a}
+					<option value={a.slug}>{a.titleUk} ({a.slug})</option>
+				{/each}
+			</select>
+		{/if}
+	{:else}
+		<input
+			type="url"
+			class="lp-select"
+			placeholder="https://…"
+			value={href}
+			oninput={(e) => onchange({ href: (e.target as HTMLInputElement).value })}
+		/>
+	{/if}
+
+	{#if showLabels}
+		<div class="lp-labels">
+			<div>
+				<span class="lp-label-hint">Назва UA</span>
+				<input
+					type="text"
+					class="lp-select"
+					value={labelUk}
+					oninput={(e) => onchange({ labelUk: (e.target as HTMLInputElement).value })}
+				/>
+			</div>
+			<div>
+				<span class="lp-label-hint">Назва EN</span>
+				<input
+					type="text"
+					class="lp-select"
+					value={labelEn}
+					oninput={(e) => onchange({ labelEn: (e.target as HTMLInputElement).value })}
+				/>
+			</div>
+		</div>
+	{/if}
+</div>
+
+<style>
+	.link-picker {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.lp-type-tabs {
+		display: flex;
+		gap: 0.35rem;
+		flex-wrap: wrap;
+	}
+
+	.lp-tab {
+		padding: 0.35rem 1rem;
+		border: 2px solid var(--color-border);
+		border-radius: 8px;
+		background: none;
+		cursor: pointer;
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--color-muted-text);
+		transition: border-color 0.15s, background 0.15s, color 0.15s;
+	}
+
+	.lp-tab:hover {
+		border-color: var(--color-sea-blue);
+		color: var(--color-sea-blue);
+	}
+
+	.lp-tab--active {
+		background: var(--color-sea-blue);
+		border-color: var(--color-sea-blue);
+		color: #fff;
+	}
+
+	.lp-select {
+		width: 100%;
+		padding: 0.5rem 0.75rem;
+		border: 2px solid var(--color-border);
+		border-radius: 10px;
+		font-size: 0.9rem;
+		background: var(--color-surface);
+		color: var(--color-dark-text);
+	}
+
+	.lp-select:focus {
+		outline: none;
+		border-color: var(--color-sea-blue);
+	}
+
+	.lp-hint {
+		font-size: 0.85rem;
+		color: var(--color-muted-text);
+	}
+
+	.lp-labels {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.5rem;
+	}
+
+	.lp-label-hint {
+		display: block;
+		font-size: 0.75rem;
+		color: var(--color-muted-text);
+		margin-bottom: 0.2rem;
+	}
+</style>

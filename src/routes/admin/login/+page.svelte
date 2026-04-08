@@ -33,16 +33,16 @@
 	});
 </script>
 
-<section class="admin-login container" style="padding: 160px 24px; max-width: 400px;">
-	<div style="background: var(--theme-dynamic-card-bg); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);">
-		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean); margin-bottom: 2rem; text-align: center;">{$t('admin.login.title')}</h1>
+<section class="admin-login container" style="padding: 160px 24px; max-width: 400px;" data-testid="admin-login-section-container">
+	<div style="background: var(--theme-dynamic-card-bg); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
+		<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title-label">{$t('admin.login.title')}</h1>
 		
 		{#if error}
-			<p style="color: red; margin-bottom: 1rem; text-align: center;">{error}</p>
+			<p style="color: red; margin-bottom: 1rem; text-align: center;" data-testid="admin-login-error-label">{error}</p>
 		{/if}
 
-		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;">
-			<div class="form-group">
+		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-form-group">
+			<div class="form-group" data-testid="admin-login-email-group">
 				<label class="form-label" for="email">{$t('admin.login.email')}</label>
 				<div class="input-with-icon">
 					<Mail size={18} class="input-icon" />
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" data-testid="admin-login-password-group">
 				<label class="form-label" for="password">{$t('admin.login.password')}</label>
 				<div class="input-with-icon">
 					<Lock size={18} class="input-icon" />
@@ -79,7 +79,7 @@
 				disabled={loading}
 				class="btn btn-primary"
 				style="width: 100%; border: none; cursor: pointer;"
-				data-testid="admin-login-submit-btn"
+				data-testid="admin-login-submit-button"
 			>
 				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
 			</button>

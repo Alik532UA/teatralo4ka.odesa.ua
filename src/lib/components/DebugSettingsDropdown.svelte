@@ -2,7 +2,7 @@
 	import { ui } from '$lib/states/ui.svelte';
 	import { t } from 'svelte-i18n';
 
-	let { isOpen = false } = $props<{ isOpen: boolean }>();
+	let { isOpen = false, testId = "debug-settings-dropdown-menu", showBackground = true, showBlur = true } = $props<{ isOpen: boolean; testId?: string; showBackground?: boolean; showBlur?: boolean }>();
 
 	type BackgroundOption = {
 		id: 0 | 1 | 2 | 3 | 4;
@@ -10,29 +10,15 @@
 	};
 
 	const selectDynamicBackground = (type: 0 | 1 | 2 | 3 | 4) => {
-		console.log("[DebugSettingsDropdown] Selecting background:", {
-			type,
-			currentType: ui.backgroundType,
-			wasEnabled: ui.enableDynamicBackground,
-			timestamp: new Date().toISOString(),
-		});
-
 		ui.setBackgroundType(type);
 
 		if (type === 0 && ui.enableDynamicBackground) {
-			console.log("[DebugSettingsDropdown] Disabling dynamic background (type=0)");
 			ui.toggleDynamicBackground();
 		}
 
 		if (type !== 0 && !ui.enableDynamicBackground) {
-			console.log("[DebugSettingsDropdown] Enabling dynamic background (type!=0)");
 			ui.toggleDynamicBackground();
 		}
-
-		console.log("[DebugSettingsDropdown] After selection:", {
-			newType: ui.backgroundType,
-			isEnabled: ui.enableDynamicBackground,
-		});
 	};
 
 	const backgrounds: BackgroundOption[] = [
@@ -45,135 +31,63 @@
 </script>
 
 {#if isOpen}
-	<div class="header__settings-dropdown header__settings-dropdown-debug" data-testid="debug-settings-dropdown">
-		<div class="header__settings-group" data-testid="debug-bg-group">
-		<span class="header__settings-label">{$t('settings.dynamicBg')}</span>
-		<div class="header__settings-options" style="flex-direction: column;" data-testid="debug-bg-options">
-			{#each backgrounds as bg, i}
-				<button
-					class="header__settings-opt"
-					class:active={(bg.id === 0 && !ui.enableDynamicBackground) ||
-						(bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
-					onclick={() => selectDynamicBackground(bg.id)}
-					style="text-align: left;"
-					data-testid={`debug-bg-${i}-button`}
-				>
-					{bg.label()}
-				</button>
-			{/each}
+	<div class="dropdown-menu-unified debug-dropdown" data-testid={testId}>
+		{#if showBackground}
+		<div class="dropdown-group-unified" data-testid="debug-bg-group">
+			<span class="dropdown-label-unified">{$t('settings.dynamicBg')}</span>
+			<div class="dropdown-options-unified" style="flex-direction: column;" data-testid="debug-bg-options-group">
+				{#each backgrounds as bg, i}
+					<button
+						class="dropdown-opt-unified"
+						class:active={(bg.id === 0 && !ui.enableDynamicBackground) ||
+							(bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
+						onclick={() => selectDynamicBackground(bg.id)}
+						style="text-align: left;"
+						data-testid={`debug-bg-${i}-button`}
+					>
+						{bg.label()}
+					</button>
+				{/each}
+			</div>
 		</div>
-		</div>
+		{/if}
 
-		<div class="header__settings-group" data-testid="debug-blur-group">
-		<span class="header__settings-label">{$t('settings.blur')}</span>
-		<div class="header__settings-options" data-testid="debug-blur-options">
-			<button
-				class="header__settings-opt"
-				class:active={!ui.enableBlurEffect}
-				onclick={() => ui.toggleBlurEffect()}
-				data-testid="debug-blur-off-button"
-			>
-				Вимк
-			</button>
-			<button
-				class="header__settings-opt"
-				class:active={ui.enableBlurEffect}
-				onclick={() => ui.toggleBlurEffect()}
-				data-testid="debug-blur-on-button"
-			>
-				Вкл
-			</button>
+		{#if showBlur}
+		<div class="dropdown-group-unified" data-testid="debug-blur-group">
+			<span class="dropdown-label-unified">{$t('settings.blur')}</span>
+			<div class="dropdown-options-unified" data-testid="debug-blur-options-group">
+				<button
+					class="dropdown-opt-unified"
+					class:active={!ui.enableBlurEffect}
+					onclick={() => ui.toggleBlurEffect()}
+					data-testid="debug-blur-off-button"
+				>
+					{$t('settings.off')}
+				</button>
+				<button
+					class="dropdown-opt-unified"
+					class:active={ui.enableBlurEffect}
+					onclick={() => ui.toggleBlurEffect()}
+					data-testid="debug-blur-on-button"
+				>
+					{$t('settings.on')}
+				</button>
+			</div>
 		</div>
-		</div>
+		{/if}
 	</div>
 {/if}
 
 <style>
-	.header__settings-dropdown-debug {
-		position: static;
+	.debug-dropdown {
 		width: 220px;
-		background: var(--color-white);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--shadow-lg);
-		padding: var(--space-md);
-		z-index: 331;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-md);
-	}
-
-	:global(.dark-theme) .header__settings-dropdown-debug {
-		background: var(--color-white); 
-	}
-
-	.header__settings-group {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-xs);
-	}
-
-	.header__settings-label {
-		display: block;
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-muted-text);
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-	}
-
-	.header__settings-options {
-		display: flex;
-		gap: var(--space-xs);
-		background: var(--color-ice-blue);
-		padding: 4px;
-		border-radius: var(--radius-md);
-	}
-
-	:global(.dark-theme) .header__settings-options {
-		background: rgba(255,255,255,0.05);
-	}
-
-	.header__settings-opt {
-		flex: 1;
-		padding: 6px 10px;
-		font-size: 0.8rem;
-		font-weight: 700;
-		border-radius: var(--radius-sm);
-		transition: all var(--transition-fast);
-		color: var(--color-deep-ocean);
-		border: none;
-		cursor: pointer;
-		background: transparent;
-		text-align: left;
-	}
-
-	:global(.dark-theme) .header__settings-opt {
-		color: var(--color-dark-text);
-	}
-
-	.header__settings-opt:hover {
-		background: rgba(255, 255, 255, 0.5);
-	}
-
-	.header__settings-opt.active {
-		background: var(--color-white);
-		box-shadow: var(--shadow-sm);
-		color: var(--color-golden);
-	}
-
-	:global(.dark-theme) .header__settings-opt.active {
-		background: rgba(255,255,255,0.1);
-		color: var(--color-accent);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 	}
 
 	@media (max-width: 768px) {
-		.header__settings-dropdown-debug {
+		.debug-dropdown {
 			width: 100%;
-			box-shadow: var(--shadow-lg); /* Restore shadow for mobile card look */
-			padding: var(--space-md);
-			border-radius: var(--radius-lg);
-			background: var(--color-white);
-			transform: none;
 		}
 	}
 </style>

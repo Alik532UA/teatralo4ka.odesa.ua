@@ -4,25 +4,30 @@
 	import { fly, fade } from 'svelte/transition';
 </script>
 
-<div class="toast-container">
+<div class="toast-container" data-testid="toast-notifications-container">
 	{#each toast.messages as msg (msg.id)}
 		<div
 			class="toast-msg toast-{msg.type}"
 			in:fly={{ y: 20, duration: 300 }}
 			out:fade={{ duration: 200 }}
 			role="alert"
+			data-testid={`toast-message-${msg.type}`}
+			onmouseenter={() => toast.pauseTimer(msg.id)}
+			onmouseleave={() => toast.resumeTimer(msg.id)}
 		>
-			<div class="toast-icon">
+			<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
 				{#if msg.type === 'success'}
 					<CheckCircle2 size={20} />
 				{:else if msg.type === 'error'}
 					<AlertCircle size={20} />
 				{:else}
-					<Info size={20} />
+					<div data-testid="toast-icon-info">
+						<Info size={20} />
+					</div>
 				{/if}
 			</div>
-			<div class="toast-content">
-				<div class="toast-message">{msg.message}</div>
+			<div class="toast-content" data-testid="toast-content-group">
+				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
 				{#if msg.action}
 					<button 
 						class="toast-action" 
@@ -30,14 +35,26 @@
 							msg.action?.onAction();
 							toast.remove(msg.id);
 						}}
+						data-testid="toast-action-button"
 					>
 						{toast.getActionLabel(msg.action)}
 					</button>
 				{/if}
 			</div>
-			<button class="toast-close" onclick={() => toast.remove(msg.id)} aria-label="Закрити">
+			<button 
+				class="toast-close" 
+				onclick={() => toast.remove(msg.id)} 
+				aria-label="Закрити"
+				data-testid="toast-close-button"
+			>
 				<X size={16} />
 			</button>
+			<div
+				class="toast-progress"
+				style="animation-duration: {msg.duration}ms"
+				data-testid="toast-progress-bar"
+				aria-hidden="true"
+			></div>
 		</div>
 	{/each}
 </div>
@@ -56,10 +73,12 @@
 
 	.toast-msg {
 		pointer-events: auto;
+		position: relative;
+		overflow: hidden;
 		display: flex;
 		align-items: flex-start;
 		gap: 1rem;
-		padding: 1rem 1.25rem;
+		padding: 1rem 1.25rem 1rem 1.25rem;
 		border-radius: 16px;
 		background: color-mix(in srgb, var(--theme-dynamic-card-bg, #ffffff), transparent 15%);
 		backdrop-filter: blur(12px);
@@ -68,6 +87,32 @@
 		max-width: 450px;
 		border: 1px solid rgba(0, 0, 0, 0.05);
 	}
+
+	.toast-msg:hover .toast-progress {
+		animation-play-state: paused;
+	}
+
+	/* ── Progress bar ── */
+	@keyframes toast-shrink {
+		from { transform: scaleX(1); }
+		to   { transform: scaleX(0); }
+	}
+
+	.toast-progress {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 3px;
+		transform-origin: left center;
+		animation: toast-shrink linear forwards;
+		/* animation-duration is set inline per msg */
+		border-radius: 0 0 0 16px;
+	}
+
+	.toast-success .toast-progress { background: #22c55e; }
+	.toast-error   .toast-progress { background: #ef4444; }
+	.toast-info    .toast-progress { background: #3b82f6; }
 
 	.toast-icon {
 		margin-top: 2px;

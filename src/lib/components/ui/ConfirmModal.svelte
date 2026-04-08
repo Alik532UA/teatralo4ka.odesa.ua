@@ -10,28 +10,47 @@
 		transition:fade={{ duration: 200 }} 
 		role="dialog" 
 		aria-modal="true"
+		data-testid="confirm-modal-overlay-container"
 	>
 		<div 
 			class="modal-content" 
 			transition:fly={{ y: 30, duration: 300 }}
+			data-testid="confirm-modal-container"
 		>
-			<div class="modal-header">
-				<div class="modal-icon">
+			<div class="modal-header" data-testid="confirm-modal-header-group">
+				<div class="modal-icon" data-testid="confirm-modal-icon-container">
 					<HelpCircle size={24} />
 				</div>
-				<h3>Підтвердження дії</h3>
-				<button class="btn-close" onclick={() => toast.resolveConfirm(false)} aria-label="Скасувати">
+				<h3 data-testid="confirm-modal-title-label">Підтвердження дії</h3>
+				<button 
+					class="btn-close" 
+					onclick={() => toast.resolveConfirm(false)} 
+					aria-label="Скасувати"
+					data-testid="confirm-modal-close-button"
+				>
 					<X size={20} />
 				</button>
 			</div>
 			
-			<div class="modal-body">
-				<p>{toast.confirmMessage}</p>
+			<div class="modal-body" data-testid="confirm-modal-body-group">
+				<p data-testid="confirm-modal-message-label">{toast.confirmMessage}</p>
 			</div>
 			
-			<div class="modal-footer">
-				<button class="btn-cancel" onclick={() => toast.resolveConfirm(false)}>Скасувати</button>
-				<button class="btn-confirm" onclick={() => toast.resolveConfirm(true)}>Підтвердити</button>
+			<div class="modal-footer" data-testid="confirm-modal-footer-group">
+				<button 
+					class="btn-cancel" 
+					onclick={() => toast.resolveConfirm(false)}
+					data-testid="confirm-modal-cancel-button"
+				>
+					Скасувати
+				</button>
+				<button 
+					class="btn-confirm" 
+					onclick={() => toast.resolveConfirm(true)}
+					data-testid="confirm-modal-confirm-button"
+				>
+					Підтвердити
+				</button>
 			</div>
 		</div>
 	</div>

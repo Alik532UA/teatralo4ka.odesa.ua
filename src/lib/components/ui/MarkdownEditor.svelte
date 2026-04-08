@@ -98,8 +98,8 @@
 		border-left: 2px solid var(--color-deep-ocean);
 	}
 	.mde-container :global(.editor-preview) {
-		background: var(--color-white);
-		color: var(--color-body-text);
+		background: var(--color-surface);
+		color: var(--color-text-body);
 	}
 	/* Fix for dark theme preview */
 	.mde-container :global(.editor-preview h1),

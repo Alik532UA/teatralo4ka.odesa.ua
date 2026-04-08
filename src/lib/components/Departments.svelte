@@ -1,28 +1,33 @@
 <script lang="ts">
 	import { base } from '$app/paths';
+	import { t } from 'svelte-i18n';
 
 	const departments = [
 		{
-			title: 'Музичне',
-			description: 'Вокал, хор, фортепіано, гітара',
+			id: 'music',
+			title: () => $t('departmentsSection.depItems.music.title'),
+			description: () => $t('departmentsSection.depItems.music.desc'),
 			image: `${base}/png/МузичнеВідділення.png`,
 			href: `${base}/departments/music`
 		},
 		{
-			title: 'Театральне',
-			description: 'Акторська майстерність, сценічна мова, танець',
+			id: 'theatre',
+			title: () => $t('departmentsSection.depItems.theatre.title'),
+			description: () => $t('departmentsSection.depItems.theatre.desc'),
 			image: `${base}/png/ТеатральнеВідділення.png`,
 			href: `${base}/departments/theatre`
 		},
 		{
-			title: 'Відділення естетичного виховання',
-			description: 'Развиток смаку, етикету, творчого мислення та культурної впевненості',
+			id: 'aesthetic',
+			title: () => $t('departmentsSection.depItems.aesthetic.title'),
+			description: () => $t('departmentsSection.depItems.aesthetic.desc'),
 			image: `${base}/png/ЕстетичнеВідділення.png`,
 			href: `${base}/departments/aesthetic`
 		},
 		{
-			title: 'Художнє',
-			description: 'Живопис, композиція, малювання',
+			id: 'art',
+			title: () => $t('departmentsSection.depItems.art.title'),
+			description: () => $t('departmentsSection.depItems.art.desc'),
 			image: `${base}/png/ХудожнеВідділення.png`,
 			href: `${base}/departments/art`
 		}
@@ -30,20 +35,23 @@
 
 	const residents = [
 		{
-			title: 'Дорослі',
-			description: 'Програми творчого розвитку та сценічної впевненості для дорослих',
+			id: 'adults',
+			title: () => $t('departmentsSection.resItems.adults.title'),
+			description: () => $t('departmentsSection.resItems.adults.desc'),
 			image: `${base}/png/Викладачка1.png`,
 			href: `${base}/residents/adults`
 		},
 		{
-			title: 'Діти',
-			description: 'Заняття у легкому форматі гри, уяви та перших сценічних кроків',
+			id: 'kids',
+			title: () => $t('departmentsSection.resItems.kids.title'),
+			description: () => $t('departmentsSection.resItems.kids.desc'),
 			image: `${base}/png/Учні1.png`,
 			href: `${base}/residents/kids`
 		},
 		{
-			title: 'Випускники',
-			description: 'Спільнота випускників, події, майстер-класи і творчі зустрічі',
+			id: 'graduates',
+			title: () => $t('departmentsSection.resItems.graduates.title'),
+			description: () => $t('departmentsSection.resItems.graduates.desc'),
 			image: `${base}/png/Випускники3.png`,
 			href: `${base}/residents/graduates`
 		}
@@ -51,20 +59,23 @@
 
 	const projects = [
 		{
-			title: 'ТеатрPRO',
-			description: 'Практичний проєкт для сценічної практики та командної роботи',
+			id: 'teatr-pro',
+			title: () => $t('departmentsSection.projItems.teatrPro.title'),
+			description: () => $t('departmentsSection.projItems.teatrPro.desc'),
 			image: `${base}/png/Новини1.png`,
 			href: `${base}/projects/teatr-pro`
 		},
 		{
-			title: 'ВЕСНА.ОДЕСА.ТЕАТР',
-			description: 'Сезонний культурний проєкт із відкритими показами та подіями',
+			id: 'spring-odessa-theatre',
+			title: () => $t('departmentsSection.projItems.spring.title'),
+			description: () => $t('departmentsSection.projItems.spring.desc'),
 			image: `${base}/png/Новини1.png`,
 			href: `${base}/projects/spring-odessa-theatre`
 		},
 		{
-			title: 'ФЕСТИВАЛЬ',
-			description: 'Фестивальний напрям із виступами, конкурсами та творчим обміном',
+			id: 'festival',
+			title: () => $t('departmentsSection.projItems.festival.title'),
+			description: () => $t('departmentsSection.projItems.festival.desc'),
 			image: `${base}/png/Новини1.png`,
 			href: `${base}/projects/festival`
 		}
@@ -72,20 +83,23 @@
 
 	const info = [
 		{
-			title: 'ВСТУПИТИ',
-			description: 'Умови вступу, програми навчання та покрокова подача заявки',
+			id: 'admission',
+			title: () => $t('departmentsSection.infoItems.admission.title'),
+			description: () => $t('departmentsSection.infoItems.admission.desc'),
 			image: `${base}/png/АнкетаВступника.png`,
 			href: `${base}/admission`
 		},
 		{
-			title: 'КОНТАКТИ',
-			description: 'Телефон, пошта та актуальні способи звʼязку зі школою',
+			id: 'contacts',
+			title: () => $t('departmentsSection.infoItems.contacts.title'),
+			description: () => $t('departmentsSection.infoItems.contacts.desc'),
 			image: `${base}/png/Контакти2.png`,
 			href: `${base}/contacts`
 		},
 		{
-			title: 'ІСТОРІЯ',
-			description: 'Історія створення школи, цінності та основні етапи розвитку',
+			id: 'history',
+			title: () => $t('departmentsSection.infoItems.history.title'),
+			description: () => $t('departmentsSection.infoItems.history.desc'),
 			image: `${base}/png/Історія3.png`,
 			href: `${base}/history`
 		}
@@ -95,73 +109,85 @@
 <section class="deps" id="departments" data-testid="departments-section">
 	<div class="deps__container" data-testid="departments-container">
 		<div class="deps__block" data-testid="info-block">
-			<h2 class="deps__heading sr-only">Корисна інформація</h2>
+			<h2 class="deps__heading sr-only" data-testid="info-section-heading">{$t('departmentsSection.info')}</h2>
 			<div class="deps__grid" data-testid="info-grid">
 				{#each info as item, i}
-				   <article class="deps__card deps__card--compact" data-testid={`info-card-${i}`}>
-					   <div class="deps__media" aria-hidden="true">
-						   <img src={item.image} alt={item.title} class="deps__img" />
-					   </div>
-					   <div class="deps__content">
-						   <h3 class="deps__title">{item.title}</h3>
-						   <p class="deps__desc">{item.description}</p>
-						   <a href={item.href} class="deps__btn" data-testid={`info-btn-${i}`}>дізнатися більше</a>
-					   </div>
-				   </article>
+					<a href={item.href} class="deps__card" data-testid={`info-card-${item.id}`} style="animation-delay: {i * 0.1}s">
+						<div class="deps__image-wrap" data-testid={`info-card-image-wrap-${item.id}`}>
+							<img src={item.image} alt={item.title()} class="deps__image" loading="lazy" data-testid={`info-card-img-${item.id}`} />
+							<div class="deps__overlay"></div>
+						</div>
+						<div class="deps__content" data-testid={`info-card-content-${item.id}`}>
+							<h3 class="deps__card-title">{item.title()}</h3>
+							<p class="deps__card-description">{item.description()}</p>
+						<button class="deps__link" data-testid={`info-btn-${item.id}`}>
+							{$t('departmentsSection.learnMore')}
+						</button>
+						</div>
+					</a>
 				{/each}
 			</div>
 		</div>
 
 		<div class="deps__block" data-testid="departments-block">
-			<h2 class="deps__heading">Відділення</h2>
+			<h2 class="deps__heading" data-testid="departments-section-heading">{$t('departmentsSection.departments')}</h2>
 			<div class="deps__grid deps__grid--wide" data-testid="departments-grid">
 				{#each departments as dep, i}
-				   <article class="deps__card" data-testid={`department-card-${i}`}>
-					   <div class="deps__media" aria-hidden="true">
-						   <img src={dep.image} alt={dep.title} class="deps__img" />
-					   </div>
-					   <div class="deps__content">
-						   <h3 class="deps__title">{dep.title}</h3>
-						   <p class="deps__desc">{dep.description}</p>
-						   <a href={dep.href} class="deps__btn" data-testid={`department-btn-${i}`}>дізнатися більше</a>
-					   </div>
-				   </article>
+					<a href={dep.href} class="deps__card" data-testid={`department-card-${dep.id}`} style="animation-delay: {i * 0.1}s">
+						<div class="deps__image-wrap" data-testid={`department-card-image-wrap-${dep.id}`}>
+							<img src={dep.image} alt={dep.title()} class="deps__image" loading="lazy" data-testid={`department-card-img-${dep.id}`} />
+							<div class="deps__overlay"></div>
+						</div>
+						<div class="deps__content" data-testid={`department-card-content-${dep.id}`}>
+							<h3 class="deps__card-title">{dep.title()}</h3>
+							<p class="deps__card-description">{dep.description()}</p>
+							<button class="deps__link" data-testid={`department-btn-${dep.id}`}>
+								{$t('departmentsSection.learnMore')}
+							</button>
+						</div>
+					</a>
 				{/each}
 			</div>
 		</div>
 
 		<div class="deps__block" data-testid="residents-block">
-			<h2 class="deps__heading">Мешканці</h2>
+			<h2 class="deps__heading" data-testid="residents-section-heading">{$t('departmentsSection.residents')}</h2>
 			<div class="deps__grid" data-testid="residents-grid">
 				{#each residents as resident, i}
-				   <article class="deps__card deps__card--compact" data-testid={`resident-card-${i}`}>
-					   <div class="deps__media" aria-hidden="true">
-						   <img src={resident.image} alt={resident.title} class="deps__img" />
-					   </div>
-					   <div class="deps__content">
-						   <h3 class="deps__title">{resident.title}</h3>
-						   <p class="deps__desc">{resident.description}</p>
-						   <a href={resident.href} class="deps__btn" data-testid={`resident-btn-${i}`}>дізнатися більше</a>
-					   </div>
-				   </article>
+					<a href={resident.href} class="deps__card" data-testid={`resident-card-${resident.id}`} style="animation-delay: {i * 0.1}s">
+						<div class="deps__image-wrap" data-testid={`resident-card-image-wrap-${resident.id}`}>
+							<img src={resident.image} alt={resident.title()} class="deps__image" loading="lazy" data-testid={`resident-card-img-${resident.id}`} />
+							<div class="deps__overlay"></div>
+						</div>
+						<div class="deps__content" data-testid={`resident-card-content-${resident.id}`}>
+							<h3 class="deps__card-title">{resident.title()}</h3>
+							<p class="deps__card-description">{resident.description()}</p>
+							<button class="deps__link" data-testid={`resident-btn-${resident.id}`}>
+								{$t('departmentsSection.learnMore')}
+							</button>
+						</div>
+					</a>
 				{/each}
 			</div>
 		</div>
 
 		<div class="deps__block" data-testid="projects-block">
-			<h2 class="deps__heading">Проєкти</h2>
+			<h2 class="deps__heading" data-testid="projects-section-heading">{$t('departmentsSection.projects')}</h2>
 			<div class="deps__grid" data-testid="projects-grid">
 				{#each projects as project, i}
-				   <article class="deps__card deps__card--compact" data-testid={`project-card-${i}`}>
-					   <div class="deps__media" aria-hidden="true">
-						   <img src={project.image} alt={project.title} class="deps__img" />
-					   </div>
-					   <div class="deps__content">
-						   <h3 class="deps__title">{project.title}</h3>
-						   <p class="deps__desc">{project.description}</p>
-						   <a href={project.href} class="deps__btn" data-testid={`project-btn-${i}`}>дізнатися більше</a>
-					   </div>
-				   </article>
+					<a href={project.href} class="deps__card" data-testid={`project-card-${project.id}`} style="animation-delay: {i * 0.1}s">
+						<div class="deps__image-wrap" data-testid={`project-card-image-wrap-${project.id}`}>
+							<img src={project.image} alt={project.title()} class="deps__image" loading="lazy" data-testid={`project-card-img-${project.id}`} />
+							<div class="deps__overlay"></div>
+						</div>
+						<div class="deps__content" data-testid={`project-card-content-${project.id}`}>
+							<h3 class="deps__card-title">{project.title()}</h3>
+							<p class="deps__card-description">{project.description()}</p>
+							<button class="deps__link" data-testid={`project-btn-${project.id}`}>
+								{$t('departmentsSection.learnMore')}
+							</button>
+						</div>
+					</a>
 				{/each}
 			</div>
 		</div>
@@ -171,7 +197,8 @@
 <style>
 	.deps {
 		padding: 5rem 1.5rem;
-		background: var(--color-white);
+		background: var(--color-surface);
+		position: relative;
 		transition: background 800ms ease-in-out;
 	}
 
@@ -202,10 +229,21 @@
 		text-align: center;
 	}
 
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
+
 	.deps__grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1.25rem;
+		gap: 1.5rem;
 	}
 
 	.deps__grid--wide {
@@ -218,147 +256,152 @@
 	}
 
 	.deps__card {
-		background: var(--color-white);
+		background: var(--color-surface);
 		border-radius: 30px;
 		overflow: hidden;
-		box-shadow: var(--shadow-sm);
 		display: flex;
 		flex-direction: column;
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-		border: 1px solid rgba(0,0,0,0.05);
 		animation: fadeInUp 0.8s ease-out both;
+		height: 100%;
+		text-decoration: none;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 	}
 
-	.deps__card:nth-child(1) { animation-delay: 0.1s; }
-	.deps__card:nth-child(2) { animation-delay: 0.2s; }
-	.deps__card:nth-child(3) { animation-delay: 0.3s; }
-	.deps__card:nth-child(4) { animation-delay: 0.4s; }
-	.deps__card:nth-child(5) { animation-delay: 0.5s; }
-	.deps__card:nth-child(6) { animation-delay: 0.6s; }
-
 	:global(.dark-theme) .deps__card {
-		background: rgba(255, 255, 255, 0.03);
-		border-color: rgba(255, 255, 255, 0.1);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+		background: color-mix(in srgb, var(--color-surface), transparent 88%);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 	}
 
 	.deps__card:hover {
-		transform: scale(1.02);
-		box-shadow: var(--shadow-lg);
-		border-color: var(--color-sea-blue);
+		transform: translateY(-10px);
+		box-shadow: 0 0 10px var(--color-sea-blue);
 	}
 
-	.deps__media {
-		width: 100%;
-		aspect-ratio: 1 / 1;
-		background: var(--color-light-blue);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex: 0 0 auto;
-		transition: transform 0.5s ease;
+	.deps__image-wrap {
+		position: relative;
+		aspect-ratio: 5 / 4;
 		overflow: hidden;
+		background: var(--color-light-blue);
 	}
 
-	:global(.dark-theme) .deps__media {
-		background: rgba(0, 95, 174, 0.1);
-	}
-
-	.deps__img {
+	.deps__image {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
+		padding: 1.5rem;
 		transition: transform 0.5s ease;
 	}
 
-	.deps__card:hover .deps__img {
-		transform: scale(1.1);
+	.deps__card:hover .deps__image {
+		transform: scale(1.05);
+	}
+
+	.deps__overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, color-mix(in srgb, var(--color-sea-blue), transparent 90%), transparent);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.deps__card:hover .deps__overlay {
+		opacity: 1;
 	}
 
 	.deps__content {
 		padding: 1.5rem;
 		display: flex;
 		flex-direction: column;
-		gap: 0.8rem;
+		gap: 1rem;
 		flex: 1;
+		background: var(--color-surface);
+		align-items: center;
 		text-align: center;
-		justify-content: flex-start;
 	}
 
-	.deps__title {
+	:global(.dark-theme) .deps__content {
+		background: color-mix(in srgb, var(--color-surface), transparent 20%);
+	}
+
+	.deps__card-title {
 		font-family: var(--font-heading);
-		font-size: 1.15rem;
+		font-size: 1.25rem;
 		font-weight: 800;
 		color: var(--color-deep-ocean);
+		line-height: 1.2;
 		margin: 0;
-		transition: color 0.3s ease;
 	}
 
-	:global(.dark-theme) .deps__title {
-		color: var(--color-dark-text);
+	:global(.dark-theme) .deps__card-title {
+		color: var(--color-sea-blue);
 	}
 
-	.deps__desc {
-		font-size: 0.95rem;
+	.deps__card-description {
+		font-size: 0.9rem;
 		color: var(--color-body-text);
-		line-height: 1.55;
+		line-height: 1.5;
 		margin: 0;
 		opacity: 0.8;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
-	.deps__btn {
+	.deps__link {
 		margin-top: auto;
 		display: inline-block;
-		align-self: center;
-		background: var(--color-deep-ocean);
-		color: white;
-		text-decoration: none;
-		padding: 0.6rem 1.2rem;
-		border-radius: 16px;
+		padding: 0.75rem 2rem;
 		font-weight: 700;
-		font-size: 0.85rem;
-		letter-spacing: 0.2px;
-		transition: all 0.3s ease;
-	}
-
-	:global(.dark-theme) .deps__btn {
+		color: var(--color-white);
+		font-size: 0.9rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
 		background: var(--color-sea-blue);
+		border: none;
+		border-radius: 25px;
+		cursor: pointer;
+		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	.deps__btn:hover {
-		background: var(--color-sea-blue);
-		transform: scale(1.03);
-		box-shadow: 0 5px 15px rgba(0, 95, 174, 0.3);
+	.deps__link:hover {
+		background: var(--color-deep-ocean);
+		transform: translateY(-2px);
 	}
 
-	:global(.dark-theme) .deps__btn:hover {
-		background: var(--color-sky-blue);
-		color: var(--color-deep-ocean);
+	/* Responsive Breakpoints */
+	@media (max-width: 1200px) {
+		.deps__grid, .deps__grid--wide {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 
-	@media (max-width: 1024px) {
-		.deps__grid,
-		.deps__grid--wide {
+	@media (max-width: 900px) {
+		.deps__grid, .deps__grid--wide {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 
-	@media (max-width: 640px) {
-		.deps__grid,
-		.deps__grid--wide {
+	@media (max-width: 600px) {
+		.deps {
+			padding: 3rem 0;
+		}
+
+		.deps__grid, .deps__grid--wide {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 0.75rem;
 		}
 
 		.deps__card {
-			min-height: auto;
 			border-radius: 20px;
 		}
 
 		/* Центрування останньої картки, якщо кількість непарна */
 		.deps__card:last-child:nth-child(odd) {
 			grid-column: 1 / -1;
-			width: calc(50% - 0.375rem); /* Половина ширини з урахуванням gap 0.75rem */
+			width: calc(50% - 0.375rem);
 			margin: 0 auto;
 		}
 
@@ -367,23 +410,21 @@
 			gap: 0.5rem;
 		}
 
-		.deps__title {
-			font-size: 0.95rem;
+		.deps__image-wrap {
+			height: 140px;
 		}
 
-		.deps__desc {
-			font-size: 0.8rem;
-			display: -webkit-box;
-			-webkit-line-clamp: 3;
-			line-clamp: 3;
-			-webkit-box-orient: vertical;
-			overflow: hidden;
+		.deps__card-title {
+			font-size: 0.9rem;
+			text-align: center;
 		}
 
-		.deps__btn {
-			padding: 0.4rem 0.8rem;
-			font-size: 0.75rem;
-			border-radius: 10px;
+		.deps__card-description {
+			display: none; /* Hide description on very small screens to save space */
+		}
+
+		.deps__link {
+			display: none; /* Hide link text on mobile cards */
 		}
 	}
 </style>

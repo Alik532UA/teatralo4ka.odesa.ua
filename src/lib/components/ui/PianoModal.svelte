@@ -74,22 +74,31 @@
 {#if isOpen}
    <!-- svelte-ignore a11y_click_events_have_key_events -->
    <!-- svelte-ignore a11y_no_static_element_interactions -->
-   <div class="piano-modal" transition:fade={{ duration: 300 }} onclick={(e) => e.target === e.currentTarget && onClose()} data-testid="piano-modal">
-	   <button class="close-btn" onclick={onClose} data-testid="piano-modal-close">&times;</button>
+   <div 
+   		class="piano-modal" 
+		transition:fade={{ duration: 300 }} 
+		onclick={(e) => e.target === e.currentTarget && onClose()} 
+		data-testid="piano-modal-overlay-container"
+	>
+	   <button 
+	   		class="close-btn" 
+			onclick={onClose} 
+			data-testid="piano-modal-close-button"
+		>&times;</button>
        
-	   <section id="wrap">
-		   <header>
-			   <h2 class="piano-hint">{$t("piano.hint")}</h2>
+	   <section id="wrap" data-testid="piano-modal-content-container">
+		   <header data-testid="piano-modal-header-group">
+			   <h2 class="piano-hint" data-testid="piano-modal-hint-label">{$t("piano.hint")}</h2>
 		   </header>
-		   <section id="main">
-			   <div class="nowplaying">
+		   <section id="main" data-testid="piano-modal-main-group">
+			   <div class="nowplaying" data-testid="piano-nowplaying-display">
 				   {#if nowPlaying}
-					   <span class="note-name">{$t(`piano.notes.${nowPlaying}`)}</span>
+					   <span class="note-name" data-testid="piano-note-name-label">{$t(`piano.notes.${nowPlaying}`)}</span>
 					   <span class="note-divider">|</span>
-					   <span class="note-symbol">{nowPlaying}</span>
+					   <span class="note-symbol" data-testid="piano-note-symbol-label">{nowPlaying}</span>
 				   {/if}
 			   </div>
-			   <div class="keys" data-testid="piano-keys">
+			   <div class="keys" data-testid="piano-keys-menu">
 				   {#each keysData as key, i}
 					   <div 
 						   class="key" 
@@ -98,7 +107,7 @@
 						   data-key={key.keyCode} 
 						   data-note={key.note}
 						   onclick={() => playNote(key.keyCode)}
-						   data-testid={`piano-key-${i}`}
+						   data-testid={`piano-key-${i}-button`}
 					   >
 						   <span class="hints">{key.hint}</span>
 					   </div>

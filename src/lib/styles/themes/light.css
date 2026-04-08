@@ -15,12 +15,24 @@
 
 	/* Neutrals */
 	--color-white: #ffffff;
-	--color-dark-text: #1a3a4a;
-	--color-body-text: #3d5a6b;
-	--color-muted-text: #7a9dae;
-	--color-border: #c8dde6;
 	--color-black: #000000;
 	--color-pure-white: #ffffff;
+
+	/* Semantic surface tokens */
+	--color-surface: #ffffff;
+	--color-surface-raised: #fef9f0;
+
+	/* Semantic text tokens */
+	--color-text-primary: #1a3a4a;
+	--color-text-body: #3d5a6b;
+	--color-text-muted: #7a9dae;
+
+	/* Legacy aliases (backward compat — use semantic tokens in new code) */
+	--color-dark-text: var(--color-text-primary);
+	--color-body-text: var(--color-text-body);
+	--color-muted-text: var(--color-text-muted);
+
+	--color-border: #c8dde6;
 
 	/* Theme surfaces and overlays */
 	--theme-dynamic-main-bg: rgba(254, 249, 240, 0.72);

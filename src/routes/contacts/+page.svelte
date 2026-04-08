@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { locale } from 'svelte-i18n';
+	import { locale, t } from 'svelte-i18n';
 	import { seo } from '$lib/services/seo.svelte';
 
 	let { data } = $props();
@@ -17,14 +17,14 @@
 	});
 </script>
 
-<section class="page-content container" style="padding: 160px 24px 6rem;">
+<section class="page-content container" style="padding: 160px 24px 6rem;" data-testid="contacts-page-section">
 	{#if content}
-		<article class="prose">
+		<article class="prose" data-testid="contacts-page-article">
 			{@html content.html}
 		</article>
 	{:else}
-		<div style="display: flex; justify-content: center; padding: 4rem;">
-			<p>Завантаження...</p>
+		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="contacts-page-loading-container">
+			<p data-testid="contacts-page-loading-label">{$t('common.loading')}</p>
 		</div>
 	{/if}
 </section>

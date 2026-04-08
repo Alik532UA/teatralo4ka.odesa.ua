@@ -1230,7 +1230,7 @@
 
 	/* General gallery item styles */
 	.gallery-item, .gallery-item-dynamic, .gallery-item-masonry, .gallery-item-minimal, .gallery-item-overlay, .gallery-hero-main, .gallery-thumb {
-		background-color: var(--color-white);
+		background-color: var(--color-surface);
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
@@ -1251,7 +1251,7 @@
 		padding: 1rem;
 		font-size: 0.9rem;
 		color: var(--color-body-text);
-		background-color: var(--color-white);
+		background-color: var(--color-surface);
 	}
 
 	/* Gallery Template 1: Grid Layout */
@@ -1286,7 +1286,7 @@
 		margin-bottom: 4rem;
 	}
 	.gallery-item-dynamic {
-		background-color: var(--color-white);
+		background-color: var(--color-surface);
 		border-radius: var(--radius-lg);
 		overflow: hidden;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);

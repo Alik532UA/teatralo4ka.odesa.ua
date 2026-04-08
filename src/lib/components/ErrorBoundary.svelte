@@ -1,87 +1,66 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { onMount } from 'svelte';
 
-	interface Props {
-		title?: string;
-		children: Snippet;
+	let { children } = $props<{ children: any }>();
+	let error: Error | null = $state(null);
+
+	function reset() {
+		error = null;
 	}
 
-	let { title = 'Помилка', children }: Props = $props();
-
-	let hasError = $state(false);
-	let errorMessage = $state('');
-
-	function handleError(error: unknown, reset: () => void) {
-		const err = error instanceof Error ? error : new Error(String(error));
-		console.error('[ErrorBoundary] Error caught:', err);
-		hasError = true;
-		errorMessage = err.message;
-	}
+	onMount(() => {
+		const handleError = (event: ErrorEvent) => {
+			error = event.error;
+		};
+		window.addEventListener('error', handleError);
+		return () => window.removeEventListener('error', handleError);
+	});
 </script>
 
-<svelte:boundary onerror={handleError}>
-	{@render children()}
-
-	{#snippet failed(error, reset)}
-		<div class="error-boundary" role="alert" aria-live="assertive">
-			<div class="error-content">
-				<h2>⚠️ {title}</h2>
-				<p class="error-message">
-					{#if import.meta.env.DEV}
-						{error instanceof Error ? error.message : String(error)}
-					{:else}
-						Вибачте, сталася помилка. Спробуйте оновити сторінку.
-					{/if}
-				</p>
-				<div class="error-actions">
-					<button onclick={reset} data-testid="error-boundary-reset-btn">Спробувати знову</button>
-					<button onclick={() => location.reload()} data-testid="error-boundary-reload-btn">Оновити сторінку</button>
-				</div>
+{#if error}
+	<div class="error-boundary" data-testid="error-boundary-container">
+		<div class="error-boundary__content" data-testid="error-boundary-content-group">
+			<h2 data-testid="error-boundary-title">Ой! Щось пішло не так</h2>
+			<p data-testid="error-boundary-message">{error.message}</p>
+			<div class="error-boundary__actions" data-testid="error-boundary-actions-group">
+				<button onclick={reset} data-testid="error-boundary-reset-button">Спробувати знову</button>
+				<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">Оновити сторінку</button>
 			</div>
 		</div>
-	{/snippet}
-</svelte:boundary>
+	</div>
+{:else}
+	{@render children()}
+{/if}
 
 <style>
 	.error-boundary {
-		padding: 20px;
-		margin: 20px 0;
-		background-color: #fee;
-		border: 2px solid #fcc;
-		border-radius: 8px;
-		color: #c33;
+		padding: var(--space-2xl);
+		text-align: center;
+		background: var(--color-ice-blue);
+		border-radius: var(--radius-lg);
+		margin: var(--space-xl) 0;
 	}
 
-	.error-content h2 {
-		margin-top: 0;
-		color: #c33;
-	}
-
-	.error-message {
-		font-family: monospace;
-		font-size: 0.9rem;
-		padding: 10px;
-		background-color: rgba(255, 0, 0, 0.05);
-		border-radius: 4px;
-		overflow-x: auto;
-	}
-
-	.error-actions {
+	.error-boundary__actions {
 		display: flex;
-		gap: 10px;
-		margin-top: 12px;
+		gap: var(--space-md);
+		justify-content: center;
+		margin-top: var(--space-lg);
 	}
 
 	button {
-		padding: 8px 16px;
-		background-color: #c33;
-		color: white;
-		border: none;
-		border-radius: 4px;
+		padding: var(--space-sm) var(--space-md);
+		border-radius: var(--radius-md);
+		border: 1px solid var(--color-sea-blue);
+		background: var(--color-surface);
+		color: var(--color-sea-blue);
 		cursor: pointer;
+		font-weight: 700;
+		transition: all var(--transition-fast);
 	}
 
 	button:hover {
-		background-color: #a22;
+		background: var(--color-sea-blue);
+		color: var(--color-white);
 	}
 </style>

@@ -5,7 +5,8 @@ import {
   getDocs, 
   query, 
   orderBy, 
-  where
+  where,
+  limit,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import type { ArticleCategory } from "../config/categories";
@@ -21,6 +22,7 @@ export interface ArticleTranslation {
 
 export interface Article {
   id?: string;
+  slug?: string;
   category: ArticleCategory | string;
   author: string;
   createdAt: any;
@@ -36,11 +38,27 @@ export interface Article {
 const projectId = import.meta.env.VITE_PROJECT_ID;
 
 export async function getArticleById(id: string) {
+  // First try direct document ID lookup (backward-compatible date-based IDs)
   const docRef = doc(db, "projects", projectId, "articles", id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { id: docSnap.id, ...docSnap.data() } as Article;
   }
+
+  // Fallback: treat `id` as a slug and query by slug field.
+  // Must include isPublished==true so Firestore security rules allow anonymous access.
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(
+    articlesRef,
+    where("slug", "==", id),
+    where("isPublished", "==", true),
+    limit(1)
+  );
+  const snap = await getDocs(q);
+  if (!snap.empty) {
+    return { id: snap.docs[0].id, ...snap.docs[0].data() } as Article;
+  }
+
   return null;
 }
 

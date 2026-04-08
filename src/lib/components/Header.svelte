@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Logo from "./Logo.svelte";
-	import DebugSettingsDropdown from "./DebugSettingsDropdown.svelte";
+	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X } from "lucide-svelte";
 	import { fly } from "svelte/transition";
@@ -9,6 +9,7 @@
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
 	import { base } from "$app/paths";
+	import { getHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
 
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
@@ -16,7 +17,57 @@
 	let settingsRef: HTMLDivElement | null = $state(null);
 	let navRef: HTMLDivElement | null = $state(null);
 
+	let headerSettings = $state<Omit<HeaderSettings, 'updatedAt'>>({ ...DEFAULT_HEADER_SETTINGS });
+
+	$effect(() => {
+		getHeaderSettings().then(result => {
+			if (result) {
+				headerSettings = {
+					cta:           result.cta           ?? DEFAULT_HEADER_SETTINGS.cta,
+					headerBar:     result.headerBar     ?? DEFAULT_HEADER_SETTINGS.headerBar,
+					navDropdown:   result.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
+					mobileOverlay: result.mobileOverlay ?? DEFAULT_HEADER_SETTINGS.mobileOverlay,
+					debugPanel:    result.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
+				};
+			}
+		}).catch(console.error);
+	});
+
+	// Smart interaction state: ignore click for 1s after hover open
+	let lastNavHoverTime = 0;
+	let lastSettingsHoverTime = 0;
+	const CLICK_IGNORE_MS = 1000;
+
+	function handleNavMouseEnter() {
+		if (!navOpen) {
+			if (settingsOpen) settingsOpen = false;
+			navOpen = true;
+			lastNavHoverTime = Date.now();
+		}
+	}
+
+	function handleNavClick() {
+		const now = Date.now();
+		if (now - lastNavHoverTime < CLICK_IGNORE_MS) return;
+		toggleNav();
+	}
+
+	function handleSettingsMouseEnter() {
+		if (!settingsOpen) {
+			if (navOpen) navOpen = false;
+			settingsOpen = true;
+			lastSettingsHoverTime = Date.now();
+		}
+	}
+
+	function handleSettingsClick() {
+		const now = Date.now();
+		if (now - lastSettingsHoverTime < CLICK_IGNORE_MS) return;
+		toggleSettings();
+	}
+
 	function toggleSettings() {
+		if (navOpen) navOpen = false;
 		settingsOpen = !settingsOpen;
 	}
 
@@ -56,53 +107,91 @@
 	interface NavItem {
 		label: string;
 		href: string;
-		type?: 'cta';
+		itemType?: 'cta';
 	}
-
-	const navItems: NavItem[] = $derived([
-		{ label: $t("nav.home"), href: `${base}/` },
-		{ label: $t("nav.about"), href: `${base}/about` },
-		{ label: $t("nav.history"), href: `${base}/history` },
-		{ label: $t("nav.contacts"), href: `${base}/contacts` },
-	]);
 
 	interface NavGroup {
 		title?: string;
+		titleHref?: string;
 		items: NavItem[];
 	}
 
-	const mobileNavGroups: NavGroup[] = $derived([
-		{
-			items: [
-				{ label: $t("nav.admission"), href: `${base}/admission`, type: 'cta' },
-				{ label: $t("nav.home"), href: `${base}/` },
-				{ label: $t("nav.contacts"), href: `${base}/contacts` },
-				{ label: $t("nav.history"), href: `${base}/history` },
-			]
-		},
-		{
-			title: $t("nav.departments"),
-			items: [
-				{ label: $t("nav.theatre"), href: `${base}/departments/theatre` },
-				{ label: $t("nav.aesthetic"), href: `${base}/departments/aesthetic` },
-				{ label: $t("nav.music"), href: `${base}/departments/music` },
-				{ label: $t("nav.art"), href: `${base}/departments/art` },
-			]
-		},
-		{
-			title: $t("nav.residents"),
-			items: [
-				{ label: $t("nav.adults"), href: `${base}/residents/adults` },
-				{ label: $t("nav.kids"), href: `${base}/residents/kids` },
-				{ label: $t("nav.graduates"), href: `${base}/residents/graduates` },
-			]
-		},
-		{
-			items: [
-				{ label: $t("nav.projects"), href: `${base}/projects` },
-			]
-		}
-	]);
+	function resolvedHref(href: string | undefined, linkType: string): string {
+		if (!href) return '#';
+		if (linkType === 'url' || href.startsWith('http')) return href;
+		if (linkType === 'article') return `${base}/news/${href}`;
+		return `${base}${href}`;
+	}
+
+	function menuConfigToFlatItems(cfg: MenuConfig, lang: string): NavItem[] {
+		return [
+			...cfg.items
+				.filter(it => it.visible)
+				.sort((a, b) => a.order - b.order)
+				.map(it => ({
+					label: lang === 'uk' ? it.labelUk : it.labelEn,
+					href: resolvedHref(it.href, it.linkType),
+					itemType: it.itemType,
+				})),
+			...cfg.sections
+				.filter(s => s.visible)
+				.sort((a, b) => a.order - b.order)
+				.flatMap(s =>
+					s.items
+						.filter(it => it.visible)
+						.sort((a, b) => a.order - b.order)
+						.map(it => ({
+							label: lang === 'uk' ? it.labelUk : it.labelEn,
+							href: resolvedHref(it.href, it.linkType),
+							itemType: it.itemType,
+						}))
+				),
+		];
+	}
+
+	function menuConfigToGroups(cfg: MenuConfig, lang: string): NavGroup[] {
+		const groups: NavGroup[] = [];
+
+		// flat root items → one headingless group (if any)
+		const rootItems = cfg.items
+			.filter(it => it.visible)
+			.sort((a, b) => a.order - b.order)
+			.map(it => ({
+				label: lang === 'uk' ? it.labelUk : it.labelEn,
+				href: resolvedHref(it.href, it.linkType),
+				itemType: it.itemType,
+			}));
+		if (rootItems.length) groups.push({ items: rootItems });
+
+		// sections
+		cfg.sections
+			.filter(s => s.visible)
+			.sort((a, b) => a.order - b.order)
+			.forEach(s => {
+				groups.push({
+					title: s.labelUk ? (lang === 'uk' ? s.labelUk : s.labelEn) : undefined,
+					titleHref: s.href ? resolvedHref(s.href, s.linkType ?? 'page') : undefined,
+					items: s.items
+						.filter(it => it.visible)
+						.sort((a, b) => a.order - b.order)
+						.map(it => ({
+							label: lang === 'uk' ? it.labelUk : it.labelEn,
+							href: resolvedHref(it.href, it.linkType),
+							itemType: it.itemType,
+						})),
+				});
+			});
+
+		return groups;
+	}
+
+	const navItems = $derived(menuConfigToFlatItems(headerSettings.headerBar, $locale ?? 'uk'));
+
+	const navDropdownGroups = $derived(menuConfigToGroups(headerSettings.navDropdown, $locale ?? 'uk'));
+
+	const mobileNavGroups = $derived(menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk'));
+
+	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType));
 
 	$effect(() => {
 		const handleScroll = () => {
@@ -129,29 +218,29 @@
 	});
 </script>
 
-<a href="#main-content" class="skip-link" data-testid="skip-link">
+<a href="#main-content" class="skip-link" data-testid="skip-content-link">
 	Перейти до основного контенту
 </a>
 
 <header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
-	<div class="header__logo-area" data-testid="logo-area">
+	<div class="header__logo-area" data-testid="logo-area-container">
 		<a
 			href={`${base}/`}
 			class="header__logo-link"
 			aria-label="На головну"
 			onclick={ui.closeMenu}
-			data-testid="logo-link"
+			data-testid="logo-home-link"
 		>
 			<Logo size="large" />
 		</a>
 	</div>
 
-	<div class="header__bar" data-testid="header-bar">
-		<div class="header__desktop-nav-group">
-			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="main-nav">
-				<ul class="header__nav-list" data-testid="nav-list">
+	<div class="header__bar" data-testid="header-bar-container">
+		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
+			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="header-nav-menu">
+				<ul class="header__nav-list" data-testid="nav-list-menu">
 					{#each navItems as item, i}
-						<li class="header__nav-item" data-testid={`nav-item-${i}`}> 
+						<li class="header__nav-item" data-testid={`nav-item-${i}-group`}> 
 							<a
 								href={item.href}
 								class="header__nav-link"
@@ -165,41 +254,62 @@
 				</ul>
 			</nav>
 
+			{#if headerSettings.cta.visible}
 			<a
-				href={`${base}/admission`}
+				href={ctaHref}
 				class="btn btn-outline header__cta"
 				id="header-cta"
-				data-testid="admission-cta"
+				data-testid="admission-cta-button"
 			>
-				{$t("nav.admission")}
+				{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
 			</a>
+			{/if}
 
-			<div class="header__nav-manager" bind:this={navRef} data-testid="header-nav-manager">
+			<!-- Desktop Nav Manager (Burger) -->
+			<div 
+				class="header__nav-manager" 
+				bind:this={navRef} 
+				data-testid="header-nav-manager-group"
+				onmouseenter={handleNavMouseEnter}
+				role="group"
+			>
 				<button
 					class="header__burger header__burger--desktop"
 					class:open={navOpen}
-					onclick={toggleNav}
+					onclick={handleNavClick}
 					aria-label="Відкрити меню"
 					aria-expanded={navOpen}
-					data-testid="burger-menu-btn"
+					data-testid="burger-menu-button"
 				>
 					<Menu size={24} />
 				</button>
 
 				{#if navOpen}
-					<div class="header__nav-dropdown" data-testid="nav-dropdown" in:fly={{ y: 10, duration: 200 }} out:fly={{ y: 10, duration: 150 }}>
-						{#each mobileNavGroups as group, gIndex}
-							<div class="header__nav-dropdown-group" class:header__nav-dropdown-group--hidden={gIndex === 0}>
-								{#if group.title}
-									<span class="header__nav-dropdown-label">{group.title}</span>
+					<div 
+						class="dropdown-menu-unified header__nav-dropdown" 
+						data-testid="nav-dropdown-menu" 
+						in:fly={{ y: 10, duration: 200 }} 
+						out:fly={{ y: 10, duration: 150 }}
+						onmouseleave={closeNav}
+						role="menu"
+						tabindex="-1"
+					>
+					{#each navDropdownGroups as group, gIndex}
+						<div class="header__nav-dropdown-group" class:header__nav-dropdown-group--hidden={gIndex === 0 && !group.title} data-testid={`nav-dropdown-group-${gIndex}`}>
+							{#if group.title}
+								{#if group.titleHref}
+									<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
+								{:else}
+									<span class="dropdown-label-unified header__nav-dropdown-label">{group.title}</span>
 								{/if}
-								<ul class="header__nav-dropdown-list">
-									{#each group.items as item, i}
-										<li>
-											<a 
-												href={item.href} 
-												class="header__nav-dropdown-link" 
-												class:header__nav-dropdown-cta={item.type === 'cta'}
+							{/if}
+							<ul class="header__nav-dropdown-list">
+								{#each group.items as item, i}
+									<li>
+										<a 
+											href={item.href} 
+											class="header__nav-dropdown-link" 
+											class:header__nav-dropdown-cta={item.itemType === 'cta'}
 												class:active={page.url.pathname === item.href}
 												onclick={closeNav}
 												data-testid={`nav-dropdown-link-${gIndex}-${i}`}
@@ -214,49 +324,45 @@
 								<div class="header__nav-dropdown-divider"></div>
 							{/if}
 						{/each}
-						
-						<!-- Desktop Settings Item in Menu -->
-						<div class="header__nav-dropdown-divider"></div>
-						<div class="header__nav-dropdown-group">
-							<button 
-								class="header__nav-dropdown-link"
-								onclick={(e) => { e.stopPropagation(); toggleSettings(); closeNav(); }}
-							>
-								<SettingsIcon size={18} />
-								<span>Налаштування</span>
-							</button>
-						</div>
 					</div>
 				{/if}
 			</div>
-		</div>
 
-		<!-- Main Settings Container (Handles both desktop and mobile through context) -->
-		<div class="header__settings" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
-			<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
-				<SettingsIcon size={24} />
-			</button>
-			{#if settingsOpen}
-				<div class="header__settings-popover" onmouseleave={closeSettings} role="presentation">
-					<div class="header__settings-dropdown" data-testid="settings-dropdown">
-						<div class="header__settings-group">
-							<span class="header__settings-label">{$t("settings.language")}</span>
-							<div class="header__settings-options">
-								<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
-								<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
-							</div>
-						</div>
-						<div class="header__settings-group">
-							<span class="header__settings-label">{$t("settings.theme")}</span>
-							<div class="header__settings-options">
-								<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "light") return; toggleTheme(); }}>{$t("settings.light")}</button>
-								<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "dark") return; toggleTheme(); }}>{$t("settings.dark")}</button>
-							</div>
-						</div>
+			<!-- Desktop Settings -->
+			<div 
+				class="header__settings header__settings--desktop" 
+				class:open={settingsOpen} 
+				bind:this={settingsRef} 
+				data-testid="header-settings-container"
+				onmouseenter={handleSettingsMouseEnter}
+				role="group"
+				aria-label="Налаштування"
+			>
+				<button 
+					class="header__burger" 
+					aria-label="Налаштування" 
+					onclick={handleSettingsClick} 
+					aria-expanded={settingsOpen} 
+					data-testid="header-settings-button"
+				>
+					<SettingsIcon size={24} />
+				</button>
+				{#if settingsOpen}
+					<div 
+						class="header__settings-popover" 
+						onmouseleave={closeSettings} 
+						role="presentation" 
+						data-testid="settings-popover-menu"
+					>
+						<HeaderSettingsPanel
+							isOpen={settingsOpen}
+							onChangeLang={changeLanguage}
+							onToggleTheme={toggleTheme}
+							debugPanel={headerSettings.debugPanel}
+						/>
 					</div>
-					<DebugSettingsDropdown isOpen={settingsOpen} />
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 
 		<button
@@ -265,7 +371,7 @@
 			aria-label="Відкрити меню"
 			aria-expanded={ui.isMenuOpen}
 			id="burger-menu"
-			data-testid="burger-menu-btn-mobile"
+			data-testid="burger-menu-mobile-button"
 		>
 			<span class="header__burger-text">МЕНЮ</span>
 			<Menu size={20} />
@@ -279,32 +385,22 @@
 			aria-modal="true"
 			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
 			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
-			data-testid="mobile-overlay"
+			data-testid="mobile-overlay-container"
 		>
-			<div class="header__mobile-controls">
-				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings">
-					<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-btn">
+			<div class="header__mobile-controls" data-testid="mobile-controls-group">
+				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings-mobile-container">
+					<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-button">
 						<SettingsIcon size={24} />
 					</button>
 					{#if settingsOpen}
-						<div class="header__settings-popover">
-							<div class="header__settings-dropdown">
-								<div class="header__settings-group">
-									<span class="header__settings-label">{$t("settings.language")}</span>
-									<div class="header__settings-options">
-										<button class="header__settings-opt" class:active={$locale === "uk"} onclick={() => changeLanguage("uk")}>UA</button>
-										<button class="header__settings-opt" class:active={$locale === "en"} onclick={() => changeLanguage("en")}>EN</button>
-									</div>
-								</div>
-								<div class="header__settings-group">
-									<span class="header__settings-label">{$t("settings.theme")}</span>
-									<div class="header__settings-options">
-										<button class="header__settings-opt" class:active={ui.theme === "light"} onclick={() => { if (ui.theme === "dark") toggleTheme(); }}>{$t("settings.light")}</button>
-										<button class="header__settings-opt" class:active={ui.theme === "dark"} onclick={() => { if (ui.theme === "light") toggleTheme(); }}>{$t("settings.dark")}</button>
-									</div>
-								</div>
-							</div>
-							<DebugSettingsDropdown isOpen={settingsOpen} />
+						<div class="header__settings-popover header__settings-popover--mobile" data-testid="settings-popover-mobile-menu">
+							<HeaderSettingsPanel
+								isOpen={settingsOpen}
+								mobile
+								onChangeLang={changeLanguage}
+								onToggleTheme={toggleTheme}
+								debugPanel={headerSettings.debugPanel}
+							/>
 						</div>
 					{/if}
 				</div>
@@ -313,27 +409,31 @@
 					class="header__mobile-close"
 					onclick={ui.closeMenu}
 					aria-label="Закрити меню"
-					data-testid="mobile-close-btn"
+					data-testid="mobile-close-button"
 				>
 					<X size={24} />
 				</button>
 			</div>
 
-			<nav aria-label="Мобільне меню" data-testid="mobile-nav" class="header__mobile-nav">
-				<div class="header__mobile-container">
-					<ul class="header__mobile-list" data-testid="mobile-nav-list">
+			<nav aria-label="Мобільне меню" data-testid="mobile-nav-menu" class="header__mobile-nav">
+				<div class="header__mobile-container" data-testid="mobile-nav-container">
+					<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
 						{#each mobileNavGroups as group, gIndex}
-							<li class="header__mobile-group">
+							<li class="header__mobile-group" data-testid={`mobile-nav-group-${gIndex}`}>
 								{#if group.title}
-									<h3 class="header__mobile-group-title">{group.title}</h3>
+									{#if group.titleHref}
+										<a href={group.titleHref} class="header__mobile-group-title header__mobile-group-title--link">{group.title}</a>
+									{:else}
+										<h3 class="header__mobile-group-title">{group.title}</h3>
+									{/if}
 								{/if}
 								<ul class="header__mobile-sublist">
 									{#each group.items as item, i}
-										<li data-testid={`mobile-nav-item-${gIndex}-${i}`}>
+										<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`}>
 											<a
 												href={item.href}
 												class="header__mobile-link"
-												class:header__mobile-cta={item.type === 'cta'}
+												class:header__mobile-cta={item.itemType === 'cta'}
 												class:active={page.url.pathname === item.href}
 												onclick={ui.closeMenu}
 												data-testid={`mobile-nav-link-${gIndex}-${i}`}
@@ -414,7 +514,7 @@
 
 	@keyframes fadeInDown {
 		from { opacity: 0; transform: translateY(-30px); }
-		to { opacity: 1; transform: translateY(0); }
+		to { opacity: 1; }
 	}
 
 	.header__bar {
@@ -424,10 +524,19 @@
 		gap: var(--space-xl);
 		width: 100%;
 		padding: var(--space-lg) var(--space-xl) var(--space-lg) 200px;
-		box-shadow: var(--shadow-sm);
 		transition: all var(--transition-base);
 		position: relative;
-		animation: fadeInDown 0.8s ease-out both;
+		animation: fadeInDown 0.8s ease-out backwards;
+		box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+	}
+
+	.header__bar::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		/* background and blur moved to .header-blur-layer in +layout.svelte
+		   so child dropdowns can use backdrop-filter without compositing conflicts */
 	}
 
 	.header__desktop-nav-group {
@@ -436,22 +545,13 @@
 		justify-content: center;
 		gap: var(--space-xl);
 		flex: 1;
-		margin-right: 40px;
-	}
-
-	.header__bar::before {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: color-mix(in srgb, var(--color-white), transparent 30%);
-		backdrop-filter: blur(12px);
-		z-index: -1;
+		margin-right: 0;
 	}
 
 	.scrolled .header__bar {
 		padding-top: var(--space-md);
 		padding-bottom: var(--space-md);
-		box-shadow: var(--shadow-md);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.header__nav-list {
@@ -491,23 +591,13 @@
 
 	.header__nav-manager {
 		position: relative;
-		z-index: 320;
 	}
 
 	.header__nav-dropdown {
 		position: absolute;
-		top: calc(100% + 15px);
+		top: calc(100% + 25px);
 		right: 0;
 		width: 280px;
-		background: var(--color-white);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--shadow-lg);
-		padding: var(--space-lg);
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-md);
-		z-index: 330;
-		border: 1px solid rgba(0, 0, 0, 0.05);
 	}
 
 	.header__nav-dropdown-group {
@@ -521,11 +611,6 @@
 	}
 
 	.header__nav-dropdown-label {
-		font-size: 0.7rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		color: var(--color-muted-text);
-		letter-spacing: 0.05em;
 		margin-bottom: 2px;
 	}
 
@@ -553,11 +638,19 @@
 		text-transform: none;
 	}
 
+	:global(.dark-theme) .header__nav-dropdown-link {
+		color: var(--color-dark-text);
+	}
+
 	.header__nav-dropdown-link:hover,
 	.header__nav-dropdown-link.active {
 		background: var(--color-ice-blue);
 		color: var(--color-sea-blue);
 		padding-left: var(--space-md);
+	}
+
+	:global(.dark-theme) .header__nav-dropdown-link:hover {
+		background: rgba(255, 255, 255, 0.05);
 	}
 
 	.header__nav-dropdown-cta {
@@ -574,10 +667,13 @@
 		margin: 2px 0;
 	}
 
+	:global(.dark-theme) .header__nav-dropdown-divider {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
 	.header__settings {
 		position: relative;
 		margin-left: var(--space-sm);
-		z-index: 320;
 	}
 
 	.header__settings-btn {
@@ -594,6 +690,11 @@
 		cursor: pointer;
 	}
 
+	:global(.dark-theme) .header__settings-btn {
+		background: rgba(255, 255, 255, 0.1);
+		color: var(--color-dark-text);
+	}
+
 	.header__settings.open .header__settings-btn {
 		background: var(--color-sky-blue);
 		transform: rotate(45deg);
@@ -603,57 +704,12 @@
 		position: absolute;
 		top: 100%;
 		right: 0;
-		padding-top: 5px;
-		z-index: 330;
-	}
-
-	.header__settings-dropdown {
-		width: 220px;
-		background: var(--color-white);
-		border-radius: var(--radius-lg);
-		box-shadow: var(--shadow-lg);
-		padding: var(--space-md);
-	}
-
-	.header__settings-group {
-		margin-bottom: var(--space-md);
-	}
-
-	.header__settings-label {
-		display: block;
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-muted-text);
-		text-transform: uppercase;
-		margin-bottom: var(--space-xs);
-		letter-spacing: 0.05em;
-	}
-
-	.header__settings-options {
+		padding-top: 25px;
+		/* z-index removed: it was creating an intermediate stacking context that
+		   prevented backdrop-filter on child dropdowns from seeing page content */
 		display: flex;
-		gap: var(--space-xs);
-		background: var(--color-ice-blue);
-		padding: 4px;
-		border-radius: var(--radius-md);
-	}
-
-	.header__settings-opt {
-		flex: 1;
-		padding: 6px;
-		font-size: 0.8rem;
-		font-weight: 700;
-		border-radius: var(--radius-sm);
-		transition: all var(--transition-fast);
-		color: var(--color-deep-ocean);
-		border: none;
-		cursor: pointer;
-		background: transparent;
-	}
-
-	.header__settings-opt.active {
-		background: var(--color-white);
-		box-shadow: var(--shadow-sm);
-		color: var(--color-golden);
+		flex-direction: column;
+		gap: var(--space-md);
 	}
 
 	.header__cta {
@@ -662,6 +718,11 @@
 		transition: all var(--transition-base);
 		color: var(--color-deep-ocean);
 		border-color: var(--color-deep-ocean);
+	}
+
+	:global(.dark-theme) .header__cta {
+		color: var(--color-dark-text);
+		border-color: var(--color-dark-text);
 	}
 
 	.header__cta:hover {
@@ -689,8 +750,13 @@
 		padding: 0 1.2rem;
 		width: auto;
 		border-radius: var(--radius-full);
-		background: var(--color-white);
+		background: var(--color-surface);
 		box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+	}
+
+	:global(.dark-theme) .header__burger--mobile {
+		background: var(--color-dark-card);
+		color: var(--color-dark-text);
 	}
 
 	.header__burger-text {
@@ -704,14 +770,27 @@
 	.header__mobile-overlay {
 		position: fixed;
 		inset: 0;
-		background: color-mix(in srgb, var(--color-white), transparent 2%);
-		backdrop-filter: blur(20px);
 		z-index: 400;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
 		padding: var(--space-2xl) var(--space-xl);
+		background: transparent;
+	}
+
+	.header__mobile-overlay::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background: color-mix(in srgb, var(--color-surface), transparent 2%);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		z-index: -1;
+	}
+
+	:global(.dark-theme) .header__mobile-overlay::before {
+		background: color-mix(in srgb, var(--color-dark-bg), transparent 5%);
 	}
 
 	.header__mobile-controls {
@@ -728,9 +807,21 @@
 		margin-left: 0;
 	}
 
-	.header__mobile-controls .header__settings-dropdown {
+	.header__settings-popover--mobile {
+		position: fixed;
+		top: 0;
+		bottom: 0;
 		left: 0;
-		right: auto;
+		right: 0;
+		margin: auto;
+		height: fit-content;
+		width: 90%;
+		max-width: 320px;
+		padding: 0;
+		z-index: 500;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
 	}
 
 	.header__mobile-close {
@@ -745,6 +836,11 @@
 		transition: all var(--transition-base);
 		border: none;
 		cursor: pointer;
+	}
+
+	:global(.dark-theme) .header__mobile-close {
+		background: rgba(255, 255, 255, 0.1);
+		color: var(--color-dark-text);
 	}
 
 	.header__mobile-nav {
@@ -797,6 +893,10 @@
 		padding: 0.5rem;
 	}
 
+	:global(.dark-theme) .header__mobile-link {
+		color: var(--color-dark-text);
+	}
+
 	.header__mobile-link:hover, .header__mobile-link.active {
 		color: var(--color-vibrant-blue);
 		transform: scale(1.05);
@@ -823,24 +923,8 @@
 		.header__logo-area { left: 15px; }
 	}
 
-	@media (min-width: 1025px) {
-		.header__bar > .header__settings:not(.open) {
-			display: none;
-		}
-		
-		.header__bar > .header__settings.open {
-			position: absolute;
-			top: calc(100% + 5px);
-			right: var(--space-xl);
-		}
-
-		.header__bar > .header__settings.open .header__settings-btn {
-			display: none;
-		}
-	}
-
 	@media (max-width: 768px) {
-		.header__nav, .header__cta, .header__burger--desktop, .header__bar > .header__settings {
+		.header__nav, .header__cta, .header__burger--desktop, .header__settings--desktop {
 			display: none;
 		}
 		.header__desktop-nav-group { display: none; }

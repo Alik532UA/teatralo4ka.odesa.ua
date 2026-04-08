@@ -14,13 +14,25 @@
 	--color-warm-gold: #ffc107;
 
 	/* Neutrals */
-	--color-white: #122533;
-	--color-dark-text: #eaf6fb;
-	--color-body-text: #d6eef5;
-	--color-muted-text: #7a9dae;
-	--color-border: #1b5e7b;
+	--color-white: #ffffff;
 	--color-black: #000000;
 	--color-pure-white: #ffffff;
+
+	/* Semantic surface tokens */
+	--color-surface: #122533;
+	--color-surface-raised: #142b3b;
+
+	/* Semantic text tokens */
+	--color-text-primary: #eaf6fb;
+	--color-text-body: #d6eef5;
+	--color-text-muted: #7a9dae;
+
+	/* Legacy aliases (backward compat — use semantic tokens in new code) */
+	--color-dark-text: var(--color-text-primary);
+	--color-body-text: var(--color-text-body);
+	--color-muted-text: var(--color-text-muted);
+
+	--color-border: #1b5e7b;
 
 	/* Theme surfaces and overlays */
 	--theme-dynamic-main-bg: rgba(13, 31, 45, 0.7);

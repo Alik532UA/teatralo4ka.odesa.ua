@@ -9,6 +9,9 @@ import {
   getDoc,
   query,
   orderBy,
+  where,
+  limit,
+  deleteField,
   serverTimestamp,
   Timestamp,
 } from "firebase/firestore";
@@ -17,6 +20,30 @@ import type { Article } from "./articles";
 import type { ArticleCategory } from "../config/categories";
 
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+
+/**
+ * Generates a URL-safe slug from an English title.
+ * Spaces → underscore, removes all non [a-z0-9_] characters, lowercases.
+ */
+export function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '')
+    .replace(/_+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+/** Returns true if the slug is not used by any other article in the project. */
+async function checkSlugUnique(slug: string, excludeId?: string): Promise<boolean> {
+  const projectId = await getProjectId();
+  const articlesRef = collection(db, 'projects', projectId, 'articles');
+  const q = query(articlesRef, where('slug', '==', slug), limit(1));
+  const snap = await getDocs(q);
+  if (snap.empty) return true;
+  if (excludeId && snap.docs[0].id === excludeId) return true;
+  return false;
+}
 
 async function getProjectId(): Promise<string> {
   const user = auth.currentUser;
@@ -68,11 +95,22 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
 
   const docRef = doc(db, "projects", projectId, "articles", dateId);
 
+  // Validate and resolve slug
+  const rawSlug = (data.slug ?? '').trim();
+  let finalSlug: string | undefined;
+  if (rawSlug) {
+    const isUnique = await checkSlugUnique(rawSlug);
+    if (!isUnique) {
+      throw new Error(`Slug "${rawSlug}" вже використовується. Будь ласка, оберіть інший URL.`);
+    }
+    finalSlug = rawSlug;
+  }
+
   // Для сумісності з правилами Firestore isValidArticle:
   // Правила очікують title, content, lang, isPublished на верхньому рівні
   const ukData = data.translations?.uk || { title: 'No Title', content: '', isPublished: false };
 
-  const payloadToSave = {
+  const payloadToSave: any = {
     // ТІЛЬКИ ті ключі, які дозволені в firestore.rules:
     title: ukData.title || 'Untitled',
     content: ukData.content || '',
@@ -88,6 +126,10 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     dateMode: data.dateMode,
     customDate: data.customDate
   };
+
+  if (finalSlug) {
+    payloadToSave.slug = finalSlug;
+  }
 
   // DEBUG LOGS
   console.log("=== FIRESTORE WRITE DEBUG ===");
@@ -117,7 +159,23 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   const projectId = await getProjectId();
   const ref = doc(db, "projects", projectId, "articles", articleId);
 
-  const updatePayload: any = { ...data, updatedAt: serverTimestamp() };
+  // Extract slug before spreading to handle it separately
+  const { slug: rawSlug, ...dataWithoutSlug } = data;
+  const updatePayload: any = { ...dataWithoutSlug, updatedAt: serverTimestamp() };
+
+  // Handle slug update
+  if (rawSlug !== undefined) {
+    if (rawSlug === '') {
+      // Explicitly removed by user — delete field from Firestore
+      updatePayload.slug = deleteField();
+    } else {
+      const isUnique = await checkSlugUnique(rawSlug, articleId);
+      if (!isUnique) {
+        throw new Error(`Slug "${rawSlug}" вже використовується. Будь ласка, оберіть інший URL.`);
+      }
+      updatePayload.slug = rawSlug;
+    }
+  }
 
   // Якщо оновлюються переклади, треба оновити і кореневі поля для валідації
   if (data.translations?.uk) {

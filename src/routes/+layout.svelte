@@ -15,6 +15,16 @@
 
 	let { children, data } = $props();
 
+	let headerScrolled = $state(false);
+
+	$effect(() => {
+		if (browser) {
+			const onScroll = () => { headerScrolled = window.scrollY > 20; };
+			window.addEventListener('scroll', onScroll, { passive: true });
+			return () => window.removeEventListener('scroll', onScroll);
+		}
+	});
+
 	$effect(() => {
 		if (browser) {
 			document.body.classList.toggle('page-home', page.route.id === '/');
@@ -200,6 +210,7 @@
 		/>
 
 		<Header />
+		<div class="header-blur-layer" class:scrolled={headerScrolled} aria-hidden="true"></div>
 		<main id="main-content">
 			<ErrorBoundary>
 				{@render children()}
@@ -246,9 +257,47 @@
 		pointer-events: none;
 	}
 
+	/* Header frosted-glass background — rendered as a sibling of <Header />
+	   so dropdowns inside <Header /> can use backdrop-filter without
+	   compositing-group conflicts. */
+	.header-blur-layer {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: calc(var(--header-height, 72px) + 16px); /* un-scrolled: +16px extra padding */
+		z-index: 99;
+		pointer-events: none;
+		background: color-mix(in srgb, var(--color-surface), transparent 15%);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+		transition:
+			height var(--transition-base),
+			background var(--transition-base);
+	}
+
+	.header-blur-layer.scrolled {
+		height: var(--header-height, 72px);
+	}
+
+	:global(.dark-theme) .header-blur-layer {
+		background: color-mix(in srgb, var(--color-dark-bg, #0f172a), transparent 15%);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+	}
+
+	:global(.app.with-dynamic-bg) .header-blur-layer {
+		background: color-mix(in srgb, var(--color-surface), transparent 60%);
+	}
+
+	:global(.dark-theme.app.with-dynamic-bg) .header-blur-layer {
+		background: color-mix(in srgb, #000, transparent 60%);
+	}
+
 	main {
 		flex: 1;
 		background: transparent;
 		position: relative;
+		padding-top: var(--header-height, 72px);
 	}
 </style>

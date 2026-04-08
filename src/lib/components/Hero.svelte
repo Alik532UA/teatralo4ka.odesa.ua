@@ -22,14 +22,15 @@
 		return () => clearInterval(interval);
 	});
 
-	function handleEmailClick() {
+	function handleEmailClick(e?: MouseEvent) {
+		if (e) e.preventDefault();
 		const email = $t("footer.email");
 		navigator.clipboard.writeText(email).then(() => {
 			toast.success(
-				"Електронну адресу скопійовано!",
+				$t("footer.emailCopied"),
 				6000,
 				{
-					label: "Відкрити поштовий клієнт",
+					label: $t("footer.openMailClient"),
 					onAction: () => {
 						window.location.href = `mailto:${email}`;
 					}
@@ -39,39 +40,38 @@
 	}
 </script>
 
-<section class="hero" id="hero-section" aria-label="Головна секція">
-
-	<div class="hero__content container">
+<section class="hero" id="hero-section" aria-label="Головна секція" data-testid="hero-section-container">
+	<div class="hero__content container" data-testid="hero-content-group">
 		<!-- 1. Social Links (Left) -->
-		<div class="hero__social">
-			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb">
+		<div class="hero__social" data-testid="hero-social-links-menu">
+			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb-button">
 				<img src={`${base}/social_media/facebook-se-512-50.png`} alt="FB" />
 			</a>
-			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig">
+			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig-button">
 				<img src={`${base}/social_media/instagram-se-512-50.png`} alt="IG" />
 			</a>
-			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg">
+			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg-button">
 				<img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="TG" />
 			</a>
-			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt">
+			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt-button">
 				<img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YT" />
 			</a>
-			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt">
+			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt-button">
 				<img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TT" />
 			</a>
 		</div>
 
 		<!-- 2. Text Content (Middle) -->
-		<div class="hero__text">
-			<h1 class="hero__title" id="hero-title">
+		<div class="hero__text" data-testid="hero-text-group">
+			<h1 class="hero__title" id="hero-title" data-testid="hero-title-label">
 				{$t("hero.title")}
 			</h1>
-			<p class="hero__subtitle">{$t("hero.subtitle")}</p>
+			<p class="hero__subtitle" data-testid="hero-subtitle-label">{$t("hero.subtitle")}</p>
 		</div>
 
 		<!-- 3. Image (Right) -->
-		<div class="hero__image-wrap">
-			<div class="hero__image" id="hero-image">
+		<div class="hero__image-wrap" data-testid="hero-scene-container">
+			<div class="hero__image-inner" data-testid="hero-image-inner">
 				{#each images as img, i}
 					<img
 						src={img}
@@ -81,9 +81,12 @@
 						loading="eager"
 						fetchpriority="high"
 						decoding="async"
+						class="hero__image"
 						class:active={currentImageIndex === i}
+						data-testid={`hero-main-image-${i}`}
 					/>
 				{/each}
+				<div class="hero__image-border"></div>
 			</div>
 			<!-- Decorative blue cloud shapes -->
 			<div class="hero__cloud hero__cloud--1" aria-hidden="true"></div>
@@ -91,14 +94,14 @@
 		</div>
 
 		<!-- 4. Mobile Contacts -->
-		<div class="hero__contacts">
-			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label="Карта">
+		<div class="hero__contacts" data-testid="hero-mobile-contacts-menu">
+			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label="Карта" data-testid="hero-map-button">
 				<MapPinned size={24} />
 			</a>
-			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label="Телефони">
+			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label="Телефони" data-testid="hero-phones-button">
 				<Phone size={24} />
 			</button>
-			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label="Email">
+			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label="Email" data-testid="hero-email-button">
 				<Mail size={24} />
 			</button>
 		</div>
@@ -112,10 +115,9 @@
 			180deg,
 			var(--color-light-blue) 0%,
 			var(--color-sky-blue) 60%,
-			var(--color-white) 100%
+			var(--color-surface) 100%
 		);
-		padding: calc(var(--header-height) + var(--space-4xl)) 0
-			var(--space-4xl);
+		padding: var(--space-4xl, 4rem) 0;
 		overflow: hidden;
 		min-height: 600px;
 		transition: background 800ms ease-in-out;
@@ -129,7 +131,7 @@
 	.hero__content {
 		display: grid;
 		grid-template-columns: 60px 1fr 1fr;
-		gap: var(--space-2xl);
+		gap: var(--space-2xl, 3rem);
 		align-items: center;
 		position: relative;
 	}
@@ -202,7 +204,7 @@
 		text-transform: uppercase;
 		color: var(--color-deep-ocean);
 		line-height: 1.1;
-		margin-bottom: var(--space-lg);
+		margin-bottom: var(--space-lg, 2rem);
 		letter-spacing: -0.01em;
 	}
 
@@ -213,28 +215,28 @@
 		color: var(--color-body-text);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		margin-bottom: var(--space-xl);
+		margin-bottom: var(--space-xl, 2.5rem);
 	}
 
-	/* Image area — Lower than seagulls */
+	/* Image area with new styles from previous AI */
 	.hero__image-wrap {
 		position: relative;
 		z-index: 2;
 		animation: fadeInRight 0.8s ease-out 0.2s both;
 	}
 
-	.hero__image {
-		width: 100%;
-		aspect-ratio: 4 / 3;
-		min-height: 300px;
+	.hero__image-inner {
+		position: relative;
 		border-radius: 40px;
 		overflow: hidden;
-		box-shadow: var(--theme-image-shadow);
-		cursor: pointer;
-		position: relative;
+		box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+		z-index: 2;
+		aspect-ratio: 4 / 3;
+		min-height: 300px;
+		background: var(--color-light-blue);
 	}
 
-	.hero__image img {
+	.hero__image {
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -245,12 +247,20 @@
 		opacity: 0;
 	}
 
-	.hero__image img.active {
+	.hero__image.active {
 		opacity: 1;
 	}
 
-	.hero__image:hover img.active {
+	.hero__image-inner:hover .hero__image.active {
 		transform: scale(1.08);
+	}
+
+	.hero__image-border {
+		position: absolute;
+		inset: 0;
+		border: 15px solid color-mix(in srgb, var(--color-surface), transparent 80%);
+		border-radius: inherit;
+		pointer-events: none;
 	}
 
 	/* Decorative clouds */
@@ -287,17 +297,17 @@
 	/* Mobile Contacts */
 	.hero__contacts {
 		display: none;
-		gap: var(--space-lg);
+		gap: var(--space-lg, 2rem);
 		justify-content: center;
 		z-index: 10;
-		margin-top: var(--space-md);
+		margin-top: var(--space-md, 1.5rem);
 	}
 
 	.hero__contact-btn {
 		width: 56px;
 		height: 56px;
 		border-radius: 50%;
-		background: var(--color-white);
+		background: var(--color-surface);
 		color: var(--color-deep-ocean);
 		display: flex;
 		align-items: center;
@@ -318,7 +328,7 @@
 	@media (max-width: 1024px) {
 		.hero__content {
 			grid-template-columns: 60px 1fr 1.2fr;
-			gap: var(--space-xl);
+			gap: var(--space-xl, 2rem);
 		}
 		.hero__social {
 			position: absolute;
@@ -330,14 +340,14 @@
 
 	@media (max-width: 768px) {
 		.hero {
-			padding-top: calc(var(--header-height) + var(--space-2xl));
+			padding-top: var(--space-2xl, 3rem);
 			min-height: auto;
 		}
 
 		.hero__content {
 			display: flex;
 			flex-direction: column;
-			gap: var(--space-xl);
+			gap: var(--space-xl, 2rem);
 			text-align: center;
 		}
 
@@ -354,6 +364,9 @@
 		.hero__image-wrap {
 			order: 2;
 			animation: fadeInUp 0.8s ease-out 0.2s both;
+			width: 100%;
+			max-width: 500px;
+			margin: 0 auto;
 		}
 
 		.hero__subtitle {
@@ -367,7 +380,7 @@
 			position: static;
 			justify-content: center;
 			order: 4;
-			margin-top: var(--space-md);
+			margin-top: var(--space-md, 1.5rem);
 			margin-bottom: 0;
 			animation: fadeInUp 0.8s ease-out 0.6s both;
 		}
@@ -376,10 +389,6 @@
 			display: flex;
 			order: 5;
 			animation: fadeInUp 0.8s ease-out 0.8s both;
-		}
-
-		.hero__image {
-			min-height: 220px;
 		}
 	}
 </style>

@@ -34,7 +34,9 @@
 	let element: HTMLElement;
 	let editor: Editor | null = $state(null);
 	let isTableActive = $state(false);
-	let isMarkdownMode = $state(false);
+	type EditorMode = 'visual' | 'markdown' | 'html';
+	let editorMode = $state<EditorMode>('visual');
+	let htmlContent = $state('');
 
 	// Modal states
 	let showLinkModal = $state(false);
@@ -48,7 +50,7 @@
 			element: element,
 			editorProps: {
 				attributes: {
-					'data-testid': `${testId}-content`
+					'data-testid': `${testId}-content-area`
 				}
 			},
 			extensions: [
@@ -102,9 +104,9 @@
 		});
 	});
 
-	// Sync value from outside
+	// Sync value from outside (only in visual mode)
 	$effect(() => {
-		if (editor && !isMarkdownMode) {
+		if (editor && editorMode === 'visual') {
 			const currentMarkdown = (editor.storage as any).markdown.getMarkdown();
 			if (value !== currentMarkdown) {
 				editor.commands.setContent(value || '', { emitUpdate: false });
@@ -118,19 +120,32 @@
 		}
 	});
 
-	function toggleMarkdownMode() {
-		if (isMarkdownMode) {
-			if (editor) {
-				editor.commands.setContent(value || '', { emitUpdate: false });
-			}
+	function setEditorMode(mode: EditorMode) {
+		if (mode === editorMode) return;
+		// Commit current edited content before switching
+		if (editorMode === 'markdown' && editor) {
+			editor.commands.setContent(value || '', { emitUpdate: false });
+		} else if (editorMode === 'html' && editor) {
+			editor.commands.setContent(htmlContent, { emitUpdate: false });
+			const markdown = (editor.storage as any).markdown.getMarkdown();
+			value = markdown;
+			if (onchange) onchange(markdown);
 		}
-		isMarkdownMode = !isMarkdownMode;
+		// Prepare entering mode
+		if (mode === 'html' && editor) {
+			htmlContent = editor.getHTML();
+		}
+		editorMode = mode;
 	}
 
 	function handleMarkdownInput(e: Event) {
 		const target = e.target as HTMLTextAreaElement;
 		value = target.value;
 		if (onchange) onchange(value);
+	}
+
+	function handleHtmlInput(e: Event) {
+		htmlContent = (e.target as HTMLTextAreaElement).value;
 	}
 
 	function openModal(type: 'link' | 'image') {
@@ -190,34 +205,45 @@
 
 <div class="rich-editor" data-testid="{testId}-container">
    {#if editor}
-	   <div class="toolbar" data-testid="{testId}-toolbar">
-		   <div class="tool-group">
-			   <button 
-				   type="button" 
-				   class="tool-btn mode-toggle" 
-				   onclick={toggleMarkdownMode}
-				   title={isMarkdownMode ? "Режим дизайнера" : "Режим Markdown"}
-				   data-testid="{testId}-btn-mode-toggle"
-			   >
-				   {#if isMarkdownMode}
-					   <Layout size={18} />
-				   {:else}
-					   <FileJson size={18} />
-				   {/if}
-			   </button>
+	   <div class="toolbar" data-testid="{testId}-toolbar-group">
+<div class="tool-group mode-tabs" data-testid="{testId}-mode-tools">
+		   <button
+			   type="button"
+			   class="tool-btn mode-tab"
+			   class:active={editorMode === 'visual'}
+			   onclick={() => setEditorMode('visual')}
+			   title="Візуальний редактор"
+			   data-testid="{testId}-mode-toggle-button"
+		   ><Layout size={15} /> Текст</button>
+		   <button
+			   type="button"
+			   class="tool-btn mode-tab"
+			   class:active={editorMode === 'markdown'}
+			   onclick={() => setEditorMode('markdown')}
+			   title="Markdown"
+			   data-testid="{testId}-mode-md-button"
+		   ><FileJson size={15} /> MD</button>
+		   <button
+			   type="button"
+			   class="tool-btn mode-tab"
+			   class:active={editorMode === 'html'}
+			   onclick={() => setEditorMode('html')}
+			   title="HTML"
+			   data-testid="{testId}-mode-html-button"
+		   ><Code size={15} /> HTML</button>
 		   </div>
 
 		   <div class="separator"></div>
 
-		   {#if !isMarkdownMode}
-			   <div class="tool-group">
+	   {#if editorMode === 'visual'}
+			   <div class="tool-group" data-testid="{testId}-format-tools">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('bold')} 
 					   onclick={() => editor?.chain().focus().toggleBold().run()}
 					   title="Жирний"
-					   data-testid="{testId}-btn-bold"
+					   data-testid="{testId}-bold-button"
 				   ><Bold size={18} /></button>
 				   
 				   <button 
@@ -226,7 +252,7 @@
 					   class:active={editor.isActive('italic')} 
 					   onclick={() => editor?.chain().focus().toggleItalic().run()}
 					   title="Курсив"
-					   data-testid="{testId}-btn-italic"
+					   data-testid="{testId}-italic-button"
 				   ><Italic size={18} /></button>
 				   
 				   <button 
@@ -235,7 +261,7 @@
 					   class:active={editor.isActive('underline')} 
 					   onclick={() => editor?.chain().focus().toggleUnderline().run()}
 					   title="Підкреслений"
-					   data-testid="{testId}-btn-underline"
+					   data-testid="{testId}-underline-button"
 				   ><UnderlineIcon size={18} /></button>
 
 				   <button 
@@ -244,7 +270,7 @@
 					   class:active={editor.isActive('strike')} 
 					   onclick={() => editor?.chain().focus().toggleStrike().run()}
 					   title="Закреслений"
-					   data-testid="{testId}-btn-strike"
+					   data-testid="{testId}-strike-button"
 				   ><Strikethrough size={18} /></button>
 
 				   <button 
@@ -253,19 +279,19 @@
 					   class:active={editor.isActive('code')} 
 					   onclick={() => editor?.chain().focus().toggleCode().run()}
 					   title="Код"
-					   data-testid="{testId}-btn-code"
+					   data-testid="{testId}-code-button"
 				   ><Code size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group">
+			   <div class="tool-group" data-testid="{testId}-heading-tools">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('paragraph')} 
 					   onclick={() => editor?.chain().focus().setParagraph().run()}
-					   data-testid="{testId}-btn-p"
+					   data-testid="{testId}-paragraph-button"
 					   title="Звичайний текст"
 				   ><Type size={18} /></button>
 				   {#each [1, 2, 3, 4, 5, 6] as level}
@@ -274,7 +300,7 @@
 						   class="tool-btn" 
 						   class:active={editor.isActive('heading', { level })} 
 						   onclick={() => editor?.chain().focus().toggleHeading({ level: level as any }).run()}
-						   data-testid="{testId}-btn-h{level}"
+						   data-testid="{testId}-h{level}-button"
 						   title="Заголовок {level}"
 					   >H{level}</button>
 				   {/each}
@@ -282,14 +308,14 @@
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group">
+			   <div class="tool-group" data-testid="{testId}-list-tools">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('bulletList')} 
 					   onclick={() => editor?.chain().focus().toggleBulletList().run()}
 					   title="Маркований список"
-					   data-testid="{testId}-btn-bullet"
+					   data-testid="{testId}-bullet-list-button"
 				   ><List size={18} /></button>
 				   
 				   <button 
@@ -298,7 +324,7 @@
 					   class:active={editor.isActive('orderedList')} 
 					   onclick={() => editor?.chain().focus().toggleOrderedList().run()}
 					   title="Нумерований список"
-					   data-testid="{testId}-btn-ordered"
+					   data-testid="{testId}-ordered-list-button"
 				   ><ListOrdered size={18} /></button>
 
 				   <button 
@@ -307,20 +333,20 @@
 					   class:active={editor.isActive('taskList')} 
 					   onclick={() => editor?.chain().focus().toggleTaskList().run()}
 					   title="Список завдань"
-					   data-testid="{testId}-btn-tasklist"
+					   data-testid="{testId}-task-list-button"
 				   ><CheckSquare size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group">
+			   <div class="tool-group" data-testid="{testId}-insert-tools">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('link')} 
 					   onclick={() => openModal('link')}
 					   title="Посилання"
-					   data-testid="{testId}-btn-link"
+					   data-testid="{testId}-link-button"
 				   ><LinkIcon size={18} /></button>
 
 				   <button 
@@ -328,7 +354,7 @@
 					   class="tool-btn" 
 					   onclick={() => openModal('image')}
 					   title="Зображення по URL"
-					   data-testid="{testId}-btn-image"
+					   data-testid="{testId}-image-button"
 				   ><ImageIcon size={18} /></button>
 
 				   <button 
@@ -336,7 +362,7 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
 					   title="Вставити таблицю"
-					   data-testid="{testId}-btn-table"
+					   data-testid="{testId}-table-button"
 				   ><TableIcon size={18} /></button>
 				   
 				   <button 
@@ -345,7 +371,7 @@
 					   onclick={() => editor?.chain().focus().toggleBlockquote().run()}
 					   class:active={editor.isActive('blockquote')}
 					   title="Цитата"
-					   data-testid="{testId}-btn-quote"
+					   data-testid="{testId}-quote-button"
 				   ><Quote size={18} /></button>
 
 				   <button 
@@ -353,19 +379,19 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().setHorizontalRule().run()}
 					   title="Горизонтальна лінія"
-					   data-testid="{testId}-btn-hr"
+					   data-testid="{testId}-hr-button"
 				   ><Minus size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group">
+			   <div class="tool-group" data-testid="{testId}-history-tools">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().undo().run()}
 					   title="Відмінити"
-					   data-testid="{testId}-btn-undo"
+					   data-testid="{testId}-undo-button"
 				   ><Undo size={18} /></button>
 				   
 				   <button 
@@ -373,58 +399,76 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().redo().run()}
 					   title="Повторити"
-					   data-testid="{testId}-btn-redo"
+					   data-testid="{testId}-redo-button"
 				   ><Redo size={18} /></button>
 			   </div>
 
 			   {#if isTableActive}
 				   <div class="separator"></div>
-				   <div class="tool-group table-tools">
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title="Додати стовпець ліворуч" data-testid="{testId}-btn-table-col-before"><PlusSquare size={14} /> Col L</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title="Додати стовпець праворуч" data-testid="{testId}-btn-table-col-after"><PlusSquare size={14} /> Col R</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title="Видалити стовпець" data-testid="{testId}-btn-table-col-delete"><MinusSquare size={14} /> Col</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title="Додати рядок зверху" data-testid="{testId}-btn-table-row-before"><PlusSquare size={14} /> Row U</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title="Додати рядок знизу" data-testid="{testId}-btn-table-row-after"><PlusSquare size={14} /> Row D</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title="Видалити рядок" data-testid="{testId}-btn-table-row-delete"><MinusSquare size={14} /> Row</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title="Видалити таблицю" data-testid="{testId}-btn-table-delete"><Trash2 size={16} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title="Об'єднати клітинки" data-testid="{testId}-btn-table-merge"><Combine size={14} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title="Розділити клітинку" data-testid="{testId}-btn-table-split"><Split size={14} /></button>
+				   <div class="tool-group table-tools" data-testid="{testId}-table-tools-group">
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title="Додати стовпець ліворуч" data-testid="{testId}-table-col-before-button"><PlusSquare size={14} /> Col L</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title="Додати стовпець праворуч" data-testid="{testId}-table-col-after-button"><PlusSquare size={14} /> Col R</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title="Видалити стовпець" data-testid="{testId}-table-col-delete-button"><MinusSquare size={14} /> Col</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title="Додати рядок зверху" data-testid="{testId}-table-row-before-button"><PlusSquare size={14} /> Row U</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title="Додати рядок знизу" data-testid="{testId}-table-row-after-button"><PlusSquare size={14} /> Row D</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title="Видалити рядок" data-testid="{testId}-table-row-delete-button"><MinusSquare size={14} /> Row</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title="Видалити таблицю" data-testid="{testId}-table-delete-button"><Trash2 size={16} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title="Об'єднати клітинки" data-testid="{testId}-table-merge-button"><Combine size={14} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title="Розділити клітинку" data-testid="{testId}-table-split-button"><Split size={14} /></button>
 				   </div>
 			   {/if}
 		   {:else}
-			   <div class="tool-group">
-				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;">Markdown Mode (Direct Editing)</span>
+			   <div class="tool-group" data-testid="{testId}-mode-info-group">
+				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{editorMode === 'markdown' ? 'Markdown' : 'HTML'} — редагування джерела</span>
 			   </div>
-		   {/if}
+	   {/if}
 	   </div>
    {/if}
 
-   <div class="editor-viewport">
+   <div class="editor-viewport" data-testid="{testId}-viewport-container">
 	   <textarea 
 		   class="markdown-editor" 
-		   class:hidden={!isMarkdownMode}
+		   class:hidden={editorMode !== 'markdown'}
 		   bind:value={value} 
 		   oninput={handleMarkdownInput}
 		   placeholder={placeholder}
 		   data-testid="{testId}-markdown-textarea"
 	   ></textarea>
+
+	   <textarea
+		   class="html-editor"
+		   class:hidden={editorMode !== 'html'}
+		   value={htmlContent}
+		   oninput={handleHtmlInput}
+		   placeholder="&lt;p&gt;HTML...&lt;/p&gt;"
+		   data-testid="{testId}-html-textarea"
+	   ></textarea>
+
+	   <textarea
+		   class="html-editor"
+		   class:hidden={editorMode !== 'html'}
+		   value={htmlContent}
+		   oninput={handleHtmlInput}
+		   placeholder="&lt;p&gt;HTML...&lt;/p&gt;"
+		   data-testid="{testId}-html-textarea"
+	   ></textarea>
 	   
 	   <div 
 		   bind:this={element} 
 		   class="editor-content" 
-		   class:hidden={isMarkdownMode}
-		   data-testid="{testId}-content"
+		   class:hidden={editorMode !== 'visual'}
+		   data-testid="{testId}-editor-content-area"
 	   ></div>
 
 	   {#if showLinkModal || showImageModal}
-		   <div class="modal-overlay" onclick={closeModal} role="presentation">
-			   <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation" data-testid="{testId}-modal">
-				   <h3>{modalType === 'link' ? 'Вставити посилання' : 'Вставити зображення'}</h3>
+		   <div class="modal-overlay" onclick={closeModal} role="presentation" data-testid="{testId}-modal-overlay-container">
+			   <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation" data-testid="{testId}-modal-container">
+				   <h3 data-testid="{testId}-modal-title-label">{modalType === 'link' ? 'Вставити посилання' : 'Вставити зображення'}</h3>
 				   
-				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-form-group">
 					   {#if modalType === 'link'}
-						   <div class="form-group">
-							   <label class="form-label" for="modal-text">Текст посилання</label>
+						   <div class="form-group" data-testid="{testId}-modal-text-group">
+							   <label class="form-label" for="modal-text" data-testid="{testId}-modal-text-label">Текст посилання</label>
 							   <input 
 								   id="modal-text"
 								   type="text" 
@@ -436,8 +480,8 @@
 						   </div>
 					   {/if}
 
-					   <div class="form-group">
-						   <label class="form-label" for="modal-url">{modalType === 'link' ? 'URL адреса' : 'URL зображення'}</label>
+					   <div class="form-group" data-testid="{testId}-modal-url-group">
+						   <label class="form-label" for="modal-url" data-testid="{testId}-modal-url-label">{modalType === 'link' ? 'URL адреса' : 'URL зображення'}</label>
 						   <input 
 							   id="modal-url"
 							   type="text" 
@@ -445,15 +489,14 @@
 							   placeholder={modalType === 'link' ? 'https://example.com' : 'https://example.com/image.jpg'}
 							   onkeydown={(e) => e.key === 'Enter' && handleModalSubmit()}
 							   class="form-input"
-
-							   data-testid="{testId}-modal-input"
+							   data-testid="{testId}-modal-url-input"
 						   />
 					   </div>
 				   </div>
 
-				   <div class="modal-actions">
-					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel">Скасувати</button>
-					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save">Зберегти</button>
+				   <div class="modal-actions" data-testid="{testId}-modal-actions-group">
+					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel-button">Скасувати</button>
+					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save-button">Зберегти</button>
 				   </div>
 			   </div>
 		   </div>
@@ -462,289 +505,294 @@
 </div>
 
 <style>
+	/* ── Wrapper ───────────────────────────────────────────────────────────── */
 	.rich-editor {
-		border: 1px solid var(--color-border);
-		border-radius: 20px;
-		background: var(--theme-dynamic-card-bg);
-		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		position: relative;
+		border: 2px solid var(--color-border);
+		border-radius: 16px;
+		overflow: hidden;
+		background: var(--color-surface);
 	}
 
+	/* ── Toolbar ───────────────────────────────────────────────────────────── */
 	.toolbar {
 		display: flex;
 		flex-wrap: wrap;
+		align-items: center;
 		gap: 0.25rem;
-		padding: 0.75rem;
-		background: var(--theme-dynamic-section-bg);
-		border-bottom: 1px solid var(--color-border);
-		z-index: 10;
+		padding: 0.6rem 0.75rem;
+		border-bottom: 2px solid var(--color-border);
+		background: color-mix(in srgb, var(--color-surface), transparent 20%);
+		backdrop-filter: blur(4px);
 	}
 
 	.tool-group {
 		display: flex;
-		gap: 0.25rem;
-		flex-wrap: wrap;
-	}
-
-	.tool-btn {
-		min-width: 32px;
-		height: 32px;
-		padding: 0 0.5rem;
-		border: 1px solid transparent;
-		background: transparent;
-		color: var(--color-deep-ocean);
-		border-radius: 8px;
-		cursor: pointer;
-		display: flex;
 		align-items: center;
-		justify-content: center;
-		font-family: inherit;
-		font-weight: 600;
-		transition: all 0.2s;
-		font-size: 0.9rem;
-	}
-
-	.tool-btn:hover {
-		background: var(--color-border);
-		opacity: 0.8;
-	}
-
-	.tool-btn.active {
-		background: var(--color-deep-ocean);
-		color: white;
-	}
-
-	.tool-btn.mode-toggle {
-		color: var(--color-ocean);
-	}
-	
-	.tool-btn.mode-toggle:hover {
-		background: rgba(0, 119, 190, 0.1);
+		gap: 0.15rem;
 	}
 
 	.separator {
 		width: 1px;
-		height: 24px;
+		height: 1.5rem;
 		background: var(--color-border);
-		margin: 4px 0.25rem;
+		margin: 0 0.25rem;
+		flex-shrink: 0;
 	}
 
+	/* ── Tool buttons ──────────────────────────────────────────────────────── */
+	.tool-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.2rem;
+		min-width: 2rem;
+		height: 2rem;
+		padding: 0 0.35rem;
+		border: none;
+		border-radius: 8px;
+		background: none;
+		color: var(--color-dark-text);
+		cursor: pointer;
+		font-size: 0.78rem;
+		font-weight: 600;
+		transition: background 0.15s, color 0.15s;
+		white-space: nowrap;
+	}
+
+	.tool-btn:hover {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 88%);
+		color: var(--color-sea-blue);
+	}
+
+	.tool-btn.active {
+		background: var(--color-sea-blue);
+		color: #fff;
+	}
+
+	.tool-btn.mode-toggle {
+		border: 2px solid var(--color-border);
+		border-radius: 8px;
+	}
+
+	.tool-btn.mode-toggle:hover {
+		border-color: var(--color-sea-blue);
+	}
+
+	/* ── Table tools (smaller) ─────────────────────────────────────────────── */
+	.table-tools .tool-btn {
+		font-size: 0.72rem;
+		padding: 0 0.45rem;
+		height: 1.8rem;
+	}
+
+	/* ── Editor viewport ───────────────────────────────────────────────────── */
 	.editor-viewport {
 		position: relative;
-		flex: 1;
-		display: flex;
-		flex-direction: column;
+		min-height: 320px;
 	}
 
-	.editor-content, .markdown-editor {
+	/* ── TipTap editable area ──────────────────────────────────────────────── */
+	.editor-content {
+		min-height: 320px;
 		padding: 1.5rem;
-		min-height: 300px;
-		max-height: 600px;
-		overflow-y: auto;
-		font-family: inherit;
+		color: var(--color-dark-text);
 		font-size: 1rem;
+		line-height: 1.7;
+		outline: none;
+	}
+
+	.editor-content.hidden {
+		display: none;
+	}
+
+	/* Make the actual ProseMirror div fill and focusable */
+	:global(.rich-editor .ProseMirror) {
+		outline: none;
+		min-height: 280px;
+	}
+
+	:global(.rich-editor .ProseMirror p.is-editor-empty:first-child::before) {
+		content: attr(data-placeholder);
+		color: var(--color-muted-text);
+		pointer-events: none;
+		float: left;
+		height: 0;
+	}
+
+	/* prose-like styles inside editor */
+	:global(.rich-editor .ProseMirror h1) { font-size: 2rem; font-weight: 800; margin: 1.2rem 0 0.6rem; }
+	:global(.rich-editor .ProseMirror h2) { font-size: 1.5rem; font-weight: 700; margin: 1rem 0 0.5rem; }
+	:global(.rich-editor .ProseMirror h3) { font-size: 1.25rem; font-weight: 700; margin: 0.9rem 0 0.4rem; }
+	:global(.rich-editor .ProseMirror h4) { font-size: 1.1rem; font-weight: 700; margin: 0.8rem 0 0.3rem; }
+	:global(.rich-editor .ProseMirror p)  { margin: 0.5rem 0; }
+	:global(.rich-editor .ProseMirror ul, .rich-editor .ProseMirror ol) { padding-left: 1.5rem; margin: 0.5rem 0; }
+	:global(.rich-editor .ProseMirror li)  { margin: 0.25rem 0; }
+	:global(.rich-editor .ProseMirror blockquote) {
+		border-left: 4px solid var(--color-sea-blue);
+		padding-left: 1rem;
+		color: var(--color-muted-text);
+		margin: 0.75rem 0;
+	}
+	:global(.rich-editor .ProseMirror code) {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 90%);
+		border-radius: 4px;
+		padding: 0.1em 0.4em;
+		font-size: 0.88em;
+	}
+	:global(.rich-editor .ProseMirror pre) {
+		background: color-mix(in srgb, var(--color-deep-ocean), transparent 92%);
+		border-radius: 10px;
+		padding: 1rem 1.25rem;
+		overflow-x: auto;
+		margin: 0.75rem 0;
+	}
+	:global(.rich-editor .ProseMirror pre code) { background: none; padding: 0; }
+	:global(.rich-editor .ProseMirror a.prose-link) {
+		color: var(--color-sea-blue);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+	:global(.rich-editor .ProseMirror hr) {
+		border: none;
+		border-top: 2px solid var(--color-border);
+		margin: 1.5rem 0;
+	}
+
+	/* Task list */
+	:global(.rich-editor .ProseMirror ul[data-type="taskList"]) { list-style: none; padding-left: 0.5rem; }
+	:global(.rich-editor .ProseMirror li[data-type="taskItem"]) { display: flex; align-items: flex-start; gap: 0.5rem; }
+	:global(.rich-editor .ProseMirror li[data-type="taskItem"] > label) { margin-top: 0.2rem; }
+
+	/* Table */
+	:global(.rich-editor .ProseMirror table) {
+		border-collapse: collapse;
+		width: 100%;
+		margin: 0.75rem 0;
+		overflow: hidden;
+		border-radius: 8px;
+	}
+	:global(.rich-editor .ProseMirror th, .rich-editor .ProseMirror td) {
+		border: 1px solid var(--color-border);
+		padding: 0.5rem 0.75rem;
+		text-align: left;
+		vertical-align: top;
+	}
+	:global(.rich-editor .ProseMirror th) {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 88%);
+		font-weight: 700;
+	}
+	:global(.rich-editor .ProseMirror .selectedCell::after) {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 80%);
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 2;
+	}
+	:global(.rich-editor .ProseMirror .column-resize-handle) {
+		background-color: var(--color-sea-blue);
+		bottom: 0;
+		pointer-events: none;
+		position: absolute;
+		right: -2px;
+		top: 0;
+		width: 4px;
+	}
+
+	/* ── Mode tab buttons ─────────────────────────────────────────────────── */
+	.mode-tabs {
+		gap: 0.25rem;
+	}
+
+	.mode-tab {
+		border: 2px solid var(--color-border);
+		border-radius: 8px;
+		gap: 0.3rem;
+		padding: 0 0.65rem;
+		height: 1.9rem;
+		font-size: 0.78rem;
+	}
+
+	.mode-tab:hover {
+		border-color: var(--color-sea-blue);
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
+		color: var(--color-sea-blue);
+	}
+
+	.mode-tab.active {
+		background: var(--color-sea-blue);
+		border-color: var(--color-sea-blue);
+		color: #fff;
+	}
+
+	/* ── HTML source textarea ──────────────────────────────────────────────── */
+	.html-editor {
+		width: 100%;
+		min-height: 320px;
+		padding: 1.5rem;
+		font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+		font-size: 0.85rem;
 		line-height: 1.6;
+		border: none;
+		resize: vertical;
+		background: color-mix(in srgb, var(--color-deep-ocean), transparent 94%);
+		color: var(--color-dark-text);
+		outline: none;
+		tab-size: 2;
 	}
 
 	.markdown-editor {
 		width: 100%;
+		min-height: 320px;
+		padding: 1.5rem;
+		font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+		font-size: 0.9rem;
+		line-height: 1.7;
 		border: none;
-		outline: none;
 		resize: vertical;
-		background: var(--theme-dynamic-card-bg);
-		color: var(--color-body-text);
-		font-family: 'Fira Code', 'Courier New', Courier, monospace;
-	}
-
-	.hidden {
-		display: none !important;
-	}
-
-	.table-tools .tool-btn {
-		font-size: 0.75rem;
-		font-weight: normal;
-		padding: 0 0.25rem;
-		gap: 0.25rem;
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-	}
-
-	.form-label {
-		font-size: 0.85rem;
-		font-weight: 700;
-		color: var(--color-deep-ocean);
-		opacity: 0.8;
-	}
-
-	.form-input {
-		width: 100%;
-		padding: 0.6rem 1rem;
-		border: 1px solid var(--color-border);
-		border-radius: 10px;
-		background: var(--theme-dynamic-section-bg);
-		color: var(--color-body-text);
+		background: color-mix(in srgb, var(--color-deep-ocean), transparent 96%);
+		color: var(--color-dark-text);
 		outline: none;
-		transition: border-color 0.2s;
 	}
 
-	.form-input:focus {
-		border-color: var(--color-ocean);
+	.markdown-editor.hidden,
+	.html-editor.hidden,
+	.editor-content.hidden {
+		display: none;
 	}
 
-	/* Modal Styles */
+	/* ── Modal ─────────────────────────────────────────────────────────────── */
 	.modal-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(0, 0, 0, 0.3);
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.45);
 		backdrop-filter: blur(4px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		z-index: 100;
-		padding: 1rem;
+		z-index: 1000;
 	}
 
 	.modal-content {
-		background: var(--theme-dynamic-card-bg);
+		background: var(--color-surface);
+		border-radius: 20px;
 		padding: 2rem;
-		border-radius: 24px;
-		box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-		width: 100%;
-		max-width: 450px;
+		width: min(480px, 90vw);
+		box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
 	}
 
 	.modal-content h3 {
-		margin-bottom: 1.5rem;
+		font-size: 1.2rem;
+		font-weight: 700;
 		color: var(--color-deep-ocean);
-		font-family: var(--font-heading);
-		font-size: 1.25rem;
+		margin-bottom: 1.5rem;
 	}
 
 	.modal-actions {
 		display: flex;
-		justify-content: flex-end;
 		gap: 0.75rem;
-	}
-
-	/* Стилі для самого TipTap контенту */
-	:global(.tiptap) {
-		outline: none;
-		height: 100%;
-		font-family: 'Inter', sans-serif;
-		color: var(--color-body-text);
-		line-height: 1.6;
-	}
-
-	/* Відступи між абзацами в редакторі */
-	:global(.tiptap p) {
-		margin-bottom: 1rem;
-	}
-
-	:global(.tiptap p:last-child) {
-		margin-bottom: 0;
-	}
-
-	:global(.tiptap p.is-editor-empty:first-child::before) {
-		content: attr(data-placeholder);
-		float: left;
-		color: var(--color-muted-text);
-		pointer-events: none;
-		height: 0;
-	}
-
-	:global(.tiptap h1) { font-size: 2rem; color: var(--color-deep-ocean); margin-bottom: 1rem; }
-	:global(.tiptap h2) { font-size: 1.5rem; color: var(--color-deep-ocean); margin-top: 1.5rem; margin-bottom: 0.75rem; }
-	:global(.tiptap h3) { font-size: 1.25rem; color: var(--color-deep-ocean); margin-top: 1.25rem; margin-bottom: 0.5rem; }
-	:global(.tiptap h4) { font-size: 1.1rem; color: var(--color-deep-ocean); margin-top: 1rem; margin-bottom: 0.5rem; }
-	:global(.tiptap h5, .tiptap h6) { font-size: 1rem; color: var(--color-deep-ocean); margin-top: 1rem; margin-bottom: 0.5rem; }
-	
-	:global(.tiptap ul), :global(.tiptap ol) { padding-left: 1.5rem; margin-bottom: 1rem; }
-	:global(.tiptap blockquote) { 
-		border-left: 4px solid var(--color-deep-ocean); 
-		padding-left: 1rem; 
-		font-style: italic; 
-		margin: 1rem 0;
-		opacity: 0.8;
-	}
-
-	:global(.tiptap img) {
-		max-width: 100%;
-		height: auto;
-		border-radius: 12px;
-		margin: 1.5rem 0;
-	}
-
-	:global(.tiptap hr) {
-		border: none;
-		border-top: 2px solid var(--color-border);
-		margin: 2rem 0;
-	}
-
-	:global(.tiptap table) {
-		border-collapse: collapse;
-		table-layout: fixed;
-		width: 100%;
-		margin: 1rem 0;
-		overflow: hidden;
-	}
-
-	:global(.tiptap table td, .tiptap table th) {
-		border: 1px solid var(--color-border);
-		box-sizing: border-box;
-		min-width: 1em;
-		padding: 0.5rem;
-		position: relative;
-		vertical-align: top;
-	}
-
-	:global(.tiptap table th) {
-		background-color: var(--theme-dynamic-section-bg);
-		font-weight: bold;
-		text-align: left;
-	}
-
-	:global(.tiptap .selectedCell:after) {
-		background: rgba(200, 200, 255, 0.4);
-		content: "";
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		pointer-events: none;
-		position: absolute;
-		z-index: 2;
-	}
-
-	:global(.tiptap ul[data-type="taskList"]) {
-		list-style: none;
-		padding: 0;
-	}
-
-	:global(.tiptap ul[data-type="taskList"] li) {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.5rem;
-		margin-bottom: 0.25rem;
-	}
-
-	:global(.tiptap ul[data-type="taskList"] input[type="checkbox"]) {
-		margin-top: 0.4rem;
-		cursor: pointer;
-	}
-
-	:global(.tiptap code) {
-		background-color: rgba(0, 0, 0, 0.05);
-		border-radius: 4px;
-		padding: 0.2rem 0.4rem;
-		font-family: monospace;
+		justify-content: flex-end;
 	}
 </style>

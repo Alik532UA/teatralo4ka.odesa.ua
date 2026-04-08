@@ -29,23 +29,23 @@
 	]);
 </script>
 
-<section class="page-content container" style="padding: 160px 24px 6rem;">
+<section class="page-content container" style="padding: 160px 24px 6rem;" data-testid="about-page-section">
 	{#if content}
-		<article class="prose" style="margin-bottom: 4rem;">
+		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article">
 			{@html content.html}
 		</article>
 	{:else}
-		<div style="display: flex; justify-content: center; padding: 4rem;">
-			<p>Завантаження...</p>
+		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="about-page-loading-container">
+			<p data-testid="about-page-loading-label">{$t('common.loading')}</p>
 		</div>
 	{/if}
 
-	<div class="g-bento">
+	<div class="g-bento" data-testid="about-gallery-grid">
 		{#each galleryImages as img, i}
-			<div class="g-bento__item g-bento__item--{i}">
-				<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" />
-				<div class="g-bento__overlay">
-					<span class="g-bento__caption">{img.title}</span>
+			<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
+				<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="about-gallery-img-{i}" />
+				<div class="g-bento__overlay" data-testid="about-gallery-overlay-{i}">
+					<span class="g-bento__caption" data-testid="about-gallery-caption-{i}">{img.title}</span>
 				</div>
 			</div>
 		{/each}
@@ -95,7 +95,7 @@
 	.g-bento__overlay {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(to top, rgba(0,95,174,0.85), transparent 60%);
+		background: linear-gradient(to top, color-mix(in srgb, var(--color-deep-ocean), transparent 15%), transparent 60%);
 		display: flex;
 		align-items: flex-end;
 		padding: 2rem;
@@ -104,7 +104,7 @@
 	}
 	.g-bento__item:hover .g-bento__overlay { opacity: 1; }
 	.g-bento__caption {
-		color: white;
+		color: var(--color-white);
 		font-family: var(--font-heading);
 		font-size: 1.2rem;
 		font-weight: 800;

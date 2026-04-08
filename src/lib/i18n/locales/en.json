@@ -1,282 +1,463 @@
 {
-	"hero": {
-		"title": "Odessa Theatre School",
-		"subtitle": "A school where children always go with pleasure!"
-	},
-	"nav": {
-		"home": "Home",
-		"about": "About School",
-		"history": "History",
-		"contacts": "Contacts",
-		"announcements": "Announcements",
-		"admission": "ADMISSION"
-	},
-	"footer": {
-		"address": "24 Sofiivska St, Odesa",
-		"phone": "+380 48 723 61 01",
-		"email": "teatr_school@i.ua",
-		"facebook": "https://www.facebook.com/groups/CTS.od.ua/",
-		"instagram": "https://www.instagram.com/teatralo4ka_official_/",
-		"telegram": "https://t.me/teatralo4ka_official",
-		"youtube": "https://www.youtube.com/user/dtschool/",
-		"tiktok": "https://www.tiktok.com/@teatralo4ka_official/",
-		"play": "play",
-		"order": "order a website"
-	},
-	"settings": {
-		"title": "Settings",
-		"language": "Language",
-		"theme": "Theme",
-		"light": "Light",
-		"dark": "Dark",
-		"dynamicBg": "Dynamic Background",
-		"bgType": "BG Type",
-		"bgNone": "None",
-		"bgParticles": "Particles",
-		"bgWaves": "Waves",
-		"bgShapes": "Shapes",
-		"bgMiniIcon": "Mini icon",
-		"blur": "Blur effect",
-		"debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
-	},
-	"departments": {
-		"description": "Today the school has 6 departments with 335 students:",
-		"additional_info": "More than 40 teachers work in our school — true professionals who find an approach to each student and help reveal talent. The educational process takes place in 19 classrooms filled with music, inspiration, and creativity.",
-		"list": {
-			"piano": "Piano Department",
-			"strings": "String Instruments Department",
-			"vocal": "Solo Singing Department",
-			"pop": "Pop Department",
-			"theory": "Theoretical Disciplines Department",
-			"folk": "Folk Instruments Department"
-		}
-	},
-	"piano": {
-		"hint": "Play using your mouse or keyboard. Hover over the piano to see which keyboard keys correspond to the notes.",
-		"notes": {
-			"C": "C",
-			"C#": "C#",
-			"D": "D",
-			"D#": "D#",
-			"E": "E",
-			"F": "F",
-			"F#": "F#",
-			"G": "G",
-			"G#": "G#",
-			"A": "A",
-			"A#": "A#",
-			"B": "B"
-		}
-	},
-	"gallery": {
-		"title": "SCHOOL GALLERY",
-		"subtitle": "Moments of our community's creative life",
-		"items": {
-			"process": "Creative process",
-			"talents": "Our talents",
-			"atmosphere": "Artistic atmosphere",
-			"evenings": "Musical evenings",
-			"virtuosos": "Young virtuosos",
-			"harmony": "World of harmony"
-		}
-	},
-	"about": {
-		"title": "About School",
-		"gallery": {
-			"edu": "Artistic education",
-			"workshop": "Creative workshop",
-			"musicians": "Young musicians",
-			"stage": "Performance on stage",
-			"lesson": "Music lesson",
-			"talents": "Our talents",
-			"festival": "Festival",
-			"event": "Artistic event"
-		}
-	},
-	"history": {
-		"title": "History"
-	},
-	"contacts": {
-		"title": "Contacts"
-	},
-	"admission": {
-		"title": "Admission"
-	},
-	"admin": {
-		"dashboard": {
-			"title": "Admin Panel",
-			"logout": "Logout",
-			"newsTitle": "News & Announcements",
-			"newsDesc": "Manage publications on the site.",
-			"listBtn": "Articles List",
-			"addBtn": "Add Article",
-			"settingsTitle": "Site Settings",
-			"settingsDesc": "Contacts, social media, site title.",
-			"settingsBtn": "Go to Settings",
-			"usersTitle": "Users",
-			"usersDesc": "Manage admins and moderators.",
-			"usersBtn": "Manage Access",
-			"loading": "Loading...",
-			"contacts": "Contacts",
-			"socials": "Social Media",
-			"phone": "Phone",
-			"address": "Address",
-			"facebook": "Facebook URL",
-			"instagram": "Instagram URL",
-			"telegram": "Telegram URL",
-			"youtube": "YouTube URL",
-			"tiktok": "TikTok URL",
-			"saveSuccess": "Settings saved"
-		},
-		"articles": {
-			"title": "Content Management",
-			"backToPanel": "Panel",
-			"createBtn": "Create",
-			"tableTitle": "Title (UK)",
-			"tableCategory": "Category",
-			"tableDate": "Display Date",
-			"tableStatus": "Status (UK/EN)",
-			"tableActions": "Actions",
-			"edit": "Edit",
-			"delete": "Delete",
-			"deleteConfirm": "Are you sure you want to delete this article?",
-			"noArticles": "No articles yet.",
-			"loading": "Loading..."
-		},
-		"users": {
-			"title": "Access Management",
-			"subtitle": "Configuring staff rights in projects",
-			"back": "Back",
-			"cancel": "Cancel",
-			"grantAccess": "Grant Access",
-			"total": "Total",
-			"projectAdmin": "Project Admin",
-			"moderator": "Moderator",
-			"assistant": "Assistant",
-			"grantAccessTitle": "Grant Access to Project",
-			"grantAccessDesc": "Enter an email (new or existing) to assign a role in the project.",
-			"emailLabel": "User Email",
-			"projectIdLabel": "Project ID",
-			"roleLabel": "Assign Role",
-			"permsContent": "Publications:",
-			"permsAdmin": "Administration:",
-			"create": "Create",
-			"edit": "Edit",
-			"delete": "Delete",
-			"manageUsers": "View admins and moderators list",
-			"confirm": "Confirm",
-			"superadmins": "Superadmins",
-			"projectAdmins": "Project Admins",
-			"moderators": "Moderators",
-			"assistants": "Assistants",
-			"itsYou": "IT'S YOU",
-			"accesses": "Accesses:",
-			"noProjects": "No assigned projects.",
-			"save": "Save",
-			"unsavedChanges": "unsaved changes",
-			"confirmDeleteTitle": "Delete Confirmation",
-			"confirmDeleteText": "Are you sure you want to delete account",
-			"confirmDeleteWarning": "This action is irreversible.",
-			"typeDelete": "Type \"delete\" to confirm:",
-			"deleteBtn": "Delete"
-		},
-		"editor": {
-			"newTitle": "New Publication",
-			"editTitle": "Edit Article",
-			"backToList": "Back",
-			"category": "Category",
-			"author": "Author",
-			"dateMode": "Display Date",
-			"dateCreatedAt": "Creation Date",
-			"dateUpdatedAt": "Update Date",
-			"dateCustom": "Set Manually",
-			"dateHidden": "Do Not Display",
-			"displayDate": "Display Date",
-			"titleLabel": "Article Title",
-			"contentLabel": "Article Content",
-			"publishLabel": "Publication Status",
-			"published": "Published",
-			"draft": "Draft",
-			"saveBtn": "Save Article",
-			"updateBtn": "Update Article",
-			"saving": "Saving...",
-			"updating": "Updating...",
-			"preview": "Preview",
-			"previewEmpty": "Article content will appear here...",
-			"titlePlaceholder": "Enter title...",
-			"contentPlaceholder": "Start writing...",
-			"errorSave": "Error saving",
-			"errorUpdate": "Error updating",
-			"errorNotFound": "Article not found",
-			"settingsSection": "Publication Settings",
-			"langStatus": "Languages & Status",
-			"coverSection": "Article Cover (URL)",
-			"coverShared": "Use shared image",
-			"coverDifferent": "Different images for languages",
-			"coverSharedHint": "This image will be used for all language versions.",
-			"ukVersion": "Ukrainian version",
-			"enVersion": "English version",
-			"draftActions": "Draft Actions",
-			"saveDraftFile": "Save draft to file",
-			"loadDraftFile": "Load from file",
-			"uploadFromDevice": "Upload from device",
-			"uploadInstructionTitle": "How to Upload an Image",
-			"uploadInstructionText": "Direct upload from your device is not available in this version of the site. You can use a free image hosting service:",
-			"uploadStep1": "1. Go to the website",
-			"uploadStep2": "2. Upload your photo.",
-			"uploadStep3": "3. IMPORTANT: Right-click on the image itself and select 'Copy image link'.",
-			"uploadStep4": "4. The link should end with .png, .jpg, or .jpeg (e.g., https://iili.io/B7Et3eS.png).",
-			"urlWarning": "This link might not display as a direct image. Make sure it ends with .png, .jpg, etc.",
-			"saveDraftBtn": "Save Draft",
-			"loadDraftBtn": "Load Draft",
-			"mailWrite": "Send Email",
-			"mailOpen": "Open Mail Client"
-		},
-		"login": {
-			"title": "Login to Admin Panel",
-			"email": "Email",
-			"password": "Password",
-			"btn": "Login",
-			"loading": "Logging in...",
-			"error": "Invalid email or password"
-		}
-	},
-	"news": {
-		"title": "NEWS & EVENTS",
-		"subtitle": "Stay up to date with the life of our school",
-		"loading": "Loading news...",
-		"empty": "No news at the moment.",
-		"readMore": "Read more →",
-		"newsTag": "News",
-		"announcementTag": "Announcement"
-	},
-	"seo": {
-		"brandTitle": "Odessa Theatre School",
-		"org": {
-			"name": "Odessa Theatre School",
-			"description": "Odessa Theatre School: music education for children and youth in Odesa, creative development and concert activities."
-		},
-		"pages": {
-			"home": {
-				"title": "Odessa Theatre School",
-				"description": "Official website of Odessa Theatre School. Departments, gallery, history, contacts and admission conditions."
-			},
-			"about": {
-				"title": "About School",
-				"description": "Learn more about Odessa Theatre School: creative life, performances, teachers and students."
-			},
-			"history": {
-				"title": "History",
-				"description": "History of Odessa Theatre School from the first mentions to the present day."
-			},
-			"contacts": {
-				"title": "Contacts",
-				"description": "Address, phone numbers and contacts of Odessa Theatre School."
-			},
-			"admission": {
-				"title": "Admission",
-				"description": "Information for admission to Odessa Theatre School: documents, contacts and study conditions."
-			}
-		}
-	}
+  "hero": {
+    "title": "Odessa Theatre School",
+    "subtitle": "A school where children always go with pleasure!"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About School",
+    "history": "History",
+    "contacts": "Contacts",
+    "announcements": "Announcements",
+    "admission": "ADMISSION",
+    "departments": "Departments",
+    "residents": "Residents",
+    "projects": "Projects",
+    "adults": "Adults",
+    "kids": "Kids",
+    "graduates": "Graduates",
+    "theatre": "Theatre Department",
+    "aesthetic": "Aesthetic Education",
+    "music": "Music Department",
+    "art": "Art Department",
+    "menu": "MENU",
+    "skipToContent": "Skip to main content"
+  },
+  "footer": {
+    "address": "24 Sofiivska St, Odesa",
+    "phone": "+380 48 723 61 01",
+    "email": "teatr_school@i.ua",
+    "facebook": "https://www.facebook.com/groups/CTS.od.ua/",
+    "instagram": "https://www.instagram.com/teatralo4ka_official_/",
+    "telegram": "https://t.me/teatralo4ka_official",
+    "youtube": "https://www.youtube.com/user/dtschool/",
+    "tiktok": "https://www.tiktok.com/@teatralo4ka_official/",
+    "play": "play",
+    "order": "order a website",    "emailCopied": "Email address copied!",
+    "openMailClient": "Open mail client",    "contactsTitle": "Contacts",
+    "director": "Director",
+    "secretary": "Secretary",
+    "headTeacher": "Head Teacher",
+    "security": "Security Guard"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "langUA": "UA",
+    "langEN": "EN",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "dynamicBg": "Dynamic Background",
+    "bgType": "BG Type",
+    "bgNone": "None",
+    "bgParticles": "Particles",
+    "bgWaves": "Waves",
+    "bgShapes": "Shapes",
+    "bgMiniIcon": "Mini icon",
+    "blur": "Blur effect",
+    "on": "On",
+    "off": "Off",
+    "debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
+  },
+  "departments": {
+    "description": "Today the school has 6 departments with 335 students:",
+    "additional_info": "More than 40 teachers work in our school — true professionals who find an approach to each student and help reveal talent. The educational process takes place in 19 classrooms filled with music, inspiration, and creativity.",
+    "list": {
+      "piano": "Piano Department",
+      "strings": "String Instruments Department",
+      "vocal": "Solo Singing Department",
+      "pop": "Pop Department",
+      "theory": "Theoretical Disciplines Department",
+      "folk": "Folk Instruments Department"
+    }
+  },
+  "piano": {
+    "hint": "Play using your mouse or keyboard. Hover over the piano to see which keyboard keys correspond to the notes.",
+    "notes": {
+      "C": "C",
+      "C#": "C#",
+      "D": "D",
+      "D#": "D#",
+      "E": "E",
+      "F": "F",
+      "F#": "F#",
+      "G": "G",
+      "G#": "G#",
+      "A": "A",
+      "A#": "A#",
+      "B": "B"
+    }
+  },
+  "gallery": {
+    "title": "SCHOOL GALLERY",
+    "subtitle": "Moments of our community's creative life",
+    "items": {
+      "process": "Creative process",
+      "talents": "Our talents",
+      "atmosphere": "Artistic atmosphere",
+      "evenings": "Musical evenings",
+      "virtuosos": "Young virtuosos",
+      "harmony": "World of harmony"
+    }
+  },
+  "about": {
+    "title": "About School",
+    "gallery": {
+      "edu": "Artistic education",
+      "workshop": "Creative workshop",
+      "musicians": "Young musicians",
+      "stage": "Performance on stage",
+      "lesson": "Music lesson",
+      "talents": "Our talents",
+      "festival": "Festival",
+      "event": "Artistic event"
+    }
+  },
+  "history": {
+    "title": "History"
+  },
+  "contacts": {
+    "title": "Contacts"
+  },
+  "admission": {
+    "title": "Admission"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Admin Panel",
+      "logout": "Logout",
+      "newsTitle": "News & Announcements",
+      "newsDesc": "Manage publications on the site.",
+      "listBtn": "Articles List",
+      "addBtn": "Add Article",
+      "settingsTitle": "Site Settings",
+      "settingsDesc": "Block order and visibility on the home page.",
+      "settingsBtn": "Go to Settings",
+      "usersTitle": "Users",
+      "usersDesc": "Manage admins and moderators.",
+      "usersBtn": "Manage Access",
+      "loading": "Loading...",
+      "contacts": "Contacts",
+      "socials": "Social Media",
+      "phone": "Phone",
+      "address": "Address",
+      "facebook": "Facebook URL",
+      "instagram": "Instagram URL",
+      "telegram": "Telegram URL",
+      "youtube": "YouTube URL",
+      "tiktok": "TikTok URL",
+      "saveSuccess": "Settings saved"
+    },
+    "articles": {
+      "title": "Content Management",
+      "backToPanel": "Panel",
+      "createBtn": "Create",
+      "tableTitle": "Title (UK)",
+      "tableCategory": "Category",
+      "tableDate": "Display Date",
+      "tableStatus": "Status (UK/EN)",
+      "tableActions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirm": "Are you sure you want to delete this article?",
+      "noArticles": "No articles yet.",
+      "loading": "Loading..."
+    },
+    "users": {
+      "title": "Access Management",
+      "subtitle": "Configuring staff rights in projects",
+      "back": "Back",
+      "cancel": "Cancel",
+      "grantAccess": "Grant Access",
+      "total": "Total",
+      "projectAdmin": "Project Admin",
+      "moderator": "Moderator",
+      "assistant": "Assistant",
+      "grantAccessTitle": "Grant Access to Project",
+      "grantAccessDesc": "Enter an email (new or existing) to assign a role in the project.",
+      "emailLabel": "User Email",
+      "projectIdLabel": "Project ID",
+      "roleLabel": "Assign Role",
+      "permsContent": "Publications:",
+      "permsAdmin": "Administration:",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "manageUsers": "View admins and moderators list",
+      "confirm": "Confirm",
+      "superadmins": "Superadmins",
+      "projectAdmins": "Project Admins",
+      "moderators": "Moderators",
+      "assistants": "Assistants",
+      "itsYou": "IT'S YOU",
+      "accesses": "Accesses:",
+      "noProjects": "No assigned projects.",
+      "save": "Save",
+      "unsavedChanges": "unsaved changes",
+      "confirmDeleteTitle": "Delete Confirmation",
+      "confirmDeleteText": "Are you sure you want to delete account",
+      "confirmDeleteWarning": "This action is irreversible.",
+      "typeDelete": "Type \"delete\" to confirm:",
+      "deleteBtn": "Delete"
+    },
+    "editor": {
+      "newTitle": "New Publication",
+      "editTitle": "Edit Article",
+      "backToList": "Back",
+      "category": "Category",
+      "author": "Author",
+      "dateMode": "Display Date",
+      "dateCreatedAt": "Creation Date",
+      "dateUpdatedAt": "Update Date",
+      "dateCustom": "Set Manually",
+      "dateHidden": "Do Not Display",
+      "displayDate": "Display Date",
+      "titleLabel": "Article Title",
+      "contentLabel": "Article Content",
+      "publishLabel": "Publication Status",
+      "published": "Published",
+      "draft": "Draft",
+      "saveBtn": "Save Article",
+      "updateBtn": "Update Article",
+      "saving": "Saving...",
+      "updating": "Updating...",
+      "preview": "Preview",
+      "previewEmpty": "Article content will appear here...",
+      "titlePlaceholder": "Enter title...",
+      "contentPlaceholder": "Start writing...",
+      "errorSave": "Error saving",
+      "errorUpdate": "Error updating",
+      "errorNotFound": "Article not found",
+      "settingsSection": "Publication Settings",
+      "langStatus": "Languages & Status",
+      "coverSection": "Article Cover (URL)",
+      "coverShared": "Use shared image",
+      "coverDifferent": "Different images for languages",
+      "coverSharedHint": "This image will be used for all language versions.",
+      "ukVersion": "Ukrainian version",
+      "enVersion": "English version",
+      "draftActions": "Draft Actions",
+      "saveDraftFile": "Save draft to file",
+      "loadDraftFile": "Load from file",
+      "uploadFromDevice": "Upload from device",
+      "uploadInstructionTitle": "How to Upload an Image",
+      "uploadInstructionText": "Direct upload from your device is not available in this version of the site. You can use a free image hosting service:",
+      "uploadStep1": "1. Go to the website",
+      "uploadStep2": "2. Upload your photo.",
+      "uploadStep3": "3. IMPORTANT: Right-click on the image itself and select 'Copy image link'.",
+      "uploadStep4": "4. The link should end with .png, .jpg, or .jpeg (e.g., https://iili.io/B7Et3eS.png).",
+      "urlWarning": "This link might not display as a direct image. Make sure it ends with .png, .jpg, etc.",
+      "saveDraftBtn": "Save Draft",
+      "loadDraftBtn": "Load Draft",
+      "mailWrite": "Send Email",
+      "mailOpen": "Open Mail Client",
+      "slugSection": "Article URL",
+      "slugLabel": "Slug (URL)",
+      "slugHint": "Lowercase Latin letters, digits and underscores only. Auto-filled from EN title (ONLY if empty). Leave empty to use the date as the URL.",
+      "slugInvalid": "Only lowercase letters, digits and _ (e.g. winter_gala_2026)"
+    },
+    "settings": {
+      "blocksTitle": "Home Page Block Order",
+      "blocksDesc": "Change the order and visibility of blocks. Uncheck to hide a block.",
+      "blocks": {
+        "hero": "Hero",
+        "news": "News",
+        "departments": "Departments",
+        "gallery": "Gallery",
+        "visible": "Visible",
+        "hidden": "Hidden"
+      },
+      "pages": {
+        "home": "Home",
+        "about": "About School",
+        "admission": "Admission",
+        "news": "News",
+        "history": "History",
+        "contacts": "Contacts",
+        "departmentsTheatre": "Theatre Department",
+        "departmentsAesthetic": "Aesthetic Education",
+        "departmentsMusic": "Music Department",
+        "departmentsArt": "Art Department",
+        "residentsAdults": "Adults",
+        "residentsKids": "Kids",
+        "residentsGraduates": "Graduates",
+        "projects": "Projects"
+      },
+      "ctaTitle": "CTA Button",
+      "ctaDesc": "Call-to-action button in the right part of the header. Default text is taken from the selected page/article but can be overridden.",
+      "ctaLink": "Link",
+      "ctaVisible": "Show button",
+      "headerBarTitle": "Navigation (Header)",
+      "headerBarDesc": "Horizontal items in the site header. Supports flat items and sections with submenus.",
+      "navDropdownTitle": "Desktop Burger Menu",
+      "navDropdownDesc": "Dropdown menu triggered by the burger icon in the desktop header.",
+      "mobileOverlayTitle": "Mobile Menu",
+      "mobileOverlayDesc": "Overlay menu that opens when the burger icon is tapped on mobile.",
+      "debugTitle": "Debug Block",
+      "debugDesc": "Background and blur settings block — visible to all visitors.",
+      "debugVisible": "Show debug block",
+      "debugShowBackground": "Show background selector",
+      "debugShowBlur": "Show blur toggle"
+    },
+    "menuEditor": {
+      "itemsLabel": "Items",
+      "addItem": "+ Add Item",
+      "addSection": "+ Add Section",
+      "save": "Save",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "add": "Add",
+      "addSectionConfirm": "Add Section",
+      "newItemTitle": "New Menu Item",
+      "newSectionTitle": "New Section",
+      "labelUk": "Name UA:",
+      "labelEn": "Name EN:",
+      "linkLabel": "Link:",
+      "sectionLinkLabel": "Header link (optional):",
+      "sectionNameLabel": "Name UA (heading):",
+      "noName": "(no name)",
+      "noTitle": "(no title)",
+      "itemsCountSuffix": "items",
+      "loadingArticles": "Loading articles…",
+      "selectArticle": "— Select article —",
+      "noTitlePlaceholder": "No name — no heading",
+      "typeFolder": "Folder",
+      "typePage": "Page",
+      "typeArticle": "Article",
+      "typeUrl": "URL",
+      "btnUp": "Up",
+      "btnDown": "Down",
+      "btnHide": "Hide",
+      "btnShow": "Show",
+      "btnEdit": "Edit",
+      "btnDelete": "Delete",
+      "btnExpand": "Expand"
+    },
+    "login": {
+      "title": "Login to Admin Panel",
+      "email": "Email",
+      "password": "Password",
+      "btn": "Login",
+      "loading": "Logging in...",
+      "error": "Invalid email or password"
+    }
+  },
+  "common": {
+    "loading": "Loading..."
+  },
+  "news": {
+    "title": "NEWS & EVENTS",
+    "subtitle": "Stay up to date with the life of our school",
+    "loading": "Loading news...",
+    "empty": "No news at the moment.",
+    "readMore": "Read more →",
+    "allNews": "All news",
+    "loadingArticle": "Loading article...",
+    "notFound": "Article not found",
+    "errorLoading": "Loading error",
+    "backToHome": "Back to homepage",
+    "backToNews": "← Back to news",
+    "newsTag": "News",
+    "announcementTag": "Announcement",
+    "viewCarousel": "Carousel",
+    "viewGrid": "Grid",
+    "viewList": "List"
+  },
+  "seo": {
+    "brandTitle": "Odessa Theatre School",
+    "org": {
+      "name": "Odessa Theatre School",
+      "description": "Odessa Theatre School: music education for children and youth in Odesa, creative development and concert activities."
+    },
+    "pages": {
+      "home": {
+        "title": "Odessa Theatre School",
+        "description": "Official website of Odessa Theatre School. Departments, gallery, history, contacts and admission conditions."
+      },
+      "about": {
+        "title": "About School",
+        "description": "Learn more about Odessa Theatre School: creative life, performances, teachers and students."
+      },
+      "history": {
+        "title": "History",
+        "description": "History of Odessa Theatre School from the first mentions to the present day."
+      },
+      "contacts": {
+        "title": "Contacts",
+        "description": "Address, phone numbers and contacts of Odessa Theatre School."
+      },
+      "admission": {
+        "title": "Admission",
+        "description": "Information for admission to Odessa Theatre School: documents, contacts and study conditions."
+      }
+    }
+  },
+  "departmentsSection": {
+    "info": "Useful Information",
+    "infoItems": {
+      "admission": {
+        "title": "ADMISSION",
+        "desc": "Admission conditions, study programs, and step-by-step application"
+      },
+      "contacts": {
+        "title": "CONTACTS",
+        "desc": "Phone, email, and current ways to contact the school"
+      },
+      "history": {
+        "title": "HISTORY",
+        "desc": "History of the school, values, and main stages of development"
+      }
+    },
+    "departments": "Departments",
+    "depItems": {
+      "music": {
+        "title": "Musical",
+        "desc": "Vocals, choir, piano, guitar"
+      },
+      "theatre": {
+        "title": "Theatre",
+        "desc": "Acting, stage speech, dance"
+      },
+      "aesthetic": {
+        "title": "Aesthetic Education",
+        "desc": "Development of taste, etiquette, creative thinking, and cultural confidence"
+      },
+      "art": {
+        "title": "Art",
+        "desc": "Painting, composition, drawing"
+      }
+    },
+    "residents": "Residents",
+    "resItems": {
+      "adults": {
+        "title": "Adults",
+        "desc": "Creative development programs and stage confidence for adults"
+      },
+      "kids": {
+        "title": "Kids",
+        "desc": "Classes in an easy format of games, imagination, and first stage steps"
+      },
+      "graduates": {
+        "title": "Graduates",
+        "desc": "Community of graduates, events, workshops, and creative meetings"
+      }
+    },
+    "projects": "Projects",
+    "projItems": {
+      "teatrPro": {
+        "title": "TheaterPRO",
+        "desc": "Practical project for stage practice and teamwork"
+      },
+      "spring": {
+        "title": "SPRING.ODESSA.THEATER",
+        "desc": "Seasonal cultural project with open shows and events"
+      },
+      "festival": {
+        "title": "FESTIVAL",
+        "desc": "Festival direction with performances, competitions, and creative exchange"
+      }
+    },
+    "learnMore": "learn more"
+  }
 }

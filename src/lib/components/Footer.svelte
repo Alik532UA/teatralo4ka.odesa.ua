@@ -17,10 +17,10 @@
 		const email = $t("footer.email");
 		navigator.clipboard.writeText(email).then(() => {
 			toast.success(
-				"Електронну адресу скопійовано до буфера обміну!",
+				$t("footer.emailCopied"),
 				6000,
 				{
-					label: "Відкрити поштовий клієнт",
+					label: $t("footer.openMailClient"),
 					onAction: () => {
 						window.location.href = `mailto:${email}`;
 					}
@@ -39,7 +39,7 @@
 				class="footer__btn-piano"
 				onclick={() => (isPianoOpen = true)}
 				aria-label={$t("footer.play")}
-				data-testid="footer-piano-btn"
+				data-testid="footer-piano-button"
 			>
 				<div class="footer__piano-visual">
 					<span class="footer__piano-white"></span>
@@ -48,7 +48,6 @@
 					<span class="footer__piano-white"></span>
 					<span class="footer__piano-white"></span>
 					<span class="footer__piano-black" style="left: 20%"></span>
-					<!-- <span class="footer__piano-black" style="left: 35%"></span> -->
 					<span class="footer__piano-black" style="left: 60%"></span>
 					<span class="footer__piano-black" style="left: 80%"></span>
 				</div>
@@ -56,9 +55,9 @@
 			</button>
 
 			<!-- 2. Contacts Group -->
-			<div class="footer__contacts" data-testid="footer-contacts">
+			<div class="footer__contacts" data-testid="footer-contacts-container">
 				<!-- Address -->
-				<div class="footer__info" id="footer-address">
+				<div class="footer__info" id="footer-address" data-testid="footer-address-group">
 					<div class="footer__info-item">
 						<LocationIcon className="footer__icon" size={18} />
 						<a
@@ -72,15 +71,15 @@
 						</a>
 					</div>
 				</div>
-				<div class="footer__info" id="footer-phones">
+				<div class="footer__info" id="footer-phones" data-testid="footer-phones-group">
 					<div class="footer__info-item">
 						<PhoneIcon className="footer__icon" size={18} />
 						<div>
 							<button 
 								class="footer__link" 
-								style="background: none; border: none; padding: 0; cursor: pointer; font: inherit;"
+								style="background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit;"
 								onclick={() => (ui.isPhonesModalOpen = true)}
-								data-testid="footer-phone-btn"
+								data-testid="footer-phone-button"
 							>
 								{$t("footer.phone")}
 							</button>
@@ -88,7 +87,7 @@
 					</div>
 				</div>
 
-				<div class="footer__info" id="footer-email">
+				<div class="footer__info" id="footer-email" data-testid="footer-email-group">
 					<div class="footer__info-item">
 						<EmailIcon className="footer__icon" size={18} />
 						<div>
@@ -105,7 +104,7 @@
 			</div>
 
 			<!-- 3. Social icons -->
-			<div class="footer__social" id="footer-social" data-testid="footer-social">
+			<div class="footer__social" id="footer-social" data-testid="footer-social-menu">
 				<a
 					href={$t("footer.facebook")}
 					class="footer__social-link"
@@ -169,7 +168,7 @@
 				href="https://alik532ua.github.io/DigitalWorkshop/?tab=promo&theme=colorful"
 				target="_blank"
 				class="footer__btn-order"
-				data-testid="footer-order-btn"
+				data-testid="footer-order-button"
 			>
 				{$t("footer.order")}
 			</a>
@@ -187,44 +186,46 @@
 		role="button"
 		tabindex="0"
 		aria-label="Закрити модальне вікно"
+		data-testid="phones-modal-overlay-container"
 	>
-		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0">
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0" data-testid="phones-modal-container">
 			<div class="modal-header">
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
-					Контакти
+					{$t("footer.contactsTitle")}
 				</h2>
-				<button class="btn-close" aria-label="Закрити" onclick={() => (ui.isPhonesModalOpen = false)}>
+				<button class="btn-close" aria-label="Закрити" onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-button">
 					<X size={24} />
 				</button>
 			</div>
 			
-			<div class="phones-list">
-				<a href="tel:+380487236304" class="phone-item">
+			<div class="phones-list" data-testid="phones-list-group">
+				<a href="tel:+380487236304" class="phone-item" data-testid="phone-director-link">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
 						<strong><span class="phone-desktop">+380 48 723 63 04</span><span class="phone-mobile">+380487236304</span></strong>
-						<span>директор</span>
+						<span>{$t("footer.director")}</span>
 					</div>
 				</a>
-				<a href="tel:+380487236101" class="phone-item">
+				<a href="tel:+380487236101" class="phone-item" data-testid="phone-secretary-link">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
 						<strong><span class="phone-desktop">+380 48 723 61 01</span><span class="phone-mobile">+380487236101</span></strong>
-						<span>секретар</span>
+						<span>{$t("footer.secretary")}</span>
 					</div>
 				</a>
-				<a href="tel:+380487233259" class="phone-item">
+				<a href="tel:+380487233259" class="phone-item" data-testid="phone-head-teacher-link">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
 						<strong><span class="phone-desktop">+380 48 723 32 59</span><span class="phone-mobile">+380487233259</span></strong>
-						<span>завуч</span>
+						<span>{$t("footer.headTeacher")}</span>
 					</div>
 				</a>
-				<a href="tel:+380487234203" class="phone-item">
+				<a href="tel:+380487234203" class="phone-item" data-testid="phone-security-link">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">
 						<strong><span class="phone-desktop">+380 48 723 42 03</span><span class="phone-mobile">+380487234203</span></strong>
-						<span>вахта</span>
+						<span>{$t("footer.security")}</span>
 					</div>
 				</a>
 			</div>
@@ -280,7 +281,7 @@
 		background: rgba(255,255,255,0.03);
 	}
 	.phone-item:hover {
-		background: var(--color-white);
+		background: var(--color-surface);
 		box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 		border-color: rgba(0,0,0,0.05);
 		transform: translateY(-2px);
@@ -317,11 +318,10 @@
 	}
 
 	.footer {
-		background: var(--color-white);
+		background: var(--color-surface);
 		padding: var(--space-xl) 0;
 		position: relative;
 		border: none;
-		/* margin-top: 100px; /* Space for the wave */
 		transition: background 800ms ease-in-out;
 		z-index: 100;
 		animation: fadeInUp 0.8s ease-out both;
@@ -339,7 +339,7 @@
 			left: 0;
 			right: 0;
 			padding: var(--space-md) 0;
-			background: color-mix(in srgb, var(--color-white), transparent 15%);
+			background: color-mix(in srgb, var(--color-surface), transparent 15%);
 			backdrop-filter: blur(12px);
 			box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
 			border-top: 1px solid rgba(0,0,0,0.05);
@@ -361,7 +361,7 @@
 
 	@media (min-width: 1025px) {
 		:global(.app.with-dynamic-bg) .footer {
-			background: color-mix(in srgb, var(--color-white), transparent 60%);
+			background: color-mix(in srgb, var(--color-surface), transparent 60%);
 		}
 		:global(.dark-theme.app.with-dynamic-bg) .footer {
 			background: color-mix(in srgb, #000, transparent 60%);
