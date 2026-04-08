@@ -1,0 +1,203 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && request.auth.token.role == "superadmin";
+    }
+
+    function belongsToProject(projectId) {
+      return isSignedIn() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             projectId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects;
+    }
+
+    function hasPerm(projectId, action) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) && (
+          (action == 'create' && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].permissions.canCreate == true) ||
+          (action == 'edit' && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].permissions.canEdit == true) ||
+          (action == 'delete' && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].permissions.canDelete == true)
+        )
+      );
+    }
+
+    function isProjectAdmin(projectId) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == "admin"
+      );
+    }
+
+    function canManageTarget(projectId, targetRole) {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].permissions.canManageUsers == true && (
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'admin' && (targetRole == 'moderator' || targetRole == 'assistant')) ||
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'moderator' && targetRole == 'assistant')
+      );
+    }
+
+    // FIX B1: Розширена валідація translation block — додано isPublished та coverUrl
+    function isValidTranslationBlock(block) {
+      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl']) &&
+             (!('title' in block) || (block.title is string && block.title.size() <= 150)) &&
+             (!('content' in block) || (block.content is string && block.content.size() <= 50000)) &&
+             (!('isPublished' in block) || block.isPublished is bool) &&
+             (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 500));
+    }
+
+    function isValidTranslations(translations) {
+      return translations.keys().hasOnly(['en', 'uk']) &&
+             (!('en' in translations) || isValidTranslationBlock(translations.en)) &&
+             (!('uk' in translations) || isValidTranslationBlock(translations.uk));
+    }
+
+    // FIX S3, S4, S5, S10, S11: Повна валідація статті
+    function isValidArticle(data) {
+      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.content is string && data.content.size() <= 50000 &&
+             data.category is string && data.category.size() > 0 && data.category.size() <= 32 &&
+             data.lang in ['uk', 'en'] &&
+             data.author is string && data.author.size() > 0 && data.author.size() <= 100 &&
+             data.isPublished is bool &&
+             data.createdAt is timestamp &&
+             data.updatedAt is timestamp &&
+             (!('coverUrl' in data) || (data.coverUrl is string && data.coverUrl.size() <= 500)) &&
+             (!('dateMode' in data) || (data.dateMode is string && data.dateMode.size() <= 20)) &&
+             (!('customDate' in data) || data.customDate == null || 
+               (data.customDate is timestamp && 
+                data.customDate > timestamp.date(2020, 1, 1) && 
+                data.customDate < request.time + duration.value(365, 'd'))) &&
+             (!('slug' in data) || (data.slug is string && data.slug.size() > 0 && data.slug.size() <= 100 && data.slug.matches('[a-z0-9_]+'))) &&
+             (!('translations' in data) || isValidTranslations(data.translations));
+    }
+
+    function isValidProjectUpdate(data) {
+      return data.keys().hasAny(['name', 'region']) &&
+             data.keys().hasOnly(['name', 'region']) &&
+             (!('name' in data) || (data.name is string && data.name.size() <= 100)) &&
+             (!('region' in data) || (data.region is string && data.region.size() <= 50));
+    }
+
+    match /projects/{projectId}/articles/{articleId} {
+      allow read: if resource.data.isPublished == true || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
+      // FIX S5: Серверний час для createdAt та updatedAt при створенні
+      allow create: if hasPerm(projectId, 'create') 
+                    && isValidArticle(request.resource.data)
+                    && request.resource.data.createdAt == request.time
+                    && request.resource.data.updatedAt == request.time;
+      // FIX S5: Серверний час для updatedAt при оновленні
+      allow update: if hasPerm(projectId, 'edit') 
+                    && isValidArticle(request.resource.data)
+                    && request.resource.data.updatedAt == request.time
+                    && request.time > resource.data.updatedAt + duration.value(20, 's');
+      allow delete: if hasPerm(projectId, 'delete');
+    }
+
+    match /projects/{projectId}/settings/{settingId} {
+      // 'home' and 'header' are publicly readable so the site can render without auth.
+      allow read: if settingId in ['home', 'header'] || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
+      allow write: if isProjectAdmin(projectId);
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      // ЗАХИСТ: Звичайні адміни більше не можуть видалити школу цілком (Тільки Суперадмін).
+      // Адміни можуть тільки оновлювати поля (наприклад, назву, регіон).
+      allow write: if (isSuperAdmin() && request.method == 'delete') || 
+                      (isProjectAdmin(projectId) && request.method != 'delete' && isValidProjectUpdate(request.resource.data));
+    }
+
+    match /users/{userId} {
+      allow get: if isSuperAdmin() || (
+        isSignedIn() && (
+          request.auth.uid == userId ||
+          resource.data.projects.keys().hasAny(get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects.keys())
+        )
+      );
+      
+      // FIX S1: Per-document перевірка спільних проєктів.
+      // Firestore evaluates resource.data per-document для list queries.
+      // Клієнт МУСИТЬ використовувати where('projectIds', 'array-contains', projectId),
+      // інакше результати з чужих проєктів провалять перевірку → весь запит = permission-denied.
+      allow list: if isSuperAdmin() || (
+        isSignedIn() && 
+        resource.data.projectIds.hasAny(
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projectIds
+        )
+      );
+      
+      allow create: if isSuperAdmin() || (
+        isSignedIn() && (
+          // СЦЕНАРІЙ А: Міграція профілю (Email -> UID) при першому вході
+          (
+            request.auth.uid == userId && 
+            // FIX S8: Тільки верифіковані email можуть виконати міграцію
+            request.auth.token.email_verified == true &&
+            exists(/databases/$(database)/documents/users/$(request.auth.token.email.lower())) &&
+            // Дозволяємо міграції додавати projectIds якщо його не було в старому документі
+            request.resource.data.diff(get(/databases/$(database)/documents/users/$(request.auth.token.email.lower())).data).affectedKeys().hasOnly(['projectIds']) &&
+            request.resource.data.projectIds.hasOnly(request.resource.data.projects.keys()) &&
+            request.resource.data.projects.keys().hasOnly(request.resource.data.projectIds)
+          ) ||
+          // СЦЕНАРІЙ Б: Адмін школи створює нового користувача (додає його по Email)
+          (
+            'lastModifiedProject' in request.resource.data &&
+            request.resource.data.isSuperAdmin == false &&
+            request.resource.data.projects.keys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            request.resource.data.projectIds.hasOnly([request.resource.data.lastModifiedProject]) &&
+            canManageTarget(request.resource.data.lastModifiedProject, request.resource.data.projects[request.resource.data.lastModifiedProject].role)
+          )
+        )
+      );
+
+      allow delete: if isSuperAdmin() || (
+        isSignedIn() && (
+          request.auth.uid == userId ||
+          // ЗАХИСТ: Дозволяє користувачу видалити свій "Email-профіль" після успішної міграції на UID
+          request.auth.token.email.lower() == userId
+        )
+      );
+
+      allow update: if isSuperAdmin() || (
+        isSignedIn() && (
+          // СЦЕНАРІЙ 1: Користувач оновлює сам себе (обмежено поля)
+          (request.auth.uid == userId && 
+           request.resource.data.keys().hasOnly(['email', 'name', 'projects', 'projectIds', 'isSuperAdmin', 'lastModifiedProject', 'createdAt', 'updatedAt', 'avatar', 'phone']) &&
+           request.resource.data.isSuperAdmin == resource.data.isSuperAdmin &&
+           request.resource.data.projects == resource.data.projects &&
+           request.resource.data.projectIds == resource.data.projectIds) || // Захист: юзер не може змінити свій projectIds
+          
+          // СЦЕНАРІЙ 2: Адмін/модератор керує користувачем
+          (
+            request.resource.data.isSuperAdmin == resource.data.isSuperAdmin &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['projects', 'projectIds', 'lastModifiedProject']) &&
+            'lastModifiedProject' in request.resource.data &&
+            request.resource.data.projects.diff(resource.data.projects).affectedKeys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            // Синхронізація: перевіряємо, що масив projectIds оновився відповідно до ключів projects
+            request.resource.data.projectIds.hasOnly(request.resource.data.projects.keys()) &&
+            request.resource.data.projects.keys().hasOnly(request.resource.data.projectIds) &&
+            // FIX S2: Звичайний адмін може керувати ТІЛЬКИ тими юзерами,
+            // які належать виключно до його проєкту (або не мають проєктів).
+            // Мультипроєктних юзерів може редагувати ТІЛЬКИ суперадмін.
+            resource.data.projects.keys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            // FIX S7: Розділення на додавання/оновлення vs видалення доступу
+            (
+              // Випадок А: Додавання або оновлення ролі (ключ ІСНУЄ в нових даних)
+              (request.resource.data.lastModifiedProject in request.resource.data.projects &&
+               canManageTarget(request.resource.data.lastModifiedProject, request.resource.data.projects[request.resource.data.lastModifiedProject].role)) ||
+              // Випадок Б: Видалення доступу (ключ ВИДАЛЕНИЙ з нових даних, перевіряємо СТАРУ роль)
+              (!(request.resource.data.lastModifiedProject in request.resource.data.projects) &&
+               request.resource.data.lastModifiedProject in resource.data.projects &&
+               canManageTarget(request.resource.data.lastModifiedProject, resource.data.projects[request.resource.data.lastModifiedProject].role))
+            )
+          )
+        )
+      );
+    }
+  }
+}
