@@ -1,5 +1,5 @@
 ---
-title: "Про школу"
+title: "Про школу"
 date: "2026-04-04"
 author: "Адміністрація"
 category: "about"

@@ -29,12 +29,12 @@
 	{#if authService.loading}
 		<p data-testid="admin-dashboard-loading-label">{$t('admin.dashboard.loading')}</p>
 	{:else if authService.isAuthenticated}
-		<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;" data-testid="admin-dashboard-header-group">
-			<h1 style="font-family: var(--font-heading); color: var(--color-deep-ocean);" data-testid="admin-dashboard-title-label">{$t('admin.dashboard.title')}</h1>
-			<button onclick={handleLogout} class="btn btn-outline" data-testid="admin-logout-button">{$t('admin.dashboard.logout')}</button>
+		<div class="dash-header" data-testid="admin-dashboard-header-group">
+			<h1 class="dash-title" data-testid="admin-dashboard-title-label">{$t('admin.dashboard.title')}</h1>
+			<button onclick={handleLogout} class="btn btn-outline dash-logout" data-testid="admin-logout-button">{$t('admin.dashboard.logout')}</button>
 		</div>
 
-		<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;" data-testid="admin-dashboard-cards-grid">
+		<div class="dash-grid" data-testid="admin-dashboard-cards-grid">
    <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-news-card-container">
     <h2 style="margin-bottom: 1rem;" data-testid="admin-news-card-title-label">{$t('admin.dashboard.newsTitle')}</h2>
     <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-news-card-desc-label">{$t('admin.dashboard.newsDesc')}</p>
@@ -69,3 +69,32 @@
    </div>
 	{/if}
 </section>
+
+<style>
+	.dash-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 3rem;
+		gap: 1rem;
+	}
+	.dash-title {
+		font-family: var(--font-heading);
+		color: var(--color-deep-ocean);
+		min-width: 0;
+		margin: 0;
+	}
+	.dash-logout {
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+	.dash-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(480px, 100%), 1fr));
+		gap: 2rem;
+	}
+	@media (max-width: 600px) {
+		.admin-dashboard { padding-top: 110px !important; }
+		.dash-title { font-size: 1.6rem; }
+	}
+</style>

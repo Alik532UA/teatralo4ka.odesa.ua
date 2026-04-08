@@ -1,5 +1,5 @@
 ---
-title: "About School"
+title: "About School"
 date: "2026-04-04"
 author: "Administration"
 category: "about"

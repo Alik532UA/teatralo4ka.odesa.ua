@@ -49,7 +49,7 @@
 						'Офіційний сайт Одеської театральної школи. Відділи, галерея, історія, конкурси та умови вступу.'
 				},
 				about: {
-					title: 'Про школу',
+					title: 'Про школу',
 					description:
 						'Дізнайтеся більше про Одеську театральну школу: творче життя, виступи, викладачі та учні.'
 				},
@@ -81,7 +81,7 @@
 						'Official website of Odessa Theatre School. Departments, gallery, history, contacts, and admission details.'
 				},
 				about: {
-					title: 'About School',
+					title: 'About School',
 					description:
 						'Learn more about Odessa Theatre School: creative life, performances, teachers, and students.'
 				},

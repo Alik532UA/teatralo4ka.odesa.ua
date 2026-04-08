@@ -329,7 +329,7 @@
 		<div class="uh-actions">
 			<button class="uh-grant-btn" onclick={() => showAddForm = !showAddForm}>
 				<UserPlus size={18} />
-				{showAddForm ? $t('admin.users.cancel') : $t('admin.users.grantAccess')}
+				<span class="uh-grant-label">{showAddForm ? $t('admin.users.cancel') : $t('admin.users.grantAccess')}</span>
 			</button>
 		</div>
 	</div>
@@ -884,5 +884,12 @@
 		.v3-project-row { flex-direction: column; gap: 1.5rem; }
 		.v3-left { width: 100%; }
 		.v3-right { flex-direction: column; gap: 1.5rem; }
+	}
+	@media (max-width: 640px) {
+		.uh-subtitle { display: none; }
+		.uh-title { font-size: 1.35rem; }
+		.uh-title-group { gap: 0.65rem; }
+		.uh-grant-label { display: none; }
+		.uh-grant-btn { width: 40px; height: 40px; padding: 0; border-radius: 50%; justify-content: center; }
 	}
 </style>

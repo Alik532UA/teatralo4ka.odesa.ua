@@ -5,7 +5,7 @@
   },
   "nav": {
     "home": "Home",
-    "about": "About School",
+    "about": "About School",
     "history": "History",
     "contacts": "Contacts",
     "announcements": "Announcements",
@@ -102,7 +102,7 @@
     }
   },
   "about": {
-    "title": "About School",
+    "title": "About School",
     "gallery": {
       "edu": "Artistic education",
       "workshop": "Creative workshop",
@@ -286,7 +286,7 @@
       },
       "pages": {
         "home": "Home",
-        "about": "About School",
+        "about": "About School",
         "admission": "Admission",
         "news": "News",
         "history": "History",
@@ -397,7 +397,7 @@
         "description": "Official website of Odessa Theatre School. Departments, gallery, history, contacts and admission conditions."
       },
       "about": {
-        "title": "About School",
+        "title": "About School",
         "description": "Learn more about Odessa Theatre School: creative life, performances, teachers and students."
       },
       "history": {

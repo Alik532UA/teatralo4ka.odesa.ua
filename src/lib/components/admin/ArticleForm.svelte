@@ -288,7 +288,7 @@
 					</select>
 				</div>
 
-				<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+				<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem;">
 					<div class="form-group">
 						<label class="form-label" for="dateMode">{$t('admin.editor.dateMode')}</label>
 						<select id="dateMode" bind:value={dateMode} class="form-select" data-testid="{tp}-date-mode-select">
@@ -342,7 +342,7 @@
 
 			<!-- Cover Image Section -->
 			<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-cover-section">
-				<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+				<div class="cover-section-hd">
 					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean);">
 						<LayoutPanelTop size={18} />
 						{$t('admin.editor.coverSection')}
@@ -692,5 +692,20 @@
 	.af-submit-btn:disabled {
 		opacity: 0.5;
 		cursor: not-allowed;
+	}
+	@media (max-width: 620px) {
+		.af-header { flex-wrap: wrap; }
+		.af-title-group { flex: 1 0 100%; order: 1; min-width: 0; }
+		.af-title { font-size: 1.35rem; }
+		.af-actions { order: 2; }
+		.af-submit-btn { font-size: 0.82rem; padding: 0.5rem 1rem; }
+	}
+	.cover-section-hd {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.5rem;
+		gap: 0.75rem;
+		flex-wrap: wrap;
 	}
 </style>

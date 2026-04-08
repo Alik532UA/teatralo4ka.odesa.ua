@@ -428,10 +428,14 @@
 
 /* Responsive */
 @media (max-width: 640px) {
+	.al-card { gap: 0.75rem; padding: 0.75rem; }
 	.al-thumb { width: 54px; height: 54px; border-radius: 10px; }
+	.al-date { white-space: nowrap; }
 	.al-article-title { font-size: 0.9rem; }
+	.al-en-title { display: none; }
 	.al-edit-btn span { display: none; }
 	.al-edit-btn { padding: 0.45rem; }
-	.al-langs { flex-direction: row; }
+	.al-langs { flex-direction: row; gap: 0.3rem; }
+	.al-lang-badge { padding: 2px 7px; font-size: 0.65rem; }
 }
 </style>
