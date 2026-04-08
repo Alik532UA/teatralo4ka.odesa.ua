@@ -9,7 +9,8 @@
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
 	import { base } from "$app/paths";
-	import { getHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
+	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
+	import { browser } from "$app/environment";
 
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
@@ -17,7 +18,10 @@
 	let settingsRef: HTMLDivElement | null = $state(null);
 	let navRef: HTMLDivElement | null = $state(null);
 
-	let headerSettings = $state<Omit<HeaderSettings, 'updatedAt'>>({ ...DEFAULT_HEADER_SETTINGS });
+	// Try to load from localStorage cache first for instant render (no FOUC)
+	const cached = browser ? getCachedHeaderSettings() : null;
+	let headerSettings = $state<Omit<HeaderSettings, 'updatedAt'>>(cached ?? { ...DEFAULT_HEADER_SETTINGS });
+	let headerReady = $state(!!cached);
 
 	$effect(() => {
 		getHeaderSettings().then(result => {
@@ -30,7 +34,9 @@
 					debugPanel:    result.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
 				};
 			}
-		}).catch(console.error);
+		}).catch(console.error).finally(() => {
+			headerReady = true;
+		});
 	});
 
 	// Smart interaction state: ignore click for 1s after hover open
@@ -236,6 +242,7 @@
 	</div>
 
 	<div class="header__bar" data-testid="header-bar-container">
+		{#if headerReady}
 		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
 			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="header-nav-menu">
 				<ul class="header__nav-list" data-testid="nav-list-menu">
@@ -376,6 +383,7 @@
 			<span class="header__burger-text">МЕНЮ</span>
 			<Menu size={20} />
 		</button>
+		{/if}
 	</div>
 
 	{#if ui.isMenuOpen}

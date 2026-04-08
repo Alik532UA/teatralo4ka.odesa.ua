@@ -1,17 +1,7 @@
-<section class="page-content container" style="padding: 160px 24px 6rem;">
-	<article class="prose">
-		<h1>Відділення естетичного виховання</h1>
-		<p>У навчальній програмі наступні дисципліни:</p>
-		<ul>
-			<li>Акторська майстерність</li>
-			<li>Танець</li>
-			<li>Вокал</li>
-			<li>Казкотерапія</li>
-			<li>Образотворче мистецтво</li>
-			<li>Шумовий оркестр</li>
-			<li>Сценічне мовлення</li>
-			<li>Сценічне мовлення (індивідуальне)</li>
-			<li>Предмет за вибором</li>
-		</ul>
-	</article>
-</section>
+<script lang="ts">
+	import StaticPage from '$lib/components/StaticPage.svelte';
+
+	let { data } = $props();
+</script>
+
+<StaticPage {data} testPrefix="aesthetic" />

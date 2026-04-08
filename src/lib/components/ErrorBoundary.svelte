@@ -1,36 +1,25 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import type { Snippet } from 'svelte';
 
-	let { children } = $props<{ children: any }>();
-	let error: Error | null = $state(null);
-
-	function reset() {
-		error = null;
-	}
-
-	onMount(() => {
-		const handleError = (event: ErrorEvent) => {
-			error = event.error;
-		};
-		window.addEventListener('error', handleError);
-		return () => window.removeEventListener('error', handleError);
-	});
+	let { children }: { children: Snippet } = $props();
 </script>
 
-{#if error}
-	<div class="error-boundary" data-testid="error-boundary-container">
-		<div class="error-boundary__content" data-testid="error-boundary-content-group">
-			<h2 data-testid="error-boundary-title">Ой! Щось пішло не так</h2>
-			<p data-testid="error-boundary-message">{error.message}</p>
-			<div class="error-boundary__actions" data-testid="error-boundary-actions-group">
-				<button onclick={reset} data-testid="error-boundary-reset-button">Спробувати знову</button>
-				<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">Оновити сторінку</button>
+<svelte:boundary>
+	{@render children()}
+
+	{#snippet failed(error, reset)}
+		<div class="error-boundary" data-testid="error-boundary-container">
+			<div class="error-boundary__content" data-testid="error-boundary-content-group">
+				<h2 data-testid="error-boundary-title">Ой! Щось пішло не так</h2>
+				<p data-testid="error-boundary-message">{error instanceof Error ? error.message : String(error)}</p>
+				<div class="error-boundary__actions" data-testid="error-boundary-actions-group">
+					<button onclick={reset} data-testid="error-boundary-reset-button">Спробувати знову</button>
+					<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">Оновити сторінку</button>
+				</div>
 			</div>
 		</div>
-	</div>
-{:else}
-	{@render children()}
-{/if}
+	{/snippet}
+</svelte:boundary>
 
 <style>
 	.error-boundary {

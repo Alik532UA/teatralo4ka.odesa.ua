@@ -13,14 +13,7 @@ export async function load({ url }) {
 
   // Чекаємо ініціалізації авторизації
   if (authService.loading) {
-    await new Promise((resolve) => {
-      const check = setInterval(() => {
-        if (!authService.loading) {
-          clearInterval(check);
-          resolve(true);
-        }
-      }, 10);
-    });
+    await authService.waitForInit();
   }
 
   if (!authService.isAuthenticated) {

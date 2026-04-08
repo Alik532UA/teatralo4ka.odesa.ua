@@ -24,6 +24,21 @@ class AuthService {
   profile = $state<UserProfile | null>(null);
   loading = $state(true);
 
+  private _initResolvers: Array<() => void> = [];
+
+  /** Returns a promise that resolves once the initial auth check completes. */
+  waitForInit(): Promise<void> {
+    if (!this.loading) return Promise.resolve();
+    return new Promise((resolve) => {
+      this._initResolvers.push(resolve);
+    });
+  }
+
+  private _resolveInit() {
+    for (const resolve of this._initResolvers) resolve();
+    this._initResolvers = [];
+  }
+
   constructor() {
     onAuthStateChanged(auth, async (u) => {
       this.user = u;
@@ -103,6 +118,7 @@ class AuthService {
         this.profile = null;
       }
       this.loading = false;
+      this._resolveInit();
     });
   }
 

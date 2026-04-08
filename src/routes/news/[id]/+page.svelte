@@ -51,6 +51,7 @@
 	{/if}
 </svelte:head>
 
+{#key page.params.id}
 <section class="news-page container" style="padding: 160px 24px; min-height: 80vh;" data-testid="article-page-section">
 	{#if loading}
 		<div style="text-align: center; padding: 4rem;" data-testid="article-loading-container">
@@ -94,6 +95,7 @@
 		</article>
 	{/if}
 </section>
+{/key}
 
 <style>
 	.prose :global(h2) {

@@ -61,16 +61,24 @@
 		onsubmit,
 	}: Props = $props();
 
+	// svelte-ignore state_referenced_locally
 	const tp = mode === 'create' ? 'admin-article-new' : 'admin-article-edit';
 
+	// Intentional: props used only for one-time form field initialization
+	// svelte-ignore state_referenced_locally
 	let category = $state<ArticleCategory | string>(initialCategory);
+	// svelte-ignore state_referenced_locally
 	let dateMode = $state<DateMode>(initialDateMode);
+	// svelte-ignore state_referenced_locally
 	let customDateStr = $state(initialCustomDateStr);
+	// svelte-ignore state_referenced_locally
 	let differentCovers = $state(initialDifferentCovers);
 	let showUploadInfo = $state(false);
+	// svelte-ignore state_referenced_locally
 	let slug = $state(initialSlug);
 	let activeLang = $state<'uk' | 'en'>('uk');
 
+	// svelte-ignore state_referenced_locally
 	let translations = $state({
 		uk: { title: '', content: '', isPublished: mode === 'create', coverUrl: '', ...initialTranslations?.uk },
 		en: { title: '', content: '', isPublished: false, coverUrl: '', ...initialTranslations?.en },

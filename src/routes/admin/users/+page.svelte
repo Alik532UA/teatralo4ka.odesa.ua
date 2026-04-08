@@ -91,14 +91,11 @@
 		try {
 			let q;
 			if (isSuperAdmin) {
-				console.log('loadUsers: Loading ALL users (SuperAdmin mode)');
 				q = query(collection(db, 'users'), orderBy('email'));
 			} else {
-				console.log('loadUsers: Loading users for project:', DEFAULT_PROJECT_ID);
 				q = query(collection(db, 'users'), where('projectIds', 'array-contains', DEFAULT_PROJECT_ID));
 			}
 			const snapshot = await getDocs(q);
-			console.log('loadUsers: Fetched', snapshot.docs.length, 'users');
 			users = snapshot.docs.map(d => {
 				const data = d.data();
 

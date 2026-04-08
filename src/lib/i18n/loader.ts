@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 import { pageMetadataSchema } from './schema';
 import type { PageContent, PageMetadata, TableOfContents } from './types';
 
@@ -24,8 +25,9 @@ export function loadPageWithMetadata(lang: string, slug: string): PageContent | 
   // Validate frontmatter through Zod
   const metadata = pageMetadataSchema.parse(rawMetadata) as PageMetadata;
 
-  // Parse markdown to HTML synchronously
-  const html = marked.parse(markdown) as string;
+  // Parse markdown to HTML and sanitize
+  const rawHtml = marked.parse(markdown) as string;
+  const html = DOMPurify.sanitize(rawHtml);
 
   // Extract Table of Contents if enabled
   const toc = metadata.toc ? extractTableOfContents(markdown) : undefined;

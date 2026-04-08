@@ -86,6 +86,13 @@ $effect(() => {
             if (headerResult.navDropdown) navDropdown = headerResult.navDropdown;
             if (headerResult.mobileOverlay) mobileOverlay = headerResult.mobileOverlay;
             if (headerResult.debugPanel) debugPanel = headerResult.debugPanel;
+          } else {
+            // No header config in Firebase yet — seed defaults so admin gets full control
+            try {
+              await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel });
+            } catch (seedErr) {
+              console.warn('Could not seed default header settings:', seedErr);
+            }
           }
         } catch (e: any) {
           console.error('Failed to load settings:', e);

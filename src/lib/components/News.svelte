@@ -14,6 +14,7 @@
 
 	let newsItems = $state<NewsItem[]>([]);
 	let loading = $state(true);
+	let loadError = $state(false);
 	let currentIndex = $state(0);
 	let slideWidth = $state(33.333);
 
@@ -44,6 +45,7 @@
 			});
 		} catch (e) {
 			console.error('News: failed to load articles', e);
+			loadError = true;
 		} finally {
 			loading = false;
 		}
@@ -81,6 +83,7 @@
 	}
 </script>
 
+{#if !loadError}
 <section class="news" id="news-section" aria-labelledby="news-title" data-testid="news-section-container">
 	<div class="container" data-testid="news-content-container">
 		<div class="news__header" data-testid="news-header-group">
@@ -147,6 +150,7 @@
 		</div>
 	</div>
 </section>
+{/if}
 
 <style>
 	.news {

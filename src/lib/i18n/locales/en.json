@@ -134,6 +134,10 @@
       "settingsTitle": "Site Settings",
       "settingsDesc": "Block order and visibility on the home page.",
       "settingsBtn": "Go to Settings",
+      "pagesTitle": "Pages",
+      "pagesDesc": "Create custom pages with their own URLs.",
+      "pagesListBtn": "Page List",
+      "pagesAddBtn": "Add Page",
       "usersTitle": "Users",
       "usersDesc": "Manage admins and moderators.",
       "usersBtn": "Manage Access",
@@ -163,6 +167,17 @@
       "deleteConfirm": "Are you sure you want to delete this article?",
       "noArticles": "No articles yet.",
       "loading": "Loading..."
+    },
+    "pages": {
+      "title": "Site Pages",
+      "backToPanel": "Panel",
+      "createBtn": "Create",
+      "noPages": "No pages yet.",
+      "loading": "Loading...",
+      "deleteConfirm": "Are you sure you want to delete this page?",
+      "deleted": "Page deleted",
+      "deleteError": "Failed to delete",
+      "slugRequired": "URL slug is required for pages"
     },
     "users": {
       "title": "Access Management",
@@ -364,6 +379,10 @@
     "viewGrid": "Grid",
     "viewList": "List"
   },
+  "pages": {
+    "notFound": "Page not found",
+    "errorLoading": "Error loading page"
+  },
   "seo": {
     "brandTitle": "Odessa Theatre School",
     "org": {
@@ -459,5 +478,11 @@
       }
     },
     "learnMore": "learn more"
+  },
+  "error": {
+    "notFound": "Page not found",
+    "generic": "Something went wrong",
+    "backHome": "Go home",
+    "backAdmin": "Back to admin"
   }
 }

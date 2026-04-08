@@ -50,6 +50,15 @@
     <a href="{base}/admin/settings" class="btn btn-outline" data-testid="admin-settings-button">{$t('admin.dashboard.settingsBtn')}</a>
    </div>
 
+   <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-pages-card-container">
+    <h2 style="margin-bottom: 1rem;" data-testid="admin-pages-card-title-label">{$t('admin.dashboard.pagesTitle')}</h2>
+    <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-pages-card-desc-label">{$t('admin.dashboard.pagesDesc')}</p>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-pages-card-actions-group">
+     <a href="{base}/admin/pages" class="btn btn-primary" data-testid="admin-pages-list-button">{$t('admin.dashboard.pagesListBtn')}</a>
+     <a href="{base}/admin/pages/new" class="btn btn-outline" data-testid="admin-pages-add-button">+ {$t('admin.dashboard.pagesAddBtn')}</a>
+    </div>
+   </div>
+
     {#if canManageUsers}
      <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
       <h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>

@@ -2,6 +2,7 @@
 	import { locale, t } from 'svelte-i18n';
 	import { base } from '$app/paths';
 	import { seo } from '$lib/services/seo.svelte';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	let { data } = $props();
 
@@ -32,7 +33,7 @@
 <section class="page-content container" style="padding: 160px 24px 6rem;" data-testid="about-page-section">
 	{#if content}
 		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article">
-			{@html content.html}
+			{@html DOMPurify.sanitize(content.html)}
 		</article>
 	{:else}
 		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="about-page-loading-container">

@@ -73,6 +73,15 @@ export async function fetchAllArticles() {
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
+  const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
+  return all.filter(a => a.type !== 'page');
+}
+
+export async function fetchAllPages() {
+  const projectId = await getProjectId();
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(articlesRef, where("type", "==", "page"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
 }
 
@@ -124,23 +133,13 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     // Додаткові поля, які були в data (translations, dateMode, customDate)
     translations: data.translations,
     dateMode: data.dateMode,
-    customDate: data.customDate
+    customDate: data.customDate,
+    ...(data.type ? { type: data.type } : {})
   };
 
   if (finalSlug) {
     payloadToSave.slug = finalSlug;
   }
-
-  // DEBUG LOGS
-  console.log("=== FIRESTORE WRITE DEBUG ===");
-  console.log("Target Project ID:", projectId);
-  console.log("Current User UID:", auth.currentUser?.uid);
-  console.log("Payload keys:", Object.keys(payloadToSave));
-  console.log("Payload values (except content):", { ...payloadToSave, content: `[Length: ${payloadToSave.content.length}]` });
-  console.log("title length:", payloadToSave.title.length);
-  console.log("content length:", payloadToSave.content.length);
-  console.log("category length:", payloadToSave.category.length);
-  console.log("============================");
 
   try {
     await setDoc(docRef, payloadToSave);
@@ -185,13 +184,6 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
     updatePayload.isPublished = data.translations.uk.isPublished || false;
     updatePayload.coverUrl = data.translations.uk.coverUrl || '';
   }
-
-  // DEBUG LOGS
-  console.log("=== FIRESTORE UPDATE DEBUG ===");
-  console.log("Target Project ID:", projectId);
-  console.log("Current User UID:", auth.currentUser?.uid);
-  console.log("Update Payload keys:", Object.keys(updatePayload));
-  console.log("==============================");
 
   try {
     return await updateDoc(ref, updatePayload);

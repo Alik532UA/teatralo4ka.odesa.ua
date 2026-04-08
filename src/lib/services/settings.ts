@@ -311,7 +311,7 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
     href: rawCta.href ?? rawCta.linkValue ?? DEFAULT_HEADER_SETTINGS.cta.href,
   };
 
-  return {
+  const result = {
     cta,
     headerBar:     raw.headerBar     ?? DEFAULT_HEADER_SETTINGS.headerBar,
     navDropdown:   raw.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
@@ -319,6 +319,23 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
     debugPanel:    raw.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
     updatedAt:     raw.updatedAt,
   } as HeaderSettings;
+
+  // Cache in localStorage for instant render on next visit
+  try {
+    const { updatedAt, ...cacheable } = result;
+    localStorage.setItem('headerSettings', JSON.stringify(cacheable));
+  } catch { /* quota exceeded or SSR — ignore */ }
+
+  return result;
+}
+
+/** Read cached header settings from localStorage (sync, instant). */
+export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | null {
+  try {
+    const cached = localStorage.getItem('headerSettings');
+    if (cached) return JSON.parse(cached);
+  } catch { /* SSR or corrupted — ignore */ }
+  return null;
 }
 
 /** Auth-required write. */

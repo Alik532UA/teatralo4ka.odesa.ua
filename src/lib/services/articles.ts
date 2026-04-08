@@ -9,6 +9,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
+import { ArticleSchema } from "../schemas";
 import type { ArticleCategory } from "../config/categories";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
@@ -20,9 +21,12 @@ export interface ArticleTranslation {
   coverUrl?: string;
 }
 
+export type ContentType = 'article' | 'page';
+
 export interface Article {
   id?: string;
   slug?: string;
+  type?: ContentType;
   category: ArticleCategory | string;
   author: string;
   createdAt: any;
@@ -37,12 +41,19 @@ export interface Article {
 
 const projectId = import.meta.env.VITE_PROJECT_ID;
 
+/** Parse Firestore doc into a validated Article (falls back to raw cast on schema mismatch) */
+function docToArticle(docSnap: { id: string; data: () => any }): Article {
+  const raw = { id: docSnap.id, ...docSnap.data() };
+  const result = ArticleSchema.safeParse(raw);
+  return (result.success ? result.data : raw) as Article;
+}
+
 export async function getArticleById(id: string) {
   // First try direct document ID lookup (backward-compatible date-based IDs)
   const docRef = doc(db, "projects", projectId, "articles", id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    return { id: docSnap.id, ...docSnap.data() } as Article;
+    return docToArticle(docSnap);
   }
 
   // Fallback: treat `id` as a slug and query by slug field.
@@ -56,7 +67,7 @@ export async function getArticleById(id: string) {
   );
   const snap = await getDocs(q);
   if (!snap.empty) {
-    return { id: snap.docs[0].id, ...snap.docs[0].data() } as Article;
+    return docToArticle(snap.docs[0]);
   }
 
   return null;
@@ -80,10 +91,7 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   }
 
   const snapshot = await getDocs(q);
-  const allArticles = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  })) as Article[];
+  const allArticles = snapshot.docs.map(d => docToArticle(d));
 
   // Фільтруємо на рівні клієнта для мультимовності (Firestore не підтримує динамічні ключі в query для перевірки isPublished всередині об'єкта)
   return allArticles.filter(article => {
@@ -102,4 +110,37 @@ export function getDisplayDate(article: Article): any {
     case 'hidden': return null;
     default: return article.createdAt;
   }
+}
+
+export async function getPageBySlug(slug: string): Promise<Article | null> {
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(
+    articlesRef,
+    where("type", "==", "page"),
+    where("slug", "==", slug),
+    where("isPublished", "==", true),
+    limit(1)
+  );
+  const snap = await getDocs(q);
+  if (!snap.empty) {
+    return docToArticle(snap.docs[0]);
+  }
+  return null;
+}
+
+export async function getAllPages(lang: string = "uk"): Promise<Article[]> {
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(
+    articlesRef,
+    where("type", "==", "page"),
+    where("isPublished", "==", true),
+    orderBy("createdAt", "desc")
+  );
+  const snapshot = await getDocs(q);
+  return snapshot.docs
+    .map(d => docToArticle(d))
+    .filter(article => {
+      const translation = article.translations?.[lang as 'uk' | 'en'];
+      return translation && translation.isPublished;
+    });
 }

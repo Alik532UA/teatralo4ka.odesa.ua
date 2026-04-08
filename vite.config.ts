@@ -1,44 +1,10 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { execSync } from 'child_process';
-import matter from 'gray-matter';
-import { marked } from 'marked';
 
 export default defineConfig({
 	plugins: [
 		sveltekit(),
-		{
-			name: 'markdown-loader',
-			transform(code, id) {
-				if (id.endsWith('.md')) {
-					const { data, content } = matter(code);
-					const html = marked.parse(content);
-					
-					// Генерація TOC
-					const headingRegex = /^(#{2,3})\s+(.+)$/gm;
-					const toc = [];
-					let match;
-					while ((match = headingRegex.exec(content)) !== null) {
-						const level = match[1].length;
-						const title = match[2];
-						const anchor = title.toLowerCase().replace(/[^\wа-яієїґ\s]/gi, '').replace(/\s+/g, '-');
-						toc.push({ level, title, anchor });
-					}
-
-					const result = {
-						metadata: data,
-						html,
-						markdown: content,
-						toc
-					};
-
-					return {
-						code: `export default ${JSON.stringify(result)};`,
-						map: null
-					};
-				}
-			}
-		},
 		{
 			name: 'smart-static-build-tools',
 			apply: 'build',

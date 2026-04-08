@@ -571,15 +571,6 @@
 		color: #fff;
 	}
 
-	.tool-btn.mode-toggle {
-		border: 2px solid var(--color-border);
-		border-radius: 8px;
-	}
-
-	.tool-btn.mode-toggle:hover {
-		border-color: var(--color-sea-blue);
-	}
-
 	/* ── Table tools (smaller) ─────────────────────────────────────────────── */
 	.table-tools .tool-btn {
 		font-size: 0.72rem;
