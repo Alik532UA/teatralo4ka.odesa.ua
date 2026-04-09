@@ -234,13 +234,13 @@
 	}
 
 	.grid-card .focus-card__title {
-		font-size: 1.25rem;
+		font-size: 1.05rem;
 		line-height: 1.3;
 		margin-bottom: 0.75rem;
 	}
 
 	.grid-card .focus-card__excerpt {
-		font-size: 0.9rem;
+		font-size: 0.8rem;
 		line-height: 1.5;
 		margin-bottom: 1rem;
 		display: -webkit-box;

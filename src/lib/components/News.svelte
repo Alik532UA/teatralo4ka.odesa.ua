@@ -32,7 +32,20 @@
 		try {
 			const lang = (($locale as string) || 'uk') as 'uk' | 'en';
 			const articles = await getArticles(lang, true);
-			newsItems = articles.map((item, index) => {
+			
+			// Фільтруємо тільки статті (не сторінки та не проєкти)
+			const onlyNews = articles.filter(article => article.type !== 'page' && article.type !== 'page_project');
+			
+			// Сортуємо по дате відображення (customDate > updatedAt > createdAt) від нових до старих
+			const sortedArticles = [...onlyNews].sort((a, b) => {
+				const dateA = getDisplayDate(a);
+				const dateB = getDisplayDate(b);
+				const timeA = dateA?.toDate ? dateA.toDate().getTime() : 0;
+				const timeB = dateB?.toDate ? dateB.toDate().getTime() : 0;
+				return timeB - timeA; // Від більших до менших (нові першими)
+			});
+			
+			newsItems = sortedArticles.map((item, index) => {
 				const tr = item.translations?.[lang] ?? { title: '', content: '' };
 				const timestamp = getDisplayDate(item);
 				const dateStr = timestamp?.toDate

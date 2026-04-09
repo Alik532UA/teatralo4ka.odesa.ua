@@ -31,7 +31,19 @@
 			}
 
 			if (allArticles.length > 0) {
-				newsItems = allArticles.map((item, index) => {
+				// Фільтруємо тільки статті (не сторінки та не проєкти)
+				const onlyNews = allArticles.filter(article => article.type !== 'page' && article.type !== 'page_project');
+				
+				// Сортуємо по дате відображення (customDate > updatedAt > createdAt) від нових до старих
+				const sortedArticles = [...onlyNews].sort((a, b) => {
+					const dateA = getDisplayDate(a);
+					const dateB = getDisplayDate(b);
+					const timeA = dateA?.toDate ? dateA.toDate().getTime() : 0;
+					const timeB = dateB?.toDate ? dateB.toDate().getTime() : 0;
+					return timeB - timeA; // Від більших до менших (нові першими)
+				});
+
+				newsItems = sortedArticles.map((item, index) => {
 					let dateStr = "";
 					const timestamp = getDisplayDate(item);
 					if (timestamp?.toDate) {

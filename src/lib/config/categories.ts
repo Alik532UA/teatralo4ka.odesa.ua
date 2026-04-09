@@ -7,6 +7,7 @@ export const ARTICLE_CATEGORIES = {
   concert: { uk: "Концерт", en: "Concert" },
   performance: { uk: "Вистава", en: "Performance" },
   charity: { uk: "Благодійність", en: "Charity" },
+  celebration: { uk: "Святкування", en: "Celebration" },
   event: { uk: "Захід", en: "Event" },
   attention: { uk: "Увага", en: "Attention" },
   memory: { uk: "Пам'ять", en: "Memorial" },
