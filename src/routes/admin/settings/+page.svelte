@@ -329,7 +329,7 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select" style="width: 100%;" value={cfg.pinnedArticleId} disabled={cfg.defaultView !== 'carousel'} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
+    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} disabled={cfg.defaultView !== 'carousel'} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
       <option value="">{$t('admin.settings.newsPinnedNone')}</option>
       {#each articlesList as art}
         <option value={art.slug}>{art.titleUk}</option>
@@ -343,16 +343,19 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
 <li class="block-item" class:opacity-muted={cfg.defaultView === 'carousel'}>
 <span class="block-item__name">{$t('admin.settings.newsMaxItems')}</span>
 <div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
-  <input
-    type="number"
-    class="form-select"
-    style="width: 80px; text-align: center;"
-    min="0"
-    max="100"
-    value={cfg.maxItems}
-    disabled={cfg.defaultView === 'carousel'}
-    onchange={(e: any) => onChange({ ...cfg, maxItems: Math.max(0, parseInt(e.target.value) || 0) })}
-  />
+  <div class="custom-number-input">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItems: Math.max(0, cfg.maxItems - 1) })} disabled={cfg.defaultView === 'carousel' || cfg.maxItems === 0} title="Decrease">−</button>
+    <input
+      type="number"
+      class="number-input"
+      min="0"
+      max="100"
+      value={cfg.maxItems}
+      disabled={cfg.defaultView === 'carousel'}
+      onchange={(e: any) => onChange({ ...cfg, maxItems: Math.max(0, parseInt(e.target.value) || 0) })}
+    />
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItems: Math.min(100, cfg.maxItems + 1) })} disabled={cfg.defaultView === 'carousel' || cfg.maxItems === 100} title="Increase">+</button>
+  </div>
   <span style="font-size: 0.82rem; color: var(--color-muted-text);">
     {cfg.maxItems === 0 ? $t('admin.settings.newsMaxItemsUnlimited') : ''}
   </span>
@@ -788,6 +791,7 @@ background: var(--theme-dynamic-card-bg);
 padding: 3rem;
 border-radius: 40px;
 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+margin-bottom: 2.5rem;
 }
 
 .settings-card__title {
@@ -910,6 +914,7 @@ color: var(--color-dark-text);
   padding: 0.25rem;
   border-radius: 12px;
   border: 1px solid rgba(0, 95, 174, 0.08);
+  margin-left: auto;
 }
 
 :global(.dark-theme) .mode-toggle-group {
@@ -945,10 +950,90 @@ color: var(--color-dark-text);
   opacity: 0.5;
 }
 
+.news-widget-select {
+  max-width: 280px !important;
+  width: auto !important;
+  min-width: 150px;
+}
+
+.custom-number-input {
+  display: flex;
+  align-items: center;
+  background: var(--color-ice-blue);
+  border: 1px solid rgba(0, 95, 174, 0.08);
+  border-radius: 12px;
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+:global(.dark-theme) .custom-number-input {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.number-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-sea-blue);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.number-btn:hover:not(:disabled) {
+  background: rgba(0, 95, 174, 0.1);
+}
+
+.number-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.number-input {
+  width: 50px;
+  height: 32px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-deep-ocean);
+  padding: 0;
+  outline: none;
+  cursor: text;
+}
+
+:global(.dark-theme) .number-input {
+  color: var(--color-dark-text);
+}
+
+.number-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.number-input::-webkit-outer-spin-button,
+.number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .block-item__controls {
 display: flex;
 align-items: center;
 gap: 0.5rem;
+margin-left: auto;
 }
 
 .form-range {
@@ -960,6 +1045,12 @@ gap: 0.5rem;
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
+}
+
+.form-range:disabled {
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+  background: var(--color-ice-blue) !important;
 }
 
 .form-range::-webkit-slider-thumb {
@@ -976,6 +1067,11 @@ gap: 0.5rem;
 
 .form-range::-webkit-slider-thumb:hover {
   transform: scale(1.15);
+}
+
+.form-range:disabled::-webkit-slider-thumb {
+  cursor: not-allowed !important;
+  opacity: 1 !important;
 }
 
 :global(.dark-theme) .form-range {
