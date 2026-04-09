@@ -2,6 +2,7 @@
 	import NewsCard from '$lib/components/NewsCard.svelte';
 	import { GalleryHorizontal, LayoutGrid, List, Play, Pause } from 'lucide-svelte';
 	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import { onMount, untrack } from 'svelte';
 	import { base } from '$app/paths';
 	import { t } from 'svelte-i18n';
@@ -46,12 +47,14 @@
 	// ── Max items for grid/list ───────────────────────────────────────────────
 	let showingAll = $state(false);
 
+	const maxItemsForCurrentView = $derived(view === 'grid' ? config.maxItemsGrid : view === 'list' ? config.maxItemsList : 0);
+
 	const displayItems = $derived.by(() => {
-		if (view === 'carousel' || config.maxItems <= 0 || showingAll) return items;
-		return items.slice(0, config.maxItems);
+		if (view === 'carousel' || maxItemsForCurrentView <= 0 || showingAll) return items;
+		return items.slice(0, maxItemsForCurrentView);
 	});
 
-	const hasMore = $derived(config.maxItems > 0 && items.length > config.maxItems && view !== 'carousel');
+	const hasMore = $derived(maxItemsForCurrentView > 0 && items.length > maxItemsForCurrentView && view !== 'carousel');
 
 	// ── Init ──────────────────────────────────────────────────────────────────
 	$effect(() => {
@@ -152,6 +155,27 @@
 		if (e.key === 'ArrowLeft') prev();
 		else if (e.key === 'ArrowRight') next(false);
 	}
+
+	function handleShowAll() {
+		if (showAllLink) {
+			if (browser) {
+				const viewToSave = view === 'list' ? 'list' : 'grid';
+				localStorage.setItem('news-view', viewToSave);
+			}
+			goto(`${base}/news`);
+		} else {
+			showingAll = true;
+		}
+	}
+
+	function handleAllNewsLink(e: MouseEvent) {
+		e.preventDefault();
+		if (browser) {
+			const viewToSave = view === 'list' ? 'list' : 'grid';
+			localStorage.setItem('news-view', viewToSave);
+		}
+		goto(`${base}/news`);
+	}
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -160,9 +184,8 @@
 	<!-- Controls row -->
 	<div class="nw-controls" data-testid="news-widget-controls">
 		{#if showAllLink}
-			<a href="{base}/news" class="nw-all-link" data-testid="news-widget-all-link">
+			<a href="{base}/news" class="nw-all-link" data-testid="news-widget-all-link" onclick={handleAllNewsLink}>
 				{$t('news.allNews')}
-				<span aria-hidden="true">→</span>
 			</a>
 		{/if}
 
@@ -250,7 +273,7 @@
 		</div>
 		{#if hasMore && !showingAll}
 			<div class="nw-show-all">
-				<button class="nw-show-all-btn" onclick={() => showingAll = true} data-testid="news-widget-show-all-btn">
+				<button class="nw-show-all-btn" onclick={handleShowAll} data-testid="news-widget-show-all-btn">
 					{$t('admin.settings.newsShowAll')}
 				</button>
 			</div>
@@ -265,7 +288,7 @@
 		</div>
 		{#if hasMore && !showingAll}
 			<div class="nw-show-all">
-				<button class="nw-show-all-btn" onclick={() => showingAll = true} data-testid="news-widget-show-all-btn">
+				<button class="nw-show-all-btn" onclick={handleShowAll} data-testid="news-widget-show-all-btn">
 					{$t('admin.settings.newsShowAll')}
 				</button>
 			</div>
@@ -295,20 +318,26 @@
 	}
 
 	.nw-all-link {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: var(--space-sm);
-		font-family: var(--font-heading);
+		justify-content: center;
+		background: var(--color-deep-ocean);
+		color: var(--color-white);
+		border: none;
+		padding: 0.8rem 2.5rem;
+		border-radius: 16px;
 		font-weight: 700;
-		color: var(--color-sea-blue);
+		font-size: 1rem;
+		cursor: pointer;
 		text-decoration: none;
-		transition: all var(--transition-base);
+		transition: all 0.3s ease;
 		margin-right: auto;
 	}
 
 	.nw-all-link:hover {
-		color: var(--color-deep-ocean);
-		transform: translateX(5px);
+		transform: translateY(-3px);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
+		color: var(--color-white);
 	}
 
 	/* ─── View switcher (pills) ────────────────────────── */

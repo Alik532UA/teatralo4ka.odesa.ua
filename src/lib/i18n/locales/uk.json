@@ -405,7 +405,8 @@
       "newsAutoplay": "Автогортання (тільки карусель)",
       "newsPinnedArticle": "Закріплена новина (тільки карусель)",
       "newsPinnedNone": "— Немає —",
-      "newsMaxItems": "Макс. кількість новин (сітка/список)",
+      "newsMaxItemsGrid": "Макс. кількість новин (сітка)",
+      "newsMaxItemsList": "Макс. кількість новин (список)",
       "newsMaxItemsUnlimited": "Без обмежень",
       "newsShowAll": "Показати всі"
     },

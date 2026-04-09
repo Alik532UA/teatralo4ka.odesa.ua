@@ -403,7 +403,8 @@
       "newsAutoplay": "Autoplay (carousel only)",
       "newsPinnedArticle": "Pinned article (carousel only)",
       "newsPinnedNone": "— None —",
-      "newsMaxItems": "Max news items (grid/list)",
+      "newsMaxItemsGrid": "Max news items (grid)",
+      "newsMaxItemsList": "Max news items (list)",
       "newsMaxItemsUnlimited": "Unlimited",
       "newsShowAll": "Show all"
     },

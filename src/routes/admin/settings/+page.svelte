@@ -312,24 +312,25 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
 </li>
 
 <!-- Autoplay (carousel only) -->
-<li class="block-item" class:opacity-muted={cfg.defaultView !== 'carousel'}>
+{#if cfg.defaultView === 'carousel'}
+<li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsAutoplay')}</span>
 <label class="switch-label" style="margin-left: auto;">
-<input type="checkbox" class="switch-input" checked={cfg.autoplay} disabled={cfg.defaultView !== 'carousel'} onchange={() => onChange({ ...cfg, autoplay: !cfg.autoplay })} />
+<input type="checkbox" class="switch-input" checked={cfg.autoplay} onchange={() => onChange({ ...cfg, autoplay: !cfg.autoplay })} />
 <span class="switch-slider"></span>
 </label>
 </li>
 
 <!-- Pinned article (carousel only) -->
-<li class="block-item" class:opacity-muted={cfg.defaultView !== 'carousel'}>
+<li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsPinnedArticle')}</span>
 <div style="margin-left: auto; min-width: 200px;">
   {#if articlesList.length === 0 && !articlesLoading}
-    <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles} disabled={cfg.defaultView !== 'carousel'}>
+    <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles}>
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} disabled={cfg.defaultView !== 'carousel'} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
+    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
       <option value="">{$t('admin.settings.newsPinnedNone')}</option>
       {#each articlesList as art}
         <option value={art.slug}>{art.titleUk}</option>
@@ -338,29 +339,69 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
   {/if}
 </div>
 </li>
+{/if}
 
-<!-- Max items (grid/list only) -->
-<li class="block-item" class:opacity-muted={cfg.defaultView === 'carousel'}>
-<span class="block-item__name">{$t('admin.settings.newsMaxItems')}</span>
+<!-- Max items (grid view) -->
+{#if cfg.defaultView !== 'carousel'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.newsMaxItemsGrid')}</span>
 <div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
-  <div class="custom-number-input">
-    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItems: Math.max(0, cfg.maxItems - 1) })} disabled={cfg.defaultView === 'carousel' || cfg.maxItems === 0} title="Decrease">−</button>
+  <label class="switch-label">
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <span class="switch-slider"></span>
+  </label>
+  {#if cfg.maxItemsGrid > 0}
+  <div style="display: flex; align-items: center; gap: 0.35rem;">
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title="Decrease">−</button>
     <input
       type="number"
-      class="number-input"
-      min="0"
+      class="form-select"
+      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      min="1"
       max="100"
-      value={cfg.maxItems}
-      disabled={cfg.defaultView === 'carousel'}
-      onchange={(e: any) => onChange({ ...cfg, maxItems: Math.max(0, parseInt(e.target.value) || 0) })}
+      value={cfg.maxItemsGrid}
+      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
     />
-    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItems: Math.min(100, cfg.maxItems + 1) })} disabled={cfg.defaultView === 'carousel' || cfg.maxItems === 100} title="Increase">+</button>
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title="Increase">+</button>
   </div>
+  {:else}
   <span style="font-size: 0.82rem; color: var(--color-muted-text);">
-    {cfg.maxItems === 0 ? $t('admin.settings.newsMaxItemsUnlimited') : ''}
+    {$t('admin.settings.newsMaxItemsUnlimited')}
   </span>
+  {/if}
 </div>
 </li>
+
+<!-- Max items (list view) -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.newsMaxItemsList')}</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+  <label class="switch-label">
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsList: e.target.checked ? 6 : 0 })} />
+    <span class="switch-slider"></span>
+  </label>
+  {#if cfg.maxItemsList > 0}
+  <div style="display: flex; align-items: center; gap: 0.35rem;">
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title="Decrease">−</button>
+    <input
+      type="number"
+      class="form-select"
+      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      min="1"
+      max="100"
+      value={cfg.maxItemsList}
+      onchange={(e: any) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.target.value) || 1) })}
+    />
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title="Increase">+</button>
+  </div>
+  {:else}
+  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+    {$t('admin.settings.newsMaxItemsUnlimited')}
+  </span>
+  {/if}
+</div>
+</li>
+{/if}
 </ul>
 
 <div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
@@ -664,23 +705,22 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
 </li>
 
 {#if ticker.enableGrayscale}
-<li class="block-item" class:opacity-muted={!ticker.visible} style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+<li class="block-item" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <span class="block-item__name">{$t('admin.settings.tickerGrayscaleStrength')}</span>
     <span style="font-weight: 700; color: var(--color-sea-blue);">{ticker.grayscaleStrength}%</span>
   </div>
-  <input 
-    type="range" 
-    min="0" 
-    max="100" 
-    step="5" 
-    class="form-range" 
-    bind:value={ticker.grayscaleStrength} 
-    disabled={!ticker.visible} 
+  <input
+    type="range"
+    min="0"
+    max="100"
+    step="5"
+    class="form-range"
+    bind:value={ticker.grayscaleStrength}
+    style="background: linear-gradient(to right, var(--color-sea-blue) {ticker.grayscaleStrength}%, var(--color-ice-blue) {ticker.grayscaleStrength}%);"
   />
 </li>
-{/if}
-</ul>
+{/if}</ul>
 
 <div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
   <button type="button" class="me-reset-btn" onclick={() => { ticker = { ...DEFAULT_HEADER_SETTINGS.ticker }; }} disabled={headerSaving}>
@@ -836,7 +876,7 @@ background: color-mix(in srgb, var(--color-surface), transparent 40%);
 transition: border-color 0.2s;
 }
 
-.block-item:has(input:not(:checked)) {
+.block-item:has(input.switch-input:not(:checked)) {
 opacity: 0.55;
 }
 
@@ -956,21 +996,6 @@ color: var(--color-dark-text);
   min-width: 150px;
 }
 
-.custom-number-input {
-  display: flex;
-  align-items: center;
-  background: var(--color-ice-blue);
-  border: 1px solid rgba(0, 95, 174, 0.08);
-  border-radius: 12px;
-  padding: 0.25rem;
-  gap: 0.25rem;
-}
-
-:global(.dark-theme) .custom-number-input {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
 .number-btn {
   width: 32px;
   height: 32px;
@@ -994,39 +1019,6 @@ color: var(--color-dark-text);
 .number-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
-}
-
-.number-input {
-  width: 50px;
-  height: 32px;
-  text-align: center;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-deep-ocean);
-  padding: 0;
-  outline: none;
-  cursor: text;
-}
-
-:global(.dark-theme) .number-input {
-  color: var(--color-dark-text);
-}
-
-.number-input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.number-input::-webkit-outer-spin-button,
-.number-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-.number-input[type=number] {
-  -moz-appearance: textfield;
 }
 
 .block-item__controls {

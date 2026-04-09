@@ -51,8 +51,10 @@ export interface NewsWidgetConfig {
   autoplay: boolean;
   /** Article ID to pin at the start of carousel. '' = none. */
   pinnedArticleId: string;
-  /** Max items for grid/list views. 0 = unlimited. */
-  maxItems: number;
+  /** Max items for grid view. 0 = unlimited. */
+  maxItemsGrid: number;
+  /** Max items for list view. 0 = unlimited. */
+  maxItemsList: number;
 }
 
 export const DEFAULT_NEWS_WIDGET_HOME: NewsWidgetConfig = {
@@ -60,7 +62,8 @@ export const DEFAULT_NEWS_WIDGET_HOME: NewsWidgetConfig = {
   showViewSwitcher: false,
   autoplay: true,
   pinnedArticleId: '',
-  maxItems: 6,
+  maxItemsGrid: 6,
+  maxItemsList: 6,
 };
 
 export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
@@ -68,7 +71,8 @@ export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
   showViewSwitcher: true,
   autoplay: true,
   pinnedArticleId: '',
-  maxItems: 0,
+  maxItemsGrid: 0,
+  maxItemsList: 0,
 };
 
 export interface HomeSettings {
