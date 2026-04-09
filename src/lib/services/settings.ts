@@ -41,8 +41,44 @@ export interface BlockConfig {
   order: number;
 }
 
+// ── News widget config ────────────────────────────────────────────────────────
+
+export type NewsViewMode = 'carousel' | 'grid' | 'list';
+
+export interface NewsWidgetConfig {
+  defaultView: NewsViewMode;
+  showViewSwitcher: boolean;
+  autoplay: boolean;
+  /** Article ID to pin at the start of carousel. '' = none. */
+  pinnedArticleId: string;
+  /** Max items for grid/list views. 0 = unlimited. */
+  maxItems: number;
+}
+
+export const DEFAULT_NEWS_WIDGET_HOME: NewsWidgetConfig = {
+  defaultView: 'carousel',
+  showViewSwitcher: false,
+  autoplay: true,
+  pinnedArticleId: '',
+  maxItems: 6,
+};
+
+export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
+  defaultView: 'carousel',
+  showViewSwitcher: true,
+  autoplay: true,
+  pinnedArticleId: '',
+  maxItems: 0,
+};
+
 export interface HomeSettings {
   blocks: BlockConfig[];
+  newsWidget?: NewsWidgetConfig;
+  updatedAt?: any;
+}
+
+export interface NewsPageSettings {
+  newsWidget: NewsWidgetConfig;
   updatedAt?: any;
 }
 
@@ -155,8 +191,20 @@ export interface DebugPanelConfig {
   showBlur: boolean;
 }
 
+export interface TickerConfig {
+  visible: boolean;
+  mode: 'always' | 'time';
+  startTime: string;
+  endTime: string;
+  preview: boolean;
+  enableSound: boolean;
+  enableGrayscale: boolean;
+  grayscaleStrength: number;
+}
+
 export interface HeaderSettings {
   cta: CtaConfig;
+  ticker: TickerConfig;
   /** data-testid="header-bar-container" */
   headerBar: MenuConfig;
   /** data-testid="nav-dropdown-menu" */
@@ -176,6 +224,17 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
     labelEn: 'ADMISSION',
     linkType: 'page',
     href: '/admission',
+  },
+
+  ticker: {
+    visible: true,
+    mode: 'time',
+    startTime: '09:00',
+    endTime: '09:03',
+    preview: false,
+    enableSound: false,
+    enableGrayscale: true,
+    grayscaleStrength: 60,
   },
 
   headerBar: {
@@ -313,6 +372,7 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
 
   const result = {
     cta,
+    ticker:        raw.ticker        ?? DEFAULT_HEADER_SETTINGS.ticker,
     headerBar:     raw.headerBar     ?? DEFAULT_HEADER_SETTINGS.headerBar,
     navDropdown:   raw.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
     mobileOverlay: raw.mobileOverlay ?? DEFAULT_HEADER_SETTINGS.mobileOverlay,
@@ -342,6 +402,30 @@ export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | n
 export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "header");
+  return await setDoc(docRef, {
+    ...settings,
+    updatedAt: serverTimestamp()
+  });
+}
+
+// ── News page settings ────────────────────────────────────────────────────────
+
+/** Public read — no auth required (Firestore rules allow settingId == 'news'). */
+export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
+  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+  const raw = docSnap.data() as Record<string, any>;
+  return {
+    newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
+    updatedAt: raw.updatedAt,
+  };
+}
+
+/** Auth-required write. */
+export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'updatedAt'>) {
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "news");
   return await setDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()

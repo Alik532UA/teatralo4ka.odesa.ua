@@ -249,6 +249,14 @@
 		isolation: isolate;
 	}
 
+	:global(html) {
+		transition: filter 0.8s ease-in-out;
+	}
+
+	:global(html.ticker-active) {
+		filter: grayscale(var(--ticker-grayscale, 0.6)) brightness(var(--ticker-brightness, 0.9));
+	}
+
 	.app__base-bg {
 		position: fixed;
 		inset: 0;
@@ -262,7 +270,7 @@
 	   compositing-group conflicts. */
 	.header-blur-layer {
 		position: fixed;
-		top: 0;
+		top: var(--ticker-height, 0px);
 		left: 0;
 		right: 0;
 		height: calc(var(--header-height, 72px) + 16px); /* un-scrolled: +16px extra padding */
@@ -274,6 +282,7 @@
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
 		transition:
 			height var(--transition-base),
+			top var(--transition-base),
 			background var(--transition-base);
 	}
 
@@ -298,6 +307,7 @@
 		flex: 1;
 		background: transparent;
 		position: relative;
-		padding-top: var(--header-height, 72px);
+		padding-top: calc(var(--header-height, 72px) + var(--ticker-height, 0px));
+		transition: padding-top var(--transition-base);
 	}
 </style>

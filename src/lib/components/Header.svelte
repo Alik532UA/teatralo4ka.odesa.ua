@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Logo from "./Logo.svelte";
+	import Ticker from "./Ticker.svelte";
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X } from "lucide-svelte";
@@ -11,12 +12,37 @@
 	import { base } from "$app/paths";
 	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
 	import { browser } from "$app/environment";
+	import { untrack } from "svelte";
 
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
 	let navOpen = $state(false);
 	let settingsRef: HTMLDivElement | null = $state(null);
 	let navRef: HTMLDivElement | null = $state(null);
+	let showTicker = $state(false);
+
+	$effect(() => {
+		if (browser) {
+			if (showTicker) {
+				document.documentElement.style.setProperty('--ticker-height', '65px');
+				document.documentElement.classList.add('ticker-active');
+				
+				const ticker = headerSettings.ticker;
+				if (ticker?.enableGrayscale) {
+					const strength = (ticker.grayscaleStrength ?? 60) / 100;
+					const brightness = 1 - (strength * 0.2); // Dim slightly based on strength
+					document.documentElement.style.setProperty('--ticker-grayscale', `${strength}`);
+					document.documentElement.style.setProperty('--ticker-brightness', `${brightness}`);
+				} else {
+					document.documentElement.style.setProperty('--ticker-grayscale', '0');
+					document.documentElement.style.setProperty('--ticker-brightness', '1');
+				}
+			} else {
+				document.documentElement.style.setProperty('--ticker-height', '0px');
+				document.documentElement.classList.remove('ticker-active');
+			}
+		}
+	});
 
 	// Try to load from localStorage cache first for instant render (no FOUC)
 	const cached = browser ? getCachedHeaderSettings() : null;
@@ -32,11 +58,24 @@
 					navDropdown:   result.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
 					mobileOverlay: result.mobileOverlay ?? DEFAULT_HEADER_SETTINGS.mobileOverlay,
 					debugPanel:    result.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
+					ticker:        result.ticker        ?? DEFAULT_HEADER_SETTINGS.ticker,
 				};
 			}
 		}).catch(console.error).finally(() => {
 			headerReady = true;
 		});
+	});
+
+	$effect(() => {
+		const handlePreview = (e: CustomEvent) => {
+			untrack(() => {
+				if (headerSettings) {
+					headerSettings.ticker = { ...headerSettings.ticker, ...e.detail };
+				}
+			});
+		};
+		window.addEventListener('ticker-preview', handlePreview as EventListener);
+		return () => window.removeEventListener('ticker-preview', handlePreview as EventListener);
 	});
 
 	// Smart interaction state: ignore click for 1s after hover open
@@ -229,20 +268,32 @@
 </a>
 
 <header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
-	<div class="header__logo-area" data-testid="logo-area-container">
-		<a
-			href={`${base}/`}
-			class="header__logo-link"
-			aria-label="На головну"
-			onclick={ui.closeMenu}
-			data-testid="logo-home-link"
-		>
-			<Logo size="large" />
-		</a>
-	</div>
+	{#if headerReady}
+		<Ticker
+			visible={headerSettings.ticker?.visible ?? true}
+			mode={headerSettings.ticker?.mode ?? 'time'}
+			startTime={headerSettings.ticker?.startTime ?? '09:00'}
+			endTime={headerSettings.ticker?.endTime ?? '09:03'}
+			preview={headerSettings.ticker?.preview ?? false}
+			enableSound={headerSettings.ticker?.enableSound ?? false}
+			bind:show={showTicker}
+		/>
+	{/if}
+	<div class="header__inner">
+		<div class="header__logo-area" data-testid="logo-area-container">
+			<a
+				href={`${base}/`}
+				class="header__logo-link"
+				aria-label="На головну"
+				onclick={ui.closeMenu}
+				data-testid="logo-home-link"
+			>
+				<Logo size="large" />
+			</a>
+		</div>
 
-	<div class="header__bar" data-testid="header-bar-container">
-		{#if headerReady}
+		<div class="header__bar" data-testid="header-bar-container">
+			{#if headerReady}
 		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
 			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="header-nav-menu">
 				<ul class="header__nav-list" data-testid="nav-list-menu">
@@ -385,6 +436,7 @@
 		</button>
 		{/if}
 	</div>
+	</div>
 
 	{#if ui.isMenuOpen}
 		<div
@@ -490,9 +542,17 @@
 		right: 0;
 		z-index: 100;
 		display: flex;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: stretch;
 		padding: 0;
 		transition: all var(--transition-base);
+	}
+
+	.header__inner {
+		position: relative;
+		width: 100%;
+		display: flex;
+		align-items: flex-start;
 	}
 
 	.header__logo-area {

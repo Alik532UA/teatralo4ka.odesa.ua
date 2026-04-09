@@ -6,17 +6,36 @@ import { base } from '$app/paths';
 import {
   getHomeSettings, updateHomeSettings, DEFAULT_BLOCKS, type BlockConfig,
   getHeaderSettings, updateHeaderSettings, DEFAULT_HEADER_SETTINGS,
-  type CtaConfig, type DebugPanelConfig, type MenuConfig, type MenuLinkType,
+  getNewsPageSettings, updateNewsPageSettings,
+  DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_PAGE,
+  type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig, type MenuLinkType,
+  type NewsWidgetConfig, type NewsViewMode,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
 import { db } from '$lib/firebase/config';
 import { t } from 'svelte-i18n';
+import { untrack } from 'svelte';
 import ukData from '$lib/i18n/locales/uk.json';
 import enData from '$lib/i18n/locales/en.json';
 import MenuEditor from '$lib/components/ui/MenuEditor.svelte';
 import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 import { ArrowUp, ArrowDown } from 'lucide-svelte';
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+type TabId = 'home' | 'news' | 'cta' | 'headerBar' | 'navDropdown' | 'mobile' | 'ticker' | 'debug';
+let activeTab = $state<TabId>('home');
+
+const TABS: { id: TabId; labelKey: string }[] = [
+  { id: 'home',        labelKey: 'admin.settings.tabHome' },
+  { id: 'news',        labelKey: 'admin.settings.tabNews' },
+  { id: 'cta',         labelKey: 'admin.settings.tabCta' },
+  { id: 'headerBar',   labelKey: 'admin.settings.tabHeaderBar' },
+  { id: 'navDropdown', labelKey: 'admin.settings.tabNavDropdown' },
+  { id: 'mobile',      labelKey: 'admin.settings.tabMobile' },
+  { id: 'ticker',      labelKey: 'admin.settings.tabTicker' },
+  { id: 'debug',       labelKey: 'admin.settings.tabDebug' },
+];
 
 // ── Home blocks ──────────────────────────────────────────────────────────────
 let blocks = $state<BlockConfig[]>(DEFAULT_BLOCKS.map(b => ({ ...b })));
@@ -25,6 +44,23 @@ const hasBlocksChanges = $derived(JSON.stringify(blocks) !== originalBlocks);
 let loading = $state(true);
 let saving = $state(false);
 let settingsLoaded = $state(false);
+
+const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
+const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
+
+function updateTimeValue(isStart: boolean, type: 'h' | 'm', val: string) {
+  const current = isStart ? ticker.startTime : ticker.endTime;
+  const parts = current.split(':');
+  if (parts.length < 2) {
+    parts[0] = '00';
+    parts[1] = '00';
+  }
+  if (type === 'h') parts[0] = val;
+  else parts[1] = val;
+  
+  if (isStart) ticker.startTime = parts.join(':');
+  else ticker.endTime = parts.join(':');
+}
 
 // ── Header settings ──────────────────────────────────────────────────────────
 const VITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
@@ -44,18 +80,47 @@ let headerBar = $state<MenuConfig>(structuredClone(DEFAULT_HEADER_SETTINGS.heade
 let navDropdown = $state<MenuConfig>(structuredClone(DEFAULT_HEADER_SETTINGS.navDropdown));
 let mobileOverlay = $state<MenuConfig>(structuredClone(DEFAULT_HEADER_SETTINGS.mobileOverlay));
 let debugPanel = $state<DebugPanelConfig>({ ...DEFAULT_HEADER_SETTINGS.debugPanel });
+let ticker = $state<TickerConfig>({ ...DEFAULT_HEADER_SETTINGS.ticker });
 let originalCta = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.cta));
 let originalHeaderBar = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.headerBar));
 let originalNavDropdown = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.navDropdown));
 let originalMobileOverlay = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.mobileOverlay));
 let originalDebugPanel = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.debugPanel));
+let originalTicker = $state(JSON.stringify(DEFAULT_HEADER_SETTINGS.ticker));
 
 const hasCtaChanges = $derived(JSON.stringify(cta) !== originalCta);
 const hasHeaderBarChanges = $derived(JSON.stringify(headerBar) !== originalHeaderBar);
 const hasNavDropdownChanges = $derived(JSON.stringify(navDropdown) !== originalNavDropdown);
 const hasMobileOverlayChanges = $derived(JSON.stringify(mobileOverlay) !== originalMobileOverlay);
 const hasDebugPanelChanges = $derived(JSON.stringify(debugPanel) !== originalDebugPanel);
+const hasTickerChanges = $derived(JSON.stringify(ticker) !== originalTicker);
 let headerSaving = $state(false);
+
+// ── News widget settings ─────────────────────────────────────────────────────
+let homeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME });
+let newsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
+let originalHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME));
+let originalNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE));
+const hasHomeNewsChanges = $derived(JSON.stringify(homeNewsWidget) !== originalHomeNewsWidget);
+const hasNewsPageChanges = $derived(JSON.stringify(newsPageWidget) !== originalNewsPageWidget);
+let newsPageSaving = $state(false);
+
+import { browser } from "$app/environment";
+let lastTickerStr = "";
+$effect(() => {
+  if (browser) {
+    const currentTicker = $state.snapshot(ticker);
+    const str = JSON.stringify(currentTicker);
+    if (str === lastTickerStr) return;
+    lastTickerStr = str;
+
+    untrack(() => {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('ticker-preview', { detail: currentTicker }));
+      }, 0);
+    });
+  }
+});
 
 let articlesList = $state<{ slug: string; titleUk: string; titleEn: string }[]>([]);
 let articlesLoading = $state(false);
@@ -83,37 +148,56 @@ $effect(() => {
   if (!authService.loading) {
     if (!authService.isAuthenticated) {
       goto(`${base}/admin/login`);
-    } else if (!settingsLoaded) {
-      settingsLoaded = true;
-      (async () => {
+    } else {
+      const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
+      const canManageSettings = authService.profile?.isSuperAdmin === true || 
+                                authService.profile?.projects?.[PROJECT_ID]?.permissions?.canManageSettings === true;
+      
+      if (!canManageSettings) {
+        toast.error('У вас немає прав для зміни налаштувань');
+        goto(`${base}/admin`);
+        return;
+      }
+
+      if (!settingsLoaded) {
+        settingsLoaded = true;
+        (async () => {
         try {
           await authService.user?.getIdToken(true);
-          const [homeResult, headerResult] = await Promise.all([
+          const [homeResult, headerResult, newsResult] = await Promise.all([
             getHomeSettings(),
             getHeaderSettings(),
+            getNewsPageSettings(),
           ]);
           if (homeResult?.blocks?.length) blocks = homeResult.blocks;
+          if (homeResult?.newsWidget) homeNewsWidget = homeResult.newsWidget;
           originalBlocks = JSON.stringify(blocks);
+          originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
+          if (newsResult?.newsWidget) newsPageWidget = newsResult.newsWidget;
+          originalNewsPageWidget = JSON.stringify(newsPageWidget);
           if (headerResult) {
             if (headerResult.cta) cta = headerResult.cta;
             if (headerResult.headerBar) headerBar = headerResult.headerBar;
             if (headerResult.navDropdown) navDropdown = headerResult.navDropdown;
             if (headerResult.mobileOverlay) mobileOverlay = headerResult.mobileOverlay;
             if (headerResult.debugPanel) debugPanel = headerResult.debugPanel;
+            if (headerResult.ticker) ticker = headerResult.ticker;
             originalCta = JSON.stringify(cta);
             originalHeaderBar = JSON.stringify(headerBar);
             originalNavDropdown = JSON.stringify(navDropdown);
             originalMobileOverlay = JSON.stringify(mobileOverlay);
             originalDebugPanel = JSON.stringify(debugPanel);
+            originalTicker = JSON.stringify(ticker);
           } else {
             // No header config in Firebase yet — seed defaults so admin gets full control
             try {
-              await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel });
+              await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel, ticker });
     originalCta = JSON.stringify(cta);
     originalHeaderBar = JSON.stringify(headerBar);
     originalNavDropdown = JSON.stringify(navDropdown);
     originalMobileOverlay = JSON.stringify(mobileOverlay);
     originalDebugPanel = JSON.stringify(debugPanel);
+    originalTicker = JSON.stringify(ticker);
             } catch (seedErr) {
               console.warn('Could not seed default header settings:', seedErr);
             }
@@ -127,6 +211,7 @@ $effect(() => {
       })();
     }
   }
+}
 });
 
 // ── Block order helpers ────────────────────────────────────────────────────────
@@ -152,8 +237,9 @@ function toggleVisible(index: number) {
 async function handleSubmit() {
   saving = true;
   try {
-    await updateHomeSettings({ blocks });
+    await updateHomeSettings({ blocks, newsWidget: homeNewsWidget });
     originalBlocks = JSON.stringify(blocks);
+    originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -166,7 +252,7 @@ async function handleSubmit() {
 async function handleHeaderSubmit() {
   headerSaving = true;
   try {
-    await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel });
+    await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel, ticker });
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -175,7 +261,120 @@ async function handleHeaderSubmit() {
     headerSaving = false;
   }
 }
+
+async function handleNewsPageSubmit() {
+  newsPageSaving = true;
+  try {
+    await updateNewsPageSettings({ newsWidget: newsPageWidget });
+    originalNewsPageWidget = JSON.stringify(newsPageWidget);
+    toast.success($t('admin.dashboard.saveSuccess'));
+  } catch (e: any) {
+    console.error(e);
+    toast.error(e.message || $t('admin.editor.errorSave'));
+  } finally {
+    newsPageSaving = false;
+  }
+}
+
+// ── Shared news widget settings snippet helper ───────────────────────────────
+const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>`;
 </script>
+
+{#snippet newsWidgetCard(titleKey: string, descKey: string, cfg: NewsWidgetConfig, onChange: (v: NewsWidgetConfig) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
+<div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-news-widget-card">
+<h2 class="settings-card__title">{$t(titleKey)}</h2>
+<p class="settings-card__desc">{$t(descKey)}</p>
+
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+<!-- Default view -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.newsDefaultView')}</span>
+<div class="mode-toggle-group">
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'carousel'} onclick={() => onChange({ ...cfg, defaultView: 'carousel' })}>
+    {$t('admin.settings.newsViewCarousel')}
+  </button>
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'grid'} onclick={() => onChange({ ...cfg, defaultView: 'grid' })}>
+    {$t('admin.settings.newsViewGrid')}
+  </button>
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'list'} onclick={() => onChange({ ...cfg, defaultView: 'list' })}>
+    {$t('admin.settings.newsViewList')}
+  </button>
+</div>
+</li>
+
+<!-- Show view switcher -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.newsShowViewSwitcher')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.showViewSwitcher} onchange={() => onChange({ ...cfg, showViewSwitcher: !cfg.showViewSwitcher })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Autoplay (carousel only) -->
+<li class="block-item" class:opacity-muted={cfg.defaultView !== 'carousel'}>
+<span class="block-item__name">{$t('admin.settings.newsAutoplay')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.autoplay} disabled={cfg.defaultView !== 'carousel'} onchange={() => onChange({ ...cfg, autoplay: !cfg.autoplay })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Pinned article (carousel only) -->
+<li class="block-item" class:opacity-muted={cfg.defaultView !== 'carousel'}>
+<span class="block-item__name">{$t('admin.settings.newsPinnedArticle')}</span>
+<div style="margin-left: auto; min-width: 200px;">
+  {#if articlesList.length === 0 && !articlesLoading}
+    <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles} disabled={cfg.defaultView !== 'carousel'}>
+      {$t('admin.menuEditor.loadingArticles')}
+    </button>
+  {:else}
+    <select class="form-select" style="width: 100%;" value={cfg.pinnedArticleId} disabled={cfg.defaultView !== 'carousel'} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
+      <option value="">{$t('admin.settings.newsPinnedNone')}</option>
+      {#each articlesList as art}
+        <option value={art.slug}>{art.titleUk}</option>
+      {/each}
+    </select>
+  {/if}
+</div>
+</li>
+
+<!-- Max items (grid/list only) -->
+<li class="block-item" class:opacity-muted={cfg.defaultView === 'carousel'}>
+<span class="block-item__name">{$t('admin.settings.newsMaxItems')}</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+  <input
+    type="number"
+    class="form-select"
+    style="width: 80px; text-align: center;"
+    min="0"
+    max="100"
+    value={cfg.maxItems}
+    disabled={cfg.defaultView === 'carousel'}
+    onchange={(e: any) => onChange({ ...cfg, maxItems: Math.max(0, parseInt(e.target.value) || 0) })}
+  />
+  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+    {cfg.maxItems === 0 ? $t('admin.settings.newsMaxItemsUnlimited') : ''}
+  </span>
+</div>
+</li>
+</ul>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
+    {$t('admin.menuEditor.resetDefaults')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+  {/if}
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-news-submit-btn">
+    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+{/snippet}
 
 <section class="admin-settings container" style="padding: 140px 24px 80px;" data-testid="admin-settings-section">
 <div class="sh-header">
@@ -191,7 +390,22 @@ async function handleHeaderSubmit() {
 <p data-testid="admin-settings-loading-label">{$t('admin.dashboard.loading')}</p>
 {:else}
 
-<!-- ══ Home blocks ══════════════════════════════════════════════════════════ -->
+<!-- ══ Tab bar ══════════════════════════════════════════════════════════════ -->
+<nav class="tab-bar" data-testid="admin-settings-tabs">
+  {#each TABS as tab}
+    <button
+      type="button"
+      class="tab-btn" class:active={activeTab === tab.id}
+      onclick={() => activeTab = tab.id}
+      data-testid="admin-settings-tab-{tab.id}"
+    >{$t(tab.labelKey)}</button>
+  {/each}
+</nav>
+
+<!-- ══ Tab: Home ═══════════════════════════════════════════════════════════ -->
+{#if activeTab === 'home'}
+
+<!-- Home blocks -->
 <div class="settings-card {hasBlocksChanges ? 'has-changes' : ''}" data-testid="admin-settings-card">
 <h2 class="settings-card__title" data-testid="admin-settings-blocks-title">{$t('admin.settings.blocksTitle')}</h2>
 <p class="settings-card__desc" data-testid="admin-settings-blocks-desc">{$t('admin.settings.blocksDesc')}</p>
@@ -231,8 +445,36 @@ async function handleHeaderSubmit() {
 </div>
 </div>
 
-<!-- ══ CTA Button ══════════════════════════════════════════════════════════ -->
-<div class="settings-card {hasCtaChanges ? 'has-changes' : ''}" style="margin-top: 2rem;" data-testid="admin-settings-cta-card">
+<!-- Homepage news widget settings -->
+{@render newsWidgetCard(
+  'admin.settings.newsHomepageTitle',
+  'admin.settings.newsHomepageDesc',
+  homeNewsWidget,
+  (v) => { homeNewsWidget = v; },
+  () => { homeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME }; },
+  hasHomeNewsChanges || hasBlocksChanges,
+  saving,
+  handleSubmit
+)}
+
+<!-- ══ Tab: News ═══════════════════════════════════════════════════════════ -->
+{:else if activeTab === 'news'}
+
+{@render newsWidgetCard(
+  'admin.settings.newsPageTitle',
+  'admin.settings.newsPageDesc',
+  newsPageWidget,
+  (v) => { newsPageWidget = v; },
+  () => { newsPageWidget = { ...DEFAULT_NEWS_WIDGET_PAGE }; },
+  hasNewsPageChanges,
+  newsPageSaving,
+  handleNewsPageSubmit
+)}
+
+<!-- ══ Tab: CTA ════════════════════════════════════════════════════════════ -->
+{:else if activeTab === 'cta'}
+
+<div class="settings-card {hasCtaChanges ? 'has-changes' : ''}" data-testid="admin-settings-cta-card">
 <h2 class="settings-card__title">{$t('admin.settings.ctaTitle')}</h2>
 <p class="settings-card__desc">{$t('admin.settings.ctaDesc')}</p>
 
@@ -273,7 +515,9 @@ async function handleHeaderSubmit() {
 </div>
 </div>
 
-<!-- ══ Header Bar ══════════════════════════════════════════════════════════ -->
+<!-- ══ Tab: Header Bar ═════════════════════════════════════════════════════ -->
+{:else if activeTab === 'headerBar'}
+
 <MenuEditor
   menu={headerBar}
   title={$t('admin.settings.headerBarTitle')}
@@ -289,7 +533,9 @@ async function handleHeaderSubmit() {
   hasChanges={hasHeaderBarChanges}
 />
 
-<!-- ══ Nav Dropdown ════════════════════════════════════════════════════════ -->
+<!-- ══ Tab: Nav Dropdown ═══════════════════════════════════════════════════ -->
+{:else if activeTab === 'navDropdown'}
+
 <MenuEditor
   menu={navDropdown}
   title={$t('admin.settings.navDropdownTitle')}
@@ -305,7 +551,9 @@ async function handleHeaderSubmit() {
   hasChanges={hasNavDropdownChanges}
 />
 
-<!-- ══ Mobile Overlay ══════════════════════════════════════════════════════ -->
+<!-- ══ Tab: Mobile Overlay ═════════════════════════════════════════════════ -->
+{:else if activeTab === 'mobile'}
+
 <MenuEditor
   menu={mobileOverlay}
   title={$t('admin.settings.mobileOverlayTitle')}
@@ -321,8 +569,135 @@ async function handleHeaderSubmit() {
   hasChanges={hasMobileOverlayChanges}
 />
 
-<!-- ══ Debug Panel ══════════════════════════════════════════════════════════ -->
-<div class="settings-card {hasDebugPanelChanges ? 'has-changes' : ''}" style="margin-top: 2rem;" data-testid="admin-settings-debug-card">
+<!-- ══ Tab: Ticker ═════════════════════════════════════════════════════════ -->
+{:else if activeTab === 'ticker'}
+
+<div class="settings-card {hasTickerChanges ? 'has-changes' : ''}" data-testid="admin-settings-ticker-card">
+<h2 class="settings-card__title">{$t('admin.settings.tickerTitle')}</h2>
+<p class="settings-card__desc">{$t('admin.settings.tickerDesc')}</p>
+
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.tickerVisible')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={ticker.visible} onchange={() => ticker = { ...ticker, visible: !ticker.visible }} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<li class="block-item" class:opacity-muted={!ticker.visible}>
+<span class="block-item__name">{$t('admin.settings.tickerShow')}</span>
+<div class="mode-toggle-group">
+  <button 
+    type="button" 
+    class="mode-btn" 
+    class:active={ticker.mode === 'time'} 
+    onclick={() => ticker.mode = 'time'}
+    disabled={!ticker.visible}
+  >
+    {$t('admin.settings.tickerModeTime')}
+  </button>
+  <button 
+    type="button" 
+    class="mode-btn" 
+    class:active={ticker.mode === 'always'} 
+    onclick={() => ticker.mode = 'always'}
+    disabled={!ticker.visible}
+  >
+    {$t('admin.settings.tickerModeAlways')}
+  </button>
+</div>
+</li>
+
+{#if ticker.mode === 'time'}
+<li class="block-item" class:opacity-muted={!ticker.visible}>
+<span class="block-item__name">{$t('admin.settings.tickerStartTime')}</span>
+<div class="time-picker-group">
+  <select class="form-select time-select" value={ticker.startTime.split(':')[0] || '00'} onchange={(e: any) => updateTimeValue(true, 'h', e.target.value)} disabled={!ticker.visible}>
+    {#each hours as h}<option value={h}>{h}</option>{/each}
+  </select>
+  <span class="time-separator">:</span>
+  <select class="form-select time-select" value={ticker.startTime.split(':')[1] || '00'} onchange={(e: any) => updateTimeValue(true, 'm', e.target.value)} disabled={!ticker.visible}>
+    {#each minutes as m}<option value={m}>{m}</option>{/each}
+  </select>
+</div>
+</li>
+<li class="block-item" class:opacity-muted={!ticker.visible}>
+<span class="block-item__name">{$t('admin.settings.tickerEndTime')}</span>
+<div class="time-picker-group">
+  <select class="form-select time-select" value={ticker.endTime.split(':')[0] || '00'} onchange={(e: any) => updateTimeValue(false, 'h', e.target.value)} disabled={!ticker.visible}>
+    {#each hours as h}<option value={h}>{h}</option>{/each}
+  </select>
+  <span class="time-separator">:</span>
+  <select class="form-select time-select" value={ticker.endTime.split(':')[1] || '00'} onchange={(e: any) => updateTimeValue(false, 'm', e.target.value)} disabled={!ticker.visible}>
+    {#each minutes as m}<option value={m}>{m}</option>{/each}
+  </select>
+</div>
+</li>
+{/if}
+
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.tickerPreview')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={ticker.preview} onchange={() => ticker = { ...ticker, preview: !ticker.preview }} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<li class="block-item" class:opacity-muted={!ticker.visible}>
+<span class="block-item__name">{$t('admin.settings.tickerEnableSound')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={ticker.enableSound} disabled={!ticker.visible} onchange={() => ticker = { ...ticker, enableSound: !ticker.enableSound }} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<li class="block-item" class:opacity-muted={!ticker.visible}>
+<span class="block-item__name">{$t('admin.settings.tickerEnableGrayscale')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={ticker.enableGrayscale} disabled={!ticker.visible} onchange={() => ticker = { ...ticker, enableGrayscale: !ticker.enableGrayscale }} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+{#if ticker.enableGrayscale}
+<li class="block-item" class:opacity-muted={!ticker.visible} style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <span class="block-item__name">{$t('admin.settings.tickerGrayscaleStrength')}</span>
+    <span style="font-weight: 700; color: var(--color-sea-blue);">{ticker.grayscaleStrength}%</span>
+  </div>
+  <input 
+    type="range" 
+    min="0" 
+    max="100" 
+    step="5" 
+    class="form-range" 
+    bind:value={ticker.grayscaleStrength} 
+    disabled={!ticker.visible} 
+  />
+</li>
+{/if}
+</ul>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={() => { ticker = { ...DEFAULT_HEADER_SETTINGS.ticker }; }} disabled={headerSaving}>
+    {$t('admin.menuEditor.resetDefaults')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasTickerChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+  {/if}
+  <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasTickerChanges} class="btn-save-small {hasTickerChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-ticker-submit-btn">
+    {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+
+<!-- ══ Tab: Debug ══════════════════════════════════════════════════════════ -->
+{:else if activeTab === 'debug'}
+
+<div class="settings-card {hasDebugPanelChanges ? 'has-changes' : ''}" data-testid="admin-settings-debug-card">
 <h2 class="settings-card__title">{$t('admin.settings.debugTitle')}</h2>
 <p class="settings-card__desc">{$t('admin.settings.debugDesc')}</p>
 
@@ -366,9 +741,48 @@ async function handleHeaderSubmit() {
 </div>
 
 {/if}
+<!-- end tabs -->
+
+{/if}
+<!-- end loading -->
 </section>
 
 <style>
+/* ─── Tab bar ──────────────────────────────────────────── */
+.tab-bar {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  margin-bottom: 2rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
+  color: var(--color-sea-blue);
+}
+
+.tab-btn.active {
+  background: var(--color-sea-blue);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 95, 174, 0.2);
+}
+
 .settings-card {
 background: var(--theme-dynamic-card-bg);
 padding: 3rem;
@@ -432,16 +846,140 @@ text-align: center;
 }
 
 .block-item__name {
-flex: 1;
 font-weight: 600;
 font-size: 1rem;
 color: var(--color-dark-text);
+}
+
+.time-picker-group {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-ice-blue);
+  padding: 0.35rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 95, 174, 0.08);
+}
+
+:global(.dark-theme) .time-picker-group {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.time-select {
+  width: 62px !important;
+  padding: 0.4rem 0.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  border: none !important;
+  background: transparent !important;
+  color: var(--color-deep-ocean) !important;
+  cursor: pointer;
+  border-radius: 8px !important;
+  transition: background 0.2s !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+:global(.dark-theme) .time-select {
+  color: var(--color-dark-text) !important;
+}
+
+.time-select:hover:not(:disabled) {
+  background: rgba(33, 150, 186, 0.08) !important;
+}
+
+.time-select:focus {
+  box-shadow: none !important;
+  background: rgba(33, 150, 186, 0.12) !important;
+}
+
+.time-separator {
+  font-weight: 800;
+  color: var(--color-sea-blue);
+  opacity: 0.6;
+  font-size: 1.1rem;
+  user-select: none;
+}
+
+.mode-toggle-group {
+  display: flex;
+  background: var(--color-ice-blue);
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 95, 174, 0.08);
+}
+
+:global(.dark-theme) .mode-toggle-group {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.mode-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-btn.active {
+  background: white;
+  color: var(--color-sea-blue);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+:global(.dark-theme) .mode-btn.active {
+  background: var(--color-sea-blue);
+  color: white;
+}
+
+.mode-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .block-item__controls {
 display: flex;
 align-items: center;
 gap: 0.5rem;
+}
+
+.form-range {
+  width: 100%;
+  height: 6px;
+  background: var(--color-ice-blue);
+  border-radius: 3px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+.form-range::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--color-sea-blue);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.15s;
+}
+
+.form-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+:global(.dark-theme) .form-range {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .btn-icon {

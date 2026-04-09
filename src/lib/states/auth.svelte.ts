@@ -5,10 +5,17 @@ import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 export interface ProjectAccess {
   role: 'admin' | 'moderator' | 'assistant';
   permissions: {
-    canCreate: boolean;
-    canEdit: boolean;
-    canDelete: boolean;
-    canManageUsers?: boolean;
+    // Articles (News, etc.)
+    canCreateArticles: boolean;
+    canEditArticles: boolean;
+    canDeleteArticles: boolean;
+    // Pages (Static content)
+    canCreatePages: boolean;
+    canEditPages: boolean;
+    canDeletePages: boolean;
+    
+    canManageUsers: boolean;
+    canManageSettings: boolean;
   };
 }
 
@@ -41,6 +48,7 @@ class AuthService {
 
   constructor() {
     onAuthStateChanged(auth, async (u) => {
+      this.loading = true;
       this.user = u;
       if (u) {
         let foundProfile: any = null;

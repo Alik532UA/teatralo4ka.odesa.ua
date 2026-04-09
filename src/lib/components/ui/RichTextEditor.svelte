@@ -19,24 +19,28 @@
 		Type, List, ListOrdered, CheckSquare, Link as LinkIcon, 
 		Image as ImageIcon, Table as TableIcon, Quote, Minus, 
 		Undo, Redo, PlusSquare, MinusSquare, Trash2, Combine, Split,
-		FileJson, Layout
+		FileJson, Layout, AlertTriangle
 	} from 'lucide-svelte';
 
 	interface Props {
 		value: string;
 		placeholder?: string;
+		initialMode?: EditorMode;
 		onchange: (val: string) => void;
+		onmodechange?: (mode: EditorMode) => void;
 		"data-testid"?: string;
 	}
 
-	let { value = $bindable(), placeholder = 'Почніть писати...', onchange, "data-testid": testId = "rich-editor" }: Props = $props();
+	let { value = $bindable(), placeholder = 'Почніть писати...', initialMode = 'visual', onchange, onmodechange, "data-testid": testId = "rich-editor" }: Props = $props();
 
 	let element: HTMLElement;
 	let editor: Editor | null = $state(null);
 	let isTableActive = $state(false);
 	type EditorMode = 'visual' | 'markdown' | 'html';
-	let editorMode = $state<EditorMode>('visual');
-	let htmlContent = $state('');
+	// svelte-ignore state_referenced_locally
+	let editorMode = $state<EditorMode>(initialMode);
+	// svelte-ignore state_referenced_locally
+	let htmlContent = $state(initialMode === 'html' ? value : '');
 
 	// Modal states
 	let showLinkModal = $state(false);
@@ -88,8 +92,9 @@
 				}),
 				Markdown,
 			],
-			content: value,
+			content: initialMode === 'html' ? '' : value,
 			onUpdate: ({ editor }) => {
+				if (editorMode === 'html') return;
 				const markdown = (editor.storage as any).markdown.getMarkdown();
 				value = markdown;
 				if (onchange) onchange(markdown);
@@ -136,6 +141,7 @@
 			htmlContent = editor.getHTML();
 		}
 		editorMode = mode;
+		if (onmodechange) onmodechange(mode);
 	}
 
 	function handleMarkdownInput(e: Event) {
@@ -146,6 +152,8 @@
 
 	function handleHtmlInput(e: Event) {
 		htmlContent = (e.target as HTMLTextAreaElement).value;
+		value = htmlContent;
+		if (onchange) onchange(htmlContent);
 	}
 
 	function openModal(type: 'link' | 'image') {
@@ -206,36 +214,36 @@
 <div class="rich-editor" data-testid="{testId}-container">
    {#if editor}
 	   <div class="toolbar" data-testid="{testId}-toolbar-group">
-<div class="tool-group mode-tabs" data-testid="{testId}-mode-tools">
-		   <button
-			   type="button"
-			   class="tool-btn mode-tab"
-			   class:active={editorMode === 'visual'}
-			   onclick={() => setEditorMode('visual')}
-			   title="Візуальний редактор"
-			   data-testid="{testId}-mode-toggle-button"
-		   ><Layout size={15} /> Текст</button>
-		   <button
-			   type="button"
-			   class="tool-btn mode-tab"
-			   class:active={editorMode === 'markdown'}
-			   onclick={() => setEditorMode('markdown')}
-			   title="Markdown"
-			   data-testid="{testId}-mode-md-button"
-		   ><FileJson size={15} /> MD</button>
-		   <button
-			   type="button"
-			   class="tool-btn mode-tab"
-			   class:active={editorMode === 'html'}
-			   onclick={() => setEditorMode('html')}
-			   title="HTML"
-			   data-testid="{testId}-mode-html-button"
-		   ><Code size={15} /> HTML</button>
+		   <div class="tool-group mode-tabs" data-testid="{testId}-mode-tools">
+			   <button
+				   type="button"
+				   class="tool-btn mode-tab"
+				   class:active={editorMode === 'visual'}
+				   onclick={() => setEditorMode('visual')}
+				   title="Візуальний редактор"
+				   data-testid="{testId}-mode-toggle-button"
+			   ><Layout size={15} /> Текст</button>
+			   <button
+				   type="button"
+				   class="tool-btn mode-tab"
+				   class:active={editorMode === 'markdown'}
+				   onclick={() => setEditorMode('markdown')}
+				   title="Markdown"
+				   data-testid="{testId}-mode-md-button"
+			   ><FileJson size={15} /> MD</button>
+			   <button
+				   type="button"
+				   class="tool-btn mode-tab"
+				   class:active={editorMode === 'html'}
+				   onclick={() => setEditorMode('html')}
+				   title="HTML"
+				   data-testid="{testId}-mode-html-button"
+			   ><Code size={15} /> HTML</button>
 		   </div>
 
 		   <div class="separator"></div>
 
-	   {#if editorMode === 'visual'}
+		   {#if editorMode === 'visual'}
 			   <div class="tool-group" data-testid="{testId}-format-tools">
 				   <button 
 					   type="button"
@@ -420,8 +428,14 @@
 		   {:else}
 			   <div class="tool-group" data-testid="{testId}-mode-info-group">
 				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{editorMode === 'markdown' ? 'Markdown' : 'HTML'} — редагування джерела</span>
+				   {#if editorMode === 'html'}
+					   <span style="font-size: 0.75rem; color: #ef4444; margin-left: 1rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(239, 68, 68, 0.1);">
+						   <AlertTriangle size={14} style="margin-right: 4px;" />
+						   Увага: кастомний HTML буде втрачено при перемиканні на Візуальний/MD редактор. Зберігайте статтю з цієї вкладки.
+					   </span>
+				   {/if}
 			   </div>
-	   {/if}
+		   {/if}
 	   </div>
    {/if}
 
@@ -433,15 +447,6 @@
 		   oninput={handleMarkdownInput}
 		   placeholder={placeholder}
 		   data-testid="{testId}-markdown-textarea"
-	   ></textarea>
-
-	   <textarea
-		   class="html-editor"
-		   class:hidden={editorMode !== 'html'}
-		   value={htmlContent}
-		   oninput={handleHtmlInput}
-		   placeholder="&lt;p&gt;HTML...&lt;/p&gt;"
-		   data-testid="{testId}-html-textarea"
 	   ></textarea>
 
 	   <textarea

@@ -74,7 +74,7 @@ src/
 │   │   └── validate-content.ts  # Markdown frontmatter validator (runs pre-build)
 │   ├── services/
 │   │   ├── articles.ts          # Public article read API (getArticles, getPageBySlug, etc.)
-│   │   ├── admin-articles.ts    # Admin write API (addArticle, updateArticle, deleteArticle)
+│   │   ├── admin-articles.ts    # Admin write API (addArticle, updateArticle, deleteArticle, fetchAllContent, generateSlug)
 │   │   ├── settings.ts          # Project settings service (menu, SEO)
 │   │   ├── seo.svelte.ts        # SEO meta tag management
 │   │   └── errorLogger.ts       # Error logging service
@@ -100,7 +100,7 @@ src/
 │   ├── contacts/                # Static page
 │   ├── departments/             # Department subpages (aesthetic, art, music, theatre, graduates)
 │   ├── news/                    # News listing + [id] detail (Firebase, client-side)
-│   ├── projects/                # Projects stub
+│   ├── projects/                # Project pages (/{slug}, Firebase, client-side)
 │   ├── residents/               # Residents stub
 │   ├── [slug]/                  # Dynamic pages from CMS (catch-all, client-side)
 │   └── admin/                   # Admin panel (protected, client-side only)
@@ -108,6 +108,7 @@ src/
 │       ├── +page.svelte         # Admin dashboard
 │       ├── +error.svelte        # Admin error page
 │       ├── articles/            # Article CRUD (new, [id]/edit)
+│       ├── content/             # Unified content CRUD (new, [id]/edit) — all types
 │       ├── pages/               # CMS page CRUD
 │       ├── login/               # Firebase Auth login
 │       ├── settings/            # Project settings (menu editor, SEO)
@@ -122,10 +123,10 @@ Multi-tenant design. All data lives under a project scope.
 ```
 Firestore collections:
 ├── projects/{projectId}/
-│   ├── articles/{articleId}     # News articles & CMS pages
-│   │   ├── category: string     # 'news' | 'events' | ...
-│   │   ├── type?: 'article' | 'page'
-│   │   ├── slug?: string
+│   ├── articles/{articleId}     # News articles, CMS pages & project pages
+│   │   ├── type?: string        # 'article' | 'page' | 'page_project'
+│   │   ├── slug?: string        # URL slug for pages/projects
+│   │   ├── category: string     # 'news' | 'events' | ... | custom 'ukText||enText'
 │   │   ├── translations: { uk: {...}, en: {...} }
 │   │   ├── createdAt: Timestamp
 │   │   └── updatedAt: Timestamp

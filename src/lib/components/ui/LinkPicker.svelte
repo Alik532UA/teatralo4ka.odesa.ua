@@ -72,9 +72,14 @@
 </script>
 
 <div class="link-picker">
-	<div class="lp-type-tabs">
+	<div class="mode-toggle-group" style="align-self: flex-start; margin-bottom: 0.5rem;">
 		{#each [['page', 'Сторінка'], ['article', 'Стаття'], ['url', 'URL']] as [t, label]}
-			<button type="button" class="lp-tab" class:lp-tab--active={linkType === t} onclick={() => setLinkType(t as MenuLinkType)}>
+			<button 
+				type="button" 
+				class="mode-btn" 
+				class:active={linkType === t} 
+				onclick={() => setLinkType(t as MenuLinkType)}
+			>
 				{label}
 			</button>
 		{/each}
@@ -146,33 +151,45 @@
 		gap: 0.5rem;
 	}
 
-	.lp-type-tabs {
+	.mode-toggle-group {
 		display: flex;
-		gap: 0.35rem;
-		flex-wrap: wrap;
+		background: var(--color-ice-blue);
+		padding: 0.25rem;
+		border-radius: 12px;
+		border: 1px solid rgba(0, 95, 174, 0.08);
 	}
 
-	.lp-tab {
-		padding: 0.35rem 1rem;
-		border: 2px solid var(--color-border);
-		border-radius: 8px;
+	:global(.dark-theme) .mode-toggle-group {
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.mode-btn {
+		padding: 0.4rem 1.25rem;
+		border: none;
+		border-radius: 10px;
 		background: none;
 		cursor: pointer;
-		font-size: 0.82rem;
-		font-weight: 600;
+		font-size: 0.85rem;
+		font-weight: 700;
 		color: var(--color-muted-text);
-		transition: border-color 0.15s, background 0.15s, color 0.15s;
+		transition: all 0.2s;
 	}
 
-	.lp-tab:hover {
-		border-color: var(--color-sea-blue);
+	.mode-btn:hover:not(.active) {
+		background: rgba(33, 150, 186, 0.08);
 		color: var(--color-sea-blue);
 	}
 
-	.lp-tab--active {
+	.mode-btn.active {
+		background: white;
+		color: var(--color-sea-blue);
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	:global(.dark-theme) .mode-btn.active {
 		background: var(--color-sea-blue);
-		border-color: var(--color-sea-blue);
-		color: #fff;
+		color: white;
 	}
 
 	.lp-select {

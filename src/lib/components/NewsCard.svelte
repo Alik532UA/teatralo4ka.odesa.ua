@@ -1,5 +1,4 @@
 <script lang="ts">
-	import PhotoIcon from "$lib/components/icons/PhotoIcon.svelte";
 	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
 
@@ -26,17 +25,11 @@
 
 {#if variant === 'carousel'}
 	<article class="focus-card" class:is-active={isActive} data-testid="news-page-card-{index}">
-		<div
-			class="focus-card__img-wrap"
-			data-testid="news-page-card-img-wrap-{index}"
-			style={item.coverUrl ? '' : `background: linear-gradient(45deg, ${item.color}, var(--color-surface))`}
-		>
-			{#if item.coverUrl}
+		{#if item.coverUrl}
+			<div class="focus-card__img-wrap" data-testid="news-page-card-img-wrap-{index}">
 				<img src={item.coverUrl} alt={item.title} class="focus-card__img" data-testid="news-page-card-img-{index}" />
-			{:else}
-				<PhotoIcon size={64} className="focus-card__placeholder" />
-			{/if}
-		</div>
+			</div>
+		{/if}
 		<div class="focus-card__content" data-testid="news-page-card-content-{index}">
 			<div class="focus-card__meta" data-testid="news-page-card-meta-{index}">
 				<span class="tag" data-testid="news-page-card-tag-{index}">{item.category}</span>
@@ -50,17 +43,11 @@
 
 {:else if variant === 'grid'}
 	<article class="grid-card" data-testid="news-page-grid-card-{index}">
-		<div
-			class="grid-card__img-wrap"
-			data-testid="news-page-grid-img-{index}"
-			style={item.coverUrl ? '' : `background: linear-gradient(45deg, ${item.color}, var(--color-surface))`}
-		>
-			{#if item.coverUrl}
+		{#if item.coverUrl}
+			<div class="grid-card__img-wrap" data-testid="news-page-grid-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
-			{:else}
-				<PhotoIcon size={48} className="focus-card__placeholder" />
-			{/if}
-		</div>
+			</div>
+		{/if}
 		<div class="focus-card__content" data-testid="news-page-grid-content-{index}">
 			<div class="focus-card__meta">
 				<span class="tag">{item.category}</span>
@@ -74,17 +61,11 @@
 
 {:else}
 	<article class="list-item" data-testid="news-page-list-item-{index}">
-		<div
-			class="list-item__img-wrap"
-			data-testid="news-page-list-img-{index}"
-			style={item.coverUrl ? '' : `background: linear-gradient(45deg, ${item.color}, var(--color-surface))`}
-		>
-			{#if item.coverUrl}
+		{#if item.coverUrl}
+			<div class="list-item__img-wrap" data-testid="news-page-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
-			{:else}
-				<PhotoIcon size={32} className="focus-card__placeholder" />
-			{/if}
-		</div>
+			</div>
+		{/if}
 		<div class="list-item__body" data-testid="news-page-list-body-{index}">
 			<div class="focus-card__meta">
 				<span class="tag">{item.category}</span>
@@ -135,11 +116,6 @@
 		display: block;
 	}
 
-	:global(.focus-card__placeholder) {
-		opacity: 0.2;
-		color: var(--color-deep-ocean);
-	}
-
 	/* ─── Shared card content (carousel + grid) ─────────── */
 	.focus-card__content {
 		padding: 3rem;
@@ -180,6 +156,11 @@
 		color: var(--color-deep-ocean);
 		line-height: 1.2;
 		margin-bottom: 1rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	.focus-card__excerpt {
@@ -213,27 +194,27 @@
 	/* ─── Grid card ──────────────────────────────────────── */
 	.grid-card {
 		background: var(--color-surface);
-		border-radius: 24px;
+		border-radius: 32px;
 		overflow: hidden;
 		display: flex;
-		flex-direction: column;
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-		border: 1px solid rgba(0, 0, 0, 0.04);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		flex-direction: row;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.03);
+		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+		height: 280px;
 	}
 
 	.grid-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+		transform: translateY(-8px);
+		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 	}
 
 	.grid-card__img-wrap {
-		height: 200px;
+		flex: 0 0 35%;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
-		flex-shrink: 0;
 	}
 
 	.grid-card__img {
@@ -243,28 +224,55 @@
 		display: block;
 	}
 
+	.grid-card .focus-card__content {
+		padding: 1.5rem 2rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		flex: 1;
+		min-width: 0;
+	}
+
+	.grid-card .focus-card__title {
+		font-size: 1.25rem;
+		line-height: 1.3;
+		margin-bottom: 0.75rem;
+	}
+
+	.grid-card .focus-card__excerpt {
+		font-size: 0.9rem;
+		line-height: 1.5;
+		margin-bottom: 1rem;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
 	/* ─── List item ──────────────────────────────────────── */
 	.list-item {
 		display: flex;
 		align-items: center;
-		gap: 1.5rem;
+		gap: 2rem;
 		background: var(--color-surface);
-		border-radius: 20px;
+		border-radius: 24px;
 		overflow: hidden;
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.04);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+		border: 1px solid rgba(0, 0, 0, 0.03);
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
-		padding-right: 2rem;
+		padding-right: 2.5rem;
 	}
 
 	.list-item:hover {
-		transform: translateX(4px);
-		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+		transform: translateX(6px);
+		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 	}
 
 	.list-item__img-wrap {
-		/* width: 205px; */
-		height: 155px;
+		width: 90px;
+		aspect-ratio: 9 / 16;
+		height: auto;
 		flex-shrink: 0;
 		display: flex;
 		align-items: center;

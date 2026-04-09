@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	import { signOut } from 'firebase/auth';
 	import { auth } from '$lib/firebase/config';
+	import { t } from 'svelte-i18n';
 
 	let { children } = $props();
 
@@ -15,23 +16,28 @@
 	const isLoginPage = $derived(page.url.pathname.endsWith('/admin/login'));
 	
 	// Перевірка прав (для всіх сторінок окрім логіну)
+	// Важливо: перевіряємо ТІЛЬКИ коли loading === false
 	const isAccessDenied = $derived(!isLoginPage && !authService.loading && authService.isAuthenticated && !authService.isAuthorized);
 </script>
 
 {#if authService.loading}
 	<div class="admin-loading">
-		<p>Перевірка доступу...</p>
+		<p>{$t('admin.accessDenied.checking')}</p>
 	</div>
 {:else if isAccessDenied}
 	<section class="access-denied container">
 		<div class="denied-card">
 			<div class="denied-icon">🔒</div>
-			<h1>Доступ обмежено</h1>
-			<p>У вас немає прав для керування цим сайтом. Будь ласка, зверніться до головного адміністратора для отримання доступу.</p>
+			<h1>{$t('admin.accessDenied.title')}</h1>
+			<p>{$t('admin.accessDenied.description')}</p>
 			
 			<div class="denied-actions">
-				<a href="https://t.me/alik532" target="_blank" class="btn btn-primary" data-testid="admin-access-denied-contact-btn">Написати адміністратору</a>
-				<button onclick={handleLogout} class="btn btn-outline" data-testid="admin-access-denied-logout-btn">Вийти з акаунту</button>
+				<a href="https://t.me/alik532" target="_blank" class="btn btn-primary" data-testid="admin-access-denied-contact-btn">
+					{$t('admin.accessDenied.contactIT')}
+				</a>
+				<button onclick={handleLogout} class="btn btn-outline" data-testid="admin-access-denied-logout-btn">
+					{$t('admin.accessDenied.logout')}
+				</button>
 			</div>
 		</div>
 	</section>

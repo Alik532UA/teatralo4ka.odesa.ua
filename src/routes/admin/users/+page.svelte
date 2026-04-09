@@ -28,10 +28,14 @@
 		role: 'assistant',
 		projectId: DEFAULT_PROJECT_ID,
 		permissions: {
-			canCreate: true,
-			canEdit: true,
-			canDelete: false,
-			canManageUsers: false
+			canCreateArticles: true,
+			canEditArticles: true,
+			canDeleteArticles: false,
+			canCreatePages: false,
+			canEditPages: false,
+			canDeletePages: false,
+			canManageUsers: false,
+			canManageSettings: false
 		}
 	});
 
@@ -104,11 +108,35 @@
 				for (const pid in safeProjects) {
 					if (!safeProjects[pid].permissions) {
 						safeProjects[pid].permissions = {
-							canCreate: false,
-							canEdit: false,
-							canDelete: false,
-							canManageUsers: false
+							canCreateArticles: false,
+							canEditArticles: false,
+							canDeleteArticles: false,
+							canCreatePages: false,
+							canEditPages: false,
+							canDeletePages: false,
+							canManageUsers: false,
+							canManageSettings: false
 						};
+					} else {
+						// Migration/Fallback for old schema
+						const p = safeProjects[pid].permissions;
+						if (p.canCreate !== undefined && p.canCreateArticles === undefined) {
+							p.canCreateArticles = p.canCreate;
+							p.canEditArticles = p.canEdit;
+							p.canDeleteArticles = p.canDelete;
+							delete p.canCreate;
+							delete p.canEdit;
+							delete p.canDelete;
+						}
+						// Ensure new keys exist
+						if (p.canCreateArticles === undefined) p.canCreateArticles = false;
+						if (p.canEditArticles === undefined) p.canEditArticles = false;
+						if (p.canDeleteArticles === undefined) p.canDeleteArticles = false;
+						if (p.canCreatePages === undefined) p.canCreatePages = false;
+						if (p.canEditPages === undefined) p.canEditPages = false;
+						if (p.canDeletePages === undefined) p.canDeletePages = false;
+						if (p.canManageUsers === undefined) p.canManageUsers = false;
+						if (p.canManageSettings === undefined) p.canManageSettings = false;
 					}
 				}
 
@@ -445,27 +473,52 @@
 					<span class="add-label">{$t('admin.users.permsContent')}</span>
 					<div class="add-perms">
 						<label class="switch-label">
-							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canCreate} />
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canCreateArticles} />
 							<span class="switch-slider"></span>
 							<span class="switch-text">{$t('admin.users.create')}</span>
 						</label>
 						<label class="switch-label">
-							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canEdit} />
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canEditArticles} />
 							<span class="switch-slider"></span>
 							<span class="switch-text">{$t('admin.users.edit')}</span>
 						</label>
 						<label class="switch-label">
-							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canDelete} />
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canDeleteArticles} />
 							<span class="switch-slider"></span>
 							<span class="switch-text">{$t('admin.users.delete')}</span>
 						</label>
 					</div>
+
+					<span class="add-label">{$t('admin.users.permsPages')}</span>
+					<div class="add-perms">
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canCreatePages} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.create')}</span>
+						</label>
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canEditPages} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.edit')}</span>
+						</label>
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canDeletePages} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.delete')}</span>
+						</label>
+					</div>
+
 					<span class="add-label">{$t('admin.users.permsAdmin')}</span>
 					<div class="add-perms">
 						<label class="switch-label">
 							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canManageUsers} />
 							<span class="switch-slider"></span>
 							<span class="switch-text">{$t('admin.users.manageUsers')}</span>
+						</label>
+						<label class="switch-label">
+							<input type="checkbox" class="switch-input" bind:checked={newUser.permissions.canManageSettings} />
+							<span class="switch-slider"></span>
+							<span class="switch-text">{$t('admin.users.manageSettings')}</span>
 						</label>
 					</div>
 				</div>
@@ -591,17 +644,35 @@
 						<div class="v3-switch-group">
 							<span class="v3-group-label">{$t('admin.users.permsContent')}</span>
 							<label class="switch-label">
-								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canCreate} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canCreateArticles} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
 								<span class="switch-slider"></span>
 								<span class="switch-text">{$t('admin.users.create')}</span>
 							</label>
 							<label class="switch-label">
-								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canEdit} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canEditArticles} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
 								<span class="switch-slider"></span>
 								<span class="switch-text">{$t('admin.users.edit')}</span>
 							</label>
 							<label class="switch-label">
-								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canDelete} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canDeleteArticles} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.delete')}</span>
+							</label>
+						</div>
+						<div class="v3-switch-group">
+							<span class="v3-group-label">{$t('admin.users.permsPages')}</span>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canCreatePages} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.create')}</span>
+							</label>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canEditPages} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.edit')}</span>
+							</label>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canDeletePages} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
 								<span class="switch-slider"></span>
 								<span class="switch-text">{$t('admin.users.delete')}</span>
 							</label>
@@ -612,6 +683,11 @@
 								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canManageUsers} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
 								<span class="switch-slider"></span>
 								<span class="switch-text">{$t('admin.users.manageUsers')}</span>
+							</label>
+							<label class="switch-label">
+								<input type="checkbox" class="switch-input" bind:checked={pData.permissions.canManageSettings} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} />
+								<span class="switch-slider"></span>
+								<span class="switch-text">{$t('admin.users.manageSettings')}</span>
 							</label>
 						</div>
 					</div>

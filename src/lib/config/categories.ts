@@ -32,3 +32,20 @@ export const ARTICLE_CATEGORIES = {
 } as const;
 
 export type ArticleCategory = keyof typeof ARTICLE_CATEGORIES;
+
+/**
+ * Resolve the display label of a category for the given locale.
+ * Standard categories are looked up in ARTICLE_CATEGORIES.
+ * Custom bilingual categories are stored as "ukText||enText".
+ */
+export function getCategoryLabel(category: string | undefined, locale: 'uk' | 'en' = 'uk'): string {
+  if (!category) return '';
+  if (category in ARTICLE_CATEGORIES) {
+    return ARTICLE_CATEGORIES[category as ArticleCategory][locale];
+  }
+  if (category.includes('||')) {
+    const [uk, en] = category.split('||');
+    return locale === 'en' ? (en || uk || category) : (uk || category);
+  }
+  return category;
+}

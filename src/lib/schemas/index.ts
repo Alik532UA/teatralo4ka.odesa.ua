@@ -64,6 +64,7 @@ export const ArticleTranslationSchema = z.object({
 	content: z.string().default(''),
 	isPublished: z.boolean().default(false),
 	coverUrl: z.string().optional(),
+	contentFormat: z.enum(['markdown', 'html']).optional().default('markdown'),
 });
 
 /**
@@ -72,7 +73,7 @@ export const ArticleTranslationSchema = z.object({
 export const ArticleSchema = z.object({
 	id: z.string().optional(),
 	slug: z.string().optional(),
-	type: z.enum(['article', 'page']).optional(),
+	type: z.enum(['article', 'page', 'page_project']).optional(),
 	category: z.string().default(''),
 	author: z.string().default(''),
 	dateMode: z.enum(['createdAt', 'updatedAt', 'custom', 'hidden']).default('createdAt'),
@@ -80,9 +81,9 @@ export const ArticleSchema = z.object({
 	updatedAt: z.any().optional(),
 	customDate: z.any().optional(),
 	translations: z.object({
-		uk: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false }),
-		en: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false }),
-	}).default({ uk: { title: '', content: '', isPublished: false }, en: { title: '', content: '', isPublished: false } }),
+		uk: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false, contentFormat: 'markdown' }),
+		en: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false, contentFormat: 'markdown' }),
+	}).default({ uk: { title: '', content: '', isPublished: false, contentFormat: 'markdown' }, en: { title: '', content: '', isPublished: false, contentFormat: 'markdown' } }),
 });
 
 export type ValidatedArticle = z.infer<typeof ArticleSchema>;

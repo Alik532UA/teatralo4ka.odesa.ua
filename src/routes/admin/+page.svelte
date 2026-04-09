@@ -19,10 +19,14 @@
 
 	const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
-	const canManageUsers = $derived(
-		authService.profile?.isSuperAdmin === true || 
-		authService.profile?.projects?.[PROJECT_ID]?.permissions?.canManageUsers === true
-	);
+	const permissions = $derived(authService.profile?.projects?.[PROJECT_ID]?.permissions);
+	const isSuperAdmin = $derived(authService.profile?.isSuperAdmin === true);
+
+	const canManageArticles = $derived(isSuperAdmin || permissions?.canCreateArticles || permissions?.canEditArticles || permissions?.canDeleteArticles);
+	const canManagePages = $derived(isSuperAdmin || permissions?.canCreatePages || permissions?.canEditPages || permissions?.canDeletePages);
+	const canManageContent = $derived(canManageArticles || canManagePages);
+	const canManageSettings = $derived(isSuperAdmin || permissions?.canManageSettings);
+	const canManageUsers = $derived(isSuperAdmin || permissions?.canManageUsers);
 </script>
 
 <section class="admin-dashboard container" style="padding: 160px 24px;" data-testid="admin-dashboard-section-container">
@@ -35,38 +39,35 @@
 		</div>
 
 		<div class="dash-grid" data-testid="admin-dashboard-cards-grid">
-   <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-news-card-container">
-    <h2 style="margin-bottom: 1rem;" data-testid="admin-news-card-title-label">{$t('admin.dashboard.newsTitle')}</h2>
-    <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-news-card-desc-label">{$t('admin.dashboard.newsDesc')}</p>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-news-card-actions-group">
-     <a href="{base}/admin/articles" class="btn btn-primary" data-testid="admin-news-list-button">{$t('admin.dashboard.listBtn')}</a>
-     <a href="{base}/admin/articles/new" class="btn btn-outline" data-testid="admin-news-add-button">+ {$t('admin.dashboard.addBtn')}</a>
-    </div>
-   </div>
+			{#if canManageContent}
+				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-content-card-container">
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-content-card-title-label">{$t('admin.dashboard.contentTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-content-card-desc-label">{$t('admin.dashboard.contentDesc')}</p>
+					<div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-content-card-actions-group">
+						<a href="{base}/admin/content" class="btn btn-primary" data-testid="admin-content-list-button">{$t('admin.dashboard.contentListBtn')}</a>
+						{#if isSuperAdmin || permissions?.canCreateArticles || permissions?.canCreatePages}
+							<a href="{base}/admin/content/new" class="btn btn-outline" data-testid="admin-content-add-button">+ {$t('admin.dashboard.contentAddBtn')}</a>
+						{/if}
+					</div>
+				</div>
+			{/if}
 
-   <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
-    <h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title-label">{$t('admin.dashboard.settingsTitle')}</h2>
-    <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-label">{$t('admin.dashboard.settingsDesc')}</p>
-    <a href="{base}/admin/settings" class="btn btn-outline" data-testid="admin-settings-button">{$t('admin.dashboard.settingsBtn')}</a>
-   </div>
+			{#if canManageSettings}
+				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title-label">{$t('admin.dashboard.settingsTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-label">{$t('admin.dashboard.settingsDesc')}</p>
+					<a href="{base}/admin/settings" class="btn btn-outline" data-testid="admin-settings-button">{$t('admin.dashboard.settingsBtn')}</a>
+				</div>
+			{/if}
 
-   <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-pages-card-container">
-    <h2 style="margin-bottom: 1rem;" data-testid="admin-pages-card-title-label">{$t('admin.dashboard.pagesTitle')}</h2>
-    <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-pages-card-desc-label">{$t('admin.dashboard.pagesDesc')}</p>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-pages-card-actions-group">
-     <a href="{base}/admin/pages" class="btn btn-primary" data-testid="admin-pages-list-button">{$t('admin.dashboard.pagesListBtn')}</a>
-     <a href="{base}/admin/pages/new" class="btn btn-outline" data-testid="admin-pages-add-button">+ {$t('admin.dashboard.pagesAddBtn')}</a>
-    </div>
-   </div>
-
-    {#if canManageUsers}
-     <div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
-      <h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>
-      <p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-label">{$t('admin.dashboard.usersDesc')}</p>
-      <a href="{base}/admin/users" class="btn btn-outline" data-testid="admin-users-button">{$t('admin.dashboard.usersBtn')}</a>
-     </div>
-    {/if}
-   </div>
+			{#if canManageUsers}
+				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-label">{$t('admin.dashboard.usersDesc')}</p>
+					<a href="{base}/admin/users" class="btn btn-outline" data-testid="admin-users-button">{$t('admin.dashboard.usersBtn')}</a>
+				</div>
+			{/if}
+		</div>
 	{/if}
 </section>
 

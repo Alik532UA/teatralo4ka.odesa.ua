@@ -74,13 +74,21 @@ export async function fetchAllArticles() {
   const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
   const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
-  return all.filter(a => a.type !== 'page');
+  return all.filter(a => a.type !== 'page' && a.type !== 'page_project');
 }
 
 export async function fetchAllPages() {
   const projectId = await getProjectId();
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, where("type", "==", "page"), orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
+}
+
+export async function fetchAllContent() {
+  const projectId = await getProjectId();
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
 }
@@ -146,7 +154,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
   } catch (error: any) {
     console.error("Firestore setDoc Error in addArticle:", error);
     if (error.code === 'permission-denied') {
-      throw new Error(`Недостатньо прав для публікації. Перевірте чи всі обов'язкові поля заповнені. Деталі: Title len: ${payloadToSave.title.length}, Content len: ${payloadToSave.content.length}`);
+      throw new Error("Недостатньо прав для публікації. Перевірте чи всі обов'язкові поля заповнені.");
     }
     throw error;
   }
@@ -190,7 +198,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   } catch (error: any) {
     console.error("Firestore updateDoc Error in updateArticle:", error);
     if (error.code === 'permission-denied') {
-      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 50 000 символів або чи не минуло менше 20 секунд з останнього редагування.");
+      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 50 000 символів або чи не минуло менше 1 секунди з останнього редагування.");
     }
     throw error;
   }

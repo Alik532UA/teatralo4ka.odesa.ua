@@ -2,11 +2,10 @@
 	import { page } from '$app/state';
 	import { getArticleById, getDisplayDate, type Article } from '$lib/services/articles';
 	import { onMount } from 'svelte';
-	import { marked } from 'marked';
-	import DOMPurify from 'dompurify';
+	import { renderContent } from '$lib/utils/renderContent';
 	import { base } from '$app/paths';
 	import { locale, t } from 'svelte-i18n';
-	import { ARTICLE_CATEGORIES, type ArticleCategory } from '$lib/config/categories';
+	import { ARTICLE_CATEGORIES, getCategoryLabel, type ArticleCategory } from '$lib/config/categories';
 
 	let article = $state<Article | null>(null);
 	let loading = $state(true);
@@ -65,28 +64,32 @@
 	{:else if article}
 		{@const translation = article.translations?.[$locale as 'uk' | 'en']}
 		<article class="article-content" data-testid="article-content-container">
-			<div class="article-header" style="margin-bottom: 3rem; text-align: center;" data-testid="article-header-group">
-				<div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; align-items: center;" data-testid="article-meta-group">
-					<span class="tag" style="background: var(--color-deep-ocean); color: var(--color-white); padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;" data-testid="article-category-tag">
-						{ARTICLE_CATEGORIES[article.category as ArticleCategory]?.[$locale === 'en' ? 'en' : 'uk'] || article.category}
-					</span>
-					<time style="color: var(--color-muted-text); font-weight: 500;" data-testid="article-date-label">
-						{formatDate(article)}
-					</time>
-				</div>
-				<h1 style="font-family: var(--font-heading); font-size: 3.5rem; font-weight: 900; color: var(--color-deep-ocean); line-height: 1.1; margin-bottom: 2rem;" data-testid="article-title-label">
-					{translation?.title || ''}
-				</h1>
-			</div>
+			<div class="article-body" class:has-cover={!!translation?.coverUrl}>
+				{#if translation?.coverUrl}
+					<aside class="article-cover" data-testid="article-cover-container">
+						<img src={translation.coverUrl} alt={translation?.title || ''} class="article-cover__img" data-testid="article-cover-img" />
+					</aside>
+				{/if}
 
-			{#if translation?.coverUrl}
-				<div class="article-cover" data-testid="article-cover-container">
-					<img src={translation.coverUrl} alt={translation?.title || ''} class="article-cover__img" data-testid="article-cover-img" />
-				</div>
-			{/if}
+				<div class="article-main">
+					<div class="article-header" data-testid="article-header-group">
+						<div class="article-meta" data-testid="article-meta-group">
+							<span class="tag" data-testid="article-category-tag">
+								{getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
+							</span>
+							<time data-testid="article-date-label">
+								{formatDate(article)}
+							</time>
+						</div>
+						<h1 data-testid="article-title-label">
+							{translation?.title || ''}
+						</h1>
+					</div>
 
-			<div class="prose" style="max-width: 800px; margin: 0 auto; line-height: 1.8; font-size: 1.1rem; color: var(--color-body-text);" data-testid="article-prose-container">
-				{@html DOMPurify.sanitize(marked.parse(translation?.content || '') as string)}
+					<div class="prose" data-testid="article-prose-container">
+						{@html renderContent(translation?.content || '', translation?.contentFormat)}
+					</div>
+				</div>
 			</div>
 
 			<div style="margin-top: 5rem; text-align: center; border-top: 1px solid var(--color-border); padding-top: 3rem;" data-testid="article-back-group">
@@ -130,20 +133,88 @@
 		}
 	}
 
-	.article-cover {
+	.article-body {
 		max-width: 800px;
-		margin: 0 auto 3rem;
-		border-radius: 24px;
+		margin: 0 auto;
+		line-height: 1.8;
+		font-size: 1.1rem;
+		color: var(--color-body-text);
+	}
+	.article-body.has-cover {
+		display: grid;
+		grid-template-columns: 280px 1fr;
+		gap: 2.5rem;
+		max-width: 1000px;
+		align-items: start;
+	}
+
+	.article-main {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.article-header {
+		margin-bottom: 2.5rem;
+	}
+
+	.article-meta {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+		margin-bottom: 1.25rem;
+	}
+
+	.tag {
+		background: var(--color-deep-ocean);
+		color: var(--color-white);
+		padding: 0.4rem 1rem;
+		border-radius: 100px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+	}
+
+	time {
+		color: var(--color-muted-text);
+		font-weight: 500;
+	}
+
+	h1 {
+		font-family: var(--font-heading);
+		font-size: 3rem;
+		font-weight: 900;
+		color: var(--color-deep-ocean);
+		line-height: 1.1;
+		margin: 0;
+	}
+
+	.article-cover {
+		border-radius: 20px;
 		overflow: hidden;
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+		aspect-ratio: 9 / 16;
+		position: sticky;
+		top: 120px;
 	}
 
 	.article-cover__img {
 		width: 100%;
-		height: auto;
-		max-height: 480px;
+		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+
+	@media (max-width: 768px) {
+		.article-body.has-cover {
+			grid-template-columns: 1fr;
+		}
+		.article-cover {
+			max-width: 240px;
+			position: static;
+		}
+		h1 {
+			font-size: 2.2rem;
+		}
 	}
 </style>
 

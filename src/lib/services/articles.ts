@@ -14,14 +14,17 @@ import type { ArticleCategory } from "../config/categories";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
 
+export type ContentFormat = 'markdown' | 'html';
+
 export interface ArticleTranslation {
   title: string;
   content: string;
   isPublished: boolean;
   coverUrl?: string;
+  contentFormat?: ContentFormat;
 }
 
-export type ContentType = 'article' | 'page';
+export type ContentType = 'article' | 'page' | 'page_project';
 
 export interface Article {
   id?: string;
@@ -133,6 +136,39 @@ export async function getAllPages(lang: string = "uk"): Promise<Article[]> {
   const q = query(
     articlesRef,
     where("type", "==", "page"),
+    where("isPublished", "==", true),
+    orderBy("createdAt", "desc")
+  );
+  const snapshot = await getDocs(q);
+  return snapshot.docs
+    .map(d => docToArticle(d))
+    .filter(article => {
+      const translation = article.translations?.[lang as 'uk' | 'en'];
+      return translation && translation.isPublished;
+    });
+}
+
+export async function getProjectPageBySlug(slug: string): Promise<Article | null> {
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(
+    articlesRef,
+    where("type", "==", "page_project"),
+    where("slug", "==", slug),
+    where("isPublished", "==", true),
+    limit(1)
+  );
+  const snap = await getDocs(q);
+  if (!snap.empty) {
+    return docToArticle(snap.docs[0]);
+  }
+  return null;
+}
+
+export async function getAllProjects(lang: string = "uk"): Promise<Article[]> {
+  const articlesRef = collection(db, "projects", projectId, "articles");
+  const q = query(
+    articlesRef,
+    where("type", "==", "page_project"),
     where("isPublished", "==", true),
     orderBy("createdAt", "desc")
   );

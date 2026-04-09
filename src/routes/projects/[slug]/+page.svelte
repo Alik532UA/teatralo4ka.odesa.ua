@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { getPageBySlug, type Article } from '$lib/services/articles';
+	import { getProjectPageBySlug, type Article } from '$lib/services/articles';
 	import { onMount } from 'svelte';
 	import { renderContent } from '$lib/utils/renderContent';
 	import { base } from '$app/paths';
@@ -16,7 +16,7 @@
 		if (!slug) return;
 
 		try {
-			article = await getPageBySlug(slug);
+			article = await getProjectPageBySlug(slug);
 			if (!article) {
 				error = $t('pages.notFound');
 			}
@@ -47,27 +47,27 @@
 </script>
 
 {#key slug}
-<section class="page-content container" style="padding: 160px 24px 6rem; min-height: 80vh;" data-testid="dynamic-page-section">
+<section class="page-content container" style="padding: 160px 24px 6rem; min-height: 80vh;" data-testid="project-page-section">
 	{#if loading}
-		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="dynamic-page-loading-container">
-			<p data-testid="dynamic-page-loading-label">{$t('common.loading')}</p>
+		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="project-page-loading-container">
+			<p data-testid="project-page-loading-label">{$t('common.loading')}</p>
 		</div>
 	{:else if error}
-		<div style="text-align: center; padding: 4rem;" data-testid="dynamic-page-error-container">
-			<h1 style="color: var(--color-deep-ocean); margin-bottom: 2rem;" data-testid="dynamic-page-error-title">{error}</h1>
-			<a href={`${base}/`} class="btn btn-primary" data-testid="dynamic-page-home-link">{$t('nav.home')}</a>
+		<div style="text-align: center; padding: 4rem;" data-testid="project-page-error-container">
+			<h1 style="color: var(--color-deep-ocean); margin-bottom: 2rem;" data-testid="project-page-error-title">{error}</h1>
+			<a href={`${base}/projects`} class="btn btn-primary" data-testid="project-page-back-link">{$t('nav.projects')}</a>
 		</div>
 	{:else if article && translation}
-		<article data-testid="dynamic-page-article">
+		<article data-testid="project-page-article">
 			<div class="page-body" class:has-cover={!!translation.coverUrl}>
 				{#if translation.coverUrl}
-					<aside class="page-cover" data-testid="dynamic-page-cover">
+					<aside class="page-cover" data-testid="project-page-cover">
 						<img src={translation.coverUrl} alt={translation.title} class="page-cover__img" />
 					</aside>
 				{/if}
 				<div class="page-main">
-					<h1 class="page-title" data-testid="dynamic-page-title">{translation.title}</h1>
-					<div class="prose" data-testid="dynamic-page-prose">
+					<h1 class="page-title" data-testid="project-page-title">{translation.title}</h1>
+					<div class="prose" data-testid="project-page-prose">
 						{@html renderContent(translation.content || '', translation.contentFormat)}
 					</div>
 				</div>
