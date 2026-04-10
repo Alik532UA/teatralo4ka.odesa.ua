@@ -2,8 +2,7 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
-  persistentLocalCache,
-  persistentSingleTabManager,
+  memoryLocalCache,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -27,8 +26,8 @@ perf('firebase/config: initializeApp done');
 export const auth = getAuth(app);
 perf('firebase/config: getAuth done');
 export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({ tabManager: persistentSingleTabManager(undefined) }),
+  localCache: memoryLocalCache(),
 });
-perf('firebase/config: initializeFirestore done (persistentLocalCache)');
+perf('firebase/config: initializeFirestore done (memoryLocalCache)');
 export const storage = getStorage(app);
 perf('firebase/config: getStorage done');
