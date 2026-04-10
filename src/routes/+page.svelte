@@ -100,9 +100,19 @@
 			.catch((e) => { newsError = true; perf('+page.svelte: getArticles ERROR: ' + e?.message); })
 			.finally(() => { newsReady = true; });
 
-		// Dismiss the HTML splash (from app.html) when all critical data is ready
-		Promise.all([settingsPromise, articlesPromise]).finally(() => {
-			perf('+page.svelte: Promise.all settled → dismissSplash');
+		// Race: dismiss splash when Firebase responds OR after 2s timeout
+		// On fast connections Firebase wins (~0.5s). On slow Android the timeout
+		// wins and the user sees Hero + news skeleton; data fills in reactively.
+		const SPLASH_TIMEOUT_MS = 2000;
+		const timeoutPromise = new Promise<void>(resolve => {
+			setTimeout(() => { perf('+page.svelte: splash timeout (2s) fired'); resolve(); }, SPLASH_TIMEOUT_MS);
+		});
+
+		Promise.race([
+			Promise.all([settingsPromise, articlesPromise]),
+			timeoutPromise,
+		]).then(() => {
+			perf('+page.svelte: race settled → dismissSplash');
 			dismissSplash();
 		});
 	});
