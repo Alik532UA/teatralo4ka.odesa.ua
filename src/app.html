@@ -17,7 +17,9 @@
 		<meta name="twitter:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="theme-color" content="#1B5E7B" />
 		<meta name="color-scheme" content="light dark" />
-		<!-- Preconnect to Firestore so DNS+TLS handshake starts while JS is parsing -->
+		<!-- Preconnect to Firestore: DNS+TLS handshake паралельно з парсингом JS.
+		     Виграш ~200-500ms, особливо на мобільних з високим RTT.
+		     Див. firebase-admin/performance-optimization.md -->
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 		<script>
 			try {

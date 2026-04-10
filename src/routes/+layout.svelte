@@ -21,7 +21,10 @@
 
 	perf('+layout.svelte: script init');
 
-	// ── Temporary perf debug (remove after diagnosis) ─────────────────────────
+	// Debug mode: localStorage.setItem('debug','1') + refresh to show 🐛 button
+	const debugMode = browser && localStorage.getItem('debug') === '1';
+
+	// ── Perf debug helpers (active only when debugMode) ───────────────────────
 	function showPerfTextarea(text: string) {
 		const existing = document.getElementById('perf-debug-textarea');
 		if (existing) { existing.remove(); return; }
@@ -286,8 +289,8 @@
 	<Toast />
 	<ConfirmModal />
 
-	<!-- Temporary perf debug button (remove after diagnosis) -->
-	{#if browser}
+	<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('debug','1') + refresh -->
+	{#if browser && debugMode}
 		<button
 			class="perf-debug-btn"
 			onclick={copyPerfLog}

@@ -100,9 +100,12 @@
 			.catch((e) => { newsError = true; perf('+page.svelte: getArticles ERROR: ' + e?.message); })
 			.finally(() => { newsReady = true; });
 
-		// Race: dismiss splash when Firebase responds OR after 2s timeout
-		// On fast connections Firebase wins (~0.5s). On slow Android the timeout
-		// wins and the user sees Hero + news skeleton; data fills in reactively.
+		// Race: dismiss splash when Firebase responds OR after 2s timeout.
+		// На десктопі/iPhone Firebase виграє за ~0.5-1s — таймаут не спрацьовує.
+		// На Android Chrome перший Firestore запит займає 3-6с (WebChannel init),
+		// тому таймаут виграє — splash зникає, Hero + skeleton видно одразу,
+		// Firebase дані підвантажуються реактивно у фоні.
+		// Детальніше: firebase-admin/performance-optimization.md
 		const SPLASH_TIMEOUT_MS = 2000;
 		const timeoutPromise = new Promise<void>(resolve => {
 			setTimeout(() => { perf('+page.svelte: splash timeout (2s) fired'); resolve(); }, SPLASH_TIMEOUT_MS);

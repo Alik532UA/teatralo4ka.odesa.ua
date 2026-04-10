@@ -25,6 +25,11 @@ perf('firebase/config: initializeApp done');
 
 export const auth = getAuth(app);
 perf('firebase/config: getAuth done');
+// memoryLocalCache замість persistentLocalCache:
+// persistentLocalCache (IndexedDB) блокує перший getDoc/getDocs на 10-22с
+// на Android Chrome через повільну ініціалізацію IndexedDB (баг Chromium).
+// Offline persistence не потрібна — SWR через localStorage покриває повторні візити.
+// Детальніше: firebase-admin/performance-optimization.md
 export const db = initializeFirestore(app, {
   localCache: memoryLocalCache(),
 });
