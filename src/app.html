@@ -37,6 +37,16 @@
 				}
 			} catch (e) {}
 		</script>
+		<!-- ── Performance debug logger ──────────────────────────────────── -->
+		<script>
+			window.__perfLog = [];
+			window.__perfT0 = performance.now();
+			window.__perf = function(label) {
+				var entry = { t: Math.round(performance.now() - window.__perfT0), label: label };
+				window.__perfLog.push(entry);
+			};
+			window.__perf('inline-head: script parsed');
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
@@ -109,12 +119,15 @@
 		</style>
 		<script>
 			(function() {
+				window.__perf('inline-body: splash script start');
 				try {
 					// Skip splash entirely if we have cached data (SWR repeat visit)
 					if (localStorage.getItem('homeSettings')) {
 						document.getElementById('app-splash').style.display = 'none';
+						window.__perf('inline-body: splash hidden (SWR cache hit)');
 						return;
 					}
+					window.__perf('inline-body: no SWR cache, splash visible');
 				} catch(e) {}
 
 				var logo = document.getElementById('app-splash-logo');

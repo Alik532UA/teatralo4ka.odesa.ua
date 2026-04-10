@@ -77,6 +77,8 @@ export async function getArticleById(id: string) {
 }
 
 export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string, maxItems?: number) {
+  const _perf = (l: string) => { if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(l); };
+  _perf('getArticles: start');
   const articlesRef = collection(db, "projects", projectId, "articles");
   
   // Фільтр isPublished на рівні запиту обов'язковий для неавторизованих користувачів:
@@ -92,7 +94,9 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
 
   const q = query(articlesRef, ...constraints);
 
+  _perf('getArticles: query built, calling getDocs...');
   const snapshot = await getDocs(q);
+  _perf('getArticles: getDocs returned (' + snapshot.docs.length + ' docs)');
   const allArticles = snapshot.docs.map(d => docToArticle(d));
 
   // Фільтруємо на рівні клієнта для мультимовності (Firestore не підтримує динамічні ключі в query для перевірки isPublished всередині об'єкта)

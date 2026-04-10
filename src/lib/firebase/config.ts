@@ -16,10 +16,19 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
+function perf(label: string) {
+  if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(label);
+}
+
+perf('firebase/config: module start');
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+perf('firebase/config: initializeApp done');
 
 export const auth = getAuth(app);
+perf('firebase/config: getAuth done');
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentSingleTabManager(undefined) }),
 });
+perf('firebase/config: initializeFirestore done (persistentLocalCache)');
 export const storage = getStorage(app);
+perf('firebase/config: getStorage done');

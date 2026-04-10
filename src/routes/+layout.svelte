@@ -15,6 +15,66 @@
 
 	let { children, data } = $props();
 
+	function perf(label: string) {
+		if (browser && (window as any).__perf) (window as any).__perf(label);
+	}
+
+	perf('+layout.svelte: script init');
+
+	// ── Temporary perf debug (remove after diagnosis) ─────────────────────────
+	function showPerfTextarea(text: string) {
+		const existing = document.getElementById('perf-debug-textarea');
+		if (existing) { existing.remove(); return; }
+		const ta = document.createElement('textarea');
+		ta.id = 'perf-debug-textarea';
+		ta.value = text;
+		ta.readOnly = true;
+		Object.assign(ta.style, {
+			position: 'fixed', bottom: '60px', left: '8px', right: '8px',
+			zIndex: '99999', height: '50vh', fontSize: '11px', fontFamily: 'monospace',
+			background: '#111', color: '#0f0', border: '2px solid #0f0', borderRadius: '8px',
+			padding: '8px', whiteSpace: 'pre', overflow: 'auto'
+		});
+		ta.onclick = () => { ta.select(); };
+		document.body.appendChild(ta);
+		ta.focus();
+		ta.select();
+	}
+
+	function copyPerfLog() {
+		const log = (window as any).__perfLog || [];
+		const ua = navigator.userAgent;
+		const conn = (navigator as any).connection;
+		const mem = (performance as any).memory;
+		const timing = performance.timing;
+		const lines = [
+			'=== PERF LOG ===',
+			'UA: ' + ua,
+			'Time: ' + new Date().toISOString(),
+			conn ? 'Connection: ' + conn.effectiveType + ', downlink=' + conn.downlink + 'Mbps, rtt=' + conn.rtt + 'ms, saveData=' + conn.saveData : 'Connection API: N/A',
+			mem ? 'JS Heap: ' + Math.round(mem.usedJSHeapSize / 1048576) + '/' + Math.round(mem.jsHeapSizeLimit / 1048576) + ' MB' : 'Memory API: N/A',
+			'navTiming.domContentLoaded: ' + Math.round(timing.domContentLoadedEventEnd - timing.navigationStart) + 'ms',
+			'navTiming.loadEvent: ' + Math.round(timing.loadEventEnd - timing.navigationStart) + 'ms',
+			'navTiming.responseEnd: ' + Math.round(timing.responseEnd - timing.navigationStart) + 'ms',
+			'navTiming.domInteractive: ' + Math.round(timing.domInteractive - timing.navigationStart) + 'ms',
+			'serviceWorker: ' + ('serviceWorker' in navigator ? 'supported' : 'no'),
+			'indexedDB: ' + (typeof indexedDB !== 'undefined' ? 'available' : 'no'),
+			'',
+			...log.map((e: any) => '+' + e.t + 'ms  ' + e.label),
+			'',
+			'=== END ==='
+		];
+		const text = lines.join('\n');
+		if (navigator.clipboard?.writeText) {
+			navigator.clipboard.writeText(text).then(
+				() => alert('Скопійовано в буфер! (' + log.length + ' записів)'),
+				() => showPerfTextarea(text)
+			);
+		} else {
+			showPerfTextarea(text);
+		}
+	}
+
 	let headerScrolled = $state(false);
 
 	$effect(() => {
@@ -225,6 +285,17 @@
 
 	<Toast />
 	<ConfirmModal />
+
+	<!-- Temporary perf debug button (remove after diagnosis) -->
+	{#if browser}
+		<button
+			class="perf-debug-btn"
+			onclick={copyPerfLog}
+			aria-label="Copy perf log"
+		>
+			🐛
+		</button>
+	{/if}
 {/await}
 
 <style>
@@ -313,5 +384,26 @@
 		position: relative;
 		padding-top: calc(var(--header-height, 72px) + var(--ticker-height, 0px));
 		transition: padding-top var(--transition-base);
+	}
+
+	/* Temporary perf debug button */
+	.perf-debug-btn {
+		position: fixed;
+		bottom: 12px;
+		left: 12px;
+		z-index: 99998;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		border: 2px solid rgba(0, 0, 0, 0.2);
+		background: rgba(255, 255, 255, 0.9);
+		font-size: 20px;
+		cursor: pointer;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		line-height: 1;
 	}
 </style>

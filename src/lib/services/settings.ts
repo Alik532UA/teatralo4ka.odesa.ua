@@ -119,10 +119,17 @@ async function getProjectId(): Promise<string> {
   return projectId;
 }
 
+function perf(label: string) {
+  if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(label);
+}
+
 /** Public read — no auth required (Firestore rules allow settingId == 'home'). */
 export async function getHomeSettings(): Promise<HomeSettings | null> {
+  perf('getHomeSettings: start');
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
+  perf('getHomeSettings: doc ref created, calling getDoc...');
   const docSnap = await getDoc(docRef);
+  perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
   if (docSnap.exists()) {
     const raw = docSnap.data() as Record<string, any>;
     const data: HomeSettings = {

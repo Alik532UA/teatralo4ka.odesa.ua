@@ -46,23 +46,30 @@
 	const NEWS_LIMIT_HOME = 12;
 	const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', '#F7FFF7', '#FF9F1C'];
 
+	function perf(label: string) {
+		if (browser && (window as any).__perf) (window as any).__perf(label);
+	}
+
 	// ── Parallel loading: all Firebase requests fire at once ───────────────────
 	onMount(() => {
+		perf('+page.svelte: onMount fired');
 		const lang = (($locale as string) || 'uk') as 'uk' | 'en';
 
 		// Fire ALL requests in parallel
 		const settingsPromise = getHomeSettings()
 			.then(settings => {
+				perf('+page.svelte: getHomeSettings resolved');
 				if (settings) {
 					blocks = pickBlocks(settings.blocks, settings.mobileBlocks);
 					newsWidgetConfig = pickNewsWidget(settings.newsWidget, settings.mobileNewsWidget);
 				}
 			})
-			.catch(() => { /* fallback to cache/defaults */ })
+			.catch((e) => { perf('+page.svelte: getHomeSettings ERROR: ' + e?.message); })
 			.finally(() => { blocksReady = true; });
 
 		const articlesPromise = getArticles(lang, true, undefined, NEWS_LIMIT_HOME)
 			.then(articles => {
+				perf('+page.svelte: getArticles resolved (' + articles.length + ' items)');
 				const onlyNews = articles.filter(a => a.type !== 'page' && a.type !== 'page_project');
 				const sorted = [...onlyNews].sort((a, b) => {
 					const timeA = getDisplayDate(a)?.toDate?.()?.getTime() ?? 0;
@@ -90,11 +97,12 @@
 					};
 				});
 			})
-			.catch(() => { newsError = true; })
+			.catch((e) => { newsError = true; perf('+page.svelte: getArticles ERROR: ' + e?.message); })
 			.finally(() => { newsReady = true; });
 
 		// Dismiss the HTML splash (from app.html) when all critical data is ready
 		Promise.all([settingsPromise, articlesPromise]).finally(() => {
+			perf('+page.svelte: Promise.all settled → dismissSplash');
 			dismissSplash();
 		});
 	});
