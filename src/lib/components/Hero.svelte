@@ -134,6 +134,7 @@
 		gap: var(--space-2xl, 3rem);
 		align-items: center;
 		position: relative;
+		padding: 0 var(--space-xl);
 	}
 
 	/* Social Links (Left Column) */

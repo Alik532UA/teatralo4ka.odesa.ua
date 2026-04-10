@@ -32,7 +32,14 @@ const config = {
 				'/history',
 				'/contacts',
 				'/admission',
-				'/test'
+				'/test',
+				'/departments/theatre',
+				'/departments/aesthetic',
+				'/departments/music',
+				'/departments/art',
+				'/residents/adults',
+				'/residents/kids',
+				'/residents/graduates'
 			],
 			handleHttpError: 'warn',
 			handleUnseenRoutes: 'ignore'
