@@ -21,26 +21,43 @@ import enData from '$lib/i18n/locales/en.json';
 import MenuEditor from '$lib/components/ui/MenuEditor.svelte';
 import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 import { ArrowUp, ArrowDown } from 'lucide-svelte';
+import { browser } from "$app/environment";
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
-type TabId = 'home' | 'news' | 'cta' | 'headerBar' | 'navDropdown' | 'mobile' | 'ticker' | 'debug';
+type TabId = 'home' | 'news' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
 let activeTab = $state<TabId>('home');
 
+type SubTabId = 'desktop' | 'mobile';
+type NewsSectionTabId = 'homeWidget' | 'pageWidget';
+
+let activeSubTab = $state<SubTabId>('desktop');
+let newsSectionTab = $state<NewsSectionTabId>('homeWidget');
+let newsHomeSubTab = $state<SubTabId>('desktop');
+let newsPageSubTab = $state<SubTabId>('desktop');
+
 const TABS: { id: TabId; labelKey: string }[] = [
-  { id: 'home',        labelKey: 'admin.settings.tabHome' },
-  { id: 'news',        labelKey: 'admin.settings.tabNews' },
-  { id: 'cta',         labelKey: 'admin.settings.tabCta' },
-  { id: 'headerBar',   labelKey: 'admin.settings.tabHeaderBar' },
-  { id: 'navDropdown', labelKey: 'admin.settings.tabNavDropdown' },
-  { id: 'mobile',      labelKey: 'admin.settings.tabMobile' },
-  { id: 'ticker',      labelKey: 'admin.settings.tabTicker' },
-  { id: 'debug',       labelKey: 'admin.settings.tabDebug' },
+  { id: 'home',      labelKey: 'admin.settings.tabHome' },
+  { id: 'news',      labelKey: 'admin.settings.tabNews' },
+  { id: 'cta',       labelKey: 'admin.settings.tabCta' },
+  { id: 'headerBar', labelKey: 'admin.settings.tabHeaderBar' },
+  { id: 'navMenu',   labelKey: 'admin.settings.tabNavMenu' },
+  { id: 'ticker',    labelKey: 'admin.settings.tabTicker' },
+  { id: 'debug',     labelKey: 'admin.settings.tabDebug' },
 ];
 
-// ── Home blocks ──────────────────────────────────────────────────────────────
+// Reset sub-tab when main tab changes
+$effect(() => {
+  activeTab;
+  untrack(() => { activeSubTab = 'desktop'; });
+});
+
+// ── Home blocks (desktop + mobile) ───────────────────────────────────────────
 let blocks = $state<BlockConfig[]>(DEFAULT_BLOCKS.map(b => ({ ...b })));
+let mobileBlocks = $state<BlockConfig[]>(DEFAULT_BLOCKS.map(b => ({ ...b })));
 let originalBlocks = $state(JSON.stringify(DEFAULT_BLOCKS));
+let originalMobileBlocks = $state(JSON.stringify(DEFAULT_BLOCKS));
 const hasBlocksChanges = $derived(JSON.stringify(blocks) !== originalBlocks);
+const hasMobileBlocksChanges = $derived(JSON.stringify(mobileBlocks) !== originalMobileBlocks);
 let loading = $state(true);
 let saving = $state(false);
 let settingsLoaded = $state(false);
@@ -96,16 +113,21 @@ const hasDebugPanelChanges = $derived(JSON.stringify(debugPanel) !== originalDeb
 const hasTickerChanges = $derived(JSON.stringify(ticker) !== originalTicker);
 let headerSaving = $state(false);
 
-// ── News widget settings ─────────────────────────────────────────────────────
+// ── News widget settings (desktop + mobile) ──────────────────────────────────
 let homeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME });
+let mobileHomeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME });
 let newsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
+let mobileNewsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
 let originalHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME));
+let originalMobileHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME));
 let originalNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE));
+let originalMobileNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE));
 const hasHomeNewsChanges = $derived(JSON.stringify(homeNewsWidget) !== originalHomeNewsWidget);
+const hasMobileHomeNewsChanges = $derived(JSON.stringify(mobileHomeNewsWidget) !== originalMobileHomeNewsWidget);
 const hasNewsPageChanges = $derived(JSON.stringify(newsPageWidget) !== originalNewsPageWidget);
+const hasMobileNewsPageChanges = $derived(JSON.stringify(mobileNewsPageWidget) !== originalMobileNewsPageWidget);
 let newsPageSaving = $state(false);
 
-import { browser } from "$app/environment";
 let lastTickerStr = "";
 $effect(() => {
   if (browser) {
@@ -169,12 +191,24 @@ $effect(() => {
             getHeaderSettings(),
             getNewsPageSettings(),
           ]);
+
+          // ── Home settings ──
           if (homeResult?.blocks?.length) blocks = homeResult.blocks;
+          if (homeResult?.mobileBlocks?.length) mobileBlocks = homeResult.mobileBlocks;
           if (homeResult?.newsWidget) homeNewsWidget = homeResult.newsWidget;
+          if (homeResult?.mobileNewsWidget) mobileHomeNewsWidget = homeResult.mobileNewsWidget;
           originalBlocks = JSON.stringify(blocks);
+          originalMobileBlocks = JSON.stringify(mobileBlocks);
           originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
+          originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
+
+          // ── News page settings ──
           if (newsResult?.newsWidget) newsPageWidget = newsResult.newsWidget;
+          if (newsResult?.mobileNewsWidget) mobileNewsPageWidget = newsResult.mobileNewsWidget;
           originalNewsPageWidget = JSON.stringify(newsPageWidget);
+          originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
+
+          // ── Header settings ──
           if (headerResult) {
             if (headerResult.cta) cta = headerResult.cta;
             if (headerResult.headerBar) headerBar = headerResult.headerBar;
@@ -192,12 +226,12 @@ $effect(() => {
             // No header config in Firebase yet — seed defaults so admin gets full control
             try {
               await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel, ticker });
-    originalCta = JSON.stringify(cta);
-    originalHeaderBar = JSON.stringify(headerBar);
-    originalNavDropdown = JSON.stringify(navDropdown);
-    originalMobileOverlay = JSON.stringify(mobileOverlay);
-    originalDebugPanel = JSON.stringify(debugPanel);
-    originalTicker = JSON.stringify(ticker);
+              originalCta = JSON.stringify(cta);
+              originalHeaderBar = JSON.stringify(headerBar);
+              originalNavDropdown = JSON.stringify(navDropdown);
+              originalMobileOverlay = JSON.stringify(mobileOverlay);
+              originalDebugPanel = JSON.stringify(debugPanel);
+              originalTicker = JSON.stringify(ticker);
             } catch (seedErr) {
               console.warn('Could not seed default header settings:', seedErr);
             }
@@ -215,31 +249,48 @@ $effect(() => {
 });
 
 // ── Block order helpers ────────────────────────────────────────────────────────
-function moveUp(index: number) {
+function moveUp(index: number, isMobile = false) {
+  const source = isMobile ? mobileBlocks : blocks;
   if (index === 0) return;
-  const arr = blocks.map(b => ({ ...b }));
+  const arr = source.map(b => ({ ...b }));
   [arr[index - 1], arr[index]] = [arr[index], arr[index - 1]];
-  blocks = arr.map((b, i) => ({ ...b, order: i }));
+  const result = arr.map((b, i) => ({ ...b, order: i }));
+  if (isMobile) mobileBlocks = result;
+  else blocks = result;
 }
 
-function moveDown(index: number) {
-  if (index === blocks.length - 1) return;
-  const arr = blocks.map(b => ({ ...b }));
+function moveDown(index: number, isMobile = false) {
+  const source = isMobile ? mobileBlocks : blocks;
+  if (index === source.length - 1) return;
+  const arr = source.map(b => ({ ...b }));
   [arr[index], arr[index + 1]] = [arr[index + 1], arr[index]];
-  blocks = arr.map((b, i) => ({ ...b, order: i }));
+  const result = arr.map((b, i) => ({ ...b, order: i }));
+  if (isMobile) mobileBlocks = result;
+  else blocks = result;
 }
 
-function toggleVisible(index: number) {
-  blocks = blocks.map((b, i) => i === index ? { ...b, visible: !b.visible } : b);
+function toggleVisible(index: number, isMobile = false) {
+  if (isMobile) {
+    mobileBlocks = mobileBlocks.map((b, i) => i === index ? { ...b, visible: !b.visible } : b);
+  } else {
+    blocks = blocks.map((b, i) => i === index ? { ...b, visible: !b.visible } : b);
+  }
 }
 
 // ── Save ──────────────────────────────────────────────────────────────────────
 async function handleSubmit() {
   saving = true;
   try {
-    await updateHomeSettings({ blocks, newsWidget: homeNewsWidget });
+    await updateHomeSettings({
+      blocks,
+      mobileBlocks,
+      newsWidget: homeNewsWidget,
+      mobileNewsWidget: mobileHomeNewsWidget,
+    });
     originalBlocks = JSON.stringify(blocks);
+    originalMobileBlocks = JSON.stringify(mobileBlocks);
     originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
+    originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -253,6 +304,12 @@ async function handleHeaderSubmit() {
   headerSaving = true;
   try {
     await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel, ticker });
+    originalCta = JSON.stringify(cta);
+    originalHeaderBar = JSON.stringify(headerBar);
+    originalNavDropdown = JSON.stringify(navDropdown);
+    originalMobileOverlay = JSON.stringify(mobileOverlay);
+    originalDebugPanel = JSON.stringify(debugPanel);
+    originalTicker = JSON.stringify(ticker);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -265,8 +322,12 @@ async function handleHeaderSubmit() {
 async function handleNewsPageSubmit() {
   newsPageSaving = true;
   try {
-    await updateNewsPageSettings({ newsWidget: newsPageWidget });
+    await updateNewsPageSettings({
+      newsWidget: newsPageWidget,
+      mobileNewsWidget: mobileNewsPageWidget,
+    });
     originalNewsPageWidget = JSON.stringify(newsPageWidget);
+    originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -275,10 +336,71 @@ async function handleNewsPageSubmit() {
     newsPageSaving = false;
   }
 }
-
-// ── Shared news widget settings snippet helper ───────────────────────────────
-const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>`;
 </script>
+
+<!-- ── Snippets ─────────────────────────────────────────────────────────────── -->
+
+{#snippet subtabBar(current: SubTabId, onChange: (v: SubTabId) => void)}
+<nav class="subtab-bar" data-testid="admin-settings-subtabs">
+  <button type="button" class="subtab-btn" class:active={current === 'desktop'} onclick={() => onChange('desktop')} data-testid="admin-settings-subtab-desktop">
+    {$t('admin.settings.subtabDesktop')}
+  </button>
+  <button type="button" class="subtab-btn" class:active={current === 'mobile'} onclick={() => onChange('mobile')} data-testid="admin-settings-subtab-mobile">
+    {$t('admin.settings.subtabMobile')}
+  </button>
+</nav>
+{/snippet}
+
+{#snippet sectionTabBar(current: NewsSectionTabId, onChange: (v: NewsSectionTabId) => void)}
+<nav class="subtab-bar" style="margin-bottom: 2rem;">
+  <button type="button" class="subtab-btn" class:active={current === 'homeWidget'} onclick={() => onChange('homeWidget')}>
+    {$t('admin.settings.newsHomepageSubSection')}
+  </button>
+  <button type="button" class="subtab-btn" class:active={current === 'pageWidget'} onclick={() => onChange('pageWidget')}>
+    {$t('admin.settings.newsPageSubSection')}
+  </button>
+</nav>
+{/snippet}
+
+{#snippet blocksCard(blockList: BlockConfig[], onMoveUp: (i: number) => void, onMoveDown: (i: number) => void, onToggle: (i: number) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
+<div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-card">
+<h2 class="settings-card__title" data-testid="admin-settings-blocks-title">{$t('admin.settings.blocksTitle')}</h2>
+<p class="settings-card__desc" data-testid="admin-settings-blocks-desc">{$t('admin.settings.blocksDesc')}</p>
+
+<ul class="blocks-list" data-testid="admin-settings-blocks-list">
+{#each blockList as block, i}
+<li class="block-item" data-testid="admin-settings-block-{block.id}-row">
+<span class="block-item__order" data-testid="admin-settings-block-{block.id}-order">{i + 1}</span>
+<span class="block-item__name" data-testid="admin-settings-block-{block.id}-name">
+{$t(`admin.settings.blocks.${block.id}`)}
+</span>
+<div class="block-item__controls">
+<button type="button" class="btn-icon" disabled={i === 0} onclick={() => onMoveUp(i)} aria-label="Move up" data-testid="admin-settings-block-{block.id}-up"><ArrowUp size={15} /></button>
+<button type="button" class="btn-icon" disabled={i === blockList.length - 1} onclick={() => onMoveDown(i)} aria-label="Move down" data-testid="admin-settings-block-{block.id}-down"><ArrowDown size={15} /></button>
+<label class="switch-label" data-testid="admin-settings-block-{block.id}-visible-label">
+<input type="checkbox" class="switch-input" checked={block.visible} onchange={() => onToggle(i)} data-testid="admin-settings-block-{block.id}-visible" />
+<span class="switch-slider"></span>
+</label>
+</div>
+</li>
+{/each}
+</ul>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
+    {$t('admin.menuEditor.resetDefaults')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+  {/if}
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-submit-btn">
+    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+{/snippet}
 
 {#snippet newsWidgetCard(titleKey: string, descKey: string, cfg: NewsWidgetConfig, onChange: (v: NewsWidgetConfig) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
 <div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-news-widget-card">
@@ -420,6 +542,8 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
 </div>
 {/snippet}
 
+<!-- ── Page template ────────────────────────────────────────────────────────── -->
+
 <section class="admin-settings container" style="padding: 140px 24px 80px;" data-testid="admin-settings-section">
 <div class="sh-header">
   <div class="sh-title-group">
@@ -446,74 +570,93 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
   {/each}
 </nav>
 
-<!-- ══ Tab: Home ═══════════════════════════════════════════════════════════ -->
+<!-- ══ Tab: Home (block ordering) ══════════════════════════════════════════ -->
 {#if activeTab === 'home'}
 
-<!-- Home blocks -->
-<div class="settings-card {hasBlocksChanges ? 'has-changes' : ''}" data-testid="admin-settings-card">
-<h2 class="settings-card__title" data-testid="admin-settings-blocks-title">{$t('admin.settings.blocksTitle')}</h2>
-<p class="settings-card__desc" data-testid="admin-settings-blocks-desc">{$t('admin.settings.blocksDesc')}</p>
+{@render subtabBar(activeSubTab, (v) => activeSubTab = v)}
 
-<ul class="blocks-list" data-testid="admin-settings-blocks-list">
-{#each blocks as block, i}
-<li class="block-item" data-testid="admin-settings-block-{block.id}-row">
-<span class="block-item__order" data-testid="admin-settings-block-{block.id}-order">{i + 1}</span>
-<span class="block-item__name" data-testid="admin-settings-block-{block.id}-name">
-{$t(`admin.settings.blocks.${block.id}`)}
-</span>
-<div class="block-item__controls">
-<button type="button" class="btn-icon" disabled={i === 0} onclick={() => moveUp(i)} aria-label="Move up" data-testid="admin-settings-block-{block.id}-up"><ArrowUp size={15} /></button>
-<button type="button" class="btn-icon" disabled={i === blocks.length - 1} onclick={() => moveDown(i)} aria-label="Move down" data-testid="admin-settings-block-{block.id}-down"><ArrowDown size={15} /></button>
-<label class="switch-label" data-testid="admin-settings-block-{block.id}-visible-label">
-<input type="checkbox" class="switch-input" checked={block.visible} onchange={() => toggleVisible(i)} data-testid="admin-settings-block-{block.id}-visible" />
-<span class="switch-slider"></span>
-</label>
-</div>
-</li>
-{/each}
-</ul>
+{#if activeSubTab === 'desktop'}
+  {@render blocksCard(
+    blocks,
+    (i) => moveUp(i, false),
+    (i) => moveDown(i, false),
+    (i) => toggleVisible(i, false),
+    () => { blocks = DEFAULT_BLOCKS.map(b => ({ ...b })); },
+    hasBlocksChanges,
+    saving,
+    handleSubmit
+  )}
+{:else}
+  {@render blocksCard(
+    mobileBlocks,
+    (i) => moveUp(i, true),
+    (i) => moveDown(i, true),
+    (i) => toggleVisible(i, true),
+    () => { mobileBlocks = DEFAULT_BLOCKS.map(b => ({ ...b })); },
+    hasMobileBlocksChanges,
+    saving,
+    handleSubmit
+  )}
+{/if}
 
-
-<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
-  <button type="button" class="me-reset-btn" onclick={() => { blocks = DEFAULT_BLOCKS.map(b => ({ ...b })); }} disabled={saving}>
-    {$t('admin.menuEditor.resetDefaults')}
-  </button>
-  <div style="display: flex; align-items: center;">
-  {#if hasBlocksChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
-  {/if}
-  <button type="button" onclick={handleSubmit} disabled={saving || !hasBlocksChanges} class="btn-save-small {hasBlocksChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-submit-btn">
-    {#if saving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
-  </button>
-  </div>
-</div>
-</div>
-
-<!-- Homepage news widget settings -->
-{@render newsWidgetCard(
-  'admin.settings.newsHomepageTitle',
-  'admin.settings.newsHomepageDesc',
-  homeNewsWidget,
-  (v) => { homeNewsWidget = v; },
-  () => { homeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME }; },
-  hasHomeNewsChanges || hasBlocksChanges,
-  saving,
-  handleSubmit
-)}
-
-<!-- ══ Tab: News ═══════════════════════════════════════════════════════════ -->
+<!-- ══ Tab: News (homepage + news page widgets) ═══════════════════════════ -->
 {:else if activeTab === 'news'}
 
-{@render newsWidgetCard(
-  'admin.settings.newsPageTitle',
-  'admin.settings.newsPageDesc',
-  newsPageWidget,
-  (v) => { newsPageWidget = v; },
-  () => { newsPageWidget = { ...DEFAULT_NEWS_WIDGET_PAGE }; },
-  hasNewsPageChanges,
-  newsPageSaving,
-  handleNewsPageSubmit
-)}
+{@render sectionTabBar(newsSectionTab, (v) => newsSectionTab = v)}
+
+{#if newsSectionTab === 'homeWidget'}
+  {@render subtabBar(newsHomeSubTab, (v) => newsHomeSubTab = v)}
+
+  {#if newsHomeSubTab === 'desktop'}
+    {@render newsWidgetCard(
+      'admin.settings.newsHomepageTitle',
+      'admin.settings.newsHomepageDesc',
+      homeNewsWidget,
+      (v) => { homeNewsWidget = v; },
+      () => { homeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME }; },
+      hasHomeNewsChanges,
+      saving,
+      handleSubmit
+    )}
+  {:else}
+    {@render newsWidgetCard(
+      'admin.settings.newsHomepageTitle',
+      'admin.settings.newsHomepageDesc',
+      mobileHomeNewsWidget,
+      (v) => { mobileHomeNewsWidget = v; },
+      () => { mobileHomeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME }; },
+      hasMobileHomeNewsChanges,
+      saving,
+      handleSubmit
+    )}
+  {/if}
+{:else}
+  {@render subtabBar(newsPageSubTab, (v) => newsPageSubTab = v)}
+
+  {#if newsPageSubTab === 'desktop'}
+    {@render newsWidgetCard(
+      'admin.settings.newsPageTitle',
+      'admin.settings.newsPageDesc',
+      newsPageWidget,
+      (v) => { newsPageWidget = v; },
+      () => { newsPageWidget = { ...DEFAULT_NEWS_WIDGET_PAGE }; },
+      hasNewsPageChanges,
+      newsPageSaving,
+      handleNewsPageSubmit
+    )}
+  {:else}
+    {@render newsWidgetCard(
+      'admin.settings.newsPageTitle',
+      'admin.settings.newsPageDesc',
+      mobileNewsPageWidget,
+      (v) => { mobileNewsPageWidget = v; },
+      () => { mobileNewsPageWidget = { ...DEFAULT_NEWS_WIDGET_PAGE }; },
+      hasMobileNewsPageChanges,
+      newsPageSaving,
+      handleNewsPageSubmit
+    )}
+  {/if}
+{/if}
 
 <!-- ══ Tab: CTA ════════════════════════════════════════════════════════════ -->
 {:else if activeTab === 'cta'}
@@ -577,41 +720,42 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
   hasChanges={hasHeaderBarChanges}
 />
 
-<!-- ══ Tab: Nav Dropdown ═══════════════════════════════════════════════════ -->
-{:else if activeTab === 'navDropdown'}
+<!-- ══ Tab: Navigation/Menu (desktop + mobile) ═════════════════════════════ -->
+{:else if activeTab === 'navMenu'}
 
-<MenuEditor
-  menu={navDropdown}
-  title={$t('admin.settings.navDropdownTitle')}
-  description={$t('admin.settings.navDropdownDesc')}
-  {articlesList}
-  {articlesLoading}
-  knownPages={KNOWN_PAGES}
-  onLoadArticles={loadArticles}
-  onchange={(m) => { navDropdown = m; }}
-  onsave={handleHeaderSubmit}
-  onreset={() => { navDropdown = structuredClone(DEFAULT_HEADER_SETTINGS.navDropdown); }}
-  saving={headerSaving}
-  hasChanges={hasNavDropdownChanges}
-/>
+{@render subtabBar(activeSubTab, (v) => activeSubTab = v)}
 
-<!-- ══ Tab: Mobile Overlay ═════════════════════════════════════════════════ -->
-{:else if activeTab === 'mobile'}
-
-<MenuEditor
-  menu={mobileOverlay}
-  title={$t('admin.settings.mobileOverlayTitle')}
-  description={$t('admin.settings.mobileOverlayDesc')}
-  {articlesList}
-  {articlesLoading}
-  knownPages={KNOWN_PAGES}
-  onLoadArticles={loadArticles}
-  onchange={(m) => { mobileOverlay = m; }}
-  onsave={handleHeaderSubmit}
-  onreset={() => { mobileOverlay = structuredClone(DEFAULT_HEADER_SETTINGS.mobileOverlay); }}
-  saving={headerSaving}
-  hasChanges={hasMobileOverlayChanges}
-/>
+{#if activeSubTab === 'desktop'}
+  <MenuEditor
+    menu={navDropdown}
+    title={$t('admin.settings.navDropdownTitle')}
+    description={$t('admin.settings.navDropdownDesc')}
+    {articlesList}
+    {articlesLoading}
+    knownPages={KNOWN_PAGES}
+    onLoadArticles={loadArticles}
+    onchange={(m) => { navDropdown = m; }}
+    onsave={handleHeaderSubmit}
+    onreset={() => { navDropdown = structuredClone(DEFAULT_HEADER_SETTINGS.navDropdown); }}
+    saving={headerSaving}
+    hasChanges={hasNavDropdownChanges}
+  />
+{:else}
+  <MenuEditor
+    menu={mobileOverlay}
+    title={$t('admin.settings.mobileOverlayTitle')}
+    description={$t('admin.settings.mobileOverlayDesc')}
+    {articlesList}
+    {articlesLoading}
+    knownPages={KNOWN_PAGES}
+    onLoadArticles={loadArticles}
+    onchange={(m) => { mobileOverlay = m; }}
+    onsave={handleHeaderSubmit}
+    onreset={() => { mobileOverlay = structuredClone(DEFAULT_HEADER_SETTINGS.mobileOverlay); }}
+    saving={headerSaving}
+    hasChanges={hasMobileOverlayChanges}
+  />
+{/if}
 
 <!-- ══ Tab: Ticker ═════════════════════════════════════════════════════════ -->
 {:else if activeTab === 'ticker'}
@@ -826,6 +970,38 @@ const SAVE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18
   box-shadow: 0 4px 12px rgba(0, 95, 174, 0.2);
 }
 
+/* ─── Sub-tab bar ──────────────────────────────────────── */
+.subtab-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.subtab-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  background: transparent;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.subtab-btn:hover {
+  border-color: var(--color-sea-blue);
+  color: var(--color-sea-blue);
+}
+
+.subtab-btn.active {
+  background: color-mix(in srgb, var(--color-sea-blue), transparent 90%);
+  border-color: var(--color-sea-blue);
+  color: var(--color-sea-blue);
+}
+
+/* ─── Settings card ────────────────────────────────────── */
 .settings-card {
 background: var(--theme-dynamic-card-bg);
 padding: 3rem;
@@ -1197,6 +1373,15 @@ pointer-events: none;
   color: var(--color-deep-ocean);
   font-size: 1.8rem;
   margin: 0;
+}
+
+.settings-section-heading {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-deep-ocean);
+  margin: 0 0 0.75rem 0;
+  padding-top: 1rem;
 }
 
 </style>

@@ -33,11 +33,11 @@
 	// ── View state ────────────────────────────────────────────────────────────
 	let viewOverride = $state<NewsViewMode | null>(null);
 	let autoplayOverride = $state<boolean | null>(null);
-	const view = $derived(viewOverride ?? config.defaultView);
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
 	let isAutoAdvancing = $state(false);
 	let isHovered = $state(false);
 	let mounted = $state(false);
+	let isMobile = $state(false);
 
 	// ── Carousel state ────────────────────────────────────────────────────────
 	// Dynamic buffer for seamless infinite loop to handle rapid clicking
@@ -48,6 +48,13 @@
 
 	// ── Max items for grid/list ───────────────────────────────────────────────
 	let showingAll = $state(false);
+
+	const view = $derived.by(() => {
+		let v = viewOverride ?? config.defaultView;
+		// Force 'list' view on mobile if 'grid' is selected (since grid is hidden from switcher)
+		if (isMobile && v === 'grid') return 'list';
+		return v;
+	});
 
 	const maxItemsForCurrentView = $derived(view === 'grid' ? config.maxItemsGrid : view === 'list' ? config.maxItemsList : 0);
 
@@ -93,7 +100,14 @@
 				viewOverride = config.showViewSwitcher ? saved : null;
 			}
 		}
+		
+		const mql = window.matchMedia('(max-width: 768px)');
+		isMobile = mql.matches;
+		const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
+		mql.addEventListener('change', handler);
+		
 		setTimeout(() => { mounted = true; }, 100);
+		return () => mql.removeEventListener('change', handler);
 	});
 
 	// Persist view to localStorage
@@ -414,6 +428,7 @@
 		gap: var(--space-lg);
 		margin-bottom: 2rem;
 		padding: 0 var(--space-xl);
+		width: 100%;
 	}
 
 	@media (max-width: 600px) {
@@ -425,8 +440,9 @@
 		}
 		
 		.nw-controls__right {
-			justify-content: space-between;
 			width: 100%;
+			display: flex;
+			align-items: center;
 		}
 	}
 
@@ -434,6 +450,7 @@
 		display: flex;
 		align-items: center;
 		gap: var(--space-xs);
+		margin-left: auto;
 	}
 
 	.nw-all-link {
@@ -474,6 +491,7 @@
 		border-radius: var(--radius-full, 100px);
 		padding: 0.3rem;
 		border: 1px solid color-mix(in srgb, var(--color-deep-ocean), transparent 88%);
+		margin-left: auto;
 	}
 
 	.view-btn {
@@ -647,5 +665,6 @@
 	/* ─── Responsive ───────────────────────────────────── */
 	@media (max-width: 768px) {
 		.nav-btn { display: none; }
+		[data-testid="news-widget-view-grid-btn"] { display: none !important; }
 	}
 	</style>

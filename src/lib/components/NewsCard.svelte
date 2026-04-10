@@ -60,7 +60,7 @@
 	</article>
 
 {:else}
-	<article class="list-item" data-testid="news-page-list-item-{index}">
+	<article class="list-item desktop-list" data-testid="news-page-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="list-item__img-wrap" data-testid="news-page-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
@@ -75,6 +75,24 @@
 			<p class="list-item__excerpt">{item.excerpt}</p>
 		</div>
 		<a href="{base}/news/{item.slug ?? item.id}" class="btn-more list-item__link" data-testid="news-page-list-link-{index}">{$t('news.readMore')}</a>
+	</article>
+
+	<!-- Mobile version of list that uses grid styles -->
+	<article class="grid-card mobile-list-as-grid" data-testid="news-page-mobile-list-item-{index}">
+		{#if item.coverUrl}
+			<div class="grid-card__img-wrap" data-testid="news-page-mobile-list-img-{index}">
+				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
+			</div>
+		{/if}
+		<div class="focus-card__content" data-testid="news-page-mobile-list-content-{index}">
+			<div class="focus-card__meta">
+				<span class="tag">{item.category}</span>
+				<time class="date">{item.date}</time>
+			</div>
+			<h3 class="focus-card__title">{item.title}</h3>
+			<p class="focus-card__excerpt">{item.excerpt}</p>
+			<a href="{base}/news/{item.slug ?? item.id}" class="btn-more">{$t('news.readMore')}</a>
+		</div>
 	</article>
 {/if}
 
@@ -250,6 +268,10 @@
 		overflow: hidden;
 	}
 
+	.mobile-list-as-grid {
+		display: none;
+	}
+
 	/* ─── List item ──────────────────────────────────────── */
 	.list-item {
 		display: flex;
@@ -362,7 +384,8 @@
 		}
 
 		.grid-card {
-			height: 180px;
+			height: auto;
+			min-height: 180px;
 			border-radius: 16px;
 		}
 		.grid-card .focus-card__content {
@@ -370,15 +393,21 @@
 			justify-content: flex-start;
 		}
 		.grid-card .focus-card__title {
-			font-size: 1rem;
+			font-size: 0.9rem;
+			line-height: 1.4;
 			margin-bottom: 0.4rem;
-			-webkit-line-clamp: 3;
-			line-clamp: 3;
+			-webkit-line-clamp: 4;
+			line-clamp: 4;
 		}
 		.grid-card .focus-card__excerpt {
-			font-size: 0.75rem;
-			margin-bottom: 0.5rem;
-			display: -webkit-box;
+			display: none;
+		}
+
+		.desktop-list {
+			display: none !important;
+		}
+		.mobile-list-as-grid {
+			display: flex !important;
 		}
 
 		.list-item {

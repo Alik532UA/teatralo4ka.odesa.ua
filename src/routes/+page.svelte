@@ -16,15 +16,23 @@
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────
 	const cachedHome = browser ? getCachedHomeSettings() : null;
-	let blocks = $state<BlockConfig[]>(
-		(cachedHome?.blocks?.length ? [...cachedHome.blocks] : DEFAULT_BLOCKS.map(b => ({ ...b })))
-			.sort((a, b) => a.order - b.order)
-	);
+	const isMobile = browser ? window.matchMedia('(max-width: 768px)').matches : false;
+
+	function pickBlocks(desktop?: BlockConfig[], mobile?: BlockConfig[]): BlockConfig[] {
+		const source = (isMobile && mobile?.length) ? mobile : (desktop?.length ? desktop : DEFAULT_BLOCKS.map(b => ({ ...b })));
+		return [...source].sort((a, b) => a.order - b.order);
+	}
+
+	function pickNewsWidget(desktop?: NewsWidgetConfig, mobile?: NewsWidgetConfig): NewsWidgetConfig {
+		return (isMobile && mobile) ? mobile : (desktop ?? { ...DEFAULT_NEWS_WIDGET_HOME });
+	}
+
+	let blocks = $state<BlockConfig[]>(pickBlocks(cachedHome?.blocks, cachedHome?.mobileBlocks));
 	let blocksReady = $state(!!cachedHome);
 
 	// News data — loaded in parallel, NOT sequentially after blocksReady
 	let newsItems = $state<NewsWidgetItem[]>([]);
-	let newsWidgetConfig = $state<NewsWidgetConfig>(cachedHome?.newsWidget ?? { ...DEFAULT_NEWS_WIDGET_HOME });
+	let newsWidgetConfig = $state<NewsWidgetConfig>(pickNewsWidget(cachedHome?.newsWidget, cachedHome?.mobileNewsWidget));
 	let newsReady = $state(false);
 	let newsError = $state(false);
 
@@ -45,11 +53,9 @@
 		// Fire ALL requests in parallel
 		const settingsPromise = getHomeSettings()
 			.then(settings => {
-				if (settings?.blocks?.length) {
-					blocks = [...settings.blocks].sort((a, b) => a.order - b.order);
-				}
-				if (settings?.newsWidget) {
-					newsWidgetConfig = settings.newsWidget;
+				if (settings) {
+					blocks = pickBlocks(settings.blocks, settings.mobileBlocks);
+					newsWidgetConfig = pickNewsWidget(settings.newsWidget, settings.mobileNewsWidget);
 				}
 			})
 			.catch(() => { /* fallback to cache/defaults */ })

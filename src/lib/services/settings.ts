@@ -77,12 +77,18 @@ export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
 
 export interface HomeSettings {
   blocks: BlockConfig[];
+  /** Mobile-specific block order. Falls back to `blocks` when absent. */
+  mobileBlocks?: BlockConfig[];
   newsWidget?: NewsWidgetConfig;
+  /** Mobile-specific news widget config. Falls back to `newsWidget` when absent. */
+  mobileNewsWidget?: NewsWidgetConfig;
   updatedAt?: any;
 }
 
 export interface NewsPageSettings {
   newsWidget: NewsWidgetConfig;
+  /** Mobile-specific news widget config. Falls back to `newsWidget` when absent. */
+  mobileNewsWidget?: NewsWidgetConfig;
   updatedAt?: any;
 }
 
@@ -118,7 +124,14 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    const data = docSnap.data() as HomeSettings;
+    const raw = docSnap.data() as Record<string, any>;
+    const data: HomeSettings = {
+      blocks: raw.blocks ?? DEFAULT_BLOCKS,
+      mobileBlocks: raw.mobileBlocks,
+      newsWidget: raw.newsWidget,
+      mobileNewsWidget: raw.mobileNewsWidget,
+      updatedAt: raw.updatedAt,
+    };
     // Cache in localStorage for instant render on next visit (SWR pattern)
     try {
       const { updatedAt, ...cacheable } = data;
@@ -437,6 +450,7 @@ export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
   const raw = docSnap.data() as Record<string, any>;
   return {
     newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
+    mobileNewsWidget: raw.mobileNewsWidget,
     updatedAt: raw.updatedAt,
   };
 }
