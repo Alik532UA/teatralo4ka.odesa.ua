@@ -335,24 +335,30 @@
 
 	@media (max-width: 768px) {
 		.focus-card {
-			height: 220px;
+			height: 250px;
 			border-radius: 20px;
 		}
 		.focus-card__content {
-			padding: 1rem;
+			padding: 1.25rem 1rem;
+			justify-content: flex-start; /* Architecturally prevent sub-pixel squishing from center alignment */
 		}
 		.focus-card__title {
 			font-size: 1.1rem;
+			line-height: 1.4;
 			margin-bottom: 0.5rem;
+			/* Architecturally sound: allow exactly 4 lines */
+			-webkit-line-clamp: 4;
+			line-clamp: 4;
 		}
 		.focus-card__excerpt {
-			margin-bottom: 0.75rem;
-			font-size: 0.8rem;
+			/* Hide excerpt entirely on mobile carousel */
+			display: none;
 		}
 		.focus-card__meta {
-			margin-bottom: 0.5rem;
+			margin-bottom: 0.75rem;
 			gap: 0.5rem;
 			flex-wrap: wrap;
+			flex-shrink: 0;
 		}
 
 		.grid-card {
@@ -361,14 +367,18 @@
 		}
 		.grid-card .focus-card__content {
 			padding: 0.8rem 1rem;
+			justify-content: flex-start;
 		}
 		.grid-card .focus-card__title {
 			font-size: 1rem;
 			margin-bottom: 0.4rem;
+			-webkit-line-clamp: 3;
+			line-clamp: 3;
 		}
 		.grid-card .focus-card__excerpt {
 			font-size: 0.75rem;
 			margin-bottom: 0.5rem;
+			display: -webkit-box;
 		}
 
 		.list-item {
@@ -405,6 +415,7 @@
 			padding: 0.5rem 0.8rem;
 			font-size: 0.8rem;
 			border-radius: 12px;
+			margin-top: auto; /* Push button to the bottom of the card dynamically */
 		}
 	}
 </style>
