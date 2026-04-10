@@ -12,6 +12,7 @@
 
 	let nowPlaying = $state("");
 	let activeKeys = $state<Set<number>>(new Set());
+	const audioFadeIntervals = new Map<number, any>();
 
 	const keysData = [
 		{ keyCode: 65, note: "C", hint: "A", sharp: false },
@@ -42,32 +43,77 @@
 		return `https://carolinegabriel.com/demo/js-keyboard/sounds/${mapping[keyCode]}.wav`;
 	}
 
-	function playNote(keyCode: number) {
+	function startNote(keyCode: number) {
+		if (activeKeys.has(keyCode)) return;
+
 		const keyInfo = keysData.find(k => k.keyCode === keyCode);
 		if (!keyInfo) return;
 
 		const audio = document.querySelector(`audio[data-key="${keyCode}"]`) as HTMLAudioElement;
 		if (!audio) return;
 
-		nowPlaying = keyInfo.note;
-		activeKeys.add(keyCode);
-		
-		audio.currentTime = 0;
-		audio.play();
+		// Clear any existing fade-out interval
+		if (audioFadeIntervals.has(keyCode)) {
+			clearInterval(audioFadeIntervals.get(keyCode));
+			audioFadeIntervals.delete(keyCode);
+		}
 
-		setTimeout(() => {
-			activeKeys.delete(keyCode);
-		}, 100);
+		nowPlaying = keyInfo.note;
+		
+		const nextActive = new Set(activeKeys);
+		nextActive.add(keyCode);
+		activeKeys = nextActive;
+
+		audio.volume = 1;
+		audio.currentTime = 0;
+		audio.play().catch(() => {});
+	}
+
+	function stopNote(keyCode: number) {
+		if (!activeKeys.has(keyCode)) return;
+
+		const audio = document.querySelector(`audio[data-key="${keyCode}"]`) as HTMLAudioElement;
+		if (!audio) return;
+
+		const nextActive = new Set(activeKeys);
+		nextActive.delete(keyCode);
+		activeKeys = nextActive;
+
+		// Fade out to avoid clicks
+		let volume = 1;
+		const fadeInterval = setInterval(() => {
+			volume -= 0.15;
+			if (volume <= 0) {
+				audio.volume = 0;
+				audio.pause();
+				clearInterval(fadeInterval);
+				audioFadeIntervals.delete(keyCode);
+			} else {
+				audio.volume = volume;
+			}
+		}, 20);
+		
+		audioFadeIntervals.set(keyCode, fadeInterval);
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
+		if (!isOpen || e.repeat) return;
+		startNote(e.keyCode);
+	}
+
+	function handleKeyup(e: KeyboardEvent) {
 		if (!isOpen) return;
-		playNote(e.keyCode);
+		stopNote(e.keyCode);
 	}
 
 	onMount(() => {
 		window.addEventListener("keydown", handleKeydown);
-		return () => window.removeEventListener("keydown", handleKeydown);
+		window.addEventListener("keyup", handleKeyup);
+		return () => {
+			window.removeEventListener("keydown", handleKeydown);
+			window.removeEventListener("keyup", handleKeyup);
+			audioFadeIntervals.forEach(clearInterval);
+		};
 	});
 </script>
 
@@ -106,7 +152,12 @@
 						   class:playing={activeKeys.has(key.keyCode)}
 						   data-key={key.keyCode} 
 						   data-note={key.note}
-						   onclick={() => playNote(key.keyCode)}
+						   onpointerdown={(e) => {
+							   e.preventDefault();
+							   startNote(key.keyCode);
+						   }}
+						   onpointerup={() => stopNote(key.keyCode)}
+						   onpointerleave={() => stopNote(key.keyCode)}
 						   data-testid={`piano-key-${i}-button`}
 					   >
 						   <span class="hints">{key.hint}</span>
