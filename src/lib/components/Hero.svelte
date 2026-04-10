@@ -232,7 +232,7 @@
 		box-shadow: 0 30px 60px rgba(0,0,0,0.12);
 		z-index: 2;
 		aspect-ratio: 4 / 3;
-		min-height: 300px;
+		/* min-height: 100px; */
 		background: var(--color-light-blue);
 	}
 
