@@ -28,6 +28,10 @@
 	$effect(() => {
 		if (browser) {
 			document.body.classList.toggle('page-home', page.route.id === '/');
+			// Remove the HTML splash on non-home pages (it's only relevant for homepage)
+			if (page.route.id !== '/') {
+				document.getElementById('app-splash')?.remove();
+			}
 		}
 	});
 

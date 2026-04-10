@@ -118,8 +118,23 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
-    return docSnap.data() as HomeSettings;
+    const data = docSnap.data() as HomeSettings;
+    // Cache in localStorage for instant render on next visit (SWR pattern)
+    try {
+      const { updatedAt, ...cacheable } = data;
+      localStorage.setItem('homeSettings', JSON.stringify(cacheable));
+    } catch { /* quota exceeded or SSR — ignore */ }
+    return data;
   }
+  return null;
+}
+
+/** Read cached home settings from localStorage (sync, instant). */
+export function getCachedHomeSettings(): Omit<HomeSettings, 'updatedAt'> | null {
+  try {
+    const cached = localStorage.getItem('homeSettings');
+    if (cached) return JSON.parse(cached);
+  } catch { /* SSR or corrupted — ignore */ }
   return null;
 }
 

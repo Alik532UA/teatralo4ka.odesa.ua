@@ -76,33 +76,34 @@ export async function getArticleById(id: string) {
   return null;
 }
 
-export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string) {
+export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string, maxItems?: number) {
   const articlesRef = collection(db, "projects", projectId, "articles");
   
   // Фільтр isPublished на рівні запиту обов'язковий для неавторизованих користувачів:
   // Firestore перевіряє rule per-document під час list-запиту, і якщо хоча б один
   // документ не проходить rule (resource.data.isPublished == true для анонімів) —
   // весь запит падає з permission-denied.
-  let q = publishedOnly
-    ? query(articlesRef, where("isPublished", "==", true), orderBy("createdAt", "desc"))
-    : query(articlesRef, orderBy("createdAt", "desc"));
-  
-  if (category) {
-    q = publishedOnly
-      ? query(articlesRef, where("isPublished", "==", true), where("category", "==", category), orderBy("createdAt", "desc"))
-      : query(articlesRef, where("category", "==", category), orderBy("createdAt", "desc"));
-  }
+  const constraints: any[] = [];
+  if (publishedOnly) constraints.push(where("isPublished", "==", true));
+  if (category) constraints.push(where("category", "==", category));
+  constraints.push(orderBy("createdAt", "desc"));
+  // Fetch extra to account for client-side i18n filtering, but still limit the query
+  if (maxItems) constraints.push(limit(maxItems * 2));
+
+  const q = query(articlesRef, ...constraints);
 
   const snapshot = await getDocs(q);
   const allArticles = snapshot.docs.map(d => docToArticle(d));
 
   // Фільтруємо на рівні клієнта для мультимовності (Firestore не підтримує динамічні ключі в query для перевірки isPublished всередині об'єкта)
-  return allArticles.filter(article => {
+  const filtered = allArticles.filter(article => {
     const translation = article.translations?.[lang as 'uk' | 'en'];
     if (!translation) return false;
     if (publishedOnly && !translation.isPublished) return false;
     return true;
   });
+
+  return maxItems ? filtered.slice(0, maxItems) : filtered;
 }
 
 export function getDisplayDate(article: Article): any {
