@@ -81,7 +81,7 @@
 <style>
 	/* ─── Carousel card ──────────────────────────────────── */
 	.focus-card {
-		flex: 0 0 600px;
+		flex: 0 0 var(--focus-card-width, 600px);
 		height: 400px;
 		background: var(--color-surface);
 		border-radius: 40px;
@@ -328,35 +328,76 @@
 
 	/* ─── Responsive ─────────────────────────────────────── */
 	@media (max-width: 1024px) {
-		.focus-card {
-			flex: 0 0 500px;
+		.focus-card__content {
+			padding: 2rem;
 		}
 	}
 
 	@media (max-width: 768px) {
 		.focus-card {
-			flex: 0 0 90%;
 			flex-direction: column;
 			height: auto;
+			border-radius: 32px;
 		}
 		.focus-card__img-wrap {
-			height: 200px;
+			flex: 0 0 200px;
+			width: 100%;
 		}
 		.focus-card__content {
-			padding: 2rem;
+			padding: 1.5rem;
 		}
 		.focus-card__title {
-			font-size: 1.5rem;
+			font-size: 1.4rem;
 		}
+		.focus-card__excerpt {
+			margin-bottom: 1.5rem;
+			font-size: 0.9rem;
+		}
+		.focus-card__meta {
+			margin-bottom: 1rem;
+		}
+
+		.grid-card {
+			flex-direction: column;
+			height: auto;
+			border-radius: 24px;
+		}
+		.grid-card__img-wrap {
+			flex: 0 0 200px;
+			width: 100%;
+		}
+		.grid-card .focus-card__content {
+			padding: 1.5rem;
+		}
+		.grid-card .focus-card__title {
+			font-size: 1.2rem;
+		}
+
 		.list-item {
 			flex-direction: column;
+			padding-right: 0;
+			gap: 0;
 		}
 		.list-item__img-wrap {
 			width: 100%;
-			height: 180px;
+			aspect-ratio: 16 / 9;
+			height: 160px;
+		}
+		.list-item__body {
+			padding: 1.25rem 1.5rem;
+			width: 100%;
+		}
+		.list-item__title {
+			white-space: normal;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			-webkit-box-orient: vertical;
 		}
 		.list-item__link {
-			align-self: flex-start;
+			margin: 0 1.5rem 1.5rem;
+			width: calc(100% - 3rem);
+			text-align: center;
 		}
 	}
 </style>

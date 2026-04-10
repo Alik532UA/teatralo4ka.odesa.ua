@@ -139,8 +139,18 @@
 		.news {
 			padding: 4rem 0;
 		}
+		.news__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--space-md);
+			padding: 0 var(--space-md);
+			margin-bottom: var(--space-xl);
+		}
 		.news__title {
-			font-size: 2.2rem;
+			font-size: clamp(2rem, 8vw, 2.5rem);
+		}
+		.news__subtitle {
+			font-size: 1rem;
 		}
 	}
 </style>

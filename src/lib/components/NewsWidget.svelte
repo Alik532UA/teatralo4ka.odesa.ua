@@ -221,14 +221,14 @@
 
 	<!-- Carousel view -->
 	{#if view === 'carousel'}
-		<div class="focus-viewport" style="--step-width: 620px;" role="region" aria-label={$t('news.title')} data-testid="news-widget-viewport"
+		<div class="focus-viewport" role="region" aria-label={$t('news.title')} data-testid="news-widget-viewport"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => isHovered = false}
 		>
 			<div
 				class="focus-track"
 				style="
-					transform: translateX(calc(50% - (var(--step-width) - 20px) / 2 - ({currentIndex} * var(--step-width))));
+					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width))));
 					transition: {isTransitioning ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
 				"
 				data-testid="news-widget-track"
@@ -299,6 +299,22 @@
 <style>
 	.nw-root {
 		position: relative;
+		--focus-card-width: 600px;
+		--focus-gap: 20px;
+		--step-width: calc(var(--focus-card-width) + var(--focus-gap));
+	}
+
+	@media (max-width: 1024px) {
+		.nw-root {
+			--focus-card-width: 500px;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.nw-root {
+			--focus-card-width: 85vw;
+			--focus-gap: 15px;
+		}
 	}
 
 	/* ─── Controls row ─────────────────────────────────── */
@@ -309,6 +325,20 @@
 		gap: var(--space-lg);
 		margin-bottom: 2rem;
 		padding: 0 var(--space-xl);
+	}
+
+	@media (max-width: 600px) {
+		.nw-controls {
+			flex-direction: column;
+			align-items: stretch;
+			gap: var(--space-md);
+			padding: 0 var(--space-md);
+		}
+		
+		.nw-controls__right {
+			justify-content: space-between;
+			width: 100%;
+		}
 	}
 
 	.nw-controls__right {
@@ -332,6 +362,13 @@
 		text-decoration: none;
 		transition: all 0.3s ease;
 		margin-right: auto;
+	}
+
+	@media (max-width: 600px) {
+		.nw-all-link {
+			margin-right: 0;
+			width: 100%;
+		}
 	}
 
 	.nw-all-link:hover {
@@ -380,13 +417,21 @@
 	/* ─── Carousel ─────────────────────────────────────── */
 	.focus-viewport {
 		position: relative;
-		height: 480px;
+		height: 520px;
 		margin: 0 auto;
+		overflow: visible;
+	}
+
+	@media (max-width: 768px) {
+		.focus-viewport {
+			height: auto;
+			min-height: 500px;
+		}
 	}
 
 	.focus-track {
 		display: flex;
-		gap: 20px;
+		gap: var(--focus-gap);
 		align-items: center;
 		height: 100%;
 		will-change: transform;
@@ -424,12 +469,14 @@
 	.focus-dots {
 		display: flex;
 		justify-content: center;
-		gap: 1rem;
-		margin-top: 4rem;
+		gap: 0.5rem;
+		margin-top: 3rem;
+		flex-wrap: wrap;
+		padding: 0 var(--space-md);
 	}
 
 	.f-dot {
-		width: 40px;
+		width: 30px;
 		height: 6px;
 		border-radius: 3px;
 		border: none;
@@ -440,7 +487,12 @@
 
 	.f-dot.active {
 		background: var(--color-deep-ocean);
-		width: 80px;
+		width: 60px;
+	}
+
+	@media (max-width: 480px) {
+		.f-dot { width: 20px; }
+		.f-dot.active { width: 40px; }
 	}
 
 	/* ─── Grid view ────────────────────────────────────── */
@@ -451,12 +503,25 @@
 		padding: 0 var(--space-xl);
 	}
 
+	@media (max-width: 900px) {
+		.grid-view {
+			grid-template-columns: 1fr;
+			padding: 0 var(--space-md);
+		}
+	}
+
 	/* ─── List view ────────────────────────────────────── */
 	.list-view {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		padding: 0 var(--space-xl);
+	}
+
+	@media (max-width: 768px) {
+		.list-view {
+			padding: 0 var(--space-md);
+		}
 	}
 
 	/* ─── Show all button ──────────────────────────────── */
@@ -486,6 +551,6 @@
 	/* ─── Responsive ───────────────────────────────────── */
 	@media (max-width: 768px) {
 		.nav-btn { display: none; }
-		.grid-view { grid-template-columns: 1fr; }
 	}
+</style>
 </style>

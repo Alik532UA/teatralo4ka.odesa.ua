@@ -118,6 +118,16 @@
 		padding: 0 var(--space-xl);
 	}
 
+	@media (max-width: 768px) {
+		.news__header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--space-md);
+			padding: 0 var(--space-md);
+			margin-bottom: var(--space-xl);
+		}
+	}
+
 	.news__title {
 		font-family: var(--font-heading);
 		font-size: clamp(2rem, 5vw, 3rem);
@@ -130,5 +140,11 @@
 		font-size: 1.1rem;
 		color: var(--color-muted-text);
 		max-width: 500px;
+	}
+
+	@media (max-width: 480px) {
+		.news__subtitle {
+			font-size: 1rem;
+		}
 	}
 </style>
