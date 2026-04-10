@@ -8,23 +8,7 @@
   },
   "nav": {
     "home": "Home",
-    "about": "About School",
-    "history": "History",
-    "contacts": "Contacts",
-    "announcements": "Announcements",
-    "admission": "ADMISSION",
-    "departments": "Departments",
-    "residents": "Residents",
-    "projects": "Projects",
-    "adults": "Adults",
-    "kids": "Kids",
-    "graduates": "Graduates",
-    "theatre": "Theatre Department",
-    "aesthetic": "Aesthetic Education",
-    "music": "Music Department",
-    "art": "Art Department",
-    "menu": "MENU",
-    "skipToContent": "Skip to main content"
+    "projects": "Projects"
   },
   "footer": {
     "address": "24 Sofiivska St, Odesa",

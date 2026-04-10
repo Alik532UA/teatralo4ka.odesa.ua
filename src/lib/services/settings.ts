@@ -207,6 +207,236 @@ export interface MenuConfig {
   sections: MenuSection[];
 }
 
+// ── Override types (stored in Firebase — only admin customizations) ────────────
+
+/**
+ * Firebase stores only the "delta" from defaults.
+ * - `custom: true` items are stored fully (all fields required).
+ * - Default items store only `id` + changed fields. Missing fields = use default.
+ * - `null` explicitly means "use the code default" (for clearing a custom override).
+ */
+export interface MenuItemOverride {
+  id: string;
+  labelUk?: string | null;
+  labelEn?: string | null;
+  linkType?: MenuLinkType;
+  href?: string;
+  visible?: boolean;
+  order?: number;
+  custom?: boolean;
+  itemType?: 'cta' | null;
+}
+
+export interface MenuSectionOverride {
+  id: string;
+  labelUk?: string | null;
+  labelEn?: string | null;
+  href?: string | null;
+  linkType?: MenuLinkType;
+  visible?: boolean;
+  order?: number;
+  custom?: boolean;
+  items?: MenuItemOverride[];
+}
+
+export interface MenuConfigOverride {
+  items?: MenuItemOverride[];
+  sections?: MenuSectionOverride[];
+}
+
+// ── Merge logic: defaults + Firebase overrides ────────────────────────────────
+
+/** Resolve a single MenuItem from default + override. Null values in override = use default. */
+function resolveItem(def: MenuItem, override?: MenuItemOverride): MenuItem {
+  if (!override) return { ...def };
+  return {
+    ...def,
+    labelUk:  override.labelUk  ?? def.labelUk,
+    labelEn:  override.labelEn  ?? def.labelEn,
+    linkType: override.linkType ?? def.linkType,
+    href:     override.href     ?? def.href,
+    visible:  override.visible  ?? def.visible,
+    order:    override.order    ?? def.order,
+    itemType: override.itemType === null ? undefined : (override.itemType ?? def.itemType),
+    custom:   override.custom   ?? def.custom,
+  };
+}
+
+/** Merge an item array: match by id, preserve custom items from overrides. */
+function resolveItems(defaults: MenuItem[], overrides?: MenuItemOverride[]): MenuItem[] {
+  if (!overrides) return defaults.map(d => ({ ...d }));
+
+  const result: MenuItem[] = [];
+
+  // First, resolve all default items (matched by id)
+  for (const def of defaults) {
+    const override = overrides.find(o => o.id === def.id);
+    result.push(resolveItem(def, override));
+  }
+
+  // Then, add custom items from overrides (not in defaults)
+  for (const override of overrides) {
+    if (!defaults.some(d => d.id === override.id)) {
+      // Custom item — all fields must be present
+      result.push({
+        id:       override.id,
+        labelUk:  override.labelUk ?? '',
+        labelEn:  override.labelEn ?? '',
+        linkType: override.linkType ?? 'page',
+        href:     override.href ?? '',
+        visible:  override.visible ?? true,
+        order:    override.order ?? result.length,
+        custom:   true,
+        itemType: override.itemType === null ? undefined : override.itemType,
+      });
+    }
+  }
+
+  return result;
+}
+
+/** Merge a section from default + override. */
+function resolveSection(def: MenuSection, override?: MenuSectionOverride): MenuSection {
+  if (!override) return { ...def, items: def.items.map(i => ({ ...i })) };
+  return {
+    ...def,
+    labelUk:  override.labelUk  === null ? undefined : (override.labelUk  ?? def.labelUk),
+    labelEn:  override.labelEn  === null ? undefined : (override.labelEn  ?? def.labelEn),
+    href:     override.href     === null ? undefined : (override.href     ?? def.href),
+    linkType: override.linkType ?? def.linkType,
+    visible:  override.visible  ?? def.visible,
+    order:    override.order    ?? def.order,
+    custom:   override.custom   ?? def.custom,
+    items:    resolveItems(def.items, override.items),
+  };
+}
+
+/** Merge a full MenuConfig: defaults + Firebase overrides. */
+export function resolveMenuConfig(defaults: MenuConfig, overrides?: MenuConfigOverride): MenuConfig {
+  if (!overrides) return structuredClone(defaults);
+
+  const items = resolveItems(defaults.items, overrides.items);
+
+  const sections: MenuSection[] = [];
+  for (const def of defaults.sections) {
+    const override = overrides.sections?.find(o => o.id === def.id);
+    sections.push(resolveSection(def, override));
+  }
+  // Custom sections from overrides
+  if (overrides.sections) {
+    for (const override of overrides.sections) {
+      if (!defaults.sections.some(d => d.id === override.id)) {
+        sections.push({
+          id:       override.id,
+          labelUk:  override.labelUk === null ? undefined : override.labelUk,
+          labelEn:  override.labelEn === null ? undefined : override.labelEn,
+          href:     override.href === null ? undefined : override.href,
+          linkType: override.linkType,
+          visible:  override.visible ?? true,
+          order:    override.order ?? sections.length,
+          custom:   true,
+          items:    resolveItems([], override.items),
+        });
+      }
+    }
+  }
+
+  return { items, sections };
+}
+
+/** Extract only the differences from defaults (for saving to Firebase). */
+function diffItem(resolved: MenuItem, def: MenuItem): MenuItemOverride | null {
+  if (resolved.custom) {
+    // Custom items are always stored fully
+    return { ...resolved };
+  }
+  const diff: MenuItemOverride = { id: resolved.id };
+  let hasDiff = false;
+  if (resolved.labelUk  !== def.labelUk)  { diff.labelUk  = resolved.labelUk;  hasDiff = true; }
+  if (resolved.labelEn  !== def.labelEn)  { diff.labelEn  = resolved.labelEn;  hasDiff = true; }
+  if (resolved.linkType !== def.linkType) { diff.linkType = resolved.linkType; hasDiff = true; }
+  if (resolved.href     !== def.href)     { diff.href     = resolved.href;     hasDiff = true; }
+  if (resolved.visible  !== def.visible)  { diff.visible  = resolved.visible;  hasDiff = true; }
+  if (resolved.order    !== def.order)    { diff.order    = resolved.order;    hasDiff = true; }
+  if (resolved.itemType !== def.itemType) { diff.itemType = resolved.itemType ?? null; hasDiff = true; }
+  return hasDiff ? diff : null;
+}
+
+/** Extract differences for an items array. Returns undefined if no changes. */
+function diffItems(resolved: MenuItem[], defaults: MenuItem[]): MenuItemOverride[] | undefined {
+  const diffs: MenuItemOverride[] = [];
+  for (const item of resolved) {
+    const def = defaults.find(d => d.id === item.id);
+    if (!def) {
+      // Custom item — store fully
+      diffs.push({ ...item, custom: true });
+    } else {
+      const d = diffItem(item, def);
+      if (d) diffs.push(d);
+    }
+  }
+  // Check for removed default items
+  for (const def of defaults) {
+    if (!resolved.some(r => r.id === def.id)) {
+      diffs.push({ id: def.id, visible: false });
+    }
+  }
+  return diffs.length > 0 ? diffs : undefined;
+}
+
+function diffSection(resolved: MenuSection, def: MenuSection): MenuSectionOverride | null {
+  if (resolved.custom) {
+    return {
+      ...resolved,
+      items: resolved.items.map(i => ({ ...i, custom: true })),
+    };
+  }
+  const diff: MenuSectionOverride = { id: resolved.id };
+  let hasDiff = false;
+  if (resolved.labelUk  !== def.labelUk)  { diff.labelUk  = resolved.labelUk  ?? null; hasDiff = true; }
+  if (resolved.labelEn  !== def.labelEn)  { diff.labelEn  = resolved.labelEn  ?? null; hasDiff = true; }
+  if (resolved.href     !== def.href)     { diff.href     = resolved.href     ?? null; hasDiff = true; }
+  if (resolved.linkType !== def.linkType) { diff.linkType = resolved.linkType; hasDiff = true; }
+  if (resolved.visible  !== def.visible)  { diff.visible  = resolved.visible;  hasDiff = true; }
+  if (resolved.order    !== def.order)    { diff.order    = resolved.order;    hasDiff = true; }
+  const itemsDiff = diffItems(resolved.items, def.items);
+  if (itemsDiff) { diff.items = itemsDiff; hasDiff = true; }
+  return hasDiff ? diff : null;
+}
+
+/** Extract only overrides from a resolved MenuConfig (for saving to Firebase). */
+export function diffMenuConfig(resolved: MenuConfig, defaults: MenuConfig): MenuConfigOverride | undefined {
+  const itemsDiff = diffItems(resolved.items, defaults.items);
+  const sectionDiffs: MenuSectionOverride[] = [];
+
+  for (const section of resolved.sections) {
+    const def = defaults.sections.find(d => d.id === section.id);
+    if (!def) {
+      sectionDiffs.push({
+        ...section,
+        custom: true,
+        items: section.items.map(i => ({ ...i, custom: true })),
+      });
+    } else {
+      const d = diffSection(section, def);
+      if (d) sectionDiffs.push(d);
+    }
+  }
+  // Removed default sections
+  for (const def of defaults.sections) {
+    if (!resolved.sections.some(r => r.id === def.id)) {
+      sectionDiffs.push({ id: def.id, visible: false });
+    }
+  }
+
+  const sectionsDiff = sectionDiffs.length > 0 ? sectionDiffs : undefined;
+  if (!itemsDiff && !sectionsDiff) return undefined;
+  const result: MenuConfigOverride = {};
+  if (itemsDiff)    result.items = itemsDiff;
+  if (sectionsDiff) result.sections = sectionsDiff;
+  return result;
+}
+
 export type CtaLinkType = MenuLinkType;
 
 export interface CtaConfig {
@@ -284,7 +514,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
     sections: [
       {
         id: 'quick',
-        visible: true,
+        visible: false,
         order: 0,
         items: [
           { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0, itemType: 'cta' },
@@ -300,10 +530,10 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
         visible: true,
         order: 1,
         items: [
-          { id: 'theatre',   labelUk: 'Театральне відділення',        labelEn: 'Theatre Department', linkType: 'page', href: '/departments/theatre',   visible: true, order: 0 },
-          { id: 'aesthetic', labelUk: 'Відд. естетичного виховання',  labelEn: 'Aesthetic Education', linkType: 'page', href: '/departments/aesthetic', visible: true, order: 1 },
-          { id: 'music',     labelUk: 'Музичне відділення',           labelEn: 'Music Department',    linkType: 'page', href: '/departments/music',     visible: true, order: 2 },
-          { id: 'art',       labelUk: 'Художнє відділення',           labelEn: 'Art Department',      linkType: 'page', href: '/departments/art',       visible: true, order: 3 },
+          { id: 'theatre',   labelUk: 'Театральне',           labelEn: 'Theatre',             linkType: 'page', href: '/departments/theatre',   visible: true, order: 0 },
+          { id: 'music',     labelUk: 'Музичне',             labelEn: 'Music',               linkType: 'page', href: '/departments/music',     visible: true, order: 1 },
+          { id: 'art',       labelUk: 'Художнє',             labelEn: 'Art',                 linkType: 'page', href: '/departments/art',       visible: true, order: 2 },
+          { id: 'aesthetic', labelUk: 'Естетичне виховання',  labelEn: 'Aesthetic Education', linkType: 'page', href: '/departments/aesthetic', visible: true, order: 3 },
         ],
       },
       {
@@ -334,7 +564,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
     sections: [
       {
         id: 'quick',
-        visible: true,
+        visible: false,
         order: 0,
         items: [
           { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0, itemType: 'cta' },
@@ -350,10 +580,10 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
         visible: true,
         order: 1,
         items: [
-          { id: 'theatre',   labelUk: 'Театральне відділення',        labelEn: 'Theatre Department', linkType: 'page', href: '/departments/theatre',   visible: true, order: 0 },
-          { id: 'aesthetic', labelUk: 'Відд. естетичного виховання',  labelEn: 'Aesthetic Education', linkType: 'page', href: '/departments/aesthetic', visible: true, order: 1 },
-          { id: 'music',     labelUk: 'Музичне відділення',           labelEn: 'Music Department',    linkType: 'page', href: '/departments/music',     visible: true, order: 2 },
-          { id: 'art',       labelUk: 'Художнє відділення',           labelEn: 'Art Department',      linkType: 'page', href: '/departments/art',       visible: true, order: 3 },
+          { id: 'theatre',   labelUk: 'Театральне',           labelEn: 'Theatre',             linkType: 'page', href: '/departments/theatre',   visible: true, order: 0 },
+          { id: 'music',     labelUk: 'Музичне',             labelEn: 'Music',               linkType: 'page', href: '/departments/music',     visible: true, order: 1 },
+          { id: 'art',       labelUk: 'Художнє',             labelEn: 'Art',                 linkType: 'page', href: '/departments/art',       visible: true, order: 2 },
+          { id: 'aesthetic', labelUk: 'Естетичне виховання',  labelEn: 'Aesthetic Education', linkType: 'page', href: '/departments/aesthetic', visible: true, order: 3 },
         ],
       },
       {
@@ -386,14 +616,22 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
   },
 };
 
-/** Public read — no auth required (Firestore rules allow settingId == 'header'). */
-export async function getHeaderSettings(): Promise<HeaderSettings | null> {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return null;
+/**
+ * Firebase stores overrides (deltas from defaults).
+ * This interface represents the raw shape of the Firebase document.
+ */
+interface HeaderSettingsRaw {
+  cta?: Partial<CtaConfig> & { linkValue?: string };
+  ticker?: Partial<TickerConfig>;
+  headerBar?: MenuConfigOverride;
+  navDropdown?: MenuConfigOverride;
+  mobileOverlay?: MenuConfigOverride;
+  debugPanel?: Partial<DebugPanelConfig>;
+  updatedAt?: any;
+}
 
-  const raw = docSnap.data() as Record<string, any>;
-
+/** Resolve full HeaderSettings from Firebase overrides + code defaults. */
+function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
   // Migrate old cta.linkValue → cta.href
   const rawCta = raw.cta ?? {};
   const cta: CtaConfig = {
@@ -402,20 +640,28 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
     href: rawCta.href ?? rawCta.linkValue ?? DEFAULT_HEADER_SETTINGS.cta.href,
   };
 
-  const result = {
+  return {
     cta,
-    ticker:        raw.ticker        ?? DEFAULT_HEADER_SETTINGS.ticker,
-    headerBar:     raw.headerBar     ?? DEFAULT_HEADER_SETTINGS.headerBar,
-    navDropdown:   raw.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
-    mobileOverlay: raw.mobileOverlay ?? DEFAULT_HEADER_SETTINGS.mobileOverlay,
-    debugPanel:    raw.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
-    updatedAt:     raw.updatedAt,
-  } as HeaderSettings;
+    ticker:        { ...DEFAULT_HEADER_SETTINGS.ticker,    ...(raw.ticker ?? {}) },
+    headerBar:     resolveMenuConfig(DEFAULT_HEADER_SETTINGS.headerBar,     raw.headerBar),
+    navDropdown:   resolveMenuConfig(DEFAULT_HEADER_SETTINGS.navDropdown,   raw.navDropdown),
+    mobileOverlay: resolveMenuConfig(DEFAULT_HEADER_SETTINGS.mobileOverlay, raw.mobileOverlay),
+    debugPanel:    { ...DEFAULT_HEADER_SETTINGS.debugPanel, ...(raw.debugPanel ?? {}) },
+  };
+}
 
-  // Cache in localStorage for instant render on next visit
+/** Public read — no auth required (Firestore rules allow settingId == 'header'). */
+export async function getHeaderSettings(): Promise<HeaderSettings | null> {
+  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+
+  const raw = docSnap.data() as HeaderSettingsRaw;
+  const result = resolveHeaderSettings(raw);
+
+  // Cache the resolved result for instant render on next visit
   try {
-    const { updatedAt, ...cacheable } = result;
-    localStorage.setItem('headerSettings', JSON.stringify(cacheable));
+    localStorage.setItem('headerSettings', JSON.stringify(result));
   } catch { /* quota exceeded or SSR — ignore */ }
 
   return result;
@@ -430,14 +676,58 @@ export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | n
   return null;
 }
 
-/** Auth-required write. */
+/**
+ * Auth-required write.
+ * Accepts resolved (full) MenuConfig objects, diffs them against defaults,
+ * and stores only the overrides in Firebase.
+ */
 export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "header");
-  return await setDoc(docRef, {
-    ...settings,
-    updatedAt: serverTimestamp()
-  });
+
+  // Diff CTA: only store fields that differ from default
+  const ctaDiff: Record<string, any> = {};
+  const defCta = DEFAULT_HEADER_SETTINGS.cta;
+  for (const key of Object.keys(settings.cta) as (keyof CtaConfig)[]) {
+    if (settings.cta[key] !== defCta[key]) {
+      ctaDiff[key] = settings.cta[key];
+    }
+  }
+
+  // Diff ticker
+  const tickerDiff: Record<string, any> = {};
+  const defTicker = DEFAULT_HEADER_SETTINGS.ticker;
+  for (const key of Object.keys(settings.ticker) as (keyof TickerConfig)[]) {
+    if (settings.ticker[key] !== defTicker[key]) {
+      tickerDiff[key] = settings.ticker[key];
+    }
+  }
+
+  // Diff debug panel
+  const debugDiff: Record<string, any> = {};
+  const defDebug = DEFAULT_HEADER_SETTINGS.debugPanel;
+  for (const key of Object.keys(settings.debugPanel) as (keyof DebugPanelConfig)[]) {
+    if (settings.debugPanel[key] !== defDebug[key]) {
+      debugDiff[key] = settings.debugPanel[key];
+    }
+  }
+
+  const payload: Record<string, any> = { updatedAt: serverTimestamp() };
+
+  // Only include sections that have actual overrides
+  if (Object.keys(ctaDiff).length > 0)     payload.cta = ctaDiff;
+  if (Object.keys(tickerDiff).length > 0)   payload.ticker = tickerDiff;
+  if (Object.keys(debugDiff).length > 0)    payload.debugPanel = debugDiff;
+
+  const headerBarDiff = diffMenuConfig(settings.headerBar, DEFAULT_HEADER_SETTINGS.headerBar);
+  const navDropdownDiff = diffMenuConfig(settings.navDropdown, DEFAULT_HEADER_SETTINGS.navDropdown);
+  const mobileOverlayDiff = diffMenuConfig(settings.mobileOverlay, DEFAULT_HEADER_SETTINGS.mobileOverlay);
+
+  if (headerBarDiff)     payload.headerBar = headerBarDiff;
+  if (navDropdownDiff)   payload.navDropdown = navDropdownDiff;
+  if (mobileOverlayDiff) payload.mobileOverlay = mobileOverlayDiff;
+
+  return await setDoc(docRef, payload);
 }
 
 // ── News page settings ────────────────────────────────────────────────────────

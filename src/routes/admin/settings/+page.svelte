@@ -223,18 +223,14 @@ $effect(() => {
             originalDebugPanel = JSON.stringify(debugPanel);
             originalTicker = JSON.stringify(ticker);
           } else {
-            // No header config in Firebase yet — seed defaults so admin gets full control
-            try {
-              await updateHeaderSettings({ cta, headerBar, navDropdown, mobileOverlay, debugPanel, ticker });
-              originalCta = JSON.stringify(cta);
-              originalHeaderBar = JSON.stringify(headerBar);
-              originalNavDropdown = JSON.stringify(navDropdown);
-              originalMobileOverlay = JSON.stringify(mobileOverlay);
-              originalDebugPanel = JSON.stringify(debugPanel);
-              originalTicker = JSON.stringify(ticker);
-            } catch (seedErr) {
-              console.warn('Could not seed default header settings:', seedErr);
-            }
+            // No header config in Firebase yet — defaults are resolved from code automatically.
+            // Just update the original snapshots so change tracking is correct.
+            originalCta = JSON.stringify(cta);
+            originalHeaderBar = JSON.stringify(headerBar);
+            originalNavDropdown = JSON.stringify(navDropdown);
+            originalMobileOverlay = JSON.stringify(mobileOverlay);
+            originalDebugPanel = JSON.stringify(debugPanel);
+            originalTicker = JSON.stringify(ticker);
           }
         } catch (e: any) {
           console.error('Failed to load settings:', e);

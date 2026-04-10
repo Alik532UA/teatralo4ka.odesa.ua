@@ -4,7 +4,7 @@
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X } from "lucide-svelte";
-	import { fly } from "svelte/transition";
+	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
 	import { ui } from "$lib/states/ui.svelte";
 	import { t, locale } from "svelte-i18n";
@@ -353,7 +353,7 @@
 						tabindex="-1"
 					>
 					{#each navDropdownGroups as group, gIndex}
-						<div class="header__nav-dropdown-group" class:header__nav-dropdown-group--hidden={gIndex === 0 && !group.title} data-testid={`nav-dropdown-group-${gIndex}`}>
+						<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-group-${gIndex}`}>
 							{#if group.title}
 								{#if group.titleHref}
 									<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
@@ -378,7 +378,7 @@
 									{/each}
 								</ul>
 							</div>
-							{#if gIndex < mobileNavGroups.length - 1 && gIndex !== 0}
+							{#if gIndex < navDropdownGroups.length - 1}
 								<div class="header__nav-dropdown-divider"></div>
 							{/if}
 						{/each}
@@ -440,10 +440,16 @@
 
 	{#if ui.isMenuOpen}
 		<div
+			class="header__mobile-backdrop"
+			in:fade={{ duration: 150, easing: cubicInOut }}
+			out:fade={{ duration: 200, delay: 100, easing: cubicInOut }}
+			data-testid="mobile-backdrop"
+		></div>
+		<div
 			class="header__mobile-overlay"
 			role="dialog"
 			aria-modal="true"
-			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut }}
+			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut, delay: 100 }}
 			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
 			data-testid="mobile-overlay-container"
 		>
@@ -674,9 +680,7 @@
 		gap: var(--space-xs);
 	}
 
-	.header__nav-dropdown-group--hidden {
-		display: none;
-	}
+
 
 	.header__nav-dropdown-label {
 		margin-bottom: 2px;
@@ -847,17 +851,16 @@
 		background: transparent;
 	}
 
-	.header__mobile-overlay::before {
-		content: "";
-		position: absolute;
+	.header__mobile-backdrop {
+		position: fixed;
 		inset: 0;
+		z-index: 390;
 		background: color-mix(in srgb, var(--color-surface), transparent 2%);
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
-		z-index: -1;
 	}
 
-	:global(.dark-theme) .header__mobile-overlay::before {
+	:global(.dark-theme) .header__mobile-backdrop {
 		background: color-mix(in srgb, var(--color-dark-bg), transparent 5%);
 	}
 
