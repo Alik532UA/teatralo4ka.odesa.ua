@@ -40,9 +40,11 @@
 	let mounted = $state(false);
 
 	// ── Carousel state ────────────────────────────────────────────────────────
-	let currentIndex = $state(2);
+	// Dynamic buffer for seamless infinite loop to handle rapid clicking
+	let currentIndex = $state(0);
 	let isTransitioning = $state(true);
 	let infiniteNews = $state<NewsWidgetItem[]>([]);
+	let bufferCount = $state(1);
 
 	// ── Max items for grid/list ───────────────────────────────────────────────
 	let showingAll = $state(false);
@@ -70,18 +72,17 @@
 			}
 		}
 
-		if (ordered.length > 1) {
-			infiniteNews = [
-				ordered[ordered.length - 2],
-				ordered[ordered.length - 1],
-				...ordered,
-				ordered[0],
-				ordered[1],
-			];
-			currentIndex = 2;
-		} else {
-			infiniteNews = [ordered[0], ordered[0], ordered[0], ordered[0], ordered[0]];
-			currentIndex = 2;
+		// Calculate how many copies we need for a safe buffer
+		// We want at least ~20 items of buffer on each side so rapid clicks don't hit the end
+		if (ordered.length > 0) {
+			bufferCount = Math.max(3, Math.ceil(20 / ordered.length));
+			let arr = [];
+			const totalCopies = 1 + 2 * bufferCount;
+			for (let i = 0; i < totalCopies; i++) {
+				arr.push(...ordered);
+			}
+			infiniteNews = arr;
+			currentIndex = bufferCount * ordered.length; // Start in the middle set
 		}
 	});
 
@@ -103,6 +104,9 @@
 	// ── Carousel navigation ───────────────────────────────────────────────────
 	function next(fromAuto = false) {
 		if (!isTransitioning || infiniteNews.length <= 1) return;
+		// Prevent scrolling past the available DOM elements in the buffer
+		if (currentIndex >= infiniteNews.length - 2) return;
+		
 		if (!fromAuto) autoplayOverride = false;
 		isAutoAdvancing = fromAuto;
 		currentIndex++;
@@ -110,6 +114,9 @@
 
 	function prev() {
 		if (!isTransitioning || infiniteNews.length <= 1) return;
+		// Prevent scrolling past the available DOM elements in the buffer
+		if (currentIndex <= 1) return;
+		
 		autoplayOverride = false;
 		isAutoAdvancing = false;
 		currentIndex--;
@@ -117,24 +124,35 @@
 
 	function goTo(i: number) {
 		if (!isTransitioning || infiniteNews.length <= 1) return;
-		if (i + 2 === currentIndex) return;
+		const n = items.length;
+		if (n === 0) return;
+		
+		const currentMod = ((currentIndex % n) + n) % n;
+		if (i === currentMod) return;
+		
 		autoplayOverride = false;
 		isAutoAdvancing = false;
-		currentIndex = i + 2;
+		
+		// Find the shortest path (forward or backward) to the target dot
+		let diff = i - currentMod;
+		if (diff > n / 2) diff -= n;
+		else if (diff < -n / 2) diff += n;
+		
+		currentIndex += diff;
 	}
 
 	function handleTransitionEnd(e: TransitionEvent) {
 		if (e.target !== e.currentTarget) return;
 		if (e.propertyName !== 'transform') return;
 
-		const total = infiniteNews.length;
-		if (currentIndex >= total - 2) {
+		const n = items.length;
+		if (n === 0) return;
+		const baseIndex = bufferCount * n;
+
+		// Seamless jump back to the middle set if we drift out of it
+		if (currentIndex >= baseIndex + n || currentIndex < baseIndex) {
 			isTransitioning = false;
-			currentIndex = 2;
-			setTimeout(() => { isTransitioning = true; }, 30);
-		} else if (currentIndex <= 1) {
-			isTransitioning = false;
-			currentIndex = total - 3;
+			currentIndex = baseIndex + ((currentIndex % n) + n) % n;
 			setTimeout(() => { isTransitioning = true; }, 30);
 		}
 	}
@@ -147,6 +165,69 @@
 		const id = setInterval(autoNext, 7000);
 		return () => clearInterval(id);
 	});
+
+	// ── Swipe & Scroll ────────────────────────────────────────────────────────
+	let touchStartX = $state(0);
+	let touchEndX = $state(0);
+	let isDragging = $state(false);
+	let dragOffset = $state(0);
+	let lastWheelTime = $state(0);
+
+	function handleTouchStart(e: TouchEvent | MouseEvent) {
+		if (view !== 'carousel' || infiniteNews.length <= 1) return;
+		isDragging = true;
+		touchStartX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
+		touchEndX = touchStartX;
+		dragOffset = 0;
+		autoplayOverride = false;
+	}
+
+	function handleTouchMove(e: TouchEvent | MouseEvent) {
+		if (!isDragging) return;
+		touchEndX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
+		dragOffset = touchEndX - touchStartX;
+		
+		// Instant seamless jump while dragging if we go too far
+		const n = items.length;
+		if (n === 0) return;
+		const baseIndex = bufferCount * n;
+
+		if (currentIndex >= baseIndex + n && dragOffset < 0) {
+			currentIndex -= n;
+		} else if (currentIndex < baseIndex && dragOffset > 0) {
+			currentIndex += n;
+		}
+	}
+
+	function handleTouchEnd() {
+		if (!isDragging) return;
+		isDragging = false;
+		
+		if (Math.abs(dragOffset) > 40) {
+			if (dragOffset < 0) next(false);
+			else prev();
+		}
+		dragOffset = 0;
+	}
+
+	function handleClickCapture(e: MouseEvent) {
+		if (Math.abs(touchStartX - touchEndX) > 10) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+	}
+
+	function handleWheel(e: WheelEvent) {
+		if (view !== 'carousel' || infiniteNews.length <= 1) return;
+		if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 15) {
+			const now = Date.now();
+			if (now - lastWheelTime < 400) return;
+			if (e.deltaX > 0) next(false);
+			else prev();
+			lastWheelTime = now;
+			autoplayOverride = false;
+		}
+	}
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
@@ -223,23 +304,31 @@
 	{#if view === 'carousel'}
 		<div class="focus-viewport" role="region" aria-label={$t('news.title')} data-testid="news-widget-viewport"
 			onmouseenter={() => isHovered = true}
-			onmouseleave={() => isHovered = false}
+			onmouseleave={() => { isHovered = false; isDragging = false; }}
+			onmousedown={handleTouchStart}
+			onmousemove={handleTouchMove}
+			onmouseup={handleTouchEnd}
+			ontouchstart={handleTouchStart}
+			ontouchmove={handleTouchMove}
+			ontouchend={handleTouchEnd}
+			onwheel={handleWheel}
+			onclickcapture={handleClickCapture}
 		>
 			<div
 				class="focus-track"
 				style="
-					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width))));
-					transition: {isTransitioning ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
+					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {dragOffset}px));
+					transition: {isTransitioning && !isDragging ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
 				"
 				data-testid="news-widget-track"
 				ontransitionend={handleTransitionEnd}
 			>
-				{#each infiniteNews as item, i}
+				{#each infiniteNews as item, i (item.id + i)}
 					<NewsCard
 						{item}
 						variant="carousel"
 						index={i}
-						isActive={items.length > 0 && (i - 1 + items.length) % items.length === (currentIndex - 1 + items.length) % items.length}
+						isActive={items.length > 0 && (i % items.length) === (currentIndex % items.length)}
 					/>
 				{/each}
 			</div>
@@ -255,7 +344,7 @@
 				{#each items as _, i}
 					<button
 						class="f-dot"
-						class:active={(currentIndex - 1 + items.length) % items.length === i}
+						class:active={(currentIndex % items.length) === i}
 						onclick={() => goTo(i)}
 						aria-label="Slide {i + 1}"
 						data-testid="news-widget-dot-{i}"
@@ -420,12 +509,19 @@
 		height: 520px;
 		margin: 0 auto;
 		overflow: visible;
+		touch-action: pan-y;
+		user-select: none;
+		cursor: grab;
+	}
+
+	.focus-viewport:active {
+		cursor: grabbing;
 	}
 
 	@media (max-width: 768px) {
 		.focus-viewport {
-			height: auto;
-			min-height: 500px;
+			height: 300px;
+			min-height: auto;
 		}
 	}
 
@@ -552,4 +648,4 @@
 	@media (max-width: 768px) {
 		.nav-btn { display: none; }
 	}
-</style>
+	</style>

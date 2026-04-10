@@ -27,7 +27,7 @@
 	<article class="focus-card" class:is-active={isActive} data-testid="news-page-card-{index}">
 		{#if item.coverUrl}
 			<div class="focus-card__img-wrap" data-testid="news-page-card-img-wrap-{index}">
-				<img src={item.coverUrl} alt={item.title} class="focus-card__img" data-testid="news-page-card-img-{index}" />
+				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="news-page-card-img-{index}" />
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="news-page-card-content-{index}">
@@ -335,69 +335,76 @@
 
 	@media (max-width: 768px) {
 		.focus-card {
-			flex-direction: column;
-			height: auto;
-			border-radius: 32px;
-		}
-		.focus-card__img-wrap {
-			flex: 0 0 200px;
-			width: 100%;
+			height: 220px;
+			border-radius: 20px;
 		}
 		.focus-card__content {
-			padding: 1.5rem;
+			padding: 1rem;
 		}
 		.focus-card__title {
-			font-size: 1.4rem;
+			font-size: 1.1rem;
+			margin-bottom: 0.5rem;
 		}
 		.focus-card__excerpt {
-			margin-bottom: 1.5rem;
-			font-size: 0.9rem;
+			margin-bottom: 0.75rem;
+			font-size: 0.8rem;
 		}
 		.focus-card__meta {
-			margin-bottom: 1rem;
+			margin-bottom: 0.5rem;
+			gap: 0.5rem;
+			flex-wrap: wrap;
 		}
 
 		.grid-card {
-			flex-direction: column;
-			height: auto;
-			border-radius: 24px;
-		}
-		.grid-card__img-wrap {
-			flex: 0 0 200px;
-			width: 100%;
+			height: 180px;
+			border-radius: 16px;
 		}
 		.grid-card .focus-card__content {
-			padding: 1.5rem;
+			padding: 0.8rem 1rem;
 		}
 		.grid-card .focus-card__title {
-			font-size: 1.2rem;
+			font-size: 1rem;
+			margin-bottom: 0.4rem;
+		}
+		.grid-card .focus-card__excerpt {
+			font-size: 0.75rem;
+			margin-bottom: 0.5rem;
 		}
 
 		.list-item {
-			flex-direction: column;
-			padding-right: 0;
-			gap: 0;
+			padding-right: 1rem;
+			gap: 1rem;
+			border-radius: 16px;
 		}
 		.list-item__img-wrap {
-			width: 100%;
-			aspect-ratio: 16 / 9;
-			height: 160px;
+			width: 70px;
 		}
 		.list-item__body {
-			padding: 1.25rem 1.5rem;
-			width: 100%;
+			padding: 1rem 0;
 		}
 		.list-item__title {
+			font-size: 0.95rem;
 			white-space: normal;
 			display: -webkit-box;
 			-webkit-line-clamp: 2;
 			line-clamp: 2;
 			-webkit-box-orient: vertical;
 		}
-		.list-item__link {
-			margin: 0 1.5rem 1.5rem;
-			width: calc(100% - 3rem);
-			text-align: center;
+		.list-item__excerpt {
+			font-size: 0.8rem;
+		}
+
+		.tag {
+			padding: 0.3rem 0.6rem;
+			font-size: 0.6rem;
+		}
+		.date {
+			font-size: 0.75rem;
+		}
+		.btn-more {
+			padding: 0.5rem 0.8rem;
+			font-size: 0.8rem;
+			border-radius: 12px;
 		}
 	}
 </style>
