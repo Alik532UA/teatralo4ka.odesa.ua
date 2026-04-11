@@ -1323,7 +1323,7 @@
 
 		.header__logo-area {
 			margin-left: 0;
-			transform: scale(1.6) translateY(50px);
+			transform: scale(1.6) translateY(40px);
 			height: 60px;
 		}
 
@@ -1332,13 +1332,13 @@
 		}
 
 		.scrolled .header__logo-area {
-			transform: scale(1.35) translateY(55px);
+			transform: scale(1.35) translateY(40px);
 			margin-left: 0;
 		}
 
 		.header__logo-area :global(.logo-svg) {
-			width: 105px;
-			height: 105px;
+			width: 90px;
+			height: 90px;
 		}
 
 		.header__bar {
