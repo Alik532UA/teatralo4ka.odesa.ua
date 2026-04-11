@@ -328,14 +328,25 @@
 	/* Responsive */
 	@media (max-width: 1024px) {
 		.hero__content {
-			grid-template-columns: 60px 1fr 1.2fr;
+			grid-template-columns: 1fr 1.1fr;
+			grid-template-areas: 
+				"text image"
+				"social image";
 			gap: var(--space-xl, 2rem);
+			align-items: center;
+		}
+		.hero__text {
+			grid-area: text;
 		}
 		.hero__social {
-			position: absolute;
-			left: 24px;
-			top: 0;
+			grid-area: social;
 			flex-direction: row;
+			gap: 16px;
+			margin-top: -1.5rem;
+			align-self: start;
+		}
+		.hero__image-wrap {
+			grid-area: image;
 		}
 	}
 
