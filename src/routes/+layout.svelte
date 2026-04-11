@@ -12,8 +12,15 @@
 	import { waitLocale, t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ui/ErrorBoundary.svelte';
 	import { ui } from '$lib/states/ui.svelte';
+	import { checkForUpdates } from '$lib/services/version';
 
 	let { children, data } = $props();
+
+	$effect(() => {
+		if (browser) {
+			checkForUpdates();
+		}
+	});
 
 	function perf(label: string) {
 		if (browser && (window as any).__perf) (window as any).__perf(label);

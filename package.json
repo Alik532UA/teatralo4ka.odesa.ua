@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -15,6 +15,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"validate-content": "tsx src/lib/scripts/validate-content.ts",
+		"bump-version": "tsx src/lib/scripts/bump-version.ts",
 		"generate-sitemap": "tsx src/lib/scripts/generate-sitemap.ts",
 		"generate-changelog": "tsx src/lib/scripts/generate-changelog.ts"
 	},
