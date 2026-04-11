@@ -342,10 +342,10 @@
 		.hero__social {
 			grid-area: social;
 			flex-direction: row;
-			justify-content: center;
+			justify-content: flex-start;
 			gap: 16px;
 			margin-top: -1.5rem;
-			align-self: center;
+			align-self: flex-start;
 		}
 		.hero__image-wrap {
 			grid-area: image;
@@ -393,6 +393,7 @@
 		.hero__social {
 			position: static;
 			justify-content: center;
+			align-self: center;
 			order: 4;
 			margin-top: var(--space-md, 1.5rem);
 			margin-bottom: 0;

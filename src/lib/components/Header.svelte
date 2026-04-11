@@ -730,23 +730,31 @@
 		width: 100%;
 		display: grid;
 		grid-template-columns: clamp(180px, 18vw, 240px) 1fr;
-		align-items: start;
-		min-height: 72px; /* Sync with header-blur-layer */
+		align-items: center; /* Dynamic vertical center */
+		height: calc(var(--header-height, 72px) + 16px); /* Sync with header-blur-layer */
+		transition: height var(--transition-base);
 		pointer-events: none;
+	}
+
+	.scrolled .header__inner {
+		height: var(--header-height, 72px);
 	}
 
 	.header__logo-area {
 		position: relative;
 		z-index: 300;
 		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-		transform-origin: top left;
-		transform: scale(1.3);
+		transform-origin: center left; /* Better for vertical centering */
+		transform: scale(1.3) translateY(20px);
 		margin-left: 35px;
 		pointer-events: auto; /* Enable clicks */
+		height: var(--header-height, 72px);
+		display: flex;
+		align-items: center;
 	}
 
 	.header__logo-area:hover {
-		transform: scale(1.35);
+		transform: scale(1.35) translateY(20px);
 	}
 
 	.header__logo-link {
@@ -755,9 +763,9 @@
 	}
 
 	.scrolled .header__logo-area {
-		transform: scale(0.85);
-		margin-top: 5px;
-		margin-bottom: 5px;
+		transform: scale(1.0) translateY(25px);
+		margin-top: 0;
+		margin-bottom: 0;
 		margin-left: 20px;
 	}
 
@@ -772,7 +780,7 @@
 		justify-content: center;
 		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
-		padding: var(--space-md) var(--space-xl) var(--space-lg);
+		padding: 8px var(--space-xl); /* Symmetrical vertical padding */
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out backwards;
