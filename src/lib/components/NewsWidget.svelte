@@ -26,9 +26,11 @@
 		showAllLink?: boolean;
 		/** Persist view mode to localStorage under this key. '' disables persistence. */
 		storageKey?: string;
+		title?: string;
+		subtitle?: string;
 	}
 
-	let { items, config, showAllLink = false, storageKey = '' }: Props = $props();
+	let { items, config, showAllLink = false, storageKey = '', title = '', subtitle = '' }: Props = $props();
 
 
 	// ── View state ────────────────────────────────────────────────────────────
@@ -290,10 +292,13 @@
 <div class="nw-root" data-testid="news-widget-root">
 	<!-- Controls row -->
 	<div class="nw-controls" data-testid="news-widget-controls">
-		{#if showAllLink}
-			<a href="{base}/news" class="nw-all-link" data-testid="news-widget-all-link" onclick={handleAllNewsLink}>
-				{$t('news.allNews')}
-			</a>
+		{#if title}
+			<div class="nw-header-text">
+				<h2 class="nw-title">{title}</h2>
+				{#if subtitle}
+					<p class="nw-subtitle">{subtitle}</p>
+				{/if}
+			</div>
 		{/if}
 
 		<div class="nw-controls__right">
@@ -322,6 +327,12 @@
 						<List size={20} />
 					</button>
 				</div>
+			{/if}
+
+			{#if showAllLink}
+				<a href="{base}/news" class="nw-all-link nw-all-link--inline" data-testid="news-widget-all-link" onclick={handleAllNewsLink}>
+					{$t('news.allNews')}
+				</a>
 			{/if}
 		</div>
 	</div>
@@ -467,8 +478,53 @@
 	.nw-controls__right {
 		display: flex;
 		align-items: center;
-		gap: var(--space-xs);
+		gap: var(--space-lg);
 		margin-left: auto;
+	}
+
+	.nw-header-text {
+		margin-right: auto;
+		text-align: left;
+	}
+
+	.nw-title {
+		font-family: var(--font-heading);
+		font-size: 2.5rem;
+		font-weight: 900;
+		color: var(--color-deep-ocean);
+		margin: 0;
+		line-height: 1.1;
+	}
+
+	.nw-all-link--inline {
+		padding: 0.5rem 1.5rem;
+		font-size: 0.9rem;
+		border-radius: 30px;
+	}
+
+	@media (max-width: 900px) {
+		.nw-title { font-size: 2rem; }
+		.nw-subtitle { font-size: 1rem; }
+	}
+
+	.nw-subtitle {
+		font-size: 1.1rem;
+		color: var(--color-body-text);
+		margin: 0.3rem 0 0;
+		opacity: 0.8;
+	}
+
+	@media (max-width: 900px) {
+		.nw-title { font-size: 2rem; }
+		.nw-subtitle { font-size: 1rem; }
+	}
+
+	@media (max-width: 600px) {
+		.nw-header-text {
+			margin-right: 0;
+			margin-bottom: 0.5rem;
+			text-align: center;
+		}
 	}
 
 	.nw-all-link {
@@ -479,7 +535,7 @@
 		color: var(--color-white);
 		border: none;
 		padding: 0.8rem 2.5rem;
-		border-radius: 16px;
+		border-radius: 30px;
 		font-weight: 700;
 		font-size: 1rem;
 		cursor: pointer;
@@ -506,7 +562,7 @@
 		display: flex;
 		gap: var(--space-xs);
 		background: color-mix(in srgb, var(--color-surface), transparent 20%);
-		border-radius: var(--radius-full, 100px);
+		border-radius: 30px;
 		padding: 0.3rem;
 		border: 1px solid color-mix(in srgb, var(--color-deep-ocean), transparent 88%);
 		margin-left: auto;
@@ -520,7 +576,7 @@
 		height: 40px;
 		border: none;
 		background: transparent;
-		border-radius: var(--radius-full, 100px);
+		border-radius: 25px;
 		color: color-mix(in srgb, var(--color-deep-ocean), transparent 40%);
 		cursor: pointer;
 		transition: all 0.2s ease;

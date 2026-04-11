@@ -84,19 +84,16 @@
 <!-- News Section -->
 <section class="news" id="news-section" aria-labelledby="news-title" style="padding-top: 140px;" data-testid="news-page-section">
 	<div class="container" data-testid="news-page-container">
-		<div class="news__header" data-testid="news-page-header-group">
-			<div class="news__title-group" data-testid="news-page-title-group">
-				<h2 class="news__title" id="news-title" data-testid="news-page-title-label">
-					{$t('news.title')}
-				</h2>
-				<p class="news__subtitle" data-testid="news-page-subtitle-label">{$t('news.subtitle')}</p>
-			</div>
-		</div>
-
 		{#if loading}
 			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold;" data-testid="news-page-loading-label">{$t('news.loading')}</p>
 		{:else if newsItems.length > 0}
-			<NewsWidget items={newsItems} config={widgetConfig} storageKey="news-view" />
+			<NewsWidget 
+				items={newsItems} 
+				config={widgetConfig} 
+				storageKey="news-view" 
+				title={$t('news.title')}
+				subtitle={$t('news.subtitle')}
+			/>
 		{:else}
 			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold; font-size: 1.2rem;" data-testid="news-page-empty-label">{$t('news.empty')}</p>
 		{/if}
@@ -111,50 +108,9 @@
 		position: relative;
 	}
 
-	.news__header {
-		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		gap: var(--space-lg);
-		margin-bottom: 4rem;
-		padding: 0 var(--space-xl);
-	}
-
-	.news__title-group {
-		text-align: left;
-	}
-
-	.news__title {
-		font-family: var(--font-heading);
-		font-size: 3rem;
-		font-weight: 900;
-		color: var(--color-deep-ocean);
-		margin-bottom: 1rem;
-	}
-
-	.news__subtitle {
-		font-size: 1.2rem;
-		color: var(--color-body-text);
-		opacity: 0.7;
-	}
-
 	@media (max-width: 768px) {
 		.news {
 			padding: 4rem 0;
-		}
-		.news__header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--space-md);
-			padding: 0 var(--space-md);
-			margin-bottom: var(--space-xl);
-		}
-		.news__title {
-			font-size: clamp(2rem, 8vw, 2.5rem);
-		}
-		.news__subtitle {
-			font-size: 1rem;
 		}
 	}
 </style>
