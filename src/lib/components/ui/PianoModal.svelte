@@ -10,83 +10,147 @@
 
 	let { isOpen, onClose }: Props = $props();
 
-	let nowPlaying = $state("");
-	let activeKeys = $state<Set<number>>(new Set());
-	let viewMode = $state<'keyboard' | 'chords'>('keyboard');
-	const audioFadeIntervals = new Map<number, any>();
+	// --- CONFIGURATION ---
+	// You can easily change the range here
+	const START_NOTE = "A3";
+	const END_NOTE = "C5";
+	const AUDIO_BASE_URL = "https://carolinegabriel.com/demo/js-keyboard/sounds/";
+	const AUDIO_FILE_OFFSET = 20; // If C4 (MIDI 60) is "040.wav", offset is 60 - 40 = 20
 
-	const keysData = [
-		{ keyCode: 65, note: "C", hint: "A", sharp: false },
-		{ keyCode: 87, note: "C#", hint: "W", sharp: true },
-		{ keyCode: 83, note: "D", hint: "S", sharp: false },
-		{ keyCode: 69, note: "D#", hint: "E", sharp: true },
-		{ keyCode: 68, note: "E", hint: "D", sharp: false },
-		{ keyCode: 70, note: "F", hint: "F", sharp: false },
-		{ keyCode: 84, note: "F#", hint: "T", sharp: true },
-		{ keyCode: 71, note: "G", hint: "G", sharp: false },
-		{ keyCode: 89, note: "G#", hint: "Y", sharp: true },
-		{ keyCode: 72, note: "A", hint: "H", sharp: false },
-		{ keyCode: 85, note: "A#", hint: "U", sharp: true },
-		{ keyCode: 74, note: "B", hint: "J", sharp: false },
-		{ keyCode: 75, note: "C", hint: "K", sharp: false },
-		{ keyCode: 79, note: "C#", hint: "O", sharp: true },
-		{ keyCode: 76, note: "D", hint: "L", sharp: false },
-		{ keyCode: 80, note: "D#", hint: "P", sharp: true },
-		{ keyCode: 186, note: "E", hint: ";", sharp: false },
-	];
+	const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+	const WHITE_KEY_CODES = ["KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote"];
+	const BLACK_KEY_CODES = ["KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "BracketLeft"];
+	const HINTS_WHITE = ["A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'"];
+	const HINTS_BLACK = ["W", "E", "R", "T", "Y", "U", "I", "O", "P", "["];
 
-	const chordsData = [
-		{ name: "C",  type: "major", keys: [65, 68, 71] },
-		{ name: "G",  type: "major", keys: [71, 74, 76] },
-		{ name: "D",  type: "major", keys: [83, 84, 72] },
-		{ name: "A",  type: "major", keys: [72, 79, 186] },
-		{ name: "F",  type: "major", keys: [70, 72, 75] },
-		{ name: "Am", type: "minor", keys: [72, 75, 186] },
-		{ name: "Em", type: "minor", keys: [68, 71, 74] },
-		{ name: "Dm", type: "minor", keys: [83, 70, 72] },
-	];
-
-	function getAudioSrc(keyCode: number) {
-		const mapping: Record<number, string> = {
-			65: "040", 87: "041", 83: "042", 69: "043", 68: "044", 70: "045",
-			84: "046", 71: "047", 89: "048", 72: "049", 85: "050", 74: "051",
-			75: "052", 79: "053", 76: "054", 80: "055", 186: "056"
-		};
-		return `https://carolinegabriel.com/demo/js-keyboard/sounds/${mapping[keyCode]}.wav`;
+	function getMidi(noteName: string): number {
+		const match = noteName.match(/^([A-G]#?)(\d)$/);
+		if (!match) return 0;
+		const name = match[1];
+		const octave = parseInt(match[2]);
+		return (octave + 1) * 12 + NOTE_NAMES.indexOf(name);
 	}
 
-	function startNote(keyCode: number, isPartOfChord = false) {
-		const keyInfo = keysData.find(k => k.keyCode === keyCode);
+	function generateKeys() {
+		const startMidi = getMidi(START_NOTE);
+		const endMidi = getMidi(END_NOTE);
+		const keys = [];
+		let whiteIdx = 0;
+
+		for (let midi = startMidi; midi <= endMidi; midi++) {
+			const noteName = NOTE_NAMES[midi % 12];
+			const octave = Math.floor(midi / 12) - 1;
+			const isSharp = noteName.includes("#");
+			
+			if (!isSharp) {
+				keys.push({
+					midi,
+					note: noteName,
+					fullNote: `${noteName}${octave}`,
+					code: WHITE_KEY_CODES[whiteIdx],
+					hint: HINTS_WHITE[whiteIdx],
+					sharp: false,
+					whiteIndex: whiteIdx
+				});
+				whiteIdx++;
+			} else {
+				// Sharp keys are placed relative to the white key they follow
+				const prevWhiteIdx = whiteIdx - 1;
+				keys.push({
+					midi,
+					note: noteName,
+					fullNote: `${noteName}${octave}`,
+					code: BLACK_KEY_CODES[prevWhiteIdx],
+					hint: HINTS_BLACK[prevWhiteIdx],
+					sharp: true,
+					whiteIndex: prevWhiteIdx
+				});
+			}
+		}
+		return keys;
+	}
+
+	const keysData = generateKeys();
+	const totalWhiteKeys = keysData.filter(k => !k.sharp).length;
+	const whiteKeyWidth = 100 / totalWhiteKeys;
+	const blackKeyWidth = whiteKeyWidth * 0.6;
+
+	const chordsConfig = [
+		{ name: "C",  type: "major", notes: ["C4", "E4", "G4"] },
+		{ name: "G",  type: "major", notes: ["B3", "D4", "G4"] }, // Used inversion to fit A3-C5 range
+		{ name: "D",  type: "major", notes: ["D4", "F#4", "A4"] },
+		{ name: "A",  type: "major", notes: ["A3", "C#4", "E4"] }, 
+		{ name: "F",  type: "major", notes: ["F4", "A4", "C5"] },
+		{ name: "Am", type: "minor", notes: ["A3", "C4", "E4"] }, 
+		{ name: "Em", type: "minor", notes: ["E4", "G4", "B4"] },
+		{ name: "Dm", type: "minor", notes: ["D4", "F4", "A4"] },
+	];
+
+	const chordsData = chordsConfig.map(chord => ({
+		...chord,
+		codes: chord.notes.map(note => keysData.find(k => k.fullNote === note)?.code).filter(Boolean) as string[]
+	}));
+
+	// --- STATE ---
+	let nowPlaying = $state("");
+	let activeCodes = $state<Set<string>>(new Set());
+	let viewMode = $state<'keyboard' | 'chords'>('keyboard');
+	const audioFadeIntervals = new Map<string, any>();
+
+	function getAudioSrc(midi: number) {
+		// The server has samples from 040 (C4) to 056 (E5)
+		// For A3 (57), A#3 (58), B3 (59) we will use C4 (60) and change playbackRate
+		const sampleMidi = Math.max(60, midi);
+		const fileIndex = (sampleMidi - AUDIO_FILE_OFFSET).toString().padStart(3, '0');
+		return `${AUDIO_BASE_URL}${fileIndex}.wav`;
+	}
+
+	function startNote(code: string, isPartOfChord = false) {
+		const keyInfo = keysData.find(k => k.code === code);
 		if (!keyInfo) return;
 
-		const audio = document.querySelector(`audio[data-key="${keyCode}"]`) as HTMLAudioElement;
+		const audio = document.querySelector(`audio[data-code="${code}"]`) as HTMLAudioElement;
 		if (!audio) return;
 
-		if (audioFadeIntervals.has(keyCode)) {
-			clearInterval(audioFadeIntervals.get(keyCode));
-			audioFadeIntervals.delete(keyCode);
+		if (audioFadeIntervals.has(code)) {
+			clearInterval(audioFadeIntervals.get(code));
+			audioFadeIntervals.delete(code);
+		}
+
+		// Calculate pitch shift if we are using a different sample
+		// playbackRate = 2 ^ ((targetMidi - sampleMidi) / 12)
+		const sampleMidi = Math.max(60, keyInfo.midi);
+		audio.playbackRate = Math.pow(2, (keyInfo.midi - sampleMidi) / 12);
+		
+		// Ensure pitch changes with playbackRate (important for polyfilling low notes)
+		if ('preservesPitch' in audio) {
+			audio.preservesPitch = false;
+		} else if ('webkitPreservesPitch' in audio) {
+			(audio as any).webkitPreservesPitch = false;
+		} else if ('mozPreservesPitch' in audio) {
+			(audio as any).mozPreservesPitch = false;
 		}
 
 		if (!isPartOfChord) nowPlaying = keyInfo.note;
 		
-		const nextActive = new Set(activeKeys);
-		nextActive.add(keyCode);
-		activeKeys = nextActive;
+		const nextActive = new Set(activeCodes);
+		nextActive.add(code);
+		activeCodes = nextActive;
 
 		audio.volume = 1;
 		audio.currentTime = 0;
 		audio.play().catch(() => {});
 	}
 
-	function stopNote(keyCode: number) {
-		if (!activeKeys.has(keyCode)) return;
+	function stopNote(code: string) {
+		if (!activeCodes.has(code)) return;
 
-		const audio = document.querySelector(`audio[data-key="${keyCode}"]`) as HTMLAudioElement;
+		const audio = document.querySelector(`audio[data-code="${code}"]`) as HTMLAudioElement;
 		if (!audio) return;
 
-		const nextActive = new Set(activeKeys);
-		nextActive.delete(keyCode);
-		activeKeys = nextActive;
+		const nextActive = new Set(activeCodes);
+		nextActive.delete(code);
+		activeCodes = nextActive;
 
 		let volume = 1;
 		const fadeInterval = setInterval(() => {
@@ -95,32 +159,32 @@
 				audio.volume = 0;
 				audio.pause();
 				clearInterval(fadeInterval);
-				audioFadeIntervals.delete(keyCode);
+				audioFadeIntervals.delete(code);
 			} else {
 				audio.volume = volume;
 			}
 		}, 20);
 		
-		audioFadeIntervals.set(keyCode, fadeInterval);
+		audioFadeIntervals.set(code, fadeInterval);
 	}
 
-	function startChord(chordKeys: number[], chordName: string) {
+	function startChord(chordCodes: string[], chordName: string) {
 		nowPlaying = chordName;
-		chordKeys.forEach(k => startNote(k, true));
+		chordCodes.forEach(c => startNote(c, true));
 	}
 
-	function stopChord(chordKeys: number[]) {
-		chordKeys.forEach(k => stopNote(k));
+	function stopChord(chordCodes: string[]) {
+		chordCodes.forEach(c => stopNote(c));
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (!isOpen || e.repeat || viewMode !== 'keyboard') return;
-		startNote(e.keyCode);
+		startNote(e.code);
 	}
 
 	function handleKeyup(e: KeyboardEvent) {
 		if (!isOpen || viewMode !== 'keyboard') return;
-		stopNote(e.keyCode);
+		stopNote(e.code);
 	}
 
 	onMount(() => {
@@ -151,11 +215,12 @@
        
 	   <section id="wrap" data-testid="piano-modal-content-container">
 		   <header class="piano-header" data-testid="piano-modal-header-group">
-			   <div class="header-top">
-				   <h2 class="piano-hint" data-testid="piano-modal-hint-label">{$t("piano.hint")}</h2>
+			   <h2 class="piano-hint" data-testid="piano-modal-hint-label">{$t("piano.hint")}</h2>
+			   
+			   <div class="controls-wrapper">
 				   <div class="view-toggle">
 					   <button 
-					   		class="toggle-btn" 
+							class="toggle-btn" 
 							class:active={viewMode === 'keyboard'} 
 							onclick={() => viewMode = 'keyboard'}
 							data-testid="piano-mode-keyboard-btn"
@@ -163,7 +228,7 @@
 						   {$t("piano.mode.keyboard")}
 					   </button>
 					   <button 
-					   		class="toggle-btn" 
+							class="toggle-btn" 
 							class:active={viewMode === 'chords'} 
 							onclick={() => viewMode = 'chords'}
 							data-testid="piano-mode-chords-btn"
@@ -171,37 +236,38 @@
 						   {$t("piano.mode.chords")}
 					   </button>
 				   </div>
+
+				   <div class="nowplaying" data-testid="piano-nowplaying-display">
+					   {#if nowPlaying}
+						   <span class="note-name" data-testid="piano-note-name-label">
+							   {viewMode === 'chords' ? nowPlaying : $t(`piano.notes.${nowPlaying}`)}
+						   </span>
+						   {#if viewMode === 'keyboard'}
+							   <span class="note-divider">|</span>
+							   <span class="note-symbol" data-testid="piano-note-symbol-label">{nowPlaying}</span>
+						   {/if}
+					   {/if}
+				   </div>
 			   </div>
 		   </header>
 
 		   <section id="main" data-testid="piano-modal-main-group">
-			   <div class="nowplaying" data-testid="piano-nowplaying-display">
-				   {#if nowPlaying}
-					   <span class="note-name" data-testid="piano-note-name-label">
-						   {viewMode === 'chords' ? nowPlaying : $t(`piano.notes.${nowPlaying}`)}
-					   </span>
-					   {#if viewMode === 'keyboard'}
-						   <span class="note-divider">|</span>
-						   <span class="note-symbol" data-testid="piano-note-symbol-label">{nowPlaying}</span>
-					   {/if}
-				   {/if}
-			   </div>
-
 			   {#if viewMode === 'keyboard'}
 				   <div class="keys" data-testid="piano-keys-menu">
 					   {#each keysData as key, i}
 						   <div 
 							   class="key" 
 							   class:sharp={key.sharp} 
-							   class:playing={activeKeys.has(key.keyCode)}
-							   data-key={key.keyCode} 
+							   class:playing={activeCodes.has(key.code)}
+							   style={key.sharp ? `left: ${(key.whiteIndex + 1) * whiteKeyWidth - (blackKeyWidth / 2)}%; width: ${blackKeyWidth}%;` : `width: ${whiteKeyWidth}%;`}
+							   data-code={key.code} 
 							   data-note={key.note}
 							   onpointerdown={(e) => {
 								   e.preventDefault();
-								   startNote(key.keyCode);
+								   startNote(key.code);
 							   }}
-							   onpointerup={() => stopNote(key.keyCode)}
-							   onpointerleave={() => stopNote(key.keyCode)}
+							   onpointerup={() => stopNote(key.code)}
+							   onpointerleave={() => stopNote(key.code)}
 							   data-testid={`piano-key-${i}-button`}
 						   >
 							   <span class="hints">{key.hint}</span>
@@ -214,13 +280,13 @@
 						   <button 
 							   class="chord-btn" 
 							   class:minor={chord.type === 'minor'}
-							   class:playing={chord.keys.every(k => activeKeys.has(k))}
+							   class:playing={chord.codes.every(c => activeCodes.has(c))}
 							   onpointerdown={(e) => {
 								   e.preventDefault();
-								   startChord(chord.keys, chord.name);
+								   startChord(chord.codes, chord.name);
 							   }}
-							   onpointerup={() => stopChord(chord.keys)}
-							   onpointerleave={() => stopChord(chord.keys)}
+							   onpointerup={() => stopChord(chord.codes)}
+							   onpointerleave={() => stopChord(chord.codes)}
 							   data-testid={`piano-chord-${chord.name}-button`}
 						   >
 							   <span class="chord-name">{chord.name}</span>
@@ -230,7 +296,7 @@
 			   {/if}
 
 			   {#each keysData as key}
-				   <audio data-key={key.keyCode} src={getAudioSrc(key.keyCode)} preload="auto"></audio>
+				   <audio data-code={key.code} src={getAudioSrc(key.midi)} preload="auto"></audio>
 			   {/each}
 		   </section>
 	   </section>
@@ -279,7 +345,6 @@
 		width: 100%;
 		max-width: 1200px;
 		padding: 20px;
-		transition: all 0.3s ease;
 		animation: modalSlideIn 0.3s ease-out;
 	}
 
@@ -294,11 +359,22 @@
 		}
 	}
 
+	@keyframes modalSlideInPortrait {
+		from {
+			transform: rotate(90deg) scale(0.95) translateY(-20px);
+			opacity: 0;
+		}
+		to {
+			transform: rotate(90deg) scale(1) translateY(0);
+			opacity: 1;
+		}
+	}
+
 	.piano-header {
 		margin-bottom: 30px;
 	}
 
-	.header-top {
+	.controls-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -387,28 +463,18 @@
 
 	.key:not(.sharp) {
 		float: left;
-		width: 10%;
 		height: 100%;
 		background: rgba(255, 255, 255, .8);    
 	}
 
 	.key.sharp {
 		position: absolute;
-		width: 6%;
 		height: 60%;
 		background: #000;
 		color: #eee;
 		top: 0;
 		z-index: 3;
 	}
-
-	.key[data-key="87"] { left: 7%; }
-	.key[data-key="69"] { left: 17%; }
-	.key[data-key="84"] { left: 37%; }
-	.key[data-key="89"] { left: 47%; }
-	.key[data-key="85"] { left: 57%; }
-	.key[data-key="79"] { left: 77%; }
-	.key[data-key="80"] { left: 87%; }
 
 	.playing {
 		transform: scale(.95);
@@ -449,7 +515,9 @@
 	}
 
 	.chord-btn {
-		aspect-ratio: 1;
+		width: 100%;
+		min-height: 120px;
+		padding: 20px;
 		background: var(--color-surface);
 		border: 4px solid var(--color-deep-ocean);
 		border-radius: 20px;
@@ -499,25 +567,61 @@
 				top: 50%;
 				left: 50%;
 				translate: -50% -50%;
-				padding: 0;
+				padding: 10px;
+				animation: modalSlideInPortrait 0.3s ease-out;
+				display: flex;
+				flex-direction: column;
+			}
+			#main {
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+			}
+			.controls-wrapper {
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 20px;
+				gap: 10px;
+			}
+			.view-toggle {
+				flex-shrink: 0;
 			}
 			.keys {
-				height: 60vw;
+				height: auto;
+				flex: 1;
 				margin-top: 10px;
 			}
 			.chords-grid {
-				height: 60vw;
+				width: 100%;
+				max-width: none;
+				height: auto;
+				flex: 1;
 				margin-top: 10px;
-				gap: 10px;
+				gap: 12px;
+				grid-template-columns: repeat(4, 1fr);
+				overflow-y: auto;
+				padding: 5px;
 			}
-			.chord-name { font-size: 1.5rem; }
+			.chord-btn {
+				width: 100%;
+				aspect-ratio: auto;
+				min-height: 60px;
+				padding: 15px 5px;
+				border-radius: 12px;
+				border-width: 3px;
+			}
+			.chord-name { font-size: 1.2rem; }
 			.nowplaying {
 				min-height: 40px;
 				font-size: 40px;
 				gap: 10px;
+				flex: 1;
+				justify-content: flex-end;
 			}
-			.note-name { min-width: 120px; }
-			.note-symbol { min-width: 60px; }
+			.note-name { min-width: auto; text-align: right; }
+			.note-symbol { min-width: auto; text-align: left; }
 		}
 
 		@media (orientation: landscape) {
@@ -529,10 +633,25 @@
 				height: 200px;
 			}
 			.chords-grid {
-				height: 200px;
-				gap: 10px;
+				width: 100%;
+				max-width: none;
+				height: auto;
+				max-height: 50vh;
+				gap: 12px;
+				margin-top: 10px;
+				grid-template-columns: repeat(4, 1fr);
+				overflow-y: auto;
+				padding: 5px;
 			}
-			.chord-name { font-size: 1.2rem; }
+			.chord-btn {
+				width: 100%;
+				aspect-ratio: auto;
+				min-height: 50px;
+				padding: 12px 5px;
+				border-radius: 10px;
+				border-width: 3px;
+			}
+			.chord-name { font-size: 1rem; }
 			.nowplaying {
 				min-height: 40px;
 				font-size: 30px;
