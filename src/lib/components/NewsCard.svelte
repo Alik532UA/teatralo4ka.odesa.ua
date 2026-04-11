@@ -172,13 +172,14 @@
 		font-size: 1.8rem;
 		font-weight: 800;
 		color: var(--color-deep-ocean);
-		line-height: 1.2;
+		line-height: 1.5;
 		margin-bottom: 1rem;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		padding-bottom: 0.1em;
 	}
 
 	.focus-card__excerpt {
@@ -187,8 +188,8 @@
 		margin-bottom: 2rem;
 		opacity: 0.8;
 		display: -webkit-box;
-		line-clamp: 2;
 		-webkit-line-clamp: 2;
+		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 	}
@@ -219,7 +220,7 @@
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 		border: 1px solid rgba(0, 0, 0, 0.03);
 		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-		height: 280px;
+		min-height: 280px;
 	}
 
 	.grid-card:hover {
@@ -253,8 +254,10 @@
 
 	.grid-card .focus-card__title {
 		font-size: 1.05rem;
-		line-height: 1.3;
+		line-height: 1.5;
 		margin-bottom: 0.75rem;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
 	}
 
 	.grid-card .focus-card__excerpt {
@@ -358,7 +361,8 @@
 	@media (max-width: 1024px) {
 		.focus-card {
 			flex-direction: row;
-			height: 280px;
+			height: auto;
+			min-height: 280px;
 			flex: 0 0 var(--focus-card-width, 85vw);
 			border-radius: 24px;
 		}
@@ -372,7 +376,7 @@
 		}
 		.focus-card__title {
 			font-size: 1.15rem;
-			line-height: 1.3;
+			line-height: 1.5;
 			margin-bottom: 0.5rem;
 			-webkit-line-clamp: 3;
 			line-clamp: 3;
@@ -388,7 +392,8 @@
 
 		.grid-card {
 			flex-direction: row;
-			height: 200px;
+			height: auto;
+			min-height: 200px;
 			border-radius: 20px;
 		}
 		.grid-card__img-wrap {
@@ -401,7 +406,7 @@
 		}
 		.grid-card .focus-card__title {
 			font-size: 1rem;
-			line-height: 1.3;
+			line-height: 1.5;
 			margin-bottom: 0.4rem;
 			-webkit-line-clamp: 3;
 			line-clamp: 3;
