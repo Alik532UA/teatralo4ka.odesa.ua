@@ -328,12 +328,13 @@
 
 	<!-- Carousel view -->
 	{#if view === 'carousel'}
-		<div
+		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+		<section
 			class="focus-viewport"
-			role="region"
-			tabindex="0"
 			aria-roledescription="carousel"
 			aria-label={$t('news.title')}
+			tabindex="0"
 			data-testid="news-widget-viewport"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; isDragging = false; }}
@@ -345,10 +346,6 @@
 			ontouchend={handleTouchEnd}
 			onwheel={handleWheel}
 			onclickcapture={handleClickCapture}
-			onkeydown={(e) => {
-				if (e.key === 'ArrowLeft') prev();
-				if (e.key === 'ArrowRight') next(false);
-			}}
 		>			<div
 				class="focus-track"
 				style="
@@ -372,7 +369,7 @@
 				<button class="nav-btn nav-btn--prev" onclick={prev} aria-label={$t('common.prev')} data-testid="news-widget-prev-btn">←</button>
 				<button class="nav-btn nav-btn--next" onclick={() => next(false)} aria-label={$t('common.next')} data-testid="news-widget-next-btn">→</button>
 			{/if}
-		</div>
+		</section>
 
 		{#if items.length > 1}
 			<div class="focus-dots" data-testid="news-widget-dots">
