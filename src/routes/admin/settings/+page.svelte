@@ -1373,13 +1373,4 @@ pointer-events: none;
   margin: 0;
 }
 
-.settings-section-heading {
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--color-deep-ocean);
-  margin: 0 0 0.75rem 0;
-  padding-top: 1rem;
-}
-
 </style>

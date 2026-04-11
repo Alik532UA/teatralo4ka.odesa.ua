@@ -30,6 +30,7 @@
 
 	let { items, config, showAllLink = false, storageKey = '' }: Props = $props();
 
+
 	// ── View state ────────────────────────────────────────────────────────────
 	let viewOverride = $state<NewsViewMode | null>(null);
 	let autoplayOverride = $state<boolean | null>(null);
@@ -245,10 +246,21 @@
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
+		// Ignore if typing in an input
 		if (typeof document !== 'undefined' && ['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) return;
+		
 		if (view !== 'carousel') return;
-		if (e.key === 'ArrowLeft') prev();
-		else if (e.key === 'ArrowRight') next(false);
+
+		// Only navigate if mouse is over the carousel
+		if (!isHovered) return;
+
+		if (e.key === 'ArrowLeft') {
+			e.preventDefault();
+			prev();
+		} else if (e.key === 'ArrowRight') {
+			e.preventDefault();
+			next(false);
+		}
 	}
 
 	function handleShowAll() {
@@ -316,7 +328,12 @@
 
 	<!-- Carousel view -->
 	{#if view === 'carousel'}
-		<div class="focus-viewport" role="region" aria-label={$t('news.title')} data-testid="news-widget-viewport"
+		<div 
+			class="focus-viewport" 
+			role="region"
+			aria-roledescription="carousel"
+			aria-label={$t('news.title')} 
+			data-testid="news-widget-viewport"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; isDragging = false; }}
 			onmousedown={handleTouchStart}

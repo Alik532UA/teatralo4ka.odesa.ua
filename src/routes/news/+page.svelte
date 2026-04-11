@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Wave from "$lib/components/Wave.svelte";
 	import BirdIcon from "$lib/components/icons/BirdIcon.svelte";
-	import NewsWidget, { type NewsWidgetItem } from "$lib/components/NewsWidget.svelte";
+	import NewsWidget from "$lib/components/NewsWidget.svelte";
+	import type { NewsWidgetItem } from "$lib/components/NewsWidget.svelte";
 	import { page } from "$app/state";
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";

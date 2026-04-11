@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import NewsWidget, { type NewsWidgetItem } from '$lib/components/NewsWidget.svelte';
+	import NewsWidget from '$lib/components/NewsWidget.svelte';
+	import type { NewsWidgetItem } from '$lib/components/NewsWidget.svelte';
 	import type { NewsWidgetConfig } from '$lib/services/settings';
 	import { DEFAULT_NEWS_WIDGET_HOME } from '$lib/services/settings';
 

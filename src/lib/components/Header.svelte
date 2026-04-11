@@ -20,6 +20,22 @@
 	let settingsRef: HTMLDivElement | null = $state(null);
 	let navRef: HTMLDivElement | null = $state(null);
 	let showTicker = $state(false);
+	let mobileNavScrollY = $state(0);
+	let mobileNavClientHeight = $state(0);
+	let mobileNavScrollHeight = $state(0);
+	let mobileNavEl = $state<HTMLElement | null>(null);
+
+	const canScrollUp = $derived(mobileNavScrollY > 10);
+	const canScrollDown = $derived(mobileNavScrollHeight - mobileNavClientHeight - mobileNavScrollY > 10);
+
+	$effect(() => {
+		if (ui.isMenuOpen && mobileNavEl) {
+			// Оновлюємо початкові значення при відкритті
+			mobileNavScrollHeight = mobileNavEl.scrollHeight;
+			mobileNavClientHeight = mobileNavEl.clientHeight;
+			mobileNavScrollY = mobileNavEl.scrollTop;
+		}
+	});
 
 	$effect(() => {
 		if (browser) {
@@ -468,6 +484,7 @@
 							in:fade={{ duration: 150 }}
 							out:fade={{ duration: 150 }}
 							onclick={() => settingsOpen = false}
+							onkeydown={(e) => { if (e.key === 'Escape') settingsOpen = false; }}
 							role="button"
 							tabindex="-1"
 							aria-label="Close settings"
@@ -494,43 +511,64 @@
 				</button>
 			</div>
 
-			<nav aria-label={$t('nav.mobileMenu')} data-testid="mobile-nav-menu" class="header__mobile-nav">
-				<div class="header__mobile-container" data-testid="mobile-nav-container">
-					<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
-						{#each mobileNavGroups as group, gIndex}
-							<li 
-								class="header__mobile-group" 
-								data-testid={`mobile-nav-group-${gIndex}`}
-								in:fly={{ y: 20, duration: 400, delay: 150 + gIndex * 80, easing: cubicInOut }}
-							>
-								{#if group.title}
-									{#if group.titleHref}
-										<a href={group.titleHref} class="header__mobile-group-title header__mobile-group-title--link">{group.title}</a>
-									{:else}
-										<h3 class="header__mobile-group-title">{group.title}</h3>
+			<div class="header__mobile-nav-wrapper">
+				<div 
+					class="header__mobile-scroll-hint header__mobile-scroll-hint--top" 
+					class:visible={canScrollUp}
+				></div>
+				<div 
+					class="header__mobile-scroll-hint header__mobile-scroll-hint--bottom" 
+					class:visible={canScrollDown}
+				></div>
+
+				<nav 
+					aria-label={$t('nav.mobileMenu')} 
+					data-testid="mobile-nav-menu" 
+					class="header__mobile-nav"
+					bind:this={mobileNavEl}
+					onscroll={(e) => {
+						mobileNavScrollY = e.currentTarget.scrollTop;
+						mobileNavScrollHeight = e.currentTarget.scrollHeight;
+					}}
+					bind:clientHeight={mobileNavClientHeight}
+				>
+					<div class="header__mobile-container" data-testid="mobile-nav-container">
+						<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
+							{#each mobileNavGroups as group, gIndex}
+								<li 
+									class="header__mobile-group" 
+									data-testid={`mobile-nav-group-${gIndex}`}
+									in:fly={{ y: 20, duration: 400, delay: 150 + gIndex * 80, easing: cubicInOut }}
+								>
+									{#if group.title}
+										{#if group.titleHref}
+											<a href={group.titleHref} class="header__mobile-group-title header__mobile-group-title--link">{group.title}</a>
+										{:else}
+											<h3 class="header__mobile-group-title">{group.title}</h3>
+										{/if}
 									{/if}
-								{/if}
-								<ul class="header__mobile-sublist">
-									{#each group.items as item, i}
-										<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`} class="header__mobile-subitem">
-											<a
-												href={item.href}
-												class="header__mobile-link"
-												class:header__mobile-cta={isCtaItem(item)}
-												class:active={page.url.pathname === item.href}
-												onclick={ui.closeMenu}
-												data-testid={`mobile-nav-link-${gIndex}-${i}`}
-											>
-												{item.label}
-											</a>
-										</li>
-									{/each}
-								</ul>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			</nav>
+									<ul class="header__mobile-sublist">
+										{#each group.items as item, i}
+											<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`} class="header__mobile-subitem">
+												<a
+													href={item.href}
+													class="header__mobile-link"
+													class:header__mobile-cta={isCtaItem(item)}
+													class:active={page.url.pathname === item.href}
+													onclick={ui.closeMenu}
+													data-testid={`mobile-nav-link-${gIndex}-${i}`}
+												>
+													{item.label}
+												</a>
+											</li>
+										{/each}
+									</ul>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				</nav>
+			</div>
 		</div>
 	{/if}
 </header>
@@ -940,12 +978,49 @@
 		color: var(--color-dark-text);
 	}
 
+	.header__mobile-nav-wrapper {
+		position: relative;
+		width: 100%;
+		flex: 1;
+		min-height: 0; /* Важливо для flex-контейнерів */
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
 	.header__mobile-nav {
 		width: 100%;
 		height: 100%;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
 		padding: 0 0 var(--space-2xl);
+		position: relative;
+		z-index: 1;
+	}
+
+	.header__mobile-scroll-hint {
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 80px;
+		pointer-events: none;
+		z-index: 10;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.header__mobile-scroll-hint.visible {
+		opacity: 1.0;
+	}
+
+	.header__mobile-scroll-hint--top {
+		top: 0;
+		background: linear-gradient(to bottom, var(--color-surface) 0%, transparent 100%);
+	}
+
+	.header__mobile-scroll-hint--bottom {
+		bottom: 0;
+		background: linear-gradient(to top, var(--color-surface) 0%, transparent 100%);
 	}
 
 	.header__mobile-container {
