@@ -87,7 +87,7 @@
 		try {
 			const { contentType, ...rest } = data;
 			await updateArticle(id as string, { ...rest, type: contentType });
-			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Оновлено');
+			toast.success($t('admin.dashboard.saveSuccess'));
 			goto(`${base}/admin/content`);
 		} catch (e: any) {
 			console.error(e);

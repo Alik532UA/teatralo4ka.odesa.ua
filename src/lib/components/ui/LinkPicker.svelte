@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { MenuLinkType } from '$lib/services/settings';
+	import { t } from 'svelte-i18n';
 
 	interface Props {
 		linkType: MenuLinkType;
@@ -73,16 +74,30 @@
 
 <div class="link-picker">
 	<div class="mode-toggle-group" style="align-self: flex-start; margin-bottom: 0.5rem;">
-		{#each [['page', 'Сторінка'], ['article', 'Стаття'], ['url', 'URL']] as [t, label]}
-			<button 
-				type="button" 
-				class="mode-btn" 
-				class:active={linkType === t} 
-				onclick={() => setLinkType(t as MenuLinkType)}
-			>
-				{label}
-			</button>
-		{/each}
+		<button 
+			type="button" 
+			class="mode-btn" 
+			class:active={linkType === 'page'} 
+			onclick={() => setLinkType('page')}
+		>
+			{$t('admin.menuEditor.typePage')}
+		</button>
+		<button 
+			type="button" 
+			class="mode-btn" 
+			class:active={linkType === 'article'} 
+			onclick={() => setLinkType('article')}
+		>
+			{$t('admin.menuEditor.typeArticle')}
+		</button>
+		<button 
+			type="button" 
+			class="mode-btn" 
+			class:active={linkType === 'url'} 
+			onclick={() => setLinkType('url')}
+		>
+			{$t('admin.menuEditor.typeUrl')}
+		</button>
 	</div>
 
 	{#if linkType === 'page'}
@@ -97,14 +112,14 @@
 		</select>
 	{:else if linkType === 'article'}
 		{#if articlesLoading}
-			<p class="lp-hint">Завантаження статей…</p>
+			<p class="lp-hint">{$t('admin.menuEditor.loadingArticles')}</p>
 		{:else}
 			<select
 				class="lp-select"
 				value={href}
 				onchange={(e) => selectArticle((e.target as HTMLSelectElement).value)}
 			>
-				<option value="">— Оберіть статтю —</option>
+				<option value="">{$t('admin.menuEditor.selectArticle')}</option>
 				{#each articlesList as a}
 					<option value={a.slug}>{a.titleUk} ({a.slug})</option>
 				{/each}
@@ -123,7 +138,7 @@
 	{#if showLabels}
 		<div class="lp-labels">
 			<div>
-				<span class="lp-label-hint">Назва UA</span>
+				<span class="lp-label-hint">{$t('admin.menuEditor.labelUk')}</span>
 				<input
 					type="text"
 					class="lp-select"
@@ -132,7 +147,7 @@
 				/>
 			</div>
 			<div>
-				<span class="lp-label-hint">Назва EN</span>
+				<span class="lp-label-hint">{$t('admin.menuEditor.labelEn')}</span>
 				<input
 					type="text"
 					class="lp-select"

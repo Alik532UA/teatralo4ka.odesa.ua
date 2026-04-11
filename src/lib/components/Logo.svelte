@@ -2,6 +2,7 @@
 	import { base } from "$app/paths";
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
+	import { t } from "svelte-i18n";
 
 	let { size = 'large' }: { size?: 'large' | 'small' } = $props();
 
@@ -48,14 +49,14 @@
 >
 	<img
 		src="{base}/logo/svg/t4_logo_IndividualParticles_MaskRed_2026.svg"
-		alt="Логотип Одеської театральної школи"
+		alt={$t('common.logoAlt')}
 		class="logo-svg logo-red"
 		width={d.width}
 		height={d.height}
 	/>
 	<img
 		src="{base}/logo/svg/t4_logo_IndividualParticles_MaskBlue_2026.svg"
-		alt=""
+		alt={$t('common.logoAlt')}
 		class="logo-svg logo-blue"
 		width={d.width}
 		height={d.height}

@@ -75,7 +75,7 @@
 	});
 
 	const filtered = $derived.by(() => {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		return sorted.filter(a => {
 			// Type filter
 			if (filterType !== 'all' && getItemType(a) !== filterType) return false;
@@ -187,19 +187,19 @@
 	function formatDate(article: Article) {
 		const timestamp = getDisplayDate(article);
 		if (!timestamp) return get(t)('admin.editor.dateHidden');
-		return timestamp.toDate().toLocaleDateString($locale === 'en' ? 'en-US' : 'uk-UA', { day: 'numeric', month: 'short', year: 'numeric' });
+		return timestamp.toDate().toLocaleDateString(get(locale) === 'en' ? 'en-US' : 'uk-UA', { day: 'numeric', month: 'short', year: 'numeric' });
 	}
 
 	function getExcerpt(article: Article) {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		const content = article.translations?.[currentLang]?.content || '';
 		const plainText = content.replace(/[#*`_\[\]()]/g, '').replace(/<[^>]*>/g, '');
 		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
 	}
 
 	function getTitle(article: Article) {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
-		return article.translations?.[currentLang]?.title || 'Untitled';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
+		return article.translations?.[currentLang]?.title || '';
 	}
 
 	function getCoverUrl(article: Article): string {
@@ -390,7 +390,7 @@
 							<span class="cl-type-badge {badge.class}">{badge.label}</span>
 							{#if item.category}
 								<span class="cl-category" data-testid={`admin-content-row-${item.id}-category`}>
-								{getCategoryLabel(item.category, ($locale as 'uk' | 'en') || 'uk')}
+								{getCategoryLabel(item.category, (get(locale) as 'uk' | 'en') || 'uk')}
 								</span>
 							{/if}
 							<span class="cl-date" data-testid={`admin-content-row-${item.id}-date`}>{formatDate(item)}</span>
@@ -405,7 +405,7 @@
 							class="cl-lang-badge {item.translations?.uk?.isPublished ? 'published' : 'draft'}"
 							class:is-toggling={togglingId === `${item.id}-uk`}
 							onclick={() => togglePublish(item, 'uk')}
-							title={item.translations?.uk?.isPublished ? 'Зняти з публікації (UA)' : 'Опублікувати (UA)'}
+							title={item.translations?.uk?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'UA' } }) : $t('admin.content.publish', { values: { lang: 'UA' } })}
 							disabled={!!togglingId}
 						>
 							UA
@@ -414,7 +414,7 @@
 							class="cl-lang-badge {item.translations?.en?.isPublished ? 'published' : 'draft'}"
 							class:is-toggling={togglingId === `${item.id}-en`}
 							onclick={() => togglePublish(item, 'en')}
-							title={item.translations?.en?.isPublished ? 'Зняти з публікації (EN)' : 'Опублікувати (EN)'}
+							title={item.translations?.en?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'EN' } }) : $t('admin.content.publish', { values: { lang: 'EN' } })}
 							disabled={!!togglingId}
 						>
 							EN

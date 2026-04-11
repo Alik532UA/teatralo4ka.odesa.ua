@@ -21,6 +21,7 @@
 		Undo, Redo, PlusSquare, MinusSquare, Trash2, Combine, Split,
 		FileJson, Layout, AlertTriangle
 	} from 'lucide-svelte';
+	import { t } from 'svelte-i18n';
 
 	interface Props {
 		value: string;
@@ -31,7 +32,7 @@
 		"data-testid"?: string;
 	}
 
-	let { value = $bindable(), placeholder = 'Почніть писати...', initialMode = 'visual', onchange, onmodechange, "data-testid": testId = "rich-editor" }: Props = $props();
+	let { value = $bindable(), placeholder, initialMode = 'visual', onchange, onmodechange, "data-testid": testId = "rich-editor" }: Props = $props();
 
 	let element: HTMLElement;
 	let editor: Editor | null = $state(null);
@@ -88,7 +89,7 @@
 				}),
 				HorizontalRule,
 				Placeholder.configure({
-					placeholder: placeholder,
+					placeholder: placeholder || $t('editor.placeholder'),
 				}),
 				Markdown,
 			],
@@ -220,25 +221,25 @@
 				   class="tool-btn mode-tab"
 				   class:active={editorMode === 'visual'}
 				   onclick={() => setEditorMode('visual')}
-				   title="Візуальний редактор"
+				   title={$t('editor.visual')}
 				   data-testid="{testId}-mode-toggle-button"
-			   ><Layout size={15} /> Текст</button>
+			   ><Layout size={15} /> {$t('editor.textTab')}</button>
 			   <button
 				   type="button"
 				   class="tool-btn mode-tab"
 				   class:active={editorMode === 'markdown'}
 				   onclick={() => setEditorMode('markdown')}
-				   title="Markdown"
+				   title={$t('editor.markdown')}
 				   data-testid="{testId}-mode-md-button"
-			   ><FileJson size={15} /> MD</button>
+			   ><FileJson size={15} /> {$t('editor.mdTab')}</button>
 			   <button
 				   type="button"
 				   class="tool-btn mode-tab"
 				   class:active={editorMode === 'html'}
 				   onclick={() => setEditorMode('html')}
-				   title="HTML"
+				   title={$t('editor.html')}
 				   data-testid="{testId}-mode-html-button"
-			   ><Code size={15} /> HTML</button>
+			   ><Code size={15} /> {$t('editor.htmlTab')}</button>
 		   </div>
 
 		   <div class="separator"></div>
@@ -250,7 +251,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('bold')} 
 					   onclick={() => editor?.chain().focus().toggleBold().run()}
-					   title="Жирний"
+					   title={$t('editor.bold')}
 					   data-testid="{testId}-bold-button"
 				   ><Bold size={18} /></button>
 				   
@@ -259,7 +260,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('italic')} 
 					   onclick={() => editor?.chain().focus().toggleItalic().run()}
-					   title="Курсив"
+					   title={$t('editor.italic')}
 					   data-testid="{testId}-italic-button"
 				   ><Italic size={18} /></button>
 				   
@@ -268,7 +269,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('underline')} 
 					   onclick={() => editor?.chain().focus().toggleUnderline().run()}
-					   title="Підкреслений"
+					   title={$t('editor.underline')}
 					   data-testid="{testId}-underline-button"
 				   ><UnderlineIcon size={18} /></button>
 
@@ -277,7 +278,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('strike')} 
 					   onclick={() => editor?.chain().focus().toggleStrike().run()}
-					   title="Закреслений"
+					   title={$t('editor.strike')}
 					   data-testid="{testId}-strike-button"
 				   ><Strikethrough size={18} /></button>
 
@@ -286,7 +287,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('code')} 
 					   onclick={() => editor?.chain().focus().toggleCode().run()}
-					   title="Код"
+					   title={$t('editor.code')}
 					   data-testid="{testId}-code-button"
 				   ><Code size={18} /></button>
 			   </div>
@@ -300,7 +301,7 @@
 					   class:active={editor.isActive('paragraph')} 
 					   onclick={() => editor?.chain().focus().setParagraph().run()}
 					   data-testid="{testId}-paragraph-button"
-					   title="Звичайний текст"
+					   title={$t('editor.paragraph')}
 				   ><Type size={18} /></button>
 				   {#each [1, 2, 3, 4, 5, 6] as level}
 					   <button 
@@ -309,7 +310,7 @@
 						   class:active={editor.isActive('heading', { level })} 
 						   onclick={() => editor?.chain().focus().toggleHeading({ level: level as any }).run()}
 						   data-testid="{testId}-h{level}-button"
-						   title="Заголовок {level}"
+						   title={$t('editor.heading', { values: { level } })}
 					   >H{level}</button>
 				   {/each}
 			   </div>
@@ -322,7 +323,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('bulletList')} 
 					   onclick={() => editor?.chain().focus().toggleBulletList().run()}
-					   title="Маркований список"
+					   title={$t('editor.bulletList')}
 					   data-testid="{testId}-bullet-list-button"
 				   ><List size={18} /></button>
 				   
@@ -331,7 +332,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('orderedList')} 
 					   onclick={() => editor?.chain().focus().toggleOrderedList().run()}
-					   title="Нумерований список"
+					   title={$t('editor.orderedList')}
 					   data-testid="{testId}-ordered-list-button"
 				   ><ListOrdered size={18} /></button>
 
@@ -340,7 +341,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('taskList')} 
 					   onclick={() => editor?.chain().focus().toggleTaskList().run()}
-					   title="Список завдань"
+					   title={$t('editor.taskList')}
 					   data-testid="{testId}-task-list-button"
 				   ><CheckSquare size={18} /></button>
 			   </div>
@@ -353,7 +354,7 @@
 					   class="tool-btn" 
 					   class:active={editor.isActive('link')} 
 					   onclick={() => openModal('link')}
-					   title="Посилання"
+					   title={$t('editor.link')}
 					   data-testid="{testId}-link-button"
 				   ><LinkIcon size={18} /></button>
 
@@ -361,7 +362,7 @@
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => openModal('image')}
-					   title="Зображення по URL"
+					   title={$t('editor.image')}
 					   data-testid="{testId}-image-button"
 				   ><ImageIcon size={18} /></button>
 
@@ -369,7 +370,7 @@
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
-					   title="Вставити таблицю"
+					   title={$t('editor.table')}
 					   data-testid="{testId}-table-button"
 				   ><TableIcon size={18} /></button>
 				   
@@ -378,7 +379,7 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().toggleBlockquote().run()}
 					   class:active={editor.isActive('blockquote')}
-					   title="Цитата"
+					   title={$t('editor.blockquote')}
 					   data-testid="{testId}-quote-button"
 				   ><Quote size={18} /></button>
 
@@ -386,7 +387,7 @@
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().setHorizontalRule().run()}
-					   title="Горизонтальна лінія"
+					   title={$t('editor.horizontalRule')}
 					   data-testid="{testId}-hr-button"
 				   ><Minus size={18} /></button>
 			   </div>
@@ -398,7 +399,7 @@
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().undo().run()}
-					   title="Відмінити"
+					   title={$t('editor.undo')}
 					   data-testid="{testId}-undo-button"
 				   ><Undo size={18} /></button>
 				   
@@ -406,7 +407,7 @@
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().redo().run()}
-					   title="Повторити"
+					   title={$t('editor.redo')}
 					   data-testid="{testId}-redo-button"
 				   ><Redo size={18} /></button>
 			   </div>
@@ -414,24 +415,24 @@
 			   {#if isTableActive}
 				   <div class="separator"></div>
 				   <div class="tool-group table-tools" data-testid="{testId}-table-tools-group">
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title="Додати стовпець ліворуч" data-testid="{testId}-table-col-before-button"><PlusSquare size={14} /> Col L</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title="Додати стовпець праворуч" data-testid="{testId}-table-col-after-button"><PlusSquare size={14} /> Col R</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title="Видалити стовпець" data-testid="{testId}-table-col-delete-button"><MinusSquare size={14} /> Col</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title="Додати рядок зверху" data-testid="{testId}-table-row-before-button"><PlusSquare size={14} /> Row U</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title="Додати рядок знизу" data-testid="{testId}-table-row-after-button"><PlusSquare size={14} /> Row D</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title="Видалити рядок" data-testid="{testId}-table-row-delete-button"><MinusSquare size={14} /> Row</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title="Видалити таблицю" data-testid="{testId}-table-delete-button"><Trash2 size={16} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title="Об'єднати клітинки" data-testid="{testId}-table-merge-button"><Combine size={14} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title="Розділити клітинку" data-testid="{testId}-table-split-button"><Split size={14} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title={$t('editor.addColumnBefore')} data-testid="{testId}-table-col-before-button"><PlusSquare size={14} /> Col L</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title={$t('editor.addColumnAfter')} data-testid="{testId}-table-col-after-button"><PlusSquare size={14} /> Col R</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title={$t('editor.deleteColumn')} data-testid="{testId}-table-col-delete-button"><MinusSquare size={14} /> Col</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title={$t('editor.addRowBefore')} data-testid="{testId}-table-row-before-button"><PlusSquare size={14} /> Row U</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title={$t('editor.addRowAfter')} data-testid="{testId}-table-row-after-button"><PlusSquare size={14} /> Row D</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title={$t('editor.deleteRow')} data-testid="{testId}-table-row-delete-button"><MinusSquare size={14} /> Row</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title={$t('editor.deleteTable')} data-testid="{testId}-table-delete-button"><Trash2 size={16} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title={$t('editor.mergeCells')} data-testid="{testId}-table-merge-button"><Combine size={14} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title={$t('editor.splitCell')} data-testid="{testId}-table-split-button"><Split size={14} /></button>
 				   </div>
 			   {/if}
 		   {:else}
 			   <div class="tool-group" data-testid="{testId}-mode-info-group">
-				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{editorMode === 'markdown' ? 'Markdown' : 'HTML'} — редагування джерела</span>
+				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{$t('editor.sourceEditing', { values: { mode: editorMode === 'markdown' ? 'Markdown' : 'HTML' } })}</span>
 				   {#if editorMode === 'html'}
 					   <span style="font-size: 0.75rem; color: #ef4444; margin-left: 1rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(239, 68, 68, 0.1);">
 						   <AlertTriangle size={14} style="margin-right: 4px;" />
-						   Увага: кастомний HTML буде втрачено при перемиканні на Візуальний/MD редактор. Зберігайте статтю з цієї вкладки.
+						   {$t('editor.htmlWarning')}
 					   </span>
 				   {/if}
 			   </div>
@@ -473,12 +474,12 @@
 				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-form-group">
 					   {#if modalType === 'link'}
 						   <div class="form-group" data-testid="{testId}-modal-text-group">
-							   <label class="form-label" for="modal-text" data-testid="{testId}-modal-text-label">Текст посилання</label>
+							   <label class="form-label" for="modal-text" data-testid="{testId}-modal-text-label">{$t('editor.linkText')}</label>
 							   <input 
 								   id="modal-text"
 								   type="text" 
 								   bind:value={modalText} 
-								   placeholder="Напр: Тисни тут"
+								   placeholder={$t('editor.linkTextPlaceholder')}
 								   class="form-input"
 								   data-testid="{testId}-modal-text-input"
 							   />
@@ -486,7 +487,7 @@
 					   {/if}
 
 					   <div class="form-group" data-testid="{testId}-modal-url-group">
-						   <label class="form-label" for="modal-url" data-testid="{testId}-modal-url-label">{modalType === 'link' ? 'URL адреса' : 'URL зображення'}</label>
+						   <label class="form-label" for="modal-url" data-testid="{testId}-modal-url-label">{modalType === 'link' ? $t('editor.urlLabel') : $t('editor.imageUrlLabel')}</label>
 						   <input 
 							   id="modal-url"
 							   type="text" 
@@ -500,8 +501,8 @@
 				   </div>
 
 				   <div class="modal-actions" data-testid="{testId}-modal-actions-group">
-					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel-button">Скасувати</button>
-					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save-button">Зберегти</button>
+					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel-button">{$t('common.cancel')}</button>
+					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save-button">{$t('admin.menuEditor.save')}</button>
 				   </div>
 			   </div>
 		   </div>

@@ -2,6 +2,7 @@
 	import { toast } from '$lib/states/toast.svelte';
 	import { HelpCircle, X } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
+	import { t } from 'svelte-i18n';
 </script>
 
 {#if toast.isConfirmOpen}
@@ -21,11 +22,11 @@
 				<div class="modal-icon" data-testid="confirm-modal-icon-container">
 					<HelpCircle size={24} />
 				</div>
-				<h3 data-testid="confirm-modal-title-label">Підтвердження дії</h3>
+				<h3 data-testid="confirm-modal-title-label">{$t('common.confirmation')}</h3>
 				<button 
 					class="btn-close" 
 					onclick={() => toast.resolveConfirm(false)} 
-					aria-label="Скасувати"
+					aria-label={$t('common.cancel')}
 					data-testid="confirm-modal-close-button"
 				>
 					<X size={20} />
@@ -42,14 +43,14 @@
 					onclick={() => toast.resolveConfirm(false)}
 					data-testid="confirm-modal-cancel-button"
 				>
-					Скасувати
+					{$t('common.cancel')}
 				</button>
 				<button 
 					class="btn-confirm" 
 					onclick={() => toast.resolveConfirm(true)}
 					data-testid="confirm-modal-confirm-button"
 				>
-					Підтвердити
+					{$t('common.confirm')}
 				</button>
 			</div>
 		</div>

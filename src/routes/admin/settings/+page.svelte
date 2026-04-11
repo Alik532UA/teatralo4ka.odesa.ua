@@ -176,7 +176,7 @@ $effect(() => {
                                 authService.profile?.projects?.[PROJECT_ID]?.permissions?.canManageSettings === true;
       
       if (!canManageSettings) {
-        toast.error('У вас немає прав для зміни налаштувань');
+        toast.error($t('admin.dashboard.noPermission'));
         goto(`${base}/admin`);
         return;
       }
@@ -371,8 +371,8 @@ async function handleNewsPageSubmit() {
 {$t(`admin.settings.blocks.${block.id}`)}
 </span>
 <div class="block-item__controls">
-<button type="button" class="btn-icon" disabled={i === 0} onclick={() => onMoveUp(i)} aria-label="Move up" data-testid="admin-settings-block-{block.id}-up"><ArrowUp size={15} /></button>
-<button type="button" class="btn-icon" disabled={i === blockList.length - 1} onclick={() => onMoveDown(i)} aria-label="Move down" data-testid="admin-settings-block-{block.id}-down"><ArrowDown size={15} /></button>
+<button type="button" class="btn-icon" disabled={i === 0} onclick={() => onMoveUp(i)} aria-label={$t('common.moveUp')} data-testid="admin-settings-block-{block.id}-up"><ArrowUp size={15} /></button>
+<button type="button" class="btn-icon" disabled={i === blockList.length - 1} onclick={() => onMoveDown(i)} aria-label={$t('common.moveDown')} data-testid="admin-settings-block-{block.id}-down"><ArrowDown size={15} /></button>
 <label class="switch-label" data-testid="admin-settings-block-{block.id}-visible-label">
 <input type="checkbox" class="switch-input" checked={block.visible} onchange={() => onToggle(i)} data-testid="admin-settings-block-{block.id}-visible" />
 <span class="switch-slider"></span>
@@ -388,7 +388,7 @@ async function handleNewsPageSubmit() {
   </button>
   <div style="display: flex; align-items: center;">
   {#if hasChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-submit-btn">
     {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
@@ -470,7 +470,7 @@ async function handleNewsPageSubmit() {
   </label>
   {#if cfg.maxItemsGrid > 0}
   <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title="Decrease">−</button>
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
       class="form-select"
@@ -480,7 +480,7 @@ async function handleNewsPageSubmit() {
       value={cfg.maxItemsGrid}
       onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title="Increase">+</button>
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
   <span style="font-size: 0.82rem; color: var(--color-muted-text);">
@@ -500,7 +500,7 @@ async function handleNewsPageSubmit() {
   </label>
   {#if cfg.maxItemsList > 0}
   <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title="Decrease">−</button>
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
       class="form-select"
@@ -510,7 +510,7 @@ async function handleNewsPageSubmit() {
       value={cfg.maxItemsList}
       onchange={(e: any) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.target.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title="Increase">+</button>
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
   <span style="font-size: 0.82rem; color: var(--color-muted-text);">
@@ -528,7 +528,7 @@ async function handleNewsPageSubmit() {
   </button>
   <div style="display: flex; align-items: center;">
   {#if hasChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-news-submit-btn">
     {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
@@ -689,7 +689,7 @@ async function handleNewsPageSubmit() {
   </button>
   <div style="display: flex; align-items: center;">
   {#if hasCtaChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasCtaChanges} class="btn-save-small {hasCtaChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-cta-submit-btn">
     {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
@@ -729,6 +729,7 @@ async function handleNewsPageSubmit() {
     {articlesList}
     {articlesLoading}
     knownPages={KNOWN_PAGES}
+    ctaHref={cta.visible ? cta.href : undefined}
     onLoadArticles={loadArticles}
     onchange={(m) => { navDropdown = m; }}
     onsave={handleHeaderSubmit}
@@ -744,6 +745,7 @@ async function handleNewsPageSubmit() {
     {articlesList}
     {articlesLoading}
     knownPages={KNOWN_PAGES}
+    ctaHref={cta.visible ? cta.href : undefined}
     onLoadArticles={loadArticles}
     onchange={(m) => { mobileOverlay = m; }}
     onsave={handleHeaderSubmit}
@@ -868,7 +870,7 @@ async function handleNewsPageSubmit() {
   </button>
   <div style="display: flex; align-items: center;">
   {#if hasTickerChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasTickerChanges} class="btn-save-small {hasTickerChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-ticker-submit-btn">
     {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
@@ -914,7 +916,7 @@ async function handleNewsPageSubmit() {
   </button>
   <div style="display: flex; align-items: center;">
   {#if hasDebugPanelChanges}
-    <span class="unsaved-badge">{$t('admin.users.unsavedChanges') || 'Є незбережені зміни'}</span>
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasDebugPanelChanges} class="btn-save-small {hasDebugPanelChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-debug-submit-btn">
     {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}

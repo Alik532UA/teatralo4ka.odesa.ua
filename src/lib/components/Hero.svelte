@@ -40,7 +40,7 @@
 	}
 </script>
 
-<section class="hero" id="hero-section" aria-label="Головна секція" data-testid="hero-section-container">
+<section class="hero" id="hero-section" aria-label={$t('hero.section')} data-testid="hero-section-container">
 	<div class="hero__content container" data-testid="hero-content-group">
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social" data-testid="hero-social-links-menu">
@@ -95,13 +95,13 @@
 
 		<!-- 4. Mobile Contacts -->
 		<div class="hero__contacts" data-testid="hero-mobile-contacts-menu">
-			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label="Карта" data-testid="hero-map-button">
+			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label={$t('hero.map')} data-testid="hero-map-button">
 				<MapPinned size={24} />
 			</a>
-			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label="Телефони" data-testid="hero-phones-button">
+			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label={$t('hero.phones')} data-testid="hero-phones-button">
 				<Phone size={24} />
 			</button>
-			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label="Email" data-testid="hero-email-button">
+			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label={$t('hero.email')} data-testid="hero-email-button">
 				<Mail size={24} />
 			</button>
 		</div>

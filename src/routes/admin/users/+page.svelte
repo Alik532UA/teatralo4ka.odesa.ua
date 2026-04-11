@@ -185,12 +185,12 @@
 	async function handleAddSubmit() {
 		const email = newUser.email.toLowerCase().trim();
 		if (!email.includes('@')) {
-			toast.error('Введіть коректний Email');
+			toast.error($t('admin.users.invalidEmail'));
 			return;
 		}
 
 		if (!canManageProject(newUser.projectId, newUser.role)) {
-			toast.error('У вас немає прав надавати цей рівень доступу у цьому проєкті.');
+			toast.error($t('admin.users.noManagePerms'));
 			return;
 		}
 
@@ -224,13 +224,13 @@
 				});
 			}
 			
-			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Користувача / Доступ успішно додано.');
+			toast.success($t('admin.users.grantAccessSuccess'));
 			showAddForm = false;
 			newUser.email = '';
 			await loadUsers();
 		} catch (e) {
 			console.error(e);
-			toast.error('Помилка: ' + (e as Error).message);
+			toast.error($t('admin.users.errorPrefix') + (e as Error).message);
 		} finally {
 			savingId = null;
 		}
@@ -238,12 +238,12 @@
 
 	async function updateProjectAccess(user: any, projectId: string) {
 		if (isSelf(user.id)) {
-			toast.error('Ви не можете змінити власні права.');
+			toast.error($t('admin.users.cannotChangeSelf'));
 			return;
 		}
 		const pData = user.projects[projectId];
 		if (!canManageProject(projectId, pData.role)) {
-			toast.error('У вас немає прав для зміни цього доступу.');
+			toast.error($t('admin.users.noUpdatePerms'));
 			return;
 		}
 
@@ -259,11 +259,11 @@
 				projectIds: Object.keys(updatedProjects),
 				lastModifiedProject: projectId
 			});
-			toast.success(get(t)('admin.dashboard.saveSuccess') || 'Права успішно оновлено');
+			toast.success($t('admin.users.rightsUpdated'));
 			user.originalProjectsJson = JSON.stringify(user.projects);
 		} catch (e) {
 			console.error(e);
-			toast.error('Помилка при оновленні: ' + (e as Error).message);
+			toast.error($t('admin.users.updateError') + (e as Error).message);
 		} finally {
 			savingId = null;
 		}
@@ -272,10 +272,10 @@
 	async function removeProjectAccess(user: any, projectId: string) {
 		if (isSelf(user.id)) return;
 		if (!canManageProject(projectId, user.projects[projectId].role)) {
-			toast.error('У вас немає прав для видалення цього доступу.');
+			toast.error($t('admin.users.noUpdatePerms'));
 			return;
 		}
-		if (!(await toast.confirm(`Видалити доступ до проєкту ${projectId}?`))) return;
+		if (!(await toast.confirm($t('admin.users.confirmDeleteProject', { values: { projectId } })))) return;
 
 		savingId = `${user.id}-${projectId}`;
 		try {
@@ -287,11 +287,11 @@
 				projectIds: Object.keys(updatedProjects),
 				lastModifiedProject: projectId
 			});
-			toast.success('Доступ видалено');
+			toast.success($t('admin.users.accessRemoved'));
 			await loadUsers();
 		} catch (e) {
 			console.error(e);
-			toast.error('Помилка при видаленні');
+			toast.error($t('admin.users.deleteError'));
 		} finally {
 			savingId = null;
 		}
@@ -308,7 +308,7 @@
 		const canDelete = isSuperAdmin;
 
 		if (!canDelete) {
-			toast.error('Видалення користувачів доступне тільки суперадміну.');
+			toast.error($t('admin.users.superAdminOnly'));
 			return;
 		}
 
@@ -325,11 +325,11 @@
 
 		try {
 			await deleteDoc(doc(db, 'users', user.id));
-			toast.success('Акаунт успішно видалено');
+			toast.success($t('admin.users.accountDeleted'));
 			await loadUsers();
 		} catch (e) {
 			console.error(e);
-			toast.error('Помилка при видаленні');
+			toast.error($t('admin.users.deleteError'));
 		} finally {
 			savingId = null;
 		}
@@ -434,18 +434,18 @@
 			onkeydown={(e) => e.key === 'Escape' && (showAddForm = false)}
 			role="button"
 			tabindex="0"
-			aria-label="Закрити"
+			aria-label={$t('common.close')}
 		>
 			<div class="add-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="0">
 				<div class="modal-header" style="color: var(--color-sea-blue, #2196ba);">
 					<UserPlus size={28} />
 					<span>{$t('admin.users.grantAccess')}</span>
-					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label="Закрити"><X size={20} /></button>
+					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label={$t('common.close')}><X size={20} /></button>
 				</div>
 
 				<div class="add-form-body">
 					<!-- Email -->
-					<label class="add-label" for="new-user-email">{$t('admin.users.emailLabel') || 'Email'}</label>
+					<label class="add-label" for="new-user-email">{$t('admin.users.emailLabel')}</label>
 					<input
 						id="new-user-email"
 						type="email"
@@ -457,12 +457,12 @@
 
 					<!-- Project -->
 					{#if isSuperAdmin}
-						<label class="add-label" for="new-user-project">{$t('admin.users.projectLabel') || 'Проєкт'}</label>
+						<label class="add-label" for="new-user-project">{$t('admin.users.projectLabel')}</label>
 						<input id="new-user-project" type="text" class="add-input" bind:value={newUser.projectId} />
 					{/if}
 
 					<!-- Role -->
-					<label class="add-label" for="new-user-role">{$t('admin.users.roleLabel') || 'Роль'}</label>
+					<label class="add-label" for="new-user-role">{$t('admin.users.roleLabel')}</label>
 					<select id="new-user-role" class="add-input add-select" bind:value={newUser.role}>
 						{#each ROLES as r}
 							<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>
@@ -545,21 +545,21 @@
 			onkeydown={(e) => e.key === 'Escape' && (deleteConfirmModal = { open: false, user: null })}
 			role="button"
 			tabindex="0"
-			aria-label="Закрити модальне вікно"
+			aria-label={$t('common.closeModal')}
 		>
 			<div class="delete-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" tabindex="0">
 				<div class="modal-header">
 					<Trash2 size={32} />
-					<span id="delete-modal-title">{$t('admin.users.confirmDeleteTitle') || 'Підтвердження видалення'}</span>
+					<span id="delete-modal-title">{$t('admin.users.confirmDeleteTitle')}</span>
 				</div>
 				<p style="font-size: 1.1rem; line-height: 1.6;">
-					{$t('admin.users.confirmDeleteText') || 'Ви впевнені, що хочете видалити акаунт'} 
+					{$t('admin.users.confirmDeleteText')} 
 					<strong>{deleteConfirmModal.user?.email}</strong>? 
-					{$t('admin.users.confirmDeleteWarning') || 'Ця дія незворотна.'}
+					{$t('admin.users.confirmDeleteWarning')}
 				</p>
 				<div style="display: flex; flex-direction: column; gap: 0.5rem;">
 					<label for="delete-confirm" style="font-size: 0.9rem; opacity: 0.7;">
-						{$t('admin.users.typeDelete') || 'Введіть "delete" для підтвердження:'}
+						{$t('admin.users.typeDelete')}
 					</label>
 					<input 
 						type="text" 
@@ -579,7 +579,7 @@
 						disabled={deleteConfirmInput.toLowerCase() !== 'delete'}
 						onclick={handleModalDelete}
 					>
-						{$t('admin.users.deleteBtn') || 'Видалити'}
+						{$t('admin.users.deleteBtn')}
 					</button>
 				</div>
 			</div>
@@ -615,7 +615,7 @@
 					</button>
 				{/if}
 				{#if !isSelf(user.id) && (isSuperAdmin || (user.projects[DEFAULT_PROJECT_ID] && canManageProject(DEFAULT_PROJECT_ID, user.projects[DEFAULT_PROJECT_ID].role)))}
-					<button class="btn-delete-full" onclick={() => deleteFullUser(user)} title="Видалити акаунт">
+					<button class="btn-delete-full" onclick={() => deleteFullUser(user)} title={$t('admin.users.deleteAccount')}>
 						<Trash2 size={18} />
 					</button>
 				{/if}

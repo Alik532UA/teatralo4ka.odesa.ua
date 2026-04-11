@@ -3,13 +3,15 @@
 	import { browser } from '$app/environment';
 	import 'easymde/dist/easymde.min.css';
 
+	import { t } from 'svelte-i18n';
+
 	interface Props {
 		value: string;
 		placeholder?: string;
 		onchange: (val: string) => void;
 	}
 
-	let { value = $bindable(), placeholder = 'Введіть текст...', onchange }: Props = $props();
+	let { value = $bindable(), placeholder, onchange }: Props = $props();
 
 	let textarea: HTMLTextAreaElement;
 	let easyMDE: any;
@@ -21,7 +23,7 @@
 			easyMDE = new EasyMDE({
 				element: textarea,
 				initialValue: value,
-				placeholder: placeholder,
+				placeholder: placeholder || $t('admin.editor.contentPlaceholder'),
 				spellChecker: false,
 				autosave: {
 					enabled: false,

@@ -290,7 +290,7 @@
 					class="view-btn autoplay-btn"
 					class:active={autoplay && !isHovered}
 				onclick={() => autoplayOverride = !autoplay}
-					aria-label={autoplay ? 'Pause' : 'Play'}
+					aria-label={autoplay ? $t('common.pause') : $t('common.play')}
 					aria-pressed={autoplay}
 					data-testid="news-widget-autoplay-btn"
 				>
@@ -299,7 +299,7 @@
 			{/if}
 
 			{#if config.showViewSwitcher}
-				<div class="view-switcher" role="group" aria-label="View" data-testid="news-widget-view-switcher">
+				<div class="view-switcher" role="group" aria-label={$t('common.view')} data-testid="news-widget-view-switcher">
 					<button class="view-btn" class:active={view === 'carousel'} onclick={() => viewOverride = 'carousel'} aria-label={$t('news.viewCarousel')} aria-pressed={view === 'carousel'} data-testid="news-widget-view-carousel-btn">
 						<GalleryHorizontal size={20} />
 					</button>
@@ -348,8 +348,8 @@
 			</div>
 
 			{#if items.length > 1}
-				<button class="nav-btn nav-btn--prev" onclick={prev} aria-label="Previous slide" data-testid="news-widget-prev-btn">←</button>
-				<button class="nav-btn nav-btn--next" onclick={() => next(false)} aria-label="Next slide" data-testid="news-widget-next-btn">→</button>
+				<button class="nav-btn nav-btn--prev" onclick={prev} aria-label={$t('common.prev')} data-testid="news-widget-prev-btn">←</button>
+				<button class="nav-btn nav-btn--next" onclick={() => next(false)} aria-label={$t('common.next')} data-testid="news-widget-next-btn">→</button>
 			{/if}
 		</div>
 
@@ -360,7 +360,7 @@
 						class="f-dot"
 						class:active={(currentIndex % items.length) === i}
 						onclick={() => goTo(i)}
-						aria-label="Slide {i + 1}"
+						aria-label="{$t('common.slide')} {i + 1}"
 						data-testid="news-widget-dot-{i}"
 					></button>
 				{/each}

@@ -11,6 +11,7 @@
 		articlesList: { slug: string; titleUk: string; titleEn: string }[];
 		articlesLoading: boolean;
 		knownPages: { value: string; labelUk: string; labelEn: string }[];
+		ctaHref?: string;
 		onLoadArticles: () => void;
 		onchange: (menu: MenuConfig) => void;
 		onsave?: () => void;
@@ -26,6 +27,7 @@
 		articlesList,
 		articlesLoading,
 		knownPages,
+		ctaHref,
 		onLoadArticles,
 		onchange,
 		onsave,
@@ -297,7 +299,7 @@
 					<span class="me-order">{i + 1}</span>
 					<span class="me-name">
 						{itemDisplayLabel(item)}
-						{#if item.itemType === 'cta'}<span class="me-badge">CTA</span>{/if}
+						{#if ctaHref && item.href === ctaHref}<span class="me-badge">CTA</span>{/if}
 					</span>
 					<div class="me-actions">
 					<button type="button" class="me-btn" disabled={i === 0} onclick={() => moveItemUp(i)} title={$t('admin.menuEditor.btnUp')}><ArrowUp size={15} /></button>
@@ -386,7 +388,7 @@
 							<span class="me-order">{ii + 1}</span>
 							<span class="me-name">
 								{itemDisplayLabel(item)}
-								{#if item.itemType === 'cta'}<span class="me-badge">CTA</span>{/if}
+							{#if ctaHref && item.href === ctaHref}<span class="me-badge">CTA</span>{/if}
 							</span>
 							<div class="me-actions">
 							<button type="button" class="me-btn" disabled={ii === 0} onclick={() => moveSectionItemUp(si, ii)} title={$t('admin.menuEditor.btnUp')}><ArrowUp size={15} /></button>

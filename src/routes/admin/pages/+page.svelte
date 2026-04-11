@@ -42,7 +42,7 @@
 	});
 
 	const filtered = $derived.by(() => {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		return sorted.filter(p => {
 			// Search
 			const title = p.translations?.[currentLang]?.title || '';
@@ -105,7 +105,7 @@
 		
 		const canEdit = isSuperAdmin || permissions?.canEditPages === true;
 		if (!canEdit) {
-			toast.error('У вас немає прав для зміни статусу публікації');
+			toast.error($t('admin.content.noPermissionToggle'));
 			return;
 		}
 
@@ -130,10 +130,10 @@
 				pages[idx].translations = newTranslations as any;
 			}
 			
-			toast.success(lang === 'uk' ? 'Статус UA оновлено' : 'Статус EN оновлено');
+			toast.success($t('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));
 		} catch (e: any) {
 			console.error(e);
-			toast.error(e.message || 'Помилка оновлення статусу');
+			toast.error(e.message || $t('admin.content.statusUpdateError'));
 		} finally {
 			togglingId = null;
 		}
@@ -142,19 +142,19 @@
 	function formatDate(page: Article) {
 		const timestamp = getDisplayDate(page);
 		if (!timestamp) return get(t)('admin.editor.dateHidden');
-		return timestamp.toDate().toLocaleDateString($locale === 'en' ? 'en-US' : 'uk-UA', { day: 'numeric', month: 'short', year: 'numeric' });
+		return timestamp.toDate().toLocaleDateString(get(locale) === 'en' ? 'en-US' : 'uk-UA', { day: 'numeric', month: 'short', year: 'numeric' });
 	}
 
 	function getExcerpt(page: Article) {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		const content = page.translations?.[currentLang]?.content || '';
 		const plainText = content.replace(/[#*`_\[\]()]/g, '').replace(/<[^>]*>/g, '');
 		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
 	}
 
 	function getTitle(page: Article) {
-		const currentLang = ($locale as 'uk' | 'en') || 'uk';
-		return page.translations?.[currentLang]?.title || 'Untitled';
+		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
+		return page.translations?.[currentLang]?.title || '';
 	}
 
 	function getCoverUrl(page: Article): string {
@@ -191,21 +191,21 @@
 
 		<div class="al-filter-groups">
 			<div class="mode-toggle-group">
-				<button class="mode-btn" class:active={filterStatus === 'all'} onclick={() => filterStatus = 'all'}>Всі</button>
-				<button class="mode-btn" class:active={filterStatus === 'published'} onclick={() => filterStatus = 'published'}>Опубліковані</button>
-				<button class="mode-btn" class:active={filterStatus === 'draft'} onclick={() => filterStatus = 'draft'}>Чернетки</button>
+				<button class="mode-btn" class:active={filterStatus === 'all'} onclick={() => filterStatus = 'all'}>{$t('admin.content.filterAll')}</button>
+				<button class="mode-btn" class:active={filterStatus === 'published'} onclick={() => filterStatus = 'published'}>{$t('admin.content.filterPublished')}</button>
+				<button class="mode-btn" class:active={filterStatus === 'draft'} onclick={() => filterStatus = 'draft'}>{$t('admin.content.filterDraft')}</button>
 			</div>
 
 			<div class="select-wrapper">
 				<Calendar size={14} class="select-icon" />
 				<select class="al-filter-select" bind:value={filterYear}>
-					<option value="all">Всі роки</option>
+					<option value="all">{$t('admin.content.allYears')}</option>
 					{#each availableYears as year}
-						<option value={year}>{year} рік</option>
+						<option value={year}>{$t('admin.content.yearSuffix', { values: { year } })}</option>
 					{:else}
 						<!-- No years found -->
 					{/each}
-					<option value="none">Без дати</option>
+					<option value="none">{$t('admin.content.noDate')}</option>
 				</select>
 			</div>
 		</div>
@@ -219,7 +219,7 @@
 		{:else if filtered.length === 0}
 			<div class="al-empty">
 				<Search size={48} opacity={0.2} />
-				<p>{search ? ($t('admin.pages.noResults') || 'Нічого не знайдено') : $t('admin.pages.noPages')}</p>
+				<p>{search ? $t('admin.pages.noResults') : $t('admin.pages.noPages')}</p>
 			</div>
 		{:else}
 			{#each filtered as page (page.id)}
@@ -248,7 +248,7 @@
 							class="pl-lang-badge {page.translations?.uk?.isPublished ? 'published' : 'draft'}"
 							class:is-toggling={togglingId === `${page.id}-uk`}
 							onclick={() => togglePublish(page, 'uk')}
-							title={page.translations?.uk?.isPublished ? 'Зняти з публікації (UA)' : 'Опублікувати (UA)'}
+							title={page.translations?.uk?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'UA' } }) : $t('admin.content.publish', { values: { lang: 'UA' } })}
 							disabled={!!togglingId}
 						>
 							UA
@@ -257,7 +257,7 @@
 							class="pl-lang-badge {page.translations?.en?.isPublished ? 'published' : 'draft'}"
 							class:is-toggling={togglingId === `${page.id}-en`}
 							onclick={() => togglePublish(page, 'en')}
-							title={page.translations?.en?.isPublished ? 'Зняти з публікації (EN)' : 'Опублікувати (EN)'}
+							title={page.translations?.en?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'EN' } }) : $t('admin.content.publish', { values: { lang: 'EN' } })}
 							disabled={!!togglingId}
 						>
 							EN

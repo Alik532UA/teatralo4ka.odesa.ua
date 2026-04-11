@@ -185,7 +185,7 @@
 		onkeydown={(e) => e.key === 'Escape' && (ui.isPhonesModalOpen = false)}
 		role="button"
 		tabindex="0"
-		aria-label="Закрити модальне вікно"
+		aria-label={$t('common.closeModal')}
 		data-testid="phones-modal-overlay-container"
 	>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -194,7 +194,7 @@
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
 					{$t("footer.contactsTitle")}
 				</h2>
-				<button class="btn-close" aria-label="Закрити" onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-button">
+				<button class="btn-close" aria-label={$t('common.close')} onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-button">
 					<X size={24} />
 				</button>
 			</div>

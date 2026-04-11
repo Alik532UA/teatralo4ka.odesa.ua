@@ -77,7 +77,7 @@
 		const text = lines.join('\n');
 		if (navigator.clipboard?.writeText) {
 			navigator.clipboard.writeText(text).then(
-				() => alert('Скопійовано в буфер! (' + log.length + ' записів)'),
+				() => alert($t('admin.debug.copiedToClipboard')),
 				() => showPerfTextarea(text)
 			);
 		} else {
@@ -229,7 +229,7 @@
 		email: 'dmsh-5odesa@ukr.net',
 		address: {
 			'@type': 'PostalAddress',
-			streetAddress: safeT('footer.address', 'вулиця Чорноморського Козацтва, 18, Одеса'),
+			streetAddress: safeT('footer.address', '24 Sofiivska St, Odesa'),
 			addressLocality: 'Odesa',
 			addressCountry: 'UA'
 		},

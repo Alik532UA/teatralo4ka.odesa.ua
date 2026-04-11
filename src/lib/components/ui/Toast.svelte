@@ -2,6 +2,7 @@
 	import { toast } from '$lib/states/toast.svelte';
 	import { CheckCircle2, AlertCircle, Info, X } from 'lucide-svelte';
 	import { fly, fade } from 'svelte/transition';
+	import { t } from 'svelte-i18n';
 </script>
 
 <div class="toast-container" data-testid="toast-notifications-container">
@@ -44,7 +45,7 @@
 			<button 
 				class="toast-close" 
 				onclick={() => toast.remove(msg.id)} 
-				aria-label="Закрити"
+				aria-label={$t('common.close')}
 				data-testid="toast-close-button"
 			>
 				<X size={16} />

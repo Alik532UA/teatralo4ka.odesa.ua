@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { t } from 'svelte-i18n';
 
 	let { children }: { children: Snippet } = $props();
 </script>
@@ -10,11 +11,11 @@
 	{#snippet failed(error, reset)}
 		<div class="error-boundary" data-testid="error-boundary-container">
 			<div class="error-boundary__content" data-testid="error-boundary-content-group">
-				<h2 data-testid="error-boundary-title">Ой! Щось пішло не так</h2>
+				<h2 data-testid="error-boundary-title">{$t('common.errorTitle')}</h2>
 				<p data-testid="error-boundary-message">{error instanceof Error ? error.message : String(error)}</p>
 				<div class="error-boundary__actions" data-testid="error-boundary-actions-group">
-					<button onclick={reset} data-testid="error-boundary-reset-button">Спробувати знову</button>
-					<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">Оновити сторінку</button>
+					<button onclick={reset} data-testid="error-boundary-reset-button">{$t('common.tryAgain')}</button>
+					<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">{$t('common.reloadPage')}</button>
 				</div>
 			</div>
 		</div>

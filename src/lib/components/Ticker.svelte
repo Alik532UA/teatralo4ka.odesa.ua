@@ -82,7 +82,7 @@
     <div class="ticker-content">
       {#each Array(4) as _}
         <div class="ticker-item">
-          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt="Герб України">
+          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}
@@ -90,7 +90,7 @@
     <div class="ticker-content" aria-hidden="true">
       {#each Array(4) as _}
         <div class="ticker-item">
-          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt="Герб України">
+          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}

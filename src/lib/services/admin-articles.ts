@@ -17,7 +17,8 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import type { Article } from "./articles";
-import type { ArticleCategory } from "../config/categories";
+import { get } from 'svelte/store';
+import { t } from 'svelte-i18n';
 
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
@@ -118,7 +119,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
   if (rawSlug) {
     const isUnique = await checkSlugUnique(rawSlug);
     if (!isUnique) {
-      throw new Error(`Slug "${rawSlug}" вже використовується. Будь ласка, оберіть інший URL.`);
+      throw new Error(get(t)('admin.editor.slugUsed', { values: { slug: rawSlug } }));
     }
     finalSlug = rawSlug;
   }
@@ -133,7 +134,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     content: ukData.content || '',
     category: data.category,
     lang: 'uk',
-    author: auth.currentUser?.displayName || auth.currentUser?.email || "Адміністрація",
+    author: auth.currentUser?.displayName || auth.currentUser?.email || get(t)('admin.editor.defaultAuthor'),
     isPublished: ukData.isPublished || false,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -154,7 +155,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
   } catch (error: any) {
     console.error("Firestore setDoc Error in addArticle:", error);
     if (error.code === 'permission-denied') {
-      throw new Error("Недостатньо прав для публікації. Перевірте чи всі обов'язкові поля заповнені.");
+      throw new Error(get(t)('admin.editor.publishDenied'));
     }
     throw error;
   }
@@ -178,7 +179,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
     } else {
       const isUnique = await checkSlugUnique(rawSlug, articleId);
       if (!isUnique) {
-        throw new Error(`Slug "${rawSlug}" вже використовується. Будь ласка, оберіть інший URL.`);
+        throw new Error(get(t)('admin.editor.slugUsed', { values: { slug: rawSlug } }));
       }
       updatePayload.slug = rawSlug;
     }
@@ -198,7 +199,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   } catch (error: any) {
     console.error("Firestore updateDoc Error in updateArticle:", error);
     if (error.code === 'permission-denied') {
-      throw new Error("Недостатньо прав для оновлення. Перевірте чи не перевищує контент 50 000 символів або чи не минуло менше 1 секунди з останнього редагування.");
+      throw new Error(get(t)('admin.editor.updateDenied'));
     }
     throw error;
   }

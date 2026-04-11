@@ -3,17 +3,17 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Одеська театральна школа</title>
-		<meta name="description" content="Школа, в яку діти завжди йдуть із задоволенням!" />
-		<meta property="og:title" content="Одеська театральна школа" />
-		<meta property="og:description" content="Школа, в яку діти завжди йдуть із задоволенням!" />
+		<title>Odesa Theatre School</title>
+		<meta name="description" content="A school where children always go with pleasure!" />
+		<meta property="og:title" content="Odesa Theatre School" />
+		<meta property="og:description" content="A school where children always go with pleasure!" />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/" />
 		<meta property="og:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta property="og:image:secure_url" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="Одеська театральна школа" />
-		<meta name="twitter:description" content="Школа, в яку діти завжди йдуть із задоволенням!" />
+		<meta name="twitter:title" content="Odesa Theatre School" />
+		<meta name="twitter:description" content="A school where children always go with pleasure!" />
 		<meta name="twitter:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="theme-color" content="#1B5E7B" />
 		<meta name="color-scheme" content="light dark" />
@@ -67,16 +67,12 @@
 
 			<div id="app-splash-messages">
 				<div id="app-splash-slow" class="sp-msg">
-					<p>Нестабільне підключення до інтернету...</p>
+					<p id="sp-slow-text"></p>
 				</div>
 				<div id="app-splash-facts" class="sp-msg sp-facts">
-					<p class="sp-facts-intro">А поки браузер шукає інтернет, розкажемо цікаві факти про школу</p>
-					<div class="sp-facts-rotator">
-						<p class="sp-fact" data-fact="0">Ми є в багатьох соц. мережах: Facebook, Instagram, Telegram, YouTube, TikTok</p>
-						<p class="sp-fact" data-fact="1">Одеська театральна школа має чотири відділення: Театральне, Музичне, Художнє та Відділення естетичного виховання</p>
-						<p class="sp-fact" data-fact="2">Наразі ми Одеська театральна школа, але раніше мали назви: Дитяча театральна школа та Мистецька театральна школа</p>
-						<p class="sp-fact" data-fact="3">У нашої школи понад 500 випускників</p>
-						<p class="sp-fact" data-fact="4">У нашої школи понад 200 учнів</p>
+					<p id="sp-facts-intro" class="sp-facts-intro"></p>
+					<div id="sp-facts-rotator" class="sp-facts-rotator">
+						<!-- Facts will be inserted here by script -->
 					</div>
 				</div>
 			</div>
@@ -203,13 +199,48 @@
 					}
 				} catch(e) {}
 
+				var lang = (navigator.language || 'uk').split('-')[0] === 'en' ? 'en' : 'uk';
+				var content = {
+					uk: {
+						slow: 'Нестабільне підключення до інтернету...',
+						intro: 'А поки браузер шукає інтернет, розкажемо цікаві факти про школу',
+						facts: [
+							'Ми є в багатьох соц. мережах: Facebook, Instagram, Telegram, YouTube, TikTok',
+							'Одеська театральна школа має чотири відділення: Театральне, Музичне, Художнє та Відділення естетичного виховання',
+							'Наразі ми Одеська театральна школа, але раніше мали назви: Дитяча театральна школа та Мистецька театральна школа',
+							'У нашої школи понад 500 випускників',
+							'У нашої школи понад 200 учнів'
+						]
+					},
+					en: {
+						slow: 'Unstable internet connection...',
+						intro: 'While the browser is searching for internet, let us tell you some interesting facts about our school',
+						facts: [
+							'We are on many social networks: Facebook, Instagram, Telegram, YouTube, TikTok',
+							'Odesa Theatre School has four departments: Theater, Music, Art, and Aesthetic Education',
+							'Currently we are Odesa Theatre School, but previously we were named: Children\'s Theater School and Art Theater School',
+							'Our school has over 500 graduates',
+							'Our school has over 200 students'
+						]
+					}
+				};
+
+				var c = content[lang];
+				document.getElementById('sp-slow-text').textContent = c.slow;
+				document.getElementById('sp-facts-intro').textContent = c.intro;
+				var rotator = document.getElementById('sp-facts-rotator');
+				c.facts.forEach(function(text, i) {
+					var p = document.createElement('p');
+					p.className = 'sp-fact';
+					p.textContent = text;
+					rotator.appendChild(p);
+				});
+
 				var blue = document.getElementById('app-splash-logo-blue');
 				var red = document.getElementById('app-splash-logo-red');
 				var slowEl = document.getElementById('app-splash-slow');
 				var factsEl = document.getElementById('app-splash-facts');
-				var facts = document.querySelectorAll('.sp-fact');
-				var factIndex = 0;
-
+				
 				function startAnimations() {
 					if (blue.classList.contains('sp-logo-animate')) return;
 					blue.classList.add('sp-logo-animate');
@@ -232,8 +263,11 @@
 				}, 3000);
 
 				setTimeout(function() {
-					if (!document.getElementById('app-splash')) return;
+					var splash = document.getElementById('app-splash');
+					if (!splash) return;
 					factsEl.classList.add('sp-show');
+					var facts = splash.querySelectorAll('.sp-fact');
+					var factIndex = 0;
 					if (facts.length > 0) {
 						setTimeout(function() {
 							if (!document.getElementById('app-splash')) return;
@@ -243,9 +277,9 @@
 								factIndex = (factIndex + 1) % facts.length;
 								facts[factIndex].classList.add('sp-fact-active');
 							}, 4000);
-						}, 1000); // First fact at 5.0s (4.0s + 1.0s)
+						}, 1000);
 					}
-				}, 4000); // Facts intro at 4.0s
+				}, 4000);
 			})();
 		</script>
 		<div style="display: contents">%sveltekit.body%</div>

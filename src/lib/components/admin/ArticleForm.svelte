@@ -3,12 +3,12 @@
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
 	import { generateSlug } from '$lib/services/admin-articles';
-	import { ARTICLE_CATEGORIES } from '$lib/config/categories';
+	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
 	import { renderContent } from '$lib/utils/renderContent';
 	import RichTextEditor from '$lib/components/ui/RichTextEditor.svelte';
 	import { toast } from '$lib/states/toast.svelte';
 	import { base } from '$app/paths';
-	import { t } from 'svelte-i18n';
+	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import {
 		Languages, Eye, EyeOff, CheckCircle2, XCircle,
@@ -130,8 +130,7 @@
 
 	function getSelectedCategoryLabel(): string {
 		if (categorySelection === '__none__' || categorySelection === '__custom__' || !categorySelection) return '';
-		const labels = ARTICLE_CATEGORIES[categorySelection as keyof typeof ARTICLE_CATEGORIES];
-		return labels ? labels.uk : categorySelection;
+		return getCategoryLabel(categorySelection, (get(locale) as 'uk' | 'en') || 'uk');
 	}
 
 	// Firestore rule limits — must stay in sync with firestore.rules
@@ -199,7 +198,7 @@
 
 		if (hasForbidden) {
 			if (_slugWarnTimer) clearTimeout(_slugWarnTimer);
-			slugForbiddenWarning = 'Деякі символи не дозволені в URL — їх було відкинуто';
+			slugForbiddenWarning = $t('editor.slugForbidden');
 			_slugWarnTimer = setTimeout(() => { slugForbiddenWarning = ''; }, 3000);
 		}
 	}
@@ -260,25 +259,25 @@
 			const minD = new Date(CUSTOM_DATE_MIN);
 			const maxD = new Date(CUSTOM_DATE_MAX);
 			if (isNaN(d.getTime()) || d < minD || d > maxD) {
-				toast.error(`Дата публікації має бути між 01.01.1990 і ${maxD.toLocaleDateString('uk-UA')}`);
+				toast.error($t('editor.validationDateRange', { values: { maxDate: maxD.toLocaleDateString($locale === 'en' ? 'en-US' : 'uk-UA') } }));
 				return;
 			}
 		}
 
 		// ── Validate category length ───────────────────────────────────────────────
 		if (category.length > MAX_CATEGORY_LEN) {
-			toast.error(`Категорія перевищує ${MAX_CATEGORY_LEN} символів (зараз: ${category.length})`);
+			toast.error($t('editor.validationCategoryLength', { values: { max: MAX_CATEGORY_LEN, current: category.length } }));
 			return;
 		}
 
 		// ── Validate title & content per language ──────────────────────────────────
 		for (const lang of ['uk', 'en'] as const) {
 			if (translations[lang].title.length > MAX_TITLE_LEN) {
-				toast.error(`Заголовок (${lang.toUpperCase()}) перевищує ${MAX_TITLE_LEN} символів`);
+				toast.error($t('editor.validationTitleLength', { values: { lang: lang.toUpperCase(), max: MAX_TITLE_LEN } }));
 				return;
 			}
 			if (translations[lang].content.length > MAX_CONTENT_LEN) {
-				toast.error(`Вміст (${lang.toUpperCase()}) перевищує ${MAX_CONTENT_LEN.toLocaleString()} символів`);
+				toast.error($t('editor.validationContentLength', { values: { lang: lang.toUpperCase(), max: MAX_CONTENT_LEN.toLocaleString() } }));
 				return;
 			}
 		}
@@ -357,7 +356,7 @@
 				</div>
 			</div>
 			<div style="margin-top: 2rem; display: flex; justify-content: flex-end;">
-				<button class="btn btn-primary" onclick={() => showUploadInfo = false}>Зрозумів</button>
+				<button class="btn btn-primary" onclick={() => showUploadInfo = false}>{$t('editor.understood')}</button>
 			</div>
 		</div>
 	</div>
@@ -645,7 +644,7 @@
 										<input
 											type="url"
 											id="cover-{lang}"
-											placeholder="URL для {lang}..."
+											placeholder={$t('admin.editor.urlWarning')}
 										maxlength={MAX_COVER_URL_LEN}
 											class="form-input"
 											class:input-error={!isImageUrlValid(translations[lang].coverUrl)}
@@ -693,7 +692,7 @@
 							data-testid="{tp}-lang-card-{lang}"
 						>
 							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-								<span style="font-weight: 700; color: var(--color-deep-ocean);">{lang === 'uk' ? 'Українська' : 'English'}</span>
+								<span style="font-weight: 700; color: var(--color-deep-ocean);">{lang === 'uk' ? $t('editor.ukLang') : $t('editor.enLang')}</span>
 								{#if translations[lang].isPublished}
 									<div style="color: #22c55e; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 700;">
 										<CheckCircle2 size={16} /> {$t('admin.editor.published')}
@@ -723,7 +722,7 @@
 			</div>
 
 			<div class="form-group" style="margin-top: 2.5rem;">
-				<label class="form-label" for="article-title">{$t('admin.editor.titleLabel')} ({activeLang === 'uk' ? 'укр' : 'англ'})</label>
+				<label class="form-label" for="article-title">{$t('admin.editor.titleLabel')} ({activeLang === 'uk' ? $t('editor.ukShort') : $t('editor.enShort')})</label>
 				<input type="text" id="article-title" bind:value={translations[activeLang].title} required maxlength={MAX_TITLE_LEN} class="form-input" placeholder={$t('admin.editor.titlePlaceholder')} data-testid="{tp}-title-input" />
 			</div>
 		</div>
@@ -736,7 +735,7 @@
 				{:else}
 					<FileEdit size={22} />
 				{/if}
-				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.contentLabel')} ({activeLang === 'uk' ? 'укр' : 'англ'})</h2>
+				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.contentLabel')} ({activeLang === 'uk' ? $t('editor.ukShort') : $t('editor.enShort')})</h2>
 			</div>
 			{#key activeLang}
 			<RichTextEditor

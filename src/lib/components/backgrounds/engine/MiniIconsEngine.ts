@@ -14,17 +14,17 @@ interface MiniIcon {
 }
 
 const ICON_FILES = [
-	"МТШ-miniIcon-01.png",
-	"МТШ-miniIcon-02.png",
-	"МТШ-miniIcon-03.png",
-	"МТШ-miniIcon-04.png",
-	"МТШ-miniIcon-05.png",
-	"МТШ-miniIcon-06.png",
-	"МТШ-miniIcon-07.png",
-	"МТШ-miniIcon-08.png",
-	"МТШ-miniIcon-09.png",
-	"МТШ-miniIcon-10.png",
-	"МТШ-miniIcon-11.png",
+	"t4_logo_IndividualParticles_MiniIcon02_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon03_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon04_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon05_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon06_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon07_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon08_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon09_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon10_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon11_2026.svg",
+	"t4_logo_IndividualParticles_MiniIcon12_2026.svg",
 ];
 
 const imageCache: HTMLImageElement[] = [];
@@ -33,7 +33,7 @@ function loadImages() {
 	if (imageCache.length > 0) return;
 	ICON_FILES.forEach((file) => {
 		const img = new Image();
-		img.src = `${base}/miniIcon/${file}`;
+		img.src = `${base}/miniIcon/svg/${file}`;
 		imageCache.push(img);
 	});
 }

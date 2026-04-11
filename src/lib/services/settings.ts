@@ -524,7 +524,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
         visible: false,
         order: 0,
         items: [
-          { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0, itemType: 'cta' },
+          { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0 },
           { id: 'home',      labelUk: 'Головна',    labelEn: 'Home',      linkType: 'page', href: '/',          visible: true, order: 1 },
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',  linkType: 'page', href: '/contacts',  visible: true, order: 2 },
           { id: 'history',   labelUk: 'Історія',    labelEn: 'History',   linkType: 'page', href: '/history',   visible: true, order: 3 },
@@ -574,7 +574,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
         visible: false,
         order: 0,
         items: [
-          { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0, itemType: 'cta' },
+          { id: 'admission', labelUk: 'ДЛЯ ВСТУПУ', labelEn: 'ADMISSION', linkType: 'page', href: '/admission', visible: true, order: 0 },
           { id: 'home',      labelUk: 'Головна',    labelEn: 'Home',      linkType: 'page', href: '/',          visible: true, order: 1 },
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',  linkType: 'page', href: '/contacts',  visible: true, order: 2 },
           { id: 'history',   labelUk: 'Історія',    labelEn: 'History',   linkType: 'page', href: '/history',   visible: true, order: 3 },

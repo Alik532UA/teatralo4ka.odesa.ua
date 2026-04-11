@@ -238,6 +238,10 @@
 
 	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType));
 
+	function isCtaItem(item: NavItem): boolean {
+		return headerSettings.cta.visible && item.href === ctaHref;
+	}
+
 	$effect(() => {
 		const handleScroll = () => {
 			scrolled = window.scrollY > 20;
@@ -264,7 +268,7 @@
 </script>
 
 <a href="#main-content" class="skip-link" data-testid="skip-content-link">
-	Перейти до основного контенту
+	{$t('nav.skipToContent')}
 </a>
 
 <header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
@@ -284,7 +288,7 @@
 			<a
 				href={`${base}/`}
 				class="header__logo-link"
-				aria-label="На головну"
+				aria-label={$t('nav.toHome')}
 				onclick={ui.closeMenu}
 				data-testid="logo-home-link"
 			>
@@ -295,7 +299,7 @@
 		<div class="header__bar" data-testid="header-bar-container">
 			{#if headerReady}
 		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
-			<nav class="header__nav" aria-label="Головне меню" id="main-nav" data-testid="header-nav-menu">
+			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu">
 				<ul class="header__nav-list" data-testid="nav-list-menu">
 					{#each navItems as item, i}
 						<li class="header__nav-item" data-testid={`nav-item-${i}-group`}> 
@@ -335,7 +339,7 @@
 					class="header__burger header__burger--desktop"
 					class:open={navOpen}
 					onclick={handleNavClick}
-					aria-label="Відкрити меню"
+					aria-label={$t('nav.openMenu')}
 					aria-expanded={navOpen}
 					data-testid="burger-menu-button"
 				>
@@ -367,7 +371,7 @@
 										<a 
 											href={item.href} 
 											class="header__nav-dropdown-link" 
-											class:header__nav-dropdown-cta={item.itemType === 'cta'}
+											class:header__nav-dropdown-cta={isCtaItem(item)}
 												class:active={page.url.pathname === item.href}
 												onclick={closeNav}
 												data-testid={`nav-dropdown-link-${gIndex}-${i}`}
@@ -394,11 +398,11 @@
 				data-testid="header-settings-container"
 				onmouseenter={handleSettingsMouseEnter}
 				role="group"
-				aria-label="Налаштування"
+				aria-label={$t('settings.title')}
 			>
 				<button 
 					class="header__burger" 
-					aria-label="Налаштування" 
+					aria-label={$t('settings.title')} 
 					onclick={handleSettingsClick} 
 					aria-expanded={settingsOpen} 
 					data-testid="header-settings-button"
@@ -426,12 +430,12 @@
 		<button
 			class="header__burger header__burger--mobile"
 			onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
-			aria-label="Відкрити меню"
+			aria-label={$t('nav.openMenu')}
 			aria-expanded={ui.isMenuOpen}
 			id="burger-menu"
 			data-testid="burger-menu-mobile-button"
 		>
-			<span class="header__burger-text">МЕНЮ</span>
+			<span class="header__burger-text">{$t('nav.menu')}</span>
 			<Menu size={20} />
 		</button>
 		{/if}
@@ -455,7 +459,7 @@
 		>
 			<div class="header__mobile-controls" data-testid="mobile-controls-group">
 				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings-mobile-container">
-					<button class="header__settings-btn" aria-label="Налаштування" onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-button">
+					<button class="header__settings-btn" aria-label={$t('settings.title')} onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-button">
 						<SettingsIcon size={24} />
 					</button>
 					{#if settingsOpen}
@@ -474,14 +478,14 @@
 				<button
 					class="header__mobile-close"
 					onclick={ui.closeMenu}
-					aria-label="Закрити меню"
+					aria-label={$t('nav.closeMenu')}
 					data-testid="mobile-close-button"
 				>
 					<X size={24} />
 				</button>
 			</div>
 
-			<nav aria-label="Мобільне меню" data-testid="mobile-nav-menu" class="header__mobile-nav">
+			<nav aria-label={$t('nav.mobileMenu')} data-testid="mobile-nav-menu" class="header__mobile-nav">
 				<div class="header__mobile-container" data-testid="mobile-nav-container">
 					<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
 						{#each mobileNavGroups as group, gIndex}
@@ -499,7 +503,7 @@
 											<a
 												href={item.href}
 												class="header__mobile-link"
-												class:header__mobile-cta={item.itemType === 'cta'}
+												class:header__mobile-cta={isCtaItem(item)}
 												class:active={page.url.pathname === item.href}
 												onclick={ui.closeMenu}
 												data-testid={`mobile-nav-link-${gIndex}-${i}`}
