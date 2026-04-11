@@ -528,6 +528,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
           { id: 'home',      labelUk: 'Головна',    labelEn: 'Home',      linkType: 'page', href: '/',          visible: true, order: 1 },
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',  linkType: 'page', href: '/contacts',  visible: true, order: 2 },
           { id: 'history',   labelUk: 'Історія',    labelEn: 'History',   linkType: 'page', href: '/history',   visible: true, order: 3 },
+          { id: 'news',      labelUk: 'Новини',     labelEn: 'News',      linkType: 'page', href: '/news',      visible: true, order: 4 },
         ],
       },
       {
@@ -578,6 +579,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
           { id: 'home',      labelUk: 'Головна',    labelEn: 'Home',      linkType: 'page', href: '/',          visible: true, order: 1 },
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',  linkType: 'page', href: '/contacts',  visible: true, order: 2 },
           { id: 'history',   labelUk: 'Історія',    labelEn: 'History',   linkType: 'page', href: '/history',   visible: true, order: 3 },
+          { id: 'news',      labelUk: 'Новини',     labelEn: 'News',      linkType: 'page', href: '/news',      visible: true, order: 4 },
         ],
       },
       {

@@ -659,9 +659,9 @@
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		gap: var(--space-xl);
+		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
-		padding: var(--space-lg) var(--space-xl) var(--space-lg) 200px;
+		padding: var(--space-lg) var(--space-xl) var(--space-lg) clamp(120px, 15vw, 200px);
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out backwards;
@@ -681,7 +681,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: var(--space-xl);
+		gap: clamp(1rem, 4vw, var(--space-xl));
 		flex: 1;
 		margin-right: 0;
 	}
@@ -695,7 +695,7 @@
 	.header__nav-list {
 		display: flex;
 		align-items: center;
-		gap: var(--space-2xl);
+		gap: clamp(0.5rem, 4vw, var(--space-2xl));
 	}
 
 	.header__nav-link {
