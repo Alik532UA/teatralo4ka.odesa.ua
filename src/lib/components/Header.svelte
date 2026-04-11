@@ -17,8 +17,8 @@
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
 	let navOpen = $state(false);
-	let settingsRef: HTMLDivElement | null = $state(null);
-	let navRef: HTMLDivElement | null = $state(null);
+	let settingsRef: HTMLElement | null = $state(null);
+	let navRef: HTMLElement | null = $state(null);
 	let showTicker = $state(false);
 	let mobileNavScrollY = $state(0);
 	let mobileNavClientHeight = $state(0);

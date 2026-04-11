@@ -328,11 +328,12 @@
 
 	<!-- Carousel view -->
 	{#if view === 'carousel'}
-		<div 
-			class="focus-viewport" 
+		<div
+			class="focus-viewport"
 			role="region"
+			tabindex="0"
 			aria-roledescription="carousel"
-			aria-label={$t('news.title')} 
+			aria-label={$t('news.title')}
 			data-testid="news-widget-viewport"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; isDragging = false; }}
@@ -344,8 +345,11 @@
 			ontouchend={handleTouchEnd}
 			onwheel={handleWheel}
 			onclickcapture={handleClickCapture}
-		>
-			<div
+			onkeydown={(e) => {
+				if (e.key === 'ArrowLeft') prev();
+				if (e.key === 'ArrowRight') next(false);
+			}}
+		>			<div
 				class="focus-track"
 				style="
 					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {dragOffset}px));
