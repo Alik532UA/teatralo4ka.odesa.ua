@@ -661,7 +661,7 @@
 		justify-content: flex-end;
 		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
-		padding: var(--space-lg) var(--space-xl) var(--space-lg) clamp(120px, 15vw, 200px);
+		padding: var(--space-lg) var(--space-xl) var(--space-lg) clamp(180px, 18vw, 240px);
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out backwards;
@@ -680,10 +680,11 @@
 	.header__desktop-nav-group {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-end;
 		gap: clamp(1rem, 4vw, var(--space-xl));
 		flex: 1;
 		margin-right: 0;
+		min-width: 0;
 	}
 
 	.scrolled .header__bar {
@@ -1165,7 +1166,9 @@
 	}
 
 	@media (max-width: 1024px) {
-		.header__bar { padding-left: 160px; }
+		.header__bar { 
+			/* Padding inherited from main clamp rule for consistency */
+		}
 		.header__logo-area { left: 15px; }
 	}
 
@@ -1175,7 +1178,7 @@
 		}
 		.header__desktop-nav-group { display: none; }
 		.header__burger--mobile { display: flex; }
-		.header__bar { padding-left: 120px; }
+		.header__bar { padding-left: clamp(100px, 20vw, 140px); }
 		.header__logo-area { top: 5px; left: 10px; transform: scale(1); }
 		.header__logo-area :global(.logo-svg) { width: 90px; height: 90px; }
 		.scrolled .header__logo-area { transform: scale(0.8); top: 0; }

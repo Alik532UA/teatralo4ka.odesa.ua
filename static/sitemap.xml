@@ -3,13 +3,13 @@
 
   <url>
     <loc>https://teatralo4ka.odesa.ua/</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://teatralo4ka.odesa.ua/en/</loc>
-    <lastmod>2026-04-09</lastmod>
+    <lastmod>2026-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -44,12 +44,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://teatralo4ka.odesa.ua/graduates</loc>
-    <lastmod>2026-04-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://teatralo4ka.odesa.ua/history</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
@@ -57,7 +51,13 @@
   </url>
   <url>
     <loc>https://teatralo4ka.odesa.ua/music</loc>
-    <lastmod>2026-04-05</lastmod>
+    <lastmod>2026-04-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://teatralo4ka.odesa.ua/residents-graduates</loc>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -98,12 +98,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://teatralo4ka.odesa.ua/en/graduates</loc>
-    <lastmod>2026-04-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://teatralo4ka.odesa.ua/en/history</loc>
     <lastmod>2026-04-04</lastmod>
     <changefreq>monthly</changefreq>
@@ -112,6 +106,12 @@
   <url>
     <loc>https://teatralo4ka.odesa.ua/en/music</loc>
     <lastmod>2026-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://teatralo4ka.odesa.ua/en/residents-graduates</loc>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

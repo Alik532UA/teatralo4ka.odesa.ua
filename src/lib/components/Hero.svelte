@@ -141,6 +141,7 @@
 	.hero__social {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 12px;
 		z-index: 10;
 		animation: fadeInLeft 0.8s ease-out;
@@ -341,9 +342,10 @@
 		.hero__social {
 			grid-area: social;
 			flex-direction: row;
+			justify-content: center;
 			gap: 16px;
 			margin-top: -1.5rem;
-			align-self: start;
+			align-self: center;
 		}
 		.hero__image-wrap {
 			grid-area: image;
