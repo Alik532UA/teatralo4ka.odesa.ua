@@ -16,7 +16,7 @@
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────
 	const cachedHome = browser ? getCachedHomeSettings() : null;
-	const isMobile = browser ? window.matchMedia('(max-width: 768px)').matches : false;
+	const isMobile = browser ? window.matchMedia('(max-width: 1024px)').matches : false;
 
 	function pickBlocks(desktop?: BlockConfig[], mobile?: BlockConfig[]): BlockConfig[] {
 		const source = (isMobile && mobile?.length) ? mobile : (desktop?.length ? desktop : DEFAULT_BLOCKS.map(b => ({ ...b })));
@@ -421,7 +421,7 @@
 		}
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.gallery-bento__title {
 			font-size: 2.2rem;
 		}

@@ -730,8 +730,8 @@
 		width: 100%;
 		display: grid;
 		grid-template-columns: clamp(180px, 18vw, 240px) 1fr;
-		align-items: center; /* Dynamic vertical center */
-		height: calc(var(--header-height, 72px) + 16px); /* Sync with header-blur-layer */
+		align-items: center;
+		height: calc(var(--header-height, 72px) + 16px);
 		transition: height var(--transition-base);
 		pointer-events: none;
 	}
@@ -744,10 +744,10 @@
 		position: relative;
 		z-index: 300;
 		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-		transform-origin: center left; /* Better for vertical centering */
+		transform-origin: center left;
 		transform: scale(1.3) translateY(20px);
 		margin-left: 35px;
-		pointer-events: auto; /* Enable clicks */
+		pointer-events: auto;
 		height: var(--header-height, 72px);
 		display: flex;
 		align-items: center;
@@ -777,14 +777,14 @@
 	.header__bar {
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: flex-end;
 		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
-		padding: 8px var(--space-xl); /* Symmetrical vertical padding */
+		padding: 8px var(--space-xl);
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out backwards;
-		pointer-events: auto; /* Enable clicks */
+		pointer-events: auto;
 	}
 
 	.header__bar::before {
@@ -792,8 +792,6 @@
 		position: absolute;
 		inset: 0;
 		z-index: -1;
-		/* background and blur moved to .header-blur-layer in +layout.svelte
-		   so child dropdowns can use backdrop-filter without compositing conflicts */
 	}
 
 	.header__desktop-nav-group {
@@ -821,8 +819,8 @@
 	.header__nav-list {
 		display: flex;
 		align-items: center;
-		gap: 16px; /* consistent GAP from JS */
-		justify-content: center;
+		gap: 16px;
+		justify-content: flex-end;
 		width: 100%;
 	}
 
@@ -993,8 +991,6 @@
 		top: 100%;
 		right: 0;
 		padding-top: 25px;
-		/* z-index removed: it was creating an intermediate stacking context that
-		   prevented backdrop-filter on child dropdowns from seeing page content */
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-md);
@@ -1041,6 +1037,7 @@
 		border-radius: var(--radius-full);
 		background: var(--color-surface);
 		box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+		flex-shrink: 0;
 	}
 
 	:global(.dark-theme) .header__burger--mobile {
@@ -1317,32 +1314,68 @@
 		box-shadow: 0 4px 15px rgba(33, 150, 186, 0.3);
 	}
 
+	/* Responsive */
 	@media (max-width: 1024px) {
 		.header__inner {
-			grid-template-columns: 180px 1fr;
+			grid-template-columns: clamp(180px, 30vw, 220px) 1fr;
+			padding: 0 var(--space-lg);
 		}
-		.header__logo-area { margin-left: 15px; }
-	}
 
-	@media (max-width: 768px) {
-		.header__inner {
-			display: flex;
-			align-items: flex-start;
+		.header__logo-area {
+			margin-left: 0;
+			transform: scale(1.6) translateY(50px);
+			height: 60px;
 		}
-		.header__nav, .header__cta, .header__burger--desktop, .header__settings--desktop {
+
+		.header__logo-area:hover {
+			transform: scale(1.65) translateY(50px);
+		}
+
+		.scrolled .header__logo-area {
+			transform: scale(1.35) translateY(55px);
+			margin-left: 0;
+		}
+
+		.header__logo-area :global(.logo-svg) {
+			width: 105px;
+			height: 105px;
+		}
+
+		.header__bar {
+			padding: 0;
+			justify-content: flex-end;
+		}
+
+		.header__desktop-nav-group {
 			display: none;
 		}
-		.header__desktop-nav-group { display: none; }
-		.header__burger--mobile { display: flex; }
-		.header__bar { padding-left: 0; }
-		.header__logo-area { 
-			position: absolute;
-			top: 5px; 
-			left: 10px; 
-			margin: 0;
-			transform: scale(1); 
+
+		.header__burger--mobile {
+			display: flex;
 		}
-		.header__logo-area :global(.logo-svg) { width: 90px; height: 90px; }
-		.scrolled .header__logo-area { transform: scale(0.8); top: 0; }
+	}
+
+	@media (max-width: 480px) {
+		.header__inner {
+			grid-template-columns: 140px 1fr;
+			padding: 0 var(--space-md);
+		}
+		
+		.header__logo-area {
+			transform: scale(1.4) translateY(40px);
+		}
+
+		.scrolled .header__logo-area {
+			transform: scale(1.1) translateY(45px);
+		}
+
+		.header__logo-area :global(.logo-svg) {
+			width: 95px;
+			height: 95px;
+		}
+
+		.header__burger--mobile {
+			padding: 0 0.8rem;
+		}
 	}
 </style>

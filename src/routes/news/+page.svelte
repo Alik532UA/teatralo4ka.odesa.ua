@@ -16,7 +16,7 @@
 	let newsItems = $state<NewsWidgetItem[]>([]);
 	let widgetConfig = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
 	let loading = $state(true);
-	const isMobile = browser ? window.matchMedia('(max-width: 768px)').matches : false;
+	const isMobile = browser ? window.matchMedia('(max-width: 1024px)').matches : false;
 
 	const colors = ["#FF6B6B", "#4ECDC4", "#FFE66D", "#1A535C", "#F7FFF7", "#FF9F1C"];
 
@@ -108,7 +108,7 @@
 		position: relative;
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.news {
 			padding: 4rem 0;
 		}

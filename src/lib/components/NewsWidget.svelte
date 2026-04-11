@@ -104,7 +104,7 @@
 			}
 		}
 		
-		const mql = window.matchMedia('(max-width: 768px)');
+		const mql = window.matchMedia('(max-width: 1024px)');
 		isMobile = mql.matches;
 		const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
 		mql.addEventListener('change', handler);
@@ -289,6 +289,14 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
+{#snippet allNewsLink(suffix = '', extraClass = '')}
+	{#if showAllLink}
+		<a href="{base}/news" class="nw-all-link {extraClass}" data-testid="news-widget-all-link{suffix ? '-' + suffix : ''}" onclick={handleAllNewsLink}>
+			{$t('news.allNews')}
+		</a>
+	{/if}
+{/snippet}
+
 <div class="nw-root" data-testid="news-widget-root">
 	<!-- Controls row -->
 	<div class="nw-controls" data-testid="news-widget-controls">
@@ -329,10 +337,16 @@
 				</div>
 			{/if}
 
-			{#if showAllLink}
-				<a href="{base}/news" class="nw-all-link nw-all-link--inline" data-testid="news-widget-all-link" onclick={handleAllNewsLink}>
-					{$t('news.allNews')}
-				</a>
+			{#if mounted}
+				{#if !isMobile}
+					<div class="nw-desktop-only">
+						{@render allNewsLink('desktop', 'nw-all-link--inline')}
+					</div>
+				{/if}
+			{:else}
+				<div class="nw-desktop-only">
+					{@render allNewsLink('desktop', 'nw-all-link--inline')}
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -357,7 +371,8 @@
 			ontouchend={handleTouchEnd}
 			onwheel={handleWheel}
 			onclickcapture={handleClickCapture}
-		>			<div
+		>
+			<div
 				class="focus-track"
 				style="
 					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {dragOffset}px));
@@ -403,13 +418,6 @@
 				<NewsCard {item} variant="grid" index={i} />
 			{/each}
 		</div>
-		{#if hasMore && !showingAll}
-			<div class="nw-show-all">
-				<button class="nw-show-all-btn" onclick={handleShowAll} data-testid="news-widget-show-all-btn">
-					{$t('admin.settings.newsShowAll')}
-				</button>
-			</div>
-		{/if}
 
 	<!-- List view -->
 	{:else}
@@ -418,13 +426,18 @@
 				<NewsCard {item} variant="list" index={i} />
 			{/each}
 		</div>
-		{#if hasMore && !showingAll}
-			<div class="nw-show-all">
-				<button class="nw-show-all-btn" onclick={handleShowAll} data-testid="news-widget-show-all-btn">
-					{$t('admin.settings.newsShowAll')}
-				</button>
+	{/if}
+
+	{#if mounted}
+		{#if isMobile}
+			<div class="nw-mobile-only nw-mobile-link-wrap">
+				{@render allNewsLink('mobile')}
 			</div>
 		{/if}
+	{:else}
+		<div class="nw-mobile-only nw-mobile-link-wrap">
+			{@render allNewsLink('mobile')}
+		</div>
 	{/if}
 </div>
 
@@ -438,13 +451,7 @@
 
 	@media (max-width: 1024px) {
 		.nw-root {
-			--focus-card-width: 500px;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.nw-root {
-			--focus-card-width: 85vw;
+			--focus-card-width: min(500px, 85vw);
 			--focus-gap: 15px;
 		}
 	}
@@ -455,7 +462,7 @@
 		align-items: center;
 		justify-content: flex-end;
 		gap: var(--space-lg);
-		margin-bottom: 2rem;
+		margin-bottom: 0;
 		padding: 0 var(--space-xl);
 		width: 100%;
 	}
@@ -466,8 +473,9 @@
 			align-items: stretch;
 			gap: var(--space-md);
 			padding: 0 var(--space-md);
+			margin-bottom: 0;
 		}
-		
+
 		.nw-controls__right {
 			width: 100%;
 			display: flex;
@@ -478,8 +486,46 @@
 	.nw-controls__right {
 		display: flex;
 		align-items: center;
-		gap: var(--space-lg);
+		gap: var(--space-2xl);
 		margin-left: auto;
+	}
+
+	.nw-desktop-only {
+		display: block;
+	}
+
+	.nw-mobile-only {
+		display: none;
+	}
+
+	@media (max-width: 1440px) {
+		.nw-controls__right { gap: var(--space-xl); }
+	}
+
+	@media (max-width: 1200px) {
+		.nw-controls__right { gap: var(--space-lg); }
+	}
+
+	@media (max-width: 1024px) {
+		.nw-controls__right { gap: var(--space-md); }
+		.nw-desktop-only { display: none; }
+		.nw-mobile-only { display: block; }
+	}
+
+	.nw-mobile-link-wrap {
+		margin-top: 1.5rem;
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		padding: 0 var(--space-md);
+	}
+
+	@media (max-width: 1024px) {
+		.nw-controls__right { gap: var(--space-sm); }
+	}
+
+	@media (max-width: 480px) {
+		.nw-controls__right { gap: var(--space-xs); }
 	}
 
 	.nw-header-text {
@@ -502,7 +548,7 @@
 		border-radius: 30px;
 	}
 
-	@media (max-width: 900px) {
+	@media (max-width: 1024px) {
 		.nw-title { font-size: 2rem; }
 		.nw-subtitle { font-size: 1rem; }
 	}
@@ -512,11 +558,6 @@
 		color: var(--color-body-text);
 		margin: 0.3rem 0 0;
 		opacity: 0.8;
-	}
-
-	@media (max-width: 900px) {
-		.nw-title { font-size: 2rem; }
-		.nw-subtitle { font-size: 1rem; }
 	}
 
 	@media (max-width: 600px) {
@@ -541,12 +582,16 @@
 		cursor: pointer;
 		text-decoration: none;
 		transition: all 0.3s ease;
-		margin-right: auto;
+	}
+
+	@media (max-width: 1024px) {
+		.nw-all-link {
+			margin: 0 auto;
+		}
 	}
 
 	@media (max-width: 600px) {
 		.nw-all-link {
-			margin-right: 0;
 			width: 100%;
 		}
 	}
@@ -610,7 +655,7 @@
 		cursor: grabbing;
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.focus-viewport {
 			height: 300px;
 			min-height: auto;
@@ -658,7 +703,7 @@
 		display: flex;
 		justify-content: center;
 		gap: 0.5rem;
-		margin-top: 3rem;
+		margin-top: 0;
 		flex-wrap: wrap;
 		padding: 0 var(--space-md);
 	}
@@ -688,13 +733,13 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 		gap: 2rem;
-		padding: 0 var(--space-xl);
+		padding: 3rem var(--space-xl);
 	}
 
-	@media (max-width: 900px) {
+	@media (max-width: 1024px) {
 		.grid-view {
 			grid-template-columns: 1fr;
-			padding: 0 var(--space-md);
+			padding: 3rem var(--space-md);
 		}
 	}
 
@@ -703,12 +748,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
-		padding: 0 var(--space-xl);
+		padding: 3rem var(--space-xl);
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.list-view {
-			padding: 0 var(--space-md);
+			padding: 3rem var(--space-md);
 		}
 	}
 
@@ -737,7 +782,7 @@
 	}
 
 	/* ─── Responsive ───────────────────────────────────── */
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.nav-btn { display: none; }
 		[data-testid="news-widget-view-grid-btn"] { display: none !important; }
 	}

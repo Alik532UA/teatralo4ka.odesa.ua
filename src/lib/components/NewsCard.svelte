@@ -355,49 +355,56 @@
 		}
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.focus-card {
-			height: 250px;
-			border-radius: 20px;
+			flex-direction: row;
+			height: 280px;
+			flex: 0 0 var(--focus-card-width, 85vw);
+			border-radius: 24px;
+		}
+		.focus-card__img-wrap {
+			flex: 0 0 35%;
+			width: auto;
 		}
 		.focus-card__content {
-			padding: 1.25rem 1rem;
-			justify-content: flex-start; /* Architecturally prevent sub-pixel squishing from center alignment */
+			padding: 1.25rem 1.5rem;
+			justify-content: center;
 		}
 		.focus-card__title {
-			font-size: 1.1rem;
-			line-height: 1.4;
+			font-size: 1.15rem;
+			line-height: 1.3;
 			margin-bottom: 0.5rem;
-			/* Architecturally sound: allow exactly 4 lines */
-			-webkit-line-clamp: 4;
-			line-clamp: 4;
+			-webkit-line-clamp: 3;
+			line-clamp: 3;
 		}
 		.focus-card__excerpt {
-			/* Hide excerpt entirely on mobile carousel */
 			display: none;
 		}
 		.focus-card__meta {
 			margin-bottom: 0.75rem;
 			gap: 0.5rem;
 			flex-wrap: wrap;
-			flex-shrink: 0;
 		}
 
 		.grid-card {
-			height: auto;
-			min-height: 180px;
-			border-radius: 16px;
+			flex-direction: row;
+			height: 200px;
+			border-radius: 20px;
+		}
+		.grid-card__img-wrap {
+			flex: 0 0 30%;
+			width: auto;
 		}
 		.grid-card .focus-card__content {
-			padding: 0.8rem 1rem;
-			justify-content: flex-start;
+			padding: 1rem 1.25rem;
+			justify-content: center;
 		}
 		.grid-card .focus-card__title {
-			font-size: 0.9rem;
-			line-height: 1.4;
+			font-size: 1rem;
+			line-height: 1.3;
 			margin-bottom: 0.4rem;
-			-webkit-line-clamp: 4;
-			line-clamp: 4;
+			-webkit-line-clamp: 3;
+			line-clamp: 3;
 		}
 		.grid-card .focus-card__excerpt {
 			display: none;
@@ -434,17 +441,17 @@
 		}
 
 		.tag {
-			padding: 0.3rem 0.6rem;
+			padding: 0.25rem 0.6rem;
 			font-size: 0.6rem;
 		}
 		.date {
 			font-size: 0.75rem;
 		}
 		.btn-more {
-			padding: 0.5rem 0.8rem;
+			padding: 0.5rem 1rem;
 			font-size: 0.8rem;
 			border-radius: 12px;
-			margin-top: auto; /* Push button to the bottom of the card dynamically */
+			margin-top: 0.5rem;
 		}
 	}
 </style>
