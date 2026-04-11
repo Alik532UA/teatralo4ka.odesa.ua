@@ -20,6 +20,7 @@
 
 <div
 	class="dropdown-menu-unified header__settings-dropdown"
+	class:mobile
 	style={mobile ? mobileStyle : ''}
 	data-testid={mobile ? 'settings-dropdown-mobile-menu' : 'header-settings-dropdown-menu'}
 >
@@ -62,6 +63,7 @@
 {#if !debugPanel || debugPanel.visible}
 <DebugSettingsDropdown
 	{isOpen}
+	{mobile}
 	showBackground={debugPanel?.showBackground ?? true}
 	showBlur={debugPanel?.showBlur ?? true}
 	testId={mobile ? "debug-settings-dropdown-menu-mobile" : undefined}
@@ -73,5 +75,20 @@
 		width: 220px;
 		backdrop-filter: blur(16px);
 		-webkit-backdrop-filter: blur(16px);
+	}
+
+	.header__settings-dropdown.mobile {
+		padding: var(--space-md);
+		gap: var(--space-lg);
+	}
+
+	.header__settings-dropdown.mobile .dropdown-opt-unified {
+		padding: 14px 20px;
+		font-size: 1.15rem;
+	}
+
+	.header__settings-dropdown.mobile .dropdown-label-unified {
+		font-size: 1rem;
+		margin-bottom: var(--space-xs);
 	}
 </style>

@@ -2,7 +2,19 @@
 	import { ui } from '$lib/states/ui.svelte';
 	import { t } from 'svelte-i18n';
 
-	let { isOpen = false, testId = "debug-settings-dropdown-menu", showBackground = true, showBlur = true } = $props<{ isOpen: boolean; testId?: string; showBackground?: boolean; showBlur?: boolean }>();
+	let { 
+		isOpen = false, 
+		testId = "debug-settings-dropdown-menu", 
+		showBackground = true, 
+		showBlur = true,
+		mobile = false
+	} = $props<{ 
+		isOpen: boolean; 
+		testId?: string; 
+		showBackground?: boolean; 
+		showBlur?: boolean;
+		mobile?: boolean;
+	}>();
 
 	type BackgroundOption = {
 		id: 0 | 1 | 2 | 3 | 4;
@@ -31,7 +43,7 @@
 </script>
 
 {#if isOpen}
-	<div class="dropdown-menu-unified debug-dropdown" data-testid={testId}>
+	<div class="dropdown-menu-unified debug-dropdown" class:mobile data-testid={testId}>
 		{#if showBackground}
 		<div class="dropdown-group-unified" data-testid="debug-bg-group">
 			<span class="dropdown-label-unified">{$t('settings.dynamicBg')}</span>
@@ -89,5 +101,20 @@
 		.debug-dropdown {
 			width: 100%;
 		}
+	}
+
+	.debug-dropdown.mobile {
+		padding: var(--space-md);
+		gap: var(--space-lg);
+	}
+
+	.debug-dropdown.mobile .dropdown-opt-unified {
+		padding: 14px 20px;
+		font-size: 1.15rem;
+	}
+
+	.debug-dropdown.mobile .dropdown-label-unified {
+		font-size: 1rem;
+		margin-bottom: var(--space-xs);
 	}
 </style>
