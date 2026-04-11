@@ -242,13 +242,20 @@
 	}
 
 	.deps__grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		gap: 1.5rem;
 	}
 
-	.deps__grid--wide {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+	.deps__grid .deps__card {
+		flex: 0 1 calc(33.333% - 1rem);
+		min-width: 300px;
+	}
+
+	.deps__grid--wide .deps__card {
+		flex: 0 1 calc(25% - 1.125rem);
+		min-width: 260px;
 	}
 
 	@keyframes fadeInUp {
@@ -264,7 +271,6 @@
 		flex-direction: column;
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 		animation: fadeInUp 0.8s ease-out both;
-		height: 100%;
 		text-decoration: none;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 	}
@@ -374,14 +380,20 @@
 
 	/* Responsive Breakpoints */
 	@media (max-width: 1200px) {
-		.deps__grid, .deps__grid--wide {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
+		.deps__grid .deps__card {
+			flex: 0 1 calc(50% - 1rem);
+		}
+		
+		.deps__grid--wide .deps__card {
+			flex: 0 1 calc(50% - 1rem);
 		}
 	}
 
 	@media (max-width: 900px) {
-		.deps__grid, .deps__grid--wide {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+		.deps__grid .deps__card,
+		.deps__grid--wide .deps__card {
+			flex: 0 1 calc(50% - 1rem);
+			min-width: 200px;
 		}
 	}
 
@@ -390,20 +402,15 @@
 			padding: 3rem 0;
 		}
 
-		.deps__grid, .deps__grid--wide {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+		.deps__grid {
 			gap: 0.75rem;
 		}
 
-		.deps__card {
+		.deps__grid .deps__card,
+		.deps__grid--wide .deps__card {
+			flex: 0 1 calc(50% - 0.375rem);
+			min-width: 140px;
 			border-radius: 20px;
-		}
-
-		/* Центрування останньої картки, якщо кількість непарна */
-		.deps__card:last-child:nth-child(odd) {
-			grid-column: 1 / -1;
-			width: calc(50% - 0.375rem);
-			margin: 0 auto;
 		}
 
 		.deps__content {
