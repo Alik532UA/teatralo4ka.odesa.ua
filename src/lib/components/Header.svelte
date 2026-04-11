@@ -490,6 +490,14 @@
 							aria-label="Close settings"
 						></div>
 						<div class="header__settings-popover header__settings-popover--mobile" data-testid="settings-popover-mobile-menu">
+							<button
+								class="header__mobile-close header__mobile-close--settings"
+								onclick={closeSettings}
+								aria-label={$t('common.close')}
+								data-testid="settings-mobile-close-button"
+							>
+								<X size={24} />
+							</button>
 							<HeaderSettingsPanel
 								isOpen={settingsOpen}
 								mobile
@@ -971,6 +979,11 @@
 		transition: all var(--transition-base);
 		border: none;
 		cursor: pointer;
+	}
+
+	.header__mobile-close--settings {
+		align-self: flex-end;
+		margin-bottom: var(--space-xs);
 	}
 
 	:global(.dark-theme) .header__mobile-close {
