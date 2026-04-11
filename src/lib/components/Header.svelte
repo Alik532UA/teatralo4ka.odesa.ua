@@ -611,7 +611,11 @@
 		flex-direction: column;
 		align-items: stretch;
 		padding: 0;
-		transition: all var(--transition-base);
+		transition: all var(--transition-base), z-index 0s;
+	}
+
+	.header.menu-open {
+		z-index: 1100;
 	}
 
 	.header__inner {
