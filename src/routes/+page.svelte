@@ -129,9 +129,12 @@
 		const el = document.getElementById('app-splash');
 		if (!el) { splashDismissed = true; return; }
 		el.classList.add('splash-exit');
+		window.dispatchEvent(new CustomEvent('splash-exit'));
+		setTimeout(() => window.dispatchEvent(new CustomEvent('splash-logo-start')), 600);
 		setTimeout(() => {
 			el.remove();
 			splashDismissed = true;
+			window.dispatchEvent(new CustomEvent('splash-removed'));
 		}, 900);
 	}
 

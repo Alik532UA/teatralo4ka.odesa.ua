@@ -216,7 +216,7 @@
 		'@type': 'EducationalOrganization',
 		name: safeT('seo.org.name', SEO_FALLBACK[activeLang].orgName),
 		url: SITE_FALLBACK_ORIGIN,
-		logo: `${SITE_FALLBACK_ORIGIN}${base}/logo-800px484px.png`,
+		logo: `${SITE_FALLBACK_ORIGIN}${base}/logo/png/logo-800px484px.png`,
 		description: safeT('seo.org.description', SEO_FALLBACK[activeLang].orgDescription),
 		telephone: '+380 48 723 81 10',
 		email: 'dmsh-5odesa@ukr.net',

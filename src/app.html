@@ -17,9 +17,6 @@
 		<meta name="twitter:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="theme-color" content="#1B5E7B" />
 		<meta name="color-scheme" content="light dark" />
-		<!-- Preconnect to Firestore: DNS+TLS handshake паралельно з парсингом JS.
-		     Виграш ~200-500ms, особливо на мобільних з високим RTT.
-		     Див. firebase-admin/performance-optimization.md -->
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 		<script>
 			try {
@@ -33,7 +30,6 @@
 					document.documentElement.classList.remove('dark-theme');
 					document.querySelector('meta[name="color-scheme"]').content = 'light dark';
 				}
-				// Mark home page before JS hydration to avoid flash
 				var p = window.location.pathname;
 				var base = '/teatralo4ka.odesa.ua';
 				if (p === base + '/' || p === base || p === '/') {
@@ -41,7 +37,6 @@
 				}
 			} catch (e) {}
 		</script>
-		<!-- ── Performance debug logger ──────────────────────────────────── -->
 		<script>
 			window.__perfLog = [];
 			window.__perfT0 = performance.now();
@@ -54,56 +49,126 @@
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<!-- ── Branded splash: yellow bg instantly, logo after image loads ──── -->
 		<div id="app-splash" aria-hidden="true">
-			<img
-				src="%sveltekit.assets%/logo-800px484px.png"
-				alt=""
-				width="400" height="242"
-				id="app-splash-logo"
-			/>
-			<div id="app-splash-slow" class="sp-msg">
-				<p>Нестабільне підключення до інтернету...</p>
+			<div id="app-splash-logo-container">
+				<img
+					src="%sveltekit.assets%/logo/svg/t4_logo_IndividualParticles_MaskRed_2026.svg"
+					alt=""
+					id="app-splash-logo-red"
+					class="splash-svg"
+				/>
+				<img
+					src="%sveltekit.assets%/logo/svg/t4_logo_IndividualParticles_MaskBlue_2026.svg"
+					alt=""
+					id="app-splash-logo-blue"
+					class="splash-svg"
+				/>
 			</div>
-			<div id="app-splash-facts" class="sp-msg sp-facts">
-				<p class="sp-facts-intro">А поки браузер шукає інтернет, розкажемо цікаві факти про школу</p>
-				<p class="sp-fact" data-fact="0">Ми є в багатьох соц. мережах: Facebook, Instagram, Telegram, YouTube, TikTok</p>
-				<p class="sp-fact" data-fact="1">Одеська театральна школа має чотири відділення: Театральне, Музичне, Художнє та Відділення естетичного виховання</p>
-				<p class="sp-fact" data-fact="2">Наразі ми Одеська театральна школа, але раніше мали назви: Дитяча театральна школа та Мистецька театральна школа</p>
-				<p class="sp-fact" data-fact="3">У нашої школи понад 500 випускників</p>
-				<p class="sp-fact" data-fact="4">У нашої школи понад 200 учнів</p>
+
+			<div id="app-splash-messages">
+				<div id="app-splash-slow" class="sp-msg">
+					<p>Нестабільне підключення до інтернету...</p>
+				</div>
+				<div id="app-splash-facts" class="sp-msg sp-facts">
+					<p class="sp-facts-intro">А поки браузер шукає інтернет, розкажемо цікаві факти про школу</p>
+					<div class="sp-facts-rotator">
+						<p class="sp-fact" data-fact="0">Ми є в багатьох соц. мережах: Facebook, Instagram, Telegram, YouTube, TikTok</p>
+						<p class="sp-fact" data-fact="1">Одеська театральна школа має чотири відділення: Театральне, Музичне, Художнє та Відділення естетичного виховання</p>
+						<p class="sp-fact" data-fact="2">Наразі ми Одеська театральна школа, але раніше мали назви: Дитяча театральна школа та Мистецька театральна школа</p>
+						<p class="sp-fact" data-fact="3">У нашої школи понад 500 випускників</p>
+						<p class="sp-fact" data-fact="4">У нашої школи понад 200 учнів</p>
+					</div>
+				</div>
 			</div>
 		</div>
+
 		<style>
 			#app-splash {
 				position: fixed; inset: 0; z-index: 10000;
-				background: #ffed00;
+				background: #ffed00 !important;
 				display: flex; flex-direction: column;
 				align-items: center; justify-content: center;
-				transition: opacity 0.6s ease-out;
 				font-family: system-ui, -apple-system, sans-serif;
 			}
-			#app-splash-logo {
-				width: min(400px, 60vw); height: auto;
-				opacity: 0; transform: scale(0.8);
-				transition: none;
+			#app-splash-logo-container {
+				position: relative;
+				width: min(400px, 60vw);
+				aspect-ratio: 400 / 242;
+				z-index: 2;
 			}
-			#app-splash-logo.sp-logo-appear {
-				animation: sp-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+			.splash-svg {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				opacity: 0;
+				transform: scale(0.8);
 			}
-			#app-splash-logo.sp-logo-pulse {
-				animation: sp-pulse 2s ease-in-out infinite;
+
+			#app-splash-messages {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				width: 100%;
+				min-height: 180px;
+				margin-top: 2rem;
+				z-index: 1;
+				text-align: center;
 			}
-			.sp-msg { display: none; text-align: center; margin-top: 2rem; padding: 0 1.5rem; max-width: 420px; }
+			.sp-msg { 
+				opacity: 0;
+				transform: translateY(10px);
+				transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+				padding: 0 1.5rem; 
+				max-width: 480px; 
+				display: block;
+				pointer-events: none;
+			}
+			.sp-msg.sp-show {
+				opacity: 1;
+				transform: translateY(0);
+				pointer-events: auto;
+			}
+			#app-splash-slow { margin-bottom: 1rem; }
 			.sp-msg p { color: #5a4a00; font-size: 0.95rem; line-height: 1.5; margin: 0; }
-			.sp-facts-intro { font-weight: 600; margin-bottom: 1rem !important; font-size: 0.85rem !important; opacity: 0.7; }
-			.sp-fact { display: none; font-size: 1.05rem !important; font-weight: 500;
-				animation: sp-fade-in 0.5s ease-out forwards; }
-			.sp-fact.sp-fact-active { display: block; }
-			#app-splash.splash-exit { opacity: 0; pointer-events: none; }
-			#app-splash.splash-exit #app-splash-logo {
-				animation: sp-fly-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+			.sp-facts-intro { font-weight: 600; margin-bottom: 0.75rem !important; font-size: 0.85rem !important; opacity: 0.7; }
+			.sp-facts-rotator { position: relative; height: 60px; }
+			.sp-fact { 
+				display: none; 
+				position: absolute; top: 0; left: 0; right: 0;
+				font-size: 1.05rem !important; font-weight: 500;
+				animation: sp-fade-in 0.8s ease-out forwards; 
 			}
+			.sp-fact.sp-fact-active { display: block; }
+
+			#app-splash-logo-blue.sp-logo-animate {
+				animation: sp-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+						   sp-pulse 2s ease-in-out infinite 0.8s;
+			}
+			#app-splash-logo-red.sp-logo-animate {
+				animation: sp-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards,
+						   sp-pulse 2s ease-in-out infinite 0.9s;
+			}
+
+			/* ── EXIT SEQUENCE (Updated Timings) ─────────────────────────── */
+			#app-splash.splash-exit {
+				/* 4. Background moves down (Starts at 0.5s, no pause) */
+				animation: sp-splash-down 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards !important;
+				pointer-events: none;
+			}
+			#app-splash.splash-exit #app-splash-messages {
+				/* 1. Text vanishes smoothly (0.0s - 0.3s) */
+				animation: sp-fade-out 0.3s ease-in-out forwards !important;
+			}
+			#app-splash.splash-exit #app-splash-logo-red {
+				/* 2. Red zooms out (0.1s - 0.4s) */
+				animation: sp-zoom-out 0.3s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+			}
+			#app-splash.splash-exit #app-splash-logo-blue {
+				/* 3. Blue zooms out (0.2s - 0.5s) */
+				animation: sp-zoom-out 0.3s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both !important;
+			}
+
 			@keyframes sp-appear {
 				0% { opacity: 0; transform: scale(0.8); }
 				100% { opacity: 1; transform: scale(1); }
@@ -112,82 +177,89 @@
 				0%, 100% { transform: scale(1); opacity: 1; }
 				50% { transform: scale(1.06); opacity: 0.85; }
 			}
-			@keyframes sp-fly-up {
-				0% { transform: translateY(0) scale(1); opacity: 1; }
-				100% { transform: translateY(-120vh) scale(0.6); opacity: 0; }
-			}
 			@keyframes sp-fade-in {
 				0% { opacity: 0; transform: translateY(8px); }
 				100% { opacity: 1; transform: translateY(0); }
+			}
+			@keyframes sp-fade-out {
+				from { opacity: 1; transform: translateY(0); }
+				to { opacity: 0; transform: translateY(-15px); }
+			}
+			@keyframes sp-zoom-out {
+				0% { opacity: 1; transform: scale(1); }
+				100% { opacity: 0; transform: scale(0.5); }
+			}
+			@keyframes sp-splash-down {
+				to { transform: translateY(100vh); }
 			}
 		</style>
 		<script>
 			(function() {
 				window.__perf('inline-body: splash script start');
 				try {
-					// Skip splash entirely if we have cached data (SWR repeat visit)
 					if (localStorage.getItem('homeSettings')) {
 						document.getElementById('app-splash').style.display = 'none';
-						window.__perf('inline-body: splash hidden (SWR cache hit)');
 						return;
 					}
-					window.__perf('inline-body: no SWR cache, splash visible');
 				} catch(e) {}
 
-				var logo = document.getElementById('app-splash-logo');
+				var blue = document.getElementById('app-splash-logo-blue');
+				var red = document.getElementById('app-splash-logo-red');
 				var slowEl = document.getElementById('app-splash-slow');
 				var factsEl = document.getElementById('app-splash-facts');
 				var facts = document.querySelectorAll('.sp-fact');
-				var slowTimer, factsTimer, rotateTimer;
 				var factIndex = 0;
 
-				// Show logo with animation ONLY after image is fully loaded
-				function onLogoLoaded() {
-					logo.classList.add('sp-logo-appear');
-					// After appear animation finishes, switch to pulse
-					setTimeout(function() {
-						logo.classList.remove('sp-logo-appear');
-						logo.classList.add('sp-logo-pulse');
-					}, 800);
+				function startAnimations() {
+					if (blue.classList.contains('sp-logo-animate')) return;
+					blue.classList.add('sp-logo-animate');
+					red.classList.add('sp-logo-animate');
 				}
 
-				if (logo.complete && logo.naturalWidth > 0) {
-					onLogoLoaded();
-				} else {
-					logo.addEventListener('load', onLogoLoaded);
-					logo.addEventListener('error', onLogoLoaded); // show anyway on error
+				var loadedCount = 0;
+				function onSvgLoaded() {
+					loadedCount++;
+					if (loadedCount >= 2) startAnimations();
 				}
+				[blue, red].forEach(function(img) {
+					if (img.complete && img.naturalWidth > 0) onSvgLoaded();
+					else { img.addEventListener('load', onSvgLoaded); img.addEventListener('error', onSvgLoaded); }
+				});
 
-				// After 3s: show "slow internet" message
-				slowTimer = setTimeout(function() {
-					if (document.getElementById('app-splash')) {
-						slowEl.style.display = 'block';
-					}
+				// Messages Timings (relative to script start)
+				setTimeout(function() {
+					if (document.getElementById('app-splash')) slowEl.classList.add('sp-show');
 				}, 3000);
 
-				// After 6s: show fun facts, rotating every 4s
-				factsTimer = setTimeout(function() {
+				setTimeout(function() {
 					if (!document.getElementById('app-splash')) return;
-					factsEl.style.display = 'block';
+					factsEl.classList.add('sp-show');
 					if (facts.length > 0) {
-						facts[0].classList.add('sp-fact-active');
-						factIndex = 0;
-						rotateTimer = setInterval(function() {
-							facts[factIndex].classList.remove('sp-fact-active');
-							factIndex = (factIndex + 1) % facts.length;
-							facts[factIndex].classList.add('sp-fact-active');
-						}, 4000);
+						setTimeout(function() {
+							if (!document.getElementById('app-splash')) return;
+							facts[0].classList.add('sp-fact-active');
+							setInterval(function() {
+								facts[factIndex].classList.remove('sp-fact-active');
+								factIndex = (factIndex + 1) % facts.length;
+								facts[factIndex].classList.add('sp-fact-active');
+							}, 4000);
+						}, 1000); // First fact at 5.0s (4.0s + 1.0s)
 					}
-				}, 6000);
-
-				// Expose cleanup for SvelteKit to call when dismissing splash
+				}, 4000); // Facts intro at 4.0s
+			})();
+		</script>
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
+sh
 				window.__splashCleanup = function() {
-					clearTimeout(slowTimer);
-					clearTimeout(factsTimer);
-					clearInterval(rotateTimer);
+					if (window.__splashRotateTimer) clearInterval(window.__splashRotateTimer);
 				};
 			})();
 		</script>
 		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
+body%</div>
 	</body>
 </html>
