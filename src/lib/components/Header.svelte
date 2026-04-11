@@ -463,6 +463,15 @@
 						<SettingsIcon size={24} />
 					</button>
 					{#if settingsOpen}
+						<div
+							class="header__settings-backdrop-mobile"
+							in:fade={{ duration: 150 }}
+							out:fade={{ duration: 150 }}
+							onclick={() => settingsOpen = false}
+							role="button"
+							tabindex="-1"
+							aria-label="Close settings"
+						></div>
 						<div class="header__settings-popover header__settings-popover--mobile" data-testid="settings-popover-mobile-menu">
 							<HeaderSettingsPanel
 								isOpen={settingsOpen}
@@ -513,9 +522,6 @@
 										</li>
 									{/each}
 								</ul>
-								{#if gIndex < mobileNavGroups.length - 1}
-									<div class="header__mobile-divider"></div>
-								{/if}
 							</li>
 						{/each}
 					</ul>
@@ -859,13 +865,13 @@
 		position: fixed;
 		inset: 0;
 		z-index: 390;
-		background: color-mix(in srgb, var(--color-surface), transparent 2%);
+		background: color-mix(in srgb, var(--color-surface), transparent 50%);
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
 	}
 
 	:global(.dark-theme) .header__mobile-backdrop {
-		background: color-mix(in srgb, var(--color-dark-bg), transparent 5%);
+		background: color-mix(in srgb, var(--color-surface), transparent 50%);
 	}
 
 	.header__mobile-controls {
@@ -880,6 +886,19 @@
 
 	.header__mobile-controls .header__settings {
 		margin-left: 0;
+	}
+
+	.header__settings-backdrop-mobile {
+		position: fixed;
+		inset: 0;
+		z-index: 450;
+		background: color-mix(in srgb, var(--color-surface), transparent 80%);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+	}
+
+	:global(.dark-theme) .header__settings-backdrop-mobile {
+		background: color-mix(in srgb, var(--color-surface), transparent 85%);
 	}
 
 	.header__settings-popover--mobile {
@@ -928,23 +947,47 @@
 	.header__mobile-list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-lg);
+		gap: var(--space-xl);
 		list-style: none;
 		padding: 0;
+		width: 100%;
 	}
 
 	.header__mobile-group {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-md);
+		gap: var(--space-lg);
 		align-items: center;
+		padding: var(--space-xl) var(--space-lg);
+		background: color-mix(in srgb, var(--color-surface), transparent 40%);
+		border-radius: var(--radius-xl);
+		width: 100%;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		box-shadow: 
+			0 10px 30px -10px rgba(0, 0, 0, 0.1),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		transition: all var(--transition-base);
+	}
+
+	:global(.dark-theme) .header__mobile-group {
+		background: color-mix(in srgb, var(--color-surface), transparent 60%);
+		border: 1px solid rgba(255, 255, 255, 0.05);
+		box-shadow: 
+			0 15px 35px -12px rgba(0, 0, 0, 0.5),
+			inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 	}
 
 	.header__mobile-group-title {
 		font-family: var(--font-heading);
-		font-size: 0.9rem;
+		font-size: 0.75rem;
+		font-weight: 800;
 		text-transform: uppercase;
+		letter-spacing: 0.15em;
+		color: var(--color-text-primary);
 		opacity: 0.5;
+		margin-bottom: var(--space-xs);
 	}
 
 	.header__mobile-sublist {
@@ -983,14 +1026,6 @@
 		padding: 0.8rem 2rem;
 		border-radius: var(--radius-full);
 		box-shadow: 0 4px 15px rgba(33, 150, 186, 0.3);
-	}
-
-	.header__mobile-divider {
-		width: 60px;
-		height: 2px;
-		background: var(--color-sky-blue);
-		opacity: 0.3;
-		margin-top: var(--space-md);
 	}
 
 	@media (max-width: 1024px) {
