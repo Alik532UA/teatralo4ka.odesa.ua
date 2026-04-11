@@ -64,6 +64,61 @@
 	const cached = browser ? getCachedHeaderSettings() : null;
 	let headerSettings = $state<Omit<HeaderSettings, 'updatedAt'>>(cached ?? { ...DEFAULT_HEADER_SETTINGS });
 	let headerReady = $state(!!cached);
+	let navParentRef = $state<HTMLElement | null>(null);
+	let ghostContainerRef = $state<HTMLElement | null>(null);
+	let availableWidth = $state(0);
+	let itemsWidths = $state<number[]>([]);
+	let fitCount = $state(999);
+
+	$effect(() => {
+		if (browser && navParentRef) {
+			const observer = new ResizeObserver((entries) => {
+				for (const entry of entries) {
+					// Measure the parent container which represents 
+					// the total available area between logo and right edge
+					availableWidth = entry.contentRect.width;
+				}
+			});
+			observer.observe(navParentRef);
+			return () => observer.disconnect();
+		}
+	});
+
+	$effect(() => {
+		// Unified measurement and calculation
+		if (browser && ghostContainerRef && availableWidth > 0) {
+			const items = ghostContainerRef.querySelectorAll('.header__nav-item--ghost');
+			const widths = Array.from(items).map(el => el.getBoundingClientRect().width);
+			
+			const GAP = 16;
+			const navItemsLen = navItems.length;
+			const navItemsWidths = widths.slice(0, navItemsLen);
+			const fixedWidths = widths.slice(navItemsLen);
+			
+			// Calculate total width needed for fixed items (CTA, Burger, Settings)
+			const totalFixedW = fixedWidths.reduce((sum, w) => sum + w, 0) + 
+							  (fixedWidths.length > 1 ? ((fixedWidths.length - 1) * GAP) : 0);
+			
+			// Space for dynamic links
+			// Increased safety buffer to 40px to trigger hiding EARLIER
+			let remainingWidth = availableWidth - totalFixedW - 40;
+			if (fixedWidths.length > 0 && navItemsLen > 0) remainingWidth -= GAP;
+			
+			let currentWidth = 0;
+			let count = 0;
+			
+			for (let i = 0; i < navItemsWidths.length; i++) {
+				const itemW = navItemsWidths[i] + (i > 0 ? GAP : 0);
+				if (currentWidth + itemW <= remainingWidth) {
+					currentWidth += itemW;
+					count++;
+				} else {
+					break;
+				}
+			}
+			fitCount = count;
+		}
+	});
 
 	$effect(() => {
 		getHeaderSettings().then(result => {
@@ -247,8 +302,30 @@
 	}
 
 	const navItems = $derived(menuConfigToFlatItems(headerSettings.headerBar, $locale ?? 'uk'));
+	const visibleNavItems = $derived(navItems.slice(0, fitCount));
+	const hiddenNavItems = $derived(navItems.slice(fitCount));
 
 	const navDropdownGroups = $derived(menuConfigToGroups(headerSettings.navDropdown, $locale ?? 'uk'));
+	
+	const dynamicDropdownGroups = $derived.by(() => {
+		if (hiddenNavItems.length === 0) return navDropdownGroups;
+		
+		// Create a copy to not mutate derived state
+		const groups = JSON.parse(JSON.stringify(navDropdownGroups)) as NavGroup[];
+		const overflowItems = hiddenNavItems.filter(item => {
+			// Check if item already exists in any group to avoid duplicates
+			return !groups.some(g => g.items.some(gi => gi.href === item.href));
+		});
+
+		if (overflowItems.length > 0) {
+			// Add hidden items as first group
+			groups.unshift({
+				title: $t('nav.more'),
+				items: overflowItems
+			});
+		}
+		return groups;
+	});
 
 	const mobileNavGroups = $derived(menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk'));
 
@@ -315,10 +392,36 @@
 		<div class="header__bar" data-testid="header-bar-container">
 			{#if headerReady}
 		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
-			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu">
+			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu" bind:this={navParentRef}>
+				<!-- Ghost menu for measuring (hidden from view) -->
+				<ul class="header__nav-list header__nav-list--ghost" aria-hidden="true" bind:this={ghostContainerRef}>
+					{#each navItems as item}
+						<li class="header__nav-item header__nav-item--ghost">
+							<span class="header__nav-link">{item.label}</span>
+						</li>
+					{/each}
+					{#if headerSettings.cta.visible}
+						<li class="header__nav-item header__nav-item--ghost">
+							<div class="btn btn-outline header__cta">
+								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
+							</div>
+						</li>
+					{/if}
+					<li class="header__nav-item header__nav-item--ghost">
+						<div class="header__burger header__burger--desktop"><Menu size={24} /></div>
+					</li>
+					<li class="header__nav-item header__nav-item--ghost">
+						<div class="header__burger"><SettingsIcon size={24} /></div>
+					</li>
+				</ul>
+
 				<ul class="header__nav-list" data-testid="nav-list-menu">
 					{#each navItems as item, i}
-						<li class="header__nav-item" data-testid={`nav-item-${i}-group`}> 
+						<li 
+							class="header__nav-item" 
+							class:header__nav-item--hidden={i >= fitCount}
+							data-testid={`nav-item-${i}-group`}
+						> 
 							<a
 								href={item.href}
 								class="header__nav-link"
@@ -329,118 +432,120 @@
 							</a>
 						</li>
 					{/each}
+
+					{#if headerSettings.cta.visible}
+						<li class="header__nav-item" data-testid="admission-cta-item">
+							<a
+								href={ctaHref}
+								class="btn btn-outline header__cta"
+								id="header-cta"
+								data-testid="admission-cta-button"
+							>
+								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
+							</a>
+						</li>
+					{/if}
+
+					<!-- Desktop Nav Manager (Burger) -->
+					<li 
+						class="header__nav-item header__nav-manager" 
+						bind:this={navRef} 
+						data-testid="header-nav-manager-group"
+						onmouseenter={handleNavMouseEnter}
+						role="group"
+					>
+						<button
+							class="header__burger header__burger--desktop"
+							class:open={navOpen}
+							onclick={handleNavClick}
+							aria-label={$t('nav.openMenu')}
+							aria-expanded={navOpen}
+							data-testid="burger-menu-button"
+						>
+							<Menu size={24} />
+						</button>
+
+						{#if navOpen}
+							<div 
+								class="dropdown-menu-unified header__nav-dropdown" 
+								data-testid="nav-dropdown-menu" 
+								in:fly={{ y: 10, duration: 200 }} 
+								out:fly={{ y: 10, duration: 150 }}
+								onmouseleave={closeNav}
+								role="menu"
+								tabindex="-1"
+							>
+							{#each dynamicDropdownGroups as group, gIndex}
+								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-group-${gIndex}`}>
+									{#if group.title}
+										{#if group.titleHref}
+											<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
+										{:else}
+											<span class="dropdown-label-unified header__nav-dropdown-label">{group.title}</span>
+										{/if}
+									{/if}
+									<ul class="header__nav-dropdown-list">
+										{#each group.items as item, i}
+											<li>
+												<a 
+													href={item.href} 
+													class="header__nav-dropdown-link" 
+													class:header__nav-dropdown-cta={isCtaItem(item)}
+														class:active={page.url.pathname === item.href}
+														onclick={closeNav}
+														data-testid={`nav-dropdown-link-${gIndex}-${i}`}
+													>
+														{item.label}
+													</a>
+												</li>
+											{/each}
+										</ul>
+									</div>
+									{#if gIndex < dynamicDropdownGroups.length - 1}
+										<div class="header__nav-dropdown-divider"></div>
+									{/if}
+								{/each}
+							</div>
+						{/if}
+					</li>
+
+					<!-- Desktop Settings -->
+					<li 
+						class="header__nav-item header__settings header__settings--desktop" 
+						class:open={settingsOpen} 
+						bind:this={settingsRef} 
+						data-testid="header-settings-container"
+						onmouseenter={handleSettingsMouseEnter}
+						role="group"
+						aria-label={$t('settings.title')}
+					>
+						<button 
+							class="header__burger" 
+							aria-label={$t('settings.title')} 
+							onclick={handleSettingsClick} 
+							aria-expanded={settingsOpen} 
+							data-testid="header-settings-button"
+						>
+							<SettingsIcon size={24} />
+						</button>
+						{#if settingsOpen}
+							<div 
+								class="header__settings-popover" 
+								onmouseleave={closeSettings} 
+								role="presentation" 
+								data-testid="settings-popover-menu"
+							>
+								<HeaderSettingsPanel
+									isOpen={settingsOpen}
+									onChangeLang={changeLanguage}
+									onToggleTheme={toggleTheme}
+									debugPanel={headerSettings.debugPanel}
+								/>
+							</div>
+						{/if}
+					</li>
 				</ul>
 			</nav>
-
-			{#if headerSettings.cta.visible}
-			<a
-				href={ctaHref}
-				class="btn btn-outline header__cta"
-				id="header-cta"
-				data-testid="admission-cta-button"
-			>
-				{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
-			</a>
-			{/if}
-
-			<!-- Desktop Nav Manager (Burger) -->
-			<div 
-				class="header__nav-manager" 
-				bind:this={navRef} 
-				data-testid="header-nav-manager-group"
-				onmouseenter={handleNavMouseEnter}
-				role="group"
-			>
-				<button
-					class="header__burger header__burger--desktop"
-					class:open={navOpen}
-					onclick={handleNavClick}
-					aria-label={$t('nav.openMenu')}
-					aria-expanded={navOpen}
-					data-testid="burger-menu-button"
-				>
-					<Menu size={24} />
-				</button>
-
-				{#if navOpen}
-					<div 
-						class="dropdown-menu-unified header__nav-dropdown" 
-						data-testid="nav-dropdown-menu" 
-						in:fly={{ y: 10, duration: 200 }} 
-						out:fly={{ y: 10, duration: 150 }}
-						onmouseleave={closeNav}
-						role="menu"
-						tabindex="-1"
-					>
-					{#each navDropdownGroups as group, gIndex}
-						<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-group-${gIndex}`}>
-							{#if group.title}
-								{#if group.titleHref}
-									<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
-								{:else}
-									<span class="dropdown-label-unified header__nav-dropdown-label">{group.title}</span>
-								{/if}
-							{/if}
-							<ul class="header__nav-dropdown-list">
-								{#each group.items as item, i}
-									<li>
-										<a 
-											href={item.href} 
-											class="header__nav-dropdown-link" 
-											class:header__nav-dropdown-cta={isCtaItem(item)}
-												class:active={page.url.pathname === item.href}
-												onclick={closeNav}
-												data-testid={`nav-dropdown-link-${gIndex}-${i}`}
-											>
-												{item.label}
-											</a>
-										</li>
-									{/each}
-								</ul>
-							</div>
-							{#if gIndex < navDropdownGroups.length - 1}
-								<div class="header__nav-dropdown-divider"></div>
-							{/if}
-						{/each}
-					</div>
-				{/if}
-			</div>
-
-			<!-- Desktop Settings -->
-			<div 
-				class="header__settings header__settings--desktop" 
-				class:open={settingsOpen} 
-				bind:this={settingsRef} 
-				data-testid="header-settings-container"
-				onmouseenter={handleSettingsMouseEnter}
-				role="group"
-				aria-label={$t('settings.title')}
-			>
-				<button 
-					class="header__burger" 
-					aria-label={$t('settings.title')} 
-					onclick={handleSettingsClick} 
-					aria-expanded={settingsOpen} 
-					data-testid="header-settings-button"
-				>
-					<SettingsIcon size={24} />
-				</button>
-				{#if settingsOpen}
-					<div 
-						class="header__settings-popover" 
-						onmouseleave={closeSettings} 
-						role="presentation" 
-						data-testid="settings-popover-menu"
-					>
-						<HeaderSettingsPanel
-							isOpen={settingsOpen}
-							onChangeLang={changeLanguage}
-							onToggleTheme={toggleTheme}
-							debugPanel={headerSettings.debugPanel}
-						/>
-					</div>
-				{/if}
-			</div>
 		</div>
 
 		<button
@@ -612,27 +717,32 @@
 		align-items: stretch;
 		padding: 0;
 		transition: all var(--transition-base), z-index 0s;
+		pointer-events: none; /* Allow clicking through to content */
 	}
 
 	.header.menu-open {
 		z-index: 1100;
+		pointer-events: auto; /* Re-enable for mobile overlay */
 	}
 
 	.header__inner {
 		position: relative;
 		width: 100%;
-		display: flex;
-		align-items: flex-start;
+		display: grid;
+		grid-template-columns: clamp(180px, 18vw, 240px) 1fr;
+		align-items: start;
+		min-height: 72px; /* Sync with header-blur-layer */
+		pointer-events: none;
 	}
 
 	.header__logo-area {
-		position: absolute;
-		top: 15px;
-		left: 35px;
+		position: relative;
 		z-index: 300;
 		transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 		transform-origin: top left;
 		transform: scale(1.3);
+		margin-left: 35px;
+		pointer-events: auto; /* Enable clicks */
 	}
 
 	.header__logo-area:hover {
@@ -646,8 +756,9 @@
 
 	.scrolled .header__logo-area {
 		transform: scale(0.85);
-		top: 5px;
-		left: 20px;
+		margin-top: 5px;
+		margin-bottom: 5px;
+		margin-left: 20px;
 	}
 
 	@keyframes fadeInDown {
@@ -658,14 +769,14 @@
 	.header__bar {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: center;
 		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
-		padding: var(--space-lg) var(--space-xl) var(--space-lg) clamp(180px, 18vw, 240px);
+		padding: var(--space-md) var(--space-xl) var(--space-lg);
 		transition: all var(--transition-base);
 		position: relative;
 		animation: fadeInDown 0.8s ease-out backwards;
-		box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+		pointer-events: auto; /* Enable clicks */
 	}
 
 	.header__bar::before {
@@ -680,7 +791,7 @@
 	.header__desktop-nav-group {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: center;
 		gap: clamp(1rem, 4vw, var(--space-xl));
 		flex: 1;
 		margin-right: 0;
@@ -690,13 +801,42 @@
 	.scrolled .header__bar {
 		padding-top: var(--space-md);
 		padding-bottom: var(--space-md);
-		box-shadow: var(--shadow-sm);
+	}
+
+	.header__nav {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		justify-content: center;
 	}
 
 	.header__nav-list {
 		display: flex;
 		align-items: center;
-		gap: clamp(0.5rem, 4vw, var(--space-2xl));
+		gap: 16px; /* consistent GAP from JS */
+		justify-content: center;
+		width: 100%;
+	}
+
+	/* Ghost list for measurements */
+	.header__nav-list--ghost {
+		position: absolute;
+		top: 0;
+		left: 0;
+		visibility: hidden;
+		pointer-events: none;
+		z-index: -100;
+		width: 100%;
+		white-space: nowrap;
+	}
+
+	.header__nav-item--hidden {
+		display: none;
+	}
+
+	.header__nav-item--ghost {
+		display: inline-block;
+		flex-shrink: 0;
 	}
 
 	.header__nav-link {
@@ -710,6 +850,7 @@
 		border-radius: var(--radius-sm);
 		transition: color var(--transition-fast);
 		position: relative;
+		white-space: nowrap;
 	}
 
 	.header__nav-link:hover,
@@ -730,6 +871,7 @@
 
 	.header__nav-manager {
 		position: relative;
+		flex-shrink: 0;
 	}
 
 	.header__nav-dropdown {
@@ -811,6 +953,7 @@
 	.header__settings {
 		position: relative;
 		margin-left: var(--space-sm);
+		flex-shrink: 0;
 	}
 
 	.header__settings-btn {
@@ -855,6 +998,7 @@
 		transition: all var(--transition-base);
 		color: var(--color-deep-ocean);
 		border-color: var(--color-deep-ocean);
+		flex-shrink: 0;
 	}
 
 	:global(.dark-theme) .header__cta {
@@ -1166,20 +1310,30 @@
 	}
 
 	@media (max-width: 1024px) {
-		.header__bar { 
-			/* Padding inherited from main clamp rule for consistency */
+		.header__inner {
+			grid-template-columns: 180px 1fr;
 		}
-		.header__logo-area { left: 15px; }
+		.header__logo-area { margin-left: 15px; }
 	}
 
 	@media (max-width: 768px) {
+		.header__inner {
+			display: flex;
+			align-items: flex-start;
+		}
 		.header__nav, .header__cta, .header__burger--desktop, .header__settings--desktop {
 			display: none;
 		}
 		.header__desktop-nav-group { display: none; }
 		.header__burger--mobile { display: flex; }
-		.header__bar { padding-left: clamp(100px, 20vw, 140px); }
-		.header__logo-area { top: 5px; left: 10px; transform: scale(1); }
+		.header__bar { padding-left: 0; }
+		.header__logo-area { 
+			position: absolute;
+			top: 5px; 
+			left: 10px; 
+			margin: 0;
+			transform: scale(1); 
+		}
 		.header__logo-area :global(.logo-svg) { width: 90px; height: 90px; }
 		.scrolled .header__logo-area { transform: scale(0.8); top: 0; }
 	}
