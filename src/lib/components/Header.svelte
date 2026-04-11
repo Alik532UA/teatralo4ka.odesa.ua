@@ -498,7 +498,11 @@
 				<div class="header__mobile-container" data-testid="mobile-nav-container">
 					<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
 						{#each mobileNavGroups as group, gIndex}
-							<li class="header__mobile-group" data-testid={`mobile-nav-group-${gIndex}`}>
+							<li 
+								class="header__mobile-group" 
+								data-testid={`mobile-nav-group-${gIndex}`}
+								in:fly={{ y: 20, duration: 400, delay: 150 + gIndex * 80, easing: cubicInOut }}
+							>
 								{#if group.title}
 									{#if group.titleHref}
 										<a href={group.titleHref} class="header__mobile-group-title header__mobile-group-title--link">{group.title}</a>
@@ -508,7 +512,7 @@
 								{/if}
 								<ul class="header__mobile-sublist">
 									{#each group.items as item, i}
-										<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`}>
+										<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`} class="header__mobile-subitem">
 											<a
 												href={item.href}
 												class="header__mobile-link"
@@ -941,7 +945,7 @@
 		height: 100%;
 		overflow-y: auto;
 		-webkit-overflow-scrolling: touch;
-		padding: 0 var(--space-lg) var(--space-2xl);
+		padding: 0 0 var(--space-2xl);
 	}
 
 	.header__mobile-container {
@@ -967,30 +971,36 @@
 		padding: var(--space-xl) var(--space-lg);
 		background: linear-gradient(
 			135deg, 
-			color-mix(in srgb, var(--color-surface), transparent 40%),
-			color-mix(in srgb, var(--color-surface), transparent 25%)
+			color-mix(in srgb, var(--color-surface), transparent 30%),
+			color-mix(in srgb, var(--color-surface), transparent 15%)
 		);
 		border-radius: var(--radius-2xl);
 		width: 100%;
-		border: 1px solid rgba(255, 255, 255, 0.25);
+		border-top: 1px solid rgba(255, 255, 255, 0.4);
+		border-left: 1px solid rgba(255, 255, 255, 0.2);
+		border-right: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 		box-shadow: 
 			0 20px 40px -15px rgba(0, 0, 0, 0.1),
-			inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(14px);
-		-webkit-backdrop-filter: blur(14px);
+			inset 0 0 20px rgba(255, 255, 255, 0.1);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 		transition: transform var(--transition-base), box-shadow var(--transition-base);
 	}
 
 	:global(.dark-theme) .header__mobile-group {
 		background: linear-gradient(
 			135deg, 
-			color-mix(in srgb, var(--color-surface), transparent 60%),
-			color-mix(in srgb, var(--color-surface), transparent 45%)
+			color-mix(in srgb, var(--color-surface), transparent 50%),
+			color-mix(in srgb, var(--color-surface), transparent 35%)
 		);
-		border: 1px solid rgba(255, 255, 255, 0.08);
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		border-left: 1px solid rgba(255, 255, 255, 0.05);
+		border-right: 1px solid rgba(255, 255, 255, 0.02);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.02);
 		box-shadow: 
 			0 25px 50px -12px rgba(0, 0, 0, 0.5),
-			inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+			inset 0 0 30px rgba(255, 255, 255, 0.02);
 	}
 
 	.header__mobile-group-title {
@@ -1008,30 +1018,50 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: var(--space-md);
+		gap: var(--space-xs);
 		list-style: none;
 		padding: 0;
 		width: 100%;
 	}
 
+	.header__mobile-subitem {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
 	.header__mobile-link {
 		font-family: var(--font-heading);
-		font-size: 1.25rem;
+		font-size: 1.15rem;
 		font-weight: 700;
 		color: var(--color-deep-ocean);
 		transition: all var(--transition-fast);
 		text-align: center;
 		display: block;
-		padding: 0.5rem;
+		padding: 0.7rem 1.5rem;
+		border-radius: var(--radius-lg);
+		width: 100%;
+		max-width: 280px;
 	}
 
 	:global(.dark-theme) .header__mobile-link {
 		color: var(--color-dark-text);
 	}
 
-	.header__mobile-link:hover, .header__mobile-link.active {
-		color: var(--color-vibrant-blue);
-		transform: scale(1.05);
+	.header__mobile-link:hover {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
+		color: var(--color-sea-blue);
+	}
+
+	.header__mobile-link.active {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 85%);
+		color: var(--color-sea-blue);
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-sea-blue), transparent 80%);
+	}
+
+	:global(.dark-theme) .header__mobile-link.active {
+		background: color-mix(in srgb, var(--color-sea-blue), transparent 80%);
+		color: var(--color-white);
 	}
 
 	.header__mobile-cta {
