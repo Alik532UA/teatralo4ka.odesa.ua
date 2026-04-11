@@ -777,7 +777,7 @@
 	.header__bar {
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
+		justify-content: center;
 		gap: clamp(0.75rem, 3vw, var(--space-xl));
 		width: 100%;
 		padding: 8px var(--space-xl);
@@ -820,7 +820,7 @@
 		display: flex;
 		align-items: center;
 		gap: 16px;
-		justify-content: flex-end;
+		justify-content: center;
 		width: 100%;
 	}
 
