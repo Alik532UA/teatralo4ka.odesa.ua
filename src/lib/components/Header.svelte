@@ -857,7 +857,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: flex-start;
-		padding: var(--space-2xl) var(--space-xl);
 		background: transparent;
 	}
 
@@ -879,7 +878,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: var(--space-2xl);
+		padding: var(--space-xl) var(--space-xl) var(--space-lg);
 		position: relative;
 		z-index: 420;
 	}
@@ -939,15 +938,22 @@
 
 	.header__mobile-nav {
 		width: 100%;
-		max-width: 500px;
-		max-height: 80vh;
+		height: 100%;
 		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		padding: 0 var(--space-lg) var(--space-2xl);
+	}
+
+	.header__mobile-container {
+		width: 100%;
+		max-width: 500px;
+		margin: 0 auto;
 	}
 
 	.header__mobile-list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-xl);
+		gap: var(--space-lg);
 		list-style: none;
 		padding: 0;
 		width: 100%;
@@ -959,23 +965,31 @@
 		gap: var(--space-lg);
 		align-items: center;
 		padding: var(--space-xl) var(--space-lg);
-		background: color-mix(in srgb, var(--color-surface), transparent 40%);
-		border-radius: var(--radius-xl);
+		background: linear-gradient(
+			135deg, 
+			color-mix(in srgb, var(--color-surface), transparent 40%),
+			color-mix(in srgb, var(--color-surface), transparent 25%)
+		);
+		border-radius: var(--radius-2xl);
 		width: 100%;
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.25);
 		box-shadow: 
-			0 10px 30px -10px rgba(0, 0, 0, 0.1),
+			0 20px 40px -15px rgba(0, 0, 0, 0.1),
 			inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		transition: all var(--transition-base);
+		backdrop-filter: blur(14px);
+		-webkit-backdrop-filter: blur(14px);
+		transition: transform var(--transition-base), box-shadow var(--transition-base);
 	}
 
 	:global(.dark-theme) .header__mobile-group {
-		background: color-mix(in srgb, var(--color-surface), transparent 60%);
-		border: 1px solid rgba(255, 255, 255, 0.05);
+		background: linear-gradient(
+			135deg, 
+			color-mix(in srgb, var(--color-surface), transparent 60%),
+			color-mix(in srgb, var(--color-surface), transparent 45%)
+		);
+		border: 1px solid rgba(255, 255, 255, 0.08);
 		box-shadow: 
-			0 15px 35px -12px rgba(0, 0, 0, 0.5),
+			0 25px 50px -12px rgba(0, 0, 0, 0.5),
 			inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 	}
 
