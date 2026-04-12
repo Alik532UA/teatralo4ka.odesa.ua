@@ -681,13 +681,13 @@
         "title": "TheaterPRO",
         "desc": "Practical project for stage practice and teamwork"
       },
-      "spring": {
-        "title": "SPRING.ODESSA.THEATER",
-        "desc": "Seasonal cultural project with open shows and events"
+      "dtshProduction": {
+        "title": "DTSH-production",
+        "desc": "Our own media center: video projects, short films, and creative collaborations"
       },
-      "festival": {
-        "title": "FESTIVAL",
-        "desc": "Festival direction with performances, competitions, and creative exchange"
+      "photoArchive": {
+        "title": "Photo Archive",
+        "desc": "The school's history in photographs: from first performances to modern events"
       }
     },
     "learnMore": "learn more"

@@ -66,18 +66,18 @@
 			href: `${base}/projects/teatr-pro`
 		},
 		{
-			id: 'spring-odessa-theatre',
-			title: () => $t('departmentsSection.projItems.spring.title'),
-			description: () => $t('departmentsSection.projItems.spring.desc'),
+			id: 'dtsh-production',
+			title: () => $t('departmentsSection.projItems.dtshProduction.title'),
+			description: () => $t('departmentsSection.projItems.dtshProduction.desc'),
 			image: `${base}/png/Новини1.png`,
-			href: `${base}/projects/spring-odessa-theatre`
+			href: `${base}/projects/support-production`
 		},
 		{
-			id: 'festival',
-			title: () => $t('departmentsSection.projItems.festival.title'),
-			description: () => $t('departmentsSection.projItems.festival.desc'),
+			id: 'photo-archive',
+			title: () => $t('departmentsSection.projItems.photoArchive.title'),
+			description: () => $t('departmentsSection.projItems.photoArchive.desc'),
 			image: `${base}/png/Новини1.png`,
-			href: `${base}/projects/festival`
+			href: `${base}/projects/photo-archive`
 		}
 	];
 

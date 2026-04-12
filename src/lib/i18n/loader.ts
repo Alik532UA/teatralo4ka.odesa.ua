@@ -6,6 +6,32 @@ import DOMPurify from 'isomorphic-dompurify';
 import { pageMetadataSchema } from './schema';
 import type { PageContent, PageMetadata, TableOfContents } from './types';
 
+// Configure marked renderer for better link handling
+const renderer = new marked.Renderer();
+const originalLink = renderer.link.bind(renderer);
+
+renderer.link = (token) => {
+	let { href, title, text } = token;
+
+	// Fix monobank links
+	if (href.includes('send.monobank.ua')) {
+		if (!href.startsWith('http')) href = 'https://' + href;
+		// Removing trailing slash as it's often the cause of redirection issues
+		href = href.replace(/\/$/, '');
+	}
+
+	const isExternal = href.startsWith('http') || href.startsWith('//');
+
+	if (isExternal) {
+		const titleAttr = title ? ` title="${title}"` : '';
+		return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${text}</a>`;
+	}
+
+	return originalLink(token);
+};
+
+marked.use({ renderer });
+
 /**
  * Loads page content from a Markdown file.
  * This function uses Node.js 'fs' and 'path' APIs, so it MUST only be used
