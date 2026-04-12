@@ -19,14 +19,16 @@
 	});
 
 	const galleryImages = $derived([
-		{ src: `${base}/photo/IMG_1608.jpg`, alt: 'School Photo 1', title: $t('about.gallery.edu') },
-		{ src: `${base}/photo/IMG_1616.jpg`, alt: 'School Photo 3', title: $t('about.gallery.musicians') },
-		{ src: `${base}/photo/IMG_1741.jpg`, alt: 'School Photo 2', title: $t('about.gallery.workshop') },
+		{ src: `${base}/photo/IMG_1608.jpg`, alt: 'School Photo 1', title: $t('about.gallery.edu'), position: '00% center' },
+		{ src: `${base}/photo/IMG_1741.jpg`, alt: 'School Photo 2', title: $t('about.gallery.workshop'), position: 'center 100%' },
+		{ src: `${base}/photo/IMG_1616.jpg`, alt: 'School Photo 3', title: $t('about.gallery.musicians'), position: '10% center' },
 		{ src: `${base}/photo/IMG_3992.jpg`, alt: 'School Photo 4', title: $t('about.gallery.stage') },
-		{ src: `${base}/photo/IMG_4485.jpg`, alt: 'School Photo 5', title: $t('about.gallery.lesson') },
-		{ src: `${base}/photo/IMG_4558.jpg`, alt: 'School Photo 6', title: $t('about.gallery.talents') },
+		{ src: `${base}/photo/IMG_6667.jpg`, alt: 'School Photo 8', title: $t('about.gallery.event'), position: '20% center' },
+		{ src: `${base}/photo/IMG_4558.jpg`, alt: 'School Photo 6', title: $t('about.gallery.talents'), position: '20% center' },
 		{ src: `${base}/photo/IMG_4851.jpg`, alt: 'School Photo 7', title: $t('about.gallery.festival') },
-		{ src: `${base}/photo/IMG_6667.jpg`, alt: 'School Photo 8', title: $t('about.gallery.event') },
+		{ src: `${base}/photo/IMG_4485.jpg`, alt: 'School Photo 5', title: $t('about.gallery.lesson'), position: 'center 65%' },
+		{ src: `${base}/photo/IMG_6705.jpg`, alt: 'School Photo 9', title: $t('about.gallery.atmosphere') },
+		{ src: `${base}/photo/IMG_6921.jpg`, alt: 'School Photo 10', title: $t('about.gallery.virtuosos'), position: '70% center' },
 	]);
 </script>
 
@@ -44,7 +46,16 @@
 	<div class="g-bento" data-testid="about-gallery-grid">
 		{#each galleryImages as img, i}
 			<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
-				<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="about-gallery-img-{i}" />
+				<img 
+					src={img.src} 
+					alt={img.alt} 
+					width="1200" 
+					height="900" 
+					loading="lazy" 
+					decoding="async" 
+					style={img.position ? `object-position: ${img.position}` : ''}
+					data-testid="about-gallery-img-{i}" 
+				/>
 				<div class="g-bento__overlay" data-testid="about-gallery-overlay-{i}">
 					<span class="g-bento__caption" data-testid="about-gallery-caption-{i}">{img.title}</span>
 				</div>
@@ -88,10 +99,12 @@
 	.g-bento__item--1 { grid-column: span 2; grid-row: span 1; }
 	.g-bento__item--2 { grid-column: span 1; grid-row: span 1; }
 	.g-bento__item--3 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--4 { grid-column: span 2; grid-row: span 1; }
+	.g-bento__item--4 { grid-column: span 1; grid-row: span 1; }
 	.g-bento__item--5 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--6 { grid-column: span 1; grid-row: span 1; }
+	.g-bento__item--6 { grid-column: span 2; grid-row: span 1; }
 	.g-bento__item--7 { grid-column: span 2; grid-row: span 1; }
+	.g-bento__item--8 { grid-column: span 1; grid-row: span 1; }
+	.g-bento__item--9 { grid-column: span 1; grid-row: span 1; }
 
 	.g-bento__overlay {
 		position: absolute;
