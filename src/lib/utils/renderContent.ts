@@ -1,40 +1,10 @@
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import type { ContentFormat } from '$lib/services/articles';
+import { DOMPURIFY_HTML_CONFIG, configureMarkedRenderer } from '$lib/utils/markedConfig';
 
-const DOMPURIFY_HTML_CONFIG = {
-	ADD_TAGS: ['iframe'],
-	ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'style'],
-	ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
-};
-
-// Configure marked renderer for better link handling
-marked.use({
-	renderer: {
-		link(token) {
-			let { href, title, tokens } = token;
-
-			// Fix monobank links
-			if (href.includes('send.monobank.ua')) {
-				if (!href.startsWith('http')) href = 'https://' + href;
-				// Removing trailing slash as it's often the cause of redirection issues
-				href = href.replace(/\/$/, '');
-				token.href = href;
-			}
-
-			const isExternal = href.startsWith('http') || href.startsWith('//');
-
-			if (isExternal) {
-				const escapedTitle = title ? title.replace(/"/g, '&quot;') : '';
-				const titleAttr = escapedTitle ? ` title="${escapedTitle}"` : '';
-				const innerHtml = this.parser.parseInline(tokens);
-				return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${innerHtml}</a>`;
-			}
-
-			return false;
-		}
-	}
-});
+// Initialize shared marked renderer for client-side usage
+configureMarkedRenderer();
 
 /**
  * Renders article content as sanitized HTML string.
