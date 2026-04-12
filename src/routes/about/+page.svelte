@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
 	import { base } from '$app/paths';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import { seo } from '$lib/services/seo.svelte';
 	import DOMPurify from 'isomorphic-dompurify';
+	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
+	import { getAboutPageSettings, getCachedAboutPageSettings, DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE, type GalleryWidgetConfig } from '$lib/services/settings';
 
 	let { data } = $props();
 
@@ -16,6 +20,24 @@
 				ogImage: content.metadata.seo.ogImage
 			});
 		}
+	});
+
+	const isMobile = browser ? window.matchMedia('(max-width: 1024px)').matches : false;
+	const cachedAbout = browser ? getCachedAboutPageSettings() : null;
+
+	function pickGalleryWidget(desktop?: GalleryWidgetConfig, mobile?: GalleryWidgetConfig): GalleryWidgetConfig {
+		if (isMobile) return mobile ?? { ...DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE };
+		return desktop ?? { ...DEFAULT_GALLERY_WIDGET_ABOUT };
+	}
+
+	let galleryConfig = $state<GalleryWidgetConfig>(pickGalleryWidget(cachedAbout?.galleryWidget, cachedAbout?.mobileGalleryWidget));
+
+	onMount(() => {
+		getAboutPageSettings().then(settings => {
+			if (settings) {
+				galleryConfig = pickGalleryWidget(settings.galleryWidget, settings.mobileGalleryWidget);
+			}
+		}).catch(() => {});
 	});
 
 	const galleryImages = $derived([
@@ -43,25 +65,31 @@
 		</div>
 	{/if}
 
-	<div class="g-bento" data-testid="about-gallery-grid">
-		{#each galleryImages as img, i}
-			<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
-				<img 
-					src={img.src} 
-					alt={img.alt} 
-					width="1200" 
-					height="900" 
-					loading="lazy" 
-					decoding="async" 
-					style={img.position ? `object-position: ${img.position}` : ''}
-					data-testid="about-gallery-img-{i}" 
-				/>
-				<div class="g-bento__overlay" data-testid="about-gallery-overlay-{i}">
-					<span class="g-bento__caption" data-testid="about-gallery-caption-{i}">{img.title}</span>
+	{#if galleryConfig.defaultView === 'carousel'}
+		<GalleryCarousel items={galleryImages} config={galleryConfig} testIdPrefix="about-gallery-carousel" />
+	{:else}
+		<div class="g-bento" data-testid="about-gallery-grid">
+			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i}
+				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
+					<img 
+						src={img.src} 
+						alt={img.alt} 
+						width="1200" 
+						height="900" 
+						loading="lazy" 
+						decoding="async" 
+						style={img.position ? `object-position: ${img.position}` : ''}
+						data-testid="about-gallery-img-{i}" 
+					/>
+					{#if galleryConfig.showCaptions}
+						<div class="g-bento__overlay" data-testid="about-gallery-overlay-{i}">
+							<span class="g-bento__caption" data-testid="about-gallery-caption-{i}">{img.title}</span>
+						</div>
+					{/if}
 				</div>
-			</div>
-		{/each}
-	</div>
+			{/each}
+		</div>
+	{/if}
 </section>
 
 <style>

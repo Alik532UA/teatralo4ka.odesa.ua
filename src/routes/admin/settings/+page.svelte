@@ -8,13 +8,17 @@ import {
   getHeaderSettings, updateHeaderSettings, DEFAULT_HEADER_SETTINGS,
   getNewsPageSettings, updateNewsPageSettings,
   getProjectsPageSettings, updateProjectsPageSettings,
+  getAboutPageSettings, updateAboutPageSettings,
   DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE,
   DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE,
   DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE,
   DEFAULT_PROJECTS_WIDGET_PAGE, DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE,
+  DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE,
+  DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE,
   type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig, type MenuLinkType,
   type NewsWidgetConfig, type NewsViewMode,
   type ProjectsWidgetConfig, type ProjectsViewMode,
+  type GalleryWidgetConfig, type GalleryViewMode,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
@@ -29,12 +33,13 @@ import { ArrowUp, ArrowDown } from 'lucide-svelte';
 import { browser } from "$app/environment";
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
-type TabId = 'home' | 'news' | 'projects' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
+type TabId = 'home' | 'news' | 'projects' | 'gallery' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
 let activeTab = $state<TabId>('home');
 
 type SubTabId = 'desktop' | 'mobile';
 type NewsSectionTabId = 'homeWidget' | 'pageWidget';
 type ProjectsSectionTabId = 'homeWidget' | 'pageWidget';
+type GallerySectionTabId = 'homeWidget' | 'aboutWidget';
 
 let activeSubTab = $state<SubTabId>('desktop');
 let newsSectionTab = $state<NewsSectionTabId>('homeWidget');
@@ -43,11 +48,15 @@ let newsPageSubTab = $state<SubTabId>('desktop');
 let projectsSectionTab = $state<ProjectsSectionTabId>('homeWidget');
 let projectsHomeSubTab = $state<SubTabId>('desktop');
 let projectsPageSubTab = $state<SubTabId>('desktop');
+let gallerySectionTab = $state<GallerySectionTabId>('homeWidget');
+let galleryHomeSubTab = $state<SubTabId>('desktop');
+let galleryAboutSubTab = $state<SubTabId>('desktop');
 
 const TABS: { id: TabId; labelKey: string }[] = [
   { id: 'home',      labelKey: 'admin.settings.tabHome' },
   { id: 'news',      labelKey: 'admin.settings.tabNews' },
   { id: 'projects',  labelKey: 'admin.settings.tabProjects' },
+  { id: 'gallery',   labelKey: 'admin.settings.tabGallery' },
   { id: 'cta',       labelKey: 'admin.settings.tabCta' },
   { id: 'headerBar', labelKey: 'admin.settings.tabHeaderBar' },
   { id: 'navMenu',   labelKey: 'admin.settings.tabNavMenu' },
@@ -153,6 +162,21 @@ const hasProjectsPageChanges = $derived(JSON.stringify(projectsPageWidget) !== o
 const hasMobileProjectsPageChanges = $derived(JSON.stringify(mobileProjectsPageWidget) !== originalMobileProjectsPageWidget);
 let projectsPageSaving = $state(false);
 
+// ── Gallery widget settings (desktop + mobile) ───────────────────────────────
+let homeGalleryWidget = $state<GalleryWidgetConfig>({ ...DEFAULT_GALLERY_WIDGET_HOME });
+let mobileHomeGalleryWidget = $state<GalleryWidgetConfig>({ ...DEFAULT_GALLERY_WIDGET_HOME_MOBILE });
+let aboutGalleryWidget = $state<GalleryWidgetConfig>({ ...DEFAULT_GALLERY_WIDGET_ABOUT });
+let mobileAboutGalleryWidget = $state<GalleryWidgetConfig>({ ...DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE });
+let originalHomeGalleryWidget = $state(JSON.stringify(DEFAULT_GALLERY_WIDGET_HOME));
+let originalMobileHomeGalleryWidget = $state(JSON.stringify(DEFAULT_GALLERY_WIDGET_HOME_MOBILE));
+let originalAboutGalleryWidget = $state(JSON.stringify(DEFAULT_GALLERY_WIDGET_ABOUT));
+let originalMobileAboutGalleryWidget = $state(JSON.stringify(DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE));
+const hasHomeGalleryChanges = $derived(JSON.stringify(homeGalleryWidget) !== originalHomeGalleryWidget);
+const hasMobileHomeGalleryChanges = $derived(JSON.stringify(mobileHomeGalleryWidget) !== originalMobileHomeGalleryWidget);
+const hasAboutGalleryChanges = $derived(JSON.stringify(aboutGalleryWidget) !== originalAboutGalleryWidget);
+const hasMobileAboutGalleryChanges = $derived(JSON.stringify(mobileAboutGalleryWidget) !== originalMobileAboutGalleryWidget);
+let aboutPageSaving = $state(false);
+
 let lastTickerStr = "";
 $effect(() => {
   if (browser) {
@@ -211,11 +235,12 @@ $effect(() => {
         (async () => {
         try {
           await authService.user?.getIdToken(true);
-          const [homeResult, headerResult, newsResult, projectsResult] = await Promise.all([
+          const [homeResult, headerResult, newsResult, projectsResult, aboutResult] = await Promise.all([
             getHomeSettings(),
             getHeaderSettings(),
             getNewsPageSettings(),
             getProjectsPageSettings(),
+            getAboutPageSettings(),
           ]);
 
           // ── Home settings ──
@@ -225,12 +250,16 @@ $effect(() => {
           if (homeResult?.mobileNewsWidget) mobileHomeNewsWidget = homeResult.mobileNewsWidget;
           if (homeResult?.projectsWidget) homeProjectsWidget = homeResult.projectsWidget;
           if (homeResult?.mobileProjectsWidget) mobileHomeProjectsWidget = homeResult.mobileProjectsWidget;
+          if (homeResult?.galleryWidget) homeGalleryWidget = homeResult.galleryWidget;
+          if (homeResult?.mobileGalleryWidget) mobileHomeGalleryWidget = homeResult.mobileGalleryWidget;
           originalBlocks = JSON.stringify(blocks);
           originalMobileBlocks = JSON.stringify(mobileBlocks);
           originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
           originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
           originalHomeProjectsWidget = JSON.stringify(homeProjectsWidget);
           originalMobileHomeProjectsWidget = JSON.stringify(mobileHomeProjectsWidget);
+          originalHomeGalleryWidget = JSON.stringify(homeGalleryWidget);
+          originalMobileHomeGalleryWidget = JSON.stringify(mobileHomeGalleryWidget);
 
           // ── News page settings ──
           if (newsResult?.newsWidget) newsPageWidget = newsResult.newsWidget;
@@ -243,6 +272,12 @@ $effect(() => {
           if (projectsResult?.mobileProjectsWidget) mobileProjectsPageWidget = projectsResult.mobileProjectsWidget;
           originalProjectsPageWidget = JSON.stringify(projectsPageWidget);
           originalMobileProjectsPageWidget = JSON.stringify(mobileProjectsPageWidget);
+
+          // ── About page settings ──
+          if (aboutResult?.galleryWidget) aboutGalleryWidget = aboutResult.galleryWidget;
+          if (aboutResult?.mobileGalleryWidget) mobileAboutGalleryWidget = aboutResult.mobileGalleryWidget;
+          originalAboutGalleryWidget = JSON.stringify(aboutGalleryWidget);
+          originalMobileAboutGalleryWidget = JSON.stringify(mobileAboutGalleryWidget);
 
           // ── Header settings ──
           if (headerResult) {
@@ -320,6 +355,8 @@ async function handleSubmit() {
       mobileNewsWidget: mobileHomeNewsWidget,
       projectsWidget: homeProjectsWidget,
       mobileProjectsWidget: mobileHomeProjectsWidget,
+      galleryWidget: homeGalleryWidget,
+      mobileGalleryWidget: mobileHomeGalleryWidget,
     });
     originalBlocks = JSON.stringify(blocks);
     originalMobileBlocks = JSON.stringify(mobileBlocks);
@@ -327,6 +364,8 @@ async function handleSubmit() {
     originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
     originalHomeProjectsWidget = JSON.stringify(homeProjectsWidget);
     originalMobileHomeProjectsWidget = JSON.stringify(mobileHomeProjectsWidget);
+    originalHomeGalleryWidget = JSON.stringify(homeGalleryWidget);
+    originalMobileHomeGalleryWidget = JSON.stringify(mobileHomeGalleryWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -388,6 +427,24 @@ async function handleProjectsPageSubmit() {
     toast.error(e.message || $t('admin.editor.errorSave'));
   } finally {
     projectsPageSaving = false;
+  }
+}
+
+async function handleAboutPageSubmit() {
+  aboutPageSaving = true;
+  try {
+    await updateAboutPageSettings({
+      galleryWidget: aboutGalleryWidget,
+      mobileGalleryWidget: mobileAboutGalleryWidget,
+    });
+    originalAboutGalleryWidget = JSON.stringify(aboutGalleryWidget);
+    originalMobileAboutGalleryWidget = JSON.stringify(mobileAboutGalleryWidget);
+    toast.success($t('admin.dashboard.saveSuccess'));
+  } catch (e: any) {
+    console.error(e);
+    toast.error(e.message || $t('admin.editor.errorSave'));
+  } finally {
+    aboutPageSaving = false;
   }
 }
 </script>
@@ -789,6 +846,171 @@ async function handleProjectsPageSubmit() {
 </div>
 {/snippet}
 
+<!-- ── Gallery snippets ──────────────────────────────────────────────────── -->
+
+{#snippet gallerySectionTabBar(current: GallerySectionTabId, onChange: (v: GallerySectionTabId) => void)}
+<nav class="subtab-bar" style="margin-bottom: 2rem;">
+  <button type="button" class="subtab-btn" class:active={current === 'homeWidget'} onclick={() => onChange('homeWidget')}>
+    {$t('admin.settings.galleryHomepageSubSection')}
+  </button>
+  <button type="button" class="subtab-btn" class:active={current === 'aboutWidget'} onclick={() => onChange('aboutWidget')}>
+    {$t('admin.settings.galleryAboutSubSection')}
+  </button>
+</nav>
+{/snippet}
+
+{#snippet galleryWidgetCard(titleKey: string, descKey: string, cfg: GalleryWidgetConfig, onChange: (v: GalleryWidgetConfig) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
+<div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-gallery-widget-card">
+<h2 class="settings-card__title">{$t(titleKey)}</h2>
+<p class="settings-card__desc">{$t(descKey)}</p>
+
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+<!-- Default view -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryDefaultView')}</span>
+<div class="mode-toggle-group">
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'carousel'} onclick={() => onChange({ ...cfg, defaultView: 'carousel' })}>
+    {$t('admin.settings.galleryViewCarousel')}
+  </button>
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'grid'} onclick={() => onChange({ ...cfg, defaultView: 'grid' })}>
+    {$t('admin.settings.galleryViewGrid')}
+  </button>
+</div>
+</li>
+
+<!-- Show view switcher -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryShowViewSwitcher')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.showViewSwitcher} onchange={() => onChange({ ...cfg, showViewSwitcher: !cfg.showViewSwitcher })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Show captions -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryShowCaptions')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.showCaptions} onchange={() => onChange({ ...cfg, showCaptions: !cfg.showCaptions })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Aspect ratio (carousel only) -->
+{#if cfg.defaultView === 'carousel'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryAspectRatio')}</span>
+<select class="form-select" style="margin-left: auto; width: auto; min-width: 180px;" value={cfg.aspectRatio || '4:3'} onchange={(e: any) => onChange({ ...cfg, aspectRatio: e.target.value })}>
+  <option value="4:3">{$t('admin.settings.galleryAspectRatio4x3')}</option>
+  <option value="16:9">{$t('admin.settings.galleryAspectRatio16x9')}</option>
+  <option value="3:4">{$t('admin.settings.galleryAspectRatio3x4')}</option>
+  <option value="9:16">{$t('admin.settings.galleryAspectRatio9x16')}</option>
+</select>
+</li>
+{/if}
+
+<!-- Autoplay (carousel only) -->
+{#if cfg.defaultView === 'carousel'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryAutoplay')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.autoplay} onchange={() => onChange({ ...cfg, autoplay: !cfg.autoplay })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Autoplay interval -->
+{#if cfg.autoplay}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryAutoplayInterval')}</span>
+<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 5) - 1) })} disabled={(cfg.autoplayInterval || 5) <= 1} title={$t('common.decrease')}>−</button>
+  <input
+    type="number"
+    class="form-select"
+    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    min="1"
+    max="60"
+    value={cfg.autoplayInterval || 5}
+    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 5)) })}
+  />
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 5) + 1) })} disabled={(cfg.autoplayInterval || 5) >= 60} title={$t('common.increase')}>+</button>
+  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+</div>
+</li>
+{/if}
+
+<!-- Pinned photo index (carousel only) -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryPinnedPhoto')}</span>
+<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, pinnedIndex: Math.max(-1, (cfg.pinnedIndex ?? -1) - 1) })} disabled={(cfg.pinnedIndex ?? -1) <= -1} title={$t('common.decrease')}>−</button>
+  <input
+    type="number"
+    class="form-select"
+    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    min="-1"
+    max="99"
+    value={cfg.pinnedIndex ?? -1}
+    onchange={(e: any) => onChange({ ...cfg, pinnedIndex: Math.max(-1, Math.min(99, parseInt(e.target.value) ?? -1)) })}
+  />
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, pinnedIndex: Math.min(99, (cfg.pinnedIndex ?? -1) + 1) })} disabled={(cfg.pinnedIndex ?? -1) >= 99} title={$t('common.increase')}>+</button>
+  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">
+    {(cfg.pinnedIndex ?? -1) < 0 ? $t('admin.settings.galleryPinnedNone') : ''}
+  </span>
+</div>
+</li>
+{/if}
+
+<!-- Max items (grid view) -->
+{#if cfg.defaultView === 'grid'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.galleryMaxItemsGrid')}</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+  <label class="switch-label">
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <span class="switch-slider"></span>
+  </label>
+  {#if cfg.maxItemsGrid > 0}
+  <div style="display: flex; align-items: center; gap: 0.35rem;">
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
+    <input
+      type="number"
+      class="form-select"
+      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      min="1"
+      max="100"
+      value={cfg.maxItemsGrid}
+      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
+    />
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
+  </div>
+  {:else}
+  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+    {$t('admin.settings.galleryMaxItemsUnlimited')}
+  </span>
+  {/if}
+</div>
+</li>
+{/if}
+</ul>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
+    {$t('admin.menuEditor.resetDefaults')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
+  {/if}
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-gallery-submit-btn">
+    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+{/snippet}
+
 <!-- ── Page template ────────────────────────────────────────────────────────── -->
 
 <section class="admin-settings container" style="padding: 140px 24px 80px;" data-testid="admin-settings-section">
@@ -960,6 +1182,65 @@ async function handleProjectsPageSubmit() {
       hasMobileProjectsPageChanges,
       projectsPageSaving,
       handleProjectsPageSubmit
+    )}
+  {/if}
+{/if}
+
+<!-- ══ Tab: Gallery ════════════════════════════════════════════════════════ -->
+{:else if activeTab === 'gallery'}
+
+{@render gallerySectionTabBar(gallerySectionTab, (v) => gallerySectionTab = v)}
+
+{#if gallerySectionTab === 'homeWidget'}
+  {@render subtabBar(galleryHomeSubTab, (v) => galleryHomeSubTab = v)}
+
+  {#if galleryHomeSubTab === 'desktop'}
+    {@render galleryWidgetCard(
+      'admin.settings.galleryHomepageTitle',
+      'admin.settings.galleryHomepageDesc',
+      homeGalleryWidget,
+      (v) => { homeGalleryWidget = v; },
+      () => { homeGalleryWidget = { ...DEFAULT_GALLERY_WIDGET_HOME }; },
+      hasHomeGalleryChanges,
+      saving,
+      handleSubmit
+    )}
+  {:else}
+    {@render galleryWidgetCard(
+      'admin.settings.galleryHomepageTitle',
+      'admin.settings.galleryHomepageDesc',
+      mobileHomeGalleryWidget,
+      (v) => { mobileHomeGalleryWidget = v; },
+      () => { mobileHomeGalleryWidget = { ...DEFAULT_GALLERY_WIDGET_HOME_MOBILE }; },
+      hasMobileHomeGalleryChanges,
+      saving,
+      handleSubmit
+    )}
+  {/if}
+{:else}
+  {@render subtabBar(galleryAboutSubTab, (v) => galleryAboutSubTab = v)}
+
+  {#if galleryAboutSubTab === 'desktop'}
+    {@render galleryWidgetCard(
+      'admin.settings.galleryAboutTitle',
+      'admin.settings.galleryAboutDesc',
+      aboutGalleryWidget,
+      (v) => { aboutGalleryWidget = v; },
+      () => { aboutGalleryWidget = { ...DEFAULT_GALLERY_WIDGET_ABOUT }; },
+      hasAboutGalleryChanges,
+      aboutPageSaving,
+      handleAboutPageSubmit
+    )}
+  {:else}
+    {@render galleryWidgetCard(
+      'admin.settings.galleryAboutTitle',
+      'admin.settings.galleryAboutDesc',
+      mobileAboutGalleryWidget,
+      (v) => { mobileAboutGalleryWidget = v; },
+      () => { mobileAboutGalleryWidget = { ...DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE }; },
+      hasMobileAboutGalleryChanges,
+      aboutPageSaving,
+      handleAboutPageSubmit
     )}
   {/if}
 {/if}

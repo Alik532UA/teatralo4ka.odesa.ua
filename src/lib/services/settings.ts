@@ -157,6 +157,73 @@ export const DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE: ProjectsWidgetConfig = {
   maxItemsList: 0,
 };
 
+// ── Gallery widget config ─────────────────────────────────────────────────────
+
+export type GalleryViewMode = 'carousel' | 'grid';
+
+/** Aspect ratio presets for gallery carousel. */
+export type GalleryAspectRatio = '4:3' | '16:9' | '3:4' | '9:16';
+
+export interface GalleryWidgetConfig {
+  defaultView: GalleryViewMode;
+  showViewSwitcher: boolean;
+  /** Show caption text on photos (carousel overlay + grid hover). */
+  showCaptions: boolean;
+  autoplay: boolean;
+  /** Autoplay interval in seconds (carousel only). */
+  autoplayInterval: number;
+  /** Image index to pin at the start of carousel. -1 = none. */
+  pinnedIndex: number;
+  /** Max items for grid view. 0 = unlimited. */
+  maxItemsGrid: number;
+  /** Carousel aspect ratio. */
+  aspectRatio: GalleryAspectRatio;
+}
+
+export const DEFAULT_GALLERY_WIDGET_HOME: GalleryWidgetConfig = {
+  defaultView: 'grid',
+  showViewSwitcher: false,
+  showCaptions: false,
+  autoplay: true,
+  autoplayInterval: 5,
+  pinnedIndex: -1,
+  maxItemsGrid: 0,
+  aspectRatio: '4:3',
+};
+
+export const DEFAULT_GALLERY_WIDGET_HOME_MOBILE: GalleryWidgetConfig = {
+  defaultView: 'carousel',
+  showViewSwitcher: false,
+  showCaptions: false,
+  autoplay: true,
+  autoplayInterval: 5,
+  pinnedIndex: -1,
+  maxItemsGrid: 0,
+  aspectRatio: '4:3',
+};
+
+export const DEFAULT_GALLERY_WIDGET_ABOUT: GalleryWidgetConfig = {
+  defaultView: 'grid',
+  showViewSwitcher: false,
+  showCaptions: false,
+  autoplay: true,
+  autoplayInterval: 5,
+  pinnedIndex: -1,
+  maxItemsGrid: 0,
+  aspectRatio: '4:3',
+};
+
+export const DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE: GalleryWidgetConfig = {
+  defaultView: 'carousel',
+  showViewSwitcher: false,
+  showCaptions: false,
+  autoplay: true,
+  autoplayInterval: 5,
+  pinnedIndex: -1,
+  maxItemsGrid: 0,
+  aspectRatio: '4:3',
+};
+
 export interface HomeSettings {
   blocks: BlockConfig[];
   /** Mobile-specific block order. Falls back to `blocks` when absent. */
@@ -167,6 +234,8 @@ export interface HomeSettings {
   projectsWidget?: ProjectsWidgetConfig;
   /** Mobile-specific projects widget config. Falls back to `projectsWidget` when absent. */
   mobileProjectsWidget?: ProjectsWidgetConfig;
+  galleryWidget?: GalleryWidgetConfig;
+  mobileGalleryWidget?: GalleryWidgetConfig;
   updatedAt?: any;
 }
 
@@ -181,6 +250,12 @@ export interface ProjectsPageSettings {
   projectsWidget: ProjectsWidgetConfig;
   /** Mobile-specific projects widget config. Falls back to `projectsWidget` when absent. */
   mobileProjectsWidget?: ProjectsWidgetConfig;
+  updatedAt?: any;
+}
+
+export interface AboutPageSettings {
+  galleryWidget: GalleryWidgetConfig;
+  mobileGalleryWidget?: GalleryWidgetConfig;
   updatedAt?: any;
 }
 
@@ -273,6 +348,8 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
       mobileNewsWidget: raw.mobileNewsWidget,
       projectsWidget: raw.projectsWidget,
       mobileProjectsWidget: raw.mobileProjectsWidget,
+      galleryWidget: raw.galleryWidget,
+      mobileGalleryWidget: raw.mobileGalleryWidget,
       updatedAt: raw.updatedAt,
     };
     // Cache in localStorage for instant render on next visit (SWR pattern)
@@ -968,6 +1045,50 @@ export function getCachedProjectsPageSettings(): Omit<ProjectsPageSettings, 'upd
 export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "projects");
+  return await setDoc(docRef, {
+    ...settings,
+    updatedAt: serverTimestamp()
+  });
+}
+
+// ── About page settings ───────────────────────────────────────────────────────
+
+/** Public read — no auth required (Firestore rules allow settingId == 'about'). */
+export async function getAboutPageSettings(): Promise<AboutPageSettings | null> {
+  try {
+  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+  const raw = docSnap.data() as Record<string, any>;
+  const data: AboutPageSettings = {
+    galleryWidget: raw.galleryWidget ?? DEFAULT_GALLERY_WIDGET_ABOUT,
+    mobileGalleryWidget: raw.mobileGalleryWidget,
+    updatedAt: raw.updatedAt,
+  };
+  try {
+    const { updatedAt, ...cacheable } = data;
+    localStorage.setItem('aboutPageSettings', JSON.stringify(cacheable));
+  } catch { /* quota exceeded — ignore */ }
+  return data;
+  } catch (e) {
+    console.error('Failed to load about page settings:', e);
+    return null;
+  }
+}
+
+/** Read cached about page settings from localStorage (sync, instant). */
+export function getCachedAboutPageSettings(): Omit<AboutPageSettings, 'updatedAt'> | null {
+  try {
+    const cached = localStorage.getItem('aboutPageSettings');
+    if (cached) return JSON.parse(cached);
+  } catch { /* corrupted — ignore */ }
+  return null;
+}
+
+/** Auth-required write. */
+export async function updateAboutPageSettings(settings: Omit<AboutPageSettings, 'updatedAt'>) {
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "about");
   return await setDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()

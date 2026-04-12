@@ -9,9 +9,10 @@
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { browser } from '$app/environment';
-	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig } from '$lib/services/settings';
+	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig, type GalleryWidgetConfig } from '$lib/services/settings';
 	import { getArticles, getAllProjects, getDisplayDate, mapArticleToWidgetItem, type Article } from '$lib/services/articles';
 	import { getStaticProjects } from '$lib/config/static-projects';
+	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────
 	const cachedHome = browser ? getCachedHomeSettings() : null;
@@ -32,6 +33,11 @@
 		return desktop ?? { ...DEFAULT_PROJECTS_WIDGET_HOME };
 	}
 
+	function pickGalleryWidget(desktop?: GalleryWidgetConfig, mobile?: GalleryWidgetConfig): GalleryWidgetConfig {
+		if (isMobile) return mobile ?? { ...DEFAULT_GALLERY_WIDGET_HOME_MOBILE };
+		return desktop ?? { ...DEFAULT_GALLERY_WIDGET_HOME };
+	}
+
 	let blocks = $state<BlockConfig[]>(pickBlocks(cachedHome?.blocks, cachedHome?.mobileBlocks));
 	let blocksReady = $state(!!cachedHome);
 
@@ -46,6 +52,8 @@
 	let projectsWidgetConfig = $state<ProjectsWidgetConfig>(pickProjectsWidget(cachedHome?.projectsWidget, cachedHome?.mobileProjectsWidget));
 	let projectsReady = $state(false);
 	let projectsError = $state(false);
+
+	let galleryWidgetConfig = $state<GalleryWidgetConfig>(pickGalleryWidget(cachedHome?.galleryWidget, cachedHome?.mobileGalleryWidget));
 
 	// Reactive locale for widget re-mapping
 	const activeLang = $derived((($locale as string) || 'uk') as 'uk' | 'en');
@@ -92,6 +100,7 @@
 					blocks = pickBlocks(settings.blocks, settings.mobileBlocks);
 					newsWidgetConfig = pickNewsWidget(settings.newsWidget, settings.mobileNewsWidget);
 					projectsWidgetConfig = pickProjectsWidget(settings.projectsWidget, settings.mobileProjectsWidget);
+					galleryWidgetConfig = pickGalleryWidget(settings.galleryWidget, settings.mobileGalleryWidget);
 				}
 			})
 			.catch((e) => { perf('+page.svelte: getHomeSettings ERROR: ' + e?.message); })
@@ -274,16 +283,22 @@
 						<p class="gallery-bento__subtitle" data-testid="gallery-subtitle-label">{$t('gallery.subtitle')}</p>
 					</div>
 
-					<div class="g-bento-4x3" data-testid="gallery-grid">
-						{#each galleryItems as img, i (img.src)}
-							<div class="g-bento-4x3__item" data-testid="gallery-item-{i}">
-								<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
-								<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
-									<span class="g-bento-4x3__caption" data-testid="gallery-caption-{i}">{img.title}</span>
+					{#if galleryWidgetConfig.defaultView === 'carousel'}
+						<GalleryCarousel items={galleryItems} config={galleryWidgetConfig} testIdPrefix="gallery-carousel" />
+					{:else}
+						<div class="g-bento-4x3" data-testid="gallery-grid">
+							{#each galleryItems.slice(0, galleryWidgetConfig.maxItemsGrid > 0 ? galleryWidgetConfig.maxItemsGrid : galleryItems.length) as img, i (img.src)}
+								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}">
+									<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
+									{#if galleryWidgetConfig.showCaptions}
+										<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
+											<span class="g-bento-4x3__caption" data-testid="gallery-caption-{i}">{img.title}</span>
+										</div>
+									{/if}
 								</div>
-							</div>
-						{/each}
-					</div>
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</section>
 		{/if}

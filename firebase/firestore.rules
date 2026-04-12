@@ -131,8 +131,8 @@ service cloud.firestore {
     }
 
     match /projects/{projectId}/settings/{settingId} {
-      // 'home', 'header' and 'news' are publicly readable so the site can render without auth.
-      allow read: if settingId in ['home', 'header', 'news'] || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
+      // 'home', 'header', 'news', 'projects', 'about' are publicly readable so the site can render without auth.
+      allow read: if settingId in ['home', 'header', 'news', 'projects', 'about'] || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
       allow write: if canManageSettings(projectId);
     }
 
