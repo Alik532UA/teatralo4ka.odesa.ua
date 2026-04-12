@@ -86,18 +86,18 @@
 	}
 </script>
 
-<section class="detail-page container" style="padding: 160px 24px 6rem; min-height: 80vh;" data-testid="{testIdPrefix}-section">
+<section class="detail-page container" data-testid="{testIdPrefix}-section">
 	<div class="back-nav" data-testid="{testIdPrefix}-back-group">
 		<a href={`${base}${backHref}`} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
 	</div>
 
 	{#if loading}
-		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="{testIdPrefix}-loading-container">
+		<div class="detail-page__loading" data-testid="{testIdPrefix}-loading-container">
 			<p data-testid="{testIdPrefix}-loading-label">{$t(loadingKey)}</p>
 		</div>
 	{:else if error}
-		<div style="text-align: center; padding: 4rem;" data-testid="{testIdPrefix}-error-container">
-			<h1 style="color: var(--color-deep-ocean); margin-bottom: 2rem;" data-testid="{testIdPrefix}-error-title">{error}</h1>
+		<div class="detail-page__error" data-testid="{testIdPrefix}-error-container">
+			<h1 class="detail-page__error-title" data-testid="{testIdPrefix}-error-title">{error}</h1>
 		</div>
 	{:else if article && translation}
 		<article data-testid="{testIdPrefix}-content-container">
@@ -139,6 +139,27 @@
 </section>
 
 <style>
+	.detail-page {
+		padding: 160px 24px 6rem;
+		min-height: 80vh;
+	}
+
+	.detail-page__loading {
+		display: flex;
+		justify-content: center;
+		padding: 4rem;
+	}
+
+	.detail-page__error {
+		text-align: center;
+		padding: 4rem;
+	}
+
+	.detail-page__error-title {
+		color: var(--color-deep-ocean);
+		margin-bottom: 2rem;
+	}
+
 	.back-nav {
 		max-width: 1000px;
 		margin: 0 auto 2rem;

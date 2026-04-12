@@ -281,7 +281,7 @@
 
 			if (isShiftScroll) {
 				// Svelte 5 passive listeners might throw on preventDefault
-				try { e.preventDefault(); } catch (err) {}
+				try { e.preventDefault(); } catch { /* passive listener */ }
 			}
 
 			wheelAccumulator += delta;

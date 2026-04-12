@@ -107,9 +107,9 @@
 			await deleteArticle(id);
 			articles = articles.filter(a => a.id !== id);
 			toast.success($t('admin.articles.deleteSuccess'));
-		} catch (e: any) {
+		} catch (e: unknown) {
 			console.error(e);
-			toast.error(e.message || get(t)('admin.editor.errorUpdate'));
+			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorUpdate'));
 		}
 	}
 
@@ -144,9 +144,9 @@
 			}
 			
 			toast.success($t('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));
-		} catch (e: any) {
+		} catch (e: unknown) {
 			console.error(e);
-			toast.error(e.message || $t('admin.content.statusUpdateError'));
+			toast.error(e instanceof Error ? e.message : $t('admin.content.statusUpdateError'));
 		} finally {
 			togglingId = null;
 		}

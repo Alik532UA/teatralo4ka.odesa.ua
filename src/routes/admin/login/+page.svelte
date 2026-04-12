@@ -18,7 +18,7 @@
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
 			goto(`${base}/admin`);
-		} catch (e: any) {
+		} catch (e: unknown) {
 			error = $t('admin.login.error');
 			console.error(e);
 		} finally {

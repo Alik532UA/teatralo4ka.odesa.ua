@@ -141,9 +141,9 @@
 			toast.success(type === 'article' 
 				? get(t)('admin.articles.deleteSuccess') 
 				: get(t)('admin.pages.deleted'));
-		} catch (e: any) {
+		} catch (e: unknown) {
 			console.error(e);
-			toast.error(e.message || get(t)('admin.editor.errorUpdate'));
+			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorUpdate'));
 		}
 	}
 
@@ -176,9 +176,9 @@
 			}
 			
 			toast.success(get(t)('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));
-		} catch (e: any) {
+		} catch (e: unknown) {
 			console.error(e);
-			toast.error(e.message || get(t)('admin.content.statusUpdateError'));
+			toast.error(e instanceof Error ? e.message : get(t)('admin.content.statusUpdateError'));
 		} finally {
 			togglingId = null;
 		}

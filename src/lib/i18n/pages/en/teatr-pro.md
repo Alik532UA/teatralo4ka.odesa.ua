@@ -13,54 +13,41 @@ excerpt: "Practical project for stage practice and teamwork"
 coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 ---
 
-<div style="text-align: center; font-size: 1.5rem; line-height: 1.4; margin-bottom: 2rem;">
-	<strong>IV Open Festival</strong><br>
-	<h1 style="margin: 0.5rem 0;">«Odesa.Theatre.PRO»</h1>
-	<strong>June 5-6, 2026</strong>
-</div>
+## IV Open Festival
 
-<div style="text-align: right; font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem; color: var(--color-muted-text);">
-	<strong>PRO</strong>duced by<br>
-	Odessa Theatre School<br>
-	with the support of the Department of Culture and Tourism of the Odesa City Council<br>
-	National Union of Theater Artists of Ukraine<br>
-	for applicants to creative universities,<br>
-	who dream of becoming actors, directors, media professionals<br>
-	and specialists in other creative <strong>PRO</strong>fessions
-</div>
+# «Odesa.Theatre.PRO»
 
-<div style="text-align: center; font-size: 1.2rem; line-height: 1.6; margin-bottom: 2rem;">
-	<strong>PRO</strong>nounce your program!<br>
-	<strong>PRO</strong>mote your skills!<br>
-	<strong>PRO</strong>ve your abilities!<br>
-	Do not miss out, be <strong>PRO</strong>active!
-</div>
+## June 5-6, 2026
 
-Your admission <strong>PRO</strong>gram will be evaluated by <strong>PRO</strong>fessionals
+> **PRO**duced by\
+> Odessa Theatre School\
+> with the support of the Department of Culture and Tourism of the Odesa City Council\
+> National Union of Theater Artists of Ukraine\
+> for applicants to creative universities,\
+> who dream of becoming actors, directors, media professionals\
+> and specialists in other creative **PRO**fessions
+
+### **PRO**nounce your program! **PRO**mote your skills! **PRO**ve your abilities! Do not miss out, be **PRO**active!
+
+Your admission **PRO**gram will be evaluated by **PRO**fessionals
 *(the Festival's Expert Council includes masters from Kyiv, Lviv, Kharkiv, Dnipro, and Odesa who are recruiting the 1st year students this year)*
-Here you will receive a <strong>PRO</strong>gnosis for your admission and an advanced level of theatrical qualification.
+Here you will receive a **PRO**gnosis for your admission and an advanced level of theatrical qualification.
 
-<div style="text-align: center; font-size: 1.3rem; margin: 2rem 0;">
-	<strong>Awaken, Rise, Break through!</strong>
-</div>
+### **Awaken, Rise, Break through!**
 
-Acting <strong>PRO</strong>bes on the festival stage,<br>
-<strong>PRO</strong>gressive methods and leading experts<br>
-Advanced training and high-quality creative <strong>PRO</strong>duct<br>
-Modern theater and its <strong>PRO</strong>blematics<br>
-<strong>PRO</strong>menades around Odesa and simply a great theater gathering<br>
-All this – in the festival <strong>PRO</strong>ject – «Theatre.PRO»
+Acting **PRO**bes on the festival stage,\
+**PRO**gressive methods and leading experts\
+Advanced training and high-quality creative **PRO**duct\
+Modern theater and its **PRO**blematics\
+**PRO**menades around Odesa and simply a great theater gathering\
+All this – in the festival **PRO**ject – «Theatre.PRO»
 
 You can become a Participant or a Listener of the festival and receive a corresponding Certificate of advanced training.
 
-<div style="font-size: 1.2rem; margin: 2rem 0;">
-	<strong>Follow the page updates so you don't miss the start of registration!</strong>
-</div>
+### **Follow the page updates so you don't miss the start of registration!**
 
-<div style="text-align: center; font-size: 1.2rem; line-height: 1.6; margin: 2rem 0;">
-	We invite you to Odesa<br>
-	Theatre.PRO is your theatrical <strong>PRO</strong>cessing space!
-</div>
+> We invite you to Odesa\
+> Theatre.PRO is your theatrical **PRO**cessing space!
 
 ---
 

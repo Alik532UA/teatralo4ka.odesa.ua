@@ -30,8 +30,8 @@
 			await addArticle({ ...rest, author: '', type: contentType });
 			toast.success(get(t)('admin.editor.saveBtn'));
 			goto(`${base}/admin/content`);
-		} catch (e: any) {
-			toast.error(e.message || get(t)('admin.editor.errorSave'));
+		} catch (e: unknown) {
+			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorSave'));
 		} finally {
 			submitting = false;
 		}

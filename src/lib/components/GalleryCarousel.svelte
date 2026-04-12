@@ -3,6 +3,16 @@
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
 	import type { GalleryWidgetConfig } from '$lib/services/settings';
+	import {
+		createDragState, createWheelState,
+		handleTouchStart as sharedTouchStart,
+		handleTouchMove as sharedTouchMove,
+		handleTouchEnd as sharedTouchEnd,
+		handleClickCapture as sharedClickCapture,
+		handleWheel as sharedWheel,
+		handleTransitionEnd as sharedTransitionEnd,
+		type DragState,
+	} from '$lib/utils/carouselInteraction';
 
 	export interface GalleryItem {
 		src: string;
@@ -57,7 +67,7 @@
 		const timer = setTimeout(() => { mounted = true; }, 100);
 		return () => {
 			clearTimeout(timer);
-			clearTimeout(wheelTimeout);
+			clearTimeout(wheelState.timeout);
 		};
 	});
 
@@ -114,72 +124,42 @@
 	});
 
 	// ── Swipe ─────────────────────────────────────────────────────────────────
-	let touchStartX = $state(0);
-	let touchEndX = $state(0);
-	let isDragging = $state(false);
-	let dragOffset = $state(0);
-	let wheelAccumulator = 0;
-	let wheelTimeout: ReturnType<typeof setTimeout> | undefined;
+	let drag = $state<DragState>(createDragState());
+	let wheelState = createWheelState();
 
-	function handleTouchStart(e: TouchEvent | MouseEvent) {
-		if (infiniteItems.length <= 1) return;
-		isDragging = true;
-		touchStartX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-		touchEndX = touchStartX;
-		dragOffset = 0;
-		autoplayOverride = false;
+	const handlers = {
+		getItemsLength: () => items.length,
+		getInfiniteLength: () => infiniteItems.length,
+		getBufferCount: () => bufferCount,
+		getCurrentIndex: () => currentIndex,
+		setCurrentIndex: (i: number) => { currentIndex = i; },
+		isTransitioning: () => isTransitioning,
+		next,
+		prev,
+		setAutoplayOverride: (v: boolean) => { autoplayOverride = v; },
+	};
+
+	function onTouchStart(e: TouchEvent | MouseEvent) {
+		drag = sharedTouchStart(e, drag, handlers);
 	}
-
-	function handleTouchMove(e: TouchEvent | MouseEvent) {
-		if (!isDragging) return;
-		touchEndX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-		dragOffset = touchEndX - touchStartX;
-		const n = items.length;
-		if (n === 0) return;
-		const baseIndex = bufferCount * n;
-		if (currentIndex >= baseIndex + n && dragOffset < 0) currentIndex -= n;
-		else if (currentIndex < baseIndex && dragOffset > 0) currentIndex += n;
+	function onTouchMove(e: TouchEvent | MouseEvent) {
+		drag = sharedTouchMove(e, drag, handlers);
 	}
-
-	function handleTouchEnd() {
-		if (!isDragging) return;
-		isDragging = false;
-		if (Math.abs(dragOffset) > 40) {
-			if (dragOffset < 0) next(false);
-			else prev();
-		}
-		dragOffset = 0;
+	function onTouchEnd() {
+		drag = sharedTouchEnd(drag, handlers);
 	}
-
-	function handleClickCapture(e: MouseEvent) {
-		if (Math.abs(touchStartX - touchEndX) > 10) {
-			e.stopPropagation();
-			e.preventDefault();
-		}
+	function onClickCapture(e: MouseEvent) {
+		sharedClickCapture(e, drag);
 	}
-
-	function handleWheel(e: WheelEvent) {
-		if (infiniteItems.length <= 1) return;
-		const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 0;
-		const isShiftScroll = e.shiftKey && Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
-		if (isHorizontalScroll || isShiftScroll) {
-			let delta = isShiftScroll ? e.deltaY : e.deltaX;
-			if (e.deltaMode === 1) delta *= 33;
-			else if (e.deltaMode === 2) delta *= 100;
-			if (isShiftScroll) { try { e.preventDefault(); } catch {} }
-			wheelAccumulator += delta;
-			if (Math.abs(wheelAccumulator) >= 40) {
-				if (wheelAccumulator > 0) next(false);
-				else prev();
-				wheelAccumulator = 0;
-			}
-			clearTimeout(wheelTimeout);
-			wheelTimeout = setTimeout(() => { wheelAccumulator = 0; }, 250);
-		}
+	function onWheel(e: WheelEvent) {
+		wheelState = sharedWheel(e, wheelState, handlers);
+	}
+	function onTransitionEnd(e: TransitionEvent) {
+		sharedTransitionEnd(e, handlers, (v) => { isTransitioning = v; });
 	}
 
 	const activeDot = $derived(items.length > 0 ? ((currentIndex % items.length) + items.length) % items.length : 0);
-	const translateX = $derived(`calc(-${currentIndex * 100}% + ${isDragging ? dragOffset : 0}px)`);
+	const translateX = $derived(`calc(-${currentIndex * 100}% + ${drag.isDragging ? drag.dragOffset : 0}px)`);
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -187,25 +167,25 @@
 	class="gc-root"
 	data-testid={testIdPrefix}
 	onmouseenter={() => { isHovered = true; }}
-	onmouseleave={() => { isHovered = false; handleTouchEnd(); }}
+	onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
 >
 	<div
 		class="gc-carousel"
 		style="aspect-ratio: {cssAspectRatio};"
-		onwheel={handleWheel}
+		onwheel={onWheel}
 	>
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="gc-track"
-			style="transform: translateX({translateX}); transition: {isTransitioning && !isDragging ? 'transform 0.45s cubic-bezier(0.4,0,0.2,1)' : 'none'};"
-			ontouchstart={handleTouchStart}
-			ontouchmove={handleTouchMove}
-			ontouchend={handleTouchEnd}
-			onmousedown={handleTouchStart}
-			onmousemove={handleTouchMove}
-			onmouseup={handleTouchEnd}
-			onclickcapture={handleClickCapture}
-			ontransitionend={handleTransitionEnd}
+			style="transform: translateX({translateX}); transition: {isTransitioning && !drag.isDragging ? 'transform 0.45s cubic-bezier(0.4,0,0.2,1)' : 'none'};"
+			ontouchstart={onTouchStart}
+			ontouchmove={onTouchMove}
+			ontouchend={onTouchEnd}
+			onmousedown={onTouchStart}
+			onmousemove={onTouchMove}
+			onmouseup={onTouchEnd}
+			onclickcapture={onClickCapture}
+			ontransitionend={onTransitionEnd}
 			role="list"
 		>
 			{#each infiniteItems as img, i (i)}
@@ -361,7 +341,7 @@
 	}
 	.gc-dot:hover { background: var(--color-deep-ocean, #005fae); opacity: 0.7; }
 
-	@media (max-width: 768px) {
+	@media (max-width: 1024px) {
 		.gc-carousel { border-radius: 0.75rem; }
 		.gc-caption { font-size: 0.95rem; }
 		.gc-overlay { padding: 1rem; }

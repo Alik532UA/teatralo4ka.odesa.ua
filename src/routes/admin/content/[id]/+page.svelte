@@ -93,9 +93,9 @@
 			await updateArticle(id as string, { ...rest, type: contentType });
 			toast.success($t('admin.dashboard.saveSuccess'));
 			goto(`${base}/admin/content`);
-		} catch (e: any) {
+		} catch (e: unknown) {
 			console.error(e);
-			toast.error(e.message || get(t)('admin.editor.errorUpdate'));
+			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorUpdate'));
 		} finally {
 			saving = false;
 		}
