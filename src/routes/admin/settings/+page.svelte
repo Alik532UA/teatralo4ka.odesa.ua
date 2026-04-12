@@ -18,7 +18,7 @@ import {
   type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig, type MenuLinkType,
   type NewsWidgetConfig, type NewsViewMode,
   type ProjectsWidgetConfig, type ProjectsViewMode,
-  type GalleryWidgetConfig, type GalleryViewMode,
+  type GalleryWidgetConfig, type GalleryViewMode, type GalleryAspectRatio,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
@@ -321,9 +321,9 @@ $effect(() => {
             originalDebugPanel = JSON.stringify(debugPanel);
             originalTicker = JSON.stringify(ticker);
           }
-        } catch (e: any) {
+        } catch (e: unknown) {
           console.error('Failed to load settings:', e);
-          toast.error(e.message || $t('news.errorLoading'));
+          toast.error(e instanceof Error ? e.message : $t('news.errorLoading'));
         } finally {
           loading = false;
         }
@@ -385,9 +385,9 @@ async function handleSubmit() {
     originalHomeGalleryWidget = JSON.stringify(homeGalleryWidget);
     originalMobileHomeGalleryWidget = JSON.stringify(mobileHomeGalleryWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    toast.error(e.message || $t('admin.editor.errorSave'));
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     saving = false;
   }
@@ -404,9 +404,9 @@ async function handleHeaderSubmit() {
     originalDebugPanel = JSON.stringify(debugPanel);
     originalTicker = JSON.stringify(ticker);
     toast.success($t('admin.dashboard.saveSuccess'));
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    toast.error(e.message || $t('admin.editor.errorSave'));
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     headerSaving = false;
   }
@@ -422,9 +422,9 @@ async function handleNewsPageSubmit() {
     originalNewsPageWidget = JSON.stringify(newsPageWidget);
     originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    toast.error(e.message || $t('admin.editor.errorSave'));
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     newsPageSaving = false;
   }
@@ -440,9 +440,9 @@ async function handleProjectsPageSubmit() {
     originalProjectsPageWidget = JSON.stringify(projectsPageWidget);
     originalMobileProjectsPageWidget = JSON.stringify(mobileProjectsPageWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    toast.error(e.message || $t('admin.editor.errorSave'));
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     projectsPageSaving = false;
   }
@@ -458,9 +458,9 @@ async function handleAboutPageSubmit() {
     originalAboutGalleryWidget = JSON.stringify(aboutGalleryWidget);
     originalMobileAboutGalleryWidget = JSON.stringify(mobileAboutGalleryWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
-    toast.error(e.message || $t('admin.editor.errorSave'));
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     aboutPageSaving = false;
   }
@@ -587,19 +587,18 @@ async function handleAboutPageSubmit() {
 {#if cfg.autoplay}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsAutoplayInterval')}</span>
-<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
   <input
     type="number"
-    class="form-select"
-    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    class="form-select number-input"
     min="1"
     max="60"
     value={cfg.autoplayInterval || 7}
-    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 7)) })}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.currentTarget.value) || 7)) })}
   />
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
-  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
+  <span class="input-hint">{$t('admin.settings.autoplayIntervalUnit')}</span>
 </div>
 </li>
 {/if}
@@ -607,13 +606,13 @@ async function handleAboutPageSubmit() {
 <!-- Pinned article (carousel only) -->
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsPinnedArticle')}</span>
-<div style="margin-left: auto; min-width: 200px;">
+<div class="pinned-select-wrapper">
   {#if articlesList.length === 0 && !articlesLoading}
     <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles}>
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} onchange={(e: any) => onChange({ ...cfg, pinnedArticleId: e.target.value })}>
+    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedArticleId: e.currentTarget.value })}>
       <option value="">{$t('admin.settings.newsPinnedNone')}</option>
       {#each articlesList as art}
         <option value={art.slug}>{art.titleUk}</option>
@@ -628,27 +627,26 @@ async function handleAboutPageSubmit() {
 {#if cfg.defaultView !== 'carousel'}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsMaxItemsGrid')}</span>
-<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+<div class="limit-toggle-group">
   <label class="switch-label">
-    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: e.currentTarget.checked ? 6 : 0 })} />
     <span class="switch-slider"></span>
   </label>
   {#if cfg.maxItemsGrid > 0}
-  <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
+  <div class="number-input-group">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
-      class="form-select"
-      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      class="form-select number-input"
       min="1"
       max="100"
       value={cfg.maxItemsGrid}
-      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
+      onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.currentTarget.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
-  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+  <span class="input-hint">
     {$t('admin.settings.newsMaxItemsUnlimited')}
   </span>
   {/if}
@@ -658,27 +656,26 @@ async function handleAboutPageSubmit() {
 <!-- Max items (list view) -->
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.newsMaxItemsList')}</span>
-<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+<div class="limit-toggle-group">
   <label class="switch-label">
-    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsList: e.target.checked ? 6 : 0 })} />
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsList: e.currentTarget.checked ? 6 : 0 })} />
     <span class="switch-slider"></span>
   </label>
   {#if cfg.maxItemsList > 0}
-  <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
+  <div class="number-input-group">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
-      class="form-select"
-      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      class="form-select number-input"
       min="1"
       max="100"
       value={cfg.maxItemsList}
-      onchange={(e: any) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.target.value) || 1) })}
+      onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.currentTarget.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
-  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+  <span class="input-hint">
     {$t('admin.settings.newsMaxItemsUnlimited')}
   </span>
   {/if}
@@ -687,15 +684,15 @@ async function handleAboutPageSubmit() {
 {/if}
 </ul>
 
-<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+<div class="save-footer">
   <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
     {$t('admin.menuEditor.resetDefaults')}
   </button>
-  <div style="display: flex; align-items: center;">
+  <div class="save-footer__actions">
   {#if hasChanges}
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
-  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-news-submit-btn">
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-news-submit-btn">
     {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
@@ -748,19 +745,18 @@ async function handleAboutPageSubmit() {
 {#if cfg.autoplay}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.projectsAutoplayInterval')}</span>
-<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
   <input
     type="number"
-    class="form-select"
-    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    class="form-select number-input"
     min="1"
     max="60"
     value={cfg.autoplayInterval || 7}
-    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 7)) })}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.currentTarget.value) || 7)) })}
   />
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
-  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
+  <span class="input-hint">{$t('admin.settings.autoplayIntervalUnit')}</span>
 </div>
 </li>
 {/if}
@@ -768,13 +764,13 @@ async function handleAboutPageSubmit() {
 <!-- Pinned project (carousel only) -->
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.projectsPinnedProject')}</span>
-<div style="margin-left: auto; min-width: 200px;">
+<div class="pinned-select-wrapper">
   {#if articlesList.length === 0 && !articlesLoading}
     <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles}>
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select news-widget-select" value={cfg.pinnedProjectId} onchange={(e: any) => onChange({ ...cfg, pinnedProjectId: e.target.value })}>
+    <select class="form-select news-widget-select" value={cfg.pinnedProjectId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedProjectId: e.currentTarget.value })}>
       <option value="">{$t('admin.settings.projectsPinnedNone')}</option>
       {#each articlesList as art}
         <option value={art.slug}>{art.titleUk}</option>
@@ -789,27 +785,26 @@ async function handleAboutPageSubmit() {
 {#if cfg.defaultView !== 'carousel'}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.projectsMaxItemsGrid')}</span>
-<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+<div class="limit-toggle-group">
   <label class="switch-label">
-    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: e.currentTarget.checked ? 6 : 0 })} />
     <span class="switch-slider"></span>
   </label>
   {#if cfg.maxItemsGrid > 0}
-  <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
+  <div class="number-input-group">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
-      class="form-select"
-      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      class="form-select number-input"
       min="1"
       max="100"
       value={cfg.maxItemsGrid}
-      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
+      onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.currentTarget.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
-  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+  <span class="input-hint">
     {$t('admin.settings.projectsMaxItemsUnlimited')}
   </span>
   {/if}
@@ -819,27 +814,26 @@ async function handleAboutPageSubmit() {
 <!-- Max items (list view) -->
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.projectsMaxItemsList')}</span>
-<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+<div class="limit-toggle-group">
   <label class="switch-label">
-    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsList: e.target.checked ? 6 : 0 })} />
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsList: e.currentTarget.checked ? 6 : 0 })} />
     <span class="switch-slider"></span>
   </label>
   {#if cfg.maxItemsList > 0}
-  <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
+  <div class="number-input-group">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
-      class="form-select"
-      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      class="form-select number-input"
       min="1"
       max="100"
       value={cfg.maxItemsList}
-      onchange={(e: any) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.target.value) || 1) })}
+      onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.currentTarget.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
-  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+  <span class="input-hint">
     {$t('admin.settings.projectsMaxItemsUnlimited')}
   </span>
   {/if}
@@ -848,15 +842,15 @@ async function handleAboutPageSubmit() {
 {/if}
 </ul>
 
-<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+<div class="save-footer">
   <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
     {$t('admin.menuEditor.resetDefaults')}
   </button>
-  <div style="display: flex; align-items: center;">
+  <div class="save-footer__actions">
   {#if hasChanges}
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
-  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-projects-submit-btn">
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-projects-submit-btn">
     {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
@@ -918,7 +912,7 @@ async function handleAboutPageSubmit() {
 {#if cfg.defaultView === 'carousel'}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.galleryAspectRatio')}</span>
-<select class="form-select" style="margin-left: auto; width: auto; min-width: 180px;" value={cfg.aspectRatio || '4:3'} onchange={(e: any) => onChange({ ...cfg, aspectRatio: e.target.value })}>
+<select class="form-select aspect-ratio-select" value={cfg.aspectRatio || '4:3'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, aspectRatio: e.currentTarget.value as GalleryAspectRatio })}>
   <option value="4:3">{$t('admin.settings.galleryAspectRatio4x3')}</option>
   <option value="16:9">{$t('admin.settings.galleryAspectRatio16x9')}</option>
   <option value="3:4">{$t('admin.settings.galleryAspectRatio3x4')}</option>
@@ -941,19 +935,18 @@ async function handleAboutPageSubmit() {
 {#if cfg.autoplay}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.galleryAutoplayInterval')}</span>
-<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 5) - 1) })} disabled={(cfg.autoplayInterval || 5) <= 1} title={$t('common.decrease')}>−</button>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 5) - 1) })} disabled={(cfg.autoplayInterval || 5) <= 1} title={$t('common.decrease')}>−</button>
   <input
     type="number"
-    class="form-select"
-    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    class="form-select number-input"
     min="1"
     max="60"
     value={cfg.autoplayInterval || 5}
-    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 5)) })}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.currentTarget.value) || 5)) })}
   />
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 5) + 1) })} disabled={(cfg.autoplayInterval || 5) >= 60} title={$t('common.increase')}>+</button>
-  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 5) + 1) })} disabled={(cfg.autoplayInterval || 5) >= 60} title={$t('common.increase')}>+</button>
+  <span class="input-hint">{$t('admin.settings.autoplayIntervalUnit')}</span>
 </div>
 </li>
 {/if}
@@ -961,19 +954,18 @@ async function handleAboutPageSubmit() {
 <!-- Pinned photo index (carousel only) -->
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.galleryPinnedPhoto')}</span>
-<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, pinnedIndex: Math.max(-1, (cfg.pinnedIndex ?? -1) - 1) })} disabled={(cfg.pinnedIndex ?? -1) <= -1} title={$t('common.decrease')}>−</button>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, pinnedIndex: Math.max(-1, (cfg.pinnedIndex ?? -1) - 1) })} disabled={(cfg.pinnedIndex ?? -1) <= -1} title={$t('common.decrease')}>−</button>
   <input
     type="number"
-    class="form-select"
-    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    class="form-select number-input"
     min="-1"
     max="99"
     value={cfg.pinnedIndex ?? -1}
-    onchange={(e: any) => onChange({ ...cfg, pinnedIndex: Math.max(-1, Math.min(99, parseInt(e.target.value) ?? -1)) })}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, pinnedIndex: Math.max(-1, Math.min(99, parseInt(e.currentTarget.value) ?? -1)) })}
   />
-  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, pinnedIndex: Math.min(99, (cfg.pinnedIndex ?? -1) + 1) })} disabled={(cfg.pinnedIndex ?? -1) >= 99} title={$t('common.increase')}>+</button>
-  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">
+  <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, pinnedIndex: Math.min(99, (cfg.pinnedIndex ?? -1) + 1) })} disabled={(cfg.pinnedIndex ?? -1) >= 99} title={$t('common.increase')}>+</button>
+  <span class="input-hint">
     {(cfg.pinnedIndex ?? -1) < 0 ? $t('admin.settings.galleryPinnedNone') : ''}
   </span>
 </div>
@@ -984,27 +976,26 @@ async function handleAboutPageSubmit() {
 {#if cfg.defaultView === 'grid'}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.galleryMaxItemsGrid')}</span>
-<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+<div class="limit-toggle-group">
   <label class="switch-label">
-    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: e.currentTarget.checked ? 6 : 0 })} />
     <span class="switch-slider"></span>
   </label>
   {#if cfg.maxItemsGrid > 0}
-  <div style="display: flex; align-items: center; gap: 0.35rem;">
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
+  <div class="number-input-group">
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
     <input
       type="number"
-      class="form-select"
-      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      class="form-select number-input"
       min="1"
       max="100"
       value={cfg.maxItemsGrid}
-      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
+      onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.currentTarget.value) || 1) })}
     />
-    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
+    <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
   </div>
   {:else}
-  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+  <span class="input-hint">
     {$t('admin.settings.galleryMaxItemsUnlimited')}
   </span>
   {/if}
@@ -1013,15 +1004,15 @@ async function handleAboutPageSubmit() {
 {/if}
 </ul>
 
-<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+<div class="save-footer">
   <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
     {$t('admin.menuEditor.resetDefaults')}
   </button>
-  <div style="display: flex; align-items: center;">
+  <div class="save-footer__actions">
   {#if hasChanges}
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
-  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-gallery-submit-btn">
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-gallery-submit-btn">
     {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
@@ -1292,15 +1283,15 @@ async function handleAboutPageSubmit() {
   onchange={(p) => { cta = { ...cta, ...p }; }}
 />
 
-<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+<div class="save-footer">
   <button type="button" class="me-reset-btn" onclick={() => { cta = { ...DEFAULT_HEADER_SETTINGS.cta }; }} disabled={headerSaving}>
     {$t('admin.menuEditor.resetDefaults')}
   </button>
-  <div style="display: flex; align-items: center;">
+  <div class="save-footer__actions">
   {#if hasCtaChanges}
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
-  <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasCtaChanges} class="btn-save-small {hasCtaChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-cta-submit-btn">
+  <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasCtaChanges} class="btn-save-small {hasCtaChanges ? 'is-active' : ''}" data-testid="admin-settings-cta-submit-btn">
     {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
@@ -1408,11 +1399,11 @@ async function handleAboutPageSubmit() {
 <li class="block-item" class:opacity-muted={!ticker.visible}>
 <span class="block-item__name">{$t('admin.settings.tickerStartTime')}</span>
 <div class="time-picker-group">
-  <select class="form-select time-select" value={ticker.startTime.split(':')[0] || '00'} onchange={(e: any) => updateTimeValue(true, 'h', e.target.value)} disabled={!ticker.visible}>
+  <select class="form-select time-select" value={ticker.startTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
     {#each hours as h}<option value={h}>{h}</option>{/each}
   </select>
   <span class="time-separator">:</span>
-  <select class="form-select time-select" value={ticker.startTime.split(':')[1] || '00'} onchange={(e: any) => updateTimeValue(true, 'm', e.target.value)} disabled={!ticker.visible}>
+  <select class="form-select time-select" value={ticker.startTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
     {#each minutes as m}<option value={m}>{m}</option>{/each}
   </select>
 </div>
@@ -1420,11 +1411,11 @@ async function handleAboutPageSubmit() {
 <li class="block-item" class:opacity-muted={!ticker.visible}>
 <span class="block-item__name">{$t('admin.settings.tickerEndTime')}</span>
 <div class="time-picker-group">
-  <select class="form-select time-select" value={ticker.endTime.split(':')[0] || '00'} onchange={(e: any) => updateTimeValue(false, 'h', e.target.value)} disabled={!ticker.visible}>
+  <select class="form-select time-select" value={ticker.endTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
     {#each hours as h}<option value={h}>{h}</option>{/each}
   </select>
   <span class="time-separator">:</span>
-  <select class="form-select time-select" value={ticker.endTime.split(':')[1] || '00'} onchange={(e: any) => updateTimeValue(false, 'm', e.target.value)} disabled={!ticker.visible}>
+  <select class="form-select time-select" value={ticker.endTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
     {#each minutes as m}<option value={m}>{m}</option>{/each}
   </select>
 </div>
@@ -1785,12 +1776,12 @@ color: var(--color-dark-text);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: none;
+  background: var(--color-surface);
+  border: 2px solid rgba(0, 95, 174, 0.1);
   border-radius: 8px;
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-sea-blue);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: all 0.15s;
 }
@@ -1802,6 +1793,60 @@ color: var(--color-dark-text);
 .number-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+}
+
+.number-input-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.number-input {
+  width: 80px;
+  text-align: center;
+  padding: 0.35rem;
+  height: 32px;
+  min-height: 32px;
+  border-radius: 8px;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.input-hint {
+  font-size: 0.82rem;
+  color: var(--color-muted-text);
+  margin-left: 0.25rem;
+}
+
+.limit-toggle-group {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pinned-select-wrapper {
+  margin-left: auto;
+  min-width: 200px;
+}
+
+.aspect-ratio-select {
+  margin-left: auto;
+  width: auto;
+  min-width: 180px;
+}
+
+.save-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.save-footer__actions {
+  display: flex;
+  align-items: center;
 }
 
 .block-item__controls {
