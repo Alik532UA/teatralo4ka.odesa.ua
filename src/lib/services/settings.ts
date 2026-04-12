@@ -319,47 +319,47 @@ function perf(label: string) {
 export async function getHomeSettings(): Promise<HomeSettings | null> {
   perf('getHomeSettings: start');
   try {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
-  perf('getHomeSettings: doc ref created, calling getDoc...');
-  const docSnap = await getDoc(docRef);
-  perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
-  if (docSnap.exists()) {
-    const raw = docSnap.data() as Record<string, any>;
-    // Merge missing DEFAULT_BLOCKS entries into loaded blocks
-    // (old Firebase data may lack blocks added after initial save, e.g. 'projects')
-    let loadedBlocks: BlockConfig[] = raw.blocks ?? DEFAULT_BLOCKS;
-    const loadedIds = new Set(loadedBlocks.map(b => b.id));
-    for (const def of DEFAULT_BLOCKS) {
-      if (!loadedIds.has(def.id)) {
-        const insertAt = Math.min(def.order, loadedBlocks.length);
-        loadedBlocks = [
-          ...loadedBlocks.slice(0, insertAt),
-          { ...def },
-          ...loadedBlocks.slice(insertAt),
-        ];
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
+    perf('getHomeSettings: doc ref created, calling getDoc...');
+    const docSnap = await getDoc(docRef);
+    perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
+    if (docSnap.exists()) {
+      const raw = docSnap.data() as Record<string, any>;
+      // Merge missing DEFAULT_BLOCKS entries into loaded blocks
+      // (old Firebase data may lack blocks added after initial save, e.g. 'projects')
+      let loadedBlocks: BlockConfig[] = raw.blocks ?? DEFAULT_BLOCKS;
+      const loadedIds = new Set(loadedBlocks.map(b => b.id));
+      for (const def of DEFAULT_BLOCKS) {
+        if (!loadedIds.has(def.id)) {
+          const insertAt = Math.min(def.order, loadedBlocks.length);
+          loadedBlocks = [
+            ...loadedBlocks.slice(0, insertAt),
+            { ...def },
+            ...loadedBlocks.slice(insertAt),
+          ];
+        }
       }
+      // Re-number order fields to match array positions
+      loadedBlocks = loadedBlocks.map((b, i) => ({ ...b, order: i }));
+      const data: HomeSettings = {
+        blocks: loadedBlocks,
+        mobileBlocks: raw.mobileBlocks,
+        newsWidget: raw.newsWidget,
+        mobileNewsWidget: raw.mobileNewsWidget,
+        projectsWidget: raw.projectsWidget,
+        mobileProjectsWidget: raw.mobileProjectsWidget,
+        galleryWidget: raw.galleryWidget,
+        mobileGalleryWidget: raw.mobileGalleryWidget,
+        updatedAt: raw.updatedAt,
+      };
+      // Cache in localStorage for instant render on next visit (SWR pattern)
+      try {
+        const { updatedAt, ...cacheable } = data;
+        localStorage.setItem('homeSettings', JSON.stringify(cacheable));
+      } catch { /* quota exceeded or SSR — ignore */ }
+      return data;
     }
-    // Re-number order fields to match array positions
-    loadedBlocks = loadedBlocks.map((b, i) => ({ ...b, order: i }));
-    const data: HomeSettings = {
-      blocks: loadedBlocks,
-      mobileBlocks: raw.mobileBlocks,
-      newsWidget: raw.newsWidget,
-      mobileNewsWidget: raw.mobileNewsWidget,
-      projectsWidget: raw.projectsWidget,
-      mobileProjectsWidget: raw.mobileProjectsWidget,
-      galleryWidget: raw.galleryWidget,
-      mobileGalleryWidget: raw.mobileGalleryWidget,
-      updatedAt: raw.updatedAt,
-    };
-    // Cache in localStorage for instant render on next visit (SWR pattern)
-    try {
-      const { updatedAt, ...cacheable } = data;
-      localStorage.setItem('homeSettings', JSON.stringify(cacheable));
-    } catch { /* quota exceeded or SSR — ignore */ }
-    return data;
-  }
-  return null;
+    return null;
   } catch (e) {
     console.error('Failed to load home settings:', e);
     return null;
@@ -881,19 +881,19 @@ function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
 /** Public read — no auth required (Firestore rules allow settingId == 'header'). */
 export async function getHeaderSettings(): Promise<HeaderSettings | null> {
   try {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return null;
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
 
-  const raw = docSnap.data() as HeaderSettingsRaw;
-  const result = resolveHeaderSettings(raw);
+    const raw = docSnap.data() as HeaderSettingsRaw;
+    const result = resolveHeaderSettings(raw);
 
-  // Cache the resolved result for instant render on next visit
-  try {
-    localStorage.setItem('headerSettings', JSON.stringify(result));
-  } catch { /* quota exceeded or SSR — ignore */ }
+    // Cache the resolved result for instant render on next visit
+    try {
+      localStorage.setItem('headerSettings', JSON.stringify(result));
+    } catch { /* quota exceeded or SSR — ignore */ }
 
-  return result;
+    return result;
   } catch (e) {
     console.error('Failed to load header settings:', e);
     return null;
@@ -968,21 +968,21 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
 /** Public read — no auth required (Firestore rules allow settingId == 'news'). */
 export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
   try {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return null;
-  const raw = docSnap.data() as Record<string, any>;
-  const data: NewsPageSettings = {
-    newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
-    mobileNewsWidget: raw.mobileNewsWidget,
-    updatedAt: raw.updatedAt,
-  };
-  // SWR cache
-  try {
-    const { updatedAt, ...cacheable } = data;
-    localStorage.setItem('newsPageSettings', JSON.stringify(cacheable));
-  } catch { /* quota exceeded — ignore */ }
-  return data;
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    const raw = docSnap.data() as Record<string, any>;
+    const data: NewsPageSettings = {
+      newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
+      mobileNewsWidget: raw.mobileNewsWidget,
+      updatedAt: raw.updatedAt,
+    };
+    // SWR cache
+    try {
+      const { updatedAt, ...cacheable } = data;
+      localStorage.setItem('newsPageSettings', JSON.stringify(cacheable));
+    } catch { /* quota exceeded — ignore */ }
+    return data;
   } catch (e) {
     console.error('Failed to load news page settings:', e);
     return null;
@@ -1013,21 +1013,21 @@ export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'u
 /** Public read — no auth required. */
 export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | null> {
   try {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return null;
-  const raw = docSnap.data() as Record<string, any>;
-  const data: ProjectsPageSettings = {
-    projectsWidget: raw.projectsWidget ?? DEFAULT_PROJECTS_WIDGET_PAGE,
-    mobileProjectsWidget: raw.mobileProjectsWidget,
-    updatedAt: raw.updatedAt,
-  };
-  // SWR cache
-  try {
-    const { updatedAt, ...cacheable } = data;
-    localStorage.setItem('projectsPageSettings', JSON.stringify(cacheable));
-  } catch { /* quota exceeded — ignore */ }
-  return data;
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    const raw = docSnap.data() as Record<string, any>;
+    const data: ProjectsPageSettings = {
+      projectsWidget: raw.projectsWidget ?? DEFAULT_PROJECTS_WIDGET_PAGE,
+      mobileProjectsWidget: raw.mobileProjectsWidget,
+      updatedAt: raw.updatedAt,
+    };
+    // SWR cache
+    try {
+      const { updatedAt, ...cacheable } = data;
+      localStorage.setItem('projectsPageSettings', JSON.stringify(cacheable));
+    } catch { /* quota exceeded — ignore */ }
+    return data;
   } catch (e) {
     console.error('Failed to load projects page settings:', e);
     return null;
@@ -1058,20 +1058,20 @@ export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSett
 /** Public read — no auth required (Firestore rules allow settingId == 'about'). */
 export async function getAboutPageSettings(): Promise<AboutPageSettings | null> {
   try {
-  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) return null;
-  const raw = docSnap.data() as Record<string, any>;
-  const data: AboutPageSettings = {
-    galleryWidget: raw.galleryWidget ?? DEFAULT_GALLERY_WIDGET_ABOUT,
-    mobileGalleryWidget: raw.mobileGalleryWidget,
-    updatedAt: raw.updatedAt,
-  };
-  try {
-    const { updatedAt, ...cacheable } = data;
-    localStorage.setItem('aboutPageSettings', JSON.stringify(cacheable));
-  } catch { /* quota exceeded — ignore */ }
-  return data;
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    const raw = docSnap.data() as Record<string, any>;
+    const data: AboutPageSettings = {
+      galleryWidget: raw.galleryWidget ?? DEFAULT_GALLERY_WIDGET_ABOUT,
+      mobileGalleryWidget: raw.mobileGalleryWidget,
+      updatedAt: raw.updatedAt,
+    };
+    try {
+      const { updatedAt, ...cacheable } = data;
+      localStorage.setItem('aboutPageSettings', JSON.stringify(cacheable));
+    } catch { /* quota exceeded — ignore */ }
+    return data;
   } catch (e) {
     console.error('Failed to load about page settings:', e);
     return null;

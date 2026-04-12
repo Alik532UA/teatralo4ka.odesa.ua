@@ -6,6 +6,16 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
+	import {
+		createDragState, createWheelState,
+		handleTouchStart as sharedTouchStart,
+		handleTouchMove as sharedTouchMove,
+		handleTouchEnd as sharedTouchEnd,
+		handleClickCapture as sharedClickCapture,
+		handleWheel as sharedWheel,
+		handleTransitionEnd as sharedTransitionEnd,
+		type DragState,
+	} from '$lib/utils/carouselInteraction';
 
 	export type ContentViewMode = 'carousel' | 'grid' | 'list';
 
@@ -141,7 +151,7 @@
 		return () => {
 			mql.removeEventListener('change', handler);
 			clearTimeout(mountTimer);
-			clearTimeout(wheelTimeout);
+			clearTimeout(wheelState.timeout);
 		};
 	});
 
@@ -189,19 +199,7 @@
 	}
 
 	function handleTransitionEnd(e: TransitionEvent) {
-		if (e.target !== e.currentTarget) return;
-		if (e.propertyName !== 'transform') return;
-
-		const n = items.length;
-		if (n === 0) return;
-		const baseIndex = bufferCount * n;
-
-		// Seamless jump back to the middle set if we drift out of it
-		if (currentIndex >= baseIndex + n || currentIndex < baseIndex) {
-			isTransitioning = false;
-			currentIndex = baseIndex + ((currentIndex % n) + n) % n;
-			setTimeout(() => { isTransitioning = true; }, 30);
-		}
+		sharedTransitionEnd(e, handlers, (v) => { isTransitioning = v; });
 	}
 
 	function autoNext() { next(true); }
@@ -214,92 +212,38 @@
 		return () => clearInterval(id);
 	});
 
-	// ── Swipe & Scroll ────────────────────────────────────────────────────────
-	let touchStartX = $state(0);
-	let touchEndX = $state(0);
-	let isDragging = $state(false);
-	let dragOffset = $state(0);
-	let wheelAccumulator = 0;
-	let wheelTimeout: ReturnType<typeof setTimeout> | undefined;
+	// ── Swipe & Scroll (shared) ──────────────────────────────────────────────
+	let drag = $state<DragState>(createDragState());
+	let wheelState = createWheelState();
+
+	const handlers = {
+		getItemsLength: () => items.length,
+		getInfiniteLength: () => infiniteItems.length,
+		getBufferCount: () => bufferCount,
+		getCurrentIndex: () => currentIndex,
+		setCurrentIndex: (i: number) => { currentIndex = i; },
+		isTransitioning: () => isTransitioning,
+		next,
+		prev,
+		setAutoplayOverride: (v: boolean) => { autoplayOverride = v; },
+	};
 
 	function handleTouchStart(e: TouchEvent | MouseEvent) {
-		if (view !== 'carousel' || infiniteItems.length <= 1) return;
-		isDragging = true;
-		touchStartX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-		touchEndX = touchStartX;
-		dragOffset = 0;
-		autoplayOverride = false;
+		if (view !== 'carousel') return;
+		drag = sharedTouchStart(e, drag, handlers);
 	}
-
 	function handleTouchMove(e: TouchEvent | MouseEvent) {
-		if (!isDragging) return;
-		touchEndX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-		dragOffset = touchEndX - touchStartX;
-
-		// Instant seamless jump while dragging if we go too far
-		const n = items.length;
-		if (n === 0) return;
-		const baseIndex = bufferCount * n;
-
-		if (currentIndex >= baseIndex + n && dragOffset < 0) {
-			currentIndex -= n;
-		} else if (currentIndex < baseIndex && dragOffset > 0) {
-			currentIndex += n;
-		}
+		drag = sharedTouchMove(e, drag, handlers);
 	}
-
 	function handleTouchEnd() {
-		if (!isDragging) return;
-		isDragging = false;
-
-		if (Math.abs(dragOffset) > 40) {
-			if (dragOffset < 0) next(false);
-			else prev();
-		}
-		dragOffset = 0;
+		drag = sharedTouchEnd(drag, handlers);
 	}
-
 	function handleClickCapture(e: MouseEvent) {
-		if (Math.abs(touchStartX - touchEndX) > 10) {
-			e.stopPropagation();
-			e.preventDefault();
-		}
+		sharedClickCapture(e, drag);
 	}
-
 	function handleWheel(e: WheelEvent) {
-		if (view !== 'carousel' || infiniteItems.length <= 1) return;
-
-		const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 0;
-		const isShiftScroll = e.shiftKey && Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
-
-		if (isHorizontalScroll || isShiftScroll) {
-			let delta = isShiftScroll ? e.deltaY : e.deltaX;
-
-			// Normalize delta values depending on the device/browser
-			if (e.deltaMode === 1) delta *= 33; // DOM_DELTA_LINE
-			else if (e.deltaMode === 2) delta *= 100; // DOM_DELTA_PAGE
-
-			if (isShiftScroll) {
-				// Svelte 5 passive listeners might throw on preventDefault
-				try { e.preventDefault(); } catch { /* passive listener */ }
-			}
-
-			wheelAccumulator += delta;
-
-			// 40 is an optimal threshold for both fast trackpad flicks and standard mouse wheels
-			if (Math.abs(wheelAccumulator) >= 40) {
-				if (wheelAccumulator > 0) next(false);
-				else prev();
-
-				// Reset to 0 after triggering to prevent runaway multi-slide jumps from a single flick
-				wheelAccumulator = 0;
-			}
-
-			clearTimeout(wheelTimeout);
-			wheelTimeout = setTimeout(() => { wheelAccumulator = 0; }, 250);
-
-			autoplayOverride = false;
-		}
+		if (view !== 'carousel') return;
+		wheelState = sharedWheel(e, wheelState, handlers);
 	}
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
@@ -414,7 +358,7 @@
 			tabindex="0"
 			data-testid="{testIdPrefix}-viewport"
 			onmouseenter={() => isHovered = true}
-			onmouseleave={() => { isHovered = false; isDragging = false; }}
+			onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
 			onmousedown={handleTouchStart}
 			onmousemove={handleTouchMove}
 			onmouseup={handleTouchEnd}
@@ -427,8 +371,8 @@
 			<div
 				class="focus-track"
 				style="
-					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {dragOffset}px));
-					transition: {isTransitioning && !isDragging ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
+					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {drag.dragOffset}px));
+					transition: {isTransitioning && !drag.isDragging ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
 				"
 				data-testid="{testIdPrefix}-track"
 				ontransitionend={handleTransitionEnd}

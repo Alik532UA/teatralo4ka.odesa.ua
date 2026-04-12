@@ -22,7 +22,7 @@
 		}
 	});
 
-	const isMobile = browser ? window.matchMedia('(max-width: 1024px)').matches : false;
+	let isMobile = $state(browser ? window.matchMedia('(max-width: 1024px)').matches : false);
 	const cachedAbout = browser ? getCachedAboutPageSettings() : null;
 
 	function pickGalleryWidget(desktop?: GalleryWidgetConfig, mobile?: GalleryWidgetConfig): GalleryWidgetConfig {
@@ -32,12 +32,27 @@
 
 	let galleryConfig = $state<GalleryWidgetConfig>(pickGalleryWidget(cachedAbout?.galleryWidget, cachedAbout?.mobileGalleryWidget));
 
+	// Keep galleryConfig in sync with isMobile changes
+	let aboutSettings = $state<{ galleryWidget?: GalleryWidgetConfig; mobileGalleryWidget?: GalleryWidgetConfig } | null>(cachedAbout);
+
+	$effect(() => {
+		if (aboutSettings) {
+			galleryConfig = pickGalleryWidget(aboutSettings.galleryWidget, aboutSettings.mobileGalleryWidget);
+		}
+	});
+
 	onMount(() => {
+		const mql = window.matchMedia('(max-width: 1024px)');
+		const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
+		mql.addEventListener('change', handler);
+
 		getAboutPageSettings().then(settings => {
 			if (settings) {
-				galleryConfig = pickGalleryWidget(settings.galleryWidget, settings.mobileGalleryWidget);
+				aboutSettings = settings;
 			}
 		}).catch(() => {});
+
+		return () => { mql.removeEventListener('change', handler); };
 	});
 
 	const galleryImages = $derived([

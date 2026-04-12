@@ -37,7 +37,7 @@
 				subtitle={$t('projects.subtitle')}
 			/>
 		{:else}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold; font-size: 1.2rem;" data-testid="projects-empty-label">{$t('projectsList.noProjects')}</p>
+			<p class="projects-empty" data-testid="projects-empty-label">{$t('projectsList.noProjects')}</p>
 		{/if}
 	</div>
 </section>
@@ -54,5 +54,12 @@
 		.projects-home {
 			padding: var(--space-xl) 0;
 		}
+	}
+
+	.projects-empty {
+		text-align: center;
+		color: var(--color-deep-ocean);
+		font-weight: bold;
+		font-size: 1.2rem;
 	}
 </style>

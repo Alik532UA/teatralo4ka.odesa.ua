@@ -222,8 +222,7 @@ async function loadArticles() {
     // Append static projects that aren't already in Firebase
     const firebaseSlugs = new Set(firebaseArticles.map(a => a.slug));
     const staticEntries = getStaticProjectEntries()
-      .filter(e => !firebaseSlugs.has(e.slug))
-      .map(e => ({ ...e, path: `/projects/${e.slug}` }));
+      .filter(e => !firebaseSlugs.has(e.slug));
     articlesList = [...firebaseArticles, ...staticEntries];
   } catch (e) {
     console.error('Failed to load articles:', e);
@@ -962,7 +961,7 @@ async function handleAboutPageSubmit() {
     min="-1"
     max="99"
     value={cfg.pinnedIndex ?? -1}
-    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, pinnedIndex: Math.max(-1, Math.min(99, parseInt(e.currentTarget.value) ?? -1)) })}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => onChange({ ...cfg, pinnedIndex: Math.max(-1, Math.min(99, parseInt(e.currentTarget.value) || -1)) })}
   />
   <button type="button" class="number-btn" onclick={() => onChange({ ...cfg, pinnedIndex: Math.min(99, (cfg.pinnedIndex ?? -1) + 1) })} disabled={(cfg.pinnedIndex ?? -1) >= 99} title={$t('common.increase')}>+</button>
   <span class="input-hint">

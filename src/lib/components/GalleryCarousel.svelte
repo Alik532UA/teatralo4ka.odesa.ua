@@ -160,21 +160,31 @@
 
 	const activeDot = $derived(items.length > 0 ? ((currentIndex % items.length) + items.length) % items.length : 0);
 	const translateX = $derived(`calc(-${currentIndex * 100}% + ${drag.isDragging ? drag.dragOffset : 0}px)`);
+
+	function handleKeydown(e: KeyboardEvent) {
+		if (!isHovered || items.length <= 1) return;
+		if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+		else if (e.key === 'ArrowRight') { e.preventDefault(); next(false); }
+	}
 </script>
 
-<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="gc-root"
 	data-testid={testIdPrefix}
+	role="region"
+	aria-roledescription="carousel"
+	aria-label="Gallery"
+	tabindex="0"
 	onmouseenter={() => { isHovered = true; }}
 	onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
+	onkeydown={handleKeydown}
 >
 	<div
 		class="gc-carousel"
 		style="aspect-ratio: {cssAspectRatio};"
 		onwheel={onWheel}
 	>
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="gc-track"
 			style="transform: translateX({translateX}); transition: {isTransitioning && !drag.isDragging ? 'transform 0.45s cubic-bezier(0.4,0,0.2,1)' : 'none'};"
