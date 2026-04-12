@@ -31,6 +31,7 @@ import MenuEditor from '$lib/components/ui/MenuEditor.svelte';
 import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 import { ArrowUp, ArrowDown } from 'lucide-svelte';
 import { browser } from "$app/environment";
+import { getStaticProjectEntries } from '$lib/config/static-projects';
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 type TabId = 'home' | 'news' | 'projects' | 'gallery' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
@@ -193,8 +194,14 @@ $effect(() => {
   }
 });
 
-let articlesList = $state<{ slug: string; titleUk: string; titleEn: string }[]>([]);
+let articlesList = $state<{ slug: string; path: string; titleUk: string; titleEn: string }[]>([]);
 let articlesLoading = $state(false);
+
+function articleRoutePath(type: string | undefined, slug: string): string {
+  if (type === 'page_project') return `/projects/${slug}`;
+  if (type === 'page') return `/${slug}`;
+  return `/news/${slug}`;
+}
 
 async function loadArticles() {
   if (articlesLoading || articlesList.length > 0) return;
@@ -202,11 +209,22 @@ async function loadArticles() {
   try {
     const ref = collection(db, 'projects', VITE_PROJECT_ID, 'articles');
     const snap = await getDocs(query(ref, fsOrderBy('createdAt', 'desc')));
-    articlesList = snap.docs.map(d => ({
-      slug: (d.data().slug as string) || d.id,
-      titleUk: (d.data().translations?.uk?.title as string) || d.id,
-      titleEn: (d.data().translations?.en?.title as string) || (d.data().translations?.uk?.title as string) || d.id,
-    }));
+    const firebaseArticles = snap.docs.map(d => {
+      const slug = (d.data().slug as string) || d.id;
+      const type = (d.data().type as string) || 'article';
+      return {
+        slug,
+        path: articleRoutePath(type, slug),
+        titleUk: (d.data().translations?.uk?.title as string) || d.id,
+        titleEn: (d.data().translations?.en?.title as string) || (d.data().translations?.uk?.title as string) || d.id,
+      };
+    });
+    // Append static projects that aren't already in Firebase
+    const firebaseSlugs = new Set(firebaseArticles.map(a => a.slug));
+    const staticEntries = getStaticProjectEntries()
+      .filter(e => !firebaseSlugs.has(e.slug))
+      .map(e => ({ ...e, path: `/projects/${e.slug}` }));
+    articlesList = [...firebaseArticles, ...staticEntries];
   } catch (e) {
     console.error('Failed to load articles:', e);
   } finally {

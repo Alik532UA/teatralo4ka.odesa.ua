@@ -8,7 +8,7 @@
 		menu: MenuConfig;
 		title: string;
 		description?: string;
-		articlesList: { slug: string; titleUk: string; titleEn: string }[];
+		articlesList: { slug: string; path: string; titleUk: string; titleEn: string }[];
 		articlesLoading: boolean;
 		knownPages: { value: string; labelUk: string; labelEn: string }[];
 		ctaHref?: string;
@@ -500,12 +500,12 @@
 				{:else}
 					<select class="me-select" value={addForm.href} onchange={(e) => {
 						const v = (e.target as HTMLSelectElement).value;
-						const art = articlesList.find(a => a.slug === v);
+						const art = articlesList.find(a => a.path === v);
 							addForm = { ...addForm, href: v, labelUk: art?.titleUk ?? v, labelEn: art?.titleEn ?? art?.titleUk ?? v };
 					}}>
 						<option value="">{$t('admin.menuEditor.selectArticle')}</option>
 						{#each articlesList as a}
-							<option value={a.slug}>{a.titleUk} ({a.slug})</option>
+							<option value={a.path}>{a.titleUk} ({a.path})</option>
 						{/each}
 					</select>
 				{/if}

@@ -437,13 +437,22 @@ button {
 	opacity: 0.5;
 }
 
-/* Markdown Content Styles */
+/* Markdown & HTML Content Styles */
 .prose {
 	max-width: 800px;
 	margin: 0 auto;
 	color: var(--color-body-text);
 	line-height: 1.8;
 	font-size: 1.15rem;
+	overflow-wrap: break-word;
+	word-break: break-word;
+	overflow-x: hidden;
+	min-width: 0;
+}
+
+.prose * {
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .prose h1 {

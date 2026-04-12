@@ -235,7 +235,12 @@
 	function resolvedHref(href: string | undefined, linkType: string): string {
 		if (!href) return '#';
 		if (linkType === 'url' || href.startsWith('http')) return href;
-		if (linkType === 'article') return `${base}/news/${href}`;
+		if (linkType === 'article') {
+			// New format: full path like /projects/slug or /news/slug
+			if (href.startsWith('/')) return `${base}${href}`;
+			// Legacy: bare slug → assume /news/
+			return `${base}/news/${href}`;
+		}
 		return `${base}${href}`;
 	}
 
@@ -327,7 +332,29 @@
 		return groups;
 	});
 
-	const mobileNavGroups = $derived(menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk'));
+	const mobileNavGroups = $derived.by(() => {
+		const groups = menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk');
+
+		// If CTA is visible and its href is NOT already in the menu, inject it as the first item
+		if (headerSettings.cta.visible && ctaHref) {
+			const ctaAlreadyInMenu = groups.some(g => g.items.some(it => it.href === ctaHref));
+			if (!ctaAlreadyInMenu) {
+				const lang = $locale ?? 'uk';
+				const ctaNavItem: NavItem = {
+					label: lang === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn,
+					href: ctaHref,
+					itemType: 'cta',
+				};
+				if (groups.length > 0 && groups[0].items.length > 0) {
+					groups[0].items.unshift(ctaNavItem);
+				} else {
+					groups.unshift({ items: [ctaNavItem] });
+				}
+			}
+		}
+
+		return groups;
+	});
 
 	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType));
 

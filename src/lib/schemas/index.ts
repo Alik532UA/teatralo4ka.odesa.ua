@@ -74,7 +74,7 @@ export const ArticleTranslationSchema = z.object({
  */
 export const ArticleSchema = z.object({
 	id: z.string().optional(),
-	slug: z.string().optional(),
+	slug: z.string().regex(/^[a-z0-9_]+$/).optional().or(z.literal('')),
 	type: z.enum(['article', 'page', 'page_project']).optional(),
 	category: z.string().default(''),
 	author: z.string().default(''),
@@ -82,7 +82,7 @@ export const ArticleSchema = z.object({
 	createdAt: z.any().optional(),
 	updatedAt: z.any().optional(),
 	customDate: z.any().optional(),
-	sortOrder: z.number().int().optional(),
+	sortOrder: z.number().int().min(0).max(9999).optional(),
 	translations: z.object({
 		uk: ArticleTranslationSchema.default({ title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' }),
 		en: ArticleTranslationSchema.default({ title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' }),

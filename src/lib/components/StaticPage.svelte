@@ -70,6 +70,7 @@
 	.page-main {
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 	}
 	.page-body {
 		max-width: 800px;
@@ -118,11 +119,18 @@
 		.page-content {
 			padding-top: 120px !important;
 		}
+
+		.back-nav {
+			text-align: center;
+		}
+
 		.page-body.has-cover {
 			grid-template-columns: 1fr;
 		}
+
 		.page-cover {
 			max-width: 240px;
+			margin: 0 auto;
 			position: static;
 		}
 	}

@@ -70,3 +70,14 @@ export function getStaticProjects(
 				: { href: `${base}/projects/${def.slug}` }),
 		}));
 }
+
+/**
+ * Returns static project definitions as slug/title pairs for use in article pickers.
+ */
+export function getStaticProjectEntries(): { slug: string; titleUk: string; titleEn: string }[] {
+	return STATIC_PROJECT_DEFS.map(def => ({
+		slug: def.slug,
+		titleUk: def.titles.uk,
+		titleEn: def.titles.en,
+	}));
+}

@@ -469,7 +469,7 @@
 	   {#if showLinkModal || showImageModal}
 		   <div class="modal-overlay" onclick={closeModal} role="presentation" data-testid="{testId}-modal-overlay-container">
 			   <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation" data-testid="{testId}-modal-container">
-				   <h3 data-testid="{testId}-modal-title-label">{modalType === 'link' ? 'Вставити посилання' : 'Вставити зображення'}</h3>
+				   <h3 data-testid="{testId}-modal-title-label">{modalType === 'link' ? $t('editor.insertLink') : $t('editor.insertImage')}</h3>
 				   
 				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-form-group">
 					   {#if modalType === 'link'}

@@ -9,7 +9,7 @@ describe('NewsItemSchema', () => {
 
 	it('applies default category when omitted', () => {
 		const item = NewsItemSchema.parse({ id: 1, title: 'Test', date: '01-01' });
-		expect(item.category).toBe('Загальне');
+		expect(item.category).toBe('General');
 	});
 
 	it('rejects negative id', () => {

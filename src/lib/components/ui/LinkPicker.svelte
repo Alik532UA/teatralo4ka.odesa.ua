@@ -8,7 +8,7 @@
 		labelUk?: string;
 		labelEn?: string;
 		showLabels?: boolean;
-		articlesList: { slug: string; titleUk: string; titleEn: string }[];
+		articlesList: { slug: string; path: string; titleUk: string; titleEn: string }[];
 		articlesLoading: boolean;
 		knownPages: { value: string; labelUk: string; labelEn: string }[];
 		onLoadArticles: () => void;
@@ -61,9 +61,9 @@
 		onchange(patch);
 	}
 
-	function selectArticle(slug: string) {
-		const article = articlesList.find(a => a.slug === slug);
-		const patch: Parameters<typeof onchange>[0] = { href: slug };
+	function selectArticle(path: string) {
+		const article = articlesList.find(a => a.path === path);
+		const patch: Parameters<typeof onchange>[0] = { href: path };
 		if (showLabels && article) {
 			patch.labelUk = article.titleUk;
 			patch.labelEn = article.titleEn;
@@ -121,7 +121,7 @@
 			>
 				<option value="">{$t('admin.menuEditor.selectArticle')}</option>
 				{#each articlesList as a}
-					<option value={a.slug}>{a.titleUk} ({a.slug})</option>
+					<option value={a.path}>{a.titleUk} ({a.path})</option>
 				{/each}
 			</select>
 		{/if}
