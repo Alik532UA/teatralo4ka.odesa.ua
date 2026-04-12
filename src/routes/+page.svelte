@@ -2,17 +2,16 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Departments from '$lib/components/Departments.svelte';
 	import News from '$lib/components/News.svelte';
+	import Projects from '$lib/components/Projects.svelte';
 	import Wave from '$lib/components/Wave.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
 	import { browser } from '$app/environment';
-	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, type BlockConfig, type NewsWidgetConfig } from '$lib/services/settings';
-	import { getArticles, getDisplayDate, type Article } from '$lib/services/articles';
-	import { getContentExcerpt } from '$lib/utils/renderContent';
-	import { getCategoryLabel } from '$lib/config/categories';
-	import type { NewsWidgetItem } from '$lib/components/NewsWidget.svelte';
+	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig } from '$lib/services/settings';
+	import { getArticles, getAllProjects, getDisplayDate, mapArticleToWidgetItem, type Article } from '$lib/services/articles';
+	import { getStaticProjects } from '$lib/config/static-projects';
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────
 	const cachedHome = browser ? getCachedHomeSettings() : null;
@@ -24,17 +23,47 @@
 	}
 
 	function pickNewsWidget(desktop?: NewsWidgetConfig, mobile?: NewsWidgetConfig): NewsWidgetConfig {
-		return (isMobile && mobile) ? mobile : (desktop ?? { ...DEFAULT_NEWS_WIDGET_HOME });
+		if (isMobile) return mobile ?? { ...DEFAULT_NEWS_WIDGET_HOME_MOBILE };
+		return desktop ?? { ...DEFAULT_NEWS_WIDGET_HOME };
+	}
+
+	function pickProjectsWidget(desktop?: ProjectsWidgetConfig, mobile?: ProjectsWidgetConfig): ProjectsWidgetConfig {
+		if (isMobile) return mobile ?? { ...DEFAULT_PROJECTS_WIDGET_HOME_MOBILE };
+		return desktop ?? { ...DEFAULT_PROJECTS_WIDGET_HOME };
 	}
 
 	let blocks = $state<BlockConfig[]>(pickBlocks(cachedHome?.blocks, cachedHome?.mobileBlocks));
 	let blocksReady = $state(!!cachedHome);
 
 	// News data — loaded in parallel, NOT sequentially after blocksReady
-	let newsItems = $state<NewsWidgetItem[]>([]);
+	let rawNewsArticles = $state<Article[]>([]);
 	let newsWidgetConfig = $state<NewsWidgetConfig>(pickNewsWidget(cachedHome?.newsWidget, cachedHome?.mobileNewsWidget));
 	let newsReady = $state(false);
 	let newsError = $state(false);
+
+	// Projects data — loaded in parallel
+	let rawProjectArticles = $state<Article[]>([]);
+	let projectsWidgetConfig = $state<ProjectsWidgetConfig>(pickProjectsWidget(cachedHome?.projectsWidget, cachedHome?.mobileProjectsWidget));
+	let projectsReady = $state(false);
+	let projectsError = $state(false);
+
+	// Reactive locale for widget re-mapping
+	const activeLang = $derived((($locale as string) || 'uk') as 'uk' | 'en');
+
+	// Derived: re-map when locale changes (no re-fetch needed, articles contain both translations)
+	let newsItems = $derived.by(() => {
+		return rawNewsArticles
+			.filter(a => a.translations?.[activeLang]?.isPublished)
+			.map((item, index) => mapArticleToWidgetItem(item, activeLang, index));
+	});
+
+	let projectItems = $derived.by(() => {
+		const firebaseItems = rawProjectArticles
+			.filter(a => a.translations?.[activeLang]?.isPublished)
+			.map((item, index) => mapArticleToWidgetItem(item, activeLang, index));
+		const firebaseSlugs = new Set(firebaseItems.map(p => p.slug).filter(Boolean));
+		return [...firebaseItems, ...getStaticProjects(activeLang, firebaseSlugs)];
+	});
 
 	// Splash screen: the HTML splash in app.html is visible on cold start.
 	// On warm start (cache exists), it was hidden by inline script in app.html.
@@ -44,7 +73,7 @@
 	let departmentsRef: HTMLElement | null = $state(null);
 
 	const NEWS_LIMIT_HOME = 12;
-	const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', '#F7FFF7', '#FF9F1C'];
+	const PROJECTS_LIMIT_HOME = 12;
 
 	function perf(label: string) {
 		if (browser && (window as any).__perf) (window as any).__perf(label);
@@ -62,6 +91,7 @@
 				if (settings) {
 					blocks = pickBlocks(settings.blocks, settings.mobileBlocks);
 					newsWidgetConfig = pickNewsWidget(settings.newsWidget, settings.mobileNewsWidget);
+					projectsWidgetConfig = pickProjectsWidget(settings.projectsWidget, settings.mobileProjectsWidget);
 				}
 			})
 			.catch((e) => { perf('+page.svelte: getHomeSettings ERROR: ' + e?.message); })
@@ -71,34 +101,22 @@
 			.then(articles => {
 				perf('+page.svelte: getArticles resolved (' + articles.length + ' items)');
 				const onlyNews = articles.filter(a => a.type !== 'page' && a.type !== 'page_project');
-				const sorted = [...onlyNews].sort((a, b) => {
+				rawNewsArticles = [...onlyNews].sort((a, b) => {
 					const timeA = getDisplayDate(a)?.toDate?.()?.getTime() ?? 0;
 					const timeB = getDisplayDate(b)?.toDate?.()?.getTime() ?? 0;
 					return timeB - timeA;
 				});
-				newsItems = sorted.map((item, index) => {
-					const tr = item.translations?.[lang] ?? { title: '', content: '' };
-					const timestamp = getDisplayDate(item);
-					const dateStr = timestamp?.toDate
-						? timestamp.toDate().toLocaleDateString(
-								lang === 'uk' ? 'uk-UA' : 'en-US',
-								{ day: 'numeric', month: 'short', year: 'numeric' }
-						  )
-						: '';
-					return {
-						id: item.id ?? '',
-						slug: item.slug,
-						title: (tr as any).title || '',
-						date: dateStr,
-						category: getCategoryLabel(item.category, lang),
-						excerpt: getContentExcerpt((tr as any).content || '', (tr as any).contentFormat, 150),
-						color: colors[index % colors.length],
-						coverUrl: (tr as any).coverUrl || '',
-					};
-				});
 			})
 			.catch((e) => { newsError = true; perf('+page.svelte: getArticles ERROR: ' + e?.message); })
 			.finally(() => { newsReady = true; });
+
+		const projectsPromise = getAllProjects(lang)
+			.then(projects => {
+				perf('+page.svelte: getAllProjects resolved (' + projects.length + ' items)');
+				rawProjectArticles = projects.slice(0, PROJECTS_LIMIT_HOME);
+			})
+			.catch((e) => { projectsError = true; perf('+page.svelte: getAllProjects ERROR: ' + e?.message); })
+			.finally(() => { projectsReady = true; });
 
 		// Race: dismiss splash when Firebase responds OR after 2s timeout.
 		// На десктопі/iPhone Firebase виграє за ~0.5-1s — таймаут не спрацьовує.
@@ -112,7 +130,7 @@
 		});
 
 		Promise.race([
-			Promise.all([settingsPromise, articlesPromise]),
+			Promise.all([settingsPromise, articlesPromise, projectsPromise]),
 			timeoutPromise,
 		]).then(() => {
 			perf('+page.svelte: race settled → dismissSplash');
@@ -218,6 +236,35 @@
 					</div>
 				{/if}
 			</div>
+
+		{:else if block.id === 'projects'}
+			{#if projectsReady}
+				<ErrorBoundary>
+					<Projects items={projectItems} config={projectsWidgetConfig} error={projectsError} />
+				</ErrorBoundary>
+			{:else}
+				<!-- Skeleton: projects section placeholder -->
+				<section class="news-skeleton" aria-hidden="true" data-testid="projects-skeleton">
+					<div class="container">
+						<div class="skeleton-header">
+							<div class="skeleton-line skeleton-line--title"></div>
+							<div class="skeleton-line skeleton-line--subtitle"></div>
+						</div>
+						<div class="skeleton-cards">
+							{#each { length: 3 } as _, i}
+								<div class="skeleton-card" data-testid="projects-skeleton-card-{i}">
+									<div class="skeleton-card__image"></div>
+									<div class="skeleton-card__body">
+										<div class="skeleton-line skeleton-line--md"></div>
+										<div class="skeleton-line skeleton-line--sm"></div>
+										<div class="skeleton-line skeleton-line--lg"></div>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</section>
+			{/if}
 
 		{:else if block.id === 'gallery'}
 			<section class="gallery-bento" id="gallery-bento" aria-labelledby="gallery-title" data-testid="gallery-section">

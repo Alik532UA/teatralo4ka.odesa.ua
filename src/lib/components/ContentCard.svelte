@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
 
-	interface NewsItem {
+	export interface ContentCardItem {
 		id: string;
 		slug?: string;
 		title: string;
@@ -11,87 +10,122 @@
 		excerpt: string;
 		color: string;
 		coverUrl: string;
+		/** For static pages that have a full path already */
+		href?: string;
+		/** Whether the link points to an external site */
+		isExternal?: boolean;
 	}
 
 	interface Props {
-		item: NewsItem;
+		item: ContentCardItem;
 		variant: 'carousel' | 'grid' | 'list';
 		index: number;
 		isActive?: boolean;
+		/** URL segment for card links, e.g. 'news' → /news/{slug} */
+		linkPrefix?: string;
+		/** "Read more" button text */
+		readMoreLabel?: string;
+		/** data-testid prefix for all card elements */
+		testIdPrefix?: string;
 	}
 
-	let { item, variant, index, isActive = false }: Props = $props();
+	let {
+		item, variant, index, isActive = false,
+		linkPrefix = 'news',
+		readMoreLabel = 'Read more',
+		testIdPrefix = 'content',
+	}: Props = $props();
+
+	const link = $derived(item.href ?? `${base}/${linkPrefix}/${item.slug ?? item.id}`);
+	const linkTarget = $derived(item.isExternal ? '_blank' : undefined);
+	const linkRel = $derived(item.isExternal ? 'noopener noreferrer' : undefined);
 </script>
 
 {#if variant === 'carousel'}
-	<article class="focus-card" class:is-active={isActive} data-testid="news-page-card-{index}">
+	<article class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
 		{#if item.coverUrl}
-			<div class="focus-card__img-wrap" data-testid="news-page-card-img-wrap-{index}">
-				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="news-page-card-img-{index}" />
+			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-wrap-{index}">
+				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="{testIdPrefix}-card-img-{index}" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="news-page-card-content-{index}">
-			<div class="focus-card__meta" data-testid="news-page-card-meta-{index}">
-				<span class="tag" data-testid="news-page-card-tag-{index}">{item.category}</span>
-				<time class="date" data-testid="news-page-card-date-{index}">{item.date}</time>
+		<div class="focus-card__content" data-testid="{testIdPrefix}-card-content-{index}">
+			<div class="focus-card__meta" data-testid="{testIdPrefix}-card-meta-{index}">
+				{#if item.category}
+					<span class="tag" data-testid="{testIdPrefix}-card-tag-{index}">{item.category}</span>
+				{/if}
+				{#if item.date}
+					<time class="date" data-testid="{testIdPrefix}-card-date-{index}">{item.date}</time>
+				{/if}
 			</div>
-			<h3 class="focus-card__title" data-testid="news-page-card-title-{index}">{item.title}</h3>
-			<p class="focus-card__excerpt" data-testid="news-page-card-excerpt-{index}">{item.excerpt}</p>
-			<a href="{base}/news/{item.slug ?? item.id}" class="btn-more" data-testid="news-page-readmore-{index}">{$t('news.readMore')}</a>
+			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
+			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more" data-testid="{testIdPrefix}-readmore-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</article>
 
 {:else if variant === 'grid'}
-	<article class="grid-card" data-testid="news-page-grid-card-{index}">
+	<article class="grid-card" data-testid="{testIdPrefix}-grid-card-{index}">
 		{#if item.coverUrl}
-			<div class="grid-card__img-wrap" data-testid="news-page-grid-img-{index}">
+			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-grid-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="news-page-grid-content-{index}">
+		<div class="focus-card__content" data-testid="{testIdPrefix}-grid-content-{index}">
 			<div class="focus-card__meta">
-				<span class="tag">{item.category}</span>
-				<time class="date">{item.date}</time>
+				{#if item.category}
+					<span class="tag">{item.category}</span>
+				{/if}
+				{#if item.date}
+					<time class="date">{item.date}</time>
+				{/if}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href="{base}/news/{item.slug ?? item.id}" class="btn-more">{$t('news.readMore')}</a>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</article>
 
 {:else}
-	<article class="list-item desktop-list" data-testid="news-page-list-item-{index}">
+	<article class="list-item desktop-list" data-testid="{testIdPrefix}-list-item-{index}">
 		{#if item.coverUrl}
-			<div class="list-item__img-wrap" data-testid="news-page-list-img-{index}">
+			<div class="list-item__img-wrap" data-testid="{testIdPrefix}-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
 			</div>
 		{/if}
-		<div class="list-item__body" data-testid="news-page-list-body-{index}">
+		<div class="list-item__body" data-testid="{testIdPrefix}-list-body-{index}">
 			<div class="focus-card__meta">
-				<span class="tag">{item.category}</span>
-				<time class="date">{item.date}</time>
+				{#if item.category}
+					<span class="tag">{item.category}</span>
+				{/if}
+				{#if item.date}
+					<time class="date">{item.date}</time>
+				{/if}
 			</div>
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
 		</div>
-		<a href="{base}/news/{item.slug ?? item.id}" class="btn-more list-item__link" data-testid="news-page-list-link-{index}">{$t('news.readMore')}</a>
+		<a href={link} target={linkTarget} rel={linkRel} class="btn-more list-item__link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 	</article>
 
 	<!-- Mobile version of list that uses grid styles -->
-	<article class="grid-card mobile-list-as-grid" data-testid="news-page-mobile-list-item-{index}">
+	<article class="grid-card mobile-list-as-grid" data-testid="{testIdPrefix}-mobile-list-item-{index}">
 		{#if item.coverUrl}
-			<div class="grid-card__img-wrap" data-testid="news-page-mobile-list-img-{index}">
+			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-mobile-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="news-page-mobile-list-content-{index}">
+		<div class="focus-card__content" data-testid="{testIdPrefix}-mobile-list-content-{index}">
 			<div class="focus-card__meta">
-				<span class="tag">{item.category}</span>
-				<time class="date">{item.date}</time>
+				{#if item.category}
+					<span class="tag">{item.category}</span>
+				{/if}
+				{#if item.date}
+					<time class="date">{item.date}</time>
+				{/if}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href="{base}/news/{item.slug ?? item.id}" class="btn-more">{$t('news.readMore')}</a>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</article>
 {/if}

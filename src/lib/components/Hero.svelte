@@ -25,18 +25,23 @@
 	function handleEmailClick(e?: MouseEvent) {
 		if (e) e.preventDefault();
 		const email = $t("footer.email");
-		navigator.clipboard.writeText(email).then(() => {
-			toast.success(
-				$t("footer.emailCopied"),
-				6000,
-				{
-					label: $t("footer.openMailClient"),
-					onAction: () => {
-						window.location.href = `mailto:${email}`;
+		navigator.clipboard.writeText(email).then(
+			() => {
+				toast.success(
+					$t("footer.emailCopied"),
+					6000,
+					{
+						label: $t("footer.openMailClient"),
+						onAction: () => {
+							window.location.href = `mailto:${email}`;
+						}
 					}
-				}
-			);
-		});
+				);
+			},
+			() => {
+				window.location.href = `mailto:${email}`;
+			}
+		);
 	}
 </script>
 

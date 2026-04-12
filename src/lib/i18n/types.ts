@@ -3,7 +3,7 @@ export interface PageMetadata {
   date: string;
   lastModified?: string;
   author?: string;
-  category: 'about' | 'history' | 'admission' | 'news' | 'contacts';
+  category: 'about' | 'history' | 'admission' | 'news' | 'contacts' | 'departments' | 'residents' | 'projects' | 'general';
   lang: 'uk' | 'en';
   seo: {
     title: string;
@@ -13,6 +13,8 @@ export interface PageMetadata {
   };
   status: 'published' | 'draft' | 'archived';
   version: string;
+  excerpt?: string;
+  coverUrl?: string;
   readingTime?: number;
   toc?: boolean;
 }

@@ -7,9 +7,14 @@ import {
   getHomeSettings, updateHomeSettings, DEFAULT_BLOCKS, type BlockConfig,
   getHeaderSettings, updateHeaderSettings, DEFAULT_HEADER_SETTINGS,
   getNewsPageSettings, updateNewsPageSettings,
-  DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_PAGE,
+  getProjectsPageSettings, updateProjectsPageSettings,
+  DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE,
+  DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE,
+  DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE,
+  DEFAULT_PROJECTS_WIDGET_PAGE, DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE,
   type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig, type MenuLinkType,
   type NewsWidgetConfig, type NewsViewMode,
+  type ProjectsWidgetConfig, type ProjectsViewMode,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
@@ -24,20 +29,25 @@ import { ArrowUp, ArrowDown } from 'lucide-svelte';
 import { browser } from "$app/environment";
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
-type TabId = 'home' | 'news' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
+type TabId = 'home' | 'news' | 'projects' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
 let activeTab = $state<TabId>('home');
 
 type SubTabId = 'desktop' | 'mobile';
 type NewsSectionTabId = 'homeWidget' | 'pageWidget';
+type ProjectsSectionTabId = 'homeWidget' | 'pageWidget';
 
 let activeSubTab = $state<SubTabId>('desktop');
 let newsSectionTab = $state<NewsSectionTabId>('homeWidget');
 let newsHomeSubTab = $state<SubTabId>('desktop');
 let newsPageSubTab = $state<SubTabId>('desktop');
+let projectsSectionTab = $state<ProjectsSectionTabId>('homeWidget');
+let projectsHomeSubTab = $state<SubTabId>('desktop');
+let projectsPageSubTab = $state<SubTabId>('desktop');
 
 const TABS: { id: TabId; labelKey: string }[] = [
   { id: 'home',      labelKey: 'admin.settings.tabHome' },
   { id: 'news',      labelKey: 'admin.settings.tabNews' },
+  { id: 'projects',  labelKey: 'admin.settings.tabProjects' },
   { id: 'cta',       labelKey: 'admin.settings.tabCta' },
   { id: 'headerBar', labelKey: 'admin.settings.tabHeaderBar' },
   { id: 'navMenu',   labelKey: 'admin.settings.tabNavMenu' },
@@ -115,18 +125,33 @@ let headerSaving = $state(false);
 
 // ── News widget settings (desktop + mobile) ──────────────────────────────────
 let homeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME });
-let mobileHomeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME });
+let mobileHomeNewsWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_HOME_MOBILE });
 let newsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
-let mobileNewsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
+let mobileNewsPageWidget = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE_MOBILE });
 let originalHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME));
-let originalMobileHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME));
+let originalMobileHomeNewsWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_HOME_MOBILE));
 let originalNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE));
-let originalMobileNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE));
+let originalMobileNewsPageWidget = $state(JSON.stringify(DEFAULT_NEWS_WIDGET_PAGE_MOBILE));
 const hasHomeNewsChanges = $derived(JSON.stringify(homeNewsWidget) !== originalHomeNewsWidget);
 const hasMobileHomeNewsChanges = $derived(JSON.stringify(mobileHomeNewsWidget) !== originalMobileHomeNewsWidget);
 const hasNewsPageChanges = $derived(JSON.stringify(newsPageWidget) !== originalNewsPageWidget);
 const hasMobileNewsPageChanges = $derived(JSON.stringify(mobileNewsPageWidget) !== originalMobileNewsPageWidget);
 let newsPageSaving = $state(false);
+
+// ── Projects widget settings (desktop + mobile) ──────────────────────────────
+let homeProjectsWidget = $state<ProjectsWidgetConfig>({ ...DEFAULT_PROJECTS_WIDGET_HOME });
+let mobileHomeProjectsWidget = $state<ProjectsWidgetConfig>({ ...DEFAULT_PROJECTS_WIDGET_HOME_MOBILE });
+let projectsPageWidget = $state<ProjectsWidgetConfig>({ ...DEFAULT_PROJECTS_WIDGET_PAGE });
+let mobileProjectsPageWidget = $state<ProjectsWidgetConfig>({ ...DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE });
+let originalHomeProjectsWidget = $state(JSON.stringify(DEFAULT_PROJECTS_WIDGET_HOME));
+let originalMobileHomeProjectsWidget = $state(JSON.stringify(DEFAULT_PROJECTS_WIDGET_HOME_MOBILE));
+let originalProjectsPageWidget = $state(JSON.stringify(DEFAULT_PROJECTS_WIDGET_PAGE));
+let originalMobileProjectsPageWidget = $state(JSON.stringify(DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE));
+const hasHomeProjectsChanges = $derived(JSON.stringify(homeProjectsWidget) !== originalHomeProjectsWidget);
+const hasMobileHomeProjectsChanges = $derived(JSON.stringify(mobileHomeProjectsWidget) !== originalMobileHomeProjectsWidget);
+const hasProjectsPageChanges = $derived(JSON.stringify(projectsPageWidget) !== originalProjectsPageWidget);
+const hasMobileProjectsPageChanges = $derived(JSON.stringify(mobileProjectsPageWidget) !== originalMobileProjectsPageWidget);
+let projectsPageSaving = $state(false);
 
 let lastTickerStr = "";
 $effect(() => {
@@ -186,10 +211,11 @@ $effect(() => {
         (async () => {
         try {
           await authService.user?.getIdToken(true);
-          const [homeResult, headerResult, newsResult] = await Promise.all([
+          const [homeResult, headerResult, newsResult, projectsResult] = await Promise.all([
             getHomeSettings(),
             getHeaderSettings(),
             getNewsPageSettings(),
+            getProjectsPageSettings(),
           ]);
 
           // ── Home settings ──
@@ -197,16 +223,26 @@ $effect(() => {
           if (homeResult?.mobileBlocks?.length) mobileBlocks = homeResult.mobileBlocks;
           if (homeResult?.newsWidget) homeNewsWidget = homeResult.newsWidget;
           if (homeResult?.mobileNewsWidget) mobileHomeNewsWidget = homeResult.mobileNewsWidget;
+          if (homeResult?.projectsWidget) homeProjectsWidget = homeResult.projectsWidget;
+          if (homeResult?.mobileProjectsWidget) mobileHomeProjectsWidget = homeResult.mobileProjectsWidget;
           originalBlocks = JSON.stringify(blocks);
           originalMobileBlocks = JSON.stringify(mobileBlocks);
           originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
           originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
+          originalHomeProjectsWidget = JSON.stringify(homeProjectsWidget);
+          originalMobileHomeProjectsWidget = JSON.stringify(mobileHomeProjectsWidget);
 
           // ── News page settings ──
           if (newsResult?.newsWidget) newsPageWidget = newsResult.newsWidget;
           if (newsResult?.mobileNewsWidget) mobileNewsPageWidget = newsResult.mobileNewsWidget;
           originalNewsPageWidget = JSON.stringify(newsPageWidget);
           originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
+
+          // ── Projects page settings ──
+          if (projectsResult?.projectsWidget) projectsPageWidget = projectsResult.projectsWidget;
+          if (projectsResult?.mobileProjectsWidget) mobileProjectsPageWidget = projectsResult.mobileProjectsWidget;
+          originalProjectsPageWidget = JSON.stringify(projectsPageWidget);
+          originalMobileProjectsPageWidget = JSON.stringify(mobileProjectsPageWidget);
 
           // ── Header settings ──
           if (headerResult) {
@@ -282,11 +318,15 @@ async function handleSubmit() {
       mobileBlocks,
       newsWidget: homeNewsWidget,
       mobileNewsWidget: mobileHomeNewsWidget,
+      projectsWidget: homeProjectsWidget,
+      mobileProjectsWidget: mobileHomeProjectsWidget,
     });
     originalBlocks = JSON.stringify(blocks);
     originalMobileBlocks = JSON.stringify(mobileBlocks);
     originalHomeNewsWidget = JSON.stringify(homeNewsWidget);
     originalMobileHomeNewsWidget = JSON.stringify(mobileHomeNewsWidget);
+    originalHomeProjectsWidget = JSON.stringify(homeProjectsWidget);
+    originalMobileHomeProjectsWidget = JSON.stringify(mobileHomeProjectsWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: any) {
     console.error(e);
@@ -332,6 +372,24 @@ async function handleNewsPageSubmit() {
     newsPageSaving = false;
   }
 }
+
+async function handleProjectsPageSubmit() {
+  projectsPageSaving = true;
+  try {
+    await updateProjectsPageSettings({
+      projectsWidget: projectsPageWidget,
+      mobileProjectsWidget: mobileProjectsPageWidget,
+    });
+    originalProjectsPageWidget = JSON.stringify(projectsPageWidget);
+    originalMobileProjectsPageWidget = JSON.stringify(mobileProjectsPageWidget);
+    toast.success($t('admin.dashboard.saveSuccess'));
+  } catch (e: any) {
+    console.error(e);
+    toast.error(e.message || $t('admin.editor.errorSave'));
+  } finally {
+    projectsPageSaving = false;
+  }
+}
 </script>
 
 <!-- ── Snippets ─────────────────────────────────────────────────────────────── -->
@@ -354,6 +412,17 @@ async function handleNewsPageSubmit() {
   </button>
   <button type="button" class="subtab-btn" class:active={current === 'pageWidget'} onclick={() => onChange('pageWidget')}>
     {$t('admin.settings.newsPageSubSection')}
+  </button>
+</nav>
+{/snippet}
+
+{#snippet projectsSectionTabBar(current: ProjectsSectionTabId, onChange: (v: ProjectsSectionTabId) => void)}
+<nav class="subtab-bar" style="margin-bottom: 2rem;">
+  <button type="button" class="subtab-btn" class:active={current === 'homeWidget'} onclick={() => onChange('homeWidget')}>
+    {$t('admin.settings.projectsHomepageSubSection')}
+  </button>
+  <button type="button" class="subtab-btn" class:active={current === 'pageWidget'} onclick={() => onChange('pageWidget')}>
+    {$t('admin.settings.projectsPageSubSection')}
   </button>
 </nav>
 {/snippet}
@@ -438,6 +507,27 @@ async function handleNewsPageSubmit() {
 <span class="switch-slider"></span>
 </label>
 </li>
+
+<!-- Autoplay interval (carousel only) -->
+{#if cfg.autoplay}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.newsAutoplayInterval')}</span>
+<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
+  <input
+    type="number"
+    class="form-select"
+    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    min="1"
+    max="60"
+    value={cfg.autoplayInterval || 7}
+    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 7)) })}
+  />
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
+  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+</div>
+</li>
+{/if}
 
 <!-- Pinned article (carousel only) -->
 <li class="block-item">
@@ -538,6 +628,167 @@ async function handleNewsPageSubmit() {
 </div>
 {/snippet}
 
+{#snippet projectsWidgetCard(titleKey: string, descKey: string, cfg: ProjectsWidgetConfig, onChange: (v: ProjectsWidgetConfig) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
+<div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-projects-widget-card">
+<h2 class="settings-card__title">{$t(titleKey)}</h2>
+<p class="settings-card__desc">{$t(descKey)}</p>
+
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+<!-- Default view -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsDefaultView')}</span>
+<div class="mode-toggle-group">
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'carousel'} onclick={() => onChange({ ...cfg, defaultView: 'carousel' })}>
+    {$t('admin.settings.projectsViewCarousel')}
+  </button>
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'grid'} onclick={() => onChange({ ...cfg, defaultView: 'grid' })}>
+    {$t('admin.settings.projectsViewGrid')}
+  </button>
+  <button type="button" class="mode-btn" class:active={cfg.defaultView === 'list'} onclick={() => onChange({ ...cfg, defaultView: 'list' })}>
+    {$t('admin.settings.projectsViewList')}
+  </button>
+</div>
+</li>
+
+<!-- Show view switcher -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsShowViewSwitcher')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.showViewSwitcher} onchange={() => onChange({ ...cfg, showViewSwitcher: !cfg.showViewSwitcher })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Autoplay (carousel only) -->
+{#if cfg.defaultView === 'carousel'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsAutoplay')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={cfg.autoplay} onchange={() => onChange({ ...cfg, autoplay: !cfg.autoplay })} />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<!-- Autoplay interval (carousel only) -->
+{#if cfg.autoplay}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsAutoplayInterval')}</span>
+<div style="display: flex; align-items: center; gap: 0.35rem; margin-left: auto;">
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.max(1, (cfg.autoplayInterval || 7) - 1) })} disabled={(cfg.autoplayInterval || 7) <= 1} title={$t('common.decrease')}>−</button>
+  <input
+    type="number"
+    class="form-select"
+    style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+    min="1"
+    max="60"
+    value={cfg.autoplayInterval || 7}
+    onchange={(e: any) => onChange({ ...cfg, autoplayInterval: Math.max(1, Math.min(60, parseInt(e.target.value) || 7)) })}
+  />
+  <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, autoplayInterval: Math.min(60, (cfg.autoplayInterval || 7) + 1) })} disabled={(cfg.autoplayInterval || 7) >= 60} title={$t('common.increase')}>+</button>
+  <span style="font-size: 0.82rem; color: var(--color-muted-text); margin-left: 0.25rem;">{$t('admin.settings.autoplayIntervalUnit')}</span>
+</div>
+</li>
+{/if}
+
+<!-- Pinned project (carousel only) -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsPinnedProject')}</span>
+<div style="margin-left: auto; min-width: 200px;">
+  {#if articlesList.length === 0 && !articlesLoading}
+    <button type="button" class="mode-btn" style="font-size: 0.82rem;" onclick={loadArticles}>
+      {$t('admin.menuEditor.loadingArticles')}
+    </button>
+  {:else}
+    <select class="form-select news-widget-select" value={cfg.pinnedProjectId} onchange={(e: any) => onChange({ ...cfg, pinnedProjectId: e.target.value })}>
+      <option value="">{$t('admin.settings.projectsPinnedNone')}</option>
+      {#each articlesList as art}
+        <option value={art.slug}>{art.titleUk}</option>
+      {/each}
+    </select>
+  {/if}
+</div>
+</li>
+{/if}
+
+<!-- Max items (grid view) -->
+{#if cfg.defaultView !== 'carousel'}
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsMaxItemsGrid')}</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+  <label class="switch-label">
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsGrid > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: e.target.checked ? 6 : 0 })} />
+    <span class="switch-slider"></span>
+  </label>
+  {#if cfg.maxItemsGrid > 0}
+  <div style="display: flex; align-items: center; gap: 0.35rem;">
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.max(1, cfg.maxItemsGrid - 1) })} disabled={cfg.maxItemsGrid <= 1} title={$t('common.decrease')}>−</button>
+    <input
+      type="number"
+      class="form-select"
+      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      min="1"
+      max="100"
+      value={cfg.maxItemsGrid}
+      onchange={(e: any) => onChange({ ...cfg, maxItemsGrid: Math.max(1, parseInt(e.target.value) || 1) })}
+    />
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsGrid: Math.min(100, cfg.maxItemsGrid + 1) })} disabled={cfg.maxItemsGrid >= 100} title={$t('common.increase')}>+</button>
+  </div>
+  {:else}
+  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+    {$t('admin.settings.projectsMaxItemsUnlimited')}
+  </span>
+  {/if}
+</div>
+</li>
+
+<!-- Max items (list view) -->
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.projectsMaxItemsList')}</span>
+<div style="margin-left: auto; display: flex; align-items: center; gap: 0.75rem;">
+  <label class="switch-label">
+    <input type="checkbox" class="switch-input" checked={cfg.maxItemsList > 0} onchange={(e: any) => onChange({ ...cfg, maxItemsList: e.target.checked ? 6 : 0 })} />
+    <span class="switch-slider"></span>
+  </label>
+  {#if cfg.maxItemsList > 0}
+  <div style="display: flex; align-items: center; gap: 0.35rem;">
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.max(1, cfg.maxItemsList - 1) })} disabled={cfg.maxItemsList <= 1} title={$t('common.decrease')}>−</button>
+    <input
+      type="number"
+      class="form-select"
+      style="width: 80px; text-align: center; padding: 0.35rem; height: 32px; min-height: 32px; border-radius: 8px; appearance: textfield; -moz-appearance: textfield;"
+      min="1"
+      max="100"
+      value={cfg.maxItemsList}
+      onchange={(e: any) => onChange({ ...cfg, maxItemsList: Math.max(1, parseInt(e.target.value) || 1) })}
+    />
+    <button type="button" class="number-btn" style="background: var(--color-surface); border: 2px solid rgba(0, 95, 174, 0.1); color: var(--color-text-primary);" onclick={() => onChange({ ...cfg, maxItemsList: Math.min(100, cfg.maxItemsList + 1) })} disabled={cfg.maxItemsList >= 100} title={$t('common.increase')}>+</button>
+  </div>
+  {:else}
+  <span style="font-size: 0.82rem; color: var(--color-muted-text);">
+    {$t('admin.settings.projectsMaxItemsUnlimited')}
+  </span>
+  {/if}
+</div>
+</li>
+{/if}
+</ul>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={onReset} disabled={isSaving}>
+    {$t('admin.menuEditor.resetDefaults')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
+  {/if}
+  <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-projects-submit-btn">
+    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+{/snippet}
+
 <!-- ── Page template ────────────────────────────────────────────────────────── -->
 
 <section class="admin-settings container" style="padding: 140px 24px 80px;" data-testid="admin-settings-section">
@@ -620,7 +871,7 @@ async function handleNewsPageSubmit() {
       'admin.settings.newsHomepageDesc',
       mobileHomeNewsWidget,
       (v) => { mobileHomeNewsWidget = v; },
-      () => { mobileHomeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME }; },
+      () => { mobileHomeNewsWidget = { ...DEFAULT_NEWS_WIDGET_HOME_MOBILE }; },
       hasMobileHomeNewsChanges,
       saving,
       handleSubmit
@@ -650,6 +901,65 @@ async function handleNewsPageSubmit() {
       hasMobileNewsPageChanges,
       newsPageSaving,
       handleNewsPageSubmit
+    )}
+  {/if}
+{/if}
+
+<!-- ══ Tab: Projects (homepage + projects page widgets) ═══════════════════ -->
+{:else if activeTab === 'projects'}
+
+{@render projectsSectionTabBar(projectsSectionTab, (v) => projectsSectionTab = v)}
+
+{#if projectsSectionTab === 'homeWidget'}
+  {@render subtabBar(projectsHomeSubTab, (v) => projectsHomeSubTab = v)}
+
+  {#if projectsHomeSubTab === 'desktop'}
+    {@render projectsWidgetCard(
+      'admin.settings.projectsHomepageTitle',
+      'admin.settings.projectsHomepageDesc',
+      homeProjectsWidget,
+      (v) => { homeProjectsWidget = v; },
+      () => { homeProjectsWidget = { ...DEFAULT_PROJECTS_WIDGET_HOME }; },
+      hasHomeProjectsChanges,
+      saving,
+      handleSubmit
+    )}
+  {:else}
+    {@render projectsWidgetCard(
+      'admin.settings.projectsHomepageTitle',
+      'admin.settings.projectsHomepageDesc',
+      mobileHomeProjectsWidget,
+      (v) => { mobileHomeProjectsWidget = v; },
+      () => { mobileHomeProjectsWidget = { ...DEFAULT_PROJECTS_WIDGET_HOME_MOBILE }; },
+      hasMobileHomeProjectsChanges,
+      saving,
+      handleSubmit
+    )}
+  {/if}
+{:else}
+  {@render subtabBar(projectsPageSubTab, (v) => projectsPageSubTab = v)}
+
+  {#if projectsPageSubTab === 'desktop'}
+    {@render projectsWidgetCard(
+      'admin.settings.projectsPageTitle',
+      'admin.settings.projectsPageDesc',
+      projectsPageWidget,
+      (v) => { projectsPageWidget = v; },
+      () => { projectsPageWidget = { ...DEFAULT_PROJECTS_WIDGET_PAGE }; },
+      hasProjectsPageChanges,
+      projectsPageSaving,
+      handleProjectsPageSubmit
+    )}
+  {:else}
+    {@render projectsWidgetCard(
+      'admin.settings.projectsPageTitle',
+      'admin.settings.projectsPageDesc',
+      mobileProjectsPageWidget,
+      (v) => { mobileProjectsPageWidget = v; },
+      () => { mobileProjectsPageWidget = { ...DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE }; },
+      hasMobileProjectsPageChanges,
+      projectsPageSaving,
+      handleProjectsPageSubmit
     )}
   {/if}
 {/if}

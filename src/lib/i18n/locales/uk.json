@@ -420,6 +420,9 @@
       "slugLabel": "URL-шлях",
       "slugHint": "Лише малі латинські літери, цифри та підкреслення. Автозаповнюється з EN заголовку (ТІЛЬКИ, якщо поле порожнє). Залиште порожнім — URL буде датою.",
       "slugForbidden": "Деякі символи не дозволені в URL — їх було відкинуто",
+      "sortOrderSection": "Порядок відображення",
+      "sortOrderLabel": "Позиція у списку",
+      "sortOrderHint": "Менше число = вище у списку. Порожнє поле — проєкт буде в кінці.",
       "validationDateRange": "Дата публікації має бути між 01.01.1990 і {maxDate}",
       "validationCategoryLength": "Категорія перевищує {max} символів (зараз: {current})",
       "validationTitleLength": "Заголовок ({lang}) перевищує {max} символів",
@@ -432,7 +435,15 @@
       "slugUsed": "Slug \"{slug}\" вже використовується. Будь ласка, оберіть інший URL.",
       "publishDenied": "Недостатньо прав для публікації. Перевірте чи всі обов'язкові поля заповнені.",
       "updateDenied": "Недостатньо прав для оновлення. Перевірте чи не перевищує контент 50 000 символів або чи не минуло менше 1 секунди з останнього редагування.",
-      "defaultAuthor": "Адміністрація"
+      "defaultAuthor": "Адміністрація",
+      "excerptLabel": "Короткий опис для прев'ю",
+      "excerptPlaceholder": "Короткий текст для картки (до 300 символів)...",
+      "excerptHint": "Відображається на картках (карусель / сітка / список). Якщо порожній, використовуватиметься початок основного тексту.",
+      "externalUrl": "Зовнішнє посилання",
+      "externalUrlShared": "Спільне посилання",
+      "externalUrlDifferent": "Різні посилання",
+      "externalUrlHint": "Замість внутрішнього контенту кнопка \"Детальніше\" відкриє це посилання у новій вкладці.",
+      "externalUrlPreview": "Зовнішнє посилання"
     },
     "accessDenied": {
       "title": "Доступ обмежено",
@@ -448,6 +459,7 @@
         "hero": "Заголовок",
         "news": "Новини",
         "departments": "Відділи",
+        "projects": "Проєкти",
         "gallery": "Галерея",
         "visible": "Видимо",
         "hidden": "Сприховано"
@@ -497,6 +509,7 @@
       "tickerGrayscaleStrength": "Сила ефекту (насиченість)",
       "tabHome": "Головна",
       "tabNews": "Новини",
+      "tabProjects": "Проєкти",
       "tabCta": "CTA",
       "tabHeaderBar": "Хедер",
       "tabNavMenu": "Навігація/Меню",
@@ -516,12 +529,32 @@
       "newsViewList": "Список",
       "newsShowViewSwitcher": "Дозволити зміну вигляду",
       "newsAutoplay": "Автогортання (тільки карусель)",
+      "newsAutoplayInterval": "Як часто міняти новину (тільки карусель)",
       "newsPinnedArticle": "Закріплена новина (тільки карусель)",
       "newsPinnedNone": "— Немає —",
       "newsMaxItemsGrid": "Макс. кількість новин (сітка)",
       "newsMaxItemsList": "Макс. кількість новин (список)",
       "newsMaxItemsUnlimited": "Без обмежень",
-      "newsShowAll": "Показати всі"
+      "newsShowAll": "Показати всі",
+      "projectsHomepageSubSection": "Головна сторінка",
+      "projectsPageSubSection": "Сторінка проєктів",
+      "projectsHomepageTitle": "Віджет проєктів (Головна)",
+      "projectsHomepageDesc": "Налаштування відображення проєктів на головній сторінці.",
+      "projectsPageTitle": "Віджет проєктів (Сторінка проєктів)",
+      "projectsPageDesc": "Налаштування відображення проєктів на сторінці /projects.",
+      "projectsDefaultView": "Вигляд за замовчуванням",
+      "projectsViewCarousel": "Карусель",
+      "projectsViewGrid": "Сітка",
+      "projectsViewList": "Список",
+      "projectsShowViewSwitcher": "Дозволити зміну вигляду",
+      "projectsAutoplay": "Автогортання (тільки карусель)",
+      "projectsAutoplayInterval": "Як часто міняти проєкт (тільки карусель)",
+      "projectsPinnedProject": "Закріплений проєкт (тільки карусель)",
+      "projectsPinnedNone": "— Немає —",
+      "projectsMaxItemsGrid": "Макс. кількість проєктів (сітка)",
+      "projectsMaxItemsList": "Макс. кількість проєктів (список)",
+      "projectsMaxItemsUnlimited": "Без обмежень",
+      "autoplayIntervalUnit": "сек."
     },
     "menuEditor": {
       "itemsLabel": "Пункти",
@@ -580,8 +613,8 @@
     "loadingArticle": "Завантаження статті...",
     "notFound": "Статтю не знайдено",
     "errorLoading": "Помилка завантаження",
-    "backToHome": "Повернутись на головну",
-    "backToNews": "← Назад до новин",
+    "backToHome": "← На головну",
+    "backToNews": "← Усі новини",
     "newsTag": "Новина",
     "announcementTag": "Оголошення",
     "viewCarousel": "Карусель",
@@ -596,6 +629,18 @@
     "subtitle": "Фестивалі, конкурси та творчі ініціативи",
     "noProjects": "Проєктів поки немає.",
     "readMore": "Детальніше"
+  },
+  "projects": {
+    "title": "Проєкти",
+    "subtitle": "Фестивалі, конкурси та творчі ініціативи",
+    "allProjects": "Усі проєкти",
+    "viewCarousel": "Карусель",
+    "viewGrid": "Сітка",
+    "viewList": "Список",
+    "backToProjects": "← Усі проєкти",
+    "notFound": "Проєкт не знайдено",
+    "errorLoading": "Помилка завантаження проєкту",
+    "loadingProject": "Завантаження проєкту..."
   },
   "seo": {
     "brandTitle": "Одеська театральна школа",
@@ -677,20 +722,6 @@
       }
     },
     "projects": "Проєкти",
-    "projItems": {
-      "teatrPro": {
-        "title": "ТеатрPRO",
-        "desc": "Практичний проєкт для сценічної практики та командної роботи"
-      },
-      "dtshProduction": {
-        "title": "ДТШ-production",
-        "desc": "Наш власний медіа-центр: відеопроєкти, короткометражки та творчі колаборації"
-      },
-      "photoArchive": {
-        "title": "Фотоархів",
-        "desc": "Історія школи у світлинах: від перших вистав до сучасних подій"
-      }
-    },
     "learnMore": "дізнатися більше"
   },
   "error": {

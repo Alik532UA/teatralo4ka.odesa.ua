@@ -1,72 +1,63 @@
 <script lang="ts">
 	import Wave from "$lib/components/Wave.svelte";
 	import BirdIcon from "$lib/components/icons/BirdIcon.svelte";
-	import NewsWidget from "$lib/components/NewsWidget.svelte";
-	import type { NewsWidgetItem } from "$lib/components/NewsWidget.svelte";
+	import ContentWidget from "$lib/components/ContentWidget.svelte";
+	import type { ContentWidgetConfig } from "$lib/components/ContentWidget.svelte";
 	import { page } from "$app/state";
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";
 	import { base } from "$app/paths";
-	import { getArticles, getDisplayDate } from "$lib/services/articles";
-	import { getContentExcerpt } from "$lib/utils/renderContent";
-	import { getCategoryLabel } from "$lib/config/categories";
+	import { getArticles, getDisplayDate, mapArticleToWidgetItem, type Article } from "$lib/services/articles";
 	import { locale, t } from "svelte-i18n";
-	import { getNewsPageSettings, DEFAULT_NEWS_WIDGET_PAGE, type NewsWidgetConfig } from "$lib/services/settings";
+	import { getNewsPageSettings, getCachedNewsPageSettings, newsToContentConfig, DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE, type NewsWidgetConfig } from "$lib/services/settings";
 
-	let newsItems = $state<NewsWidgetItem[]>([]);
-	let widgetConfig = $state<NewsWidgetConfig>({ ...DEFAULT_NEWS_WIDGET_PAGE });
-	let loading = $state(true);
+	// ── SWR: instant from cache, then revalidate ──────────────────────────────────────────
+	const cachedNews = browser ? getCachedNewsPageSettings() : null;
 	const isMobile = browser ? window.matchMedia('(max-width: 1024px)').matches : false;
 
-	const colors = ["#FF6B6B", "#4ECDC4", "#FFE66D", "#1A535C", "#F7FFF7", "#FF9F1C"];
+	function pickConfig(desktop?: NewsWidgetConfig, mobile?: NewsWidgetConfig): NewsWidgetConfig {
+		if (isMobile) return mobile ?? { ...DEFAULT_NEWS_WIDGET_PAGE_MOBILE };
+		return desktop ?? { ...DEFAULT_NEWS_WIDGET_PAGE };
+	}
+
+	let rawNewsArticles = $state<Article[]>([]);
+	let widgetConfig = $state<NewsWidgetConfig>(pickConfig(cachedNews?.newsWidget, cachedNews?.mobileNewsWidget));
+	let loading = $state(true);
+
+	const contentConfig = $derived<ContentWidgetConfig>(newsToContentConfig(widgetConfig));
+
+	// Reactive locale for widget re-mapping
+	const activeLang = $derived((($locale as string) || 'uk') as 'uk' | 'en');
+
+	let newsItems = $derived.by(() => {
+		return rawNewsArticles
+			.filter(a => a.translations?.[activeLang]?.isPublished)
+			.map((item, index) => mapArticleToWidgetItem(item, activeLang, index));
+	});
 
 	onMount(async () => {
 		try {
 			const lang = ($locale as "uk" | "en") || "uk";
-			const [allArticles, newsSettings] = await Promise.all([
+			const [articlesResult, settingsResult] = await Promise.allSettled([
 				getArticles(lang, true),
 				getNewsPageSettings(),
 			]);
 
-			if (newsSettings) {
-				const desktop = newsSettings.newsWidget;
-				const mobile = newsSettings.mobileNewsWidget;
-				widgetConfig = (isMobile && mobile) ? mobile : desktop;
+			if (settingsResult.status === 'fulfilled' && settingsResult.value) {
+				widgetConfig = pickConfig(settingsResult.value.newsWidget, settingsResult.value.mobileNewsWidget);
+			} else if (settingsResult.status === 'rejected') {
+				console.error('Failed to load news settings:', settingsResult.reason);
 			}
 
-			if (allArticles.length > 0) {
-				// Фільтруємо тільки статті (не сторінки та не проєкти)
+			if (articlesResult.status === 'fulfilled' && articlesResult.value.length > 0) {
+				const allArticles = articlesResult.value;
 				const onlyNews = allArticles.filter(article => article.type !== 'page' && article.type !== 'page_project');
-				
-				// Сортуємо по дате відображення (customDate > updatedAt > createdAt) від нових до старих
-				const sortedArticles = [...onlyNews].sort((a, b) => {
+				rawNewsArticles = [...onlyNews].sort((a, b) => {
 					const dateA = getDisplayDate(a);
 					const dateB = getDisplayDate(b);
 					const timeA = dateA?.toDate ? dateA.toDate().getTime() : 0;
 					const timeB = dateB?.toDate ? dateB.toDate().getTime() : 0;
-					return timeB - timeA; // Від більших до менших (нові першими)
-				});
-
-				newsItems = sortedArticles.map((item, index) => {
-					let dateStr = "";
-					const timestamp = getDisplayDate(item);
-					if (timestamp?.toDate) {
-						dateStr = timestamp.toDate().toLocaleDateString(lang === 'uk' ? 'uk-UA' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-					}
-					const translation = item.translations?.[lang as 'uk' | 'en'] || { title: '', content: '' };
-					const excerpt = getContentExcerpt((translation as any).content || '', (translation as any).contentFormat, 150);
-					const categoryName = getCategoryLabel(item.category, ($locale === 'en' ? 'en' : 'uk'));
-
-					return {
-						id: item.id ?? '',
-						slug: item.slug,
-						title: (translation as any).title || '',
-						date: dateStr,
-						category: categoryName,
-						excerpt,
-						color: colors[index % colors.length],
-						coverUrl: (translation as any).coverUrl || ''
-					};
+					return timeB - timeA;
 				});
 			}
 		} catch (e) {
@@ -87,10 +78,14 @@
 		{#if loading}
 			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold;" data-testid="news-page-loading-label">{$t('news.loading')}</p>
 		{:else if newsItems.length > 0}
-			<NewsWidget 
-				items={newsItems} 
-				config={widgetConfig} 
-				storageKey="news-view" 
+			<ContentWidget
+				items={newsItems}
+				config={contentConfig}
+				linkPrefix="news"
+				readMoreLabel={$t('news.readMore')}
+				testIdPrefix="news-widget"
+				cardTestIdPrefix="news-page"
+				storageKey="news-view"
 				title={$t('news.title')}
 				subtitle={$t('news.subtitle')}
 			/>

@@ -22,10 +22,12 @@
 		slug: string;
 		dateMode: DateMode;
 		customDateStr: string;
+		sortOrder?: number;
 		differentCovers: boolean;
+		differentExternalUrls: boolean;
 		translations: {
-			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html' };
-			en: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html' };
+			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
+			en: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
 		};
 	} | null>(null);
 
@@ -55,8 +57,8 @@
 		if (article) {
 			contentType = article.type || 'article';
 			const translations = {
-				uk: { coverUrl: '', contentFormat: 'markdown' as const, ...article.translations?.uk } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html' },
-				en: { coverUrl: '', contentFormat: 'markdown' as const, ...article.translations?.en } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html' }
+				uk: { coverUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.uk } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string },
+				en: { coverUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.en } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string }
 			};
 			articleData = {
 				category: article.category,
@@ -65,7 +67,9 @@
 				customDateStr: (article as any).customDate?.toDate
 					? (article as any).customDate.toDate().toISOString().split('T')[0]
 					: new Date().toISOString().split('T')[0],
+				sortOrder: (article as any).sortOrder,
 				differentCovers: translations.uk.coverUrl !== translations.en.coverUrl,
+				differentExternalUrls: translations.uk.externalUrl !== translations.en.externalUrl,
 				translations,
 			};
 			if ((article as any).createdAt?.toDate) createdAtDate = (article as any).createdAt.toDate();
@@ -116,7 +120,9 @@
 		initialSlug={articleData.slug}
 		initialDateMode={articleData.dateMode}
 		initialCustomDateStr={articleData.customDateStr}
+		initialSortOrder={articleData.sortOrder}
 		initialDifferentCovers={articleData.differentCovers}
+		initialDifferentExternalUrls={articleData.differentExternalUrls}
 		initialTranslations={articleData.translations}
 		{contentType}
 		onsubmit={handleSubmit}

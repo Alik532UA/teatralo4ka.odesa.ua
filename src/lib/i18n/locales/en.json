@@ -419,6 +419,9 @@
       "slugLabel": "URL-path",
       "slugHint": "Lowercase Latin letters, digits and underscores only. Auto-filled from EN title (ONLY if empty). Leave empty to use the date as the URL.",
       "slugForbidden": "Some characters are not allowed in URL — they were discarded",
+      "sortOrderSection": "Display order",
+      "sortOrderLabel": "Position in list",
+      "sortOrderHint": "Lower number = higher in list. Empty field — project will appear at the end.",
       "validationDateRange": "Publication date must be between 01.01.1990 and {maxDate}",
       "validationCategoryLength": "Category exceeds {max} characters (currently: {current})",
       "validationTitleLength": "Title ({lang}) exceeds {max} characters",
@@ -431,7 +434,15 @@
       "slugUsed": "Slug \"{slug}\" is already in use. Please choose another URL.",
       "publishDenied": "Insufficient permissions to publish. Check if all required fields are filled.",
       "updateDenied": "Insufficient permissions to update. Check if content exceeds 50,000 characters or if less than 1 second has passed since the last edit.",
-      "defaultAuthor": "Administration"
+      "defaultAuthor": "Administration",
+      "excerptLabel": "Preview excerpt",
+      "excerptPlaceholder": "Short text for card preview (up to 300 characters)...",
+      "excerptHint": "Shown on cards (carousel / grid / list). If empty, the beginning of the main content will be used.",
+      "externalUrl": "External URL",
+      "externalUrlShared": "Shared link",
+      "externalUrlDifferent": "Different links",
+      "externalUrlHint": "Instead of internal content, the \"Read more\" button will open this link in a new tab.",
+      "externalUrlPreview": "External link"
     },
     "accessDenied": {
       "title": "Access Denied",
@@ -447,6 +458,7 @@
         "hero": "Hero",
         "news": "News",
         "departments": "Departments",
+        "projects": "Projects",
         "gallery": "Gallery",
         "visible": "Visible",
         "hidden": "Hidden"
@@ -496,6 +508,7 @@
       "tickerGrayscaleStrength": "Effect strength (saturation)",
       "tabHome": "Home",
       "tabNews": "News",
+      "tabProjects": "Projects",
       "tabCta": "CTA",
       "tabHeaderBar": "Header",
       "tabNavMenu": "Navigation/Menu",
@@ -515,12 +528,32 @@
       "newsViewList": "List",
       "newsShowViewSwitcher": "Allow view switching",
       "newsAutoplay": "Autoplay (carousel only)",
+      "newsAutoplayInterval": "Slide interval (carousel only)",
       "newsPinnedArticle": "Pinned article (carousel only)",
       "newsPinnedNone": "— None —",
       "newsMaxItemsGrid": "Max news items (grid)",
       "newsMaxItemsList": "Max news items (list)",
       "newsMaxItemsUnlimited": "Unlimited",
-      "newsShowAll": "Show all"
+      "newsShowAll": "Show all",
+      "projectsHomepageSubSection": "Homepage",
+      "projectsPageSubSection": "Projects page",
+      "projectsHomepageTitle": "Projects widget (Homepage)",
+      "projectsHomepageDesc": "Configure how projects are displayed on the homepage.",
+      "projectsPageTitle": "Projects widget (Projects page)",
+      "projectsPageDesc": "Configure how projects are displayed on the /projects page.",
+      "projectsDefaultView": "Default view",
+      "projectsViewCarousel": "Carousel",
+      "projectsViewGrid": "Grid",
+      "projectsViewList": "List",
+      "projectsShowViewSwitcher": "Allow view switch",
+      "projectsAutoplay": "Autoplay (carousel only)",
+      "projectsAutoplayInterval": "Slide interval (carousel only)",
+      "projectsPinnedProject": "Pinned project (carousel only)",
+      "projectsPinnedNone": "— None —",
+      "projectsMaxItemsGrid": "Max projects (grid)",
+      "projectsMaxItemsList": "Max projects (list)",
+      "projectsMaxItemsUnlimited": "Unlimited",
+      "autoplayIntervalUnit": "sec."
     },
     "menuEditor": {
       "itemsLabel": "Items",
@@ -579,8 +612,8 @@
     "loadingArticle": "Loading article...",
     "notFound": "Article not found",
     "errorLoading": "Loading error",
-    "backToHome": "Back to homepage",
-    "backToNews": "← Back to news",
+    "backToHome": "← Home",
+    "backToNews": "← All news",
     "newsTag": "News",
     "announcementTag": "Announcement",
     "viewCarousel": "Carousel",
@@ -595,6 +628,18 @@
     "subtitle": "Festivals, competitions and creative initiatives",
     "noProjects": "No projects yet.",
     "readMore": "Read more"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Festivals, competitions and creative initiatives",
+    "allProjects": "All projects",
+    "viewCarousel": "Carousel",
+    "viewGrid": "Grid",
+    "viewList": "List",
+    "backToProjects": "← All projects",
+    "notFound": "Project not found",
+    "errorLoading": "Error loading project",
+    "loadingProject": "Loading project..."
   },
   "seo": {
     "brandTitle": "Odessa Theatre School",
@@ -676,20 +721,6 @@
       }
     },
     "projects": "Projects",
-    "projItems": {
-      "teatrPro": {
-        "title": "TheaterPRO",
-        "desc": "Practical project for stage practice and teamwork"
-      },
-      "dtshProduction": {
-        "title": "DTSH-production",
-        "desc": "Our own media center: video projects, short films, and creative collaborations"
-      },
-      "photoArchive": {
-        "title": "Photo Archive",
-        "desc": "The school's history in photographs: from first performances to modern events"
-      }
-    },
     "learnMore": "learn more"
   },
   "error": {

@@ -1,40 +1,68 @@
 <script lang="ts">
-	import NewsCard from '$lib/components/NewsCard.svelte';
+	import ContentCard from '$lib/components/ContentCard.svelte';
+	import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
 	import { GalleryHorizontal, LayoutGrid, List, Play, Pause } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { onMount, untrack } from 'svelte';
-	import { base } from '$app/paths';
+	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
-	import type { NewsWidgetConfig, NewsViewMode } from '$lib/services/settings';
 
-	export interface NewsWidgetItem {
-		id: string;
-		slug?: string;
-		title: string;
-		date: string;
-		category: string;
-		excerpt: string;
-		color: string;
-		coverUrl: string;
+	export type ContentViewMode = 'carousel' | 'grid' | 'list';
+
+	export interface ContentWidgetConfig {
+		defaultView: ContentViewMode;
+		showViewSwitcher: boolean;
+		autoplay: boolean;
+		autoplayInterval: number;
+		pinnedItemId: string;
+		maxItemsGrid: number;
+		maxItemsList: number;
 	}
 
 	interface Props {
-		items: NewsWidgetItem[];
-		config: NewsWidgetConfig;
-		/** Show "all news →" link to /news page (homepage only) */
+		items: ContentCardItem[];
+		config: ContentWidgetConfig;
+		/** Show "all →" link (homepage mode) */
 		showAllLink?: boolean;
-		/** Persist view mode to localStorage under this key. '' disables persistence. */
+		/** Href for the "all →" link, e.g. '/news' */
+		allLinkHref?: string;
+		/** Label for the "all →" link */
+		allLinkLabel?: string;
+		/** localStorage key to save view preference when navigating to "all" page */
+		allLinkViewKey?: string;
+		/** URL segment for card links: 'news' → /news/{slug} */
+		linkPrefix?: string;
+		/** Card "Read more" button text */
+		readMoreLabel?: string;
+		/** data-testid prefix for widget elements */
+		testIdPrefix?: string;
+		/** data-testid prefix for card elements */
+		cardTestIdPrefix?: string;
+		/** Persist widget's own view mode to this localStorage key. '' disables persistence. */
 		storageKey?: string;
 		title?: string;
 		subtitle?: string;
 	}
 
-	let { items, config, showAllLink = false, storageKey = '', title = '', subtitle = '' }: Props = $props();
+	let {
+		items,
+		config,
+		showAllLink = false,
+		allLinkHref = '',
+		allLinkLabel = '',
+		allLinkViewKey = '',
+		linkPrefix = 'news',
+		readMoreLabel = '',
+		testIdPrefix = 'content-widget',
+		cardTestIdPrefix = 'content',
+		storageKey = '',
+		title = '',
+		subtitle = '',
+	}: Props = $props();
 
 
 	// ── View state ────────────────────────────────────────────────────────────
-	let viewOverride = $state<NewsViewMode | null>(null);
+	let viewOverride = $state<ContentViewMode | null>(null);
 	let autoplayOverride = $state<boolean | null>(null);
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
 	let isAutoAdvancing = $state(false);
@@ -46,7 +74,7 @@
 	// Dynamic buffer for seamless infinite loop to handle rapid clicking
 	let currentIndex = $state(0);
 	let isTransitioning = $state(true);
-	let infiniteNews = $state<NewsWidgetItem[]>([]);
+	let infiniteItems = $state<ContentCardItem[]>([]);
 	let bufferCount = $state(1);
 
 	// ── Max items for grid/list ───────────────────────────────────────────────
@@ -72,10 +100,10 @@
 	$effect(() => {
 		if (items.length === 0) return;
 
-		// Build reordered list (pinned article at front for carousel)
+		// Build reordered list (pinned item at front for carousel)
 		let ordered = [...items];
-		if (config.pinnedArticleId) {
-			const pinIdx = ordered.findIndex(it => it.id === config.pinnedArticleId);
+		if (config.pinnedItemId) {
+			const pinIdx = ordered.findIndex(it => it.id === config.pinnedItemId);
 			if (pinIdx > 0) {
 				const [pinned] = ordered.splice(pinIdx, 1);
 				ordered.unshift(pinned);
@@ -91,26 +119,30 @@
 			for (let i = 0; i < totalCopies; i++) {
 				arr.push(...ordered);
 			}
-			infiniteNews = arr;
+			infiniteItems = arr;
 			currentIndex = bufferCount * ordered.length; // Start in the middle set
 		}
 	});
 
 	onMount(() => {
 		if (storageKey) {
-			const saved = localStorage.getItem(storageKey) as NewsViewMode | null;
+			const saved = localStorage.getItem(storageKey) as ContentViewMode | null;
 			if (saved && ['carousel', 'grid', 'list'].includes(saved)) {
 				viewOverride = config.showViewSwitcher ? saved : null;
 			}
 		}
-		
+
 		const mql = window.matchMedia('(max-width: 1024px)');
 		isMobile = mql.matches;
 		const handler = (e: MediaQueryListEvent) => { isMobile = e.matches; };
 		mql.addEventListener('change', handler);
-		
-		setTimeout(() => { mounted = true; }, 100);
-		return () => mql.removeEventListener('change', handler);
+
+		const mountTimer = setTimeout(() => { mounted = true; }, 100);
+		return () => {
+			mql.removeEventListener('change', handler);
+			clearTimeout(mountTimer);
+			clearTimeout(wheelTimeout);
+		};
 	});
 
 	// Persist view to localStorage
@@ -120,41 +152,39 @@
 
 	// ── Carousel navigation ───────────────────────────────────────────────────
 	function next(fromAuto = false) {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
-		// Prevent scrolling past the available DOM elements in the buffer
-		if (currentIndex >= infiniteNews.length - 2) return;
-		
+		if (!isTransitioning || infiniteItems.length <= 1) return;
+		if (currentIndex >= infiniteItems.length - 2) return;
+
 		if (!fromAuto) autoplayOverride = false;
 		isAutoAdvancing = fromAuto;
 		currentIndex++;
 	}
 
 	function prev() {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
-		// Prevent scrolling past the available DOM elements in the buffer
+		if (!isTransitioning || infiniteItems.length <= 1) return;
 		if (currentIndex <= 1) return;
-		
+
 		autoplayOverride = false;
 		isAutoAdvancing = false;
 		currentIndex--;
 	}
 
 	function goTo(i: number) {
-		if (!isTransitioning || infiniteNews.length <= 1) return;
+		if (!isTransitioning || infiniteItems.length <= 1) return;
 		const n = items.length;
 		if (n === 0) return;
-		
+
 		const currentMod = ((currentIndex % n) + n) % n;
 		if (i === currentMod) return;
-		
+
 		autoplayOverride = false;
 		isAutoAdvancing = false;
-		
+
 		// Find the shortest path (forward or backward) to the target dot
 		let diff = i - currentMod;
 		if (diff > n / 2) diff -= n;
 		else if (diff < -n / 2) diff += n;
-		
+
 		currentIndex += diff;
 	}
 
@@ -178,8 +208,9 @@
 
 	// ── Autoplay interval ─────────────────────────────────────────────────────
 	$effect(() => {
-		if (!mounted || !autoplay || isHovered || view !== 'carousel' || infiniteNews.length <= 1) return;
-		const id = setInterval(autoNext, 7000);
+		if (!mounted || !autoplay || isHovered || view !== 'carousel' || infiniteItems.length <= 1) return;
+		const ms = (config.autoplayInterval || 7) * 1000;
+		const id = setInterval(autoNext, ms);
 		return () => clearInterval(id);
 	});
 
@@ -192,7 +223,7 @@
 	let wheelTimeout: ReturnType<typeof setTimeout> | undefined;
 
 	function handleTouchStart(e: TouchEvent | MouseEvent) {
-		if (view !== 'carousel' || infiniteNews.length <= 1) return;
+		if (view !== 'carousel' || infiniteItems.length <= 1) return;
 		isDragging = true;
 		touchStartX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
 		touchEndX = touchStartX;
@@ -204,7 +235,7 @@
 		if (!isDragging) return;
 		touchEndX = 'touches' in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
 		dragOffset = touchEndX - touchStartX;
-		
+
 		// Instant seamless jump while dragging if we go too far
 		const n = items.length;
 		if (n === 0) return;
@@ -220,7 +251,7 @@
 	function handleTouchEnd() {
 		if (!isDragging) return;
 		isDragging = false;
-		
+
 		if (Math.abs(dragOffset) > 40) {
 			if (dragOffset < 0) next(false);
 			else prev();
@@ -236,49 +267,45 @@
 	}
 
 	function handleWheel(e: WheelEvent) {
-		if (view !== 'carousel' || infiniteNews.length <= 1) return;
-		
+		if (view !== 'carousel' || infiniteItems.length <= 1) return;
+
 		const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 0;
 		const isShiftScroll = e.shiftKey && Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
-		
+
 		if (isHorizontalScroll || isShiftScroll) {
 			let delta = isShiftScroll ? e.deltaY : e.deltaX;
-			
+
 			// Normalize delta values depending on the device/browser
 			if (e.deltaMode === 1) delta *= 33; // DOM_DELTA_LINE
 			else if (e.deltaMode === 2) delta *= 100; // DOM_DELTA_PAGE
-			
+
 			if (isShiftScroll) {
 				// Svelte 5 passive listeners might throw on preventDefault
 				try { e.preventDefault(); } catch (err) {}
 			}
-			
+
 			wheelAccumulator += delta;
-			
+
 			// 40 is an optimal threshold for both fast trackpad flicks and standard mouse wheels
 			if (Math.abs(wheelAccumulator) >= 40) {
 				if (wheelAccumulator > 0) next(false);
 				else prev();
-				
+
 				// Reset to 0 after triggering to prevent runaway multi-slide jumps from a single flick
 				wheelAccumulator = 0;
 			}
-			
+
 			clearTimeout(wheelTimeout);
 			wheelTimeout = setTimeout(() => { wheelAccumulator = 0; }, 250);
-			
+
 			autoplayOverride = false;
 		}
 	}
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
-		// Ignore if typing in an input
 		if (typeof document !== 'undefined' && ['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) return;
-		
 		if (view !== 'carousel') return;
-
-		// Only navigate if mouse is over the carousel
 		if (!isHovered) return;
 
 		if (e.key === 'ArrowLeft') {
@@ -291,72 +318,72 @@
 	}
 
 	function handleShowAll() {
-		if (showAllLink) {
-			if (browser) {
+		if (showAllLink && allLinkHref) {
+			if (browser && allLinkViewKey) {
 				const viewToSave = view === 'list' ? 'list' : 'grid';
-				localStorage.setItem('news-view', viewToSave);
+				localStorage.setItem(allLinkViewKey, viewToSave);
 			}
-			goto(`${base}/news`);
+			goto(allLinkHref);
 		} else {
 			showingAll = true;
 		}
 	}
 
-	function handleAllNewsLink(e: MouseEvent) {
+	function handleAllLink(e: MouseEvent) {
 		e.preventDefault();
-		if (browser) {
+		if (browser && allLinkViewKey) {
 			const viewToSave = view === 'list' ? 'list' : 'grid';
-			localStorage.setItem('news-view', viewToSave);
+			localStorage.setItem(allLinkViewKey, viewToSave);
 		}
-		goto(`${base}/news`);
+		if (allLinkHref) goto(allLinkHref);
 	}
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
-{#snippet allNewsLink(suffix = '', extraClass = '')}
-	{#if showAllLink}
-		<a href="{base}/news" class="nw-all-link {extraClass}" data-testid="news-widget-all-link{suffix ? '-' + suffix : ''}" onclick={handleAllNewsLink}>
-			{$t('news.allNews')}
+{#snippet allLink(suffix = '', extraClass = '')}
+	{#if showAllLink && allLinkHref}
+		<a href={allLinkHref} class="cw-all-link {extraClass}" data-testid="{testIdPrefix}-all-link{suffix ? '-' + suffix : ''}" onclick={handleAllLink}>
+			{allLinkLabel}
 		</a>
 	{/if}
 {/snippet}
 
-<div class="nw-root" data-testid="news-widget-root">
+<div class="cw-root" data-testid="{testIdPrefix}-root">
 	<!-- Controls row -->
-	<div class="nw-controls" data-testid="news-widget-controls">
+	<div class="cw-controls" data-testid="{testIdPrefix}-controls">
 		{#if title}
-			<div class="nw-header-text">
-				<h2 class="nw-title">{title}</h2>
+			<div class="cw-header-text">
+				<h2 class="cw-title">{title}</h2>
 				{#if subtitle}
-					<p class="nw-subtitle">{subtitle}</p>
+					<p class="cw-subtitle">{subtitle}</p>
 				{/if}
 			</div>
 		{/if}
 
-		<div class="nw-controls__right">
+		<div class="cw-controls__right">
 			{#if view === 'carousel' && items.length > 1}
 				<button
 					class="view-btn autoplay-btn"
 					class:active={autoplay && !isHovered}
-				onclick={() => autoplayOverride = !autoplay}
+					onclick={() => autoplayOverride = !autoplay}
 					aria-label={autoplay ? $t('common.pause') : $t('common.play')}
 					aria-pressed={autoplay}
-					data-testid="news-widget-autoplay-btn"
+					data-testid="{testIdPrefix}-autoplay-btn"
 				>
 					{#if autoplay}<Pause size={20} />{:else}<Play size={20} />{/if}
 				</button>
 			{/if}
 
 			{#if config.showViewSwitcher}
-				<div class="view-switcher" role="group" aria-label={$t('common.view')} data-testid="news-widget-view-switcher">
-					<button class="view-btn" class:active={view === 'carousel'} onclick={() => viewOverride = 'carousel'} aria-label={$t('news.viewCarousel')} aria-pressed={view === 'carousel'} data-testid="news-widget-view-carousel-btn">
+				<div class="view-switcher" role="group" aria-label={$t('common.view')} data-testid="{testIdPrefix}-view-switcher">
+					<button class="view-btn" class:active={view === 'carousel'} onclick={() => viewOverride = 'carousel'} aria-label={$t('news.viewCarousel')} aria-pressed={view === 'carousel'} data-testid="{testIdPrefix}-view-carousel-btn">
 						<GalleryHorizontal size={20} />
 					</button>
-					<button class="view-btn" class:active={view === 'grid'} onclick={() => viewOverride = 'grid'} aria-label={$t('news.viewGrid')} aria-pressed={view === 'grid'} data-testid="news-widget-view-grid-btn">
+					<button class="view-btn hide-mobile" class:active={view === 'grid'} onclick={() => viewOverride = 'grid'} aria-label={$t('news.viewGrid')} aria-pressed={view === 'grid'} data-testid="{testIdPrefix}-view-grid-btn">
 						<LayoutGrid size={20} />
 					</button>
-					<button class="view-btn" class:active={view === 'list'} onclick={() => viewOverride = 'list'} aria-label={$t('news.viewList')} aria-pressed={view === 'list'} data-testid="news-widget-view-list-btn">
+					<button class="view-btn" class:active={view === 'list'} onclick={() => viewOverride = 'list'} aria-label={$t('news.viewList')} aria-pressed={view === 'list'} data-testid="{testIdPrefix}-view-list-btn">
 						<List size={20} />
 					</button>
 				</div>
@@ -364,13 +391,13 @@
 
 			{#if mounted}
 				{#if !isMobile}
-					<div class="nw-desktop-only">
-						{@render allNewsLink('desktop', 'nw-all-link--inline')}
+					<div class="cw-desktop-only">
+						{@render allLink('desktop', 'cw-all-link--inline')}
 					</div>
 				{/if}
 			{:else}
-				<div class="nw-desktop-only">
-					{@render allNewsLink('desktop', 'nw-all-link--inline')}
+				<div class="cw-desktop-only">
+					{@render allLink('desktop', 'cw-all-link--inline')}
 				</div>
 			{/if}
 		</div>
@@ -383,9 +410,9 @@
 		<section
 			class="focus-viewport"
 			aria-roledescription="carousel"
-			aria-label={$t('news.title')}
+			aria-label={title}
 			tabindex="0"
-			data-testid="news-widget-viewport"
+			data-testid="{testIdPrefix}-viewport"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; isDragging = false; }}
 			onmousedown={handleTouchStart}
@@ -403,34 +430,37 @@
 					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {dragOffset}px));
 					transition: {isTransitioning && !isDragging ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
 				"
-				data-testid="news-widget-track"
+				data-testid="{testIdPrefix}-track"
 				ontransitionend={handleTransitionEnd}
 			>
-				{#each infiniteNews as item, i (item.id + i)}
-					<NewsCard
+				{#each infiniteItems as item, i (item.id + i)}
+					<ContentCard
 						{item}
 						variant="carousel"
 						index={i}
 						isActive={items.length > 0 && (i % items.length) === (currentIndex % items.length)}
+						{linkPrefix}
+						{readMoreLabel}
+						testIdPrefix={cardTestIdPrefix}
 					/>
 				{/each}
 			</div>
 
 			{#if items.length > 1}
-				<button class="nav-btn nav-btn--prev" onclick={prev} aria-label={$t('common.prev')} data-testid="news-widget-prev-btn">←</button>
-				<button class="nav-btn nav-btn--next" onclick={() => next(false)} aria-label={$t('common.next')} data-testid="news-widget-next-btn">→</button>
+				<button class="nav-btn nav-btn--prev" onclick={prev} aria-label={$t('common.prev')} data-testid="{testIdPrefix}-prev-btn">←</button>
+				<button class="nav-btn nav-btn--next" onclick={() => next(false)} aria-label={$t('common.next')} data-testid="{testIdPrefix}-next-btn">→</button>
 			{/if}
 		</section>
 
 		{#if items.length > 1}
-			<div class="focus-dots" data-testid="news-widget-dots">
+			<div class="focus-dots" data-testid="{testIdPrefix}-dots">
 				{#each items as _, i}
 					<button
 						class="f-dot"
 						class:active={(currentIndex % items.length) === i}
 						onclick={() => goTo(i)}
 						aria-label="{$t('common.slide')} {i + 1}"
-						data-testid="news-widget-dot-{i}"
+						data-testid="{testIdPrefix}-dot-{i}"
 					></button>
 				{/each}
 			</div>
@@ -438,36 +468,44 @@
 
 	<!-- Grid view -->
 	{:else if view === 'grid'}
-		<div class="grid-view" data-testid="news-widget-grid">
+		<div class="grid-view" data-testid="{testIdPrefix}-grid">
 			{#each displayItems as item, i}
-				<NewsCard {item} variant="grid" index={i} />
+				<ContentCard {item} variant="grid" index={i} {linkPrefix} {readMoreLabel} testIdPrefix={cardTestIdPrefix} />
 			{/each}
 		</div>
 
 	<!-- List view -->
 	{:else}
-		<div class="list-view" data-testid="news-widget-list">
+		<div class="list-view" data-testid="{testIdPrefix}-list">
 			{#each displayItems as item, i}
-				<NewsCard {item} variant="list" index={i} />
+				<ContentCard {item} variant="list" index={i} {linkPrefix} {readMoreLabel} testIdPrefix={cardTestIdPrefix} />
 			{/each}
+		</div>
+	{/if}
+
+	{#if hasMore && !showingAll}
+		<div class="cw-show-all">
+			<button class="cw-show-all-btn" onclick={handleShowAll} data-testid="{testIdPrefix}-show-all-btn">
+				{allLinkLabel || $t('common.showAll')}
+			</button>
 		</div>
 	{/if}
 
 	{#if mounted}
 		{#if isMobile}
-			<div class="nw-mobile-only nw-mobile-link-wrap">
-				{@render allNewsLink('mobile')}
+			<div class="cw-mobile-only cw-mobile-link-wrap">
+				{@render allLink('mobile')}
 			</div>
 		{/if}
 	{:else}
-		<div class="nw-mobile-only nw-mobile-link-wrap">
-			{@render allNewsLink('mobile')}
+		<div class="cw-mobile-only cw-mobile-link-wrap">
+			{@render allLink('mobile')}
 		</div>
 	{/if}
 </div>
 
 <style>
-	.nw-root {
+	.cw-root {
 		position: relative;
 		--focus-card-width: 600px;
 		--focus-gap: 20px;
@@ -475,14 +513,14 @@
 	}
 
 	@media (max-width: 1024px) {
-		.nw-root {
+		.cw-root {
 			--focus-card-width: min(500px, 85vw);
 			--focus-gap: 15px;
 		}
 	}
 
 	/* ─── Controls row ─────────────────────────────────── */
-	.nw-controls {
+	.cw-controls {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
@@ -493,7 +531,7 @@
 	}
 
 	@media (max-width: 600px) {
-		.nw-controls {
+		.cw-controls {
 			flex-direction: column;
 			align-items: stretch;
 			gap: var(--space-md);
@@ -501,43 +539,43 @@
 			margin-bottom: 0;
 		}
 
-		.nw-controls__right {
+		.cw-controls__right {
 			width: 100%;
 			display: flex;
 			align-items: center;
 		}
 	}
 
-	.nw-controls__right {
+	.cw-controls__right {
 		display: flex;
 		align-items: center;
 		gap: var(--space-2xl);
 		margin-left: auto;
 	}
 
-	.nw-desktop-only {
+	.cw-desktop-only {
 		display: block;
 	}
 
-	.nw-mobile-only {
+	.cw-mobile-only {
 		display: none;
 	}
 
 	@media (max-width: 1440px) {
-		.nw-controls__right { gap: var(--space-xl); }
+		.cw-controls__right { gap: var(--space-xl); }
 	}
 
 	@media (max-width: 1200px) {
-		.nw-controls__right { gap: var(--space-lg); }
+		.cw-controls__right { gap: var(--space-lg); }
 	}
 
 	@media (max-width: 1024px) {
-		.nw-controls__right { gap: var(--space-md); }
-		.nw-desktop-only { display: none; }
-		.nw-mobile-only { display: block; }
+		.cw-controls__right { gap: var(--space-md); }
+		.cw-desktop-only { display: none; }
+		.cw-mobile-only { display: block; }
 	}
 
-	.nw-mobile-link-wrap {
+	.cw-mobile-link-wrap {
 		margin-top: 1.5rem;
 		display: flex;
 		justify-content: center;
@@ -546,19 +584,19 @@
 	}
 
 	@media (max-width: 1024px) {
-		.nw-controls__right { gap: var(--space-sm); }
+		.cw-controls__right { gap: var(--space-sm); }
 	}
 
 	@media (max-width: 480px) {
-		.nw-controls__right { gap: var(--space-xs); }
+		.cw-controls__right { gap: var(--space-xs); }
 	}
 
-	.nw-header-text {
+	.cw-header-text {
 		margin-right: auto;
 		text-align: left;
 	}
 
-	.nw-title {
+	.cw-title {
 		font-family: var(--font-heading);
 		font-size: 2.5rem;
 		font-weight: 900;
@@ -567,18 +605,18 @@
 		line-height: 1.1;
 	}
 
-	.nw-all-link--inline {
+	.cw-all-link--inline {
 		padding: 0.5rem 1.5rem;
 		font-size: 0.9rem;
 		border-radius: 30px;
 	}
 
 	@media (max-width: 1024px) {
-		.nw-title { font-size: 2rem; }
-		.nw-subtitle { font-size: 1rem; }
+		.cw-title { font-size: 2rem; }
+		.cw-subtitle { font-size: 1rem; }
 	}
 
-	.nw-subtitle {
+	.cw-subtitle {
 		font-size: 1.1rem;
 		color: var(--color-body-text);
 		margin: 0.3rem 0 0;
@@ -586,14 +624,14 @@
 	}
 
 	@media (max-width: 600px) {
-		.nw-header-text {
+		.cw-header-text {
 			margin-right: 0;
 			margin-bottom: 0.5rem;
 			text-align: center;
 		}
 	}
 
-	.nw-all-link {
+	.cw-all-link {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -610,18 +648,18 @@
 	}
 
 	@media (max-width: 1024px) {
-		.nw-all-link {
+		.cw-all-link {
 			margin: 0 auto;
 		}
 	}
 
 	@media (max-width: 600px) {
-		.nw-all-link {
+		.cw-all-link {
 			width: 100%;
 		}
 	}
 
-	.nw-all-link:hover {
+	.cw-all-link:hover {
 		transform: translateY(-3px);
 		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
 		color: var(--color-white);
@@ -783,13 +821,13 @@
 	}
 
 	/* ─── Show all button ──────────────────────────────── */
-	.nw-show-all {
+	.cw-show-all {
 		display: flex;
 		justify-content: center;
 		margin-top: 2rem;
 	}
 
-	.nw-show-all-btn {
+	.cw-show-all-btn {
 		background: var(--color-deep-ocean);
 		color: var(--color-white);
 		border: none;
@@ -801,7 +839,7 @@
 		transition: all 0.3s ease;
 	}
 
-	.nw-show-all-btn:hover {
+	.cw-show-all-btn:hover {
 		transform: translateY(-3px);
 		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
 	}
@@ -809,6 +847,6 @@
 	/* ─── Responsive ───────────────────────────────────── */
 	@media (max-width: 1024px) {
 		.nav-btn { display: none; }
-		[data-testid="news-widget-view-grid-btn"] { display: none !important; }
+		.hide-mobile { display: none !important; }
 	}
-	</style>
+</style>

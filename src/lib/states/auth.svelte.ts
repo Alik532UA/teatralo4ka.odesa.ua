@@ -74,7 +74,6 @@ class AuthService {
             if (emailDocSnap.exists()) {
               foundProfile = emailDocSnap.data();
               foundByEmail = true;
-              console.log("Профіль підхоплено за Email:", u.email);
             }
           } catch (e) {
             console.error("Помилка доступу за Email:", e);
@@ -101,8 +100,6 @@ class AuthService {
         // 4. МІГРАЦІЯ Email -> UID
         if (foundByEmail && foundProfile) {
           try {
-            console.log("Запуск міграції профілю Email -> UID...");
-            
             // Ensure projectIds exists before migration to avoid rule failures if it was created before the architectural change
             if (!foundProfile.projectIds && foundProfile.projects) {
                 foundProfile.projectIds = Object.keys(foundProfile.projects);
@@ -110,7 +107,6 @@ class AuthService {
             
             await setDoc(doc(db, "users", u.uid), foundProfile);
             await deleteDoc(emailDocRef);
-            console.log("Міграція успішна!");
           } catch (e) {
             console.error("Помилка міграції:", e);
           }

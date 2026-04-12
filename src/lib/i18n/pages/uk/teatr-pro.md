@@ -9,6 +9,8 @@ seo:
   description: "ІV-й відкритий фестиваль «Одеса.Театр.PRO» для абітурієнтів творчих вишів. 5-6 червня 2026 року."
 status: "published"
 version: "1.0.0"
+excerpt: "Практичний проєкт для сценічної практики та командної роботи"
+coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 ---
 
 <div style="text-align: center; font-size: 1.5rem; line-height: 1.4; margin-bottom: 2rem;">

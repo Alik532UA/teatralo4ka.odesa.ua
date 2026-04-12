@@ -62,9 +62,11 @@ export function validateGalleryImageArray(data: unknown[]): GalleryImage[] {
 export const ArticleTranslationSchema = z.object({
 	title: z.string().default(''),
 	content: z.string().default(''),
+	excerpt: z.string().optional().default(''),
 	isPublished: z.boolean().default(false),
 	coverUrl: z.string().optional(),
 	contentFormat: z.enum(['markdown', 'html']).optional().default('markdown'),
+	externalUrl: z.string().url().optional().or(z.literal('')),
 });
 
 /**
@@ -80,10 +82,11 @@ export const ArticleSchema = z.object({
 	createdAt: z.any().optional(),
 	updatedAt: z.any().optional(),
 	customDate: z.any().optional(),
+	sortOrder: z.number().int().optional(),
 	translations: z.object({
-		uk: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false, contentFormat: 'markdown' }),
-		en: ArticleTranslationSchema.default({ title: '', content: '', isPublished: false, contentFormat: 'markdown' }),
-	}).default({ uk: { title: '', content: '', isPublished: false, contentFormat: 'markdown' }, en: { title: '', content: '', isPublished: false, contentFormat: 'markdown' } }),
+		uk: ArticleTranslationSchema.default({ title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' }),
+		en: ArticleTranslationSchema.default({ title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' }),
+	}).default({ uk: { title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' }, en: { title: '', content: '', excerpt: '', isPublished: false, contentFormat: 'markdown' } }),
 });
 
 export type ValidatedArticle = z.infer<typeof ArticleSchema>;

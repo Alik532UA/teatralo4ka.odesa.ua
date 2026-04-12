@@ -15,6 +15,8 @@ export const pageMetadataSchema = z.object({
   }),
   status: z.enum(['published', 'draft', 'archived']),
   version: z.string().regex(/^\d+\.\d+\.\d+$/),
+  excerpt: z.string().max(300).optional(),
+  coverUrl: z.string().optional(),
   readingTime: z.number().optional(),
   toc: z.boolean().optional(),
 });

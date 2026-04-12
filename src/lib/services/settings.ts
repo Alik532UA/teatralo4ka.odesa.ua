@@ -33,7 +33,7 @@ export const KNOWN_PAGE_ROUTES: KnownPageRoute[] = [
 
 // ── Home page block ordering ──────────────────────────────────────────────────
 
-export type BlockId = 'hero' | 'news' | 'departments' | 'gallery';
+export type BlockId = 'hero' | 'news' | 'departments' | 'projects' | 'gallery';
 
 export interface BlockConfig {
   id: BlockId;
@@ -49,6 +49,8 @@ export interface NewsWidgetConfig {
   defaultView: NewsViewMode;
   showViewSwitcher: boolean;
   autoplay: boolean;
+  /** Autoplay interval in seconds (carousel only). */
+  autoplayInterval: number;
   /** Article ID to pin at the start of carousel. '' = none. */
   pinnedArticleId: string;
   /** Max items for grid view. 0 = unlimited. */
@@ -59,18 +61,98 @@ export interface NewsWidgetConfig {
 
 export const DEFAULT_NEWS_WIDGET_HOME: NewsWidgetConfig = {
   defaultView: 'carousel',
-  showViewSwitcher: false,
+  showViewSwitcher: true,
   autoplay: true,
+  autoplayInterval: 7,
   pinnedArticleId: '',
-  maxItemsGrid: 6,
-  maxItemsList: 6,
+  maxItemsGrid: 4,
+  maxItemsList: 3,
 };
 
-export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
+export const DEFAULT_NEWS_WIDGET_HOME_MOBILE: NewsWidgetConfig = {
   defaultView: 'carousel',
   showViewSwitcher: true,
   autoplay: true,
+  autoplayInterval: 7,
   pinnedArticleId: '',
+  maxItemsGrid: 3,
+  maxItemsList: 3,
+};
+
+export const DEFAULT_NEWS_WIDGET_PAGE: NewsWidgetConfig = {
+  defaultView: 'grid',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedArticleId: '',
+  maxItemsGrid: 0,
+  maxItemsList: 0,
+};
+
+export const DEFAULT_NEWS_WIDGET_PAGE_MOBILE: NewsWidgetConfig = {
+  defaultView: 'list',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedArticleId: '',
+  maxItemsGrid: 0,
+  maxItemsList: 0,
+};
+
+// ── Projects widget config ────────────────────────────────────────────────────
+
+export type ProjectsViewMode = 'carousel' | 'grid' | 'list';
+
+export interface ProjectsWidgetConfig {
+  defaultView: ProjectsViewMode;
+  showViewSwitcher: boolean;
+  autoplay: boolean;
+  /** Autoplay interval in seconds (carousel only). */
+  autoplayInterval: number;
+  /** Project ID to pin at the start of carousel. '' = none. */
+  pinnedProjectId: string;
+  /** Max items for grid view. 0 = unlimited. */
+  maxItemsGrid: number;
+  /** Max items for list view. 0 = unlimited. */
+  maxItemsList: number;
+}
+
+export const DEFAULT_PROJECTS_WIDGET_HOME: ProjectsWidgetConfig = {
+  defaultView: 'grid',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedProjectId: '',
+  maxItemsGrid: 4,
+  maxItemsList: 3,
+};
+
+export const DEFAULT_PROJECTS_WIDGET_HOME_MOBILE: ProjectsWidgetConfig = {
+  defaultView: 'carousel',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedProjectId: '',
+  maxItemsGrid: 3,
+  maxItemsList: 3,
+};
+
+export const DEFAULT_PROJECTS_WIDGET_PAGE: ProjectsWidgetConfig = {
+  defaultView: 'grid',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedProjectId: '',
+  maxItemsGrid: 0,
+  maxItemsList: 0,
+};
+
+export const DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE: ProjectsWidgetConfig = {
+  defaultView: 'list',
+  showViewSwitcher: true,
+  autoplay: true,
+  autoplayInterval: 7,
+  pinnedProjectId: '',
   maxItemsGrid: 0,
   maxItemsList: 0,
 };
@@ -82,6 +164,9 @@ export interface HomeSettings {
   newsWidget?: NewsWidgetConfig;
   /** Mobile-specific news widget config. Falls back to `newsWidget` when absent. */
   mobileNewsWidget?: NewsWidgetConfig;
+  projectsWidget?: ProjectsWidgetConfig;
+  /** Mobile-specific projects widget config. Falls back to `projectsWidget` when absent. */
+  mobileProjectsWidget?: ProjectsWidgetConfig;
   updatedAt?: any;
 }
 
@@ -92,12 +177,44 @@ export interface NewsPageSettings {
   updatedAt?: any;
 }
 
+export interface ProjectsPageSettings {
+  projectsWidget: ProjectsWidgetConfig;
+  /** Mobile-specific projects widget config. Falls back to `projectsWidget` when absent. */
+  mobileProjectsWidget?: ProjectsWidgetConfig;
+  updatedAt?: any;
+}
+
 export const DEFAULT_BLOCKS: BlockConfig[] = [
   { id: 'hero',        visible: true, order: 0 },
   { id: 'news',        visible: true, order: 1 },
   { id: 'departments', visible: true, order: 2 },
-  { id: 'gallery',     visible: true, order: 3 },
+  { id: 'projects',    visible: true, order: 3 },
+  { id: 'gallery',     visible: true, order: 4 },
 ];
+
+// ── Generic content widget config (used by ContentWidget.svelte) ─────────────
+
+export type ContentViewMode = 'carousel' | 'grid' | 'list';
+
+export interface ContentWidgetConfig {
+  defaultView: ContentViewMode;
+  showViewSwitcher: boolean;
+  autoplay: boolean;
+  autoplayInterval: number;
+  pinnedItemId: string;
+  maxItemsGrid: number;
+  maxItemsList: number;
+}
+
+export function newsToContentConfig(c: NewsWidgetConfig): ContentWidgetConfig {
+  const { pinnedArticleId: pinnedItemId, ...rest } = c;
+  return { ...rest, pinnedItemId };
+}
+
+export function projectsToContentConfig(c: ProjectsWidgetConfig): ContentWidgetConfig {
+  const { pinnedProjectId: pinnedItemId, ...rest } = c;
+  return { ...rest, pinnedItemId };
+}
 
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
@@ -126,17 +243,36 @@ function perf(label: string) {
 /** Public read — no auth required (Firestore rules allow settingId == 'home'). */
 export async function getHomeSettings(): Promise<HomeSettings | null> {
   perf('getHomeSettings: start');
+  try {
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
   perf('getHomeSettings: doc ref created, calling getDoc...');
   const docSnap = await getDoc(docRef);
   perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
   if (docSnap.exists()) {
     const raw = docSnap.data() as Record<string, any>;
+    // Merge missing DEFAULT_BLOCKS entries into loaded blocks
+    // (old Firebase data may lack blocks added after initial save, e.g. 'projects')
+    let loadedBlocks: BlockConfig[] = raw.blocks ?? DEFAULT_BLOCKS;
+    const loadedIds = new Set(loadedBlocks.map(b => b.id));
+    for (const def of DEFAULT_BLOCKS) {
+      if (!loadedIds.has(def.id)) {
+        const insertAt = Math.min(def.order, loadedBlocks.length);
+        loadedBlocks = [
+          ...loadedBlocks.slice(0, insertAt),
+          { ...def },
+          ...loadedBlocks.slice(insertAt),
+        ];
+      }
+    }
+    // Re-number order fields to match array positions
+    loadedBlocks = loadedBlocks.map((b, i) => ({ ...b, order: i }));
     const data: HomeSettings = {
-      blocks: raw.blocks ?? DEFAULT_BLOCKS,
+      blocks: loadedBlocks,
       mobileBlocks: raw.mobileBlocks,
       newsWidget: raw.newsWidget,
       mobileNewsWidget: raw.mobileNewsWidget,
+      projectsWidget: raw.projectsWidget,
+      mobileProjectsWidget: raw.mobileProjectsWidget,
       updatedAt: raw.updatedAt,
     };
     // Cache in localStorage for instant render on next visit (SWR pattern)
@@ -147,6 +283,10 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
     return data;
   }
   return null;
+  } catch (e) {
+    console.error('Failed to load home settings:', e);
+    return null;
+  }
 }
 
 /** Read cached home settings from localStorage (sync, instant). */
@@ -661,6 +801,7 @@ function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
 
 /** Public read — no auth required (Firestore rules allow settingId == 'header'). */
 export async function getHeaderSettings(): Promise<HeaderSettings | null> {
+  try {
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
@@ -674,6 +815,10 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
   } catch { /* quota exceeded or SSR — ignore */ }
 
   return result;
+  } catch (e) {
+    console.error('Failed to load header settings:', e);
+    return null;
+  }
 }
 
 /** Read cached header settings from localStorage (sync, instant). */
@@ -743,21 +888,86 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
 
 /** Public read — no auth required (Firestore rules allow settingId == 'news'). */
 export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
+  try {
   const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
   const raw = docSnap.data() as Record<string, any>;
-  return {
+  const data: NewsPageSettings = {
     newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
     mobileNewsWidget: raw.mobileNewsWidget,
     updatedAt: raw.updatedAt,
   };
+  // SWR cache
+  try {
+    const { updatedAt, ...cacheable } = data;
+    localStorage.setItem('newsPageSettings', JSON.stringify(cacheable));
+  } catch { /* quota exceeded — ignore */ }
+  return data;
+  } catch (e) {
+    console.error('Failed to load news page settings:', e);
+    return null;
+  }
+}
+
+/** Read cached news page settings from localStorage (sync, instant). */
+export function getCachedNewsPageSettings(): Omit<NewsPageSettings, 'updatedAt'> | null {
+  try {
+    const cached = localStorage.getItem('newsPageSettings');
+    if (cached) return JSON.parse(cached);
+  } catch { /* corrupted — ignore */ }
+  return null;
 }
 
 /** Auth-required write. */
 export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "news");
+  return await setDoc(docRef, {
+    ...settings,
+    updatedAt: serverTimestamp()
+  });
+}
+
+// ── Projects page settings ────────────────────────────────────────────────────
+
+/** Public read — no auth required. */
+export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | null> {
+  try {
+  const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) return null;
+  const raw = docSnap.data() as Record<string, any>;
+  const data: ProjectsPageSettings = {
+    projectsWidget: raw.projectsWidget ?? DEFAULT_PROJECTS_WIDGET_PAGE,
+    mobileProjectsWidget: raw.mobileProjectsWidget,
+    updatedAt: raw.updatedAt,
+  };
+  // SWR cache
+  try {
+    const { updatedAt, ...cacheable } = data;
+    localStorage.setItem('projectsPageSettings', JSON.stringify(cacheable));
+  } catch { /* quota exceeded — ignore */ }
+  return data;
+  } catch (e) {
+    console.error('Failed to load projects page settings:', e);
+    return null;
+  }
+}
+
+/** Read cached projects page settings from localStorage (sync, instant). */
+export function getCachedProjectsPageSettings(): Omit<ProjectsPageSettings, 'updatedAt'> | null {
+  try {
+    const cached = localStorage.getItem('projectsPageSettings');
+    if (cached) return JSON.parse(cached);
+  } catch { /* corrupted — ignore */ }
+  return null;
+}
+
+/** Auth-required write. */
+export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSettings, 'updatedAt'>) {
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "projects");
   return await setDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()

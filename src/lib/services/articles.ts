@@ -7,10 +7,14 @@ import {
   orderBy, 
   where,
   limit,
+  type QueryConstraint,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { ArticleSchema } from "../schemas";
 import type { ArticleCategory } from "../config/categories";
+import { getCategoryLabel } from "../config/categories";
+import { getContentExcerpt } from "../utils/renderContent";
+import type { ContentCardItem } from "../components/ContentCard.svelte";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
 
@@ -19,9 +23,11 @@ export type ContentFormat = 'markdown' | 'html';
 export interface ArticleTranslation {
   title: string;
   content: string;
+  excerpt?: string;
   isPublished: boolean;
   coverUrl?: string;
   contentFormat?: ContentFormat;
+  externalUrl?: string;
 }
 
 export type ContentType = 'article' | 'page' | 'page_project';
@@ -36,6 +42,7 @@ export interface Article {
   updatedAt: any;
   dateMode: DateMode;
   customDate?: any;
+  sortOrder?: number;
   translations: {
     uk: ArticleTranslation;
     en: ArticleTranslation;
@@ -52,11 +59,20 @@ function docToArticle(docSnap: { id: string; data: () => any }): Article {
 }
 
 export async function getArticleById(id: string) {
-  // First try direct document ID lookup (backward-compatible date-based IDs)
-  const docRef = doc(db, "projects", projectId, "articles", id);
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    return docToArticle(docSnap);
+  // First try direct document ID lookup (backward-compatible date-based IDs).
+  // Wrapped in try/catch because Firestore evaluates read rules even for
+  // non-existent documents; resource.data.isPublished throws when resource is
+  // null, so anonymous reads on missing doc IDs return permission-denied.
+  try {
+    const docRef = doc(db, "projects", projectId, "articles", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docToArticle(docSnap);
+    }
+  } catch {
+    // Permission denied — either the doc exists but user can't read it,
+    // or the doc doesn't exist and the rule denied the anonymous read.
+    // Fall through to slug query below.
   }
 
   // Fallback: treat `id` as a slug and query by slug field.
@@ -85,7 +101,7 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   // Firestore перевіряє rule per-document під час list-запиту, і якщо хоча б один
   // документ не проходить rule (resource.data.isPublished == true для анонімів) —
   // весь запит падає з permission-denied.
-  const constraints: any[] = [];
+  const constraints: QueryConstraint[] = [];
   if (publishedOnly) constraints.push(where("isPublished", "==", true));
   if (category) constraints.push(where("category", "==", category));
   constraints.push(orderBy("createdAt", "desc"));
@@ -118,6 +134,33 @@ export function getDisplayDate(article: Article): any {
     case 'hidden': return null;
     default: return article.createdAt;
   }
+}
+
+const CARD_COLORS = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', '#F7FFF7', '#FF9F1C'];
+
+/** Map a Firestore Article to a ContentCardItem for use in ContentWidget. */
+export function mapArticleToWidgetItem(article: Article, lang: 'uk' | 'en', index: number): ContentCardItem {
+  const tr: ArticleTranslation = article.translations?.[lang] ?? { title: '', content: '', isPublished: false };
+  const timestamp = getDisplayDate(article);
+  const dateStr = timestamp?.toDate
+    ? timestamp.toDate().toLocaleDateString(
+        lang === 'uk' ? 'uk-UA' : 'en-US',
+        { day: 'numeric', month: 'short', year: 'numeric' }
+      )
+    : '';
+  const customExcerpt = (tr.excerpt || '').trim();
+  const externalUrl = (tr.externalUrl || '').trim();
+  return {
+    id: article.id ?? '',
+    slug: article.slug,
+    title: tr.title || '',
+    date: dateStr,
+    category: getCategoryLabel(article.category, lang),
+    excerpt: customExcerpt || getContentExcerpt(tr.content || '', tr.contentFormat, 150),
+    color: CARD_COLORS[index % CARD_COLORS.length],
+    coverUrl: tr.coverUrl || '',
+    ...(externalUrl ? { href: externalUrl, isExternal: true } : {}),
+  };
 }
 
 export async function getPageBySlug(slug: string): Promise<Article | null> {
@@ -178,10 +221,20 @@ export async function getAllProjects(lang: string = "uk"): Promise<Article[]> {
     orderBy("createdAt", "desc")
   );
   const snapshot = await getDocs(q);
-  return snapshot.docs
+  const filtered = snapshot.docs
     .map(d => docToArticle(d))
     .filter(article => {
       const translation = article.translations?.[lang as 'uk' | 'en'];
       return translation && translation.isPublished;
     });
+
+  // Sort by sortOrder (ascending, nulls last), then by createdAt desc as fallback
+  return filtered.sort((a, b) => {
+    const orderA = a.sortOrder ?? Number.MAX_SAFE_INTEGER;
+    const orderB = b.sortOrder ?? Number.MAX_SAFE_INTEGER;
+    if (orderA !== orderB) return orderA - orderB;
+    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+    return timeB - timeA;
+  });
 }

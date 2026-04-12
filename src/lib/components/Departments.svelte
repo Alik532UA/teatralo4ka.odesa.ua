@@ -57,30 +57,6 @@
 		}
 	];
 
-	const projects = [
-		{
-			id: 'teatr-pro',
-			title: () => $t('departmentsSection.projItems.teatrPro.title'),
-			description: () => $t('departmentsSection.projItems.teatrPro.desc'),
-			image: `${base}/png/Новини1.png`,
-			href: `${base}/projects/teatr-pro`
-		},
-		{
-			id: 'dtsh-production',
-			title: () => $t('departmentsSection.projItems.dtshProduction.title'),
-			description: () => $t('departmentsSection.projItems.dtshProduction.desc'),
-			image: `${base}/png/Новини1.png`,
-			href: `${base}/projects/support-production`
-		},
-		{
-			id: 'photo-archive',
-			title: () => $t('departmentsSection.projItems.photoArchive.title'),
-			description: () => $t('departmentsSection.projItems.photoArchive.desc'),
-			image: `${base}/png/Новини1.png`,
-			href: `${base}/projects/photo-archive`
-		}
-	];
-
 	const info = [
 		{
 			id: 'admission',
@@ -171,26 +147,6 @@
 			</div>
 		</div>
 
-		<div class="deps__block" data-testid="projects-block">
-			<h2 class="deps__heading" data-testid="projects-section-heading">{$t('departmentsSection.projects')}</h2>
-			<div class="deps__grid" data-testid="projects-grid">
-				{#each projects as project, i}
-					<a href={project.href} class="deps__card" data-testid={`project-card-${project.id}`} style="animation-delay: {i * 0.1}s">
-						<div class="deps__image-wrap" data-testid={`project-card-image-wrap-${project.id}`}>
-							<img src={project.image} alt={project.title()} class="deps__image" loading="lazy" data-testid={`project-card-img-${project.id}`} />
-							<div class="deps__overlay"></div>
-						</div>
-						<div class="deps__content" data-testid={`project-card-content-${project.id}`}>
-							<h3 class="deps__card-title">{project.title()}</h3>
-							<p class="deps__card-description">{project.description()}</p>
-							<button class="deps__link" data-testid={`project-btn-${project.id}`}>
-								{$t('departmentsSection.learnMore')}
-							</button>
-						</div>
-					</a>
-				{/each}
-			</div>
-		</div>
 	</div>
 </section>
 

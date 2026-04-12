@@ -9,6 +9,8 @@ seo:
   description: "Help the development of the Odessa Theatre School media studio: cloud services, equipment repair, new hardware."
 status: "published"
 version: "1.0.0"
+excerpt: "Our own media center: video projects, short films, and creative collaborations"
+coverUrl: "/png/support-production.png"
 ---
 
 # ДТШ-production

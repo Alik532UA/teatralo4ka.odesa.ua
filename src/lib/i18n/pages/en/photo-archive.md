@@ -9,6 +9,8 @@ seo:
   description: "Our current photo archive. The school's history in photographs: from first performances to modern events."
 status: "published"
 version: "1.0.0"
+excerpt: "The school's history in photographs: from first performances to modern events"
+coverUrl: "/png/photo-archive.png"
 ---
 
 # Photo Archive

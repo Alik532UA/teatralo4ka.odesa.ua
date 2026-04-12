@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { ArticleCategory } from '$lib/config/categories';
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
@@ -23,9 +24,10 @@
 		slug: string;
 		dateMode: DateMode;
 		customDate: Timestamp | null;
+		sortOrder?: number;
 		translations: {
-			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat };
-			en: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat };
+			uk: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string };
+			en: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string };
 		};
 	}
 
@@ -40,10 +42,12 @@
 		initialSlug?: string;
 		initialDateMode?: DateMode;
 		initialCustomDateStr?: string;
+		initialSortOrder?: number;
 		initialDifferentCovers?: boolean;
+		initialDifferentExternalUrls?: boolean;
 		initialTranslations?: {
-			uk?: Partial<{ title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat }>;
-			en?: Partial<{ title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat }>;
+			uk?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
+			en?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
 		};
 		onsubmit: (data: ArticleFormData) => void;
 	}
@@ -59,7 +63,9 @@
 		initialSlug = '',
 		initialDateMode = 'createdAt' as DateMode,
 		initialCustomDateStr = new Date().toISOString().split('T')[0],
+		initialSortOrder,
 		initialDifferentCovers = false,
+		initialDifferentExternalUrls = false,
 		initialTranslations,
 		onsubmit,
 	}: Props = $props();
@@ -147,7 +153,11 @@
 	// svelte-ignore state_referenced_locally
 	let customDateStr = $state(initialCustomDateStr);
 	// svelte-ignore state_referenced_locally
+	let sortOrderStr = $state(initialSortOrder != null ? String(initialSortOrder) : '');
+	// svelte-ignore state_referenced_locally
 	let differentCovers = $state(initialDifferentCovers);
+	// svelte-ignore state_referenced_locally
+	let differentExternalUrls = $state(initialDifferentExternalUrls);
 	let showUploadInfo = $state(false);
 	// svelte-ignore state_referenced_locally
 	let slug = $state(initialSlug);
@@ -155,9 +165,15 @@
 
 	// svelte-ignore state_referenced_locally
 	let translations = $state({
-		uk: { title: '', content: '', isPublished: mode === 'create', coverUrl: '', contentFormat: 'markdown' as ContentFormat, ...initialTranslations?.uk },
-		en: { title: '', content: '', isPublished: false, coverUrl: '', contentFormat: 'markdown' as ContentFormat, ...initialTranslations?.en },
+		uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
+		en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
 	});
+
+	// svelte-ignore state_referenced_locally
+	let useCustomExcerpt = $state(!!((initialTranslations?.uk?.excerpt || '').trim() || (initialTranslations?.en?.excerpt || '').trim()));
+
+	// svelte-ignore state_referenced_locally
+	let useExternalUrl = $state(!!((initialTranslations?.uk?.externalUrl || '').trim() || (initialTranslations?.en?.externalUrl || '').trim()));
 
 	// Auto-fill slug from EN title — only for create mode, only while slug is still empty
 	$effect(() => {
@@ -168,6 +184,10 @@
 
 	let slugForbiddenWarning = $state('');
 	let _slugWarnTimer: ReturnType<typeof setTimeout> | null = null;
+
+	onDestroy(() => {
+		if (_slugWarnTimer) clearTimeout(_slugWarnTimer);
+	});
 
 	function handleSlugInput(e: Event) {
 		const input = e.target as HTMLInputElement;
@@ -209,6 +229,12 @@
 		}
 	});
 
+	$effect(() => {
+		if (!differentExternalUrls && translations.uk.externalUrl !== translations.en.externalUrl) {
+			translations.en.externalUrl = translations.uk.externalUrl;
+		}
+	});
+
 	function isImageUrlValid(url: string) {
 		if (!url) return true;
 		return /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url);
@@ -219,6 +245,14 @@
 		if (!differentCovers) {
 			translations.uk.coverUrl = val;
 			translations.en.coverUrl = val;
+		}
+	}
+
+	function handleExternalUrlInput(val: string, lang: 'uk' | 'en') {
+		translations[lang].externalUrl = val;
+		if (!differentExternalUrls) {
+			translations.uk.externalUrl = val;
+			translations.en.externalUrl = val;
 		}
 	}
 
@@ -283,7 +317,8 @@
 		}
 
 		const customDate = dateMode === 'custom' ? Timestamp.fromDate(new Date(customDateStr)) : null;
-		onsubmit({ contentType: selectedType, category, slug, dateMode, customDate, translations });
+		const sortOrder = sortOrderStr.trim() !== '' ? parseInt(sortOrderStr, 10) : undefined;
+		onsubmit({ contentType: selectedType, category, slug, dateMode, customDate, sortOrder, translations });
 	}
 
 	function saveDraftToFile() {
@@ -546,6 +581,30 @@
 				</div>
 			</div>
 
+			<!-- Sort Order Section (projects only) -->
+			{#if selectedType === 'page_project'}
+				<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-sort-order-section">
+					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean); margin-bottom: 1rem;">
+						{$t('admin.editor.sortOrderSection')}
+					</div>
+					<div class="form-group" style="margin: 0;">
+						<label class="form-label" for="sort-order">{$t('admin.editor.sortOrderLabel')}</label>
+						<input
+							type="number"
+							id="sort-order"
+							bind:value={sortOrderStr}
+							placeholder="0"
+							min="0"
+							step="1"
+							class="form-input"
+							style="max-width: 120px;"
+							data-testid="{tp}-sort-order-input"
+						/>
+						<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.sortOrderHint')}</p>
+					</div>
+				</div>
+			{/if}
+
 			<!-- Slug Section -->
 			<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-slug-section">
 				<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean); margin-bottom: 1rem;">
@@ -725,9 +784,114 @@
 				<label class="form-label" for="article-title">{$t('admin.editor.titleLabel')} ({activeLang === 'uk' ? $t('editor.ukShort') : $t('editor.enShort')})</label>
 				<input type="text" id="article-title" bind:value={translations[activeLang].title} required maxlength={MAX_TITLE_LEN} class="form-input" placeholder={$t('admin.editor.titlePlaceholder')} data-testid="{tp}-title-input" />
 			</div>
+
+			<!-- Excerpt Section -->
+			<div style="margin-top: 1.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-excerpt-section">
+				<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: {useCustomExcerpt ? '1rem' : '0'};">
+					<label class="switch-label" style="margin: 0;">
+						<input
+							type="checkbox"
+							class="switch-input"
+							bind:checked={useCustomExcerpt}
+							onchange={() => { if (!useCustomExcerpt) { translations.uk.excerpt = ''; translations.en.excerpt = ''; } }}
+							data-testid="{tp}-excerpt-toggle"
+						/>
+						<span class="switch-slider"></span>
+					</label>
+					<span style="font-weight: 700; color: var(--color-deep-ocean); font-size: 0.9rem;">{$t('admin.editor.excerptLabel')}</span>
+				</div>
+				{#if useCustomExcerpt}
+					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+						{#each (['uk', 'en'] as const) as lang}
+							<div class="form-group" style="margin: 0;">
+								<label class="form-label" for="excerpt-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
+								<textarea
+									id="excerpt-{lang}"
+									bind:value={translations[lang].excerpt}
+									maxlength={300}
+									rows="3"
+									class="form-input"
+									placeholder={$t('admin.editor.excerptPlaceholder')}
+									style="resize: vertical; min-height: 60px;"
+									data-testid="{tp}-excerpt-input-{lang}"
+								></textarea>
+								<span style="font-size: 0.7rem; opacity: 0.4; margin-top: 0.25rem; display: block;">{translations[lang].excerpt.length}/300</span>
+							</div>
+						{/each}
+					</div>
+					<p style="font-size: 0.75rem; opacity: 0.55; margin-top: 0.75rem;">{$t('admin.editor.excerptHint')}</p>
+				{/if}
+			</div>
 		</div>
 
-		<!-- Editor Card -->
+		<!-- External URL Card -->
+		<div class="admin-card" style="padding: 2rem 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-external-url-card">
+			<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+				<label class="switch-label" style="margin: 0;">
+					<input
+						type="checkbox"
+						class="switch-input"
+						checked={useExternalUrl}
+						onchange={(e) => {
+							useExternalUrl = (e.currentTarget as HTMLInputElement).checked;
+							if (!useExternalUrl) {
+								translations.uk.externalUrl = '';
+								translations.en.externalUrl = '';
+							}
+						}}
+						data-testid="{tp}-external-url-toggle"
+					/>
+					<span class="switch-slider"></span>
+				</label>
+				<Globe size={18} style="opacity: 0.7;" />
+				<span style="font-weight: 700; color: var(--color-deep-ocean); font-size: 0.9rem;">{$t('admin.editor.externalUrl')}</span>
+				{#if useExternalUrl}
+					<button
+						type="button"
+						class="btn btn-sm {differentExternalUrls ? 'btn-primary' : 'btn-outline'}"
+						onclick={() => differentExternalUrls = !differentExternalUrls}
+						style="font-size: 0.75rem; padding: 0.4rem 0.8rem; margin-left: auto;"
+						data-testid="{tp}-toggle-diff-external-urls-button"
+					>
+						{differentExternalUrls ? $t('admin.editor.externalUrlShared') : $t('admin.editor.externalUrlDifferent')}
+					</button>
+				{/if}
+			</div>
+			{#if useExternalUrl}
+				<div style="display: grid; grid-template-columns: {differentExternalUrls ? '1fr 1fr' : '1fr'}; gap: 2rem;">
+					{#if !differentExternalUrls}
+						<div class="form-group" style="margin: 0;">
+							<input
+								type="url"
+								placeholder="https://example.com"
+								class="form-input"
+								value={translations.uk.externalUrl}
+								oninput={(e) => handleExternalUrlInput(e.currentTarget.value, 'uk')}
+								data-testid="{tp}-external-url-input-shared"
+							/>
+							<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.externalUrlHint')}</p>
+						</div>
+					{:else}
+						{#each (['uk', 'en'] as const) as lang}
+							<div class="form-group" style="margin: 0;">
+								<label class="form-label" for="external-url-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
+								<input
+									type="url"
+									id="external-url-{lang}"
+									placeholder="https://example.com"
+									class="form-input"
+									bind:value={translations[lang].externalUrl}
+									data-testid="{tp}-external-url-input-{lang}"
+								/>
+							</div>
+						{/each}
+					{/if}
+				</div>
+			{/if}
+		</div>
+
+		<!-- Editor Card (hidden when content is an external URL) -->
+		{#if !useExternalUrl}
 		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-rich-text-editor-container">
 			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				{#if mode === 'create'}
@@ -750,6 +914,7 @@
 			/>
 			{/key}
 		</div>
+		{/if}
 
 		<!-- Preview Card -->
 		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-preview-card">
@@ -767,7 +932,15 @@
 			<div class="preview-container" style="background: var(--theme-dynamic-section-bg); padding: 3rem; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05);">
 				<article class="prose" style="max-width: 1000px; margin: 0 auto;">
 					<h1 style="font-size: 3rem; margin-top: 0;">{translations[activeLang].title || $t('admin.editor.titlePlaceholder')}</h1>
-					{@html renderContent(translations[activeLang].content || $t('admin.editor.previewEmpty'), translations[activeLang].contentFormat)}
+					{#if useExternalUrl}
+						<p style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-sea-blue); font-weight: 600;">
+							<Globe size={18} />
+							{$t('admin.editor.externalUrlPreview')}:
+							<a href={translations[activeLang].externalUrl} target="_blank" rel="noopener noreferrer" style="word-break: break-all;">{translations[activeLang].externalUrl}</a>
+						</p>
+					{:else}
+						{@html renderContent(translations[activeLang].content || $t('admin.editor.previewEmpty'), translations[activeLang].contentFormat)}
+					{/if}
 				</article>
 			</div>
 		</div>

@@ -27,12 +27,19 @@ const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
  * Spaces → underscore, removes all non [a-z0-9_] characters, lowercases.
  */
 export function generateSlug(title: string): string {
-  return title
+  const slug = title
     .toLowerCase()
     .replace(/\s+/g, '_')
     .replace(/[^a-z0-9_]/g, '')
     .replace(/_+/g, '_')
     .replace(/^_|_$/g, '');
+
+  const RESERVED_SLUGS = ['admin', 'about', 'admission', 'contacts', 'departments', 'history', 'news', 'projects', 'residents', 'sitemap', 'test', 'api', 'auth', 'login'];
+  if (RESERVED_SLUGS.includes(slug)) {
+    return `${slug}_page`;
+  }
+
+  return slug;
 }
 
 /** Returns true if the slug is not used by any other article in the project. */
@@ -109,7 +116,8 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
 
   const now = new Date();
   const pad = (n: number) => n.toString().padStart(2, '0');
-  const dateId = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}`;
+  const rand = Math.random().toString(36).substring(2, 8);
+  const dateId = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}-${pad(now.getHours())}-${pad(now.getMinutes())}-${pad(now.getSeconds())}-${rand}`;
 
   const docRef = doc(db, "projects", projectId, "articles", dateId);
 
@@ -125,8 +133,11 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
   }
 
   // Для сумісності з правилами Firestore isValidArticle:
-  // Правила очікують title, content, lang, isPublished на верхньому рівні
+  // Правила очікують title, content, lang, isPublished на верхньому рівні.
+  // isPublished = true якщо будь-який переклад опубліковано (для Firestore read rule).
   const ukData = data.translations?.uk || { title: 'No Title', content: '', isPublished: false };
+  const enData = data.translations?.en;
+  const isPublished = (ukData.isPublished || false) || (enData?.isPublished || false);
 
   const payloadToSave: any = {
     // ТІЛЬКИ ті ключі, які дозволені в firestore.rules:
@@ -135,7 +146,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     category: data.category,
     lang: 'uk',
     author: auth.currentUser?.displayName || auth.currentUser?.email || get(t)('admin.editor.defaultAuthor'),
-    isPublished: ukData.isPublished || false,
+    isPublished,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     coverUrl: ukData.coverUrl || '',
@@ -143,7 +154,8 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     translations: data.translations,
     dateMode: data.dateMode,
     customDate: data.customDate,
-    ...(data.type ? { type: data.type } : {})
+    ...(data.type ? { type: data.type } : {}),
+    ...(data.sortOrder != null ? { sortOrder: data.sortOrder } : {})
   };
 
   if (finalSlug) {
@@ -167,9 +179,9 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   const projectId = await getProjectId();
   const ref = doc(db, "projects", projectId, "articles", articleId);
 
-  // Extract slug before spreading to handle it separately
-  const { slug: rawSlug, ...dataWithoutSlug } = data;
-  const updatePayload: any = { ...dataWithoutSlug, updatedAt: serverTimestamp() };
+  // Extract slug and sortOrder before spreading to handle them separately
+  const { slug: rawSlug, sortOrder, ...dataWithoutSlugAndSort } = data;
+  const updatePayload: any = { ...dataWithoutSlugAndSort, updatedAt: serverTimestamp() };
 
   // Handle slug update
   if (rawSlug !== undefined) {
@@ -185,12 +197,22 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
     }
   }
 
-  // Якщо оновлюються переклади, треба оновити і кореневі поля для валідації
+  // Handle sortOrder update: null/undefined → remove field, number → set
+  if (sortOrder != null) {
+    updatePayload.sortOrder = sortOrder;
+  } else if ('sortOrder' in data) {
+    updatePayload.sortOrder = deleteField();
+  }
+
+  // Якщо оновлюються переклади, треба оновити і кореневі поля для валідації.
+  // isPublished = true якщо будь-який переклад опубліковано (для Firestore read rule).
   if (data.translations?.uk) {
+    const isPublishedUk = data.translations.uk.isPublished || false;
+    const isPublishedEn = data.translations.en?.isPublished || false;
     updatePayload.title = data.translations.uk.title || 'Untitled';
     updatePayload.content = data.translations.uk.content || '';
     updatePayload.lang = 'uk';
-    updatePayload.isPublished = data.translations.uk.isPublished || false;
+    updatePayload.isPublished = isPublishedUk || isPublishedEn;
     updatePayload.coverUrl = data.translations.uk.coverUrl || '';
   }
 

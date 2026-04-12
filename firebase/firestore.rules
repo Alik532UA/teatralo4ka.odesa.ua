@@ -66,14 +66,16 @@ service cloud.firestore {
              );
     }
 
-    // FIX B1: Розширена валідація translation block — додано isPublished, coverUrl, contentFormat
+    // FIX B1: Розширена валідація translation block — додано isPublished, coverUrl, contentFormat, excerpt, externalUrl
     function isValidTranslationBlock(block) {
-      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl', 'contentFormat']) &&
+      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl', 'contentFormat', 'excerpt', 'externalUrl']) &&
              (!('title' in block) || (block.title is string && block.title.size() <= 150)) &&
              (!('content' in block) || (block.content is string && block.content.size() <= 50000)) &&
              (!('isPublished' in block) || block.isPublished is bool) &&
              (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 2048)) &&
-             (!('contentFormat' in block) || block.contentFormat in ['markdown', 'html']);
+             (!('contentFormat' in block) || block.contentFormat in ['markdown', 'html']) &&
+             (!('excerpt' in block) || (block.excerpt is string && block.excerpt.size() <= 500)) &&
+             (!('externalUrl' in block) || (block.externalUrl is string && block.externalUrl.size() <= 2048));
     }
 
     function isValidTranslations(translations) {
@@ -82,9 +84,9 @@ service cloud.firestore {
              (!('uk' in translations) || isValidTranslationBlock(translations.uk));
     }
 
-    // FIX S3, S4, S5, S10, S11: Повна валідація статті
+    // FIX S3, S4, S5, S10, S11: Повна валідація статті (+ sortOrder)
     function isValidArticle(data) {
-      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug', 'type']) &&
+      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug', 'type', 'sortOrder']) &&
              data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
              data.content is string && data.content.size() <= 50000 &&
              data.category is string && data.category.size() <= 50 &&
@@ -101,6 +103,7 @@ service cloud.firestore {
                 data.customDate < request.time + duration.value(365, 'd'))) &&
              (!('slug' in data) || (data.slug is string && data.slug.size() > 0 && data.slug.size() <= 100 && data.slug.matches('[a-z0-9_]+'))) &&
              (!('type' in data) || data.type in ['article', 'page', 'page_project']) &&
+             (!('sortOrder' in data) || (data.sortOrder is int && data.sortOrder >= 0 && data.sortOrder <= 9999)) &&
              (!('translations' in data) || isValidTranslations(data.translations));
     }
 

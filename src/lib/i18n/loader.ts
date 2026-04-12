@@ -52,6 +52,11 @@ export function loadPageWithMetadata(lang: string, slug: string): PageContent | 
   // Validate frontmatter through Zod
   const metadata = pageMetadataSchema.parse(rawMetadata) as PageMetadata;
 
+  // Skip non-published pages (draft, archived)
+  if (metadata.status !== 'published') {
+    return null;
+  }
+
   // Parse markdown to HTML and sanitize
   const rawHtml = marked.parse(markdown) as string;
   const html = DOMPurify.sanitize(rawHtml);

@@ -9,6 +9,8 @@ seo:
   description: "IV Open Festival «Odesa.Theatre.PRO» for applicants to creative universities. June 5-6, 2026."
 status: "published"
 version: "1.0.0"
+excerpt: "Practical project for stage practice and teamwork"
+coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 ---
 
 <div style="text-align: center; font-size: 1.5rem; line-height: 1.4; margin-bottom: 2rem;">
