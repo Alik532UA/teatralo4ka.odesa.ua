@@ -62,9 +62,13 @@ version: "1.0.0"
 
 ---
 
-**Одеська театральна школа**
-65082 Україна, м. Одеса
-вул. Софіївська, 24
-+38 048 723-63-04, +38 048 723-32-59, +38 063 150-95-51
-[teatr.pro.fest@gmail.com](mailto:teatr.pro.fest@gmail.com)
-[https://www.facebook.com/groups/Odesa.Teatr.PRO/](https://www.facebook.com/groups/Odesa.Teatr.PRO/)
+**[Одеська театральна школа](https://maps.app.goo.gl/ya4gki6tuZv36Tjz8)**\
+**[вул. Софіївська, 24, Одеса](https://maps.app.goo.gl/ya4gki6tuZv36Tjz8)**
+
+**[+380 48 723 63 04](tel:+380487236304)**\
+**[+380 48 723 32 59](tel:+380487233259)**\
+**[+380 63 150 95 51](tel:+380631509551)**
+
+[teatr.pro.fest@gmail.com](mailto:teatr.pro.fest@gmail.com)\
+[https://www.facebook.com/groups/Odesa.Teatr.PRO/](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
+[https://www.instagram.com/go_pro.teatr/](https://www.instagram.com/go_pro.teatr/)
