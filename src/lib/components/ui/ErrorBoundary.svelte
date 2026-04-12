@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { t } from 'svelte-i18n';
 	let { children, fallback }: { children: Snippet, fallback?: Snippet } = $props();
 	let error = $state<Error | null>(null);
 
@@ -15,9 +16,9 @@
 			{@render fallback()}
 		{:else}
 			<div class="error-container" data-testid="error-boundary-container">
-				<h2>Ой, сталася помилка!</h2>
-				<p>Щось пішло не так під час завантаження цього компонента.</p>
-				<button onclick={() => error = null} data-testid="error-boundary-retry">Спробувати знову</button>
+				<h2>{$t('common.errorTitle')}</h2>
+				<p>{$t('common.errorDescription')}</p>
+				<button onclick={() => error = null} data-testid="error-boundary-retry">{$t('common.tryAgain')}</button>
 			</div>
 		{/if}
 	{:else}

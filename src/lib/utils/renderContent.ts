@@ -25,7 +25,8 @@ marked.use({
 			const isExternal = href.startsWith('http') || href.startsWith('//');
 
 			if (isExternal) {
-				const titleAttr = title ? ` title="${title}"` : '';
+				const escapedTitle = title ? title.replace(/"/g, '&quot;') : '';
+				const titleAttr = escapedTitle ? ` title="${escapedTitle}"` : '';
 				const innerHtml = this.parser.parseInline(tokens);
 				return `<a href="${href}"${titleAttr} target="_blank" rel="noopener noreferrer">${innerHtml}</a>`;
 			}

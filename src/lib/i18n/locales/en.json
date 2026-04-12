@@ -33,6 +33,7 @@
     "pause": "Pause",
     "view": "View",
     "errorTitle": "Oops! Something went wrong",
+    "errorDescription": "Something went wrong while loading this component.",
     "tryAgain": "Try again",
     "reloadPage": "Reload page",
     "loading": "Loading...",
