@@ -188,7 +188,8 @@
 	let touchEndX = $state(0);
 	let isDragging = $state(false);
 	let dragOffset = $state(0);
-	let lastWheelTime = $state(0);
+	let wheelAccumulator = 0;
+	let wheelTimeout: ReturnType<typeof setTimeout> | undefined;
 
 	function handleTouchStart(e: TouchEvent | MouseEvent) {
 		if (view !== 'carousel' || infiniteNews.length <= 1) return;
@@ -236,12 +237,36 @@
 
 	function handleWheel(e: WheelEvent) {
 		if (view !== 'carousel' || infiniteNews.length <= 1) return;
-		if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 15) {
-			const now = Date.now();
-			if (now - lastWheelTime < 400) return;
-			if (e.deltaX > 0) next(false);
-			else prev();
-			lastWheelTime = now;
+		
+		const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 0;
+		const isShiftScroll = e.shiftKey && Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
+		
+		if (isHorizontalScroll || isShiftScroll) {
+			let delta = isShiftScroll ? e.deltaY : e.deltaX;
+			
+			// Normalize delta values depending on the device/browser
+			if (e.deltaMode === 1) delta *= 33; // DOM_DELTA_LINE
+			else if (e.deltaMode === 2) delta *= 100; // DOM_DELTA_PAGE
+			
+			if (isShiftScroll) {
+				// Svelte 5 passive listeners might throw on preventDefault
+				try { e.preventDefault(); } catch (err) {}
+			}
+			
+			wheelAccumulator += delta;
+			
+			// 40 is an optimal threshold for both fast trackpad flicks and standard mouse wheels
+			if (Math.abs(wheelAccumulator) >= 40) {
+				if (wheelAccumulator > 0) next(false);
+				else prev();
+				
+				// Reset to 0 after triggering to prevent runaway multi-slide jumps from a single flick
+				wheelAccumulator = 0;
+			}
+			
+			clearTimeout(wheelTimeout);
+			wheelTimeout = setTimeout(() => { wheelAccumulator = 0; }, 250);
+			
 			autoplayOverride = false;
 		}
 	}
