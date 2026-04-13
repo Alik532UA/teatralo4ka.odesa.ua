@@ -430,8 +430,9 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 120px;
+		padding: 0 1.5rem;
 		height: 36px;
+		white-space: nowrap;
 		background: transparent;
 		color: var(--accent-primary);
 		border: 2px solid var(--accent-primary);
@@ -466,12 +467,12 @@
 	}
 
 	.footer__link {
-		transition: color var(--transition-fast);
-		color: var(--footer-text);
+		transition: color var(--transition-fast), opacity var(--transition-fast);
+		color: inherit;
 	}
 
 	.footer__link:hover {
-		color: var(--accent-primary);
+		opacity: 0.8;
 	}
 
 	/* Social */

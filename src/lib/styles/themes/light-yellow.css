@@ -13,7 +13,7 @@
 	--text-on-accent: var(--palette-white);
 	
 	/* Semantic Accents */
-	--accent-primary: var(--palette-blue);
+	--accent-primary: var(--palette-navy-900);
 	--accent-secondary: var(--palette-yellow);
 	
 	/* Interactive */
