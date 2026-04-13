@@ -5,6 +5,7 @@
 @import './themes/light.css';
 @import './themes/dark.css';
 @import './themes/yellow.css';
+@import './themes/light-yellow.css';
 
 /* --- Fonts --- */
 @font-face {
@@ -33,6 +34,7 @@
 	--palette-black: #1d1d1d;
 	
 	/* Deep Navy Palette */
+	--palette-navy-page: #003646;
 	--palette-navy-900: #00242F;
 	--palette-navy-800: #003241;
 	--palette-navy-700: #003d50;
@@ -504,8 +506,6 @@ button {
 
 /* Backward compatibility aliases (to avoid breaking things before components are updated) */
 :root {
-	--color-deep-ocean: var(--text-title);
-	--color-sea-blue: var(--accent-primary);
 	--color-page-bg: var(--bg-page);
 	--color-surface: var(--bg-surface);
 	--color-white: var(--palette-white);

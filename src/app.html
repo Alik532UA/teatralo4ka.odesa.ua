@@ -24,17 +24,22 @@
 				if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 					document.documentElement.setAttribute('data-theme', 'dark');
 					document.documentElement.classList.add('dark-theme');
-					document.documentElement.classList.remove('light-theme', 'yellow-theme');
+					document.documentElement.classList.remove('light-theme', 'yellow-theme', 'light-yellow-theme');
 					document.querySelector('meta[name="color-scheme"]').content = 'dark';
 				} else if (t === 'yellow') {
 					document.documentElement.setAttribute('data-theme', 'yellow');
 					document.documentElement.classList.add('yellow-theme');
-					document.documentElement.classList.remove('dark-theme', 'light-theme');
+					document.documentElement.classList.remove('dark-theme', 'light-theme', 'light-yellow-theme');
+					document.querySelector('meta[name="color-scheme"]').content = 'light';
+				} else if (t === 'light-yellow') {
+					document.documentElement.setAttribute('data-theme', 'light-yellow');
+					document.documentElement.classList.add('light-yellow-theme');
+					document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme');
 					document.querySelector('meta[name="color-scheme"]').content = 'light';
 				} else {
 					document.documentElement.setAttribute('data-theme', 'light');
 					document.documentElement.classList.add('light-theme');
-					document.documentElement.classList.remove('dark-theme', 'yellow-theme');
+					document.documentElement.classList.remove('dark-theme', 'yellow-theme', 'light-yellow-theme');
 					document.querySelector('meta[name="color-scheme"]').content = 'light dark';
 				}
 				var p = window.location.pathname;

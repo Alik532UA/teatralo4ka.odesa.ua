@@ -1,9 +1,10 @@
 .yellow-theme {
 	/* Semantic Backgrounds */
 	--bg-page: var(--palette-yellow);
-	--bg-surface: var(--palette-white);
-	--bg-card: var(--palette-white);
-	--bg-header: rgba(255, 237, 0, 0.8);
+	--bg-surface: var(--palette-orange);
+	--bg-card: var(--palette-yellow);
+	--bg-header: color-mix(in srgb, var(--palette-orange), transparent 10%);
+	--bg-footer: var(--palette-orange);
 	
 	/* Semantic Text */
 	--text-main: var(--palette-navy-500);

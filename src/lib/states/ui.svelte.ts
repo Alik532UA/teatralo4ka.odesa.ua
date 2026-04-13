@@ -3,7 +3,7 @@ import { getStorageKey } from '../config/storage';
 class UIState {
 	isMenuOpen = $state(false);
 	isPhonesModalOpen = $state(false);
-	theme = $state<'light' | 'dark' | 'yellow'>('light');
+	theme = $state<'light' | 'light-yellow' | 'dark' | 'yellow'>('light');
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
@@ -69,7 +69,7 @@ class UIState {
 		}
 	};
 
-	setTheme = async (t: 'light' | 'dark' | 'yellow', options: { withBlur?: boolean } = {}) => {
+	setTheme = async (t: 'light' | 'light-yellow' | 'dark' | 'yellow', options: { withBlur?: boolean } = {}) => {
 		if (this.theme === t) return;
 
 		const withBlur = options.withBlur ?? true;
@@ -88,12 +88,12 @@ class UIState {
 			const csMeta = document.querySelector('meta[name="color-scheme"]');
 			if (csMeta) {
 				if (t === 'dark') csMeta.setAttribute('content', 'dark');
-				else if (t === 'yellow') csMeta.setAttribute('content', 'light');
+				else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
 				else csMeta.setAttribute('content', 'light dark');
 			}
 
 			// Update classes
-			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme');
+			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme');
 			document.documentElement.classList.add(`${t}-theme`);
 		}
 		if (typeof localStorage !== 'undefined') {

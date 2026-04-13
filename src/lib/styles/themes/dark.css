@@ -1,9 +1,10 @@
 .dark-theme {
 	/* Semantic Backgrounds */
-	--bg-page: var(--palette-navy-900);
-	--bg-surface: var(--palette-navy-800);
-	--bg-card: var(--palette-navy-700);
-	--bg-header: rgba(0, 36, 47, 0.8);
+	--bg-page: var(--palette-navy-page);
+	--bg-surface: var(--palette-navy-900);
+	--bg-card: var(--palette-navy-page);
+	--bg-header: color-mix(in srgb, var(--palette-navy-900), transparent 10%);
+	--bg-footer: var(--palette-navy-900);
 	
 	/* Semantic Text */
 	--text-main: var(--palette-cyan-50);
