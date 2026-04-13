@@ -7,7 +7,7 @@
 
 	let { backgroundType = 0, theme = "light", enabled = false } = $props<{
 		backgroundType?: 0 | 1 | 2 | 3 | 4;
-		theme?: "light" | "dark";
+		theme?: "light" | "dark" | "yellow";
 		enabled?: boolean;
 	}>();
 

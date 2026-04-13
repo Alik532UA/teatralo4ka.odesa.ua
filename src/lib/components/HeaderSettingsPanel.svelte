@@ -3,16 +3,16 @@
 	import { t, locale } from "svelte-i18n";
 	import { ui } from "$lib/states/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
+	import { Sun, Citrus, Moon } from "lucide-svelte";
 
 	interface Props {
 		isOpen: boolean;
 		mobile?: boolean;
 		onChangeLang: (lang: string) => void;
-		onToggleTheme: () => void;
 		debugPanel?: DebugPanelConfig;
 	}
 
-	let { isOpen, mobile = false, onChangeLang, onToggleTheme, debugPanel }: Props = $props();
+	let { isOpen, mobile = false, onChangeLang, debugPanel }: Props = $props();
 
 	const sfx = $derived(mobile ? '-mobile' : '');
 	const mobileStyle = 'width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);';
@@ -47,15 +47,24 @@
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light"}
-				onclick={() => { if (ui.theme !== "light") onToggleTheme(); }}
+				onclick={() => ui.setTheme("light")}
+				aria-label={$t("settings.light")}
 				data-testid="theme-light{sfx}-button"
-			>{$t("settings.light")}</button>
+			><Sun size={20} /></button>
+			<button
+				class="dropdown-opt-unified"
+				class:active={ui.theme === "yellow"}
+				onclick={() => ui.setTheme("yellow")}
+				aria-label={$t("settings.yellow") || "Yellow"}
+				data-testid="theme-yellow{sfx}-button"
+			><Citrus size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "dark"}
-				onclick={() => { if (ui.theme !== "dark") onToggleTheme(); }}
+				onclick={() => ui.setTheme("dark")}
+				aria-label={$t("settings.dark")}
 				data-testid="theme-dark{sfx}-button"
-			>{$t("settings.dark")}</button>
+			><Moon size={20} /></button>
 		</div>
 	</div>
 </div>

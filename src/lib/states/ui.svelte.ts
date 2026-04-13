@@ -3,7 +3,7 @@ import { getStorageKey } from '../config/storage';
 class UIState {
 	isMenuOpen = $state(false);
 	isPhonesModalOpen = $state(false);
-	theme = $state<'light' | 'dark'>('light');
+	theme = $state<'light' | 'dark' | 'yellow'>('light');
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
@@ -20,7 +20,7 @@ class UIState {
 	constructor() {
 		if (typeof window !== 'undefined') {
 			// Read theme from localStorage or OS settings
-			const savedTheme = localStorage.getItem(getStorageKey('theme')) as 'light' | 'dark' | null;
+			const savedTheme = localStorage.getItem(getStorageKey('theme')) as 'light' | 'dark' | 'yellow' | null;
 			if (savedTheme) {
 				this.setTheme(savedTheme, { withBlur: false });
 			} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -69,7 +69,7 @@ class UIState {
 		}
 	};
 
-	setTheme = async (t: 'light' | 'dark', options: { withBlur?: boolean } = {}) => {
+	setTheme = async (t: 'light' | 'dark' | 'yellow', options: { withBlur?: boolean } = {}) => {
 		if (this.theme === t) return;
 
 		const withBlur = options.withBlur ?? true;
@@ -83,14 +83,18 @@ class UIState {
 		this.theme = t;
 		if (typeof document !== 'undefined') {
 			document.documentElement.setAttribute('data-theme', t);
-			// Tell browser we handle color schemes — prevents auto-dark-mode
+			
+			// Update color-scheme meta
 			const csMeta = document.querySelector('meta[name="color-scheme"]');
-			if (csMeta) csMeta.setAttribute('content', t === 'dark' ? 'dark' : 'light dark');
-			if (t === 'dark') {
-				document.documentElement.classList.add('dark-theme');
-			} else {
-				document.documentElement.classList.remove('dark-theme');
+			if (csMeta) {
+				if (t === 'dark') csMeta.setAttribute('content', 'dark');
+				else if (t === 'yellow') csMeta.setAttribute('content', 'light');
+				else csMeta.setAttribute('content', 'light dark');
 			}
+
+			// Update classes
+			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme');
+			document.documentElement.classList.add(`${t}-theme`);
 		}
 		if (typeof localStorage !== 'undefined') {
 			localStorage.setItem(getStorageKey('theme'), t);

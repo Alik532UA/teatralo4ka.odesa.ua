@@ -1,9 +1,9 @@
-:root, .light-theme {
+.yellow-theme {
 	/* Semantic Backgrounds */
-	--bg-page: var(--palette-cyan-50);
+	--bg-page: var(--palette-yellow);
 	--bg-surface: var(--palette-white);
 	--bg-card: var(--palette-white);
-	--bg-header: rgba(255, 255, 255, 0.8);
+	--bg-header: rgba(255, 237, 0, 0.8);
 	
 	/* Semantic Text */
 	--text-main: var(--palette-navy-500);
@@ -12,10 +12,10 @@
 	--text-on-accent: var(--palette-white);
 	
 	/* Semantic Accents */
-	--accent-primary: var(--palette-blue);
-	--accent-secondary: var(--palette-yellow);
+	--accent-primary: var(--palette-navy-900);
+	--accent-secondary: var(--palette-blue);
 	
 	/* Interactive */
-	--border-main: var(--palette-cyan-200);
-	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.08);
+	--border-main: rgba(0, 36, 47, 0.1);
+	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.12);
 }

@@ -200,11 +200,6 @@
 		navOpen = false;
 	}
 
-	function toggleTheme() {
-		const newTheme = ui.theme === "light" ? "dark" : "light";
-		ui.setTheme(newTheme);
-	}
-
 	async function changeLanguage(lang: string) {
 		if (ui.enableBlurEffect) {
 			ui.isLangChanging = true;
@@ -565,7 +560,6 @@
 								<HeaderSettingsPanel
 									isOpen={settingsOpen}
 									onChangeLang={changeLanguage}
-									onToggleTheme={toggleTheme}
 									debugPanel={headerSettings.debugPanel}
 								/>
 							</div>
@@ -634,7 +628,6 @@
 								isOpen={settingsOpen}
 								mobile
 								onChangeLang={changeLanguage}
-								onToggleTheme={toggleTheme}
 								debugPanel={headerSettings.debugPanel}
 							/>
 						</div>

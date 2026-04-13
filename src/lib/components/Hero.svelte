@@ -116,12 +116,7 @@
 <style>
 	.hero {
 		position: relative;
-		background: linear-gradient(
-			180deg,
-			var(--color-light-blue) 0%,
-			var(--color-sky-blue) 60%,
-			var(--color-surface) 100%
-		);
+		background: var(--bg-page);
 		padding: var(--space-4xl, 4rem) 0;
 		overflow: hidden;
 		min-height: 600px;
@@ -209,7 +204,7 @@
 		font-size: clamp(2.2rem, 5vw, 3.5rem);
 		font-weight: 900;
 		text-transform: uppercase;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.1;
 		margin-bottom: var(--space-lg, 2rem);
 		letter-spacing: -0.01em;
@@ -219,7 +214,7 @@
 		font-family: var(--font-heading);
 		font-size: clamp(1rem, 2vw, 1.25rem);
 		font-weight: 500;
-		color: var(--color-body-text);
+		color: var(--text-main);
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		margin-bottom: var(--space-xl, 2.5rem);
@@ -236,11 +231,10 @@
 		position: relative;
 		border-radius: 40px;
 		overflow: hidden;
-		box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+		box-shadow: var(--shadow-main);
 		z-index: 2;
 		aspect-ratio: 4 / 3;
-		/* min-height: 100px; */
-		background: var(--color-light-blue);
+		background: var(--bg-surface);
 	}
 
 	.hero__image {
@@ -265,7 +259,7 @@
 	.hero__image-border {
 		position: absolute;
 		inset: 0;
-		border: 15px solid color-mix(in srgb, var(--color-surface), transparent 80%);
+		border: 15px solid color-mix(in srgb, var(--bg-surface), transparent 80%);
 		border-radius: inherit;
 		pointer-events: none;
 	}
@@ -275,16 +269,13 @@
 		position: absolute;
 		border-radius: 50%;
 		z-index: -1;
+		opacity: 0.2;
 	}
 
 	.hero__cloud--1 {
 		width: 200px;
 		height: 200px;
-		background: radial-gradient(
-			circle,
-			var(--theme-cloud-strong) 0%,
-			transparent 70%
-		);
+		background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
 		top: -30px;
 		right: -40px;
 	}
@@ -292,11 +283,7 @@
 	.hero__cloud--2 {
 		width: 150px;
 		height: 150px;
-		background: radial-gradient(
-			circle,
-			var(--theme-cloud-soft) 0%,
-			transparent 70%
-		);
+		background: radial-gradient(circle, var(--accent-secondary) 0%, transparent 70%);
 		bottom: -20px;
 		left: -30px;
 	}
@@ -314,13 +301,13 @@
 		width: 56px;
 		height: 56px;
 		border-radius: 50%;
-		background: var(--color-surface);
-		color: var(--color-deep-ocean);
+		background: var(--bg-surface);
+		color: var(--text-title);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid rgba(0,0,0,0.05);
-		box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+		border: 1px solid var(--border-main);
+		box-shadow: var(--shadow-main);
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 		cursor: pointer;
 	}
@@ -328,7 +315,7 @@
 	.hero__contact-btn:hover {
 		transform: translateY(-3px);
 		box-shadow: 0 12px 25px rgba(0,0,0,0.12);
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 	}
 
 	/* Responsive */

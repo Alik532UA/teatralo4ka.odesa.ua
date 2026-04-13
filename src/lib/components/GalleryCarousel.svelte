@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { Play, Pause } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
@@ -127,7 +127,7 @@
 		return () => clearInterval(id);
 	});
 
-	// ── Swipe ─────────────────────────────────────────────────────────────────
+	// â”€â”€ Swipe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 	let drag = $state<DragState>(createDragState());
 	let wheelState = createWheelState();
 
@@ -173,6 +173,8 @@
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
 	class="gc-root"
 	data-testid={testIdPrefix}
@@ -189,6 +191,8 @@
 		style="aspect-ratio: {cssAspectRatio};"
 		onwheel={onWheel}
 	>
+		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="gc-track"
 			style="transform: translateX({translateX}); transition: {isTransitioning && !drag.isDragging ? 'transform 0.45s cubic-bezier(0.4,0,0.2,1)' : 'none'};"
@@ -306,7 +310,7 @@
 		text-shadow: 0 1px 6px rgba(0,0,0,0.4);
 	}
 
-	/* ── Play/pause button — top-right ─────────────────── */
+	/* â”€â”€ Play/pause button â€” top-right â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 	.gc-play-btn {
 		position: absolute;
 		top: 0.75rem;
@@ -329,7 +333,7 @@
 	.gc-carousel:hover .gc-play-btn { opacity: 1; }
 	.gc-play-btn:hover { background: rgba(255,255,255,0.9); }
 
-	/* ── Dots — below carousel, styled like ContentWidget ── */
+	/* â”€â”€ Dots â€” below carousel, styled like ContentWidget â”€â”€ */
 	.gc-dots {
 		display: flex;
 		justify-content: center;
