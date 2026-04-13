@@ -494,7 +494,7 @@
 	}
 
 	.news {
-		background: var(--color-light-blue);
+		background: var(--bg-page);
 		padding: 4rem 0 6rem;
 		overflow: hidden;
 		position: relative;
@@ -509,7 +509,7 @@
 		font-family: var(--font-heading);
 		font-size: 3rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -567,7 +567,7 @@
 
 	:global(.focus-card__placeholder) {
 		opacity: 0.2;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 	}
 
 	.focus-card__content {
@@ -586,7 +586,7 @@
 	}
 
 	.tag {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: white;
 		padding: 0.4rem 1rem;
 		border-radius: 100px;
@@ -606,7 +606,7 @@
 		font-family: var(--font-heading);
 		font-size: 1.8rem;
 		font-weight: 800;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.2;
 		margin-bottom: 1rem;
 	}
@@ -624,7 +624,7 @@
 	}
 
 	.btn-more {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: white;
 		text-decoration: none;
 		padding: 0.8rem 1.8rem;
@@ -652,7 +652,7 @@
 		cursor: pointer;
 		z-index: 10;
 		font-size: 1.5rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		transition: all 0.3s ease;
 		display: flex;
 		align-items: center;
@@ -660,7 +660,7 @@
 	}
 
 	.nav-btn:hover {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: white;
 		transform: translateY(-50%) scale(1.1);
 	}
@@ -690,7 +690,7 @@
 	}
 
 	.f-dot.active {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		width: 80px;
 	}
 
@@ -737,7 +737,7 @@
 		font-family: var(--font-heading);
 		font-size: 3.5rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 1rem;
 	}
 
@@ -756,10 +756,10 @@
 	.g-block__title {
 		font-family: var(--font-heading);
 		font-size: 2.2rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 2.5rem;
 		padding-left: 1.5rem;
-		border-left: 6px solid var(--color-deep-ocean);
+		border-left: 6px solid var(--text-title);
 		border-radius: 3px;
 	}
 
@@ -908,7 +908,7 @@
 	}
 	.g-card__tag {
 		display: inline-block;
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: white;
 		padding: 0.5rem 1.5rem;
 		border-radius: 100px;
@@ -922,7 +922,7 @@
 		font-family: var(--font-heading);
 		font-size: 1.6rem;
 		font-weight: 800;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin: 0;
 	}
 
@@ -972,7 +972,7 @@
 		font-family: var(--font-heading);
 		font-weight: 800;
 		font-size: 1.2rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		backdrop-filter: blur(10px);
 		box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 	}
@@ -1217,7 +1217,7 @@
 		font-family: var(--font-heading);
 		font-size: 2.5rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 1rem;
 	}
 
@@ -1263,7 +1263,7 @@
 	.gallery-template-6 h3 {
 		font-family: var(--font-heading);
 		font-size: 1.8rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 2rem;
 	}
 

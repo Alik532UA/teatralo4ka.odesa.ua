@@ -362,7 +362,7 @@
 		height: calc(var(--header-height, 72px) + 16px); /* un-scrolled: +16px extra padding */
 		z-index: 99;
 		pointer-events: none;
-		background: color-mix(in srgb, var(--color-surface), transparent 15%);
+		background: var(--bg-header);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
@@ -377,16 +377,11 @@
 	}
 
 	:global(.dark-theme) .header-blur-layer {
-		background: color-mix(in srgb, var(--color-dark-bg, #0f172a), transparent 15%);
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 	}
 
 	:global(.app.with-dynamic-bg) .header-blur-layer {
-		background: color-mix(in srgb, var(--color-surface), transparent 60%);
-	}
-
-	:global(.dark-theme.app.with-dynamic-bg) .header-blur-layer {
-		background: color-mix(in srgb, #000, transparent 60%);
+		background: color-mix(in srgb, var(--bg-header), transparent 40%);
 	}
 
 	main {

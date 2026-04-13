@@ -471,12 +471,12 @@
 	transition: border-color 0.15s, color 0.15s;
 }
 .cl-back-btn:hover {
-	border-color: var(--color-sea-blue);
-	color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
+	color: var(--accent-primary);
 }
 .cl-title {
 	font-family: var(--font-heading);
-	color: var(--color-deep-ocean);
+	color: var(--text-title);
 	font-size: 1.8rem;
 	margin: 0;
 }
@@ -487,7 +487,7 @@
 	min-width: 28px;
 	height: 28px;
 	padding: 0 8px;
-	background: var(--color-sea-blue);
+	background: var(--accent-primary);
 	color: #fff;
 	border-radius: 20px;
 	font-size: 0.8rem;
@@ -520,8 +520,8 @@
 	transition: all 0.15s;
 }
 .cl-icon-btn:hover:not(:disabled) {
-	border-color: var(--color-sea-blue);
-	color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
+	color: var(--accent-primary);
 	background: rgba(33, 150, 186, 0.05);
 }
 .cl-import-btn {
@@ -532,7 +532,7 @@
 	width: 18px;
 	height: 18px;
 	border: 2px solid rgba(33, 150, 186, 0.2);
-	border-top-color: var(--color-sea-blue);
+	border-top-color: var(--accent-primary);
 	border-radius: 50%;
 	animation: cl-spin 0.8s linear infinite;
 }
@@ -562,12 +562,12 @@
 	transition: all 0.2s;
 }
 .cl-type-tab:hover:not(.active) {
-	border-color: var(--color-sea-blue);
-	color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
+	color: var(--accent-primary);
 }
 .cl-type-tab.active {
-	border-color: var(--color-sea-blue);
-	background: var(--color-sea-blue);
+	border-color: var(--accent-primary);
+	background: var(--accent-primary);
 	color: #fff;
 }
 .cl-tab-count {
@@ -610,7 +610,7 @@
 :global(.cl-search-icon) {
 	position: absolute;
 	left: 1rem;
-	color: var(--color-sea-blue);
+	color: var(--accent-primary);
 	opacity: 0.5;
 }
 .cl-search-box input {
@@ -625,7 +625,7 @@
 }
 .cl-search-box input:focus {
 	outline: none;
-	border-color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
 	box-shadow: 0 0 0 4px rgba(33, 150, 186, 0.1);
 }
 
@@ -644,7 +644,7 @@
 :global(.select-icon) {
 	position: absolute;
 	left: 0.85rem;
-	color: var(--color-sea-blue);
+	color: var(--accent-primary);
 	opacity: 0.6;
 	pointer-events: none;
 }
@@ -664,10 +664,10 @@
 	transition: all 0.2s;
 }
 .cl-filter-select:hover {
-	border-color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
 }
 .cl-filter-select:focus {
-	border-color: var(--color-sea-blue);
+	border-color: var(--accent-primary);
 	box-shadow: 0 0 0 4px rgba(33, 150, 186, 0.1);
 }
 
@@ -691,7 +691,7 @@
 }
 .cl-card:hover {
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-	border-color: var(--color-sea-blue-light, #3aacce);
+	border-color: var(--accent-primary-light, #3aacce);
 	transform: translateX(4px);
 }
 
@@ -766,7 +766,7 @@
 	font-weight: 800;
 	text-transform: uppercase;
 	letter-spacing: 0.08em;
-	color: var(--color-sea-blue);
+	color: var(--accent-primary);
 	background: rgba(33, 150, 186, 0.08);
 	padding: 3px 12px;
 	border-radius: 20px;
@@ -868,10 +868,10 @@
 }
 .cl-edit-btn {
 	background: var(--color-ice-blue);
-	color: var(--color-sea-blue);
+	color: var(--accent-primary);
 }
 .cl-edit-btn:hover {
-	background: var(--color-sea-blue);
+	background: var(--accent-primary);
 	color: #fff;
 	box-shadow: 0 4px 12px rgba(33, 150, 186, 0.2);
 }
@@ -912,11 +912,11 @@
 }
 .mode-btn.active {
 	background: white;
-	color: var(--color-sea-blue);
+	color: var(--accent-primary);
 	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 :global(.dark-theme) .mode-btn.active {
-	background: var(--color-sea-blue);
+	background: var(--accent-primary);
 	color: white;
 }
 

@@ -196,7 +196,7 @@
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0" data-testid="phones-modal-container">
 			<div class="modal-header">
-				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--color-deep-ocean); font-family: var(--font-heading);">
+				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--text-title); font-family: var(--font-heading);">
 					{$t("footer.contactsTitle")}
 				</h2>
 				<button class="btn-close" aria-label={$t('common.close')} onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-button">
@@ -304,7 +304,7 @@
 	}
 
 	.footer {
-		background: var(--bg-surface);
+		background: var(--bg-footer, var(--bg-surface));
 		padding: var(--space-xl) 0;
 		position: relative;
 		border: none;

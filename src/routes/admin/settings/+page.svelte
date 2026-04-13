@@ -1449,7 +1449,7 @@ async function handleAboutPageSubmit() {
 <li class="block-item" style="flex-direction: column; align-items: stretch; gap: 0.75rem;">
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <span class="block-item__name">{$t('admin.settings.tickerGrayscaleStrength')}</span>
-    <span style="font-weight: 700; color: var(--color-sea-blue);">{ticker.grayscaleStrength}%</span>
+    <span style="font-weight: 700; color: var(--accent-primary);">{ticker.grayscaleStrength}%</span>
   </div>
   <input
     type="range"
@@ -1458,7 +1458,7 @@ async function handleAboutPageSubmit() {
     step="5"
     class="form-range"
     bind:value={ticker.grayscaleStrength}
-    style="background: linear-gradient(to right, var(--color-sea-blue) {ticker.grayscaleStrength}%, var(--color-ice-blue) {ticker.grayscaleStrength}%);"
+    style="background: linear-gradient(to right, var(--accent-primary) {ticker.grayscaleStrength}%, var(--color-ice-blue) {ticker.grayscaleStrength}%);"
   />
 </li>
 {/if}</ul>
@@ -1557,12 +1557,12 @@ async function handleAboutPageSubmit() {
 }
 
 .tab-btn:hover {
-  background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
-  color: var(--color-sea-blue);
+  background: color-mix(in srgb, var(--accent-primary), transparent 92%);
+  color: var(--accent-primary);
 }
 
 .tab-btn.active {
-  background: var(--color-sea-blue);
+  background: var(--accent-primary);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 95, 174, 0.2);
 }
@@ -1588,14 +1588,14 @@ async function handleAboutPageSubmit() {
 }
 
 .subtab-btn:hover {
-  border-color: var(--color-sea-blue);
-  color: var(--color-sea-blue);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .subtab-btn.active {
-  background: color-mix(in srgb, var(--color-sea-blue), transparent 90%);
-  border-color: var(--color-sea-blue);
-  color: var(--color-sea-blue);
+  background: color-mix(in srgb, var(--accent-primary), transparent 90%);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 /* ─── Settings card ────────────────────────────────────── */
@@ -1611,7 +1611,7 @@ margin-bottom: 2.5rem;
 font-family: var(--font-heading);
 font-size: 1.5rem;
 font-weight: 800;
-color: var(--color-deep-ocean);
+color: var(--text-title);
 margin-bottom: 0.5rem;
 }
 
@@ -1692,7 +1692,7 @@ color: var(--color-dark-text);
   text-align: center !important;
   border: none !important;
   background: transparent !important;
-  color: var(--color-deep-ocean) !important;
+  color: var(--text-title) !important;
   cursor: pointer;
   border-radius: 8px !important;
   transition: background 0.2s !important;
@@ -1715,7 +1715,7 @@ color: var(--color-dark-text);
 
 .time-separator {
   font-weight: 800;
-  color: var(--color-sea-blue);
+  color: var(--accent-primary);
   opacity: 0.6;
   font-size: 1.1rem;
   user-select: none;
@@ -1749,12 +1749,12 @@ color: var(--color-dark-text);
 
 .mode-btn.active {
   background: white;
-  color: var(--color-sea-blue);
+  color: var(--accent-primary);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 :global(.dark-theme) .mode-btn.active {
-  background: var(--color-sea-blue);
+  background: var(--accent-primary);
   color: white;
 }
 
@@ -1877,7 +1877,7 @@ margin-left: auto;
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  background: var(--color-sea-blue);
+  background: var(--accent-primary);
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
@@ -1908,7 +1908,7 @@ transition: background 0.15s;
 }
 
 .btn-icon:hover:not(:disabled) {
-background: color-mix(in srgb, var(--color-sea-blue), transparent 85%);
+background: color-mix(in srgb, var(--accent-primary), transparent 85%);
 }
 
 .btn-icon:disabled {
@@ -2016,12 +2016,12 @@ pointer-events: none;
   transition: border-color 0.15s, color 0.15s;
 }
 .sh-back-btn:hover {
-  border-color: var(--color-sea-blue);
-  color: var(--color-sea-blue);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 .sh-title {
   font-family: var(--font-heading);
-  color: var(--color-deep-ocean);
+  color: var(--text-title);
   font-size: 1.8rem;
   margin: 0;
 }

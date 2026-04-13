@@ -81,7 +81,7 @@
 	}
 	.dash-title {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		min-width: 0;
 		margin: 0;
 	}

@@ -152,7 +152,7 @@
 	.g-bento__overlay {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(to top, color-mix(in srgb, var(--color-deep-ocean), transparent 15%), transparent 60%);
+		background: linear-gradient(to top, color-mix(in srgb, var(--text-title), transparent 15%), transparent 60%);
 		display: flex;
 		align-items: flex-end;
 		padding: 2rem;

@@ -156,7 +156,7 @@
 	}
 
 	.detail-page__error-title {
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 2rem;
 	}
 
@@ -177,7 +177,7 @@
 	}
 
 	.tag {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		padding: 0.4rem 1rem;
 		border-radius: 100px;
@@ -195,7 +195,7 @@
 		font-family: var(--font-heading);
 		font-size: 3rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.1;
 		margin: 0;
 	}
@@ -240,7 +240,7 @@
 
 	.prose :global(h2) {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-top: 3rem;
 		margin-bottom: 1.5rem;
 		font-size: 2rem;

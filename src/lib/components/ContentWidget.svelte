@@ -545,7 +545,7 @@
 		font-family: var(--font-heading);
 		font-size: 2.5rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin: 0;
 		line-height: 1.1;
 	}
@@ -580,7 +580,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		border: none;
 		padding: 0.8rem 2.5rem;
@@ -606,7 +606,7 @@
 
 	.cw-all-link:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
 		color: var(--color-white);
 	}
 
@@ -617,7 +617,7 @@
 		background: color-mix(in srgb, var(--color-surface), transparent 20%);
 		border-radius: 30px;
 		padding: 0.3rem;
-		border: 1px solid color-mix(in srgb, var(--color-deep-ocean), transparent 88%);
+		border: 1px solid color-mix(in srgb, var(--text-title), transparent 88%);
 		margin-left: auto;
 	}
 
@@ -630,19 +630,19 @@
 		border: none;
 		background: transparent;
 		border-radius: 25px;
-		color: color-mix(in srgb, var(--color-deep-ocean), transparent 40%);
+		color: color-mix(in srgb, var(--text-title), transparent 40%);
 		cursor: pointer;
 		transition: all 0.2s ease;
 	}
 
 	.view-btn:hover {
-		color: var(--color-deep-ocean);
-		background: color-mix(in srgb, var(--color-deep-ocean), transparent 92%);
+		color: var(--text-title);
+		background: color-mix(in srgb, var(--text-title), transparent 92%);
 	}
 
 	.view-btn.active {
 		background: var(--color-surface);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	}
 
@@ -691,7 +691,7 @@
 		cursor: pointer;
 		z-index: 10;
 		font-size: 1.5rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		transition: all 0.3s ease;
 		display: flex;
 		align-items: center;
@@ -699,7 +699,7 @@
 	}
 
 	.nav-btn:hover {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		transform: translateY(-50%) scale(1.1);
 	}
@@ -727,7 +727,7 @@
 	}
 
 	.f-dot.active {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		width: 60px;
 	}
 
@@ -773,7 +773,7 @@
 	}
 
 	.cw-show-all-btn {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		border: none;
 		padding: 0.8rem 2.5rem;
@@ -786,7 +786,7 @@
 
 	.cw-show-all-btn:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
 	}
 
 	/* ─── Responsive ───────────────────────────────────── */

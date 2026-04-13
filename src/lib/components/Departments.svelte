@@ -153,7 +153,7 @@
 <style>
 	.deps {
 		padding: 5rem 1.5rem;
-		background: var(--color-surface);
+		background: var(--bg-card);
 		position: relative;
 		transition: background 800ms ease-in-out;
 	}
@@ -180,7 +180,7 @@
 		font-family: var(--font-heading);
 		font-size: clamp(1.7rem, 4vw, 2.4rem);
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin: 0 0 2rem;
 		text-transform: uppercase;
 		text-align: center;
@@ -238,14 +238,14 @@
 
 	.deps__card:hover {
 		transform: translateY(-10px);
-		box-shadow: 0 0 10px var(--color-sea-blue);
+		box-shadow: 0 0 10px var(--accent-primary);
 	}
 
 	.deps__image-wrap {
 		position: relative;
 		aspect-ratio: 5 / 4;
 		overflow: hidden;
-		background: var(--color-light-blue);
+		background: var(--bg-surface);
 	}
 
 	.deps__image {
@@ -263,7 +263,7 @@
 	.deps__overlay {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(to top, color-mix(in srgb, var(--color-sea-blue), transparent 90%), transparent);
+		background: linear-gradient(to top, color-mix(in srgb, var(--accent-primary), transparent 90%), transparent);
 		opacity: 0;
 		transition: opacity 0.3s ease;
 	}
@@ -291,13 +291,13 @@
 		font-family: var(--font-heading);
 		font-size: 1.25rem;
 		font-weight: 800;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.2;
 		margin: 0;
 	}
 
 	:global(.dark-theme) .deps__card-title {
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 	}
 
 	.deps__card-description {
@@ -322,7 +322,7 @@
 		font-size: 0.9rem;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		border: none;
 		border-radius: 25px;
 		cursor: pointer;
@@ -330,7 +330,7 @@
 	}
 
 	.deps__link:hover {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		transform: translateY(-2px);
 	}
 

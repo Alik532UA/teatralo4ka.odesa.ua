@@ -37,7 +37,7 @@
 				subtitle={$t('news.subtitle')}
 			/>
 		{:else}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold; font-size: 1.2rem;" data-testid="news-empty-label">{$t('news.empty')}</p>
+			<p style="text-align: center; color: var(--text-title); font-weight: bold; font-size: 1.2rem;" data-testid="news-empty-label">{$t('news.empty')}</p>
 		{/if}
 	</div>
 </section>

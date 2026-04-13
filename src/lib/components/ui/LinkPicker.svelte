@@ -193,17 +193,17 @@
 
 	.mode-btn:hover:not(.active) {
 		background: rgba(33, 150, 186, 0.08);
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 	}
 
 	.mode-btn.active {
 		background: white;
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}
 
 	:global(.dark-theme) .mode-btn.active {
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: white;
 	}
 
@@ -219,7 +219,7 @@
 
 	.lp-select:focus {
 		outline: none;
-		border-color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
 	}
 
 	.lp-hint {

@@ -185,7 +185,7 @@
 	}
 
 	.tag {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		padding: 0.4rem 1rem;
 		border-radius: 100px;
@@ -205,7 +205,7 @@
 		font-family: var(--font-heading);
 		font-size: 1.8rem;
 		font-weight: 800;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.5;
 		margin-bottom: 1rem;
 		display: -webkit-box;
@@ -229,7 +229,7 @@
 	}
 
 	.btn-more {
-		background: var(--color-deep-ocean);
+		background: var(--text-title);
 		color: var(--color-white);
 		text-decoration: none;
 		padding: 0.8rem 1.8rem;
@@ -241,7 +241,7 @@
 
 	.btn-more:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--color-deep-ocean), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
 	}
 
 	/* ─── Grid card ──────────────────────────────────────── */
@@ -360,7 +360,7 @@
 		font-family: var(--font-heading);
 		font-size: 1.15rem;
 		font-weight: 700;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		line-height: 1.3;
 		margin-bottom: 0.4rem;
 		white-space: nowrap;

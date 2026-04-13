@@ -80,7 +80,7 @@
 		opacity: 1;
 	}
 	.mde-container :global(.editor-toolbar button) {
-		color: var(--color-deep-ocean) !important;
+		color: var(--text-title) !important;
 	}
 	.mde-container :global(.editor-toolbar button.active),
 	.mde-container :global(.editor-toolbar button:hover) {
@@ -97,7 +97,7 @@
 		font-size: 1rem;
 	}
 	.mde-container :global(.CodeMirror-cursor) {
-		border-left: 2px solid var(--color-deep-ocean);
+		border-left: 2px solid var(--text-title);
 	}
 	.mde-container :global(.editor-preview) {
 		background: var(--color-surface);
@@ -107,6 +107,6 @@
 	.mde-container :global(.editor-preview h1),
 	.mde-container :global(.editor-preview h2),
 	.mde-container :global(.editor-preview h3) {
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 	}
 </style>

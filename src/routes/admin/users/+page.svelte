@@ -437,7 +437,7 @@
 			aria-label={$t('common.close')}
 		>
 			<div class="add-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="0">
-				<div class="modal-header" style="color: var(--color-sea-blue, #2196ba);">
+				<div class="modal-header" style="color: var(--accent-primary, #2196ba);">
 					<UserPlus size={28} />
 					<span>{$t('admin.users.grantAccess')}</span>
 					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label={$t('common.close')}><X size={20} /></button>
@@ -527,7 +527,7 @@
 					<button class="btn-cancel-modal" onclick={() => showAddForm = false}>{$t('admin.users.cancel')}</button>
 					<button
 						class="btn-confirm-delete is-ready"
-						style="background: var(--color-sea-blue, #2196ba); box-shadow: 0 4px 12px rgba(33,150,186,0.3);"
+						style="background: var(--accent-primary, #2196ba); box-shadow: 0 4px 12px rgba(33,150,186,0.3);"
 						onclick={handleAddSubmit}
 						disabled={savingId === 'new' || !newUser.email.includes('@')}
 					>
@@ -701,7 +701,7 @@
 	:global(:root) {
 		--card-bg: var(--theme-dynamic-card-bg, #ffffff);
 		--card-border: rgba(0,0,0,0.05);
-		--text-main: var(--color-deep-ocean, #1a2a3a);
+		--text-main: var(--text-title, #1a2a3a);
 	}
 
 	.users-hierarchy {
@@ -722,7 +722,7 @@
 		gap: 1rem;
 		font-family: var(--font-heading);
 		font-size: 2.2rem;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin: 0;
 		padding-bottom: 1rem;
 		border-bottom: 2px solid rgba(0,0,0,0.05);
@@ -875,7 +875,7 @@
 		background: transparent; color: var(--text-main); outline: none;
 		font-size: 1rem; transition: border-color 0.15s; width: 100%; box-sizing: border-box;
 	}
-	.add-input:focus { border-color: var(--color-sea-blue, #2196ba); }
+	.add-input:focus { border-color: var(--accent-primary, #2196ba); }
 	.add-select { cursor: pointer; }
 	.add-perms { display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; }
 
@@ -906,12 +906,12 @@
 		transition: border-color 0.15s, color 0.15s;
 	}
 	.uh-back-btn:hover {
-		border-color: var(--color-sea-blue);
-		color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
+		color: var(--accent-primary);
 	}
 	.uh-title {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		font-size: 1.8rem;
 		margin: 0 0 0.2rem;
 	}
@@ -927,7 +927,7 @@
 		min-width: 28px;
 		height: 28px;
 		padding: 0 8px;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 		border-radius: 20px;
 		font-size: 0.8rem;
@@ -945,7 +945,7 @@
 		gap: 0.5rem;
 		padding: 0.55rem 1.2rem;
 		border-radius: 14px;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 		border: none;
 		font-size: 0.9rem;

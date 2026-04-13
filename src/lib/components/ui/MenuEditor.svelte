@@ -557,7 +557,7 @@
 		font-family: var(--font-heading);
 		font-size: 1.5rem;
 		font-weight: 800;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 0.5rem;
 	}
 
@@ -653,7 +653,7 @@
 	.me-badge {
 		font-size: 0.7rem;
 		font-weight: 700;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 		padding: 0.1rem 0.45rem;
 		border-radius: 999px;
@@ -678,7 +678,7 @@
 	}
 
 	.me-btn:hover:not(:disabled) {
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 85%);
+		background: color-mix(in srgb, var(--accent-primary), transparent 85%);
 	}
 
 	.me-btn:disabled {
@@ -696,7 +696,7 @@
 		gap: 0.5rem;
 		padding: 1rem;
 		border-radius: 12px;
-		border: 2px dashed var(--color-sea-blue);
+		border: 2px dashed var(--accent-primary);
 		background: color-mix(in srgb, var(--color-surface), transparent 60%);
 		margin-top: 0.3rem;
 	}
@@ -723,7 +723,7 @@
 
 	.me-input:focus {
 		outline: none;
-		border-color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
 	}
 
 	.me-edit-actions {
@@ -734,7 +734,7 @@
 
 	.me-save-btn {
 		padding: 0.5rem 1.2rem;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 		border: none;
 		border-radius: 8px;
@@ -773,8 +773,8 @@
 	}
 
 	.me-add-btn:hover {
-		border-color: var(--color-sea-blue);
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
+		border-color: var(--accent-primary);
+		background: color-mix(in srgb, var(--accent-primary), transparent 92%);
 	}
 
 	.me-add-form {
@@ -784,14 +784,14 @@
 		padding: 1.25rem;
 		margin-top: 1rem;
 		border-radius: 14px;
-		border: 2px dashed var(--color-sea-blue);
+		border: 2px dashed var(--accent-primary);
 		background: color-mix(in srgb, var(--color-surface), transparent 60%);
 	}
 
 	.me-add-title {
 		font-size: 0.9rem;
 		font-weight: 700;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 	}
 
 	.me-add-sub-btn {
@@ -808,7 +808,7 @@
 	}
 
 	.me-add-sub-btn:hover {
-		border-color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
 	}
 
 	.me-type-tabs {
@@ -830,13 +830,13 @@
 	}
 
 	.me-tab:hover {
-		border-color: var(--color-sea-blue);
-		color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
+		color: var(--accent-primary);
 	}
 
 	.me-tab--active {
-		background: var(--color-sea-blue);
-		border-color: var(--color-sea-blue);
+		background: var(--accent-primary);
+		border-color: var(--accent-primary);
 		color: #fff;
 	}
 
@@ -852,7 +852,7 @@
 
 	.me-select:focus {
 		outline: none;
-		border-color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
 	}
 
 	:global(.me-card.has-changes) {

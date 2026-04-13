@@ -354,10 +354,10 @@
 		transition: all 0.3s ease;
 	}
 	.gc-dot.active {
-		background: var(--color-deep-ocean, #005fae);
+		background: var(--text-title, #005fae);
 		width: 60px;
 	}
-	.gc-dot:hover { background: var(--color-deep-ocean, #005fae); opacity: 0.7; }
+	.gc-dot:hover { background: var(--text-title, #005fae); opacity: 0.7; }
 
 	@media (max-width: 1024px) {
 		.gc-carousel { border-radius: 0.75rem; }

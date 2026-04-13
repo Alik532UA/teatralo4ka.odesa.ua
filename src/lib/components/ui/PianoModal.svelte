@@ -401,7 +401,7 @@
 	}
 
 	.toggle-btn.active {
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: white;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	}
@@ -519,7 +519,7 @@
 		min-height: 120px;
 		padding: 20px;
 		background: var(--color-surface);
-		border: 4px solid var(--color-deep-ocean);
+		border: 4px solid var(--text-title);
 		border-radius: 20px;
 		display: flex;
 		align-items: center;
@@ -532,7 +532,7 @@
 	.chord-name {
 		font-size: 2.5rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		font-family: var(--font-heading);
 	}
 
@@ -543,9 +543,9 @@
 
 	.chord-btn.playing {
 		transform: scale(0.92);
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		border-color: white;
-		box-shadow: 0 0 30px var(--color-sea-blue);
+		box-shadow: 0 0 30px var(--accent-primary);
 	}
 
 	.chord-btn.playing .chord-name {

@@ -102,7 +102,7 @@
 		margin: 0;
 		flex: 1;
 		font-size: 1.25rem;
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 		font-family: var(--font-heading, sans-serif);
 	}
 
@@ -117,7 +117,7 @@
 	}
 	.btn-close:hover {
 		background: rgba(0,0,0,0.05);
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 	}
 
 	.modal-body {
@@ -152,7 +152,7 @@
 
 	.btn-cancel {
 		background: transparent;
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 		border: 1px solid rgba(0,0,0,0.1);
 	}
 	.btn-cancel:hover {

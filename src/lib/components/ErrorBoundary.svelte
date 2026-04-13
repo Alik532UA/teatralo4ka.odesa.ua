@@ -41,16 +41,16 @@
 	button {
 		padding: var(--space-sm) var(--space-md);
 		border-radius: var(--radius-md);
-		border: 1px solid var(--color-sea-blue);
+		border: 1px solid var(--accent-primary);
 		background: var(--color-surface);
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 		cursor: pointer;
 		font-weight: 700;
 		transition: all var(--transition-fast);
 	}
 
 	button:hover {
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: var(--color-white);
 	}
 </style>

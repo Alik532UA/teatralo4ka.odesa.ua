@@ -568,12 +568,12 @@
 	}
 
 	.tool-btn:hover {
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 88%);
-		color: var(--color-sea-blue);
+		background: color-mix(in srgb, var(--accent-primary), transparent 88%);
+		color: var(--accent-primary);
 	}
 
 	.tool-btn.active {
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 	}
 
@@ -627,19 +627,19 @@
 	:global(.rich-editor .ProseMirror ul, .rich-editor .ProseMirror ol) { padding-left: 1.5rem; margin: 0.5rem 0; }
 	:global(.rich-editor .ProseMirror li)  { margin: 0.25rem 0; }
 	:global(.rich-editor .ProseMirror blockquote) {
-		border-left: 4px solid var(--color-sea-blue);
+		border-left: 4px solid var(--accent-primary);
 		padding-left: 1rem;
 		color: var(--color-muted-text);
 		margin: 0.75rem 0;
 	}
 	:global(.rich-editor .ProseMirror code) {
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 90%);
+		background: color-mix(in srgb, var(--accent-primary), transparent 90%);
 		border-radius: 4px;
 		padding: 0.1em 0.4em;
 		font-size: 0.88em;
 	}
 	:global(.rich-editor .ProseMirror pre) {
-		background: color-mix(in srgb, var(--color-deep-ocean), transparent 92%);
+		background: color-mix(in srgb, var(--text-title), transparent 92%);
 		border-radius: 10px;
 		padding: 1rem 1.25rem;
 		overflow-x: auto;
@@ -647,7 +647,7 @@
 	}
 	:global(.rich-editor .ProseMirror pre code) { background: none; padding: 0; }
 	:global(.rich-editor .ProseMirror a.prose-link) {
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 		text-decoration: underline;
 		text-underline-offset: 2px;
 	}
@@ -677,11 +677,11 @@
 		vertical-align: top;
 	}
 	:global(.rich-editor .ProseMirror th) {
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 88%);
+		background: color-mix(in srgb, var(--accent-primary), transparent 88%);
 		font-weight: 700;
 	}
 	:global(.rich-editor .ProseMirror .selectedCell::after) {
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 80%);
+		background: color-mix(in srgb, var(--accent-primary), transparent 80%);
 		content: '';
 		position: absolute;
 		inset: 0;
@@ -689,7 +689,7 @@
 		z-index: 2;
 	}
 	:global(.rich-editor .ProseMirror .column-resize-handle) {
-		background-color: var(--color-sea-blue);
+		background-color: var(--accent-primary);
 		bottom: 0;
 		pointer-events: none;
 		position: absolute;
@@ -713,14 +713,14 @@
 	}
 
 	.mode-tab:hover {
-		border-color: var(--color-sea-blue);
-		background: color-mix(in srgb, var(--color-sea-blue), transparent 92%);
-		color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
+		background: color-mix(in srgb, var(--accent-primary), transparent 92%);
+		color: var(--accent-primary);
 	}
 
 	.mode-tab.active {
-		background: var(--color-sea-blue);
-		border-color: var(--color-sea-blue);
+		background: var(--accent-primary);
+		border-color: var(--accent-primary);
 		color: #fff;
 	}
 
@@ -734,7 +734,7 @@
 		line-height: 1.6;
 		border: none;
 		resize: vertical;
-		background: color-mix(in srgb, var(--color-deep-ocean), transparent 94%);
+		background: color-mix(in srgb, var(--text-title), transparent 94%);
 		color: var(--color-dark-text);
 		outline: none;
 		tab-size: 2;
@@ -749,7 +749,7 @@
 		line-height: 1.7;
 		border: none;
 		resize: vertical;
-		background: color-mix(in srgb, var(--color-deep-ocean), transparent 96%);
+		background: color-mix(in srgb, var(--text-title), transparent 96%);
 		color: var(--color-dark-text);
 		outline: none;
 	}
@@ -783,7 +783,7 @@
 	.modal-content h3 {
 		font-size: 1.2rem;
 		font-weight: 700;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 1.5rem;
 	}
 

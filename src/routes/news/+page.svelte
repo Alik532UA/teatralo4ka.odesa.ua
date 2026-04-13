@@ -97,7 +97,7 @@
 
 <style>
 	.news {
-		background: var(--color-light-blue);
+		background: var(--bg-page);
 		padding: 4rem 0 6rem;
 		overflow: hidden;
 		position: relative;
@@ -109,7 +109,7 @@
 
 	.news-page__status {
 		text-align: center;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		font-weight: bold;
 	}
 

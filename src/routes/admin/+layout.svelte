@@ -52,7 +52,7 @@
 		align-items: center;
 		justify-content: center;
 		font-weight: 600;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 	}
 
 	.access-denied {
@@ -80,7 +80,7 @@
 
 	h1 {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 1rem;
 	}
 

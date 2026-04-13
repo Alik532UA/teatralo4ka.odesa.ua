@@ -137,14 +137,14 @@
 	.toast-message {
 		font-size: 0.95rem;
 		font-weight: 500;
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 		word-break: break-word;
 		line-height: 1.4;
 	}
 
 	.toast-action {
 		background: var(--color-light-blue, #e0f2fe);
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 		border: 1px solid rgba(0,0,0,0.05);
 		padding: 0.5rem 1rem;
 		border-radius: 8px;
@@ -181,7 +181,7 @@
 
 	.toast-close:hover {
 		background: rgba(0, 0, 0, 0.05);
-		color: var(--color-deep-ocean, #1a2a3a);
+		color: var(--text-title, #1a2a3a);
 	}
 	
 	@media (max-width: 600px) {

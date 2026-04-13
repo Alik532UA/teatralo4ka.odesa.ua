@@ -58,7 +58,7 @@
 
 	.projects-empty {
 		text-align: center;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		font-weight: bold;
 		font-size: 1.2rem;
 	}

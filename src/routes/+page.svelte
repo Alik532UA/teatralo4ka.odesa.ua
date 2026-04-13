@@ -382,7 +382,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--color-light-blue);
+		background: var(--bg-page);
 		transition: background 800ms ease-in-out;
 	}
 
@@ -391,7 +391,7 @@
 	}
 
 	.gallery-bento {
-		background: var(--color-light-blue);
+		background: var(--bg-page);
 		padding: 4rem 0 6rem;
 		overflow: hidden;
 		position: relative;
@@ -411,7 +411,7 @@
 		font-family: var(--font-heading);
 		font-size: 3rem;
 		font-weight: 900;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-bottom: 1rem;
 		text-transform: uppercase;
 	}

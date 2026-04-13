@@ -102,7 +102,7 @@
 	}
 	.prose :global(h2) {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin-top: 3rem;
 		margin-bottom: 1.5rem;
 		font-size: 2rem;

@@ -428,7 +428,7 @@
 	<form id={formId} onsubmit={handleFormSubmit} style="display: flex; flex-direction: column; gap: 2rem;">
 		<!-- Settings Card -->
 		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-settings-card">
-			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				<Settings size={22} />
 				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.settingsSection')}</h2>
 			</div>
@@ -584,7 +584,7 @@
 			<!-- Sort Order Section (projects only) -->
 			{#if selectedType === 'page_project'}
 				<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-sort-order-section">
-					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean); margin-bottom: 1rem;">
+					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-title); margin-bottom: 1rem;">
 						{$t('admin.editor.sortOrderSection')}
 					</div>
 					<div class="form-group" style="margin: 0;">
@@ -607,7 +607,7 @@
 
 			<!-- Slug Section -->
 			<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-slug-section">
-				<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean); margin-bottom: 1rem;">
+				<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-title); margin-bottom: 1rem;">
 					{$t('admin.editor.slugSection')}
 				</div>
 				<div class="form-group">
@@ -633,7 +633,7 @@
 			<!-- Cover Image Section -->
 			<div style="margin-bottom: 2.5rem; padding: 1.5rem; border-radius: 24px; background: rgba(0,0,0,0.02); border: 1px dashed rgba(0,0,0,0.1);" data-testid="{tp}-cover-section">
 				<div class="cover-section-hd">
-					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--color-deep-ocean);">
+					<div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--text-title);">
 						<LayoutPanelTop size={18} />
 						{$t('admin.editor.coverSection')}
 					</div>
@@ -735,7 +735,7 @@
 
 			<!-- Languages & Publication -->
 			<div style="display: flex; flex-direction: column; gap: 1rem;" data-testid="{tp}-languages-section">
-				<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">
+				<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">
 					<Languages size={18} />
 					{$t('admin.editor.langStatus')}
 				</div>
@@ -751,7 +751,7 @@
 							data-testid="{tp}-lang-card-{lang}"
 						>
 							<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-								<span style="font-weight: 700; color: var(--color-deep-ocean);">{lang === 'uk' ? $t('editor.ukLang') : $t('editor.enLang')}</span>
+								<span style="font-weight: 700; color: var(--text-title);">{lang === 'uk' ? $t('editor.ukLang') : $t('editor.enLang')}</span>
 								{#if translations[lang].isPublished}
 									<div style="color: #22c55e; display: flex; align-items: center; gap: 0.25rem; font-size: 0.8rem; font-weight: 700;">
 										<CheckCircle2 size={16} /> {$t('admin.editor.published')}
@@ -798,7 +798,7 @@
 						/>
 						<span class="switch-slider"></span>
 					</label>
-					<span style="font-weight: 700; color: var(--color-deep-ocean); font-size: 0.9rem;">{$t('admin.editor.excerptLabel')}</span>
+					<span style="font-weight: 700; color: var(--text-title); font-size: 0.9rem;">{$t('admin.editor.excerptLabel')}</span>
 				</div>
 				{#if useCustomExcerpt}
 					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
@@ -844,7 +844,7 @@
 					<span class="switch-slider"></span>
 				</label>
 				<Globe size={18} style="opacity: 0.7;" />
-				<span style="font-weight: 700; color: var(--color-deep-ocean); font-size: 0.9rem;">{$t('admin.editor.externalUrl')}</span>
+				<span style="font-weight: 700; color: var(--text-title); font-size: 0.9rem;">{$t('admin.editor.externalUrl')}</span>
 				{#if useExternalUrl}
 					<button
 						type="button"
@@ -893,7 +893,7 @@
 		<!-- Editor Card (hidden when content is an external URL) -->
 		{#if !useExternalUrl}
 		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-rich-text-editor-container">
-			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				{#if mode === 'create'}
 					<FilePlus size={22} />
 				{:else}
@@ -918,7 +918,7 @@
 
 		<!-- Preview Card -->
 		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-preview-card">
-			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--color-deep-ocean); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
+			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				<LayoutPanelTop size={22} />
 				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.preview')}</h2>
 				<div style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700; color: {translations[activeLang].isPublished ? '#22c55e' : '#94a3b8'}">
@@ -933,7 +933,7 @@
 				<article class="prose" style="max-width: 1000px; margin: 0 auto;">
 					<h1 style="font-size: 3rem; margin-top: 0;">{translations[activeLang].title || $t('admin.editor.titlePlaceholder')}</h1>
 					{#if useExternalUrl}
-						<p style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-sea-blue); font-weight: 600;">
+						<p style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent-primary); font-weight: 600;">
 							<Globe size={18} />
 							{$t('admin.editor.externalUrlPreview')}:
 							<a href={translations[activeLang].externalUrl} target="_blank" rel="noopener noreferrer" style="word-break: break-all;">{translations[activeLang].externalUrl}</a>
@@ -1014,7 +1014,7 @@
 	.modal-content h3 {
 		font-size: 1.2rem;
 		font-weight: 700;
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		margin: 0;
 	}
 
@@ -1046,12 +1046,12 @@
 		transition: border-color 0.15s, color 0.15s;
 	}
 	.af-back-btn:hover {
-		border-color: var(--color-sea-blue);
-		color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
+		color: var(--accent-primary);
 	}
 	.af-title {
 		font-family: var(--font-heading);
-		color: var(--color-deep-ocean);
+		color: var(--text-title);
 		font-size: 1.8rem;
 		margin: 0;
 		white-space: nowrap;
@@ -1078,8 +1078,8 @@
 		transition: border-color 0.15s, color 0.15s, background 0.15s;
 	}
 	.af-icon-btn:hover {
-		border-color: var(--color-sea-blue);
-		color: var(--color-sea-blue);
+		border-color: var(--accent-primary);
+		color: var(--accent-primary);
 		background: rgba(33, 150, 186, 0.07);
 	}
 	.af-submit-btn {
@@ -1088,7 +1088,7 @@
 		gap: 0.5rem;
 		padding: 0.55rem 1.4rem;
 		border-radius: 14px;
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: #fff;
 		border: none;
 		font-size: 0.9rem;
@@ -1149,17 +1149,17 @@
 
 	.mode-btn:hover:not(.active) {
 		background: rgba(33, 150, 186, 0.08);
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 	}
 
 	.mode-btn.active {
 		background: white;
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}
 
 	:global(.dark-theme) .mode-btn.active {
-		background: var(--color-sea-blue);
+		background: var(--accent-primary);
 		color: white;
 	}
 
@@ -1241,7 +1241,7 @@
 	}
 	.af-cat-option.selected {
 		background: rgba(33, 150, 186, 0.12);
-		color: var(--color-sea-blue);
+		color: var(--accent-primary);
 	}
 	.af-cat-option-uk {
 		font-weight: 700;

@@ -3,7 +3,7 @@
 	import { t, locale } from "svelte-i18n";
 	import { ui } from "$lib/states/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
-	import { Sun, Citrus, Moon } from "lucide-svelte";
+	import { Sun, SunDim, Citrus, Moon } from "lucide-svelte";
 
 	interface Props {
 		isOpen: boolean;
@@ -43,7 +43,7 @@
 	</div>
 	<div class="dropdown-group-unified" data-testid="settings-theme{sfx}-group">
 		<span class="dropdown-label-unified">{$t("settings.theme")}</span>
-		<div class="dropdown-options-unified" data-testid="settings-theme{sfx}-options">
+		<div class="dropdown-options-unified" data-testid="settings-theme{sfx}-options" style="flex-wrap: wrap;">
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light"}
@@ -51,6 +51,13 @@
 				aria-label={$t("settings.light")}
 				data-testid="theme-light{sfx}-button"
 			><Sun size={20} /></button>
+			<button
+				class="dropdown-opt-unified"
+				class:active={ui.theme === "light-yellow"}
+				onclick={() => ui.setTheme("light-yellow")}
+				aria-label={$t("settings.lightYellow") || "Light Yellow"}
+				data-testid="theme-light-yellow{sfx}-button"
+			><SunDim size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "yellow"}

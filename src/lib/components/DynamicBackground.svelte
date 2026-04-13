@@ -7,13 +7,14 @@
 
 	let { backgroundType = 0, theme = "light", enabled = false } = $props<{
 		backgroundType?: 0 | 1 | 2 | 3 | 4;
-		theme?: "light" | "dark" | "yellow";
+		theme?: "light" | "dark" | "yellow" | "light-yellow";
 		enabled?: boolean;
 	}>();
 
 	let fixedHeight = $state("100vh");
 	let lastWidth = 0;
 	let isVisible = $derived(enabled && backgroundType !== 0);
+	let bgTheme = $derived((theme === "dark" ? "dark" : "light") as "light" | "dark");
 
 	onMount(() => {
 		const updateHeight = () => {
