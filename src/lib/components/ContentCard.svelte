@@ -185,10 +185,10 @@
 	}
 
 	.tag {
-		background: var(--text-title);
-		color: var(--color-white);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		padding: 0.4rem 1rem;
-		border-radius: 100px;
+		border-radius: var(--radius-full);
 		font-size: 0.75rem;
 		font-weight: 700;
 		text-transform: uppercase;
@@ -229,11 +229,11 @@
 	}
 
 	.btn-more {
-		background: var(--text-title);
-		color: var(--color-white);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		text-decoration: none;
 		padding: 0.8rem 1.8rem;
-		border-radius: 16px;
+		border-radius: var(--radius-full);
 		font-weight: 700;
 		width: fit-content;
 		transition: all 0.3s ease;
@@ -241,7 +241,7 @@
 
 	.btn-more:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
 	}
 
 	/* ─── Grid card ──────────────────────────────────────── */
@@ -489,7 +489,7 @@
 		.btn-more {
 			padding: 0.5rem 1rem;
 			font-size: 0.8rem;
-			border-radius: 12px;
+			border-radius: var(--radius-full);
 			margin-top: 0.5rem;
 		}
 	}

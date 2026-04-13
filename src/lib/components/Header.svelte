@@ -1020,20 +1020,11 @@
 		font-size: 0.8rem;
 		padding: 0.6rem 1.5rem;
 		transition: all var(--transition-base);
-		color: var(--text-title);
-		border-color: var(--text-title);
 		flex-shrink: 0;
-	}
-
-	:global(.dark-theme) .header__cta {
-		color: var(--color-dark-text);
-		border-color: var(--color-dark-text);
 	}
 
 	.header__cta:hover {
 		transform: scale(1.03);
-		background: var(--text-title);
-		color: var(--color-white);
 	}
 
 	.header__burger {

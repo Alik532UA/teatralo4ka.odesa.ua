@@ -177,10 +177,10 @@
 	}
 
 	.tag {
-		background: var(--text-title);
-		color: var(--color-white);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		padding: 0.4rem 1rem;
-		border-radius: 100px;
+		border-radius: var(--radius-full);
 		font-size: 0.8rem;
 		font-weight: 700;
 		text-transform: uppercase;

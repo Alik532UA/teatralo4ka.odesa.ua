@@ -318,19 +318,19 @@
 		display: inline-block;
 		padding: 0.75rem 2rem;
 		font-weight: 700;
-		color: var(--color-white);
+		color: var(--text-on-accent);
 		font-size: 0.9rem;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		background: var(--accent-primary);
 		border: none;
-		border-radius: 25px;
+		border-radius: var(--radius-full);
 		cursor: pointer;
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	.deps__link:hover {
-		background: var(--text-title);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
 		transform: translateY(-2px);
 	}
 

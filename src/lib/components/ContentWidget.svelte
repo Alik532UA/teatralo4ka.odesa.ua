@@ -553,7 +553,7 @@
 	.cw-all-link--inline {
 		padding: 0.5rem 1.5rem;
 		font-size: 0.9rem;
-		border-radius: 30px;
+		border-radius: var(--radius-full);
 	}
 
 	@media (max-width: 1024px) {
@@ -580,11 +580,11 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--btn-all-bg);
-		color: var(--color-white);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		border: none;
 		padding: 0.8rem 2.5rem;
-		border-radius: 30px;
+		border-radius: var(--radius-full);
 		font-weight: 700;
 		font-size: 1rem;
 		cursor: pointer;
@@ -606,8 +606,8 @@
 
 	.cw-all-link:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--btn-all-bg), transparent 80%);
-		color: var(--color-white);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
+		color: var(--text-on-accent);
 	}
 
 	/* ─── View switcher (pills) ────────────────────────── */
@@ -773,11 +773,11 @@
 	}
 
 	.cw-show-all-btn {
-		background: var(--btn-all-bg);
-		color: var(--color-white);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		border: none;
 		padding: 0.8rem 2.5rem;
-		border-radius: 16px;
+		border-radius: var(--radius-full);
 		font-weight: 700;
 		font-size: 1rem;
 		cursor: pointer;
@@ -786,7 +786,7 @@
 
 	.cw-show-all-btn:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--btn-all-bg), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
 	}
 
 	/* ─── Responsive ───────────────────────────────────── */

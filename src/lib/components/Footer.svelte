@@ -433,7 +433,7 @@
 		width: 120px;
 		height: 36px;
 		background: transparent;
-		color: var(--footer-text);
+		color: var(--accent-primary);
 		border: 2px solid var(--accent-primary);
 		border-radius: var(--radius-full);
 		font-family: var(--font-heading);
@@ -442,13 +442,11 @@
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		transition: all var(--transition-base);
-		text-align: center;
-		line-height: 1.1;
 	}
 
 	.footer__btn-order:hover {
 		background: var(--accent-primary);
-		color: var(--palette-white);
+		color: var(--text-on-accent);
 		transform: scale(1.03);
 	}
 
@@ -463,7 +461,7 @@
 		align-items: center;
 		gap: var(--space-xs);
 		font-size: 0.8rem;
-		color: var(--footer-text);
+		color: var(--accent-primary);
 		white-space: nowrap;
 	}
 
