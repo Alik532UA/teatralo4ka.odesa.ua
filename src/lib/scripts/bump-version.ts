@@ -35,7 +35,13 @@ try {
         JSON.stringify(staticVersionData, null, 4),
     );
 
-    console.log(`✅ Version bumped to ${newVersion}`);
+    // 4. Stage the changes
+    execSync("git add package.json package-lock.json static/app-version.json", {
+        cwd: rootDir,
+        stdio: "inherit",
+    });
+
+    console.log(`✅ Version bumped to ${newVersion} and changes staged.`);
 } catch (error) {
     console.error("❌ Failed to bump version:", error);
     process.exit(1);
