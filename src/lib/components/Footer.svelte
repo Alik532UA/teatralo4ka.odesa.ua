@@ -285,7 +285,7 @@
 	}
 	.phone-icon-wrap {
 		width: 44px; height: 44px; border-radius: 12px;
-		background: var(--bg-page); color: var(--accent-primary);
+		background: var(--bg-page); color: var(--header-nav-active);
 		display: flex; align-items: center; justify-content: center;
 	}
 	.phone-text {
@@ -434,8 +434,8 @@
 		height: 36px;
 		white-space: nowrap;
 		background: transparent;
-		color: var(--accent-primary);
-		border: 2px solid var(--accent-primary);
+		color: var(--header-nav-active);
+		border: 2px solid var(--header-nav-active);
 		border-radius: var(--radius-full);
 		font-family: var(--font-heading);
 		font-weight: 700;
@@ -446,7 +446,7 @@
 	}
 
 	.footer__btn-order:hover {
-		background: var(--accent-primary);
+		background: var(--header-nav-active);
 		color: var(--text-on-accent);
 		transform: scale(1.03);
 	}
@@ -462,7 +462,7 @@
 		align-items: center;
 		gap: var(--space-xs);
 		font-size: 0.8rem;
-		color: var(--accent-primary);
+		color: var(--header-nav-active);
 		white-space: nowrap;
 	}
 

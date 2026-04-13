@@ -16,13 +16,13 @@
 		width="16"
 		height="12"
 		rx="2"
-		stroke="#F5A623"
+		stroke="currentColor"
 		stroke-width="1.5"
 		fill="none"
 	/>
 	<path
 		d="M 1,4 L 9,10 L 17,4"
-		stroke="#F5A623"
+		stroke="currentColor"
 		stroke-width="1.5"
 		fill="none"
 		stroke-linecap="round"

@@ -1021,10 +1021,14 @@
 		padding: 0.6rem 1.5rem;
 		transition: all var(--transition-base);
 		flex-shrink: 0;
+		color: var(--header-nav-active) !important;
+		border-color: var(--header-nav-active) !important;
 	}
 
 	.header__cta:hover {
 		transform: scale(1.03);
+		background: var(--header-nav-active) !important;
+		color: var(--text-on-accent) !important;
 	}
 
 	.header__burger {

@@ -17,8 +17,8 @@
 	--accent-secondary: var(--palette-yellow);
 	
 	/* Component Specific */
-	--header-nav-link: var(--palette-navy-500);
-	--header-nav-active: var(--palette-navy-page);
+	--header-nav-link: var(--accent-primary);
+	--header-nav-active: var(--text-title);
 	--btn-all-bg: var(--palette-blue);
 	--footer-text: var(--palette-navy-page);
 

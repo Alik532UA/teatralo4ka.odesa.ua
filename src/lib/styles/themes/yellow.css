@@ -16,6 +16,12 @@
 	--accent-primary: var(--palette-navy-900);
 	--accent-secondary: var(--palette-blue);
 	
+	/* Component Specific */
+	--header-nav-link: var(--text-main);
+	--header-nav-active: var(--accent-primary);
+	--btn-all-bg: var(--text-title);
+	--footer-text: var(--text-main);
+
 	/* Interactive */
 	--border-main: rgba(0, 36, 47, 0.1);
 	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.12);
