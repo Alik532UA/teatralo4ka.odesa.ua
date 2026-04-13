@@ -1,42 +1,86 @@
-# sv
+<h1 align="center">
+  <br>
+  <img src="static/ods-as5-logo-full_AlphaChannel.png" alt="Одеська театральна школа" width="200">
+  <br>
+  Одеська театральна школа
+  <br>
+</h1>
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+<h3 align="center">Школа, в яку діти завжди йдуть із задоволенням!</h3>
 
-## Creating a project
+<p align="center">
+  <a href="https://alik532ua.github.io/teatralo4ka.odesa.ua/">🌐 Перейти на сайт</a>
+</p>
 
-If you're seeing this, you've probably already done this step. Congrats!
+---
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## 🎭 Про школу
 
-To recreate this project with the same configuration:
+Одеська театральна школа — заклад мистецької освіти для дітей та молоді в Одесі. Ми пропонуємо творчий розвиток, концертну діяльність та всебічне розкриття талантів через театральне мистецтво, музику, спів та живопис.
 
-```sh
-# recreate this project
-npx sv@0.13.1 create --template minimal --types ts --install npm ./
-```
+---
 
-## Developing
+## 🎼 Відділення
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+| Відділення | Напрямки |
+|------------|----------|
+| 🎭 **Театральне** | Акторська майстерність, сценічна мова, танець |
+| 🎵 **Музичне** | Вокал, хор, фортепіано, гітара |
+| 🎨 **Художнє** | Живопис, композиція, малювання |
+| ✨ **Відділення естетичного виховання** | Розвиток смаку, етикету, творчого мислення та культурної впевненості |
 
-```sh
-npm run dev
+---
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## 🎓 Для вступу
 
-## Building
+Запрошуємо дітей та молодь до вступу! Детальна інформація про умови, документи та програми навчання — на [сторінці вступу](https://alik532ua.github.io/teatralo4ka.odesa.ua/admission).
 
-To create a production version of your app:
+---
 
-```sh
-npm run build
-```
+## 📞 Контакти
 
-You can preview the production build with `npm run preview`.
+| | |
+|---|---|
+| 📍 **Адреса** | [вул. Софіївська, 24, Одеса](https://maps.google.com/?q=вул.+Софіївська,+24,+Одеса) |
+| 📞 **Директор** | [+380 48 723 61 01](tel:+380487236101) |
+| 📞 **Секретар** | [+380 48 723 61 02](tel:+380487236102) |
+| 📞 **Завуч** | [+380 48 723 61 03](tel:+380487236103) |
+| 📞 **Вахта** | [+380 48 723 61 04](tel:+380487236104) |
+| 📧 **Email** | [teatr_school@i.ua](mailto:teatr_school@i.ua) |
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+---
+
+## 🌐 Ми в соціальних мережах
+
+<p align="center">
+  <a href="https://www.facebook.com/groups/CTS.od.ua/">Facebook</a> •
+  <a href="https://www.instagram.com/teatralo4ka_official_/">Instagram</a> •
+  <a href="https://t.me/teatralo4ka_official">Telegram</a> •
+  <a href="https://www.youtube.com/user/dtschool/">YouTube</a> •
+  <a href="https://www.tiktok.com/@teatralo4ka_official/">TikTok</a>
+</p>
+
+---
+
+## 📰 Проєкти
+
+- 🎬 [**Театр-про**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/teatr-pro) — Театральний проєкт школи
+- 📸 [**Фотоархів**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/photo-archive) — Фотолітопис шкільного життя
+- 💛 [**Підтримати постановку**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/support-production) — Благодійна підтримка
+
+---
+
+## 📖 Корисні посилання
+
+- [🏠 Головна сторінка](https://alik532ua.github.io/teatralo4ka.odesa.ua/)
+- [📜 Історія школи](https://alik532ua.github.io/teatralo4ka.odesa.ua/history)
+- [🎭 Про школу](https://alik532ua.github.io/teatralo4ka.odesa.ua/about)
+- [📰 Новини та події](https://alik532ua.github.io/teatralo4ka.odesa.ua/news)
+- [🎓 Для вступу](https://alik532ua.github.io/teatralo4ka.odesa.ua/admission)
+- [📞 Контакти](https://alik532ua.github.io/teatralo4ka.odesa.ua/contacts)
+
+---
+
+<p align="center">
+  <sub>© Одеська театральна школа</sub>
+</p>

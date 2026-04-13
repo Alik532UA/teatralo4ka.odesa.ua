@@ -136,18 +136,7 @@
     "off": "Off",
     "debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
   },
-  "departments": {
-    "description": "Today the school has 6 departments with 335 students:",
-    "additional_info": "More than 40 teachers work in our school — true professionals who find an approach to each student and help reveal talent. The educational process takes place in 19 classrooms filled with music, inspiration, and creativity.",
-    "list": {
-      "piano": "Piano Department",
-      "strings": "String Instruments Department",
-      "vocal": "Solo Singing Department",
-      "pop": "Pop Department",
-      "theory": "Theoretical Disciplines Department",
-      "folk": "Folk Instruments Department"
-    }
-  },
+
   "piano": {
     "hint": "Play using your mouse or keyboard. Hover over the piano to see which keyboard keys correspond to the notes.",
     "mode": {
