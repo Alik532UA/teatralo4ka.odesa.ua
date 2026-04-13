@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="static/ods-as5-logo-full_AlphaChannel.png" alt="Одеська театральна школа" width="200">
+  <img src="static/logo/png/logo-800px484px.png" alt="Одеська театральна школа" width="200">
   <br>
   Одеська театральна школа
   <br>
