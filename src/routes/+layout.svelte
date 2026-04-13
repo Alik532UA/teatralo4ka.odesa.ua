@@ -13,6 +13,7 @@
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { ui } from '$lib/states/ui.svelte';
 	import { checkForUpdates } from '$lib/services/version';
+	import { getStorageKey } from '$lib/config/storage';
 
 	let { children, data } = $props();
 
@@ -28,8 +29,8 @@
 
 	perf('+layout.svelte: script init');
 
-	// Debug mode: localStorage.setItem('debug','1') + refresh to show 🐛 button
-	const debugMode = browser && localStorage.getItem('debug') === '1';
+	// Debug mode: localStorage.setItem(getStorageKey('debug'),'1') + refresh to show 🐛 button
+	const debugMode = browser && localStorage.getItem(getStorageKey('debug')) === '1';
 
 	// ── Perf debug helpers (active only when debugMode) ───────────────────────
 	function showPerfTextarea(text: string) {
@@ -296,7 +297,7 @@
 	<Toast />
 	<ConfirmModal />
 
-	<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('debug','1') + refresh -->
+	<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('teatralo4ka_debug','1') + refresh -->
 	{#if browser && debugMode}
 		<button
 			class="perf-debug-btn"

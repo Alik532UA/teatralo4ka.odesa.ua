@@ -20,7 +20,7 @@
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 		<script>
 			try {
-				var t = localStorage.getItem('theme');
+				var t = localStorage.getItem('teatralo4ka_theme');
 				if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 					document.documentElement.setAttribute('data-theme', 'dark');
 					document.documentElement.classList.add('dark-theme');
@@ -193,7 +193,7 @@
 			(function() {
 				window.__perf('inline-body: splash script start');
 				try {
-					if (localStorage.getItem('homeSettings')) {
+					if (localStorage.getItem('teatralo4ka_homeSettings')) {
 						document.getElementById('app-splash').style.display = 'none';
 						return;
 					}

@@ -3,6 +3,7 @@
 	import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
 	import { GalleryHorizontal, LayoutGrid, List, Play, Pause } from 'lucide-svelte';
 	import { browser } from '$app/environment';
+	import { getStorageKey } from '$lib/config/storage';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
@@ -136,7 +137,7 @@
 
 	onMount(() => {
 		if (storageKey) {
-			const saved = localStorage.getItem(storageKey) as ContentViewMode | null;
+			const saved = localStorage.getItem(getStorageKey(storageKey)) as ContentViewMode | null;
 			if (saved && ['carousel', 'grid', 'list'].includes(saved)) {
 				viewOverride = config.showViewSwitcher ? saved : null;
 			}
@@ -157,7 +158,7 @@
 
 	// Persist view to localStorage
 	$effect(() => {
-		if (browser && storageKey && viewOverride) localStorage.setItem(storageKey, view);
+		if (browser && storageKey && viewOverride) localStorage.setItem(getStorageKey(storageKey), view);
 	});
 
 	// ── Carousel navigation ───────────────────────────────────────────────────
@@ -265,7 +266,7 @@
 		if (showAllLink && allLinkHref) {
 			if (browser && allLinkViewKey) {
 				const viewToSave = view === 'list' ? 'list' : 'grid';
-				localStorage.setItem(allLinkViewKey, viewToSave);
+				localStorage.setItem(getStorageKey(allLinkViewKey), viewToSave);
 			}
 			goto(allLinkHref);
 		} else {
@@ -277,7 +278,7 @@
 		e.preventDefault();
 		if (browser && allLinkViewKey) {
 			const viewToSave = view === 'list' ? 'list' : 'grid';
-			localStorage.setItem(allLinkViewKey, viewToSave);
+			localStorage.setItem(getStorageKey(allLinkViewKey), viewToSave);
 		}
 		if (allLinkHref) goto(allLinkHref);
 	}

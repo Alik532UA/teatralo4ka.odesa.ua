@@ -1,7 +1,8 @@
 import { base } from "$app/paths";
+import { getStorageKey } from "../config/storage";
 
 const VERSION_URL = `${base}/app-version.json`;
-const CACHE_VERSION_KEY = "app_cache_version";
+const CACHE_VERSION_KEY = getStorageKey("app_cache_version");
 
 /**
  * Checks for app updates and forces a cache-clearing reload if a new version is available.
