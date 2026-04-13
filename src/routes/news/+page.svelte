@@ -73,10 +73,10 @@
 </svelte:head>
 
 <!-- News Section -->
-<section class="news" id="news-section" aria-labelledby="news-title" style="padding-top: 140px;" data-testid="news-page-section">
+<section class="news news--page" id="news-section" aria-labelledby="news-title" data-testid="news-page-section">
 	<div class="container" data-testid="news-page-container">
 		{#if loading}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold;" data-testid="news-page-loading-label">{$t('news.loading')}</p>
+			<p class="news-page__status" data-testid="news-page-loading-label">{$t('news.loading')}</p>
 		{:else if newsItems.length > 0}
 			<ContentWidget
 				items={newsItems}
@@ -90,7 +90,7 @@
 				subtitle={$t('news.subtitle')}
 			/>
 		{:else}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold; font-size: 1.2rem;" data-testid="news-page-empty-label">{$t('news.empty')}</p>
+			<p class="news-page__status news-page__status--large" data-testid="news-page-empty-label">{$t('news.empty')}</p>
 		{/if}
 	</div>
 </section>
@@ -101,6 +101,20 @@
 		padding: 4rem 0 6rem;
 		overflow: hidden;
 		position: relative;
+	}
+
+	.news--page {
+		padding-top: 140px;
+	}
+
+	.news-page__status {
+		text-align: center;
+		color: var(--color-deep-ocean);
+		font-weight: bold;
+	}
+
+	.news-page__status--large {
+		font-size: 1.2rem;
 	}
 
 	@media (max-width: 1024px) {

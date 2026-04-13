@@ -32,6 +32,7 @@
     "play": "Play",
     "pause": "Pause",
     "view": "View",
+    "gallery": "Gallery",
     "errorTitle": "Oops! Something went wrong",
     "errorDescription": "Something went wrong while loading this component.",
     "tryAgain": "Try again",
@@ -623,9 +624,7 @@
       "error": "Invalid email or password"
     }
   },
-  "common": {
-    "loading": "Loading..."
-  },
+
   "news": {
     "title": "NEWS & EVENTS",
     "subtitle": "Stay up to date with the life of our school",

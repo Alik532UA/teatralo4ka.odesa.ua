@@ -72,7 +72,7 @@
 <section class="projects-page" data-testid="projects-page-section">
 	<div class="container" data-testid="projects-page-container">
 		{#if loading}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold;" data-testid="projects-page-loading-label">{$t('common.loading')}</p>
+			<p class="projects-page__status" data-testid="projects-page-loading-label">{$t('common.loading')}</p>
 		{:else if projectItems.length > 0}
 			<ContentWidget
 				items={projectItems}
@@ -86,7 +86,7 @@
 				subtitle={$t('projects.subtitle')}
 			/>
 		{:else}
-			<p style="text-align: center; color: var(--color-deep-ocean); font-weight: bold; font-size: 1.2rem;" data-testid="projects-page-empty-label">{$t('projectsList.noProjects')}</p>
+			<p class="projects-page__status projects-page__status--large" data-testid="projects-page-empty-label">{$t('projectsList.noProjects')}</p>
 		{/if}
 	</div>
 </section>
@@ -96,6 +96,16 @@
 		padding: 160px 0 6rem;
 		min-height: 80vh;
 		overflow: hidden;
+	}
+
+	.projects-page__status {
+		text-align: center;
+		color: var(--color-deep-ocean);
+		font-weight: bold;
+	}
+
+	.projects-page__status--large {
+		font-size: 1.2rem;
 	}
 
 	@media (max-width: 1024px) {

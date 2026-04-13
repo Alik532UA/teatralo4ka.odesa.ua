@@ -39,17 +39,23 @@ src/
 │   │   ├── admin/              # Admin-only components (ArticleForm)
 │   │   ├── backgrounds/        # Animated background variants (Particles, Waves, etc.)
 │   │   ├── icons/              # SVG icon components
-│   │   ├── ui/                 # Reusable UI (Toast, ConfirmModal, RichTextEditor, etc.)
+│   │   ├── ui/                 # Reusable UI (Toast, ConfirmModal, RichTextEditor, MenuEditor, LinkPicker, etc.)
 │   │   ├── ErrorBoundary.svelte  # <svelte:boundary> wrapper for Firebase-dependent sections
+│   │   ├── ContentCard.svelte    # Universal card (carousel/grid/list) — used for news & projects
+│   │   ├── ContentWidget.svelte  # Universal carousel/grid/list widget with view switcher
+│   │   ├── GalleryCarousel.svelte # Image gallery carousel with keyboard/swipe/wheel nav
+│   │   ├── DetailPage.svelte     # Shared article/page detail view (used by [slug], news/[id], projects/[slug])
 │   │   ├── StaticPage.svelte     # Renders prerendered Markdown pages (about, history, etc.)
+│   │   ├── Projects.svelte       # Homepage/page projects section (wraps ContentWidget)
 │   │   ├── Header.svelte         # Site header with nav, theme toggle, lang switch
 │   │   ├── Footer.svelte
 │   │   ├── Hero.svelte           # Landing hero section
-│   │   ├── News.svelte           # Homepage news carousel (Firebase)
+│   │   ├── News.svelte           # Homepage news section (wraps ContentWidget)
 │   │   ├── DynamicBackground.svelte  # Animated background switcher
 │   │   └── ...
 │   ├── config/
-│   │   └── categories.ts        # Article category definitions
+│   │   ├── categories.ts        # Article category definitions
+│   │   └── static-projects.ts   # Static project definitions (slug, titles, coverUrl, href/externalUrl)
 │   ├── controllers/
 │   │   └── Carousel.svelte.ts    # Carousel state controller (runes)
 │   ├── firebase/
@@ -73,9 +79,9 @@ src/
 │   │   ├── generate-changelog.ts
 │   │   └── validate-content.ts  # Markdown frontmatter validator (runs pre-build)
 │   ├── services/
-│   │   ├── articles.ts          # Public article read API (getArticles, getPageBySlug, etc.)
+│   │   ├── articles.ts          # Public article read API (getArticles, getPageBySlug, getAllProjects, etc.)
 │   │   ├── admin-articles.ts    # Admin write API (addArticle, updateArticle, deleteArticle, fetchAllContent, generateSlug)
-│   │   ├── settings.ts          # Project settings service (menu, SEO)
+│   │   ├── settings.ts          # Project settings (home, header, news, projects, about, gallery widgets)
 │   │   ├── seo.svelte.ts        # SEO meta tag management
 │   │   └── errorLogger.ts       # Error logging service
 │   ├── states/
@@ -88,7 +94,10 @@ src/
 │   │       ├── light.css
 │   │       └── dark.css
 │   └── utils/
-│       └── lazyLoad.ts          # Intersection Observer lazy loading
+│       ├── carouselInteraction.ts # Shared drag/swipe/wheel logic for all carousels
+│       ├── markedConfig.ts       # Shared marked renderer config (external links, monobank fix, XSS escape)
+│       ├── renderContent.ts      # Client-side markdown/HTML rendering with DOMPurify
+│       └── lazyLoad.ts           # Intersection Observer lazy loading
 ├── routes/
 │   ├── +layout.svelte           # Root layout (Header, Footer, Toast, DynamicBackground)
 │   ├── +layout.ts               # i18n init
@@ -125,27 +134,45 @@ Firestore collections:
 ├── projects/{projectId}/
 │   ├── articles/{articleId}     # News articles, CMS pages & project pages
 │   │   ├── type?: string        # 'article' | 'page' | 'page_project'
-│   │   ├── slug?: string        # URL slug for pages/projects
+│   │   ├── slug?: string        # URL slug (regex: /^[a-z0-9_]+$/)
+│   │   ├── sortOrder?: number   # Manual sort (0-9999)
 │   │   ├── category: string     # 'news' | 'events' | ... | custom 'ukText||enText'
 │   │   ├── translations: { uk: {...}, en: {...} }
+│   │   │   ├── title, content, isPublished, coverUrl, contentFormat
+│   │   │   ├── excerpt?: string  # Short description for cards
+│   │   │   └── externalUrl?: string # Redirect URL (e.g. external sites)
 │   │   ├── createdAt: Timestamp
 │   │   └── updatedAt: Timestamp
-│   └── settings/{settingId}     # Menu config, SEO settings
+│   └── settings/{settingId}     # 'home', 'header', 'news', 'projects', 'about'
+│       ├── home: blocks, newsWidget, projectsWidget, galleryWidget (+mobile variants)
+│       ├── header: sections, mobileOverlay, cta, debugPanel, ticker
+│       ├── news: newsWidget, mobileNewsWidget
+│       ├── projects: projectsWidget, mobileProjectsWidget
+│       └── about: galleryWidget, mobileGalleryWidget
 └── users/{uid}                  # User profiles, roles, projectIds
 ```
 
 ## Patterns & Conventions
 
 ### Static Pages (build-time)
-Static pages use the `StaticPage.svelte` component. Content lives in `src/lib/i18n/pages/{lang}/*.md` files with Zod-validated frontmatter. The `+page.server.ts` files use `loader.ts` to parse Markdown at build time. The rendered HTML is sanitized twice: once at build-time (isomorphic-dompurify) and once at render-time (dompurify).
+Static pages use the `StaticPage.svelte` component. Content lives in `src/lib/i18n/pages/{lang}/*.md` files with Zod-validated frontmatter. The `+page.server.ts` files use `loader.ts` to parse Markdown at build time. The rendered HTML is sanitized twice: once at build-time (isomorphic-dompurify via `markedConfig.ts`) and once at render-time (dompurify via `renderContent.ts`). Both use the shared `DOMPURIFY_HTML_CONFIG` and `configureMarkedRenderer()` from `markedConfig.ts`.
 
 ### Dynamic Pages (client-side)
-Firebase-dependent pages load data in `onMount` or `$effect`. Articles are validated through `docToArticle()` which uses Zod schemas with graceful fallback. The `[slug]` catch-all route handles CMS pages. Use `{#key param}` on route components to force remount on param change.
+Firebase-dependent pages load data in `onMount` or `$effect`. Articles are validated through `docToArticle()` which uses Zod schemas with graceful fallback. The `[slug]` catch-all route handles CMS pages. Use `{#key param}` on route components to force remount on param change. Detail pages use the shared `DetailPage.svelte` component with `fetchFn` prop.
+
+### Content Cards & Widgets
+- `ContentCard.svelte` — universal card component with `variant` ('carousel' | 'grid' | 'list'), `linkPrefix`, `readMoreLabel`, `testIdPrefix` props
+- `ContentWidget.svelte` — universal carousel/grid/list widget with view switcher, autoplay, infinite loop, pinned items
+- `GalleryCarousel.svelte` — image-focused carousel with aspect ratio, captions, keyboard navigation
+- Carousel interaction logic (drag, swipe, wheel) is shared via `carouselInteraction.ts`
+
+### Widget Configuration (SWR pattern)
+All widget configs follow the SWR pattern: instant render from `localStorage` cache, then revalidate from Firestore. Each config has desktop + mobile variants. The `isMobile` detection uses `$state` with `MediaQueryListEvent` listener for reactive switching.
 
 ### Error Handling
 - `<svelte:boundary>` via `ErrorBoundary.svelte` wraps Firebase-dependent homepage sections
 - Root `+error.svelte` and `admin/+error.svelte` handle route-level errors
-- Firebase read operations: catch errors, show user-facing feedback (not silent)
+- Firebase read operations: `catch (e: unknown)` with `e instanceof Error` check
 - Zod validation at Firebase read boundaries with fallback, not crash
 
 ### i18n
@@ -162,8 +189,10 @@ Firebase-dependent pages load data in `onMount` or `$effect`. Articles are valid
 ### CSS
 - CSS custom properties defined in `global.css` and theme files
 - Component-scoped `<style>` blocks (no `:global` unless necessary)
-- Color tokens: `--color-sea-blue`, `--color-dark-text`, `--color-ice-blue`, etc.
+- Color tokens: `--color-sea-blue`, `--color-dark-text`, `--color-ice-blue`, `--color-deep-ocean`, etc.
 - Spacing tokens: `--space-sm`, `--space-md`, `--space-lg`, `--space-xl`, `--space-2xl`
+- **Primary responsive breakpoint: `1024px`** — standardized across all components
+- Avoid inline styles — extract to CSS classes (especially in admin pages)
 
 ## Commands
 
@@ -183,3 +212,5 @@ Before any PR or commit, ensure:
 3. `npm test -- --run` — all tests pass
 4. No `console.log` in production code (only `console.error` for real errors)
 5. No `any` types at public API boundaries (use Zod schemas or explicit types)
+6. No `catch (e: any)` — always use `catch (e: unknown)` with `e instanceof Error`
+7. Event handlers must use specific types: `(e: Event & { currentTarget: HTMLInputElement })`, not `(e: any)`

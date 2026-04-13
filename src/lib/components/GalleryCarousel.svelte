@@ -25,9 +25,13 @@
 		items: GalleryItem[];
 		config: GalleryWidgetConfig;
 		testIdPrefix?: string;
+		/** Accessible label for the carousel region */
+		ariaLabel?: string;
 	}
 
-	let { items, config, testIdPrefix = 'gallery-carousel' }: Props = $props();
+	let { items, config, testIdPrefix = 'gallery-carousel', ariaLabel = '' }: Props = $props();
+
+	const resolvedAriaLabel = $derived(ariaLabel || $t('common.gallery'));
 
 	let autoplayOverride = $state<boolean | null>(null);
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
@@ -174,7 +178,7 @@
 	data-testid={testIdPrefix}
 	role="region"
 	aria-roledescription="carousel"
-	aria-label="Gallery"
+	aria-label={resolvedAriaLabel}
 	tabindex="0"
 	onmouseenter={() => { isHovered = true; }}
 	onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
@@ -239,7 +243,7 @@
 					class="gc-dot"
 					class:active={i === activeDot}
 					onclick={() => goTo(i)}
-					aria-label="Go to photo {i + 1}"
+					aria-label="{$t('common.slide')} {i + 1}"
 					data-testid="{testIdPrefix}-dot-{i}"
 				></button>
 			{/each}
