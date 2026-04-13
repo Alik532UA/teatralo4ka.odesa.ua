@@ -53,6 +53,11 @@
 	--palette-gray-500: #999999;
 
 	/* --- Common Variables --- */
+	--header-nav-link: var(--color-dark-text);
+	--header-nav-active: var(--accent-primary);
+	--btn-all-bg: var(--text-title);
+	--footer-text: var(--text-main);
+	
 	--font-main: 'e-Ukraine', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 	--font-heading: var(--font-main);
 	--font-body: var(--font-main);

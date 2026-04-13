@@ -580,7 +580,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--text-title);
+		background: var(--btn-all-bg);
 		color: var(--color-white);
 		border: none;
 		padding: 0.8rem 2.5rem;
@@ -606,7 +606,7 @@
 
 	.cw-all-link:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--btn-all-bg), transparent 80%);
 		color: var(--color-white);
 	}
 
@@ -773,7 +773,7 @@
 	}
 
 	.cw-show-all-btn {
-		background: var(--text-title);
+		background: var(--btn-all-bg);
 		color: var(--color-white);
 		border: none;
 		padding: 0.8rem 2.5rem;
@@ -786,7 +786,7 @@
 
 	.cw-show-all-btn:hover {
 		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--text-title), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--btn-all-bg), transparent 80%);
 	}
 
 	/* ─── Responsive ───────────────────────────────────── */

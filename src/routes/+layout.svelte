@@ -346,7 +346,7 @@
 	.app__base-bg {
 		position: fixed;
 		inset: 0;
-		background: var(--color-light-blue);
+		background: var(--bg-page);
 		z-index: -2;
 		pointer-events: none;
 	}

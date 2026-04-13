@@ -871,7 +871,7 @@
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		color: var(--color-dark-text);
+		color: var(--header-nav-link);
 		padding: var(--space-xs) var(--space-md);
 		border-radius: var(--radius-sm);
 		transition: color var(--transition-fast);
@@ -881,7 +881,7 @@
 
 	.header__nav-link:hover,
 	.header__nav-link.active {
-		color: var(--accent-primary);
+		color: var(--header-nav-active);
 	}
 
 	.header__nav-link.active::after {

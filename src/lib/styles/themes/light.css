@@ -3,12 +3,12 @@
 	--bg-page: var(--palette-white);
 	--bg-surface: var(--palette-cyan-50);
 	--bg-card: var(--palette-white);
-	--bg-header: color-mix(in srgb, var(--palette-cyan-50), transparent 10%);
+	--bg-header: var(--palette-cyan-50);
 	--bg-footer: var(--palette-cyan-50);
 	
 	/* Semantic Text */
 	--text-main: var(--palette-navy-500);
-	--text-title: var(--palette-navy-900);
+	--text-title: var(--palette-navy-page);
 	--text-muted: var(--palette-navy-500);
 	--text-on-accent: var(--palette-white);
 	
@@ -16,6 +16,12 @@
 	--accent-primary: var(--palette-blue);
 	--accent-secondary: var(--palette-yellow);
 	
+	/* Component Specific */
+	--header-nav-link: var(--palette-navy-500);
+	--header-nav-active: var(--palette-navy-page);
+	--btn-all-bg: var(--palette-blue);
+	--footer-text: var(--palette-navy-page);
+
 	/* Interactive */
 	--border-main: var(--palette-cyan-200);
 	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.08);

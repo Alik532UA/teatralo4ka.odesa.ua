@@ -433,7 +433,7 @@
 		width: 120px;
 		height: 36px;
 		background: transparent;
-		color: var(--text-title);
+		color: var(--footer-text);
 		border: 2px solid var(--accent-primary);
 		border-radius: var(--radius-full);
 		font-family: var(--font-heading);
@@ -463,13 +463,13 @@
 		align-items: center;
 		gap: var(--space-xs);
 		font-size: 0.8rem;
-		color: var(--text-main);
+		color: var(--footer-text);
 		white-space: nowrap;
 	}
 
 	.footer__link {
 		transition: color var(--transition-fast);
-		color: inherit;
+		color: var(--footer-text);
 	}
 
 	.footer__link:hover {
