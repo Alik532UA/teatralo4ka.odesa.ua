@@ -721,7 +721,7 @@
 		height: 6px;
 		border-radius: 3px;
 		border: none;
-		background: var(--color-border);
+		background: var(--border-main, var(--color-border, #d0d5dd));
 		cursor: pointer;
 		transition: all 0.3s ease;
 	}
