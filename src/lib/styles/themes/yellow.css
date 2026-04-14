@@ -7,9 +7,9 @@
 	--bg-footer: var(--palette-orange);
 	
 	/* Semantic Text */
-	--text-main: var(--palette-navy-500);
+	--text-main: var(--palette-navy-700);
 	--text-title: var(--palette-navy-900);
-	--text-muted: var(--palette-navy-500);
+	--text-muted: var(--palette-navy-800);
 	--text-on-accent: var(--palette-white);
 	
 	/* Semantic Accents */
@@ -20,7 +20,7 @@
 	--header-nav-link: var(--text-main);
 	--header-nav-active: var(--accent-primary);
 	--btn-all-bg: var(--text-title);
-	--footer-text: var(--text-main);
+	--footer-text: var(--accent-primary);
 
 	/* Interactive */
 	--border-main: rgba(0, 36, 47, 0.1);
