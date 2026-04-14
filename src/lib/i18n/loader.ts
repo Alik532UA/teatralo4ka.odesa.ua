@@ -30,6 +30,7 @@ const PAGES: Record<string, Record<string, string>> = {
 
 /**
  * Simple browser-compatible frontmatter parser to avoid Node.js 'Buffer' dependency.
+ * Supports nested objects like 'seo' by looking at indentation.
  */
 function parseFrontmatter(fileContent: string) {
   const regex = /^---\r?\n([\s\S]*?)\r?\n---/;
@@ -39,20 +40,36 @@ function parseFrontmatter(fileContent: string) {
   const yamlBlock = match[1];
   const content = fileContent.slice(match[0].length).trim();
   const data: Record<string, any> = {};
+  
+  let currentKey: string | null = null;
 
   yamlBlock.split('\n').forEach(line => {
-    const colonIndex = line.indexOf(':');
-    if (colonIndex !== -1) {
-      const key = line.slice(0, colonIndex).trim();
-      let value = line.slice(colonIndex + 1).trim();
-      
-      // Basic type conversion
-      if (value === 'true') value = true;
-      else if (value === 'false') value = false;
-      else if (!isNaN(Number(value)) && value !== '') value = Number(value);
-      else value = value.replace(/^['"](.*)['"]$/, '$1'); // remove quotes
-      
-      data[key] = value;
+    if (!line.trim() || line.trim().startsWith('#')) return;
+
+    const indent = line.search(/\S/);
+    const parts = line.trim().split(':');
+    const key = parts[0].trim();
+    let value = parts.slice(1).join(':').trim();
+
+    // Basic type conversion
+    const processValue = (v: string) => {
+      v = v.replace(/^['"](.*)['"]$/, '$1');
+      if (v === 'true') return true;
+      if (v === 'false') return false;
+      if (!isNaN(Number(v)) && v !== '') return Number(v);
+      return v;
+    };
+
+    if (indent === 0) {
+      if (value === '') {
+        data[key] = {};
+        currentKey = key;
+      } else {
+        data[key] = processValue(value);
+        currentKey = null;
+      }
+    } else if (indent > 0 && currentKey) {
+      data[currentKey][key] = processValue(value);
     }
   });
 
