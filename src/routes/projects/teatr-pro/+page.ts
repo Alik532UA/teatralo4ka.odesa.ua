@@ -1,9 +1,9 @@
 import { loadPageWithMetadata } from '$lib/i18n/loader';
-import type { PageServerLoad } from './$types';
+import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export const load: PageServerLoad = async () => {
+export const load: PageLoad = async () => {
 	const uk = loadPageWithMetadata('uk', 'teatr-pro');
 	const en = loadPageWithMetadata('en', 'teatr-pro');
 
