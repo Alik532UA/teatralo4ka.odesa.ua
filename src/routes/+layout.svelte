@@ -381,7 +381,7 @@
 	}
 
 	:global(.app.with-dynamic-bg) .header-blur-layer {
-		background: color-mix(in srgb, var(--bg-header), transparent 40%);
+		background: color-mix(in srgb, var(--bg-header), transparent 20%);
 	}
 
 	main {

@@ -328,7 +328,7 @@
 			background: var(--bg-header);
 			backdrop-filter: blur(12px);
 			box-shadow: 0 -5px 25px rgba(0,0,0,0.05);
-			border-top: 1px solid var(--border-main);
+			/* border-top: 1px solid var(--border-main); */
 		}
 		
 		.footer-spacer {
@@ -342,7 +342,7 @@
 
 	@media (min-width: 1025px) {
 		:global(.app.with-dynamic-bg) .footer {
-			background: color-mix(in srgb, var(--bg-surface), transparent 60%);
+			background: color-mix(in srgb, var(--bg-surface), transparent 30%);
 		}
 	}
 

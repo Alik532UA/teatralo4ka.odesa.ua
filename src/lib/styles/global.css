@@ -256,8 +256,9 @@ button {
 
 /* --- Unified Dropdown Menu --- */
 .dropdown-menu-unified {
-	background: var(--bg-surface);
+	background: color-mix(in srgb, var(--bg-surface), transparent 30%);
 	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
 	border-radius: var(--radius-lg);
 	box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 	padding: 1rem;
