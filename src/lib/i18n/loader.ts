@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
@@ -10,20 +8,39 @@ import { DOMPURIFY_HTML_CONFIG, configureMarkedRenderer } from '$lib/utils/marke
 // Initialize shared marked renderer for server-side usage
 configureMarkedRenderer();
 
+// Pre-import all markdown files using Vite's glob import
+// This allows the loader to work both on server (prerendering) and in the browser
+const pagesUk = import.meta.glob('/src/lib/i18n/pages/uk/*.md', { eager: true, query: '?raw', import: 'default' });
+const pagesEn = import.meta.glob('/src/lib/i18n/pages/en/*.md', { eager: true, query: '?raw', import: 'default' });
+
 /**
- * Loads page content from a Markdown file.
- * This function uses Node.js 'fs' and 'path' APIs, so it MUST only be used
- * in a server-side context (e.g., +page.server.ts).
+ * Map of pre-loaded page content by language and slug.
+ */
+const PAGES: Record<string, Record<string, string>> = {
+  uk: Object.entries(pagesUk).reduce((acc, [path, content]) => {
+    const slug = path.split('/').pop()?.replace('.md', '') || '';
+    acc[slug] = content as string;
+    return acc;
+  }, {} as Record<string, string>),
+  en: Object.entries(pagesEn).reduce((acc, [path, content]) => {
+    const slug = path.split('/').pop()?.replace('.md', '') || '';
+    acc[slug] = content as string;
+    return acc;
+  }, {} as Record<string, string>)
+};
+
+/**
+ * Loads page content from pre-loaded memory (Vite glob).
+ * This function works both on server and client.
  */
 export function loadPageWithMetadata(lang: string, slug: string): PageContent | null {
-  const filePath = path.join(process.cwd(), `src/lib/i18n/pages/${lang}/${slug}.md`);
+  const fileContent = PAGES[lang]?.[slug];
 
-  if (!fs.existsSync(filePath)) {
-    console.error(`File not found: ${filePath}`);
+  if (!fileContent) {
+    console.warn(`Content not found for lang: ${lang}, slug: ${slug}`);
     return null;
   }
 
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
   const { data: rawMetadata, content: markdown } = matter(fileContent);
 
   // Validate frontmatter through Zod
