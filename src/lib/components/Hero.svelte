@@ -259,7 +259,7 @@
 	.hero__image-border {
 		position: absolute;
 		inset: 0;
-		border: 15px solid color-mix(in srgb, var(--bg-surface), transparent 80%);
+		border: 16px solid rgba(255, 255, 255, 0.15);
 		border-radius: inherit;
 		pointer-events: none;
 	}
