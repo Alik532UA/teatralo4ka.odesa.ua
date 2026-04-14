@@ -33,13 +33,21 @@ const config = {
 				'/contacts',
 				'/admission',
 				'/test',
+				'/news',
+				'/projects',
 				'/departments/theatre',
 				'/departments/aesthetic',
 				'/departments/music',
 				'/departments/art',
 				'/residents/adults',
 				'/residents/kids',
-				'/residents/graduates'
+				'/residents/graduates',
+				'/projects/teatr-pro',
+				'/projects/festival',
+				'/projects/galaxy-graduates',
+				'/projects/photo-archive',
+				'/projects/spring-odessa-theatre',
+				'/projects/support-production'
 			],
 			handleHttpError: 'warn',
 			handleUnseenRoutes: 'ignore'
