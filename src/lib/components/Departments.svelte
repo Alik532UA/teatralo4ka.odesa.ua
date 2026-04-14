@@ -7,28 +7,28 @@
 			id: 'music',
 			title: () => $t('departmentsSection.depItems.music.title'),
 			description: () => $t('departmentsSection.depItems.music.desc'),
-			image: `${base}/png/МузичнеВідділення.png`,
+			image: `${base}/png/MusicDepartment.png`,
 			href: `${base}/departments/music`
 		},
 		{
 			id: 'theatre',
 			title: () => $t('departmentsSection.depItems.theatre.title'),
 			description: () => $t('departmentsSection.depItems.theatre.desc'),
-			image: `${base}/png/ТеатральнеВідділення.png`,
+			image: `${base}/png/TheaterDepartment.png`,
 			href: `${base}/departments/theatre`
 		},
 		{
 			id: 'aesthetic',
 			title: () => $t('departmentsSection.depItems.aesthetic.title'),
 			description: () => $t('departmentsSection.depItems.aesthetic.desc'),
-			image: `${base}/png/ЕстетичнеВідділення.png`,
+			image: `${base}/png/AestheticDepartment.png`,
 			href: `${base}/departments/aesthetic`
 		},
 		{
 			id: 'art',
 			title: () => $t('departmentsSection.depItems.art.title'),
 			description: () => $t('departmentsSection.depItems.art.desc'),
-			image: `${base}/png/ХудожнеВідділення.png`,
+			image: `${base}/png/ArtDepartment.png`,
 			href: `${base}/departments/art`
 		}
 	];
@@ -38,21 +38,21 @@
 			id: 'adults',
 			title: () => $t('departmentsSection.resItems.adults.title'),
 			description: () => $t('departmentsSection.resItems.adults.desc'),
-			image: `${base}/png/Викладачка1.png`,
+			image: `${base}/png/Teacher1.png`,
 			href: `${base}/residents/adults`
 		},
 		{
 			id: 'kids',
 			title: () => $t('departmentsSection.resItems.kids.title'),
 			description: () => $t('departmentsSection.resItems.kids.desc'),
-			image: `${base}/png/Учні1.png`,
+			image: `${base}/png/Students1.png`,
 			href: `${base}/residents/kids`
 		},
 		{
 			id: 'graduates',
 			title: () => $t('departmentsSection.resItems.graduates.title'),
 			description: () => $t('departmentsSection.resItems.graduates.desc'),
-			image: `${base}/png/Випускники3.png`,
+			image: `${base}/png/Graduates3.png`,
 			href: `${base}/residents/graduates`
 		}
 	];
@@ -62,21 +62,21 @@
 			id: 'admission',
 			title: () => $t('departmentsSection.infoItems.admission.title'),
 			description: () => $t('departmentsSection.infoItems.admission.desc'),
-			image: `${base}/png/АнкетаВступника.png`,
+			image: `${base}/png/AdmissionForm.png`,
 			href: `${base}/admission`
 		},
 		{
 			id: 'contacts',
 			title: () => $t('departmentsSection.infoItems.contacts.title'),
 			description: () => $t('departmentsSection.infoItems.contacts.desc'),
-			image: `${base}/png/Контакти2.png`,
+			image: `${base}/png/Contacts2.png`,
 			href: `${base}/contacts`
 		},
 		{
 			id: 'history',
 			title: () => $t('departmentsSection.infoItems.history.title'),
 			description: () => $t('departmentsSection.infoItems.history.desc'),
-			image: `${base}/png/Історія3.png`,
+			image: `${base}/png/History3.png`,
 			href: `${base}/history`
 		}
 	];
