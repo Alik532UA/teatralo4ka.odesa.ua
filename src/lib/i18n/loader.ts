@@ -1,4 +1,3 @@
-import matter from 'gray-matter';
 import { marked } from 'marked';
 import DOMPurify from 'isomorphic-dompurify';
 import { pageMetadataSchema } from './schema';
@@ -30,6 +29,37 @@ const PAGES: Record<string, Record<string, string>> = {
 };
 
 /**
+ * Simple browser-compatible frontmatter parser to avoid Node.js 'Buffer' dependency.
+ */
+function parseFrontmatter(fileContent: string) {
+  const regex = /^---\r?\n([\s\S]*?)\r?\n---/;
+  const match = fileContent.match(regex);
+  if (!match) return { data: {}, content: fileContent };
+
+  const yamlBlock = match[1];
+  const content = fileContent.slice(match[0].length).trim();
+  const data: Record<string, any> = {};
+
+  yamlBlock.split('\n').forEach(line => {
+    const colonIndex = line.indexOf(':');
+    if (colonIndex !== -1) {
+      const key = line.slice(0, colonIndex).trim();
+      let value = line.slice(colonIndex + 1).trim();
+      
+      // Basic type conversion
+      if (value === 'true') value = true;
+      else if (value === 'false') value = false;
+      else if (!isNaN(Number(value)) && value !== '') value = Number(value);
+      else value = value.replace(/^['"](.*)['"]$/, '$1'); // remove quotes
+      
+      data[key] = value;
+    }
+  });
+
+  return { data, content };
+}
+
+/**
  * Loads page content from pre-loaded memory (Vite glob).
  * This function works both on server and client.
  */
@@ -41,7 +71,7 @@ export function loadPageWithMetadata(lang: string, slug: string): PageContent | 
     return null;
   }
 
-  const { data: rawMetadata, content: markdown } = matter(fileContent);
+  const { data: rawMetadata, content: markdown } = parseFrontmatter(fileContent);
 
   // Validate frontmatter through Zod
   const metadata = pageMetadataSchema.parse(rawMetadata) as PageMetadata;
