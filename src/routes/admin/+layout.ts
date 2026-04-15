@@ -3,13 +3,13 @@ import { goto } from "$app/navigation";
 import { base } from "$app/paths";
 import { authService } from "$lib/states/auth.svelte";
 
-export const prerender = false;
+export const prerender = true;
 export const ssr = false;
 
 export async function load({ url }) {
   if (!browser) return {};
 
-  const isLoginPage = url.pathname.endsWith("/admin/login");
+  const isLoginPage = url.pathname.includes("/admin/login");
 
   // Чекаємо ініціалізації авторизації
   if (authService.loading) {

@@ -22,7 +22,7 @@ const config = {
 			strict: true
 		}),
 		paths: {
-			base: '/teatralo4ka.odesa.ua'
+			base: ''
 		},
 		prerender: {
 			crawl: true,
@@ -47,7 +47,9 @@ const config = {
 				'/projects/galaxy-graduates',
 				'/projects/photo-archive',
 				'/projects/spring-odessa-theatre',
-				'/projects/support-production'
+				'/projects/support-production',
+				'/admin',
+				'/admin/login'
 			],
 			handleHttpError: 'warn',
 			handleUnseenRoutes: 'ignore'

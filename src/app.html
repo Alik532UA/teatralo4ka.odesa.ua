@@ -8,13 +8,13 @@
 		<meta property="og:title" content="Odesa Theatre School" />
 		<meta property="og:description" content="A school where children always go with pleasure!" />
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/" />
-		<meta property="og:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
-		<meta property="og:image:secure_url" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
+		<meta property="og:url" content="https://teatralo4ka.odesa.ua/" />
+		<meta property="og:image" content="https://teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
+		<meta property="og:image:secure_url" content="https://teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="Odesa Theatre School" />
 		<meta name="twitter:description" content="A school where children always go with pleasure!" />
-		<meta name="twitter:image" content="https://alik532ua.github.io/teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
+		<meta name="twitter:image" content="https://teatralo4ka.odesa.ua/og/og-default-1200x630.jpg" />
 		<meta name="theme-color" content="#1B5E7B" />
 		<meta name="color-scheme" content="light dark" />
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
@@ -43,8 +43,7 @@
 					document.querySelector('meta[name="color-scheme"]').content = 'light dark';
 				}
 				var p = window.location.pathname;
-				var base = '/teatralo4ka.odesa.ua';
-				if (p === base + '/' || p === base || p === '/') {
+				if (p === '/') {
 					document.body.classList.add('page-home');
 				}
 			} catch (e) {}
