@@ -548,7 +548,7 @@
 				<div class="form-group" style="grid-column: span 2;">
 					<label class="form-label" for="customDate" style="margin-bottom: 0.75rem;">{$t('admin.editor.displayDate')}</label>
 					<div style="display: flex; flex-direction: column; gap: 1rem;">
-						<div class="mode-toggle-group">
+						<div class="mode-toggle-group date-toggle-group">
 							<button type="button" class="mode-btn" class:active={dateMode === 'hidden'} onclick={() => setDatePreset('hidden')}>
 								{$t('admin.editor.dateHidden')}
 							</button>
@@ -637,7 +637,7 @@
 						<LayoutPanelTop size={18} />
 						{$t('admin.editor.coverSection')}
 					</div>
-					<div style="display: flex; gap: 0.5rem;">
+					<div class="cover-actions">
 						<button
 							type="button"
 							class="btn btn-sm btn-outline"
@@ -846,15 +846,17 @@
 				<Globe size={18} style="opacity: 0.7;" />
 				<span style="font-weight: 700; color: var(--text-title); font-size: 0.9rem;">{$t('admin.editor.externalUrl')}</span>
 				{#if useExternalUrl}
-					<button
-						type="button"
-						class="btn btn-sm {differentExternalUrls ? 'btn-primary' : 'btn-outline'}"
-						onclick={() => differentExternalUrls = !differentExternalUrls}
-						style="font-size: 0.75rem; padding: 0.4rem 0.8rem; margin-left: auto;"
-						data-testid="{tp}-toggle-diff-external-urls-button"
-					>
-						{differentExternalUrls ? $t('admin.editor.externalUrlShared') : $t('admin.editor.externalUrlDifferent')}
-					</button>
+					<div class="external-url-actions" style="margin-left: auto;">
+						<button
+							type="button"
+							class="btn btn-sm {differentExternalUrls ? 'btn-primary' : 'btn-outline'}"
+							onclick={() => differentExternalUrls = !differentExternalUrls}
+							style="font-size: 0.75rem; padding: 0.4rem 0.8rem;"
+							data-testid="{tp}-toggle-diff-external-urls-button"
+						>
+							{differentExternalUrls ? $t('admin.editor.externalUrlShared') : $t('admin.editor.externalUrlDifferent')}
+						</button>
+					</div>
 				{/if}
 			</div>
 			{#if useExternalUrl}
@@ -946,8 +948,8 @@
 		</div>
 
 		<!-- Bottom action row -->
-		<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; gap: 2rem;">
-			<div style="display: flex; gap: 1rem;">
+		<div class="bottom-actions-row">
+			<div class="bottom-actions-left">
 				<button type="button" class="btn btn-outline" onclick={saveDraftToFile} data-testid="{tp}-save-draft-file-button-bottom">
 					<FileDown size={18} style="margin-right: 0.5rem;" />
 					{$t('admin.editor.saveDraftFile')}
@@ -958,7 +960,7 @@
 					<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
 				</label>
 			</div>
-			<button type="submit" disabled={submitting} class="btn btn-primary btn-large" style="padding: 1rem 4rem; font-size: 1.1rem;" data-testid="{tp}-submit-button-bottom">
+			<button type="submit" disabled={submitting} class="btn btn-primary btn-large bottom-submit-btn" data-testid="{tp}-submit-button-bottom">
 				{submitting
 					? (mode === 'create' ? $t('admin.editor.saving') : $t('admin.editor.updating'))
 					: (mode === 'create' ? $t('admin.editor.saveBtn') : $t('admin.editor.updateBtn'))
@@ -1121,6 +1123,29 @@
 		flex-wrap: wrap;
 	}
 
+	.cover-actions {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.bottom-actions-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 1rem;
+		gap: 2rem;
+	}
+
+	.bottom-actions-left {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.bottom-submit-btn {
+		padding: 1rem 4rem;
+		font-size: 1.1rem;
+	}
+
 	.mode-toggle-group {
 		display: flex;
 		background: var(--color-ice-blue);
@@ -1173,6 +1198,50 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
+	}
+
+	@media (max-width: 640px) {
+		.af-type-selector .mode-toggle-group {
+			flex-direction: column;
+			align-items: stretch;
+			width: 100%;
+		}
+		.af-type-selector .mode-btn {
+			justify-content: flex-start;
+			padding: 0.75rem 1.25rem;
+		}
+
+		.date-toggle-group {
+			flex-wrap: wrap;
+		}
+		
+		.cover-actions {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			width: 100%;
+		}
+		.cover-actions button {
+			width: 100%;
+			justify-content: center;
+		}
+
+		.bottom-actions-row {
+			flex-direction: column;
+			align-items: stretch !important;
+			gap: 1rem !important;
+		}
+		.bottom-actions-left {
+			flex-direction: column;
+			width: 100%;
+		}
+		.bottom-actions-left > * {
+			width: 100%;
+			justify-content: center;
+		}
+		.bottom-submit-btn {
+			width: 100%;
+		}
 	}
 
 	/* Category Selector */

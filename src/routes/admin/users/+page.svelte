@@ -698,12 +698,6 @@
 {/snippet}
 
 <style>
-	:global(:root) {
-		--card-bg: var(--theme-dynamic-card-bg, #ffffff);
-		--card-border: rgba(0,0,0,0.05);
-		--text-main: var(--text-title, #1a2a3a);
-	}
-
 	.users-hierarchy {
 		display: flex;
 		flex-direction: column;
@@ -738,7 +732,7 @@
 		background: var(--card-bg);
 		border-radius: 28px;
 		padding: 0;
-		border: 1px solid var(--card-border);
+		border: 1px solid var(--color-border);
 		box-shadow: 0 10px 40px rgba(0,0,0,0.03);
 		display: flex;
 		flex-direction: column;
@@ -841,13 +835,13 @@
 	}
 	.modal-header { display: flex; align-items: center; gap: 1rem; color: #ef4444; font-size: 1.5rem; font-family: var(--font-heading); }
 	.delete-input {
-		padding: 1rem; border-radius: 12px; border: 2px solid var(--card-border);
+		padding: 1rem; border-radius: 12px; border: 2px solid var(--color-border);
 		background: transparent; color: var(--text-main);
 		outline: none; transition: all 0.2s; font-size: 1.1rem; text-align: center;
 	}
 	.delete-input:focus { border-color: #ef4444; }
 	.modal-footer { display: flex; gap: 1rem; margin-top: 1rem; }
-	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-weight: 600; }
+	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--color-border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-weight: 600; }
 	.btn-confirm-delete {
 		flex: 1; padding: 1rem; border-radius: 14px; border: none;
 		background: rgba(160, 174, 192, 0.2); color: #a0aec0; cursor: not-allowed;
@@ -871,7 +865,7 @@
 	.add-form-body { display: flex; flex-direction: column; gap: 0.6rem; }
 	.add-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6; margin-top: 0.5rem; }
 	.add-input {
-		padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--card-border);
+		padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--color-border);
 		background: transparent; color: var(--text-main); outline: none;
 		font-size: 1rem; transition: border-color 0.15s; width: 100%; box-sizing: border-box;
 	}

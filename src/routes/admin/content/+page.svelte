@@ -951,14 +951,54 @@
 	.cl-search-box { width: 100%; }
 }
 @media (max-width: 640px) {
-	.cl-card { gap: 1rem; padding: 1rem; }
-	.cl-thumb { width: 60px; height: 60px; border-radius: 12px; }
-	.cl-item-title { font-size: 1rem; }
+	/* Header Fix */
+	.cl-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+	.cl-title-group { width: 100%; gap: 0.5rem; }
+	.cl-title { font-size: 1.4rem; }
+	.cl-count { margin-left: auto; }
+	.cl-header-actions { width: 100%; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-start; }
+	.cl-create-btn { flex: 1; justify-content: center; }
+
+	/* Card Fix */
+	.cl-card { 
+		display: grid; 
+		grid-template-columns: 60px 1fr; 
+		grid-template-areas: 
+			"thumb info"
+			"thumb status"
+			"actions actions";
+		gap: 0.75rem; 
+		padding: 1rem; 
+		align-items: start;
+	}
+	.cl-thumb { width: 60px; height: 60px; border-radius: 12px; grid-area: thumb; }
+	.cl-info { grid-area: info; min-width: 0; }
+	.cl-item-title { font-size: 1rem; white-space: normal; }
 	.cl-excerpt { display: none; }
+	
+	/* Badges and Actions Fix */
+	.cl-langs { 
+		grid-area: status; 
+		flex-direction: row; 
+		gap: 0.35rem; 
+		align-items: center; 
+		flex-wrap: wrap; 
+	}
+	.cl-actions { 
+		grid-area: actions; 
+		width: 100%; 
+		justify-content: flex-end; 
+		padding-top: 0.5rem; 
+		border-top: 1px solid var(--color-border); 
+	}
 	.cl-edit-btn span { display: none; }
-	.cl-edit-btn { padding: 0.55rem; }
-	.cl-langs { flex-direction: row; gap: 0.35rem; }
+	.cl-edit-btn { padding: 0.55rem; flex: 1; justify-content: center; }
+	.cl-delete-btn { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+
+	/* Filter Tabs Fix */
 	.cl-type-tabs { gap: 0.35rem; }
-	.cl-type-tab { padding: 0.5rem 0.75rem; font-size: 0.78rem; }
+	.cl-type-tab { padding: 0.5rem 0.75rem; font-size: 0.78rem; flex: 1; justify-content: center; }
+	
+	.cl-info-top { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
 }
 </style>
