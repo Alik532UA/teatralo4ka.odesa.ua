@@ -42,9 +42,20 @@
     "moveUp": "Move up",
     "moveDown": "Move down",
     "decrease": "Decrease",
-    "increase": "Increase"
+    "increase": "Increase",
+    "showAll": "Show All"
   },
   "editor": {
+    "understood": "Understood",
+    "slugForbidden": "The slug contains invalid characters. Use only lowercase Latin letters, numbers, and underscores.",
+    "validationDateRange": "The date cannot be earlier than 1990 or later than 1 year from today.",
+    "validationCategoryLength": "The category name is too long. Please enter a shorter name.",
+    "validationTitleLength": "The title is too long. Maximum length: {max} characters.",
+    "validationContentLength": "The content is too long. Maximum length: {max} characters.",
+    "ukShort": "UKR",
+    "enShort": "ENG",
+    "ukLang": "Ukrainian",
+    "enLang": "English",
     "visual": "Visual Editor",
     "markdown": "Markdown",
     "html": "HTML",
@@ -197,8 +208,12 @@
     "title": "Admission"
   },
   "admin": {
+    "debug": {
+      "copiedToClipboard": "Copied to clipboard!"
+    },
     "dashboard": {
       "title": "Admin Panel",
+      "noPermission": "You do not have permission to access this page",
       "logout": "Logout",
       "contentTitle": "Content",
       "contentDesc": "Manage articles, pages, and projects.",
@@ -252,6 +267,7 @@
       "title": "Site Pages",
       "backToPanel": "Panel",
       "createBtn": "Create",
+      "noResults": "No results found for your query",
       "noPages": "No pages yet.",
       "loading": "Loading...",
       "deleteConfirm": "Are you sure you want to delete this page?",
@@ -340,6 +356,9 @@
       "confirmDeleteProject": "Remove access to project {projectId}?",
       "accessRemoved": "Access removed",
       "deleteError": "Error during deletion",
+      "errorPrefix": "Error: ",
+      "grantAccessSuccess": "Access granted successfully",
+      "deleteAccount": "Delete account",
       "superAdminOnly": "User deletion is available only to superadmins.",
       "accountDeleted": "Account successfully deleted",
       "projectLabel": "Project",

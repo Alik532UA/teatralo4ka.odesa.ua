@@ -310,7 +310,7 @@
 .mode-toggle-group { display: flex; background: var(--color-ice-blue); padding: 0.25rem; border-radius: 12px; border: 1px solid rgba(0, 95, 174, 0.08); }
 :global(.dark-theme) .mode-toggle-group { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
 .mode-btn { padding: 0.4rem 1rem; border-radius: 10px; border: none; background: transparent; font-size: 0.82rem; font-weight: 700; color: var(--color-muted-text); cursor: pointer; transition: all 0.2s; }
-.mode-btn.active { background: white; color: var(--accent-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.mode-btn.active { background: var(--theme-dynamic-card-bg, #ffffff); color: var(--accent-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 :global(.dark-theme) .mode-btn.active { background: var(--accent-primary); color: white; }
 
 /* List */

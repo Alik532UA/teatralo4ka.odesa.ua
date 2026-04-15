@@ -540,7 +540,7 @@
 	.focus-card {
 		flex: 0 0 600px;
 		height: 400px;
-		background: white;
+		background: var(--theme-dynamic-card-bg, #ffffff);
 		border-radius: 40px;
 		display: flex;
 		overflow: hidden;
@@ -646,7 +646,7 @@
 		width: 60px;
 		height: 60px;
 		border-radius: 50%;
-		background: white;
+		background: var(--theme-dynamic-card-bg, #ffffff);
 		border: none;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
@@ -877,7 +877,7 @@
 		gap: 30px;
 	}
 	.g-card {
-		background: white;
+		background: var(--theme-dynamic-card-bg, #ffffff);
 		border-radius: 40px;
 		overflow: hidden;
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
