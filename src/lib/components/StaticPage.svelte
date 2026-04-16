@@ -52,6 +52,20 @@
 					<div class="prose">
 						{@html DOMPurify.sanitize(content.html)}
 					</div>
+
+					{#if content.metadata.status === 'draft'}
+						<div class="draft-actions" data-testid="{testPrefix}-draft-actions">
+							<a href="{base}/" class="btn btn-primary" data-testid="{testPrefix}-home-link">
+								{$t('common.backToHome')}
+							</a>
+							<a href="{base}/news" class="btn btn-outline" data-testid="{testPrefix}-news-link">
+								{$t('nav.news')}
+							</a>
+							<a href="{base}/projects" class="btn btn-outline" data-testid="{testPrefix}-projects-link">
+								{$t('nav.projects')}
+							</a>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</article>
@@ -71,6 +85,13 @@
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
+	}
+	.draft-actions {
+		margin-top: 3rem;
+		display: flex;
+		justify-content: center;
+		gap: 1rem;
+		flex-wrap: wrap;
 	}
 	.page-body {
 		max-width: 800px;

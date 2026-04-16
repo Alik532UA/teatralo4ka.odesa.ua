@@ -93,8 +93,8 @@ export function loadPageWithMetadata(lang: string, slug: string): PageContent | 
   // Validate frontmatter through Zod
   const metadata = pageMetadataSchema.parse(rawMetadata) as PageMetadata;
 
-  // Skip non-published pages (draft, archived)
-  if (metadata.status !== 'published') {
+  // Skip archived pages
+  if (metadata.status === 'archived') {
     return null;
   }
 

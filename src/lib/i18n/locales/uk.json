@@ -43,7 +43,8 @@
     "moveDown": "Перемістити вниз",
     "decrease": "Зменшити",
     "increase": "Збільшити",
-    "showAll": "Показати всі"
+    "showAll": "Показати всі",
+    "backToHome": "На головну"
   },
   "editor": {
     "understood": "Зрозуміло",
@@ -101,6 +102,7 @@
   "nav": {
     "home": "Головна",
     "projects": "Проєкти",
+    "news": "Новини",
     "menu": "Меню",
     "openMenu": "Відкрити меню",
     "closeMenu": "Закрити меню",

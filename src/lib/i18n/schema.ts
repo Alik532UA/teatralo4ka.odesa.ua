@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const pageMetadataSchema = z.object({
-  title: z.string().min(5).max(200),
+  title: z.string().min(2).max(200),
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, { message: "Date must be in YYYY-MM-DD format" }),
   lastModified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   author: z.string().optional(),

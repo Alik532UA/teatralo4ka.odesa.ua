@@ -43,7 +43,8 @@
     "moveDown": "Move down",
     "decrease": "Decrease",
     "increase": "Increase",
-    "showAll": "Show All"
+    "showAll": "Show All",
+    "backToHome": "Back to Home"
   },
   "editor": {
     "understood": "Understood",
@@ -101,6 +102,7 @@
   "nav": {
     "home": "Home",
     "projects": "Projects",
+    "news": "News",
     "menu": "MENU",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
