@@ -64,10 +64,10 @@ coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 
 [teatr.pro.fest@gmail.com](mailto:teatr.pro.fest@gmail.com)\
 \
-[facebook Odesa.Teatr.PRO](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
+[<img src="/social_media/facebook-se-512-50.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="facebook" /> facebook Odesa.Teatr.PRO](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
 \
-[instagram go_pro.teatr](https://www.instagram.com/go_pro.teatr/)\
+[<img src="/social_media/instagram-se-512-50.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="instagram" /> instagram go_pro.teatr](https://www.instagram.com/go_pro.teatr/)\
 \
-[youtube @odesateatrpro](https://www.youtube.com/@odesateatrpro)\
+[<img src="/social_media/YouTube-se-512px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="youtube" /> youtube @odesateatrpro](https://www.youtube.com/@odesateatrpro)\
 \
-[telegram odesateatrpro](https://t.me/odesateatrpro)
+[<img src="/social_media/Telegram-se-320px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="telegram" /> telegram odesateatrpro](https://t.me/odesateatrpro)
