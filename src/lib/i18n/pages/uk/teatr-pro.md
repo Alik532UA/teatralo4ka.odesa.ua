@@ -64,6 +64,10 @@ coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 
 [teatr.pro.fest@gmail.com](mailto:teatr.pro.fest@gmail.com)\
 \
-[facebook.com/groups/Odesa.Teatr.PRO/](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
+[facebook Odesa.Teatr.PRO](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
 \
-[instagram.com/go_pro.teatr/](https://www.instagram.com/go_pro.teatr/)
+[instagram go_pro.teatr](https://www.instagram.com/go_pro.teatr/)\
+\
+[youtube @odesateatrpro](https://www.youtube.com/@odesateatrpro)\
+\
+[telegram odesateatrpro](https://t.me/odesateatrpro)

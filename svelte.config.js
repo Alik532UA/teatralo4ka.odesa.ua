@@ -48,6 +48,7 @@ const config = {
 				'/projects/photo-archive',
 				'/projects/spring-Odesa-theatre',
 				'/projects/support-production',
+				'/fest-odesa-teatr-pro',
 				'/admin',
 				'/admin/login'
 			],
