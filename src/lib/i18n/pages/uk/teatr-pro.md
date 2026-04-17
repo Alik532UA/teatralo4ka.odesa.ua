@@ -53,10 +53,11 @@ coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 Ви можете стати учасником або слухачем фестивалю та отримати відповідний Сертифікат про підвищення кваліфікації.
 
 ### Заповнюй заявку тут!
-\
-👉 [**Заявка учасника**](https://forms.gle/6yDCeujpkySSfE9p9) 👈
 
-👉 [**Заявка слухача**](https://forms.gle/UCBsLYq43TuypGqu6) 👈
+<div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
+  <a href="https://forms.gle/6yDCeujpkySSfE9p9" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Заявка учасника</a>
+  <a href="https://forms.gle/UCBsLYq43TuypGqu6" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Заявка слухача</a>
+</div>
 
 > За**PRO**шуємо до Одеси\
 > Teatr.PRO - це твій театральний **PRO**стір!
