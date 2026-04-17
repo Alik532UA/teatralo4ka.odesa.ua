@@ -1023,6 +1023,7 @@
 		flex-shrink: 0;
 		color: var(--header-nav-active) !important;
 		border-color: var(--header-nav-active) !important;
+		text-transform: none;
 	}
 
 	.header__cta:hover {

@@ -63,5 +63,7 @@ coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 **[+380 63 150 95 51](tel:+380631509551)**
 
 [teatr.pro.fest@gmail.com](mailto:teatr.pro.fest@gmail.com)\
-[https://www.facebook.com/groups/Odesa.Teatr.PRO/](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
-[https://www.instagram.com/go_pro.teatr/](https://www.instagram.com/go_pro.teatr/)
+\
+[facebook.com/groups/Odesa.Teatr.PRO/](https://www.facebook.com/groups/Odesa.Teatr.PRO/)\
+\
+[instagram.com/go_pro.teatr/](https://www.instagram.com/go_pro.teatr/)
