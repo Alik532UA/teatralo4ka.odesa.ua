@@ -53,8 +53,9 @@ All this — in the festival **PRO**ject «Theatre.PRO».
 You can become a participant or a listener of the festival and receive a corresponding Certificate of advanced training.
 
 ### Fill out the application here!
+\
+👉 [**Participant Application**](https://forms.gle/6yDCeujpkySSfE9p9) 👈
 
-👉 [**Participant Application**](https://forms.gle/6yDCeujpkySSfE9p9) 👈\
 👉 [**Listener Application**](https://forms.gle/UCBsLYq43TuypGqu6) 👈
 
 > We invite you to Odesa\
