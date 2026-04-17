@@ -1,11 +1,11 @@
 ---
-title: "Odessa Theatre School – a True Temple of Arts!"
+title: "Odesa Theatre School – a True Temple of Arts!"
 date: "2026-04-04"
 author: "Administration"
 category: "history"
 lang: "en"
 seo:
-  title: "History - Odessa Theatre School"
+  title: "History - Odesa Theatre School"
   description: "Complete history of the founding and development of the Odesa Theatre School, traditions, teachers, and student achievements."
 status: "published"
 version: "1.0.0"

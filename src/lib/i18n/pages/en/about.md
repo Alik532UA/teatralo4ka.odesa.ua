@@ -5,13 +5,13 @@ author: "Administration"
 category: "about"
 lang: "en"
 seo:
-  title: "About Odessa Theatre School - Unique Education in Ukraine"
-  description: "Learn more about the Odessa Theatre School: traditions, teachers, graduates, and unique teaching methods."
+  title: "About Odesa Theatre School - Unique Education in Ukraine"
+  description: "Learn more about the Odesa Theatre School: traditions, teachers, graduates, and unique teaching methods."
 status: "published"
 version: "1.0.0"
 ---
 
-# Welcome to the website of the Odessa Theatre School
+# Welcome to the website of the Odesa Theatre School
 
 Our school is unique for several reasons:
 
@@ -20,4 +20,4 @@ Our school is unique for several reasons:
 3. **Wonderful teachers** — they teach according to original methods and love their work.
 4. **Our students** — "DTShustryky" from 5-year-olds to adult graduates who consider this educational institution their second home.
 
-Odessa Theatre School is a school where children always go with pleasure!
+Odesa Theatre School is a school where children always go with pleasure!

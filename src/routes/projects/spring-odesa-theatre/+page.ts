@@ -4,8 +4,8 @@ import type { PageLoad } from './$types';
 export const prerender = true;
 
 export const load: PageLoad = async () => {
-	const uk = loadPageWithMetadata('uk', 'spring-odessa-theatre');
-	const en = loadPageWithMetadata('en', 'spring-odessa-theatre');
+	const uk = loadPageWithMetadata('uk', 'spring-Odesa-theatre');
+	const en = loadPageWithMetadata('en', 'spring-Odesa-theatre');
 
 	return { uk, en };
 };

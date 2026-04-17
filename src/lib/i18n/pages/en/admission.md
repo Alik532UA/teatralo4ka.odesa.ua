@@ -5,7 +5,7 @@ author: "Admissions Committee"
 category: "admission"
 lang: "en"
 seo:
-  title: "Admission Requirements for Odessa Theatre School 2025-2026"
+  title: "Admission Requirements for Odesa Theatre School 2025-2026"
   description: "List of documents, submission deadlines, and subjects for admission to the Odesa Theatre School."
 status: "published"
 version: "1.0.0"

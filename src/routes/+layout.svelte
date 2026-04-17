@@ -145,34 +145,34 @@
 			}
 		},
 		en: {
-			brandTitle: 'Odessa Theatre School',
-			orgName: 'Odessa Theatre School',
+			brandTitle: 'Odesa Theatre School',
+			orgName: 'Odesa Theatre School',
 			orgDescription:
-				'Odessa Theatre School: music education for children and youth in Odesa, creative growth, and concert activity.',
+				'Odesa Theatre School: music education for children and youth in Odesa, creative growth, and concert activity.',
 			pages: {
 				home: {
-					title: 'Odessa Theatre School',
+					title: 'Odesa Theatre School',
 					description:
-						'Official website of Odessa Theatre School. Departments, gallery, history, contacts, and admission details.'
+						'Official website of Odesa Theatre School. Departments, gallery, history, contacts, and admission details.'
 				},
 				about: {
 					title: 'About School',
 					description:
-						'Learn more about Odessa Theatre School: creative life, performances, teachers, and students.'
+						'Learn more about Odesa Theatre School: creative life, performances, teachers, and students.'
 				},
 				history: {
 					title: 'History',
-					description: 'The history of Odessa Theatre School from early records to the present day.'
+					description: 'The history of Odesa Theatre School from early records to the present day.'
 				},
 				contacts: {
 					title: 'contacts',
 					description:
-						'Creative contacts and festivals of Odessa Theatre School that support young talents.'
+						'Creative contacts and festivals of Odesa Theatre School that support young talents.'
 				},
 				admission: {
 					title: 'Admission',
 					description:
-						'Admission information for Odessa Theatre School: documents, contacts, and study conditions.'
+						'Admission information for Odesa Theatre School: documents, contacts, and study conditions.'
 				}
 			}
 		}

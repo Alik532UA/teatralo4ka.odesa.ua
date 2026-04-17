@@ -1,11 +1,11 @@
 ---
 title: "Photo Archive"
 date: "2026-04-12"
-author: "Odessa Theatre School Admin"
+author: "Odesa Theatre School Admin"
 category: "projects"
 lang: "en"
 seo:
-  title: "Photo Archive - Odessa Theatre School"
+  title: "Photo Archive - Odesa Theatre School"
   description: "Our current photo archive. The school's history in photographs: from first performances to modern events."
 status: "published"
 version: "1.0.0"

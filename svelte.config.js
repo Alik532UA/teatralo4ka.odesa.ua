@@ -46,7 +46,7 @@ const config = {
 				'/projects/festival',
 				'/projects/galaxy-graduates',
 				'/projects/photo-archive',
-				'/projects/spring-odessa-theatre',
+				'/projects/spring-Odesa-theatre',
 				'/projects/support-production',
 				'/admin',
 				'/admin/login'

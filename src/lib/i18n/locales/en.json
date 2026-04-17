@@ -13,7 +13,7 @@
     "coatOfArms": "Coat of Arms of Ukraine"
   },
   "hero": {
-    "title": "Odessa Theatre School",
+    "title": "Odesa Theatre School",
     "subtitle": "A school where children always go with pleasure!",
     "map": "Map",
     "phones": "Phones",
@@ -677,31 +677,31 @@
     "loadingProject": "Loading project..."
   },
   "seo": {
-    "brandTitle": "Odessa Theatre School",
+    "brandTitle": "Odesa Theatre School",
     "org": {
-      "name": "Odessa Theatre School",
-      "description": "Odessa Theatre School: music education for children and youth in Odesa, creative development and concert activities."
+      "name": "Odesa Theatre School",
+      "description": "Odesa Theatre School: music education for children and youth in Odesa, creative development and concert activities."
     },
     "pages": {
       "home": {
-        "title": "Odessa Theatre School",
-        "description": "Official website of Odessa Theatre School. Departments, gallery, history, contacts and admission conditions."
+        "title": "Odesa Theatre School",
+        "description": "Official website of Odesa Theatre School. Departments, gallery, history, contacts and admission conditions."
       },
       "about": {
         "title": "About School",
-        "description": "Learn more about Odessa Theatre School: creative life, performances, teachers and students."
+        "description": "Learn more about Odesa Theatre School: creative life, performances, teachers and students."
       },
       "history": {
         "title": "History",
-        "description": "History of Odessa Theatre School from the first mentions to the present day."
+        "description": "History of Odesa Theatre School from the first mentions to the present day."
       },
       "contacts": {
         "title": "Contacts",
-        "description": "Address, phone numbers and contacts of Odessa Theatre School."
+        "description": "Address, phone numbers and contacts of Odesa Theatre School."
       },
       "admission": {
         "title": "Admission",
-        "description": "Information for admission to Odessa Theatre School: documents, contacts and study conditions."
+        "description": "Information for admission to Odesa Theatre School: documents, contacts and study conditions."
       }
     }
   },

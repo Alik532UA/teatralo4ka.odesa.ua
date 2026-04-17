@@ -5,15 +5,15 @@ author: "Administration"
 category: "contacts"
 lang: "en"
 seo:
-  title: "Contacts - Odessa Theatre School"
-  description: "Address, phone numbers, and working hours of the Odessa Theatre School."
+  title: "Contacts - Odesa Theatre School"
+  description: "Address, phone numbers, and working hours of the Odesa Theatre School."
 status: "published"
 version: "1.0.0"
 ---
 
 # Contacts
 
-## **Odessa Theatre School**
+## **Odesa Theatre School**
 
 **[24 Sofiivska St, Odesa](https://maps.app.goo.gl/ya4gki6tuZv36Tjz8)**
 

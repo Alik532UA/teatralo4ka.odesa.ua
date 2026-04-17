@@ -1,12 +1,12 @@
 ---
 title: "ДТШ-production"
 date: "2026-04-12"
-author: "Odessa Theatre School Admin"
+author: "Odesa Theatre School Admin"
 category: "projects"
 lang: "en"
 seo:
   title: "ДТШ-production - Support our school"
-  description: "Help the development of the Odessa Theatre School media studio: cloud services, equipment repair, new hardware."
+  description: "Help the development of the Odesa Theatre School media studio: cloud services, equipment repair, new hardware."
 status: "published"
 version: "1.0.0"
 excerpt: "Our own media center: video projects, short films, and creative collaborations"

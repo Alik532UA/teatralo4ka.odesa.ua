@@ -17,7 +17,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		slug: 'teatr-pro',
 		color: '#FF6B6B',
 		coverUrl: `${base}/2025-2026/teatr-pro-2026.jpg`,
-		titles: { uk: 'ТеатрPRO', en: 'TheaterPRO' },
+		titles: { uk: 'Театр.PRO', en: 'Theater.PRO' },
 		excerpts: { uk: 'Практичний проєкт для сценічної практики та командної роботи', en: 'Practical project for stage practice and teamwork' },
 	},
 	{
