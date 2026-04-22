@@ -8,7 +8,7 @@ seo:
   title: "History - Odesa Theatrical School"
   description: "The complete history of the foundation and development of the Odesa Theatrical School, its traditions, teachers, and student achievements."
 status: "published"
-version: "1.2.0"
+version: "1.2.1"
 ---
 
 # History
@@ -25,7 +25,10 @@ A new round in the creative history of this educational institution came in 2003
 
 Since 2005, with the arrival of the new director Olena Borysivna Tkach, CTS has actively developed new projects — collaborating with the National Union of Theater Artists, the V. Vasylko Ukrainian Theater, the Odesa Puppet Theater, the O.V. Bleshunov Municipal Museum of Personal Collections, the Odesa branch of the "Intellectual Forum of Ukraine," and other creative organizations. CTS and the "Uncle Fedir" Scientific and Creative Organization founded the International Art Festivals "Odesa Tram" and "Carpathian Spring," providing methodological, creative, and practical assistance to a wide variety of art projects.
 
-In 2011, a very important event for all of us took place — CTS moved to a new address: 24 Sofiivska Street. Thanks to the efforts of caring people — then Vice-Mayor of Odesa Olena Pavlova, Deputy Head of the Department of Culture and Arts Liudmyla Kryzhalko, and Odesa patron and businessman Dmytro Shpynariov — the school resolved its most painful issue: the "housing" problem. We are confident that in the new building, CTS will reach new creative heights! Here is what the media wrote about this event: *"The Children's Theatrical School moved to the premises on Sofiivska Street in 2011, and in a rather short period managed to almost completely settle in and establish the learning process. Currently, the school's theatrical hall is being additionally equipped with lighting devices. By the beginning of the school year, the institution's administration managed to master and carry out serious repair work in the previously unused premises of the building. Now, additional classrooms and a costume room are located here."*
+In 2011, a very important event for all of us took place: the Children's Theatrical School (CTS) moved to a new address at 24 Sofiivska Street. Thanks to the efforts of caring people—the then Vice Mayor of Odesa, Olena Pavlova; the Deputy Head of the Department of Culture and Arts, Liudmyla Kryzhalko; and Odesa patron and businessman Dmytro Shpynarov—the school solved its most pressing issue: the "housing" problem. We are confident that in this new building, the CTS will reach new creative heights!\
+Our theatrical hall, which was created practically from scratch, deserves special mention. To ensure the students had a real stage, two separate classrooms were combined into one large space. This complex reconstruction was made possible only through the generous financial support of many friends of the school. Today, this dream space continues to evolve and is currently being additionally equipped with professional lighting fixtures.\
+Here is how the publications of that time covered this event:
+> In 2011, the Children's Theatrical School relocated to the premises on Sofiivska Street, and in a rather short period, it managed to almost completely settle in and establish the educational process. By the beginning of the school year, the institution's administration managed to utilize and carry out major renovation works in the building's previously unused premises. Now, additional classrooms and a costume room are located here.
 
 In 2020, on the eve of its 25th anniversary, "Teatralo4ka" received a new status and name — Communal Institution of Primary Specialized Education "Art Theatrical School of Odesa". This was one of the conditions of the reform of art schools, according to changes in the Law on Education. To be honest, we were not very happy about this, because it seemed to us that cultural officials had "overdone" it and come up with a not entirely correct name. What else can a theatrical school be but an art school? It would be more correct to call it: "School of Theatrical Art."
 
