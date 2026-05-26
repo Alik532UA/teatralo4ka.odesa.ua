@@ -136,6 +136,38 @@
 		border-radius: 20px;
 		margin: 2rem 0;
 	}
+	.prose :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5rem 0;
+		font-size: 1rem;
+	}
+	.prose :global(th),
+	.prose :global(td) {
+		padding: 0.75rem 1rem;
+		text-align: left;
+		border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
+	}
+	.prose :global(th) {
+		font-weight: 700;
+		color: var(--text-title);
+		white-space: nowrap;
+	}
+	.prose :global(td) {
+		white-space: nowrap;
+	}
+	.prose :global(tr:last-child td) {
+		border-bottom: none;
+	}
+	@media (max-width: 600px) {
+		.prose :global(table) {
+			font-size: 0.9rem;
+		}
+		.prose :global(th),
+		.prose :global(td) {
+			padding: 0.5rem 0.6rem;
+		}
+	}
 	@media (max-width: 768px) {
 		.page-content {
 			padding-top: 120px !important;
