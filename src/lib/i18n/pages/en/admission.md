@@ -8,13 +8,13 @@ seo:
   title: "Admission Requirements for Odesa Theatre School 2026-2027"
   description: "Student enrollment, departments, subjects, and document submission deadlines for Odesa Theatre School 2026-2027."
 status: "published"
-version: "2.0.0"
+version: "2.0.1"
 ---
 
 # Student Enrollment at Odesa Theatre School for the 2026-2027 academic year
 
 ## Theatre Department (elementary level)
-**Target audience:** students of grade 2 of general education school (on a self-financing basis)  
+**Target audience:** students of grades 2-4 of general education school (on a self-financing basis)  
 **Subjects:** acting, stage speech, dance, noise orchestra, vocals, fairy tale therapy, visual arts.
 
 ## Theatre Department (basic level)
