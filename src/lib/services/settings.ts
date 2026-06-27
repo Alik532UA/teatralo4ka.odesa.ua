@@ -910,6 +910,22 @@ export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | n
   return null;
 }
 
+function stripUndefined(obj: any): any {
+  if (Array.isArray(obj)) {
+    return obj.map(stripUndefined);
+  }
+  if (obj !== null && typeof obj === 'object' && obj.constructor === Object) {
+    const result: any = {};
+    for (const [key, value] of Object.entries(obj)) {
+      if (value !== undefined) {
+        result[key] = stripUndefined(value);
+      }
+    }
+    return result;
+  }
+  return obj;
+}
+
 /**
  * Auth-required write.
  * Accepts resolved (full) MenuConfig objects, diffs them against defaults,
@@ -949,17 +965,17 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
   const payload: Record<string, any> = { updatedAt: serverTimestamp() };
 
   // Only include sections that have actual overrides
-  if (Object.keys(ctaDiff).length > 0)     payload.cta = ctaDiff;
-  if (Object.keys(tickerDiff).length > 0)   payload.ticker = tickerDiff;
-  if (Object.keys(debugDiff).length > 0)    payload.debugPanel = debugDiff;
+  if (Object.keys(ctaDiff).length > 0)     payload.cta = stripUndefined(ctaDiff);
+  if (Object.keys(tickerDiff).length > 0)   payload.ticker = stripUndefined(tickerDiff);
+  if (Object.keys(debugDiff).length > 0)    payload.debugPanel = stripUndefined(debugDiff);
 
   const headerBarDiff = diffMenuConfig(settings.headerBar, DEFAULT_HEADER_SETTINGS.headerBar);
   const navDropdownDiff = diffMenuConfig(settings.navDropdown, DEFAULT_HEADER_SETTINGS.navDropdown);
   const mobileOverlayDiff = diffMenuConfig(settings.mobileOverlay, DEFAULT_HEADER_SETTINGS.mobileOverlay);
 
-  if (headerBarDiff)     payload.headerBar = headerBarDiff;
-  if (navDropdownDiff)   payload.navDropdown = navDropdownDiff;
-  if (mobileOverlayDiff) payload.mobileOverlay = mobileOverlayDiff;
+  if (headerBarDiff)     payload.headerBar = stripUndefined(headerBarDiff);
+  if (navDropdownDiff)   payload.navDropdown = stripUndefined(navDropdownDiff);
+  if (mobileOverlayDiff) payload.mobileOverlay = stripUndefined(mobileOverlayDiff);
 
   return await setDoc(docRef, payload);
 }
