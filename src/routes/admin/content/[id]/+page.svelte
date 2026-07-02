@@ -5,6 +5,7 @@
 	import { base } from '$app/paths';
 	import { page } from '$app/state';
 	import { getAdminArticleById, updateArticle } from '$lib/services/admin-articles';
+	import { logError } from '$lib/services/firebaseErrors';
 	import { onMount } from 'svelte';
 	import type { DateMode, ContentType } from '$lib/services/articles';
 	import { t } from 'svelte-i18n';
@@ -94,7 +95,7 @@
 			toast.success($t('admin.dashboard.saveSuccess'));
 			goto(`${base}/admin/content`);
 		} catch (e: unknown) {
-			console.error(e);
+			logError(e);
 			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorUpdate'));
 		} finally {
 			saving = false;

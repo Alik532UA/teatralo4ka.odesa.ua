@@ -3,6 +3,7 @@ import { authService } from '$lib/states/auth.svelte';
 import { toast } from '$lib/states/toast.svelte';
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
+import { logError } from '$lib/services/firebaseErrors';
 import {
   getHomeSettings, updateHomeSettings, DEFAULT_BLOCKS, type BlockConfig,
   getHeaderSettings, updateHeaderSettings, DEFAULT_HEADER_SETTINGS,
@@ -385,7 +386,7 @@ async function handleSubmit() {
     originalMobileHomeGalleryWidget = JSON.stringify(mobileHomeGalleryWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: unknown) {
-    console.error(e);
+    logError(e);
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     saving = false;
@@ -404,7 +405,7 @@ async function handleHeaderSubmit() {
     originalTicker = JSON.stringify(ticker);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: unknown) {
-    console.error(e);
+    logError(e);
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     headerSaving = false;
@@ -422,7 +423,7 @@ async function handleNewsPageSubmit() {
     originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: unknown) {
-    console.error(e);
+    logError(e);
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     newsPageSaving = false;
@@ -440,7 +441,7 @@ async function handleProjectsPageSubmit() {
     originalMobileProjectsPageWidget = JSON.stringify(mobileProjectsPageWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: unknown) {
-    console.error(e);
+    logError(e);
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     projectsPageSaving = false;
@@ -458,7 +459,7 @@ async function handleAboutPageSubmit() {
     originalMobileAboutGalleryWidget = JSON.stringify(mobileAboutGalleryWidget);
     toast.success($t('admin.dashboard.saveSuccess'));
   } catch (e: unknown) {
-    console.error(e);
+    logError(e);
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     aboutPageSaving = false;

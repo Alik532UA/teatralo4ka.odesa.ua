@@ -19,8 +19,35 @@ import { auth, db } from "../firebase/config";
 import type { Article } from "./articles";
 import { get } from 'svelte/store';
 import { t } from 'svelte-i18n';
+import { friendlyError, rethrowFriendly } from "./firebaseErrors";
 
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+
+// Ліміти мають збігатися з firestore.rules (isValidArticle / isValidTranslationBlock).
+const MAX_CONTENT_CHARS = 50000;
+const MAX_TITLE_CHARS = 150;
+
+// Клієнтський "cooldown" між збереженнями ОДНОГО документа — дає зрозуміле
+// повідомлення замість сирої серверної відмови й запобігає випадковим
+// повторним натисканням. Це НЕ жорсткий ліміт (проти скриптів працює App Check).
+const SAVE_COOLDOWN_MS = 1500;
+const lastSavedAt = new Map<string, number>();
+
+/** Пре-валідація розміру ДО запиту → точне повідомлення ("текст задовгий" тощо). */
+function assertArticleWithinLimits(data: Partial<Article>) {
+  const tr = data.translations;
+  if (!tr) return;
+  for (const lang of ['uk', 'en'] as const) {
+    const block = tr[lang];
+    if (!block) continue;
+    if (typeof block.content === 'string' && block.content.length > MAX_CONTENT_CHARS) {
+      throw friendlyError('error.tooLarge');
+    }
+    if (typeof block.title === 'string' && block.title.length > MAX_TITLE_CHARS) {
+      throw friendlyError('error.titleTooLong');
+    }
+  }
+}
 
 /**
  * Generates a URL-safe slug from an English title.
@@ -112,6 +139,7 @@ export async function getAdminArticleById(id: string) {
 }
 
 export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updatedAt">) {
+  assertArticleWithinLimits(data);
   const projectId = await getProjectId();
 
   const now = new Date();
@@ -166,16 +194,20 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
     await setDoc(docRef, payloadToSave);
   } catch (error: any) {
     console.error("Firestore setDoc Error in addArticle:", error);
-    if (error.code === 'permission-denied') {
-      throw new Error(get(t)('admin.editor.publishDenied'));
-    }
-    throw error;
+    rethrowFriendly(error);
   }
 
   return docRef;
 }
 
 export async function updateArticle(articleId: string, data: Partial<Article>) {
+  // Cooldown per-документ: дружнє повідомлення замість серверної відмови throttle.
+  const sinceLast = Date.now() - (lastSavedAt.get(articleId) ?? 0);
+  if (sinceLast < SAVE_COOLDOWN_MS) {
+    throw friendlyError('error.cooldown');
+  }
+  assertArticleWithinLimits(data);
+
   const projectId = await getProjectId();
   const ref = doc(db, "projects", projectId, "articles", articleId);
 
@@ -217,18 +249,22 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
   }
 
   try {
-    return await updateDoc(ref, updatePayload);
+    const res = await updateDoc(ref, updatePayload);
+    lastSavedAt.set(articleId, Date.now());
+    return res;
   } catch (error: any) {
     console.error("Firestore updateDoc Error in updateArticle:", error);
-    if (error.code === 'permission-denied') {
-      throw new Error(get(t)('admin.editor.updateDenied'));
-    }
-    throw error;
+    rethrowFriendly(error);
   }
 }
 
 export async function deleteArticle(articleId: string) {
   const projectId = await getProjectId();
   const ref = doc(db, "projects", projectId, "articles", articleId);
-  return deleteDoc(ref);
+  try {
+    return await deleteDoc(ref);
+  } catch (error: any) {
+    console.error("Firestore deleteDoc Error in deleteArticle:", error);
+    rethrowFriendly(error);
+  }
 }

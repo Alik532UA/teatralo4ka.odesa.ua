@@ -1,0 +1,319 @@
+rules_version = '2';
+// =============================================================================
+//  ЗАПРОПОНОВАНІ (ПОСИЛЕНІ) ПРАВИЛА — firestore.rules.proposed
+//  Це НЕ бойовий файл. Робочий firebase/firestore.rules НЕ змінювався.
+//  Перед деплоєм: перевірити в емуляторі (firebase emulators:start) і
+//  розкотити поетапно. Усі зміни щодо оригіналу позначені міткою [H#].
+//
+//  СТРАТЕГІЯ АНТИ-АБЬЮЗУ (пункти 3–4):
+//   • Проти скриптів/ботів (спам записів, вичерпання квоти) — Firebase App Check
+//     (reCAPTCHA v3, НЕВИДИМО). Клієнт уже вбудовано (src/lib/firebase/config.ts).
+//     Дії з вашого боку: додати site key у env і, коли % verified виросте,
+//     перемкнути Firestore App Check у режим ENFORCE у консолі.
+//   • Проти великих документів — жорсткі ліміти розміру в правилах (нижче).
+//   • Проти випадкових/надто частих збережень — М'який клієнтський cooldown із
+//     ЗРОЗУМІЛИМ повідомленням (не серверний блок). Тому жорсткий лічильник
+//     50/хв та серверний throttle "1 секунда" СВІДОМО ПРИБРАНО: вони псують UX,
+//     дублюють записи (квоту) і не потрібні поряд з App Check.
+//   • Проти неконтрольованих витрат — бюджетні алерти/квоти в Google Cloud.
+// =============================================================================
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Суперадмін: НАСАМПЕРЕД custom-claim (клієнт не підробить). Fallback на
+    // Firestore-документ лишено для сумісності з UI; жоден клієнтський шлях не
+    // може виставити isSuperAdmin=true (див. правила users нижче).
+    function isSuperAdmin() {
+      return isSignedIn() && (
+        request.auth.token.role == "superadmin" ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('isSuperAdmin', false) == true)
+      );
+    }
+
+    function belongsToProject(projectId) {
+      return isSignedIn() &&
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             projectId in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects;
+    }
+
+    function getProjectPerms(projectId) {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].permissions;
+    }
+
+    function hasArticlePerm(projectId, action) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) && (
+          (action == 'create' && getProjectPerms(projectId).get('canCreateArticles', getProjectPerms(projectId).get('canCreate', false)) == true) ||
+          (action == 'edit'   && getProjectPerms(projectId).get('canEditArticles',   getProjectPerms(projectId).get('canEdit',   false)) == true) ||
+          (action == 'delete' && getProjectPerms(projectId).get('canDeleteArticles', getProjectPerms(projectId).get('canDelete', false)) == true)
+        )
+      );
+    }
+
+    function hasPagePerm(projectId, action) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) && (
+          (action == 'create' && getProjectPerms(projectId).get('canCreatePages', getProjectPerms(projectId).get('canCreate', false)) == true) ||
+          (action == 'edit'   && getProjectPerms(projectId).get('canEditPages',   getProjectPerms(projectId).get('canEdit',   false)) == true) ||
+          (action == 'delete' && getProjectPerms(projectId).get('canDeletePages', getProjectPerms(projectId).get('canDelete', false)) == true)
+        )
+      );
+    }
+
+    function canManageSettings(projectId) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) &&
+        getProjectPerms(projectId).get('canManageSettings', get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'admin') == true
+      );
+    }
+
+    function isProjectAdmin(projectId) {
+      return isSuperAdmin() || (
+        belongsToProject(projectId) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == "admin"
+      );
+    }
+
+    function canManageTarget(projectId, targetRole) {
+      return belongsToProject(projectId) &&
+             getProjectPerms(projectId).get('canManageUsers', get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'admin') == true && (
+               (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'admin' && (targetRole == 'moderator' || targetRole == 'assistant')) ||
+               (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects[projectId].role == 'moderator' && targetRole == 'assistant')
+             );
+    }
+
+    // [H1] Валідація мапи дозволів: лише відомі булеві ключі, жодних вигаданих полів.
+    function isValidPermissions(p) {
+      return p.keys().hasOnly([
+               'canCreateArticles','canEditArticles','canDeleteArticles',
+               'canCreatePages','canEditPages','canDeletePages',
+               'canManageUsers','canManageSettings',
+               'canCreate','canEdit','canDelete'
+             ]) &&
+             (!('canCreateArticles' in p) || p.canCreateArticles is bool) &&
+             (!('canEditArticles'   in p) || p.canEditArticles   is bool) &&
+             (!('canDeleteArticles' in p) || p.canDeleteArticles is bool) &&
+             (!('canCreatePages'    in p) || p.canCreatePages    is bool) &&
+             (!('canEditPages'      in p) || p.canEditPages      is bool) &&
+             (!('canDeletePages'    in p) || p.canDeletePages    is bool) &&
+             (!('canManageUsers'    in p) || p.canManageUsers    is bool) &&
+             (!('canManageSettings' in p) || p.canManageSettings is bool) &&
+             (!('canCreate'         in p) || p.canCreate         is bool) &&
+             (!('canEdit'           in p) || p.canEdit           is bool) &&
+             (!('canDelete'         in p) || p.canDelete         is bool);
+    }
+
+    // ---- Валідація статей (як в оригіналі) ----------------------------------
+    function isValidTranslationBlock(block) {
+      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl', 'contentFormat', 'excerpt', 'externalUrl']) &&
+             (!('title' in block) || (block.title is string && block.title.size() <= 150)) &&
+             (!('content' in block) || (block.content is string && block.content.size() <= 50000)) &&
+             (!('isPublished' in block) || block.isPublished is bool) &&
+             (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 2048)) &&
+             (!('contentFormat' in block) || block.contentFormat in ['markdown', 'html']) &&
+             (!('excerpt' in block) || (block.excerpt is string && block.excerpt.size() <= 500)) &&
+             (!('externalUrl' in block) || (block.externalUrl is string && block.externalUrl.size() <= 2048));
+    }
+
+    function isValidTranslations(translations) {
+      return translations.keys().hasOnly(['en', 'uk']) &&
+             (!('en' in translations) || isValidTranslationBlock(translations.en)) &&
+             (!('uk' in translations) || isValidTranslationBlock(translations.uk));
+    }
+
+    function isValidArticle(data) {
+      return data.keys().hasOnly(['title', 'content', 'category', 'lang', 'author', 'isPublished', 'createdAt', 'updatedAt', 'translations', 'dateMode', 'customDate', 'coverUrl', 'slug', 'type', 'sortOrder']) &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.content is string && data.content.size() <= 50000 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.lang in ['uk', 'en'] &&
+             data.author is string && data.author.size() > 0 && data.author.size() <= 100 &&
+             data.isPublished is bool &&
+             data.createdAt is timestamp &&
+             data.updatedAt is timestamp &&
+             (!('coverUrl' in data) || (data.coverUrl is string && data.coverUrl.size() <= 2048)) &&
+             (!('dateMode' in data) || (data.dateMode is string && data.dateMode.size() <= 20)) &&
+             (!('customDate' in data) || data.customDate == null ||
+               (data.customDate is timestamp &&
+                data.customDate > timestamp.date(1990, 1, 1) &&
+                data.customDate < request.time + duration.value(365, 'd'))) &&
+             (!('slug' in data) || (data.slug is string && data.slug.size() > 0 && data.slug.size() <= 100 && data.slug.matches('[a-z0-9_]+'))) &&
+             (!('type' in data) || data.type in ['article', 'page', 'page_project']) &&
+             (!('sortOrder' in data) || (data.sortOrder is int && data.sortOrder >= 0 && data.sortOrder <= 9999)) &&
+             (!('translations' in data) || isValidTranslations(data.translations));
+    }
+
+    function isValidProjectUpdate(data) {
+      return data.keys().hasAny(['name', 'region']) &&
+             data.keys().hasOnly(['name', 'region']) &&
+             (!('name' in data) || (data.name is string && data.name.size() <= 100)) &&
+             (!('region' in data) || (data.region is string && data.region.size() <= 50));
+    }
+
+    // [H2] Валідація документів налаштувань: whitelist ID + обмеження кількості
+    // ключів верхнього рівня (захист від storage-DoS). Глибоку структуру меню
+    // повністю в правилах перевірити неможливо — backstop: App Check.
+    function isValidSettingId(sid) {
+      return sid in ['home', 'header', 'news', 'projects', 'about'];
+    }
+    function isValidSettingsDoc(data) {
+      return data.size() <= 32 &&
+             (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    // ---- Статті / Сторінки --------------------------------------------------
+    match /projects/{projectId}/articles/{articleId} {
+      allow read: if resource.data.isPublished == true || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
+
+      allow create: if (request.resource.data.get('type', 'article') == 'article' ? hasArticlePerm(projectId, 'create') : hasPagePerm(projectId, 'create'))
+                    && isValidArticle(request.resource.data)
+                    && request.resource.data.createdAt == request.time
+                    && request.resource.data.updatedAt == request.time;
+
+      // [H4] Прибрано серверний throttle "1 секунда" (заважав UX; проти скриптів —
+      // App Check, проти подвійних кліків — клієнтський cooldown). Додано заборону
+      // перекласифікації type та підробки createdAt.
+      allow update: if (resource.data.get('type', 'article') == 'article' ? hasArticlePerm(projectId, 'edit') : hasPagePerm(projectId, 'edit'))
+                    && isValidArticle(request.resource.data)
+                    && request.resource.data.updatedAt == request.time
+                    && request.resource.data.get('type', 'article') == resource.data.get('type', 'article')
+                    && request.resource.data.createdAt == resource.data.createdAt;
+
+      allow delete: if (resource.data.get('type', 'article') == 'article' ? hasArticlePerm(projectId, 'delete') : hasPagePerm(projectId, 'delete'));
+    }
+
+    // ---- Налаштування -------------------------------------------------------
+    match /projects/{projectId}/settings/{settingId} {
+      // 'home','header','news','projects','about' — публічні (рендер сайту без авторизації).
+      allow read: if isValidSettingId(settingId) || (isSignedIn() && (isSuperAdmin() || belongsToProject(projectId)));
+
+      // [H2] Лише whitelist-ID, з валідацією та обмеженням кількості ключів.
+      allow write: if canManageSettings(projectId)
+                   && isValidSettingId(settingId)
+                   && isValidSettingsDoc(request.resource.data);
+    }
+
+    // ---- Документ проєкту ---------------------------------------------------
+    match /projects/{projectId} {
+      allow read: if isSignedIn() && (isSuperAdmin() || belongsToProject(projectId));
+
+      // [H5] Замінено ненадійний request.method на канонічні гранульовані правила.
+      allow create: if isProjectAdmin(projectId) && isValidProjectUpdate(request.resource.data);
+      allow update: if isProjectAdmin(projectId) && isValidProjectUpdate(request.resource.data);
+      allow delete: if isSuperAdmin(); // видалити школу цілком може лише суперадмін
+    }
+
+    // ---- Користувачі --------------------------------------------------------
+    match /users/{userId} {
+      allow get: if isSuperAdmin() || (
+        isSignedIn() && (
+          request.auth.uid == userId ||
+          resource.data.projects.keys().hasAny(get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projects.keys())
+        )
+      );
+
+      allow list: if isSuperAdmin() || (
+        isSignedIn() &&
+        resource.data.projectIds.hasAny(
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.projectIds
+        )
+      );
+
+      allow create: if isSuperAdmin() || (
+        isSignedIn() && (
+          // СЦЕНАРІЙ А: Міграція профілю (Email -> UID) при першому вході
+          (
+            request.auth.uid == userId &&
+            request.auth.token.email_verified == true &&
+            exists(/databases/$(database)/documents/users/$(request.auth.token.email.lower())) &&
+            request.resource.data.diff(get(/databases/$(database)/documents/users/$(request.auth.token.email.lower())).data).affectedKeys().hasOnly(['projectIds']) &&
+            request.resource.data.projectIds.hasOnly(request.resource.data.projects.keys()) &&
+            request.resource.data.projects.keys().hasOnly(request.resource.data.projectIds)
+          ) ||
+          // СЦЕНАРІЙ Б: Адмін школи створює нового користувача (по Email)
+          (
+            userId.matches('.*@.*[.].*') &&
+            request.resource.data.keys().hasOnly(['email', 'isSuperAdmin', 'projects', 'projectIds', 'lastModifiedProject', 'createdAt', '_createdByUid']) &&
+            request.resource.data._createdByUid == request.auth.uid &&
+            request.resource.data.email is string &&
+            request.resource.data.email.size() <= 254 &&
+            // [H6] Прив'язати поле email до ID документа (docId = email) — проти підробки:
+            request.resource.data.email == userId &&
+            // [H6] Зафіксувати createdAt = server-time:
+            request.resource.data.createdAt == request.time &&
+            'lastModifiedProject' in request.resource.data &&
+            request.resource.data.isSuperAdmin == false &&
+            request.resource.data.projects.keys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            request.resource.data.projectIds.hasOnly([request.resource.data.lastModifiedProject]) &&
+            // [H1] Валідувати мапу дозволів:
+            isValidPermissions(request.resource.data.projects[request.resource.data.lastModifiedProject].permissions) &&
+            canManageTarget(request.resource.data.lastModifiedProject, request.resource.data.projects[request.resource.data.lastModifiedProject].role)
+          )
+        )
+      );
+
+      allow delete: if isSuperAdmin() || (
+        isSignedIn() && (
+          request.auth.uid == userId ||
+          request.auth.token.email.lower() == userId
+        )
+      );
+
+      allow update: if isSuperAdmin() || (
+        isSignedIn() && (
+          // СЦЕНАРІЙ 1: Користувач оновлює сам себе (обмежено поля + розміри)
+          (request.auth.uid == userId &&
+           request.resource.data.keys().hasOnly(['email', 'name', 'projects', 'projectIds', 'isSuperAdmin', 'lastModifiedProject', 'createdAt', 'updatedAt', 'avatar', 'phone', '_createdByUid']) &&
+           request.resource.data.get('isSuperAdmin', false) == resource.data.get('isSuperAdmin', false) &&
+           request.resource.data.projects == resource.data.projects &&
+           request.resource.data.projectIds == resource.data.projectIds &&
+           request.resource.data.createdAt == resource.data.createdAt &&
+           (!('_createdByUid' in resource.data) || request.resource.data._createdByUid == resource.data._createdByUid) &&
+           // [H7] Обмеження розмірів (проти інфляції документа):
+           (!('name'   in request.resource.data) || (request.resource.data.name   is string && request.resource.data.name.size()   <= 100)) &&
+           (!('avatar' in request.resource.data) || (request.resource.data.avatar is string && request.resource.data.avatar.size() <= 2048)) &&
+           (!('phone'  in request.resource.data) || (request.resource.data.phone  is string && request.resource.data.phone.size()  <= 40)) &&
+           (!('email'  in request.resource.data) || (request.resource.data.email  is string && request.resource.data.email.size()  <= 254))
+          ) ||
+
+          // СЦЕНАРІЙ 2: Адмін/модератор керує користувачем (лише у СВОЄМУ проєкті)
+          (
+            // [H8] Заборонити будь-які зміни документів суперадмінів звичайними адмінами:
+            resource.data.get('isSuperAdmin', false) == false &&
+            request.resource.data.get('isSuperAdmin', false) == false &&
+            request.resource.data.diff(resource.data).affectedKeys().hasOnly(['projects', 'projectIds', 'lastModifiedProject']) &&
+            'lastModifiedProject' in request.resource.data &&
+            request.resource.data.projects.diff(resource.data.projects).affectedKeys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            request.resource.data.projectIds.hasOnly(request.resource.data.projects.keys()) &&
+            request.resource.data.projects.keys().hasOnly(request.resource.data.projectIds) &&
+            request.resource.data.projectIds.size() <= 50 &&
+            resource.data.projects.keys().hasOnly([request.resource.data.lastModifiedProject]) &&
+            // [H9] КЛЮЧОВА ЗМІНА: ціль ПОВИННА вже мати цей проєкт. Додавання
+            // існуючого акаунта в новий проєкт = ЛИШЕ суперадмін (top-level bypass).
+            request.resource.data.lastModifiedProject in resource.data.projects &&
+            // [H9] Перевіряти й СТАРУ роль (не можна чіпати чужого admin'а):
+            canManageTarget(request.resource.data.lastModifiedProject, resource.data.projects[request.resource.data.lastModifiedProject].role) &&
+            (
+              // модифікація ролі/дозволів (з валідацією мапи дозволів):
+              (request.resource.data.lastModifiedProject in request.resource.data.projects &&
+               canManageTarget(request.resource.data.lastModifiedProject, request.resource.data.projects[request.resource.data.lastModifiedProject].role) &&
+               isValidPermissions(request.resource.data.projects[request.resource.data.lastModifiedProject].permissions)) ||
+              // або видалення доступу до проєкту:
+              (!(request.resource.data.lastModifiedProject in request.resource.data.projects))
+            )
+          )
+        )
+      );
+    }
+
+    // [H10] Явний catch-all (документує намір; не впливає на працюючі правила вище).
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

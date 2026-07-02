@@ -5,6 +5,7 @@
 	import { base } from '$app/paths';
 	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where, serverTimestamp } from 'firebase/firestore';
 	import { db } from '$lib/firebase/config';
+	import { toFriendlyMessage, logError } from '$lib/services/firebaseErrors';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
 	import { get } from 'svelte/store';
@@ -150,7 +151,7 @@
 				};
 			});
 		} catch (e) {
-			console.error(e);
+			logError(e);
 		} finally {
 			loading = false;
 		}
@@ -229,8 +230,8 @@
 			newUser.email = '';
 			await loadUsers();
 		} catch (e) {
-			console.error(e);
-			toast.error($t('admin.users.errorPrefix') + (e as Error).message);
+			logError(e);
+			toast.error(toFriendlyMessage(e));
 		} finally {
 			savingId = null;
 		}
@@ -262,8 +263,8 @@
 			toast.success($t('admin.users.rightsUpdated'));
 			user.originalProjectsJson = JSON.stringify(user.projects);
 		} catch (e) {
-			console.error(e);
-			toast.error($t('admin.users.updateError') + (e as Error).message);
+			logError(e);
+			toast.error(toFriendlyMessage(e));
 		} finally {
 			savingId = null;
 		}
@@ -290,8 +291,8 @@
 			toast.success($t('admin.users.accessRemoved'));
 			await loadUsers();
 		} catch (e) {
-			console.error(e);
-			toast.error($t('admin.users.deleteError'));
+			logError(e);
+			toast.error(toFriendlyMessage(e));
 		} finally {
 			savingId = null;
 		}
@@ -328,8 +329,8 @@
 			toast.success($t('admin.users.accountDeleted'));
 			await loadUsers();
 		} catch (e) {
-			console.error(e);
-			toast.error($t('admin.users.deleteError'));
+			logError(e);
+			toast.error(toFriendlyMessage(e));
 		} finally {
 			savingId = null;
 		}

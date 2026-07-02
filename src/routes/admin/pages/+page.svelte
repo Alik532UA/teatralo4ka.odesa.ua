@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { deleteArticle, fetchAllPages, updateArticle } from '$lib/services/admin-articles';
+	import { logError } from '$lib/services/firebaseErrors';
 	import { getDisplayDate, type Article } from '$lib/services/articles';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
@@ -95,7 +96,7 @@
 			pages = pages.filter(p => p.id !== id);
 			toast.success(get(t)('admin.pages.deleted'));
 		} catch (e: unknown) {
-			console.error(e);
+			logError(e);
 			toast.error(e instanceof Error ? e.message : get(t)('admin.pages.deleteError'));
 		}
 	}
@@ -132,7 +133,7 @@
 			
 			toast.success($t('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));
 		} catch (e: unknown) {
-			console.error(e);
+			logError(e);
 			toast.error(e instanceof Error ? e.message : $t('admin.content.statusUpdateError'));
 		} finally {
 			togglingId = null;

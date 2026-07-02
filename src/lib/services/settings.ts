@@ -6,6 +6,17 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import { getStorageKey } from "../config/storage";
+import { rethrowFriendly } from "./firebaseErrors";
+
+/** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
+async function saveSettingsDoc(ref: any, payload: any) {
+  try {
+    return await setDoc(ref, payload);
+  } catch (e) {
+    console.error("Firestore settings save error:", e);
+    rethrowFriendly(e);
+  }
+}
 
 // ── Known navigable pages (single source of truth for nav config UI) ─────────
 // Add an entry here + locale keys in uk.json/en.json when a new page is added.
@@ -380,7 +391,7 @@ export function getCachedHomeSettings(): Omit<HomeSettings, 'updatedAt'> | null 
 export async function updateHomeSettings(settings: Omit<HomeSettings, "updatedAt">) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "home");
-  return await setDoc(docRef, {
+  return await saveSettingsDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()
   });
@@ -977,7 +988,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
   if (navDropdownDiff)   payload.navDropdown = stripUndefined(navDropdownDiff);
   if (mobileOverlayDiff) payload.mobileOverlay = stripUndefined(mobileOverlayDiff);
 
-  return await setDoc(docRef, payload);
+  return await saveSettingsDoc(docRef, payload);
 }
 
 // ── News page settings ────────────────────────────────────────────────────────
@@ -1019,7 +1030,7 @@ export function getCachedNewsPageSettings(): Omit<NewsPageSettings, 'updatedAt'>
 export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "news");
-  return await setDoc(docRef, {
+  return await saveSettingsDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()
   });
@@ -1064,7 +1075,7 @@ export function getCachedProjectsPageSettings(): Omit<ProjectsPageSettings, 'upd
 export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "projects");
-  return await setDoc(docRef, {
+  return await saveSettingsDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()
   });
@@ -1108,7 +1119,7 @@ export function getCachedAboutPageSettings(): Omit<AboutPageSettings, 'updatedAt
 export async function updateAboutPageSettings(settings: Omit<AboutPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "about");
-  return await setDoc(docRef, {
+  return await saveSettingsDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()
   });
