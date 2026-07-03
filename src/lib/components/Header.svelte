@@ -6,7 +6,7 @@
 	import { Menu, X } from "lucide-svelte";
 	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
-	import { ui } from "$lib/states/ui.svelte";
+	import { ui } from "$lib/controllers/ui.svelte";
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
 	import { base } from "$app/paths";

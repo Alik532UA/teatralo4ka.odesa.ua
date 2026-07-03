@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ui } from '$lib/states/ui.svelte';
+	import { ui } from '$lib/controllers/ui.svelte';
 	import { t } from 'svelte-i18n';
 
 	let { 

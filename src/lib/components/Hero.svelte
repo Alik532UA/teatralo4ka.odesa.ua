@@ -4,8 +4,8 @@
 	import { base } from "$app/paths";
 	import { onMount } from "svelte";
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
-	import { ui } from "$lib/states/ui.svelte";
-	import { toast } from "$lib/states/toast.svelte";
+	import { ui } from "$lib/controllers/ui.svelte";
+	import { toast } from "$lib/controllers/toast.svelte";
 
 	const images = [
 		`${base}/photo/DSC_1405.jpg`,

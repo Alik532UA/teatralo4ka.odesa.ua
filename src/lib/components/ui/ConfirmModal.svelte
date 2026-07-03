@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toast } from '$lib/states/toast.svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { HelpCircle, X } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { t } from 'svelte-i18n';

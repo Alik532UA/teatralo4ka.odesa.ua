@@ -1,7 +1,7 @@
 <script lang="ts">
 	import DebugSettingsDropdown from "./DebugSettingsDropdown.svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ui } from "$lib/states/ui.svelte";
+	import { ui } from "$lib/controllers/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
 	import { Sun, SunDim, Citrus, Moon } from "lucide-svelte";
 

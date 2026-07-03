@@ -3,7 +3,7 @@
 	import { auth } from '$lib/firebase/config';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
-	import { authService } from '$lib/states/auth.svelte';
+	import { authService } from '$lib/controllers/auth.svelte';
 	import { t } from 'svelte-i18n';
 	import { Mail, Lock } from 'lucide-svelte';
 

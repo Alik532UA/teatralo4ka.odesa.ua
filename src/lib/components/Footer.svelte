@@ -7,8 +7,8 @@
 	import { base } from "$app/paths";
 	import { t } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
-	import { ui } from "$lib/states/ui.svelte";
-	import { toast } from "$lib/states/toast.svelte";
+	import { ui } from "$lib/controllers/ui.svelte";
+	import { toast } from "$lib/controllers/toast.svelte";
 
 	let isPianoOpen = $state(false);
 

@@ -7,7 +7,7 @@
 	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
 	import { renderContent } from '$lib/utils/renderContent';
 	import RichTextEditor from '$lib/components/ui/RichTextEditor.svelte';
-	import { toast } from '$lib/states/toast.svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { base } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';

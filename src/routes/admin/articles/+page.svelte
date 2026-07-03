@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { authService } from '$lib/states/auth.svelte';
-	import { toast } from '$lib/states/toast.svelte';
+	import { authService } from '$lib/controllers/auth.svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { deleteArticle, fetchAllArticles, addArticle, updateArticle } from '$lib/services/admin-articles';

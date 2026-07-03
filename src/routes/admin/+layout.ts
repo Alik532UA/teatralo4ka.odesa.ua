@@ -1,7 +1,7 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
 import { base } from "$app/paths";
-import { authService } from "$lib/states/auth.svelte";
+import { authService } from "$lib/controllers/auth.svelte";
 
 export const prerender = true;
 export const ssr = false;

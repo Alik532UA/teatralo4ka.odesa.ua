@@ -2,7 +2,7 @@
 	import ArticleForm from '$lib/components/admin/ArticleForm.svelte';
 	import type { ArticleFormData } from '$lib/components/admin/ArticleForm.svelte';
 	import { addArticle } from '$lib/services/admin-articles';
-	import { toast } from '$lib/states/toast.svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { t } from 'svelte-i18n';

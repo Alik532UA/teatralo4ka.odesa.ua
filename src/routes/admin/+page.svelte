@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { authService } from '$lib/states/auth.svelte';
+	import { authService } from '$lib/controllers/auth.svelte';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import { signOut } from 'firebase/auth';
