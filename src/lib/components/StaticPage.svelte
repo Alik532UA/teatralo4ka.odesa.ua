@@ -34,7 +34,7 @@
 	});
 </script>
 
-<section class="page-content container" style="padding: 160px 24px 6rem;" data-testid="{testPrefix}-page-section">
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section">
 	{#if backHref && backLabel}
 		<div class="back-nav" data-testid="{testPrefix}-back-group">
 			<a href={backHref} class="btn btn-outline" data-testid="{testPrefix}-back-link">{backLabel}</a>
@@ -169,10 +169,6 @@
 		}
 	}
 	@media (max-width: 768px) {
-		.page-content {
-			padding-top: 120px !important;
-		}
-
 		.back-nav {
 			text-align: center;
 		}

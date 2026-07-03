@@ -69,7 +69,7 @@
 	]);
 </script>
 
-<section class="page-content container" style="padding: 160px 24px 6rem;" data-testid="about-page-section">
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
 	{#if content}
 		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article">
 			{@html DOMPurify.sanitize(content.html)}

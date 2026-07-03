@@ -78,6 +78,14 @@
 	--transition-fast: 150ms ease;
 	--transition-base: 250ms ease;
 	--header-height: 72px;
+
+	/* Page section spacing. `main` already offsets the fixed header (see
+	   +layout.svelte), so these are only the breathing room below the header and
+	   above the footer. Single source of truth: pages stay airy on tall screens
+	   but shrink on short ones so short content never forces a scrollbar. */
+	--page-pad-top: clamp(2.5rem, 8vh, 6rem);
+	--page-pad-bottom: var(--space-3xl);
+
 	--max-width: 1200px;
 }
 

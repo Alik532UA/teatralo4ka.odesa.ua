@@ -104,7 +104,7 @@
 	}
 
 	.news--page {
-		padding-top: 140px;
+		padding-top: var(--page-pad-top);
 	}
 
 	.news-page__status {

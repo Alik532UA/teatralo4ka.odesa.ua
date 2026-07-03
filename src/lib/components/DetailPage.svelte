@@ -140,7 +140,7 @@
 
 <style>
 	.detail-page {
-		padding: 160px 24px 6rem;
+		padding: var(--page-pad-top) 24px var(--page-pad-bottom);
 		min-height: 80vh;
 	}
 
@@ -266,10 +266,6 @@
 	}
 
 	@media (max-width: 768px) {
-		.detail-page {
-			padding-top: 120px !important;
-		}
-
 		h1 {
 			font-size: 2.2rem;
 		}
