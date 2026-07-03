@@ -20,6 +20,15 @@
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
 		<script>
 			try {
+				// ── SPLASH VARIANT SELECTOR ─────────────────────────────────
+				// Change this ONE value to switch the loading splash style:
+				//   'curtains' = theatre curtains (SVG velvet) that part to the sides
+				//   'classic'  = yellow background that slides down (original logic)
+				// Set first: documentElement always exists here, and a later line in
+				// this <head> script (document.body...) can throw before <body> parses.
+				window.__SPLASH_VARIANT = 'curtains';
+				document.documentElement.setAttribute('data-splash', window.__SPLASH_VARIANT);
+
 				var t = localStorage.getItem('teatralo4ka_theme');
 				if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 					document.documentElement.setAttribute('data-theme', 'dark');
@@ -61,6 +70,61 @@
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div id="app-splash" aria-hidden="true">
+			<!-- Curtain variant (active when <html data-splash="curtains">): two SVG velvet
+			     panels that part to the sides. Hidden in the 'classic' variant via CSS. -->
+			<div id="app-splash-curtains" aria-hidden="true">
+				<div class="curtain curtain-left">
+					<svg class="curtain-svg" viewBox="0 0 300 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="sp-velvet-l" x1="0" y1="0" x2="1" y2="0">
+								<stop offset="0" stop-color="#e6c200" />
+								<stop offset="0.09" stop-color="#fff64d" />
+								<stop offset="0.2" stop-color="#f4d900" />
+								<stop offset="0.32" stop-color="#dcb600" />
+								<stop offset="0.44" stop-color="#fff64d" />
+								<stop offset="0.56" stop-color="#f4d900" />
+								<stop offset="0.68" stop-color="#dcb600" />
+								<stop offset="0.8" stop-color="#fff64d" />
+								<stop offset="0.92" stop-color="#f2d500" />
+								<stop offset="1" stop-color="#c49f00" />
+							</linearGradient>
+							<linearGradient id="sp-velvet-top-l" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
+								<stop offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
+							</linearGradient>
+						</defs>
+						<rect width="300" height="800" fill="url(#sp-velvet-l)" />
+						<rect width="300" height="800" fill="url(#sp-velvet-top-l)" />
+						<path d="M0,748 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,752 L300,800 L0,800 Z" fill="#b89400" opacity="0.55" />
+					</svg>
+				</div>
+				<div class="curtain curtain-right">
+					<svg class="curtain-svg" viewBox="0 0 300 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="sp-velvet-r" x1="0" y1="0" x2="1" y2="0">
+								<stop offset="0" stop-color="#c49f00" />
+								<stop offset="0.08" stop-color="#f2d500" />
+								<stop offset="0.2" stop-color="#fff64d" />
+								<stop offset="0.32" stop-color="#dcb600" />
+								<stop offset="0.44" stop-color="#f4d900" />
+								<stop offset="0.56" stop-color="#fff64d" />
+								<stop offset="0.68" stop-color="#dcb600" />
+								<stop offset="0.8" stop-color="#f4d900" />
+								<stop offset="0.91" stop-color="#fff64d" />
+								<stop offset="1" stop-color="#e6c200" />
+							</linearGradient>
+							<linearGradient id="sp-velvet-top-r" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
+								<stop offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
+							</linearGradient>
+						</defs>
+						<rect width="300" height="800" fill="url(#sp-velvet-r)" />
+						<rect width="300" height="800" fill="url(#sp-velvet-top-r)" />
+						<path d="M0,752 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,748 L300,800 L0,800 Z" fill="#b89400" opacity="0.55" />
+					</svg>
+				</div>
+			</div>
+
 			<div id="app-splash-logo-container">
 				<img
 					src="%sveltekit.assets%/logo/svg/t4_logo_IndividualParticles_MaskRed_2026.svg"
@@ -97,6 +161,30 @@
 				align-items: center; justify-content: center;
 				font-family: system-ui, -apple-system, sans-serif;
 			}
+
+			/* ── CURTAIN VARIANT ─────────────────────────────────────────── */
+			#app-splash-curtains {
+				position: absolute; inset: 0; z-index: 1;
+				display: none; pointer-events: none;
+			}
+			html[data-splash="curtains"] #app-splash-curtains { display: block; }
+			/* Curtains provide the yellow; the container itself goes transparent so
+			   the page is revealed when the panels part. */
+			html[data-splash="curtains"] #app-splash { background: transparent !important; }
+			html[data-splash="curtains"] #app-splash-logo-container { z-index: 3; }
+			html[data-splash="curtains"] #app-splash-messages { z-index: 3; }
+			.curtain {
+				position: absolute; top: 0; bottom: 0;
+				width: 52%;                         /* >50% so the two panels overlap at center (no seam) */
+				background: #ffed00;                /* solid fallback if the SVG fails to paint */
+				overflow: hidden;
+				will-change: transform;
+				box-shadow: 0 0 45px rgba(122, 92, 0, 0.25);
+			}
+			.curtain-left { left: 0; transform-origin: left center; }
+			.curtain-right { right: 0; transform-origin: right center; }
+			.curtain-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
 			#app-splash-logo-container {
 				position: relative;
 				width: min(400px, 60vw);
@@ -122,12 +210,12 @@
 				z-index: 1;
 				text-align: center;
 			}
-			.sp-msg { 
+			.sp-msg {
 				opacity: 0;
 				transform: translateY(10px);
 				transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-				padding: 0 1.5rem; 
-				max-width: 480px; 
+				padding: 0 1.5rem;
+				max-width: 480px;
 				display: block;
 				pointer-events: none;
 			}
@@ -140,11 +228,11 @@
 			.sp-msg p { color: #5a4a00; font-size: 0.95rem; line-height: 1.5; margin: 0; }
 			.sp-facts-intro { font-weight: 600; margin-bottom: 0.75rem !important; font-size: 0.85rem !important; opacity: 0.7; }
 			.sp-facts-rotator { position: relative; height: 60px; }
-			.sp-fact { 
-				display: none; 
+			.sp-fact {
+				display: none;
 				position: absolute; top: 0; left: 0; right: 0;
 				font-size: 1.05rem !important; font-weight: 500;
-				animation: sp-fade-in 0.8s ease-out forwards; 
+				animation: sp-fade-in 0.8s ease-out forwards;
 			}
 			.sp-fact.sp-fact-active { display: block; }
 
@@ -199,6 +287,34 @@
 			@keyframes sp-splash-down {
 				to { transform: translateY(100vh); }
 			}
+
+			/* ── CURTAIN EXIT: panels part to the sides with a soft fabric sway ── */
+			html[data-splash="curtains"] #app-splash.splash-exit {
+				animation: none !important;          /* cancel the classic slide-down */
+				background: transparent !important;
+			}
+			html[data-splash="curtains"] #app-splash.splash-exit .curtain-left {
+				animation: sp-curtain-left 1s 0.35s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+			}
+			html[data-splash="curtains"] #app-splash.splash-exit .curtain-right {
+				animation: sp-curtain-right 1s 0.35s cubic-bezier(0.7, 0, 0.2, 1) forwards !important;
+			}
+			@keyframes sp-curtain-left {
+				0%   { transform: translateX(0) skewX(0deg) scaleX(1); }
+				14%  { transform: translateX(-2%) skewX(2deg) scaleX(1.03); }   /* slight billow */
+				100% { transform: translateX(-101%) skewX(-5deg) scaleX(0.88); }
+			}
+			@keyframes sp-curtain-right {
+				0%   { transform: translateX(0) skewX(0deg) scaleX(1); }
+				14%  { transform: translateX(2%) skewX(-2deg) scaleX(1.03); }   /* slight billow */
+				100% { transform: translateX(101%) skewX(5deg) scaleX(0.88); }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				html[data-splash="curtains"] #app-splash.splash-exit .curtain-left,
+				html[data-splash="curtains"] #app-splash.splash-exit .curtain-right {
+					animation: sp-fade-out 0.35s ease forwards !important;
+				}
+			}
 		</style>
 		<script>
 			(function() {
@@ -251,7 +367,7 @@
 				var red = document.getElementById('app-splash-logo-red');
 				var slowEl = document.getElementById('app-splash-slow');
 				var factsEl = document.getElementById('app-splash-facts');
-				
+
 				function startAnimations() {
 					if (blue.classList.contains('sp-logo-animate')) return;
 					blue.classList.add('sp-logo-animate');

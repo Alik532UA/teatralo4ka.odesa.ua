@@ -158,11 +158,14 @@
 		el.classList.add('splash-exit');
 		window.dispatchEvent(new CustomEvent('splash-exit'));
 		setTimeout(() => window.dispatchEvent(new CustomEvent('splash-logo-start')), 600);
+		// Curtains take longer to part than the classic slide-down, so wait for the
+		// panels to clear the screen before removing the splash element.
+		const removeDelay = document.documentElement.getAttribute('data-splash') === 'curtains' ? 1500 : 900;
 		setTimeout(() => {
 			el.remove();
 			splashDismissed = true;
 			window.dispatchEvent(new CustomEvent('splash-removed'));
-		}, 900);
+		}, removeDelay);
 	}
 
 	// Lazy-load Departments via IntersectionObserver — reactive to departmentsRef
