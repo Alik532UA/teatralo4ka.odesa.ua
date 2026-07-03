@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { validatePageMetadata } from '../i18n/schema';
+import { validatePageMetadata } from '../src/lib/i18n/schema';
 
 const PAGES_DIR = path.join(process.cwd(), 'src/lib/i18n/pages');
 const SUPPORTED_LANGS = ['uk', 'en'];

@@ -5,7 +5,8 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '../../..');
+// scripts/ lives at the repo root, so the project root is one level up.
+const rootDir = path.resolve(__dirname, '..');
 
 try {
     console.log("🔄 Auto-incrementing version...");
