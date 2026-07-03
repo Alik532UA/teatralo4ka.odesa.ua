@@ -633,7 +633,12 @@
       "password": "Password",
       "btn": "Login",
       "loading": "Logging in...",
-      "error": "Invalid email or password"
+      "error": "Invalid email or password",
+      "resetPassword": "Reset password",
+      "resetLoading": "Sending...",
+      "resetEmailRequired": "Enter your email to reset your password",
+      "resetSuccess": "Password reset email sent to {email}",
+      "resetError": "Failed to send password reset email. Please try again later"
     }
   },
 

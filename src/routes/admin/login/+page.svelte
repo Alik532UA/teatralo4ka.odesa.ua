@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { signInWithEmailAndPassword } from 'firebase/auth';
+	import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 	import { auth } from '$lib/firebase/config';
 	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
@@ -10,10 +10,13 @@
 	let email = $state('');
 	let password = $state('');
 	let error = $state('');
+	let info = $state('');
 	let loading = $state(false);
+	let resetLoading = $state(false);
 
 	async function handleLogin() {
 		error = '';
+		info = '';
 		loading = true;
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
@@ -23,6 +26,34 @@
 			console.error(e);
 		} finally {
 			loading = false;
+		}
+	}
+
+	async function handleResetPassword() {
+		error = '';
+		info = '';
+		const targetEmail = email.trim();
+		if (!targetEmail) {
+			error = $t('admin.login.resetEmailRequired');
+			return;
+		}
+		resetLoading = true;
+		try {
+			await sendPasswordResetEmail(auth, targetEmail);
+			info = $t('admin.login.resetSuccess', { values: { email: targetEmail } });
+		} catch (e: unknown) {
+			const code = (e as { code?: string })?.code;
+			if (code === 'auth/user-not-found') {
+				// same message as success, so the form doesn't reveal which emails have accounts
+				info = $t('admin.login.resetSuccess', { values: { email: targetEmail } });
+			} else if (code === 'auth/invalid-email' || code === 'auth/missing-email') {
+				error = $t('admin.login.resetEmailRequired');
+			} else {
+				error = $t('admin.login.resetError');
+			}
+			console.error(e);
+		} finally {
+			resetLoading = false;
 		}
 	}
 
@@ -39,6 +70,10 @@
 		
 		{#if error}
 			<p style="color: red; margin-bottom: 1rem; text-align: center;" data-testid="admin-login-error-label">{error}</p>
+		{/if}
+
+		{#if info}
+			<p style="color: var(--text-title); margin-bottom: 1rem; text-align: center;" data-testid="admin-login-info-label">{info}</p>
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-form-group">
@@ -74,14 +109,24 @@
 				</div>
 			</div>
 
-			<button 
-				type="submit" 
+			<button
+				type="submit"
 				disabled={loading}
 				class="btn btn-primary"
 				style="width: 100%; border: none; cursor: pointer;"
 				data-testid="admin-login-submit-button"
 			>
 				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
+			</button>
+
+			<button
+				type="button"
+				class="reset-password-link"
+				disabled={resetLoading}
+				onclick={handleResetPassword}
+				data-testid="admin-login-reset-password-button"
+			>
+				{resetLoading ? $t('admin.login.resetLoading') : $t('admin.login.resetPassword')}
 			</button>
 		</form>
 	</div>
@@ -105,5 +150,27 @@
 
 	.input-with-icon:focus-within :global(.input-icon) {
 		opacity: 1;
+	}
+
+	.reset-password-link {
+		background: none;
+		border: none;
+		padding: 0;
+		align-self: center;
+		font-family: inherit;
+		font-size: 0.9rem;
+		color: var(--text-title);
+		text-decoration: underline;
+		cursor: pointer;
+		transition: opacity 0.2s ease;
+	}
+
+	.reset-password-link:hover {
+		opacity: 0.75;
+	}
+
+	.reset-password-link:disabled {
+		opacity: 0.5;
+		cursor: default;
 	}
 </style>
