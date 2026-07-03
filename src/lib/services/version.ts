@@ -1,5 +1,5 @@
 import { base } from "$app/paths";
-import { getStorageKey } from "../config/storage";
+import { getStorageKey, STORAGE_PREFIX } from "../config/storage";
 
 const VERSION_URL = `${base}/app-version.json`;
 const CACHE_VERSION_KEY = getStorageKey("app_cache_version");
@@ -46,16 +46,26 @@ export async function checkForUpdates() {
  */
 async function applyUpdate(nextVersion: string) {
     try {
-        // 1. Clear Service Worker registrations
+        // 1. Unregister ONLY this app's service workers (scoped under our base path).
+        //    On a shared origin, getRegistrations() also returns sibling apps'
+        //    service workers — filtering by scope keeps us from unregistering theirs.
         if ("serviceWorker" in navigator) {
             const registrations = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(registrations.map(reg => reg.unregister()));
+            const ourScope = location.origin + base + '/';
+            await Promise.all(
+                registrations
+                    .filter(reg => reg.scope.startsWith(ourScope))
+                    .map(reg => reg.unregister())
+            );
         }
 
-        // 2. Clear Cache Storage API
+        // 2. Delete ONLY this app's caches (prefixed). caches.keys() is origin-wide
+        //    and shared across apps, so never delete unprefixed / siblings' caches.
         if ("caches" in window) {
             const keys = await caches.keys();
-            await Promise.all(keys.map(key => caches.delete(key)));
+            await Promise.all(
+                keys.filter(key => key.startsWith(STORAGE_PREFIX)).map(key => caches.delete(key))
+            );
         }
 
         // 3. Update the local version marker
