@@ -64,7 +64,7 @@
 	});
 </script>
 
-<section class="admin-login container" style="padding: 160px 24px; max-width: 400px;" data-testid="admin-login-section-container">
+<section class="admin-login container" style="max-width: 400px;" data-testid="admin-login-section-container">
 	<div style="background: var(--theme-dynamic-card-bg); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
 		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title-label">{$t('admin.login.title')}</h1>
 		
@@ -133,6 +133,10 @@
 </section>
 
 <style>
+	.admin-login {
+		padding: 48px 24px;
+	}
+
 	.input-with-icon {
 		position: relative;
 		display: flex;

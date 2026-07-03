@@ -29,7 +29,7 @@
 	const canManageUsers = $derived(isSuperAdmin || permissions?.canManageUsers);
 </script>
 
-<section class="admin-dashboard container" style="padding: 160px 24px;" data-testid="admin-dashboard-section-container">
+<section class="admin-dashboard container" data-testid="admin-dashboard-section-container">
 	{#if authService.loading}
 		<p data-testid="admin-dashboard-loading-label">{$t('admin.dashboard.loading')}</p>
 	{:else if authService.isAuthenticated}
@@ -72,6 +72,9 @@
 </section>
 
 <style>
+	.admin-dashboard {
+		padding: 48px 24px;
+	}
 	.dash-header {
 		display: flex;
 		justify-content: space-between;
@@ -95,7 +98,7 @@
 		gap: 2rem;
 	}
 	@media (max-width: 600px) {
-		.admin-dashboard { padding-top: 110px !important; }
+		.admin-dashboard { padding: 32px 16px; }
 		.dash-title { font-size: 1.6rem; }
 	}
 </style>
