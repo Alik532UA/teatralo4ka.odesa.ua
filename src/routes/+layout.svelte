@@ -13,7 +13,7 @@
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { checkForUpdates } from '$lib/services/version';
-	import { getStorageKey } from '$lib/config/storage';
+	import { storage } from '$lib/services/storage';
 
 	let { children, data } = $props();
 
@@ -29,8 +29,8 @@
 
 	perf('+layout.svelte: script init');
 
-	// Debug mode: localStorage.setItem(getStorageKey('debug'),'1') + refresh to show 🐛 button
-	const debugMode = browser && localStorage.getItem(getStorageKey('debug')) === '1';
+	// Debug mode: localStorage.setItem('teatralo4ka_debug','1') + refresh to show 🐛 button
+	const debugMode = browser && storage.get('debug') === '1';
 
 	// ── Perf debug helpers (active only when debugMode) ───────────────────────
 	function showPerfTextarea(text: string) {

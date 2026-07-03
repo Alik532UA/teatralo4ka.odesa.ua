@@ -1,8 +1,9 @@
 import { base } from "$app/paths";
-import { getStorageKey, STORAGE_PREFIX } from "../config/storage";
+import { STORAGE_PREFIX } from "../config/storage";
+import { storage } from "./storage";
 
 const VERSION_URL = `${base}/app-version.json`;
-const CACHE_VERSION_KEY = getStorageKey("app_cache_version");
+const CACHE_VERSION_KEY = "app_cache_version";
 
 /**
  * Checks for app updates and forces a cache-clearing reload if a new version is available.
@@ -26,7 +27,7 @@ export async function checkForUpdates() {
 
         const data = await response.json();
         const serverVersion = data.version;
-        const localVersion = localStorage.getItem(CACHE_VERSION_KEY) || "0.0.0";
+        const localVersion = storage.get(CACHE_VERSION_KEY) || "0.0.0";
 
         // If versions differ, force update
         if (localVersion !== "0.0.0" && localVersion !== serverVersion) {
@@ -34,7 +35,7 @@ export async function checkForUpdates() {
             await applyUpdate(serverVersion);
         } else if (localVersion === "0.0.0") {
             // Initial visit: just store the version
-            localStorage.setItem(CACHE_VERSION_KEY, serverVersion);
+            storage.set(CACHE_VERSION_KEY, serverVersion);
         }
     } catch (error) {
         console.error("[Version] Error during update check:", error);
@@ -69,7 +70,7 @@ async function applyUpdate(nextVersion: string) {
         }
 
         // 3. Update the local version marker
-        localStorage.setItem(CACHE_VERSION_KEY, nextVersion);
+        storage.set(CACHE_VERSION_KEY, nextVersion);
 
         // 4. Perform a hard reload with a unique parameter to bypass HTTP caches
         const url = new URL(window.location.href);

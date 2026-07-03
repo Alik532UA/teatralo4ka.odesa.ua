@@ -1,4 +1,4 @@
-import { getStorageKey } from '../config/storage';
+import { storage } from '../services/storage';
 
 class UIState {
 	isMenuOpen = $state(false);
@@ -20,7 +20,7 @@ class UIState {
 	constructor() {
 		if (typeof window !== 'undefined') {
 			// Read theme from localStorage or OS settings
-			const savedTheme = localStorage.getItem(getStorageKey('theme')) as 'light' | 'dark' | 'yellow' | null;
+			const savedTheme = storage.get('theme') as 'light' | 'dark' | 'yellow' | null;
 			if (savedTheme) {
 				this.setTheme(savedTheme, { withBlur: false });
 			} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -30,24 +30,24 @@ class UIState {
 			}
 			
 			// Read background type from localStorage
-			const savedBg = localStorage.getItem(getStorageKey('backgroundType')) as '0' | '1' | '2' | '3' | '4' | null;
+			const savedBg = storage.get('backgroundType') as '0' | '1' | '2' | '3' | '4' | null;
 			if (savedBg) {
 				this.backgroundType = parseInt(savedBg) as 0 | 1 | 2 | 3 | 4;
 			}
 
 			// Read debug settings from localStorage
-			const enableDynBg = localStorage.getItem(getStorageKey('enableDynamicBackground'));
+			const enableDynBg = storage.get('enableDynamicBackground');
 			if (enableDynBg !== null) {
 				this.enableDynamicBackground = enableDynBg === 'true';
 			}
-			const enableBlur = localStorage.getItem(getStorageKey('enableBlurEffect'));
+			const enableBlur = storage.get('enableBlurEffect');
 			if (enableBlur !== null) {
 				this.enableBlurEffect = enableBlur === 'true';
 			}
 			
 			// Listen to OS theme changes
 			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-				if (!localStorage.getItem(getStorageKey('theme'))) {
+				if (!storage.get('theme')) {
 					this.setTheme(e.matches ? 'dark' : 'light');
 				}
 			});
@@ -96,9 +96,7 @@ class UIState {
 			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme');
 			document.documentElement.classList.add(`${t}-theme`);
 		}
-		if (typeof localStorage !== 'undefined') {
-			localStorage.setItem(getStorageKey('theme'), t);
-		}
+		storage.set('theme', t);
 
 		if (withBlur && this.enableBlurEffect) {
 			// Даємо час на розчинення блюру
@@ -110,23 +108,19 @@ class UIState {
 
 	setBackgroundType = (type: 0 | 1 | 2 | 3 | 4) => {
 		this.backgroundType = type;
-		if (typeof localStorage !== 'undefined' && type !== 0) {
-			localStorage.setItem(getStorageKey('backgroundType'), type.toString());
+		if (type !== 0) {
+			storage.set('backgroundType', type.toString());
 		}
 	};
 
 	toggleDynamicBackground = () => {
 		this.enableDynamicBackground = !this.enableDynamicBackground;
-		if (typeof localStorage !== 'undefined') {
-			localStorage.setItem(getStorageKey('enableDynamicBackground'), this.enableDynamicBackground.toString());
-		}
+		storage.set('enableDynamicBackground', this.enableDynamicBackground.toString());
 	};
 
 	toggleBlurEffect = () => {
 		this.enableBlurEffect = !this.enableBlurEffect;
-		if (typeof localStorage !== 'undefined') {
-			localStorage.setItem(getStorageKey('enableBlurEffect'), this.enableBlurEffect.toString());
-		}
+		storage.set('enableBlurEffect', this.enableBlurEffect.toString());
 	};
 }
 

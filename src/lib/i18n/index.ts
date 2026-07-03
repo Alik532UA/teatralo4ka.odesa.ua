@@ -1,6 +1,6 @@
 import { register, init, getLocaleFromNavigator, locale as i18nLocale } from 'svelte-i18n';
 import { browser } from '$app/environment';
-import { getStorageKey } from '$lib/config/storage';
+import { storage } from '$lib/services/storage';
 
 register('uk', () => import('./locales/uk.json'));
 register('en', () => import('./locales/en.json'));
@@ -9,7 +9,7 @@ const SUPPORTED_LOCALES = ['uk', 'en'] as const;
 type SupportedLocale = typeof SUPPORTED_LOCALES[number];
 
 function detectLocale(): SupportedLocale {
-	const saved = window.localStorage.getItem(getStorageKey('lang'));
+	const saved = storage.get('lang');
 	if (saved && SUPPORTED_LOCALES.includes(saved as SupportedLocale)) return saved as SupportedLocale;
 	// getLocaleFromNavigator() may return 'en-US', 'uk-UA', etc. — normalize to supported locale
 	const nav = getLocaleFromNavigator()?.split('-')[0]?.toLowerCase();
@@ -33,7 +33,7 @@ if (browser) {
 	i18nLocale.subscribe((newLocale) => {
 		if (newLocale && newLocale !== currentLocale) {
 			currentLocale = newLocale;
-			window.localStorage.setItem(getStorageKey('lang'), newLocale);
+			storage.set('lang', newLocale);
 			document.documentElement.lang = newLocale;
 		}
 	});
