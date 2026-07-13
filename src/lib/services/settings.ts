@@ -5,7 +5,7 @@ import {
   serverTimestamp 
 } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
-import { getStorageKey } from "../config/storage";
+import { storage } from "./storage";
 import { rethrowFriendly } from "./firebaseErrors";
 
 /** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
@@ -367,7 +367,7 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
       // Cache in localStorage for instant render on next visit (SWR pattern)
       try {
         const { updatedAt, ...cacheable } = data;
-        localStorage.setItem(getStorageKey('homeSettings'), JSON.stringify(cacheable));
+        storage.setJSON('homeSettings', cacheable);
       } catch { /* quota exceeded or SSR — ignore */ }
       return data;
     }
@@ -381,8 +381,8 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
 /** Read cached home settings from localStorage (sync, instant). */
 export function getCachedHomeSettings(): Omit<HomeSettings, 'updatedAt'> | null {
   try {
-    const cached = localStorage.getItem(getStorageKey('homeSettings'));
-    if (cached) return JSON.parse(cached);
+    const cached = storage.getJSON<Omit<HomeSettings, 'updatedAt'>>('homeSettings');
+    if (cached) return cached;
   } catch { /* SSR or corrupted — ignore */ }
   return null;
 }
@@ -902,7 +902,7 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
 
     // Cache the resolved result for instant render on next visit
     try {
-      localStorage.setItem(getStorageKey('headerSettings'), JSON.stringify(result));
+      storage.setJSON('headerSettings', result);
     } catch { /* quota exceeded or SSR — ignore */ }
 
     return result;
@@ -915,8 +915,8 @@ export async function getHeaderSettings(): Promise<HeaderSettings | null> {
 /** Read cached header settings from localStorage (sync, instant). */
 export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | null {
   try {
-    const cached = localStorage.getItem(getStorageKey('headerSettings'));
-    if (cached) return JSON.parse(cached);
+    const cached = storage.getJSON<Omit<HeaderSettings, 'updatedAt'>>('headerSettings');
+    if (cached) return cached;
   } catch { /* SSR or corrupted — ignore */ }
   return null;
 }
@@ -1008,7 +1008,7 @@ export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
     // SWR cache
     try {
       const { updatedAt, ...cacheable } = data;
-      localStorage.setItem(getStorageKey('newsPageSettings'), JSON.stringify(cacheable));
+      storage.setJSON('newsPageSettings', cacheable);
     } catch { /* quota exceeded — ignore */ }
     return data;
   } catch (e) {
@@ -1020,8 +1020,8 @@ export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
 /** Read cached news page settings from localStorage (sync, instant). */
 export function getCachedNewsPageSettings(): Omit<NewsPageSettings, 'updatedAt'> | null {
   try {
-    const cached = localStorage.getItem(getStorageKey('newsPageSettings'));
-    if (cached) return JSON.parse(cached);
+    const cached = storage.getJSON<Omit<NewsPageSettings, 'updatedAt'>>('newsPageSettings');
+    if (cached) return cached;
   } catch { /* corrupted — ignore */ }
   return null;
 }
@@ -1053,7 +1053,7 @@ export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | 
     // SWR cache
     try {
       const { updatedAt, ...cacheable } = data;
-      localStorage.setItem(getStorageKey('projectsPageSettings'), JSON.stringify(cacheable));
+      storage.setJSON('projectsPageSettings', cacheable);
     } catch { /* quota exceeded — ignore */ }
     return data;
   } catch (e) {
@@ -1065,8 +1065,8 @@ export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | 
 /** Read cached projects page settings from localStorage (sync, instant). */
 export function getCachedProjectsPageSettings(): Omit<ProjectsPageSettings, 'updatedAt'> | null {
   try {
-    const cached = localStorage.getItem(getStorageKey('projectsPageSettings'));
-    if (cached) return JSON.parse(cached);
+    const cached = storage.getJSON<Omit<ProjectsPageSettings, 'updatedAt'>>('projectsPageSettings');
+    if (cached) return cached;
   } catch { /* corrupted — ignore */ }
   return null;
 }
@@ -1097,7 +1097,7 @@ export async function getAboutPageSettings(): Promise<AboutPageSettings | null> 
     };
     try {
       const { updatedAt, ...cacheable } = data;
-      localStorage.setItem(getStorageKey('aboutPageSettings'), JSON.stringify(cacheable));
+      storage.setJSON('aboutPageSettings', cacheable);
     } catch { /* quota exceeded — ignore */ }
     return data;
   } catch (e) {
@@ -1109,8 +1109,8 @@ export async function getAboutPageSettings(): Promise<AboutPageSettings | null> 
 /** Read cached about page settings from localStorage (sync, instant). */
 export function getCachedAboutPageSettings(): Omit<AboutPageSettings, 'updatedAt'> | null {
   try {
-    const cached = localStorage.getItem(getStorageKey('aboutPageSettings'));
-    if (cached) return JSON.parse(cached);
+    const cached = storage.getJSON<Omit<AboutPageSettings, 'updatedAt'>>('aboutPageSettings');
+    if (cached) return cached;
   } catch { /* corrupted — ignore */ }
   return null;
 }
