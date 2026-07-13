@@ -27,7 +27,7 @@ version: "2.0.1"
 
 ## Art Department
 **Target audience:** students of grades 4-6 of general education school  
-**Subjects:** drawing, composition, painting, introductory course in history of visual arts and architecture.
+**Subjects:** drawing, composition, painting, introductory course in history of visual arts.
 
 ## Music Department
 * **Choral singing class** — students of grade 1 of general education school  
