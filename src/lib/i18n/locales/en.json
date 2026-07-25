@@ -1,4 +1,13 @@
 {
+  "form": {
+    "password": {
+      "show": "Show password",
+      "hide": "Hide password",
+      "capsOn": "Caps Lock is on",
+      "checkLayout": "Check keyboard layout (non-Latin characters typed)",
+      "layout": "Keyboard layout: {lang}"
+    }
+  },
   "splash": {
     "slow": "Unstable internet connection...",
     "intro": "While the browser is searching for internet, let us tell you some interesting facts about our school",

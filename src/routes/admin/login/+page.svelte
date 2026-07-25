@@ -5,7 +5,8 @@
 	import { base } from '$app/paths';
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { t } from 'svelte-i18n';
-	import { Mail, Lock } from 'lucide-svelte';
+	import { Mail } from 'lucide-svelte';
+	import PasswordInput from '$lib/components/ui/PasswordInput.svelte';
 
 	let email = $state('');
 	let password = $state('');
@@ -64,10 +65,10 @@
 	});
 </script>
 
-<section class="admin-login container" style="max-width: 400px;" data-testid="admin-login-section-container">
+<section class="admin-login container" style="max-width: 440px;" data-testid="admin-login-section-container">
 	<div style="background: var(--theme-dynamic-card-bg); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
 		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title-label">{$t('admin.login.title')}</h1>
-		
+
 		{#if error}
 			<p style="color: red; margin-bottom: 1rem; text-align: center;" data-testid="admin-login-error-label">{error}</p>
 		{/if}
@@ -77,47 +78,32 @@
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-form-group">
-			<div class="form-group" data-testid="admin-login-email-group">
-				<label class="form-label" for="email">{$t('admin.login.email')}</label>
-				<div class="input-with-icon">
-					<Mail size={18} class="input-icon" />
-					<input 
-						type="email" 
-						id="email" 
-						bind:value={email} 
-						required 
-						class="form-input"
-						style="padding-left: 3.5rem;"
-						data-testid="admin-login-email-input"
-					/>
-				</div>
+			<div class="input-with-icon" data-testid="admin-login-email-group">
+				<Mail size={18} class="input-icon lead" aria-hidden="true" />
+				<input
+					type="email"
+					id="email"
+					bind:value={email}
+					required
+					class="form-input"
+					placeholder=" "
+					autocomplete="email"
+					autocapitalize="off"
+					autocorrect="off"
+					spellcheck="false"
+					data-testid="admin-login-email-input"
+				/>
+				<label for="email" class="floating-label">{$t('admin.login.email')}</label>
 			</div>
 
-			<div class="form-group" data-testid="admin-login-password-group">
-				<label class="form-label" for="password">{$t('admin.login.password')}</label>
-				<div class="input-with-icon">
-					<Lock size={18} class="input-icon" />
-					<input 
-						type="password" 
-						id="password" 
-						bind:value={password} 
-						required 
-						class="form-input"
-						style="padding-left: 3.5rem;"
-						data-testid="admin-login-password-input"
-					/>
-				</div>
-			</div>
-
-			<button
-				type="submit"
-				disabled={loading}
-				class="btn btn-primary"
-				style="width: 100%; border: none; cursor: pointer;"
-				data-testid="admin-login-submit-button"
-			>
-				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
-			</button>
+			<PasswordInput
+				id="password"
+				label={$t('admin.login.password')}
+				testId="admin-login-password"
+				autocomplete="current-password"
+				required
+				bind:value={password}
+			/>
 
 			<button
 				type="button"
@@ -127,6 +113,16 @@
 				data-testid="admin-login-reset-password-button"
 			>
 				{resetLoading ? $t('admin.login.resetLoading') : $t('admin.login.resetPassword')}
+			</button>
+
+			<button
+				type="submit"
+				disabled={loading}
+				class="btn btn-primary"
+				style="width: 100%; border: none; cursor: pointer;"
+				data-testid="admin-login-submit-button"
+			>
+				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
 			</button>
 		</form>
 	</div>
@@ -141,29 +137,63 @@
 		position: relative;
 		display: flex;
 		align-items: center;
+		--input-icon-color: var(--accent-primary, #6b7280);
+		--input-bg: var(--theme-dynamic-card-bg, #022434);
 	}
 
-	:global(.input-icon) {
+	:global(.input-icon.lead) {
 		position: absolute;
-		left: 1.25rem;
-		color: var(--color-ocean);
-		opacity: 0.5;
+		left: 1rem;
+		color: var(--input-icon-color);
+		opacity: 0.65;
 		pointer-events: none;
 		transition: opacity 0.2s ease;
 	}
 
-	.input-with-icon:focus-within :global(.input-icon) {
+	.input-with-icon:focus-within :global(.input-icon.lead) {
 		opacity: 1;
+	}
+
+	.form-input {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.9rem 1rem 0.9rem 3rem;
+		background: rgba(0, 0, 0, 0.2);
+		border: 2px solid var(--accent-primary);
+		border-radius: var(--radius-md, 12px);
+		color: var(--text-title, #fff);
+	}
+
+	.floating-label {
+		position: absolute;
+		left: 3rem;
+		top: 50%;
+		transform: translateY(-50%);
+		transform-origin: left center;
+		color: var(--input-icon-color);
+		pointer-events: none;
+		background: var(--input-bg);
+		padding: 0 0.25rem;
+		border-radius: 4px;
+		transition: top 0.15s ease, left 0.15s ease, transform 0.15s ease;
+	}
+
+	.form-input:focus ~ .floating-label,
+	.form-input:not(:placeholder-shown) ~ .floating-label {
+		top: 0;
+		left: 1rem;
+		transform: translateY(-50%) scale(0.82);
 	}
 
 	.reset-password-link {
 		background: none;
 		border: none;
 		padding: 0;
-		align-self: center;
+		align-self: flex-end;
+		margin-top: -0.5rem;
 		font-family: inherit;
-		font-size: 0.9rem;
-		color: var(--text-title);
+		font-size: 0.85rem;
+		color: var(--accent-primary, #00b4d8);
 		text-decoration: underline;
 		cursor: pointer;
 		transition: opacity 0.2s ease;
