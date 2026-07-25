@@ -131,8 +131,10 @@
     "youtube": "https://www.youtube.com/user/dtschool/",
     "tiktok": "https://www.tiktok.com/@teatralo4ka_official/",
     "play": "play",
-    "order": "order a website",    "emailCopied": "Email address copied!",
-    "openMailClient": "Open mail client",    "contactsTitle": "Contacts",
+    "order": "order a website",
+    "emailCopied": "Email address copied!",
+    "openMailClient": "Open mail client",
+    "contactsTitle": "Contacts",
     "director": "Director",
     "secretary": "Secretary",
     "headTeacher": "Head Teacher",
@@ -155,12 +157,11 @@
     "bgWaves": "Waves",
     "bgShapes": "Shapes",
     "bgMiniIcon": "Mini icon",
-    "blur": "Blur effect",
+    "blur": "Blur effect when changing language or theme",
     "on": "On",
     "off": "Off",
     "debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
   },
-
   "piano": {
     "hint": "Play using your mouse or keyboard. Hover over the piano to see which keyboard keys correspond to the notes.",
     "mode": {
@@ -650,7 +651,6 @@
       "resetError": "Failed to send password reset email. Please try again later"
     }
   },
-
   "news": {
     "title": "NEWS & EVENTS",
     "subtitle": "Stay up to date with the life of our school",
