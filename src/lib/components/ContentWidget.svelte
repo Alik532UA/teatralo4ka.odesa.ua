@@ -278,7 +278,7 @@
 		e.preventDefault();
 		if (browser && allLinkViewKey) {
 			const viewToSave = view === 'list' ? 'list' : 'grid';
-			localStorage.setItem(getStorageKey(allLinkViewKey), viewToSave);
+			storage.set(allLinkViewKey, viewToSave);
 		}
 		if (allLinkHref) goto(allLinkHref);
 	}

@@ -15,6 +15,8 @@
 			data-testid={`toast-message-${msg.type}`}
 			onmouseenter={() => toast.pauseTimer(msg.id)}
 			onmouseleave={() => toast.resumeTimer(msg.id)}
+			onfocusin={() => toast.pauseTimer(msg.id)}
+			onfocusout={() => toast.resumeTimer(msg.id)}
 		>
 			<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
 				{#if msg.type === 'success'}
@@ -89,7 +91,8 @@
 		border: 1px solid rgba(0, 0, 0, 0.05);
 	}
 
-	.toast-msg:hover .toast-progress {
+	.toast-msg:hover .toast-progress,
+	.toast-msg:focus-within .toast-progress {
 		animation-play-state: paused;
 	}
 

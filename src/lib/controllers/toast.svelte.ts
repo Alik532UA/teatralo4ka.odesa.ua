@@ -13,14 +13,19 @@ export interface ToastMessage {
 	message: string;
 	action?: ToastAction;
 	duration: number;
+	anchor?: HTMLElement;
 }
 
 interface TimerInfo {
+	id: number;
 	timerId: ReturnType<typeof setTimeout> | null;
 	startTime: number;
 	elapsed: number;
 	duration: number;
+	holds: number;
 }
+
+const MAX_TOASTS = 4;
 
 class ToastState {
 	messages = $state<ToastMessage[]>([]);
@@ -33,42 +38,53 @@ class ToastState {
 	private nextId = 0;
 	private timers = new Map<number, TimerInfo>();
 
-	private _startTimer(id: number, duration: number, elapsed: number) {
-		const remaining = duration - elapsed;
-		const timerId = setTimeout(() => this.remove(id), remaining);
-		this.timers.set(id, { timerId, startTime: Date.now(), elapsed, duration });
+	private _arm(info: TimerInfo) {
+		const remaining = Math.max(0, info.duration - info.elapsed);
+		info.startTime = Date.now();
+		info.timerId = setTimeout(() => this.remove(info.id), remaining);
 	}
 
-	add(type: ToastType, message: string, duration = 4000, action?: ToastAction) {
+	add(type: ToastType, message: string, duration = 4000, action?: ToastAction, anchor?: HTMLElement) {
 		const id = this.nextId++;
-		this.messages.push({ id, type, message, action, duration });
-		this._startTimer(id, duration, 0);
+		this.messages.push({ id, type, message, action, duration, anchor });
+		if (this.messages.length > MAX_TOASTS) {
+			this.remove(this.messages[0].id);
+		}
+		const info: TimerInfo = { id, timerId: null, startTime: 0, elapsed: 0, duration, holds: 0 };
+		this.timers.set(id, info);
+		this._arm(info);
 	}
 
-	success(message: string, duration = 4000, action?: ToastAction) {
-		this.add('success', message, duration, action);
+	success(message: string, duration = 4000, action?: ToastAction, anchor?: HTMLElement) {
+		this.add('success', message, duration, action, anchor);
 	}
 
-	error(message: string, duration = 5000, action?: ToastAction) {
-		this.add('error', message, duration, action);
+	error(message: string, duration = 5000, action?: ToastAction, anchor?: HTMLElement) {
+		this.add('error', message, duration, action, anchor);
 	}
 
-	info(message: string, duration = 4000, action?: ToastAction) {
-		this.add('info', message, duration, action);
+	info(message: string, duration = 4000, action?: ToastAction, anchor?: HTMLElement) {
+		this.add('info', message, duration, action, anchor);
 	}
 
+	/** Pause on hover OR focus. Reference-counted. */
 	pauseTimer(id: number) {
 		const info = this.timers.get(id);
-		if (!info || info.timerId === null) return;
+		if (!info) return;
+		info.holds += 1;
+		if (info.holds > 1 || info.timerId === null) return;
 		clearTimeout(info.timerId);
-		const newElapsed = Math.min(info.elapsed + (Date.now() - info.startTime), info.duration);
-		this.timers.set(id, { ...info, timerId: null, elapsed: newElapsed });
+		info.elapsed = Math.min(info.elapsed + (Date.now() - info.startTime), info.duration);
+		info.timerId = null;
 	}
 
+	/** Resume timer when all holds (hover and focus) are released. */
 	resumeTimer(id: number) {
 		const info = this.timers.get(id);
-		if (!info || info.timerId !== null) return;
-		this._startTimer(id, info.duration, info.elapsed);
+		if (!info) return;
+		if (info.holds > 0) info.holds -= 1;
+		if (info.holds > 0 || info.timerId !== null) return;
+		this._arm(info);
 	}
 
 	getActionLabel(action: ToastAction): string {
