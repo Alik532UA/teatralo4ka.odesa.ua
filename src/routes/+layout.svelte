@@ -286,49 +286,46 @@
 	{@html `<script type="application/ld+json">${JSON.stringify(schemaOrg)}</` + `script>`}
 </svelte:head>
 
-{#await waitLocale()}
-	<div style="height: 100vh; display: flex; align-items: center; justify-content: center;">
-		<!-- Simple placeholder or nothing during transition -->
-	</div>
-{:then}
-	<!-- Blur overlay for theme/language changes -->
-	<div class="theme-transition-overlay" class:active={ui.isThemeChanging || ui.isLangChanging}></div>
+<!-- Rendered unconditionally: the locale is awaited in +layout.ts now. As an
+     {#await} block this rendered its pending branch during prerendering, so
+     every page shipped an empty placeholder instead of its content. -->
+<!-- Blur overlay for theme/language changes -->
+<div class="theme-transition-overlay" class:active={ui.isThemeChanging || ui.isLangChanging}></div>
 
-	<div class="app" class:with-dynamic-bg={ui.enableDynamicBackground} class:page-home={page.route.id === '/'}>
-		<div class="app__base-bg" aria-hidden="true"></div>
+<div class="app" class:with-dynamic-bg={ui.enableDynamicBackground} class:page-home={page.route.id === '/'}>
+	<div class="app__base-bg" aria-hidden="true"></div>
 
-		<!-- Dynamic background -->
-		<!-- Dynamic background - ALWAYS mounted for smooth transitions -->
-		<DynamicBackground 
-			backgroundType={ui.backgroundType} 
-			theme={ui.theme}
-			enabled={ui.enableDynamicBackground}
-		/>
+	<!-- Dynamic background -->
+	<!-- Dynamic background - ALWAYS mounted for smooth transitions -->
+	<DynamicBackground 
+		backgroundType={ui.backgroundType} 
+		theme={ui.theme}
+		enabled={ui.enableDynamicBackground}
+	/>
 
-		<Header />
-		<div class="header-blur-layer" class:scrolled={headerScrolled} aria-hidden="true"></div>
-		<main id="main-content">
-			<ErrorBoundary>
-				{@render children()}
-			</ErrorBoundary>
-		</main>
-		<Footer />
-	</div>
+	<Header />
+	<div class="header-blur-layer" class:scrolled={headerScrolled} aria-hidden="true"></div>
+	<main id="main-content">
+		<ErrorBoundary>
+			{@render children()}
+		</ErrorBoundary>
+	</main>
+	<Footer />
+</div>
 
-	<Toast />
-	<ConfirmModal />
+<Toast />
+<ConfirmModal />
 
-	<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('teatralo4ka_debug','1') + refresh -->
-	{#if browser && debugMode}
-		<button
-			class="perf-debug-btn"
-			onclick={copyPerfLog}
-			aria-label="Copy perf log"
-		>
-			🐛
-		</button>
-	{/if}
-{/await}
+<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('teatralo4ka_debug','1') + refresh -->
+{#if browser && debugMode}
+	<button
+		class="perf-debug-btn"
+		onclick={copyPerfLog}
+		aria-label="Copy perf log"
+	>
+		🐛
+	</button>
+{/if}
 
 <style>
 	.theme-transition-overlay {
