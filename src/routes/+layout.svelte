@@ -196,7 +196,12 @@
 	}
 
 	function routeToSeoKey(pathname: string): SeoPageKey {
-		switch (pathname) {
+		// This site serves trailing slashes, so pathname arrives as "/about/"
+		// while the cases below are written without one. Every page was falling
+		// through to the default and inheriting the home page's title and
+		// description — the per-page SEO underneath was never reached.
+		const normalized = pathname !== '/' ? pathname.replace(/\/+$/, '') : pathname;
+		switch (normalized) {
 			case '/':
 				return 'home';
 			case '/about':
@@ -223,8 +228,13 @@
 		safeT(`seo.pages.${seoKey}.description`, SEO_FALLBACK[activeLang].pages[seoKey].description)
 	);
 	const canonicalUrl = $derived(data.canonicalUrl || `${SITE_FALLBACK_ORIGIN}${page.url.pathname}`);
-	const ogImageUrl = $derived(`${SITE_FALLBACK_ORIGIN}${base}/og/og-default-1200x630.jpg`);
-	const seoTitle = $derived(`${metaTitle} | ${brandTitle}`);
+	// Not `base` from $app/paths: it is relative here, so on a nested page it
+	// resolved to ".." and produced "https://teatralo4ka.odesa.ua../og/...".
+	// This site is served from the domain root, so there is no prefix to add.
+	const ogImageUrl = $derived(`${SITE_FALLBACK_ORIGIN}/og/og-default-1200x630.jpg`);
+	// The home page's own title is already the brand, so appending it produced
+	// "Одеська театральна школа | Одеська театральна школа".
+	const seoTitle = $derived(metaTitle === brandTitle ? brandTitle : `${metaTitle} | ${brandTitle}`);
 	const ogLocale = $derived(currentLocale === 'en' ? 'en_US' : 'uk_UA');
 	const schemaOrg = $derived({
 		'@context': 'https://schema.org',
@@ -269,7 +279,11 @@
 	<meta name="twitter:description" content={metaDescription} />
 	<meta name="twitter:image" content={ogImageUrl} />
 
-	<script type="application/ld+json">{JSON.stringify(schemaOrg)}</script>
+	<!-- Svelte does not evaluate expressions inside a <script> element, so the
+	     previous form shipped the literal text "{JSON.stringify(schemaOrg)}" as
+	     the structured data. It has to go through {@html}. -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+	{@html `<script type="application/ld+json">${JSON.stringify(schemaOrg)}</` + `script>`}
 </svelte:head>
 
 {#await waitLocale()}
