@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
+	import HeaderSection from '$lib/components/HeaderSection.svelte';
+	import FooterSection from '$lib/components/FooterSection.svelte';
 	import DynamicBackground from '$lib/components/DynamicBackground.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
 	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
@@ -303,14 +303,14 @@
 		enabled={ui.enableDynamicBackground}
 	/>
 
-	<Header />
+	<HeaderSection />
 	<div class="header-blur-layer" class:scrolled={headerScrolled} aria-hidden="true"></div>
 	<main id="main-content">
 		<ErrorBoundary>
 			{@render children()}
 		</ErrorBoundary>
 	</main>
-	<Footer />
+	<FooterSection />
 </div>
 
 <Toast />
@@ -369,8 +369,8 @@
 		pointer-events: none;
 	}
 
-	/* Header frosted-glass background — rendered as a sibling of <Header />
-	   so dropdowns inside <Header /> can use backdrop-filter without
+	/* Header frosted-glass background — rendered as a sibling of <HeaderSection />
+	   so dropdowns inside <HeaderSection /> can use backdrop-filter without
 	   compositing-group conflicts. */
 	.header-blur-layer {
 		position: fixed;

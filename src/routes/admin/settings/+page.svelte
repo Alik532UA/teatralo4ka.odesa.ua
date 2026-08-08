@@ -470,11 +470,11 @@ async function handleAboutPageSubmit() {
 <!-- ── Snippets ─────────────────────────────────────────────────────────────── -->
 
 {#snippet subtabBar(current: SubTabId, onChange: (v: SubTabId) => void)}
-<nav class="subtab-bar" data-testid="admin-settings-subtabs">
-  <button type="button" class="subtab-btn" class:active={current === 'desktop'} onclick={() => onChange('desktop')} data-testid="admin-settings-subtab-desktop">
+<nav class="subtab-bar" data-testid="admin-settings-sub-tabs">
+  <button type="button" class="subtab-btn" class:active={current === 'desktop'} onclick={() => onChange('desktop')} data-testid="admin-settings-tab-desktop">
     {$t('admin.settings.subtabDesktop')}
   </button>
-  <button type="button" class="subtab-btn" class:active={current === 'mobile'} onclick={() => onChange('mobile')} data-testid="admin-settings-subtab-mobile">
+  <button type="button" class="subtab-btn" class:active={current === 'mobile'} onclick={() => onChange('mobile')} data-testid="admin-settings-tab-mobile">
     {$t('admin.settings.subtabMobile')}
   </button>
 </nav>
@@ -505,20 +505,20 @@ async function handleAboutPageSubmit() {
 {#snippet blocksCard(blockList: BlockConfig[], onMoveUp: (i: number) => void, onMoveDown: (i: number) => void, onToggle: (i: number) => void, onReset: () => void, hasChanges: boolean, isSaving: boolean, onSave: () => void)}
 <div class="settings-card {hasChanges ? 'has-changes' : ''}" data-testid="admin-settings-card">
 <h2 class="settings-card__title" data-testid="admin-settings-blocks-title">{$t('admin.settings.blocksTitle')}</h2>
-<p class="settings-card__desc" data-testid="admin-settings-blocks-desc">{$t('admin.settings.blocksDesc')}</p>
+<p class="settings-card__desc" data-testid="admin-settings-blocks-desc-text">{$t('admin.settings.blocksDesc')}</p>
 
 <ul class="blocks-list" data-testid="admin-settings-blocks-list">
 {#each blockList as block, i}
 <li class="block-item" data-testid="admin-settings-block-{block.id}-row">
-<span class="block-item__order" data-testid="admin-settings-block-{block.id}-order">{i + 1}</span>
-<span class="block-item__name" data-testid="admin-settings-block-{block.id}-name">
+<span class="block-item__order" data-testid="admin-settings-block-{block.id}-order-value">{i + 1}</span>
+<span class="block-item__name" data-testid="admin-settings-block-{block.id}-name-text">
 {$t(`admin.settings.blocks.${block.id}`)}
 </span>
 <div class="block-item__controls">
-<button type="button" class="btn-icon" disabled={i === 0} onclick={() => onMoveUp(i)} aria-label={$t('common.moveUp')} data-testid="admin-settings-block-{block.id}-up"><ArrowUp size={15} /></button>
-<button type="button" class="btn-icon" disabled={i === blockList.length - 1} onclick={() => onMoveDown(i)} aria-label={$t('common.moveDown')} data-testid="admin-settings-block-{block.id}-down"><ArrowDown size={15} /></button>
+<button type="button" class="btn-icon" disabled={i === 0} onclick={() => onMoveUp(i)} aria-label={$t('common.moveUp')} data-testid="admin-settings-block-{block.id}-up-btn"><ArrowUp size={15} /></button>
+<button type="button" class="btn-icon" disabled={i === blockList.length - 1} onclick={() => onMoveDown(i)} aria-label={$t('common.moveDown')} data-testid="admin-settings-block-{block.id}-down-btn"><ArrowDown size={15} /></button>
 <label class="switch-label" data-testid="admin-settings-block-{block.id}-visible-label">
-<input type="checkbox" class="switch-input" checked={block.visible} onchange={() => onToggle(i)} data-testid="admin-settings-block-{block.id}-visible" />
+<input type="checkbox" class="switch-input" checked={block.visible} onchange={() => onToggle(i)} data-testid="admin-settings-block-{block.id}-visible-toggle" />
 <span class="switch-slider"></span>
 </label>
 </div>

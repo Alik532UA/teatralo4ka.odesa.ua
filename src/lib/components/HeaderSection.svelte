@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Logo from "./Logo.svelte";
-	import Ticker from "./Ticker.svelte";
+	import LogoIcon from "./LogoIcon.svelte";
+	import TickerBanner from "./TickerBanner.svelte";
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X } from "lucide-svelte";
@@ -388,7 +388,7 @@
 
 <header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
 	{#if headerReady}
-		<Ticker
+		<TickerBanner
 			visible={headerSettings.ticker?.visible ?? true}
 			mode={headerSettings.ticker?.mode ?? 'time'}
 			startTime={headerSettings.ticker?.startTime ?? '09:00'}
@@ -407,13 +407,13 @@
 				onclick={ui.closeMenu}
 				data-testid="logo-home-link"
 			>
-				<Logo size="large" />
+				<LogoIcon size="large" />
 			</a>
 		</div>
 
 		<div class="header__bar" data-testid="header-bar-container">
 			{#if headerReady}
-		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-group">
+		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-section">
 			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu" bind:this={navParentRef}>
 				<!-- Ghost menu for measuring (hidden from view) -->
 				<ul class="header__nav-list header__nav-list--ghost" aria-hidden="true" bind:this={ghostContainerRef}>
@@ -442,7 +442,7 @@
 						<li 
 							class="header__nav-item" 
 							class:header__nav-item--hidden={i >= fitCount}
-							data-testid={`nav-item-${i}-group`}
+							data-testid={`nav-item-${i}-container`}
 						> 
 							<a
 								href={item.href}
@@ -461,7 +461,7 @@
 								href={ctaHref}
 								class="btn btn-outline header__cta"
 								id="header-cta"
-								data-testid="admission-cta-button"
+								data-testid="admission-cta-btn"
 							>
 								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
 							</a>
@@ -472,7 +472,7 @@
 					<li 
 						class="header__nav-item header__nav-manager" 
 						bind:this={navRef} 
-						data-testid="header-nav-manager-group"
+						data-testid="header-nav-manager-section"
 						onmouseenter={handleNavMouseEnter}
 						role="group"
 					>
@@ -482,7 +482,7 @@
 							onclick={handleNavClick}
 							aria-label={$t('nav.openMenu')}
 							aria-expanded={navOpen}
-							data-testid="burger-menu-button"
+							data-testid="burger-menu-btn"
 						>
 							<Menu size={24} />
 						</button>
@@ -498,7 +498,7 @@
 								tabindex="-1"
 							>
 							{#each dynamicDropdownGroups as group, gIndex}
-								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-group-${gIndex}`}>
+								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-section-${gIndex}`}>
 									{#if group.title}
 										{#if group.titleHref}
 											<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
@@ -546,7 +546,7 @@
 							aria-label={$t('settings.title')} 
 							onclick={handleSettingsClick} 
 							aria-expanded={settingsOpen} 
-							data-testid="header-settings-button"
+							data-testid="header-settings-btn"
 						>
 							<SettingsIcon size={24} />
 						</button>
@@ -575,7 +575,7 @@
 			aria-label={$t('nav.openMenu')}
 			aria-expanded={ui.isMenuOpen}
 			id="burger-menu"
-			data-testid="burger-menu-mobile-button"
+			data-testid="burger-menu-mobile-btn"
 		>
 			<span class="header__burger-text">{$t('nav.menu')}</span>
 			<Menu size={20} />
@@ -599,9 +599,9 @@
 			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
 			data-testid="mobile-overlay-container"
 		>
-			<div class="header__mobile-controls" data-testid="mobile-controls-group">
+			<div class="header__mobile-controls" data-testid="mobile-controls-toolbar">
 				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings-mobile-container">
-					<button class="header__settings-btn" aria-label={$t('settings.title')} onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-button">
+					<button class="header__settings-btn" aria-label={$t('settings.title')} onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-btn">
 						<SettingsIcon size={24} />
 					</button>
 					{#if settingsOpen}
@@ -620,7 +620,7 @@
 								class="header__mobile-close header__mobile-close--settings"
 								onclick={closeSettings}
 								aria-label={$t('common.close')}
-								data-testid="settings-mobile-close-button"
+								data-testid="settings-mobile-close-btn"
 							>
 								<X size={24} />
 							</button>
@@ -638,7 +638,7 @@
 					class="header__mobile-close"
 					onclick={ui.closeMenu}
 					aria-label={$t('nav.closeMenu')}
-					data-testid="mobile-close-button"
+					data-testid="mobile-close-btn"
 				>
 					<X size={24} />
 				</button>
@@ -670,7 +670,7 @@
 							{#each mobileNavGroups as group, gIndex}
 								<li 
 									class="header__mobile-group" 
-									data-testid={`mobile-nav-group-${gIndex}`}
+									data-testid={`mobile-nav-section-${gIndex}`}
 									in:fly={{ y: 20, duration: 400, delay: 150 + gIndex * 80, easing: cubicInOut }}
 								>
 									{#if group.title}
@@ -682,7 +682,7 @@
 									{/if}
 									<ul class="header__mobile-sublist">
 										{#each group.items as item, i}
-											<li data-testid={`mobile-nav-item-${gIndex}-${i}-group`} class="header__mobile-subitem">
+											<li data-testid={`mobile-nav-item-${gIndex}-${i}-container`} class="header__mobile-subitem">
 												<a
 													href={item.href}
 													class="header__mobile-link"

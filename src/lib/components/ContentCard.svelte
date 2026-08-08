@@ -44,11 +44,11 @@
 {#if variant === 'carousel'}
 	<article class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
 		{#if item.coverUrl}
-			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-wrap-{index}">
+			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-container-{index}">
 				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="{testIdPrefix}-card-img-{index}" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="{testIdPrefix}-card-content-{index}">
+		<div class="focus-card__content" data-testid="{testIdPrefix}-card-panel-{index}">
 			<div class="focus-card__meta" data-testid="{testIdPrefix}-card-meta-{index}">
 				{#if item.category}
 					<span class="tag" data-testid="{testIdPrefix}-card-tag-{index}">{item.category}</span>
@@ -59,7 +59,7 @@
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more" data-testid="{testIdPrefix}-readmore-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</article>
 
@@ -70,7 +70,7 @@
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="{testIdPrefix}-grid-content-{index}">
+		<div class="focus-card__content" data-testid="{testIdPrefix}-grid-panel-{index}">
 			<div class="focus-card__meta">
 				{#if item.category}
 					<span class="tag">{item.category}</span>
@@ -114,7 +114,7 @@
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
 			</div>
 		{/if}
-		<div class="focus-card__content" data-testid="{testIdPrefix}-mobile-list-content-{index}">
+		<div class="focus-card__content" data-testid="{testIdPrefix}-mobile-list-panel-{index}">
 			<div class="focus-card__meta">
 				{#if item.category}
 					<span class="tag">{item.category}</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Wave from "./Wave.svelte";
+	import WaveBackground from "./WaveBackground.svelte";
 	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
 	import { onMount } from "svelte";
@@ -46,28 +46,28 @@
 </script>
 
 <section class="hero" id="hero-section" aria-label={$t('hero.section')} data-testid="hero-section-container">
-	<div class="hero__content container" data-testid="hero-content-group">
+	<div class="hero__content container" data-testid="hero-content-section">
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social" data-testid="hero-social-links-menu">
-			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb-button">
+			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb-btn">
 				<img src={`${base}/social_media/facebook-se-512-50.png`} alt="FB" />
 			</a>
-			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig-button">
+			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig-btn">
 				<img src={`${base}/social_media/instagram-se-512-50.png`} alt="IG" />
 			</a>
-			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg-button">
+			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg-btn">
 				<img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="TG" />
 			</a>
-			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt-button">
+			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt-btn">
 				<img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YT" />
 			</a>
-			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt-button">
+			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt-btn">
 				<img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TT" />
 			</a>
 		</div>
 
 		<!-- 2. Text Content (Middle) -->
-		<div class="hero__text" data-testid="hero-text-group">
+		<div class="hero__text" data-testid="hero-text-section">
 			<h1 class="hero__title" id="hero-title" data-testid="hero-title-label">
 				{$t("hero.title")}
 			</h1>
@@ -76,7 +76,7 @@
 
 		<!-- 3. Image (Right) -->
 		<div class="hero__image-wrap" data-testid="hero-scene-container">
-			<div class="hero__image-inner" data-testid="hero-image-inner">
+			<div class="hero__image-inner" data-testid="hero-image-container">
 				{#each images as img, i}
 					<img
 						src={img}
@@ -88,7 +88,7 @@
 						decoding="async"
 						class="hero__image"
 						class:active={currentImageIndex === i}
-						data-testid={`hero-main-image-${i}`}
+						data-testid={`hero-main-img-${i}`}
 					/>
 				{/each}
 				<div class="hero__image-border"></div>
@@ -100,13 +100,13 @@
 
 		<!-- 4. Mobile Contacts -->
 		<div class="hero__contacts" data-testid="hero-mobile-contacts-menu">
-			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label={$t('hero.map')} data-testid="hero-map-button">
+			<a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" target="_blank" rel="noopener noreferrer" class="hero__contact-btn" aria-label={$t('hero.map')} data-testid="hero-map-btn">
 				<MapPinned size={24} />
 			</a>
-			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label={$t('hero.phones')} data-testid="hero-phones-button">
+			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label={$t('hero.phones')} data-testid="hero-phones-btn">
 				<Phone size={24} />
 			</button>
-			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label={$t('hero.email')} data-testid="hero-email-button">
+			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label={$t('hero.email')} data-testid="hero-email-btn">
 				<Mail size={24} />
 			</button>
 		</div>

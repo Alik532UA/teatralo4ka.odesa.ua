@@ -87,7 +87,7 @@
 </script>
 
 <section class="detail-page container" data-testid="{testIdPrefix}-section">
-	<div class="back-nav" data-testid="{testIdPrefix}-back-group">
+	<div class="back-nav" data-testid="{testIdPrefix}-back-toolbar">
 		<a href={`${base}${backHref}`} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
 	</div>
 
@@ -109,11 +109,11 @@
 				{/if}
 
 				<div class="article-main">
-					<div class="article-header" data-testid="{testIdPrefix}-header-group">
+					<div class="article-header" data-testid="{testIdPrefix}-header">
 						{#if formatDate(article) || getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
-							<div class="article-meta" data-testid="{testIdPrefix}-meta-group">
+							<div class="article-meta" data-testid="{testIdPrefix}-meta-section">
 								{#if getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
-									<span class="tag" data-testid="{testIdPrefix}-category-tag">
+									<span class="tag" data-testid="{testIdPrefix}-category-badge">
 										{getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
 									</span>
 								{/if}

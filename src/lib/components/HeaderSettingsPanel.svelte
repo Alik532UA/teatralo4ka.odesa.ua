@@ -24,53 +24,53 @@
 	style={mobile ? mobileStyle : ''}
 	data-testid={mobile ? 'settings-dropdown-mobile-menu' : 'header-settings-dropdown-menu'}
 >
-	<div class="dropdown-group-unified" data-testid="settings-lang{sfx}-group">
+	<div class="dropdown-group-unified" data-testid="settings-lang{sfx}-fieldset">
 		<span class="dropdown-label-unified">{$t("settings.language")}</span>
-		<div class="dropdown-options-unified" data-testid="settings-lang{sfx}-options">
+		<div class="dropdown-options-unified" data-testid="settings-lang{sfx}-options-list">
 			<button
 				class="dropdown-opt-unified"
 				class:active={$locale === "uk"}
 				onclick={() => onChangeLang("uk")}
-				data-testid="lang-ua{sfx}-button"
+				data-testid="lang-ua{sfx}-btn"
 			>{$t("settings.langUA")}</button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={$locale === "en"}
 				onclick={() => onChangeLang("en")}
-				data-testid="lang-en{sfx}-button"
+				data-testid="lang-en{sfx}-btn"
 			>{$t("settings.langEN")}</button>
 		</div>
 	</div>
-	<div class="dropdown-group-unified" data-testid="settings-theme{sfx}-group">
+	<div class="dropdown-group-unified" data-testid="settings-theme{sfx}-fieldset">
 		<span class="dropdown-label-unified">{$t("settings.theme")}</span>
-		<div class="dropdown-options-unified" data-testid="settings-theme{sfx}-options" style="flex-wrap: wrap;">
+		<div class="dropdown-options-unified" data-testid="settings-theme{sfx}-options-list" style="flex-wrap: wrap;">
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light"}
 				onclick={() => ui.setTheme("light")}
 				aria-label={$t("settings.light")}
-				data-testid="theme-light{sfx}-button"
+				data-testid="theme-light{sfx}-btn"
 			><Sun size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light-yellow"}
 				onclick={() => ui.setTheme("light-yellow")}
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
-				data-testid="theme-light-yellow{sfx}-button"
+				data-testid="theme-light-yellow{sfx}-btn"
 			><SunDim size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "yellow"}
 				onclick={() => ui.setTheme("yellow")}
 				aria-label={$t("settings.yellow") || "Yellow"}
-				data-testid="theme-yellow{sfx}-button"
+				data-testid="theme-yellow{sfx}-btn"
 			><Citrus size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "dark"}
 				onclick={() => ui.setTheme("dark")}
 				aria-label={$t("settings.dark")}
-				data-testid="theme-dark{sfx}-button"
+				data-testid="theme-dark{sfx}-btn"
 			><Moon size={20} /></button>
 		</div>
 	</div>

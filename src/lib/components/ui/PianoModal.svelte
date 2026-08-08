@@ -210,11 +210,11 @@
 	   <button 
 	   		class="close-btn" 
 			onclick={onClose} 
-			data-testid="piano-modal-close-button"
+			data-testid="piano-modal-close-btn"
 		>&times;</button>
        
 	   <section id="wrap" data-testid="piano-modal-content-container">
-		   <header class="piano-header" data-testid="piano-modal-header-group">
+		   <header class="piano-header" data-testid="piano-modal-header">
 			   <h2 class="piano-hint" data-testid="piano-modal-hint-label">{$t("piano.hint")}</h2>
 			   
 			   <div class="controls-wrapper">
@@ -237,7 +237,7 @@
 					   </button>
 				   </div>
 
-				   <div class="nowplaying" data-testid="piano-nowplaying-display">
+				   <div class="nowplaying" data-testid="piano-nowplaying-value">
 					   {#if nowPlaying}
 						   <span class="note-name" data-testid="piano-note-name-label">
 							   {viewMode === 'chords' ? nowPlaying : $t(`piano.notes.${nowPlaying}`)}
@@ -251,7 +251,7 @@
 			   </div>
 		   </header>
 
-		   <section id="main" data-testid="piano-modal-main-group">
+		   <section id="main" data-testid="piano-modal-main-section">
 			   {#if viewMode === 'keyboard'}
 				   <div class="keys" data-testid="piano-keys-menu">
 					   {#each keysData as key, i}
@@ -268,7 +268,7 @@
 							   }}
 							   onpointerup={() => stopNote(key.code)}
 							   onpointerleave={() => stopNote(key.code)}
-							   data-testid={`piano-key-${i}-button`}
+							   data-testid={`piano-key-${i}-btn`}
 						   >
 							   <span class="hints">{key.hint}</span>
 						   </div>
@@ -287,7 +287,7 @@
 							   }}
 							   onpointerup={() => stopChord(chord.codes)}
 							   onpointerleave={() => stopChord(chord.codes)}
-							   data-testid={`piano-chord-${chord.name}-button`}
+							   data-testid={`piano-chord-${chord.name}-btn`}
 						   >
 							   <span class="chord-name">{chord.name}</span>
 						   </button>

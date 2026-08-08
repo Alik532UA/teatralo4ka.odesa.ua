@@ -214,15 +214,15 @@
 
 <div class="rich-editor" data-testid="{testId}-container">
    {#if editor}
-	   <div class="toolbar" data-testid="{testId}-toolbar-group">
-		   <div class="tool-group mode-tabs" data-testid="{testId}-mode-tools">
+	   <div class="toolbar" data-testid="{testId}-toolbar">
+		   <div class="tool-group mode-tabs" data-testid="{testId}-mode-toolbar">
 			   <button
 				   type="button"
 				   class="tool-btn mode-tab"
 				   class:active={editorMode === 'visual'}
 				   onclick={() => setEditorMode('visual')}
 				   title={$t('editor.visual')}
-				   data-testid="{testId}-mode-toggle-button"
+				   data-testid="{testId}-mode-toggle-btn"
 			   ><Layout size={15} /> {$t('editor.textTab')}</button>
 			   <button
 				   type="button"
@@ -230,7 +230,7 @@
 				   class:active={editorMode === 'markdown'}
 				   onclick={() => setEditorMode('markdown')}
 				   title={$t('editor.markdown')}
-				   data-testid="{testId}-mode-md-button"
+				   data-testid="{testId}-mode-md-btn"
 			   ><FileJson size={15} /> {$t('editor.mdTab')}</button>
 			   <button
 				   type="button"
@@ -238,21 +238,21 @@
 				   class:active={editorMode === 'html'}
 				   onclick={() => setEditorMode('html')}
 				   title={$t('editor.html')}
-				   data-testid="{testId}-mode-html-button"
+				   data-testid="{testId}-mode-html-btn"
 			   ><Code size={15} /> {$t('editor.htmlTab')}</button>
 		   </div>
 
 		   <div class="separator"></div>
 
 		   {#if editorMode === 'visual'}
-			   <div class="tool-group" data-testid="{testId}-format-tools">
+			   <div class="tool-group" data-testid="{testId}-format-toolbar">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('bold')} 
 					   onclick={() => editor?.chain().focus().toggleBold().run()}
 					   title={$t('editor.bold')}
-					   data-testid="{testId}-bold-button"
+					   data-testid="{testId}-bold-btn"
 				   ><Bold size={18} /></button>
 				   
 				   <button 
@@ -261,7 +261,7 @@
 					   class:active={editor.isActive('italic')} 
 					   onclick={() => editor?.chain().focus().toggleItalic().run()}
 					   title={$t('editor.italic')}
-					   data-testid="{testId}-italic-button"
+					   data-testid="{testId}-italic-btn"
 				   ><Italic size={18} /></button>
 				   
 				   <button 
@@ -270,7 +270,7 @@
 					   class:active={editor.isActive('underline')} 
 					   onclick={() => editor?.chain().focus().toggleUnderline().run()}
 					   title={$t('editor.underline')}
-					   data-testid="{testId}-underline-button"
+					   data-testid="{testId}-underline-btn"
 				   ><UnderlineIcon size={18} /></button>
 
 				   <button 
@@ -279,7 +279,7 @@
 					   class:active={editor.isActive('strike')} 
 					   onclick={() => editor?.chain().focus().toggleStrike().run()}
 					   title={$t('editor.strike')}
-					   data-testid="{testId}-strike-button"
+					   data-testid="{testId}-strike-btn"
 				   ><Strikethrough size={18} /></button>
 
 				   <button 
@@ -288,19 +288,19 @@
 					   class:active={editor.isActive('code')} 
 					   onclick={() => editor?.chain().focus().toggleCode().run()}
 					   title={$t('editor.code')}
-					   data-testid="{testId}-code-button"
+					   data-testid="{testId}-code-btn"
 				   ><Code size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group" data-testid="{testId}-heading-tools">
+			   <div class="tool-group" data-testid="{testId}-heading-toolbar">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('paragraph')} 
 					   onclick={() => editor?.chain().focus().setParagraph().run()}
-					   data-testid="{testId}-paragraph-button"
+					   data-testid="{testId}-paragraph-btn"
 					   title={$t('editor.paragraph')}
 				   ><Type size={18} /></button>
 				   {#each [1, 2, 3, 4, 5, 6] as level}
@@ -309,7 +309,7 @@
 						   class="tool-btn" 
 						   class:active={editor.isActive('heading', { level })} 
 						   onclick={() => editor?.chain().focus().toggleHeading({ level: level as any }).run()}
-						   data-testid="{testId}-h{level}-button"
+						   data-testid="{testId}-h{level}-btn"
 						   title={$t('editor.heading', { values: { level } })}
 					   >H{level}</button>
 				   {/each}
@@ -324,7 +324,7 @@
 					   class:active={editor.isActive('bulletList')} 
 					   onclick={() => editor?.chain().focus().toggleBulletList().run()}
 					   title={$t('editor.bulletList')}
-					   data-testid="{testId}-bullet-list-button"
+					   data-testid="{testId}-bullet-list-btn"
 				   ><List size={18} /></button>
 				   
 				   <button 
@@ -333,7 +333,7 @@
 					   class:active={editor.isActive('orderedList')} 
 					   onclick={() => editor?.chain().focus().toggleOrderedList().run()}
 					   title={$t('editor.orderedList')}
-					   data-testid="{testId}-ordered-list-button"
+					   data-testid="{testId}-ordered-list-btn"
 				   ><ListOrdered size={18} /></button>
 
 				   <button 
@@ -342,20 +342,20 @@
 					   class:active={editor.isActive('taskList')} 
 					   onclick={() => editor?.chain().focus().toggleTaskList().run()}
 					   title={$t('editor.taskList')}
-					   data-testid="{testId}-task-list-button"
+					   data-testid="{testId}-task-list-btn"
 				   ><CheckSquare size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group" data-testid="{testId}-insert-tools">
+			   <div class="tool-group" data-testid="{testId}-insert-toolbar">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   class:active={editor.isActive('link')} 
 					   onclick={() => openModal('link')}
 					   title={$t('editor.link')}
-					   data-testid="{testId}-link-button"
+					   data-testid="{testId}-link-btn"
 				   ><LinkIcon size={18} /></button>
 
 				   <button 
@@ -363,7 +363,7 @@
 					   class="tool-btn" 
 					   onclick={() => openModal('image')}
 					   title={$t('editor.image')}
-					   data-testid="{testId}-image-button"
+					   data-testid="{testId}-image-btn"
 				   ><ImageIcon size={18} /></button>
 
 				   <button 
@@ -371,7 +371,7 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}
 					   title={$t('editor.table')}
-					   data-testid="{testId}-table-button"
+					   data-testid="{testId}-table-btn"
 				   ><TableIcon size={18} /></button>
 				   
 				   <button 
@@ -380,7 +380,7 @@
 					   onclick={() => editor?.chain().focus().toggleBlockquote().run()}
 					   class:active={editor.isActive('blockquote')}
 					   title={$t('editor.blockquote')}
-					   data-testid="{testId}-quote-button"
+					   data-testid="{testId}-quote-btn"
 				   ><Quote size={18} /></button>
 
 				   <button 
@@ -388,19 +388,19 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().setHorizontalRule().run()}
 					   title={$t('editor.horizontalRule')}
-					   data-testid="{testId}-hr-button"
+					   data-testid="{testId}-hr-btn"
 				   ><Minus size={18} /></button>
 			   </div>
 
 			   <div class="separator"></div>
 
-			   <div class="tool-group" data-testid="{testId}-history-tools">
+			   <div class="tool-group" data-testid="{testId}-history-toolbar">
 				   <button 
 					   type="button"
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().undo().run()}
 					   title={$t('editor.undo')}
-					   data-testid="{testId}-undo-button"
+					   data-testid="{testId}-undo-btn"
 				   ><Undo size={18} /></button>
 				   
 				   <button 
@@ -408,26 +408,26 @@
 					   class="tool-btn" 
 					   onclick={() => editor?.chain().focus().redo().run()}
 					   title={$t('editor.redo')}
-					   data-testid="{testId}-redo-button"
+					   data-testid="{testId}-redo-btn"
 				   ><Redo size={18} /></button>
 			   </div>
 
 			   {#if isTableActive}
 				   <div class="separator"></div>
-				   <div class="tool-group table-tools" data-testid="{testId}-table-tools-group">
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title={$t('editor.addColumnBefore')} data-testid="{testId}-table-col-before-button"><PlusSquare size={14} /> Col L</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title={$t('editor.addColumnAfter')} data-testid="{testId}-table-col-after-button"><PlusSquare size={14} /> Col R</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title={$t('editor.deleteColumn')} data-testid="{testId}-table-col-delete-button"><MinusSquare size={14} /> Col</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title={$t('editor.addRowBefore')} data-testid="{testId}-table-row-before-button"><PlusSquare size={14} /> Row U</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title={$t('editor.addRowAfter')} data-testid="{testId}-table-row-after-button"><PlusSquare size={14} /> Row D</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title={$t('editor.deleteRow')} data-testid="{testId}-table-row-delete-button"><MinusSquare size={14} /> Row</button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title={$t('editor.deleteTable')} data-testid="{testId}-table-delete-button"><Trash2 size={16} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title={$t('editor.mergeCells')} data-testid="{testId}-table-merge-button"><Combine size={14} /></button>
-					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title={$t('editor.splitCell')} data-testid="{testId}-table-split-button"><Split size={14} /></button>
+				   <div class="tool-group table-tools" data-testid="{testId}-table-toolbar">
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnBefore().run()} title={$t('editor.addColumnBefore')} data-testid="{testId}-table-col-before-btn"><PlusSquare size={14} /> Col L</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addColumnAfter().run()} title={$t('editor.addColumnAfter')} data-testid="{testId}-table-col-after-btn"><PlusSquare size={14} /> Col R</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteColumn().run()} title={$t('editor.deleteColumn')} data-testid="{testId}-table-col-delete-btn"><MinusSquare size={14} /> Col</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowBefore().run()} title={$t('editor.addRowBefore')} data-testid="{testId}-table-row-before-btn"><PlusSquare size={14} /> Row U</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().addRowAfter().run()} title={$t('editor.addRowAfter')} data-testid="{testId}-table-row-after-btn"><PlusSquare size={14} /> Row D</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteRow().run()} title={$t('editor.deleteRow')} data-testid="{testId}-table-row-delete-btn"><MinusSquare size={14} /> Row</button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().deleteTable().run()} title={$t('editor.deleteTable')} data-testid="{testId}-table-delete-btn"><Trash2 size={16} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().mergeCells().run()} title={$t('editor.mergeCells')} data-testid="{testId}-table-merge-btn"><Combine size={14} /></button>
+					   <button type="button" class="tool-btn" onclick={() => editor?.chain().focus().splitCell().run()} title={$t('editor.splitCell')} data-testid="{testId}-table-split-btn"><Split size={14} /></button>
 				   </div>
 			   {/if}
 		   {:else}
-			   <div class="tool-group" data-testid="{testId}-mode-info-group">
+			   <div class="tool-group" data-testid="{testId}-mode-info-section">
 				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{$t('editor.sourceEditing', { values: { mode: editorMode === 'markdown' ? 'Markdown' : 'HTML' } })}</span>
 				   {#if editorMode === 'html'}
 					   <span style="font-size: 0.75rem; color: #ef4444; margin-left: 1rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(239, 68, 68, 0.1);">
@@ -463,7 +463,7 @@
 		   bind:this={element} 
 		   class="editor-content" 
 		   class:hidden={editorMode !== 'visual'}
-		   data-testid="{testId}-editor-content-area"
+		   data-testid="{testId}-editor-content-section"
 	   ></div>
 
 	   {#if showLinkModal || showImageModal}
@@ -471,9 +471,9 @@
 			   <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation" data-testid="{testId}-modal-container">
 				   <h3 data-testid="{testId}-modal-title-label">{modalType === 'link' ? $t('editor.insertLink') : $t('editor.insertImage')}</h3>
 				   
-				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-form-group">
+				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-fieldset">
 					   {#if modalType === 'link'}
-						   <div class="form-group" data-testid="{testId}-modal-text-group">
+						   <div class="form-group" data-testid="{testId}-modal-text-fieldset">
 							   <label class="form-label" for="modal-text" data-testid="{testId}-modal-text-label">{$t('editor.linkText')}</label>
 							   <input 
 								   id="modal-text"
@@ -486,7 +486,7 @@
 						   </div>
 					   {/if}
 
-					   <div class="form-group" data-testid="{testId}-modal-url-group">
+					   <div class="form-group" data-testid="{testId}-modal-url-fieldset">
 						   <label class="form-label" for="modal-url" data-testid="{testId}-modal-url-label">{modalType === 'link' ? $t('editor.urlLabel') : $t('editor.imageUrlLabel')}</label>
 						   <input 
 							   id="modal-url"
@@ -500,9 +500,9 @@
 					   </div>
 				   </div>
 
-				   <div class="modal-actions" data-testid="{testId}-modal-actions-group">
-					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel-button">{$t('common.cancel')}</button>
-					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save-button">{$t('admin.menuEditor.save')}</button>
+				   <div class="modal-actions" data-testid="{testId}-modal-toolbar">
+					   <button type="button" class="btn btn-outline" onclick={closeModal} data-testid="{testId}-modal-cancel-btn">{$t('common.cancel')}</button>
+					   <button type="button" class="btn btn-primary" onclick={handleModalSubmit} data-testid="{testId}-modal-save-btn">{$t('admin.menuEditor.save')}</button>
 				   </div>
 			   </div>
 		   </div>

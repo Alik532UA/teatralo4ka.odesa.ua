@@ -10,12 +10,12 @@
 
 	{#snippet failed(error, reset)}
 		<div class="error-boundary" data-testid="error-boundary-container">
-			<div class="error-boundary__content" data-testid="error-boundary-content-group">
+			<div class="error-boundary__content" data-testid="error-boundary-panel">
 				<h2 data-testid="error-boundary-title">{$t('common.errorTitle')}</h2>
 				<p data-testid="error-boundary-message">{error instanceof Error ? error.message : String(error)}</p>
-				<div class="error-boundary__actions" data-testid="error-boundary-actions-group">
-					<button onclick={reset} data-testid="error-boundary-reset-button">{$t('common.tryAgain')}</button>
-					<button onclick={() => location.reload()} data-testid="error-boundary-reload-button">{$t('common.reloadPage')}</button>
+				<div class="error-boundary__actions" data-testid="error-boundary-toolbar">
+					<button onclick={reset} data-testid="error-boundary-reset-btn">{$t('common.tryAgain')}</button>
+					<button onclick={() => location.reload()} data-testid="error-boundary-reload-btn">{$t('common.reloadPage')}</button>
 				</div>
 			</div>
 		</div>

@@ -71,7 +71,7 @@
 
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
 	{#if content}
-		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article">
+		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article-section">
 			{@html DOMPurify.sanitize(content.html)}
 		</article>
 	{:else}
@@ -83,7 +83,7 @@
 	{#if galleryConfig.defaultView === 'carousel'}
 		<GalleryCarousel items={galleryImages} config={galleryConfig} testIdPrefix="about-gallery-carousel" />
 	{:else}
-		<div class="g-bento" data-testid="about-gallery-grid">
+		<div class="g-bento" data-testid="about-gallery-list">
 			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i}
 				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
 					<img 
@@ -98,7 +98,7 @@
 					/>
 					{#if galleryConfig.showCaptions}
 						<div class="g-bento__overlay" data-testid="about-gallery-overlay-{i}">
-							<span class="g-bento__caption" data-testid="about-gallery-caption-{i}">{img.title}</span>
+							<span class="g-bento__caption" data-testid="about-gallery-caption-text-{i}">{img.title}</span>
 						</div>
 					{/if}
 				</div>

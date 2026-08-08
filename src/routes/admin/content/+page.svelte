@@ -271,9 +271,9 @@
 
 <section class="cl-page container" data-testid="admin-content-section-container">
 	<!-- Header -->
-	<div class="cl-header" data-testid="admin-content-header-group">
+	<div class="cl-header" data-testid="admin-content-header">
 		<div class="cl-title-group">
-			<a href="{base}/admin" class="cl-back-btn" data-testid="admin-content-back-button" title={$t('admin.articles.backToPanel')}>
+			<a href="{base}/admin" class="cl-back-btn" data-testid="admin-content-back-btn" title={$t('admin.articles.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="cl-title" data-testid="admin-content-title-label">{$t('admin.content.title')}</h1>
@@ -281,9 +281,9 @@
 				<span class="cl-count">{allItems.length}</span>
 			{/if}
 		</div>
-		<div class="cl-header-actions" data-testid="admin-content-header-actions-group">
+		<div class="cl-header-actions" data-testid="admin-content-header-toolbar">
 			{#if canCreate}
-				<label class="cl-icon-btn cl-import-btn" title={$t('admin.editor.loadDraftFile')} data-testid="admin-content-import-button">
+				<label class="cl-icon-btn cl-import-btn" title={$t('admin.editor.loadDraftFile')} data-testid="admin-content-import-btn">
 					{#if importing}
 						<div class="cl-mini-spinner"></div>
 					{:else}
@@ -291,7 +291,7 @@
 					{/if}
 					<input type="file" accept=".json" multiple onchange={handleBulkLoad} style="display: none;" disabled={importing} />
 				</label>
-				<a href="{base}/admin/content/new" class="btn btn-primary cl-create-btn" data-testid="admin-content-create-button">
+				<a href="{base}/admin/content/new" class="btn btn-primary cl-create-btn" data-testid="admin-content-create-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
 					{$t('admin.content.createBtn')}
 				</a>
@@ -375,7 +375,7 @@
 		{:else}
 			{#each filtered as item (item.id)}
 				{@const badge = getTypeBadge(item)}
-				<div class="cl-card" data-testid={`admin-content-row-${item.id}-group`}>
+				<div class="cl-card" data-testid={`admin-content-row-${item.id}-container`}>
 					<!-- Thumbnail -->
 					<div class="cl-thumb" class:cl-thumb-empty={!getCoverUrl(item)}>
 						{#if getCoverUrl(item)}
@@ -424,12 +424,12 @@
 
 					<!-- Actions -->
 					<div class="cl-actions" data-testid={`admin-content-row-${item.id}-actions`}>
-						<a href="{base}/admin/content/{item.id}" class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-button`} title={$t('admin.articles.edit')}>
+						<a href="{base}/admin/content/{item.id}" class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 							<span>{$t('admin.articles.edit')}</span>
 						</a>
 						{#if canDeleteItem(item)}
-							<button onclick={() => handleDelete(item)} class="cl-action-btn cl-delete-btn" data-testid={`admin-content-delete-${item.id}-button`} title={$t('admin.articles.delete')}>
+							<button onclick={() => handleDelete(item)} class="cl-action-btn cl-delete-btn" data-testid={`admin-content-delete-${item.id}-btn`} title={$t('admin.articles.delete')}>
 								<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
 							</button>
 						{/if}

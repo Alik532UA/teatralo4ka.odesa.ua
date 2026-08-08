@@ -240,7 +240,7 @@
 	</div>
 
 	{#if items.length > 1}
-		<div class="gc-dots" data-testid="{testIdPrefix}-dots">
+		<div class="gc-dots" data-testid="{testIdPrefix}-pagination-list">
 			{#each items as _, i}
 				<button
 					type="button"
@@ -248,7 +248,7 @@
 					class:active={i === activeDot}
 					onclick={() => goTo(i)}
 					aria-label="{$t('common.slide')} {i + 1}"
-					data-testid="{testIdPrefix}-dot-{i}"
+					data-testid="{testIdPrefix}-pagination-btn-{i}"
 				></button>
 			{/each}
 		</div>

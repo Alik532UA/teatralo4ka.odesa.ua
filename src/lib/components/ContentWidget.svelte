@@ -294,9 +294,9 @@
 	{/if}
 {/snippet}
 
-<div class="cw-root" data-testid="{testIdPrefix}-root">
+<div class="cw-root" data-testid="{testIdPrefix}-container">
 	<!-- Controls row -->
-	<div class="cw-controls" data-testid="{testIdPrefix}-controls">
+	<div class="cw-controls" data-testid="{testIdPrefix}-toolbar">
 		{#if title}
 			<div class="cw-header-text">
 				<h2 class="cw-title">{title}</h2>
@@ -321,7 +321,7 @@
 			{/if}
 
 			{#if config.showViewSwitcher}
-				<div class="view-switcher" role="group" aria-label={$t('common.view')} data-testid="{testIdPrefix}-view-switcher">
+				<div class="view-switcher" role="group" aria-label={$t('common.view')} data-testid="{testIdPrefix}-view-tabs">
 					<button class="view-btn" class:active={view === 'carousel'} onclick={() => viewOverride = 'carousel'} aria-label={$t('news.viewCarousel')} aria-pressed={view === 'carousel'} data-testid="{testIdPrefix}-view-carousel-btn">
 						<GalleryHorizontal size={20} />
 					</button>
@@ -357,7 +357,7 @@
 			aria-roledescription="carousel"
 			aria-label={title}
 			tabindex="0"
-			data-testid="{testIdPrefix}-viewport"
+			data-testid="{testIdPrefix}-viewport-container"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
 			onmousedown={handleTouchStart}
@@ -375,7 +375,7 @@
 					transform: translateX(calc(50% - (var(--step-width) - var(--focus-gap)) / 2 - ({currentIndex} * var(--step-width)) + {drag.dragOffset}px));
 					transition: {isTransitioning && !drag.isDragging ? `transform ${isAutoAdvancing ? '2.1s' : '0.7s'} cubic-bezier(0.16, 1, 0.3, 1)` : 'none'};
 				"
-				data-testid="{testIdPrefix}-track"
+				data-testid="{testIdPrefix}-track-container"
 				ontransitionend={handleTransitionEnd}
 			>
 				{#each infiniteItems as item, i (item.id + i)}
@@ -398,14 +398,14 @@
 		</section>
 
 		{#if items.length > 1}
-			<div class="focus-dots" data-testid="{testIdPrefix}-dots">
+			<div class="focus-dots" data-testid="{testIdPrefix}-pagination-list">
 				{#each items as _, i}
 					<button
 						class="f-dot"
 						class:active={(currentIndex % items.length) === i}
 						onclick={() => goTo(i)}
 						aria-label="{$t('common.slide')} {i + 1}"
-						data-testid="{testIdPrefix}-dot-{i}"
+						data-testid="{testIdPrefix}-pagination-btn-{i}"
 					></button>
 				{/each}
 			</div>
@@ -413,7 +413,7 @@
 
 	<!-- Grid view -->
 	{:else if view === 'grid'}
-		<div class="grid-view" data-testid="{testIdPrefix}-grid">
+		<div class="grid-view" data-testid="{testIdPrefix}-list">
 			{#each displayItems as item, i}
 				<ContentCard {item} variant="grid" index={i} {linkPrefix} {readMoreLabel} testIdPrefix={cardTestIdPrefix} />
 			{/each}

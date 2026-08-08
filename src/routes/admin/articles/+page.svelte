@@ -231,9 +231,9 @@
 
 <section class="al-page container" data-testid="admin-articles-section-container">
 	<!-- Header -->
-	<div class="al-header" data-testid="admin-articles-header-group">
+	<div class="al-header" data-testid="admin-articles-header">
 		<div class="al-title-group">
-			<a href="{base}/admin" class="al-back-btn" data-testid="admin-articles-back-button" title={$t('admin.articles.backToPanel')}>
+			<a href="{base}/admin" class="al-back-btn" data-testid="admin-articles-back-btn" title={$t('admin.articles.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="al-title" data-testid="admin-articles-title-label">{$t('admin.articles.title')}</h1>
@@ -241,9 +241,9 @@
 				<span class="al-count">{articles.length}</span>
 			{/if}
 		</div>
-		<div class="al-header-actions" data-testid="admin-articles-header-actions-group">
+		<div class="al-header-actions" data-testid="admin-articles-header-toolbar">
 			{#if canCreate}
-				<label class="al-icon-btn al-import-btn" title={$t('admin.editor.loadDraftFile')} data-testid="admin-articles-import-button">
+				<label class="al-icon-btn al-import-btn" title={$t('admin.editor.loadDraftFile')} data-testid="admin-articles-import-btn">
 					{#if importing}
 						<div class="al-mini-spinner"></div>
 					{:else}
@@ -251,7 +251,7 @@
 					{/if}
 					<input type="file" accept=".json" multiple onchange={handleBulkLoad} style="display: none;" disabled={importing} />
 				</label>
-				<a href="{base}/admin/articles/new" class="btn btn-primary al-create-btn" data-testid="admin-articles-create-button">
+				<a href="{base}/admin/articles/new" class="btn btn-primary al-create-btn" data-testid="admin-articles-create-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
 					{$t('admin.articles.createBtn')}
 				</a>
@@ -309,7 +309,7 @@
 			</div>
 		{:else}
 			{#each filtered as article (article.id)}
-				<div class="al-card" data-testid={`admin-articles-row-${article.id}-group`}>
+				<div class="al-card" data-testid={`admin-articles-row-${article.id}-container`}>
 					<!-- Thumbnail -->
 					<div class="al-thumb" class:al-thumb-empty={!getCoverUrl(article)}>
 						{#if getCoverUrl(article)}
@@ -355,12 +355,12 @@
 
 					<!-- Actions -->
 					<div class="al-actions" data-testid={`admin-articles-row-${article.id}-actions`}>
-						<a href="{base}/admin/articles/{article.id}" class="al-action-btn al-edit-btn" data-testid={`admin-articles-edit-${article.id}-button`} title={$t('admin.articles.edit')}>
+						<a href="{base}/admin/articles/{article.id}" class="al-action-btn al-edit-btn" data-testid={`admin-articles-edit-${article.id}-btn`} title={$t('admin.articles.edit')}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 							<span>{$t('admin.articles.edit')}</span>
 						</a>
 						{#if canDelete}
-							<button onclick={() => handleDelete(article.id)} class="al-action-btn al-delete-btn" data-testid={`admin-articles-delete-${article.id}-button`} title={$t('admin.articles.delete')}>
+							<button onclick={() => handleDelete(article.id)} class="al-action-btn al-delete-btn" data-testid={`admin-articles-delete-${article.id}-btn`} title={$t('admin.articles.delete')}>
 								<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
 							</button>
 						{/if}

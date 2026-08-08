@@ -36,15 +36,15 @@
 
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section">
 	{#if backHref && backLabel}
-		<div class="back-nav" data-testid="{testPrefix}-back-group">
+		<div class="back-nav" data-testid="{testPrefix}-back-toolbar">
 			<a href={backHref} class="btn btn-outline" data-testid="{testPrefix}-back-link">{backLabel}</a>
 		</div>
 	{/if}
 	{#if content}
-		<article data-testid="{testPrefix}-page-article">
+		<article data-testid="{testPrefix}-page-article-section">
 			<div class="page-body" class:has-cover={!!coverUrl}>
 				{#if coverUrl}
-					<aside class="page-cover" data-testid="{testPrefix}-page-cover">
+					<aside class="page-cover" data-testid="{testPrefix}-page-cover-img">
 						<img src={coverUrl} alt={content.metadata.title} class="page-cover__img" />
 					</aside>
 				{/if}
@@ -54,7 +54,7 @@
 					</div>
 
 					{#if content.metadata.status === 'draft'}
-						<div class="draft-actions" data-testid="{testPrefix}-draft-actions">
+						<div class="draft-actions" data-testid="{testPrefix}-draft-toolbar">
 							<a href="{base}/" class="btn btn-primary" data-testid="{testPrefix}-home-link">
 								{$t('common.backToHome')}
 							</a>

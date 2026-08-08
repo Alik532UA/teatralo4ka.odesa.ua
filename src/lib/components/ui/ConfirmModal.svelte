@@ -18,7 +18,7 @@
 			transition:fly={{ y: 30, duration: 300 }}
 			data-testid="confirm-modal-container"
 		>
-			<div class="modal-header" data-testid="confirm-modal-header-group">
+			<div class="modal-header" data-testid="confirm-modal-header">
 				<div class="modal-icon" data-testid="confirm-modal-icon-container">
 					<HelpCircle size={24} />
 				</div>
@@ -27,28 +27,28 @@
 					class="btn-close" 
 					onclick={() => toast.resolveConfirm(false)} 
 					aria-label={$t('common.cancel')}
-					data-testid="confirm-modal-close-button"
+					data-testid="confirm-modal-close-btn"
 				>
 					<X size={20} />
 				</button>
 			</div>
 			
-			<div class="modal-body" data-testid="confirm-modal-body-group">
+			<div class="modal-body" data-testid="confirm-modal-body-section">
 				<p data-testid="confirm-modal-message-label">{toast.confirmMessage}</p>
 			</div>
 			
-			<div class="modal-footer" data-testid="confirm-modal-footer-group">
+			<div class="modal-footer" data-testid="confirm-modal-footer">
 				<button 
 					class="btn-cancel" 
 					onclick={() => toast.resolveConfirm(false)}
-					data-testid="confirm-modal-cancel-button"
+					data-testid="confirm-modal-cancel-btn"
 				>
 					{$t('common.cancel')}
 				</button>
 				<button 
 					class="btn-confirm" 
 					onclick={() => toast.resolveConfirm(true)}
-					data-testid="confirm-modal-confirm-button"
+					data-testid="confirm-modal-confirm-btn"
 				>
 					{$t('common.confirm')}
 				</button>

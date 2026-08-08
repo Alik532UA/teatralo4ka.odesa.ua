@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Hero from '$lib/components/Hero.svelte';
-	import Departments from '$lib/components/Departments.svelte';
-	import News from '$lib/components/News.svelte';
-	import Projects from '$lib/components/Projects.svelte';
-	import Wave from '$lib/components/Wave.svelte';
+	import HeroSection from '$lib/components/HeroSection.svelte';
+	import DepartmentsSection from '$lib/components/DepartmentsSection.svelte';
+	import NewsSection from '$lib/components/NewsSection.svelte';
+	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
+	import WaveBackground from '$lib/components/WaveBackground.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
@@ -204,13 +204,13 @@
 		{#if block.id === 'hero'}
 			<!-- Hero renders IMMEDIATELY — no Firebase dependency -->
 			<ErrorBoundary>
-				<Hero />
+				<HeroSection />
 			</ErrorBoundary>
 
 		{:else if block.id === 'news'}
 			{#if newsReady}
 				<ErrorBoundary>
-					<News items={newsItems} config={newsWidgetConfig} error={newsError} />
+					<NewsSection items={newsItems} config={newsWidgetConfig} error={newsError} />
 				</ErrorBoundary>
 			{:else}
 				<!-- Skeleton: news section placeholder -->
@@ -240,10 +240,10 @@
 			<div bind:this={departmentsRef} class="lazy-section" data-testid="home-lazy-section">
 				{#if showDepartments}
 					<ErrorBoundary>
-						<Departments />
+						<DepartmentsSection />
 					</ErrorBoundary>
 				{:else}
-					<div class="lazy-placeholder" data-testid="home-lazy-placeholder">
+					<div class="lazy-placeholder" data-testid="home-lazy-skeleton">
 						{$t('common.loading')}
 					</div>
 				{/if}
@@ -252,7 +252,7 @@
 		{:else if block.id === 'projects'}
 			{#if projectsReady}
 				<ErrorBoundary>
-					<Projects items={projectItems} config={projectsWidgetConfig} error={projectsError} />
+					<ProjectsSection items={projectItems} config={projectsWidgetConfig} error={projectsError} />
 				</ErrorBoundary>
 			{:else}
 				<!-- Skeleton: projects section placeholder -->
@@ -281,7 +281,7 @@
 		{:else if block.id === 'gallery'}
 			<section class="gallery-bento" id="gallery-bento" aria-labelledby="gallery-title" data-testid="gallery-section">
 				<div class="container" data-testid="gallery-container">
-					<div class="gallery-bento__header" data-testid="gallery-header-group">
+					<div class="gallery-bento__header" data-testid="gallery-header">
 						<h2 class="gallery-bento__title" id="gallery-title" data-testid="gallery-title-label">{$t('gallery.title')}</h2>
 						<p class="gallery-bento__subtitle" data-testid="gallery-subtitle-label">{$t('gallery.subtitle')}</p>
 					</div>
@@ -289,13 +289,13 @@
 					{#if galleryWidgetConfig.defaultView === 'carousel'}
 						<GalleryCarousel items={galleryItems} config={galleryWidgetConfig} testIdPrefix="gallery-carousel" />
 					{:else}
-						<div class="g-bento-4x3" data-testid="gallery-grid">
+						<div class="g-bento-4x3" data-testid="gallery-list">
 							{#each galleryItems.slice(0, galleryWidgetConfig.maxItemsGrid > 0 ? galleryWidgetConfig.maxItemsGrid : galleryItems.length) as img, i (img.src)}
 								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}">
 									<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
 									{#if galleryWidgetConfig.showCaptions}
 										<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
-											<span class="g-bento-4x3__caption" data-testid="gallery-caption-{i}">{img.title}</span>
+											<span class="g-bento-4x3__caption" data-testid="gallery-caption-text-{i}">{img.title}</span>
 										</div>
 									{/if}
 								</div>

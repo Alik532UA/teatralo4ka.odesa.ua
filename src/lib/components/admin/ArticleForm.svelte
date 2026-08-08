@@ -415,7 +415,7 @@
 				<Paperclip size={18} />
 				<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
 			</label>
-			<button type="submit" form={formId} disabled={submitting} class="af-submit-btn" data-testid="{tp}-submit-button">
+			<button type="submit" form={formId} disabled={submitting} class="af-submit-btn" data-testid="{tp}-submit-btn">
 				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
 				{submitting
 					? (mode === 'create' ? $t('admin.editor.saving') : $t('admin.editor.updating'))
@@ -434,18 +434,18 @@
 			</div>
 
 			<!-- Content Type Selector -->
-			<div class="af-type-selector" data-testid="{tp}-type-selector">
+			<div class="af-type-selector" data-testid="{tp}-type-fieldset">
 				<span class="form-label">{$t('admin.editor.contentType')}</span>
 				<div class="mode-toggle-group">
-					<button type="button" class="mode-btn" class:active={selectedType === 'article'} onclick={() => handleTypeChange('article')} data-testid="{tp}-type-article">
+					<button type="button" class="mode-btn" class:active={selectedType === 'article'} onclick={() => handleTypeChange('article')} data-testid="{tp}-type-option-article">
 						<FileText size={16} />
 						{$t('admin.content.typeArticleSingular')}
 					</button>
-					<button type="button" class="mode-btn" class:active={selectedType === 'page'} onclick={() => handleTypeChange('page')} data-testid="{tp}-type-page">
+					<button type="button" class="mode-btn" class:active={selectedType === 'page'} onclick={() => handleTypeChange('page')} data-testid="{tp}-type-option-page">
 						<Globe size={16} />
 						{$t('admin.content.typePageSingular')}
 					</button>
-					<button type="button" class="mode-btn" class:active={selectedType === 'page_project'} onclick={() => handleTypeChange('page_project')} data-testid="{tp}-type-project">
+					<button type="button" class="mode-btn" class:active={selectedType === 'page_project'} onclick={() => handleTypeChange('page_project')} data-testid="{tp}-type-option-project">
 						<Folder size={16} />
 						{$t('admin.content.typeProjectSingular')}
 					</button>
@@ -485,7 +485,7 @@
 									<svg class="af-cat-chevron" class:open={catDropdownOpen} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 								</button>
 								{#if catDropdownOpen}
-									<div class="af-cat-dropdown" role="listbox" data-testid="{tp}-category-dropdown">
+									<div class="af-cat-dropdown" role="listbox" data-testid="{tp}-category-select">
 										{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels]}
 											<button
 												type="button"
@@ -526,7 +526,7 @@
 										placeholder={$t('admin.editor.categoryCustomPlaceholderUk')}
 										maxlength="24"
 										class="form-input"
-										data-testid="{tp}-category-custom-uk"
+										data-testid="{tp}-category-custom-uk-input"
 									/>
 								</div>
 								<div class="af-cat-custom-field">
@@ -537,7 +537,7 @@
 										placeholder={$t('admin.editor.categoryCustomPlaceholderEn')}
 										maxlength="24"
 										class="form-input"
-										data-testid="{tp}-category-custom-en"
+										data-testid="{tp}-category-custom-en-input"
 									/>
 								</div>
 							</div>
@@ -643,7 +643,7 @@
 							class="btn btn-sm btn-outline"
 							onclick={() => showUploadInfo = true}
 							style="font-size: 0.75rem; padding: 0.4rem 0.8rem;"
-							data-testid="{tp}-upload-info-button"
+							data-testid="{tp}-upload-info-btn"
 						>
 							<Info size={14} style="margin-right: 0.25rem;" />
 							{$t('admin.editor.uploadFromDevice')}
@@ -653,7 +653,7 @@
 							class="btn btn-sm {differentCovers ? 'btn-primary' : 'btn-outline'}"
 							onclick={() => differentCovers = !differentCovers}
 							style="font-size: 0.75rem; padding: 0.4rem 0.8rem;"
-							data-testid="{tp}-toggle-diff-covers-button"
+							data-testid="{tp}-toggle-diff-covers-btn"
 						>
 							{differentCovers ? $t('admin.editor.coverShared') : $t('admin.editor.coverDifferent')}
 						</button>
@@ -852,7 +852,7 @@
 							class="btn btn-sm {differentExternalUrls ? 'btn-primary' : 'btn-outline'}"
 							onclick={() => differentExternalUrls = !differentExternalUrls}
 							style="font-size: 0.75rem; padding: 0.4rem 0.8rem;"
-							data-testid="{tp}-toggle-diff-external-urls-button"
+							data-testid="{tp}-toggle-diff-external-urls-btn"
 						>
 							{differentExternalUrls ? $t('admin.editor.externalUrlShared') : $t('admin.editor.externalUrlDifferent')}
 						</button>
@@ -950,17 +950,17 @@
 		<!-- Bottom action row -->
 		<div class="bottom-actions-row">
 			<div class="bottom-actions-left">
-				<button type="button" class="btn btn-outline" onclick={saveDraftToFile} data-testid="{tp}-save-draft-file-button-bottom">
+				<button type="button" class="btn btn-outline" onclick={saveDraftToFile} data-testid="{tp}-save-draft-file-btn-bottom">
 					<FileDown size={18} style="margin-right: 0.5rem;" />
 					{$t('admin.editor.saveDraftFile')}
 				</button>
-				<label class="btn btn-outline" style="cursor: pointer;" data-testid="{tp}-load-draft-file-button-bottom">
+				<label class="btn btn-outline" style="cursor: pointer;" data-testid="{tp}-load-draft-file-btn-bottom">
 					<Paperclip size={18} style="margin-right: 0.5rem;" />
 					{$t('admin.editor.loadDraftFile')}
 					<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
 				</label>
 			</div>
-			<button type="submit" disabled={submitting} class="btn btn-primary btn-large bottom-submit-btn" data-testid="{tp}-submit-button-bottom">
+			<button type="submit" disabled={submitting} class="btn btn-primary btn-large bottom-submit-btn" data-testid="{tp}-submit-btn-bottom">
 				{submitting
 					? (mode === 'create' ? $t('admin.editor.saving') : $t('admin.editor.updating'))
 					: (mode === 'create' ? $t('admin.editor.saveBtn') : $t('admin.editor.updateBtn'))

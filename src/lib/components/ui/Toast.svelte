@@ -29,7 +29,7 @@
 					</div>
 				{/if}
 			</div>
-			<div class="toast-content" data-testid="toast-content-group">
+			<div class="toast-content" data-testid="toast-panel">
 				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
 				{#if msg.action}
 					<button 
@@ -38,7 +38,7 @@
 							msg.action?.onAction();
 							toast.remove(msg.id);
 						}}
-						data-testid="toast-action-button"
+						data-testid="toast-action-btn"
 					>
 						{toast.getActionLabel(msg.action)}
 					</button>
@@ -48,7 +48,7 @@
 				class="toast-close" 
 				onclick={() => toast.remove(msg.id)} 
 				aria-label={$t('common.close')}
-				data-testid="toast-close-button"
+				data-testid="toast-close-btn"
 			>
 				<X size={16} />
 			</button>

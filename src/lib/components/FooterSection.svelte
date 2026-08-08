@@ -1,6 +1,6 @@
 <script lang="ts">
 	import PianoModal from "./ui/PianoModal.svelte";
-	import Wave from "./Wave.svelte";
+	import WaveBackground from "./WaveBackground.svelte";
 	import LocationIcon from "./icons/LocationIcon.svelte";
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";
@@ -44,7 +44,7 @@
 				class="footer__btn-piano"
 				onclick={() => (isPianoOpen = true)}
 				aria-label={$t("footer.play")}
-				data-testid="footer-piano-button"
+				data-testid="footer-piano-btn"
 			>
 				<div class="footer__piano-visual">
 					<span class="footer__piano-white"></span>
@@ -62,7 +62,7 @@
 			<!-- 2. Contacts Group -->
 			<div class="footer__contacts" data-testid="footer-contacts-container">
 				<!-- Address -->
-				<div class="footer__info" id="footer-address" data-testid="footer-address-group">
+				<div class="footer__info" id="footer-address" data-testid="footer-address-section">
 					<div class="footer__info-item">
 						<LocationIcon className="footer__icon" size={18} />
 						<a
@@ -76,7 +76,7 @@
 						</a>
 					</div>
 				</div>
-				<div class="footer__info" id="footer-phones" data-testid="footer-phones-group">
+				<div class="footer__info" id="footer-phones" data-testid="footer-phones-section">
 					<div class="footer__info-item">
 						<PhoneIcon className="footer__icon" size={18} />
 						<div>
@@ -84,7 +84,7 @@
 								class="footer__link" 
 								style="background: none; border: none; padding: 0; cursor: pointer; font: inherit; color: inherit;"
 								onclick={() => (ui.isPhonesModalOpen = true)}
-								data-testid="footer-phone-button"
+								data-testid="footer-phone-btn"
 							>
 								{$t("footer.phone")}
 							</button>
@@ -92,7 +92,7 @@
 					</div>
 				</div>
 
-				<div class="footer__info" id="footer-email" data-testid="footer-email-group">
+				<div class="footer__info" id="footer-email" data-testid="footer-email-section">
 					<div class="footer__info-item">
 						<EmailIcon className="footer__icon" size={18} />
 						<div>
@@ -173,7 +173,7 @@
 				href="https://alik532ua.github.io/DigitalWorkshop/?tab=promo&theme=colorful"
 				target="_blank"
 				class="footer__btn-order"
-				data-testid="footer-order-button"
+				data-testid="footer-order-btn"
 			>
 				{$t("footer.order")}
 			</a>
@@ -199,12 +199,12 @@
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--text-title); font-family: var(--font-heading);">
 					{$t("footer.contactsTitle")}
 				</h2>
-				<button class="btn-close" aria-label={$t('common.close')} onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-button">
+				<button class="btn-close" aria-label={$t('common.close')} onclick={() => (ui.isPhonesModalOpen = false)} data-testid="phones-modal-close-btn">
 					<X size={24} />
 				</button>
 			</div>
 			
-			<div class="phones-list" data-testid="phones-list-group">
+			<div class="phones-list" data-testid="phones-list">
 				<a href="tel:+380487236304" class="phone-item" data-testid="phone-director-link">
 					<div class="phone-icon-wrap"><Phone size={20} /></div>
 					<div class="phone-text">

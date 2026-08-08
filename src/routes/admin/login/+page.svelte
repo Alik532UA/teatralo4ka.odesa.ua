@@ -77,8 +77,8 @@
 			<p style="color: var(--text-title); margin-bottom: 1rem; text-align: center;" data-testid="admin-login-info-label">{info}</p>
 		{/if}
 
-		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-form-group">
-			<div class="input-with-icon" data-testid="admin-login-email-group">
+		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-fieldset">
+			<div class="input-with-icon" data-testid="admin-login-email-fieldset">
 				<Mail size={18} class="input-icon lead" aria-hidden="true" />
 				<input
 					type="email"
@@ -110,7 +110,7 @@
 				class="reset-password-link"
 				disabled={resetLoading}
 				onclick={handleResetPassword}
-				data-testid="admin-login-reset-password-button"
+				data-testid="admin-login-reset-password-btn"
 			>
 				{resetLoading ? $t('admin.login.resetLoading') : $t('admin.login.resetPassword')}
 			</button>
@@ -120,7 +120,7 @@
 				disabled={loading}
 				class="btn btn-primary"
 				style="width: 100%; border: none; cursor: pointer;"
-				data-testid="admin-login-submit-button"
+				data-testid="admin-login-submit-btn"
 			>
 				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
 			</button>

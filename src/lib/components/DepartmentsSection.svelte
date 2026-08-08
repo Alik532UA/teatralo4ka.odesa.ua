@@ -84,16 +84,16 @@
 
 <section class="deps" id="departments" data-testid="departments-section">
 	<div class="deps__container" data-testid="departments-container">
-		<div class="deps__block" data-testid="info-block">
+		<div class="deps__block" data-testid="info-section">
 			<h2 class="deps__heading sr-only" data-testid="info-section-heading">{$t('departmentsSection.info')}</h2>
-			<div class="deps__grid" data-testid="info-grid">
+			<div class="deps__grid" data-testid="info-list">
 				{#each info as item, i}
 					<a href={item.href} class="deps__card" data-testid={`info-card-${item.id}`} style="animation-delay: {i * 0.1}s">
-						<div class="deps__image-wrap" data-testid={`info-card-image-wrap-${item.id}`}>
+						<div class="deps__image-wrap" data-testid={`info-card-image-container-${item.id}`}>
 							<img src={item.image} alt={item.title()} class="deps__image" loading="lazy" data-testid={`info-card-img-${item.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
-						<div class="deps__content" data-testid={`info-card-content-${item.id}`}>
+						<div class="deps__content" data-testid={`info-card-panel-${item.id}`}>
 							<h3 class="deps__card-title">{item.title()}</h3>
 							<p class="deps__card-description">{item.description()}</p>
 						<button class="deps__link" data-testid={`info-btn-${item.id}`}>
@@ -105,16 +105,16 @@
 			</div>
 		</div>
 
-		<div class="deps__block" data-testid="departments-block">
+		<div class="deps__block" data-testid="departments-panel">
 			<h2 class="deps__heading" data-testid="departments-section-heading">{$t('departmentsSection.departments')}</h2>
-			<div class="deps__grid deps__grid--wide" data-testid="departments-grid">
+			<div class="deps__grid deps__grid--wide" data-testid="departments-list">
 				{#each departments as dep, i}
 					<a href={dep.href} class="deps__card" data-testid={`department-card-${dep.id}`} style="animation-delay: {i * 0.1}s">
-						<div class="deps__image-wrap" data-testid={`department-card-image-wrap-${dep.id}`}>
+						<div class="deps__image-wrap" data-testid={`department-card-image-container-${dep.id}`}>
 							<img src={dep.image} alt={dep.title()} class="deps__image" loading="lazy" data-testid={`department-card-img-${dep.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
-						<div class="deps__content" data-testid={`department-card-content-${dep.id}`}>
+						<div class="deps__content" data-testid={`department-card-panel-${dep.id}`}>
 							<h3 class="deps__card-title">{dep.title()}</h3>
 							<p class="deps__card-description">{dep.description()}</p>
 							<button class="deps__link" data-testid={`department-btn-${dep.id}`}>
@@ -126,16 +126,16 @@
 			</div>
 		</div>
 
-		<div class="deps__block" data-testid="residents-block">
+		<div class="deps__block" data-testid="residents-section">
 			<h2 class="deps__heading" data-testid="residents-section-heading">{$t('departmentsSection.residents')}</h2>
-			<div class="deps__grid" data-testid="residents-grid">
+			<div class="deps__grid" data-testid="residents-list">
 				{#each residents as resident, i}
 					<a href={resident.href} class="deps__card" data-testid={`resident-card-${resident.id}`} style="animation-delay: {i * 0.1}s">
-						<div class="deps__image-wrap" data-testid={`resident-card-image-wrap-${resident.id}`}>
+						<div class="deps__image-wrap" data-testid={`resident-card-image-container-${resident.id}`}>
 							<img src={resident.image} alt={resident.title()} class="deps__image" loading="lazy" data-testid={`resident-card-img-${resident.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
-						<div class="deps__content" data-testid={`resident-card-content-${resident.id}`}>
+						<div class="deps__content" data-testid={`resident-card-panel-${resident.id}`}>
 							<h3 class="deps__card-title">{resident.title()}</h3>
 							<p class="deps__card-description">{resident.description()}</p>
 							<button class="deps__link" data-testid={`resident-btn-${resident.id}`}>

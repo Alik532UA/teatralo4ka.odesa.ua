@@ -165,9 +165,9 @@
 
 <section class="pl-page container" data-testid="admin-pages-section-container">
 	<!-- Header -->
-	<div class="pl-header" data-testid="admin-pages-header-group">
+	<div class="pl-header" data-testid="admin-pages-header">
 		<div class="pl-title-group">
-			<a href="{base}/admin" class="pl-back-btn" data-testid="admin-pages-back-button" title={$t('admin.pages.backToPanel')}>
+			<a href="{base}/admin" class="pl-back-btn" data-testid="admin-pages-back-btn" title={$t('admin.pages.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="pl-title" data-testid="admin-pages-title-label">{$t('admin.pages.title')}</h1>
@@ -176,7 +176,7 @@
 			{/if}
 		</div>
 		{#if canCreate}
-			<a href="{base}/admin/pages/new" class="btn btn-primary pl-create-btn" data-testid="admin-pages-create-button">
+			<a href="{base}/admin/pages/new" class="btn btn-primary pl-create-btn" data-testid="admin-pages-create-btn">
 				<FilePlus size={18} style="margin-right: 0.5rem;" />
 				{$t('admin.pages.createBtn')}
 			</a>
@@ -224,7 +224,7 @@
 			</div>
 		{:else}
 			{#each filtered as page (page.id)}
-				<div class="pl-card" data-testid={`admin-pages-row-${page.id}-group`}>
+				<div class="pl-card" data-testid={`admin-pages-row-${page.id}-container`}>
 					<!-- Thumbnail -->
 					<div class="pl-thumb" class:pl-thumb-empty={!getCoverUrl(page)}>
 						{#if getCoverUrl(page)}
@@ -267,12 +267,12 @@
 
 					<!-- Actions -->
 					<div class="pl-actions" data-testid={`admin-pages-row-${page.id}-actions`}>
-						<a href="{base}/admin/pages/{page.id}" class="pl-action-btn pl-edit-btn" data-testid={`admin-pages-edit-${page.id}-button`} title={$t('admin.articles.edit')}>
+						<a href="{base}/admin/pages/{page.id}" class="pl-action-btn pl-edit-btn" data-testid={`admin-pages-edit-${page.id}-btn`} title={$t('admin.articles.edit')}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 							<span>{$t('admin.articles.edit')}</span>
 						</a>
 						{#if canDelete}
-							<button onclick={() => handleDelete(page.id)} class="pl-action-btn pl-delete-btn" data-testid={`admin-pages-delete-${page.id}-button`} title={$t('admin.articles.delete')}>
+							<button onclick={() => handleDelete(page.id)} class="pl-action-btn pl-delete-btn" data-testid={`admin-pages-delete-${page.id}-btn`} title={$t('admin.articles.delete')}>
 								<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
 							</button>
 						{/if}

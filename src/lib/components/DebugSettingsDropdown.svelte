@@ -45,9 +45,9 @@
 {#if isOpen}
 	<div class="dropdown-menu-unified debug-dropdown" class:mobile data-testid={testId}>
 		{#if showBackground}
-		<div class="dropdown-group-unified" data-testid="debug-bg-group">
+		<div class="dropdown-group-unified" data-testid="debug-bg-fieldset">
 			<span class="dropdown-label-unified">{$t('settings.dynamicBg')}</span>
-			<div class="dropdown-options-unified" style="flex-direction: column;" data-testid="debug-bg-options-group">
+			<div class="dropdown-options-unified" style="flex-direction: column;" data-testid="debug-bg-options-fieldset">
 				{#each backgrounds as bg, i}
 					<button
 						class="dropdown-opt-unified"
@@ -55,7 +55,7 @@
 							(bg.id !== 0 && ui.enableDynamicBackground && ui.backgroundType === bg.id)}
 						onclick={() => selectDynamicBackground(bg.id)}
 						style="text-align: left;"
-						data-testid={`debug-bg-${i}-button`}
+						data-testid={`debug-bg-${i}-btn`}
 					>
 						{bg.label()}
 					</button>
@@ -65,14 +65,14 @@
 		{/if}
 
 		{#if showBlur}
-		<div class="dropdown-group-unified" data-testid="debug-blur-group">
+		<div class="dropdown-group-unified" data-testid="debug-blur-fieldset">
 			<span class="dropdown-label-unified">{$t('settings.blur')}</span>
-			<div class="dropdown-options-unified" data-testid="debug-blur-options-group">
+			<div class="dropdown-options-unified" data-testid="debug-blur-options-fieldset">
 				<button
 					class="dropdown-opt-unified"
 					class:active={!ui.enableBlurEffect}
 					onclick={() => ui.toggleBlurEffect()}
-					data-testid="debug-blur-off-button"
+					data-testid="debug-blur-off-btn"
 				>
 					{$t('settings.off')}
 				</button>
@@ -80,7 +80,7 @@
 					class="dropdown-opt-unified"
 					class:active={ui.enableBlurEffect}
 					onclick={() => ui.toggleBlurEffect()}
-					data-testid="debug-blur-on-button"
+					data-testid="debug-blur-on-btn"
 				>
 					{$t('settings.on')}
 				</button>

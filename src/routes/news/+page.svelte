@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Wave from "$lib/components/Wave.svelte";
+	import WaveBackground from "$lib/components/WaveBackground.svelte";
 	import BirdIcon from "$lib/components/icons/BirdIcon.svelte";
 	import ContentWidget from "$lib/components/ContentWidget.svelte";
 	import type { ContentWidgetConfig } from "$lib/components/ContentWidget.svelte";
