@@ -14,8 +14,15 @@
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { storage } from '$lib/services/storage';
+	import { trackPageView } from '$lib/services/analytics';
+	import { afterNavigate } from '$app/navigation';
 
 	let { children, data } = $props();
+
+	// Fires on the initial load too, so this covers the first view and every
+	// client-side move between the site's pages. trackPageView initialises
+	// analytics itself, so there is no separate onMount call to order against.
+	afterNavigate(() => trackPageView());
 
 	$effect(() => {
 		if (browser) {
