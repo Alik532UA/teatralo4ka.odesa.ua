@@ -138,6 +138,61 @@
 </div>
 
 <style>
+	/*
+	 * Скопійовано з ArticleForm ДОСЛІВНО.
+	 *
+	 * Svelte скоупить стилі по компоненту, тож правила батька на розмітку
+	 * дочірнього не діють. Після винесення цього компонента три кнопки
+	 * категорії втратили вигляд групи-перемикача і стали простим стовпчиком
+	 * — саме це й помітив користувач.
+	 *
+	 * Глобалізувати не можна: у проєкті сім копій `.mode-*`, і вони
+	 * ВІДРІЗНЯЮТЬСЯ (порівняйте padding тут і в admin/articles). Спільний
+	 * файл змінив би вигляд решти сторінок. Дублювання лишається боргом,
+	 * але точну копію видно й вона нічого не ламає.
+	 */
+	.mode-toggle-group {
+		display: flex;
+		background: var(--color-ice-blue);
+		padding: 0.25rem;
+		border-radius: 12px;
+		border: 1px solid rgba(0, 95, 174, 0.08);
+		align-self: flex-start;
+	}
+
+	:global(.dark-theme) .mode-toggle-group {
+		background: rgba(255, 255, 255, 0.03);
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	.mode-btn {
+		padding: 0.4rem 1.25rem;
+		border: none;
+		border-radius: 10px;
+		background: none;
+		cursor: pointer;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--color-muted-text);
+		transition: all 0.2s;
+	}
+
+	.mode-btn:hover:not(.active) {
+		background: rgba(33, 150, 186, 0.08);
+		color: var(--accent-primary);
+	}
+
+	.mode-btn.active {
+		background: var(--theme-dynamic-card-bg, #ffffff);
+		color: var(--accent-primary);
+		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+	}
+
+	:global(.dark-theme) .mode-btn.active {
+		background: var(--accent-primary);
+		color: white;
+	}
+
 	.af-cat-group {
 		display: flex;
 		flex-direction: column;
