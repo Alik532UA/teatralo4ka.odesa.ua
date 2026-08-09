@@ -2,9 +2,13 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 
 // Хеш інлайн-скрипта теми обчислюється з app.html під час збірки, а не
-// вписується руками. Вписаний хеш розходиться з файлом при першому ж
-// редагуванні, і скрипт мовчки блокується лише у продакшні — dev-сервер
-// CSP не застосовує, тож помітити це локально неможливо.
+// вписується руками: вписаний хеш розходиться з файлом при першому ж
+// редагуванні, і скрипт після цього блокується мовчки.
+//
+// Раніше тут стояло, що dev-сервер CSP не застосовує. Це неправда — політика
+// діє і в `vite dev`, порушення видно в консолі браузера. Помилку помітно не
+// тому, що її нема де побачити, а тому, що заблокований ресурс нічого не
+// ламає візуально: сторінка малюється, просто щось тихо не працює.
 function inlineThemeScript() {
 	const html = readFileSync('src/app.html', 'utf8');
 	const open = '<script>';
@@ -70,13 +74,25 @@ const config = {
 					'https://www.google.com'
 				],
 				'img-src': ['self', 'data:', 'blob:', 'https:'],
+				// Без цієї директиви `default-src 'self'` мовчки блокував звуки
+				// піаніно: сторінка й далі малювалася, клавіші підсвічувалися,
+				// не було лише звуку. Локальний метроном тікера покривається
+				// `self`, зовнішні семпли — ні.
+				'media-src': ['self', 'https://carolinegabriel.com'],
 				'style-src': ['self', 'unsafe-inline'],
 				'font-src': ['self', 'data:'],
 				'frame-src': [
 					'self',
 					'https://*.firebaseapp.com',
 					'https://accounts.google.com',
-					'https://www.google.com'
+					'https://www.google.com',
+					// Санітайзер статей навмисно дозволяє <iframe> заради вбудованого
+					// відео (`DOMPURIFY_HTML_CONFIG.ADD_TAGS`). Без цих джерел вийшло б
+					// те саме, що зі звуком піаніно: розмітка проходить санітизацію, а
+					// показати її політика не дає — і виглядає це як порожня рамка.
+					'https://www.youtube.com',
+					'https://www.youtube-nocookie.com',
+					'https://player.vimeo.com'
 				],
 				'object-src': ['none'],
 				'base-uri': ['self'],

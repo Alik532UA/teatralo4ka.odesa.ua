@@ -59,6 +59,31 @@ test('кожен інлайн-скрипт дозволено хешем', () =>
 	).toEqual([]);
 });
 
+/**
+ * Політика мусить дозволяти те, що дозволяє санітайзер.
+ *
+ * Двічі одна й та сама пастка: код готує ресурс, а політика його не пускає, і
+ * виглядає це не як помилка, а як «щось не працює». Зі звуком піаніно —
+ * відсутній `media-src`; з відео в статтях — `<iframe>`, який DOMPurify
+ * пропускає навмисно (`DOMPURIFY_HTML_CONFIG.ADD_TAGS`), а `frame-src` не
+ * дозволяв.
+ *
+ * Перевірка груба — саме перелік директив, а не поведінка, — але вона ловить
+ * найтихіший різновид: фолбек на `default-src`.
+ */
+test('директиви для медіа та фреймів задані явно', () => {
+	const csp = cspContent(html());
+
+	// Без явної директиви спрацьовує default-src 'self', і зовнішній ресурс
+	// блокується мовчки.
+	expect(csp, "media-src відсутній — звук піде через default-src 'self'").toContain('media-src');
+	expect(csp, 'frame-src відсутній — вбудоване відео покаже порожню рамку').toContain('frame-src');
+
+	const frameSrc = csp.match(/frame-src([^;]*)/)?.[1] ?? '';
+	expect(frameSrc, 'санітайзер дозволяє iframe заради відео — джерело має бути в політиці')
+		.toContain('youtube.com');
+});
+
 test('нема ані unsafe-inline, ані unsafe-eval у script-src', () => {
 	const scriptSrc = cspContent(html()).match(/script-src([^;]*)/)?.[1] ?? '';
 	expect(scriptSrc, 'script-src відсутній').not.toBe('');

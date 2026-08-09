@@ -67,6 +67,54 @@ test('інлайн-скрипт теми виконався, а не був за
 	await expect(page.locator('html')).toHaveAttribute('data-splash', /.+/);
 });
 
+/**
+ * Ресурси, які завантажуються лише після дії користувача.
+ *
+ * Перевірка самого лише завантаження сторінки їх не бачить — і саме тут
+ * політика вже проґавила справжню поломку: `media-src` не був заданий, тож
+ * `default-src 'self'` блокував зовнішні семпли піаніно. Візуально не
+ * змінювалося нічого: модалка відкривалася, клавіші підсвічувалися, не було
+ * лише звуку.
+ */
+test('піаніно: звук не блокується політикою', async ({ page }) => {
+	const violations: string[] = [];
+	page.on('console', (msg) => {
+		const text = msg.text();
+		if (msg.type() === 'error' && CSP_MESSAGE.test(text) && !REPORT_ONLY.test(text)) {
+			violations.push(text);
+		}
+	});
+
+	await gotoReady(page, '/');
+	await page.getByTestId('footer-piano-btn').click();
+	await expect(page.getByTestId('piano-modal-overlay-container')).toBeVisible();
+
+	// Елементи <audio> створюються разом із модалкою; браузеру потрібен момент,
+	// щоб спробувати їх завантажити.
+	await page.waitForTimeout(1500);
+
+	expect(violations, `піаніно:\n${violations.join('\n')}`).toEqual([]);
+});
+
+test('джерела звуку піаніно дозволені політикою', async ({ page }) => {
+	await gotoReady(page, '/');
+	const csp = await page.locator('meta[http-equiv="Content-Security-Policy"]').getAttribute('content');
+
+	// Директива мусить бути ЯВНОЮ: без неї спрацьовує default-src, і це саме
+	// той випадок, коли фолбек мовчки забороняє потрібне.
+	expect(csp, 'media-src відсутній — звук ітиме через default-src').toContain('media-src');
+
+	await page.getByTestId('footer-piano-btn').click();
+	const sources = await page.$$eval('audio[src]', (nodes) => nodes.map((n) => n.getAttribute('src') ?? ''));
+	expect(sources.length, 'у модалці немає жодного <audio> — перевірка мертва').toBeGreaterThan(0);
+
+	const mediaSrc = csp!.match(/media-src([^;]*)/)?.[1] ?? '';
+	for (const src of sources) {
+		const origin = src.startsWith('http') ? new URL(src).origin : 'self';
+		expect(mediaSrc, `джерело ${origin} не дозволене`).toContain(origin === 'self' ? "'self'" : origin);
+	}
+});
+
 test('винесені скрипти справді віддаються', async ({ request }) => {
 	for (const file of ['/perf.js', '/splash.js']) {
 		const response = await request.get(file);
