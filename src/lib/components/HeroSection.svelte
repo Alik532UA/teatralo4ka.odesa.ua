@@ -1,5 +1,4 @@
 <script lang="ts">
-	import WaveBackground from "./WaveBackground.svelte";
 	import { t } from "svelte-i18n";
 	import { base } from "$app/paths";
 	import { onMount } from "svelte";

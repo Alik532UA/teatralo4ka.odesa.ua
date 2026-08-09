@@ -31,7 +31,7 @@ export function getContentExcerpt(content: string, format?: ContentFormat, maxLe
 	if (format === 'html') {
 		plainText = DOMPurify.sanitize(content, { ALLOWED_TAGS: [] });
 	} else {
-		plainText = content.replace(/[#*`_\[\]()]/g, '');
+		plainText = content.replace(/[#*`_[\]()]/g, '');
 	}
 
 	plainText = plainText.replace(/\s+/g, ' ').trim();

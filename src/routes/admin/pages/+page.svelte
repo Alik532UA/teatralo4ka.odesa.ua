@@ -8,7 +8,7 @@
 	import { getDisplayDate, type Article } from '$lib/services/articles';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
-	import { Search, FilePlus, Filter, Calendar } from 'lucide-svelte';
+	import { Search, FilePlus, Calendar } from 'lucide-svelte';
 
 	let pages = $state<Article[]>([]);
 	let loading = $state(true);
@@ -47,7 +47,7 @@
 		return sorted.filter(p => {
 			// Search
 			const title = p.translations?.[currentLang]?.title || '';
-			const excerpt = (p.translations?.[currentLang]?.content || '').replace(/[#*`_\[\]()]/g, '');
+			const excerpt = (p.translations?.[currentLang]?.content || '').replace(/[#*`_[\]()]/g, '');
 			const searchMatch = !search.trim() || 
 				title.toLowerCase().includes(search.toLowerCase()) ||
 				excerpt.toLowerCase().includes(search.toLowerCase());
@@ -149,7 +149,7 @@
 	function getExcerpt(page: Article) {
 		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		const content = page.translations?.[currentLang]?.content || '';
-		const plainText = content.replace(/[#*`_\[\]()]/g, '').replace(/<[^>]*>/g, '');
+		const plainText = content.replace(/[#*`_[\]()]/g, '').replace(/<[^>]*>/g, '');
 		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
 	}
 

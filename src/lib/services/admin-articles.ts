@@ -1,8 +1,6 @@
 import {
   collection,
-  doc,
-  addDoc,
-  setDoc,
+  doc,  setDoc,
   updateDoc,
   deleteDoc,
   getDocs,
@@ -12,9 +10,7 @@ import {
   where,
   limit,
   deleteField,
-  serverTimestamp,
-  Timestamp,
-} from "firebase/firestore";
+  serverTimestamp,} from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import type { Article } from "./articles";
 import { get } from 'svelte/store';

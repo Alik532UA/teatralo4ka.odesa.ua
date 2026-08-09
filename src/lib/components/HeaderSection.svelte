@@ -67,7 +67,6 @@
 	let navParentRef = $state<HTMLElement | null>(null);
 	let ghostContainerRef = $state<HTMLElement | null>(null);
 	let availableWidth = $state(0);
-	let itemsWidths = $state<number[]>([]);
 	let fitCount = $state(999);
 
 	$effect(() => {
@@ -302,7 +301,6 @@
 	}
 
 	const navItems = $derived(menuConfigToFlatItems(headerSettings.headerBar, $locale ?? 'uk'));
-	const visibleNavItems = $derived(navItems.slice(0, fitCount));
 	const hiddenNavItems = $derived(navItems.slice(fitCount));
 
 	const navDropdownGroups = $derived(menuConfigToGroups(headerSettings.navDropdown, $locale ?? 'uk'));

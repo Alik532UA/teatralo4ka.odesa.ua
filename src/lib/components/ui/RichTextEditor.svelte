@@ -32,6 +32,9 @@
 		"data-testid"?: string;
 	}
 
+	// Правило не розпізнає перейменування "data-testid": testId — сам testId
+	// вживається нижче 59 разів.
+	// eslint-disable-next-line svelte/no-unused-props
 	let { value = $bindable(), placeholder, initialMode = 'visual', onchange, onmodechange, "data-testid": testId = "rich-editor" }: Props = $props();
 
 	let element: HTMLElement;

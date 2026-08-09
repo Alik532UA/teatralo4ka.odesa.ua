@@ -113,7 +113,7 @@ export abstract class CanvasEngine {
 				g = parseInt(hex.substring(3, 5), 16);
 				b = parseInt(hex.substring(5, 7), 16);
 			}
-		} catch (e) {
+		} catch {
 			return "0, 113, 227";
 		}
 		return `${r}, ${g}, ${b}`;

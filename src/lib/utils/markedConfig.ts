@@ -22,7 +22,8 @@ export function configureMarkedRenderer(): void {
 	marked.use({
 		renderer: {
 			link(token) {
-				let { href, title, tokens } = token;
+				let { href } = token;
+				const { title, tokens } = token;
 
 				// Fix monobank links
 				if (href.includes('send.monobank.ua')) {

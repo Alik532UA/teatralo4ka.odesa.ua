@@ -12,7 +12,7 @@ export default defineConfig({
 				console.log('🔍 Running content validation...');
 				try {
 					execSync('npm run validate-content', { stdio: 'inherit' });
-				} catch (e) {
+				} catch {
 					console.error('❌ Build stopped due to invalid content');
 					process.exit(1);
 				}
@@ -22,7 +22,7 @@ export default defineConfig({
 				try {
 					execSync('npm run generate-sitemap', { stdio: 'inherit' });
 					execSync('npm run generate-changelog', { stdio: 'inherit' });
-				} catch (e) {
+				} catch {
 					console.warn('⚠️ SEO generation failed, check scripts');
 				}
 			}

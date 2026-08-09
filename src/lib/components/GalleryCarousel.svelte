@@ -36,7 +36,6 @@
 	let autoplayOverride = $state<boolean | null>(null);
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
 	const cssAspectRatio = $derived((config.aspectRatio || '4:3').replace(':', ' / '));
-	let isAutoAdvancing = $state(false);
 	let isHovered = $state(false);
 	let mounted = $state(false);
 
@@ -79,7 +78,6 @@
 		if (!isTransitioning || infiniteItems.length <= 1) return;
 		if (currentIndex >= infiniteItems.length - 2) return;
 		if (!fromAuto) autoplayOverride = false;
-		isAutoAdvancing = fromAuto;
 		currentIndex++;
 	}
 
@@ -87,7 +85,6 @@
 		if (!isTransitioning || infiniteItems.length <= 1) return;
 		if (currentIndex <= 1) return;
 		autoplayOverride = false;
-		isAutoAdvancing = false;
 		currentIndex--;
 	}
 
@@ -98,24 +95,10 @@
 		const currentMod = ((currentIndex % n) + n) % n;
 		if (i === currentMod) return;
 		autoplayOverride = false;
-		isAutoAdvancing = false;
 		let diff = i - currentMod;
 		if (diff > n / 2) diff -= n;
 		else if (diff < -n / 2) diff += n;
 		currentIndex += diff;
-	}
-
-	function handleTransitionEnd(e: TransitionEvent) {
-		if (e.target !== e.currentTarget) return;
-		if (e.propertyName !== 'transform') return;
-		const n = items.length;
-		if (n === 0) return;
-		const baseIndex = bufferCount * n;
-		if (currentIndex >= baseIndex + n || currentIndex < baseIndex) {
-			isTransitioning = false;
-			currentIndex = baseIndex + ((currentIndex % n) + n) % n;
-			setTimeout(() => { isTransitioning = true; }, 30);
-		}
 	}
 
 	function autoNext() { next(true); }
@@ -173,7 +156,6 @@
 </script>
 
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
 	class="gc-root"
@@ -191,7 +173,6 @@
 		style="aspect-ratio: {cssAspectRatio};"
 		onwheel={onWheel}
 	>
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="gc-track"

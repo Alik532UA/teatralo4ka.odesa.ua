@@ -25,7 +25,7 @@ function generateChangelog() {
       try {
         const gitLog = execSync(`git log --follow --pretty=format:"- **%ai** by %an: %s" -- "${file}"`, { encoding: 'utf-8' });
         changelog += gitLog || 'No git history yet.\n';
-      } catch (e) {
+      } catch {
         changelog += 'Git history not available.\n';
       }
       changelog += '\n\n';

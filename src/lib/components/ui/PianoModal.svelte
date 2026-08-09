@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { fade, scale } from "svelte/transition";
+	import { fade } from "svelte/transition";
 	import { t } from "svelte-i18n";
 
 	interface Props {
@@ -276,7 +276,7 @@
 				   </div>
 			   {:else}
 				   <div class="chords-grid" data-testid="piano-chords-menu">
-					   {#each chordsData as chord, i}
+					   {#each chordsData as chord}
 						   <button 
 							   class="chord-btn" 
 							   class:minor={chord.type === 'minor'}

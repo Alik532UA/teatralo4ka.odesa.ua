@@ -50,6 +50,8 @@
   });
 
   $effect(() => {
+    // Явне читання станів створює залежність $effect — це не мертвий вираз.
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     void visible, void mode, void startTime, void endTime, void preview;
     checkTime();
   });

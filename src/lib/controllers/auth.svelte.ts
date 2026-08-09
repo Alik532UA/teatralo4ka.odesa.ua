@@ -62,7 +62,7 @@ class AuthService {
           if (docSnap.exists()) {
             foundProfile = docSnap.data();
           }
-        } catch (e) {
+        } catch {
           console.warn("Не вдалося завантажити профіль за UID");
         }
 

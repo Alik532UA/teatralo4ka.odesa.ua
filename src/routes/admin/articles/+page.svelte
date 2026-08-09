@@ -6,14 +6,11 @@
 	import { deleteArticle, fetchAllArticles, addArticle, updateArticle } from '$lib/services/admin-articles';
 	import { logError } from '$lib/services/firebaseErrors';
 	import { getDisplayDate, type Article } from '$lib/services/articles';
-	import { ARTICLE_CATEGORIES, getCategoryLabel, type ArticleCategory } from '$lib/config/categories';
+	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Timestamp } from 'firebase/firestore';
-	import { Paperclip, Search, Filter, Calendar, Tag } from 'lucide-svelte';
-	import { untrack } from 'svelte';
-	import { replaceState } from '$app/navigation';
-	import { page } from '$app/state';
+	import { Paperclip, Search, Calendar, Tag } from 'lucide-svelte';
 
 	let articles = $state<Article[]>([]);
 	let loading = $state(true);
@@ -56,7 +53,7 @@
 		return sorted.filter(a => {
 			// Search filter
 			const title = a.translations?.[currentLang]?.title || '';
-			const excerpt = (a.translations?.[currentLang]?.content || '').replace(/[#*`_\[\]()]/g, '');
+			const excerpt = (a.translations?.[currentLang]?.content || '').replace(/[#*`_[\]()]/g, '');
 			const searchMatch = !search.trim() || 
 				title.toLowerCase().includes(search.toLowerCase()) ||
 				excerpt.toLowerCase().includes(search.toLowerCase()) ||
@@ -163,7 +160,7 @@
 		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
 		const content = article.translations?.[currentLang]?.content || '';
 		// Strip markdown and HTML
-		const plainText = content.replace(/[#*`_\[\]()]/g, '').replace(/<[^>]*>/g, '');
+		const plainText = content.replace(/[#*`_[\]()]/g, '').replace(/<[^>]*>/g, '');
 		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
 	}
 

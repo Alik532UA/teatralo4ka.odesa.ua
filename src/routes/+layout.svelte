@@ -9,7 +9,7 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
-	import { waitLocale, t, locale } from 'svelte-i18n';
+	import { t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { checkForUpdates } from '$lib/services/version';

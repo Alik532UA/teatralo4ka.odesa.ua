@@ -1,6 +1,5 @@
 <script lang="ts">
 	import PianoModal from "./ui/PianoModal.svelte";
-	import WaveBackground from "./WaveBackground.svelte";
 	import LocationIcon from "./icons/LocationIcon.svelte";
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";

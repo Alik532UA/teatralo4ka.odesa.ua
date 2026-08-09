@@ -16,10 +16,10 @@ import {
   DEFAULT_PROJECTS_WIDGET_PAGE, DEFAULT_PROJECTS_WIDGET_PAGE_MOBILE,
   DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE,
   DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE,
-  type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig, type MenuLinkType,
-  type NewsWidgetConfig, type NewsViewMode,
-  type ProjectsWidgetConfig, type ProjectsViewMode,
-  type GalleryWidgetConfig, type GalleryViewMode, type GalleryAspectRatio,
+  type CtaConfig, type DebugPanelConfig, type TickerConfig, type MenuConfig,
+  type NewsWidgetConfig,
+  type ProjectsWidgetConfig,
+  type GalleryWidgetConfig, type GalleryAspectRatio,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
@@ -68,6 +68,8 @@ const TABS: { id: TabId; labelKey: string }[] = [
 
 // Reset sub-tab when main tab changes
 $effect(() => {
+  // Явне читання стану створює залежність $effect — це не мертвий вираз.
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
   activeTab;
   untrack(() => { activeSubTab = 'desktop'; });
 });

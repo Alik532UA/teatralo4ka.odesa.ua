@@ -49,7 +49,7 @@ function parseFrontmatter(fileContent: string) {
     const indent = line.search(/\S/);
     const parts = line.trim().split(':');
     const key = parts[0].trim();
-    let value = parts.slice(1).join(':').trim();
+    const value = parts.slice(1).join(':').trim();
 
     // Basic type conversion
     const processValue = (v: string) => {

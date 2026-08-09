@@ -1,12 +1,8 @@
 <script lang="ts">
-	import WaveBackground from "$lib/components/WaveBackground.svelte";
-	import BirdIcon from "$lib/components/icons/BirdIcon.svelte";
 	import ContentWidget from "$lib/components/ContentWidget.svelte";
 	import type { ContentWidgetConfig } from "$lib/components/ContentWidget.svelte";
-	import { page } from "$app/state";
 	import { browser } from "$app/environment";
 	import { onMount } from "svelte";
-	import { base } from "$app/paths";
 	import { getArticles, getDisplayDate, mapArticleToWidgetItem, type Article } from "$lib/services/articles";
 	import { locale, t } from "svelte-i18n";
 	import { getNewsPageSettings, getCachedNewsPageSettings, newsToContentConfig, DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE, type NewsWidgetConfig } from "$lib/services/settings";

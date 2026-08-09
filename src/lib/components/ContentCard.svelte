@@ -8,6 +8,8 @@
 		date: string;
 		category: string;
 		excerpt: string;
+		/** Заповнюється articles.ts; компонент його не читає, але дані його несуть. */
+		 
 		color: string;
 		coverUrl: string;
 		/** For static pages that have a full path already */
@@ -29,6 +31,10 @@
 		testIdPrefix?: string;
 	}
 
+	// item.color заповнює articles.ts і несуть дані картки, але сам компонент
+	// його не читає — колір бере CSS. Прибрати з типу не можна: TypeScript
+	// одразу відхилить об'єкт, який будує сервіс.
+	// eslint-disable-next-line svelte/no-unused-props
 	let {
 		item, variant, index, isActive = false,
 		linkPrefix = 'news',

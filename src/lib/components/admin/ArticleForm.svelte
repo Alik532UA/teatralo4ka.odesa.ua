@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import type { ArticleCategory } from '$lib/config/categories';
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
 	import { generateSlug } from '$lib/services/admin-articles';
@@ -14,7 +13,7 @@
 	import {
 		Languages, Eye, EyeOff, CheckCircle2, XCircle,
 		Settings, LayoutPanelTop, FilePlus, FileEdit,
-		FileDown, Paperclip, Info, AlertTriangle, ChevronLeft,
+		FileDown, Paperclip, Info, AlertTriangle,
 		FileText, Globe, Folder
 	} from 'lucide-svelte';
 

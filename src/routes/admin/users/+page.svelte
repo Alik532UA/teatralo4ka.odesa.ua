@@ -8,8 +8,7 @@
 	import { toFriendlyMessage, logError } from '$lib/services/firebaseErrors';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
-	import { get } from 'svelte/store';
-	import { Shield, School, Save, ChevronLeft, User as UserIcon, Users, GraduationCap, UserCog, UserCheck, UserPlus, X, Trash2, FolderKey, FileText, Key } from 'lucide-svelte';
+	import { Shield, School, Save, User as UserIcon, GraduationCap, UserCog, UserCheck, UserPlus, X, Trash2 } from 'lucide-svelte';
 
 	const DEFAULT_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 

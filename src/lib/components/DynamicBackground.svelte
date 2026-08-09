@@ -14,7 +14,6 @@
 	let fixedHeight = $state("100vh");
 	let lastWidth = 0;
 	let isVisible = $derived(enabled && backgroundType !== 0);
-	let bgTheme = $derived((theme === "dark" ? "dark" : "light") as "light" | "dark");
 
 	onMount(() => {
 		const updateHeight = () => {

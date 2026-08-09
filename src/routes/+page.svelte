@@ -3,7 +3,6 @@
 	import DepartmentsSection from '$lib/components/DepartmentsSection.svelte';
 	import NewsSection from '$lib/components/NewsSection.svelte';
 	import ProjectsSection from '$lib/components/ProjectsSection.svelte';
-	import WaveBackground from '$lib/components/WaveBackground.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
@@ -39,7 +38,6 @@
 	}
 
 	let blocks = $state<BlockConfig[]>(pickBlocks(cachedHome?.blocks, cachedHome?.mobileBlocks));
-	let blocksReady = $state(!!cachedHome);
 
 	// News data — loaded in parallel, NOT sequentially after blocksReady
 	let rawNewsArticles = $state<Article[]>([]);
@@ -103,8 +101,7 @@
 					galleryWidgetConfig = pickGalleryWidget(settings.galleryWidget, settings.mobileGalleryWidget);
 				}
 			})
-			.catch((e) => { perf('+page.svelte: getHomeSettings ERROR: ' + e?.message); })
-			.finally(() => { blocksReady = true; });
+			.catch((e) => { perf('+page.svelte: getHomeSettings ERROR: ' + e?.message); });
 
 		const articlesPromise = getArticles(lang, true, undefined, NEWS_LIMIT_HOME)
 			.then(articles => {
