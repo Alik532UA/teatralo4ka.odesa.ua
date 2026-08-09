@@ -6,6 +6,15 @@
 		<meta name="theme-color" content="#1B5E7B" />
 		<meta name="color-scheme" content="light dark" />
 		<link rel="preconnect" href="https://firestore.googleapis.com" crossorigin />
+
+		%sveltekit.head%
+		<!-- Інлайн-скрипти стоять ПІСЛЯ %sveltekit.head% навмисно.
+		     SvelteKit вставляє <meta http-equiv="Content-Security-Policy"> саме
+		     туди, а мета-політика діє лише на те, що йде після неї. Коли ці
+		     скрипти стояли вище, CSP їх не стосувалася зовсім: хеш у
+		     svelte.config.js обчислювався, вписувався і не захищав нічого.
+		     Перевірено: прибирання хеша не змінювало нічого, поки блок був вище.
+		     Затримка нульова — <head> до цього місця це кілька мета-тегів. -->
 		<script>
 			try {
 				// ── SPLASH VARIANT SELECTOR ─────────────────────────────────
@@ -46,7 +55,6 @@
 			} catch (e) {}
 		</script>
 		<script src="%sveltekit.assets%/perf.js"></script>
-		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div id="app-splash" aria-hidden="true">
