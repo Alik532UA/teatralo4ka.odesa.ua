@@ -88,13 +88,17 @@ const config = {
 		},
 		prerender: {
 			crawl: true,
+			// Перелік перевіряється після збірки (scripts/generate-sitemap.ts):
+			// `handleUnseenRoutes: 'ignore'` мовчки пропускає адресу, якої немає,
+			// тож без перевірки помилка тут не видно ніде. Так у списку роками
+			// жила неіснуюча '/test' і '/projects/spring-Odesa-theatre' з великою
+			// «O» — остання збиралася лише тому, що Windows не розрізняє регістр.
 			entries: [
 				'/',
 				'/about',
 				'/history',
 				'/contacts',
 				'/admission',
-				'/test',
 				'/news',
 				'/projects',
 				'/departments/theatre',
@@ -108,7 +112,7 @@ const config = {
 				'/projects/festival',
 				'/projects/galaxy-graduates',
 				'/projects/photo-archive',
-				'/projects/spring-Odesa-theatre',
+				'/projects/spring-odesa-theatre',
 				'/projects/support-production',
 				'/fest-odesa-teatr-pro',
 				'/fest-odessa-teatr-pro',

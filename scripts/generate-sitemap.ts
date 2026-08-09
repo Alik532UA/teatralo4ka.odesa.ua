@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import config from '../svelte.config.js';
 
 /**
  * Будує sitemap зі СТОРІНОК, ЯКІ СПРАВДІ ЗГЕНЕРОВАНО, а не зі списку markdown-файлів.
@@ -32,15 +33,40 @@ function builtPages(dir: string, prefix = ''): string[] {
 	return out;
 }
 
+/**
+ * Кожен запис `prerender.entries` мусив дати сторінку.
+ *
+ * SvelteKit налаштований на `handleUnseenRoutes: 'ignore'` і `handleHttpError:
+ * 'warn'`, тому адреса, якої не існує, не завалює збірку і не лишає жодного
+ * сліду. Так у переліку жила '/test' — маршруту немає взагалі — і
+ * '/projects/spring-Odesa-theatre' з великою «O», яка збиралася лише тому, що
+ * Windows не розрізняє регістр у шляхах, а Linux у CI розрізняє.
+ *
+ * Порівняння регістрозалежне навмисно: саме цю помилку воно й ловить.
+ */
+function checkPrerenderEntries(builtPaths: string[]) {
+	const entries: string[] = config.kit?.prerender?.entries ?? [];
+	const built = new Set(builtPaths.map((p) => (p === '' ? '/' : `/${p}`)));
+
+	const missing = entries.filter((e) => !built.has(e));
+	if (missing.length > 0) {
+		console.error('❌ у prerender.entries є адреси, яких немає в build/:');
+		for (const m of missing) console.error(`   ${m}`);
+		console.error('   Причина зазвичай одна з двох: маршрут видалили, або розійшовся регістр.');
+		process.exit(1);
+	}
+}
+
 function generateSitemap() {
 	if (!fs.existsSync(BUILD_DIR)) {
 		console.error(`❌ ${BUILD_DIR}/ не існує — sitemap будується після збірки`);
 		process.exit(1);
 	}
 
-	const pages = builtPages(BUILD_DIR)
-		.filter((p) => !EXCLUDE.some((re) => re.test(p)))
-		.sort();
+	const all = builtPages(BUILD_DIR);
+	checkPrerenderEntries(all);
+
+	const pages = all.filter((p) => !EXCLUDE.some((re) => re.test(p))).sort();
 
 	if (pages.length === 0) {
 		console.error('❌ у build/ не знайдено жодної сторінки — перевірка мертва');

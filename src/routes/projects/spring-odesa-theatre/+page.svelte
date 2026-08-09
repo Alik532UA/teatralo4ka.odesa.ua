@@ -6,4 +6,4 @@
 	let { data } = $props();
 </script>
 
-<StaticPage {data} testPrefix="spring-Odesa-theatre" backHref={`${base}/projects`} backLabel={$t('projects.backToProjects')} />
+<StaticPage {data} testPrefix="spring-odesa-theatre" backHref={`${base}/projects`} backLabel={$t('projects.backToProjects')} />
