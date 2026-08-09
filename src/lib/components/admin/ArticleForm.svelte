@@ -3,15 +3,27 @@
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
 	import { generateSlug } from '$lib/services/admin-articles';
-	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
-	import { renderContent } from '$lib/utils/renderContent';
+	import { ARTICLE_CATEGORIES } from '$lib/config/categories';
+	import {
+		CATEGORY_NONE,
+		datePresetValue,
+		formatCategory,
+		formatDateInput,
+		isImageUrlValid,
+		parseCategory,
+		sanitizeSlug,
+		validateForm,
+		type DatePreset
+	} from '$lib/utils/articleForm';
 	import RichTextEditor from '$lib/components/ui/RichTextEditor.svelte';
+	import ArticlePreviewCard from '$lib/components/admin/ArticlePreviewCard.svelte';
+	import ArticleCategoryPicker from '$lib/components/admin/ArticleCategoryPicker.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { resolve } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import {
-		Languages, Eye, EyeOff, CheckCircle2, XCircle,
+		Languages, EyeOff, CheckCircle2, XCircle,
 		Settings, LayoutPanelTop, FilePlus, FileEdit,
 		FileDown, Paperclip, Info, AlertTriangle,
 		FileText, Globe, Folder
@@ -83,60 +95,29 @@
 			if (!category) { categorySelection = 'news'; }
 			if (dateMode === 'hidden') { dateMode = 'createdAt'; }
 		} else {
-			if (category === 'news' || categorySelection === 'news') { categorySelection = '__none__'; }
+			if (category === 'news' || categorySelection === 'news') { categorySelection = CATEGORY_NONE; }
 			dateMode = 'hidden';
 		}
 	}
 
-	// Intentional: props used only for one-time form field initialization
 	// svelte-ignore state_referenced_locally
-	let category = $state<string>(initialCategory);
-	let categorySelection = $state<string>('');
-	let customCategoryUk = $state('');
-	let customCategoryEn = $state('');
-	let catDropdownOpen = $state(false);
+	const initialParsed = parseCategory(initialCategory, Object.keys(ARTICLE_CATEGORIES));
+	let categorySelection = $state<string>(initialParsed.selection);
+	let customCategoryUk = $state(initialParsed.customUk);
+	let customCategoryEn = $state(initialParsed.customEn);
 
-	// Initialize selection based on initialCategory
-	$effect.pre(() => {
-		if (!initialCategory) {
-			categorySelection = '__none__';
-		} else if (initialCategory in ARTICLE_CATEGORIES) {
-			categorySelection = initialCategory;
-		} else {
-			categorySelection = '__custom__';
-			if (initialCategory.includes('||')) {
-				const [uk, en] = initialCategory.split('||');
-				customCategoryUk = uk || '';
-				customCategoryEn = en || '';
-			} else {
-				customCategoryUk = initialCategory;
-				customCategoryEn = '';
-			}
-		}
-	});
-
-	// Sync final category value whenever selection or custom text changes
-	$effect(() => {
-		if (categorySelection === '__none__') {
-			category = '';
-		} else if (categorySelection === '__custom__') {
-			const uk = customCategoryUk.trim();
-			const en = customCategoryEn.trim();
-			category = en ? `${uk}||${en}` : uk;
-		} else {
-			category = categorySelection;
-		}
-	});
-
-	function selectCategory(key: string) {
-		categorySelection = key;
-		catDropdownOpen = false;
-	}
-
-	function getSelectedCategoryLabel(): string {
-		if (categorySelection === '__none__' || categorySelection === '__custom__' || !categorySelection) return '';
-		return getCategoryLabel(categorySelection, (get(locale) as 'uk' | 'en') || 'uk');
-	}
+	/**
+	 * Значення категорії — ПОХІДНЕ від стану випадайки, а не окремий стан.
+	 *
+	 * Раніше це були `$state` плюс `$effect`, який його переписував. Через це
+	 * завантаження чернетки з файлу лише виглядало робочим: воно присвоювало
+	 * `category` напряму, випадайка лишалася зі старим значенням, і перший же
+	 * дотик до неї повертав стару категорію. Тепер чернетка розкладається
+	 * `parseCategory` у стан випадайки, а `category` рахується з нього.
+	 */
+	const category = $derived(
+		formatCategory({ selection: categorySelection, customUk: customCategoryUk, customEn: customCategoryEn })
+	);
 
 	// Firestore rule limits — must stay in sync with firestore.rules
 	const CUSTOM_DATE_MIN = '1990-01-01';
@@ -193,32 +174,18 @@
 
 	function handleSlugInput(e: Event) {
 		const input = e.target as HTMLInputElement;
-		const cursorPos = input.selectionStart ?? input.value.length;
-		const raw = input.value;
-		let result = '';
-		let removedBeforeCursor = 0;
-		let hasForbidden = false;
+		const result = sanitizeSlug({
+			raw: input.value,
+			cursor: input.selectionStart ?? input.value.length
+		});
 
-		for (let i = 0; i < raw.length; i++) {
-			const char = raw[i];
-			if (char === ' ') {
-				result += '_';
-			} else if (/[A-Z]/.test(char)) {
-				result += char.toLowerCase();
-			} else if (/[a-z0-9_]/.test(char)) {
-				result += char;
-			} else {
-				if (i < cursorPos) removedBeforeCursor++;
-				hasForbidden = true;
-			}
-		}
+		slug = result.slug;
+		input.value = result.slug;
+		// Курсор повертається на місце вручну: присвоєння value скидає його
+		// в кінець, і редагувати slug посеред тексту стало б неможливо.
+		input.setSelectionRange(result.cursor, result.cursor);
 
-		slug = result;
-		input.value = result;
-		const newCursor = cursorPos - removedBeforeCursor;
-		input.setSelectionRange(newCursor, newCursor);
-
-		if (hasForbidden) {
+		if (result.hasForbidden) {
 			if (_slugWarnTimer) clearTimeout(_slugWarnTimer);
 			slugForbiddenWarning = $t('editor.slugForbidden');
 			_slugWarnTimer = setTimeout(() => { slugForbiddenWarning = ''; }, 3000);
@@ -237,11 +204,6 @@
 		}
 	});
 
-	function isImageUrlValid(url: string) {
-		if (!url) return true;
-		return /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(url);
-	}
-
 	function handleCoverInput(val: string, lang: 'uk' | 'en') {
 		translations[lang].coverUrl = val;
 		if (!differentCovers) {
@@ -258,64 +220,59 @@
 		}
 	}
 
-	function formatDate(date: Date | null): string {
-		if (!date) return '---';
-		return date.toISOString().split('T')[0];
-	}
-
 	function getDisplayDateValue(): string {
 		if (dateMode === 'custom') return customDateStr;
 		if (mode === 'edit') {
-			return dateMode === 'createdAt' ? formatDate(createdAtDate) : formatDate(updatedAtDate);
+			return dateMode === 'createdAt' ? formatDateInput(createdAtDate) : formatDateInput(updatedAtDate);
 		}
 		return new Date().toISOString().split('T')[0];
 	}
 
-	function setDatePreset(preset: 'createdAt' | 'updatedAt' | 'today' | 'hidden') {
-		if (preset === 'hidden') {
-			dateMode = 'hidden';
-			return;
-		}
-		
+	function setDatePreset(preset: DatePreset) {
+		const value = datePresetValue(preset, {
+			createdAt: createdAtDate,
+			updatedAt: updatedAtDate,
+			today: new Date()
+		});
+		// null означає «дати немає» — це окремий режим, а не «сьогодні».
+		if (value === null) { dateMode = 'hidden'; return; }
 		dateMode = 'custom';
-		let targetDate: Date | null = new Date();
-		
-		if (preset === 'createdAt') targetDate = createdAtDate || new Date();
-		else if (preset === 'updatedAt') targetDate = updatedAtDate || new Date();
-		
-		customDateStr = targetDate.toISOString().split('T')[0];
+		customDateStr = value;
 	}
 
 	function handleFormSubmit(e: Event) {
 		e.preventDefault();
 
-		// ── Validate date range (mirrors firestore.rules customDate constraint) ──────
-		if (dateMode === 'custom') {
-			const d = new Date(customDateStr);
-			const minD = new Date(CUSTOM_DATE_MIN);
-			const maxD = new Date(CUSTOM_DATE_MAX);
-			if (isNaN(d.getTime()) || d < minD || d > maxD) {
-				toast.error($t('editor.validationDateRange', { values: { maxDate: maxD.toLocaleDateString($locale === 'en' ? 'en-US' : 'uk-UA') } }));
-				return;
+		// Перевірка повертає ОПИС проблеми, а текст добирається тут: так сама
+		// перевірка лишається без залежностей від i18n і піддається тестам.
+		const problem = validateForm(
+			{ dateMode, customDateStr, category, translations },
+			{
+				dateMin: CUSTOM_DATE_MIN,
+				dateMax: CUSTOM_DATE_MAX,
+				maxCategoryLength: MAX_CATEGORY_LEN,
+				maxTitleLength: MAX_TITLE_LEN,
+				maxContentLength: MAX_CONTENT_LEN
 			}
-		}
+		);
 
-		// ── Validate category length ───────────────────────────────────────────────
-		if (category.length > MAX_CATEGORY_LEN) {
-			toast.error($t('editor.validationCategoryLength', { values: { max: MAX_CATEGORY_LEN, current: category.length } }));
+		if (problem) {
+			const locale2 = $locale === 'en' ? 'en-US' : 'uk-UA';
+			switch (problem.kind) {
+				case 'dateRange':
+					toast.error($t('editor.validationDateRange', { values: { maxDate: new Date(CUSTOM_DATE_MAX).toLocaleDateString(locale2) } }));
+					break;
+				case 'categoryLength':
+					toast.error($t('editor.validationCategoryLength', { values: { max: MAX_CATEGORY_LEN, current: problem.current } }));
+					break;
+				case 'titleLength':
+					toast.error($t('editor.validationTitleLength', { values: { lang: problem.lang.toUpperCase(), max: MAX_TITLE_LEN } }));
+					break;
+				case 'contentLength':
+					toast.error($t('editor.validationContentLength', { values: { lang: problem.lang.toUpperCase(), max: MAX_CONTENT_LEN.toLocaleString() } }));
+					break;
+			}
 			return;
-		}
-
-		// ── Validate title & content per language ──────────────────────────────────
-		for (const lang of ['uk', 'en'] as const) {
-			if (translations[lang].title.length > MAX_TITLE_LEN) {
-				toast.error($t('editor.validationTitleLength', { values: { lang: lang.toUpperCase(), max: MAX_TITLE_LEN } }));
-				return;
-			}
-			if (translations[lang].content.length > MAX_CONTENT_LEN) {
-				toast.error($t('editor.validationContentLength', { values: { lang: lang.toUpperCase(), max: MAX_CONTENT_LEN.toLocaleString() } }));
-				return;
-			}
 		}
 
 		const customDate = dateMode === 'custom' ? Timestamp.fromDate(new Date(customDateStr)) : null;
@@ -350,7 +307,12 @@
 			reader.onload = (event) => {
 				try {
 					const data = JSON.parse(event.target?.result as string);
-					category = data.category || category;
+					if (data.category) {
+						const parsed = parseCategory(data.category, Object.keys(ARTICLE_CATEGORIES));
+						categorySelection = parsed.selection;
+						customCategoryUk = parsed.customUk;
+						customCategoryEn = parsed.customEn;
+					}
 					dateMode = data.dateMode || dateMode;
 					customDateStr = data.customDateStr || customDateStr;
 					differentCovers = data.differentCovers || false;
@@ -457,94 +419,12 @@
 			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
 				<div class="form-group">
 					<span class="form-label">{$t('admin.editor.category')}</span>
-					<div class="af-cat-group">
-						<div class="mode-toggle-group af-cat-toggles">
-							<!-- 1. No category -->
-							<button
-								type="button"
-								class="mode-btn"
-								class:active={categorySelection === '__none__'}
-								onclick={() => { categorySelection = '__none__'; catDropdownOpen = false; }}
-								data-testid="{tp}-category-none-btn"
-							>
-								{$t('admin.editor.categoryNone')}
-							</button>
-
-							<!-- 2. Choose from list -->
-							<div class="af-cat-choose-wrap">
-								<button
-									type="button"
-									class="mode-btn af-cat-choose-btn"
-									class:active={categorySelection !== '__none__' && categorySelection !== '__custom__'}
-									onclick={() => { catDropdownOpen = !catDropdownOpen; }}
-									data-testid="{tp}-category-select"
-								>
-									{#if categorySelection !== '__none__' && categorySelection !== '__custom__' && getSelectedCategoryLabel()}
-										{getSelectedCategoryLabel()}
-									{:else}
-										{$t('admin.editor.categoryChoose')}
-									{/if}
-									<svg class="af-cat-chevron" class:open={catDropdownOpen} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-								</button>
-								{#if catDropdownOpen}
-									<div class="af-cat-dropdown" role="listbox" data-testid="{tp}-category-select">
-										{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels] (key)}
-											<button
-												type="button"
-												class="af-cat-option"
-												class:selected={categorySelection === key}
-												onclick={() => selectCategory(key)}
-												role="option"
-												aria-selected={categorySelection === key}
-												data-testid="{tp}-category-option-{key}"
-											>
-												<span class="af-cat-option-uk">{labels.uk}</span>
-												<span class="af-cat-option-en">{labels.en}</span>
-											</button>
-										{/each}
-									</div>
-								{/if}
-							</div>
-
-							<!-- 3. Custom with two lang inputs -->
-							<button
-								type="button"
-								class="mode-btn af-cat-custom-btn"
-								class:active={categorySelection === '__custom__'}
-								onclick={() => { categorySelection = '__custom__'; catDropdownOpen = false; }}
-								data-testid="{tp}-category-custom-btn"
-							>
-								{$t('admin.editor.categoryCustom')}
-							</button>
-						</div>
-
-						{#if categorySelection === '__custom__'}
-							<div class="af-cat-custom-fields">
-								<div class="af-cat-custom-field">
-									<span class="af-cat-custom-lang">UA</span>
-									<input
-										type="text"
-										bind:value={customCategoryUk}
-										placeholder={$t('admin.editor.categoryCustomPlaceholderUk')}
-										maxlength="24"
-										class="form-input"
-										data-testid="{tp}-category-custom-uk-input"
-									/>
-								</div>
-								<div class="af-cat-custom-field">
-									<span class="af-cat-custom-lang">EN</span>
-									<input
-										type="text"
-										bind:value={customCategoryEn}
-										placeholder={$t('admin.editor.categoryCustomPlaceholderEn')}
-										maxlength="24"
-										class="form-input"
-										data-testid="{tp}-category-custom-en-input"
-									/>
-								</div>
-							</div>
-						{/if}
-					</div>
+					<ArticleCategoryPicker
+						bind:selection={categorySelection}
+						bind:customUk={customCategoryUk}
+						bind:customEn={customCategoryEn}
+						testPrefix={tp}
+					/>
 				</div>
 
 				<div class="form-group" style="grid-column: span 2;">
@@ -921,40 +801,16 @@
 		{/if}
 
 		<!-- Preview Card -->
-		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-preview-card">
-			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
-				<LayoutPanelTop size={22} />
-				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.preview')}</h2>
-				<div style="margin-left: auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700; color: {translations[activeLang].isPublished ? '#22c55e' : '#94a3b8'}">
-					{#if translations[activeLang].isPublished}
-						<Eye size={18} /> {$t('admin.editor.published')} ({activeLang})
-					{:else}
-						<EyeOff size={18} /> {$t('admin.editor.draft')} ({activeLang})
-					{/if}
-				</div>
-			</div>
-			<div class="preview-container" style="background: var(--theme-dynamic-section-bg); padding: 3rem; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05);">
-				<article class="prose" style="max-width: 1000px; margin: 0 auto;">
-					<h1 style="font-size: 3rem; margin-top: 0;">{translations[activeLang].title || $t('admin.editor.titlePlaceholder')}</h1>
-					{#if useExternalUrl}
-						<p style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent-primary); font-weight: 600;">
-							<Globe size={18} />
-							{$t('admin.editor.externalUrlPreview')}:
-							<!-- Зовнішня адреса, яку ввів редактор. -->
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a href={translations[activeLang].externalUrl} target="_blank" rel="noopener noreferrer" style="word-break: break-all;">{translations[activeLang].externalUrl}</a>
-						</p>
-					{:else}
-						<!-- Виняток за SECURITY-v8 § 5.3: попередній перегляд того, що
-						     редактор щойно набрав. Санітизація через renderContent тут
-						     потрібна не менше, ніж на публічній сторінці — інакше
-						     попередній перегляд виконував би скрипт у сесії адміна. -->
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						{@html renderContent(translations[activeLang].content || $t('admin.editor.previewEmpty'), translations[activeLang].contentFormat)}
-					{/if}
-				</article>
-			</div>
-		</div>
+		<ArticlePreviewCard
+			title={translations[activeLang].title}
+			content={translations[activeLang].content}
+			contentFormat={translations[activeLang].contentFormat}
+			externalUrl={translations[activeLang].externalUrl}
+			{useExternalUrl}
+			isPublished={translations[activeLang].isPublished}
+			lang={activeLang}
+			testPrefix={tp}
+		/>
 
 		<!-- Bottom action row -->
 		<div class="bottom-actions-row">
@@ -1254,103 +1110,4 @@
 	}
 
 	/* Category Selector */
-	.af-cat-group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-	.af-cat-toggles {
-		flex-wrap: wrap;
-	}
-	.af-cat-choose-wrap {
-		position: relative;
-	}
-	.af-cat-choose-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-	}
-	.af-cat-chevron {
-		transition: transform 0.2s;
-		flex-shrink: 0;
-	}
-	.af-cat-chevron.open {
-		transform: rotate(180deg);
-	}
-	.af-cat-dropdown {
-		position: absolute;
-		top: calc(100% + 6px);
-		left: 0;
-		min-width: 260px;
-		max-height: 320px;
-		overflow-y: auto;
-		background: var(--theme-dynamic-card-bg, #fff);
-		border-radius: 16px;
-		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-		border: 1px solid rgba(0, 0, 0, 0.08);
-		z-index: 100;
-		padding: 0.35rem;
-		display: flex;
-		flex-direction: column;
-	}
-	:global(.dark-theme) .af-cat-dropdown {
-		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-		border-color: rgba(255, 255, 255, 0.1);
-	}
-	.af-cat-option {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.55rem 1rem;
-		border: none;
-		border-radius: 10px;
-		background: none;
-		cursor: pointer;
-		font-size: 0.85rem;
-		font-weight: 600;
-		color: var(--color-dark-text);
-		transition: background 0.15s;
-		text-align: left;
-		width: 100%;
-	}
-	.af-cat-option:hover {
-		background: rgba(33, 150, 186, 0.08);
-	}
-	.af-cat-option.selected {
-		background: rgba(33, 150, 186, 0.12);
-		color: var(--accent-primary);
-	}
-	.af-cat-option-uk {
-		font-weight: 700;
-	}
-	.af-cat-option-en {
-		font-size: 0.78rem;
-		opacity: 0.5;
-		font-weight: 500;
-	}
-	.af-cat-custom-fields {
-		display: flex;
-		gap: 0.75rem;
-		flex-wrap: wrap;
-	}
-	.af-cat-custom-field {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		flex: 1;
-		min-width: 180px;
-	}
-	.af-cat-custom-lang {
-		font-size: 0.75rem;
-		font-weight: 800;
-		color: var(--color-muted-text);
-		opacity: 0.6;
-		min-width: 22px;
-		text-align: center;
-		flex-shrink: 0;
-	}
-	.af-cat-custom-field .form-input {
-		flex: 1;
-	}
 </style>
