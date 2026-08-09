@@ -38,3 +38,8 @@ vite.config.ts.timestamp-*
 gitignore/
 .private/
 .temp/
+# Playwright
+test-results/
+playwright-report/
+blob-report/
+.playwright/

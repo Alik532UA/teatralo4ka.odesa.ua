@@ -66,6 +66,23 @@ jobs:
           VITE_APPCHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APPCHECK_RECAPTCHA_SITE_KEY }}
         run: npm run build
 
+      # Після build і ДО deploy: E2E перевіряє саме `build/`, тож запускати їх
+      # раніше нема на чому, а пізніше — вже пізно. `npx playwright test`, а не
+      # `npm run test:e2e`: збірка щойно була, збирати вдруге незащо.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E and accessibility
+        run: npx playwright test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
