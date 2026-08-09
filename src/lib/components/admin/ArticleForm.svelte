@@ -140,6 +140,9 @@
 
 	// Firestore rule limits — must stay in sync with firestore.rules
 	const CUSTOM_DATE_MIN = '1990-01-01';
+	// Обчислюється один раз при завантаженні модуля; SvelteDate потрібен лише
+	// там, де дату треба перемальовувати.
+	// eslint-disable-next-line svelte/prefer-svelte-reactivity
 	const CUSTOM_DATE_MAX = (() => { const d = new Date(); d.setFullYear(d.getFullYear() + 1); return d.toISOString().split('T')[0]; })();
 	const MAX_TITLE_LEN = 150;
 	const MAX_CONTENT_LEN = 50000;

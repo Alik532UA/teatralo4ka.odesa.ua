@@ -30,6 +30,9 @@
 	const canDelete = $derived(isSuperAdmin || permissions?.canDeleteArticles === true);
 
 	const availableYears = $derived.by(() => {
+		// Локальний тимчасовий набір усередині $derived.by: живе один прохід,
+		// назовні віддається масивом. SvelteSet тут лише додав би обгортку.
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const years = new Set<string>();
 		articles.forEach(a => {
 			const ts = getDisplayDate(a);

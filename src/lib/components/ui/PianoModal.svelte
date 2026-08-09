@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import { t } from "svelte-i18n";
+	import { SvelteSet } from "svelte/reactivity";
 
 	interface Props {
 		isOpen: boolean;
@@ -93,8 +94,12 @@
 
 	// --- STATE ---
 	let nowPlaying = $state("");
-	let activeCodes = $state<Set<string>>(new Set());
+	// SvelteSet: звичайний Set у $state не сповіщає про add/delete, тому
+	// натиснуті клавіші доводилося копіювати цілим набором на кожну ноту.
+	const activeCodes = new SvelteSet<string>();
 	let viewMode = $state<'keyboard' | 'chords'>('keyboard');
+	// Не стан: таблиця id таймерів згасання, яку читає лише код, ніколи розмітка.
+	// eslint-disable-next-line svelte/prefer-svelte-reactivity
 	const audioFadeIntervals = new Map<string, any>();
 
 	function getAudioSrc(midi: number) {
@@ -133,9 +138,7 @@
 
 		if (!isPartOfChord) nowPlaying = keyInfo.note;
 		
-		const nextActive = new Set(activeCodes);
-		nextActive.add(code);
-		activeCodes = nextActive;
+		activeCodes.add(code);
 
 		audio.volume = 1;
 		audio.currentTime = 0;
@@ -148,9 +151,7 @@
 		const audio = document.querySelector(`audio[data-code="${code}"]`) as HTMLAudioElement;
 		if (!audio) return;
 
-		const nextActive = new Set(activeCodes);
-		nextActive.delete(code);
-		activeCodes = nextActive;
+		activeCodes.delete(code);
 
 		let volume = 1;
 		const fadeInterval = setInterval(() => {

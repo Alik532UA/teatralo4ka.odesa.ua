@@ -3,6 +3,7 @@
 	import type { MenuConfig, MenuItem, MenuSection, MenuLinkType } from '$lib/services/settings';
 	import { ArrowUp, ArrowDown, Eye, EyeOff, Pencil, Trash2, ChevronUp, ChevronDown } from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
+	import { SvelteSet } from 'svelte/reactivity';
 
 	interface Props {
 		menu: MenuConfig;
@@ -64,12 +65,16 @@
 	});
 
 	// ── Expanded sections ────────────────────────────────────────────────────
-	let expandedIds = $state<Set<string>>(new Set());
+	// SvelteSet, а не Set: звичайний Set у $state не сповіщає про add/delete,
+	// тому попередня версія копіювала весь набір і перезаписувала змінну на
+	// кожен клік. Це працювало, але правильність трималася на тому, що ніхто
+	// не спокуситься написати коротший `expandedIds.add(id)` — а він мовчки
+	// нічого б не перемалював (SVELTE-CORE-v8 § 1.5).
+	const expandedIds = new SvelteSet<string>();
 
 	function toggleExpand(id: string) {
-		const s = new Set(expandedIds);
-		if (s.has(id)) s.delete(id); else s.add(id);
-		expandedIds = s;
+		if (expandedIds.has(id)) expandedIds.delete(id);
+		else expandedIds.add(id);
 	}
 
 	// ── Helpers to emit ──────────────────────────────────────────────────────
@@ -260,7 +265,7 @@
 					items: reorder([...s.items, newItem]),
 				}),
 			});
-			expandedIds = new Set([...expandedIds, sectionId]);
+			expandedIds.add(sectionId);
 		} else if (addTarget.type === 'section') {
 			const newSection: MenuSection = {
 				id,
