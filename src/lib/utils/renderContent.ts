@@ -1,5 +1,11 @@
 import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+// isomorphic-, а не звичайний dompurify: без DOM у нього немає навіть методу
+// `sanitize` — виклик кидає «DOMPurify.sanitize is not a function». Зараз це
+// не видно, бо жоден із викликів не потрапляє в prerender: статті вантажаться
+// з Firestore уже в браузері. Але `getContentExcerpt` викликається з
+// articles.ts, і щойно [slug] почне прередеритися, збірка впаде.
+// Решта файлів проєкту вже на isomorphic — цей був єдиним винятком.
+import DOMPurify from 'isomorphic-dompurify';
 import type { ContentFormat } from '$lib/services/articles';
 import { DOMPURIFY_HTML_CONFIG, configureMarkedRenderer } from '$lib/utils/markedConfig';
 

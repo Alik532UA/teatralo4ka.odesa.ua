@@ -940,6 +940,11 @@
 							<a href={translations[activeLang].externalUrl} target="_blank" rel="noopener noreferrer" style="word-break: break-all;">{translations[activeLang].externalUrl}</a>
 						</p>
 					{:else}
+						<!-- Виняток за SECURITY-v8 § 5.3: попередній перегляд того, що
+						     редактор щойно набрав. Санітизація через renderContent тут
+						     потрібна не менше, ніж на публічній сторінці — інакше
+						     попередній перегляд виконував би скрипт у сесії адміна. -->
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html renderContent(translations[activeLang].content || $t('admin.editor.previewEmpty'), translations[activeLang].contentFormat)}
 					{/if}
 				</article>

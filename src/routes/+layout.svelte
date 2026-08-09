@@ -284,9 +284,14 @@
 
 	<!-- Svelte does not evaluate expressions inside a <script> element, so the
 	     previous form shipped the literal text "{JSON.stringify(schemaOrg)}" as
-	     the structured data. It has to go through {@html}. -->
+	     the structured data. It has to go through {@html}.
+
+	     Виняток за SECURITY-v8 § 5.3: дані сюди приходять лише зі словників
+	     перекладу в репозиторії, не від користувача. Але `<` усе одно
+	     екранується: JSON.stringify не чіпає косу риску, тож рядок "</script>"
+	     у перекладі закрив би тег і перетворив статичні дані на XSS. -->
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html `<script type="application/ld+json">${JSON.stringify(schemaOrg)}</` + `script>`}
+	{@html `<script type="application/ld+json">${JSON.stringify(schemaOrg).replace(/</g, '\\u003c')}</` + `script>`}
 </svelte:head>
 
 <!-- Rendered unconditionally: the locale is awaited in +layout.ts now. As an

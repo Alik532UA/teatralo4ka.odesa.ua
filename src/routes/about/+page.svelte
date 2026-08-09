@@ -72,6 +72,9 @@
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
 	{#if content}
 		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article-section">
+			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
+			     пропущений через DOMPurify безпосередньо перед вставкою. -->
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html DOMPurify.sanitize(content.html)}
 		</article>
 	{:else}

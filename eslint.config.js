@@ -78,6 +78,11 @@ export default ts.config(
 			// Компіляторні a11y-попередження Svelte (ACCESSIBILITY-v8 § 10.5).
 			'svelte/valid-compile': 'error',
 
+			// SECURITY-v8 § 5.3. Кожен {@html} у проєкті — виняток із записаною
+			// причиною і `eslint-disable-next-line` поруч. Тепер error: новий
+			// {@html} без такого коментаря не пройде lint, а отже і CI.
+			'svelte/no-at-html-tags': 'error',
+
 			// SVELTE-UI-v8, HIGH. Було 60 місць у режимі warn — усі мігровані,
 			// тож правило підняте до error і назад воно вже не опуститься.
 			// Ціна ключа не нульова: дублікат кидає помилку в рантаймі, а не на
@@ -94,10 +99,6 @@ export default ts.config(
 			// 8 місць. Звичайний Map/Set у $state не сповіщає про set/delete —
 			// потрібні SvelteMap/SvelteSet (SVELTE-CORE-v8 § 1.5).
 			'svelte/prefer-svelte-reactivity': 'warn',
-
-			// 4 місця. Кожен {@html} має бути або санітизованим, або підпадати
-			// під виняток SECURITY-v8 § 5.3 із записаною причиною.
-			'svelte/no-at-html-tags': 'warn',
 
 			// 72 місця. Правило плагіна, якого немає в стандарті: воно вимагає
 			// resolve() для внутрішніх посилань замість ручного base. Питання
