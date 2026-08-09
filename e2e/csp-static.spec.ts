@@ -78,6 +78,10 @@ test('директиви для медіа та фреймів задані яв
 	// блокується мовчки.
 	expect(csp, "media-src відсутній — звук піде через default-src 'self'").toContain('media-src');
 	expect(csp, 'frame-src відсутній — вбудоване відео покаже порожню рамку').toContain('frame-src');
+	// Firebase App Check створює Worker із blob. Без явної директиви поведінка
+	// різниться між dev і продакшном, бо політика доставляється по-різному:
+	// заголовком із nonce у dev і мета-тегом без нього у збірці.
+	expect(csp, 'worker-src відсутній — App Check піде через script-src').toContain('worker-src');
 
 	const frameSrc = csp.match(/frame-src([^;]*)/)?.[1] ?? '';
 	expect(frameSrc, 'санітайзер дозволяє iframe заради відео — джерело має бути в політиці')

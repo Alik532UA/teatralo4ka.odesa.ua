@@ -94,6 +94,14 @@ const config = {
 					'https://www.youtube-nocookie.com',
 					'https://player.vimeo.com'
 				],
+				// Firebase App Check створює Worker із blob-адреси.
+				//
+				// У продакшні це проходило через фолбек на `script-src`, а в dev —
+				// ні. Причина в тому, що політика доставляється по-різному: dev-сервер
+				// віддає її ЗАГОЛОВКОМ і додає nonce, adapter-static кладе мета-тегом
+				// без nonce. Покладатися на фолбек уже двічі коштувало (media-src,
+				// frame-src), тож директива задається явно й однаково для обох.
+				'worker-src': ['self', 'blob:'],
 				'object-src': ['none'],
 				'base-uri': ['self'],
 				'form-action': ['self']
