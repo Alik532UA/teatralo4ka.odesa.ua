@@ -10,7 +10,11 @@
 	--text-main: var(--palette-cyan-50);
 	--text-title: var(--palette-blue);
 	--text-muted: var(--palette-cyan-100);
-	--text-on-accent: var(--palette-white);
+	/* navy-900, а не білий: білий на --palette-blue (#00b5ec) дає контраст
+	   2.38:1 при потрібних 4.5:1 — axe позначав це як serious на кожній
+	   картці й кнопці. Той самий синій із темним текстом дає 6.82:1, тож
+	   фірмовий колір лишається, змінюється лише текст на ньому. */
+	--text-on-accent: var(--palette-navy-900);
 	
 	/* Semantic Accents */
 	--accent-primary: var(--palette-blue);

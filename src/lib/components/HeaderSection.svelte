@@ -484,13 +484,18 @@
 					{/if}
 
 					<!-- Desktop Nav Manager (Burger) -->
-					<li 
-						class="header__nav-item header__nav-manager" 
-						bind:this={navRef} 
-						data-testid="header-nav-manager-section"
-						onmouseenter={handleNavMouseEnter}
-						role="group"
-					>
+					<!-- role="group" стояв на самому <li>, і це ламало семантику
+					     списку: елемент з явною роллю перестає бути listitem, тож
+					     axe справедливо повідомляв, що <ul> містить не-<li>. Роль і
+					     обробник переїхали на внутрішній <div>; <li> лишився чистим. -->
+					<li class="header__nav-item">
+						<div
+							class="header__nav-manager"
+							bind:this={navRef}
+							data-testid="header-nav-manager-section"
+							onmouseenter={handleNavMouseEnter}
+							role="group"
+						>
 						<button
 							class="header__burger header__burger--desktop"
 							class:open={navOpen}
@@ -544,19 +549,22 @@
 								{/each}
 							</div>
 						{/if}
+						</div>
 					</li>
 
 					<!-- Desktop Settings -->
-					<li 
-						class="header__nav-item header__settings header__settings--desktop" 
-						class:open={settingsOpen} 
-						bind:this={settingsRef} 
-						data-testid="header-settings-container"
-						onmouseenter={handleSettingsMouseEnter}
-						role="group"
-						aria-label={$t('settings.title')}
-					>
-						<button 
+					<!-- Та сама причина, що й у блоці вище: роль на <li> ламає список. -->
+					<li class="header__nav-item">
+						<div
+							class="header__settings header__settings--desktop"
+							class:open={settingsOpen}
+							bind:this={settingsRef}
+							data-testid="header-settings-container"
+							onmouseenter={handleSettingsMouseEnter}
+							role="group"
+							aria-label={$t('settings.title')}
+						>
+						<button
 							class="header__burger" 
 							aria-label={$t('settings.title')} 
 							onclick={handleSettingsClick} 
@@ -579,6 +587,7 @@
 								/>
 							</div>
 						{/if}
+						</div>
 					</li>
 				</ul>
 			</nav>
