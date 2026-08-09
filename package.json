@@ -19,7 +19,8 @@
     "generate-sitemap": "tsx scripts/generate-sitemap.ts",
     "generate-changelog": "tsx scripts/generate-changelog.ts",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postbuild": "tsx scripts/generate-sitemap.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

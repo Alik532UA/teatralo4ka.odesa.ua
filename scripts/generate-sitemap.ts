@@ -1,60 +1,72 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
+
+/**
+ * Будує sitemap зі СТОРІНОК, ЯКІ СПРАВДІ ЗГЕНЕРОВАНО, а не зі списку markdown-файлів.
+ *
+ * Попередня версія перелічувала src/lib/i18n/pages/<lang>/*.md і видавала 28 адрес,
+ * з яких існувало 5: контент цих сторінок береться з Firestore, маршрут [slug]
+ * має prerender = false, а англомовних маршрутів у проєкті немає взагалі. Тобто
+ * пошуковику пропонувалося 23 адреси, що відповідають 404.
+ *
+ * Тому запускається ПІСЛЯ збірки (postbuild) і читає build/.
+ */
 
 const SITE_URL = 'https://teatralo4ka.odesa.ua';
-const PAGES_DIR = path.join(process.cwd(), 'src/lib/i18n/pages');
+const BUILD_DIR = 'build';
+
+/** Не для індексу: адмінка та технічні сторінки. */
+const EXCLUDE = [/^admin(\/|$)/];
+
+function builtPages(dir: string, prefix = ''): string[] {
+	const out: string[] = [];
+	for (const entry of fs.readdirSync(dir)) {
+		const full = path.join(dir, entry);
+		if (fs.statSync(full).isDirectory()) {
+			if (entry.startsWith('_') || entry === 'og') continue;
+			out.push(...builtPages(full, prefix ? `${prefix}/${entry}` : entry));
+		} else if (entry === 'index.html') {
+			out.push(prefix);
+		}
+	}
+	return out;
+}
 
 function generateSitemap() {
-  const entries: string[] = [];
-  const langs = ['uk', 'en'];
+	if (!fs.existsSync(BUILD_DIR)) {
+		console.error(`❌ ${BUILD_DIR}/ не існує — sitemap будується після збірки`);
+		process.exit(1);
+	}
 
-  langs.forEach(lang => {
-    const langPrefix = lang === 'uk' ? '' : `/${lang}`;
-    entries.push(`
+	const pages = builtPages(BUILD_DIR)
+		.filter((p) => !EXCLUDE.some((re) => re.test(p)))
+		.sort();
+
+	if (pages.length === 0) {
+		console.error('❌ у build/ не знайдено жодної сторінки — перевірка мертва');
+		process.exit(1);
+	}
+
+	const today = new Date().toISOString().split('T')[0];
+	const entries = pages.map((p) => {
+		const loc = p === '' ? `${SITE_URL}/` : `${SITE_URL}/${p}`;
+		const isHome = p === '';
+		return `
   <url>
-    <loc>${SITE_URL}${langPrefix}/</loc>
-    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>`);
-  });
+    <loc>${loc}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${isHome ? 'weekly' : 'monthly'}</changefreq>
+    <priority>${isHome ? '1.0' : '0.8'}</priority>
+  </url>`;
+	});
 
-  langs.forEach(lang => {
-    const langDir = path.join(PAGES_DIR, lang);
-    if (!fs.existsSync(langDir)) return;
+	const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.join('')}
+</urlset>
+`;
 
-    const files = fs.readdirSync(langDir).filter((f: string) => f.endsWith('.md'));
-
-    files.forEach((file: string) => {
-      const filePath = path.join(langDir, file);
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
-      const { data } = matter(fileContent);
-
-      if (data.status !== 'published') return;
-
-      const slug = file.replace('.md', '');
-      const langPrefix = lang === 'uk' ? '' : `/${lang}`;
-      const urlPath = `${langPrefix}/${slug}`;
-
-      entries.push(`
-  <url>
-    <loc>${SITE_URL}${urlPath}</loc>
-    <lastmod>${data.lastModified || data.date || new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>${data.changefreq || 'monthly'}</changefreq>
-    <priority>${data.priority || 0.8}</priority>
-  </url>`);
-    });
-  });
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries.join('')}
-</urlset>`;
-
-  const outputPath = path.join(process.cwd(), 'static', 'sitemap.xml');
-  fs.writeFileSync(outputPath, xml);
-  console.log(`✅ Sitemap generated at ${outputPath}`);
+	fs.writeFileSync(path.join(BUILD_DIR, 'sitemap.xml'), xml);
+	console.log(`✅ sitemap: ${pages.length} сторінок (усі перевірені в ${BUILD_DIR}/)`);
 }
 
 generateSitemap();

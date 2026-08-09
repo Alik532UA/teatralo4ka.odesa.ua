@@ -1,5 +1,8 @@
-# allow crawling everything by default
 User-agent: *
-Disallow:
+# Адмінка рендериться на клієнті (ssr = false), тому мета-тег robots у її
+# зібраний HTML не потрапляє — закриваємо тут.
+Disallow: /admin/
+Allow: /
+
 Host: https://teatralo4ka.odesa.ua
 Sitemap: https://teatralo4ka.odesa.ua/sitemap.xml

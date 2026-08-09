@@ -20,6 +20,7 @@
 	const isAccessDenied = $derived(!isLoginPage && !authService.loading && authService.isAuthenticated && !authService.isAuthorized);
 </script>
 
+
 {#if authService.loading}
 	<div class="admin-loading">
 		<p>{$t('admin.accessDenied.checking')}</p>
