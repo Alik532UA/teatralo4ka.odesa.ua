@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { base } from "$app/paths";
+	import { resolve } from "$app/paths";
 
 	export interface ContentCardItem {
 		id: string;
@@ -24,7 +24,9 @@
 		index: number;
 		isActive?: boolean;
 		/** URL segment for card links, e.g. 'news' → /news/{slug} */
-		linkPrefix?: string;
+		/** Звужено до двох значень: обидва відповідають реальним маршрутам,
+		    і завдяки цьому resolve() нижче може їх перевірити на типах. */
+		linkPrefix?: 'news' | 'projects';
 		/** "Read more" button text */
 		readMoreLabel?: string;
 		/** data-testid prefix for all card elements */
@@ -42,7 +44,12 @@
 		testIdPrefix = 'content',
 	}: Props = $props();
 
-	const link = $derived(item.href ?? `${base}/${linkPrefix}/${item.slug ?? item.id}`);
+	const link = $derived(
+		item.href ??
+			(linkPrefix === 'projects'
+				? resolve('/projects/[slug]', { slug: item.slug ?? item.id })
+				: resolve('/news/[id]', { id: item.slug ?? item.id }))
+	);
 	const linkTarget = $derived(item.isExternal ? '_blank' : undefined);
 	const linkRel = $derived(item.isExternal ? 'noopener noreferrer' : undefined);
 </script>

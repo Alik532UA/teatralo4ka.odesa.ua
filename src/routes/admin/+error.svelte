@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { t } from 'svelte-i18n';
 </script>
 
@@ -9,5 +9,5 @@
 	<p style="font-size: 1.1rem; color: var(--color-muted-text); margin-bottom: 2rem;" data-testid="admin-error-page-message">
 		{page.error?.message || $t('error.generic')}
 	</p>
-	<a href={`${base}/admin`} class="btn btn-primary" data-testid="admin-error-page-back-link">{$t('error.backAdmin')}</a>
+	<a href={resolve('/admin')} class="btn btn-primary" data-testid="admin-error-page-back-link">{$t('error.backAdmin')}</a>
 </section>

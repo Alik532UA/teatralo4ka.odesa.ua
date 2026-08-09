@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
-import { base } from "$app/paths";
+import { resolve } from '$app/paths';
 import { authService } from "$lib/controllers/auth.svelte";
 
 export const prerender = true;
@@ -18,7 +18,7 @@ export async function load({ url }) {
 
   if (!authService.isAuthenticated) {
     if (!isLoginPage) {
-      goto(`${base}/admin/login`);
+      goto(resolve('/admin/login'));
     }
     return { user: null, profile: null };
   }

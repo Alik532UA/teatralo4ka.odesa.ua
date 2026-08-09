@@ -9,7 +9,7 @@
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
-	import { base } from "$app/paths";
+	import { base, resolve } from "$app/paths";
 	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
 	import { browser } from "$app/environment";
 	import { untrack } from "svelte";
@@ -240,7 +240,7 @@
 			// New format: full path like /projects/slug or /news/slug
 			if (href.startsWith('/')) return `${base}${href}`;
 			// Legacy: bare slug → assume /news/
-			return `${base}/news/${href}`;
+			return resolve('/news/[id]', { id: href });
 		}
 		return `${base}${href}`;
 	}
@@ -416,7 +416,7 @@
 	<div class="header__inner">
 		<div class="header__logo-area" data-testid="logo-area-container">
 			<a
-				href={`${base}/`}
+				href={resolve('/')}
 				class="header__logo-link"
 				aria-label={$t('nav.toHome')}
 				onclick={ui.closeMenu}

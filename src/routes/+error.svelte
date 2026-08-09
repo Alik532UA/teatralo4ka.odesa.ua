@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { t } from 'svelte-i18n';
 </script>
 
@@ -13,5 +13,5 @@
 			{page.error?.message || $t('error.generic')}
 		{/if}
 	</p>
-	<a href={`${base}/`} class="btn btn-primary" data-testid="error-page-home-link">{$t('error.backHome')}</a>
+	<a href={resolve('/')} class="btn btn-primary" data-testid="error-page-home-link">{$t('error.backHome')}</a>
 </section>

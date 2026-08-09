@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
-	import { base } from '$app/paths';
+	import { base, resolve } from '$app/paths';
 	import { seo } from '$lib/services/seo.svelte';
 	import DOMPurify from 'isomorphic-dompurify';
 	import type { PageContent } from '$lib/i18n/types';
@@ -37,6 +37,8 @@
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section">
 	{#if backHref && backLabel}
 		<div class="back-nav" data-testid="{testPrefix}-back-toolbar">
+			<!-- Готова адреса від resolve() у виклику компонента. -->
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a href={backHref} class="btn btn-outline" data-testid="{testPrefix}-back-link">{backLabel}</a>
 		</div>
 	{/if}
@@ -58,13 +60,13 @@
 
 					{#if content.metadata.status === 'draft'}
 						<div class="draft-actions" data-testid="{testPrefix}-draft-toolbar">
-							<a href="{base}/" class="btn btn-primary" data-testid="{testPrefix}-home-link">
+							<a href={resolve('/')} class="btn btn-primary" data-testid="{testPrefix}-home-link">
 								{$t('common.backToHome')}
 							</a>
-							<a href="{base}/news" class="btn btn-outline" data-testid="{testPrefix}-news-link">
+							<a href={resolve('/news')} class="btn btn-outline" data-testid="{testPrefix}-news-link">
 								{$t('nav.news')}
 							</a>
-							<a href="{base}/projects" class="btn btn-outline" data-testid="{testPrefix}-projects-link">
+							<a href={resolve('/projects')} class="btn btn-outline" data-testid="{testPrefix}-projects-link">
 								{$t('nav.projects')}
 							</a>
 						</div>

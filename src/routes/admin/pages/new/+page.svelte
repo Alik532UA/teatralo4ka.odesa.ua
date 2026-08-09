@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { onMount } from 'svelte';
 
 	// Redirect to unified content route
 	onMount(() => {
-		goto(`${base}/admin/content/new?type=page`, { replaceState: true });
+		goto(resolve('/admin/content/new?type=page'), { replaceState: true });
 	});
 </script>
 

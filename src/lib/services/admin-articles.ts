@@ -12,7 +12,7 @@ import {
   deleteField,
   serverTimestamp,} from "firebase/firestore";
 import { auth, db } from "../firebase/config";
-import type { Article } from "./articles";
+import type { Article, StoredArticle } from "./articles";
 import { get } from 'svelte/store';
 import { t } from 'svelte-i18n';
 import { friendlyError, rethrowFriendly } from "./firebaseErrors";
@@ -104,7 +104,7 @@ export async function fetchAllArticles() {
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
-  const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
+  const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
   return all.filter(a => a.type !== 'page' && a.type !== 'page_project');
 }
 
@@ -113,7 +113,7 @@ export async function fetchAllPages() {
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, where("type", "==", "page"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
 }
 
 export async function fetchAllContent() {
@@ -121,7 +121,7 @@ export async function fetchAllContent() {
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(articlesRef, orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Article[];
+  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
 }
 
 export async function getAdminArticleById(id: string) {

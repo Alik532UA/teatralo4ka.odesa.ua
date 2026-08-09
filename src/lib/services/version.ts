@@ -1,8 +1,9 @@
-import { base } from "$app/paths";
+import { asset, base } from "$app/paths";
 import { STORAGE_PREFIX } from "../config/storage";
 import { storage } from "./storage";
 
-const VERSION_URL = `${base}/app-version.json`;
+// asset(), а не base: це статичний файл, а не маршрут.
+const VERSION_URL = asset('/app-version.json');
 const CACHE_VERSION_KEY = "app_cache_version";
 
 /**

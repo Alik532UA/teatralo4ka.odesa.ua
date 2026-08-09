@@ -2,7 +2,7 @@
 	import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 	import { auth } from '$lib/firebase/config';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { t } from 'svelte-i18n';
 	import { Mail } from 'lucide-svelte';
@@ -21,7 +21,7 @@
 		loading = true;
 		try {
 			await signInWithEmailAndPassword(auth, email, password);
-			goto(`${base}/admin`);
+			goto(resolve('/admin'));
 		} catch (e: unknown) {
 			error = $t('admin.login.error');
 			console.error(e);
@@ -60,7 +60,7 @@
 
 	$effect(() => {
 		if (authService.isAuthenticated) {
-			goto(`${base}/admin`);
+			goto(resolve('/admin'));
 		}
 	});
 </script>

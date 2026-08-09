@@ -2,7 +2,7 @@
 import { authService } from '$lib/controllers/auth.svelte';
 import { toast } from '$lib/controllers/toast.svelte';
 import { goto } from '$app/navigation';
-import { base } from '$app/paths';
+import { resolve } from '$app/paths';
 import { logError } from '$lib/services/firebaseErrors';
 import {
   getHomeSettings, updateHomeSettings, DEFAULT_BLOCKS, type BlockConfig,
@@ -238,7 +238,7 @@ async function loadArticles() {
 $effect(() => {
   if (!authService.loading) {
     if (!authService.isAuthenticated) {
-      goto(`${base}/admin/login`);
+      goto(resolve('/admin/login'));
     } else {
       const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
       const canManageSettings = authService.profile?.isSuperAdmin === true || 
@@ -246,7 +246,7 @@ $effect(() => {
       
       if (!canManageSettings) {
         toast.error($t('admin.dashboard.noPermission'));
-        goto(`${base}/admin`);
+        goto(resolve('/admin'));
         return;
       }
 
@@ -1027,7 +1027,7 @@ async function handleAboutPageSubmit() {
 <section class="admin-settings container" style="padding: 140px 24px 80px;" data-testid="admin-settings-section">
 <div class="sh-header">
   <div class="sh-title-group">
-    <a href="{base}/admin" class="sh-back-btn" data-testid="admin-settings-back-btn" title={$t('admin.editor.backToList')}>
+    <a href={resolve('/admin')} class="sh-back-btn" data-testid="admin-settings-back-btn" title={$t('admin.editor.backToList')}>
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
     </a>
     <h1 class="sh-title">{$t('admin.dashboard.settingsTitle')}</h1>

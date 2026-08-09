@@ -4,7 +4,7 @@
 	import { addArticle } from '$lib/services/admin-articles';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { t } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { page } from '$app/state';
@@ -29,7 +29,7 @@
 			const { contentType, ...rest } = data;
 			await addArticle({ ...rest, author: '', type: contentType });
 			toast.success(get(t)('admin.editor.saveBtn'));
-			goto(`${base}/admin/content`);
+			goto(resolve('/admin/content'));
 		} catch (e: unknown) {
 			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorSave'));
 		} finally {

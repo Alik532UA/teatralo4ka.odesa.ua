@@ -2,17 +2,17 @@
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { deleteArticle, fetchAllContent, addArticle, updateArticle } from '$lib/services/admin-articles';
 	import { logError } from '$lib/services/firebaseErrors';
-	import { getDisplayDate, type Article, type ContentType } from '$lib/services/articles';
+	import { getDisplayDate, type Article, type ContentType, type StoredArticle } from '$lib/services/articles';
 	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Timestamp } from 'firebase/firestore';
 	import { Paperclip, Search, Calendar, Tag, FileText, Globe, Folder } from 'lucide-svelte';
 
-	let allItems = $state<Article[]>([]);
+	let allItems = $state<StoredArticle[]>([]);
 	let loading = $state(true);
 	let search = $state('');
 	let importing = $state(false);
@@ -126,7 +126,7 @@
 
 	$effect(() => {
 		if (!authService.loading && !authService.isAuthenticated) {
-			goto(`${base}/admin/login`);
+			goto(resolve('/admin/login'));
 		} else {
 			loadAll();
 		}
@@ -276,7 +276,7 @@
 	<!-- Header -->
 	<div class="cl-header" data-testid="admin-content-header">
 		<div class="cl-title-group">
-			<a href="{base}/admin" class="cl-back-btn" data-testid="admin-content-back-btn" title={$t('admin.articles.backToPanel')}>
+			<a href={resolve('/admin')} class="cl-back-btn" data-testid="admin-content-back-btn" title={$t('admin.articles.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="cl-title" data-testid="admin-content-title-label">{$t('admin.content.title')}</h1>
@@ -294,7 +294,7 @@
 					{/if}
 					<input type="file" accept=".json" multiple onchange={handleBulkLoad} style="display: none;" disabled={importing} />
 				</label>
-				<a href="{base}/admin/content/new" class="btn btn-primary cl-create-btn" data-testid="admin-content-create-btn">
+				<a href={resolve('/admin/content/new')} class="btn btn-primary cl-create-btn" data-testid="admin-content-create-btn">
 					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
 					{$t('admin.content.createBtn')}
 				</a>
@@ -427,7 +427,7 @@
 
 					<!-- Actions -->
 					<div class="cl-actions" data-testid={`admin-content-row-${item.id}-actions`}>
-						<a href="{base}/admin/content/{item.id}" class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
+						<a href={resolve('/admin/content/[id]', { id: item.id })} class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 							<span>{$t('admin.articles.edit')}</span>
 						</a>

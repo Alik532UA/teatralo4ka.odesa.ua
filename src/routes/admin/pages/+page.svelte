@@ -2,15 +2,15 @@
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { deleteArticle, fetchAllPages, updateArticle } from '$lib/services/admin-articles';
 	import { logError } from '$lib/services/firebaseErrors';
-	import { getDisplayDate, type Article } from '$lib/services/articles';
+	import { getDisplayDate, type Article, type StoredArticle } from '$lib/services/articles';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Search, FilePlus, Calendar } from 'lucide-svelte';
 
-	let pages = $state<Article[]>([]);
+	let pages = $state<StoredArticle[]>([]);
 	let loading = $state(true);
 	let search = $state('');
 	let togglingId = $state<string | null>(null);
@@ -86,7 +86,7 @@
 
 	$effect(() => {
 		if (!authService.loading && !authService.isAuthenticated) {
-			goto(`${base}/admin/login`);
+			goto(resolve('/admin/login'));
 		} else {
 			loadAll();
 		}
@@ -170,7 +170,7 @@
 	<!-- Header -->
 	<div class="pl-header" data-testid="admin-pages-header">
 		<div class="pl-title-group">
-			<a href="{base}/admin" class="pl-back-btn" data-testid="admin-pages-back-btn" title={$t('admin.pages.backToPanel')}>
+			<a href={resolve('/admin')} class="pl-back-btn" data-testid="admin-pages-back-btn" title={$t('admin.pages.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="pl-title" data-testid="admin-pages-title-label">{$t('admin.pages.title')}</h1>
@@ -179,7 +179,7 @@
 			{/if}
 		</div>
 		{#if canCreate}
-			<a href="{base}/admin/pages/new" class="btn btn-primary pl-create-btn" data-testid="admin-pages-create-btn">
+			<a href={resolve('/admin/pages/new')} class="btn btn-primary pl-create-btn" data-testid="admin-pages-create-btn">
 				<FilePlus size={18} style="margin-right: 0.5rem;" />
 				{$t('admin.pages.createBtn')}
 			</a>
@@ -270,7 +270,7 @@
 
 					<!-- Actions -->
 					<div class="pl-actions" data-testid={`admin-pages-row-${page.id}-actions`}>
-						<a href="{base}/admin/pages/{page.id}" class="pl-action-btn pl-edit-btn" data-testid={`admin-pages-edit-${page.id}-btn`} title={$t('admin.articles.edit')}>
+						<a href={resolve('/admin/pages/[id]', { id: page.id })} class="pl-action-btn pl-edit-btn" data-testid={`admin-pages-edit-${page.id}-btn`} title={$t('admin.articles.edit')}>
 							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
 							<span>{$t('admin.articles.edit')}</span>
 						</a>

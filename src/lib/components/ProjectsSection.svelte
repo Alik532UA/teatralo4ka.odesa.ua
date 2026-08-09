@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import ContentWidget from '$lib/components/ContentWidget.svelte';
 	import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
 	import type { ContentWidgetConfig } from '$lib/components/ContentWidget.svelte';
@@ -25,7 +25,7 @@
 				items={items}
 				config={widgetConfig}
 				showAllLink
-				allLinkHref="{base}/projects"
+				allLinkHref={resolve('/projects')}
 				allLinkLabel={$t('projects.allProjects')}
 				allLinkViewKey="projects-view"
 				linkPrefix="projects"

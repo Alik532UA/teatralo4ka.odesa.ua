@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { signOut } from 'firebase/auth';
 	import { auth } from '$lib/firebase/config';
 	import { t } from 'svelte-i18n';
 
 	$effect(() => {
 		if (!authService.loading && !authService.isAuthenticated) {
-			goto(`${base}/admin/login`);
+			goto(resolve('/admin/login'));
 		}
 	});
 
 	async function handleLogout() {
 		await signOut(auth);
-		goto(`${base}/`);
+		goto(resolve('/'));
 	}
 
 	const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
@@ -44,9 +44,9 @@
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-content-card-title-label">{$t('admin.dashboard.contentTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-content-card-desc-label">{$t('admin.dashboard.contentDesc')}</p>
 					<div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-content-card-toolbar">
-						<a href="{base}/admin/content" class="btn btn-primary" data-testid="admin-content-list-btn">{$t('admin.dashboard.contentListBtn')}</a>
+						<a href={resolve('/admin/content')} class="btn btn-primary" data-testid="admin-content-list-btn">{$t('admin.dashboard.contentListBtn')}</a>
 						{#if isSuperAdmin || permissions?.canCreateArticles || permissions?.canCreatePages}
-							<a href="{base}/admin/content/new" class="btn btn-outline" data-testid="admin-content-add-btn">+ {$t('admin.dashboard.contentAddBtn')}</a>
+							<a href={resolve('/admin/content/new')} class="btn btn-outline" data-testid="admin-content-add-btn">+ {$t('admin.dashboard.contentAddBtn')}</a>
 						{/if}
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title-label">{$t('admin.dashboard.settingsTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-label">{$t('admin.dashboard.settingsDesc')}</p>
-					<a href="{base}/admin/settings" class="btn btn-outline" data-testid="admin-settings-btn">{$t('admin.dashboard.settingsBtn')}</a>
+					<a href={resolve('/admin/settings')} class="btn btn-outline" data-testid="admin-settings-btn">{$t('admin.dashboard.settingsBtn')}</a>
 				</div>
 			{/if}
 
@@ -64,7 +64,7 @@
 				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-label">{$t('admin.dashboard.usersDesc')}</p>
-					<a href="{base}/admin/users" class="btn btn-outline" data-testid="admin-users-btn">{$t('admin.dashboard.usersBtn')}</a>
+					<a href={resolve('/admin/users')} class="btn btn-outline" data-testid="admin-users-btn">{$t('admin.dashboard.usersBtn')}</a>
 				</div>
 			{/if}
 		</div>

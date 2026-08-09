@@ -2,7 +2,7 @@
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { getAdminArticleById, updateArticle } from '$lib/services/admin-articles';
 	import { logError } from '$lib/services/firebaseErrors';
@@ -35,7 +35,7 @@
 	$effect(() => {
 		if (!authService.loading) {
 			if (!authService.isAuthenticated) {
-				goto(`${base}/admin/login`);
+				goto(resolve('/admin/login'));
 			} else {
 				const PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 				const profile = authService.profile;
@@ -46,14 +46,14 @@
 				
 				if (!canEditArticles && !canEditPages) {
 					toast.error(get(t)('admin.content.noPermissionEdit'));
-					goto(`${base}/admin/content`);
+					goto(resolve('/admin/content'));
 				}
 			}
 		}
 	});
 
 	onMount(async () => {
-		if (!id) { goto(`${base}/admin/content`); return; }
+		if (!id) { goto(resolve('/admin/content')); return; }
 		const article = await getAdminArticleById(id as string);
 		if (article) {
 			contentType = article.type || 'article';
@@ -77,7 +77,7 @@
 			if ((article as any).updatedAt?.toDate) updatedAtDate = (article as any).updatedAt.toDate();
 		} else {
 			toast.error(get(t)('admin.editor.errorNotFound'));
-			goto(`${base}/admin/content`);
+			goto(resolve('/admin/content'));
 		}
 		loading = false;
 	});
@@ -93,7 +93,7 @@
 			const { contentType, ...rest } = data;
 			await updateArticle(id as string, { ...rest, type: contentType });
 			toast.success($t('admin.dashboard.saveSuccess'));
-			goto(`${base}/admin/content`);
+			goto(resolve('/admin/content'));
 		} catch (e: unknown) {
 			logError(e);
 			toast.error(e instanceof Error ? e.message : get(t)('admin.editor.errorUpdate'));

@@ -51,11 +51,21 @@ export interface Article {
 
 const projectId = import.meta.env.VITE_PROJECT_ID;
 
+/**
+ * Стаття, прочитана з Firestore: id у неї є завжди, бо це id документа.
+ *
+ * В `Article` поле необов'язкове — той самий тип описує і ще не збережену
+ * форму. Через це посилання в адмінці типізувалися як `string | undefined`,
+ * і `${base}/admin/content/${id}` мовчки давало адресу «.../undefined».
+ * resolve() такого не приймає, тож різницю довелося назвати.
+ */
+export type StoredArticle = Article & { id: string };
+
 /** Parse Firestore doc into a validated Article (falls back to raw cast on schema mismatch) */
-function docToArticle(docSnap: { id: string; data: () => any }): Article {
+function docToArticle(docSnap: { id: string; data: () => any }): StoredArticle {
   const raw = { id: docSnap.id, ...docSnap.data() };
   const result = ArticleSchema.safeParse(raw);
-  return (result.success ? result.data : raw) as Article;
+  return (result.success ? { ...result.data, id: docSnap.id } : raw) as StoredArticle;
 }
 
 export async function getArticleById(id: string) {

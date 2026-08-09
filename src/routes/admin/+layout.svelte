@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/controllers/auth.svelte';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { signOut } from 'firebase/auth';
 	import { auth } from '$lib/firebase/config';
@@ -10,7 +10,7 @@
 
 	async function handleLogout() {
 		await signOut(auth);
-		window.location.href = `${base}/admin/login`;
+		window.location.href = resolve('/admin/login');
 	}
 
 	const isLoginPage = $derived(page.url.pathname.endsWith('/admin/login'));

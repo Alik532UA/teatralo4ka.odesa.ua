@@ -2,8 +2,7 @@
 	import { getDisplayDate, type Article } from '$lib/services/articles';
 	import { onMount } from 'svelte';
 	import { renderContent, getContentExcerpt } from '$lib/utils/renderContent';
-	import { base } from '$app/paths';
-	import { locale, t } from 'svelte-i18n';
+		import { locale, t } from 'svelte-i18n';
 	import { seo } from '$lib/services/seo.svelte';
 	import { getCategoryLabel } from '$lib/config/categories';
 
@@ -12,7 +11,8 @@
 		param: string | undefined;
 		/** Function to fetch the article/page data */
 		fetchFn: (param: string) => Promise<Article | null>;
-		/** Back navigation link path (appended to base) */
+		/** Готова адреса від resolve(). Складати її з префіксом не треба:
+		    подвійне складання давало "…odesa.ua../" на вкладених сторінках. */
 		backHref: string;
 		/** i18n key for back button text */
 		backLabelKey: string;
@@ -88,7 +88,9 @@
 
 <section class="detail-page container" data-testid="{testIdPrefix}-section">
 	<div class="back-nav" data-testid="{testIdPrefix}-back-toolbar">
-		<a href={`${base}${backHref}`} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
+		<!-- Готова адреса від resolve() у виклику компонента. -->
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a href={backHref} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
 	</div>
 
 	{#if loading}

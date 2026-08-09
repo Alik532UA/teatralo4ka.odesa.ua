@@ -42,7 +42,7 @@
 		/** localStorage key to save view preference when navigating to "all" page */
 		allLinkViewKey?: string;
 		/** URL segment for card links: 'news' → /news/{slug} */
-		linkPrefix?: string;
+		linkPrefix?: 'news' | 'projects';
 		/** Card "Read more" button text */
 		readMoreLabel?: string;
 		/** data-testid prefix for widget elements */

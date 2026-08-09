@@ -7,7 +7,7 @@
 	import { renderContent } from '$lib/utils/renderContent';
 	import RichTextEditor from '$lib/components/ui/RichTextEditor.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import {
@@ -402,7 +402,7 @@
 <section class="admin-article-form container" style="padding: 120px 24px 80px;">
 	<div class="af-header">
 		<div class="af-title-group">
-			<a href="{base}/admin/content" class="af-back-btn" title={$t('admin.editor.backToList')}>
+			<a href={resolve('/admin/content')} class="af-back-btn" title={$t('admin.editor.backToList')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<h1 class="af-title">
@@ -940,6 +940,8 @@
 						<p style="display: flex; align-items: center; gap: 0.5rem; color: var(--accent-primary); font-weight: 600;">
 							<Globe size={18} />
 							{$t('admin.editor.externalUrlPreview')}:
+							<!-- Зовнішня адреса, яку ввів редактор. -->
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 							<a href={translations[activeLang].externalUrl} target="_blank" rel="noopener noreferrer" style="word-break: break-all;">{translations[activeLang].externalUrl}</a>
 						</p>
 					{:else}

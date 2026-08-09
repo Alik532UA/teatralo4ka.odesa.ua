@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { onMount } from 'svelte';
 
@@ -8,7 +8,11 @@
 
 	// Redirect to unified content route
 	onMount(() => {
-		goto(`${base}/admin/content/${id}`, { replaceState: true });
+		// Раніше було `${base}/admin/content/${id}`, і без id виходила адреса
+		// «.../undefined». resolve() вимагає рядок, тож випадок довелося назвати.
+		goto(id ? resolve('/admin/content/[id]', { id }) : resolve('/admin/content'), {
+			replaceState: true
+		});
 	});
 </script>
 

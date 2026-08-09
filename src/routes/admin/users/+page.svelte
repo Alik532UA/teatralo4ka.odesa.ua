@@ -2,7 +2,7 @@
 	import { authService } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
-	import { base } from '$app/paths';
+	import { resolve } from '$app/paths';
 	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where, serverTimestamp } from 'firebase/firestore';
 	import { db } from '$lib/firebase/config';
 	import { toFriendlyMessage, logError } from '$lib/services/firebaseErrors';
@@ -86,7 +86,7 @@
 
 	$effect(() => {
 		if (!authService.loading && !isSuperAdmin && adminProjects.length === 0) {
-			goto(`${base}/admin`);
+			goto(resolve('/admin'));
 		}
 	});
 
@@ -345,7 +345,7 @@
 <section class="admin-users container" style="padding: 140px 24px 80px; max-width: 1400px; margin: 0 auto;">
 	<div class="uh-header">
 		<div class="uh-title-group">
-			<a href="{base}/admin" class="uh-back-btn" title={$t('admin.editor.backToList')}>
+			<a href={resolve('/admin')} class="uh-back-btn" title={$t('admin.editor.backToList')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
 			<div>
