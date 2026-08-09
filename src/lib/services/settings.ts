@@ -10,6 +10,18 @@ import {
 import { auth, db } from "../firebase/config";
 import { storage } from "./storage";
 import { rethrowFriendly } from "./firebaseErrors";
+import {
+  BlocksSchema,
+  CtaConfigSchema,
+  DebugPanelConfigSchema,
+  GalleryWidgetConfigSchema,
+  MenuConfigOverrideSchema,
+  NewsWidgetConfigSchema,
+  ProjectsWidgetConfigSchema,
+  TickerConfigSchema,
+  parseOrUndefined,
+  withoutUndefined
+} from "../schemas/settings";
 
 /** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
 async function saveSettingsDoc(ref: DocumentReference, payload: Record<string, unknown>) {
@@ -239,6 +251,29 @@ export const DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE: GalleryWidgetConfig = {
   aspectRatio: '4:3',
 };
 
+/**
+ * Валідація конфігів віджетів.
+ *
+ * Повертається ЧАСТКОВИЙ обʼєкт: поле з непридатним значенням зникає, і його
+ * місце займає типове вже в компоненті, який робить `{ ...DEFAULT_X, ...cfg }`.
+ * Приведення тут потрібне, бо тип поля описує повний конфіг, а не частковий;
+ * для споживача різниці немає — він однаково зливає з типовим.
+ */
+function validNews(raw: unknown): NewsWidgetConfig | undefined {
+  const parsed = parseOrUndefined(NewsWidgetConfigSchema, raw);
+  return parsed && (withoutUndefined(parsed) as NewsWidgetConfig);
+}
+
+function validProjects(raw: unknown): ProjectsWidgetConfig | undefined {
+  const parsed = parseOrUndefined(ProjectsWidgetConfigSchema, raw);
+  return parsed && (withoutUndefined(parsed) as ProjectsWidgetConfig);
+}
+
+function validGallery(raw: unknown): GalleryWidgetConfig | undefined {
+  const parsed = parseOrUndefined(GalleryWidgetConfigSchema, raw);
+  return parsed && (withoutUndefined(parsed) as GalleryWidgetConfig);
+}
+
 export interface HomeSettings {
   blocks: BlockConfig[];
   /** Mobile-specific block order. Falls back to `blocks` when absent. */
@@ -343,14 +378,12 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
     const docSnap = await getDoc(docRef);
     perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
     if (docSnap.exists()) {
-      // Partial<HomeSettings>, а не Record<string, unknown> і не any: це
-      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
-      // не проходять через zod — приведення тут і є тим місцем, де відсутність
-      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
       const raw = docSnap.data() as Partial<HomeSettings>;
       // Merge missing DEFAULT_BLOCKS entries into loaded blocks
       // (old Firebase data may lack blocks added after initial save, e.g. 'projects')
-      let loadedBlocks: BlockConfig[] = raw.blocks ?? DEFAULT_BLOCKS;
+      // Блок із невідомим id або поламаним полем відкидається схемою — далі
+      // цикл нижче однаково доповнить список типовими.
+      let loadedBlocks: BlockConfig[] = parseOrUndefined(BlocksSchema, raw.blocks) ?? DEFAULT_BLOCKS;
       const loadedIds = new Set(loadedBlocks.map(b => b.id));
       for (const def of DEFAULT_BLOCKS) {
         if (!loadedIds.has(def.id)) {
@@ -366,13 +399,13 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
       loadedBlocks = loadedBlocks.map((b, i) => ({ ...b, order: i }));
       const data: HomeSettings = {
         blocks: loadedBlocks,
-        mobileBlocks: raw.mobileBlocks,
-        newsWidget: raw.newsWidget,
-        mobileNewsWidget: raw.mobileNewsWidget,
-        projectsWidget: raw.projectsWidget,
-        mobileProjectsWidget: raw.mobileProjectsWidget,
-        galleryWidget: raw.galleryWidget,
-        mobileGalleryWidget: raw.mobileGalleryWidget,
+        mobileBlocks: parseOrUndefined(BlocksSchema, raw.mobileBlocks),
+        newsWidget: validNews(raw.newsWidget),
+        mobileNewsWidget: validNews(raw.mobileNewsWidget),
+        projectsWidget: validProjects(raw.projectsWidget),
+        mobileProjectsWidget: validProjects(raw.mobileProjectsWidget),
+        galleryWidget: validGallery(raw.galleryWidget),
+        mobileGalleryWidget: validGallery(raw.mobileGalleryWidget),
         updatedAt: raw.updatedAt,
       };
       // Cache in localStorage for instant render on next visit (SWR pattern)
@@ -884,22 +917,32 @@ interface HeaderSettingsRaw {
 }
 
 /** Resolve full HeaderSettings from Firebase overrides + code defaults. */
-function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
+/**
+ * Збирає повні налаштування шапки з накладок Firestore і типових значень.
+ *
+ * Дані спершу проходять через zod: поле неправильного типу ЗНИКАЄ, і його
+ * місце займає типове значення нижче за течією. Схеми навмисно не підставляють
+ * значення самі — інакше типові жили б у двох місцях і розходилися б непомітно.
+ */
+export function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
   // Migrate old cta.linkValue → cta.href
-  const rawCta = raw.cta ?? {};
+  const rawCta = withoutUndefined(parseOrUndefined(CtaConfigSchema, raw.cta ?? {}) ?? {});
   const cta: CtaConfig = {
     ...DEFAULT_HEADER_SETTINGS.cta,
     ...rawCta,
     href: rawCta.href ?? rawCta.linkValue ?? DEFAULT_HEADER_SETTINGS.cta.href,
   };
 
+  const ticker     = withoutUndefined(parseOrUndefined(TickerConfigSchema, raw.ticker ?? {}) ?? {});
+  const debugPanel = withoutUndefined(parseOrUndefined(DebugPanelConfigSchema, raw.debugPanel ?? {}) ?? {});
+
   return {
     cta,
-    ticker:        { ...DEFAULT_HEADER_SETTINGS.ticker,    ...(raw.ticker ?? {}) },
-    headerBar:     resolveMenuConfig(DEFAULT_HEADER_SETTINGS.headerBar,     raw.headerBar),
-    navDropdown:   resolveMenuConfig(DEFAULT_HEADER_SETTINGS.navDropdown,   raw.navDropdown),
-    mobileOverlay: resolveMenuConfig(DEFAULT_HEADER_SETTINGS.mobileOverlay, raw.mobileOverlay),
-    debugPanel:    { ...DEFAULT_HEADER_SETTINGS.debugPanel, ...(raw.debugPanel ?? {}) },
+    ticker:        { ...DEFAULT_HEADER_SETTINGS.ticker,    ...ticker },
+    headerBar:     resolveMenuConfig(DEFAULT_HEADER_SETTINGS.headerBar,     parseOrUndefined(MenuConfigOverrideSchema, raw.headerBar)),
+    navDropdown:   resolveMenuConfig(DEFAULT_HEADER_SETTINGS.navDropdown,   parseOrUndefined(MenuConfigOverrideSchema, raw.navDropdown)),
+    mobileOverlay: resolveMenuConfig(DEFAULT_HEADER_SETTINGS.mobileOverlay, parseOrUndefined(MenuConfigOverrideSchema, raw.mobileOverlay)),
+    debugPanel:    { ...DEFAULT_HEADER_SETTINGS.debugPanel, ...debugPanel },
   };
 }
 
@@ -1019,14 +1062,10 @@ export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-      // Partial<NewsPageSettings>, а не Record<string, unknown> і не any: це
-      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
-      // не проходять через zod — приведення тут і є тим місцем, де відсутність
-      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
       const raw = docSnap.data() as Partial<NewsPageSettings>;
     const data: NewsPageSettings = {
-      newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
-      mobileNewsWidget: raw.mobileNewsWidget,
+      newsWidget: validNews(raw.newsWidget) ?? DEFAULT_NEWS_WIDGET_PAGE,
+      mobileNewsWidget: validNews(raw.mobileNewsWidget),
       updatedAt: raw.updatedAt,
     };
     // SWR cache
@@ -1068,14 +1107,10 @@ export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | 
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-      // Partial<ProjectsPageSettings>, а не Record<string, unknown> і не any: це
-      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
-      // не проходять через zod — приведення тут і є тим місцем, де відсутність
-      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
       const raw = docSnap.data() as Partial<ProjectsPageSettings>;
     const data: ProjectsPageSettings = {
-      projectsWidget: raw.projectsWidget ?? DEFAULT_PROJECTS_WIDGET_PAGE,
-      mobileProjectsWidget: raw.mobileProjectsWidget,
+      projectsWidget: validProjects(raw.projectsWidget) ?? DEFAULT_PROJECTS_WIDGET_PAGE,
+      mobileProjectsWidget: validProjects(raw.mobileProjectsWidget),
       updatedAt: raw.updatedAt,
     };
     // SWR cache
@@ -1117,14 +1152,10 @@ export async function getAboutPageSettings(): Promise<AboutPageSettings | null> 
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-      // Partial<AboutPageSettings>, а не Record<string, unknown> і не any: це
-      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
-      // не проходять через zod — приведення тут і є тим місцем, де відсутність
-      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
       const raw = docSnap.data() as Partial<AboutPageSettings>;
     const data: AboutPageSettings = {
-      galleryWidget: raw.galleryWidget ?? DEFAULT_GALLERY_WIDGET_ABOUT,
-      mobileGalleryWidget: raw.mobileGalleryWidget,
+      galleryWidget: validGallery(raw.galleryWidget) ?? DEFAULT_GALLERY_WIDGET_ABOUT,
+      mobileGalleryWidget: validGallery(raw.mobileGalleryWidget),
       updatedAt: raw.updatedAt,
     };
     try {
