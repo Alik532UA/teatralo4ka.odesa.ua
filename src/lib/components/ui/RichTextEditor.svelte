@@ -2,8 +2,6 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
-	import Underline from '@tiptap/extension-underline';
-	import Link from '@tiptap/extension-link';
 	import Placeholder from '@tiptap/extension-placeholder';
 	import { Image } from '@tiptap/extension-image';
 	import { Table } from '@tiptap/extension-table';
@@ -62,17 +60,22 @@
 				}
 			},
 			extensions: [
+				// Link і Underline налаштовуються ЧЕРЕЗ StarterKit, а не поруч із ним:
+				// у tiptap 3 вони вже входять до його складу, і окрема реєстрація
+				// давала «Duplicate extension names found: [link, underline]».
+				// Дублікат не просто шумить у консолі — виграє одна з конфігурацій,
+				// тож клас `prose-link` міг і не застосуватися.
 				StarterKit.configure({
 					heading: {
 						levels: [1, 2, 3, 4, 5, 6],
 					},
+					// Власний HorizontalRule нижче — з окремими налаштуваннями.
 					horizontalRule: false,
-				}),
-				Underline,
-				Link.configure({
-					openOnClick: false,
-					HTMLAttributes: {
-						class: 'prose-link',
+					link: {
+						openOnClick: false,
+						HTMLAttributes: {
+							class: 'prose-link',
+						},
 					},
 				}),
 				Image.configure({
