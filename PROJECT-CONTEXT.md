@@ -80,7 +80,7 @@
 | `svelte/no-navigation-without-resolve` | там само | 72 | Правило плагіна, якого немає в стандарті; спершу рішення, чи це канон проєкту |
 | `@typescript-eslint/no-explicit-any` | там само | 84 | Скорочується поступово |
 | `svelte/prefer-svelte-reactivity` | там само | 8 | `Map`/`Set` у стані → `SvelteMap`/`SvelteSet` |
-| Точкові `eslint-disable` | 8 місць у коді | 8 | 5 із них — свідомі `{@html}` із причиною поруч; решта — хибні спрацювання правил |
+| Точкові `eslint-disable` | 10 місць у коді | 10 | 5 — свідомі `{@html}` із причиною поруч; 2 — `no-unused-props` (хибне спрацювання), 2 — `no-unused-expressions`, 1 — `prefer-rest-params` в обгортці gtag |
 
 ## Свідомі відхилення від пакету
 
