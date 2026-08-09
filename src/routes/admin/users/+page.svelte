@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { authService } from '$lib/controllers/auth.svelte';
+	import { authService, type UserProfile } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
@@ -18,7 +18,19 @@
 		{ id: 'assistant', label: 'admin.users.assistants', icon: GraduationCap, color: '#f59e0b' }
 	];
 
-	let users = $state<any[]>([]);
+	/**
+	 * Користувач, прочитаний із Firestore: профіль плюс id документа.
+	 * Раніше тут стояв `any[]`, і жодне з дванадцяти звернень до полів у цьому
+	 * файлі не перевірялося взагалі.
+	 *
+	 * `originalProjectsJson` — знімок доступів на момент завантаження, за яким
+	 * сторінка розуміє, чи є незбережені зміни. Поле службове і в Firestore не
+	 * пишеться; у типі воно тому, що інакше про нього не знає ніхто, крім трьох
+	 * рядків, які його вживають.
+	 */
+	type AdminUser = UserProfile & { id: string; originalProjectsJson?: string };
+
+	let users = $state<AdminUser[]>([]);
 	let loading = $state(true);
 	let savingId = $state<string | null>(null);
 
@@ -50,10 +62,10 @@
 
 	const groupedUsers = $derived.by(() => {
 		const groups = {
-			superadmin: [] as any[],
-			admin: [] as any[],
-			moderator: [] as any[],
-			assistant: [] as any[]
+			superadmin: [] as AdminUser[],
+			admin: [] as AdminUser[],
+			moderator: [] as AdminUser[],
+			assistant: [] as AdminUser[]
 		};
 
 		for (const user of users) {
@@ -66,7 +78,7 @@
 					// For superadmin, use the overall highest role.
 					// For project admin, use the role in the current project.
 					if (isSuperAdmin) {
-						for (const pData of Object.values(user.projects) as any[]) {
+						for (const pData of Object.values(user.projects)) {
 							if (pData.role === 'admin') {
 								highestRole = 'admin';
 								break;
@@ -194,7 +206,9 @@
 			return;
 		}
 
-		const existingUser = users.find(u => u.email.toLowerCase() === email);
+		// email у профілі необов'язковий — запис без нього просто не збіжиться,
+		// а раніше цей рядок кидав би "Cannot read properties of undefined".
+		const existingUser = users.find((u) => u.email?.toLowerCase() === email);
 		savingId = 'new';
 		
 		try {
@@ -236,7 +250,7 @@
 		}
 	}
 
-	async function updateProjectAccess(user: any, projectId: string) {
+	async function updateProjectAccess(user: AdminUser, projectId: string) {
 		if (isSelf(user.id)) {
 			toast.error($t('admin.users.cannotChangeSelf'));
 			return;
@@ -269,7 +283,7 @@
 		}
 	}
 
-	async function removeProjectAccess(user: any, projectId: string) {
+	async function removeProjectAccess(user: AdminUser, projectId: string) {
 		if (isSelf(user.id)) return;
 		if (!canManageProject(projectId, user.projects[projectId].role)) {
 			toast.error($t('admin.users.noUpdatePerms'));
@@ -298,10 +312,10 @@
 	}
 
 	// Delete Modal State
-	let deleteConfirmModal = $state<{ open: boolean, user: any | null }>({ open: false, user: null });
+	let deleteConfirmModal = $state<{ open: boolean, user: AdminUser | null }>({ open: false, user: null });
 	let deleteConfirmInput = $state('');
 
-	async function deleteFullUser(user: any) {
+	async function deleteFullUser(user: AdminUser) {
 		if (isSelf(user.id)) return;
 
 		// Firestore rules дозволяють delete тільки superadmin або самому собі (uid == userId)
@@ -589,7 +603,7 @@
 
 
 <!-- ===================== User Card (Modern Switches) ===================== -->
-{#snippet userCard(user: any)}
+{#snippet userCard(user: AdminUser)}
 	{@const hasChanges = JSON.stringify(user.projects) !== user.originalProjectsJson}
 	<div class="user-card v3-modern {isSelf(user.id) ? 'is-self' : ''} {hasChanges ? 'has-changes' : ''}" data-testid="admin-users-row-{user.id}">
 		{#if isSelf(user.id)}<div class="self-tag"><UserCheck size={14} /> {$t('admin.users.itsYou')}</div>{/if}
@@ -627,7 +641,7 @@
 				<div class="v3-empty">{$t('admin.users.noProjects')}</div>
 			{/if}
 			{#each Object.entries(user.projects) as [projectId, pDataRaw] (projectId)}
-				{@const pData = pDataRaw as any}
+				{@const pData = pDataRaw}
 				<div class="v3-project-row">
 					<div class="v3-left">
 						<div class="v3-project-title">

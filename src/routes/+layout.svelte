@@ -31,7 +31,7 @@
 	});
 
 	function perf(label: string) {
-		if (browser && (window as any).__perf) (window as any).__perf(label);
+		if (browser && window.__perf) window.__perf(label);
 	}
 
 	perf('+layout.svelte: script init');
@@ -60,7 +60,7 @@
 	}
 
 	function copyPerfLog() {
-		const log = (window as any).__perfLog || [];
+		const log = window.__perfLog ?? [];
 		const ua = navigator.userAgent;
 		const conn = (navigator as any).connection;
 		const mem = (performance as any).memory;

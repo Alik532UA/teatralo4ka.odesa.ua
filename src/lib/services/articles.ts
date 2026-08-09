@@ -103,7 +103,7 @@ export async function getArticleById(id: string) {
 }
 
 export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string, maxItems?: number) {
-  const _perf = (l: string) => { if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(l); };
+  const _perf = (l: string) => { if (typeof window !== 'undefined' && window.__perf) window.__perf(l); };
   _perf('getArticles: start');
   const articlesRef = collection(db, "projects", projectId, "articles");
   

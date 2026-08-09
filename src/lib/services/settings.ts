@@ -1,15 +1,18 @@
-import { 
-  doc, 
-  getDoc, 
+import {
+  doc,
+  getDoc,
   setDoc,
-  serverTimestamp 
+  serverTimestamp,
+  type DocumentReference,
+  type FieldValue,
+  type Timestamp
 } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import { storage } from "./storage";
 import { rethrowFriendly } from "./firebaseErrors";
 
 /** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
-async function saveSettingsDoc(ref: any, payload: any) {
+async function saveSettingsDoc(ref: DocumentReference, payload: Record<string, unknown>) {
   try {
     return await setDoc(ref, payload);
   } catch (e) {
@@ -248,27 +251,31 @@ export interface HomeSettings {
   mobileProjectsWidget?: ProjectsWidgetConfig;
   galleryWidget?: GalleryWidgetConfig;
   mobileGalleryWidget?: GalleryWidgetConfig;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 export interface NewsPageSettings {
   newsWidget: NewsWidgetConfig;
   /** Mobile-specific news widget config. Falls back to `newsWidget` when absent. */
   mobileNewsWidget?: NewsWidgetConfig;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 export interface ProjectsPageSettings {
   projectsWidget: ProjectsWidgetConfig;
   /** Mobile-specific projects widget config. Falls back to `projectsWidget` when absent. */
   mobileProjectsWidget?: ProjectsWidgetConfig;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 export interface AboutPageSettings {
   galleryWidget: GalleryWidgetConfig;
   mobileGalleryWidget?: GalleryWidgetConfig;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 export const DEFAULT_BLOCKS: BlockConfig[] = [
@@ -324,7 +331,7 @@ async function getProjectId(): Promise<string> {
 }
 
 function perf(label: string) {
-  if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(label);
+  if (typeof window !== 'undefined' && window.__perf) window.__perf(label);
 }
 
 /** Public read — no auth required (Firestore rules allow settingId == 'home'). */
@@ -336,7 +343,11 @@ export async function getHomeSettings(): Promise<HomeSettings | null> {
     const docSnap = await getDoc(docRef);
     perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
     if (docSnap.exists()) {
-      const raw = docSnap.data() as Record<string, any>;
+      // Partial<HomeSettings>, а не Record<string, unknown> і не any: це
+      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
+      // не проходять через zod — приведення тут і є тим місцем, де відсутність
+      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
+      const raw = docSnap.data() as Partial<HomeSettings>;
       // Merge missing DEFAULT_BLOCKS entries into loaded blocks
       // (old Firebase data may lack blocks added after initial save, e.g. 'projects')
       let loadedBlocks: BlockConfig[] = raw.blocks ?? DEFAULT_BLOCKS;
@@ -710,7 +721,8 @@ export interface HeaderSettings {
   /** data-testid="mobile-overlay-container" */
   mobileOverlay: MenuConfig;
   debugPanel: DebugPanelConfig;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 // ── Defaults ──────────────────────────────────────────────────────────────────
@@ -867,7 +879,8 @@ interface HeaderSettingsRaw {
   navDropdown?: MenuConfigOverride;
   mobileOverlay?: MenuConfigOverride;
   debugPanel?: Partial<DebugPanelConfig>;
-  updatedAt?: any;
+  /** Timestamp під час читання, FieldValue під час запису через serverTimestamp(). */
+  updatedAt?: Timestamp | FieldValue;
 }
 
 /** Resolve full HeaderSettings from Firebase overrides + code defaults. */
@@ -921,18 +934,25 @@ export function getCachedHeaderSettings(): Omit<HeaderSettings, 'updatedAt'> | n
   return null;
 }
 
-function stripUndefined(obj: any): any {
+/**
+ * Рекурсивно прибирає undefined: Firestore його не приймає й падає на записі.
+ *
+ * Дженерик, а не `any`: форма значення зберігається, тож виклик не втрачає тип.
+ * Усередині доводиться звужувати вручну — TypeScript не вміє довести, що
+ * результат обходу того самого об'єкта має той самий тип.
+ */
+function stripUndefined<T>(obj: T): T {
   if (Array.isArray(obj)) {
-    return obj.map(stripUndefined);
+    return obj.map(stripUndefined) as T;
   }
   if (obj !== null && typeof obj === 'object' && obj.constructor === Object) {
-    const result: any = {};
+    const result: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(obj)) {
       if (value !== undefined) {
         result[key] = stripUndefined(value);
       }
     }
-    return result;
+    return result as T;
   }
   return obj;
 }
@@ -947,7 +967,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
   const docRef = doc(db, "projects", projectId, "settings", "header");
 
   // Diff CTA: only store fields that differ from default
-  const ctaDiff: Record<string, any> = {};
+  const ctaDiff: Record<string, unknown> = {};
   const defCta = DEFAULT_HEADER_SETTINGS.cta;
   for (const key of Object.keys(settings.cta) as (keyof CtaConfig)[]) {
     if (settings.cta[key] !== defCta[key]) {
@@ -956,7 +976,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
   }
 
   // Diff ticker
-  const tickerDiff: Record<string, any> = {};
+  const tickerDiff: Record<string, unknown> = {};
   const defTicker = DEFAULT_HEADER_SETTINGS.ticker;
   for (const key of Object.keys(settings.ticker) as (keyof TickerConfig)[]) {
     if (settings.ticker[key] !== defTicker[key]) {
@@ -965,7 +985,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
   }
 
   // Diff debug panel
-  const debugDiff: Record<string, any> = {};
+  const debugDiff: Record<string, unknown> = {};
   const defDebug = DEFAULT_HEADER_SETTINGS.debugPanel;
   for (const key of Object.keys(settings.debugPanel) as (keyof DebugPanelConfig)[]) {
     if (settings.debugPanel[key] !== defDebug[key]) {
@@ -973,7 +993,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
     }
   }
 
-  const payload: Record<string, any> = { updatedAt: serverTimestamp() };
+  const payload: Record<string, unknown> = { updatedAt: serverTimestamp() };
 
   // Only include sections that have actual overrides
   if (Object.keys(ctaDiff).length > 0)     payload.cta = stripUndefined(ctaDiff);
@@ -999,7 +1019,11 @@ export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-    const raw = docSnap.data() as Record<string, any>;
+      // Partial<NewsPageSettings>, а не Record<string, unknown> і не any: це
+      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
+      // не проходять через zod — приведення тут і є тим місцем, де відсутність
+      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
+      const raw = docSnap.data() as Partial<NewsPageSettings>;
     const data: NewsPageSettings = {
       newsWidget: raw.newsWidget ?? DEFAULT_NEWS_WIDGET_PAGE,
       mobileNewsWidget: raw.mobileNewsWidget,
@@ -1044,7 +1068,11 @@ export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | 
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-    const raw = docSnap.data() as Record<string, any>;
+      // Partial<ProjectsPageSettings>, а не Record<string, unknown> і не any: це
+      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
+      // не проходять через zod — приведення тут і є тим місцем, де відсутність
+      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
+      const raw = docSnap.data() as Partial<ProjectsPageSettings>;
     const data: ProjectsPageSettings = {
       projectsWidget: raw.projectsWidget ?? DEFAULT_PROJECTS_WIDGET_PAGE,
       mobileProjectsWidget: raw.mobileProjectsWidget,
@@ -1089,7 +1117,11 @@ export async function getAboutPageSettings(): Promise<AboutPageSettings | null> 
     const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
     const docSnap = await getDoc(docRef);
     if (!docSnap.exists()) return null;
-    const raw = docSnap.data() as Record<string, any>;
+      // Partial<AboutPageSettings>, а не Record<string, unknown> і не any: це
+      // ОЧІКУВАНА форма, а не перевірена. Налаштування, на відміну від статей,
+      // не проходять через zod — приведення тут і є тим місцем, де відсутність
+      // валідації видно. Замінити на схему, коли зʼявиться привід її писати.
+      const raw = docSnap.data() as Partial<AboutPageSettings>;
     const data: AboutPageSettings = {
       galleryWidget: raw.galleryWidget ?? DEFAULT_GALLERY_WIDGET_ABOUT,
       mobileGalleryWidget: raw.mobileGalleryWidget,

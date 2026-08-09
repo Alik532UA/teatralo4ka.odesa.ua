@@ -17,7 +17,7 @@ const firebaseConfig = {
 };
 
 function perf(label: string) {
-  if (typeof window !== 'undefined' && (window as any).__perf) (window as any).__perf(label);
+  if (typeof window !== 'undefined' && window.__perf) window.__perf(label);
 }
 
 perf('firebase/config: module start');

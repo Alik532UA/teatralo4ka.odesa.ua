@@ -82,7 +82,7 @@
 	const PROJECTS_LIMIT_HOME = 12;
 
 	function perf(label: string) {
-		if (browser && (window as any).__perf) (window as any).__perf(label);
+		if (browser && window.__perf) window.__perf(label);
 	}
 
 	// ── Parallel loading: all Firebase requests fire at once ───────────────────
