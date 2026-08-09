@@ -41,6 +41,13 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      # Поріг high, а не moderate: решта moderate — це транзитивні залежності
+      # firebase-admin і svelte-i18n, для яких npm пропонує «фікс» у вигляді
+      # відкату на firebase-admin@10 і svelte-i18n@3, тобто на кілька мажорів
+      # назад. Такий гейт довелося б одразу вимкнути, а вимкнений гейт гірший
+      # за відсутній: він створює враження, що перевірка є.
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Validate static content
         run: npm run validate-content
