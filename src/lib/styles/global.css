@@ -102,6 +102,43 @@ html {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overflow-x: hidden;
+
+	/* Смуга прокрутки під тему.
+	 *
+	 * `scrollbar-color` і `scrollbar-width` — стандартні властивості, які
+	 * розуміють і Firefox, і Chromium 121+. Вони успадковуються, тож одного
+	 * оголошення на `html` вистачає і для сторінки, і для будь-якого блока з
+	 * власною прокруткою — випадайок, модалок, мобільного меню.
+	 *
+	 * Значення беруться з тем, тому смуга змінюється разом із рештою; раніше
+	 * вона лишалася системною й у темній темі світилася білим. */
+	--scrollbar-track: var(--bg-surface);
+	--scrollbar-thumb: color-mix(in srgb, var(--accent-primary), transparent 55%);
+
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	scrollbar-width: thin;
+}
+
+/* Той самий вигляд для WebKit-браузерів, які ще не підтримують scrollbar-color
+   (Safari та Chromium до 121). Без цього блока там лишається системна смуга. */
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: 8px;
+	/* Рамка кольору доріжки робить повзунок візуально тоншим за смугу. */
+	border: 2px solid var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-primary);
 }
 
 body {

@@ -223,18 +223,22 @@
 		min-width: 260px;
 		max-height: 320px;
 		overflow-y: auto;
-		background: var(--theme-dynamic-card-bg, #fff);
+		/* --bg-card, а не --theme-dynamic-card-bg: остання не визначена ніде в
+		   проєкті, тож завжди спрацьовував запасний #fff — біла панель у темній
+		   темі. Тут і далі вживаються токени тем, які справді існують. */
+		background: var(--bg-card);
 		border-radius: 16px;
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-		border: 1px solid rgba(0, 0, 0, 0.08);
+		border: 1px solid var(--border-main);
 		z-index: 100;
 		padding: 0.35rem;
 		display: flex;
 		flex-direction: column;
 	}
+	/* Межу тут не чіпаємо: --border-main уже темозалежна. Лишається лише
+	   глибша тінь — на темному тлі слабка просто не видно. */
 	:global(.dark-theme) .af-cat-dropdown {
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-		border-color: rgba(255, 255, 255, 0.1);
 	}
 	.af-cat-option {
 		display: flex;
@@ -248,16 +252,16 @@
 		cursor: pointer;
 		font-size: 0.85rem;
 		font-weight: 600;
-		color: var(--color-dark-text);
+		color: var(--text-main);
 		transition: background 0.15s;
 		text-align: left;
 		width: 100%;
 	}
 	.af-cat-option:hover {
-		background: rgba(33, 150, 186, 0.08);
+		background: color-mix(in srgb, var(--accent-primary), transparent 92%);
 	}
 	.af-cat-option.selected {
-		background: rgba(33, 150, 186, 0.12);
+		background: color-mix(in srgb, var(--accent-primary), transparent 88%);
 		color: var(--accent-primary);
 	}
 	.af-cat-option-uk {
