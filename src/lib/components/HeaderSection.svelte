@@ -9,8 +9,16 @@
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
-	import { base, resolve } from "$app/paths";
-	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings, type MenuConfig } from "$lib/services/settings";
+	import { resolve } from "$app/paths";
+	import {
+		menuConfigToFlatItems,
+		menuConfigToGroups,
+		resolvedHref,
+		withCtaItem,
+		withOverflowGroup,
+		type NavItem
+	} from "$lib/utils/navigation";
+	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings } from "$lib/services/settings";
 	import { browser } from "$app/environment";
 	import { untrack } from "svelte";
 
@@ -214,159 +222,27 @@
 		}
 	}
 
-	interface NavItem {
-		/**
-		 * Ключ для `{#each}`. Береться з `MenuItem.id` конфігу і скоупиться
-		 * секцією: ідентифікатори унікальні всередині секції, але не глобально
-		 * — у типовому меню `home` є і в headerBar, і в mobileOverlay.
-		 */
-		id: string;
-		label: string;
-		href: string;
-		itemType?: 'cta';
-	}
-
-	interface NavGroup {
-		id: string;
-		title?: string;
-		titleHref?: string;
-		items: NavItem[];
-	}
-
-	function resolvedHref(href: string | undefined, linkType: string): string {
-		if (!href) return '#';
-		if (linkType === 'url' || href.startsWith('http')) return href;
-		if (linkType === 'article') {
-			// New format: full path like /projects/slug or /news/slug
-			if (href.startsWith('/')) return `${base}${href}`;
-			// Legacy: bare slug → assume /news/
-			return resolve('/news/[id]', { id: href });
-		}
-		return `${base}${href}`;
-	}
-
-	function menuConfigToFlatItems(cfg: MenuConfig, lang: string): NavItem[] {
-		return [
-			...cfg.items
-				.filter(it => it.visible)
-				.sort((a, b) => a.order - b.order)
-				.map(it => ({
-					id: it.id,
-					label: lang === 'uk' ? it.labelUk : it.labelEn,
-					href: resolvedHref(it.href, it.linkType),
-					itemType: it.itemType,
-				})),
-			...cfg.sections
-				.filter(s => s.visible)
-				.sort((a, b) => a.order - b.order)
-				.flatMap(s =>
-					s.items
-						.filter(it => it.visible)
-						.sort((a, b) => a.order - b.order)
-						.map(it => ({
-							// Тут корінь і секції зливаються в один плаский список,
-							// тому id секції обов'язковий: інакше `about` з кореня
-							// і `about` із секції дали б однаковий ключ.
-							id: `${s.id}/${it.id}`,
-							label: lang === 'uk' ? it.labelUk : it.labelEn,
-							href: resolvedHref(it.href, it.linkType),
-							itemType: it.itemType,
-						}))
-				),
-		];
-	}
-
-	function menuConfigToGroups(cfg: MenuConfig, lang: string): NavGroup[] {
-		const groups: NavGroup[] = [];
-
-		// flat root items → one headingless group (if any)
-		const rootItems = cfg.items
-			.filter(it => it.visible)
-			.sort((a, b) => a.order - b.order)
-			.map(it => ({
-				id: it.id,
-				label: lang === 'uk' ? it.labelUk : it.labelEn,
-				href: resolvedHref(it.href, it.linkType),
-				itemType: it.itemType,
-			}));
-		if (rootItems.length) groups.push({ id: '__root', items: rootItems });
-
-		// sections
-		cfg.sections
-			.filter(s => s.visible)
-			.sort((a, b) => a.order - b.order)
-			.forEach(s => {
-				groups.push({
-					id: s.id,
-					title: s.labelUk ? (lang === 'uk' ? s.labelUk : s.labelEn) : undefined,
-					titleHref: s.href ? resolvedHref(s.href, s.linkType ?? 'page') : undefined,
-					items: s.items
-						.filter(it => it.visible)
-						.sort((a, b) => a.order - b.order)
-						.map(it => ({
-							id: it.id,
-							label: lang === 'uk' ? it.labelUk : it.labelEn,
-							href: resolvedHref(it.href, it.linkType),
-							itemType: it.itemType,
-						})),
-				});
-			});
-
-		return groups;
-	}
-
 	const navItems = $derived(menuConfigToFlatItems(headerSettings.headerBar, $locale ?? 'uk'));
 	const hiddenNavItems = $derived(navItems.slice(fitCount));
 
 	const navDropdownGroups = $derived(menuConfigToGroups(headerSettings.navDropdown, $locale ?? 'uk'));
 	
-	const dynamicDropdownGroups = $derived.by(() => {
-		if (hiddenNavItems.length === 0) return navDropdownGroups;
-		
-		// Create a copy to not mutate derived state
-		const groups = JSON.parse(JSON.stringify(navDropdownGroups)) as NavGroup[];
-		const overflowItems = hiddenNavItems.filter(item => {
-			// Check if item already exists in any group to avoid duplicates
-			return !groups.some(g => g.items.some(gi => gi.href === item.href));
-		});
-
-		if (overflowItems.length > 0) {
-			// Add hidden items as first group
-			groups.unshift({
-				id: '__overflow',
-				title: $t('nav.more'),
-				items: overflowItems
-			});
-		}
-		return groups;
-	});
-
-	const mobileNavGroups = $derived.by(() => {
-		const groups = menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk');
-
-		// If CTA is visible and its href is NOT already in the menu, inject it as the first item
-		if (headerSettings.cta.visible && ctaHref) {
-			const ctaAlreadyInMenu = groups.some(g => g.items.some(it => it.href === ctaHref));
-			if (!ctaAlreadyInMenu) {
-				const lang = $locale ?? 'uk';
-				const ctaNavItem: NavItem = {
-					id: '__cta',
-					label: lang === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn,
-					href: ctaHref,
-					itemType: 'cta',
-				};
-				if (groups.length > 0 && groups[0].items.length > 0) {
-					groups[0].items.unshift(ctaNavItem);
-				} else {
-					groups.unshift({ id: '__cta-group', items: [ctaNavItem] });
-				}
-			}
-		}
-
-		return groups;
-	});
-
+	// Оголошено до mobileNavGroups навмисно: `$derived` обчислює вираз одразу,
+	// на відміну від колишнього `$derived.by`, який відкладав виклик.
 	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType));
+
+	const dynamicDropdownGroups = $derived(
+		withOverflowGroup(navDropdownGroups, hiddenNavItems, $t('nav.more'))
+	);
+
+	const mobileNavGroups = $derived(
+		withCtaItem(
+			menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk'),
+			headerSettings.cta,
+			ctaHref,
+			$locale ?? 'uk'
+		)
+	);
 
 	function isCtaItem(item: NavItem): boolean {
 		return headerSettings.cta.visible && item.href === ctaHref;
