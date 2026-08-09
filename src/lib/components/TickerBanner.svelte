@@ -82,7 +82,7 @@
   <div class="ticker-track">
     <!-- Duplicate content for seamless loop -->
     <div class="ticker-content">
-      {#each Array(4) as _}
+      {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
           <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>
@@ -90,7 +90,7 @@
       {/each}
     </div>
     <div class="ticker-content" aria-hidden="true">
-      {#each Array(4) as _}
+      {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
           <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>

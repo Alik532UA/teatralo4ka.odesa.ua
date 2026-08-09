@@ -510,7 +510,7 @@ async function handleAboutPageSubmit() {
 <p class="settings-card__desc" data-testid="admin-settings-blocks-desc-text">{$t('admin.settings.blocksDesc')}</p>
 
 <ul class="blocks-list" data-testid="admin-settings-blocks-list">
-{#each blockList as block, i}
+{#each blockList as block, i (block.id)}
 <li class="block-item" data-testid="admin-settings-block-{block.id}-row">
 <span class="block-item__order" data-testid="admin-settings-block-{block.id}-order-value">{i + 1}</span>
 <span class="block-item__name" data-testid="admin-settings-block-{block.id}-name-text">
@@ -616,7 +616,7 @@ async function handleAboutPageSubmit() {
   {:else}
     <select class="form-select news-widget-select" value={cfg.pinnedArticleId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedArticleId: e.currentTarget.value })}>
       <option value="">{$t('admin.settings.newsPinnedNone')}</option>
-      {#each articlesList as art}
+      {#each articlesList as art (art.slug)}
         <option value={art.slug}>{art.titleUk}</option>
       {/each}
     </select>
@@ -774,7 +774,7 @@ async function handleAboutPageSubmit() {
   {:else}
     <select class="form-select news-widget-select" value={cfg.pinnedProjectId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedProjectId: e.currentTarget.value })}>
       <option value="">{$t('admin.settings.projectsPinnedNone')}</option>
-      {#each articlesList as art}
+      {#each articlesList as art (art.slug)}
         <option value={art.slug}>{art.titleUk}</option>
       {/each}
     </select>
@@ -1040,7 +1040,7 @@ async function handleAboutPageSubmit() {
 
 <!-- ══ Tab bar ══════════════════════════════════════════════════════════════ -->
 <nav class="tab-bar" data-testid="admin-settings-tabs">
-  {#each TABS as tab}
+  {#each TABS as tab (tab.id)}
     <button
       type="button"
       class="tab-btn" class:active={activeTab === tab.id}
@@ -1402,11 +1402,11 @@ async function handleAboutPageSubmit() {
 <span class="block-item__name">{$t('admin.settings.tickerStartTime')}</span>
 <div class="time-picker-group">
   <select class="form-select time-select" value={ticker.startTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each hours as h}<option value={h}>{h}</option>{/each}
+    {#each hours as h (h)}<option value={h}>{h}</option>{/each}
   </select>
   <span class="time-separator">:</span>
   <select class="form-select time-select" value={ticker.startTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each minutes as m}<option value={m}>{m}</option>{/each}
+    {#each minutes as m (m)}<option value={m}>{m}</option>{/each}
   </select>
 </div>
 </li>
@@ -1414,11 +1414,11 @@ async function handleAboutPageSubmit() {
 <span class="block-item__name">{$t('admin.settings.tickerEndTime')}</span>
 <div class="time-picker-group">
   <select class="form-select time-select" value={ticker.endTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each hours as h}<option value={h}>{h}</option>{/each}
+    {#each hours as h (h)}<option value={h}>{h}</option>{/each}
   </select>
   <span class="time-separator">:</span>
   <select class="form-select time-select" value={ticker.endTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each minutes as m}<option value={m}>{m}</option>{/each}
+    {#each minutes as m (m)}<option value={m}>{m}</option>{/each}
   </select>
 </div>
 </li>

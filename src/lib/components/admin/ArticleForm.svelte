@@ -485,7 +485,7 @@
 								</button>
 								{#if catDropdownOpen}
 									<div class="af-cat-dropdown" role="listbox" data-testid="{tp}-category-select">
-										{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels]}
+										{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels] (key)}
 											<button
 												type="button"
 												class="af-cat-option"
@@ -694,7 +694,7 @@
 							</div>
 						</div>
 					{:else}
-						{#each (['uk', 'en'] as const) as lang}
+						{#each (['uk', 'en'] as const) as lang (lang)}
 							<div class="form-group">
 								<label class="form-label" for="cover-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
 								<div style="display: flex; gap: 1rem; align-items: flex-start;">
@@ -739,7 +739,7 @@
 					{$t('admin.editor.langStatus')}
 				</div>
 				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
-					{#each (['uk', 'en'] as const) as lang}
+					{#each (['uk', 'en'] as const) as lang (lang)}
 						<div
 							class="lang-card"
 							style="padding: 1.25rem; border-radius: 20px; border: 2px solid {activeLang === lang ? 'var(--color-ocean)' : 'rgba(0,0,0,0.05)'}; background: {activeLang === lang ? 'rgba(0, 119, 190, 0.05)' : 'transparent'}; cursor: pointer; transition: all 0.2s;"
@@ -801,7 +801,7 @@
 				</div>
 				{#if useCustomExcerpt}
 					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-						{#each (['uk', 'en'] as const) as lang}
+						{#each (['uk', 'en'] as const) as lang (lang)}
 							<div class="form-group" style="margin: 0;">
 								<label class="form-label" for="excerpt-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
 								<textarea
@@ -873,7 +873,7 @@
 							<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.externalUrlHint')}</p>
 						</div>
 					{:else}
-						{#each (['uk', 'en'] as const) as lang}
+						{#each (['uk', 'en'] as const) as lang (lang)}
 							<div class="form-group" style="margin: 0;">
 								<label class="form-label" for="external-url-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
 								<input

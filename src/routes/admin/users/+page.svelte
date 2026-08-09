@@ -376,7 +376,7 @@
 						{$t('admin.users.superadmins')}
 					</h2>
 					<div class="users-grid">
-						{#each groupedUsers.superadmin as user}
+						{#each groupedUsers.superadmin as user (user.id)}
 							{@render userCard(user)}
 						{/each}
 					</div>
@@ -390,7 +390,7 @@
 						{$t('admin.users.projectAdmins')}
 					</h2>
 					<div class="users-grid">
-						{#each groupedUsers.admin as user}
+						{#each groupedUsers.admin as user (user.id)}
 							{@render userCard(user)}
 						{/each}
 					</div>
@@ -404,7 +404,7 @@
 						{$t('admin.users.moderators')}
 					</h2>
 					<div class="users-grid">
-						{#each groupedUsers.moderator as user}
+						{#each groupedUsers.moderator as user (user.id)}
 							{@render userCard(user)}
 						{/each}
 					</div>
@@ -418,7 +418,7 @@
 						{$t('admin.users.assistants')}
 					</h2>
 					<div class="users-grid">
-						{#each groupedUsers.assistant as user}
+						{#each groupedUsers.assistant as user (user.id)}
 							{@render userCard(user)}
 						{/each}
 					</div>
@@ -464,7 +464,7 @@
 					<!-- Role -->
 					<label class="add-label" for="new-user-role">{$t('admin.users.roleLabel')}</label>
 					<select id="new-user-role" class="add-input add-select" bind:value={newUser.role}>
-						{#each ROLES as r}
+						{#each ROLES as r (r.id)}
 							<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>
 						{/each}
 					</select>
@@ -626,7 +626,7 @@
 			{#if Object.keys(user.projects).length === 0 && !user.isSuperAdmin}
 				<div class="v3-empty">{$t('admin.users.noProjects')}</div>
 			{/if}
-			{#each Object.entries(user.projects) as [projectId, pDataRaw]}
+			{#each Object.entries(user.projects) as [projectId, pDataRaw] (projectId)}
 				{@const pData = pDataRaw as any}
 				<div class="v3-project-row">
 					<div class="v3-left">
@@ -637,7 +637,7 @@
 							{/if}
 						</div>
 						<select bind:value={pData.role} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} class="form-select v3-select">
-							{#each ROLES as r}<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>{/each}
+							{#each ROLES as r (r.id)}<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>{/each}
 						</select>
 					</div>
 					<div class="v3-right">

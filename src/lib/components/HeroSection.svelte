@@ -76,7 +76,7 @@
 		<!-- 3. Image (Right) -->
 		<div class="hero__image-wrap" data-testid="hero-scene-container">
 			<div class="hero__image-inner" data-testid="hero-image-container">
-				{#each images as img, i}
+				{#each images as img, i (img)}
 					<img
 						src={img}
 						alt=""

@@ -215,12 +215,19 @@
 	}
 
 	interface NavItem {
+		/**
+		 * Ключ для `{#each}`. Береться з `MenuItem.id` конфігу і скоупиться
+		 * секцією: ідентифікатори унікальні всередині секції, але не глобально
+		 * — у типовому меню `home` є і в headerBar, і в mobileOverlay.
+		 */
+		id: string;
 		label: string;
 		href: string;
 		itemType?: 'cta';
 	}
 
 	interface NavGroup {
+		id: string;
 		title?: string;
 		titleHref?: string;
 		items: NavItem[];
@@ -244,6 +251,7 @@
 				.filter(it => it.visible)
 				.sort((a, b) => a.order - b.order)
 				.map(it => ({
+					id: it.id,
 					label: lang === 'uk' ? it.labelUk : it.labelEn,
 					href: resolvedHref(it.href, it.linkType),
 					itemType: it.itemType,
@@ -256,6 +264,10 @@
 						.filter(it => it.visible)
 						.sort((a, b) => a.order - b.order)
 						.map(it => ({
+							// Тут корінь і секції зливаються в один плаский список,
+							// тому id секції обов'язковий: інакше `about` з кореня
+							// і `about` із секції дали б однаковий ключ.
+							id: `${s.id}/${it.id}`,
 							label: lang === 'uk' ? it.labelUk : it.labelEn,
 							href: resolvedHref(it.href, it.linkType),
 							itemType: it.itemType,
@@ -272,11 +284,12 @@
 			.filter(it => it.visible)
 			.sort((a, b) => a.order - b.order)
 			.map(it => ({
+				id: it.id,
 				label: lang === 'uk' ? it.labelUk : it.labelEn,
 				href: resolvedHref(it.href, it.linkType),
 				itemType: it.itemType,
 			}));
-		if (rootItems.length) groups.push({ items: rootItems });
+		if (rootItems.length) groups.push({ id: '__root', items: rootItems });
 
 		// sections
 		cfg.sections
@@ -284,12 +297,14 @@
 			.sort((a, b) => a.order - b.order)
 			.forEach(s => {
 				groups.push({
+					id: s.id,
 					title: s.labelUk ? (lang === 'uk' ? s.labelUk : s.labelEn) : undefined,
 					titleHref: s.href ? resolvedHref(s.href, s.linkType ?? 'page') : undefined,
 					items: s.items
 						.filter(it => it.visible)
 						.sort((a, b) => a.order - b.order)
 						.map(it => ({
+							id: it.id,
 							label: lang === 'uk' ? it.labelUk : it.labelEn,
 							href: resolvedHref(it.href, it.linkType),
 							itemType: it.itemType,
@@ -318,6 +333,7 @@
 		if (overflowItems.length > 0) {
 			// Add hidden items as first group
 			groups.unshift({
+				id: '__overflow',
 				title: $t('nav.more'),
 				items: overflowItems
 			});
@@ -334,6 +350,7 @@
 			if (!ctaAlreadyInMenu) {
 				const lang = $locale ?? 'uk';
 				const ctaNavItem: NavItem = {
+					id: '__cta',
 					label: lang === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn,
 					href: ctaHref,
 					itemType: 'cta',
@@ -341,7 +358,7 @@
 				if (groups.length > 0 && groups[0].items.length > 0) {
 					groups[0].items.unshift(ctaNavItem);
 				} else {
-					groups.unshift({ items: [ctaNavItem] });
+					groups.unshift({ id: '__cta-group', items: [ctaNavItem] });
 				}
 			}
 		}
@@ -415,7 +432,7 @@
 			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu" bind:this={navParentRef}>
 				<!-- Ghost menu for measuring (hidden from view) -->
 				<ul class="header__nav-list header__nav-list--ghost" aria-hidden="true" bind:this={ghostContainerRef}>
-					{#each navItems as item}
+					{#each navItems as item (item.id)}
 						<li class="header__nav-item header__nav-item--ghost">
 							<span class="header__nav-link">{item.label}</span>
 						</li>
@@ -436,7 +453,7 @@
 				</ul>
 
 				<ul class="header__nav-list" data-testid="nav-list-menu">
-					{#each navItems as item, i}
+					{#each navItems as item, i (item.id)}
 						<li 
 							class="header__nav-item" 
 							class:header__nav-item--hidden={i >= fitCount}
@@ -495,7 +512,7 @@
 								role="menu"
 								tabindex="-1"
 							>
-							{#each dynamicDropdownGroups as group, gIndex}
+							{#each dynamicDropdownGroups as group, gIndex (group.id)}
 								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-section-${gIndex}`}>
 									{#if group.title}
 										{#if group.titleHref}
@@ -505,7 +522,7 @@
 										{/if}
 									{/if}
 									<ul class="header__nav-dropdown-list">
-										{#each group.items as item, i}
+										{#each group.items as item, i (item.id)}
 											<li>
 												<a 
 													href={item.href} 
@@ -665,7 +682,7 @@
 				>
 					<div class="header__mobile-container" data-testid="mobile-nav-container">
 						<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
-							{#each mobileNavGroups as group, gIndex}
+							{#each mobileNavGroups as group, gIndex (group.id)}
 								<li 
 									class="header__mobile-group" 
 									data-testid={`mobile-nav-section-${gIndex}`}
@@ -679,7 +696,7 @@
 										{/if}
 									{/if}
 									<ul class="header__mobile-sublist">
-										{#each group.items as item, i}
+										{#each group.items as item, i (item.id)}
 											<li data-testid={`mobile-nav-item-${gIndex}-${i}-container`} class="header__mobile-subitem">
 												<a
 													href={item.href}

@@ -399,7 +399,7 @@
 
 		{#if items.length > 1}
 			<div class="focus-dots" data-testid="{testIdPrefix}-pagination-list">
-				{#each items as _, i}
+				{#each items as item, i (item.id)}
 					<button
 						class="f-dot"
 						class:active={(currentIndex % items.length) === i}
@@ -414,7 +414,7 @@
 	<!-- Grid view -->
 	{:else if view === 'grid'}
 		<div class="grid-view" data-testid="{testIdPrefix}-list">
-			{#each displayItems as item, i}
+			{#each displayItems as item, i (item.id)}
 				<ContentCard {item} variant="grid" index={i} {linkPrefix} {readMoreLabel} testIdPrefix={cardTestIdPrefix} />
 			{/each}
 		</div>
@@ -422,7 +422,7 @@
 	<!-- List view -->
 	{:else}
 		<div class="list-view" data-testid="{testIdPrefix}-list">
-			{#each displayItems as item, i}
+			{#each displayItems as item, i (item.id)}
 				<ContentCard {item} variant="list" index={i} {linkPrefix} {readMoreLabel} testIdPrefix={cardTestIdPrefix} />
 			{/each}
 		</div>

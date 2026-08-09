@@ -306,7 +306,7 @@
 					   data-testid="{testId}-paragraph-btn"
 					   title={$t('editor.paragraph')}
 				   ><Type size={18} /></button>
-				   {#each [1, 2, 3, 4, 5, 6] as level}
+				   {#each [1, 2, 3, 4, 5, 6] as level (level)}
 					   <button 
 						   type="button"
 						   class="tool-btn" 

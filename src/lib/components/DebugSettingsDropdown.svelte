@@ -48,7 +48,7 @@
 		<div class="dropdown-group-unified" data-testid="debug-bg-fieldset">
 			<span class="dropdown-label-unified">{$t('settings.dynamicBg')}</span>
 			<div class="dropdown-options-unified" style="flex-direction: column;" data-testid="debug-bg-options-fieldset">
-				{#each backgrounds as bg, i}
+				{#each backgrounds as bg, i (bg.id)}
 					<button
 						class="dropdown-opt-unified"
 						class:active={(bg.id === 0 && !ui.enableDynamicBackground) ||

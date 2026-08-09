@@ -218,7 +218,7 @@
 							<div class="skeleton-line skeleton-line--subtitle"></div>
 						</div>
 						<div class="skeleton-cards">
-							{#each { length: 3 } as _, i}
+							{#each { length: 3 } as _, i (i)}
 								<div class="skeleton-card" data-testid="news-skeleton-card-{i}">
 									<div class="skeleton-card__image"></div>
 									<div class="skeleton-card__body">
@@ -260,7 +260,7 @@
 							<div class="skeleton-line skeleton-line--subtitle"></div>
 						</div>
 						<div class="skeleton-cards">
-							{#each { length: 3 } as _, i}
+							{#each { length: 3 } as _, i (i)}
 								<div class="skeleton-card" data-testid="projects-skeleton-card-{i}">
 									<div class="skeleton-card__image"></div>
 									<div class="skeleton-card__body">

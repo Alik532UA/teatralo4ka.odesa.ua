@@ -84,7 +84,7 @@
 		<GalleryCarousel items={galleryImages} config={galleryConfig} testIdPrefix="about-gallery-carousel" />
 	{:else}
 		<div class="g-bento" data-testid="about-gallery-list">
-			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i}
+			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i (img.src)}
 				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
 					<img 
 						src={img.src} 

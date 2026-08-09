@@ -87,7 +87,7 @@
 		<div class="deps__block" data-testid="info-section">
 			<h2 class="deps__heading sr-only" data-testid="info-section-heading">{$t('departmentsSection.info')}</h2>
 			<div class="deps__grid" data-testid="info-list">
-				{#each info as item, i}
+				{#each info as item, i (item.id)}
 					<a href={item.href} class="deps__card" data-testid={`info-card-${item.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`info-card-image-container-${item.id}`}>
 							<img src={item.image} alt={item.title()} class="deps__image" loading="lazy" data-testid={`info-card-img-${item.id}`} />
@@ -108,7 +108,7 @@
 		<div class="deps__block" data-testid="departments-panel">
 			<h2 class="deps__heading" data-testid="departments-section-heading">{$t('departmentsSection.departments')}</h2>
 			<div class="deps__grid deps__grid--wide" data-testid="departments-list">
-				{#each departments as dep, i}
+				{#each departments as dep, i (dep.id)}
 					<a href={dep.href} class="deps__card" data-testid={`department-card-${dep.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`department-card-image-container-${dep.id}`}>
 							<img src={dep.image} alt={dep.title()} class="deps__image" loading="lazy" data-testid={`department-card-img-${dep.id}`} />
@@ -129,7 +129,7 @@
 		<div class="deps__block" data-testid="residents-section">
 			<h2 class="deps__heading" data-testid="residents-section-heading">{$t('departmentsSection.residents')}</h2>
 			<div class="deps__grid" data-testid="residents-list">
-				{#each residents as resident, i}
+				{#each residents as resident, i (resident.id)}
 					<a href={resident.href} class="deps__card" data-testid={`resident-card-${resident.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`resident-card-image-container-${resident.id}`}>
 							<img src={resident.image} alt={resident.title()} class="deps__image" loading="lazy" data-testid={`resident-card-img-${resident.id}`} />

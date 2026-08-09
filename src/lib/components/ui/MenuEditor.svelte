@@ -294,7 +294,7 @@
 	{#if menu.items.length > 0}
 		<div class="me-section-label">{$t('admin.menuEditor.itemsLabel')}</div>
 		<ul class="me-list">
-			{#each menu.items as item, i}
+			{#each menu.items as item, i (item.id)}
 				<li class="me-row" class:me-row--hidden={!item.visible}>
 					<span class="me-order">{i + 1}</span>
 					<span class="me-name">
@@ -337,7 +337,7 @@
 	{/if}
 
 	<!-- ═══ Sections ══════════════════════════════════════════════════════════ -->
-	{#each menu.sections as section, si}
+	{#each menu.sections as section, si (section.id)}
 		<div class="me-section">
 			<div class="me-row" class:me-row--hidden={!section.visible}>
 				<span class="me-order">{si + 1}</span>
@@ -383,7 +383,7 @@
 
 			{#if expandedIds.has(section.id)}
 				<div class="me-section-items">
-					{#each section.items as item, ii}
+					{#each section.items as item, ii (item.id)}
 						<div class="me-row me-row--sub" class:me-row--hidden={!item.visible}>
 							<span class="me-order">{ii + 1}</span>
 							<span class="me-name">
@@ -478,7 +478,7 @@
 		<div class="me-add-form">
 			<strong class="me-add-title">{$t('admin.menuEditor.newSectionTitle')}</strong>
 			<div class="me-type-tabs">
-				{#each (['folder', 'page', 'article', 'url'] as const) as typeOpt}
+				{#each (['folder', 'page', 'article', 'url'] as const) as typeOpt (typeOpt)}
 					<button type="button" class="me-tab" class:me-tab--active={addForm.sectionType === typeOpt} onclick={() => setSectionType(typeOpt)}>
 					{typeOpt === 'folder' ? $t('admin.menuEditor.typeFolder') : typeOpt === 'page' ? $t('admin.menuEditor.typePage') : typeOpt === 'article' ? $t('admin.menuEditor.typeArticle') : $t('admin.menuEditor.typeUrl')}
 					</button>
@@ -490,7 +490,7 @@
 					const page = knownPages.find(p => p.value === v);
 					addForm = { ...addForm, href: v, labelUk: page?.labelUk ?? v, labelEn: page?.labelEn ?? v };
 				}}>
-					{#each knownPages as p}
+					{#each knownPages as p (p.value)}
 						<option value={p.value}>{p.labelUk}</option>
 					{/each}
 				</select>
@@ -504,7 +504,7 @@
 							addForm = { ...addForm, href: v, labelUk: art?.titleUk ?? v, labelEn: art?.titleEn ?? art?.titleUk ?? v };
 					}}>
 						<option value="">{$t('admin.menuEditor.selectArticle')}</option>
-						{#each articlesList as a}
+						{#each articlesList as a (a.path)}
 							<option value={a.path}>{a.titleUk} ({a.path})</option>
 						{/each}
 					</select>

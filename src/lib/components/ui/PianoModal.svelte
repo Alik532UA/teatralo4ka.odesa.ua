@@ -254,7 +254,10 @@
 		   <section id="main" data-testid="piano-modal-main-section">
 			   {#if viewMode === 'keyboard'}
 				   <div class="keys" data-testid="piano-keys-menu">
-					   {#each keysData as key, i}
+					   <!-- midi, а не code: код клавіатури береться з масиву фіксованої
+					        довжини і став би undefined, якби діапазон нот розширили,
+					        а кілька undefined як ключ — це падіння в рантаймі. -->
+					   {#each keysData as key, i (key.midi)}
 						   <div 
 							   class="key" 
 							   class:sharp={key.sharp} 
@@ -276,7 +279,7 @@
 				   </div>
 			   {:else}
 				   <div class="chords-grid" data-testid="piano-chords-menu">
-					   {#each chordsData as chord}
+					   {#each chordsData as chord (chord.name)}
 						   <button 
 							   class="chord-btn" 
 							   class:minor={chord.type === 'minor'}
@@ -295,7 +298,7 @@
 				   </div>
 			   {/if}
 
-			   {#each keysData as key}
+			   {#each keysData as key (key.midi)}
 				   <audio data-code={key.code} src={getAudioSrc(key.midi)} preload="auto"></audio>
 			   {/each}
 		   </section>

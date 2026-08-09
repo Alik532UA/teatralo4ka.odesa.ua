@@ -341,7 +341,7 @@
 					<Tag size={14} class="select-icon" />
 					<select class="cl-filter-select" bind:value={filterCategory}>
 						<option value="all">{$t('admin.content.allCategories')}</option>
-						{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels]}
+						{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels] (key)}
 							<option value={key}>{labels.uk}</option>
 						{/each}
 					</select>
@@ -352,7 +352,7 @@
 				<Calendar size={14} class="select-icon" />
 				<select class="cl-filter-select" bind:value={filterYear}>
 					<option value="all">{$t('admin.content.allYears')}</option>
-					{#each availableYears as year}
+					{#each availableYears as year (year)}
 						<option value={year}>{year}</option>
 					{/each}
 					<option value="none">{$t('admin.content.noDate')}</option>
@@ -364,7 +364,7 @@
 	<!-- List -->
 	<div class="cl-list" data-testid="admin-content-table-container">
 		{#if loading}
-			{#each [1,2,3,4] as _}
+			{#each [1,2,3,4] as n (n)}
 				<div class="cl-skeleton"></div>
 			{/each}
 		{:else if filtered.length === 0}

@@ -106,7 +106,7 @@
 			value={href}
 			onchange={(e) => selectPage((e.target as HTMLSelectElement).value)}
 		>
-			{#each knownPages as p}
+			{#each knownPages as p (p.value)}
 				<option value={p.value}>{p.labelUk}</option>
 			{/each}
 		</select>
@@ -120,7 +120,7 @@
 				onchange={(e) => selectArticle((e.target as HTMLSelectElement).value)}
 			>
 				<option value="">{$t('admin.menuEditor.selectArticle')}</option>
-				{#each articlesList as a}
+				{#each articlesList as a (a.path)}
 					<option value={a.path}>{a.titleUk} ({a.path})</option>
 				{/each}
 			</select>

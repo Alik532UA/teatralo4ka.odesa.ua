@@ -201,7 +201,7 @@
 				<Calendar size={14} class="select-icon" />
 				<select class="al-filter-select" bind:value={filterYear}>
 					<option value="all">{$t('admin.content.allYears')}</option>
-					{#each availableYears as year}
+					{#each availableYears as year (year)}
 						<option value={year}>{$t('admin.content.yearSuffix', { values: { year } })}</option>
 					{:else}
 						<!-- No years found -->
@@ -214,7 +214,7 @@
 
 	<div class="pl-list" data-testid="admin-pages-table-container">
 		{#if loading}
-			{#each [1,2,3] as _}
+			{#each [1,2,3] as n (n)}
 				<div class="al-skeleton"></div>
 			{/each}
 		{:else if filtered.length === 0}

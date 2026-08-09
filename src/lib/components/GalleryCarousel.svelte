@@ -222,7 +222,7 @@
 
 	{#if items.length > 1}
 		<div class="gc-dots" data-testid="{testIdPrefix}-pagination-list">
-			{#each items as _, i}
+			{#each items as item, i (item.src)}
 				<button
 					type="button"
 					class="gc-dot"
