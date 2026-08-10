@@ -146,4 +146,27 @@ describe('налаштування debug-панелі досяжні з адмі
 			);
 		});
 	}
+
+	/**
+	 * Тип `TabId` і масив `TABS` — два переліки того самого, і вони можуть
+	 * розійтися молча.
+	 *
+	 * Додати вкладку в тип і в розмітку (`{:else if activeTab === '…'}`), але
+	 * забути в `TABS`, — і кнопки для неї не буде: вміст існує й недосяжний. Типи
+	 * цього не ловлять, бо `TabId` лишається валідним. Відколи вкладка живе ще й
+	 * в адресі, ціна помилки виросла: `?tab=` з такою назвою теж відкине її як
+	 * невідому, бо перелік дійсних значень будується саме з `TABS`.
+	 */
+	it('кожна вкладка з типу TabId є в переліку TABS', () => {
+		const union = page.match(/type TabId =([^;]+);/)?.[1] ?? '';
+		const fromType = [...union.matchAll(/'([^']+)'/g)].map((m) => m[1]);
+		const tabsBlock = page.match(/const TABS[^=]*=\s*\[([\s\S]*?)\];/)?.[1] ?? '';
+		const fromArray = [...tabsBlock.matchAll(/id:\s*'([^']+)'/g)].map((m) => m[1]);
+
+		expect(fromType.length, 'не вдалося прочитати тип TabId — перевірка мертва').toBeGreaterThan(0);
+		expect(fromArray.length, 'не вдалося прочитати TABS — перевірка мертва').toBeGreaterThan(0);
+
+		const missing = fromType.filter((id) => !fromArray.includes(id));
+		expect(missing, `вкладки без кнопки: ${missing.join(', ')}`).toEqual([]);
+	});
 });

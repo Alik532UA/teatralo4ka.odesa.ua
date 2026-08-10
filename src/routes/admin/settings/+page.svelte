@@ -1,7 +1,8 @@
 <script lang="ts">
 import { authService } from '$lib/controllers/auth.svelte';
 import { toast } from '$lib/controllers/toast.svelte';
-import { goto } from '$app/navigation';
+import { goto, replaceState } from '$app/navigation';
+import { page } from '$app/state';
 import { resolve } from '$app/paths';
 import { logError } from '$lib/services/firebaseErrors';
 import {
@@ -39,7 +40,6 @@ import { getStaticProjectEntries } from '$lib/config/static-projects';
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
 type TabId = 'home' | 'news' | 'projects' | 'gallery' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
-let activeTab = $state<TabId>('home');
 
 type SubTabId = 'desktop' | 'mobile';
 type NewsSectionTabId = 'homeWidget' | 'pageWidget';
@@ -68,6 +68,50 @@ const TABS: { id: TabId; labelKey: string }[] = [
   { id: 'ticker',    labelKey: 'admin.settings.tabTicker' },
   { id: 'debug',     labelKey: 'admin.settings.tabDebug' },
 ];
+
+/**
+ * Вкладка живе в адресі — параметром `?tab=`, а не сегментом шляху.
+ *
+ * Сегмент вимагав би окремого маршруту на кожну з дев'яти вкладок, і кожного —
+ * у `prerender.entries`, тоді як уся ця сторінка рендериться лише в браузері
+ * (`ssr = false` в `admin/+layout.ts`). Параметр не вимагає нічого.
+ *
+ * `replaceState`, а не `pushState`: цінність тут у тому, щоб перезавантаження і
+ * надісланий колезі лінк відкривали ту саму вкладку. Якби кожен клік додавав
+ * запис в історію, вихід зі сторінки після обходу дев'яти вкладок вимагав би
+ * дев'яти натисків «Назад». До того ж на цій сторінці двадцять окремих
+ * прапорців незбережених змін, і перемикання вкладок кнопкою браузера тихо
+ * губило б правки.
+ */
+const TAB_IDS: string[] = TABS.map((tab) => tab.id);
+
+/** Вкладка з адреси. Невідома або відсутня — перша: значення прийшло звідки. */
+function tabFromUrl(): TabId {
+  const raw = page.url.searchParams.get('tab');
+  return raw !== null && TAB_IDS.includes(raw) ? (raw as TabId) : 'home';
+}
+
+let activeTab = $state<TabId>(tabFromUrl());
+
+function selectTab(id: TabId) {
+  activeTab = id;
+  /**
+   * Шлях беремо з типізованого `resolve()` — неправильний маршрут тоді не
+   * збереться, і це конвенція проєкту.
+   *
+   * `svelte/no-navigation-without-resolve` тут вимкнено свідомо: воно приймає
+   * ЛИШЕ прямий виклик `resolve()` як аргумент, а шлях із параметром запиту
+   * виразити так неможливо. Читав джерело правила — форми «рядок із resolve()
+   * усередині» воно не розпізнає в принципі. Те, від чого правило захищає (шлях
+   * без урахування `base`), тут виконано.
+   *
+   * Кінцевий слеш дописаний вручну: `resolve()` його не додає, а в проєкті
+   * стоїть `trailingSlash: 'always'`, і без нього адреса розійшлася б із рештою
+   * сайту.
+   */
+  // eslint-disable-next-line svelte/no-navigation-without-resolve
+  replaceState(`${resolve('/admin/settings')}/?tab=${id}`, {});
+}
 
 // Reset sub-tab when main tab changes
 $effect(() => {
@@ -1061,7 +1105,7 @@ async function handleAboutPageSubmit() {
     <button
       type="button"
       class="tab-btn" class:active={activeTab === tab.id}
-      onclick={() => activeTab = tab.id}
+      onclick={() => selectTab(tab.id)}
       data-testid="admin-settings-tab-{tab.id}"
     >{$t(tab.labelKey)}</button>
   {/each}
