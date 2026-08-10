@@ -51,6 +51,9 @@
 	 * тож міряти її повторно нема сенсу.
 	 */
 	let trackTop = 0;
+	/** Елемент, що тримає захват вказівника, і для якого саме вказівника. */
+	let capturedTrack: HTMLElement | null = null;
+	let capturedPointerId = -1;
 	/** Останнє положення курсора, ще не застосоване. */
 	let pendingY = 0;
 	let frame = 0;
@@ -218,6 +221,11 @@
 	}
 
 	function onTrackPointerDown(e: PointerEvent) {
+		// Гасить сумісні мишачі події, з яких браузер починає виділення. Доріжка
+		// притулена до правого краю вікна — саме там вмикається автоскрол виділення,
+		// і той далі бореться з кожним нашим scrollTo.
+		e.preventDefault();
+
 		const track = e.currentTarget as HTMLElement;
 		const rect = track.getBoundingClientRect();
 		trackTop = rect.top;
@@ -231,8 +239,16 @@
 
 		hold.stop();
 		dragging = true;
-		track.setPointerCapture(e.pointerId);
+		// Перед захватом: виняток у ньому не має проглинути початковий стрибок.
 		requestScroll(e.clientY);
+		try {
+			track.setPointerCapture(e.pointerId);
+			capturedTrack = track;
+			capturedPointerId = e.pointerId;
+		} catch {
+			// Доріжка завширшки 10px губить курсор від найменшого зсуву вбік, тож
+			// жест насправді несе слухач на window.
+		}
 	}
 
 	function onTrackPointerMove(e: PointerEvent) {
@@ -251,7 +267,11 @@
 		hold.aim(e.clientY - rect.top);
 	}
 
-	function endDrag(e: PointerEvent) {
+	/**
+	 * Без аргументу: викликається і з доріжки, і з window, а знімати захват треба з
+	 * елемента, який його взяв, а не з випадкової цілі події.
+	 */
+	function endDrag() {
 		if (!dragging) return;
 		dragging = false;
 		hold.stop();
@@ -259,19 +279,33 @@
 			cancelAnimationFrame(frame);
 			frame = 0;
 		}
-		(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+		if (capturedTrack !== null) {
+			try {
+				capturedTrack.releasePointerCapture(capturedPointerId);
+			} catch {
+				// Уже знято — браузером або разом з елементом.
+			}
+			capturedTrack = null;
+		}
 	}
 </script>
 
 <svelte:window
 	bind:innerWidth={windowWidth}
 	onpointermove={(e) => {
-		// Під час перетягування ширина й так зафіксована на максимумі, а зайве
-		// оновлення стану на кожен рух коштувало б перемальовування.
-		if (dragging) return;
+		// Під час перетягування жест несе саме цей слухач; ширина й так зафіксована
+		// на максимумі, тож mouseX не чіпаємо — зайве оновлення стану на кожен рух
+		// коштувало б перемальовування. Доріжка завширшки 10px: без цього жест живе
+		// лише поки тримається захват і курсор над нею.
+		if (dragging) {
+			requestScroll(e.clientY);
+			return;
+		}
 		mouseX = e.clientX;
 		pointerInside = true;
 	}}
+	onpointerup={endDrag}
+	onpointercancel={endDrag}
 	onpointerleave={() => (pointerInside = false)}
 />
 
@@ -326,6 +360,10 @@
 		/* Накладка: сторінка під нею лишається на всю ширину, тож перехід між
 		   сторінками з прокруткою і без неї більше нічого не зсуває. */
 		touch-action: none;
+		/* Успадковується повзунком: натиск на доріжці не має починати виділення, бо
+		   біля краю вікна воно вмикає автоскрол браузера. */
+		user-select: none;
+		-webkit-user-select: none;
 	}
 
 	/* Поїхала за край — не перехоплює натиски й не читається читалками. */
@@ -340,6 +378,9 @@
 		right: 2px;
 		background: var(--scrollbar-thumb);
 		border-radius: 999px;
+		/* Індикатор, не ціль: натиск мусить долітати до доріжки, яка й веде жест.
+		   Інакше натиск по повзунку й повз нього починаються на різних елементах. */
+		pointer-events: none;
 		transition: background 0.15s;
 	}
 
