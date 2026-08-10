@@ -22,6 +22,7 @@ import {
   type GalleryWidgetConfig, type GalleryAspectRatio,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
+import Select from '$lib/components/ui/Select.svelte';
 import { SCROLLBAR_MODES, type ScrollbarMode } from '$lib/config/scrollbarModes';
 import { BACKGROUND_OPTIONS } from '$lib/config/backgroundOptions';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
@@ -616,12 +617,16 @@ async function handleAboutPageSubmit() {
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select news-widget-select" value={cfg.pinnedArticleId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedArticleId: e.currentTarget.value })}>
-      <option value="">{$t('admin.settings.newsPinnedNone')}</option>
-      {#each articlesList as art (art.slug)}
-        <option value={art.slug}>{art.titleUk}</option>
-      {/each}
-    </select>
+    <Select
+      style="max-width: 280px; min-width: 150px;"
+      value={cfg.pinnedArticleId}
+      options={[
+        { value: '', label: $t('admin.settings.newsPinnedNone') },
+        ...articlesList.map((a) => ({ value: a.slug, label: a.titleUk }))
+      ]}
+      onchange={(v) => onChange({ ...cfg, pinnedArticleId: v })}
+      testId="admin-settings-news-pinned-select"
+    />
   {/if}
 </div>
 </li>
@@ -774,12 +779,16 @@ async function handleAboutPageSubmit() {
       {$t('admin.menuEditor.loadingArticles')}
     </button>
   {:else}
-    <select class="form-select news-widget-select" value={cfg.pinnedProjectId} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, pinnedProjectId: e.currentTarget.value })}>
-      <option value="">{$t('admin.settings.projectsPinnedNone')}</option>
-      {#each articlesList as art (art.slug)}
-        <option value={art.slug}>{art.titleUk}</option>
-      {/each}
-    </select>
+    <Select
+      style="max-width: 280px; min-width: 150px;"
+      value={cfg.pinnedProjectId}
+      options={[
+        { value: '', label: $t('admin.settings.projectsPinnedNone') },
+        ...articlesList.map((a) => ({ value: a.slug, label: a.titleUk }))
+      ]}
+      onchange={(v) => onChange({ ...cfg, pinnedProjectId: v })}
+      testId="admin-settings-projects-pinned-select"
+    />
   {/if}
 </div>
 </li>
@@ -916,12 +925,18 @@ async function handleAboutPageSubmit() {
 {#if cfg.defaultView === 'carousel'}
 <li class="block-item">
 <span class="block-item__name">{$t('admin.settings.galleryAspectRatio')}</span>
-<select class="form-select aspect-ratio-select" value={cfg.aspectRatio || '4:3'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => onChange({ ...cfg, aspectRatio: e.currentTarget.value as GalleryAspectRatio })}>
-  <option value="4:3">{$t('admin.settings.galleryAspectRatio4x3')}</option>
-  <option value="16:9">{$t('admin.settings.galleryAspectRatio16x9')}</option>
-  <option value="3:4">{$t('admin.settings.galleryAspectRatio3x4')}</option>
-  <option value="9:16">{$t('admin.settings.galleryAspectRatio9x16')}</option>
-</select>
+<Select
+  style="margin-left: auto; min-width: 180px;"
+  value={cfg.aspectRatio || '4:3'}
+  options={[
+    { value: '4:3', label: $t('admin.settings.galleryAspectRatio4x3') },
+    { value: '16:9', label: $t('admin.settings.galleryAspectRatio16x9') },
+    { value: '3:4', label: $t('admin.settings.galleryAspectRatio3x4') },
+    { value: '9:16', label: $t('admin.settings.galleryAspectRatio9x16') }
+  ]}
+  onchange={(v) => onChange({ ...cfg, aspectRatio: v as GalleryAspectRatio })}
+  testId="admin-settings-gallery-aspect-select"
+/>
 </li>
 {/if}
 
@@ -1403,25 +1418,53 @@ async function handleAboutPageSubmit() {
 <li class="block-item" class:opacity-muted={!ticker.visible}>
 <span class="block-item__name">{$t('admin.settings.tickerStartTime')}</span>
 <div class="time-picker-group">
-  <select class="form-select time-select" value={ticker.startTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each hours as h (h)}<option value={h}>{h}</option>{/each}
-  </select>
+  <Select
+    compact
+    style="width: 62px;"
+    value={ticker.startTime.split(':')[0] || '00'}
+    options={hours.map((v) => ({ value: v, label: v }))}
+    onchange={(v) => updateTimeValue(true, 'h', v)}
+    disabled={!ticker.visible}
+    ariaLabel={$t('admin.settings.tickerStartTime')}
+    testId="admin-settings-ticker-start-h-select"
+  />
   <span class="time-separator">:</span>
-  <select class="form-select time-select" value={ticker.startTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(true, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each minutes as m (m)}<option value={m}>{m}</option>{/each}
-  </select>
+  <Select
+    compact
+    style="width: 62px;"
+    value={ticker.startTime.split(':')[1] || '00'}
+    options={minutes.map((v) => ({ value: v, label: v }))}
+    onchange={(v) => updateTimeValue(true, 'm', v)}
+    disabled={!ticker.visible}
+    ariaLabel={$t('admin.settings.tickerStartTime')}
+    testId="admin-settings-ticker-start-m-select"
+  />
 </div>
 </li>
 <li class="block-item" class:opacity-muted={!ticker.visible}>
 <span class="block-item__name">{$t('admin.settings.tickerEndTime')}</span>
 <div class="time-picker-group">
-  <select class="form-select time-select" value={ticker.endTime.split(':')[0] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'h', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each hours as h (h)}<option value={h}>{h}</option>{/each}
-  </select>
+  <Select
+    compact
+    style="width: 62px;"
+    value={ticker.endTime.split(':')[0] || '00'}
+    options={hours.map((v) => ({ value: v, label: v }))}
+    onchange={(v) => updateTimeValue(false, 'h', v)}
+    disabled={!ticker.visible}
+    ariaLabel={$t('admin.settings.tickerEndTime')}
+    testId="admin-settings-ticker-end-h-select"
+  />
   <span class="time-separator">:</span>
-  <select class="form-select time-select" value={ticker.endTime.split(':')[1] || '00'} onchange={(e: Event & { currentTarget: HTMLSelectElement }) => updateTimeValue(false, 'm', e.currentTarget.value)} disabled={!ticker.visible}>
-    {#each minutes as m (m)}<option value={m}>{m}</option>{/each}
-  </select>
+  <Select
+    compact
+    style="width: 62px;"
+    value={ticker.endTime.split(':')[1] || '00'}
+    options={minutes.map((v) => ({ value: v, label: v }))}
+    onchange={(v) => updateTimeValue(false, 'm', v)}
+    disabled={!ticker.visible}
+    ariaLabel={$t('admin.settings.tickerEndTime')}
+    testId="admin-settings-ticker-end-m-select"
+  />
 </div>
 </li>
 {/if}
@@ -1510,15 +1553,15 @@ async function handleAboutPageSubmit() {
      значення стає єдиним, що діє. -->
 <li class="block-item block-item--sub">
 <span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
-<select
-  class="form-select"
-  style="margin-left: auto;"
-  value={String(debugPanel.defaultBackground)}
-  onchange={(e: Event & { currentTarget: HTMLSelectElement }) => debugPanel = { ...debugPanel, defaultBackground: Number(e.currentTarget.value) as 0 | 1 | 2 | 3 | 4 }}
-  data-testid="admin-settings-debug-default-background-select"
->
-  {#each BACKGROUND_OPTIONS as opt (opt.id)}<option value={String(opt.id)}>{$t(opt.key)}</option>{/each}
-</select>
+<div style="margin-left: auto;">
+  <Select
+    value={String(debugPanel.defaultBackground)}
+    options={BACKGROUND_OPTIONS.map((o) => ({ value: String(o.id), label: $t(o.key) }))}
+    onchange={(v) => debugPanel = { ...debugPanel, defaultBackground: Number(v) as 0 | 1 | 2 | 3 | 4 }}
+    ariaLabel={$t('admin.settings.debugDefaultValue')}
+    testId="admin-settings-debug-default-background-select"
+  />
+</div>
 </li>
 <li class="block-item" class:opacity-muted={!debugPanel.visible}>
 <span class="block-item__name">{$t('admin.settings.debugShowBlur')}</span>
@@ -1547,15 +1590,15 @@ async function handleAboutPageSubmit() {
 </li>
 <li class="block-item block-item--sub">
 <span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
-<select
-  class="form-select"
-  style="margin-left: auto;"
-  value={debugPanel.defaultScrollbar}
-  onchange={(e: Event & { currentTarget: HTMLSelectElement }) => debugPanel = { ...debugPanel, defaultScrollbar: e.currentTarget.value as ScrollbarMode }}
-  data-testid="admin-settings-debug-default-scrollbar-select"
->
-  {#each SCROLLBAR_MODES as mode (mode.id)}<option value={mode.id}>{$t(mode.key)}</option>{/each}
-</select>
+<div style="margin-left: auto;">
+  <Select
+    value={debugPanel.defaultScrollbar}
+    options={SCROLLBAR_MODES.map((m) => ({ value: m.id, label: $t(m.key) }))}
+    onchange={(v) => debugPanel = { ...debugPanel, defaultScrollbar: v as ScrollbarMode }}
+    ariaLabel={$t('admin.settings.debugDefaultValue')}
+    testId="admin-settings-debug-default-scrollbar-select"
+  />
+</div>
 </li>
 </ul>
 
@@ -1754,35 +1797,6 @@ color: var(--color-dark-text);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.time-select {
-  width: 62px !important;
-  padding: 0.4rem 0.5rem !important;
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  text-align: center !important;
-  border: none !important;
-  background: transparent !important;
-  color: var(--text-title) !important;
-  cursor: pointer;
-  border-radius: 8px !important;
-  transition: background 0.2s !important;
-  appearance: none;
-  -webkit-appearance: none;
-}
-
-:global(.dark-theme) .time-select {
-  color: var(--color-dark-text) !important;
-}
-
-.time-select:hover:not(:disabled) {
-  background: rgba(33, 150, 186, 0.08) !important;
-}
-
-.time-select:focus {
-  box-shadow: none !important;
-  background: rgba(33, 150, 186, 0.12) !important;
-}
-
 .time-separator {
   font-weight: 800;
   color: var(--accent-primary);
@@ -1831,12 +1845,6 @@ color: var(--color-dark-text);
 .mode-btn:disabled {
   cursor: not-allowed;
   opacity: 0.5;
-}
-
-.news-widget-select {
-  max-width: 280px !important;
-  width: auto !important;
-  min-width: 150px;
 }
 
 .number-btn {
@@ -1898,12 +1906,6 @@ color: var(--color-dark-text);
 .pinned-select-wrapper {
   margin-left: auto;
   min-width: 200px;
-}
-
-.aspect-ratio-select {
-  margin-left: auto;
-  width: auto;
-  min-width: 180px;
 }
 
 .save-footer {
@@ -2117,13 +2119,9 @@ pointer-events: none;
     width: 100%;
     justify-content: center;
   }
-  .number-input-group, .limit-toggle-group, .pinned-select-wrapper, .aspect-ratio-select {
+  .number-input-group, .limit-toggle-group, .pinned-select-wrapper {
     width: 100%;
     justify-content: space-between;
-  }
-  .news-widget-select {
-    max-width: 100% !important;
-    width: 100% !important;
   }
   .sh-header {
     flex-wrap: wrap;

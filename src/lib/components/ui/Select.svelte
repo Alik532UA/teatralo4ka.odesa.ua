@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { placePanel } from '$lib/utils/dropdownPlace';
+	import type { SelectOption } from './select';
 
 	/**
 	 * Випадаючий список із власним виглядом і поведінкою нативного.
@@ -22,14 +23,6 @@
 	 * погіршенням доступності, а не покращенням вигляду.
 	 */
 
-	export interface SelectOption {
-		value: string;
-		label: string;
-		/** Друга мова або уточнення — праворуч, тьмяно. */
-		hint?: string;
-		disabled?: boolean;
-	}
-
 	interface Props {
 		value: string;
 		options: SelectOption[];
@@ -40,6 +33,31 @@
 		ariaLabel?: string;
 		/** Клас на кнопку — щоб вписатися в розміри наявних місць. */
 		class?: string;
+		/**
+		 * Інлайн-стиль на обгортку — зазвичай ширина.
+		 *
+		 * Саме інлайн, а не клас від батька: стилі Svelte скоупляться по
+		 * компоненту, тож правило `.news-widget-select` з блоку стилів батька до цієї
+		 * кнопки не дістає — і `svelte-check` про це прямо попередив «Unused CSS
+		 * selector» після заміни нативних списків.
+		 *
+		 * УВАГА: у коментарях цього блоку не можна писати назву тега стилів
+		 * літерально. `svelte2tsx`, яким працює `svelte-check`, шукає її рядком і
+		 * вважає, що скрипт закінчився — а повідомляє про це як «<script> was left
+		 * open» у кінці файлу, тобто вказує зовсім не туди. Компілятор Svelte при
+		 * цьому парсить файл без жодних скарг.
+		 */
+		style?: string;
+		/** Щільний вигляд без рамки — для полів на кілька символів (години, хвилини). */
+		compact?: boolean;
+		/**
+		 * Альтернатива `bind:value` — для місць, де значення лежить у полі об'єкта
+		 * або потребує перетворення (рядок → число, рядок → перелік).
+		 *
+		 * Обидва способи працюють разом: `value` оновлюється завжди, тож без
+		 * `bind:` вибір усе одно видно одразу, а батько дізнається про нього тут.
+		 */
+		onchange?: (value: string) => void;
 	}
 
 	let {
@@ -49,7 +67,10 @@
 		placeholder = '',
 		testId,
 		ariaLabel,
-		class: className = ''
+		class: className = '',
+		style = '',
+		compact = false,
+		onchange
 	}: Props = $props();
 
 	let open = $state(false);
@@ -89,6 +110,7 @@
 	function choose(option: SelectOption) {
 		if (option.disabled) return;
 		value = option.value;
+		onchange?.(option.value);
 		close();
 	}
 
@@ -175,11 +197,12 @@
 	});
 </script>
 
-<div class="sel-wrap">
+<div class="sel-wrap" {style}>
 	<button
 		type="button"
 		class="sel-trigger {className}"
 		class:open
+		class:compact
 		{disabled}
 		bind:this={trigger}
 		onclick={() => (open ? close() : openPanel())}
@@ -205,8 +228,7 @@
 			stroke-width="2.5"
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg
-		>
+			aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
 	</button>
 </div>
 
@@ -256,6 +278,26 @@
 	.sel-wrap {
 		display: inline-flex;
 		min-width: 0;
+	}
+
+	/* Щільний варіант: години й хвилини тікера. Без рамки й по центру — там поле
+	   на два символи, і звичайна рамка навколо нього виглядає важче за вміст. */
+	.sel-trigger.compact {
+		padding: 0.4rem 0.5rem;
+		border: none;
+		background: var(--color-ice-blue);
+		font-size: 1rem;
+		font-weight: 700;
+		justify-content: center;
+		gap: 0.25rem;
+	}
+
+	:global(.dark-theme) .sel-trigger.compact {
+		background: rgba(255, 255, 255, 0.05);
+	}
+
+	.sel-trigger.compact:hover:not(:disabled) {
+		background: rgba(33, 150, 186, 0.12);
 	}
 
 	.sel-trigger {
