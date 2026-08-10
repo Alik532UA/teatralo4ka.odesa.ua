@@ -157,6 +157,16 @@
     "bgWaves": "Waves",
     "bgShapes": "Shapes",
     "bgMiniIcon": "Mini icon",
+    "scrollbar": "Scrollbar",
+
+    "scrollbarStandard": "Standard",
+
+    "scrollbarCustom": "Custom",
+
+    "scrollbarMinimap": "Schematic minimap",
+
+    "scrollbarMinimapFull": "Full minimap",
+
     "blur": "Blur effect when changing language or theme",
     "on": "On",
     "off": "Off",

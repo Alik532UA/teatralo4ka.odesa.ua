@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ui } from '$lib/controllers/ui.svelte';
+	import { ui, type ScrollbarMode } from '$lib/controllers/ui.svelte';
 	import { t } from 'svelte-i18n';
 
 	let { 
@@ -7,12 +7,14 @@
 		testId = "debug-settings-dropdown-menu", 
 		showBackground = true, 
 		showBlur = true,
+		showScrollbar = true,
 		mobile = false
 	} = $props<{ 
 		isOpen: boolean; 
 		testId?: string; 
 		showBackground?: boolean; 
 		showBlur?: boolean;
+		showScrollbar?: boolean;
 		mobile?: boolean;
 	}>();
 
@@ -32,6 +34,14 @@
 			ui.toggleDynamicBackground();
 		}
 	};
+
+	/** Чим показувати положення на сторінці. Порядок — від звичного до найважчого. */
+	const scrollbarModes: { id: ScrollbarMode; label: () => string }[] = [
+		{ id: 'standard', label: () => $t('settings.scrollbarStandard') },
+		{ id: 'custom', label: () => $t('settings.scrollbarCustom') },
+		{ id: 'minimap', label: () => $t('settings.scrollbarMinimap') },
+		{ id: 'minimap-full', label: () => $t('settings.scrollbarMinimapFull') },
+	];
 
 	const backgrounds: BackgroundOption[] = [
 		{ id: 0, label: () => $t('settings.bgNone') },
@@ -84,6 +94,25 @@
 				>
 					{$t('settings.on')}
 				</button>
+			</div>
+		</div>
+		{/if}
+
+		{#if showScrollbar}
+		<div class="dropdown-group-unified" data-testid="debug-scrollbar-fieldset">
+			<span class="dropdown-label-unified">{$t('settings.scrollbar')}</span>
+			<div class="dropdown-options-unified" style="flex-direction: column;" data-testid="debug-scrollbar-options-fieldset">
+				{#each scrollbarModes as mode (mode.id)}
+					<button
+						class="dropdown-opt-unified"
+						class:active={ui.scrollbarMode === mode.id}
+						onclick={() => ui.setScrollbarMode(mode.id)}
+						style="text-align: left;"
+						data-testid={`debug-scrollbar-${mode.id}-btn`}
+					>
+						{mode.label()}
+					</button>
+				{/each}
 			</div>
 		</div>
 		{/if}

@@ -1,5 +1,10 @@
 import { storage } from '../services/storage';
 
+export type ScrollbarMode = 'standard' | 'custom' | 'minimap' | 'minimap-full';
+
+/** Значення, які вважаємо дійсними при читанні зі сховища. */
+const SCROLLBAR_MODES: ScrollbarMode[] = ['standard', 'custom', 'minimap', 'minimap-full'];
+
 class UIState {
 	isMenuOpen = $state(false);
 	isPhonesModalOpen = $state(false);
@@ -16,6 +21,17 @@ class UIState {
 	// Debug toggles
 	enableDynamicBackground = $state(true);
 	enableBlurEffect = $state(true);
+	/**
+	 * Чим показувати положення на сторінці.
+	 *
+	 * `standard` — нативна смуга браузера, лише перефарбована під тему. Типове
+	 *   значення: воно єдине не додає нічого, чого користувач не чекає.
+	 * `custom` — власна смуга накладкою: не займає ширину, лежить під
+	 *   заставкою і товщає при наближенні миші. Нативна цього не вміє.
+	 * `minimap` — схематична мінімапа: блоки сторінки смужками.
+	 * `minimap-full` — мінімапа зі справжнім зменшеним виглядом сторінки.
+	 */
+	scrollbarMode = $state<ScrollbarMode>('standard');
 
 	constructor() {
 		if (typeof window !== 'undefined') {
@@ -43,6 +59,10 @@ class UIState {
 			const enableBlur = storage.get('enableBlurEffect');
 			if (enableBlur !== null) {
 				this.enableBlurEffect = enableBlur === 'true';
+			}
+			const mode = storage.get('scrollbarMode');
+			if (mode !== null && SCROLLBAR_MODES.includes(mode as ScrollbarMode)) {
+				this.scrollbarMode = mode as ScrollbarMode;
 			}
 			
 			// Listen to OS theme changes
@@ -121,6 +141,11 @@ class UIState {
 	toggleBlurEffect = () => {
 		this.enableBlurEffect = !this.enableBlurEffect;
 		storage.set('enableBlurEffect', this.enableBlurEffect.toString());
+	};
+
+	setScrollbarMode = (mode: ScrollbarMode) => {
+		this.scrollbarMode = mode;
+		storage.set('scrollbarMode', mode);
 	};
 }
 

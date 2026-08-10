@@ -11,6 +11,8 @@
 	import { base } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
+	import Minimap from '$lib/components/Minimap.svelte';
+	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { storage } from '$lib/services/storage';
@@ -320,6 +322,11 @@
 	</main>
 	<FooterSection />
 </div>
+
+<PageScrollbar />
+
+<!-- Типово вимкнена; вмикається в налаштуваннях. -->
+<Minimap />
 
 <Toast />
 <ConfirmModal />
