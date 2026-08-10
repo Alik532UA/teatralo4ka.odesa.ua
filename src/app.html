@@ -26,6 +26,22 @@
 				window.__SPLASH_VARIANT = 'curtains';
 				document.documentElement.setAttribute('data-splash', window.__SPLASH_VARIANT);
 
+				// ── СМУГА ПРОКРУТКИ ─────────────────────────────────────────
+				// Клас ставиться ТУТ, до першого кадру, а не в ефекті після
+				// гідрації. Інакше на заставці встигала показатися нативна смуга
+				// і зникала вже після неї — саме так, як із темою без цього
+				// скрипта було б миготіння світлого тла.
+				//
+				// Умови мусять збігатися з `controllers/scrollbar.svelte.ts`:
+				// на сенсорних пристроях і вузьких екранах лишається нативна.
+				var sb = localStorage.getItem('teatralo4ka_scrollbarMode') || 'custom';
+				var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+				var wide = window.matchMedia('(min-width: 1100px)').matches;
+				var hidesNative = fine && (sb === 'custom' || ((sb === 'minimap' || sb === 'minimap-full') && wide));
+				if (hidesNative) {
+					document.documentElement.classList.add('has-custom-scrollbar');
+				}
+
 				var t = localStorage.getItem('teatralo4ka_theme');
 				if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 					document.documentElement.setAttribute('data-theme', 'dark');

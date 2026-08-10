@@ -45,11 +45,12 @@
 	let cloneHost = $state<HTMLElement | null>(null);
 	/** Прямокутник мінімапи, знятий один раз на початку перетягування. */
 	let dragTop = 0;
-	let dragHeight = 1;
 	let pendingY = 0;
 	let frame = 0;
 	/** Позиція рамки під час перетягування — прямо з курсора, без петлі через scroll. */
-	let dragViewTop = $state(0);
+	let dragMarkerTop = $state(0);
+	/** Зсув місця захоплення від верху рамки. */
+	let grabOffset = 0;
 
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
@@ -81,9 +82,7 @@
 	const cloneShiftY = $derived.by(() => {
 		const overflow = cloneHeight - viewportHeight;
 		if (overflow <= 0) return 0;
-		const maxScroll = pageHeight - viewportHeight;
-		if (maxScroll <= 0) return 0;
-		return -(scrollY / maxScroll) * overflow;
+		return -(scrollY / Math.max(pageHeight - viewportHeight, 1)) * overflow;
 	});
 
 	const target = $derived.by(() => {
@@ -228,29 +227,46 @@
 	});
 
 	/**
-	 * Рамка рахується в тих самих координатах, що й клон: у пікселях смужки
-	 * після масштабування та зсуву. Відсотки від висоти смужки тут не годяться
-	 * — клон може бути вищим за неї.
+	 * Висота смужки = висота ВИДИМОГО вмісту.
+	 *
+	 * Коли сторінка коротка, клон не заповнює екран — і раніше смужка все одно
+	 * лишалася на всю висоту. Натиск під клоном виглядав як «кінець сторінки»,
+	 * а вів у середину: область натискання не збігалася з тим, що видно.
 	 */
-	const markerHeight = $derived(Math.max(viewportHeight * scale, 2));
-	const markerTop = $derived(scrollY * scale + cloneShiftY);
+	const mapHeight = $derived(isFull ? Math.min(cloneHeight, viewportHeight) : viewportHeight);
 
-	/** Для схематичного варіанта координати лишаються частками висоти. */
-	const viewFraction = $derived(Math.min(viewportHeight / pageHeight, 1));
-	const viewTop = $derived(dragging ? dragViewTop : scrollY / pageHeight);
+	/** Рамка видимої області — у пікселях смужки. */
+	const markerHeight = $derived(
+		Math.max(isFull ? viewportHeight * scale : (viewportHeight / pageHeight) * mapHeight, 8)
+	);
 
 	/**
+	 * Скільки пікселів смужки припадає на піксель прокрутки.
+	 *
+	 * Одна формула на обидва варіанти: рамка проходить від нуля до
+	 * `mapHeight - markerHeight`, поки сторінка йде від нуля до кінця. Для
+	 * візуального варіанта це автоматично враховує ще й зсув клону.
+	 */
+	const maxScroll = $derived(Math.max(pageHeight - viewportHeight, 1));
+	const pxPerScroll = $derived(Math.max(mapHeight - markerHeight, 0) / maxScroll);
+
+	const markerTop = $derived(dragging ? dragMarkerTop : scrollY * pxPerScroll);
+
+	/**
+	 * Рамка рухається як повзунок смуги: за курсором, із поправкою на місце
+	 * захоплення. Прокрутка виводиться з її позиції, а не навпаки.
+	 *
 	 * `behavior: 'instant'`, а не `'auto'`: `'auto'` означає «взяти значення з
 	 * CSS», а там `scroll-behavior: smooth`. Через це кожен рух миші запускав
-	 * плавну анімацію, вони наздоганяли одна одну — і це відчувалося як ривки.
+	 * плавну анімацію, і вони наздоганяли одна одну.
 	 */
 	function applyScroll() {
 		frame = 0;
-		const fraction = Math.min(Math.max((pendingY - dragTop) / dragHeight, 0), 1);
-		dragViewTop = Math.min(Math.max(fraction - viewFraction / 2, 0), 1 - viewFraction);
-		// Центр вікна стає туди, куди вказали — так поводяться мінімапи в редакторах.
-		const top = fraction * pageHeight - viewportHeight / 2;
-		window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+		if (pxPerScroll <= 0) return;
+		const wanted = pendingY - dragTop - grabOffset;
+		const clamped = Math.min(Math.max(wanted, 0), Math.max(mapHeight - markerHeight, 0));
+		dragMarkerTop = clamped;
+		window.scrollTo({ top: clamped / pxPerScroll, behavior: 'instant' });
 	}
 
 	/** Рухи миші йдуть частіше за кадри — зайві відкидаємо. */
@@ -263,8 +279,15 @@
 		const el = e.currentTarget as HTMLElement;
 		const rect = el.getBoundingClientRect();
 		dragTop = rect.top;
-		dragHeight = rect.height || 1;
-		dragViewTop = viewTop;
+
+		const localY = e.clientY - dragTop;
+		const current = scrollY * pxPerScroll;
+		// Натиск по самій рамці — тягнемо з того місця, за яке взяли; повз неї —
+		// переносимо рамку центром під курсор.
+		const onMarker = localY >= current && localY <= current + markerHeight;
+		grabOffset = onMarker ? localY - current : markerHeight / 2;
+		dragMarkerTop = current;
+
 		dragging = true;
 		el.setPointerCapture(e.pointerId);
 		requestScroll(e.clientY);
@@ -301,7 +324,8 @@
 		class="minimap"
 		class:minimap--full={isFull}
 		class:dragging
-		style="width: {fullWidth}px; transform: translateX({hiddenPart}px);"
+		style="width: {fullWidth}px; height: {mapHeight}px;
+			transform: translateX({hiddenPart}px);"
 		aria-label={$t('settings.scrollbarMinimap')}
 		data-testid="minimap-container"
 		onpointerdown={onPointerDown}
@@ -330,9 +354,7 @@
 
 		<span
 			class="minimap__viewport"
-			style={isFull
-				? `top: ${markerTop}px; height: ${markerHeight}px;`
-				: `top: ${viewTop * 100}%; height: ${viewFraction * 100}%;`}
+			style="top: {markerTop}px; height: {markerHeight}px;"
 			data-testid="minimap-viewport-status"
 		></span>
 	</div>
@@ -343,7 +365,7 @@
 		position: fixed;
 		right: 0;
 		top: 0;
-		height: 100vh;
+		/* Висоту задає скрипт: вона дорівнює висоті видимого вмісту. */
 		/* Нижче заставки (10000) і модалок, але вище звичайного вмісту. */
 		z-index: 9000;
 		background: color-mix(in srgb, var(--bg-surface), transparent 15%);

@@ -42,16 +42,28 @@ test.describe('режими смуги прокрутки', () => {
 		await page.waitForLoadState('load');
 	});
 
-	test('типовий режим не малює нічого свого', async ({ page }) => {
+	test('режим standard не малює нічого свого', async ({ page }) => {
 		await setMode(page, 'standard');
 		await expect(page.getByTestId('page-scrollbar-container')).toHaveCount(0);
 		await expect(page.getByTestId('minimap-container')).toHaveCount(0);
 
-		// Нативна смуга лишається: клас ставить лише той компонент, що її замінює.
 		const hidden = await page.evaluate(() =>
 			document.documentElement.classList.contains('has-custom-scrollbar')
 		);
-		expect(hidden, 'нативну смугу не можна ховати в типовому режимі').toBe(false);
+		expect(hidden, 'нативну смугу не можна ховати в режимі standard').toBe(false);
+	});
+
+	test('типово увімкнена власна смуга, і клас стоїть ще до гідрації', async ({ page }) => {
+		// Без збереженого вибору режим має бути `custom`.
+		await page.evaluate(() => localStorage.clear());
+		await page.reload();
+
+		// Клас ставить інлайн-скрипт у <head>, а не ефект після гідрації: інакше
+		// на заставці встигала показатися нативна смуга і зникала вже після неї.
+		const html = await page.content();
+		expect(html, 'клас мусить бути в розмітці до гідрації').toContain('has-custom-scrollbar');
+
+		await expect(page.getByTestId('page-scrollbar-container')).toBeVisible();
 	});
 
 	test('власна смуга не забирає ширину сторінки', async ({ page }) => {
@@ -118,6 +130,29 @@ test.describe('режими смуги прокрутки', () => {
 		expect(geometry.overflowY, 'зайве має прокручуватися').toBe('auto');
 	});
 
+	test('область натискання мінімапи не більша за видиму', async ({ page }) => {
+		await setMode(page, 'minimap-full');
+		const viewport = page.viewportSize()!;
+		await page.mouse.move(viewport.width - 4, viewport.height / 2);
+		await page.waitForTimeout(900);
+
+		const g = await page.evaluate(() => {
+			const box = document.querySelector('[data-testid="minimap-container"]')!;
+			const clone = box.querySelector('.minimap__clone') as HTMLElement;
+			return {
+				boxHeight: box.getBoundingClientRect().height,
+				cloneHeight: clone.getBoundingClientRect().height,
+				viewportHeight: window.innerHeight
+			};
+		});
+
+		// Коли клон коротший за екран, смужка мусить закінчуватися разом із ним.
+		// Інакше натиск під клоном виглядає як «кінець сторінки», а веде в середину.
+		const expected = Math.min(g.cloneHeight, g.viewportHeight);
+		expect(Math.abs(g.boxHeight - expected), 'висота смужки має дорівнювати видимій частині')
+			.toBeLessThan(6);
+	});
+
 	test('візуальна мінімапа збігається зі сторінкою', async ({ page }) => {
 		await setMode(page, 'minimap-full');
 		const viewport = page.viewportSize()!;
@@ -155,6 +190,45 @@ test.describe('режими смуги прокрутки', () => {
 		const expected = geometry.scrollY * scale + geometry.cloneTop;
 		expect(Math.abs(geometry.markerTop - expected), 'рамка має збігатися з вмістом клону')
 			.toBeLessThan(6);
+	});
+
+	test('наведення й утримання прокручує без натискання', async ({ page }) => {
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		await expect(bar).toBeVisible();
+
+		const box = (await bar.boundingBox())!;
+		const x = box.x + box.width / 2;
+		// Нижче за повзунок: сторінка на початку, тож повзунок угорі.
+		const below = box.y + box.height * 0.8;
+
+		// Порівнюємо з ПОЧАТКОВИМ значенням, а не з нулем: браузер після
+		// перезавантаження відновлює позицію, і вона буває не рівно нульовою.
+		const atStart = await page.evaluate(() => window.scrollY);
+
+		await page.mouse.move(x, below);
+		// Затримка навмисна: випадкове проходження курсора повз смугу не має
+		// нічого зрушити.
+		await page.waitForTimeout(600);
+		expect(await page.evaluate(() => window.scrollY), 'до затримки рух не починається')
+			.toBe(atStart);
+
+		await page.waitForTimeout(900);
+		const early = (await page.evaluate(() => window.scrollY)) - atStart;
+		expect(early, 'після затримки сторінка має поїхати').toBeGreaterThan(0);
+
+		// Розгін: за такий самий відрізок часу проходить помітно більше.
+		await page.waitForTimeout(900);
+		const late = (await page.evaluate(() => window.scrollY)) - atStart - early;
+		expect(late, 'рух має прискорюватися').toBeGreaterThan(early);
+
+		// Курсор геть — рух припиняється.
+		await page.mouse.move(box.x - 300, below);
+		await page.waitForTimeout(300);
+		const stopped = await page.evaluate(() => window.scrollY);
+		await page.waitForTimeout(500);
+		expect(await page.evaluate(() => window.scrollY), 'без курсора рух зупиняється')
+			.toBe(stopped);
 	});
 
 	for (const mode of ['custom', 'minimap', 'minimap-full'] as const) {
