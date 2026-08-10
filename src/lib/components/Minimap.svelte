@@ -43,6 +43,13 @@
 	let pointerInside = $state(false);
 	let dragging = $state(false);
 	let cloneHost = $state<HTMLElement | null>(null);
+	/** Прямокутник мінімапи, знятий один раз на початку перетягування. */
+	let dragTop = 0;
+	let dragHeight = 1;
+	let pendingY = 0;
+	let frame = 0;
+	/** Позиція рамки під час перетягування — прямо з курсора, без петлі через scroll. */
+	let dragViewTop = $state(0);
 
 	const canHover = new MediaQuery('(hover: hover) and (pointer: fine)');
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
@@ -166,7 +173,11 @@
 
 		// Висота змінюється не лише від resize: довантажуються зображення,
 		// приходить контент із Firestore, розгортаються блоки.
+		// Під час перетягування спостерігач мовчить: кожна дрібна зміна висоти
+		// (ліниві зображення, липка шапка) інакше перемірювала б усі блоки й
+		// перебудовувала клон просто посеред руху миші.
 		const observer = new ResizeObserver(() => {
+			if (dragging) return;
 			measure();
 			measureBlocks();
 		});
@@ -186,38 +197,65 @@
 		return () => document.documentElement.classList.remove('has-custom-scrollbar');
 	});
 
-	// Клон будується окремим ефектом: він дорогий, і перебудовувати його на
-	// кожен піксель прокрутки не можна.
+	/** Висота, за якої клон збудували востаннє. */
+	let clonedAtHeight = 0;
+
+	// Клон дорогий: він дублює весь вміст сторінки. Перебудовуємо лише коли
+	// висота змінилася помітно — інакше кожен піксель прокрутки, що зрушив
+	// липку шапку, коштував би повного клонування DOM.
 	$effect(() => {
-		if (visible && isFull && cloneHost && pageHeight > 1) buildClone();
+		if (!visible || !isFull || !cloneHost || pageHeight <= 1) return;
+		if (dragging) return;
+		if (Math.abs(pageHeight - clonedAtHeight) < 40) return;
+		clonedAtHeight = pageHeight;
+		buildClone();
 	});
 
 	const viewFraction = $derived(Math.min(viewportHeight / pageHeight, 1));
-	const viewTop = $derived(scrollY / pageHeight);
+	const viewTop = $derived(dragging ? dragViewTop : scrollY / pageHeight);
 
-	function scrollFromPointer(clientY: number, el: HTMLElement) {
-		const rect = el.getBoundingClientRect();
-		const fraction = (clientY - rect.top) / rect.height;
+	/**
+	 * `behavior: 'instant'`, а не `'auto'`: `'auto'` означає «взяти значення з
+	 * CSS», а там `scroll-behavior: smooth`. Через це кожен рух миші запускав
+	 * плавну анімацію, вони наздоганяли одна одну — і це відчувалося як ривки.
+	 */
+	function applyScroll() {
+		frame = 0;
+		const fraction = Math.min(Math.max((pendingY - dragTop) / dragHeight, 0), 1);
+		dragViewTop = Math.min(Math.max(fraction - viewFraction / 2, 0), 1 - viewFraction);
 		// Центр вікна стає туди, куди вказали — так поводяться мінімапи в редакторах.
 		const top = fraction * pageHeight - viewportHeight / 2;
-		window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+		window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+	}
+
+	/** Рухи миші йдуть частіше за кадри — зайві відкидаємо. */
+	function requestScroll(clientY: number) {
+		pendingY = clientY;
+		if (!frame) frame = requestAnimationFrame(applyScroll);
 	}
 
 	function onPointerDown(e: PointerEvent) {
 		const el = e.currentTarget as HTMLElement;
+		const rect = el.getBoundingClientRect();
+		dragTop = rect.top;
+		dragHeight = rect.height || 1;
+		dragViewTop = viewTop;
 		dragging = true;
 		el.setPointerCapture(e.pointerId);
-		scrollFromPointer(e.clientY, el);
+		requestScroll(e.clientY);
 	}
 
 	function onPointerMove(e: PointerEvent) {
-		if (!dragging) return;
-		scrollFromPointer(e.clientY, e.currentTarget as HTMLElement);
+		if (dragging) requestScroll(e.clientY);
 	}
 
 	function endDrag(e: PointerEvent) {
 		if (!dragging) return;
 		dragging = false;
+		if (frame) {
+			cancelAnimationFrame(frame);
+			frame = 0;
+		}
 		(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
 	}
 </script>
@@ -225,6 +263,7 @@
 <svelte:window
 	bind:innerWidth={windowWidth}
 	onpointermove={(e) => {
+		if (dragging) return;
 		mouseX = e.clientX;
 		pointerInside = true;
 	}}

@@ -41,6 +41,25 @@
 	let dragging = $state(false);
 	/** Зсув місця захоплення від верху повзунка — щоб той не стрибав під курсор. */
 	let grabOffset = 0;
+	/**
+	 * Прямокутник доріжки, знятий ОДИН раз на початку перетягування.
+	 *
+	 * `getBoundingClientRect()` на кожен рух миші змушує браузер рахувати
+	 * розкладку — а доріжка `position: fixed` і під час прокрутки не рухається,
+	 * тож міряти її повторно нема сенсу.
+	 */
+	let trackTop = 0;
+	/** Останнє положення курсора, ще не застосоване. */
+	let pendingY = 0;
+	let frame = 0;
+	/**
+	 * Позиція повзунка під час перетягування — прямо з курсора.
+	 *
+	 * Інакше виходить петля: рух → scrollTo → подія scroll → оновлення стану →
+	 * перемальовування. Повзунок відстає від курсора щонайменше на кадр, і це
+	 * відчувається як гальмування.
+	 */
+	let dragThumbTop = $state(0);
 
 	const canHover = new MediaQuery('(hover: hover) and (pointer: fine)');
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
@@ -80,6 +99,7 @@
 		Math.max((viewportHeight / pageHeight) * viewportHeight, MIN_THUMB)
 	);
 	const thumbTop = $derived.by(() => {
+		if (dragging) return dragThumbTop;
 		const maxScroll = pageHeight - viewportHeight;
 		if (maxScroll <= 0) return 0;
 		return (scrollY / maxScroll) * (viewportHeight - thumbHeight);
@@ -123,39 +143,58 @@
 		return () => document.documentElement.classList.remove('has-custom-scrollbar');
 	});
 
-	/** Прокрутити так, щоб верх повзунка опинився під курсором. */
-	function scrollFromPointer(clientY: number, trackTop: number) {
+	/**
+	 * Прокрутити так, щоб верх повзунка опинився під курсором.
+	 *
+	 * `behavior: 'instant'`, а не `'auto'`. `'auto'` означає «взяти значення з
+	 * CSS», а в `global.css` стоїть `scroll-behavior: smooth` — тобто кожен рух
+	 * миші запускав плавну анімацію прокрутки, і вони наздоганяли одна одну.
+	 * Саме це відчувалося як ривки й затримка.
+	 */
+	function applyScroll() {
+		frame = 0;
 		const maxThumbTop = viewportHeight - thumbHeight;
 		if (maxThumbTop <= 0) return;
-		const wanted = clientY - trackTop - grabOffset;
-		const fraction = Math.min(Math.max(wanted / maxThumbTop, 0), 1);
-		window.scrollTo({ top: fraction * (pageHeight - viewportHeight), behavior: 'auto' });
+		const wanted = pendingY - trackTop - grabOffset;
+		const clamped = Math.min(Math.max(wanted, 0), maxThumbTop);
+		dragThumbTop = clamped;
+		window.scrollTo({ top: (clamped / maxThumbTop) * (pageHeight - viewportHeight), behavior: 'instant' });
+	}
+
+	/** Рухи миші йдуть частіше за кадри — зайві просто відкидаємо. */
+	function requestScroll(clientY: number) {
+		pendingY = clientY;
+		if (!frame) frame = requestAnimationFrame(applyScroll);
 	}
 
 	function onTrackPointerDown(e: PointerEvent) {
 		const track = e.currentTarget as HTMLElement;
 		const rect = track.getBoundingClientRect();
-		const localY = e.clientY - rect.top;
+		trackTop = rect.top;
+		const localY = e.clientY - trackTop;
 
 		// Натиск по самому повзунку — тягнемо з того місця, за яке взяли.
 		// Натиск повз нього — спершу переносимо повзунок під курсор.
 		const onThumb = localY >= thumbTop && localY <= thumbTop + thumbHeight;
 		grabOffset = onThumb ? localY - thumbTop : thumbHeight / 2;
+		dragThumbTop = thumbTop;
 
 		dragging = true;
 		track.setPointerCapture(e.pointerId);
-		scrollFromPointer(e.clientY, rect.top);
+		requestScroll(e.clientY);
 	}
 
 	function onTrackPointerMove(e: PointerEvent) {
-		if (!dragging) return;
-		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-		scrollFromPointer(e.clientY, rect.top);
+		if (dragging) requestScroll(e.clientY);
 	}
 
 	function endDrag(e: PointerEvent) {
 		if (!dragging) return;
 		dragging = false;
+		if (frame) {
+			cancelAnimationFrame(frame);
+			frame = 0;
+		}
 		(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
 	}
 </script>
@@ -163,6 +202,9 @@
 <svelte:window
 	bind:innerWidth={windowWidth}
 	onpointermove={(e) => {
+		// Під час перетягування ширина й так зафіксована на максимумі, а зайве
+		// оновлення стану на кожен рух коштувало б перемальовування.
+		if (dragging) return;
 		mouseX = e.clientX;
 		pointerInside = true;
 	}}
