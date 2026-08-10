@@ -171,27 +171,33 @@
 		// eslint-disable-next-line svelte/no-dom-manipulating
 		cloneHost.replaceChildren();
 
-		// Клонується ВСЕ тіло, а не лише <main>.
+		// Копіюється ВМІСТ тіла, а не сам елемент <body>.
 		//
-		// Масштаб рахується від висоти всієї сторінки, тож і клон мусить мати ту
-		// саму висоту. З одним <main> він виходив нижчим на шапку та підвал, і
-		// рамка видимої області показувала не те місце — це й був розсинхрон.
-		// Заразом мінімапа стала схожішою на сайт.
-		const clone = document.body.cloneNode(true) as HTMLElement;
+		// Клонований <body> усередині <div> — недопустима вкладеність, і браузер
+		// на неї скаржився: «Blocked aria-hidden on a <body> element». Обгортка
+		// звичайним <div> дає той самий вміст без цієї дивини.
+		//
+		// Саме вміст тіла, а не лише <main>: масштаб рахується від висоти всієї
+		// сторінки, тож із одним <main> клон виходив нижчим на шапку та підвал, і
+		// рамка видимої області показувала не те місце.
+		const clone = document.createElement('div');
+		for (const child of document.body.children) {
+			clone.appendChild(child.cloneNode(true));
+		}
 
 		// Себе саму й власну смугу — геть, інакше мінімапа малювала б мінімапу.
 		for (const el of clone.querySelectorAll('.minimap, .page-scrollbar, #app-splash')) {
 			el.remove();
 		}
 
-		for (const el of [clone, ...clone.querySelectorAll('*')]) {
+		for (const el of clone.querySelectorAll('*')) {
 			el.removeAttribute('id');
 			el.removeAttribute('data-testid');
 			// Клон нічим не керує — прибираємо все, що робить його інтерактивним
 			// для клавіатури й читалок.
 			el.removeAttribute('tabindex');
-			el.setAttribute('aria-hidden', 'true');
 		}
+		clone.setAttribute('aria-hidden', 'true');
 
 		// eslint-disable-next-line svelte/no-dom-manipulating
 		cloneHost.appendChild(clone);
@@ -229,6 +235,8 @@
 	/** Висота й контейнер, для яких клон збудували востаннє. */
 	let clonedAtHeight = 0;
 	let clonedHost: HTMLElement | null = null;
+	/** Версія вмісту, для якої клон збудували востаннє. */
+	let clonedVersion = -1;
 
 	/**
 	 * Після переходу клон завжди застарілий, навіть якщо висота не змінилася.
@@ -242,6 +250,7 @@
 	afterNavigate(() => {
 		clonedAtHeight = 0;
 		clonedHost = null;
+		clonedVersion = -1;
 	});
 
 	/**
@@ -259,16 +268,57 @@
 	 * Тому порівнюється ще й сам контейнер: після розмонтування він новий, і
 	 * це надійна ознака того, що клон треба зібрати заново.
 	 */
+	/** Позначка «вміст змінився» — її ставить спостерігач мутацій. */
+	let contentVersion = $state(0);
+
+	/**
+	 * Розділи головної рендеряться ЛІНИВО, через IntersectionObserver.
+	 *
+	 * При повному перезавантаженні сторінка приходить із сервера цілою, тож клон
+	 * захоплював усе. А після переходу між сторінками ліниві розділи ще не
+	 * існують — і в мінімапі на їхньому місці лишалися порожні прогалини, поки
+	 * користувач до них не докрутить.
+	 *
+	 * Висота тут поганий сигнал: розділ може з’явитися, майже не змінивши її.
+	 * Спостерігач мутацій дивиться саме на те, від чого клон і залежить — на
+	 * вміст. Він стежить за `<main>`, а не за тілом: мінімапа лежить поза
+	 * `<main>`, тож власні зміни клону його не будять і рекурсії немає.
+	 */
+	$effect(() => {
+		if (!chosen || !isFull) return;
+		const main = document.querySelector('main');
+		if (!main) return;
+
+		let timer: ReturnType<typeof setTimeout> | null = null;
+		const observer = new MutationObserver(() => {
+			// Затримка обов’язкова: рендер розділу — це десятки мутацій підряд, і
+			// без неї клон збирався б заново на кожну з них.
+			if (timer) clearTimeout(timer);
+			timer = setTimeout(() => {
+				timer = null;
+				contentVersion++;
+			}, 250);
+		});
+		observer.observe(main, { childList: true, subtree: true });
+
+		return () => {
+			if (timer) clearTimeout(timer);
+			observer.disconnect();
+		};
+	});
+
 	$effect(() => {
 		if (!visible || !isFull || !cloneHost || pageHeight <= 1) return;
 		if (dragging) return;
 
 		const sameHost = cloneHost === clonedHost;
 		const sameHeight = Math.abs(pageHeight - clonedAtHeight) < 40;
-		if (sameHost && sameHeight) return;
+		const sameContent = contentVersion === clonedVersion;
+		if (sameHost && sameHeight && sameContent) return;
 
 		clonedHost = cloneHost;
 		clonedAtHeight = pageHeight;
+		clonedVersion = contentVersion;
 		buildClone();
 	});
 
