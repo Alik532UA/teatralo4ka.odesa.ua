@@ -87,6 +87,37 @@ test.describe('режими смуги прокрутки', () => {
 		expect(box.width, 'схематична мінімапа має лишатися вузькою').toBeLessThanOrEqual(40);
 	});
 
+	test('перемикання режимів не лишає двох смуг', async ({ page }) => {
+		// Клас, що ховає нативну смугу, колись ставили самі компоненти, і при
+		// перемиканні виходила гонка: новий додавав, прибиральник старого одразу
+		// знімав. На екрані було дві смуги — власна й системна.
+		for (const mode of ['minimap', 'custom', 'minimap-full', 'custom', 'standard'] as const) {
+			await setMode(page, mode);
+			const hidden = await page.evaluate(() =>
+				document.documentElement.classList.contains('has-custom-scrollbar')
+			);
+			expect(hidden, `режим ${mode}: нативна смуга має ${mode === 'standard' ? 'лишатися' : 'ховатися'}`)
+				.toBe(mode !== 'standard');
+		}
+	});
+
+	test('випадайка налаштувань прокручується, а не вилазить за екран', async ({ page }) => {
+		const geometry = await page.evaluate(() => {
+			const el = document.createElement('div');
+			el.className = 'dropdown-menu-unified';
+			document.body.appendChild(el);
+			const style = getComputedStyle(el);
+			const result = { maxHeight: style.maxHeight, overflowY: style.overflowY };
+			el.remove();
+			return result;
+		});
+
+		// Без обмеження висоти нижні пункти зникали за краєм вікна, і дістатися
+		// до них не можна було ніяк: не прокручувалося ні меню, ні сторінка.
+		expect(geometry.maxHeight, 'висота випадайки має бути обмежена').not.toBe('none');
+		expect(geometry.overflowY, 'зайве має прокручуватися').toBe('auto');
+	});
+
 	test('візуальна мінімапа збігається зі сторінкою', async ({ page }) => {
 		await setMode(page, 'minimap-full');
 		const viewport = page.viewportSize()!;
@@ -99,22 +130,29 @@ test.describe('режими смуги прокрутки', () => {
 			const box = document.querySelector('[data-testid="minimap-container"]')!;
 			const clone = box.querySelector('.minimap__clone') as HTMLElement;
 			const marker = box.querySelector('[data-testid="minimap-viewport-status"]')!;
+			const boxRect = box.getBoundingClientRect();
 			return {
-				boxHeight: box.getBoundingClientRect().height,
+				boxHeight: boxRect.height,
+				boxWidth: boxRect.width,
 				cloneHeight: clone.getBoundingClientRect().height,
-				markerTop: marker.getBoundingClientRect().top - box.getBoundingClientRect().top,
+				cloneTop: clone.getBoundingClientRect().top - boxRect.top,
+				markerTop: marker.getBoundingClientRect().top - boxRect.top,
 				scrollY: window.scrollY,
-				pageHeight: document.documentElement.scrollHeight
+				pageHeight: document.documentElement.scrollHeight,
+				windowWidth: window.innerWidth
 			};
 		});
 
-		// Клон масштабується по ВИСОТІ, тож уся сторінка займає рівно висоту
-		// смужки. Саме розходження цих двох величин і давало зсув рамки.
-		expect(Math.abs(geometry.cloneHeight - geometry.boxHeight), 'клон має заповнювати смужку по висоті')
-			.toBeLessThan(4);
+		// Масштаб береться по ШИРИНІ: сторінка вміщається цілком, нічого не
+		// зрізається. Через це клон буває вищим за смужку — тоді він їде
+		// всередині неї разом із прокруткою, як мінімапа в редакторі коду.
+		const scale = geometry.boxWidth / geometry.windowWidth;
+		expect(Math.abs(geometry.cloneHeight - geometry.pageHeight * scale), 'клон має бути сторінкою в масштабі')
+			.toBeLessThan(8);
 
-		// Рамка стоїть там, де в клоні перебуває поточна позиція прокрутки.
-		const expected = (geometry.scrollY / geometry.pageHeight) * geometry.boxHeight;
+		// Рамка стоїть там, де в клоні перебуває поточна позиція прокрутки —
+		// з урахуванням того, наскільки клон уже поїхав угору.
+		const expected = geometry.scrollY * scale + geometry.cloneTop;
 		expect(Math.abs(geometry.markerTop - expected), 'рамка має збігатися з вмістом клону')
 			.toBeLessThan(6);
 	});

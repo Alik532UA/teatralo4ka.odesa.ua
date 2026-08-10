@@ -14,6 +14,7 @@
 	import Minimap from '$lib/components/Minimap.svelte';
 	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
+	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { storage } from '$lib/services/storage';
 	import { trackPageView } from '$lib/services/analytics';
@@ -25,6 +26,18 @@
 	// client-side move between the site's pages. trackPageView initialises
 	// analytics itself, so there is no separate onMount call to order against.
 	afterNavigate(() => trackPageView());
+
+	/**
+	 * Клас, що ховає нативну смугу, має рівно одного власника — цей ефект.
+	 *
+	 * Коли його ставили самі компоненти, перемикання режиму давало гонку:
+	 * новий компонент клас додавав, а прибиральник старого спрацьовував після
+	 * нього й одразу знімав. На екрані було видно дві смуги — власну й системну.
+	 */
+	$effect(() => {
+		if (!browser) return;
+		document.documentElement.classList.toggle('has-custom-scrollbar', scrollbar.hidesNative);
+	});
 
 	$effect(() => {
 		if (browser) {

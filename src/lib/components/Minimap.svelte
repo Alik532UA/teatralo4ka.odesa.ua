@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { ui } from '$lib/controllers/ui.svelte';
+	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { Spring } from 'svelte/motion';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { t } from 'svelte-i18n';
@@ -51,43 +51,40 @@
 	/** Позиція рамки під час перетягування — прямо з курсора, без петлі через scroll. */
 	let dragViewTop = $state(0);
 
-	const canHover = new MediaQuery('(hover: hover) and (pointer: fine)');
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
-	/** На вузьких екранах мінімапа з'їдала б корисну ширину. */
-	const wideEnough = new MediaQuery('(min-width: 1100px)');
 
-	const mode = $derived(ui.scrollbarMode);
-	const isFull = $derived(mode === 'minimap-full');
-	const visible = $derived(
-		browser && (mode === 'minimap' || isFull) && canHover.current && wideEnough.current
-	);
+	/** Чи наша черга малювати. Рішення приймає один контролер на всіх. */
+	const isFull = $derived(scrollbar.active === 'minimap-full');
+	const visible = $derived(scrollbar.active === 'minimap' || isFull);
 
 	/** Ширина схематичної мінімапи. Смужкам не потрібна пропорційна ширина. */
 	const SCHEMA_WIDTH = 28;
 	/** Стеля для візуальної: ширша вона з’їдала б корисну частину екрана. */
 	const VISUAL_MAX_WIDTH = 200;
 
-	/**
-	 * Масштаб добирається так, щоб УСЯ сторінка вмістилася у висоту екрана.
-	 *
-	 * Саме звідси брався розсинхрон: раніше масштаб рахувався від ШИРИНИ
-	 * мінімапи, а рамка видимої області — у відсотках від її ВИСОТИ. Коли
-	 * ширину обмежувала стеля, ці дві системи координат розходилися, і рамка
-	 * показувала не те місце, що клон. Тепер масштаб один — по висоті, — а
-	 * зайва ширина просто обрізається.
-	 */
-	const scale = $derived(viewportHeight > 0 && pageHeight > 0 ? viewportHeight / pageHeight : 0.1);
-	/** Ширина клону в масштабі: скільки він займав би без обрізання. */
-	const scaledPageWidth = $derived(windowWidth * scale);
 	/** Ширина розгорнутої мінімапи. */
-	const fullWidth = $derived(
-		isFull ? Math.min(scaledPageWidth, VISUAL_MAX_WIDTH) : SCHEMA_WIDTH
-	);
+	const fullWidth = $derived(isFull ? VISUAL_MAX_WIDTH : SCHEMA_WIDTH);
+
 	/**
-	 * Обрізаємо симетрично: сайт вирівняний по центру, тож зріз лише праворуч
-	 * лишив би в мінімапі порожнє поле замість вмісту.
+	 * Масштаб — по ШИРИНІ: сторінка цілком уміщається в смужку, нічого не
+	 * обрізається. Через це клон може вийти вищим за екран, і тоді він їде
+	 * всередині смужки разом із прокруткою — рівно як мінімапа в редакторі
+	 * коду поводиться з довгим файлом.
+	 *
+	 * Попередній варіант масштабував по висоті: сторінка вміщалася вся, зате
+	 * боки зрізалися.
 	 */
-	const cloneShiftX = $derived(-Math.max(0, (scaledPageWidth - fullWidth) / 2));
+	const scale = $derived(windowWidth > 0 ? fullWidth / windowWidth : 0.1);
+	/** Висота клону після масштабування. */
+	const cloneHeight = $derived(pageHeight * scale);
+	/** Наскільки клон треба підняти, щоб показати поточне місце. */
+	const cloneShiftY = $derived.by(() => {
+		const overflow = cloneHeight - viewportHeight;
+		if (overflow <= 0) return 0;
+		const maxScroll = pageHeight - viewportHeight;
+		if (maxScroll <= 0) return 0;
+		return -(scrollY / maxScroll) * overflow;
+	});
 
 	const target = $derived.by(() => {
 		if (!visible || reducedMotion.current) return 0;
@@ -215,13 +212,6 @@
 		};
 	});
 
-	// Нативну смугу ховаємо: інакше поруч із мінімапою був би другий
-	// індикатор того самого. Клас знімається при вимкненні режиму.
-	$effect(() => {
-		if (!visible) return;
-		document.documentElement.classList.add('has-custom-scrollbar');
-		return () => document.documentElement.classList.remove('has-custom-scrollbar');
-	});
 
 	/** Висота, за якої клон збудували востаннє. */
 	let clonedAtHeight = 0;
@@ -237,6 +227,15 @@
 		buildClone();
 	});
 
+	/**
+	 * Рамка рахується в тих самих координатах, що й клон: у пікселях смужки
+	 * після масштабування та зсуву. Відсотки від висоти смужки тут не годяться
+	 * — клон може бути вищим за неї.
+	 */
+	const markerHeight = $derived(Math.max(viewportHeight * scale, 2));
+	const markerTop = $derived(scrollY * scale + cloneShiftY);
+
+	/** Для схематичного варіанта координати лишаються частками висоти. */
 	const viewFraction = $derived(Math.min(viewportHeight / pageHeight, 1));
 	const viewTop = $derived(dragging ? dragViewTop : scrollY / pageHeight);
 
@@ -315,7 +314,7 @@
 			<div
 				class="minimap__clone"
 				style="width: {windowWidth}px;
-					transform: translateX({cloneShiftX}px) scale({scale});"
+					transform: translateY({cloneShiftY}px) scale({scale});"
 				bind:this={cloneHost}
 				aria-hidden="true"
 			></div>
@@ -331,7 +330,9 @@
 
 		<span
 			class="minimap__viewport"
-			style="top: {viewTop * 100}%; height: {viewFraction * 100}%;"
+			style={isFull
+				? `top: ${markerTop}px; height: ${markerHeight}px;`
+				: `top: ${viewTop * 100}%; height: ${viewFraction * 100}%;`}
 			data-testid="minimap-viewport-status"
 		></span>
 	</div>

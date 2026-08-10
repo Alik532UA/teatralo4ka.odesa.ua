@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
-	import { ui } from '$lib/controllers/ui.svelte';
+	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { Spring } from 'svelte/motion';
 	import { MediaQuery } from 'svelte/reactivity';
 
@@ -62,16 +62,14 @@
 	 */
 	let dragThumbTop = $state(0);
 
-	const canHover = new MediaQuery('(hover: hover) and (pointer: fine)');
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
 	/**
 	 * На сенсорних пристроях смуга не потрібна: там прокрутка пальцем, а
 	 * нативний індикатор і так накладка, що нічого не зсуває.
 	 */
-	/** Власна смуга малюється лише в режимі `custom`; решту показують інші
-	 * компоненти або сам браузер. */
-	const enabled = $derived(browser && ui.scrollbarMode === 'custom' && canHover.current);
+	/** Чи наша черга малювати. Рішення приймає один контролер на всіх. */
+	const enabled = $derived(scrollbar.active === 'custom');
 
 	const scrollable = $derived(pageHeight > viewportHeight + 1);
 	/**
@@ -178,18 +176,6 @@
 		};
 	});
 
-	/**
-	 * Ховає нативну смугу лише поки компонент живий.
-	 *
-	 * Через клас на `<html>`, а не назавжди в CSS: якщо компонент не
-	 * змонтувався — на сенсорному пристрої, при помилці — сторінка лишається з
-	 * робочою нативною смугою, а не зовсім без жодної.
-	 */
-	$effect(() => {
-		if (!enabled) return;
-		document.documentElement.classList.add('has-custom-scrollbar');
-		return () => document.documentElement.classList.remove('has-custom-scrollbar');
-	});
 
 	/**
 	 * Прокрутити так, щоб верх повзунка опинився під курсором.
