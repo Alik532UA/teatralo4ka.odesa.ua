@@ -113,21 +113,49 @@ test.describe('режими смуги прокрутки', () => {
 		}
 	});
 
-	test('випадайка налаштувань прокручується, а не вилазить за екран', async ({ page }) => {
-		const geometry = await page.evaluate(() => {
-			const el = document.createElement('div');
-			el.className = 'dropdown-menu-unified';
-			document.body.appendChild(el);
+	test('панель налаштувань прокручується, а не вилазить за екран', async ({ page }) => {
+		// Панель містить ДВА окремі блоки — мову з темою і налаштування нижче, —
+		// і за екран вилазить їхня спільна висота. Тому обмеження стоїть на
+		// зовнішньому контейнері, а не на кожному блоці: інакше вийшли б дві
+		// незалежні смуги, а нижній блок усе одно лишався б за краєм.
+		await page.getByTestId('header-settings-btn').click();
+		const popover = page.getByTestId('settings-popover-menu');
+		await expect(popover).toBeVisible();
+
+		const g = await page.evaluate(() => {
+			const el = document.querySelector('[data-testid="settings-popover-menu"]') as HTMLElement;
 			const style = getComputedStyle(el);
-			const result = { maxHeight: style.maxHeight, overflowY: style.overflowY };
-			el.remove();
-			return result;
+			return {
+				overflowY: style.overflowY,
+				bottom: el.getBoundingClientRect().bottom,
+				viewportHeight: window.innerHeight,
+				// Скільки смуг прокрутки всередині — має бути рівно одна, зовнішня.
+				innerScrollable: [...el.querySelectorAll('.dropdown-menu-unified')].filter(
+					(n) => getComputedStyle(n).overflowY === 'auto'
+				).length
+			};
 		});
 
-		// Без обмеження висоти нижні пункти зникали за краєм вікна, і дістатися
-		// до них не можна було ніяк: не прокручувалося ні меню, ні сторінка.
-		expect(geometry.maxHeight, 'висота випадайки має бути обмежена').not.toBe('none');
-		expect(geometry.overflowY, 'зайве має прокручуватися').toBe('auto');
+		expect(g.overflowY, 'зайве має прокручуватися').toBe('auto');
+		expect(g.bottom, 'панель не має вилазити за низ екрана')
+			.toBeLessThanOrEqual(g.viewportHeight + 1);
+		expect(g.innerScrollable, 'вкладених смуг прокрутки бути не має').toBe(0);
+	});
+
+	test('накладки відокремлені тінню від сторінки', async ({ page }) => {
+		for (const [mode, testId] of [
+			['custom', 'page-scrollbar-container'],
+			['minimap-full', 'minimap-container']
+		] as const) {
+			await setMode(page, mode);
+			const shadow = await page.evaluate((id) => {
+				const el = document.querySelector(`[data-testid="${id}"]`);
+				return el ? getComputedStyle(el).boxShadow : 'none';
+			}, testId);
+			// Тло накладок майже збігається з тлом сторінки, тож без тіні вони
+			// зливаються — саме це й було видно.
+			expect(shadow, `${mode}: накладка має мати тінь`).not.toBe('none');
+		}
 	});
 
 	test('область натискання мінімапи не більша за видиму', async ({ page }) => {

@@ -370,6 +370,10 @@
 		z-index: 9000;
 		background: color-mix(in srgb, var(--bg-surface), transparent 15%);
 		border-left: 1px solid var(--border-main);
+		/* Тінь ліворуч: без неї мінімапа зливалася зі сторінкою, бо тло в неї
+		   майже те саме. Тінь читається на будь-якій темі, на відміну від
+		   світлішого або темнішого тла. */
+		box-shadow: -8px 0 24px rgba(0, 0, 0, 0.28);
 		cursor: pointer;
 		overflow: hidden;
 		touch-action: none;
