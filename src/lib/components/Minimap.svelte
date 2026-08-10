@@ -57,6 +57,9 @@
 	let dragMarkerTop = $state(0);
 	/** Зсув місця захоплення від верху рамки. */
 	let grabOffset = 0;
+	/** Елемент, що тримає захват вказівника, і для якого саме вказівника. */
+	let capturedStrip: HTMLElement | null = null;
+	let capturedPointerId = -1;
 
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
@@ -417,6 +420,11 @@
 	}
 
 	function onPointerDown(e: PointerEvent) {
+		// Гасить сумісні мишачі події, які цей натиск інакше породить, а з ними —
+		// виділення, що браузер починає з mousedown. Захват вказівника доставляє
+		// рухи й так; це прибирає паралельний жест браузера.
+		e.preventDefault();
+
 		const el = e.currentTarget as HTMLElement;
 		const rect = el.getBoundingClientRect();
 		dragTop = rect.top;
@@ -431,8 +439,17 @@
 
 		hold.stop();
 		dragging = true;
-		el.setPointerCapture(e.pointerId);
+		// Перед захватом, щоб виняток у ньому — вказівник, якого браузер уже не
+		// вважає активним — не проглинув перший стрибок.
 		requestScroll(e.clientY);
+		try {
+			el.setPointerCapture(e.pointerId);
+			capturedStrip = el;
+			capturedPointerId = e.pointerId;
+		} catch {
+			// Без захвату рухи приходять лише поки курсор над смужкою. При 180px це
+			// живуче, при 28px — ні; жест насправді несе слухач на window.
+		}
 	}
 
 	function onPointerMove(e: PointerEvent) {
@@ -450,7 +467,11 @@
 		hold.aim(e.clientY - rect.top);
 	}
 
-	function endDrag(e: PointerEvent) {
+	/**
+	 * Без аргументу: викликається і зі смужки, і з window, а знімати захват треба з
+	 * того елемента, який його взяв, а не з випадкової цілі події.
+	 */
+	function endDrag() {
 		if (!dragging) return;
 		dragging = false;
 		hold.stop();
@@ -458,17 +479,34 @@
 			cancelAnimationFrame(frame);
 			frame = 0;
 		}
-		(e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+		if (capturedStrip !== null) {
+			try {
+				capturedStrip.releasePointerCapture(capturedPointerId);
+			} catch {
+				// Уже знято — браузером або разом з елементом.
+			}
+			capturedStrip = null;
+		}
 	}
 </script>
 
 <svelte:window
 	bind:innerWidth={windowWidth}
 	onpointermove={(e) => {
-		if (dragging) return;
+		// Під час перетягування жест несе саме цей слухач, а не власний обробник
+		// смужки. Схематична смужка завширшки 28px, тож найменший зсув убік виводить
+		// курсор за неї, і якщо захват вказівника колись не візьметься — рухи
+		// доставляти нікому. Візуальна на 180px ховала ту саму крихкість просто тим,
+		// що достатньо широка, щоб лишатися під курсором.
+		if (dragging) {
+			requestScroll(e.clientY);
+			return;
+		}
 		mouseX = e.clientX;
 		pointerInside = true;
 	}}
+	onpointerup={endDrag}
+	onpointercancel={endDrag}
 	onpointerleave={() => (pointerInside = false)}
 />
 
@@ -541,6 +579,14 @@
 		cursor: pointer;
 		overflow: hidden;
 		touch-action: none;
+		/* Успадковується дітьми, тож усередині смужки нічого не може почати
+		   виділення тексту. Виділення тут не безневинне: смужка притулена до
+		   правого краю вікна — саме там, де браузер вмикає власний автоскрол
+		   виділення, — і той далі бореться з кожним нашим scrollTo. Зачіпало це
+		   лише схематичний варіант, бо там натиск падав на дочірній елемент;
+		   у візуального клон уже має `user-select: none` і не бере подій узагалі. */
+		user-select: none;
+		-webkit-user-select: none;
 		/* Рух задає пружина в скрипті; CSS-перехід тут лише боровся б із нею. */
 		transition: background 0.2s;
 	}
@@ -568,6 +614,11 @@
 		left: 0;
 		right: 0;
 		display: block;
+		/* Обидва — малюнок, не ціль. Рамка від подій уже відмовилася, а смужки ні,
+		   тож у схематичному варіанті кожен натиск падав на смужку, а не на саму
+		   мінімапу: інший елемент, ніж у візуальному, і єдиний із двох, який міг
+		   почати виділення. */
+		pointer-events: none;
 	}
 
 	.minimap__block {
@@ -579,7 +630,6 @@
 		background: color-mix(in srgb, var(--accent-primary), transparent 85%);
 		border-top: 1px solid var(--accent-primary);
 		border-bottom: 1px solid var(--accent-primary);
-		pointer-events: none;
 	}
 
 	@media print {
