@@ -39,6 +39,10 @@
 	let blocks = $state.raw<Block[]>([]);
 	let scrollY = $state(0);
 	let viewportHeight = $state(0);
+	/** Нижній край фіксованої шапки, або 0, якщо її немає. */
+	let headerOffset = $state(0);
+	/** Скільки знизу займає фіксований підвал, або 0. */
+	let footerOffset = $state(0);
 	let pageHeight = $state(1);
 	let windowWidth = $state(0);
 	let mouseX = $state(Number.POSITIVE_INFINITY);
@@ -90,9 +94,30 @@
 	const scale = $derived(windowWidth > 0 ? fullWidth / windowWidth : 0.1);
 	/** Висота клону після масштабування. */
 	const cloneHeight = $derived(pageHeight * scale);
-	/** Наскільки клон треба підняти, щоб показати поточне місце. */
+
+	/** Що лишається від вікна після фіксованої шапки й підвалу. */
+	const availableHeight = $derived(Math.max(viewportHeight - headerOffset - footerOffset, 0));
+
+	/**
+	 * Висота смужки = висота ВИДИМОГО вмісту.
+	 *
+	 * Коли сторінка коротка, клон не заповнює екран — і раніше смужка все одно
+	 * лишалася на всю висоту. Натиск під клоном виглядав як «кінець сторінки»,
+	 * а вів у середину: область натискання не збігалася з тим, що видно.
+	 *
+	 * Оголошено тут, а не поруч із рештою геометрії нижче: `cloneShiftY` рахується
+	 * від цієї величини, і посилання на 250 рядків уперед читалося б як помилка.
+	 */
+	const mapHeight = $derived(isFull ? Math.min(cloneHeight, availableHeight) : availableHeight);
+	/**
+	 * Наскільки клон треба підняти, щоб показати поточне місце.
+	 *
+	 * Від висоти СМУЖКИ, не вікна. Поки смужка займала все вікно, це були однакові
+	 * величини; щойно вона стала коротшою на шапку й підвал, клон не додавав на цю
+	 * різницю — і в кінці сторінки мінімапа показувала не її кінець.
+	 */
 	const cloneShiftY = $derived.by(() => {
-		const overflow = cloneHeight - viewportHeight;
+		const overflow = cloneHeight - mapHeight;
 		if (overflow <= 0) return 0;
 		return -(scrollY / Math.max(pageHeight - viewportHeight, 1)) * overflow;
 	});
@@ -124,6 +149,24 @@
 		pageHeight = Math.max(document.documentElement.scrollHeight, 1);
 		viewportHeight = window.innerHeight;
 		scrollY = window.scrollY;
+
+		// Смужка починається під шапкою і кінчається над підвалом: інакше візуальний
+		// варіант завширшки 200px накриває органи керування в обох. Висоти саме
+		// міряються, бо вони вже задані у власних стилях компонентів, і третя копія
+		// числа розійшлася б.
+		const header = document.querySelector('header');
+		headerOffset = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0;
+
+		// Підвал враховується ЛИШЕ поки він `fixed` (у цьому проєкті — від 1025px).
+		// Підвал у потоці входить у вікно тільки в кінці сторінки, тож відступ від
+		// нього залежав би від прокрутки — а `mapHeight`, що змінюється під час
+		// перетягування, ламає жест так само, як пружина на висоті рамки (§ 9.10).
+		const footer = document.querySelector('footer');
+		const footerFixed = footer ? getComputedStyle(footer).position === 'fixed' : false;
+		footerOffset =
+			footer && footerFixed
+				? Math.max(viewportHeight - footer.getBoundingClientRect().top, 0)
+				: 0;
 	}
 
 	function measureBlocks() {
@@ -322,15 +365,6 @@
 		buildClone();
 	});
 
-	/**
-	 * Висота смужки = висота ВИДИМОГО вмісту.
-	 *
-	 * Коли сторінка коротка, клон не заповнює екран — і раніше смужка все одно
-	 * лишалася на всю висоту. Натиск під клоном виглядав як «кінець сторінки»,
-	 * а вів у середину: область натискання не збігалася з тим, що видно.
-	 */
-	const mapHeight = $derived(isFull ? Math.min(cloneHeight, viewportHeight) : viewportHeight);
-
 	/** Рамка видимої області — у пікселях смужки. */
 	const markerHeight = $derived(
 		Math.max(isFull ? viewportHeight * scale : (viewportHeight / pageHeight) * mapHeight, 8)
@@ -445,7 +479,7 @@
 		class:minimap--full={isFull}
 		class:dragging
 		class:holding={hold.holding}
-		style="width: {fullWidth}px; height: {mapHeight}px;
+		style="top: {headerOffset}px; width: {fullWidth}px; height: {mapHeight}px;
 			transform: translateX({hiddenPart}px);"
 		aria-label={$t('settings.scrollbarMinimap')}
 		data-testid="minimap-container"
@@ -494,8 +528,8 @@
 	.minimap {
 		position: fixed;
 		right: 0;
-		top: 0;
-		/* Висоту задає скрипт: вона дорівнює висоті видимого вмісту. */
+		/* `top` і висоту задає скрипт: смужка починається під шапкою і кінчається
+		   над підвалом, обидва — виміряні. */
 		/* Нижче заставки (10000) і модалок, але вище звичайного вмісту. */
 		z-index: 9000;
 		background: color-mix(in srgb, var(--bg-surface), transparent 15%);
