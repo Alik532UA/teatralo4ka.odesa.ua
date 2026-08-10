@@ -127,7 +127,13 @@ export default ts.config(
 			// Точкові коментарі тут не працюють: `eslint-disable-next-line`
 			// довелося б ставити між атрибутами тега, а HTML-коментар там
 			// недопустимий — перша спроба зламала компіляцію.
-			'src/lib/components/HeaderSection.svelte'
+			'src/lib/components/HeaderSection.svelte',
+			// Результати пошуку: адресу кожного вже склав `services/searchIndex`,
+			// і склав саме через resolve() із літералом маршруту. Тут вона приходить
+			// полем об'єкта (`hit.href`), а такого правило не відстежує в принципі —
+			// воно приймає лише прямий виклик resolve() або змінну, у чиєму
+			// оголошенні цей виклик стоїть.
+			'src/lib/components/SearchOverlay.svelte'
 		],
 		rules: {
 			'svelte/no-navigation-without-resolve': 'off'

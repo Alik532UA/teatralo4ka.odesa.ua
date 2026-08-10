@@ -3,6 +3,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { pageMetadataSchema } from './schema';
 import type { PageContent, PageMetadata, TableOfContents } from './types';
 import { DOMPURIFY_HTML_CONFIG, configureMarkedRenderer } from '$lib/utils/markedConfig';
+import { plainTextFromMarkdown } from '$lib/utils/siteSearch';
 
 // Initialize shared marked renderer for server-side usage
 configureMarkedRenderer();
@@ -74,6 +75,36 @@ function parseFrontmatter(fileContent: string) {
   });
 
   return { data, content };
+}
+
+/**
+ * Назва й звичайний текст сторінки — для пошуку по сайту.
+ *
+ * Свідомо НЕ використовує `loadPageWithMetadata`: той рендерить markdown у HTML
+ * і проганяє через DOMPurify, а для зіставлення рядків це і зайве, і дороге —
+ * сімнадцять сторінок двома мовами за кожне відкриття пошуку. Тут лише
+ * frontmatter і зняття розмітки.
+ *
+ * Повертає `null`, якщо файлу немає або сторінка в архіві: архівну сторінку
+ * показувати не можна, отже й знаходити не треба.
+ */
+export function loadPageForSearch(
+  lang: string,
+  slug: string
+): { title: string; text: string } | null {
+  const fileContent = PAGES[lang]?.[slug];
+  if (!fileContent) return null;
+
+  const { data, content } = parseFrontmatter(fileContent);
+  if (data.status === 'archived') return null;
+
+  const title = typeof data.title === 'string' && data.title.trim() ? data.title : slug;
+  return { title, text: plainTextFromMarkdown(content) };
+}
+
+/** Слуги, які справді є на диску — для перевірки повноти переліку пошуку. */
+export function listPageSlugs(lang: string): string[] {
+  return Object.keys(PAGES[lang] ?? {});
 }
 
 /**

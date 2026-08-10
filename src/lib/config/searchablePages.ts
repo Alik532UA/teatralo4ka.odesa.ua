@@ -1,0 +1,50 @@
+import { resolve } from '$app/paths';
+
+/**
+ * Які markdown-сторінки шукаються і на який маршрут ведуть.
+ *
+ * Перелік ЯВНИЙ і не виводиться з імен файлів, бо відповідність не механічна:
+ * `music.md` живе за адресою `/departments/music/`, а `residents-adults.md` —
+ * за `/residents/adults/`. Вгадати це з назви файлу неможливо.
+ *
+ * Адреса — ВІДКЛАДЕНИЙ виклик `resolve()` із літералом, а не готовий рядок.
+ * Літерал потрібен, бо перевантаження `resolve()` визначені по кожному маршруту
+ * окремо й union їм передати не можна; саме так неіснуючий маршрут або інший
+ * регістр не збереться — той клас помилок, через який
+ * `/projects/spring-Odesa-theatre` колись доїхало до продакшну.
+ *
+ * А відкладений — бо на рівні модуля `resolve()` виконався б РАЗ, і під prerender
+ * забрав би відносний `base` тієї сторінки, яка імпортувала файл першою.
+ *
+ * Повнота перевіряється тестом: кожен файл у `i18n/pages/uk` мусить бути або
+ * тут, або в `PAGES_WITHOUT_ROUTE` із причиною. Інакше сторінка існує, а
+ * знайти її не можна — і дізнатися про це нема як.
+ */
+export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
+	{ slug: 'about', href: () => resolve('/about') },
+	{ slug: 'admission', href: () => resolve('/admission') },
+	{ slug: 'contacts', href: () => resolve('/contacts') },
+	{ slug: 'history', href: () => resolve('/history') },
+	{ slug: 'aesthetic', href: () => resolve('/departments/aesthetic') },
+	{ slug: 'art', href: () => resolve('/departments/art') },
+	{ slug: 'music', href: () => resolve('/departments/music') },
+	{ slug: 'theatre', href: () => resolve('/departments/theatre') },
+	{ slug: 'festival', href: () => resolve('/projects/festival') },
+	{ slug: 'photo-archive', href: () => resolve('/projects/photo-archive') },
+	{ slug: 'spring-odesa-theatre', href: () => resolve('/projects/spring-odesa-theatre') },
+	{ slug: 'support-production', href: () => resolve('/projects/support-production') },
+	{ slug: 'teatr-pro', href: () => resolve('/projects/teatr-pro') },
+	{ slug: 'residents-adults', href: () => resolve('/residents/adults') },
+	{ slug: 'residents-graduates', href: () => resolve('/residents/graduates') },
+	{ slug: 'residents-kids', href: () => resolve('/residents/kids') }
+];
+
+/**
+ * Сторінки, які свідомо НЕ шукаються, із причиною.
+ *
+ * Це не борг, а рішення: файл існує, але вести на нього нема куди.
+ */
+export const PAGES_WITHOUT_ROUTE: Record<string, string> = {
+	'galaxy-graduates':
+		'маршрут /projects/galaxy-graduates робить 301 на зовнішній сайт, тож текст цього файлу ніде не показується'
+};

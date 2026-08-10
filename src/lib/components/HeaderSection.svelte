@@ -3,7 +3,8 @@
 	import TickerBanner from "./TickerBanner.svelte";
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
-	import { Menu, X } from "lucide-svelte";
+	import { Menu, X, Search } from "lucide-svelte";
+	import SearchOverlay from "./SearchOverlay.svelte";
 	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
 	import { ui } from "$lib/controllers/ui.svelte";
@@ -163,6 +164,9 @@
 
 	// Smart interaction state: ignore click for 1s after hover open
 	let lastNavHoverTime = 0;
+	/** Накладка пошуку. Стан тут, бо кнопки дві — настільна й мобільна. */
+	let searchOpen = $state(false);
+
 	let lastSettingsHoverTime = 0;
 	const CLICK_IGNORE_MS = 1000;
 
@@ -433,6 +437,20 @@
 						</div>
 					</li>
 
+					<!-- Пошук: між меню та налаштуваннями. Накладку малює окремий
+					     компонент у корені розмітки — тут лише кнопка. -->
+					<li class="header__nav-item">
+						<button
+							class="header__burger header__burger--desktop"
+							onclick={() => { navOpen = false; settingsOpen = false; searchOpen = true; }}
+							aria-label={$t('search.open')}
+							aria-expanded={searchOpen}
+							data-testid="header-search-btn"
+						>
+							<Search size={24} />
+						</button>
+					</li>
+
 					<!-- Desktop Settings -->
 					<!-- Та сама причина, що й у блоці вище: роль на <li> ламає список. -->
 					<li class="header__nav-item">
@@ -473,6 +491,18 @@
 				</ul>
 			</nav>
 		</div>
+
+		<!-- На мобільному окремої кнопки налаштувань у шапці немає — вони всередині
+		     оверлея меню. Тому пошук стоїть поруч із бургером. -->
+		<button
+			class="header__burger header__search-mobile"
+			onclick={() => { settingsOpen = false; ui.closeMenu(); searchOpen = true; }}
+			aria-label={$t('search.open')}
+			aria-expanded={searchOpen}
+			data-testid="header-search-mobile-btn"
+		>
+			<Search size={20} />
+		</button>
 
 		<button
 			class="header__burger header__burger--mobile"
@@ -611,7 +641,23 @@
 	{/if}
 </header>
 
+<SearchOverlay bind:open={searchOpen} onclose={() => (searchOpen = false)} />
+
 <style>
+	/* Пошук на мобільному: та сама умова показу, що й у мобільного бургера —
+	   інакше на настільному екрані було б дві кнопки пошуку поруч. */
+	.header__search-mobile {
+		display: none;
+	}
+
+	@media (max-width: 1024px) {
+		.header__search-mobile {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+
 	.skip-link {
 		position: absolute;
 		top: -100%;
