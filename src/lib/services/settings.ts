@@ -731,6 +731,7 @@ export interface DebugPanelConfig {
   visible: boolean;
   showBackground: boolean;
   showBlur: boolean;
+  showScrollbar: boolean;
 }
 
 export interface TickerConfig {
@@ -898,6 +899,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
     visible: true,
     showBackground: true,
     showBlur: true,
+    showScrollbar: true,
   },
 };
 

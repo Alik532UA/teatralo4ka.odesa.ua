@@ -82,6 +82,7 @@
 	{mobile}
 	showBackground={debugPanel?.showBackground ?? true}
 	showBlur={debugPanel?.showBlur ?? true}
+	showScrollbar={debugPanel?.showScrollbar ?? true}
 	testId={mobile ? "debug-settings-dropdown-menu-mobile" : undefined}
 />
 {/if}

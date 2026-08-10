@@ -172,7 +172,8 @@ export const TickerConfigSchema = z.object({
 export const DebugPanelConfigSchema = z.object({
 	visible: optional(z.boolean()),
 	showBackground: optional(z.boolean()),
-	showBlur: optional(z.boolean())
+	showBlur: optional(z.boolean()),
+	showScrollbar: optional(z.boolean())
 });
 
 /**

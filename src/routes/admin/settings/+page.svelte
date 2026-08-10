@@ -1510,6 +1510,13 @@ async function handleAboutPageSubmit() {
 <span class="switch-slider"></span>
 </label>
 </li>
+<li class="block-item" class:opacity-muted={!debugPanel.visible}>
+<span class="block-item__name">{$t('admin.settings.debugShowScrollbar')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={debugPanel.showScrollbar} disabled={!debugPanel.visible} onchange={() => debugPanel = { ...debugPanel, showScrollbar: !debugPanel.showScrollbar }} data-testid="admin-settings-debug-scrollbar-toggle" />
+<span class="switch-slider"></span>
+</label>
+</li>
 </ul>
 
 <div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">

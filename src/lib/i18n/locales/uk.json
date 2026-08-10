@@ -528,6 +528,7 @@
       "debugVisible": "Показувати debug-блок",
       "debugShowBackground": "Показувати вибір фону",
       "debugShowBlur": "Показувати blur-перемикач",
+      "debugShowScrollbar": "Показувати вибір смуги прокрутки",
       "tickerTitle": "Хвилина мовчання",
       "tickerDesc": "Налаштування загальнонаціональної хвилини мовчання (біжучий рядок).",
       "tickerVisible": "Увімкнути на сайті",

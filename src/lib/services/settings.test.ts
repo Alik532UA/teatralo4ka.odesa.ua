@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
 import { DEFAULT_HEADER_SETTINGS, resolveHeaderSettings } from './settings';
 
 /**
@@ -117,4 +118,32 @@ describe('міграція cta.linkValue → cta.href', () => {
 		const out = resolveHeaderSettings({ cta: { href: '/новий', linkValue: '/старий' } });
 		expect(out.cta.href).toBe('/новий');
 	});
+});
+
+describe('налаштування debug-панелі досяжні з адмінки', () => {
+	/**
+	 * Кожне поле `DebugPanelConfig` мусить мати керування в Debug-табі адмінки.
+	 *
+	 * Саме тут і був пропуск: `DebugSettingsDropdown` уже приймав проп
+	 * `showScrollbar`, але його ніхто не передавав і ніде не можна було вимкнути.
+	 * Поле, яке нема як змінити, — це не налаштування, а константа з виглядом
+	 * налаштування, і відрізнити їх у коді неможливо: типи сходяться, збірка
+	 * проходить, у сховищі ключ просто відсутній.
+	 *
+	 * Перевірка дивиться на розмітку, бо прогалина живе саме там. Ні схема, ні
+	 * типи про неї сказати не можуть у принципі.
+	 */
+	const page = readFileSync('src/routes/admin/settings/+page.svelte', 'utf8');
+
+	it('сторінку налаштувань знайдено — перевірка жива', () => {
+		expect(page).toContain('debugPanel');
+	});
+
+	for (const key of Object.keys(DEFAULT_HEADER_SETTINGS.debugPanel)) {
+		it(`${key} має керування`, () => {
+			expect(page, `у Debug-табі немає керування для debugPanel.${key}`).toContain(
+				`debugPanel.${key}`
+			);
+		});
+	}
 });

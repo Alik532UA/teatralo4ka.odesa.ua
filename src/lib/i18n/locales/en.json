@@ -528,6 +528,7 @@
       "debugVisible": "Show debug block",
       "debugShowBackground": "Show background selector",
       "debugShowBlur": "Show blur toggle",
+      "debugShowScrollbar": "Show scrollbar selector",
       "tickerTitle": "Minute of Silence",
       "tickerDesc": "Settings for the national minute of silence (ticker line).",
       "tickerVisible": "Enable on site",
