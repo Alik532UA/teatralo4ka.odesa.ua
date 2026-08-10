@@ -78,6 +78,10 @@
 	--transition-fast: 150ms ease;
 	--transition-base: 250ms ease;
 	--header-height: 72px;
+	/* Підвал на широких екранах приклеєний до низу (`position: fixed`), тож
+	   спадні панелі мусять лишати під собою це місце — інакше нижні пункти
+	   опиняються під ним. Значення збігається з `.footer-spacer`. */
+	--footer-height: 80px;
 
 	/* Page section spacing. `main` already offsets the fixed header (see
 	   +layout.svelte), so these are only the breathing room below the header and

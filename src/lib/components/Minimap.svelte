@@ -57,7 +57,17 @@
 
 	/** Чи наша черга малювати. Рішення приймає один контролер на всіх. */
 	const isFull = $derived(scrollbar.active === 'minimap-full');
-	const visible = $derived(scrollbar.active === 'minimap' || isFull);
+	const chosen = $derived(scrollbar.active === 'minimap' || isFull);
+
+	/**
+	 * На сторінці, що вміщається цілком, мінімапи бути не має.
+	 *
+	 * Ця перевірка була у власної смуги, а тут її забули — і на коротких
+	 * сторінках мінімапа висіла збоку, показуючи рамку на всю висоту, тобто
+	 * нічого корисного. Нативна смуга в такому разі теж не з’являється.
+	 */
+	const scrollable = $derived(pageHeight > viewportHeight + 1);
+	const visible = $derived(chosen && scrollable);
 
 	/** Ширина схематичної мінімапи. Смужкам не потрібна пропорційна ширина. */
 	const SCHEMA_WIDTH = 28;
@@ -186,8 +196,10 @@
 		cloneHost.appendChild(clone);
 	}
 
+	// Слухаємо, поки режим обрано, а не поки мінімапа видима: інакше на
+	// короткій сторінці ніхто не помітив би, що вона стала довшою.
 	$effect(() => {
-		if (!visible) return;
+		if (!chosen) return;
 		measure();
 		measureBlocks();
 

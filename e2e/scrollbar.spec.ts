@@ -140,6 +140,26 @@ test.describe('режими смуги прокрутки', () => {
 		expect(g.bottom, 'панель не має вилазити за низ екрана')
 			.toBeLessThanOrEqual(g.viewportHeight + 1);
 		expect(g.innerScrollable, 'вкладених смуг прокрутки бути не має').toBe(0);
+
+		// І найнижчий пункт мусить бути ДОСЯЖНИМ після прокрутки панелі.
+		// Прокрутка сама по собі цього не гарантувала: попов доходив рівно до низу
+		// екрана, а на широких екранах його накривав приклеєний підвал.
+		const last = page.getByTestId('debug-scrollbar-minimap-full-btn');
+		await last.scrollIntoViewIfNeeded();
+		const visible = await page.evaluate(() => {
+			const el = document.querySelector('[data-testid="debug-scrollbar-minimap-full-btn"]')!;
+			const r = el.getBoundingClientRect();
+			const footer = document.querySelector('footer, .footer');
+			const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
+			return {
+				bottom: r.bottom,
+				height: r.height,
+				limit: Math.min(window.innerHeight, footerTop)
+			};
+		});
+		expect(visible.height, 'нижній пункт мусить існувати').toBeGreaterThan(0);
+		expect(visible.bottom, 'нижній пункт не має ховатися під підвалом чи за краєм')
+			.toBeLessThanOrEqual(visible.limit + 1);
 	});
 
 	test('накладки відокремлені тінню від сторінки', async ({ page }) => {
@@ -306,6 +326,35 @@ test.describe('режими смуги прокрутки', () => {
 		await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
 		await page.mouse.click(contentEdge - 200, 300, { button: 'right' });
 		await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
+	});
+
+	test('на сторінці без прокрутки жоден режим нічого не малює', async ({ page }) => {
+		// `/residents/adults` вміщається у вікно тестового розміру цілком.
+		// Перевірка була у власної смуги, а в мінімапи її забули — і вона висіла
+		// збоку з рамкою на всю висоту, тобто не показувала нічого корисного.
+		await page.goto('/residents/adults');
+		await page.waitForLoadState('load');
+
+		const fits = await page.evaluate(
+			() => document.documentElement.scrollHeight <= window.innerHeight + 1
+		);
+		expect(fits, 'сторінка мусить уміщатися — інакше перевірка нічого не варта').toBe(true);
+
+		for (const mode of ['standard', 'custom', 'minimap', 'minimap-full'] as const) {
+			await page.evaluate((m) => {
+				localStorage.setItem('teatralo4ka_scrollbarMode', m);
+			}, mode);
+			await page.reload();
+			await page.waitForLoadState('load');
+			await page.waitForTimeout(300);
+
+			const shown = await page.evaluate(() => ({
+				bar: !!document.querySelector('[data-testid="page-scrollbar-container"]:not(.page-scrollbar--hidden)'),
+				map: !!document.querySelector('[data-testid="minimap-container"]')
+			}));
+			expect(shown.map, `${mode}: мінімапи бути не має`).toBe(false);
+			expect(shown.bar, `${mode}: смуги бути не має`).toBe(false);
+		}
 	});
 
 	test('доводчик працює в усіх трьох режимах', async ({ page }) => {
