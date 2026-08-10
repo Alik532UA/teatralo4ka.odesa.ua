@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ui, type ScrollbarMode } from '$lib/controllers/ui.svelte';
+	import { ui } from '$lib/controllers/ui.svelte';
+	import { SCROLLBAR_MODES } from '$lib/config/scrollbarModes';
 	import { t } from 'svelte-i18n';
 
 	let { 
@@ -35,13 +36,9 @@
 		}
 	};
 
-	/** Чим показувати положення на сторінці. Порядок — від звичного до найважчого. */
-	const scrollbarModes: { id: ScrollbarMode; label: () => string }[] = [
-		{ id: 'standard', label: () => $t('settings.scrollbarStandard') },
-		{ id: 'custom', label: () => $t('settings.scrollbarCustom') },
-		{ id: 'minimap', label: () => $t('settings.scrollbarMinimap') },
-		{ id: 'minimap-full', label: () => $t('settings.scrollbarMinimapFull') },
-	];
+	// Перелік не дублюється: той самий, що в контекстному меню смуги. Дві копії
+	// розійшлися б при додаванні режиму, і в одному місці його б забули.
+	const scrollbarModes = SCROLLBAR_MODES;
 
 	const backgrounds: BackgroundOption[] = [
 		{ id: 0, label: () => $t('settings.bgNone') },
@@ -110,7 +107,7 @@
 						style="text-align: left;"
 						data-testid={`debug-scrollbar-${mode.id}-btn`}
 					>
-						{mode.label()}
+						{$t(mode.key)}
 					</button>
 				{/each}
 			</div>

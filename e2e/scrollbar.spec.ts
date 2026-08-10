@@ -230,8 +230,11 @@ test.describe('режими смуги прокрутки', () => {
 		// Нижче за повзунок: сторінка на початку, тож повзунок угорі.
 		const below = box.y + box.height * 0.8;
 
-		// Порівнюємо з ПОЧАТКОВИМ значенням, а не з нулем: браузер після
-		// перезавантаження відновлює позицію, і вона буває не рівно нульовою.
+		// Позицію задаємо самі й даємо їй усістися. Браузер відновлює прокрутку
+		// після перезавантаження АСИНХРОННО, і без цього вона доїжджала вже
+		// посеред перевірки — виглядало як завчасний старт доводчика.
+		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+		await page.waitForTimeout(300);
 		const atStart = await page.evaluate(() => window.scrollY);
 
 		await page.mouse.move(x, below);
@@ -257,6 +260,83 @@ test.describe('режими смуги прокрутки', () => {
 		await page.waitForTimeout(500);
 		expect(await page.evaluate(() => window.scrollY), 'без курсора рух зупиняється')
 			.toBe(stopped);
+	});
+
+	test('права кнопка відкриває меню вибору режиму', async ({ page }) => {
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		const box = (await bar.boundingBox())!;
+
+		await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2, { button: 'right' });
+		const menu = page.getByTestId('scrollbar-context-menu');
+		await expect(menu).toBeVisible();
+
+		// Меню має жити в корені, а не всередині смуги: мінімапа з
+		// `overflow: hidden` обрізала б його, а після перемикання режиму
+		// компонент, що його відкрив, зникає разом із меню.
+		const insideOverlay = await page.evaluate(() => {
+			const m = document.querySelector('[data-testid="scrollbar-context-menu"]')!;
+			return !!m.closest('.page-scrollbar, .minimap');
+		});
+		expect(insideOverlay, 'меню не має лежати всередині накладки').toBe(false);
+
+		// Вибір застосовується й запам’ятовується.
+		await menu.getByTestId('scrollbar-menu-minimap-btn').click();
+		await expect(menu).toHaveCount(0);
+		await expect(page.getByTestId('minimap-container')).toBeVisible();
+		expect(
+			await page.evaluate(() => localStorage.getItem('teatralo4ka_scrollbarMode'))
+		).toBe('minimap');
+	});
+
+	test('у стандартному режимі меню ловиться зоною біля краю', async ({ page }) => {
+		await setMode(page, 'standard');
+
+		// Нативну смугу малює браузер, і подій із неї сторінка не отримує —
+		// перехопити клік просто над нею неможливо. Тому робоча зона це двадцять
+		// пікселів ЛІВОРУЧ від смуги: прозорий елемент поверх неї перекрив би саму
+		// смугу, і її стало б не можна тягнути.
+		const contentEdge = await page.evaluate(() => document.documentElement.clientWidth);
+
+		await page.mouse.click(contentEdge - 6, 300, { button: 'right' });
+		await expect(page.getByTestId('scrollbar-context-menu')).toBeVisible();
+
+		// Далі від краю — звичайне поведінка сторінки, наше меню не з’являється.
+		await page.getByTestId('scrollbar-menu-backdrop').click();
+		await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
+		await page.mouse.click(contentEdge - 200, 300, { button: 'right' });
+		await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
+	});
+
+	test('доводчик працює в усіх трьох режимах', async ({ page }) => {
+		for (const [mode, testId] of [
+			['custom', 'page-scrollbar-container'],
+			['minimap', 'minimap-container'],
+			['minimap-full', 'minimap-container']
+		] as const) {
+			await setMode(page, mode);
+			const control = page.getByTestId(testId);
+			await expect(control).toBeVisible();
+
+			const viewport = page.viewportSize()!;
+			// Мінімапа у спокої схована за краєм — спершу підносимо мишу.
+			await page.mouse.move(viewport.width - 4, viewport.height / 2);
+			await page.waitForTimeout(900);
+
+			const box = (await control.boundingBox())!;
+			const x = Math.min(box.x + box.width / 2, viewport.width - 4);
+			const atStart = await page.evaluate(() => window.scrollY);
+
+			// Нижче за рамку: сторінка на початку, тож рамка вгорі.
+			await page.mouse.move(x, box.y + box.height * 0.8);
+			await page.waitForTimeout(1600);
+
+			const moved = (await page.evaluate(() => window.scrollY)) - atStart;
+			expect(moved, `${mode}: доводчик має прокручувати`).toBeGreaterThan(0);
+
+			await page.mouse.move(box.x - 300, viewport.height / 2);
+			await page.waitForTimeout(300);
+		}
 	});
 
 	for (const mode of ['custom', 'minimap', 'minimap-full'] as const) {

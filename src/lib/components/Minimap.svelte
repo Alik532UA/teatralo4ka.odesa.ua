@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { Spring } from 'svelte/motion';
+	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { t } from 'svelte-i18n';
 
@@ -253,6 +254,14 @@
 	const markerTop = $derived(dragging ? dragMarkerTop : scrollY * pxPerScroll);
 
 	/**
+	 * Прокрутка від наведення — та сама, що й у власної смуги.
+	 *
+	 * Мінімапа теж має рамку, яку можна «доводити» без натискання: працює для
+	 * обох варіантів, бо геометрія в них однакова.
+	 */
+	const hold = new HoldScroll(() => ({ markerTop, markerHeight, pxPerScroll }));
+
+	/**
 	 * Рамка рухається як повзунок смуги: за курсором, із поправкою на місце
 	 * захоплення. Прокрутка виводиться з її позиції, а не навпаки.
 	 *
@@ -260,6 +269,9 @@
 	 * CSS», а там `scroll-behavior: smooth`. Через це кожен рух миші запускав
 	 * плавну анімацію, і вони наздоганяли одна одну.
 	 */
+	// Таймер і кадр мусять зупинитися разом із компонентом.
+	$effect(() => () => hold.stop());
+
 	function applyScroll() {
 		frame = 0;
 		if (pxPerScroll <= 0) return;
@@ -288,18 +300,31 @@
 		grabOffset = onMarker ? localY - current : markerHeight / 2;
 		dragMarkerTop = current;
 
+		hold.stop();
 		dragging = true;
 		el.setPointerCapture(e.pointerId);
 		requestScroll(e.clientY);
 	}
 
 	function onPointerMove(e: PointerEvent) {
-		if (dragging) requestScroll(e.clientY);
+		if (dragging) {
+			requestScroll(e.clientY);
+			return;
+		}
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		hold.aim(e.clientY - rect.top);
+	}
+
+	function onPointerEnter(e: PointerEvent) {
+		if (dragging) return;
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		hold.aim(e.clientY - rect.top);
 	}
 
 	function endDrag(e: PointerEvent) {
 		if (!dragging) return;
 		dragging = false;
+		hold.stop();
 		if (frame) {
 			cancelAnimationFrame(frame);
 			frame = 0;
@@ -324,10 +349,20 @@
 		class="minimap"
 		class:minimap--full={isFull}
 		class:dragging
+		class:holding={hold.holding}
 		style="width: {fullWidth}px; height: {mapHeight}px;
 			transform: translateX({hiddenPart}px);"
 		aria-label={$t('settings.scrollbarMinimap')}
 		data-testid="minimap-container"
+		onpointerenter={onPointerEnter}
+		onpointerleave={() => hold.stop()}
+		oncontextmenu={(e) => {
+			// Нативне меню тут ні до чого: копіювати чи зберігати нема чого,
+			// а перемкнути режим — саме те, чого хочеться на смузі.
+			e.preventDefault();
+			hold.stop();
+			scrollbar.openMenu(e.clientX, e.clientY);
+		}}
 		onpointerdown={onPointerDown}
 		onpointermove={onPointerMove}
 		onpointerup={endDrag}
@@ -382,6 +417,7 @@
 	}
 
 	.minimap:hover,
+	.minimap.holding,
 	.minimap.dragging {
 		background: color-mix(in srgb, var(--bg-surface), transparent 5%);
 	}

@@ -3,6 +3,7 @@
 	import { afterNavigate } from '$app/navigation';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { Spring } from 'svelte/motion';
+	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 
 	/**
@@ -62,13 +63,15 @@
 	 */
 	let dragThumbTop = $state(0);
 
-	/** Куди тягне утримання: -1 вгору, 1 вниз, 0 — нікуди. */
-	let holdDirection = 0;
-	let holdTimer: ReturnType<typeof setTimeout> | null = null;
-	let holdFrame = 0;
-	let holdStarted = 0;
-	/** Позначка для розмітки: показати, що зараз іде автопрокрутка. */
-	let holding = $state(false);
+	/**
+	 * Прокрутка від наведення. Логіка спільна з мінімапами — вона однакова для
+	 * усіх трьох, бо всі троє працюють за тією самою моделлю смужки й рамки.
+	 */
+	const hold = new HoldScroll(() => ({
+		markerTop: thumbTop,
+		markerHeight: thumbHeight,
+		pxPerScroll
+	}));
 
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
@@ -141,6 +144,11 @@
 	);
 	/** Те саме, але доїжджає плавно. */
 	const thumbHeight = $derived(springHeight.current);
+	/** Пікселів смужки на піксель прокрутки — спільна арифметика з мінімапами. */
+	const pxPerScroll = $derived(
+		Math.max(viewportHeight - thumbHeight, 0) / Math.max(pageHeight - viewportHeight, 1)
+	);
+
 	const thumbTop = $derived.by(() => {
 		if (dragging) return dragThumbTop;
 		const maxScroll = pageHeight - viewportHeight;
@@ -209,70 +217,6 @@
 		if (!frame) frame = requestAnimationFrame(applyScroll);
 	}
 
-	/** Скільки чекати, перш ніж почати рух. */
-	const HOLD_DELAY_MS = 1000;
-	/** Швидкість на початку і на піку, пікселів за секунду. */
-	const HOLD_SPEED_START = 120;
-	const HOLD_SPEED_MAX = 2600;
-	/** За скільки секунд розгін доходить до піку. */
-	const HOLD_RAMP_S = 2.5;
-
-	/**
-	 * Прокрутка від самого наведення, без натискання.
-	 *
-	 * Затримка в секунду — щоб випадкове проходження курсора повз смугу нічого
-	 * не зрушило. Розгін квадратичний: спершу помітно повільно, щоб можна було
-	 * зупинитися там, де треба, далі швидше — інакше довгу сторінку довелося б
-	 * чекати надто довго.
-	 */
-	function holdStep(now: number) {
-		holdFrame = requestAnimationFrame(holdStep);
-		if (!holdStarted) {
-			holdStarted = now;
-			return;
-		}
-		const elapsed = (now - holdStarted) / 1000;
-		const ramp = Math.min(elapsed / HOLD_RAMP_S, 1);
-		const speed = HOLD_SPEED_START + (HOLD_SPEED_MAX - HOLD_SPEED_START) * ramp * ramp;
-		// Крок за кадр; 60 кадрів на секунду — достатньо близько для плавності.
-		const delta = (holdDirection * speed) / 60;
-		const next = Math.min(Math.max(window.scrollY + delta, 0), pageHeight - viewportHeight);
-		window.scrollTo({ top: next, behavior: 'instant' });
-
-		// Доїхали до потрібного місця — далі тягнути нема куди.
-		const thumbCenter = thumbTop + thumbHeight / 2;
-		if ((holdDirection > 0 && thumbCenter >= holdTargetY) || (holdDirection < 0 && thumbCenter <= holdTargetY)) {
-			stopHold();
-		}
-	}
-
-	/** Куди саме тягнемо, у пікселях від верху доріжки. */
-	let holdTargetY = 0;
-
-	function startHold(localY: number) {
-		stopHold();
-		holdTargetY = localY;
-		holdDirection = localY > thumbTop + thumbHeight ? 1 : localY < thumbTop ? -1 : 0;
-		if (!holdDirection) return;
-
-		holdTimer = setTimeout(() => {
-			holdTimer = null;
-			holdStarted = 0;
-			holding = true;
-			holdFrame = requestAnimationFrame(holdStep);
-		}, HOLD_DELAY_MS);
-	}
-
-	function stopHold() {
-		if (holdTimer) clearTimeout(holdTimer);
-		if (holdFrame) cancelAnimationFrame(holdFrame);
-		holdTimer = null;
-		holdFrame = 0;
-		holdDirection = 0;
-		holdStarted = 0;
-		holding = false;
-	}
-
 	function onTrackPointerDown(e: PointerEvent) {
 		const track = e.currentTarget as HTMLElement;
 		const rect = track.getBoundingClientRect();
@@ -285,7 +229,7 @@
 		grabOffset = onThumb ? localY - thumbTop : thumbHeight / 2;
 		dragThumbTop = thumbTop;
 
-		stopHold();
+		hold.stop();
 		dragging = true;
 		track.setPointerCapture(e.pointerId);
 		requestScroll(e.clientY);
@@ -297,29 +241,20 @@
 			return;
 		}
 
-		// Відлік починається заново лише коли курсор змінив зону: інакше
-		// найдрібніший рух миші скидав би секунду очікування раз за разом.
-		const localY = e.clientY - (e.currentTarget as HTMLElement).getBoundingClientRect().top;
-		const zone = localY > thumbTop + thumbHeight ? 1 : localY < thumbTop ? -1 : 0;
-		if (zone !== holdDirection || (zone !== 0 && !holdTimer && !holdFrame)) {
-			startHold(localY);
-		} else if (zone !== 0) {
-			// Мета оновлюється без перезапуску: користувач може підвести курсор
-			// далі, і рух просто триватиме до нового місця.
-			holdTargetY = localY;
-		}
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		hold.aim(e.clientY - rect.top);
 	}
 
 	function onTrackPointerEnter(e: PointerEvent) {
 		if (dragging) return;
-		const localY = e.clientY - (e.currentTarget as HTMLElement).getBoundingClientRect().top;
-		startHold(localY);
+		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+		hold.aim(e.clientY - rect.top);
 	}
 
 	function endDrag(e: PointerEvent) {
 		if (!dragging) return;
 		dragging = false;
-		stopHold();
+		hold.stop();
 		if (frame) {
 			cancelAnimationFrame(frame);
 			frame = 0;
@@ -348,13 +283,20 @@
 	<div
 		class="page-scrollbar"
 		class:dragging
-		class:holding
+		class:holding={hold.holding}
 		class:page-scrollbar--hidden={presence.current < 0.01}
 		style="width: {width}px; opacity: {presence.current};
 			transform: translateX({(1 - presence.current) * width}px);"
 		data-testid="page-scrollbar-container"
 		onpointerenter={onTrackPointerEnter}
-		onpointerleave={stopHold}
+		onpointerleave={() => hold.stop()}
+		oncontextmenu={(e) => {
+			// Нативне меню тут ні до чого: копіювати чи зберігати нема чого,
+			// а перемкнути режим — саме те, чого хочеться на смузі.
+			e.preventDefault();
+			hold.stop();
+			scrollbar.openMenu(e.clientX, e.clientY);
+		}}
 		onpointerdown={onTrackPointerDown}
 		onpointermove={onTrackPointerMove}
 		onpointerup={endDrag}

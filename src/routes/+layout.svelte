@@ -13,6 +13,7 @@
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import Minimap from '$lib/components/Minimap.svelte';
 	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
+	import ScrollbarContextMenu from '$lib/components/ScrollbarContextMenu.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { checkForUpdates } from '$lib/services/version';
@@ -337,6 +338,9 @@
 </div>
 
 <PageScrollbar />
+
+<!-- Меню смуги живе в корені: мінімапа з `overflow: hidden` обрізала б його. -->
+<ScrollbarContextMenu />
 
 <!-- Типово вимкнена; вмикається в налаштуваннях. -->
 <Minimap />

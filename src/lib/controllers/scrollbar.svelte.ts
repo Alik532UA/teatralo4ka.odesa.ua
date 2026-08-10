@@ -34,6 +34,24 @@ class ScrollbarState {
 		return 'native';
 	});
 
+	/**
+	 * Контекстне меню смуги: де його показати і чи показувати взагалі.
+	 *
+	 * Стан живе тут, а не в компонентах, бо меню одне на всі режими: його
+	 * відкривають і власна смуга, і обидві мінімапи, а малює його окремий
+	 * компонент у корені — інакше воно обрізалося б власним `overflow: hidden`
+	 * мінімапи.
+	 */
+	menu = $state<{ open: boolean; x: number; y: number }>({ open: false, x: 0, y: 0 });
+
+	openMenu = (x: number, y: number) => {
+		this.menu = { open: true, x, y };
+	};
+
+	closeMenu = () => {
+		this.menu = { ...this.menu, open: false };
+	};
+
 	/** Чи ховати нативну смугу. Єдине джерело правди для класу на `<html>`. */
 	readonly hidesNative = $derived(this.active !== 'native');
 }
