@@ -9,6 +9,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Search, FilePlus, Calendar } from 'lucide-svelte';
+	import Select from '$lib/components/ui/Select.svelte';
 
 	let pages = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -200,18 +201,21 @@
 				<button class="mode-btn" class:active={filterStatus === 'draft'} onclick={() => filterStatus = 'draft'}>{$t('admin.content.filterDraft')}</button>
 			</div>
 
-			<div class="select-wrapper">
-				<Calendar size={14} class="select-icon" />
-				<select class="al-filter-select" bind:value={filterYear}>
-					<option value="all">{$t('admin.content.allYears')}</option>
-					{#each availableYears as year (year)}
-						<option value={year}>{$t('admin.content.yearSuffix', { values: { year } })}</option>
-					{:else}
-						<!-- No years found -->
-					{/each}
-					<option value="none">{$t('admin.content.noDate')}</option>
-				</select>
-			</div>
+			<Select
+				bind:value={filterYear}
+				options={[
+					{ value: 'all', label: $t('admin.content.allYears') },
+					...availableYears.map((year) => ({
+						value: String(year),
+						label: $t('admin.content.yearSuffix', { values: { year } })
+					})),
+					{ value: 'none', label: $t('admin.content.noDate') }
+				]}
+				ariaLabel={$t('admin.content.allYears')}
+				testId="admin-pages-filter-year-select"
+			>
+				{#snippet leading()}<Calendar size={14} />{/snippet}
+			</Select>
 		</div>
 	</div>
 
@@ -305,12 +309,7 @@
 .al-search-box input { width: 100%; padding: 0.75rem 1rem 0.75rem 3rem; border-radius: 14px; border: 2px solid var(--color-border); background: var(--color-surface); font-size: 0.95rem; transition: all 0.2s; color: var(--color-dark-text); }
 .al-search-box input:focus { outline: none; border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(33, 150, 186, 0.1); }
 .al-filter-groups { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
-.select-wrapper { position: relative; display: flex; align-items: center; }
 :global(.select-icon) { position: absolute; left: 0.85rem; color: var(--accent-primary); opacity: 0.6; pointer-events: none; }
-.al-filter-select { padding: 0.55rem 1rem 0.55rem 2.25rem; border-radius: 12px; border: 2px solid var(--color-border); background: var(--color-surface); color: var(--color-dark-text); font-weight: 700; font-size: 0.82rem; cursor: pointer; outline: none; appearance: none; min-width: 140px; transition: all 0.2s; }
-.al-filter-select:hover { border-color: var(--accent-primary); }
-.al-filter-select:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 4px rgba(33, 150, 186, 0.1); }
-
 .mode-toggle-group { display: flex; background: var(--color-ice-blue); padding: 0.25rem; border-radius: 12px; border: 1px solid rgba(0, 95, 174, 0.08); }
 :global(.dark-theme) .mode-toggle-group { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
 .mode-btn { padding: 0.4rem 1rem; border-radius: 10px; border: none; background: transparent; font-size: 0.82rem; font-weight: 700; color: var(--color-muted-text); cursor: pointer; transition: all 0.2s; }

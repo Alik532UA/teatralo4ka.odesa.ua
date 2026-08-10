@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Select from '$lib/components/ui/Select.svelte';
 	import type { MenuLinkType } from '$lib/services/settings';
 	import { t } from 'svelte-i18n';
 
@@ -101,29 +102,28 @@
 	</div>
 
 	{#if linkType === 'page'}
-		<select
-			class="lp-select"
+		<Select
 			value={href}
-			onchange={(e) => selectPage((e.target as HTMLSelectElement).value)}
-		>
-			{#each knownPages as p (p.value)}
-				<option value={p.value}>{p.labelUk}</option>
-			{/each}
-		</select>
+			options={knownPages.map((p) => ({ value: p.value, label: p.labelUk }))}
+			onchange={selectPage}
+			ariaLabel={$t('admin.menuEditor.typePage')}
+			testId="link-picker-page-select"
+		/>
 	{:else if linkType === 'article'}
 		{#if articlesLoading}
 			<p class="lp-hint">{$t('admin.menuEditor.loadingArticles')}</p>
 		{:else}
-			<select
-				class="lp-select"
+			<Select
 				value={href}
-				onchange={(e) => selectArticle((e.target as HTMLSelectElement).value)}
-			>
-				<option value="">{$t('admin.menuEditor.selectArticle')}</option>
-				{#each articlesList as a (a.path)}
-					<option value={a.path}>{a.titleUk} ({a.path})</option>
-				{/each}
-			</select>
+				placeholder={$t('admin.menuEditor.selectArticle')}
+				options={[
+					{ value: '', label: $t('admin.menuEditor.selectArticle') },
+					...articlesList.map((a) => ({ value: a.path, label: a.titleUk, hint: a.path }))
+				]}
+				onchange={selectArticle}
+				ariaLabel={$t('admin.menuEditor.typeArticle')}
+				testId="link-picker-article-select"
+			/>
 		{/if}
 	{:else}
 		<input

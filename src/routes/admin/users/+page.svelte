@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Select from '$lib/components/ui/Select.svelte';
 	import { authService, type UserProfile } from '$lib/controllers/auth.svelte';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
@@ -477,11 +478,16 @@
 
 					<!-- Role -->
 					<label class="add-label" for="new-user-role">{$t('admin.users.roleLabel')}</label>
-					<select id="new-user-role" class="add-input add-select" bind:value={newUser.role}>
-						{#each ROLES as r (r.id)}
-							<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>
-						{/each}
-					</select>
+					<Select
+						bind:value={newUser.role}
+						options={ROLES.map((r) => ({
+							value: r.id,
+							label: $t(r.label),
+							disabled: !isSuperAdmin && r.id === 'admin'
+						}))}
+						ariaLabel={$t('admin.users.roleLabel')}
+						testId="admin-users-new-role-select"
+					/>
 
 					<!-- Permissions -->
 					<span class="add-label">{$t('admin.users.permsContent')}</span>
@@ -650,9 +656,17 @@
 								<button class="btn-icon" onclick={() => removeProjectAccess(user, projectId)}><X size={14} /></button>
 							{/if}
 						</div>
-						<select bind:value={pData.role} disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)} class="form-select v3-select">
-							{#each ROLES as r (r.id)}<option value={r.id} disabled={!isSuperAdmin && r.id === 'admin'}>{$t(r.label)}</option>{/each}
-						</select>
+						<Select
+							bind:value={pData.role}
+							disabled={isSelf(user.id) || !canManageProject(projectId, pData.role)}
+							options={ROLES.map((r) => ({
+								value: r.id,
+								label: $t(r.label),
+								disabled: !isSuperAdmin && r.id === 'admin'
+							}))}
+							ariaLabel={$t('admin.users.roleLabel')}
+							testId="admin-users-project-role-select"
+						/>
 					</div>
 					<div class="v3-right">
 						<div class="v3-switch-group">
@@ -780,8 +794,7 @@
 	.v3-empty { padding: 2rem; opacity: 0.5; text-align: center; }
 	.v3-left { width: 250px; display: flex; flex-direction: column; gap: 1rem; }
 	.v3-project-title { display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; }
-	.v3-select { padding: 0.6rem; border-radius: 10px; border: 1px solid rgba(0,0,0,0.1); outline: none; }
-	.v3-right { flex: 1; display: flex; gap: 3rem; }
+		.v3-right { flex: 1; display: flex; gap: 3rem; }
 	.v3-switch-group { display: flex; flex-direction: column; gap: 1rem; flex: 1; }
 	.v3-group-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.6; font-weight: 700; }
 
@@ -884,8 +897,7 @@
 		font-size: 1rem; transition: border-color 0.15s; width: 100%; box-sizing: border-box;
 	}
 	.add-input:focus { border-color: var(--accent-primary, #2196ba); }
-	.add-select { cursor: pointer; }
-	.add-perms { display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; }
+		.add-perms { display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; }
 
 	/* Users page header */
 	.uh-header {

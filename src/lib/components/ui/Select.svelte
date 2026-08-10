@@ -2,6 +2,7 @@
 	import { tick } from 'svelte';
 	import { placePanel } from '$lib/utils/dropdownPlace';
 	import type { SelectOption } from './select';
+	import type { Snippet } from 'svelte';
 
 	/**
 	 * Випадаючий список із власним виглядом і поведінкою нативного.
@@ -58,6 +59,14 @@
 		 * `bind:` вибір усе одно видно одразу, а батько дізнається про нього тут.
 		 */
 		onchange?: (value: string) => void;
+		/**
+		 * Іконка перед підписом — усередині кнопки, а не поверх неї.
+		 *
+		 * Раніше фільтри ставили іконку абсолютно позиціонованою в обгортці й
+		 * додавали кнопці лівий padding. Так більше не можна: розмітка кнопки тепер
+		 * у цьому компоненті, і батько до неї стилями не дістає.
+		 */
+		leading?: Snippet;
 	}
 
 	let {
@@ -70,7 +79,8 @@
 		class: className = '',
 		style = '',
 		compact = false,
-		onchange
+		onchange,
+		leading
 	}: Props = $props();
 
 	let open = $state(false);
@@ -215,6 +225,7 @@
 		aria-activedescendant={open && activeIndex >= 0 ? `${testId}-opt-${activeIndex}` : undefined}
 		data-testid={testId}
 	>
+		{#if leading}<span class="sel-leading">{@render leading()}</span>{/if}
 		<span class="sel-value" class:sel-value--empty={!selected}>{label}</span>
 		<svg
 			class="sel-chevron"
@@ -339,7 +350,18 @@
 		cursor: not-allowed;
 	}
 
+	.sel-leading {
+		display: inline-flex;
+		align-items: center;
+		flex-shrink: 0;
+		color: var(--accent-primary);
+		opacity: 0.6;
+	}
+
 	.sel-value {
+		/* Підпис займає решту місця: інакше шеврон притискався б до тексту, а не
+		   стояв біля правого краю. */
+		flex: 1;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Select from '$lib/components/ui/Select.svelte';
 	import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 	import type { MenuConfig, MenuItem, MenuSection, MenuLinkType } from '$lib/services/settings';
 	import { ArrowUp, ArrowDown, Eye, EyeOff, Pencil, Trash2, ChevronUp, ChevronDown } from 'lucide-svelte';
@@ -490,29 +491,34 @@
 				{/each}
 			</div>
 			{#if addForm.sectionType === 'page'}
-				<select class="me-select" value={addForm.href} onchange={(e) => {
-					const v = (e.target as HTMLSelectElement).value;
-					const page = knownPages.find(p => p.value === v);
-					addForm = { ...addForm, href: v, labelUk: page?.labelUk ?? v, labelEn: page?.labelEn ?? v };
-				}}>
-					{#each knownPages as p (p.value)}
-						<option value={p.value}>{p.labelUk}</option>
-					{/each}
-				</select>
+				<Select
+					value={addForm.href}
+					options={knownPages.map((p) => ({ value: p.value, label: p.labelUk }))}
+					onchange={(v) => {
+						const page = knownPages.find((p) => p.value === v);
+						addForm = { ...addForm, href: v, labelUk: page?.labelUk ?? v, labelEn: page?.labelEn ?? v };
+					}}
+					ariaLabel={$t('admin.menuEditor.typePage')}
+					testId="menu-editor-add-page-select"
+				/>
 			{:else if addForm.sectionType === 'article'}
 				{#if articlesLoading}
 					<p class="me-hint">{$t('admin.menuEditor.loadingArticles')}</p>
 				{:else}
-					<select class="me-select" value={addForm.href} onchange={(e) => {
-						const v = (e.target as HTMLSelectElement).value;
-						const art = articlesList.find(a => a.path === v);
+					<Select
+						value={addForm.href}
+						placeholder={$t('admin.menuEditor.selectArticle')}
+						options={[
+							{ value: '', label: $t('admin.menuEditor.selectArticle') },
+							...articlesList.map((a) => ({ value: a.path, label: a.titleUk, hint: a.path }))
+						]}
+						onchange={(v) => {
+							const art = articlesList.find((a) => a.path === v);
 							addForm = { ...addForm, href: v, labelUk: art?.titleUk ?? v, labelEn: art?.titleEn ?? art?.titleUk ?? v };
-					}}>
-						<option value="">{$t('admin.menuEditor.selectArticle')}</option>
-						{#each articlesList as a (a.path)}
-							<option value={a.path}>{a.titleUk} ({a.path})</option>
-						{/each}
-					</select>
+						}}
+						ariaLabel={$t('admin.menuEditor.typeArticle')}
+						testId="menu-editor-add-article-select"
+					/>
 				{/if}
 			{:else if addForm.sectionType === 'url'}
 				<input type="url" class="me-select" placeholder="https://…" value={addForm.href} oninput={(e) => addForm = { ...addForm, href: (e.target as HTMLInputElement).value }} />

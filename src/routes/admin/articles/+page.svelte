@@ -11,6 +11,7 @@
 	import { get } from 'svelte/store';
 	import { Timestamp } from 'firebase/firestore';
 	import { Paperclip, Search, Calendar, Tag } from 'lucide-svelte';
+	import Select from '$lib/components/ui/Select.svelte';
 
 	let articles = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -273,26 +274,37 @@
 				<button class="mode-btn" class:active={filterStatus === 'draft'} onclick={() => filterStatus = 'draft'}>{$t('admin.content.filterDraft')}</button>
 			</div>
 
-			<div class="select-wrapper">
-				<Tag size={14} class="select-icon" />
-				<select class="al-filter-select" bind:value={filterCategory}>
-					<option value="all">{$t('admin.content.allCategories')}</option>
-					{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels] (key)}
-						<option value={key}>{labels.uk}</option>
-					{/each}
-				</select>
-			</div>
+			<Select
+				bind:value={filterCategory}
+				options={[
+					{ value: 'all', label: $t('admin.content.allCategories') },
+					...Object.entries(ARTICLE_CATEGORIES).map(([key, labels]) => ({
+						value: key,
+						label: labels.uk,
+						hint: labels.en
+					}))
+				]}
+				ariaLabel={$t('admin.content.allCategories')}
+				testId="admin-articles-filter-category-select"
+			>
+				{#snippet leading()}<Tag size={14} />{/snippet}
+			</Select>
 
-			<div class="select-wrapper">
-				<Calendar size={14} class="select-icon" />
-				<select class="al-filter-select" bind:value={filterYear}>
-					<option value="all">{$t('admin.content.allYears')}</option>
-					{#each availableYears as year (year)}
-						<option value={year}>{$t('admin.content.yearSuffix', { values: { year } })}</option>
-					{/each}
-					<option value="none">{$t('admin.content.noDate')}</option>
-				</select>
-			</div>
+			<Select
+				bind:value={filterYear}
+				options={[
+					{ value: 'all', label: $t('admin.content.allYears') },
+					...availableYears.map((year) => ({
+						value: String(year),
+						label: $t('admin.content.yearSuffix', { values: { year } })
+					})),
+					{ value: 'none', label: $t('admin.content.noDate') }
+				]}
+				ariaLabel={$t('admin.content.allYears')}
+				testId="admin-articles-filter-year-select"
+			>
+				{#snippet leading()}<Calendar size={14} />{/snippet}
+			</Select>
 		</div>
 	</div>
 
@@ -522,39 +534,12 @@
 	align-items: center;
 }
 
-.select-wrapper {
-	position: relative;
-	display: flex;
-	align-items: center;
-}
 :global(.select-icon) {
 	position: absolute;
 	left: 0.85rem;
 	color: var(--accent-primary);
 	opacity: 0.6;
 	pointer-events: none;
-}
-
-.al-filter-select {
-	padding: 0.55rem 1rem 0.55rem 2.25rem;
-	border-radius: 12px;
-	border: 2px solid var(--color-border);
-	background: var(--color-surface);
-	color: var(--color-dark-text);
-	font-weight: 700;
-	font-size: 0.82rem;
-	cursor: pointer;
-	outline: none;
-	appearance: none;
-	min-width: 140px;
-	transition: all 0.2s;
-}
-.al-filter-select:hover {
-	border-color: var(--accent-primary);
-}
-.al-filter-select:focus {
-	border-color: var(--accent-primary);
-	box-shadow: 0 0 0 4px rgba(33, 150, 186, 0.1);
 }
 
 /* List */
