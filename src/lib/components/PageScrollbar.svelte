@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { afterNavigate } from '$app/navigation';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
 	import { MediaQuery } from 'svelte/reactivity';
@@ -73,6 +74,13 @@
 	const enabled = $derived(browser && ui.scrollbarMode === 'custom' && canHover.current);
 
 	const scrollable = $derived(pageHeight > viewportHeight + 1);
+	/**
+	 * Змонтована — поки обрано цей режим; ВИДИМА — поки є що прокручувати.
+	 *
+	 * Розділено навмисно: якби елемент зникав із DOM на сторінці без прокрутки,
+	 * анімувати зникнення не було б чого. Тепер він лишається і просто виїжджає
+	 * за край.
+	 */
 	const visible = $derived(enabled && scrollable);
 
 	const target = $derived.by(() => {
@@ -93,11 +101,40 @@
 		progress.target = target;
 	});
 
+	/**
+	 * Поява й зникнення: 0 — повністю за краєм, 1 — на місці.
+	 *
+	 * Жорсткіша за пружину наближення: тут не потрібна м’якість, потрібно
+	 * швидко й без коливань прибрати смугу зі сторінки, яка вся вмістилася.
+	 */
+	const presence = new Spring(0, { stiffness: 0.15, damping: 0.8 });
+
+	$effect(() => {
+		presence.target = visible ? 1 : 0;
+	});
+
+	/**
+	 * Висота повзунка теж пружинна: при переході між сторінками вона
+	 * стрибала — коротка сторінка дає довгий повзунок і навпаки.
+	 *
+	 * Позиція (`thumbTop`) навмисно НЕ анімується: вона мусить іти за курсором
+	 * і за прокруткою миттєво, інакше повертається та сама затримка, через яку
+	 * перетягування смикалося.
+	 */
+	const springHeight = new Spring(MIN_THUMB, { stiffness: 0.2, damping: 0.9 });
+
+	$effect(() => {
+		springHeight.target = rawThumbHeight;
+	});
+
 	const width = $derived(REST_WIDTH + (HOVER_WIDTH - REST_WIDTH) * progress.current);
 
-	const thumbHeight = $derived(
+	/** Скільки повзунок мав би займати за поточної висоти сторінки. */
+	const rawThumbHeight = $derived(
 		Math.max((viewportHeight / pageHeight) * viewportHeight, MIN_THUMB)
 	);
+	/** Те саме, але доїжджає плавно. */
+	const thumbHeight = $derived(springHeight.current);
 	const thumbTop = $derived.by(() => {
 		if (dragging) return dragThumbTop;
 		const maxScroll = pageHeight - viewportHeight;
@@ -111,6 +148,17 @@
 		viewportHeight = window.innerHeight;
 		scrollY = window.scrollY;
 	}
+
+	/**
+	 * Після переходу міряємо одразу, не чекаючи на ResizeObserver.
+	 *
+	 * Спостерігач спрацює й сам, але на кадр-два пізніше — і саме в цей момент
+	 * повзунок мав би стару висоту від попередньої сторінки. Пружина згладжує
+	 * перехід, але починати його треба вчасно.
+	 */
+	afterNavigate(() => {
+		if (enabled) measure();
+	});
 
 	$effect(() => {
 		if (!enabled) return;
@@ -211,12 +259,17 @@
 	onpointerleave={() => (pointerInside = false)}
 />
 
-{#if visible}
+<!-- Умова — `enabled`, а не `visible`: елемент лишається змонтованим, поки
+     обрано цей режим, і на сторінці без прокрутки просто виїжджає за край.
+     Якби він зникав із DOM, анімувати зникнення не було б чого. -->
+{#if enabled}
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="page-scrollbar"
 		class:dragging
-		style="width: {width}px;"
+		class:page-scrollbar--hidden={presence.current < 0.01}
+		style="width: {width}px; opacity: {presence.current};
+			transform: translateX({(1 - presence.current) * width}px);"
 		data-testid="page-scrollbar-container"
 		onpointerdown={onTrackPointerDown}
 		onpointermove={onTrackPointerMove}
@@ -244,6 +297,12 @@
 		/* Накладка: сторінка під нею лишається на всю ширину, тож перехід між
 		   сторінками з прокруткою і без неї більше нічого не зсуває. */
 		touch-action: none;
+	}
+
+	/* Поїхала за край — не перехоплює натиски й не читається читалками. */
+	.page-scrollbar--hidden {
+		pointer-events: none;
+		visibility: hidden;
 	}
 
 	.page-scrollbar__thumb {

@@ -62,16 +62,32 @@
 		browser && (mode === 'minimap' || isFull) && canHover.current && wideEnough.current
 	);
 
+	/** Ширина схематичної мінімапи. Смужкам не потрібна пропорційна ширина. */
+	const SCHEMA_WIDTH = 28;
+	/** Стеля для візуальної: ширша вона з’їдала б корисну частину екрана. */
+	const VISUAL_MAX_WIDTH = 200;
+
 	/**
 	 * Масштаб добирається так, щоб УСЯ сторінка вмістилася у висоту екрана.
 	 *
-	 * Через це ширина мінімапи не фіксована, а похідна: вища сторінка — дрібніший
-	 * масштаб — вужча мінімапа. Саме так поводяться мінімапи в редакторах, і саме
-	 * це дає відчуття «ось увесь документ».
+	 * Саме звідси брався розсинхрон: раніше масштаб рахувався від ШИРИНИ
+	 * мінімапи, а рамка видимої області — у відсотках від її ВИСОТИ. Коли
+	 * ширину обмежувала стеля, ці дві системи координат розходилися, і рамка
+	 * показувала не те місце, що клон. Тепер масштаб один — по висоті, — а
+	 * зайва ширина просто обрізається.
 	 */
 	const scale = $derived(viewportHeight > 0 && pageHeight > 0 ? viewportHeight / pageHeight : 0.1);
-	/** Ширина розгорнутої мінімапи, px. Обмежена, щоб не з'їсти пів екрана. */
-	const fullWidth = $derived(Math.min(Math.max(windowWidth * scale, 60), 180));
+	/** Ширина клону в масштабі: скільки він займав би без обрізання. */
+	const scaledPageWidth = $derived(windowWidth * scale);
+	/** Ширина розгорнутої мінімапи. */
+	const fullWidth = $derived(
+		isFull ? Math.min(scaledPageWidth, VISUAL_MAX_WIDTH) : SCHEMA_WIDTH
+	);
+	/**
+	 * Обрізаємо симетрично: сайт вирівняний по центру, тож зріз лише праворуч
+	 * лишив би в мінімапі порожнє поле замість вмісту.
+	 */
+	const cloneShiftX = $derived(-Math.max(0, (scaledPageWidth - fullWidth) / 2));
 
 	const target = $derived.by(() => {
 		if (!visible || reducedMotion.current) return 0;
@@ -147,8 +163,18 @@
 		// eslint-disable-next-line svelte/no-dom-manipulating
 		cloneHost.replaceChildren();
 
-		const source = document.querySelector('main') ?? document.body;
-		const clone = source.cloneNode(true) as HTMLElement;
+		// Клонується ВСЕ тіло, а не лише <main>.
+		//
+		// Масштаб рахується від висоти всієї сторінки, тож і клон мусить мати ту
+		// саму висоту. З одним <main> він виходив нижчим на шапку та підвал, і
+		// рамка видимої області показувала не те місце — це й був розсинхрон.
+		// Заразом мінімапа стала схожішою на сайт.
+		const clone = document.body.cloneNode(true) as HTMLElement;
+
+		// Себе саму й власну смугу — геть, інакше мінімапа малювала б мінімапу.
+		for (const el of clone.querySelectorAll('.minimap, .page-scrollbar, #app-splash')) {
+			el.remove();
+		}
 
 		for (const el of [clone, ...clone.querySelectorAll('*')]) {
 			el.removeAttribute('id');
@@ -288,7 +314,8 @@
 			<!-- Клон сторінки: лише картинка, жодної взаємодії. -->
 			<div
 				class="minimap__clone"
-				style="width: {windowWidth}px; transform: scale({fullWidth / windowWidth});"
+				style="width: {windowWidth}px;
+					transform: translateX({cloneShiftX}px) scale({scale});"
 				bind:this={cloneHost}
 				aria-hidden="true"
 			></div>
@@ -336,6 +363,8 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		/* Масштаб рахується від лівого верхнього кута, тому висота клону дорівнює
+		   рівно висоті смужки, а рамка видимої області збігається з ним. */
 		transform-origin: top left;
 		pointer-events: none;
 		user-select: none;

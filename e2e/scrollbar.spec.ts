@@ -75,6 +75,50 @@ test.describe('режими смуги прокрутки', () => {
 		expect(z, 'смуга не має перекривати заставку').toBeLessThan(10000);
 	});
 
+	test('схематична мінімапа вузька', async ({ page }) => {
+		await setMode(page, 'minimap');
+		const viewport = page.viewportSize()!;
+		await page.mouse.move(viewport.width - 4, viewport.height / 2);
+		await page.waitForTimeout(900);
+
+		const box = (await page.getByTestId('minimap-container').boundingBox())!;
+		// Смужкам не потрібна пропорційна ширина: раніше вона бралася з масштабу
+		// сторінки і виходила в кілька разів більшою, ніж треба.
+		expect(box.width, 'схематична мінімапа має лишатися вузькою').toBeLessThanOrEqual(40);
+	});
+
+	test('візуальна мінімапа збігається зі сторінкою', async ({ page }) => {
+		await setMode(page, 'minimap-full');
+		const viewport = page.viewportSize()!;
+		await page.mouse.move(viewport.width - 4, viewport.height / 2);
+		await page.waitForTimeout(900);
+		await page.evaluate(() => window.scrollTo({ top: 1200, behavior: 'instant' }));
+		await page.waitForTimeout(300);
+
+		const geometry = await page.evaluate(() => {
+			const box = document.querySelector('[data-testid="minimap-container"]')!;
+			const clone = box.querySelector('.minimap__clone') as HTMLElement;
+			const marker = box.querySelector('[data-testid="minimap-viewport-status"]')!;
+			return {
+				boxHeight: box.getBoundingClientRect().height,
+				cloneHeight: clone.getBoundingClientRect().height,
+				markerTop: marker.getBoundingClientRect().top - box.getBoundingClientRect().top,
+				scrollY: window.scrollY,
+				pageHeight: document.documentElement.scrollHeight
+			};
+		});
+
+		// Клон масштабується по ВИСОТІ, тож уся сторінка займає рівно висоту
+		// смужки. Саме розходження цих двох величин і давало зсув рамки.
+		expect(Math.abs(geometry.cloneHeight - geometry.boxHeight), 'клон має заповнювати смужку по висоті')
+			.toBeLessThan(4);
+
+		// Рамка стоїть там, де в клоні перебуває поточна позиція прокрутки.
+		const expected = (geometry.scrollY / geometry.pageHeight) * geometry.boxHeight;
+		expect(Math.abs(geometry.markerTop - expected), 'рамка має збігатися з вмістом клону')
+			.toBeLessThan(6);
+	});
+
 	for (const mode of ['custom', 'minimap', 'minimap-full'] as const) {
 		test(`${mode}: перетягування прокручує без затримки`, async ({ page }) => {
 			await setMode(page, mode);
