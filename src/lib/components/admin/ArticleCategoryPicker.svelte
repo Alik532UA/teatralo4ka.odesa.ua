@@ -3,6 +3,7 @@
 	import { CATEGORY_CUSTOM, CATEGORY_NONE } from '$lib/utils/articleForm';
 	import { locale, t } from 'svelte-i18n';
 	import { get } from 'svelte/store';
+	import { placePanel } from '$lib/utils/dropdownPlace';
 
 	/**
 	 * Вибір категорії: без категорії / зі списку / власна двома мовами.
@@ -33,6 +34,46 @@
 	}: Props = $props();
 
 	let dropdownOpen = $state(false);
+	let triggerEl = $state<HTMLButtonElement | null>(null);
+	let pos = $state({ left: 0, top: 0, width: 0, maxHeight: 320, above: false });
+
+	/**
+	 * Панель відкривається вниз, а коли там не влазить — угору.
+	 *
+	 * Раніше вона була `position: absolute` і завжди вниз: на статті, де блок
+	 * категорії стоїть низько, останні пункти обрізалися кінцем сторінки й були
+	 * недосяжні. Геометрія спільна з рештою випадайок і перевірена окремо —
+	 * `utils/dropdownPlace`.
+	 *
+	 * `fixed`, а не `absolute`, ще й тому, що в адмінці панель ріже перша ж
+	 * картка з `overflow`.
+	 */
+	function place() {
+		if (!triggerEl) return;
+		pos = placePanel(
+			triggerEl.getBoundingClientRect(),
+			{ width: window.innerWidth, height: window.innerHeight },
+			{ minWidth: 260 }
+		);
+	}
+
+	function toggle() {
+		if (!dropdownOpen) place();
+		dropdownOpen = !dropdownOpen;
+	}
+
+	// Поки відкрито, панель мусить триматися кнопки: `fixed` сама за сторінкою не
+	// їде. `capture` — бо прокрутка часто йде у внутрішньому блоці, а не у вікні.
+	$effect(() => {
+		if (!dropdownOpen) return;
+		const onMove = () => place();
+		window.addEventListener('scroll', onMove, { passive: true, capture: true });
+		window.addEventListener('resize', onMove);
+		return () => {
+			window.removeEventListener('scroll', onMove, { capture: true });
+			window.removeEventListener('resize', onMove);
+		};
+	});
 
 	const isFromList = $derived(selection !== CATEGORY_NONE && selection !== CATEGORY_CUSTOM);
 
@@ -67,7 +108,11 @@
 				type="button"
 				class="mode-btn af-cat-choose-btn"
 				class:active={isFromList}
-				onclick={() => { dropdownOpen = !dropdownOpen; }}
+				bind:this={triggerEl}
+				onclick={toggle}
+				onkeydown={(e) => { if (e.key === 'Escape') dropdownOpen = false; }}
+				aria-expanded={dropdownOpen}
+				aria-haspopup="listbox"
 				data-testid="{testPrefix}-category-select"
 			>
 				{#if isFromList && selectedLabel()}
@@ -78,7 +123,19 @@
 				<svg class="af-cat-chevron" class:open={dropdownOpen} xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 			</button>
 			{#if dropdownOpen}
-				<div class="af-cat-dropdown" role="listbox" data-testid="{testPrefix}-category-dropdown-menu">
+				<!-- Тло: натиск поза панеллю закриває її. Раніше закрити можна було
+				     лише повторним кліком по самій кнопці. -->
+				<div
+					class="af-cat-backdrop"
+					role="presentation"
+					onpointerdown={() => (dropdownOpen = false)}
+				></div>
+				<div
+					class="af-cat-dropdown"
+					style="left: {pos.left}px; top: {pos.top}px; width: {pos.width}px; max-height: {pos.maxHeight}px;"
+					role="listbox"
+					data-testid="{testPrefix}-category-dropdown-menu"
+				>
 					{#each Object.entries(ARTICLE_CATEGORIES) as [key, labels] (key)}
 						<button
 							type="button"
@@ -216,12 +273,15 @@
 	.af-cat-chevron.open {
 		transform: rotate(180deg);
 	}
+	.af-cat-backdrop {
+		position: fixed;
+		inset: 0;
+		z-index: 9400;
+	}
 	.af-cat-dropdown {
-		position: absolute;
-		top: calc(100% + 6px);
-		left: 0;
-		min-width: 260px;
-		max-height: 320px;
+		/* fixed, а не absolute: положення й висоту рахує скрипт, і саме так панель
+		   не ріже ані картка з overflow, ані кінець сторінки. */
+		position: fixed;
 		overflow-y: auto;
 		/* --bg-card, а не --theme-dynamic-card-bg: остання не визначена ніде в
 		   проєкті, тож завжди спрацьовував запасний #fff — біла панель у темній
@@ -230,7 +290,7 @@
 		border-radius: 16px;
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 		border: 1px solid var(--border-main);
-		z-index: 100;
+		z-index: 9401;
 		padding: 0.35rem;
 		display: flex;
 		flex-direction: column;
