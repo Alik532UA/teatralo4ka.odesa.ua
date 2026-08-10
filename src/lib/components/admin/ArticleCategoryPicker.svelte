@@ -35,7 +35,7 @@
 
 	let dropdownOpen = $state(false);
 	let triggerEl = $state<HTMLButtonElement | null>(null);
-	let pos = $state({ left: 0, top: 0, width: 0, maxHeight: 320, above: false });
+	let pos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 320, above: false });
 
 	/**
 	 * Панель відкривається вниз, а коли там не влазить — угору.
@@ -132,7 +132,7 @@
 				></div>
 				<div
 					class="af-cat-dropdown"
-					style="left: {pos.left}px; top: {pos.top}px; width: {pos.width}px; max-height: {pos.maxHeight}px;"
+					style="left: {pos.left}px; top: {pos.top}px; min-width: {pos.minWidth}px; max-width: {pos.maxWidth}px; max-height: {pos.maxHeight}px;"
 					role="listbox"
 					data-testid="{testPrefix}-category-dropdown-menu"
 				>
@@ -282,6 +282,9 @@
 		/* fixed, а не absolute: положення й висоту рахує скрипт, і саме так панель
 		   не ріже ані картка з overflow, ані кінець сторінки. */
 		position: fixed;
+		/* Ширина за вмістом у межах від `placePanel`: двомовні підписи інакше
+		   обрізаються навіть за наявного місця. */
+		width: max-content;
 		overflow-y: auto;
 		/* --bg-card, а не --theme-dynamic-card-bg: остання не визначена ніде в
 		   проєкті, тож завжди спрацьовував запасний #fff — біла панель у темній
@@ -324,13 +327,25 @@
 		background: color-mix(in srgb, var(--accent-primary), transparent 88%);
 		color: var(--accent-primary);
 	}
+	/* Стискається спершу англійська підказка, і лише потім активна мова — див.
+	   те саме пояснення в `ui/Select.svelte`. */
 	.af-cat-option-uk {
 		font-weight: 700;
+		flex-shrink: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.af-cat-option-en {
 		font-size: 0.78rem;
 		opacity: 0.5;
 		font-weight: 500;
+		flex-shrink: 999;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.af-cat-custom-fields {
 		display: flex;

@@ -44,12 +44,39 @@ describe('placePanel', () => {
 
 	it('панель не вужча за задане, навіть коли кнопка вузька', () => {
 		const p = placePanel({ ...MIDDLE, width: 90 }, VIEWPORT, { minWidth: 200 });
-		expect(p.width).toBe(200);
+		expect(p.minWidth).toBe(200);
 	});
 
 	it('панель ширша за кнопку не вилазить за правий край', () => {
 		const p = placePanel({ ...MIDDLE, left: 1200, width: 60 }, VIEWPORT, { minWidth: 200 });
-		expect(p.left + p.width).toBeLessThanOrEqual(VIEWPORT.width);
+		expect(p.left + p.maxWidth).toBeLessThanOrEqual(VIEWPORT.width);
+	});
+
+	/**
+	 * Через це й переписано ширину: панель фіксованого розміру різала двомовні
+	 * підписи навіть тоді, коли на екрані було вдосталь місця — від «Оголошення»
+	 * лишалося «О..».
+	 */
+	it('за наявного місця можна бути ширшою за кнопку', () => {
+		const p = placePanel({ ...MIDDLE, width: 240 }, VIEWPORT);
+		expect(p.maxWidth).toBeGreaterThan(240);
+	});
+
+	it('стеля ширини не перевищується навіть на широкому екрані', () => {
+		const p = placePanel({ ...MIDDLE, left: 20, width: 100 }, { width: 3840, height: 1200 }, {
+			maxWidthCap: 640
+		});
+		expect(p.maxWidth).toBe(640);
+	});
+
+	it('на вузькому вікні межі не суперечать одна одній', () => {
+		// minWidth не може бути більшим за maxWidth: інакше браузер розтягнув би
+		// панель за край екрана, бо min перемагає max.
+		const p = placePanel({ ...MIDDLE, left: 10, width: 60 }, { width: 320, height: 800 }, {
+			minWidth: 400
+		});
+		expect(p.minWidth).toBeLessThanOrEqual(p.maxWidth);
+		expect(p.left + p.maxWidth).toBeLessThanOrEqual(320);
 	});
 
 	it('на вузькому вікні лівий край не стає відʼємним', () => {

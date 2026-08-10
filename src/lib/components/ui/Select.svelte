@@ -88,7 +88,7 @@
 	let panel = $state<HTMLElement | null>(null);
 	/** Пункт під клавіатурним курсором. -1 — жодного. */
 	let activeIndex = $state(-1);
-	let pos = $state({ left: 0, top: 0, width: 0, maxHeight: 320, above: false });
+	let pos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 320, above: false });
 
 	const selected = $derived(options.find((o) => o.value === value));
 	const label = $derived(selected?.label ?? placeholder);
@@ -258,7 +258,7 @@
 
 	<div
 		class="sel-panel"
-		style="left: {pos.left}px; top: {pos.top}px; width: {pos.width}px; max-height: {pos.maxHeight}px;"
+		style="left: {pos.left}px; top: {pos.top}px; min-width: {pos.minWidth}px; max-width: {pos.maxWidth}px; max-height: {pos.maxHeight}px;"
 		role="listbox"
 		id="{testId}-menu"
 		bind:this={panel}
@@ -391,6 +391,9 @@
 	.sel-panel {
 		position: fixed;
 		z-index: 9401;
+		/* Ширина за вмістом у межах, які дав `placePanel`. Фіксована ширина різала
+		   довгі пункти навіть тоді, коли на екрані було вдосталь місця. */
+		width: max-content;
 		display: flex;
 		flex-direction: column;
 		gap: 0.1rem;
@@ -440,7 +443,19 @@
 		background: none;
 	}
 
+	/*
+	 * Приоритет стискання: спершу підказка, і лише в крайньому разі підпис.
+	 *
+	 * Було навпаки — підказка мала `flex-shrink: 0`, тож у фільтрі категорій від
+	 * «Оголошення» лишалося «О..», а англійське «Announcement» стояло цілим. Це
+	 * прямо суперечить тому, чим ці два підписи є: підказка — другорядна.
+	 *
+	 * Різниця у множниках, а не `flex-shrink: 0` на підписі: якщо навіть сам
+	 * підпис не влазить, він мусить обрізатися, а не вилізти за панель.
+	 */
 	.sel-option-label {
+		flex-shrink: 1;
+		min-width: 0;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -450,6 +465,10 @@
 		font-size: 0.78rem;
 		font-weight: 500;
 		opacity: 0.5;
-		flex-shrink: 0;
+		flex-shrink: 999;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>

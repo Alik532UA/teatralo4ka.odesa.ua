@@ -26,7 +26,16 @@ export interface Viewport {
 export interface Placement {
 	left: number;
 	top: number;
-	width: number;
+	/**
+	 * Ширина задається межами, а не одним числом.
+	 *
+	 * Панель фіксованої ширини різала довгі пункти навіть тоді, коли на екрані
+	 * було вдосталь місця: у фільтрі категорій із двомовними підписами від
+	 * «Оголошення» лишалося «О..». Тепер панель росте за вмістом, а межі лише не
+	 * дають їй ані бути вужчою за кнопку, ані вилізти за край екрана.
+	 */
+	minWidth: number;
+	maxWidth: number;
 	maxHeight: number;
 	/** Чи відкрилися вгору — потрібне для тіні й тестів. */
 	above: boolean;
@@ -41,6 +50,14 @@ export interface PlaceOptions {
 	minHeight?: number;
 	/** Панель не вужча за це, навіть коли кнопка вузька. */
 	minWidth?: number;
+	/**
+	 * Стеля ширини.
+	 *
+	 * Без неї один довгий пункт (шлях до статті, назва в кілька рядків) розтягував
+	 * би панель на пів екрана. Обрізати другорядну підказку в такому разі краще,
+	 * ніж мати випадайку ширшою за вміст, до якого вона належить.
+	 */
+	maxWidthCap?: number;
 }
 
 export function placePanel(
@@ -52,6 +69,7 @@ export function placePanel(
 	const preferredHeight = options.preferredHeight ?? 320;
 	const minHeight = options.minHeight ?? 120;
 	const minWidth = options.minWidth ?? 200;
+	const maxWidthCap = options.maxWidthCap ?? 640;
 
 	const below = viewport.height - trigger.bottom - edge;
 	const above = trigger.top - edge;
@@ -71,14 +89,23 @@ export function placePanel(
 	// показуємо — із власною прокруткою вона лишається придатною.
 	const maxHeight = Math.max(Math.min(preferredHeight, room), minHeight);
 
-	const width = Math.max(trigger.width, minWidth);
-	// Не за правим краєм і не за лівим: `max` після `min` важливий саме в такому
-	// порядку, інакше на вузькому вікні панель поїхала б у відʼємні координати.
-	const left = Math.max(edge, Math.min(trigger.left, viewport.width - width - edge));
+	/**
+	 * Ліва межа рахується ПЕРШОЮ, бо від неї залежить доступна ширина.
+	 *
+	 * Спершу вирівнюємо панель по кнопці, але так, щоб праворуч лишалося місце
+	 * хоча б на `minWidth`; далі не менше за відступ від лівого краю — інакше на
+	 * вузькому вікні координата стала б відʼємною.
+	 */
+	const floor = Math.max(trigger.width, minWidth);
+	const left = Math.max(edge, Math.min(trigger.left, viewport.width - floor - edge));
+
+	// Скільки місця праворуч від цієї точки лишилося насправді.
+	const roomRight = viewport.width - left - edge;
 
 	return {
 		left,
-		width,
+		minWidth: Math.min(floor, roomRight),
+		maxWidth: Math.min(maxWidthCap, roomRight),
 		maxHeight,
 		above: useAbove,
 		top: useAbove ? Math.max(edge, trigger.top - edge - maxHeight) : trigger.bottom + edge
