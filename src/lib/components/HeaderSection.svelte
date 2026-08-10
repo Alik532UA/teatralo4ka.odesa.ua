@@ -138,6 +138,11 @@
 					debugPanel:    result.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
 					ticker:        result.ticker        ?? DEFAULT_HEADER_SETTINGS.ticker,
 				};
+
+				// Типові значення від адміністратора — лише для того, хто сам нічого
+				// не вибирав. Рішення «чий вибір головніший» живе в контролері, а не
+				// тут: цей компонент лише передає щойно прочитані налаштування.
+				ui.applyDefaults(headerSettings.debugPanel);
 			}
 		}).catch(console.error).finally(() => {
 			headerReady = true;

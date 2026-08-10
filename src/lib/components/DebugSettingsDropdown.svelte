@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { SCROLLBAR_MODES } from '$lib/config/scrollbarModes';
+	import { BACKGROUND_OPTIONS, type BackgroundType } from '$lib/config/backgroundOptions';
 	import { t } from 'svelte-i18n';
 
 	let { 
@@ -19,12 +20,7 @@
 		mobile?: boolean;
 	}>();
 
-	type BackgroundOption = {
-		id: 0 | 1 | 2 | 3 | 4;
-		label: () => string;
-	};
-
-	const selectDynamicBackground = (type: 0 | 1 | 2 | 3 | 4) => {
+	const selectDynamicBackground = (type: BackgroundType) => {
 		ui.setBackgroundType(type);
 
 		if (type === 0 && ui.enableDynamicBackground) {
@@ -36,17 +32,10 @@
 		}
 	};
 
-	// Перелік не дублюється: той самий, що в контекстному меню смуги. Дві копії
-	// розійшлися б при додаванні режиму, і в одному місці його б забули.
+	// Обидва переліки живуть у `$lib/config`: ті самі потрібні в адмінці, де
+	// задають типове значення. Дві копії розійшлися б при додаванні варіанта.
 	const scrollbarModes = SCROLLBAR_MODES;
-
-	const backgrounds: BackgroundOption[] = [
-		{ id: 0, label: () => $t('settings.bgNone') },
-		{ id: 1, label: () => $t('settings.bgParticles') },
-		{ id: 2, label: () => $t('settings.bgWaves') },
-		{ id: 3, label: () => $t('settings.bgShapes') },
-		{ id: 4, label: () => $t('settings.bgMiniIcon') },
-	];
+	const backgrounds = BACKGROUND_OPTIONS;
 </script>
 
 {#if isOpen}
@@ -64,7 +53,7 @@
 						style="text-align: left;"
 						data-testid={`debug-bg-${i}-btn`}
 					>
-						{bg.label()}
+						{$t(bg.key)}
 					</button>
 				{/each}
 			</div>

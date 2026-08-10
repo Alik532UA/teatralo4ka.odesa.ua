@@ -1,3 +1,4 @@
+import type { ScrollbarMode } from '$lib/config/scrollbarModes';
 import {
   doc,
   getDoc,
@@ -728,10 +729,22 @@ export interface CtaConfig {
 }
 
 export interface DebugPanelConfig {
+  /** Чи показувати сам debug-блок. */
   visible: boolean;
   showBackground: boolean;
   showBlur: boolean;
   showScrollbar: boolean;
+  /**
+   * Значення для відвідувача, який сам нічого не вибирав.
+   *
+   * Від `show*` не залежить: приховати вибір і задати значення — різні речі, і
+   * саме приховавши вибір, типове значення стає єдиним, що діє.
+   *
+   * `0` для фону означає «немає» — вимкнений динамічний фон, а не окремий тип.
+   */
+  defaultBackground: 0 | 1 | 2 | 3 | 4;
+  defaultBlur: boolean;
+  defaultScrollbar: ScrollbarMode;
 }
 
 export interface TickerConfig {
@@ -900,6 +913,11 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
     showBackground: true,
     showBlur: true,
     showScrollbar: true,
+    // Збігаються з тим, що було зашито в `controllers/ui.svelte.ts`, тож для
+    // наявних відвідувачів нічого не змінюється.
+    defaultBackground: 4,
+    defaultBlur: true,
+    defaultScrollbar: 'custom',
   },
 };
 

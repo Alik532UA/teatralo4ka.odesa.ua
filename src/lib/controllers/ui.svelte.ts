@@ -1,9 +1,9 @@
 import { storage } from '../services/storage';
+import { SCROLLBAR_MODE_IDS, type ScrollbarMode } from '../config/scrollbarModes';
+import { defaultsToApply, type AdminDefaults } from '../utils/uiDefaults';
 
-export type ScrollbarMode = 'standard' | 'custom' | 'minimap' | 'minimap-full';
-
-/** Значення, які вважаємо дійсними при читанні зі сховища. */
-const SCROLLBAR_MODES: ScrollbarMode[] = ['standard', 'custom', 'minimap', 'minimap-full'];
+/** Реекспорт для наявних імпортерів: тип живе в конфігу (див. `config/scrollbarModes`). */
+export type { ScrollbarMode };
 
 class UIState {
 	isMenuOpen = $state(false);
@@ -61,8 +61,16 @@ class UIState {
 				this.enableBlurEffect = enableBlur === 'true';
 			}
 			const mode = storage.get('scrollbarMode');
-			if (mode !== null && SCROLLBAR_MODES.includes(mode as ScrollbarMode)) {
+			if (mode !== null && SCROLLBAR_MODE_IDS.includes(mode as ScrollbarMode)) {
 				this.scrollbarMode = mode as ScrollbarMode;
+			} else {
+				// Вибору немає — беремо типове значення від адміністратора, збережене
+				// з попереднього візиту. Див. `applyDefaults`: воно ж читається в
+				// скрипті першого кадру, тому смуга не мигає при завантаженні.
+				const fallback = storage.get('scrollbarModeDefault');
+				if (fallback !== null && SCROLLBAR_MODE_IDS.includes(fallback as ScrollbarMode)) {
+					this.scrollbarMode = fallback as ScrollbarMode;
+				}
 			}
 			
 			// Listen to OS theme changes
@@ -146,6 +154,48 @@ class UIState {
 	setScrollbarMode = (mode: ScrollbarMode) => {
 		this.scrollbarMode = mode;
 		storage.set('scrollbarMode', mode);
+	};
+
+	/**
+	 * Типові значення від адміністратора — для відвідувача, який САМ нічого не
+	 * вибирав.
+	 *
+	 * Свій вибір ніколи не перебивається: інакше налаштування, зроблене
+	 * відвідувачем, зникало б після кожної правки в адмінці, і виглядало б це як
+	 * поламане збереження.
+	 *
+	 * Викликається один раз, коли приходять налаштування з Firestore. Тобто
+	 * ПІСЛЯ першого кадру — і для фону та blur це невидимо, бо фон монтується
+	 * пізніше, а blur діє лише під час зміни теми чи мови. Смуга помітна одразу,
+	 * тому її типове значення ще й кешується у сховище: скрипт першого кадру
+	 * читає його синхронно й наступний візит починається без стрибка.
+	 */
+	applyDefaults = (d: AdminDefaults) => {
+		if (typeof window === 'undefined') return;
+
+		// Саме рішення — у чистій функції: усередині рунного класу його неможливо
+		// перевірити тестом, а правило «свій вибір головніший» варте перевірки.
+		const apply = defaultsToApply(
+			{
+				backgroundType: storage.get('backgroundType'),
+				enableDynamicBackground: storage.get('enableDynamicBackground'),
+				enableBlurEffect: storage.get('enableBlurEffect'),
+				scrollbarMode: storage.get('scrollbarMode')
+			},
+			d
+		);
+
+		if (apply.backgroundType !== undefined) this.backgroundType = apply.backgroundType;
+		if (apply.enableDynamicBackground !== undefined) {
+			this.enableDynamicBackground = apply.enableDynamicBackground;
+		}
+		if (apply.enableBlurEffect !== undefined) this.enableBlurEffect = apply.enableBlurEffect;
+		if (apply.scrollbarMode !== undefined) this.scrollbarMode = apply.scrollbarMode;
+
+		// Кеш пишеться завжди, навіть коли у відвідувача є власний вибір: якщо він
+		// колись його скине, першим кадром має бути актуальне типове значення, а не
+		// те, що діяло на момент його першого візиту.
+		storage.set('scrollbarModeDefault', d.defaultScrollbar);
 	};
 }
 

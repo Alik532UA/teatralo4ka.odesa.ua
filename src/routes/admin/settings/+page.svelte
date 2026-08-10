@@ -22,6 +22,8 @@ import {
   type GalleryWidgetConfig, type GalleryAspectRatio,
   KNOWN_PAGE_ROUTES,
 } from '$lib/services/settings';
+import { SCROLLBAR_MODES, type ScrollbarMode } from '$lib/config/scrollbarModes';
+import { BACKGROUND_OPTIONS } from '$lib/config/backgroundOptions';
 import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
 import { db } from '$lib/firebase/config';
 import { t } from 'svelte-i18n';
@@ -1503,6 +1505,21 @@ async function handleAboutPageSubmit() {
 <span class="switch-slider"></span>
 </label>
 </li>
+<!-- Підпункти НЕ гаснуть разом із перемикачем видимості: приховати вибір і
+     задати значення — різні речі. Навпаки, саме коли вибір приховано, типове
+     значення стає єдиним, що діє. -->
+<li class="block-item block-item--sub">
+<span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
+<select
+  class="form-select"
+  style="margin-left: auto;"
+  value={String(debugPanel.defaultBackground)}
+  onchange={(e: Event & { currentTarget: HTMLSelectElement }) => debugPanel = { ...debugPanel, defaultBackground: Number(e.currentTarget.value) as 0 | 1 | 2 | 3 | 4 }}
+  data-testid="admin-settings-debug-default-background-select"
+>
+  {#each BACKGROUND_OPTIONS as opt (opt.id)}<option value={String(opt.id)}>{$t(opt.key)}</option>{/each}
+</select>
+</li>
 <li class="block-item" class:opacity-muted={!debugPanel.visible}>
 <span class="block-item__name">{$t('admin.settings.debugShowBlur')}</span>
 <label class="switch-label" style="margin-left: auto;">
@@ -1510,12 +1527,35 @@ async function handleAboutPageSubmit() {
 <span class="switch-slider"></span>
 </label>
 </li>
+<li class="block-item block-item--sub">
+<span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
+<div class="mode-toggle-group">
+  <button type="button" class="mode-btn" class:active={!debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: false }} data-testid="admin-settings-debug-default-blur-off-btn">
+    {$t('settings.off')}
+  </button>
+  <button type="button" class="mode-btn" class:active={debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: true }} data-testid="admin-settings-debug-default-blur-on-btn">
+    {$t('settings.on')}
+  </button>
+</div>
+</li>
 <li class="block-item" class:opacity-muted={!debugPanel.visible}>
 <span class="block-item__name">{$t('admin.settings.debugShowScrollbar')}</span>
 <label class="switch-label" style="margin-left: auto;">
 <input type="checkbox" class="switch-input" checked={debugPanel.showScrollbar} disabled={!debugPanel.visible} onchange={() => debugPanel = { ...debugPanel, showScrollbar: !debugPanel.showScrollbar }} data-testid="admin-settings-debug-scrollbar-toggle" />
 <span class="switch-slider"></span>
 </label>
+</li>
+<li class="block-item block-item--sub">
+<span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
+<select
+  class="form-select"
+  style="margin-left: auto;"
+  value={debugPanel.defaultScrollbar}
+  onchange={(e: Event & { currentTarget: HTMLSelectElement }) => debugPanel = { ...debugPanel, defaultScrollbar: e.currentTarget.value as ScrollbarMode }}
+  data-testid="admin-settings-debug-default-scrollbar-select"
+>
+  {#each SCROLLBAR_MODES as mode (mode.id)}<option value={mode.id}>{$t(mode.key)}</option>{/each}
+</select>
 </li>
 </ul>
 
@@ -1670,6 +1710,26 @@ font-size: 1.2rem;
 color: var(--color-muted-text);
 width: 1.5rem;
 text-align: center;
+}
+
+.block-item--sub {
+  margin-left: 2.5rem;
+  padding: 0.75rem 1.25rem;
+  /* Пунктир відділяє «значення» від «видимості»: вони пов'язані, але
+     незалежні, і однакова рамка читалася б як залежність. */
+  border-style: dashed;
+  background: none;
+}
+
+.block-item--sub .block-item__name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.block-item--sub .form-select {
+  width: auto;
+  min-width: 190px;
 }
 
 .block-item__name {

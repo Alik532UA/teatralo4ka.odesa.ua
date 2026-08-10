@@ -34,7 +34,15 @@
 				//
 				// Умови мусять збігатися з `controllers/scrollbar.svelte.ts`:
 				// на сенсорних пристроях і вузьких екранах лишається нативна.
-				var sb = localStorage.getItem('teatralo4ka_scrollbarMode') || 'custom';
+				// Порядок важливий: власний вибір відвідувача → типове значення від
+				// адміністратора (його кешує `ui.applyDefaults`, бо Firestore тут
+				// прочитати нема як) → зашите значення. Без середньої ланки перший
+				// кадр брав би 'custom', і у відвідувача без власного вибору смуга
+				// перемикалася б уже після завантаження налаштувань — видимий стрибок.
+				var sb =
+					localStorage.getItem('teatralo4ka_scrollbarMode') ||
+					localStorage.getItem('teatralo4ka_scrollbarModeDefault') ||
+					'custom';
 				var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 				var wide = window.matchMedia('(min-width: 1100px)').matches;
 				var hidesNative = fine && (sb === 'custom' || ((sb === 'minimap' || sb === 'minimap-full') && wide));

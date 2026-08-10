@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import { SCROLLBAR_MODE_IDS } from '$lib/config/scrollbarModes';
+import { BACKGROUND_TYPE_IDS } from '$lib/config/backgroundOptions';
 
 /**
  * Валідація налаштувань, що приходять із Firestore.
@@ -173,7 +175,12 @@ export const DebugPanelConfigSchema = z.object({
 	visible: optional(z.boolean()),
 	showBackground: optional(z.boolean()),
 	showBlur: optional(z.boolean()),
-	showScrollbar: optional(z.boolean())
+	showScrollbar: optional(z.boolean()),
+	// Типи фону — 0..4, де 0 це «немає». Перелік спільний із випадайкою вибору.
+	defaultBackground: optional(z.literal(BACKGROUND_TYPE_IDS)),
+	defaultBlur: optional(z.boolean()),
+	// Перелік той самий, що в контролері й у двох місцях вибору.
+	defaultScrollbar: optional(z.enum(SCROLLBAR_MODE_IDS))
 });
 
 /**
