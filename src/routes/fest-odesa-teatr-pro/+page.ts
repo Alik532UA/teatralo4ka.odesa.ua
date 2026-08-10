@@ -1,9 +1,9 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-import { base } from '$app/paths';
+import { resolve } from '$app/paths';
 
 export const prerender = true;
 
 export const load: PageLoad = () => {
-	throw redirect(301, `${base}/projects/teatr-pro/`);
+	throw redirect(301, `${resolve('/projects/teatr-pro')}/`);
 };
