@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { t } from "svelte-i18n";
-	import { base } from "$app/paths";
+	import { asset } from '$app/paths';
 	import { onMount } from "svelte";
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { toast } from "$lib/controllers/toast.svelte";
 
 	const images = [
-		`${base}/photo/DSC_1405.jpg`,
-		`${base}/photo/DJI_0759 v02.jpg`
+		asset('/photo/DSC_1405.jpg'),
+		asset('/photo/DJI_0759 v02.jpg')
 	];
 
 	let currentImageIndex = $state(0);
@@ -49,19 +49,19 @@
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social" data-testid="hero-social-links-menu">
 			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb-btn">
-				<img src={`${base}/social_media/facebook-se-512-50.png`} alt="FB" />
+				<img src={asset('/social_media/facebook-se-512-50.png')} alt="FB" />
 			</a>
 			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig-btn">
-				<img src={`${base}/social_media/instagram-se-512-50.png`} alt="IG" />
+				<img src={asset('/social_media/instagram-se-512-50.png')} alt="IG" />
 			</a>
 			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg-btn">
-				<img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="TG" />
+				<img src={asset('/social_media/Telegram-se-320px-50q.png')} alt="TG" />
 			</a>
 			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt-btn">
-				<img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YT" />
+				<img src={asset('/social_media/YouTube-se-512px-50q.png')} alt="YT" />
 			</a>
 			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt-btn">
-				<img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TT" />
+				<img src={asset('/social_media/TikTok-se-512-50.png')} alt="TT" />
 			</a>
 		</div>
 

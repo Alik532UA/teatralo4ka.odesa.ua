@@ -8,7 +8,7 @@
 	import '$lib/i18n';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { base } from '$app/paths';
+	import { asset } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import Minimap from '$lib/components/Minimap.svelte';
@@ -278,7 +278,7 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" type="image/png" href={`${base}/favicon.png`} />
+	<link rel="icon" type="image/png" href={asset('/favicon.png')} />
 	<link rel="canonical" href={canonicalUrl} />
 
 	<title>{seoTitle}</title>

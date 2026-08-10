@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
-  import { base } from '$app/paths';
+  import { asset } from '$app/paths';
   import { t } from 'svelte-i18n';
   
   let {
@@ -73,7 +73,7 @@
   {#if enableSound}
     <audio 
       bind:this={audioElement} 
-      src={`${base}/audio/metronome.m4a`} 
+      src={asset('/audio/metronome.m4a')} 
       loop 
       preload="auto"
     ></audio>
@@ -84,7 +84,7 @@
     <div class="ticker-content">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
+          <img src={asset('/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg')} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}
@@ -92,7 +92,7 @@
     <div class="ticker-content" aria-hidden="true">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={`${base}/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg`} alt={$t('ticker.coatOfArms')}>
+          <img src={asset('/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg')} alt={$t('ticker.coatOfArms')}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}

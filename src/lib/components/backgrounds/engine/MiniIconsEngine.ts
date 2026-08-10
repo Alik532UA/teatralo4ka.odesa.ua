@@ -1,5 +1,5 @@
 import { CanvasEngine } from "./CanvasEngine";
-import { base } from "$app/paths";
+import { asset } from '$app/paths';
 
 interface MiniIcon {
 	x: number;
@@ -33,7 +33,7 @@ function loadImages() {
 	if (imageCache.length > 0) return;
 	ICON_FILES.forEach((file) => {
 		const img = new Image();
-		img.src = `${base}/miniIcon/svg/${file}`;
+		img.src = asset(`/miniIcon/svg/${file}`);
 		imageCache.push(img);
 	});
 }

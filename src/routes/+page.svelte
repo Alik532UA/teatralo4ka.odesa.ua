@@ -6,7 +6,7 @@
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { base } from '$app/paths';
+	import { asset } from '$app/paths';
 	import { browser } from '$app/environment';
 	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig, type GalleryWidgetConfig } from '$lib/services/settings';
 	import { getArticles, getAllProjects, getDisplayDate, mapArticleToWidgetItem, type Article } from '$lib/services/articles';
@@ -184,12 +184,12 @@
 	});
 
 	const galleryItems = $derived([
-		{ src: `${base}/photo/013.jpg`, alt: 'School Life 1', title: $t('gallery.items.process') },
-		{ src: `${base}/photo/035.jpg`, alt: 'School Life 2', title: $t('gallery.items.talents') },
-		{ src: `${base}/photo/059.jpg`, alt: 'School Life 3', title: $t('gallery.items.atmosphere') },
-		{ src: `${base}/photo/125.jpg`, alt: 'School Life 4', title: $t('gallery.items.evenings') },
-		{ src: `${base}/photo/495.jpg`, alt: 'School Life 5', title: $t('gallery.items.virtuosos') },
-		{ src: `${base}/photo/5.jpg`, alt: 'School Life 6', title: $t('gallery.items.harmony') },
+		{ src: asset('/photo/013.jpg'), alt: 'School Life 1', title: $t('gallery.items.process') },
+		{ src: asset('/photo/035.jpg'), alt: 'School Life 2', title: $t('gallery.items.talents') },
+		{ src: asset('/photo/059.jpg'), alt: 'School Life 3', title: $t('gallery.items.atmosphere') },
+		{ src: asset('/photo/125.jpg'), alt: 'School Life 4', title: $t('gallery.items.evenings') },
+		{ src: asset('/photo/495.jpg'), alt: 'School Life 5', title: $t('gallery.items.virtuosos') },
+		{ src: asset('/photo/5.jpg'), alt: 'School Life 6', title: $t('gallery.items.harmony') },
 	]);
 
 	const visibleBlocks = $derived(blocks.filter(b => b.visible));

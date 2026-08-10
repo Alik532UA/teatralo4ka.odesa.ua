@@ -3,7 +3,7 @@
 	import LocationIcon from "./icons/LocationIcon.svelte";
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";
-	import { base } from "$app/paths";
+	import { asset } from '$app/paths';
 	import { t } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
@@ -117,7 +117,7 @@
 					rel="noopener noreferrer"
 					data-testid="footer-facebook-link"
 				>
-					<img src={`${base}/social_media/facebook-se-512-50.png`} alt="Facebook" width="24" height="24" />
+					<img src={asset('/social_media/facebook-se-512-50.png')} alt="Facebook" width="24" height="24" />
 				</a>
 				<a
 					href={$t("footer.instagram")}
@@ -127,7 +127,7 @@
 					rel="noopener noreferrer"
 					data-testid="footer-instagram-link"
 				>
-					<img src={`${base}/social_media/instagram-se-512-50.png`} alt="Instagram" width="24" height="24" />
+					<img src={asset('/social_media/instagram-se-512-50.png')} alt="Instagram" width="24" height="24" />
 				</a>
 				{#if $t('footer.telegram')}
 					   <a
@@ -138,7 +138,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-telegram-link"
 					   >
-						   <img src={`${base}/social_media/Telegram-se-320px-50q.png`} alt="Telegram" width="24" height="24" />
+						   <img src={asset('/social_media/Telegram-se-320px-50q.png')} alt="Telegram" width="24" height="24" />
 					   </a>
 				{/if}
 				{#if $t('footer.youtube')}
@@ -150,7 +150,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-youtube-link"
 					   >
-						   <img src={`${base}/social_media/YouTube-se-512px-50q.png`} alt="YouTube" width="24" height="24" />
+						   <img src={asset('/social_media/YouTube-se-512px-50q.png')} alt="YouTube" width="24" height="24" />
 					   </a>
 				{/if}
 				{#if $t('footer.tiktok')}
@@ -162,7 +162,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-tiktok-link"
 					   >
-						   <img src={`${base}/social_media/TikTok-se-512-50.png`} alt="TikTok" width="24" height="24" />
+						   <img src={asset('/social_media/TikTok-se-512-50.png')} alt="TikTok" width="24" height="24" />
 					   </a>
 				{/if}
 			</div>
