@@ -107,13 +107,22 @@ export class HoldScroll {
 			return;
 		}
 
-		const { pxPerScroll } = this.#geometry();
+		const { markerHeight, pxPerScroll } = this.#geometry();
 		if (pxPerScroll <= 0) {
 			this.stop();
 			return;
 		}
 
-		const targetScroll = this.#targetY / pxPerScroll;
+		/**
+		 * Курсор має опинитися в ЦЕНТРІ повзунка, а не на його верху.
+		 *
+		 * `markerTop` дорівнює `scrollY * pxPerScroll`, тож без поправки на
+		 * половину висоти повзунок приїжджав верхом до курсора — і виглядало це
+		 * як зсув, бо натискання центрує його правильно.
+		 */
+		const wantedMarkerTop = this.#targetY - markerHeight / 2;
+		const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+		const targetScroll = Math.min(Math.max(wantedMarkerTop / pxPerScroll, 0), maxScroll);
 		const remaining = targetScroll - window.scrollY;
 		if (Math.abs(remaining) <= ARRIVED_PX) {
 			this.stop();

@@ -282,6 +282,34 @@ test.describe('режими смуги прокрутки', () => {
 			.toBe(stopped);
 	});
 
+	test('доводчик ставить курсор у центр повзунка, а не на його верх', async ({ page }) => {
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		await expect(bar).toBeVisible();
+
+		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+		await page.waitForTimeout(300);
+
+		const box = (await bar.boundingBox())!;
+		// Мета в середині смуги: там повзунок точно не впирається в край, тож
+		// центрування можна перевірити чесно.
+		const aimY = box.y + box.height * 0.5;
+		await page.mouse.move(box.x + box.width / 2, aimY);
+
+		// Час на секунду затримки плюс на сам рух із гальмуванням.
+		await page.waitForTimeout(6000);
+
+		const thumb = (await page.getByTestId('page-scrollbar-thumb-status').boundingBox())!;
+		const center = thumb.y + thumb.height / 2;
+
+		// Раніше до курсора приїжджав ВЕРХ повзунка, тобто центр був нижче на
+		// піввисоти. Допуск свідомо менший за цю піввисоту — інакше перевірка
+		// пропустила б саму помилку, яку має ловити.
+		expect(thumb.height, 'повзунок мусить мати помітну висоту').toBeGreaterThan(20);
+		expect(Math.abs(center - aimY), 'курсор має бути в центрі повзунка')
+			.toBeLessThan(thumb.height / 2 - 4);
+	});
+
 	test('права кнопка відкриває меню вибору режиму', async ({ page }) => {
 		await setMode(page, 'custom');
 		const bar = page.getByTestId('page-scrollbar-container');
