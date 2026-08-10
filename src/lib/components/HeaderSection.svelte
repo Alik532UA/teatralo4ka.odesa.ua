@@ -645,13 +645,18 @@
 
 <style>
 	/* Пошук на мобільному: та сама умова показу, що й у мобільного бургера —
-	   інакше на настільному екрані було б дві кнопки пошуку поруч. */
-	.header__search-mobile {
+	   інакше на настільному екрані було б дві кнопки пошуку поруч.
+	   Специфічність `.header__burger.header__search-mobile` (два класи) свідомо
+	   вища за базовий `.header__burger` (один клас): `.header__burger` нижче в
+	   цьому файлі має `display: flex` БЕЗ медіа-запиту, і при рівній
+	   специфічності виграє те, що стоїть пізніше в CSS — правило порядку тут не
+	   допоможе, бо базове оголошення в HeaderSection.svelte:1022. */
+	.header__burger.header__search-mobile {
 		display: none;
 	}
 
 	@media (max-width: 1024px) {
-		.header__search-mobile {
+		.header__burger.header__search-mobile {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
