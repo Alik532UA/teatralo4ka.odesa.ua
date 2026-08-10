@@ -270,10 +270,31 @@
 			measureBlocks();
 		});
 		observer.observe(document.documentElement);
+		// Шапку й підвал спостерігаємо ОКРЕМО: обидва fixed, тобто поза потоком, і
+		// їхній ріст не змінює розмір documentElement — спостерігач за самим
+		// документом про них не дізнається ніколи.
+		const header = document.querySelector('header');
+		if (header) observer.observe(header);
+		const footer = document.querySelector('footer');
+		if (footer) observer.observe(footer);
+
+		// І цього все одно замало. ResizeObserver за специфікацією бачить лише
+		// зміну РОЗМІРУ коробки — а тикер, шрифти й переклади ЗСУВАЮТЬ шапку й
+		// підвал, не змінюючи їх самих. Слухач scroll теж не рятує: він пише лише
+		// scrollY. У підсумку відступи застигали в стані першого кадру, і смужка
+		// налізала на підвал на ~27px до першої зміни розміру будь-чого — причому
+		// хвіст гонки щоразу інший, тож у E2E число пливло між прогонами.
+		// Пульс дешевий (два getBoundingClientRect раз на пів секунди) і
+		// самозцілюється від БУДЬ-ЯКОЇ причини зсуву, включно з тими, яких ми ще
+		// не зустріли.
+		const pulse = setInterval(() => {
+			if (!dragging) measure();
+		}, 500);
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
 			observer.disconnect();
+			clearInterval(pulse);
 		};
 	});
 

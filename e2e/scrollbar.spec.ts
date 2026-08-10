@@ -187,18 +187,41 @@ test.describe('режими смуги прокрутки', () => {
 		const g = await page.evaluate(() => {
 			const box = document.querySelector('[data-testid="minimap-container"]')!;
 			const clone = box.querySelector('.minimap__clone') as HTMLElement;
+
+			// Відступи міряються НЕЗАЛЕЖНО, з тих самих елементів DOM, що їх бачить
+			// відвідувач, а не читаються зі стану компонента. Смужка більше не йде на
+			// всю висоту вікна: вона починається під шапкою і кінчається над
+			// підвалом, поки той fixed. Стара версія тесту чекала повної висоти і
+			// впала рівно на суму відступів (~135px у CI).
+			const header = document.querySelector('header');
+			const headerOffset = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0;
+			const footer = document.querySelector('footer');
+			const footerFixed = footer ? getComputedStyle(footer).position === 'fixed' : false;
+			const footerOffset =
+				footer && footerFixed
+					? Math.max(window.innerHeight - footer.getBoundingClientRect().top, 0)
+					: 0;
+
+			const rect = box.getBoundingClientRect();
 			return {
-				boxHeight: box.getBoundingClientRect().height,
+				boxTop: rect.top,
+				boxHeight: rect.height,
 				cloneHeight: clone.getBoundingClientRect().height,
-				viewportHeight: window.innerHeight
+				available: window.innerHeight - headerOffset - footerOffset,
+				headerOffset
 			};
 		});
 
-		// Коли клон коротший за екран, смужка мусить закінчуватися разом із ним.
-		// Інакше натиск під клоном виглядає як «кінець сторінки», а веде в середину.
-		const expected = Math.min(g.cloneHeight, g.viewportHeight);
+		// Коли клон коротший за доступну щілину, смужка мусить закінчуватися разом
+		// із ним: натиск під клоном виглядав би як «кінець сторінки», а вів у
+		// середину. Коли довший — обмежується щілиною між шапкою і підвалом.
+		const expected = Math.min(g.cloneHeight, g.available);
 		expect(Math.abs(g.boxHeight - expected), 'висота смужки має дорівнювати видимій частині')
 			.toBeLessThan(6);
+
+		// І сама щілина починається під шапкою, а не з верху вікна.
+		expect(Math.abs(g.boxTop - g.headerOffset), 'смужка має починатися під шапкою')
+			.toBeLessThan(2);
 	});
 
 	test('візуальна мінімапа збігається зі сторінкою', async ({ page }) => {
