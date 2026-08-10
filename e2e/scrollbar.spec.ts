@@ -118,6 +118,20 @@ test.describe('режими смуги прокрутки', () => {
 		// і за екран вилазить їхня спільна висота. Тому обмеження стоїть на
 		// зовнішньому контейнері, а не на кожному блоці: інакше вийшли б дві
 		// незалежні смуги, а нижній блок усе одно лишався б за краєм.
+		//
+		// Нижній блок є в панелі, лише поки адміністратор не сховав його
+		// (`settings/header.debugPanel.visible` у Firestore). У проді він схований
+		// — і в CI, де збірка має справжні ключі й читання проходить, панель
+		// складалася з одного короткого блоку, якому нікуди вилазити. Тут
+		// перевіряється РОЗКЛАДКА, а не вміст бази, тож дані задаємо самі:
+		// обриваємо запити до Firestore і прибираємо його кеш, після чого діють
+		// типові значення з коду. До бази при цьому не йде НІЧОГО — ні читання,
+		// ні тим паче запису.
+		await page.route('**/firestore.googleapis.com/**', (route) => route.abort());
+		await page.evaluate(() => localStorage.clear());
+		await page.reload();
+		await page.waitForLoadState('load');
+
 		await page.getByTestId('header-settings-btn').click();
 		const popover = page.getByTestId('settings-popover-menu');
 		await expect(popover).toBeVisible();
@@ -129,6 +143,8 @@ test.describe('режими смуги прокрутки', () => {
 				overflowY: style.overflowY,
 				bottom: el.getBoundingClientRect().bottom,
 				viewportHeight: window.innerHeight,
+				// Панель мусить не вміщатися — інакше нижче нема чого перевіряти.
+				overflows: el.scrollHeight > el.clientHeight + 1,
 				// Скільки смуг прокрутки всередині — має бути рівно одна, зовнішня.
 				innerScrollable: [...el.querySelectorAll('.dropdown-menu-unified')].filter(
 					(n) => getComputedStyle(n).overflowY === 'auto'
@@ -136,6 +152,8 @@ test.describe('режими смуги прокрутки', () => {
 			};
 		});
 
+		expect(g.overflows, 'панель мусить бути вищою за місце — інакше перевірка нічого не варта')
+			.toBe(true);
 		expect(g.overflowY, 'зайве має прокручуватися').toBe('auto');
 		expect(g.bottom, 'панель не має вилазити за низ екрана')
 			.toBeLessThanOrEqual(g.viewportHeight + 1);
@@ -144,22 +162,21 @@ test.describe('режими смуги прокрутки', () => {
 		// І найнижчий пункт мусить бути ДОСЯЖНИМ після прокрутки панелі.
 		// Прокрутка сама по собі цього не гарантувала: попов доходив рівно до низу
 		// екрана, а на широких екранах його накривав приклеєний підвал.
-		const last = page.getByTestId('debug-scrollbar-minimap-full-btn');
+		//
+		// Пункт беремо останнім у розмітці, а не за назвою: зашитий `data-testid`
+		// перетворював зникнення блоку на тридцятисекундне очікування кнопки
+		// замість падіння по суті.
+		const last = popover.locator('button').last();
+		await expect(last, 'нижній пункт мусить існувати').toBeVisible();
 		await last.scrollIntoViewIfNeeded();
-		const visible = await page.evaluate(() => {
-			const el = document.querySelector('[data-testid="debug-scrollbar-minimap-full-btn"]')!;
-			const r = el.getBoundingClientRect();
+		const box = (await last.boundingBox())!;
+		const limit = await page.evaluate(() => {
 			const footer = document.querySelector('footer, .footer');
 			const footerTop = footer ? footer.getBoundingClientRect().top : window.innerHeight;
-			return {
-				bottom: r.bottom,
-				height: r.height,
-				limit: Math.min(window.innerHeight, footerTop)
-			};
+			return Math.min(window.innerHeight, footerTop);
 		});
-		expect(visible.height, 'нижній пункт мусить існувати').toBeGreaterThan(0);
-		expect(visible.bottom, 'нижній пункт не має ховатися під підвалом чи за краєм')
-			.toBeLessThanOrEqual(visible.limit + 1);
+		expect(box.y + box.height, 'нижній пункт не має ховатися під підвалом чи за краєм')
+			.toBeLessThanOrEqual(limit + 1);
 	});
 
 	test('накладки відокремлені тінню від сторінки', async ({ page }) => {
