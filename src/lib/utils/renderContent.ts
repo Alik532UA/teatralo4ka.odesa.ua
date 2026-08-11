@@ -24,7 +24,7 @@ export function renderContent(content: string, format?: ContentFormat): string {
 		return DOMPurify.sanitize(content, DOMPURIFY_HTML_CONFIG);
 	}
 
-	return DOMPurify.sanitize(marked.parse(content) as string);
+	return DOMPurify.sanitize(marked.parse(content) as string, DOMPURIFY_HTML_CONFIG);
 }
 
 /**

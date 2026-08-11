@@ -29,6 +29,12 @@ describe('renderContent — markdown', () => {
 	it('порожній вхід дає порожній рядок', () => {
 		expect(renderContent('')).toBe('');
 	});
+
+	it('зберігає target="_blank" та rel="noopener noreferrer" для зовнішніх посилань', () => {
+		const out = renderContent('[Тест](https://google.com)');
+		expect(out).toContain('target="_blank"');
+		expect(out).toContain('rel="noopener noreferrer"');
+	});
 });
 
 describe('renderContent — формат html', () => {

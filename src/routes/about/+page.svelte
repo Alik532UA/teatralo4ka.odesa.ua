@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import { seo } from '$lib/services/seo.svelte';
 	import DOMPurify from 'isomorphic-dompurify';
+	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import { getAboutPageSettings, getCachedAboutPageSettings, DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE, type GalleryWidgetConfig } from '$lib/services/settings';
 
@@ -75,7 +76,7 @@
 			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
 			     пропущений через DOMPurify безпосередньо перед вставкою. -->
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			{@html DOMPurify.sanitize(content.html)}
+			{@html DOMPurify.sanitize(content.html, DOMPURIFY_HTML_CONFIG)}
 		</article>
 	{:else}
 		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="about-page-loading-container">

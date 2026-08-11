@@ -6,7 +6,7 @@ import { marked } from 'marked';
  */
 export const DOMPURIFY_HTML_CONFIG = {
 	ADD_TAGS: ['iframe'],
-	ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'style'],
+	ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'style', 'target', 'rel'],
 	ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
 };
 

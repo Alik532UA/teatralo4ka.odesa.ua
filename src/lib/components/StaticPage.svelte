@@ -3,6 +3,7 @@
 	import { base, resolve } from '$app/paths';
 	import { seo } from '$lib/services/seo.svelte';
 	import DOMPurify from 'isomorphic-dompurify';
+	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import type { PageContent } from '$lib/i18n/types';
 
 	interface Props {
@@ -55,7 +56,7 @@
 						<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
 						     пропущений через DOMPurify безпосередньо перед вставкою. -->
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						{@html DOMPurify.sanitize(content.html)}
+						{@html DOMPurify.sanitize(content.html, DOMPURIFY_HTML_CONFIG)}
 					</div>
 
 					{#if content.metadata.status === 'draft'}
