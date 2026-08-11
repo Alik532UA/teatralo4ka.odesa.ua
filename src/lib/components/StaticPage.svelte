@@ -6,6 +6,8 @@
 	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import type { PageContent } from '$lib/i18n/types';
 
+	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
+
 	interface Props {
 		data: { uk: PageContent | null; en: PageContent | null };
 		testPrefix?: string;
@@ -16,6 +18,32 @@
 	}
 
 	let { data, testPrefix = 'static', backHref, backLabel }: Props = $props();
+
+	let activeLightboxImages = $state<LightboxImage[]>([]);
+	let activeLightboxIndex = $state(0);
+	let isLightboxOpen = $state(false);
+
+	function handleArticleClick(e: MouseEvent) {
+		const target = e.target as HTMLElement;
+		if (target && target.tagName === 'IMG') {
+			const img = target as HTMLImageElement;
+			const article = img.closest('article, section, .page-content');
+			if (!article) return;
+
+			const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
+			if (allImgs.length === 0) return;
+
+			const list: LightboxImage[] = allImgs.map(i => ({
+				src: i.src,
+				alt: i.alt,
+				title: i.title || i.alt
+			}));
+			const clickedIdx = allImgs.indexOf(img);
+			activeLightboxImages = list;
+			activeLightboxIndex = clickedIdx >= 0 ? clickedIdx : 0;
+			isLightboxOpen = true;
+		}
+	}
 
 	let content = $derived($locale === 'en' ? data.en : data.uk);
 	let coverUrl = $derived.by(() => {
@@ -35,7 +63,8 @@
 	});
 </script>
 
-<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section" onclick={handleArticleClick}>
 	{#if backHref && backLabel}
 		<div class="back-nav" data-testid="{testPrefix}-back-toolbar">
 			<!-- Готова адреса від resolve() у виклику компонента. -->
@@ -82,6 +111,13 @@
 	{/if}
 </section>
 
+<PhotoLightbox
+	images={activeLightboxImages}
+	currentIndex={activeLightboxIndex}
+	isOpen={isLightboxOpen}
+	onclose={() => (isLightboxOpen = false)}
+/>
+
 <style>
 	.back-nav {
 		max-width: 1000px;
@@ -126,6 +162,11 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
+		cursor: pointer;
+		transition: transform 0.3s ease;
+	}
+	.page-cover__img:hover {
+		transform: scale(1.02);
 	}
 	.prose :global(h2) {
 		font-family: var(--font-heading);
@@ -141,6 +182,12 @@
 		max-width: 100%;
 		border-radius: 20px;
 		margin: 2rem 0;
+		cursor: pointer;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	.prose :global(img:hover) {
+		transform: scale(1.015);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 	}
 	.prose :global(table) {
 		width: 100%;

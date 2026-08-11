@@ -7,9 +7,40 @@
 	import DOMPurify from 'isomorphic-dompurify';
 	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
+	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 	import { getAboutPageSettings, getCachedAboutPageSettings, DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE, type GalleryWidgetConfig } from '$lib/services/settings';
 
 	let { data } = $props();
+
+	let activeLightboxImages = $state<LightboxImage[]>([]);
+	let activeLightboxIndex = $state(0);
+	let isLightboxOpen = $state(false);
+
+	function openLightbox(images: LightboxImage[], index: number) {
+		activeLightboxImages = images;
+		activeLightboxIndex = index;
+		isLightboxOpen = true;
+	}
+
+	function handleArticleClick(e: MouseEvent) {
+		const target = e.target as HTMLElement;
+		if (target && target.tagName === 'IMG') {
+			const img = target as HTMLImageElement;
+			const article = img.closest('article, section, .page-content');
+			if (!article) return;
+
+			const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
+			if (allImgs.length === 0) return;
+
+			const list: LightboxImage[] = allImgs.map(i => ({
+				src: i.src,
+				alt: i.alt,
+				title: i.title || i.alt
+			}));
+			const clickedIdx = allImgs.indexOf(img);
+			openLightbox(list, clickedIdx >= 0 ? clickedIdx : 0);
+		}
+	}
 
 	let content = $derived($locale === 'en' ? data.en : data.uk);
 
@@ -70,7 +101,8 @@
 	]);
 </script>
 
-<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section" onclick={handleArticleClick}>
 	{#if content}
 		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article-section">
 			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
@@ -89,7 +121,8 @@
 	{:else}
 		<div class="g-bento" data-testid="about-gallery-list">
 			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i (img.src)}
-				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}">
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}" onclick={() => openLightbox(galleryImages, i)} role="button" tabindex="0">
 					<img 
 						src={img.src} 
 						alt={img.alt} 
@@ -111,7 +144,23 @@
 	{/if}
 </section>
 
+<PhotoLightbox
+	images={activeLightboxImages}
+	currentIndex={activeLightboxIndex}
+	isOpen={isLightboxOpen}
+	onclose={() => (isLightboxOpen = false)}
+/>
+
 <style>
+	.prose :global(img) {
+		cursor: pointer;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+	}
+	.prose :global(img:hover) {
+		transform: scale(1.015);
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+	}
+
 	.g-bento {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);

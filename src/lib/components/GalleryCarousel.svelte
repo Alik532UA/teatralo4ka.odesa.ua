@@ -1,8 +1,9 @@
-﻿<script lang="ts">
+<script lang="ts">
 	import { Play, Pause } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
 	import type { GalleryWidgetConfig } from '$lib/services/settings';
+	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
 	import {
 		createDragState, createWheelState,
 		handleTouchStart as sharedTouchStart,
@@ -43,6 +44,14 @@
 	let isTransitioning = $state(true);
 	let infiniteItems = $state<GalleryItem[]>([]);
 	let bufferCount = $state(1);
+
+	let isLightboxOpen = $state(false);
+	let lightboxIndex = $state(0);
+
+	function openLightbox(i: number) {
+		lightboxIndex = i;
+		isLightboxOpen = true;
+	}
 
 	$effect(() => {
 		if (items.length === 0) return;
@@ -188,7 +197,16 @@
 			role="list"
 		>
 			{#each infiniteItems as img, i (i)}
-				<div class="gc-slide" role="listitem">
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<div
+					class="gc-slide"
+					role="listitem"
+					onclick={() => {
+						if (!drag.isDragging && Math.abs(drag.dragOffset) < 5) {
+							openLightbox(items.length > 0 ? ((i % items.length) + items.length) % items.length : 0);
+						}
+					}}
+				>
 					<img
 						src={img.src}
 						alt={img.alt}
@@ -236,6 +254,13 @@
 	{/if}
 </div>
 
+<PhotoLightbox
+	images={items}
+	currentIndex={lightboxIndex}
+	isOpen={isLightboxOpen}
+	onclose={() => (isLightboxOpen = false)}
+/>
+
 <style>
 	.gc-root {
 		display: flex;
@@ -264,6 +289,7 @@
 		flex: 0 0 100%;
 		position: relative;
 		overflow: hidden;
+		cursor: pointer;
 	}
 	.gc-slide img {
 		width: 100%;
