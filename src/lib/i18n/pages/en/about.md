@@ -1,7 +1,7 @@
 ---
 title: "About School"
 date: "2026-04-04"
-author: "Administration"
+author: "Alik"
 category: "about"
 lang: "en"
 seo:

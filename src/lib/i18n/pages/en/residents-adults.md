@@ -1,7 +1,7 @@
 ---
 title: "Adults"
 date: "2026-04-08"
-author: "MTSh Administration"
+author: "Alik"
 category: "residents"
 lang: "en"
 seo:

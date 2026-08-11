@@ -1,7 +1,7 @@
 ---
 title: "Театральне віддалення"
 date: "2026-04-05"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "departments"
 lang: "uk"
 seo:

@@ -1,7 +1,7 @@
 ---
 title: "Контакти"
 date: "2026-04-04"
-author: "Адміністрація"
+author: "Alik"
 category: "contacts"
 lang: "uk"
 seo:

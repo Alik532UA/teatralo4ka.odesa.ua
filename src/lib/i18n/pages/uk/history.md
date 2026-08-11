@@ -1,7 +1,7 @@
 ---
 title: "Одеська театральна школа – справжній Храм Мистецтв!"
 date: "2026-04-04"
-author: "Адміністрація"
+author: "Alik"
 category: "history"
 lang: "uk"
 seo:

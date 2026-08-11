@@ -1,7 +1,7 @@
 ---
 title: "ДТШ-production"
 date: "2026-04-12"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "projects"
 lang: "uk"
 seo:
@@ -30,7 +30,7 @@ coverUrl: "/png/support-production.png"
 
 ## 💳 Як підтримати проєкт
 
-Ви можете зробити внесок на розвиток звуко-відео-студії ДТШ:
+Ви можете зробити внесок на розвиток звуко-відео-студії театральної школи:
 
 <div style="margin: 1.5rem 0;">
   <a href="https://send.monobank.ua/jar/5fNm3HDuNF" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Підтримати донатом</a>
@@ -38,6 +38,6 @@ coverUrl: "/png/support-production.png"
 
 *   💳 **Номер картки банки:** `5375 4112 1047 5989`
 
-*(Підтримка діяльності звуко-відео-студії ДТШ)*
+*(Підтримка діяльності звуко-відео-студії театральної школи)*
 
 **Дякуємо, що допомагаєте нам створювати та зберігати історію разом! 🎭🎬**

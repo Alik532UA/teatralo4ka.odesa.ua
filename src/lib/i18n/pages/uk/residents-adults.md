@@ -1,7 +1,7 @@
 ---
 title: "Дорослі"
 date: "2026-04-08"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "residents"
 lang: "uk"
 seo:

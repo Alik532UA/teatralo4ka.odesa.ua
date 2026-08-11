@@ -1,7 +1,7 @@
 ---
 title: "Admission"
 date: "2026-05-26"
-author: "Admissions Committee"
+author: "Alik"
 category: "admission"
 lang: "en"
 seo:

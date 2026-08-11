@@ -1,7 +1,7 @@
 ---
 title: "Graduates"
 date: "2026-04-10"
-author: "MTSh Administration"
+author: "Alik"
 category: "residents"
 lang: "en"
 seo:
@@ -15,7 +15,7 @@ version: "1.0.1"
 
 Graduates of "Teatralo4ka" are students of theater, cinematographic, television, and general cultural Ukrainian and European creative universities.
 
-Moreover! Immediately after theater school, they perform in theaters and act in films. And again, not only in Ukraine, but also abroad. That is, professional acting education is not always necessary when you have training at MTSh behind you.
+Moreover! Immediately after theater school, they perform in theaters and act in films. And again, not only in Ukraine, but also abroad. That is, professional acting education is not always necessary when you have training at theater school behind you.
 
 We are proud that our graduates create new, bold, young art: whether it's directorial or acting work, television projects, advertising, or theater performances, documentaries or short films – it is always talented, which is confirmed by film critics, the press, international media, and, finally, the audience.
 

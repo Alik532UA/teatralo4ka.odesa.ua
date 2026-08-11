@@ -1,7 +1,7 @@
 ---
 title: "ДТШ-production"
 date: "2026-04-12"
-author: "Odesa Theatre School Admin"
+author: "Alik"
 category: "projects"
 lang: "en"
 seo:
@@ -30,7 +30,7 @@ It's not just about technology — it's about preserving our school's living his
 
 ## 💳 How to support the project
 
-You can contribute to the development of the DTSH sound and video studio:
+You can contribute to the development of the theater school sound and video studio:
 
 <div style="margin: 1.5rem 0;">
   <a href="https://send.monobank.ua/jar/5fNm3HDuNF" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Support with a donation</a>
@@ -38,6 +38,6 @@ You can contribute to the development of the DTSH sound and video studio:
 
 *   💳 **Card Number:** `5375 4112 1047 5989`
 
-*(Support for the activities of the sound and video studio DTSH)*
+*(Support for the activities of the theater school sound and video studio)*
 
 **Thank you for helping us create and preserve history together! 🎭🎬**

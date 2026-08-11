@@ -1,7 +1,7 @@
 ---
 title: "Весна.Одеса.Театр"
 date: "2026-04-08"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "projects"
 lang: "uk"
 seo:

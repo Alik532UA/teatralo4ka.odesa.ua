@@ -1,7 +1,7 @@
 ---
 title: "Про школу"
 date: "2026-04-04"
-author: "Адміністрація"
+author: "Alik"
 category: "about"
 lang: "uk"
 seo:

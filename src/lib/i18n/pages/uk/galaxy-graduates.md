@@ -1,7 +1,7 @@
 ---
 title: "Галактика випускників"
 date: "2026-04-12"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "projects"
 lang: "uk"
 seo:

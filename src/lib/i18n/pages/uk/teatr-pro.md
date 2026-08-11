@@ -1,7 +1,7 @@
 ---
 title: "«Одеса.Театр.PRO»"
 date: "2026-04-17"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "projects"
 lang: "uk"
 seo:

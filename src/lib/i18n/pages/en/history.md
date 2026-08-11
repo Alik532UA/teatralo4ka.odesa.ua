@@ -1,7 +1,7 @@
 ---
 title: "Odesa Theatrical School – a true Temple of Arts!"
 date: "2026-04-04"
-author: "Administration"
+author: "Alik"
 category: "history"
 lang: "en"
 seo:

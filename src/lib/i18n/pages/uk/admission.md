@@ -1,7 +1,7 @@
 ---
 title: "Для вступу"
 date: "2026-05-26"
-author: "Приймальна комісія"
+author: "Alik"
 category: "admission"
 lang: "uk"
 seo:

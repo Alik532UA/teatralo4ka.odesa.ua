@@ -1,7 +1,7 @@
 ---
 title: "Photo Archive"
 date: "2026-04-12"
-author: "Odesa Theatre School Admin"
+author: "Alik"
 category: "projects"
 lang: "en"
 seo:

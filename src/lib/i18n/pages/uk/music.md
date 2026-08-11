@@ -1,7 +1,7 @@
 ---
 title: "Музичне відділення"
 date: "2026-04-10"
-author: "Адміністрація МТШ"
+author: "Alik"
 category: "departments"
 lang: "uk"
 seo:

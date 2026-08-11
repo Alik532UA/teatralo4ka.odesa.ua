@@ -1,7 +1,7 @@
 ---
 title: "Art Department"
 date: "2026-04-05"
-author: "MTSh Administration"
+author: "Alik"
 category: "departments"
 lang: "en"
 seo:

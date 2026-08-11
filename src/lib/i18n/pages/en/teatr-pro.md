@@ -1,7 +1,7 @@
 ---
 title: "«Odesa.Theatre.PRO»"
 date: "2026-04-17"
-author: "Odesa Theatre School Admin"
+author: "Alik"
 category: "projects"
 lang: "en"
 seo:

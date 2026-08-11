@@ -1,7 +1,7 @@
 ---
 title: "Contacts"
 date: "2026-04-04"
-author: "Administration"
+author: "Alik"
 category: "contacts"
 lang: "en"
 seo:
