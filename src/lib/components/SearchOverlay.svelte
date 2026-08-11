@@ -236,6 +236,15 @@
 		color: var(--text-main);
 	}
 
+	.search__input::-webkit-search-cancel-button,
+	.search__input::-webkit-search-decoration,
+	.search__input::-webkit-search-results-button,
+	.search__input::-webkit-search-results-decoration {
+		-webkit-appearance: none;
+		appearance: none;
+		display: none;
+	}
+
 	.search__input::placeholder {
 		color: var(--color-muted-text);
 		font-weight: 500;
