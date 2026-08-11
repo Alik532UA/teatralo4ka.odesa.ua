@@ -55,7 +55,7 @@
 </script>
 
 {#if variant === 'carousel'}
-	<article class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
+	<a href={link} target={linkTarget} rel={linkRel} class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
 		{#if item.coverUrl}
 			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-container-{index}">
 				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="{testIdPrefix}-card-img-{index}" />
@@ -72,12 +72,12 @@
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</article>
+	</a>
 
 {:else if variant === 'grid'}
-	<article class="grid-card" data-testid="{testIdPrefix}-grid-card-{index}">
+	<a href={link} target={linkTarget} rel={linkRel} class="grid-card" data-testid="{testIdPrefix}-grid-card-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-grid-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
@@ -94,12 +94,12 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</article>
+	</a>
 
 {:else}
-	<article class="list-item desktop-list" data-testid="{testIdPrefix}-list-item-{index}">
+	<a href={link} target={linkTarget} rel={linkRel} class="list-item desktop-list" data-testid="{testIdPrefix}-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="list-item__img-wrap" data-testid="{testIdPrefix}-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
@@ -117,11 +117,11 @@
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
 		</div>
-		<a href={link} target={linkTarget} rel={linkRel} class="btn-more list-item__link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
-	</article>
+		<span class="btn-more list-item__link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
+	</a>
 
 	<!-- Mobile version of list that uses grid styles -->
-	<article class="grid-card mobile-list-as-grid" data-testid="{testIdPrefix}-mobile-list-item-{index}">
+	<a href={link} target={linkTarget} rel={linkRel} class="grid-card mobile-list-as-grid" data-testid="{testIdPrefix}-mobile-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-mobile-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
@@ -138,9 +138,9 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</article>
+	</a>
 {/if}
 
 <style>
@@ -157,6 +157,8 @@
 		transform: scale(0.85);
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
 		border: 1px solid rgba(0, 0, 0, 0.03);
+		text-decoration: none;
+		color: inherit;
 	}
 
 	.focus-card.is-active {
@@ -250,8 +252,13 @@
 		font-weight: 700;
 		width: fit-content;
 		transition: all 0.3s ease;
+		display: inline-flex;
+		align-items: center;
 	}
 
+	.focus-card:hover .btn-more,
+	.grid-card:hover .btn-more,
+	.list-item:hover .btn-more,
 	.btn-more:hover {
 		transform: translateY(-3px);
 		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
@@ -268,6 +275,8 @@
 		border: 1px solid rgba(0, 0, 0, 0.03);
 		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 		min-height: 280px;
+		text-decoration: none;
+		color: inherit;
 	}
 
 	.grid-card:hover {
@@ -334,6 +343,8 @@
 		border: 1px solid rgba(0, 0, 0, 0.03);
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 		padding-right: 2.5rem;
+		text-decoration: none;
+		color: inherit;
 	}
 
 	.list-item:hover {
