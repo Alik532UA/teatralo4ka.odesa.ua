@@ -32,7 +32,10 @@ It's not just about technology — it's about preserving our school's living his
 
 You can contribute to the development of the DTSH sound and video studio:
 
-*   🔗 **Monobank Link:** [send.monobank.ua/jar/5fNm3HDuNF](https://send.monobank.ua/jar/5fNm3HDuNF)
+<div style="margin: 1.5rem 0;">
+  <a href="https://send.monobank.ua/jar/5fNm3HDuNF" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Support with a donation</a>
+</div>
+
 *   💳 **Card Number:** `5375 4112 1047 5989`
 
 *(Support for the activities of the sound and video studio DTSH)*

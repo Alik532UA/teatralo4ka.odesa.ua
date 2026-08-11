@@ -16,7 +16,10 @@ coverUrl: "/png/photo-archive.png"
 # Фотоархів
 
 Підтримай нас донатом і нумо дивитися фоточки 📸
-[клік сюди 👉 https://forms.gle/EwshHa34KpgKELQYA](https://forms.gle/EwshHa34KpgKELQYA)
+
+<div style="margin: 1.5rem 0;">
+  <a href="https://forms.gle/EwshHa34KpgKELQYA" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Отримати доступ до фото</a>
+</div>
 
 ## Наш поточний фотоархів!
 

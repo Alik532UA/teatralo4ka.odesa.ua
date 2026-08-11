@@ -13,8 +13,6 @@ version: "1.0.1"
 
 # Graduates
 
-Acting business cards: [https://sites.google.com/view/ats-ua/Actor-business-cards](https://sites.google.com/view/ats-ua/Actor-business-cards)
-
 Graduates of "Teatralo4ka" are students of theater, cinematographic, television, and general cultural Ukrainian and European creative universities.
 
 Moreover! Immediately after theater school, they perform in theaters and act in films. And again, not only in Ukraine, but also abroad. That is, professional acting education is not always necessary when you have training at MTSh behind you.
@@ -23,4 +21,12 @@ We are proud that our graduates create new, bold, young art: whether it's direct
 
 On December 1, 2021, in honor of the 25th anniversary of the theater school, a podcast "Galaxy of Graduates" was created by the efforts of our graduate Alik Zapolnov.
 
-So, come and meet our "stars": [https://sites.google.com/view/ats-ua/GG](https://sites.google.com/view/ats-ua/GG)
+<div style="margin: 1.5rem 0;">
+  <a href="https://sites.google.com/view/ats-ua/GG" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Galaxy of Graduates</a>
+</div>
+
+---
+
+<div style="margin: 1.5rem 0;">
+  <a href="https://sites.google.com/view/ats-ua/Actor-business-cards" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Acting business cards</a>
+</div>

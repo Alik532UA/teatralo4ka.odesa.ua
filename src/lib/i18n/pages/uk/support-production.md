@@ -32,7 +32,10 @@ coverUrl: "/png/support-production.png"
 
 Ви можете зробити внесок на розвиток звуко-відео-студії ДТШ:
 
-*   🔗 **Посилання на банку Monobank:** [send.monobank.ua/jar/5fNm3HDuNF](https://send.monobank.ua/jar/5fNm3HDuNF)
+<div style="margin: 1.5rem 0;">
+  <a href="https://send.monobank.ua/jar/5fNm3HDuNF" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Підтримати донатом</a>
+</div>
+
 *   💳 **Номер картки банки:** `5375 4112 1047 5989`
 
 *(Підтримка діяльності звуко-відео-студії ДТШ)*

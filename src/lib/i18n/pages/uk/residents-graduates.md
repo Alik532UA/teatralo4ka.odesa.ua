@@ -13,8 +13,6 @@ version: "1.0.1"
 
 # Випускники
 
-Акторські візитівки: [https://sites.google.com/view/ats-ua/Actor-business-cards](https://sites.google.com/view/ats-ua/Actor-business-cards)
-
 Випускники «Театрало4ки» – це студенти театральних, кінематографічних, телевізійних, загальнокультурних українських та європейських творчих ВНЗ.
 
 Ба більше! Відразу після театральної школи вони грають у театрах і знімаються у кіно. І знов таки, не тільки в Україні, а й за кордоном. Тобто далеко не завжди необхідна професійна акторська освіта, коли маєш за плечима навчання у МТШ.
@@ -23,4 +21,12 @@ version: "1.0.1"
 
 1 грудня 2021 року на честь 25-річчя театральної школи зусиллями нашого випускника Аліка Запольнова з’явився подкаст “Галактика випускників”.
 
-Отже, заходьте та знайомтесь з нашими «зірочками»: [https://sites.google.com/view/ats-ua/GG](https://sites.google.com/view/ats-ua/GG)
+<div style="margin: 1.5rem 0;">
+  <a href="https://sites.google.com/view/ats-ua/GG" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Галактика випускників</a>
+</div>
+
+---
+
+<div style="margin: 1.5rem 0;">
+  <a href="https://sites.google.com/view/ats-ua/Actor-business-cards" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Акторські візитівки</a>
+</div>

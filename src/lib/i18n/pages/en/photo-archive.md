@@ -16,7 +16,10 @@ coverUrl: "/png/photo-archive.png"
 # Photo Archive
 
 Support us with a donation and let's view some photos 📸
-[click here 👉 https://forms.gle/EwshHa34KpgKELQYA](https://forms.gle/EwshHa34KpgKELQYA)
+
+<div style="margin: 1.5rem 0;">
+  <a href="https://forms.gle/EwshHa34KpgKELQYA" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Get photo access</a>
+</div>
 
 ## Our current photo archive!
 
