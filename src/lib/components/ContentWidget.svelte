@@ -657,6 +657,12 @@
 		touch-action: pan-y;
 		user-select: none;
 		cursor: grab;
+		outline: none;
+	}
+
+	.focus-viewport:focus,
+	.focus-viewport:focus-visible {
+		outline: none;
 	}
 
 	.focus-viewport:active {
