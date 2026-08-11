@@ -166,4 +166,16 @@ describe('searchEntries', () => {
 	it('нічого не знайдено — порожній масив, не помилка', () => {
 		expect(searchEntries(ENTRIES, 'кораблебудування')).toEqual([]);
 	});
+
+	it('надає перевагу активній мові сайту при однаковому збігу', () => {
+		const entries: SearchEntry[] = [
+			{ id: 'page:en:about', title: 'About Us', href: '/about/', kind: 'page', text: 'School' },
+			{ id: 'page:uk:about', title: 'Про школу', href: '/about/', kind: 'page', text: 'School' }
+		];
+		const hitsEn = searchEntries(entries, 'School', 20, 'en');
+		expect(hitsEn[0].id).toBe('page:en:about');
+
+		const hitsUk = searchEntries(entries, 'School', 20, 'uk');
+		expect(hitsUk[0].id).toBe('page:uk:about');
+	});
 });

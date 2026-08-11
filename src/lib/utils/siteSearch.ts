@@ -111,7 +111,7 @@ function buildSnippet(text: string, at: number, queryLength: number): string {
  * сторінках і кількох десятках новин не дають нічого, крім місць, де можна
  * помилитися.
  */
-export function searchEntries(entries: SearchEntry[], query: string, limit = 20): SearchHit[] {
+export function searchEntries(entries: SearchEntry[], query: string, limit = 20, currentLang?: string): SearchHit[] {
 	const q = normalize(query);
 	if (q.length < MIN_QUERY_LENGTH) return [];
 
@@ -127,8 +127,13 @@ export function searchEntries(entries: SearchEntry[], query: string, limit = 20)
 
 		// Назва важить утричі: людина шукає сторінку, а не згадку слова в ній.
 		// Дільник 1000 лишає позицію другорядним чинником, а не головним.
-		const score =
+		let score =
 			(inTitle >= 0 ? 3 - inTitle / 1000 : 0) + (inText >= 0 ? 1 - inText / 1000 : 0);
+
+		// Невеликий пріоритет поточній мові інтерфейсу при однакових збігах
+		if (currentLang && entry.id.includes(`:${currentLang}:`)) {
+			score += 0.1;
+		}
 
 		hits.push({
 			...entry,

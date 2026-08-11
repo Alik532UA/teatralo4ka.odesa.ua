@@ -33,11 +33,10 @@
 	const lang = $derived(($locale === 'en' ? 'en' : 'uk') as 'uk' | 'en');
 
 	/**
-	 * Сторінки перечитуються при зміні мови, і це дешево: вони вже в пам'яті, а
-	 * робота тут — зняти розмітку з сімнадцяти файлів.
+	 * Сторінки шукаються за всіма мовами сайту.
 	 */
-	const pages = $derived(pageEntries(lang));
-	const hits = $derived<SearchHit[]>(searchEntries([...pages, ...news], query));
+	const pages = $derived(pageEntries());
+	const hits = $derived<SearchHit[]>(searchEntries([...pages, ...news], query, 20, lang));
 
 	const tooShort = $derived(query.trim().length > 0 && query.trim().length < MIN_QUERY_LENGTH);
 
@@ -46,11 +45,11 @@
 		if (open) input?.focus();
 	});
 
-	/** Новини — один запит на сеанс, і лише коли пошук справді відкрили. */
+	/** Новини — один запит на сеанс за всіма мовами, коли пошук відкрили. */
 	$effect(() => {
 		if (!open || news.length > 0 || newsLoading) return;
 		newsLoading = true;
-		newsEntries(lang)
+		newsEntries()
 			.then((list) => (news = list))
 			.finally(() => (newsLoading = false));
 	});
