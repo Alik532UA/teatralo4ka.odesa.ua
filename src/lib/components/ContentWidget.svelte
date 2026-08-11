@@ -605,8 +605,8 @@
 	}
 
 	.cw-all-link:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 60%);
+		filter: brightness(1.05);
 		color: var(--text-on-accent);
 	}
 
@@ -791,8 +791,8 @@
 	}
 
 	.cw-show-all-btn:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 60%);
+		filter: brightness(1.05);
 	}
 
 	/* ─── Responsive ───────────────────────────────────── */

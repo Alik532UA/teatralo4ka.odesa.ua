@@ -246,7 +246,6 @@ button {
 .btn-primary:hover {
 	background: var(--palette-orange);
 	box-shadow: 0 6px 20px rgba(245, 166, 35, 0.4);
-	transform: translateY(-2px);
 }
 
 .btn-outline {
@@ -258,7 +257,6 @@ button {
 .btn-outline:hover {
 	background: var(--accent-primary);
 	color: var(--palette-white);
-	transform: translateY(-2px);
 }
 
 /* --- Image Placeholder --- */

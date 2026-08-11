@@ -279,8 +279,7 @@
 	.phone-item:hover {
 		background: var(--bg-page);
 		box-shadow: var(--shadow-main);
-		border-color: var(--border-main);
-		transform: translateY(-2px);
+		border-color: var(--accent-primary);
 	}
 	.phone-icon-wrap {
 		width: 44px; height: 44px; border-radius: 12px;

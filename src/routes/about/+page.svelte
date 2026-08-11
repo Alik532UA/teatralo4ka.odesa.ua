@@ -176,8 +176,7 @@
 		cursor: pointer;
 	}
 	.g-bento__item:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+		box-shadow: 0 20px 50px color-mix(in srgb, var(--accent-primary), transparent 70%);
 		z-index: 2;
 	}
 	.g-bento__item img {

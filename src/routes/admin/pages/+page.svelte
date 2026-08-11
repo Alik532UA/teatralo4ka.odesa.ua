@@ -319,7 +319,7 @@
 /* List */
 .pl-list { display: flex; flex-direction: column; gap: 0.75rem; }
 .pl-card { display: flex; align-items: center; gap: 1.5rem; background: var(--theme-dynamic-card-bg); border: 1px solid var(--color-border); border-radius: 24px; padding: 1.25rem; transition: all 0.2s; }
-.pl-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); border-color: var(--accent-primary-light, #3aacce); transform: translateX(4px); }
+.pl-card:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border-color: var(--accent-primary-light, #3aacce); }
 .pl-thumb { width: 84px; height: 84px; border-radius: 16px; overflow: hidden; flex-shrink: 0; background: var(--color-border); display: flex; align-items: center; justify-content: center; }
 .pl-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .pl-thumb-empty { background: var(--theme-dynamic-section-bg, #f8f9fa); color: var(--color-muted-text); }

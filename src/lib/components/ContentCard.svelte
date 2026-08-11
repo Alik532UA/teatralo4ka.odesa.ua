@@ -251,7 +251,7 @@
 		border-radius: var(--radius-full);
 		font-weight: 700;
 		width: fit-content;
-		transition: all 0.3s ease;
+		transition: box-shadow 0.3s ease, filter 0.3s ease;
 		display: inline-flex;
 		align-items: center;
 	}
@@ -260,8 +260,8 @@
 	.grid-card:hover .btn-more,
 	.list-item:hover .btn-more,
 	.btn-more:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
+		box-shadow: 0 8px 25px color-mix(in srgb, var(--accent-primary), transparent 60%);
+		filter: brightness(1.05);
 	}
 
 	/* ─── Grid card ──────────────────────────────────────── */
@@ -272,16 +272,16 @@
 		display: flex;
 		flex-direction: row;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.03);
-		transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+		border: 1px solid color-mix(in srgb, var(--text-title), transparent 92%);
+		transition: border-color 0.3s ease, box-shadow 0.3s ease;
 		min-height: 280px;
 		text-decoration: none;
 		color: inherit;
 	}
 
 	.grid-card:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+		border-color: var(--accent-primary);
+		box-shadow: 0 15px 45px color-mix(in srgb, var(--accent-primary), transparent 80%), 0 0 0 2px color-mix(in srgb, var(--accent-primary), transparent 60%);
 	}
 
 	.grid-card__img-wrap {
@@ -340,16 +340,17 @@
 		border-radius: 24px;
 		overflow: hidden;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-		border: 1px solid rgba(0, 0, 0, 0.03);
-		transition: transform 0.2s ease, box-shadow 0.2s ease;
-		padding-right: 2.5rem;
+		border: 1px solid color-mix(in srgb, var(--text-title), transparent 92%);
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+		padding-left: 32px;
+		padding-right: 32px;
 		text-decoration: none;
 		color: inherit;
 	}
 
 	.list-item:hover {
-		transform: translateX(6px);
-		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+		border-color: var(--accent-primary);
+		box-shadow: 0 10px 35px color-mix(in srgb, var(--accent-primary), transparent 80%), 0 0 0 2px color-mix(in srgb, var(--accent-primary), transparent 60%);
 	}
 
 	.list-item__img-wrap {
@@ -361,6 +362,8 @@
 		align-items: center;
 		justify-content: center;
 		overflow: hidden;
+		border-radius: 12px;
+		margin: 1rem 0;
 	}
 
 	.list-item__img {

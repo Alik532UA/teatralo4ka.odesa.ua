@@ -676,9 +676,8 @@
 	transition: all 0.2s;
 }
 .cl-card:hover {
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 	border-color: var(--accent-primary-light, #3aacce);
-	transform: translateX(4px);
 }
 
 /* Thumbnail */

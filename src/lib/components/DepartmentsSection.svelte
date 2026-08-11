@@ -237,8 +237,7 @@
 	}
 
 	.deps__card:hover {
-		transform: translateY(-10px);
-		box-shadow: 0 0 10px var(--accent-primary);
+		box-shadow: 0 0 15px var(--accent-primary), 0 10px 30px rgba(0, 0, 0, 0.1);
 	}
 
 	.deps__image-wrap {
@@ -331,7 +330,7 @@
 
 	.deps__link:hover {
 		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 80%);
-		transform: translateY(-2px);
+		filter: brightness(1.05);
 	}
 
 	/* Responsive Breakpoints */

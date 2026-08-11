@@ -312,8 +312,8 @@
 	}
 
 	.hero__contact-btn:hover {
-		transform: translateY(-3px);
 		box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+		border-color: var(--accent-primary);
 		color: var(--accent-primary);
 	}
 
