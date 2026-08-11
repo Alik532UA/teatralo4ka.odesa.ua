@@ -6,6 +6,7 @@
 	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import type { PageContent } from '$lib/i18n/types';
 
+	import { onMount } from 'svelte';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -23,27 +24,30 @@
 	let activeLightboxIndex = $state(0);
 	let isLightboxOpen = $state(false);
 
-	function handleArticleClick(e: MouseEvent) {
-		const target = e.target as HTMLElement;
-		if (target && target.tagName === 'IMG') {
-			const img = target as HTMLImageElement;
-			const article = img.closest('article, section, .page-content');
-			if (!article) return;
+	onMount(() => {
+		function handleClick(e: MouseEvent) {
+			const target = e.target as HTMLElement;
+			if (target && target.tagName === 'IMG' && target.closest('.prose, .page-cover')) {
+				const article = target.closest('article, section, .page-content');
+				if (!article) return;
 
-			const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
-			if (allImgs.length === 0) return;
+				const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
+				if (allImgs.length === 0) return;
 
-			const list: LightboxImage[] = allImgs.map(i => ({
-				src: i.src,
-				alt: i.alt,
-				title: i.title || i.alt
-			}));
-			const clickedIdx = allImgs.indexOf(img);
-			activeLightboxImages = list;
-			activeLightboxIndex = clickedIdx >= 0 ? clickedIdx : 0;
-			isLightboxOpen = true;
+				const list: LightboxImage[] = allImgs.map(i => ({
+					src: i.src,
+					alt: i.alt,
+					title: i.title || i.alt
+				}));
+				const clickedIdx = allImgs.indexOf(target as HTMLImageElement);
+				activeLightboxImages = list;
+				activeLightboxIndex = clickedIdx >= 0 ? clickedIdx : 0;
+				isLightboxOpen = true;
+			}
 		}
-	}
+		window.addEventListener('click', handleClick);
+		return () => window.removeEventListener('click', handleClick);
+	});
 
 	let content = $derived($locale === 'en' ? data.en : data.uk);
 	let coverUrl = $derived.by(() => {
@@ -63,8 +67,7 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section" onclick={handleArticleClick}>
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="{testPrefix}-page-section">
 	{#if backHref && backLabel}
 		<div class="back-nav" data-testid="{testPrefix}-back-toolbar">
 			<!-- Готова адреса від resolve() у виклику компонента. -->

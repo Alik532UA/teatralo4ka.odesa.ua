@@ -22,26 +22,6 @@
 		isLightboxOpen = true;
 	}
 
-	function handleArticleClick(e: MouseEvent) {
-		const target = e.target as HTMLElement;
-		if (target && target.tagName === 'IMG') {
-			const img = target as HTMLImageElement;
-			const article = img.closest('article, section, .page-content');
-			if (!article) return;
-
-			const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
-			if (allImgs.length === 0) return;
-
-			const list: LightboxImage[] = allImgs.map(i => ({
-				src: i.src,
-				alt: i.alt,
-				title: i.title || i.alt
-			}));
-			const clickedIdx = allImgs.indexOf(img);
-			openLightbox(list, clickedIdx >= 0 ? clickedIdx : 0);
-		}
-	}
-
 	let content = $derived($locale === 'en' ? data.en : data.uk);
 
 	$effect(() => {
@@ -84,7 +64,30 @@
 			}
 		}).catch(() => {});
 
-		return () => { mql.removeEventListener('change', handler); };
+		function handleDocClick(e: MouseEvent) {
+			const target = e.target as HTMLElement;
+			if (target && target.tagName === 'IMG' && target.closest('.prose')) {
+				const article = target.closest('article, section, .page-content');
+				if (!article) return;
+
+				const allImgs = Array.from(article.querySelectorAll('.prose img')) as HTMLImageElement[];
+				if (allImgs.length === 0) return;
+
+				const list: LightboxImage[] = allImgs.map(i => ({
+					src: i.src,
+					alt: i.alt,
+					title: i.title || i.alt
+				}));
+				const clickedIdx = allImgs.indexOf(target as HTMLImageElement);
+				openLightbox(list, clickedIdx >= 0 ? clickedIdx : 0);
+			}
+		}
+		window.addEventListener('click', handleDocClick);
+
+		return () => {
+			mql.removeEventListener('change', handler);
+			window.removeEventListener('click', handleDocClick);
+		};
 	});
 
 	const galleryImages = $derived([
@@ -101,8 +104,7 @@
 	]);
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section" onclick={handleArticleClick}>
+<section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
 	{#if content}
 		<article class="prose" style="margin-bottom: 4rem;" data-testid="about-page-article-section">
 			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,

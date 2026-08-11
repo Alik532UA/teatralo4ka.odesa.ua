@@ -86,13 +86,14 @@
 
 {#if isOpen && images.length > 0}
 	{@const currentImg = images[index] || images[0]}
-	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
 		class="lightbox-backdrop"
 		role="dialog"
 		aria-modal="true"
 		aria-label={$t('common.gallery')}
+		tabindex="-1"
 		onclick={(e) => { if (e.target === e.currentTarget) onclose(); }}
+		onkeydown={(e) => { if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) onclose(); }}
 		ontouchstart={handleTouchStart}
 		ontouchmove={handleTouchMove}
 		ontouchend={handleTouchEnd}
