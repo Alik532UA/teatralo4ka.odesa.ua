@@ -44,7 +44,10 @@
 	let footerLift = $state(0);
 
 	$effect(() => {
-		const update = () => {
+		let frame = 0;
+
+		const measure = () => {
+			frame = 0;
 			const footer = document.getElementById('main-footer');
 			if (!footer) {
 				footerLift = 0;
@@ -53,12 +56,29 @@
 			const top = footer.getBoundingClientRect().top;
 			footerLift = Math.max(0, window.innerHeight - top);
 		};
-		update();
-		window.addEventListener('scroll', update, { passive: true });
-		window.addEventListener('resize', update);
+
+		/**
+		 * Замір відкладається до наступного кадру.
+		 *
+		 * `getBoundingClientRect()` змушує браузер порахувати розкладку негайно.
+		 * У слухачі `scroll` без обгортки це відбувалося б на КОЖНУ подію — а їх
+		 * під час прокрутки десятки за кадр, і кожна перериває роботу браузера
+		 * саме тоді, коли він малює прокрутку. Тут вимірювання зводиться до
+		 * одного разу на кадр, а проміжні події просто ігноруються: показати
+		 * різні значення в межах одного кадру все одно неможливо.
+		 */
+		const schedule = () => {
+			if (frame) return;
+			frame = requestAnimationFrame(measure);
+		};
+
+		measure();
+		window.addEventListener('scroll', schedule, { passive: true });
+		window.addEventListener('resize', schedule);
 		return () => {
-			window.removeEventListener('scroll', update);
-			window.removeEventListener('resize', update);
+			if (frame) cancelAnimationFrame(frame);
+			window.removeEventListener('scroll', schedule);
+			window.removeEventListener('resize', schedule);
 		};
 	});
 
@@ -191,8 +211,7 @@
 						{#if video?.embeddable}
 							<!-- Веде на сторінку новини з проханням одразу ввімкнути плеєр. -->
 							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a
-								href={videoHref(msg.card.href)}
+							<a href={videoHref(msg.card.href)}
 								class="toast-card__video-btn"
 								onclick={() => toast.remove(msg.id)}
 								data-testid="toast-card-video-link"
@@ -203,8 +222,7 @@
 						{:else if video}
 							<!-- Instagram і Facebook вбудовувати не дають — лише перехід. -->
 							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a
-								href={video.url}
+							<a href={video.url}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="toast-card__video-btn"
@@ -225,8 +243,7 @@
 						<!-- Адреса вже пройшла resolve() у HotNews.svelte або прийшла з
 						     externalUrl статті, перевіреного isSafeUrl. -->
 						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a
-							href={msg.card.href}
+						<a href={msg.card.href}
 							class="toast-card__title toast-card__link"
 							onclick={() => toast.remove(msg.id)}
 							data-testid="toast-card-link"
