@@ -5,6 +5,8 @@
 		import { locale, t } from 'svelte-i18n';
 	import { seo } from '$lib/services/seo.svelte';
 	import { getCategoryLabel } from '$lib/config/categories';
+	import { Play, Image as ImageIcon, ExternalLink } from 'lucide-svelte';
+	import { cardImageUrl, parseVideoUrl } from '$lib/utils/videoEmbed';
 
 	interface Props {
 		/** The route parameter value (article ID or slug) */
@@ -65,6 +67,30 @@
 		article?.translations?.[$locale as 'uk' | 'en'] ?? null
 	);
 
+	/**
+	 * Відео на сторінці статті: зображення лишається, кнопка перемикає.
+	 *
+	 * Плеєр НЕ вставляється одразу, і це не оптимізація «на всяк випадок».
+	 * `<iframe>` YouTube тягне за собою кількасот кілобайт і встановлює cookie
+	 * ще до того, як відвідувач вирішив дивитися. Тому: зображення + кнопка, а
+	 * плеєр з'являється на тому самому місці за кліком.
+	 *
+	 * Для Instagram і Facebook плеєра немає — там кнопка відкриває посилання в
+	 * новій вкладці. Причина в CSP: вбудовування вимагало б нових доменів і
+	 * стороннього SDK, а ламалося б мовчки, порожньою рамкою.
+	 */
+	let videoOpen = $state(false);
+	const video = $derived(parseVideoUrl(translation?.videoUrl));
+	/** Обкладинка сторінки: своє зображення, інакше кадр із відео. */
+	const cover = $derived(cardImageUrl(translation?.coverUrl, translation?.videoUrl));
+
+	// Перехід на іншу статтю має скидати плеєр: інакше на новій сторінці
+	// лишалося б відкрите відео попередньої.
+	$effect(() => {
+		void param;
+		videoOpen = false;
+	});
+
 	$effect(() => {
 		if (translation) {
 			seo.update({
@@ -103,10 +129,66 @@
 		</div>
 	{:else if article && translation}
 		<article data-testid="{testIdPrefix}-content-container">
-			<div class="article-body" class:has-cover={!!translation.coverUrl}>
-				{#if translation.coverUrl}
+			<div class="article-body" class:has-cover={!!cover || !!video}>
+				{#if cover || video}
 					<aside class="article-cover" data-testid="{testIdPrefix}-cover-container">
-						<img src={translation.coverUrl} alt={translation.title || ''} class="article-cover__img" data-testid="{testIdPrefix}-cover-img" />
+						{#if videoOpen && video?.embeddable}
+							<!-- Плеєр стає на місце зображення, у тій самій рамці. -->
+							<iframe
+								src="{video.embedUrl}?autoplay=1"
+								title={translation.title || $t('common.hasVideo')}
+								class="article-cover__player"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen
+								referrerpolicy="strict-origin-when-cross-origin"
+								data-testid="{testIdPrefix}-cover-video-container"
+							></iframe>
+						{:else if cover}
+							<img
+								src={cover}
+								alt={translation.title || ''}
+								class="article-cover__img"
+								loading="eager"
+								fetchpriority="high"
+								decoding="async"
+								data-testid="{testIdPrefix}-cover-img"
+							/>
+						{/if}
+
+						{#if video}
+							{#if video.embeddable}
+								<button
+									type="button"
+									class="btn btn-outline article-cover__video-btn"
+									onclick={() => (videoOpen = !videoOpen)}
+									data-testid="{testIdPrefix}-cover-video-btn"
+								>
+									{#if videoOpen}
+										<ImageIcon size={16} aria-hidden="true" />
+										{$t('common.showCover')}
+									{:else}
+										<Play size={16} aria-hidden="true" />
+										{$t('common.watchVideo')}
+									{/if}
+								</button>
+							{:else}
+								<!-- Instagram/Facebook: вбудувати не можемо, тож честніше
+								     відкрити там, де воно справді працює. -->
+								<!-- Правило звітує на рядку з `href`, тому він мусить бути на тому
+								     самому рядку, що й `<a` — інакше disable-next-line його не
+								     покриває. Той самий прийом, що для `backHref` вище. -->
+								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+								<a href={video.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="btn btn-outline article-cover__video-btn"
+									data-testid="{testIdPrefix}-cover-video-link"
+								>
+									<ExternalLink size={16} aria-hidden="true" />
+									{$t('common.watchVideo')}
+								</a>
+							{/if}
+						{/if}
 					</aside>
 				{/if}
 
@@ -232,10 +314,31 @@
 	.article-cover {
 		border-radius: 20px;
 		overflow: hidden;
+		/* Кнопка лягає під зображенням, тому рамка стає колонкою. */
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
 		aspect-ratio: 9 / 16;
 		position: sticky;
 		top: 120px;
+	}
+
+	/* Плеєр займає те саме місце, що й зображення, і в тій самій пропорції —
+	   інакше вміст сторінки стрибав би при перемиканні. */
+	.article-cover__player {
+		width: 100%;
+		flex: 1;
+		border: 0;
+		border-radius: 20px;
+		background: var(--bg-surface);
+		display: block;
+	}
+
+	.article-cover__video-btn {
+		width: 100%;
+		justify-content: center;
+		flex-shrink: 0;
 	}
 
 	.article-cover__img {
