@@ -240,7 +240,7 @@
 	}
 
 	.mode-btn.active {
-		background: var(--theme-dynamic-card-bg, #ffffff);
+		background: var(--bg-card);
 		color: var(--accent-primary);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}

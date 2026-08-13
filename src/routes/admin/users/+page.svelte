@@ -757,7 +757,7 @@
 	}
 
 	.user-card {
-		background: var(--theme-dynamic-card-bg);
+		background: var(--bg-card);
 		border-radius: 28px;
 		padding: 0;
 		border: 1px solid var(--color-border);
@@ -853,7 +853,7 @@
 		cursor: pointer;
 	}
 	.delete-modal {
-		background: var(--theme-dynamic-card-bg); border-radius: 24px; padding: 2.5rem;
+		background: var(--bg-card); border-radius: 24px; padding: 2.5rem;
 		max-width: 500px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
 		display: flex; flex-direction: column; gap: 1.5rem;
 		color: var(--text-main);
@@ -868,7 +868,7 @@
 	}
 	.delete-input:focus { border-color: #ef4444; }
 	.modal-footer { display: flex; gap: 1rem; margin-top: 1rem; }
-	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--color-border); background: var(--theme-dynamic-card-bg); color: var(--text-main); cursor: pointer; font-weight: 600; }
+	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 600; }
 	.btn-confirm-delete {
 		flex: 1; padding: 1rem; border-radius: 14px; border: none;
 		background: rgba(160, 174, 192, 0.2); color: #a0aec0; cursor: not-allowed;
@@ -878,7 +878,7 @@
 
 	/* Add user modal */
 	.add-modal {
-		background: var(--theme-dynamic-card-bg); border-radius: 24px; padding: 2.5rem;
+		background: var(--bg-card); border-radius: 24px; padding: 2.5rem;
 		max-width: 480px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
 		display: flex; flex-direction: column; gap: 1.25rem;
 		color: var(--text-main); text-align: left; cursor: default;

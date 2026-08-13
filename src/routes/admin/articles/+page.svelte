@@ -469,7 +469,7 @@
 	background: rgba(33, 150, 186, 0.05);
 }
 .al-import-btn {
-	background: var(--theme-dynamic-card-bg);
+	background: var(--bg-card);
 }
 
 .al-mini-spinner {
@@ -491,7 +491,7 @@
 	gap: 1.25rem;
 	margin-bottom: 2rem;
 	align-items: center;
-	background: var(--theme-dynamic-card-bg);
+	background: var(--bg-card);
 	padding: 1.25rem;
 	border-radius: 24px;
 	border: 1px solid rgba(0,0,0,0.05);
@@ -554,7 +554,7 @@
 	display: flex;
 	align-items: center;
 	gap: 1.5rem;
-	background: var(--theme-dynamic-card-bg);
+	background: var(--bg-card);
 	border: 1px solid var(--color-border);
 	border-radius: 24px;
 	padding: 1.25rem;
@@ -583,7 +583,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--theme-dynamic-section-bg, #f8f9fa);
+	background: var(--bg-surface);
 	color: var(--color-muted-text);
 }
 
@@ -753,7 +753,7 @@
 	transition: all 0.2s;
 }
 .mode-btn.active {
-	background: var(--theme-dynamic-card-bg, #ffffff);
+	background: var(--bg-card);
 	color: var(--accent-primary);
 	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }

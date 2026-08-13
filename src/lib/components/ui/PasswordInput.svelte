@@ -126,7 +126,12 @@
 		display: flex;
 		align-items: center;
 		--input-icon-color: var(--accent-primary, #6b7280);
-		--input-bg: var(--theme-dynamic-card-bg, #022434);
+		/* Тло floating-label мусить збігатися з тим, що ПІД ним, інакше замість
+		   вирізу в рамці виходить кольорова плашка. Під ним не картка, а поле:
+		   `rgba(0,0,0,0.2)` поверх картки — саме це й рахує color-mix.
+		   Раніше тут стояла неоголошена --theme-dynamic-card-bg, тож завжди
+		   спрацьовував запасний #022434 — темно-синя плашка в світлій темі. */
+		--input-bg: color-mix(in srgb, var(--bg-card), #000 20%);
 	}
 
 	/* Leading-іконка (тип поля). Акцент :focus-within — лише через opacity. */

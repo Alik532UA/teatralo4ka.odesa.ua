@@ -391,7 +391,7 @@
 
 	<form id={formId} onsubmit={handleFormSubmit} style="display: flex; flex-direction: column; gap: 2rem;">
 		<!-- Settings Card -->
-		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-settings-card">
+		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--bg-card); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-settings-card">
 			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				<Settings size={22} />
 				<h2 style="margin: 0; font-size: 1.5rem;">{$t('admin.editor.settingsSection')}</h2>
@@ -707,7 +707,7 @@
 		</div>
 
 		<!-- External URL Card -->
-		<div class="admin-card" style="padding: 2rem 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-external-url-card">
+		<div class="admin-card" style="padding: 2rem 2.5rem; border-radius: 32px; background: var(--bg-card); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-external-url-card">
 			<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
 				<label class="switch-label" style="margin: 0;">
 					<input
@@ -776,7 +776,7 @@
 
 		<!-- Editor Card (hidden when content is an external URL) -->
 		{#if !useExternalUrl}
-		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-rich-text-editor-container">
+		<div class="admin-card" style="padding: 2.5rem; border-radius: 32px; background: var(--bg-card); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);" data-testid="{tp}-rich-text-editor-container">
 			<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); margin-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 1rem;">
 				{#if mode === 'create'}
 					<FilePlus size={22} />
@@ -871,7 +871,7 @@
 	}
 
 	.modal-content {
-		background: var(--theme-dynamic-card-bg, #fff);
+		background: var(--bg-card);
 		border-radius: 24px;
 		padding: 2rem;
 		width: min(600px, 90vw);
@@ -1043,7 +1043,7 @@
 	}
 
 	.mode-btn.active {
-		background: var(--theme-dynamic-card-bg, #ffffff);
+		background: var(--bg-card);
 		color: var(--accent-primary);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}

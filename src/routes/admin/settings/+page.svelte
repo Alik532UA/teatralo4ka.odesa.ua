@@ -1737,7 +1737,7 @@ async function handleAboutPageSubmit() {
 
 /* ─── Settings card ────────────────────────────────────── */
 .settings-card {
-background: var(--theme-dynamic-card-bg);
+background: var(--bg-card);
 padding: 3rem;
 border-radius: 40px;
 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
@@ -1876,7 +1876,7 @@ color: var(--color-dark-text);
 }
 
 .mode-btn.active {
-  background: var(--theme-dynamic-card-bg, #ffffff);
+  background: var(--bg-card);
   color: var(--accent-primary);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }

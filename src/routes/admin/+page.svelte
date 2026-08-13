@@ -40,7 +40,7 @@
 
 		<div class="dash-grid" data-testid="admin-dashboard-cards-list">
 			{#if canManageContent}
-				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-content-card-container">
+				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-content-card-container">
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-content-card-title-label">{$t('admin.dashboard.contentTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-content-card-desc-label">{$t('admin.dashboard.contentDesc')}</p>
 					<div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-content-card-toolbar">
@@ -53,7 +53,7 @@
 			{/if}
 
 			{#if canManageSettings}
-				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
+				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title-label">{$t('admin.dashboard.settingsTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-label">{$t('admin.dashboard.settingsDesc')}</p>
 					<a href={resolve('/admin/settings')} class="btn btn-outline" data-testid="admin-settings-btn">{$t('admin.dashboard.settingsBtn')}</a>
@@ -61,7 +61,7 @@
 			{/if}
 
 			{#if canManageUsers}
-				<div style="background: var(--theme-dynamic-card-bg); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
+				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
 					<h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>
 					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-label">{$t('admin.dashboard.usersDesc')}</p>
 					<a href={resolve('/admin/users')} class="btn btn-outline" data-testid="admin-users-btn">{$t('admin.dashboard.usersBtn')}</a>

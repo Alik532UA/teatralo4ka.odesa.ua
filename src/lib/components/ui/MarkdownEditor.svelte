@@ -75,7 +75,7 @@
 	.mde-container :global(.editor-toolbar) {
 		border-top-left-radius: 12px;
 		border-top-right-radius: 12px;
-		background: var(--theme-dynamic-section-bg);
+		background: var(--bg-surface);
 		border-color: var(--color-border);
 		opacity: 1;
 	}
@@ -90,7 +90,7 @@
 	.mde-container :global(.CodeMirror) {
 		border-bottom-left-radius: 12px;
 		border-bottom-right-radius: 12px;
-		background: var(--theme-dynamic-card-bg);
+		background: var(--bg-card);
 		color: var(--color-body-text);
 		border-color: var(--color-border);
 		font-family: 'Inter', sans-serif;

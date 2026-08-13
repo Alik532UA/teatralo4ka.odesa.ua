@@ -83,7 +83,7 @@
 		gap: 1rem;
 		padding: 1rem 1.25rem 1rem 1.25rem;
 		border-radius: 16px;
-		background: color-mix(in srgb, var(--theme-dynamic-card-bg, #ffffff), transparent 15%);
+		background: color-mix(in srgb, var(--bg-card), transparent 15%);
 		backdrop-filter: blur(12px);
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 		min-width: 320px;

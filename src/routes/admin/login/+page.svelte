@@ -66,7 +66,7 @@
 </script>
 
 <section class="admin-login container" style="max-width: 440px;" data-testid="admin-login-section-container">
-	<div style="background: var(--theme-dynamic-card-bg); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
+	<div style="background: var(--bg-card); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
 		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title-label">{$t('admin.login.title')}</h1>
 
 		{#if error}
@@ -138,7 +138,8 @@
 		display: flex;
 		align-items: center;
 		--input-icon-color: var(--accent-primary, #6b7280);
-		--input-bg: var(--theme-dynamic-card-bg, #022434);
+		/* Те саме, що в PasswordInput: під міткою поле, а не картка. */
+		--input-bg: color-mix(in srgb, var(--bg-card), #000 20%);
 	}
 
 	:global(.input-icon.lead) {

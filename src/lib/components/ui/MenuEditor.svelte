@@ -557,7 +557,7 @@
 
 <style>
 	.me-card {
-		background: var(--theme-dynamic-card-bg);
+		background: var(--bg-card);
 		padding: 2.5rem;
 		border-radius: 40px;
 		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);

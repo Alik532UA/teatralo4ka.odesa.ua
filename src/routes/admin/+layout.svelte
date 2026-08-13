@@ -65,7 +65,7 @@
 	}
 
 	.denied-card {
-		background: var(--theme-dynamic-card-bg);
+		background: var(--bg-card);
 		padding: 4rem;
 		border-radius: 40px;
 		box-shadow: 0 30px 60px rgba(0,0,0,0.1);

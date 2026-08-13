@@ -38,7 +38,7 @@
 
 <div
 	class="admin-card"
-	style="padding: 2.5rem; border-radius: 32px; background: var(--theme-dynamic-card-bg); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);"
+	style="padding: 2.5rem; border-radius: 32px; background: var(--bg-card); box-shadow: 0 10px 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05);"
 	data-testid="{testPrefix}-preview-card"
 >
 	<div
@@ -60,7 +60,7 @@
 	</div>
 	<div
 		class="preview-container"
-		style="background: var(--theme-dynamic-section-bg); padding: 3rem; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05);"
+		style="background: var(--bg-surface); padding: 3rem; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05);"
 	>
 		<article class="prose" style="max-width: 1000px; margin: 0 auto;">
 			<h1 style="font-size: 3rem; margin-top: 0;">{title || $t('admin.editor.titlePlaceholder')}</h1>

@@ -72,7 +72,7 @@
 	}
 
 	.modal-content {
-		background: var(--theme-dynamic-card-bg, #ffffff);
+		background: var(--bg-card);
 		border-radius: 24px;
 		width: 100%;
 		max-width: 420px;
