@@ -1028,7 +1028,7 @@
 		/* НЕ --text-on-accent: тло тут --header-nav-active, а не
 		   --accent-primary, і в світлій темі це давало #00242F на #003646.
 		   Значення по темах — у файлах тем. */
-		color: var(--header-cta-hover-text) !important;
+		color: var(--text-on-nav-active) !important;
 	}
 
 	.header__burger {

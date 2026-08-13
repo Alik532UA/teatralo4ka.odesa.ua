@@ -23,13 +23,14 @@
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);
 	--header-nav-active: var(--text-title);
-	/* Текст на кнопці-CTA ПРИ НАВЕДЕННІ, коли тло стає --header-nav-active.
+	/* Текст на поверхні --header-nav-active (кнопка-CTA у шапці при
+	   наведенні, кнопка «замовити сайт» у підвалі при наведенні).
 	   Це не те саме, що --text-on-accent: той розрахований на фірмовий
 	   блакитний, а тут тло --text-title, тобто темно-синє. Разом виходило
 	   #00242F на #003646 — контраст 1.15:1, тобто текст зникав. Білий на
 	   #003646 дає 13:1. Оголошено в усіх чотирьох темах, бо в темній тло
 	   при наведенні майже біле, і світлий текст зник би там так само. */
-	--header-cta-hover-text: var(--palette-white);
+	--text-on-nav-active: var(--palette-white);
 	--btn-all-bg: var(--palette-blue);
 	--footer-text: var(--palette-navy-page);
 

@@ -446,7 +446,10 @@
 
 	.footer__btn-order:hover {
 		background: var(--header-nav-active);
-		color: var(--text-on-accent);
+		/* Не --text-on-accent: тло тут --header-nav-active, а не
+		   --accent-primary. У світлій темі це давало #00242F на #003646,
+		   тобто 1.25:1 — той самий рядок, що в .header__cta:hover. */
+		color: var(--text-on-nav-active);
 		transform: scale(1.03);
 	}
 
