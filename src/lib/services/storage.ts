@@ -12,7 +12,11 @@ import { STORAGE_PREFIX, getStorageKey } from '../config/storage';
  * Prefer this over direct `localStorage.*` calls everywhere except the app.html
  * inline script (which must run pre-hydration and uses the full prefixed key).
  *
- * sessionStorage wrapper is intentionally omitted — this project doesn't use it.
+ * `session` — той самий фасад над `sessionStorage`, з тими самими гарантіями.
+ * Довго його тут не було свідомо («проєкт ним не користується»); знадобився для
+ * гарячих новин із частотою «раз на сесію», де потрібне саме життя вкладки:
+ * модульний `Set` скидався б на кожному перезавантаженні, а `localStorage`
+ * пам'ятав би назавжди.
  *
  * ## Чому «не кидає» — окреме правило, а не дрібниця
  *
@@ -126,5 +130,63 @@ export const storage = {
 			return false;
 		}
 		return storage.set(key, raw);
+	}
+};
+
+/**
+ * Те саме для `sessionStorage`: живе, поки живе вкладка.
+ *
+ * Окремий об'єкт, а не прапорець у методах: викликач мусить бачити в місці
+ * виклику, наскільки довго значення проживе. `storage.set` і `session.set`
+ * читаються по-різному, `storage.set(k, v, { session: true })` — ні.
+ */
+function ss(): Storage | null {
+	if (!available) return null;
+	try {
+		return typeof sessionStorage !== 'undefined' ? sessionStorage : null;
+	} catch (e) {
+		fail('access', '—', e);
+		return null;
+	}
+}
+
+export const session = {
+	get(key: string): string | null {
+		const store = ss();
+		if (!store) return null;
+		try {
+			return store.getItem(getStorageKey(key)) ?? null;
+		} catch (e) {
+			fail('session.get', key, e);
+			return null;
+		}
+	},
+	set(key: string, value: string): boolean {
+		const store = ss();
+		if (!store) return false;
+		try {
+			store.setItem(getStorageKey(key), value);
+			return true;
+		} catch (e) {
+			fail('session.set', key, e);
+			return false;
+		}
+	},
+	getJSON<T>(key: string): T | null {
+		const raw = session.get(key);
+		if (raw === null) return null;
+		try {
+			return JSON.parse(raw) as T;
+		} catch {
+			return null;
+		}
+	},
+	setJSON(key: string, value: unknown): boolean {
+		try {
+			return session.set(key, JSON.stringify(value));
+		} catch (e) {
+			console.warn(`[storage] значення «${key}» не серіалізується`, e);
+			return false;
+		}
 	}
 };
