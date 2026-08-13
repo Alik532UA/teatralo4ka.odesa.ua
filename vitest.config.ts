@@ -5,7 +5,9 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: 'jsdom',
-		include: ['src/**/*.{test,spec}.ts'],
+		// `vitest/support` теж: там живе розв'язувач токенів, на який
+		// спирається перевірка контрасту, і він має власні тести.
+		include: ['src/**/*.{test,spec}.ts', 'vitest/support/**/*.test.ts'],
 		coverage: {
 			provider: 'v8',
 			reporter: ['text', 'json', 'html'],
