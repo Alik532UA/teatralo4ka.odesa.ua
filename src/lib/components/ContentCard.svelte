@@ -68,17 +68,28 @@
 </script>
 
 <!--
-	Позначка «є відео» стоїть у рядку метаданих поруч із тегом і датою, а не
-	накладкою на зображенні. Причини дві.
+	Позначка «є відео» — накладкою в лівому верхньому куті зображення.
 
-	Перша: вона потрібна й тоді, коли зображення немає — накладку класти було б
-	нікуди. Друга й важливіша: картка це ПОСИЛАННЯ, і кнопка відтворення на ній
-	обіцяла б відтворення на місці, чого не буде. Тут же це метадані такого
-	самого штибу, як категорія й дата, — і виглядають вони так само.
+	Це саме ПОЗНАЧКА, а не кнопка відтворення: картка є посиланням на статтю, і
+	клік по ній веде туди, а не запускає відео. Тому вона не інтерактивна
+	(`pointer-events: none`) — щоб не виглядала натисканою й не перехоплювала клік.
+
+	Коли зображення немає (наприклад, саме лише посилання на Vimeo, який кадру
+	не віддає), накладку класти нікуди — тоді та сама позначка йде в рядок
+	метаданих поруч із категорією й датою.
 -->
-{#snippet videoBadge()}
+{#snippet videoBadgeOverlay()}
 	{#if hasVideo}
-		<span class="tag tag--video" data-testid="{testIdPrefix}-card-video-badge-{index}">
+		<span class="tag video-badge video-badge--overlay" data-testid="{testIdPrefix}-card-video-badge-{index}">
+			<Play size={12} aria-hidden="true" />
+			{$t('common.hasVideo')}
+		</span>
+	{/if}
+{/snippet}
+
+{#snippet videoBadgeMeta()}
+	{#if hasVideo && !item.coverUrl}
+		<span class="tag video-badge" data-testid="{testIdPrefix}-card-video-badge-{index}">
 			<Play size={12} aria-hidden="true" />
 			{$t('common.hasVideo')}
 		</span>
@@ -91,6 +102,7 @@
 		{#if item.coverUrl}
 			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-container-{index}">
 				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="{testIdPrefix}-card-img-{index}" />
+				{@render videoBadgeOverlay()}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-card-panel-{index}">
@@ -101,7 +113,7 @@
 				{#if item.date}
 					<time class="date" data-testid="{testIdPrefix}-card-date-{index}">{item.date}</time>
 				{/if}
-				{@render videoBadge()}
+				{@render videoBadgeMeta()}
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
@@ -114,6 +126,7 @@
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-grid-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
+				{@render videoBadgeOverlay()}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-grid-panel-{index}">
@@ -124,7 +137,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadge()}
+				{@render videoBadgeMeta()}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
@@ -137,6 +150,7 @@
 		{#if item.coverUrl}
 			<div class="list-item__img-wrap" data-testid="{testIdPrefix}-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
+				{@render videoBadgeOverlay()}
 			</div>
 		{/if}
 		<div class="list-item__body" data-testid="{testIdPrefix}-list-body-{index}">
@@ -147,7 +161,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadge()}
+				{@render videoBadgeMeta()}
 			</div>
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
@@ -160,6 +174,7 @@
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-mobile-list-img-{index}">
 				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
+				{@render videoBadgeOverlay()}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-mobile-list-panel-{index}">
@@ -170,7 +185,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadge()}
+				{@render videoBadgeMeta()}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
@@ -182,10 +197,22 @@
 <style>
 	/* Позначка «Відео» — той самий tag, лише з іконкою. Кольору типу тут не
 	   треба: він конкурував би з категорією, а сенс несе саме іконка. */
-	.tag--video {
+	.video-badge {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
+	}
+
+	/* Накладка в лівому верхньому куті зображення.
+	   `pointer-events: none` обов'язковий: під нею лежить посилання картки, і
+	   без цього позначка з'їдала б клік у своєму кутку. */
+	.video-badge--overlay {
+		position: absolute;
+		top: 0.6rem;
+		left: 0.6rem;
+		z-index: 2;
+		pointer-events: none;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 	}
 
 	/* ─── Carousel card ──────────────────────────────────── */
@@ -329,6 +356,8 @@
 	}
 
 	.grid-card__img-wrap {
+		/* Опора для накладки-позначки. */
+		position: relative;
 		flex: 0 0 35%;
 		display: flex;
 		align-items: center;
@@ -398,6 +427,8 @@
 	}
 
 	.list-item__img-wrap {
+		/* Опора для накладки-позначки. */
+		position: relative;
 		width: 90px;
 		aspect-ratio: 9 / 16;
 		height: auto;
