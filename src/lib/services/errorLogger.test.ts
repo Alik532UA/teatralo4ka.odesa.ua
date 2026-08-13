@@ -7,6 +7,17 @@ describe('ErrorLogger', () => {
 		vi.spyOn(console, 'error').mockImplementation(() => {});
 	});
 
+	it('без crypto.randomUUID логер не кидає — id усе одно є', () => {
+		// Поза secure context `crypto` існує, а методу в ньому немає. Логер
+		// викликається вже посеред обробки помилки, тож виняток тут перетворив
+		// би одну помилку на дві — і другу ловити нема кому.
+		vi.stubGlobal('crypto', {});
+		const id = errorLogger.logError(new Error('boom'));
+		expect(id).toMatch(/^err-\d+/);
+		expect(errorLogger.getCache()).toHaveLength(1);
+		vi.unstubAllGlobals();
+	});
+
 	it('returns an id when logging an error', () => {
 		const id = errorLogger.logError(new Error('test'));
 		expect(id).toBeTruthy();

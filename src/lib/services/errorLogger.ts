@@ -63,9 +63,14 @@ class ErrorLogger {
 	 * Log an error. Returns the generated error ID.
 	 */
 	logError(error: Error, context: Partial<ErrorEvent['context']> = {}): string {
-		const id = typeof crypto !== 'undefined'
-			? crypto.randomUUID()
-			: `err-${Date.now()}`;
+		// Перевіряється саме `randomUUID`, а не сам `crypto`: поза secure context
+		// об'єкт існує, а методу в ньому немає. Логер викликається з `handleError`,
+		// тобто вже посеред обробки помилки — виняток тут перетворив би одну
+		// помилку на дві, причому другу вже нікому не ловити.
+		const id =
+			typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+				? crypto.randomUUID()
+				: `err-${Date.now()}-${Math.round(performance.now())}`;
 
 		const message = redact(error.message);
 
