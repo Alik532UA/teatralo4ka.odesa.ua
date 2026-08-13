@@ -29,4 +29,7 @@
 	/* Interactive */
 	--border-main: var(--palette-navy-600);
 	--shadow-main: 0 10px 40px rgba(0, 0, 0, 0.4);
+
+	/* Світліший бурштин: темний amber-700 зі світлої теми на navy дав би 1.6:1. */
+	--warning-color: #fbbf24;
 }

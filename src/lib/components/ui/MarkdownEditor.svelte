@@ -101,7 +101,9 @@
 	}
 	.mde-container :global(.editor-preview) {
 		background: var(--color-surface);
-		color: var(--color-text-body);
+		/* --color-body-text, а не --color-text-body: друга назва не оголошена
+		   ніде, і текст прев'ю мовчки успадковував колір батька. */
+		color: var(--color-body-text);
 	}
 	/* Fix for dark theme preview */
 	.mde-container :global(.editor-preview h1),
