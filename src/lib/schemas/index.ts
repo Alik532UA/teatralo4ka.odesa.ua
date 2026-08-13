@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isSafeUrl } from '$lib/utils/safeUrl';
 
 export { NewsItemSchema, type NewsItem, validateNews } from './news';
 
@@ -59,12 +60,33 @@ export function validateGalleryImageArray(data: unknown[]): GalleryImage[] {
 /**
  * Схема для перекладу статті
  */
+/**
+ * Адреса, яку сайт покладе в `src` або віддасть плеєру.
+ *
+ * `coverUrl` раніше був простим `z.string()` — тобто в `<img src>` потрапляло
+ * що завгодно, тоді як сусідній `externalUrl` уже мав `.url()`. Тепер обидва
+ * медіа-поля проходять той самий allowlist схем, що й посилання меню
+ * (SECURITY-v8 § 5.1): непридатне значення ЗНИКАЄ, а не підмінюється тут.
+ */
+const optionalSafeUrl = z
+	.string()
+	.refine((v) => v === '' || isSafeUrl(v), { message: 'Непридатна схема адреси' })
+	.optional()
+	.catch(undefined);
+
 export const ArticleTranslationSchema = z.object({
 	title: z.string().default(''),
 	content: z.string().default(''),
 	excerpt: z.string().optional().default(''),
 	isPublished: z.boolean().default(false),
-	coverUrl: z.string().optional(),
+	coverUrl: optionalSafeUrl,
+	/**
+	 * Перевіряється тим самим allowlist-ом схем, що й обкладинка: поле йде в
+	 * `src` плеєра, і `javascript:`/`data:` там непотрібні так само.
+	 * Чи це справді відео і чи його можна вбудувати — вирішує
+	 * `utils/videoEmbed.ts` уже при показі.
+	 */
+	videoUrl: optionalSafeUrl,
 	contentFormat: z.enum(['markdown', 'html']).optional().default('markdown'),
 	externalUrl: z.string().url().optional().or(z.literal('')),
 });
