@@ -16,29 +16,79 @@
 	// status: 'hidden' -> 'appearing' -> 'idle'
 	let status = $state<'hidden' | 'appearing' | 'idle'>('hidden');
 
-	onMount(() => {
-		if (browser) {
-			const handleExit = () => {
-				status = 'appearing';
-				// 0.4s delay + 0.8s duration = 1.2s sequence. Buffer to 1.5s.
-				setTimeout(() => { status = 'idle'; }, 1500);
-			};
+	/**
+	 * Логотип з'являється синхронно з завершенням заставки.
+	 *
+	 * Подію `splash-logo-start` шле ЛИШЕ `+page.svelte`, тобто головна. Через це
+	 * на холодному першому візиті одразу на внутрішню сторінку — а це рівно те,
+	 * що робить відвідувач із результатів пошуку — логотип лишався
+	 * `data-status="hidden"` з `opacity: 0` НАЗАВЖДИ. Перевірено в браузері:
+	 * очистити localStorage, перейти на `/about` — логотипа в шапці немає.
+	 *
+	 * Чому саме так: `splash.js` ховає заставку одразу лише за наявності
+	 * `homeSettings` у сховищі (теплий старт). На холодному вона в DOM, і
+	 * `onMount` цього компонента бачить її раніше, ніж `$effect` у
+	 * `+layout.svelte` встигає її прибрати. Отже спрацьовував випадок 3 —
+	 * очікування події, якої на цьому маршруті не буде.
+	 *
+	 * Тому тут не одна умова, а страховка: перевірка ще раз на наступному кадрі
+	 * (заставку саме прибирає лейаут) плюс жорсткий запас часу. Заставка лежить
+	 * поверх усього з `z-index: 10000`, тож показати логотип під нею зарано —
+	 * невидимо для відвідувача, а не показати взагалі — видимий дефект.
+	 */
+	const IDLE_FALLBACK_MS = 3000;
 
-			const splash = document.getElementById('app-splash');
-			
-			// Case 1: Splash is not in DOM or explicitly hidden (warm start)
-			if (!splash || splash.style.display === 'none') {
-				status = 'idle';
-			}
-			// Case 2: Splash is already exiting (triggered in +page.svelte)
-			else if (splash.classList.contains('splash-exit')) {
-				handleExit();
-			}
-			// Case 3: Wait for custom event dispatched from +page.svelte
-			else {
-				window.addEventListener('splash-logo-start', handleExit, { once: true });
-			}
+	onMount(() => {
+		if (!browser) return;
+
+		const timers: ReturnType<typeof setTimeout>[] = [];
+		let done = false;
+
+		const toIdle = () => {
+			if (done) return;
+			done = true;
+			status = 'idle';
+		};
+
+		const handleExit = () => {
+			if (done) return;
+			done = true;
+			status = 'appearing';
+			// 0.4s delay + 0.8s duration = 1.2s sequence. Buffer to 1.5s.
+			timers.push(setTimeout(() => { status = 'idle'; }, 1500));
+		};
+
+		const splash = document.getElementById('app-splash');
+
+		// Case 1: Splash is not in DOM or explicitly hidden (warm start)
+		if (!splash || splash.style.display === 'none') {
+			toIdle();
+			return;
 		}
+
+		// Case 2: Splash is already exiting (triggered in +page.svelte)
+		if (splash.classList.contains('splash-exit')) {
+			handleExit();
+			return;
+		}
+
+		// Case 3: Wait for the event from the homepage — плюс дві страховки.
+		window.addEventListener('splash-logo-start', handleExit, { once: true });
+
+		// Наступний кадр: якщо заставки вже немає, її прибрав лейаут, бо це не
+		// головна. Події не буде — показуємо логотип без анімації появи.
+		const frame = requestAnimationFrame(() => {
+			if (!document.getElementById('app-splash')) toIdle();
+		});
+
+		// Останній рубіж на будь-який інший шлях, який ми не передбачили.
+		timers.push(setTimeout(toIdle, IDLE_FALLBACK_MS));
+
+		return () => {
+			window.removeEventListener('splash-logo-start', handleExit);
+			cancelAnimationFrame(frame);
+			timers.forEach(clearTimeout);
+		};
 	});
 </script>
 
