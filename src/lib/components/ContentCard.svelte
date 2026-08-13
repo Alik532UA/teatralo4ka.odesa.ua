@@ -427,6 +427,10 @@
 
 	.focus-card__excerpt {
 		color: var(--color-body-text);
+		/* `pre-line`: абзаци статті лишаються окремими рядками, як на її
+		   сторінці. Без цього браузер стискає переноси в пробіли, і опис
+		   читається суцільною стрічкою. */
+		white-space: pre-line;
 		line-height: 1.6;
 		margin-bottom: 2rem;
 		opacity: 0.8;
@@ -599,6 +603,7 @@
 
 	.list-item__excerpt {
 		color: var(--color-body-text);
+		white-space: pre-line;
 		font-size: 0.9rem;
 		line-height: 1.5;
 		opacity: 0.75;

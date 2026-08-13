@@ -102,7 +102,10 @@
 		if (translation) {
 			seo.update({
 				title: `${translation.title} - ${$t('seo.brandTitle')}`,
+				// Переноси тут зайві: це вміст `<meta name="description">`, рядок в
+				// одну лінію. Абзаци потрібні описам карток, не пошуковій видачі.
 				description: getContentExcerpt(translation.content || '', translation.contentFormat, 160)
+					.replace(/\n/g, ' ')
 			});
 		}
 	});

@@ -461,6 +461,8 @@
 	}
 
 	.toast-card__excerpt {
+		/* Як у картці новини: абзаци лишаються рядками. */
+		white-space: pre-line;
 		font-size: 0.8rem;
 		opacity: 0.8;
 		display: -webkit-box;

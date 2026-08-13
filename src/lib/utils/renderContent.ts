@@ -45,7 +45,23 @@ export function getContentExcerpt(content: string, format?: ContentFormat, maxLe
 	// html-гілка робила правильно з самого початку, тож тут не новий підхід,
 	// а той самий, застосований до обох форматів.
 	const html = format === 'html' ? content : (marked.parse(content) as string);
-	const plainText = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] })
+
+	// Межі абзаців стають переносами ДО зняття тегів.
+	//
+	// Раніше тут стояло `\s+ -> ' '`, і разом із зайвими пробілами зникали
+	// переноси між абзацами: оголошення з п'яти рядків («…з 17 серпня»,
+	// «Софіївська, 24», «чекає на учнів…») перетворювалося в описі картки на
+	// одну суцільну стрічку, де дата злипалася з адресою. На сторінці новини
+	// той самий текст стоїть рядками, і опис має читатися так само.
+	//
+	// marked уже ставить `\n` після блокових тегів, тож для markdown вставляти
+	// нічого не треба. Вставка потрібна для html із візуального редактора: там
+	// теги йдуть суцільно, без переносів між ними.
+	const withBreaks = html
+		.replace(/<br\s*\/?>/gi, '\n')
+		.replace(/<\/(p|div|li|h[1-6]|blockquote|tr)>(?!\n)/gi, '$&\n');
+
+	const plainText = DOMPurify.sanitize(withBreaks, { ALLOWED_TAGS: [] })
 		// Сутності лишаються від санітайзера текстом: «&amp;» замість «&».
 		.replace(/&amp;/g, '&')
 		.replace(/&lt;/g, '<')
@@ -53,7 +69,11 @@ export function getContentExcerpt(content: string, format?: ContentFormat, maxLe
 		.replace(/&quot;/g, '"')
 		.replace(/&#39;/g, "'")
 		.replace(/&nbsp;/g, ' ')
-		.replace(/\s+/g, ' ')
+		// Горизонтальні пробіли стискаються, переноси лишаються. Три й більше
+		// поспіль — це порожні абзаци розмітки, з них досить одного рядка.
+		.replace(/[^\S\n]+/g, ' ')
+		.replace(/ ?\n ?/g, '\n')
+		.replace(/\n{2,}/g, '\n')
 		.trim();
 
 	return plainText.length > maxLength ? plainText.slice(0, maxLength) + '...' : plainText;
