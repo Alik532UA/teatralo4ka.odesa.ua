@@ -33,7 +33,7 @@
 			<p>{$t('admin.accessDenied.description')}</p>
 			
 			<div class="denied-actions">
-				<a href="https://t.me/alik532" target="_blank" class="btn btn-primary" data-testid="admin-access-denied-contact-btn">
+				<a href="https://t.me/alik532" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-testid="admin-access-denied-contact-btn">
 					{$t('admin.accessDenied.contactIT')}
 				</a>
 				<button onclick={handleLogout} class="btn btn-outline" data-testid="admin-access-denied-logout-btn">

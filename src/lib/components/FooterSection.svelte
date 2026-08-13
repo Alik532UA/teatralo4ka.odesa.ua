@@ -171,6 +171,7 @@
 			<a
 				href="https://alik532ua.github.io/DigitalWorkshop/?tab=promo&theme=colorful"
 				target="_blank"
+				rel="noopener noreferrer"
 				class="footer__btn-order"
 				data-testid="footer-order-btn"
 			>
