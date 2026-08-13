@@ -50,6 +50,17 @@ describe('вимкнення', () => {
 	});
 });
 
+describe('де НЕ показувати ніколи', () => {
+	it('в адмінці не показується навіть режим «щоразу» зі scope «all»', () => {
+		// Попап поверх форми редагування заважає саме тому, хто цю новину й
+		// зробив гарячою; жодне налаштування цього не має скасовувати.
+		const cfg = config({ items: [item({ frequency: 'always', scope: 'all' })] });
+		expect(select({ config: cfg, pathname: '/admin/settings' })).toEqual([]);
+		expect(select({ config: cfg, pathname: '/admin' })).toEqual([]);
+		expect(select({ config: cfg, pathname: '/about' }), 'а поза адмінкою — показується').toHaveLength(1);
+	});
+});
+
 describe('частота', () => {
 	it('«один раз» більше не показується після показу', () => {
 		const cfg = config({ items: [item({ frequency: 'once' })] });

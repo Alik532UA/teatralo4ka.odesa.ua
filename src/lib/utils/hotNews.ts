@@ -126,6 +126,9 @@ export function selectHotNews({
 	seenSession
 }: SelectInput): HotNewsItem[] {
 	if (!config.enabled) return [];
+	// Адмінка — робоче місце, а не сторінка сайту. Попап поверх форми
+	// редагування новини заважає саме тому, хто цю новину й робить гарячою.
+	if (pathname.startsWith('/admin')) return [];
 
 	const forever = new Set(seenForever);
 	const inSession = new Set(seenSession);
