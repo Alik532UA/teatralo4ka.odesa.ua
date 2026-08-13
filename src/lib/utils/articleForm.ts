@@ -36,12 +36,39 @@ export interface SlugResult {
 }
 
 /**
+ * Роздільники, які стають підкресленням, а не викидаються.
+ *
+ * Пробіл був тут від початку; дефіси додані тому, що з чужих адрес копіюють
+ * саме їх — `pidsumky-festyvaliu-odesa-teatr-pro-2026`. Викидання перетворювало
+ * це на `pidsumkyfestyvaliuodesateatrpro2026`, тобто на нечитний рядок, який
+ * доводилося правити руками.
+ *
+ * Уся родина рисок, а не лише ASCII `-`: із Word і з веб-сторінок приїжджають
+ * en dash, em dash, нерозривний дефіс і математичний мінус, і на вигляд вони
+ * не відрізняються.
+ */
+const SEPARATORS = new Set([
+	' ',
+	'-', // hyphen-minus
+	'‐', // hyphen
+	'‑', // non-breaking hyphen
+	'‒', // figure dash
+	'–', // en dash
+	'—', // em dash
+	'―', // horizontal bar
+	'−' // minus sign
+]);
+
+/**
  * Приводить введене до вигляду `[a-z0-9_]`, зберігаючи позицію курсора.
  *
  * Курсор — не дрібниця: без поправки на викинуті символи він стрибає в кінець
  * рядка, і редагувати slug посеред тексту стає неможливо. Зсув рахується лише
  * за символами ЛІВОРУЧ від курсора — те, що викинуто праворуч, на його
  * позицію не впливає.
+ *
+ * Роздільник НЕ піднімає `hasForbidden`: він не втрачений, а перетворений, і
+ * попередження «прибрано недопустимі символи» тут було б неправдою.
  */
 export function sanitizeSlug({ raw, cursor }: SlugInput): SlugResult {
 	let slug = '';
@@ -50,7 +77,7 @@ export function sanitizeSlug({ raw, cursor }: SlugInput): SlugResult {
 
 	for (let i = 0; i < raw.length; i++) {
 		const char = raw[i];
-		if (char === ' ') {
+		if (SEPARATORS.has(char)) {
 			slug += '_';
 		} else if (/[A-Z]/.test(char)) {
 			slug += char.toLowerCase();

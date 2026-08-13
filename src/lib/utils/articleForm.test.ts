@@ -50,6 +50,35 @@ describe('sanitizeSlug', () => {
 	it('цифри та підкреслення проходять як є', () => {
 		expect(sanitizeSlug({ raw: 'fest_2026_01', cursor: 0 }).slug).toBe('fest_2026_01');
 	});
+
+	it('дефіси стають підкресленнями, а не викидаються', () => {
+		// Найчастіший спосіб заповнити це поле — вставити чужий slug із адреси.
+		// Викидання перетворювало його на суцільний нечитний рядок.
+		const raw = 'pidsumky-festyvaliu-odesa-teatr-pro-2026';
+		expect(sanitizeSlug({ raw, cursor: raw.length }).slug).toBe(
+			'pidsumky_festyvaliu_odesa_teatr_pro_2026'
+		);
+	});
+
+	it('уся родина рисок, а не лише ASCII-дефіс', () => {
+		// З Word і з веб-сторінок приїжджають en dash, em dash, нерозривний
+		// дефіс і математичний мінус — на вигляд вони не відрізняються.
+		const dashes = ['-', '‐', '‑', '‒', '–', '—', '―', '−'];
+		for (const d of dashes) {
+			const raw = `a${d}b`;
+			expect(sanitizeSlug({ raw, cursor: raw.length }).slug, JSON.stringify(d)).toBe('a_b');
+		}
+	});
+
+	it('роздільник не вважається забороненим символом', () => {
+		// Він не втрачений, а перетворений — попередження «прибрано недопустимі
+		// символи» тут було б неправдою.
+		expect(sanitizeSlug({ raw: 'a-b c', cursor: 5 }).hasForbidden).toBe(false);
+	});
+
+	it('роздільник не зсуває курсор — символ лишається, лише інший', () => {
+		expect(sanitizeSlug({ raw: 'ab-cd', cursor: 3 }).cursor).toBe(3);
+	});
 });
 
 describe('parseCategory', () => {
