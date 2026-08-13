@@ -172,6 +172,15 @@ export const session = {
 			return false;
 		}
 	},
+	remove(key: string): void {
+		const store = ss();
+		if (!store) return;
+		try {
+			store.removeItem(getStorageKey(key));
+		} catch (e) {
+			fail('session.remove', key, e);
+		}
+	},
 	getJSON<T>(key: string): T | null {
 		const raw = session.get(key);
 		if (raw === null) return null;

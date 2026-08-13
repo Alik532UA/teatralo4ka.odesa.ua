@@ -22,7 +22,12 @@ import {
   type ProjectsWidgetConfig,
   type GalleryWidgetConfig, type GalleryAspectRatio,
   KNOWN_PAGE_ROUTES,
+  getHotNewsSettings, updateHotNewsSettings,
 } from '$lib/services/settings';
+import {
+  DEFAULT_HOT_NEWS,
+  type HotNewsConfig, type HotNewsDisplayMode, type HotNewsFrequency, type HotNewsItem, type HotNewsScope
+} from '$lib/utils/hotNews';
 import Select from '$lib/components/ui/Select.svelte';
 import { SCROLLBAR_MODES, type ScrollbarMode } from '$lib/config/scrollbarModes';
 import { BACKGROUND_OPTIONS } from '$lib/config/backgroundOptions';
@@ -37,9 +42,10 @@ import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 import { ArrowUp, ArrowDown } from 'lucide-svelte';
 import { browser } from "$app/environment";
 import { getStaticProjectEntries } from '$lib/config/static-projects';
+import { session, storage } from '$lib/services/storage';
 
 // ── Tabs ──────────────────────────────────────────────────────────────────────
-type TabId = 'home' | 'news' | 'projects' | 'gallery' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
+type TabId = 'home' | 'news' | 'hotNews' | 'projects' | 'gallery' | 'cta' | 'headerBar' | 'navMenu' | 'ticker' | 'debug';
 
 type SubTabId = 'desktop' | 'mobile';
 type NewsSectionTabId = 'homeWidget' | 'pageWidget';
@@ -60,6 +66,7 @@ let galleryAboutSubTab = $state<SubTabId>('desktop');
 const TABS: { id: TabId; labelKey: string }[] = [
   { id: 'home',      labelKey: 'admin.settings.tabHome' },
   { id: 'news',      labelKey: 'admin.settings.tabNews' },
+  { id: 'hotNews',   labelKey: 'admin.settings.tabHotNews' },
   { id: 'projects',  labelKey: 'admin.settings.tabProjects' },
   { id: 'gallery',   labelKey: 'admin.settings.tabGallery' },
   { id: 'cta',       labelKey: 'admin.settings.tabCta' },
@@ -244,7 +251,7 @@ $effect(() => {
   }
 });
 
-let articlesList = $state<{ slug: string; path: string; titleUk: string; titleEn: string }[]>([]);
+let articlesList = $state<{ slug: string; path: string; titleUk: string; titleEn: string; updatedAt?: number }[]>([]);
 let articlesLoading = $state(false);
 
 function articleRoutePath(type: string | undefined, slug: string): string {
@@ -265,6 +272,9 @@ async function loadArticles() {
       return {
         slug,
         path: articleRoutePath(type, slug),
+        // Мітка правки — для гарячих новин: відредаговану новину треба показати
+        // ще раз тим, хто вже бачив стару (див. `seenKey` в utils/hotNews).
+        updatedAt: (d.data().updatedAt?.toMillis?.() as number) || undefined,
         titleUk: (d.data().translations?.uk?.title as string) || d.id,
         titleEn: (d.data().translations?.en?.title as string) || (d.data().translations?.uk?.title as string) || d.id,
       };
@@ -280,6 +290,90 @@ async function loadArticles() {
     articlesLoading = false;
   }
 }
+
+// ── Гарячі новини ────────────────────────────────────────────────────────────
+let hotNews = $state<HotNewsConfig>({ ...DEFAULT_HOT_NEWS, items: [] });
+let originalHotNews = $state(JSON.stringify({ ...DEFAULT_HOT_NEWS, items: [] }));
+const hasHotNewsChanges = $derived(JSON.stringify(hotNews) !== originalHotNews);
+let hotNewsSaving = $state(false);
+
+/** Гарячою може бути лише новина: сторінки й проєкти не мають стрічки, у якій їх шукати. */
+const newsArticles = $derived(articlesList.filter((a) => a.path.startsWith('/news/')));
+/** Уже додані ховаємо зі списку вибору — двічі одна новина не має сенсу. */
+const hotNewsCandidates = $derived(
+  newsArticles.filter((a) => !hotNews.items.some((i) => i.id === a.slug))
+);
+
+function hotNewsTitle(id: string): string {
+  return newsArticles.find((a) => a.slug === id)?.titleUk ?? id;
+}
+
+function addHotNewsItem(slug: string) {
+  if (!slug || hotNews.items.some((i) => i.id === slug)) return;
+  hotNews = {
+    ...hotNews,
+    items: [
+      ...hotNews.items,
+      {
+        id: slug,
+        enabled: true,
+        // Типово найтихіший режим із можливих: показ один раз і не на власній
+        // сторінці новини. Гучніші режими адміністратор вмикає свідомо.
+        frequency: 'once',
+        scope: 'exceptOwn',
+        order: hotNews.items.length,
+        // Мітка правки, щоб виправлену новину побачили й ті, хто бачив стару.
+        ...(newsArticles.find((a) => a.slug === slug)?.updatedAt
+          ? { version: newsArticles.find((a) => a.slug === slug)?.updatedAt }
+          : {})
+      }
+    ]
+  };
+}
+
+function patchHotNewsItem(id: string, patch: Partial<HotNewsItem>) {
+  hotNews = {
+    ...hotNews,
+    items: hotNews.items.map((i) => (i.id === id ? { ...i, ...patch } : i))
+  };
+}
+
+function removeHotNewsItem(id: string) {
+  hotNews = {
+    ...hotNews,
+    items: hotNews.items.filter((i) => i.id !== id).map((i, idx) => ({ ...i, order: idx }))
+  };
+}
+
+function moveHotNewsItem(index: number, delta: number) {
+  const arr = hotNews.items.slice();
+  const target = index + delta;
+  if (target < 0 || target >= arr.length) return;
+  [arr[index], arr[target]] = [arr[target], arr[index]];
+  hotNews = { ...hotNews, items: arr.map((i, idx) => ({ ...i, order: idx })) };
+}
+
+/**
+ * Скидання позначок «уже бачив» у ЦЬОМУ браузері.
+ *
+ * Без цього перевірити налаштування неможливо: після першого ж показу новина з
+ * частотою «один раз» більше не з'явиться, і адміністратор бачитиме порожній
+ * екран замість власних змін — і вирішить, що зламано.
+ */
+function forgetSeenHotNews() {
+  storage.remove('hotNewsSeen');
+  session.remove('hotNewsSeen');
+  toast.success($t('admin.settings.hotNewsForgotten'));
+}
+
+const HOT_NEWS_MODES: HotNewsDisplayMode[] = ['queue', 'stack2', 'all'];
+const HOT_NEWS_FREQUENCIES: HotNewsFrequency[] = ['once', 'session', 'always'];
+const HOT_NEWS_SCOPES: HotNewsScope[] = ['exceptOwn', 'all', 'home'];
+
+/** Список статей потрібен саме тут — без нього вкладку нічим наповнити. */
+$effect(() => {
+  if (activeTab === 'hotNews') untrack(() => loadArticles());
+});
 
 // ── Load ──────────────────────────────────────────────────────────────────────
 $effect(() => {
@@ -302,12 +396,13 @@ $effect(() => {
         (async () => {
         try {
           await authService.user?.getIdToken(true);
-          const [homeResult, headerResult, newsResult, projectsResult, aboutResult] = await Promise.all([
+          const [homeResult, headerResult, newsResult, projectsResult, aboutResult, hotNewsResult] = await Promise.all([
             getHomeSettings(),
             getHeaderSettings(),
             getNewsPageSettings(),
             getProjectsPageSettings(),
             getAboutPageSettings(),
+            getHotNewsSettings(),
           ]);
 
           // ── Home settings ──
@@ -333,6 +428,10 @@ $effect(() => {
           if (newsResult?.mobileNewsWidget) mobileNewsPageWidget = newsResult.mobileNewsWidget;
           originalNewsPageWidget = JSON.stringify(newsPageWidget);
           originalMobileNewsPageWidget = JSON.stringify(mobileNewsPageWidget);
+
+          // ── Гарячі новини ──
+          if (hotNewsResult) hotNews = hotNewsResult;
+          originalHotNews = JSON.stringify(hotNews);
 
           // ── Projects page settings ──
           if (projectsResult?.projectsWidget) projectsPageWidget = projectsResult.projectsWidget;
@@ -476,6 +575,20 @@ async function handleNewsPageSubmit() {
     toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
   } finally {
     newsPageSaving = false;
+  }
+}
+
+async function handleHotNewsSubmit() {
+  hotNewsSaving = true;
+  try {
+    await updateHotNewsSettings(hotNews);
+    originalHotNews = JSON.stringify(hotNews);
+    toast.success($t('admin.dashboard.saveSuccess'));
+  } catch (e: unknown) {
+    logError(e);
+    toast.error(e instanceof Error ? e.message : $t('admin.editor.errorSave'));
+  } finally {
+    hotNewsSaving = false;
   }
 }
 
@@ -1200,6 +1313,161 @@ async function handleAboutPageSubmit() {
 {/if}
 
 <!-- ══ Tab: Projects (homepage + projects page widgets) ═══════════════════ -->
+<!-- ══ Tab: Гарячі новини ══ -->
+{:else if activeTab === 'hotNews'}
+
+<div class="settings-card {hasHotNewsChanges ? 'has-changes' : ''}" data-testid="admin-settings-hotnews-card">
+<h2 class="settings-card__title">{$t('admin.settings.hotNewsTitle')}</h2>
+<p class="settings-card__desc">{$t('admin.settings.hotNewsDesc')}</p>
+
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+<li class="block-item">
+<span class="block-item__name">{$t('admin.settings.hotNewsEnabled')}</span>
+<label class="switch-label" style="margin-left: auto;">
+<input type="checkbox" class="switch-input" checked={hotNews.enabled} onchange={() => hotNews = { ...hotNews, enabled: !hotNews.enabled }} data-testid="admin-settings-hotnews-enabled-checkbox" />
+<span class="switch-slider"></span>
+</label>
+</li>
+
+<li class="block-item" class:opacity-muted={!hotNews.enabled}>
+<span class="block-item__name">{$t('admin.settings.hotNewsDisplayMode')}</span>
+<div class="mode-toggle-group">
+  {#each HOT_NEWS_MODES as mode (mode)}
+    <button type="button" class="mode-btn" class:active={hotNews.displayMode === mode} disabled={!hotNews.enabled} onclick={() => hotNews = { ...hotNews, displayMode: mode }}>
+      {$t(`admin.settings.hotNewsMode_${mode}`)}
+    </button>
+  {/each}
+</div>
+</li>
+
+<li class="block-item" class:opacity-muted={!hotNews.enabled}>
+<span class="block-item__name">{$t('admin.settings.hotNewsDuration')}</span>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => hotNews = { ...hotNews, durationMs: Math.max(5000, hotNews.durationMs - 5000) }} disabled={!hotNews.enabled || hotNews.durationMs <= 5000} title={$t('common.decrease')}>&minus;</button>
+  <input
+    type="number"
+    class="form-select number-input"
+    min="5"
+    max="300"
+    step="5"
+    disabled={!hotNews.enabled}
+    value={Math.round(hotNews.durationMs / 1000)}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => hotNews = { ...hotNews, durationMs: Math.min(300, Math.max(5, parseInt(e.currentTarget.value) || 30)) * 1000 }}
+  />
+  <button type="button" class="number-btn" onclick={() => hotNews = { ...hotNews, durationMs: Math.min(300000, hotNews.durationMs + 5000) }} disabled={!hotNews.enabled || hotNews.durationMs >= 300000} title={$t('common.increase')}>+</button>
+  <span class="input-hint">{$t('admin.settings.hotNewsSeconds')}</span>
+</div>
+</li>
+
+<li class="block-item" class:opacity-muted={!hotNews.enabled}>
+<span class="block-item__name">{$t('admin.settings.hotNewsDelay')}</span>
+<div class="number-input-group">
+  <button type="button" class="number-btn" onclick={() => hotNews = { ...hotNews, delayMs: Math.max(0, hotNews.delayMs - 500) }} disabled={!hotNews.enabled || hotNews.delayMs <= 0} title={$t('common.decrease')}>&minus;</button>
+  <input
+    type="number"
+    class="form-select number-input"
+    min="0"
+    max="10"
+    step="0.5"
+    disabled={!hotNews.enabled}
+    value={hotNews.delayMs / 1000}
+    onchange={(e: Event & { currentTarget: HTMLInputElement }) => hotNews = { ...hotNews, delayMs: Math.min(10, Math.max(0, parseFloat(e.currentTarget.value) || 0)) * 1000 }}
+  />
+  <button type="button" class="number-btn" onclick={() => hotNews = { ...hotNews, delayMs: Math.min(10000, hotNews.delayMs + 500) }} disabled={!hotNews.enabled || hotNews.delayMs >= 10000} title={$t('common.increase')}>+</button>
+  <span class="input-hint">{$t('admin.settings.hotNewsSeconds')}</span>
+</div>
+</li>
+</ul>
+
+<h3 class="settings-card__title" style="font-size: 1rem;">{$t('admin.settings.hotNewsList')}</h3>
+<p class="settings-card__desc">{$t('admin.settings.hotNewsListDesc')}</p>
+
+{#if hotNews.items.length === 0}
+  <p class="input-hint" style="margin-bottom: 1rem;" data-testid="admin-settings-hotnews-empty-text">{$t('admin.settings.hotNewsEmpty')}</p>
+{:else}
+<ul class="blocks-list" style="margin-bottom: 1.5rem;">
+{#each hotNews.items as hotItem, index (hotItem.id)}
+<li class="block-item" class:opacity-muted={!hotNews.enabled}>
+  <div class="hotnews-row">
+    <div class="hotnews-row__head">
+      <label class="switch-label">
+        <input type="checkbox" class="switch-input" checked={hotItem.enabled} onchange={() => patchHotNewsItem(hotItem.id, { enabled: !hotItem.enabled })} />
+        <span class="switch-slider"></span>
+      </label>
+      <span class="block-item__name" data-testid="admin-settings-hotnews-item-title-{index}">{hotNewsTitle(hotItem.id)}</span>
+      <div class="hotnews-row__actions">
+        <button type="button" class="number-btn" onclick={() => moveHotNewsItem(index, -1)} disabled={index === 0} title={$t('admin.settings.hotNewsMoveUp')} aria-label={$t('admin.settings.hotNewsMoveUp')}><ArrowUp size={14} /></button>
+        <button type="button" class="number-btn" onclick={() => moveHotNewsItem(index, 1)} disabled={index === hotNews.items.length - 1} title={$t('admin.settings.hotNewsMoveDown')} aria-label={$t('admin.settings.hotNewsMoveDown')}><ArrowDown size={14} /></button>
+        <button type="button" class="number-btn" onclick={() => removeHotNewsItem(hotItem.id)} title={$t('admin.settings.hotNewsRemove')} aria-label={$t('admin.settings.hotNewsRemove')} data-testid="admin-settings-hotnews-remove-btn-{index}">&times;</button>
+      </div>
+    </div>
+
+    <div class="hotnews-row__field">
+      <span class="input-hint">{$t('admin.settings.hotNewsFrequency')}</span>
+      <div class="mode-toggle-group">
+        {#each HOT_NEWS_FREQUENCIES as freq (freq)}
+          <button type="button" class="mode-btn" class:active={hotItem.frequency === freq} disabled={!hotNews.enabled} onclick={() => patchHotNewsItem(hotItem.id, { frequency: freq })}>
+            {$t(`admin.settings.hotNewsFreq_${freq}`)}
+          </button>
+        {/each}
+      </div>
+    </div>
+
+    <div class="hotnews-row__field">
+      <span class="input-hint">{$t('admin.settings.hotNewsScope')}</span>
+      <Select
+        style="max-width: 280px; min-width: 150px;"
+        value={hotItem.scope}
+        options={HOT_NEWS_SCOPES.map((sc) => ({ value: sc, label: $t(`admin.settings.hotNewsScope_${sc}`) }))}
+        onchange={(v) => patchHotNewsItem(hotItem.id, { scope: v as HotNewsScope })}
+        ariaLabel={$t('admin.settings.hotNewsScope')}
+        testId="admin-settings-hotnews-scope-select-{index}"
+      />
+    </div>
+  </div>
+</li>
+{/each}
+</ul>
+{/if}
+
+<div class="block-item">
+<span class="block-item__name">{$t('admin.settings.hotNewsAdd')}</span>
+<div class="pinned-select-wrapper">
+  {#if articlesLoading}
+    <span class="input-hint">{$t('admin.menuEditor.loadingArticles')}</span>
+  {:else if hotNewsCandidates.length === 0}
+    <span class="input-hint">{$t('admin.settings.hotNewsNoCandidates')}</span>
+  {:else}
+    <Select
+      style="max-width: 280px; min-width: 150px;"
+      value=""
+      options={[
+        { value: '', label: $t('admin.settings.hotNewsAddPlaceholder') },
+        ...hotNewsCandidates.map((a) => ({ value: a.slug, label: a.titleUk }))
+      ]}
+      onchange={(v) => addHotNewsItem(v)}
+      ariaLabel={$t('admin.settings.hotNewsAdd')}
+      testId="admin-settings-hotnews-add-select"
+    />
+  {/if}
+</div>
+</div>
+
+<div class="save-footer" style="display: flex; align-items: center; justify-content: space-between; margin-top: 2rem;">
+  <button type="button" class="me-reset-btn" onclick={forgetSeenHotNews} data-testid="admin-settings-hotnews-forget-btn">
+    {$t('admin.settings.hotNewsForget')}
+  </button>
+  <div style="display: flex; align-items: center;">
+  {#if hasHotNewsChanges}
+    <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
+  {/if}
+  <button type="button" onclick={handleHotNewsSubmit} disabled={hotNewsSaving || !hasHotNewsChanges} class="btn-save-small {hasHotNewsChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-hotnews-submit-btn">
+    {#if hotNewsSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+  </button>
+  </div>
+</div>
+</div>
+
 {:else if activeTab === 'projects'}
 
 {@render projectsSectionTabBar(projectsSectionTab, (v) => projectsSectionTab = v)}
@@ -1733,6 +2001,44 @@ async function handleAboutPageSubmit() {
   background: color-mix(in srgb, var(--accent-primary), transparent 90%);
   border-color: var(--accent-primary);
   color: var(--accent-primary);
+}
+
+/* ─── Рядок гарячої новини ─── */
+/* Три поля в одному рядку списку не вміщаються на телефоні, тому рядок
+   розгортається в колонку, а не стискає керування до нечитабельного. */
+.hotnews-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.hotnews-row__head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hotnews-row__actions {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+/* Відступ рівняється на перемикач угорі: поля читаються як підлеглі саме йому. */
+.hotnews-row__field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-left: 3.5rem;
+}
+
+@media (max-width: 640px) {
+  .hotnews-row__field {
+    padding-left: 0;
+  }
 }
 
 /* ─── Settings card ────────────────────────────────────── */

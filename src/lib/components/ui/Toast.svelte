@@ -123,7 +123,7 @@
 							{#if msg.card.category}<span class="toast-card__tag">{msg.card.category}</span>{/if}
 							{#if msg.card.date}<span class="toast-card__date">{msg.card.date}</span>{/if}
 						</span>
-						<span class="toast-card__title" data-testid="toast-text-label">{msg.card.title}</span>
+						<span class="toast-card__title" data-testid="toast-card-title">{msg.card.title}</span>
 						{#if msg.card.excerpt}
 							<span class="toast-card__excerpt">{msg.card.excerpt}</span>
 						{/if}
