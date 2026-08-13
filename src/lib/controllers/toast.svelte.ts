@@ -7,6 +7,28 @@ export interface ToastAction {
 	onAction: () => void;
 }
 
+/**
+ * Картка новини всередині тоста.
+ *
+ * Тост уміє показувати не лише рядок: гарячі новини показуються тією самою
+ * карткою, що й у списку. Реалізовано полем, а не окремим стеком, свідомо —
+ * інакше таймер, пауза на наведенні й прогрес-бар довелося б писати вдруге, і
+ * вони розійшлися б із цими при першій же правці. Пауза тут не косметика, а
+ * виконання WCAG 2.2.1.
+ */
+export interface ToastCard {
+	title: string;
+	excerpt: string;
+	date: string;
+	category: string;
+	coverUrl: string;
+	href: string;
+	videoUrl?: string;
+}
+
+/** Куди стає тост. `hot` — лівий нижній кут, окремо від решти. */
+export type ToastPlacement = 'corner' | 'hot';
+
 export interface ToastMessage {
 	id: number;
 	type: ToastType;
@@ -14,6 +36,11 @@ export interface ToastMessage {
 	action?: ToastAction;
 	duration: number;
 	anchor?: HTMLElement;
+	placement?: ToastPlacement;
+	/** Коли задано — тост малює картку замість тексту. */
+	card?: ToastCard;
+	/** Довільний ключ від викликача: за ним він упізнає свій тост при закритті. */
+	key?: string;
 }
 
 interface TimerInfo {
@@ -45,14 +72,29 @@ class ToastState {
 	}
 
 	add(type: ToastType, message: string, duration = 4000, action?: ToastAction, anchor?: HTMLElement) {
+		return this.push({ type, message, duration, action, anchor });
+	}
+
+	/**
+	 * Повна форма додавання. `add`/`success`/`error`/`info` лишаються короткими
+	 * обгортками над нею — вони покривають дев'ять із десяти випадків.
+	 */
+	push(msg: Omit<ToastMessage, 'id'>): number {
 		const id = this.nextId++;
-		this.messages.push({ id, type, message, action, duration, anchor });
-		if (this.messages.length > MAX_TOASTS) {
-			this.remove(this.messages[0].id);
+		const placement = msg.placement ?? 'corner';
+		this.messages.push({ ...msg, id, placement });
+
+		// Ліміт рахується В МЕЖАХ розміщення: інакше сповіщення про новину
+		// витісняло б тост «адресу скопійовано» й навпаки, хоч вони на різних
+		// краях екрана й одне одному не заважають.
+		const sameSpot = this.messages.filter((m) => (m.placement ?? 'corner') === placement);
+		if (sameSpot.length > MAX_TOASTS) {
+			this.remove(sameSpot[0].id);
 		}
-		const info: TimerInfo = { id, timerId: null, startTime: 0, elapsed: 0, duration, holds: 0 };
+		const info: TimerInfo = { id, timerId: null, startTime: 0, elapsed: 0, duration: msg.duration, holds: 0 };
 		this.timers.set(id, info);
 		this._arm(info);
+		return id;
 	}
 
 	success(message: string, duration = 4000, action?: ToastAction, anchor?: HTMLElement) {
