@@ -1,7 +1,11 @@
 // @vitest-environment node
+/* eslint-disable no-script-url -- це тест НА відкидання `javascript:`: без самих
+   цих рядків він не перевіряв би нічого. Правило створене проти таких адрес
+   у КОДІ, а тут вони є вхідними даними для перевірки. */
 import { describe, expect, it, vi } from 'vitest';
 import {
 	BlocksSchema,
+	CtaConfigSchema,
 	GalleryWidgetConfigSchema,
 	MenuConfigOverrideSchema,
 	NewsWidgetConfigSchema,
@@ -157,5 +161,73 @@ describe('parseOrUndefined', () => {
 		expect(parseOrUndefined(MenuConfigOverrideSchema, null)).toBeUndefined();
 		expect(warn).not.toHaveBeenCalled();
 		warn.mockRestore();
+	});
+});
+
+
+describe('адреси в меню й CTA', () => {
+	/**
+	 * Меню й кнопка-CTA рендеряться на КОЖНІЙ сторінці, а `href` йшов у
+	 * `<a href={item.href}>` без будь-якої перевірки схеми. Svelte екранує
+	 * текст, але не значення атрибута, тож `javascript:` у Firestore був би
+	 * робочим XSS у кожного відвідувача (SECURITY-v8 § 5.1).
+	 */
+	it('непридатна схема відкидає href, а не пункт меню', () => {
+		const out = MenuConfigOverrideSchema.parse({
+			items: [{ id: 'home', labelUk: 'Головна', href: 'javascript:alert(1)' }]
+		});
+
+		expect(out.items, 'пункт має вціліти й взяти типовий href зі злиття').toHaveLength(1);
+		expect(out.items?.[0].labelUk).toBe('Головна');
+		expect(out.items?.[0].href).toBeUndefined();
+	});
+
+	it('відкидає всі форми запису, які браузер виконає', () => {
+		const tab = String.fromCharCode(0x09);
+		for (const href of [
+			'javascript:alert(1)',
+			'JaVaScRiPt:alert(1)',
+			`java${tab}script:alert(1)`,
+			'data:text/html,<script>alert(1)</script>',
+			'vbscript:msgbox(1)'
+		]) {
+			const out = MenuConfigOverrideSchema.parse({ items: [{ id: 'x', href }] });
+			expect(out.items?.[0].href, href).toBeUndefined();
+		}
+	});
+
+	it('звичайні адреси проходять без змін', () => {
+		const out = MenuConfigOverrideSchema.parse({
+			items: [
+				{ id: 'a', href: '/news' },
+				{ id: 'b', href: 'https://t.me/example' },
+				{ id: 'c', href: 'mailto:hello@example.com' },
+				{ id: 'd', href: 'tel:+380671234567' },
+				{ id: 'e', href: '#anchor' }
+			]
+		});
+		expect(out.items?.map((i) => i.href)).toEqual([
+			'/news',
+			'https://t.me/example',
+			'mailto:hello@example.com',
+			'tel:+380671234567',
+			'#anchor'
+		]);
+	});
+
+	it('null у href розділу зберігається — це «без посилання», а не помилка', () => {
+		const out = MenuConfigOverrideSchema.parse({ sections: [{ id: 's', href: null }] });
+		expect(out.sections?.[0].href).toBeNull();
+	});
+
+	it('CTA: і href, і старий linkValue проходять ту саму перевірку', () => {
+		const out = CtaConfigSchema.parse({
+			href: 'javascript:alert(1)',
+			linkValue: 'javascript:alert(2)',
+			labelUk: 'Записатися'
+		});
+		expect(out.href, 'href з кодом має зникнути').toBeUndefined();
+		expect(out.linkValue, 'шлях міграції не має бути обходом').toBeUndefined();
+		expect(out.labelUk, 'решта CTA має вціліти').toBe('Записатися');
 	});
 });

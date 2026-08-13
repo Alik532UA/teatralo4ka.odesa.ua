@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { SCROLLBAR_MODE_IDS } from '$lib/config/scrollbarModes';
 import { BACKGROUND_TYPE_IDS } from '$lib/config/backgroundOptions';
+import { isSafeUrl } from '$lib/utils/safeUrl';
 
 /**
  * Валідація налаштувань, що приходять із Firestore.
@@ -26,6 +27,22 @@ import { BACKGROUND_TYPE_IDS } from '$lib/config/backgroundOptions';
 function optional<T>(schema: z.ZodType<T>) {
 	return schema.optional().catch(undefined);
 }
+
+/**
+ * Адреса, яку сайт покладе в `href`.
+ *
+ * Тут, а не в компоненті: меню й кнопка-CTA рендеряться на КОЖНІЙ сторінці, а
+ * `href` до цього був звичайним `z.string()`. Тобто `javascript:…`, записаний
+ * у Firestore, виконався б у кожного відвідувача на кожній сторінці — правила
+ * Firestore перевіряють, хто пише, і не перевіряють що (SECURITY-v8 § 1.3).
+ *
+ * Схема лишається в своєму жанрі: непридатна адреса зникає (`optional`), а
+ * пункт меню бере типове значення зі злиття `{ ...DEFAULT, ...validated }`.
+ * Підставити тут `'#'` означало б завести друге джерело правди про типові.
+ */
+const HrefSchema = z.string().refine(isSafeUrl, {
+	message: 'Непридатна схема адреси — дозволені лише http(s), mailto, tel і внутрішні шляхи'
+});
 
 // ── Блоки головної ────────────────────────────────────────────────────────────
 
@@ -110,7 +127,7 @@ export const MenuItemOverrideSchema = z.object({
 	labelUk: optional(z.string().nullable()),
 	labelEn: optional(z.string().nullable()),
 	linkType: optional(MenuLinkTypeSchema),
-	href: optional(z.string()),
+	href: optional(HrefSchema),
 	visible: optional(z.boolean()),
 	order: optional(z.number().int()),
 	custom: optional(z.boolean()),
@@ -127,7 +144,7 @@ export const MenuSectionOverrideSchema = z.object({
 	id: z.string().min(1),
 	labelUk: optional(z.string().nullable()),
 	labelEn: optional(z.string().nullable()),
-	href: optional(z.string().nullable()),
+	href: optional(HrefSchema.nullable()),
 	linkType: optional(MenuLinkTypeSchema),
 	visible: optional(z.boolean()),
 	order: optional(z.number().int()),
@@ -153,9 +170,10 @@ export const CtaConfigSchema = z.object({
 	labelUk: optional(z.string()),
 	labelEn: optional(z.string()),
 	linkType: optional(MenuLinkTypeSchema),
-	href: optional(z.string()),
-	/** Стара форма, яку `settings.ts` мігрує в `href`. */
-	linkValue: optional(z.string())
+	href: optional(HrefSchema),
+	/** Стара форма, яку `settings.ts` мігрує в `href`. Та сама перевірка: інакше шлях
+	    міграції став би обходом для `href`. */
+	linkValue: optional(HrefSchema)
 });
 
 export const TickerConfigSchema = z.object({

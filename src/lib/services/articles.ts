@@ -14,6 +14,7 @@ import { ArticleSchema } from "../schemas";
 import type { ArticleCategory } from "../config/categories";
 import { getCategoryLabel } from "../config/categories";
 import { getContentExcerpt } from "../utils/renderContent";
+import { isSafeUrl } from "../utils/safeUrl";
 import type { ContentCardItem } from "../components/ContentCard.svelte";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
@@ -159,7 +160,10 @@ export function mapArticleToWidgetItem(article: Article, lang: 'uk' | 'en', inde
       )
     : '';
   const customExcerpt = (tr.excerpt || '').trim();
-  const externalUrl = (tr.externalUrl || '').trim();
+  // Адреса приходить із Firestore і йде прямо в `href` картки на головній та
+  // в списках. Непридатна схема (`javascript:`, `data:`) тут відкидається, і
+  // картка стає звичайним посиланням на статтю — SECURITY-v8 § 5.1.
+  const externalUrl = isSafeUrl(tr.externalUrl?.trim()) ? tr.externalUrl.trim() : '';
   return {
     id: article.id ?? '',
     slug: article.slug,
