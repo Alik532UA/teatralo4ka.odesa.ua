@@ -2,6 +2,7 @@
 	import { onMount } from "svelte";
 	import { fade } from "svelte/transition";
 	import { t } from "svelte-i18n";
+	import { X } from "lucide-svelte";
 	import { SvelteSet } from "svelte/reactivity";
 
 	interface Props {
@@ -208,11 +209,15 @@
 		onclick={(e) => e.target === e.currentTarget && onClose()} 
 		data-testid="piano-modal-overlay-container"
 	>
-	   <button 
-	   		class="close-btn" 
-			onclick={onClose} 
+	   <button
+			type="button"
+			class="close-btn"
+			onclick={onClose}
+			aria-label={$t('common.close')}
 			data-testid="piano-modal-close-btn"
-		>&times;</button>
+		>
+			<X size={32} aria-hidden="true" />
+		</button>
        
 	   <section id="wrap" data-testid="piano-modal-content-container">
 		   <header class="piano-header" data-testid="piano-modal-header">
@@ -329,14 +334,17 @@
 		position: absolute;
 		top: 20px;
 		right: 30px;
+		width: 48px;
+		height: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		background: none;
 		border: none;
+		border-radius: 50%;
 		color: white;
-		font-size: 3rem;
 		cursor: pointer;
 		z-index: 10001;
-		line-height: 1;
-		transition: transform 0.2s;
 	}
 
 	.close-btn:hover {
