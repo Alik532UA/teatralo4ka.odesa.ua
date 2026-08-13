@@ -1021,7 +1021,10 @@
 	.header__cta:hover {
 		transform: scale(1.03);
 		background: var(--header-nav-active) !important;
-		color: var(--text-on-accent) !important;
+		/* НЕ --text-on-accent: тло тут --header-nav-active, а не
+		   --accent-primary, і в світлій темі це давало #00242F на #003646.
+		   Значення по темах — у файлах тем. */
+		color: var(--header-cta-hover-text) !important;
 	}
 
 	.header__burger {

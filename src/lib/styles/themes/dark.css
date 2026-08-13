@@ -23,6 +23,9 @@
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);
 	--header-nav-active: var(--text-main);
+	/* Тут тло при наведенні — cyan-50, тобто майже біле. Отже текст ТЕМНИЙ:
+	   світлий, доречний у світлій темі, зник би на ньому. Див. light.css. */
+	--header-cta-hover-text: var(--palette-navy-900);
 	--btn-all-bg: var(--text-title);
 	--footer-text: var(--text-main);
 

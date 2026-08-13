@@ -19,6 +19,8 @@
 	/* Component Specific */
 	--header-nav-link: var(--text-main);
 	--header-nav-active: var(--accent-primary);
+	/* Тло при наведенні — navy-900. Див. light.css. */
+	--header-cta-hover-text: var(--palette-white);
 	--btn-all-bg: var(--text-title);
 	--footer-text: var(--accent-primary);
 
