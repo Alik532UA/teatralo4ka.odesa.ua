@@ -20,3 +20,32 @@ export async function gotoReady(page: Page, path: string) {
 	await expect(page.locator('h1, h2').first()).toBeVisible({ timeout: 15_000 });
 	return response;
 }
+
+/**
+ * Дочекатися, поки скінченні анімації добіжать до кінця.
+ *
+ * Потрібне перед axe. `.page-content` з'являється через
+ * `animation: fadeInUp 0.6s`, а `fadeInUp` починається з `opacity: 0` — тож
+ * поки анімація триває, увесь текст сторінки НАПІВПРОЗОРИЙ. axe рахує колір із
+ * урахуванням прозорості й бачить те, чого на екрані вже за півсекунди немає.
+ *
+ * Це давало нестабільний тест: `/admission` і `/departments/music` падали з
+ * «insufficient color contrast 3.18 (foreground #509ab1)», де #509ab1 — це
+ * `--text-main` (#006c8d) під альфою 0.69, тобто кадр посеред появи. Різні
+ * елементи давали різну альфу, бо анімації в них зміщені. Більшість прогонів
+ * проходила, і саме тому дефект прожив довго: зелений тест читався як доказ.
+ *
+ * Нескінченні анімації (пульсація логотипа, фонові полотна) відкидаються —
+ * їх чекати нема сенсу, вони не закінчаться ніколи.
+ */
+export async function waitForAnimations(page: Page) {
+	await page.waitForFunction(
+		() =>
+			document
+				.getAnimations()
+				.filter((a) => (a.effect?.getTiming().iterations ?? 1) !== Infinity)
+				.every((a) => a.playState === 'finished' || a.playState === 'idle'),
+		undefined,
+		{ timeout: 10_000 }
+	);
+}

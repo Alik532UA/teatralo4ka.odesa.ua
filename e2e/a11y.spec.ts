@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { PUBLIC_PAGES } from './pages';
-import { gotoReady } from './ready';
+import { gotoReady, waitForAnimations } from './ready';
 
 /**
  * Автоматичний аудит доступності (ACCESSIBILITY-v8 § 10).
@@ -30,6 +30,9 @@ test.describe('axe без порушень', () => {
 			);
 
 			await gotoReady(page, path);
+			// Без цього axe міряє контраст ПОСЕРЕД появи сторінки, коли текст ще
+			// напівпрозорий, і тест стає нестабільним. Подробиці — у `ready.ts`.
+			await waitForAnimations(page);
 
 			const { violations } = await new AxeBuilder({ page }).withTags(TAGS).analyze();
 
