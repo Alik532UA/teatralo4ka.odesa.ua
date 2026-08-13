@@ -26,7 +26,7 @@ import {
 } from '$lib/services/settings';
 import {
   DEFAULT_HOT_NEWS,
-  type HotNewsConfig, type HotNewsDisplayMode, type HotNewsFrequency, type HotNewsItem, type HotNewsScope
+  type HotNewsConfig, type HotNewsCorner, type HotNewsDisplayMode, type HotNewsFrequency, type HotNewsItem, type HotNewsScope
 } from '$lib/utils/hotNews';
 import Select from '$lib/components/ui/Select.svelte';
 import { SCROLLBAR_MODES, type ScrollbarMode } from '$lib/config/scrollbarModes';
@@ -366,6 +366,7 @@ function forgetSeenHotNews() {
   toast.success($t('admin.settings.hotNewsForgotten'));
 }
 
+const HOT_NEWS_CORNERS: HotNewsCorner[] = ['bottomRight', 'bottomLeft', 'topRight', 'topLeft'];
 const HOT_NEWS_MODES: HotNewsDisplayMode[] = ['queue', 'stack2', 'all'];
 const HOT_NEWS_FREQUENCIES: HotNewsFrequency[] = ['once', 'session', 'always'];
 const HOT_NEWS_SCOPES: HotNewsScope[] = ['exceptOwn', 'all', 'home'];
@@ -1327,6 +1328,20 @@ async function handleAboutPageSubmit() {
 <input type="checkbox" class="switch-input" checked={hotNews.enabled} onchange={() => hotNews = { ...hotNews, enabled: !hotNews.enabled }} data-testid="admin-settings-hotnews-enabled-checkbox" />
 <span class="switch-slider"></span>
 </label>
+</li>
+
+<li class="block-item" class:opacity-muted={!hotNews.enabled}>
+<span class="block-item__name">{$t('admin.settings.hotNewsPosition')}</span>
+<div style="margin-left: auto;">
+  <Select
+    style="max-width: 280px; min-width: 150px;"
+    value={hotNews.position}
+    options={HOT_NEWS_CORNERS.map((c) => ({ value: c, label: $t(`admin.settings.hotNewsPos_${c}`) }))}
+    onchange={(v) => hotNews = { ...hotNews, position: v as HotNewsCorner }}
+    ariaLabel={$t('admin.settings.hotNewsPosition')}
+    testId="admin-settings-hotnews-position-select"
+  />
+</div>
 </li>
 
 <li class="block-item" class:opacity-muted={!hotNews.enabled}>
