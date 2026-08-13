@@ -18,9 +18,20 @@
 	 */
 	const isNarrow = new MediaQuery('(max-width: 600px)');
 
-	/** Гарячі новини мають власний куток — лівий нижній, окремо від решти. */
-	const hotMsgs = $derived(toast.messages.filter((m) => m.placement === 'hot'));
-	const cornerMsgs = $derived(toast.messages.filter((m) => m.placement !== 'hot'));
+	/**
+	 * Гарячі новини мають власний куток — лівий нижній, окремо від решти.
+	 *
+	 * Окремий він лише на широкому екрані. На телефоні обидва кутки — це та сама
+	 * смуга внизу на всю ширину, і два стеки просто накрили б один одного. Тому
+	 * там гарячі новини йдуть у той самий стек, що й решта, — так само, як туди
+	 * зливаються анкорні тости.
+	 */
+	const hotMsgs = $derived(
+		isNarrow.current ? [] : toast.messages.filter((m) => m.placement === 'hot')
+	);
+	const cornerMsgs = $derived(
+		isNarrow.current ? toast.messages : toast.messages.filter((m) => m.placement !== 'hot')
+	);
 
 	const globalMsgs = $derived(cornerMsgs.filter((m) => !m.anchor || isNarrow.current));
 	const anchoredMsgs = $derived(cornerMsgs.filter((m) => m.anchor && !isNarrow.current));
