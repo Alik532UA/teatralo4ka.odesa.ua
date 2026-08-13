@@ -668,7 +668,12 @@
 		top: -100%;
 		left: var(--space-md);
 		background: var(--text-title);
-		color: var(--color-white);
+		/* Тло тут — колір ТЕКСТУ (--text-title / --text-main), а такі токени
+		   різняться між темами до протилежного: у світлій це темно-синій, у
+		   темній — майже білий. Тому текст на них не може бути ні білим, ні
+		   navy-900 — жодне не проходить в обох. `--bg-card` є інверсією до
+		   текстових токенів у кожній темі, тож дає ≥5.4:1 у всіх чотирьох. */
+		color: var(--bg-card);
 		padding: var(--space-sm) var(--space-md);
 		border-radius: var(--radius-sm);
 		z-index: 200;
@@ -906,7 +911,8 @@
 	.header__nav-dropdown-link:hover,
 	.header__nav-dropdown-link.active {
 		background: var(--color-ice-blue);
-		color: var(--accent-primary);
+		/* --accent-text, не --accent-primary: тло світле, і сам акцент дав би 2.16:1. */
+		color: var(--accent-text);
 		padding-left: var(--space-md);
 	}
 

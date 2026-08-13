@@ -665,7 +665,7 @@
 		font-size: 0.7rem;
 		font-weight: 700;
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 		padding: 0.1rem 0.45rem;
 		border-radius: 999px;
 	}
@@ -746,7 +746,7 @@
 	.me-save-btn {
 		padding: 0.5rem 1.2rem;
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 		border: none;
 		border-radius: 8px;
 		cursor: pointer;
@@ -848,7 +848,7 @@
 	.me-tab--active {
 		background: var(--accent-primary);
 		border-color: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 	}
 
 	.me-select {
@@ -968,7 +968,7 @@
 	}
 
 	:global(.btn-save-small.is-active) {
-		background: #10b981 !important;
+		background: #047857 !important;
 		color: white;
 		opacity: 1;
 		cursor: pointer;

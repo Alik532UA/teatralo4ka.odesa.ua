@@ -314,7 +314,8 @@
 	.hero__contact-btn:hover {
 		box-shadow: 0 12px 25px rgba(0,0,0,0.12);
 		border-color: var(--accent-primary);
-		color: var(--accent-primary);
+		/* Тло при наведенні світле — потрібен темніший акцент. */
+		color: var(--accent-text);
 	}
 
 	/* Responsive */

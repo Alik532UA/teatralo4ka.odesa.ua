@@ -161,7 +161,9 @@
 
 	.btn-confirm {
 		background: var(--color-ocean, #0077be);
-		color: white;
+		/* --color-ocean тепер псевдонім --accent-primary, тобто #00b5ec:
+		   білий на ньому 2.38:1. */
+		color: var(--text-on-accent);
 	}
 	.btn-confirm:hover {
 		opacity: 0.9;

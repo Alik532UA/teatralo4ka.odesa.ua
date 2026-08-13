@@ -580,7 +580,7 @@
 
 	.tool-btn.active {
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 	}
 
 	/* ── Table tools (smaller) ─────────────────────────────────────────────── */
@@ -727,7 +727,7 @@
 	.mode-tab.active {
 		background: var(--accent-primary);
 		border-color: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 	}
 
 	/* ── HTML source textarea ──────────────────────────────────────────────── */

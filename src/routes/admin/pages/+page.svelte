@@ -299,7 +299,7 @@
 .pl-back-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--color-border); color: var(--color-muted-text); text-decoration: none; flex-shrink: 0; transition: all 0.15s; }
 .pl-back-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
 .pl-title { font-family: var(--font-heading); color: var(--text-title); font-size: 1.8rem; margin: 0; }
-.pl-count { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; padding: 0 8px; background: var(--accent-primary); color: #fff; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+.pl-count { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; padding: 0 8px; background: var(--accent-primary); color: var(--text-on-accent); border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
 .pl-create-btn { display: flex; align-items: center; white-space: nowrap; }
 
 /* Filter Bar shared styles */
@@ -313,8 +313,8 @@
 .mode-toggle-group { display: flex; background: var(--color-ice-blue); padding: 0.25rem; border-radius: 12px; border: 1px solid rgba(0, 95, 174, 0.08); }
 :global(.dark-theme) .mode-toggle-group { background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); }
 .mode-btn { padding: 0.4rem 1rem; border-radius: 10px; border: none; background: transparent; font-size: 0.82rem; font-weight: 700; color: var(--color-muted-text); cursor: pointer; transition: all 0.2s; }
-.mode-btn.active { background: var(--bg-card); color: var(--accent-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-:global(.dark-theme) .mode-btn.active { background: var(--accent-primary); color: white; }
+.mode-btn.active { background: var(--bg-card); color: var(--accent-text); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+:global(.dark-theme) .mode-btn.active { background: var(--accent-primary); color: var(--text-on-accent); }
 
 /* List */
 .pl-list { display: flex; flex-direction: column; gap: 0.75rem; }
@@ -344,8 +344,8 @@
 /* Actions */
 .pl-actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
 .pl-action-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border-radius: 14px; font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: none; border: 2px solid transparent; transition: all 0.2s; }
-.pl-edit-btn { background: var(--color-ice-blue); color: var(--accent-primary); }
-.pl-edit-btn:hover { background: var(--accent-primary); color: #fff; box-shadow: 0 4px 12px rgba(33, 150, 186, 0.2); }
+.pl-edit-btn { background: var(--color-ice-blue); color: var(--accent-text); }
+.pl-edit-btn:hover { background: var(--accent-primary); color: var(--text-on-accent); box-shadow: 0 4px 12px rgba(33, 150, 186, 0.2); }
 .pl-delete-btn { background: none; color: var(--color-muted-text); border-color: var(--color-border); padding: 0.55rem; }
 .pl-delete-btn:hover { background: rgba(239, 68, 68, 0.08); border-color: #ef4444; color: #ef4444; }
 

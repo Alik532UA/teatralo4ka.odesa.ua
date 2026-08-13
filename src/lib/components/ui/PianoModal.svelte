@@ -406,7 +406,7 @@
 
 	.toggle-btn.active {
 		background: var(--accent-primary);
-		color: white;
+		color: var(--text-on-accent);
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 	}
 

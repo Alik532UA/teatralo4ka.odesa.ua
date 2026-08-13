@@ -501,7 +501,7 @@
 	height: 28px;
 	padding: 0 8px;
 	background: var(--accent-primary);
-	color: #fff;
+	color: var(--text-on-accent);
 	border-radius: 20px;
 	font-size: 0.8rem;
 	font-weight: 700;
@@ -581,7 +581,7 @@
 .cl-type-tab.active {
 	border-color: var(--accent-primary);
 	background: var(--accent-primary);
-	color: #fff;
+	color: var(--text-on-accent);
 }
 .cl-tab-count {
 	display: inline-flex;
@@ -853,11 +853,11 @@
 }
 .cl-edit-btn {
 	background: var(--color-ice-blue);
-	color: var(--accent-primary);
+	color: var(--accent-text);
 }
 .cl-edit-btn:hover {
 	background: var(--accent-primary);
-	color: #fff;
+	color: var(--text-on-accent);
 	box-shadow: 0 4px 12px rgba(33, 150, 186, 0.2);
 }
 .cl-delete-btn {
@@ -897,12 +897,12 @@
 }
 .mode-btn.active {
 	background: var(--bg-card);
-	color: var(--accent-primary);
+	color: var(--accent-text);
 	box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 :global(.dark-theme) .mode-btn.active {
 	background: var(--accent-primary);
-	color: white;
+	color: var(--text-on-accent);
 }
 
 /* Skeleton */

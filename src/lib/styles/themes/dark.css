@@ -19,6 +19,8 @@
 	/* Semantic Accents */
 	--accent-primary: var(--palette-blue);
 	--accent-secondary: var(--palette-yellow);
+	/* Тло під таким текстом тут темне — акцент читається як є. Див. light.css. */
+	--accent-text: var(--accent-primary);
 	
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);

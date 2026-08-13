@@ -59,7 +59,7 @@
 		border-radius: var(--radius-md);
 		border: 1px solid var(--accent-primary);
 		background: var(--color-surface);
-		color: var(--accent-primary);
+		color: var(--accent-text);
 		cursor: pointer;
 		font-weight: 700;
 		transition: all var(--transition-fast);
@@ -67,6 +67,6 @@
 
 	button:hover {
 		background: var(--accent-primary);
-		color: var(--color-white);
+		color: var(--text-on-accent);
 	}
 </style>

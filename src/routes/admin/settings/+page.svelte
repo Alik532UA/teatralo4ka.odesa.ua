@@ -1700,7 +1700,7 @@ async function handleAboutPageSubmit() {
 
 .tab-btn.active {
   background: var(--accent-primary);
-  color: white;
+  color: var(--text-on-accent);
   box-shadow: 0 4px 12px rgba(0, 95, 174, 0.2);
 }
 
@@ -1877,13 +1877,13 @@ color: var(--color-dark-text);
 
 .mode-btn.active {
   background: var(--bg-card);
-  color: var(--accent-primary);
+  color: var(--accent-text);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 :global(.dark-theme) .mode-btn.active {
   background: var(--accent-primary);
-  color: white;
+  color: var(--text-on-accent);
 }
 
 .mode-btn:disabled {
@@ -2071,7 +2071,7 @@ pointer-events: none;
 }
 
 :global(.btn-save-small.is-active) {
-  background: #10b981 !important;
+  background: #047857 !important;
   color: white;
   opacity: 1;
   cursor: pointer;

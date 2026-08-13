@@ -614,7 +614,7 @@
 	<div class="user-card v3-modern {isSelf(user.id) ? 'is-self' : ''} {hasChanges ? 'has-changes' : ''}" data-testid="admin-users-row-{user.id}">
 		{#if isSelf(user.id)}<div class="self-tag"><UserCheck size={14} /> {$t('admin.users.itsYou')}</div>{/if}
 		<div class="v3-header">
-			<div class="user-avatar" style={user.isSuperAdmin ? 'background: #ef4444; color: white;' : ''}>
+			<div class="user-avatar" style={user.isSuperAdmin ? 'background: #dc2626; color: white;' : ''}>
 				{#if user.isSuperAdmin}<Shield size={24} />{:else}<UserIcon size={24} />{/if}
 			</div>
 			<div class="v3-user-info">
@@ -773,7 +773,9 @@
 
 	.self-tag {
 		position: absolute; top: 1rem; right: 4rem;
-		background: var(--text-main); color: white; padding: 0.3rem 0.8rem;
+		/* Див. .skip-link у HeaderSection: тло — колір тексту, отже текст
+		   бере --bg-card. Білий на --text-main у темній темі давав 1.10:1. */
+		background: var(--text-main); color: var(--bg-card); padding: 0.3rem 0.8rem;
 		border-radius: 12px; font-size: 0.7rem; font-weight: 700;
 		display: flex; align-items: center; gap: 0.4rem;
 		z-index: 10;
@@ -828,7 +830,7 @@
 		opacity: 0.7; 
 	}
 	.btn-save-small.is-active { 
-		background: #10b981 !important; 
+		background: #047857 !important; 
 		color: white;
 		opacity: 1; 
 		cursor: pointer; 
@@ -839,7 +841,7 @@
 	.btn-icon { background: none; border: none; color: #ef4444; cursor: pointer; padding: 0.2rem; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
 	.btn-icon:hover { background: rgba(239,68,68,0.1); }
 	.btn-delete-full { background: rgba(239,68,68,0.1); color: #ef4444; border: none; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-	.btn-delete-full:hover { background: #ef4444; color: white; }
+	.btn-delete-full:hover { background: #dc2626; color: white; }
 	.loader { width: 48px; height: 48px; border: 4px solid var(--color-ocean); border-bottom-color: transparent; border-radius: 50%; animation: rotation 1s linear infinite; }
 	@keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -874,7 +876,7 @@
 		background: rgba(160, 174, 192, 0.2); color: #a0aec0; cursor: not-allowed;
 		font-weight: 700; transition: all 0.2s;
 	}
-	.btn-confirm-delete.is-ready { background: #ef4444; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+	.btn-confirm-delete.is-ready { background: #dc2626; color: white; cursor: pointer; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
 
 	/* Add user modal */
 	.add-modal {
@@ -948,7 +950,7 @@
 		height: 28px;
 		padding: 0 8px;
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 		border-radius: 20px;
 		font-size: 0.8rem;
 		font-weight: 700;
@@ -966,7 +968,7 @@
 		padding: 0.55rem 1.2rem;
 		border-radius: 14px;
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 		border: none;
 		font-size: 0.9rem;
 		font-weight: 700;

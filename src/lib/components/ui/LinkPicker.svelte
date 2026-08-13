@@ -198,13 +198,13 @@
 
 	.mode-btn.active {
 		background: var(--bg-card);
-		color: var(--accent-primary);
+		color: var(--accent-text);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}
 
 	:global(.dark-theme) .mode-btn.active {
 		background: var(--accent-primary);
-		color: white;
+		color: var(--text-on-accent);
 	}
 
 	.lp-select {

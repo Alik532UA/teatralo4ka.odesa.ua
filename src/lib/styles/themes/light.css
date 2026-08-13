@@ -19,6 +19,12 @@
 	/* Semantic Accents */
 	--accent-primary: var(--palette-blue);
 	--accent-secondary: var(--palette-yellow);
+	/* Акцент, придатний як КОЛІР ТЕКСТУ, а не як тло.
+	   Фірмовий #00b5ec на білому дає 2.38:1, на --bg-surface (#E5F7FD) — 2.16:1,
+	   тобто напис майже зникає. navy-500 із тієї ж синьої родини дає 5.95:1 і
+	   5.4:1 відповідно. У решті тем тло під таким текстом темне, тому там
+	   --accent-text дорівнює самому акценту й нічого не змінює. */
+	--accent-text: var(--palette-navy-500);
 	
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);

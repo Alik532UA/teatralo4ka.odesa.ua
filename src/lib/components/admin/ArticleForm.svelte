@@ -956,7 +956,7 @@
 		padding: 0.55rem 1.4rem;
 		border-radius: 14px;
 		background: var(--accent-primary);
-		color: #fff;
+		color: var(--text-on-accent);
 		border: none;
 		font-size: 0.9rem;
 		font-weight: 700;
@@ -1044,13 +1044,13 @@
 
 	.mode-btn.active {
 		background: var(--bg-card);
-		color: var(--accent-primary);
+		color: var(--accent-text);
 		box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 	}
 
 	:global(.dark-theme) .mode-btn.active {
 		background: var(--accent-primary);
-		color: white;
+		color: var(--text-on-accent);
 	}
 
 	/* Content Type Selector */
