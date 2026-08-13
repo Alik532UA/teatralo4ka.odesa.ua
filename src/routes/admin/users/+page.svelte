@@ -455,7 +455,7 @@
 				<div class="modal-header" style="color: var(--accent-primary, #2196ba);">
 					<UserPlus size={28} />
 					<span>{$t('admin.users.grantAccess')}</span>
-					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label={$t('common.close')}><X size={20} /></button>
+					<button class="add-modal-close" onclick={() => showAddForm = false} aria-label={$t('common.close')} data-testid="add-user-modal-close-btn"><X size={20} /></button>
 				</div>
 
 				<div class="add-form-body">

@@ -340,7 +340,8 @@
 	}
 
 	.close-btn:hover {
-		transform: scale(1.1);
+		/* Оберт і масштаб — спільне правило в global.css (UI-ELEMENTS-v8 § 1.1). */
+		opacity: 0.85;
 	}
 
 	#wrap {

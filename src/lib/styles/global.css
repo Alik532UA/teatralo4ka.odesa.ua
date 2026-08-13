@@ -317,6 +317,58 @@ button {
 	outline-offset: 2px;
 }
 
+/* --- Кнопка закриття --- */
+
+/**
+ * Мікроанімація кнопки закриття за UI-ELEMENTS-v8 § 1.1: чверть оберту та
+ * легке збільшення при наведенні, стиск при натисканні.
+ *
+ * ## Чому за `data-testid`, а не за класом
+ *
+ * Кнопок закриття в проєкті вісім, і в кожної свій клас: `.btn-close`,
+ * `.toast-close`, `.close-btn`, `.lightbox-close`, `.search__close`,
+ * `.header__mobile-close`. Спільного класу немає, бо позиція й розмір у них
+ * різні — у тоста це маленький значок у кутку картки, у лайтбоксі кругла
+ * кнопка 48px поверх фото. Перелічити всі шість класів означало б забути
+ * сьомий при наступній кнопці.
+ *
+ * `data-testid` тут не милиця, а вже наявний спільний ознака: TESTID-AND-
+ * NAMING-v8 § 1.4 вимагає для кожної кнопки закриття локатор `{scope}-close-btn`,
+ * і цього правила дотримано в усіх восьми. Тобто селектор читається як «кожна
+ * кнопка закриття за каноном» і сам підхоплює наступну.
+ *
+ * ## Чому 90°, а не 45°
+ *
+ * Хрестик має симетрію на чверть оберту: після 90° він виглядає так само, як
+ * до, — видно лише сам рух. 45° лишили б його плюсом.
+ */
+[data-testid$="-close-btn"] {
+	transition:
+		transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+		background-color 0.25s ease,
+		color 0.25s ease,
+		opacity 0.25s ease;
+}
+
+[data-testid$="-close-btn"]:hover {
+	transform: rotate(90deg) scale(1.08);
+}
+
+[data-testid$="-close-btn"]:active {
+	transform: rotate(90deg) scale(0.92);
+}
+
+/* Глобальне правило вище зводить ТРИВАЛІСТЬ переходу до нуля, але сам
+   `transform` лишався б — і оберт відбувався б стрибком, тобто саме тим різким
+   рухом, якого просив уникнути читач. Тому тут його прибирають зовсім. */
+@media (prefers-reduced-motion: reduce) {
+	[data-testid$="-close-btn"],
+	[data-testid$="-close-btn"]:hover,
+	[data-testid$="-close-btn"]:active {
+		transform: none;
+	}
+}
+
 /* --- Unified Dropdown Menu --- */
 .dropdown-menu-unified {
 	background: color-mix(in srgb, var(--bg-surface), transparent 30%);
