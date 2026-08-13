@@ -106,6 +106,9 @@
 			{#if msg.card}
 				<!-- Гаряча новина: та сама картка, що в списку новин, лише в тості.
 				     Обкладинка вужча — сповіщення не має закривати сторінку. -->
+				<!-- Адреса вже пройшла resolve() у HotNews.svelte або прийшла з
+				     externalUrl статті, перевіреного isSafeUrl. -->
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
 					href={msg.card.href}
 					class="toast-card"

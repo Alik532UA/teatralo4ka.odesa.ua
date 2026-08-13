@@ -3,6 +3,7 @@
 	import FooterSection from '$lib/components/FooterSection.svelte';
 	import DynamicBackground from '$lib/components/DynamicBackground.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
+	import HotNews from '$lib/components/HotNews.svelte';
 	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
 	import '$lib/styles/global.css';
 	import '$lib/i18n';
@@ -362,6 +363,9 @@
 
 <Toast />
 <ConfirmModal />
+
+<!-- Нічого не малює: лише вирішує, які новини показати тостами (лівий низ). -->
+<HotNews />
 
 <!-- Debug perf button: hidden by default. To enable: localStorage.setItem('teatralo4ka_debug','1') + refresh -->
 {#if browser && debugMode}
