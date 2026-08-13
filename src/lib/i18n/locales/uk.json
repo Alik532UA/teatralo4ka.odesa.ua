@@ -48,6 +48,9 @@
     "reloadPage": "Оновити сторінку",
     "emailCopied": "Електронну адресу скопійовано!",
     "openMailClient": "Відкрити поштовий клієнт",
+    "hasVideo": "Відео",
+    "watchVideo": "Переглянути відео",
+    "showCover": "Показати зображення",
     "loading": "Завантаження...",
     "logoAlt": "Логотип Одеської театральної школи",
     "moveUp": "Перемістити вгору",
@@ -471,7 +474,12 @@
       "externalUrlShared": "Спільне посилання",
       "externalUrlDifferent": "Різні посилання",
       "externalUrlHint": "Замість внутрішнього контенту кнопка \"Детальніше\" відкриє це посилання у новій вкладці.",
-      "externalUrlPreview": "Зовнішнє посилання"
+      "externalUrlPreview": "Зовнішнє посилання",
+      "videoSection": "Відео (посилання)",
+      "videoHint": "YouTube або Vimeo відкриються плеєром на сторінці новини. Instagram і Facebook — кнопкою в новій вкладці.",
+      "videoShared": "Однакове для обох мов",
+      "videoDifferent": "Різне для мов",
+      "videoNotRecognised": "Посилання не розпізнано як відео — кнопки на сторінці не буде"
     },
     "accessDenied": {
       "title": "Доступ обмежено",

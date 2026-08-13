@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
+	import { t } from "svelte-i18n";
+	import { Play } from "lucide-svelte";
+	import { parseVideoUrl } from "$lib/utils/videoEmbed";
 
 	export interface ContentCardItem {
 		id: string;
@@ -16,6 +19,13 @@
 		href?: string;
 		/** Whether the link points to an external site */
 		isExternal?: boolean;
+		/**
+		 * Посилання на відео. Картка його НЕ грає — лише позначає іконкою, що
+		 * відео є. Плеєр живе на сторінці статті: iframe усередині посилання не
+		 * клікається й не грає, а шість плеєрів у каруселі — це і продуктивність,
+		 * і доступність під нуль.
+		 */
+		videoUrl?: string;
 	}
 
 	interface Props {
@@ -52,7 +62,29 @@
 	);
 	const linkTarget = $derived(item.isExternal ? '_blank' : undefined);
 	const linkRel = $derived(item.isExternal ? 'noopener noreferrer' : undefined);
+	// Позначка з'являється лише для посилання, яке ми справді розпізнали як
+	// відео: інакше вона обіцяла б відео там, де його немає.
+	const hasVideo = $derived(parseVideoUrl(item.videoUrl) !== null);
 </script>
+
+<!--
+	Позначка «є відео» стоїть у рядку метаданих поруч із тегом і датою, а не
+	накладкою на зображенні. Причини дві.
+
+	Перша: вона потрібна й тоді, коли зображення немає — накладку класти було б
+	нікуди. Друга й важливіша: картка це ПОСИЛАННЯ, і кнопка відтворення на ній
+	обіцяла б відтворення на місці, чого не буде. Тут же це метадані такого
+	самого штибу, як категорія й дата, — і виглядають вони так само.
+-->
+{#snippet videoBadge()}
+	{#if hasVideo}
+		<span class="tag tag--video" data-testid="{testIdPrefix}-card-video-badge-{index}">
+			<Play size={12} aria-hidden="true" />
+			{$t('common.hasVideo')}
+		</span>
+	{/if}
+{/snippet}
+
 
 {#if variant === 'carousel'}
 	<a href={link} target={linkTarget} rel={linkRel} class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
@@ -69,6 +101,7 @@
 				{#if item.date}
 					<time class="date" data-testid="{testIdPrefix}-card-date-{index}">{item.date}</time>
 				{/if}
+				{@render videoBadge()}
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
@@ -91,6 +124,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
+				{@render videoBadge()}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
@@ -113,6 +147,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
+				{@render videoBadge()}
 			</div>
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
@@ -135,6 +170,7 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
+				{@render videoBadge()}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
@@ -144,6 +180,14 @@
 {/if}
 
 <style>
+	/* Позначка «Відео» — той самий tag, лише з іконкою. Кольору типу тут не
+	   треба: він конкурував би з категорією, а сенс несе саме іконка. */
+	.tag--video {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
 	/* ─── Carousel card ──────────────────────────────────── */
 	.focus-card {
 		flex: 0 0 var(--focus-card-width, 600px);

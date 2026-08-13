@@ -48,6 +48,9 @@
     "reloadPage": "Reload page",
     "emailCopied": "Email address copied!",
     "openMailClient": "Open mail client",
+    "hasVideo": "Video",
+    "watchVideo": "Watch video",
+    "showCover": "Show image",
     "loading": "Loading...",
     "logoAlt": "Odesa Theatre School Logo",
     "moveUp": "Move up",
@@ -471,7 +474,12 @@
       "externalUrlShared": "Shared link",
       "externalUrlDifferent": "Different links",
       "externalUrlHint": "Instead of internal content, the \"Read more\" button will open this link in a new tab.",
-      "externalUrlPreview": "External link"
+      "externalUrlPreview": "External link",
+      "videoSection": "Video (link)",
+      "videoHint": "YouTube and Vimeo open in a player on the article page. Instagram and Facebook open in a new tab.",
+      "videoShared": "Same for both languages",
+      "videoDifferent": "Different per language",
+      "videoNotRecognised": "Link not recognised as video — no button will appear on the page"
     },
     "accessDenied": {
       "title": "Access Denied",

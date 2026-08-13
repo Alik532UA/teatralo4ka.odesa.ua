@@ -15,6 +15,7 @@ import type { ArticleCategory } from "../config/categories";
 import { getCategoryLabel } from "../config/categories";
 import { getContentExcerpt } from "../utils/renderContent";
 import { isSafeUrl } from "../utils/safeUrl";
+import { cardImageUrl } from "../utils/videoEmbed";
 import type { ContentCardItem } from "../components/ContentCard.svelte";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
@@ -27,6 +28,14 @@ export interface ArticleTranslation {
   excerpt?: string;
   isPublished: boolean;
   coverUrl?: string;
+  /**
+   * Посилання на відео — YouTube, Vimeo, Instagram, Facebook.
+   *
+   * Окреме поле, а не «або зображення, або відео»: у новини бувають обидва, і
+   * тоді на картці показується зображення, а на сторінці — воно ж плюс кнопка
+   * «Переглянути відео». Розбір посилання — у `utils/videoEmbed.ts`.
+   */
+  videoUrl?: string;
   contentFormat?: ContentFormat;
   externalUrl?: string;
 }
@@ -172,7 +181,10 @@ export function mapArticleToWidgetItem(article: Article, lang: 'uk' | 'en', inde
     category: getCategoryLabel(article.category, lang),
     excerpt: customExcerpt || getContentExcerpt(tr.content || '', tr.contentFormat, 150),
     color: CARD_COLORS[index % CARD_COLORS.length],
-    coverUrl: tr.coverUrl || '',
+    // Є і зображення, і відео → на картці зображення. Є лише відео → кадр із
+    // нього, якщо платформа його віддає (YouTube). Правило живе в одному місці.
+    coverUrl: cardImageUrl(tr.coverUrl, tr.videoUrl),
+    videoUrl: (tr.videoUrl || '').trim() || undefined,
     ...(externalUrl ? { href: externalUrl, isExternal: true } : {}),
   };
 }
