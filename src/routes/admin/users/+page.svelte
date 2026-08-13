@@ -888,7 +888,7 @@
 	.add-modal-close {
 		margin-left: auto; background: none; border: none; color: var(--text-main);
 		opacity: 0.5; cursor: pointer; display: flex; align-items: center; padding: 0.25rem;
-		border-radius: 6px; transition: opacity 0.15s;
+		border-radius: 6px;
 	}
 	.add-modal-close:hover { opacity: 1; }
 	.add-form-body { display: flex; flex-direction: column; gap: 0.6rem; }

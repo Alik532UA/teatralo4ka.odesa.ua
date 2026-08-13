@@ -244,7 +244,7 @@
 	.btn-close {
 		background: none; border: none; color: inherit; cursor: pointer;
 		padding: 0.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-		transition: background 0.2s; opacity: 0.6;
+		opacity: 0.6;
 	}
 	.btn-close:hover { background: rgba(0,0,0,0.05); opacity: 1; }
 	

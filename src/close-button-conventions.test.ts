@@ -58,6 +58,46 @@ describe('кнопки закриття (UI-ELEMENTS-v8 § 3)', () => {
 		).toEqual([]);
 	});
 
+	/**
+	 * Найтихіший з усіх дефектів кнопки закриття.
+	 *
+	 * Оберт задано один раз у `global.css`. Але власний `transition` у
+	 * компоненті має більшу вагу (scoping Svelte додає клас), і якщо в його
+	 * переліку властивостей немає `transform`, оберт стається МИТТЄВО. Побачити
+	 * це майже неможливо: хрестик симетричний на чверть оберту, тож без руху він
+	 * виглядає рівно так само, як до наведення. Кнопка просто «не працює», і
+	 * причина не видна ні в розмітці, ні в консолі.
+	 *
+	 * Тому правило просте: перехід оголошує лише global.css. Компоненту він не
+	 * потрібен — глобальний уже покриває фон, колір, прозорість і перетворення.
+	 */
+	it('жоден компонент не оголошує власний transition для кнопки закриття', () => {
+		const bad: string[] = [];
+		for (const file of SVELTE) {
+			const text = readFileSync(file, 'utf8');
+			// Класи кнопок закриття беремо з розмітки цього ж файлу.
+			const classes = new Set<string>();
+			for (const m of text.matchAll(/<button[^>]*>/g)) {
+				if (!/data-testid=["'{`][^>]*-close-btn/.test(m[0])) continue;
+				const cls = /class="([^"]+)"/.exec(m[0])?.[1] ?? '';
+				cls.split(/\s+/).filter(Boolean).forEach((c) => classes.add(c));
+			}
+			for (const cls of classes) {
+				// Тіло правила `.cls { … }` у <style> цього ж файлу.
+				const re = new RegExp(`\\.${cls}\\s*\\{([^}]*)\\}`, 'g');
+				for (const m of text.matchAll(re)) {
+					if (/transition\s*:/.test(m[1])) bad.push(`${file}: .${cls}`);
+				}
+			}
+		}
+		expect(
+			bad,
+			'перехід для кнопки закриття оголошує лише global.css. Власний у ' +
+				'компоненті переважує його через scoping Svelte, і якщо в переліку немає ' +
+				`transform, оберт стається миттєво — тобто його не видно взагалі:\n  ${bad.join('\n  ')}`
+		).toEqual([]);
+	});
+
 	it('вміст — значок, а не текстовий хрестик', () => {
 		const bad: string[] = [];
 		for (const file of SVELTE) {

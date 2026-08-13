@@ -113,7 +113,6 @@
 		width: 32px; height: 32px;
 		border-radius: 50%;
 		display: flex; align-items: center; justify-content: center;
-		transition: all 0.2s;
 	}
 	.btn-close:hover {
 		background: rgba(0,0,0,0.05);

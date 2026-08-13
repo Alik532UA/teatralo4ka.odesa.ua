@@ -665,7 +665,6 @@
 		align-items: center;
 		justify-content: center;
 		border-radius: 50%;
-		transition: all 0.2s;
 		flex-shrink: 0;
 	}
 

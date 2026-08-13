@@ -261,7 +261,6 @@
 		color: var(--color-muted-text);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: background 0.15s, color 0.15s;
 	}
 
 	.search__close:hover {

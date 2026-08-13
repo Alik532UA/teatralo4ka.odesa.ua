@@ -1151,7 +1151,6 @@
 		justify-content: center;
 		color: var(--text-title);
 		background: var(--color-ice-blue);
-		transition: all var(--transition-base);
 		border: none;
 		cursor: pointer;
 	}
