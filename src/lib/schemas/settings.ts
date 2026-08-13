@@ -227,6 +227,7 @@ export type ValidatedHotNewsItem = z.infer<typeof HotNewsItemSchema>;
 export const HotNewsConfigSchema = z.object({
 	enabled: optional(z.boolean()),
 	displayMode: optional(z.enum(['queue', 'stack2', 'all'])),
+	position: optional(z.enum(['bottomRight', 'bottomLeft', 'topRight', 'topLeft'])),
 	// Межі не з голови: менше 5 секунд картку з фото не встигнути прочитати,
 	// більше 5 хвилин — це вже не сповіщення, а частина сторінки.
 	durationMs: optional(z.number().int().min(5_000).max(300_000)),

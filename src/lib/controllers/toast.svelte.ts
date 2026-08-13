@@ -1,4 +1,5 @@
 import { ui } from './ui.svelte';
+import type { HotNewsCorner } from '../utils/hotNews';
 
 export type ToastType = 'success' | 'error' | 'info';
 
@@ -39,6 +40,12 @@ export interface ToastMessage {
 	placement?: ToastPlacement;
 	/** Коли задано — тост малює картку замість тексту. */
 	card?: ToastCard;
+	/**
+	 * Кут екрана — лише для `placement: 'hot'`: місце сповіщення про новину
+	 * задає адміністратор, і компонент показу мусить якось це донести сюди.
+	 * Решта тостів стоїть там, де стояла, і поля не має.
+	 */
+	corner?: HotNewsCorner;
 	/** Довільний ключ від викликача: за ним він упізнає свій тост при закритті. */
 	key?: string;
 }

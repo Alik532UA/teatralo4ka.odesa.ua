@@ -28,6 +28,16 @@ export type HotNewsScope =
 	/** Лише на головній. */
 	| 'home';
 
+/**
+ * Кут екрана, у якому з'являється сповіщення.
+ *
+ * Налаштовується, бо правильної відповіді на всі сайти немає: правий нижній —
+ * звичне місце сповіщень і туди ж дивиться відвідувач після кліку, лівий
+ * нижній не перекриває кнопку «нагору» й чат, верхні помітніші, але й
+ * настирливіші. Типове значення — правий нижній.
+ */
+export type HotNewsCorner = 'bottomRight' | 'bottomLeft' | 'topRight' | 'topLeft';
+
 /** Як показувати кілька новин одночасно. */
 export type HotNewsDisplayMode =
 	/** По одній: наступна з'являється, коли попередню закрито або її час вийшов. */
@@ -57,6 +67,7 @@ export interface HotNewsItem {
 export interface HotNewsConfig {
 	enabled: boolean;
 	displayMode: HotNewsDisplayMode;
+	position: HotNewsCorner;
 	/** Скільки живе одне сповіщення, мс. */
 	durationMs: number;
 	/** Пауза після завантаження, мс — щоб не змагатися із заставкою й LCP. */
@@ -67,6 +78,9 @@ export interface HotNewsConfig {
 export const DEFAULT_HOT_NEWS: HotNewsConfig = {
 	enabled: false,
 	displayMode: 'queue',
+	// Правий нижній: там уже живуть тости сайту, і два стеки в одному кутку не
+	// накривають один одного — гарячі новини стають у ту саму чергу.
+	position: 'bottomRight',
 	// 30 секунд: картка з фото й заголовком читається довше за рядок тексту, а
 	// тост «адресу скопійовано» живе 6 секунд і для новини був би блимом.
 	durationMs: 30_000,
