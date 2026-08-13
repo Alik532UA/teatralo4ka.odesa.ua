@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { errorLogger } from './errorLogger';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { errorLogger, redact } from './errorLogger';
 
 describe('ErrorLogger', () => {
 	beforeEach(() => {
 		errorLogger.clearCache();
+		vi.spyOn(console, 'error').mockImplementation(() => {});
 	});
 
 	it('returns an id when logging an error', () => {
@@ -61,5 +62,64 @@ describe('ErrorLogger', () => {
 		const event = errorLogger.getCache()[0];
 		expect(event.context.component).toBe('TestComp');
 		expect(event.context.page).toBe('/test');
+	});
+
+	/**
+	 * SECURITY-v8 § 10: маскує ЛОГЕР, а не місця виклику — достатньо
+	 * одного забутого місця, щоб правило перестало діяти.
+	 */
+	describe('маскування чутливого', () => {
+		it('адреса пошти зводиться до першої літери й домену', () => {
+			// Текст помилки Firebase Auth часто містить адресу.
+			errorLogger.logError(new Error('The user with email director@teatralo4ka.odesa.ua was not found'));
+			const logged = errorLogger.getCache()[0].message;
+			expect(logged).toContain('d***@teatralo4ka.odesa.ua');
+			expect(logged).not.toContain('director@');
+		});
+
+		it('токен у рядку запиту зникає разом із значенням', () => {
+			errorLogger.logError(
+				new Error('GET https://api.example.com/v1?access_token=abc123SECRET&lang=uk 401')
+			);
+			const logged = errorLogger.getCache()[0].message;
+			expect(logged).not.toContain('abc123SECRET');
+			expect(logged).toContain('[redacted]');
+			expect(logged, 'нечутливі параметри мають лишитися').toContain('lang=uk');
+		});
+
+		it('JWT і Bearer не потрапляють у лог', () => {
+			// Складається з частин навмисно: цілим рядком він спрацьовує на
+			// інваріанті «у джерелах немає вписаних секретів» (src/security.test.ts),
+			// і той не має розрізняти справжній токен від тестового — інакше
+			// перестав би ловити справжній.
+			const jwt = ['eyJhbGciOiJIUzI1NiJ9', 'eyJzdWIiOiIxMjM0NSJ9', 'QWxpY2VTaWduYXR1cmU'].join('.');
+			errorLogger.logError(new Error(`Auth failed for ${jwt}`));
+			expect(errorLogger.getCache()[0].message).toBe('Auth failed for [jwt]');
+
+			errorLogger.clearCache();
+			errorLogger.logError(new Error('Authorization: Bearer ya29.a0AfH6SMBexample_token'));
+			expect(errorLogger.getCache()[0].message).toBe('Authorization: Bearer [redacted]');
+		});
+
+		it('стек і адреса сторінки маскуються так само', () => {
+			const err = new Error('boom');
+			err.stack = ['Error: boom', '    at fetch (https://x.test/a?token=SUPERSECRET)'].join('\n');
+			errorLogger.logError(err, { page: '/reset?token=SUPERSECRET' });
+
+			const event = errorLogger.getCache()[0];
+			expect(event.stack).not.toContain('SUPERSECRET');
+			expect(event.context.page).not.toContain('SUPERSECRET');
+		});
+
+		it('рівень рахується від замаскованого тексту', () => {
+			// '500' усередині токена не має піднімати рівень до high.
+			errorLogger.logError(new Error('request failed ?token=aaa500aaa'));
+			expect(errorLogger.getCache()[0].severity).toBe('low');
+		});
+
+		it('звичайний текст не чіпається', () => {
+			const plain = "Cannot read properties of undefined (reading 'blocks')";
+			expect(redact(plain)).toBe(plain);
+		});
 	});
 });
