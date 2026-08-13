@@ -505,16 +505,54 @@
 	}
 
 	/*
-	   Сповіщення про новину — частина сайту, а не системне повідомлення, тому й
-	   фон у нього той самий, що в шапки та підвалу: `--bg-header` із розмиттям.
-	   Текстові тости лишаються на `--bg-card`: вони відповідь на дію, і сірувата
-	   картка відрізняє їх від вмісту сторінки навмисно.
+	   Сповіщення про новину показується в кольорах ПРОТИЛЕЖНОЇ теми: у темній
+	   темі воно світле, у світлих — темне.
+
+	   Це не примха оформлення, а спосіб зробити його помітним. Тост про новину
+	   з'являється сам, без дії відвідувача, і в кольорах поточної теми зливався
+	   б із карткою чи підвалом, над якими лежить, — тобто виглядав би частиною
+	   сторінки, яку вже гортають. Протилежний фон читається як «це щось інше»
+	   з першого погляду, і при цьому не потребує чужого кольору: палітра
+	   лишається та сама, міняються місцями лише світле й темне.
+
+	   Перевизначаються саме СЕМАНТИЧНІ змінні, а не кожне правило: заголовок,
+	   опис, дата й рубрика всередині вже написані через них, тож підхоплюють
+	   заміну самі. Значення взяті з `themes/light.css` і `themes/dark.css` —
+	   якщо тема змінить свою палітру, змінити доведеться і тут.
 	*/
 	.toast-msg:has(.toast-card) {
+		/* Світлі теми (зокрема жовті) → сповіщення в темних кольорах. */
+		--bg-header: var(--palette-navy-900);
+		--text-main: var(--palette-cyan-50);
+		--text-title: var(--palette-blue);
+		--text-muted: var(--palette-cyan-100);
+		--accent-text: var(--palette-blue);
+		--color-muted-text: var(--palette-cyan-100);
+
 		background: var(--bg-header);
+		color: var(--text-main);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid var(--color-border);
+	}
+
+	:global(.dark-theme) .toast-msg:has(.toast-card) {
+		/* Темна тема → сповіщення в світлих кольорах. */
+		--bg-header: var(--palette-cyan-50);
+		--text-main: var(--palette-navy-500);
+		--text-title: var(--palette-navy-page);
+		--text-muted: var(--palette-navy-500);
+		--accent-text: var(--palette-navy-500);
+		--color-muted-text: var(--palette-navy-500);
+	}
+
+	/* Хрестик і смуга часу теж належать сповіщенню, тому й вони з його палітри. */
+	.toast-msg:has(.toast-card) .toast-close {
+		color: var(--text-main);
+	}
+
+	.toast-msg:has(.toast-card) .toast-progress {
+		background: var(--accent-primary);
 	}
 
 	/* ── Progress bar ── */
