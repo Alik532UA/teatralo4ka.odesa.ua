@@ -21,8 +21,10 @@ import {
   ProjectsWidgetConfigSchema,
   TickerConfigSchema,
   parseOrUndefined,
+  HotNewsConfigSchema,
   withoutUndefined
 } from "../schemas/settings";
+import { DEFAULT_HOT_NEWS, type HotNewsConfig } from "../utils/hotNews";
 
 /** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
 async function saveSettingsDoc(ref: DocumentReference, payload: Record<string, unknown>) {
@@ -1202,6 +1204,66 @@ export function getCachedAboutPageSettings(): Omit<AboutPageSettings, 'updatedAt
 export async function updateAboutPageSettings(settings: Omit<AboutPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
   const docRef = doc(db, "projects", projectId, "settings", "about");
+  return await saveSettingsDoc(docRef, {
+    ...settings,
+    updatedAt: serverTimestamp()
+  });
+}
+
+
+// ── Hot news ──────────────────────────────────────────────────────────────────
+
+/**
+ * Сповіщення про новину поверх сторінки.
+ *
+ * Окремий документ, а не поле в `news`: його читає КОЖНА сторінка сайту, зокрема
+ * статичні, які сьогодні Firestore не чіпають узагалі. Тримати конфіг у
+ * документі новин означало б тягнути на кожну сторінку ще й налаштування
+ * віджета, які їй не потрібні.
+ *
+ * Публічне читання — правила дозволяють `settingId == 'hotNews'`.
+ */
+export async function getHotNewsSettings(): Promise<HotNewsConfig | null> {
+  try {
+    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "hotNews");
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+
+    // Схема лише відкидає непридатне; типові значення живуть в одному місці —
+    // у DEFAULT_HOT_NEWS, і сюди приходять злиттям.
+    const validated = withoutUndefined(parseOrUndefined(HotNewsConfigSchema, docSnap.data()) ?? {});
+    const data: HotNewsConfig = { ...DEFAULT_HOT_NEWS, ...validated };
+
+    try {
+      storage.setJSON('hotNewsSettings', data);
+    } catch { /* quota exceeded or SSR — ignore */ }
+
+    return data;
+  } catch (e) {
+    console.error('Failed to load hot news settings:', e);
+    return null;
+  }
+}
+
+/**
+ * Кеш із попереднього візиту — щоб сповіщення не чекало на мережу.
+ *
+ * Саме тут це важливо більше, ніж деінде: сповіщення й так з'являється із
+ * затримкою, і додавати до неї час запиту означало б показувати його вже після
+ * того, як відвідувач почав читати сторінку.
+ */
+export function getCachedHotNewsSettings(): HotNewsConfig | null {
+  try {
+    return storage.getJSON<HotNewsConfig>('hotNewsSettings');
+  } catch {
+    return null;
+  }
+}
+
+/** Auth-required write. */
+export async function updateHotNewsSettings(settings: HotNewsConfig) {
+  const projectId = await getProjectId();
+  const docRef = doc(db, "projects", projectId, "settings", "hotNews");
   return await saveSettingsDoc(docRef, {
     ...settings,
     updatedAt: serverTimestamp()

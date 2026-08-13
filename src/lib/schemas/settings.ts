@@ -201,6 +201,45 @@ export const DebugPanelConfigSchema = z.object({
 	defaultScrollbar: optional(z.enum(SCROLLBAR_MODE_IDS))
 });
 
+
+// ── Гарячі новини ─────────────────────────────────────────────────────────────
+
+/**
+ * Сповіщення про новину поверх сторінки.
+ *
+ * Список тут — саме СПИСОК за правилами цього файлу: непридатний елемент
+ * викидається, а не отримує типові значення. Підставити «типову гарячу новину»
+ * посеред переліку нема з чого, а показувати сповіщення про статтю, id якої
+ * прийшов зіпсованим, гірше, ніж не показати нічого.
+ */
+export const HotNewsItemSchema = z.object({
+	id: z.string().min(1),
+	enabled: z.boolean(),
+	frequency: z.enum(['once', 'session', 'always']),
+	scope: z.enum(['exceptOwn', 'all', 'home']),
+	order: z.number().int().min(0).max(999),
+	/** Мілісекунди `updatedAt` новини — входять у ключ «уже бачив». */
+	version: optional(z.number().int().min(0))
+});
+
+export type ValidatedHotNewsItem = z.infer<typeof HotNewsItemSchema>;
+
+export const HotNewsConfigSchema = z.object({
+	enabled: optional(z.boolean()),
+	displayMode: optional(z.enum(['queue', 'stack2', 'all'])),
+	// Межі не з голови: менше 5 секунд картку з фото не встигнути прочитати,
+	// більше 5 хвилин — це вже не сповіщення, а частина сторінки.
+	durationMs: optional(z.number().int().min(5_000).max(300_000)),
+	// Верхня межа менша за нижню тривалість навмисно: затримка більша за десять
+	// секунд означає, що відвідувач уже почав читати сторінку.
+	delayMs: optional(z.number().int().min(0).max(10_000)),
+	items: optional(
+		z
+			.array(HotNewsItemSchema.nullable().catch(null))
+			.transform((arr) => arr.filter((i): i is ValidatedHotNewsItem => i !== null))
+	)
+});
+
 /**
  * Прибирає ключі зі значенням `undefined`.
  *
