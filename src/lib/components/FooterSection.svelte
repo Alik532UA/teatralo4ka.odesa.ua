@@ -7,31 +7,12 @@
 	import { t } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
-	import { toast } from "$lib/controllers/toast.svelte";
 
 	let isPianoOpen = $state(false);
 
-	function handleEmailClick(e: MouseEvent) {
-		e.preventDefault();
-		const email = $t("footer.email");
-		navigator.clipboard.writeText(email).then(
-			() => {
-				toast.success(
-					$t("footer.emailCopied"),
-					6000,
-					{
-						label: $t("footer.openMailClient"),
-						onAction: () => {
-							window.location.href = `mailto:${email}`;
-						}
-					}
-				);
-			},
-			() => {
-				window.location.href = `mailto:${email}`;
-			}
-		);
-	}
+	// Обробника кліку по email тут немає навмисно: копіювання з тостом вішає
+	// `installMailtoToast` у кореневому лейауті — однаково для підвала, шапки,
+	// панелей і тіла сторінки. Раніше це була одна з двох копій.
 </script>
 
 <div class="footer-spacer" aria-hidden="true"></div>
@@ -98,7 +79,6 @@
 							<a
 								href="mailto:{$t('footer.email')}"
 								class="footer__link"
-								onclick={handleEmailClick}
 								data-testid="footer-email-link"
 							>{$t("footer.email")}</a
 							>

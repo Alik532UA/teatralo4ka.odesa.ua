@@ -4,7 +4,6 @@
 	import { onMount } from "svelte";
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
-	import { toast } from "$lib/controllers/toast.svelte";
 
 	const images = [
 		asset('/photo/DSC_1405.jpg'),
@@ -21,27 +20,6 @@
 		return () => clearInterval(interval);
 	});
 
-	function handleEmailClick(e?: MouseEvent) {
-		if (e) e.preventDefault();
-		const email = $t("footer.email");
-		navigator.clipboard.writeText(email).then(
-			() => {
-				toast.success(
-					$t("footer.emailCopied"),
-					6000,
-					{
-						label: $t("footer.openMailClient"),
-						onAction: () => {
-							window.location.href = `mailto:${email}`;
-						}
-					}
-				);
-			},
-			() => {
-				window.location.href = `mailto:${email}`;
-			}
-		);
-	}
 </script>
 
 <section class="hero" id="hero-section" aria-label={$t('hero.section')} data-testid="hero-section-container">
@@ -105,9 +83,16 @@
 			<button class="hero__contact-btn" onclick={() => (ui.isPhonesModalOpen = true)} aria-label={$t('hero.phones')} data-testid="hero-phones-btn">
 				<Phone size={24} />
 			</button>
-			<button class="hero__contact-btn" onclick={handleEmailClick} aria-label={$t('hero.email')} data-testid="hero-email-btn">
+			<!-- Саме <a>, а не <button>: без JS посилання все одно відкриє пошту,
+			     а копіювання з тостом навішує делегування в кореневому лейауті. -->
+			<a
+				href="mailto:{$t('footer.email')}"
+				class="hero__contact-btn"
+				aria-label={$t('hero.email')}
+				data-testid="hero-email-link"
+			>
 				<Mail size={24} />
-			</button>
+			</a>
 		</div>
 	</div>
 </section>

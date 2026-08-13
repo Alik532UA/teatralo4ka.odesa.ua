@@ -11,6 +11,7 @@
 	import { asset } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
+	import { installMailtoToast } from '$lib/utils/emailCopy';
 	import Minimap from '$lib/components/Minimap.svelte';
 	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
 	import ScrollbarContextMenu from '$lib/components/ScrollbarContextMenu.svelte';
@@ -117,6 +118,20 @@
 			window.addEventListener('scroll', onScroll, { passive: true });
 			return () => window.removeEventListener('scroll', onScroll);
 		}
+	});
+
+	/**
+	 * Патерн email — один на весь сайт (NOTIFICATIONS-v8 § 4).
+	 *
+	 * Тут, а не в компонентах: до цього обробник був у `FooterSection` і
+	 * `HeroSection` двома копіями, а email у ТІЛІ сторінки (markdown
+	 * `teatr-pro`) лишався голим `mailto:`. Поведінка залежала від того, у якій
+	 * частині сторінки опинилося посилання. Сторінковий вміст приходить із
+	 * markdown і власних обробників мати не може в принципі, тож делегування —
+	 * єдине місце, де правило справді стає спільним.
+	 */
+	$effect(() => {
+		if (browser) return installMailtoToast();
 	});
 
 	$effect(() => {
