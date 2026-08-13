@@ -22,6 +22,8 @@
 	import { resolve } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
+	import { Play } from 'lucide-svelte';
+	import { parseVideoUrl } from '$lib/utils/videoEmbed';
 	import {
 		Languages, EyeOff, CheckCircle2, XCircle,
 		Settings, LayoutPanelTop, FilePlus, FileEdit,
@@ -37,8 +39,8 @@
 		customDate: Timestamp | null;
 		sortOrder?: number;
 		translations: {
-			uk: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string };
-			en: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string };
+			uk: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string };
+			en: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string };
 		};
 	}
 
@@ -55,10 +57,11 @@
 		initialCustomDateStr?: string;
 		initialSortOrder?: number;
 		initialDifferentCovers?: boolean;
+		initialDifferentVideos?: boolean;
 		initialDifferentExternalUrls?: boolean;
 		initialTranslations?: {
-			uk?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
-			en?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
+			uk?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
+			en?: Partial<{ title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string }>;
 		};
 		onsubmit: (data: ArticleFormData) => void;
 	}
@@ -76,6 +79,7 @@
 		initialCustomDateStr = new Date().toISOString().split('T')[0],
 		initialSortOrder,
 		initialDifferentCovers = false,
+		initialDifferentVideos = false,
 		initialDifferentExternalUrls = false,
 		initialTranslations,
 		onsubmit,
@@ -140,6 +144,8 @@
 	// svelte-ignore state_referenced_locally
 	let differentCovers = $state(initialDifferentCovers);
 	// svelte-ignore state_referenced_locally
+	let differentVideos = $state(initialDifferentVideos);
+	// svelte-ignore state_referenced_locally
 	let differentExternalUrls = $state(initialDifferentExternalUrls);
 	let showUploadInfo = $state(false);
 	// svelte-ignore state_referenced_locally
@@ -148,8 +154,8 @@
 
 	// svelte-ignore state_referenced_locally
 	let translations = $state({
-		uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
-		en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
+		uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
+		en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
 	});
 
 	// svelte-ignore state_referenced_locally
@@ -199,6 +205,12 @@
 	});
 
 	$effect(() => {
+		if (!differentVideos && translations.uk.videoUrl !== translations.en.videoUrl) {
+			translations.en.videoUrl = translations.uk.videoUrl;
+		}
+	});
+
+	$effect(() => {
 		if (!differentExternalUrls && translations.uk.externalUrl !== translations.en.externalUrl) {
 			translations.en.externalUrl = translations.uk.externalUrl;
 		}
@@ -209,6 +221,14 @@
 		if (!differentCovers) {
 			translations.uk.coverUrl = val;
 			translations.en.coverUrl = val;
+		}
+	}
+
+	function handleVideoInput(val: string, lang: 'uk' | 'en') {
+		translations[lang].videoUrl = val;
+		if (!differentVideos) {
+			translations.uk.videoUrl = val;
+			translations.en.videoUrl = val;
 		}
 	}
 
@@ -282,7 +302,7 @@
 
 	function saveDraftToFile() {
 		const draftData = {
-			category, dateMode, customDateStr, differentCovers, translations,
+			category, dateMode, customDateStr, differentCovers, differentVideos, translations,
 			version: '1.0', exportedAt: new Date().toISOString()
 		};
 		const blob = new Blob([JSON.stringify(draftData, null, 2)], { type: 'application/json' });
@@ -316,6 +336,7 @@
 					dateMode = data.dateMode || dateMode;
 					customDateStr = data.customDateStr || customDateStr;
 					differentCovers = data.differentCovers || false;
+					differentVideos = data.differentVideos || false;
 					if (data.translations) {
 						translations = {
 							uk: { ...translations.uk, ...data.translations.uk },
@@ -612,6 +633,67 @@
 							</div>
 						{/each}
 					{/if}
+				</div>
+			</div>
+
+			<!--
+				Відео окремим полем, а не «або зображення, або відео»: у новини
+				бувають обидва. Тоді на картці лишається зображення (плюс позначка
+				«Відео»), а на сторінці з'являється кнопка перемикання.
+			-->
+			<div style="display: flex; flex-direction: column; gap: 1rem;" data-testid="{tp}-video-section">
+				<div class="cover-header">
+					<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">
+						<Play size={16} />
+						{$t('admin.editor.videoSection')}
+					</div>
+					<div class="cover-actions">
+						<button
+							type="button"
+							class="btn btn-sm {differentVideos ? 'btn-primary' : 'btn-outline'}"
+							onclick={() => differentVideos = !differentVideos}
+							style="font-size: 0.75rem; padding: 0.4rem 0.8rem;"
+							data-testid="{tp}-toggle-diff-videos-btn"
+						>
+							{differentVideos ? $t('admin.editor.videoShared') : $t('admin.editor.videoDifferent')}
+						</button>
+					</div>
+				</div>
+
+				<div style="display: grid; grid-template-columns: {differentVideos ? '1fr 1fr' : '1fr'}; gap: 2rem;">
+					{#each (differentVideos ? (['uk', 'en'] as const) : (['uk'] as const)) as lang (lang)}
+						<div class="form-group">
+							{#if differentVideos}
+								<label class="form-label" for="video-{lang}" style="font-size: 0.8rem; opacity: 0.7;">
+									{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}
+								</label>
+							{/if}
+							<input
+								type="url"
+								id="video-{lang}"
+								placeholder="https://www.youtube.com/watch?v=..."
+								maxlength={MAX_COVER_URL_LEN}
+								class="form-input"
+								value={translations[lang].videoUrl}
+								oninput={(e) => handleVideoInput(e.currentTarget.value, lang)}
+								data-testid="{tp}-video-url-input-{lang}"
+							/>
+							{#if translations[lang].videoUrl.trim() && !parseVideoUrl(translations[lang].videoUrl)}
+								<p style="font-size: 0.75rem; color: var(--warning-color); margin-top: 0.5rem;" data-testid="{tp}-video-url-warning-{lang}">
+									{$t('admin.editor.videoNotRecognised')}
+								</p>
+							{:else if translations[lang].videoUrl.trim()}
+								<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">
+									{parseVideoUrl(translations[lang].videoUrl)?.platform}
+									{#if !parseVideoUrl(translations[lang].videoUrl)?.embeddable}
+										— {$t('admin.editor.videoHint')}
+									{/if}
+								</p>
+							{:else}
+								<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.videoHint')}</p>
+							{/if}
+						</div>
+					{/each}
 				</div>
 			</div>
 

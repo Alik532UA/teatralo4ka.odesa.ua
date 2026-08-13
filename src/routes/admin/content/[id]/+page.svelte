@@ -25,10 +25,11 @@
 		customDateStr: string;
 		sortOrder?: number;
 		differentCovers: boolean;
+		differentVideos: boolean;
 		differentExternalUrls: boolean;
 		translations: {
-			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
-			en: { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
+			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
+			en: { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
 		};
 	} | null>(null);
 
@@ -58,8 +59,8 @@
 		if (article) {
 			contentType = article.type || 'article';
 			const translations = {
-				uk: { coverUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.uk } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string },
-				en: { coverUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.en } as { title: string; content: string; isPublished: boolean; coverUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string }
+				uk: { coverUrl: '', videoUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.uk } as { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string },
+				en: { coverUrl: '', videoUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.en } as { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string }
 			};
 			articleData = {
 				category: article.category,
@@ -70,6 +71,7 @@
 					: new Date().toISOString().split('T')[0],
 				sortOrder: (article as any).sortOrder,
 				differentCovers: translations.uk.coverUrl !== translations.en.coverUrl,
+				differentVideos: translations.uk.videoUrl !== translations.en.videoUrl,
 				differentExternalUrls: translations.uk.externalUrl !== translations.en.externalUrl,
 				translations,
 			};
