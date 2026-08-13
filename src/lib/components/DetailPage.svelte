@@ -7,6 +7,7 @@
 	import { getCategoryLabel } from '$lib/config/categories';
 	import { Play, Image as ImageIcon, ExternalLink } from 'lucide-svelte';
 	import { cardImageUrl, parseVideoUrl } from '$lib/utils/videoEmbed';
+	import { page } from '$app/state';
 
 	interface Props {
 		/** The route parameter value (article ID or slug) */
@@ -84,11 +85,17 @@
 	/** Обкладинка сторінки: своє зображення, інакше кадр із відео. */
 	const cover = $derived(cardImageUrl(translation?.coverUrl, translation?.videoUrl));
 
-	// Перехід на іншу статтю має скидати плеєр: інакше на новій сторінці
-	// лишалося б відкрите відео попередньої.
+	/**
+	 * Перехід на іншу статтю скидає плеєр: інакше на новій сторінці лишалося б
+	 * відкрите відео попередньої.
+	 *
+	 * Виняток — `?video=1`. За ним приходять із кнопки відео в сповіщенні про
+	 * гарячу новину: там натиснули саме «дивитися», і показати натомість
+	 * обкладинку з кнопкою означало б попросити зробити те саме вдруге.
+	 */
 	$effect(() => {
 		void param;
-		videoOpen = false;
+		videoOpen = page.url.searchParams.get('video') === '1';
 	});
 
 	$effect(() => {
