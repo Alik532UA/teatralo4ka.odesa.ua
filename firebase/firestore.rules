@@ -110,11 +110,16 @@ service cloud.firestore {
 
     // ---- Валідація статей (як в оригіналі) ----------------------------------
     function isValidTranslationBlock(block) {
-      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl', 'contentFormat', 'excerpt', 'externalUrl']) &&
+      // `hasOnly` — це allowlist: невідомий ключ у блоці відхиляє ЗАПИС ЦІЛКОМ,
+      // із permission-denied. Тому нове поле перекладу мусить з'явитися тут
+      // РАЗОМ із кодом, інакше форма мовчки перестає зберігати, і виглядає це
+      // як дефект форми, а не як забуте правило.
+      return block.keys().hasOnly(['title', 'content', 'isPublished', 'coverUrl', 'videoUrl', 'contentFormat', 'excerpt', 'externalUrl']) &&
              (!('title' in block) || (block.title is string && block.title.size() <= 150)) &&
              (!('content' in block) || (block.content is string && block.content.size() <= 50000)) &&
              (!('isPublished' in block) || block.isPublished is bool) &&
              (!('coverUrl' in block) || (block.coverUrl is string && block.coverUrl.size() <= 2048)) &&
+             (!('videoUrl' in block) || (block.videoUrl is string && block.videoUrl.size() <= 2048)) &&
              (!('contentFormat' in block) || block.contentFormat in ['markdown', 'html']) &&
              (!('excerpt' in block) || (block.excerpt is string && block.excerpt.size() <= 500)) &&
              (!('externalUrl' in block) || (block.externalUrl is string && block.externalUrl.size() <= 2048));
