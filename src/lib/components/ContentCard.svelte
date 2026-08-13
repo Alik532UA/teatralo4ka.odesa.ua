@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from "$app/paths";
 	import { t } from "svelte-i18n";
-	import { Play } from "lucide-svelte";
+	import { Play, Image as ImageIcon, ExternalLink } from "lucide-svelte";
 	import { parseVideoUrl } from "$lib/utils/videoEmbed";
 
 	export interface ContentCardItem {
@@ -20,10 +20,9 @@
 		/** Whether the link points to an external site */
 		isExternal?: boolean;
 		/**
-		 * Посилання на відео. Картка його НЕ грає — лише позначає іконкою, що
-		 * відео є. Плеєр живе на сторінці статті: iframe усередині посилання не
-		 * клікається й не грає, а шість плеєрів у каруселі — це і продуктивність,
-		 * і доступність під нуль.
+		 * Посилання на відео. Картка грає його НА МІСЦІ ЗОБРАЖЕННЯ, не відкриваючи
+		 * новину. Плеєр з'являється лише за кліком: шість iframe у каруселі
+		 * одразу — це і продуктивність, і приватність під нуль.
 		 */
 		videoUrl?: string;
 	}
@@ -62,34 +61,99 @@
 	);
 	const linkTarget = $derived(item.isExternal ? '_blank' : undefined);
 	const linkRel = $derived(item.isExternal ? 'noopener noreferrer' : undefined);
-	// Позначка з'являється лише для посилання, яке ми справді розпізнали як
+	// Кнопка з'являється лише для посилання, яке ми справді розпізнали як
 	// відео: інакше вона обіцяла б відео там, де його немає.
-	const hasVideo = $derived(parseVideoUrl(item.videoUrl) !== null);
+	const video = $derived(parseVideoUrl(item.videoUrl));
+	const hasVideo = $derived(video !== null);
+
+	/**
+	 * Плеєр у картці — лише після кліку.
+	 *
+	 * Поки він відкритий, картка перестає бути посиланням: розтягнута область
+	 * кліку ховається (`is-playing`), інакше вона лежала б поверх iframe і
+	 * перехоплювала б кожен клік по плеєру.
+	 */
+	let playing = $state(false);
+	const showPlayer = $derived(playing && video?.embeddable === true);
+
+	// Картка може переїхати на інший елемент списку (карусель перевикористовує
+	// компоненти) — тоді плеєр попереднього мусить згорнутися.
+	$effect(() => {
+		void item.id;
+		playing = false;
+	});
 </script>
 
 <!--
-	Позначка «є відео» — накладкою в лівому верхньому куті зображення.
+	Кнопка відео — накладкою в лівому верхньому куті зображення.
 
-	Це саме ПОЗНАЧКА, а не кнопка відтворення: картка є посиланням на статтю, і
-	клік по ній веде туди, а не запускає відео. Тому вона не інтерактивна
-	(`pointer-events: none`) — щоб не виглядала натисканою й не перехоплювала клік.
+	Вона мусить бути ПОЗА посиланням картки: кнопка всередині `<a>` — це
+	вкладений інтерактивний елемент, і axe завалює на цьому збірку правилом
+	`nested-interactive`. Тому картка більше не є одним великим `<a>`: вона —
+	`<div>`, а посилання розтягується на неї через `::after` (клікабельна вся
+	картка, як і було), і кнопка лежить вище нього по z-index.
 
-	Коли зображення немає (наприклад, саме лише посилання на Vimeo, який кадру
-	не віддає), накладку класти нікуди — тоді та сама позначка йде в рядок
-	метаданих поруч із категорією й датою.
+	Для Instagram і Facebook плеєра немає — там це посилання в нову вкладку, з
+	іншою іконкою, щоб було видно заздалегідь.
 -->
-{#snippet videoBadgeOverlay()}
-	{#if hasVideo}
-		<span class="tag video-badge video-badge--overlay" data-testid="{testIdPrefix}-card-video-badge-{index}">
-			<Play size={12} aria-hidden="true" />
-			{$t('common.hasVideo')}
-		</span>
+{#snippet videoControl(idBase: string)}
+	{#if video?.embeddable}
+		<button
+			type="button"
+			class="video-control"
+			onclick={() => (playing = !playing)}
+			aria-label={playing ? $t('common.showCover') : $t('common.watchVideo')}
+			data-testid={`${idBase}-video-btn-${index}`}
+		>
+			{#if playing}
+				<ImageIcon size={14} aria-hidden="true" />
+			{:else}
+				<Play size={14} aria-hidden="true" />
+			{/if}
+			<span class="video-control__text">{$t('common.hasVideo')}</span>
+		</button>
+	{:else if video}
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a href={video.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="video-control"
+			aria-label={$t('common.watchVideo')}
+			data-testid={`${idBase}-video-link-${index}`}
+		>
+			<ExternalLink size={14} aria-hidden="true" />
+			<span class="video-control__text">{$t('common.hasVideo')}</span>
+		</a>
 	{/if}
 {/snippet}
 
-{#snippet videoBadgeMeta()}
+<!--
+	Вміст медіа-слота: плеєр або зображення. Один сніпет на всі чотири варіанти
+	картки — інакше правило «плеєр стає на місце фото» довелося б повторити
+	чотири рази й воно розійшлося б на першій же правці.
+-->
+{#snippet cardMedia(imgClass: string, imgTestId: string | undefined, idBase: string)}
+	{#if showPlayer && video}
+		<iframe
+			src="{video.embedUrl}?autoplay=1"
+			title={item.title}
+			class="card-player"
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowfullscreen
+			referrerpolicy="strict-origin-when-cross-origin"
+			data-testid={imgTestId ? `${imgTestId}-player` : undefined}
+		></iframe>
+	{:else}
+		<img src={item.coverUrl} alt={item.title} class={imgClass} draggable="false" data-testid={imgTestId} />
+	{/if}
+	{@render videoControl(idBase)}
+{/snippet}
+
+<!-- Коли зображення немає взагалі, накладку класти нікуди — тоді позначка
+     йде в рядок метаданих поруч із категорією й датою. -->
+{#snippet videoBadgeMeta(idBase: string)}
 	{#if hasVideo && !item.coverUrl}
-		<span class="tag video-badge" data-testid="{testIdPrefix}-card-video-badge-{index}">
+		<span class="tag video-badge" data-testid={`${idBase}-video-badge-${index}`}>
 			<Play size={12} aria-hidden="true" />
 			{$t('common.hasVideo')}
 		</span>
@@ -98,11 +162,10 @@
 
 
 {#if variant === 'carousel'}
-	<a href={link} target={linkTarget} rel={linkRel} class="focus-card" class:is-active={isActive} data-testid="{testIdPrefix}-card-{index}">
+	<div class="focus-card" class:is-active={isActive} class:is-playing={showPlayer} data-testid="{testIdPrefix}-card-{index}">
 		{#if item.coverUrl}
 			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-container-{index}">
-				<img src={item.coverUrl} alt={item.title} class="focus-card__img" draggable="false" data-testid="{testIdPrefix}-card-img-{index}" />
-				{@render videoBadgeOverlay()}
+				{@render cardMedia('focus-card__img', `${testIdPrefix}-card-img-${index}`, `${testIdPrefix}-card`)}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-card-panel-{index}">
@@ -113,20 +176,19 @@
 				{#if item.date}
 					<time class="date" data-testid="{testIdPrefix}-card-date-{index}">{item.date}</time>
 				{/if}
-				{@render videoBadgeMeta()}
+				{@render videoBadgeMeta(`${testIdPrefix}-card`)}
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
-			<span class="btn-more" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
-	</a>
+	</div>
 
 {:else if variant === 'grid'}
-	<a href={link} target={linkTarget} rel={linkRel} class="grid-card" data-testid="{testIdPrefix}-grid-card-{index}">
+	<div class="grid-card" class:is-playing={showPlayer} data-testid="{testIdPrefix}-grid-card-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-grid-img-{index}">
-				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
-				{@render videoBadgeOverlay()}
+				{@render cardMedia('grid-card__img', undefined, `${testIdPrefix}-grid`)}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-grid-panel-{index}">
@@ -137,20 +199,19 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadgeMeta()}
+				{@render videoBadgeMeta(`${testIdPrefix}-grid`)}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<span class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
-	</a>
+	</div>
 
 {:else}
-	<a href={link} target={linkTarget} rel={linkRel} class="list-item desktop-list" data-testid="{testIdPrefix}-list-item-{index}">
+	<div class="list-item desktop-list" class:is-playing={showPlayer} data-testid="{testIdPrefix}-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="list-item__img-wrap" data-testid="{testIdPrefix}-list-img-{index}">
-				<img src={item.coverUrl} alt={item.title} class="list-item__img" />
-				{@render videoBadgeOverlay()}
+				{@render cardMedia('list-item__img', undefined, `${testIdPrefix}-list`)}
 			</div>
 		{/if}
 		<div class="list-item__body" data-testid="{testIdPrefix}-list-body-{index}">
@@ -161,20 +222,19 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadgeMeta()}
+				{@render videoBadgeMeta(`${testIdPrefix}-list`)}
 			</div>
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
 		</div>
-		<span class="btn-more list-item__link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
-	</a>
+		<a href={link} target={linkTarget} rel={linkRel} class="btn-more list-item__link card-link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+	</div>
 
 	<!-- Mobile version of list that uses grid styles -->
-	<a href={link} target={linkTarget} rel={linkRel} class="grid-card mobile-list-as-grid" data-testid="{testIdPrefix}-mobile-list-item-{index}">
+	<div class="grid-card mobile-list-as-grid" class:is-playing={showPlayer} data-testid="{testIdPrefix}-mobile-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-mobile-list-img-{index}">
-				<img src={item.coverUrl} alt={item.title} class="grid-card__img" />
-				{@render videoBadgeOverlay()}
+				{@render cardMedia('grid-card__img', undefined, `${testIdPrefix}-mobile-list`)}
 			</div>
 		{/if}
 		<div class="focus-card__content" data-testid="{testIdPrefix}-mobile-list-panel-{index}">
@@ -185,38 +245,87 @@
 				{#if item.date}
 					<time class="date">{item.date}</time>
 				{/if}
-				{@render videoBadgeMeta()}
+				{@render videoBadgeMeta(`${testIdPrefix}-mobile-list`)}
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<span class="btn-more">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
-	</a>
+	</div>
 {/if}
 
 <style>
-	/* Позначка «Відео» — той самий tag, лише з іконкою. Кольору типу тут не
-	   треба: він конкурував би з категорією, а сенс несе саме іконка. */
+	/* Позначка «Відео» в рядку метаданих — запасний варіант, коли зображення
+	   немає й накладку класти нікуди. */
 	.video-badge {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.3rem;
 	}
 
-	/* Накладка в лівому верхньому куті зображення.
-	   `pointer-events: none` обов'язковий: під нею лежить посилання картки, і
-	   без цього позначка з'їдала б клік у своєму кутку. */
-	.video-badge--overlay {
+	/*
+	 * Розтягнуте посилання: клікабельна вся картка, як і було до появи кнопки,
+	 * але в розмітці лишається РІВНО ОДИН `<a>`. Кнопка відео лежить вище за
+	 * z-index, тож клік по ній не потрапляє в посилання.
+	 *
+	 * Раніше карткою був сам `<a>`, і кнопка всередині нього була б вкладеним
+	 * інтерактивним елементом — axe завалює на цьому збірку.
+	 */
+	.card-link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	/* Поки грає відео, картка перестає бути посиланням: інакше розтягнута
+	   область лежала б поверх плеєра й з'їдала кожен клік по ньому. */
+	.is-playing .card-link::after {
+		display: none;
+	}
+
+	/* Кнопка відео — накладкою в лівому верхньому куті зображення. */
+	.video-control {
 		position: absolute;
 		top: 0.6rem;
 		left: 0.6rem;
 		z-index: 2;
-		pointer-events: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.3rem 0.7rem;
+		border: none;
+		border-radius: var(--radius-full);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
+		font-family: var(--font-heading);
+		font-size: 0.7rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		cursor: pointer;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+		transition: transform var(--transition-fast), background var(--transition-fast);
+	}
+
+	.video-control:hover,
+	.video-control:focus-visible {
+		transform: scale(1.05);
+	}
+
+	/* Плеєр стає рівно на місце зображення. */
+	.card-player {
+		width: 100%;
+		height: 100%;
+		border: 0;
+		display: block;
+		background: var(--palette-black);
 	}
 
 	/* ─── Carousel card ──────────────────────────────────── */
 	.focus-card {
+		/* Опора для розтягнутого посилання й кнопки відео. */
+		position: relative;
 		flex: 0 0 var(--focus-card-width, 600px);
 		height: 400px;
 		background: var(--color-surface);
@@ -337,6 +446,8 @@
 
 	/* ─── Grid card ──────────────────────────────────────── */
 	.grid-card {
+		/* Опора для розтягнутого посилання й кнопки відео. */
+		position: relative;
 		background: var(--color-surface);
 		border-radius: 32px;
 		overflow: hidden;
@@ -406,6 +517,8 @@
 
 	/* ─── List item ──────────────────────────────────────── */
 	.list-item {
+		/* Опора для розтягнутого посилання й кнопки відео. */
+		position: relative;
 		display: flex;
 		align-items: center;
 		gap: 2rem;
