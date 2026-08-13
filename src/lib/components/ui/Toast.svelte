@@ -18,8 +18,12 @@
 	 */
 	const isNarrow = new MediaQuery('(max-width: 600px)');
 
-	const globalMsgs = $derived(toast.messages.filter((m) => !m.anchor || isNarrow.current));
-	const anchoredMsgs = $derived(toast.messages.filter((m) => m.anchor && !isNarrow.current));
+	/** Гарячі новини мають власний куток — лівий нижній, окремо від решти. */
+	const hotMsgs = $derived(toast.messages.filter((m) => m.placement === 'hot'));
+	const cornerMsgs = $derived(toast.messages.filter((m) => m.placement !== 'hot'));
+
+	const globalMsgs = $derived(cornerMsgs.filter((m) => !m.anchor || isNarrow.current));
+	const anchoredMsgs = $derived(cornerMsgs.filter((m) => m.anchor && !isNarrow.current));
 
 	/**
 	 * Ставить тост біля свого посилання.
@@ -99,7 +103,32 @@
 			{/if}
 		</div>
 		<div class="toast-content" data-testid="toast-panel">
-			<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
+			{#if msg.card}
+				<!-- Гаряча новина: та сама картка, що в списку новин, лише в тості.
+				     Обкладинка вужча — сповіщення не має закривати сторінку. -->
+				<a
+					href={msg.card.href}
+					class="toast-card"
+					onclick={() => toast.remove(msg.id)}
+					data-testid="toast-card-link"
+				>
+					{#if msg.card.coverUrl}
+						<img src={msg.card.coverUrl} alt="" class="toast-card__img" loading="lazy" decoding="async" />
+					{/if}
+					<span class="toast-card__body">
+						<span class="toast-card__meta">
+							{#if msg.card.category}<span class="toast-card__tag">{msg.card.category}</span>{/if}
+							{#if msg.card.date}<span class="toast-card__date">{msg.card.date}</span>{/if}
+						</span>
+						<span class="toast-card__title" data-testid="toast-text-label">{msg.card.title}</span>
+						{#if msg.card.excerpt}
+							<span class="toast-card__excerpt">{msg.card.excerpt}</span>
+						{/if}
+					</span>
+				</a>
+			{:else}
+				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
+			{/if}
 			{#if msg.action}
 				<button 
 					class="toast-action" 
@@ -137,6 +166,18 @@
 	{/each}
 </div>
 
+<!--
+	Гарячі новини — лівий нижній кут, власний стек.
+	Окремо від глобального навмисно: тост «адресу скопійовано» з'являється у
+	відповідь на дію відвідувача, а сповіщення про новину — саме по собі. Змішані
+	в одному кутку, вони читалися б як одна черга подій, якою не є.
+-->
+<div class="toast-container toast-container--hot" data-testid="toast-hot-container">
+	{#each hotMsgs as msg (msg.id)}
+		{@render toastCard(msg)}
+	{/each}
+</div>
+
 <!-- Анкорні: біля свого посилання, з переворотом угору/вниз (§ 5). -->
 {#each anchoredMsgs as msg (msg.id)}
 	<div
@@ -157,6 +198,78 @@
 		left: 0;
 		max-width: min(450px, calc(100vw - 16px));
 		z-index: 10001;
+	}
+
+	/* Лівий нижній кут. Ширший за звичайний тост: усередині картка з фото. */
+	.toast-container--hot {
+		right: auto;
+		left: 2rem;
+		max-width: min(380px, calc(100vw - 2rem));
+	}
+
+	.toast-card {
+		display: flex;
+		gap: 0.75rem;
+		align-items: flex-start;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.toast-card__img {
+		width: 72px;
+		aspect-ratio: 9 / 16;
+		object-fit: cover;
+		border-radius: 10px;
+		flex-shrink: 0;
+	}
+
+	.toast-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		min-width: 0;
+	}
+
+	.toast-card__meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	/* Той самий вигляд, що й `.tag` у картці новини — стилі Svelte scoped,
+	   тому клас доводиться повторити, а не успадкувати. */
+	.toast-card__tag {
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
+		padding: 0.2rem 0.6rem;
+		border-radius: var(--radius-full);
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.toast-card__date {
+		font-size: 0.7rem;
+		opacity: 0.7;
+	}
+
+	.toast-card__title {
+		font-family: var(--font-heading);
+		font-weight: 700;
+		color: var(--text-title);
+		line-height: 1.25;
+	}
+
+	.toast-card__excerpt {
+		font-size: 0.8rem;
+		opacity: 0.8;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
 	}
 
 	.toast-container {
@@ -284,6 +397,12 @@
 	}
 	
 	@media (max-width: 600px) {
+		.toast-container--hot {
+			left: 1rem;
+			right: 1rem;
+			max-width: none;
+		}
+
 		.toast-container {
 			bottom: 1rem;
 			left: 1rem;
