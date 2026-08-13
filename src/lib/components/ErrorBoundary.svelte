@@ -1,18 +1,34 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 	import { t } from 'svelte-i18n';
+	import { errorLogger } from '$lib/services/errorLogger';
 
 	let { children }: { children: Snippet } = $props();
+
+	/**
+	 * Помилка йде в логер, а не на екран (ERROR-HANDLING-v8, анти-патерн
+	 * CRITICAL «показ raw error message користувачу»). Раніше сюди виводився
+	 * `error.message` — тобто відвідувач бачив англійський текст рантайму на
+	 * кшталт «Cannot read properties of undefined (reading 'blocks')» посеред
+	 * української сторінки, а розробник не отримував нічого: запис нікуди не йшов.
+	 *
+	 * `onerror` спрацьовує ДО `failed`, тож у момент показу запис уже є.
+	 */
+	function report(error: unknown) {
+		errorLogger.logError(error instanceof Error ? error : new Error(String(error)), {
+			component: 'error-boundary'
+		});
+	}
 </script>
 
-<svelte:boundary>
+<svelte:boundary onerror={report}>
 	{@render children()}
 
-	{#snippet failed(error, reset)}
+	{#snippet failed(_error, reset)}
 		<div class="error-boundary" data-testid="error-boundary-container">
 			<div class="error-boundary__content" data-testid="error-boundary-panel">
 				<h2 data-testid="error-boundary-title">{$t('common.errorTitle')}</h2>
-				<p data-testid="error-boundary-message">{error instanceof Error ? error.message : String(error)}</p>
+				<p data-testid="error-boundary-message">{$t('common.errorDescription')}</p>
 				<div class="error-boundary__actions" data-testid="error-boundary-toolbar">
 					<button onclick={reset} data-testid="error-boundary-reset-btn">{$t('common.tryAgain')}</button>
 					<button onclick={() => location.reload()} data-testid="error-boundary-reload-btn">{$t('common.reloadPage')}</button>

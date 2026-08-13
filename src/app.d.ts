@@ -2,7 +2,16 @@
 // for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
+		/**
+		 * Форма `page.error`. `message` — узагальнений безпечний текст, який
+		 * повертає `handleError` у `hooks.client.ts`; `errorId` дає змогу знайти
+		 * повний запис у `errorLogger.getCache()`, не показуючи його користувачу
+		 * (ERROR-HANDLING-v8 § 2.4).
+		 */
+		interface Error {
+			message: string;
+			errorId?: string;
+		}
 		// interface Locals {}
 		// interface PageData {}
 		// interface PageState {}
