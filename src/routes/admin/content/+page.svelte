@@ -12,6 +12,7 @@
 	import { Timestamp } from 'firebase/firestore';
 	import { Paperclip, Search, Calendar, Tag, FileText, Globe, Folder } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
+	import { getContentExcerpt } from '$lib/utils/renderContent';
 
 	let allItems = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -197,9 +198,20 @@
 
 	function getExcerpt(article: Article) {
 		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
-		const content = article.translations?.[currentLang]?.content || '';
-		const plainText = content.replace(/[#*`_[\]()]/g, '').replace(/<[^>]*>/g, '');
-		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
+		const translation = article.translations?.[currentLang];
+		/**
+		 * Той самий помічник, що й для карток новин на сайті.
+		 *
+		 * Тут стояла власна копія «прибрати розмітку»: з тексту викидалися
+		 * символи `#*`_[]()`. Дужки зникали, а те, що було між ними, лишалося,
+		 * тож markdown-посилання показувало підпис, склеєний з адресою:
+		 * «Одеса.Театр.PROhttp://Одеса.Театр.PRO». Внутрішня будова посилань у
+		 * списку контенту не потрібна — потрібен текст, який побачить читач.
+		 *
+		 * Той самий дефект уже виправляли в описах карток; він повернувся тут
+		 * саме тому, що правило було продубльоване, а не спільне.
+		 */
+		return getContentExcerpt(translation?.content || '', translation?.contentFormat, 120);
 	}
 
 	function getTitle(article: Article) {

@@ -10,6 +10,7 @@
 	import { get } from 'svelte/store';
 	import { Search, FilePlus, Calendar } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
+	import { getContentExcerpt } from '$lib/utils/renderContent';
 
 	let pages = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -152,9 +153,10 @@
 
 	function getExcerpt(page: Article) {
 		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
-		const content = page.translations?.[currentLang]?.content || '';
-		const plainText = content.replace(/[#*`_[\]()]/g, '').replace(/<[^>]*>/g, '');
-		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
+		const translation = page.translations?.[currentLang];
+		// Спільний помічник замість власної копії — див. admin/content.
+		// Викидання самих лише дужок склеювало підпис посилання з адресою.
+		return getContentExcerpt(translation?.content || '', translation?.contentFormat, 120);
 	}
 
 	function getTitle(page: Article) {

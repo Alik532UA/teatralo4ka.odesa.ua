@@ -12,6 +12,7 @@
 	import { Timestamp } from 'firebase/firestore';
 	import { Paperclip, Search, Calendar, Tag } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
+	import { getContentExcerpt } from '$lib/utils/renderContent';
 
 	let articles = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -162,10 +163,10 @@
 
 	function getExcerpt(article: Article) {
 		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
-		const content = article.translations?.[currentLang]?.content || '';
-		// Strip markdown and HTML
-		const plainText = content.replace(/[#*`_[\]()]/g, '').replace(/<[^>]*>/g, '');
-		return plainText.length > 120 ? plainText.slice(0, 120) + '...' : plainText;
+		const translation = article.translations?.[currentLang];
+		// Спільний помічник замість власної копії — див. admin/content.
+		// Викидання самих лише дужок склеювало підпис посилання з адресою.
+		return getContentExcerpt(translation?.content || '', translation?.contentFormat, 120);
 	}
 
 	function getTitle(article: Article) {
