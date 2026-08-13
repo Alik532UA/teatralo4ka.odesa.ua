@@ -132,6 +132,13 @@
 			<div class="article-body" class:has-cover={!!cover || !!video}>
 				{#if cover || video}
 					<aside class="article-cover" data-testid="{testIdPrefix}-cover-container">
+						<!--
+							Окрема обгортка для медіа, а не одна коробка на все.
+							Обрізання (`overflow: hidden`) і пропорція 9/16 живуть ТУТ:
+							коли вони стояли на `<aside>`, кнопка виштовхувалася за межі
+							коробки й обрізалася — на сторінці її не було видно взагалі.
+						-->
+						<div class="article-cover__media">
 						{#if videoOpen && video?.embeddable}
 							<!-- Плеєр стає на місце зображення, у тій самій рамці. -->
 							<iframe
@@ -154,6 +161,7 @@
 								data-testid="{testIdPrefix}-cover-img"
 							/>
 						{/if}
+						</div>
 
 						{#if video}
 							{#if video.embeddable}
@@ -311,26 +319,31 @@
 		align-items: start;
 	}
 
+	/* Колонка: медіа зверху, кнопка під ним. Нічого не обрізає — інакше кнопка
+	   опиняється за межами коробки й зникає з екрана. */
 	.article-cover {
-		border-radius: 20px;
-		overflow: hidden;
-		/* Кнопка лягає під зображенням, тому рамка стає колонкою. */
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-		aspect-ratio: 9 / 16;
 		position: sticky;
 		top: 120px;
+	}
+
+	/* Саме медіа: пропорція, скруглення й обрізання — тут. */
+	.article-cover__media {
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+		aspect-ratio: 9 / 16;
+		width: 100%;
 	}
 
 	/* Плеєр займає те саме місце, що й зображення, і в тій самій пропорції —
 	   інакше вміст сторінки стрибав би при перемиканні. */
 	.article-cover__player {
 		width: 100%;
-		flex: 1;
+		height: 100%;
 		border: 0;
-		border-radius: 20px;
 		background: var(--bg-surface);
 		display: block;
 	}
