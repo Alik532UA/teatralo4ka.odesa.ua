@@ -31,6 +31,37 @@
 		return href.includes('?') ? `${href}&video=1` : `${href}?video=1`;
 	}
 
+	/**
+	 * Наскільки підвал заліз у вікно знизу.
+	 *
+	 * Тост із `position: fixed` не знає про потік сторінки, тому в самому низу
+	 * лягав просто поверх підвала — поверх телефонів, пошти й кнопок соцмереж.
+	 * Тут рахується, на скільки підвал уже видно, і тост стає рівно над ним.
+	 *
+	 * Слухач на `scroll`, а не IntersectionObserver: потрібне не «видно/не
+	 * видно», а точна величина перекриття, і вона змінюється щокадру прокрутки.
+	 */
+	let footerLift = $state(0);
+
+	$effect(() => {
+		const update = () => {
+			const footer = document.getElementById('main-footer');
+			if (!footer) {
+				footerLift = 0;
+				return;
+			}
+			const top = footer.getBoundingClientRect().top;
+			footerLift = Math.max(0, window.innerHeight - top);
+		};
+		update();
+		window.addEventListener('scroll', update, { passive: true });
+		window.addEventListener('resize', update);
+		return () => {
+			window.removeEventListener('scroll', update);
+			window.removeEventListener('resize', update);
+		};
+	});
+
 	/** Кут гарячих новин задає адміністратор; усі вони приходять з тим самим. */
 	const hotCorner = $derived(
 		toast.messages.find((m) => m.placement === 'hot')?.corner ?? 'bottomRight'
@@ -241,7 +272,11 @@
 {/snippet}
 
 <!-- Глобальний стек у кутку: усе, що не прив'язане до конкретної кнопки. -->
-<div class="toast-container" data-testid="toast-notifications-container">
+<div
+	class="toast-container"
+	style="--footer-lift: {footerLift}px"
+	data-testid="toast-notifications-container"
+>
 	{#each globalMsgs as msg (msg.id)}
 		{@render toastCard(msg)}
 	{/each}
@@ -257,6 +292,7 @@
 	class="toast-container toast-container--hot"
 	class:at-left={hotCorner === 'bottomLeft' || hotCorner === 'topLeft'}
 	class:at-top={hotCorner === 'topLeft' || hotCorner === 'topRight'}
+	style="--footer-lift: {footerLift}px"
 	data-testid="toast-hot-container"
 >
 	{#each hotMsgs as msg (msg.id)}
@@ -300,6 +336,7 @@
 	   з більшим z-index накрило б меню, яким відвідувач саме користується. */
 	.toast-container--hot.at-top {
 		bottom: auto;
+		/* Верхні кути до підвала не дістають — підйом там зайвий. */
 		top: calc(var(--header-height, 72px) + var(--ticker-height, 0px) + 1rem);
 	}
 
@@ -435,7 +472,8 @@
 
 	.toast-container {
 		position: fixed;
-		bottom: 2rem;
+		/* Підвал відсуває тост угору, а не ховається під ним. */
+		bottom: calc(2rem + var(--footer-lift, 0px));
 		right: 2rem;
 		display: flex;
 		flex-direction: column;
