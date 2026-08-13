@@ -1,68 +1,164 @@
 <script lang="ts">
-	import { toast } from '$lib/controllers/toast.svelte';
+	import { toast, type ToastMessage } from '$lib/controllers/toast.svelte';
 	import { CheckCircle2, AlertCircle, Info, X } from 'lucide-svelte';
 	import { fly, fade } from 'svelte/transition';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { t } from 'svelte-i18n';
+
+	/**
+	 * Два розміщення (NOTIFICATIONS-v8 § 5): глобальний стек у кутку для подій,
+	 * не пов'язаних із конкретною кнопкою, і анкорний тост біля тригера.
+	 *
+	 * Потреба конкретна: підтвердження «адресу скопійовано» в кутку екрана
+	 * відірване від місця, куди відвідувач щойно клікнув, — на довгій сторінці
+	 * воно взагалі поза полем зору.
+	 *
+	 * На вузьких екранах анкор ігнорується: там кут передбачуваніший, а місця
+	 * поруч із посиланням однаково немає.
+	 */
+	const isNarrow = new MediaQuery('(max-width: 600px)');
+
+	const globalMsgs = $derived(toast.messages.filter((m) => !m.anchor || isNarrow.current));
+	const anchoredMsgs = $derived(toast.messages.filter((m) => m.anchor && !isNarrow.current));
+
+	/**
+	 * Ставить тост біля свого посилання.
+	 *
+	 * Переворот за половиною вьюпорта: тригер у нижній половині — тост зверху,
+	 * у верхній — знизу. Далі кламп за ВИМІРЯНИМ розміром тоста, інакше він
+	 * вилазить за край, і сенс анкорності зникає.
+	 */
+	function positionAnchored(node: HTMLElement, anchor: HTMLElement) {
+		const place = () => {
+			const a = anchor.getBoundingClientRect();
+			const w = node.getBoundingClientRect();
+			const gap = 10;
+			const margin = 8;
+
+			const above = a.top + a.height / 2 > window.innerHeight / 2;
+			let top = above ? a.top - gap - w.height : a.bottom + gap;
+			top = Math.max(margin, Math.min(top, window.innerHeight - w.height - margin));
+
+			let left = a.left + a.width / 2 - w.width / 2;
+			left = Math.max(margin, Math.min(left, window.innerWidth - w.width - margin));
+
+			node.style.top = `${Math.round(top)}px`;
+			node.style.left = `${Math.round(left)}px`;
+		};
+		place();
+		return { update: place };
+	}
+
+	/**
+	 * Позиція рахується один раз, тож при прокрутці тост «відклеївся» б від
+	 * посилання. Замість того, щоб їздити за ним, він просто закривається.
+	 * Поріг у кілька пікселів — щоб випадковий субпіксельний зсув не гасив
+	 * тост одразу після появи.
+	 */
+	$effect(() => {
+		if (anchoredMsgs.length === 0) return;
+		const startX = window.scrollX;
+		const startY = window.scrollY;
+		const closeAnchored = () => {
+			for (const m of toast.messages) if (m.anchor) toast.remove(m.id);
+		};
+		const onScroll = () => {
+			if (Math.abs(window.scrollX - startX) < 6 && Math.abs(window.scrollY - startY) < 6) return;
+			closeAnchored();
+		};
+		window.addEventListener('scroll', onScroll, { passive: true, capture: true });
+		window.addEventListener('resize', closeAnchored);
+		return () => {
+			window.removeEventListener('scroll', onScroll, true);
+			window.removeEventListener('resize', closeAnchored);
+		};
+	});
 </script>
 
-<div class="toast-container" data-testid="toast-notifications-container">
-	{#each toast.messages as msg (msg.id)}
-		<div
-			class="toast-msg toast-{msg.type}"
-			in:fly={{ y: 20, duration: 300 }}
-			out:fade={{ duration: 200 }}
-			role="alert"
-			data-testid={`toast-message-${msg.type}`}
-			onmouseenter={() => toast.pauseTimer(msg.id)}
-			onmouseleave={() => toast.resumeTimer(msg.id)}
-			onfocusin={() => toast.pauseTimer(msg.id)}
-			onfocusout={() => toast.resumeTimer(msg.id)}
-		>
-			<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
-				{#if msg.type === 'success'}
-					<CheckCircle2 size={20} />
-				{:else if msg.type === 'error'}
-					<AlertCircle size={20} />
-				{:else}
-					<div data-testid="toast-icon-info">
-						<Info size={20} />
-					</div>
-				{/if}
-			</div>
-			<div class="toast-content" data-testid="toast-panel">
-				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
-				{#if msg.action}
-					<button 
-						class="toast-action" 
-						onclick={() => {
-							msg.action?.onAction();
-							toast.remove(msg.id);
-						}}
-						data-testid="toast-action-btn"
-					>
-						{toast.getActionLabel(msg.action)}
-					</button>
-				{/if}
-			</div>
-			<button 
-				class="toast-close" 
-				onclick={() => toast.remove(msg.id)} 
-				aria-label={$t('common.close')}
-				data-testid="toast-close-btn"
-			>
-				<X size={16} />
-			</button>
-			<div
-				class="toast-progress"
-				style="animation-duration: {msg.duration}ms"
-				data-testid="toast-progress-bar"
-				aria-hidden="true"
-			></div>
+{#snippet toastCard(msg: ToastMessage)}
+	<div
+		class="toast-msg toast-{msg.type}"
+		in:fly={{ y: 20, duration: 300 }}
+		out:fade={{ duration: 200 }}
+		role="alert"
+		data-testid={`toast-message-${msg.type}`}
+		onmouseenter={() => toast.pauseTimer(msg.id)}
+		onmouseleave={() => toast.resumeTimer(msg.id)}
+		onfocusin={() => toast.pauseTimer(msg.id)}
+		onfocusout={() => toast.resumeTimer(msg.id)}
+	>
+		<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
+			{#if msg.type === 'success'}
+				<CheckCircle2 size={20} />
+			{:else if msg.type === 'error'}
+				<AlertCircle size={20} />
+			{:else}
+				<div data-testid="toast-icon-info">
+					<Info size={20} />
+				</div>
+			{/if}
 		</div>
+		<div class="toast-content" data-testid="toast-panel">
+			<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
+			{#if msg.action}
+				<button 
+					class="toast-action" 
+					onclick={() => {
+						msg.action?.onAction();
+						toast.remove(msg.id);
+					}}
+					data-testid="toast-action-btn"
+				>
+					{toast.getActionLabel(msg.action)}
+				</button>
+			{/if}
+		</div>
+		<button 
+			class="toast-close" 
+			onclick={() => toast.remove(msg.id)} 
+			aria-label={$t('common.close')}
+			data-testid="toast-close-btn"
+		>
+			<X size={16} />
+		</button>
+		<div
+			class="toast-progress"
+			style="animation-duration: {msg.duration}ms"
+			data-testid="toast-progress-bar"
+			aria-hidden="true"
+		></div>
+	</div>
+{/snippet}
+
+<!-- Глобальний стек у кутку: усе, що не прив'язане до конкретної кнопки. -->
+<div class="toast-container" data-testid="toast-notifications-container">
+	{#each globalMsgs as msg (msg.id)}
+		{@render toastCard(msg)}
 	{/each}
 </div>
 
+<!-- Анкорні: біля свого посилання, з переворотом угору/вниз (§ 5). -->
+{#each anchoredMsgs as msg (msg.id)}
+	<div
+		class="toast-anchored"
+		use:positionAnchored={msg.anchor!}
+		data-testid="toast-anchored-container"
+	>
+		{@render toastCard(msg)}
+	</div>
+{/each}
+
 <style>
+	/* Анкорний тост позиціюється скриптом; ширина обмежена, щоб кламп до
+	   країв вьюпорта мав із чим працювати. */
+	.toast-anchored {
+		position: fixed;
+		top: 0;
+		left: 0;
+		max-width: min(450px, calc(100vw - 16px));
+		z-index: 10001;
+	}
+
 	.toast-container {
 		position: fixed;
 		bottom: 2rem;
