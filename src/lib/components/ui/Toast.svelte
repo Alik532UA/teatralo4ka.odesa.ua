@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { toast, type ToastMessage } from '$lib/controllers/toast.svelte';
-	import { CheckCircle2, AlertCircle, Info, X } from 'lucide-svelte';
+	import { CheckCircle2, AlertCircle, Info, X, Play, ExternalLink } from 'lucide-svelte';
+	import { parseVideoUrl } from '$lib/utils/videoEmbed';
 	import { fly, fade } from 'svelte/transition';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { t } from 'svelte-i18n';
@@ -19,18 +20,40 @@
 	const isNarrow = new MediaQuery('(max-width: 600px)');
 
 	/**
-	 * Гарячі новини мають власний куток — лівий нижній, окремо від решти.
+	 * Адреса новини з проханням одразу відкрити плеєр.
 	 *
-	 * Окремий він лише на широкому екрані. На телефоні обидва кутки — це та сама
-	 * смуга внизу на всю ширину, і два стеки просто накрили б один одного. Тому
-	 * там гарячі новини йдуть у той самий стек, що й решта, — так само, як туди
-	 * зливаються анкорні тости.
+	 * Відео грає на сторінці новини, а не в самому сповіщенні. Сповіщення — це
+	 * кутик екрана: щоб умістити плеєр, воно мусило б рознести себе мало не на
+	 * пів сторінки, тобто перетворитися на те, від чого тост і відрізняється.
+	 * На сторінці новини для відео вже є місце й кнопка, тому натиск веде туди.
 	 */
+	function videoHref(href: string): string {
+		return href.includes('?') ? `${href}&video=1` : `${href}?video=1`;
+	}
+
+	/** Кут гарячих новин задає адміністратор; усі вони приходять з тим самим. */
+	const hotCorner = $derived(
+		toast.messages.find((m) => m.placement === 'hot')?.corner ?? 'bottomRight'
+	);
+
+	/**
+	 * Власний контейнер гарячим новинам потрібен НЕ завжди.
+	 *
+	 * Глобальний стек тостів стоїть у правому нижньому куті. Якщо адміністратор
+	 * обрав той самий кут, другий контейнер із `position: fixed` не став би поруч
+	 * — він накрив би перший, і відповідь «адресу скопійовано» на щойно зроблений
+	 * клік зникла б під сповіщенням про новину. Тому в спільному куті вони йдуть
+	 * одним стеком.
+	 *
+	 * Те саме на телефоні за будь-якого налаштування: там кожен кут — це та сама
+	 * смуга внизу на всю ширину.
+	 */
+	const hotSeparate = $derived(!isNarrow.current && hotCorner !== 'bottomRight');
 	const hotMsgs = $derived(
-		isNarrow.current ? [] : toast.messages.filter((m) => m.placement === 'hot')
+		hotSeparate ? toast.messages.filter((m) => m.placement === 'hot') : []
 	);
 	const cornerMsgs = $derived(
-		isNarrow.current ? toast.messages : toast.messages.filter((m) => m.placement !== 'hot')
+		hotSeparate ? toast.messages.filter((m) => m.placement !== 'hot') : toast.messages
 	);
 
 	const globalMsgs = $derived(cornerMsgs.filter((m) => !m.anchor || isNarrow.current));
@@ -102,44 +125,88 @@
 		onfocusin={() => toast.pauseTimer(msg.id)}
 		onfocusout={() => toast.resumeTimer(msg.id)}
 	>
-		<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
-			{#if msg.type === 'success'}
-				<CheckCircle2 size={20} />
-			{:else if msg.type === 'error'}
-				<AlertCircle size={20} />
-			{:else}
-				<div data-testid="toast-icon-info">
+		<!-- Значок типу — лише для текстових тостів. У картки новини свій зміст:
+		     обкладинка, рубрика й заголовок уже кажуть, що це. Кружечок «i» поруч
+		     із ними нічого не додає, а місце з'їдає. -->
+		{#if !msg.card}
+			<div class="toast-icon" data-testid={`toast-icon-${msg.type}`}>
+				{#if msg.type === 'success'}
+					<CheckCircle2 size={20} />
+				{:else if msg.type === 'error'}
+					<AlertCircle size={20} />
+				{:else}
 					<Info size={20} />
-				</div>
-			{/if}
-		</div>
+				{/if}
+			</div>
+		{/if}
 		<div class="toast-content" data-testid="toast-panel">
 			{#if msg.card}
-				<!-- Гаряча новина: та сама картка, що в списку новин, лише в тості.
-				     Обкладинка вужча — сповіщення не має закривати сторінку. -->
-				<!-- Адреса вже пройшла resolve() у HotNews.svelte або прийшла з
-				     externalUrl статті, перевіреного isSafeUrl. -->
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a
-					href={msg.card.href}
-					class="toast-card"
-					onclick={() => toast.remove(msg.id)}
-					data-testid="toast-card-link"
-				>
-					{#if msg.card.coverUrl}
-						<img src={msg.card.coverUrl} alt="" class="toast-card__img" loading="lazy" decoding="async" />
-					{/if}
-					<span class="toast-card__body">
+				{@const video = parseVideoUrl(msg.card.videoUrl)}
+				<!--
+					Гаряча новина: та сама картка, що в списку новин, лише в тості.
+
+					Корінь — блок, а не посилання: усередині є кнопка відео, а кнопка в
+					посиланні — недійсна розмітка й пастка для клавіатури (axe:
+					nested-interactive). Клікабельність усієї картки дає заголовок-
+					посилання, розтягнуте через ::after, — той самий прийом, що в
+					ContentCard.
+				-->
+				<div class="toast-card">
+					<div class="toast-card__media">
+						{#if msg.card.coverUrl}
+							<img src={msg.card.coverUrl} alt="" class="toast-card__img" loading="lazy" decoding="async" />
+						{/if}
+
+						{#if video?.embeddable}
+							<!-- Веде на сторінку новини з проханням одразу ввімкнути плеєр. -->
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<a
+								href={videoHref(msg.card.href)}
+								class="toast-card__video-btn"
+								onclick={() => toast.remove(msg.id)}
+								data-testid="toast-card-video-link"
+							>
+								<Play size={13} aria-hidden="true" />
+								<span>{$t('common.hasVideo')}</span>
+							</a>
+						{:else if video}
+							<!-- Instagram і Facebook вбудовувати не дають — лише перехід. -->
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<a
+								href={video.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="toast-card__video-btn"
+								aria-label={$t('common.watchVideo')}
+								data-testid="toast-card-video-external-link"
+							>
+								<ExternalLink size={13} aria-hidden="true" />
+								<span>{$t('common.hasVideo')}</span>
+							</a>
+						{/if}
+					</div>
+
+					<div class="toast-card__body">
 						<span class="toast-card__meta">
 							{#if msg.card.category}<span class="toast-card__tag">{msg.card.category}</span>{/if}
 							{#if msg.card.date}<span class="toast-card__date">{msg.card.date}</span>{/if}
 						</span>
-						<span class="toast-card__title" data-testid="toast-card-title">{msg.card.title}</span>
+						<!-- Адреса вже пройшла resolve() у HotNews.svelte або прийшла з
+						     externalUrl статті, перевіреного isSafeUrl. -->
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={msg.card.href}
+							class="toast-card__title toast-card__link"
+							onclick={() => toast.remove(msg.id)}
+							data-testid="toast-card-link"
+						>
+							<span data-testid="toast-card-title">{msg.card.title}</span>
+						</a>
 						{#if msg.card.excerpt}
 							<span class="toast-card__excerpt">{msg.card.excerpt}</span>
 						{/if}
-					</span>
-				</a>
+					</div>
+				</div>
 			{:else}
 				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
 			{/if}
@@ -186,7 +253,12 @@
 	відповідь на дію відвідувача, а сповіщення про новину — саме по собі. Змішані
 	в одному кутку, вони читалися б як одна черга подій, якою не є.
 -->
-<div class="toast-container toast-container--hot" data-testid="toast-hot-container">
+<div
+	class="toast-container toast-container--hot"
+	class:at-left={hotCorner === 'bottomLeft' || hotCorner === 'topLeft'}
+	class:at-top={hotCorner === 'topLeft' || hotCorner === 'topRight'}
+	data-testid="toast-hot-container"
+>
 	{#each hotMsgs as msg (msg.id)}
 		{@render toastCard(msg)}
 	{/each}
@@ -214,27 +286,94 @@
 		z-index: 10001;
 	}
 
-	/* Лівий нижній кут. Ширший за звичайний тост: усередині картка з фото. */
+	/* Ширший за звичайний тост: усередині картка з фото. */
 	.toast-container--hot {
-		right: auto;
-		left: 2rem;
-		max-width: min(380px, calc(100vw - 2rem));
+		max-width: min(400px, calc(100vw - 4rem));
 	}
 
+	.toast-container--hot.at-left {
+		right: auto;
+		left: 2rem;
+	}
+
+	/* Верхні кути — під шапкою, а не поверх неї: шапка фіксована, і сповіщення
+	   з більшим z-index накрило б меню, яким відвідувач саме користується. */
+	.toast-container--hot.at-top {
+		bottom: auto;
+		top: calc(var(--header-height, 72px) + var(--ticker-height, 0px) + 1rem);
+	}
+
+	/* `stretch`, а не `flex-start`: зображення тягнеться на всю висоту картки —
+	   так само, як у картці новини, де воно займає цілу колонку. Інакше під ним
+	   лишалася б порожнеча заввишки з різницю між фото й текстом. */
 	.toast-card {
+		position: relative;
 		display: flex;
 		gap: 0.75rem;
-		align-items: flex-start;
-		text-decoration: none;
+		align-items: stretch;
 		color: inherit;
 	}
 
-	.toast-card__img {
-		width: 72px;
-		aspect-ratio: 9 / 16;
-		object-fit: cover;
+	/* Ширина фіксована, висоту задає сусідній текст; мінімум — щоб на короткому
+	   заголовку картинка не звузилася до смужки. */
+	.toast-card__media {
+		position: relative;
+		width: 110px;
+		min-height: 130px;
 		border-radius: 10px;
+		overflow: hidden;
 		flex-shrink: 0;
+	}
+
+	.toast-card__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	/* Той самий значок, що на картці новини: значок і слово. Лежить над
+	   розтягнутим посиланням, інакше клік по ньому відкривав би новину без
+	   відео — тобто рівно те, чого відвідувач не просив. */
+	.toast-card__video-btn {
+		position: absolute;
+		top: 0.35rem;
+		left: 0.35rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.25rem 0.55rem;
+		border: none;
+		border-radius: var(--radius-full);
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
+		font-family: var(--font-heading);
+		font-size: 0.62rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		text-decoration: none;
+		cursor: pointer;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+		transition: transform var(--transition-fast);
+	}
+
+	.toast-card__video-btn:hover {
+		transform: scale(1.05);
+	}
+
+	/* Клікабельна вся картка при одному посиланні: ::after накриває її цілком. */
+	.toast-card__link {
+		text-decoration: none;
+		color: var(--text-title);
+	}
+
+	.toast-card__link::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
 	}
 
 	.toast-card__body {
@@ -242,6 +381,7 @@
 		flex-direction: column;
 		gap: 0.35rem;
 		min-width: 0;
+		width: 100%;
 	}
 
 	.toast-card__meta {
@@ -317,6 +457,19 @@
 	.toast-msg:hover .toast-progress,
 	.toast-msg:focus-within .toast-progress {
 		animation-play-state: paused;
+	}
+
+	/*
+	   Сповіщення про новину — частина сайту, а не системне повідомлення, тому й
+	   фон у нього той самий, що в шапки та підвалу: `--bg-header` із розмиттям.
+	   Текстові тости лишаються на `--bg-card`: вони відповідь на дію, і сірувата
+	   картка відрізняє їх від вмісту сторінки навмисно.
+	*/
+	.toast-msg:has(.toast-card) {
+		background: var(--bg-header);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--color-border);
 	}
 
 	/* ── Progress bar ── */
@@ -411,12 +564,6 @@
 	}
 	
 	@media (max-width: 600px) {
-		.toast-container--hot {
-			left: 1rem;
-			right: 1rem;
-			max-width: none;
-		}
-
 		.toast-container {
 			bottom: 1rem;
 			left: 1rem;
