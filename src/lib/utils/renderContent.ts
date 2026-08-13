@@ -33,13 +33,28 @@ export function renderContent(content: string, format?: ContentFormat): string {
 export function getContentExcerpt(content: string, format?: ContentFormat, maxLength = 150): string {
 	if (!content) return '';
 
-	let plainText: string;
-	if (format === 'html') {
-		plainText = DOMPurify.sanitize(content, { ALLOWED_TAGS: [] });
-	} else {
-		plainText = content.replace(/[#*`_[\]()]/g, '');
-	}
+	// Обидва формати йдуть одним шляхом: спершу в HTML, потім теги геть.
+	//
+	// Раніше markdown не парсився, а з нього просто викидалися символи
+	// `#*`_[]()`. Дужки зникали — і текст посилання склеювався з адресою:
+	// `[«Одеса.Театр.PRO»](http://Одеса.Театр.PRO)` давало
+	// «Одеса.Театр.PRO»http://Одеса.Театр.PRO прямо в опис картки новини.
+	// Зображення на початку статті було ще гірше: `![Обкладинка](…/a.jpg)`
+	// перетворювалося на «!Обкладинкаhttps://…/a.jpg».
+	//
+	// html-гілка робила правильно з самого початку, тож тут не новий підхід,
+	// а той самий, застосований до обох форматів.
+	const html = format === 'html' ? content : (marked.parse(content) as string);
+	const plainText = DOMPurify.sanitize(html, { ALLOWED_TAGS: [] })
+		// Сутності лишаються від санітайзера текстом: «&amp;» замість «&».
+		.replace(/&amp;/g, '&')
+		.replace(/&lt;/g, '<')
+		.replace(/&gt;/g, '>')
+		.replace(/&quot;/g, '"')
+		.replace(/&#39;/g, "'")
+		.replace(/&nbsp;/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
 
-	plainText = plainText.replace(/\s+/g, ' ').trim();
 	return plainText.length > maxLength ? plainText.slice(0, maxLength) + '...' : plainText;
 }
