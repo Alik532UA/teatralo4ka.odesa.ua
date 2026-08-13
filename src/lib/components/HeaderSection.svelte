@@ -916,7 +916,11 @@
 
 	.header__nav-dropdown-cta {
 		background: var(--accent-primary);
-		color: var(--color-white) !important;
+		/* --text-on-accent, а не --color-white: тло тут фірмовий блакитний
+		   #00b5ec, і білий на ньому дає 2.38:1 при потрібних 4.5:1 (виміряно).
+		   Саме через це в темах і з'явився --text-on-accent — див. коментар у
+		   light.css. У жовтих темах він теж білий, тож там нічого не змінюється. */
+		color: var(--text-on-accent) !important;
 		justify-content: center;
 		text-align: center;
 		margin-bottom: var(--space-xs);
@@ -1319,7 +1323,8 @@
 
 	.header__mobile-cta {
 		background: var(--accent-primary);
-		color: var(--color-white) !important;
+		/* Те саме, що в .header__nav-dropdown-cta вище. */
+		color: var(--text-on-accent) !important;
 		padding: 0.8rem 2rem;
 		border-radius: var(--radius-full);
 		box-shadow: 0 4px 15px rgba(33, 150, 186, 0.3);
