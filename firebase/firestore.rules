@@ -181,8 +181,12 @@ service cloud.firestore {
     // [H2] Валідація документів налаштувань: whitelist ID + обмеження кількості
     // ключів верхнього рівня (захист від storage-DoS). Глибоку структуру меню
     // повністю в правилах перевірити неможливо — backstop: App Check.
+    // Whitelist id документів налаштувань. Це не формальність: `allow read`
+    // нижче пускає до них НЕАВТОРИЗОВАНИХ (сайт рендериться без входу), тож
+    // сюди потрапляє лише те, що справді має бути публічним. Новий документ
+    // без рядка тут не читається відвідувачами й не зберігається адміністратором.
     function isValidSettingId(sid) {
-      return sid in ['home', 'header', 'news', 'projects', 'about'];
+      return sid in ['home', 'header', 'news', 'projects', 'about', 'hotNews'];
     }
     function isValidSettingsDoc(data) {
       return data.size() <= 32 &&

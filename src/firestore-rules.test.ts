@@ -64,6 +64,31 @@ describe('правила Firestore не розходяться зі схемою
 		expect(stale, `у правилах лишилися невідомі схемі поля: ${stale.join(', ')}`).toEqual([]);
 	});
 
+	/**
+	 * Другий whitelist у тих самих правилах, і забути його так само дорого:
+	 * документ налаштувань без id у цьому списку не читається відвідувачами
+	 * (сайт рендериться без входу) і не зберігається адміністратором.
+	 */
+	it('кожен документ налаштувань, який читає код, дозволений правилами', () => {
+		const service = readFileSync('src/lib/services/settings.ts', 'utf8');
+		const used = new Set(
+			[...service.matchAll(/"settings",\s*"([\w-]+)"/g)].map((m) => m[1])
+		);
+		expect(used.size, 'звернень до settings/<id> у сервісі не знайдено').toBeGreaterThan(3);
+
+		const listed = /function isValidSettingId[\s\S]*?sid in \[([^\]]+)\]/.exec(RULES)?.[1] ?? '';
+		const allowed = new Set([...listed.matchAll(/'([^']+)'/g)].map((m) => m[1]));
+
+		const missing = [...used].filter((id) => !allowed.has(id));
+		expect(
+			missing,
+			`ці документи налаштувань читає код, але правила їх не дозволяють:
+  ${missing.join(', ')}
+` +
+				`Після виправлення правила треба задеплоїти окремо: firebase deploy --only firestore:rules`
+		).toEqual([]);
+	});
+
 	it('кожне медіа-поле має обмеження довжини в правилах', () => {
 		// Без `size()` можна записати рядок на мегабайти в кожен документ.
 		for (const field of ['coverUrl', 'videoUrl', 'externalUrl']) {
