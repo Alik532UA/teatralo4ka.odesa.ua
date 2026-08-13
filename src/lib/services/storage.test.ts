@@ -3,7 +3,7 @@ import { storage } from './storage';
 import { STORAGE_PREFIX } from '../config/storage';
 
 /** Minimal in-memory Storage — avoids jsdom's opaque-origin localStorage quirks. */
-function makeMemoryStorage(): Storage {
+function makeMemoryStorage(overrides: Partial<Storage> = {}): Storage {
 	const m = new Map<string, string>();
 	return {
 		get length() {
@@ -19,13 +19,28 @@ function makeMemoryStorage(): Storage {
 		},
 		clear: () => {
 			m.clear();
-		}
+		},
+		...overrides
 	} as Storage;
+}
+
+/**
+ * Прапорець «сховище відмовило» живе в модулі й не скидається між тестами.
+ * Тому кожен тест на відмову бере СВІЙ екземпляр модуля — інакше перший же
+ * з них вимкнув би сховище для решти, і ті проходили б з неправильної причини.
+ */
+async function freshStorage(localStorageStub: unknown) {
+	vi.resetModules();
+	vi.stubGlobal('localStorage', localStorageStub);
+	return (await import('./storage')).storage;
 }
 
 describe('storage facade', () => {
 	beforeEach(() => vi.stubGlobal('localStorage', makeMemoryStorage()));
-	afterEach(() => vi.unstubAllGlobals());
+	afterEach(() => {
+		vi.unstubAllGlobals();
+		vi.restoreAllMocks();
+	});
 
 	it('prefixes every key with the project prefix', () => {
 		storage.set('theme', 'dark');
@@ -77,5 +92,97 @@ describe('storage facade', () => {
 		expect(storage.getJSON('x')).toBeNull();
 		expect(() => storage.remove('x')).not.toThrow();
 		expect(() => storage.clear()).not.toThrow();
+	});
+
+	it('успішний запис повертає true', () => {
+		expect(storage.set('k', 'v')).toBe(true);
+		expect(storage.setJSON('k2', { a: 1 })).toBe(true);
+	});
+
+	/**
+	 * Сховище, яке є, але кидає. Симптом у продакшні: перемикання теми, мови
+	 * чи режиму смуги падає з необробленою помилкою — усі ці місця викликають
+	 * `storage.set` без власного try/catch.
+	 */
+	describe('сховище є, але кидає', () => {
+		it('переповнена квота не валить застосунок і повертає false', async () => {
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const s = await freshStorage(
+				makeMemoryStorage({
+					setItem: () => {
+						throw new DOMException('quota', 'QuotaExceededError');
+					}
+				})
+			);
+
+			expect(() => s.set('k', 'v')).not.toThrow();
+			expect(s.set('k', 'v'), 'невдале збереження має повертати false').toBe(false);
+			expect(s.setJSON('k', { a: 1 })).toBe(false);
+		});
+
+		it('getItem, що кидає, дорівнює відсутньому значенню', async () => {
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const s = await freshStorage(
+				makeMemoryStorage({
+					getItem: () => {
+						throw new DOMException('denied', 'SecurityError');
+					}
+				})
+			);
+
+			expect(s.get('k')).toBeNull();
+			expect(s.getJSON('k')).toBeNull();
+		});
+
+		it('доступ до самого localStorage, що кидає, не валить жоден метод', async () => {
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+			vi.resetModules();
+			// Сторінка в чужому iframe із заблокованим стороннім сховищем: кидає
+			// не setItem, а ЧИТАННЯ властивості — тобто ще до будь-якого виклику.
+			Object.defineProperty(globalThis, 'localStorage', {
+				configurable: true,
+				get() {
+					throw new DOMException('blocked', 'SecurityError');
+				}
+			});
+			const s = (await import('./storage')).storage;
+
+			expect(() => s.set('k', 'v')).not.toThrow();
+			expect(() => s.remove('k')).not.toThrow();
+			expect(() => s.clear()).not.toThrow();
+			expect(s.get('k')).toBeNull();
+			expect(s.set('k', 'v')).toBe(false);
+
+			delete (globalThis as { localStorage?: unknown }).localStorage;
+		});
+
+		it('після першої відмови попередження друкується один раз, а не на кожен виклик', async () => {
+			const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const s = await freshStorage(
+				makeMemoryStorage({
+					setItem: () => {
+						throw new DOMException('quota', 'QuotaExceededError');
+					}
+				})
+			);
+
+			s.set('a', '1');
+			s.set('b', '2');
+			s.set('c', '3');
+
+			expect(warn).toHaveBeenCalledTimes(1);
+		});
+
+		it('значення, яке не серіалізується, не вимикає сховище', async () => {
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const s = await freshStorage(makeMemoryStorage());
+
+			const cyclic: Record<string, unknown> = {};
+			cyclic.self = cyclic;
+
+			expect(s.setJSON('bad', cyclic)).toBe(false);
+			// Сховище справне — зіпсовані були дані, а не воно.
+			expect(s.set('good', 'v')).toBe(true);
+		});
 	});
 });
