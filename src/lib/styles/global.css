@@ -424,6 +424,13 @@ button {
 .has-input-tools .form-input:focus,
 .has-input-tools .form-input:focus-visible {
 	outline: none;
+	/*
+	 * `.form-input:focus` вище малює кільце `box-shadow: 0 0 0 4px`. Це доречно
+	 * там, де поле саме собі рамка. Тут рамку малює обгортка, і кільце ставало
+	 * ДРУГОЮ лінією всередині неї — саме тим подвоєнням, якого не мало бути.
+	 */
+	box-shadow: none;
+	border-color: transparent;
 }
 
 /*
