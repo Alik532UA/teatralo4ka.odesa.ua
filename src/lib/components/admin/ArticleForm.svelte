@@ -152,6 +152,7 @@
 	let coverSharedEl = $state<HTMLInputElement | null>(null);
 	let extSharedEl = $state<HTMLInputElement | null>(null);
 	let videoLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
+	let coverLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	/** Посилання на поля по мовах: одне поле на мову, тож і посилань два. */
 	let extLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	let slugEl = $state<HTMLInputElement | null>(null);
@@ -645,27 +646,41 @@
 							<div class="form-group">
 								<label class="form-label" for="cover-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
 								<div style="display: flex; gap: 1rem; align-items: flex-start;">
-									<div style="flex: 1; position: relative;">
+									<div
+										style="flex: 1; position: relative; --input-tools-space: calc(0.6rem + 4 * var(--input-tool-size) + 3 * var(--input-tool-gap));"
+										class="has-input-tools"
+									>
 										<input
 											type="url"
 											id="cover-{lang}"
+											bind:this={coverLangEl[lang]}
 											placeholder={$t('admin.editor.urlWarning')}
-										maxlength={MAX_COVER_URL_LEN}
+											maxlength={MAX_COVER_URL_LEN}
 											class="form-input"
 											class:input-error={!isImageUrlValid(translations[lang].coverUrl)}
 											bind:value={translations[lang].coverUrl}
 											data-testid="{tp}-cover-url-input-{lang}"
 										/>
-										{#if !isImageUrlValid(translations[lang].coverUrl)}
-											<button
-												type="button"
-												onclick={() => showUploadInfo = true}
-												style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #e11d48; cursor: pointer;"
-												title={$t('admin.editor.urlWarning')}
-											>
-												<AlertTriangle size={18} />
-											</button>
-										{/if}
+										<!-- Попередження і кнопки одним рядом — див. пояснення до
+										     спільної обкладинки вище. -->
+										<div class="url-field-overlays">
+											{#if !isImageUrlValid(translations[lang].coverUrl)}
+												<button
+													type="button"
+													onclick={() => showUploadInfo = true}
+													class="url-warning-btn"
+													title={$t('admin.editor.urlWarning')}
+												>
+													<AlertTriangle size={18} />
+												</button>
+											{/if}
+											<InputTools
+												bind:value={translations[lang].coverUrl}
+												input={coverLangEl[lang]}
+												scope="{tp}-cover-url-{lang}"
+												fieldLabel={$t('admin.editor.coverLabel')}
+											/>
+										</div>
 									</div>
 									{#if translations[lang].coverUrl}
 										<div class="cover-preview" style="width: 70px; aspect-ratio: 9/16; border-radius: 8px; overflow: hidden; background: #eee; flex-shrink: 0;">
