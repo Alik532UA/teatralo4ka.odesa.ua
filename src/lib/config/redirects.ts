@@ -1,0 +1,70 @@
+// Відносний імпорт, а не `$lib`: цей модуль читає ще й `scripts/generate-sitemap.ts`,
+// який виконується в Node через tsx, де аліасів SvelteKit не існує.
+import { LOCALES, withLocale } from '../i18n/routing';
+
+/**
+ * Сторінки, які нічого не показують, а відправляють далі (`meta http-equiv="refresh"`).
+ *
+ * ## Чому це реєстр, а не список у тестах
+ *
+ * Досі він жив у `e2e/pages.ts` — тобто **тестовий шар знав про поведінку
+ * продакшну те, чого не знала збірка**. Наслідок був видимий і мав рівень
+ * CRITICAL за SEO-v8: E2E ці сторінки обходив, а `generate-sitemap.ts` про них
+ * не чув і клав усі шість у `sitemap.xml`. Шість адрес у мапі сайту, кожна з
+ * порожнім `<body>` — рівно те, що канон описує як «сторінка є в індексі, але
+ * без контенту».
+ *
+ * Мовні адреси зробили це помітним: заглушок стало шість замість трьох.
+ *
+ * ## Чому `meta refresh`, а не 301
+ *
+ * GitHub Pages не дає віддати заголовок. Записано в PROJECT-CONTEXT як свідоме
+ * відхилення від SEO-v8 — не як забуте.
+ */
+
+export interface RedirectPage {
+	/**
+	 * Куди веде. Для зовнішніх — повна адреса; для внутрішніх — хвіст шляху.
+	 *
+	 * Саме хвіст, а не повний шлях: `resolve()` віддає ВІДНОСНІ адреси, тож у
+	 * розмітці стоїть `../projects/teatr-pro/` для кореня і `../../…` для `/en/`.
+	 * Кількість `../` залежить від глибини, і зіставляти її означало б
+	 * переписувати реєстр щоразу, коли сторінка переїде на рівень глибше.
+	 */
+	target: string;
+	/** Зовнішні перевіряються інакше: браузер туди справді йде. */
+	external: boolean;
+}
+
+/** Записи без мовного префікса — мовні дзеркала виводяться нижче. */
+const BASE: Record<string, RedirectPage> = {
+	// Сторінка-призначення існує лише українською, тож англійське дзеркало веде
+	// туди само.
+	'/projects/galaxy-graduates': {
+		target: 'https://sites.google.com/view/ats-ua',
+		external: true
+	},
+	// Дві орфографії однієї назви — обидві були в пошуку, обидві ведуть на нову
+	// адресу розділу.
+	'/fest-odesa-teatr-pro': { target: 'projects/teatr-pro', external: false },
+	'/fest-odessa-teatr-pro': { target: 'projects/teatr-pro', external: false }
+};
+
+/**
+ * Усі сторінки-перенаправлення, обома мовами.
+ *
+ * Виводяться, а не перелічуються: перелік поруч розійшовся б на першій же новій
+ * заглушці, і розходження було б тихим — сторінка є українською, англійською її
+ * забули виключити, і вона поїхала б у sitemap порожньою.
+ */
+export const REDIRECT_PAGES: Record<string, RedirectPage> = Object.fromEntries(
+	Object.entries(BASE).flatMap(([path, entry]) =>
+		LOCALES.map((locale) => [withLocale(path, locale), entry] as const)
+	)
+);
+
+/** Чи це сторінка-заглушка. Приймає шлях із префіксом мови або без. */
+export function isRedirectPage(pathname: string): boolean {
+	const bare = pathname !== '/' && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+	return bare in REDIRECT_PAGES;
+}

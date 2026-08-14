@@ -25,9 +25,21 @@ import { join, basename } from 'node:path';
  *
  * Третє: `.svelte.ts` імпортують БЕЗ `.ts` (`from './toast.svelte'`), тож
  * зіставляти треба обидві форми імені.
+ *
+ * Четверте, знайдене вже після впровадження: споживач може бути ПОЗА `src/`.
+ * `config/redirects.ts` читають `scripts/generate-sitemap.ts` і `e2e/pages.ts`,
+ * і поки перевірка збирала імпорти лише зі `src/`, вона оголосила його
+ * осиротілим. Це не дрібниця обходу: реєстр, спільний для збірки й тестів, —
+ * саме та річ, яку варто мати, і перевірка карала б за неї.
  */
 
 const LIB_ROOT = 'src/lib';
+
+/**
+ * Де шукати СПОЖИВАЧІВ. Ширше, ніж `src/`: скрипти збірки та E2E — теж код
+ * проєкту, і модуль, потрібний лише їм, не осиротілий.
+ */
+const CONSUMER_ROOTS = ['src', 'scripts', 'e2e', 'vitest'];
 
 /**
  * Дозволені винятки. Список має лишатися коротким: щойно в ньому з'явиться
@@ -66,9 +78,21 @@ function collectImportSpecifiers(sources: string[]): Set<string> {
 }
 
 function findOrphans(): string[] {
-	const all = walk('src');
-	const sources = all.filter((f) => /\.(svelte|ts)$/.test(f) && !/\.(test|spec)\.ts$/.test(f));
-	const specifierNames = new Set([...collectImportSpecifiers(sources)].map((s) => basename(s)));
+	// Споживачі — з усіх коренів; кандидати в сироти — лише з `src/lib`.
+	//
+	// Тестові файли споживачами НЕ рахуються, і це головне рішення тут. Саме
+	// такий випадок ця перевірка й має ловити: `errorLogger` був написаний,
+	// покритий дев'ятьма тестами й не імпортований нізвідки — тобто логування
+	// помилок виглядало працюючим і не існувало. Якби власний тест зараховувався
+	// за досяжність, інваріант пропустив би рівно ту помилку, заради якої стоїть.
+	const consumers = CONSUMER_ROOTS.flatMap((root) => walk(root)).filter(
+		(f) => /\.(svelte|ts)$/.test(f) && !/\.(test|spec)\.ts$/.test(f)
+	);
+	const specifierNames = new Set([...collectImportSpecifiers(consumers)].map((s) => basename(s)));
+
+	const sources = walk('src').filter(
+		(f) => /\.(svelte|ts)$/.test(f) && !/\.(test|spec)\.ts$/.test(f)
+	);
 
 	const orphans: string[] = [];
 	for (const file of sources) {

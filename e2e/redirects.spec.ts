@@ -18,7 +18,7 @@ import { REDIRECT_PAGES } from './pages';
  * записано в PROJECT-CONTEXT як свідоме відхилення, а не забуте.
  */
 test.describe('сторінки-перенаправлення', () => {
-	for (const [path, target] of Object.entries(REDIRECT_PAGES)) {
+	for (const [path, { target }] of Object.entries(REDIRECT_PAGES)) {
 		test(`${path} → ${target}`, async ({ request }) => {
 			// Через request, а не page: сторінку не треба відкривати, щоб побачити
 			// її власну розмітку. page.goto пішов би за refresh.

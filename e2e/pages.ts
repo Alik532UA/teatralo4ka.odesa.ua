@@ -20,42 +20,32 @@ const entries = config.kit?.prerender?.entries ?? [];
  * Ключ — шлях, значення — куди він веде. Перенаправлення перевіряється окремо
  * (`redirects.spec.ts`), а вміст призначення нас не стосується.
  */
-export const OFFSITE_REDIRECTS: Record<string, string> = {
-	'/projects/galaxy-graduates': 'https://sites.google.com/view/ats-ua',
-	// Мовне дзеркало веде туди само: сторінка-призначення існує лише українською.
-	// Без цього рядка axe пішов за перенаправленням і перевіряв Google Sites —
-	// 757 порушень чужої розмітки. Рівно те, що вже сталося з українською
-	// версією і що описано вище; мовні адреси просто дали другий примірник.
-	'/en/projects/galaxy-graduates': 'https://sites.google.com/view/ats-ua'
-};
+/**
+ * Сторінки-заглушки беруться з РЕЄСТРУ ЗАСТОСУНКУ, а не перелічуються тут.
+ *
+ * Доки цей перелік жив у тестах, збірка про нього не знала: E2E ці сторінки
+ * обходив, а `generate-sitemap.ts` клав усі шість у мапу сайту з порожнім
+ * `<body>`. Тобто тестовий шар знав про продакшн те, чого не знав продакшн.
+ */
+export { REDIRECT_PAGES } from '../src/lib/config/redirects';
+import { REDIRECT_PAGES as REDIRECTS } from '../src/lib/config/redirects';
 
 /**
- * Перенаправлення ВСЕРЕДИНІ сайту — той самий `meta refresh`, лише на власний шлях.
+ * Чому їх не можна перевіряти нарівні з рештою.
  *
- * Виявлено разом із мовними адресами, хоч проблема стара: ці сторінки лежали в
- * загальному переліку, браузер ішов за перенаправленням, і перевірки «сторінка
- * не порожня» та axe стосувалися вже `/projects/teatr-pro`. Тобто дві сторінки
- * перевірялися двічі, а самі `fest-*` — жодного разу. Зелено було, змісту не було.
+ * Браузер іде за `meta refresh`, і далі всі перевірки — заголовки, canonical,
+ * дублікати testid, axe — стосуються вже іншої сторінки. Для зовнішніх це видно
+ * одразу: `/en/projects/galaxy-graduates` дав 757 порушень axe у розмітці Google
+ * Sites. Для внутрішніх тихіше й гірше: `fest-*` мовчки зараховували собі
+ * перевірки сторінки `/projects/teatr-pro`, а самі не перевірялися жодного разу.
  *
- * Значення — фрагмент адреси призначення. Відносний шлях у `meta` різний для
- * кореня (`../`) і для `/en/` (`../../`), тож зіставляється хвіст.
+ * Самі перенаправлення перевіряє `redirects.spec.ts` — через `request`, без
+ * відкриття сторінки.
  */
-export const INTERNAL_REDIRECTS: Record<string, string> = Object.fromEntries(
-	['/fest-odesa-teatr-pro', '/fest-odessa-teatr-pro'].flatMap((p) => [
-		[p, 'projects/teatr-pro'],
-		[`/en${p}`, 'projects/teatr-pro']
-	])
-);
-
-/** Усі сторінки-перенаправлення разом — їх перевіряє `redirects.spec.ts`. */
-export const REDIRECT_PAGES: Record<string, string> = {
-	...OFFSITE_REDIRECTS,
-	...INTERNAL_REDIRECTS
-};
 
 /** Адмінка живе за входом — E2E без облікових даних її не покриває. */
 export const PUBLIC_PAGES: string[] = entries.filter(
-	(p: string) => !p.startsWith('/admin') && !(p in REDIRECT_PAGES)
+	(p: string) => !p.startsWith('/admin') && !(p in REDIRECTS)
 );
 
 if (PUBLIC_PAGES.length === 0) {
