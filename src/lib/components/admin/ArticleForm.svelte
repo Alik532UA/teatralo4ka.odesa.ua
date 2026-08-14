@@ -299,7 +299,7 @@
 					toast.error($t('editor.validationTitleLength', { values: { lang: problem.lang.toUpperCase(), max: MAX_TITLE_LEN } }));
 					break;
 				case 'contentLength':
-					toast.error($t('editor.validationContentLength', { values: { lang: problem.lang.toUpperCase(), max: MAX_CONTENT_LEN.toLocaleString() } }));
+					toast.error($t('editor.validationContentLength', { values: { lang: problem.lang.toUpperCase(), max: MAX_CONTENT_LEN.toLocaleString(locale2) } }));
 					break;
 			}
 			return;
