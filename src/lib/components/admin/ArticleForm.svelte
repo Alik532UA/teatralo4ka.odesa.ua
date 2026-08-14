@@ -149,6 +149,7 @@
 	// svelte-ignore state_referenced_locally
 	let differentExternalUrls = $state(initialDifferentExternalUrls);
 	let titleEl = $state<HTMLInputElement | null>(null);
+	let coverSharedEl = $state<HTMLInputElement | null>(null);
 	let slugEl = $state<HTMLInputElement | null>(null);
 	let showUploadInfo = $state(false);
 	// svelte-ignore state_referenced_locally
@@ -587,9 +588,10 @@
 					{#if !differentCovers}
 						<div class="form-group">
 							<div style="display: flex; gap: 1.5rem; align-items: flex-start;">
-								<div style="flex: 1; position: relative;">
+								<div style="flex: 1; position: relative;" class="has-input-tools">
 									<input
 										type="url"
+										bind:this={coverSharedEl}
 										placeholder="https://example.com/image.jpg"
 										maxlength={MAX_COVER_URL_LEN}
 										class="form-input"
@@ -598,16 +600,30 @@
 										oninput={(e) => handleCoverInput(e.currentTarget.value, 'uk')}
 										data-testid="{tp}-cover-url-input-shared"
 									/>
+									<!--
+										Значок «адреса не схожа на зображення» стоїть у тому ж кутку,
+										що й кнопки, тому він переїхав ЛІВІШЕ за них: два накладені
+										елементи в одному місці інакше злилися б у купу значків, де
+										не видно, що з них попередження, а що дія.
+									-->
 									{#if !isImageUrlValid(translations.uk.coverUrl)}
 										<button
 											type="button"
 											onclick={() => showUploadInfo = true}
-											style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #e11d48; cursor: pointer;"
+											class="url-warning-btn"
 											title={$t('admin.editor.urlWarning')}
 										>
 											<AlertTriangle size={18} />
 										</button>
 									{/if}
+									<InputTools
+										value={translations.uk.coverUrl}
+										input={coverSharedEl}
+										overlay
+										scope="{tp}-cover-url-shared"
+										fieldLabel={$t('admin.editor.coverLabel')}
+										onchange={(v) => handleCoverInput(v, 'uk')}
+									/>
 									<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.coverSharedHint')}</p>
 								</div>
 								{#if translations.uk.coverUrl}
@@ -947,6 +963,23 @@
 </section>
 
 <style>
+	/*
+	 * Попередження про непридатну адресу — ліворуч від кнопок вводу.
+	 * Раніше воно стояло на `right: 10px`, тобто рівно там, де тепер кнопки.
+	 */
+	.url-warning-btn {
+		position: absolute;
+		right: var(--input-tools-space, 5.5rem);
+		top: 50%;
+		transform: translateY(-50%);
+		background: none;
+		border: none;
+		color: #e11d48;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+	}
+
 	.lang-card:hover {
 		border-color: var(--color-ocean) !important;
 		opacity: 0.9;
