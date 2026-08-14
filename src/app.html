@@ -72,8 +72,12 @@
 					document.documentElement.classList.remove('dark-theme', 'yellow-theme', 'light-yellow-theme');
 					document.querySelector('meta[name="color-scheme"]').content = 'light dark';
 				}
-				var p = window.location.pathname;
-				if (p === '/') {
+				// Головна є двома адресами: '/' українською і '/en/' англійською
+				// (I18N-v8 § 3.1). Порівняння лише з '/' лишало англійську
+				// головну без класу `page-home`, а від нього залежить оформлення
+				// саме цієї сторінки — тобто вона виглядала б як внутрішня.
+				var p = window.location.pathname.replace(/^\/en(?=\/|$)/, '') || '/';
+				if (p === '/' || p === '') {
 					document.body.classList.add('page-home');
 				}
 			} catch (e) {}

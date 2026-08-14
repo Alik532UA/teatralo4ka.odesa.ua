@@ -22,6 +22,40 @@ function inlineThemeScript() {
 }
 
 const themeScriptHash = `sha256-${createHash('sha256').update(inlineThemeScript()).digest('base64')}`;
+
+/**
+ * Публічні сторінки — джерело для `prerender.entries` обох мов.
+ *
+ * Тримається окремою константою, бо `scripts/generate-sitemap.ts` перевіряє цей
+ * самий перелік проти реального `build/`: адреса, якої не існує, валить збірку.
+ * Раніше в списку роками жила неіснуюча '/test' і
+ * '/projects/spring-Odesa-theatre' із великою «O» — остання збиралася лише тому,
+ * що Windows не розрізняє регістр.
+ */
+const PUBLIC_ENTRIES = [
+	'/',
+	'/about',
+	'/history',
+	'/contacts',
+	'/admission',
+	'/news',
+	'/projects',
+	'/departments/theatre',
+	'/departments/aesthetic',
+	'/departments/music',
+	'/departments/art',
+	'/residents/adults',
+	'/residents/kids',
+	'/residents/graduates',
+	'/projects/teatr-pro',
+	'/projects/festival',
+	'/projects/galaxy-graduates',
+	'/projects/photo-archive',
+	'/projects/spring-odesa-theatre',
+	'/projects/support-production',
+	'/fest-odesa-teatr-pro',
+	'/fest-odessa-teatr-pro'
+];
 import adapter from '@sveltejs/adapter-static';
 import { relative, sep } from 'node:path';
 
@@ -122,28 +156,18 @@ const config = {
 			// жила неіснуюча '/test' і '/projects/spring-Odesa-theatre' з великою
 			// «O» — остання збиралася лише тому, що Windows не розрізняє регістр.
 			entries: [
-				'/',
-				'/about',
-				'/history',
-				'/contacts',
-				'/admission',
-				'/news',
-				'/projects',
-				'/departments/theatre',
-				'/departments/aesthetic',
-				'/departments/music',
-				'/departments/art',
-				'/residents/adults',
-				'/residents/kids',
-				'/residents/graduates',
-				'/projects/teatr-pro',
-				'/projects/festival',
-				'/projects/galaxy-graduates',
-				'/projects/photo-archive',
-				'/projects/spring-odesa-theatre',
-				'/projects/support-production',
-				'/fest-odesa-teatr-pro',
-				'/fest-odessa-teatr-pro',
+				// Публічні сторінки перелічені ОДИН раз, а англійські адреси
+				// виводяться з них нижче. Два списки поруч розійшлися б на першій
+				// же новій сторінці, і розходження було б тихим: сторінка є
+				// українською, англійською її немає, збірка зелена.
+				//
+				// Мову в шляху обробляє хук `reroute` (src/hooks.ts): маршрут
+				// шукається за адресою без префікса, тож окремих файлів для
+				// `/en/…` не існує й існувати не повинно.
+				...PUBLIC_ENTRIES,
+				...PUBLIC_ENTRIES.map((path) => (path === '/' ? '/en/' : `/en${path}`)),
+				// Адмінка мови в адресі не має: вона за входом, рендериться на
+				// клієнті й закрита `Disallow: /admin/` у robots.txt.
 				'/admin',
 				'/admin/login'
 			],

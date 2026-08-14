@@ -1,16 +1,23 @@
 import fs from 'fs';
 import path from 'path';
 import config from '../svelte.config.js';
+import { LOCALES, localeFromPath, localeAlternates } from '../src/lib/i18n/routing';
 
 /**
  * Будує sitemap зі СТОРІНОК, ЯКІ СПРАВДІ ЗГЕНЕРОВАНО, а не зі списку markdown-файлів.
  *
  * Попередня версія перелічувала src/lib/i18n/pages/<lang>/*.md і видавала 28 адрес,
- * з яких існувало 5: контент цих сторінок береться з Firestore, маршрут [slug]
- * має prerender = false, а англомовних маршрутів у проєкті немає взагалі. Тобто
- * пошуковику пропонувалося 23 адреси, що відповідають 404.
+ * з яких існувало 5: контент цих сторінок береться з Firestore, а маршрут [slug]
+ * має prerender = false. Тобто пошуковику пропонувалося 23 адреси, що
+ * відповідають 404.
  *
  * Тому запускається ПІСЛЯ збірки (postbuild) і читає build/.
+ *
+ * Мовні адреси `/en/…` з'явилися 2026-08-14 (хук `reroute`). До того цей файл
+ * англійських сторінок не давав — і коментар вище стверджував, що англомовних
+ * маршрутів «немає взагалі». Це було правдою про код і НЕ було правдою про
+ * PROJECT-CONTEXT, який рядком «Реалізовано в generate-sitemap.ts» роками
+ * обіцяв протилежне.
  */
 
 const SITE_URL = 'https://teatralo4ka.odesa.ua';
@@ -34,6 +41,21 @@ function builtPages(dir: string, prefix = ''): string[] {
 }
 
 /**
+ * Хвостова коса риска не є різницею між адресами.
+ *
+ * `prerender.entries` містить `/en/` (з рискою — так вимагає
+ * `trailingSlash: 'always'` для головної), а обхід `build/` дає `/en` (без —
+ * бо це назва каталогу). Без нормалізації перевірка оголосила б відсутньою
+ * сторінку, яка лежить на диску: саме це й сталося на першій збірці з
+ * мовними адресами.
+ *
+ * Регістр НЕ нормалізується навмисно — його розходження ця перевірка й ловить.
+ */
+function normalize(p: string): string {
+	return p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p;
+}
+
+/**
  * Кожен запис `prerender.entries` мусив дати сторінку.
  *
  * SvelteKit налаштований на `handleUnseenRoutes: 'ignore'` і `handleHttpError:
@@ -46,9 +68,9 @@ function builtPages(dir: string, prefix = ''): string[] {
  */
 function checkPrerenderEntries(builtPaths: string[]) {
 	const entries: string[] = config.kit?.prerender?.entries ?? [];
-	const built = new Set(builtPaths.map((p) => (p === '' ? '/' : `/${p}`)));
+	const built = new Set(builtPaths.map((p) => normalize(p === '' ? '/' : `/${p}`)));
 
-	const missing = entries.filter((e) => !built.has(e));
+	const missing = entries.filter((e) => !built.has(normalize(e)));
 	if (missing.length > 0) {
 		console.error('❌ у prerender.entries є адреси, яких немає в build/:');
 		for (const m of missing) console.error(`   ${m}`);
@@ -74,12 +96,31 @@ function generateSitemap() {
 	}
 
 	const today = new Date().toISOString().split('T')[0];
+
+	// Сторінки, які справді є в build/ — щоб `<xhtml:link>` не вказував на адресу,
+	// якої немає. hreflang на неіснуючу сторінку гірший за його відсутність:
+	// Google трактує це як помилку розмітки і може не взяти до уваги всю групу.
+	const existing = new Set(pages.map((p) => (p === '' ? '/' : `/${p}`)));
+
 	const entries = pages.map((p) => {
+		const pathname = p === '' ? '/' : `/${p}`;
 		const loc = p === '' ? `${SITE_URL}/` : `${SITE_URL}/${p}`;
-		const isHome = p === '';
+		// «Головна» — це і `/`, і `/en/`: обидві однаково важливі, тож пріоритет
+		// у них однаковий. Порівняння через `stripLocale` замість `p === ''`,
+		// інакше англійська головна поїхала б із priority 0.8 як внутрішня.
+		const isHome = pathname === '/' || pathname === `/${localeFromPath(pathname)}`;
+
+		const alternates = localeAlternates(pathname)
+			.filter(({ path: alt }) => existing.has(alt === '/' ? '/' : alt.replace(/\/$/, '')))
+			.map(
+				({ locale, path: alt }) =>
+					`\n    <xhtml:link rel="alternate" hreflang="${locale}" href="${SITE_URL}${alt}" />`
+			)
+			.join('');
+
 		return `
   <url>
-    <loc>${loc}</loc>
+    <loc>${loc}</loc>${alternates}
     <lastmod>${today}</lastmod>
     <changefreq>${isHome ? 'weekly' : 'monthly'}</changefreq>
     <priority>${isHome ? '1.0' : '0.8'}</priority>
@@ -87,12 +128,16 @@ function generateSitemap() {
 	});
 
 	const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${entries.join('')}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${entries.join('')}
 </urlset>
 `;
 
 	fs.writeFileSync(path.join(BUILD_DIR, 'sitemap.xml'), xml);
-	console.log(`✅ sitemap: ${pages.length} сторінок (усі перевірені в ${BUILD_DIR}/)`);
+
+	const perLocale = LOCALES.map(
+		(l) => `${l}: ${pages.filter((p) => localeFromPath(p === '' ? '/' : `/${p}`) === l).length}`
+	).join(', ');
+	console.log(`✅ sitemap: ${pages.length} сторінок (${perLocale}) — усі перевірені в ${BUILD_DIR}/`);
 }
 
 generateSitemap();

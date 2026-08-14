@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { PUBLIC_PAGES } from './pages';
 import { gotoReady } from './ready';
+import { stripLocale } from '../src/lib/i18n/routing';
 
 /**
  * Перевірка тотожності — перший тест не випадково.
@@ -55,7 +56,11 @@ test.describe('сторінки віддають вміст', () => {
 			const text = (await page.locator('body').innerText()).trim();
 			expect(text.length, `${path}: тіло майже порожнє`).toBeGreaterThan(120);
 
-			if (!CONTENT_FROM_FIRESTORE.includes(path)) {
+			// Порівнюється шлях БЕЗ мовного префікса: `/en/` — це та сама головна,
+			// що й `/`, і вміст їй так само приходить із Firestore уже в браузері.
+			// Без цього англійські дзеркала трьох сторінок падали на «Loading…»,
+			// хоч поводилися рівно так, як їхні українські відповідники.
+			if (!CONTENT_FROM_FIRESTORE.includes(stripLocale(path))) {
 				// Саме так виглядав /projects/spring-odesa-theatre: маршрут просив
 				// файл з іншим регістром, glob його не знаходив, і сторінка назавжди
 				// лишалася на «Завантаження…». Ані типи, ані збірка цього не бачили.

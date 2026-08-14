@@ -7,6 +7,7 @@
 	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
 	import '$lib/styles/global.css';
 	import '$lib/i18n';
+	import { stripLocale } from '$lib/i18n/routing';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { asset } from '$app/paths';
@@ -232,7 +233,16 @@
 		// while the cases below are written without one. Every page was falling
 		// through to the default and inheriting the home page's title and
 		// description — the per-page SEO underneath was never reached.
-		const normalized = pathname !== '/' ? pathname.replace(/\/+$/, '') : pathname;
+		//
+		// Мовний префікс знімається ПЕРЕД зіставленням: сюди приходить
+		// `/en/about/`, а кейси написані без префікса. Без цього рядка кожна
+		// англійська сторінка провалювалася в `default` і брала заголовок
+		// головної — та сама помилка, що й із хвостовою рискою вище, лише
+		// повторена через мову. Видно її було лише в зібраному HTML: у
+		// `build/en/about/index.html` стояв `<title>Odesa Theatre School</title>`
+		// замість «About the school | …».
+		const bare = stripLocale(pathname);
+		const normalized = bare !== '/' ? bare.replace(/\/+$/, '') : bare;
 		switch (normalized) {
 			case '/':
 				return 'home';
@@ -296,6 +306,16 @@
 <svelte:head>
 	<link rel="icon" type="image/png" href={asset('/favicon.png')} />
 	<link rel="canonical" href={canonicalUrl} />
+
+	<!-- hreflang (SEO-v8 § 2.1, I18N-v8 § 3.1).
+	     Набір альтернатив однаковий для обох мовних версій — це властивість,
+	     перевірена в `routing.test.ts`. Якби версії оголошували різні набори,
+	     Google вважав би розмітку суперечливою і не брав до уваги жодну.
+	     x-default вказує на українську: це мова школи й типова мова сайту. -->
+	{#each data.alternates as alt (alt.locale)}
+		<link rel="alternate" hreflang={alt.locale} href={alt.url} />
+	{/each}
+	<link rel="alternate" hreflang="x-default" href={`${SITE_FALLBACK_ORIGIN}/`} />
 
 	<title>{seoTitle}</title>
 	<meta name="description" content={metaDescription} />

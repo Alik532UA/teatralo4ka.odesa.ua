@@ -12,6 +12,8 @@
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
 	import { resolve } from "$app/paths";
+	import { goto } from "$app/navigation";
+	import { isLocale, localeFromPath, withLocale } from "$lib/i18n/routing";
 	import {
 		menuConfigToFlatItems,
 		menuConfigToGroups,
@@ -218,12 +220,25 @@
 	}
 
 	async function changeLanguage(lang: string) {
+		if (!isLocale(lang) || lang === localeFromPath(page.url.pathname)) return;
+
 		if (ui.enableBlurEffect) {
 			ui.isLangChanging = true;
 			await new Promise((r) => setTimeout(r, 300));
 		}
 
-		locale.set(lang);
+		// Перемикання мови — це НАВІГАЦІЯ, а не присвоєння (I18N-v8 § 3.1).
+		//
+		// Раніше тут стояв лише `locale.set(lang)`: адреса не змінювалася, і
+		// англійська версія не мала власного посилання взагалі — надіслана
+		// адреса відкривалася тією мовою, яка збережена в отримувача. Тепер
+		// мову задає шлях, тож `locale.set` тут був би ще й шкідливим: він
+		// перемалював би сторінку однією мовою, а `load` після переходу —
+		// іншою, і між ними встиг би кадр із неправильним текстом.
+		//
+		// `invalidateAll`, бо `load` кореневого layout читає саме `url`:
+		// без нього SvelteKit вважав би дані незмінними і не перевиконав його.
+		await goto(withLocale(page.url.pathname, lang), { invalidateAll: true });
 
 		if (ui.enableBlurEffect) {
 			setTimeout(() => {
