@@ -1,13 +1,30 @@
 import { defineConfig } from 'vitest/config';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import path from 'path';
 
 export default defineConfig({
+	// Без цього плагіна руни в `.svelte.ts` не компілювалися, і жоден із
+	// контролерів не міг мати ані тесту. Це був не «ще не написали тести», а
+	// «написати їх було нічим»: `$state` у класі — синтаксис, який без компіляції
+	// падає на етапі розбору. Наслідком п'ять контролерів, тобто ВЕСЬ стан
+	// застосунку, лежали поза перевірками, а в PROJECT-CONTEXT це роками стояло
+	// як «середовище компонентних тестів ще не обрано».
+	//
+	// `svelte()`, а НЕ `sveltekit()`. Другий сам додає власні аліаси для `$app/*`
+	// і `$lib`, і вони перекрили б заглушки нижче — зокрема підміну
+	// `firebase/config`, без якої тести падають з `auth/invalid-api-key` у CI,
+	// де секретів немає. Той плагін ще й вимагає повного середовища SvelteKit,
+	// якого юніт-тестам не потрібно.
+	plugins: [svelte({ hot: false })],
 	test: {
 		globals: true,
 		environment: 'jsdom',
 		// `vitest/support` теж: там живе розв'язувач токенів, на який
 		// спирається перевірка контрасту, і він має власні тести.
 		include: ['src/**/*.{test,spec}.ts', 'vitest/support/**/*.test.ts'],
+		// Доповнює jsdom тим, чого в ньому немає (`matchMedia`). Без цього
+		// контролери не можна навіть імпортувати — подробиці у самому файлі.
+		setupFiles: ['./vitest/support/setup.ts'],
 		coverage: {
 			provider: 'v8',
 			reporter: ['text', 'json', 'html'],
