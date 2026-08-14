@@ -114,7 +114,7 @@
 		</article>
 	{:else}
 		<div style="display: flex; justify-content: center; padding: 4rem;" data-testid="about-page-loading-container">
-			<p data-testid="about-page-loading-label">{$t('common.loading')}</p>
+			<p data-testid="about-page-loading-status">{$t('common.loading')}</p>
 		</div>
 	{/if}
 

@@ -72,7 +72,7 @@
 <section class="projects-page" data-testid="projects-page-section">
 	<div class="container" data-testid="projects-page-container">
 		{#if loading}
-			<p class="projects-page__status" data-testid="projects-page-loading-label">{$t('common.loading')}</p>
+			<p class="projects-page__status" data-testid="projects-page-loading-status">{$t('common.loading')}</p>
 		{:else if projectItems.length > 0}
 			<ContentWidget
 				items={projectItems}
@@ -86,7 +86,7 @@
 				subtitle={$t('projects.subtitle')}
 			/>
 		{:else}
-			<p class="projects-page__status projects-page__status--large" data-testid="projects-page-empty-label">{$t('projectsList.noProjects')}</p>
+			<p class="projects-page__status projects-page__status--large" data-testid="projects-page-empty-message">{$t('projectsList.noProjects')}</p>
 		{/if}
 	</div>
 </section>

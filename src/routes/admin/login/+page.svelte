@@ -70,14 +70,14 @@
 
 <section class="admin-login container" style="max-width: 440px;" data-testid="admin-login-section-container">
 	<div style="background: var(--bg-card); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
-		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title-label">{$t('admin.login.title')}</h1>
+		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title">{$t('admin.login.title')}</h1>
 
 		{#if error}
-			<p style="color: red; margin-bottom: 1rem; text-align: center;" data-testid="admin-login-error-label">{error}</p>
+			<p style="color: red; margin-bottom: 1rem; text-align: center;" data-testid="admin-login-error">{error}</p>
 		{/if}
 
 		{#if info}
-			<p style="color: var(--text-title); margin-bottom: 1rem; text-align: center;" data-testid="admin-login-info-label">{info}</p>
+			<p style="color: var(--text-title); margin-bottom: 1rem; text-align: center;" data-testid="admin-login-info-message">{info}</p>
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-fieldset">

@@ -72,7 +72,7 @@
 <section class="news news--page" id="news-section" aria-labelledby="news-title" data-testid="news-page-section">
 	<div class="container" data-testid="news-page-container">
 		{#if loading}
-			<p class="news-page__status" data-testid="news-page-loading-label">{$t('news.loading')}</p>
+			<p class="news-page__status" data-testid="news-page-loading-status">{$t('news.loading')}</p>
 		{:else if newsItems.length > 0}
 			<ContentWidget
 				items={newsItems}
@@ -86,7 +86,7 @@
 				subtitle={$t('news.subtitle')}
 			/>
 		{:else}
-			<p class="news-page__status news-page__status--large" data-testid="news-page-empty-label">{$t('news.empty')}</p>
+			<p class="news-page__status news-page__status--large" data-testid="news-page-empty-message">{$t('news.empty')}</p>
 		{/if}
 	</div>
 </section>

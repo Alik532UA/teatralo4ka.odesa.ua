@@ -288,8 +288,8 @@
 			<section class="gallery-bento" id="gallery-bento" aria-labelledby="gallery-title" data-testid="gallery-section">
 				<div class="container" data-testid="gallery-container">
 					<div class="gallery-bento__header" data-testid="gallery-header">
-						<h2 class="gallery-bento__title" id="gallery-title" data-testid="gallery-title-label">{$t('gallery.title')}</h2>
-						<p class="gallery-bento__subtitle" data-testid="gallery-subtitle-label">{$t('gallery.subtitle')}</p>
+						<h2 class="gallery-bento__title" id="gallery-title" data-testid="gallery-title">{$t('gallery.title')}</h2>
+						<p class="gallery-bento__subtitle" data-testid="gallery-subtitle-text">{$t('gallery.subtitle')}</p>
 					</div>
 
 					{#if galleryWidgetConfig.defaultView === 'carousel'}

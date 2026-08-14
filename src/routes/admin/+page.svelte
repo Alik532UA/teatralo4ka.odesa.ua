@@ -31,18 +31,18 @@
 
 <section class="admin-dashboard container" data-testid="admin-dashboard-section-container">
 	{#if authService.loading}
-		<p data-testid="admin-dashboard-loading-label">{$t('admin.dashboard.loading')}</p>
+		<p data-testid="admin-dashboard-loading-status">{$t('admin.dashboard.loading')}</p>
 	{:else if authService.isAuthenticated}
 		<div class="dash-header" data-testid="admin-dashboard-header">
-			<h1 class="dash-title" data-testid="admin-dashboard-title-label">{$t('admin.dashboard.title')}</h1>
+			<h1 class="dash-title" data-testid="admin-dashboard-title">{$t('admin.dashboard.title')}</h1>
 			<button onclick={handleLogout} class="btn btn-outline dash-logout" data-testid="admin-logout-btn">{$t('admin.dashboard.logout')}</button>
 		</div>
 
 		<div class="dash-grid" data-testid="admin-dashboard-cards-list">
 			{#if canManageContent}
 				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-content-card-container">
-					<h2 style="margin-bottom: 1rem;" data-testid="admin-content-card-title-label">{$t('admin.dashboard.contentTitle')}</h2>
-					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-content-card-desc-label">{$t('admin.dashboard.contentDesc')}</p>
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-content-card-title">{$t('admin.dashboard.contentTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-content-card-desc-text">{$t('admin.dashboard.contentDesc')}</p>
 					<div style="display: flex; gap: 1rem; flex-wrap: wrap;" data-testid="admin-content-card-toolbar">
 						<a href={resolve('/admin/content')} class="btn btn-primary" data-testid="admin-content-list-btn">{$t('admin.dashboard.contentListBtn')}</a>
 						{#if isSuperAdmin || permissions?.canCreateArticles || permissions?.canCreatePages}
@@ -54,16 +54,16 @@
 
 			{#if canManageSettings}
 				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-settings-card-container">
-					<h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title-label">{$t('admin.dashboard.settingsTitle')}</h2>
-					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-label">{$t('admin.dashboard.settingsDesc')}</p>
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-settings-card-title">{$t('admin.dashboard.settingsTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-settings-card-desc-text">{$t('admin.dashboard.settingsDesc')}</p>
 					<a href={resolve('/admin/settings')} class="btn btn-outline" data-testid="admin-settings-btn">{$t('admin.dashboard.settingsBtn')}</a>
 				</div>
 			{/if}
 
 			{#if canManageUsers}
 				<div style="background: var(--bg-card); padding: 2rem; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" data-testid="admin-users-card-container">
-					<h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title-label">{$t('admin.dashboard.usersTitle')}</h2>
-					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-label">{$t('admin.dashboard.usersDesc')}</p>
+					<h2 style="margin-bottom: 1rem;" data-testid="admin-users-card-title">{$t('admin.dashboard.usersTitle')}</h2>
+					<p style="margin-bottom: 1.5rem; opacity: 0.7;" data-testid="admin-users-card-desc-text">{$t('admin.dashboard.usersDesc')}</p>
 					<a href={resolve('/admin/users')} class="btn btn-outline" data-testid="admin-users-btn">{$t('admin.dashboard.usersBtn')}</a>
 				</div>
 			{/if}

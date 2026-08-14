@@ -131,7 +131,7 @@
 
 	{#if loading}
 		<div class="detail-page__loading" data-testid="{testIdPrefix}-loading-container">
-			<p data-testid="{testIdPrefix}-loading-label">{$t(loadingKey)}</p>
+			<p data-testid="{testIdPrefix}-loading-status">{$t(loadingKey)}</p>
 		</div>
 	{:else if error}
 		<div class="detail-page__error" data-testid="{testIdPrefix}-error-container">
@@ -220,13 +220,13 @@
 									</span>
 								{/if}
 								{#if formatDate(article)}
-									<time data-testid="{testIdPrefix}-date-label">
+									<time data-testid="{testIdPrefix}-date-value">
 										{formatDate(article)}
 									</time>
 								{/if}
 							</div>
 						{/if}
-						<h1 data-testid="{testIdPrefix}-title-label">
+						<h1 data-testid="{testIdPrefix}-title">
 							{translation.title || ''}
 						</h1>
 					</div>

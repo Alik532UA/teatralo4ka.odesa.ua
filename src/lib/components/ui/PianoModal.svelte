@@ -221,7 +221,7 @@
        
 	   <section id="wrap" data-testid="piano-modal-content-container">
 		   <header class="piano-header" data-testid="piano-modal-header">
-			   <h2 class="piano-hint" data-testid="piano-modal-hint-label">{$t("piano.hint")}</h2>
+			   <h2 class="piano-hint" data-testid="piano-modal-hint">{$t("piano.hint")}</h2>
 			   
 			   <div class="controls-wrapper">
 				   <div class="view-toggle">
@@ -245,12 +245,12 @@
 
 				   <div class="nowplaying" data-testid="piano-nowplaying-value">
 					   {#if nowPlaying}
-						   <span class="note-name" data-testid="piano-note-name-label">
+						   <span class="note-name" data-testid="piano-note-name-value">
 							   {viewMode === 'chords' ? nowPlaying : $t(`piano.notes.${nowPlaying}`)}
 						   </span>
 						   {#if viewMode === 'keyboard'}
 							   <span class="note-divider">|</span>
-							   <span class="note-symbol" data-testid="piano-note-symbol-label">{nowPlaying}</span>
+							   <span class="note-symbol" data-testid="piano-note-symbol-value">{nowPlaying}</span>
 						   {/if}
 					   {/if}
 				   </div>

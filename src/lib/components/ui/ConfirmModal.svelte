@@ -22,7 +22,7 @@
 				<div class="modal-icon" data-testid="confirm-modal-icon-container">
 					<HelpCircle size={24} />
 				</div>
-				<h3 data-testid="confirm-modal-title-label">{$t('common.confirmation')}</h3>
+				<h3 data-testid="confirm-modal-title">{$t('common.confirmation')}</h3>
 				<button 
 					class="btn-close" 
 					onclick={() => toast.resolveConfirm(false)} 
@@ -34,7 +34,7 @@
 			</div>
 			
 			<div class="modal-body" data-testid="confirm-modal-body-section">
-				<p data-testid="confirm-modal-message-label">{toast.confirmMessage}</p>
+				<p data-testid="confirm-modal-message">{toast.confirmMessage}</p>
 			</div>
 			
 			<div class="modal-footer" data-testid="confirm-modal-footer">

@@ -176,7 +176,7 @@
 			<a href={resolve('/admin')} class="pl-back-btn" data-testid="admin-pages-back-btn" title={$t('admin.pages.backToPanel')}>
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 			</a>
-			<h1 class="pl-title" data-testid="admin-pages-title-label">{$t('admin.pages.title')}</h1>
+			<h1 class="pl-title" data-testid="admin-pages-title">{$t('admin.pages.title')}</h1>
 			{#if !loading}
 				<span class="pl-count">{pages.length}</span>
 			{/if}

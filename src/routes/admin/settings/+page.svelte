@@ -1210,7 +1210,7 @@ async function handleAboutPageSubmit() {
 </div>
 
 {#if loading}
-<p data-testid="admin-settings-loading-label">{$t('admin.dashboard.loading')}</p>
+<p data-testid="admin-settings-loading-status">{$t('admin.dashboard.loading')}</p>
 {:else}
 
 <!-- ══ Tab bar ══════════════════════════════════════════════════════════════ -->

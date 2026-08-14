@@ -168,6 +168,39 @@ describe("data-testid conventions (v8)", () => {
 		expect(bad, `Без канонічного типу:\n${bad.join("\n")}`).toEqual([]);
 	});
 
+	/**
+	 * Тип має відповідати HTML-семантиці, а не візуальному враженню (§ 1.3).
+	 *
+	 * Перевіряється саме `label`, бо це єдиний тип, чию правильність видно з
+	 * розмітки однозначно: `-label` означає підпис поля, тобто елемент `<label>`.
+	 * До цієї перевірки в проєкті було 40 `-label` на `<p>`, `<h1>`, `<span>` і
+	 * `<time>` — заголовки, порожні стани й індикатори завантаження. Канонічна
+	 * перевірка § 1.9.1 їх не бачила: `label` є в CANON, тому формально все
+	 * сходилося. Це рівно та частина § 1.3, яку канон віддає код-рев'ю; для
+	 * `label` її вдається зробити машинною.
+	 *
+	 * Решту типів так перевіряти не можна: `-btn` законно стоїть на `<a role>`,
+	 * `-card` на `<article>`, `-value` на будь-чому. Тому одне правило, а не
+	 * таблиця відповідностей.
+	 */
+	it("тип -label стоїть лише на елементі <label> (§ 1.3)", () => {
+		const bad: string[] = [];
+		for (const file of svelteFiles("src")) {
+			const text = markupOnly(readFileSync(file, "utf8"));
+			// Тег і його атрибути до `data-testid`; `[^>]*?` не перетинає межу тегу.
+			const re = /<([a-zA-Z][a-zA-Z0-9]*)\b[^>]*?data-testid=(?:"([^"]*)"|\{`([^`]*)`\})/g;
+			let m: RegExpExecArray | null;
+			while ((m = re.exec(text))) {
+				const tag = m[1].toLowerCase();
+				const id = m[2] ?? m[3];
+				if (typeSegment(id) === "label" && tag !== "label") {
+					bad.push(`${id}  (<${tag}> у ${file.replace(/\\/g, "/")}) — тип за змістом: -title / -text / -message / -status / -value`);
+				}
+			}
+		}
+		expect(bad, `Тип -label не на <label>:\n${bad.join("\n")}`).toEqual([]);
+	});
+
 	it("тільки kebab-case ASCII (§ 1.2)", () => {
 		const bad = all
 			.filter(({ id }) => /[A-Z]|[Ѐ-ӿ]|--|^-|-$/.test(id.replace(/\$?\{[^}]*\}/g, DYNAMIC)))

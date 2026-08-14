@@ -45,10 +45,10 @@
 
 		<!-- 2. Text Content (Middle) -->
 		<div class="hero__text" data-testid="hero-text-section">
-			<h1 class="hero__title" id="hero-title" data-testid="hero-title-label">
+			<h1 class="hero__title" id="hero-title" data-testid="hero-title">
 				{$t("hero.title")}
 			</h1>
-			<p class="hero__subtitle" data-testid="hero-subtitle-label">{$t("hero.subtitle")}</p>
+			<p class="hero__subtitle" data-testid="hero-subtitle-text">{$t("hero.subtitle")}</p>
 		</div>
 
 		<!-- 3. Image (Right) -->

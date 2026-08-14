@@ -37,7 +37,7 @@
 				subtitle={$t('projects.subtitle')}
 			/>
 		{:else}
-			<p class="projects-empty" data-testid="projects-empty-label">{$t('projectsList.noProjects')}</p>
+			<p class="projects-empty" data-testid="projects-empty-message">{$t('projectsList.noProjects')}</p>
 		{/if}
 	</div>
 </section>

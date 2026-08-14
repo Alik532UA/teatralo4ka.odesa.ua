@@ -256,7 +256,7 @@
 					</div>
 				</div>
 			{:else}
-				<div class="toast-message" data-testid="toast-text-label">{msg.message}</div>
+				<div class="toast-message" data-testid="toast-text">{msg.message}</div>
 			{/if}
 			{#if msg.action}
 				<button 

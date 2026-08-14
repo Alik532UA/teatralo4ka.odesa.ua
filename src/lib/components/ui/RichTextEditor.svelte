@@ -434,7 +434,7 @@
 			   {/if}
 		   {:else}
 			   <div class="tool-group" data-testid="{testId}-mode-info-section">
-				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-label">{$t('editor.sourceEditing', { values: { mode: editorMode === 'markdown' ? 'Markdown' : 'HTML' } })}</span>
+				   <span style="font-size: 0.8rem; opacity: 0.5; display: flex; align-items: center; padding: 0 0.5rem;" data-testid="{testId}-markdown-status">{$t('editor.sourceEditing', { values: { mode: editorMode === 'markdown' ? 'Markdown' : 'HTML' } })}</span>
 				   {#if editorMode === 'html'}
 					   <span style="font-size: 0.75rem; color: #ef4444; margin-left: 1rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: rgba(239, 68, 68, 0.1);">
 						   <AlertTriangle size={14} style="margin-right: 4px;" />
@@ -475,7 +475,7 @@
 	   {#if showLinkModal || showImageModal}
 		   <div class="modal-overlay" onclick={closeModal} role="presentation" data-testid="{testId}-modal-overlay-container">
 			   <div class="modal-content" onclick={(e) => e.stopPropagation()} role="presentation" data-testid="{testId}-modal-container">
-				   <h3 data-testid="{testId}-modal-title-label">{modalType === 'link' ? $t('editor.insertLink') : $t('editor.insertImage')}</h3>
+				   <h3 data-testid="{testId}-modal-title">{modalType === 'link' ? $t('editor.insertLink') : $t('editor.insertImage')}</h3>
 				   
 				   <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;" data-testid="{testId}-modal-fieldset">
 					   {#if modalType === 'link'}
