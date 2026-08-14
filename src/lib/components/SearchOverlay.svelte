@@ -195,44 +195,50 @@
 				autocomplete="off"
 				data-testid="search-input"
 			/>
-			{#if canPaste}
-				<button
-					type="button"
-					class="search__tool"
-					bind:this={pasteBtn}
-					onclick={pasteFromClipboard}
-					aria-label={$t('search.paste')}
-					title={$t('search.paste')}
-					data-testid="search-paste-btn"
-				>
-					<ClipboardPaste size={16} aria-hidden="true" />
-				</button>
-			{/if}
+			<!--
+				Обгортка потрібна саме як ОБЛАСТЬ наведення: прозорість кнопок
+				підвищується, щойно курсор входить сюди, ще до влучання в саму кнопку.
+			-->
+			<div class="search__tools">
+				{#if canPaste}
+					<button
+						type="button"
+						class="search__tool"
+						bind:this={pasteBtn}
+						onclick={pasteFromClipboard}
+						aria-label={$t('search.paste')}
+						title={$t('search.paste')}
+						data-testid="search-paste-btn"
+					>
+						<ClipboardPaste size={16} aria-hidden="true" />
+					</button>
+				{/if}
 
-			{#if hasQuery}
-				<button
-					type="button"
-					class="search__tool"
-					bind:this={copyBtn}
-					onclick={copyQuery}
-					aria-label={$t('search.copy')}
-					title={$t('search.copy')}
-					data-testid="search-copy-btn"
-				>
-					<Copy size={16} aria-hidden="true" />
-				</button>
+				{#if hasQuery}
+					<button
+						type="button"
+						class="search__tool"
+						bind:this={copyBtn}
+						onclick={copyQuery}
+						aria-label={$t('search.copy')}
+						title={$t('search.copy')}
+						data-testid="search-copy-btn"
+					>
+						<Copy size={16} aria-hidden="true" />
+					</button>
 
-				<button
-					type="button"
-					class="search__tool"
-					onclick={clearQuery}
-					aria-label={$t('search.clear')}
-					title={$t('search.clear')}
-					data-testid="search-clear-btn"
-				>
-					<Eraser size={16} aria-hidden="true" />
-				</button>
-			{/if}
+					<button
+						type="button"
+						class="search__tool"
+						onclick={clearQuery}
+						aria-label={$t('search.clear')}
+						title={$t('search.clear')}
+						data-testid="search-clear-btn"
+					>
+						<Eraser size={16} aria-hidden="true" />
+					</button>
+				{/if}
+			</div>
 
 			<button
 				type="button"
@@ -356,6 +362,65 @@
 		font-weight: 500;
 	}
 
+	.search__tools {
+		display: flex;
+		align-items: center;
+		gap: 0.15rem;
+		flex-shrink: 0;
+	}
+
+	/*
+	 * Прозорість наростає в міру наближення курсору: 30% у спокої, 60% коли
+	 * курсор десь у полі, 90% коли він над самими кнопками, 100% на кнопці.
+	 *
+	 * ## Чому прозорість задана КНОПКАМ, а не обгортці
+	 *
+	 * `opacity` на елементі створює групу композиції, і дитина не може бути
+	 * НЕПРОЗОРІШОЮ за батька: `.search__tools { opacity: .9 }` разом із
+	 * `.search__tool:hover { opacity: 1 }` дало б 0.9 × 1 = 0.9, тобто остання
+	 * сходинка просто не працювала б. Тому всі чотири рівні — на самій кнопці,
+	 * а обгортка слугує лише областю наведення.
+	 *
+	 * Селектори навмисно однакової довжини й ідуть від слабшого стану до
+	 * сильнішого: у CSS при рівній вазі перемагає останній, і саме на це тут
+	 * розрахунок.
+	 */
+	.search__tool {
+		opacity: 0.3;
+	}
+
+	.search__field:hover .search__tool {
+		opacity: 0.6;
+	}
+
+	.search__tools:hover .search__tool {
+		opacity: 0.9;
+	}
+
+	.search__tools .search__tool:hover {
+		opacity: 1;
+	}
+
+	/*
+	 * Клавіатура не має курсора, тож жодна сходинка вище для неї не спрацює:
+	 * пройшовши `Tab` до кнопки, людина побачила б її на 30% — тобто майже не
+	 * побачила б. Фокус дає повну видимість одразу.
+	 */
+	.search__tool:focus-visible {
+		opacity: 1;
+	}
+
+	/*
+	 * На сенсорному екрані наведення не існує в принципі: перший дотик — це вже
+	 * натискання. Там кнопки видно повністю завжди, інакше вони назавжди
+	 * лишилися б ледь помітними.
+	 */
+	@media (hover: none) {
+		.search__tool {
+			opacity: 1;
+		}
+	}
+
 	/* Кнопки поля вводу: менші за кнопку закриття й без власного `transition` —
 	   вони не кнопки закриття, тож і оберту в них немає. */
 	.search__tool {
@@ -370,7 +435,7 @@
 		color: var(--color-muted-text);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: background 0.15s, color 0.15s;
+		transition: background 0.15s, color 0.15s, opacity 0.15s;
 	}
 
 	.search__tool:hover {
