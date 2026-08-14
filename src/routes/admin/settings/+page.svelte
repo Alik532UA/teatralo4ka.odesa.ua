@@ -39,7 +39,7 @@ import ukData from '$lib/i18n/locales/uk.json';
 import enData from '$lib/i18n/locales/en.json';
 import MenuEditor from '$lib/components/ui/MenuEditor.svelte';
 import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
-import { ArrowUp, ArrowDown } from 'lucide-svelte';
+import { ArrowDown, ArrowLeft, ArrowUp, Save } from 'lucide-svelte';
 import { browser } from "$app/environment";
 import { getStaticProjectEntries } from '$lib/config/static-projects';
 import { session, storage } from '$lib/services/storage';
@@ -698,7 +698,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-submit-btn">
-    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if isSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -860,7 +860,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-news-submit-btn">
-    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if isSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1022,7 +1022,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-projects-submit-btn">
-    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if isSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1190,7 +1190,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={onSave} disabled={isSaving || !hasChanges} class="btn-save-small {hasChanges ? 'is-active' : ''}" data-testid="admin-settings-gallery-submit-btn">
-    {#if isSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if isSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1203,7 +1203,7 @@ async function handleAboutPageSubmit() {
 <div class="sh-header">
   <div class="sh-title-group">
     <a href={resolve('/admin')} class="sh-back-btn" data-testid="admin-settings-back-btn" title={$t('admin.editor.backToList')}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      <ArrowLeft size={20} aria-hidden="true" />
     </a>
     <h1 class="sh-title">{$t('admin.dashboard.settingsTitle')}</h1>
   </div>
@@ -1477,7 +1477,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHotNewsSubmit} disabled={hotNewsSaving || !hasHotNewsChanges} class="btn-save-small {hasHotNewsChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-hotnews-submit-btn">
-    {#if hotNewsSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if hotNewsSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1638,7 +1638,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasCtaChanges} class="btn-save-small {hasCtaChanges ? 'is-active' : ''}" data-testid="admin-settings-cta-submit-btn">
-    {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if headerSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1847,7 +1847,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasTickerChanges} class="btn-save-small {hasTickerChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-ticker-submit-btn">
-    {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if headerSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>
@@ -1938,7 +1938,7 @@ async function handleAboutPageSubmit() {
     <span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
   {/if}
   <button type="button" onclick={handleHeaderSubmit} disabled={headerSaving || !hasDebugPanelChanges} class="btn-save-small {hasDebugPanelChanges ? 'is-active' : ''}" style="border: none;" data-testid="admin-settings-debug-submit-btn">
-    {#if headerSaving}...{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.editor.saveBtn')}{/if}
+    {#if headerSaving}...{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.editor.saveBtn')}{/if}
   </button>
   </div>
 </div>

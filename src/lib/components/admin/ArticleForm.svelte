@@ -23,7 +23,7 @@
 	import { resolve } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
-	import { Play } from 'lucide-svelte';
+	import { ArrowLeft, Play, Save } from 'lucide-svelte';
 	import { parseVideoUrl } from '$lib/utils/videoEmbed';
 	import {
 		Languages, EyeOff, CheckCircle2, XCircle,
@@ -396,7 +396,7 @@
 	<div class="af-header">
 		<div class="af-title-group">
 			<a href={resolve('/admin/content')} class="af-back-btn" title={$t('admin.editor.backToList')}>
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+				<ArrowLeft size={20} aria-hidden="true" />
 			</a>
 			<h1 class="af-title">
 				{mode === 'create' ? $t('admin.editor.newTitle') : $t('admin.editor.editTitle')}
@@ -411,7 +411,7 @@
 				<input type="file" accept=".json" multiple onchange={loadDraftFromFile} style="display: none;" />
 			</label>
 			<button type="submit" form={formId} disabled={submitting} class="af-submit-btn" data-testid="{tp}-submit-btn">
-				<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+				<Save size={17} aria-hidden="true" />
 				{submitting
 					? (mode === 'create' ? $t('admin.editor.saving') : $t('admin.editor.updating'))
 					: (mode === 'create' ? $t('admin.editor.saveBtn') : $t('admin.editor.updateBtn'))

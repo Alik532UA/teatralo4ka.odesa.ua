@@ -2,7 +2,7 @@
 	import Select from '$lib/components/ui/Select.svelte';
 	import LinkPicker from '$lib/components/ui/LinkPicker.svelte';
 	import type { MenuConfig, MenuItem, MenuSection, MenuLinkType } from '$lib/services/settings';
-	import { ArrowUp, ArrowDown, Eye, EyeOff, Pencil, Trash2, ChevronUp, ChevronDown } from 'lucide-svelte';
+	import { ArrowDown, ArrowUp, ChevronDown, ChevronUp, Eye, EyeOff, Pencil, Save, Trash2 } from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
 	import { SvelteSet } from 'svelte/reactivity';
 
@@ -548,7 +548,7 @@
 					<span class="unsaved-badge">{$t('admin.users.unsavedChanges')}</span>
 				{/if}
 				<button type="button" class="btn-save-small {hasChanges ? 'is-active' : ''}" onclick={onsave} disabled={saving || !hasChanges} style="border: none;">
-					{#if saving}{$t('admin.menuEditor.saving')}{:else}<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 0.5rem;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> {$t('admin.menuEditor.save')}{/if}
+					{#if saving}{$t('admin.menuEditor.saving')}{:else}<Save size={18} style="margin-right: 0.5rem;" aria-hidden="true" /> {$t('admin.menuEditor.save')}{/if}
 				</button>
 			</div>
 		</div>

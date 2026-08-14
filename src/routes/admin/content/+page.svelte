@@ -10,7 +10,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Timestamp } from 'firebase/firestore';
-	import { Paperclip, Search, Calendar, Tag, FileText, Globe, Folder } from 'lucide-svelte';
+	import { ArrowLeft, Calendar, FileText, Folder, Globe, Paperclip, Plus, Search, SquarePen, Tag, Trash2 } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import { getContentExcerpt } from '$lib/utils/renderContent';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
@@ -293,7 +293,7 @@
 	<div class="cl-header" data-testid="admin-content-header">
 		<div class="cl-title-group">
 			<a href={resolve('/admin')} class="cl-back-btn" data-testid="admin-content-back-btn" title={$t('admin.articles.backToPanel')}>
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+				<ArrowLeft size={20} aria-hidden="true" />
 			</a>
 			<h1 class="cl-title" data-testid="admin-content-title">{$t('admin.content.title')}</h1>
 			{#if !loading}
@@ -311,7 +311,7 @@
 					<input type="file" accept=".json" multiple onchange={handleBulkLoad} style="display: none;" disabled={importing} />
 				</label>
 				<a href={resolve('/admin/content/new')} class="btn btn-primary cl-create-btn" data-testid="admin-content-create-btn">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+					<Plus size={18} aria-hidden="true" />
 					{$t('admin.content.createBtn')}
 				</a>
 			{/if}
@@ -403,7 +403,7 @@
 			{/each}
 		{:else if filtered.length === 0}
 			<div class="cl-empty" data-testid="admin-content-empty-message">
-				<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".3"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+				<FileText size={48} opacity=".3" aria-hidden="true" />
 				<p>{search ? $t('admin.content.noResults') : $t('admin.content.noItems')}</p>
 			</div>
 		{:else}
@@ -459,12 +459,12 @@
 					<!-- Actions -->
 					<div class="cl-actions" data-testid={`admin-content-row-${item.id}-actions`}>
 						<a href={resolve('/admin/content/[id]', { id: item.id })} class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
-							<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+							<SquarePen size={17} aria-hidden="true" />
 							<span>{$t('admin.articles.edit')}</span>
 						</a>
 						{#if canDeleteItem(item)}
 							<button onclick={() => handleDelete(item)} class="cl-action-btn cl-delete-btn" data-testid={`admin-content-delete-${item.id}-btn`} title={$t('admin.articles.delete')}>
-								<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+								<Trash2 size={17} aria-hidden="true" />
 							</button>
 						{/if}
 					</div>
