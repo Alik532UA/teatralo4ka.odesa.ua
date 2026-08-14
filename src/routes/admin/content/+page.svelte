@@ -13,6 +13,9 @@
 	import { Paperclip, Search, Calendar, Tag, FileText, Globe, Folder } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import { getContentExcerpt } from '$lib/utils/renderContent';
+	import InputTools from '$lib/components/ui/InputTools.svelte';
+
+	let searchEl = $state<HTMLInputElement | null>(null);
 
 	let allItems = $state<StoredArticle[]>([]);
 	let loading = $state(true);
@@ -340,9 +343,16 @@
 
 	<!-- Filters Bar -->
 	<div class="cl-filters-bar">
-		<div class="cl-search-box">
+		<div class="cl-search-box has-input-tools">
 			<Search size={18} class="cl-search-icon" />
-			<input type="text" bind:value={search} placeholder={$t('admin.content.search')} data-testid="admin-content-search-input" />
+			<input type="text" bind:this={searchEl} bind:value={search} placeholder={$t('admin.content.search')} data-testid="admin-content-search-input" />
+			<InputTools
+				bind:value={search}
+				input={searchEl}
+				overlay
+				scope="admin-content-search"
+				fieldLabel={$t('admin.content.search')}
+			/>
 		</div>
 
 		<div class="cl-filter-groups">
@@ -640,7 +650,8 @@
 }
 .cl-search-box input {
 	width: 100%;
-	padding: 0.75rem 1rem 0.75rem 3rem;
+	/* Правий відступ — під кнопки вводу; змінна оголошена в `.has-input-tools`. */
+	padding: 0.75rem var(--input-tools-space, 1rem) 0.75rem 3rem;
 	border-radius: 14px;
 	border: 2px solid var(--color-border);
 	background: var(--color-surface);
