@@ -229,7 +229,12 @@
 		border: none;
 		padding: 0;
 		align-self: flex-end;
-		margin-top: -0.5rem;
+		/*
+		 * Від'ємний відступ гасить проміжок форми (24px) до потрібних 8px.
+		 * Посилання логічно належить полю пароля над ним, а не є окремим
+		 * пунктом форми — тому й стоїть до нього ближче, ніж поля одне до одного.
+		 */
+		margin-top: -1rem;
 		font-family: inherit;
 		font-size: 0.85rem;
 		color: var(--accent-primary, #00b4d8);

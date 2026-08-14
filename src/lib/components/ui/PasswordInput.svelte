@@ -256,10 +256,20 @@
 		flex-direction: column;
 	}
 
+	/*
+	 * Відступ згори тепер на самому попередженні, а не на контейнері.
+	 *
+	 * Контейнер лишається в дереві завжди (це `role="status"`), і власний
+	 * `margin-top` він додавав навіть порожнім — тобто платив за попередження,
+	 * якого немає.
+	 */
 	.field-warnings {
 		display: flex;
 		flex-direction: column;
 		gap: 0.25rem;
+	}
+
+	.field-warning:first-child {
 		margin-top: 0.35rem;
 	}
 	.field-warning {
