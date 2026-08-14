@@ -195,6 +195,7 @@
     "title": "SCHOOL GALLERY",
     "subtitle": "Moments of our community's creative life",
     "items": {
+      "default": "Odesa Theatre School",
       "process": "Creative process",
       "talents": "Our talents",
       "atmosphere": "Artistic atmosphere",
@@ -206,6 +207,7 @@
   "about": {
     "title": "About School",
     "gallery": {
+      "default": "Odesa Theatre School",
       "edu": "Artistic education",
       "workshop": "Creative workshop",
       "musicians": "Young musicians",
@@ -840,12 +842,12 @@
     "actionFailed": "The action could not be completed. Refresh the page and try again; if the error persists, contact an administrator."
   },
   "search": {
-		"paste": "Paste from clipboard",
-		"copy": "Copy the query",
-		"clear": "Erase the query",
-		"copied": "Query copied",
-		"copyDenied": "The browser refused to copy",
-		"pasteDenied": "The browser denied access to the clipboard",
+    "paste": "Paste from clipboard",
+    "copy": "Copy the query",
+    "clear": "Erase the query",
+    "copied": "Query copied",
+    "copyDenied": "The browser refused to copy",
+    "pasteDenied": "The browser denied access to the clipboard",
     "title": "Site search",
     "placeholder": "What are you looking for?",
     "close": "Close search",

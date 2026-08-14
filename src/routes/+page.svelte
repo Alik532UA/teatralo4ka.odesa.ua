@@ -193,12 +193,12 @@
 	});
 
 	const galleryItems = $derived([
-		{ src: asset('/photo/013.jpg'), alt: 'School Life 1', title: $t('gallery.items.process') },
-		{ src: asset('/photo/035.jpg'), alt: 'School Life 2', title: $t('gallery.items.talents') },
-		{ src: asset('/photo/059.jpg'), alt: 'School Life 3', title: $t('gallery.items.atmosphere') },
-		{ src: asset('/photo/125.jpg'), alt: 'School Life 4', title: $t('gallery.items.evenings') },
-		{ src: asset('/photo/495.jpg'), alt: 'School Life 5', title: $t('gallery.items.virtuosos') },
-		{ src: asset('/photo/5.jpg'), alt: 'School Life 6', title: $t('gallery.items.harmony') },
+		{ src: asset('/photo/013.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
+		{ src: asset('/photo/035.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
+		{ src: asset('/photo/059.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
+		{ src: asset('/photo/125.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
+		{ src: asset('/photo/495.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
+		{ src: asset('/photo/5.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
 	]);
 
 	const visibleBlocks = $derived(blocks.filter(b => b.visible));

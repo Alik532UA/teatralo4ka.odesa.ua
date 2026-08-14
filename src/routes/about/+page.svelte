@@ -91,16 +91,16 @@
 	});
 
 	const galleryImages = $derived([
-		{ src: asset('/photo/IMG_1608.jpg'), alt: $t('about.gallery.edu'), title: $t('about.gallery.edu'), position: '0% center' },
-		{ src: asset('/photo/IMG_1741.jpg'), alt: $t('about.gallery.workshop'), title: $t('about.gallery.workshop'), position: 'center 100%' },
-		{ src: asset('/photo/IMG_1616.jpg'), alt: $t('about.gallery.musicians'), title: $t('about.gallery.musicians'), position: '10% center' },
-		{ src: asset('/photo/IMG_3992.jpg'), alt: $t('about.gallery.stage'), title: $t('about.gallery.stage') },
-		{ src: asset('/photo/IMG_6667.jpg'), alt: $t('about.gallery.event'), title: $t('about.gallery.event'), position: '20% center' },
-		{ src: asset('/photo/IMG_4558.jpg'), alt: $t('about.gallery.talents'), title: $t('about.gallery.talents'), position: '20% center' },
-		{ src: asset('/photo/IMG_4851.jpg'), alt: $t('about.gallery.festival'), title: $t('about.gallery.festival') },
-		{ src: asset('/photo/IMG_4485.jpg'), alt: $t('about.gallery.lesson'), title: $t('about.gallery.lesson'), position: 'center 65%' },
-		{ src: asset('/photo/IMG_6705.jpg'), alt: $t('about.gallery.atmosphere'), title: $t('about.gallery.atmosphere') },
-		{ src: asset('/photo/IMG_6921.jpg'), alt: $t('about.gallery.virtuosos'), title: $t('about.gallery.virtuosos'), position: '70% center' },
+		{ src: asset('/photo/IMG_1608.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: '0% center' },
+		{ src: asset('/photo/IMG_1741.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: 'center 100%' },
+		{ src: asset('/photo/IMG_1616.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: '10% center' },
+		{ src: asset('/photo/IMG_3992.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default') },
+		{ src: asset('/photo/IMG_6667.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: '20% center' },
+		{ src: asset('/photo/IMG_4558.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: '20% center' },
+		{ src: asset('/photo/IMG_4851.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default') },
+		{ src: asset('/photo/IMG_4485.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: 'center 65%' },
+		{ src: asset('/photo/IMG_6705.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default') },
+		{ src: asset('/photo/IMG_6921.jpg'), alt: $t('about.gallery.default'), title: $t('about.gallery.default'), position: '70% center' },
 	]);
 </script>
 
