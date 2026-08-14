@@ -1,6 +1,7 @@
 import { asset, base } from "$app/paths";
 import { STORAGE_PREFIX } from "../config/storage";
 import { storage } from "./storage";
+import { errorLogger } from "./errorLogger";
 
 // asset(), а не base: це статичний файл, а не маршрут.
 const VERSION_URL = asset('/app-version.json');
@@ -39,7 +40,16 @@ export async function checkForUpdates() {
             storage.set(CACHE_VERSION_KEY, serverVersion);
         }
     } catch (error) {
-        console.error("[Version] Error during update check:", error);
+        // warn, а НЕ error (VERSIONING-v8 § 4.3, HIGH; те саме в ERROR-HANDLING-v8
+        // і DEBUGGING-v8). Сюди приходить рівно один клас подій — не вдалося
+        // дістати app-version.json: офлайн, вимкнений Wi-Fi, метро, заблокований
+        // запит. Це очікувана ситуація, а не збій застосунку: перевірка оновлення
+        // просто не відбулася, і наступного разу відбудеться.
+        //
+        // Рівень тут не косметика. Поки він був error, кожен користувач у метро
+        // додавав запис у той самий потік, де мали б бути справжні поломки — і
+        // цей потік перестає читати саме через такий шум.
+        console.warn("[Version] перевірку оновлення пропущено (мережа недоступна):", error);
     }
 }
 
@@ -78,7 +88,14 @@ async function applyUpdate(nextVersion: string) {
         url.searchParams.set('upd', Date.now().toString());
         window.location.replace(url.toString());
     } catch (e) {
-        console.error("[Version] Failed to perform clean update:", e);
+        // А ось це — справді несподіване: відмовили serviceWorker.getRegistrations
+        // або caches.delete. Тому через errorLogger, а не через голий console:
+        // логер маскує чутливе й лишає запис у кеші, на який можна послатися в
+        // баг-репорті. Голий console.error не потрапляє нікуди, крім вкладки,
+        // яку зараз же перезавантажать рядком нижче.
+        errorLogger.logError(e instanceof Error ? e : new Error(String(e)), {
+            component: 'version-update'
+        });
         // Fallback to simple reload
         window.location.reload();
     }
