@@ -150,6 +150,10 @@
 	let differentExternalUrls = $state(initialDifferentExternalUrls);
 	let titleEl = $state<HTMLInputElement | null>(null);
 	let coverSharedEl = $state<HTMLInputElement | null>(null);
+	let extSharedEl = $state<HTMLInputElement | null>(null);
+	let videoLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
+	/** Посилання на поля по мовах: одне поле на мову, тож і посилань два. */
+	let extLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	let slugEl = $state<HTMLInputElement | null>(null);
 	let showUploadInfo = $state(false);
 	// svelte-ignore state_referenced_locally
@@ -707,16 +711,27 @@
 									{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}
 								</label>
 							{/if}
-							<input
-								type="url"
-								id="video-{lang}"
-								placeholder="https://www.youtube.com/watch?v=..."
-								maxlength={MAX_COVER_URL_LEN}
-								class="form-input"
-								value={translations[lang].videoUrl}
-								oninput={(e) => handleVideoInput(e.currentTarget.value, lang)}
-								data-testid="{tp}-video-url-input-{lang}"
-							/>
+							<div class="has-input-tools">
+								<input
+									type="url"
+									id="video-{lang}"
+									bind:this={videoLangEl[lang]}
+									placeholder="https://www.youtube.com/watch?v=..."
+									maxlength={MAX_COVER_URL_LEN}
+									class="form-input"
+									value={translations[lang].videoUrl}
+									oninput={(e) => handleVideoInput(e.currentTarget.value, lang)}
+									data-testid="{tp}-video-url-input-{lang}"
+								/>
+								<InputTools
+									value={translations[lang].videoUrl}
+									input={videoLangEl[lang]}
+									overlay
+									scope="{tp}-video-url-{lang}"
+									fieldLabel={$t('admin.editor.videoLabel')}
+									onchange={(v) => handleVideoInput(v, lang)}
+								/>
+							</div>
 							{#if translations[lang].videoUrl.trim() && !parseVideoUrl(translations[lang].videoUrl)}
 								<p style="font-size: 0.75rem; color: var(--warning-color); margin-top: 0.5rem;" data-testid="{tp}-video-url-warning-{lang}">
 									{$t('admin.editor.videoNotRecognised')}
@@ -875,28 +890,49 @@
 				<div style="display: grid; grid-template-columns: {differentExternalUrls ? '1fr 1fr' : '1fr'}; gap: 2rem;">
 					{#if !differentExternalUrls}
 						<div class="form-group" style="margin: 0;">
-							<input
-								type="url"
-								placeholder="https://example.com"
-								class="form-input"
-								value={translations.uk.externalUrl}
-								oninput={(e) => handleExternalUrlInput(e.currentTarget.value, 'uk')}
-								data-testid="{tp}-external-url-input-shared"
-							/>
+							<div class="has-input-tools">
+								<input
+									type="url"
+									bind:this={extSharedEl}
+									placeholder="https://example.com"
+									class="form-input"
+									value={translations.uk.externalUrl}
+									oninput={(e) => handleExternalUrlInput(e.currentTarget.value, 'uk')}
+									data-testid="{tp}-external-url-input-shared"
+								/>
+								<InputTools
+									value={translations.uk.externalUrl}
+									input={extSharedEl}
+									overlay
+									scope="{tp}-external-url-shared"
+									fieldLabel={$t('admin.editor.externalUrlLabel')}
+									onchange={(v) => handleExternalUrlInput(v, 'uk')}
+								/>
+							</div>
 							<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.externalUrlHint')}</p>
 						</div>
 					{:else}
 						{#each (['uk', 'en'] as const) as lang (lang)}
 							<div class="form-group" style="margin: 0;">
 								<label class="form-label" for="external-url-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
-								<input
-									type="url"
-									id="external-url-{lang}"
-									placeholder="https://example.com"
-									class="form-input"
-									bind:value={translations[lang].externalUrl}
-									data-testid="{tp}-external-url-input-{lang}"
-								/>
+								<div class="has-input-tools">
+									<input
+										type="url"
+										id="external-url-{lang}"
+										bind:this={extLangEl[lang]}
+										placeholder="https://example.com"
+										class="form-input"
+										bind:value={translations[lang].externalUrl}
+										data-testid="{tp}-external-url-input-{lang}"
+									/>
+									<InputTools
+										bind:value={translations[lang].externalUrl}
+										input={extLangEl[lang]}
+										overlay
+										scope="{tp}-external-url-{lang}"
+										fieldLabel={$t('admin.editor.externalUrlLabel')}
+									/>
+								</div>
 							</div>
 						{/each}
 					{/if}
