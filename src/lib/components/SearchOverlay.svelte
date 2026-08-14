@@ -4,6 +4,7 @@
 	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import { newsEntries, pageEntries } from '$lib/services/searchIndex';
 	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
+	import { focusTrap } from '$lib/utils/focusTrap';
 
 	/**
 	 * Пошук по сайту накладкою.
@@ -113,6 +114,7 @@
 		aria-modal="true"
 		aria-label={$t('search.title')}
 		data-testid="search-modal"
+		{@attach focusTrap({ initial: () => input })}
 	>
 		<div class="search__field has-input-tools">
 			<Search size={18} aria-hidden="true" />

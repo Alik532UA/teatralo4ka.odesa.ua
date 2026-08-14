@@ -3,15 +3,17 @@
 	import { HelpCircle, X } from 'lucide-svelte';
 	import { fade, fly } from 'svelte/transition';
 	import { t } from 'svelte-i18n';
+	import { focusTrap } from '$lib/utils/focusTrap';
 </script>
 
 {#if toast.isConfirmOpen}
 	<div 
 		class="modal-backdrop" 
 		transition:fade={{ duration: 200 }} 
-		role="dialog" 
+		role="dialog"
 		aria-modal="true"
 		data-testid="confirm-modal-overlay-container"
+		{@attach focusTrap()}
 	>
 		<div 
 			class="modal-content" 

@@ -4,6 +4,7 @@
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X, Search } from "lucide-svelte";
+	import { focusTrap } from '$lib/utils/focusTrap';
 	import SearchOverlay from "./SearchOverlay.svelte";
 	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
@@ -533,6 +534,7 @@
 			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut, delay: 100 }}
 			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
 			data-testid="mobile-overlay-container"
+			{@attach focusTrap()}
 		>
 			<div class="header__mobile-controls" data-testid="mobile-controls-toolbar">
 				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings-mobile-container">

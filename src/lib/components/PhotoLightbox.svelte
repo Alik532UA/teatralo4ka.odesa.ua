@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ChevronLeft, ChevronRight, X } from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
+	import { focusTrap } from '$lib/utils/focusTrap';
 	import { browser } from '$app/environment';
 
 	export interface LightboxImage {
@@ -98,6 +99,7 @@
 		ontouchmove={handleTouchMove}
 		ontouchend={handleTouchEnd}
 		data-testid="photo-lightbox-backdrop"
+		{@attach focusTrap()}
 	>
 		<!-- Close button -->
 		<button

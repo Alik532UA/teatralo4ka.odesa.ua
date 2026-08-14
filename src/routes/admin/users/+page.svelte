@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
 	import { Shield, School, Save, User as UserIcon, GraduationCap, UserCog, UserCheck, UserPlus, X, Trash2 } from 'lucide-svelte';
+	import { focusTrap } from '$lib/utils/focusTrap';
 
 	const DEFAULT_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
@@ -451,7 +452,7 @@
 			tabindex="0"
 			aria-label={$t('common.close')}
 		>
-			<div class="add-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="0">
+			<div class="add-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="0" {@attach focusTrap()}>
 				<div class="modal-header" style="color: var(--accent-primary, #2196ba);">
 					<UserPlus size={28} />
 					<span>{$t('admin.users.grantAccess')}</span>
@@ -567,7 +568,7 @@
 			tabindex="0"
 			aria-label={$t('common.closeModal')}
 		>
-			<div class="delete-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" tabindex="0">
+			<div class="delete-modal" onclick={(e) => e.stopPropagation()} onkeydown={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="delete-modal-title" tabindex="0" {@attach focusTrap()}>
 				<div class="modal-header">
 					<Trash2 size={32} />
 					<span id="delete-modal-title">{$t('admin.users.confirmDeleteTitle')}</span>

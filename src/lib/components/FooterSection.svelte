@@ -6,6 +6,7 @@
 	import { asset } from '$app/paths';
 	import { t } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
+	import { focusTrap } from '$lib/utils/focusTrap';
 	import { ui } from "$lib/controllers/ui.svelte";
 
 	let isPianoOpen = $state(false);
@@ -174,7 +175,7 @@
 		data-testid="phones-modal-overlay-container"
 	>
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0" data-testid="phones-modal-container">
+		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0" data-testid="phones-modal-container" {@attach focusTrap()}>
 			<div class="modal-header">
 				<h2 id="phones-modal-title" style="margin: 0; font-size: 1.5rem; color: var(--text-title); font-family: var(--font-heading);">
 					{$t("footer.contactsTitle")}
