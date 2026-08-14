@@ -601,29 +601,32 @@
 										data-testid="{tp}-cover-url-input-shared"
 									/>
 									<!--
-										Значок «адреса не схожа на зображення» стоїть у тому ж кутку,
-										що й кнопки, тому він переїхав ЛІВІШЕ за них: два накладені
-										елементи в одному місці інакше злилися б у купу значків, де
-										не видно, що з них попередження, а що дія.
+										Попередження і кнопки — В ОДНОМУ ряду, а не двома накладками.
+
+										Кожен окремо позиціонований елемент у правому кутку мусив би
+										знати, скільки місця займає інший. А кнопок тут від однієї до
+										трьох, залежно від того, чи є в полі текст, — тобто правильного
+										сталого зсуву не існує. У спільному ряду їх розводить флекс.
 									-->
-									{#if !isImageUrlValid(translations.uk.coverUrl)}
-										<button
-											type="button"
-											onclick={() => showUploadInfo = true}
-											class="url-warning-btn"
-											title={$t('admin.editor.urlWarning')}
-										>
-											<AlertTriangle size={18} />
-										</button>
-									{/if}
-									<InputTools
-										value={translations.uk.coverUrl}
-										input={coverSharedEl}
-										overlay
-										scope="{tp}-cover-url-shared"
-										fieldLabel={$t('admin.editor.coverLabel')}
-										onchange={(v) => handleCoverInput(v, 'uk')}
-									/>
+									<div class="url-field-overlays">
+										{#if !isImageUrlValid(translations.uk.coverUrl)}
+											<button
+												type="button"
+												onclick={() => showUploadInfo = true}
+												class="url-warning-btn"
+												title={$t('admin.editor.urlWarning')}
+											>
+												<AlertTriangle size={18} />
+											</button>
+										{/if}
+										<InputTools
+											value={translations.uk.coverUrl}
+											input={coverSharedEl}
+											scope="{tp}-cover-url-shared"
+											fieldLabel={$t('admin.editor.coverLabel')}
+											onchange={(v) => handleCoverInput(v, 'uk')}
+										/>
+									</div>
 									<p style="font-size: 0.75rem; opacity: 0.6; margin-top: 0.5rem;">{$t('admin.editor.coverSharedHint')}</p>
 								</div>
 								{#if translations.uk.coverUrl}
@@ -964,20 +967,33 @@
 
 <style>
 	/*
-	 * Попередження про непридатну адресу — ліворуч від кнопок вводу.
-	 * Раніше воно стояло на `right: 10px`, тобто рівно там, де тепер кнопки.
+	 * Ряд накладок у правому кутку поля: попередження й кнопки вводу.
+	 *
+	 * `top: var(--input-tool-size)` — половина висоти ПОЛЯ, а не обгортки. Під
+	 * полем лежить ще підказка, тож `top: 50%` центрував би ряд по обох разом і
+	 * зсував би значки вниз — саме це й було видно.
 	 */
-	.url-warning-btn {
+	.url-field-overlays {
 		position: absolute;
-		right: var(--input-tools-space, 5.5rem);
-		top: 50%;
+		top: calc(var(--input-tool-size, 34px) / 2 + 0.55rem);
+		right: var(--input-trailing-inset, 0.6rem);
 		transform: translateY(-50%);
+		display: flex;
+		align-items: center;
+		gap: var(--input-tool-gap, 0.25rem);
+	}
+
+	.url-warning-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: var(--input-tool-size, 34px);
+		height: var(--input-tool-size, 34px);
+		padding: 0;
 		background: none;
 		border: none;
 		color: #e11d48;
 		cursor: pointer;
-		display: flex;
-		align-items: center;
 	}
 
 	.lang-card:hover {
