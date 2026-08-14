@@ -153,6 +153,7 @@
 	let extSharedEl = $state<HTMLInputElement | null>(null);
 	let videoLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	let coverLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
+	let excerptLangEl = $state<Record<'uk' | 'en', HTMLTextAreaElement | null>>({ uk: null, en: null });
 	/** Посилання на поля по мовах: одне поле на мову, тож і посилань два. */
 	let extLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	let slugEl = $state<HTMLInputElement | null>(null);
@@ -846,9 +847,25 @@
 					<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
 						{#each (['uk', 'en'] as const) as lang (lang)}
 							<div class="form-group" style="margin: 0;">
-								<label class="form-label" for="excerpt-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
+								<!--
+									Кнопки — В РЯДКУ З ПІДПИСОМ, а не накладкою в кутку поля.
+
+									Поле багаторядкове: значки в його кутку лягли б на текст, а не
+									на порожнє місце. Рядок підпису порожній праворуч і належить
+									цьому ж полю, тож кнопки там читаються як його інструменти.
+								-->
+								<div class="excerpt-label-row has-input-tools">
+									<label class="form-label" for="excerpt-{lang}" style="font-size: 0.8rem; opacity: 0.7;">{lang === 'uk' ? $t('admin.editor.ukVersion') : $t('admin.editor.enVersion')}</label>
+									<InputTools
+										bind:value={translations[lang].excerpt}
+										input={excerptLangEl[lang]}
+										scope="{tp}-excerpt-{lang}"
+										fieldLabel={$t('admin.editor.excerptLabel')}
+									/>
+								</div>
 								<textarea
 									id="excerpt-{lang}"
+									bind:this={excerptLangEl[lang]}
 									bind:value={translations[lang].excerpt}
 									maxlength={300}
 									rows="3"
@@ -1017,6 +1034,14 @@
 </section>
 
 <style>
+	/* Підпис ліворуч, кнопки праворуч — рядок над полем опису. */
+	.excerpt-label-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
 	/*
 	 * Ряд накладок у правому кутку поля: попередження й кнопки вводу.
 	 *
