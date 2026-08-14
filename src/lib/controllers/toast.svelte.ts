@@ -168,6 +168,29 @@ class ToastState {
 			this.confirmResolve = null;
 		}
 	}
+
+	/**
+	 * Скидання у початковий стан (SVELTE-CORE-v8 § 1.4).
+	 *
+	 * Не `messages = []`. Просте очищення масиву лишає ЖИВІ таймери: кожен із
+	 * них через секунду-дві викличе `remove(id)` для повідомлення, якого вже
+	 * немає, і — гірше — таймер щойно доданого тоста з тим самим id зніме його
+	 * достроково. Тому спершу знімаються таймери, і аж потім список.
+	 *
+	 * Обіцянка `confirm()` теж мусить бути закрита. Незакритий `resolve` — це
+	 * не витік пам'яті, а зависла гілка коду: `await toast.confirm(...)` у
+	 * місці виклику не продовжиться ніколи, і виглядає це як «кнопка нічого не
+	 * робить». Відповідь `false`, бо скидання — не підтвердження.
+	 */
+	reset() {
+		for (const info of this.timers.values()) {
+			if (info.timerId) clearTimeout(info.timerId);
+		}
+		this.timers.clear();
+		this.messages = [];
+		this.resolveConfirm(false);
+		this.confirmMessage = '';
+	}
 }
 
 export const toast = new ToastState();

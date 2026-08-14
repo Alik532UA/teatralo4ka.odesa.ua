@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { authService } from '$lib/controllers/auth.svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { signOut } from 'firebase/auth';
@@ -10,6 +11,13 @@
 
 	async function handleLogout() {
 		await signOut(auth);
+		// Скидаємо стан самі, не чекаючи на onAuthStateChanged. Гачок таки
+		// спрацює, але вже після переходу рядком нижче, а до того моменту
+		// сторінка входу встигає намалюватися з профілем попереднього
+		// адміністратора в шапці. Тости теж чужі — це сповіщення сесії, яка
+		// щойно скінчилася.
+		authService.reset();
+		toast.reset();
 		window.location.href = resolve('/admin/login');
 	}
 
