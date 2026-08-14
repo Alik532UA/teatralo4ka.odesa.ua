@@ -120,6 +120,22 @@
 		}
 	}
 
+	/**
+	 * Позначка «текст не вміщається».
+	 *
+	 * CSS сам про переповнення не знає, а згасання без переповнення було б
+	 * обманом: воно казало б, що текст триває далі, коли він закінчився. Клас
+	 * ставиться на саме поле, а стиль згасання живе в global.css.
+	 */
+	$effect(() => {
+		void value;
+		if (!input) return;
+		const check = () => input?.classList.toggle('is-overflowing', input.scrollWidth > input.clientWidth + 1);
+		check();
+		window.addEventListener('resize', check);
+		return () => window.removeEventListener('resize', check);
+	});
+
 	function clear() {
 		value = '';
 		// Фокус повертається в поле: інакше після очищення клавіатурний

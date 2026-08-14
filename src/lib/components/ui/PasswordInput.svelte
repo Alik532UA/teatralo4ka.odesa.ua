@@ -150,7 +150,13 @@
 		   Раніше тут стояла неоголошена --theme-dynamic-card-bg, тож завжди
 		   спрацьовував запасний #022434 — темно-синя плашка в світлій темі. */
 		--input-bg: color-mix(in srgb, var(--bg-card), #000 20%);
+		/* Те, що раніше малювало саме поле. Переїхало сюди, щоб маска згасання
+		   тексту не зачіпала тло й рамку. */
+		background: rgba(0, 0, 0, 0.2);
+		border: 2px solid var(--accent-primary);
+		border-radius: var(--radius-md, 12px);
 	}
+
 
 	/* Leading-іконка (тип поля). Акцент :focus-within — лише через opacity. */
 	:global(.pw-icon-lead) {
@@ -169,8 +175,10 @@
 		width: 100%;
 		box-sizing: border-box;
 		padding: 0.9rem 3.5rem 0.9rem 3rem; /* правий відступ перекриває .has-input-tools */
-		background: rgba(0, 0, 0, 0.2);
-		border: 2px solid var(--accent-primary);
+		/* Тло й рамку малює обгортка `.has-input-tools` (global.css): інакше
+		   маска згасання зачепила б їх разом із текстом. */
+		background: transparent;
+		border: 2px solid transparent;
 		border-radius: var(--radius-md, 12px);
 		color: var(--text-title, #fff);
 	}

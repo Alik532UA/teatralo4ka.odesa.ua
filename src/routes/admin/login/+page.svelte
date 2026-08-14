@@ -145,6 +145,28 @@
 </section>
 
 <style>
+	/* Те, що раніше малювало саме поле: маска згасання тексту не має зачіпати
+	   тло й рамку, тож вони переїхали на обгортку. */
+	.input-with-icon.has-input-tools {
+		background: var(--bg-surface);
+		border: 2px solid var(--border-main);
+		border-radius: var(--radius-md);
+	}
+
+	.input-with-icon.has-input-tools:focus-within {
+		border-color: var(--accent-primary);
+	}
+
+	/*
+	 * Власне тло поля лишалося б поверх тла обгортки, і маска згасання зачепила
+	 * б його. Глобальне правило тут програє за вагою: scoping Svelte додає до
+	 * селектора клас, тож переважити його може лише правило з цього ж файлу.
+	 */
+	.input-with-icon.has-input-tools .form-input {
+		background: transparent;
+		border-color: transparent;
+	}
+
 	.admin-login {
 		padding: 48px 24px;
 	}
