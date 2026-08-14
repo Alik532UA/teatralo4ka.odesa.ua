@@ -350,6 +350,32 @@ button {
 	flex-shrink: 0;
 }
 
+/*
+ * Накладання поверх поля.
+ *
+ * Потрібне там, де рамку малює сам `input`, а не обгортка: у флексі кнопки
+ * стають СУСІДАМИ поля й опиняються за рамкою — візуально поза ним. Заміряно
+ * на формі входу: поле 282px, обгортка 312px, кнопка рівно в цих зайвих 30px.
+ *
+ * Відступ праворуч у полі — щоб текст не заходив під кнопки. 4.5rem розраховані
+ * на дві кнопки: більше в накладному режимі поки не буває.
+ */
+.has-input-tools {
+	position: relative;
+}
+
+.input-tools--overlay {
+	position: absolute;
+	right: 0.4rem;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 1;
+}
+
+.has-input-tools:has(.input-tools--overlay) .form-input {
+	padding-right: 4.5rem;
+}
+
 .input-tools__btn {
 	display: inline-flex;
 	align-items: center;

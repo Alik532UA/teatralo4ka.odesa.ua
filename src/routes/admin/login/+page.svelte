@@ -106,6 +106,7 @@
 					input={emailEl}
 					tools={['paste', 'clear']}
 					scope="admin-login-email"
+					overlay
 					fieldLabel={$t('admin.login.email')}
 				/>
 				<label for="email" class="floating-label">{$t('admin.login.email')}</label>

@@ -26,6 +26,16 @@
 	 *
 	 * Вставку, навпаки, пароль потребує найбільше: довгі згенеровані паролі
 	 * вводять саме вставкою.
+	 *
+	 * ## Чому кнопки поза порядком табуляції
+	 *
+	 * `Tab` із поля має вести до НАСТУПНОГО ПОЛЯ, а не до трьох дрібних кнопок
+	 * усередині поточного. У формі входу це особливо помітно: пошта → пароль →
+	 * «увійти» — звичний шлях, і три зупинки посередині його ламають.
+	 *
+	 * Клавіатура при цьому нічого не втрачає: кожна кнопка дублює дію, яка вже є
+	 * в самому полі — `Ctrl+V`, `Ctrl+C`, виділення й `Delete`. Тобто це
+	 * зручність для миші й дотику, а не єдиний шлях до дії.
 	 */
 	import { ClipboardPaste, Copy, Eraser } from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
@@ -44,6 +54,14 @@
 		/** Область для локаторів: `{scope}-paste-btn` тощо. */
 		scope: string;
 		/**
+		 * Класти кнопки ПОВЕРХ поля, а не поруч із ним.
+		 *
+		 * Потрібно там, де рамку малює сам `input`, а не його обгортка: у такому
+		 * полі кнопки-сусіди опиняються ЗА рамкою, візуально поза полем. У
+		 * рядкових полях (пошук), де рамка на обгортці, накладання не потрібне.
+		 */
+		overlay?: boolean;
+		/**
 		 * Назва поля для підпису кнопки. Без неї диктор прочитає «Вставити» на
 		 * кожному полі сторінки однаково, і вибрати з них буде неможливо.
 		 */
@@ -55,7 +73,8 @@
 		input = null,
 		tools = ['paste', 'copy', 'clear'],
 		scope,
-		fieldLabel
+		fieldLabel,
+		overlay = false
 	}: Props = $props();
 
 	let pasteBtn = $state<HTMLButtonElement | null>(null);
@@ -114,11 +133,12 @@
 	щойно курсор входить сюди, ще до влучання в саму кнопку. Рівні прозорості
 	живуть у global.css — див. пояснення там, чому вони на кнопках, а не тут.
 -->
-<div class="input-tools">
+<div class="input-tools" class:input-tools--overlay={overlay}>
 	{#if showPaste}
 		<button
 			type="button"
 			class="input-tools__btn"
+			tabindex="-1"
 			bind:this={pasteBtn}
 			onclick={paste}
 			aria-label={label($t('common.paste'))}
@@ -133,6 +153,7 @@
 		<button
 			type="button"
 			class="input-tools__btn"
+			tabindex="-1"
 			bind:this={copyBtn}
 			onclick={copy}
 			aria-label={label($t('common.copy'))}
@@ -147,6 +168,7 @@
 		<button
 			type="button"
 			class="input-tools__btn"
+			tabindex="-1"
 			onclick={clear}
 			aria-label={label($t('common.clear'))}
 			title={label($t('common.clear'))}
