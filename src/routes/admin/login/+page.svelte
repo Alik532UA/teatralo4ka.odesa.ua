@@ -68,7 +68,7 @@
 	});
 </script>
 
-<section class="admin-login container" style="max-width: 440px;" data-testid="admin-login-section-container">
+<section class="admin-login container" style="max-width: 560px;" data-testid="admin-login-section-container">
 	<div style="background: var(--bg-card); padding: 2.5rem; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,95,174,0.1);" data-testid="admin-login-card-container">
 		<h1 style="font-family: var(--font-heading); color: var(--text-title); margin-bottom: 2rem; text-align: center;" data-testid="admin-login-title">{$t('admin.login.title')}</h1>
 
@@ -131,11 +131,13 @@
 				{resetLoading ? $t('admin.login.resetLoading') : $t('admin.login.resetPassword')}
 			</button>
 
+			<!-- 70% від ширини картки: кнопка лишається головною дією форми, але вже
+			     не тягнеться від краю до краю, як поля над нею. -->
 			<button
 				type="submit"
 				disabled={loading}
 				class="btn btn-primary"
-				style="width: 100%; border: none; cursor: pointer;"
+				style="width: 70%; align-self: center; border: none; cursor: pointer;"
 				data-testid="admin-login-submit-btn"
 			>
 				{loading ? $t('admin.login.loading') : $t('admin.login.btn')}
