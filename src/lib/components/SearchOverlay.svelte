@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
-	import { Search, X, FileText, Newspaper } from 'lucide-svelte';
+	import { Search, X, FileText, Newspaper, ClipboardPaste, Copy, Eraser } from 'lucide-svelte';
+	import { toast } from '$lib/controllers/toast.svelte';
+	import { browser } from '$app/environment';
 	import { newsEntries, pageEntries } from '$lib/services/searchIndex';
 	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
 
@@ -29,6 +31,72 @@
 	let hitLinks = $state.raw<(HTMLAnchorElement | null)[]>([]);
 	let news = $state.raw<SearchEntry[]>([]);
 	let newsLoading = $state(false);
+
+	/**
+	 * Кнопки поля вводу: вставити, скопіювати, стерти.
+	 *
+	 * ## Чому не одна кнопка «×»
+	 *
+	 * Хрестик у полі вводу читається двозначно: поруч, у тому ж рядку, вже
+	 * стоїть хрестик закриття пошуку. Дві однакові позначки за кілька
+	 * сантиметрів одна від одної, з різними наслідками, — це помилка за
+	 * замовчуванням. Тому очищення позначене ластиком: він не схожий на
+	 * закриття й прямо каже, що саме зникне.
+	 *
+	 * ## Чому кнопки з'являються не всі одразу
+	 *
+	 * «Скопіювати» й «стерти» без тексту не мають сенсу: копіювати нічого, а
+	 * стирати нема чого. Показувати їх вимкненими означало б тримати в рядку
+	 * два мертві значки на кожен захід у пошук. Тому вони з'являються разом із
+	 * текстом.
+	 *
+	 * «Вставити» показується лише там, де браузер справді дає читати буфер:
+	 * поза HTTPS `navigator.clipboard` відсутній зовсім, і кнопка була б
+	 * мертвою — клік нічого не робив би, а причину видно лише в консолі.
+	 */
+	let pasteBtn = $state<HTMLButtonElement | null>(null);
+	let copyBtn = $state<HTMLButtonElement | null>(null);
+	/**
+	 * Звичайна константа, не стан: підтримка буфера обміну не змінюється за час
+	 * життя сторінки. На сервері `navigator` немає, тож під час пререндеру
+	 * кнопки в розмітці не буде — вона з'явиться при гідратації, коли значення
+	 * порахується вже в браузері.
+	 */
+	const canPaste = browser && typeof navigator.clipboard?.readText === 'function';
+
+	const hasQuery = $derived(query.length > 0);
+
+	async function pasteFromClipboard() {
+		try {
+			const text = await navigator.clipboard.readText();
+			// Порожній буфер — не помилка й не привід для повідомлення: людина
+			// просто нічого не копіювала. Тихо лишаємо поле як є.
+			if (text) query = text;
+			input?.focus();
+		} catch {
+			// Найчастіша причина — відмова в дозволі, і вона не збій застосунку.
+			// Тост прив'язаний до кнопки: підказка потрібна саме там, куди щойно
+			// клікнули (NOTIFICATIONS-v8 § 5).
+			toast.info($t('search.pasteDenied'), 5000, undefined, pasteBtn ?? undefined);
+		}
+	}
+
+	async function copyQuery() {
+		if (!navigator.clipboard?.writeText) return;
+		try {
+			await navigator.clipboard.writeText(query);
+			toast.success($t('search.copied'), 4000, undefined, copyBtn ?? undefined);
+		} catch {
+			toast.info($t('search.copyDenied'), 5000, undefined, copyBtn ?? undefined);
+		}
+	}
+
+	function clearQuery() {
+		query = '';
+		// Фокус повертається в поле: інакше після очищення клавіатурний
+		// користувач лишається на кнопці, якої вже немає, і `Tab` починає з нуля.
+		input?.focus();
+	}
 
 	const lang = $derived(($locale === 'en' ? 'en' : 'uk') as 'uk' | 'en');
 
@@ -127,6 +195,45 @@
 				autocomplete="off"
 				data-testid="search-input"
 			/>
+			{#if canPaste}
+				<button
+					type="button"
+					class="search__tool"
+					bind:this={pasteBtn}
+					onclick={pasteFromClipboard}
+					aria-label={$t('search.paste')}
+					title={$t('search.paste')}
+					data-testid="search-paste-btn"
+				>
+					<ClipboardPaste size={16} aria-hidden="true" />
+				</button>
+			{/if}
+
+			{#if hasQuery}
+				<button
+					type="button"
+					class="search__tool"
+					bind:this={copyBtn}
+					onclick={copyQuery}
+					aria-label={$t('search.copy')}
+					title={$t('search.copy')}
+					data-testid="search-copy-btn"
+				>
+					<Copy size={16} aria-hidden="true" />
+				</button>
+
+				<button
+					type="button"
+					class="search__tool"
+					onclick={clearQuery}
+					aria-label={$t('search.clear')}
+					title={$t('search.clear')}
+					data-testid="search-clear-btn"
+				>
+					<Eraser size={16} aria-hidden="true" />
+				</button>
+			{/if}
+
 			<button
 				type="button"
 				class="search__close"
@@ -247,6 +354,28 @@
 	.search__input::placeholder {
 		color: var(--color-muted-text);
 		font-weight: 500;
+	}
+
+	/* Кнопки поля вводу: менші за кнопку закриття й без власного `transition` —
+	   вони не кнопки закриття, тож і оберту в них немає. */
+	.search__tool {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		border: none;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-muted-text);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: background 0.15s, color 0.15s;
+	}
+
+	.search__tool:hover {
+		background: color-mix(in srgb, var(--accent-primary), transparent 90%);
+		color: var(--accent-primary);
 	}
 
 	.search__close {
