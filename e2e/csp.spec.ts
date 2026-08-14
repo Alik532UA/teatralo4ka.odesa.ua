@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { PUBLIC_PAGES } from './pages';
-import { gotoReady } from './ready';
+import { clickInFooter, gotoReady } from './ready';
 
 /**
  * Порушення CSP у рантаймі (SECURITY-v8 § 3).
@@ -86,7 +86,7 @@ test('піаніно: звук не блокується політикою', as
 	});
 
 	await gotoReady(page, '/');
-	await page.getByTestId('footer-piano-btn').click();
+	await clickInFooter(page, 'footer-piano-btn');
 	await expect(page.getByTestId('piano-modal-overlay-container')).toBeVisible();
 
 	// Елементи <audio> створюються разом із модалкою; браузеру потрібен момент,
@@ -104,7 +104,7 @@ test('джерела звуку піаніно дозволені політик
 	// той випадок, коли фолбек мовчки забороняє потрібне.
 	expect(csp, 'media-src відсутній — звук ітиме через default-src').toContain('media-src');
 
-	await page.getByTestId('footer-piano-btn').click();
+	await clickInFooter(page, 'footer-piano-btn');
 	const sources = await page.$$eval('audio[src]', (nodes) => nodes.map((n) => n.getAttribute('src') ?? ''));
 	expect(sources.length, 'у модалці немає жодного <audio> — перевірка мертва').toBeGreaterThan(0);
 

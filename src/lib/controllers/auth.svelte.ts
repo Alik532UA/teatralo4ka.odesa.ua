@@ -1,6 +1,7 @@
 import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth, db } from "../firebase/config";
-import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, deleteDoc, type DocumentReference } from "firebase/firestore";
+import { normalizeProfile, projectIdsFor } from "../services/userProfile";
 
 export interface ProjectAccess {
   role: 'admin' | 'moderator' | 'assistant';
@@ -51,73 +52,52 @@ class AuthService {
       this.loading = true;
       this.user = u;
       if (u) {
-        let foundProfile: any = null;
-        let foundByEmail = false;
-        let emailDocRef: any = null;
+        // Приведення до поточної схеми живе в `services/userProfile.ts` чистою
+        // функцією і перевіряється тестами. Тут лишився лише ввід-вивід: до
+        // 2026-08-14 обидві частини стояли разом, і найризикованіший код
+        // проєкту — вхід плюс міграція з `deleteDoc` — не мав жодного тесту й
+        // не міг мати, бо конструктор запускається самим імпортом.
+        let profile: UserProfile | null = null;
+        let emailDocRef: DocumentReference | null = null;
 
         // 1. Пробуємо за UID
         try {
-          const docRef = doc(db, "users", u.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            foundProfile = docSnap.data();
-          }
+          const docSnap = await getDoc(doc(db, "users", u.uid));
+          if (docSnap.exists()) profile = normalizeProfile(docSnap.data());
         } catch {
           console.warn("Не вдалося завантажити профіль за UID");
         }
 
         // 2. Пробуємо за Email
-        if (!foundProfile && u.email) {
+        if (!profile && u.email) {
           try {
             emailDocRef = doc(db, "users", u.email.toLowerCase());
             const emailDocSnap = await getDoc(emailDocRef);
-            if (emailDocSnap.exists()) {
-              foundProfile = emailDocSnap.data();
-              foundByEmail = true;
-            }
+            if (emailDocSnap.exists()) profile = normalizeProfile(emailDocSnap.data());
           } catch (e) {
             console.error("Помилка доступу за Email:", e);
           }
         }
 
-        // 3. Адаптація старої схеми (якщо знайдено schoolId)
-        if (foundProfile && foundProfile.schoolId && !foundProfile.projects) {
-          foundProfile.projects = {};
-          if (foundProfile.schoolId !== 'all') {
-            foundProfile.projects[foundProfile.schoolId] = {
-              role: foundProfile.role,
-              permissions: foundProfile.permissions || { canCreate: true, canEdit: false, canDelete: false }
-            };
-          }
-          if (foundProfile.role === 'superadmin') {
-            foundProfile.isSuperAdmin = true;
-          }
-          // Очищаємо старі поля
-          delete foundProfile.schoolId;
-          delete foundProfile.permissions;
-        }
-
-        // 4. МІГРАЦІЯ Email -> UID
-        if (foundByEmail && foundProfile) {
+        // 3. МІГРАЦІЯ Email -> UID. Лише якщо профіль знайдено саме за email,
+        //    тобто `emailDocRef` заповнений і крок 1 нічого не дав.
+        if (profile && emailDocRef) {
           try {
-            // Ensure projectIds exists before migration to avoid rule failures if it was created before the architectural change
-            if (!foundProfile.projectIds && foundProfile.projects) {
-                foundProfile.projectIds = Object.keys(foundProfile.projects);
-            }
-            
-            await setDoc(doc(db, "users", u.uid), foundProfile);
+            // `projectIds` обчислюється перед записом: правила Firestore
+            // звіряються саме з ним, і профіль, створений до появи мапи
+            // `projects`, без цього поля отримує відмову ПРАВИЛА — а не
+            // помилку коду, тобто повідомлення ні про що.
+            await setDoc(doc(db, "users", u.uid), {
+              ...profile,
+              projectIds: projectIdsFor(profile)
+            });
             await deleteDoc(emailDocRef);
           } catch (e) {
             console.error("Помилка міграції:", e);
           }
         }
 
-        // Гарантуємо наявність об'єкта projects
-        if (foundProfile && !foundProfile.projects) {
-          foundProfile.projects = {};
-        }
-
-        this.profile = foundProfile as UserProfile;
+        this.profile = profile;
       } else {
         this.profile = null;
       }

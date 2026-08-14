@@ -21,12 +21,37 @@ const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'];
  */
 const MOBILE_SAMPLE = ['/', '/about'];
 
+/**
+ * Англійські дзеркала — теж вибіркою, і з тієї самої причини.
+ *
+ * `/en/about` це той САМИЙ компонент із тим самим макетом і тими самими
+ * токенами кольору; відрізняється лише текст. Правила axe від мови не залежать
+ * ніде, крім двох місць: довжина рядка може дати інший перенос (а отже інший
+ * розмір цілі дотику) і `lang` на документі. Перше покривається вибіркою,
+ * друге — окремим інваріантом у `smoke.spec.ts`.
+ *
+ * Ціна повного набору не теоретична: після появи мовних адрес сторінок стало
+ * 38 замість 19, прогін axe подвоївся, і під навантаженням почали падати
+ * `waitForAnimations` та кліки по підвалу — тобто подвоєння дало не сигнал, а
+ * шум. Решта перевірок (`smoke`, `testid`) ходить по ВСІХ сторінках: там мова
+ * справді змінює результат.
+ */
+const EN_SAMPLE = ['/en/', '/en/about'];
+
+function isEnglish(path: string): boolean {
+	return path === '/en/' || path.startsWith('/en/');
+}
+
 test.describe('axe без порушень', () => {
 	for (const path of PUBLIC_PAGES) {
 		test(`${path}`, async ({ page }, testInfo) => {
 			test.skip(
 				testInfo.project.name === 'mobile' && !MOBILE_SAMPLE.includes(path),
 				'на мобільному — вибірка, див. MOBILE_SAMPLE'
+			);
+			test.skip(
+				isEnglish(path) && !EN_SAMPLE.includes(path),
+				'англійські дзеркала — вибірка, див. EN_SAMPLE'
 			);
 
 			await gotoReady(page, path);
