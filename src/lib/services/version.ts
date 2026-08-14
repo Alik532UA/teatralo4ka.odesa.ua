@@ -33,7 +33,10 @@ export async function checkForUpdates() {
 
         // If versions differ, force update
         if (localVersion !== "0.0.0" && localVersion !== serverVersion) {
-            console.warn(`[Version] New version available: ${serverVersion} (local: ${localVersion}). Forcing update...`);
+            errorLogger.logInfo(
+            `нова версія ${serverVersion} (локальна ${localVersion}) — оновлюємо`,
+            { component: 'version' }
+        );
             await applyUpdate(serverVersion);
         } else if (localVersion === "0.0.0") {
             // Initial visit: just store the version
@@ -49,7 +52,11 @@ export async function checkForUpdates() {
         // Рівень тут не косметика. Поки він був error, кожен користувач у метро
         // додавав запис у той самий потік, де мали б бути справжні поломки — і
         // цей потік перестає читати саме через такий шум.
-        console.warn("[Version] перевірку оновлення пропущено (мережа недоступна):", error);
+        errorLogger.logWarning(
+            'перевірку оновлення пропущено — мережа недоступна',
+            { component: 'version' },
+            error
+        );
     }
 }
 

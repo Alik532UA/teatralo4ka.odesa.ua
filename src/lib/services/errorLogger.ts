@@ -1,13 +1,33 @@
 /**
- * Client-side error logging service.
- * Stores recent errors in memory and prints them to the console.
+ * Клієнтський логер: буфер останніх подій плюс вивід у консоль.
  *
  * Точки входу: `handleError` у `hooks.client.ts` (неперехоплені помилки
- * клієнта) і `onerror` у `ErrorBoundary` (помилки рендеру всередині межі).
+ * клієнта), `onerror` у `ErrorBoundary` (помилки рендеру всередині межі) і
+ * прямі виклики `warn`/`info` з сервісів.
+ *
+ * ## Чому рівні, а не лише `logError`
+ *
+ * DEBUGGING-v8 і ERROR-HANDLING-v8 обидва вимагають того самого: очікуваний
+ * збій (офлайн, скасований запит, недоступний сторонній сервіс) логується
+ * рівнем `warn`, а не `error`. Виконати це правило було НІЧИМ — у логера
+ * існував один метод, `logError`. Тому близько двадцяти місць у проєкті писали
+ * в консоль напряму, і жодне з них не потрапляло ні в буфер, ні під маскування
+ * PII. Тобто правило стояло в стандарті, а в коді не могло бути виконане в
+ * принципі.
+ *
+ * Рівень і `severity` — різні речі й лишаються різними полями. Рівень задає
+ * ТОЙ, ХТО ЛОГУЄ: він знає, чи ця подія очікувана. `severity` рахується з
+ * тексту евристикою і лишається лише для помилок — вона відповідає на інше
+ * питання, «наскільки погано», і вгадує його, тоді як рівень не вгадує нічого.
  */
+
+/** Канал події. Задає викликач, бо лише він знає, чи збій очікуваний. */
+export type LogLevel = 'info' | 'warn' | 'error';
 
 export interface ErrorEvent {
 	id: string;
+	/** Типово `error` — щоб наявні записи в буфері не змінили значення. */
+	level: LogLevel;
 	message: string;
 	stack?: string;
 	context: {
@@ -63,6 +83,50 @@ class ErrorLogger {
 	 * Log an error. Returns the generated error ID.
 	 */
 	logError(error: Error, context: Partial<ErrorEvent['context']> = {}): string {
+		return this.record('error', error.message, context, error.stack);
+	}
+
+	/**
+	 * Очікуваний збій: офлайн, скасований запит, недоступний сторонній сервіс,
+	 * непридатні дані, які код уміє пережити.
+	 *
+	 * Рівень тут не косметика. Поки такі події йшли рівнем `error`, кожен
+	 * користувач без мережі додавав запис у той самий потік, де мали б бути
+	 * справжні поломки — а потік перестають читати саме через такий шум.
+	 *
+	 * Приймає рядок, а не `Error`: очікуваний збій зазвичай не має стека, вартого
+	 * зберігання, і створювати `Error` заради рівня означало б платити за стек,
+	 * який ніхто не прочитає. Другий аргумент лишає можливість передати причину.
+	 */
+	logWarning(message: string, context: Partial<ErrorEvent['context']> = {}, cause?: unknown): string {
+		const detail = cause instanceof Error ? cause.message : cause != null ? String(cause) : '';
+		return this.record('warn', detail ? `${message}: ${detail}` : message, context);
+	}
+
+	/**
+	 * Бізнес-подія, не збій: увійшов, зберіг, перемкнув мову.
+	 *
+	 * У консоль НЕ друкується, і це свідомо. По-перше, `no-console` у проєкті
+	 * дозволяє лише `warn` і `error`, і робити виняток заради інформаційного
+	 * рівня означало б відкрити його всім. По-друге й головне: інформаційний шум
+	 * у консолі продакшну — це те, через що справжню помилку не видно. Подія
+	 * лишається в буфері, і саме звідти її бере звіт.
+	 */
+	logInfo(message: string, context: Partial<ErrorEvent['context']> = {}): string {
+		return this.record('info', message, context);
+	}
+
+	/**
+	 * Єдина точка запису — саме тому маскування й обрізання буфера неможливо
+	 * забути на новому рівні. Раніше тіло цього методу лежало в `logError`, і
+	 * будь-який другий метод був би його копією.
+	 */
+	private record(
+		level: LogLevel,
+		rawMessage: string,
+		context: Partial<ErrorEvent['context']>,
+		rawStack?: string
+	): string {
 		// Перевіряється саме `randomUUID`, а не сам `crypto`: поза secure context
 		// об'єкт існує, а методу в ньому немає. Логер викликається з `handleError`,
 		// тобто вже посеред обробки помилки — виняток тут перетворив би одну
@@ -72,12 +136,13 @@ class ErrorLogger {
 				? crypto.randomUUID()
 				: `err-${Date.now()}-${Math.round(performance.now())}`;
 
-		const message = redact(error.message);
+		const message = redact(rawMessage);
 
 		const event: ErrorEvent = {
 			id,
+			level,
 			message,
-			stack: error.stack ? redact(error.stack) : undefined,
+			stack: rawStack ? redact(rawStack) : undefined,
 			context: {
 				timestamp: new Date().toISOString(),
 				userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'server',
@@ -97,7 +162,14 @@ class ErrorLogger {
 			this.cache.shift();
 		}
 
-		console.error(`[ErrorLogger] ${event.severity.toUpperCase()}:`, event.message, event);
+		const prefix = `[${level}] ${event.context.component ?? 'app'}:`;
+		if (level === 'error') {
+			console.error(prefix, event.message, event);
+		} else if (level === 'warn') {
+			console.warn(prefix, event.message);
+		}
+		// `info` у консоль не йде — див. `logInfo`.
+
 		return id;
 	}
 
@@ -111,6 +183,17 @@ class ErrorLogger {
 
 	getCache(): ErrorEvent[] {
 		return [...this.cache];
+	}
+
+	/**
+	 * Лише помилки — для звіту, який має показати поломки, а не всю історію.
+	 *
+	 * Окремий метод, а не фільтр у місці виклику: щойно рівнів стало три,
+	 * `getCache()` перестав означати «список помилок», і кожен, хто його так
+	 * читав, отримав би до звіту ще й інформаційні події.
+	 */
+	getErrors(): ErrorEvent[] {
+		return this.cache.filter((e) => e.level === 'error');
 	}
 
 	clearCache(): void {

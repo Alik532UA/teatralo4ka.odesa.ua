@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { SCROLLBAR_MODE_IDS } from '$lib/config/scrollbarModes';
 import { BACKGROUND_TYPE_IDS } from '$lib/config/backgroundOptions';
 import { isSafeUrl } from '$lib/utils/safeUrl';
+import { errorLogger } from '$lib/services/errorLogger';
 
 /**
  * Валідація налаштувань, що приходять із Firestore.
@@ -266,6 +267,10 @@ export function parseOrUndefined<T>(schema: z.ZodType<T>, raw: unknown): T | und
 	if (raw === undefined || raw === null) return undefined;
 	const result = schema.safeParse(raw);
 	if (result.success) return result.data;
-	console.warn('Налаштування не пройшли валідацію, застосовано типові:', result.error.issues);
+	errorLogger.logWarning(
+		'налаштування не пройшли валідацію — застосовано типові',
+		{ component: 'settings-schema' },
+		JSON.stringify(result.error.issues)
+	);
 	return undefined;
 }

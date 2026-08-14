@@ -6,6 +6,7 @@ import {
   memoryLocalCache,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { errorLogger } from "../services/errorLogger";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -48,10 +49,10 @@ if (typeof window !== 'undefined' && appCheckSiteKey) {
     perf('firebase/config: App Check initialized');
   } catch (e) {
     // Не блокуємо застосунок, якщо App Check не піднявся (напр. повторна ініціалізація при HMR).
-    console.warn('App Check init skipped:', e);
+    errorLogger.logWarning('App Check не піднявся — працюємо без нього', { component: 'firebase' }, e);
   }
 } else if (typeof window !== 'undefined') {
-  console.info('App Check вимкнено: не задано VITE_APPCHECK_RECAPTCHA_SITE_KEY.');
+  errorLogger.logInfo('App Check вимкнено: не задано VITE_APPCHECK_RECAPTCHA_SITE_KEY', { component: 'firebase' });
 }
 
 export const auth = getAuth(app);

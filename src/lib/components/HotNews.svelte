@@ -19,6 +19,7 @@
 	import { getCachedHotNewsSettings, getHotNewsSettings } from '$lib/services/settings';
 	import { getArticleById, mapArticleToWidgetItem } from '$lib/services/articles';
 	import { session, storage } from '$lib/services/storage';
+	import { errorLogger } from '$lib/services/errorLogger';
 	import {
 		DEFAULT_HOT_NEWS,
 		seenKey,
@@ -97,7 +98,7 @@
 		} catch (e) {
 			// Мовчки: сповіщення про новину не варте повідомлення про помилку
 			// поверх сторінки, яку відвідувач читає.
-			console.warn('[hotNews] не вдалося прочитати новину', item.id, e);
+			errorLogger.logWarning(`не вдалося прочитати новину ${item.id}`, { component: 'hotNews' }, e);
 			return null;
 		}
 	}

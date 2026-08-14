@@ -2,6 +2,7 @@ import { onAuthStateChanged, type User } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { doc, getDoc, setDoc, deleteDoc, type DocumentReference } from "firebase/firestore";
 import { normalizeProfile, projectIdsFor } from "../services/userProfile";
+import { errorLogger } from "../services/errorLogger";
 
 export interface ProjectAccess {
   role: 'admin' | 'moderator' | 'assistant';
@@ -64,8 +65,11 @@ class AuthService {
         try {
           const docSnap = await getDoc(doc(db, "users", u.uid));
           if (docSnap.exists()) profile = normalizeProfile(docSnap.data());
-        } catch {
-          console.warn("Не вдалося завантажити профіль за UID");
+        } catch (e) {
+          // warn: правила Firestore можуть законно відмовити, і код це переживає —
+          // далі йде спроба за email. Через логер, а не console: текст відмови
+          // Firebase містить адресу облікового запису, а логер її маскує.
+          errorLogger.logWarning('профіль за UID недоступний', { component: 'auth' }, e);
         }
 
         // 2. Пробуємо за Email
@@ -75,7 +79,10 @@ class AuthService {
             const emailDocSnap = await getDoc(emailDocRef);
             if (emailDocSnap.exists()) profile = normalizeProfile(emailDocSnap.data());
           } catch (e) {
-            console.error("Помилка доступу за Email:", e);
+            // Теж warn, і теж через логер. Тут це було найгірше місце в проєкті
+            // з погляду SECURITY-v8 § 10: `e` від Firestore містить адресу, за
+            // якою шукали, і вона летіла в консоль у відкритому вигляді.
+            errorLogger.logWarning('профіль за email недоступний', { component: 'auth' }, e);
           }
         }
 
@@ -93,7 +100,12 @@ class AuthService {
             });
             await deleteDoc(emailDocRef);
           } catch (e) {
-            console.error("Помилка міграції:", e);
+            // А ось це справді error: профіль знайдено, перенести не вдалося —
+            // наступний вхід повторить усе те саме, і `deleteDoc` міг не
+            // виконатися після `setDoc`, тобто документ лишився у двох місцях.
+            errorLogger.logError(e instanceof Error ? e : new Error(String(e)), {
+              component: 'auth-migration'
+            });
           }
         }
 

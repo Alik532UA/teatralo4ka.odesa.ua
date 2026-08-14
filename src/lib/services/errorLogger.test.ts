@@ -133,4 +133,61 @@ describe('ErrorLogger', () => {
 			expect(redact(plain)).toBe(plain);
 		});
 	});
+	describe('рівні (DEBUGGING-v8, ERROR-HANDLING-v8)', () => {
+		it('logError лишається рівнем error', () => {
+			errorLogger.logError(new Error('boom'));
+			expect(errorLogger.getCache()[0].level).toBe('error');
+		});
+
+		it('logWarning не друкує в console.error', () => {
+			// Сенс рівня саме в цьому: очікуваний збій не мусить потрапляти в той
+			// потік, де шукають справжні поломки. Поки в логера був один метод,
+			// виконати це правило було нічим — і двадцять місць писали в консоль
+			// напряму, поза буфером і поза маскуванням.
+			const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+			const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+			errorLogger.logWarning('офлайн', { component: 'version' });
+
+			expect(err, 'очікуваний збій пішов у console.error').not.toHaveBeenCalled();
+			expect(warn).toHaveBeenCalled();
+			expect(errorLogger.getCache()[0].level).toBe('warn');
+		});
+
+		it('logInfo не друкує в консоль зовсім, але лишається в буфері', () => {
+			const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+			const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+			errorLogger.logInfo('мову перемкнено');
+
+			expect(err).not.toHaveBeenCalled();
+			expect(warn).not.toHaveBeenCalled();
+			expect(errorLogger.getCache()).toHaveLength(1);
+			expect(errorLogger.getCache()[0].level).toBe('info');
+		});
+
+		it('logWarning маскує PII у причині', () => {
+			// Головна причина міграції: `console.error(e)` в auth віддавав адресу
+			// облікового запису в консоль у відкритому вигляді.
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+			errorLogger.logWarning('профіль недоступний', {}, new Error('no access for taras@example.com'));
+
+			const message = errorLogger.getCache()[0].message;
+			expect(message).not.toContain('taras@example.com');
+			expect(message).toContain('t***@example.com');
+		});
+
+		it('getErrors віддає лише помилки', () => {
+			vi.spyOn(console, 'error').mockImplementation(() => {});
+			vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+			errorLogger.logInfo('подія');
+			errorLogger.logWarning('офлайн');
+			errorLogger.logError(new Error('справжня поломка'));
+
+			expect(errorLogger.getCache()).toHaveLength(3);
+			expect(errorLogger.getErrors()).toHaveLength(1);
+			expect(errorLogger.getErrors()[0].message).toBe('справжня поломка');
+		});
+	});
 });
