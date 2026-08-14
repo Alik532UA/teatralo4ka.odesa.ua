@@ -118,7 +118,7 @@
 
 		<button
 			type="button"
-			class="toggle"
+			class="input-tools__btn"
 			{disabled}
 			onclick={() => (showPassword = !showPassword)}
 			aria-pressed={showPassword}
@@ -244,25 +244,18 @@
 		gap: var(--input-tool-gap, 0.25rem);
 		color: var(--input-icon-color);
 	}
-	.toggle {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: var(--input-tool-size, 34px);
-		height: var(--input-tool-size, 34px);
-		background: none;
-		border: none;
-		padding: 0;
-		cursor: pointer;
-		color: inherit;
-		opacity: 0.65;
-		transition: opacity 0.2s ease;
-	}
-	.toggle:hover,
-	.toggle:focus-visible {
-		opacity: 1;
-	}
-	.toggle:disabled {
+	/*
+	 * Кнопка-око носить той самий клас, що й кнопки інструментів поруч.
+	 *
+	 * Раніше в неї були власні кольори й поведінка: успадкований акцентний
+	 * колір проти приглушеного в сусідів, стала прозорість 0.65 проти
+	 * наростаючої, і жодного кола на фоні при наведенні. У рядку з трьох
+	 * значків це читалося як три різні елементи, хоч поводяться вони однаково.
+	 *
+	 * Лишилося тут тільки вимкнення — його в кнопок інструментів немає, бо
+	 * вимкненими вони не бувають.
+	 */
+	.input-tools__btn:disabled {
 		cursor: default;
 		opacity: 0.35;
 	}
