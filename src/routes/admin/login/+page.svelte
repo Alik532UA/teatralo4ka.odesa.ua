@@ -81,7 +81,7 @@
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-fieldset">
-			<div class="input-with-icon has-input-tools" data-testid="admin-login-email-fieldset">
+			<div class="input-with-icon has-input-tools has-input-tools--framed" data-testid="admin-login-email-fieldset">
 				<Mail size={18} class="input-icon lead" aria-hidden="true" />
 				<input
 					type="email"

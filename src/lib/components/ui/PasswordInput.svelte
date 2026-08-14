@@ -77,7 +77,7 @@
 	озвучує появу тексту лише в області, яка вже є в дереві доступності.
 -->
 <div class="password-field">
-<div class="input-with-icon has-input-tools">
+<div class="input-with-icon has-input-tools has-input-tools--framed">
 	<Lock size={18} class="pw-icon-lead" aria-hidden="true" />
 
 	<input

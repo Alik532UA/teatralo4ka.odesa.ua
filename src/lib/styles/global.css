@@ -399,9 +399,26 @@ button {
 	z-index: 1;
 }
 
+/*
+ * Місце під кнопки треба КОЖНОМУ полю з кнопками — і тому, що малює себе саме,
+ * і тому, за яке малює обгортка.
+ */
 .has-input-tools .form-input {
 	padding-right: var(--input-tools-space);
-	/* Малює лише текст — див. пояснення про маску нижче. */
+}
+
+/*
+ * Далі — лише для полів, за які малює ОБГОРТКА (`--framed`).
+ *
+ * Різниця не косметична. У такому полі рамку й тло малює обгортка, а саме поле
+ * прозоре — інакше маска згасання тексту (нижче) зачепила б і рамку. Але
+ * більшість полів проєкту малює себе САМА: зробити їх прозорими означало б
+ * прибрати їм рамку зовсім, тобто перетворити на невидимі прямокутники.
+ *
+ * Тому прозорість, згасання й перенесення фокусу на обгортку ввімкнені лише
+ * там, де обгортка справді щось малює. Ознака — окремий клас, а не здогад.
+ */
+.has-input-tools--framed .form-input {
 	background: transparent;
 	border-color: transparent;
 }
@@ -417,12 +434,12 @@ button {
  * `--accent-primary` відрізняються і за тоном, і за яскравістю, тож перехід
  * помітний, а не лише «інший відтінок того самого».
  */
-.has-input-tools:focus-within {
+.has-input-tools--framed:focus-within {
 	border-color: var(--accent-primary);
 }
 
-.has-input-tools .form-input:focus,
-.has-input-tools .form-input:focus-visible {
+.has-input-tools--framed .form-input:focus,
+.has-input-tools--framed .form-input:focus-visible {
 	outline: none;
 	/*
 	 * `.form-input:focus` вище малює кільце `box-shadow: 0 0 0 4px`. Це доречно
@@ -459,7 +476,7 @@ button {
  * Маска знята з поля У ФОКУСІ: під час набору каретка доходить до правого краю
  * й опинилася б у зоні згасання, тобто зникла б саме тоді, коли потрібна.
  */
-.has-input-tools .form-input.is-overflowing:not(:focus) {
+.has-input-tools--framed .form-input.is-overflowing:not(:focus) {
 	mask-image: linear-gradient(
 		to right,
 		#000 calc(100% - var(--input-tools-space) - 1.5rem),
