@@ -317,6 +317,90 @@ button {
 	outline-offset: 2px;
 }
 
+/* --- Кнопки поля вводу --- */
+
+/**
+ * Прозорість наростає в міру наближення курсору: 30% у спокої, 60% коли курсор
+ * десь у полі, 90% коли він над самими кнопками, 100% на кнопці. Значки не
+ * відбирають увагу в порожньому полі й проявляються рівно тоді, коли до них
+ * тягнуться.
+ *
+ * ## Чому прозорість задана КНОПКАМ, а не обгортці
+ *
+ * `opacity` на елементі створює групу композиції, і дитина не може бути
+ * НЕПРОЗОРІШОЮ за батька: `.input-tools { opacity: .9 }` разом із
+ * `.input-tools__btn:hover { opacity: 1 }` дало б 0.9 × 1 = 0.9, тобто остання
+ * сходинка просто не працювала б. Тому всі рівні — на самій кнопці, а обгортка
+ * слугує лише областю наведення.
+ *
+ * Селектори однакової ваги й ідуть від слабшого стану до сильнішого: у CSS при
+ * рівній вазі перемагає останній, і саме на це тут розрахунок.
+ *
+ * ## Чому це в global.css
+ *
+ * Кнопки малює `ui/InputTools.svelte`, але рівень «курсор десь у полі» залежить
+ * від ПРЕДКА, який лежить поза цим компонентом. Стилі Svelte scoped туди не
+ * дістають, тож правило належить спільному файлу. Полю-контейнеру треба дати
+ * клас `has-input-tools`.
+ */
+.input-tools {
+	display: flex;
+	align-items: center;
+	gap: 0.15rem;
+	flex-shrink: 0;
+}
+
+.input-tools__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: none;
+	color: var(--color-muted-text);
+	cursor: pointer;
+	flex-shrink: 0;
+	opacity: 0.3;
+	transition: background 0.15s, color 0.15s, opacity 0.15s;
+}
+
+.has-input-tools:hover .input-tools__btn {
+	opacity: 0.6;
+}
+
+.input-tools:hover .input-tools__btn {
+	opacity: 0.9;
+}
+
+.input-tools .input-tools__btn:hover {
+	opacity: 1;
+	background: color-mix(in srgb, var(--accent-primary), transparent 90%);
+	color: var(--accent-primary);
+}
+
+/*
+ * Клавіатура не має курсора, тож жодна сходинка вище для неї не спрацює:
+ * пройшовши `Tab` до кнопки, людина побачила б її на 30% — тобто майже не
+ * побачила б. Фокус дає повну видимість одразу.
+ */
+.input-tools__btn:focus-visible {
+	opacity: 1;
+}
+
+/*
+ * На сенсорному екрані наведення не існує в принципі: перший дотик — це вже
+ * натискання. Там кнопки видно повністю завжди, інакше вони назавжди лишилися б
+ * ледь помітними.
+ */
+@media (hover: none) {
+	.input-tools__btn {
+		opacity: 1;
+	}
+}
+
 /* --- Кнопка закриття --- */
 
 /**
