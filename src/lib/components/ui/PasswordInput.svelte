@@ -113,7 +113,7 @@
 			aria-label={showPassword ? $t('form.password.hide') : $t('form.password.show')}
 			data-testid={`${testId}-toggle-btn`}
 		>
-			{#if showPassword}<EyeOff size={18} />{:else}<Eye size={18} />{/if}
+			{#if showPassword}<EyeOff size={16} />{:else}<Eye size={16} />{/if}
 		</button>
 	</div>
 
@@ -168,7 +168,7 @@
 	.form-input {
 		width: 100%;
 		box-sizing: border-box;
-		padding: 0.9rem 3.5rem 0.9rem 3rem;
+		padding: 0.9rem 3.5rem 0.9rem 3rem; /* правий відступ перекриває .has-input-tools */
 		background: rgba(0, 0, 0, 0.2);
 		border: 2px solid var(--accent-primary);
 		border-radius: var(--radius-md, 12px);
@@ -199,18 +199,19 @@
 	/* Trailing: лише інтерактивний toggle-око, завжди скраю праворуч */
 	.trailing {
 		position: absolute;
-		right: 0.75rem;
+		right: var(--input-trailing-inset, 0.6rem);
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		/* Ті самі відступ і розмір, що в кнопок інструментів поруч. */
+		gap: var(--input-tool-gap, 0.25rem);
 		color: var(--input-icon-color);
 	}
 	.toggle {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 44px;
-		height: 44px; /* touch target ≥44px — SVELTE-UI § 3.3 */
+		width: var(--input-tool-size, 34px);
+		height: var(--input-tool-size, 34px);
 		background: none;
 		border: none;
 		padding: 0;

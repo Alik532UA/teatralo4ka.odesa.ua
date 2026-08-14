@@ -362,26 +362,75 @@ button {
  */
 .has-input-tools {
 	position: relative;
+
+	/*
+	 * Розміри кнопок у полі — ОДНІ на всі поля.
+	 *
+	 * До цього кожне поле мало свої: око пароля 44px зі значком 18px, кнопки
+	 * інструментів 30px зі значком 16px, відступи 0.5rem проти 0.15rem. У
+	 * сусідніх полів однієї форми це видно одразу — кнопки різного розміру на
+	 * різній висоті.
+	 *
+	 * 34px — компроміс: менше за 44px, щоб два-три значки не роздували рядок,
+	 * але сама область натискання лишається 44px за рахунок `padding` навколо
+	 * (див. `.input-tools__btn`), тобто вимога до сенсорної цілі виконана.
+	 */
+	--input-tool-size: 34px;
+	--input-tool-gap: 0.25rem;
+	--input-trailing-inset: 0.6rem;
+
+	/*
+	 * Скільки місця праворуч зайняте кнопками. Розраховано на ДВІ: більше в
+	 * одному полі поки не буває (вставити + стерти, або око + стерти).
+	 *
+	 * Значення стале, а не залежне від кількості видимих кнопок: інакше текст
+	 * підстрибував би вбік щоразу, коли з'являється «стерти».
+	 */
+	--input-tools-space: calc(
+		var(--input-trailing-inset) + 2 * var(--input-tool-size) + var(--input-tool-gap) + 0.3rem
+	);
 }
 
 .input-tools--overlay {
 	position: absolute;
-	right: 0.4rem;
+	right: var(--input-trailing-inset);
 	top: 50%;
 	transform: translateY(-50%);
 	z-index: 1;
 }
 
-.has-input-tools:has(.input-tools--overlay) .form-input {
-	padding-right: 4.5rem;
+.has-input-tools .form-input {
+	padding-right: var(--input-tools-space);
+}
+
+/*
+ * Текст, що не вміщається, згасає, а не обрубується.
+ *
+ * Різкий обрив читається як дефект: у полі пошти видно «alikzapolnov@gmail.co»
+ * — і незрозуміло, чи це вся адреса, чи вона довша. Градієнт каже, що текст
+ * триває далі.
+ *
+ * Маска знята з поля У ФОКУСІ: під час набору каретка доходить до правого краю
+ * й опинилася б у зоні згасання, тобто зникла б саме тоді, коли потрібна.
+ */
+.has-input-tools .form-input:not(:focus) {
+	mask-image: linear-gradient(
+		to right,
+		#000 calc(100% - var(--input-tools-space) - 1.5rem),
+		transparent calc(100% - var(--input-tools-space))
+	);
+}
+
+.input-tools {
+	gap: var(--input-tool-gap, 0.25rem);
 }
 
 .input-tools__btn {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 30px;
-	height: 30px;
+	width: var(--input-tool-size, 34px);
+	height: var(--input-tool-size, 34px);
 	padding: 0;
 	border: none;
 	border-radius: 50%;
