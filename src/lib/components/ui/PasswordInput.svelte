@@ -7,6 +7,7 @@
 -->
 <script lang="ts">
 	import { Lock, Eye, EyeOff, AlertCircle } from 'lucide-svelte';
+	import InputTools from './InputTools.svelte';
 	import { t } from 'svelte-i18n';
 
 	interface Props {
@@ -57,12 +58,14 @@
 	}
 
 	// Скидання попередження про розкладку, коли поле спорожнили
+	let inputEl = $state<HTMLInputElement | null>(null);
+
 	$effect(() => {
 		if (value === '') nonLatin = false;
 	});
 </script>
 
-<div class="input-with-icon">
+<div class="input-with-icon has-input-tools">
 	<Lock size={18} class="pw-icon-lead" aria-hidden="true" />
 
 	<input
@@ -81,11 +84,26 @@
 		onkeydown={onKeydown}
 		onkeyup={readCaps}
 		onclick={readCaps}
+		bind:this={inputEl}
 		data-testid={`${testId}-input`}
 	/>
 
-	<!-- Trailing: лише інтерактивний toggle-око, завжди скраю праворуч -->
+	<!-- Trailing: лише інтерактивні кнопки, завжди скраю праворуч -->
 	<div class="trailing">
+		<!--
+			Пароль отримує ЛИШЕ «стерти».
+
+			Копіювання — ні за жодних умов: воно кладе пароль у буфер обміну, звідки
+			його прочитає будь-яка сторінка з відповідним дозволом, і лежатиме він
+			там, доки щось не перезапише.
+
+			Вставки теж немає, хоч сама по собі вона паролям потрібна. Кнопка тут
+			викликала б запит браузера на доступ до буфера — просто під час входу,
+			поруч із полем пароля. Це виглядає рівно як фішинг, а `Ctrl+V` і довгий
+			дотик на телефоні працюють і без кнопки.
+		-->
+		<InputTools bind:value input={inputEl} tools={['clear']} scope={testId} fieldLabel={label} />
+
 		<button
 			type="button"
 			class="toggle"

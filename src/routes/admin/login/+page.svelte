@@ -7,6 +7,9 @@
 	import { t } from 'svelte-i18n';
 	import { Mail } from 'lucide-svelte';
 	import PasswordInput from '$lib/components/ui/PasswordInput.svelte';
+	import InputTools from '$lib/components/ui/InputTools.svelte';
+
+	let emailEl = $state<HTMLInputElement | null>(null);
 
 	let email = $state('');
 	let password = $state('');
@@ -78,7 +81,7 @@
 		{/if}
 
 		<form onsubmit={handleLogin} style="display: flex; flex-direction: column; gap: 1.5rem;" data-testid="admin-login-fieldset">
-			<div class="input-with-icon" data-testid="admin-login-email-fieldset">
+			<div class="input-with-icon has-input-tools" data-testid="admin-login-email-fieldset">
 				<Mail size={18} class="input-icon lead" aria-hidden="true" />
 				<input
 					type="email"
@@ -91,7 +94,19 @@
 					autocapitalize="off"
 					autocorrect="off"
 					spellcheck="false"
+					bind:this={emailEl}
 					data-testid="admin-login-email-input"
+				/>
+				<!--
+					Пошта отримує «вставити» й «стерти», але не «скопіювати»: з форми
+					входу вміст не забирають, у неї вводять.
+				-->
+				<InputTools
+					bind:value={email}
+					input={emailEl}
+					tools={['paste', 'clear']}
+					scope="admin-login-email"
+					fieldLabel={$t('admin.login.email')}
 				/>
 				<label for="email" class="floating-label">{$t('admin.login.email')}</label>
 			</div>
