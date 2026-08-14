@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ARTICLE_CATEGORIES, getCategoryLabel } from '$lib/config/categories';
+	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import { CATEGORY_CUSTOM, CATEGORY_NONE } from '$lib/utils/articleForm';
 	import { locale, t } from 'svelte-i18n';
 	import { get } from 'svelte/store';
@@ -87,6 +88,8 @@
 		selection = key;
 		dropdownOpen = false;
 	}
+	let customUkEl = $state<HTMLInputElement | null>(null);
+	let customEnEl = $state<HTMLInputElement | null>(null);
 </script>
 
 <div class="af-cat-group">
@@ -170,31 +173,57 @@
 		<div class="af-cat-custom-fields">
 			<div class="af-cat-custom-field">
 				<span class="af-cat-custom-lang">UA</span>
-				<input
-					type="text"
-					bind:value={customUk}
-					placeholder={$t('admin.editor.categoryCustomPlaceholderUk')}
-					maxlength="24"
-					class="form-input"
-					data-testid="{testPrefix}-category-custom-uk-input"
-				/>
+				<div class="has-input-tools af-cat-custom-input">
+					<input
+						type="text"
+						bind:this={customUkEl}
+						bind:value={customUk}
+						placeholder={$t('admin.editor.categoryCustomPlaceholderUk')}
+						maxlength="24"
+						class="form-input"
+						data-testid="{testPrefix}-category-custom-uk-input"
+					/>
+					<InputTools
+						bind:value={customUk}
+						input={customUkEl}
+						overlay
+						scope="{testPrefix}-category-custom-uk"
+						fieldLabel={$t('admin.editor.categoryCustomPlaceholderUk')}
+					/>
+				</div>
 			</div>
 			<div class="af-cat-custom-field">
 				<span class="af-cat-custom-lang">EN</span>
-				<input
-					type="text"
-					bind:value={customEn}
-					placeholder={$t('admin.editor.categoryCustomPlaceholderEn')}
-					maxlength="24"
-					class="form-input"
-					data-testid="{testPrefix}-category-custom-en-input"
-				/>
+				<div class="has-input-tools af-cat-custom-input">
+					<input
+						type="text"
+						bind:this={customEnEl}
+						bind:value={customEn}
+						placeholder={$t('admin.editor.categoryCustomPlaceholderEn')}
+						maxlength="24"
+						class="form-input"
+						data-testid="{testPrefix}-category-custom-en-input"
+					/>
+					<InputTools
+						bind:value={customEn}
+						input={customEnEl}
+						overlay
+						scope="{testPrefix}-category-custom-en"
+						fieldLabel={$t('admin.editor.categoryCustomPlaceholderEn')}
+					/>
+				</div>
 			</div>
 		</div>
 	{/if}
 </div>
 
 <style>
+	/* Обгортка не має ламати ряд: поле лишається розтяжним, як було. */
+	.af-cat-custom-input {
+		flex: 1;
+		min-width: 0;
+	}
+
 	/*
 	 * Скопійовано з ArticleForm ДОСЛІВНО.
 	 *

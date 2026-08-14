@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
+	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
 	import { generateSlug } from '$lib/services/admin-articles';
@@ -147,6 +148,8 @@
 	let differentVideos = $state(initialDifferentVideos);
 	// svelte-ignore state_referenced_locally
 	let differentExternalUrls = $state(initialDifferentExternalUrls);
+	let titleEl = $state<HTMLInputElement | null>(null);
+	let slugEl = $state<HTMLInputElement | null>(null);
 	let showUploadInfo = $state(false);
 	// svelte-ignore state_referenced_locally
 	let slug = $state(initialSlug);
@@ -515,16 +518,33 @@
 				</div>
 				<div class="form-group">
 					<label class="form-label" for="article-slug">{$t('admin.editor.slugLabel')}</label>
-					<input
-						type="text"
-						id="article-slug"
-						value={slug}
-						placeholder="winter_gala_concert"
-						maxlength={MAX_SLUG_LEN}
-						class="form-input"
-						oninput={handleSlugInput}
-						data-testid="{tp}-slug-input"
-					/>
+					<div class="has-input-tools">
+						<input
+							type="text"
+							id="article-slug"
+							bind:this={slugEl}
+							value={slug}
+							placeholder="winter_gala_concert"
+							maxlength={MAX_SLUG_LEN}
+							class="form-input"
+							oninput={handleSlugInput}
+							data-testid="{tp}-slug-input"
+						/>
+						<!--
+							Слуг має власний обробник введення (`handleSlugInput` міняє
+							роздільники), тому вставка й очищення йдуть НЕ через `bind:value`,
+							а через те саме поле — інакше значення розійшлося б із тим, що
+							бачить обробник.
+						-->
+						<InputTools
+							value={slug}
+							input={slugEl}
+							overlay
+							scope="{tp}-slug"
+							fieldLabel={$t('admin.editor.slugLabel')}
+							onchange={(v) => (slug = sanitizeSlug({ raw: v, cursor: v.length }).slug)}
+						/>
+					</div>
 					{#if slugForbiddenWarning}
 						<p style="font-size: 0.75rem; color: #e11d48; margin-top: 0.35rem;">{slugForbiddenWarning}</p>
 					{:else}
@@ -746,7 +766,16 @@
 
 			<div class="form-group" style="margin-top: 2.5rem;">
 				<label class="form-label" for="article-title">{$t('admin.editor.titleLabel')} ({activeLang === 'uk' ? $t('editor.ukShort') : $t('editor.enShort')})</label>
-				<input type="text" id="article-title" bind:value={translations[activeLang].title} required maxlength={MAX_TITLE_LEN} class="form-input" placeholder={$t('admin.editor.titlePlaceholder')} data-testid="{tp}-title-input" />
+				<div class="has-input-tools">
+					<input type="text" id="article-title" bind:this={titleEl} bind:value={translations[activeLang].title} required maxlength={MAX_TITLE_LEN} class="form-input" placeholder={$t('admin.editor.titlePlaceholder')} data-testid="{tp}-title-input" />
+					<InputTools
+						bind:value={translations[activeLang].title}
+						input={titleEl}
+						overlay
+						scope="{tp}-title"
+						fieldLabel={$t('admin.editor.titleLabel')}
+					/>
+				</div>
 			</div>
 
 			<!-- Excerpt Section -->
