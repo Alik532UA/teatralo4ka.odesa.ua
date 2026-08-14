@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
+	import { toast } from '$lib/controllers/toast.svelte';
 	import { Editor } from '@tiptap/core';
 	import StarterKit from '@tiptap/starter-kit';
 	import Placeholder from '@tiptap/extension-placeholder';
@@ -17,7 +19,8 @@
 		Type, List, ListOrdered, CheckSquare, Link as LinkIcon, 
 		Image as ImageIcon, Table as TableIcon, Quote, Minus, 
 		Undo, Redo, PlusSquare, MinusSquare, Trash2, Combine, Split,
-		FileJson, Layout, AlertTriangle
+		FileJson, Layout, AlertTriangle,
+		ClipboardPaste, Copy as CopyIcon, Eraser
 	} from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
 
@@ -37,6 +40,50 @@
 
 	let element: HTMLElement;
 	let editor: Editor | null = $state(null);
+
+	/**
+	 * Вставити / скопіювати / стерти — кнопками ПАНЕЛІ, а не накладкою в кутку.
+	 *
+	 * Накладка тут була б помилкою двічі. По-перше, поле багаторядкове: значки в
+	 * кутку лягли б на текст, а не на порожнє місце. По-друге, у редактора немає
+	 * `value` — вміст це дерево вузлів, і писати в нього рядок означало б
+	 * зруйнувати розмітку разом з історією скасувань.
+	 *
+	 * Тому дії йдуть КОМАНДАМИ редактора: вони проходять через ту саму
+	 * транзакцію, що й набір із клавіатури, тож `Ctrl+Z` скасовує їх звично, а
+	 * `onUpdate` віддає нове значення назовні.
+	 */
+	const canPaste = browser && typeof navigator.clipboard?.readText === 'function';
+
+	async function pasteFromClipboard() {
+		if (!editor) return;
+		try {
+			const text = await navigator.clipboard.readText();
+			// Вставляється як ТЕКСТ, не як HTML: у буфері може лежати розмітка з
+			// чужого сайту разом із його класами й стилями, і редактор прийняв би
+			// її мовчки.
+			if (text) editor.chain().focus().insertContent(text).run();
+		} catch {
+			toast.info($t('common.pasteDenied'), 5000);
+		}
+	}
+
+	async function copyAll() {
+		if (!editor || !navigator.clipboard?.writeText) return;
+		try {
+			// Простий текст, а не HTML: людина копіює зміст, а не верстку.
+			await navigator.clipboard.writeText(editor.getText());
+			toast.success($t('common.copied'), 4000);
+		} catch {
+			toast.info($t('common.copyDenied'), 5000);
+		}
+	}
+
+	function clearAll() {
+		// `true` — повідомити про зміну: без цього значення назовні лишилося б
+		// старим, і збереглася б стаття з текстом, якого вже немає на екрані.
+		editor?.chain().focus().clearContent(true).run();
+	}
 	let isTableActive = $state(false);
 	type EditorMode = 'visual' | 'markdown' | 'html';
 	// svelte-ignore state_referenced_locally
@@ -246,6 +293,37 @@
 				   title={$t('editor.html')}
 				   data-testid="{testId}-mode-html-btn"
 			   ><Code size={15} /> {$t('editor.htmlTab')}</button>
+		   </div>
+
+		   <div class="separator"></div>
+
+		   <div class="tool-group" data-testid="{testId}-clipboard-toolbar">
+			   {#if canPaste}
+				   <button
+					   type="button"
+					   class="tool-btn"
+					   onclick={pasteFromClipboard}
+					   title={$t('common.paste')}
+					   aria-label={$t('common.paste')}
+					   data-testid="{testId}-paste-btn"
+				   ><ClipboardPaste size={18} /></button>
+			   {/if}
+			   <button
+				   type="button"
+				   class="tool-btn"
+				   onclick={copyAll}
+				   title={$t('common.copy')}
+				   aria-label={$t('common.copy')}
+				   data-testid="{testId}-copy-btn"
+			   ><CopyIcon size={18} /></button>
+			   <button
+				   type="button"
+				   class="tool-btn"
+				   onclick={clearAll}
+				   title={$t('common.clear')}
+				   aria-label={$t('common.clear')}
+				   data-testid="{testId}-clear-btn"
+			   ><Eraser size={18} /></button>
 		   </div>
 
 		   <div class="separator"></div>
