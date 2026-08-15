@@ -350,21 +350,37 @@
 		padding: 0 var(--space-md, 1rem);
 	}
 
+	/*
+	 * Смужка лишається 6px, ціль дотику стає 24px — WCAG 2.2 AA, SC 2.5.8
+	 * (ACCESSIBILITY-v8 § 8). Було 30×6, а на телефоні 20×6.
+	 *
+	 * Висота набирається паддінгом, `background-clip: content-box` не дає йому
+	 * пофарбуватися, а від'ємний `margin-block` повертає рядку попередню висоту:
+	 * вигляд той самий, зона натискання вчетверо більша. Далі всюди
+	 * `background-color`, а не скорочення `background` — воно скинуло б
+	 * `background-clip`, і смужка стала б 24px заввишки.
+	 */
 	.gc-dot {
+		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку, а
+		   паддінг добирає її до цілі дотику. */
+		box-sizing: content-box;
 		width: 30px;
 		height: 6px;
+		padding-block: 9px;
+		padding-inline: 0;
+		margin-block: -9px;
+		background-clip: content-box;
 		border-radius: 3px;
 		border: none;
-		background: var(--border-main, var(--color-border, #d0d5dd));
+		background-color: var(--border-main, var(--color-border, #d0d5dd));
 		cursor: pointer;
-		padding: 0;
 		transition: all 0.3s ease;
 	}
 	.gc-dot.active {
-		background: var(--text-title, #005fae);
+		background-color: var(--text-title, #005fae);
 		width: 60px;
 	}
-	.gc-dot:hover { background: var(--text-title, #005fae); opacity: 0.7; }
+	.gc-dot:hover { background-color: var(--text-title, #005fae); opacity: 0.7; }
 
 	@media (max-width: 1024px) {
 		.gc-carousel { border-radius: 0.75rem; }
@@ -375,7 +391,13 @@
 	}
 
 	@media (max-width: 480px) {
-		.gc-dot { width: 20px; }
+		/* 20px смужки + 2px паддінга з боків = 24px цілі дотику; від'ємний
+		   margin лишає проміжок між крапками таким, як був. */
+		.gc-dot {
+			width: 20px;
+			padding-inline: 2px;
+			margin-inline: -2px;
+		}
 		.gc-dot.active { width: 40px; }
 	}
 </style>

@@ -727,23 +727,50 @@
 		padding: 0 var(--space-md);
 	}
 
+	/*
+	 * Смужка лишається 6px, ціль дотику стає 24px — WCAG 2.2 AA, SC 2.5.8
+	 * (ACCESSIBILITY-v8 § 8). Було 30×6 на десктопі й 20×6 на телефоні, тобто
+	 * учетверо менше абсолютного мінімуму: у пагінації промазують і тицяють
+	 * удруге, а на дотику це найгірший розмір з можливих.
+	 *
+	 * Механіка: висота 24 набирається паддінгом, а `background-clip:
+	 * content-box` не дає йому пофарбуватися — видима смужка та сама. Від'ємний
+	 * `margin-block` повертає рядку його попередню висоту, тож розкладка не
+	 * зсувається: збільшується лише зона натискання.
+	 */
 	.f-dot {
+		/* content-box навмисно: `width`/`height` тут описують ВИДИМУ смужку, а
+		   паддінг добирає її до цілі дотику. З border-box довелося б перерахувати
+		   кожне число в медіазапитах, і смужка змінила б вигляд. */
+		box-sizing: content-box;
 		width: 30px;
 		height: 6px;
+		padding-block: 9px;
+		margin-block: -9px;
+		background-clip: content-box;
 		border-radius: 3px;
 		border: none;
-		background: var(--border-main, var(--color-border, #d0d5dd));
+		background-color: var(--border-main, var(--color-border, #d0d5dd));
 		cursor: pointer;
 		transition: all 0.3s ease;
 	}
 
 	.f-dot.active {
-		background: var(--text-title);
+		/* background-color, а не background: скорочення скинуло б background-clip
+		   вище, і смужка активної крапки стала б 24px заввишки. */
+		background-color: var(--text-title);
 		width: 60px;
 	}
 
 	@media (max-width: 480px) {
-		.f-dot { width: 20px; }
+		/* 20px смужки + 2px паддінга з боків = 24px цілі дотику; від'ємний
+		   margin лишає проміжок між крапками таким, як був. Активна (40px) до
+		   мінімуму дотягується сама. */
+		.f-dot {
+			width: 20px;
+			padding-inline: 2px;
+			margin-inline: -2px;
+		}
 		.f-dot.active { width: 40px; }
 	}
 

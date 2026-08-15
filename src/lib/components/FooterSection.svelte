@@ -449,7 +449,20 @@
 		white-space: nowrap;
 	}
 
+	/*
+	 * `min-height: 24px` — абсолютний мінімум цілі дотику (WCAG 2.2 AA, SC
+	 * 2.5.8; ACCESSIBILITY-v8 § 8). Виміряно на Pixel 7: адреса й телефон мали
+	 * 19px заввишки, пошта — 14px. Це не «трохи менше за наш стандарт 44», а
+	 * порушення обов'язкового порогу: втрапити пальцем у смужку 14px неможливо,
+	 * і саме тому в підвал доводиться цілитися двічі.
+	 *
+	 * `inline-flex` потрібен, щоб висота застосувалася: у рядковому елементі
+	 * `min-height` не діє взагалі.
+	 */
 	.footer__link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 24px;
 		transition: color var(--transition-fast), opacity var(--transition-fast);
 		color: inherit;
 	}
