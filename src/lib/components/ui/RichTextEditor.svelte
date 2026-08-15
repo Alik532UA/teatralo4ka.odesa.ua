@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, untrack } from 'svelte';
 	import { browser } from '$app/environment';
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { Editor } from '@tiptap/core';
@@ -86,10 +86,16 @@
 	}
 	let isTableActive = $state(false);
 	type EditorMode = 'visual' | 'markdown' | 'html';
-	// svelte-ignore state_referenced_locally
-	let editorMode = $state<EditorMode>(initialMode);
-	// svelte-ignore state_referenced_locally
-	let htmlContent = $state(initialMode === 'html' ? value : '');
+	/**
+	 * Чернетка редактора: пропси задають лише ПОЧАТКОВИЙ стан.
+	 *
+	 * `untrack` навмисний — перемикання режиму й правка HTML належать
+	 * користувачеві, і зміна `initialMode`/`value` згори не повинна їх скидати.
+	 * Раніше тут стояв голий `svelte-ignore` без причини, і намір був
+	 * нерозрізненний із забутою синхронізацією (SVELTE-CORE-v8 § 1.10).
+	 */
+	let editorMode = $state<EditorMode>(untrack(() => initialMode));
+	let htmlContent = $state(untrack(() => (initialMode === 'html' ? value : '')));
 
 	// Modal states
 	let showLinkModal = $state(false);

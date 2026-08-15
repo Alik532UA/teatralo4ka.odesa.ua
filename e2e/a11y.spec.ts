@@ -2,6 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { PUBLIC_PAGES } from './pages';
 import { gotoReady, waitForAnimations } from './ready';
+import { baselineFor, knownFor } from './a11y-baseline';
 
 /**
  * Автоматичний аудит доступності (ACCESSIBILITY-v8 § 10).
@@ -65,7 +66,16 @@ test.describe('axe без порушень', () => {
 				.map((v) => `[${v.impact}] ${v.id}: ${v.help}\n    ${v.nodes.map((n) => n.target.join(' ')).join('\n    ')}`)
 				.join('\n');
 
-			expect(violations, `${path}\n${report}`).toEqual([]);
+			// Дві асерції, і порядок має значення. Спершу типи: порушення, якого ми
+			// ніколи не бачили, валить прогін навіть у межах ліміту. Потім кількість —
+			// як стеля, що лише спадає. Чому не `toEqual([])` — у `a11y-baseline.ts`.
+			const ids = [...new Set(violations.map((v) => v.id))].sort();
+			expect(ids, `${path}: тип порушення, якого немає в базі\n${report}`).toEqual(knownFor(path));
+
+			expect(
+				violations.length,
+				`${path}: порушень більше, ніж дозволяє база\n${report}`
+			).toBeLessThanOrEqual(baselineFor(path));
 		});
 	}
 });

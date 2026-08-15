@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, untrack } from 'svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import type { ContentFormat, ContentType, DateMode } from '$lib/services/articles';
 	import { Timestamp } from 'firebase/firestore';
@@ -86,11 +86,31 @@
 		onsubmit,
 	}: Props = $props();
 
-	// svelte-ignore state_referenced_locally
-	const tp = mode === 'create' ? 'admin-article-new' : 'admin-article-edit';
+	/**
+	 * ЧЕРНЕТКА ФОРМИ — чому нижче всюди `untrack`, а не просто проп.
+	 *
+	 * Пропси `initial*` задають **лише початкове** значення. Далі поле належить
+	 * користувачеві: подальші зміни пропа згори НЕ мають затирати набране, бо
+	 * інакше будь-який перерендер батька стирає незбережену правку. Ні сам проп,
+	 * ні `$derived` тут не підходять — обидва незмінні, а поле редагується.
+	 *
+	 * `untrack` робить цей намір явним. Раніше на кожному рядку стояв голий
+	 * `// svelte-ignore state_referenced_locally` без жодного слова про причину —
+	 * тринадцять штук, і за кодом не можна було відрізнити навмисну чернетку від
+	 * забутої синхронізації. Попередження компілятора було справедливим: наміру
+	 * справді не було видно.
+	 *
+	 * Скидання чернетки — тільки перемонтуванням форми при переході на інший
+	 * запис, а не ефектом: `$effect`, що пише `draft = initial`, повернув би ту
+	 * саму втрату правок з іншого боку.
+	 *
+	 * SVELTE-CORE-v8 § 1.10.
+	 */
 
-	// svelte-ignore state_referenced_locally
-	let selectedType = $state<ContentType>(contentType);
+	/** Похідне від пропа, а не чернетка: `tp` ніде не присвоюється. */
+	const tp = $derived(mode === 'create' ? 'admin-article-new' : 'admin-article-edit');
+
+	let selectedType = $state<ContentType>(untrack(() => contentType));
 
 	function handleTypeChange(newType: ContentType) {
 		if (newType === selectedType) return;
@@ -105,8 +125,10 @@
 		}
 	}
 
-	// svelte-ignore state_referenced_locally
-	const initialParsed = parseCategory(initialCategory, Object.keys(ARTICLE_CATEGORIES));
+	/** Розкладається один раз, щоб засіяти стан випадайки нижче — теж чернетка. */
+	const initialParsed = untrack(() =>
+		parseCategory(initialCategory, Object.keys(ARTICLE_CATEGORIES))
+	);
 	let categorySelection = $state<string>(initialParsed.selection);
 	let customCategoryUk = $state(initialParsed.customUk);
 	let customCategoryEn = $state(initialParsed.customEn);
@@ -136,18 +158,12 @@
 	const MAX_COVER_URL_LEN = 2048;
 	const MAX_SLUG_LEN = 100;
 
-	// svelte-ignore state_referenced_locally
-	let dateMode = $state<DateMode>(initialDateMode);
-	// svelte-ignore state_referenced_locally
-	let customDateStr = $state(initialCustomDateStr);
-	// svelte-ignore state_referenced_locally
-	let sortOrderStr = $state(initialSortOrder != null ? String(initialSortOrder) : '');
-	// svelte-ignore state_referenced_locally
-	let differentCovers = $state(initialDifferentCovers);
-	// svelte-ignore state_referenced_locally
-	let differentVideos = $state(initialDifferentVideos);
-	// svelte-ignore state_referenced_locally
-	let differentExternalUrls = $state(initialDifferentExternalUrls);
+	let dateMode = $state<DateMode>(untrack(() => initialDateMode));
+	let customDateStr = $state(untrack(() => initialCustomDateStr));
+	let sortOrderStr = $state(untrack(() => (initialSortOrder != null ? String(initialSortOrder) : '')));
+	let differentCovers = $state(untrack(() => initialDifferentCovers));
+	let differentVideos = $state(untrack(() => initialDifferentVideos));
+	let differentExternalUrls = $state(untrack(() => initialDifferentExternalUrls));
 	let titleEl = $state<HTMLInputElement | null>(null);
 	let coverSharedEl = $state<HTMLInputElement | null>(null);
 	let extSharedEl = $state<HTMLInputElement | null>(null);
@@ -158,21 +174,23 @@
 	let extLangEl = $state<Record<'uk' | 'en', HTMLInputElement | null>>({ uk: null, en: null });
 	let slugEl = $state<HTMLInputElement | null>(null);
 	let showUploadInfo = $state(false);
-	// svelte-ignore state_referenced_locally
-	let slug = $state(initialSlug);
+	let slug = $state(untrack(() => initialSlug));
 	let activeLang = $state<'uk' | 'en'>('uk');
 
-	// svelte-ignore state_referenced_locally
-	let translations = $state({
-		uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
-		en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
-	});
+	let translations = $state(
+		untrack(() => ({
+			uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
+			en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
+		}))
+	);
 
-	// svelte-ignore state_referenced_locally
-	let useCustomExcerpt = $state(!!((initialTranslations?.uk?.excerpt || '').trim() || (initialTranslations?.en?.excerpt || '').trim()));
+	let useCustomExcerpt = $state(
+		untrack(() => !!((initialTranslations?.uk?.excerpt || '').trim() || (initialTranslations?.en?.excerpt || '').trim()))
+	);
 
-	// svelte-ignore state_referenced_locally
-	let useExternalUrl = $state(!!((initialTranslations?.uk?.externalUrl || '').trim() || (initialTranslations?.en?.externalUrl || '').trim()));
+	let useExternalUrl = $state(
+		untrack(() => !!((initialTranslations?.uk?.externalUrl || '').trim() || (initialTranslations?.en?.externalUrl || '').trim()))
+	);
 
 	// Auto-fill slug from EN title — only for create mode, only while slug is still empty
 	$effect(() => {
