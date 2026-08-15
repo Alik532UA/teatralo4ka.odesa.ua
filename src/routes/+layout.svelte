@@ -21,6 +21,7 @@
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { storage } from '$lib/services/storage';
+	import { SITE_ORIGIN } from '$lib/config/site';
 	import { trackPageView } from '$lib/services/analytics';
 	import { afterNavigate } from '$app/navigation';
 
@@ -146,7 +147,6 @@
 		}
 	});
 
-	const SITE_FALLBACK_ORIGIN = 'https://teatralo4ka.odesa.ua';
 	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission';
 	type SeoLangKey = 'uk' | 'en';
 	const FALLBACK_LANG: SeoLangKey = 'uk';
@@ -269,11 +269,11 @@
 	const metaDescription = $derived(
 		safeT(`seo.pages.${seoKey}.description`, SEO_FALLBACK[activeLang].pages[seoKey].description)
 	);
-	const canonicalUrl = $derived(data.canonicalUrl || `${SITE_FALLBACK_ORIGIN}${page.url.pathname}`);
+	const canonicalUrl = $derived(data.canonicalUrl || `${SITE_ORIGIN}${page.url.pathname}`);
 	// Not `base` from $app/paths: it is relative here, so on a nested page it
 	// resolved to ".." and produced "https://teatralo4ka.odesa.ua../og/...".
 	// This site is served from the domain root, so there is no prefix to add.
-	const ogImageUrl = $derived(`${SITE_FALLBACK_ORIGIN}/og/og-default-1200x630.jpg`);
+	const ogImageUrl = $derived(`${SITE_ORIGIN}/og/og-default-1200x630.jpg`);
 	// The home page's own title is already the brand, so appending it produced
 	// "Одеська театральна школа | Одеська театральна школа".
 	const seoTitle = $derived(metaTitle === brandTitle ? brandTitle : `${metaTitle} | ${brandTitle}`);
@@ -282,11 +282,11 @@
 		'@context': 'https://schema.org',
 		'@type': 'EducationalOrganization',
 		name: safeT('seo.org.name', SEO_FALLBACK[activeLang].orgName),
-		url: SITE_FALLBACK_ORIGIN,
+		url: SITE_ORIGIN,
 		// Без `base`: він відносний, і в JSON-LD виходило
 		// "https://teatralo4ka.odesa.ua../logo/…" на кожній вкладеній сторінці.
 		// Той самий випадок, що й ogImageUrl вище.
-		logo: `${SITE_FALLBACK_ORIGIN}/logo/png/logo-800px484px.png`,
+		logo: `${SITE_ORIGIN}/logo/png/logo-800px484px.png`,
 		description: safeT('seo.org.description', SEO_FALLBACK[activeLang].orgDescription),
 		telephone: '+380 48 723 81 10',
 		email: 'dmsh-5odesa@ukr.net',
@@ -315,7 +315,7 @@
 	{#each data.alternates as alt (alt.locale)}
 		<link rel="alternate" hreflang={alt.locale} href={alt.url} />
 	{/each}
-	<link rel="alternate" hreflang="x-default" href={`${SITE_FALLBACK_ORIGIN}/`} />
+	<link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
 
 	<title>{seoTitle}</title>
 	<meta name="description" content={metaDescription} />

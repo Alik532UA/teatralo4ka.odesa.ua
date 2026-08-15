@@ -3,6 +3,7 @@ import path from 'path';
 import config from '../svelte.config.js';
 import { LOCALES, localeFromPath, localeAlternates } from '../src/lib/i18n/routing';
 import { isRedirectPage } from '../src/lib/config/redirects';
+import { SITE_ORIGIN } from '../src/lib/config/site';
 
 /**
  * Будує sitemap зі СТОРІНОК, ЯКІ СПРАВДІ ЗГЕНЕРОВАНО, а не зі списку markdown-файлів.
@@ -21,7 +22,11 @@ import { isRedirectPage } from '../src/lib/config/redirects';
  * обіцяв протилежне.
  */
 
-const SITE_URL = 'https://teatralo4ka.odesa.ua';
+// Origin ЧИТАЄТЬСЯ з джерела правди, а не дублюється тут.
+// CUSTOM-DOMAIN-v8 § 5 називає HIGH саме власну копію в гейті збірки: вона
+// розходиться з рештою рівно в момент переїзду — і тоді гейт оголошує чужою
+// кожну адресу сайту.
+const SITE_URL = SITE_ORIGIN;
 const BUILD_DIR = 'build';
 
 /** Не для індексу: адмінка та технічні сторінки. */

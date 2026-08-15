@@ -1,12 +1,11 @@
 import { waitLocale, locale } from 'svelte-i18n';
 import '$lib/i18n';
 import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
+import { SITE_ORIGIN } from '$lib/config/site';
 
 export const prerender = true;
 export const ssr = true;
 export const trailingSlash = 'always';
-
-const SITE_FALLBACK_ORIGIN = 'https://teatralo4ka.odesa.ua';
 
 export async function load({ url }: { url: URL }) {
 	// Мова визначається АДРЕСОЮ, а не сховищем (I18N-v8 § 3.1).
@@ -40,14 +39,14 @@ export async function load({ url }: { url: URL }) {
 	// час prerender це `sveltekit-prerender`) і не від `base` (він відносний).
 	// Обидві пастки описані в SEO-v8 § 1.2–1.3, і друга вже коштувала
 	// "https://teatralo4ka.odesa.ua../logo/…" у структурованих даних.
-	const canonicalUrl = `${SITE_FALLBACK_ORIGIN}${url.pathname}`;
+	const canonicalUrl = `${SITE_ORIGIN}${url.pathname}`;
 
 	// Альтернативи однакові для обох мовних версій сторінки — це властивість,
 	// перевірена тестом `routing.test.ts`. Якби набір відрізнявся, Google
 	// вважав би розмітку суперечливою і не брав до уваги жодну.
 	const alternates = localeAlternates(url.pathname).map(({ locale: l, path }) => ({
 		locale: l,
-		url: `${SITE_FALLBACK_ORIGIN}${path}`
+		url: `${SITE_ORIGIN}${path}`
 	}));
 
 	return {
