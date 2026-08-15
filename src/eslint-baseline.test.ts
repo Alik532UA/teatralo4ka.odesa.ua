@@ -25,6 +25,10 @@ const BASELINE = [
 	'no-new-func',
 	'no-script-url',
 	'no-restricted-syntax',
+	// DEBUGGING-v8: логування через errorLogger. Правило вимкнене окремим
+	// файловим блоком для `scripts/` і конфігів — зразок сюди не входить, тож
+	// саме для коду застосунку тест лишається змістовним.
+	'no-console',
 	'@typescript-eslint/no-explicit-any',
 	'@typescript-eslint/no-unused-vars',
 	'@typescript-eslint/ban-ts-comment',
