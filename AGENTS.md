@@ -47,7 +47,10 @@
 | Інлайн-скрипти в `app.html` | лишається лише тема (інакше миготіння); її хеш рахується зі збірки. `perf` і `splash` винесені у `static/`, бо `csp.mode: 'auto'` хешує тільки власні скрипти SvelteKit |
 | `vitest.config.ts` бере `svelte()`, а не `sveltekit()` | `sveltekit()` додає власні аліаси `$app/*` і `$lib`, які перекривають заглушку `firebase/config`, без якої тести падають у CI без секретів |
 | Компонентних тестів немає | плагін дає лише компіляцію рун. Монтувати `.svelte` нічим — не пиши тестів, що рендерять компоненти (AI-AGENT-PITFALLS-v8 § 1.3) |
-| `husky` не встановлено | авто-bump версії не діє; бамп вручну через `npm run bump-version` |
+| `husky` не встановлено | авто-bump версії не діє; бамп вручну через `npm run bump-version`. `static/app-version.json` мусить збігатися з `package.json` — це те, що тягне браузер відвідувача, і розходження або гасить оновлення, або жене всіх на неіснуючу версію. Тримає `src/version.test.ts` |
+| Гейти збірки живуть у `prebuild`/`postbuild`, а не у плагіні Vite | плагін `smart-static-build-tools` прибрано 2026-08-16: його `catch` знижував падіння sitemap до попередження, і `vite build` виходив із кодом 0. Нові перевірки над `build/` додаються в `postbuild` — там їхній код виходу доходить до `npm run build` |
+| Node **22** у трьох місцях | `engines.node`, `.nvmrc` і `node-version` у workflow мусять збігатися; розбіжність валить `src/dependencies.test.ts` |
+| Адреса сайту — лише `src/lib/config/site.ts` | другий літерал `'https://teatralo4ka.odesa.ua'` у джерелах валить `src/site-origin.test.ts`. `robots.txt` звіряється тим самим тестом |
 
 ## НЕ РОБИ
 
@@ -61,7 +64,7 @@
 | `${base}/images/x.svg` для файлів | `asset('/images/x.svg')` |
 | `toLocaleString()` без аргументу | явна локаль: без неї береться локаль **системи**, а не мова сайту |
 | `any` | конкретний тип, `unknown` або дженерик |
-| `console.log` | `errorLogger.logError()` / `.logWarning()` / `.logInfo()` |
+| `console.log` у коді застосунку | `errorLogger.logError()` / `.logWarning()` / `.logInfo()`. Правило `error`; у `scripts/` і конфігах воно вимкнене — там `console` і є виводом |
 | Голий `Set` / `Map` як реактивний стан | `SvelteSet` / `SvelteMap` зі `svelte/reactivity` |
 
 Кожен рядок цієї таблиці — правило ESLint. Вимкнути правило можна лише разом із
