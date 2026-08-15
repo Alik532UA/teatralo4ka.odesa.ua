@@ -750,7 +750,11 @@
 	/* ─── Grid view ────────────────────────────────────── */
 	.grid-view {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+		/* min(), бо гола довжина в minmax — це підлога, а не поріг: колонка
+		   лишається 400px і в контейнері 280px, тобто картка ширша за екран
+		   телефона на сотню з гаком пікселів. 400px далі працює як поріг
+		   переносу на другу колонку. */
+		grid-template-columns: repeat(auto-fill, minmax(min(400px, 100%), 1fr));
 		gap: 2rem;
 		padding: 3rem var(--space-xl);
 	}

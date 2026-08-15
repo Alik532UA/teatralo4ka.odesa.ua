@@ -447,7 +447,8 @@
 				</div>
 			</div>
 
-			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
+			<!-- min() у minmax: гола довжина була б підлогою колонки, а не порогом переносу -->
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 2rem; margin-bottom: 2.5rem;">
 				<div class="form-group">
 					<span class="form-label">{$t('admin.editor.category')}</span>
 					<ArticleCategoryPicker
@@ -773,7 +774,7 @@
 					<Languages size={18} />
 					{$t('admin.editor.langStatus')}
 				</div>
-				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+				<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 1rem;">
 					{#each (['uk', 'en'] as const) as lang (lang)}
 						<div
 							class="lang-card"
