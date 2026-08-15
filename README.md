@@ -9,7 +9,7 @@
 <h3 align="center">Школа, в яку діти завжди йдуть із задоволенням!</h3>
 
 <p align="center">
-  <a href="https://alik532ua.github.io/teatralo4ka.odesa.ua/">🌐 Перейти на сайт</a>
+  <a href="https://teatralo4ka.odesa.ua/">🌐 Перейти на сайт</a>
 </p>
 
 ---
@@ -33,7 +33,7 @@
 
 ## 🎓 Для вступу
 
-Запрошуємо дітей та молодь до вступу! Детальна інформація про умови, документи та програми навчання — на [сторінці вступу](https://alik532ua.github.io/teatralo4ka.odesa.ua/admission).
+Запрошуємо дітей та молодь до вступу! Детальна інформація про умови, документи та програми навчання — на [сторінці вступу](https://teatralo4ka.odesa.ua/admission).
 
 ---
 
@@ -64,20 +64,75 @@
 
 ## 📰 Проєкти
 
-- 🎬 [**Театр-про**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/teatr-pro) — Театральний проєкт школи
-- 📸 [**Фотоархів**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/photo-archive) — Фотолітопис шкільного життя
-- 💛 [**Підтримати постановку**](https://alik532ua.github.io/teatralo4ka.odesa.ua/projects/support-production) — Благодійна підтримка
+- 🎬 [**Театр-про**](https://teatralo4ka.odesa.ua/projects/teatr-pro) — Театральний проєкт школи
+- 📸 [**Фотоархів**](https://teatralo4ka.odesa.ua/projects/photo-archive) — Фотолітопис шкільного життя
+- 💛 [**Підтримати постановку**](https://teatralo4ka.odesa.ua/projects/support-production) — Благодійна підтримка
 
 ---
 
 ## 📖 Корисні посилання
 
-- [🏠 Головна сторінка](https://alik532ua.github.io/teatralo4ka.odesa.ua/)
-- [📜 Історія школи](https://alik532ua.github.io/teatralo4ka.odesa.ua/history)
-- [🎭 Про школу](https://alik532ua.github.io/teatralo4ka.odesa.ua/about)
-- [📰 Новини та події](https://alik532ua.github.io/teatralo4ka.odesa.ua/news)
-- [🎓 Для вступу](https://alik532ua.github.io/teatralo4ka.odesa.ua/admission)
-- [📞 Контакти](https://alik532ua.github.io/teatralo4ka.odesa.ua/contacts)
+- [🏠 Головна сторінка](https://teatralo4ka.odesa.ua/)
+- [📜 Історія школи](https://teatralo4ka.odesa.ua/history)
+- [🎭 Про школу](https://teatralo4ka.odesa.ua/about)
+- [📰 Новини та події](https://teatralo4ka.odesa.ua/news)
+- [🎓 Для вступу](https://teatralo4ka.odesa.ua/admission)
+- [📞 Контакти](https://teatralo4ka.odesa.ua/contacts)
+
+---
+
+## 🛠️ Для розробників
+
+Сайт на SvelteKit 2 + Svelte 5 (виключно руни), профіль `static`, власний домен,
+`base = ''`. Серверного рантайму немає: ні form actions, ні `+server.ts`, ні
+`hooks.server.ts`. Дані — з Firestore на клієнті й із пререндереного вмісту.
+
+### Швидкий старт
+
+```bash
+npm ci
+```
+
+```bash
+npm run dev
+```
+
+Порт dev-сервера — **5194**, перегляду збірки — **5196** (конфігурації
+`teatr-dev` і `teatr-preview` у `.claude/launch.json` кореневої теки `GitHub`).
+
+### Команди
+
+| Команда | Що робить |
+|---|---|
+| `npm run check` | `svelte-check` — має бути 0 помилок |
+| `npm run lint` | ESLint — 0 помилок (попередження — записаний борг) |
+| `npm test` | юніт-інваріанти (Vitest) |
+| `npm run build` | збірка; `prebuild` валідує контент, `postbuild` жене sitemap, бюджет бандла й перевірку биті посилань |
+| `npm run test:e2e` | Playwright проти **зібраного** сайту (спершу робить `build`) |
+| `npm run bump-version` | підняття версії **вручну** — `husky` тут не встановлено, автобампу немає |
+
+### Що варто знати перед першою правкою
+
+- **Мовний префікс — це `reroute`, а не група маршрутів.** `/en/about`
+  рендериться маршрутом `/about` (хук у `src/hooks.ts`). Каталогів `[[lang]]`
+  немає й не має з'явитися.
+- **Усе з Firestore проходить `zod`-схему** зі `src/lib/schemas/`. Схеми
+  відкидають непридатне й нічого не підставляють — типові значення живуть в
+  одному місці, у `DEFAULT_*`.
+- **HTML із бази — лише через `isomorphic-dompurify`.** Звичайний `dompurify`
+  падає під час пререндеру.
+- **Префікс сховища** — `teatralo4ka_`, єдине джерело `src/lib/config/storage.ts`.
+- **Компонентних тестів немає** — монтувати `.svelte` тут нічим. Не пиши тестів,
+  що рендерять компоненти.
+
+Частину дефектів видно **лише** у `build/` — саме тому `postbuild` існує окремо.
+Результат треба побачити, а не припустити.
+
+### Стандарти
+
+Загальні правила — у пакеті [`sveltekit-canon/selection_criteria/v8`](../sveltekit-canon/selection_criteria/v8/README.md).
+Специфіка проєкту — в [PROJECT-CONTEXT.md](PROJECT-CONTEXT.md), інструкції для
+AI-асистентів — в [AGENTS.md](AGENTS.md).
 
 ---
 
