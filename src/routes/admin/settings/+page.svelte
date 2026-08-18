@@ -31,7 +31,8 @@ import {
 import Select from '$lib/components/ui/Select.svelte';
 import { SCROLLBAR_MODES, type ScrollbarMode } from '$lib/config/scrollbarModes';
 import { BACKGROUND_OPTIONS } from '$lib/config/backgroundOptions';
-import { collection, getDocs, query, orderBy as fsOrderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy as fsOrderBy, limit } from 'firebase/firestore';
+  import { ADMIN_LIST_LIMIT } from '$lib/firebase/queryLimits';
 import { db } from '$lib/firebase/config';
 import { t } from 'svelte-i18n';
 import { untrack } from 'svelte';
@@ -265,7 +266,9 @@ async function loadArticles() {
   articlesLoading = true;
   try {
     const ref = collection(db, 'projects', VITE_PROJECT_ID, 'articles');
-    const snap = await getDocs(query(ref, fsOrderBy('createdAt', 'desc')));
+    // Межа обов'язкова (CLOUD-DATABASE-v8 § 7.1): цей перелік потрібен лише
+    // щоб зібрати адреси для гарячих новин, а платиться за кожен документ.
+    const snap = await getDocs(query(ref, fsOrderBy('createdAt', 'desc'), limit(ADMIN_LIST_LIMIT)));
     const firebaseArticles = snap.docs.map(d => {
       const slug = (d.data().slug as string) || d.id;
       const type = (d.data().type as string) || 'article';

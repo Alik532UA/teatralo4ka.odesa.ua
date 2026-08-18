@@ -16,6 +16,7 @@ import { getCategoryLabel } from "../config/categories";
 import { getContentExcerpt } from "../utils/renderContent";
 import { isSafeUrl } from "../utils/safeUrl";
 import { cardImageUrl } from "../utils/videoEmbed";
+import { PUBLIC_ARTICLES_LIMIT, PUBLIC_PAGES_LIMIT, PUBLIC_PROJECTS_LIMIT } from "../firebase/queryLimits";
 import type { ContentCardItem } from "../components/ContentCard.svelte";
 
 export type DateMode = 'createdAt' | 'updatedAt' | 'custom' | 'hidden';
@@ -125,8 +126,13 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   if (publishedOnly) constraints.push(where("isPublished", "==", true));
   if (category) constraints.push(where("category", "==", category));
   constraints.push(orderBy("createdAt", "desc"));
-  // Fetch extra to account for client-side i18n filtering, but still limit the query
-  if (maxItems) constraints.push(limit(maxItems * 2));
+  // Межа стоїть ЗАВЖДИ (CLOUD-DATABASE-v8 § 7.1). Беремо з запасом на
+  // клієнтський фільтр за мовою — нижче відсіюються статті без перекладу, тож
+  // рівно `maxItems` документів дали б коротший список, ніж просив виклик.
+  // Без `maxItems` (списки «усі новини») межа не зникає, а стає спільною:
+  // раніше саме ця гілка читала колекцію статей ЦІЛКОМ, анонімно, на кожній
+  // сторінці з віджетом вмісту.
+  constraints.push(limit(maxItems ? Math.min(maxItems * 2, PUBLIC_ARTICLES_LIMIT) : PUBLIC_ARTICLES_LIMIT));
 
   const q = query(articlesRef, ...constraints);
 
@@ -211,7 +217,8 @@ export async function getAllPages(lang: string = "uk"): Promise<Article[]> {
     articlesRef,
     where("type", "==", "page"),
     where("isPublished", "==", true),
-    orderBy("createdAt", "desc")
+    orderBy("createdAt", "desc"),
+    limit(PUBLIC_PAGES_LIMIT)
   );
   const snapshot = await getDocs(q);
   return snapshot.docs
@@ -244,7 +251,8 @@ export async function getAllProjects(lang: string = "uk"): Promise<Article[]> {
     articlesRef,
     where("type", "==", "page_project"),
     where("isPublished", "==", true),
-    orderBy("createdAt", "desc")
+    orderBy("createdAt", "desc"),
+    limit(PUBLIC_PROJECTS_LIMIT)
   );
   const snapshot = await getDocs(q);
   const filtered = snapshot.docs

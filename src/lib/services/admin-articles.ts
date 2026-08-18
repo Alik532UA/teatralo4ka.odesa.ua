@@ -16,6 +16,7 @@ import type { Article, StoredArticle } from "./articles";
 import { get } from 'svelte/store';
 import { t } from 'svelte-i18n';
 import { friendlyError, rethrowFriendly } from "./firebaseErrors";
+import { ADMIN_LIST_LIMIT } from "../firebase/queryLimits";
 
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
@@ -102,7 +103,9 @@ async function getProjectId(): Promise<string> {
 export async function fetchAllArticles() {
   const projectId = await getProjectId();
   const articlesRef = collection(db, "projects", projectId, "articles");
-  const q = query(articlesRef, orderBy("createdAt", "desc"));
+  // Межа обов’язкова навіть в адмінці (CLOUD-DATABASE-v8 § 7.1): читання
+  // тарифікуються, а цей список відкривається на кожен вхід у розділ.
+  const q = query(articlesRef, orderBy("createdAt", "desc"), limit(ADMIN_LIST_LIMIT));
   const snapshot = await getDocs(q);
   const all = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
   return all.filter(a => a.type !== 'page' && a.type !== 'page_project');
@@ -111,7 +114,7 @@ export async function fetchAllArticles() {
 export async function fetchAllPages() {
   const projectId = await getProjectId();
   const articlesRef = collection(db, "projects", projectId, "articles");
-  const q = query(articlesRef, where("type", "==", "page"), orderBy("createdAt", "desc"));
+  const q = query(articlesRef, where("type", "==", "page"), orderBy("createdAt", "desc"), limit(ADMIN_LIST_LIMIT));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
 }
@@ -119,7 +122,7 @@ export async function fetchAllPages() {
 export async function fetchAllContent() {
   const projectId = await getProjectId();
   const articlesRef = collection(db, "projects", projectId, "articles");
-  const q = query(articlesRef, orderBy("createdAt", "desc"));
+  const q = query(articlesRef, orderBy("createdAt", "desc"), limit(ADMIN_LIST_LIMIT));
   const snapshot = await getDocs(q);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as StoredArticle[];
 }

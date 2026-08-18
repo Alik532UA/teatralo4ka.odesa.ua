@@ -45,14 +45,22 @@ const LIMITS: Array<[RegExp, number]> = [
  *
  * Показово інше: підняти їх довелося тому, що храповик СПРАЦЮВАВ на першому ж
  * власному коміті автора цієї перевірки. Тобто вона не декоративна.
+ *
+ * 2026-08-19: чотири стелі підняті на 3–7 рядків (`admin-articles` 267→272,
+ * `articles` 267→275, `admin/settings` 2511→2514, `admin/users` 994→998).
+ * Причина одна на всі — `limit()` у запитах до Firestore разом із коментарем,
+ * чому саме така стеля (CLOUD-DATABASE-v8 § 7.1, `CDB-QUERY-LIMIT`). Це та
+ * ситуація, для якої храповик і має вентиль: рядки додала перевірка іншого
+ * правила, і платити за неї подрібненням файлів було б гірше за +3 рядки. Сам
+ * храповик спрацював і тут — тобто працює.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/admin/settings/+page.svelte': 2511,
+	'src/routes/admin/settings/+page.svelte': 2514,
 	'src/lib/components/HeaderSection.svelte': 1419,
 	'src/lib/components/admin/ArticleForm.svelte': 1369,
 	'src/lib/services/settings.ts': 1272,
 	'src/routes/admin/content/+page.svelte': 1013,
-	'src/routes/admin/users/+page.svelte': 994,
+	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
 	'src/lib/components/ContentWidget.svelte': 840,
@@ -75,8 +83,8 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/PhotoLightbox.svelte': 307,
 	'src/lib/components/ui/PasswordInput.svelte': 301,
 	'src/lib/schemas/settings.ts': 277,
-	'src/lib/services/admin-articles.ts': 267,
-	'src/lib/services/articles.ts': 267
+	'src/lib/services/admin-articles.ts': 272,
+	'src/lib/services/articles.ts': 275
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

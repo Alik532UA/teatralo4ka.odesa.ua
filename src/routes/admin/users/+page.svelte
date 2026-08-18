@@ -4,7 +4,8 @@
 	import { toast } from '$lib/controllers/toast.svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where, serverTimestamp } from 'firebase/firestore';
+	import { collection, getDocs, doc, updateDoc, query, orderBy, setDoc, deleteDoc, where, serverTimestamp, limit } from 'firebase/firestore';
+	import { ADMIN_USERS_LIMIT } from '$lib/firebase/queryLimits';
 	import { db } from '$lib/firebase/config';
 	import { toFriendlyMessage, logError } from '$lib/services/firebaseErrors';
 	import { onMount } from 'svelte';
@@ -109,9 +110,12 @@
 		try {
 			let q;
 			if (isSuperAdmin) {
-				q = query(collection(db, 'users'), orderBy('email'));
+				// Межа обов'язкова (CLOUD-DATABASE-v8 § 7.1): колекція `users`
+				// спільна на всі сайти екосистеми, тож росте вона не від цього
+				// проєкту, а від сусідніх.
+				q = query(collection(db, 'users'), orderBy('email'), limit(ADMIN_USERS_LIMIT));
 			} else {
-				q = query(collection(db, 'users'), where('projectIds', 'array-contains', DEFAULT_PROJECT_ID));
+				q = query(collection(db, 'users'), where('projectIds', 'array-contains', DEFAULT_PROJECT_ID), limit(ADMIN_USERS_LIMIT));
 			}
 			const snapshot = await getDocs(q);
 			users = snapshot.docs.map(d => {
