@@ -48,6 +48,8 @@
 	--galaxy-bg: #050a1f;
 	--galaxy-card-bg: #0b1330;
 	--galaxy-text: #eaf2ff;
+	/* Висота смуги, у якій лишається зменшений логотип. Звідси ж відступ сцени. */
+	--galaxy-logo-height: 52px;
 
 	/* Deep Navy Palette */
 	--palette-navy-page: #003646;
@@ -975,4 +977,69 @@ select {
 	--shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
 	--shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
 	--shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/*
+ * ── Сторінка «Галактика випускників» ─────────────────────────────────────────
+ *
+ * Галактика займає весь екран, тож шапка й підвал тут зайві. Клас ставить сама
+ * сторінка в `onMount` і знімає при виході — правити `+layout.svelte` умовою
+ * означало б зачепити всі 40 сторінок заради однієї.
+ *
+ * `display: none`, а не `visibility`/`opacity`: воно прибирає елементи і з дерева
+ * доступності, а не лише з очей. Підвал при цьому лишається в DOM (E2E перевіряє
+ * його через `toBeAttached`), тож наявні гейти не червоніють.
+ */
+body.page-galaxy {
+	overflow: hidden;
+}
+
+/* Уся шапка приховується, крім смуги з логотипом. */
+body.page-galaxy [data-testid='site-footer'],
+body.page-galaxy footer,
+body.page-galaxy .header__nav,
+body.page-galaxy .header__actions,
+body.page-galaxy .header__burger,
+body.page-galaxy .ticker-banner,
+body.page-galaxy .hot-news {
+	display: none !important;
+}
+
+body.page-galaxy .header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	/* Смуга рівно під логотип — удвічі нижча за звичайну шапку. */
+	height: var(--galaxy-logo-height);
+	min-height: var(--galaxy-logo-height);
+	padding: 0;
+	background: var(--galaxy-bg);
+	border-bottom: 1px solid rgb(255 255 255 / 0.12);
+}
+
+body.page-galaxy .header__inner {
+	height: var(--galaxy-logo-height);
+	min-height: var(--galaxy-logo-height);
+	padding-block: 0;
+}
+
+/*
+ * Логотип «удвічі менший, ніж зазвичай».
+ *
+ * `scale`, а не зміна розмірів усередині: логотип складений із кількох елементів
+ * із власними розмірами, і масштаб цілого дає передбачуваний результат без
+ * правок у семи місцях. `transform-origin` лівий, щоб він не поїхав від краю.
+ */
+body.page-galaxy [data-testid='logo-area-container'] {
+	scale: 0.5;
+	transform-origin: left center;
+}
+
+/* Сторінка галактики сама керує прокруткою — типові відступи сторінок зайві. */
+body.page-galaxy .page-content,
+body.page-galaxy main {
+	padding: 0;
+	margin: 0;
+	max-width: none;
 }

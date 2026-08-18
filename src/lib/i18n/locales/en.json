@@ -861,7 +861,7 @@
 	},
 	"galaxy": {
 		"title": "Galaxy of Graduates",
-		"description": "Eighty graduates of the Odesa Theatre School across 27 years: study years, course masters, groups and productions.",
+		"description": "Over four hundred graduates of the Odesa Theatre School across 27 years. Those who filled in the form have a portrait, course masters, group and productions.",
 		"hint": "Hover or tap a star",
 		"all": "All graduates",
 		"filterYear": "Graduation year",
@@ -870,6 +870,9 @@
 		"graduated": "graduated",
 		"group": "Group",
 		"masters": "Course masters",
-		"plays": "Productions and roles"
+		"plays": "Productions and roles",
+		"noProfile": "The form is not filled in yet — only the name so far",
+		"searchName": "Search by name",
+		"nothingFound": "No one found"
 	}
 }

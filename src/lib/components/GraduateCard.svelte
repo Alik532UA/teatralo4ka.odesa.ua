@@ -40,7 +40,7 @@
 	const years = $derived(
 		graduate
 			? [
-					graduate.enrollmentYears.length > 0
+					graduate.enrollmentYears && graduate.enrollmentYears.length > 0
 						? `${$t('galaxy.enrolled')} ${graduate.enrollmentYears.join(', ')}`
 						: null,
 					graduate.graduationYear ? `${$t('galaxy.graduated')} ${graduate.graduationYear}` : null
@@ -89,16 +89,28 @@
 			<X size={20} aria-hidden="true" />
 		</button>
 
-		<img
-			class="card__photo"
-			src={graduatePhoto(graduate.slug, 480)}
-			srcset={graduatePhotoSrcset(graduate.slug)}
-			sizes="(max-width: 520px) 40vw, 180px"
-			width="180"
-			height="180"
-			alt={graduate.name}
-			data-testid="galaxy-card-img"
-		/>
+		{#if graduate.hasPhoto}
+			<img
+				class="card__photo"
+				src={graduatePhoto(graduate.slug, 480)}
+				srcset={graduatePhotoSrcset(graduate.slug)}
+				sizes="(max-width: 520px) 40vw, 180px"
+				width="180"
+				height="180"
+				alt={graduate.name}
+				data-testid="galaxy-card-img"
+			/>
+		{:else}
+			<!--
+				Портрет є лише у 80 із 482: решта ще не заповнила анкету. Замість
+				зображення — та сама зірка, якою людина летить у галактиці, і запрошення
+				надіслати дані. Це не «немає фото», а «анкети ще немає».
+			-->
+			<div class="card__star" aria-hidden="true"></div>
+			<p class="card__pending" data-testid="galaxy-card-pending-message">
+				{$t('galaxy.noProfile')}
+			</p>
+		{/if}
 
 		<h2 class="card__title" id="{id}-title" data-testid="galaxy-card-title">{graduate.name}</h2>
 
@@ -113,19 +125,19 @@
 			</p>
 		{/if}
 
-		{#if graduate.masters.length > 0}
+		{#if graduate.masters && graduate.masters.length > 0}
 			<p class="card__row" data-testid="galaxy-card-masters-text">
-				{$t('galaxy.masters')}: {graduate.masters.join(', ')}
+				{$t('galaxy.masters')}: {graduate.masters?.join(', ')}
 			</p>
 		{/if}
 
-		{#if graduate.playCount > 0}
+		{#if graduate.playCount}
 			<p class="card__row" data-testid="galaxy-card-plays-count">
 				{$t('galaxy.plays')}: {graduate.playCount}
 			</p>
 		{/if}
 
-		{#if graduate.socials.length > 0}
+		{#if graduate.socials && graduate.socials.length > 0}
 			<ul class="card__socials" data-testid="galaxy-card-socials-list">
 				{#each graduate.socials as social (social.network)}
 					<li>
@@ -211,6 +223,20 @@
 		border-radius: 50%;
 		object-fit: cover;
 		box-shadow: 0 0 0 2px rgb(140 190 255 / 0.4);
+	}
+
+	.card__star {
+		width: clamp(120px, 40vw, 180px);
+		height: clamp(120px, 40vw, 180px);
+		margin: 0 auto;
+		border-radius: 50%;
+		background: radial-gradient(circle, rgb(210 232 255 / 0.95) 0 5px, rgb(140 190 255 / 0.25) 7px, transparent 46%);
+	}
+
+	.card__pending {
+		margin: 0.5rem 0 0;
+		opacity: 0.7;
+		font-size: 0.85rem;
 	}
 
 	.card__title {

@@ -68,22 +68,21 @@ interface RosterEntry {
 	sourceUrl: string | null;
 }
 
-async function main() {
-	if (!fs.existsSync(SOURCE)) {
-		console.error(`! немає ${SOURCE}`);
-		process.exit(1);
-	}
+interface Extracted {
+	boundaries: { year: number; y: number }[];
+	names: { text: string; y: number; href: string | null }[];
+}
 
-	const html = fs.readFileSync(SOURCE, 'utf8');
-
+/**
+ * Дістає з розмітки межі років і рядки імен.
+ *
+ * Окремою функцією, що ПОВЕРТАЄ значення, а не пише у зовнішню змінну: інакше
+ * початкове значення тієї змінної ніде не читається, і `no-useless-assignment`
+ * справедливо про це каже. Заразом `finally` тут закриває браузер незалежно від
+ * того, чим скінчився розбір.
+ */
+async function extract(html: string): Promise<Extracted> {
 	let browser: Browser | null = null;
-	interface Extracted {
-		boundaries: { year: number; y: number }[];
-		names: { text: string; y: number; href: string | null }[];
-	}
-
-	let data: Extracted = { boundaries: [], names: [] };
-
 	try {
 		browser = await chromium.launch();
 		// В'юпорт задається явно: рік визначається геометрично, тож розкладка мусить
@@ -94,7 +93,7 @@ async function main() {
 		await page.setContent(html, { waitUntil: 'domcontentloaded' });
 		await page.waitForTimeout(800);
 
-		data = await page.evaluate(() => {
+		return await page.evaluate(() => {
 			// Плитки років у навігації: текст без літер, усі цифри — один рік, і
 			// всередині є посилання на якір у списку.
 			const boundaries: { year: number; y: number }[] = [];
@@ -139,6 +138,15 @@ async function main() {
 	} finally {
 		await browser?.close();
 	}
+}
+
+async function main() {
+	if (!fs.existsSync(SOURCE)) {
+		console.error(`! немає ${SOURCE}`);
+		process.exit(1);
+	}
+
+	const data = await extract(fs.readFileSync(SOURCE, 'utf8'));
 
 	// Межі за зростанням y: рік випускника — той, чий якір найближче ВИЩЕ.
 	const boundaries = [...data.boundaries].sort((a, b) => a.y - b.y);
