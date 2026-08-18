@@ -27,7 +27,8 @@
 		"test:e2e": "npm run build && playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"crawl:ats": "tsx scripts/crawl-ats-ua.ts",
-		"parse:graduates": "tsx scripts/parse-graduates.ts"
+		"parse:graduates": "tsx scripts/parse-graduates.ts",
+		"photos:graduates": "tsx scripts/fetch-graduate-photos.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
