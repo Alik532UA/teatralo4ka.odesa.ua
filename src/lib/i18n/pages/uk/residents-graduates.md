@@ -22,7 +22,7 @@ version: "1.0.1"
 1 грудня 2021 року на честь 25-річчя театральної школи зусиллями нашого випускника Аліка Запольнова з’явився подкаст «Галактика випускників».
 
 <div style="margin: 1.5rem 0;">
-  <a href="https://sites.google.com/view/ats-ua/GG" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Галактика випускників</a>
+  <a href="/projects/galaxy-graduates/" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Галактика випускників</a>
 </div>
 
 ---

@@ -30,6 +30,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'music', href: () => resolve('/departments/music') },
 	{ slug: 'theatre', href: () => resolve('/departments/theatre') },
 	{ slug: 'festival', href: () => resolve('/projects/festival') },
+	{ slug: 'galaxy-graduates', href: () => resolve('/projects/galaxy-graduates') },
 	{ slug: 'photo-archive', href: () => resolve('/projects/photo-archive') },
 	{ slug: 'spring-odesa-theatre', href: () => resolve('/projects/spring-odesa-theatre') },
 	{ slug: 'support-production', href: () => resolve('/projects/support-production') },
@@ -44,7 +45,4 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
  *
  * Це не борг, а рішення: файл існує, але вести на нього нема куди.
  */
-export const PAGES_WITHOUT_ROUTE: Record<string, string> = {
-	'galaxy-graduates':
-		'маршрут /projects/galaxy-graduates робить 301 на зовнішній сайт, тож текст цього файлу ніде не показується'
-};
+export const PAGES_WITHOUT_ROUTE: Record<string, string> = {};

@@ -38,12 +38,11 @@ export interface RedirectPage {
 
 /** Записи без мовного префікса — мовні дзеркала виводяться нижче. */
 const BASE: Record<string, RedirectPage> = {
-	// Сторінка-призначення існує лише українською, тож англійське дзеркало веде
-	// туди само.
-	'/projects/galaxy-graduates': {
-		target: 'https://sites.google.com/view/ats-ua',
-		external: true
-	},
+	// `/projects/galaxy-graduates` тут БІЛЬШЕ НЕ ЗАГЛУШКА (2026-08-16): вміст
+	// переїхав із Google Sites у репозиторій, сторінка prerender-иться з усіма
+	// 80 випускниками. Разом із цим записом пішов і виняток із
+	// `searchablePages.ts`: сторінка тепер шукається як усі інші.
+	//
 	// Дві орфографії однієї назви — обидві були в пошуку, обидві ведуть на нову
 	// адресу розділу.
 	'/fest-odesa-teatr-pro': { target: 'projects/teatr-pro', external: false },
