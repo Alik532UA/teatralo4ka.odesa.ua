@@ -149,17 +149,22 @@ html {
 
 ::-webkit-scrollbar-track {
 	background: var(--scrollbar-track);
+	border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb {
 	background: var(--scrollbar-thumb);
-	border-radius: 8px;
-	/* Рамка кольору доріжки робить повзунок візуально тоншим за смугу. */
-	border: 2px solid var(--scrollbar-track);
+	border-radius: 999px;
+	/* Прозора рамка плюс `content-box` робить повзунок тоншим за доріжку. Раніше
+	   рамка була кольору доріжки — і на будь-якому іншому тлі (темне вікно,
+	   картка) той колір ставав видимою рамкою навколо повзунка. */
+	border: 2px solid transparent;
+	background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--accent-primary);
+	background-clip: content-box;
 }
 
 /* Головну смугу сторінки малює `PageScrollbar` — власним елементом поверх
@@ -1089,6 +1094,32 @@ body.page-galaxy [data-testid='logo-area-container'] {
 
 body.page-galaxy [data-testid='logo-area-container']:hover {
 	transform: none;
+}
+
+/*
+ * Смуги прокрутки в галактиці.
+ *
+ * Глобальні вже авторські, але їхні кольори беруться з тем сторінки: доріжка —
+ * `--bg-surface`, тобто СВІТЛА. На темному вікні переліку вона світилася білим і
+ * виглядала рівно як системна. Тому тут свої два токени й тонша смуга: у вікні
+ * переліку прокрутка є одразу в двох місцях — у шкалі років і в самій сітці.
+ */
+body.page-galaxy {
+	--scrollbar-track: rgb(255 255 255 / 0.04);
+	--scrollbar-thumb: rgb(140 190 255 / 0.38);
+
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	scrollbar-width: thin;
+}
+
+body.page-galaxy ::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+body.page-galaxy ::-webkit-scrollbar-thumb:hover {
+	background: rgb(180 214 255 / 0.75);
+	background-clip: content-box;
 }
 
 /* Сторінка галактики сама керує прокруткою — типові відступи сторінок зайві. */
