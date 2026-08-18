@@ -57,7 +57,7 @@
 	>
 		<List size={18} aria-hidden="true" />
 		<span>{$t('galaxy.all')}</span>
-		<span class="stage__total">{data.graduates.length}</span>
+		<span class="stage__total" data-testid="galaxy-roster-total-count">{data.graduates.length}</span>
 	</button>
 </div>
 
