@@ -139,9 +139,9 @@ interface Play {
 	/** «Посвята в Мистетство» — окремий цикл, не звичайна вистава. */
 	dedication: boolean;
 	/**
-	 * Ні року, ні ролі — тобто це може бути й не вистава, а назва групи або
-	 * гуртка в лапках. Не викидається (втрата даних гірша), але позначається:
-	 * звіт рахує такі окремо, і вони входять у перелік «перевірити руками».
+	 * Взято ПОЗА переліком вистав і без року — тобто класифікація трималася на
+	 * здогадці, і це може бути назва групи. Рядок за заголовком «Вистави та
+	 * ролі» сумнівним не буває: там структура сторінки вже все сказала.
 	 */
 	uncertain: boolean;
 }
@@ -271,7 +271,7 @@ function parsePlay(line: string): Play | null {
 				.filter(Boolean)
 		: [];
 
-	return { year, title, roles, dedication, uncertain: year === null && roles.length === 0 };
+	return { year, title, roles, dedication, uncertain: false };
 }
 
 /**
@@ -312,10 +312,40 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 		}
 	}
 
-	const lines = record.sections
-		.flatMap((s) => s.text.split('\n'))
-		.map((l) => l.trim())
-		.filter((l) => l.length > 0);
+	/**
+	 * Рядки разом із ознакою «це вже частина вистав».
+	 *
+	 * Структура сторінки знімає неоднозначність, і перша версія цього парсера її
+	 * викидала: `flatMap` зливав секції в один список, після чого назва групи
+	 * `"Дєвішнік"` була нерозрізненна від вистави `"Дуэнья"`. Насправді вони
+	 * лежать по різні боки заголовка «Вистави та ролі».
+	 *
+	 * Розділювач приходить у двох виглядах, і обидва треба врахувати:
+	 *   • 23 сторінки мають ОКРЕМУ секцію з таким заголовком;
+	 *   • 57 мають одну секцію, де та сама фраза стоїть рядком у тексті.
+	 * Разом 72 із 80; решта вісім не мають розділювача — у них далі працює
+	 * ознака «рік + тире», яка сама собою однозначна.
+	 */
+	const PLAYS_HEADING = /^вистави\s+та\s+ролі$/iu;
+
+	const lines: string[] = [];
+	const inPlaysPart: boolean[] = [];
+	let reachedPlays = false;
+
+	for (const section of record.sections) {
+		if (PLAYS_HEADING.test((section.heading ?? '').trim())) reachedPlays = true;
+
+		for (const raw of section.text.split('\n')) {
+			const line = raw.trim();
+			if (line.length === 0) continue;
+			if (PLAYS_HEADING.test(line)) {
+				reachedPlays = true;
+				continue;
+			}
+			lines.push(line);
+			inPlaysPart.push(reachedPlays);
+		}
+	}
 
 	const consumed = new Set<number>();
 	const take = (index: number) => consumed.add(index);
@@ -354,7 +384,7 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 		}
 
 		// Заголовок секції повторює сам себе — це не дані.
-		if (isEmojiOnly(line) || line === 'Вистави та ролі' || /^Вистави\b/u.test(line)) {
+		if (isEmojiOnly(line)) {
 			take(i);
 			continue;
 		}
@@ -452,19 +482,29 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 			continue;
 		}
 
-		// Розшифровка групи окремим рядком у лапках — ПЕРЕД розбором вистав.
-		// Порядок не косметичний: `"Мультяшки"` і `"Дєвішнік"` — це назви груп,
-		// і при зворотному порядку вони ставали «виставами без року й ролі».
-		if (group && !group.name && /^["«”“].+["»”“]$/u.test(line)) {
+		// Рядок у лапках ДО розділювача «Вистави та ролі» — це назва групи, а не
+		// вистава. Саме структура сторінки й вирішує: `"Дєвішнік"` стоїть у
+		// профілі, `"Дуэнья"` — у переліку вистав, і відрізнити їх за самим
+		// текстом неможливо в принципі.
+		if (!inPlaysPart[i] && /^["«”“].+["»”“]$/u.test(line)) {
 			take(i);
-			group.name = line.replace(/^["«”“]|["»”“]$/gu, '').trim();
+			if (group && !group.name) group.name = line.replace(/^["«”“]|["»”“]$/gu, '').trim();
+			else if (!group) group = { abbr: null, name: line.replace(/^["«”“]|["»”“]$/gu, '').trim() };
+			else unparsed.push(`ще один рядок у лапках у профілі: ${line}`);
 			continue;
 		}
 
+		// Вистава: або ми вже за розділювачем, або рядок сам однозначний —
+		// «рік + тире + назва» назвою групи не буває.
 		const play = parsePlay(line);
-		if (play) {
+		if (play && (inPlaysPart[i] || play.year !== null)) {
 			take(i);
 			mode = 'none';
+			// Сумнівна лише та вистава, яку ми взяли ПОЗА переліком вистав і без
+			// року — тобто там, де класифікація справді трималася на здогадці.
+			// Рядок за розділювачем сумнівним не є: сторінка сама сказала, що це
+			// вистава, навіть якщо року в ній не вказали.
+			play.uncertain = !inPlaysPart[i] && play.year === null;
 			plays.push(play);
 			continue;
 		}
@@ -509,6 +549,24 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 
 	if (!name) unparsed.push('ІМ’Я НЕ РОЗПІЗНАНО');
 	if (graduationYear === null) unparsed.push('РІК ВИПУСКУ НЕ РОЗПІЗНАНО');
+
+	// Помилка не розбору, а САМОГО ДЖЕРЕЛА: вступити після випуску неможливо.
+	// Знайдено на сторінці Софії Голуб — «рік вступу 2021, рік випуску 2017».
+	// Парсер такого не вигадає й не виправить, але промовчати про це означає
+	// перенести помилку на новий сайт разом із даними.
+	if (graduationYear !== null) {
+		for (const enrolled of enrollmentYears) {
+			if (enrolled > graduationYear) {
+				unparsed.push(
+					`ДАНІ ДЖЕРЕЛА СУПЕРЕЧЛИВІ: вступ ${enrolled} після випуску ${graduationYear}`
+				);
+			}
+		}
+		// Рік у адресі — це рік випуску, тож розбіжність теж варта ока.
+		if (Number.isFinite(year) && year !== graduationYear) {
+			unparsed.push(`рік у адресі (${year}) не збігається з роком випуску (${graduationYear})`);
+		}
+	}
 
 	const photo = pickPhoto(record, srcFrequency);
 	if (!photo) unparsed.push('ПОРТРЕТ НЕ ЗНАЙДЕНО');
