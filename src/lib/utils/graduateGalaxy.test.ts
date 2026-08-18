@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { filterGraduates, makeLanes, pickFree } from './graduateGalaxy';
+import { filterGraduates, makeLanes } from './graduateGalaxy';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /** Передбачуваний «випадок»: значення по колу, щоб перевіряти межі, а не везіння. */
@@ -50,20 +50,28 @@ describe('makeLanes', () => {
 	});
 });
 
-describe('pickFree', () => {
-	it('віддає індекс, якого немає на екрані', () => {
-		expect(pickFree(4, [0, 1, 2], () => 0)).toBe(3);
+describe('makeLanes на повному наборі', () => {
+	// 482 — це весь перелік випускників, тобто робочий випадок, а не край.
+	it('рівномірний крок сам вкриває всю висоту', () => {
+		const tops = makeLanes(482, 26, () => 0).map((l) => l.top);
+		expect(Math.min(...tops)).toBeLessThan(1);
+		expect(Math.max(...tops)).toBeGreaterThan(99);
 	});
 
-	it('null, коли пул вичерпано — інакше зірка задублювалася б', () => {
-		expect(pickFree(3, [0, 1, 2], () => 0)).toBeNull();
-		expect(pickFree(0, [], () => 0)).toBeNull();
+	it('не лишає пустих смуг: у кожній двадцятій частині є зірки', () => {
+		// Саме це перевіряло, чи потрібен був знятий параметр `spread`.
+		const tops = makeLanes(482, 26, () => 0.5).map((l) => l.top);
+		const bins = new Array(20).fill(0);
+		for (const top of tops) bins[Math.min(19, Math.floor(top / 5))]++;
+		expect(bins.filter((count) => count === 0)).toEqual([]);
 	});
 
-	it('ніколи не повертає вже показаний індекс', () => {
-		const assigned = [1, 3];
-		for (const value of [0, 0.34, 0.67, 0.99]) {
-			expect(assigned).not.toContain(pickFree(5, assigned, () => value));
+	it('жодна зірка не виходить за межі 0..100', () => {
+		for (const value of [0, 0.5, 1]) {
+			for (const lane of makeLanes(482, 26, () => value)) {
+				expect(lane.top).toBeGreaterThanOrEqual(0);
+				expect(lane.top).toBeLessThanOrEqual(100);
+			}
 		}
 	});
 });

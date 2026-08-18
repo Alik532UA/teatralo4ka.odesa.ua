@@ -6,10 +6,9 @@
 		/** `photo` — анкету заповнено, є портрет. `plain` — лише ім'я. */
 		kind: 'photo' | 'plain';
 		onselect: () => void;
-		onlap: () => void;
 	}
 
-	let { graduate, kind, onselect, onlap }: Props = $props();
+	let { graduate, kind, onselect }: Props = $props();
 </script>
 
 <!--
@@ -26,7 +25,6 @@
 	type="button"
 	class="star star--{kind}"
 	onclick={onselect}
-	onanimationiteration={onlap}
 	data-testid="galaxy-{graduate.slug}-btn"
 >
 	{#if kind === 'photo'}

@@ -2,73 +2,58 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { WITH_PHOTO, WITHOUT_PHOTO, type GraduateIndexEntry } from '$lib/data/graduates';
-	import { makeLanes, pickFree, type Lane } from '$lib/utils/graduateGalaxy';
+	import { makeLanes, type Lane } from '$lib/utils/graduateGalaxy';
 	import GraduateStar from './GraduateStar.svelte';
 
 	interface Props {
-		/** Скільки портретів летить одночасно. Решта чекає в пулі. */
-		photos?: number;
-		/** Скільки зірок без обличчя летить одночасно. */
-		plain?: number;
 		onselect: (graduate: GraduateIndexEntry) => void;
 	}
 
-	// Тридцять анімованих елементів — удвічі менше роботи композитора на слабкому
-	// телефоні. Відчуття галактики тримає не їх кількість: справжніх зірок кілька
-	// сотень, і їх малює canvas одним шаром.
-	let { photos = 10, plain = 20, onselect }: Props = $props();
+	let { onselect }: Props = $props();
 
 	/**
-	 * Дві смуги: з обличчями й без.
+	 * Летять УСІ 482 випускники, без винятку й без ротації.
 	 *
-	 * Без обличчя — це 402 випускники, які ще не заповнили анкету. Вони не
-	 * заглушка й не «менш важливі»: у переліку школи вони є, і в галактиці мусять
-	 * летіти теж — зіркою, схожою на фонову, з іменем при наведенні.
+	 * Перша версія тримала на екрані тридцять і підмінювала їх, коли зірка
+	 * доїжджала до краю. Це економило роботу композитора й водночас означало, що
+	 * більшості людей у галактиці просто немає — а сторінка про те, що вони є.
 	 *
-	 * Обидві смуги рендеряться підмножинами й ротуються: 482 елементи з власною
-	 * анімацією поклали б слабкий телефон, а на екрані все одно видно тридцять.
+	 * Ціна відома й заміряна (див. коміт): 482 елементи з `translate`-анімацією
+	 * лежать на композиторі, а не на головному потоці, тож малює їх GPU. Разом із
+	 * ротацією пішла й потреба в `pickFree`.
 	 */
 	let photoLanes = $state<Lane[]>([]);
 	let plainLanes = $state<Lane[]>([]);
-	let photoAssigned = $state<number[]>([]);
-	let plainAssigned = $state<number[]>([]);
+	let started = $state(false);
 
 	onMount(() => {
 		// Значення випадкові, тому з'являються лише після монтування: випадковість
 		// під час prerender дала б HTML, який не збігається з першим кадром у
 		// браузері, і гідрація «полагодила» б це стрибком усіх зірок.
-		const photoCount = Math.min(photos, WITH_PHOTO.length);
-		const plainCount = Math.min(plain, WITHOUT_PHOTO.length);
-
-		photoLanes = makeLanes(photoCount, 34, Math.random);
-		plainLanes = makeLanes(plainCount, 26, Math.random);
-		photoAssigned = Array.from({ length: photoCount }, (_, i) => i);
-		plainAssigned = Array.from({ length: plainCount }, (_, i) => i);
+		photoLanes = makeLanes(WITH_PHOTO.length, 34, Math.random);
+		plainLanes = makeLanes(WITHOUT_PHOTO.length, 26, Math.random);
+		started = true;
 	});
 
 	/** Обидві смуги одним переліком — щоб зірка описувалася в розмітці один раз. */
-	const flying = $derived([
-		...plainAssigned.map((index, lane) => ({
-			kind: 'plain' as const,
-			lane,
-			graduate: WITHOUT_PHOTO[index],
-			geometry: plainLanes[lane]
-		})),
-		...photoAssigned.map((index, lane) => ({
-			kind: 'photo' as const,
-			lane,
-			graduate: WITH_PHOTO[index],
-			geometry: photoLanes[lane]
-		}))
-	]);
-
-	/** Доїхала до краю — беремо в доріжку іншого випускника з того самого пулу. */
-	function rotate(kind: 'plain' | 'photo', lane: number) {
-		const assigned = kind === 'photo' ? photoAssigned : plainAssigned;
-		const size = kind === 'photo' ? WITH_PHOTO.length : WITHOUT_PHOTO.length;
-		const next = pickFree(size, assigned, Math.random);
-		if (next !== null) assigned[lane] = next;
-	}
+	const flying = $derived(
+		started
+			? [
+					...WITHOUT_PHOTO.map((graduate, lane) => ({
+						kind: 'plain' as const,
+						lane,
+						graduate,
+						geometry: plainLanes[lane]
+					})),
+					...WITH_PHOTO.map((graduate, lane) => ({
+						kind: 'photo' as const,
+						lane,
+						graduate,
+						geometry: photoLanes[lane]
+					}))
+				]
+			: []
+	);
 </script>
 
 <div class="galaxy" data-testid="galaxy-section">
@@ -85,7 +70,7 @@
 		{#each flying as item (item.kind + item.lane)}
 			<li
 				class="lane"
-				style="--top: {item.geometry?.top ?? 0}%; --duration: {item.geometry?.duration ??
+				style="--top: {item.geometry?.top ?? 0}; --duration: {item.geometry?.duration ??
 					30}s; --delay: {item.geometry?.delay ?? 0}s"
 				data-testid="galaxy-list-item-{item.graduate.slug}"
 			>
@@ -93,7 +78,6 @@
 					graduate={item.graduate}
 					kind={item.kind}
 					onselect={() => onselect(item.graduate)}
-					onlap={() => rotate(item.kind, item.lane)}
 				/>
 			</li>
 		{/each}
@@ -127,7 +111,12 @@
 
 	.lane {
 		position: absolute;
-		top: var(--top);
+		/*
+		 * `--top` — число 0..100, а множник — висота галактики МІНУС висота зірки.
+		 * З простими відсотками зірки з `top` під сотнею обрізало нижнім краєм:
+		 * заміряно 27 із 402. Так само знято й ризик обрізання зверху.
+		 */
+		top: calc((100% - 56px) * var(--top) / 100);
 		left: 0;
 		/* `translate` окремою властивістю, а не в `transform`: збільшення зірки
 		   живе саме в `transform`, і одне затирало б інше кадром анімації. */
