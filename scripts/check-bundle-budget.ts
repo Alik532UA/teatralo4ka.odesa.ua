@@ -39,6 +39,39 @@ const HOME_BUDGET_KB = 320;
 /** Увесь клієнтський JS, brotli — щоб бачити й те, що вантажиться пізніше. */
 const TOTAL_BUDGET_KB = 620;
 
+/**
+ * Частка Firebase SDK у критичному шляху головної, brotli. Храповик, не бюджет.
+ *
+ * CLOUD-DATABASE-v8 § 10.2 (`CDB-LAZY-SDK`, HIGH) вимагає, щоб пакет бази
+ * імпортувався через `await import()` у тому шляху, де база справді потрібна, і
+ * прямо каже, ЯК це перевіряти: не за кодом, а за `build/` — чанк із SDK не має
+ * бути в початковому завантаженні сторінки.
+ *
+ * Заміряно 2026-08-19: SDK — це ОДИН чанк на 95 КБ brotli, тобто **36 %** усього,
+ * що браузер тягне, щоб показати головну (264 КБ). Тягне його кожен, хто зайшов
+ * почитати сторінку тексту, бо шапка бере меню з Firestore, а `firebase/config`
+ * піднімає SDK самим фактом імпорту.
+ *
+ * ЧОМУ ХРАПОВИК, А НЕ НУЛЬ. Правильне виправлення — лінива ініціалізація, і воно
+ * зачіпає вхід в адмінку, який E2E не проходить (немає облікових даних). Гейт із
+ * нулем тут довелося б вимкнути того самого дня, а вимкнений гейт гірший за
+ * відсутній: він створює враження, що перевірка є. Тому число фіксується як борг
+ * і не має права рости — рівно як храповик розмірів файлів у
+ * `src/structure.test.ts`. Зменшилося? Опустіть число тим самим комітом.
+ *
+ * 100 при поточних 95 — запас лише на дрижання від оновлення самого SDK.
+ */
+const FIREBASE_IN_HOME_CEILING_KB = 100;
+
+/**
+ * Ознака чанка з Firebase SDK.
+ *
+ * `@firebase/` — рядок із власних версійних міток SDK, він лишається в бандлі
+ * після мінімізації. Пробували `firebase` як слово: воно зустрічається і в
+ * нашому коді (шляхи, коментарі, назви змінних), тобто ловило б чанки без SDK.
+ */
+const FIREBASE_MARKER = '@firebase/';
+
 function sizeKb(file: string): number {
 	// `.br` — те, що реально йде по мережі. Якщо його немає (precompress
 	// вимкнули), беремо сирий файл: краще завищена оцінка, ніж мовчазний нуль.
@@ -81,15 +114,56 @@ function main() {
 	}
 
 	const homeKb = home.reduce((sum, f) => sum + sizeKb(f), 0);
-	const totalKb = allClientJs(appDir).reduce((sum, f) => sum + sizeKb(f), 0);
+	const allJs = allClientJs(appDir);
+	const totalKb = allJs.reduce((sum, f) => sum + sizeKb(f), 0);
+
+	// Чанки з SDK бази — і в усьому бандлі, і окремо в критичному шляху головної.
+	// Читаємо НЕстиснутий `.js` (маркер у `.br` не видно), а розмір беремо з `.br`.
+	const carriesFirebase = (f: string) => fs.readFileSync(f, 'utf8').includes(FIREBASE_MARKER);
+	const firebaseAnywhere = allJs.filter(carriesFirebase);
+	const firebaseInHome = home.filter((f) => fs.existsSync(f) && carriesFirebase(f));
+	const firebaseHomeKb = firebaseInHome.reduce((sum, f) => sum + sizeKb(f), 0);
 
 	const fmt = (n: number) => `${Math.round(n)} КБ`;
 	console.log(
 		`📦 бандл (brotli): головна ${fmt(homeKb)} / ${HOME_BUDGET_KB} КБ у ${home.length} модулях, ` +
 			`увесь клієнтський JS ${fmt(totalKb)} / ${TOTAL_BUDGET_KB} КБ`
 	);
+	console.log(
+		`🔥 Firebase SDK: ${fmt(firebaseHomeKb)} / ${FIREBASE_IN_HOME_CEILING_KB} КБ у критичному шляху ` +
+			`головної (${Math.round((firebaseHomeKb / homeKb) * 100)} % від нього), ` +
+			`${firebaseInHome.length} чанк(ів) із ${firebaseAnywhere.length} у бандлі`
+	);
 
 	const over: string[] = [];
+
+	// Перевірка не має права зеленіти від того, що маркер перестав знаходитися:
+	// проєкт ходить у Firestore, тож SDK у бандлі є завжди. Нуль тут означає
+	// зламану ознаку, а не досягнуту мету — і без цього рядка храповик нижче
+	// став би зеленим назавжди.
+	if (firebaseAnywhere.length === 0) {
+		console.error(
+			`❌ ознаки "${FIREBASE_MARKER}" немає в жодному чанку — перевірка мертва, ` +
+				'а не мета досягнута: проєкт звертається до Firestore із клієнта'
+		);
+		process.exit(1);
+	}
+
+	if (firebaseHomeKb > FIREBASE_IN_HOME_CEILING_KB) {
+		over.push(
+			`Firebase SDK у критичному шляху головної: ${fmt(firebaseHomeKb)} > ` +
+				`${FIREBASE_IN_HOME_CEILING_KB} КБ (CLOUD-DATABASE-v8 § 10.2)`
+		);
+	}
+	if (firebaseHomeKb === 0) {
+		// Борг закрито — але тоді храповик мусить піти разом із ним, інакше
+		// перелік перетворюється на пам'ятник (та сама логіка, що в CEILINGS).
+		console.error(
+			'❌ SDK бази більше немає в критичному шляху головної — це добра новина ' +
+				'і причина прибрати FIREBASE_IN_HOME_CEILING_KB із цього скрипта тим самим комітом'
+		);
+		process.exit(1);
+	}
 	if (homeKb > HOME_BUDGET_KB) {
 		over.push(`критичний шлях головної: ${fmt(homeKb)} > ${HOME_BUDGET_KB} КБ`);
 	}
