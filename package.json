@@ -25,7 +25,8 @@
 		"lint:fix": "eslint . --fix",
 		"postbuild": "tsx scripts/generate-sitemap.ts && tsx scripts/check-bundle-budget.ts && tsx scripts/check-links.ts && tsx scripts/generate-changelog.ts",
 		"test:e2e": "npm run build && playwright test",
-		"test:e2e:ui": "playwright test --ui"
+		"test:e2e:ui": "playwright test --ui",
+		"crawl:ats": "tsx scripts/crawl-ats-ua.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
