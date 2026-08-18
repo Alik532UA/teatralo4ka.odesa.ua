@@ -49,7 +49,6 @@
 	--galaxy-card-bg: #0b1330;
 	--galaxy-text: #eaf2ff;
 	/* Висота смуги, у якій лишається зменшений логотип. Звідси ж відступ сцени. */
-	--galaxy-logo-height: 52px;
 
 	/* Deep Navy Palette */
 	--palette-navy-page: #003646;
@@ -994,46 +993,102 @@ body.page-galaxy {
 	overflow: hidden;
 }
 
-/* Уся шапка приховується, крім смуги з логотипом. */
+/* Від шапки лишається ЛИШЕ логотип — решта прибирається зовсім. */
 body.page-galaxy [data-testid='site-footer'],
 body.page-galaxy footer,
 body.page-galaxy .header__nav,
 body.page-galaxy .header__actions,
 body.page-galaxy .header__burger,
 body.page-galaxy .ticker-banner,
-body.page-galaxy .hot-news {
+body.page-galaxy .hot-news,
+/*
+ * Ці три лишалися видимими після першої спроби, і жодного з них не видно з
+ * розмітки шапки — знайдено обходом DOM за координатами:
+ *   `.header__bar`        смуга 1050×16 усередині шапки;
+ *   `.header-blur-layer`  окремий шар РОЗМИТТЯ з `+layout.svelte`, 88px висоти —
+ *                         тобто вищий за смугу 52px, і тому підтікав під сцену;
+ *   `.header__spacer`     розпірка під звичайну висоту шапки.
+ */
+body.page-galaxy .header__bar,
+body.page-galaxy .header-blur-layer,
+body.page-galaxy .header__spacer {
 	display: none !important;
 }
 
+/*
+ * Смуги немає взагалі: логотип просто лежить НАД галактикою.
+ *
+ * Перша спроба робила смугу 52px із власним тлом і межею знизу — і саме ту
+ * межу було видно тонкою лінією через увесь екран. Прозора шапка знімає це
+ * разом із питанням «звідки ще один шар».
+ *
+ * `pointer-events: none` тут обов'язковий: інакше прозорий верх шапки (82px за
+ * заміром) накрив би галактику, і зірки під ним перестали б ловити курсор. Саме
+ * посилання логотипа події повертає.
+ */
 body.page-galaxy .header {
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
-	/* Смуга рівно під логотип — удвічі нижча за звичайну шапку. */
-	height: var(--galaxy-logo-height);
-	min-height: var(--galaxy-logo-height);
+	height: auto;
+	min-height: 0;
 	padding: 0;
-	background: var(--galaxy-bg);
-	border-bottom: 1px solid rgb(255 255 255 / 0.12);
+	background: none;
+	border: none;
+	box-shadow: none;
+	backdrop-filter: none;
+	pointer-events: none;
 }
 
+/* Відступ від краю екрана — на шапці, а не на логотипі: його власний бокс уже
+   зменшений `zoom`, тож відступ усередині нього теж зменшився б удвічі. */
 body.page-galaxy .header__inner {
-	height: var(--galaxy-logo-height);
-	min-height: var(--galaxy-logo-height);
-	padding-block: 0;
+	height: auto;
+	min-height: 0;
+	padding: 6px 12px;
+}
+
+body.page-galaxy .header__logo-link {
+	pointer-events: auto;
 }
 
 /*
  * Логотип «удвічі менший, ніж зазвичай».
  *
- * `scale`, а не зміна розмірів усередині: логотип складений із кількох елементів
- * із власними розмірами, і масштаб цілого дає передбачуваний результат без
- * правок у семи місцях. `transform-origin` лівий, щоб він не поїхав від краю.
+ * `zoom`, а не `scale`: трансформація зменшує лише намальоване, а бокс лишається
+ * 140px і вилазить за смугу; `overflow: hidden`, яким я його підрізав, відрізав
+ * логотипу низ — це й було видно на екрані. `zoom` зменшує САМ бокс, тож
+ * обрізати вже нічого не треба.
+ *
+ * `transform: none` — друга половина тієї ж поломки, і без заміру її не видно.
+ * Шапка сайту навмисно вішає логотип НИЖЧЕ смуги власним зсувом:
+ * `scale(1.3) translateY(20px)` на робочому столі, `scale(1.6) translateY(40px)`
+ * на телефоні і ще інакше під `.scrolled`. Тут смуги немає, зсуватися нікуди —
+ * і разом із `zoom` він виносив малюнок на `y = -14px`, тобто за верхній край
+ * екрана. Заміряно обходом дерева, а не видно з коду шапки.
+ *
+ * `height: auto` замість `var(--header-height, 72px)`: бокс має бути під сам
+ * малюнок (140px), інакше той знову з нього вилазить.
  */
 body.page-galaxy [data-testid='logo-area-container'] {
-	scale: 0.5;
-	transform-origin: left center;
+	zoom: 0.5;
+	transform: none;
+	height: auto;
+	margin: 0;
+	/*
+	 * `transition: none` тут не косметика, а умова, щоб `transform: none` узагалі
+	 * подіяв. У шапки стоїть `transition: all 0.4s`, і поки перехід ЖИВИЙ, значення
+	 * бере анімаційний шар — а він старший за будь-яке звичайне правило, хоч би
+	 * яка була специфічність. Виміряно: моє правило вигравало `zoom` і `height`,
+	 * але `transform` лишався `matrix(1.3, 0, 0, 1.3, 0, 52)`, і в `getAnimations()`
+	 * висів живий `CSSTransition` на `transform`.
+	 */
+	transition: none;
+}
+
+body.page-galaxy [data-testid='logo-area-container']:hover {
+	transform: none;
 }
 
 /* Сторінка галактики сама керує прокруткою — типові відступи сторінок зайві. */
