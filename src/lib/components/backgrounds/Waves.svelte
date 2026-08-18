@@ -2,9 +2,16 @@
 	import { onMount } from "svelte";
 	import { WavesEngine } from "./engine/WavesEngine";
 
-	let { theme = "light", color = "#0071e3" } = $props<{
+	let {
+		theme = "light",
+		color = "#0071e3",
+		// Невидимий шар не малює: до 2026-08-16 усі чотири рушії крутили
+		// requestAnimationFrame завжди, зокрема коли фон вибрано «немає».
+		active = true
+	} = $props<{
 		theme?: "light" | "dark";
 		color?: string;
+		active?: boolean;
 	}>();
 
 	let canvas: HTMLCanvasElement;
@@ -16,10 +23,16 @@
 		}
 	});
 
+	$effect(() => {
+		engine?.setActive(active);
+	});
+
 	onMount(() => {
 		engine = new WavesEngine(theme, color);
 		if (canvas) {
 			engine.mount(canvas);
+			// Див. Particles.svelte: `$effect` спрацьовує до присвоєння `engine`.
+			engine.setActive(active);
 		}
 
 		return () => {

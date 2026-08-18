@@ -40,7 +40,12 @@
 	});
 </script>
 
-<!-- Always mounted container for guaranteed smooth fade to/from "none" -->
+<!--
+	Усі чотири шари лишаються змонтованими заради плавного перетікання між
+	фонами — але тепер лише ВИДИМИЙ малює. Раніше «змонтовані» означало ще й
+	«чотири цикли requestAnimationFrame завжди», зокрема коли фон вибрано
+	«немає»: там змінювалася тільки прозорість.
+-->
 <div
 	class="bg-container"
 	style="height: {fixedHeight}; opacity: {isVisible ? 1 : 0};"
@@ -48,16 +53,16 @@
 	data-visible={isVisible ? 'true' : 'false'}
 >
 	<div class="bg-layer" class:active={backgroundType === 1}>
-		<Particles {theme} />
+		<Particles {theme} active={isVisible && backgroundType === 1} />
 	</div>
 	<div class="bg-layer" class:active={backgroundType === 2}>
-		<Waves {theme} />
+		<Waves {theme} active={isVisible && backgroundType === 2} />
 	</div>
 	<div class="bg-layer" class:active={backgroundType === 3}>
-		<FloatingShapes {theme} />
+		<FloatingShapes {theme} active={isVisible && backgroundType === 3} />
 	</div>
 	<div class="bg-layer" class:active={backgroundType === 4}>
-		<MiniIcons {theme} />
+		<MiniIcons {theme} active={isVisible && backgroundType === 4} />
 	</div>
 </div>
 

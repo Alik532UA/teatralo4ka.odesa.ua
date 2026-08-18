@@ -12,6 +12,19 @@ export abstract class CanvasEngine {
 	private animationId: number = 0;
 	private lastWidth = 0;
 
+	/**
+	 * Чи цей рушій зараз показується.
+	 *
+	 * `DynamicBackground` тримає всі чотири шари змонтованими заради плавного
+	 * перетікання між фонами — і до 2026-08-16 це означало, що ЧОТИРИ цикли
+	 * `requestAnimationFrame` крутилися завжди, зокрема коли фон вибрано «немає»:
+	 * там змінювалася лише прозорість. Невидимий рушій тепер не малює.
+	 */
+	private active = true;
+
+	/** `prefers-reduced-motion` — ACCESSIBILITY-v8 § 7. */
+	private reducedMotion = false;
+
 	constructor(initialTheme: "light" | "dark", initialColor: string = "#0071e3") {
 		this.theme = initialTheme;
 		this.color = initialColor;
@@ -22,17 +35,20 @@ export abstract class CanvasEngine {
 		this.ctx = canvas.getContext("2d");
 
 		if (browser) {
-			this.width = this.canvas.clientWidth;
-			this.height = this.canvas.clientHeight;
-			this.canvas.width = this.width;
-			this.canvas.height = this.height;
-			this.lastWidth = this.width;
+			this.reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+			this.resizeCanvas();
 			this.init();
-			this.startLoop();
+
+			// За «зменшити рух» малюємо ОДИН кадр і на цьому все: фон лишається
+			// картинкою, а не анімацією. Порожній екран був би гіршим за обидва
+			// варіанти — вимога стандарту про рух, не про наявність.
+			if (this.reducedMotion) this.draw();
+			else this.startLoop();
 
 			window.addEventListener("resize", this.handleResizeBound);
 			window.addEventListener("scroll", this.handleScrollBound);
+			document.addEventListener("visibilitychange", this.handleVisibilityBound);
 		}
 	}
 
@@ -41,6 +57,7 @@ export abstract class CanvasEngine {
 		if (browser) {
 			window.removeEventListener("resize", this.handleResizeBound);
 			window.removeEventListener("scroll", this.handleScrollBound);
+			document.removeEventListener("visibilitychange", this.handleVisibilityBound);
 		}
 		this.canvas = null;
 		this.ctx = null;
@@ -53,7 +70,45 @@ export abstract class CanvasEngine {
 		}
 	}
 
+	/**
+	 * Показувати цей рушій чи ні. Невидимий не малює.
+	 *
+	 * Останній намальований кадр лишається на канвасі, тому 800-мілісекундне
+	 * зникнення виглядає так само, як і раніше: фони тут повільні, і завмерлий
+	 * кадр під час згасання оком не відрізнити від живого.
+	 */
+	public setActive(active: boolean) {
+		if (this.active === active) return;
+		this.active = active;
+		if (active && !this.reducedMotion) this.startLoop();
+		else this.stopLoop();
+	}
+
+	/**
+	 * Розмір канваса з урахуванням щільності екрана.
+	 *
+	 * Заміряно 2026-08-16: буфер канваса дорівнював розміру в CSS-пікселях при
+	 * `devicePixelRatio` 1.25, тобто зображення масштабувалося браузером угору.
+	 * Для розмитих плям це прощалося; для нового зіркового фону — ні, а надто на
+	 * телефоні з DPR 3.
+	 *
+	 * `setTransform` лишає підклаcам ту саму систему координат у CSS-пікселях,
+	 * тож жоден із чотирьох наявних рушіїв правити не довелося.
+	 */
+	private resizeCanvas() {
+		if (!this.canvas || !this.ctx) return;
+
+		const dpr = Math.min(browser ? window.devicePixelRatio || 1 : 1, 2);
+		this.width = this.canvas.clientWidth;
+		this.height = this.canvas.clientHeight;
+		this.canvas.width = Math.round(this.width * dpr);
+		this.canvas.height = Math.round(this.height * dpr);
+		this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		this.lastWidth = this.width;
+	}
+
 	private startLoop() {
+		if (this.animationId) return;
 		const loop = () => {
 			if (!this.canvas || !this.ctx) return;
 			this.draw();
@@ -71,22 +126,32 @@ export abstract class CanvasEngine {
 
 	private handleResizeBound = () => this.handleResize();
 	private handleScrollBound = () => this.handleScroll();
+	private handleVisibilityBound = () => this.handleVisibility();
 
 	private handleResize() {
 		if (!this.canvas) return;
 
-		const newWidth = this.canvas.clientWidth;
+		// Лише зміна ШИРИНИ: на мобільних згортання панелі браузера змінює
+		// висоту постійно, і реагувати на це означало б перебудовувати фон на
+		// кожній прокрутці.
+		if (this.canvas.clientWidth === this.lastWidth) return;
 
-		if (newWidth === this.lastWidth) return;
-
-		this.lastWidth = newWidth;
-		this.width = newWidth;
-		this.height = this.canvas.clientHeight;
-
-		this.canvas.width = this.width;
-		this.canvas.height = this.height;
-
+		this.resizeCanvas();
 		this.init();
+		if (this.reducedMotion) this.draw();
+	}
+
+	/**
+	 * У згорнутій вкладці не малюємо.
+	 *
+	 * Браузер і сам душить `requestAnimationFrame` у фоні, але не завжди й не
+	 * одразу: на другому екрані або в неактивному вікні кадри йдуть далі. Ціна —
+	 * заряд телефона за фон, якого ніхто не бачить.
+	 */
+	private handleVisibility() {
+		if (this.reducedMotion) return;
+		if (document.hidden) this.stopLoop();
+		else if (this.active) this.startLoop();
 	}
 
 	private handleScroll() {

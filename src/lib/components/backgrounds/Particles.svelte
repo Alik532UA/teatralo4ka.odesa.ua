@@ -2,9 +2,16 @@
 	import { onMount } from "svelte";
 	import { ParticlesEngine } from "./engine/ParticlesEngine";
 
-	let { theme = "light", color = "#0071e3" } = $props<{
+	let {
+		theme = "light",
+		color = "#0071e3",
+		// Невидимий шар не малює: до 2026-08-16 усі чотири рушії крутили
+		// requestAnimationFrame завжди, зокрема коли фон вибрано «немає».
+		active = true
+	} = $props<{
 		theme?: "light" | "dark";
 		color?: string;
+		active?: boolean;
 	}>();
 
 	let canvas: HTMLCanvasElement;
@@ -16,10 +23,20 @@
 		}
 	});
 
+	$effect(() => {
+		engine?.setActive(active);
+	});
+
 	onMount(() => {
 		engine = new ParticlesEngine(theme, color);
 		if (canvas) {
 			engine.mount(canvas);
+			// Стан ОБОВ'ЯЗКОВО і тут, не лише в `$effect` вище: ефект спрацьовує
+			// раніше, ніж `onMount` присвоїть `engine`, тож перший його прохід не
+			// робить нічого. А якщо `active` далі не змінюється — і не спрацює вже
+			// ніколи. Заміряно: без цього рядка чотири рушії крутили rAF і далі,
+			// 236 викликів за секунду замість ~60.
+			engine.setActive(active);
 		}
 
 		return () => {
