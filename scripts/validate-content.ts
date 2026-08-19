@@ -29,9 +29,12 @@ function validateAll() {
           throw new Error('Content is empty');
         }
         console.log(`✅ Valid: ${lang}/${file}`);
-      } catch (error: any) {
+      } catch (error: unknown) {
+        // `unknown` плюс звуження, а не `any`: у `catch` може прилетіти будь-що,
+        // включно з рядком, і `error.message` тоді дає `undefined` — тобто гейт
+        // збірки друкує «Reason: undefined» замість причини.
         console.error(`❌ Invalid: ${lang}/${file}`);
-        console.error(`   Reason: ${error.message}`);
+        console.error(`   Reason: ${error instanceof Error ? error.message : String(error)}`);
         hasErrors = true;
       }
     }

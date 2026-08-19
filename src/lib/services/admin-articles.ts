@@ -1,6 +1,7 @@
 import {
   collection,
-  doc,  setDoc,
+  doc,
+  setDoc,
   updateDoc,
   deleteDoc,
   getDocs,
@@ -10,7 +11,8 @@ import {
   where,
   limit,
   deleteField,
-  serverTimestamp,} from "firebase/firestore";
+  serverTimestamp,
+} from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import type { Article, StoredArticle } from "./articles";
 import { get } from 'svelte/store';
@@ -191,7 +193,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
 
   try {
     await setDoc(docRef, payloadToSave);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Firestore setDoc Error in addArticle:", error);
     rethrowFriendly(error);
   }
@@ -251,7 +253,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
     const res = await updateDoc(ref, updatePayload);
     lastSavedAt.set(articleId, Date.now());
     return res;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Firestore updateDoc Error in updateArticle:", error);
     rethrowFriendly(error);
   }
@@ -262,7 +264,7 @@ export async function deleteArticle(articleId: string) {
   const ref = doc(db, "projects", projectId, "articles", articleId);
   try {
     return await deleteDoc(ref);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Firestore deleteDoc Error in deleteArticle:", error);
     rethrowFriendly(error);
   }
