@@ -61,6 +61,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * ситуація, для якої храповик і має вентиль: рядки додала перевірка іншого
  * правила, і платити за неї подрібненням файлів було б гірше за +3 рядки. Сам
  * храповик спрацював і тут — тобто працює.
+ *
+ * 2026-08-20: `ContentWidget` 840 → 846. Захист поля вводу в обробнику рівня
+ * `window` переїхав із порівняння `tagName` на `isTypingTarget()`
+ * (HOTKEYS-v8 HK-TEXT-ENTRY-GUARD, CRITICAL): рядок імпорту плюс коментар про
+ * те, чому `closest` бачить `contenteditable`, а тег — ні. Логіки додано нуль,
+ * і той самий вентиль, що й у попередньому записі: платити за виправлення
+ * CRITICAL-правила подрібненням файлу було б гірше за +6 рядків.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -71,7 +78,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 840,
+	'src/lib/components/ContentWidget.svelte': 846,
 	'src/routes/admin/articles/+page.svelte': 806,
 	'src/lib/components/ContentCard.svelte': 731,
 	'src/lib/components/ui/Toast.svelte': 689,

@@ -4,6 +4,7 @@
 	import { GalleryHorizontal, LayoutGrid, List, Play, Pause } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { storage } from '$lib/services/storage';
+	import { isTypingTarget } from '$lib/services/keyboard';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { t } from 'svelte-i18n';
@@ -249,7 +250,12 @@
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
-		if (typeof document !== 'undefined' && ['INPUT', 'TEXTAREA'].includes((document.activeElement as HTMLElement)?.tagName)) return;
+		// `isTypingTarget`, а не порівняння `tagName` (HOTKEYS-v8 § 2, HK-TEXT-ENTRY-GUARD).
+		// Обробник висить на `window`, тобто працює на кожній сторінці з віджетом, а
+		// перевірка за тегом пропускає `contenteditable`: там фокус стоїть на
+		// вкладеному вузлі, і його tagName — `SPAN`. Тобто в редакторі статей стрілки
+		// пересували б карусель замість курсора. `closest` цей випадок бачить.
+		if (isTypingTarget(e.target)) return;
 		if (view !== 'carousel') return;
 		if (!isHovered) return;
 

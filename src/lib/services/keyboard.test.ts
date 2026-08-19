@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import {
 	acceptsShortcut,
 	captureKeyboard,
@@ -121,5 +123,57 @@ describe('acceptsShortcut', () => {
 
 	it('НЕ пропускає Ctrl+Escape: комбінація належить системі', () => {
 		expect(acceptsShortcut(stroke({ code: 'Escape', ctrlKey: true }))).toBe(false);
+	});
+});
+
+/**
+ * Ніхто не визначає поле вводу за `tagName` (HOTKEYS-v8 § 2, HK-TEXT-ENTRY-GUARD,
+ * CRITICAL).
+ *
+ * Юніт-тести вище доводять, що `isTypingTarget` бачить `contenteditable`. Вони
+ * не доводять, що ним КОРИСТУЮТЬСЯ: до 2026-08-20 `ContentWidget` мав власний
+ * захист `['INPUT','TEXTAREA'].includes(activeElement.tagName)` на обробнику
+ * рівня `window` — тобто на кожній сторінці з віджетом вмісту. У редакторі
+ * статей (`contenteditable`, фокус на вкладеному `SPAN`) стрілки пересували б
+ * карусель замість курсора, і жодна перевірка цього не бачила.
+ *
+ * Перевірка читає джерела, бо саме там живе дефект: правильний помічник у
+ * проєкті вже був, його просто не покликали.
+ *
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): повернути порівняння
+ * `tagName === 'INPUT'` у будь-який компонент — перевірка мусить назвати саме
+ * його.
+ */
+describe('захист поля вводу — лише через isTypingTarget', () => {
+	const SRC = 'src';
+
+	const walk = (dir: string, out: string[] = []): string[] => {
+		for (const entry of readdirSync(dir)) {
+			const full = join(dir, entry).replace(/\\/g, '/');
+			if (statSync(full).isDirectory()) walk(full, out);
+			else if (/\.(ts|svelte)$/.test(entry) && !/\.(test|spec)\.ts$/.test(entry)) out.push(full);
+		}
+		return out;
+	};
+
+	/** Помічник — єдине місце, де порівняння з тегами доречне. */
+	const ALLOWED = ['src/lib/services/keyboard.ts'];
+
+	const sources = walk(SRC).filter((f) => !ALLOWED.includes(f));
+
+	it('перевірка жива: джерела знайдено', () => {
+		expect(sources.length, 'сканер шукає не там').toBeGreaterThan(50);
+	});
+
+	it('жодного власного визначення поля вводу за тегом', () => {
+		// `tagName` поруч зі згадкою INPUT/TEXTAREA/SELECT — і не важливо, у якій
+		// формі: масив із `includes`, ланцюжок `===` або `switch`.
+		const re = /tagName[\s\S]{0,80}?['"](?:INPUT|TEXTAREA|SELECT)['"]|['"](?:INPUT|TEXTAREA|SELECT)['"][\s\S]{0,80}?tagName/;
+		const bad = sources.filter((f) => re.test(readFileSync(f, 'utf8')));
+		expect(
+			bad,
+			'поле вводу визначається за тегом — `contenteditable` так не побачити, ' +
+				`треба isTypingTarget():\n${bad.join('\n')}`
+		).toEqual([]);
 	});
 });
