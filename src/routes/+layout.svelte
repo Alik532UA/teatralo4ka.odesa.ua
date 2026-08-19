@@ -266,8 +266,10 @@
 	const metaTitle = $derived(
 		safeT(`seo.pages.${seoKey}.title`, SEO_FALLBACK[activeLang].pages[seoKey].title)
 	);
+	// Опис зі сторінки старший за карту SEO — чому саме так, у `App.PageData`.
 	const metaDescription = $derived(
-		safeT(`seo.pages.${seoKey}.description`, SEO_FALLBACK[activeLang].pages[seoKey].description)
+		page.data.seoDescription ||
+			safeT(`seo.pages.${seoKey}.description`, SEO_FALLBACK[activeLang].pages[seoKey].description)
 	);
 	const canonicalUrl = $derived(data.canonicalUrl || `${SITE_ORIGIN}${page.url.pathname}`);
 	// Not `base` from $app/paths: it is relative here, so on a nested page it

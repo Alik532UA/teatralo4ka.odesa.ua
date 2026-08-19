@@ -45,6 +45,17 @@ export interface GraduateIndexEntry {
 	departments: Department[];
 	/** Є портрет і подробиці — тобто анкету заповнено. Інакше поля нижче порожні. */
 	hasPhoto?: true;
+	/**
+	 * Код сторінки на старому сайті: `15K`, `18A_1`, `odessitkavmonreale`.
+	 *
+	 * Це не внутрішній ідентифікатор, а САМА АДРЕСА, за якою людину знали:
+	 * `sites.google.com/view/ats-ua/GG/2015/15K` → `/projects/galaxy-graduates/15K`.
+	 * Тому код не перегенеровується й не «покращується» — інакше всі посилання,
+	 * які випускники роздавали роками, поїхали б у нікуди.
+	 *
+	 * Є у 80 із 482: решта на старому сайті власної сторінки не мали.
+	 */
+	code?: string;
 	/** Список, а не число: вступати можна двічі (у джерелі є «2003, 2007»). */
 	enrollmentYears?: number[];
 	/** Абревіатура й розшифровка окремо: у джерелі це «ЗТК» + «Захисники…». */
@@ -53,6 +64,61 @@ export interface GraduateIndexEntry {
 	socials?: GraduateSocial[];
 	playCount?: number;
 	sourceUrl?: string;
+}
+
+/** Одна вистава: рік і рядок дослівно зі старого сайту (назва разом із ролями). */
+export interface GraduatePlay {
+	year: number | null;
+	text: string;
+}
+
+/**
+ * Повний профіль — те, що лежало на власній сторінці випускника.
+ *
+ * Окремо від індексу і НЕ в бандлі: разом усі 80 профілів — 96 КБ, і тягнути їх
+ * на сторінку галактики заради однієї відкритої картки безглуздо. Кожен лежить
+ * у `static/graduates/profiles/<code>.json` (найбільший — 3 КБ) і читається на
+ * вимогу: сторінкою профілю під час prerender, карткою в галактиці — на кліку.
+ */
+export interface GraduateProfile {
+	code: string;
+	slug: string;
+	name: string;
+	graduationYear: number | null;
+	enrollmentYears: number[];
+	departments: Department[];
+	hasPhoto: boolean;
+	group: string | null;
+	masters: string[];
+	socials: GraduateSocial[];
+	plays: GraduatePlay[];
+	/** Абзаци «про себе»: навчання після школи, робота, власні слова. */
+	bio: string[];
+	festivals: string[];
+	duringStudies: string | null;
+	afterGraduation: string | null;
+	/** Сторінка-джерело на старому сайті — походження даних видиме. */
+	sourceUrl: string;
+}
+
+/** Адреса файлу профілю. */
+export function graduateProfileJson(code: string): string {
+	return asset(`/graduates/profiles/${code}.json`);
+}
+
+/**
+ * Шлях сторінки профілю БЕЗ мовного префікса — його додає `withLocale`.
+ *
+ * Саме рядок, а не `resolve()` з `$app/paths`, і це перевірено збіркою, а не
+ * вирішено: під SSR `resolve()` віддає ВІДНОСНИЙ шлях
+ * (`../../../projects/galaxy-graduates/15K`), і мовний префікс поверх нього дав
+ * `/en../../../projects/…`. Наслідок був тихий і дорогий: сторінки в збірці
+ * лишилися, але краулер prerender не знайшов англійських — у мапі сайту стало
+ * 100 uk і 20 en замість 100 і 100. Про цю саму пастку попереджає коментар до
+ * `base` в `+layout.svelte`.
+ */
+export function graduateProfilePath(code: string): string {
+	return `/projects/galaxy-graduates/${code}`;
 }
 
 /** Відсортовано за роком випуску (новіші перші), у межах року — за іменем. */
@@ -87,3 +153,6 @@ export function graduatePhotoSrcset(slug: string): string {
 export const GRADUATION_YEARS: readonly number[] = [
 	...new Set(GRADUATES.map((g) => g.graduationYear).filter((y): y is number => y !== null))
 ].sort((a, b) => b - a);
+
+/** Ті, у кого є власна сторінка з подробицями — саме вони мають свою адресу. */
+export const WITH_PAGE: readonly GraduateIndexEntry[] = GRADUATES.filter((g) => g.code);

@@ -79,7 +79,10 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 662,
 	'src/lib/components/FooterSection.svelte': 575,
 	'src/routes/+page.svelte': 522,
-	'src/routes/+layout.svelte': 518,
+	// 518 → 520: два рядки на пояснення того, чому опис сторінки старший за карту
+	// SEO. Без них правило `page.data.seoDescription` читалося б як випадковість,
+	// а воно прибирає ДРУГИЙ тег description на 160 сторінках випускників.
+	'src/routes/+layout.svelte': 520,
 	'src/lib/components/ui/Select.svelte': 475,
 	'src/lib/components/DetailPage.svelte': 421,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 405,
