@@ -1,5 +1,8 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { readFileSync } from 'node:fs';
+
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 /**
  * Тут був плагін `smart-static-build-tools`, який робив те саме, що вже роблять
@@ -24,6 +27,21 @@ import { defineConfig } from 'vite';
  */
 export default defineConfig({
 	plugins: [sveltekit()],
+
+	/**
+	 * Номер збірки — константою на етапі збірки, а не читанням файла в рантаймі.
+	 *
+	 * `static/app-version.json` уже є, але його призначення інше: `version.ts`
+	 * ТЯГНЕ його по мережі, щоб порівняти з тим, що лежить у сховищі, і виявити нову
+	 * збірку. Табло версії має показати номер одразу, ще до будь-якої мережі — і
+	 * показати саме той, з якого зібрана сторінка, а не той, що на сервері.
+	 *
+	 * Обидва числа походять із `package.json`, тож розійтися вони не можуть:
+	 * `app-version.json` пише `prebuild` із того самого поля.
+	 */
+	define: {
+		__APP_VERSION__: JSON.stringify(pkg.version),
+	},
 
 	/**
 	 * Sourcemap для попередньо зібраних залежностей у dev — вимкнено.

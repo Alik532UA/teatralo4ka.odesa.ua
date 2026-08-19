@@ -1,6 +1,13 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
 declare global {
+	/**
+	 * Номер збірки, який Vite підставляє з `package.json` (`define` у
+	 * `vite.config.ts`). Оголошення тут, бо це не змінна модуля, а константа
+	 * компіляції — без цього рядка TypeScript про неї не знає.
+	 */
+	const __APP_VERSION__: string;
+
 	namespace App {
 		/**
 		 * Форма `page.error`. `message` — узагальнений безпечний текст, який

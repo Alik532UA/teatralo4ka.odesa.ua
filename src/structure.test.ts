@@ -79,10 +79,11 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 662,
 	'src/lib/components/FooterSection.svelte': 575,
 	'src/routes/+page.svelte': 522,
-	// 518 → 520: два рядки на пояснення того, чому опис сторінки старший за карту
-	// SEO. Без них правило `page.data.seoDescription` читалося б як випадковість,
-	// а воно прибирає ДРУГИЙ тег description на 160 сторінках випускників.
-	'src/routes/+layout.svelte': 520,
+	// 520 → 489: perf-лог переїхав у `services/perfLog.ts` — 55 рядків ручної
+	// роботи з DOM (створення `textarea`, стилі через `Object.assign`, читання
+	// `performance.timing`), яким у розкладці сторінки не було чого робити. Число
+	// опущене до фактичного, щоб наступний приріст знову впирався в стелю.
+	'src/routes/+layout.svelte': 489,
 	'src/lib/components/ui/Select.svelte': 475,
 	'src/lib/components/DetailPage.svelte': 421,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 405,

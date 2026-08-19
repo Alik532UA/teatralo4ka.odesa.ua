@@ -197,5 +197,30 @@ export const session = {
 			console.warn(`[storage] значення «${key}» не серіалізується`, e);
 			return false;
 		}
+	},
+	/**
+	 * Лише префіксовані ключі — так само, як у `storage.clear()` вище.
+	 *
+	 * Додано для аварійного скидання, якому треба стерти й сесійну половину.
+	 * Ніколи не `sessionStorage.clear()`: сьогодні origin ексклюзивний, але саме
+	 * такий виклик стає знищенням чужих даних першого дня після переїзду на
+	 * спільний хостинг — того самого дня, коли про нього ніхто не згадає.
+	 *
+	 * Ключі збираються ДО видалення: видаляти під час обходу означає зсувати
+	 * індекси, і простий прямий цикл пропустив би кожен другий ключ.
+	 */
+	clear(): void {
+		const store = ss();
+		if (!store) return;
+		try {
+			const toRemove: string[] = [];
+			for (let i = 0; i < store.length; i++) {
+				const k = store.key(i);
+				if (k?.startsWith(STORAGE_PREFIX)) toRemove.push(k);
+			}
+			toRemove.forEach((k) => store.removeItem(k));
+		} catch (e) {
+			fail('session.clear', '*', e);
+		}
 	}
 };

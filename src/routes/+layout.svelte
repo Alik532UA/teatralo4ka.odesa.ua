@@ -5,6 +5,10 @@
 	import Toast from '$lib/components/ui/Toast.svelte';
 	import HotNews from '$lib/components/HotNews.svelte';
 	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
+	import ServiceLayer from '$lib/components/ui/ServiceLayer.svelte';
+	import { debugMode } from '$lib/services/debugMode.svelte';
+	// Збір perf-логу — у сервісі: у layout він займав 55 рядків ручної роботи з DOM.
+	import { copyPerfLog } from '$lib/services/perfLog';
 	import '$lib/styles/global.css';
 	import '$lib/i18n';
 	import { stripLocale } from '$lib/i18n/routing';
@@ -20,7 +24,6 @@
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { checkForUpdates } from '$lib/services/version';
-	import { storage } from '$lib/services/storage';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { trackPageView } from '$lib/services/analytics';
 	import { afterNavigate } from '$app/navigation';
@@ -57,61 +60,19 @@
 	perf('+layout.svelte: script init');
 
 	// Debug mode: localStorage.setItem('teatralo4ka_debug','1') + refresh to show 🐛 button
-	const debugMode = browser && storage.get('debug') === '1';
-
-	// ── Perf debug helpers (active only when debugMode) ───────────────────────
-	function showPerfTextarea(text: string) {
-		const existing = document.getElementById('perf-debug-textarea');
-		if (existing) { existing.remove(); return; }
-		const ta = document.createElement('textarea');
-		ta.id = 'perf-debug-textarea';
-		ta.value = text;
-		ta.readOnly = true;
-		Object.assign(ta.style, {
-			position: 'fixed', bottom: '60px', left: '8px', right: '8px',
-			zIndex: '99999', height: '50vh', fontSize: '11px', fontFamily: 'monospace',
-			background: '#111', color: '#0f0', border: '2px solid #0f0', borderRadius: '8px',
-			padding: '8px', whiteSpace: 'pre', overflow: 'auto'
-		});
-		ta.onclick = () => { ta.select(); };
-		document.body.appendChild(ta);
-		ta.focus();
-		ta.select();
-	}
-
-	function copyPerfLog() {
-		const log = window.__perfLog ?? [];
-		const ua = navigator.userAgent;
-		const conn = (navigator as any).connection;
-		const mem = (performance as any).memory;
-		const timing = performance.timing;
-		const lines = [
-			'=== PERF LOG ===',
-			'UA: ' + ua,
-			'Time: ' + new Date().toISOString(),
-			conn ? 'Connection: ' + conn.effectiveType + ', downlink=' + conn.downlink + 'Mbps, rtt=' + conn.rtt + 'ms, saveData=' + conn.saveData : 'Connection API: N/A',
-			mem ? 'JS Heap: ' + Math.round(mem.usedJSHeapSize / 1048576) + '/' + Math.round(mem.jsHeapSizeLimit / 1048576) + ' MB' : 'Memory API: N/A',
-			'navTiming.domContentLoaded: ' + Math.round(timing.domContentLoadedEventEnd - timing.navigationStart) + 'ms',
-			'navTiming.loadEvent: ' + Math.round(timing.loadEventEnd - timing.navigationStart) + 'ms',
-			'navTiming.responseEnd: ' + Math.round(timing.responseEnd - timing.navigationStart) + 'ms',
-			'navTiming.domInteractive: ' + Math.round(timing.domInteractive - timing.navigationStart) + 'ms',
-			'serviceWorker: ' + ('serviceWorker' in navigator ? 'supported' : 'no'),
-			'indexedDB: ' + (typeof indexedDB !== 'undefined' ? 'available' : 'no'),
-			'',
-			...log.map((e: any) => '+' + e.t + 'ms  ' + e.label),
-			'',
-			'=== END ==='
-		];
-		const text = lines.join('\n');
-		if (navigator.clipboard?.writeText) {
-			navigator.clipboard.writeText(text).then(
-				() => alert($t('admin.debug.copiedToClipboard')),
-				() => showPerfTextarea(text)
-			);
-		} else {
-			showPerfTextarea(text);
-		}
-	}
+	/*
+	 * Той САМИЙ вимикач, що й у службового табла, а не другий поруч.
+	 *
+	 * Доти тут стояв `storage.get('debug') === '1'` — окремий ключ `teatralo4ka_debug`
+	 * поряд із `teatralo4ka_debug-mode`, який читає `debugMode`. Два майже однакові
+	 * імена для однієї потреби («покажи службові елементи») — це пастка: увімкнувши
+	 * один, людина шукає, чому не працює друге. Тепер обидва елементи — і табло, і
+	 * кнопка perf-логу — приходять разом: серією `V`, параметром `?debug=1` або
+	 * збереженим прапорцем.
+	 */
+	const perfDebugVisible = $derived(
+		browser && (debugMode.enabled || page.url.searchParams.get('debug') === '1')
+	);
 
 	let headerScrolled = $state(false);
 
@@ -397,17 +358,23 @@
 <!-- Типово вимкнена; вмикається в налаштуваннях. -->
 <Minimap />
 
+<!-- Клавіші сайту й табло версії. ПОЗА `ErrorBoundary` вище: межа при падінні
+     замінює дітей своєю сторінкою, тобто забрала б і те, чим збирають звіт про це
+     падіння. -->
+<ServiceLayer />
+
 <Toast />
 <ConfirmModal />
 
 <!-- Нічого не малює: лише вирішує, які новини показати тостами (лівий низ). -->
 <HotNews />
 
-<!-- Debug perf button: hidden by default. To enable: localStorage.setItem('teatralo4ka_debug','1') + refresh -->
-{#if browser && debugMode}
+<!-- Кнопка perf-логу. Видима разом зі службовим таблом: серія `V`, `?debug=1`
+     або збережений прапорець (`services/debugMode.svelte.ts`). -->
+{#if perfDebugVisible}
 	<button
 		class="perf-debug-btn"
-		onclick={copyPerfLog}
+		onclick={() => copyPerfLog(() => alert($t('admin.debug.copiedToClipboard')))}
 		aria-label="Copy perf log"
 	>
 		🐛

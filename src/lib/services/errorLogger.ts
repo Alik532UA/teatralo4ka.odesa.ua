@@ -80,6 +80,25 @@ class ErrorLogger {
 	private readonly MAX_CACHE = 50;
 
 	/**
+	 * Кого сповістити, коли записів побільшало.
+	 *
+	 * **Підписка, а не `$state`.** Модуль імпортують `hooks.client`, `firebase/config`
+	 * і схеми налаштувань — усе звичайний TypeScript. Реактивний кеш вимагав би
+	 * перейменування на `.svelte.ts` і правок у понад десяти місцях, тобто привʼязки
+	 * служби логування до фреймворку заради одного лічильника на екрані.
+	 */
+	private listeners = new Set<() => void>();
+
+	/** Номер збірки. Одне джерело для звіту й для табла версії. */
+	readonly appVersion = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : 'unknown';
+
+	/** Підписатися на зміни буфера. Повертає функцію відписки — прямо в cleanup `$effect`. */
+	subscribe(listener: () => void): () => void {
+		this.listeners.add(listener);
+		return () => this.listeners.delete(listener);
+	}
+
+	/**
 	 * Log an error. Returns the generated error ID.
 	 */
 	logError(error: Error, context: Partial<ErrorEvent['context']> = {}): string {
@@ -158,6 +177,8 @@ class ErrorLogger {
 		};
 
 		this.cache.push(event);
+		// Слухачі — після обрізання буфера нижче, тобто вже за остаточним станом:
+		// сповіщення перед `shift()` віддало б число, якого за мить не існує.
 		if (this.cache.length > this.MAX_CACHE) {
 			this.cache.shift();
 		}
@@ -169,6 +190,8 @@ class ErrorLogger {
 			console.warn(prefix, event.message);
 		}
 		// `info` у консоль не йде — див. `logInfo`.
+
+		this.notify();
 
 		return id;
 	}
@@ -198,6 +221,26 @@ class ErrorLogger {
 
 	clearCache(): void {
 		this.cache = [];
+		this.notify();
+	}
+
+	/**
+	 * Сповістити підписників. Виняток у чужому коді не має з'їдати сам запис: логер
+	 * кличуть саме тоді, коли вже зле.
+	 */
+	private notify(): void {
+		for (const listener of this.listeners) {
+			try {
+				listener();
+			} catch {
+				/* підписник зламаний — буфер від цього не страждає */
+			}
+		}
+	}
+
+	/** Скільки помилок у буфері. Читає табло — через `subscribe` вище. */
+	get errorCount(): number {
+		return this.getErrors().length;
 	}
 }
 
