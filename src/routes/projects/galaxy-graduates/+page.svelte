@@ -66,9 +66,10 @@
 			return;
 		}
 
-		// `resolve()` усередині `profileHref` уже є, але правило бачить лише прямий
-		// виклик у самому аргументі, а мовний префікс додається зовні (його дає хук
-		// `reroute`, не `resolve`). Ця сама форма вже вживається в проєкті шість разів.
+		// `resolve()` тут немає й бути не може: під SSR він віддає ВІДНОСНИЙ шлях, і
+		// мовний префікс поверх нього дає `/en../../../projects/…` — замір і наслідки
+		// в докблоці `graduateProfilePath` у `$lib/data/graduates`. Тому адреса
+		// складається вручну, а правило бачить лише прямий виклик `resolve()`.
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		pushState(profileHref(graduate.code), { graduateCode: graduate.code });
 		if (profiles.has(graduate.code)) return;
@@ -124,8 +125,8 @@
 	<ul>
 		{#each WITH_PAGE as graduate (graduate.slug)}
 			<li>
-				<!-- Мовний префікс поверх `resolve()`, тож прямого виклику в атрибуті немає —
-				     див. коментар до `profileHref`. -->
+				<!-- Адреса складена вручну (`graduateProfilePath` + мовний префікс), тож
+				     прямого виклику `resolve()` в атрибуті немає — див. `openGraduate`. -->
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a href={profileHref(graduate.code as string)}>{graduate.name}</a>
 			</li>

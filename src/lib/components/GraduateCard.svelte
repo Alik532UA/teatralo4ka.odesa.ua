@@ -74,6 +74,15 @@
 				потрібним: воно дає сторінку без галактики — щоб роздрукувати,
 				поділитися або відкрити в новій вкладці середнім кліком.
 			-->
+			<!--
+				`pageHref` складений вручну: шлях зі `graduateProfilePath()` плюс мовний
+				префікс від `withLocale()`. `resolve()` тут не підходить у принципі — під
+				SSR він віддає ВІДНОСНИЙ шлях, і префікс поверх нього дав би
+				`/en../../../projects/…` (замір і наслідки — у докблоці
+				`graduateProfilePath` у `$lib/data/graduates`). Та сама форма винятку вже
+				стоїть двічі в `routes/projects/galaxy-graduates/+page.svelte`.
+			-->
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a class="card__page" href={pageHref} data-testid="galaxy-card-page-link">
 				<ExternalLink size={16} aria-hidden="true" />
 				{$t('galaxy.ownPage')}
