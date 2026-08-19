@@ -2,6 +2,28 @@
 // виконання і доступ до розмітки сплеша не змінилися.
 (function() {
 	window.__perf('inline-body: splash script start');
+
+	// Таймери заставки живуть довше за саму заставку.
+	//
+	// Ротатор фактів — це `setInterval`, який НІХТО не спиняв: `+page.svelte`
+	// кликав `window.__splashCleanup()`, а такої функції тут не було ніколи.
+	// Тобто перевірка `typeof … === 'function'` завжди давала false, коментар
+	// «Clean up splash timers» був неправдою, а інтервал далі смикав вузли, уже
+	// видалені з документа, кожні чотири секунди до кінця сеансу.
+	//
+	// Тепер кожен таймер записується сюди, а `__splashCleanup` їх спиняє.
+	// `clearTimeout` і `clearInterval` у браузері працюють з одним простором
+	// ідентифікаторів, тож розрізняти види не потрібно.
+	var timers = [];
+	function track(id) {
+		timers.push(id);
+		return id;
+	}
+	window.__splashCleanup = function() {
+		for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]);
+		timers.length = 0;
+	};
+
 	try {
 		if (localStorage.getItem('teatralo4ka_homeSettings')) {
 			document.getElementById('app-splash').style.display = 'none';
@@ -68,26 +90,26 @@
 	});
 
 	// Messages Timings (relative to script start)
-	setTimeout(function() {
+	track(setTimeout(function() {
 		if (document.getElementById('app-splash')) slowEl.classList.add('sp-show');
-	}, 3000);
+	}, 3000));
 
-	setTimeout(function() {
+	track(setTimeout(function() {
 		var splash = document.getElementById('app-splash');
 		if (!splash) return;
 		factsEl.classList.add('sp-show');
 		var facts = splash.querySelectorAll('.sp-fact');
 		var factIndex = 0;
 		if (facts.length > 0) {
-			setTimeout(function() {
+			track(setTimeout(function() {
 				if (!document.getElementById('app-splash')) return;
 				facts[0].classList.add('sp-fact-active');
-				setInterval(function() {
+				track(setInterval(function() {
 					facts[factIndex].classList.remove('sp-fact-active');
 					factIndex = (factIndex + 1) % facts.length;
 					facts[factIndex].classList.add('sp-fact-active');
-				}, 4000);
-			}, 1000);
+				}, 4000));
+			}, 1000));
 		}
-	}, 4000);
+	}, 4000));
 })();

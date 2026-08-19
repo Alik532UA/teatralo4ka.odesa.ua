@@ -156,10 +156,9 @@
 
 	function dismissSplash() {
 		if (splashDismissed) return;
-		// Clean up splash timers (slow-internet message, facts rotation)
-		if (typeof (window as any).__splashCleanup === 'function') {
-			(window as any).__splashCleanup();
-		}
+		// Спиняє таймери заставки (повідомлення про повільний інтернет, ротатор
+		// фактів). Оголошення — у `app.d.ts`, реалізація — у `static/splash.js`.
+		window.__splashCleanup?.();
 		const el = document.getElementById('app-splash');
 		if (!el) { splashDismissed = true; return; }
 		el.classList.add('splash-exit');

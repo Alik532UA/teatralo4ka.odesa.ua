@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join } from 'node:path';
 import { STORAGE_PREFIX } from './lib/config/storage';
 import { SCROLLBAR_MODE_IDS } from './lib/config/scrollbarModes';
 
@@ -100,5 +101,81 @@ describe('перший кадр: app.html проти контролерів', ()
 		for (const mode of hiding) {
 			expect(APP_HTML, `режим «${mode}» не згаданий у скрипті першого кадру`).toContain(`'${mode}'`);
 		}
+	});
+});
+
+/**
+ * Кожен `window.__x` із джерел ІСНУЄ: оголошений у `app.d.ts` і присвоєний у
+ * `static/*.js` (AI-AGENT-PITFALLS-v8 § 3 — існування не дорівнює досяжності).
+ *
+ * Клас дефекту заміряний тут 2026-08-20. `+page.svelte` мав рядки:
+ *
+ *     // Clean up splash timers (slow-internet message, facts rotation)
+ *     if (typeof (window as any).__splashCleanup === 'function') {
+ *         (window as any).__splashCleanup();
+ *     }
+ *
+ * `__splashCleanup` не присвоював ніхто — ані `static/splash.js`, ані `app.html`,
+ * ані бандл. Тобто умова завжди була false, коментар про прибирання таймерів був
+ * неправдою, а `setInterval` ротатора фактів смикав видалені з документа вузли
+ * кожні чотири секунди до кінця сеансу.
+ *
+ * Чому це прожило довго: `as any` глушив єдиний гейт, який міг би про це
+ * сказати. `svelte-check` побачив би невідоме поле `window`, якби поле не було
+ * приведене до `any`.
+ *
+ * Перевірка навмисно дивиться в ДВА боки. Оголошення без реалізації — саме той
+ * випадок, що був; реалізація без оголошення повертає `as any` назад.
+ *
+ * Зворотний експеримент (§ 1.1): прибрати присвоєння `window.__splashCleanup` зі
+ * `static/splash.js` — перевірка мусить назвати саме це імʼя.
+ */
+describe('глобальні хуки window.__*', () => {
+	const APP_D_TS = readFileSync('src/app.d.ts', 'utf8');
+	const STATIC_JS = readdirSync('static')
+		.filter((f) => f.endsWith('.js'))
+		.map((f) => readFileSync(join('static', f), 'utf8'))
+		.join('\n');
+
+	const walk = (dir: string, out: string[] = []): string[] => {
+		for (const entry of readdirSync(dir)) {
+			const full = join(dir, entry).replace(/\\/g, '/');
+			if (statSync(full).isDirectory()) walk(full, out);
+			else if (/\.(ts|svelte)$/.test(entry) && !/\.(test|spec)\.ts$/.test(entry)) out.push(full);
+		}
+		return out;
+	};
+
+	/** Імена, які джерела читають із `window`. `app.d.ts` не рахується — це оголошення. */
+	const used = new Set(
+		walk('src')
+			.filter((f) => f !== 'src/app.d.ts')
+			.flatMap((f) => [
+				...readFileSync(f, 'utf8').matchAll(/window\s*(?:as\s+\w+\s*)?\)?\s*[.?]*\.?(__\w+)/g)
+			])
+			.map((m) => m[1])
+	);
+
+	it('перевірка жива: хуки в джерелах знайдено', () => {
+		expect([...used], 'жодного window.__x — сканер шукає не там').toContain('__perf');
+	});
+
+	it('кожен хук оголошений у app.d.ts', () => {
+		const undeclared = [...used].filter((name) => !APP_D_TS.includes(`${name}?`));
+		expect(
+			undeclared,
+			`window.__x без оголошення — писати доведеться через as any:\n${undeclared.join('\n')}`
+		).toEqual([]);
+	});
+
+	it('кожен хук хтось присвоює у static/*.js', () => {
+		const orphans = [...used].filter(
+			(name) => !new RegExp(`window\\.${name}\\s*=`).test(STATIC_JS)
+		);
+		expect(
+			orphans,
+			'хук кличуть, а присвоює його ніхто — виклик мовчки не робить нічого:\n' +
+				orphans.join('\n')
+		).toEqual([]);
 	});
 });

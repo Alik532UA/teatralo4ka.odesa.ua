@@ -64,6 +64,15 @@ declare global {
 		__perf?: (label: string) => void;
 		__perfLog?: { t: number; label: string }[];
 		__perfT0?: number;
+		/**
+		 * Спиняє таймери заставки зі `static/splash.js`.
+		 *
+		 * До 2026-08-20 `+page.svelte` кликав цю функцію, а визначав її ніхто —
+		 * `as any` у виклику приховував саме це. Тепер узгодженість тримає
+		 * інваріант у `src/first-frame-sync.test.ts`: кожен `window.__x` із джерел
+		 * мусить бути і оголошений тут, і присвоєний у `static/*.js`.
+		 */
+		__splashCleanup?: () => void;
 	}
 }
 
