@@ -136,6 +136,17 @@ interface Play {
 	year: number | null;
 	title: string;
 	roles: string[];
+	/**
+	 * Рядок дослівно, без року — назва разом із ролями, як його написали на
+	 * старому сайті (лапки нормалізовані).
+	 *
+	 * Потрібен тому, що структурний розбір на назву й роль на частині рядків
+	 * помиляється: у «Уривки з класики (Рита з п’єси «Чорна Пантера…»)» перші лапки
+	 * належать не виставі, а п’єсі всередині ролі — і назвою ставала «Чорна
+	 * Пантера». На сайті показується саме цей текст, а не моя реконструкція;
+	 * `title`/`roles` лишаються для звіту й статистики.
+	 */
+	text: string;
 	/** «Посвята в Мистетство» — окремий цикл, не звичайна вистава. */
 	dedication: boolean;
 	/**
@@ -227,6 +238,22 @@ const isEmojiOnly = (line: string) => line.length > 0 && !/[\p{L}\p{N}]/u.test(l
 const looksLikeProse = (line: string) =>
 	line.length > 40 && /\s/u.test(line) && /[\p{L}]{3,}/u.test(line);
 const isSeparator = (line: string) => /^[_—–\-=.\s]{4,}$/u.test(line);
+/**
+ * Лапки з дампа Google Sites → українські.
+ *
+ * У вигрузці лапки подвоєні: `""Груффало""`. Через це в ролях лишалися
+ * недогризки на кшталт одинокого `"`, а в тексті — `""Я""`. Спершу подвоєння
+ * згортається, потім парні прямі лапки стають «…», а непарний хвіст (у дампі є й
+ * такі рядки, наприклад `Кармен "`) просто прибирається.
+ */
+function normalizeQuotes(text: string): string {
+	const collapsed = text.replace(/"{2,}/gu, '"');
+	const paired = collapsed.replace(/"([^"]+)"/gu, '«$1»');
+	return paired
+		.replace(/\s*"\s*/gu, ' ')
+		.replace(/\s{2,}/gu, ' ')
+		.trim();
+}
 
 /** Розбирає рядок вистави. `null` — рядок не про виставу. */
 function parsePlay(line: string): Play | null {
@@ -267,11 +294,18 @@ function parsePlay(line: string): Play | null {
 	const roles = tail
 		? tail
 				.split(/\s*,\s*/u)
-				.map((r) => r.trim())
-				.filter(Boolean)
+				.map((r) => normalizeQuotes(r))
+				.filter((r) => r.length > 0)
 		: [];
 
-	return { year, title, roles, dedication, uncertain: false };
+	return {
+		year,
+		title: normalizeQuotes(title),
+		roles,
+		text: normalizeQuotes(rest),
+		dedication,
+		uncertain: false
+	};
 }
 
 /**
@@ -329,21 +363,37 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 	const PLAYS_HEADING = /^вистави\s+та\s+ролі$/iu;
 
 	const lines: string[] = [];
-	const inPlaysPart: boolean[] = [];
-	let reachedPlays = false;
+	/** Частина сторінки, у якій стоїть рядок. */
+	const parts: Array<'profile' | 'plays' | 'bio'> = [];
+	let part: 'profile' | 'plays' | 'bio' = 'profile';
 
 	for (const section of record.sections) {
-		if (PLAYS_HEADING.test((section.heading ?? '').trim())) reachedPlays = true;
+		if (PLAYS_HEADING.test((section.heading ?? '').trim())) part = 'plays';
 
 		for (const raw of section.text.split('\n')) {
 			const line = raw.trim();
 			if (line.length === 0) continue;
 			if (PLAYS_HEADING.test(line)) {
-				reachedPlays = true;
+				part = 'plays';
+				continue;
+			}
+			/*
+			 * Рядок підкреслень — межа блоку «про себе», і без нього біографія
+			 * протікала у вистави: у Кудлач рядки «2019-2020 - магістратуруа …» і
+			 * «З 2021 … SkyUp airlines» ставали виставами, бо мають рік і лапки.
+			 *
+			 * Перемикач саме ПОСЛІДОВНИЙ, а не «усе після розділювача — біографія».
+			 * Заміряно: розділювач мають 68 сторінок із 80, і 42 з них ставлять його ДО
+			 * заголовка вистав, 26 — після. Тобто у першому випадку біографія лежить
+			 * МІЖ розділювачем і заголовком вистав, у другому — після вистав, і
+			 * оба порядки сходяться самі, якщо просто перемикати частину по ходу.
+			 */
+			if (isSeparator(line)) {
+				part = 'bio';
 				continue;
 			}
 			lines.push(line);
-			inPlaysPart.push(reachedPlays);
+			parts.push(part);
 		}
 	}
 
@@ -377,15 +427,23 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 
 		const line = lines[i];
 
-		if (isSeparator(line)) {
-			take(i);
-			mode = 'none';
-			continue;
-		}
-
 		// Заголовок секції повторює сам себе — це не дані.
 		if (isEmojiOnly(line)) {
 			take(i);
+			continue;
+		}
+
+		/*
+		 * Блок «про себе» береться цілим і без розбору.
+		 *
+		 * Саме тут, А НЕ НИЖЧЕ: нижче стоїть розбір вистав, і рядки біографії з
+		 * роком і лапками («2019-2020 - магістратуруа …») проходили як вистави.
+		 * Структура сторінки тут старша за вигляд рядка.
+		 */
+		if (parts[i] === 'bio') {
+			take(i);
+			mode = 'none';
+			bio.push(normalizeQuotes(line));
 			continue;
 		}
 
@@ -486,7 +544,7 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 		// вистава. Саме структура сторінки й вирішує: `"Дєвішнік"` стоїть у
 		// профілі, `"Дуэнья"` — у переліку вистав, і відрізнити їх за самим
 		// текстом неможливо в принципі.
-		if (!inPlaysPart[i] && /^["«”“].+["»”“]$/u.test(line)) {
+		if (parts[i] !== 'plays' && /^["«”“].+["»”“]$/u.test(line)) {
 			take(i);
 			if (group && !group.name) group.name = line.replace(/^["«”“]|["»”“]$/gu, '').trim();
 			else if (!group) group = { abbr: null, name: line.replace(/^["«”“]|["»”“]$/gu, '').trim() };
@@ -497,14 +555,14 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 		// Вистава: або ми вже за розділювачем, або рядок сам однозначний —
 		// «рік + тире + назва» назвою групи не буває.
 		const play = parsePlay(line);
-		if (play && (inPlaysPart[i] || play.year !== null)) {
+		if (play && (parts[i] === 'plays' || play.year !== null)) {
 			take(i);
 			mode = 'none';
 			// Сумнівна лише та вистава, яку ми взяли ПОЗА переліком вистав і без
 			// року — тобто там, де класифікація справді трималася на здогадці.
 			// Рядок за розділювачем сумнівним не є: сторінка сама сказала, що це
 			// вистава, навіть якщо року в ній не вказали.
-			play.uncertain = !inPlaysPart[i] && play.year === null;
+			play.uncertain = parts[i] !== 'plays' && play.year === null;
 			plays.push(play);
 			continue;
 		}
@@ -540,7 +598,7 @@ function parseGraduate(record: PageRecord, srcFrequency: Map<string, number>): G
 
 		if (looksLikeProse(line)) {
 			take(i);
-			bio.push(line);
+			bio.push(normalizeQuotes(line));
 			continue;
 		}
 
