@@ -12,7 +12,9 @@ import { describe, expect, it } from 'vitest';
 const DIR = '.github/workflows';
 
 const files = existsSync(DIR) ? readdirSync(DIR).filter((f) => /\.ya?ml$/.test(f)) : [];
-const all = files.map((f) => readFileSync(`${DIR}/${f}`, 'utf8')).join('\n');
+/** Вміст кажного workflow окремо: частина перевірок нижче не склеюється. */
+const byFile = new Map(files.map((f) => [f, readFileSync(`${DIR}/${f}`, 'utf8')] as const));
+const all = [...byFile.values()].join('\n');
 const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as {
 	scripts?: Record<string, string>;
 };
@@ -98,5 +100,33 @@ describe('CI', () => {
 			missing,
 			`workflow кличе скрипт, якого немає — крок упаде на push: ${missing.join(', ')}`
 		).toEqual([]);
+	});
+
+	/**
+	 * CODE-QUALITY-v8 § 6.1 — гейти виконуються на КОЖЕН pull request.
+	 *
+	 * Клас дефекту, заміряний тут 2026-08-20: усі гейти проєкту жили в
+	 * `deploy.yml` із тригером `push: branches: [main]`. Тобто в гілці, де йде
+	 * робота, і в Dependabot-PR не перевірялося нічого — `npm run lint` місяцями
+	 * міг бути червоним, і саме таким і був. Гейт, який не виконується, у звіті
+	 * не відрізняється від гейта без порушень (AI-AGENT-PITFALLS-v8 § 1.4).
+	 *
+	 * Перевірка навмисно НЕ склеює файли: тригер в одному workflow і
+	 * тестовий крок в іншому — це не покриття PR, а два різні прогони. Тому
+	 * обидві ознаки шукаються в межах ОДНОГО файлу.
+	 *
+	 * Зворотний експеримент (§ 1.1): прибрати `pull_request` із `gates.yml` —
+	 * перевірка мусить стати червоною.
+	 */
+	it('гейти виконуються на pull_request (§ 6.1)', () => {
+		const onPullRequest = [...byFile.entries()].filter(([, text]) => {
+			// Блок `on:` — до першого рядка без відступу після нього.
+			const on = /^on:[ \t]*$([\s\S]*?)^\S/m.exec(text)?.[1] ?? '';
+			return /^[ \t]+pull_request[ \t]*:/m.test(on) && /run:\s*npm (test|run test)/.test(text);
+		});
+		expect(
+			onPullRequest.map(([file]) => file),
+			'жоден workflow не запускає тести на pull_request — PR мерджиться неперевіреним'
+		).not.toEqual([]);
 	});
 });
