@@ -8,6 +8,7 @@
 	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
+	import { activateOnKey } from '$lib/utils/activateOnKey';
 	import { getAboutPageSettings, getCachedAboutPageSettings, DEFAULT_GALLERY_WIDGET_ABOUT, DEFAULT_GALLERY_WIDGET_ABOUT_MOBILE, type GalleryWidgetConfig } from '$lib/services/settings';
 
 	let { data } = $props();
@@ -123,8 +124,7 @@
 	{:else}
 		<div class="g-bento" data-testid="about-gallery-list">
 			{#each galleryImages.slice(0, galleryConfig.maxItemsGrid > 0 ? galleryConfig.maxItemsGrid : galleryImages.length) as img, i (img.src)}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}" onclick={() => openLightbox(galleryImages, i)} role="button" tabindex="0">
+				<div class="g-bento__item g-bento__item--{i}" data-testid="about-gallery-item-{i}" onclick={() => openLightbox(galleryImages, i)} onkeydown={activateOnKey(() => openLightbox(galleryImages, i))} role="button" tabindex="0">
 					<img 
 						src={img.src} 
 						alt={img.alt} 

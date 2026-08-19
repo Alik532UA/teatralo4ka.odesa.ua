@@ -13,6 +13,7 @@
 	import { getStaticProjects } from '$lib/config/static-projects';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
+	import { activateOnKey } from '$lib/utils/activateOnKey';
 
 	let isHomeGalleryLightboxOpen = $state(false);
 	let homeGalleryLightboxIndex = $state(0);
@@ -297,8 +298,7 @@
 					{:else}
 						<div class="g-bento-4x3" data-testid="gallery-list">
 							{#each galleryItems.slice(0, galleryWidgetConfig.maxItemsGrid > 0 ? galleryWidgetConfig.maxItemsGrid : galleryItems.length) as img, i (img.src)}
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}" onclick={() => openHomeGalleryLightbox(i)} role="button" tabindex="0">
+								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}" onclick={() => openHomeGalleryLightbox(i)} onkeydown={activateOnKey(() => openHomeGalleryLightbox(i))} role="button" tabindex="0">
 									<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
 									{#if galleryWidgetConfig.showCaptions}
 										<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
