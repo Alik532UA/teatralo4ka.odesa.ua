@@ -3,6 +3,7 @@ import path from 'path';
 import config from '../svelte.config.js';
 import { LOCALES, localeFromPath, localeAlternates } from '../src/lib/i18n/routing';
 import { isRedirectPage } from '../src/lib/config/redirects';
+import { HIDDEN_ROUTES, isHiddenRoute } from '../src/lib/config/hiddenRoutes';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 /**
@@ -43,7 +44,92 @@ const EXCLUDE = [/^admin(\/|$)/];
  */
 function isExcluded(page: string): boolean {
 	const pathname = page === '' ? '/' : `/${page}`;
-	return EXCLUDE.some((re) => re.test(page)) || isRedirectPage(pathname);
+	return EXCLUDE.some((re) => re.test(page)) || isRedirectPage(pathname) || isHiddenRoute(pathname);
+}
+
+/**
+ * Службова сторінка — перевіряти ПРОТИЛЕЖНЕ (BETA-CHECKLIST-v8 § 5.5).
+ *
+ * Публічна сторінка мусить мати canonical і не мати `noindex`; у службової рівно
+ * навпаки. Обидві обіцянки перевіряються окремо, бо ламаються окремо: зникне
+ * `noindex` — сторінка поїде в індекс; з'явиться canonical — вона почне
+ * конкурувати з публічними за той самий вміст.
+ *
+ * ЧОМУ ЦЕ ПЕРЕВІРЯЄТЬСЯ НАД `build/`, а не в коді: у джерелах стоїть умова
+ * `{#if !data.hidden}`, і що з неї вийшло, видно лише в зібраному HTML. Умова,
+ * яка ніколи не спрацювала (бо прапорець не доїхав із `+layout.ts`), виглядає в
+ * коді бездоганно.
+ *
+ * ЩЕ ОДНА ПАСТКА, і вона в самій перевірці: заміна або пошук, які нічого не
+ * знайшли, дають зелений прогін, що виглядає як доказ. Тому кожен пошук нижче
+ * має пару «щось знайдено» — саме тому тут перевіряється й наявність `<title>`.
+ */
+function checkHiddenPages(builtPaths: string[]) {
+	const built = new Set(builtPaths.map((p) => (p === '' ? '/' : `/${p}`)));
+	const bad: string[] = [];
+
+	// Обидві мови: зникнути може не сторінка, а лише англійське дзеркало.
+	const expected = HIDDEN_ROUTES.flatMap((route) => [route, `/en${route}`]);
+
+	for (const route of expected) {
+		if (!built.has(route)) {
+			bad.push(`${route} — сторінки немає у build/ (зник маршрут або запис у prerender.entries)`);
+			continue;
+		}
+
+		const file = path.join(BUILD_DIR, route.slice(1), 'index.html');
+		const html = fs.readFileSync(file, 'utf8');
+
+		if (!/<title[^>]*>[^<]/i.test(html)) {
+			bad.push(`${route} — немає <title>, тобто перевірка нижче шукала б у порожньому HTML`);
+		}
+		if (!/name=["']robots["'][^>]*content=["'][^"']*noindex/i.test(html)) {
+			bad.push(`${route} — немає noindex: службова сторінка поїде в індекс`);
+		}
+		if (/rel=["']canonical["']/i.test(html)) {
+			bad.push(`${route} — є canonical, якого в службової сторінки бути не мусить`);
+		}
+		if (/rel=["']alternate["'][^>]*hreflang/i.test(html)) {
+			bad.push(`${route} — є hreflang: сторінка оголошує мовну групу, якої не існує`);
+		}
+		// Слаг лише ASCII: кириличний гомоглиф (`с` U+0441 замість `c`) дає адресу,
+		// яка виглядає правильною й не працює — у шляху вона percent-кодується, і
+		// посилання, sitemap та robots.txt розходяться, а в diff різниці не видно.
+		//
+		// Порівняння за кодом символу, а не регуляркою з діапазоном: діапазон із
+		// керівними символами вимагає inline-вимкнення правила поруч із перевіркою —
+		// саме те, проти чого написаний CODE-QUALITY-v8 § 6.4.1.
+		const nonAscii = [...route].filter((ch) => (ch.codePointAt(0) ?? 0) > 127);
+		if (nonAscii.length > 0) {
+			bad.push(`${route} — не-ASCII символи в назві маршруту: ${nonAscii.join(' ')}`);
+		}
+	}
+
+	if (bad.length > 0) {
+		console.error('❌ службова сторінка зібрана неправильно (BETA-CHECKLIST-v8 § 5.5):');
+		for (const b of bad) console.error(`   ${b}`);
+		process.exit(1);
+	}
+}
+
+/**
+ * І зворотний бік тієї самої обіцянки: у публічних сторінок canonical Є, а
+ * `noindex` немає. Без цієї половини перевірка вище зеленіла б і на збірці, де
+ * `noindex` стоїть на КОЖНІЙ сторінці — тобто на сайті, якого немає в пошуку.
+ */
+function checkPublicPagesIndexable(pages: string[]) {
+	const bad: string[] = [];
+	for (const page of pages) {
+		const html = fs.readFileSync(path.join(BUILD_DIR, page, 'index.html'), 'utf8');
+		const pathname = page === '' ? '/' : `/${page}`;
+		if (!/rel=["']canonical["']/i.test(html)) bad.push(`${pathname} — немає canonical`);
+		if (/content=["'][^"']*noindex/i.test(html)) bad.push(`${pathname} — стоїть noindex`);
+	}
+	if (bad.length > 0) {
+		console.error('❌ публічні сторінки зібрані неправильно (SEO-v8):');
+		for (const b of bad) console.error(`   ${b}`);
+		process.exit(1);
+	}
 }
 
 function builtPages(dir: string, prefix = ''): string[] {
@@ -163,6 +249,8 @@ function generateSitemap() {
 	}
 
 	checkNoEmptyPages(pages);
+	checkHiddenPages(all);
+	checkPublicPagesIndexable(pages);
 
 	const today = new Date().toISOString().split('T')[0];
 

@@ -29,6 +29,9 @@ const entries = config.kit?.prerender?.entries ?? [];
  */
 export { REDIRECT_PAGES } from '../src/lib/config/redirects';
 import { REDIRECT_PAGES as REDIRECTS } from '../src/lib/config/redirects';
+import { isHiddenRoute } from '../src/lib/config/hiddenRoutes';
+
+export { HIDDEN_ROUTES } from '../src/lib/config/hiddenRoutes';
 
 /**
  * Чому їх не можна перевіряти нарівні з рештою.
@@ -43,9 +46,17 @@ import { REDIRECT_PAGES as REDIRECTS } from '../src/lib/config/redirects';
  * відкриття сторінки.
  */
 
-/** Адмінка живе за входом — E2E без облікових даних її не покриває. */
+/**
+ * Адмінка живе за входом — E2E без облікових даних її не покриває.
+ *
+ * Службові сторінки (чеклист бета-тестування) теж поза цим переліком, і не з
+ * недогляду: у них навмисно немає ані canonical, ані hreflang, тож перевірки
+ * `smoke.spec.ts` падали б на них щоразу. Покриті вони окремо —
+ * `e2e/beta-checklist.spec.ts` плюс скрипт над `build/`, який перевіряє саме
+ * ПРОТИЛЕЖНЕ: що `noindex` є, а canonical немає.
+ */
 export const PUBLIC_PAGES: string[] = entries.filter(
-	(p: string) => !p.startsWith('/admin') && !(p in REDIRECTS)
+	(p: string) => !p.startsWith('/admin') && !(p in REDIRECTS) && !isHiddenRoute(p)
 );
 
 if (PUBLIC_PAGES.length === 0) {

@@ -46,6 +46,14 @@ const LIMITS: Array<[RegExp, number]> = [
  * Показово інше: підняти їх довелося тому, що храповик СПРАЦЮВАВ на першому ж
  * власному коміті автора цієї перевірки. Тобто вона не декоративна.
  *
+ * 2026-08-19, чеклист бета-тестування: два записи додані, і причини різні.
+ * `+layout.svelte` 504 → 518 — умова `{#if !data.hidden}` навколо canonical і
+ * hreflang плюс коментар, чому службова сторінка їх не отримує.
+ * `data/betaChecklist.ts` — 417 рядків при канонічній межі 250, і ділити його
+ * нема на що: це ДАНІ, двадцять три пункти двома мовами. Розкладати їх по файлах
+ * заради числа означало б розкидати один перелік, який читають цілим. Логіки в
+ * файлі нуль — лише типи й константи.
+ *
  * 2026-08-19: чотири стелі підняті на 3–7 рядків (`admin-articles` 267→272,
  * `articles` 267→275, `admin/settings` 2511→2514, `admin/users` 994→998).
  * Причина одна на всі — `limit()` у запитах до Firestore разом із коментарем,
@@ -71,7 +79,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 662,
 	'src/lib/components/FooterSection.svelte': 575,
 	'src/routes/+page.svelte': 522,
-	'src/routes/+layout.svelte': 504,
+	'src/routes/+layout.svelte': 518,
 	'src/lib/components/ui/Select.svelte': 475,
 	'src/lib/components/DetailPage.svelte': 421,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 405,
@@ -84,7 +92,8 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PasswordInput.svelte': 301,
 	'src/lib/schemas/settings.ts': 277,
 	'src/lib/services/admin-articles.ts': 272,
-	'src/lib/services/articles.ts': 275
+	'src/lib/services/articles.ts': 275,
+	'src/lib/data/betaChecklist.ts': 417
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

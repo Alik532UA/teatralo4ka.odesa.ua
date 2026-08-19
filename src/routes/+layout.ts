@@ -2,6 +2,7 @@ import { waitLocale, locale } from 'svelte-i18n';
 import '$lib/i18n';
 import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
 import { SITE_ORIGIN } from '$lib/config/site';
+import { isHiddenRoute } from '$lib/config/hiddenRoutes';
 
 export const prerender = true;
 export const ssr = true;
@@ -49,9 +50,21 @@ export async function load({ url }: { url: URL }) {
 		url: `${SITE_ORIGIN}${path}`
 	}));
 
+	/**
+	 * Службові сторінки поза індексом (BETA-CHECKLIST-v8 § 4.1).
+	 *
+	 * Рішення ОДНЕ й ухвалюється тут, а не трьома окремими правками. Layout за
+	 * цим прапорцем не малює `canonical` і `hreflang`, зате малює `noindex`; той
+	 * самий перелік читають `generate-sitemap.ts` і `e2e/pages.ts`. Три списки,
+	 * узгоджені руками, розійшлися б — у цьому проєкті так уже було з
+	 * заглушками-перенаправленнями, і шість порожніх адрес поїхали в sitemap.
+	 */
+	const hidden = isHiddenRoute(url.pathname);
+
 	return {
 		lang,
 		canonicalUrl,
-		alternates
+		alternates,
+		hidden
 	};
 }

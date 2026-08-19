@@ -305,21 +305,35 @@
 
 <svelte:head>
 	<link rel="icon" type="image/png" href={asset('/favicon.png')} />
-	<link rel="canonical" href={canonicalUrl} />
 
-	<!-- hreflang (SEO-v8 § 2.1, I18N-v8 § 3.1).
-	     Набір альтернатив однаковий для обох мовних версій — це властивість,
-	     перевірена в `routing.test.ts`. Якби версії оголошували різні набори,
-	     Google вважав би розмітку суперечливою і не брав до уваги жодну.
-	     x-default вказує на українську: це мова школи й типова мова сайту. -->
-	{#each data.alternates as alt (alt.locale)}
-		<link rel="alternate" hreflang={alt.locale} href={alt.url} />
-	{/each}
-	<link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
+	<!-- Службова сторінка не отримує ні canonical, ні hreflang, зате отримує
+	     noindex (BETA-CHECKLIST-v8 § 4). Прапорець приходить із `+layout.ts` —
+	     один перелік на всі чотири вимоги, див. `config/hiddenRoutes.ts`.
+
+	     Спокуса натомість прирівняти таку сторінку до 404-фолбека дешевша на два
+	     рядки й неправильна: разом із canonical сторінка перестала б
+	     перевірятися на порожнє тіло й на <title>, і найслабше покритою стала б
+	     саме та сторінка, якою користуються тестувальники. -->
+	{#if !data.hidden}
+		<link rel="canonical" href={canonicalUrl} />
+
+		<!-- hreflang (SEO-v8 § 2.1, I18N-v8 § 3.1).
+		     Набір альтернатив однаковий для обох мовних версій — це властивість,
+		     перевірена в `routing.test.ts`. Якби версії оголошували різні набори,
+		     Google вважав би розмітку суперечливою і не брав до уваги жодну.
+		     x-default вказує на українську: це мова школи й типова мова сайту. -->
+		{#each data.alternates as alt (alt.locale)}
+			<link rel="alternate" hreflang={alt.locale} href={alt.url} />
+		{/each}
+		<link rel="alternate" hreflang="x-default" href={`${SITE_ORIGIN}/`} />
+	{/if}
 
 	<title>{seoTitle}</title>
 	<meta name="description" content={metaDescription} />
-	<meta name="robots" content="index, follow" />
+	<meta
+		name="robots"
+		content={data.hidden ? 'noindex, nofollow' : 'index, follow'}
+	/>
 
 	<meta property="og:title" content={seoTitle} />
 	<meta property="og:description" content={metaDescription} />
