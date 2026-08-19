@@ -68,6 +68,17 @@ const LIMITS: Array<[RegExp, number]> = [
  * те, чому `closest` бачить `contenteditable`, а тег — ні. Логіки додано нуль,
  * і той самий вентиль, що й у попередньому записі: платити за виправлення
  * CRITICAL-правила подрібненням файлу було б гірше за +6 рядків.
+ *
+ * 2026-08-20, причини до `svelte-ignore`: шість стель піднято на 5–19 рядків
+ * (`ContentWidget` 846→855, `FooterSection` 575→581, `GalleryCarousel` 404→423,
+ * `Minimap` 662→668, `PageScrollbar` 399→404, `PianoModal` 682→688). Причина
+ * одна на всі: SVELTE-UI-v8 § 4 вимагає записаної причини поруч із кожним
+ * знятим попередженням компілятора, і тепер це тримає інваріант
+ * `src/svelte-conventions.test.ts`. Логіки не додано жодного рядка — це рівно
+ * той самий випадок, що запис про цілі дотику вище, і рівно те, для чого в
+ * храповика є вентиль. Дві з восьми знятих заборон при цьому виявилися
+ * СПРАВЖНІМИ порушеннями WCAG 2.1.1 і виправлені окремим комітом; інші три
+ * записані як відомі межі, а не як розглянуті випадки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -78,13 +89,13 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 846,
+	'src/lib/components/ContentWidget.svelte': 855,
 	'src/routes/admin/articles/+page.svelte': 806,
 	'src/lib/components/ContentCard.svelte': 731,
 	'src/lib/components/ui/Toast.svelte': 689,
-	'src/lib/components/ui/PianoModal.svelte': 682,
-	'src/lib/components/Minimap.svelte': 662,
-	'src/lib/components/FooterSection.svelte': 575,
+	'src/lib/components/ui/PianoModal.svelte': 688,
+	'src/lib/components/Minimap.svelte': 668,
+	'src/lib/components/FooterSection.svelte': 581,
 	'src/routes/+page.svelte': 522,
 	// 520 → 489: perf-лог переїхав у `services/perfLog.ts` — 55 рядків ручної
 	// роботи з DOM (створення `textarea`, стилі через `Object.assign`, читання
@@ -94,10 +105,10 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 475,
 	'src/lib/components/DetailPage.svelte': 421,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 405,
-	'src/lib/components/PageScrollbar.svelte': 399,
+	'src/lib/components/PageScrollbar.svelte': 404,
 	'src/lib/components/DepartmentsSection.svelte': 393,
 	'src/lib/components/HeroSection.svelte': 386,
-	'src/lib/components/GalleryCarousel.svelte': 404,
+	'src/lib/components/GalleryCarousel.svelte': 423,
 	'src/lib/components/SearchOverlay.svelte': 378,
 	'src/lib/components/PhotoLightbox.svelte': 307,
 	'src/lib/components/ui/PasswordInput.svelte': 301,

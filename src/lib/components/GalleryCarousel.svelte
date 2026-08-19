@@ -164,6 +164,13 @@
 	}
 </script>
 
+<!--
+	Клавіатура тут ОБРОБЛЯЄТЬСЯ (`onkeydown` нижче: ← →); попередження — про те,
+	що `role="region"` не інтерактивна роль, а не про відсутність клавіатури.
+	Відома межа: `handleKeydown` виходить, поки `isHovered` не true, тож стрілки
+	діють на наведенні. Навігація лишається повністю доступною справжніми
+	кнопками ‹ ›, точками й паузою — записано в PROJECT-CONTEXT.md.
+-->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
@@ -182,6 +189,11 @@
 		style="aspect-ratio: {cssAspectRatio};"
 		onwheel={onWheel}
 	>
+		<!--
+			Жест перетягування — вказівниковий за природою: пальцем і мишею. Те саме
+			перелистування роблять кнопки ‹ › і точки, тож клавіатура нічого не
+			втрачає. `role="list"` лишається для читалки.
+		-->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			class="gc-track"
@@ -197,6 +209,13 @@
 			role="list"
 		>
 			{#each infiniteItems as img, i (i)}
+				<!--
+					ВІДОМА МЕЖА, а не розглянутий випадок: клік по слайду відкриває
+					лайтбокс, і клавіатурного шляху до цього немає. Слайд не у
+					Tab-порядку НАВМИСНО — у нескінченній каруселі слайди клоновані, і
+					кожен клон став би окремою зупинкою Tab. Правильне рішення — одна
+					кнопка «відкрити» на карусель; записано в PROJECT-CONTEXT.md.
+				-->
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
 				<div
 					class="gc-slide"

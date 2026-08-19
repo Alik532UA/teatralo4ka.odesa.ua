@@ -201,6 +201,12 @@
 </script>
 
 {#if isOpen}
+   <!--
+		Клік по тлу лише ДУБЛЮЄ кнопку × — вона тут же й доступна з клавіатури.
+		Escape навмисно не обробляється: у режимі `keyboard` піаніно читає КОЖНУ
+		клавішу як ноту, тож Escape там нота. Через це модалки немає в переліку
+		Esc-накладок у `services/keyboard.ts` — і це узгоджений стан, не пропуск.
+   -->
    <!-- svelte-ignore a11y_click_events_have_key_events -->
    <!-- svelte-ignore a11y_no_static_element_interactions -->
    <div 

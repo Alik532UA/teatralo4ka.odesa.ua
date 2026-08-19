@@ -532,6 +532,12 @@
 />
 
 {#if visible}
+	<!--
+		Мінімапа дублює нативну прокрутку, яка з клавіатури працює й без неї
+		(PgUp/PgDn, стрілки, Home/End). Роль їй не призначена свідомо:
+		`role="scrollbar"` вимагає `aria-valuenow` і власного клавіатурного
+		керування, тобто другого механізму прокрутки поруч із наявним.
+	-->
 	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="minimap"

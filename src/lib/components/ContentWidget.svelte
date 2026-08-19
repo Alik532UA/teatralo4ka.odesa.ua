@@ -356,6 +356,15 @@
 
 	<!-- Carousel view -->
 	{#if view === 'carousel'}
+		<!--
+			Обробники тут суто вказівникові: перетягування, колесо, клік-capture. Ані
+			один із них не має клавіатурного еквівалента за природою, і він тут не
+			потрібен — уся навігація каруселі продубльована СПРАВЖНІМИ `<button>`
+			(‹ ›, точки, пауза), тобто керована з клавіатури повністю. `tabindex="0"`
+			дає читалці точку входу в область із `aria-roledescription="carousel"`, а
+			не власну дію. Відома межа: стрілки ← → з обробника на `window` діють на
+			наведенні, а не на фокусі — записано в PROJECT-CONTEXT.md.
+		-->
 		<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<section

@@ -174,6 +174,12 @@
 		aria-label={$t('common.closeModal')}
 		data-testid="phones-modal-overlay-container"
 	>
+		<!--
+			Обробник не робить ДІЇ — лише `stopPropagation`, щоб клік усередині вікна
+			не закривав його через обробник тла. Клавіатурного еквівалента він не
+			потребує за визначенням: закриває Escape на тлі й кнопка ×, а Tab тримає
+			`focusTrap()` на цьому самому елементі.
+		-->
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div class="phones-modal" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="phones-modal-title" tabindex="0" data-testid="phones-modal-container" {@attach focusTrap()}>
 			<div class="modal-header">
