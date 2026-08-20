@@ -203,7 +203,7 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-grid-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</div>
 
@@ -249,7 +249,7 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-mobile-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
 		</div>
 	</div>
 {/if}

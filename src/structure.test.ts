@@ -85,6 +85,10 @@ const LIMITS: Array<[RegExp, number]> = [
  * інваріантом на всі комбінації входу, а на місці лишилися докблок про причину
  * й коментар про підпис, який не можна позичати. Логіки в компоненті стало
  * МЕНШЕ: гілка `handleShowAll`, що дублювала `handleAllLink`, видалена.
+ *
+ * 2026-08-20, `GalleryCarousel` 423 → 424: один рядок `data-testid` на кнопку
+ * пауза/грати. Контрол був єдиним видимим на публічній частині без локатора —
+ * знайдено новим гейтом у `testid-conventions.test.ts`. Атрибут, а не логіка.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -114,7 +118,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/PageScrollbar.svelte': 404,
 	'src/lib/components/DepartmentsSection.svelte': 393,
 	'src/lib/components/HeroSection.svelte': 386,
-	'src/lib/components/GalleryCarousel.svelte': 423,
+	'src/lib/components/GalleryCarousel.svelte': 424,
 	'src/lib/components/SearchOverlay.svelte': 378,
 	'src/lib/components/PhotoLightbox.svelte': 307,
 	'src/lib/components/ui/PasswordInput.svelte': 301,

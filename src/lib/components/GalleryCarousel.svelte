@@ -251,6 +251,7 @@
 				class="gc-play-btn"
 				onclick={() => { autoplayOverride = !autoplay; }}
 				aria-label={autoplay ? $t('common.pause') : $t('common.play')}
+				data-testid="{testIdPrefix}-autoplay-btn"
 			>
 				{#if autoplay}<Pause size={14} />{:else}<Play size={14} />{/if}
 			</button>

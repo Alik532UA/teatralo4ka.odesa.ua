@@ -396,7 +396,7 @@
 								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-section-${gIndex}`}>
 									{#if group.title}
 										{#if group.titleHref}
-											<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link">{group.title}</a>
+											<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link" data-testid={`nav-dropdown-section-${gIndex}-link`}>{group.title}</a>
 										{:else}
 											<span class="dropdown-label-unified header__nav-dropdown-label">{group.title}</span>
 										{/if}

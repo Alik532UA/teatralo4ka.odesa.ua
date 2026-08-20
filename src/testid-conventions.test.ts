@@ -236,3 +236,131 @@ describe("data-testid conventions (v8)", () => {
 		expect(dupes, `Дублікати в одному файлі:\n${dupes.join("\n")}`).toEqual([]);
 	});
 });
+
+/** Заміна блоку переносами: зберігає номери рядків у звітах перевірок. */
+const blank = (match: string) => "\n".repeat((match.match(/\n/g) ?? []).length);
+
+/**
+ * Кожен інтерактивний елемент публічної частини має `data-testid`
+ * (TESTID-AND-NAMING-v8 § 1.2, стратегія B — testid лишаються в продакшні).
+ *
+ * Перевірки вище валідують ІСНУЮЧІ testid. Вони за побудовою не бачать
+ * протилежного дефекту: контрола, у якого testid немає ЗОВСІМ. А він
+ * знаходиться саме там, де найдорожче — у гілці, яка рендериться не завжди.
+ *
+ * Заміряно 2026-08-20 разом із дублем кнопки «усі проєкти». Той самий контрол
+ * «Детальніше» у `ContentCard` існує в чотирьох варіантах картки, і в двох із
+ * них testid був, а в двох — ні. Тест, написаний проти вигляду «список», мовчки
+ * націлився б на невидиму десктопну копію: локатор знаходиться, елемент має
+ * `display: none`, і причину шукають не там.
+ *
+ * ## Чому статично, а не в браузері
+ *
+ * Половина цих гілок не рендериться на типовій сторінці: варіант картки
+ * залежить від вигляду віджета, а вигляд — від конфігурації у Firestore.
+ * Рантайм-перевірка бачила б лише те, що випало сьогодні.
+ *
+ * ## Чому адмінка виключена
+ *
+ * Там 129 таких місць (заміряно тим самим сканером), E2E туди не ходить без
+ * облікових даних, і це вже записано в PROJECT-CONTEXT окремим боргом. Гейт із
+ * 129 порушеннями довелося б вимкнути наступного дня, а вимкнений гірший за
+ * відсутній (CODE-QUALITY-v8 § 6.4.1). Публічна частина тримається на нулі.
+ *
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): прибрати `data-testid` у
+ * будь-якої кнопки публічного компонента — перевірка мусить назвати рядок.
+ */
+describe("інтерактивні елементи публічної частини мають testid", () => {
+	/**
+	 * Скрипт, стилі й коментарі замінюються переносами, а НЕ вирізаються: інакше
+	 * поїдуть номери рядків у звіті, а саме за ними знаходять місце.
+	 */
+	const markupPreservingLines = (text: string) =>
+		text
+			.replace(/<script[\s\S]*?<\/script>/g, blank)
+			.replace(/<style[\s\S]*?<\/style>/g, blank)
+			.replace(/<!--[\s\S]*?-->/g, blank);
+
+	/**
+	 * Відкриваючі теги. Наївний `/<a[^>]*>/` тут не працює: атрибут Svelte
+	 * містить стрілку `=>`, тобто символ `>`, і тег обривається посеред
+	 * обробника. Кінець тега — перший `>` поза фігурними дужками, який не є
+	 * частиною `=>`.
+	 */
+	function openingTags(source: string): Array<{ index: number; tag: string }> {
+		const tags: Array<{ index: number; tag: string }> = [];
+		for (let i = 0; i < source.length; i += 1) {
+			if (source[i] !== "<") continue;
+			let depth = 0;
+			let j = i + 1;
+			for (; j < source.length; j += 1) {
+				const c = source[j];
+				if (c === "{") depth += 1;
+				else if (c === "}") depth -= 1;
+				else if (c === ">" && depth === 0 && source[j - 1] !== "=") break;
+			}
+			tags.push({ index: i, tag: source.slice(i, j + 1) });
+			i = j;
+		}
+		return tags;
+	}
+
+	/**
+	 * Адмінка — окремий, записаний борг. Шляху `/admin` тут недостатньо: два
+	 * редактори лежать у спільній теці `ui/`, хоча імпортує їх лише
+	 * `routes/admin/settings` (перевірено пошуком). Тому вони названі поіменно —
+	 * інакше межа гейта неправдива, а не просто ширша.
+	 */
+	const ADMIN_ONLY = new Set([
+		"src/lib/components/ui/MenuEditor.svelte",
+		"src/lib/components/ui/LinkPicker.svelte"
+	]);
+
+	const isPublic = (file: string) => !file.includes("/admin") && !ADMIN_ONLY.has(file);
+
+	/**
+	 * Виняток один, і він не про зручність: ці `<a>` живуть у `.sr-only`-навігації
+	 * зі списком усіх випускників — перелік на вісімдесят посилань, який існує
+	 * для краулера й читалки. Локатор на кожне з них не дає нічого: адресується
+	 * сам список, і в нього testid є.
+	 */
+	const ALLOWED_WITHOUT = new Set(["galaxy-graduates"]);
+
+	const controls = (file: string) => {
+		const source = markupPreservingLines(readFileSync(file, "utf8"));
+		return openingTags(source)
+			.filter(({ tag }) => /^<(a\b|button\b)/.test(tag))
+			// `<a>` без href — це якір або обгортка, а не контрол.
+			.filter(({ tag }) => !/^<a\b/.test(tag) || /\bhref[=\s]/.test(tag))
+			.map(({ index, tag }) => ({
+				line: (source.slice(0, index).match(/\n/g) ?? []).length + 1,
+				tag
+			}));
+	};
+
+	it("перевірка жива: інтерактивні елементи знайдено", () => {
+		const total = svelteFiles("src").reduce((n, f) => n + controls(f).length, 0);
+		expect(total, "жодного <a href>/<button> — сканер шукає не там").toBeGreaterThan(50);
+	});
+
+	it("жодного <a href> чи <button> без data-testid", () => {
+		const naked: string[] = [];
+
+		for (const file of svelteFiles("src")) {
+			const path = file.replace(/\\/g, "/");
+			if (!isPublic(path)) continue;
+			if ([...ALLOWED_WITHOUT].some((part) => path.includes(part))) continue;
+
+			for (const { line, tag } of controls(file)) {
+				if (/\bdata-testid[=\s]/.test(tag)) continue;
+				naked.push(`${path}:${line} — ${tag.split(/\s+/).slice(0, 3).join(" ")}…`);
+			}
+		}
+
+		expect(
+			naked,
+			"контрол без testid не адресується з тесту, а сусідній варіант того самого " +
+				`контрола адресується — саме так локатор і починає вказувати не туди:\n${naked.join("\n")}`
+		).toEqual([]);
+	});
+});
