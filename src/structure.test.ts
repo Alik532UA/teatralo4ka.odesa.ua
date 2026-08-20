@@ -89,6 +89,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-20, `GalleryCarousel` 423 → 424: один рядок `data-testid` на кнопку
  * пауза/грати. Контрол був єдиним видимим на публічній частині без локатора —
  * знайдено новим гейтом у `testid-conventions.test.ts`. Атрибут, а не логіка.
+ *
+ * 2026-08-20, скруглення смужок пагінації: `ContentWidget` 868 → 873,
+ * `GalleryCarousel` 424 → 429. Змінено ОДНЕ число (`border-radius` 3px → 999px);
+ * решта — коментар про те, чому саме таке: при `background-clip: content-box`
+ * радіус зменшується на паддінг і обнуляється, тобто оголошене скруглення не
+ * малювалося. Без коментаря наступний «прибирач магічних чисел» повернув би 3px.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -99,7 +105,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 868,
+	'src/lib/components/ContentWidget.svelte': 873,
 	'src/routes/admin/articles/+page.svelte': 806,
 	'src/lib/components/ContentCard.svelte': 731,
 	'src/lib/components/ui/Toast.svelte': 689,
@@ -118,7 +124,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/PageScrollbar.svelte': 404,
 	'src/lib/components/DepartmentsSection.svelte': 393,
 	'src/lib/components/HeroSection.svelte': 386,
-	'src/lib/components/GalleryCarousel.svelte': 424,
+	'src/lib/components/GalleryCarousel.svelte': 429,
 	'src/lib/components/SearchOverlay.svelte': 378,
 	'src/lib/components/PhotoLightbox.svelte': 307,
 	'src/lib/components/ui/PasswordInput.svelte': 301,

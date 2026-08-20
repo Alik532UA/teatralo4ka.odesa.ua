@@ -776,7 +776,12 @@
 		padding-block: 9px;
 		margin-block: -9px;
 		background-clip: content-box;
-		border-radius: 3px;
+		/* 999px, а не 3px: при `background-clip: content-box` радіус зменшується на
+		   паддінг і обнуляється, якщо той більший — 9px паддінга проти 3px радіуса
+		   малювали смужку ПРЯМОКУТНОЮ, хоч скруглення й оголошене. Велике число
+		   лишає радіус додатним і обрізається половиною висоти, тобто дає капсулу.
+		   Та сама пара вже стоїть на нативному повзунку в `global.css`. */
+		border-radius: 999px;
 		border: none;
 		background-color: var(--border-main, var(--color-border, #d0d5dd));
 		cursor: pointer;
