@@ -136,7 +136,9 @@ const config = {
 					// Те саме з клієнтом Google API: він є в script-src, а телеметрію
 					// шле на /js/gen_204. Спіймав E2E на одній сторінці з двадцяти —
 					// запит іде не завжди, тож око його могло б і не побачити.
-					'https://apis.google.com'
+					'https://apis.google.com',
+					'https://*.sentry.io',
+					'https://*.ingest.sentry.io'
 				],
 				'img-src': ['self', 'data:', 'blob:', 'https:'],
 				// Без цієї директиви `default-src 'self'` мовчки блокував звуки

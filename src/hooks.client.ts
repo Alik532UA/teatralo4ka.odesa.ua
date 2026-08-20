@@ -1,40 +1,53 @@
+import { dev } from '$app/environment';
 import type { HandleClientError } from '@sveltejs/kit';
 import { migrateStorageKeys } from '$lib/utils/storageMigration';
 import { errorLogger } from '$lib/services/errorLogger';
 
 /**
- * Client init hook — runs once when the app starts in the browser, before the
- * route modules evaluate. That is early enough to migrate legacy (unprefixed)
- * localStorage keys before controllers/services read them (the `ui` singleton,
- * for example, reads localStorage in its constructor at import time).
- *
- * Placed here rather than in +layout.svelte because +layout imports those
- * controllers at the top, so their storage reads happen before any +layout code.
+ * Telemetry endpoint for CSP validation (OBSERVABILITY-v8 § 1.5):
+ * - https://*.sentry.io
+ * - https://*.ingest.sentry.io
  */
+const DSN = (import.meta.env?.PUBLIC_SENTRY_DSN as string | undefined) || '';
+const sentryPkg = '@sentry/sveltekit';
+
+interface SentryClient {
+	init: (options: Record<string, unknown>) => void;
+	captureException: (error: unknown, context?: Record<string, unknown>) => void;
+}
+
+const tracker: Promise<SentryClient | null> | null =
+	DSN && !dev
+		? import(/* @vite-ignore */ sentryPkg)
+				.then((module: unknown) => {
+					const Sentry = module as SentryClient;
+					Sentry.init({
+						dsn: DSN,
+						enabled: !dev,
+						tracesSampleRate: 0.1,
+						replaysSessionSampleRate: 0.0,
+						replaysOnErrorSampleRate: 1.0,
+						environment: import.meta.env.MODE,
+						ignoreErrors: ['AbortError', 'Failed to fetch', 'ResizeObserver loop limit exceeded'],
+						beforeSend(event: Record<string, unknown>) {
+							const req = event.request as Record<string, Record<string, unknown>> | undefined;
+							if (req?.headers) {
+								delete req.headers['authorization'];
+								delete req.headers['cookie'];
+							}
+							return event;
+						}
+					});
+					return Sentry;
+				})
+				.catch(() => null)
+		: null;
+
 export function init() {
 	migrateStorageKeys();
 }
 
-/**
- * Неперехоплені помилки клієнта (ERROR-HANDLING-v8 § 2.4).
- *
- * До цього гачка не було, і `errorLogger` разом із ним: сервіс був написаний,
- * покритий дев'ятьма тестами й **не імпортований нізвідки** — рівно той випадок
- * «існування ≠ досяжність» із AI-AGENT-PITFALLS-v8 § 3, коли зелені тести
- * створюють враження працюючого логування помилок, якого немає.
- *
- * Повертається УЗАГАЛЬНЕНЕ повідомлення, а не `error.message`: те, що прийшло
- * б від рантайму («Cannot read properties of undefined»), для відвідувача
- * театральної студії не інформація, а витік нутрощів (CRITICAL у § анти-патернів).
- * `errorId` лишається в об'єкті — його видно на сторінці помилки й можна
- * назвати в листі; за ним запис знаходиться в `errorLogger.getCache()`.
- *
- * Гачок спрацьовує лише на НЕОЧІКУВАНІ помилки: `error()` і `redirect()` через
- * нього не проходять, тож 404 сюди не потрапляє.
- */
-export const handleError: HandleClientError = ({ error, event, status }) => {
-	// `status` 404 сюди не приходить, але перестрахуватися дешевше, ніж потім
-	// розбирати шум у кеші.
+export const handleError: HandleClientError = async ({ error, event, status, message }) => {
 	if (status === 404) return;
 
 	const normalized = error instanceof Error ? error : new Error(String(error));
@@ -42,6 +55,11 @@ export const handleError: HandleClientError = ({ error, event, status }) => {
 		component: 'client-unhandled',
 		page: event?.url?.pathname
 	});
+
+	if (tracker) {
+		const Sentry = await tracker;
+		Sentry?.captureException(error, { extra: { route: event?.url?.pathname, status, message, errorId } });
+	}
 
 	return { message: 'Something went wrong', errorId };
 };
