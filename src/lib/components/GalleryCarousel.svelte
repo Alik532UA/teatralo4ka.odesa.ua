@@ -371,41 +371,69 @@
 	}
 
 	/*
-	 * Смужка лишається 6px, ціль дотику стає 24px — WCAG 2.2 AA, SC 2.5.8
-	 * (ACCESSIBILITY-v8 § 8). Було 30×6, а на телефоні 20×6.
+	 * Смужку малює `::before`, а не тло самої кнопки — і це третя спроба, тож
+	 * причина записана.
 	 *
-	 * Висота набирається паддінгом, `background-clip: content-box` не дає йому
-	 * пофарбуватися, а від'ємний `margin-block` повертає рядку попередню висоту:
-	 * вигляд той самий, зона натискання вчетверо більша. Далі всюди
-	 * `background-color`, а не скорочення `background` — воно скинуло б
-	 * `background-clip`, і смужка стала б 24px заввишки.
+	 * Кнопка мусить бути ціллю дотику 24px (WCAG 2.2 SC 2.5.8), а смужка —
+	 * лишатися 6px. Спершу різницю набирав паддінг разом із
+	 * `background-clip: content-box`: тло фарбувалося лише по вмісту, тобто
+	 * смужка виглядала правильно. Але скруглення при такому clip зменшується на
+	 * паддінг ОКРЕМО ПО КОЖНІЙ ОСІ:
+	 *
+	 *   `border-radius: 3px`   → 3−0 по горизонталі, 3−9 по вертикалі = 0 →
+	 *                            смужка малювалася прямокутною, хоч скруглення
+	 *                            й було оголошене;
+	 *   `border-radius: 999px` → 999−0 по горизонталі (обрізається половиною
+	 *                            ШИРИНИ), 999−9 по вертикалі (половиною висоти)
+	 *                            → різні радіуси по осях, тобто еліпс. Саме це
+	 *                            й виглядало «дивною формою».
+	 *
+	 * Окремий бокс під смужку знімає всю цю арифметику: у нього власні межі й
+	 * власний радіус, який ні на що не зменшується. Паддінг і межі смужки
+	 * зв'язані однією змінною, тож ціль дотику змінюється в одному місці.
 	 */
 	.gc-dot {
-		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку, а
-		   паддінг добирає її до цілі дотику. */
+		--dot-pad-block: 9px;
+		--dot-pad-inline: 0px;
+		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку. */
 		box-sizing: content-box;
+		position: relative;
 		width: 30px;
 		height: 6px;
-		padding-block: 9px;
-		padding-inline: 0;
-		margin-block: -9px;
-		background-clip: content-box;
-		/* 999px, а не 3px: при `background-clip: content-box` радіус зменшується на
-		   паддінг і обнуляється, якщо той більший — 9px паддінга проти 3px радіуса
-		   малювали смужку ПРЯМОКУТНОЮ, хоч скруглення й оголошене. Велике число
-		   лишає радіус додатним і обрізається половиною висоти, тобто дає капсулу.
-		   Та сама пара вже стоїть на нативному повзунку в `global.css`. */
-		border-radius: 999px;
+		padding-block: var(--dot-pad-block);
+		padding-inline: var(--dot-pad-inline);
+		/* Від'ємні відступи повертають рядку попередню висоту: більшає лише зона
+		   натискання, розкладка не зсувається. */
+		margin-block: calc(-1 * var(--dot-pad-block));
+		margin-inline: calc(-1 * var(--dot-pad-inline));
 		border: none;
-		background-color: var(--border-main, var(--color-border, #d0d5dd));
+		background: none;
 		cursor: pointer;
-		transition: all 0.3s ease;
+		transition: width 0.3s ease;
 	}
+
+	.gc-dot::before {
+		content: '';
+		position: absolute;
+		inset-block: var(--dot-pad-block);
+		inset-inline: var(--dot-pad-inline);
+		border-radius: 3px;
+		background-color: var(--border-main, var(--color-border, #d0d5dd));
+		transition: background-color 0.3s ease, opacity 0.3s ease;
+	}
+
 	.gc-dot.active {
-		background-color: var(--text-title, #005fae);
 		width: 60px;
 	}
-	.gc-dot:hover { background-color: var(--text-title, #005fae); opacity: 0.7; }
+
+	.gc-dot.active::before {
+		background-color: var(--text-title, #005fae);
+	}
+
+	.gc-dot:hover::before {
+		background-color: var(--text-title, #005fae);
+		opacity: 0.7;
+	}
 
 	@media (max-width: 1024px) {
 		.gc-carousel { border-radius: 0.75rem; }
@@ -420,8 +448,7 @@
 		   margin лишає проміжок між крапками таким, як був. */
 		.gc-dot {
 			width: 20px;
-			padding-inline: 2px;
-			margin-inline: -2px;
+			--dot-pad-inline: 2px;
 		}
 		.gc-dot.active { width: 40px; }
 	}

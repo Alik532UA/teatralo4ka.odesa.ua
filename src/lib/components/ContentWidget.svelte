@@ -756,53 +756,72 @@
 	}
 
 	/*
-	 * Смужка лишається 6px, ціль дотику стає 24px — WCAG 2.2 AA, SC 2.5.8
-	 * (ACCESSIBILITY-v8 § 8). Було 30×6 на десктопі й 20×6 на телефоні, тобто
-	 * учетверо менше абсолютного мінімуму: у пагінації промазують і тицяють
-	 * удруге, а на дотику це найгірший розмір з можливих.
+	 * Смужку малює `::before`, а не тло самої кнопки — і це третя спроба, тож
+	 * причина записана.
 	 *
-	 * Механіка: висота 24 набирається паддінгом, а `background-clip:
-	 * content-box` не дає йому пофарбуватися — видима смужка та сама. Від'ємний
-	 * `margin-block` повертає рядку його попередню висоту, тож розкладка не
-	 * зсувається: збільшується лише зона натискання.
+	 * Кнопка мусить бути ціллю дотику 24px (WCAG 2.2 SC 2.5.8), а смужка —
+	 * лишатися 6px. Спершу різницю набирав паддінг разом із
+	 * `background-clip: content-box`: тло фарбувалося лише по вмісту, тобто
+	 * смужка виглядала правильно. Але скруглення при такому clip зменшується на
+	 * паддінг ОКРЕМО ПО КОЖНІЙ ОСІ:
+	 *
+	 *   `border-radius: 3px`   → 3−0 по горизонталі, 3−9 по вертикалі = 0 →
+	 *                            смужка малювалася прямокутною, хоч скруглення
+	 *                            й було оголошене;
+	 *   `border-radius: 999px` → 999−0 по горизонталі (обрізається половиною
+	 *                            ШИРИНИ), 999−9 по вертикалі (половиною висоти)
+	 *                            → різні радіуси по осях, тобто еліпс. Саме це
+	 *                            й виглядало «дивною формою».
+	 *
+	 * Окремий бокс під смужку знімає всю цю арифметику: у нього власні межі й
+	 * власний радіус, який ні на що не зменшується. Паддінг і відступи смужки
+	 * зв'язані однією змінною, тож змінити ціль дотику можна в одному місці й
+	 * форма за нею піде сама.
 	 */
 	.f-dot {
-		/* content-box навмисно: `width`/`height` тут описують ВИДИМУ смужку, а
-		   паддінг добирає її до цілі дотику. З border-box довелося б перерахувати
-		   кожне число в медіазапитах, і смужка змінила б вигляд. */
+		--dot-pad-block: 9px;
+		--dot-pad-inline: 0px;
+		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку. */
 		box-sizing: content-box;
+		position: relative;
 		width: 30px;
 		height: 6px;
-		padding-block: 9px;
-		margin-block: -9px;
-		background-clip: content-box;
-		/* 999px, а не 3px: при `background-clip: content-box` радіус зменшується на
-		   паддінг і обнуляється, якщо той більший — 9px паддінга проти 3px радіуса
-		   малювали смужку ПРЯМОКУТНОЮ, хоч скруглення й оголошене. Велике число
-		   лишає радіус додатним і обрізається половиною висоти, тобто дає капсулу.
-		   Та сама пара вже стоїть на нативному повзунку в `global.css`. */
-		border-radius: 999px;
+		padding-block: var(--dot-pad-block);
+		padding-inline: var(--dot-pad-inline);
+		/* Від'ємні відступи повертають рядку попередню висоту: збільшується лише
+		   зона натискання, розкладка не зсувається. */
+		margin-block: calc(-1 * var(--dot-pad-block));
+		margin-inline: calc(-1 * var(--dot-pad-inline));
 		border: none;
-		background-color: var(--border-main, var(--color-border, #d0d5dd));
+		background: none;
 		cursor: pointer;
-		transition: all 0.3s ease;
+		transition: width 0.3s ease;
+	}
+
+	.f-dot::before {
+		content: '';
+		position: absolute;
+		inset-block: var(--dot-pad-block);
+		inset-inline: var(--dot-pad-inline);
+		border-radius: 3px;
+		background-color: var(--border-main, var(--color-border, #d0d5dd));
+		transition: background-color 0.3s ease, opacity 0.3s ease;
 	}
 
 	.f-dot.active {
-		/* background-color, а не background: скорочення скинуло б background-clip
-		   вище, і смужка активної крапки стала б 24px заввишки. */
-		background-color: var(--text-title);
 		width: 60px;
 	}
 
+	.f-dot.active::before {
+		background-color: var(--text-title);
+	}
+
 	@media (max-width: 480px) {
-		/* 20px смужки + 2px паддінга з боків = 24px цілі дотику; від'ємний
-		   margin лишає проміжок між крапками таким, як був. Активна (40px) до
-		   мінімуму дотягується сама. */
+		/* 20px смужки + 2px з боків = 24px цілі дотику. Змінюється лише змінна —
+		   паддінг, від'ємний відступ і межі смужки підхоплюють її самі. */
 		.f-dot {
 			width: 20px;
-			padding-inline: 2px;
-			margin-inline: -2px;
+			--dot-pad-inline: 2px;
 		}
 		.f-dot.active { width: 40px; }
 	}
