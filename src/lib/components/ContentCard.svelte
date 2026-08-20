@@ -98,9 +98,21 @@
 -->
 {#snippet videoControl(idBase: string)}
 	{#if video?.embeddable}
+		<!--
+			Підпис лишається ЛИШЕ поки грає обкладинка.
+
+			Доти напис «Відео» стояв в обох станах, і поки грало відео кнопка
+			казала «Відео», а робила протилежне — повертала обкладинку. Іконка при
+			цьому була правильна (зображення), тобто підпис суперечив і їй, і дії.
+
+			Тепер у стані «грає» лишається сама іконка. Ім'я для читалки не
+			зникає — його несе `aria-label`, і воно теж залежить від стану
+			(«показати обкладинку» / «переглянути відео»).
+		-->
 		<button
 			type="button"
 			class="video-control"
+			class:video-control--icon-only={playing}
 			onclick={() => (playing = !playing)}
 			aria-label={playing ? $t('common.showCover') : $t('common.watchVideo')}
 			data-testid={`${idBase}-video-btn-${index}`}
@@ -109,8 +121,8 @@
 				<ImageIcon size={14} aria-hidden="true" />
 			{:else}
 				<Play size={14} aria-hidden="true" />
+				<span class="video-control__text">{$t('common.hasVideo')}</span>
 			{/if}
-			<span class="video-control__text">{$t('common.hasVideo')}</span>
 		</button>
 	{:else if video}
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -320,6 +332,22 @@
 		cursor: pointer;
 		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 		transition: transform var(--transition-fast), background var(--transition-fast);
+	}
+
+	/*
+	 * Без підпису кнопка мусить лишитися ціллю дотику 24×24
+	 * (WCAG 2.2 SC 2.5.8, ACCESSIBILITY-v8 § 8). Іконка 14px із паддінгом
+	 * 0.3rem дала б 23.6px по висоті — тобто на чверть пікселя менше за
+	 * мінімум, і гейт `e2e/touch-targets.spec.ts` це ловить. Тому в стані
+	 * «лише іконка» розмір задається явно, а `border-radius: var(--radius-full)`
+	 * вище робить із неї круг.
+	 */
+	.video-control--icon-only {
+		width: 26px;
+		height: 26px;
+		padding: 0;
+		gap: 0;
+		justify-content: center;
 	}
 
 	.video-control:hover,

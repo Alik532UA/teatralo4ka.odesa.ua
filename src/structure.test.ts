@@ -95,6 +95,16 @@ const LIMITS: Array<[RegExp, number]> = [
  * решта — коментар про те, чому саме таке: при `background-clip: content-box`
  * радіус зменшується на паддінг і обнуляється, тобто оголошене скруглення не
  * малювалося. Без коментаря наступний «прибирач магічних чисел» повернув би 3px.
+ *
+ * 2026-08-20, третя спроба зі смужками пагінації: `ContentWidget` 873 → 892,
+ * `GalleryCarousel` 429 → 456, `ContentCard` 731 → 759. `border-radius: 999px`
+ * дав ЕЛІПС — при `background-clip: content-box` радіус зменшується на паддінг
+ * окремо по кожній осі, тож горизонтальний лишився величезним, а вертикальний
+ * обрізався половиною висоти. Смужку тепер малює `::before` із власними межами,
+ * і вся ця арифметика зникла; заодно з'явилася кнопка «лише іконка» для стану
+ * «грає відео» з явним розміром 26px, бо іконка з паддінгом давала 23.6px і
+ * ловилася гейтом цілей дотику. Рядки — це коментарі про причину й окремі
+ * правила для `::before`; логіки додано нуль.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -105,9 +115,9 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 873,
+	'src/lib/components/ContentWidget.svelte': 892,
 	'src/routes/admin/articles/+page.svelte': 806,
-	'src/lib/components/ContentCard.svelte': 731,
+	'src/lib/components/ContentCard.svelte': 759,
 	'src/lib/components/ui/Toast.svelte': 689,
 	'src/lib/components/ui/PianoModal.svelte': 688,
 	'src/lib/components/Minimap.svelte': 668,
@@ -124,7 +134,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/PageScrollbar.svelte': 404,
 	'src/lib/components/DepartmentsSection.svelte': 393,
 	'src/lib/components/HeroSection.svelte': 386,
-	'src/lib/components/GalleryCarousel.svelte': 429,
+	'src/lib/components/GalleryCarousel.svelte': 456,
 	'src/lib/components/SearchOverlay.svelte': 378,
 	'src/lib/components/PhotoLightbox.svelte': 307,
 	'src/lib/components/ui/PasswordInput.svelte': 301,
