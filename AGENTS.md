@@ -48,6 +48,7 @@
 | `vitest.config.ts` бере `svelte()`, а не `sveltekit()` | `sveltekit()` додає власні аліаси `$app/*` і `$lib`, які перекривають заглушку `firebase/config`, без якої тести падають у CI без секретів |
 | Компонентних тестів немає | плагін дає лише компіляцію рун. Монтувати `.svelte` нічим — не пиши тестів, що рендерять компоненти (AI-AGENT-PITFALLS-v8 § 1.3) |
 | `husky` не встановлено | авто-bump версії не діє; бамп вручну через `npm run bump-version`. `static/app-version.json` мусить збігатися з `package.json` — це те, що тягне браузер відвідувача, і розходження або гасить оновлення, або жене всіх на неіснуючу версію. Тримає `src/version.test.ts` |
+| CI має ДВА workflow, і вони перевіряють різне | `gates.yml` жене `check`, `lint`, `test`, `audit`, `validate-content` на кожен pull request і на push у будь-яку гілку, крім `main`. `deploy.yml` (тільки `main`) додає збірку, E2E і розгортання. Збірки в `gates.yml` немає навмисно: вона вимагає секретів `VITE_FIREBASE_*`, яких Dependabot-PR не отримує. До 2026-08-20 усі гейти були лише в `deploy.yml`, і в `dev` не перевірялося нічого — `npm run lint` там був червоний |
 | Гейти збірки живуть у `prebuild`/`postbuild`, а не у плагіні Vite | плагін `smart-static-build-tools` прибрано 2026-08-16: його `catch` знижував падіння sitemap до попередження, і `vite build` виходив із кодом 0. Нові перевірки над `build/` додаються в `postbuild` — там їхній код виходу доходить до `npm run build` |
 | Node **22** у трьох місцях | `engines.node`, `.nvmrc` і `node-version` у workflow мусять збігатися; розбіжність валить `src/dependencies.test.ts` |
 | Адреса сайту — лише `src/lib/config/site.ts` | другий літерал `'https://teatralo4ka.odesa.ua'` у джерелах валить `src/site-origin.test.ts`. `robots.txt` звіряється тим самим тестом |
@@ -91,6 +92,10 @@ npm test           # юніт-інваріанти
 npm run build      # збірка; postbuild сам жене sitemap, бюджет бандла й биті посилання
 npm run test:e2e   # Playwright проти build/
 ```
+
+Локально ці п'ять команд — те саме, що робить CI. Різниця одна: `npm run build`
+і Playwright у CI виконуються лише в `deploy.yml` на `main`, тож перед пушем
+туди їх варто прогнати руками — на pull request їх не буде.
 
 **Результат треба побачити, а не припустити.** Твердження «правило виконано»
 робиться після прогону, а не замість нього. Частину дефектів цього проєкту видно
