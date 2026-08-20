@@ -6,9 +6,6 @@
 	import HotNews from '$lib/components/HotNews.svelte';
 	import ConfirmModal from '$lib/components/ui/ConfirmModal.svelte';
 	import ServiceLayer from '$lib/components/ui/ServiceLayer.svelte';
-	import { debugMode } from '$lib/services/debugMode.svelte';
-	// Збір perf-логу — у сервісі: у layout він займав 55 рядків ручної роботи з DOM.
-	import { copyPerfLog } from '$lib/services/perfLog';
 	import '$lib/styles/global.css';
 	import '$lib/i18n';
 	import { stripLocale } from '$lib/i18n/routing';
@@ -58,21 +55,6 @@
 	}
 
 	perf('+layout.svelte: script init');
-
-	// Debug mode: localStorage.setItem('teatralo4ka_debug','1') + refresh to show 🐛 button
-	/*
-	 * Той САМИЙ вимикач, що й у службового табла, а не другий поруч.
-	 *
-	 * Доти тут стояв `storage.get('debug') === '1'` — окремий ключ `teatralo4ka_debug`
-	 * поряд із `teatralo4ka_debug_mode`, який читає `debugMode`. Два майже однакові
-	 * імена для однієї потреби («покажи службові елементи») — це пастка: увімкнувши
-	 * один, людина шукає, чому не працює друге. Тепер обидва елементи — і табло, і
-	 * кнопка perf-логу — приходять разом: серією `V`, параметром `?debug=1` або
-	 * збереженим прапорцем.
-	 */
-	const perfDebugVisible = $derived(
-		browser && (debugMode.enabled || page.url.searchParams.get('debug') === '1')
-	);
 
 	let headerScrolled = $state(false);
 
@@ -369,18 +351,6 @@
 <!-- Нічого не малює: лише вирішує, які новини показати тостами (лівий низ). -->
 <HotNews />
 
-<!-- Кнопка perf-логу. Видима разом зі службовим таблом: серія `V`, `?debug=1`
-     або збережений прапорець (`services/debugMode.svelte.ts`). -->
-{#if perfDebugVisible}
-	<button
-		class="perf-debug-btn"
-		onclick={() => copyPerfLog(() => alert($t('admin.debug.copiedToClipboard')))}
-		aria-label="Copy perf log"
-	>
-		🐛
-	</button>
-{/if}
-
 <style>
 	.theme-transition-overlay {
 		position: fixed;
@@ -464,24 +434,4 @@
 		transition: padding-top var(--transition-base);
 	}
 
-	/* Temporary perf debug button */
-	.perf-debug-btn {
-		position: fixed;
-		bottom: 12px;
-		left: 12px;
-		z-index: 99998;
-		width: 44px;
-		height: 44px;
-		border-radius: 50%;
-		border: 2px solid rgba(0, 0, 0, 0.2);
-		background: rgba(255, 255, 255, 0.9);
-		font-size: 20px;
-		cursor: pointer;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0;
-		line-height: 1;
-	}
 </style>

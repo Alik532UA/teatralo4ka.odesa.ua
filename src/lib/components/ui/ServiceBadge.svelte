@@ -6,6 +6,7 @@
 	import { debugMode } from '$lib/services/debugMode.svelte';
 	import { errorLogger } from '$lib/services/errorLogger';
 	import { buildLogReport } from '$lib/services/errorReport';
+	import { showReportFallback } from '$lib/services/perfLog';
 
 	/**
 	 * Службове табло: номер версії, лічильник помилок і збір звіту — ОДИН елемент.
@@ -65,6 +66,13 @@
 			 * збій застосунку: поза HTTPS і без дозволу вона очікувана.
 			 */
 			errorLogger.logWarning('не вдалося скопіювати звіт', { component: 'ServiceBadge' }, error);
+			/*
+			 * Але звіт не має зникати разом із відмовою (DEBUGGING-v8 § 2.3): текст
+			 * показується в полі поруч, звідки його можна виділити руками. Доти
+			 * лишалося тільке попередження в консолі — тобто саме там, куди людина з
+			 * телефоном подивитися не може.
+			 */
+			showReportFallback(buildLogReport());
 		}
 	}
 </script>

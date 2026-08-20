@@ -21,8 +21,12 @@
  *
  * Повторний виклик прибирає попередній блок: кнопку тиснуть двічі, і два накладені
  * `textarea` виглядали б як зависання.
+ *
+ * Експортоване, бо цим шляхом користується службове табло: після об'єднання двох
+ * debug-кнопок в одну (2026-08-20) звіт копіює саме воно, і саме йому потрібен
+ * вихід на випадок відмови буфера.
  */
-function showPerfTextarea(text: string): void {
+export function showReportFallback(text: string): void {
 	const existing = document.getElementById('perf-debug-textarea');
 	if (existing) {
 		existing.remove();
@@ -86,15 +90,13 @@ export function buildPerfLog(): string {
 	].join('\n');
 }
 
-/**
- * Копіює perf-лог у буфер. `onCopied` показує підтвердження — текст приходить
- * звідти, бо переклади знає компонент, а не цей модуль.
+/*
+ * `copyPerfLog` тут більше немає, і це не спрощення.
+ *
+ * Вона була обробником ОКРЕМОЇ плаваючої кнопки 🐛, яка стояла в тому самому
+ * лівому нижньому куті, що й службове табло, і з вищим z-index — тобто накривала
+ * його. DEBUGGING-v8 § 2.1 називає це прямо: якщо той самий елемент несе й номер
+ * версії, форма з ОДНИМ елементом правильна, бо «дві плашки в двох кутах
+ * призначені для однієї й тієї самої людини». Тепер perf-лог іде розділом того
+ * самого звіту (`services/errorReport.ts`), а кнопка одна.
  */
-export function copyPerfLog(onCopied: () => void): void {
-	const text = buildPerfLog();
-	if (navigator.clipboard?.writeText) {
-		navigator.clipboard.writeText(text).then(onCopied, () => showPerfTextarea(text));
-	} else {
-		showPerfTextarea(text);
-	}
-}
