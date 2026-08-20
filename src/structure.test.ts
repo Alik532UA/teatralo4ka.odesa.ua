@@ -79,6 +79,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * храповика є вентиль. Дві з восьми знятих заборон при цьому виявилися
  * СПРАВЖНІМИ порушеннями WCAG 2.1.1 і виправлені окремим комітом; інші три
  * записані як відомі межі, а не як розглянуті випадки.
+ *
+ * 2026-08-20, дубль кнопки «усі»: `ContentWidget` 855 → 868. Правило «або
+ * перейти, або дописати решту тут» виїхало в `utils/contentWidgetControls` з
+ * інваріантом на всі комбінації входу, а на місці лишилися докблок про причину
+ * й коментар про підпис, який не можна позичати. Логіки в компоненті стало
+ * МЕНШЕ: гілка `handleShowAll`, що дублювала `handleAllLink`, видалена.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2514,
@@ -89,7 +95,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/users/+page.svelte': 998,
 	'src/lib/components/ui/MenuEditor.svelte': 984,
 	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 855,
+	'src/lib/components/ContentWidget.svelte': 868,
 	'src/routes/admin/articles/+page.svelte': 806,
 	'src/lib/components/ContentCard.svelte': 731,
 	'src/lib/components/ui/Toast.svelte': 689,

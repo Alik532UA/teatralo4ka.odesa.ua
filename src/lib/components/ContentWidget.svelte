@@ -4,6 +4,7 @@
 	import { GalleryHorizontal, LayoutGrid, List, Play, Pause } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { storage } from '$lib/services/storage';
+	import { allControls } from '$lib/utils/contentWidgetControls';
 	import { isTypingTarget } from '$lib/services/keyboard';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
@@ -107,6 +108,14 @@
 	});
 
 	const hasMore = $derived(maxItemsForCurrentView > 0 && items.length > maxItemsForCurrentView && view !== 'carousel');
+
+	/**
+	 * Яка кнопка «усі» існує. Правило взаємного виключення живе в
+	 * `utils/contentWidgetControls` з інваріантом на всі комбінації входу:
+	 * дві незалежні умови в цій розмітці вже одного разу розійшлися й дали
+	 * дві кнопки з однаковим підписом і однаковою дією.
+	 */
+	const controls = $derived(allControls({ showAllLink, allLinkHref, hasMore, showingAll }));
 
 	// ── Init ──────────────────────────────────────────────────────────────────
 	$effect(() => {
@@ -268,16 +277,15 @@
 		}
 	}
 
+	/**
+	 * Дописати решту списку ТУТ. Нічого більше.
+	 *
+	 * Раніше тут була гілка «якщо є адреса — перейти на неї», тобто дослівна
+	 * копія `handleAllLink` нижче. Через неї кнопка й посилання робили те саме,
+	 * і різниці між ними не було ніякої, крім тегу.
+	 */
 	function handleShowAll() {
-		if (showAllLink && allLinkHref) {
-			if (browser && allLinkViewKey) {
-				const viewToSave = view === 'list' ? 'list' : 'grid';
-				storage.set(allLinkViewKey, viewToSave);
-			}
-			goto(allLinkHref);
-		} else {
-			showingAll = true;
-		}
+		showingAll = true;
 	}
 
 	function handleAllLink(e: MouseEvent) {
@@ -293,7 +301,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#snippet allLink(suffix = '', extraClass = '')}
-	{#if showAllLink && allLinkHref}
+	{#if controls.link}
 		<a href={allLinkHref} class="cw-all-link {extraClass}" data-testid="{testIdPrefix}-all-link{suffix ? '-' + suffix : ''}" onclick={handleAllLink}>
 			{allLinkLabel}
 		</a>
@@ -443,10 +451,15 @@
 		</div>
 	{/if}
 
-	{#if hasMore && !showingAll}
+	<!--
+		Підпис `common.showAll` («Показати всі»), а НЕ `allLinkLabel`. Позичений
+		підпис і зробив дубль невидимим у код-рев'ю: два різні контроли читалися
+		як один. Ця кнопка нікуди не веде — вона дописує решту списку на місці.
+	-->
+	{#if controls.expander}
 		<div class="cw-show-all">
 			<button class="cw-show-all-btn" onclick={handleShowAll} data-testid="{testIdPrefix}-show-all-btn">
-				{allLinkLabel || $t('common.showAll')}
+				{$t('common.showAll')}
 			</button>
 		</div>
 	{/if}
