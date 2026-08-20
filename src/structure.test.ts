@@ -107,41 +107,31 @@ const LIMITS: Array<[RegExp, number]> = [
  * правила для `::before`; логіки додано нуль.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/admin/settings/+page.svelte': 2514,
-	'src/lib/components/HeaderSection.svelte': 1419,
-	'src/lib/components/admin/ArticleForm.svelte': 1369,
-	'src/lib/services/settings.ts': 1272,
-	'src/routes/admin/content/+page.svelte': 1013,
-	'src/routes/admin/users/+page.svelte': 998,
-	'src/lib/components/ui/MenuEditor.svelte': 984,
-	'src/lib/components/ui/RichTextEditor.svelte': 886,
-	'src/lib/components/ContentWidget.svelte': 892,
-	'src/routes/admin/articles/+page.svelte': 806,
-	'src/lib/components/ContentCard.svelte': 759,
-	'src/lib/components/ui/Toast.svelte': 689,
-	'src/lib/components/ui/PianoModal.svelte': 688,
-	'src/lib/components/Minimap.svelte': 668,
-	'src/lib/components/FooterSection.svelte': 581,
-	'src/routes/+page.svelte': 522,
-	// 520 → 489: perf-лог переїхав у `services/perfLog.ts` — 55 рядків ручної
-	// роботи з DOM (створення `textarea`, стилі через `Object.assign`, читання
-	// `performance.timing`), яким у розкладці сторінки не було чого робити. Число
-	// опущене до фактичного, щоб наступний приріст знову впирався в стелю.
-	'src/routes/+layout.svelte': 489,
-	'src/lib/components/ui/Select.svelte': 475,
-	'src/lib/components/DetailPage.svelte': 421,
-	'src/lib/components/admin/ArticleCategoryPicker.svelte': 405,
-	'src/lib/components/PageScrollbar.svelte': 404,
-	'src/lib/components/DepartmentsSection.svelte': 393,
-	'src/lib/components/HeroSection.svelte': 386,
-	'src/lib/components/GalleryCarousel.svelte': 456,
-	'src/lib/components/SearchOverlay.svelte': 378,
-	'src/lib/components/PhotoLightbox.svelte': 307,
-	'src/lib/components/ui/PasswordInput.svelte': 301,
-	'src/lib/schemas/settings.ts': 277,
-	'src/lib/services/admin-articles.ts': 272,
-	'src/lib/services/articles.ts': 275,
-	'src/lib/data/betaChecklist.ts': 417
+	'src/routes/admin/settings/+page.svelte': 2185,
+	'src/lib/components/admin/ArticleForm.svelte': 1195,
+	'src/lib/components/HeaderSection.svelte': 1180,
+	'src/lib/services/settings.ts': 980,
+	'src/routes/admin/content/+page.svelte': 895,
+	'src/routes/admin/users/+page.svelte': 890,
+	'src/lib/components/ui/MenuEditor.svelte': 865,
+	'src/lib/components/ui/RichTextEditor.svelte': 755,
+	'src/routes/admin/articles/+page.svelte': 718,
+	'src/lib/components/ContentWidget.svelte': 688,
+	'src/lib/components/ContentCard.svelte': 598,
+	'src/lib/components/ui/PianoModal.svelte': 595,
+	'src/lib/components/FooterSection.svelte': 510,
+	'src/lib/components/ui/Toast.svelte': 488,
+	'src/routes/+page.svelte': 432,
+	'src/lib/components/Minimap.svelte': 375,
+	'src/lib/components/GalleryCarousel.svelte': 365,
+	'src/lib/components/ui/Select.svelte': 360,
+	'src/lib/data/betaChecklist.ts': 355,
+	'src/lib/components/DepartmentsSection.svelte': 352,
+	'src/lib/components/HeroSection.svelte': 330,
+	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
+	'src/lib/components/DetailPage.svelte': 322,
+	'src/routes/+layout.svelte': 316,
+	'src/lib/components/SearchOverlay.svelte': 312
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {
@@ -155,7 +145,13 @@ const walk = (dir: string, out: string[] = []): string[] => {
 
 const all = walk('src');
 const sources = all.filter((f) => /\.(ts|svelte)$/.test(f) && !/\.(test|spec)\.ts$/.test(f));
-const lines = (f: string) => readFileSync(f, 'utf8').split('\n').length;
+const countSloc = (f: string): number =>
+	readFileSync(f, 'utf8')
+		.replace(/<!--[\s\S]*?-->/g, '')
+		.replace(/\/\*[\s\S]*?\*\//g, '')
+		.replace(/^\s*\/\/.*$/gm, '')
+		.split(/\r?\n/)
+		.filter((l) => l.trim().length > 0).length;
 const limitFor = (f: string) => LIMITS.find(([re]) => re.test(f))?.[1] ?? Infinity;
 
 describe('структура', () => {
@@ -189,12 +185,12 @@ describe('структура', () => {
 		expect(bad, `розбіжність псевдоніма й файлу:\n${bad.join('\n')}`).toEqual([]);
 	});
 
-	it('жоден файл не переріс своєї стелі (§ 7)', () => {
+	it('жоден файл не переріс своєї стелі (§ 7 SLOC)', () => {
 		const grown = sources
 			.map((f) => {
 				const ceiling = CEILINGS[f] ?? limitFor(f);
-				const n = lines(f);
-				return n > ceiling ? `${f}: ${n} рядків (стеля ${ceiling})` : null;
+				const n = countSloc(f);
+				return n > ceiling ? `${f}: ${n} рядків SLOC (стеля ${ceiling})` : null;
 			})
 			.filter(Boolean);
 		expect(
@@ -209,8 +205,8 @@ describe('структура', () => {
 
 		const fixed = Object.keys(CEILINGS)
 			.filter((f) => sources.includes(f))
-			.filter((f) => lines(f) <= limitFor(f))
-			.map((f) => `${f}: ${lines(f)} — уже в межах ${limitFor(f)}`);
+			.filter((f) => countSloc(f) <= limitFor(f))
+			.map((f) => `${f}: ${countSloc(f)} — уже в межах ${limitFor(f)}`);
 		expect(
 			fixed,
 			`борг закрито — прибрати рядок із CEILINGS, щоб перелік не став пам'ятником:\n${fixed.join('\n')}`
