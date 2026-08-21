@@ -112,15 +112,11 @@
 		-webkit-backdrop-filter: blur(16px);
 	}
 
-	@media (max-width: 768px) {
-		.debug-dropdown {
-			width: 100%;
-		}
-	}
-
 	.debug-dropdown.mobile {
+		width: 100%;
 		padding: var(--space-md);
 		gap: var(--space-lg);
+		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 	}
 
 	.debug-dropdown.mobile .dropdown-opt-unified {

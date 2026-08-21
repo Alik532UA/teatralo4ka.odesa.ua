@@ -1,3 +1,4 @@
+import { withLocale, type Locale } from '$lib/i18n/routing';
 import { base, resolve } from '$app/paths';
 import type { CtaConfig, MenuConfig, MenuLinkType } from '$lib/services/settings';
 
@@ -43,16 +44,16 @@ export const CTA_GROUP_ID = '__cta-group';
  * не відомий на збірці й типізувати його нема як. Виняток — стара форма
  * «голий slug», яка означає статтю новин: там маршрут відомий.
  */
-export function resolvedHref(href: string | undefined, linkType: string): string {
+export function resolvedHref(href: string | undefined, linkType: string, lang = 'uk'): string {
 	if (!href) return '#';
-	if (linkType === 'url' || href.startsWith('http')) return href;
+	if (linkType === 'url' || href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return href;
+	let path = href;
 	if (linkType === 'article') {
-		// New format: full path like /projects/slug or /news/slug
-		if (href.startsWith('/')) return `${base}${href}`;
-		// Legacy: bare slug → assume /news/
-		return resolve('/news/[id]', { id: href });
+		if (href.startsWith('/')) path = href;
+		else path = resolve('/news/[id]', { id: href });
 	}
-	return `${base}${href}`;
+	const localized = withLocale(path, (lang as Locale) || 'uk');
+	return `${base}${localized}`;
 }
 
 /** Мітка потрібною мовою; порожня англійська падає назад на українську. */
@@ -71,7 +72,7 @@ function toNavItem(
 	return {
 		id: idPrefix ? `${idPrefix}/${it.id}` : it.id,
 		label: label(it, lang),
-		href: resolvedHref(it.href, it.linkType),
+		href: resolvedHref(it.href, it.linkType, lang),
 		itemType: it.itemType
 	};
 }
@@ -108,7 +109,7 @@ export function menuConfigToGroups(cfg: MenuConfig, lang: string): NavGroup[] {
 		groups.push({
 			id: s.id,
 			title: s.labelUk ? label({ labelUk: s.labelUk, labelEn: s.labelEn ?? '' }, lang) : undefined,
-			titleHref: s.href ? resolvedHref(s.href, s.linkType ?? 'page') : undefined,
+			titleHref: s.href ? resolvedHref(s.href, s.linkType ?? 'page', lang) : undefined,
 			items: visibleInOrder(s.items).map((it) => toNavItem(it, lang))
 		});
 	}
@@ -169,4 +170,24 @@ export function withCtaItem(
 		return [{ ...groups[0], items: [item, ...groups[0].items] }, ...groups.slice(1)];
 	}
 	return [{ id: CTA_GROUP_ID, items: [item] }, ...groups];
+}
+
+
+export function normalizePath(p: string): string {
+	if (!p) return '/';
+	const clean = p.split('?')[0].split('#')[0];
+	return clean.replace(/\/+$/, '') || '/';
+}
+
+export function isPathActive(currentPath: string, itemHref: string): boolean {
+	if (!itemHref || itemHref === '#' || itemHref.startsWith('http') || itemHref.startsWith('mailto:') || itemHref.startsWith('tel:')) {
+		return false;
+	}
+	const current = normalizePath(currentPath);
+	const target = normalizePath(itemHref);
+
+	if (target === '/' || target === '/en') {
+		return current === target;
+	}
+	return current === target || current.startsWith(`${target}/`);
 }

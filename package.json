@@ -1,7 +1,7 @@
 {
   "name": "teatralo4ka.odesa.ua",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.6",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -11,7 +11,7 @@
     "build": "vite build",
     "prebuild": "npm run validate-content",
     "preview": "vite preview",
-    "prepare": "svelte-kit sync || echo ''",
+    "prepare": "svelte-kit sync && husky || echo ''",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test": "vitest run",
@@ -49,6 +49,7 @@
     "firebase-admin": "^13.7.0",
     "globals": "^17.9.0",
     "gray-matter": "^4.0.3",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lucide-svelte": "^1.0.1",
     "marked": "^17.0.5",

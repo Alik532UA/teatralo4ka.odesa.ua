@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
 	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
@@ -531,7 +532,7 @@
 	onpointerleave={() => (pointerInside = false)}
 />
 
-{#if visible}
+{#if visible && !ui.isMenuOpen}
 	<!--
 		Мінімапа дублює нативну прокрутку, яка з клавіатури працює й без неї
 		(PgUp/PgDn, стрілки, Home/End). Роль їй не призначена свідомо:

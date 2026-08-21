@@ -141,52 +141,52 @@ html {
 	 * вона лишалася системною й у темній темі світилася білим. */
 	--scrollbar-track: var(--bg-surface);
 	--scrollbar-thumb: color-mix(in srgb, var(--accent-primary), transparent 55%);
+}
 
-	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-	/* `auto`, а не `thin`: потрібна звичайна товщина. */
+/* Стандартний режим (коли на html НЕМАЄ .has-custom-scrollbar):
+   Використовується системний стандартний скрол браузера для всієї сторінки та вікон */
+html:not(.has-custom-scrollbar),
+html:not(.has-custom-scrollbar) * {
+	scrollbar-color: auto;
 	scrollbar-width: auto;
 }
 
-/* Внутрішні смуги — випадайки, модалки, мобільне меню. Сталі 10px. */
-::-webkit-scrollbar {
-	width: 10px;
-	height: 10px;
-}
-
-::-webkit-scrollbar-track {
-	background: var(--scrollbar-track);
-	border-radius: 999px;
-}
-
-::-webkit-scrollbar-thumb {
-	background: var(--scrollbar-thumb);
-	border-radius: 999px;
-	/* Прозора рамка плюс `content-box` робить повзунок тоншим за доріжку. Раніше
-	   рамка була кольору доріжки — і на будь-якому іншому тлі (темне вікно,
-	   картка) той колір ставав видимою рамкою навколо повзунка. */
-	border: 2px solid transparent;
-	background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: var(--accent-primary);
-	background-clip: content-box;
-}
-
-/* Головну смугу сторінки малює `PageScrollbar` — власним елементом поверх
-   вмісту. Нативна ховається лише тоді, коли компонент справді змонтувався й
-   поставив цей клас: якщо він не працює (сенсорний пристрій, помилка), у
-   сторінки лишається звичайна робоча смуга, а не жодної.
-
-   Навіщо власна: нативна є частиною розкладки, тому сторінки з нею і без неї
-   зсунуті одна відносно одної; її не можна покласти під заставку, бо браузер
-   малює її поверх усього; і її товщину не можна змінювати в рантаймі. */
+/* Авторський режим (коли на html встановлено .has-custom-scrollbar):
+   1. На html ховаємо нативний скрол (оскільки працює PageScrollbar або Minimap)
+   2. У всіх внутрішніх вікнах/поповерах/модалках застосовуємо авторський тонкий скрол */
 html.has-custom-scrollbar {
 	scrollbar-width: none;
 }
 
 html.has-custom-scrollbar::-webkit-scrollbar {
 	display: none;
+}
+
+html.has-custom-scrollbar * {
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	scrollbar-width: thin;
+}
+
+html.has-custom-scrollbar *::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+html.has-custom-scrollbar *::-webkit-scrollbar-track {
+	background: var(--scrollbar-track);
+	border-radius: 999px;
+}
+
+html.has-custom-scrollbar *::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+html.has-custom-scrollbar *::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-primary);
+	background-clip: content-box;
 }
 
 body {

@@ -10,14 +10,14 @@
 	import { cubicInOut } from "svelte/easing";
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { changeLanguage } from "$lib/i18n/switchLanguage";
+	import { withLocale, type Locale } from "$lib/i18n/routing";
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
-	import { resolve } from "$app/paths";
-	import {
+		import {
+		isPathActive,
 		menuConfigToFlatItems,
 		menuConfigToGroups,
 		resolvedHref,
-		withCtaItem,
 		withOverflowGroup,
 		type NavItem
 	} from "$lib/utils/navigation";
@@ -228,19 +228,25 @@
 	
 	// Оголошено до mobileNavGroups навмисно: `$derived` обчислює вираз одразу,
 	// на відміну від колишнього `$derived.by`, який відкладав виклик.
-	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType));
+	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType, ($locale ?? "uk")));
 
 	const dynamicDropdownGroups = $derived(
 		withOverflowGroup(navDropdownGroups, hiddenNavItems, $t('nav.more'))
 	);
 
+	const rawMobileNavGroups = $derived(
+		menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk')
+	);
+
 	const mobileNavGroups = $derived(
-		withCtaItem(
-			menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk'),
-			headerSettings.cta,
-			ctaHref,
-			$locale ?? 'uk'
-		)
+		headerSettings.cta.visible && ctaHref
+			? rawMobileNavGroups
+					.map((group) => ({
+						...group,
+						items: group.items.filter((it) => !isPathActive(it.href, ctaHref))
+					}))
+					.filter((group) => group.items.length > 0 || group.title)
+			: rawMobileNavGroups
 	);
 
 	function isCtaItem(item: NavItem): boolean {
@@ -291,7 +297,7 @@
 	<div class="header__inner">
 		<div class="header__logo-area" data-testid="logo-area-container">
 			<a
-				href={resolve('/')}
+				href={withLocale('/', (($locale as string) || 'uk') as Locale)}
 				class="header__logo-link"
 				aria-label={$t('nav.toHome')}
 				onclick={ui.closeMenu}
@@ -314,7 +320,8 @@
 					{/each}
 					{#if headerSettings.cta.visible}
 						<li class="header__nav-item header__nav-item--ghost">
-							<div class="btn btn-outline header__cta">
+							<div class="btn btn-outline header__cta"
+								class:active={isPathActive(page.url.pathname, ctaHref)}>
 								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
 							</div>
 						</li>
@@ -337,7 +344,7 @@
 							<a
 								href={item.href}
 								class="header__nav-link"
-								class:active={page.url.pathname === item.href}
+								class:active={isPathActive(page.url.pathname, item.href)}
 								data-testid={`nav-link-${i}`}
 							>
 								{item.label}
@@ -350,6 +357,7 @@
 							<a
 								href={ctaHref}
 								class="btn btn-outline header__cta"
+								class:active={isPathActive(page.url.pathname, ctaHref)}
 								id="header-cta"
 								data-testid="admission-cta-btn"
 							>
@@ -408,7 +416,7 @@
 													href={item.href} 
 													class="header__nav-dropdown-link" 
 													class:header__nav-dropdown-cta={isCtaItem(item)}
-														class:active={page.url.pathname === item.href}
+														class:active={isPathActive(page.url.pathname, item.href)}
 														onclick={closeNav}
 														data-testid={`nav-dropdown-link-${gIndex}-${i}`}
 													>
@@ -593,6 +601,23 @@
 				>
 					<div class="header__mobile-container" data-testid="mobile-nav-container">
 						<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
+							{#if headerSettings.cta.visible}
+								<li
+									class="header__mobile-cta-item"
+									data-testid="mobile-nav-cta-container"
+									in:fly={{ y: 20, duration: 400, delay: 100, easing: cubicInOut }}
+								>
+									<a
+										href={ctaHref}
+										class="header__mobile-link header__mobile-cta"
+										class:active={isPathActive(page.url.pathname, ctaHref)}
+										onclick={ui.closeMenu}
+										data-testid="mobile-nav-cta-btn"
+									>
+										{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
+									</a>
+								</li>
+							{/if}
 							{#each mobileNavGroups as group, gIndex (group.id)}
 								<li 
 									class="header__mobile-group" 
@@ -613,7 +638,7 @@
 													href={item.href}
 													class="header__mobile-link"
 													class:header__mobile-cta={isCtaItem(item)}
-													class:active={page.url.pathname === item.href}
+													class:active={isPathActive(page.url.pathname, item.href)}
 													onclick={ui.closeMenu}
 													data-testid={`mobile-nav-link-${gIndex}-${i}`}
 												>
@@ -1068,7 +1093,7 @@
 	.header__mobile-overlay {
 		position: fixed;
 		inset: 0;
-		z-index: 400;
+		z-index: 9500;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -1079,7 +1104,7 @@
 	.header__mobile-backdrop {
 		position: fixed;
 		inset: 0;
-		z-index: 390;
+		z-index: 9400;
 		background: color-mix(in srgb, var(--color-surface), transparent 50%);
 		backdrop-filter: blur(20px);
 		-webkit-backdrop-filter: blur(20px);
@@ -1096,7 +1121,7 @@
 		align-items: center;
 		padding: var(--space-xl) var(--space-xl) var(--space-lg);
 		position: relative;
-		z-index: 420;
+		z-index: 9550;
 	}
 
 	.header__mobile-controls .header__settings {
@@ -1106,7 +1131,7 @@
 	.header__settings-backdrop-mobile {
 		position: fixed;
 		inset: 0;
-		z-index: 450;
+		z-index: 9600;
 		background: color-mix(in srgb, var(--color-surface), transparent 80%);
 		backdrop-filter: blur(10px);
 		-webkit-backdrop-filter: blur(10px);
@@ -1127,7 +1152,7 @@
 		width: 90%;
 		max-width: 320px;
 		padding: 0;
-		z-index: 500;
+		z-index: 9700;
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-sm);
@@ -1317,12 +1342,44 @@
 		color: var(--color-white);
 	}
 
+	.header__mobile-cta-item {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-bottom: var(--space-sm);
+	}
+
 	.header__mobile-cta {
-		background: var(--accent-primary);
-		/* Те саме, що в .header__nav-dropdown-cta вище. */
-		color: var(--text-on-accent) !important;
-		padding: 0.8rem 2rem;
+		font-family: var(--font-heading);
+		font-size: 1.1rem;
+		font-weight: 700;
+		text-align: center;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.65rem 2rem;
 		border-radius: var(--radius-full);
+		border: 1.5px solid var(--header-nav-active) !important;
+		background: transparent !important;
+		color: var(--header-nav-active) !important;
+		max-width: 280px;
+		width: 100%;
+		text-decoration: none;
+		box-shadow: none;
+		transition: all var(--transition-fast);
+	}
+
+	.header__mobile-cta:hover {
+		background: var(--header-nav-active) !important;
+		color: var(--text-on-nav-active) !important;
+		border-color: var(--header-nav-active) !important;
+		transform: scale(1.03);
+	}
+
+	.header__mobile-cta.active {
+		background: var(--header-nav-active) !important;
+		color: var(--text-on-nav-active) !important;
+		border-color: var(--header-nav-active) !important;
 		box-shadow: 0 4px 15px rgba(33, 150, 186, 0.3);
 	}
 

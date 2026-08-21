@@ -7,6 +7,8 @@ import {
 	ROOT_GROUP_ID,
 	menuConfigToFlatItems,
 	menuConfigToGroups,
+	isPathActive,
+	normalizePath,
 	resolvedHref,
 	withCtaItem,
 	withOverflowGroup,
@@ -206,5 +208,37 @@ describe('withCtaItem', () => {
 		const before = JSON.stringify(groups);
 		withCtaItem(groups, cta, '/admission', 'uk');
 		expect(JSON.stringify(groups)).toBe(before);
+	});
+});
+
+
+describe('isPathActive and normalizePath', () => {
+	it('normalizePath обрізає завершальний слеш, query і hash', () => {
+		expect(normalizePath('/about/')).toBe('/about');
+		expect(normalizePath('/about?tab=1')).toBe('/about');
+		expect(normalizePath('/about#section')).toBe('/about');
+		expect(normalizePath('')).toBe('/');
+		expect(normalizePath('/')).toBe('/');
+	});
+
+	it('активна головна сторінка uk та en', () => {
+		expect(isPathActive('/', '/')).toBe(true);
+		expect(isPathActive('/en/', '/en/')).toBe(true);
+		expect(isPathActive('/en', '/en/')).toBe(true);
+		expect(isPathActive('/about/', '/')).toBe(false);
+	});
+
+	it('активна внутрішня сторінка незалежно від завершального слеша', () => {
+		expect(isPathActive('/about/', '/about')).toBe(true);
+		expect(isPathActive('/about', '/about/')).toBe(true);
+		expect(isPathActive('/en/about/', '/en/about')).toBe(true);
+		expect(isPathActive('/history/', '/about')).toBe(false);
+	});
+
+	it('ігнорує зовнішні посилання або порожні href', () => {
+		expect(isPathActive('/about', '')).toBe(false);
+		expect(isPathActive('/about', '#')).toBe(false);
+		expect(isPathActive('/about', 'https://example.com')).toBe(false);
+		expect(isPathActive('/about', 'mailto:test@test.com')).toBe(false);
 	});
 });

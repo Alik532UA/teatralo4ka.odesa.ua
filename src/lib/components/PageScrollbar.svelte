@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
 	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
@@ -312,7 +313,7 @@
 <!-- Умова — `enabled`, а не `visible`: елемент лишається змонтованим, поки
      обрано цей режим, і на сторінці без прокрутки просто виїжджає за край.
      Якби він зникав із DOM, анімувати зникнення не було б чого. -->
-{#if enabled}
+{#if enabled && !ui.isMenuOpen}
 	<!--
 		Та сама причина, що в `Minimap`: смуга дублює нативну прокрутку, доступну
 		з клавіатури без неї. `role="scrollbar"` потягнув би `aria-valuenow` і
@@ -323,7 +324,7 @@
 		class="page-scrollbar"
 		class:dragging
 		class:holding={hold.holding}
-		class:page-scrollbar--hidden={presence.current < 0.01}
+		class:page-scrollbar--hidden={ui.isMenuOpen || presence.current < 0.01}
 		style="width: {width}px; opacity: {presence.current};
 			transform: translateX({(1 - presence.current) * width}px);"
 		data-testid="page-scrollbar-container"

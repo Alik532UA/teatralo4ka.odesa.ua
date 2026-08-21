@@ -16,6 +16,7 @@ export class WebVitals {
 
 		this.#observe('largest-contentful-paint', (entries) => {
 			const last = entries.at(-1);
+			// eslint-disable-next-line no-console
 			if (last) console.info(`[Performance] LCP: ${last.startTime.toFixed(0)}ms`);
 		});
 
@@ -26,11 +27,13 @@ export class WebVitals {
 			for (const entry of shiftEntries) {
 				if (!entry.hadRecentInput) this.#cls += entry.value;
 			}
+			// eslint-disable-next-line no-console
 			console.info(`[Performance] CLS: ${this.#cls.toFixed(4)}`);
 		});
 
 		this.#observe('event', (entries) => {
 			const worst = Math.max(...entries.map((e) => e.duration));
+			// eslint-disable-next-line no-console
 			if (worst > 0) console.info(`[Performance] INP: ${worst.toFixed(0)}ms`);
 		});
 
