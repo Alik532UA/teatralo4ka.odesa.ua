@@ -41,7 +41,14 @@ try {
         JSON.stringify(staticVersionData, null, 4),
     );
 
-    // 4. Stage the changes
+    // 4. Touch vite.config.ts so active Vite dev server reloads __APP_VERSION__
+    const viteConfigPath = path.resolve(rootDir, "vite.config.ts");
+    if (fs.existsSync(viteConfigPath)) {
+        const time = new Date();
+        fs.utimesSync(viteConfigPath, time, time);
+    }
+
+    // 5. Stage the changes
     execSync("git add package.json package-lock.json static/app-version.json", {
         cwd: rootDir,
         stdio: "inherit",
