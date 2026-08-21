@@ -1,13 +1,27 @@
 User-agent: *
-# Адмінка рендериться на клієнті (ssr = false), тому мета-тег robots у її
-# зібраний HTML не потрапляє — закриваємо тут.
 Disallow: /admin/
-# Чеклист бета-тестування — службова сторінка для живих тестувальників
-# (BETA-CHECKLIST-v8 § 4). Перелік адрес живе в src/lib/config/hiddenRoutes.ts,
-# а збіг із цим файлом тримає інваріант src/beta-checklist.test.ts.
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
 Allow: /
+
+# AI Search Crawlers
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /beta-test-checklists/
+Disallow: /en/beta-test-checklists/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /beta-test-checklists/
+Disallow: /en/beta-test-checklists/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin/
+Disallow: /beta-test-checklists/
+Disallow: /en/beta-test-checklists/
 
 Host: https://teatralo4ka.odesa.ua
 Sitemap: https://teatralo4ka.odesa.ua/sitemap.xml

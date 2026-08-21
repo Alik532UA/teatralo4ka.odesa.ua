@@ -279,10 +279,7 @@
 
 	<title>{seoTitle}</title>
 	<meta name="description" content={metaDescription} />
-	<meta
-		name="robots"
-		content={data.hidden ? 'noindex, nofollow' : 'index, follow'}
-	/>
+	<meta name="robots" content={data.hidden ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'} />
 
 	<meta property="og:title" content={seoTitle} />
 	<meta property="og:description" content={metaDescription} />
