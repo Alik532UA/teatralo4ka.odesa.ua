@@ -35,8 +35,8 @@
 			sizes="(hover: hover) 176px, 96px"
 			width="96"
 			height="96"
-			loading="lazy"
 			decoding="async"
+			fetchpriority="low"
 			alt={graduate.name}
 		/>
 	{:else}

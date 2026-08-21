@@ -7,9 +7,10 @@
 
 	interface Props {
 		onselect: (graduate: GraduateIndexEntry) => void;
+		paused?: boolean;
 	}
 
-	let { onselect }: Props = $props();
+	let { onselect, paused = false }: Props = $props();
 
 	/**
 	 * Летять УСІ 482 випускники, без винятку й без ротації.
@@ -61,12 +62,12 @@
 	<div class="galaxy__stars" aria-hidden="true">
 		{#if browser}
 			{#await import('$lib/components/backgrounds/Starfield.svelte') then { default: Starfield }}
-				<Starfield />
+				<Starfield {paused} />
 			{/await}
 		{/if}
 	</div>
 
-	<ul class="galaxy__lanes" data-testid="galaxy-list">
+	<ul class="galaxy__lanes" class:is-paused={paused} data-testid="galaxy-list">
 		{#each flying as item (item.kind + item.lane)}
 			<li
 				class="lane"
@@ -109,6 +110,10 @@
 		list-style: none;
 	}
 
+	.galaxy__lanes.is-paused .lane {
+		animation-play-state: paused;
+	}
+
 	.lane {
 		position: absolute;
 		/*
@@ -118,6 +123,8 @@
 		 */
 		top: calc((100% - 56px) * var(--top) / 100);
 		left: 0;
+		contain: layout paint;
+		will-change: translate;
 		/* `translate` окремою властивістю, а не в `transform`: збільшення зірки
 		   живе саме в `transform`, і одне затирало б інше кадром анімації. */
 		animation: drift var(--duration) linear var(--delay) infinite;

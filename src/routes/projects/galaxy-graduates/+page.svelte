@@ -135,7 +135,7 @@
 </nav>
 
 <div class="stage">
-	<GraduateGalaxy onselect={openGraduate} />
+	<GraduateGalaxy onselect={openGraduate} paused={rosterOpen || selected !== null} />
 
 	<button
 		type="button"

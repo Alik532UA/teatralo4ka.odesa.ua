@@ -4,10 +4,12 @@
 
 	let {
 		theme = 'dark',
-		color = '#cfe4ff'
+		color = '#cfe4ff',
+		paused = false
 	}: {
 		theme?: 'light' | 'dark';
 		color?: string;
+		paused?: boolean;
 	} = $props();
 
 	let canvas: HTMLCanvasElement;
@@ -17,12 +19,18 @@
 		engine?.setTheme(theme, color);
 	});
 
+	$effect(() => {
+		if (engine) {
+			engine.setActive(!paused);
+		}
+	});
+
 	onMount(() => {
 		engine = new StarfieldEngine(theme, color);
 		if (canvas) {
 			engine.mount(canvas);
 			// Див. Particles.svelte: `$effect` спрацьовує до присвоєння `engine`.
-			engine.setActive(true);
+			engine.setActive(!paused);
 		}
 
 		return () => {

@@ -47,15 +47,33 @@ const MAX_STARS = 220;
 
 export class StarfieldEngine extends CanvasEngine {
 	private stars: Star[] = [];
-
-	/**
-	 * Час попереднього кадру, мс.
-	 *
-	 * Рух через різницю часу, а не «плюс стільки за кадр»: інакше швидкість
-	 * зірок залежить від частоти екрана, і на 120-герцевому телефоні поле летить
-	 * удвічі швидше, ніж задумано. Наявні фони проєкту саме цим і хибують.
-	 */
 	private lastFrame = 0;
+	private glowSprite: HTMLCanvasElement | null = null;
+	private cachedPrimary = '';
+
+	private getGlowSprite(primary: string): HTMLCanvasElement | null {
+		if (typeof document === 'undefined') return null;
+		if (this.glowSprite && this.cachedPrimary === primary) {
+			return this.glowSprite;
+		}
+		const size = 32;
+		const canvas = document.createElement('canvas');
+		canvas.width = size;
+		canvas.height = size;
+		const sCtx = canvas.getContext('2d');
+		if (!sCtx) return null;
+		const center = size / 2;
+		const grad = sCtx.createRadialGradient(center, center, 0, center, center, center);
+		grad.addColorStop(0, `${primary}0.5)`);
+		grad.addColorStop(1, `${primary}0)`);
+		sCtx.fillStyle = grad;
+		sCtx.beginPath();
+		sCtx.arc(center, center, center, 0, Math.PI * 2);
+		sCtx.fill();
+		this.glowSprite = canvas;
+		this.cachedPrimary = primary;
+		return canvas;
+	}
 
 	protected init() {
 		const count = Math.min(MAX_STARS, Math.floor((this.width * this.height) / AREA_PER_STAR));
@@ -89,6 +107,7 @@ export class StarfieldEngine extends CanvasEngine {
 
 		const { primary } = this.getColors();
 		const time = now / 1000;
+		const sprite = this.getGlowSprite(primary);
 
 		this.ctx.clearRect(0, 0, this.width, this.height);
 
@@ -104,27 +123,28 @@ export class StarfieldEngine extends CanvasEngine {
 			const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.35 + 0.65;
 			const alpha = Math.min(1, star.alpha * twinkle);
 
-			// Світіння навколо ядра: без нього зірки читаються як пил, а не як світло.
-			const glow = this.ctx.createRadialGradient(
-				star.x,
-				star.y,
-				0,
-				star.x,
-				star.y,
-				star.radius * 4
-			);
-			glow.addColorStop(0, `${primary}${alpha * 0.5})`);
-			glow.addColorStop(1, `${primary}0)`);
+			// Світіння навколо ядра: кешований спрайт замість створення нового градієнта щокадру
+			if (sprite) {
+				const glowRadius = star.radius * 4;
+				const glowDiameter = glowRadius * 2;
+				this.ctx.globalAlpha = alpha;
+				this.ctx.drawImage(
+					sprite,
+					star.x - glowRadius,
+					star.y - glowRadius,
+					glowDiameter,
+					glowDiameter
+				);
+			}
 
-			this.ctx.beginPath();
-			this.ctx.arc(star.x, star.y, star.radius * 4, 0, Math.PI * 2);
-			this.ctx.fillStyle = glow;
-			this.ctx.fill();
-
+			// Ядро зірки
+			this.ctx.globalAlpha = alpha;
 			this.ctx.beginPath();
 			this.ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-			this.ctx.fillStyle = `${primary}${alpha})`;
+			this.ctx.fillStyle = `${primary}1)`;
 			this.ctx.fill();
 		}
+
+		this.ctx.globalAlpha = 1;
 	}
 }
