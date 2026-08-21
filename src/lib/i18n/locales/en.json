@@ -882,6 +882,14 @@
     "backToGalaxy": "Back to the galaxy",
     "profilesNav": "Graduates with profiles",
     "profileSeo": "Graduate of the Odesa Theatre School: years of study, course masters, plays and roles.",
-    "ownPage": "Own page"
+    "ownPage": "Own page",
+    "departments": {
+      "theatre": "Theatre Department",
+      "piano": "Piano (Instrumental)",
+      "vocal": "Vocal Department",
+      "music": "Music Department",
+      "art": "Art Department",
+      "guitar": "Guitar (Instrumental)"
+    }
   }
 }

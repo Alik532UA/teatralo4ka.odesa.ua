@@ -30,7 +30,12 @@ import { asset } from '$app/paths';
  */
 
 /** Відділення. Ключі збігаються з емодзі-маркерами джерела (див. парсер). */
-export type Department = 'theatre' | 'music' | 'vocal' | 'art' | 'piano';
+export type Department = 'theatre' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
+
+export interface GraduateMaster {
+	name: string;
+	department?: Department | string | null;
+}
 
 export interface GraduateSocial {
 	network: string;
@@ -60,7 +65,7 @@ export interface GraduateIndexEntry {
 	enrollmentYears?: number[];
 	/** Абревіатура й розшифровка окремо: у джерелі це «ЗТК» + «Захисники…». */
 	group?: { abbr: string | null; name: string | null };
-	masters?: string[];
+	masters?: (string | GraduateMaster)[];
 	socials?: GraduateSocial[];
 	playCount?: number;
 	sourceUrl?: string;
@@ -89,7 +94,7 @@ export interface GraduateProfile {
 	departments: Department[];
 	hasPhoto: boolean;
 	group: string | null;
-	masters: string[];
+	masters: (string | GraduateMaster)[];
 	socials: GraduateSocial[];
 	plays: GraduatePlay[];
 	/** Абзаци «про себе»: навчання після школи, робота, власні слова. */

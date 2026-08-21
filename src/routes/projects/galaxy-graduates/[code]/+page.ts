@@ -64,9 +64,10 @@ export async function load({ params, fetch, url }) {
 /** Опис сторінки для `<meta name="description">` — його бере `+layout.svelte`. */
 function describe(name: string, profile: GraduateProfile, pathname: string): string {
 	const words = SEO[localeFromPath(pathname)] ?? SEO.uk;
+	const masterNames = profile.masters.map((m) => (typeof m === 'string' ? m : m.name));
 	return [
 		profile.graduationYear ? `${name}, ${words.graduated} ${profile.graduationYear}` : name,
-		profile.masters.length > 0 ? `${words.masters}: ${profile.masters.join(', ')}` : '',
+		masterNames.length > 0 ? `${words.masters}: ${masterNames.join(', ')}` : '',
 		profile.plays.length > 0 ? words.plays(profile.plays.length) : ''
 	]
 		.filter(Boolean)

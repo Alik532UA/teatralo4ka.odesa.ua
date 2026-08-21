@@ -103,10 +103,11 @@ for (const entry of index) {
 		name: entry.name,
 		graduationYear: entry.graduationYear,
 		enrollmentYears: record.enrollmentYears,
-		departments: entry.departments,
+		departments:
+			record.departments && record.departments.length > 0 ? record.departments : entry.departments,
 		hasPhoto: entry.hasPhoto ?? false,
 		group: record.group?.name ?? record.group?.abbr ?? null,
-		masters: record.masters.map((master) => master.name),
+		masters: record.masters,
 		socials: record.socials,
 		// Вистава віддається дослівним рядком, а не розкладеною на назву й роль:
 		// див. коментар до `Play.text` у `parse-graduates.ts` — на частині рядків

@@ -23,7 +23,7 @@ const BIO = '[data-testid^="galaxy-card-bio-item-"]';
 
 interface Profile {
 	name: string;
-	masters: string[];
+	masters: (string | { name: string; department?: string | null })[];
 	socials: { network: string }[];
 	plays: { year: number | null; text: string }[];
 	bio: string[];
@@ -47,7 +47,8 @@ test.describe('сторінка випускника', () => {
 
 		// Майстри курсу — усі, а не перший.
 		for (const master of data.masters) {
-			await expect(page.locator('[data-testid="galaxy-card-masters-text"]')).toContainText(master);
+			const masterName = typeof master === 'string' ? master : master.name;
+			await expect(page.locator('[data-testid="galaxy-card-masters-text"]')).toContainText(masterName);
 		}
 
 		await expect(page.locator('[data-testid^="galaxy-card-social-link-"]')).toHaveCount(
@@ -111,17 +112,28 @@ test.describe('картка в галактиці має власну адрес
 		await page.locator('[data-testid="galaxy-open-roster-btn"]').click();
 		await page.locator('[data-testid="galaxy-roster-kateryna-kudlach-btn"]').click();
 
-		await expect(page.locator(CARD)).toBeVisible();
-		// Адреса — та сама, що на старому сайті.
-		await expect(page).toHaveURL(new RegExp(`${PROFILE}$`));
-		// І в картці ті самі подробиці, що й на власній сторінці: файл профілю
-		// читається на кліку, а не лежить у бандлі галактики.
-		await expect(page.locator(`${CARD} ${PLAY}`)).toHaveCount(data.plays.length);
-		await expect(page.locator(`${CARD} ${BIO}`)).toHaveCount(data.bio.length);
+		const isMobile = (page.viewportSize()?.width ?? 1280) <= 768;
+		if (isMobile) {
+			await expect(page).toHaveURL(new RegExp(`${PROFILE}/?$`));
+			await expect(page.locator('h1')).toHaveText(data.name);
+			await expect(page.locator(PLAY)).toHaveCount(data.plays.length);
+			await expect(page.locator(BIO)).toHaveCount(data.bio.length);
 
-		await page.goBack();
-		await expect(page.locator(CARD)).toHaveCount(0);
-		await expect(page).toHaveURL(/galaxy-graduates\/?$/);
+			await page.goBack();
+			await expect(page).toHaveURL(/galaxy-graduates\/?$/);
+		} else {
+			await expect(page.locator(CARD)).toBeVisible();
+			// Адреса — та сама, що на старому сайті.
+			await expect(page).toHaveURL(new RegExp(`${PROFILE}/?$`));
+			// І в картці ті самі подробиці, що й на власній сторінці: файл профілю
+			// читається на кліку, а не лежить у бандлі галактики.
+			await expect(page.locator(`${CARD} ${PLAY}`)).toHaveCount(data.plays.length);
+			await expect(page.locator(`${CARD} ${BIO}`)).toHaveCount(data.bio.length);
+
+			await page.goBack();
+			await expect(page.locator(CARD)).toHaveCount(0);
+			await expect(page).toHaveURL(/galaxy-graduates\/?$/);
+		}
 	});
 
 	test('у кого анкети немає — адреса не змінюється', async ({ page }) => {
