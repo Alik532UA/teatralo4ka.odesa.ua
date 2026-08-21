@@ -141,19 +141,38 @@ html {
 	 * вона лишалася системною й у темній темі світилася білим. */
 	--scrollbar-track: var(--bg-surface);
 	--scrollbar-thumb: color-mix(in srgb, var(--accent-primary), transparent 55%);
-}
 
-/* Стандартний режим (коли на html НЕМАЄ .has-custom-scrollbar):
-   Використовується системний стандартний скрол браузера для всієї сторінки та вікон */
-html:not(.has-custom-scrollbar),
-html:not(.has-custom-scrollbar) * {
-	scrollbar-color: auto;
+	/* Стандартний скрол брендується кольорами теми сайту */
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 	scrollbar-width: auto;
 }
 
-/* Авторський режим (коли на html встановлено .has-custom-scrollbar):
-   1. На html ховаємо нативний скрол (оскільки працює PageScrollbar або Minimap)
-   2. У всіх внутрішніх вікнах/поповерах/модалках застосовуємо авторський тонкий скрол */
+/* Стандартні правила для WebKit/Chromium (правильний брендовий вигляд) */
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--scrollbar-track);
+	border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: 999px;
+	border: 2px solid transparent;
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--accent-primary);
+	background-clip: content-box;
+}
+
+/* Авторський режим (html.has-custom-scrollbar):
+   1. На html ховаємо нативний скрол сторінки (оскільки працює PageScrollbar або Minimap)
+   2. Усі внутрішні елементи та вікна (попапи, меню, модалки) отримують тонкий авторський скрол без системних стрілок */
 html.has-custom-scrollbar {
 	scrollbar-width: none;
 }
@@ -163,30 +182,35 @@ html.has-custom-scrollbar::-webkit-scrollbar {
 }
 
 html.has-custom-scrollbar * {
-	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+	scrollbar-color: var(--scrollbar-thumb) transparent;
 	scrollbar-width: thin;
 }
 
 html.has-custom-scrollbar *::-webkit-scrollbar {
-	width: 8px;
-	height: 8px;
+	width: 6px;
+	height: 6px;
+}
+
+html.has-custom-scrollbar *::-webkit-scrollbar-button {
+	display: none;
+	width: 0;
+	height: 0;
 }
 
 html.has-custom-scrollbar *::-webkit-scrollbar-track {
-	background: var(--scrollbar-track);
+	background: transparent;
 	border-radius: 999px;
 }
 
 html.has-custom-scrollbar *::-webkit-scrollbar-thumb {
 	background: var(--scrollbar-thumb);
 	border-radius: 999px;
-	border: 2px solid transparent;
-	background-clip: content-box;
+	border: none;
+	background-clip: padding-box;
 }
 
 html.has-custom-scrollbar *::-webkit-scrollbar-thumb:hover {
 	background: var(--accent-primary);
-	background-clip: content-box;
 }
 
 body {

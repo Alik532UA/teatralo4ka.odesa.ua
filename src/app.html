@@ -45,8 +45,8 @@
 					'custom';
 				var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 				var wide = window.matchMedia('(min-width: 1100px)').matches;
-				var hidesNative = fine && (sb === 'custom' || ((sb === 'minimap' || sb === 'minimap-full') && wide));
-				if (hidesNative) {
+				var hidesNative = sb === 'custom' || ((sb === 'minimap' || sb === 'minimap-full') && wide);
+				if (sb === 'custom' || sb === 'minimap' || sb === 'minimap-full') {
 					document.documentElement.classList.add('has-custom-scrollbar');
 				}
 
