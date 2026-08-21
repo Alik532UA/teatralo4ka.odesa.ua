@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { ArrowLeft } from 'lucide-svelte';
 	import GraduateProfileView from '$lib/components/GraduateProfileView.svelte';
@@ -11,39 +13,69 @@
 		withLocale('/projects/galaxy-graduates', localeFromPath(page.url.pathname))
 	);
 
+	let isDesktop = $state(false);
+
+	onMount(() => {
+		const mql = window.matchMedia('(min-width: 769px)');
+		isDesktop = mql.matches;
+		if (isDesktop) document.body.classList.add('page-galaxy');
+
+		const update = (e: MediaQueryListEvent) => {
+			isDesktop = e.matches;
+			if (isDesktop) document.body.classList.add('page-galaxy');
+			else document.body.classList.remove('page-galaxy');
+		};
+		mql.addEventListener('change', update);
+
+		return () => {
+			document.body.classList.remove('page-galaxy');
+			mql.removeEventListener('change', update);
+		};
+	});
 </script>
 
 <svelte:head>
 	<title>{data.graduate.name} — {$t('galaxy.title')}</title>
 </svelte:head>
 
-<!--
-	Сторінка звичайна, із шапкою й підвалом, а не на весь екран.
+<div class="profile-stage" data-testid="graduate-profile-section">
+	{#if browser && isDesktop}
+		<div class="profile-stage__stars" aria-hidden="true">
+			{#await import('$lib/components/backgrounds/Starfield.svelte') then { default: Starfield }}
+				<Starfield />
+			{/await}
+		</div>
+	{/if}
 
-	Галактика — це спосіб РОЗГЛЯДАТИ; сюди ж приходять за конкретною людиною: з
-	пошуку, з посилання в месенджері, з давньої закладки на старий сайт. Тут
-	потрібні хлібні крихти, а не зорі.
--->
-<div class="profile" data-testid="graduate-profile-section">
-	<!-- Мовний префікс додається поверх `resolve()`, тож прямого виклику в
-	     атрибуті немає — та сама форма, що в галактиці. -->
-	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-	<a class="profile__back" href={galaxyHref} data-testid="graduate-profile-back-link">
-		<ArrowLeft size={18} aria-hidden="true" />
-		{$t('galaxy.backToGalaxy')}
-	</a>
+	<div class="profile">
+		<!-- Мовний префікс додається поверх `resolve()`, тож прямого виклику в
+		     атрибуті немає — та сама форма, що в галактиці. -->
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a class="profile__back" href={galaxyHref} data-testid="graduate-profile-back-link">
+			<ArrowLeft size={18} aria-hidden="true" />
+			{$t('galaxy.backToGalaxy')}
+		</a>
 
-	<article class="profile__card">
-		<GraduateProfileView
-			graduate={data.graduate}
-			profile={data.profile}
-			heading="h1"
-			headingId="graduate-name"
-		/>
-	</article>
+		<article class="profile__card">
+			<GraduateProfileView
+				graduate={data.graduate}
+				profile={data.profile}
+				heading="h1"
+				headingId="graduate-name"
+			/>
+		</article>
+	</div>
 </div>
 
 <style>
+	.profile-stage {
+		width: 100%;
+	}
+
+	.profile-stage__stars {
+		display: none;
+	}
+
 	.profile {
 		width: min(720px, 100%);
 		margin: 0 auto;
@@ -65,13 +97,53 @@
 		text-decoration: underline;
 	}
 
-	/* Темна картка на світлій сторінці: це той самий об'єкт, що й у галактиці, і
-	   впізнаваність тут важливіша за одноманітність зі рештою сторінок. */
+	/* Темна картка: впізнаваність об'єкта галактики */
 	.profile__card {
 		padding: clamp(1rem, 3vh, 1.75rem);
 		border-radius: 1.75rem;
 		background: var(--galaxy-card-bg);
 		color: var(--galaxy-text);
 		box-shadow: 0 18px 48px rgb(0 0 0 / 0.28);
+	}
+
+	@media (min-width: 769px) {
+		:global(body.page-galaxy) .profile-stage {
+			position: fixed;
+			inset: 0;
+			display: grid;
+			place-items: center;
+			padding: 1.5rem;
+			background: var(--galaxy-bg);
+			overflow: hidden;
+		}
+
+		:global(body.page-galaxy) .profile-stage__stars {
+			display: block;
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+		}
+
+		:global(body.page-galaxy) .profile {
+			position: relative;
+			z-index: 1;
+			width: min(560px, calc(100vw - 2rem));
+			max-height: min(90dvh, 820px);
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+		}
+
+		:global(body.page-galaxy) .profile__back {
+			color: #cfe4ff;
+			margin-bottom: 0.5rem;
+			width: fit-content;
+		}
+
+		:global(body.page-galaxy) .profile__card {
+			overflow-y: auto;
+			box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+		}
 	}
 </style>

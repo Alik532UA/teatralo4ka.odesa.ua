@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { ExternalLink, X } from 'lucide-svelte';
+	import { X } from 'lucide-svelte';
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import type { GraduateIndexEntry, GraduateProfile } from '$lib/data/graduates';
 	import GraduateProfileView from './GraduateProfileView.svelte';
@@ -9,12 +9,10 @@
 		graduate: GraduateIndexEntry | null;
 		/** Подробиці. `null` — ще вантажаться або людина не заповнила анкету. */
 		profile: GraduateProfile | null;
-		/** Адреса власної сторінки випускника — вона ж стоїть у рядку браузера. */
-		pageHref: string | null;
 		onclose: () => void;
 	}
 
-	let { graduate, profile, pageHref, onclose }: Props = $props();
+	let { graduate, profile, onclose }: Props = $props();
 
 	const id = $props.id();
 
@@ -67,27 +65,6 @@
 		</button>
 
 		<GraduateProfileView {graduate} {profile} headingId="{id}-title" heading="h2" />
-
-		{#if pageHref}
-			<!--
-				Та сама адреса, що вже стоїть у рядку браузера. Посилання лишається
-				потрібним: воно дає сторінку без галактики — щоб роздрукувати,
-				поділитися або відкрити в новій вкладці середнім кліком.
-			-->
-			<!--
-				`pageHref` складений вручну: шлях зі `graduateProfilePath()` плюс мовний
-				префікс від `withLocale()`. `resolve()` тут не підходить у принципі — під
-				SSR він віддає ВІДНОСНИЙ шлях, і префікс поверх нього дав би
-				`/en../../../projects/…` (замір і наслідки — у докблоці
-				`graduateProfilePath` у `$lib/data/graduates`). Та сама форма винятку вже
-				стоїть двічі в `routes/projects/galaxy-graduates/+page.svelte`.
-			-->
-			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-			<a class="card__page" href={pageHref} data-testid="galaxy-card-page-link">
-				<ExternalLink size={16} aria-hidden="true" />
-				{$t('galaxy.ownPage')}
-			</a>
-		{/if}
 	</div>
 {/if}
 
@@ -137,24 +114,5 @@
 
 	.card__close:hover {
 		background: rgb(255 255 255 / 0.22);
-	}
-
-	.card__page {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
-		min-height: 44px;
-		margin-top: 1rem;
-		padding: 0 1rem;
-		border: 1px solid rgb(255 255 255 / 0.22);
-		border-radius: 999px;
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.card__page:hover {
-		border-color: rgb(140 190 255 / 0.7);
-		background: rgb(140 190 255 / 0.14);
 	}
 </style>

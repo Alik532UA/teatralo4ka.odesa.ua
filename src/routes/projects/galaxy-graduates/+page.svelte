@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { pushState } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
+	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { List } from 'lucide-svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
@@ -63,6 +64,11 @@
 
 		if (!graduate.code) {
 			pushState('', { graduateSlug: graduate.slug });
+			return;
+		}
+
+		if (browser && window.matchMedia('(max-width: 768px)').matches) {
+			await goto(profileHref(graduate.code));
 			return;
 		}
 
@@ -160,7 +166,6 @@
 <GraduateCard
 	graduate={selected}
 	profile={selectedProfile}
-	pageHref={selected?.code ? profileHref(selected.code) : null}
 	onclose={() => history.back()}
 />
 

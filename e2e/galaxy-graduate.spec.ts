@@ -118,10 +118,6 @@ test.describe('картка в галактиці має власну адрес
 		// читається на кліку, а не лежить у бандлі галактики.
 		await expect(page.locator(`${CARD} ${PLAY}`)).toHaveCount(data.plays.length);
 		await expect(page.locator(`${CARD} ${BIO}`)).toHaveCount(data.bio.length);
-		await expect(page.locator('[data-testid="galaxy-card-page-link"]')).toHaveAttribute(
-			'href',
-			new RegExp(`${PROFILE}$`)
-		);
 
 		await page.goBack();
 		await expect(page.locator(CARD)).toHaveCount(0);
@@ -142,7 +138,6 @@ test.describe('картка в галактиці має власну адрес
 
 		await expect(page.locator(CARD)).toBeVisible();
 		await expect(page.locator('[data-testid="galaxy-card-pending-message"]')).toBeVisible();
-		await expect(page.locator('[data-testid="galaxy-card-page-link"]')).toHaveCount(0);
 		expect(new URL(page.url()).pathname, 'адреса мусить лишитися').toBe(before);
 	});
 
