@@ -83,18 +83,14 @@
 		left: 50%;
 		top: 50%;
 		translate: -50% -50%;
-		/* max-height обов'язковий: без нього центрована картка вилазить в обидва
-		   боки, і кнопка закриття опиняється над екраном (FLUID-SIZING-v8 § 4).
-		   Ширша, ніж була (440px): тепер у картці ще й вистави та біографія. */
-		width: min(560px, calc(100vw - 2rem));
-		max-height: min(90dvh, 820px);
+		width: min(1380px, 92vw);
+		max-height: min(92dvh, 880px);
 		overflow-y: auto;
-		padding: clamp(1rem, 3dvh, 1.75rem);
+		padding: clamp(1.25rem, 3dvh, 2.25rem);
 		border-radius: 1.75rem;
 		background: var(--galaxy-card-bg);
 		color: var(--galaxy-text);
 		box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
-		text-align: center;
 	}
 
 	.card__close {

@@ -52,147 +52,180 @@
 	const socials = $derived(profile?.socials ?? graduate.socials ?? []);
 </script>
 
-{#if graduate.hasPhoto}
-	<div class="photo-container">
-		<img
-			class="photo"
-			src={graduatePhoto(graduate.slug, 480)}
-			srcset={graduatePhotoSrcset(graduate.slug)}
-			sizes="(max-width: 520px) 40vw, 180px"
-			width="180"
-			height="180"
-			alt={graduate.name}
-			data-testid="galaxy-card-img"
-		/>
-		{#if departments.length > 0}
-			<div class="dept-badges" data-testid="galaxy-card-dept-badges">
-				{#each departments as dept (dept)}
-					<span
-						class="dept-badge"
-						role="img"
-						title={$t(`galaxy.departments.${dept}`, { default: dept })}
-						aria-label={$t(`galaxy.departments.${dept}`, { default: dept })}
-					>
-						<DepartmentIcon department={dept} size={18} />
-					</span>
-				{/each}
-			</div>
+<div class="profile-layout">
+	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
+	<div class="col col--left">
+		{#if profile && profile.plays.length > 0}
+			<section class="block" data-testid="galaxy-card-plays-section">
+				<h3 class="block__title">{$t('galaxy.playsTitle')}</h3>
+				<ul class="plays">
+					{#each profile.plays as play, index (index)}
+						<li class="play" data-testid="galaxy-card-play-item-{index}">
+							{#if play.year}<span class="play__year">{play.year}</span>{/if}
+							<span class="play__text">{play.text}</span>
+						</li>
+					{/each}
+				</ul>
+			</section>
 		{/if}
 	</div>
-{:else}
-	<div class="star" aria-hidden="true"></div>
-	<p class="pending" data-testid="galaxy-card-pending-message">{$t('galaxy.noProfile')}</p>
-{/if}
 
-<svelte:element this={heading} class="name" id={headingId} data-testid="galaxy-card-title">
-	{graduate.name}
-</svelte:element>
+	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, соцмережі -->
+	<div class="col col--center">
+		{#if graduate.hasPhoto}
+			<div class="photo-container">
+				<img
+					class="photo"
+					src={graduatePhoto(graduate.slug, 480)}
+					srcset={graduatePhotoSrcset(graduate.slug)}
+					sizes="(max-width: 520px) 40vw, 180px"
+					width="180"
+					height="180"
+					alt={graduate.name}
+					data-testid="galaxy-card-img"
+				/>
+				{#if departments.length > 0}
+					<div class="dept-badges" data-testid="galaxy-card-dept-badges">
+						{#each departments as dept (dept)}
+							<span
+								class="dept-badge"
+								role="img"
+								title={$t(`galaxy.departments.${dept}`, { default: dept })}
+								aria-label={$t(`galaxy.departments.${dept}`, { default: dept })}
+							>
+								<DepartmentIcon department={dept} size={18} />
+							</span>
+						{/each}
+					</div>
+				{/if}
+			</div>
+		{:else}
+			<div class="star" aria-hidden="true"></div>
+			<p class="pending" data-testid="galaxy-card-pending-message">{$t('galaxy.noProfile')}</p>
+		{/if}
 
-{#if years.length > 0}
-	<p class="years" data-testid="galaxy-card-years-text">{years.join(' · ')}</p>
-{/if}
+		<svelte:element this={heading} class="name" id={headingId} data-testid="galaxy-card-title">
+			{graduate.name}
+		</svelte:element>
 
-{#if group}
-	<p class="row" data-testid="galaxy-card-group-text">
-		{$t('galaxy.group')}: <strong>{group}</strong>
-	</p>
-{/if}
+		{#if years.length > 0}
+			<p class="years" data-testid="galaxy-card-years-text">{years.join(' · ')}</p>
+		{/if}
 
-{#if normalizedMasters.length > 0}
-	<div class="masters-container" data-testid="galaxy-card-masters-text">
-		<span class="masters-title">{$t('galaxy.masters')}:</span>
-		<ul class="masters-list">
-			{#each normalizedMasters as master, index (index)}
-				<li class="master-item">
-					<span
-						class="master-badge"
-						role="img"
-						title={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
-						aria-label={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
-					>
-						<DepartmentIcon department={master.department} size={16} />
-					</span>
-					<span class="master-name">{master.name}</span>
-				</li>
-			{/each}
-		</ul>
-	</div>
-{/if}
+		{#if group}
+			<p class="row" data-testid="galaxy-card-group-text">
+				{$t('galaxy.group')}: <strong>{group}</strong>
+			</p>
+		{/if}
 
-{#if socials.length > 0}
-	<ul class="socials" data-testid="galaxy-card-socials-list">
-		{#each socials as social (social.network)}
-			<li>
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a
-					href={safeUrl(social.url)}
-					class="social"
-					target="_blank"
-					rel="noopener noreferrer"
-					data-testid="galaxy-card-social-link-{social.network}"
-				>
-					{social.network}
-				</a>
-			</li>
-		{/each}
-	</ul>
-{/if}
+		{#if normalizedMasters.length > 0}
+			<div class="masters-container" data-testid="galaxy-card-masters-text">
+				<span class="masters-title">{$t('galaxy.masters')}:</span>
+				<ul class="masters-list">
+					{#each normalizedMasters as master, index (index)}
+						<li class="master-item">
+							<span
+								class="master-badge"
+								role="img"
+								title={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
+								aria-label={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
+							>
+								<DepartmentIcon department={master.department} size={16} />
+							</span>
+							<span class="master-name">{master.name}</span>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
 
-{#if profile}
-	{#if profile.plays.length > 0}
-		<section class="block" data-testid="galaxy-card-plays-section">
-			<h3 class="block__title">{$t('galaxy.playsTitle')}</h3>
-			<ul class="plays">
-				{#each profile.plays as play, index (index)}
-					<li class="play" data-testid="galaxy-card-play-item-{index}">
-						{#if play.year}<span class="play__year">{play.year}</span>{/if}
-						<span class="play__text">{play.text}</span>
+		{#if socials.length > 0}
+			<ul class="socials" data-testid="galaxy-card-socials-list">
+				{#each socials as social (social.network)}
+					<li>
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={safeUrl(social.url)}
+							class="social"
+							target="_blank"
+							rel="noopener noreferrer"
+							data-testid="galaxy-card-social-link-{social.network}"
+						>
+							{social.network}
+						</a>
 					</li>
 				{/each}
 			</ul>
-		</section>
-	{/if}
+		{/if}
 
-	{#if profile.duringStudies}
-		<section class="block">
-			<h3 class="block__title">{$t('galaxy.duringStudies')}</h3>
-			<p class="para">{profile.duringStudies}</p>
-		</section>
-	{/if}
+		{#if !profile && graduate.hasPhoto}
+			<p class="row" data-testid="galaxy-card-loading-status">{$t('common.loading')}</p>
+		{/if}
+	</div>
 
-	{#if profile.afterGraduation}
-		<section class="block">
-			<h3 class="block__title">{$t('galaxy.afterGraduation')}</h3>
-			<p class="para">{profile.afterGraduation}</p>
-		</section>
-	{/if}
+	<!-- ПРАВА КОЛОНКА: Про себе, під час навчання, після випуску, фестивалі -->
+	<div class="col col--right">
+		{#if profile}
+			{#if profile.duringStudies}
+				<section class="block">
+					<h3 class="block__title">{$t('galaxy.duringStudies')}</h3>
+					<p class="para">{profile.duringStudies}</p>
+				</section>
+			{/if}
 
-	{#if profile.bio.length > 0}
-		<section class="block" data-testid="galaxy-card-bio-section">
-			<h3 class="block__title">{$t('galaxy.about')}</h3>
-			{#each profile.bio as paragraph, index (index)}
-				<p class="para" data-testid="galaxy-card-bio-item-{index}">{paragraph}</p>
-			{/each}
-		</section>
-	{/if}
+			{#if profile.afterGraduation}
+				<section class="block">
+					<h3 class="block__title">{$t('galaxy.afterGraduation')}</h3>
+					<p class="para">{profile.afterGraduation}</p>
+				</section>
+			{/if}
 
-	{#if profile.festivals.length > 0}
-		<section class="block" data-testid="galaxy-card-festivals-section">
-			<h3 class="block__title">{$t('galaxy.festivals')}</h3>
-			<ul class="plays">
-				{#each profile.festivals as festival, index (index)}
-					<li class="play"><span class="play__text">{festival}</span></li>
-				{/each}
-			</ul>
-		</section>
-	{/if}
-{:else if graduate.hasPhoto}
-	<p class="row" data-testid="galaxy-card-loading-status">{$t('common.loading')}</p>
-{/if}
+			{#if profile.bio.length > 0}
+				<section class="block" data-testid="galaxy-card-bio-section">
+					<h3 class="block__title">{$t('galaxy.about')}</h3>
+					{#each profile.bio as paragraph, index (index)}
+						<p class="para" data-testid="galaxy-card-bio-item-{index}">{paragraph}</p>
+					{/each}
+				</section>
+			{/if}
+
+			{#if profile.festivals.length > 0}
+				<section class="block" data-testid="galaxy-card-festivals-section">
+					<h3 class="block__title">{$t('galaxy.festivals')}</h3>
+					<ul class="plays">
+						{#each profile.festivals as festival, index (index)}
+							<li class="play"><span class="play__text">{festival}</span></li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
+		{/if}
+	</div>
+</div>
 
 <style>
+	.profile-layout { display: flex; flex-direction: column; gap: 1.25rem; }
+	.col { min-width: 0; }
+	.col--center { order: 1; }
+	.col--left { order: 2; }
+	.col--right { order: 3; }
+
+	@media (min-width: 860px) {
+		.profile-layout {
+			display: grid;
+			grid-template-columns: 1.15fr minmax(260px, 320px) 1fr;
+			align-items: start;
+			gap: clamp(1.25rem, 2.5vw, 2.25rem);
+			text-align: left;
+		}
+		.col--left { order: 1; }
+		.col--center { order: 2; text-align: center; }
+		.col--right { order: 3; }
+		.col--left .block, .col--right .block { margin-top: 0; margin-bottom: 1.25rem; }
+	}
+
 	.photo-container { display: flex; flex-direction: column; align-items: center; margin: 0 auto 0.75rem; }
-	.photo { display: block; width: clamp(96px, 40vw, 180px); height: auto; aspect-ratio: 1; margin: 0 0 0.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgb(140 190 255 / 0.55); }
+	.photo { display: block; width: clamp(96px, 40vw, 170px); height: auto; aspect-ratio: 1; margin: 0 0 0.5rem; border-radius: 50%; object-fit: cover; border: 2px solid rgb(140 190 255 / 0.55); }
 	.dept-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-top: 0.1rem; }
 	.dept-badge { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgb(140 190 255 / 0.12); border: 1px solid rgb(140 190 255 / 0.35); color: #bfe0ff; transition: transform 0.2s ease, background 0.2s ease; }
 	.dept-badge:hover { transform: scale(1.1); background: rgb(140 190 255 / 0.25); border-color: rgb(140 190 255 / 0.6); color: #fff; }
@@ -211,9 +244,10 @@
 	.social { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 999px; color: inherit; text-decoration: none; text-transform: capitalize; }
 	.social:hover { border-color: rgb(140 190 255 / 0.7); background: rgb(140 190 255 / 0.14); }
 	.block { margin-top: 1.1rem; text-align: left; }
-	.block__title { margin: 0 0 0.5rem; font-size: 1rem; color: var(--galaxy-accent); }
+	.block__title { margin: 0 0 0.5rem; font-size: 1rem; color: var(--galaxy-accent); border-bottom: 1px solid rgb(140 190 255 / 0.2); padding-bottom: 0.3rem; }
 	.plays { margin: 0; padding: 0; list-style: none; }
 	.play { display: flex; gap: 0.6rem; padding: 0.35rem 0; border-top: 1px solid rgb(255 255 255 / 0.08); }
+	.play:first-child { border-top: none; }
 	.play__year { flex-shrink: 0; min-width: 3.2rem; color: var(--galaxy-muted); font-variant-numeric: tabular-nums; }
 	.play__text { min-width: 0; color: var(--galaxy-text); overflow-wrap: anywhere; }
 	.para { margin: 0 0 0.6rem; line-height: 1.55; color: var(--galaxy-text); overflow-wrap: anywhere; }

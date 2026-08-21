@@ -127,8 +127,8 @@
 		:global(body.page-galaxy) .profile {
 			position: relative;
 			z-index: 1;
-			width: min(560px, calc(100vw - 2rem));
-			max-height: min(90dvh, 820px);
+			width: min(1380px, 92vw);
+			max-height: min(92dvh, 880px);
 			margin: 0;
 			padding: 0;
 			display: flex;
@@ -144,6 +144,7 @@
 		:global(body.page-galaxy) .profile__card {
 			overflow-y: auto;
 			box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
+			padding: clamp(1.25rem, 3vh, 2.25rem);
 		}
 	}
 </style>
