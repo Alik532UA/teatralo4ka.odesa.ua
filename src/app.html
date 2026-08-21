@@ -169,6 +169,70 @@
 			</div>
 		</div>
 
+		<!-- Смуга прокрутки: правила мусять діяти на першому кадрі (SCROLLBAR-v8 § 8.1, § 8.3).
+		     На dev-сервері CSS із загального файлу приходить через JavaScript і запізнюється;
+		     клас вже стоїть, а правила ще немає — Chromium малює нативну і більше не
+		     перемальовує ::-webkit-scrollbar (§ 9.1). Тому ВСІ правила тут, а в global.css
+		     вони дублюються для production-білду й як документація. -->
+		<style>
+			/* ── Стандартний режим (10px, брендовані кольори) ───────────── */
+			html:not(.has-custom-scrollbar) {
+				scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+				scrollbar-width: auto;
+			}
+			html:not(.has-custom-scrollbar)::-webkit-scrollbar,
+			html:not(.has-custom-scrollbar) *::-webkit-scrollbar {
+				width: 10px; height: 10px;
+			}
+			html:not(.has-custom-scrollbar)::-webkit-scrollbar-track,
+			html:not(.has-custom-scrollbar) *::-webkit-scrollbar-track {
+				background: var(--scrollbar-track); border-radius: 999px;
+			}
+			html:not(.has-custom-scrollbar)::-webkit-scrollbar-thumb,
+			html:not(.has-custom-scrollbar) *::-webkit-scrollbar-thumb {
+				background: var(--scrollbar-thumb); border-radius: 999px;
+				border: 2px solid transparent; background-clip: content-box;
+			}
+			html:not(.has-custom-scrollbar)::-webkit-scrollbar-thumb:hover,
+			html:not(.has-custom-scrollbar) *::-webkit-scrollbar-thumb:hover {
+				background: var(--accent-primary); background-clip: content-box;
+			}
+
+			/* ── Авторський режим (html ховається, внутрішні — авторський без стрілочок) */
+			html.has-custom-scrollbar { scrollbar-width: none; }
+			html.has-custom-scrollbar::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+			html.has-custom-scrollbar * {
+				scrollbar-color: auto;
+				scrollbar-width: auto;
+			}
+			html.has-custom-scrollbar *::-webkit-scrollbar {
+				width: 8px; height: 8px;
+			}
+			html.has-custom-scrollbar *:hover::-webkit-scrollbar,
+			html.has-custom-scrollbar *::-webkit-scrollbar:hover {
+				width: 14px; height: 14px;
+			}
+			html.has-custom-scrollbar *::-webkit-scrollbar-button {
+				display: none !important; width: 0 !important; height: 0 !important;
+			}
+			html.has-custom-scrollbar *::-webkit-scrollbar-track {
+				background: transparent; border-radius: 999px;
+			}
+			html.has-custom-scrollbar *::-webkit-scrollbar-thumb {
+				background: var(--scrollbar-thumb); border-radius: 999px;
+				border: none; background-clip: padding-box;
+			}
+			html.has-custom-scrollbar *::-webkit-scrollbar-thumb:hover {
+				background: var(--accent-primary);
+			}
+			@supports not selector(::-webkit-scrollbar) {
+				html.has-custom-scrollbar * {
+					scrollbar-color: var(--scrollbar-thumb) transparent;
+					scrollbar-width: thin;
+				}
+			}
+		</style>
 		<style>
 			#app-splash {
 				position: fixed; inset: 0; z-index: 10000;

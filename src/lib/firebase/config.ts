@@ -3,6 +3,7 @@ import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
+  getFirestore,
   memoryLocalCache,
 } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -62,9 +63,15 @@ perf('firebase/config: getAuth done');
 // на Android Chrome через повільну ініціалізацію IndexedDB (баг Chromium).
 // Offline persistence не потрібна — SWR через localStorage покриває повторні візити.
 // Детальніше: firebase-admin/performance-optimization.md
-export const db = initializeFirestore(app, {
-  localCache: memoryLocalCache(),
-});
+let firestoreDb;
+try {
+  firestoreDb = initializeFirestore(app, {
+    localCache: memoryLocalCache(),
+  });
+} catch {
+  firestoreDb = getFirestore(app);
+}
+export const db = firestoreDb;
 perf('firebase/config: initializeFirestore done (memoryLocalCache)');
 export const storage = getStorage(app);
 perf('firebase/config: getStorage done');

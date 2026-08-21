@@ -23,7 +23,8 @@
 	} from "$lib/utils/navigation";
 	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings } from "$lib/services/settings";
 	import { browser } from "$app/environment";
-	import { untrack } from "svelte";
+	import { onMount, untrack } from "svelte";
+	import { replaceState } from "$app/navigation";
 
 	let scrolled = $state(false);
 	let settingsOpen = $state(false);
@@ -38,6 +39,44 @@
 
 	const canScrollUp = $derived(mobileNavScrollY > 10);
 	const canScrollDown = $derived(mobileNavScrollHeight - mobileNavClientHeight - mobileNavScrollY > 10);
+
+	function syncMenuUrl(isOpen: boolean, isSettings: boolean) {
+		if (!browser) return;
+		const url = new URL(page.url);
+		const current = url.searchParams.get('menu');
+		const target = isOpen ? (isSettings ? 'settings' : 'open') : null;
+		if (current !== target) {
+			if (target) {
+				url.searchParams.set('menu', target);
+			} else {
+				url.searchParams.delete('menu');
+			}
+			replaceState(url.pathname + url.search + url.hash, {});
+		}
+	}
+
+	// Початкова синхронізація зі стану URL (?menu=open | ?menu=settings) при першому монтуванні
+	onMount(() => {
+		const param = page.url.searchParams.get('menu');
+		if (param === 'settings') {
+			if (!ui.isMenuOpen) ui.toggleMenu();
+			settingsOpen = true;
+		} else if (param === 'open') {
+			if (!ui.isMenuOpen) ui.toggleMenu();
+			settingsOpen = false;
+		}
+	});
+
+	// Синхронізація URL при відкритті/закритті меню чи налаштувань
+	$effect(() => {
+		const isOpen = ui.isMenuOpen;
+		const isSettings = settingsOpen;
+		untrack(() => {
+			if (browser) {
+				syncMenuUrl(isOpen, isSettings);
+			}
+		});
+	});
 
 	$effect(() => {
 		if (ui.isMenuOpen && mobileNavEl) {

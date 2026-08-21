@@ -105,13 +105,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * «грає відео» з явним розміром 26px, бо іконка з паддінгом давала 23.6px і
  * ловилася гейтом цілей дотику. Рядки — це коментарі про причину й окремі
  * правила для `::before`; логіки додано нуль.
- * 2026-08-21: `HeaderSection.svelte` 1180 -> 1235. Відокремлено CTA кнопку в мобільному меню
- * над першою секцією та додано точну локалізовану перевірку активних вкладок nav / mobile / dropdown.
+ * 2026-08-21: `HeaderSection.svelte` 1180 -> 1270. Відокремлено CTA кнопку в мобільному меню,
+ * додано точну локалізовану перевірку активних вкладок nav / mobile / dropdown та синхронізацію стану мобільного меню з URL (?menu=open / ?menu=settings).
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1195,
-	'src/lib/components/HeaderSection.svelte': 1235,
+	'src/lib/components/HeaderSection.svelte': 1270,
 	'src/lib/services/settings.ts': 980,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,
