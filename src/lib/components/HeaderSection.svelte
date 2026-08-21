@@ -4,7 +4,8 @@
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
 	import { Menu, X, Search } from "lucide-svelte";
-	import { focusTrap } from '$lib/utils/focusTrap';
+	import { focusTrap } from "$lib/utils/focusTrap";
+	import { customScroll } from "$lib/utils/customScroll";
 	import SearchOverlay from "./SearchOverlay.svelte";
 	import { fly, fade } from "svelte/transition";
 	import { cubicInOut } from "svelte/easing";
@@ -13,15 +14,20 @@
 	import { withLocale, type Locale } from "$lib/i18n/routing";
 	import { t, locale } from "svelte-i18n";
 	import { page } from "$app/state";
-		import {
+	import {
 		isPathActive,
 		menuConfigToFlatItems,
 		menuConfigToGroups,
 		resolvedHref,
 		withOverflowGroup,
-		type NavItem
+		type NavItem,
 	} from "$lib/utils/navigation";
-	import { getHeaderSettings, getCachedHeaderSettings, DEFAULT_HEADER_SETTINGS, type HeaderSettings } from "$lib/services/settings";
+	import {
+		getHeaderSettings,
+		getCachedHeaderSettings,
+		DEFAULT_HEADER_SETTINGS,
+		type HeaderSettings,
+	} from "$lib/services/settings";
 	import { browser } from "$app/environment";
 	import { onMount, untrack } from "svelte";
 	import { replaceState } from "$app/navigation";
@@ -38,18 +44,20 @@
 	let mobileNavEl = $state<HTMLElement | null>(null);
 
 	const canScrollUp = $derived(mobileNavScrollY > 10);
-	const canScrollDown = $derived(mobileNavScrollHeight - mobileNavClientHeight - mobileNavScrollY > 10);
+	const canScrollDown = $derived(
+		mobileNavScrollHeight - mobileNavClientHeight - mobileNavScrollY > 10,
+	);
 
 	function syncMenuUrl(isOpen: boolean, isSettings: boolean) {
 		if (!browser) return;
 		const url = new URL(page.url);
-		const current = url.searchParams.get('menu');
-		const target = isOpen ? (isSettings ? 'settings' : 'open') : null;
+		const current = url.searchParams.get("menu");
+		const target = isOpen ? (isSettings ? "settings" : "open") : null;
 		if (current !== target) {
 			if (target) {
-				url.searchParams.set('menu', target);
+				url.searchParams.set("menu", target);
 			} else {
-				url.searchParams.delete('menu');
+				url.searchParams.delete("menu");
 			}
 			replaceState(url.pathname + url.search + url.hash, {});
 		}
@@ -57,11 +65,11 @@
 
 	// Початкова синхронізація зі стану URL (?menu=open | ?menu=settings) при першому монтуванні
 	onMount(() => {
-		const param = page.url.searchParams.get('menu');
-		if (param === 'settings') {
+		const param = page.url.searchParams.get("menu");
+		if (param === "settings") {
 			if (!ui.isMenuOpen) ui.toggleMenu();
 			settingsOpen = true;
-		} else if (param === 'open') {
+		} else if (param === "open") {
 			if (!ui.isMenuOpen) ui.toggleMenu();
 			settingsOpen = false;
 		}
@@ -90,29 +98,49 @@
 	$effect(() => {
 		if (browser) {
 			if (showTicker) {
-				document.documentElement.style.setProperty('--ticker-height', '65px');
-				document.documentElement.classList.add('ticker-active');
-				
+				document.documentElement.style.setProperty(
+					"--ticker-height",
+					"65px",
+				);
+				document.documentElement.classList.add("ticker-active");
+
 				const ticker = headerSettings.ticker;
 				if (ticker?.enableGrayscale) {
 					const strength = (ticker.grayscaleStrength ?? 60) / 100;
-					const brightness = 1 - (strength * 0.2); // Dim slightly based on strength
-					document.documentElement.style.setProperty('--ticker-grayscale', `${strength}`);
-					document.documentElement.style.setProperty('--ticker-brightness', `${brightness}`);
+					const brightness = 1 - strength * 0.2; // Dim slightly based on strength
+					document.documentElement.style.setProperty(
+						"--ticker-grayscale",
+						`${strength}`,
+					);
+					document.documentElement.style.setProperty(
+						"--ticker-brightness",
+						`${brightness}`,
+					);
 				} else {
-					document.documentElement.style.setProperty('--ticker-grayscale', '0');
-					document.documentElement.style.setProperty('--ticker-brightness', '1');
+					document.documentElement.style.setProperty(
+						"--ticker-grayscale",
+						"0",
+					);
+					document.documentElement.style.setProperty(
+						"--ticker-brightness",
+						"1",
+					);
 				}
 			} else {
-				document.documentElement.style.setProperty('--ticker-height', '0px');
-				document.documentElement.classList.remove('ticker-active');
+				document.documentElement.style.setProperty(
+					"--ticker-height",
+					"0px",
+				);
+				document.documentElement.classList.remove("ticker-active");
 			}
 		}
 	});
 
 	// Try to load from localStorage cache first for instant render (no FOUC)
 	const cached = browser ? getCachedHeaderSettings() : null;
-	let headerSettings = $state<Omit<HeaderSettings, 'updatedAt'>>(cached ?? { ...DEFAULT_HEADER_SETTINGS });
+	let headerSettings = $state<Omit<HeaderSettings, "updatedAt">>(
+		cached ?? { ...DEFAULT_HEADER_SETTINGS },
+	);
 	let headerReady = $state(!!cached);
 	let navParentRef = $state<HTMLElement | null>(null);
 	let ghostContainerRef = $state<HTMLElement | null>(null);
@@ -123,7 +151,7 @@
 		if (browser && navParentRef) {
 			const observer = new ResizeObserver((entries) => {
 				for (const entry of entries) {
-					// Measure the parent container which represents 
+					// Measure the parent container which represents
 					// the total available area between logo and right edge
 					availableWidth = entry.contentRect.width;
 				}
@@ -136,26 +164,32 @@
 	$effect(() => {
 		// Unified measurement and calculation
 		if (browser && ghostContainerRef && availableWidth > 0) {
-			const items = ghostContainerRef.querySelectorAll('.header__nav-item--ghost');
-			const widths = Array.from(items).map(el => el.getBoundingClientRect().width);
-			
+			const items = ghostContainerRef.querySelectorAll(
+				".header__nav-item--ghost",
+			);
+			const widths = Array.from(items).map(
+				(el) => el.getBoundingClientRect().width,
+			);
+
 			const GAP = 16;
 			const navItemsLen = navItems.length;
 			const navItemsWidths = widths.slice(0, navItemsLen);
 			const fixedWidths = widths.slice(navItemsLen);
-			
+
 			// Calculate total width needed for fixed items (CTA, Burger, Settings)
-			const totalFixedW = fixedWidths.reduce((sum, w) => sum + w, 0) + 
-							  (fixedWidths.length > 1 ? ((fixedWidths.length - 1) * GAP) : 0);
-			
+			const totalFixedW =
+				fixedWidths.reduce((sum, w) => sum + w, 0) +
+				(fixedWidths.length > 1 ? (fixedWidths.length - 1) * GAP : 0);
+
 			// Space for dynamic links
 			// Increased safety buffer to 40px to trigger hiding EARLIER
 			let remainingWidth = availableWidth - totalFixedW - 40;
-			if (fixedWidths.length > 0 && navItemsLen > 0) remainingWidth -= GAP;
-			
+			if (fixedWidths.length > 0 && navItemsLen > 0)
+				remainingWidth -= GAP;
+
 			let currentWidth = 0;
 			let count = 0;
-			
+
 			for (let i = 0; i < navItemsWidths.length; i++) {
 				const itemW = navItemsWidths[i] + (i > 0 ? GAP : 0);
 				if (currentWidth + itemW <= remainingWidth) {
@@ -170,37 +204,58 @@
 	});
 
 	$effect(() => {
-		getHeaderSettings().then(result => {
-			if (result) {
-				headerSettings = {
-					cta:           result.cta           ?? DEFAULT_HEADER_SETTINGS.cta,
-					headerBar:     result.headerBar     ?? DEFAULT_HEADER_SETTINGS.headerBar,
-					navDropdown:   result.navDropdown   ?? DEFAULT_HEADER_SETTINGS.navDropdown,
-					mobileOverlay: result.mobileOverlay ?? DEFAULT_HEADER_SETTINGS.mobileOverlay,
-					debugPanel:    result.debugPanel    ?? DEFAULT_HEADER_SETTINGS.debugPanel,
-					ticker:        result.ticker        ?? DEFAULT_HEADER_SETTINGS.ticker,
-				};
+		getHeaderSettings()
+			.then((result) => {
+				if (result) {
+					headerSettings = {
+						cta: result.cta ?? DEFAULT_HEADER_SETTINGS.cta,
+						headerBar:
+							result.headerBar ??
+							DEFAULT_HEADER_SETTINGS.headerBar,
+						navDropdown:
+							result.navDropdown ??
+							DEFAULT_HEADER_SETTINGS.navDropdown,
+						mobileOverlay:
+							result.mobileOverlay ??
+							DEFAULT_HEADER_SETTINGS.mobileOverlay,
+						debugPanel:
+							result.debugPanel ??
+							DEFAULT_HEADER_SETTINGS.debugPanel,
+						ticker: result.ticker ?? DEFAULT_HEADER_SETTINGS.ticker,
+					};
 
-				// Типові значення від адміністратора — лише для того, хто сам нічого
-				// не вибирав. Рішення «чий вибір головніший» живе в контролері, а не
-				// тут: цей компонент лише передає щойно прочитані налаштування.
-				ui.applyDefaults(headerSettings.debugPanel);
-			}
-		}).catch(console.error).finally(() => {
-			headerReady = true;
-		});
+					// Типові значення від адміністратора — лише для того, хто сам нічого
+					// не вибирав. Рішення «чий вибір головніший» живе в контролері, а не
+					// тут: цей компонент лише передає щойно прочитані налаштування.
+					ui.applyDefaults(headerSettings.debugPanel);
+				}
+			})
+			.catch(console.error)
+			.finally(() => {
+				headerReady = true;
+			});
 	});
 
 	$effect(() => {
 		const handlePreview = (e: CustomEvent) => {
 			untrack(() => {
 				if (headerSettings) {
-					headerSettings.ticker = { ...headerSettings.ticker, ...e.detail };
+					headerSettings.ticker = {
+						...headerSettings.ticker,
+						...e.detail,
+					};
 				}
 			});
 		};
-		window.addEventListener('ticker-preview', handlePreview as EventListener);
-		return () => window.removeEventListener('ticker-preview', handlePreview as EventListener);
+		window.addEventListener(
+			"ticker-preview",
+			handlePreview as EventListener,
+		);
+		return () =>
+			window.removeEventListener(
+				"ticker-preview",
+				handlePreview as EventListener,
+			);
 	});
 
 	// Smart interaction state: ignore click for 1s after hover open
@@ -260,21 +315,31 @@
 	// Перемикання мови живе в `i18n/switchLanguage`: споживачів у нього два — ця
 	// кнопка й гаряча клавіша `L` у службовому шарі.
 
-	const navItems = $derived(menuConfigToFlatItems(headerSettings.headerBar, $locale ?? 'uk'));
+	const navItems = $derived(
+		menuConfigToFlatItems(headerSettings.headerBar, $locale ?? "uk"),
+	);
 	const hiddenNavItems = $derived(navItems.slice(fitCount));
 
-	const navDropdownGroups = $derived(menuConfigToGroups(headerSettings.navDropdown, $locale ?? 'uk'));
-	
+	const navDropdownGroups = $derived(
+		menuConfigToGroups(headerSettings.navDropdown, $locale ?? "uk"),
+	);
+
 	// Оголошено до mobileNavGroups навмисно: `$derived` обчислює вираз одразу,
 	// на відміну від колишнього `$derived.by`, який відкладав виклик.
-	const ctaHref = $derived(resolvedHref(headerSettings.cta.href, headerSettings.cta.linkType, ($locale ?? "uk")));
+	const ctaHref = $derived(
+		resolvedHref(
+			headerSettings.cta.href,
+			headerSettings.cta.linkType,
+			$locale ?? "uk",
+		),
+	);
 
 	const dynamicDropdownGroups = $derived(
-		withOverflowGroup(navDropdownGroups, hiddenNavItems, $t('nav.more'))
+		withOverflowGroup(navDropdownGroups, hiddenNavItems, $t("nav.more")),
 	);
 
 	const rawMobileNavGroups = $derived(
-		menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? 'uk')
+		menuConfigToGroups(headerSettings.mobileOverlay, $locale ?? "uk"),
 	);
 
 	const mobileNavGroups = $derived(
@@ -282,10 +347,12 @@
 			? rawMobileNavGroups
 					.map((group) => ({
 						...group,
-						items: group.items.filter((it) => !isPathActive(it.href, ctaHref))
+						items: group.items.filter(
+							(it) => !isPathActive(it.href, ctaHref),
+						),
 					}))
 					.filter((group) => group.items.length > 0 || group.title)
-			: rawMobileNavGroups
+			: rawMobileNavGroups,
 	);
 
 	function isCtaItem(item: NavItem): boolean {
@@ -302,7 +369,11 @@
 
 	$effect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
-			if (settingsOpen && settingsRef && !settingsRef.contains(e.target as Node)) {
+			if (
+				settingsOpen &&
+				settingsRef &&
+				!settingsRef.contains(e.target as Node)
+			) {
 				closeSettings();
 			}
 			if (navOpen && navRef && !navRef.contains(e.target as Node)) {
@@ -311,23 +382,30 @@
 		};
 
 		if (settingsOpen || navOpen) {
-			document.addEventListener('mousedown', handleClickOutside);
-			return () => document.removeEventListener('mousedown', handleClickOutside);
+			document.addEventListener("mousedown", handleClickOutside);
+			return () =>
+				document.removeEventListener("mousedown", handleClickOutside);
 		}
 	});
 </script>
 
 <a href="#main-content" class="skip-link" data-testid="skip-content-link">
-	{$t('nav.skipToContent')}
+	{$t("nav.skipToContent")}
 </a>
 
-<header class="header" class:scrolled class:menu-open={ui.isMenuOpen} id="main-header" data-testid="header-container">
+<header
+	class="header"
+	class:scrolled
+	class:menu-open={ui.isMenuOpen}
+	id="main-header"
+	data-testid="header-container"
+>
 	{#if headerReady}
 		<TickerBanner
 			visible={headerSettings.ticker?.visible ?? true}
-			mode={headerSettings.ticker?.mode ?? 'time'}
-			startTime={headerSettings.ticker?.startTime ?? '09:00'}
-			endTime={headerSettings.ticker?.endTime ?? '09:03'}
+			mode={headerSettings.ticker?.mode ?? "time"}
+			startTime={headerSettings.ticker?.startTime ?? "09:00"}
+			endTime={headerSettings.ticker?.endTime ?? "09:03"}
 			preview={headerSettings.ticker?.preview ?? false}
 			enableSound={headerSettings.ticker?.enableSound ?? false}
 			bind:show={showTicker}
@@ -336,9 +414,9 @@
 	<div class="header__inner">
 		<div class="header__logo-area" data-testid="logo-area-container">
 			<a
-				href={withLocale('/', (($locale as string) || 'uk') as Locale)}
+				href={withLocale("/", (($locale as string) || "uk") as Locale)}
 				class="header__logo-link"
-				aria-label={$t('nav.toHome')}
+				aria-label={$t("nav.toHome")}
 				onclick={ui.closeMenu}
 				data-testid="logo-home-link"
 			>
@@ -348,212 +426,296 @@
 
 		<div class="header__bar" data-testid="header-bar-container">
 			{#if headerReady}
-		<div class="header__desktop-nav-group" data-testid="header-desktop-nav-section">
-			<nav class="header__nav" aria-label={$t('nav.mainMenu')} id="main-nav" data-testid="header-nav-menu" bind:this={navParentRef}>
-				<!-- Ghost menu for measuring (hidden from view) -->
-				<ul class="header__nav-list header__nav-list--ghost" aria-hidden="true" bind:this={ghostContainerRef}>
-					{#each navItems as item (item.id)}
-						<li class="header__nav-item header__nav-item--ghost">
-							<span class="header__nav-link">{item.label}</span>
-						</li>
-					{/each}
-					{#if headerSettings.cta.visible}
-						<li class="header__nav-item header__nav-item--ghost">
-							<div class="btn btn-outline header__cta"
-								class:active={isPathActive(page.url.pathname, ctaHref)}>
-								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
-							</div>
-						</li>
-					{/if}
-					<li class="header__nav-item header__nav-item--ghost">
-						<div class="header__burger header__burger--desktop"><Menu size={24} /></div>
-					</li>
-					<li class="header__nav-item header__nav-item--ghost">
-						<div class="header__burger"><SettingsIcon size={24} /></div>
-					</li>
-				</ul>
-
-				<ul class="header__nav-list" data-testid="nav-list-menu">
-					{#each navItems as item, i (item.id)}
-						<li 
-							class="header__nav-item" 
-							class:header__nav-item--hidden={i >= fitCount}
-							data-testid={`nav-item-${i}-container`}
-						> 
-							<a
-								href={item.href}
-								class="header__nav-link"
-								class:active={isPathActive(page.url.pathname, item.href)}
-								data-testid={`nav-link-${i}`}
+				<div
+					class="header__desktop-nav-group"
+					data-testid="header-desktop-nav-section"
+				>
+					<nav
+						class="header__nav"
+						aria-label={$t("nav.mainMenu")}
+						id="main-nav"
+						data-testid="header-nav-menu"
+						bind:this={navParentRef}
+					>
+						<!-- Ghost menu for measuring (hidden from view) -->
+						<ul
+							class="header__nav-list header__nav-list--ghost"
+							aria-hidden="true"
+							bind:this={ghostContainerRef}
+						>
+							{#each navItems as item (item.id)}
+								<li
+									class="header__nav-item header__nav-item--ghost"
+								>
+									<span class="header__nav-link"
+										>{item.label}</span
+									>
+								</li>
+							{/each}
+							{#if headerSettings.cta.visible}
+								<li
+									class="header__nav-item header__nav-item--ghost"
+								>
+									<div
+										class="btn btn-outline header__cta"
+										class:active={isPathActive(
+											page.url.pathname,
+											ctaHref,
+										)}
+									>
+										{$locale === "uk"
+											? headerSettings.cta.labelUk
+											: headerSettings.cta.labelEn}
+									</div>
+								</li>
+							{/if}
+							<li
+								class="header__nav-item header__nav-item--ghost"
 							>
-								{item.label}
-							</a>
-						</li>
-					{/each}
-
-					{#if headerSettings.cta.visible}
-						<li class="header__nav-item" data-testid="admission-cta-item">
-							<a
-								href={ctaHref}
-								class="btn btn-outline header__cta"
-								class:active={isPathActive(page.url.pathname, ctaHref)}
-								id="header-cta"
-								data-testid="admission-cta-btn"
+								<div
+									class="header__burger header__burger--desktop"
+								>
+									<Menu size={24} />
+								</div>
+							</li>
+							<li
+								class="header__nav-item header__nav-item--ghost"
 							>
-								{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
-							</a>
-						</li>
-					{/if}
+								<div class="header__burger">
+									<SettingsIcon size={24} />
+								</div>
+							</li>
+						</ul>
 
-					<!-- Desktop Nav Manager (Burger) -->
-					<!-- role="group" стояв на самому <li>, і це ламало семантику
+						<ul
+							class="header__nav-list"
+							data-testid="nav-list-menu"
+						>
+							{#each navItems as item, i (item.id)}
+								<li
+									class="header__nav-item"
+									class:header__nav-item--hidden={i >=
+										fitCount}
+									data-testid={`nav-item-${i}-container`}
+								>
+									<a
+										href={item.href}
+										class="header__nav-link"
+										class:active={isPathActive(
+											page.url.pathname,
+											item.href,
+										)}
+										data-testid={`nav-link-${i}`}
+									>
+										{item.label}
+									</a>
+								</li>
+							{/each}
+
+							{#if headerSettings.cta.visible}
+								<li
+									class="header__nav-item"
+									data-testid="admission-cta-item"
+								>
+									<a
+										href={ctaHref}
+										class="btn btn-outline header__cta"
+										class:active={isPathActive(
+											page.url.pathname,
+											ctaHref,
+										)}
+										id="header-cta"
+										data-testid="admission-cta-btn"
+									>
+										{$locale === "uk"
+											? headerSettings.cta.labelUk
+											: headerSettings.cta.labelEn}
+									</a>
+								</li>
+							{/if}
+
+							<!-- Desktop Nav Manager (Burger) -->
+							<!-- role="group" стояв на самому <li>, і це ламало семантику
 					     списку: елемент з явною роллю перестає бути listitem, тож
 					     axe справедливо повідомляв, що <ul> містить не-<li>. Роль і
 					     обробник переїхали на внутрішній <div>; <li> лишився чистим. -->
-					<li class="header__nav-item">
-						<div
-							class="header__nav-manager"
-							bind:this={navRef}
-							data-testid="header-nav-manager-section"
-							onmouseenter={handleNavMouseEnter}
-							role="group"
-						>
-						<button
-							class="header__burger header__burger--desktop"
-							class:open={navOpen}
-							onclick={handleNavClick}
-							aria-label={$t('nav.openMenu')}
-							aria-expanded={navOpen}
-							data-testid="burger-menu-btn"
-						>
-							<Menu size={24} />
-						</button>
+							<li class="header__nav-item">
+								<div
+									class="header__nav-manager"
+									bind:this={navRef}
+									data-testid="header-nav-manager-section"
+									onmouseenter={handleNavMouseEnter}
+									role="group"
+								>
+									<button
+										class="header__burger header__burger--desktop"
+										class:open={navOpen}
+										onclick={handleNavClick}
+										aria-label={$t("nav.openMenu")}
+										aria-expanded={navOpen}
+										data-testid="burger-menu-btn"
+									>
+										<Menu size={24} />
+									</button>
 
-						{#if navOpen}
-							<div 
-								class="dropdown-menu-unified header__nav-dropdown" 
-								data-testid="nav-dropdown-menu" 
-								in:fly={{ y: 10, duration: 200 }} 
-								out:fly={{ y: 10, duration: 150 }}
-								onmouseleave={closeNav}
-								role="menu"
-								tabindex="-1"
-							>
-							{#each dynamicDropdownGroups as group, gIndex (group.id)}
-								<div class="header__nav-dropdown-group" data-testid={`nav-dropdown-section-${gIndex}`}>
-									{#if group.title}
-										{#if group.titleHref}
-											<a href={group.titleHref} class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link" data-testid={`nav-dropdown-section-${gIndex}-link`}>{group.title}</a>
-										{:else}
-											<span class="dropdown-label-unified header__nav-dropdown-label">{group.title}</span>
-										{/if}
-									{/if}
-									<ul class="header__nav-dropdown-list">
-										{#each group.items as item, i (item.id)}
-											<li>
-												<a 
-													href={item.href} 
-													class="header__nav-dropdown-link" 
-													class:header__nav-dropdown-cta={isCtaItem(item)}
-														class:active={isPathActive(page.url.pathname, item.href)}
-														onclick={closeNav}
-														data-testid={`nav-dropdown-link-${gIndex}-${i}`}
+									{#if navOpen}
+										<div
+											class="dropdown-menu-unified header__nav-dropdown"
+											data-testid="nav-dropdown-menu"
+											in:fly={{ y: 10, duration: 200 }}
+											out:fly={{ y: 10, duration: 150 }}
+											onmouseleave={closeNav}
+											role="menu"
+											tabindex="-1"
+										>
+											{#each dynamicDropdownGroups as group, gIndex (group.id)}
+												<div
+													class="header__nav-dropdown-group"
+													data-testid={`nav-dropdown-section-${gIndex}`}
+												>
+													{#if group.title}
+														{#if group.titleHref}
+															<a
+																href={group.titleHref}
+																class="dropdown-label-unified header__nav-dropdown-label header__nav-dropdown-label--link"
+																data-testid={`nav-dropdown-section-${gIndex}-link`}
+																>{group.title}</a
+															>
+														{:else}
+															<span
+																class="dropdown-label-unified header__nav-dropdown-label"
+																>{group.title}</span
+															>
+														{/if}
+													{/if}
+													<ul
+														class="header__nav-dropdown-list"
 													>
-														{item.label}
-													</a>
-												</li>
+														{#each group.items as item, i (item.id)}
+															<li>
+																<a
+																	href={item.href}
+																	class="header__nav-dropdown-link"
+																	class:header__nav-dropdown-cta={isCtaItem(
+																		item,
+																	)}
+																	class:active={isPathActive(
+																		page.url
+																			.pathname,
+																		item.href,
+																	)}
+																	onclick={closeNav}
+																	data-testid={`nav-dropdown-link-${gIndex}-${i}`}
+																>
+																	{item.label}
+																</a>
+															</li>
+														{/each}
+													</ul>
+												</div>
+												{#if gIndex < dynamicDropdownGroups.length - 1}
+													<div
+														class="header__nav-dropdown-divider"
+													></div>
+												{/if}
 											{/each}
-										</ul>
-									</div>
-									{#if gIndex < dynamicDropdownGroups.length - 1}
-										<div class="header__nav-dropdown-divider"></div>
+										</div>
 									{/if}
-								{/each}
-							</div>
-						{/if}
-						</div>
-					</li>
+								</div>
+							</li>
 
-					<!-- Пошук: між меню та налаштуваннями. Накладку малює окремий
+							<!-- Пошук: між меню та налаштуваннями. Накладку малює окремий
 					     компонент у корені розмітки — тут лише кнопка. -->
-					<li class="header__nav-item">
-						<button
-							class="header__burger header__burger--desktop"
-							onclick={() => { navOpen = false; settingsOpen = false; searchOpen = true; }}
-							aria-label={$t('search.open')}
-							aria-expanded={searchOpen}
-							data-testid="header-search-btn"
-						>
-							<Search size={24} />
-						</button>
-					</li>
+							<li class="header__nav-item">
+								<button
+									class="header__burger header__burger--desktop"
+									onclick={() => {
+										navOpen = false;
+										settingsOpen = false;
+										searchOpen = true;
+									}}
+									aria-label={$t("search.open")}
+									aria-expanded={searchOpen}
+									data-testid="header-search-btn"
+								>
+									<Search size={24} />
+								</button>
+							</li>
 
-					<!-- Desktop Settings -->
-					<!-- Та сама причина, що й у блоці вище: роль на <li> ламає список. -->
-					<li class="header__nav-item">
-						<div
-							class="header__settings header__settings--desktop"
-							class:open={settingsOpen}
-							bind:this={settingsRef}
-							data-testid="header-settings-container"
-							onmouseenter={handleSettingsMouseEnter}
-							role="group"
-							aria-label={$t('settings.title')}
-						>
-						<button
-							class="header__burger" 
-							aria-label={$t('settings.title')} 
-							onclick={handleSettingsClick} 
-							aria-expanded={settingsOpen} 
-							data-testid="header-settings-btn"
-						>
-							<SettingsIcon size={24} />
-						</button>
-						{#if settingsOpen}
-							<div 
-								class="header__settings-popover" 
-								onmouseleave={closeSettings} 
-								role="presentation" 
-								data-testid="settings-popover-menu"
-							>
-								<HeaderSettingsPanel
-									isOpen={settingsOpen}
-									onChangeLang={changeLanguage}
-									debugPanel={headerSettings.debugPanel}
-								/>
-							</div>
-						{/if}
-						</div>
-					</li>
-				</ul>
-			</nav>
-		</div>
+							<!-- Desktop Settings -->
+							<!-- Та сама причина, що й у блоці вище: роль на <li> ламає список. -->
+							<li class="header__nav-item">
+								<div
+									class="header__settings header__settings--desktop"
+									class:open={settingsOpen}
+									bind:this={settingsRef}
+									data-testid="header-settings-container"
+									onmouseenter={handleSettingsMouseEnter}
+									role="group"
+									aria-label={$t("settings.title")}
+								>
+									<button
+										class="header__burger"
+										aria-label={$t("settings.title")}
+										onclick={handleSettingsClick}
+										aria-expanded={settingsOpen}
+										data-testid="header-settings-btn"
+									>
+										<SettingsIcon size={24} />
+									</button>
+									{#if settingsOpen}
+										<div
+											class="header__settings-popover"
+											onmouseleave={closeSettings}
+											role="presentation"
+											data-testid="settings-popover-menu"
+											{@attach customScroll()}
+										>
+											<HeaderSettingsPanel
+												isOpen={settingsOpen}
+												onChangeLang={changeLanguage}
+												debugPanel={headerSettings.debugPanel}
+											/>
+										</div>
+									{/if}
+								</div>
+							</li>
+						</ul>
+					</nav>
+				</div>
 
-		<!-- На мобільному окремої кнопки налаштувань у шапці немає — вони всередині
+				<!-- На мобільному окремої кнопки налаштувань у шапці немає — вони всередині
 		     оверлея меню. Тому пошук стоїть поруч із бургером. -->
-		<button
-			class="header__burger header__search-mobile"
-			onclick={() => { settingsOpen = false; ui.closeMenu(); searchOpen = true; }}
-			aria-label={$t('search.open')}
-			aria-expanded={searchOpen}
-			data-testid="header-search-mobile-btn"
-		>
-			<Search size={20} />
-		</button>
+				<button
+					class="header__burger header__search-mobile"
+					onclick={() => {
+						settingsOpen = false;
+						ui.closeMenu();
+						searchOpen = true;
+					}}
+					aria-label={$t("search.open")}
+					aria-expanded={searchOpen}
+					data-testid="header-search-mobile-btn"
+				>
+					<Search size={20} />
+				</button>
 
-		<button
-			class="header__burger header__burger--mobile"
-			onclick={() => { settingsOpen = false; ui.toggleMenu(); }}
-			aria-label={$t('nav.openMenu')}
-			aria-expanded={ui.isMenuOpen}
-			id="burger-menu"
-			data-testid="burger-menu-mobile-btn"
-		>
-			<span class="header__burger-text">{$t('nav.menu')}</span>
-			<Menu size={20} />
-		</button>
-		{/if}
-	</div>
+				<button
+					class="header__burger header__burger--mobile"
+					onclick={() => {
+						settingsOpen = false;
+						ui.toggleMenu();
+					}}
+					aria-label={$t("nav.openMenu")}
+					aria-expanded={ui.isMenuOpen}
+					id="burger-menu"
+					data-testid="burger-menu-mobile-btn"
+				>
+					<span class="header__burger-text">{$t("nav.menu")}</span>
+					<Menu size={20} />
+				</button>
+			{/if}
+		</div>
 	</div>
 
 	{#if ui.isMenuOpen}
@@ -567,14 +729,39 @@
 			class="header__mobile-overlay"
 			role="dialog"
 			aria-modal="true"
-			in:fly={{ y: -24, duration: 260, opacity: 0.2, easing: cubicInOut, delay: 100 }}
-			out:fly={{ y: -24, duration: 220, opacity: 0.2, easing: cubicInOut }}
+			in:fly={{
+				y: -24,
+				duration: 260,
+				opacity: 0.2,
+				easing: cubicInOut,
+				delay: 100,
+			}}
+			out:fly={{
+				y: -24,
+				duration: 220,
+				opacity: 0.2,
+				easing: cubicInOut,
+			}}
 			data-testid="mobile-overlay-container"
 			{@attach focusTrap()}
 		>
-			<div class="header__mobile-controls" data-testid="mobile-controls-toolbar">
-				<div class="header__settings header__settings--mobile" class:open={settingsOpen} bind:this={settingsRef} data-testid="header-settings-mobile-container">
-					<button class="header__settings-btn" aria-label={$t('settings.title')} onclick={toggleSettings} aria-expanded={settingsOpen} data-testid="settings-mobile-btn">
+			<div
+				class="header__mobile-controls"
+				data-testid="mobile-controls-toolbar"
+			>
+				<div
+					class="header__settings header__settings--mobile"
+					class:open={settingsOpen}
+					bind:this={settingsRef}
+					data-testid="header-settings-mobile-container"
+				>
+					<button
+						class="header__settings-btn"
+						aria-label={$t("settings.title")}
+						onclick={toggleSettings}
+						aria-expanded={settingsOpen}
+						data-testid="settings-mobile-btn"
+					>
 						<SettingsIcon size={24} />
 					</button>
 					{#if settingsOpen}
@@ -582,27 +769,45 @@
 							class="header__settings-backdrop-mobile"
 							in:fade={{ duration: 150 }}
 							out:fade={{ duration: 150 }}
-							onclick={() => settingsOpen = false}
-							onkeydown={(e) => { if (e.key === 'Escape') settingsOpen = false; }}
+							onclick={() => (settingsOpen = false)}
+							onkeydown={(e) => {
+								if (e.key === "Escape") settingsOpen = false;
+							}}
 							role="button"
 							tabindex="-1"
 							aria-label="Close settings"
 						></div>
-						<div class="header__settings-popover header__settings-popover--mobile" data-testid="settings-popover-mobile-menu">
-							<button
-								class="header__mobile-close header__mobile-close--settings"
-								onclick={closeSettings}
-								aria-label={$t('common.close')}
-								data-testid="settings-mobile-close-btn"
+						<div
+							class="header__settings-popover header__settings-popover--mobile"
+							data-testid="settings-popover-mobile-menu"
+						>
+							<div class="header__settings-mobile-header">
+								<span class="header__settings-mobile-title"
+									>{$t("settings.title")}</span
+								>
+								<button
+									class="header__mobile-close header__mobile-close--settings"
+									onclick={closeSettings}
+									aria-label={$t("common.close")}
+									data-testid="settings-mobile-close-btn"
+								>
+									<X size={20} />
+								</button>
+							</div>
+							<div
+								class="header__settings-mobile-body"
+								{@attach customScroll({
+									rightOffset: -3,
+									alignThumb: "center",
+								})}
 							>
-								<X size={24} />
-							</button>
-							<HeaderSettingsPanel
-								isOpen={settingsOpen}
-								mobile
-								onChangeLang={changeLanguage}
-								debugPanel={headerSettings.debugPanel}
-							/>
+								<HeaderSettingsPanel
+									isOpen={settingsOpen}
+									mobile
+									onChangeLang={changeLanguage}
+									debugPanel={headerSettings.debugPanel}
+								/>
+							</div>
 						</div>
 					{/if}
 				</div>
@@ -610,7 +815,7 @@
 				<button
 					class="header__mobile-close"
 					onclick={ui.closeMenu}
-					aria-label={$t('nav.closeMenu')}
+					aria-label={$t("nav.closeMenu")}
 					data-testid="mobile-close-btn"
 				>
 					<X size={24} />
@@ -618,66 +823,104 @@
 			</div>
 
 			<div class="header__mobile-nav-wrapper">
-				<div 
-					class="header__mobile-scroll-hint header__mobile-scroll-hint--top" 
+				<div
+					class="header__mobile-scroll-hint header__mobile-scroll-hint--top"
 					class:visible={canScrollUp}
 				></div>
-				<div 
-					class="header__mobile-scroll-hint header__mobile-scroll-hint--bottom" 
+				<div
+					class="header__mobile-scroll-hint header__mobile-scroll-hint--bottom"
 					class:visible={canScrollDown}
 				></div>
 
-				<nav 
-					aria-label={$t('nav.mobileMenu')} 
-					data-testid="mobile-nav-menu" 
+				<nav
+					aria-label={$t("nav.mobileMenu")}
+					data-testid="mobile-nav-menu"
 					class="header__mobile-nav"
 					bind:this={mobileNavEl}
+					{@attach customScroll({ alignThumb: "right" })}
 					onscroll={(e) => {
 						mobileNavScrollY = e.currentTarget.scrollTop;
 						mobileNavScrollHeight = e.currentTarget.scrollHeight;
 					}}
 					bind:clientHeight={mobileNavClientHeight}
 				>
-					<div class="header__mobile-container" data-testid="mobile-nav-container">
-						<ul class="header__mobile-list" data-testid="mobile-nav-list-menu">
+					<div
+						class="header__mobile-container"
+						data-testid="mobile-nav-container"
+					>
+						<ul
+							class="header__mobile-list"
+							data-testid="mobile-nav-list-menu"
+						>
 							{#if headerSettings.cta.visible}
 								<li
 									class="header__mobile-cta-item"
 									data-testid="mobile-nav-cta-container"
-									in:fly={{ y: 20, duration: 400, delay: 100, easing: cubicInOut }}
+									in:fly={{
+										y: 20,
+										duration: 400,
+										delay: 100,
+										easing: cubicInOut,
+									}}
 								>
 									<a
 										href={ctaHref}
 										class="header__mobile-link header__mobile-cta"
-										class:active={isPathActive(page.url.pathname, ctaHref)}
+										class:active={isPathActive(
+											page.url.pathname,
+											ctaHref,
+										)}
 										onclick={ui.closeMenu}
 										data-testid="mobile-nav-cta-btn"
 									>
-										{$locale === 'uk' ? headerSettings.cta.labelUk : headerSettings.cta.labelEn}
+										{$locale === "uk"
+											? headerSettings.cta.labelUk
+											: headerSettings.cta.labelEn}
 									</a>
 								</li>
 							{/if}
 							{#each mobileNavGroups as group, gIndex (group.id)}
-								<li 
-									class="header__mobile-group" 
+								<li
+									class="header__mobile-group"
 									data-testid={`mobile-nav-section-${gIndex}`}
-									in:fly={{ y: 20, duration: 400, delay: 150 + gIndex * 80, easing: cubicInOut }}
+									in:fly={{
+										y: 20,
+										duration: 400,
+										delay: 150 + gIndex * 80,
+										easing: cubicInOut,
+									}}
 								>
 									{#if group.title}
 										{#if group.titleHref}
-											<a href={group.titleHref} class="header__mobile-group-title header__mobile-group-title--link">{group.title}</a>
+											<a
+												href={group.titleHref}
+												class="header__mobile-group-title header__mobile-group-title--link"
+												>{group.title}</a
+											>
 										{:else}
-											<h3 class="header__mobile-group-title">{group.title}</h3>
+											<h3
+												class="header__mobile-group-title"
+											>
+												{group.title}
+											</h3>
 										{/if}
 									{/if}
 									<ul class="header__mobile-sublist">
 										{#each group.items as item, i (item.id)}
-											<li data-testid={`mobile-nav-item-${gIndex}-${i}-container`} class="header__mobile-subitem">
+											<li
+												data-testid={`mobile-nav-item-${gIndex}-${i}-container`}
+												class="header__mobile-subitem"
+											>
 												<a
 													href={item.href}
 													class="header__mobile-link"
-													class:header__mobile-cta={isCtaItem(item)}
-													class:active={isPathActive(page.url.pathname, item.href)}
+													class:header__mobile-cta={isCtaItem(
+														item,
+													)}
+													class:active={isPathActive(
+														page.url.pathname,
+														item.href,
+													)}
 													onclick={ui.closeMenu}
 													data-testid={`mobile-nav-link-${gIndex}-${i}`}
 												>
@@ -752,7 +995,9 @@
 		flex-direction: column;
 		align-items: stretch;
 		padding: 0;
-		transition: all var(--transition-base), z-index 0s;
+		transition:
+			all var(--transition-base),
+			z-index 0s;
 		pointer-events: none; /* Allow clicking through to content */
 	}
 
@@ -799,15 +1044,20 @@
 	}
 
 	.scrolled .header__logo-area {
-		transform: scale(1.0) translateY(25px);
+		transform: scale(1) translateY(25px);
 		margin-top: 0;
 		margin-bottom: 0;
 		margin-left: 20px;
 	}
 
 	@keyframes fadeInDown {
-		from { opacity: 0; transform: translateY(-30px); }
-		to { opacity: 1; }
+		from {
+			opacity: 0;
+			transform: translateY(-30px);
+		}
+		to {
+			opacity: 1;
+		}
 	}
 
 	.header__bar {
@@ -928,8 +1178,6 @@
 		flex-direction: column;
 		gap: var(--space-xs);
 	}
-
-
 
 	.header__nav-dropdown-label {
 		margin-bottom: 2px;
@@ -1068,7 +1316,8 @@
 	@media (min-width: 1025px) {
 		.header__settings-popover {
 			--popover-reserve: calc(
-				var(--header-height, 72px) + 25px + var(--footer-height, 80px) + 1.5rem
+				var(--header-height, 72px) + 25px + var(--footer-height, 80px) +
+					1.5rem
 			);
 		}
 	}
@@ -1112,7 +1361,7 @@
 		width: auto;
 		border-radius: var(--radius-full);
 		background: var(--color-surface);
-		box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 		flex-shrink: 0;
 	}
 
@@ -1188,13 +1437,69 @@
 		right: 0;
 		margin: auto;
 		height: fit-content;
+		max-height: calc(100dvh - 3rem);
 		width: 90%;
 		max-width: 320px;
-		padding: 0;
+		padding: var(--space-md) 0 var(--space-md) var(--space-md);
 		z-index: 9700;
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-sm);
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-xl);
+		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		overflow: hidden;
+	}
+
+	:global(.dark-theme) .header__settings-popover--mobile {
+		background: color-mix(
+			in srgb,
+			var(--color-dark-card, #1c1c1e),
+			transparent 10%
+		);
+		border-color: rgba(255, 255, 255, 0.12);
+	}
+
+	.header__settings-mobile-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-bottom: var(--space-xs);
+		padding-right: var(--space-md);
+		border-bottom: 1px solid var(--color-border);
+		flex-shrink: 0;
+	}
+
+	.header__settings-mobile-title {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--text-title);
+		letter-spacing: -0.01em;
+	}
+
+	:global(.dark-theme) .header__settings-mobile-title {
+		color: var(--color-dark-text);
+	}
+
+	.header__settings-mobile-body {
+		flex: 1;
+		min-height: 0;
+		overflow-y: auto;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		padding: var(--space-xs) 18px var(--space-xs) 0;
+	}
+
+	.header__settings-popover--mobile :global(.dropdown-menu-unified) {
+		box-shadow: none;
+		border: none;
+		background: transparent;
+		padding: 0;
 	}
 
 	.header__mobile-close {
@@ -1211,8 +1516,10 @@
 	}
 
 	.header__mobile-close--settings {
-		align-self: flex-end;
-		margin-bottom: var(--space-xs);
+		width: 36px;
+		height: 36px;
+		align-self: center;
+		margin-bottom: 0;
 	}
 
 	:global(.dark-theme) .header__mobile-close {
@@ -1252,17 +1559,25 @@
 	}
 
 	.header__mobile-scroll-hint.visible {
-		opacity: 1.0;
+		opacity: 1;
 	}
 
 	.header__mobile-scroll-hint--top {
 		top: 0;
-		background: linear-gradient(to bottom, var(--color-surface) 0%, transparent 100%);
+		background: linear-gradient(
+			to bottom,
+			var(--color-surface) 0%,
+			transparent 100%
+		);
 	}
 
 	.header__mobile-scroll-hint--bottom {
 		bottom: 0;
-		background: linear-gradient(to top, var(--color-surface) 0%, transparent 100%);
+		background: linear-gradient(
+			to top,
+			var(--color-surface) 0%,
+			transparent 100%
+		);
 	}
 
 	.header__mobile-container {
@@ -1287,7 +1602,7 @@
 		align-items: center;
 		padding: var(--space-xl) var(--space-lg);
 		background: linear-gradient(
-			135deg, 
+			135deg,
 			color-mix(in srgb, var(--color-surface), transparent 30%),
 			color-mix(in srgb, var(--color-surface), transparent 15%)
 		);
@@ -1297,17 +1612,19 @@
 		border-left: 1px solid rgba(255, 255, 255, 0.2);
 		border-right: 1px solid rgba(255, 255, 255, 0.1);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-		box-shadow: 
+		box-shadow:
 			0 20px 40px -15px rgba(0, 0, 0, 0.1),
 			inset 0 0 20px rgba(255, 255, 255, 0.1);
 		backdrop-filter: blur(16px);
 		-webkit-backdrop-filter: blur(16px);
-		transition: transform var(--transition-base), box-shadow var(--transition-base);
+		transition:
+			transform var(--transition-base),
+			box-shadow var(--transition-base);
 	}
 
 	:global(.dark-theme) .header__mobile-group {
 		background: linear-gradient(
-			135deg, 
+			135deg,
 			color-mix(in srgb, var(--color-surface), transparent 50%),
 			color-mix(in srgb, var(--color-surface), transparent 35%)
 		);
@@ -1315,7 +1632,7 @@
 		border-left: 1px solid rgba(255, 255, 255, 0.05);
 		border-right: 1px solid rgba(255, 255, 255, 0.02);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-		box-shadow: 
+		box-shadow:
 			0 25px 50px -12px rgba(0, 0, 0, 0.5),
 			inset 0 0 30px rgba(255, 255, 255, 0.02);
 	}
@@ -1373,7 +1690,8 @@
 	.header__mobile-link.active {
 		background: color-mix(in srgb, var(--accent-primary), transparent 85%);
 		color: var(--accent-primary);
-		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-primary), transparent 80%);
+		box-shadow: inset 0 0 0 1px
+			color-mix(in srgb, var(--accent-primary), transparent 80%);
 	}
 
 	:global(.dark-theme) .header__mobile-link.active {
@@ -1468,7 +1786,7 @@
 			grid-template-columns: 140px 1fr;
 			padding: 0 var(--space-md);
 		}
-		
+
 		.header__logo-area {
 			transform: scale(1.4) translateY(40px);
 		}

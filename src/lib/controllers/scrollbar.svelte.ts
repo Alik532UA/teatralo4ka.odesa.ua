@@ -53,7 +53,7 @@ class ScrollbarState {
 	};
 
 	/** Чи ховати нативну смугу. Єдине джерело правди для класу на `<html>`. */
-	readonly hidesNative = $derived(ui.scrollbarMode !== 'standard');
+	readonly hidesNative = $derived(this.active !== 'native');
 }
 
 export const scrollbar = new ScrollbarState();
