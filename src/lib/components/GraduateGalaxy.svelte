@@ -123,8 +123,6 @@
 		 */
 		top: calc((100% - 56px) * var(--top) / 100);
 		left: 0;
-		contain: layout paint;
-		will-change: translate;
 		/* `translate` окремою властивістю, а не в `transform`: збільшення зірки
 		   живе саме в `transform`, і одне затирало б інше кадром анімації. */
 		animation: drift var(--duration) linear var(--delay) infinite;
