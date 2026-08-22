@@ -106,7 +106,7 @@
 		<ul class="flow-lanes" data-testid="master-graduate-flow-list">
 			{#each flying as item (item.kind + item.lane + item.graduate.slug)}
 				<li
-					class="lane"
+					class="lane lane--{item.kind}"
 					style="--left: {item.geometry?.left ?? 50}; --duration: {item.geometry?.duration ?? 22}s; --delay: {item.geometry?.delay ?? 0}s"
 					data-testid="master-graduate-flow-item-{item.graduate.slug}"
 				>
@@ -164,6 +164,14 @@
 		animation: streamUp var(--duration) linear var(--delay) infinite;
 	}
 
+	.lane--photo {
+		z-index: 10;
+	}
+
+	.lane--plain {
+		z-index: 2;
+	}
+
 	@keyframes streamUp {
 		from {
 			translate: 0 105vh;
@@ -187,7 +195,7 @@
 	.lane:has(:global(button:hover)),
 	.lane:has(:global(button:focus-visible)) {
 		animation-play-state: paused;
-		z-index: 50;
+		z-index: 100;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

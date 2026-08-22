@@ -89,6 +89,16 @@
 		transition: transform 280ms cubic-bezier(0.2, 0.8, 0.2, 1);
 	}
 
+	.star--photo {
+		width: 56px;
+		height: 56px;
+	}
+
+	.star--plain {
+		width: 36px;
+		height: 36px;
+	}
+
 	.star:hover,
 	.star:focus-visible {
 		transform: scale(1.9);
