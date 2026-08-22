@@ -1,7 +1,7 @@
 {
   "name": "teatralo4ka.odesa.ua",
   "private": true,
-  "version": "0.0.55",
+  "version": "0.0.57",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -28,6 +28,7 @@
     "test:e2e:ui": "playwright test --ui",
     "crawl:ats": "tsx scripts/crawl-ats-ua.ts",
     "parse:graduates": "tsx scripts/parse-graduates.ts",
+    "build:masters": "tsx scripts/build-master-photos.ts",
     "photos:graduates": "tsx scripts/fetch-graduate-photos.ts",
     "parse:roster": "tsx scripts/parse-graduate-roster.ts",
     "data:graduates": "tsx scripts/build-graduates-data.ts"
