@@ -14,6 +14,8 @@ export interface CustomScrollOptions {
 	rightOffset?: number;
 	/** Вирівнювання розширення повзунка: 'center' або 'right'. Типово 'right'. */
 	alignThumb?: 'center' | 'right';
+	/** Рівень батьківського елемента для монтування доріжки (1 = parentElement, 2 = grandParentElement тощо). */
+	parentLevel?: number;
 }
 
 /**
@@ -26,19 +28,30 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 	const PROXIMITY = options.proximityThreshold ?? 45;
 	const RIGHT_OFFSET = options.rightOffset ?? 0;
 	const ALIGN = options.alignThumb ?? 'right';
+	const PARENT_LEVEL = options.parentLevel ?? (RIGHT_OFFSET < 0 ? 1 : 0);
 	const TRACK_WIDTH = HOVER_WIDTH + 8;
 
 	return (nodeElement: Element) => {
 		const node = nodeElement as HTMLElement;
 
-		const canMountToParent =
-			RIGHT_OFFSET < 0 &&
-			typeof window !== 'undefined' &&
-			node.parentElement !== null &&
-			node.parentElement !== document.body &&
-			node.parentElement !== document.documentElement;
+		let mountTarget: HTMLElement = node;
+		if (typeof window !== 'undefined' && PARENT_LEVEL > 0) {
+			let curr: HTMLElement | null = node;
+			for (let i = 0; i < PARENT_LEVEL; i++) {
+				if (
+					curr &&
+					curr.parentElement &&
+					curr.parentElement !== document.body &&
+					curr.parentElement !== document.documentElement
+				) {
+					curr = curr.parentElement;
+				}
+			}
+			if (curr && curr !== node) {
+				mountTarget = curr;
+			}
+		}
 
-		const mountTarget = (canMountToParent ? node.parentElement : node) as HTMLElement;
 		const isMountedToParent = mountTarget !== node;
 
 		const computedPos = typeof window !== 'undefined' ? window.getComputedStyle(mountTarget).position : 'static';
@@ -111,8 +124,13 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 			track.style.height = `${clientH}px`;
 
 			if (isMountedToParent) {
-				track.style.top = `${node.offsetTop}px`;
-				track.style.left = `${node.offsetLeft + node.offsetWidth - TRACK_WIDTH - RIGHT_OFFSET}px`;
+				const nodeRect = node.getBoundingClientRect();
+				const targetRect = mountTarget.getBoundingClientRect();
+				const relativeTop = nodeRect.top - targetRect.top;
+				const relativeLeft = nodeRect.left - targetRect.left;
+
+				track.style.top = `${relativeTop}px`;
+				track.style.left = `${relativeLeft + node.offsetWidth - TRACK_WIDTH - RIGHT_OFFSET}px`;
 				track.style.right = 'auto';
 				track.style.transform = 'none';
 			} else {

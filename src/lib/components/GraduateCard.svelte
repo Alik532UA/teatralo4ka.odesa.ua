@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
-	import { fly } from 'svelte/transition';
-	import { X, Pencil } from 'lucide-svelte';
-	import { asset } from '$app/paths';
-	import { focusTrap } from '$lib/utils/focusTrap';
-	import type { GraduateIndexEntry, GraduateProfile } from '$lib/data/graduates';
-	import GraduateProfileView from './GraduateProfileView.svelte';
+	import { t } from "svelte-i18n";
+	import { fly } from "svelte/transition";
+	import { X, Pencil } from "lucide-svelte";
+	import { asset } from "$app/paths";
+	import { focusTrap } from "$lib/utils/focusTrap";
+	import { customScroll } from "$lib/utils/customScroll";
+	import type {
+		GraduateIndexEntry,
+		GraduateProfile,
+	} from "$lib/data/graduates";
+	import GraduateProfileView from "./GraduateProfileView.svelte";
 
 	interface Props {
 		graduate: GraduateIndexEntry | null;
@@ -17,10 +21,22 @@
 	const id = $props.id();
 
 	const contacts = [
-		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
-		{ name: 'Viber', url: 'viber://chat?number=%2B380937251208', icon: 'viber.svg' },
-		{ name: 'WhatsApp', url: 'https://wa.me/380937251208', icon: 'whatsapp.svg' },
-		{ name: 'LinkedIn', url: 'https://linkedin.com/in/alik-qa-engineer', icon: 'linkedin.svg' }
+		{ name: "Telegram", url: "https://t.me/alik532", icon: "telegram.svg" },
+		{
+			name: "Viber",
+			url: "viber://chat?number=%2B380937251208",
+			icon: "viber.svg",
+		},
+		{
+			name: "WhatsApp",
+			url: "https://wa.me/380937251208",
+			icon: "whatsapp.svg",
+		},
+		{
+			name: "LinkedIn",
+			url: "https://linkedin.com/in/alik-qa-engineer",
+			icon: "linkedin.svg",
+		},
 	];
 
 	let contactOpen = $state(false);
@@ -65,7 +81,7 @@
 	}
 
 	function handleContactKeydown(e: KeyboardEvent) {
-		if (e.key === 'Enter' || e.key === ' ') {
+		if (e.key === "Enter" || e.key === " ") {
 			e.preventDefault();
 			toggleContact(e);
 		}
@@ -73,7 +89,7 @@
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (!graduate) return;
-		if (event.key === 'Escape') {
+		if (event.key === "Escape") {
 			if (contactOpen) {
 				if (closeTimeout) {
 					clearTimeout(closeTimeout);
@@ -89,7 +105,11 @@
 	}
 
 	function handleBackdropClick(e: MouseEvent) {
-		if (contactOpen && contactWrapEl && !contactWrapEl.contains(e.target as Node)) {
+		if (
+			contactOpen &&
+			contactWrapEl &&
+			!contactWrapEl.contains(e.target as Node)
+		) {
 			if (closeTimeout) {
 				clearTimeout(closeTimeout);
 				closeTimeout = undefined;
@@ -103,40 +123,123 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#if graduate}
-	<div class="backdrop" onclick={handleBackdropClick} role="presentation" data-testid="galaxy-card-backdrop"></div>
+	<div
+		class="backdrop"
+		onclick={handleBackdropClick}
+		role="presentation"
+		data-testid="galaxy-card-backdrop"
+	></div>
 
-	<div class="card" role="dialog" aria-modal="true" aria-labelledby="{id}-title" {@attach focusTrap()} data-testid="galaxy-card-modal">
+	<div
+		class="card"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="{id}-title"
+		{@attach focusTrap()}
+		{@attach customScroll({ alignThumb: "right", rightOffset: -0 })}
+		data-testid="galaxy-card-modal"
+	>
 		<div class="card__inner">
 			<div class="card__toolbar">
 				{#if graduate.hasPhoto}
-					<div class="contact-wrap" bind:this={contactWrapEl} onmouseenter={handleMouseEnter} onmouseleave={handleMouseLeave} role="group" aria-label={$t('common.contact', { default: 'Контакти' })}>
+					<div
+						class="contact-wrap"
+						bind:this={contactWrapEl}
+						onmouseenter={handleMouseEnter}
+						onmouseleave={handleMouseLeave}
+						role="group"
+						aria-label={$t("common.contact", {
+							default: "Контакти",
+						})}
+					>
 						{#if contactOpen}
-							<div class="contact-popup" transition:fly={{ x: 10, duration: 180 }} data-testid="galaxy-card-contact-menu">
-								<img src={asset('/graduates/alik-zapolnov-96.webp')} alt="Алік Запольнов" width="28" height="28" class="contact-popup__avatar" loading="eager" data-testid="galaxy-card-contact-admin-img" />
-								<p class="contact-popup__hint" data-testid="galaxy-card-contact-hint">Привіт!) Щоб внести правки — напиши мені</p>
+							<div
+								class="contact-popup"
+								transition:fly={{ x: 10, duration: 180 }}
+								data-testid="galaxy-card-contact-menu"
+							>
+								<img
+									src={asset(
+										"/graduates/alik-zapolnov-96.webp",
+									)}
+									alt="Алік Запольнов"
+									width="28"
+									height="28"
+									class="contact-popup__avatar"
+									loading="eager"
+									data-testid="galaxy-card-contact-admin-img"
+								/>
+								<p
+									class="contact-popup__hint"
+									data-testid="galaxy-card-contact-hint"
+								>
+									Привіт!) Щоб внести правки — напиши мені
+								</p>
 								<div class="contact-popup__icons">
 									{#each contacts as c (c.name)}
 										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-										<a href={c.url} target="_blank" rel="noopener noreferrer" class="contact-popup__link" aria-label={c.name} title={c.name} onclick={(e) => e.stopPropagation()} data-testid="galaxy-card-contact-link-{c.name.toLowerCase()}">
-											<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
+										<a
+											href={c.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="contact-popup__link"
+											aria-label={c.name}
+											title={c.name}
+											onclick={(e) => e.stopPropagation()}
+											data-testid="galaxy-card-contact-link-{c.name.toLowerCase()}"
+										>
+											<img
+												src={asset(
+													`/social_media/${c.icon}`,
+												)}
+												alt={c.name}
+												width="28"
+												height="28"
+												loading="eager"
+											/>
 										</a>
 									{/each}
 								</div>
 							</div>
 						{/if}
 
-						<button type="button" class="card__action card__contact" onclick={toggleContact} onmouseenter={handleMouseEnter} onkeydown={handleContactKeydown} aria-expanded={contactOpen} aria-label={$t('common.contact', { default: "Зв'язатися" })} title={$t('common.contact', { default: "Зв'язатися" })} data-testid="graduate-profile-edit-btn">
+						<button
+							type="button"
+							class="card__action card__contact"
+							onclick={toggleContact}
+							onmouseenter={handleMouseEnter}
+							onkeydown={handleContactKeydown}
+							aria-expanded={contactOpen}
+							aria-label={$t("common.contact", {
+								default: "Зв'язатися",
+							})}
+							title={$t("common.contact", {
+								default: "Зв'язатися",
+							})}
+							data-testid="graduate-profile-edit-btn"
+						>
 							<Pencil size={20} aria-hidden="true" />
 						</button>
 					</div>
 				{/if}
 
-				<button type="button" class="card__action card__close" onclick={onclose} aria-label={$t('common.close')} data-testid="galaxy-card-close-btn">
+				<button
+					type="button"
+					class="card__action card__close"
+					onclick={onclose}
+					aria-label={$t("common.close")}
+					data-testid="galaxy-card-close-btn"
+				>
 					<X size={20} aria-hidden="true" />
 				</button>
 			</div>
 
-			<GraduateProfileView {graduate} {profile} headingId="{id}-title" heading="h2" />
+			<GraduateProfileView
+				{graduate}
+				{profile}
+				headingId="{id}-title"
+				heading="h2"
+			/>
 		</div>
 	</div>
 {/if}
@@ -197,7 +300,10 @@
 		backdrop-filter: blur(8px);
 	}
 	.card__contact {
-		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
 	}
 	.card__contact:hover {
 		background: rgb(140 190 255 / 0.25);
@@ -252,7 +358,9 @@
 		height: 38px;
 		border-radius: 50%;
 		text-decoration: none;
-		transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+		transition:
+			transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+			filter 0.2s ease;
 	}
 	.contact-popup__link:hover {
 		transform: scale(1.18);
