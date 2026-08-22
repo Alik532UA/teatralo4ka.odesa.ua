@@ -8,7 +8,7 @@ interface CropOverride {
 	sy?: number;
 }
 
-const CROP_OVERRIDES: Record<string, CropOverride> = {
+const AVATAR_OVERRIDES: Record<string, CropOverride> = {
 	'mykola-baldin': {
 		size: 1800,
 		sx: 400,
@@ -16,81 +16,171 @@ const CROP_OVERRIDES: Record<string, CropOverride> = {
 	}
 };
 
+const PORTRAIT_OVERRIDES: Record<string, { sx?: number; sy?: number; sw?: number; sh?: number }> = {
+	'mykola-baldin': {
+		// Centered full portrait for Baldin
+		sx: 0,
+		sy: 0,
+		sw: 2848,
+		sh: 4272
+	}
+};
+
 async function main() {
 	const rawDir = path.join('assets', 'masters-raw');
-	const outDir = path.join('static', 'masters');
+	const avatarDir = path.join('static', 'masters');
+	const portraitDir = path.join('static', 'masters', 'portraits');
 
 	if (!fs.existsSync(rawDir)) {
 		console.error(`❌ Raw directory not found: ${rawDir}`);
 		process.exit(1);
 	}
-	if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+	if (!fs.existsSync(avatarDir)) fs.mkdirSync(avatarDir, { recursive: true });
+	if (!fs.existsSync(portraitDir)) fs.mkdirSync(portraitDir, { recursive: true });
 
 	const files = fs.readdirSync(rawDir).filter((f) => f.endsWith('.webp'));
-	console.log(`🔨 Building web-optimized master photos from ${files.length} raw sources...`);
+	console.log(`🔨 Building web assets (480x480 avatars & 720x1080 portraits) from ${files.length} raw sources...`);
 
 	const browser = await chromium.launch({ headless: true });
 	const page = await browser.newPage();
 	await page.setContent('<html><body></body></html>');
 
-	let totalOutBytes = 0;
+	let totalAvatarBytes = 0;
+	let totalPortraitBytes = 0;
 
 	for (const file of files) {
 		const id = path.basename(file, '.webp');
 		const rawPath = path.join(rawDir, file);
-		const outPath = path.join(outDir, `${id}.webp`);
+		const avatarPath = path.join(avatarDir, `${id}.webp`);
+		const portraitPath = path.join(portraitDir, `${id}.webp`);
 
 		const buf = fs.readFileSync(rawPath);
 		const dataUrl = `data:image/webp;base64,${buf.toString('base64')}`;
-		const override = CROP_OVERRIDES[id] || {};
+		const avatarOverride = AVATAR_OVERRIDES[id] || {};
+		const portraitOverride = PORTRAIT_OVERRIDES[id] || {};
 
-		const webpBase64 = await page.evaluate(
-			async ({ dataUrl, override, targetSize, quality }) => {
-				return new Promise<string>((resolve, reject) => {
+		const result = await page.evaluate(
+			async ({ dataUrl, avatarOverride, portraitOverride }) => {
+				return new Promise<{ avatarB64: string; portraitB64: string }>((resolve, reject) => {
 					const img = new Image();
 					img.onload = () => {
-						const canvas = document.createElement('canvas');
-						canvas.width = targetSize;
-						canvas.height = targetSize;
-						const ctx = canvas.getContext('2d');
-						if (!ctx) return reject(new Error('no ctx'));
+						try {
+							// 1. Build 480x480 square avatar
+							const avatarCanvas = document.createElement('canvas');
+							avatarCanvas.width = 480;
+							avatarCanvas.height = 480;
+							const avatarCtx = avatarCanvas.getContext('2d');
+							if (!avatarCtx) return reject(new Error('no avatar ctx'));
 
-						const minDim = Math.min(img.naturalWidth, img.naturalHeight);
-						const cropSize = override.size ?? minDim;
-						const extraY = img.naturalHeight - cropSize;
+							const minDim = Math.min(img.naturalWidth, img.naturalHeight);
+							const cropSize = avatarOverride.size ?? minDim;
+							const extraY = img.naturalHeight - cropSize;
 
-						let sx = override.sx;
-						if (sx === undefined) {
-							sx = (img.naturalWidth - cropSize) / 2;
+							let sx = avatarOverride.sx;
+							if (sx === undefined) {
+								sx = (img.naturalWidth - cropSize) / 2;
+							}
+
+							let sy = avatarOverride.sy;
+							if (sy === undefined) {
+								sy = extraY > 0 ? extraY * 0.12 : 0;
+							}
+
+							avatarCtx.imageSmoothingEnabled = true;
+							avatarCtx.imageSmoothingQuality = 'high';
+							avatarCtx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, 480, 480);
+
+							const avatarB64 = avatarCanvas.toDataURL('image/webp', 0.85).split(',')[1];
+							avatarCanvas.width = 0;
+							avatarCanvas.height = 0;
+
+							// 2. Build 720x1080 vertical portrait (2:3 aspect ratio)
+							const portraitCanvas = document.createElement('canvas');
+							portraitCanvas.width = 720;
+							portraitCanvas.height = 1080;
+							const portraitCtx = portraitCanvas.getContext('2d');
+							if (!portraitCtx) return reject(new Error('no portrait ctx'));
+
+							const targetRatio = 720 / 1080; // 2/3
+							const sourceRatio = img.naturalWidth / img.naturalHeight;
+
+							let pSx = portraitOverride.sx;
+							let pSy = portraitOverride.sy;
+							let pSw = portraitOverride.sw;
+							let pSh = portraitOverride.sh;
+
+							if (pSw === undefined || pSh === undefined) {
+								if (sourceRatio > targetRatio) {
+									// Source is wider than 2:3
+									pSh = img.naturalHeight;
+									pSw = pSh * targetRatio;
+									pSx = (img.naturalWidth - pSw) / 2;
+									pSy = 0;
+								} else {
+									// Source is narrower or equal to 2:3
+									pSw = img.naturalWidth;
+									pSh = pSw / targetRatio;
+									const extraPortY = img.naturalHeight - pSh;
+									pSx = 0;
+									pSy = extraPortY > 0 ? extraPortY * 0.08 : 0;
+								}
+							}
+							if (pSx === undefined) pSx = 0;
+							if (pSy === undefined) pSy = 0;
+
+							portraitCtx.imageSmoothingEnabled = true;
+							portraitCtx.imageSmoothingQuality = 'high';
+							portraitCtx.drawImage(img, pSx, pSy, pSw, pSh, 0, 0, 720, 1080);
+
+							const portraitB64 = portraitCanvas.toDataURL('image/webp', 0.75).split(',')[1];
+							portraitCanvas.width = 0;
+							portraitCanvas.height = 0;
+
+							resolve({ avatarB64, portraitB64 });
+						} catch (e) {
+							reject(e);
 						}
-
-						let sy = override.sy;
-						if (sy === undefined) {
-							sy = extraY > 0 ? extraY * 0.12 : 0;
-						}
-
-						ctx.imageSmoothingEnabled = true;
-						ctx.imageSmoothingQuality = 'high';
-						ctx.drawImage(img, sx, sy, cropSize, cropSize, 0, 0, targetSize, targetSize);
-
-						const outUrl = canvas.toDataURL('image/webp', quality);
-						resolve(outUrl.split(',')[1]);
 					};
 					img.onerror = reject;
 					img.src = dataUrl;
 				});
 			},
-			{ dataUrl, override, targetSize: 480, quality: 0.85 }
+			{ dataUrl, avatarOverride, portraitOverride }
 		);
 
-		const outBuf = Buffer.from(webpBase64, 'base64');
-		fs.writeFileSync(outPath, outBuf);
-		totalOutBytes += outBuf.length;
-		console.log(`✅ [480x480] static/masters/${id}.webp (${(outBuf.length / 1024).toFixed(1)} KB)`);
+		const avatarOutBuf = Buffer.from(result.avatarB64, 'base64');
+		fs.writeFileSync(avatarPath, avatarOutBuf);
+		totalAvatarBytes += avatarOutBuf.length;
+
+		const portraitOutBuf = Buffer.from(result.portraitB64, 'base64');
+		fs.writeFileSync(portraitPath, portraitOutBuf);
+		totalPortraitBytes += portraitOutBuf.length;
+
+		console.log(`✅ ${id} -> Avatar: ${(avatarOutBuf.length / 1024).toFixed(1)} KB | Portrait: ${(portraitOutBuf.length / 1024).toFixed(1)} KB`);
 	}
 
-	console.log(`\n🎉 Built ${files.length} production master photos. Total size: ${(totalOutBytes / 1024 / 1024).toFixed(2)} MB.`);
+	console.log(`\n🎉 Built ${files.length} avatars (${(totalAvatarBytes / 1024 / 1024).toFixed(2)} MB) and ${files.length} portraits (${(totalPortraitBytes / 1024 / 1024).toFixed(2)} MB).`);
 	await browser.close();
+
+	// Sync portrait paths to masters.index.json and profile JSONs
+	const indexPath = path.join('src', 'lib', 'data', 'masters.index.json');
+	const indexList: any[] = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+
+	for (const m of indexList) {
+		const portraitFile = path.join(portraitDir, `${m.id}.webp`);
+		if (fs.existsSync(portraitFile)) {
+			m.portrait = `/masters/portraits/${m.id}.webp`;
+		}
+		const profilePath = path.join('static', 'masters', 'profiles', `${m.id}.json`);
+		if (fs.existsSync(profilePath)) {
+			const prof = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
+			if (m.portrait) prof.portrait = m.portrait;
+			fs.writeFileSync(profilePath, JSON.stringify(prof, null, '\t') + '\n', 'utf8');
+		}
+	}
+
+	fs.writeFileSync(indexPath, JSON.stringify(indexList, null, '\t') + '\n', 'utf8');
+	console.log('✅ Synchronized portrait paths in masters.index.json and profile files.');
 }
 
 main().catch((err) => {

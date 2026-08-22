@@ -905,6 +905,12 @@
     "allTeachers": "Всі дорослі",
     "honorarySectionTitle": "Світла пам'ять",
     "historySectionTitle": "Історія",
+    "viewModes": {
+      "cards": "Картки",
+      "gallery": "Галерея",
+      "compact": "Компактно",
+      "viewLabel": "Режим відображення"
+    },
     "categories": {
       "administration": "Керівництво та адміністрація",
       "administrationSubtitle": "Команда, яка спрямовує розвиток та організовує життя школи",

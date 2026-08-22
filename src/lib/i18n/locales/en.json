@@ -905,6 +905,12 @@
     "allTeachers": "All Adults",
     "honorarySectionTitle": "In Blessed Memory",
     "historySectionTitle": "History",
+    "viewModes": {
+      "cards": "Cards",
+      "gallery": "Gallery",
+      "compact": "Compact",
+      "viewLabel": "Display view"
+    },
     "categories": {
       "administration": "Leadership & Administration",
       "administrationSubtitle": "The team directing the growth and daily operations of the school",

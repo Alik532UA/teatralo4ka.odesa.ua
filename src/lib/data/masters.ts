@@ -30,6 +30,7 @@ export interface MasterIndexEntry {
 	category?: MasterCategory;
 	roleTitle?: string;
 	photo?: string;
+	portrait?: string;
 	status?: MasterStatus;
 	isHonorary?: boolean;
 	subjects?: string[];
@@ -50,7 +51,8 @@ export interface MasterStudentEntry {
 
 export const MASTERS: Master[] = (mastersIndexData as MasterIndexEntry[]).map((m) => ({
 	...m,
-	photo: m.photo ? asset(m.photo) : undefined
+	photo: m.photo ? asset(m.photo) : undefined,
+	portrait: m.portrait ? asset(m.portrait) : undefined
 }));
 
 const MASTERS_BY_ID = new Map<string, Master>(MASTERS.map((m) => [m.id, m]));
