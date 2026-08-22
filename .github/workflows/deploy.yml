@@ -19,6 +19,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Правила доступу Firestore — над емулятором (CLOUD-DATABASE-v8, CDB-RULES-GATE).
+  #
+  # Окремий job, а не крок у деплої: емулятор вимагає Java й не потребує збірки,
+  # тож розгортання на нього не чекає. Той самий job стоїть у `gates.yml` — там
+  # він ловить розходження до `main`, тут страхує пряме злиття.
+  rules:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      # Емулятор Firestore — java-процес. Без цього кроку `emulators:exec` падає
+      # з «java not found», і виглядає це як зламані правила.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Перевірка правил доступу
+        run: npm run check:rules
+
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:

@@ -42,6 +42,43 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Правила доступу Firestore — над емулятором (CLOUD-DATABASE-v8, CDB-RULES-GATE).
+  #
+  # ОКРЕМИЙ JOB, а не крок у `gates`: емулятор вимагає Java, а решта гейтів — ні,
+  # тож 20 секунд встановлення JDK не мають лежати на шляху `npm run lint`.
+  #
+  # ЧОМУ ЦЕ ВЗАГАЛІ ТУТ. Правила — єдина частина проєкту, стан якої не видно ні
+  # в `src/`, ні у `build/`: вони виконуються на боці Firebase, і CI їх навіть не
+  # деплоїть (це ручний крок). Статичний інваріант `src/firestore-rules.test.ts`
+  # звіряє allowlist полів зі Zod-схемою, але правил не ВИКОНУЄ — тобто не може
+  # сказати, чи адміністратор справді збереже статтю і чи справді не підвищить
+  # себе до суперадміна.
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      # Емулятор Firestore — java-процес. Без цього кроку `emulators:exec` падає
+      # з «java not found», і виглядає це як зламані правила.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # 29 випадків: 10 «застосунок мусить це вміти» й 19 «сторонній не мусить
+      # цього могти». Правило «дозволити все» валить другий набір, «заборонити
+      # все» — перший; скрипт сам падає, якщо один із наборів спорожнів.
+      - name: Перевірка правил доступу
+        run: npm run check:rules
+
   gates:
     runs-on: ubuntu-latest
     steps:

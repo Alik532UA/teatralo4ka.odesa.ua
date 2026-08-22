@@ -43,3 +43,10 @@ test-results/
 playwright-report/
 blob-report/
 .playwright/
+
+# Firebase emulators (гейт правил доступу, `npm run check:rules`)
+firestore-debug.log
+firebase-debug.log
+ui-debug.log
+database-debug.log
+pubsub-debug.log

@@ -1,7 +1,7 @@
 {
   "name": "teatralo4ka.odesa.ua",
   "private": true,
-  "version": "0.0.73",
+  "version": "0.0.74",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
@@ -23,6 +23,8 @@
     "generate-changelog": "tsx scripts/generate-changelog.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "check:rules": "node scripts/firebase-cli.mjs emulators:exec --project demo-teatralo4ka --only firestore,auth \"node scripts/check-rules.mjs\"",
+    "emulators": "node scripts/firebase-cli.mjs emulators:start --project demo-teatralo4ka --only firestore,auth",
     "postbuild": "tsx scripts/generate-sitemap.ts && tsx scripts/check-app-version.ts && tsx scripts/check-bundle-budget.ts && tsx scripts/check-links.ts && tsx scripts/check-geo.ts && tsx scripts/generate-changelog.ts",
     "test:e2e": "npm run build && playwright test",
     "test:e2e:ui": "playwright test --ui",
