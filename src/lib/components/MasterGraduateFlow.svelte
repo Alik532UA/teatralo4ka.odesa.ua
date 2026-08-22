@@ -130,7 +130,7 @@
 		position: absolute;
 		top: 0;
 		width: 56px;
-		height: 100%;
+		height: 56px;
 		left: calc((100% - 56px) * var(--left) / 100);
 		pointer-events: auto;
 		animation: streamUp var(--duration) linear var(--delay) infinite;
@@ -138,17 +138,28 @@
 
 	@keyframes streamUp {
 		from {
-			translate: 0 105%;
+			translate: 0 105vh;
 		}
 		to {
-			translate: 0 -105%;
+			translate: 0 -15vh;
+		}
+	}
+
+	@media (max-width: 859px) {
+		@keyframes streamUp {
+			from {
+				translate: 0 520px;
+			}
+			to {
+				translate: 0 -70px;
+			}
 		}
 	}
 
 	.lane:has(:global(button:hover)),
 	.lane:has(:global(button:focus-visible)) {
 		animation-play-state: paused;
-		z-index: 20;
+		z-index: 50;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
