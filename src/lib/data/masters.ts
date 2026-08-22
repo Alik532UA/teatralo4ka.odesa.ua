@@ -1,3 +1,4 @@
+import { asset } from '$app/paths';
 import type { Department } from './graduates';
 
 export interface Master {
@@ -21,7 +22,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Риськіна Світлана Миколаївна',
 		displayNameEn: 'Svitlana RYSKINA',
 		fullNameEn: 'Svitlana Ryskina',
-		departments: ['theatre']
+		departments: ['theatre'],
+		photo: asset('/masters/svitlana-ryskina.webp')
 	},
 	{
 		id: 'tetiana-isachkina',
@@ -30,7 +32,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Ісачкіна Тетяна Валеріївна',
 		displayNameEn: 'Tetiana ISACHKINA',
 		fullNameEn: 'Tetiana Isachkina',
-		departments: ['theatre']
+		departments: ['theatre'],
+		photo: asset('/masters/tetiana-isachkina.webp')
 	},
 	{
 		id: 'fedir-tkach',
@@ -39,7 +42,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Ткач Федір Федорович',
 		displayNameEn: 'Fedir TKACH',
 		fullNameEn: 'Fedir Tkach',
-		departments: ['theatre']
+		departments: ['theatre'],
+		photo: asset('/masters/fedir-tkach.webp')
 	},
 	{
 		id: 'hanna-tkach',
@@ -76,7 +80,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Пророк Олена Володимирівна',
 		displayNameEn: 'Olena PROROK',
 		fullNameEn: 'Olena Prorok',
-		departments: ['piano', 'music']
+		departments: ['piano', 'music'],
+		photo: asset('/masters/olena-prorok.webp')
 	},
 	{
 		id: 'pavlo-koshka',
@@ -94,7 +99,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Коваль Віра Борисівна',
 		displayNameEn: 'Vira KOVAL',
 		fullNameEn: 'Vira Koval',
-		departments: ['art']
+		departments: ['art'],
+		photo: asset('/masters/vira-koval.webp')
 	},
 	{
 		id: 'iryna-ovcharenko',
@@ -103,7 +109,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Овчаренко Ірина Григорівна',
 		displayNameEn: 'Iryna OVCHARENKO',
 		fullNameEn: 'Iryna Ovcharenko',
-		departments: ['vocal']
+		departments: ['vocal'],
+		photo: asset('/masters/iryna-ovcharenko.webp')
 	},
 	{
 		id: 'tereza-zaurbekova',
@@ -112,16 +119,18 @@ export const MASTERS: Master[] = [
 		fullName: 'Заурбекова Тереза Валеріївна',
 		displayNameEn: 'Tereza ZAURBEKOVA',
 		fullNameEn: 'Tereza Zaurbekova',
-		departments: ['theatre']
+		departments: ['theatre'],
+		photo: asset('/masters/tereza-zaurbekova.webp')
 	},
 	{
 		id: 'liliia-velychko',
 		slug: 'liliia-velychko',
 		displayName: 'Лілія ВЕЛИЧКО',
-		fullName: 'Величко Лілія М.',
+		fullName: 'Величко Лілія Миколаївна',
 		displayNameEn: 'Liliia VELYCHKO',
 		fullNameEn: 'Liliia Velychko',
-		departments: ['vocal']
+		departments: ['vocal'],
+		photo: asset('/masters/liliia-velychko.webp')
 	},
 	{
 		id: 'oksana-panchenko',
@@ -130,7 +139,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Панченко Оксана Костянтинівна',
 		displayNameEn: 'Oksana PANCHENKO',
 		fullNameEn: 'Oksana Panchenko',
-		departments: ['music']
+		departments: ['music'],
+		photo: asset('/masters/oksana-panchenko.webp')
 	},
 	{
 		id: 'natalia-bakina',
@@ -148,7 +158,8 @@ export const MASTERS: Master[] = [
 		fullName: 'Ніколаєва Анастасія Олексіївна',
 		displayNameEn: 'Anastasiia NIKOLAIEVA',
 		fullNameEn: 'Anastasiia Nikolaieva',
-		departments: ['vocal']
+		departments: ['vocal'],
+		photo: asset('/masters/anastasiia-nikolaieva.webp')
 	},
 	{
 		id: 'hanna-serebriannikova',
@@ -205,13 +216,14 @@ export const MASTERS: Master[] = [
 		departments: ['theatre']
 	},
 	{
-		id: 'k-bilenko',
-		slug: 'k-bilenko',
+		id: 'kateryna-bilenko',
+		slug: 'kateryna-bilenko',
 		displayName: 'Катерина БІЛЕНКО',
 		fullName: 'Біленко Катерина Юріївна',
 		displayNameEn: 'Kateryna BILENKO',
 		fullNameEn: 'Kateryna Bilenko',
-		departments: ['music']
+		departments: ['music'],
+		photo: asset('/masters/kateryna-bilenko.webp')
 	}
 ];
 
