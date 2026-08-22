@@ -62,7 +62,8 @@
 		"status": "active",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"photo": "/masters/olena-tkach.webp"
 	},
 	{
 		"id": "olena-prorok",
@@ -125,7 +126,8 @@
 		"status": "active",
 		"subjects": [
 			"Гітара"
-		]
+		],
+		"photo": "/masters/natalia-stepanenko.webp"
 	},
 	{
 		"id": "vira-yemtsova-datsiuk",
@@ -140,7 +142,8 @@
 		"status": "active",
 		"subjects": [
 			"Сценічна мова"
-		]
+		],
+		"photo": "/masters/vira-yemtsova-datsiuk.webp"
 	},
 	{
 		"id": "tereza-zaurbekova",
@@ -248,7 +251,8 @@
 		"status": "active",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"photo": "/masters/natalia-shkolna.webp"
 	},
 	{
 		"id": "kateryna-bilenko",
@@ -300,7 +304,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/yevheniia-bohdanova.webp"
 	},
 	{
 		"id": "yevheniia-bondar",
@@ -336,7 +341,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/olha-buinytska.webp"
 	},
 	{
 		"id": "yevheniia-osadcha",
@@ -384,7 +390,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/elmir-hanbarov.webp"
 	},
 	{
 		"id": "olena-haraieva",
@@ -432,7 +439,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/liusiia-dun.webp"
 	},
 	{
 		"id": "svitlana-kyselova",
@@ -444,7 +452,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/svitlana-kyselova.webp"
 	},
 	{
 		"id": "andrii-klymenko",
@@ -492,7 +501,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/olena-konnikova.webp"
 	},
 	{
 		"id": "alisa-kocheva",
@@ -516,7 +526,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/vira-kurova.webp"
 	},
 	{
 		"id": "olha-maiorova",
@@ -528,7 +539,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/olha-maiorova.webp"
 	},
 	{
 		"id": "viktoriia-marar",
@@ -600,7 +612,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/hanna-nikolaieva.webp"
 	},
 	{
 		"id": "natalia-orlova",
@@ -732,7 +745,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/liubov-savina.webp"
 	},
 	{
 		"id": "oleksandra-sklifosovska",
@@ -756,7 +770,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"photo": "/masters/tetiana-stohul.webp"
 	},
 	{
 		"id": "havriil-terekhov",
@@ -934,7 +949,8 @@
 		"status": "history",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"photo": "/masters/pavlo-koshka.webp"
 	},
 	{
 		"id": "iryna-ulianenko",
@@ -949,7 +965,8 @@
 		"status": "history",
 		"subjects": [
 			"Сценічна мова"
-		]
+		],
+		"photo": "/masters/iryna-ulianenko.webp"
 	},
 	{
 		"id": "liliia-velychko",
@@ -1034,7 +1051,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "history"
+		"status": "history",
+		"photo": "/masters/svitlana-vitiuk.webp"
 	},
 	{
 		"id": "kateryna-sukhoboievska",
@@ -1058,7 +1076,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "history"
+		"status": "history",
+		"photo": "/masters/yaroslava-turbinska.webp"
 	},
 	{
 		"id": "anna-matkovska",
@@ -1070,7 +1089,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "history"
+		"status": "history",
+		"photo": "/masters/anna-matkovska.webp"
 	},
 	{
 		"id": "svitlana-nadopta",
@@ -1086,5 +1106,271 @@
 		"subjects": [
 			"Акторська майстерність"
 		]
+	},
+	{
+		"id": "yurii-drankov",
+		"slug": "yurii-drankov",
+		"displayName": "Юрій ДРАНКОВ",
+		"fullName": "Дранков Юрій Павлович",
+		"displayNameEn": "Yurii DRANKOV",
+		"fullNameEn": "Yurii Drankov",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [
+			"Акторська майстерність"
+		],
+		"photo": "/masters/yurii-drankov.webp"
+	},
+	{
+		"id": "alik-zapolnov",
+		"slug": "alik-zapolnov",
+		"displayName": "Алік ЗАПОЛЬНОВ",
+		"fullName": "Запольнов Алік Ігорович",
+		"displayNameEn": "Alik ZAPOLNOV",
+		"fullNameEn": "Alik Zapolnov",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [
+			"Театральне мистецтво"
+		],
+		"photo": "/masters/alik-zapolnov.webp"
+	},
+	{
+		"id": "volodymyr-kesov",
+		"slug": "volodymyr-kesov",
+		"displayName": "Володимир КЕСОВ",
+		"fullName": "Кесов Володимир Савелійович",
+		"displayNameEn": "Volodymyr KESOV",
+		"fullNameEn": "Volodymyr Kesov",
+		"departments": [
+			"theatre"
+		],
+		"status": "history",
+		"subjects": [],
+		"photo": "/masters/volodymyr-kesov.webp"
+	},
+	{
+		"id": "tetiana-korenchuk",
+		"slug": "tetiana-korenchuk",
+		"displayName": "Тетяна КОРЕНЧУК",
+		"fullName": "Коренчук Тетяна Миколаївна",
+		"displayNameEn": "Tetiana KORENCHUK",
+		"fullNameEn": "Tetiana Korenchuk",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/tetiana-korenchuk.webp"
+	},
+	{
+		"id": "viktor-kurov",
+		"slug": "viktor-kurov",
+		"displayName": "Віктор КУРОВ",
+		"fullName": "Куров Віктор Васильович",
+		"displayNameEn": "Viktor KUROV",
+		"fullNameEn": "Viktor Kurov",
+		"departments": [
+			"theatre"
+		],
+		"status": "history",
+		"subjects": [],
+		"photo": "/masters/viktor-kurov.webp"
+	},
+	{
+		"id": "artur-lytvynenko",
+		"slug": "artur-lytvynenko",
+		"displayName": "Артур ЛИТВИНЕНКО",
+		"fullName": "Литвиненко Артур Вікторович",
+		"displayNameEn": "Artur LYTVYNENKO",
+		"fullNameEn": "Artur Lytvynenko",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/artur-lytvynenko.webp"
+	},
+	{
+		"id": "natalia-lytvynova",
+		"slug": "natalia-lytvynova",
+		"displayName": "Наталя ЛИТВИНОВА",
+		"fullName": "Литвинова Наталя Борисівна",
+		"displayNameEn": "Natalia LYTVYNOVA",
+		"fullNameEn": "Natalia Lytvynova",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/natalia-lytvynova.webp"
+	},
+	{
+		"id": "olena-rudiukova",
+		"slug": "olena-rudiukova",
+		"displayName": "Олена РУДЮКОВА",
+		"fullName": "Рудюкова Олена Григорівна",
+		"displayNameEn": "Olena RUDIUKOVA",
+		"fullNameEn": "Olena Rudiukova",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/olena-rudiukova.webp"
+	},
+	{
+		"id": "natalia-stoianova",
+		"slug": "natalia-stoianova",
+		"displayName": "Наталя СТОЯНОВА",
+		"fullName": "Стоянова Наталя Валентинівна",
+		"displayNameEn": "Natalia STOIANOVA",
+		"fullNameEn": "Natalia Stoianova",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/natalia-stoianova.webp"
+	},
+	{
+		"id": "filarena-sukhanova",
+		"slug": "filarena-sukhanova",
+		"displayName": "Філарена СУХАНОВА",
+		"fullName": "Суханова Філарена Ростиславівна",
+		"displayNameEn": "Filarena SUKHANOVA",
+		"fullNameEn": "Filarena Sukhanova",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/filarena-sukhanova.webp"
+	},
+	{
+		"id": "liubov-frankovska",
+		"slug": "liubov-frankovska",
+		"displayName": "Любов ФРАНКОВСЬКА",
+		"fullName": "Франковська Любов Валентинівна",
+		"displayNameEn": "Liubov FRANKOVSKA",
+		"fullNameEn": "Liubov Frankovska",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/liubov-frankovska.webp"
+	},
+	{
+		"id": "natalia-shalashna",
+		"slug": "natalia-shalashna",
+		"displayName": "Наталія ШАЛАШНА",
+		"fullName": "Шалашна Наталія Іванівна",
+		"displayNameEn": "Natalia SHALASHNA",
+		"fullNameEn": "Natalia Shalashna",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/natalia-shalashna.webp"
+	},
+	{
+		"id": "dmytro-shylnykovskyi",
+		"slug": "dmytro-shylnykovskyi",
+		"displayName": "Дмитро ШИЛЬНИКОВСЬКИЙ",
+		"fullName": "Шильниковський Дмитро Юрійович",
+		"displayNameEn": "Dmytro SHYLNYKOVSKYI",
+		"fullNameEn": "Dmytro Shylnykovskyi",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/dmytro-shylnykovskyi.webp"
+	},
+	{
+		"id": "olha-imas",
+		"slug": "olha-imas",
+		"displayName": "Ольга ІМАС",
+		"fullName": "Імас Ольга Семенівна",
+		"displayNameEn": "Olha IMAS",
+		"fullNameEn": "Olha Imas",
+		"departments": [
+			"theatre"
+		],
+		"status": "history",
+		"subjects": [
+			"Хореографія"
+		],
+		"photo": "/masters/olha-imas.webp"
+	},
+	{
+		"id": "natalia-dombrovska",
+		"slug": "natalia-dombrovska",
+		"displayName": "Наталя ДОМБРОВСЬКА",
+		"fullName": "Домбровська Наталя Євгенівна",
+		"displayNameEn": "Natalia DOMBROVSKA",
+		"fullNameEn": "Natalia Dombrovska",
+		"departments": [
+			"theatre"
+		],
+		"status": "history",
+		"subjects": [
+			"Хореографія"
+		],
+		"photo": "/masters/natalia-dombrovska.webp"
+	},
+	{
+		"id": "olena-kuznetsova",
+		"slug": "olena-kuznetsova",
+		"displayName": "Олена КУЗНЕЦОВА",
+		"fullName": "Кузнецова Олена Андріївна",
+		"displayNameEn": "Olena KUZNETSOVA",
+		"fullNameEn": "Olena Kuznetsova",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"subjects": [],
+		"photo": "/masters/olena-kuznetsova.webp"
+	},
+	{
+		"id": "kyrylo-mazur",
+		"slug": "kyrylo-mazur",
+		"displayName": "Кирило МАЗУР",
+		"fullName": "Мазур Кирило Володимирович",
+		"displayNameEn": "Kyrylo MAZUR",
+		"fullNameEn": "Kyrylo Mazur",
+		"departments": [
+			"guitar",
+			"music"
+		],
+		"status": "history",
+		"subjects": [
+			"Гітара"
+		],
+		"photo": "/masters/kyrylo-mazur.webp"
+	},
+	{
+		"id": "svitlana-pruba",
+		"slug": "svitlana-pruba",
+		"displayName": "Світлана ПРУБА",
+		"fullName": "Пруба Світлана Олександрівна",
+		"displayNameEn": "Svitlana PRUBA",
+		"fullNameEn": "Svitlana Pruba",
+		"departments": [
+			"vocal",
+			"music"
+		],
+		"status": "history",
+		"subjects": [
+			"Вокал"
+		],
+		"photo": "/masters/svitlana-pruba.webp"
 	}
 ]

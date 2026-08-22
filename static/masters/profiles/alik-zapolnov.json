@@ -1,0 +1,18 @@
+{
+	"id": "alik-zapolnov",
+	"slug": "alik-zapolnov",
+	"displayName": "Алік ЗАПОЛЬНОВ",
+	"fullName": "Запольнов Алік Ігорович",
+	"displayNameEn": "Alik ZAPOLNOV",
+	"fullNameEn": "Alik Zapolnov",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Театральне мистецтво"
+	],
+	"photo": "/masters/alik-zapolnov.webp",
+	"bio": "",
+	"socials": []
+}

@@ -1,0 +1,18 @@
+{
+	"id": "yurii-drankov",
+	"slug": "yurii-drankov",
+	"displayName": "Юрій ДРАНКОВ",
+	"fullName": "Дранков Юрій Павлович",
+	"displayNameEn": "Yurii DRANKOV",
+	"fullNameEn": "Yurii Drankov",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Акторська майстерність"
+	],
+	"photo": "/masters/yurii-drankov.webp",
+	"bio": "",
+	"socials": []
+}

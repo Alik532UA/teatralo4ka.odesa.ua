@@ -1,0 +1,19 @@
+{
+	"id": "kyrylo-mazur",
+	"slug": "kyrylo-mazur",
+	"displayName": "Кирило МАЗУР",
+	"fullName": "Мазур Кирило Володимирович",
+	"displayNameEn": "Kyrylo MAZUR",
+	"fullNameEn": "Kyrylo Mazur",
+	"departments": [
+		"guitar",
+		"music"
+	],
+	"status": "history",
+	"subjects": [
+		"Гітара"
+	],
+	"photo": "/masters/kyrylo-mazur.webp",
+	"bio": "",
+	"socials": []
+}

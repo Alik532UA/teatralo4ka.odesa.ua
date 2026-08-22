@@ -1,0 +1,19 @@
+{
+	"id": "svitlana-pruba",
+	"slug": "svitlana-pruba",
+	"displayName": "Світлана ПРУБА",
+	"fullName": "Пруба Світлана Олександрівна",
+	"displayNameEn": "Svitlana PRUBA",
+	"fullNameEn": "Svitlana Pruba",
+	"departments": [
+		"vocal",
+		"music"
+	],
+	"status": "history",
+	"subjects": [
+		"Вокал"
+	],
+	"photo": "/masters/svitlana-pruba.webp",
+	"bio": "",
+	"socials": []
+}

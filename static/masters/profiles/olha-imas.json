@@ -1,0 +1,18 @@
+{
+	"id": "olha-imas",
+	"slug": "olha-imas",
+	"displayName": "Ольга ІМАС",
+	"fullName": "Імас Ольга Семенівна",
+	"displayNameEn": "Olha IMAS",
+	"fullNameEn": "Olha Imas",
+	"departments": [
+		"theatre"
+	],
+	"status": "history",
+	"subjects": [
+		"Хореографія"
+	],
+	"photo": "/masters/olha-imas.webp",
+	"bio": "",
+	"socials": []
+}
