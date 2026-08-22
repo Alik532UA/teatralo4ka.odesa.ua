@@ -1,0 +1,17 @@
+{
+	"id": "yakunina",
+	"slug": "yakunina",
+	"displayName": "Якуніна",
+	"fullName": "Якуніна",
+	"displayNameEn": "Yakunina",
+	"fullNameEn": "Yakunina",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/yakunina.webp",
+	"portrait": "/masters/portraits/yakunina.webp",
+	"bio": "",
+	"socials": []
+}

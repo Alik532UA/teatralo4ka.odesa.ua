@@ -1,0 +1,17 @@
+{
+	"id": "hrachyk",
+	"slug": "hrachyk",
+	"displayName": "Грачик",
+	"fullName": "Грачик",
+	"displayNameEn": "Hrachyk",
+	"fullNameEn": "Hrachyk",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/hrachyk.webp",
+	"portrait": "/masters/portraits/hrachyk.webp",
+	"bio": "",
+	"socials": []
+}

@@ -1,0 +1,17 @@
+{
+	"id": "romanko",
+	"slug": "romanko",
+	"displayName": "Романко",
+	"fullName": "Романко",
+	"displayNameEn": "Romanko",
+	"fullNameEn": "Romanko",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/romanko.webp",
+	"portrait": "/masters/portraits/romanko.webp",
+	"bio": "",
+	"socials": []
+}

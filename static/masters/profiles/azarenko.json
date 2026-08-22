@@ -1,0 +1,17 @@
+{
+	"id": "azarenko",
+	"slug": "azarenko",
+	"displayName": "Азаренко",
+	"fullName": "Азаренко",
+	"displayNameEn": "Azarenko",
+	"fullNameEn": "Azarenko",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/azarenko.webp",
+	"portrait": "/masters/portraits/azarenko.webp",
+	"bio": "",
+	"socials": []
+}

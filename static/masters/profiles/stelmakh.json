@@ -1,0 +1,17 @@
+{
+	"id": "stelmakh",
+	"slug": "stelmakh",
+	"displayName": "Стельмах",
+	"fullName": "Стельмах",
+	"displayNameEn": "Stelmakh",
+	"fullNameEn": "Stelmakh",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/stelmakh.webp",
+	"portrait": "/masters/portraits/stelmakh.webp",
+	"bio": "",
+	"socials": []
+}

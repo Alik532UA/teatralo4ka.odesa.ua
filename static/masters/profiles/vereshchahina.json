@@ -1,0 +1,17 @@
+{
+	"id": "vereshchahina",
+	"slug": "vereshchahina",
+	"displayName": "Верещагіна",
+	"fullName": "Верещагіна",
+	"displayNameEn": "Vereshchahina",
+	"fullNameEn": "Vereshchahina",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/vereshchahina.webp",
+	"portrait": "/masters/portraits/vereshchahina.webp",
+	"bio": "",
+	"socials": []
+}

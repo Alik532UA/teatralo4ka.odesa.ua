@@ -1,0 +1,17 @@
+{
+	"id": "burlak",
+	"slug": "burlak",
+	"displayName": "Бурлак",
+	"fullName": "Бурлак",
+	"displayNameEn": "Burlak",
+	"fullNameEn": "Burlak",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/burlak.webp",
+	"portrait": "/masters/portraits/burlak.webp",
+	"bio": "",
+	"socials": []
+}

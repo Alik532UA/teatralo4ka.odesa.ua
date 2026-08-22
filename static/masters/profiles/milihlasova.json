@@ -1,0 +1,17 @@
+{
+	"id": "milihlasova",
+	"slug": "milihlasova",
+	"displayName": "Миліглазова",
+	"fullName": "Миліглазова",
+	"displayNameEn": "Milihlasova",
+	"fullNameEn": "Milihlasova",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/milihlasova.webp",
+	"portrait": "/masters/portraits/milihlasova.webp",
+	"bio": "",
+	"socials": []
+}

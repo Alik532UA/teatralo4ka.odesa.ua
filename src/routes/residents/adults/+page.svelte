@@ -89,6 +89,52 @@
 		}
 	];
 
+	const ADMIN_ORDER = [
+		'olena-tkach',
+		'oksana-panchenko',
+		'svitlana-ryskina',
+		'vira-koval',
+		'liliia-velychko',
+		'natalia-shalashna',
+		'liubov-frankovska',
+		'tetiana-korenchuk'
+	];
+
+	function sortCategoryItems(category: MasterCategory, items: typeof allMasters) {
+		if (category === 'administration') {
+			return [...items].sort((a, b) => {
+				const idxA = ADMIN_ORDER.indexOf(a.id);
+				const idxB = ADMIN_ORDER.indexOf(b.id);
+				if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+				if (idxA !== -1) return -1;
+				if (idxB !== -1) return 1;
+				return 0;
+			});
+		}
+
+		if (category === 'support') {
+			return [...items].sort((a, b) => {
+				if (a.id === 'natalia-stoianova') return -1;
+				if (b.id === 'natalia-stoianova') return 1;
+				return 0;
+			});
+		}
+
+		if (category === 'pedagogues' || category === 'history') {
+			return [...items].sort((a, b) => {
+				const countA = a.graduatesCount ?? 0;
+				const countB = b.graduatesCount ?? 0;
+				if (countB !== countA) return countB - countA;
+				const photoA = a.photo ? 0 : 1;
+				const photoB = b.photo ? 0 : 1;
+				if (photoA !== photoB) return photoA - photoB;
+				return a.fullName.localeCompare(b.fullName, 'uk');
+			});
+		}
+
+		return items;
+	}
+
 	const groups = $derived(
 		categoryConfigs
 			.map((cfg) => {
@@ -104,7 +150,7 @@
 					icon: cfg.icon,
 					title: $t(`galaxy.categories.${cfg.key}`, { default: cfg.title }),
 					subtitle: $t(`galaxy.categories.${cfg.key}Subtitle`, { default: cfg.subtitle }),
-					items
+					items: sortCategoryItems(cfg.key, items)
 				};
 			})
 			.filter((g) => g.items.length > 0)

@@ -259,7 +259,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "pedagogues"
+		"category": "pedagogues",
+		"photo": "/masters/hanna-serebriannikova.webp",
+		"portrait": "/masters/portraits/hanna-serebriannikova.webp"
 	},
 	{
 		"id": "iryna-kulbaba",
@@ -1625,5 +1627,200 @@
 		"status": "active",
 		"photo": "/masters/serkova.webp",
 		"portrait": "/masters/portraits/serkova.webp"
+	},
+	{
+		"id": "azarenko",
+		"slug": "azarenko",
+		"displayName": "Азаренко",
+		"fullName": "Азаренко",
+		"displayNameEn": "Azarenko",
+		"fullNameEn": "Azarenko",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/azarenko.webp",
+		"portrait": "/masters/portraits/azarenko.webp"
+	},
+	{
+		"id": "burlak",
+		"slug": "burlak",
+		"displayName": "Бурлак",
+		"fullName": "Бурлак",
+		"displayNameEn": "Burlak",
+		"fullNameEn": "Burlak",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/burlak.webp",
+		"portrait": "/masters/portraits/burlak.webp"
+	},
+	{
+		"id": "vereshchahina",
+		"slug": "vereshchahina",
+		"displayName": "Верещагіна",
+		"fullName": "Верещагіна",
+		"displayNameEn": "Vereshchahina",
+		"fullNameEn": "Vereshchahina",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/vereshchahina.webp",
+		"portrait": "/masters/portraits/vereshchahina.webp"
+	},
+	{
+		"id": "hrachyk",
+		"slug": "hrachyk",
+		"displayName": "Грачик",
+		"fullName": "Грачик",
+		"displayNameEn": "Hrachyk",
+		"fullNameEn": "Hrachyk",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/hrachyk.webp",
+		"portrait": "/masters/portraits/hrachyk.webp"
+	},
+	{
+		"id": "zubynska",
+		"slug": "zubynska",
+		"displayName": "Зубинська",
+		"fullName": "Зубинська",
+		"displayNameEn": "Zubynska",
+		"fullNameEn": "Zubynska",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/zubynska.webp",
+		"portrait": "/masters/portraits/zubynska.webp"
+	},
+	{
+		"id": "kurkaiev",
+		"slug": "kurkaiev",
+		"displayName": "Куркаєв",
+		"fullName": "Куркаєв",
+		"displayNameEn": "Kurkaiev",
+		"fullNameEn": "Kurkaiev",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/kurkaiev.webp",
+		"portrait": "/masters/portraits/kurkaiev.webp"
+	},
+	{
+		"id": "milihlasova",
+		"slug": "milihlasova",
+		"displayName": "Миліглазова",
+		"fullName": "Миліглазова",
+		"displayNameEn": "Milihlasova",
+		"fullNameEn": "Milihlasova",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/milihlasova.webp",
+		"portrait": "/masters/portraits/milihlasova.webp"
+	},
+	{
+		"id": "pyrohova",
+		"slug": "pyrohova",
+		"displayName": "Пирогова",
+		"fullName": "Пирогова",
+		"displayNameEn": "Pyrohova",
+		"fullNameEn": "Pyrohova",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/pyrohova.webp",
+		"portrait": "/masters/portraits/pyrohova.webp"
+	},
+	{
+		"id": "romanko",
+		"slug": "romanko",
+		"displayName": "Романко",
+		"fullName": "Романко",
+		"displayNameEn": "Romanko",
+		"fullNameEn": "Romanko",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/romanko.webp",
+		"portrait": "/masters/portraits/romanko.webp"
+	},
+	{
+		"id": "serebriannikova-n",
+		"slug": "serebriannikova-n",
+		"displayName": "Серебряннікова Н.",
+		"fullName": "Серебряннікова Н.",
+		"displayNameEn": "Serebriannikova N.",
+		"fullNameEn": "Serebriannikova N.",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/serebriannikova-n.webp",
+		"portrait": "/masters/portraits/serebriannikova-n.webp"
+	},
+	{
+		"id": "stelmakh",
+		"slug": "stelmakh",
+		"displayName": "Стельмах",
+		"fullName": "Стельмах",
+		"displayNameEn": "Stelmakh",
+		"fullNameEn": "Stelmakh",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/stelmakh.webp",
+		"portrait": "/masters/portraits/stelmakh.webp"
+	},
+	{
+		"id": "stepanchenko",
+		"slug": "stepanchenko",
+		"displayName": "Степанченко",
+		"fullName": "Степанченко",
+		"displayNameEn": "Stepanchenko",
+		"fullNameEn": "Stepanchenko",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/stepanchenko.webp",
+		"portrait": "/masters/portraits/stepanchenko.webp"
+	},
+	{
+		"id": "yakunina",
+		"slug": "yakunina",
+		"displayName": "Якуніна",
+		"fullName": "Якуніна",
+		"displayNameEn": "Yakunina",
+		"fullNameEn": "Yakunina",
+		"departments": [
+			"theatre"
+		],
+		"category": "history",
+		"status": "history",
+		"photo": "/masters/yakunina.webp",
+		"portrait": "/masters/portraits/yakunina.webp"
 	}
 ]

@@ -1,0 +1,17 @@
+{
+	"id": "zubynska",
+	"slug": "zubynska",
+	"displayName": "Зубинська",
+	"fullName": "Зубинська",
+	"displayNameEn": "Zubynska",
+	"fullNameEn": "Zubynska",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/zubynska.webp",
+	"portrait": "/masters/portraits/zubynska.webp",
+	"bio": "",
+	"socials": []
+}

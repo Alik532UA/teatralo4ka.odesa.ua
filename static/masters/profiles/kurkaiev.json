@@ -1,0 +1,17 @@
+{
+	"id": "kurkaiev",
+	"slug": "kurkaiev",
+	"displayName": "Куркаєв",
+	"fullName": "Куркаєв",
+	"displayNameEn": "Kurkaiev",
+	"fullNameEn": "Kurkaiev",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/kurkaiev.webp",
+	"portrait": "/masters/portraits/kurkaiev.webp",
+	"bio": "",
+	"socials": []
+}

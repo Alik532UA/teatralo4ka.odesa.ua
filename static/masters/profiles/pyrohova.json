@@ -1,0 +1,17 @@
+{
+	"id": "pyrohova",
+	"slug": "pyrohova",
+	"displayName": "Пирогова",
+	"fullName": "Пирогова",
+	"displayNameEn": "Pyrohova",
+	"fullNameEn": "Pyrohova",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/pyrohova.webp",
+	"portrait": "/masters/portraits/pyrohova.webp",
+	"bio": "",
+	"socials": []
+}

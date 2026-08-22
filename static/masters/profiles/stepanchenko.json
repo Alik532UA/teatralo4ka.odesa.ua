@@ -1,0 +1,17 @@
+{
+	"id": "stepanchenko",
+	"slug": "stepanchenko",
+	"displayName": "Степанченко",
+	"fullName": "Степанченко",
+	"displayNameEn": "Stepanchenko",
+	"fullNameEn": "Stepanchenko",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"photo": "/masters/stepanchenko.webp",
+	"portrait": "/masters/portraits/stepanchenko.webp",
+	"bio": "",
+	"socials": []
+}
