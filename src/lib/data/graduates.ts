@@ -33,6 +33,7 @@ import { asset } from '$app/paths';
 export type Department = 'theatre' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
 
 export interface GraduateMaster {
+	id?: string;
 	name: string;
 	department?: Department | string | null;
 }

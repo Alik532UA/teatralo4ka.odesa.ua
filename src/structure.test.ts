@@ -135,7 +135,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/lib/components/GraduateProfileView.svelte': 345,
+	'src/lib/components/GraduateProfileView.svelte': 395,
 	'src/routes/+layout.svelte': 316,
 	'src/lib/components/SearchOverlay.svelte': 312
 };

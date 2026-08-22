@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
+	import { t, locale } from 'svelte-i18n';
 	import { FileText } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { asset } from '$app/paths';
@@ -7,6 +7,7 @@
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
+	import { getMasterById, masterProfilePath } from '$lib/data/masters';
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -75,10 +76,22 @@
 	);
 
 	const rawMasters = $derived(profile?.masters ?? graduate.masters ?? []);
-	const normalizedMasters = $derived<{ name: string; department: string | null }[]>(
-		rawMasters.map((m) =>
-			typeof m === 'string' ? { name: m, department: null } : { name: m.name, department: m.department ?? null }
-		)
+	const normalizedMasters = $derived(
+		rawMasters.map((m) => {
+			const id = typeof m === 'object' && m.id ? m.id : (typeof m === 'string' ? m : undefined);
+			const masterInfo = id ? getMasterById(id) : undefined;
+			const isEn = $locale === 'en';
+			const displayName = masterInfo
+				? (isEn ? masterInfo.displayNameEn : masterInfo.displayName)
+				: (typeof m === 'string' ? m : m.name);
+			const fullName = masterInfo
+				? (isEn ? masterInfo.fullNameEn : masterInfo.fullName)
+				: (typeof m === 'string' ? m : m.name);
+			const dept = typeof m === 'object' && m.department ? m.department : (masterInfo?.departments[0] ?? null);
+			const slug = masterInfo?.slug ?? id;
+			const href = slug ? masterProfilePath(slug, isEn ? 'en' : 'uk') : null;
+			return { id, slug, displayName, fullName, department: dept, href };
+		})
 	);
 
 	const socials = $derived(profile?.socials ?? graduate.socials ?? []);
@@ -199,7 +212,19 @@
 							>
 								<DepartmentIcon department={master.department} size={16} />
 							</span>
-							<span class="master-name">{master.name}</span>
+							{#if master.href}
+								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+								<a
+									href={master.href}
+									class="master-name master-link"
+									title={master.fullName}
+									data-testid="galaxy-card-master-link-{master.slug || index}"
+								>
+									{master.displayName}
+								</a>
+							{:else}
+								<span class="master-name" title={master.fullName}>{master.displayName}</span>
+							{/if}
 						</li>
 					{/each}
 				</ul>
@@ -353,6 +378,17 @@
 	.master-item { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background: rgb(255 255 255 / 0.06); border-radius: 6px; border: 1px solid rgb(255 255 255 / 0.1); }
 	.master-badge { display: inline-flex; align-items: center; justify-content: center; color: #8cb4ff; }
 	.master-name { font-size: 0.95rem; font-weight: 500; }
+	.master-link {
+		color: #bfe0ff;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		text-decoration-color: rgb(140 190 255 / 0.45);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+	.master-link:hover {
+		color: #ffffff;
+		text-decoration-color: #ffffff;
+	}
 	.socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
 	.social { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: none; background: transparent; color: inherit; text-decoration: none; transition: transform 0.2s ease, filter 0.2s ease; }
 	.social:hover { transform: scale(1.18); filter: drop-shadow(0 0 10px rgb(140 190 255 / 0.6)); }

@@ -47,8 +47,13 @@ test.describe('сторінка випускника', () => {
 
 		// Майстри курсу — усі, а не перший.
 		for (const master of data.masters) {
-			const masterName = typeof master === 'string' ? master : master.name;
-			await expect(page.locator('[data-testid="galaxy-card-masters-text"]')).toContainText(masterName);
+			const masterId = typeof master === 'object' && master.id ? master.id : undefined;
+			if (masterId) {
+				await expect(page.locator(`[data-testid="galaxy-card-master-link-${masterId}"]`)).toBeVisible();
+			} else {
+				const masterName = typeof master === 'string' ? master : master.name;
+				await expect(page.locator('[data-testid="galaxy-card-masters-text"]')).toContainText(masterName);
+			}
 		}
 
 		await expect(page.locator('[data-testid^="galaxy-card-social-link-"]')).toHaveCount(
