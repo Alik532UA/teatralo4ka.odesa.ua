@@ -4,7 +4,7 @@
 	import StaticPage from '$lib/components/StaticPage.svelte';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import PrayingHands from '$lib/components/icons/PrayingHands.svelte';
-	import { masterProfilePath } from '$lib/data/masters';
+	import { masterProfilePath, type MasterCategory } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import type { PageData } from './$types';
 
@@ -13,23 +13,78 @@
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
 
-	const groups = $derived([
+	interface CategoryConfig {
+		key: MasterCategory;
+		icon: string;
+		title: string;
+		subtitle: string;
+	}
+
+	const categoryConfigs: CategoryConfig[] = [
 		{
-			key: 'active',
-			title: null,
-			items: allMasters.filter((m) => !m.status || m.status === 'active')
+			key: 'administration',
+			icon: '🏛️',
+			title: 'Керівництво та адміністрація',
+			subtitle: 'Команда, яка спрямовує розвиток та організовує життя школи'
+		},
+		{
+			key: 'pedagogues',
+			icon: '🎭',
+			title: 'Майстри курсів та педагоги',
+			subtitle: 'Викладачі Одеської театральної школи, які виховали покоління талановитих випускників'
+		},
+		{
+			key: 'production',
+			icon: '🎬',
+			title: 'Художньо-технічна служба',
+			subtitle: 'Майстри звуку, художнього світла та сцени'
+		},
+		{
+			key: 'it',
+			icon: '💻',
+			title: 'IT та цифрові технології',
+			subtitle: 'Цифрова інфраструктура, розробка та технологічний супровід школи'
+		},
+		{
+			key: 'support',
+			icon: '☕',
+			title: 'Служба турботи та затишку',
+			subtitle: 'Люди, які щодня дбають про безпеку, чистоту та домашній затишок у школі'
 		},
 		{
 			key: 'honorary',
-			title: $t('galaxy.honorarySectionTitle', { default: "Світла пам'ять" }),
-			items: allMasters.filter((m) => m.status === 'honorary')
+			icon: '🕯️',
+			title: "Світла пам'ять",
+			subtitle: 'Викладачі та майстри, які назавжди залишаються в серці нашої школи'
 		},
 		{
 			key: 'history',
-			title: $t('galaxy.historySectionTitle', { default: 'Історія' }),
-			items: allMasters.filter((m) => m.status === 'history')
+			icon: '📜',
+			title: 'Історія школи',
+			subtitle: 'Педагоги та наставники, які творили історію Одеської театральної школи'
 		}
-	].filter((g) => g.items.length > 0));
+	];
+
+	const groups = $derived(
+		categoryConfigs
+			.map((cfg) => {
+				const items = allMasters.filter((m) => {
+					if (cfg.key === 'honorary') return m.status === 'honorary' || m.category === 'honorary';
+					if (cfg.key === 'history') return m.status === 'history' || m.category === 'history';
+					if (cfg.key === 'pedagogues') return m.category === 'pedagogues' || (!m.category && (!m.status || m.status === 'active'));
+					return m.category === cfg.key;
+				});
+
+				return {
+					key: cfg.key,
+					icon: cfg.icon,
+					title: $t(`galaxy.categories.${cfg.key}`, { default: cfg.title }),
+					subtitle: $t(`galaxy.categories.${cfg.key}Subtitle`, { default: cfg.subtitle }),
+					items
+				};
+			})
+			.filter((g) => g.items.length > 0)
+	);
 </script>
 
 <div class="adults-page">
@@ -40,21 +95,25 @@
 			<div class="container masters-container">
 				<header class="masters-header">
 					<h2 id="masters-title" class="masters-title" data-testid="residents-adults-masters-title">
-						{$t('galaxy.mastersSectionTitle', { default: 'Майстри курсів та педагоги' })}
+						{$t('galaxy.mastersSectionTitle', { default: 'Наша команда' })}
 					</h2>
 					<p class="masters-subtitle" data-testid="residents-adults-masters-text">
-						{$t('galaxy.mastersSectionSubtitle', { default: 'Викладачі Одеської театральної школи, які виховали покоління талановитих випускників' })}
+						{$t('galaxy.mastersSectionSubtitle', { default: 'Педагоги, майстри та команда однодумців Одеської театральної школи' })}
 					</p>
 				</header>
 
 				<div class="masters-groups" data-testid="residents-adults-masters-container">
 					{#each groups as group (group.key)}
 						<div class="masters-group" data-testid="residents-adults-group-section-{group.key}">
-							{#if group.title}
+							<div class="masters-group__header">
 								<h3 class="masters-group__title" data-testid="residents-adults-group-title-{group.key}">
-									{group.title}
+									<span class="masters-group__icon" aria-hidden="true">{group.icon}</span>
+									<span>{group.title}</span>
 								</h3>
-							{/if}
+								{#if group.subtitle}
+									<p class="masters-group__subtitle">{group.subtitle}</p>
+								{/if}
+							</div>
 
 							<div class="masters-grid" data-testid="residents-adults-masters-list-{group.key}">
 								{#each group.items as m (m.id)}
@@ -74,7 +133,7 @@
 													src={m.photo}
 													alt={name}
 													class="master-card__avatar"
-													class:master-card__avatar--honorary={m.isHonorary || m.status === 'honorary'}
+													class:master-card__avatar--honorary={m.isHonorary || m.status === 'honorary' || m.category === 'honorary'}
 													width="80"
 													height="80"
 													loading="lazy"
@@ -89,22 +148,27 @@
 										<div class="master-card__content">
 											<h3 class="master-card__name">{dispName}</h3>
 
-											{#if m.isHonorary}
+											{#if m.roleTitle}
+												<p class="master-card__role-title">{m.roleTitle}</p>
+											{/if}
+
+											{#if m.isHonorary || m.status === 'honorary' || m.category === 'honorary'}
 												<span class="master-card__honorary-badge">
-													<!-- <PrayingHands size={14} /> -->
 													<span>{$t('galaxy.honoraryShort', { default: "Світлої пам'яті" })}</span>
 												</span>
 											{/if}
 
-											<div class="master-card__footer">
-												<div class="master-card__depts">
-													{#each m.departments as dept (dept)}
-														<span class="master-card__dept-badge" title={$t(`galaxy.departments.${dept}`, { default: dept })}>
-															<DepartmentIcon department={dept} size={15} />
-														</span>
-													{/each}
+											{#if m.departments && m.departments.length > 0}
+												<div class="master-card__footer">
+													<div class="master-card__depts">
+														{#each m.departments as dept (dept)}
+															<span class="master-card__dept-badge" title={$t(`galaxy.departments.${dept}`, { default: dept })}>
+																<DepartmentIcon department={dept} size={15} />
+															</span>
+														{/each}
+													</div>
 												</div>
-											</div>
+											{/if}
 										</div>
 
 										<div class="master-card__arrow" aria-hidden="true">
@@ -163,7 +227,7 @@
 	.masters-groups {
 		display: flex;
 		flex-direction: column;
-		gap: 3rem;
+		gap: 3.5rem;
 	}
 
 	.masters-group {
@@ -171,13 +235,31 @@
 		flex-direction: column;
 	}
 
+	.masters-group__header {
+		margin-bottom: 1.5rem;
+		border-bottom: 1px solid var(--border-main);
+		padding-bottom: 0.6rem;
+	}
+
 	.masters-group__title {
-		margin: 0 0 1.5rem;
+		margin: 0 0 0.35rem;
 		font-size: clamp(1.3rem, 2.5vw, 1.8rem);
 		font-weight: 700;
 		color: var(--text-title);
-		border-bottom: 1px solid var(--border-main);
-		padding-bottom: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
+	.masters-group__icon {
+		font-size: 1.4rem;
+	}
+
+	.masters-group__subtitle {
+		margin: 0;
+		font-size: 0.95rem;
+		color: var(--text-muted);
+		line-height: 1.4;
 	}
 
 	.masters-grid {
@@ -188,7 +270,7 @@
 
 	.master-card {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		gap: 1.25rem;
 		padding: 1.25rem 1.4rem;
 		background: var(--bg-card);
@@ -256,9 +338,15 @@
 		font-size: 1.1rem;
 		font-weight: 700;
 		color: var(--text-title);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		line-height: 1.25;
+	}
+
+	.master-card__role-title {
+		margin: 0.2rem 0 0.25rem;
+		font-size: 0.85rem;
+		line-height: 1.35;
+		color: var(--text-muted);
+		font-weight: 500;
 	}
 
 	.master-card__honorary-badge {
@@ -280,7 +368,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		margin-top: 0.4rem;
+		margin-top: 0.35rem;
 	}
 
 	.master-card__depts {
@@ -303,6 +391,7 @@
 	.master-card__arrow {
 		color: var(--border-main);
 		transition: transform 0.2s ease, color 0.2s ease;
+		align-self: center;
 	}
 
 	.master-card:hover .master-card__arrow {

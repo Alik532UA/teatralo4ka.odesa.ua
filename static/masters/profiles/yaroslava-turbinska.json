@@ -8,9 +8,11 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "history",
+	"status": "active",
 	"subjects": [],
 	"bio": "",
 	"socials": [],
-	"photo": "/masters/yaroslava-turbinska.webp"
+	"photo": "/masters/yaroslava-turbinska.webp",
+	"category": "pedagogues",
+	"roleTitle": "концертмейстер"
 }

@@ -5,12 +5,12 @@
 	"fullName": "Кузнецова Олена Андріївна",
 	"displayNameEn": "Olena KUZNETSOVA",
 	"fullNameEn": "Olena Kuznetsova",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/olena-kuznetsova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "production",
+	"roleTitle": "світлорежисер"
 }

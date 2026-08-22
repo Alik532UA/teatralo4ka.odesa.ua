@@ -5,12 +5,12 @@
 	"fullName": "Кесов Володимир Савелійович",
 	"displayNameEn": "Volodymyr KESOV",
 	"fullNameEn": "Volodymyr Kesov",
-	"departments": [
-		"theatre"
-	],
-	"status": "history",
+	"departments": [],
+	"status": "active",
 	"subjects": [],
 	"photo": "/masters/volodymyr-kesov.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "support",
+	"roleTitle": "менеджер з охорони найкращої категорії"
 }

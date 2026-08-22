@@ -189,6 +189,12 @@
 					<div class="master-title-wrap">
 						<h1 class="master-name" data-testid="master-profile-title">{displayName}</h1>
 
+						{#if data.master.roleTitle}
+							<p class="master-role-title" data-testid="master-profile-role-title">
+								{data.master.roleTitle}
+							</p>
+						{/if}
+
 						{#if data.master.isHonorary}
 							<span class="honorary-badge" data-testid="master-profile-honorary-badge">
 								<!-- <PrayingHands size={16} /> -->
@@ -529,6 +535,14 @@
 		font-weight: 700;
 		color: var(--text-title);
 		line-height: 1.25;
+	}
+
+	.master-role-title {
+		margin: 0.2rem 0 0.4rem;
+		font-size: 1rem;
+		line-height: 1.45;
+		color: var(--text-muted);
+		font-weight: 500;
 	}
 
 	.honorary-badge {

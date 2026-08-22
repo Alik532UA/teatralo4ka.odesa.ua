@@ -15,5 +15,6 @@
 	"photo": "/masters/mykola-baldin.webp",
 	"bio": "",
 	"socials": [],
-	"isHonorary": true
+	"isHonorary": true,
+	"category": "honorary"
 }

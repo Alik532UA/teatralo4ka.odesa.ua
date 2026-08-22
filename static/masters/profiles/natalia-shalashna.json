@@ -5,12 +5,12 @@
 	"fullName": "Шалашна Наталія Іванівна",
 	"displayNameEn": "Natalia SHALASHNA",
 	"fullNameEn": "Natalia Shalashna",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/natalia-shalashna.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "administration",
+	"roleTitle": "заступниця директорки з АГЧ"
 }

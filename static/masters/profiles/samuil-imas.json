@@ -16,5 +16,6 @@
 	"photo": "/masters/samuil-imas.webp",
 	"bio": "",
 	"socials": [],
-	"isHonorary": true
+	"isHonorary": true,
+	"category": "honorary"
 }

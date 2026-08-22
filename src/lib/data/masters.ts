@@ -5,6 +5,15 @@ import indexData from './graduates.index.json';
 
 export type MasterStatus = 'active' | 'honorary' | 'history';
 
+export type MasterCategory =
+	| 'administration'
+	| 'pedagogues'
+	| 'production'
+	| 'it'
+	| 'support'
+	| 'honorary'
+	| 'history';
+
 export interface MasterSocial {
 	network: string;
 	url: string;
@@ -18,6 +27,8 @@ export interface MasterIndexEntry {
 	displayNameEn: string;
 	fullNameEn: string;
 	departments: Department[];
+	category?: MasterCategory;
+	roleTitle?: string;
 	photo?: string;
 	status?: MasterStatus;
 	isHonorary?: boolean;

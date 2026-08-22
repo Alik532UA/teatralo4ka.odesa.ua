@@ -5,12 +5,12 @@
 	"fullName": "Литвинова Наталя Борисівна",
 	"displayNameEn": "Natalia LYTVYNOVA",
 	"fullNameEn": "Natalia Lytvynova",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/natalia-lytvynova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "support",
+	"roleTitle": "менеджер з охорони найкращої категорії"
 }

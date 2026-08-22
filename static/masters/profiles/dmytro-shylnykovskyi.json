@@ -5,12 +5,12 @@
 	"fullName": "Шильниковський Дмитро Юрійович",
 	"displayNameEn": "Dmytro SHYLNYKOVSKYI",
 	"fullNameEn": "Dmytro Shylnykovskyi",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/dmytro-shylnykovskyi.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "production",
+	"roleTitle": "звукорежисер"
 }

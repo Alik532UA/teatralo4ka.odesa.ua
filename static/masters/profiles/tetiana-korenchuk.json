@@ -5,12 +5,12 @@
 	"fullName": "Коренчук Тетяна Миколаївна",
 	"displayNameEn": "Tetiana KORENCHUK",
 	"fullNameEn": "Tetiana Korenchuk",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/tetiana-korenchuk.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "administration",
+	"roleTitle": "бухгалтерка-економістка"
 }

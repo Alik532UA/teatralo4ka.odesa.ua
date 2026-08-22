@@ -5,12 +5,12 @@
 	"fullName": "Стоянова Наталя Валентинівна",
 	"displayNameEn": "Natalia STOIANOVA",
 	"fullNameEn": "Natalia Stoianova",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/natalia-stoianova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "support",
+	"roleTitle": "бібліотекар, архіваріус"
 }

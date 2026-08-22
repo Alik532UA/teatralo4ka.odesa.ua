@@ -5,12 +5,12 @@
 	"fullName": "Куров Віктор Васильович",
 	"displayNameEn": "Viktor KUROV",
 	"fullNameEn": "Viktor Kurov",
-	"departments": [
-		"theatre"
-	],
-	"status": "history",
+	"departments": [],
+	"status": "active",
 	"subjects": [],
 	"photo": "/masters/viktor-kurov.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "support",
+	"roleTitle": "менеджер з охорони найкращої категорії"
 }

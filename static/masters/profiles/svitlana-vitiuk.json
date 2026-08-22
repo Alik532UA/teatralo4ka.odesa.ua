@@ -8,9 +8,11 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "history",
+	"status": "active",
 	"subjects": [],
 	"bio": "",
 	"socials": [],
-	"photo": "/masters/svitlana-vitiuk.webp"
+	"photo": "/masters/svitlana-vitiuk.webp",
+	"category": "pedagogues",
+	"roleTitle": "викладачка сценічного мовлення першої категорії"
 }

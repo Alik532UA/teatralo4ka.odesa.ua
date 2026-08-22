@@ -5,12 +5,12 @@
 	"fullName": "Франковська Любов Валентинівна",
 	"displayNameEn": "Liubov FRANKOVSKA",
 	"fullNameEn": "Liubov Frankovska",
-	"departments": [
-		"theatre"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [],
 	"photo": "/masters/liubov-frankovska.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "administration",
+	"roleTitle": "головна бухгалтерка"
 }
