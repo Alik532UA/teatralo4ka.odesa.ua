@@ -1,0 +1,17 @@
+{
+	"id": "larionova",
+	"slug": "larionova",
+	"displayName": "Ларіонова",
+	"fullName": "Ларіонова",
+	"displayNameEn": "Larionova",
+	"fullNameEn": "Larionova",
+	"departments": [
+		"theatre"
+	],
+	"category": "pedagogues",
+	"status": "active",
+	"photo": "/masters/larionova.webp",
+	"portrait": "/masters/portraits/larionova.webp",
+	"bio": "",
+	"socials": []
+}

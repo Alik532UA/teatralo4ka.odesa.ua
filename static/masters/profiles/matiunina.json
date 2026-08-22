@@ -1,0 +1,17 @@
+{
+	"id": "matiunina",
+	"slug": "matiunina",
+	"displayName": "Матюніна",
+	"fullName": "Матюніна",
+	"displayNameEn": "Matiunina",
+	"fullNameEn": "Matiunina",
+	"departments": [
+		"theatre"
+	],
+	"category": "pedagogues",
+	"status": "active",
+	"photo": "/masters/matiunina.webp",
+	"portrait": "/masters/portraits/matiunina.webp",
+	"bio": "",
+	"socials": []
+}

@@ -1,0 +1,17 @@
+{
+	"id": "serkova",
+	"slug": "serkova",
+	"displayName": "Серкова",
+	"fullName": "Серкова",
+	"displayNameEn": "Serkova",
+	"fullNameEn": "Serkova",
+	"departments": [
+		"theatre"
+	],
+	"category": "pedagogues",
+	"status": "active",
+	"photo": "/masters/serkova.webp",
+	"portrait": "/masters/portraits/serkova.webp",
+	"bio": "",
+	"socials": []
+}

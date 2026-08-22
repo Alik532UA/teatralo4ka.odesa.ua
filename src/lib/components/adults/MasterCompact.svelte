@@ -40,10 +40,6 @@
 				<Camera size={28} aria-hidden="true" />
 			</div>
 		{/if}
-
-		{#if isHonorary}
-			<span class="master-compact__honorary-dot" title="Світлої пам'яті"></span>
-		{/if}
 	</div>
 
 	<span class="master-compact__name">{dispName}</span>
@@ -122,17 +118,6 @@
 		background: var(--bg-surface);
 		border: 2px dashed var(--border-main);
 		color: var(--accent-text);
-	}
-
-	.master-compact__honorary-dot {
-		position: absolute;
-		bottom: 2px;
-		right: 2px;
-		width: 14px;
-		height: 14px;
-		border-radius: 50%;
-		background: #64748b;
-		border: 2px solid var(--bg-card);
 	}
 
 	.master-compact__name {

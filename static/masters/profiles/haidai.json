@@ -1,0 +1,17 @@
+{
+	"id": "haidai",
+	"slug": "haidai",
+	"displayName": "Гайдай",
+	"fullName": "Гайдай",
+	"displayNameEn": "Haidai",
+	"fullNameEn": "Haidai",
+	"departments": [
+		"theatre"
+	],
+	"category": "pedagogues",
+	"status": "active",
+	"photo": "/masters/haidai.webp",
+	"portrait": "/masters/portraits/haidai.webp",
+	"bio": "",
+	"socials": []
+}

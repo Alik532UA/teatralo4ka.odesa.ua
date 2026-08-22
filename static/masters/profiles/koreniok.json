@@ -1,0 +1,17 @@
+{
+	"id": "koreniok",
+	"slug": "koreniok",
+	"displayName": "Кореньок",
+	"fullName": "Кореньок",
+	"displayNameEn": "Koreniok",
+	"fullNameEn": "Koreniok",
+	"departments": [
+		"theatre"
+	],
+	"category": "pedagogues",
+	"status": "active",
+	"photo": "/masters/koreniok.webp",
+	"portrait": "/masters/portraits/koreniok.webp",
+	"bio": "",
+	"socials": []
+}

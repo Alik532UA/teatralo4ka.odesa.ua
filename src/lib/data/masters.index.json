@@ -275,7 +275,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "pedagogues"
+		"category": "pedagogues",
+		"photo": "/masters/iryna-kulbaba.webp",
+		"portrait": "/masters/portraits/iryna-kulbaba.webp"
 	},
 	{
 		"id": "natalia-shkolna",
@@ -647,7 +649,9 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "pedagogues",
+		"photo": "/masters/svitlana-myronenko.webp",
+		"portrait": "/masters/portraits/svitlana-myronenko.webp"
 	},
 	{
 		"id": "vladyslav-mykhailiuk",
@@ -1024,7 +1028,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "honorary"
+		"category": "honorary",
+		"photo": "/masters/iryna-kaplia.webp",
+		"portrait": "/masters/portraits/iryna-kaplia.webp"
 	},
 	{
 		"id": "hanna-tkach",
@@ -1056,7 +1062,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history"
+		"category": "history",
+		"photo": "/masters/oleh-shevchuk.webp",
+		"portrait": "/masters/portraits/oleh-shevchuk.webp"
 	},
 	{
 		"id": "pavlo-koshka",
@@ -1249,7 +1257,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history"
+		"category": "history",
+		"photo": "/masters/svitlana-nadopta.webp",
+		"portrait": "/masters/portraits/svitlana-nadopta.webp"
 	},
 	{
 		"id": "yurii-drankov",
@@ -1540,5 +1550,80 @@
 		"photo": "/masters/svitlana-pruba.webp",
 		"category": "history",
 		"portrait": "/masters/portraits/svitlana-pruba.webp"
+	},
+	{
+		"id": "haidai",
+		"slug": "haidai",
+		"displayName": "Гайдай",
+		"fullName": "Гайдай",
+		"displayNameEn": "Haidai",
+		"fullNameEn": "Haidai",
+		"departments": [
+			"theatre"
+		],
+		"category": "pedagogues",
+		"status": "active",
+		"photo": "/masters/haidai.webp",
+		"portrait": "/masters/portraits/haidai.webp"
+	},
+	{
+		"id": "koreniok",
+		"slug": "koreniok",
+		"displayName": "Кореньок",
+		"fullName": "Кореньок",
+		"displayNameEn": "Koreniok",
+		"fullNameEn": "Koreniok",
+		"departments": [
+			"theatre"
+		],
+		"category": "pedagogues",
+		"status": "active",
+		"photo": "/masters/koreniok.webp",
+		"portrait": "/masters/portraits/koreniok.webp"
+	},
+	{
+		"id": "larionova",
+		"slug": "larionova",
+		"displayName": "Ларіонова",
+		"fullName": "Ларіонова",
+		"displayNameEn": "Larionova",
+		"fullNameEn": "Larionova",
+		"departments": [
+			"theatre"
+		],
+		"category": "pedagogues",
+		"status": "active",
+		"photo": "/masters/larionova.webp",
+		"portrait": "/masters/portraits/larionova.webp"
+	},
+	{
+		"id": "matiunina",
+		"slug": "matiunina",
+		"displayName": "Матюніна",
+		"fullName": "Матюніна",
+		"displayNameEn": "Matiunina",
+		"fullNameEn": "Matiunina",
+		"departments": [
+			"theatre"
+		],
+		"category": "pedagogues",
+		"status": "active",
+		"photo": "/masters/matiunina.webp",
+		"portrait": "/masters/portraits/matiunina.webp"
+	},
+	{
+		"id": "serkova",
+		"slug": "serkova",
+		"displayName": "Серкова",
+		"fullName": "Серкова",
+		"displayNameEn": "Serkova",
+		"fullNameEn": "Serkova",
+		"departments": [
+			"theatre"
+		],
+		"category": "pedagogues",
+		"status": "active",
+		"photo": "/masters/serkova.webp",
+		"portrait": "/masters/portraits/serkova.webp"
 	}
 ]
