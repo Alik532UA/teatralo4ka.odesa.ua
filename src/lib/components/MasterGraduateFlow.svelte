@@ -3,6 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { t } from 'svelte-i18n';
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
 		graduateProfilePath,
 		type GraduateIndexEntry
@@ -86,13 +88,18 @@
 	);
 
 	function handleSelectGraduate(graduate: GraduateIndexEntry) {
+		// Мова береться з адреси, а не з `$locale`: адреса — джерело істини для
+		// мови в цьому проєкті (I18N-v8 § 3.1), і без префікса читач англійської
+		// версії їхав на українську сторінку профілю.
+		const locale = localeFromPath(page.url.pathname);
+
 		if (graduate.code) {
-			const path = graduateProfilePath(graduate.code);
-			goto(path);
+			goto(localizedPath(graduateProfilePath(graduate.code), locale));
 		} else {
-			// If graduate only has name, navigate to Galaxy search
-			const searchUrl = `${resolve('/projects/galaxy-graduates')}?search=${encodeURIComponent(graduate.name)}`;
-			goto(searchUrl);
+			// Лише ім'я без коду — у пошук «Галактики». Тут `resolve()` доречний
+			// (на відміну від шляхів профілю): обробник виконується тільки в
+			// браузері, тож відносного шляху під prerender бути не може.
+			goto(resolve(`/projects/galaxy-graduates?search=${encodeURIComponent(graduate.name)}`));
 		}
 	}
 </script>

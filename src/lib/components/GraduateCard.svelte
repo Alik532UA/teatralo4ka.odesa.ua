@@ -4,7 +4,6 @@
 	import { X, Pencil } from "lucide-svelte";
 	import { asset } from "$app/paths";
 	import { focusTrap } from "$lib/utils/focusTrap";
-	import { customScroll } from "$lib/utils/customScroll";
 	import type {
 		GraduateIndexEntry,
 		GraduateProfile,
@@ -215,11 +214,12 @@
 								</p>
 								<div class="contact-popup__icons">
 									{#each contacts as c (c.name)}
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+										<!-- rel="external" — див. GraduateProfileView: саме за ним
+										     правило визнає посилання зовнішнім. -->
 										<a
 											href={c.url}
 											target="_blank"
-											rel="noopener noreferrer"
+											rel="external noopener noreferrer"
 											class="contact-popup__link"
 											aria-label={c.name}
 											title={c.name}

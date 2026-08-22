@@ -18,7 +18,6 @@
 	const imgSrc = $derived(m.portrait || m.photo);
 </script>
 
-<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 <a
 	{href}
 	class="master-poster"

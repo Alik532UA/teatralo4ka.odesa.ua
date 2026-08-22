@@ -1,5 +1,6 @@
 import indexData from './graduates.index.json';
 import { asset } from '$app/paths';
+import type { Pathname } from '$app/types';
 
 /**
  * Випускники «Галактики» — дані в репозиторії, не у Firestore.
@@ -131,7 +132,7 @@ export function graduateProfileJson(code: string): string {
 }
 
 /**
- * Шлях сторінки профілю БЕЗ мовного префікса — його додає `withLocale`.
+ * Шлях сторінки профілю БЕЗ мовного префікса — його додає `localizedPath`.
  *
  * Саме рядок, а не `resolve()` з `$app/paths`, і це перевірено збіркою, а не
  * вирішено: під SSR `resolve()` віддає ВІДНОСНИЙ шлях
@@ -140,8 +141,14 @@ export function graduateProfileJson(code: string): string {
  * лишилися, але краулер prerender не знайшов англійських — у мапі сайту стало
  * 100 uk і 20 en замість 100 і 100. Про цю саму пастку попереджає коментар до
  * `base` в `+layout.svelte`.
+ *
+ * Тип повернення — `Pathname` із `$app/types`, тобто згенерований список
+ * реальних шляхів проєкту. Це те, що `resolve()` давав і що втрачалося разом із
+ * ним: описка в шляху знову стала помилкою компіляції, без відносних шляхів під
+ * prerender. Далі `localizedPath` перетворює це на `ResolvedPathname` — тип, за
+ * яким `svelte/no-navigation-without-resolve` визнає адресу перевіреною.
  */
-export function graduateProfilePath(code: string): string {
+export function graduateProfilePath(code: string): Pathname {
 	return `/projects/galaxy-graduates/${code}`;
 }
 

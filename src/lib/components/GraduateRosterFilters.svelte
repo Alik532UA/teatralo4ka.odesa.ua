@@ -21,7 +21,6 @@
 		onphotochange
 	}: Props = $props();
 
-	const musicSubKeys: Department[] = ['music', 'vocal', 'piano', 'guitar'];
 	const allDeptKeys: Department[] = ['theatre', 'intensive', 'music', 'vocal', 'piano', 'guitar', 'art'];
 
 	let deptOpen = $state(false);

@@ -34,7 +34,6 @@
 	const parsed = $derived(parseName(dispName));
 </script>
 
-<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 <a
 	{href}
 	class="master-compact"

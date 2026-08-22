@@ -17,7 +17,6 @@
 	const isHonorary = $derived(m.isHonorary || m.status === 'honorary' || m.category === 'honorary');
 </script>
 
-<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 <a
 	{href}
 	class="master-card"

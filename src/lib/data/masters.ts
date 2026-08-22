@@ -1,4 +1,6 @@
 import { asset } from '$app/paths';
+import type { ResolvedPathname } from '$app/types';
+import { localizedPath, type Locale } from '$lib/i18n/routing';
 import type { Department, GraduateIndexEntry } from './graduates';
 import mastersIndexData from './masters.index.json';
 import indexData from './graduates.index.json';
@@ -70,9 +72,18 @@ export function getAllMasters(): Master[] {
 	return MASTERS;
 }
 
-export function masterProfilePath(slug: string, lang = 'uk'): string {
-	const base = `/residents/adults/${slug}`;
-	return lang === 'en' ? `/en${base}` : base;
+/**
+ * Адреса сторінки майстра, з мовним префіксом і типізована проти маршрутів.
+ *
+ * Мовний префікс додає `localizedPath`, а не рядкова конкатенація: тип
+ * `ResolvedPathname` — те, за чим `svelte/no-navigation-without-resolve` визнає
+ * адресу перевіреною, і без нього три компоненти карток (`MasterCard`,
+ * `MasterCompact`, `MasterPoster`) та `GraduateProfileView` мали
+ * `eslint-disable-next-line`, який до того ж не діяв: правило звітує на рядку
+ * атрибута `href`, а коментар стояв перед тегом `<a`.
+ */
+export function masterProfilePath(slug: string, lang: Locale = 'uk'): ResolvedPathname {
+	return localizedPath(`/residents/adults/${slug}`, lang);
 }
 
 export function masterProfileJson(slug: string): string {

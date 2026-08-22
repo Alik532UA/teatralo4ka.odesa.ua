@@ -831,12 +831,19 @@
 					{#each socials as social (social.network + social.url)}
 						{@const icon = getSocialIcon(social.network)}
 						<li>
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<!--
+								`rel="external"` — не косметика: це те, за чим
+								`svelte/no-navigation-without-resolve` визнає посилання
+								зовнішнім. Тут воно й справді зовнішнє (соцмережі з
+								профілю), а точковий `eslint-disable-next-line` перед
+								`<a>` не працює — правило звітує на рядку атрибута
+								`href`, а HTML-коментар між атрибутами недопустимий.
+							-->
 							<a
 								href={safeUrl(social.url)}
 								class="social"
 								target="_blank"
-								rel="noopener noreferrer"
+								rel="external noopener noreferrer"
 								title={social.network}
 								aria-label={social.network}
 								data-testid="galaxy-card-social-link-{social.network}"

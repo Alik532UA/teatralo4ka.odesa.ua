@@ -11,7 +11,21 @@
 	import { debugMode } from '$lib/services/debugMode.svelte';
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
+	import { isLocale, localizedPath, DEFAULT_LOCALE, type Locale } from '$lib/i18n/routing';
 	import ServiceBadge from './ServiceBadge.svelte';
+
+	/**
+	 * Поточна мова для службових переходів.
+	 *
+	 * Раніше кожен обробник склеював адресу сам (`isEn ? '/en/…' : '/…'`), і саме
+	 * ці два місця не проходили `svelte/no-navigation-without-resolve`: правило
+	 * приймає лише `resolve()` або значення типу `ResolvedPathname`. Префікс тепер
+	 * ставить `localizedPath`, тобто той самий код, що й решта посилань сайту.
+	 */
+	function currentLocale(): Locale {
+		const value = get(locale);
+		return typeof value === 'string' && isLocale(value) ? value : DEFAULT_LOCALE;
+	}
 
 	/**
 	 * Службовий шар: гарячі клавіші сайту (`T` тема, `L` мова), службові серії `V`,
@@ -66,9 +80,7 @@
 		code: 'KeyG',
 		threshold: 7,
 		onComplete: () => {
-			const currentLocale = get(locale);
-			const target = currentLocale === 'en' ? '/en/projects/galaxy-graduates' : '/projects/galaxy-graduates';
-			void goto(target);
+			void goto(localizedPath('/projects/galaxy-graduates/', currentLocale()));
 		}
 	});
 
@@ -80,8 +92,6 @@
 		code: 'KeyH',
 		threshold: 7,
 		onComplete: () => {
-			const currentLocale = get(locale);
-			const isEn = currentLocale === 'en';
 			const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
 			const isAlreadyOnAdults = pathname === '/residents/adults' || pathname === '/en/residents/adults';
 
@@ -89,8 +99,7 @@
 				adultsVisibility.toggle();
 			} else {
 				adultsVisibility.reveal();
-				const target = isEn ? '/en/residents/adults' : '/residents/adults';
-				void goto(target);
+				void goto(localizedPath('/residents/adults/', currentLocale()));
 			}
 		}
 	});

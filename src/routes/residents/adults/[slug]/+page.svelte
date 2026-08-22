@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
+	import { localizedPath } from '$lib/i18n/routing';
 	import { fly } from 'svelte/transition';
 	import { ArrowLeft, Plus, Camera, Pencil } from 'lucide-svelte';
 	import { asset } from '$app/paths';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
-	import PrayingHands from '$lib/components/icons/PrayingHands.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
 	import type { PageData } from './$types';
 
@@ -89,9 +89,8 @@
 	<div class="container master-page__container">
 		<!-- Хлібні крихти / Навігація назад -->
 		<div class="master-page__nav">
-			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a
-				href={isEn ? '/en/residents/adults' : '/residents/adults'}
+				href={localizedPath('/residents/adults/', isEn ? 'en' : 'uk')}
 				class="back-btn"
 				data-testid="master-profile-back-link"
 			>
@@ -166,11 +165,10 @@
 									</p>
 									<div class="contact-popup__icons">
 										{#each contacts as c (c.name)}
-											<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 											<a
 												href={c.url}
 												target="_blank"
-												rel="noopener noreferrer"
+												rel="external noopener noreferrer"
 												class="contact-popup__link"
 												aria-label={c.name}
 												title={c.name}
@@ -197,7 +195,6 @@
 
 						{#if data.master.isHonorary}
 							<span class="honorary-badge" data-testid="master-profile-honorary-badge">
-								<!-- <PrayingHands size={16} /> -->
 								<span>{$t('galaxy.honoraryMaster', { default: "Світлої пам'яті викладача" })}</span>
 							</span>
 						{/if}
@@ -271,11 +268,10 @@
 							</p>
 							<div class="contact-popup__icons">
 								{#each contacts as c (c.name)}
-									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 									<a
 										href={c.url}
 										target="_blank"
-										rel="noopener noreferrer"
+										rel="external noopener noreferrer"
 										class="contact-popup__link"
 										aria-label={c.name}
 										title={c.name}

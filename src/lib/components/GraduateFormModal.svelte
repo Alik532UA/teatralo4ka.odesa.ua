@@ -8,10 +8,14 @@
 	interface Props {
 		isOpen: boolean;
 		onclose: () => void;
-		graduateName?: string;
 	}
 
-	let { isOpen, onclose, graduateName }: Props = $props();
+	// `graduateName?: string` тут був, і його не передавав жоден виклик, а сам
+	// компонент ним не користувався: форма Google не приймає початкових значень
+	// через URL у цій конфігурації. Прибрано разом із пропом — оголошений і
+	// нікуди не підключений параметр читається як зроблена робота
+	// (PROJECT-STRUCTURE-v8 § 1).
+	let { isOpen, onclose }: Props = $props();
 
 	const FORM_VIEW_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfT1mDSKiVjVSisavSUCBSfB43IE_Dj7dzP5EngQOA9O1V3Ng/viewform';
 	const FORM_EMBED_URL = `${FORM_VIEW_URL}?embedded=true`;

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { t, locale } from 'svelte-i18n';
 	import StaticPage from '$lib/components/StaticPage.svelte';
 	import MasterCard from '$lib/components/adults/MasterCard.svelte';
@@ -8,6 +7,7 @@
 	import MasterViewToggle, { type ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
 	import type { MasterCategory } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
+	import { adultsViewMode } from '$lib/services/adultsViewMode.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -15,26 +15,12 @@
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
 
-	let viewMode = $state<ViewMode>('cards');
-
-	onMount(() => {
-		try {
-			const saved = localStorage.getItem('adults_view_mode') as ViewMode | null;
-			if (saved === 'cards' || saved === 'gallery' || saved === 'compact') {
-				viewMode = saved;
-			}
-		} catch {
-			// ignore storage errors
-		}
-	});
+	// Стан і збереження — у контролері: ключ мусить нести префікс проєкту, бо
+	// origin спільний із рештою проєктів (STORAGE-NAMESPACE-v8).
+	const viewMode = $derived(adultsViewMode.current);
 
 	function handleViewChange(mode: ViewMode) {
-		viewMode = mode;
-		try {
-			localStorage.setItem('adults_view_mode', mode);
-		} catch {
-			// ignore storage errors
-		}
+		adultsViewMode.set(mode);
 	}
 
 	interface CategoryConfig {

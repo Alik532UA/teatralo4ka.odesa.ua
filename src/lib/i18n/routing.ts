@@ -22,6 +22,8 @@
  * одне, а в sitemap інше.
  */
 
+import type { Pathname, ResolvedPathname } from '$app/types';
+
 export const LOCALES = ['uk', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 
@@ -72,6 +74,41 @@ export function withLocale(pathname: string, locale: Locale): string {
 	if (locale === DEFAULT_LOCALE) return bare;
 	// Голова: `/en/` замість `/en`, щоб не розходитися з `trailingSlash: 'always'`.
 	return bare === '/' ? `/${locale}/` : `/${locale}${bare}`;
+}
+
+/**
+ * Те саме, що `withLocale`, але типізоване проти справжнього списку маршрутів.
+ *
+ * ## Навіщо окрема функція, якщо є `withLocale`
+ *
+ * `withLocale` приймає й віддає `string`, бо її кличуть і місця, де шлях
+ * приходить із адресного рядка (перемикач мови, `redirects`) — там ніякої
+ * типізації бути не може за визначенням. Для ПОСИЛАНЬ, що будуються з коду,
+ * це занадто слабко, і слабкість була платною: адреса
+ * `/projects/spring-Odesa-theatre` з великою «O» тримала сторінку зламаною в
+ * продакшні, і саме через це в проєкті увімкнене
+ * `svelte/no-navigation-without-resolve`.
+ *
+ * Тут перший аргумент — `Pathname` із `$app/types`, тобто згенерований список
+ * реальних шляхів проєкту: описка в шляху стає помилкою компіляції. Результат —
+ * `ResolvedPathname`, і саме за цим типом правило ESLint визнає адресу
+ * перевіреною (воно приймає або прямий виклик `resolve()`, або значення цього
+ * типу).
+ *
+ * ## Чому не `resolve()` напряму
+ *
+ * Перевірено збіркою, а не вирішено: під SSR `resolve()` віддає ВІДНОСНИЙ шлях
+ * (`../../../projects/galaxy-graduates/15K`), і мовний префікс поверх нього дав
+ * `/en../../../projects/…`. Наслідок був тихий: сторінки в збірці лишилися, але
+ * краулер prerender не знайшов англійських — у мапі сайту стало 100 uk і 20 en
+ * замість 100 і 100. Розгорнуто — у докблоці `graduateProfilePath`
+ * ([`data/graduates.ts`](../data/graduates.ts)).
+ *
+ * Тобто тут не «обхід правила», а виконання його МЕТИ (типізована адреса)
+ * способом, який працює під prerender.
+ */
+export function localizedPath(bare: Pathname, locale: Locale): ResolvedPathname {
+	return withLocale(bare, locale) as ResolvedPathname;
 }
 
 /**

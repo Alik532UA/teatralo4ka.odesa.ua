@@ -10,7 +10,7 @@
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import { SvelteMap } from 'svelte/reactivity';
-	import { localeFromPath, withLocale } from '$lib/i18n/routing';
+	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
 		WITH_PAGE,
 		graduateProfileJson,
@@ -140,7 +140,7 @@
 
 	const locale = $derived(localeFromPath(page.url.pathname));
 
-	const profileHref = (code: string) => withLocale(graduateProfilePath(code), locale);
+	const profileHref = (code: string) => localizedPath(graduateProfilePath(code), locale);
 
 	/**
 	 * Відкрита картка живе в СТАНІ СТОРІНКИ, а не в змінній компонента.
@@ -196,9 +196,10 @@
 
 		// `resolve()` тут немає й бути не може: під SSR він віддає ВІДНОСНИЙ шлях, і
 		// мовний префікс поверх нього дає `/en../../../projects/…` — замір і наслідки
-		// в докблоці `graduateProfilePath` у `$lib/data/graduates`. Тому адреса
-		// складається вручну, а правило бачить лише прямий виклик `resolve()`.
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
+		// в докблоці `graduateProfilePath` у `$lib/data/graduates`. Замість вимкнення
+		// правила адреса тепер ТИПІЗОВАНА: `graduateProfilePath` віддає `Pathname`,
+		// `localizedPath` — `ResolvedPathname`, і саме за цим типом правило визнає її
+		// перевіреною. Описка в шляху знову ловиться компіляцією.
 		pushState(profileHref(graduate.code), { graduateCode: graduate.code });
 		ensureProfileLoaded(graduate.code);
 	}

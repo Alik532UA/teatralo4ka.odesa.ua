@@ -9,7 +9,7 @@
 	import { asset } from "$app/paths";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
 	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
-	import { localeFromPath, withLocale } from "$lib/i18n/routing";
+	import { localeFromPath, localizedPath } from "$lib/i18n/routing";
 	import {
 		graduateProfilePath,
 		type GraduateIndexEntry,
@@ -18,8 +18,8 @@
 	let { data } = $props();
 
 	const galaxyHref = $derived(
-		withLocale(
-			"/projects/galaxy-graduates",
+		localizedPath(
+			"/projects/galaxy-graduates/",
 			localeFromPath(page.url.pathname),
 		),
 	);
@@ -62,15 +62,15 @@
 	function handleSelectOtherGraduate(other: GraduateIndexEntry) {
 		if (other.code) {
 			goto(
-				withLocale(
+				localizedPath(
 					graduateProfilePath(other.code),
 					localeFromPath(page.url.pathname),
 				),
 			);
 		} else {
 			goto(
-				withLocale(
-					"/projects/galaxy-graduates",
+				localizedPath(
+					"/projects/galaxy-graduates/",
 					localeFromPath(page.url.pathname),
 				),
 			);
@@ -236,11 +236,13 @@
 								</p>
 								<div class="contact-popup__icons">
 									{#each contacts as c (c.name)}
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+										<!-- rel="external" — саме за ним правило визнає посилання
+										     зовнішнім; точковий disable перед `<a>` не діє, бо
+										     правило звітує на рядку атрибута `href`. -->
 										<a
 											href={c.url}
 											target="_blank"
-											rel="noopener noreferrer"
+											rel="external noopener noreferrer"
 											class="contact-popup__link"
 											aria-label={c.name}
 											title={c.name}

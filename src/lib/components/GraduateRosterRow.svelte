@@ -42,7 +42,7 @@
 	<span class="row__name">{graduate.name}</span>
 	{#if graduate.departments && graduate.departments.length > 0}
 		<span class="row__depts" aria-hidden="true">
-			{#each graduate.departments as dept}
+			{#each graduate.departments as dept (dept)}
 				<span class="row__dept" title={$t(`galaxy.departments.${dept}`, { default: dept })}>
 					<DepartmentIcon department={dept} size={graduate.hasPhoto ? 15 : 13} />
 				</span>
