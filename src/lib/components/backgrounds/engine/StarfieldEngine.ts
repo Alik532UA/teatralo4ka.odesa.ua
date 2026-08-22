@@ -111,13 +111,23 @@ export class StarfieldEngine extends CanvasEngine {
 
 		this.ctx.clearRect(0, 0, this.width, this.height);
 
+		// 15 градусів нахилу: рух зліва-знизу у правий верхній кут
+		const cos15 = 0.9659;
+		const sin15 = 0.2588;
+
 		for (const star of this.stars) {
-			star.x += star.speed * delta;
-			// Вийшла праворуч — заходить ліворуч на випадковій висоті, щоб поле не
-			// вклалося в помітні горизонтальні смуги.
-			if (star.x - star.radius > this.width) {
-				star.x = -star.radius;
-				star.y = Math.random() * this.height;
+			star.x += star.speed * cos15 * delta;
+			star.y -= star.speed * sin15 * delta;
+
+			// Вийшла праворуч або зверху — повертаємо ліворуч або знизу
+			if (star.x - star.radius > this.width || star.y + star.radius < 0) {
+				if (Math.random() < 0.5) {
+					star.x = -star.radius;
+					star.y = Math.random() * this.height;
+				} else {
+					star.x = Math.random() * this.width;
+					star.y = this.height + star.radius;
+				}
 			}
 
 			const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.35 + 0.65;

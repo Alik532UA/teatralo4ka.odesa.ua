@@ -130,10 +130,10 @@
 
 	@keyframes drift {
 		from {
-			translate: -8vw 0;
+			translate: -12vw 16.6vw;
 		}
 		to {
-			translate: 108vw 0;
+			translate: 112vw -16.6vw;
 		}
 	}
 
