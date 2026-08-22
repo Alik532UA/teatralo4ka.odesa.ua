@@ -10,13 +10,31 @@
 	let { data }: { data: PageData } = $props();
 
 	const isEn = $derived($locale === 'en');
-	const masters = $derived(data.masters ?? []);
+	const allMasters = $derived(data.masters ?? []);
+
+	const groups = $derived([
+		{
+			key: 'active',
+			title: null,
+			items: allMasters.filter((m) => !m.status || m.status === 'active')
+		},
+		{
+			key: 'honorary',
+			title: $t('galaxy.honorarySectionTitle', { default: "Світла пам'ять" }),
+			items: allMasters.filter((m) => m.status === 'honorary')
+		},
+		{
+			key: 'history',
+			title: $t('galaxy.historySectionTitle', { default: 'Історія' }),
+			items: allMasters.filter((m) => m.status === 'history')
+		}
+	].filter((g) => g.items.length > 0));
 </script>
 
 <div class="adults-page">
 	<StaticPage {data} testPrefix="residents-adults" />
 
-	{#if masters.length > 0}
+	{#if allMasters.length > 0}
 		<section class="masters-section" aria-labelledby="masters-title" data-testid="residents-adults-masters-section">
 			<div class="container masters-container">
 				<header class="masters-header">
@@ -28,60 +46,72 @@
 					</p>
 				</header>
 
-				<div class="masters-grid" data-testid="residents-adults-masters-list">
-					{#each masters as m (m.id)}
-						{@const href = masterProfilePath(m.slug, isEn ? 'en' : 'uk')}
-						{@const name = isEn ? m.fullNameEn : m.fullName}
-						{@const dispName = isEn ? m.displayNameEn : m.displayName}
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a
-							{href}
-							class="master-card"
-							title={name}
-							data-testid="residents-adults-master-card-{m.slug}"
-						>
-							<div class="master-card__avatar-wrap">
-								{#if m.photo}
-									<img
-										src={m.photo}
-										alt={name}
-										class="master-card__avatar"
-										width="80"
-										height="80"
-										loading="lazy"
-									/>
-								{:else}
-									<div class="master-card__avatar-placeholder" aria-hidden="true">
-										<Camera size={32} aria-hidden="true" />
-									</div>
-								{/if}
+				<div class="masters-groups" data-testid="residents-adults-masters-container">
+					{#each groups as group (group.key)}
+						<div class="masters-group" data-testid="residents-adults-group-section-{group.key}">
+							{#if group.title}
+								<h3 class="masters-group__title" data-testid="residents-adults-group-title-{group.key}">
+									{group.title}
+								</h3>
+							{/if}
+
+							<div class="masters-grid" data-testid="residents-adults-masters-list-{group.key}">
+								{#each group.items as m (m.id)}
+									{@const href = masterProfilePath(m.slug, isEn ? 'en' : 'uk')}
+									{@const name = isEn ? m.fullNameEn : m.fullName}
+									{@const dispName = isEn ? m.displayNameEn : m.displayName}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a
+										{href}
+										class="master-card"
+										title={name}
+										data-testid="residents-adults-master-card-{m.slug}"
+									>
+										<div class="master-card__avatar-wrap">
+											{#if m.photo}
+												<img
+													src={m.photo}
+													alt={name}
+													class="master-card__avatar"
+													width="80"
+													height="80"
+													loading="lazy"
+												/>
+											{:else}
+												<div class="master-card__avatar-placeholder" aria-hidden="true">
+													<Camera size={32} aria-hidden="true" />
+												</div>
+											{/if}
+										</div>
+
+										<div class="master-card__content">
+											<h3 class="master-card__name">{dispName}</h3>
+
+											{#if m.isHonorary}
+												<span class="master-card__honorary-badge">
+													<!-- <PrayingHands size={14} /> -->
+													<span>{$t('galaxy.honoraryShort', { default: "Світлої пам'яті" })}</span>
+												</span>
+											{/if}
+
+											<div class="master-card__footer">
+												<div class="master-card__depts">
+													{#each m.departments as dept (dept)}
+														<span class="master-card__dept-badge" title={$t(`galaxy.departments.${dept}`, { default: dept })}>
+															<DepartmentIcon department={dept} size={15} />
+														</span>
+													{/each}
+												</div>
+											</div>
+										</div>
+
+										<div class="master-card__arrow" aria-hidden="true">
+											<ChevronRight size={20} />
+										</div>
+									</a>
+								{/each}
 							</div>
-
-							<div class="master-card__content">
-								<h3 class="master-card__name">{dispName}</h3>
-
-								{#if m.isHonorary}
-									<span class="master-card__honorary-badge">
-										<!-- <PrayingHands size={14} /> -->
-										<span>{$t('galaxy.honoraryShort', { default: "Світлої пам'яті" })}</span>
-									</span>
-								{/if}
-
-								<div class="master-card__footer">
-									<div class="master-card__depts">
-										{#each m.departments as dept (dept)}
-											<span class="master-card__dept-badge" title={$t(`galaxy.departments.${dept}`, { default: dept })}>
-												<DepartmentIcon department={dept} size={15} />
-											</span>
-										{/each}
-									</div>
-								</div>
-							</div>
-
-							<div class="master-card__arrow" aria-hidden="true">
-								<ChevronRight size={20} />
-							</div>
-						</a>
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -126,6 +156,26 @@
 		font-size: 1.05rem;
 		color: var(--text-muted);
 		line-height: 1.55;
+	}
+
+	.masters-groups {
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+
+	.masters-group {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.masters-group__title {
+		margin: 0 0 1.5rem;
+		font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+		font-weight: 700;
+		color: var(--text-title);
+		border-bottom: 1px solid var(--border-main);
+		padding-bottom: 0.5rem;
 	}
 
 	.masters-grid {

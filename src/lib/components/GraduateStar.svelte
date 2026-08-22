@@ -5,10 +5,11 @@
 		graduate: GraduateIndexEntry;
 		/** `photo` — анкету заповнено, є портрет. `plain` — лише ім'я. */
 		kind: 'photo' | 'plain';
+		role?: 'master' | 'teacher';
 		onselect: () => void;
 	}
 
-	let { graduate, kind, onselect }: Props = $props();
+	let { graduate, kind, role = 'master', onselect }: Props = $props();
 </script>
 
 <!--
@@ -24,6 +25,7 @@
 <button
 	type="button"
 	class="star star--{kind}"
+	class:star--student={role === 'teacher'}
 	onclick={onselect}
 	data-testid="galaxy-{graduate.slug}-btn"
 >
@@ -76,6 +78,16 @@
 		transform: scale(1.9);
 	}
 
+	.star--student {
+		width: 46px;
+		height: 46px;
+	}
+
+	.star--student:hover,
+	.star--student:focus-visible {
+		transform: scale(1.7);
+	}
+
 	.star__photo {
 		width: 44px;
 		height: 44px;
@@ -87,6 +99,12 @@
 		outline: 1px solid rgb(255 255 255 / 0.4);
 		outline-offset: -1px;
 		transition: filter 280ms ease;
+	}
+
+	.star--student .star__photo {
+		width: 32px;
+		height: 32px;
+		opacity: 0.88;
 	}
 
 	.star:hover .star__photo,

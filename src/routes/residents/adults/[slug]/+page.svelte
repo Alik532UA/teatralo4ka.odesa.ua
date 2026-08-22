@@ -205,6 +205,12 @@
 								{/each}
 							</div>
 						{/if}
+
+						{#if data.master.subjects && data.master.subjects.length > 0}
+							<p class="master-subjects" data-testid="master-profile-subjects-text">
+								{data.master.subjects.join(' · ')}
+							</p>
+						{/if}
 					</div>
 				</div>
 
@@ -280,7 +286,7 @@
 
 			<!-- ПРАВА КОЛОНКА: Вертикальний потік учнів знизу-вверх -->
 			<div class="master-flow-wrapper">
-				<MasterGraduateFlow graduates={data.graduates} {masterName} />
+				<MasterGraduateFlow students={data.students} {masterName} />
 			</div>
 		</div>
 	</div>
@@ -547,6 +553,13 @@
 		color: var(--text-title);
 		font-size: 0.88rem;
 		font-weight: 500;
+	}
+
+	.master-subjects {
+		margin: 0.35rem 0 0;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		line-height: 1.4;
 	}
 
 	.master-bio {

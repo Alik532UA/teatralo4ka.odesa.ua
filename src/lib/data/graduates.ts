@@ -38,6 +38,13 @@ export interface GraduateMaster {
 	department?: Department | string | null;
 }
 
+export interface GraduateTeacher {
+	id?: string;
+	name: string;
+	department?: Department | string | null;
+	subject?: string;
+}
+
 export interface GraduateSocial {
 	network: string;
 	url: string;
@@ -67,6 +74,7 @@ export interface GraduateIndexEntry {
 	/** Абревіатура й розшифровка окремо: у джерелі це «ЗТК» + «Захисники…». */
 	group?: { abbr: string | null; name: string | null };
 	masters?: (string | GraduateMaster)[];
+	teachers?: (string | GraduateTeacher)[];
 	socials?: GraduateSocial[];
 	playCount?: number;
 	sourceUrl?: string;
@@ -96,6 +104,7 @@ export interface GraduateProfile {
 	hasPhoto: boolean;
 	group: string | null;
 	masters: (string | GraduateMaster)[];
+	teachers?: (string | GraduateTeacher)[];
 	socials: GraduateSocial[];
 	plays: GraduatePlay[];
 	/** Абзаци «про себе»: навчання після школи, робота, власні слова. */

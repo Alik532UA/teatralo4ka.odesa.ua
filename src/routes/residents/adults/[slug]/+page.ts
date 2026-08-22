@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { getMasterBySlug, getGraduatesByMaster, MASTERS } from '$lib/data/masters';
+import { getMasterBySlug, getStudentsByMaster, MASTERS } from '$lib/data/masters';
 import type { PageLoad, EntryGenerator } from './$types';
 
 export const prerender = true;
@@ -13,10 +13,12 @@ export const load: PageLoad = async ({ params }) => {
 	if (!master) {
 		throw error(404, 'Master not found');
 	}
-	const graduates = getGraduatesByMaster(master.id);
+	const students = getStudentsByMaster(master.id);
+	const graduates = students.map((s) => s.graduate);
 
 	return {
 		master,
+		students,
 		graduates
 	};
 };

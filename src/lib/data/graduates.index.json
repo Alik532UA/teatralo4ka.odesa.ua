@@ -4532,6 +4532,44 @@
 				"department": "piano"
 			}
 		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre",
+				"subject": "Риторика та поетика, акторська майстерність"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"department": "theatre",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "natalia-stepanenko",
+				"name": "Степаненко Наталя",
+				"department": "guitar",
+				"subject": "Гітара"
+			},
+			{
+				"id": "iryna-ovcharenko",
+				"name": "Овчаренко Ірина Григорівна",
+				"department": "vocal",
+				"subject": "Вокал"
+			},
+			{
+				"id": "iryna-ulianenko",
+				"name": "Ульяненко Ірина Андріївна",
+				"department": "theatre",
+				"subject": "Сценічна мова"
+			},
+			{
+				"id": "vira-yemtsova-datsiuk",
+				"name": "Ємцова-Дацюк Віра Вікторівна",
+				"department": "theatre",
+				"subject": "Сценічна мова"
+			}
+		],
 		"socials": [
 			{
 				"network": "facebook",

@@ -7,21 +7,29 @@
 		graduateProfilePath,
 		type GraduateIndexEntry
 	} from '$lib/data/graduates';
+	import type { MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
 
 	interface Props {
-		graduates: GraduateIndexEntry[];
+		graduates?: GraduateIndexEntry[];
+		students?: MasterStudentEntry[];
 		masterName: string;
 	}
 
-	let { graduates, masterName }: Props = $props();
+	let { graduates, students, masterName }: Props = $props();
 
 	let started = $state(false);
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 	let plainLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 
-	const withPhoto = $derived(graduates.filter((g) => g.hasPhoto));
-	const withoutPhoto = $derived(graduates.filter((g) => !g.hasPhoto));
+	const normalizedStudents = $derived<MasterStudentEntry[]>(
+		students && students.length > 0
+			? students
+			: (graduates ?? []).map((g) => ({ graduate: g, role: 'master' as const }))
+	);
+
+	const withPhoto = $derived(normalizedStudents.filter((s) => s.graduate.hasPhoto));
+	const withoutPhoto = $derived(normalizedStudents.filter((s) => !s.graduate.hasPhoto));
 
 	function makeVerticalLanes(count: number, minSeconds: number, random: () => number) {
 		if (count <= 0) return [];
@@ -42,16 +50,18 @@
 	const flying = $derived(
 		started
 			? [
-					...withoutPhoto.map((graduate, lane) => ({
+					...withoutPhoto.map((item, lane) => ({
 						kind: 'plain' as const,
 						lane,
-						graduate,
+						student: item,
+						graduate: item.graduate,
 						geometry: plainLanes[lane]
 					})),
-					...withPhoto.map((graduate, lane) => ({
+					...withPhoto.map((item, lane) => ({
 						kind: 'photo' as const,
 						lane,
-						graduate,
+						student: item,
+						graduate: item.graduate,
 						geometry: photoLanes[lane]
 					}))
 				]
@@ -75,7 +85,7 @@
 	aria-label={$t('galaxy.graduatesOfMaster', { default: `Випускники майстра: ${masterName}` })}
 	data-testid="master-graduate-flow-section"
 >
-	{#if graduates.length > 0}
+	{#if normalizedStudents.length > 0}
 		<ul class="flow-lanes" data-testid="master-graduate-flow-list">
 			{#each flying as item (item.kind + item.lane + item.graduate.slug)}
 				<li
@@ -86,6 +96,7 @@
 					<GraduateStar
 						graduate={item.graduate}
 						kind={item.kind}
+						role={item.student.role}
 						onselect={() => handleSelectGraduate(item.graduate)}
 					/>
 				</li>

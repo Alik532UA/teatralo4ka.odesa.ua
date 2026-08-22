@@ -96,6 +96,26 @@
 		})
 	);
 
+	const rawTeachers = $derived(profile?.teachers ?? graduate.teachers ?? []);
+	const normalizedTeachers = $derived(
+		rawTeachers.map((t) => {
+			const id = typeof t === 'object' && t.id ? t.id : (typeof t === 'string' ? t : undefined);
+			const masterInfo = id ? getMasterById(id) : undefined;
+			const isEn = $locale === 'en';
+			const displayName = masterInfo
+				? (isEn ? masterInfo.displayNameEn : masterInfo.displayName)
+				: (typeof t === 'string' ? t : t.name);
+			const fullName = masterInfo
+				? (isEn ? masterInfo.fullNameEn : masterInfo.fullName)
+				: (typeof t === 'string' ? t : t.name);
+			const dept = typeof t === 'object' && t.department ? t.department : (masterInfo?.departments[0] ?? null);
+			const subject = typeof t === 'object' && t.subject ? t.subject : (masterInfo?.subjects?.join(', ') ?? null);
+			const slug = masterInfo?.slug ?? id;
+			const href = slug ? masterProfilePath(slug, isEn ? 'en' : 'uk') : null;
+			return { id, slug, displayName, fullName, department: dept, subject, href };
+		})
+	);
+
 	const socials = $derived(profile?.socials ?? graduate.socials ?? []);
 	const hasPlays = $derived(Boolean(profile && profile.plays.length > 0));
 	const hasAnyPlayYear = $derived(Boolean(profile?.plays.some((p) => Boolean(p.year))));
@@ -134,7 +154,7 @@
 		</div>
 	{/if}
 
-	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, соцмережі -->
+	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, викладачі, соцмережі -->
 	<div class="col col--center">
 		{#if graduate.hasPhoto}
 			<div class="photo-container">
@@ -171,6 +191,32 @@
 			{graduate.name}
 		</svelte:element>
 
+		{#if socials.length > 0}
+			<ul class="socials" data-testid="galaxy-card-socials-list">
+				{#each socials as social (social.network + social.url)}
+					{@const icon = getSocialIcon(social.network)}
+					<li>
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={safeUrl(social.url)}
+							class="social"
+							target="_blank"
+							rel="noopener noreferrer"
+							title={social.network}
+							aria-label={social.network}
+							data-testid="galaxy-card-social-link-{social.network}"
+						>
+							{#if icon}
+								<img src={icon} alt={social.network} width="34" height="34" class="social__img" />
+							{:else}
+								<span class="social__text">{social.network}</span>
+							{/if}
+						</a>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+
 		{#if enrollmentText || graduationText}
 			<div class="years" data-testid="galaxy-card-years-text">
 				{#if enrollmentText}<span class="years__item">{enrollmentText}</span>{/if}
@@ -202,7 +248,7 @@
 
 		{#if normalizedMasters.length > 0}
 			<div class="masters-container" data-testid="galaxy-card-masters-text">
-				<span class="masters-title">{$t('galaxy.masters')}:</span>
+				<span class="masters-title">{$t('galaxy.masters', { default: 'Майстри курсу' })}:</span>
 				<ul class="masters-list">
 					{#each normalizedMasters as master, index (index)}
 						<li class="master-item">
@@ -233,30 +279,42 @@
 			</div>
 		{/if}
 
-		{#if socials.length > 0}
-			<ul class="socials" data-testid="galaxy-card-socials-list">
-				{#each socials as social (social.network + social.url)}
-					{@const icon = getSocialIcon(social.network)}
-					<li>
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a
-							href={safeUrl(social.url)}
-							class="social"
-							target="_blank"
-							rel="noopener noreferrer"
-							title={social.network}
-							aria-label={social.network}
-							data-testid="galaxy-card-social-link-{social.network}"
-						>
-							{#if icon}
-								<img src={icon} alt={social.network} width="34" height="34" class="social__img" />
-							{:else}
-								<span class="social__text">{social.network}</span>
-							{/if}
-						</a>
-					</li>
-				{/each}
-			</ul>
+		{#if normalizedTeachers.length > 0}
+			<div class="masters-container teachers-container" data-testid="galaxy-card-teachers-text">
+				<span class="masters-title">{$t('galaxy.teachers', { default: 'Викладачі' })}:</span>
+				<ul class="masters-list teachers-list">
+					{#each normalizedTeachers as teacher, index (index)}
+						<li class="master-item teacher-item">
+							<span
+								class="master-badge"
+								role="img"
+								title={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
+								aria-label={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
+							>
+								<DepartmentIcon department={teacher.department} size={16} />
+							</span>
+							<div class="teacher-info">
+								{#if teacher.href}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a
+										href={teacher.href}
+										class="master-name master-link"
+										title={teacher.fullName}
+										data-testid="galaxy-card-teacher-link-{teacher.slug || index}"
+									>
+										{teacher.displayName}
+									</a>
+								{:else}
+									<span class="master-name" title={teacher.fullName}>{teacher.displayName}</span>
+								{/if}
+								{#if teacher.subject}
+									<span class="teacher-subject">({teacher.subject})</span>
+								{/if}
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</div>
 		{/if}
 
 		{#if !profile && graduate.hasPhoto}
@@ -377,9 +435,14 @@
 	.masters-container { margin: 0 0 1.1rem; color: var(--galaxy-text); text-align: center; }
 	.masters-title { display: block; font-size: 0.92rem; color: var(--galaxy-muted); margin-bottom: 0.4rem; }
 	.masters-list { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+	.teachers-list { width: 100%; max-width: 280px; margin: 0 auto; }
 	.master-item { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background: rgb(255 255 255 / 0.06); border-radius: 6px; border: 1px solid rgb(255 255 255 / 0.1); }
+	.teacher-item { display: flex; align-items: flex-start; width: 100%; box-sizing: border-box; text-align: left; gap: 0.55rem; padding: 0.35rem 0.65rem; border-radius: 8px; }
+	.teacher-item .master-badge { margin-top: 2px; flex-shrink: 0; }
+	.teacher-info { display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-width: 0; flex: 1; }
 	.master-badge { display: inline-flex; align-items: center; justify-content: center; color: #8cb4ff; }
 	.master-name { font-size: 0.95rem; font-weight: 500; }
+	.teacher-subject { font-size: 0.8rem; color: var(--galaxy-muted); line-height: 1.25; margin-top: 0.15rem; word-break: break-word; }
 	.master-link {
 		color: #bfe0ff;
 		text-decoration: underline;
@@ -391,7 +454,7 @@
 		color: #ffffff;
 		text-decoration-color: #ffffff;
 	}
-	.socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 1.1rem 0 0; padding: 0; list-style: none; }
+	.socials { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin: 0.2rem 0 0.8rem; padding: 0; list-style: none; }
 	.social { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0; border: none; background: transparent; color: inherit; text-decoration: none; transition: transform 0.2s ease, filter 0.2s ease; }
 	.social:hover { transform: scale(1.18); filter: drop-shadow(0 0 10px rgb(140 190 255 / 0.6)); }
 	.social__img { display: block; width: 34px; height: 34px; object-fit: contain; }
