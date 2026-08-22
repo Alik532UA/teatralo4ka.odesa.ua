@@ -898,6 +898,10 @@
     "bioTitle": "Про викладача",
     "mastersSectionTitle": "Майстри курсів та педагоги",
     "mastersSectionSubtitle": "Викладачі Одеської театральної школи, які виховали покоління талановитих випускників",
+    "filterAllDepts": "Усі відділення",
+    "filterAllProfiles": "Усі випускники",
+    "filterWithProfile": "З анкетою",
+    "filterWithoutProfile": "Без анкети",
     "departments": {
       "theatre": "Театральне відділення",
       "piano": "Фортепіано (інструментальне)",

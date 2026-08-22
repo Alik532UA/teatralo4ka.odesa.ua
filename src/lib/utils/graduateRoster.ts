@@ -10,29 +10,33 @@ import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /**
  * Порядок: роки від новіших, у межах року спершу ті, хто заповнив анкету, далі
- * решта, і кожна група за абеткою.
+ * решта, а всередині кожної підгрупи — довільний випадковий порядок.
  *
- * Анкети наперед — не про красу, а про користь: із 482 випускників сторінку про
- * себе мають 80, і саме їх у переліку є куди відкрити. Розсипані по абетці, вони
- * тонули серед імен без сторінок.
- *
- * `localeCompare` з українською локаллю, а не порівняння рядків: без локалі «Є»
- * і «Ї» їдуть у кінець за кодами, а не між «Е» і «Й».
+ * Анкети наперед — не про красу, а про користь: із понад 500 випускників сторінку про
+ * себе мають 80, і саме їх у переліку є куди відкрити.
  */
-export function sortRoster(graduates: readonly GraduateIndexEntry[]): GraduateIndexEntry[] {
-	return [...graduates].sort((a, b) => {
-		// Записів без року в даних немає (заміряно: 0 із 482), але тип це дозволяє,
-		// і тоді такий запис має піти в кінець, а не на початок як «рік 0».
-		const yearA = a.graduationYear ?? Number.NEGATIVE_INFINITY;
-		const yearB = b.graduationYear ?? Number.NEGATIVE_INFINITY;
+export function sortRoster(
+	graduates: readonly GraduateIndexEntry[],
+	random: () => number = Math.random
+): GraduateIndexEntry[] {
+	const weighted = graduates.map((g) => ({
+		graduate: g,
+		weight: random()
+	}));
+
+	weighted.sort((a, b) => {
+		const yearA = a.graduate.graduationYear ?? Number.NEGATIVE_INFINITY;
+		const yearB = b.graduate.graduationYear ?? Number.NEGATIVE_INFINITY;
 		if (yearA !== yearB) return yearB - yearA;
 
-		const filledA = a.hasPhoto === true;
-		const filledB = b.hasPhoto === true;
+		const filledA = a.graduate.hasPhoto === true;
+		const filledB = b.graduate.hasPhoto === true;
 		if (filledA !== filledB) return filledA ? -1 : 1;
 
-		return a.name.localeCompare(b.name, 'uk');
+		return a.weight - b.weight;
 	});
+
+	return weighted.map((w) => w.graduate);
 }
 
 /** Клітинка сітки: номери рядка й колонки, обидва від одиниці, як у CSS Grid. */

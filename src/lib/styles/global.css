@@ -1082,8 +1082,41 @@ select {
  * доступності, а не лише з очей. Підвал при цьому лишається в DOM (E2E перевіряє
  * його через `toBeAttached`), тож наявні гейти не червоніють.
  */
-body.page-galaxy {
+/*
+ * Галактика випускників має фіксовану темну тему космосу незалежно від теми сайту.
+ */
+body.page-galaxy,
+:root.light-theme body.page-galaxy,
+:root.dark-theme body.page-galaxy,
+:root.yellow-theme body.page-galaxy,
+:root.light-yellow-theme body.page-galaxy,
+:root[data-theme='light'] body.page-galaxy,
+:root[data-theme='dark'] body.page-galaxy,
+:root[data-theme='yellow'] body.page-galaxy,
+:root[data-theme='light-yellow'] body.page-galaxy {
+	--text-main: var(--galaxy-text, #eaf2ff);
+	--text-title: #ffffff;
+	--text-muted: var(--galaxy-muted, #a8bfe0);
+	--bg-page: var(--galaxy-bg, #050a1f);
+	--bg-surface: var(--galaxy-card-bg, #0b1330);
+	--bg-card: var(--galaxy-card-bg, #0b1330);
+	--accent-primary: var(--galaxy-accent, #8cc4ff);
+	--accent-text: var(--galaxy-accent, #8cc4ff);
+	--border-main: rgba(255, 255, 255, 0.12);
+	--shadow-main: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+	color: var(--galaxy-text, #eaf2ff);
+	background-color: var(--galaxy-bg, #050a1f);
 	overflow: hidden;
+}
+
+body.page-galaxy h1,
+body.page-galaxy h2,
+body.page-galaxy h3,
+body.page-galaxy h4,
+body.page-galaxy h5,
+body.page-galaxy h6 {
+	color: #ffffff;
 }
 
 /* Від шапки лишається ЛИШЕ логотип — решта прибирається зовсім. */

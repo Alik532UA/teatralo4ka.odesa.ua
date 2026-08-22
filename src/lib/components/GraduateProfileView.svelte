@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { FileText } from 'lucide-svelte';
 	import { browser } from '$app/environment';
@@ -31,33 +32,34 @@
 
 	let formModalOpen = $state(false);
 
-	$effect(() => {
+	function syncFormUrl(open: boolean) {
+		if (!browser) return;
+		const url = new URL(window.location.href);
+		if (open) {
+			url.searchParams.set('form', 'open');
+		} else {
+			url.searchParams.delete('form');
+		}
+		window.history.replaceState(window.history.state, '', url.href);
+	}
+
+	onMount(() => {
 		if (browser) {
 			const param = new URL(window.location.href).searchParams.get('form');
 			if (param === 'open' || param === 'true') {
 				formModalOpen = true;
-			} else if (formModalOpen && param === null) {
-				formModalOpen = false;
 			}
 		}
 	});
 
 	function openForm() {
 		formModalOpen = true;
-		if (browser) {
-			const url = new URL(window.location.href);
-			url.searchParams.set('form', 'open');
-			window.history.pushState({ formOpen: true }, '', url.href);
-		}
+		syncFormUrl(true);
 	}
 
 	function closeForm() {
 		formModalOpen = false;
-		if (browser && window.location.search.includes('form=')) {
-			const url = new URL(window.location.href);
-			url.searchParams.delete('form');
-			window.history.pushState({ formOpen: false }, '', url.href);
-		}
+		syncFormUrl(false);
 	}
 
 	const enrollmentYears = $derived(profile?.enrollmentYears ?? graduate.enrollmentYears ?? []);

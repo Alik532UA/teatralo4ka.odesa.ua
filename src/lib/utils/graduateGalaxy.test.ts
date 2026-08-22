@@ -116,4 +116,27 @@ describe('filterGraduates', () => {
 			'Ольга Полякова'
 		]);
 	});
+
+	it('фільтр за наявністю анкети/фото', () => {
+		const mixed: GraduateIndexEntry[] = [
+			{ slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'], hasPhoto: true },
+			{ slug: 'b', name: 'Б', graduationYear: 2020, departments: ['theatre'] }
+		];
+		expect(filterGraduates(mixed, { photo: 'with' })).toHaveLength(1);
+		expect(filterGraduates(mixed, { photo: 'with' })[0].name).toBe('А');
+		expect(filterGraduates(mixed, { photo: 'without' })).toHaveLength(1);
+		expect(filterGraduates(mixed, { photo: 'without' })[0].name).toBe('Б');
+		expect(filterGraduates(mixed, { photo: 'all' })).toHaveLength(2);
+	});
+
+	it('фільтр за кількома відділеннями одночасно', () => {
+		const depts: GraduateIndexEntry[] = [
+			{ slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'] },
+			{ slug: 'b', name: 'Б', graduationYear: 2020, departments: ['art'] },
+			{ slug: 'c', name: 'В', graduationYear: 2020, departments: ['vocal'] }
+		];
+		expect(filterGraduates(depts, { departments: ['theatre', 'art'] })).toHaveLength(2);
+		expect(filterGraduates(depts, { departments: ['vocal'] })).toHaveLength(1);
+		expect(filterGraduates(depts, { departments: [] })).toHaveLength(3);
+	});
 });

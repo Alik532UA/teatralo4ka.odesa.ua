@@ -31,9 +31,25 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 	return (nodeElement: Element) => {
 		const node = nodeElement as HTMLElement;
 
-		const computedPos = typeof window !== 'undefined' ? window.getComputedStyle(node).position : 'static';
+		const canMountToParent =
+			RIGHT_OFFSET < 0 &&
+			typeof window !== 'undefined' &&
+			node.parentElement !== null &&
+			node.parentElement !== document.body &&
+			node.parentElement !== document.documentElement;
+
+		const mountTarget = (canMountToParent ? node.parentElement : node) as HTMLElement;
+		const isMountedToParent = mountTarget !== node;
+
+		const computedPos = typeof window !== 'undefined' ? window.getComputedStyle(mountTarget).position : 'static';
 		if (computedPos === 'static') {
-			node.style.position = 'relative';
+			mountTarget.style.position = 'relative';
+		}
+		if (!isMountedToParent && typeof window !== 'undefined') {
+			const nodePos = window.getComputedStyle(node).position;
+			if (nodePos === 'static') {
+				node.style.position = 'relative';
+			}
 		}
 
 		const track = document.createElement('div');
@@ -55,7 +71,7 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 		}
 
 		track.appendChild(thumb);
-		node.appendChild(track);
+		mountTarget.appendChild(track);
 
 		let isScrollable = false;
 		let thumbHeight = MIN_THUMB;
@@ -93,7 +109,15 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 			track.style.opacity = '1';
 			track.style.pointerEvents = 'auto';
 			track.style.height = `${clientH}px`;
-			track.style.transform = `translateY(${scrollT}px)`;
+
+			if (isMountedToParent) {
+				track.style.top = `${node.offsetTop}px`;
+				track.style.left = `${node.offsetLeft + node.offsetWidth - TRACK_WIDTH - RIGHT_OFFSET}px`;
+				track.style.right = 'auto';
+				track.style.transform = 'none';
+			} else {
+				track.style.transform = `translateY(${scrollT}px)`;
+			}
 
 			thumbHeight = Math.max(Math.round((clientH / scrollH) * clientH), MIN_THUMB);
 			const thumbTop = Math.round((scrollT / maxScroll) * (clientH - thumbHeight));
@@ -108,31 +132,35 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 
 		function onPointerMove(e: PointerEvent) {
 			if (!isCustomActive || isDragging || !isScrollable) return;
-			const rect = node.getBoundingClientRect();
-			let distance: number;
+			const trackRect = track.getBoundingClientRect();
+			const trackCenterX = trackRect.left + trackRect.width / 2;
+			const distanceX = Math.abs(e.clientX - trackCenterX);
+			const distanceY = Math.max(0, trackRect.top - e.clientY, e.clientY - trackRect.bottom);
+			const distance = Math.max(distanceX, distanceY);
 
-			if (ALIGN === 'center') {
-				const trackCenterX = (rect.right - RIGHT_OFFSET) - TRACK_WIDTH / 2;
-				distance = Math.abs(e.clientX - trackCenterX);
-			} else {
-				distance = (rect.right - RIGHT_OFFSET) - e.clientX;
-			}
-
-			const yInNode = e.clientY - rect.top;
-
-			if (distance >= 0 && distance <= PROXIMITY && yInNode >= 0 && yInNode <= rect.height) {
+			if (distance <= PROXIMITY) {
 				const progress = Math.min(Math.max((PROXIMITY - distance) / (PROXIMITY - 8), 0), 1);
 				const currentWidth = Math.round(REST_WIDTH + (HOVER_WIDTH - REST_WIDTH) * progress);
 				thumb.style.width = `${currentWidth}px`;
-				thumb.style.background = distance <= 16 ? 'var(--accent-primary, #00b4d8)' : 'var(--scrollbar-thumb, rgba(0, 180, 216, 0.45))';
+				thumb.style.background =
+					distance <= 16 ? 'var(--accent-primary, #00b4d8)' : 'var(--scrollbar-thumb, rgba(0, 180, 216, 0.45))';
 			} else {
 				thumb.style.width = `${REST_WIDTH}px`;
 				thumb.style.background = 'var(--scrollbar-thumb, rgba(0, 180, 216, 0.45))';
 			}
 		}
 
-		function onPointerLeave() {
+		function onPointerLeave(e?: PointerEvent) {
 			if (isDragging) return;
+			if (e && typeof e.clientX === 'number') {
+				const trackRect = track.getBoundingClientRect();
+				const trackCenterX = trackRect.left + trackRect.width / 2;
+				const distanceX = Math.abs(e.clientX - trackCenterX);
+				const distanceY = Math.max(0, trackRect.top - e.clientY, e.clientY - trackRect.bottom);
+				if (Math.max(distanceX, distanceY) <= PROXIMITY) {
+					return;
+				}
+			}
 			thumb.style.width = `${REST_WIDTH}px`;
 			thumb.style.background = 'var(--scrollbar-thumb, rgba(0, 180, 216, 0.45))';
 		}
@@ -203,14 +231,19 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 		node.addEventListener('scroll', updateGeometry, { passive: true });
 		node.addEventListener('pointermove', onPointerMove, { passive: true });
 		node.addEventListener('pointerleave', onPointerLeave, { passive: true });
+		track.addEventListener('pointermove', onPointerMove, { passive: true });
 		thumb.addEventListener('pointerdown', onThumbPointerDown);
 		track.addEventListener('pointerdown', onTrackPointerDown);
+		if (typeof window !== 'undefined') {
+			window.addEventListener('pointermove', onPointerMove, { passive: true });
+		}
 
 		let observer: ResizeObserver | null = null;
 		if (typeof ResizeObserver !== 'undefined') {
 			observer = new ResizeObserver(() => updateGeometry());
 			observer.observe(node);
 			if (node.firstElementChild) observer.observe(node.firstElementChild);
+			if (isMountedToParent && mountTarget) observer.observe(mountTarget);
 		}
 
 		applyModeState();
@@ -227,9 +260,11 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 			node.removeEventListener('scroll', updateGeometry);
 			node.removeEventListener('pointermove', onPointerMove);
 			node.removeEventListener('pointerleave', onPointerLeave);
+			track.removeEventListener('pointermove', onPointerMove);
 			thumb.removeEventListener('pointerdown', onThumbPointerDown);
 			track.removeEventListener('pointerdown', onTrackPointerDown);
 			if (typeof window !== 'undefined') {
+				window.removeEventListener('pointermove', onPointerMove);
 				window.removeEventListener('pointermove', onWindowPointerMove);
 				window.removeEventListener('pointerup', onWindowPointerUp);
 				window.removeEventListener('pointercancel', onWindowPointerUp);

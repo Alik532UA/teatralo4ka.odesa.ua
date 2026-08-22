@@ -89,17 +89,50 @@
 	/** Пункт під клавіатурним курсором. -1 — жодного. */
 	let activeIndex = $state(-1);
 	let pos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 320, above: false });
+	let offset = $state({ x: 0, y: 0 });
 
 	const selected = $derived(options.find((o) => o.value === value));
 	const label = $derived(selected?.label ?? placeholder);
 
+	/**
+	 * Знаходить зміщення предка, якщо той утворює новий containing block
+	 * через CSS transform / translate / filter / perspective (наприклад, центрована модалка).
+	 */
+	function getContainingBlockOffset(el: HTMLElement): { x: number; y: number } {
+		if (typeof window === 'undefined') return { x: 0, y: 0 };
+		let curr = el.parentElement;
+		while (curr && curr !== document.body && curr !== document.documentElement) {
+			const style = window.getComputedStyle(curr);
+			if (
+				style.transform !== 'none' ||
+				style.translate !== 'none' ||
+				style.rotate !== 'none' ||
+				style.scale !== 'none' ||
+				style.filter !== 'none' ||
+				style.perspective !== 'none' ||
+				(style.contain && (style.contain.includes('paint') || style.contain.includes('layout')))
+			) {
+				const rect = curr.getBoundingClientRect();
+				return { x: rect.left, y: rect.top };
+			}
+			curr = curr.parentElement;
+		}
+		return { x: 0, y: 0 };
+	}
+
 	/** Геометрія спільна з рештою випадайок і перевірена окремо. */
 	function place() {
 		if (!trigger) return;
-		pos = placePanel(trigger.getBoundingClientRect(), {
+		offset = getContainingBlockOffset(trigger);
+		const raw = placePanel(trigger.getBoundingClientRect(), {
 			width: window.innerWidth,
 			height: window.innerHeight
 		});
+		pos = {
+			...raw,
+			left: raw.left - offset.x,
+			top: raw.top - offset.y
+		};
 	}
 
 	async function openPanel() {
@@ -249,6 +282,9 @@
 	<div
 		class="sel-backdrop"
 		role="presentation"
+		style={offset.x !== 0 || offset.y !== 0
+			? `left: -${offset.x}px; top: -${offset.y}px; width: 100vw; height: 100vh;`
+			: ''}
 		onpointerdown={() => close(false)}
 		oncontextmenu={(e) => {
 			e.preventDefault();

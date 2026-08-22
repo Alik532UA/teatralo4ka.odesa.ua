@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { goto, pushState } from '$app/navigation';
+	import { goto, pushState, replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { List, Plus } from 'lucide-svelte';
@@ -24,33 +24,35 @@
 	let rosterOpen = $state(false);
 	let formModalOpen = $state(false);
 
-	$effect(() => {
-		if (browser) {
-			const param = page.url.searchParams.get('form');
-			if (param === 'open' || param === 'true') {
-				formModalOpen = true;
-			} else if (formModalOpen && param === null) {
-				formModalOpen = false;
-			}
+	function syncParamUrl(key: string, value: string | null) {
+		if (!browser) return;
+		const url = new URL(window.location.href);
+		if (value !== null) {
+			url.searchParams.set(key, value);
+		} else {
+			url.searchParams.delete(key);
 		}
-	});
+		replaceState(url.pathname + url.search + url.hash, page.state);
+	}
 
 	function openForm() {
 		formModalOpen = true;
-		if (browser) {
-			const url = new URL(window.location.href);
-			url.searchParams.set('form', 'open');
-			pushState(url.href, { formOpen: true });
-		}
+		syncParamUrl('form', 'open');
 	}
 
 	function closeForm() {
 		formModalOpen = false;
-		if (browser && window.location.search.includes('form=')) {
-			const url = new URL(window.location.href);
-			url.searchParams.delete('form');
-			pushState(url.href, { formOpen: false });
-		}
+		syncParamUrl('form', null);
+	}
+
+	function openRoster() {
+		rosterOpen = true;
+		syncParamUrl('roster', 'open');
+	}
+
+	function closeRoster() {
+		rosterOpen = false;
+		syncParamUrl('roster', null);
 	}
 
 	/**
@@ -91,7 +93,7 @@
 	);
 
 	async function openGraduate(graduate: GraduateIndexEntry) {
-		rosterOpen = false;
+		closeRoster();
 
 		if (!graduate.code) {
 			pushState('', { graduateSlug: graduate.slug });
@@ -128,6 +130,17 @@
 	 */
 	onMount(() => {
 		document.body.classList.add('page-galaxy');
+
+		const formParam = page.url.searchParams.get('form');
+		if (formParam === 'open' || formParam === 'true') {
+			formModalOpen = true;
+		}
+
+		const rosterParam = page.url.searchParams.get('roster');
+		if (rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1') {
+			rosterOpen = true;
+		}
+
 		return () => document.body.classList.remove('page-galaxy');
 	});
 </script>
@@ -178,7 +191,7 @@
 		<button
 			type="button"
 			class="stage__roster-btn"
-			onclick={() => (rosterOpen = true)}
+			onclick={openRoster}
 			data-testid="galaxy-open-roster-btn"
 		>
 			<List size={18} aria-hidden="true" />
@@ -202,7 +215,7 @@
 <GraduateRoster
 	graduates={data.graduates}
 	open={rosterOpen}
-	onclose={() => (rosterOpen = false)}
+	onclose={closeRoster}
 	onselect={openGraduate}
 />
 

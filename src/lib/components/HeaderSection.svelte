@@ -36,6 +36,7 @@
 	let settingsOpen = $state(false);
 	let navOpen = $state(false);
 	let settingsRef: HTMLElement | null = $state(null);
+	let mobileSettingsRef: HTMLElement | null = $state(null);
 	let navRef: HTMLElement | null = $state(null);
 	let showTicker = $state(false);
 	let mobileNavScrollY = $state(0);
@@ -369,12 +370,20 @@
 
 	$effect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
-			if (
-				settingsOpen &&
-				settingsRef &&
-				!settingsRef.contains(e.target as Node)
-			) {
-				closeSettings();
+			if (settingsOpen) {
+				if (ui.isMenuOpen) {
+					if (
+						mobileSettingsRef &&
+						!mobileSettingsRef.contains(e.target as Node)
+					) {
+						closeSettings();
+					}
+				} else if (
+					settingsRef &&
+					!settingsRef.contains(e.target as Node)
+				) {
+					closeSettings();
+				}
 			}
 			if (navOpen && navRef && !navRef.contains(e.target as Node)) {
 				closeNav();
@@ -752,7 +761,7 @@
 				<div
 					class="header__settings header__settings--mobile"
 					class:open={settingsOpen}
-					bind:this={settingsRef}
+					bind:this={mobileSettingsRef}
 					data-testid="header-settings-mobile-container"
 				>
 					<button

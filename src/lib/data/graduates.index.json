@@ -1,5 +1,238 @@
 [
 	{
+		"slug": "alina-halach",
+		"name": "Аліна Галач",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "albina-abuladze",
+		"name": "Альбіна Абуладзе",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "anastasiya-haftkovych",
+		"name": "Анастасія Гафткович",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "valentyn-babichev",
+		"name": "Валентин Бабічев",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "veronika-tarasenko",
+		"name": "Вероніка Тарасенко",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "vitalina-larionova",
+		"name": "Віталіна Ларіонова",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "hlafira-yanhicher",
+		"name": "Глафіра Янгічер",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre",
+			"piano"
+		]
+	},
+	{
+		"slug": "darya-maystrenko",
+		"name": "Дар'я Майстренко",
+		"graduationYear": 2026,
+		"departments": [
+			"piano"
+		]
+	},
+	{
+		"slug": "diana-domanska",
+		"name": "Діана Доманська",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "yeva-horokhova-2026",
+		"name": "Єва Горохова",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "yeva-kosoy",
+		"name": "Єва Косой",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "yehor-pyasetskyy",
+		"name": "Єгор Пясецький",
+		"graduationYear": 2026,
+		"departments": [
+			"art"
+		]
+	},
+	{
+		"slug": "zlata-stoyanova",
+		"name": "Злата Стоянова",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "ivan-pitel",
+		"name": "Іван Пітель",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "kateryna-nesterenko",
+		"name": "Катерина Нестеренко",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "kateryna-petrenko-2026",
+		"name": "Катерина Петренко",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "kira-husyeva",
+		"name": "Кіра Гусєва",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "liora-kazatsker",
+		"name": "Ліора Казацкер",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "marharyta-reznik",
+		"name": "Маргарита Резнік",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "mila-adamyan",
+		"name": "Міла Адамян",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "mikhail-suraho",
+		"name": "Міхаіл Сураго",
+		"graduationYear": 2026,
+		"departments": [
+			"piano"
+		]
+	},
+	{
+		"slug": "nikol-onyshchenko",
+		"name": "Ніколь Онищенко",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "oleksandra-halak",
+		"name": "Олександра Галак",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "oleksandra-karachevska",
+		"name": "Олександра Карачевська",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "pavlo-maksymov",
+		"name": "Павло Максимов",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "sofiya-rudenko",
+		"name": "Софія Руденко",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "sofiya-shatalinska",
+		"name": "Софія Шаталінська",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "yuliana-tymonova",
+		"name": "Юліана Тимонова",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"slug": "yan-okolskyy",
+		"name": "Ян Окольський",
+		"graduationYear": 2026,
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"slug": "alina-demediuk",
 		"name": "Аліна Демедюк",
 		"graduationYear": 2025,

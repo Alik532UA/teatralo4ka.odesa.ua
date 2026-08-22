@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
+	import { t } from "svelte-i18n";
+	import { customScroll } from "$lib/utils/customScroll";
 
 	interface Props {
 		years: readonly number[];
-		selected: number | 'all';
-		onselect: (year: number | 'all') => void;
+		selected: number | "all";
+		onselect: (year: number | "all") => void;
 	}
 
 	let { years, selected, onselect }: Props = $props();
@@ -25,13 +26,19 @@
 
 	`aria-pressed` каже читалці те саме, що підсвітка — оку.
 -->
-<div class="years" role="group" aria-label={$t('galaxy.filterYear')} data-testid="galaxy-roster-years-toolbar">
+<div
+	class="years"
+	role="group"
+	aria-label={$t("galaxy.filterYear")}
+	data-testid="galaxy-roster-years-toolbar"
+	{@attach customScroll({ rightOffset: -10, alignThumb: "center" })}
+>
 	<button
 		type="button"
 		class="years__all"
-		aria-pressed={selected === 'all'}
-		onclick={() => onselect('all')}
-		data-testid="galaxy-roster-year-all-btn">{$t('galaxy.allYears')}</button
+		aria-pressed={selected === "all"}
+		onclick={() => onselect("all")}
+		data-testid="galaxy-roster-year-all-btn">{$t("galaxy.allYears")}</button
 	>
 
 	<div class="scale" data-testid="galaxy-roster-timeline-container">
@@ -40,7 +47,11 @@
 				type="button"
 				class="years__btn"
 				class:years__btn--right={index % 2 === 1}
-				style="grid-row: {index + 1} / span 2; grid-column: {index % 2 === 0 ? 1 : 2}"
+				style="grid-row: {index + 1} / span 2; grid-column: {index %
+					2 ===
+				0
+					? 1
+					: 2}"
 				aria-pressed={selected === year}
 				onclick={() => onselect(year)}
 				data-testid="galaxy-roster-year-{year}-btn">{year}</button
@@ -51,11 +62,12 @@
 
 <style>
 	.years {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
 		flex-shrink: 0;
-		padding-right: 0.5rem;
+		padding-right: 0.75rem;
 		overflow-y: auto;
 		border-right: 1px solid rgb(255 255 255 / 0.12);
 	}
@@ -71,7 +83,7 @@
 
 	/* Лінія шкали. Малюється до кнопок, тож точки лягають поверх неї. */
 	.scale::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 12px;
 		bottom: 12px;
@@ -113,7 +125,7 @@
 
 	/* Точка на лінії: рівно на межі колонки, тобто по центру шкали. */
 	.years__btn::after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 50%;
 		right: -4px;
@@ -134,14 +146,14 @@
 		background: rgb(255 255 255 / 0.07);
 	}
 
-	.years__all[aria-pressed='true'],
-	.years__btn[aria-pressed='true'] {
+	.years__all[aria-pressed="true"],
+	.years__btn[aria-pressed="true"] {
 		border-color: rgb(140 190 255 / 0.6);
 		background: rgb(140 190 255 / 0.16);
 		font-weight: 600;
 	}
 
-	.years__btn[aria-pressed='true']::after {
+	.years__btn[aria-pressed="true"]::after {
 		background: rgb(200 226 255);
 	}
 

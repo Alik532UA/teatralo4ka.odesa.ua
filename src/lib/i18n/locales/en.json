@@ -898,6 +898,10 @@
     "bioTitle": "About the teacher",
     "mastersSectionTitle": "Course Masters and Teachers",
     "mastersSectionSubtitle": "Teachers of the Odesa Theatre School who have raised generations of talented graduates",
+    "filterAllDepts": "All departments",
+    "filterAllProfiles": "All graduates",
+    "filterWithProfile": "With profile",
+    "filterWithoutProfile": "Without profile",
     "departments": {
       "theatre": "Theatre Department",
       "piano": "Piano (Instrumental)",

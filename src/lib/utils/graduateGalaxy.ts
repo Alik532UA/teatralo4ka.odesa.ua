@@ -1,4 +1,4 @@
-import type { GraduateIndexEntry } from '$lib/data/graduates';
+import type { Department, GraduateIndexEntry } from '$lib/data/graduates';
 
 /**
  * Чиста логіка галактики випускників: розкладка доріжок і фільтр переліку.
@@ -59,21 +59,35 @@ export function makeLanes(count: number, minSeconds: number, random: () => numbe
 	}));
 }
 
+export interface GraduateFilterOptions {
+	year?: number | 'all';
+	query?: string;
+	photo?: 'all' | 'with' | 'without';
+	department?: 'all' | Department;
+	departments?: readonly Department[];
+}
+
 /**
- * Фільтр переліку за роком і фрагментом імені.
- *
- * Пошук регістронезалежний і за підрядком: на 482 записах людина шукає «Поляк»,
- * а не точне «Ольга Полякова». Порівняння через `toLowerCase()` обох боків —
- * `localeCompare` тут не потрібен, бо це не сортування.
+ * Фільтр переліку за роком, анкетою, відділеннями (одним або декількома) і фрагментом імені.
  */
 export function filterGraduates(
 	graduates: readonly GraduateIndexEntry[],
-	options: { year: number | 'all'; query: string }
+	options: GraduateFilterOptions
 ): GraduateIndexEntry[] {
-	const needle = options.query.trim().toLowerCase();
+	const needle = (options.query ?? '').trim().toLowerCase();
+	const year = options.year ?? 'all';
+	const photo = options.photo ?? 'all';
+	const department = options.department ?? 'all';
+	const departments = options.departments ?? [];
 
 	return graduates.filter((graduate) => {
-		if (options.year !== 'all' && graduate.graduationYear !== options.year) return false;
+		if (year !== 'all' && graduate.graduationYear !== year) return false;
+		if (photo === 'with' && !graduate.hasPhoto) return false;
+		if (photo === 'without' && graduate.hasPhoto) return false;
+		if (departments.length > 0 && !departments.some((d) => graduate.departments?.includes(d))) {
+			return false;
+		}
+		if (department !== 'all' && !graduate.departments?.includes(department)) return false;
 		if (needle === '') return true;
 		return graduate.name.toLowerCase().includes(needle);
 	});

@@ -20,13 +20,21 @@ describe('sortRoster', () => {
 		expect(sorted.map((g) => g.graduationYear)).toEqual([2025, 2014, 1998]);
 	});
 
-	it('у межах року спершу заповнені анкети, і кожна група за абеткою', () => {
-		const sorted = sortRoster([
-			person('Яна Без', 2020),
-			person('Ада Без', 2020),
-			person('Яна Анкета', 2020, true),
-			person('Ада Анкета', 2020, true)
-		]);
+	it('у межах року спершу заповнені анкети, а далі решта', () => {
+		const seq = [0.9, 0.1, 0.8, 0.2];
+		let idx = 0;
+		const mockRandom = () => seq[idx++];
+		const sorted = sortRoster(
+			[
+				person('Яна Без', 2020),
+				person('Ада Без', 2020),
+				person('Яна Анкета', 2020, true),
+				person('Ада Анкета', 2020, true)
+			],
+			mockRandom
+		);
+		// Анкети мають йти першими, далі ті, що без фото
+		expect(sorted.map((g) => g.hasPhoto)).toEqual([true, true, undefined, undefined]);
 		expect(sorted.map((g) => g.name)).toEqual(['Ада Анкета', 'Яна Анкета', 'Ада Без', 'Яна Без']);
 	});
 
@@ -35,12 +43,6 @@ describe('sortRoster', () => {
 		// на початку переліку й роки перестали б щось означати.
 		const sorted = sortRoster([person('Старий', 2000, true), person('Новий', 2024)]);
 		expect(sorted.map((g) => g.name)).toEqual(['Новий', 'Старий']);
-	});
-
-	it('українська абетка, а не порядок кодів', () => {
-		// За кодами «Є» (U+0404) стоїть попереду всіх великих літер, тобто перед «А».
-		const sorted = sortRoster([person('Ірина', 2020), person('Єва', 2020), person('Андрій', 2020)]);
-		expect(sorted.map((g) => g.name)).toEqual(['Андрій', 'Єва', 'Ірина']);
 	});
 
 	it('запис без року йде в кінець, а не на початок', () => {

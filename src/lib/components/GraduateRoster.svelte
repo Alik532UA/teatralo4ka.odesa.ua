@@ -1,13 +1,19 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
-	import { X } from 'lucide-svelte';
-	import { focusTrap } from '$lib/utils/focusTrap';
-	import { GRADUATION_YEARS, type GraduateIndexEntry } from '$lib/data/graduates';
-	import { filterGraduates } from '$lib/utils/graduateGalaxy';
-	import { layoutRoster, sortRoster } from '$lib/utils/graduateRoster';
-	import GraduateRosterHead from './GraduateRosterHead.svelte';
-	import GraduateRosterRow from './GraduateRosterRow.svelte';
-	import GraduateRosterYears from './GraduateRosterYears.svelte';
+	import { t } from "svelte-i18n";
+	import { X } from "lucide-svelte";
+	import { focusTrap } from "$lib/utils/focusTrap";
+	import {
+		GRADUATION_YEARS,
+		type Department,
+		type GraduateIndexEntry,
+	} from "$lib/data/graduates";
+	import { filterGraduates } from "$lib/utils/graduateGalaxy";
+	import { layoutRoster, sortRoster } from "$lib/utils/graduateRoster";
+	import GraduateRosterHead from "./GraduateRosterHead.svelte";
+	import GraduateRosterRow from "./GraduateRosterRow.svelte";
+	import GraduateRosterYears from "./GraduateRosterYears.svelte";
+	import GraduateRosterFilters from "./GraduateRosterFilters.svelte";
+	import { customScroll } from "$lib/utils/customScroll";
 
 	interface Props {
 		graduates: readonly GraduateIndexEntry[];
@@ -20,8 +26,17 @@
 
 	const id = $props.id();
 
-	let year = $state<number | 'all'>('all');
-	let query = $state('');
+	let year = $state<number | "all">("all");
+	let departments = $state<Department[]>([]);
+	let photo = $state<"all" | "with" | "without">("all");
+	let query = $state("");
+	let rosterSeed = $state(0);
+
+	$effect(() => {
+		if (open) {
+			rosterSeed = Math.random();
+		}
+	});
 
 	/** Ширина сітки — не для краси: від неї залежить, скільки колонок вміщається. */
 	let gridWidth = $state(0);
@@ -34,10 +49,13 @@
 	 */
 	const MIN_COLUMN = 255;
 
-	// Пошук за іменем поруч із фільтром за роком: галактика гарна для розглядання
-	// й безпорадна для «де мій однокурсник з 2014 року». На 482 записах це вже не
-	// зручність, а умова того, щоб переліком можна було користуватися.
-	const shown = $derived(sortRoster(filterGraduates(graduates, { year, query })));
+	// Довільний порядок у межах року (з фотографіями на початку), оновлюється при кожному відкритті
+	const shown = $derived.by(() => {
+		const _ = rosterSeed;
+		return sortRoster(
+			filterGraduates(graduates, { year, query, departments, photo }),
+		);
+	});
 
 	const perRow = $derived(Math.max(1, Math.floor(gridWidth / MIN_COLUMN)));
 
@@ -48,15 +66,22 @@
 	const groups = $derived(
 		shown.reduce<{ year: number | null; filled: number; plain: number }[]>(
 			(all, graduate, index) => {
-				const fresh = index === 0 || shown[index - 1].graduationYear !== graduate.graduationYear;
-				if (fresh) all.push({ year: graduate.graduationYear, filled: 0, plain: 0 });
+				const fresh =
+					index === 0 ||
+					shown[index - 1].graduationYear !== graduate.graduationYear;
+				if (fresh)
+					all.push({
+						year: graduate.graduationYear,
+						filled: 0,
+						plain: 0,
+					});
 				const group = all[all.length - 1];
 				if (graduate.hasPhoto) group.filled += 1;
 				else group.plain += 1;
 				return all;
 			},
-			[]
-		)
+			[],
+		),
 	);
 
 	const layout = $derived(layoutRoster(groups, perRow));
@@ -64,7 +89,7 @@
 	/** Escape — той самий обробник, що в `PhotoLightbox`: один спосіб закривати. */
 	function handleKeydown(event: KeyboardEvent) {
 		if (!open) return;
-		if (event.key === 'Escape') {
+		if (event.key === "Escape") {
 			event.preventDefault();
 			onclose();
 		}
@@ -79,7 +104,11 @@
 		клавіатури; Tab тримає `focusTrap`, Escape — обробник вище. Тому
 		`role="presentation"`: він і знімає a11y-попередження компілятора.
 	-->
-	<div class="backdrop" onclick={onclose} role="presentation" data-testid="galaxy-roster-backdrop"
+	<div
+		class="backdrop"
+		onclick={onclose}
+		role="presentation"
+		data-testid="galaxy-roster-backdrop"
 	></div>
 
 	<div
@@ -91,27 +120,40 @@
 		data-testid="galaxy-roster-modal"
 	>
 		<header class="sheet__head">
-			<h2 class="sheet__title" id="{id}-title" data-testid="galaxy-roster-title">
-				{$t('galaxy.all')}
-				<span class="sheet__count" data-testid="galaxy-roster-count">{shown.length}</span>
+			<h2
+				class="sheet__title"
+				id="{id}-title"
+				data-testid="galaxy-roster-title"
+			>
+				{$t("galaxy.all")}
+				<span class="sheet__count" data-testid="galaxy-roster-count"
+					>{shown.length}</span
+				>
 			</h2>
 
 			<label class="sheet__field" for="{id}-search">
-				<span class="sr-only">{$t('galaxy.searchName')}</span>
+				<span class="sr-only">{$t("galaxy.searchName")}</span>
 				<input
 					id="{id}-search"
 					type="search"
 					bind:value={query}
-					placeholder={$t('galaxy.searchName')}
+					placeholder={$t("galaxy.searchName")}
 					data-testid="galaxy-roster-search-input"
 				/>
 			</label>
+
+			<GraduateRosterFilters
+				{departments}
+				{photo}
+				ondepartmentschange={(val) => (departments = val)}
+				onphotochange={(val) => (photo = val)}
+			/>
 
 			<button
 				type="button"
 				class="sheet__close"
 				onclick={onclose}
-				aria-label={$t('common.close')}
+				aria-label={$t("common.close")}
 				data-testid="galaxy-roster-close-btn"
 			>
 				<X size={20} aria-hidden="true" />
@@ -132,26 +174,38 @@
 				style="--columns: {perRow * 2}"
 				bind:clientWidth={gridWidth}
 				data-testid="galaxy-roster-list"
+				{@attach customScroll({
+					rightOffset: -10,
+					alignThumb: "center",
+				})}
 			>
 				{#each shown as graduate, index (graduate.slug)}
 					<li
-						style="grid-row: {layout.cells[index]?.row ?? 1}; grid-column-start: {layout.cells[
-							index
-						]?.column ?? 1}"
+						style="grid-row: {layout.cells[index]?.row ??
+							1}; grid-column-start: {layout.cells[index]
+							?.column ?? 1}"
 						data-testid="galaxy-roster-list-item-{graduate.slug}"
 					>
-						<GraduateRosterRow {graduate} onselect={() => onselect(graduate)} />
+						<GraduateRosterRow
+							{graduate}
+							onselect={() => onselect(graduate)}
+						/>
 					</li>
 				{/each}
 
 				{#each groups as group, index (group.year)}
-					<GraduateRosterHead year={group.year} row={layout.headingRows[index] ?? 1} />
+					<GraduateRosterHead
+						year={group.year}
+						row={layout.headingRows[index] ?? 1}
+					/>
 				{/each}
 			</ul>
 		</div>
 
 		{#if shown.length === 0}
-			<p class="sheet__empty" data-testid="galaxy-roster-empty-message">{$t('galaxy.nothingFound')}</p>
+			<p class="sheet__empty" data-testid="galaxy-roster-empty-message">
+				{$t("galaxy.nothingFound")}
+			</p>
 		{/if}
 	</div>
 {/if}
@@ -188,18 +242,21 @@
 	.sheet__head {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem;
+		flex-wrap: wrap;
+		gap: 0.6rem;
 		margin-bottom: 0.75rem;
 	}
 
 	.sheet__title {
 		margin: 0;
 		font-size: clamp(1rem, 2.6dvh, 1.3rem);
+		color: #ffffff;
 	}
 
 	.sheet__count {
-		opacity: 0.65;
+		opacity: 0.75;
 		font-weight: 400;
+		color: var(--galaxy-muted, #a8bfe0);
 	}
 
 	.sheet__field {
@@ -245,6 +302,7 @@
 	}
 
 	.grid {
+		position: relative;
 		display: grid;
 		/* Колонок ДВІЧІ більше, ніж людей у рядку: елемент займає дві, і короткий
 		   рядок зсувається рівно на півклітинки — це й дає шахівницю. */
@@ -254,7 +312,7 @@
 		flex: 1 1 auto;
 		min-width: 0;
 		margin: 0;
-		padding: 0;
+		padding: 0 0.5rem 0 0;
 		overflow-y: auto;
 		list-style: none;
 	}
