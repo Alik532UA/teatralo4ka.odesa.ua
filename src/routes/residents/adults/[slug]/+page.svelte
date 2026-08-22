@@ -118,6 +118,7 @@
 								src={data.master.photo}
 								alt={masterName}
 								class="avatar-img"
+								class:avatar-img--honorary={data.master.isHonorary || data.master.status === 'honorary'}
 								width="160"
 								height="160"
 								data-testid="master-profile-avatar-img"
@@ -386,6 +387,16 @@
 		object-fit: cover;
 		border: 3px solid var(--accent-primary);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	}
+
+	.avatar-img--honorary {
+		filter: grayscale(100%);
+		transition: filter 10s ease;
+	}
+
+	.avatar-container:hover .avatar-img--honorary,
+	.avatar-img--honorary:hover {
+		filter: grayscale(0%);
 	}
 
 	.avatar-placeholder {

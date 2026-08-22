@@ -74,6 +74,7 @@
 													src={m.photo}
 													alt={name}
 													class="master-card__avatar"
+													class:master-card__avatar--honorary={m.isHonorary || m.status === 'honorary'}
 													width="80"
 													height="80"
 													loading="lazy"
@@ -218,6 +219,16 @@
 		border-radius: 50%;
 		object-fit: cover;
 		border: 2px solid var(--accent-primary);
+	}
+
+	.master-card__avatar--honorary {
+		filter: grayscale(100%);
+		transition: filter 10s ease;
+	}
+
+	.master-card:hover .master-card__avatar--honorary,
+	.master-card__avatar--honorary:hover {
+		filter: grayscale(0%);
 	}
 
 	.master-card__avatar-placeholder {

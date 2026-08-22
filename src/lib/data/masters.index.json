@@ -872,7 +872,8 @@
 		"subjects": [
 			"Риторика та поетика",
 			"Акторська майстерність"
-		]
+		],
+		"photo": "/masters/samuil-imas.webp"
 	},
 	{
 		"id": "mykola-baldin",
@@ -888,7 +889,8 @@
 		"isHonorary": true,
 		"subjects": [
 			"Сценічний рух"
-		]
+		],
+		"photo": "/masters/mykola-baldin.webp"
 	},
 	{
 		"id": "iryna-kaplia",
