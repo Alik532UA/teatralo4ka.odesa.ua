@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from "svelte-i18n";
+	import { untrack } from "svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 
 	interface Props {
@@ -19,55 +20,58 @@
 	 * Якщо навіть при 80% не поміщаються — залишаємо стандартний крок зі скролом.
 	 */
 	const STEP_DEFAULT = 24;
-	const STEP_MIN = 19; // 80% від 24 ≈ 19.2, мінімальна кнопка 38px
-	const ALL_BTN_HEIGHT = 48; // Кнопка «Усі роки» + gap
-	const GAP = 6; // .years gap ≈ 0.4rem
+	const STEP_MIN = 14;
 
 	let yearsEl = $state<HTMLDivElement | null>(null);
 	let step = $state(STEP_DEFAULT);
-
-	/**
-	 * Guard-прапорець: після зміни step ResizeObserver може спрацювати знову
-	 * (через зміну висоти контенту / появу-зникнення скролбара).
-	 * Пропускаємо один цикл після кожного оновлення, щоб уникнути строб-ефекту.
-	 */
-	let recalcGuard = false;
+	let lastAvailableHeight = 0;
 
 	function recalcStep() {
 		if (!yearsEl) return;
-		if (recalcGuard) {
-			recalcGuard = false;
-			return;
-		}
+		const style = window.getComputedStyle(yearsEl);
+		const padTop = parseFloat(style.paddingTop) || 0;
+		const padBottom = parseFloat(style.paddingBottom) || 0;
+		const gap = parseFloat(style.gap) || 6;
 
-		const available = yearsEl.clientHeight;
-		if (available <= 0) return;
+		const allBtn = yearsEl.querySelector('.years__all') as HTMLElement | null;
+		const allBtnHeight = allBtn ? allBtn.offsetHeight : 44;
+
+		const availableHeight = Math.round(yearsEl.clientHeight - padTop - padBottom);
+		if (availableHeight <= 0) return;
+
+		if (Math.abs(availableHeight - lastAvailableHeight) < 2) return;
+		lastAvailableHeight = availableHeight;
 
 		const scaleRows = years.length + 1;
-		const neededDefault = scaleRows * STEP_DEFAULT + ALL_BTN_HEIGHT + GAP;
+		const spaceForScale = availableHeight - allBtnHeight - gap;
+		if (spaceForScale <= 0) return;
 
+		const neededDefault = scaleRows * STEP_DEFAULT;
 		let next: number;
-		if (neededDefault <= available) {
+
+		if (neededDefault <= spaceForScale) {
 			next = STEP_DEFAULT;
 		} else {
-			const spaceForScale = available - ALL_BTN_HEIGHT - GAP;
 			const idealStep = Math.floor(spaceForScale / scaleRows);
 			next = idealStep >= STEP_MIN ? idealStep : STEP_DEFAULT;
 		}
 
 		if (next !== step) {
-			recalcGuard = true;
 			step = next;
 		}
 	}
 
 	$effect(() => {
 		if (!yearsEl) return;
-		// Підписка на кількість років, щоб перерахувати крок при зміні
 		const _ = years.length;
-		recalcStep();
 
-		const observer = new ResizeObserver(() => recalcStep());
+		untrack(() => {
+			recalcStep();
+		});
+
+		const observer = new ResizeObserver(() => {
+			recalcStep();
+		});
 		observer.observe(yearsEl);
 		return () => observer.disconnect();
 	});
@@ -85,8 +89,8 @@
 	висоту кнопки.
 
 	Крок адаптивний: якщо контейнер досить високий — стандартний 24px (кнопка 48px).
-	Якщо потрібно стиснути не більше ніж на 20% — крок зменшується автоматично.
-	Якщо навіть при 80% не поміщається — залишаємо стандартний крок зі скролом.
+	Якщо потрібно стиснути — крок плавно зменшується автоматично, щоб вмістити
+	всі роки без скролу.
 
 	`aria-pressed` каже читалці те саме, що підсвітка — оку.
 -->
@@ -96,7 +100,7 @@
 	aria-label={$t("galaxy.filterYear")}
 	data-testid="galaxy-roster-years-toolbar"
 	bind:this={yearsEl}
-	{@attach customScroll({ rightOffset: -10, alignThumb: "center" })}
+	{@attach customScroll({ rightOffset: -4, alignThumb: "center" })}
 >
 	<button
 		type="button"
@@ -132,9 +136,14 @@
 		flex-direction: column;
 		gap: 0.4rem;
 		flex-shrink: 0;
-		padding-right: 0.75rem;
+		height: 100%;
+		padding: 0.75rem;
+		border-radius: 1.25rem;
+		background: var(--galaxy-card-bg);
+		border: 1px solid rgb(255 255 255 / 0.14);
+		backdrop-filter: blur(20px);
+		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
 		overflow-y: auto;
-		border-right: 1px solid rgb(255 255 255 / 0.12);
 	}
 
 	.scale {
@@ -176,13 +185,18 @@
 
 	.years__btn {
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
 		/* Кнопка вища за крок сітки — вона займає два рядки. */
 		padding: 0 0.85rem 0 0.3rem;
 		font-variant-numeric: tabular-nums;
 		text-align: right;
+		font-size: clamp(0.78rem, 1.8dvh, 0.95rem);
 	}
 
 	.years__btn--right {
+		justify-content: flex-start;
 		padding: 0 0.3rem 0 0.85rem;
 		text-align: left;
 	}
@@ -222,18 +236,14 @@
 	}
 
 	/*
-	 * На вузькому екрані шкала з'їдає ту саму ширину, якої бракує переліку: у вікні
-	 * 375px на сітку лишалося 239px. Тому роки стають смугою над переліком.
-	 * `display: flex` заодно вимикає inline-стилі рядків і колонок — у флексі
-	 * властивості сітки не діють, тож шахівниця тут сама собою розгортається в лінію.
+	 * На вузькому екрані шкала стає горизонтальною смугою над переліком
 	 */
 	@media (max-width: 700px) {
 		.years {
 			flex-direction: row;
-			padding: 0 0 0.4rem;
+			padding: 0.5rem;
 			overflow-x: auto;
-			border-right: none;
-			border-bottom: 1px solid rgb(255 255 255 / 0.12);
+			border-radius: 1rem;
 		}
 
 		.scale {

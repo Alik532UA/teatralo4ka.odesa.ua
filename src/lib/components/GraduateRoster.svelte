@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from "svelte-i18n";
+	import { untrack } from "svelte";
 	import { X } from "lucide-svelte";
 	import { focusTrap } from "$lib/utils/focusTrap";
 	import {
@@ -43,7 +44,9 @@
 
 	$effect(() => {
 		if (open) {
-			rosterSeed = Math.random();
+			untrack(() => {
+				rosterSeed = Math.random();
+			});
 		}
 	});
 
@@ -226,18 +229,20 @@
 					{/each}
 				</ul>
 			{:else}
-				<GraduateRosterEmpty
-					{hasActiveFilters}
-					{year}
-					{photo}
-					{departments}
-					{query}
-					{onyearchange}
-					{onphotochange}
-					{ondepartmentschange}
-					{onquerychange}
-					onreset={resetAllFilters}
-				/>
+				<div class="empty-panel" data-testid="galaxy-roster-list">
+					<GraduateRosterEmpty
+						{hasActiveFilters}
+						{year}
+						{photo}
+						{departments}
+						{query}
+						{onyearchange}
+						{onphotochange}
+						{ondepartmentschange}
+						{onquerychange}
+						onreset={resetAllFilters}
+					/>
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -260,16 +265,14 @@
 		translate: -50% -50%;
 		display: flex;
 		flex-direction: column;
-		/* Ширше, ніж було: колонок стільки, скільки вміститься. max-height
-		   обов'язковий — без нього центроване вікно вилазить в обидва боки, і кнопка
-		   закриття опиняється над екраном (FLUID-SIZING-v8 § 4). */
 		width: min(1500px, calc(100vw - 1.5rem));
-		max-height: min(86dvh, 900px);
-		padding: clamp(0.75rem, 2.5dvh, 1.25rem);
-		border-radius: 1.75rem;
-		background: var(--galaxy-card-bg);
+		height: min(88dvh, 920px);
+		padding: 0;
+		gap: 0.75rem;
+		background: none;
+		box-shadow: none;
+		border: none;
 		color: var(--galaxy-text);
-		box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
 	}
 
 	.sheet__head {
@@ -277,7 +280,14 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 0.6rem;
-		margin-bottom: 0.75rem;
+		padding: 0.75rem 1rem;
+		border-radius: 1.25rem;
+		background: var(--galaxy-card-bg);
+		border: 1px solid rgb(255 255 255 / 0.14);
+		backdrop-filter: blur(20px);
+		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
+		margin-bottom: 0;
+		flex-shrink: 0;
 	}
 
 	.sheet__title {
@@ -326,28 +336,42 @@
 		background: rgb(255 255 255 / 0.16);
 	}
 
-	/* min-height: 0 — без нього флекс-елемент не дає дітям прокручуватися: висота
-	   рахується по вмісту, і вікно вилазить за екран замість прокрутки. */
+	/* min-height: 0 — без нього флекс-елемент не дає дітям прокручуватися */
 	.sheet__body {
 		display: flex;
 		gap: 0.75rem;
 		min-height: 0;
+		flex: 1 1 0;
+		height: 100%;
+	}
+
+	.grid,
+	.empty-panel {
+		position: relative;
+		flex: 1 1 0;
+		height: 100%;
+		min-width: 0;
+		border-radius: 1.25rem;
+		background: var(--galaxy-card-bg);
+		border: 1px solid rgb(255 255 255 / 0.14);
+		backdrop-filter: blur(20px);
+		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
+		overflow-y: auto;
 	}
 
 	.grid {
-		position: relative;
 		display: grid;
-		/* Колонок ДВІЧІ більше, ніж людей у рядку: елемент займає дві, і короткий
-		   рядок зсувається рівно на півклітинки — це й дає шахівницю. */
 		grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-		/* Відступ помітний навмисно: із тлом рядки читаються як окремі картки. */
 		gap: 0.5rem;
-		flex: 1 1 auto;
-		min-width: 0;
 		margin: 0;
-		padding: 0 0.5rem 0 0;
-		overflow-y: auto;
+		padding: 0.85rem;
 		list-style: none;
+	}
+
+	.empty-panel {
+		display: grid;
+		place-items: center;
+		padding: 1.5rem;
 	}
 
 	.grid li {
@@ -357,18 +381,29 @@
 	}
 
 	/*
-	 * Роки на вузькому екрані стають смугою НАД переліком (сама смуга — у
-	 * `GraduateRosterYears`), і сітка забирає всю ширину.
-	 *
-	 * Цей запит я одного разу вже втратив: витягаючи заголовок року в окремий
-	 * компонент, вирізав його разом зі стилями заголовка, які лежали поруч. На
-	 * телефоні смуга лишилася збоку, розтяглася на всю висоту вікна — кнопки
-	 * стали 587px завишки й поїхали за екран на x=936. Спіймав це гейт
-	 * `e2e/galaxy-roster`, а не око.
+	 * Роки на вузькому екрані стають смугою НАД переліком
 	 */
 	@media (max-width: 700px) {
+		.sheet {
+			width: calc(100vw - 1rem);
+			height: 92dvh;
+			gap: 0.5rem;
+		}
+
+		.sheet__head {
+			padding: 0.6rem 0.75rem;
+			border-radius: 1rem;
+		}
+
 		.sheet__body {
 			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.grid,
+		.empty-panel {
+			padding: 0.6rem;
+			border-radius: 1rem;
 		}
 	}
 </style>

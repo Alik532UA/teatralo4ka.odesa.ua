@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount } from 'svelte';
-	import { goto, pushState, replaceState } from '$app/navigation';
+	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { List, Plus } from 'lucide-svelte';
@@ -39,14 +39,39 @@
 		} else {
 			url.searchParams.delete(key);
 		}
-		replaceState(url.pathname + url.search + url.hash, page.state);
+		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
 	}
 
 	function syncFiltersToUrl() {
-		syncParamUrl('year', rosterYear === 'all' ? null : String(rosterYear));
-		syncParamUrl('dept', rosterDepartments.length > 0 ? rosterDepartments.join(',') : null);
-		syncParamUrl('photo', rosterPhoto === 'all' ? null : rosterPhoto);
-		syncParamUrl('q', rosterQuery.trim() || null);
+		if (!browser) return;
+		const url = new URL(window.location.href);
+
+		if (rosterYear !== 'all') {
+			url.searchParams.set('year', String(rosterYear));
+		} else {
+			url.searchParams.delete('year');
+		}
+
+		if (rosterDepartments.length > 0) {
+			url.searchParams.set('dept', rosterDepartments.join(','));
+		} else {
+			url.searchParams.delete('dept');
+		}
+
+		if (rosterPhoto !== 'all') {
+			url.searchParams.set('photo', rosterPhoto);
+		} else {
+			url.searchParams.delete('photo');
+		}
+
+		const cleanQuery = rosterQuery.trim();
+		if (cleanQuery) {
+			url.searchParams.set('q', cleanQuery);
+		} else {
+			url.searchParams.delete('q');
+		}
+
+		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
 	}
 
 	function setYear(year: number | 'all') {
@@ -86,6 +111,7 @@
 
 	function closeRoster() {
 		rosterOpen = false;
+		if (!browser) return;
 		// Очищаємо фільтри з URL при закритті
 		const url = new URL(window.location.href);
 		url.searchParams.delete('roster');
@@ -93,7 +119,7 @@
 		url.searchParams.delete('dept');
 		url.searchParams.delete('photo');
 		url.searchParams.delete('q');
-		replaceState(url.pathname + url.search + url.hash, page.state);
+		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
 	}
 
 	/**
@@ -134,8 +160,6 @@
 	);
 
 	async function openGraduate(graduate: GraduateIndexEntry) {
-		closeRoster();
-
 		if (!graduate.code) {
 			pushState('', { graduateSlug: graduate.slug });
 			return;
@@ -172,39 +196,53 @@
 	onMount(() => {
 		document.body.classList.add('page-galaxy');
 
-		const formParam = page.url.searchParams.get('form');
-		if (formParam === 'open' || formParam === 'true') {
-			formModalOpen = true;
+		function readUrlParams() {
+			const url = new URL(window.location.href);
+			const formParam = url.searchParams.get('form');
+			formModalOpen = formParam === 'open' || formParam === 'true';
+
+			const rosterParam = url.searchParams.get('roster');
+			rosterOpen = rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1';
+
+			if (rosterOpen) {
+				const yearParam = url.searchParams.get('year');
+				if (yearParam) {
+					const parsed = parseInt(yearParam, 10);
+					if (!isNaN(parsed)) rosterYear = parsed;
+				} else {
+					rosterYear = 'all';
+				}
+
+				const deptParam = url.searchParams.get('dept');
+				if (deptParam) {
+					rosterDepartments = deptParam.split(',').filter(Boolean) as Department[];
+				} else {
+					rosterDepartments = [];
+				}
+
+				const photoParam = url.searchParams.get('photo');
+				if (photoParam === 'with' || photoParam === 'without') {
+					rosterPhoto = photoParam;
+				} else {
+					rosterPhoto = 'all';
+				}
+
+				const qParam = url.searchParams.get('q');
+				if (qParam) {
+					rosterQuery = qParam;
+				} else {
+					rosterQuery = '';
+				}
+			}
 		}
 
-		const rosterParam = page.url.searchParams.get('roster');
-		if (rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1') {
-			rosterOpen = true;
+		readUrlParams();
+		window.addEventListener('popstate', readUrlParams);
 
-			// Відновлення фільтрів з URL
-			const yearParam = page.url.searchParams.get('year');
-			if (yearParam) {
-				const parsed = parseInt(yearParam, 10);
-				if (!isNaN(parsed)) rosterYear = parsed;
-			}
-
-			const deptParam = page.url.searchParams.get('dept');
-			if (deptParam) {
-				rosterDepartments = deptParam.split(',').filter(Boolean) as Department[];
-			}
-
-			const photoParam = page.url.searchParams.get('photo');
-			if (photoParam === 'with' || photoParam === 'without') {
-				rosterPhoto = photoParam;
-			}
-
-			const qParam = page.url.searchParams.get('q');
-			if (qParam) {
-				rosterQuery = qParam;
-			}
-		}
-
-		return () => document.body.classList.remove('page-galaxy');
+		return () => {
+			document.body.classList.remove('page-galaxy');
+			window.removeEventListener('popstate', readUrlParams);
+		};
 	});
 </script>
 
@@ -277,7 +315,7 @@
 
 <GraduateRoster
 	graduates={data.graduates}
-	open={rosterOpen}
+	open={rosterOpen && !selected}
 	onclose={closeRoster}
 	onselect={openGraduate}
 	year={rosterYear}
