@@ -86,6 +86,68 @@
 		syncFormUrl(false);
 	}
 
+	let playsCardEl = $state<HTMLElement | null>(null);
+	let playsListEl = $state<HTMLUListElement | null>(null);
+
+	function recalcPlaysFitting() {
+		if (!playsCardEl || !playsListEl || !browser) return;
+		if (window.innerWidth < 769) {
+			playsListEl.style.removeProperty('--plays-padding-y');
+			playsListEl.style.removeProperty('--plays-font-size');
+			playsListEl.style.removeProperty('--plays-line-height');
+			return;
+		}
+
+		// Скидаємо стилі для чистого заміру природної висоти
+		playsListEl.style.removeProperty('--plays-padding-y');
+		playsListEl.style.removeProperty('--plays-font-size');
+		playsListEl.style.removeProperty('--plays-line-height');
+
+		// Гранична доступна висота для колонки на десктопі (min(88vh, 820px))
+		const maxColH = Math.min(window.innerHeight * 0.88, 820);
+
+		const titleEl = playsCardEl.querySelector('.block__title') as HTMLElement | null;
+		const titleH = titleEl ? titleEl.offsetHeight + (parseFloat(getComputedStyle(titleEl).marginBottom) || 0) : 35;
+
+		const cardStyle = getComputedStyle(playsCardEl);
+		const padY = (parseFloat(cardStyle.paddingTop) || 0) + (parseFloat(cardStyle.paddingBottom) || 0);
+
+		// Доступна висота для списку при розтягненні до стелі екрана
+		const maxListH = maxColH - padY - titleH;
+
+		const naturalListH = playsListEl.scrollHeight;
+		if (maxListH <= 0 || naturalListH <= 0) return;
+
+		// Якщо список у стандартному розмірі повністю вміщається — нічого не стискаємо
+		if (naturalListH <= maxListH) {
+			return;
+		}
+
+		const fitRatio = maxListH / naturalListH;
+		// Якщо вміщається >= 75% — стискаємо рівно настільки, щоб заповнити всю висоту без скролу
+		if (fitRatio >= 0.75) {
+			const padYRem = Math.max(0.12, 0.35 * fitRatio * 0.94);
+			const fontRem = Math.max(0.80, 0.92 * Math.pow(fitRatio, 0.5));
+			const lineH = Math.max(1.20, 1.35 * Math.pow(fitRatio, 0.3));
+			playsListEl.style.setProperty('--plays-padding-y', `${padYRem.toFixed(2)}rem`);
+			playsListEl.style.setProperty('--plays-font-size', `${fontRem.toFixed(2)}rem`);
+			playsListEl.style.setProperty('--plays-line-height', `${lineH.toFixed(2)}`);
+		}
+	}
+
+	$effect(() => {
+		if (!playsCardEl || !playsListEl || !browser) return;
+		const _ = profile?.plays?.length;
+
+		recalcPlaysFitting();
+
+		const ro = new ResizeObserver(() => {
+			recalcPlaysFitting();
+		});
+		ro.observe(playsCardEl);
+		return () => ro.disconnect();
+	});
+
 	const enrollmentYears = $derived(profile?.enrollmentYears ?? graduate.enrollmentYears ?? []);
 	const enrollmentText = $derived(
 		enrollmentYears.length > 0 ? `${$t('galaxy.enrolled')} ${enrollmentYears.join(', ')}` : null
@@ -244,9 +306,9 @@
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
 		<div class="col col--left">
-			<section class="bento-card bento-card--plays" data-testid="galaxy-card-plays-section">
+			<section class="bento-card bento-card--plays" bind:this={playsCardEl} data-testid="galaxy-card-plays-section">
 				<h3 class="block__title">{$t('galaxy.playsTitle')}</h3>
-				<ul class="plays">
+				<ul class="plays" bind:this={playsListEl}>
 					{#each profile!.plays as play, index (index)}
 						<li class="play" data-testid="galaxy-card-play-item-{index}">
 							{#if hasAnyPlayYear}
@@ -530,6 +592,32 @@
 			box-shadow: 0 16px 48px rgb(0 0 0 / 0.4);
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
+		.bento-card--plays {
+			display: flex;
+			flex-direction: column;
+			max-height: min(88dvh, 820px);
+			overflow: hidden;
+		}
+		.bento-card--plays .block__title {
+			flex-shrink: 0;
+			margin: 0 0 0.5rem;
+		}
+		.bento-card--plays .plays {
+			min-height: 0;
+			overflow-y: auto;
+			font-size: var(--plays-font-size, 0.92rem);
+			line-height: var(--plays-line-height, 1.35);
+			scrollbar-width: thin;
+			scrollbar-color: rgb(140 190 255 / 0.35) transparent;
+		}
+		.bento-card--plays .plays::-webkit-scrollbar { width: 6px; }
+		.bento-card--plays .plays::-webkit-scrollbar-track { background: transparent; }
+		.bento-card--plays .plays::-webkit-scrollbar-thumb { background: rgb(140 190 255 / 0.3); border-radius: 999px; }
+		.bento-card--plays .plays::-webkit-scrollbar-thumb:hover { background: rgb(140 190 255 / 0.55); }
+		.bento-card--plays .play {
+			padding: var(--plays-padding-y, 0.35rem) 0;
+			gap: 0.5rem;
+		}
 		.bento-card--faculty {
 			text-align: center;
 		}
@@ -644,15 +732,38 @@
 	.row { margin: 0 0 0.5rem; color: var(--galaxy-text); text-align: center; }
 	.masters-container { margin: 0 0 1.1rem; color: var(--galaxy-text); text-align: center; }
 	.masters-title { display: block; font-size: 0.92rem; color: var(--galaxy-muted); margin-bottom: 0.4rem; }
-	.masters-list { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
-	.teachers-list { width: 100%; max-width: 280px; margin: 0 auto; }
+	.masters-list { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; margin: 0; padding: 0; list-style: none; width: 100%; }
+	.teachers-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 0.45rem 0.6rem;
+		width: 100%;
+		max-width: 100%;
+		margin: 0;
+	}
 	.master-item { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background: rgb(255 255 255 / 0.06); border-radius: 6px; border: 1px solid rgb(255 255 255 / 0.1); }
-	.teacher-item { display: flex; align-items: flex-start; width: 100%; box-sizing: border-box; text-align: left; gap: 0.55rem; padding: 0.35rem 0.65rem; border-radius: 8px; }
+	.teacher-item {
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+		box-sizing: border-box;
+		text-align: left;
+		gap: 0.5rem;
+		padding: 0.35rem 0.6rem;
+		border-radius: 8px;
+		background: rgb(255 255 255 / 0.04);
+		border: 1px solid rgb(255 255 255 / 0.07);
+		transition: background 0.2s ease, border-color 0.2s ease;
+	}
+	.teacher-item:hover {
+		background: rgb(255 255 255 / 0.08);
+		border-color: rgb(140 190 255 / 0.3);
+	}
 	.teacher-item .master-badge { margin-top: 2px; flex-shrink: 0; }
 	.teacher-info { display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-width: 0; flex: 1; }
 	.master-badge { display: inline-flex; align-items: center; justify-content: center; color: #8cb4ff; }
-	.master-name { font-size: 0.95rem; font-weight: 500; }
-	.teacher-subject { font-size: 0.8rem; color: var(--galaxy-muted); line-height: 1.25; margin-top: 0.15rem; word-break: break-word; }
+	.master-name { font-size: 0.92rem; font-weight: 500; }
+	.teacher-subject { font-size: 0.78rem; color: var(--galaxy-muted); line-height: 1.25; margin-top: 0.15rem; word-break: break-word; }
 	.master-link {
 		color: #bfe0ff;
 		text-decoration: underline;
