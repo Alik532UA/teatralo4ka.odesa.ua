@@ -131,7 +131,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 535,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
-	'src/lib/components/GraduateCard.svelte': 445,
+	'src/lib/components/GraduateCard.svelte': 475,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 365,

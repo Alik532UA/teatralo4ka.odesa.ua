@@ -307,6 +307,7 @@
 		border: none;
 		box-shadow: none;
 		padding: 0;
+		pointer-events: none;
 	}
 	.card__inner {
 		position: relative;
@@ -316,6 +317,16 @@
 		flex-direction: column;
 		align-items: center;
 		padding: 0;
+		pointer-events: none;
+	}
+	.card__inner :global(.profile-layout),
+	.card__inner :global(.col) {
+		pointer-events: none;
+	}
+	.card__inner :global(.bento-card),
+	.card__inner :global(.custom-scroll-track),
+	.card__inner :global(.custom-scroll-thumb) {
+		pointer-events: auto;
 	}
 	.card__toolbar {
 		position: absolute;
@@ -325,6 +336,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		z-index: 10;
+		pointer-events: auto;
 	}
 	.card__action {
 		display: grid;
@@ -344,15 +356,11 @@
 			border-color 0.2s ease,
 			color 0.2s ease;
 	}
-	.card__contact:hover {
+	.card__contact:hover,
+	.card__close:hover {
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.7);
 		color: #fff;
-	}
-	.card__close:hover {
-		background: rgb(255 100 100 / 0.2);
-		border-color: rgb(255 120 120 / 0.6);
-		color: #ff9999;
 	}
 	.contact-wrap {
 		position: relative;
@@ -426,9 +434,15 @@
 			border-radius: 1.75rem;
 			box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
 			padding: clamp(1rem, 3dvh, 1.5rem);
+			pointer-events: auto;
 		}
 		.card__inner {
 			padding-top: 0;
+			pointer-events: auto;
+		}
+		.card__inner :global(.profile-layout),
+		.card__inner :global(.col) {
+			pointer-events: auto;
 		}
 		.card__toolbar {
 			position: sticky;

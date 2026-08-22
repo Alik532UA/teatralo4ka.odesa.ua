@@ -83,6 +83,8 @@ export interface GraduateIndexEntry {
 	teachers?: (string | GraduateTeacher)[];
 	socials?: GraduateSocial[];
 	playCount?: number;
+	/** Точний розмір файлу профайлу у байтах (`static/graduates/profiles/<code>.json`) */
+	profileSize?: number;
 	sourceUrl?: string;
 }
 
@@ -146,8 +148,14 @@ export function graduateProfilePath(code: string): string {
 /** Відсортовано за роком випуску (новіші перші), у межах року — за іменем. */
 export const GRADUATES: readonly GraduateIndexEntry[] = indexData as GraduateIndexEntry[];
 
-/** Ті, у кого є портрет: саме вони летять у галактиці з обличчям. */
-export const WITH_PHOTO: readonly GraduateIndexEntry[] = GRADUATES.filter((g) => g.hasPhoto);
+/**
+ * Ті, у кого є портрет і анкета.
+ * Впорядковані за точним розміром файлу профайлу (у байтах) від меншого до більшого,
+ * щоб у польоті галактики випускники з довшими/багатшими профайлами летіли поверх.
+ */
+export const WITH_PHOTO: readonly GraduateIndexEntry[] = GRADUATES
+	.filter((g) => g.hasPhoto)
+	.sort((a, b) => (a.profileSize ?? 0) - (b.profileSize ?? 0));
 
 /** Ті, хто ще не заповнив анкету: летять зірками без обличчя, з іменем на наведенні. */
 export const WITHOUT_PHOTO: readonly GraduateIndexEntry[] = GRADUATES.filter((g) => !g.hasPhoto);

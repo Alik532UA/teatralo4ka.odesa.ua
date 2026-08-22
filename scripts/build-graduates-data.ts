@@ -63,6 +63,7 @@ interface IndexEntry {
 	masters?: string[];
 	socials?: { network: string; url: string }[];
 	playCount?: number;
+	profileSize?: number;
 	sourceUrl?: string;
 }
 
@@ -97,7 +98,7 @@ for (const entry of index) {
 	entry.code = code;
 	entry.playCount = record.plays.length;
 
-	profiles.push({
+	const profileData = {
 		code,
 		slug: entry.slug,
 		name: entry.name,
@@ -118,7 +119,12 @@ for (const entry of index) {
 		duringStudies: record.duringStudies,
 		afterGraduation: record.afterGraduation,
 		sourceUrl: entry.sourceUrl
-	});
+	};
+
+	const profileJson = JSON.stringify(profileData);
+	entry.profileSize = Buffer.byteLength(profileJson, 'utf8');
+
+	profiles.push(profileData);
 }
 
 if (matched !== parsed.length) {
@@ -132,7 +138,7 @@ if (before.length !== after.length || before.some((row, i) => row !== after[i]))
 	throw new Error('slug / ім’я / рік змінилися — цього робити не можна');
 }
 
-fs.writeFileSync(INDEX_FILE, JSON.stringify(index), 'utf8');
+fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, '\t') + '\n', 'utf8');
 
 fs.rmSync(PROFILES_DIR, { recursive: true, force: true });
 fs.mkdirSync(PROFILES_DIR, { recursive: true });

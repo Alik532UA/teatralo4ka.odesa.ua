@@ -165,6 +165,24 @@
 		page.state.graduateCode ? (profiles.get(page.state.graduateCode) ?? null) : null
 	);
 
+	async function ensureProfileLoaded(code: string) {
+		if (!code || !browser || profiles.has(code)) return;
+		try {
+			const response = await fetch(graduateProfileJson(code));
+			if (!response.ok) return;
+			profiles.set(code, (await response.json()) as GraduateProfile);
+		} catch {
+			// Ігноруємо помилки завантаження профілю
+		}
+	}
+
+	$effect(() => {
+		const code = page.state.graduateCode;
+		if (code && browser) {
+			ensureProfileLoaded(code);
+		}
+	});
+
 	async function openGraduate(graduate: GraduateIndexEntry) {
 		if (!graduate.code) {
 			pushState('', { graduateSlug: graduate.slug });
@@ -182,11 +200,7 @@
 		// складається вручну, а правило бачить лише прямий виклик `resolve()`.
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		pushState(profileHref(graduate.code), { graduateCode: graduate.code });
-		if (profiles.has(graduate.code)) return;
-
-		const response = await fetch(graduateProfileJson(graduate.code));
-		if (!response.ok) return;
-		profiles.set(graduate.code, (await response.json()) as GraduateProfile);
+		ensureProfileLoaded(graduate.code);
 	}
 
 	/**

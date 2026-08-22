@@ -366,16 +366,11 @@
 			color 0.2s ease;
 	}
 
-	.card__contact:hover {
+	.card__contact:hover,
+	.card__close:hover {
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.7);
 		color: #fff;
-	}
-
-	.card__close:hover {
-		background: rgb(255 100 100 / 0.2);
-		border-color: rgb(255 120 120 / 0.6);
-		color: #ff9999;
 	}
 
 	/* Контактне випадаюче меню */
