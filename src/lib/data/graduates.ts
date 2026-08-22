@@ -59,6 +59,12 @@ export interface GraduateIndexEntry {
 	/** Є портрет і подробиці — тобто анкету заповнено. Інакше поля нижче порожні. */
 	hasPhoto?: true;
 	/**
+	 * Кількість фото: 1 за замовчуванням (основне), >1 якщо є додаткові.
+	 * Відсутнє поле = 1 фото (зворотна сумісність).
+	 * Додаткові фото лежать як `{slug}-2-{size}.webp`, `{slug}-3-{size}.webp` тощо.
+	 */
+	photoCount?: number;
+	/**
 	 * Код сторінки на старому сайті: `15K`, `18A_1`, `odessitkavmonreale`.
 	 *
 	 * Це не внутрішній ідентифікатор, а САМА АДРЕСА, за якою людину знали:
@@ -102,6 +108,7 @@ export interface GraduateProfile {
 	enrollmentYears: number[];
 	departments: Department[];
 	hasPhoto: boolean;
+	photoCount?: number;
 	group: string | null;
 	masters: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
@@ -162,6 +169,44 @@ export function graduatePhoto(slug: string, size: (typeof PHOTO_SIZES)[number]):
 /** `srcset` на всі наявні розміри — браузер обирає під щільність екрана сам. */
 export function graduatePhotoSrcset(slug: string): string {
 	return PHOTO_SIZES.map((size) => `${graduatePhoto(slug, size)} ${size}w`).join(', ');
+}
+
+/** Адреса додаткового портрета (index ≥ 2). */
+export function graduateExtraPhoto(slug: string, index: number, size: (typeof PHOTO_SIZES)[number]): string {
+	return asset(`/graduates/${slug}-${index}-${size}.webp`);
+}
+
+/** `srcset` для додаткового портрета. */
+export function graduateExtraPhotoSrcset(slug: string, index: number): string {
+	return PHOTO_SIZES.map((size) => `${graduateExtraPhoto(slug, index, size)} ${size}w`).join(', ');
+}
+
+/**
+ * Повний список фото випускника з src/srcset, впорядкований від наймолодшого
+ * до найстаршого (основне фото — останнє).
+ *
+ * Додаткові фото (index 2, 3, …) йдуть першими (молодші),
+ * основне фото (без індекса) — останнє (найстарше/поточне).
+ */
+export function allGraduatePhotos(
+	slug: string,
+	photoCount: number,
+	size: (typeof PHOTO_SIZES)[number] = 96
+): { src: string; srcset: string }[] {
+	const photos: { src: string; srcset: string }[] = [];
+	// Додаткові фото (молодші) — index 2, 3, ..., photoCount
+	for (let i = 2; i <= photoCount; i++) {
+		photos.push({
+			src: graduateExtraPhoto(slug, i, size),
+			srcset: graduateExtraPhotoSrcset(slug, i),
+		});
+	}
+	// Основне фото (найстарше/поточне) — останнє
+	photos.push({
+		src: graduatePhoto(slug, size),
+		srcset: graduatePhotoSrcset(slug),
+	});
+	return photos;
 }
 
 /** Роки випуску, які є в даних — для фільтра. Новіші перші. */

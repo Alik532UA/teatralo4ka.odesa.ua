@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { graduatePhoto, graduatePhotoSrcset, type GraduateIndexEntry } from '$lib/data/graduates';
+	import { graduatePhoto, graduatePhotoSrcset, allGraduatePhotos, type GraduateIndexEntry } from '$lib/data/graduates';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		graduate: GraduateIndexEntry;
@@ -14,14 +15,94 @@
 	let buttonEl = $state<HTMLButtonElement | null>(null);
 	let isNearBottom = $state(false);
 
+	const photoCount = $derived(graduate.photoCount ?? 1);
+	const photos = $derived(
+		photoCount > 1 ? allGraduatePhotos(graduate.slug, photoCount, 96) : []
+	);
+
 	function updatePlacement() {
 		if (buttonEl) {
 			const rect = buttonEl.getBoundingClientRect();
 			const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 800;
-			// Якщо зірка в нижніх 20% екрана — показувати підпис зверху над фото
 			isNearBottom = rect.bottom > viewportHeight * 0.8;
 		}
 	}
+
+	/**
+	 * Web Animations API: crossfade між фото, синхронізований з drift.
+	 *
+	 * Чому не CSS keyframes: CSS не підтримує динамічні відсотки.
+	 * Для N фото точки переходу — `1/N`, `2/N`, …, `(N-1)/N` — обчислюються
+	 * тільки в JS. WAAPI працює на GPU compositor як і CSS animations.
+	 *
+	 * `--duration` і `--delay` успадковуються від `.lane` в GraduateGalaxy,
+	 * тому кожен проліт = повний цикл від наймолодшого до поточного фото.
+	 */
+	$effect(() => {
+		if (!browser || photoCount <= 1 || !buttonEl) return;
+
+		// Поважаємо prefers-reduced-motion
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		const style = getComputedStyle(buttonEl);
+		const duration = parseFloat(style.getPropertyValue('--duration')) || 30;
+		const delay = parseFloat(style.getPropertyValue('--delay')) || 0;
+		const durationMs = duration * 1000;
+		const delayMs = delay * 1000;
+
+		// 4 секунди як частка тривалості, cap 12% для коротких прольотів
+		const fadeFrac = Math.min(4 / duration, 0.12);
+		const half = fadeFrac / 2;
+
+		const layers = buttonEl.querySelectorAll<HTMLElement>('.star__photo--layer');
+		const animations: Animation[] = [];
+
+		layers.forEach((img, i) => {
+			const n = photos.length;
+			const fadeIn = i / n;           // коли це фото з'являється
+			const fadeOut = (i + 1) / n;     // коли зникає
+
+			let keyframes: Keyframe[];
+
+			if (i === 0) {
+				// Перше (наймолодше): видиме з початку, зникає на fadeOut
+				keyframes = [
+					{ opacity: 1, offset: 0 },
+					{ opacity: 1, offset: Math.max(0, fadeOut - half) },
+					{ opacity: 0, offset: Math.min(1, fadeOut + half) },
+					{ opacity: 0, offset: 1 },
+				];
+			} else if (i === n - 1) {
+				// Останнє (поточне): приховане, з'являється на fadeIn
+				keyframes = [
+					{ opacity: 0, offset: 0 },
+					{ opacity: 0, offset: Math.max(0, fadeIn - half) },
+					{ opacity: 1, offset: Math.min(1, fadeIn + half) },
+					{ opacity: 1, offset: 1 },
+				];
+			} else {
+				// Середнє: з'являється на fadeIn, зникає на fadeOut
+				keyframes = [
+					{ opacity: 0, offset: 0 },
+					{ opacity: 0, offset: Math.max(0, fadeIn - half) },
+					{ opacity: 1, offset: Math.min(fadeIn + half, fadeOut - half) },
+					{ opacity: 1, offset: Math.max(fadeIn + half, fadeOut - half) },
+					{ opacity: 0, offset: Math.min(1, fadeOut + half) },
+					{ opacity: 0, offset: 1 },
+				];
+			}
+
+			const anim = img.animate(keyframes, {
+				duration: durationMs,
+				delay: delayMs,
+				iterations: Infinity,
+				easing: 'linear',
+			});
+			animations.push(anim);
+		});
+
+		return () => animations.forEach((a) => a.cancel());
+	});
 </script>
 
 <!--
@@ -39,23 +120,51 @@
 	type="button"
 	class="star star--{kind}"
 	class:star--student={role === 'teacher'}
+	class:star--multi={photoCount > 1}
 	onmouseenter={updatePlacement}
 	onfocus={updatePlacement}
 	onclick={onselect}
 	data-testid="galaxy-{graduate.slug}-btn"
 >
 	{#if kind === 'photo'}
-		<img
-			class="star__photo"
-			src={graduatePhoto(graduate.slug, 96)}
-			srcset={graduatePhotoSrcset(graduate.slug)}
-			sizes="(hover: hover) 176px, 96px"
-			width="96"
-			height="96"
-			loading="lazy"
-			decoding="async"
-			alt={graduate.name}
-		/>
+		{#if photoCount > 1}
+			<!--
+				Мультифото: всі <img> накладені одна на одну. CSS-анімація
+				`photo-cycle-N` плавно перемикає opacity між ними, синхронізовано
+				з тривалістю прольоту (`--duration` від `.lane`).
+
+				Порядок: від наймолодшого (index 0 = додаткове фото 2) до
+				найстаршого (останній = основне фото). Метафора: дорослішення
+				під час польоту.
+			-->
+			<div class="star__photos">
+				{#each photos as photo, i (i)}
+					<img
+						class="star__photo star__photo--layer"
+						src={photo.src}
+						srcset={photo.srcset}
+						sizes="(hover: hover) 176px, 96px"
+						width="96"
+						height="96"
+						loading="lazy"
+						decoding="async"
+						alt={i === photos.length - 1 ? graduate.name : ''}
+					/>
+				{/each}
+			</div>
+		{:else}
+			<img
+				class="star__photo"
+				src={graduatePhoto(graduate.slug, 96)}
+				srcset={graduatePhotoSrcset(graduate.slug)}
+				sizes="(hover: hover) 176px, 96px"
+				width="96"
+				height="96"
+				loading="lazy"
+				decoding="async"
+				alt={graduate.name}
+			/>
+		{/if}
 	{:else}
 		<span class="star__dot" aria-hidden="true"></span>
 	{/if}
@@ -138,6 +247,26 @@
 		filter: brightness(1.05) saturate(1);
 	}
 
+	/*
+	 * Контейнер стопки фото для мультифото-зірок.
+	 * Всі <img> абсолютно позиціоновані всередині.
+	 */
+	.star__photos {
+		position: relative;
+		width: 44px;
+		height: 44px;
+	}
+
+	/*
+	 * Шар мультифото: позиціювання в стопці.
+	 * Анімація opacity керується Web Animations API із $effect
+	 * (динамічні keyframes для будь-якого N фото, точно 2с crossfade).
+	 */
+	.star__photo--layer {
+		position: absolute;
+		inset: 0;
+	}
+
 	/* Зірка без обличчя навмисно схожа на фонову — доки на неї не навели.
 	   Світіння градієнтом, а не `box-shadow`: тінь на елементі, що рухається
 	   щокадру, змушує перемальовувати шар. */
@@ -213,5 +342,19 @@
 		.star {
 			transition: none;
 		}
+
+		.star__photo--layer {
+			animation: none;
+		}
+
+		/* При зниженому русі — показуємо лише останнє (поточне) фото */
+		.star__photo--layer:not(:last-child) {
+			opacity: 0;
+		}
+
+		.star__photo--layer:last-child {
+			opacity: 1;
+		}
 	}
 </style>
+

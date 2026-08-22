@@ -12,6 +12,7 @@
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
+		allGraduatePhotos,
 		type Department,
 		type GraduateIndexEntry,
 		type GraduateProfile
@@ -31,6 +32,29 @@
 	let { graduate, profile, headingId, heading = 'h2' }: Props = $props();
 
 	let formModalOpen = $state(false);
+
+	/** Мультифото: стопка на профілі з кліком для циклу. */
+	const photoCount = $derived(graduate.photoCount ?? 1);
+	const profilePhotos = $derived(
+		photoCount > 1 ? allGraduatePhotos(graduate.slug, photoCount, 480) : []
+	);
+	let activePhotoIndex = $state(0);
+
+	// Починаємо з основного (поточного) фото — останнє в масиві
+	$effect(() => {
+		if (profilePhotos.length > 0) {
+			activePhotoIndex = profilePhotos.length - 1;
+		}
+	});
+
+	function cyclePhoto() {
+		if (profilePhotos.length <= 1) return;
+		activePhotoIndex = (activePhotoIndex + 1) % profilePhotos.length;
+	}
+
+	function setPhoto(index: number) {
+		activePhotoIndex = index;
+	}
 
 	function syncFormUrl(open: boolean) {
 		if (!browser) return;
@@ -123,6 +147,17 @@
 		Boolean(profile && (profile.duringStudies || profile.afterGraduation || profile.bio.length > 0 || profile.festivals.length > 0))
 	);
 
+	const totalFaculty = $derived(normalizedMasters.length + normalizedTeachers.length);
+	// Якщо майстри + викладачі > 4 або майстрів > 2 — виділяємо в окремі Bento-плашки
+	const shouldSplitFaculty = $derived(totalFaculty > 4 || normalizedMasters.length > 2);
+	// Якщо майстрів/викладачів багато і є колонка Біо — переносимо викладачів під Біо
+	const canRelocateTeachersToBio = $derived(
+		hasBio && normalizedTeachers.length > 0 && shouldSplitFaculty
+	);
+	const hasSeparateTeachersCardInCenter = $derived(
+		shouldSplitFaculty && normalizedTeachers.length > 0 && !canRelocateTeachersToBio
+	);
+
 	function getSocialIcon(network: string): string | null {
 		const lower = network.toLowerCase();
 		if (lower.includes('facebook') || lower === 'fb') return asset('/social_media/facebook-se-512-50.png');
@@ -134,11 +169,82 @@
 	}
 </script>
 
-<div class="profile-layout" class:has-plays={hasPlays} class:has-bio={hasBio}>
+{#snippet mastersContent()}
+	<div class="masters-container" data-testid="galaxy-card-masters-text">
+		<span class="masters-title">{$t('galaxy.masters', { default: 'Майстри курсу' })}:</span>
+		<ul class="masters-list">
+			{#each normalizedMasters as master, index (index)}
+				<li class="master-item">
+					<span
+						class="master-badge"
+						role="img"
+						title={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
+						aria-label={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
+					>
+						<DepartmentIcon department={master.department} size={16} />
+					</span>
+					{#if master.href}
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={master.href}
+							class="master-name master-link"
+							title={master.fullName}
+							data-testid="galaxy-card-master-link-{master.slug || index}"
+						>
+							{master.displayName}
+						</a>
+					{:else}
+						<span class="master-name" title={master.fullName}>{master.displayName}</span>
+					{/if}
+				</li>
+			{/each}
+		</ul>
+	</div>
+{/snippet}
+
+{#snippet teachersContent()}
+	<div class="masters-container teachers-container" data-testid="galaxy-card-teachers-text">
+		<span class="masters-title">{$t('galaxy.teachers', { default: 'Викладачі' })}:</span>
+		<ul class="masters-list teachers-list">
+			{#each normalizedTeachers as teacher, index (index)}
+				<li class="master-item teacher-item">
+					<span
+						class="master-badge"
+						role="img"
+						title={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
+						aria-label={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
+					>
+						<DepartmentIcon department={teacher.department} size={16} />
+					</span>
+					<div class="teacher-info">
+						{#if teacher.href}
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<a
+								href={teacher.href}
+								class="master-name master-link"
+								title={teacher.fullName}
+								data-testid="galaxy-card-teacher-link-{teacher.slug || index}"
+							>
+								{teacher.displayName}
+							</a>
+						{:else}
+							<span class="master-name" title={teacher.fullName}>{teacher.displayName}</span>
+						{/if}
+						{#if teacher.subject}
+							<span class="teacher-subject">({teacher.subject})</span>
+						{/if}
+					</div>
+				</li>
+			{/each}
+		</ul>
+	</div>
+{/snippet}
+
+<div class="profile-layout" class:has-plays={hasPlays} class:has-bio={hasBio || canRelocateTeachersToBio}>
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
 		<div class="col col--left">
-			<section class="block" data-testid="galaxy-card-plays-section">
+			<section class="bento-card bento-card--plays" data-testid="galaxy-card-plays-section">
 				<h3 class="block__title">{$t('galaxy.playsTitle')}</h3>
 				<ul class="plays">
 					{#each profile!.plays as play, index (index)}
@@ -156,209 +262,214 @@
 
 	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, викладачі, соцмережі -->
 	<div class="col col--center">
-		{#if graduate.hasPhoto}
-			<div class="photo-container">
-				<img
-					class="photo"
-					src={graduatePhoto(graduate.slug, 480)}
-					srcset={graduatePhotoSrcset(graduate.slug)}
-					sizes="(max-width: 520px) 40vw, 175px"
-					width="175"
-					height="175"
-					alt={graduate.name}
-					data-testid="galaxy-card-img"
-				/>
-				{#if departments.length > 0}
-					<div class="dept-badges" data-testid="galaxy-card-dept-badges">
-						{#each departments as dept (dept)}
-							<span
-								class="dept-badge"
-								role="img"
-								title={$t(`galaxy.departments.${dept}`, { default: dept })}
-								aria-label={$t(`galaxy.departments.${dept}`, { default: dept })}
-							>
-								<DepartmentIcon department={dept} size={18} />
-							</span>
-						{/each}
-					</div>
-				{/if}
-			</div>
-		{:else}
-			<div class="star" aria-hidden="true"></div>
-		{/if}
-
-		<svelte:element this={heading} class="name" id={headingId} data-testid="galaxy-card-title">
-			{graduate.name}
-		</svelte:element>
-
-		{#if socials.length > 0}
-			<ul class="socials" data-testid="galaxy-card-socials-list">
-				{#each socials as social (social.network + social.url)}
-					{@const icon = getSocialIcon(social.network)}
-					<li>
-						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-						<a
-							href={safeUrl(social.url)}
-							class="social"
-							target="_blank"
-							rel="noopener noreferrer"
-							title={social.network}
-							aria-label={social.network}
-							data-testid="galaxy-card-social-link-{social.network}"
+		<div class="bento-card bento-card--main" data-testid="galaxy-card-main-info">
+			{#if graduate.hasPhoto}
+				<div class="photo-container">
+					{#if photoCount > 1}
+						<!-- svelte-ignore a11y_click_events_have_key_events -->
+						<!-- svelte-ignore a11y_no_static_element_interactions -->
+						<div
+							class="photo-stack"
+							onclick={cyclePhoto}
+							data-testid="galaxy-card-photo-stack"
 						>
-							{#if icon}
-								<img src={icon} alt={social.network} width="34" height="34" class="social__img" />
-							{:else}
-								<span class="social__text">{social.network}</span>
-							{/if}
-						</a>
-					</li>
-				{/each}
-			</ul>
-		{/if}
-
-		{#if enrollmentText || graduationText}
-			<div class="years" data-testid="galaxy-card-years-text">
-				{#if enrollmentText}<span class="years__item">{enrollmentText}</span>{/if}
-				{#if enrollmentText && graduationText}<span class="years__sep" aria-hidden="true">·</span>{/if}
-				{#if graduationText}<span class="years__item">{graduationText}</span>{/if}
-			</div>
-		{/if}
-
-		{#if !graduate.hasPhoto}
-			<div class="fill-profile-wrap">
-				<button
-					type="button"
-					class="fill-profile-btn"
-					onclick={openForm}
-					data-testid="galaxy-card-fill-form-btn"
-				>
-					<FileText size={16} aria-hidden="true" />
-					<span>{$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}</span>
-				</button>
-			</div>
-		{/if}
-
-		{#if group}
-			<div class="group" data-testid="galaxy-card-group-text">
-				<span class="group__label">{$t('galaxy.group')}:</span>
-				<strong class="group__name">{group}</strong>
-			</div>
-		{/if}
-
-		{#if normalizedMasters.length > 0}
-			<div class="masters-container" data-testid="galaxy-card-masters-text">
-				<span class="masters-title">{$t('galaxy.masters', { default: 'Майстри курсу' })}:</span>
-				<ul class="masters-list">
-					{#each normalizedMasters as master, index (index)}
-						<li class="master-item">
-							<span
-								class="master-badge"
-								role="img"
-								title={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
-								aria-label={master.department ? $t(`galaxy.departments.${master.department}`, { default: master.department }) : undefined}
-							>
-								<DepartmentIcon department={master.department} size={16} />
-							</span>
-							{#if master.href}
-								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a
-									href={master.href}
-									class="master-name master-link"
-									title={master.fullName}
-									data-testid="galaxy-card-master-link-{master.slug || index}"
+							{#each profilePhotos as photo, i (i)}
+								<img
+									class="photo photo--stacked"
+									class:photo--active={i === activePhotoIndex}
+									class:photo--behind={i !== activePhotoIndex}
+									style="--stack-offset: {i === activePhotoIndex ? 0 : (i < activePhotoIndex ? -1 : 1)}"
+									src={photo.src}
+									srcset={photo.srcset}
+									sizes="(max-width: 520px) 40vw, 175px"
+									width="175"
+									height="175"
+									alt={i === activePhotoIndex ? graduate.name : ''}
+									loading={i === 0 ? 'eager' : 'lazy'}
+									data-testid="galaxy-card-img-{i}"
+								/>
+							{/each}
+						</div>
+						<div class="photo-dots" data-testid="galaxy-card-photo-dots">
+							{#each profilePhotos as _, i (i)}
+								<button
+									type="button"
+									class="photo-dot"
+									class:photo-dot--active={i === activePhotoIndex}
+									onclick={(e) => { e.stopPropagation(); setPhoto(i); }}
+									aria-label="Photo {i + 1}"
+									data-testid="galaxy-card-photo-dot-{i}"
+								></button>
+							{/each}
+						</div>
+					{:else}
+						<img
+							class="photo"
+							src={graduatePhoto(graduate.slug, 480)}
+							srcset={graduatePhotoSrcset(graduate.slug)}
+							sizes="(max-width: 520px) 40vw, 175px"
+							width="175"
+							height="175"
+							alt={graduate.name}
+							data-testid="galaxy-card-img"
+						/>
+					{/if}
+					{#if departments.length > 0}
+						<div class="dept-badges" data-testid="galaxy-card-dept-badges">
+							{#each departments as dept (dept)}
+								<span
+									class="dept-badge"
+									role="img"
+									title={$t(`galaxy.departments.${dept}`, { default: dept })}
+									aria-label={$t(`galaxy.departments.${dept}`, { default: dept })}
 								>
-									{master.displayName}
-								</a>
-							{:else}
-								<span class="master-name" title={master.fullName}>{master.displayName}</span>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			</div>
-		{/if}
+									<DepartmentIcon department={dept} size={18} />
+								</span>
+							{/each}
+						</div>
+					{/if}
+				</div>
+			{:else}
+				<div class="star" aria-hidden="true"></div>
+			{/if}
 
-		{#if normalizedTeachers.length > 0}
-			<div class="masters-container teachers-container" data-testid="galaxy-card-teachers-text">
-				<span class="masters-title">{$t('galaxy.teachers', { default: 'Викладачі' })}:</span>
-				<ul class="masters-list teachers-list">
-					{#each normalizedTeachers as teacher, index (index)}
-						<li class="master-item teacher-item">
-							<span
-								class="master-badge"
-								role="img"
-								title={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
-								aria-label={teacher.department ? $t(`galaxy.departments.${teacher.department}`, { default: teacher.department }) : undefined}
+			<svelte:element this={heading} class="name" id={headingId} data-testid="galaxy-card-title">
+				{graduate.name}
+			</svelte:element>
+
+			{#if socials.length > 0}
+				<ul class="socials" data-testid="galaxy-card-socials-list">
+					{#each socials as social (social.network + social.url)}
+						{@const icon = getSocialIcon(social.network)}
+						<li>
+							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+							<a
+								href={safeUrl(social.url)}
+								class="social"
+								target="_blank"
+								rel="noopener noreferrer"
+								title={social.network}
+								aria-label={social.network}
+								data-testid="galaxy-card-social-link-{social.network}"
 							>
-								<DepartmentIcon department={teacher.department} size={16} />
-							</span>
-							<div class="teacher-info">
-								{#if teacher.href}
-									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-									<a
-										href={teacher.href}
-										class="master-name master-link"
-										title={teacher.fullName}
-										data-testid="galaxy-card-teacher-link-{teacher.slug || index}"
-									>
-										{teacher.displayName}
-									</a>
+								{#if icon}
+									<img src={icon} alt={social.network} width="34" height="34" class="social__img" />
 								{:else}
-									<span class="master-name" title={teacher.fullName}>{teacher.displayName}</span>
+									<span class="social__text">{social.network}</span>
 								{/if}
-								{#if teacher.subject}
-									<span class="teacher-subject">({teacher.subject})</span>
-								{/if}
-							</div>
+							</a>
 						</li>
 					{/each}
 				</ul>
+			{/if}
+
+			{#if enrollmentText || graduationText}
+				<div class="years" data-testid="galaxy-card-years-text">
+					{#if enrollmentText}<span class="years__item">{enrollmentText}</span>{/if}
+					{#if enrollmentText && graduationText}<span class="years__sep" aria-hidden="true">·</span>{/if}
+					{#if graduationText}<span class="years__item">{graduationText}</span>{/if}
+				</div>
+			{/if}
+
+			{#if !graduate.hasPhoto}
+				<div class="fill-profile-wrap">
+					<button
+						type="button"
+						class="fill-profile-btn"
+						onclick={openForm}
+						data-testid="galaxy-card-fill-form-btn"
+					>
+						<FileText size={16} aria-hidden="true" />
+						<span>{$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}</span>
+					</button>
+				</div>
+			{/if}
+
+			{#if group}
+				<div class="group" data-testid="galaxy-card-group-text">
+					<span class="group__label">{$t('galaxy.group')}:</span>
+					<strong class="group__name">{group}</strong>
+				</div>
+			{/if}
+
+			<!-- Якщо розділення не потрібне — показуємо майстрів та викладачів тут всередині -->
+			{#if !shouldSplitFaculty}
+				{#if normalizedMasters.length > 0}
+					{@render mastersContent()}
+				{/if}
+				{#if normalizedTeachers.length > 0}
+					{@render teachersContent()}
+				{/if}
+			{/if}
+
+			{#if !profile && graduate.hasPhoto}
+				<p class="row" data-testid="galaxy-card-loading-status">{$t('common.loading')}</p>
+			{/if}
+		</div>
+
+		<!-- Окрема Bento-плашка для Майстрів курсу (коли розділено) -->
+		{#if shouldSplitFaculty && normalizedMasters.length > 0}
+			<div class="bento-card bento-card--faculty" data-testid="galaxy-card-masters-card">
+				{@render mastersContent()}
 			</div>
 		{/if}
 
-		{#if !profile && graduate.hasPhoto}
-			<p class="row" data-testid="galaxy-card-loading-status">{$t('common.loading')}</p>
+		<!-- Окрема Bento-плашка для Викладачів (якщо вони залишились у центрі) -->
+		{#if hasSeparateTeachersCardInCenter}
+			<div class="bento-card bento-card--faculty" data-testid="galaxy-card-teachers-card">
+				{@render teachersContent()}
+			</div>
 		{/if}
 	</div>
 
-	<!-- ПРАВА КОЛОНКА: Про себе, під час навчання, після випуску, фестивалі -->
-	{#if hasBio}
+	<!-- ПРАВА КОЛОНКА: Про себе, під час навчання, після випуску, фестивалі (+ Викладачі, якщо перенесені) -->
+	{#if hasBio || canRelocateTeachersToBio}
 		<div class="col col--right">
-			{#if profile!.duringStudies}
-				<section class="block">
-					<h3 class="block__title">{$t('galaxy.duringStudies')}</h3>
-					<p class="para"><RichTextWithFlags text={profile!.duringStudies} /></p>
-				</section>
+			{#if hasBio}
+				<div class="bento-card bento-card--bio" data-testid="galaxy-card-bio-section">
+					{#if profile!.duringStudies}
+						<section class="block">
+							<h3 class="block__title">{$t('galaxy.duringStudies')}</h3>
+							<p class="para"><RichTextWithFlags text={profile!.duringStudies} /></p>
+						</section>
+					{/if}
+
+					{#if profile!.afterGraduation}
+						<section class="block">
+							<h3 class="block__title">{$t('galaxy.afterGraduation')}</h3>
+							<p class="para"><RichTextWithFlags text={profile!.afterGraduation} /></p>
+						</section>
+					{/if}
+
+					{#if profile!.bio.length > 0}
+						<section class="block">
+							<h3 class="block__title">{$t('galaxy.about')}</h3>
+							{#each profile!.bio as paragraph, index (index)}
+								<p class="para" data-testid="galaxy-card-bio-item-{index}">
+									<RichTextWithFlags text={paragraph} />
+								</p>
+							{/each}
+						</section>
+					{/if}
+
+					{#if profile!.festivals.length > 0}
+						<section class="block" data-testid="galaxy-card-festivals-section">
+							<h3 class="block__title">{$t('galaxy.festivals')}</h3>
+							<ul class="plays">
+								{#each profile!.festivals as festival, index (index)}
+									<li class="play"><span class="play__text"><RichTextWithFlags text={festival} /></span></li>
+								{/each}
+							</ul>
+						</section>
+					{/if}
+				</div>
 			{/if}
 
-			{#if profile!.afterGraduation}
-				<section class="block">
-					<h3 class="block__title">{$t('galaxy.afterGraduation')}</h3>
-					<p class="para"><RichTextWithFlags text={profile!.afterGraduation} /></p>
-				</section>
-			{/if}
-
-			{#if profile!.bio.length > 0}
-				<section class="block" data-testid="galaxy-card-bio-section">
-					<h3 class="block__title">{$t('galaxy.about')}</h3>
-					{#each profile!.bio as paragraph, index (index)}
-						<p class="para" data-testid="galaxy-card-bio-item-{index}">
-							<RichTextWithFlags text={paragraph} />
-						</p>
-					{/each}
-				</section>
-			{/if}
-
-			{#if profile!.festivals.length > 0}
-				<section class="block" data-testid="galaxy-card-festivals-section">
-					<h3 class="block__title">{$t('galaxy.festivals')}</h3>
-					<ul class="plays">
-						{#each profile!.festivals as festival, index (index)}
-							<li class="play"><span class="play__text"><RichTextWithFlags text={festival} /></span></li>
-						{/each}
-					</ul>
-				</section>
+			<!-- Bento-плашка для Викладачів під блоком «Про себе» -->
+			{#if canRelocateTeachersToBio}
+				<div class="bento-card bento-card--faculty" data-testid="galaxy-card-teachers-card">
+					{@render teachersContent()}
+				</div>
 			{/if}
 		</div>
 	{/if}
@@ -371,10 +482,15 @@
 
 <style>
 	.profile-layout { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; background: var(--galaxy-card-bg); border: 1px solid rgb(140 190 255 / 0.18); border-radius: 1.75rem; box-shadow: 0 18px 48px rgb(0 0 0 / 0.28); padding: clamp(1.25rem, 3vh, 1.75rem); }
-	.col { min-width: 0; }
-	.col--center { order: 1; }
+	.col { min-width: 0; display: flex; flex-direction: column; gap: 1rem; }
+	.col--center { order: 1; text-align: center; }
 	.col--left { order: 2; }
 	.col--right { order: 3; }
+
+	.bento-card {
+		width: 100%;
+		box-sizing: border-box;
+	}
 
 	@media (min-width: 769px) {
 		.profile-layout { display: grid; grid-template-columns: minmax(280px, 420px); justify-content: center; align-items: start; gap: clamp(1rem, 2vw, 1.75rem); text-align: left; min-height: 0; width: fit-content; max-width: 100%; margin: 0 auto; background: transparent; border: none; box-shadow: none; padding: 0; }
@@ -382,7 +498,20 @@
 		.profile-layout.has-plays:not(.has-bio) { grid-template-columns: minmax(340px, max-content) minmax(260px, 300px); }
 		.profile-layout.has-bio:not(.has-plays) { grid-template-columns: minmax(260px, 300px) minmax(280px, max-content); }
 
-		.col { max-height: min(88dvh, 820px); min-height: 0; overflow-y: auto; background: var(--galaxy-card-bg); border: 1px solid rgb(140 190 255 / 0.2); border-radius: 1.5rem; box-shadow: 0 16px 48px rgb(0 0 0 / 0.4); padding: clamp(1.1rem, 2.2vh, 1.6rem); scrollbar-width: thin; scrollbar-color: rgb(140 190 255 / 0.35) transparent; }
+		.col {
+			max-height: min(88dvh, 820px);
+			min-height: 0;
+			overflow-y: auto;
+			background: transparent;
+			border: none;
+			box-shadow: none;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			gap: clamp(0.75rem, 1.5vh, 1.25rem);
+			scrollbar-width: thin;
+			scrollbar-color: rgb(140 190 255 / 0.35) transparent;
+		}
 		.col::-webkit-scrollbar { width: 6px; }
 		.col::-webkit-scrollbar-track { background: transparent; }
 		.col::-webkit-scrollbar-thumb { background: rgb(140 190 255 / 0.3); border-radius: 999px; }
@@ -391,11 +520,92 @@
 		.col--left { order: 1; max-width: min(920px, 60vw); }
 		.col--center { order: 2; text-align: center; }
 		.col--right { order: 3; max-width: min(580px, 42vw); }
-		.col--left .block, .col--right .block { margin-top: 0; margin-bottom: 1.25rem; }
+		.col--right .block { margin-top: 0; margin-bottom: 1.25rem; }
+		.col--right .block:last-child { margin-bottom: 0; }
+
+		.bento-card {
+			background: var(--galaxy-card-bg);
+			border: 1px solid rgb(140 190 255 / 0.2);
+			border-radius: 1.5rem;
+			box-shadow: 0 16px 48px rgb(0 0 0 / 0.4);
+			padding: clamp(1.1rem, 2.2vh, 1.6rem);
+		}
+		.bento-card--faculty {
+			text-align: center;
+		}
+		.bento-card--faculty .masters-container {
+			margin-bottom: 0;
+		}
 	}
 
 	.photo-container { display: flex; flex-direction: column; align-items: center; margin: 0 auto 1.1rem; }
 	.photo { display: block; width: clamp(100px, 40vw, 175px); height: auto; aspect-ratio: 1; margin: 0 0 0.65rem; border-radius: 50%; object-fit: cover; border: 2px solid rgb(140 190 255 / 0.55); }
+
+	/* Стопка фото: клікабельний контейнер із накладеними фото */
+	.photo-stack {
+		position: relative;
+		width: clamp(100px, 40vw, 175px);
+		height: clamp(100px, 40vw, 175px);
+		margin: 0 0 0.65rem;
+		cursor: pointer;
+	}
+	.photo--stacked {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease, z-index 0s;
+	}
+	.photo--active {
+		z-index: 2;
+		opacity: 1;
+		transform: translate(0, 0) rotate(0deg) scale(1);
+	}
+	.photo--behind {
+		z-index: 1;
+		opacity: 0.7;
+		transform:
+			translate(calc(var(--stack-offset) * 18px), calc(var(--stack-offset) * 6px))
+			rotate(calc(var(--stack-offset) * 4deg))
+			scale(0.92);
+		filter: brightness(0.8);
+	}
+	.photo-stack:hover .photo--behind {
+		opacity: 0.85;
+		transform:
+			translate(calc(var(--stack-offset) * 22px), calc(var(--stack-offset) * 8px))
+			rotate(calc(var(--stack-offset) * 5deg))
+			scale(0.94);
+	}
+
+	/* Точки-індикатори під стопкою фото */
+	.photo-dots {
+		display: flex;
+		justify-content: center;
+		gap: 0.4rem;
+		margin: 0 0 0.4rem;
+	}
+	.photo-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		border: 1.5px solid rgb(140 190 255 / 0.5);
+		background: transparent;
+		padding: 0;
+		cursor: pointer;
+		transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	}
+	.photo-dot--active {
+		background: rgb(140 190 255 / 0.85);
+		border-color: rgb(140 190 255 / 0.9);
+		transform: scale(1.2);
+	}
+	.photo-dot:hover:not(.photo-dot--active) {
+		background: rgb(140 190 255 / 0.35);
+		border-color: rgb(140 190 255 / 0.7);
+	}
+
 	.dept-badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; }
 	.dept-badge { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgb(140 190 255 / 0.12); border: 1px solid rgb(140 190 255 / 0.35); color: #bfe0ff; transition: transform 0.2s ease, background 0.2s ease; }
 	.dept-badge:hover { transform: scale(1.1); background: rgb(140 190 255 / 0.25); border-color: rgb(140 190 255 / 0.6); color: #fff; }
