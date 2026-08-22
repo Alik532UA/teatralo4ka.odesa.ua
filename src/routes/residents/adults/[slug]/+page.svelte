@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import { fly } from 'svelte/transition';
-	import { ArrowLeft, Plus, Camera } from 'lucide-svelte';
+	import { ArrowLeft, Plus, Camera, Pencil } from 'lucide-svelte';
 	import { asset } from '$app/paths';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import PrayingHands from '$lib/components/icons/PrayingHands.svelte';
@@ -14,37 +14,63 @@
 	const masterName = $derived(isEn ? data.master.fullNameEn : data.master.fullName);
 	const displayName = $derived(isEn ? data.master.displayNameEn : data.master.displayName);
 
-	let contactOpen = $state(false);
-	let contactWrapEl = $state<HTMLDivElement | null>(null);
-	let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+	let avatarContactOpen = $state(false);
+	let cardContactOpen = $state(false);
+	let avatarWrapEl = $state<HTMLDivElement | null>(null);
+	let cardWrapEl = $state<HTMLDivElement | null>(null);
+	let avatarCloseTimeout: ReturnType<typeof setTimeout> | null = null;
+	let cardCloseTimeout: ReturnType<typeof setTimeout> | null = null;
 
 	const contacts = [
-		{ name: 'Telegram', icon: 'Telegram-se-320px-50q.png', url: 'https://t.me/alik_zapolnov' },
-		{ name: 'Instagram', icon: 'instagram-se-512-50.png', url: 'https://www.instagram.com/alik.zapolnov/' },
-		{ name: 'Facebook', icon: 'facebook-se-512-50.png', url: 'https://www.facebook.com/profile.php?id=100008432367664' }
+		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
+		{ name: 'Viber', url: 'viber://chat?number=%2B380937251208', icon: 'viber.svg' },
+		{ name: 'WhatsApp', url: 'https://wa.me/380937251208', icon: 'whatsapp.svg' },
+		{ name: 'LinkedIn', url: 'https://linkedin.com/in/alik-qa-engineer', icon: 'linkedin.svg' }
 	];
 
-	function toggleContact(e: MouseEvent) {
+	function toggleAvatarContact(e: MouseEvent) {
 		e.stopPropagation();
-		contactOpen = !contactOpen;
+		avatarContactOpen = !avatarContactOpen;
 	}
 
-	function handleMouseEnter() {
-		if (closeTimeout) {
-			clearTimeout(closeTimeout);
-			closeTimeout = null;
+	function handleAvatarMouseEnter() {
+		if (avatarCloseTimeout) {
+			clearTimeout(avatarCloseTimeout);
+			avatarCloseTimeout = null;
 		}
 	}
 
-	function handleMouseLeave() {
-		closeTimeout = setTimeout(() => {
-			contactOpen = false;
+	function handleAvatarMouseLeave() {
+		avatarCloseTimeout = setTimeout(() => {
+			avatarContactOpen = false;
+		}, 300);
+	}
+
+	function toggleCardContact(e: MouseEvent) {
+		e.stopPropagation();
+		cardContactOpen = !cardContactOpen;
+	}
+
+	function handleCardMouseEnter() {
+		if (cardCloseTimeout) {
+			clearTimeout(cardCloseTimeout);
+			cardCloseTimeout = null;
+		}
+	}
+
+	function handleCardMouseLeave() {
+		cardCloseTimeout = setTimeout(() => {
+			cardContactOpen = false;
 		}, 300);
 	}
 
 	function handleClickOutside(e: MouseEvent) {
-		if (contactWrapEl && !contactWrapEl.contains(e.target as Node)) {
-			contactOpen = false;
+		const target = e.target as Node;
+		if (avatarWrapEl && !avatarWrapEl.contains(target)) {
+			avatarContactOpen = false;
+		}
+		if (cardWrapEl && !cardWrapEl.contains(target)) {
+			cardContactOpen = false;
 		}
 	}
 </script>
@@ -78,12 +104,12 @@
 			<!-- ЛІВА КОЛОНКА: Інформація про майстра курсу -->
 			<article class="master-card" data-testid="master-profile-card">
 				<div class="master-header">
-					<!-- Аватар майстра / заглушка камера з кнопкою + -->
+					<!-- Аватар майстра / заглушка камера з кнопкою + якщо фото немає -->
 					<div
 						class="avatar-container"
-						bind:this={contactWrapEl}
-						onmouseenter={handleMouseEnter}
-						onmouseleave={handleMouseLeave}
+						bind:this={avatarWrapEl}
+						onmouseenter={handleAvatarMouseEnter}
+						onmouseleave={handleAvatarMouseLeave}
 						role="group"
 						aria-label={$t('common.contact', { default: 'Контакти' })}
 					>
@@ -104,58 +130,58 @@
 							>
 								<Camera size={48} aria-hidden="true" />
 							</div>
-						{/if}
 
-						<!-- Кнопка "+" в правому нижньому куті -->
-						<button
-							type="button"
-							class="avatar-add-btn"
-							onclick={toggleContact}
-							aria-expanded={contactOpen}
-							aria-label={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
-							title={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
-							data-testid="master-profile-add-btn"
-						>
-							<Plus size={18} aria-hidden="true" />
-						</button>
-
-						<!-- Спливаюче міні-вікно контактів -->
-						{#if contactOpen}
-							<div
-								class="contact-popup"
-								transition:fly={{ y: 8, duration: 180 }}
-								data-testid="master-profile-contact-menu"
+							<!-- Кнопка "+" біля фото (тільки коли фото немає) -->
+							<button
+								type="button"
+								class="avatar-add-btn"
+								onclick={toggleAvatarContact}
+								aria-expanded={avatarContactOpen}
+								aria-label={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
+								title={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
+								data-testid="master-profile-add-btn"
 							>
-								<img
-									src={asset('/graduates/alik-zapolnov-96.webp')}
-									alt="Алік Запольнов"
-									width="32"
-									height="32"
-									class="contact-popup__avatar"
-									loading="eager"
-									data-testid="master-profile-contact-admin-img"
-								/>
-								<p class="contact-popup__hint" data-testid="master-profile-contact-hint">
-									Привіт!) Щоб надати фото чи внести правки — напиши мені
-								</p>
-								<div class="contact-popup__icons">
-									{#each contacts as c (c.name)}
-										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-										<a
-											href={c.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											class="contact-popup__link"
-											aria-label={c.name}
-											title={c.name}
-											onclick={(e) => e.stopPropagation()}
-											data-testid="master-profile-contact-link-{c.name.toLowerCase()}"
-										>
-											<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
-										</a>
-									{/each}
+								<Plus size={18} aria-hidden="true" />
+							</button>
+
+							<!-- Спливаюче міні-вікно контактів біля аватара -->
+							{#if avatarContactOpen}
+								<div
+									class="contact-popup"
+									transition:fly={{ y: 8, duration: 180 }}
+									data-testid="master-profile-contact-menu"
+								>
+									<img
+										src={asset('/graduates/alik-zapolnov-96.webp')}
+										alt="Алік Запольнов"
+										width="32"
+										height="32"
+										class="contact-popup__avatar"
+										loading="eager"
+										data-testid="master-profile-contact-admin-img"
+									/>
+									<p class="contact-popup__hint" data-testid="master-profile-contact-hint">
+										Привіт!) Щоб надати фото чи внести правки — напиши мені
+									</p>
+									<div class="contact-popup__icons">
+										{#each contacts as c (c.name)}
+											<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+											<a
+												href={c.url}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="contact-popup__link"
+												aria-label={c.name}
+												title={c.name}
+												onclick={(e) => e.stopPropagation()}
+												data-testid="master-profile-contact-link-{c.name.toLowerCase()}"
+											>
+												<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
+											</a>
+										{/each}
+									</div>
 								</div>
-							</div>
+							{/if}
 						{/if}
 					</div>
 
@@ -164,7 +190,7 @@
 
 						{#if data.master.isHonorary}
 							<span class="honorary-badge" data-testid="master-profile-honorary-badge">
-								<PrayingHands size={16} />
+								<!-- <PrayingHands size={16} /> -->
 								<span>{$t('galaxy.honoraryMaster', { default: "Світлої пам'яті викладача" })}</span>
 							</span>
 						{/if}
@@ -188,6 +214,68 @@
 						<p class="master-bio__text">{data.master.bio}</p>
 					</div>
 				{/if}
+
+				<!-- Кнопка олівець у нижньому правому куті картки -->
+				<div
+					class="card-edit-wrap"
+					bind:this={cardWrapEl}
+					onmouseenter={handleCardMouseEnter}
+					onmouseleave={handleCardMouseLeave}
+					role="group"
+					aria-label={$t('common.contact', { default: 'Контакти' })}
+				>
+					<button
+						type="button"
+						class="card-edit-btn"
+						onclick={toggleCardContact}
+						aria-expanded={cardContactOpen}
+						aria-label={$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })}
+						title={$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })}
+						data-testid="master-profile-edit-btn"
+					>
+						<Pencil size={17} aria-hidden="true" />
+					</button>
+
+					{#if cardContactOpen}
+						<div
+							class="contact-popup contact-popup--card"
+							transition:fly={{ y: -8, duration: 180 }}
+							data-testid="master-profile-card-contact-menu"
+						>
+							<img
+								src={asset('/graduates/alik-zapolnov-96.webp')}
+								alt="Алік Запольнов"
+								width="32"
+								height="32"
+								class="contact-popup__avatar"
+								loading="eager"
+								data-testid="master-profile-card-contact-admin-img"
+							/>
+							<p class="contact-popup__hint" data-testid="master-profile-card-contact-hint">
+								{data.master.photo
+									? 'Привіт!) Щоб внести правки — напиши мені'
+									: 'Привіт!) Щоб надати фото чи внести правки — напиши мені'}
+							</p>
+							<div class="contact-popup__icons">
+								{#each contacts as c (c.name)}
+									<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+									<a
+										href={c.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="contact-popup__link"
+										aria-label={c.name}
+										title={c.name}
+										onclick={(e) => e.stopPropagation()}
+										data-testid="master-profile-card-contact-link-{c.name.toLowerCase()}"
+									>
+										<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
+									</a>
+								{/each}
+							</div>
+						</div>
+					{/if}
+				</div>
 			</article>
 
 			<!-- ПРАВА КОЛОНКА: Вертикальний потік учнів знизу-вверх -->
@@ -251,10 +339,12 @@
 
 	/* Master Card */
 	.master-card {
+		position: relative;
 		background: var(--bg-card);
 		border: 1px solid var(--border-main);
 		border-radius: var(--radius-xl, 24px);
 		padding: clamp(1.5rem, 3vw, 2.5rem);
+		padding-bottom: 4.5rem;
 		box-shadow: var(--shadow-main);
 	}
 
@@ -321,7 +411,37 @@
 		transition: transform 0.2s ease, filter 0.2s ease;
 	}
 
-	.avatar-add-btn:hover {
+	.avatar-add-btn:hover,
+	.avatar-add-btn[aria-expanded="true"] {
+		transform: scale(1.12);
+		filter: brightness(1.1);
+	}
+
+	/* Card Edit Button in bottom right */
+	.card-edit-wrap {
+		position: absolute;
+		bottom: 1.25rem;
+		right: 1.25rem;
+		left: auto;
+		z-index: 20;
+	}
+
+	.card-edit-btn {
+		display: grid;
+		place-items: center;
+		width: 38px;
+		height: 38px;
+		border-radius: 50%;
+		background: var(--accent-primary);
+		border: 2px solid var(--bg-card);
+		color: var(--text-on-accent);
+		cursor: pointer;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		transition: transform 0.2s ease, filter 0.2s ease;
+	}
+
+	.card-edit-btn:hover,
+	.card-edit-btn[aria-expanded="true"] {
 		transform: scale(1.12);
 		filter: brightness(1.1);
 	}
@@ -339,6 +459,13 @@
 		border-radius: var(--radius-lg, 16px);
 		box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
 		text-align: center;
+	}
+
+	.contact-popup--card {
+		top: auto;
+		bottom: calc(100% + 12px);
+		right: 0;
+		left: auto;
 	}
 
 	.contact-popup__avatar {

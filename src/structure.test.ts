@@ -108,7 +108,7 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-21: `HeaderSection.svelte` 1180 -> 1330. Відокремлено CTA кнопку в мобільному меню,
  * додано точну локалізовану перевірку активних вкладок nav / mobile / dropdown, синхронізацію стану мобільного меню з URL (?menu=open / ?menu=settings)
  * та фіксовану шапку модального вікна налаштувань мобільного меню з закріпленою кнопкою закриття й авторським оверлей-скролом на вмісті.
- * 2026-08-22: `GraduateProfileView.svelte` 300 -> 320. Додано кнопку «Заповнити анкету» для випускників без профілю та інтеграцію модального вікна з Google Формою.
+ * 2026-08-22: `src/routes/residents/adults/[slug]/+page.svelte` 400 -> 420. Додано підтримку кнопок олівця для викладачів з фотографією (25% прозорість, 100% при ховері) та месенджерів адміністратора у спливаючому вікні.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -124,6 +124,8 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentCard.svelte': 598,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/lib/components/FooterSection.svelte': 510,
+	'src/lib/components/GraduateRosterFilters.svelte': 510,
+	'src/routes/residents/adults/[slug]/+page.svelte': 510,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 480,
 	'src/routes/+page.svelte': 432,
@@ -131,7 +133,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 365,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/data/betaChecklist.ts': 355,
-	'src/lib/components/GraduateRosterFilters.svelte': 510,
 	'src/lib/components/DepartmentsSection.svelte': 352,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

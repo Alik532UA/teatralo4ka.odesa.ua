@@ -80,7 +80,7 @@ export const MASTERS: Master[] = [
 		fullName: 'Пророк Олена Володимирівна',
 		displayNameEn: 'Olena PROROK',
 		fullNameEn: 'Olena Prorok',
-		departments: ['piano', 'music'],
+		departments: ['piano'],
 		photo: asset('/masters/olena-prorok.webp')
 	},
 	{

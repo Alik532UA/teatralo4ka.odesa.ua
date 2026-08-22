@@ -9,6 +9,68 @@
 	}
 
 	let { years, selected, onselect }: Props = $props();
+
+	/**
+	 * Адаптивний крок шкали:
+	 *
+	 * Стандартний крок — 24px (кнопка 48px = 2 × 24, шахівниця).
+	 * Якщо всі роки поміщаються при зменшенні кроку до 80% (19px, кнопка 38px) —
+	 * крок зменшується автоматично, скрол зникає.
+	 * Якщо навіть при 80% не поміщаються — залишаємо стандартний крок зі скролом.
+	 */
+	const STEP_DEFAULT = 24;
+	const STEP_MIN = 19; // 80% від 24 ≈ 19.2, мінімальна кнопка 38px
+	const ALL_BTN_HEIGHT = 48; // Кнопка «Усі роки» + gap
+	const GAP = 6; // .years gap ≈ 0.4rem
+
+	let yearsEl = $state<HTMLDivElement | null>(null);
+	let step = $state(STEP_DEFAULT);
+
+	/**
+	 * Guard-прапорець: після зміни step ResizeObserver може спрацювати знову
+	 * (через зміну висоти контенту / появу-зникнення скролбара).
+	 * Пропускаємо один цикл після кожного оновлення, щоб уникнути строб-ефекту.
+	 */
+	let recalcGuard = false;
+
+	function recalcStep() {
+		if (!yearsEl) return;
+		if (recalcGuard) {
+			recalcGuard = false;
+			return;
+		}
+
+		const available = yearsEl.clientHeight;
+		if (available <= 0) return;
+
+		const scaleRows = years.length + 1;
+		const neededDefault = scaleRows * STEP_DEFAULT + ALL_BTN_HEIGHT + GAP;
+
+		let next: number;
+		if (neededDefault <= available) {
+			next = STEP_DEFAULT;
+		} else {
+			const spaceForScale = available - ALL_BTN_HEIGHT - GAP;
+			const idealStep = Math.floor(spaceForScale / scaleRows);
+			next = idealStep >= STEP_MIN ? idealStep : STEP_DEFAULT;
+		}
+
+		if (next !== step) {
+			recalcGuard = true;
+			step = next;
+		}
+	}
+
+	$effect(() => {
+		if (!yearsEl) return;
+		// Підписка на кількість років, щоб перерахувати крок при зміні
+		const _ = years.length;
+		recalcStep();
+
+		const observer = new ResizeObserver(() => recalcStep());
+		observer.observe(yearsEl);
+		return () => observer.disconnect();
+	});
 </script>
 
 <!--
@@ -20,9 +82,11 @@
 
 	Тому шахівниця: роки навперемін ліворуч і праворуч від центральної лінії, і
 	кожен наступний зсунутий на ПІВкнопки. Крок шкали виходить удвічі менший за
-	висоту кнопки, а сама кнопка лишається 48px, тобто понад мінімум цілі дотику.
-	Заміряно в Playwright: 28 років — 696px замість 1344 стовпчиком, крок 24 при
-	кнопці 48.
+	висоту кнопки.
+
+	Крок адаптивний: якщо контейнер досить високий — стандартний 24px (кнопка 48px).
+	Якщо потрібно стиснути не більше ніж на 20% — крок зменшується автоматично.
+	Якщо навіть при 80% не поміщається — залишаємо стандартний крок зі скролом.
 
 	`aria-pressed` каже читалці те саме, що підсвітка — оку.
 -->
@@ -31,6 +95,7 @@
 	role="group"
 	aria-label={$t("galaxy.filterYear")}
 	data-testid="galaxy-roster-years-toolbar"
+	bind:this={yearsEl}
 	{@attach customScroll({ rightOffset: -10, alignThumb: "center" })}
 >
 	<button
@@ -41,7 +106,7 @@
 		data-testid="galaxy-roster-year-all-btn">{$t("galaxy.allYears")}</button
 	>
 
-	<div class="scale" data-testid="galaxy-roster-timeline-container">
+	<div class="scale" style="grid-auto-rows: {step}px" data-testid="galaxy-roster-timeline-container">
 		{#each years as year, index (year)}
 			<button
 				type="button"
@@ -76,8 +141,7 @@
 		position: relative;
 		display: grid;
 		grid-template-columns: 1fr 1fr;
-		/* Півкнопки: саме цей крок і подвоює кількість років, які влазять. */
-		grid-auto-rows: 24px;
+		/* grid-auto-rows тепер задається inline через step */
 		column-gap: 0;
 	}
 
@@ -112,7 +176,7 @@
 
 	.years__btn {
 		position: relative;
-		/* Кнопка вища за крок сітки — вона займає два рядки по 24px. */
+		/* Кнопка вища за крок сітки — вона займає два рядки. */
 		padding: 0 0.85rem 0 0.3rem;
 		font-variant-numeric: tabular-nums;
 		text-align: right;
@@ -191,3 +255,4 @@
 		}
 	}
 </style>
+

@@ -15,6 +15,7 @@
 		WITH_PAGE,
 		graduateProfileJson,
 		graduateProfilePath,
+		type Department,
 		type GraduateIndexEntry,
 		type GraduateProfile
 	} from '$lib/data/graduates';
@@ -23,6 +24,12 @@
 
 	let rosterOpen = $state(false);
 	let formModalOpen = $state(false);
+
+	/** Стан фільтрів ростера — живе тут, щоб синхронізувати з URL. */
+	let rosterYear = $state<number | 'all'>('all');
+	let rosterDepartments = $state<Department[]>([]);
+	let rosterPhoto = $state<'all' | 'with' | 'without'>('all');
+	let rosterQuery = $state('');
 
 	function syncParamUrl(key: string, value: string | null) {
 		if (!browser) return;
@@ -33,6 +40,33 @@
 			url.searchParams.delete(key);
 		}
 		replaceState(url.pathname + url.search + url.hash, page.state);
+	}
+
+	function syncFiltersToUrl() {
+		syncParamUrl('year', rosterYear === 'all' ? null : String(rosterYear));
+		syncParamUrl('dept', rosterDepartments.length > 0 ? rosterDepartments.join(',') : null);
+		syncParamUrl('photo', rosterPhoto === 'all' ? null : rosterPhoto);
+		syncParamUrl('q', rosterQuery.trim() || null);
+	}
+
+	function setYear(year: number | 'all') {
+		rosterYear = year;
+		syncFiltersToUrl();
+	}
+
+	function setDepartments(departments: Department[]) {
+		rosterDepartments = departments;
+		syncFiltersToUrl();
+	}
+
+	function setPhoto(photo: 'all' | 'with' | 'without') {
+		rosterPhoto = photo;
+		syncFiltersToUrl();
+	}
+
+	function setQuery(query: string) {
+		rosterQuery = query;
+		syncParamUrl('q', query.trim() || null);
 	}
 
 	function openForm() {
@@ -52,7 +86,14 @@
 
 	function closeRoster() {
 		rosterOpen = false;
-		syncParamUrl('roster', null);
+		// Очищаємо фільтри з URL при закритті
+		const url = new URL(window.location.href);
+		url.searchParams.delete('roster');
+		url.searchParams.delete('year');
+		url.searchParams.delete('dept');
+		url.searchParams.delete('photo');
+		url.searchParams.delete('q');
+		replaceState(url.pathname + url.search + url.hash, page.state);
 	}
 
 	/**
@@ -139,6 +180,28 @@
 		const rosterParam = page.url.searchParams.get('roster');
 		if (rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1') {
 			rosterOpen = true;
+
+			// Відновлення фільтрів з URL
+			const yearParam = page.url.searchParams.get('year');
+			if (yearParam) {
+				const parsed = parseInt(yearParam, 10);
+				if (!isNaN(parsed)) rosterYear = parsed;
+			}
+
+			const deptParam = page.url.searchParams.get('dept');
+			if (deptParam) {
+				rosterDepartments = deptParam.split(',').filter(Boolean) as Department[];
+			}
+
+			const photoParam = page.url.searchParams.get('photo');
+			if (photoParam === 'with' || photoParam === 'without') {
+				rosterPhoto = photoParam;
+			}
+
+			const qParam = page.url.searchParams.get('q');
+			if (qParam) {
+				rosterQuery = qParam;
+			}
 		}
 
 		return () => document.body.classList.remove('page-galaxy');
@@ -185,7 +248,7 @@
 </nav>
 
 <div class="stage">
-	<GraduateGalaxy onselect={openGraduate} paused={rosterOpen} />
+	<GraduateGalaxy onselect={openGraduate} />
 
 	<div class="stage__controls">
 		<button
@@ -217,6 +280,14 @@
 	open={rosterOpen}
 	onclose={closeRoster}
 	onselect={openGraduate}
+	year={rosterYear}
+	departments={rosterDepartments}
+	photo={rosterPhoto}
+	query={rosterQuery}
+	onyearchange={setYear}
+	ondepartmentschange={setDepartments}
+	onphotochange={setPhoto}
+	onquerychange={setQuery}
 />
 
 <GraduateCard

@@ -62,7 +62,7 @@
 
 								{#if m.isHonorary}
 									<span class="master-card__honorary-badge">
-										<PrayingHands size={14} />
+										<!-- <PrayingHands size={14} /> -->
 										<span>{$t('galaxy.honoraryShort', { default: "Світлої пам'яті" })}</span>
 									</span>
 								{/if}

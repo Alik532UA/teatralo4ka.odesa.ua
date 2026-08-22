@@ -13,6 +13,7 @@
 	import GraduateRosterRow from "./GraduateRosterRow.svelte";
 	import GraduateRosterYears from "./GraduateRosterYears.svelte";
 	import GraduateRosterFilters from "./GraduateRosterFilters.svelte";
+	import GraduateRosterEmpty from "./GraduateRosterEmpty.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 
 	interface Props {
@@ -20,16 +21,24 @@
 		open: boolean;
 		onclose: () => void;
 		onselect: (graduate: GraduateIndexEntry) => void;
+		year: number | "all";
+		departments: Department[];
+		photo: "all" | "with" | "without";
+		query: string;
+		onyearchange: (year: number | "all") => void;
+		ondepartmentschange: (departments: Department[]) => void;
+		onphotochange: (photo: "all" | "with" | "without") => void;
+		onquerychange: (query: string) => void;
 	}
 
-	let { graduates, open, onclose, onselect }: Props = $props();
+	let {
+		graduates, open, onclose, onselect,
+		year, departments, photo, query,
+		onyearchange, ondepartmentschange, onphotochange, onquerychange,
+	}: Props = $props();
 
 	const id = $props.id();
 
-	let year = $state<number | "all">("all");
-	let departments = $state<Department[]>([]);
-	let photo = $state<"all" | "with" | "without">("all");
-	let query = $state("");
 	let rosterSeed = $state(0);
 
 	$effect(() => {
@@ -86,6 +95,20 @@
 
 	const layout = $derived(layoutRoster(groups, perRow));
 
+	const hasActiveFilters = $derived(
+		year !== "all" ||
+		departments.length > 0 ||
+		photo !== "all" ||
+		query.trim().length > 0,
+	);
+
+	function resetAllFilters() {
+		onyearchange("all");
+		ondepartmentschange([]);
+		onphotochange("all");
+		onquerychange("");
+	}
+
 	/** Escape — той самий обробник, що в `PhotoLightbox`: один спосіб закривати. */
 	function handleKeydown(event: KeyboardEvent) {
 		if (!open) return;
@@ -136,7 +159,8 @@
 				<input
 					id="{id}-search"
 					type="search"
-					bind:value={query}
+					value={query}
+					oninput={(e: Event) => onquerychange((e.target as HTMLInputElement).value)}
 					placeholder={$t("galaxy.searchName")}
 					data-testid="galaxy-roster-search-input"
 				/>
@@ -145,8 +169,8 @@
 			<GraduateRosterFilters
 				{departments}
 				{photo}
-				ondepartmentschange={(val) => (departments = val)}
-				onphotochange={(val) => (photo = val)}
+				ondepartmentschange={ondepartmentschange}
+				onphotochange={onphotochange}
 			/>
 
 			<button
@@ -164,49 +188,58 @@
 			<GraduateRosterYears
 				years={GRADUATION_YEARS}
 				selected={year}
-				onselect={(value) => (year = value)}
+				onselect={onyearchange}
 			/>
 
-			<!-- Колонок стільки, скільки вміщається; рядки по черзі `n-1` / `n`.
-			     Номери клітинок дає `staggerCells` — сітка сама так не вміє. -->
-			<ul
-				class="grid"
-				style="--columns: {perRow * 2}"
-				bind:clientWidth={gridWidth}
-				data-testid="galaxy-roster-list"
-				{@attach customScroll({
-					rightOffset: -10,
-					alignThumb: "center",
-				})}
-			>
-				{#each shown as graduate, index (graduate.slug)}
-					<li
-						style="grid-row: {layout.cells[index]?.row ??
-							1}; grid-column-start: {layout.cells[index]
-							?.column ?? 1}"
-						data-testid="galaxy-roster-list-item-{graduate.slug}"
-					>
-						<GraduateRosterRow
-							{graduate}
-							onselect={() => onselect(graduate)}
+			{#if shown.length > 0}
+				<!-- Колонок стільки, скільки вміщається; рядки по черзі `n-1` / `n`.
+				     Номери клітинок дає `staggerCells` — сітка сама так не вміє. -->
+				<ul
+					class="grid"
+					style="--columns: {perRow * 2}"
+					bind:clientWidth={gridWidth}
+					data-testid="galaxy-roster-list"
+					{@attach customScroll({
+						rightOffset: -10,
+						alignThumb: "center",
+					})}
+				>
+					{#each shown as graduate, index (graduate.slug)}
+						<li
+							style="grid-row: {layout.cells[index]?.row ??
+								1}; grid-column-start: {layout.cells[index]
+								?.column ?? 1}"
+							data-testid="galaxy-roster-list-item-{graduate.slug}"
+						>
+							<GraduateRosterRow
+								{graduate}
+								onselect={() => onselect(graduate)}
+							/>
+						</li>
+					{/each}
+
+					{#each groups as group, index (group.year)}
+						<GraduateRosterHead
+							year={group.year}
+							row={layout.headingRows[index] ?? 1}
 						/>
-					</li>
-				{/each}
-
-				{#each groups as group, index (group.year)}
-					<GraduateRosterHead
-						year={group.year}
-						row={layout.headingRows[index] ?? 1}
-					/>
-				{/each}
-			</ul>
+					{/each}
+				</ul>
+			{:else}
+				<GraduateRosterEmpty
+					{hasActiveFilters}
+					{year}
+					{photo}
+					{departments}
+					{query}
+					{onyearchange}
+					{onphotochange}
+					{ondepartmentschange}
+					{onquerychange}
+					onreset={resetAllFilters}
+				/>
+			{/if}
 		</div>
-
-		{#if shown.length === 0}
-			<p class="sheet__empty" data-testid="galaxy-roster-empty-message">
-				{$t("galaxy.nothingFound")}
-			</p>
-		{/if}
 	</div>
 {/if}
 
@@ -337,11 +370,5 @@
 		.sheet__body {
 			flex-direction: column;
 		}
-	}
-
-	.sheet__empty {
-		margin: 1rem 0 0;
-		opacity: 0.7;
-		text-align: center;
 	}
 </style>
