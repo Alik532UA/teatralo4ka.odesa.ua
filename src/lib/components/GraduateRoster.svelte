@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { t } from "svelte-i18n";
+	import { t, locale } from "svelte-i18n";
 	import { untrack } from "svelte";
-	import { X } from "lucide-svelte";
+	import { X, Plus, Eraser } from "lucide-svelte";
 	import { focusTrap } from "$lib/utils/focusTrap";
 	import {
 		GRADUATION_YEARS,
@@ -17,11 +17,31 @@
 	import GraduateRosterEmpty from "./GraduateRosterEmpty.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 
+	function formatGraduateNoun(count: number): string {
+		const currentLocale = $locale ?? 'uk';
+		if (currentLocale.startsWith('en')) {
+			return count === 1 ? 'graduate' : 'graduates';
+		}
+		const mod10 = count % 10;
+		const mod100 = count % 100;
+		if (mod100 >= 11 && mod100 <= 19) {
+			return 'випускників';
+		}
+		if (mod10 === 1) {
+			return 'випускник';
+		}
+		if (mod10 >= 2 && mod10 <= 4) {
+			return 'випускника';
+		}
+		return 'випускників';
+	}
+
 	interface Props {
 		graduates: readonly GraduateIndexEntry[];
 		open: boolean;
 		onclose: () => void;
 		onselect: (graduate: GraduateIndexEntry) => void;
+		onopenform?: () => void;
 		year: number | "all" | readonly number[];
 		departments: Department[];
 		photo: "all" | "with" | "without";
@@ -33,7 +53,7 @@
 	}
 
 	let {
-		graduates, open, onclose, onselect,
+		graduates, open, onclose, onselect, onopenform,
 		year, departments, photo, query,
 		onyearchange, ondepartmentschange, onphotochange, onquerychange,
 	}: Props = $props();
@@ -295,10 +315,8 @@
 				id="{id}-title"
 				data-testid="galaxy-roster-title"
 			>
-				{$t("galaxy.all")}
-				<span class="sheet__count" data-testid="galaxy-roster-count"
-					>{shown.length}</span
-				>
+				<span class="sheet__count" data-testid="galaxy-roster-count">{shown.length}</span>
+				<span class="sheet__count-word">{formatGraduateNoun(shown.length)}</span>
 			</h2>
 
 			<label class="sheet__field" for="{id}-search">
@@ -319,6 +337,32 @@
 				ondepartmentschange={ondepartmentschange}
 				onphotochange={onphotochange}
 			/>
+
+			<button
+				type="button"
+				class="sheet__icon-btn"
+				class:sheet__icon-btn--disabled={!hasActiveFilters}
+				disabled={!hasActiveFilters}
+				onclick={resetAllFilters}
+				title={$t("common.reset", { default: "Очистити фільтри" })}
+				aria-label={$t("common.reset", { default: "Очистити фільтри" })}
+				data-testid="galaxy-roster-reset-filters-btn"
+			>
+				<Eraser size={18} aria-hidden="true" />
+			</button>
+
+			{#if onopenform}
+				<button
+					type="button"
+					class="sheet__icon-btn"
+					onclick={onopenform}
+					title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+					aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+					data-testid="galaxy-roster-add-btn"
+				>
+					<Plus size={20} aria-hidden="true" />
+				</button>
+			{/if}
 
 			<button
 				type="button"
@@ -414,7 +458,6 @@
 		flex-direction: column;
 		width: min(1500px, calc(100vw - 2rem));
 		height: calc(100dvh - clamp(16px, 3.2dvh, 32px));
-		max-height: 960px;
 		padding: 0;
 		gap: 0.75rem;
 		background: none;
@@ -440,13 +483,22 @@
 	}
 
 	.sheet__title {
+		display: flex;
+		align-items: baseline;
+		gap: 0.35em;
 		margin: 0;
 		font-size: clamp(1rem, 2.6dvh, 1.3rem);
 		color: #ffffff;
+		white-space: nowrap;
 	}
 
 	.sheet__count {
-		opacity: 0.75;
+		font-weight: 700;
+		color: #ffffff;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.sheet__count-word {
 		font-weight: 400;
 		color: var(--galaxy-muted, #a8bfe0);
 	}
@@ -468,21 +520,32 @@
 		font: inherit;
 	}
 
+	.sheet__icon-btn,
 	.sheet__close {
 		display: grid;
 		place-items: center;
 		flex-shrink: 0;
 		width: 44px;
 		height: 44px;
-		border: none;
+		border: 1px solid rgb(255 255 255 / 0.14);
 		border-radius: 50%;
 		background: rgb(255 255 255 / 0.08);
 		color: inherit;
 		cursor: pointer;
+		transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 	}
 
+	.sheet__icon-btn:hover:not(:disabled),
 	.sheet__close:hover {
-		background: rgb(255 255 255 / 0.16);
+		background: rgb(255 255 255 / 0.18);
+		border-color: rgb(255 255 255 / 0.28);
+	}
+
+	.sheet__icon-btn:disabled,
+	.sheet__icon-btn--disabled {
+		opacity: 0.3;
+		cursor: not-allowed;
+		border-color: transparent;
 	}
 
 	/* min-height: 0 — без нього флекс-елемент не дає дітям прокручуватися */

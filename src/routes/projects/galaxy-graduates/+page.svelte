@@ -326,6 +326,7 @@
 	open={rosterOpen && !selected}
 	onclose={closeRoster}
 	onselect={openGraduate}
+	onopenform={openForm}
 	year={rosterYears}
 	departments={rosterDepartments}
 	photo={rosterPhoto}

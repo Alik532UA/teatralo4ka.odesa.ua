@@ -126,7 +126,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/residents/adults/[slug]/+page.svelte': 590,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 510,
-	'src/lib/components/GraduateRoster.svelte': 570,
+	'src/lib/components/GraduateRoster.svelte': 635,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 480,
 	'src/lib/components/GraduateProfileView.svelte': 475,

@@ -30,6 +30,7 @@
 	 */
 	const STEP_DEFAULT = 24;
 	const STEP_MIN = 14;
+	const STEP_MAX = 42;
 
 	let yearsEl = $state<HTMLDivElement | null>(null);
 	let step = $state(STEP_DEFAULT);
@@ -55,14 +56,15 @@
 		const spaceForScale = availableHeight - allBtnHeight - gap;
 		if (spaceForScale <= 0) return;
 
-		const neededDefault = scaleRows * STEP_DEFAULT;
+		const idealStep = Math.floor(spaceForScale / scaleRows);
 		let next: number;
 
-		if (neededDefault <= spaceForScale) {
-			next = STEP_DEFAULT;
+		if (idealStep >= STEP_MIN) {
+			// Якщо вміщається без скролу — розтягуємо по всій доступній висоті (до STEP_MAX)
+			next = Math.min(idealStep, STEP_MAX);
 		} else {
-			const idealStep = Math.floor(spaceForScale / scaleRows);
-			next = idealStep >= STEP_MIN ? idealStep : STEP_DEFAULT;
+			// Якщо навіть при STEP_MIN не вміщається — повертаємо стандартний крок зі скролом
+			next = STEP_DEFAULT;
 		}
 
 		if (next !== step) {
