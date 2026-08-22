@@ -57,9 +57,11 @@ jobs:
         run: npm run check
 
       - name: Lint
+        if: ${{ !cancelled() }}
         run: npm run lint
 
       - name: Unit tests
+        if: ${{ !cancelled() }}
         run: npm test
 
       # Поріг high, а не moderate: решта moderate — це транзитивні залежності
@@ -68,9 +70,11 @@ jobs:
       # назад. Такий гейт довелося б одразу вимкнути, а вимкнений гейт гірший
       # за відсутній: він створює враження, що перевірка є.
       - name: Audit dependencies
+        if: ${{ !cancelled() }}
         run: npm audit --audit-level=high
 
       - name: Validate static content
+        if: ${{ !cancelled() }}
         run: npm run validate-content
 
       - name: Build for school

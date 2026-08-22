@@ -61,15 +61,19 @@ jobs:
         run: npm run check
 
       - name: Lint
+        if: ${{ !cancelled() }}
         run: npm run lint
 
       - name: Unit tests
+        if: ${{ !cancelled() }}
         run: npm test
 
       # Поріг `high` і без `--omit=dev` — той самий, що в deploy.yml. Причина
       # відхилення в бік суворості записана там і в PROJECT-CONTEXT.md.
       - name: Audit dependencies
+        if: ${{ !cancelled() }}
         run: npm audit --audit-level=high
 
       - name: Validate static content
+        if: ${{ !cancelled() }}
         run: npm run validate-content
