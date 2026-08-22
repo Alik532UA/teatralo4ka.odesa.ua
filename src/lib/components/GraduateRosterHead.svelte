@@ -17,7 +17,7 @@
 	між 2019 і 2018 доводилося вишукувати очима. Заодно напис у картці займав 49px
 	ширини (заміряно), тобто в кожен рядок влазило менше людей.
 -->
-<li class="head" style="grid-row: {row}; grid-column: 1 / -1" data-testid="galaxy-roster-head-{year}-title">
+<li class="head" data-year={year} style="grid-row: {row}; grid-column: 1 / -1" data-testid="galaxy-roster-head-{year}-title">
 	<h3>{year ?? $t('galaxy.allYears')}</h3>
 </li>
 

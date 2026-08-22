@@ -105,11 +105,98 @@
 		query.trim().length > 0,
 	);
 
+	let scrolledYear = $state<number | null>(null);
+	let gridEl = $state<HTMLUListElement | null>(null);
+	let isScrollingProgrammatically = false;
+	let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
+	function handleYearSelect(clickedYear: number | 'all') {
+		if (clickedYear === 'all') {
+			scrolledYear = null;
+			onyearchange('all');
+			if (gridEl) {
+				gridEl.scrollTo({ top: 0, behavior: 'smooth' });
+			}
+			return;
+		}
+
+		// Якщо зараз активний жорсткий фільтр на цей самий рік -> знімаємо фільтр і скролимо до нього в повному списку
+		if (year === clickedYear) {
+			onyearchange('all');
+			scrolledYear = clickedYear;
+			setTimeout(() => scrollToYear(clickedYear), 30);
+			return;
+		}
+
+		// Якщо зараз активний жорсткий фільтр на інший рік -> знімаємо фільтр і скролимо до нового року
+		if (year !== 'all') {
+			onyearchange('all');
+			scrolledYear = clickedYear;
+			setTimeout(() => scrollToYear(clickedYear), 30);
+			return;
+		}
+
+		// Якщо year === 'all':
+		// Якщо ми вже стоїмо / скролили на цей рік -> другий клік = жорсткий фільтр!
+		if (scrolledYear === clickedYear) {
+			onyearchange(clickedYear);
+		} else {
+			// Перший клік = плавний скрол до року в повному списку
+			scrolledYear = clickedYear;
+			scrollToYear(clickedYear);
+		}
+	}
+
+	function scrollToYear(targetYear: number) {
+		if (!gridEl) return;
+		const headEl = gridEl.querySelector(`[data-year="${targetYear}"]`) as HTMLElement | null;
+		if (headEl) {
+			isScrollingProgrammatically = true;
+			if (scrollTimeout) clearTimeout(scrollTimeout);
+			scrollTimeout = setTimeout(() => {
+				isScrollingProgrammatically = false;
+			}, 600);
+
+			const targetTop = headEl.offsetTop - gridEl.offsetTop - 8;
+			gridEl.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+		}
+	}
+
+	function handleGridScroll() {
+		if (isScrollingProgrammatically || year !== 'all' || !gridEl) return;
+
+		const headers = gridEl.querySelectorAll('.head[data-year]') as NodeListOf<HTMLElement>;
+		if (headers.length === 0) return;
+
+		const gridRect = gridEl.getBoundingClientRect();
+		let active: number | null = null;
+
+		for (const h of headers) {
+			const rect = h.getBoundingClientRect();
+			if (rect.top <= gridRect.top + 80) {
+				const y = Number(h.dataset.year);
+				if (!isNaN(y)) active = y;
+			} else {
+				break;
+			}
+		}
+
+		if (gridEl.scrollTop < 20) {
+			scrolledYear = null;
+		} else if (active !== null) {
+			scrolledYear = active;
+		}
+	}
+
 	function resetAllFilters() {
+		scrolledYear = null;
 		onyearchange("all");
 		ondepartmentschange([]);
 		onphotochange("all");
 		onquerychange("");
+		if (gridEl) {
+			gridEl.scrollTo({ top: 0, behavior: 'smooth' });
+		}
 	}
 
 	/** Escape — той самий обробник, що в `PhotoLightbox`: один спосіб закривати. */
@@ -191,7 +278,8 @@
 			<GraduateRosterYears
 				years={GRADUATION_YEARS}
 				selected={year}
-				onselect={onyearchange}
+				{scrolledYear}
+				onselect={handleYearSelect}
 			/>
 
 			{#if shown.length > 0}
@@ -200,7 +288,9 @@
 				<ul
 					class="grid"
 					style="--columns: {perRow * 2}"
+					bind:this={gridEl}
 					bind:clientWidth={gridWidth}
+					onscroll={handleGridScroll}
 					data-testid="galaxy-roster-list"
 					{@attach customScroll({
 						rightOffset: -10,
@@ -280,12 +370,11 @@
 		align-items: center;
 		flex-wrap: wrap;
 		gap: 0.6rem;
-		padding: 0.75rem 1rem;
-		border-radius: 1.25rem;
-		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(255 255 255 / 0.14);
-		backdrop-filter: blur(20px);
-		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
+		padding: 0.25rem 0.5rem;
+		background: none;
+		border: none;
+		backdrop-filter: none;
+		box-shadow: none;
 		margin-bottom: 0;
 		flex-shrink: 0;
 	}
@@ -352,8 +441,8 @@
 		height: 100%;
 		min-width: 0;
 		border-radius: 1.25rem;
-		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(255 255 255 / 0.14);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		border: none;
 		backdrop-filter: blur(20px);
 		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
 		overflow-y: auto;
@@ -391,8 +480,7 @@
 		}
 
 		.sheet__head {
-			padding: 0.6rem 0.75rem;
-			border-radius: 1rem;
+			padding: 0.25rem 0.4rem;
 		}
 
 		.sheet__body {

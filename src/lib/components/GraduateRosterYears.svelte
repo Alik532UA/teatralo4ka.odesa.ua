@@ -6,10 +6,11 @@
 	interface Props {
 		years: readonly number[];
 		selected: number | "all";
+		scrolledYear?: number | null;
 		onselect: (year: number | "all") => void;
 	}
 
-	let { years, selected, onselect }: Props = $props();
+	let { years, selected, scrolledYear = null, onselect }: Props = $props();
 
 	/**
 	 * Адаптивний крок шкали:
@@ -105,7 +106,7 @@
 	<button
 		type="button"
 		class="years__all"
-		aria-pressed={selected === "all"}
+		aria-pressed={selected === "all" && (scrolledYear === null || selected !== "all")}
 		onclick={() => onselect("all")}
 		data-testid="galaxy-roster-year-all-btn">{$t("galaxy.allYears")}</button
 	>
@@ -122,6 +123,7 @@
 					? 1
 					: 2}"
 				aria-pressed={selected === year}
+				data-scrolled={selected === "all" && scrolledYear === year}
 				onclick={() => onselect(year)}
 				data-testid="galaxy-roster-year-{year}-btn">{year}</button
 			>
@@ -139,8 +141,8 @@
 		height: 100%;
 		padding: 0.75rem;
 		border-radius: 1.25rem;
-		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(255 255 255 / 0.14);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		border: none;
 		backdrop-filter: blur(20px);
 		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
 		overflow-y: auto;
@@ -178,9 +180,12 @@
 
 	.years__all {
 		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		min-height: 44px;
 		padding: 0 0.7rem;
-		text-align: left;
+		text-align: center;
 	}
 
 	.years__btn {
@@ -212,6 +217,7 @@
 		border-radius: 50%;
 		background: rgb(180 214 255 / 0.55);
 		translate: 0 -50%;
+		transition: background 0.15s ease, box-shadow 0.15s ease;
 	}
 
 	.years__btn--right::after {
@@ -221,18 +227,33 @@
 
 	.years__all:hover,
 	.years__btn:hover {
-		background: rgb(255 255 255 / 0.07);
+		background: rgb(255 255 255 / 0.08);
 	}
 
+	/* Стан скролу / Scroll-spy (список прокручено до цього року) */
+	.years__btn[data-scrolled="true"] {
+		border-color: rgb(140 190 255 / 0.45);
+		background: rgb(140 190 255 / 0.1);
+		color: #ffffff;
+	}
+
+	.years__btn[data-scrolled="true"]::after {
+		background: rgb(190 225 255);
+		box-shadow: 0 0 8px rgb(140 190 255 / 0.85);
+	}
+
+	/* Стан жорсткої фільтрації (список ізольовано тільки за цим роком) */
 	.years__all[aria-pressed="true"],
 	.years__btn[aria-pressed="true"] {
-		border-color: rgb(140 190 255 / 0.6);
-		background: rgb(140 190 255 / 0.16);
-		font-weight: 600;
+		border-color: rgb(140 190 255 / 0.75);
+		background: rgb(140 190 255 / 0.22);
+		font-weight: 700;
+		color: #ffffff;
 	}
 
 	.years__btn[aria-pressed="true"]::after {
-		background: rgb(200 226 255);
+		background: #ffffff;
+		box-shadow: 0 0 10px #ffffff;
 	}
 
 	/*
