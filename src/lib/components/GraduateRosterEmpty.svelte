@@ -6,11 +6,11 @@
 
 	interface Props {
 		hasActiveFilters: boolean;
-		year: number | "all";
+		year: number | "all" | readonly number[];
 		photo: "all" | "with" | "without";
 		departments: readonly Department[];
 		query: string;
-		onyearchange: (year: number | "all") => void;
+		onyearchange: (year: number | "all" | readonly number[]) => void;
 		onphotochange: (photo: "all" | "with" | "without") => void;
 		ondepartmentschange: (departments: Department[]) => void;
 		onquerychange: (query: string) => void;
@@ -29,6 +29,19 @@
 		onquerychange,
 		onreset,
 	}: Props = $props();
+
+	const selectedYears = $derived<readonly number[]>(
+		Array.isArray(year)
+			? year
+			: typeof year === "number"
+				? [year]
+				: []
+	);
+
+	function removeYear(y: number) {
+		const next = selectedYears.filter((item) => item !== y);
+		onyearchange(next.length > 0 ? next : "all");
+	}
 </script>
 
 <div class="empty-state" data-testid="galaxy-roster-empty-container">
@@ -43,17 +56,19 @@
 			class="empty-state__chips"
 			data-testid="galaxy-roster-empty-filters-toolbar"
 		>
-			{#if year !== "all"}
-				<button
-					type="button"
-					class="filter-chip"
-					onclick={() => onyearchange("all")}
-					aria-label="{$t('galaxy.removeFilter')}: {year}"
-					data-testid="galaxy-roster-empty-filter-year-btn"
-				>
-					<span>{year}</span>
-					<X size={13} strokeWidth={2.5} aria-hidden="true" />
-				</button>
+			{#if selectedYears.length > 0}
+				{#each selectedYears as y (y)}
+					<button
+						type="button"
+						class="filter-chip"
+						onclick={() => removeYear(y)}
+						aria-label="{$t('galaxy.removeFilter')}: {y}"
+						data-testid="galaxy-roster-empty-filter-year-btn"
+					>
+						<span>{y}</span>
+						<X size={13} strokeWidth={2.5} aria-hidden="true" />
+					</button>
+				{/each}
 			{/if}
 
 			{#if photo !== "all"}

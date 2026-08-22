@@ -26,7 +26,7 @@
 	let formModalOpen = $state(false);
 
 	/** Стан фільтрів ростера — живе тут, щоб синхронізувати з URL. */
-	let rosterYear = $state<number | 'all'>('all');
+	let rosterYears = $state<number[]>([]);
 	let rosterDepartments = $state<Department[]>([]);
 	let rosterPhoto = $state<'all' | 'with' | 'without'>('all');
 	let rosterQuery = $state('');
@@ -46,8 +46,8 @@
 		if (!browser) return;
 		const url = new URL(window.location.href);
 
-		if (rosterYear !== 'all') {
-			url.searchParams.set('year', String(rosterYear));
+		if (rosterYears.length > 0) {
+			url.searchParams.set('year', rosterYears.join(','));
 		} else {
 			url.searchParams.delete('year');
 		}
@@ -74,8 +74,14 @@
 		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
 	}
 
-	function setYear(year: number | 'all') {
-		rosterYear = year;
+	function setYears(years: number[] | number | 'all' | readonly number[]) {
+		if (years === 'all') {
+			rosterYears = [];
+		} else if (typeof years === 'number') {
+			rosterYears = [years];
+		} else {
+			rosterYears = [...years];
+		}
 		syncFiltersToUrl();
 	}
 
@@ -207,10 +213,12 @@
 			if (rosterOpen) {
 				const yearParam = url.searchParams.get('year');
 				if (yearParam) {
-					const parsed = parseInt(yearParam, 10);
-					if (!isNaN(parsed)) rosterYear = parsed;
+					rosterYears = yearParam
+						.split(',')
+						.map((y) => parseInt(y.trim(), 10))
+						.filter((y) => !isNaN(y));
 				} else {
-					rosterYear = 'all';
+					rosterYears = [];
 				}
 
 				const deptParam = url.searchParams.get('dept');
@@ -318,11 +326,11 @@
 	open={rosterOpen && !selected}
 	onclose={closeRoster}
 	onselect={openGraduate}
-	year={rosterYear}
+	year={rosterYears}
 	departments={rosterDepartments}
 	photo={rosterPhoto}
 	query={rosterQuery}
-	onyearchange={setYear}
+	onyearchange={setYears}
 	ondepartmentschange={setDepartments}
 	onphotochange={setPhoto}
 	onquerychange={setQuery}

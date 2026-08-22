@@ -60,7 +60,8 @@ export function makeLanes(count: number, minSeconds: number, random: () => numbe
 }
 
 export interface GraduateFilterOptions {
-	year?: number | 'all';
+	year?: number | 'all' | readonly number[];
+	years?: readonly number[];
 	query?: string;
 	photo?: 'all' | 'with' | 'without';
 	department?: 'all' | Department;
@@ -68,14 +69,19 @@ export interface GraduateFilterOptions {
 }
 
 /**
- * Фільтр переліку за роком, анкетою, відділеннями (одним або декількома) і фрагментом імені.
+ * Фільтр переліку за роком (або декількома роками), анкетою, відділеннями і фрагментом імені.
  */
 export function filterGraduates(
 	graduates: readonly GraduateIndexEntry[],
 	options: GraduateFilterOptions
 ): GraduateIndexEntry[] {
 	const needle = (options.query ?? '').trim().toLowerCase();
-	const year = options.year ?? 'all';
+	const rawYear = options.years ?? options.year;
+	const selectedYears = Array.isArray(rawYear)
+		? rawYear
+		: typeof rawYear === 'number'
+			? [rawYear]
+			: [];
 	const photo = options.photo ?? 'all';
 	const department = options.department ?? 'all';
 	const departments = options.departments ?? [];
@@ -88,7 +94,9 @@ export function filterGraduates(
 		: [];
 
 	return graduates.filter((graduate) => {
-		if (year !== 'all' && graduate.graduationYear !== year) return false;
+		if (selectedYears.length > 0 && (!graduate.graduationYear || !selectedYears.includes(graduate.graduationYear))) {
+			return false;
+		}
 		if (photo === 'with' && !graduate.hasPhoto) return false;
 		if (photo === 'without' && graduate.hasPhoto) return false;
 		if (effectiveDepts.length > 0 && !effectiveDepts.some((d) => graduate.departments?.includes(d))) {

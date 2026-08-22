@@ -22,11 +22,11 @@
 		open: boolean;
 		onclose: () => void;
 		onselect: (graduate: GraduateIndexEntry) => void;
-		year: number | "all";
+		year: number | "all" | readonly number[];
 		departments: Department[];
 		photo: "all" | "with" | "without";
 		query: string;
-		onyearchange: (year: number | "all") => void;
+		onyearchange: (year: number | "all" | readonly number[]) => void;
 		ondepartmentschange: (departments: Department[]) => void;
 		onphotochange: (photo: "all" | "with" | "without") => void;
 		onquerychange: (query: string) => void;
@@ -98,21 +98,31 @@
 
 	const layout = $derived(layoutRoster(groups, perRow));
 
+	const selectedYears = $derived<readonly number[]>(
+		Array.isArray(year)
+			? year
+			: typeof year === 'number'
+				? [year]
+				: []
+	);
+
 	const hasActiveFilters = $derived(
-		year !== "all" ||
+		selectedYears.length > 0 ||
 		departments.length > 0 ||
 		photo !== "all" ||
 		query.trim().length > 0,
 	);
 
 	let scrolledYear = $state<number | null>(null);
+	let lastInteractedYear = $state<number | null>(null);
 	let gridEl = $state<HTMLUListElement | null>(null);
 	let isScrollingProgrammatically = false;
 	let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
 
-	function handleYearSelect(clickedYear: number | 'all') {
+	function handleYearSelect(clickedYear: number | 'all', event?: MouseEvent) {
 		if (clickedYear === 'all') {
 			scrolledYear = null;
+			lastInteractedYear = null;
 			onyearchange('all');
 			if (gridEl) {
 				gridEl.scrollTo({ top: 0, behavior: 'smooth' });
@@ -120,28 +130,74 @@
 			return;
 		}
 
-		// Якщо зараз активний жорсткий фільтр на цей самий рік -> знімаємо фільтр і скролимо до нього в повному списку
-		if (year === clickedYear) {
-			onyearchange('all');
+		const isCtrl = event ? event.ctrlKey || event.metaKey : false;
+		const isShift = event ? event.shiftKey : false;
+
+		// 1. Shift + Click: Діапазон років
+		if (isShift) {
+			const anchorYear = lastInteractedYear ?? (selectedYears.length > 0 ? selectedYears[selectedYears.length - 1] : (scrolledYear ?? clickedYear));
+			const fromIdx = GRADUATION_YEARS.indexOf(anchorYear);
+			const toIdx = GRADUATION_YEARS.indexOf(clickedYear);
+
+			if (fromIdx !== -1 && toIdx !== -1) {
+				const start = Math.min(fromIdx, toIdx);
+				const end = Math.max(fromIdx, toIdx);
+				const rangeYears = GRADUATION_YEARS.slice(start, end + 1);
+
+				const merged = Array.from(new Set([...selectedYears, ...rangeYears]));
+				lastInteractedYear = clickedYear;
+				onyearchange(merged);
+				return;
+			}
+		}
+
+		// 2. Ctrl / Cmd + Click: Додавання / зняття окремого року
+		if (isCtrl) {
+			let nextYears: number[];
+			if (selectedYears.includes(clickedYear)) {
+				nextYears = selectedYears.filter((y) => y !== clickedYear);
+			} else {
+				nextYears = [...selectedYears, clickedYear];
+			}
+			lastInteractedYear = clickedYear;
+			onyearchange(nextYears.length > 0 ? nextYears : 'all');
+			return;
+		}
+
+		// 3. Звичайний клік (без Ctrl/Shift):
+		// Якщо зараз активний мультивибір кількох років (> 1), клік звужує до одного року
+		if (selectedYears.length > 1) {
+			lastInteractedYear = clickedYear;
+			onyearchange([clickedYear]);
+			return;
+		}
+
+		// Якщо зараз активний жорсткий фільтр на цей самий рік -> знімаємо фільтр і лишаємося на скролі
+		if (selectedYears.length === 1 && selectedYears[0] === clickedYear) {
+			lastInteractedYear = clickedYear;
 			scrolledYear = clickedYear;
+			onyearchange('all');
 			setTimeout(() => scrollToYear(clickedYear), 30);
 			return;
 		}
 
 		// Якщо зараз активний жорсткий фільтр на інший рік -> знімаємо фільтр і скролимо до нового року
-		if (year !== 'all') {
-			onyearchange('all');
+		if (selectedYears.length > 0) {
+			lastInteractedYear = clickedYear;
 			scrolledYear = clickedYear;
+			onyearchange('all');
 			setTimeout(() => scrollToYear(clickedYear), 30);
 			return;
 		}
 
-		// Якщо year === 'all':
-		// Якщо ми вже стоїмо / скролили на цей рік -> другий клік = жорсткий фільтр!
+		// Якщо selectedYears порожній (показано всі роки):
+		// Якщо ми вже стоїмо / скролили на цей рік -> 2-й клік = жорсткий фільтр!
 		if (scrolledYear === clickedYear) {
-			onyearchange(clickedYear);
+			lastInteractedYear = clickedYear;
+			onyearchange([clickedYear]);
 		} else {
 			// Перший клік = плавний скрол до року в повному списку
+			lastInteractedYear = clickedYear;
 			scrolledYear = clickedYear;
 			scrollToYear(clickedYear);
 		}
@@ -163,7 +219,7 @@
 	}
 
 	function handleGridScroll() {
-		if (isScrollingProgrammatically || year !== 'all' || !gridEl) return;
+		if (isScrollingProgrammatically || selectedYears.length > 0 || !gridEl) return;
 
 		const headers = gridEl.querySelectorAll('.head[data-year]') as NodeListOf<HTMLElement>;
 		if (headers.length === 0) return;
@@ -190,6 +246,7 @@
 
 	function resetAllFilters() {
 		scrolledYear = null;
+		lastInteractedYear = null;
 		onyearchange("all");
 		ondepartmentschange([]);
 		onphotochange("all");
@@ -351,12 +408,13 @@
 		position: fixed;
 		z-index: 71;
 		left: 50%;
-		top: 50%;
-		translate: -50% -50%;
+		top: clamp(8px, 1.6dvh, 16px);
+		translate: -50% 0;
 		display: flex;
 		flex-direction: column;
-		width: min(1500px, calc(100vw - 1.5rem));
-		height: min(88dvh, 920px);
+		width: min(1500px, calc(100vw - 2rem));
+		height: calc(100dvh - clamp(16px, 3.2dvh, 32px));
+		max-height: 960px;
 		padding: 0;
 		gap: 0.75rem;
 		background: none;
@@ -371,12 +429,14 @@
 		flex-wrap: wrap;
 		gap: 0.6rem;
 		padding: 0.25rem 0.5rem;
+		padding-left: clamp(0.5rem, calc(90px - (100vw - min(1500px, calc(100vw - 2rem))) / 2), 90px);
 		background: none;
 		border: none;
 		backdrop-filter: none;
 		box-shadow: none;
 		margin-bottom: 0;
 		flex-shrink: 0;
+		min-height: 44px;
 	}
 
 	.sheet__title {
@@ -475,12 +535,14 @@
 	@media (max-width: 700px) {
 		.sheet {
 			width: calc(100vw - 1rem);
-			height: 92dvh;
+			top: 8px;
+			height: calc(100dvh - 16px);
 			gap: 0.5rem;
 		}
 
 		.sheet__head {
 			padding: 0.25rem 0.4rem;
+			padding-left: clamp(0.4rem, calc(72px - (100vw - (100vw - 1rem)) / 2), 72px);
 		}
 
 		.sheet__body {

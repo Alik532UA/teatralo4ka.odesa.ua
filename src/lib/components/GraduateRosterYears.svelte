@@ -5,12 +5,20 @@
 
 	interface Props {
 		years: readonly number[];
-		selected: number | "all";
+		selected: number | "all" | readonly number[];
 		scrolledYear?: number | null;
-		onselect: (year: number | "all") => void;
+		onselect: (year: number | "all", event?: MouseEvent) => void;
 	}
 
 	let { years, selected, scrolledYear = null, onselect }: Props = $props();
+
+	const selectedList = $derived<readonly number[]>(
+		Array.isArray(selected)
+			? selected
+			: typeof selected === "number"
+				? [selected]
+				: []
+	);
 
 	/**
 	 * Адаптивний крок шкали:
@@ -106,8 +114,8 @@
 	<button
 		type="button"
 		class="years__all"
-		aria-pressed={selected === "all" && (scrolledYear === null || selected !== "all")}
-		onclick={() => onselect("all")}
+		aria-pressed={selectedList.length === 0 && (scrolledYear === null || selectedList.length !== 0)}
+		onclick={(e) => onselect("all", e)}
 		data-testid="galaxy-roster-year-all-btn">{$t("galaxy.allYears")}</button
 	>
 
@@ -122,9 +130,9 @@
 				0
 					? 1
 					: 2}"
-				aria-pressed={selected === year}
-				data-scrolled={selected === "all" && scrolledYear === year}
-				onclick={() => onselect(year)}
+				aria-pressed={selectedList.includes(year)}
+				data-scrolled={selectedList.length === 0 && scrolledYear === year}
+				onclick={(e) => onselect(year, e)}
 				data-testid="galaxy-roster-year-{year}-btn">{year}</button
 			>
 		{/each}
