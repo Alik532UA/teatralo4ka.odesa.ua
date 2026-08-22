@@ -1,0 +1,19 @@
+{
+	"id": "samuil-imas",
+	"slug": "samuil-imas",
+	"displayName": "Самуїл ІМАС",
+	"fullName": "Імас Самуїл Михайлович",
+	"displayNameEn": "Samuil IMAS",
+	"fullNameEn": "Samuil Imas",
+	"departments": [
+		"theatre"
+	],
+	"status": "honorary",
+	"subjects": [
+		"Риторика та поетика",
+		"Акторська майстерність"
+	],
+	"bio": "",
+	"socials": [],
+	"isHonorary": true
+}

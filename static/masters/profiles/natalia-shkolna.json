@@ -1,0 +1,17 @@
+{
+	"id": "natalia-shkolna",
+	"slug": "natalia-shkolna",
+	"displayName": "Наталя ШКОЛЬНА-ВОЛОШИНОВА",
+	"fullName": "Школьна-Волошинова Наталя Анатоліївна",
+	"displayNameEn": "Natalia SHKOLNA-VOLOSHYNOVA",
+	"fullNameEn": "Natalia Shkolna-Voloshynova",
+	"departments": [
+		"vocal"
+	],
+	"status": "active",
+	"subjects": [
+		"Вокал"
+	],
+	"bio": "",
+	"socials": []
+}

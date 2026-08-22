@@ -1,0 +1,18 @@
+{
+	"id": "iryna-kaplia",
+	"slug": "iryna-kaplia",
+	"displayName": "Ірина КАПЛЯ",
+	"fullName": "Капля Ірина",
+	"displayNameEn": "Iryna KAPLIA",
+	"fullNameEn": "Iryna Kaplia",
+	"departments": [
+		"theatre"
+	],
+	"status": "honorary",
+	"subjects": [
+		"Акторська майстерність"
+	],
+	"bio": "",
+	"socials": [],
+	"isHonorary": true
+}

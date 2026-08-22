@@ -1,0 +1,18 @@
+{
+	"id": "mykola-baldin",
+	"slug": "mykola-baldin",
+	"displayName": "Микола БАЛДІН",
+	"fullName": "Балдін Микола Олександрович",
+	"displayNameEn": "Mykola BALDIN",
+	"fullNameEn": "Mykola Baldin",
+	"departments": [
+		"theatre"
+	],
+	"status": "honorary",
+	"subjects": [
+		"Сценічний рух"
+	],
+	"bio": "",
+	"socials": [],
+	"isHonorary": true
+}

@@ -1,16 +1,37 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
+	import { onDestroy } from 'svelte';
 	import { t, locale } from 'svelte-i18n';
 	import { ChevronRight, Camera } from 'lucide-svelte';
 	import StaticPage from '$lib/components/StaticPage.svelte';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import PrayingHands from '$lib/components/icons/PrayingHands.svelte';
 	import { masterProfilePath } from '$lib/data/masters';
+	import { createKeySequence } from '$lib/services/keySequence';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
+
+	let isVisible = $state(dev);
+
+	const revealSequence = createKeySequence({
+		code: 'KeyH',
+		threshold: 7,
+		onComplete: () => {
+			isVisible = !isVisible;
+		}
+	});
+
+	function handleKeyDown(e: KeyboardEvent) {
+		revealSequence.handle(e);
+	}
+
+	onDestroy(() => {
+		revealSequence.reset();
+	});
 
 	const groups = $derived([
 		{
@@ -31,10 +52,12 @@
 	].filter((g) => g.items.length > 0));
 </script>
 
+<svelte:window onkeydown={handleKeyDown} />
+
 <div class="adults-page">
 	<StaticPage {data} testPrefix="residents-adults" />
 
-	{#if allMasters.length > 0}
+	{#if isVisible && allMasters.length > 0}
 		<section class="masters-section" aria-labelledby="masters-title" data-testid="residents-adults-masters-section">
 			<div class="container masters-container">
 				<header class="masters-header">

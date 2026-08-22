@@ -1,0 +1,18 @@
+{
+	"id": "olena-prorok",
+	"slug": "olena-prorok",
+	"displayName": "Олена ПРОРОК",
+	"fullName": "Пророк Олена Володимирівна",
+	"displayNameEn": "Olena PROROK",
+	"fullNameEn": "Olena Prorok",
+	"departments": [
+		"piano"
+	],
+	"status": "active",
+	"subjects": [
+		"Фортепіано"
+	],
+	"photo": "/masters/olena-prorok.webp",
+	"bio": "",
+	"socials": []
+}

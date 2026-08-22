@@ -1,0 +1,17 @@
+{
+	"id": "pavlo-koshka",
+	"slug": "pavlo-koshka",
+	"displayName": "Павло КОШКА",
+	"fullName": "Кошка Павло Володимирович",
+	"displayNameEn": "Pavlo KOSHKA",
+	"fullNameEn": "Pavlo Koshka",
+	"departments": [
+		"theatre"
+	],
+	"status": "history",
+	"subjects": [
+		"Акторська майстерність"
+	],
+	"bio": "",
+	"socials": []
+}

@@ -1,5 +1,12 @@
 import { error } from '@sveltejs/kit';
-import { getMasterBySlug, getStudentsByMaster, MASTERS } from '$lib/data/masters';
+import { asset } from '$app/paths';
+import {
+	getMasterBySlug,
+	getStudentsByMaster,
+	masterProfileJson,
+	MASTERS,
+	type MasterProfile
+} from '$lib/data/masters';
 import type { PageLoad, EntryGenerator } from './$types';
 
 export const prerender = true;
@@ -8,16 +15,32 @@ export const entries: EntryGenerator = () => {
 	return MASTERS.map((m) => ({ slug: m.slug }));
 };
 
-export const load: PageLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params, fetch }) => {
 	const master = getMasterBySlug(params.slug);
 	if (!master) {
 		throw error(404, 'Master not found');
 	}
+
+	let profile: MasterProfile | null = null;
+	try {
+		const response = await fetch(masterProfileJson(master.slug));
+		if (response.ok) {
+			const json = await response.json();
+			profile = {
+				...json,
+				photo: json.photo ? asset(json.photo) : undefined
+			};
+		}
+	} catch {
+		// Fallback to index entry if profile JSON fetch fails
+	}
+
+	const masterData = profile ? { ...master, ...profile } : master;
 	const students = getStudentsByMaster(master.id);
 	const graduates = students.map((s) => s.graduate);
 
 	return {
-		master,
+		master: masterData,
 		students,
 		graduates
 	};

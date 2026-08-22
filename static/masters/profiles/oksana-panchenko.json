@@ -1,0 +1,18 @@
+{
+	"id": "oksana-panchenko",
+	"slug": "oksana-panchenko",
+	"displayName": "Оксана ПАНЧЕНКО",
+	"fullName": "Панченко Оксана Костянтинівна",
+	"displayNameEn": "Oksana PANCHENKO",
+	"fullNameEn": "Oksana Panchenko",
+	"departments": [
+		"music"
+	],
+	"status": "active",
+	"subjects": [
+		"Музика"
+	],
+	"photo": "/masters/oksana-panchenko.webp",
+	"bio": "",
+	"socials": []
+}

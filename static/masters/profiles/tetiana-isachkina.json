@@ -1,0 +1,19 @@
+{
+	"id": "tetiana-isachkina",
+	"slug": "tetiana-isachkina",
+	"displayName": "Тетяна ІСАЧКІНА",
+	"fullName": "Ісачкіна Тетяна Валеріївна",
+	"displayNameEn": "Tetiana ISACHKINA",
+	"fullNameEn": "Tetiana Isachkina",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Акторська майстерність",
+		"Сценічна мова"
+	],
+	"photo": "/masters/tetiana-isachkina.webp",
+	"bio": "",
+	"socials": []
+}

@@ -1,0 +1,18 @@
+{
+	"id": "fedir-tkach",
+	"slug": "fedir-tkach",
+	"displayName": "Федір ТКАЧ",
+	"fullName": "Ткач Федір Федорович",
+	"displayNameEn": "Fedir TKACH",
+	"fullNameEn": "Fedir Tkach",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Акторська майстерність"
+	],
+	"photo": "/masters/fedir-tkach.webp",
+	"bio": "",
+	"socials": []
+}

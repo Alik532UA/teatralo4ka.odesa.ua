@@ -1,0 +1,18 @@
+{
+	"id": "vira-koval",
+	"slug": "vira-koval",
+	"displayName": "Віра КОВАЛЬ",
+	"fullName": "Коваль Віра Борисівна",
+	"displayNameEn": "Vira KOVAL",
+	"fullNameEn": "Vira Koval",
+	"departments": [
+		"art"
+	],
+	"status": "active",
+	"subjects": [
+		"Образотворче мистецтво"
+	],
+	"photo": "/masters/vira-koval.webp",
+	"bio": "",
+	"socials": []
+}

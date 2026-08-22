@@ -114,7 +114,6 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1195,
 	'src/lib/components/HeaderSection.svelte': 1600,
-	'src/lib/data/masters.ts': 980,
 	'src/lib/services/settings.ts': 980,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,
