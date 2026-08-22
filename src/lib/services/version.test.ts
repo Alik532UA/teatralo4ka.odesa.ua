@@ -168,4 +168,27 @@ describe('перевірка оновлення', () => {
 
 		expect(storage.get(CACHE_KEY)).toBeNull();
 	});
+
+	it('cleanupUpdateParam видаляє параметр ?upd= з адреси', async () => {
+		const replaceStateSpy = vi.fn();
+		vi.stubGlobal('location', {
+			href: 'https://teatralo4ka.odesa.ua/residents/adults/?upd=1787397394455&filter=active#section',
+			pathname: '/residents/adults/',
+			search: '?upd=1787397394455&filter=active',
+			hash: '#section'
+		});
+		vi.stubGlobal('history', {
+			state: null,
+			replaceState: replaceStateSpy
+		});
+
+		const { cleanupUpdateParam } = await freshModule();
+		cleanupUpdateParam();
+
+		expect(replaceStateSpy).toHaveBeenCalledWith(
+			null,
+			'',
+			'/residents/adults/?filter=active#section'
+		);
+	});
 });

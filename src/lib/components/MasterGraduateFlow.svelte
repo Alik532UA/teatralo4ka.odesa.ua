@@ -33,12 +33,29 @@
 
 	function makeVerticalLanes(count: number, minSeconds: number, random: () => number) {
 		if (count <= 0) return [];
-		const step = 100 / count;
-		return Array.from({ length: count }, (_, index) => ({
-			left: count === 1 ? 50 : Math.min(80, Math.max(20, index * step + (random() - 0.5) * step * 0.6)),
-			duration: minSeconds + random() * minSeconds * 0.5,
-			delay: -random() * minSeconds * 2
-		}));
+		if (count === 1) {
+			return [{
+				left: 50,
+				duration: minSeconds + random() * minSeconds * 0.5,
+				delay: -random() * minSeconds * 2
+			}];
+		}
+
+		const minSafe = 18;
+		const maxSafe = 82;
+		const span = maxSafe - minSafe;
+		const step = span / count;
+
+		return Array.from({ length: count }, (_, index) => {
+			const center = minSafe + step * (index + 0.5);
+			const jitter = (random() - 0.5) * step * 0.7;
+			const left = Math.min(maxSafe, Math.max(minSafe, center + jitter));
+			return {
+				left,
+				duration: minSeconds + random() * minSeconds * 0.5,
+				delay: -random() * minSeconds * 2
+			};
+		});
 	}
 
 	onMount(() => {

@@ -26,11 +26,32 @@ const MIN_CHECK_INTERVAL_MS = 60_000;
 let lastCheckAt = 0;
 
 /**
+ * Removes the cache-busting `?upd=` parameter from the URL after the page has reloaded,
+ * keeping the address bar clean for users and bookmarks.
+ */
+export function cleanupUpdateParam(): void {
+	if (typeof window === 'undefined') return;
+	try {
+		const url = new URL(window.location.href);
+		if (url.searchParams.has('upd')) {
+			url.searchParams.delete('upd');
+			const search = url.searchParams.toString();
+			const cleanUrl = url.pathname + (search ? `?${search}` : '') + url.hash;
+			window.history.replaceState(window.history.state, '', cleanUrl);
+		}
+	} catch {
+		// Ignore in non-standard environment
+	}
+}
+
+/**
  * Checks for app updates and forces a cache-clearing reload if a new version is available.
  * No user intervention required.
  */
 export async function checkForUpdates() {
     if (typeof window === "undefined") return;
+
+    cleanupUpdateParam();
 
     // VERSIONING-v8 § 4.2. Запит, який не може вдатися, не варто відправляти:
     // офлайн він однаково впаде, і єдиним наслідком буде запис у журналі.

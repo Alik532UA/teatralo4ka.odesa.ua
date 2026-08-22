@@ -1,17 +1,21 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
+	import { locale } from 'svelte-i18n';
+	import { get } from 'svelte/store';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { nextLanguage } from '$lib/i18n/switchLanguage';
 	import { acceptsShortcut } from '$lib/services/keyboard';
 	import { createKeySequence } from '$lib/services/keySequence';
 	import { debugMode } from '$lib/services/debugMode.svelte';
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
+	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import ServiceBadge from './ServiceBadge.svelte';
 
 	/**
-	 * Службовий шар: гарячі клавіші сайту (`T` тема, `L` мова), службові серії `V` і
-	 * `R` та саме табло версії (HOTKEYS-v8 § 1.1, § 4).
+	 * Службовий шар: гарячі клавіші сайту (`T` тема, `L` мова), службові серії `V`,
+	 * `R`, `G` (Галактика випускників) та `H` (Дорослі викладачі) і табло версії (HOTKEYS-v8 § 1.1, § 4).
 	 *
 	 * **Троє в одному компоненті, бо в них спільна вимога до РОЗМІЩЕННЯ.** Слухач
 	 * клавіатури й табло мусять жити поза межею перехоплення помилок: вона при падінні
@@ -54,9 +58,48 @@
 		onComplete: () => void hardReset(!dev)
 	});
 
+	/**
+	 * Серія `G` (7 натискань) — службовий перехід до «Галактики випускників»
+	 * для бета-тестувальників, доки публічні посилання спрямовані на старий сайт.
+	 */
+	const galaxySequence = createKeySequence({
+		code: 'KeyG',
+		threshold: 7,
+		onComplete: () => {
+			const currentLocale = get(locale);
+			const target = currentLocale === 'en' ? '/en/projects/galaxy-graduates' : '/projects/galaxy-graduates';
+			void goto(target);
+		}
+	});
+
+	/**
+	 * Серія `H` (7 натискань) — службовий перехід до «Дорослих викладачів»
+	 * або перемикання (показати/сховати) прихованого розділу, якщо вже на цій сторінці.
+	 */
+	const adultsSequence = createKeySequence({
+		code: 'KeyH',
+		threshold: 7,
+		onComplete: () => {
+			const currentLocale = get(locale);
+			const isEn = currentLocale === 'en';
+			const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
+			const isAlreadyOnAdults = pathname === '/residents/adults' || pathname === '/en/residents/adults';
+
+			if (isAlreadyOnAdults) {
+				adultsVisibility.toggle();
+			} else {
+				adultsVisibility.reveal();
+				const target = isEn ? '/en/residents/adults' : '/residents/adults';
+				void goto(target);
+			}
+		}
+	});
+
 	onDestroy(() => {
 		versionSequence.reset();
 		resetSequence.reset();
+		galaxySequence.reset();
+		adultsSequence.reset();
 	});
 
 	function handleKeydown(event: KeyboardEvent) {
@@ -73,6 +116,8 @@
 		 */
 		versionSequence.handle(event);
 		resetSequence.handle(event);
+		galaxySequence.handle(event);
+		adultsSequence.handle(event);
 
 		// Поля вводу, модифікатори й накладки, що забрали клавіатуру, — усе в
 		// `acceptsShortcut`. `Esc` тут не обробляється: кожна накладка закриває себе

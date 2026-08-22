@@ -96,7 +96,7 @@
 				data-testid="master-profile-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('nav.residentsAdults', { default: 'Дорослі викладачі' })}</span>
+				<span>{$t('galaxy.allTeachers', { default: 'Всі викладачі' })}</span>
 			</a>
 		</div>
 

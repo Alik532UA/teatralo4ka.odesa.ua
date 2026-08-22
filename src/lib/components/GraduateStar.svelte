@@ -10,6 +10,18 @@
 	}
 
 	let { graduate, kind, role = 'master', onselect }: Props = $props();
+
+	let buttonEl = $state<HTMLButtonElement | null>(null);
+	let isNearBottom = $state(false);
+
+	function updatePlacement() {
+		if (buttonEl) {
+			const rect = buttonEl.getBoundingClientRect();
+			const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 800;
+			// Якщо зірка в нижніх 20% екрана — показувати підпис зверху над фото
+			isNearBottom = rect.bottom > viewportHeight * 0.8;
+		}
+	}
 </script>
 
 <!--
@@ -23,9 +35,12 @@
 	через `:hover` і `:focus-visible`.
 -->
 <button
+	bind:this={buttonEl}
 	type="button"
 	class="star star--{kind}"
 	class:star--student={role === 'teacher'}
+	onmouseenter={updatePlacement}
+	onfocus={updatePlacement}
 	onclick={onselect}
 	data-testid="galaxy-{graduate.slug}-btn"
 >
@@ -45,10 +60,11 @@
 		<span class="star__dot" aria-hidden="true"></span>
 	{/if}
 
-	<span class="star__label">
-		{graduate.name}{#if graduate.graduationYear}<span class="star__year"
-				>{graduate.graduationYear}</span
-			>{/if}
+	<span class="star__label" class:star__label--top={isNearBottom}>
+		<span class="star__name">{graduate.name}</span>
+		{#if graduate.graduationYear}
+			<span class="star__year">{graduate.graduationYear}</span>
+		{/if}
 	</span>
 </button>
 
@@ -135,16 +151,22 @@
 
 	.star__label {
 		position: absolute;
-		top: calc(100% - 6px);
+		top: calc(100% - 4px);
 		left: 50%;
 		translate: -50% 0;
 		display: flex;
-		gap: 0.35em;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 0.1em;
 		padding: 3px 7px;
 		border-radius: 6px;
-		background: rgb(5 10 31 / 0.85);
-		color: var(--galaxy-text);
+		background: rgb(5 10 31 / 0.9);
+		border: 1px solid rgb(255 255 255 / 0.15);
+		box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
+		color: var(--galaxy-text, #ffffff);
 		font-size: 0.7rem;
+		line-height: 1.15;
 		white-space: nowrap;
 		opacity: 0;
 		transition: opacity 180ms ease;
@@ -153,13 +175,27 @@
 		scale: calc(1 / 1.9);
 	}
 
+	.star--student .star__label {
+		scale: calc(1 / 1.7);
+	}
+
+	.star__label--top {
+		top: auto;
+		bottom: calc(100% - 4px);
+	}
+
 	.star:hover .star__label,
 	.star:focus-visible .star__label {
 		opacity: 1;
 	}
 
+	.star__name {
+		font-weight: 500;
+	}
+
 	.star__year {
-		opacity: 0.7;
+		opacity: 0.75;
+		font-size: 0.65rem;
 		font-variant-numeric: tabular-nums;
 	}
 
