@@ -46,6 +46,7 @@ declare global {
 		interface PageState {
 			graduateCode?: string;
 			graduateSlug?: string;
+			formOpen?: boolean;
 		}
 		// interface Platform {}
 	}

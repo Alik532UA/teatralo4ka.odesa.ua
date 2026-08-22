@@ -106,34 +106,38 @@
 	<div class="backdrop" onclick={handleBackdropClick} role="presentation" data-testid="galaxy-card-backdrop"></div>
 
 	<div class="card" role="dialog" aria-modal="true" aria-labelledby="{id}-title" {@attach focusTrap()} data-testid="galaxy-card-modal">
-		<div class="card__toolbar">
-			<div class="contact-wrap" bind:this={contactWrapEl} onmouseenter={handleMouseEnter} onmouseleave={handleMouseLeave}>
-				{#if contactOpen}
-					<div class="contact-popup" transition:fly={{ x: 10, duration: 180 }} data-testid="galaxy-card-contact-menu">
-						<img src={asset('/graduates/alik-zapolnov-96.webp')} alt="Алік Запольнов" width="28" height="28" class="contact-popup__avatar" loading="eager" data-testid="galaxy-card-contact-admin-img" />
-						<p class="contact-popup__hint" data-testid="galaxy-card-contact-hint">Привіт!) Щоб внести правки — напиши мені</p>
-						<div class="contact-popup__icons">
-							{#each contacts as c (c.name)}
-								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a href={c.url} target="_blank" rel="noopener noreferrer" class="contact-popup__link" aria-label={c.name} title={c.name} onclick={(e) => e.stopPropagation()} data-testid="galaxy-card-contact-link-{c.name.toLowerCase()}">
-									<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
-								</a>
-							{/each}
-						</div>
+		<div class="card__inner">
+			<div class="card__toolbar">
+				{#if graduate.hasPhoto}
+					<div class="contact-wrap" bind:this={contactWrapEl} onmouseenter={handleMouseEnter} onmouseleave={handleMouseLeave} role="group" aria-label={$t('common.contact', { default: 'Контакти' })}>
+						{#if contactOpen}
+							<div class="contact-popup" transition:fly={{ x: 10, duration: 180 }} data-testid="galaxy-card-contact-menu">
+								<img src={asset('/graduates/alik-zapolnov-96.webp')} alt="Алік Запольнов" width="28" height="28" class="contact-popup__avatar" loading="eager" data-testid="galaxy-card-contact-admin-img" />
+								<p class="contact-popup__hint" data-testid="galaxy-card-contact-hint">Привіт!) Щоб внести правки — напиши мені</p>
+								<div class="contact-popup__icons">
+									{#each contacts as c (c.name)}
+										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+										<a href={c.url} target="_blank" rel="noopener noreferrer" class="contact-popup__link" aria-label={c.name} title={c.name} onclick={(e) => e.stopPropagation()} data-testid="galaxy-card-contact-link-{c.name.toLowerCase()}">
+											<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
+										</a>
+									{/each}
+								</div>
+							</div>
+						{/if}
+
+						<button type="button" class="card__action card__contact" onclick={toggleContact} onmouseenter={handleMouseEnter} onkeydown={handleContactKeydown} aria-expanded={contactOpen} aria-label={$t('common.contact', { default: "Зв'язатися" })} title={$t('common.contact', { default: "Зв'язатися" })} data-testid="graduate-profile-edit-btn">
+							<Pencil size={20} aria-hidden="true" />
+						</button>
 					</div>
 				{/if}
 
-				<button type="button" class="card__action card__contact" onclick={toggleContact} onmouseenter={handleMouseEnter} onkeydown={handleContactKeydown} aria-expanded={contactOpen} aria-label={$t('common.contact', { default: "Зв'язатися" })} title={$t('common.contact', { default: "Зв'язатися" })} data-testid="graduate-profile-edit-btn">
-					<Pencil size={20} aria-hidden="true" />
+				<button type="button" class="card__action card__close" onclick={onclose} aria-label={$t('common.close')} data-testid="galaxy-card-close-btn">
+					<X size={20} aria-hidden="true" />
 				</button>
 			</div>
 
-			<button type="button" class="card__action card__close" onclick={onclose} aria-label={$t('common.close')} data-testid="galaxy-card-close-btn">
-				<X size={20} aria-hidden="true" />
-			</button>
+			<GraduateProfileView {graduate} {profile} headingId="{id}-title" heading="h2" />
 		</div>
-
-		<GraduateProfileView {graduate} {profile} headingId="{id}-title" heading="h2" />
 	</div>
 {/if}
 
@@ -151,8 +155,7 @@
 		left: 50%;
 		top: 50%;
 		translate: -50% -50%;
-		width: fit-content;
-		max-width: min(1760px, 96vw);
+		width: min(1760px, 96vw);
 		max-height: min(90dvh, 840px);
 		overflow: visible;
 		display: flex;
@@ -163,6 +166,14 @@
 		border: none;
 		box-shadow: none;
 		padding: 0;
+	}
+	.card__inner {
+		position: relative;
+		width: fit-content;
+		max-width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 	.card__toolbar {
 		position: absolute;

@@ -3,11 +3,14 @@
 	import { onMount } from "svelte";
 	import { browser } from "$app/environment";
 	import { page } from "$app/state";
+	import { goto } from "$app/navigation";
 	import { fly } from "svelte/transition";
-	import { Pencil } from "lucide-svelte";
+	import { Pencil, Eye, EyeOff } from "lucide-svelte";
 	import { asset } from "$app/paths";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
+	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
 	import { localeFromPath, withLocale } from "$lib/i18n/routing";
+	import { graduateProfilePath, type GraduateIndexEntry } from "$lib/data/graduates";
 
 	let { data } = $props();
 
@@ -19,8 +22,17 @@
 	);
 
 	let isDesktop = $state(false);
+	let showGalaxy = $state(true);
 	let contactOpen = $state(false);
 	let contactEl: HTMLDivElement | undefined = $state();
+
+	function handleSelectOtherGraduate(other: GraduateIndexEntry) {
+		if (other.code) {
+			goto(withLocale(graduateProfilePath(other.code), localeFromPath(page.url.pathname)));
+		} else {
+			goto(withLocale("/projects/galaxy-graduates", localeFromPath(page.url.pathname)));
+		}
+	}
 
 	const contacts = [
 		{ name: "Telegram", url: "https://t.me/alik532", icon: "telegram.svg" },
@@ -132,10 +144,15 @@
 <div class="profile-stage" data-testid="graduate-profile-section">
 	{#if browser && isDesktop}
 		<div class="profile-stage__stars" aria-hidden="true">
-			{#await import("$lib/components/backgrounds/Starfield.svelte") then { default: Starfield }}
-				<Starfield />
-			{/await}
+			{#if showGalaxy}
+				<GraduateGalaxy onselect={handleSelectOtherGraduate} />
+			{:else}
+				{#await import("$lib/components/backgrounds/Starfield.svelte") then { default: Starfield }}
+					<Starfield />
+				{/await}
+			{/if}
 		</div>
+		<div class="profile-stage__backdrop" aria-hidden="true"></div>
 	{/if}
 
 	<div class="profile">
@@ -151,6 +168,21 @@
 
 	<!-- Панель дій у правому нижньому кутку -->
 	<div class="profile__actions">
+		<button
+			type="button"
+			class="profile__btn profile__btn--icon"
+			onclick={() => (showGalaxy = !showGalaxy)}
+			title={$t("galaxy.toggleGalaxy", { default: "Перемкнути фон Галактики" })}
+			aria-label={$t("galaxy.toggleGalaxy", { default: "Перемкнути фон Галактики" })}
+			data-testid="graduate-profile-toggle-galaxy-btn"
+		>
+			{#if showGalaxy}
+				<Eye size={20} aria-hidden="true" />
+			{:else}
+				<EyeOff size={20} aria-hidden="true" />
+			{/if}
+		</button>
+
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a
 			class="profile__btn profile__btn--back"
@@ -160,73 +192,77 @@
 			<span>{$t("galaxy.backToGalaxy")}</span>
 		</a>
 
-		<div
-			class="contact-wrap"
-			bind:this={contactEl}
-			onmouseenter={handleMouseEnter}
-			onmouseleave={handleMouseLeave}
-		>
-			{#if contactOpen}
-				<div
-					class="contact-popup"
-					transition:fly={{ y: 10, duration: 180 }}
-					data-testid="graduate-profile-contact-menu"
-				>
-					<img
-						src={asset("/graduates/alik-zapolnov-96.webp")}
-						alt="Алік Запольнов"
-						width="36"
-						height="36"
-						class="contact-popup__avatar"
-						loading="eager"
-						data-testid="graduate-profile-contact-admin-img"
-					/>
-					<p
-						class="contact-popup__hint"
-						data-testid="graduate-profile-contact-hint"
-					>
-						Привіт!) Щоб внести<br />правки — напиши мені
-					</p>
-					<div class="contact-popup__icons">
-						{#each contacts as c (c.name)}
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a
-								href={c.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="contact-popup__link"
-								aria-label={c.name}
-								title={c.name}
-								onclick={(e) => e.stopPropagation()}
-								data-testid="graduate-profile-contact-link-{c.name.toLowerCase()}"
-							>
-								<img
-									src={asset(`/social_media/${c.icon}`)}
-									alt={c.name}
-									width="32"
-									height="32"
-									loading="eager"
-								/>
-							</a>
-						{/each}
-					</div>
-				</div>
-			{/if}
-
-			<button
-				type="button"
-				class="profile__btn profile__btn--contact"
-				onclick={toggleContact}
+		{#if data.graduate.hasPhoto}
+			<div
+				class="contact-wrap"
+				bind:this={contactEl}
 				onmouseenter={handleMouseEnter}
-				onkeydown={handleContactKeydown}
-				aria-expanded={contactOpen}
-				aria-label={$t("common.contact", { default: "Зв'язатися" })}
-				title={$t("common.contact", { default: "Зв'язатися" })}
-				data-testid="graduate-profile-edit-btn"
+				onmouseleave={handleMouseLeave}
+				role="group"
+				aria-label={$t("common.contact", { default: "Контакти" })}
 			>
-				<Pencil size={18} aria-hidden="true" />
-			</button>
-		</div>
+				{#if contactOpen}
+					<div
+						class="contact-popup"
+						transition:fly={{ y: 10, duration: 180 }}
+						data-testid="graduate-profile-contact-menu"
+					>
+						<img
+							src={asset("/graduates/alik-zapolnov-96.webp")}
+							alt="Алік Запольнов"
+							width="36"
+							height="36"
+							class="contact-popup__avatar"
+							loading="eager"
+							data-testid="graduate-profile-contact-admin-img"
+						/>
+						<p
+							class="contact-popup__hint"
+							data-testid="graduate-profile-contact-hint"
+						>
+							Привіт!) Щоб внести<br />правки — напиши мені
+						</p>
+						<div class="contact-popup__icons">
+							{#each contacts as c (c.name)}
+								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+								<a
+									href={c.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="contact-popup__link"
+									aria-label={c.name}
+									title={c.name}
+									onclick={(e) => e.stopPropagation()}
+									data-testid="graduate-profile-contact-link-{c.name.toLowerCase()}"
+								>
+									<img
+										src={asset(`/social_media/${c.icon}`)}
+										alt={c.name}
+										width="32"
+										height="32"
+										loading="eager"
+									/>
+								</a>
+							{/each}
+						</div>
+					</div>
+				{/if}
+
+				<button
+					type="button"
+					class="profile__btn profile__btn--contact"
+					onclick={toggleContact}
+					onmouseenter={handleMouseEnter}
+					onkeydown={handleContactKeydown}
+					aria-expanded={contactOpen}
+					aria-label={$t("common.contact", { default: "Зв'язатися" })}
+					title={$t("common.contact", { default: "Зв'язатися" })}
+					data-testid="graduate-profile-edit-btn"
+				>
+					<Pencil size={18} aria-hidden="true" />
+				</button>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -236,6 +272,10 @@
 	}
 
 	.profile-stage__stars {
+		display: none;
+	}
+
+	.profile-stage__backdrop {
 		display: none;
 	}
 
@@ -297,7 +337,8 @@
 		font-weight: 500;
 	}
 
-	.profile__btn--contact {
+	.profile__btn--contact,
+	.profile__btn--icon {
 		width: 44px;
 		height: 44px;
 		padding: 0;
@@ -397,6 +438,17 @@
 			position: absolute;
 			inset: 0;
 			z-index: 0;
+		}
+
+		:global(body.page-galaxy) .profile-stage__backdrop {
+			display: block;
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+			background: rgb(3 6 20 / 0.72);
+			backdrop-filter: blur(3px);
+			-webkit-backdrop-filter: blur(3px);
+			pointer-events: none;
 		}
 
 		:global(body.page-galaxy) .profile {

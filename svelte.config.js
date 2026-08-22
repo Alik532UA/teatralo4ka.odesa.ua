@@ -153,6 +153,7 @@ const config = {
 					'https://*.firebaseapp.com',
 					'https://accounts.google.com',
 					'https://www.google.com',
+					'https://docs.google.com',
 					// Санітайзер статей навмисно дозволяє <iframe> заради вбудованого
 					// відео (`DOMPURIFY_HTML_CONFIG.ADD_TAGS`). Без цих джерел вийшло б
 					// те саме, що зі звуком піаніно: розмітка проходить санітизацію, а

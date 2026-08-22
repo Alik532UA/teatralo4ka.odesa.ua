@@ -4,10 +4,11 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { List } from 'lucide-svelte';
+	import { List, Plus } from 'lucide-svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
+	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import { SvelteMap } from 'svelte/reactivity';
 	import { localeFromPath, withLocale } from '$lib/i18n/routing';
 	import {
@@ -21,6 +22,36 @@
 	let { data } = $props();
 
 	let rosterOpen = $state(false);
+	let formModalOpen = $state(false);
+
+	$effect(() => {
+		if (browser) {
+			const param = page.url.searchParams.get('form');
+			if (param === 'open' || param === 'true') {
+				formModalOpen = true;
+			} else if (formModalOpen && param === null) {
+				formModalOpen = false;
+			}
+		}
+	});
+
+	function openForm() {
+		formModalOpen = true;
+		if (browser) {
+			const url = new URL(window.location.href);
+			url.searchParams.set('form', 'open');
+			pushState(url.href, { formOpen: true });
+		}
+	}
+
+	function closeForm() {
+		formModalOpen = false;
+		if (browser && window.location.search.includes('form=')) {
+			const url = new URL(window.location.href);
+			url.searchParams.delete('form');
+			pushState(url.href, { formOpen: false });
+		}
+	}
 
 	/**
 	 * Профілі, які вже прочитані: людину можна відкрити вдруге, а файл читається
@@ -141,19 +172,31 @@
 </nav>
 
 <div class="stage">
-	<GraduateGalaxy onselect={openGraduate} paused={rosterOpen || selected !== null} />
+	<GraduateGalaxy onselect={openGraduate} paused={rosterOpen} />
 
-	<button
-		type="button"
-		class="stage__roster-btn"
-		onclick={() => (rosterOpen = true)}
-		data-testid="galaxy-open-roster-btn"
-	>
-		<List size={18} aria-hidden="true" />
-		<span>{$t('galaxy.all')}</span>
-		<span class="stage__total" data-testid="galaxy-roster-total-count">{data.graduates.length}</span
+	<div class="stage__controls">
+		<button
+			type="button"
+			class="stage__roster-btn"
+			onclick={() => (rosterOpen = true)}
+			data-testid="galaxy-open-roster-btn"
 		>
-	</button>
+			<List size={18} aria-hidden="true" />
+			<span>{$t('galaxy.all')}</span>
+			<span class="stage__total" data-testid="galaxy-roster-total-count">{data.graduates.length}</span>
+		</button>
+
+		<button
+			type="button"
+			class="stage__add-btn"
+			onclick={openForm}
+			title={$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}
+			aria-label={$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}
+			data-testid="galaxy-open-form-btn"
+		>
+			<Plus size={20} aria-hidden="true" />
+		</button>
+	</div>
 </div>
 
 <GraduateRoster
@@ -169,6 +212,11 @@
 	onclose={() => history.back()}
 />
 
+<GraduateFormModal
+	isOpen={formModalOpen}
+	onclose={closeForm}
+/>
+
 <style>
 	.stage {
 		position: fixed;
@@ -178,11 +226,17 @@
 		background: var(--galaxy-bg);
 	}
 
-	.stage__roster-btn {
+	.stage__controls {
 		position: absolute;
 		z-index: 3;
 		right: clamp(0.75rem, 2vw, 1.5rem);
 		bottom: clamp(0.75rem, 2vh, 1.5rem);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.stage__roster-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -197,11 +251,33 @@
 		font-size: 0.9rem;
 		cursor: pointer;
 		backdrop-filter: blur(4px);
+		transition: background 0.2s ease, border-color 0.2s ease;
 	}
 
 	.stage__roster-btn:hover {
 		background: rgb(12 22 56 / 0.85);
 		border-color: rgb(140 190 255 / 0.6);
+	}
+
+	.stage__add-btn {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border: 1px solid rgb(140 190 255 / 0.4);
+		border-radius: 50%;
+		background: rgb(5 10 31 / 0.72);
+		color: #cfe4ff;
+		cursor: pointer;
+		backdrop-filter: blur(4px);
+		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+	}
+
+	.stage__add-btn:hover {
+		background: rgb(12 22 56 / 0.9);
+		border-color: rgb(140 190 255 / 0.8);
+		color: #fff;
+		transform: scale(1.05);
 	}
 
 	.stage__total {

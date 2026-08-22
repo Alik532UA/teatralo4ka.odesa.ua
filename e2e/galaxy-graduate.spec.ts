@@ -149,7 +149,8 @@ test.describe('картка в галактиці має власну адрес
 		await plain.locator('button').click();
 
 		await expect(page.locator(CARD)).toBeVisible();
-		await expect(page.locator('[data-testid="galaxy-card-pending-message"]')).toBeVisible();
+		await expect(page.locator('[data-testid="galaxy-card-fill-form-btn"]')).toBeVisible();
+		await expect(page.locator('[data-testid="graduate-profile-edit-btn"]')).toHaveCount(0);
 		expect(new URL(page.url()).pathname, 'адреса мусить лишитися').toBe(before);
 	});
 

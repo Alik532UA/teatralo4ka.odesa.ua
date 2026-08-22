@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
+	import { FileText } from 'lucide-svelte';
+	import { browser } from '$app/environment';
 	import { asset } from '$app/paths';
 	import { safeUrl } from '$lib/utils/safeUrl';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
+	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -24,6 +27,37 @@
 	}
 
 	let { graduate, profile, headingId, heading = 'h2' }: Props = $props();
+
+	let formModalOpen = $state(false);
+
+	$effect(() => {
+		if (browser) {
+			const param = new URL(window.location.href).searchParams.get('form');
+			if (param === 'open' || param === 'true') {
+				formModalOpen = true;
+			} else if (formModalOpen && param === null) {
+				formModalOpen = false;
+			}
+		}
+	});
+
+	function openForm() {
+		formModalOpen = true;
+		if (browser) {
+			const url = new URL(window.location.href);
+			url.searchParams.set('form', 'open');
+			window.history.pushState({ formOpen: true }, '', url.href);
+		}
+	}
+
+	function closeForm() {
+		formModalOpen = false;
+		if (browser && window.location.search.includes('form=')) {
+			const url = new URL(window.location.href);
+			url.searchParams.delete('form');
+			window.history.pushState({ formOpen: false }, '', url.href);
+		}
+	}
 
 	const enrollmentYears = $derived(profile?.enrollmentYears ?? graduate.enrollmentYears ?? []);
 	const enrollmentText = $derived(
@@ -116,7 +150,6 @@
 			</div>
 		{:else}
 			<div class="star" aria-hidden="true"></div>
-			<p class="pending" data-testid="galaxy-card-pending-message">{$t('galaxy.noProfile')}</p>
 		{/if}
 
 		<svelte:element this={heading} class="name" id={headingId} data-testid="galaxy-card-title">
@@ -128,6 +161,20 @@
 				{#if enrollmentText}<span class="years__item">{enrollmentText}</span>{/if}
 				{#if enrollmentText && graduationText}<span class="years__sep" aria-hidden="true">·</span>{/if}
 				{#if graduationText}<span class="years__item">{graduationText}</span>{/if}
+			</div>
+		{/if}
+
+		{#if !graduate.hasPhoto}
+			<div class="fill-profile-wrap">
+				<button
+					type="button"
+					class="fill-profile-btn"
+					onclick={openForm}
+					data-testid="galaxy-card-fill-form-btn"
+				>
+					<FileText size={16} aria-hidden="true" />
+					<span>{$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}</span>
+				</button>
 			</div>
 		{/if}
 
@@ -232,6 +279,11 @@
 	{/if}
 </div>
 
+<GraduateFormModal
+	isOpen={formModalOpen}
+	onclose={closeForm}
+/>
+
 <style>
 	.profile-layout { display: flex; flex-direction: column; gap: 1.25rem; width: 100%; background: var(--galaxy-card-bg); border: 1px solid rgb(140 190 255 / 0.18); border-radius: 1.75rem; box-shadow: 0 18px 48px rgb(0 0 0 / 0.28); padding: clamp(1.25rem, 3vh, 1.75rem); }
 	.col { min-width: 0; }
@@ -239,7 +291,7 @@
 	.col--left { order: 2; }
 	.col--right { order: 3; }
 
-	@media (min-width: 860px) {
+	@media (min-width: 769px) {
 		.profile-layout { display: grid; grid-template-columns: minmax(280px, 420px); justify-content: center; align-items: start; gap: clamp(1rem, 2vw, 1.75rem); text-align: left; min-height: 0; width: fit-content; max-width: 100%; margin: 0 auto; background: transparent; border: none; box-shadow: none; padding: 0; }
 		.profile-layout.has-plays.has-bio { grid-template-columns: minmax(340px, max-content) minmax(260px, 300px) minmax(280px, max-content); }
 		.profile-layout.has-plays:not(.has-bio) { grid-template-columns: minmax(340px, max-content) minmax(260px, 300px); }
@@ -263,11 +315,34 @@
 	.dept-badge { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: rgb(140 190 255 / 0.12); border: 1px solid rgb(140 190 255 / 0.35); color: #bfe0ff; transition: transform 0.2s ease, background 0.2s ease; }
 	.dept-badge:hover { transform: scale(1.1); background: rgb(140 190 255 / 0.25); border-color: rgb(140 190 255 / 0.6); color: #fff; }
 	.star { width: 96px; height: 96px; margin: 0 auto 0.5rem; border-radius: 50%; background: radial-gradient(circle, rgb(234 242 255 / 0.95) 0 6px, rgb(180 214 255 / 0.35) 12px, transparent 70%); }
-	.pending { margin: 0 0 0.75rem; color: var(--galaxy-muted); font-size: 0.9rem; text-align: center; }
 	.name { margin: 0 0 0.5rem; font-size: clamp(1.3rem, 3.5dvh, 1.7rem); text-align: center; color: var(--galaxy-accent); }
 	.years { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.2rem 0.45rem; margin: 0 0 0.9rem; color: var(--galaxy-muted); font-variant-numeric: tabular-nums; text-align: center; font-size: 0.95rem; line-height: 1.35; }
 	.years__item { white-space: nowrap; }
 	.years__sep { opacity: 0.5; }
+	.fill-profile-wrap { display: flex; justify-content: center; margin: 0.2rem 0 1rem; }
+	.fill-profile-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		padding: 0.6rem 1.25rem;
+		border-radius: 999px;
+		background: linear-gradient(135deg, rgb(140 190 255 / 0.22) 0%, rgb(0 150 255 / 0.38) 100%);
+		border: 1px solid rgb(140 190 255 / 0.55);
+		color: #ffffff;
+		font-size: 0.92rem;
+		font-weight: 600;
+		cursor: pointer;
+		box-shadow: 0 4px 16px rgb(0 120 255 / 0.25);
+		transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+	}
+	.fill-profile-btn:hover {
+		transform: translateY(-2px);
+		background: linear-gradient(135deg, rgb(140 190 255 / 0.38) 0%, rgb(0 150 255 / 0.6) 100%);
+		border-color: rgb(140 190 255 / 0.85);
+		box-shadow: 0 6px 20px rgb(0 150 255 / 0.45);
+		color: #ffffff;
+	}
 	.group { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.25rem 0.45rem; margin: 0 0 1rem; color: var(--galaxy-text); text-align: center; font-size: 0.95rem; line-height: 1.35; }
 	.group__label { color: var(--galaxy-muted); white-space: nowrap; }
 	.group__name { color: var(--galaxy-text); }
