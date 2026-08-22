@@ -324,7 +324,7 @@
 	}
 
 	.masters-grid--compact {
-		grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-		gap: 1.5rem 1rem;
+		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+		gap: 1.75rem 1.25rem;
 	}
 </style>

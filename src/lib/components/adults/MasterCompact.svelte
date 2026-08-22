@@ -15,13 +15,30 @@
 	const name = $derived(isEn ? m.fullNameEn : m.fullName);
 	const dispName = $derived(isEn ? m.displayNameEn : m.displayName);
 	const isHonorary = $derived(m.isHonorary || m.status === 'honorary' || m.category === 'honorary');
+
+	function parseName(disp: string) {
+		const trimmed = (disp || '').trim();
+		const parts = trimmed.split(/\s+/);
+		if (parts.length <= 1) {
+			return { firstName: '', lastName: parts[0] || '' };
+		}
+		// If format is "Прізвище І." (e.g. trailing initial), treat initial as firstName
+		if (parts.length === 2 && parts[1].endsWith('.') && parts[1].length <= 3) {
+			return { firstName: parts[1], lastName: parts[0].toUpperCase() };
+		}
+		const firstName = parts[0];
+		const lastName = parts.slice(1).join(' ');
+		return { firstName, lastName };
+	}
+
+	const parsed = $derived(parseName(dispName));
 </script>
 
 <!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 <a
 	{href}
 	class="master-compact"
-	title="{dispName} — {m.roleTitle || ''}"
+	aria-label={m.roleTitle ? `${dispName}, ${m.roleTitle}` : dispName}
 	data-testid="residents-adults-master-card-{m.slug}"
 >
 	<div class="master-compact__avatar-wrap">
@@ -42,10 +59,25 @@
 		{/if}
 	</div>
 
-	<span class="master-compact__name">{dispName}</span>
+	<div class="master-compact__name">
+		{#if parsed.firstName}
+			<span class="master-compact__first-name">{parsed.firstName}</span>
+		{/if}
+		<span
+			class="master-compact__last-name"
+			style="--len: {parsed.lastName.length || 1};"
+		>
+			{parsed.lastName}
+		</span>
+	</div>
 
 	<!-- Спливаючий тултіп при наведенні -->
 	<div class="master-compact__popover" role="tooltip">
+		{#if isHonorary}
+			<span class="master-compact__popover-honorary">
+				{$t('galaxy.honoraryShort', { default: "Світлої пам'яті" })}
+			</span>
+		{/if}
 		<strong class="master-compact__popover-name">{dispName}</strong>
 		{#if m.roleTitle}
 			<p class="master-compact__popover-role">{m.roleTitle}</p>
@@ -121,17 +153,37 @@
 	}
 
 	.master-compact__name {
-		font-size: 0.85rem;
-		font-weight: 600;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		max-width: 100%;
+		line-height: 1.22;
+		text-align: center;
+		margin-top: 0.15rem;
+		overflow: hidden;
+	}
+
+	.master-compact__first-name {
+		font-size: 0.82rem;
+		font-weight: 700;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
 		color: var(--text-title);
 		line-height: 1.25;
+	}
+
+	.master-compact__last-name {
+		font-size: clamp(0.55rem, calc(115px / var(--len) * 0.95), 0.86rem);
+		font-weight: 700;
+		white-space: nowrap;
+		letter-spacing: -0.01em;
+		color: var(--text-title);
+		line-height: 1.25;
+		text-transform: uppercase;
 		max-width: 100%;
-		display: -webkit-box;
-		line-clamp: 2;
-		-webkit-line-clamp: 2;
-		/* svelte-ignore css_unknown_property */
-		-webkit-box-orient: vertical;
-		overflow: hidden;
 	}
 
 	/* Floating Popover on Hover */
@@ -140,7 +192,7 @@
 		bottom: calc(100% + 8px);
 		left: 50%;
 		transform: translateX(-50%) translateY(6px);
-		width: 220px;
+		width: 230px;
 		padding: 0.85rem 1rem;
 		background: var(--bg-card);
 		border: 1px solid var(--border-main);
@@ -151,6 +203,17 @@
 		pointer-events: none;
 		transition: opacity 0.2s ease, transform 0.2s ease;
 		z-index: 50;
+	}
+
+	.master-compact__popover-honorary {
+		display: inline-block;
+		font-size: 0.72rem;
+		padding: 0.15rem 0.5rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
+		margin-bottom: 0.35rem;
 	}
 
 	.master-compact:hover .master-compact__popover,
