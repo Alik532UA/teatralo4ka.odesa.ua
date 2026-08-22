@@ -210,3 +210,9 @@
 - Контент сторінок — markdown у `src/lib/i18n/pages/<lang>/`, з frontmatter (`status`, `priority`, `changefreq`), звідки `generate-sitemap.ts` будує `sitemap.xml`.
 - Налаштування головної сторінки (порядок блоків, віджети) зберігаються у Firestore і редагуються в адмінці — звідси розмір `admin/settings/+page.svelte`.
 - Workflow збирає матрицю «шкіл» (`VITE_SCHOOL_ID`), зараз у ній один запис. Структура залишена під майбутнє розширення на кілька сайтів з однієї кодової бази.
+- **Розділ «Дорослі» (`/residents/adults`)**:
+  - Розбитий на 7 категорій: `administration` (керівництво), `pedagogues` (педагоги), `production` (звук/світло), `it` (IT — Алік Запольнов), `support` (служба турботи: охорона, клінінг, бібліотека), `honorary` (світла пам'ять — плавний 10s ч/б перехід), `history` (історія).
+  - Підтримує 3 режими: `cards` (горизонтальні картки), `gallery` (театральні вертикальні 2:3 постери 720×1080 px), `compact` (мінімалістична сітка з hover popover). Стан зберігається в `localStorage` під ключем `adults_view_mode`.
+  - **Конвеєр фотографій**: Вихідники повної роздільної здатності зберігаються в `assets/masters-raw/*.webp` (q=50). Команда `npm run build:masters` (`scripts/build-master-photos.ts`) перетворює їх на квадратні аватари `static/masters/*.webp` (480×480) та вертикальні постери `static/masters/portraits/*.webp` (720×1080) і синхронізує шляхи з `masters.index.json` та `static/masters/profiles/*.json`.
+  - **Тестування**: Користувач візуально перевіряє інтерфейс власноруч. Не використовувати headless браузер-сабагенти.
+

@@ -72,6 +72,22 @@
 записаною поруч причиною (CODE-QUALITY-v8 § 6.4.1); інваріант
 `src/eslint-baseline.test.ts` падає, якщо хтось вимкне його мовчки.
 
+## Архітектура розділу «Дорослі» (/residents/adults)
+
+- **7 категорій персоналу та майстрів:**
+  1. `administration` («Керівництво та адміністрація»)
+  2. `pedagogues` («Майстри курсів та педагоги»)
+  3. `production` («Художньо-технічна служба»)
+  4. `it` («IT та цифрові технології» — окрема категорія для Аліка Запольнова)
+  5. `support` («Служба турботи та затишку»)
+  6. `honorary` («Світла пам'ять» — з плавним 10-секундним зникненням ч/б фільтра при hover)
+  7. `history` («Історія школи»)
+- **3 режими відображення:** `cards` (Картки, за замовчуванням), `gallery` (Театральні вертикальні постери 2:3 `720×1080 px`), `compact` (Мінімалістична сітка аватарів з hover popover). Стан зберігається в `localStorage` (`adults_view_mode`).
+- **Конвеєр фотографій викладачів:**
+  - Повноформатні вихідники 1:1 зберігаються в `assets/masters-raw/{id}.webp` (WebP q=50).
+  - Команда `npm run build:masters` генерує квадратні аватари `static/masters/{id}.webp` (480×480) та вертикальні постери `static/masters/portraits/{id}.webp` (720×1080), автоматично оновлюючи `masters.index.json` та `static/masters/profiles/*.json`.
+- **Правило тестування користувача:** Користувач сам візуально перевіряє інтерфейс у браузері. НЕ використовувати `browser_subagent` для візуального тестування UI.
+
 ## Конвенції
 
 - **Іменування:** компоненти `PascalCase.svelte`, утиліти `camelCase.ts`,
@@ -83,14 +99,16 @@
 - **Тести:** Vitest під `src/` і `vitest/support/`, Playwright — у `e2e/`, проти
   **зібраного** сайту (`npm run test:e2e` спершу робить `build`).
 
-## Команди перевірки
+## Команди перевірки та збірки
 
 ```
-npm run check      # svelte-check, має бути 0 помилок
-npm run lint       # eslint, має бути 0 помилок (попередження — записаний борг)
-npm test           # юніт-інваріанти
-npm run build      # збірка; postbuild сам жене sitemap, бюджет бандла й биті посилання
-npm run test:e2e   # Playwright проти build/
+npm run check          # svelte-check, має бути 0 помилок і 0 попереджень
+npm run lint           # eslint, має бути 0 помилок
+npm test               # юніт-інваріанти vitest (усі 63 тест-файли)
+npm run build:masters  # збірка веб-аватарів та постерів із assets/masters-raw/
+npm run bump-version   # автоінкремент версії
+npm run build          # збірка сайту; postbuild перевіряє sitemap і бандл
+npm run test:e2e       # Playwright проти build/
 ```
 
 Локально ці п'ять команд — те саме, що робить CI. Різниця одна: `npm run build`
