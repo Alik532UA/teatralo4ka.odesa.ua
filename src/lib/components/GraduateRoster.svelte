@@ -664,7 +664,7 @@
 		gap: 0.75rem;
 		padding: 0.9rem 1.15rem 1.15rem;
 		border-radius: 1.25rem;
-		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 75%, transparent);
 		backdrop-filter: blur(20px);
 		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
 		border: none;
