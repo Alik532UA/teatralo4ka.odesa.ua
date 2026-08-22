@@ -136,11 +136,10 @@
 		aria-modal="true"
 		aria-labelledby="{id}-title"
 		{@attach focusTrap()}
-		{@attach customScroll({ alignThumb: "right", rightOffset: -0 })}
 		data-testid="galaxy-card-modal"
 	>
-		<div class="card__inner">
-			<div class="card__toolbar">
+		<div class="card__inner" data-testid="galaxy-card-inner">
+			<div class="card__toolbar" data-testid="galaxy-card-toolbar">
 				{#if graduate.hasPhoto}
 					<div
 						class="contact-wrap"
@@ -277,10 +276,11 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding-top: 56px;
 	}
 	.card__toolbar {
 		position: absolute;
-		top: -3.2rem;
+		top: 0;
 		right: 0;
 		display: flex;
 		align-items: center;
@@ -309,6 +309,11 @@
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.7);
 		color: #fff;
+	}
+	.card__close:hover {
+		background: rgb(255 100 100 / 0.2);
+		border-color: rgb(255 120 120 / 0.6);
+		color: #ff9999;
 	}
 	.contact-wrap {
 		position: relative;
@@ -382,6 +387,9 @@
 			border-radius: 1.75rem;
 			box-shadow: 0 24px 60px rgb(0 0 0 / 0.5);
 			padding: clamp(1rem, 3dvh, 1.5rem);
+		}
+		.card__inner {
+			padding-top: 0;
 		}
 		.card__toolbar {
 			position: sticky;

@@ -5,12 +5,15 @@
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
 	import { fly } from "svelte/transition";
-	import { Pencil, Eye, EyeOff } from "lucide-svelte";
+	import { Pencil, X } from "lucide-svelte";
 	import { asset } from "$app/paths";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
 	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
 	import { localeFromPath, withLocale } from "$lib/i18n/routing";
-	import { graduateProfilePath, type GraduateIndexEntry } from "$lib/data/graduates";
+	import {
+		graduateProfilePath,
+		type GraduateIndexEntry,
+	} from "$lib/data/graduates";
 
 	let { data } = $props();
 
@@ -22,15 +25,24 @@
 	);
 
 	let isDesktop = $state(false);
-	let showGalaxy = $state(true);
 	let contactOpen = $state(false);
 	let contactEl: HTMLDivElement | undefined = $state();
 
 	function handleSelectOtherGraduate(other: GraduateIndexEntry) {
 		if (other.code) {
-			goto(withLocale(graduateProfilePath(other.code), localeFromPath(page.url.pathname)));
+			goto(
+				withLocale(
+					graduateProfilePath(other.code),
+					localeFromPath(page.url.pathname),
+				),
+			);
 		} else {
-			goto(withLocale("/projects/galaxy-graduates", localeFromPath(page.url.pathname)));
+			goto(
+				withLocale(
+					"/projects/galaxy-graduates",
+					localeFromPath(page.url.pathname),
+				),
+			);
 		}
 	}
 
@@ -144,19 +156,110 @@
 <div class="profile-stage" data-testid="graduate-profile-section">
 	{#if browser && isDesktop}
 		<div class="profile-stage__stars" aria-hidden="true">
-			{#if showGalaxy}
-				<GraduateGalaxy onselect={handleSelectOtherGraduate} />
-			{:else}
-				{#await import("$lib/components/backgrounds/Starfield.svelte") then { default: Starfield }}
-					<Starfield />
-				{/await}
-			{/if}
+			<GraduateGalaxy onselect={handleSelectOtherGraduate} />
 		</div>
 		<div class="profile-stage__backdrop" aria-hidden="true"></div>
 	{/if}
 
-	<div class="profile">
-		<article class="profile__card">
+	<div class="profile" data-testid="graduate-profile-container">
+		<article class="profile__card" data-testid="graduate-profile-card">
+			<div class="card__toolbar" data-testid="graduate-profile-toolbar">
+				{#if data.graduate.hasPhoto}
+					<div
+						class="contact-wrap"
+						bind:this={contactEl}
+						onmouseenter={handleMouseEnter}
+						onmouseleave={handleMouseLeave}
+						role="group"
+						aria-label={$t("common.contact", {
+							default: "Контакти",
+						})}
+					>
+						{#if contactOpen}
+							<div
+								class="contact-popup"
+								transition:fly={{ x: 10, duration: 180 }}
+								data-testid="graduate-profile-contact-menu"
+							>
+								<img
+									src={asset(
+										"/graduates/alik-zapolnov-96.webp",
+									)}
+									alt="Алік Запольнов"
+									width="28"
+									height="28"
+									class="contact-popup__avatar"
+									loading="eager"
+									data-testid="graduate-profile-contact-admin-img"
+								/>
+								<p
+									class="contact-popup__hint"
+									data-testid="graduate-profile-contact-hint"
+								>
+									Привіт!) Щоб внести правки — напиши мені
+								</p>
+								<div class="contact-popup__icons">
+									{#each contacts as c (c.name)}
+										<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+										<a
+											href={c.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											class="contact-popup__link"
+											aria-label={c.name}
+											title={c.name}
+											onclick={(e) => e.stopPropagation()}
+											data-testid="graduate-profile-contact-link-{c.name.toLowerCase()}"
+										>
+											<img
+												src={asset(
+													`/social_media/${c.icon}`,
+												)}
+												alt={c.name}
+												width="28"
+												height="28"
+												loading="eager"
+											/>
+										</a>
+									{/each}
+								</div>
+							</div>
+						{/if}
+
+						<button
+							type="button"
+							class="card__action card__contact"
+							onclick={toggleContact}
+							onmouseenter={handleMouseEnter}
+							onkeydown={handleContactKeydown}
+							aria-expanded={contactOpen}
+							aria-label={$t("common.contact", {
+								default: "Зв'язатися",
+							})}
+							title={$t("common.contact", {
+								default: "Зв'язатися",
+							})}
+							data-testid="graduate-profile-edit-btn"
+						>
+							<Pencil size={20} aria-hidden="true" />
+						</button>
+					</div>
+				{/if}
+
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+				<a
+					href={galaxyHref}
+					class="card__action card__close"
+					aria-label={$t("common.close", { default: "Закрити" })}
+					title={$t("galaxy.backToGalaxy", {
+						default: "Повернутися до галактики",
+					})}
+					data-testid="graduate-profile-close-btn"
+				>
+					<X size={20} aria-hidden="true" />
+				</a>
+			</div>
+
 			<GraduateProfileView
 				graduate={data.graduate}
 				profile={data.profile}
@@ -164,105 +267,6 @@
 				headingId="graduate-name"
 			/>
 		</article>
-	</div>
-
-	<!-- Панель дій у правому нижньому кутку -->
-	<div class="profile__actions">
-		<button
-			type="button"
-			class="profile__btn profile__btn--icon"
-			onclick={() => (showGalaxy = !showGalaxy)}
-			title={$t("galaxy.toggleGalaxy", { default: "Перемкнути фон Галактики" })}
-			aria-label={$t("galaxy.toggleGalaxy", { default: "Перемкнути фон Галактики" })}
-			data-testid="graduate-profile-toggle-galaxy-btn"
-		>
-			{#if showGalaxy}
-				<Eye size={20} aria-hidden="true" />
-			{:else}
-				<EyeOff size={20} aria-hidden="true" />
-			{/if}
-		</button>
-
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-		<a
-			class="profile__btn profile__btn--back"
-			href={galaxyHref}
-			data-testid="graduate-profile-back-link"
-		>
-			<span>{$t("galaxy.backToGalaxy")}</span>
-		</a>
-
-		{#if data.graduate.hasPhoto}
-			<div
-				class="contact-wrap"
-				bind:this={contactEl}
-				onmouseenter={handleMouseEnter}
-				onmouseleave={handleMouseLeave}
-				role="group"
-				aria-label={$t("common.contact", { default: "Контакти" })}
-			>
-				{#if contactOpen}
-					<div
-						class="contact-popup"
-						transition:fly={{ y: 10, duration: 180 }}
-						data-testid="graduate-profile-contact-menu"
-					>
-						<img
-							src={asset("/graduates/alik-zapolnov-96.webp")}
-							alt="Алік Запольнов"
-							width="36"
-							height="36"
-							class="contact-popup__avatar"
-							loading="eager"
-							data-testid="graduate-profile-contact-admin-img"
-						/>
-						<p
-							class="contact-popup__hint"
-							data-testid="graduate-profile-contact-hint"
-						>
-							Привіт!) Щоб внести<br />правки — напиши мені
-						</p>
-						<div class="contact-popup__icons">
-							{#each contacts as c (c.name)}
-								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a
-									href={c.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="contact-popup__link"
-									aria-label={c.name}
-									title={c.name}
-									onclick={(e) => e.stopPropagation()}
-									data-testid="graduate-profile-contact-link-{c.name.toLowerCase()}"
-								>
-									<img
-										src={asset(`/social_media/${c.icon}`)}
-										alt={c.name}
-										width="32"
-										height="32"
-										loading="eager"
-									/>
-								</a>
-							{/each}
-						</div>
-					</div>
-				{/if}
-
-				<button
-					type="button"
-					class="profile__btn profile__btn--contact"
-					onclick={toggleContact}
-					onmouseenter={handleMouseEnter}
-					onkeydown={handleContactKeydown}
-					aria-expanded={contactOpen}
-					aria-label={$t("common.contact", { default: "Зв'язатися" })}
-					title={$t("common.contact", { default: "Зв'язатися" })}
-					data-testid="graduate-profile-edit-btn"
-				>
-					<Pencil size={18} aria-hidden="true" />
-				</button>
-			</div>
-		{/if}
 	</div>
 </div>
 
@@ -287,6 +291,7 @@
 
 	/* Темна картка: впізнаваність об'єкта галактики */
 	.profile__card {
+		position: relative;
 		padding: clamp(1rem, 3vh, 1.75rem);
 		border-radius: 1.75rem;
 		background: var(--galaxy-card-bg);
@@ -294,55 +299,47 @@
 		box-shadow: 0 18px 48px rgb(0 0 0 / 0.28);
 	}
 
-	.profile__actions {
-		position: fixed;
-		bottom: clamp(1rem, 3vh, 1.75rem);
-		right: clamp(1rem, 3vw, 1.75rem);
-		z-index: 50;
+	.card__toolbar {
+		position: absolute;
+		top: -3.2rem;
+		right: 0;
 		display: flex;
 		align-items: center;
-		gap: 0.65rem;
+		gap: 0.5rem;
+		z-index: 10;
 	}
 
-	.profile__btn {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 44px;
-		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(140 190 255 / 0.28);
-		border-radius: 999px;
+	.card__action {
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		border: 1px solid rgb(140 190 255 / 0.35);
+		border-radius: 50%;
+		background: rgb(3 6 20 / 0.75);
 		color: #cfe4ff;
+		cursor: pointer;
+		backdrop-filter: blur(8px);
 		text-decoration: none;
-		box-shadow: 0 10px 28px rgb(0 0 0 / 0.45);
-		backdrop-filter: blur(14px);
+	}
+
+	.card__contact {
 		transition:
-			transform 0.2s ease,
 			background 0.2s ease,
 			border-color 0.2s ease,
 			color 0.2s ease;
 	}
 
-	.profile__btn:hover {
-		transform: translateY(-2px);
-		background: rgb(140 190 255 / 0.22);
-		border-color: rgb(140 190 255 / 0.65);
+	.card__contact:hover {
+		background: rgb(140 190 255 / 0.25);
+		border-color: rgb(140 190 255 / 0.7);
 		color: #fff;
 	}
 
-	.profile__btn--back {
-		gap: 0.5rem;
-		padding: 0 1.25rem;
-		font-size: 0.95rem;
-		font-weight: 500;
-	}
-
-	.profile__btn--contact,
-	.profile__btn--icon {
-		width: 44px;
-		height: 44px;
-		padding: 0;
-		cursor: pointer;
+	.card__close:hover {
+		background: rgb(255 100 100 / 0.2);
+		border-color: rgb(255 120 120 / 0.6);
+		color: #ff9999;
 	}
 
 	/* Контактне випадаюче меню */
@@ -352,57 +349,51 @@
 
 	.contact-popup {
 		position: absolute;
-		bottom: calc(100% + 0.65rem);
-		right: 0;
+		top: 50%;
+		right: calc(100% + 0.65rem);
+		transform: translateY(-50%);
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		align-items: center;
-		gap: 0.5rem;
-		padding: 0.65rem 0.85rem;
-		background: var(--galaxy-card-bg);
+		gap: 0.65rem;
+		padding: 0.35rem 0.65rem;
+		background: rgb(3 6 20 / 0.88);
 		border: 1px solid rgb(140 190 255 / 0.28);
-		border-radius: 1rem;
-		box-shadow: 0 12px 36px rgb(0 0 0 / 0.55);
+		border-radius: 999px;
+		box-shadow: 0 8px 28px rgb(0 0 0 / 0.55);
 		backdrop-filter: blur(14px);
 		white-space: nowrap;
+	}
+
+	.contact-popup__avatar {
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 1px solid rgb(140 190 255 / 0.4);
+		flex-shrink: 0;
 	}
 
 	.contact-popup__hint {
 		margin: 0;
 		font-size: 0.84rem;
 		color: rgb(180 210 255 / 0.85);
-		line-height: 1.3;
-		text-align: center;
+		line-height: 1;
 	}
 
 	.contact-popup__icons {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		justify-content: center;
-		gap: 0.4rem;
-	}
-
-	.contact-popup__avatar {
-		position: absolute;
-		top: -14px;
-		left: -14px;
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: 2px solid rgb(140 190 255 / 0.55);
-		box-shadow: 0 4px 14px rgb(0 0 0 / 0.6);
-		background: #000;
-		z-index: 2;
+		gap: 0.35rem;
 	}
 
 	.contact-popup__link {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: 44px;
-		height: 44px;
+		width: 38px;
+		height: 38px;
 		border-radius: 50%;
 		text-decoration: none;
 		transition:
@@ -411,15 +402,38 @@
 	}
 
 	.contact-popup__link:hover {
-		transform: scale(1.15);
+		transform: scale(1.18);
 		filter: drop-shadow(0 0 8px rgb(140 190 255 / 0.5));
 	}
 
 	.contact-popup__link img {
-		width: 32px;
-		height: 32px;
+		width: 28px;
+		height: 28px;
 		object-fit: contain;
 		filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.3));
+	}
+
+	@media (max-width: 768px) {
+		.card__toolbar {
+			position: sticky;
+			top: 0;
+			right: 0;
+			float: right;
+			z-index: 10;
+		}
+
+		.card__action {
+			border: none;
+			background: rgb(255 255 255 / 0.12);
+			color: inherit;
+		}
+
+		.contact-popup {
+			right: auto;
+			left: 0;
+			top: calc(100% + 0.4rem);
+			flex-direction: row;
+		}
 	}
 
 	@media (min-width: 769px) {
@@ -464,16 +478,22 @@
 		}
 
 		:global(body.page-galaxy) .profile__card {
-			width: 100%;
+			position: relative;
+			width: fit-content;
+			max-width: 100%;
 			min-height: 0;
 			background: transparent;
 			border: none;
 			box-shadow: none;
-			padding: 0;
+			padding: 56px 0 0;
 			overflow: visible;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+		}
+
+		:global(body.page-galaxy) .card__toolbar {
+			top: 0;
 		}
 	}
 </style>

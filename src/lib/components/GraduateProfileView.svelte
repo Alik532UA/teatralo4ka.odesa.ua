@@ -106,8 +106,8 @@
 		playsListEl.style.removeProperty("--plays-font-size");
 		playsListEl.style.removeProperty("--plays-line-height");
 
-		// Гранична доступна висота для колонки на десктопі (min(88vh, 820px))
-		const maxColH = Math.min(window.innerHeight * 0.88, 820);
+		// Гранична доступна висота для колонки на десктопі (з урахуванням тулбара)
+		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
 
 		const titleEl = playsCardEl.querySelector(
 			".block__title",
@@ -154,6 +154,56 @@
 		}
 	}
 
+	let rightColEl = $state<HTMLElement | null>(null);
+
+	function recalcBioFitting() {
+		if (!rightColEl || !browser) return;
+		if (window.innerWidth < 769) {
+			rightColEl.style.removeProperty("--bio-font-size");
+			rightColEl.style.removeProperty("--bio-line-height");
+			rightColEl.style.removeProperty("--bio-card-padding");
+			rightColEl.style.removeProperty("--bio-block-margin");
+			rightColEl.style.removeProperty("--bio-para-margin");
+			rightColEl.style.removeProperty("--bio-title-margin");
+			return;
+		}
+
+		// Скидаємо стилі для чистого заміру природної висоти
+		rightColEl.style.removeProperty("--bio-font-size");
+		rightColEl.style.removeProperty("--bio-line-height");
+		rightColEl.style.removeProperty("--bio-card-padding");
+		rightColEl.style.removeProperty("--bio-block-margin");
+		rightColEl.style.removeProperty("--bio-para-margin");
+		rightColEl.style.removeProperty("--bio-title-margin");
+
+		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
+		const naturalH = rightColEl.scrollHeight;
+		if (maxColH <= 0 || naturalH <= 0) return;
+
+		// Якщо вміщається у стандартному розмірі — нічого не зменшуємо
+		if (naturalH <= maxColH) {
+			return;
+		}
+
+		const fitRatio = maxColH / naturalH;
+		// Якщо вміщається >= 75% — адаптивно стискаємо шрифт, line-height та відступи, щоб усе вмістилося без скролу
+		if (fitRatio >= 0.75) {
+			const fontRem = Math.max(0.82, 0.95 * Math.pow(fitRatio, 0.5));
+			const lineH = Math.max(1.24, 1.55 * Math.pow(fitRatio, 0.35));
+			const cardPadRem = Math.max(0.75, 1.35 * fitRatio * 0.9);
+			const blockMarginRem = Math.max(0.45, 1.25 * fitRatio * 0.75);
+			const paraMarginRem = Math.max(0.28, 0.6 * fitRatio * 0.75);
+			const titleMarginRem = Math.max(0.25, 0.5 * fitRatio * 0.75);
+
+			rightColEl.style.setProperty("--bio-font-size", `${fontRem.toFixed(2)}rem`);
+			rightColEl.style.setProperty("--bio-line-height", `${lineH.toFixed(2)}`);
+			rightColEl.style.setProperty("--bio-card-padding", `${cardPadRem.toFixed(2)}rem`);
+			rightColEl.style.setProperty("--bio-block-margin", `${blockMarginRem.toFixed(2)}rem`);
+			rightColEl.style.setProperty("--bio-para-margin", `${paraMarginRem.toFixed(2)}rem`);
+			rightColEl.style.setProperty("--bio-title-margin", `${titleMarginRem.toFixed(2)}rem`);
+		}
+	}
+
 	$effect(() => {
 		if (!playsCardEl || !playsListEl || !browser) return;
 		const _ = profile?.plays?.length;
@@ -164,6 +214,192 @@
 			recalcPlaysFitting();
 		});
 		ro.observe(playsCardEl);
+		return () => ro.disconnect();
+	});
+
+	let centerColEl = $state<HTMLElement | null>(null);
+
+	function recalcCenterFitting() {
+		if (!centerColEl || !browser) return;
+		if (window.innerWidth < 769) {
+			centerColEl.style.removeProperty("--center-col-gap");
+			centerColEl.style.removeProperty("--center-card-padding");
+			centerColEl.style.removeProperty("--center-photo-margin");
+			centerColEl.style.removeProperty("--center-photo-size");
+			centerColEl.style.removeProperty("--center-name-size");
+			centerColEl.style.removeProperty("--center-name-margin");
+			centerColEl.style.removeProperty("--center-socials-margin");
+			centerColEl.style.removeProperty("--center-social-img-size");
+			centerColEl.style.removeProperty("--center-years-size");
+			centerColEl.style.removeProperty("--center-years-margin");
+			centerColEl.style.removeProperty("--center-group-size");
+			centerColEl.style.removeProperty("--center-group-margin");
+			centerColEl.style.removeProperty("--center-masters-margin");
+			centerColEl.style.removeProperty("--center-item-padding");
+			centerColEl.style.removeProperty("--center-master-name-size");
+			return;
+		}
+
+		// Скидаємо стилі для чистого заміру природної висоти
+		centerColEl.style.removeProperty("--center-col-gap");
+		centerColEl.style.removeProperty("--center-card-padding");
+		centerColEl.style.removeProperty("--center-photo-margin");
+		centerColEl.style.removeProperty("--center-photo-size");
+		centerColEl.style.removeProperty("--center-name-size");
+		centerColEl.style.removeProperty("--center-name-margin");
+		centerColEl.style.removeProperty("--center-socials-margin");
+		centerColEl.style.removeProperty("--center-social-img-size");
+		centerColEl.style.removeProperty("--center-years-size");
+		centerColEl.style.removeProperty("--center-years-margin");
+		centerColEl.style.removeProperty("--center-group-size");
+		centerColEl.style.removeProperty("--center-group-margin");
+		centerColEl.style.removeProperty("--center-masters-margin");
+		centerColEl.style.removeProperty("--center-item-padding");
+		centerColEl.style.removeProperty("--center-master-name-size");
+
+		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
+		const naturalH = centerColEl.scrollHeight;
+		if (maxColH <= 0 || naturalH <= 0) return;
+
+		if (naturalH <= maxColH) {
+			return;
+		}
+
+		const fitRatio = maxColH / naturalH;
+		// Якщо вміщається >= 70% — адаптивно та із запасом стискаємо, щоб гарантовано усунути скрол
+		if (fitRatio >= 0.7) {
+			const effectiveRatio = fitRatio * 0.92;
+			const photoSizePx = Math.max(
+				110,
+				Math.round(175 * Math.pow(effectiveRatio, 0.8)),
+			);
+			const photoMarginRem = Math.max(0.35, 1.1 * effectiveRatio * 0.7);
+			const nameSizeRem = Math.max(
+				1.15,
+				1.5 * Math.pow(effectiveRatio, 0.4),
+			);
+			const nameMarginRem = Math.max(0.2, 0.5 * effectiveRatio * 0.7);
+			const socialsMarginRem = Math.max(
+				0.25,
+				0.8 * effectiveRatio * 0.7,
+			);
+			const socialImgPx = Math.max(
+				24,
+				Math.round(34 * Math.pow(effectiveRatio, 0.5)),
+			);
+			const yearsSizeRem = Math.max(
+				0.8,
+				0.95 * Math.pow(effectiveRatio, 0.4),
+			);
+			const yearsMarginRem = Math.max(0.3, 0.9 * effectiveRatio * 0.7);
+			const groupSizeRem = Math.max(
+				0.8,
+				0.95 * Math.pow(effectiveRatio, 0.4),
+			);
+			const groupMarginRem = Math.max(0.3, 1.0 * effectiveRatio * 0.7);
+			const cardPadRem = Math.max(0.7, 1.35 * effectiveRatio * 0.85);
+			const colGapRem = Math.max(0.45, 1.0 * effectiveRatio * 0.75);
+			const mastersMarginRem = Math.max(
+				0.35,
+				1.1 * effectiveRatio * 0.7,
+			);
+			const itemPadYRem = Math.max(0.1, 0.25 * effectiveRatio * 0.75);
+			const masterNameRem = Math.max(
+				0.8,
+				0.92 * Math.pow(effectiveRatio, 0.4),
+			);
+
+			centerColEl.style.setProperty(
+				"--center-photo-size",
+				`${photoSizePx}px`,
+			);
+			centerColEl.style.setProperty(
+				"--center-photo-margin",
+				`${photoMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-name-size",
+				`${nameSizeRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-name-margin",
+				`${nameMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-socials-margin",
+				`${socialsMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-social-img-size",
+				`${socialImgPx}px`,
+			);
+			centerColEl.style.setProperty(
+				"--center-years-size",
+				`${yearsSizeRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-years-margin",
+				`${yearsMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-group-size",
+				`${groupSizeRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-group-margin",
+				`${groupMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-card-padding",
+				`${cardPadRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-col-gap",
+				`${colGapRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-masters-margin",
+				`${mastersMarginRem.toFixed(2)}rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-item-padding",
+				`${itemPadYRem.toFixed(2)}rem 0.65rem`,
+			);
+			centerColEl.style.setProperty(
+				"--center-master-name-size",
+				`${masterNameRem.toFixed(2)}rem`,
+			);
+		}
+	}
+
+	$effect(() => {
+		if (!rightColEl || !browser) return;
+		const _ = profile?.bio?.length;
+		const __ = profile?.duringStudies;
+		const ___ = profile?.afterGraduation;
+		const ____ = profile?.festivals?.length;
+
+		recalcBioFitting();
+
+		const ro = new ResizeObserver(() => {
+			recalcBioFitting();
+		});
+		ro.observe(rightColEl);
+		return () => ro.disconnect();
+	});
+
+	$effect(() => {
+		if (!centerColEl || !browser) return;
+		const _ = graduate.slug;
+		const __ = normalizedMasters.length;
+		const ___ = normalizedTeachers.length;
+
+		recalcCenterFitting();
+
+		const ro = new ResizeObserver(() => {
+			recalcCenterFitting();
+		});
+		ro.observe(centerColEl);
 		return () => ro.disconnect();
 	});
 
@@ -436,6 +672,7 @@
 	class="profile-layout"
 	class:has-plays={hasPlays}
 	class:has-bio={hasBio || canRelocateTeachersToBio}
+	data-testid="galaxy-profile-container"
 >
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
@@ -477,6 +714,7 @@
 	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, викладачі, соцмережі -->
 	<div
 		class="col col--center"
+		bind:this={centerColEl}
 		{@attach customScroll({ alignThumb: "right", rightOffset: -10 })}
 	>
 		<div
@@ -486,6 +724,7 @@
 			{#if graduate.hasPhoto}
 				<div class="photo-container">
 					{#if photoCount > 1}
+						<!-- Клік по стопці фото циклічно перемикає наступну світлину -->
 						<!-- svelte-ignore a11y_click_events_have_key_events -->
 						<!-- svelte-ignore a11y_no_static_element_interactions -->
 						<div
@@ -532,7 +771,7 @@
 										setPhoto(i);
 									}}
 									aria-label="Photo {i + 1}"
-									data-testid="galaxy-card-photo-dot-{i}"
+									data-testid="galaxy-card-photo-btn-{i}"
 								></button>
 							{/each}
 						</div>
@@ -703,6 +942,7 @@
 	{#if hasBio || canRelocateTeachersToBio}
 		<div
 			class="col col--right"
+			bind:this={rightColEl}
 			{@attach customScroll({ alignThumb: "right", rightOffset: -10 })}
 		>
 			{#if hasBio}
@@ -778,7 +1018,7 @@
 			{#if canRelocateTeachersToBio}
 				<div
 					class="bento-card bento-card--faculty"
-					data-testid="galaxy-card-teachers-card"
+					data-testid="galaxy-card-teachers-bio-card"
 				>
 					{@render teachersContent()}
 				</div>
@@ -859,7 +1099,7 @@
 		}
 
 		.col {
-			max-height: min(88dvh, 820px);
+			max-height: min(calc(88dvh - 56px), 760px);
 			min-height: 0;
 			overflow-y: auto;
 			background: transparent;
@@ -885,14 +1125,69 @@
 		.col--center {
 			order: 2;
 			text-align: center;
+			gap: var(--center-col-gap, clamp(0.75rem, 1.5vh, 1.25rem));
+		}
+		.col--center .bento-card {
+			padding: var(--center-card-padding, clamp(1.1rem, 2.2vh, 1.6rem));
+		}
+		.col--center .photo-container {
+			margin: 0 auto var(--center-photo-margin, 1.1rem);
+		}
+		.col--center .photo,
+		.col--center .photo-stack {
+			width: var(--center-photo-size, clamp(100px, 40vw, 175px));
+			height: var(--center-photo-size, clamp(100px, 40vw, 175px));
+		}
+		.col--center .name {
+			font-size: var(--center-name-size, clamp(1.3rem, 3.5dvh, 1.7rem));
+			margin: 0 0 var(--center-name-margin, 0.5rem);
+		}
+		.col--center .socials {
+			margin: 0.2rem 0 var(--center-socials-margin, 0.8rem);
+		}
+		.col--center .social__img {
+			width: var(--center-social-img-size, 34px);
+			height: var(--center-social-img-size, 34px);
+		}
+		.col--center .years {
+			font-size: var(--center-years-size, 0.95rem);
+			margin: 0 0 var(--center-years-margin, 0.9rem);
+		}
+		.col--center .group {
+			font-size: var(--center-group-size, 0.95rem);
+			margin: 0 0 var(--center-group-margin, 1rem);
+		}
+		.col--center .bento-card--main .masters-container {
+			margin: 0 0 var(--center-masters-margin, 1.1rem);
+		}
+		.col--center .bento-card--faculty .masters-container {
+			margin-bottom: 0;
+		}
+		.col--center .master-item {
+			padding: var(--center-item-padding, 0.25rem 0.75rem);
+		}
+		.col--center .master-name {
+			font-size: var(--center-master-name-size, 0.92rem);
 		}
 		.col--right {
 			order: 3;
 			max-width: min(580px, 42vw);
+			font-size: var(--bio-font-size, 0.95rem);
+		}
+		.col--right .bento-card {
+			padding: var(--bio-card-padding, clamp(1.1rem, 2.2vh, 1.6rem));
 		}
 		.col--right .block {
 			margin-top: 0;
-			margin-bottom: 1.25rem;
+			margin-bottom: var(--bio-block-margin, 1.25rem);
+		}
+		.col--right .block__title {
+			margin: 0 0 var(--bio-title-margin, 0.5rem);
+		}
+		.col--right .para {
+			font-size: var(--bio-font-size, 0.95rem);
+			line-height: var(--bio-line-height, 1.55);
+			margin: 0 0 var(--bio-para-margin, 0.6rem);
 		}
 		.col--right .block:last-child {
 			margin-bottom: 0;
