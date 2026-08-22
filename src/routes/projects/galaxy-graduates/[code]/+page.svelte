@@ -28,6 +28,37 @@
 	let contactOpen = $state(false);
 	let contactEl: HTMLDivElement | undefined = $state();
 
+	let profileEl = $state<HTMLElement | null>(null);
+	let shiftY = $state(0);
+
+	function updateShift() {
+		if (!browser || window.innerWidth < 769 || !profileEl) {
+			shiftY = 0;
+			return;
+		}
+		const availGap = window.innerHeight - profileEl.offsetHeight;
+		if (availGap >= 220) {
+			shiftY = 0;
+		} else if (availGap <= 100) {
+			shiftY = 26;
+		} else {
+			const t = (220 - availGap) / 120;
+			shiftY = Math.round(t * 26);
+		}
+	}
+
+	$effect(() => {
+		if (!profileEl || !browser) return;
+		updateShift();
+		const ro = new ResizeObserver(() => updateShift());
+		ro.observe(profileEl);
+		window.addEventListener("resize", updateShift);
+		return () => {
+			ro.disconnect();
+			window.removeEventListener("resize", updateShift);
+		};
+	});
+
 	function handleSelectOtherGraduate(other: GraduateIndexEntry) {
 		if (other.code) {
 			goto(
@@ -162,7 +193,12 @@
 	{/if}
 
 	<div class="profile" data-testid="graduate-profile-container">
-		<article class="profile__card" data-testid="graduate-profile-card">
+		<article
+			class="profile__card"
+			bind:this={profileEl}
+			style="--shift-y: {shiftY}px"
+			data-testid="graduate-profile-card"
+		>
 			<div class="card__toolbar" data-testid="graduate-profile-toolbar">
 				{#if data.graduate.hasPhoto}
 					<div
@@ -485,7 +521,8 @@
 			background: transparent;
 			border: none;
 			box-shadow: none;
-			padding: 56px 0 0;
+			padding: 0;
+			transform: translateY(var(--shift-y, 0px));
 			overflow: visible;
 			display: flex;
 			flex-direction: column;
@@ -493,7 +530,7 @@
 		}
 
 		:global(body.page-galaxy) .card__toolbar {
-			top: 0;
+			top: -3.25rem;
 		}
 	}
 </style>

@@ -11,6 +11,8 @@
 	} from "$lib/data/graduates";
 	import GraduateProfileView from "./GraduateProfileView.svelte";
 
+	import { browser } from "$app/environment";
+
 	interface Props {
 		graduate: GraduateIndexEntry | null;
 		profile: GraduateProfile | null;
@@ -19,6 +21,38 @@
 
 	let { graduate, profile, onclose }: Props = $props();
 	const id = $props.id();
+
+	let innerEl = $state<HTMLElement | null>(null);
+	let shiftY = $state(0);
+
+	function updateShift() {
+		if (!browser || window.innerWidth < 769 || !innerEl) {
+			shiftY = 0;
+			return;
+		}
+		const availGap = window.innerHeight - innerEl.offsetHeight;
+		if (availGap >= 220) {
+			shiftY = 0;
+		} else if (availGap <= 100) {
+			shiftY = 26;
+		} else {
+			const t = (220 - availGap) / 120;
+			shiftY = Math.round(t * 26);
+		}
+	}
+
+	$effect(() => {
+		if (!innerEl || !browser) return;
+		const _ = graduate?.slug;
+		updateShift();
+		const ro = new ResizeObserver(() => updateShift());
+		ro.observe(innerEl);
+		window.addEventListener("resize", updateShift);
+		return () => {
+			ro.disconnect();
+			window.removeEventListener("resize", updateShift);
+		};
+	});
 
 	const contacts = [
 		{ name: "Telegram", url: "https://t.me/alik532", icon: "telegram.svg" },
@@ -136,9 +170,14 @@
 		aria-modal="true"
 		aria-labelledby="{id}-title"
 		{@attach focusTrap()}
+		style="--shift-y: {shiftY}px"
 		data-testid="galaxy-card-modal"
 	>
-		<div class="card__inner" data-testid="galaxy-card-inner">
+		<div
+			class="card__inner"
+			bind:this={innerEl}
+			data-testid="galaxy-card-inner"
+		>
 			<div class="card__toolbar" data-testid="galaxy-card-toolbar">
 				{#if graduate.hasPhoto}
 					<div
@@ -256,9 +295,9 @@
 		z-index: 61;
 		left: 50%;
 		top: 50%;
-		translate: -50% -50%;
+		translate: -50% calc(-50% + var(--shift-y, 0px));
 		width: min(1760px, 96vw);
-		max-height: min(90dvh, 840px);
+		max-height: min(calc(100dvh - 90px), 840px);
 		overflow: visible;
 		display: flex;
 		flex-direction: column;
@@ -276,11 +315,11 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding-top: 56px;
+		padding: 0;
 	}
 	.card__toolbar {
 		position: absolute;
-		top: 0;
+		top: -3.25rem;
 		right: 0;
 		display: flex;
 		align-items: center;

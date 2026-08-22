@@ -106,8 +106,8 @@
 		playsListEl.style.removeProperty("--plays-font-size");
 		playsListEl.style.removeProperty("--plays-line-height");
 
-		// Гранична доступна висота для колонки на десктопі (з урахуванням тулбара)
-		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
+		// Гранична доступна висота для колонки на десктопі
+		const maxColH = Math.min(window.innerHeight - 90, 820);
 
 		const titleEl = playsCardEl.querySelector(
 			".block__title",
@@ -176,7 +176,7 @@
 		rightColEl.style.removeProperty("--bio-para-margin");
 		rightColEl.style.removeProperty("--bio-title-margin");
 
-		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
+		const maxColH = Math.min(window.innerHeight - 90, 820);
 		const naturalH = rightColEl.scrollHeight;
 		if (maxColH <= 0 || naturalH <= 0) return;
 
@@ -257,7 +257,7 @@
 		centerColEl.style.removeProperty("--center-item-padding");
 		centerColEl.style.removeProperty("--center-master-name-size");
 
-		const maxColH = Math.min(window.innerHeight * 0.88 - 56, 760);
+		const maxColH = Math.min(window.innerHeight - 90, 820);
 		const naturalH = centerColEl.scrollHeight;
 		if (maxColH <= 0 || naturalH <= 0) return;
 
@@ -1099,7 +1099,7 @@
 		}
 
 		.col {
-			max-height: min(calc(88dvh - 56px), 760px);
+			max-height: min(calc(100dvh - 90px), 820px);
 			min-height: 0;
 			overflow-y: auto;
 			background: transparent;
