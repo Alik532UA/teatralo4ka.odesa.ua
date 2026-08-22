@@ -57,9 +57,9 @@
 		align-items: center;
 		width: 100%;
 		min-width: 0;
-		border: 1px solid rgb(255 255 255 / 0.09);
+		border: 1px solid rgb(255 255 255 / 0.12);
 		border-radius: 999px;
-		background: rgb(255 255 255 / 0.05);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
 		color: inherit;
 		cursor: pointer;
 		text-align: left;
@@ -67,8 +67,8 @@
 	}
 
 	.row:hover {
-		border-color: rgb(140 190 255 / 0.5);
-		background: rgb(255 255 255 / 0.11);
+		border-color: rgb(140 190 255 / 0.6);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 75%, transparent);
 	}
 
 	/* Рядки випускників із заповненими анкетами (з фото) */
@@ -96,8 +96,8 @@
 		min-height: 32px;
 		padding: 0.2rem 0.65rem 0.2rem 0.6rem;
 		gap: 0.45rem;
-		background: rgb(255 255 255 / 0.035);
-		border-color: rgb(255 255 255 / 0.07);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		border-color: rgb(255 255 255 / 0.1);
 	}
 
 	.row--plain .row__name {

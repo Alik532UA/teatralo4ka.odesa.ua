@@ -9,7 +9,7 @@
 		type GraduateIndexEntry,
 	} from "$lib/data/graduates";
 	import { filterGraduates } from "$lib/utils/graduateGalaxy";
-	import { layoutRoster, sortRoster } from "$lib/utils/graduateRoster";
+	import { layoutRoster, sortRoster, type Cell } from "$lib/utils/graduateRoster";
 	import GraduateRosterHead from "./GraduateRosterHead.svelte";
 	import GraduateRosterRow from "./GraduateRosterRow.svelte";
 	import GraduateRosterYears from "./GraduateRosterYears.svelte";
@@ -91,32 +91,43 @@
 
 	const perRow = $derived(Math.max(1, Math.floor(gridWidth / MIN_COLUMN)));
 
-	/**
-	 * Роки, а в кожному — скільки заповнених анкет і скільки решти. Розкладці
-	 * потрібні саме два числа: смуга анкет розкладається просторіше за решту.
-	 */
-	const groups = $derived(
-		shown.reduce<{ year: number | null; filled: number; plain: number }[]>(
-			(all, graduate, index) => {
-				const fresh =
-					index === 0 ||
-					shown[index - 1].graduationYear !== graduate.graduationYear;
-				if (fresh)
-					all.push({
-						year: graduate.graduationYear,
-						filled: 0,
-						plain: 0,
-					});
-				const group = all[all.length - 1];
-				if (graduate.hasPhoto) group.filled += 1;
-				else group.plain += 1;
-				return all;
-			},
-			[],
-		),
-	);
+	interface YearGroup {
+		year: number | null;
+		graduates: GraduateIndexEntry[];
+		cells: Cell[];
+	}
 
-	const layout = $derived(layoutRoster(groups, perRow));
+	/**
+	 * Розбиття переліку на окремі контейнери за роками.
+	 * Кожен рік отримує свою розкладку сітки.
+	 */
+	const yearGroups = $derived.by<YearGroup[]>(() => {
+		const groupsMap: { year: number | null; graduates: GraduateIndexEntry[]; filled: number; plain: number }[] = [];
+		for (const graduate of shown) {
+			let group = groupsMap[groupsMap.length - 1];
+			if (!group || group.year !== graduate.graduationYear) {
+				group = {
+					year: graduate.graduationYear,
+					graduates: [],
+					filled: 0,
+					plain: 0
+				};
+				groupsMap.push(group);
+			}
+			group.graduates.push(graduate);
+			if (graduate.hasPhoto) group.filled++;
+			else group.plain++;
+		}
+
+		return groupsMap.map((g) => {
+			const { cells } = layoutRoster([{ filled: g.filled, plain: g.plain }], perRow);
+			return {
+				year: g.year,
+				graduates: g.graduates,
+				cells
+			};
+		});
+	});
 
 	const selectedYears = $derived<readonly number[]>(
 		Array.isArray(year)
@@ -135,9 +146,26 @@
 
 	let scrolledYear = $state<number | null>(null);
 	let lastInteractedYear = $state<number | null>(null);
-	let gridEl = $state<HTMLUListElement | null>(null);
+	let gridEl = $state<HTMLDivElement | null>(null);
+	let canScrollUp = $state(false);
+	let canScrollDown = $state(false);
 	let isScrollingProgrammatically = false;
 	let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
+	function updateScrollBounds() {
+		if (!gridEl) return;
+		const { scrollTop, scrollHeight, clientHeight } = gridEl;
+		canScrollUp = scrollTop > 8;
+		canScrollDown = scrollHeight - scrollTop - clientHeight > 8;
+	}
+
+	$effect(() => {
+		const _ = yearGroups.length;
+		const __ = gridWidth;
+		untrack(() => {
+			setTimeout(updateScrollBounds, 60);
+		});
+	});
 
 	function handleYearSelect(clickedYear: number | 'all', event?: MouseEvent) {
 		if (clickedYear === 'all') {
@@ -146,46 +174,35 @@
 			onyearchange('all');
 			if (gridEl) {
 				gridEl.scrollTo({ top: 0, behavior: 'smooth' });
+				setTimeout(updateScrollBounds, 300);
 			}
 			return;
 		}
 
-		const isCtrl = event ? event.ctrlKey || event.metaKey : false;
-		const isShift = event ? event.shiftKey : false;
-
-		// 1. Shift + Click: Діапазон років
-		if (isShift) {
-			const anchorYear = lastInteractedYear ?? (selectedYears.length > 0 ? selectedYears[selectedYears.length - 1] : (scrolledYear ?? clickedYear));
-			const fromIdx = GRADUATION_YEARS.indexOf(anchorYear);
-			const toIdx = GRADUATION_YEARS.indexOf(clickedYear);
-
-			if (fromIdx !== -1 && toIdx !== -1) {
-				const start = Math.min(fromIdx, toIdx);
-				const end = Math.max(fromIdx, toIdx);
-				const rangeYears = GRADUATION_YEARS.slice(start, end + 1);
-
-				const merged = Array.from(new Set([...selectedYears, ...rangeYears]));
-				lastInteractedYear = clickedYear;
-				onyearchange(merged);
-				return;
-			}
-		}
-
-		// 2. Ctrl / Cmd + Click: Додавання / зняття окремого року
-		if (isCtrl) {
-			let nextYears: number[];
-			if (selectedYears.includes(clickedYear)) {
-				nextYears = selectedYears.filter((y) => y !== clickedYear);
-			} else {
-				nextYears = [...selectedYears, clickedYear];
-			}
+		// Мультивибір з Ctrl / Cmd (поодиноке додавання/зняття року)
+		if (event?.ctrlKey || event?.metaKey) {
 			lastInteractedYear = clickedYear;
-			onyearchange(nextYears.length > 0 ? nextYears : 'all');
+			scrolledYear = null;
+			if (selectedYears.includes(clickedYear)) {
+				const next = selectedYears.filter((y) => y !== clickedYear);
+				onyearchange(next.length > 0 ? next : 'all');
+			} else {
+				onyearchange([...selectedYears, clickedYear]);
+			}
 			return;
 		}
 
-		// 3. Звичайний клік (без Ctrl/Shift):
-		// Якщо зараз активний мультивибір кількох років (> 1), клік звужує до одного року
+		// Діапазон з Shift (вибір від останнього взаємодіяного року до поточного)
+		if (event?.shiftKey && lastInteractedYear !== null) {
+			const start = Math.min(lastInteractedYear, clickedYear);
+			const end = Math.max(lastInteractedYear, clickedYear);
+			const range = GRADUATION_YEARS.filter((y) => y >= start && y <= end);
+			scrolledYear = null;
+			onyearchange(range);
+			return;
+		}
+
+		// Якщо зараз активний мультивибір (декілька років) -> звичайний клік обирає тільки цей 1 рік
 		if (selectedYears.length > 1) {
 			lastInteractedYear = clickedYear;
 			onyearchange([clickedYear]);
@@ -225,32 +242,35 @@
 
 	function scrollToYear(targetYear: number) {
 		if (!gridEl) return;
-		const headEl = gridEl.querySelector(`[data-year="${targetYear}"]`) as HTMLElement | null;
-		if (headEl) {
+		const targetCard = gridEl.querySelector(`[data-year="${targetYear}"]`) as HTMLElement | null;
+		if (targetCard) {
 			isScrollingProgrammatically = true;
 			if (scrollTimeout) clearTimeout(scrollTimeout);
 			scrollTimeout = setTimeout(() => {
 				isScrollingProgrammatically = false;
+				updateScrollBounds();
 			}, 600);
 
-			const targetTop = headEl.offsetTop - gridEl.offsetTop - 8;
+			const targetTop = targetCard.offsetTop - gridEl.offsetTop;
 			gridEl.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+			updateScrollBounds();
 		}
 	}
 
 	function handleGridScroll() {
+		updateScrollBounds();
 		if (isScrollingProgrammatically || selectedYears.length > 0 || !gridEl) return;
 
-		const headers = gridEl.querySelectorAll('.head[data-year]') as NodeListOf<HTMLElement>;
-		if (headers.length === 0) return;
+		const cards = gridEl.querySelectorAll('.year-card[data-year]') as NodeListOf<HTMLElement>;
+		if (cards.length === 0) return;
 
 		const gridRect = gridEl.getBoundingClientRect();
 		let active: number | null = null;
 
-		for (const h of headers) {
-			const rect = h.getBoundingClientRect();
+		for (const card of cards) {
+			const rect = card.getBoundingClientRect();
 			if (rect.top <= gridRect.top + 80) {
-				const y = Number(h.dataset.year);
+				const y = Number(card.dataset.year);
 				if (!isNaN(y)) active = y;
 			} else {
 				break;
@@ -273,6 +293,7 @@
 		onquerychange("");
 		if (gridEl) {
 			gridEl.scrollTo({ top: 0, behavior: 'smooth' });
+			setTimeout(updateScrollBounds, 300);
 		}
 	}
 
@@ -354,7 +375,7 @@
 			{#if onopenform}
 				<button
 					type="button"
-					class="sheet__icon-btn"
+					class="sheet__icon-btn sheet__icon-btn--add"
 					onclick={onopenform}
 					title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
 					aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
@@ -383,12 +404,11 @@
 				onselect={handleYearSelect}
 			/>
 
-			{#if shown.length > 0}
-				<!-- Колонок стільки, скільки вміщається; рядки по черзі `n-1` / `n`.
-				     Номери клітинок дає `staggerCells` — сітка сама так не вміє. -->
-				<ul
-					class="grid"
-					style="--columns: {perRow * 2}"
+			{#if yearGroups.length > 0}
+				<div
+					class="roster-scroll"
+					class:mask-top={canScrollUp}
+					class:mask-bottom={canScrollDown}
 					bind:this={gridEl}
 					bind:clientWidth={gridWidth}
 					onscroll={handleGridScroll}
@@ -398,29 +418,35 @@
 						alignThumb: "center",
 					})}
 				>
-					{#each shown as graduate, index (graduate.slug)}
-						<li
-							style="grid-row: {layout.cells[index]?.row ??
-								1}; grid-column-start: {layout.cells[index]
-								?.column ?? 1}"
-							data-testid="galaxy-roster-list-item-{graduate.slug}"
+					{#each yearGroups as group (group.year)}
+						<section
+							class="year-card"
+							data-year={group.year}
+							data-testid="galaxy-roster-year-card-{group.year}"
 						>
-							<GraduateRosterRow
-								{graduate}
-								onselect={() => onselect(graduate)}
+							<GraduateRosterHead
+								year={group.year}
+								count={group.graduates.length}
 							/>
-						</li>
-					{/each}
 
-					{#each groups as group, index (group.year)}
-						<GraduateRosterHead
-							year={group.year}
-							row={layout.headingRows[index] ?? 1}
-						/>
+							<ul class="year-card__grid" style="--columns: {perRow * 2}">
+								{#each group.graduates as graduate, idx (graduate.slug)}
+									<li
+										style="grid-row: {group.cells[idx]?.row ?? 1}; grid-column-start: {group.cells[idx]?.column ?? 1}"
+										data-testid="galaxy-roster-list-item-{graduate.slug}"
+									>
+										<GraduateRosterRow
+											{graduate}
+											onselect={() => onselect(graduate)}
+										/>
+									</li>
+								{/each}
+							</ul>
+						</section>
 					{/each}
-				</ul>
+				</div>
 			{:else}
-				<div class="empty-panel" data-testid="galaxy-roster-list">
+				<div class="empty-panel" data-testid="galaxy-roster-empty-panel">
 					<GraduateRosterEmpty
 						{hasActiveFilters}
 						{year}
@@ -532,13 +558,28 @@
 		background: rgb(255 255 255 / 0.08);
 		color: inherit;
 		cursor: pointer;
-		transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+	}
+
+	.sheet__icon-btn {
+		transition:
+			transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			background 0.15s ease,
+			border-color 0.15s ease,
+			opacity 0.15s ease;
 	}
 
 	.sheet__icon-btn:hover:not(:disabled),
 	.sheet__close:hover {
 		background: rgb(255 255 255 / 0.18);
 		border-color: rgb(255 255 255 / 0.28);
+	}
+
+	.sheet__icon-btn--add:hover {
+		transform: rotate(90deg) scale(1.08);
+	}
+
+	.sheet__icon-btn--add:active {
+		transform: rotate(90deg) scale(0.92);
 	}
 
 	.sheet__icon-btn:disabled,
@@ -557,7 +598,93 @@
 		height: 100%;
 	}
 
-	.grid,
+	.roster-scroll {
+		position: relative;
+		flex: 1 1 0;
+		height: 100%;
+		min-width: 0;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		transition: mask-image 0.2s ease, -webkit-mask-image 0.2s ease;
+	}
+
+	.roster-scroll.mask-top.mask-bottom {
+		mask-image: linear-gradient(
+			to bottom,
+			transparent 0%,
+			black 36px,
+			black calc(100% - 36px),
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			transparent 0%,
+			black 36px,
+			black calc(100% - 36px),
+			transparent 100%
+		);
+	}
+
+	.roster-scroll.mask-top:not(.mask-bottom) {
+		mask-image: linear-gradient(
+			to bottom,
+			transparent 0%,
+			black 36px,
+			black 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			transparent 0%,
+			black 36px,
+			black 100%
+		);
+	}
+
+	.roster-scroll.mask-bottom:not(.mask-top) {
+		mask-image: linear-gradient(
+			to bottom,
+			black 0%,
+			black calc(100% - 36px),
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			black 0%,
+			black calc(100% - 36px),
+			transparent 100%
+		);
+	}
+
+	.year-card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding: 0.9rem 1.15rem 1.15rem;
+		border-radius: 1.25rem;
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		backdrop-filter: blur(20px);
+		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
+		border: none;
+	}
+
+	.year-card__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
+		gap: 0.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.year-card__grid li {
+		/* `span 2` тут, а в розмітці лише `grid-column-start` — див. `staggerCells`. */
+		grid-column-end: span 2;
+		min-width: 0;
+	}
+
 	.empty-panel {
 		position: relative;
 		flex: 1 1 0;
@@ -569,27 +696,9 @@
 		backdrop-filter: blur(20px);
 		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
 		overflow-y: auto;
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
-		gap: 0.5rem;
-		margin: 0;
-		padding: 0.85rem;
-		list-style: none;
-	}
-
-	.empty-panel {
 		display: grid;
 		place-items: center;
 		padding: 1.5rem;
-	}
-
-	.grid li {
-		/* `span 2` тут, а в розмітці лише `grid-column-start` — див. `staggerCells`. */
-		grid-column-end: span 2;
-		min-width: 0;
 	}
 
 	/*
@@ -613,9 +722,13 @@
 			gap: 0.5rem;
 		}
 
-		.grid,
+		.roster-scroll {
+			gap: 0.5rem;
+		}
+
+		.year-card,
 		.empty-panel {
-			padding: 0.6rem;
+			padding: 0.75rem 0.85rem;
 			border-radius: 1rem;
 		}
 	}

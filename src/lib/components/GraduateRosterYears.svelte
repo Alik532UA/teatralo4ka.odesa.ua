@@ -111,7 +111,6 @@
 	aria-label={$t("galaxy.filterYear")}
 	data-testid="galaxy-roster-years-toolbar"
 	bind:this={yearsEl}
-	{@attach customScroll({ rightOffset: -4, alignThumb: "center" })}
 >
 	<button
 		type="button"
@@ -121,23 +120,28 @@
 		data-testid="galaxy-roster-year-all-btn">{$t("galaxy.allYears")}</button
 	>
 
-	<div class="scale" style="grid-auto-rows: {step}px" data-testid="galaxy-roster-timeline-container">
-		{#each years as year, index (year)}
-			<button
-				type="button"
-				class="years__btn"
-				class:years__btn--right={index % 2 === 1}
-				style="grid-row: {index + 1} / span 2; grid-column: {index %
-					2 ===
-				0
-					? 1
-					: 2}"
-				aria-pressed={selectedList.includes(year)}
-				data-scrolled={selectedList.length === 0 && scrolledYear === year}
-				onclick={(e) => onselect(year, e)}
-				data-testid="galaxy-roster-year-{year}-btn">{year}</button
-			>
-		{/each}
+	<div
+		class="scale-scroll"
+		{@attach customScroll({ rightOffset: -4, alignThumb: "center" })}
+	>
+		<div
+			class="scale"
+			style="grid-auto-rows: {step}px"
+			data-testid="galaxy-roster-timeline-container"
+		>
+			{#each years as year, index (year)}
+				<button
+					type="button"
+					class="years__btn"
+					class:years__btn--right={index % 2 === 1}
+					style="grid-row: {index + 1} / span 2; grid-column: {index % 2 === 0 ? 1 : 2}"
+					aria-pressed={selectedList.includes(year)}
+					data-scrolled={selectedList.length === 0 && scrolledYear === year}
+					onclick={(e) => onselect(year, e)}
+					data-testid="galaxy-roster-year-{year}-btn">{year}</button
+				>
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -149,13 +153,23 @@
 		gap: 0.4rem;
 		flex-shrink: 0;
 		height: 100%;
-		padding: 0.75rem;
+		padding: 0.75rem 0.5rem;
 		border-radius: 1.25rem;
-		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
+		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 75%, transparent);
 		border: none;
 		backdrop-filter: blur(20px);
 		box-shadow: 0 12px 36px rgb(0 0 0 / 0.45);
+		overflow: hidden;
+	}
+
+	.scale-scroll {
+		position: relative;
+		flex: 1 1 0;
+		min-height: 0;
+		height: 100%;
 		overflow-y: auto;
+		overflow-x: hidden;
+		padding: 0 0.25rem;
 	}
 
 	.scale {
@@ -275,6 +289,14 @@
 			padding: 0.5rem;
 			overflow-x: auto;
 			border-radius: 1rem;
+		}
+
+		.scale-scroll {
+			display: flex;
+			overflow-x: auto;
+			overflow-y: hidden;
+			flex: 1 1 auto;
+			padding: 0;
 		}
 
 		.scale {

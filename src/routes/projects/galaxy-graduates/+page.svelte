@@ -401,14 +401,22 @@
 		color: #cfe4ff;
 		cursor: pointer;
 		backdrop-filter: blur(4px);
-		transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+		transition:
+			transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
 	}
 
 	.stage__add-btn:hover {
 		background: rgb(12 22 56 / 0.9);
 		border-color: rgb(140 190 255 / 0.8);
 		color: #fff;
-		transform: scale(1.05);
+		transform: rotate(90deg) scale(1.08);
+	}
+
+	.stage__add-btn:active {
+		transform: rotate(90deg) scale(0.92);
 	}
 
 	.stage__total {

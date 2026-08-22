@@ -651,7 +651,9 @@ button {
  * тож без руху він виглядає точно так само, як до наведення, і кнопка здається
  * несправною. Саме так було в пошуку, піаніно й формі користувачів.
  */
-[data-testid$="-close-btn"] {
+[data-testid$="-close-btn"],
+[data-testid="galaxy-open-form-btn"],
+[data-testid="galaxy-roster-add-btn"] {
 	transition:
 		transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
 		background-color 0.25s ease,
@@ -665,11 +667,15 @@ button {
  * Але обертати напис на 90° безглуздо. Значок усередині — це і є ознака
  * кнопки-значка.
  */
-[data-testid$="-close-btn"]:has(svg):hover {
+[data-testid$="-close-btn"]:has(svg):hover,
+[data-testid="galaxy-open-form-btn"]:has(svg):hover,
+[data-testid="galaxy-roster-add-btn"]:has(svg):hover {
 	transform: rotate(90deg) scale(1.08);
 }
 
-[data-testid$="-close-btn"]:has(svg):active {
+[data-testid$="-close-btn"]:has(svg):active,
+[data-testid="galaxy-open-form-btn"]:has(svg):active,
+[data-testid="galaxy-roster-add-btn"]:has(svg):active {
 	transform: rotate(90deg) scale(0.92);
 }
 
@@ -679,7 +685,13 @@ button {
 @media (prefers-reduced-motion: reduce) {
 	[data-testid$="-close-btn"],
 	[data-testid$="-close-btn"]:has(svg):hover,
-	[data-testid$="-close-btn"]:has(svg):active {
+	[data-testid$="-close-btn"]:has(svg):active,
+	[data-testid="galaxy-open-form-btn"],
+	[data-testid="galaxy-open-form-btn"]:has(svg):hover,
+	[data-testid="galaxy-open-form-btn"]:has(svg):active,
+	[data-testid="galaxy-roster-add-btn"],
+	[data-testid="galaxy-roster-add-btn"]:has(svg):hover,
+	[data-testid="galaxy-roster-add-btn"]:has(svg):active {
 		transform: none;
 	}
 }

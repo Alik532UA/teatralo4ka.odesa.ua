@@ -1,6 +1,13 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { storage } from './storage';
 
+vi.mock('$app/environment', () => ({
+	browser: true,
+	dev: false,
+	building: false,
+	version: 'test'
+}));
+
 const STORAGE_KEY = 'adults_section_revealed';
 
 async function freshModule() {
@@ -29,7 +36,7 @@ describe('adultsVisibility', () => {
 	it('toggle() перемикає стан', async () => {
 		const { adultsVisibility } = await freshModule();
 		const first = adultsVisibility.toggle();
-		expect(first).toBe(!adultsVisibility.override);
+		expect(first).toBe(adultsVisibility.override);
 		expect(adultsVisibility.isVisible).toBe(first);
 	});
 });

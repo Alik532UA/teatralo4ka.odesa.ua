@@ -3,28 +3,29 @@
 
 	interface Props {
 		year: number | null;
-		/** Рядок сітки переліку: заголовок живе в тій самій сітці, що й картки. */
-		row: number;
+		count?: number;
 	}
 
-	let { year, row }: Props = $props();
+	let { year, count }: Props = $props();
 </script>
 
 <!--
-	Рік заголовком на початку своєї групи, а не дрібним написом у кожній картці.
-
-	Так було спершу — і 482 картки з роком читалися як суцільна стіна, у якій межу
-	між 2019 і 2018 доводилося вишукувати очима. Заодно напис у картці займав 49px
-	ширини (заміряно), тобто в кожен рядок влазило менше людей.
+	Рік заголовком на початку своєї групи в окремій картці року.
+	Лінія праворуч від року: заголовок має читатися як межа, а не як картка.
 -->
-<li class="head" data-year={year} style="grid-row: {row}; grid-column: 1 / -1" data-testid="galaxy-roster-head-{year}-title">
-	<h3>{year ?? $t('galaxy.allYears')}</h3>
-</li>
+<header class="head" data-year={year} data-testid="galaxy-roster-head-{year}-title">
+	<h3>
+		{year ?? $t('galaxy.allYears')}
+		{#if count !== undefined}
+			<span class="count">{count}</span>
+		{/if}
+	</h3>
+</header>
 
 <style>
 	.head {
-		align-self: end;
-		padding: 0.55rem 0 0.15rem;
+		display: flex;
+		align-items: center;
 	}
 
 	h3 {
@@ -32,17 +33,25 @@
 		align-items: center;
 		gap: 0.6rem;
 		margin: 0;
-		font-size: 0.95rem;
+		font-size: 1rem;
+		font-weight: 700;
 		font-variant-numeric: tabular-nums;
 		letter-spacing: 0.04em;
 		color: var(--galaxy-text);
+		width: 100%;
 	}
 
-	/* Лінія праворуч від року: заголовок має читатися як межа, а не як картка. */
 	h3::after {
 		content: '';
 		flex: 1;
 		height: 1px;
-		background: rgb(255 255 255 / 0.14);
+		background: rgb(255 255 255 / 0.12);
+	}
+
+	.count {
+		font-size: 0.8rem;
+		font-weight: 400;
+		opacity: 0.6;
+		color: var(--galaxy-muted, #a8bfe0);
 	}
 </style>
