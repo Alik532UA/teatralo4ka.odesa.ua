@@ -904,11 +904,13 @@
     "filterWithoutProfile": "Without profile",
     "departments": {
       "theatre": "Theatre Department",
-      "piano": "Piano (Instrumental)",
-      "vocal": "Vocal Department",
+      "intensive": "Intensive Course",
       "music": "Music Department",
       "art": "Art Department",
-      "guitar": "Guitar (Instrumental)"
+      "vocal": "Solo Singing Department",
+      "instrumental": "Instrumental Department",
+      "piano": "Piano",
+      "guitar": "Guitar"
     }
   }
 }

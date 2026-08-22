@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Drama, Piano, MicVocal, Music, Palette, Guitar, GraduationCap } from 'lucide-svelte';
+	import { Drama, Piano, MicVocal, Music, Palette, Guitar, Zap, GraduationCap } from 'lucide-svelte';
 
 	interface Props {
 		department?: string | null;
@@ -12,6 +12,8 @@
 
 {#if department === 'theatre'}
 	<Drama {size} class="dept-icon {className}" aria-hidden="true" />
+{:else if department === 'intensive'}
+	<Zap {size} class="dept-icon {className}" aria-hidden="true" />
 {:else if department === 'piano'}
 	<Piano {size} class="dept-icon {className}" aria-hidden="true" />
 {:else if department === 'vocal'}

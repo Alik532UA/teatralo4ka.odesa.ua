@@ -21,18 +21,12 @@
 		onphotochange
 	}: Props = $props();
 
-	const allDepartments: { key: Department; labelKey: string }[] = [
-		{ key: 'theatre', labelKey: 'galaxy.departments.theatre' },
-		{ key: 'piano', labelKey: 'galaxy.departments.piano' },
-		{ key: 'vocal', labelKey: 'galaxy.departments.vocal' },
-		{ key: 'music', labelKey: 'galaxy.departments.music' },
-		{ key: 'art', labelKey: 'galaxy.departments.art' },
-		{ key: 'guitar', labelKey: 'galaxy.departments.guitar' }
-	];
+	const musicSubKeys: Department[] = ['music', 'vocal', 'piano', 'guitar'];
+	const allDeptKeys: Department[] = ['theatre', 'intensive', 'music', 'vocal', 'piano', 'guitar', 'art'];
 
 	let deptOpen = $state(false);
 	let deptTrigger = $state<HTMLButtonElement | null>(null);
-	let deptPos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 320, above: false });
+	let deptPos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 420, above: false });
 	let deptOffset = $state({ x: 0, y: 0 });
 
 	function getContainingBlockOffset(el: HTMLElement): { x: number; y: number } {
@@ -92,13 +86,19 @@
 		ondepartmentschange([]);
 	}
 
+	const isAllSelected = $derived(
+		departments.length === 0 || allDeptKeys.every((k) => departments.includes(k))
+	);
+
 	const deptLabel = $derived.by(() => {
-		if (departments.length === 0 || departments.length === allDepartments.length) {
+		if (isAllSelected) {
 			return $t('galaxy.filterAllDepts', { default: 'Усі відділення' });
 		}
 		if (departments.length === 1) {
-			const d = allDepartments.find((item) => item.key === departments[0]);
-			return d ? $t(d.labelKey) : $t('galaxy.filterAllDepts');
+			return $t(`galaxy.departments.${departments[0]}`, { default: departments[0] });
+		}
+		if (departments.length === 2 && departments.includes('theatre') && departments.includes('intensive')) {
+			return $t('galaxy.departments.theatre');
 		}
 		return `${$t('galaxy.filterAllDepts', { default: 'Відділення' })} (${departments.length})`;
 	});
@@ -152,18 +152,16 @@
 				aria-multiselectable="true"
 				data-testid="galaxy-roster-dept-dropdown-menu"
 			>
+				<!-- 0. Усі відділення -->
 				<button
 					type="button"
-					class="filter-option"
-					class:selected={departments.length === 0 || departments.length === allDepartments.length}
+					class="filter-option filter-option--main"
+					class:selected={isAllSelected}
 					onclick={toggleAllDepartments}
 					data-testid="galaxy-roster-dept-opt-all-btn"
 				>
-					<span
-						class="filter-checkbox"
-						class:checked={departments.length === 0 || departments.length === allDepartments.length}
-					>
-						{#if departments.length === 0 || departments.length === allDepartments.length}
+					<span class="filter-checkbox" class:checked={isAllSelected}>
+						{#if isAllSelected}
 							<Check size={12} strokeWidth={3} />
 						{/if}
 					</span>
@@ -172,24 +170,137 @@
 
 				<div class="filter-divider" role="separator"></div>
 
-				{#each allDepartments as dept (dept.key)}
-					{@const isChecked = departments.includes(dept.key)}
+				<!-- 1. Театральне відділення -->
+				<div class="filter-group">
 					<button
 						type="button"
-						class="filter-option"
-						class:selected={isChecked}
-						onclick={() => toggleDepartment(dept.key)}
-						data-testid="galaxy-roster-dept-opt-{dept.key}-btn"
+						class="filter-option filter-option--main"
+						class:selected={departments.includes('theatre')}
+						onclick={() => toggleDepartment('theatre')}
+						data-testid="galaxy-roster-dept-opt-theatre-btn"
 					>
-						<span class="filter-checkbox" class:checked={isChecked}>
-							{#if isChecked}
+						<span class="filter-checkbox" class:checked={departments.includes('theatre')}>
+							{#if departments.includes('theatre')}
 								<Check size={12} strokeWidth={3} />
 							{/if}
 						</span>
-						<DepartmentIcon department={dept.key} size={15} class="filter-option__icon" />
-						<span class="filter-option__text">{$t(dept.labelKey)}</span>
+						<DepartmentIcon department="theatre" size={16} class="filter-option__icon" />
+						<span class="filter-option__text filter-option__text--main">{$t('galaxy.departments.theatre')}</span>
 					</button>
-				{/each}
+
+					<!-- Напрямок: Інтенсивний курс -->
+					<button
+						type="button"
+						class="filter-option filter-option--sub"
+						class:selected={departments.includes('intensive')}
+						onclick={() => toggleDepartment('intensive')}
+						data-testid="galaxy-roster-dept-opt-intensive-btn"
+					>
+						<span class="filter-checkbox" class:checked={departments.includes('intensive')}>
+							{#if departments.includes('intensive')}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<DepartmentIcon department="intensive" size={14} class="filter-option__icon" />
+						<span class="filter-option__text">{$t('galaxy.departments.intensive')}</span>
+					</button>
+				</div>
+
+				<div class="filter-divider" role="separator"></div>
+
+				<!-- 2. Музичне відділення -->
+				<div class="filter-group">
+					<button
+						type="button"
+						class="filter-option filter-option--main"
+						class:selected={departments.includes('music')}
+						onclick={() => toggleDepartment('music')}
+						data-testid="galaxy-roster-dept-opt-music-btn"
+					>
+						<span class="filter-checkbox" class:checked={departments.includes('music')}>
+							{#if departments.includes('music')}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<DepartmentIcon department="music" size={16} class="filter-option__icon" />
+						<span class="filter-option__text filter-option__text--main">{$t('galaxy.departments.music')}</span>
+					</button>
+
+					<!-- Напрямок: Відділення сольного співу -->
+					<button
+						type="button"
+						class="filter-option filter-option--sub"
+						class:selected={departments.includes('vocal')}
+						onclick={() => toggleDepartment('vocal')}
+						data-testid="galaxy-roster-dept-opt-vocal-btn"
+					>
+						<span class="filter-checkbox" class:checked={departments.includes('vocal')}>
+							{#if departments.includes('vocal')}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<DepartmentIcon department="vocal" size={14} class="filter-option__icon" />
+						<span class="filter-option__text">{$t('galaxy.departments.vocal')}</span>
+					</button>
+
+					<!-- Інструментальний напрямок -->
+					<div class="filter-subgroup-label">
+						<span class="filter-subgroup-title">{$t('galaxy.departments.instrumental', { default: 'Інструментальне відділення' })}</span>
+					</div>
+
+					<!-- Фортепіано -->
+					<button
+						type="button"
+						class="filter-option filter-option--nested"
+						class:selected={departments.includes('piano')}
+						onclick={() => toggleDepartment('piano')}
+						data-testid="galaxy-roster-dept-opt-piano-btn"
+					>
+						<span class="filter-checkbox" class:checked={departments.includes('piano')}>
+							{#if departments.includes('piano')}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<DepartmentIcon department="piano" size={14} class="filter-option__icon" />
+						<span class="filter-option__text">{$t('galaxy.departments.piano')}</span>
+					</button>
+
+					<!-- Гітара -->
+					<button
+						type="button"
+						class="filter-option filter-option--nested"
+						class:selected={departments.includes('guitar')}
+						onclick={() => toggleDepartment('guitar')}
+						data-testid="galaxy-roster-dept-opt-guitar-btn"
+					>
+						<span class="filter-checkbox" class:checked={departments.includes('guitar')}>
+							{#if departments.includes('guitar')}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<DepartmentIcon department="guitar" size={14} class="filter-option__icon" />
+						<span class="filter-option__text">{$t('galaxy.departments.guitar')}</span>
+					</button>
+				</div>
+
+				<div class="filter-divider" role="separator"></div>
+
+				<!-- 3. Художнє відділення -->
+				<button
+					type="button"
+					class="filter-option filter-option--main"
+					class:selected={departments.includes('art')}
+					onclick={() => toggleDepartment('art')}
+					data-testid="galaxy-roster-dept-opt-art-btn"
+				>
+					<span class="filter-checkbox" class:checked={departments.includes('art')}>
+						{#if departments.includes('art')}
+							<Check size={12} strokeWidth={3} />
+						{/if}
+					</span>
+					<DepartmentIcon department="art" size={16} class="filter-option__icon" />
+					<span class="filter-option__text filter-option__text--main">{$t('galaxy.departments.art')}</span>
+				</button>
 			</div>
 		{/if}
 	</div>
@@ -286,12 +397,32 @@
 		background: rgba(255, 255, 255, 0.1);
 	}
 
+	.filter-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.filter-subgroup-label {
+		display: flex;
+		align-items: center;
+		padding: 0.25rem 0.75rem 0.15rem 2rem;
+	}
+
+	.filter-subgroup-title {
+		font-size: 0.72rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		color: rgba(168, 191, 224, 0.65);
+	}
+
 	.filter-option {
 		display: flex;
 		align-items: center;
 		gap: 0.65rem;
 		width: 100%;
-		padding: 0.5rem 0.75rem;
+		padding: 0.45rem 0.75rem;
 		border: none;
 		border-radius: 10px;
 		background: none;
@@ -302,6 +433,22 @@
 		text-align: left;
 		cursor: pointer;
 		transition: background 0.15s ease;
+	}
+
+	.filter-option--main {
+		font-weight: 600;
+	}
+
+	.filter-option--sub {
+		padding-left: 1.65rem;
+		font-size: 0.83rem;
+		color: #d0e0f8;
+	}
+
+	.filter-option--nested {
+		padding-left: 2.35rem;
+		font-size: 0.83rem;
+		color: #d0e0f8;
 	}
 
 	.filter-option:hover {
@@ -341,6 +488,10 @@
 	.filter-option__text {
 		flex: 1;
 		white-space: nowrap;
+	}
+
+	.filter-option__text--main {
+		font-weight: 600;
 	}
 
 	:global(.roster-filter-select) {

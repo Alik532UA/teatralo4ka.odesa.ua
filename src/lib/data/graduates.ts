@@ -30,7 +30,7 @@ import { asset } from '$app/paths';
  */
 
 /** Відділення. Ключі збігаються з емодзі-маркерами джерела (див. парсер). */
-export type Department = 'theatre' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
+export type Department = 'theatre' | 'intensive' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
 
 export interface GraduateMaster {
 	id?: string;

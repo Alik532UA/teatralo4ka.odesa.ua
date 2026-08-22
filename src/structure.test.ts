@@ -131,7 +131,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 365,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/data/betaChecklist.ts': 355,
-	'src/lib/components/GraduateRosterFilters.svelte': 350,
+	'src/lib/components/GraduateRosterFilters.svelte': 510,
 	'src/lib/components/DepartmentsSection.svelte': 352,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

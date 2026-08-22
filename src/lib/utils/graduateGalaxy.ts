@@ -79,15 +79,29 @@ export function filterGraduates(
 	const photo = options.photo ?? 'all';
 	const department = options.department ?? 'all';
 	const departments = options.departments ?? [];
+	const effectiveDepts = departments.length > 0
+		? departments.flatMap((d) => {
+			if (d === 'music') return ['music', 'vocal', 'piano', 'guitar'] as const;
+			if (d === 'theatre') return ['theatre', 'intensive'] as const;
+			return [d];
+		})
+		: [];
 
 	return graduates.filter((graduate) => {
 		if (year !== 'all' && graduate.graduationYear !== year) return false;
 		if (photo === 'with' && !graduate.hasPhoto) return false;
 		if (photo === 'without' && graduate.hasPhoto) return false;
-		if (departments.length > 0 && !departments.some((d) => graduate.departments?.includes(d))) {
+		if (effectiveDepts.length > 0 && !effectiveDepts.some((d) => graduate.departments?.includes(d))) {
 			return false;
 		}
-		if (department !== 'all' && !graduate.departments?.includes(department)) return false;
+		if (department !== 'all') {
+			const targetDepts = department === 'music'
+				? ['music', 'vocal', 'piano', 'guitar']
+				: department === 'theatre'
+					? ['theatre', 'intensive']
+					: [department];
+			if (!targetDepts.some((d) => graduate.departments?.includes(d as Department))) return false;
+		}
 		if (needle === '') return true;
 		return graduate.name.toLowerCase().includes(needle);
 	});

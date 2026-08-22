@@ -133,10 +133,12 @@ describe('filterGraduates', () => {
 		const depts: GraduateIndexEntry[] = [
 			{ slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'] },
 			{ slug: 'b', name: 'Б', graduationYear: 2020, departments: ['art'] },
-			{ slug: 'c', name: 'В', graduationYear: 2020, departments: ['vocal'] }
+			{ slug: 'c', name: 'В', graduationYear: 2020, departments: ['vocal'] },
+			{ slug: 'd', name: 'Г', graduationYear: 2020, departments: ['piano'] }
 		];
 		expect(filterGraduates(depts, { departments: ['theatre', 'art'] })).toHaveLength(2);
 		expect(filterGraduates(depts, { departments: ['vocal'] })).toHaveLength(1);
-		expect(filterGraduates(depts, { departments: [] })).toHaveLength(3);
+		expect(filterGraduates(depts, { departments: ['music'] })).toHaveLength(2); // vocal + piano
+		expect(filterGraduates(depts, { departments: [] })).toHaveLength(4);
 	});
 });
