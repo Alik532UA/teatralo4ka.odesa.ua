@@ -19,6 +19,16 @@ const OPEN = '[data-testid="galaxy-open-roster-btn"]';
 const MODAL = '[data-testid="galaxy-roster-modal"]';
 const ITEM = '[data-testid^="galaxy-roster-list-item-"]';
 const HEAD = '[data-testid^="galaxy-roster-head-"]';
+/**
+ * КНОПКА року, а не будь-що з таким початком назви.
+ *
+ * `[data-testid^="galaxy-roster-year-"]` ловить ще й заголовок групи
+ * (`galaxy-roster-year-card-{рік}` у `GraduateRoster.svelte`), тобто по два
+ * елементи на рік: 29 карток + 29 кнопок + «усі роки» = 59 замість 30. Саме на
+ * цьому падав деплой із 21.08 — і падав не на дефекті, а на тому, що шкалу
+ * років додали пізніше за цю перевірку.
+ */
+const YEAR_BTN = '[data-testid^="galaxy-roster-year-"][data-testid$="-btn"]';
 
 async function openRoster(page: Page) {
 	await gotoReady(page, '/projects/galaxy-graduates');
@@ -46,9 +56,7 @@ test.describe('перелік випускників', () => {
 
 		// По кнопці на кожен рік, який справді є в даних, плюс «усі роки».
 		const yearsInData = new Set(await page.locator(HEAD).allInnerTexts());
-		await expect(page.locator('[data-testid^="galaxy-roster-year-"]')).toHaveCount(
-			yearsInData.size + 1
-		);
+		await expect(page.locator(YEAR_BTN)).toHaveCount(yearsInData.size + 1);
 
 		const year = page.locator('[data-testid="galaxy-roster-year-2014-btn"]');
 		await expect(year).toHaveAttribute('aria-pressed', 'false');
@@ -64,7 +72,20 @@ test.describe('перелік випускників', () => {
 
 	test('у межах року спершу заповнені анкети', async ({ page }) => {
 		await openRoster(page);
-		await page.locator('[data-testid="galaxy-roster-year-2014-btn"]').click();
+		const year = page.locator('[data-testid="galaxy-roster-year-2014-btn"]');
+		await year.click();
+		/*
+		 * ДОЧЕКАТИСЯ, ПОКИ ФІЛЬТР ЗАСТОСУВАВСЯ, а не читати список одразу.
+		 *
+		 * Svelte перемальовує список наступним тактом, і без цього рядка перевірка
+		 * читала ВСІХ випускників замість одного року — а тоді порядок «спершу
+		 * анкети» справді порушений, бо він діє в межах року, а не через усі роки.
+		 * Заміряно: `lastPhoto` 530 проти `firstPlain` 0. Сусідня перевірка вище
+		 * цього не мала, бо там очікування на `aria-pressed` стоїть саме між кліком
+		 * і читанням.
+		 */
+		await expect(year).toHaveAttribute('aria-pressed', 'true');
+		await expect(page.locator(HEAD)).toHaveCount(1);
 
 		// 'фото' — анкета заповнена, є портрет; 'без' — лише ім'я.
 		const kinds = await page.locator(ITEM).evaluateAll((items) =>

@@ -109,6 +109,24 @@ test.describe('сторінка випускника', () => {
 	});
 });
 
+/**
+ * Куди веде «назад» із картки, відкритої З ПЕРЕЛІКУ.
+ *
+ * `?roster=open` тут законний і навмисний: сторінка тримає відкритий перелік в
+ * адресі (`syncParamUrl('roster', 'open')`), щоб «назад» вертало саме туди,
+ * звідки картку відкрили, а не на голу галактику. Перевірка ж вимагала адреси
+ * БЕЗ параметрів — і падала на правильній поведінці.
+ *
+ * Саме це, разом із двома застарілими перевірками в `galaxy-roster.spec.ts`,
+ * тримало «Deploy All Schools» червоним із 21.08: прод стояв на 0.0.4, поки dev
+ * дійшов до 0.0.82.
+ *
+ * Головне тут — що картка ЗАКРИЛАСЯ (рядок вище), а не форма адреси. Тому
+ * регулярка приймає і голу адресу, і адресу з відкритим переліком, і НЕ
+ * приймає адресу профілю — тобто те, що перевірка й мала стверджувати.
+ */
+const GALAXY_BACK = /galaxy-graduates\/(\?roster=open)?$/;
+
 test.describe('картка в галактиці має власну адресу', () => {
 	test('відкриття змінює адресу, «назад» закриває', async ({ page }) => {
 		const data = await profileData(page);
@@ -125,7 +143,7 @@ test.describe('картка в галактиці має власну адрес
 			await expect(page.locator(BIO)).toHaveCount(data.bio.length);
 
 			await page.goBack();
-			await expect(page).toHaveURL(/galaxy-graduates\/?$/);
+			await expect(page).toHaveURL(GALAXY_BACK);
 		} else {
 			await expect(page.locator(CARD)).toBeVisible();
 			// Адреса — та сама, що на старому сайті.
@@ -137,7 +155,7 @@ test.describe('картка в галактиці має власну адрес
 
 			await page.goBack();
 			await expect(page.locator(CARD)).toHaveCount(0);
-			await expect(page).toHaveURL(/galaxy-graduates\/?$/);
+			await expect(page).toHaveURL(GALAXY_BACK);
 		}
 	});
 
