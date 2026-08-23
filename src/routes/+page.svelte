@@ -14,6 +14,7 @@
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
 	import { activateOnKey } from '$lib/utils/activateOnKey';
+	import { dismissSplash } from '$lib/utils/splash';
 
 	let isHomeGalleryLightboxOpen = $state(false);
 	let homeGalleryLightboxIndex = $state(0);
@@ -81,9 +82,16 @@
 		return [...firebaseItems, ...getStaticProjects(activeLang, firebaseSlugs)];
 	});
 
-	// Splash screen: the HTML splash in app.html is visible on cold start.
-	// On warm start (cache exists), it was hidden by inline script in app.html.
-	let splashDismissed = $state(!!cachedHome);
+	/*
+	 * Тут був `let splashDismissed = $state(!!cachedHome)`, і читав його лише той
+	 * `dismissSplash`, який переїхав у `$lib/utils/splash`. Захист від повторного
+	 * виклику тепер там — модульним прапорцем, бо заставка існує одна на
+	 * завантаження документа, а не одна на компонент.
+	 *
+	 * `cachedHome` у цій ролі й не був потрібен: при теплому старті заставку
+	 * ховає інлайн-скрипт (`static/splash.js` бачить збережені налаштування й
+	 * ставить `display: none`), тож прибирати нема чого.
+	 */
 
 	let showDepartments = $state(false);
 	let departmentsRef: HTMLElement | null = $state(null);
@@ -154,25 +162,15 @@
 		});
 	});
 
-	function dismissSplash() {
-		if (splashDismissed) return;
-		// Спиняє таймери заставки (повідомлення про повільний інтернет, ротатор
-		// фактів). Оголошення — у `app.d.ts`, реалізація — у `static/splash.js`.
-		window.__splashCleanup?.();
-		const el = document.getElementById('app-splash');
-		if (!el) { splashDismissed = true; return; }
-		el.classList.add('splash-exit');
-		window.dispatchEvent(new CustomEvent('splash-exit'));
-		setTimeout(() => window.dispatchEvent(new CustomEvent('splash-logo-start')), 600);
-		// Curtains take longer to part than the classic slide-down, so wait for the
-		// panels to clear the screen before removing the splash element.
-		const removeDelay = document.documentElement.getAttribute('data-splash') === 'curtains' ? 1500 : 900;
-		setTimeout(() => {
-			el.remove();
-			splashDismissed = true;
-			window.dispatchEvent(new CustomEvent('splash-removed'));
-		}, removeDelay);
-	}
+	/*
+	 * Послідовність виходу переїхала в `$lib/utils/splash`, і не заради стислості.
+	 *
+	 * Вона складається з чотирьох узгоджених величин: три події й затримка
+	 * прибирання, яка залежить від варіанта заставки. Друга копія цього набору
+	 * жила в `+layout.svelte` і не була послідовністю взагалі — там елемент просто
+	 * виривався з документа посеред анімації. Тепер обидві сторінки кличуть одну
+	 * функцію, а вона сама себе захищає від повторного виклику.
+	 */
 
 	// Lazy-load Departments via IntersectionObserver — reactive to departmentsRef
 	$effect(() => {

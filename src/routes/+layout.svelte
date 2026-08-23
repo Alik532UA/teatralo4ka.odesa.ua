@@ -15,6 +15,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { installMailtoToast } from '$lib/utils/emailCopy';
+	import { dismissSplash } from '$lib/utils/splash';
 	import Minimap from '$lib/components/Minimap.svelte';
 	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
 	import ScrollbarContextMenu from '$lib/components/ScrollbarContextMenu.svelte';
@@ -87,11 +88,39 @@
 	$effect(() => {
 		if (browser) {
 			document.body.classList.toggle('page-home', page.route.id === '/');
-			// Remove the HTML splash on non-home pages (it's only relevant for homepage)
-			if (page.route.id !== '/') {
-				document.getElementById('app-splash')?.remove();
-			}
 		}
+	});
+
+	/**
+	 * Заставка ЗАВЕРШУЄТЬСЯ і на внутрішніх сторінках, а не виривається з документа.
+	 *
+	 * Доти тут стояло `document.getElementById('app-splash')?.remove()` для всіх
+	 * маршрутів, крім головної. Заставка ж лежить в `app.html`, тобто в розмітці
+	 * КОЖНОЇ сторінки, і починає анімацію входу всюди. Наслідок: заходиш прямо на
+	 * `/contacts/`, заставка стартує — і посеред анімації елемент зникає. Виглядає
+	 * як збій рендера, хоча це два різних кінці однієї анімації, і другий не був
+	 * кінцем.
+	 *
+	 * Чому тут не треба нічого чекати. На головній вихід заставки — це ГОНКА між
+	 * відповіддю Firestore і таймаутом 2 с (`routes/+page.svelte`): сторінка без
+	 * даних порожня, тож заставка прикриває саме це очікування. Внутрішні сторінки
+	 * prerendered, їхній вміст уже в HTML — чекати нема на що, тож вихід
+	 * починається одразу, а тривалість йому дає CSS.
+	 *
+	 * Виклик ПРЯМИЙ, без `requestAnimationFrame`, і це не спрощення. Перша редакція
+	 * цієї правки обгортала виклик у `rAF` «щоб клас ліг окремим кадром» — і це
+	 * додало б рівно той дефект, який щойно виправляли в сусідньому проєкті: у
+	 * ПРИХОВАНІЙ вкладці `requestAnimationFrame` не спрацьовує, тож заставка висіла
+	 * б там до моменту, коли вкладку відкриють.
+	 *
+	 * Окремий кадр тут і не потрібен: вихід зроблений CSS-АНІМАЦІЯМИ
+	 * (`sp-curtain-left`, `sp-splash-down`), а вони починаються від самого факту
+	 * появи класу. Окремий кадр був би обов'язковий для `transition`, де браузер
+	 * мусить побачити два різних обчислених значення.
+	 */
+	$effect(() => {
+		if (!browser || page.route.id === '/') return;
+		dismissSplash();
 	});
 
 	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission';

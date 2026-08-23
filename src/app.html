@@ -112,50 +112,50 @@
 					<svg class="curtain-svg" viewBox="0 0 300 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<linearGradient id="sp-velvet-l" x1="0" y1="0" x2="1" y2="0">
-								<stop offset="0" stop-color="#e6c200" />
-								<stop offset="0.09" stop-color="#fff64d" />
-								<stop offset="0.2" stop-color="#f4d900" />
-								<stop offset="0.32" stop-color="#dcb600" />
-								<stop offset="0.44" stop-color="#fff64d" />
-								<stop offset="0.56" stop-color="#f4d900" />
-								<stop offset="0.68" stop-color="#dcb600" />
-								<stop offset="0.8" stop-color="#fff64d" />
-								<stop offset="0.92" stop-color="#f2d500" />
-								<stop offset="1" stop-color="#c49f00" />
+								<stop class="sp-v-edge" offset="0" stop-color="#e6c200" />
+								<stop class="sp-v-hi" offset="0.09" stop-color="#fff64d" />
+								<stop class="sp-v-base" offset="0.2" stop-color="#f4d900" />
+								<stop class="sp-v-lo" offset="0.32" stop-color="#dcb600" />
+								<stop class="sp-v-hi" offset="0.44" stop-color="#fff64d" />
+								<stop class="sp-v-base" offset="0.56" stop-color="#f4d900" />
+								<stop class="sp-v-lo" offset="0.68" stop-color="#dcb600" />
+								<stop class="sp-v-hi" offset="0.8" stop-color="#fff64d" />
+								<stop class="sp-v-mid" offset="0.92" stop-color="#f2d500" />
+								<stop class="sp-v-deep" offset="1" stop-color="#c49f00" />
 							</linearGradient>
 							<linearGradient id="sp-velvet-top-l" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
-								<stop offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
+								<stop class="sp-v-shade" offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
+								<stop class="sp-v-shade" offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
 							</linearGradient>
 						</defs>
 						<rect width="300" height="800" fill="url(#sp-velvet-l)" />
 						<rect width="300" height="800" fill="url(#sp-velvet-top-l)" />
-						<path d="M0,748 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,752 L300,800 L0,800 Z" fill="#b89400" opacity="0.55" />
+						<path d="M0,748 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,752 L300,800 L0,800 Z" class="sp-v-hem" fill="#b89400" opacity="0.55" />
 					</svg>
 				</div>
 				<div class="curtain curtain-right">
 					<svg class="curtain-svg" viewBox="0 0 300 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<linearGradient id="sp-velvet-r" x1="0" y1="0" x2="1" y2="0">
-								<stop offset="0" stop-color="#c49f00" />
-								<stop offset="0.08" stop-color="#f2d500" />
-								<stop offset="0.2" stop-color="#fff64d" />
-								<stop offset="0.32" stop-color="#dcb600" />
-								<stop offset="0.44" stop-color="#f4d900" />
-								<stop offset="0.56" stop-color="#fff64d" />
-								<stop offset="0.68" stop-color="#dcb600" />
-								<stop offset="0.8" stop-color="#f4d900" />
-								<stop offset="0.91" stop-color="#fff64d" />
-								<stop offset="1" stop-color="#e6c200" />
+								<stop class="sp-v-deep" offset="0" stop-color="#c49f00" />
+								<stop class="sp-v-mid" offset="0.08" stop-color="#f2d500" />
+								<stop class="sp-v-hi" offset="0.2" stop-color="#fff64d" />
+								<stop class="sp-v-lo" offset="0.32" stop-color="#dcb600" />
+								<stop class="sp-v-base" offset="0.44" stop-color="#f4d900" />
+								<stop class="sp-v-hi" offset="0.56" stop-color="#fff64d" />
+								<stop class="sp-v-lo" offset="0.68" stop-color="#dcb600" />
+								<stop class="sp-v-base" offset="0.8" stop-color="#f4d900" />
+								<stop class="sp-v-hi" offset="0.91" stop-color="#fff64d" />
+								<stop class="sp-v-edge" offset="1" stop-color="#e6c200" />
 							</linearGradient>
 							<linearGradient id="sp-velvet-top-r" x1="0" y1="0" x2="0" y2="1">
-								<stop offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
-								<stop offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
+								<stop class="sp-v-shade" offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
+								<stop class="sp-v-shade" offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
 							</linearGradient>
 						</defs>
 						<rect width="300" height="800" fill="url(#sp-velvet-r)" />
 						<rect width="300" height="800" fill="url(#sp-velvet-top-r)" />
-						<path d="M0,752 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,748 L300,800 L0,800 Z" fill="#b89400" opacity="0.55" />
+						<path d="M0,752 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,748 L300,800 L0,800 Z" class="sp-v-hem" fill="#b89400" opacity="0.55" />
 					</svg>
 				</div>
 			</div>
@@ -198,9 +198,51 @@
 			}
 		</style>
 		<style>
+			/*
+			 * КОЛЬОРИ ЗАСТАВКИ — ТОКЕНАМИ, бо їх ДВА НАБОРИ: жовтий велюр і темно-синій.
+			 *
+			 * Тут не можна взяти токени з `app.css`: заставка малюється ДО того, як
+			 * приїде будь-який CSS проєкту, — у цьому весь її сенс. Тому власний,
+			 * навмисно короткий набір.
+			 *
+			 * Літерали `stop-color` лишаються в атрибутах SVG як ЗАПАСНИЙ варіант:
+			 * presentation-атрибут малює жовте навіть тоді, коли цей блок стилів
+			 * чомусь не застосувався. Класи `.sp-v-*` перекривають його — властивість
+			 * CSS завжди сильніша за presentation-атрибут.
+			 *
+			 * ДВА ШЛЯХИ ДО ТЕМНОГО НАБОРУ, і потрібні обидва:
+			 *   html[data-theme='dark'] — тему вже поставив інлайн-скрипт вище;
+			 *   @media + html:not([data-theme]) — скрипт НЕ виконався (його пускає хеш
+			 *   у CSP, і 2026-08-23 він тут справді був заблокований), тож тему знає
+			 *   лише браузер. Без другого шляху заставка була б жовтою на темній
+			 *   сторінці саме в тому випадку, коли все інше вже темне.
+			 */
+			html {
+				--sp-v-hi: #fff64d;
+				--sp-v-base: #f4d900;
+				--sp-v-mid: #f2d500;
+				--sp-v-lo: #dcb600;
+				--sp-v-edge: #e6c200;
+				--sp-v-deep: #c49f00;
+				--sp-v-shade: #7a5c00;
+				--sp-v-hem: #b89400;
+				--sp-bg: #ffed00;
+				--sp-text: #5a4a00;
+				--sp-glow: rgba(122, 92, 0, 0.25);
+			}
+
+			.sp-v-hi { stop-color: var(--sp-v-hi); }
+			.sp-v-base { stop-color: var(--sp-v-base); }
+			.sp-v-mid { stop-color: var(--sp-v-mid); }
+			.sp-v-lo { stop-color: var(--sp-v-lo); }
+			.sp-v-edge { stop-color: var(--sp-v-edge); }
+			.sp-v-deep { stop-color: var(--sp-v-deep); }
+			.sp-v-shade { stop-color: var(--sp-v-shade); }
+			.sp-v-hem { fill: var(--sp-v-hem); }
+
 			#app-splash {
 				position: fixed; inset: 0; z-index: 10000;
-				background: #ffed00 !important;
+				background: var(--sp-bg) !important;
 				display: flex; flex-direction: column;
 				align-items: center; justify-content: center;
 				font-family: system-ui, -apple-system, sans-serif;
@@ -220,10 +262,10 @@
 			.curtain {
 				position: absolute; top: 0; bottom: 0;
 				width: 52%;                         /* >50% so the two panels overlap at center (no seam) */
-				background: #ffed00;                /* solid fallback if the SVG fails to paint */
+				background: var(--sp-bg);           /* solid fallback if the SVG fails to paint */
 				overflow: hidden;
 				will-change: transform;
-				box-shadow: 0 0 45px rgba(122, 92, 0, 0.25);
+				box-shadow: 0 0 45px var(--sp-glow);
 			}
 			.curtain-left { left: 0; transform-origin: left center; }
 			.curtain-right { right: 0; transform-origin: right center; }
@@ -269,7 +311,7 @@
 				pointer-events: auto;
 			}
 			#app-splash-slow { margin-bottom: 1rem; }
-			.sp-msg p { color: #5a4a00; font-size: 0.95rem; line-height: 1.5; margin: 0; }
+			.sp-msg p { color: var(--sp-text); font-size: 0.95rem; line-height: 1.5; margin: 0; }
 			.sp-facts-intro { font-weight: 600; margin-bottom: 0.75rem !important; font-size: 0.85rem !important; opacity: 0.7; }
 			.sp-facts-rotator { position: relative; height: 60px; }
 			.sp-fact {
