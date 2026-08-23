@@ -54,6 +54,14 @@ const LIMITS: Array<[RegExp, number]> = [
  * заради числа означало б розкидати один перелік, який читають цілим. Логіки в
  * файлі нуль — лише типи й константи.
  *
+ * 2026-08-23: `data/betaChecklist.ts` 355 → 368. Два пункти й коментар до них,
+ * і додані вони не «про всяк випадок»: разом із `light-dark()` у палітрі
+ * з'явилися рівно два стани, яких машина не міряє. `admin_6` перевіряє ВИГРАШ
+ * (сторінка з вимкненим JS мусить брати системну тему) — Playwright ганяє
+ * сторінку з увімкненим JS, тож автотестом це не перевіряється чесно. `admin_7`
+ * перевіряє ЦІНУ (Force Dark на Android при явно обраній світлій темі) — і це
+ * можливо лише на пристрої. Файл і далі ДАНІ: логіки в ньому нуль.
+ *
  * 2026-08-19: чотири стелі підняті на 3–7 рядків (`admin-articles` 267→272,
  * `articles` 267→275, `admin/settings` 2511→2514, `admin/users` 994→998).
  * Причина одна на всі — `limit()` у запитах до Firestore разом із коментарем,
@@ -135,7 +143,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 365,
-	'src/lib/data/betaChecklist.ts': 355,
+	'src/lib/data/betaChecklist.ts': 368,
 	'src/lib/components/DepartmentsSection.svelte': 352,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

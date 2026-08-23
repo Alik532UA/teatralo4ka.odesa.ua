@@ -3,42 +3,85 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 
 /**
- * Дві речі, які визначають вигляд НЕ наших пікселів, а тих, що малює браузер:
- * мета-тег `color-scheme` і `color-scheme` на елементах керування. Обидві
- * прописані в UI-UX-v8 § 4, і обох перевірок у проєкті не було.
+ * Вигляд НЕ наших пікселів — тих, що малює браузер: мета-тег `color-scheme`,
+ * схема документа й нативні частини полів (UI-UX-v8 § 1.2, § 1.5.1).
  *
- * Вони пов'язані, і саме зв'язок робить помилку неочевидною. Мета-тег МУСИТЬ
- * бути `light dark` для світлої теми: значення `light` провокує Force Dark Mode
- * на Android Chrome, який самовільно інвертує кольори сторінки. Але `light dark`
- * означає «браузер, вирішуй сам» — і за темної системи він малює ТЕМНІ
- * контроли поверх нашої світлої сторінки.
+ * ## Що тут змінилося 2026-08-23 і чому попередня редакція вимагала протилежного
  *
- * Симптом був саме такий: у полі `type="date"` світла іконка календаря на
- * світлому полі, і рівно у ЗВИЧАЙНІЙ світлій темі. У жовтих темах мета
- * дорівнює `light`, тому там правильно; у темній темна схема й доречна.
+ * Доти цей файл вимагав ДВОХ речей, які тепер заборонені:
  *
- * Виміряно в браузері з емуляцією темної системи, на полі без авторських
- * кольорів (UA-стиль тла прямо показує використану схему):
+ *   1. щоб `color-scheme` оголошувався САМИМ КОНТРОЛАМ (`input`, `textarea`,
+ *      `select`), а не документу;
+ *   2. щоб на `:root`/`html` його не було ЗОВСІМ — «це справа мета-тега».
  *
- *   тема          | без правила    | з правилом
- *   light         | rgb(59,59,59)  | rgb(255,255,255)
- *   dark          | rgb(59,59,59)  | rgb(59,59,59)
- *   yellow        | rgb(255,255,255) | rgb(255,255,255)
- *   light-yellow  | rgb(255,255,255) | rgb(255,255,255)
+ * Причина була справжня і заміряна: документ оголошував схему лише мета-тегом
+ * `light dark`, тобто «браузер, вирішуй сам», і за темної системи браузер малював
+ * ТЕМНІ контроли поверх нашої СВІТЛОЇ сторінки — світла іконка календаря на
+ * світлому полі `type="date"`.
  *
- * За світлої системи правило не змінює нічого ні в одній темі.
+ * Тепер палітра описана `light-dark()`, а схема оголошена документу й звужена під
+ * кожну з чотирьох тем. Контроли беруть її звідти й збігаються зі сторінкою
+ * завжди. А старий обхід у новому стані ЛАМАВСЯ б рівно там, де з'явився виграш:
+ * у людини без збереженого вибору й темною системою сторінка тепер темна, а
+ * `input { color-scheme: light }` малював би на ній світлі контроли.
  *
- * Ці пікселі не покриває більше ніщо: у `contrast.test.ts` кольору іконки
- * немає в джерелах, а axe не бачить тіньового DOM елементів керування.
+ * ## ЧОМУ ЗАБОРОНА `color-scheme` НА `:root` БУЛА НАДТО ШИРОКОЮ
+ *
+ * Її мета — не пустити Force Dark Mode на Android Chrome, який інвертує кольори
+ * сторінки, коли та не заявила підтримки темної схеми. Але заявою про підтримку є
+ * саме `light dark`, і тепер вона стоїть на `:root` ЯВНО — тобто сильніше, ніж
+ * була в мета-тезі. Заборона ж накривала і цей випадок.
+ *
+ * Що справді лишається компромісом: `html.light-theme { color-scheme: light }`.
+ * Людина, яка ЯВНО обрала світлу тему і має ввімкнений Force Dark, отримає
+ * інверсію від браузера. Ціна альтернативи вища й безумовна: без звуження явний
+ * вибір «світла» не переміг би системну перевагу, і в темній системі перемикач
+ * теми просто не працював би. Перше — налаштування самого відвідувача, друге —
+ * дефект сайту для всіх.
+ *
+ * Перевірити інверсію можна лише на пристрої, тож пункт про це є в
+ * `/beta-test-checklists` (вкладка «Тема»).
+ *
+ * Ці пікселі не покриває більше ніщо: у `contrast.test.ts` кольору іконки немає в
+ * джерелах, а axe не бачить тіньового DOM елементів керування.
  */
 
 const APP_HTML = readFileSync('src/app.html', 'utf8');
 const GLOBAL_CSS = readFileSync('src/lib/styles/global.css', 'utf8');
 
+/**
+ * Правила файлу як пари «селектор + тіло», без вкладених блоків.
+ *
+ * Коментарі зачищаються ПРОБІЛАМИ, і це не косметика — без цього перевірка
+ * ламається двічі. По-перше, коментар перед правилом приклеюється до селектора,
+ * і `:root` перестає бути початком рядка: перша редакція цієї перевірки
+ * почервоніла саме так, на правильному коді. По-друге, коментарі в цьому файлі
+ * ЦИТУЮТЬ `color-scheme: light` як приклад, і без зачистки сканер порахував би
+ * цитату за оголошення (AI-AGENT-PITFALLS-v8 § 1).
+ */
+const CSS = GLOBAL_CSS.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
+const rules = [...CSS.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([, selector, body]) => ({
+	selector: selector.trim(),
+	body
+}));
+const withScheme = rules.filter(({ body }) => /(^|[;\s])color-scheme\s*:/.test(body));
+
+/** Усі теми проєкту й те, якою схемою кожна мусить бути. */
+const THEMES: { name: string; scheme: 'light' | 'dark' }[] = [
+	{ name: 'dark-theme', scheme: 'dark' },
+	{ name: 'light-theme', scheme: 'light' },
+	{ name: 'yellow-theme', scheme: 'light' },
+	{ name: 'light-yellow-theme', scheme: 'light' }
+];
+
 describe('вигляд, який малює браузер', () => {
 	it('знаходить джерела — перевірка жива', () => {
 		expect(APP_HTML).toContain('%sveltekit.head%');
 		expect(GLOBAL_CSS.length).toBeGreaterThan(1000);
+		// Без цього «порушень немає» означало б «нічого не розібралося».
+		expect(withScheme.length, 'у global.css немає жодного правила з color-scheme').toBeGreaterThan(
+			0
+		);
 	});
 
 	it('мета color-scheme не дорівнює «light» — інакше Force Dark на Android', () => {
@@ -62,39 +105,69 @@ describe('вигляд, який малює браузер', () => {
 	});
 
 	/**
-	 * Контролам схема задається ЯВНО, і саме контролам, а не документу: Force
-	 * Dark дивиться на оголошення сторінки, тож його чіпати не можна.
+	 * База для `light-dark()`. Без неї функція мовчки віддає ПЕРШИЙ аргумент —
+	 * тобто світлу палітру всім, і це не помилка, а тихо неправильний колір.
 	 */
-	it('елементи керування отримують color-scheme для світлих тем і для темної', () => {
-		const rules = [...GLOBAL_CSS.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
-			.map(([, selector, body]) => ({ selector: selector.trim(), body }))
-			.filter(({ body }) => /(^|[;\s])color-scheme\s*:/.test(body));
-
-		expect(rules.length, 'color-scheme для контролів не оголошено ніде').toBeGreaterThan(0);
-
-		const forControls = (r: { selector: string }) => /\b(input|textarea|select)\b/.test(r.selector);
-		const light = rules.filter(
-			(r) => forControls(r) && /color-scheme\s*:\s*light/.test(r.body) && !/dark-theme/.test(r.selector)
-		);
-		const dark = rules.filter(
-			(r) => forControls(r) && /color-scheme\s*:\s*dark/.test(r.body) && /dark-theme/.test(r.selector)
-		);
-
-		expect(light.length, 'немає правила `color-scheme: light` для input/textarea/select').toBeGreaterThan(0);
-		expect(dark.length, 'немає правила `color-scheme: dark` у межах .dark-theme').toBeGreaterThan(0);
-	});
-
-	it('color-scheme не оголошується для документа в CSS — це справа мета-тега', () => {
-		// Оголошення на :root/html дублювало б мета-тег і могло б розійтися з ним,
-		// а розходження тут коштує Force Dark Mode на Android.
-		const onRoot = [...GLOBAL_CSS.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(
-			([, selector, body]) =>
-				/(^|,)\s*(:root|html)\s*(,|$)/.test(selector.trim()) &&
-				/(^|[;\s])color-scheme\s*:/.test(body)
+	it('документ оголошує `color-scheme: light dark` на бареному :root', () => {
+		const base = withScheme.filter(
+			({ selector, body }) =>
+				/(^|,)\s*:root\s*(,|$)/.test(selector) && /color-scheme\s*:\s*light\s+dark/.test(body)
 		);
 		expect(
-			onRoot.map(([, s]) => s.trim()),
-			'color-scheme на :root/html конфліктує з мета-тегом у app.html'
+			base.length,
+			'на :root немає `color-scheme: light dark` — light-dark() віддаватиме світлі значення всім'
+		).toBeGreaterThan(0);
+	});
+
+	/**
+	 * Кожна тема звужує схему до однієї, інакше `light-dark()` віддає їй значення
+	 * за СИСТЕМНОЮ перевагою, а не за її власною природою. Найдорожчий випадок —
+	 * жовті теми: вони світлі, але системна перевага може бути темна.
+	 */
+	it('кожна з чотирьох тем звужує схему, і селектор строго специфічніший за :root', () => {
+		const problems: string[] = [];
+
+		for (const { name, scheme } of THEMES) {
+			const own = withScheme.filter(({ selector }) => selector.includes(name));
+			if (own.length === 0) {
+				problems.push(`${name}: схема не звужена — light-dark() піде за системною перевагою`);
+				continue;
+			}
+			if (!own.some(({ body }) => new RegExp(`color-scheme\\s*:\\s*${scheme}\\s*;`).test(body))) {
+				problems.push(`${name}: очікувалося color-scheme: ${scheme}`);
+			}
+			// `html` обов'язковий: без нього специфічність (0,1,0) — нічия з `:root`,
+			// і переможця обирає порядок правил, тобто бандлер
+			// (SVELTE-UI-v8 `SUI-SCOPE-SPECIFICITY`). У сусідньому `as5` це заміряно:
+			// звуження мовчки не діяло.
+			for (const { selector } of own) {
+				const parts = selector
+					.split(',')
+					.map((s) => s.trim())
+					.filter((s) => s.includes(name));
+				for (const part of parts) {
+					if (!/^(html|:root)[.[]/.test(part)) {
+						problems.push(`${name}: селектор «${part}» не специфічніший за :root — потрібен html`);
+					}
+				}
+			}
+		}
+
+		expect(problems, `звуження схеми не діятиме:\n${problems.join('\n')}`).toEqual([]);
+	});
+
+	/**
+	 * Обернений бік попередньої перевірки: якщо контролам знову задати схему
+	 * власним правилом, вона розійдеться зі сторінкою — саме так, як розходилася
+	 * доти, лише в інший бік.
+	 */
+	it('контроли НЕ задають собі схему власним правилом', () => {
+		const onControls = withScheme.filter(({ selector }) =>
+			/(^|[\s,>+~])(input|textarea|select)\b/.test(selector)
+		);
+		expect(
+			onControls.map(({ selector }) => selector),
+			'схема контролів мусить успадковуватися від документа, інакше вона розійдеться з темою сторінки'
 		).toEqual([]);
 	});
 });

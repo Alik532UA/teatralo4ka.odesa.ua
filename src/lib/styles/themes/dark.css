@@ -1,40 +1,31 @@
-.dark-theme {
-	/* Semantic Backgrounds */
-	--bg-page: var(--palette-navy-page);
-	--bg-surface: var(--palette-navy-900);
-	--bg-card: var(--palette-navy-page);
-	--bg-header: color-mix(in srgb, var(--palette-navy-900), transparent 10%);
-	--bg-footer: var(--palette-navy-900);
-	
-	/* Semantic Text */
-	--text-main: var(--palette-cyan-50);
-	--text-title: var(--palette-blue);
-	--text-muted: var(--palette-cyan-100);
-	/* navy-900, а не білий: білий на --palette-blue (#00b5ec) дає контраст
-	   2.38:1 при потрібних 4.5:1 — axe позначав це як serious на кожній
-	   картці й кнопці. Той самий синій із темним текстом дає 6.82:1, тож
-	   фірмовий колір лишається, змінюється лише текст на ньому. */
-	--text-on-accent: var(--palette-navy-900);
-	
-	/* Semantic Accents */
-	--accent-primary: var(--palette-blue);
-	--accent-secondary: var(--palette-yellow);
-	/* Тло під таким текстом тут темне — акцент читається як є. Див. light.css. */
-	--accent-text: var(--accent-primary);
-	
-	/* Component Specific */
-	--header-nav-link: var(--accent-primary);
-	--header-nav-active: var(--text-main);
-	/* Тут тло при наведенні — cyan-50, тобто майже біле. Отже текст ТЕМНИЙ:
-	   світлий, доречний у світлій темі, зник би на ньому. Див. light.css. */
-	--text-on-nav-active: var(--palette-navy-900);
-	--btn-all-bg: var(--text-title);
-	--footer-text: var(--text-main);
-
-	/* Interactive */
-	--border-main: var(--palette-navy-600);
-	--shadow-main: 0 10px 40px rgba(0, 0, 0, 0.4);
-
-	/* Світліший бурштин: темний amber-700 зі світлої теми на navy дав би 1.6:1. */
-	--warning-color: #fbbf24;
-}
+/*
+ * ТЕМНА ТЕМА БІЛЬШЕ НЕ Є ОКРЕМИМ НАБОРОМ ЗНАЧЕНЬ.
+ *
+ * Тут стояв блок `.dark-theme` із 20 оголошеннями. Тепер темні значення 16
+ * токенів, які справді відрізняються, стоять ДРУГИМ аргументом `light-dark()` у
+ * `themes/light.css`; решта 4 у темній темі й не змінювалися — вони були
+ * дослівними копіями світлих. Жоден колір не змінився; перевіряється порівнянням
+ * diff цього коміту й прогоном `src/contrast.test.ts`, який міряє кожну пару в
+ * КОЖНІЙ темі.
+ *
+ * ЧОМУ ПЕРЕВЕДЕНО ВСЮ ПАРУ, А НЕ ОДИН ФОН (UI-UX-v8 § 1.5.1.1).
+ *
+ * Тема — це набір ПАР «поверхня + те, що на ній», а не набір кольорів. Базові
+ * значення тут світлі, тож переклад одного `--bg-page` дав би при заблокованому
+ * скрипті й темній системній перевазі темне тло з темно-синім текстом
+ * `--text-main` — нечитабельну пару там, де доти була просто «не та тема». У
+ * трьох сусідніх проєктах це заміряно, і саме звідти правило.
+ *
+ * ЧОМУ ПАРА — ЦЕ САМЕ `light`/`dark`, А НЕ ЖОВТІ ТЕМИ.
+ *
+ * Скрипт першого кадру в `app.html` відображає `prefers-color-scheme` рівно на
+ * ці дві: `t === 'dark' || (!t && prefers-color-scheme: dark)`. Жовті теми —
+ * виключно явний вибір, тож лишаються зі власними значеннями і звужують
+ * `color-scheme` до `light` (див. `global.css`). Без цього звуження
+ * `light-dark()` віддавав би їм значення за системною перевагою, тобто темні
+ * кольори під жовтою темою.
+ *
+ * ФАЙЛ ЛИШАЄТЬСЯ, А НЕ ВИДАЛЯЄТЬСЯ. Його імпортує `global.css`, і саме тут
+ * шукатимуть темну палітру. Порожній файл із цим текстом відповідає на питання
+ * «а де ж вона?» — видалений не відповідає ні на що.
+ */

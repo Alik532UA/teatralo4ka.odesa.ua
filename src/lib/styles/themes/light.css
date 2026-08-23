@@ -1,15 +1,15 @@
 :root, .light-theme {
 	/* Semantic Backgrounds */
-	--bg-page: var(--palette-white);
-	--bg-surface: var(--palette-cyan-50);
-	--bg-card: var(--palette-white);
-	--bg-header: var(--palette-cyan-50);
-	--bg-footer: var(--palette-cyan-50);
+	--bg-page: light-dark(var(--palette-white), var(--palette-navy-page));
+	--bg-surface: light-dark(var(--palette-cyan-50), var(--palette-navy-900));
+	--bg-card: light-dark(var(--palette-white), var(--palette-navy-page));
+	--bg-header: light-dark(var(--palette-cyan-50), color-mix(in srgb, var(--palette-navy-900), transparent 10%));
+	--bg-footer: light-dark(var(--palette-cyan-50), var(--palette-navy-900));
 	
 	/* Semantic Text */
-	--text-main: var(--palette-navy-500);
-	--text-title: var(--palette-navy-page);
-	--text-muted: var(--palette-navy-500);
+	--text-main: light-dark(var(--palette-navy-500), var(--palette-cyan-50));
+	--text-title: light-dark(var(--palette-navy-page), var(--palette-blue));
+	--text-muted: light-dark(var(--palette-navy-500), var(--palette-cyan-100));
 	/* navy-900, а не білий: білий на --palette-blue (#00b5ec) дає контраст
 	   2.38:1 при потрібних 4.5:1 — axe позначав це як serious на кожній
 	   картці й кнопці. Той самий синій із темним текстом дає 6.82:1, тож
@@ -24,11 +24,11 @@
 	   тобто напис майже зникає. navy-500 із тієї ж синьої родини дає 5.95:1 і
 	   5.4:1 відповідно. У решті тем тло під таким текстом темне, тому там
 	   --accent-text дорівнює самому акценту й нічого не змінює. */
-	--accent-text: var(--palette-navy-500);
+	--accent-text: light-dark(var(--palette-navy-500), var(--accent-primary));
 	
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);
-	--header-nav-active: var(--text-title);
+	--header-nav-active: light-dark(var(--text-title), var(--text-main));
 	/* Текст на поверхні --header-nav-active (кнопка-CTA у шапці при
 	   наведенні, кнопка «замовити сайт» у підвалі при наведенні).
 	   Це не те саме, що --text-on-accent: той розрахований на фірмовий
@@ -36,17 +36,17 @@
 	   #00242F на #003646 — контраст 1.15:1, тобто текст зникав. Білий на
 	   #003646 дає 13:1. Оголошено в усіх чотирьох темах, бо в темній тло
 	   при наведенні майже біле, і світлий текст зник би там так само. */
-	--text-on-nav-active: var(--palette-white);
-	--btn-all-bg: var(--palette-blue);
-	--footer-text: var(--palette-navy-page);
+	--text-on-nav-active: light-dark(var(--palette-white), var(--palette-navy-900));
+	--btn-all-bg: light-dark(var(--palette-blue), var(--text-title));
+	--footer-text: light-dark(var(--palette-navy-page), var(--text-main));
 
 	/* Interactive */
-	--border-main: var(--palette-cyan-200);
-	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.08);
+	--border-main: light-dark(var(--palette-cyan-200), var(--palette-navy-600));
+	--shadow-main: light-dark(0 4px 20px rgba(0, 36, 47, 0.08), 0 10px 40px rgba(0, 0, 0, 0.4));
 
 	/* Попередження в полях вводу (`PasswordInput`: CapsLock, розкладка).
 	   amber-700, а не amber-500 (#f59e0b, що стояв фолбеком): #f59e0b на білому
 	   дає 2.1:1 при потрібних 4.5:1, і це текст 0.8rem — тобто саме той розмір,
 	   для якого поріг не пом'якшується. */
-	--warning-color: #b45309;
+	--warning-color: light-dark(#b45309, #fbbf24);
 }

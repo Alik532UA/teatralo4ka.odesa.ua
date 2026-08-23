@@ -363,6 +363,38 @@ export const BETA_TABS: readonly BetaTab[] = [
 					en: 'Turn on dark appearance in the OPERATING SYSTEM while keeping the ordinary light theme on the site, then open an article’s date field. The calendar icon must stay visible on the light field, not light-on-light.'
 				},
 				coverage: 'manual'
+			},
+			/*
+			 * Два пункти 2026-08-23, обидва про те, що з'явилося разом із
+			 * `light-dark()` у палітрі (UI-UX-v8 § 1.5.1).
+			 *
+			 * Перший перевіряє ВИГРАШ: сторінка тепер бере системну тему без
+			 * жодного JS. Автотестом це не міряється чесно — Playwright ганяє
+			 * сторінку з увімкненим JS, а вимкнути його означає перевіряти інший
+			 * застосунок.
+			 *
+			 * Другий перевіряє ЦІНУ, і саме тому він тут, а не в коментарі: явний
+			 * вибір світлої теми тепер звужує `color-scheme` до `light`, і на
+			 * Android Chrome із увімкненим Force Dark це дозволяє браузеру
+			 * інвертувати кольори. Перевірити можна лише на пристрої.
+			 */
+			{
+				id: 'admin_6',
+				category: { uk: 'Тема', en: 'Theme' },
+				text: {
+					uk: 'Вимкніть JavaScript у браузері (у Chrome: Налаштування > Конфіденційність > Налаштування сайтів > JavaScript) і відкрийте головну при ТЕМНОМУ оформленні системи. Сторінка мусить бути темною і читабельною; світла сторінка або темне тло зі темним текстом — дефект.',
+					en: 'Turn JavaScript off in the browser (Chrome: Settings > Privacy > Site settings > JavaScript) and open the home page with the SYSTEM set to dark. The page must come up dark and readable; a light page, or a dark background with dark text, is a defect.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'admin_7',
+				category: { uk: 'Тема', en: 'Theme' },
+				text: {
+					uk: 'На Android-телефоні увімкніть у Chrome примусову темну тему (Налаштування > Спеціальні можливості > Примусова темна тема сайтів), оберіть на сайті ЯВНО світлу тему й відкрийте головну. Якщо браузер інвертує кольори — це відома ціна того, що явний вибір світлої теми звужує color-scheme; запишіть, наскільки зле це виглядає.',
+					en: 'On an Android phone turn on Chrome’s force dark mode (Settings > Accessibility > Force dark mode for sites), pick the LIGHT theme on the site explicitly and open the home page. If the browser inverts the colours, that is the known cost of narrowing color-scheme for an explicit light choice; note how bad it looks.'
+				},
+				coverage: 'manual'
 			}
 		]
 	}
