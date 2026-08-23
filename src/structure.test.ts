@@ -54,6 +54,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * заради числа означало б розкидати один перелік, який читають цілим. Логіки в
  * файлі нуль — лише типи й константи.
  *
+ * 2026-08-23 (друга правка того ж дня): `data/betaChecklist.ts` 368 → 387. Два
+ * пункти про заставку й коментар до них. `admin_8` — святкові куліси: оформлення
+ * саме собою з'являється тринадцять днів на рік, тож перевірити його інакше, ніж
+ * параметром `?splash=flag`, неможливо, і сам цей параметр існує саме для
+ * пункту. `admin_9` — заставка на внутрішній сторінці мусить дограти до кінця
+ * (гейт `e2e/splash.spec.ts` це вже міряє, тож рівень `testable`).
+ *
  * 2026-08-23: `data/betaChecklist.ts` 355 → 368. Два пункти й коментар до них,
  * і додані вони не «про всяк випадок»: разом із `light-dark()` у палітрі
  * з'явилися рівно два стани, яких машина не міряє. `admin_6` перевіряє ВИГРАШ
@@ -143,7 +150,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 365,
-	'src/lib/data/betaChecklist.ts': 368,
+	'src/lib/data/betaChecklist.ts': 387,
 	'src/lib/components/DepartmentsSection.svelte': 352,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

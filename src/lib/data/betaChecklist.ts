@@ -1,3 +1,4 @@
+import { UKRAINIAN_HOLIDAYS } from '$lib/config/ukrainianHolidays';
 /**
  * Дані чеклиста бета-тестування (BETA-CHECKLIST-v8).
  *
@@ -395,6 +396,36 @@ export const BETA_TABS: readonly BetaTab[] = [
 					en: 'On an Android phone turn on Chrome’s force dark mode (Settings > Accessibility > Force dark mode for sites), pick the LIGHT theme on the site explicitly and open the home page. If the browser inverts the colours, that is the known cost of narrowing color-scheme for an explicit light choice; note how bad it looks.'
 				},
 				coverage: 'manual'
+			},
+			/*
+			 * Святкові куліси. Число дат береться з `config/ukrainianHolidays.ts`, а
+			 * не вписане: коли перелік поповнять, текст пункту оновиться сам, і
+			 * тестувальник не звірятиметься зі старим числом.
+			 *
+			 * Пункт РУЧНИЙ, хоча гейт `e2e/splash.spec.ts` вже перевіряє і дату, і
+			 * кольори половин. Машина міряє, що прапор УВІМКНУВСЯ й що стопи
+			 * градієнта правильні; чи він при цьому виглядає як прапор, а не як
+			 * брудна пляма, вона не бачить — і саме на цьому я вже спіймався: перша
+			 * редакція давала оливкову смугу внизу, бо синій фестон лежав на жовтій
+			 * половині при 55% прозорості.
+			 */
+			{
+				id: 'admin_8',
+				category: { uk: 'Заставка', en: 'Splash' },
+				text: {
+					uk: `Відкрийте головну з додатком ?splash=flag в адресі — тобто /?splash=flag. Заставка мусить бути прапором: синя половина згори, жовта знизу, складки тканини видно на обох. Так само мусить бути і в темній темі. Саме собою це оформлення з’являється у ${UKRAINIAN_HOLIDAYS.length} державних свят на рік, тому іншого способу подивитися його в будь-який день немає.`,
+					en: `Open the home page with ?splash=flag added to the address — that is /?splash=flag. The splash must be a flag: blue half on top, yellow below, fabric folds visible on both. The dark theme must look the same. On its own this appears on ${UKRAINIAN_HOLIDAYS.length} national holidays a year, so there is no other way to see it on an ordinary day.`
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'admin_9',
+				category: { uk: 'Заставка', en: 'Splash' },
+				text: {
+					uk: 'Зайдіть НАПРЯМУ на внутрішню сторінку (наприклад /contacts/) у приватному вікні. Заставка мусить дограти до кінця — куліси розходяться в боки, — а не зникнути раптово посеред анімації.',
+					en: 'Open an inner page DIRECTLY (for example /contacts/) in a private window. The splash must play through to the end — the curtains part to the sides — instead of vanishing abruptly mid-animation.'
+				},
+				coverage: 'testable'
 			}
 		]
 	}

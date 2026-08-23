@@ -38,9 +38,17 @@ interface SplashEvent {
 interface CurtainSnapshot {
 	theme: string | null;
 	variant: string | null;
+	/** `data-splash-flag` — святкове оформлення. `null` — звичайний день. */
+	flag: string | null;
 	base: string | null;
 	hi: string | null;
 	hem: string | null;
+	/** Чи видно шар прапора і чи прихований тематичний велюр. */
+	flagLayerShown: boolean;
+	velvetLayerShown: boolean;
+	/** Кольори половин прапора — верхньої (синьої) і нижньої (жовтої). */
+	flagTop: string | null;
+	flagBottom: string | null;
 }
 
 interface SplashProbe {
@@ -77,12 +85,32 @@ async function installProbe(page: Page) {
 				const style = getComputedStyle(el);
 				return el.tagName.toLowerCase() === 'stop' ? style.stopColor : style.fill;
 			};
+			/*
+			 * Кольори половин прапора беруться зі СТОПІВ градієнта, а не
+			 * скріншотом. Півтони велюру (шар складок) лягають поверх, тож піксель
+			 * у будь-якій точці — це прапор ПЛЮС складка, і порівнювати його з
+			 * очікуваним кольором можна лише з допуском. Стопи ж кажуть, який колір
+			 * саме заданий, і саме це тут і перевіряється.
+			 */
+			const flagStops = [
+				...document.querySelectorAll<SVGStopElement>('#sp-flag-l stop')
+			].map((s) => getComputedStyle(s).stopColor);
+			const shown = (selector: string) => {
+				const el = document.querySelector(`#app-splash-curtains ${selector}`);
+				return el ? getComputedStyle(el).display !== 'none' : false;
+			};
+
 			return {
 				theme: document.documentElement.getAttribute('data-theme'),
 				variant: document.documentElement.getAttribute('data-splash'),
+				flag: document.documentElement.getAttribute('data-splash-flag'),
 				base: pick('.sp-v-base'),
 				hi: pick('.sp-v-hi'),
-				hem: pick('.sp-v-hem')
+				hem: pick('.sp-v-hem'),
+				flagLayerShown: shown('.sp-flag'),
+				velvetLayerShown: shown('.sp-velvet'),
+				flagTop: flagStops[0] ?? null,
+				flagBottom: flagStops[flagStops.length - 1] ?? null
 			};
 		};
 
@@ -100,7 +128,13 @@ async function installProbe(page: Page) {
  * `display: none`, якщо в сховищі вже є налаштування головної. Тому кожен тест
  * починає з чистого сховища — інакше перевіряти було б нічого.
  */
-async function coldStart(page: Page, path: string, theme?: 'dark' | 'light') {
+/**
+ * Холодний старт сторінки.
+ *
+ * `flag` — той самий параметр адреси `?splash=`, яким користується QA:
+ * перевірка ходить тим самим шляхом, що людина, а не власним.
+ */
+async function coldStart(page: Page, path: string, theme?: 'dark' | 'light', flag?: 'flag' | 'plain') {
 	await installProbe(page);
 	await page.goto(path);
 	await page.evaluate((t) => {
@@ -111,7 +145,9 @@ async function coldStart(page: Page, path: string, theme?: 'dark' | 'light') {
 			// Приватний режим: сховище недоступне — це саме той стан, який нам треба.
 		}
 	}, theme);
-	await page.reload();
+	// Параметр додається саме на перезавантаженні: рішення приймає скрипт
+	// першого кадру, тобто читає адресу того завантаження, у якому працює.
+	await page.goto(flag ? `${path}?splash=${flag}` : path);
 }
 
 /** Чекає на повну послідовність і віддає журнал. */
@@ -210,5 +246,66 @@ test.describe('заставка', () => {
 			expect(r, `${key}: очікувався жовтий велюр`).toBeGreaterThan(b);
 			expect(g, `${key}: очікувався жовтий велюр`).toBeGreaterThan(b);
 		}
+	});
+
+	/**
+	 * ДЕРЖАВНІ СВЯТА: куліси стають прапором, і в обох темах однаково.
+	 *
+	 * Дата перевіряється ДВІЧІ й різними способами, бо це різні механізми:
+	 * підміненим годинником (`page.clock`) — щоб переконатися, що рішення
+	 * приймається за справжньою датою, і параметром адреси `?splash=flag` — бо
+	 * саме ним користуватиметься QA в будь-який інший день року.
+	 */
+	test.describe('державне свято', () => {
+		test('куліси стають прапором за датою: синє згори, жовте знизу', async ({ page }) => {
+			// 24 серпня, полудень МІСЦЕВОГО часу. Полудень, а не північ: північ у
+			// іншому поясі — це вже інша дата, і тест став би залежним від того, де
+			// його запускають.
+			await page.clock.setFixedTime(new Date('2026-08-24T12:00:00'));
+			await coldStart(page, '/contacts');
+			const { curtains } = await waitForSequence(page);
+
+			expect(curtains!.flag, 'святкове оформлення не ввімкнулося').toBe('ua');
+			expect(curtains!.flagLayerShown, 'шар прапора не показаний').toBe(true);
+			expect(curtains!.velvetLayerShown, 'тематичний велюр не прибраний — прапор ляже поверх нього').toBe(
+				false
+			);
+
+			// Офіційні кольори прапора: #0057b7 і #ffd700.
+			expect(curtains!.flagTop, 'верхня половина мусить бути синьою').toBe('rgb(0, 87, 183)');
+			expect(curtains!.flagBottom, 'нижня половина мусить бути жовтою').toBe('rgb(255, 215, 0)');
+		});
+
+		test('у звичайний день прапора немає, велюр на місці', async ({ page }) => {
+			await page.clock.setFixedTime(new Date('2026-08-25T12:00:00'));
+			await coldStart(page, '/contacts');
+			const { curtains } = await waitForSequence(page);
+
+			expect(curtains!.flag, '25 серпня не свято — прапора бути не мусить').toBeNull();
+			expect(curtains!.flagLayerShown).toBe(false);
+			expect(curtains!.velvetLayerShown).toBe(true);
+		});
+
+		test('прапор перекриває ОБИДВІ теми', async ({ page }) => {
+			for (const theme of ['dark', 'light'] as const) {
+				await coldStart(page, '/contacts', theme, 'flag');
+				const { curtains } = await waitForSequence(page);
+
+				expect(curtains!.theme, `тема ${theme} не застосувалася`).toBe(theme);
+				expect(curtains!.flag, `у темі ${theme} прапор не ввімкнувся`).toBe('ua');
+				expect(curtains!.velvetLayerShown, `у темі ${theme} велюр лишився під прапором`).toBe(false);
+				expect(curtains!.flagTop).toBe('rgb(0, 87, 183)');
+				expect(curtains!.flagBottom).toBe('rgb(255, 215, 0)');
+			}
+		});
+
+		test('параметр адреси вміє і вимикати прапор у святковий день', async ({ page }) => {
+			await page.clock.setFixedTime(new Date('2026-08-24T12:00:00'));
+			await coldStart(page, '/contacts', undefined, 'plain');
+			const { curtains } = await waitForSequence(page);
+
+			expect(curtains!.flag, '?splash=plain мусить перекривати справжню дату').toBeNull();
+			expect(curtains!.velvetLayerShown).toBe(true);
+		});
 	});
 });

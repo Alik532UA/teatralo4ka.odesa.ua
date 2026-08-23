@@ -44,6 +44,47 @@
 				window.__SPLASH_VARIANT = 'curtains';
 				document.documentElement.setAttribute('data-splash', window.__SPLASH_VARIANT);
 
+				// ── ДЕРЖАВНІ СВЯТА: КУЛІСИ СТАЮТЬ ПРАПОРОМ ──────────────────
+				// SYNC: перелік дат мусить збігатися з
+				// `src/lib/config/ukrainianHolidays.ts` дослівно. Скрипт першого
+				// кадру не може нічого імпортувати, тож дублювання неминуче — і
+				// саме тому за ним стежить `src/ukrainian-holidays.test.ts`.
+				//
+				// Розходження тут було б тихим у найгіршому сенсі: воно з'явилося
+				// б рівно на один день на рік і рівно тоді, коли на сайт дивиться
+				// найбільше людей.
+				//
+				// Дата МІСЦЕВА (`getMonth`/`getDate`), а не UTC: свято — це день
+				// у людини за вікном. Для Одеси (UTC+3) `getUTCDate()` опівночі
+				// 24 серпня показував би ще 23-тє.
+				var HOLIDAYS = [
+					'01-01', '01-22', '02-19', '02-20', '06-28', '07-15',
+					'08-23', '08-24', '10-01', '10-27', '11-21', '12-06', '12-25'
+				];
+				var now = new Date();
+				var md =
+					String(now.getMonth() + 1).padStart(2, '0') + '-' +
+					String(now.getDate()).padStart(2, '0');
+				// Перевизначення ПАРАМЕТРОМ АДРЕСИ: `?splash=flag` вмикає
+				// святкове оформлення, `?splash=plain` вимикає.
+				//
+				// Не через сховище, і це вимога інваріанта, а не смак: пункт
+				// чеклиста з `localStorage.setItem(...)` не пройшов
+				// `beta-checklist.test.ts` («людина, яка згодилася потикати сайт,
+				// не знає, що таке локатор чи сервіс»). І перевірка права —
+				// оформлення, яке можна побачити лише вставивши JS у консоль,
+				// для QA не існує. Адреса ж не вимагає ні консолі, ні прибирання
+				// після себе, і її можна переслати посиланням.
+				//
+				// `URLSearchParams` тут безпечний: скрипт уже в try/catch, а
+				// значення впливає лише на кольори заставки.
+				var forced = new URLSearchParams(window.location.search).get('splash');
+				var isHoliday =
+					forced === 'flag' || (forced !== 'plain' && HOLIDAYS.indexOf(md) !== -1);
+				if (isHoliday) {
+					document.documentElement.setAttribute('data-splash-flag', 'ua');
+				}
+
 				// ── СМУГА ПРОКРУТКИ ─────────────────────────────────────────
 				// Клас ставиться ТУТ, до першого кадру, а не в ефекті після
 				// гідрації. Інакше на заставці встигала показатися нативна смуга
@@ -127,8 +168,38 @@
 								<stop class="sp-v-shade" offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
 								<stop class="sp-v-shade" offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
 							</linearGradient>
+							<linearGradient id="sp-flag-l" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="0" stop-color="#0057b7" />
+								<stop offset="0.5" stop-color="#0057b7" />
+								<stop offset="0.5" stop-color="#ffd700" />
+								<stop offset="1" stop-color="#ffd700" />
+							</linearGradient>
+							<linearGradient id="sp-fold-l" x1="0" y1="0" x2="1" y2="0">
+								<stop offset="0" stop-color="#000000" stop-opacity="0.2" />
+								<stop offset="0.09" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="0.2" stop-color="#000000" stop-opacity="0" />
+								<stop offset="0.32" stop-color="#000000" stop-opacity="0.17" />
+								<stop offset="0.44" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="0.56" stop-color="#000000" stop-opacity="0" />
+								<stop offset="0.68" stop-color="#000000" stop-opacity="0.17" />
+								<stop offset="0.8" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="0.92" stop-color="#000000" stop-opacity="0.05" />
+								<stop offset="1" stop-color="#000000" stop-opacity="0.28" />
+							</linearGradient>
 						</defs>
-						<rect width="300" height="800" fill="url(#sp-velvet-l)" />
+						<!--
+							ПОРЯДОК ШАРІВ І Є ВЕСЬ ЕФЕКТ. У святковому варіанті velvet зникає, замість
+							нього прапор, а складки лягають поверх — окремим градієнтом чорного й
+							білого з альфою.
+						
+							Чому не бленд-режим: пробував `mix-blend-mode: color` і `luminosity` —
+							обидва беруть яскравість із того, що під ними, тож на жовтому велюрі синя
+							половина виходила блідою, а на темно-синьому жовта — оливковою. Складки
+							альфою не залежать від теми взагалі.
+						-->
+						<rect class="sp-velvet" width="300" height="800" fill="url(#sp-velvet-l)" />
+						<rect class="sp-flag" width="300" height="800" fill="url(#sp-flag-l)" />
+						<rect class="sp-fold" width="300" height="800" fill="url(#sp-fold-l)" />
 						<rect width="300" height="800" fill="url(#sp-velvet-top-l)" />
 						<path d="M0,748 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,752 L300,800 L0,800 Z" class="sp-v-hem" fill="#b89400" opacity="0.55" />
 					</svg>
@@ -152,8 +223,28 @@
 								<stop class="sp-v-shade" offset="0" stop-color="#7a5c00" stop-opacity="0.35" />
 								<stop class="sp-v-shade" offset="0.16" stop-color="#7a5c00" stop-opacity="0" />
 							</linearGradient>
+							<linearGradient id="sp-flag-r" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="0" stop-color="#0057b7" />
+								<stop offset="0.5" stop-color="#0057b7" />
+								<stop offset="0.5" stop-color="#ffd700" />
+								<stop offset="1" stop-color="#ffd700" />
+							</linearGradient>
+							<linearGradient id="sp-fold-r" x1="0" y1="0" x2="1" y2="0">
+								<stop offset="0" stop-color="#000000" stop-opacity="0.28" />
+								<stop offset="0.08" stop-color="#000000" stop-opacity="0.05" />
+								<stop offset="0.2" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="0.32" stop-color="#000000" stop-opacity="0.17" />
+								<stop offset="0.44" stop-color="#000000" stop-opacity="0" />
+								<stop offset="0.56" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="0.68" stop-color="#000000" stop-opacity="0.17" />
+								<stop offset="0.8" stop-color="#000000" stop-opacity="0" />
+								<stop offset="0.91" stop-color="#ffffff" stop-opacity="0.17" />
+								<stop offset="1" stop-color="#000000" stop-opacity="0.2" />
+							</linearGradient>
 						</defs>
-						<rect width="300" height="800" fill="url(#sp-velvet-r)" />
+						<rect class="sp-velvet" width="300" height="800" fill="url(#sp-velvet-r)" />
+						<rect class="sp-flag" width="300" height="800" fill="url(#sp-flag-r)" />
+						<rect class="sp-fold" width="300" height="800" fill="url(#sp-fold-r)" />
 						<rect width="300" height="800" fill="url(#sp-velvet-top-r)" />
 						<path d="M0,752 Q37,792 75,752 Q112,792 150,752 Q187,792 225,752 Q262,792 300,748 L300,800 L0,800 Z" class="sp-v-hem" fill="#b89400" opacity="0.55" />
 					</svg>
@@ -275,6 +366,58 @@
 			.sp-v-deep { stop-color: var(--sp-v-deep); }
 			.sp-v-shade { stop-color: var(--sp-v-shade); }
 			.sp-v-hem { fill: var(--sp-v-hem); }
+
+			/*
+			 * ДЕРЖАВНЕ СВЯТО: куліси стають прапором, і в ОБОХ темах однаково.
+			 *
+			 * Атрибут `data-splash-flag` ставить інлайн-скрипт вище за МІСЦЕВОЮ датою
+			 * (перелік звірений інваріантом `src/ukrainian-holidays.test.ts`). Селектор
+			 * навмисно НЕ згадує тему: прапор перекриває і жовтий велюр, і темно-синій —
+			 * це не третя тема, а оформлення поверх будь-якої.
+			 *
+			 * Токени нижче перевизначені на нейтральні: жовта тінь угорі полотна й жовтий
+			 * фестон унизу на прапорі читалися б як брудна пляма.
+			 */
+			.sp-flag,
+			.sp-fold {
+				display: none;
+			}
+			html[data-splash-flag] .sp-velvet { display: none; }
+			html[data-splash-flag] .sp-flag,
+			html[data-splash-flag] .sp-fold { display: block; }
+
+			html[data-splash-flag] {
+				--sp-v-shade: #001a33;
+				/*
+				 * Фестон унизу — ТІНЬ, а не колір, і це не смак, а замір.
+				 *
+				 * Спершу тут стояв синій `#003b7a`, і на знімку вийшла оливкова смуга:
+				 * фестон малюється з `opacity="0.55"`, а лежить він на ЖОВТІЙ половині
+				 * прапора — синє поверх жовтого з такою прозорістю дає зелене. Темний
+				 * нейтральний із меншою прозорістю читається як складка тканини на
+				 * будь-якій половині.
+				 */
+				--sp-v-hem: #001a2e;
+				--sp-bg: #0057b7;
+				--sp-glow: rgba(0, 26, 51, 0.35);
+			}
+			html[data-splash-flag] .sp-v-hem { opacity: 0.3; }
+
+			/*
+			 * Повідомлення отримують підкладку, і це не оздоба.
+			 *
+			 * Вони зʼявляються лише на повільному зʼєднанні й лягають приблизно на лінію
+			 * поділу прапора — тобто частина рядка на синьому, частина на жовтому. Будь-який
+			 * один колір тексту дає на одній із половин контраст близько 2:1. Підкладка
+			 * робить фон рядка однаковим незалежно від того, де саме він опинився за
+			 * висотою екрана.
+			 */
+			html[data-splash-flag] .sp-msg {
+				background: rgba(0, 22, 45, 0.62);
+				border-radius: 10px;
+				padding: 0.75rem 1.25rem;
+			}
+			html[data-splash-flag] .sp-msg p { color: #ffffff; }
 
 			#app-splash {
 				position: fixed; inset: 0; z-index: 10000;
