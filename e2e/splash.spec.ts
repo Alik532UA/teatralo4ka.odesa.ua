@@ -34,26 +34,62 @@ interface SplashEvent {
 	at: number;
 }
 
+/** Знімок кольорів велюру, зроблений у момент початку виходу. */
+interface CurtainSnapshot {
+	theme: string | null;
+	variant: string | null;
+	base: string | null;
+	hi: string | null;
+	hem: string | null;
+}
+
 interface SplashProbe {
 	events: SplashEvent[];
+	curtains: CurtainSnapshot | null;
 }
 
 /**
- * Записувач подій, встановлений ДО завантаження сторінки.
+ * Записувач, встановлений ДО завантаження сторінки.
  *
- * Саме тут, а не після `goto`: на внутрішній сторінці вся послідовність триває
- * ~1.4 с від старту, і слухач, доданий після завантаження, стабільно приходить
- * із запізненням — журнал виходив порожній.
+ * Крім послідовності подій він знімає обчислені кольори велюру на `splash-exit`
+ * — тобто в останній момент, коли куліси ще на екрані. Читати їх після
+ * прибирання елемента неможливо, а робити для цього окремий тест зі штучною
+ * затримкою означало б перевіряти не той стан.
  */
 async function installProbe(page: Page) {
 	await page.addInitScript(() => {
 		const w = window as unknown as { __splashProbe?: SplashProbe };
-		const probe: SplashProbe = { events: [] };
+		const probe: SplashProbe = { events: [], curtains: null };
 		w.__splashProbe = probe;
+
+		const readCurtains = (): CurtainSnapshot => {
+			/*
+			 * Властивість читається за ВИДОМ вузла, а не «перша непорожня».
+			 *
+			 * Перша редакція брала `stopColor || fill`, і на `<path>` фестона це
+			 * давало `rgb(0, 0, 0)`: `stop-color` існує на кожному елементі й типово
+			 * чорний, тобто вираз ніколи не доходив до `fill`. Перевірка падала на
+			 * правильному коді, повідомляючи «синьої складової немає».
+			 */
+			const pick = (selector: string) => {
+				const el = document.querySelector(`#app-splash-curtains ${selector}`);
+				if (!el) return null;
+				const style = getComputedStyle(el);
+				return el.tagName.toLowerCase() === 'stop' ? style.stopColor : style.fill;
+			};
+			return {
+				theme: document.documentElement.getAttribute('data-theme'),
+				variant: document.documentElement.getAttribute('data-splash'),
+				base: pick('.sp-v-base'),
+				hi: pick('.sp-v-hi'),
+				hem: pick('.sp-v-hem')
+			};
+		};
 
 		for (const name of ['splash-exit', 'splash-logo-start', 'splash-removed']) {
 			window.addEventListener(name, () => {
 				probe.events.push({ name, at: Math.round(performance.now()) });
+				if (name === 'splash-exit') probe.curtains = readCurtains();
 			});
 		}
 	});
@@ -64,16 +100,17 @@ async function installProbe(page: Page) {
  * `display: none`, якщо в сховищі вже є налаштування головної. Тому кожен тест
  * починає з чистого сховища — інакше перевіряти було б нічого.
  */
-async function coldStart(page: Page, path: string) {
+async function coldStart(page: Page, path: string, theme?: 'dark' | 'light') {
 	await installProbe(page);
 	await page.goto(path);
-	await page.evaluate(() => {
+	await page.evaluate((t) => {
 		try {
 			localStorage.removeItem('teatralo4ka_homeSettings');
+			if (t) localStorage.setItem('teatralo4ka_theme', t);
 		} catch {
 			// Приватний режим: сховище недоступне — це саме той стан, який нам треба.
 		}
-	});
+	}, theme);
 	await page.reload();
 }
 
@@ -131,5 +168,47 @@ test.describe('заставка', () => {
 		await coldStart(page, '/');
 		const names = (await waitForSequence(page)).events.map((e) => e.name);
 		expect(names).toEqual(['splash-exit', 'splash-logo-start', 'splash-removed']);
+	});
+
+	/**
+	 * Куліси — SVG-велюр, і в темній темі він мусить бути темно-синім, а не
+	 * жовтим. Перевіряється обчислений `stop-color`, а не скріншот: колір
+	 * приходить із токена, і саме токен тут можна зламати непомітно.
+	 *
+	 * Літерали `stop-color` лишаються в атрибутах SVG як запасний варіант (щоб
+	 * велюр малювався навіть без цих правил), тому перевірка «синє, а не жовте»
+	 * заодно відрізняє реальне застосування токена від фолбеку.
+	 */
+	test('у темній темі куліси темно-сині, а не жовті', async ({ page }) => {
+		await coldStart(page, '/contacts', 'dark');
+		const { curtains } = await waitForSequence(page);
+
+		expect(curtains, 'знімок кольорів не зроблено — події splash-exit не було').not.toBeNull();
+		expect(curtains!.variant, 'варіант заставки не `curtains` — перевіряти нема чого').toBe('curtains');
+		expect(curtains!.theme).toBe('dark');
+
+		// Жовтий велюр — це високі red і green при нульовому blue. Темно-синій —
+		// навпаки. Перевіряємо саму цю ознаку, а не конкретний відтінок: значення
+		// палітри можуть змінитися, а «синє, а не жовте» — ні.
+		for (const key of ['base', 'hi', 'hem'] as const) {
+			const rgb = (curtains![key] ?? '').match(/\d+/g)?.map(Number) ?? [];
+			expect(rgb.length, `не вдалося прочитати колір для ${key}`).toBeGreaterThanOrEqual(3);
+			const [r, , b] = rgb;
+			expect(b, `${key}: синьої складової майже немає — це жовтий велюр`).toBeGreaterThan(r);
+		}
+	});
+
+	test('у світлій темі куліси лишаються жовтими', async ({ page }) => {
+		await coldStart(page, '/contacts', 'light');
+		const { curtains } = await waitForSequence(page);
+
+		expect(curtains!.theme).toBe('light');
+		for (const key of ['base', 'hi'] as const) {
+			const rgb = (curtains![key] ?? '').match(/\d+/g)?.map(Number) ?? [];
+			expect(rgb.length, `не вдалося прочитати колір для ${key}`).toBeGreaterThanOrEqual(3);
+			const [r, g, b] = rgb;
+			expect(r, `${key}: очікувався жовтий велюр`).toBeGreaterThan(b);
+			expect(g, `${key}: очікувався жовтий велюр`).toBeGreaterThan(b);
+		}
 	});
 });

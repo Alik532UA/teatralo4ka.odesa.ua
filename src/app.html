@@ -231,6 +231,42 @@
 				--sp-glow: rgba(122, 92, 0, 0.25);
 			}
 
+			/*
+			 * Темно-синій велюр. Порядок яскравостей той самий, що в жовтому наборі
+			 * (блик > основний > складка > край), тому складки полотна читаються
+			 * однаково — змінюється лише родина кольору. Значення взяті з палітри
+			 * проєкту (`--palette-navy-*` у `global.css`), а не підібрані наново.
+			 */
+			html[data-theme="dark"] {
+				--sp-v-hi: #0a7ea3;
+				--sp-v-base: #00607e;
+				--sp-v-mid: #00566f;
+				--sp-v-lo: #00435a;
+				--sp-v-edge: #003646;
+				--sp-v-deep: #00242f;
+				--sp-v-shade: #001019;
+				--sp-v-hem: #001d27;
+				--sp-bg: #00242f;
+				--sp-text: #bde4f0;
+				--sp-glow: rgba(0, 12, 20, 0.45);
+			}
+
+			@media (prefers-color-scheme: dark) {
+				html:not([data-theme]) {
+					--sp-v-hi: #0a7ea3;
+					--sp-v-base: #00607e;
+					--sp-v-mid: #00566f;
+					--sp-v-lo: #00435a;
+					--sp-v-edge: #003646;
+					--sp-v-deep: #00242f;
+					--sp-v-shade: #001019;
+					--sp-v-hem: #001d27;
+					--sp-bg: #00242f;
+					--sp-text: #bde4f0;
+					--sp-glow: rgba(0, 12, 20, 0.45);
+				}
+			}
+
 			.sp-v-hi { stop-color: var(--sp-v-hi); }
 			.sp-v-base { stop-color: var(--sp-v-base); }
 			.sp-v-mid { stop-color: var(--sp-v-mid); }
