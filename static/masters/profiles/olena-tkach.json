@@ -17,5 +17,8 @@
 	"photo": "/masters/olena-tkach.webp",
 	"category": "administration",
 	"roleTitle": "директорка, викладачка театральних дисциплін вищої категорії, методистка",
-	"portrait": "/masters/portraits/olena-tkach.webp"
+	"portrait": "/masters/portraits/olena-tkach.webp",
+	"studiedUnder": [
+		"samuil-imas"
+	]
 }

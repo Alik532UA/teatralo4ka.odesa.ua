@@ -18,5 +18,8 @@
 	"socials": [],
 	"category": "administration",
 	"roleTitle": "завідувачка театральним відділенням, викладачка акторської майстерності та сценічного мовлення вищої категорії, методистка",
-	"portrait": "/masters/portraits/svitlana-ryskina.webp"
+	"portrait": "/masters/portraits/svitlana-ryskina.webp",
+	"studiedUnder": [
+		"samuil-imas"
+	]
 }

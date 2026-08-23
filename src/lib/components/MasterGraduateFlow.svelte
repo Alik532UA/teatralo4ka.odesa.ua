@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { t } from 'svelte-i18n';
+	import { locale, t } from 'svelte-i18n';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
@@ -9,7 +9,7 @@
 		graduateProfilePath,
 		type GraduateIndexEntry
 	} from '$lib/data/graduates';
-	import type { MasterStudentEntry } from '$lib/data/masters';
+	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
 
 	interface Props {
@@ -27,11 +27,72 @@
 	const normalizedStudents = $derived<MasterStudentEntry[]>(
 		students && students.length > 0
 			? students
-			: (graduates ?? []).map((g) => ({ graduate: g, role: 'master' as const }))
+			: (graduates ?? []).map((g) => ({
+					kind: 'graduate' as const,
+					relation: 'master' as const,
+					graduate: g
+				}))
 	);
 
-	const withPhoto = $derived(normalizedStudents.filter((s) => s.graduate.hasPhoto));
-	const withoutPhoto = $derived(normalizedStudents.filter((s) => !s.graduate.hasPhoto));
+	/**
+	 * Один вид для зірки, зведений із двох різних записів.
+	 *
+	 * Випускник і колега-майстер лежать у різних місцях і мають різні поля: у
+	 * випускника є рік випуску й портрет у `static/graduates/`, у колеги — роль у
+	 * школі й портрет у `static/masters/`. Зірці ж потрібні ті самі величини, тому
+	 * зведення робиться ТУТ, один раз, а не розгалуженням у розмітці.
+	 *
+	 * `entry` лишається поруч: по кліку треба знати, куди вести — на сторінку
+	 * профілю випускника чи на сторінку майстра.
+	 */
+	interface StarPerson {
+		key: string;
+		tier: 'colleague' | 'graduate' | 'student';
+		hasPhoto: boolean;
+		/** Портрет поза текою випускників; `null` — брати звідти, як досі. */
+		photo: string | null;
+		/** Зірка приймає запис випускника, тож колезі складаємо сумісний. */
+		graduate: GraduateIndexEntry;
+		entry: MasterStudentEntry;
+	}
+
+	const people = $derived<StarPerson[]>(
+		normalizedStudents.map((entry) => {
+			if (entry.kind === 'master') {
+				const m = entry.master;
+				return {
+					key: `master:${m.slug}`,
+					tier: 'colleague' as const,
+					hasPhoto: Boolean(m.photo),
+					photo: m.photo ?? null,
+					/*
+					 * Сумісний запис, а не справжній: колеги немає в переліку
+					 * випускників, і рік випуску в неї невідомий. `graduationYear: null`
+					 * означає саме «невідомо», тож підпис покаже лише ім'я.
+					 */
+					graduate: {
+						slug: m.slug,
+						name: $locale === 'en' ? m.displayNameEn : m.displayName,
+						graduationYear: null,
+						departments: m.departments,
+						...(m.photo ? { hasPhoto: true as const } : {})
+					},
+					entry
+				};
+			}
+			return {
+				key: `graduate:${entry.graduate.slug}`,
+				tier: entry.relation === 'teacher' ? ('student' as const) : ('graduate' as const),
+				hasPhoto: Boolean(entry.graduate.hasPhoto),
+				photo: null,
+				graduate: entry.graduate,
+				entry
+			};
+		})
+	);
+
+	const withPhoto = $derived(people.filter((p) => p.hasPhoto));
+	const withoutPhoto = $derived(people.filter((p) => !p.hasPhoto));
 
 	function makeVerticalLanes(count: number, minSeconds: number, random: () => number) {
 		if (count <= 0) return [];
@@ -69,30 +130,36 @@
 	const flying = $derived(
 		started
 			? [
-					...withoutPhoto.map((item, lane) => ({
+					...withoutPhoto.map((person, lane) => ({
 						kind: 'plain' as const,
 						lane,
-						student: item,
-						graduate: item.graduate,
+						person,
 						geometry: plainLanes[lane]
 					})),
-					...withPhoto.map((item, lane) => ({
+					...withPhoto.map((person, lane) => ({
 						kind: 'photo' as const,
 						lane,
-						student: item,
-						graduate: item.graduate,
+						person,
 						geometry: photoLanes[lane]
 					}))
 				]
 			: []
 	);
 
-	function handleSelectGraduate(graduate: GraduateIndexEntry) {
+	function handleSelect(person: StarPerson) {
 		// Мова береться з адреси, а не з `$locale`: адреса — джерело істини для
 		// мови в цьому проєкті (I18N-v8 § 3.1), і без префікса читач англійської
 		// версії їхав на українську сторінку профілю.
 		const locale = localeFromPath(page.url.pathname);
 
+		// Колега-майстер веде на свою сторінку майстра, а не в «Галактику»: власної
+		// сторінки випускника в неї немає, і пошук за іменем не знайшов би нічого.
+		if (person.entry.kind === 'master') {
+			goto(masterProfilePath(person.entry.master.slug, locale));
+			return;
+		}
+
+		const graduate = person.entry.graduate;
 		if (graduate.code) {
 			goto(localizedPath(graduateProfilePath(graduate.code), locale));
 		} else {
@@ -111,17 +178,19 @@
 >
 	{#if normalizedStudents.length > 0}
 		<ul class="flow-lanes" data-testid="master-graduate-flow-list">
-			{#each flying as item (item.kind + item.lane + item.graduate.slug)}
+			{#each flying as item (item.kind + item.lane + item.person.key)}
 				<li
 					class="lane lane--{item.kind}"
 					style="--left: {item.geometry?.left ?? 50}; --duration: {item.geometry?.duration ?? 22}s; --delay: {item.geometry?.delay ?? 0}s"
-					data-testid="master-graduate-flow-item-{item.graduate.slug}"
+					data-testid="master-graduate-flow-item-{item.person.graduate.slug}"
+					data-tier={item.person.tier}
 				>
 					<GraduateStar
-						graduate={item.graduate}
+						graduate={item.person.graduate}
 						kind={item.kind}
-						role={item.student.role}
-						onselect={() => handleSelectGraduate(item.graduate)}
+						tier={item.person.tier}
+						photo={item.person.photo}
+						onselect={() => handleSelect(item.person)}
 					/>
 				</li>
 			{/each}

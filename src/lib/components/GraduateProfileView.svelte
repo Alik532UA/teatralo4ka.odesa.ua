@@ -9,7 +9,11 @@
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
-	import { getMasterById, masterProfilePath } from "$lib/data/masters";
+	import {
+		getMasterById,
+		masterProfilePath,
+		relationSubjects,
+	} from "$lib/data/masters";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -492,9 +496,26 @@
 				typeof t === "object" && t.department
 					? t.department
 					: (masterInfo?.departments[0] ?? null);
+			/*
+			 * Предмети САМЕ ЦЬОГО зв'язку, а не все, що майстер викладає.
+			 *
+			 * Порядок джерел важливий і саме в такому вигляді виправляє скаргу
+			 * автора: у профілі випускника поруч з Імасом стояло «(Риторика та
+			 * поетика, акторська майстерність)», хоча цей випускник мав у нього
+			 * лише риторику. Причина була не в показі, а в даних — у записі
+			 * зв'язку лежала рукописна копія повного переліку майстра, — але поки
+			 * зв'язок мав вільний рядок, зіставити його з переліком майстра не міг
+			 * ніхто. Тепер обидві сторони описані переліком.
+			 *
+			 * Останній рядок — власний перелік майстра — це ФОЛБЕК на випадок «у
+			 * зв'язку не записано». Він каже «ось що ця людина викладає», а не «ось
+			 * що вона викладала цьому випускникові»; різницю тримає інваріант
+			 * `src/faculty-relations.test.ts`, який не дає з'явитися зв'язку з
+			 * предметом, якого в майстра немає.
+			 */
 			const subject =
-				typeof t === "object" && t.subject
-					? t.subject
+				typeof t === "object" && relationSubjects(t).length > 0
+					? relationSubjects(t).join(", ")
 					: (masterInfo?.subjects?.join(", ") ?? null);
 			const slug = masterInfo?.slug ?? id;
 			const href = slug

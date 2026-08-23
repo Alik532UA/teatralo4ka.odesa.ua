@@ -6,16 +6,39 @@
 		graduate: GraduateIndexEntry;
 		/** `photo` — анкету заповнено, є портрет. `plain` — лише ім'я. */
 		kind: 'photo' | 'plain';
-		role?: 'master' | 'teacher';
+		/**
+		 * Ранг у потоці майстра — і залежить він від того, ХТО ця людина, а не від
+		 * того, як вона пов'язана з майстром:
+		 *
+		 *   `colleague` — сама стала майстром цієї школи (трохи більша зірка);
+		 *   `graduate`  — випускник, чий курс вів цей майстер (звичайна);
+		 *   `student`   — учень окремого предмета (трохи менша).
+		 *
+		 * Доти сюди приходило `role: 'master' | 'teacher'`, тобто ВИД ЗВ'ЯЗКУ, і
+		 * розмір зірки залежав від нього. Через це колеги-майстри не мали розміру
+		 * взагалі: у потоці їх просто не було (див. `MasterStudentEntry`).
+		 *
+		 * У «Галактиці» ранг не передається — там усі рівні, і це типове значення.
+		 */
+		tier?: 'colleague' | 'graduate' | 'student';
+		/**
+		 * Портрет не з теки випускників.
+		 *
+		 * Колеги-майстри лежать в `static/masters/`, а не в `static/graduates/`, і
+		 * `graduatePhoto()` для них дала б 404. Одного розміру досить: зірка — це
+		 * 38–52 px, і `srcset` тут не має чого вибирати.
+		 */
+		photo?: string | null;
 		onselect: () => void;
 	}
 
-	let { graduate, kind, role = 'master', onselect }: Props = $props();
+	let { graduate, kind, tier = 'graduate', photo = null, onselect }: Props = $props();
 
 	let buttonEl = $state<HTMLButtonElement | null>(null);
 	let isNearBottom = $state(false);
 
-	const photoCount = $derived(graduate.photoCount ?? 1);
+	// Зовнішній портрет виключає мультифото: додаткові кадри є лише у випускників.
+	const photoCount = $derived(photo ? 1 : (graduate.photoCount ?? 1));
 	const photos = $derived(
 		photoCount > 1 ? allGraduatePhotos(graduate.slug, photoCount, 96) : []
 	);
@@ -118,8 +141,7 @@
 <button
 	bind:this={buttonEl}
 	type="button"
-	class="star star--{kind}"
-	class:star--student={role === 'teacher'}
+	class="star star--{kind} star--tier-{tier}"
 	class:star--multi={photoCount > 1}
 	onmouseenter={updatePlacement}
 	onfocus={updatePlacement}
@@ -155,9 +177,9 @@
 		{:else}
 			<img
 				class="star__photo"
-				src={graduatePhoto(graduate.slug, 96)}
-				srcset={graduatePhotoSrcset(graduate.slug)}
-				sizes="(hover: hover) 176px, 96px"
+				src={photo ?? graduatePhoto(graduate.slug, 96)}
+				srcset={photo ? undefined : graduatePhotoSrcset(graduate.slug)}
+				sizes={photo ? undefined : '(hover: hover) 176px, 96px'}
 				width="96"
 				height="96"
 				loading="lazy"
@@ -213,14 +235,39 @@
 		transform: scale(1.9);
 	}
 
-	.star--student {
-		width: 46px;
-		height: 46px;
+	/*
+	 * ТРИ РАНГИ, і різниця між ними лише в розмірі.
+	 *
+	 * Прозорості тут більше немає ніде. Учень доти малювався з `opacity: 0.88`, і
+	 * це читалося як «зображення не доїхало» або як вимкнений елемент, а не як
+	 * «трохи менший». Зменшення каже те саме, нічого не ламаючи: напівпрозорий
+	 * портрет ще й змішується з тлом, тобто його контраст залежить від того, що
+	 * зараз пролітає позаду.
+	 *
+	 * Числа: 66 / 56 / 50 px коробка і 52 / 44 / 38 px портрет. Мінімум WCAG 2.2
+	 * для цілі — 24 px, власний стандарт проєкту — 44; менша з коробок (50) вище
+	 * за обидва, і це міряє гейт `e2e/touch-targets`.
+	 */
+	.star--tier-colleague {
+		width: 66px;
+		height: 66px;
 	}
 
-	.star--student:hover,
-	.star--student:focus-visible {
-		transform: scale(1.7);
+	.star--tier-student {
+		width: 50px;
+		height: 50px;
+	}
+
+	/* Наближення слабше в більшої зірки: кінцевий розмір у всіх приблизно один,
+	   інакше колега при наведенні перекривав би пів екрана. */
+	.star--tier-colleague:hover,
+	.star--tier-colleague:focus-visible {
+		transform: scale(1.6);
+	}
+
+	.star--tier-student:hover,
+	.star--tier-student:focus-visible {
+		transform: scale(1.8);
 	}
 
 	.star__photo {
@@ -236,10 +283,17 @@
 		transition: filter 280ms ease;
 	}
 
-	.star--student .star__photo {
-		width: 32px;
-		height: 32px;
-		opacity: 0.88;
+	.star--tier-colleague .star__photo {
+		width: 52px;
+		height: 52px;
+		/* Обведення яскравіше: колега мусить читатися як окремий ранг і без
+		   порівняння з сусідньою зіркою, якої в кадрі може й не бути. */
+		outline-color: rgb(255 255 255 / 0.7);
+	}
+
+	.star--tier-student .star__photo {
+		width: 38px;
+		height: 38px;
 	}
 
 	.star:hover .star__photo,
@@ -314,8 +368,14 @@
 		scale: calc(1 / 1.9);
 	}
 
-	.star--student .star__label {
-		scale: calc(1 / 1.7);
+	/* Підпис не масштабується разом із зіркою, тож дільник мусить збігатися з
+	   `scale` наближення того ж рангу — інакше текст стає розмитим. */
+	.star--tier-colleague .star__label {
+		scale: calc(1 / 1.6);
+	}
+
+	.star--tier-student .star__label {
+		scale: calc(1 / 1.8);
 	}
 
 	.star__label--top {

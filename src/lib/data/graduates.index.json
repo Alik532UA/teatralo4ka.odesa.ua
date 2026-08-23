@@ -4589,37 +4589,49 @@
 				"id": "samuil-imas",
 				"name": "Імас Самуїл Михайлович",
 				"department": "theatre",
-				"subject": "Риторика та поетика, акторська майстерність"
+				"subjects": [
+					"Риторика та поетика"
+				]
 			},
 			{
 				"id": "mykola-baldin",
 				"name": "Балдін Микола Олександрович",
 				"department": "theatre",
-				"subject": "Сценічний рух"
+				"subjects": [
+					"Сценічний рух"
+				]
 			},
 			{
 				"id": "natalia-stepanenko",
 				"name": "Степаненко Наталя",
 				"department": "guitar",
-				"subject": "Гітара"
+				"subjects": [
+					"Гітара"
+				]
 			},
 			{
 				"id": "iryna-ovcharenko",
 				"name": "Овчаренко Ірина Григорівна",
 				"department": "vocal",
-				"subject": "Вокал"
+				"subjects": [
+					"Вокал"
+				]
 			},
 			{
 				"id": "iryna-ulianenko",
 				"name": "Ульяненко Ірина Андріївна",
 				"department": "theatre",
-				"subject": "Сценічна мова"
+				"subjects": [
+					"Сценічна мова"
+				]
 			},
 			{
 				"id": "vira-yemtsova-datsiuk",
 				"name": "Ємцова-Дацюк Віра Вікторівна",
 				"department": "theatre",
-				"subject": "Сценічна мова"
+				"subjects": [
+					"Сценічна мова"
+				]
 			}
 		],
 		"socials": [

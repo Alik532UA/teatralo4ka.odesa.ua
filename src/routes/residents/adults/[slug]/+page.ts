@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { asset } from '$app/paths';
 import {
 	getMasterBySlug,
+	getGraduatesByMaster,
 	getStudentsByMaster,
 	masterProfileJson,
 	MASTERS,
@@ -37,7 +38,14 @@ export const load: PageLoad = async ({ params, fetch }) => {
 
 	const masterData = profile ? { ...master, ...profile } : master;
 	const students = getStudentsByMaster(master.id);
-	const graduates = students.map((s) => s.graduate);
+
+	/*
+	 * `graduates` — лише записи ВИПУСКНИКІВ, і фільтр тут не косметика: серед
+	 * `students` тепер бувають колеги-майстри, які самі вчилися в цього майстра, а
+	 * в переліку випускників їх немає. Доти рядок був `students.map((s) => s.graduate)`
+	 * і на такому записі дав би `undefined` у масиві.
+	 */
+	const graduates = getGraduatesByMaster(master.id);
 
 	return {
 		master: masterData,

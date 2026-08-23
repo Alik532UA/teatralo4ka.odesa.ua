@@ -48,8 +48,28 @@ test('кожен інлайн-скрипт дозволено хешем', () =>
 
 	expect(inline.length, 'інлайн-скриптів не знайдено — перевірка мертва').toBeGreaterThan(0);
 
+	/*
+	 * ПЕРЕНЕСЕННЯ РЯДКІВ НОРМАЛІЗУЮТЬСЯ, і це не дрібниця — це та сама пастка, що
+	 * колись зламала заставку, лише тепер у самій перевірці.
+	 *
+	 * Браузер хешує НЕ байти файлу, а текстовий вузол `<script>` після розбору
+	 * HTML, а розбір перетворює `\r\n` на `\n` ще до появи DOM (HTML Standard,
+	 * «preprocessing the input stream»). На Windows файл лежить із CRLF, тож хеш
+	 * від сирих байтів не збігається ні з політикою, ні з тим, що вимагатиме
+	 * браузер:
+	 *
+	 *   сирі байти (CRLF) → sha256-Wp/ZAinbEpIbGsGEg7zuPYm32MjBsZt51+586EIzjaM=
+	 *   після розбору (LF) → sha256-h4GKPmHQehhC3Jtw2z3/CbPPkTxB/rBd+oB0aQwGURw=
+	 *
+	 * Друге і є в політиці — `svelte.config.js` рахує саме так (SECURITY-v8
+	 * § 6.3.1, `SEC-CSP-HASH-EOL`). Тобто перевірка звітувала «політика заблокує
+	 * цей скрипт мовчки» на цілком робочому сайті, і лише на Windows: у CI
+	 * (Linux, LF) вона зелена. Червоний гейт, причина якого не в коді, — це той
+	 * гейт, який зрештою вимикають.
+	 */
 	const blocked = inline.filter((body) => {
-		const hash = `sha256-${createHash('sha256').update(body).digest('base64')}`;
+		const asParsed = body.replace(/\r\n/g, '\n');
+		const hash = `sha256-${createHash('sha256').update(asParsed).digest('base64')}`;
 		return !csp.includes(hash);
 	});
 

@@ -17,7 +17,10 @@
 		"photo": "/masters/svitlana-ryskina.webp",
 		"category": "administration",
 		"roleTitle": "завідувачка театральним відділенням, викладачка акторської майстерності та сценічного мовлення вищої категорії, методистка",
-		"portrait": "/masters/portraits/svitlana-ryskina.webp"
+		"portrait": "/masters/portraits/svitlana-ryskina.webp",
+		"studiedUnder": [
+			"samuil-imas"
+		]
 	},
 	{
 		"id": "tetiana-isachkina",
@@ -56,7 +59,10 @@
 		"photo": "/masters/fedir-tkach.webp",
 		"category": "pedagogues",
 		"roleTitle": "викладач акторської майстерності вищої категорії, методист, педагогічне звання “Відмінник освіти України”",
-		"portrait": "/masters/portraits/fedir-tkach.webp"
+		"portrait": "/masters/portraits/fedir-tkach.webp",
+		"studiedUnder": [
+			"samuil-imas"
+		]
 	},
 	{
 		"id": "olena-tkach",
@@ -75,7 +81,10 @@
 		"photo": "/masters/olena-tkach.webp",
 		"category": "administration",
 		"roleTitle": "директорка, викладачка театральних дисциплін вищої категорії, методистка",
-		"portrait": "/masters/portraits/olena-tkach.webp"
+		"portrait": "/masters/portraits/olena-tkach.webp",
+		"studiedUnder": [
+			"samuil-imas"
+		]
 	},
 	{
 		"id": "olena-prorok",
