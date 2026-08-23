@@ -9,6 +9,24 @@ import { readFileSync } from 'node:fs';
 // діє і в `vite dev`, порушення видно в консолі браузера. Помилку помітно не
 // тому, що її нема де побачити, а тому, що заблокований ресурс нічого не
 // ламає візуально: сторінка малюється, просто щось тихо не працює.
+//
+// ## `\r` ОБОВ'ЯЗКОВО прибирається перед хешуванням
+//
+// Браузер хешує НЕ байти файлу, а текстовий вузол скрипта після розбору HTML, а
+// розбір нормалізує `\r\n` у `\n` (HTML Standard, «preprocessing the input
+// stream»). Тому на машині, де `src/app.html` лежить із CRLF (Windows +
+// `core.autocrlf`), хеш із файлу й хеш браузера РІЗНІ — заміряно 2026-08-23:
+//   CRLF → sha256-gZ7ZVRfzFfd5h4FQkuj8N8PLpGEHXZsQmbA0Xk4TmBM=  (ішло в CSP)
+//   LF   → sha256-go+B8c0R7F7waorBzlHweJGjRFwYXYU6BXDgSoH7a38=  (вимагав браузер)
+//
+// Наслідок був не косметичний: блокувався ВЕСЬ скрипт першого кадру, тобто
+// разом із ним `data-splash` (заставка-куліси не вмикалася — лишався суцільний
+// жовтий фон), анти-FOUC тема і клас смуги прокрутки. Симптом у консолі є, але
+// сторінка при цьому малюється, тож дефект жив непоміченим.
+//
+// На Linux (CI, продакшн) файл із LF, хеші збігалися, і саме тому E2E-перевірка
+// `e2e/csp.spec.ts` була зелена там, де дефекту немає, і не запускалася там, де
+// він є. Інваріант `src/csp-hash.test.ts` тепер ловить це в юніт-прогоні.
 function inlineThemeScript() {
 	const html = readFileSync('src/app.html', 'utf8');
 	const open = '<script>';
@@ -18,7 +36,7 @@ function inlineThemeScript() {
 	if (start < 0 || end < 0) {
 		throw new Error('app.html: інлайн-скрипт теми не знайдено — CSP заблокує його мовчки');
 	}
-	return html.slice(start + open.length, end);
+	return html.slice(start + open.length, end).replace(/\r\n/g, '\n');
 }
 
 /**

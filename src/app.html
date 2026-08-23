@@ -17,12 +17,30 @@
 		     Затримка нульова — <head> до цього місця це кілька мета-тегів. -->
 		<script>
 			try {
-				// ── SPLASH VARIANT SELECTOR ─────────────────────────────────
-				// Change this ONE value to switch the loading splash style:
-				//   'curtains' = theatre curtains (SVG velvet) that part to the sides
-				//   'classic'  = yellow background that slides down (original logic)
-				// Set first: documentElement always exists here, and a later line in
-				// this <head> script (document.body...) can throw before <body> parses.
+				// ── ПЕРЕМИКАЧ ВАРІАНТА ЗАСТАВКИ ─────────────────────────────
+				// Один рядок нижче — і заставка інша. ОБА варіанти лишаються в
+				// коді назавжди; жоден не видаляється при перемиканні:
+				//
+				//   'curtains' — театральні куліси (SVG-велюр), що роз'їжджаються
+				//                в боки. Розмітка: #app-splash-curtains нижче;
+				//                стилі: «CURTAIN VARIANT» і «CURTAIN EXIT».
+				//   'classic'  — суцільний жовтий фон, що з'їжджає вниз
+				//                (початковий варіант). Стилі: #app-splash.splash-exit
+				//                із `sp-splash-down`; куліси при ньому просто
+				//                `display: none`, розмітка лишається в DOM.
+				//
+				// Обидва варіанти повністю робочі, і перемикання не потребує
+				// нічого, крім заміни рядка. Зафіксовано в PROJECT-CONTEXT.md.
+				//
+				// УВАГА, якщо заставка «зникла» й лишився суцільний фон: спершу
+				// подивись у консоль на порушення CSP. Цей скрипт — інлайн, і його
+				// пускає лише хеш із `svelte.config.js`. Заблокований скрипт не
+				// виставляє `data-splash`, тож CSS куліс не спрацьовує ЗОВСІМ, і
+				// виглядає це рівно як «куліси видалили» (сталося 2026-08-23,
+				// причина — CRLF у файлі; тримає інваріант `src/csp-hash.test.ts`).
+				//
+				// Ставиться першим: documentElement існує тут завжди, а нижчий
+				// рядок цього ж скрипта може кинути ще до розбору <body>.
 				window.__SPLASH_VARIANT = 'curtains';
 				document.documentElement.setAttribute('data-splash', window.__SPLASH_VARIANT);
 
