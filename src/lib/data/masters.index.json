@@ -259,8 +259,8 @@
 		"slug": "hanna-serebriannikova",
 		"displayName": "Ганна СЕРЕБРЯННІКОВА",
 		"fullName": "Серебряннікова Ганна Іванівна",
-		"displayNameEn": "Hanna SEREBRYANNIKOVA",
-		"fullNameEn": "Hanna Serebryannikova",
+		"displayNameEn": "Hanna SEREBRIANNIKOVA",
+		"fullNameEn": "Hanna Serebriannikova",
 		"departments": [
 			"theatre"
 		],
@@ -1163,7 +1163,12 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history"
+		"photo": "/masters/nadiia-rybakova.webp",
+		"category": "history",
+		"portrait": "/masters/portraits/nadiia-rybakova.webp",
+		"studiedUnder": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "d-rybalchenko",
