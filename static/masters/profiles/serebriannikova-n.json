@@ -1,15 +1,18 @@
 {
 	"id": "serebriannikova-n",
 	"slug": "serebriannikova-n",
-	"displayName": "Н. СЕРЕБРЯННІКОВА",
-	"fullName": "Серебряннікова Н.",
-	"displayNameEn": "N. SEREBRIANNIKOVA",
-	"fullNameEn": "Serebriannikova N.",
+	"displayName": "Наталія СЕРЕБРЯННІКОВА",
+	"fullName": "Серебряннікова Наталія Іванівна",
+	"displayNameEn": "Nataliia SEREBRIANNIKOVA",
+	"fullNameEn": "Nataliia Serebriannikova",
 	"departments": [
 		"theatre"
 	],
 	"category": "history",
 	"status": "history",
+	"subjects": [
+		"Риторика"
+	],
 	"photo": "/masters/serebriannikova-n.webp",
 	"portrait": "/masters/portraits/serebriannikova-n.webp",
 	"bio": "",

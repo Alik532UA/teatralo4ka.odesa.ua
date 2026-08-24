@@ -266,7 +266,8 @@
 		],
 		"status": "active",
 		"subjects": [
-			"Акторська майстерність"
+			"Акторська майстерність",
+			"Сценічна мова"
 		],
 		"category": "pedagogues",
 		"photo": "/masters/hanna-serebriannikova.webp",
@@ -715,8 +716,8 @@
 		],
 		"status": "active",
 		"photo": "/masters/hanna-nikolaieva.webp",
-		"category": "pedagogues",
-		"roleTitle": "викладачка вокалу першої категорії",
+		"category": "administration",
+		"roleTitle": "завідувачка музичним відділенням, викладачка вокалу першої категорії",
 		"portrait": "/masters/portraits/hanna-nikolaieva.webp"
 	},
 	{
@@ -1123,13 +1124,13 @@
 		"departments": [
 			"vocal"
 		],
-		"status": "active",
+		"status": "history",
 		"subjects": [
 			"Вокал"
 		],
 		"photo": "/masters/liliia-velychko.webp",
-		"category": "administration",
-		"roleTitle": "завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
+		"category": "history",
+		"roleTitle": "колишня завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
 		"portrait": "/masters/portraits/liliia-velychko.webp"
 	},
 	{
@@ -1758,32 +1759,38 @@
 		"portrait": "/masters/portraits/pyrohova.webp"
 	},
 	{
-		"id": "romanko",
-		"slug": "romanko",
-		"displayName": "Романко",
-		"fullName": "Романко",
-		"displayNameEn": "Romanko",
-		"fullNameEn": "Romanko",
+		"id": "andrii-romanko",
+		"slug": "andrii-romanko",
+		"displayName": "Андрій РОМАНКО",
+		"fullName": "Романко Андрій",
+		"displayNameEn": "Andrii ROMANKO",
+		"fullNameEn": "Andrii Romanko",
 		"departments": [
 			"theatre"
 		],
 		"category": "history",
 		"status": "history",
-		"photo": "/masters/romanko.webp",
-		"portrait": "/masters/portraits/romanko.webp"
+		"subjects": [
+			"Сценічний рух"
+		],
+		"photo": "/masters/andrii-romanko.webp",
+		"portrait": "/masters/portraits/andrii-romanko.webp"
 	},
 	{
 		"id": "serebriannikova-n",
 		"slug": "serebriannikova-n",
-		"displayName": "Н. СЕРЕБРЯННІКОВА",
-		"fullName": "Серебряннікова Н.",
-		"displayNameEn": "N. SEREBRIANNIKOVA",
-		"fullNameEn": "Serebriannikova N.",
+		"displayName": "Наталія СЕРЕБРЯННІКОВА",
+		"fullName": "Серебряннікова Наталія Іванівна",
+		"displayNameEn": "Nataliia SEREBRIANNIKOVA",
+		"fullNameEn": "Nataliia Serebriannikova",
 		"departments": [
 			"theatre"
 		],
 		"category": "history",
 		"status": "history",
+		"subjects": [
+			"Риторика"
+		],
 		"photo": "/masters/serebriannikova-n.webp",
 		"portrait": "/masters/portraits/serebriannikova-n.webp"
 	},

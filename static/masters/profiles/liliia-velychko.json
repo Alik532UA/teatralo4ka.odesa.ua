@@ -8,14 +8,14 @@
 	"departments": [
 		"vocal"
 	],
-	"status": "active",
+	"status": "history",
 	"subjects": [
 		"Вокал"
 	],
 	"photo": "/masters/liliia-velychko.webp",
 	"bio": "",
 	"socials": [],
-	"category": "administration",
-	"roleTitle": "завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
+	"category": "history",
+	"roleTitle": "колишня завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
 	"portrait": "/masters/portraits/liliia-velychko.webp"
 }

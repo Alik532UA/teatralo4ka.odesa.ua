@@ -1,0 +1,20 @@
+{
+	"id": "andrii-romanko",
+	"slug": "andrii-romanko",
+	"displayName": "Андрій РОМАНКО",
+	"fullName": "Романко Андрій",
+	"displayNameEn": "Andrii ROMANKO",
+	"fullNameEn": "Andrii Romanko",
+	"departments": [
+		"theatre"
+	],
+	"category": "history",
+	"status": "history",
+	"subjects": [
+		"Сценічний рух"
+	],
+	"photo": "/masters/andrii-romanko.webp",
+	"portrait": "/masters/portraits/andrii-romanko.webp",
+	"bio": "",
+	"socials": []
+}
