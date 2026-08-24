@@ -12,8 +12,25 @@ import { describe, expect, it } from 'vitest';
 const DIR = '.github/workflows';
 
 const files = existsSync(DIR) ? readdirSync(DIR).filter((f) => /\.ya?ml$/.test(f)) : [];
-/** Вміст кажного workflow окремо: частина перевірок нижче не склеюється. */
-const byFile = new Map(files.map((f) => [f, readFileSync(`${DIR}/${f}`, 'utf8')] as const));
+
+/**
+ * Вміст кожного workflow окремо: частина перевірок нижче не склеюється.
+ *
+ * `\r\n` → `\n` ОБОВ'ЯЗКОВО, і це не косметика. У JavaScript `.` не збігається
+ * з `\r` — це термінатор рядка, — а `$` без прапорця `m` стоїть перед `\n`, але
+ * не перед `\r`. Тому `/^(\s+)- name: (.*)$/` на рядку
+ * `«      - name: Install dependencies\r»` не збігається ЖОДНОГО разу.
+ *
+ * Наслідок був такий: у CI чекаут із `\n`, розбір бачив 18 кроків і 5 гейтів;
+ * на Windows-чекауті `core.autocrlf` дає `\r\n`, і той самий розбір бачив НУЛЬ.
+ * Тобто `npm test` локально червонів на тому, що в CI зелене, — а це гірше за
+ * відсутню перевірку: вона привчає не дивитися на червоне.
+ *
+ * Зловила це рівно перевірка живості нижче, і саме для цього вона й стоїть.
+ */
+const byFile = new Map(
+	files.map((f) => [f, readFileSync(`${DIR}/${f}`, 'utf8').replace(/\r\n/g, '\n')] as const)
+);
 const all = [...byFile.values()].join('\n');
 const pkg = JSON.parse(readFileSync('package.json', 'utf8')) as {
 	scripts?: Record<string, string>;
@@ -257,11 +274,40 @@ function stepsOf(text: string): { job: string; name: string; body: string }[] {
 describe('гейти не ховають один одного (CI-CD-AND-TOOLS-v8 § 1.8)', () => {
 	// Свій перелік файлів, а не спільний `all`: назва файлу потрібна в тексті
 	// помилки, а склеєний вміст її втрачає.
+	// Вміст беремо з `byFile`, а не читаємо файл ЗНОВУ: там уже нормалізовані
+	// закінчення рядків, без яких цей розбір бачить нуль кроків на Windows.
 	const gates = files.flatMap((file) =>
-		stepsOf(readFileSync(`${DIR}/${file}`, 'utf8'))
+		stepsOf(byFile.get(file) ?? '')
 			.filter((s) => INDEPENDENT_GATE.test(s.body) && !BUILD_DEPENDENT.test(s.body))
 			.map((s) => ({ ...s, file }))
 	);
+
+	it('вміст workflow приходить без `\\r`', () => {
+		/*
+		 * Це перевірка МЕЖІ, а не одного розбору, і саме тому вона тут.
+		 *
+		 * `stepsOf` вимагає нормалізованого тексту: його `/^(\s+)- name: (.*)$/`
+		 * не має прапорця `m`, а в JavaScript `.` не збігається з `\r` — тобто на
+		 * CRLF-чекауті розбір бачить НУЛЬ кроків. Лагодити можна було й у самому
+		 * `stepsOf`, але тоді наступна регулярка без `m`, яку тут допишуть,
+		 * наступить на те саме. Нормалізація стоїть один раз, при читанні, — і
+		 * ця перевірка стежить, щоб її не прибрали.
+		 *
+		 * Синтетичний приклад нижче — щоб перевірка не залежала від того, як git
+		 * саме зараз розгорнув репозиторій: на машині з `\n` вона інакше зеленіла б,
+		 * не сказавши про `\r\n` нічого.
+		 */
+		const dirty = [...byFile.entries()].filter(([, text]) => text.includes('\r')).map(([f]) => f);
+		expect(dirty, `нормалізація закінчень рядків зникла: ${dirty.join(', ')}`).toEqual([]);
+
+		const step = ['jobs:', '  build:', '    steps:', '      - name: Lint', '        run: npm run lint'];
+		expect(stepsOf(step.join('\n')).length, 'розбір не бачить кроку навіть із `\\n`').toBe(1);
+		expect(
+			stepsOf(step.join('\r\n')).length,
+			'`stepsOf` і далі не переживає `\\r\\n` — тобто нормалізація при читанні ' +
+				'обов’язкова, і попереднє твердження не декоративне'
+		).toBe(0);
+	});
 
 	it('розбір живий: незалежні статичні гейти знайдено', () => {
 		expect(
