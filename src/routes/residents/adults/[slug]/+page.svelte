@@ -6,6 +6,7 @@
 	import { asset } from '$app/paths';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
+	import { yearsOfService, yearsLabelKey } from '$lib/data/masters';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -13,6 +14,15 @@
 	const isEn = $derived($locale === 'en');
 	const masterName = $derived(isEn ? data.master.fullNameEn : data.master.fullName);
 	const displayName = $derived(isEn ? data.master.displayNameEn : data.master.displayName);
+	// Одна перевірка одного факту: доти `isHonorary` і `status` перевірялися
+	// поряд, хоч означали те саме.
+	const isHonorary = $derived(data.master.status === 'honorary');
+	/*
+	 * Рік читається тут, а не всередині `yearsOfService`: незакритий термін
+	 * міряється «до сьогодні», а сторінка пререндерена. Функція, яка сама дивиться
+	 * на годинник, дала б у зібраному HTML одне число, а після гідратації — інше.
+	 */
+	const yearsInSchool = $derived(yearsOfService(data.master.periods, new Date().getFullYear()));
 
 	let avatarContactOpen = $state(false);
 	let cardContactOpen = $state(false);
@@ -117,7 +127,7 @@
 								src={data.master.photo}
 								alt={masterName}
 								class="avatar-img"
-								class:avatar-img--honorary={data.master.isHonorary || data.master.status === 'honorary'}
+								class:avatar-img--honorary={isHonorary}
 								width="160"
 								height="160"
 								data-testid="master-profile-avatar-img"
@@ -193,7 +203,7 @@
 							</p>
 						{/if}
 
-						{#if data.master.isHonorary}
+						{#if isHonorary}
 							<span class="honorary-badge" data-testid="master-profile-honorary-badge">
 								<span>{$t('galaxy.honoraryMaster', { default: "Світлої пам'яті викладача" })}</span>
 							</span>
@@ -213,6 +223,21 @@
 						{#if data.master.subjects && data.master.subjects.length > 0}
 							<p class="master-subjects" data-testid="master-profile-subjects-text">
 								{data.master.subjects.join(' · ')}
+							</p>
+						{/if}
+
+						<!--
+							Сума років, а не самі роки: терміни бувають із перервою
+							(«2012–2016, 2022 — дотепер»), і перелік діапазонів читається
+							як службовий запис, а не як факт про людину. `null` означає
+							«термінів не записано» — тоді рядка немає взагалі, а не «0».
+						-->
+						{#if yearsInSchool !== null}
+							<p class="master-years" data-testid="master-profile-years-text">
+								{$t(`galaxy.yearsInSchool${yearsLabelKey(yearsInSchool)}`, {
+									values: { count: yearsInSchool },
+									default: `${yearsInSchool} р. у школі`
+								})}
 							</p>
 						{/if}
 					</div>
@@ -574,6 +599,13 @@
 		color: var(--text-title);
 		font-size: 0.88rem;
 		font-weight: 500;
+	}
+
+	.master-years {
+		margin: 0.35rem 0 0;
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--text-muted);
 	}
 
 	.master-subjects {

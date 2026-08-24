@@ -2,14 +2,16 @@
 	"id": "elmir-hanbarov",
 	"slug": "elmir-hanbarov",
 	"displayName": "Ельмір ГАНБАРОВ",
-	"fullName": "Ганбаров Ельмір Тагі-Огли",
+	"fullName": "Ганбаров Ельмір",
 	"displayNameEn": "Elmir HANBAROV",
 	"fullNameEn": "Elmir Hanbarov",
 	"departments": [
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Акторська майстерність"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/elmir-hanbarov.webp",

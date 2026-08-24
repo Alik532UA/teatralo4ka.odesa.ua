@@ -899,6 +899,9 @@
     "honoraryShort": "In memory",
     "graduatesCount": "Graduates",
     "yearsActive": "Graduation years",
+    "yearsInSchoolOne": "{count} year in the school",
+    "yearsInSchoolFew": "{count} years in the school",
+    "yearsInSchoolMany": "{count} years in the school",
     "bioTitle": "About the teacher",
     "mastersSectionTitle": "Our Team",
     "mastersSectionSubtitle": "Pedagogues, masters, and team members of the Odesa Theatre School",
@@ -914,6 +917,8 @@
     "categories": {
       "administration": "Leadership & Administration",
       "administrationSubtitle": "The team directing the growth and daily operations of the school",
+      "heads": "Heads of Departments",
+      "headsSubtitle": "Pedagogues who run a department of the school and teach their own subjects",
       "pedagogues": "Course Masters & Pedagogues",
       "pedagoguesSubtitle": "Teachers of the Odesa Theatre School who have educated generations of talented graduates",
       "production": "Stage & Production Team",
@@ -927,7 +932,7 @@
       "history": "School History",
       "historySubtitle": "Pedagogues and mentors who shaped the history of the Odesa Theatre School",
       "needsClarification": "Records To Be Confirmed",
-      "needsClarificationSubtitle": "Entries missing details — a photograph above all; we are still confirming them"
+      "needsClarificationSubtitle": "Entries without a photograph or without a full name — we are still confirming them"
     },
     "filterAllDepts": "All departments",
     "filterAllProfiles": "All graduates",

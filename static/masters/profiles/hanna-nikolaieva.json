@@ -6,14 +6,16 @@
 	"displayNameEn": "Hanna NIKOLAIEVA",
 	"fullNameEn": "Hanna Nikolaieva",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Вокал"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/hanna-nikolaieva.webp",
-	"category": "administration",
+	"category": "heads",
 	"roleTitle": "завідувачка музичним відділенням, викладачка вокалу першої категорії",
 	"portrait": "/masters/portraits/hanna-nikolaieva.webp"
 }

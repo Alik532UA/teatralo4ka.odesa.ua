@@ -5,12 +5,10 @@
 	"fullName": "Панченко Оксана Костянтинівна",
 	"displayNameEn": "Oksana PANCHENKO",
 	"fullNameEn": "Oksana Panchenko",
-	"departments": [
-		"music"
-	],
+	"departments": [],
 	"status": "active",
 	"subjects": [
-		"Музика"
+		"Фортепіано"
 	],
 	"photo": "/masters/oksana-panchenko.webp",
 	"bio": "",

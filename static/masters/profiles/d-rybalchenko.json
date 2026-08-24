@@ -8,11 +8,10 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "history",
+	"status": "former",
 	"subjects": [
 		"Акторська майстерність"
 	],
 	"bio": "",
-	"socials": [],
-	"category": "needsClarification"
+	"socials": []
 }

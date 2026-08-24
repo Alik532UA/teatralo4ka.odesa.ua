@@ -5,7 +5,7 @@
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle, { type ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
-	import type { MasterCategory } from '$lib/data/masters';
+	import { masterSection, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import { adultsViewMode } from '$lib/services/adultsViewMode.svelte';
 	import type { PageData } from './$types';
@@ -24,7 +24,7 @@
 	}
 
 	interface CategoryConfig {
-		key: MasterCategory;
+		key: MasterSection;
 		icon: string;
 		title: string;
 		subtitle: string;
@@ -36,6 +36,15 @@
 			icon: '🏛️',
 			title: 'Керівництво та адміністрація',
 			subtitle: 'Команда, яка спрямовує розвиток та організовує життя школи'
+		},
+		// Одразу після керівництва й перед педагогами: завідувачка веде відділення
+		// (тобто частину школи) і водночас викладає — між цими двома розділами вона
+		// й стоїть.
+		{
+			key: 'heads',
+			icon: '🎓',
+			title: 'Завідувачі відділення',
+			subtitle: 'Педагоги, які ведуть відділення школи та власні предмети'
 		},
 		{
 			key: 'pedagogues',
@@ -79,41 +88,46 @@
 			key: 'needsClarification',
 			icon: '❓',
 			title: 'Потребують уточнення',
-			subtitle: 'Записи, яким не хватає даних — насамперед фотографії; уточнюємо'
+			subtitle: 'Записи без фотографії або без повного імені — уточнюємо'
 		}
 	];
 
 	/*
-	 * Фіксований порядок керівництва.
+	 * Фіксований порядок керівництва: директорка, заступниця, далі бухгалтерія.
 	 *
-	 * `liliia-velychko` прибрана: вона переїхала в «Історію школи», і запис тут
-	 * лишався мертвим — `indexOf` віддавав −1, тобто рядок нічого не робив.
-	 * `hanna-nikolaieva` стала на її місце пʼятою: вона тепер завідувачка
-	 * музичним відділенням, а без запису в цьому переліку опинялася ОСТАННЬОЮ —
-	 * невідомі йдуть у хвіст. Заміряно в браузері: до правки була восьмою.
+	 * `liliia-velychko` прибрана 2026-08-24: вона переїхала в «Історію школи», і
+	 * запис тут лишався мертвим — `indexOf` віддавав −1, тобто рядок нічого не
+	 * робив. Тоді ж троє завідувачок (`svitlana-ryskina`, `vira-koval`,
+	 * `hanna-nikolaieva`) поїхали у власний розділ `heads`, тож із цього переліку
+	 * вони прибрані: залишений тут запис так само нічого не робив би, бо
+	 * сортування бачить лише записи свого розділу.
 	 */
-	const ADMIN_ORDER = [
-		'olena-tkach',
-		'oksana-panchenko',
-		'svitlana-ryskina',
-		'vira-koval',
-		'hanna-nikolaieva',
-		'natalia-shalashna',
-		'liubov-frankovska',
-		'tetiana-korenchuk'
-	];
+	const ADMIN_ORDER = ['olena-tkach', 'oksana-panchenko', 'natalia-shalashna', 'liubov-frankovska', 'tetiana-korenchuk'];
 
-	function sortCategoryItems(category: MasterCategory, items: typeof allMasters) {
-		if (category === 'administration') {
-			return [...items].sort((a, b) => {
-				const idxA = ADMIN_ORDER.indexOf(a.id);
-				const idxB = ADMIN_ORDER.indexOf(b.id);
-				if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-				if (idxA !== -1) return -1;
-				if (idxB !== -1) return 1;
-				return 0;
-			});
-		}
+	/*
+	 * Завідувачі — так само фіксовано, і порядок узятий не з абетки: він
+	 * успадкований із того, як троє стояли в керівництві до розділення
+	 * (театральне → художнє → музичне). Без цього переліку порядок визначався б
+	 * кількістю учнів, і Риськіна з 37 учнями завжди була б першою, а решта двоє
+	 * перескакували б місцями від кожної правки в даних випускників.
+	 */
+	const HEADS_ORDER = ['svitlana-ryskina', 'vira-koval', 'hanna-nikolaieva'];
+
+	/** Порядок за наперед заданим переліком; невідомі — у хвіст, між собою рівні. */
+	function byFixedOrder(order: string[], items: typeof allMasters) {
+		return [...items].sort((a, b) => {
+			const ia = order.indexOf(a.id);
+			const ib = order.indexOf(b.id);
+			if (ia !== -1 && ib !== -1) return ia - ib;
+			if (ia !== -1) return -1;
+			if (ib !== -1) return 1;
+			return 0;
+		});
+	}
+
+	function sortCategoryItems(category: MasterSection, items: typeof allMasters) {
+		if (category === 'administration') return byFixedOrder(ADMIN_ORDER, items);
+		if (category === 'heads') return byFixedOrder(HEADS_ORDER, items);
 
 		if (category === 'support') {
 			return [...items].sort((a, b) => {
@@ -123,6 +137,17 @@
 			});
 		}
 
+		/*
+		 * Спершу за кількістю учнів, і це порівняння ЖИВЕ.
+		 *
+		 * Поля `graduatesCount` у `masters.index.json` справді немає ні в кого —
+		 * його додає `+page.ts` із `getGraduatesByMaster`. Заміряно 2026-08-24:
+		 * учні є у 26 зі 118 майстрів, від 1 до 37 (Риськіна 37, Ісачкіна 27,
+		 * Ткач Ф. 16), тобто перше порівняння визначає порядок у голові списку, а
+		 * «з фотографією вперед» і алфавіт розсуджують решту — тих, у кого нуль.
+		 * Доти тут стояло, що це порівняння завжди дає нуль і не додає нічого; це
+		 * було неправдою й описувало сортування, якого немає.
+		 */
 		if (category === 'pedagogues' || category === 'history') {
 			return [...items].sort((a, b) => {
 				const countA = a.graduatesCount ?? 0;
@@ -138,14 +163,10 @@
 		/*
 		 * «Потребують уточнення» — АЛФАВІТ, і тільки він.
 		 *
-		 * Не за `graduatesCount`, як у сусідніх двох розділах, і причина
-		 * заміряна: цього поля немає НІ В ОДНОГО зі 118 записів (`graduatesCount`
-		 * мають 0 зі 118). Тобто в `pedagogues` і `history` перше порівняння
-		 * завжди дає нуль, і фактично там працюють два наступні — «з фотографією
-		 * вперед», далі алфавіт. У цьому розділі перше з них теж безсенсовне:
-		 * більшість записів тут саме тому, що фотографії немає, тож воно
-		 * розділило б людей на дві купи за ознакою, яка для всього розділу
-		 * однакова.
+		 * Не за кількістю учнів, як у сусідніх двох розділах, і не «з фотографією
+		 * вперед»: у цей розділ запис потрапляє саме за брак фотографії або
+		 * повного імені, тож обидві ознаки тут майже однакові для всіх і
+		 * розділили б людей на купи ні за чим.
 		 *
 		 * Лишається алфавіт за `fullName` — єдиний передбачуваний порядок, який
 		 * не залежить від повноти даних і не змінюється, поки не зміниться імʼя.
@@ -160,28 +181,14 @@
 	const groups = $derived(
 		categoryConfigs
 			.map((cfg) => {
-				const items = allMasters.filter((m) => {
-					/*
-					 * Явна `category` — головна, а `status` лишається резервом.
-					 *
-					 * Доти `honorary` і `history` бралися ще й за `status`, і це
-					 * працювало рівно тому, що обидва поля збігалися в усіх 118
-					 * записах (перевірено: розбіжностей нуль). З появою розділу
-					 * «Потребують уточнення» вони РОЗІЙШЛИСЯ навмисно: 21 запис
-					 * переїхав із «Історії школи», але `status: 'history'` у них
-					 * лишився — це факт про період, у якому людина працювала, а не
-					 * про розділ, у якому її показують. За старою умовою кожен із
-					 * цих 21 показувався б У ДВОХ РОЗДІЛАХ одночасно.
-					 *
-					 * Резервні правила за `status` лишаються для записів без
-					 * `category` — таких зараз нуль, але поле необовʼязкове в типі.
-					 */
-					if (m.category) return m.category === cfg.key;
-					if (cfg.key === 'honorary') return m.status === 'honorary';
-					if (cfg.key === 'history') return m.status === 'history';
-					if (cfg.key === 'pedagogues') return !m.status || m.status === 'active';
-					return false;
-				});
+				/*
+				 * Один виклик замість чотирьох умов: розділ ОБЧИСЛЮЄТЬСЯ з ролі,
+				 * статусу й повноти даних (`masterSection`, там же заміри й
+				 * причини). Доти тут стояла драбинка з `category` і резервів за
+				 * `status`, і вона могла показати одну людину в двох розділах —
+				 * саме тому, що поле `category` відповідало на три різних питання.
+				 */
+				const items = allMasters.filter((m) => masterSection(m) === cfg.key);
 
 				return {
 					key: cfg.key,

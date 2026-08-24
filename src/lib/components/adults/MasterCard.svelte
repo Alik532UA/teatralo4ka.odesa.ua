@@ -14,7 +14,9 @@
 	const href = $derived(masterProfilePath(m.slug, isEn ? 'en' : 'uk'));
 	const name = $derived(isEn ? m.fullNameEn : m.fullName);
 	const dispName = $derived(isEn ? m.displayNameEn : m.displayName);
-	const isHonorary = $derived(m.isHonorary || m.status === 'honorary' || m.category === 'honorary');
+	// Одна перевірка одного факту: доти тут стояли три (`isHonorary`, `status`,
+	// `category`), бо ця сама ознака жила в трьох полях.
+	const isHonorary = $derived(m.status === 'honorary');
 </script>
 
 <a

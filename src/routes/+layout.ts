@@ -3,6 +3,7 @@ import '$lib/i18n';
 import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { isHiddenRoute } from '$lib/config/hiddenRoutes';
+import { isHiddenMasterPath } from '$lib/config/mastersVisibility';
 
 export const prerender = true;
 export const ssr = true;
@@ -58,8 +59,15 @@ export async function load({ url }: { url: URL }) {
 	 * самий перелік читають `generate-sitemap.ts` і `e2e/pages.ts`. Три списки,
 	 * узгоджені руками, розійшлися б — у цьому проєкті так уже було з
 	 * заглушками-перенаправленнями, і шість порожніх адрес поїхали в sitemap.
+	 *
+	 * Друге джерело — сторінки майстрів із `visible: false`
+	 * (`config/mastersVisibility.ts`). Модель та сама («адреса працює, індексу
+	 * немає»), реєстр окремий: у `HIDDEN_ROUTES` кожен запис зобовʼязаний бути ще
+	 * й у `prerender.entries`, у `HIDDEN_ENTRIES` та в `robots.txt`, а для
+	 * майстрів `Disallow` дав би протилежне потрібному — закриту від краулера
+	 * сторінку, у якій `noindex` не буде прочитаний ніколи.
 	 */
-	const hidden = isHiddenRoute(url.pathname);
+	const hidden = isHiddenRoute(url.pathname) || isHiddenMasterPath(url.pathname);
 
 	return {
 		lang,

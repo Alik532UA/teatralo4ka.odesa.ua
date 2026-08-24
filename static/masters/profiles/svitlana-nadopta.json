@@ -8,13 +8,12 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "history",
+	"status": "former",
 	"subjects": [
 		"Акторська майстерність"
 	],
 	"bio": "",
 	"socials": [],
-	"category": "needsClarification",
 	"photo": "/masters/svitlana-nadopta.webp",
 	"portrait": "/masters/portraits/svitlana-nadopta.webp"
 }
