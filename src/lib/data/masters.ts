@@ -14,7 +14,18 @@ export type MasterCategory =
 	| 'it'
 	| 'support'
 	| 'honorary'
-	| 'history';
+	| 'history'
+	/**
+	 * «Потребують уточнення» — записи, яким не хватає даних, щоб стояти в
+	 * змістовому розділі: насамперед без фотографії.
+	 *
+	 * camelCase, а не `needs-clarification`, попри те що решта значень —
+	 * односкладові слова: підпис розділу шукається складанням
+	 * `galaxy.categories.${key}Subtitle`, тож дефіс дав би ключ
+	 * `needs-clarificationSubtitle`. Складених значень до цього тут не було
+	 * взагалі, тобто конвенції, яку можна порушити, не існувало.
+	 */
+	| 'needsClarification';
 
 export interface MasterSocial {
 	network: string;

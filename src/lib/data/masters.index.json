@@ -158,7 +158,7 @@
 			"Гітара"
 		],
 		"photo": "/masters/natalia-stepanenko.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка гітари вищої категорії, методистка",
 		"portrait": "/masters/portraits/natalia-stepanenko.webp"
 	},
@@ -233,7 +233,7 @@
 		"subjects": [
 			"Вокал"
 		],
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "anastasiia-nikolaieva",
@@ -250,7 +250,7 @@
 			"Вокал"
 		],
 		"photo": "/masters/anastasiia-nikolaieva.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/anastasiia-nikolaieva.webp"
 	},
@@ -269,7 +269,7 @@
 			"Акторська майстерність",
 			"Сценічна мова"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"photo": "/masters/hanna-serebriannikova.webp",
 		"portrait": "/masters/portraits/hanna-serebriannikova.webp"
 	},
@@ -287,7 +287,7 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"photo": "/masters/iryna-kulbaba.webp",
 		"portrait": "/masters/portraits/iryna-kulbaba.webp"
 	},
@@ -306,7 +306,7 @@
 			"Вокал"
 		],
 		"photo": "/masters/natalia-shkolna.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/natalia-shkolna.webp"
 	},
 	{
@@ -324,7 +324,7 @@
 			"Музика"
 		],
 		"photo": "/masters/kateryna-bilenko.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка фортепіано, концертмейстер",
 		"portrait": "/masters/portraits/kateryna-bilenko.webp"
 	},
@@ -339,7 +339,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "liudmyla-baranova",
@@ -352,7 +352,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "yevheniia-bohdanova",
@@ -366,7 +366,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/yevheniia-bohdanova.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "концертмейстер",
 		"portrait": "/masters/portraits/yevheniia-bohdanova.webp"
 	},
@@ -381,7 +381,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "mariia-buimovych",
@@ -394,7 +394,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "olha-buinytska",
@@ -408,7 +408,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/olha-buinytska.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/olha-buinytska.webp"
 	},
 	{
@@ -422,7 +422,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "nataliia-burian",
@@ -435,7 +435,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "anhelina-kozlova",
@@ -448,7 +448,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "elmir-hanbarov",
@@ -477,7 +477,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "viktor-danilesku",
@@ -490,7 +490,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "daria-dias-valdis",
@@ -503,7 +503,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "liusiia-dun",
@@ -517,7 +517,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/liusiia-dun.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/liusiia-dun.webp"
 	},
@@ -548,7 +548,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "yana-kovalchuk",
@@ -561,7 +561,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "olena-kondratska",
@@ -574,7 +574,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "olena-konnikova",
@@ -603,7 +603,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "vira-kurova",
@@ -648,7 +648,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "svitlana-myronenko",
@@ -661,7 +661,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"photo": "/masters/svitlana-myronenko.webp",
 		"portrait": "/masters/portraits/svitlana-myronenko.webp"
 	},
@@ -676,7 +676,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "tetiana-minina",
@@ -689,7 +689,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "dariia-nadozha",
@@ -702,7 +702,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "hanna-nikolaieva",
@@ -731,7 +731,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "svitlana-ostapova",
@@ -744,7 +744,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "olena-pavliukova",
@@ -757,7 +757,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "kristina-petrova",
@@ -770,7 +770,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "hanna-podzihun",
@@ -783,7 +783,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "pavlo-prymak",
@@ -796,7 +796,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "yuliia-purina",
@@ -809,7 +809,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "svitlana-radiushyna",
@@ -822,7 +822,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "diana-rudenko",
@@ -835,7 +835,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "kira-rusina",
@@ -848,7 +848,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "liubov-savina",
@@ -877,7 +877,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "tetiana-stohul",
@@ -906,7 +906,7 @@
 			"piano"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "iryna-tilniak",
@@ -919,7 +919,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "vladyslav-tsobenko",
@@ -932,7 +932,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "olha-chervoniak",
@@ -945,7 +945,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "svitlana-shvets",
@@ -958,7 +958,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "oksana-shchenk",
@@ -971,7 +971,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "tetiana-shcherbyna",
@@ -984,7 +984,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "pedagogues"
+		"category": "needsClarification"
 	},
 	{
 		"id": "samuil-imas",
@@ -1130,7 +1130,7 @@
 		],
 		"photo": "/masters/liliia-velychko.webp",
 		"category": "history",
-		"roleTitle": "колишня завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
+		"roleTitle": "у минулому — завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
 		"portrait": "/masters/portraits/liliia-velychko.webp"
 	},
 	{
@@ -1147,11 +1147,11 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history"
+		"category": "needsClarification"
 	},
 	{
-		"id": "n-rybakova",
-		"slug": "n-rybakova",
+		"id": "nadiia-rybakova",
+		"slug": "nadiia-rybakova",
 		"displayName": "Надія РИБАКОВА",
 		"fullName": "Рибакова Надія В.",
 		"displayNameEn": "Nadiia RYBAKOVA",
@@ -1179,7 +1179,7 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history"
+		"category": "needsClarification"
 	},
 	{
 		"id": "oleksandr-kozoviakin",
@@ -1192,7 +1192,7 @@
 			"theatre"
 		],
 		"status": "history",
-		"category": "history"
+		"category": "needsClarification"
 	},
 	{
 		"id": "svitlana-vitiuk",
@@ -1206,7 +1206,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/svitlana-vitiuk.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка сценічного мовлення першої категорії",
 		"portrait": "/masters/portraits/svitlana-vitiuk.webp"
 	},
@@ -1221,7 +1221,7 @@
 			"theatre"
 		],
 		"status": "history",
-		"category": "history"
+		"category": "needsClarification"
 	},
 	{
 		"id": "yaroslava-turbinska",
@@ -1235,7 +1235,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/yaroslava-turbinska.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "концертмейстер",
 		"portrait": "/masters/portraits/yaroslava-turbinska.webp"
 	},
@@ -1251,7 +1251,7 @@
 		],
 		"status": "active",
 		"photo": "/masters/anna-matkovska.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/anna-matkovska.webp"
 	},
@@ -1269,7 +1269,7 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"photo": "/masters/svitlana-nadopta.webp",
 		"portrait": "/masters/portraits/svitlana-nadopta.webp"
 	},
@@ -1395,7 +1395,7 @@
 		"status": "active",
 		"subjects": [],
 		"photo": "/masters/olena-rudiukova.webp",
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"roleTitle": "концертмейстер вищої категорії",
 		"portrait": "/masters/portraits/olena-rudiukova.webp"
 	},
@@ -1489,7 +1489,7 @@
 			"Хореографія"
 		],
 		"photo": "/masters/olha-imas.webp",
-		"category": "history",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/olha-imas.webp"
 	},
 	{
@@ -1507,7 +1507,7 @@
 			"Хореографія"
 		],
 		"photo": "/masters/natalia-dombrovska.webp",
-		"category": "history",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/natalia-dombrovska.webp"
 	},
 	{
@@ -1541,7 +1541,7 @@
 			"Гітара"
 		],
 		"photo": "/masters/kyrylo-mazur.webp",
-		"category": "history",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/kyrylo-mazur.webp"
 	},
 	{
@@ -1560,7 +1560,7 @@
 			"Вокал"
 		],
 		"photo": "/masters/svitlana-pruba.webp",
-		"category": "history",
+		"category": "needsClarification",
 		"portrait": "/masters/portraits/svitlana-pruba.webp"
 	},
 	{
@@ -1573,7 +1573,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"status": "active",
 		"photo": "/masters/haidai.webp",
 		"portrait": "/masters/portraits/haidai.webp"
@@ -1588,7 +1588,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"status": "active",
 		"photo": "/masters/koreniok.webp",
 		"portrait": "/masters/portraits/koreniok.webp"
@@ -1603,7 +1603,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"status": "active",
 		"photo": "/masters/larionova.webp",
 		"portrait": "/masters/portraits/larionova.webp"
@@ -1618,7 +1618,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"status": "active",
 		"photo": "/masters/matiunina.webp",
 		"portrait": "/masters/portraits/matiunina.webp"
@@ -1633,7 +1633,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "pedagogues",
+		"category": "needsClarification",
 		"status": "active",
 		"photo": "/masters/serkova.webp",
 		"portrait": "/masters/portraits/serkova.webp"
@@ -1648,7 +1648,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/azarenko.webp",
 		"portrait": "/masters/portraits/azarenko.webp"
@@ -1663,7 +1663,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/burlak.webp",
 		"portrait": "/masters/portraits/burlak.webp"
@@ -1678,7 +1678,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/vereshchahina.webp",
 		"portrait": "/masters/portraits/vereshchahina.webp"
@@ -1693,7 +1693,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/hrachyk.webp",
 		"portrait": "/masters/portraits/hrachyk.webp"
@@ -1708,7 +1708,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/zubynska.webp",
 		"portrait": "/masters/portraits/zubynska.webp"
@@ -1723,7 +1723,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/kurkaiev.webp",
 		"portrait": "/masters/portraits/kurkaiev.webp"
@@ -1738,7 +1738,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/milihlasova.webp",
 		"portrait": "/masters/portraits/milihlasova.webp"
@@ -1753,7 +1753,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/pyrohova.webp",
 		"portrait": "/masters/portraits/pyrohova.webp"
@@ -1768,7 +1768,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"subjects": [
 			"Сценічний рух"
@@ -1786,7 +1786,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"subjects": [
 			"Риторика"
@@ -1819,7 +1819,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/stepanchenko.webp",
 		"portrait": "/masters/portraits/stepanchenko.webp"
@@ -1834,7 +1834,7 @@
 		"departments": [
 			"theatre"
 		],
-		"category": "history",
+		"category": "needsClarification",
 		"status": "history",
 		"photo": "/masters/yakunina.webp",
 		"portrait": "/masters/portraits/yakunina.webp"

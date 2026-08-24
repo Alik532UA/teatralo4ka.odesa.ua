@@ -72,15 +72,32 @@
 			icon: '📜',
 			title: 'Історія школи',
 			subtitle: 'Педагоги та наставники, які творили історію Одеської театральної школи'
+		},
+		// Останній навмисно: розділ технічний, він про повноту даних, а не про
+		// людей, і не мусить відтісняти змістові розділи вгору.
+		{
+			key: 'needsClarification',
+			icon: '❓',
+			title: 'Потребують уточнення',
+			subtitle: 'Записи, яким не хватає даних — насамперед фотографії; уточнюємо'
 		}
 	];
 
+	/*
+	 * Фіксований порядок керівництва.
+	 *
+	 * `liliia-velychko` прибрана: вона переїхала в «Історію школи», і запис тут
+	 * лишався мертвим — `indexOf` віддавав −1, тобто рядок нічого не робив.
+	 * `hanna-nikolaieva` стала на її місце пʼятою: вона тепер завідувачка
+	 * музичним відділенням, а без запису в цьому переліку опинялася ОСТАННЬОЮ —
+	 * невідомі йдуть у хвіст. Заміряно в браузері: до правки була восьмою.
+	 */
 	const ADMIN_ORDER = [
 		'olena-tkach',
 		'oksana-panchenko',
 		'svitlana-ryskina',
 		'vira-koval',
-		'liliia-velychko',
+		'hanna-nikolaieva',
 		'natalia-shalashna',
 		'liubov-frankovska',
 		'tetiana-korenchuk'
@@ -118,6 +135,25 @@
 			});
 		}
 
+		/*
+		 * «Потребують уточнення» — АЛФАВІТ, і тільки він.
+		 *
+		 * Не за `graduatesCount`, як у сусідніх двох розділах, і причина
+		 * заміряна: цього поля немає НІ В ОДНОГО зі 118 записів (`graduatesCount`
+		 * мають 0 зі 118). Тобто в `pedagogues` і `history` перше порівняння
+		 * завжди дає нуль, і фактично там працюють два наступні — «з фотографією
+		 * вперед», далі алфавіт. У цьому розділі перше з них теж безсенсовне:
+		 * більшість записів тут саме тому, що фотографії немає, тож воно
+		 * розділило б людей на дві купи за ознакою, яка для всього розділу
+		 * однакова.
+		 *
+		 * Лишається алфавіт за `fullName` — єдиний передбачуваний порядок, який
+		 * не залежить від повноти даних і не змінюється, поки не зміниться імʼя.
+		 */
+		if (category === 'needsClarification') {
+			return [...items].sort((a, b) => a.fullName.localeCompare(b.fullName, 'uk'));
+		}
+
 		return items;
 	}
 
@@ -125,10 +161,26 @@
 		categoryConfigs
 			.map((cfg) => {
 				const items = allMasters.filter((m) => {
-					if (cfg.key === 'honorary') return m.status === 'honorary' || m.category === 'honorary';
-					if (cfg.key === 'history') return m.status === 'history' || m.category === 'history';
-					if (cfg.key === 'pedagogues') return m.category === 'pedagogues' || (!m.category && (!m.status || m.status === 'active'));
-					return m.category === cfg.key;
+					/*
+					 * Явна `category` — головна, а `status` лишається резервом.
+					 *
+					 * Доти `honorary` і `history` бралися ще й за `status`, і це
+					 * працювало рівно тому, що обидва поля збігалися в усіх 118
+					 * записах (перевірено: розбіжностей нуль). З появою розділу
+					 * «Потребують уточнення» вони РОЗІЙШЛИСЯ навмисно: 21 запис
+					 * переїхав із «Історії школи», але `status: 'history'` у них
+					 * лишився — це факт про період, у якому людина працювала, а не
+					 * про розділ, у якому її показують. За старою умовою кожен із
+					 * цих 21 показувався б У ДВОХ РОЗДІЛАХ одночасно.
+					 *
+					 * Резервні правила за `status` лишаються для записів без
+					 * `category` — таких зараз нуль, але поле необовʼязкове в типі.
+					 */
+					if (m.category) return m.category === cfg.key;
+					if (cfg.key === 'honorary') return m.status === 'honorary';
+					if (cfg.key === 'history') return m.status === 'history';
+					if (cfg.key === 'pedagogues') return !m.status || m.status === 'active';
+					return false;
 				});
 
 				return {
