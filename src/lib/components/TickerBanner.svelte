@@ -3,7 +3,15 @@
   import { slide } from 'svelte/transition';
   import { asset } from '$app/paths';
   import { t } from 'svelte-i18n';
-  
+  import { imageSize, type LocalImage } from '$lib/config/localImages';
+
+  /**
+   * Герб малюється на висоту 20 px, а ширину бере з власної пропорції. Без
+   * `width`/`height` до завантаження ця ширина дорівнює нулю, і підпис поруч
+   * зсувається рівно в мить, коли файл приходить, — CLS у рядку, що й так їде.
+   */
+  const CREST = '/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg' satisfies LocalImage;
+
   let {
     visible = false,
     mode = 'time',
@@ -84,7 +92,7 @@
     <div class="ticker-content">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={asset('/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg')} alt={$t('ticker.coatOfArms')}>
+          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} {...imageSize(CREST)}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}
@@ -92,7 +100,7 @@
     <div class="ticker-content" aria-hidden="true">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={asset('/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg')} alt={$t('ticker.coatOfArms')}>
+          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} {...imageSize(CREST)}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}
@@ -148,6 +156,13 @@ p {
 
 img {
   height: 20px;
+  /*
+   * `width: auto` явно: атрибути `width`/`height` у тезі задають розмір у
+   * пікселях, і без цього рядка герб намалювався б на 330 px завширшки. Разом
+   * із заданою висотою браузер бере пропорцію з атрибутів і виводить ~14 px —
+   * ту саму ширину, що й після завантаження файлу, але ВІДРАЗУ.
+   */
+  width: auto;
   display: block;
 }
 

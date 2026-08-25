@@ -4,17 +4,30 @@
 	import { onMount } from "svelte";
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
+	import { imageSize, type LocalImage } from "$lib/config/localImages";
 
-	const images = [
-		asset('/photo/DSC_1405.jpg'),
-		asset('/photo/DJI_0759 v02.jpg')
-	];
+	/**
+	 * Шлях і його ВЛАСНИЙ розмір разом (PERFORMANCE-v8 § 3.2).
+	 *
+	 * Доти обидва знімки ділили один жорсткий `width="1200" height="900"`, хоч
+	 * мають 1280×804 і 4068×3070 — тобто одне число не могло бути правильним для
+	 * обох. Тут воно береться з мапи, яку звіряють із заголовками файлів.
+	 */
+	const heroPhotos = ['/photo/DSC_1405.jpg', '/photo/DJI_0759 v02.jpg'] as const satisfies readonly LocalImage[];
+
+	const socialIcons = [
+		{ id: 'fb', label: 'Facebook', alt: 'FB', href: 'footer.facebook', file: '/social_media/facebook-se-512-50.png' },
+		{ id: 'ig', label: 'Instagram', alt: 'IG', href: 'footer.instagram', file: '/social_media/instagram-se-512-50.png' },
+		{ id: 'tg', label: 'Telegram', alt: 'TG', href: 'footer.telegram', file: '/social_media/Telegram-se-320px-50q.png' },
+		{ id: 'yt', label: 'YouTube', alt: 'YT', href: 'footer.youtube', file: '/social_media/YouTube-se-512px-50q.png' },
+		{ id: 'tt', label: 'TikTok', alt: 'TT', href: 'footer.tiktok', file: '/social_media/TikTok-se-512-50.png' }
+	] as const satisfies readonly { id: string; label: string; alt: string; href: string; file: LocalImage }[];
 
 	let currentImageIndex = $state(0);
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			currentImageIndex = (currentImageIndex + 1) % images.length;
+			currentImageIndex = (currentImageIndex + 1) % heroPhotos.length;
 		}, 10000);
 
 		return () => clearInterval(interval);
@@ -26,21 +39,11 @@
 	<div class="hero__content container" data-testid="hero-content-section">
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social" data-testid="hero-social-links-menu">
-			<a href={$t("footer.facebook")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Facebook" data-testid="hero-social-fb-btn">
-				<img src={asset('/social_media/facebook-se-512-50.png')} alt="FB" />
-			</a>
-			<a href={$t("footer.instagram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Instagram" data-testid="hero-social-ig-btn">
-				<img src={asset('/social_media/instagram-se-512-50.png')} alt="IG" />
-			</a>
-			<a href={$t("footer.telegram")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="Telegram" data-testid="hero-social-tg-btn">
-				<img src={asset('/social_media/Telegram-se-320px-50q.png')} alt="TG" />
-			</a>
-			<a href={$t("footer.youtube")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="YouTube" data-testid="hero-social-yt-btn">
-				<img src={asset('/social_media/YouTube-se-512px-50q.png')} alt="YT" />
-			</a>
-			<a href={$t("footer.tiktok")} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label="TikTok" data-testid="hero-social-tt-btn">
-				<img src={asset('/social_media/TikTok-se-512-50.png')} alt="TT" />
-			</a>
+			{#each socialIcons as icon (icon.id)}
+				<a href={$t(icon.href)} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label={icon.label} data-testid="hero-social-{icon.id}-btn">
+					<img src={asset(icon.file)} alt={icon.alt} {...imageSize(icon.file)} />
+				</a>
+			{/each}
 		</div>
 
 		<!-- 2. Text Content (Middle) -->
@@ -53,15 +56,23 @@
 
 		<!-- 3. Image (Right) -->
 		<div class="hero__image-wrap" data-testid="hero-scene-container">
+			<!--
+				`fetchpriority="high"` дістається ЛИШЕ першому знімку
+				(PERFORMANCE-v8 § 3.1): він і є LCP сторінки. Другий лежить поруч під
+				`opacity: 0` і потрібен аж на десятій секунді, тож високий пріоритет на
+				ньому не прискорював нічого, а лише ділив канал із першим — «пріоритет
+				у двох» дорівнює «пріоритету в жодного». `loading` в обох лишається
+				`eager`: обидва в полі зору, тож `lazy` тут однаково нічого не відклав
+				би, а от `fetchpriority="low"` браузер враховує.
+			-->
 			<div class="hero__image-inner" data-testid="hero-image-container">
-				{#each images as img, i (img)}
+				{#each heroPhotos as photo, i (photo)}
 					<img
-						src={img}
+						src={asset(photo)}
 						alt=""
-						width="1200"
-						height="900"
+						{...imageSize(photo)}
 						loading="eager"
-						fetchpriority="high"
+						fetchpriority={i === 0 ? 'high' : 'low'}
 						decoding="async"
 						class="hero__image"
 						class:active={currentImageIndex === i}

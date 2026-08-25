@@ -1,5 +1,17 @@
 <script lang="ts">
 	import { asset, resolve } from '$app/paths';
+	import { imageSize, type LocalImage } from '$lib/config/localImages';
+
+	/**
+	 * Звужує шлях до ключа мапи розмірів.
+	 *
+	 * Потрібне саме тут: усередині масиву обʼєктів рядковий літерал
+	 * розширюється до `string`, і `imageSize` перестає його приймати. `as const`
+	 * на весь масив не годиться — він заморозив би й `href`, який приходить від
+	 * `resolve()` із власним типом, потрібним правилу
+	 * `svelte/no-navigation-without-resolve`.
+	 */
+	const localImage = <T extends LocalImage>(path: T): T => path;
 	import { t } from 'svelte-i18n';
 
 	const departments = [
@@ -7,28 +19,28 @@
 			id: 'music',
 			title: () => $t('departmentsSection.depItems.music.title'),
 			description: () => $t('departmentsSection.depItems.music.desc'),
-			image: asset('/png/MusicDepartment.png'),
+			image: localImage('/png/MusicDepartment.png'),
 			href: resolve('/departments/music')
 		},
 		{
 			id: 'theatre',
 			title: () => $t('departmentsSection.depItems.theatre.title'),
 			description: () => $t('departmentsSection.depItems.theatre.desc'),
-			image: asset('/png/TheaterDepartment.png'),
+			image: localImage('/png/TheaterDepartment.png'),
 			href: resolve('/departments/theatre')
 		},
 		{
 			id: 'aesthetic',
 			title: () => $t('departmentsSection.depItems.aesthetic.title'),
 			description: () => $t('departmentsSection.depItems.aesthetic.desc'),
-			image: asset('/png/AestheticDepartment.png'),
+			image: localImage('/png/AestheticDepartment.png'),
 			href: resolve('/departments/aesthetic')
 		},
 		{
 			id: 'art',
 			title: () => $t('departmentsSection.depItems.art.title'),
 			description: () => $t('departmentsSection.depItems.art.desc'),
-			image: asset('/png/ArtDepartment.png'),
+			image: localImage('/png/ArtDepartment.png'),
 			href: resolve('/departments/art')
 		}
 	];
@@ -38,21 +50,21 @@
 			id: 'adults',
 			title: () => $t('departmentsSection.resItems.adults.title'),
 			description: () => $t('departmentsSection.resItems.adults.desc'),
-			image: asset('/png/Teacher1.png'),
+			image: localImage('/png/Teacher1.png'),
 			href: resolve('/residents/adults')
 		},
 		{
 			id: 'kids',
 			title: () => $t('departmentsSection.resItems.kids.title'),
 			description: () => $t('departmentsSection.resItems.kids.desc'),
-			image: asset('/png/Students1.png'),
+			image: localImage('/png/Students1.png'),
 			href: resolve('/residents/kids')
 		},
 		{
 			id: 'graduates',
 			title: () => $t('departmentsSection.resItems.graduates.title'),
 			description: () => $t('departmentsSection.resItems.graduates.desc'),
-			image: asset('/png/Graduates3.png'),
+			image: localImage('/png/Graduates3.png'),
 			href: resolve('/residents/graduates')
 		}
 	];
@@ -62,21 +74,21 @@
 			id: 'admission',
 			title: () => $t('departmentsSection.infoItems.admission.title'),
 			description: () => $t('departmentsSection.infoItems.admission.desc'),
-			image: asset('/png/AdmissionForm.png'),
+			image: localImage('/png/AdmissionForm.png'),
 			href: resolve('/admission')
 		},
 		{
 			id: 'contacts',
 			title: () => $t('departmentsSection.infoItems.contacts.title'),
 			description: () => $t('departmentsSection.infoItems.contacts.desc'),
-			image: asset('/png/Contacts2.png'),
+			image: localImage('/png/Contacts2.png'),
 			href: resolve('/contacts')
 		},
 		{
 			id: 'history',
 			title: () => $t('departmentsSection.infoItems.history.title'),
 			description: () => $t('departmentsSection.infoItems.history.desc'),
-			image: asset('/png/History3.png'),
+			image: localImage('/png/History3.png'),
 			href: resolve('/history')
 		}
 	];
@@ -90,7 +102,7 @@
 				{#each info as item, i (item.id)}
 					<a href={item.href} class="deps__card" data-testid={`info-card-${item.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`info-card-image-container-${item.id}`}>
-							<img src={item.image} alt={item.title()} class="deps__image" loading="lazy" data-testid={`info-card-img-${item.id}`} />
+							<img src={asset(item.image)} alt={item.title()} class="deps__image" loading="lazy" {...imageSize(item.image)} data-testid={`info-card-img-${item.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`info-card-panel-${item.id}`}>
@@ -111,7 +123,7 @@
 				{#each departments as dep, i (dep.id)}
 					<a href={dep.href} class="deps__card" data-testid={`department-card-${dep.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`department-card-image-container-${dep.id}`}>
-							<img src={dep.image} alt={dep.title()} class="deps__image" loading="lazy" data-testid={`department-card-img-${dep.id}`} />
+							<img src={asset(dep.image)} alt={dep.title()} class="deps__image" loading="lazy" {...imageSize(dep.image)} data-testid={`department-card-img-${dep.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`department-card-panel-${dep.id}`}>
@@ -132,7 +144,7 @@
 				{#each residents as resident, i (resident.id)}
 					<a href={resident.href} class="deps__card" data-testid={`resident-card-${resident.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`resident-card-image-container-${resident.id}`}>
-							<img src={resident.image} alt={resident.title()} class="deps__image" loading="lazy" data-testid={`resident-card-img-${resident.id}`} />
+							<img src={asset(resident.image)} alt={resident.title()} class="deps__image" loading="lazy" {...imageSize(resident.image)} data-testid={`resident-card-img-${resident.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`resident-card-panel-${resident.id}`}>

@@ -14,6 +14,7 @@
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
 	import { activateOnKey } from '$lib/utils/activateOnKey';
+	import { imageSize, type LocalImage } from '$lib/config/localImages';
 	import { dismissSplash } from '$lib/utils/splash';
 
 	let isHomeGalleryLightboxOpen = $state(false);
@@ -190,14 +191,28 @@
 		return () => observer.disconnect();
 	});
 
-	const galleryItems = $derived([
-		{ src: asset('/photo/013.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-		{ src: asset('/photo/035.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-		{ src: asset('/photo/059.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-		{ src: asset('/photo/125.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-		{ src: asset('/photo/495.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-		{ src: asset('/photo/5.jpg'), alt: $t('gallery.items.default'), title: $t('gallery.items.default') },
-	]);
+	/**
+	 * `file` поруч із `src`: адреса потрібна `<img>` і лайтбоксу, а шлях —
+	 * мапі розмірів. Доти всі шість знімків заявляли одне `1200×900`, хоч
+	 * пʼять із них 1280×913, а шостий 1280×960.
+	 */
+	const galleryFiles = [
+		'/photo/013.jpg',
+		'/photo/035.jpg',
+		'/photo/059.jpg',
+		'/photo/125.jpg',
+		'/photo/495.jpg',
+		'/photo/5.jpg'
+	] as const satisfies readonly LocalImage[];
+
+	const galleryItems = $derived(
+		galleryFiles.map((file) => ({
+			file,
+			src: asset(file),
+			alt: $t('gallery.items.default'),
+			title: $t('gallery.items.default')
+		}))
+	);
 
 	const visibleBlocks = $derived(blocks.filter(b => b.visible));
 </script>
@@ -296,7 +311,7 @@
 						<div class="g-bento-4x3" data-testid="gallery-list">
 							{#each galleryItems.slice(0, galleryWidgetConfig.maxItemsGrid > 0 ? galleryWidgetConfig.maxItemsGrid : galleryItems.length) as img, i (img.src)}
 								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}" onclick={() => openHomeGalleryLightbox(i)} onkeydown={activateOnKey(() => openHomeGalleryLightbox(i))} role="button" tabindex="0">
-									<img src={img.src} alt={img.alt} width="1200" height="900" loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
+									<img src={img.src} alt={img.alt} {...imageSize(img.file)} loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
 									{#if galleryWidgetConfig.showCaptions}
 										<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
 											<span class="g-bento-4x3__caption" data-testid="gallery-caption-text-{i}">{img.title}</span>
