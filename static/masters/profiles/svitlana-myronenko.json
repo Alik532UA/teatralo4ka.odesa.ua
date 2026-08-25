@@ -8,10 +8,11 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "active",
+	"status": "former",
 	"subjects": [],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/svitlana-myronenko.webp",
-	"portrait": "/masters/portraits/svitlana-myronenko.webp"
+	"portrait": "/masters/portraits/svitlana-myronenko.webp",
+	"unconfirmed": true
 }

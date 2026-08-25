@@ -12,5 +12,6 @@
 	"photo": "/masters/yakunina.webp",
 	"portrait": "/masters/portraits/yakunina.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }

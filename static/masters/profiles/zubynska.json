@@ -12,5 +12,6 @@
 	"photo": "/masters/zubynska.webp",
 	"portrait": "/masters/portraits/zubynska.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }

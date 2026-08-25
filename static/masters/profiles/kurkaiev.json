@@ -12,5 +12,6 @@
 	"photo": "/masters/kurkaiev.webp",
 	"portrait": "/masters/portraits/kurkaiev.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }

@@ -12,5 +12,6 @@
 	"photo": "/masters/burlak.webp",
 	"portrait": "/masters/portraits/burlak.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }

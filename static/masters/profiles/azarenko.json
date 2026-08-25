@@ -12,5 +12,6 @@
 	"photo": "/masters/azarenko.webp",
 	"portrait": "/masters/portraits/azarenko.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }

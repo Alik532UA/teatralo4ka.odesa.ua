@@ -633,9 +633,10 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/svitlana-myronenko.webp",
-		"portrait": "/masters/portraits/svitlana-myronenko.webp"
+		"portrait": "/masters/portraits/svitlana-myronenko.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "vladyslav-mykhailiuk",
@@ -1232,7 +1233,7 @@
 		],
 		"photo": "/masters/yurii-drankov.webp",
 		"category": "support",
-		"roleTitle": "менеджер з охорони найкращої категорії",
+		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/yurii-drankov.webp"
 	},
 	{
@@ -1264,7 +1265,7 @@
 		"subjects": [],
 		"photo": "/masters/volodymyr-kesov.webp",
 		"category": "support",
-		"roleTitle": "менеджер з охорони найкращої категорії",
+		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/volodymyr-kesov.webp"
 	},
 	{
@@ -1294,7 +1295,7 @@
 		"subjects": [],
 		"photo": "/masters/viktor-kurov.webp",
 		"category": "support",
-		"roleTitle": "менеджер з охорони найкращої категорії",
+		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/viktor-kurov.webp"
 	},
 	{
@@ -1309,7 +1310,7 @@
 		"subjects": [],
 		"photo": "/masters/artur-lytvynenko.webp",
 		"category": "support",
-		"roleTitle": "клінінг-менеджер найкращої категорії",
+		"roleTitle": "клінінг-менеджер",
 		"portrait": "/masters/portraits/artur-lytvynenko.webp"
 	},
 	{
@@ -1324,7 +1325,7 @@
 		"subjects": [],
 		"photo": "/masters/natalia-lytvynova.webp",
 		"category": "support",
-		"roleTitle": "менеджер з охорони найкращої категорії",
+		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/natalia-lytvynova.webp"
 	},
 	{
@@ -1370,7 +1371,7 @@
 		"subjects": [],
 		"photo": "/masters/filarena-sukhanova.webp",
 		"category": "support",
-		"roleTitle": "клінінг-менеджер найкращої категорії",
+		"roleTitle": "клінінг-менеджер",
 		"portrait": "/masters/portraits/filarena-sukhanova.webp"
 	},
 	{
@@ -1460,12 +1461,13 @@
 		"displayNameEn": "Olena KUZNETSOVA",
 		"fullNameEn": "Olena Kuznetsova",
 		"departments": [],
-		"status": "active",
+		"status": "former",
 		"subjects": [],
 		"photo": "/masters/olena-kuznetsova.webp",
 		"category": "production",
 		"roleTitle": "світлорежисер",
-		"portrait": "/masters/portraits/olena-kuznetsova.webp"
+		"portrait": "/masters/portraits/olena-kuznetsova.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "kyrylo-mazur",
@@ -1501,7 +1503,8 @@
 			"Вокал"
 		],
 		"photo": "/masters/svitlana-pruba.webp",
-		"portrait": "/masters/portraits/svitlana-pruba.webp"
+		"portrait": "/masters/portraits/svitlana-pruba.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "haidai",
@@ -1585,7 +1588,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/azarenko.webp",
-		"portrait": "/masters/portraits/azarenko.webp"
+		"portrait": "/masters/portraits/azarenko.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "burlak",
@@ -1599,7 +1603,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/burlak.webp",
-		"portrait": "/masters/portraits/burlak.webp"
+		"portrait": "/masters/portraits/burlak.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "vereshchahina",
@@ -1613,7 +1618,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/vereshchahina.webp",
-		"portrait": "/masters/portraits/vereshchahina.webp"
+		"portrait": "/masters/portraits/vereshchahina.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "hrachyk",
@@ -1627,7 +1633,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/hrachyk.webp",
-		"portrait": "/masters/portraits/hrachyk.webp"
+		"portrait": "/masters/portraits/hrachyk.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "zubynska",
@@ -1641,7 +1648,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/zubynska.webp",
-		"portrait": "/masters/portraits/zubynska.webp"
+		"portrait": "/masters/portraits/zubynska.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "kurkaiev",
@@ -1655,7 +1663,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/kurkaiev.webp",
-		"portrait": "/masters/portraits/kurkaiev.webp"
+		"portrait": "/masters/portraits/kurkaiev.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "milihlasova",
@@ -1669,7 +1678,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/milihlasova.webp",
-		"portrait": "/masters/portraits/milihlasova.webp"
+		"portrait": "/masters/portraits/milihlasova.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "pyrohova",
@@ -1746,7 +1756,8 @@
 		],
 		"status": "former",
 		"photo": "/masters/stepanchenko.webp",
-		"portrait": "/masters/portraits/stepanchenko.webp"
+		"portrait": "/masters/portraits/stepanchenko.webp",
+		"unconfirmed": true
 	},
 	{
 		"id": "yakunina",
@@ -1760,6 +1771,7 @@
 		],
 		"status": "former",
 		"photo": "/masters/yakunina.webp",
-		"portrait": "/masters/portraits/yakunina.webp"
+		"portrait": "/masters/portraits/yakunina.webp",
+		"unconfirmed": true
 	}
 ]

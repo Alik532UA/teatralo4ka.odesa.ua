@@ -6,12 +6,13 @@
 	"displayNameEn": "Olena KUZNETSOVA",
 	"fullNameEn": "Olena Kuznetsova",
 	"departments": [],
-	"status": "active",
+	"status": "former",
 	"subjects": [],
 	"photo": "/masters/olena-kuznetsova.webp",
 	"bio": "",
 	"socials": [],
 	"category": "production",
 	"roleTitle": "світлорежисер",
-	"portrait": "/masters/portraits/olena-kuznetsova.webp"
+	"portrait": "/masters/portraits/olena-kuznetsova.webp",
+	"unconfirmed": true
 }

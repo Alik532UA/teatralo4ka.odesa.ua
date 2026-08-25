@@ -3,7 +3,6 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-	hasFullName,
 	masterSection,
 	yearsLabelKey,
 	yearsOfService,
@@ -54,6 +53,7 @@ interface MasterRecord {
 	departments?: string[];
 	visible?: boolean;
 	photo?: string;
+	unconfirmed?: true;
 	periods?: unknown;
 	isHonorary?: unknown;
 }
@@ -139,7 +139,7 @@ describe('індекс і профіль — те саме про ту саму 
 		for (const { file, data } of profiles) {
 			const entry = byId.get(data.id);
 			if (!entry) continue;
-			for (const field of ['status', 'category', 'visible'] as const) {
+			for (const field of ['status', 'category', 'visible', 'unconfirmed'] as const) {
 				if (JSON.stringify(entry[field]) !== JSON.stringify(data[field])) {
 					problems.push(`${file} → ${field}: профіль ${JSON.stringify(data[field])}, індекс ${JSON.stringify(entry[field])}`);
 				}
@@ -178,17 +178,8 @@ describe('розділ обчислюється, а не зберігаєтьс�
 		}
 	});
 
-	it('неповний запис їде в «Потребують уточнення», навіть маючи роль', () => {
-		expect(
-			masterSection({ fullName: 'Прізвище Ім\'я Батьковичівна', category: 'pedagogues', status: 'active' }),
-			'без фотографії картка не називає людину'
-		).toBe('needsClarification');
-	});
-
-	it('повний запис без ролі теж їде туди — роль невідома, розділ ролі невідомий', () => {
-		expect(
-			masterSection({ fullName: 'Прізвище Ім\'я Батьковичівна', photo: '/masters/x.webp', status: 'active' })
-		).toBe('needsClarification');
+	it('запис без ролі їде в технічний розділ — роль невідома, розділ ролі невідомий', () => {
+		expect(masterSection({ status: 'active' })).toBe('needsClarification');
 	});
 });
 
@@ -219,15 +210,14 @@ describe('сторінка показує всі розділи, які обчи
 		expect(extra, 'мертвий розділ: заголовок, під який ніколи нікого не буде').toEqual([]);
 	});
 
-	it('фіксовані переліки порядку не містять мертвих записів', () => {
+	it('фіксований перелік порядку не містить мертвих записів', () => {
 		// `liliia-velychko` колись лишилася в `ADMIN_ORDER` після переїзду в іншу
 		// категорію, і рядок просто нічого не робив: `indexOf` віддавав −1.
 		const byId = new Map(index.map((m) => [m.id, m]));
 		const problems: string[] = [];
-		for (const [name, category] of [
-			['ADMIN_ORDER', 'administration'],
-			['HEADS_ORDER', 'heads']
-		] as const) {
+		// Перелік один — керівництво. Фіксований порядок у завідувачів і в службі
+		// турботи прибрано 2026-08-24: решта розділів рахує учнів.
+		for (const [name, category] of [['ADMIN_ORDER', 'administration']] as const) {
 			const listed = [...(new RegExp(`const ${name} = \\[([^\\]]*)\\]`, 's').exec(source)?.[1] ?? '').matchAll(/'([^']+)'/g)].map((m) => m[1]);
 			expect(listed.length, `${name} не знайдено у ${PAGE}`).toBeGreaterThan(0);
 			for (const id of listed) {
@@ -240,14 +230,85 @@ describe('сторінка показує всі розділи, які обчи
 	});
 });
 
-describe('повнота ПІБ', () => {
-	it('три частини — повне, менше або ініціал — ні', () => {
-		expect(hasFullName('Риськіна Світлана Миколаївна')).toBe(true);
-		expect(hasFullName("Діас Валдіс Дар'я Михайлівна")).toBe(true);
-		expect(hasFullName('Капля Ірина')).toBe(false);
-		expect(hasFullName('Стельмах')).toBe(false);
-		expect(hasFullName('Рибакова Надія В.')).toBe(false);
-		expect(hasFullName('Рибальченко Д.Д.')).toBe(false);
+describe('явний виняток «запис не підтверджений»', () => {
+	/*
+	 * `unconfirmed: true` — ручне знання, якого в даних немає: 2026-08-24 автор
+	 * назвав дванадцять записів для технічного розділу, і спільного ПОЛЯ в них не
+	 * виявилося (Пирогова і Стельмах — так само лише прізвища — лишилися в
+	 * «Історії школи», а Пруба із записаним предметом поїхала).
+	 *
+	 * Ручне поле старіє, і перевірка нижче саме про це: прапорець мусить ЩОСЬ
+	 * ЗМІНЮВАТИ. На записі, який і без нього лежить у технічному розділі (скажімо
+	 * без ролі), він стає мертвим рядком — рівно так помер запис `liliia-velychko`
+	 * у переліку порядку керівництва. Один такий уже був і прибраний того ж дня:
+	 * Ткач Ганна мала `unconfirmed: false`, поки розділ залежав від фотографії.
+	 */
+	/** Розділ, який вийшов би БЕЗ прапорця. */
+	const sectionWithout = (m: MasterRecord): MasterSection => masterSection({ ...m, unconfirmed: undefined });
+
+	it('прапорці є, і кожен веде в технічний розділ', () => {
+		const flagged = index.filter((m) => m.unconfirmed !== undefined);
+		expect(flagged.length, 'жодного винятку — перевірки нижче мертві').toBeGreaterThan(0);
+		for (const m of flagged) {
+			expect(m.unconfirmed, `${m.id}: лише true — «підтверджений» каже ВІДСУТНІСТЬ поля`).toBe(true);
+			expect(masterSection(m), `${m.id} мусить лежати в технічному розділі`).toBe('needsClarification');
+		}
+	});
+
+	it('жодного мертвого прапорця — кожен справді змінює розділ', () => {
+		const dead = index
+			.filter((m) => m.unconfirmed && sectionWithout(m) === 'needsClarification')
+			.map((m) => `${m.id} (${m.fullName})`);
+		expect(dead, 'запис і без прапорця в технічному розділі: рядок нічого не робить').toEqual([]);
+	});
+
+	it("«Світла пам'ять» прапорцем не виноситься", () => {
+		// Порядок умов у `masterSection`: honorary перевіряється ПЕРШИМ.
+		expect(masterSection({ status: 'honorary', unconfirmed: true })).toBe('honorary');
+	});
+});
+
+describe('фотографія на розділ НЕ впливає', () => {
+	/*
+	 * Правило «всі без фотографії — в «Потребують уточнення»» діяло 2026-08-24 і
+	 * того ж дня прибране на пряме рішення автора: це було умовне правило для
+	 * розбору купи, а не факт про людей. Перевірка тримає рішення, бо спокуса
+	 * повернути його велика — технічний розділ тоді виглядав охайніше.
+	 */
+	it('запис без фотографії, але з роллю, стоїть у розділі своєї ролі', () => {
+		expect(masterSection({ category: 'pedagogues', status: 'active' })).toBe('pedagogues');
+		expect(masterSection({ category: 'support', status: 'active' })).toBe('support');
+		expect(masterSection({ status: 'former' })).toBe('history');
+	});
+
+	it('у змістових розділах справді є люди без фотографії', () => {
+		// Інакше перевірка вище була б теоретичною: правило прибрано саме для того,
+		// щоб такі записи стояли поруч із рештою.
+		const withoutPhoto = index.filter((m) => !m.photo && masterSection(m) !== 'needsClarification');
+		expect(withoutPhoto.length, 'жодного — отже правило десь усе ще діє').toBeGreaterThan(0);
+	});
+});
+
+describe('коротке ПІБ не виганяє зі змістового розділу', () => {
+	/*
+	 * До 2026-08-24 умовою повноти було ще й «прізвище, імʼя та по батькові», і
+	 * вона вигнала з «Історії школи» Рибакову Надію В., Шевчука Олега В. і
+	 * Надопту Світлану, а Ганбарова Ельміра — з педагогів. Коротке імʼя — це те,
+	 * як людину записали (іноді свідомо), а не ознака зіпсованого запису; що
+	 * картка когось показує, вирішує фотографія.
+	 */
+	const SHORT_NAMES = ['nadiia-rybakova', 'oleh-shevchuk', 'svitlana-nadopta', 'elmir-hanbarov', 'stelmakh'];
+
+	it('записи з коротким ПІБ стоять там, куди ведуть роль і статус', () => {
+		const byId = new Map(index.map((m) => [m.id, m]));
+		const misplaced: string[] = [];
+		for (const id of SHORT_NAMES) {
+			const m = byId.get(id);
+			expect(m, `${id} — запису немає, перевірка мертва`).toBeDefined();
+			if (!m?.photo) continue; // без фотографії технічний розділ правильний
+			if (masterSection(m) === 'needsClarification') misplaced.push(`${id} (${m.fullName})`);
+		}
+		expect(misplaced, 'фотографія є, а запис усе одно в технічному розділі').toEqual([]);
 	});
 });
 

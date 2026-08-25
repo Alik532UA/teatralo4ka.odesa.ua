@@ -12,5 +12,6 @@
 	"photo": "/masters/milihlasova.webp",
 	"portrait": "/masters/portraits/milihlasova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"unconfirmed": true
 }
