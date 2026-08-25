@@ -14,6 +14,7 @@
 		handleTransitionEnd as sharedTransitionEnd,
 		type DragState,
 	} from '$lib/utils/carouselInteraction';
+	import { isTypingTarget } from '$lib/services/keyboard';
 
 	export interface GalleryItem {
 		src: string;
@@ -38,6 +39,13 @@
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
 	const cssAspectRatio = $derived((config.aspectRatio || '4:3').replace(':', ' / '));
 	let isHovered = $state(false);
+	/**
+	 * Фокус усередині галереї — така сама причина спинити автопрокрутку, як і
+	 * наведення мишею. Доти слайди мінялися під руками в людини, яка щойно
+	 * дійшла сюди Tab-ом і збиралася гортати стрілками.
+	 */
+	let isFocusWithin = $state(false);
+	const isEngaged = $derived(isHovered || isFocusWithin);
 	let mounted = $state(false);
 
 	let currentIndex = $state(0);
@@ -113,7 +121,7 @@
 	function autoNext() { next(true); }
 
 	$effect(() => {
-		if (!mounted || !autoplay || isHovered || infiniteItems.length <= 1) return;
+		if (!mounted || !autoplay || isEngaged || infiniteItems.length <= 1) return;
 		const ms = (config.autoplayInterval || 5) * 1000;
 		const id = setInterval(autoNext, ms);
 		return () => clearInterval(id);
@@ -157,8 +165,20 @@
 	const activeDot = $derived(items.length > 0 ? ((currentIndex % items.length) + items.length) % items.length : 0);
 	const translateX = $derived(`calc(-${currentIndex * 100}% + ${drag.isDragging ? drag.dragOffset : 0}px)`);
 
+	/**
+	 * Умови `isHovered` тут НЕМАЄ, і це не послаблення межі.
+	 *
+	 * Обробник висить на самому `.gc-root`, тобто подія доходить сюди лише тоді,
+	 * коли фокус усередині каруселі — межу вже задає DOM. Наведення мишею без
+	 * фокуса події не породжує взагалі, тож стара умова не пускала рівно тих, для
+	 * кого обробник і призначений: людей, які дійшли сюди Tab-ом.
+	 *
+	 * `isTypingTarget` лишається (HOTKEYS-v8 § 2, HK-TEXT-ENTRY-GUARD): слайд
+	 * може містити підпис із полем, і стрілки в ньому належать курсору.
+	 */
 	function handleKeydown(e: KeyboardEvent) {
-		if (!isHovered || items.length <= 1) return;
+		if (isTypingTarget(e.target)) return;
+		if (items.length <= 1) return;
 		if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
 		else if (e.key === 'ArrowRight') { e.preventDefault(); next(false); }
 	}
@@ -167,9 +187,10 @@
 <!--
 	Клавіатура тут ОБРОБЛЯЄТЬСЯ (`onkeydown` нижче: ← →); попередження — про те,
 	що `role="region"` не інтерактивна роль, а не про відсутність клавіатури.
-	Відома межа: `handleKeydown` виходить, поки `isHovered` не true, тож стрілки
-	діють на наведенні. Навігація лишається повністю доступною справжніми
-	кнопками ‹ ›, точками й паузою — записано в PROJECT-CONTEXT.md.
+	Стрілки діють, щойно фокус усередині — межу задає сам DOM, бо обробник
+	висить на цьому вузлі. Автопрокрутка спиняється і на наведенні, і на фокусі:
+	слайд, що змінився під руками, збиває той самий Tab-порядок, яким сюди
+	дійшли.
 -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
@@ -182,6 +203,8 @@
 	tabindex="0"
 	onmouseenter={() => { isHovered = true; }}
 	onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
+	onfocusin={() => { isFocusWithin = true; }}
+	onfocusout={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) isFocusWithin = false; }}
 	onkeydown={handleKeydown}
 >
 	<div

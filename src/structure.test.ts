@@ -124,6 +124,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * додано точну локалізовану перевірку активних вкладок nav / mobile / dropdown, синхронізацію стану мобільного меню з URL (?menu=open / ?menu=settings)
  * та фіксовану шапку модального вікна налаштувань мобільного меню з закріпленою кнопкою закриття й авторським оверлей-скролом на вмісті.
  * 2026-08-22: `src/routes/residents/adults/[slug]/+page.svelte` 400 -> 420. Додано підтримку кнопок олівця для викладачів з фотографією (25% прозорість, 100% при ховері) та месенджерів адміністратора у спливаючому вікні.
+ *
+ * 2026-08-26, стрілки каруселей на фокусі: `GalleryCarousel` 365 → 366. Один
+ * рядок — `onfocusout`, що звіряє `relatedTarget` із `contains`; без нього
+ * перехід фокуса МІЖ дітьми каруселі читався б як вихід із неї, і автопрокрутка
+ * стартувала б на кожен Tab усередині. `ContentWidget` у стелю вклався: там
+ * рядків додано стільки ж, скільки прибрано умовою `isEngaged`.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -149,7 +155,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GraduateCard.svelte': 475,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
-	'src/lib/components/GalleryCarousel.svelte': 365,
+	'src/lib/components/GalleryCarousel.svelte': 366,
 	'src/lib/data/betaChecklist.ts': 387,
 	'src/lib/components/DepartmentsSection.svelte': 352,
 	'src/lib/components/HeroSection.svelte': 330,

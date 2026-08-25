@@ -80,6 +80,19 @@
 	const autoplay = $derived(autoplayOverride ?? config.autoplay);
 	let isAutoAdvancing = $state(false);
 	let isHovered = $state(false);
+	/**
+	 * Фокус усередині каруселі — рівноправний із наведенням.
+	 *
+	 * До 2026-08-26 і стрілки ← →, і пауза автопрокрутки залежали САМЕ від
+	 * наведення. Наслідок: людина, яка дійшла до каруселі клавіатурою, стрілками
+	 * не робила нічого, а слайди прокручувалися їй під руками — тобто мишею
+	 * керувати було можна, клавіатурою ні. WCAG 2.1.1 при цьому виконувався
+	 * (кнопки ‹ ›, точки й пауза — справжні `<button>`), тож це була не
+	 * недоступність, а другий сорт.
+	 */
+	let isFocusWithin = $state(false);
+	/** Людина зараз біля каруселі — мишею або фокусом. Байдуже, чим саме. */
+	const isEngaged = $derived(isHovered || isFocusWithin);
 	let mounted = $state(false);
 	let isMobile = $state(false);
 
@@ -217,7 +230,7 @@
 
 	// ── Autoplay interval ─────────────────────────────────────────────────────
 	$effect(() => {
-		if (!mounted || !autoplay || isHovered || view !== 'carousel' || infiniteItems.length <= 1) return;
+		if (!mounted || !autoplay || isEngaged || view !== 'carousel' || infiniteItems.length <= 1) return;
 		const ms = (config.autoplayInterval || 7) * 1000;
 		const id = setInterval(autoNext, ms);
 		return () => clearInterval(id);
@@ -266,7 +279,10 @@
 		// пересували б карусель замість курсора. `closest` цей випадок бачить.
 		if (isTypingTarget(e.target)) return;
 		if (view !== 'carousel') return;
-		if (!isHovered) return;
+		// Наведення АБО фокус: обробник висить на `window`, тож без цієї межі
+		// стрілки рухали б карусель із будь-якого місця сторінки. Наведення саме
+		// по собі виганяло звідси клавіатуру — див. `isFocusWithin`.
+		if (!isEngaged) return;
 
 		if (e.key === 'ArrowLeft') {
 			e.preventDefault();
@@ -324,7 +340,7 @@
 			{#if view === 'carousel' && items.length > 1}
 				<button
 					class="view-btn autoplay-btn"
-					class:active={autoplay && !isHovered}
+					class:active={autoplay && !isEngaged}
 					onclick={() => autoplayOverride = !autoplay}
 					aria-label={autoplay ? $t('common.pause') : $t('common.play')}
 					aria-pressed={autoplay}
@@ -383,6 +399,8 @@
 			data-testid="{testIdPrefix}-viewport-container"
 			onmouseenter={() => isHovered = true}
 			onmouseleave={() => { isHovered = false; drag = { ...drag, isDragging: false, dragOffset: 0 }; }}
+			onfocusin={() => isFocusWithin = true}
+			onfocusout={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) isFocusWithin = false; }}
 			onmousedown={handleTouchStart}
 			onmousemove={handleTouchMove}
 			onmouseup={handleTouchEnd}
