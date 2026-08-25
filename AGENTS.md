@@ -51,6 +51,8 @@
 | CI має ДВА workflow, і вони перевіряють різне | `gates.yml` жене `check`, `lint`, `test`, `audit`, `validate-content` на кожен pull request і на push у будь-яку гілку, крім `main`. `deploy.yml` (тільки `main`) додає збірку, E2E і розгортання. Збірки в `gates.yml` немає навмисно: вона вимагає секретів `VITE_FIREBASE_*`, яких Dependabot-PR не отримує. До 2026-08-20 усі гейти були лише в `deploy.yml`, і в `dev` не перевірялося нічого — `npm run lint` там був червоний |
 | Гейти збірки живуть у `prebuild`/`postbuild`, а не у плагіні Vite | плагін `smart-static-build-tools` прибрано 2026-08-16: його `catch` знижував падіння sitemap до попередження, і `vite build` виходив із кодом 0. Нові перевірки над `build/` додаються в `postbuild` — там їхній код виходу доходить до `npm run build` |
 | Node **22** у трьох місцях | `engines.node`, `.nvmrc` і `node-version` у workflow мусять збігатися; розбіжність валить `src/dependencies.test.ts` |
+| Розгортання атрибутів `{...obj}` на елементі | Svelte 5 додає в такий елемент інлайнові `onload="this.__e=event"` / `onerror` (відтворення подій при гідрації), а CSP цього сайту не має ні `unsafe-inline`, ні `unsafe-hashes` — браузер їх блокує. У джерелах і в `svelte-check` не видно НІЧОГО: 2026-08-26 тринадцять `<img>` зі спредом дали 15 порушень CSP на головній. Атрибути писати явно; тримає `scripts/check-inline-handlers.ts` у `postbuild` |
+| Пара кнопок «Увімк / Вимк» на одному `toggle()` | натискання на вже активну кнопку гортає прапорець, тобто кнопка робить протилежне своєму підпису (заміряно на blur: `false`, `true`, `false` за три кліки по «Увімк»). Кожна половина пари задає СВОЄ значення й несе `aria-pressed`; тримає `src/toggle-controls.test.ts` |
 | Адреса сайту — лише `src/lib/config/site.ts` | другий літерал `'https://teatralo4ka.odesa.ua'` у джерелах валить `src/site-origin.test.ts`. `robots.txt` звіряється тим самим тестом |
 
 ## НЕ РОБИ
@@ -67,10 +69,15 @@
 | `any` | конкретний тип, `unknown` або дженерик |
 | `console.log` у коді застосунку | `errorLogger.logError()` / `.logWarning()` / `.logInfo()`. Правило `error`; у `scripts/` і конфігах воно вимкнене — там `console` і є виводом |
 | Голий `Set` / `Map` як реактивний стан | `SvelteSet` / `SvelteMap` зі `svelte/reactivity` |
+| `width`/`height` числом поруч із тегом для СВОГО файлу | `imageSize('/шлях')` із `$lib/config/localImages` — числа там звіряються із заголовками файлів на диску |
 
-Кожен рядок цієї таблиці — правило ESLint. Вимкнути правило можна лише разом із
-записаною поруч причиною (CODE-QUALITY-v8 § 6.4.1); інваріант
-`src/eslint-baseline.test.ts` падає, якщо хтось вимкне його мовчки.
+Кожен рядок цієї таблиці, крім останнього, — правило ESLint. Вимкнути правило
+можна лише разом із записаною поруч причиною (CODE-QUALITY-v8 § 6.4.1);
+інваріант `src/eslint-baseline.test.ts` падає, якщо хтось вимкне його мовчки.
+
+Останній рядок — не ESLint, а юніт-інваріант `src/image-dimensions.test.ts` плюс
+`src/lib/config/localImages.test.ts`: перший вимагає, щоб місце під зображення
+було відведене, другий звіряє числа із заголовками файлів на диску.
 
 ## Архітектура розділу «Дорослі» (/residents/adults)
 
@@ -185,7 +192,7 @@
 ```
 npm run check          # svelte-check, має бути 0 помилок і 0 попереджень
 npm run lint           # eslint, має бути 0 помилок
-npm test               # юніт-інваріанти vitest (усі 63 тест-файли)
+npm test               # юніт-інваріанти vitest (72 тест-файли, 722 перевірки)
 npm run build:masters  # збірка веб-аватарів та постерів із assets/masters-raw/
 npm run bump-version   # автоінкремент версії
 npm run build          # збірка сайту; postbuild перевіряє sitemap і бандл
