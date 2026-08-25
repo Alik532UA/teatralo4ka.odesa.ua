@@ -20,16 +20,17 @@
 		mobile?: boolean;
 	}>();
 
+	/**
+	 * «Немає» — це нульовий тип І вимкнений фон; будь-який інший — увімкнений.
+	 *
+	 * Раніше тут стояли два `if`, які звіряли поточний стан із бажаним і кликали
+	 * `toggle()`. Тобто сеттер відтворювався довшим шляхом — і саме тому сеттера
+	 * довго не існувало, а пара кнопок «Вимк / Увімк» гортала прапорець і
+	 * вимикала його при натисканні на вже активну кнопку.
+	 */
 	const selectDynamicBackground = (type: BackgroundType) => {
 		ui.setBackgroundType(type);
-
-		if (type === 0 && ui.enableDynamicBackground) {
-			ui.toggleDynamicBackground();
-		}
-
-		if (type !== 0 && !ui.enableDynamicBackground) {
-			ui.toggleDynamicBackground();
-		}
+		ui.setDynamicBackground(type !== 0);
 	};
 
 	// Обидва переліки живуть у `$lib/config`: ті самі потрібні в адмінці, де
@@ -67,7 +68,8 @@
 				<button
 					class="dropdown-opt-unified"
 					class:active={!ui.enableBlurEffect}
-					onclick={() => ui.toggleBlurEffect()}
+					onclick={() => ui.setBlurEffect(false)}
+					aria-pressed={!ui.enableBlurEffect}
 					data-testid="debug-blur-off-btn"
 				>
 					{$t('settings.off')}
@@ -75,7 +77,8 @@
 				<button
 					class="dropdown-opt-unified"
 					class:active={ui.enableBlurEffect}
-					onclick={() => ui.toggleBlurEffect()}
+					onclick={() => ui.setBlurEffect(true)}
+					aria-pressed={ui.enableBlurEffect}
 					data-testid="debug-blur-on-btn"
 				>
 					{$t('settings.on')}

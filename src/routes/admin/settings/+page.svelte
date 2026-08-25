@@ -1903,10 +1903,10 @@ async function handleAboutPageSubmit() {
 <li class="block-item block-item--sub">
 <span class="block-item__name">{$t('admin.settings.debugDefaultValue')}</span>
 <div class="mode-toggle-group">
-  <button type="button" class="mode-btn" class:active={!debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: false }} data-testid="admin-settings-debug-default-blur-off-btn">
+  <button type="button" class="mode-btn" class:active={!debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: false }} aria-pressed={!debugPanel.defaultBlur} data-testid="admin-settings-debug-default-blur-off-btn">
     {$t('settings.off')}
   </button>
-  <button type="button" class="mode-btn" class:active={debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: true }} data-testid="admin-settings-debug-default-blur-on-btn">
+  <button type="button" class="mode-btn" class:active={debugPanel.defaultBlur} onclick={() => debugPanel = { ...debugPanel, defaultBlur: true }} aria-pressed={debugPanel.defaultBlur} data-testid="admin-settings-debug-default-blur-on-btn">
     {$t('settings.on')}
   </button>
 </div>

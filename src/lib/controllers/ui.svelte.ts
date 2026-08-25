@@ -190,14 +190,26 @@ export class UIState {
 		}
 	};
 
-	toggleDynamicBackground = () => {
-		this.enableDynamicBackground = !this.enableDynamicBackground;
-		storage.set('enableDynamicBackground', this.enableDynamicBackground.toString());
+	/**
+	 * Явні значення замість `toggle()` — і це виправлення дефекту, а не смак.
+	 *
+	 * У панелі налаштувань обидва перемикачі показані парою кнопок «Вимк /
+	 * Увімк», тобто радіо. Поки обидві кнопки гортали прапорець, натискання на
+	 * ВЖЕ АКТИВНУ вимикало його: кнопка з підписом «Увімк» вимикала. Заміряно в
+	 * браузері 2026-08-26 — три натискання по «Увімк» дали `false`, `true`,
+	 * `false`.
+	 *
+	 * Гортання й не потрібне було: у фоні виклик стояв усередині `if`, який
+	 * звіряв поточний стан із бажаним, тобто відтворював сеттер довшим шляхом.
+	 */
+	setDynamicBackground = (enabled: boolean) => {
+		this.enableDynamicBackground = enabled;
+		storage.set('enableDynamicBackground', enabled ? 'true' : 'false');
 	};
 
-	toggleBlurEffect = () => {
-		this.enableBlurEffect = !this.enableBlurEffect;
-		storage.set('enableBlurEffect', this.enableBlurEffect.toString());
+	setBlurEffect = (enabled: boolean) => {
+		this.enableBlurEffect = enabled;
+		storage.set('enableBlurEffect', enabled ? 'true' : 'false');
 	};
 
 	/**

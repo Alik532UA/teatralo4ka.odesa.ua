@@ -78,6 +78,40 @@ describe('UIState — вимикач гарячих клавіш (HOTKEYS-v8 § 
 });
 
 /**
+ * Решта перемикачів панелі — той самий клас дефекту, що й вище.
+ *
+ * До 2026-08-26 blur і динамічний фон мали лише `toggle()`, а в панелі стояли
+ * ПАРОЮ кнопок «Вимк / Увімк». Кожна кнопка гортала прапорець, тож натискання
+ * на вже активну вимикало його: кнопка з підписом «Увімк» вимикала ефект.
+ * Заміряно в браузері — три натискання по «Увімк» дали `false`, `true`,
+ * `false`.
+ */
+describe('UIState — перемикачі вигляду задають значення, а не гортають', () => {
+	it.each([
+		['setBlurEffect', 'enableBlurEffect', 'enableBlurEffect'],
+		['setDynamicBackground', 'enableDynamicBackground', 'enableDynamicBackground']
+	] as const)('%s тримає значення при повторному виклику', (setter, field, key) => {
+		const state = new UIState();
+
+		state[setter](true);
+		state[setter](true);
+		expect(state[field], 'повторний виклик інвертував стан').toBe(true);
+		expect(storage.get(key)).toBe('true');
+
+		state[setter](false);
+		state[setter](false);
+		expect(state[field], 'повторний виклик інвертував стан').toBe(false);
+		expect(storage.get(key)).toBe('false');
+	});
+
+	it('гортання більше не експортується — інакше пара кнопок знову його знайде', () => {
+		const state = new UIState() as unknown as Record<string, unknown>;
+		expect(state.toggleBlurEffect).toBeUndefined();
+		expect(state.toggleDynamicBackground).toBeUndefined();
+	});
+});
+
+/**
  * Інваріант по джерелах: обробник, що виконує `T` і `L`, звіряється з
  * прапорцем.
  *
