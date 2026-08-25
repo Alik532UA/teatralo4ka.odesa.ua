@@ -40,8 +40,9 @@
 		<!-- 1. Social Links (Left) -->
 		<div class="hero__social" data-testid="hero-social-links-menu">
 			{#each socialIcons as icon (icon.id)}
+				{@const size = imageSize(icon.file)}
 				<a href={$t(icon.href)} target="_blank" rel="noopener noreferrer" class="hero__social-btn" aria-label={icon.label} data-testid="hero-social-{icon.id}-btn">
-					<img src={asset(icon.file)} alt={icon.alt} {...imageSize(icon.file)} />
+					<img src={asset(icon.file)} alt={icon.alt} width={size.width} height={size.height} />
 				</a>
 			{/each}
 		</div>
@@ -67,10 +68,12 @@
 			-->
 			<div class="hero__image-inner" data-testid="hero-image-container">
 				{#each heroPhotos as photo, i (photo)}
+					{@const size = imageSize(photo)}
 					<img
 						src={asset(photo)}
 						alt=""
-						{...imageSize(photo)}
+						width={size.width}
+						height={size.height}
 						loading="eager"
 						fetchpriority={i === 0 ? 'high' : 'low'}
 						decoding="async"

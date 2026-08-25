@@ -11,6 +11,7 @@
    * зсувається рівно в мить, коли файл приходить, — CLS у рядку, що й так їде.
    */
   const CREST = '/moment-of-silence/Lesser_Coat_of_Arms_of_Ukraine_(bw).svg' satisfies LocalImage;
+  const crestSize = imageSize(CREST);
 
   let {
     visible = false,
@@ -92,7 +93,7 @@
     <div class="ticker-content">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} {...imageSize(CREST)}>
+          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} width={crestSize.width} height={crestSize.height}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}
@@ -100,7 +101,7 @@
     <div class="ticker-content" aria-hidden="true">
       {#each { length: 4 } as _, i (i)}
         <div class="ticker-item">
-          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} {...imageSize(CREST)}>
+          <img src={asset(CREST)} alt={$t('ticker.coatOfArms')} width={crestSize.width} height={crestSize.height}>
           <p>{$t('ticker.title')}</p>
         </div>
       {/each}

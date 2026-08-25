@@ -310,8 +310,9 @@
 					{:else}
 						<div class="g-bento-4x3" data-testid="gallery-list">
 							{#each galleryItems.slice(0, galleryWidgetConfig.maxItemsGrid > 0 ? galleryWidgetConfig.maxItemsGrid : galleryItems.length) as img, i (img.src)}
+								{@const size = imageSize(img.file)}
 								<div class="g-bento-4x3__item" data-testid="gallery-item-{i}" onclick={() => openHomeGalleryLightbox(i)} onkeydown={activateOnKey(() => openHomeGalleryLightbox(i))} role="button" tabindex="0">
-									<img src={img.src} alt={img.alt} {...imageSize(img.file)} loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
+									<img src={img.src} alt={img.alt} width={size.width} height={size.height} loading="lazy" decoding="async" data-testid="gallery-img-{i}" />
 									{#if galleryWidgetConfig.showCaptions}
 										<div class="g-bento-4x3__overlay" data-testid="gallery-overlay-{i}">
 											<span class="g-bento-4x3__caption" data-testid="gallery-caption-text-{i}">{img.title}</span>

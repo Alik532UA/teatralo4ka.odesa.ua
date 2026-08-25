@@ -100,9 +100,10 @@
 			<h2 class="deps__heading sr-only" data-testid="info-section-heading">{$t('departmentsSection.info')}</h2>
 			<div class="deps__grid" data-testid="info-list">
 				{#each info as item, i (item.id)}
+					{@const size = imageSize(item.image)}
 					<a href={item.href} class="deps__card" data-testid={`info-card-${item.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`info-card-image-container-${item.id}`}>
-							<img src={asset(item.image)} alt={item.title()} class="deps__image" loading="lazy" {...imageSize(item.image)} data-testid={`info-card-img-${item.id}`} />
+							<img src={asset(item.image)} alt={item.title()} class="deps__image" loading="lazy" width={size.width} height={size.height} data-testid={`info-card-img-${item.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`info-card-panel-${item.id}`}>
@@ -121,9 +122,10 @@
 			<h2 class="deps__heading" data-testid="departments-section-heading">{$t('departmentsSection.departments')}</h2>
 			<div class="deps__grid deps__grid--wide" data-testid="departments-list">
 				{#each departments as dep, i (dep.id)}
+					{@const size = imageSize(dep.image)}
 					<a href={dep.href} class="deps__card" data-testid={`department-card-${dep.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`department-card-image-container-${dep.id}`}>
-							<img src={asset(dep.image)} alt={dep.title()} class="deps__image" loading="lazy" {...imageSize(dep.image)} data-testid={`department-card-img-${dep.id}`} />
+							<img src={asset(dep.image)} alt={dep.title()} class="deps__image" loading="lazy" width={size.width} height={size.height} data-testid={`department-card-img-${dep.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`department-card-panel-${dep.id}`}>
@@ -142,9 +144,10 @@
 			<h2 class="deps__heading" data-testid="residents-section-heading">{$t('departmentsSection.residents')}</h2>
 			<div class="deps__grid" data-testid="residents-list">
 				{#each residents as resident, i (resident.id)}
+					{@const size = imageSize(resident.image)}
 					<a href={resident.href} class="deps__card" data-testid={`resident-card-${resident.id}`} style="animation-delay: {i * 0.1}s">
 						<div class="deps__image-wrap" data-testid={`resident-card-image-container-${resident.id}`}>
-							<img src={asset(resident.image)} alt={resident.title()} class="deps__image" loading="lazy" {...imageSize(resident.image)} data-testid={`resident-card-img-${resident.id}`} />
+							<img src={asset(resident.image)} alt={resident.title()} class="deps__image" loading="lazy" width={size.width} height={size.height} data-testid={`resident-card-img-${resident.id}`} />
 							<div class="deps__overlay"></div>
 						</div>
 						<div class="deps__content" data-testid={`resident-card-panel-${resident.id}`}>

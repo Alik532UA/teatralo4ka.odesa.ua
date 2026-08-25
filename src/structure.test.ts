@@ -125,6 +125,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * та фіксовану шапку модального вікна налаштувань мобільного меню з закріпленою кнопкою закриття й авторським оверлей-скролом на вмісті.
  * 2026-08-22: `src/routes/residents/adults/[slug]/+page.svelte` 400 -> 420. Додано підтримку кнопок олівця для викладачів з фотографією (25% прозорість, 100% при ховері) та месенджерів адміністратора у спливаючому вікні.
  *
+ * 2026-08-26, розміри зображень: `DepartmentsSection` 352 → 353. Три рядки
+ * `{@const size = imageSize(...)}` мінус два: помічник звуження типу лишився,
+ * а `asset()` переїхав із даних у розмітку. Розгортання `{...imageSize()}`
+ * було б коротшим на ті самі три рядки й коштувало б CSP: Svelte додає в
+ * елемент зі спредом інлайнові `onload`/`onerror`, і браузер їх блокує.
+ *
  * 2026-08-26, стрілки каруселей на фокусі: `GalleryCarousel` 365 → 366. Один
  * рядок — `onfocusout`, що звіряє `relatedTarget` із `contains`; без нього
  * перехід фокуса МІЖ дітьми каруселі читався б як вихід із неї, і автопрокрутка
@@ -157,7 +163,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 366,
 	'src/lib/data/betaChecklist.ts': 387,
-	'src/lib/components/DepartmentsSection.svelte': 352,
+	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
