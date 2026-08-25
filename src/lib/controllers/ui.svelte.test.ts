@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { UIState, ui } from './ui.svelte';
-import { getStorageKey } from '../config/storage';
+import { storage } from '../services/storage';
 
 /**
  * Вимикач одиночних літерних скорочень — виконання WCAG SC 2.1.4
@@ -25,11 +25,17 @@ import { getStorageKey } from '../config/storage';
  * людиною й записаний у PROJECT-CONTEXT.md.
  */
 
-const KEY = getStorageKey('hotkeysEnabled');
+/**
+ * Через фасад, а не через `localStorage` напряму: прямий доступ дозволений лише
+ * самому фасадові, модулю міграції та їхнім власним тестам
+ * (STORAGE-NAMESPACE-v8, правило `no-restricted-globals` у `eslint.config.js`).
+ * Тут перевіряється контролер, а не префікс, тож винятку немає й не треба.
+ */
+const KEY = 'hotkeysEnabled';
 
 describe('UIState — вимикач гарячих клавіш (HOTKEYS-v8 § 3)', () => {
 	beforeEach(() => {
-		localStorage.removeItem(KEY);
+		storage.remove(KEY);
 	});
 
 	it('типово скорочення діють: критерій вимагає СПОСОБУ вимкнути, а не вимкненого стану', () => {
@@ -37,17 +43,17 @@ describe('UIState — вимикач гарячих клавіш (HOTKEYS-v8 § 
 	});
 
 	it('вимкнення переживає перезавантаження', () => {
-		localStorage.setItem(KEY, 'false');
+		storage.set(KEY, 'false');
 		expect(new UIState().hotkeysEnabled).toBe(false);
 	});
 
 	it('увімкнення, записане явно, теж читається — а не тоне в типовому значенні', () => {
-		localStorage.setItem(KEY, 'true');
+		storage.set(KEY, 'true');
 		expect(new UIState().hotkeysEnabled).toBe(true);
 	});
 
 	it('сміття у сховищі не вимикає скорочення мовчки', () => {
-		localStorage.setItem(KEY, 'yes');
+		storage.set(KEY, 'yes');
 		// `=== 'true'` дало б тут `false`, тобто чужий запис під тим самим ключем
 		// (або зміна формату) непомітно забрав би клавіші в усіх, хто нічого не
 		// вибирав. Тому значення НЕ 'true'/'false' має читатися як «не сказано».
@@ -62,7 +68,7 @@ describe('UIState — вимикач гарячих клавіш (HOTKEYS-v8 § 
 
 		state.setHotkeysEnabled(false);
 		expect(state.hotkeysEnabled).toBe(false);
-		expect(localStorage.getItem(KEY)).toBe('false');
+		expect(storage.get(KEY)).toBe('false');
 	});
 
 	it('синглтон має той самий API — його й читає розмітка', () => {
