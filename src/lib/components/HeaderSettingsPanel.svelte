@@ -74,6 +74,39 @@
 			><Moon size={20} /></button>
 		</div>
 	</div>
+	<!--
+		WCAG SC 2.1.4 «Character Key Shortcuts», рівень A (HOTKEYS-v8 § 3).
+
+		ПОЗА блоком `debugPanel` навмисно: той блок адміністратор може сховати
+		налаштуванням, а разом із ним зник би єдиний спосіб вимкнути скорочення —
+		тобто виконання критерію залежало б від чужого перемикача.
+
+		Дві кнопки, кожна зі СВОЇМ значенням, а не одна на `toggle()`: пара в формі
+		радіо, де обидві кнопки гортають прапорець, вимикає його при натисканні на
+		вже активну — контрол робить протилежне своєму підпису.
+	-->
+	<div class="dropdown-group-unified" data-testid="settings-hotkeys{sfx}-fieldset">
+		<span class="dropdown-label-unified">{$t("settings.hotkeys")}</span>
+		<div class="dropdown-options-unified" data-testid="settings-hotkeys{sfx}-options-list">
+			<button
+				class="dropdown-opt-unified"
+				class:active={!ui.hotkeysEnabled}
+				onclick={() => ui.setHotkeysEnabled(false)}
+				aria-pressed={!ui.hotkeysEnabled}
+				data-testid="hotkeys-off{sfx}-btn"
+			>{$t("settings.off")}</button>
+			<button
+				class="dropdown-opt-unified"
+				class:active={ui.hotkeysEnabled}
+				onclick={() => ui.setHotkeysEnabled(true)}
+				aria-pressed={ui.hotkeysEnabled}
+				data-testid="hotkeys-on{sfx}-btn"
+			>{$t("settings.on")}</button>
+		</div>
+		<span class="dropdown-hint-unified" data-testid="settings-hotkeys{sfx}-hint">
+			{$t("settings.hotkeysHint")}
+		</span>
+	</div>
 </div>
 
 {#if !debugPanel || debugPanel.visible}

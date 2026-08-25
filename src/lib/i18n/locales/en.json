@@ -172,6 +172,8 @@
     "scrollbarMinimap": "Minimal minimap",
     "scrollbarMinimapFull": "Minimap",
     "blur": "Blur effect when changing language or theme",
+    "hotkeys": "Keyboard shortcuts",
+    "hotkeysHint": "T — theme, L — language",
     "on": "On",
     "off": "Off",
     "debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."

@@ -810,6 +810,20 @@ button {
 	margin-bottom: 2px;
 }
 
+/*
+ * Підпис під групою: показує, ЩО саме перемикач вмикає.
+ *
+ * Потрібен там, де сама назва групи цього не каже. «Гарячі клавіші: Увімк» не
+ * повідомляє, які саме літери, — і виявність скорочення (HOTKEYS-v8 § 5,
+ * `HK-DISCOVERABILITY`) лишалася б невиконаною попри наявний перемикач.
+ */
+.dropdown-hint-unified {
+	display: block;
+	font-size: 0.7rem;
+	color: var(--text-muted);
+	margin-top: 2px;
+}
+
 .dropdown-options-unified {
 	display: flex;
 	gap: 0.25rem;
