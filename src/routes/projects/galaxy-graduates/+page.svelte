@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { onMount } from 'svelte';
+	import { onMount, getAbortSignal } from 'svelte';
 	import { goto, pushState } from '$app/navigation';
+	import { errorLogger } from '$lib/services/errorLogger';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { List, Plus } from 'lucide-svelte';
@@ -165,21 +166,48 @@
 		page.state.graduateCode ? (profiles.get(page.state.graduateCode) ?? null) : null
 	);
 
-	async function ensureProfileLoaded(code: string) {
+	/**
+	 * Профіль випускника — мережевий виклик, породжений `$effect`
+	 * (SVELTE-CORE-v8 § 2.2, `SC-ABORT-SIGNAL`).
+	 *
+	 * Сигнал приходить ЗЗОВНІ, а не береться всередині: `getAbortSignal()`
+	 * читає поточну реакцію, тож викликати його треба в тілі ефекту, доки та
+	 * реакція ще та сама. Свій ефект Svelte скасовує сам — досить швидко
+	 * клацнути дві зірки поспіль, і перший запит перестає бути потрібним ще до
+	 * відповіді.
+	 *
+	 * `AbortError` мовчазний навмисно: це не збій, а рівно те, чого ми просили.
+	 * Решта йде рівнем `warn`, а не `error` (ERROR-HANDLING-v8, DEBUGGING-v8):
+	 * недоступна мережа — очікувана ситуація, і засмічувати нею лічильник
+	 * помилок означає перестати його читати. Доти цей `catch` був порожній, тож
+	 * панель просто лишалася порожньою без жодного сліду.
+	 */
+	async function ensureProfileLoaded(code: string, signal: AbortSignal) {
 		if (!code || !browser || profiles.has(code)) return;
 		try {
-			const response = await fetch(graduateProfileJson(code));
-			if (!response.ok) return;
+			const response = await fetch(graduateProfileJson(code), { signal });
+			if (!response.ok) {
+				errorLogger.logWarning(
+					`профіль ${code} не читається (${response.status})`,
+					{ component: 'galaxy-graduates' }
+				);
+				return;
+			}
 			profiles.set(code, (await response.json()) as GraduateProfile);
-		} catch {
-			// Ігноруємо помилки завантаження профілю
+		} catch (error) {
+			if (error instanceof DOMException && error.name === 'AbortError') return;
+			errorLogger.logWarning(
+				`профіль ${code} не завантажився`,
+				{ component: 'galaxy-graduates' },
+				error
+			);
 		}
 	}
 
 	$effect(() => {
 		const code = page.state.graduateCode;
 		if (code && browser) {
-			ensureProfileLoaded(code);
+			ensureProfileLoaded(code, getAbortSignal());
 		}
 	});
 
@@ -200,8 +228,12 @@
 		// правила адреса тепер ТИПІЗОВАНА: `graduateProfilePath` віддає `Pathname`,
 		// `localizedPath` — `ResolvedPathname`, і саме за цим типом правило визнає її
 		// перевіреною. Описка в шляху знову ловиться компіляцією.
+		// Завантаження НЕ викликається тут: `pushState` міняє
+		// `page.state.graduateCode`, а від нього залежить ефект нижче — він і
+		// піде по профіль. Доти виклик стояв і тут, і в ефекті, тож на кожен
+		// клік летіли ДВА запити за той самий файл: `profiles.has(code)` ще
+		// порожній, поки перший не відповів.
 		pushState(profileHref(graduate.code), { graduateCode: graduate.code });
-		ensureProfileLoaded(graduate.code);
 	}
 
 	/**
