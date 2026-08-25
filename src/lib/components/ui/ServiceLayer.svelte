@@ -12,6 +12,7 @@
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import { isLocale, localizedPath, DEFAULT_LOCALE, type Locale } from '$lib/i18n/routing';
+	import { nextTheme } from '$lib/config/themes';
 	import ServiceBadge from './ServiceBadge.svelte';
 
 	/**
@@ -36,18 +37,17 @@
 	 * замінює дітей своєю сторінкою, тобто забрала б і те, чим збирають звіт про це
 	 * падіння. Три окремих кріплення в layout виражали б ту саму вимогу тричі.
 	 *
-	 * **`T` іде по колу чотирьох тем** — `light`, `light-yellow`, `dark`, `yellow`; це
-	 * дія клієнтська й миттєва, тож перебір дешевий.
+	 * **`T` іде по колу чотирьох тем** — порядок у `config/themes`; це дія
+	 * клієнтська й миттєва, тож перебір дешевий. Порядок винесено туди, бо його
+	 * читає ще й панель налаштувань: вона з нього рахує, яку кнопку натисне
+	 * наступне `T`, і повідомляє про скорочення саме на ній.
 	 *
 	 * **`L` перемикає мову, а не відкриває список.** Мов дві, тож «наступна» — це РІВНО
 	 * одна навігація, а не блукання. Саму навігацію (разом із блюром переходу) робить
 	 * `i18n/switchLanguage` — той самий код, що й кнопка мови в шапці.
 	 */
-	const THEMES = ['light', 'light-yellow', 'dark', 'yellow'] as const;
-
 	function cycleTheme() {
-		const next = THEMES[(THEMES.indexOf(ui.theme) + 1) % THEMES.length];
-		void ui.setTheme(next);
+		void ui.setTheme(nextTheme(ui.theme));
 	}
 
 	/**

@@ -3,6 +3,7 @@
 	import { t, locale } from "svelte-i18n";
 	import { ui } from "$lib/controllers/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
+	import { nextTheme } from "$lib/config/themes";
 	import { Sun, SunDim, Citrus, Moon } from "lucide-svelte";
 
 	interface Props {
@@ -16,6 +17,30 @@
 
 	const sfx = $derived(mobile ? '-mobile' : '');
 	const mobileStyle = 'width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);';
+
+	/**
+	 * Виявність скорочень для читалки (HOTKEYS-v8 § 5, `HK-DISCOVERABILITY`).
+	 *
+	 * `aria-keyshortcuts` означає «ця клавіша активує САМЕ цей елемент», тож
+	 * вішати `T` на всі чотири кнопки теми було б неправдою: клавіша не вмикає
+	 * обрану тему, вона бере НАСТУПНУ в переборі. Тому атрибут стоїть рівно на
+	 * тій кнопці, яку `T` натисне зараз, — і переїжджає разом із перебором.
+	 * Порядок береться з `config/themes`, того самого, з якого рахує обробник:
+	 * копія тут розійшлася б із ним мовчки, і підказка вказувала б не туди.
+	 *
+	 * Мов дві, тож `L` завжди веде на ту, що не активна.
+	 *
+	 * `undefined` замість рядка, коли скорочення вимкнені: атрибут із порожнім
+	 * значенням читалка все одно оголошує, і людина чула б про клавішу, якої
+	 * зараз немає.
+	 */
+	const themeShortcut = $derived(nextTheme(ui.theme));
+	const langShortcut = $derived($locale === 'en' ? 'uk' : 'en');
+
+	/** `key` на елементі, який ця клавіша натисне зараз, — і нічого на решті. */
+	function keyshortcut(key: 'T' | 'L', mine: boolean): string | undefined {
+		return ui.hotkeysEnabled && mine ? key : undefined;
+	}
 </script>
 
 <div
@@ -31,12 +56,14 @@
 				class="dropdown-opt-unified"
 				class:active={$locale === "uk"}
 				onclick={() => onChangeLang("uk")}
+				aria-keyshortcuts={keyshortcut('L', langShortcut === 'uk')}
 				data-testid="lang-ua{sfx}-btn"
 			>{$t("settings.langUA")}</button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={$locale === "en"}
 				onclick={() => onChangeLang("en")}
+				aria-keyshortcuts={keyshortcut('L', langShortcut === 'en')}
 				data-testid="lang-en{sfx}-btn"
 			>{$t("settings.langEN")}</button>
 		</div>
@@ -49,6 +76,7 @@
 				class:active={ui.theme === "light"}
 				onclick={() => ui.setTheme("light")}
 				aria-label={$t("settings.light")}
+				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light')}
 				data-testid="theme-light{sfx}-btn"
 			><Sun size={20} /></button>
 			<button
@@ -56,6 +84,7 @@
 				class:active={ui.theme === "light-yellow"}
 				onclick={() => ui.setTheme("light-yellow")}
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
+				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light-yellow')}
 				data-testid="theme-light-yellow{sfx}-btn"
 			><SunDim size={20} /></button>
 			<button
@@ -63,6 +92,7 @@
 				class:active={ui.theme === "yellow"}
 				onclick={() => ui.setTheme("yellow")}
 				aria-label={$t("settings.yellow") || "Yellow"}
+				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
 				data-testid="theme-yellow{sfx}-btn"
 			><Citrus size={20} /></button>
 			<button
@@ -70,6 +100,7 @@
 				class:active={ui.theme === "dark"}
 				onclick={() => ui.setTheme("dark")}
 				aria-label={$t("settings.dark")}
+				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark')}
 				data-testid="theme-dark{sfx}-btn"
 			><Moon size={20} /></button>
 		</div>
