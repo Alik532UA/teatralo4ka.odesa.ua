@@ -136,3 +136,191 @@ describe('CSS-змінні', () => {
 		).toEqual([]);
 	});
 });
+
+/**
+ * `light-dark()` з НЕколірним аргументом (UI-UX-v8 § 1.5.1.3,
+ * `UIUX-LIGHT-DARK-COLOR-ONLY`).
+ *
+ * Наслідок той самий, що в перевірки вище — властивість зникає цілком, — але
+ * причина інша, і саме тому та перевірка цього не бачила: змінна ОГОЛОШЕНА,
+ * просто її значення недійсне там, де її вживають.
+ *
+ * `light-dark()` — функція КОЛЬОРУ: `light-dark(<color>, <color>)`. Довжина,
+ * `url()` чи ціла тінь зі зсувами кольором не є, тож значення недійсне на
+ * момент обчислення, і властивість бере початкове. Заміряно в Chrome 148:
+ *
+ *     box-shadow: light-dark(0 4px 20px #0002, 0 10px 40px #0006)  → none
+ *     background-image: light-dark(url(a.webp), url(b.webp))       → none
+ *     box-shadow: 0 4px 20px light-dark(#0002, #0006)              → працює
+ *
+ * ЦІНА ТУТ УЖЕ ЗАПЛАЧЕНА. Коміт `9ef183e` (23.08) перевів пару light/dark на
+ * `light-dark()`, і один токен кольором не був: `--shadow-main`, у якого вісім
+ * споживачів. Заміряно на teatralo4ka.odesa.ua 26.08 — `box-shadow: none` на
+ * обох правилах, присутніх на головній (`.hero__image-inner`,
+ * `.hero__contact-btn`), тобто картки майстрів, перемикач вигляду, підвал і
+ * герой лишилися без тіні в темі за замовчуванням і в темній.
+ *
+ * ОСОБЛИВО ПЛУТАЛО ТЕ, ЩО В ЖОВТИХ ТЕМАХ ТІНЬ БУЛА. `themes/yellow.css` і
+ * `themes/light-yellow.css` перекривають `--shadow-main` літералом, тобто
+ * дефект залежав від обраної теми — і виглядав як «щось із темами», а не як
+ * недійсне значення.
+ *
+ * Мовчання повне: оголошення користувацької змінної приймає будь-які лексеми,
+ * тож ні збірка, ні `svelte-check`, ні консоль браузера не кажуть нічого.
+ *
+ * ЦЕЙ ПРОЄКТ НА VITE 7, І ЦЕ ВАЖЛИВО. Vite 8 віддає CSS Lightning CSS, який
+ * знижує `light-dark()` у пару підстановок `--lightningcss-light` /
+ * `--lightningcss-dark` — для будь-якого типу значення. Vite 7 (esbuild) не
+ * знижує нічого, і заміряно у власному `build/` від 26.08: там лежить рівно
+ * `light-dark(0 4px 20px rgba(0, 36, 47, .08), …)`, тобто поїхало відвідувачеві
+ * саме так. Сусідній `VetCrewGames` на `vite@^8` із тим самим джерелом цілий —
+ * тобто там працездатність тримає версія збірника, а не рішення. Імена
+ * `--lightningcss-*` навмисно написані БЕЗ префікса `var(`: перевірка вище
+ * сканує й `.ts` і не вирізає коментарів, тож повний запис зробив би цю
+ * документацію червоною.
+ *
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): вписати в
+ * `themes/light.css` `--shadow-main: light-dark(4px, 8px)` — перевірка мусить
+ * назвати саме цей виклик і саме той файл. Зроблено, падає.
+ */
+
+/** Функції, що дають КОЛІР. `url()` тут немає, і це весь зміст переліку. */
+const COLOR_FUNCTIONS = new Set([
+	'rgb',
+	'rgba',
+	'hsl',
+	'hsla',
+	'hwb',
+	'lab',
+	'lch',
+	'oklab',
+	'oklch',
+	'color',
+	'color-mix',
+	'light-dark',
+	// `var()` пропускається наскрізь: що в ній — знає перевірка вище, ця про форму.
+	'var'
+]);
+
+/**
+ * Текст без коментарів.
+ *
+ * Обовʼязково: файли тем описують механіку `light-dark()` словами, а тепер ще й
+ * причину, чому тінь тримає функцію в колірній позиції. Без цього кроку гейт
+ * ловив би власну документацію.
+ */
+function stripComments(text: string): string {
+	return text.replace(/\/\*[\s\S]*?\*\//g, ' ');
+}
+
+/** Аргументи кожного `light-dark(...)` — з урахуванням вкладених дужок. */
+function lightDarkCalls(text: string): { args: string[]; raw: string }[] {
+	const calls: { args: string[]; raw: string }[] = [];
+	const needle = 'light-dark(';
+
+	for (let start = text.indexOf(needle); start !== -1; start = text.indexOf(needle, start + 1)) {
+		let depth = 0;
+		let end = -1;
+		for (let i = start + needle.length - 1; i < text.length; i++) {
+			if (text[i] === '(') depth++;
+			else if (text[i] === ')' && --depth === 0) {
+				end = i;
+				break;
+			}
+		}
+		// Незбалансовані дужки — не наша перевірка, про них скаже збірка.
+		if (end === -1) continue;
+
+		const args: string[] = [];
+		let level = 0;
+		let current = '';
+		for (const ch of text.slice(start + needle.length, end)) {
+			if (ch === '(') level++;
+			else if (ch === ')') level--;
+			if (ch === ',' && level === 0) {
+				args.push(current.trim());
+				current = '';
+				continue;
+			}
+			current += ch;
+		}
+		args.push(current.trim());
+		calls.push({ args, raw: text.slice(start, end + 1) });
+	}
+	return calls;
+}
+
+function isColor(arg: string): boolean {
+	if (arg === '') return false;
+	if (/^#[0-9a-fA-F]{3,8}$/.test(arg)) return true;
+	// Іменований колір, `transparent`, `currentColor` — самі літери, без одиниць.
+	if (/^[a-zA-Z]+$/.test(arg)) return true;
+
+	const open = arg.indexOf('(');
+	if (open === -1) return false;
+	const name = arg.slice(0, open).trim();
+	if (!/^[a-zA-Z-]+$/.test(name) || !COLOR_FUNCTIONS.has(name.toLowerCase())) return false;
+
+	/*
+	 * Дужка функції мусить закриватися САМИМ КІНЦЕМ аргумента.
+	 *
+	 * Без цієї умови `0 4px 20px rgba(0, 36, 47, 0.08)` не пройшло б, а от
+	 * `rgba(0, 36, 47, 0.08) 0 4px 20px` — пройшло: жадібний розбір узяв би перше
+	 * імʼя функції й вирішив, що це колір. Тобто перевірка мовчала б рівно на
+	 * тому дефекті, проти якого стоїть, залежно від порядку слів у значенні.
+	 */
+	let depth = 0;
+	for (let i = open; i < arg.length; i++) {
+		if (arg[i] === '(') depth++;
+		else if (arg[i] === ')' && --depth === 0) return i === arg.length - 1;
+	}
+	return false;
+}
+
+describe('light-dark() приймає лише колір (UI-UX-v8 § 1.5.1.3)', () => {
+	const styleFiles = walk(
+		'src',
+		(n) => n.endsWith('.css') || n.endsWith('.svelte') || n.endsWith('.html')
+	);
+	const calls = styleFiles.flatMap((file) =>
+		lightDarkCalls(stripComments(readFileSync(file, 'utf8'))).map((call) => ({
+			file: file.replace(/\\/g, '/'),
+			...call
+		}))
+	);
+
+	it('перевірка жива: виклики light-dark() знайдено', () => {
+		// 15 на момент коміту. Межа нижча за факт, щоб не падати на кожному
+		// новому токені, але й не нульова: нуль означав би, що сканер шукає не там.
+		expect(
+			calls.length,
+			'жодного light-dark() у стилях — або сканер шукає не там, або палітру ' +
+				'переписали, і тоді цей гейт треба не лагодити, а прибирати'
+		).toBeGreaterThan(10);
+	});
+
+	it('розбір аргументів живий: колір відрізняється від довжини й url()', () => {
+		// Без цього перевірка нижче була б зелена й на завжди-true `isColor`.
+		expect(isColor('#005fae')).toBe(true);
+		expect(isColor('rgba(0, 36, 47, 0.08)')).toBe(true);
+		expect(isColor('color-mix(in srgb, #000000, transparent 10%)')).toBe(true);
+		expect(isColor('transparent')).toBe(true);
+		expect(isColor('8px'), 'довжина — не колір').toBe(false);
+		expect(isColor('url("/images/a.webp")'), 'url() — не колір').toBe(false);
+		expect(isColor('0 4px 20px rgba(0, 36, 47, 0.08)'), 'ціла тінь — не колір').toBe(false);
+		expect(isColor('rgba(0, 36, 47, 0.08) 0 4px 20px'), 'колір плюс зсуви — не колір').toBe(false);
+	});
+
+	it('обидва аргументи кожного виклику — кольори', () => {
+		const broken = calls
+			.filter((call) => call.args.length !== 2 || !call.args.every(isColor))
+			.map((call) => `${call.file}: ${call.raw}`)
+			.sort();
+
+		expect(
+			broken,
+			'неколірний аргумент робить значення недійсним, і властивість зникає ' +
+				`ЦІЛКОМ — мовчки, без жодного попередження:\n  ${broken.join('\n  ')}`
+		).toEqual([]);
+	});
+});
