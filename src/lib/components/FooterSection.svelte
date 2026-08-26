@@ -4,12 +4,28 @@
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";
 	import { asset } from '$app/paths';
-	import { t } from "svelte-i18n";
+	import { t, locale } from "svelte-i18n";
 	import { Phone, X } from "lucide-svelte";
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import { ui } from "$lib/controllers/ui.svelte";
+	import { siblingUrl } from "$lib/siblings";
 
 	let isPianoOpen = $state(false);
+
+	/**
+	 * «Замовити сайт» — у DigitalWorkshop, і мовою, якою читають тут.
+	 *
+	 * Вкладка й тема їхали в адресі й доти (`?tab=promo&theme=colorful`) — тобто
+	 * передавати стан на сусідній сайт цей проєкт уже вміє; бракувало саме мови,
+	 * і сторінка відкривалася українською навіть тому, хто читав `/en/…`.
+	 *
+	 * Українська там на голій адресі, тож шлях назвати її не може — її називає
+	 * `?lang=`; англійська йде сегментом `/DigitalWorkshop/en/`. Таблиця сусідів —
+	 * `src/lib/siblings.ts`.
+	 */
+	const orderHref = $derived(
+		siblingUrl("digitalworkshop", $locale ?? "uk", { tab: "promo", theme: "colorful" })
+	);
 
 	// Обробника кліку по email тут немає навмисно: копіювання з тостом вішає
 	// `installMailtoToast` у кореневому лейауті — однаково для підвала, шапки,
@@ -149,8 +165,13 @@
 			</div>
 
 			<!-- 4. Button "замовити сайт" -->
-			<a
-				href="https://alik532ua.github.io/DigitalWorkshop/?tab=promo&theme=colorful"
+			<!-- `href` на тому самому рядку, що й `<a`, навмисно: правило звітує про
+				 рядок АТРИБУТА, тож перенесений вниз `href` лишався б поза дією
+				 `eslint-disable-next-line`, а придушення виглядало б застосованим.
+				 `resolve()` тут не застосовний — адреса веде на інший сайт і вже
+				 абсолютна, а `resolve()` зрізав би схему. -->
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={orderHref}
 				target="_blank"
 				rel="noopener noreferrer"
 				class="footer__btn-order"
