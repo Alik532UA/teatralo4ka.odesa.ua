@@ -708,11 +708,21 @@
 		touch-action: pan-y;
 		user-select: none;
 		cursor: grab;
-		outline: none;
 	}
 
-	.focus-viewport:focus,
-	.focus-viewport:focus-visible {
+	/*
+	 * Кільце знімається САМЕ для вказівника, а не взагалі.
+	 *
+	 * Тут `<section tabindex="0">`, і фокусованим його зроблено навмисно — щоб
+	 * ← → гортали слайди (`keyboard-activation.test.ts`). Доти правило звучало
+	 * `:focus, :focus-visible { outline: none }`, тобто гасило кільце й
+	 * клавіатурі: `Tab` доводив фокус до каруселі, стрілки починали працювати, а
+	 * на екрані не змінювалося нічого — людина не знала, що вже в ній.
+	 *
+	 * `:not(:focus-visible)` лишає ту єдину поведінку, заради якої правило й
+	 * писали: захопити мишею для перетягування й не отримати рамку.
+	 */
+	.focus-viewport:focus:not(:focus-visible) {
 		outline: none;
 	}
 

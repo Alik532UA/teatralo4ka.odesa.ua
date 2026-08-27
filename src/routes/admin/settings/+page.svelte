@@ -2295,12 +2295,19 @@ gap: 0.5rem;
 margin-left: auto;
 }
 
+/*
+ * Кільце фокуса тут НЕ знімається (ACCESSIBILITY-v8 § 3).
+ *
+ * Повзунок працює саме стрілками, тобто з клавіатури — а `outline: none`
+ * перекривало глобальне `:focus-visible` вагою скоупу, і `Tab` до нього не
+ * показував нічого. `appearance: none` знімає лише нативний ВИГЛЯД доріжки,
+ * кільця воно не стосується.
+ */
 .form-range {
   width: 100%;
   height: 6px;
   background: var(--color-ice-blue);
   border-radius: 3px;
-  outline: none;
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
