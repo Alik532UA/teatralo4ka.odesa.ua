@@ -1502,7 +1502,10 @@
 	}
 	.teachers-list {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		/* min(): гола довжина тут — підлога колонки, а не поріг переносу
+		   (FLUID-SIZING-v8 § 1.1). Картка, у якій лежить список, на вузькому
+		   екрані вужча за 180px разом із власними відступами. */
+		grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
 		gap: 0.45rem 0.6rem;
 		width: 100%;
 		max-width: 100%;

@@ -337,17 +337,25 @@
 		gap: 1.5rem;
 	}
 
+	/*
+	 * min(), бо гола довжина в minmax — це ПІДЛОГА, а не поріг переносу
+	 * (FLUID-SIZING-v8 § 1.1). Заміряно: `.masters-container` має `padding: 0 1rem`,
+	 * тож на екрані 320px сітці лишається 288px — колонка на 320px виходила за
+	 * екран на 32px разом із картками. Саме число 320 працює далі як поріг, після
+	 * якого зʼявляється друга колонка: при контейнері ширшому за 320px
+	 * `min(320px, 100%)` дорівнює 320px.
+	 */
 	.masters-grid--cards {
-		grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
 	}
 
 	.masters-grid--gallery {
-		grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
 		gap: 1.75rem;
 	}
 
 	.masters-grid--compact {
-		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr));
 		gap: 1.75rem 1.25rem;
 	}
 </style>
