@@ -196,7 +196,7 @@
 ```
 npm run check          # svelte-check, має бути 0 помилок і 0 попереджень
 npm run lint           # eslint, має бути 0 помилок
-npm test               # юніт-інваріанти vitest (76 файлів, 776 перевірок; заміряно 2026-08-28)
+npm test               # юніт-інваріанти vitest (77 файлів, 780 перевірок; заміряно 2026-08-28)
 npm run build:masters  # збірка веб-аватарів та постерів із assets/masters-raw/
 npm run bump-version   # автоінкремент версії
 npm run build          # збірка сайту; postbuild перевіряє sitemap і бандл

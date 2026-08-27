@@ -1,6 +1,6 @@
 <!--
 	PasswordInput — реюзне поле пароля.
-	Канон: FORM-INPUTS-v7. Обов'язкові фічі (HIGH): CapsLock, показати/приховати,
+	Канон: FORM-INPUTS-v8. Обов'язкові фічі (HIGH): CapsLock, показати/приховати,
 	попередження про розкладку під полем; безпекові атрибути; a11y (aria-live).
 	Стандарт іконок (§1.1): єдиний колір через --input-icon-color, стан — лише opacity,
 	порядок trailing [toggle], розмір 18px, єдині відступи, floating-label.
@@ -17,7 +17,7 @@
 		label: string;
 		/** База для data-testid дочірніх елементів */
 		testId: string;
-		/** 'current-password' — вхід; 'new-password' — реєстрація/зміна (канон: SECURITY-v7) */
+		/** 'current-password' — вхід; 'new-password' — реєстрація/зміна (канон: SECURITY-v8) */
 		autocomplete?: 'current-password' | 'new-password';
 		name?: string;
 		required?: boolean;
