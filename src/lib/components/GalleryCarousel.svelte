@@ -315,7 +315,7 @@
 		position: relative;
 		overflow: hidden;
 		border-radius: 1rem;
-		max-height: 70vh;
+		max-height: 70dvh;
 		user-select: none;
 		-webkit-user-select: none;
 	}

@@ -56,7 +56,7 @@
 
 <style>
 	.admin-loading {
-		height: 100vh;
+		height: 100dvh;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -65,7 +65,7 @@
 	}
 
 	.access-denied {
-		height: 100vh;
+		height: 100dvh;
 		display: flex;
 		align-items: center;
 		justify-content: center;

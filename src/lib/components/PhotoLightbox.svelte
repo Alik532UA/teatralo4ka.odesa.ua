@@ -235,14 +235,14 @@
 		align-items: center;
 		justify-content: center;
 		max-width: 90vw;
-		max-height: 85vh;
+		max-height: 85dvh;
 		position: relative;
 		pointer-events: none;
 	}
 
 	.lightbox-img {
 		max-width: 90vw;
-		max-height: 78vh;
+		max-height: 78dvh;
 		object-fit: contain;
 		border-radius: 12px;
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
@@ -300,7 +300,7 @@
 
 		.lightbox-img {
 			max-width: 95vw;
-			max-height: 70vh;
+			max-height: 70dvh;
 		}
 	}
 </style>

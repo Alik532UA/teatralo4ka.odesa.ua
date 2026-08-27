@@ -117,7 +117,7 @@ const RESERVED_BY_CSS: Record<string, string> = {
 	'src/lib/components/ui/Toast.svelte | class="toast-card__img"':
 		'.toast-card__media — 110px × min-height 130px',
 	'src/lib/components/PhotoLightbox.svelte | class="lightbox-img"':
-		'накладка поверх сторінки: розмір задають max-width 90vw / max-height 78vh, ' +
+		'накладка поверх сторінки: розмір задають max-width 90vw / max-height 78dvh, ' +
 		'і зсунути вона може лише саму себе — під нею вміст сторінки не рухається',
 	'src/lib/components/admin/ArticleForm.svelte | src={translations.uk.coverUrl}':
 		'.cover-preview — 90px × aspect-ratio 9/16 інлайном',

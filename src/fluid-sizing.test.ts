@@ -205,3 +205,125 @@ describe('сітки: підлога колонки не буває голою �
 		).toEqual([]);
 	});
 });
+
+/**
+ * `vh` там, де блок мусить вміститися у ВИДИМУ висоту (FLUID-SIZING-v8 § 2, § 4).
+ *
+ * `100vh` — це найбільший viewport, тобто екран із ЗГОРНУТОЮ панеллю браузера.
+ * На телефоні з розгорнутою панеллю блок такої висоти на 10-15 % вищий за те,
+ * що видно: нижній край лежить під панеллю, і кнопка закриття чи підпис під
+ * зображенням опиняються там, куди не дотягнутися. `dvh` міряє те, що видно
+ * зараз, і саме його віддає `window.innerHeight`.
+ *
+ * ## Чому саме висота й саме від 50
+ *
+ * Перевіряються лише `height` / `min-height` / `max-height`: `vh` у ширині
+ * (`width: 90vh` у поверненому набік піаніно) і в зсувах анімації
+ * (`translate: 0 105vh`) описує зовсім інше, і `dvh` там був би помилкою.
+ *
+ * Поріг 50 — не круглість, а межа помітності: різниця між `vh` і `dvh` дорівнює
+ * висоті панелі браузера (заміряно в Chrome на Android — близько 13 % висоти
+ * екрана). На `2.2vh` у відступі це чверть пікселя, на `80vh` — понад сотня.
+ *
+ * ## Знайдено цим гейтом
+ *
+ * `PageScrollbar` малював доріжку `height: 100vh`, а всю арифметику повзунка
+ * рахував від `window.innerHeight` — тобто від `dvh`. Два різні визначення
+ * «висоти екрана» в одному компоненті: повзунок доходив до `viewportHeight −
+ * thumbHeight`, що на телефоні ВИЩЕ за низ доріжки, і нижня смуга доріжки
+ * лишалася мертвою — по ній не можна було перейти в кінець сторінки.
+ *
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): повернути `100vh` у
+ * `.page-scrollbar` — перевірка мусить назвати файл, рядок і властивість.
+ * Зроблено, падає.
+ */
+
+/** Нижче цієї межі різниця між `vh` і `dvh` менша за помітну. Див. шапку. */
+const VH_SIGNIFICANT = 50;
+
+/**
+ * Місця, де `vh` — саме те, що треба, і `dvh` був би дефектом.
+ *
+ * Перелічені поіменно, а не дозволені класом: клас («тло», «анімація») наступний
+ * автор прочитає ширше, ніж було задумано, і виняток тихо накриє справжній
+ * промах. Ключ — `файл:властивість`.
+ */
+const VH_ON_PURPOSE: Record<string, string> = {
+	'src/lib/components/ui/Select.svelte:height':
+		'тло, що ловить натиск поза панеллю: воно мусить накрити НАЙБІЛЬШИЙ ' +
+		'viewport, інакше під згорнутою панеллю браузера лишається смуга, ' +
+		'натиск у яку не закриває список',
+	'src/lib/components/GraduateRosterFilters.svelte:height':
+		'те саме тло-ловець для фільтрів переліку випускників',
+	'src/lib/components/ui/PianoModal.svelte:max-height':
+		'вміст ПОВЕРНУТИЙ на 90° (`transform: rotate(90deg)` у портреті), тож ' +
+		'ця «висота» лягає на ширину екрана — вісь не та, до якої стосується правило'
+};
+
+/** Оголошення висоти з `vh` у значенні. `dvh`/`svh`/`lvh` — інші одиниці. */
+function heightsInVh(source: string): { line: number; prop: string; value: number }[] {
+	const text = stripComments(source);
+	const found: { line: number; prop: string; value: number }[] = [];
+	const decl = /\b(min-height|max-height|height)\s*:\s*([^;}"']+)/g;
+
+	for (let m = decl.exec(text); m; m = decl.exec(text)) {
+		for (const unit of m[2].matchAll(/(?<![a-z])([0-9.]+)vh\b/gi)) {
+			found.push({
+				line: text.slice(0, m.index).split('\n').length,
+				prop: m[1],
+				value: Number(unit[1])
+			});
+		}
+	}
+	return found;
+}
+
+describe('висота від екрана — dvh, а не vh (FLUID-SIZING-v8 § 2)', () => {
+	const files = walk(
+		ROOT,
+		(n) => n.endsWith('.svelte') || n.endsWith('.css') || n.endsWith('.html')
+	);
+	const declarations = files.flatMap((file) =>
+		heightsInVh(readFileSync(file, 'utf8')).map((d) => ({
+			file: file.replace(/\\/g, '/'),
+			...d
+		}))
+	);
+
+	it('розбір живий: одиниця й вісь визначаються правильно', () => {
+		expect(heightsInVh('a { max-height: 85vh; }')).toEqual([
+			{ line: 1, prop: 'max-height', value: 85 }
+		]);
+		expect(heightsInVh('a { max-height: 85dvh; }'), 'dvh — не vh').toEqual([]);
+		expect(heightsInVh('a { max-height: 85svh; }'), 'svh — не vh').toEqual([]);
+		expect(heightsInVh('a { width: 90vh; }'), 'ширина — інша вісь').toEqual([]);
+		expect(heightsInVh('a { translate: 0 105vh; }'), 'зсув — не розмір').toEqual([]);
+		expect(heightsInVh('/* max-height: 85vh */'), 'коментар — не код').toEqual([]);
+		expect(heightsInVh('a { max-height: clamp(1rem, 60vh, 40rem); }')).toHaveLength(1);
+	});
+
+	it('кожен виняток зі списку справді існує в коді', () => {
+		const stale = Object.keys(VH_ON_PURPOSE).filter(
+			(key) => !declarations.some((d) => `${d.file}:${d.prop}` === key)
+		);
+		expect(
+			stale,
+			`виняток пережив код, який пояснював:\n  ${stale.join('\n  ')}`
+		).toEqual([]);
+	});
+
+	it('жодна помітна висота не міряється найбільшим viewport', () => {
+		const broken = declarations
+			.filter((d) => d.value >= VH_SIGNIFICANT)
+			.filter((d) => !(`${d.file}:${d.prop}` in VH_ON_PURPOSE))
+			.map((d) => `${d.file}:${d.line} — ${d.prop}: ${d.value}vh`)
+			.sort();
+
+		expect(
+			broken,
+			'`vh` — це екран зі ЗГОРНУТОЮ панеллю браузера: на телефоні нижній край ' +
+				'блока лягає під панель, і до нього не дотягнутися. Треба `dvh` — або ' +
+				`рядок у VH_ON_PURPOSE із причиною:\n  ${broken.join('\n  ')}`
+		).toEqual([]);
+	});
+});

@@ -94,7 +94,7 @@
 <style>
 	.projects-page {
 		padding: var(--page-pad-top) 0 var(--page-pad-bottom);
-		min-height: 80vh;
+		min-height: 80dvh;
 		overflow: hidden;
 	}
 

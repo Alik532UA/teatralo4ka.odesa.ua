@@ -248,7 +248,7 @@
 <style>
 	.detail-page {
 		padding: var(--page-pad-top) 24px var(--page-pad-bottom);
-		min-height: 80vh;
+		min-height: 80dvh;
 	}
 
 	.detail-page__loading {
