@@ -213,6 +213,14 @@ describe('сторінка показує всі розділи, які обчи
 	it('фіксований перелік порядку не містить мертвих записів', () => {
 		// `liliia-velychko` колись лишилася в `ADMIN_ORDER` після переїзду в іншу
 		// категорію, і рядок просто нічого не робив: `indexOf` віддавав −1.
+		//
+		// Умова — РОЗДІЛ, а не поле `category`, і різниця не теоретична.
+		// 2026-08-27 `liubov-frankovska` переїхала в «Історію школи» через
+		// `status: 'former'`, а роль лишилася адміністрацією — правдиво, бо
+		// `category` каже, ЧИМ людина займалася. Сортування ж бачить лише записи
+		// СВОГО розділу, тож рядок став мертвим, а перевірка по `category` його
+		// пропускала: обидві сторони й далі казали «administration».
+		// `masterSection` відповідає на те саме питання, що й сама сторінка.
 		const byId = new Map(index.map((m) => [m.id, m]));
 		const problems: string[] = [];
 		// Перелік один — керівництво. Фіксований порядок у завідувачів і в службі
@@ -223,7 +231,7 @@ describe('сторінка показує всі розділи, які обчи
 			for (const id of listed) {
 				const m = byId.get(id);
 				if (!m) problems.push(`${name}: «${id}» — такого запису немає`);
-				else if (m.category !== category) problems.push(`${name}: «${id}» тепер ${JSON.stringify(m.category)}, рядок мертвий`);
+				else if (masterSection(m) !== category) problems.push(`${name}: «${id}» тепер у розділі «${masterSection(m)}», рядок мертвий`);
 			}
 		}
 		expect(problems).toEqual([]);

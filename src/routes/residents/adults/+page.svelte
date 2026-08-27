@@ -97,12 +97,16 @@
 	 *
 	 * `liliia-velychko` прибрана 2026-08-24: вона переїхала в «Історію школи», і
 	 * запис тут лишався мертвим — `indexOf` віддавав −1, тобто рядок нічого не
-	 * робив. Тоді ж троє завідувачок (`svitlana-ryskina`, `vira-koval`,
+	 * робив.
+	 * Так само 2026-08-27 прибрана `liubov-frankovska`: вона переїхала в той
+	 * самий розділ, а роль лишилася адміністрацією — тобто перевірка «рядок
+	 * мертвий, якщо категорія інша» його б не спіймала. Умову гейта тому
+	 * переписано на РОЗДІЛ (`masterSection`), а не на поле `category`. Тоді ж троє завідувачок (`svitlana-ryskina`, `vira-koval`,
 	 * `hanna-nikolaieva`) поїхали у власний розділ `heads`, тож із цього переліку
 	 * вони прибрані: залишений тут запис так само нічого не робив би, бо
 	 * сортування бачить лише записи свого розділу.
 	 */
-	const ADMIN_ORDER = ['olena-tkach', 'oksana-panchenko', 'natalia-shalashna', 'liubov-frankovska', 'tetiana-korenchuk'];
+	const ADMIN_ORDER = ['olena-tkach', 'oksana-panchenko', 'natalia-shalashna', 'tetiana-korenchuk', 'sofiia-tkach'];
 
 	/** Порядок за наперед заданим переліком; невідомі — у хвіст, між собою рівні. */
 	function byFixedOrder(order: string[], items: typeof allMasters) {

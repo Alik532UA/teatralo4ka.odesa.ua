@@ -152,7 +152,7 @@
 		"departments": [
 			"guitar"
 		],
-		"status": "active",
+		"status": "former",
 		"subjects": [
 			"Гітара"
 		],
@@ -264,7 +264,8 @@
 			"Сценічна мова"
 		],
 		"photo": "/masters/hanna-serebriannikova.webp",
-		"portrait": "/masters/portraits/hanna-serebriannikova.webp"
+		"portrait": "/masters/portraits/hanna-serebriannikova.webp",
+		"category": "pedagogues"
 	},
 	{
 		"id": "iryna-kulbaba",
@@ -316,7 +317,8 @@
 		],
 		"photo": "/masters/kateryna-bilenko.webp",
 		"roleTitle": "викладачка фортепіано, концертмейстер",
-		"portrait": "/masters/portraits/kateryna-bilenko.webp"
+		"portrait": "/masters/portraits/kateryna-bilenko.webp",
+		"category": "pedagogues"
 	},
 	{
 		"id": "nataliia-afanasieva",
@@ -990,7 +992,7 @@
 		],
 		"status": "honorary",
 		"subjects": [
-			"Акторська майстерність"
+			"Вокал"
 		],
 		"category": "pedagogues",
 		"photo": "/masters/iryna-kaplia.webp",
@@ -1143,7 +1145,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "former"
+		"status": "former",
+		"roleTitle": "композитор, концертмейстер"
 	},
 	{
 		"id": "svitlana-vitiuk",
@@ -1382,7 +1385,7 @@
 		"displayNameEn": "Liubov FRANKOVSKA",
 		"fullNameEn": "Liubov Frankovska",
 		"departments": [],
-		"status": "active",
+		"status": "former",
 		"subjects": [],
 		"photo": "/masters/liubov-frankovska.webp",
 		"category": "administration",
@@ -1403,6 +1406,19 @@
 		"category": "administration",
 		"roleTitle": "заступниця директорки з АГЧ",
 		"portrait": "/masters/portraits/natalia-shalashna.webp"
+	},
+	{
+		"id": "sofiia-tkach",
+		"slug": "sofiia-tkach",
+		"displayName": "Софія ТКАЧ",
+		"fullName": "Ткач Софія",
+		"displayNameEn": "Sofiia TKACH",
+		"fullNameEn": "Sofiia Tkach",
+		"departments": [],
+		"status": "active",
+		"subjects": [],
+		"category": "administration",
+		"roleTitle": "бухгалтерка"
 	},
 	{
 		"id": "dmytro-shylnykovskyi",
