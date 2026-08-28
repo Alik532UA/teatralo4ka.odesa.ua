@@ -4,10 +4,11 @@
 	import FloatingShapes from "./backgrounds/FloatingShapes.svelte";
 	import MiniIcons from "./backgrounds/MiniIcons.svelte";
 	import { onMount } from "svelte";
+	import type { Theme } from "$lib/config/themes";
 
 	let { backgroundType = 0, theme = "light", enabled = false } = $props<{
 		backgroundType?: 0 | 1 | 2 | 3 | 4;
-		theme?: "light" | "dark" | "yellow" | "light-yellow";
+		theme?: Theme;
 		enabled?: boolean;
 	}>();
 

@@ -17,13 +17,13 @@
  * як плавне затемнення, а не як стрибки між родинами кольорів.
  */
 
-export type Theme = 'light' | 'light-yellow' | 'dark' | 'yellow';
+export type Theme = 'light' | 'light-yellow' | 'yellow' | 'dark' | 'dark-cyan';
 
 /**
  * Кортеж, а не масив: `as const` дає точний тип елементів, тож `nextTheme`
  * повертає `Theme`, а не `string`, і додавання теми одразу видно в типах.
  */
-export const THEME_CYCLE = ['light', 'light-yellow', 'dark', 'yellow'] as const satisfies readonly Theme[];
+export const THEME_CYCLE = ['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan'] as const satisfies readonly Theme[];
 
 /**
  * Наступна тема в переборі.

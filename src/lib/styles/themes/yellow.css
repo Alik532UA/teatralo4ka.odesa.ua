@@ -1,34 +1,32 @@
 .yellow-theme {
 	/* Semantic Backgrounds */
-	--bg-page: var(--palette-yellow);
-	--bg-surface: var(--palette-orange);
-	--bg-card: var(--palette-yellow);
-	--bg-header: color-mix(in srgb, var(--palette-orange), transparent 10%);
-	--bg-footer: var(--palette-orange);
+	--bg-page: #f7f7f0;
+	--bg-surface: #F6F7D7;
+	--bg-card: #F6F7D7;
+	--bg-header: color-mix(in srgb, #F6F7D7, transparent 10%);
+	--bg-footer: #F6F7D7;
 	
 	/* Semantic Text */
 	--text-main: var(--palette-navy-700);
 	--text-title: var(--palette-navy-900);
 	--text-muted: var(--palette-navy-800);
-	--text-on-accent: var(--palette-white);
+	--text-on-accent: var(--palette-navy-900);
 	
 	/* Semantic Accents */
-	--accent-primary: var(--palette-navy-900);
-	--accent-secondary: var(--palette-blue);
-	/* Тло під таким текстом тут темне — акцент читається як є. Див. light.css. */
-	--accent-text: var(--accent-primary);
+	--accent-primary: #3EC1D3;
+	--accent-secondary: #FF9A00;
+	--accent-text: #005F73;
 	
 	/* Component Specific */
-	--header-nav-link: var(--text-main);
-	--header-nav-active: var(--accent-primary);
-	/* Тло при наведенні — navy-900. Див. light.css. */
+	--header-nav-link: #005F73;
+	--header-nav-active: var(--palette-navy-900);
 	--text-on-nav-active: var(--palette-white);
-	--btn-all-bg: var(--text-title);
-	--footer-text: var(--accent-primary);
+	--btn-all-bg: #FF9A00;
+	--footer-text: var(--palette-navy-900);
 
 	/* Interactive */
-	--border-main: rgba(0, 36, 47, 0.1);
-	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.12);
+	--border-main: rgba(62, 193, 211, 0.35);
+	--shadow-main: 0 4px 20px rgba(62, 193, 211, 0.22);
 
 	--warning-color: #b45309;
 }

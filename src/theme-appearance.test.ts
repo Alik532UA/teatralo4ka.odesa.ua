@@ -69,6 +69,7 @@ const withScheme = rules.filter(({ body }) => /(^|[;\s])color-scheme\s*:/.test(b
 /** Усі теми проєкту й те, якою схемою кожна мусить бути. */
 const THEMES: { name: string; scheme: 'light' | 'dark' }[] = [
 	{ name: 'dark-theme', scheme: 'dark' },
+	{ name: 'dark-cyan-theme', scheme: 'dark' },
 	{ name: 'light-theme', scheme: 'light' },
 	{ name: 'yellow-theme', scheme: 'light' },
 	{ name: 'light-yellow-theme', scheme: 'light' }
@@ -124,7 +125,7 @@ describe('вигляд, який малює браузер', () => {
 	 * за СИСТЕМНОЮ перевагою, а не за її власною природою. Найдорожчий випадок —
 	 * жовті теми: вони світлі, але системна перевага може бути темна.
 	 */
-	it('кожна з чотирьох тем звужує схему, і селектор строго специфічніший за :root', () => {
+	it('кожна з п\'яти тем звужує схему, і селектор строго специфічніший за :root', () => {
 		const problems: string[] = [];
 
 		for (const { name, scheme } of THEMES) {

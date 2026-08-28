@@ -6,6 +6,7 @@
 @import './themes/dark.css';
 @import './themes/yellow.css';
 @import './themes/light-yellow.css';
+@import './themes/dark-cyan.css';
 
 /* --- Fonts --- */
 @font-face {
@@ -43,7 +44,9 @@
  * контролер теми — теж обидва.
  */
 html.dark-theme,
-html[data-theme='dark'] {
+html[data-theme='dark'],
+html.dark-cyan-theme,
+html[data-theme='dark-cyan'] {
 	color-scheme: dark;
 }
 
@@ -1174,10 +1177,12 @@ button {
 body.page-galaxy,
 :root.light-theme body.page-galaxy,
 :root.dark-theme body.page-galaxy,
+:root.dark-cyan-theme body.page-galaxy,
 :root.yellow-theme body.page-galaxy,
 :root.light-yellow-theme body.page-galaxy,
 :root[data-theme='light'] body.page-galaxy,
 :root[data-theme='dark'] body.page-galaxy,
+:root[data-theme='dark-cyan'] body.page-galaxy,
 :root[data-theme='yellow'] body.page-galaxy,
 :root[data-theme='light-yellow'] body.page-galaxy {
 	--text-main: var(--galaxy-text, #eaf2ff);

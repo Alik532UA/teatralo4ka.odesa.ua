@@ -14,7 +14,7 @@ import { join } from 'node:path';
 const STYLES_DIR = 'src/lib/styles';
 
 /** Порядок = порядок `@import` у global.css. Пізніший переважує за однакової ваги. */
-export const THEMES = ['light', 'dark', 'yellow', 'light-yellow'] as const;
+export const THEMES = ['light', 'dark', 'yellow', 'light-yellow', 'dark-cyan'] as const;
 export type Theme = (typeof THEMES)[number];
 
 /**
@@ -45,6 +45,10 @@ const THEME_SOURCES: Record<Theme, { file: string; selector: RegExp }[]> = {
 	'light-yellow': [
 		{ file: 'themes/light.css', selector: /:root,\s*\.light-theme\s*\{/ },
 		{ file: 'themes/light-yellow.css', selector: /\.light-yellow-theme\s*\{/ }
+	],
+	'dark-cyan': [
+		{ file: 'themes/light.css', selector: /:root,\s*\.light-theme\s*\{/ },
+		{ file: 'themes/dark-cyan.css', selector: /\.dark-cyan-theme\s*\{/ }
 	]
 };
 
@@ -59,7 +63,8 @@ const THEME_SCHEME: Record<Theme, 'light' | 'dark'> = {
 	light: 'light',
 	dark: 'dark',
 	yellow: 'light',
-	'light-yellow': 'light'
+	'light-yellow': 'light',
+	'dark-cyan': 'dark'
 };
 
 /**

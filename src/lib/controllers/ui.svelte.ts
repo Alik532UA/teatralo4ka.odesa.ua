@@ -1,6 +1,7 @@
 import { storage } from '../services/storage';
 import { SCROLLBAR_MODE_IDS, type ScrollbarMode } from '../config/scrollbarModes';
 import { defaultsToApply, type AdminDefaults } from '../utils/uiDefaults';
+import type { Theme } from '../config/themes';
 
 /** Реекспорт для наявних імпортерів: тип живе в конфігу (див. `config/scrollbarModes`). */
 export type { ScrollbarMode };
@@ -14,7 +15,7 @@ export type { ScrollbarMode };
 export class UIState {
 	isMenuOpen = $state(false);
 	isPhonesModalOpen = $state(false);
-	theme = $state<'light' | 'light-yellow' | 'dark' | 'yellow'>('light');
+	theme = $state<Theme>('light');
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
@@ -146,7 +147,7 @@ export class UIState {
 		}
 	};
 
-	setTheme = async (t: 'light' | 'light-yellow' | 'dark' | 'yellow', options: { withBlur?: boolean } = {}) => {
+	setTheme = async (t: Theme, options: { withBlur?: boolean } = {}) => {
 		if (this.theme === t) return;
 
 		const withBlur = options.withBlur ?? true;
@@ -164,13 +165,13 @@ export class UIState {
 			// Update color-scheme meta
 			const csMeta = document.querySelector('meta[name="color-scheme"]');
 			if (csMeta) {
-				if (t === 'dark') csMeta.setAttribute('content', 'dark');
+				if (t === 'dark' || t === 'dark-cyan') csMeta.setAttribute('content', 'dark');
 				else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
 				else csMeta.setAttribute('content', 'light dark');
 			}
 
 			// Update classes
-			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme');
+			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme', 'dark-cyan-theme');
 			document.documentElement.classList.add(`${t}-theme`);
 		}
 		storage.set('theme', t);

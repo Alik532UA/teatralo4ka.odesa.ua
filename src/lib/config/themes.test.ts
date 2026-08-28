@@ -18,18 +18,19 @@ import { THEME_CYCLE, nextTheme, type Theme } from './themes';
 const ROOT = process.cwd();
 
 describe('перебір тем', () => {
-	it('перелічує рівно чотири теми проєкту', () => {
-		expect([...THEME_CYCLE]).toEqual(['light', 'light-yellow', 'dark', 'yellow']);
+	it('перелічує рівно п\'ять тем проєкту', () => {
+		expect([...THEME_CYCLE]).toEqual(['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan']);
 	});
 
 	it('кожен крок дає наступну, а остання замикає коло', () => {
 		expect(nextTheme('light')).toBe('light-yellow');
-		expect(nextTheme('light-yellow')).toBe('dark');
-		expect(nextTheme('dark')).toBe('yellow');
-		expect(nextTheme('yellow')).toBe('light');
+		expect(nextTheme('light-yellow')).toBe('yellow');
+		expect(nextTheme('yellow')).toBe('dark');
+		expect(nextTheme('dark')).toBe('dark-cyan');
+		expect(nextTheme('dark-cyan')).toBe('light');
 	});
 
-	it('перебір із будь-якої теми обходить усі чотири й вертається', () => {
+	it('перебір із будь-якої теми обходить усі п\'ять й вертається', () => {
 		let current: Theme = THEME_CYCLE[0];
 		const seen = new Set<Theme>();
 		for (let i = 0; i < THEME_CYCLE.length; i++) {

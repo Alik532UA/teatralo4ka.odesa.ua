@@ -1,0 +1,32 @@
+.dark-cyan-theme {
+	/* Semantic Backgrounds */
+	--bg-page: #222831;
+	--bg-surface: #393E46;
+	--bg-card: #222831;
+	--bg-header: color-mix(in srgb, #393E46, transparent 10%);
+	--bg-footer: #393E46;
+	
+	/* Semantic Text */
+	--text-main: #EEEEEE;
+	--text-title: #EEEEEE;
+	--text-muted: #B0B8C1;
+	--text-on-accent: #222831;
+	
+	/* Semantic Accents */
+	--accent-primary: #00ADB5;
+	--accent-secondary: #00ADB5;
+	--accent-text: #00C4D0;
+	
+	/* Component Specific */
+	--header-nav-link: #EEEEEE;
+	--header-nav-active: #EEEEEE;
+	--text-on-nav-active: #222831;
+	--btn-all-bg: #393E46;
+	--footer-text: #EEEEEE;
+
+	/* Interactive */
+	--border-main: rgba(238, 238, 238, 0.15);
+	--shadow-main: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+	--warning-color: #f59e0b;
+}

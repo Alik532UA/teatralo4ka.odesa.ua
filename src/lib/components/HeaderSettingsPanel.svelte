@@ -4,7 +4,7 @@
 	import { ui } from "$lib/controllers/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
 	import { nextTheme } from "$lib/config/themes";
-	import { Sun, SunDim, Citrus, Moon } from "lucide-svelte";
+	import { Sun, SunDim, Citrus, Moon, Sparkles } from "lucide-svelte";
 
 	interface Props {
 		isOpen: boolean;
@@ -103,6 +103,14 @@
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark')}
 				data-testid="theme-dark{sfx}-btn"
 			><Moon size={20} /></button>
+			<button
+				class="dropdown-opt-unified"
+				class:active={ui.theme === "dark-cyan"}
+				onclick={() => ui.setTheme("dark-cyan")}
+				aria-label={$t("settings.darkCyan") || "Dark Cyan"}
+				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-cyan')}
+				data-testid="theme-dark-cyan{sfx}-btn"
+			><Sparkles size={20} /></button>
 		</div>
 	</div>
 	<!--
