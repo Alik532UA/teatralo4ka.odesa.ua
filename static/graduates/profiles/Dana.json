@@ -10,7 +10,7 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": null,
+	"group": "ПаХLава",
 	"masters": [
 		{
 			"id": "myroslava-derepa",
@@ -69,5 +69,9 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Dana"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Dana",
+	"groups": [
+		"ПаХLава",
+		"TVпродакшн"
+	]
 }

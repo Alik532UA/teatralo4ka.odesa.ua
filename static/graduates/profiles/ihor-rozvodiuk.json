@@ -20,6 +20,10 @@
 	],
 	"socials": [
 		{
+			"network": "facebook",
+			"url": "https://m.facebook.com/ihorrose"
+		},
+		{
 			"network": "instagram",
 			"url": "https://www.instagram.com/igorroza1/"
 		}

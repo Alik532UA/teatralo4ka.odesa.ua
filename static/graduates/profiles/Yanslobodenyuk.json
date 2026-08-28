@@ -10,7 +10,7 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": null,
+	"group": "Best Theater Socks (BTS)",
 	"masters": [
 		{
 			"id": "tetiana-isachkina",
@@ -56,5 +56,9 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Yanslobodenyuk"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Yanslobodenyuk",
+	"groups": [
+		"Best Theater Socks (BTS)",
+		"New Theater Socks"
+	]
 }

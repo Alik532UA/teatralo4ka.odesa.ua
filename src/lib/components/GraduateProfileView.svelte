@@ -427,8 +427,13 @@
 	const group = $derived(
 		profile?.group ?? graduate.group?.name ?? graduate.group?.abbr ?? null,
 	);
-	const matchingGroup = $derived(
-		group ? getGroupByTitleOrAbbr(group) : undefined,
+	/**
+	 * Курс міг носити кілька назв — на старому сайті під «Назва групи» стояв
+	 * стовпчик. `profile.groups` тримає повний список, `group` — головну назву;
+	 * коли списку немає, показуємо саму головну.
+	 */
+	const groupNames = $derived<string[]>(
+		profile?.groups?.length ? profile.groups : group ? [group] : [],
 	);
 	const departments = $derived<Department[]>(
 		profile?.departments && profile.departments.length > 0
@@ -980,20 +985,22 @@
 				</div>
 			{/if}
 
-			{#if group}
+			{#if groupNames.length}
 				<div class="group" data-testid="galaxy-card-group-text">
 					<span class="group__label">{$t("galaxy.group")}:</span>
-					{#if matchingGroup}
-						<a
-							href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
-							class="group__name group__name--link"
-							data-testid="galaxy-card-group-link"
+					{#each groupNames as groupName, i (groupName)}
+						{@const matchingGroup = getGroupByTitleOrAbbr(groupName)}
+						<!-- Кома всередині обгортки: `.group` — flex із gap, і окремим
+						     вузлом вона відпливла б від назви на власний проміжок. -->
+						<span class="group__item"
+							>{#if matchingGroup}<a
+									href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
+									class="group__name group__name--link"
+									data-testid="galaxy-card-group-link"
+									><strong>{groupName}</strong>&nbsp;↗</a
+								>{:else}<strong class="group__name">{groupName}</strong>{/if}{#if i < groupNames.length - 1},{/if}</span
 						>
-							<strong>{group}</strong>&nbsp;↗
-						</a>
-					{:else}
-						<strong class="group__name">{group}</strong>
-					{/if}
+					{/each}
 				</div>
 			{/if}
 
@@ -1542,6 +1549,9 @@
 	.group__label {
 		color: var(--galaxy-muted);
 		white-space: nowrap;
+	}
+	.group__item {
+		color: var(--galaxy-muted);
 	}
 	.group__name {
 		color: var(--galaxy-text);

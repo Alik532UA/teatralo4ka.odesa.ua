@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-	<title>{groupTitle} — {$t('galaxy.groupsTitle')} | {$t('site.title')}</title>
+	<title>{groupTitle} — {$t('galaxy.groupsTitle')} | {$t('hero.title')}</title>
 	<meta
 		name="description"
 		content="{groupTitle} ({data.group.abbr || ''}): {$t('galaxy.groupMaster')} — {data.masters.map((m) => m.fullName).join(', ')}. {$t('galaxy.groupEnsemble')}, {$t('galaxy.groupRepertoire').toLowerCase()}."
@@ -103,7 +103,7 @@
 							<div class="master-card__info">
 								<span class="master-card__role">{$t('galaxy.groupMaster')}</span>
 								<strong class="master-card__name">{master.fullName}</strong>
-								<span class="master-card__link-hint">{$t('common.details') || 'Детальніше'} →</span>
+								<span class="master-card__link-hint">{$t('common.details')} →</span>
 							</div>
 						</a>
 					{/each}
@@ -209,7 +209,7 @@
 		position: relative;
 		min-height: 100dvh;
 		padding: 2rem 1rem 5rem;
-		color: var(--color-text-main, #f0f2f5);
+		color: var(--text-main, #f0f2f5);
 		overflow: hidden;
 	}
 
@@ -241,7 +241,7 @@
 		height: 450px;
 		top: -50px;
 		left: 10%;
-		background: radial-gradient(circle, var(--color-primary, #6366f1) 0%, transparent 70%);
+		background: radial-gradient(circle, var(--accent-primary, #6366f1) 0%, transparent 70%);
 	}
 
 	.ambient-glow--2 {
@@ -265,7 +265,7 @@
 		border-radius: 9999px;
 		background: rgba(255, 255, 255, 0.05);
 		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 		text-decoration: none;
 		font-size: 0.9rem;
 		font-weight: 500;
@@ -275,7 +275,7 @@
 
 	.nav-back-link:hover {
 		background: rgba(255, 255, 255, 0.1);
-		color: var(--color-text-main, #f8fafc);
+		color: var(--text-main, #f8fafc);
 		border-color: rgba(255, 255, 255, 0.2);
 		transform: translateX(-3px);
 	}
@@ -322,7 +322,7 @@
 	}
 
 	.icon-wrap--primary {
-		color: var(--color-primary, #6366f1);
+		color: var(--accent-primary, #6366f1);
 	}
 
 	.group-years-badge {
@@ -333,7 +333,7 @@
 		border-radius: 9999px;
 		background: rgba(255, 255, 255, 0.06);
 		border: 1px solid rgba(255, 255, 255, 0.12);
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 		font-size: 0.85rem;
 		font-weight: 500;
 	}
@@ -352,7 +352,7 @@
 
 	.group-header__subtitle-uk {
 		font-size: 1.15rem;
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 		margin: 0;
 	}
 
@@ -384,7 +384,7 @@
 		background: rgba(255, 255, 255, 0.08);
 		font-size: 0.85rem;
 		font-weight: 600;
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 	}
 
 	/* Майстри */
@@ -459,13 +459,13 @@
 		font-size: 1.1rem;
 		font-weight: 700;
 		line-height: 1.3;
-		color: var(--color-text-main, #f8fafc);
+		color: var(--text-main, #f8fafc);
 	}
 
 	.master-card__link-hint {
 		font-size: 0.8rem;
 		font-weight: 500;
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 		margin-top: 0.2rem;
 	}
 
@@ -514,7 +514,7 @@
 		font-weight: 600;
 		margin: 0;
 		line-height: 1.4;
-		color: var(--color-text-main, #f1f5f9);
+		color: var(--text-main, #f1f5f9);
 	}
 
 	/* Склад групи (Випускники) */
@@ -589,12 +589,12 @@
 		font-size: 1.05rem;
 		font-weight: 700;
 		line-height: 1.3;
-		color: var(--color-text-main, #f8fafc);
+		color: var(--text-main, #f8fafc);
 	}
 
 	.member-card__year {
 		font-size: 0.8rem;
-		color: var(--color-text-muted, #94a3b8);
+		color: var(--text-muted, #94a3b8);
 	}
 
 	.member-card__profile-badge {

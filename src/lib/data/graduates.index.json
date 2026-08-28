@@ -27,7 +27,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
 		"code": "albinaabuladze",
-		"profileSize": 3374,
+		"profileSize": 2848,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -227,7 +227,7 @@
 		"playCount": 22,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/Alik",
 		"code": "Alik",
-		"profileSize": 5176
+		"profileSize": 4489
 	},
 	{
 		"slug": "alina-burdeina",
@@ -260,7 +260,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19A",
 		"code": "alina-burdeina",
-		"profileSize": 2905
+		"profileSize": 2718
 	},
 	{
 		"slug": "alina-chernobai",
@@ -471,11 +471,11 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13A",
 		"code": "alla-khaiut",
-		"profileSize": 1667
+		"profileSize": 1425
 	},
 	{
 		"slug": "alla-kolesnyk",
-		"name": "Алла Колесник",
+		"name": "Алла Колесник (Вішневська)",
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
@@ -518,7 +518,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08A",
 		"code": "alla-kolesnyk",
-		"profileSize": 1686
+		"profileSize": 1428
 	},
 	{
 		"slug": "alona-kozlova",
@@ -567,7 +567,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_1",
 		"code": "alona-kozlova",
-		"profileSize": 1802
+		"profileSize": 1566
 	},
 	{
 		"slug": "amryta-chernyshova",
@@ -647,7 +647,7 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A_1",
 		"code": "anastasiia-chalchynska",
-		"profileSize": 2633
+		"profileSize": 2399
 	},
 	{
 		"slug": "anastasiia-chepeliuk",
@@ -723,7 +723,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18F",
 		"code": "anastasiia-fishchenko",
-		"profileSize": 926
+		"profileSize": 775
 	},
 	{
 		"slug": "anastasiia-homela",
@@ -806,10 +806,10 @@
 				"url": "https://instagram.com/anesthesia_ig?utm_medium=copy_link"
 			}
 		],
-		"playCount": 10,
+		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2097
+		"profileSize": 1914
 	},
 	{
 		"slug": "anastasiia-ivanes",
@@ -990,7 +990,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2004/04A",
 		"code": "anastasiia-lutaienko",
-		"profileSize": 1470
+		"profileSize": 1276
 	},
 	{
 		"slug": "anastasiia-makukha",
@@ -1167,7 +1167,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A",
 		"code": "anfisa-lazebna",
-		"profileSize": 2366
+		"profileSize": 2118
 	},
 	{
 		"slug": "anhelina-boldakova",
@@ -1235,7 +1235,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/12S",
 		"code": "anisiia-stasevych",
-		"profileSize": 1284
+		"profileSize": 1093
 	},
 	{
 		"slug": "anna-arustamian",
@@ -1380,7 +1380,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15A",
 		"code": "anna-rodonaia",
 		"playCount": 0,
-		"profileSize": 899
+		"profileSize": 761
 	},
 	{
 		"slug": "anna-rusieva",
@@ -1417,7 +1417,7 @@
 		"playCount": 0,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09A",
 		"code": "anna-rusieva",
-		"profileSize": 1196
+		"profileSize": 1068
 	},
 	{
 		"slug": "anna-rvachova",
@@ -1466,7 +1466,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17A",
 		"code": "anton-babich",
-		"profileSize": 1461
+		"profileSize": 1254
 	},
 	{
 		"slug": "anzhelika-khachatrian",
@@ -1528,7 +1528,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A",
 		"code": "artem-starshov",
 		"playCount": 0,
-		"profileSize": 1061,
+		"profileSize": 909,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -1571,7 +1571,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_2",
 		"code": "artem-suvorov",
-		"profileSize": 2135
+		"profileSize": 1856
 	},
 	{
 		"slug": "artem-zimner",
@@ -1650,7 +1650,11 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Dana",
 		"code": "Dana",
-		"profileSize": 1710
+		"profileSize": 1507,
+		"group": {
+			"abbr": null,
+			"name": "ПаХLава"
+		}
 	},
 	{
 		"slug": "borys-ukrainskyi",
@@ -1710,7 +1714,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18D",
 		"code": "daiana-ponomarenko",
-		"profileSize": 1714
+		"profileSize": 1462
 	},
 	{
 		"slug": "dana-broshkova",
@@ -1757,7 +1761,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D",
 		"code": "daniela-rybalchenko",
-		"profileSize": 2239
+		"profileSize": 1988
 	},
 	{
 		"slug": "daniiel-adeiev",
@@ -1842,7 +1846,7 @@
 	},
 	{
 		"slug": "dar-ia-hurevych",
-		"name": "Даря Гуревич",
+		"name": "Дар’я Гуревич",
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
@@ -1875,7 +1879,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D_1",
 		"code": "dar-ia-hurevych",
-		"profileSize": 1527
+		"profileSize": 1336
 	},
 	{
 		"slug": "daria-chala",
@@ -1887,7 +1891,7 @@
 	},
 	{
 		"slug": "daria-dias-valdes-isachkina",
-		"name": "Дар'я Ісачкіна",
+		"name": "Дар’я Діас Валдес (Ісачкіна)",
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
@@ -1920,7 +1924,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2010/10D",
 		"code": "daria-dias-valdes-isachkina",
 		"playCount": 0,
-		"profileSize": 810
+		"profileSize": 714
 	},
 	{
 		"slug": "daria-drykyna",
@@ -2005,7 +2009,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/daria-kristiian",
 		"code": "daria-kristiian",
-		"profileSize": 1469
+		"profileSize": 1313
 	},
 	{
 		"slug": "daria-kristiian-2",
@@ -2084,7 +2088,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D",
 		"code": "daria-rybalchenko",
-		"profileSize": 2063
+		"profileSize": 1786
 	},
 	{
 		"slug": "daria-sonhorova",
@@ -2134,7 +2138,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23D",
 		"code": "daria-terzi",
-		"profileSize": 822
+		"profileSize": 687
 	},
 	{
 		"slug": "daria-zemka",
@@ -2180,7 +2184,7 @@
 		"playCount": 15,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D",
 		"code": "dariia-didenko",
-		"profileSize": 3370
+		"profileSize": 2988
 	},
 	{
 		"slug": "dariia-kulish",
@@ -2218,7 +2222,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14D",
 		"code": "dariia-kulish",
-		"profileSize": 1726
+		"profileSize": 1428
 	},
 	{
 		"slug": "darya-maystrenko",
@@ -2384,7 +2388,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D_1",
 		"code": "dmytro-rozumenko",
-		"profileSize": 1040
+		"profileSize": 852
 	},
 	{
 		"slug": "dmytro-yatsenko",
@@ -2416,10 +2420,10 @@
 				"department": "theatre"
 			}
 		],
-		"playCount": 3,
+		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23N",
 		"code": "dovhan-daria",
-		"profileSize": 884
+		"profileSize": 785
 	},
 	{
 		"slug": "dzhenni-polianska",
@@ -2484,7 +2488,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/ri2be",
 		"code": "ri2be",
-		"profileSize": 1302
+		"profileSize": 1103
 	},
 	{
 		"slug": "ernst-severyn",
@@ -2559,7 +2563,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/sjsjduxuh",
 		"code": "sjsjduxuh",
-		"profileSize": 1159
+		"profileSize": 971
 	},
 	{
 		"slug": "hanna-belchytska",
@@ -2670,10 +2674,10 @@
 				"url": "https://www.instagram.com/teatralo4ka_official_/"
 			}
 		],
-		"playCount": 8,
+		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19G",
 		"code": "heorhii-topor",
-		"profileSize": 1722
+		"profileSize": 1610
 	},
 	{
 		"slug": "heorhii-zheliapov",
@@ -2776,6 +2780,10 @@
 		],
 		"socials": [
 			{
+				"network": "facebook",
+				"url": "https://m.facebook.com/ihorrose"
+			},
+			{
 				"network": "instagram",
 				"url": "https://www.instagram.com/igorroza1/"
 			}
@@ -2783,7 +2791,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09I",
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1295
+		"profileSize": 1164
 	},
 	{
 		"slug": "ihor-vatsiuk",
@@ -3018,7 +3026,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/kamywek_",
 		"code": "kamywek_",
-		"profileSize": 1343
+		"profileSize": 1171
 	},
 	{
 		"slug": "karyna-sharkova",
@@ -3047,7 +3055,11 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K",
 		"code": "karyna-sharkova",
 		"playCount": 0,
-		"profileSize": 643
+		"profileSize": 623,
+		"group": {
+			"abbr": null,
+			"name": "Рост-Ок"
+		}
 	},
 	{
 		"slug": "kateryna-kolisnychenko",
@@ -3108,7 +3120,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15K",
 		"code": "kateryna-kudlach",
-		"profileSize": 2441
+		"profileSize": 2215
 	},
 	{
 		"slug": "kateryna-kurchenko",
@@ -3184,10 +3196,10 @@
 				"url": "https://www.instagram.com/katonee"
 			}
 		],
-		"playCount": 4,
+		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian",
 		"code": "Kateryna-Muntian",
-		"profileSize": 1185
+		"profileSize": 1266
 	},
 	{
 		"slug": "kateryna-nesterenko",
@@ -3243,7 +3255,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23K",
 		"code": "kateryna-poltavtseva",
-		"profileSize": 1082
+		"profileSize": 928
 	},
 	{
 		"slug": "kateryna-tkachenko",
@@ -3339,7 +3351,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/karakulya",
 		"code": "karakulya",
-		"profileSize": 1472
+		"profileSize": 1249
 	},
 	{
 		"slug": "khrystyna-bila",
@@ -3391,7 +3403,7 @@
 	},
 	{
 		"slug": "kristina-slivka-spivak",
-		"name": "Крістіна Співак",
+		"name": "Крістіна Слівка (Співак)",
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
@@ -3424,7 +3436,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12K",
 		"code": "kristina-slivka-spivak",
-		"profileSize": 1526
+		"profileSize": 1398
 	},
 	{
 		"slug": "krystyna-manchenko",
@@ -3597,11 +3609,11 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M",
 		"code": "kulish-mariia",
-		"profileSize": 1740
+		"profileSize": 1443
 	},
 	{
 		"slug": "kyryll-chekanov",
-		"name": "Кирило Чекано",
+		"name": "Кирило Чеканов",
 		"graduationYear": 2002,
 		"departments": [
 			"theatre"
@@ -3630,7 +3642,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K",
 		"code": "kyryll-chekanov",
-		"profileSize": 926
+		"profileSize": 788
 	},
 	{
 		"slug": "kyrylo-karacheban",
@@ -3663,7 +3675,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2016/16K",
 		"code": "kyrylo-karacheban",
-		"profileSize": 1162
+		"profileSize": 1006
 	},
 	{
 		"slug": "kyrylo-karazeiskyi",
@@ -3749,10 +3761,10 @@
 				"url": "https://instagram.com/liliagalesa?utm_medium=copy_link"
 			}
 		],
-		"playCount": 2,
+		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11L",
 		"code": "liliia-halosa",
-		"profileSize": 904
+		"profileSize": 846
 	},
 	{
 		"slug": "liliia-muravska",
@@ -3820,7 +3832,11 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/basha",
 		"code": "basha",
-		"profileSize": 1161
+		"profileSize": 996,
+		"group": {
+			"abbr": null,
+			"name": "Пріколісти"
+		}
 	},
 	{
 		"slug": "liubov-prysiazhna",
@@ -4108,7 +4124,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24M",
 		"code": "mariia-mahdalina-matvieieva",
-		"profileSize": 1055
+		"profileSize": 888
 	},
 	{
 		"slug": "mariia-mandriesk",
@@ -4145,7 +4161,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/mandresssk",
 		"code": "mandresssk",
-		"profileSize": 1611
+		"profileSize": 1391
 	},
 	{
 		"slug": "mariia-mokriak",
@@ -4165,7 +4181,7 @@
 	},
 	{
 		"slug": "mariia-mykhailova-didenko",
-		"name": "Марія Діденко",
+		"name": "Марія Михайлова (Діденко)",
 		"graduationYear": 2012,
 		"departments": [
 			"theatre",
@@ -4204,7 +4220,7 @@
 		"playCount": 17,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12M",
 		"code": "mariia-mykhailova-didenko",
-		"profileSize": 2984
+		"profileSize": 2573
 	},
 	{
 		"slug": "mariia-poliakova",
@@ -4256,7 +4272,7 @@
 	},
 	{
 		"slug": "mariia-tkach-lysa",
-		"name": "Марія Лиса",
+		"name": "Марія Ткач (Лиса)",
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
@@ -4285,7 +4301,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09M",
 		"code": "mariia-tkach-lysa",
 		"playCount": 0,
-		"profileSize": 782
+		"profileSize": 684
 	},
 	{
 		"slug": "mariia-ukrainets",
@@ -4411,7 +4427,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23R",
 		"code": "maryna-kravchuk",
-		"profileSize": 1129
+		"profileSize": 949
 	},
 	{
 		"slug": "maryna-perehud",
@@ -4449,11 +4465,11 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08M",
 		"code": "maryna-perehud",
-		"profileSize": 1412
+		"profileSize": 1213
 	},
 	{
 		"slug": "maryna-vishtaliuk-sukhanova",
-		"name": "Марина Суханова",
+		"name": "Марина Вішталюк (Суханова)",
 		"graduationYear": 2013,
 		"departments": [
 			"theatre",
@@ -4487,7 +4503,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M",
 		"code": "maryna-vishtaliuk-sukhanova",
-		"profileSize": 2393
+		"profileSize": 2138
 	},
 	{
 		"slug": "mikhail-suraho",
@@ -4536,7 +4552,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23M",
 		"code": "milena-binkovska",
-		"profileSize": 1131
+		"profileSize": 964
 	},
 	{
 		"slug": "mykhailo-chyianov",
@@ -4611,7 +4627,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17M",
 		"code": "mykhailo-haniev",
-		"profileSize": 1464
+		"profileSize": 1252
 	},
 	{
 		"slug": "mykhailo-priadko",
@@ -4719,10 +4735,10 @@
 				"url": "https://www.facebook.com/rosya.tkach"
 			}
 		],
-		"playCount": 16,
+		"playCount": 18,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M_1",
 		"code": "myroslava-tkach",
-		"profileSize": 2464
+		"profileSize": 2136
 	},
 	{
 		"slug": "nadiia-hasynets",
@@ -4774,7 +4790,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Nadiia-Hasynets",
 		"code": "Nadiia-Hasynets",
-		"profileSize": 1546
+		"profileSize": 1300
 	},
 	{
 		"slug": "nadiia-kerymova",
@@ -4812,10 +4828,10 @@
 				"url": "https://www.instagram.com/nadejda1313/"
 			}
 		],
-		"playCount": 12,
+		"playCount": 13,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98N",
 		"code": "nadiia-rybakova",
-		"profileSize": 2573,
+		"profileSize": 2269,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -4944,7 +4960,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23O",
 		"code": "oleh-vizitiei",
-		"profileSize": 801
+		"profileSize": 677
 	},
 	{
 		"slug": "oleh-volkov",
@@ -5078,7 +5094,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O_1",
 		"code": "oleksandra-chuprina",
 		"playCount": 0,
-		"profileSize": 1481
+		"profileSize": 1357
 	},
 	{
 		"slug": "oleksandra-dydenko",
@@ -5098,7 +5114,7 @@
 	},
 	{
 		"slug": "oleksandra-indichanska-morozova",
-		"name": "Олександра Морозова",
+		"name": "Олександра Індічанська (Морозова)",
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
@@ -5131,7 +5147,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12O",
 		"code": "oleksandra-indichanska-morozova",
-		"profileSize": 1937
+		"profileSize": 1720
 	},
 	{
 		"slug": "oleksandra-karachevska",
@@ -5355,7 +5371,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02O",
 		"code": "olena-dzneladze",
-		"profileSize": 1074
+		"profileSize": 902
 	},
 	{
 		"slug": "olena-kiloian",
@@ -5433,7 +5449,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2000/odessitkavmonreale",
 		"code": "odessitkavmonreale",
-		"profileSize": 1715
+		"profileSize": 1531
 	},
 	{
 		"slug": "olena-mrost",
@@ -5466,7 +5482,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O",
 		"code": "olena-mrost",
-		"profileSize": 2057
+		"profileSize": 1815
 	},
 	{
 		"slug": "olena-pushkarova",
@@ -5546,7 +5562,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98O",
 		"code": "olha-poliakova",
-		"profileSize": 2722,
+		"profileSize": 2354,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -5685,7 +5701,7 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15P",
 		"code": "polina-hedzenko",
-		"profileSize": 2089
+		"profileSize": 1799
 	},
 	{
 		"slug": "polina-kolomiiets",
@@ -5816,7 +5832,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofia-Chernova",
 		"code": "Sofia-Chernova",
-		"profileSize": 956
+		"profileSize": 813
 	},
 	{
 		"slug": "sofiia-chernata",
@@ -5861,7 +5877,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/21S",
 		"code": "sofiia-holub",
-		"profileSize": 1281
+		"profileSize": 1106
 	},
 	{
 		"slug": "sofiia-hrabilina",
@@ -5949,7 +5965,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofiya-Skuratovych",
 		"code": "Sofiya-Skuratovych",
-		"profileSize": 934
+		"profileSize": 783
 	},
 	{
 		"slug": "sofiya-rudenko",
@@ -6004,7 +6020,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24S",
 		"code": "sonia-makhnovska",
-		"profileSize": 972
+		"profileSize": 813
 	},
 	{
 		"slug": "stanislav-prakhov",
@@ -6142,7 +6158,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24T",
 		"code": "taisiia-ruseskul",
-		"profileSize": 924
+		"profileSize": 773
 	},
 	{
 		"slug": "taisiia-terzi",
@@ -6196,7 +6212,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T_1",
 		"code": "taras-opryshko",
 		"playCount": 0,
-		"profileSize": 710
+		"profileSize": 598
 	},
 	{
 		"slug": "tetiana-borysova",
@@ -6215,7 +6231,7 @@
 	},
 	{
 		"slug": "tetiana-dudush-polishchuk",
-		"name": "Тетяна Поліщук",
+		"name": "Тетяна Дудуш (Поліщук)",
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
@@ -6244,7 +6260,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/05T",
 		"code": "tetiana-dudush-polishchuk",
-		"profileSize": 1403
+		"profileSize": 1209
 	},
 	{
 		"slug": "tetiana-kamelevska",
@@ -6281,7 +6297,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T",
 		"code": "tetiana-kamelevska",
-		"profileSize": 1362
+		"profileSize": 1178
 	},
 	{
 		"slug": "tetiana-makukha",
@@ -6358,7 +6374,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V",
 		"code": "vadym-krusser",
-		"profileSize": 1681,
+		"profileSize": 1486,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -6425,7 +6441,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Valeriia",
 		"code": "Valeriia",
-		"profileSize": 874
+		"profileSize": 739
 	},
 	{
 		"slug": "valeriia-burian",
@@ -6456,10 +6472,10 @@
 				"url": "https://www.instagram.com/leraburian"
 			}
 		],
-		"playCount": 8,
+		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian",
 		"code": "leraburian",
-		"profileSize": 1413
+		"profileSize": 1250
 	},
 	{
 		"slug": "valeriia-buturlakina",
@@ -6596,7 +6612,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2007/07V",
 		"code": "viktoriia-dolhozhyv",
-		"profileSize": 2384
+		"profileSize": 2107
 	},
 	{
 		"slug": "viktoriia-hlushchuk",
@@ -6893,7 +6909,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12V",
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 2423,
+		"profileSize": 2132,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -6961,7 +6977,11 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Yanslobodenyuk",
 		"code": "Yanslobodenyuk",
-		"profileSize": 1613
+		"profileSize": 1491,
+		"group": {
+			"abbr": null,
+			"name": "Best Theater Socks (BTS)"
+		}
 	},
 	{
 		"slug": "yana-kovina",
@@ -7173,7 +7193,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18E",
 		"code": "yevhen-lysenko",
-		"profileSize": 1934
+		"profileSize": 1695
 	},
 	{
 		"slug": "yevhenii-karamavrov",
@@ -7281,14 +7301,18 @@
 		],
 		"socials": [
 			{
+				"network": "facebook",
+				"url": "https://m.facebook.com/people/Juliana-Klimenko/100011735727283/"
+			},
+			{
 				"network": "instagram",
 				"url": "https://www.instagram.com/juliana_k._/"
 			}
 		],
-		"playCount": 3,
+		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17K",
 		"code": "yuliana-klymenko",
-		"profileSize": 1225
+		"profileSize": 1193
 	},
 	{
 		"slug": "yuliana-kolendo",
@@ -7506,6 +7530,10 @@
 		],
 		"socials": [
 			{
+				"network": "facebook",
+				"url": "https://ru-ru.facebook.com/zlata.skalskaya"
+			},
+			{
 				"network": "instagram",
 				"url": "https://www.instagram.com/zlataskalskaya85/"
 			}
@@ -7513,7 +7541,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02Z",
 		"code": "zlata-skalska",
-		"profileSize": 925
+		"profileSize": 843
 	},
 	{
 		"slug": "zlata-stoyanova",

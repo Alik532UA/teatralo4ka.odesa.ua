@@ -20,6 +20,10 @@
 	],
 	"socials": [
 		{
+			"network": "facebook",
+			"url": "https://ru-ru.facebook.com/zlata.skalskaya"
+		},
+		{
 			"network": "instagram",
 			"url": "https://www.instagram.com/zlataskalskaya85/"
 		}

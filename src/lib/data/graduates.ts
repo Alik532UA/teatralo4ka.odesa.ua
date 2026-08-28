@@ -138,6 +138,14 @@ export interface GraduateProfile {
 	hasPhoto: boolean;
 	photoCount?: number;
 	group: string | null;
+	/**
+	 * Решта назв, якщо курс носив їх кілька: на старому сайті під «Назва групи»
+	 * стояв стовпчик, а не один рядок (у Карини Шаркової — «Рост-Ок», «ТВ
+	 * Продакшн», «Росточек»). `group` лишається головною назвою — саме її
+	 * читають індекс і сторінка групи, — а тут лежить повний список, щоб
+	 * решта назв не пропадала. Немає поля — курс мав рівно одну назву.
+	 */
+	groups?: string[];
 	masters: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
 	socials: GraduateSocial[];

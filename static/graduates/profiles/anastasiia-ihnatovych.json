@@ -36,6 +36,10 @@
 	],
 	"plays": [
 		{
+			"year": 2003,
+			"text": "Утренники (2003–2008)"
+		},
+		{
 			"year": 2009,
 			"text": "«Облачко», Облачко"
 		},
@@ -83,5 +87,10 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
+	"groups": [
+		"Мультяшки",
+		"Адреналін",
+		"Шевчушки"
+	]
 }

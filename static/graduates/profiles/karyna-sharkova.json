@@ -10,7 +10,7 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": null,
+	"group": "Рост-Ок",
 	"masters": [
 		{
 			"id": "tetiana-isachkina",
@@ -29,5 +29,10 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K",
+	"groups": [
+		"Рост-Ок",
+		"ТВ Продакшн",
+		"Росточек"
+	]
 }

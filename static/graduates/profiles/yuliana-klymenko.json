@@ -20,11 +20,19 @@
 	],
 	"socials": [
 		{
+			"network": "facebook",
+			"url": "https://m.facebook.com/people/Juliana-Klimenko/100011735727283/"
+		},
+		{
 			"network": "instagram",
 			"url": "https://www.instagram.com/juliana_k._/"
 		}
 	],
 	"plays": [
+		{
+			"year": 2014,
+			"text": "«Этюды»"
+		},
 		{
 			"year": 2015,
 			"text": "сказка «Плюшевый кролик», Няня"
