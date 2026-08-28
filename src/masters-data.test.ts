@@ -69,7 +69,7 @@ const profiles = readdirSync(PROFILES_DIR)
 
 /** Роль — лише ці шість. Розділи «Світла пам'ять», «Історія школи» та
  * «Потребують уточнення» — це НЕ роль, вони обчислюються. */
-const ROLES: readonly MasterCategory[] = ['administration', 'heads', 'pedagogues', 'production', 'it', 'support'];
+const ROLES: readonly MasterCategory[] = ['administration', 'heads', 'directors', 'teachers', 'accompanists', 'production', 'it', 'support'];
 const STATUSES: readonly MasterStatus[] = ['active', 'former', 'honorary'];
 
 /** Розділи сторінки — той самий перелік, що в `categoryConfigs`. */
@@ -284,7 +284,9 @@ describe('фотографія на розділ НЕ впливає', () => {
 	 * повернути його велика — технічний розділ тоді виглядав охайніше.
 	 */
 	it('запис без фотографії, але з роллю, стоїть у розділі своєї ролі', () => {
-		expect(masterSection({ category: 'pedagogues', status: 'active' })).toBe('pedagogues');
+		expect(masterSection({ category: 'directors', status: 'active' })).toBe('directors');
+		expect(masterSection({ category: 'teachers', status: 'active' })).toBe('teachers');
+		expect(masterSection({ category: 'accompanists', status: 'active' })).toBe('accompanists');
 		expect(masterSection({ category: 'support', status: 'active' })).toBe('support');
 		expect(masterSection({ status: 'former' })).toBe('history');
 	});

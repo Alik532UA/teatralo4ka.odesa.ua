@@ -49,7 +49,7 @@ export type MasterStatus = 'active' | 'former' | 'honorary';
  * різниці; заодно виявилося, що завідувачка МУЗИЧНИМ відділенням стояла з
  * `departments: ['theatre']`.
  */
-export type MasterCategory = 'administration' | 'heads' | 'pedagogues' | 'production' | 'it' | 'support';
+export type MasterCategory = 'administration' | 'heads' | 'directors' | 'teachers' | 'accompanists' | 'production' | 'it' | 'support';
 
 /**
  * Розділ на сторінці `/residents/adults` — ПОХІДНА величина, не поле даних.
