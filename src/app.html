@@ -333,7 +333,10 @@
 			 * однаково — змінюється лише родина кольору. Значення взяті з палітри
 			 * проєкту (`--palette-navy-*` у `global.css`), а не підібрані наново.
 			 */
-			html[data-theme="dark"] {
+			html[data-theme="dark"],
+			html[data-theme="dark-cyan"],
+			html.dark-theme,
+			html.dark-cyan-theme {
 				--sp-v-hi: #0a7ea3;
 				--sp-v-base: #00607e;
 				--sp-v-mid: #00566f;

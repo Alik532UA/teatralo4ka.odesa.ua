@@ -564,8 +564,11 @@
 		border: none;
 	}
 
-	:global(.dark-theme) .toast-msg:has(.toast-card) {
-		/* Темна тема → сповіщення в світлих кольорах. */
+	:global(.dark-theme) .toast-msg:has(.toast-card),
+	:global(.dark-cyan-theme) .toast-msg:has(.toast-card),
+	:global(html[data-theme='dark']) .toast-msg:has(.toast-card),
+	:global(html[data-theme='dark-cyan']) .toast-msg:has(.toast-card) {
+		/* Темні теми (dark, dark-cyan) → сповіщення в світлих кольорах. */
 		--bg-header: var(--palette-cyan-50);
 		--text-main: var(--palette-navy-500);
 		--text-title: var(--palette-navy-page);
