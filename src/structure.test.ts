@@ -139,6 +139,7 @@ const LIMITS: Array<[RegExp, number]> = [
  *
  * 2026-08-28: `+layout.svelte` 316 → 345, `data/betaChecklist.ts` 387 → 390. Додано маршрути /documents, /documents/statute та fallback SEO.
  * 2026-08-28: `GraduateProfileView.svelte` 1540 → 1620. Огорнуто плашки майстрів та викладачів у повнорозмірні посилання без підкреслення тексту.
+ * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -151,7 +152,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/RichTextEditor.svelte': 755,
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 688,
-	'src/lib/components/ContentCard.svelte': 598,
+	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/routes/residents/adults/[slug]/+page.svelte': 590,
 	'src/lib/components/GraduateProfileView.svelte': 1620,

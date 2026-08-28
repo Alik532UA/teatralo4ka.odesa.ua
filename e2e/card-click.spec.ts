@@ -67,11 +67,11 @@ test('уся площа картки належить її посиланню, �
 			return box.height > 40 && box.width > 40 && style.display !== 'none';
 		};
 		const card = [...document.querySelectorAll('.focus-card, .grid-card, .list-item')].find(
-			(el) => visible(el) && el.querySelector('a.card-link')
+			(el) => visible(el) && (el.matches('a') || el.querySelector('a.card-link'))
 		);
 		if (!card) return null;
 
-		const link = card.querySelector('a.card-link')!;
+		const link = (card.tagName === 'A' ? card : card.querySelector('a.card-link'))!;
 		const box = card.getBoundingClientRect();
 
 		/* Точки по вертикалі: зображення, метадані, заголовок, опис, кнопка. */
@@ -82,7 +82,7 @@ test('уся площа картки належить її посиланню, �
 			const y = box.top + box.height * f;
 			sampled.push(Number(f.toFixed(2)));
 			const at = document.elementFromPoint(x, y);
-			if (at === link) continue;
+			if (at === link || link.contains(at)) continue;
 			const name = at
 				? `${at.tagName}/${at.getAttribute('data-testid') ?? (at.className || '').toString().split(' ')[0]}`
 				: 'none';

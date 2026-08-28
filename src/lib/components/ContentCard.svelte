@@ -113,7 +113,11 @@
 			type="button"
 			class="video-control"
 			class:video-control--icon-only={playing}
-			onclick={() => (playing = !playing)}
+			onclick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				playing = !playing;
+			}}
 			aria-label={playing ? $t('common.showCover') : $t('common.watchVideo')}
 			data-testid={`${idBase}-video-btn-${index}`}
 		>
@@ -125,17 +129,20 @@
 			{/if}
 		</button>
 	{:else if video}
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-		<a href={video.url}
-			target="_blank"
-			rel="noopener noreferrer"
+		<button
+			type="button"
 			class="video-control"
+			onclick={(e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				window.open(video.url, '_blank', 'noopener,noreferrer');
+			}}
 			aria-label={$t('common.watchVideo')}
 			data-testid={`${idBase}-video-link-${index}`}
 		>
 			<ExternalLink size={14} aria-hidden="true" />
 			<span class="video-control__text">{$t('common.hasVideo')}</span>
-		</a>
+		</button>
 	{/if}
 {/snippet}
 
@@ -173,8 +180,16 @@
 {/snippet}
 
 
+<!--
+	УСЯ картка є єдиним тегом <a> (як .deps__card у DepartmentsSection),
+	а кнопка «Детальніше» всередині — <span> зі стилізацією кнопки.
+	Це задумано навмисно: клік по будь-якій точці картки (зображенню, заголовку,
+	тексту чи кнопці) здійснює перехід на сторінку новини чи проєкту.
+	НЕ повертати <div> з окремим <a> всередині!
+-->
 {#if variant === 'carousel'}
-	<div class="focus-card" class:is-active={isActive} class:is-playing={showPlayer} data-testid="{testIdPrefix}-card-{index}">
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a href={link} target={linkTarget} rel={linkRel} class="focus-card" class:is-active={isActive} class:is-playing={showPlayer} data-testid="{testIdPrefix}-card-{index}">
 		{#if item.coverUrl}
 			<div class="focus-card__img-wrap" data-testid="{testIdPrefix}-card-img-container-{index}">
 				{@render cardMedia('focus-card__img', `${testIdPrefix}-card-img-${index}`, `${testIdPrefix}-card`)}
@@ -192,12 +207,13 @@
 			</div>
 			<h3 class="focus-card__title" data-testid="{testIdPrefix}-card-title-{index}">{item.title}</h3>
 			<p class="focus-card__excerpt" data-testid="{testIdPrefix}-card-excerpt-{index}">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more card-link" data-testid="{testIdPrefix}-readmore-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</div>
+	</a>
 
 {:else if variant === 'grid'}
-	<div class="grid-card" class:is-playing={showPlayer} data-testid="{testIdPrefix}-grid-card-{index}">
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a href={link} target={linkTarget} rel={linkRel} class="grid-card" class:is-playing={showPlayer} data-testid="{testIdPrefix}-grid-card-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-grid-img-{index}">
 				{@render cardMedia('grid-card__img', undefined, `${testIdPrefix}-grid`)}
@@ -215,12 +231,13 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-grid-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more card-link" data-testid="{testIdPrefix}-grid-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</div>
+	</a>
 
 {:else}
-	<div class="list-item desktop-list" class:is-playing={showPlayer} data-testid="{testIdPrefix}-list-item-{index}">
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a href={link} target={linkTarget} rel={linkRel} class="list-item desktop-list" class:is-playing={showPlayer} data-testid="{testIdPrefix}-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="list-item__img-wrap" data-testid="{testIdPrefix}-list-img-{index}">
 				{@render cardMedia('list-item__img', undefined, `${testIdPrefix}-list`)}
@@ -239,11 +256,12 @@
 			<h3 class="list-item__title">{item.title}</h3>
 			<p class="list-item__excerpt">{item.excerpt}</p>
 		</div>
-		<a href={link} target={linkTarget} rel={linkRel} class="btn-more list-item__link card-link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
-	</div>
+		<span class="btn-more list-item__link card-link" data-testid="{testIdPrefix}-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
+	</a>
 
 	<!-- Mobile version of list that uses grid styles -->
-	<div class="grid-card mobile-list-as-grid" class:is-playing={showPlayer} data-testid="{testIdPrefix}-mobile-list-item-{index}">
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a href={link} target={linkTarget} rel={linkRel} class="grid-card mobile-list-as-grid" class:is-playing={showPlayer} data-testid="{testIdPrefix}-mobile-list-item-{index}">
 		{#if item.coverUrl}
 			<div class="grid-card__img-wrap" data-testid="{testIdPrefix}-mobile-list-img-{index}">
 				{@render cardMedia('grid-card__img', undefined, `${testIdPrefix}-mobile-list`)}
@@ -261,9 +279,9 @@
 			</div>
 			<h3 class="focus-card__title">{item.title}</h3>
 			<p class="focus-card__excerpt">{item.excerpt}</p>
-			<a href={link} target={linkTarget} rel={linkRel} class="btn-more card-link" data-testid="{testIdPrefix}-mobile-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</a>
+			<span class="btn-more card-link" data-testid="{testIdPrefix}-mobile-list-link-{index}">{readMoreLabel}{#if item.isExternal}&nbsp;↗{/if}</span>
 		</div>
-	</div>
+	</a>
 {/if}
 
 <style>
@@ -276,18 +294,13 @@
 	}
 
 	/*
-	 * Розтягнуте посилання: клікабельна вся картка, як і було до появи кнопки,
-	 * але в розмітці лишається РІВНО ОДИН `<a>`. Кнопка відео лежить вище за
-	 * z-index, тож клік по ній не потрапляє в посилання.
-	 *
-	 * Раніше карткою був сам `<a>`, і кнопка всередині нього була б вкладеним
-	 * інтерактивним елементом — axe завалює на цьому збірку.
+	 * Уся картка є єдиним посиланням <a> (як у DepartmentsSection),
+	 * тож усе всередині природно веде на сторінку новини/проєкту.
 	 */
-	.card-link::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		z-index: 1;
+	.focus-card,
+	.grid-card,
+	.list-item {
+		cursor: pointer;
 	}
 
 	/* Поки грає відео, картка перестає бути посиланням: інакше розтягнута
