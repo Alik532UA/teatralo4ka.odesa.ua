@@ -27,7 +27,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
 		"code": "albinaabuladze",
-		"profileSize": 3356,
+		"profileSize": 3374,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -104,7 +104,8 @@
 					"Сценічний рух"
 				]
 			}
-		]
+		],
+		"photoCount": 2
 	},
 	{
 		"slug": "albina-tytova",

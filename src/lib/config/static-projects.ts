@@ -41,7 +41,6 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		slug: 'galaxy-graduates',
 		color: '#A78BFA',
 		coverUrl: asset('/png/galaxy-graduates.png'),
-		externalUrl: 'https://sites.google.com/view/ats-ua',
 		titles: { uk: 'Галактика випускників', en: 'Galaxy of Graduates' },
 		excerpts: { uk: 'Спільнота випускників: зустрічі, майстер-класи та творча підтримка', en: 'Graduate community: reunions, masterclasses, and creative support' },
 	},

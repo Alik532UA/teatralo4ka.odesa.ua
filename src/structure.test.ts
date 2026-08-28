@@ -138,6 +138,7 @@ const LIMITS: Array<[RegExp, number]> = [
  * рядків додано стільки ж, скільки прибрано умовою `isEngaged`.
  *
  * 2026-08-28: `+layout.svelte` 316 → 345, `data/betaChecklist.ts` 387 → 390. Додано маршрути /documents, /documents/statute та fallback SEO.
+ * 2026-08-28: `GraduateProfileView.svelte` 1540 → 1620. Огорнуто плашки майстрів та викладачів у повнорозмірні посилання без підкреслення тексту.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -153,7 +154,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentCard.svelte': 598,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/routes/residents/adults/[slug]/+page.svelte': 590,
-	'src/lib/components/GraduateProfileView.svelte': 1540,
+	'src/lib/components/GraduateProfileView.svelte': 1620,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 510,
 	'src/lib/components/GraduateRoster.svelte': 750,

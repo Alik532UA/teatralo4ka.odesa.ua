@@ -589,40 +589,63 @@
 		<ul class="masters-list">
 			{#each normalizedMasters as master, index (index)}
 				<li class="master-item">
-					<span
-						class="master-badge"
-						role="img"
-						title={master.department
-							? $t(`galaxy.departments.${master.department}`, {
-									default: master.department,
-								})
-							: undefined}
-						aria-label={master.department
-							? $t(`galaxy.departments.${master.department}`, {
-									default: master.department,
-								})
-							: undefined}
-					>
-						<DepartmentIcon
-							department={master.department}
-							size={16}
-						/>
-					</span>
 					{#if master.href}
 						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 						<a
 							href={master.href}
-							class="master-name master-link"
+							class="master-link-wrapper"
 							title={master.fullName}
 							data-testid="galaxy-card-master-link-{master.slug ||
 								index}"
 						>
-							{master.displayName}
+							<span
+								class="master-badge"
+								role="img"
+								title={master.department
+									? $t(`galaxy.departments.${master.department}`, {
+											default: master.department,
+										})
+									: undefined}
+								aria-label={master.department
+									? $t(`galaxy.departments.${master.department}`, {
+											default: master.department,
+										})
+									: undefined}
+							>
+								<DepartmentIcon
+									department={master.department}
+									size={16}
+								/>
+							</span>
+							<span class="master-name">
+								{master.displayName}
+							</span>
 						</a>
 					{:else}
-						<span class="master-name" title={master.fullName}
-							>{master.displayName}</span
-						>
+						<div class="master-link-wrapper">
+							<span
+								class="master-badge"
+								role="img"
+								title={master.department
+									? $t(`galaxy.departments.${master.department}`, {
+											default: master.department,
+										})
+									: undefined}
+								aria-label={master.department
+									? $t(`galaxy.departments.${master.department}`, {
+											default: master.department,
+										})
+									: undefined}
+							>
+								<DepartmentIcon
+									department={master.department}
+									size={16}
+								/>
+							</span>
+							<span class="master-name" title={master.fullName}
+								>{master.displayName}</span
+							>
+						</div>
 					{/if}
 				</li>
 			{/each}
@@ -641,48 +664,78 @@
 		<ul class="masters-list teachers-list">
 			{#each normalizedTeachers as teacher, index (index)}
 				<li class="master-item teacher-item">
-					<span
-						class="master-badge"
-						role="img"
-						title={teacher.department
-							? $t(`galaxy.departments.${teacher.department}`, {
-									default: teacher.department,
-								})
-							: undefined}
-						aria-label={teacher.department
-							? $t(`galaxy.departments.${teacher.department}`, {
-									default: teacher.department,
-								})
-							: undefined}
-					>
-						<DepartmentIcon
-							department={teacher.department}
-							size={16}
-						/>
-					</span>
-					<div class="teacher-info">
-						{#if teacher.href}
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a
-								href={teacher.href}
-								class="master-name master-link"
-								title={teacher.fullName}
-								data-testid="galaxy-card-teacher-link-{teacher.slug ||
-									index}"
+					{#if teacher.href}
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={teacher.href}
+							class="teacher-link-wrapper"
+							title={teacher.fullName}
+							data-testid="galaxy-card-teacher-link-{teacher.slug ||
+								index}"
+						>
+							<span
+								class="master-badge"
+								role="img"
+								title={teacher.department
+									? $t(`galaxy.departments.${teacher.department}`, {
+											default: teacher.department,
+										})
+									: undefined}
+								aria-label={teacher.department
+									? $t(`galaxy.departments.${teacher.department}`, {
+											default: teacher.department,
+										})
+									: undefined}
 							>
-								{teacher.displayName}
-							</a>
-						{:else}
-							<span class="master-name" title={teacher.fullName}
-								>{teacher.displayName}</span
+								<DepartmentIcon
+									department={teacher.department}
+									size={16}
+								/>
+							</span>
+							<div class="teacher-info">
+								<span class="master-name">
+									{teacher.displayName}
+								</span>
+								{#if teacher.subject}
+									<span class="teacher-subject"
+										>{teacher.subject}</span
+									>
+								{/if}
+							</div>
+						</a>
+					{:else}
+						<div class="teacher-link-wrapper">
+							<span
+								class="master-badge"
+								role="img"
+								title={teacher.department
+									? $t(`galaxy.departments.${teacher.department}`, {
+											default: teacher.department,
+										})
+									: undefined}
+								aria-label={teacher.department
+									? $t(`galaxy.departments.${teacher.department}`, {
+											default: teacher.department,
+										})
+									: undefined}
 							>
-						{/if}
-						{#if teacher.subject}
-							<span class="teacher-subject"
-								>({teacher.subject})</span
-							>
-						{/if}
-					</div>
+								<DepartmentIcon
+									department={teacher.department}
+									size={16}
+								/>
+							</span>
+							<div class="teacher-info">
+								<span class="master-name" title={teacher.fullName}
+									>{teacher.displayName}</span
+								>
+								{#if teacher.subject}
+									<span class="teacher-subject"
+										>{teacher.subject}</span
+									>
+								{/if}
+							</div>
+						</div>
+					{/if}
 				</li>
 			{/each}
 		</ul>
@@ -1192,6 +1245,9 @@
 			margin-bottom: 0;
 		}
 		.col--center .master-item {
+			padding: 0;
+		}
+		.col--center .master-link-wrapper {
 			padding: var(--center-item-padding, 0.25rem 0.75rem);
 		}
 		.col--center .master-name {
@@ -1513,31 +1569,62 @@
 	}
 	.master-item {
 		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.25rem 0.75rem;
+		align-items: stretch;
+		padding: 0;
 		background: rgb(255 255 255 / 0.06);
 		border-radius: 6px;
 		border: 1px solid rgb(255 255 255 / 0.1);
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.15s ease;
+	}
+	.master-item:has(a:hover) {
+		background: rgb(255 255 255 / 0.12);
+		border-color: rgb(140 190 255 / 0.4);
+		transform: translateY(-1px);
+	}
+	.master-link-wrapper {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.25rem 0.75rem;
+		color: inherit;
+		text-decoration: none;
+		border-radius: inherit;
+		width: 100%;
 	}
 	.teacher-item {
 		display: flex;
-		align-items: flex-start;
+		align-items: stretch;
 		width: 100%;
 		box-sizing: border-box;
 		text-align: left;
-		gap: 0.5rem;
-		padding: 0.35rem 0.6rem;
+		padding: 0;
 		border-radius: 8px;
 		background: rgb(255 255 255 / 0.04);
 		border: 1px solid rgb(255 255 255 / 0.07);
 		transition:
 			background 0.2s ease,
-			border-color 0.2s ease;
+			border-color 0.2s ease,
+			transform 0.15s ease;
 	}
-	.teacher-item:hover {
+	.teacher-item:has(a:hover) {
 		background: rgb(255 255 255 / 0.08);
 		border-color: rgb(140 190 255 / 0.3);
+		transform: translateY(-1px);
+	}
+	.teacher-link-wrapper {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		padding: 0.35rem 0.6rem;
+		width: 100%;
+		box-sizing: border-box;
+		text-align: left;
+		color: inherit;
+		text-decoration: none;
+		border-radius: inherit;
 	}
 	.teacher-item .master-badge {
 		margin-top: 2px;
@@ -1560,6 +1647,13 @@
 	.master-name {
 		font-size: 0.92rem;
 		font-weight: 500;
+		color: #ffffff;
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+	.master-link-wrapper:hover .master-name,
+	.teacher-link-wrapper:hover .master-name {
+		color: #bfe0ff;
 	}
 	.teacher-subject {
 		font-size: 0.78rem;
@@ -1567,19 +1661,6 @@
 		line-height: 1.25;
 		margin-top: 0.15rem;
 		word-break: break-word;
-	}
-	.master-link {
-		color: #bfe0ff;
-		text-decoration: underline;
-		text-underline-offset: 3px;
-		text-decoration-color: rgb(140 190 255 / 0.45);
-		transition:
-			color 0.2s ease,
-			text-decoration-color 0.2s ease;
-	}
-	.master-link:hover {
-		color: #ffffff;
-		text-decoration-color: #ffffff;
 	}
 	.socials {
 		display: flex;
