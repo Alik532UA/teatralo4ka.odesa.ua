@@ -2,7 +2,6 @@
 	import { t } from 'svelte-i18n';
 	import { onMount, getAbortSignal } from 'svelte';
 	import { goto, pushState } from '$app/navigation';
-	import { errorLogger } from '$lib/services/errorLogger';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import { List, Plus } from 'lucide-svelte';
@@ -10,15 +9,16 @@
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
-	import { SvelteMap } from 'svelte/reactivity';
+	import {
+		cachedGraduateProfile,
+		ensureGraduateProfile
+	} from '$lib/services/graduateProfiles.svelte';
 	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
 		WITH_PAGE,
-		graduateProfileJson,
 		graduateProfilePath,
 		type Department,
-		type GraduateIndexEntry,
-		type GraduateProfile
+		type GraduateIndexEntry
 	} from '$lib/data/graduates';
 
 	let { data } = $props();
@@ -129,16 +129,6 @@
 		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
 	}
 
-	/**
-	 * Профілі, які вже прочитані: людину можна відкрити вдруге, а файл читається
-	 * з мережі.
-	 *
-	 * `SvelteMap`, а не звичайна `Map`: у звичайної руни не бачать `set()`, і
-	 * картка лишалася б із порожніми подробицями, доки щось інше не перемалює
-	 * компонент. Правило `svelte/prefer-svelte-reactivity` ловить саме це.
-	 */
-	const profiles = new SvelteMap<string, GraduateProfile>();
-
 	const locale = $derived(localeFromPath(page.url.pathname));
 
 	const profileHref = (code: string) => localizedPath(graduateProfilePath(code), locale);
@@ -162,52 +152,22 @@
 		) ?? null
 	);
 
-	const selectedProfile = $derived(
-		page.state.graduateCode ? (profiles.get(page.state.graduateCode) ?? null) : null
-	);
-
 	/**
-	 * Профіль випускника — мережевий виклик, породжений `$effect`
-	 * (SVELTE-CORE-v8 § 2.2, `SC-ABORT-SIGNAL`).
+	 * Кеш і читання анкети живуть у `$lib/services/graduateProfiles` — тим самим
+	 * місцем користується картка на сторінках майстра й навчальної групи. Доти
+	 * ця логіка була тут, і решті сайту лишався спрощений вигляд без подробиць.
 	 *
-	 * Сигнал приходить ЗЗОВНІ, а не береться всередині: `getAbortSignal()`
-	 * читає поточну реакцію, тож викликати його треба в тілі ефекту, доки та
-	 * реакція ще та сама. Свій ефект Svelte скасовує сам — досить швидко
-	 * клацнути дві зірки поспіль, і перший запит перестає бути потрібним ще до
-	 * відповіді.
-	 *
-	 * `AbortError` мовчазний навмисно: це не збій, а рівно те, чого ми просили.
-	 * Решта йде рівнем `warn`, а не `error` (ERROR-HANDLING-v8, DEBUGGING-v8):
-	 * недоступна мережа — очікувана ситуація, і засмічувати нею лічильник
-	 * помилок означає перестати його читати. Доти цей `catch` був порожній, тож
-	 * панель просто лишалася порожньою без жодного сліду.
+	 * Сигнал приходить ЗЗОВНІ, а не береться всередині: `getAbortSignal()` читає
+	 * поточну реакцію, тож викликати його треба в тілі ефекту, доки та реакція
+	 * ще та сама. Досить швидко клацнути дві зірки поспіль — і перший запит
+	 * перестає бути потрібним ще до відповіді.
 	 */
-	async function ensureProfileLoaded(code: string, signal: AbortSignal) {
-		if (!code || !browser || profiles.has(code)) return;
-		try {
-			const response = await fetch(graduateProfileJson(code), { signal });
-			if (!response.ok) {
-				errorLogger.logWarning(
-					`профіль ${code} не читається (${response.status})`,
-					{ component: 'galaxy-graduates' }
-				);
-				return;
-			}
-			profiles.set(code, (await response.json()) as GraduateProfile);
-		} catch (error) {
-			if (error instanceof DOMException && error.name === 'AbortError') return;
-			errorLogger.logWarning(
-				`профіль ${code} не завантажився`,
-				{ component: 'galaxy-graduates' },
-				error
-			);
-		}
-	}
+	const selectedProfile = $derived(cachedGraduateProfile(page.state.graduateCode));
 
 	$effect(() => {
 		const code = page.state.graduateCode;
 		if (code && browser) {
-			ensureProfileLoaded(code, getAbortSignal());
+			ensureGraduateProfile(code, getAbortSignal());
 		}
 	});
 

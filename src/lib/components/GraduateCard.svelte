@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from "svelte-i18n";
+	import { getAbortSignal } from "svelte";
 	import { fly } from "svelte/transition";
 	import { X, Pencil } from "lucide-svelte";
 	import { asset } from "$app/paths";
@@ -8,18 +9,47 @@
 		GraduateIndexEntry,
 		GraduateProfile,
 	} from "$lib/data/graduates";
+	import {
+		cachedGraduateProfile,
+		ensureGraduateProfile,
+	} from "$lib/services/graduateProfiles.svelte";
 	import GraduateProfileView from "./GraduateProfileView.svelte";
 
 	import { browser } from "$app/environment";
 
 	interface Props {
 		graduate: GraduateIndexEntry | null;
-		profile: GraduateProfile | null;
+		/**
+		 * Анкета, якщо сторінка вже має її на руках (галактика тримає власний
+		 * стан, сторінка профілю дістає файл під час prerender). Не передали —
+		 * картка прочитає її сама, і тоді виклик зводиться до одного `graduate`.
+		 */
+		profile?: GraduateProfile | null;
 		onclose: () => void;
 	}
 
 	let { graduate, profile, onclose }: Props = $props();
 	const id = $props.id();
+
+	/**
+	 * Анкету дістає САМА картка, коли її не передали.
+	 *
+	 * Це те, що робить компонент придатним для будь-якої сторінки: доки читання
+	 * файлу жило тільки в галактиці, решта показувала спрощений вигляд без
+	 * подробиць — і людина з заповненою анкетою виглядала як незаповнена.
+	 * Хто коду не має, анкети не має за визначенням: `ensureGraduateProfile`
+	 * на порожньому коді нічого не робить, і картка чесно показує сам запис.
+	 */
+	$effect(() => {
+		const code = graduate?.code;
+		if (code && profile === undefined && browser) {
+			ensureGraduateProfile(code, getAbortSignal());
+		}
+	});
+
+	const shownProfile = $derived(
+		profile !== undefined ? profile : cachedGraduateProfile(graduate?.code),
+	);
 
 	let innerEl = $state<HTMLElement | null>(null);
 	let shiftY = $state(0);
@@ -274,7 +304,7 @@
 
 			<GraduateProfileView
 				{graduate}
-				{profile}
+				profile={shownProfile}
 				headingId="{id}-title"
 				heading="h2"
 			/>

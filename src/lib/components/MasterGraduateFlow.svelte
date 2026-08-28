@@ -10,8 +10,7 @@
 	} from '$lib/data/graduates';
 	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
-	import MasterGraduatePopup from '$lib/components/MasterGraduatePopup.svelte';
-	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
+	import GraduateCard from '$lib/components/GraduateCard.svelte';
 
 	interface Props {
 		graduates?: GraduateIndexEntry[];
@@ -25,9 +24,8 @@
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 	let plainLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 
-	/** Випускник без анкети, чию міні-картку зараз показуємо. */
+	/** Випускник, чию картку зараз показуємо поверх сторінки. */
 	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
-	let formModalOpen = $state(false);
 
 	const normalizedStudents = $derived<MasterStudentEntry[]>(
 		students && students.length > 0
@@ -191,13 +189,12 @@
 	{/if}
 </aside>
 
-<MasterGraduatePopup
+<!-- Та сама картка, що й у галактиці. Анкету вона дістає сама, а кнопку
+     «Заповнити анкету» й саму форму тримає всередині. -->
+<GraduateCard
 	graduate={selectedGraduate}
 	onclose={() => { selectedGraduate = null; }}
-	onopenform={() => { formModalOpen = true; }}
 />
-
-<GraduateFormModal isOpen={formModalOpen} onclose={() => { formModalOpen = false; }} />
 
 <style>
 	.flow-stream {

@@ -5,14 +5,12 @@
 	import { ArrowLeft, Drama, Users, Sparkles, User, Award, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
-	import MasterGraduatePopup from '$lib/components/MasterGraduatePopup.svelte';
-	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
+	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
 
 	let { data }: { data: PageData } = $props();
 
 	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
-	let formModalOpen = $state(false);
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -231,13 +229,12 @@
 	</div>
 </main>
 
-<MasterGraduatePopup
+<!-- Та сама картка, що й у галактиці. Анкету вона дістає сама, а кнопку
+     «Заповнити анкету» й саму форму тримає всередині. -->
+<GraduateCard
 	graduate={selectedGraduate}
 	onclose={() => { selectedGraduate = null; }}
-	onopenform={() => { formModalOpen = true; }}
 />
-
-<GraduateFormModal isOpen={formModalOpen} onclose={() => { formModalOpen = false; }} />
 
 <style>
 	.group-page {
