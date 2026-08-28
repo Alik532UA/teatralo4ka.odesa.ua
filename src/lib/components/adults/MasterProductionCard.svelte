@@ -6,7 +6,7 @@
 	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { masterProfilePath, getAllMasters, type Master } from '$lib/data/masters';
 	import graduatesIndex from '$lib/data/graduates.index.json';
-	import type { ResolvedPathname } from '$app/paths';
+	import type { ResolvedPathname } from '$app/types';
 
 	interface Props {
 		prod: MasterProduction;
