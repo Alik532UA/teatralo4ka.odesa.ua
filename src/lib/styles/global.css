@@ -356,7 +356,7 @@ button {
 .btn-outline {
 	background: transparent;
 	border: 2px solid var(--accent-primary);
-	color: var(--accent-primary);
+	color: var(--accent-text);
 }
 
 .btn-outline:hover {
