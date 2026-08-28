@@ -3,6 +3,13 @@ import type { Pathname } from '$app/types';
 export interface GroupPlay {
 	year: number;
 	text: string;
+	/**
+	 * Запис вистави. Саме ПОСИЛАННЯ, а не голий ідентифікатор: розбирає його
+	 * `parseVideoUrl` — той самий, що й для новин, — і він же вирішує, чи можна
+	 * показати плеєр на сторінці. Тримати тут `id` означало б зашити «це
+	 * YouTube» у дані й повторити розбір, який уже написаний і перевірений.
+	 */
+	videoUrl?: string;
 }
 
 export interface GroupMaster {
@@ -38,7 +45,7 @@ export const GROUPS: readonly GraduateGroup[] = [
 				department: 'theatre'
 			}
 		],
-		graduationYears: [2012, 2014],
+		graduationYears: [2012],
 		memberSlugs: [
 			'alik-zapolnov',
 			'volodymyr-chalchynskyi',
@@ -50,23 +57,28 @@ export const GROUPS: readonly GraduateGroup[] = [
 		plays: [
 			{
 				year: 2012,
-				text: '«Чайка», одноактовки'
+				text: '«Чайка», одноактовки',
+				videoUrl: 'https://www.youtube.com/watch?v=FGwjAn3NqJQ'
 			},
 			{
 				year: 2011,
-				text: '«Мнимый больной»'
+				text: '«Мнимый больной»',
+				videoUrl: 'https://www.youtube.com/watch?v=CP56qEi4sWY'
 			},
 			{
 				year: 2010,
-				text: '«Маленький принц»'
+				text: '«Маленький принц»',
+				videoUrl: 'https://www.youtube.com/watch?v=UTLPVBLLJYs'
 			},
 			{
 				year: 2009,
-				text: '«Вперед Котенок»'
+				text: '«Вперед Котенок»',
+				videoUrl: 'https://www.youtube.com/watch?v=Sbes3lG9HOc'
 			},
 			{
 				year: 2008,
-				text: '«Кощеевы страсти»'
+				text: '«Кощеевы страсти»',
+				videoUrl: 'https://www.youtube.com/watch?v=L1S6Z-bGUMU'
 			},
 			{
 				year: 2007,
