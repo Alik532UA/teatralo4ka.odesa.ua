@@ -4,7 +4,8 @@
 	import { ui } from "$lib/controllers/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
 	import { nextTheme } from "$lib/config/themes";
-	import { Sun, SunDim, Citrus, Moon, Sparkles } from "lucide-svelte";
+	import { dev } from "$app/environment";
+	import { Sun, Palette, FlaskConical, Moon, Waves } from "lucide-svelte";
 
 	interface Props {
 		isOpen: boolean;
@@ -86,15 +87,18 @@
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light-yellow')}
 				data-testid="theme-light-yellow{sfx}-btn"
-			><SunDim size={20} /></button>
-			<button
-				class="dropdown-opt-unified"
-				class:active={ui.theme === "yellow"}
-				onclick={() => ui.setTheme("yellow")}
-				aria-label={$t("settings.yellow") || "Yellow"}
-				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
-				data-testid="theme-yellow{sfx}-btn"
-			><Citrus size={20} /></button>
+			><Palette size={20} /></button>
+			{#if dev}
+				<button
+					class="dropdown-opt-unified"
+					class:active={ui.theme === "yellow"}
+					onclick={() => ui.setTheme("yellow")}
+					aria-label={$t("settings.yellow") || "dev-test-01"}
+					title="dev-test-01"
+					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
+					data-testid="theme-yellow{sfx}-btn"
+				><FlaskConical size={20} /></button>
+			{/if}
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "dark"}
@@ -110,7 +114,7 @@
 				aria-label={$t("settings.darkCyan") || "Dark Cyan"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-cyan')}
 				data-testid="theme-dark-cyan{sfx}-btn"
-			><Sparkles size={20} /></button>
+			><Waves size={20} /></button>
 		</div>
 	</div>
 	<!--

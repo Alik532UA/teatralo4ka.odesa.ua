@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { THEME_CYCLE, nextTheme, type Theme } from './themes';
+import { THEME_CYCLE, PROD_THEME_CYCLE, DEV_THEME_CYCLE, nextTheme, type Theme } from './themes';
 
 /**
  * Порядок перебору тем — і те, що обидва його споживачі беруть його ЗВІДСИ.
@@ -18,34 +18,44 @@ import { THEME_CYCLE, nextTheme, type Theme } from './themes';
 const ROOT = process.cwd();
 
 describe('перебір тем', () => {
-	it('перелічує рівно п\'ять тем проєкту', () => {
-		expect([...THEME_CYCLE]).toEqual(['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan']);
+	it('THEME_CYCLE експортує відповідний перелік тем', () => {
+		expect(THEME_CYCLE.length).toBeGreaterThanOrEqual(4);
 	});
 
-	it('кожен крок дає наступну, а остання замикає коло', () => {
-		expect(nextTheme('light')).toBe('light-yellow');
-		expect(nextTheme('light-yellow')).toBe('yellow');
-		expect(nextTheme('yellow')).toBe('dark');
-		expect(nextTheme('dark')).toBe('dark-cyan');
-		expect(nextTheme('dark-cyan')).toBe('light');
+	it('у dev перелічує п\'ять тем проєкту (включно з dev-test-01), у prod — чотири', () => {
+		expect([...DEV_THEME_CYCLE]).toEqual(['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan']);
+		expect([...PROD_THEME_CYCLE]).toEqual(['light', 'light-yellow', 'dark', 'dark-cyan']);
 	});
 
-	it('перебір із будь-якої теми обходить усі п\'ять й вертається', () => {
-		let current: Theme = THEME_CYCLE[0];
+	it('кожен крок у dev дає наступну, а остання замикає коло', () => {
+		expect(nextTheme('light', true)).toBe('light-yellow');
+		expect(nextTheme('light-yellow', true)).toBe('yellow');
+		expect(nextTheme('yellow', true)).toBe('dark');
+		expect(nextTheme('dark', true)).toBe('dark-cyan');
+		expect(nextTheme('dark-cyan', true)).toBe('light');
+	});
+
+	it('кожен крок у prod перебирає 4 публічні теми', () => {
+		expect(nextTheme('light', false)).toBe('light-yellow');
+		expect(nextTheme('light-yellow', false)).toBe('dark');
+		expect(nextTheme('dark', false)).toBe('dark-cyan');
+		expect(nextTheme('dark-cyan', false)).toBe('light');
+	});
+
+	it('перебір із будь-якої теми обходить коло й вертається', () => {
+		let current: Theme = DEV_THEME_CYCLE[0];
 		const seen = new Set<Theme>();
-		for (let i = 0; i < THEME_CYCLE.length; i++) {
+		for (let i = 0; i < DEV_THEME_CYCLE.length; i++) {
 			seen.add(current);
-			current = nextTheme(current);
+			current = nextTheme(current, true);
 		}
-		expect(seen.size, 'перебір застряг або пропускає тему').toBe(THEME_CYCLE.length);
-		expect(current, 'коло не замкнулося').toBe(THEME_CYCLE[0]);
+		expect(seen.size, 'перебір застряг або пропускає тему').toBe(DEV_THEME_CYCLE.length);
+		expect(current, 'коло не замкнулося').toBe(DEV_THEME_CYCLE[0]);
 	});
 
-	it('невідома тема лікується перебором, а не гасить клавішу', () => {
-		// Стара збережена тема або чужий запис у сховищі: `indexOf` дає -1, і
-		// (-1 + 1) % 4 === 0 — тобто перше натискання `T` повертає людину в
-		// відомий стан замість того, щоб нічого не робити.
-		expect(nextTheme('mauve' as Theme)).toBe(THEME_CYCLE[0]);
+	it('невідома або прихована тема лікується перебором, а не гасить клавішу', () => {
+		expect(nextTheme('mauve' as Theme, true)).toBe(DEV_THEME_CYCLE[0]);
+		expect(nextTheme('yellow', false)).toBe(PROD_THEME_CYCLE[0]);
 	});
 });
 
