@@ -123,7 +123,7 @@
 		dismissSplash();
 	});
 
-	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission';
+	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission' | 'documents';
 	type SeoLangKey = 'uk' | 'en';
 	const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -157,6 +157,11 @@
 					title: 'Для вступу',
 					description:
 						'Інформація для вступу до Одеської театральної школи: документи, контакти та умови навчання.'
+				},
+				documents: {
+					title: 'Офіційні документи',
+					description:
+						'Офіційні документи, Статут закладу та публічна інформація Одеської театральної школи.'
 				}
 			}
 		},
@@ -189,6 +194,11 @@
 					title: 'Admission',
 					description:
 						'Admission information for Odesa Theatre School: documents, contacts, and study conditions.'
+				},
+				documents: {
+					title: 'Official Documents',
+					description:
+						'Official documents, school statute and public information of Odesa Theatre School.'
 				}
 			}
 		}
@@ -230,6 +240,8 @@
 				return 'contacts';
 			case '/admission':
 				return 'admission';
+			case '/documents':
+				return 'documents';
 			default:
 				return 'home';
 		}

@@ -59,6 +59,7 @@ export const KNOWN_PAGE_ROUTES: KnownPageRoute[] = [
   { value: '/residents/kids',          labelKey: 'admin.settings.pages.residentsKids' },
   { value: '/residents/graduates',     labelKey: 'admin.settings.pages.residentsGraduates' },
   { value: '/projects',                labelKey: 'admin.settings.pages.projects' },
+  { value: '/documents',               labelKey: 'admin.settings.pages.documents' },
 ];
 
 // ── Home page block ordering ──────────────────────────────────────────────────
@@ -820,6 +821,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',     linkType: 'page', href: '/contacts',  visible: false, order: 3 },
           { id: 'news',      labelUk: 'Новини',     labelEn: 'News',         linkType: 'page', href: '/news',      visible: true,  order: 4 },
           { id: 'admission', labelUk: 'Для вступу', labelEn: 'Admission',    linkType: 'page', href: '/admission', visible: false, order: 5 },
+          { id: 'documents', labelUk: 'Офіційні документи', labelEn: 'Official Documents', linkType: 'page', href: '/documents', visible: true, order: 6 },
         ],
       },
       {
@@ -872,6 +874,7 @@ export const DEFAULT_HEADER_SETTINGS: Omit<HeaderSettings, 'updatedAt'> = {
           { id: 'contacts',  labelUk: 'Контакти',   labelEn: 'Contacts',     linkType: 'page', href: '/contacts',  visible: true, order: 3 },
           { id: 'news',      labelUk: 'Новини',     labelEn: 'News',         linkType: 'page', href: '/news',      visible: true, order: 4 },
           { id: 'admission', labelUk: 'Для вступу', labelEn: 'Admission',    linkType: 'page', href: '/admission', visible: true, order: 5 },
+          { id: 'documents', labelUk: 'Офіційні документи', labelEn: 'Official Documents', linkType: 'page', href: '/documents', visible: true, order: 6 },
         ],
       },
       {

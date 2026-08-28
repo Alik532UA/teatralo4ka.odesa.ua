@@ -226,7 +226,9 @@
       "event": "Artistic event",
       "atmosphere": "Artistic atmosphere",
       "virtuosos": "Young virtuosos"
-    }
+    },
+    "documentsLink": "Official Documents & Statute",
+    "documentsLinkDesc": "Constituent documents, school statute, and public information"
   },
   "history": {
     "title": "History"
@@ -236,6 +238,22 @@
   },
   "admission": {
     "title": "Admission"
+  },
+  "documents": {
+    "title": "Official Documents",
+    "statuteTitle": "School Statute",
+    "statuteFullTitle": "Statute of the Municipal Specialized Art Education Institution “Odesa Theatre School”",
+    "statuteEdition": "New Edition 2025",
+    "statuteDesc": "The primary statutory document defining the legal status, goals, objectives, and operating principles of the school.",
+    "view": "View",
+    "download": "Download",
+    "fileSize": "PDF, 4.7 MB",
+    "constituent": "Constituent Documents",
+    "educational": "Educational Process",
+    "reporting": "Reporting & Transparency",
+    "inProgress": "Materials are being prepared for publication",
+    "lawReference": "In accordance with Article 30 of the Law of Ukraine “On Education”",
+    "backToAbout": "Back to School Overview"
   },
   "admin": {
     "debug": {
@@ -524,7 +542,8 @@
         "residentsAdults": "Adults",
         "residentsKids": "Kids",
         "residentsGraduates": "Graduates",
-        "projects": "Projects"
+        "projects": "Projects",
+        "documents": "Official Documents"
       },
       "ctaTitle": "CTA Button",
       "ctaDesc": "Call-to-action button in the right part of the header. Default text is taken from the selected page/article but can be overridden.",
@@ -776,6 +795,10 @@
       "admission": {
         "title": "Admission",
         "description": "Information for admission to Odesa Theatre School: documents, contacts and study conditions."
+      },
+      "documents": {
+        "title": "Official Documents",
+        "description": "Official documents, school statute and public information of Odesa Theatre School."
       }
     }
   },

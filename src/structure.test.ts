@@ -136,6 +136,8 @@ const LIMITS: Array<[RegExp, number]> = [
  * перехід фокуса МІЖ дітьми каруселі читався б як вихід із неї, і автопрокрутка
  * стартувала б на кожен Tab усередині. `ContentWidget` у стелю вклався: там
  * рядків додано стільки ж, скільки прибрано умовою `isEngaged`.
+ *
+ * 2026-08-28: `+layout.svelte` 316 → 330, `data/betaChecklist.ts` 387 → 390. Додано маршрут /documents та fallback SEO.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -162,12 +164,12 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 366,
-	'src/lib/data/betaChecklist.ts': 387,
+	'src/lib/data/betaChecklist.ts': 390,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/routes/+layout.svelte': 316,
+	'src/routes/+layout.svelte': 330,
 	'src/lib/components/SearchOverlay.svelte': 312
 };
 
