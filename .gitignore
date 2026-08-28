@@ -38,6 +38,7 @@ vite.config.ts.timestamp-*
 gitignore/
 .private/
 .temp/
+.vscode
 # Playwright
 test-results/
 playwright-report/

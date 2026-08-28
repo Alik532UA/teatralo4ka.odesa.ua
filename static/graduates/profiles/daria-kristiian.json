@@ -1,0 +1,48 @@
+{
+	"code": "daria-kristiian",
+	"slug": "daria-kristiian",
+	"name": "Дар’я Яновська (Крістіян)",
+	"graduationYear": 2025,
+	"enrollmentYears": [
+		2021
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Хлопаффки",
+	"masters": [
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/___dashulya__a"
+		}
+	],
+	"plays": [
+		{
+			"year": 2022,
+			"text": "Етюди (клоунесса; італьянка; другорядні ролі)"
+		},
+		{
+			"year": 2023,
+			"text": "«Аліса в країні див» — Чорна королева; Аліса 7; чорна кішка"
+		},
+		{
+			"year": 2024,
+			"text": "Уривки з класики (Мама)"
+		}
+	],
+	"bio": [
+		"Після випуску сталося багато чого гарного, поступила в Турцію в Стамбульський театральний університет, найкращій в країні, перший курс не було змоги займатися очно, тому що народила прекрасного хлопчика, але вже на другій курс їду навчатися)"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/daria-kristiian"
+}

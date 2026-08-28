@@ -1965,16 +1965,41 @@
 	},
 	{
 		"slug": "daria-kristiian",
-		"name": "Дар'я Крістіян",
-		"graduationYear": 2023,
+		"name": "Дар’я Яновська (Крістіян)",
+		"graduationYear": 2025,
+		"enrollmentYears": [
+			2021
+		],
 		"departments": [
 			"theatre"
-		]
+		],
+		"hasPhoto": true,
+		"group": {
+			"abbr": "Хлопаффки",
+			"name": null
+		},
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"socials": [
+			{
+				"network": "instagram",
+				"url": "https://www.instagram.com/___dashulya__a"
+			}
+		],
+		"playCount": 3,
+		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/daria-kristiian",
+		"code": "daria-kristiian",
+		"profileSize": 1469
 	},
 	{
 		"slug": "daria-kristiian-2",
-		"name": "Дар’я Крістіян",
-		"graduationYear": 2025,
+		"name": "Дар'я Крістіян",
+		"graduationYear": 2023,
 		"departments": [
 			"theatre"
 		]
