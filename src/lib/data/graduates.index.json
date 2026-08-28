@@ -5,7 +5,29 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2017
+		],
+		"group": null,
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"socials": [
+			{
+				"network": "instagram",
+				"url": "https://www.instagram.com/allbinna_at"
+			}
+		],
+		"playCount": 5,
+		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
+		"code": "albinaabuladze",
+		"profileSize": 1340
 	},
 	{
 		"slug": "albina-tytova",
