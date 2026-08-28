@@ -70,7 +70,8 @@ export const LOCAL_IMAGE_SIZES = {
 	'/png/Graduates3.png': { width: 2048, height: 2048 },
 	'/png/AdmissionForm.png': { width: 1000, height: 1000 },
 	'/png/Contacts2.png': { width: 1000, height: 1000 },
-	'/png/History3.png': { width: 1200, height: 1200 }
+	'/png/History3.png': { width: 1200, height: 1200 },
+	'/groups/zakhysnyky-teatralnykh-kulis.webp': { width: 1280, height: 720 }
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */

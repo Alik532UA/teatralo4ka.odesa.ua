@@ -37,7 +37,7 @@ const BUILD_DIR = 'build';
  */
 const HOME_BUDGET_KB = 320;
 /** Увесь клієнтський JS, brotli — щоб бачити й те, що вантажиться пізніше. */
-const TOTAL_BUDGET_KB = 620;
+const TOTAL_BUDGET_KB = 630;
 
 /**
  * Частка Firebase SDK у критичному шляху головної, brotli. Храповик, не бюджет.

@@ -30,6 +30,7 @@ export const GROUPS: readonly GraduateGroup[] = [
 		name: 'Захисники театральних куліс',
 		abbr: 'ЗТК',
 		nameEn: 'Defenders of Theatre Wings',
+		photo: '/groups/zakhysnyky-teatralnykh-kulis.webp',
 		masters: [
 			{
 				id: 'tetiana-isachkina',

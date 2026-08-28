@@ -4,9 +4,15 @@
 	import { asset } from '$app/paths';
 	import { ArrowLeft, Drama, Users, Sparkles, User, Award, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import { graduateProfilePath } from '$lib/data/graduates';
+	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
+	import MasterGraduatePopup from '$lib/components/MasterGraduatePopup.svelte';
+	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
+	import { imageSize, type LocalImage } from '$lib/config/localImages';
 
 	let { data }: { data: PageData } = $props();
+
+	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
+	let formModalOpen = $state(false);
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -43,6 +49,20 @@
 
 		<!-- Головна шапка групи -->
 		<header class="group-header">
+			{#if data.group.photo}
+				{@const size = imageSize(data.group.photo as LocalImage)}
+				<div class="group-photo-wrap" data-testid="group-photo-banner">
+					<img
+						src={asset(data.group.photo)}
+						alt={groupTitle}
+						class="group-photo-img"
+						loading="eager"
+						width={size.width}
+						height={size.height}
+					/>
+				</div>
+			{/if}
+
 			<div class="group-header__badge-wrap">
 				{#if data.group.abbr}
 					<span class="group-abbr-badge" data-testid="group-abbr-badge">
@@ -65,7 +85,7 @@
 			{/if}
 		</header>
 
-		<!-- Секція: Майстри курсу -->
+		<!-- 1. Секція: Майстри курсу -->
 		{#if data.masters.length > 0}
 			<section class="group-section" aria-labelledby="section-masters-title">
 				<div class="section-heading">
@@ -111,33 +131,7 @@
 			</section>
 		{/if}
 
-		<!-- Секція: Репертуар вистав -->
-		{#if data.group.plays.length > 0}
-			<section class="group-section" aria-labelledby="section-plays-title">
-				<div class="section-heading">
-					<span class="icon-wrap icon-wrap--primary"><Drama size={20} aria-hidden="true" /></span>
-					<h2 id="section-plays-title" class="section-heading__title">
-						{$t('galaxy.groupRepertoire')}
-					</h2>
-					<span class="section-heading__count">{data.group.plays.length}</span>
-				</div>
-
-				<div class="plays-timeline" data-testid="group-plays-list">
-					{#each data.group.plays as play, idx (idx)}
-						<article class="play-card" data-testid="group-play-card-{play.year}">
-							<div class="play-card__year-badge">
-								{play.year}
-							</div>
-							<div class="play-card__content">
-								<h3 class="play-card__title">{play.text}</h3>
-							</div>
-						</article>
-					{/each}
-				</div>
-			</section>
-		{/if}
-
-		<!-- Секція: Склад групи (Ансамбль випускників) -->
+		<!-- 2. Секція: Склад групи (Ансамбль випускників) -->
 		{#if data.members.length > 0}
 			<section class="group-section" aria-labelledby="section-members-title">
 				<div class="section-heading">
@@ -183,7 +177,13 @@
 								</div>
 							</a>
 						{:else}
-							<div class="member-card" data-testid="group-member-card-{member.slug}">
+							<button
+								type="button"
+								class="member-card member-card--interactive member-card--btn"
+								data-testid="group-member-card-{member.slug}"
+								onclick={() => { selectedGraduate = member; }}
+								aria-haspopup="dialog"
+							>
 								<div class="member-card__avatar">
 									<div class="member-card__placeholder">
 										<User size={36} aria-hidden="true" />
@@ -194,15 +194,50 @@
 									{#if member.graduationYear}
 										<span class="member-card__year">{$t('galaxy.graduated')} {member.graduationYear}</span>
 									{/if}
+									<span class="member-card__profile-badge member-card__profile-badge--hint">{$t('galaxy.fillProfile') || 'Анкета'} →</span>
 								</div>
-							</div>
+							</button>
 						{/if}
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<!-- 3. Секція: Репертуар вистав -->
+		{#if data.group.plays.length > 0}
+			<section class="group-section" aria-labelledby="section-plays-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Drama size={20} aria-hidden="true" /></span>
+					<h2 id="section-plays-title" class="section-heading__title">
+						{$t('galaxy.groupRepertoire')}
+					</h2>
+					<span class="section-heading__count">{data.group.plays.length}</span>
+				</div>
+
+				<div class="plays-timeline" data-testid="group-plays-list">
+					{#each data.group.plays as play, idx (idx)}
+						<article class="play-card" data-testid="group-play-card-{play.year}">
+							<div class="play-card__year-badge">
+								{play.year}
+							</div>
+							<div class="play-card__content">
+								<h3 class="play-card__title">{play.text}</h3>
+							</div>
+						</article>
 					{/each}
 				</div>
 			</section>
 		{/if}
 	</div>
 </main>
+
+<MasterGraduatePopup
+	graduate={selectedGraduate}
+	onclose={() => { selectedGraduate = null; }}
+	onopenform={() => { formModalOpen = true; }}
+/>
+
+<GraduateFormModal isOpen={formModalOpen} onclose={() => { formModalOpen = false; }} />
 
 <style>
 	.group-page {
@@ -284,6 +319,29 @@
 	.group-header {
 		margin-bottom: 3.5rem;
 		text-align: center;
+	}
+
+	.group-photo-wrap {
+		max-width: 820px;
+		margin: 0 auto 2rem;
+		border-radius: 20px;
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+		background: rgba(15, 23, 42, 0.6);
+		backdrop-filter: blur(12px);
+	}
+
+	.group-photo-img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+		transition: transform 0.4s ease;
+	}
+
+	.group-photo-wrap:hover .group-photo-img {
+		transform: scale(1.015);
 	}
 
 	.group-header__badge-wrap {
@@ -469,54 +527,6 @@
 		margin-top: 0.2rem;
 	}
 
-	/* Репертуар */
-	.plays-timeline {
-		display: flex;
-		flex-direction: column;
-		gap: 0.85rem;
-	}
-
-	.play-card {
-		display: flex;
-		align-items: center;
-		gap: 1.25rem;
-		padding: 1rem 1.25rem;
-		border-radius: 12px;
-		background: rgba(255, 255, 255, 0.025);
-		border: 1px solid rgba(255, 255, 255, 0.06);
-		transition: all 0.2s ease;
-	}
-
-	.play-card:hover {
-		background: rgba(255, 255, 255, 0.05);
-		border-color: rgba(255, 255, 255, 0.12);
-		transform: translateX(4px);
-	}
-
-	.play-card__year-badge {
-		padding: 0.35rem 0.75rem;
-		border-radius: 8px;
-		background: rgba(99, 102, 241, 0.15);
-		border: 1px solid rgba(99, 102, 241, 0.3);
-		color: #a5b4fc;
-		font-weight: 700;
-		font-size: 0.95rem;
-		letter-spacing: 0.02em;
-		flex-shrink: 0;
-	}
-
-	.play-card__content {
-		min-width: 0;
-	}
-
-	.play-card__title {
-		font-size: 1.05rem;
-		font-weight: 600;
-		margin: 0;
-		line-height: 1.4;
-		color: var(--text-main, #f1f5f9);
-	}
-
 	/* Склад групи (Випускники) */
 	.members-grid {
 		display: grid;
@@ -537,6 +547,20 @@
 		color: inherit;
 		position: relative;
 		transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+		font-family: inherit;
+		box-sizing: border-box;
+		width: 100%;
+	}
+
+	.member-card--btn {
+		cursor: pointer;
+		background: rgba(255, 255, 255, 0.025);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+	}
+
+	.member-card--interactive:focus-visible {
+		outline: 2px solid #818cf8;
+		outline-offset: 2px;
 	}
 
 	.member-card--interactive:hover {
@@ -609,9 +633,63 @@
 		transition: all 0.2s ease;
 	}
 
+	.member-card__profile-badge--hint {
+		color: #cbd5e1;
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(255, 255, 255, 0.15);
+	}
+
 	.member-card--interactive:hover .member-card__profile-badge {
 		background: rgba(99, 102, 241, 0.25);
 		color: #e0e7ff;
+	}
+
+	/* Репертуар */
+	.plays-timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+
+	.play-card {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 1rem 1.25rem;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.025);
+		border: 1px solid rgba(255, 255, 255, 0.06);
+		transition: all 0.2s ease;
+	}
+
+	.play-card:hover {
+		background: rgba(255, 255, 255, 0.05);
+		border-color: rgba(255, 255, 255, 0.12);
+		transform: translateX(4px);
+	}
+
+	.play-card__year-badge {
+		padding: 0.35rem 0.75rem;
+		border-radius: 8px;
+		background: rgba(99, 102, 241, 0.15);
+		border: 1px solid rgba(99, 102, 241, 0.3);
+		color: #a5b4fc;
+		font-weight: 700;
+		font-size: 0.95rem;
+		letter-spacing: 0.02em;
+		flex-shrink: 0;
+	}
+
+	.play-card__content {
+		min-width: 0;
+	}
+
+	.play-card__title {
+		font-size: 1.05rem;
+		font-weight: 600;
+		margin: 0;
+		line-height: 1.4;
+		color: var(--text-main, #f1f5f9);
 	}
 
 	/* Світла тема */
@@ -624,6 +702,12 @@
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
+	}
+
+	:global(.light-theme) .group-photo-wrap {
+		border-color: rgba(0, 0, 0, 0.1);
+		box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+		background: #f8fafc;
 	}
 
 	:global(.light-theme) .nav-back-link {

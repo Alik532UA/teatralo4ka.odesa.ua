@@ -53,11 +53,41 @@ function svgSize(text: string): [number, number] | null {
 	return box ? [Math.round(+box[1]), Math.round(+box[2])] : null;
 }
 
+function webpSize(buffer: Buffer): [number, number] | null {
+	if (buffer.length < 30) return null;
+	const riff = buffer.toString('ascii', 0, 4);
+	const webp = buffer.toString('ascii', 8, 12);
+	if (riff !== 'RIFF' || webp !== 'WEBP') return null;
+
+	const chunk = buffer.toString('ascii', 12, 16);
+	if (chunk === 'VP8X') {
+		const width = 1 + (buffer[24] | (buffer[25] << 8) | (buffer[26] << 16));
+		const height = 1 + (buffer[27] | (buffer[28] << 8) | (buffer[29] << 16));
+		return [width, height];
+	}
+	if (chunk === 'VP8 ') {
+		const width = buffer.readUInt16LE(26) & 0x3fff;
+		const height = buffer.readUInt16LE(28) & 0x3fff;
+		return [width, height];
+	}
+	if (chunk === 'VP8L') {
+		const b1 = buffer[21];
+		const b2 = buffer[22];
+		const b3 = buffer[23];
+		const b4 = buffer[24];
+		const width = 1 + (((b2 & 0x3f) << 8) | b1);
+		const height = 1 + (((b4 & 0xf) << 10) | (b3 << 2) | ((b2 & 0xc0) >> 6));
+		return [width, height];
+	}
+	return null;
+}
+
 function sizeOnDisk(path: string): [number, number] | null {
 	const file = join(STATIC, path);
 	if (!existsSync(file)) return null;
 	if (path.endsWith('.svg')) return svgSize(readFileSync(file, 'utf8'));
 	if (path.endsWith('.png')) return pngSize(readFileSync(file));
+	if (path.endsWith('.webp')) return webpSize(readFileSync(file));
 	return jpegSize(readFileSync(file));
 }
 

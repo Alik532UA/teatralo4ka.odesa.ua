@@ -986,21 +986,42 @@
 			{/if}
 
 			{#if groupNames.length}
-				<div class="group" data-testid="galaxy-card-group-text">
-					<span class="group__label">{$t("galaxy.group")}:</span>
-					{#each groupNames as groupName, i (groupName)}
-						{@const matchingGroup = getGroupByTitleOrAbbr(groupName)}
-						<!-- Кома всередині обгортки: `.group` — flex із gap, і окремим
-						     вузлом вона відпливла б від назви на власний проміжок. -->
-						<span class="group__item"
-							>{#if matchingGroup}<a
-									href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
-									class="group__name group__name--link"
-									data-testid="galaxy-card-group-link"
-									><strong>{groupName}</strong>&nbsp;↗</a
-								>{:else}<strong class="group__name">{groupName}</strong>{/if}{#if i < groupNames.length - 1},{/if}</span
-						>
-					{/each}
+				<div class="groups-container" data-testid="galaxy-card-group-text">
+					<span class="groups-title">{$t("galaxy.group")}:</span>
+					<ul class="groups-list">
+						{#each groupNames as groupName (groupName)}
+							{@const matchingGroup = getGroupByTitleOrAbbr(groupName)}
+							<li class="group-item">
+								{#if matchingGroup}
+									<a
+										href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
+										class="group-link-wrapper"
+										title={groupName}
+										data-testid="galaxy-card-group-link"
+									>
+										<span class="group-badge" role="img" aria-label="theatre">
+											<DepartmentIcon department="theatre" size={14} />
+										</span>
+										<span class="group-name-text">
+											{groupName}
+										</span>
+									</a>
+								{:else}
+									<div
+										class="group-link-wrapper group-link-wrapper--static"
+										title={groupName}
+									>
+										<span class="group-badge" role="img" aria-label="theatre">
+											<DepartmentIcon department="theatre" size={14} />
+										</span>
+										<span class="group-name-text">
+											{groupName}
+										</span>
+									</div>
+								{/if}
+							</li>
+						{/each}
+					</ul>
 				</div>
 			{/if}
 
@@ -1257,7 +1278,7 @@
 			font-size: var(--center-years-size, 0.95rem);
 			margin: 0 0 var(--center-years-margin, 0.9rem);
 		}
-		.col--center .group {
+		.col--center .groups-container {
 			font-size: var(--center-group-size, 0.95rem);
 			margin: 0 0 var(--center-group-margin, 1rem);
 		}
@@ -1534,36 +1555,68 @@
 		box-shadow: 0 6px 20px rgb(0 150 255 / 0.45);
 		color: #ffffff;
 	}
-	.group {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: center;
-		gap: 0.25rem 0.45rem;
-		margin: 0 0 1rem;
+	.groups-container {
+		margin: 0 0 1.1rem;
 		color: var(--galaxy-text);
 		text-align: center;
-		font-size: 0.95rem;
-		line-height: 1.35;
 	}
-	.group__label {
+	.groups-title {
+		display: block;
+		font-size: 0.92rem;
 		color: var(--galaxy-muted);
-		white-space: nowrap;
+		margin-bottom: 0.4rem;
 	}
-	.group__item {
-		color: var(--galaxy-muted);
+	.groups-list {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.4rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		width: 100%;
 	}
-	.group__name {
-		color: var(--galaxy-text);
+	.group-item {
+		display: inline-flex;
+		align-items: stretch;
+		padding: 0;
+		background: rgb(255 255 255 / 0.06);
+		border-radius: 6px;
+		border: 1px solid rgb(255 255 255 / 0.1);
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.15s ease;
 	}
-	.group__name--link {
+	.group-item:has(a:hover) {
+		background: rgb(255 255 255 / 0.12);
+		border-color: rgb(140 190 255 / 0.4);
+		transform: translateY(-1px);
+	}
+	.group-link-wrapper {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.25rem 0.75rem;
+		color: inherit;
+		text-decoration: none;
+		border-radius: inherit;
+		width: 100%;
+	}
+	.group-link-wrapper--static {
+		cursor: default;
+	}
+	.group-badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 		color: #93c5fd;
-		text-decoration: underline;
-		text-underline-offset: 3px;
-		transition: color 0.2s ease;
+		flex-shrink: 0;
 	}
-	.group__name--link:hover {
-		color: #bfdbfe;
+	.group-name-text {
+		font-size: 0.95rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
 	}
 	.row {
 		margin: 0 0 0.5rem;

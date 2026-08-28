@@ -138,9 +138,9 @@ const LIMITS: Array<[RegExp, number]> = [
  * рядків додано стільки ж, скільки прибрано умовою `isEngaged`.
  *
  * 2026-08-28: `+layout.svelte` 316 → 345, `data/betaChecklist.ts` 387 → 390. Додано маршрути /documents, /documents/statute та fallback SEO.
- * 2026-08-28: `GraduateProfileView.svelte` 1540 → 1640. Огорнуто плашки майстрів та викладачів у повнорозмірні посилання, додано посилання на групу.
+ * 2026-08-28: `GraduateProfileView.svelte` 1540 → 1695. Огорнуто плашки майстрів, викладачів та груп у повнорозмірні посилання-кнопки.
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
- * 2026-08-29: `groups/[slug]/+page.svelte` 630. Додано сторінку навчальної групи випускників.
+ * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -153,11 +153,11 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/RichTextEditor.svelte': 755,
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 688,
-	'src/routes/projects/galaxy-graduates/groups/[slug]/+page.svelte': 630,
+	'src/routes/projects/galaxy-graduates/groups/[slug]/+page.svelte': 695,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/routes/residents/adults/[slug]/+page.svelte': 590,
-	'src/lib/components/GraduateProfileView.svelte': 1640,
+	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 510,
 	'src/lib/components/GraduateRoster.svelte': 750,
