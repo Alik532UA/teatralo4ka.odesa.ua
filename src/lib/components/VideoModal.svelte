@@ -107,7 +107,12 @@
 				     невбудовувані: вбудовування ламалося б мовчки, порожньою
 				     рамкою. Тут це чесне посилання замість неї. -->
 				<p class="video-modal__fallback" data-testid="video-modal-fallback-text">
-					<a href={video.url} target="_blank" rel="external noopener noreferrer">
+					<a
+						href={video.url}
+						target="_blank"
+						rel="external noopener noreferrer"
+						data-testid="video-modal-fallback-link"
+					>
 						{$t('galaxy.openInNewTab', { default: 'Відкрити в новій вкладці' })}
 					</a>
 				</p>
@@ -156,6 +161,11 @@
 		white-space: nowrap;
 	}
 
+	/*
+	 * Без власного `transition`: оберт хрестика оголошує лише global.css.
+	 * Локальний переважив би його через scoping Svelte, і без `transform`
+	 * у переліку оберт стався б миттєво — тобто його не було б видно взагалі.
+	 */
 	.video-modal__action {
 		display: grid;
 		place-items: center;
@@ -168,10 +178,6 @@
 		color: #cfe4ff;
 		cursor: pointer;
 		text-decoration: none;
-		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
 	}
 
 	.video-modal__action:hover {

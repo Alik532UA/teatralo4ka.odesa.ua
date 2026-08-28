@@ -112,6 +112,13 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	},
 	'NewsSection.svelte': { axis: 'window', why: 'відступи секції сторінки' },
 	'PhotoLightbox.svelte': { axis: 'window', why: 'накладка на весь екран' },
+	'VideoModal.svelte': { axis: 'window', why: '`position: fixed` — плеєр поверх сторінки' },
+	'GroupPlaysTimeline.svelte': {
+		axis: 'window',
+		why:
+			'смуга на всю ширину секції сторінки групи — єдине місце, де вона стоїть. ' +
+			'Потрапить у вузьку колонку картки випускника — вердикт треба перерішити на @container'
+	},
 	'ProjectsSection.svelte': { axis: 'window', why: 'відступи секції сторінки' },
 	'SearchOverlay.svelte': { axis: 'window', why: 'фіксована панель поверх сторінки' },
 	'StaticPage.svelte': { axis: 'window', why: 'розкладка самої сторінки й таблиць у тексті' },
