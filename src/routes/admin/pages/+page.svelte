@@ -119,21 +119,22 @@
 		try {
 			const currentStatus = article.translations?.[lang]?.isPublished ?? false;
 			const newTranslations = {
-				...article.translations,
+				uk: { ...article.translations.uk },
+				en: { ...article.translations.en },
 				[lang]: {
-					...article.translations?.[lang],
+					...article.translations[lang],
 					isPublished: !currentStatus
 				}
 			};
 
 			await updateArticle(article.id, {
-				translations: newTranslations as any,
+				translations: newTranslations,
 				type: 'page'
 			});
 
 			const idx = pages.findIndex(p => p.id === article.id);
 			if (idx !== -1) {
-				pages[idx].translations = newTranslations as any;
+				pages[idx].translations = newTranslations;
 			}
 			
 			toast.success($t('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));

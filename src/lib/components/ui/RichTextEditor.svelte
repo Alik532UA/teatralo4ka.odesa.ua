@@ -104,6 +104,11 @@
 	let modalText = $state('');
 	let modalType: 'link' | 'image' | null = $state(null);
 
+	type Level = 1 | 2 | 3 | 4 | 5 | 6;
+	const HEADING_LEVELS: Level[] = [1, 2, 3, 4, 5, 6];
+	const getEditorMarkdown = (ed: unknown): string =>
+		(ed as { storage?: { markdown?: { getMarkdown: () => string } } } | null | undefined)?.storage?.markdown?.getMarkdown() ?? '';
+
 	onMount(() => {
 		editor = new Editor({
 			element: element,
@@ -155,7 +160,7 @@
 			content: initialMode === 'html' ? '' : value,
 			onUpdate: ({ editor }) => {
 				if (editorMode === 'html') return;
-				const markdown = (editor.storage as any).markdown.getMarkdown();
+				const markdown = getEditorMarkdown(editor);
 				value = markdown;
 				if (onchange) onchange(markdown);
 				isTableActive = editor.isActive('table');
@@ -172,7 +177,7 @@
 	// Sync value from outside (only in visual mode)
 	$effect(() => {
 		if (editor && editorMode === 'visual') {
-			const currentMarkdown = (editor.storage as any).markdown.getMarkdown();
+			const currentMarkdown = getEditorMarkdown(editor);
 			if (value !== currentMarkdown) {
 				editor.commands.setContent(value || '', { emitUpdate: false });
 			}
@@ -192,7 +197,7 @@
 			editor.commands.setContent(value || '', { emitUpdate: false });
 		} else if (editorMode === 'html' && editor) {
 			editor.commands.setContent(htmlContent, { emitUpdate: false });
-			const markdown = (editor.storage as any).markdown.getMarkdown();
+			const markdown = getEditorMarkdown(editor);
 			value = markdown;
 			if (onchange) onchange(markdown);
 		}
@@ -393,12 +398,12 @@
 					   data-testid="{testId}-paragraph-btn"
 					   title={$t('editor.paragraph')}
 				   ><Type size={18} /></button>
-				   {#each [1, 2, 3, 4, 5, 6] as level (level)}
+				   {#each HEADING_LEVELS as level (level)}
 					   <button 
 						   type="button"
 						   class="tool-btn" 
 						   class:active={editor.isActive('heading', { level })} 
-						   onclick={() => editor?.chain().focus().toggleHeading({ level: level as any }).run()}
+						   onclick={() => editor?.chain().focus().toggleHeading({ level }).run()}
 						   data-testid="{testId}-h{level}-btn"
 						   title={$t('editor.heading', { values: { level } })}
 					   >H{level}</button>

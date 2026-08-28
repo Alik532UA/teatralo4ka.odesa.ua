@@ -53,6 +53,15 @@
 		}
 	});
 
+	function toDateObj(val: unknown): Date | null {
+		if (val && typeof val === 'object' && 'toDate' in val && typeof (val as { toDate: () => unknown }).toDate === 'function') {
+			const d = (val as { toDate: () => unknown }).toDate();
+			if (d instanceof Date) return d;
+		}
+		if (val instanceof Date) return val;
+		return null;
+	}
+
 	onMount(async () => {
 		if (!id) { goto(resolve('/admin/content')); return; }
 		const article = await getAdminArticleById(id as string);
@@ -62,21 +71,24 @@
 				uk: { coverUrl: '', videoUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.uk } as { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string },
 				en: { coverUrl: '', videoUrl: '', contentFormat: 'markdown' as const, externalUrl: '', ...article.translations?.en } as { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string }
 			};
+			const customDate = toDateObj(article.customDate);
 			articleData = {
 				category: article.category,
 				slug: article.slug ?? '',
 				dateMode: article.dateMode || (contentType === 'article' ? 'createdAt' : 'hidden'),
-				customDateStr: (article as any).customDate?.toDate
-					? (article as any).customDate.toDate().toISOString().split('T')[0]
+				customDateStr: customDate
+					? customDate.toISOString().split('T')[0]
 					: new Date().toISOString().split('T')[0],
-				sortOrder: (article as any).sortOrder,
+				sortOrder: article.sortOrder,
 				differentCovers: translations.uk.coverUrl !== translations.en.coverUrl,
 				differentVideos: translations.uk.videoUrl !== translations.en.videoUrl,
 				differentExternalUrls: translations.uk.externalUrl !== translations.en.externalUrl,
 				translations,
 			};
-			if ((article as any).createdAt?.toDate) createdAtDate = (article as any).createdAt.toDate();
-			if ((article as any).updatedAt?.toDate) updatedAtDate = (article as any).updatedAt.toDate();
+			const createdDate = toDateObj(article.createdAt);
+			if (createdDate) createdAtDate = createdDate;
+			const updatedDate = toDateObj(article.updatedAt);
+			if (updatedDate) updatedAtDate = updatedDate;
 		} else {
 			toast.error(get(t)('admin.editor.errorNotFound'));
 			goto(resolve('/admin/content'));

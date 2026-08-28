@@ -114,7 +114,7 @@ describe('базовий набір ESLint (CODE-QUALITY-v8 § 6.4.1)', () => {
  * Перебір у тілі одного `it` дає той самий звіт і не має цього стану.
  */
 const DEBT: Readonly<Record<string, number>> = {
-	'@typescript-eslint/no-explicit-any': 31
+	'@typescript-eslint/no-explicit-any': 0
 };
 
 describe('борг ESLint — число, що лише спадає (CODE-QUALITY-v8 § 6.4.3)', () => {

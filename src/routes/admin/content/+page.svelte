@@ -168,20 +168,21 @@
 		try {
 			const currentStatus = article.translations?.[lang]?.isPublished ?? false;
 			const newTranslations = {
-				...article.translations,
+				uk: { ...article.translations.uk },
+				en: { ...article.translations.en },
 				[lang]: {
-					...article.translations?.[lang],
+					...article.translations[lang],
 					isPublished: !currentStatus
 				}
 			};
 
 			await updateArticle(article.id, {
-				translations: newTranslations as any
+				translations: newTranslations
 			});
 
 			const idx = allItems.findIndex(a => a.id === article.id);
 			if (idx !== -1) {
-				allItems[idx].translations = newTranslations as any;
+				allItems[idx].translations = newTranslations;
 			}
 			
 			toast.success(get(t)('admin.content.statusUpdated', { values: { lang: lang.toUpperCase() } }));

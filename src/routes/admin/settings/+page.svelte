@@ -160,8 +160,14 @@ function updateTimeValue(isStart: boolean, type: 'h' | 'm', val: string) {
 // ── Header settings ──────────────────────────────────────────────────────────
 const VITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
-function getLocaleString(data: any, key: string): string {
-  return key.split('.').reduce((o: any, k: string) => o?.[k], data) ?? key;
+function getLocaleString(data: unknown, key: string): string {
+  const res = key
+    .split('.')
+    .reduce<unknown>(
+      (o, k) => (o && typeof o === 'object' && k in o ? (o as Record<string, unknown>)[k] : undefined),
+      data
+    );
+  return typeof res === 'string' ? res : key;
 }
 
 const KNOWN_PAGES = $derived(KNOWN_PAGE_ROUTES.map(p => ({

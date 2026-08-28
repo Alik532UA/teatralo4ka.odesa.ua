@@ -164,7 +164,9 @@ async function main() {
 
 	// Sync portrait paths to masters.index.json and profile JSONs
 	const indexPath = path.join('src', 'lib', 'data', 'masters.index.json');
-	const indexList: any[] = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+	const indexList: Array<{ id: string; portrait?: string; [key: string]: unknown }> = JSON.parse(
+		fs.readFileSync(indexPath, 'utf8')
+	);
 
 	for (const m of indexList) {
 		const portraitFile = path.join(portraitDir, `${m.id}.webp`);
@@ -173,7 +175,7 @@ async function main() {
 		}
 		const profilePath = path.join('static', 'masters', 'profiles', `${m.id}.json`);
 		if (fs.existsSync(profilePath)) {
-			const prof = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
+			const prof: Record<string, unknown> = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
 			if (m.portrait) prof.portrait = m.portrait;
 			fs.writeFileSync(profilePath, JSON.stringify(prof, null, '\t') + '\n', 'utf8');
 		}

@@ -101,7 +101,7 @@
 	let viewMode = $state<'keyboard' | 'chords'>('keyboard');
 	// Не стан: таблиця id таймерів згасання, яку читає лише код, ніколи розмітка.
 	// eslint-disable-next-line svelte/prefer-svelte-reactivity
-	const audioFadeIntervals = new Map<string, any>();
+	const audioFadeIntervals = new Map<string, ReturnType<typeof setInterval>>();
 
 	function getAudioSrc(midi: number) {
 		// The server has samples from 040 (C4) to 056 (E5)
@@ -132,9 +132,9 @@
 		if ('preservesPitch' in audio) {
 			audio.preservesPitch = false;
 		} else if ('webkitPreservesPitch' in audio) {
-			(audio as any).webkitPreservesPitch = false;
+			(audio as HTMLAudioElement & { webkitPreservesPitch?: boolean }).webkitPreservesPitch = false;
 		} else if ('mozPreservesPitch' in audio) {
-			(audio as any).mozPreservesPitch = false;
+			(audio as HTMLAudioElement & { mozPreservesPitch?: boolean }).mozPreservesPitch = false;
 		}
 
 		if (!isPartOfChord) nowPlaying = keyInfo.note;

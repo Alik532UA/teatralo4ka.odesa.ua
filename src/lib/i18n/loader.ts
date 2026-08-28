@@ -29,6 +29,9 @@ const PAGES: Record<string, Record<string, string>> = {
   }, {} as Record<string, string>)
 };
 
+type FrontmatterScalar = string | number | boolean;
+type FrontmatterValue = FrontmatterScalar | Record<string, FrontmatterScalar>;
+
 /**
  * Simple browser-compatible frontmatter parser to avoid Node.js 'Buffer' dependency.
  * Supports nested objects like 'seo' by looking at indentation.
@@ -40,7 +43,7 @@ function parseFrontmatter(fileContent: string) {
 
   const yamlBlock = match[1];
   const content = fileContent.slice(match[0].length).trim();
-  const data: Record<string, any> = {};
+  const data: Record<string, FrontmatterValue> = {};
   
   let currentKey: string | null = null;
 
@@ -53,7 +56,7 @@ function parseFrontmatter(fileContent: string) {
     const value = parts.slice(1).join(':').trim();
 
     // Basic type conversion
-    const processValue = (v: string) => {
+    const processValue = (v: string): FrontmatterScalar => {
       v = v.replace(/^['"](.*)['"]$/, '$1');
       if (v === 'true') return true;
       if (v === 'false') return false;
@@ -70,7 +73,10 @@ function parseFrontmatter(fileContent: string) {
         currentKey = null;
       }
     } else if (indent > 0 && currentKey) {
-      data[currentKey][key] = processValue(value);
+      const target = data[currentKey];
+      if (target && typeof target === 'object') {
+        target[key] = processValue(value);
+      }
     }
   });
 

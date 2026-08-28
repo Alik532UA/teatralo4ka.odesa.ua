@@ -141,6 +141,7 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `GraduateProfileView.svelte` 1540 → 1695. Огорнуто плашки майстрів, викладачів та груп у повнорозмірні посилання-кнопки.
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
+ * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -150,7 +151,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,
 	'src/lib/components/ui/MenuEditor.svelte': 865,
-	'src/lib/components/ui/RichTextEditor.svelte': 755,
+	'src/lib/components/ui/RichTextEditor.svelte': 760,
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 688,
 	'src/routes/projects/galaxy-graduates/groups/[slug]/+page.svelte': 695,

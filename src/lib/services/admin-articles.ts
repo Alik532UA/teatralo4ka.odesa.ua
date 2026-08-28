@@ -168,7 +168,7 @@ export async function addArticle(data: Omit<Article, "id" | "createdAt" | "updat
   const enData = data.translations?.en;
   const isPublished = (ukData.isPublished || false) || (enData?.isPublished || false);
 
-  const payloadToSave: any = {
+  const payloadToSave: Record<string, unknown> = {
     // ТІЛЬКИ ті ключі, які дозволені в firestore.rules:
     title: ukData.title || 'Untitled',
     content: ukData.content || '',
@@ -214,7 +214,7 @@ export async function updateArticle(articleId: string, data: Partial<Article>) {
 
   // Extract slug and sortOrder before spreading to handle them separately
   const { slug: rawSlug, sortOrder, ...dataWithoutSlugAndSort } = data;
-  const updatePayload: any = { ...dataWithoutSlugAndSort, updatedAt: serverTimestamp() };
+  const updatePayload: Record<string, unknown> = { ...dataWithoutSlugAndSort, updatedAt: serverTimestamp() };
 
   // Handle slug update
   if (rawSlug !== undefined) {

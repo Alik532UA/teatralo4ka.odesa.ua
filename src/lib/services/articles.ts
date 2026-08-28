@@ -8,6 +8,8 @@ import {
   where,
   limit,
   type QueryConstraint,
+  type Timestamp,
+  type FieldValue,
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { ArticleSchema } from "../schemas";
@@ -33,8 +35,7 @@ export interface ArticleTranslation {
    * Посилання на відео — YouTube, Vimeo, Instagram, Facebook.
    *
    * Окреме поле, а не «або зображення, або відео»: у новини бувають обидва, і
-   * тоді на картці показується зображення, а на сторінці — воно ж плюс кнопка
-   * «Переглянути відео». Розбір посилання — у `utils/videoEmbed.ts`.
+   * при заповненні обох картка показує відео з кнопкою відтворення.
    */
   videoUrl?: string;
   contentFormat?: ContentFormat;
@@ -49,10 +50,10 @@ export interface Article {
   type?: ContentType;
   category: ArticleCategory | string;
   author: string;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: Timestamp | FieldValue | null;
+  updatedAt: Timestamp | FieldValue | null;
   dateMode: DateMode;
-  customDate?: any;
+  customDate?: Timestamp | FieldValue | null;
   sortOrder?: number;
   translations: {
     uk: ArticleTranslation;
@@ -73,8 +74,8 @@ const projectId = import.meta.env.VITE_PROJECT_ID;
 export type StoredArticle = Article & { id: string };
 
 /** Parse Firestore doc into a validated Article (falls back to raw cast on schema mismatch) */
-function docToArticle(docSnap: { id: string; data: () => any }): StoredArticle {
-  const raw = { id: docSnap.id, ...docSnap.data() };
+function docToArticle(docSnap: { id: string; data: () => Record<string, unknown> | undefined }): StoredArticle {
+  const raw = { id: docSnap.id, ...(docSnap.data() || {}) };
   const result = ArticleSchema.safeParse(raw);
   return (result.success ? { ...result.data, id: docSnap.id } : raw) as StoredArticle;
 }
@@ -152,13 +153,13 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   return maxItems ? filtered.slice(0, maxItems) : filtered;
 }
 
-export function getDisplayDate(article: Article): any {
+export function getDisplayDate(article: Article): Timestamp | null {
   switch (article.dateMode) {
-    case 'createdAt': return article.createdAt;
-    case 'updatedAt': return article.updatedAt;
-    case 'custom': return article.customDate;
+    case 'createdAt': return (article.createdAt as Timestamp) ?? null;
+    case 'updatedAt': return (article.updatedAt as Timestamp) ?? null;
+    case 'custom': return (article.customDate as Timestamp) ?? null;
     case 'hidden': return null;
-    default: return article.createdAt;
+    default: return (article.createdAt as Timestamp) ?? null;
   }
 }
 
@@ -262,13 +263,23 @@ export async function getAllProjects(lang: string = "uk"): Promise<Article[]> {
       return translation && translation.isPublished;
     });
 
+  function getTimestampMillis(ts: Timestamp | FieldValue | null | undefined): number {
+    if (ts && 'toMillis' in ts && typeof ts.toMillis === 'function') {
+      return ts.toMillis();
+    }
+    if (ts && 'toDate' in ts && typeof ts.toDate === 'function') {
+      return ts.toDate().getTime();
+    }
+    return 0;
+  }
+
   // Sort by sortOrder (ascending, nulls last), then by createdAt desc as fallback
   return filtered.sort((a, b) => {
     const orderA = a.sortOrder ?? Number.MAX_SAFE_INTEGER;
     const orderB = b.sortOrder ?? Number.MAX_SAFE_INTEGER;
     if (orderA !== orderB) return orderA - orderB;
-    const timeA = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
-    const timeB = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+    const timeA = getTimestampMillis(a.createdAt);
+    const timeB = getTimestampMillis(b.createdAt);
     return timeB - timeA;
   });
 }
