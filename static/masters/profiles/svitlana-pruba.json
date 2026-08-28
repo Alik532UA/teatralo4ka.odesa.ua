@@ -17,5 +17,6 @@
 	"bio": "",
 	"socials": [],
 	"portrait": "/masters/portraits/svitlana-pruba.webp",
-	"unconfirmed": true
+	"unconfirmed": true,
+	"visible": false
 }

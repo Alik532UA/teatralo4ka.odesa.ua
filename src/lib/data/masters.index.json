@@ -302,7 +302,8 @@
 			"Вокал"
 		],
 		"photo": "/masters/natalia-shkolna.webp",
-		"portrait": "/masters/portraits/natalia-shkolna.webp"
+		"portrait": "/masters/portraits/natalia-shkolna.webp",
+		"visible": false
 	},
 	{
 		"id": "kateryna-bilenko",
@@ -502,7 +503,7 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/liusiia-dun.webp",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/liusiia-dun.webp",
@@ -1158,13 +1159,13 @@
 		"id": "svitlana-vitiuk",
 		"slug": "svitlana-vitiuk",
 		"displayName": "Світлана ВІТЮК",
-		"fullName": "Вітюк Світлана",
+		"fullName": "Вітюк Світлана Сергіївна",
 		"displayNameEn": "Svitlana VITIUK",
 		"fullNameEn": "Svitlana Vitiuk",
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/svitlana-vitiuk.webp",
 		"roleTitle": "викладачка сценічного мовлення першої категорії",
 		"portrait": "/masters/portraits/svitlana-vitiuk.webp",
@@ -1186,13 +1187,13 @@
 		"id": "yaroslava-turbinska",
 		"slug": "yaroslava-turbinska",
 		"displayName": "Ярослава ТУРБІНСЬКА",
-		"fullName": "Турбінська Ярослава",
+		"fullName": "Турбінська Ярослава Володимирівна",
 		"displayNameEn": "Yaroslava TURBINSKA",
 		"fullNameEn": "Yaroslava Turbinska",
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/yaroslava-turbinska.webp",
 		"roleTitle": "концертмейстер",
 		"portrait": "/masters/portraits/yaroslava-turbinska.webp",
@@ -1202,13 +1203,13 @@
 		"id": "anna-matkovska",
 		"slug": "anna-matkovska",
 		"displayName": "Анна МАТЬКОВСЬКА",
-		"fullName": "Матьковська Анна",
+		"fullName": "Матьковська Анна Іванівна",
 		"displayNameEn": "Anna MATKOVSKA",
 		"fullNameEn": "Anna Matkovska",
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/anna-matkovska.webp",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/anna-matkovska.webp",
@@ -1350,7 +1351,7 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active",
+		"status": "former",
 		"subjects": [],
 		"photo": "/masters/olena-rudiukova.webp",
 		"roleTitle": "концертмейстер вищої категорії",
@@ -1495,7 +1496,8 @@
 		"category": "production",
 		"roleTitle": "світлорежисер",
 		"portrait": "/masters/portraits/olena-kuznetsova.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "kyrylo-mazur",
@@ -1533,7 +1535,8 @@
 		],
 		"photo": "/masters/svitlana-pruba.webp",
 		"portrait": "/masters/portraits/svitlana-pruba.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "haidai",

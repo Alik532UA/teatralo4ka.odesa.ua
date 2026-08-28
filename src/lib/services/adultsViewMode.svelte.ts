@@ -34,7 +34,7 @@ function isMode(value: string | null): value is ViewMode {
 }
 
 class AdultsViewModeState {
-	current = $state<ViewMode>('cards');
+	current = $state<ViewMode>('gallery');
 
 	constructor() {
 		if (browser) {

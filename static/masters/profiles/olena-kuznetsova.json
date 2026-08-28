@@ -14,5 +14,6 @@
 	"category": "production",
 	"roleTitle": "світлорежисер",
 	"portrait": "/masters/portraits/olena-kuznetsova.webp",
-	"unconfirmed": true
+	"unconfirmed": true,
+	"visible": false
 }
