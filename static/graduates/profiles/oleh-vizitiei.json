@@ -1,0 +1,40 @@
+{
+	"code": "oleh-vizitiei",
+	"slug": "oleh-vizitiei",
+	"name": "Олег Візітєй",
+	"graduationYear": 2023,
+	"enrollmentYears": [
+		2016
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "ТВ Продакшн",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/_oleg_vizerium_"
+		}
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Сотник Забрьоха"
+		}
+	],
+	"bio": [
+		"Навчаюсь у академії «Шаг»"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23O"
+}

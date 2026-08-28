@@ -1,0 +1,87 @@
+{
+	"code": "anastasiia-ihnatovych",
+	"slug": "anastasiia-ihnatovych",
+	"name": "Анастасія Ігнатович",
+	"graduationYear": 2018,
+	"enrollmentYears": [
+		2004
+	],
+	"departments": [
+		"theatre",
+		"vocal"
+	],
+	"hasPhoto": true,
+	"group": "Мультяшки",
+	"masters": [
+		{
+			"id": "oleh-shevchuk",
+			"name": "Шевчук Олег",
+			"department": "theatre"
+		},
+		{
+			"id": "anastasiia-nikolaieva",
+			"name": "Ніколаєва Анастасія Олексіївна",
+			"department": "vocal"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100007121689244"
+		},
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/anesthesia_ig?utm_medium=copy_link"
+		}
+	],
+	"plays": [
+		{
+			"year": 2009,
+			"text": "«Облачко», Облачко"
+		},
+		{
+			"year": 2010,
+			"text": "«Клубничное королевство», Земляничка"
+		},
+		{
+			"year": 2011,
+			"text": "«Золушка», Гортензия"
+		},
+		{
+			"year": 2012,
+			"text": "«Волшебный колодец», Сорока"
+		},
+		{
+			"year": 2013,
+			"text": "«Э. Т. Ю. Д. Ы.»,"
+		},
+		{
+			"year": 2014,
+			"text": "«Общежитие», студент"
+		},
+		{
+			"year": 2015,
+			"text": "«Недетские игрушки», папа, мама"
+		},
+		{
+			"year": 2016,
+			"text": "«Отрывки из классики», Раиса, Сесили Кардью"
+		},
+		{
+			"year": 2017,
+			"text": "« Золотая лавина», Семьянин, доктор"
+		},
+		{
+			"year": 2018,
+			"text": "« Замарашка», Принц."
+		}
+	],
+	"bio": [
+		"Закінчую Харківський Національний Університет Мистецтв ім. Котляревського, художній керівник Дмитрієва О.Ф.",
+		"Працювала в театрі ляльок ім. Афанасьєва."
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3"
+}

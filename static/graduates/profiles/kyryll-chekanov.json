@@ -1,0 +1,44 @@
+{
+	"code": "kyryll-chekanov",
+	"slug": "kyryll-chekanov",
+	"name": "Кирило Чекано",
+	"graduationYear": 2002,
+	"enrollmentYears": [
+		1994
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Средние",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/chekanov.kirill"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "УМГКС Козлоногий, «Пастушка и трубочист»"
+		},
+		{
+			"year": null,
+			"text": "Панталоне, «Слуга двух господ»"
+		}
+	],
+	"bio": [
+		"Программист с огромным опытом"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K"
+}

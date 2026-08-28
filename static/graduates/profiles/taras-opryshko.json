@@ -1,0 +1,35 @@
+{
+	"code": "taras-opryshko",
+	"slug": "taras-opryshko",
+	"name": "Тарас Опришко",
+	"graduationYear": 2010,
+	"enrollmentYears": [],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": null,
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/taras.oprushko"
+		},
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/emun_sona"
+		}
+	],
+	"plays": [],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T_1"
+}

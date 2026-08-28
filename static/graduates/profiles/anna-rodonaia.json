@@ -1,0 +1,42 @@
+{
+	"code": "anna-rodonaia",
+	"slug": "anna-rodonaia",
+	"name": "Анна Родоная",
+	"graduationYear": 2015,
+	"enrollmentYears": [],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "ГруФФиш",
+	"masters": [
+		{
+			"id": "samuil-imas",
+			"name": "Імас Самуїл Михайлович",
+			"department": "theatre"
+		},
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/anna.rodonaya"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/rodonaya/"
+		}
+	],
+	"plays": [],
+	"bio": [
+		"Закінчила ГІТІС мастерню Л.Е.Хейфеца 2016-2020"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15A"
+}

@@ -1,0 +1,58 @@
+{
+	"code": "dar-ia-hurevych",
+	"slug": "dar-ia-hurevych",
+	"name": "Даря Гуревич",
+	"graduationYear": 2020,
+	"enrollmentYears": [
+		2015
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Человеки",
+	"masters": [
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100017130937830"
+		},
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/gurashkaa?utm_medium=copy_link"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "«Арденский лес», Розалинда;"
+		},
+		{
+			"year": null,
+			"text": "«Фото-топлес+по кругу»- первоклассница, подросток, мать-одиночка"
+		},
+		{
+			"year": null,
+			"text": "«Отрывки из классики»: «Собачий вальс»- роль Лиззет; «Последний лист», Сью"
+		},
+		{
+			"year": null,
+			"text": "«Играем Зощенко», Машенька, баба️"
+		}
+	],
+	"bio": [
+		"Навчаюсь в університеті ім.Карпенка-Карого на акторському майстерня С.А.Мойсеєва",
+		"Знімаюсь в кіно",
+		"Почала писати вірші ,і музику :)"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D_1"
+}

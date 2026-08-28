@@ -15,7 +15,7 @@ import { gotoReady, waitForAnimations } from './ready';
  * `sites.google.com/view/ats-ua/GG/2015/15K` → `/projects/galaxy-graduates/15K`.
  */
 
-const CODE = '15K';
+const CODE = 'kateryna-kudlach';
 const PROFILE = `/projects/galaxy-graduates/${CODE}`;
 const CARD = '[data-testid="galaxy-card-modal"]';
 const PLAY = '[data-testid^="galaxy-card-play-item-"]';

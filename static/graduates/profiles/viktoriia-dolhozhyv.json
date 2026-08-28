@@ -1,0 +1,79 @@
+{
+	"code": "viktoriia-dolhozhyv",
+	"slug": "viktoriia-dolhozhyv",
+	"name": "Вікторія Долгожив",
+	"graduationYear": 2007,
+	"enrollmentYears": [
+		1998
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": null,
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100001463444184"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/diva.viktoria/"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "«Русалочка» - рыбка"
+		},
+		{
+			"year": null,
+			"text": "«Голый король» - свинка"
+		},
+		{
+			"year": null,
+			"text": "«Как Бабы Яги сказку спасали» - младшенькая Б.Яга"
+		},
+		{
+			"year": null,
+			"text": "«Труффальдино из Бергамо» - Смеральдина"
+		},
+		{
+			"year": null,
+			"text": "«Голый король»- гувернантка"
+		},
+		{
+			"year": null,
+			"text": "«Дуэнья»- Дуэнья"
+		},
+		{
+			"year": null,
+			"text": "«Сон в летнюю ночь» - Основа"
+		},
+		{
+			"year": 2006,
+			"text": "«А зори здесь тихие» - Кирьянова"
+		},
+		{
+			"year": 2007,
+			"text": "Выпускной - «Женский стол в охотничьем зале» - Шаганэ"
+		}
+	],
+	"bio": [
+		"Окончила ОНУ им. Мечникова ( магистр культурологии, философский ф-т).",
+		"10 лет ведущей массовых мероприятий (МС в клубах, ведущая свадеб, корпоративов, показов).",
+		"Лучшая клубная ведущая 2014 года - юга Украины.",
+		"Основатель/Руководитель ведущего фото-портала Одессы Likeme.one с 2014г. Арт-директор: Р-н «Цирк» (с 2017-2019г), Р-н «Файна»(с 2015-2017г.), Порт - Одесса (Батуми лето 2019). В данный момент работаю в сфере рекламы."
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2007/07V"
+}

@@ -1,0 +1,33 @@
+{
+	"code": "karyna-sharkova",
+	"slug": "karyna-sharkova",
+	"name": "Карина Шаркова",
+	"graduationYear": 2024,
+	"enrollmentYears": [
+		2015
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": null,
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/s.h.a.r.k.o.v.a.k"
+		}
+	],
+	"plays": [],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K"
+}

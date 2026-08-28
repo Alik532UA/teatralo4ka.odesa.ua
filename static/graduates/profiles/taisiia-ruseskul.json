@@ -1,0 +1,46 @@
+{
+	"code": "taisiia-ruseskul",
+	"slug": "taisiia-ruseskul",
+	"name": "Таїсія Русескул",
+	"graduationYear": 2024,
+	"enrollmentYears": [
+		2018
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Аншлаг+Девичник",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/taisiya.ruseskul"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/jusuxf"
+		}
+	],
+	"plays": [
+		{
+			"year": 2018,
+			"text": "«Все літо в один день»"
+		},
+		{
+			"year": 2019,
+			"text": "«Аватари», Алеска/Тіна-тян"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24T"
+}
