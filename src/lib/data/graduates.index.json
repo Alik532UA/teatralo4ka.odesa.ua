@@ -619,7 +619,7 @@
 			2006
 		],
 		"group": {
-			"abbr": null,
+			"abbr": "ЗТК",
 			"name": "Захисники театральних куліс"
 		},
 		"masters": [
@@ -891,6 +891,17 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": "ЗТК",
+			"name": "Захисники театральних куліс"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3421,6 +3432,17 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": "ЗТК",
+			"name": "Захисники театральних куліс"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4967,7 +4989,11 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"group": {
+			"abbr": "ЗТК",
+			"name": "Захисники театральних куліс"
+		}
 	},
 	{
 		"slug": "oleksandr-didyk",

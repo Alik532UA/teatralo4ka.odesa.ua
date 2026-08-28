@@ -14,6 +14,8 @@
 		masterProfilePath,
 		relationSubjects,
 	} from "$lib/data/masters";
+	import { localizedPath } from "$lib/i18n/routing";
+	import { getGroupByTitleOrAbbr } from "$lib/data/groups";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -407,6 +409,7 @@
 		return () => ro.disconnect();
 	});
 
+	const isEn = $derived($locale === "en");
 	const enrollmentYears = $derived(
 		profile?.enrollmentYears ?? graduate.enrollmentYears ?? [],
 	);
@@ -423,6 +426,9 @@
 
 	const group = $derived(
 		profile?.group ?? graduate.group?.name ?? graduate.group?.abbr ?? null,
+	);
+	const matchingGroup = $derived(
+		group ? getGroupByTitleOrAbbr(group) : undefined,
 	);
 	const departments = $derived<Department[]>(
 		profile?.departments && profile.departments.length > 0
@@ -977,7 +983,17 @@
 			{#if group}
 				<div class="group" data-testid="galaxy-card-group-text">
 					<span class="group__label">{$t("galaxy.group")}:</span>
-					<strong class="group__name">{group}</strong>
+					{#if matchingGroup}
+						<a
+							href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
+							class="group__name group__name--link"
+							data-testid="galaxy-card-group-link"
+						>
+							<strong>{group}</strong>&nbsp;↗
+						</a>
+					{:else}
+						<strong class="group__name">{group}</strong>
+					{/if}
 				</div>
 			{/if}
 
@@ -1529,6 +1545,15 @@
 	}
 	.group__name {
 		color: var(--galaxy-text);
+	}
+	.group__name--link {
+		color: #93c5fd;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		transition: color 0.2s ease;
+	}
+	.group__name--link:hover {
+		color: #bfdbfe;
 	}
 	.row {
 		margin: 0 0 0.5rem;
