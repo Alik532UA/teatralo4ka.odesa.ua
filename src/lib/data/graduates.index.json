@@ -13,7 +13,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "albina-abuladze",
@@ -37,7 +38,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "valentyn-babichev",
@@ -94,7 +96,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "yeva-kosoy",
@@ -118,7 +121,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "zlata-stoyanova",
@@ -134,7 +138,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "ivan-pitel",
@@ -150,7 +155,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "kateryna-nesterenko",
@@ -166,7 +172,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "kristina-ovsepian",
@@ -174,7 +181,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "liora-kazatsker",
@@ -190,7 +198,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "marharyta-reznik",
@@ -222,7 +231,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "nikol-onyshchenko",
@@ -238,7 +248,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "oleksandra-halak",
@@ -262,7 +273,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "sofiya-rudenko",
@@ -278,7 +290,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "sofiya-shatalinska",
@@ -294,7 +307,8 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "yuliana-tymonova",

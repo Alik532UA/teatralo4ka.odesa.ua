@@ -59,7 +59,7 @@ export interface GraduateMaster {
  * `"Риторика та поетика, акторська майстерність"` — рукописна копія ПОВНОГО
  * переліку майстра, зліплена комою. Зіставити такий рядок із переліком майстра
  * не може ні код, ні перевірка: «акторська майстерність» тут з малої літери,
- * тобто це навіть не той самий рядок.
+ * тобто це навіть не той сим, що в майстра.
  */
 export interface GraduateTeacher {
 	id?: string;
@@ -108,10 +108,10 @@ export interface GraduateIndexEntry {
 	masters?: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
 	socials?: GraduateSocial[];
-	playCount?: number;
-	/** Точний розмір файлу профайлу у байтах (`static/graduates/profiles/<code>.json`) */
 	profileSize?: number;
 	sourceUrl?: string;
+	/** Прихований з сайту (наприклад, ще навчається) */
+	hidden?: boolean;
 }
 
 /** Одна вистава: рік і рядок дослівно зі старого сайту (назва разом із ролями). */
@@ -178,7 +178,9 @@ export function graduateProfilePath(code: string): Pathname {
 }
 
 /** Відсортовано за роком випуску (новіші перші), у межах року — за іменем. */
-export const GRADUATES: readonly GraduateIndexEntry[] = indexData as GraduateIndexEntry[];
+export const GRADUATES: readonly GraduateIndexEntry[] = (indexData as GraduateIndexEntry[]).filter(
+	(g) => !g.hidden
+);
 
 /**
  * Ті, у кого є портрет і анкета.
