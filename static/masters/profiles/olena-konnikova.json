@@ -9,7 +9,9 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Історія театру"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/olena-konnikova.webp",

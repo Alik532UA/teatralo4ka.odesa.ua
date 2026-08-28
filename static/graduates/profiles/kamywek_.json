@@ -1,1 +1,52 @@
-{"code":"kamywek_","slug":"karyna-kaminieva","name":"Карина Камінєва","graduationYear":2024,"enrollmentYears":[2020],"departments":["theatre"],"hasPhoto":true,"group":"Аншлаг+Девичник","masters":[{"id":"svitlana-ryskina","name":"Риськіна Світлана Миколаївна","department":"theatre"}],"socials":[{"network":"instagram","url":"https://www.instagram.com/wayrma3"}],"plays":[{"year":2020,"text":"«Етюди»"},{"year":2021,"text":"«Казки на всяк випадок», Ложка, Подушка, Оператор, Зелений шарік"},{"year":2023,"text":"«Уривки з класики» «Антігона, годувальниця» «Женітьба, роль Агафья Тіхоновна»"},{"year":2024,"text":"«Четверта стіна», Христина, Режисерка Івана"}],"bio":["Хочу поступити в університет Ушинского, мабуть буду пробувати себе у кіно індустрії)))"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2024/kamywek_"}
+{
+	"code": "kamywek_",
+	"slug": "karyna-kaminieva",
+	"name": "Карина Камінєва",
+	"graduationYear": 2024,
+	"enrollmentYears": [
+		2020
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Аншлаг+Девичник",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/wayrma3"
+		}
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Етюди»"
+		},
+		{
+			"year": 2021,
+			"text": "«Казки на всяк випадок», Ложка, Подушка, Оператор, Зелений шарік"
+		},
+		{
+			"year": 2023,
+			"text": "«Уривки з класики» «Антігона, годувальниця» «Женітьба, роль Агафья Тіхоновна»"
+		},
+		{
+			"year": 2024,
+			"text": "«Четверта стіна», Христина, Режисерка Івана"
+		}
+	],
+	"bio": [
+		"Хочу поступити в університет Ушинского, мабуть буду пробувати себе у кіно індустрії)))"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/kamywek_"
+}

@@ -1,1 +1,65 @@
-{"code":"karakulya","slug":"khrystia-oslavska","name":"Христина Ославська","graduationYear":2025,"enrollmentYears":[2017],"departments":["theatre"],"hasPhoto":true,"group":"Aншлаг+дєвішнік","masters":[{"id":"svitlana-ryskina","name":"Риськіна Світлана Миколаївна","department":"theatre"}],"socials":[{"network":"instagram","url":"https://www.instagram.com/k.karakulka"}],"plays":[{"year":2019,"text":"Фая, «Мусорний мюзикл»"},{"year":2020,"text":"дівчинка, «Все літо в один день»"},{"year":2021,"text":"динозаврик, Магда «Аватари»"},{"year":2022,"text":"Катерина, «Листи до Бога»"},{"year":2023,"text":"Олена «На перші гулі», Антігона «Антігона»"},{"year":2024,"text":"режисерка Іванна, Жанна «4 стіна»"},{"year":2025,"text":"дівина «Голоси»"}],"bio":["Я пишу вірші, маю особистий телеграм-канал із ними, називається","Каракульщина"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2025/karakulya"}
+{
+	"code": "karakulya",
+	"slug": "khrystia-oslavska",
+	"name": "Христина Ославська",
+	"graduationYear": 2025,
+	"enrollmentYears": [
+		2017
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Aншлаг+дєвішнік",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/k.karakulka"
+		}
+	],
+	"plays": [
+		{
+			"year": 2019,
+			"text": "Фая, «Мусорний мюзикл»"
+		},
+		{
+			"year": 2020,
+			"text": "дівчинка, «Все літо в один день»"
+		},
+		{
+			"year": 2021,
+			"text": "динозаврик, Магда «Аватари»"
+		},
+		{
+			"year": 2022,
+			"text": "Катерина, «Листи до Бога»"
+		},
+		{
+			"year": 2023,
+			"text": "Олена «На перші гулі», Антігона «Антігона»"
+		},
+		{
+			"year": 2024,
+			"text": "режисерка Іванна, Жанна «4 стіна»"
+		},
+		{
+			"year": 2025,
+			"text": "дівина «Голоси»"
+		}
+	],
+	"bio": [
+		"Я пишу вірші, маю особистий телеграм-канал із ними, називається",
+		"Каракульщина"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/karakulya"
+}

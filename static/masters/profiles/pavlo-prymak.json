@@ -9,7 +9,9 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Сценічний рух"
+	],
 	"bio": "",
 	"socials": []
 }

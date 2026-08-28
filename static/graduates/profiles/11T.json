@@ -1,1 +1,56 @@
-{"code":"11T","slug":"tetiana-kamelevska","name":"Тетяна Камелевська","graduationYear":2011,"enrollmentYears":[2007],"departments":["theatre"],"hasPhoto":true,"group":"Фреш","masters":[{"id":"fedir-tkach","name":"Ткач Федір Федорович","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/profile.php?id=100001259266431"},{"network":"instagram","url":"https://instagram.com/kamelevska_t?utm_medium=copy_link"}],"plays":[{"year":null,"text":"«Толпа одиноких», Девушка, у которой коричневые слюни"},{"year":2010,"text":"«Чиполлино», Синьора Помидора;"},{"year":2011,"text":"отрывки «Идиот», Настасья Филипповна; «Три Сёстры», Ирина, «Толпа одиноких» ДК"}],"bio":["Работаю маркетологом","Пишу сценарии для реклам","Озвучиваю рекламу","Фотографирую","Снимаю"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2011/11T"}
+{
+	"code": "11T",
+	"slug": "tetiana-kamelevska",
+	"name": "Тетяна Камелевська",
+	"graduationYear": 2011,
+	"enrollmentYears": [
+		2007
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Фреш",
+	"masters": [
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100001259266431"
+		},
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/kamelevska_t?utm_medium=copy_link"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "«Толпа одиноких», Девушка, у которой коричневые слюни"
+		},
+		{
+			"year": 2010,
+			"text": "«Чиполлино», Синьора Помидора;"
+		},
+		{
+			"year": 2011,
+			"text": "отрывки «Идиот», Настасья Филипповна; «Три Сёстры», Ирина, «Толпа одиноких» ДК"
+		}
+	],
+	"bio": [
+		"Работаю маркетологом",
+		"Пишу сценарии для реклам",
+		"Озвучиваю рекламу",
+		"Фотографирую",
+		"Снимаю"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T"
+}

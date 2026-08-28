@@ -1,1 +1,42 @@
-{"code":"23D","slug":"daria-terzi","name":"Дар'я Терзі","graduationYear":2023,"enrollmentYears":[2013],"departments":["theatre"],"hasPhoto":true,"group":"ТВ Продакшн","masters":[{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"}],"socials":[{"network":"instagram","url":"https://www.instagram.com/d.a.s.h.aaa/"}],"plays":[{"year":2023,"text":"«Сон Забрьохи», Олена"},{"year":2022,"text":"«Вісім люблячих жінок», Огюстина"}],"bio":[],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2023/23D"}
+{
+	"code": "23D",
+	"slug": "daria-terzi",
+	"name": "Дар'я Терзі",
+	"graduationYear": 2023,
+	"enrollmentYears": [
+		2013
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "ТВ Продакшн",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/d.a.s.h.aaa/"
+		}
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Олена"
+		},
+		{
+			"year": 2022,
+			"text": "«Вісім люблячих жінок», Огюстина"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23D"
+}

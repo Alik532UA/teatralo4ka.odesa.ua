@@ -12,7 +12,9 @@
 		"status": "active",
 		"subjects": [
 			"Акторська майстерність",
-			"Сценічна мова"
+			"Сценічна мова",
+			"Режисер",
+			"Індивідуальна сценічна мова"
 		],
 		"photo": "/masters/svitlana-ryskina.webp",
 		"category": "heads",
@@ -172,7 +174,8 @@
 		],
 		"status": "active",
 		"subjects": [
-			"Сценічна мова"
+			"Сценічна мова",
+			"Індивідуальна сценічна мова"
 		],
 		"photo": "/masters/vira-yemtsova-datsiuk.webp",
 		"category": "teachers",
@@ -412,7 +415,12 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"subjects": [
+			"Акторська майстерність",
+			"Індивідуальна сценічна мова",
+			"Грим"
+		]
 	},
 	{
 		"id": "nataliia-burian",
@@ -573,7 +581,10 @@
 		"photo": "/masters/olena-konnikova.webp",
 		"category": "teachers",
 		"roleTitle": "викладачка історії театру",
-		"portrait": "/masters/portraits/olena-konnikova.webp"
+		"portrait": "/masters/portraits/olena-konnikova.webp",
+		"subjects": [
+			"Історія театру"
+		]
 	},
 	{
 		"id": "alisa-kocheva",
@@ -771,7 +782,10 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"subjects": [
+			"Сценічний рух"
+		]
 	},
 	{
 		"id": "yuliia-purina",
@@ -863,7 +877,10 @@
 		"photo": "/masters/tetiana-stohul.webp",
 		"category": "teachers",
 		"roleTitle": "викладачка хореографії першої категорії",
-		"portrait": "/masters/portraits/tetiana-stohul.webp"
+		"portrait": "/masters/portraits/tetiana-stohul.webp",
+		"subjects": [
+			"Танець"
+		]
 	},
 	{
 		"id": "havriil-terekhov",

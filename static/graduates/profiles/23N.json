@@ -1,1 +1,41 @@
-{"code":"23N","slug":"dovhan-daria","name":"Дар'я Довган","graduationYear":2023,"enrollmentYears":[2018],"departments":["theatre"],"hasPhoto":true,"group":"7т-19 (2023р.)","masters":[{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"}],"socials":[],"plays":[{"year":2023,"text":"«З цією виставою щось не так / Вбивство в маєтку Гавершамів», Інспектор Картер / режисер"},{"year":2021,"text":"«Пароль Поцелуй»"},{"year":2020,"text":"«Кароліна»"}],"bio":[],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2023/23N"}
+{
+	"code": "23N",
+	"slug": "dovhan-daria",
+	"name": "Дар'я Довган",
+	"graduationYear": 2023,
+	"enrollmentYears": [
+		2018
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "7т-19 (2023р.)",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "«З цією виставою щось не так / Вбивство в маєтку Гавершамів», Інспектор Картер / режисер"
+		},
+		{
+			"year": 2021,
+			"text": "«Пароль Поцелуй»"
+		},
+		{
+			"year": 2020,
+			"text": "«Кароліна»"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23N"
+}

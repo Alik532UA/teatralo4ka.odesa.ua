@@ -1,1 +1,133 @@
-{"code":"albinaabuladze","slug":"albina-abuladze","name":"Альбіна Абуладзе","graduationYear":2026,"enrollmentYears":[2017],"departments":["theatre"],"hasPhoto":true,"group":null,"masters":[{"id":"svitlana-ryskina","name":"Риськіна Світлана Миколаївна","department":"theatre"}],"socials":[{"network":"instagram","url":"https://www.instagram.com/allbinna_at"}],"plays":[{"year":2020,"text":"«Мишеня-суперсищик», Бовтушка"},{"year":2023,"text":"«Сім'я–Грати», Марго"},{"year":2024,"text":"«Уривки з української класики»: «Сватання на Гончарівці» – Одарка, «Украдене щастя» – Настя, «Мина Мазайло» – Рина, «Маніпулянтка» – Целя; «Я(Романтика)»"},{"year":2025,"text":"«Перевізник», Дерево, Йог"},{"year":2026,"text":"«Тінь», Цезар Борджія (Марія Грація Борджія), Таємний радник"}],"bio":["Вступила до \"Київського національного університету культури і мистецтв\""],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze"}
+{
+	"code": "albinaabuladze",
+	"slug": "albina-abuladze",
+	"name": "Альбіна Абуладзе",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2017
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": null,
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/allbinna_at"
+		}
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Мишеня-суперсищик», Бовтушка"
+		},
+		{
+			"year": 2023,
+			"text": "«Сім'я–Грати», Марго"
+		},
+		{
+			"year": 2024,
+			"text": "«Уривки з української класики»: «Сватання на Гончарівці» – Одарка, «Украдене щастя» – Настя, «Мина Мазайло» – Рина, «Маніпулянтка» – Целя; «Я(Романтика)»"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Дерево, Йог"
+		},
+		{
+			"year": 2026,
+			"text": "«Тінь», Цезар Борджія (Марія Грація Борджія), Таємний радник"
+		}
+	],
+	"bio": [
+		"Вступила до \"Київського національного університету культури і мистецтв\""
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
+	"teachers": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Режисер",
+				"Індивідуальна сценічна мова"
+			]
+		},
+		{
+			"id": "elmir-hanbarov",
+			"name": "Ганбаров Ельмир Миколайович",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "yevheniia-osadcha",
+			"name": "Бур'ян Євгенія Іванівна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність",
+				"Індивідуальна сценічна мова",
+				"Грим"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"name": "Конікова Олена Костянтинівна",
+			"department": "theatre",
+			"subjects": [
+				"Історія театру"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"name": "Ніколаєва Ганна Станіславівна",
+			"department": "theatre",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"name": "Стогул Тетяна Володимирівна",
+			"department": "theatre",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"name": "Ткач Олена Борисівна",
+			"department": "theatre",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "vira-yemtsova-datsiuk",
+			"name": "Ємцова-Дацюк Віра Вікторівна",
+			"department": "theatre",
+			"subjects": [
+				"Індивідуальна сценічна мова"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"name": "Примак Павло Андрійович",
+			"department": "theatre",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	]
+}

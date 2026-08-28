@@ -1,1 +1,70 @@
-{"code":"13A","slug":"alla-khaiut","name":"Алла Хают","graduationYear":2013,"enrollmentYears":[2006],"departments":["theatre"],"hasPhoto":true,"group":"Шут","masters":[{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/ala.haiut"},{"network":"instagram","url":"https://www.instagram.com/ala_haiut"}],"plays":[{"year":null,"text":"2007 - «Щелкунчик» кукла фарфоровая"},{"year":2008,"text":"«Салун Матушки Мидоус» Матушка Мидоус"},{"year":2009,"text":"«Сказка о Мушке, которая любила работать» Мать Мушки"},{"year":2010,"text":"«Праздничный сон до обеда» Бальзаминова"},{"year":2011,"text":"«Сны Алисы Дулитл» Белая Королева"},{"year":2012,"text":"«Сестра моя, Русалочка» Королева"},{"year":2013,"text":"«8 любящих женщин» Сюзон"}],"bio":["Оперная певица","Закончила Кишинёвскую Академию Музыки, Театра и Изобразительного Искусства","Магистр 👩🏼‍🎓"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2013/13A"}
+{
+	"code": "13A",
+	"slug": "alla-khaiut",
+	"name": "Алла Хают",
+	"graduationYear": 2013,
+	"enrollmentYears": [
+		2006
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Шут",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/ala.haiut"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/ala_haiut"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "2007 - «Щелкунчик» кукла фарфоровая"
+		},
+		{
+			"year": 2008,
+			"text": "«Салун Матушки Мидоус» Матушка Мидоус"
+		},
+		{
+			"year": 2009,
+			"text": "«Сказка о Мушке, которая любила работать» Мать Мушки"
+		},
+		{
+			"year": 2010,
+			"text": "«Праздничный сон до обеда» Бальзаминова"
+		},
+		{
+			"year": 2011,
+			"text": "«Сны Алисы Дулитл» Белая Королева"
+		},
+		{
+			"year": 2012,
+			"text": "«Сестра моя, Русалочка» Королева"
+		},
+		{
+			"year": 2013,
+			"text": "«8 любящих женщин» Сюзон"
+		}
+	],
+	"bio": [
+		"Оперная певица",
+		"Закончила Кишинёвскую Академию Музыки, Театра и Изобразительного Искусства",
+		"Магистр 👩🏼‍🎓"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13A"
+}

@@ -1,1 +1,53 @@
-{"code":"21S","slug":"sofiia-holub","name":"Софія Голуб","graduationYear":2021,"enrollmentYears":[2021],"departments":["theatre"],"hasPhoto":true,"group":"Дівочі драми","masters":[{"id":"oleh-shevchuk","name":"Шевчук Олег","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/profile.php?id=100011157580496"},{"network":"instagram","url":"https://www.instagram.com/muasofiia/"}],"plays":[{"year":2019,"text":"«Котигорошівка» , Слухачиха"},{"year":2020,"text":"«Так буває» , Соня"},{"year":2021,"text":"уривок з п'єси В. Винниченка «Закон» Інна"}],"bio":["студентка першого курсу Національної академія керівних кадрів культури і мистецтв , факультет «сценічне мистецтво»","майстер Хоролець Лариса Іванівна"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2017/21S"}
+{
+	"code": "21S",
+	"slug": "sofiia-holub",
+	"name": "Софія Голуб",
+	"graduationYear": 2021,
+	"enrollmentYears": [
+		2021
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Дівочі драми",
+	"masters": [
+		{
+			"id": "oleh-shevchuk",
+			"name": "Шевчук Олег",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100011157580496"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/muasofiia/"
+		}
+	],
+	"plays": [
+		{
+			"year": 2019,
+			"text": "«Котигорошівка» , Слухачиха"
+		},
+		{
+			"year": 2020,
+			"text": "«Так буває» , Соня"
+		},
+		{
+			"year": 2021,
+			"text": "уривок з п'єси В. Винниченка «Закон» Інна"
+		}
+	],
+	"bio": [
+		"студентка першого курсу Національної академія керівних кадрів культури і мистецтв , факультет «сценічне мистецтво»",
+		"майстер Хоролець Лариса Іванівна"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/21S"
+}

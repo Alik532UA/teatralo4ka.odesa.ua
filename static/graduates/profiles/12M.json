@@ -1,1 +1,118 @@
-{"code":"12M","slug":"mariia-mykhailova-didenko","name":"Марія Діденко","graduationYear":2012,"enrollmentYears":[2002],"departments":["theatre","art"],"hasPhoto":true,"group":"Скоморошки","masters":[{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"},{"id":"vira-koval","name":"Коваль Віра Борисівна","department":"art"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/mashulya.didenko"},{"network":"instagram","url":"https://instagram.com/mariia0929mykhailova?utm_medium=copy_link"}],"plays":[{"year":null,"text":"«Осминожки», мама осминог"},{"year":null,"text":"«Дом который построил Джек»"},{"year":null,"text":"«Чиполлино», мистер Тыква"},{"year":null,"text":"«Цветик семицветик», девочка с куклой"},{"year":null,"text":"«Гном Вася», лиса"},{"year":null,"text":"«Сказка о попе и его работнике Балде», скоморох"},{"year":null,"text":"«Времена года», мачеха"},{"year":null,"text":"«Доктор Айболит», Обезьяна"},{"year":null,"text":"«Синяя птица», не рождённая душа"},{"year":null,"text":"«Cat’s», МамКет"},{"year":null,"text":"«Чёрная курица или подземные жители», дама, крыса, курица"},{"year":null,"text":"«Вечер с ангелами», злой ангел;"},{"year":null,"text":"«Звуки музыки», Бригитта Фон Трап, Монашка"},{"year":null,"text":"«Детский садик», Настенька"},{"year":null,"text":"«Мнимый больной», Скоморох"},{"year":null,"text":"«Юбилей» (одноактовка), Мерчуткина Настасья Федоровна"},{"year":null,"text":"«Китайский Новый год», Ангел Чарли (черненькая)"}],"bio":["2012 - вступила до ОТХУ на спеціальність «Художник-костюмер»","2015 -закінчила ОТХУ","2015-2020 - керівник гуртка ІЗО","З 2020 -керівник АРТ-студії «Райдужний кит 🐳»","Педагог з АРТу у дитячому центрі «Кузя»"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2012/12M"}
+{
+	"code": "12M",
+	"slug": "mariia-mykhailova-didenko",
+	"name": "Марія Діденко",
+	"graduationYear": 2012,
+	"enrollmentYears": [
+		2002
+	],
+	"departments": [
+		"theatre",
+		"art"
+	],
+	"hasPhoto": true,
+	"group": "Скоморошки",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		},
+		{
+			"id": "vira-koval",
+			"name": "Коваль Віра Борисівна",
+			"department": "art"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/mashulya.didenko"
+		},
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/mariia0929mykhailova?utm_medium=copy_link"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "«Осминожки», мама осминог"
+		},
+		{
+			"year": null,
+			"text": "«Дом который построил Джек»"
+		},
+		{
+			"year": null,
+			"text": "«Чиполлино», мистер Тыква"
+		},
+		{
+			"year": null,
+			"text": "«Цветик семицветик», девочка с куклой"
+		},
+		{
+			"year": null,
+			"text": "«Гном Вася», лиса"
+		},
+		{
+			"year": null,
+			"text": "«Сказка о попе и его работнике Балде», скоморох"
+		},
+		{
+			"year": null,
+			"text": "«Времена года», мачеха"
+		},
+		{
+			"year": null,
+			"text": "«Доктор Айболит», Обезьяна"
+		},
+		{
+			"year": null,
+			"text": "«Синяя птица», не рождённая душа"
+		},
+		{
+			"year": null,
+			"text": "«Cat’s», МамКет"
+		},
+		{
+			"year": null,
+			"text": "«Чёрная курица или подземные жители», дама, крыса, курица"
+		},
+		{
+			"year": null,
+			"text": "«Вечер с ангелами», злой ангел;"
+		},
+		{
+			"year": null,
+			"text": "«Звуки музыки», Бригитта Фон Трап, Монашка"
+		},
+		{
+			"year": null,
+			"text": "«Детский садик», Настенька"
+		},
+		{
+			"year": null,
+			"text": "«Мнимый больной», Скоморох"
+		},
+		{
+			"year": null,
+			"text": "«Юбилей» (одноактовка), Мерчуткина Настасья Федоровна"
+		},
+		{
+			"year": null,
+			"text": "«Китайский Новый год», Ангел Чарли (черненькая)"
+		}
+	],
+	"bio": [
+		"2012 - вступила до ОТХУ на спеціальність «Художник-костюмер»",
+		"2015 -закінчила ОТХУ",
+		"2015-2020 - керівник гуртка ІЗО",
+		"З 2020 -керівник АРТ-студії «Райдужний кит 🐳»",
+		"Педагог з АРТу у дитячому центрі «Кузя»"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12M"
+}

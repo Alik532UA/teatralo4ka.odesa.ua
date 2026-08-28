@@ -1,1 +1,79 @@
-{"code":"08A","slug":"alla-kolesnyk","name":"Алла Колесник","graduationYear":2008,"enrollmentYears":[2002],"departments":["theatre"],"hasPhoto":true,"group":"Галясы\", \"БЮСТ","masters":[{"id":"svitlana-ryskina","name":"Риськіна Світлана Миколаївна","department":"theatre"},{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"},{"id":"fedir-tkach","name":"Ткач Федір Федорович","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/profile.php?id=100017227628251"},{"network":"instagram","url":"https://www.instagram.com/ya_vishnevskaya777/?hl=ru"}],"plays":[{"year":2002,"text":"«Как бабы-яги сказку спасали»"},{"year":2004,"text":"«Сон в летнюю ночь»"},{"year":2005,"text":"«Тень»"},{"year":2006,"text":"«Дуэнья»"},{"year":2007,"text":"«Женский стол в Охотничьем зале»"},{"year":2008,"text":"«Крестики-нолики»"},{"year":2008,"text":"«А зори здесь тихие...»"}],"bio":["Училась на воспитателя","Работаю помощником бухгалтера в IT компании))"],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2008/08A"}
+{
+	"code": "08A",
+	"slug": "alla-kolesnyk",
+	"name": "Алла Колесник",
+	"graduationYear": 2008,
+	"enrollmentYears": [
+		2002
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Галясы\", \"БЮСТ",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		},
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		},
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100017227628251"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/ya_vishnevskaya777/?hl=ru"
+		}
+	],
+	"plays": [
+		{
+			"year": 2002,
+			"text": "«Как бабы-яги сказку спасали»"
+		},
+		{
+			"year": 2004,
+			"text": "«Сон в летнюю ночь»"
+		},
+		{
+			"year": 2005,
+			"text": "«Тень»"
+		},
+		{
+			"year": 2006,
+			"text": "«Дуэнья»"
+		},
+		{
+			"year": 2007,
+			"text": "«Женский стол в Охотничьем зале»"
+		},
+		{
+			"year": 2008,
+			"text": "«Крестики-нолики»"
+		},
+		{
+			"year": 2008,
+			"text": "«А зори здесь тихие...»"
+		}
+	],
+	"bio": [
+		"Училась на воспитателя",
+		"Работаю помощником бухгалтера в IT компании))"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08A"
+}

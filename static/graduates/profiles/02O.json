@@ -1,1 +1,52 @@
-{"code":"02O","slug":"olena-dzneladze","name":"Олена Дзнеладзе","graduationYear":2002,"enrollmentYears":[1991],"departments":["theatre"],"hasPhoto":true,"group":null,"masters":[{"id":"svitlana-ryskina","name":"Риськіна Світлана Миколаївна","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/elena.dzneladze"},{"network":"instagram","url":"https://www.instagram.com/elena.dzneladze/"}],"plays":[{"year":null,"text":"«Русалочка»"},{"year":null,"text":"«Ночь перед рождеством», Черт"},{"year":null,"text":"«За двома зайцями», Химка"}],"bio":["Археолог, Інститут археології НАН України з 2006 р."],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2002/02O"}
+{
+	"code": "02O",
+	"slug": "olena-dzneladze",
+	"name": "Олена Дзнеладзе",
+	"graduationYear": 2002,
+	"enrollmentYears": [
+		1991
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": null,
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/elena.dzneladze"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/elena.dzneladze/"
+		}
+	],
+	"plays": [
+		{
+			"year": null,
+			"text": "«Русалочка»"
+		},
+		{
+			"year": null,
+			"text": "«Ночь перед рождеством», Черт"
+		},
+		{
+			"year": null,
+			"text": "«За двома зайцями», Химка"
+		}
+	],
+	"bio": [
+		"Археолог, Інститут археології НАН України з 2006 р."
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02O"
+}

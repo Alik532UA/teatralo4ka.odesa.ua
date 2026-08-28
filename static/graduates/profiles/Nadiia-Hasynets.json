@@ -1,1 +1,69 @@
-{"code":"Nadiia-Hasynets","slug":"nadiia-hasynets","name":"Надія Гасинець","graduationYear":2024,"enrollmentYears":[2018],"departments":["theatre"],"hasPhoto":true,"group":"ПаXLава","masters":[{"id":"myroslava-derepa","name":"Дерепа Мирослава Ігорівна","department":"theatre"},{"id":"iryna-kulbaba","name":"Кульбаба Ірина Борисівна","department":"theatre"},{"id":"hanna-serebriannikova","name":"Серебряннікова Ганна Іванівна","department":"theatre"},{"id":"tetiana-isachkina","name":"Ісачкіна Тетяна Валеріївна","department":"theatre"}],"socials":[{"network":"facebook","url":"https://www.facebook.com/share/vtCLNBdpjyFP57CZ"},{"network":"instagram","url":"https://www.instagram.com/nadyshaaag"}],"plays":[{"year":2020,"text":"«Кораліна в крїни кошмарів», Кораліна"},{"year":2021,"text":"«Пароль:Поцілунок», Соня"},{"year":2023,"text":"«З цією пʼєсою щось не так», Енні"},{"year":2024,"text":"«Тривожні люди», Джекі (Інспектор Бі)"}],"bio":[],"festivals":[],"duringStudies":null,"afterGraduation":null,"sourceUrl":"https://sites.google.com/view/ats-ua/GG/2024/Nadiia-Hasynets"}
+{
+	"code": "Nadiia-Hasynets",
+	"slug": "nadiia-hasynets",
+	"name": "Надія Гасинець",
+	"graduationYear": 2024,
+	"enrollmentYears": [
+		2018
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "ПаXLава",
+	"masters": [
+		{
+			"id": "myroslava-derepa",
+			"name": "Дерепа Мирослава Ігорівна",
+			"department": "theatre"
+		},
+		{
+			"id": "iryna-kulbaba",
+			"name": "Кульбаба Ірина Борисівна",
+			"department": "theatre"
+		},
+		{
+			"id": "hanna-serebriannikova",
+			"name": "Серебряннікова Ганна Іванівна",
+			"department": "theatre"
+		},
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/share/vtCLNBdpjyFP57CZ"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/nadyshaaag"
+		}
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Кораліна в крїни кошмарів», Кораліна"
+		},
+		{
+			"year": 2021,
+			"text": "«Пароль:Поцілунок», Соня"
+		},
+		{
+			"year": 2023,
+			"text": "«З цією пʼєсою щось не так», Енні"
+		},
+		{
+			"year": 2024,
+			"text": "«Тривожні люди», Джекі (Інспектор Бі)"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Nadiia-Hasynets"
+}

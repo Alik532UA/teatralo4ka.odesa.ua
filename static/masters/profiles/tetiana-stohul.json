@@ -9,7 +9,9 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Танець"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/tetiana-stohul.webp",
