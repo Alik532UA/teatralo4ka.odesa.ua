@@ -79,7 +79,7 @@
 				aria-label={$t("settings.light")}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light')}
 				data-testid="theme-light{sfx}-btn"
-			><Sun size={20} /></button>
+			><Palette size={20} /></button>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light-yellow"}
@@ -87,7 +87,7 @@
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light-yellow')}
 				data-testid="theme-light-yellow{sfx}-btn"
-			><Palette size={20} /></button>
+			><Sun size={20} /></button>
 			{#if dev}
 				<button
 					class="dropdown-opt-unified"

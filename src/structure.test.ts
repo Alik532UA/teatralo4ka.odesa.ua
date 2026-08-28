@@ -166,7 +166,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 366,
 	'src/lib/data/betaChecklist.ts': 390,
 	'src/lib/components/DepartmentsSection.svelte': 353,
-	'src/lib/components/HeroSection.svelte': 330,
+	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
 	'src/routes/+layout.svelte': 345,

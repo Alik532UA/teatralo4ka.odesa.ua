@@ -5,6 +5,8 @@
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { imageSize, type LocalImage } from "$lib/config/localImages";
+	import PhotoLightbox, { type LightboxImage } from "$lib/components/PhotoLightbox.svelte";
+	import { activateOnKey } from "$lib/utils/activateOnKey";
 
 	/**
 	 * Шлях і його ВЛАСНИЙ розмір разом (PERFORMANCE-v8 § 3.2).
@@ -24,15 +26,31 @@
 	] as const satisfies readonly { id: string; label: string; alt: string; href: string; file: LocalImage }[];
 
 	let currentImageIndex = $state(0);
+	let isLightboxOpen = $state(false);
+	let lightboxIndex = $state(0);
+
+	const lightboxImages = $derived<LightboxImage[]>(
+		heroPhotos.map((photo) => ({
+			src: asset(photo),
+			alt: $t('hero.title'),
+			title: $t('hero.title')
+		}))
+	);
+
+	function openLightbox(idx: number) {
+		lightboxIndex = idx;
+		isLightboxOpen = true;
+	}
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			currentImageIndex = (currentImageIndex + 1) % heroPhotos.length;
+			if (!isLightboxOpen) {
+				currentImageIndex = (currentImageIndex + 1) % heroPhotos.length;
+			}
 		}, 10000);
 
 		return () => clearInterval(interval);
 	});
-
 </script>
 
 <section class="hero" id="hero-section" aria-label={$t('hero.section')} data-testid="hero-section-container">
@@ -66,7 +84,15 @@
 				`eager`: обидва в полі зору, тож `lazy` тут однаково нічого не відклав
 				би, а от `fetchpriority="low"` браузер враховує.
 			-->
-			<div class="hero__image-inner" data-testid="hero-image-container">
+			<div
+				class="hero__image-inner"
+				data-testid="hero-image-container"
+				role="button"
+				tabindex="0"
+				aria-label={$t('hero.title')}
+				onclick={() => openLightbox(currentImageIndex)}
+				onkeydown={activateOnKey(() => openLightbox(currentImageIndex))}
+			>
 				{#each heroPhotos as photo, i (photo)}
 					{@const size = imageSize(photo)}
 					<img
@@ -110,6 +136,13 @@
 		</div>
 	</div>
 </section>
+
+<PhotoLightbox
+	images={lightboxImages}
+	currentIndex={lightboxIndex}
+	isOpen={isLightboxOpen}
+	onclose={() => (isLightboxOpen = false)}
+/>
 
 <style>
 	.hero {
@@ -233,6 +266,15 @@
 		z-index: 2;
 		aspect-ratio: 4 / 3;
 		background: var(--bg-surface);
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+	}
+
+	.hero__image-inner:hover {
+		transform: scale(1.02);
+		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 	}
 
 	.hero__image {
