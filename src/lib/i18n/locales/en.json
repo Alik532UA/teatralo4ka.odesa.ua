@@ -247,7 +247,10 @@
     "statuteDesc": "The primary statutory document defining the legal status, goals, objectives, and operating principles of the school.",
     "view": "View",
     "download": "Download",
+    "readOnline": "Read Online",
+    "viewOriginalPdf": "Original (PDF)",
     "fileSize": "PDF, 4.7 MB",
+    "statuteDigitalNotice": "Official digital edition of the Statute formatted for accessible reading and search on all devices. Official signed document available in PDF.",
     "constituent": "Constituent Documents",
     "educational": "Educational Process",
     "reporting": "Reporting & Transparency",
@@ -543,7 +546,8 @@
         "residentsKids": "Kids",
         "residentsGraduates": "Graduates",
         "projects": "Projects",
-        "documents": "Official Documents"
+        "documents": "Official Documents",
+        "statute": "School Statute"
       },
       "ctaTitle": "CTA Button",
       "ctaDesc": "Call-to-action button in the right part of the header. Default text is taken from the selected page/article but can be overridden.",

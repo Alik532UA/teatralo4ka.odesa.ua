@@ -67,6 +67,7 @@ const PUBLIC_ENTRIES = [
 	'/contacts',
 	'/admission',
 	'/documents',
+	'/documents/statute',
 	'/news',
 	'/projects',
 	'/departments/theatre',

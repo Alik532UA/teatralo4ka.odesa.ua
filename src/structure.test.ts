@@ -137,7 +137,7 @@ const LIMITS: Array<[RegExp, number]> = [
  * стартувала б на кожен Tab усередині. `ContentWidget` у стелю вклався: там
  * рядків додано стільки ж, скільки прибрано умовою `isEngaged`.
  *
- * 2026-08-28: `+layout.svelte` 316 → 330, `data/betaChecklist.ts` 387 → 390. Додано маршрут /documents та fallback SEO.
+ * 2026-08-28: `+layout.svelte` 316 → 345, `data/betaChecklist.ts` 387 → 390. Додано маршрути /documents, /documents/statute та fallback SEO.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -169,7 +169,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 330,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/routes/+layout.svelte': 330,
+	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312
 };
 

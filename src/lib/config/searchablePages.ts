@@ -25,6 +25,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'admission', href: () => resolve('/admission') },
 	{ slug: 'contacts', href: () => resolve('/contacts') },
 	{ slug: 'documents', href: () => resolve('/documents') },
+	{ slug: 'statute', href: () => resolve('/documents/statute') },
 	{ slug: 'history', href: () => resolve('/history') },
 	{ slug: 'aesthetic', href: () => resolve('/departments/aesthetic') },
 	{ slug: 'art', href: () => resolve('/departments/art') },

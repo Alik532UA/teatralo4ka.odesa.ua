@@ -60,6 +60,7 @@ export const KNOWN_PAGE_ROUTES: KnownPageRoute[] = [
   { value: '/residents/graduates',     labelKey: 'admin.settings.pages.residentsGraduates' },
   { value: '/projects',                labelKey: 'admin.settings.pages.projects' },
   { value: '/documents',               labelKey: 'admin.settings.pages.documents' },
+  { value: '/documents/statute',       labelKey: 'admin.settings.pages.statute' },
 ];
 
 // ── Home page block ordering ──────────────────────────────────────────────────

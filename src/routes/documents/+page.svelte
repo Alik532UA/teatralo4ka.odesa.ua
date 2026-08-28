@@ -69,14 +69,23 @@
 
 							<div class="doc-card__actions" data-testid="doc-card-actions-toolbar">
 								<a
+									href={resolve('/documents/statute')}
+									class="btn btn-primary doc-btn"
+									data-testid="doc-statute-read-online-link"
+								>
+									<BookOpen size={18} />
+									<span>{$t('documents.readOnline')}</span>
+								</a>
+
+								<a
 									href={asset('/documents/statut-2025.pdf')}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="btn btn-primary doc-btn"
+									class="btn btn-outline doc-btn"
 									data-testid="doc-statute-view-btn"
 								>
 									<ExternalLink size={18} />
-									<span>{$t('documents.view')}</span>
+									<span>{$t('documents.viewOriginalPdf')}</span>
 								</a>
 
 								<a

@@ -123,7 +123,7 @@
 		dismissSplash();
 	});
 
-	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission' | 'documents';
+	type SeoPageKey = 'home' | 'about' | 'history' | 'contacts' | 'admission' | 'documents' | 'statute';
 	type SeoLangKey = 'uk' | 'en';
 	const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -162,6 +162,11 @@
 					title: 'Офіційні документи',
 					description:
 						'Офіційні документи, Статут закладу та публічна інформація Одеської театральної школи.'
+				},
+				statute: {
+					title: 'Статут закладу',
+					description:
+						'Офіційний повний текст Статуту Одеської театральної школи (нова редакція 2025 року).'
 				}
 			}
 		},
@@ -199,6 +204,11 @@
 					title: 'Official Documents',
 					description:
 						'Official documents, school statute and public information of Odesa Theatre School.'
+				},
+				statute: {
+					title: 'School Statute',
+					description:
+						'Official text of the Statute of Odesa Theater School (2025 edition).'
 				}
 			}
 		}
@@ -242,6 +252,8 @@
 				return 'admission';
 			case '/documents':
 				return 'documents';
+			case '/documents/statute':
+				return 'statute';
 			default:
 				return 'home';
 		}

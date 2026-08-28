@@ -159,6 +159,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/contacts',
 			'/admission',
 			'/documents',
+			'/documents/statute',
 			'/departments/theatre',
 			'/departments/aesthetic',
 			'/departments/music',
