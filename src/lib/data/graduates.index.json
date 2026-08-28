@@ -352,9 +352,19 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -2638,9 +2648,19 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -3689,9 +3709,24 @@
 		],
 		"masters": [
 			{
+				"id": "pavlo-koshka",
+				"name": "Кошка Павло Миколайович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -4404,9 +4439,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -4705,9 +4750,19 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -5294,9 +5349,19 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},
@@ -6732,9 +6797,19 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		]
 	},

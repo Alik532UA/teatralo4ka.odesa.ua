@@ -2,7 +2,6 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { locale, t } from 'svelte-i18n';
-	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
@@ -11,6 +10,8 @@
 	} from '$lib/data/graduates';
 	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
+	import MasterGraduatePopup from '$lib/components/MasterGraduatePopup.svelte';
+	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 
 	interface Props {
 		graduates?: GraduateIndexEntry[];
@@ -23,6 +24,10 @@
 	let started = $state(false);
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 	let plainLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
+
+	/** Випускник без анкети, чию міні-картку зараз показуємо. */
+	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
+	let formModalOpen = $state(false);
 
 	const normalizedStudents = $derived<MasterStudentEntry[]>(
 		students && students.length > 0
@@ -65,11 +70,6 @@
 					tier: 'colleague' as const,
 					hasPhoto: Boolean(m.photo),
 					photo: m.photo ?? null,
-					/*
-					 * Сумісний запис, а не справжній: колеги немає в переліку
-					 * випускників, і рік випуску в неї невідомий. `graduationYear: null`
-					 * означає саме «невідомо», тож підпис покаже лише ім'я.
-					 */
 					graduate: {
 						slug: m.slug,
 						name: $locale === 'en' ? m.displayNameEn : m.displayName,
@@ -147,13 +147,8 @@
 	);
 
 	function handleSelect(person: StarPerson) {
-		// Мова береться з адреси, а не з `$locale`: адреса — джерело істини для
-		// мови в цьому проєкті (I18N-v8 § 3.1), і без префікса читач англійської
-		// версії їхав на українську сторінку профілю.
 		const locale = localeFromPath(page.url.pathname);
 
-		// Колега-майстер веде на свою сторінку майстра, а не в «Галактику»: власної
-		// сторінки випускника в неї немає, і пошук за іменем не знайшов би нічого.
 		if (person.entry.kind === 'master') {
 			goto(masterProfilePath(person.entry.master.slug, locale));
 			return;
@@ -163,10 +158,8 @@
 		if (graduate.code) {
 			goto(localizedPath(graduateProfilePath(graduate.code), locale));
 		} else {
-			// Лише ім'я без коду — у пошук «Галактики». Тут `resolve()` доречний
-			// (на відміну від шляхів профілю): обробник виконується тільки в
-			// браузері, тож відносного шляху під prerender бути не може.
-			goto(resolve(`/projects/galaxy-graduates?search=${encodeURIComponent(graduate.name)}`));
+			// Немає коду (анкети) — показуємо спливаючу картку прямо тут
+			selectedGraduate = graduate;
 		}
 	}
 </script>
@@ -197,6 +190,14 @@
 		</ul>
 	{/if}
 </aside>
+
+<MasterGraduatePopup
+	graduate={selectedGraduate}
+	onclose={() => { selectedGraduate = null; }}
+	onopenform={() => { formModalOpen = true; }}
+/>
+
+<GraduateFormModal isOpen={formModalOpen} onclose={() => { formModalOpen = false; }} />
 
 <style>
 	.flow-stream {
