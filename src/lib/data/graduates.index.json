@@ -434,16 +434,6 @@
 				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
-		],
-		"teachers": [
-			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
-				"subjects": [
-					"Акторська майстерність"
-				]
-			}
 		]
 	},
 	{
@@ -759,6 +749,11 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -867,6 +862,11 @@
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
 			}
 		]
 	},
@@ -943,6 +943,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
 				"department": "theatre"
 			}
 		]
@@ -1048,6 +1053,11 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			},
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
@@ -1235,6 +1245,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
 				"department": "theatre"
 			}
 		]
@@ -1921,6 +1936,11 @@
 		],
 		"masters": [
 			{
+				"id": "hanna-tkach",
+				"name": "Ткач Ганна Федорівна",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -2204,6 +2224,11 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			},
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
@@ -2533,9 +2558,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -2669,6 +2704,11 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "nadiia-rybakova",
+				"name": "Рибакова Надія В.",
+				"department": "theatre"
+			},
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
@@ -2848,6 +2888,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		]
@@ -3459,6 +3504,11 @@
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
 			}
 		]
 	},
@@ -3593,6 +3643,11 @@
 		],
 		"masters": [
 			{
+				"id": "hanna-tkach",
+				"name": "Ткач Ганна Федорівна",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -3610,6 +3665,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		]
@@ -3756,9 +3816,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -3947,6 +4017,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "pavlo-koshka",
+				"name": "Кошка Павло Володимирович",
 				"department": "theatre"
 			}
 		]
@@ -4232,6 +4307,11 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -4428,9 +4508,19 @@
 		],
 		"masters": [
 			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -4544,6 +4634,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		]
@@ -4816,6 +4911,11 @@
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
 			}
 		]
 	},
@@ -5074,6 +5174,11 @@
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
 			}
 		]
 	},
@@ -5143,6 +5248,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		]
@@ -5221,9 +5331,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -5412,6 +5532,11 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -5552,9 +5677,19 @@
 		],
 		"masters": [
 			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -5885,9 +6020,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -5902,6 +6047,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
 				"department": "theatre"
 			}
 		]
@@ -6425,6 +6575,11 @@
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
+			},
+			{
+				"id": "pavlo-koshka",
+				"name": "Кошка Павло Володимирович",
+				"department": "theatre"
 			}
 		]
 	},
@@ -6470,6 +6625,11 @@
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			},
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		]
@@ -6585,9 +6745,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -6609,9 +6779,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -6961,9 +7141,19 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"department": "theatre",
+				"subjects": [
+					"Участь у виставах"
+				]
 			}
 		]
 	},
@@ -7225,6 +7415,11 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "hanna-tkach",
+				"name": "Ткач Ганна Федорівна",
+				"department": "theatre"
+			},
 			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
