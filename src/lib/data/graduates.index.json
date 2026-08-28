@@ -35,6 +35,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -119,6 +126,14 @@
 				"subjects": [
 					"Сценічна мова"
 				]
+			},
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
 			}
 		],
 		"socials": [
@@ -134,7 +149,7 @@
 		"playCount": 22,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/Alik",
 		"code": "Alik",
-		"profileSize": 4263
+		"profileSize": 4327
 	},
 	{
 		"slug": "alina-burdeina",
@@ -175,6 +190,13 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -224,6 +246,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -256,6 +285,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -313,6 +349,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -454,6 +497,13 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -462,6 +512,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -520,6 +577,13 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -589,6 +653,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -597,6 +668,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -656,6 +734,13 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -688,6 +773,13 @@
 		"graduationYear": 2016,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -696,6 +788,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -712,6 +811,13 @@
 		"graduationYear": 2011,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -744,6 +850,13 @@
 		"graduationYear": 2017,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -845,6 +958,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -962,6 +1082,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1015,6 +1142,13 @@
 		"graduationYear": 2017,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1039,6 +1173,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1071,6 +1212,13 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1266,7 +1414,17 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A",
 		"code": "14A",
 		"playCount": 0,
-		"profileSize": 746
+		"profileSize": 837,
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		]
 	},
 	{
 		"slug": "artem-suvorov",
@@ -1315,6 +1473,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1379,6 +1544,13 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1495,6 +1667,13 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1636,6 +1815,13 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1644,6 +1830,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -1921,6 +2114,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2242,6 +2442,13 @@
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2250,6 +2457,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2342,6 +2556,13 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2358,6 +2579,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2407,6 +2635,13 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2424,6 +2659,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2472,6 +2714,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2496,6 +2745,13 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2504,6 +2760,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2512,6 +2775,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2667,6 +2937,13 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2691,6 +2968,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2820,6 +3104,13 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2902,6 +3193,13 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -2979,6 +3277,13 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3035,6 +3340,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3043,6 +3355,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3173,6 +3492,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3181,6 +3507,13 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3246,6 +3579,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3315,6 +3655,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3339,6 +3686,13 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3347,6 +3701,13 @@
 		"graduationYear": 2017,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3468,6 +3829,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3748,6 +4116,13 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -3937,6 +4312,13 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4019,6 +4401,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4027,6 +4416,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4154,7 +4550,17 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98N",
 		"code": "98N",
-		"profileSize": 2041
+		"profileSize": 2132,
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		]
 	},
 	{
 		"slug": "nadiia-rybalko",
@@ -4194,6 +4600,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4218,6 +4631,13 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4267,6 +4687,13 @@
 		"graduationYear": 2016,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4275,6 +4702,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4461,6 +4895,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4494,6 +4935,13 @@
 		"graduationYear": 2016,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4518,6 +4966,13 @@
 		"graduationYear": 2017,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4550,6 +5005,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4623,6 +5085,13 @@
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4733,6 +5202,13 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4766,7 +5242,17 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98O",
 		"code": "98O",
-		"profileSize": 2191
+		"profileSize": 2282,
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		]
 	},
 	{
 		"slug": "olha-poliakova-2",
@@ -4790,6 +5276,13 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4798,6 +5291,13 @@
 		"graduationYear": 2006,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4806,6 +5306,13 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -4899,6 +5406,13 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5042,6 +5556,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5162,6 +5683,13 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5211,6 +5739,13 @@
 		"graduationYear": 2006,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5219,6 +5754,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5318,6 +5860,13 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5420,6 +5969,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5458,7 +6014,17 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V",
 		"code": "06V",
-		"profileSize": 1248
+		"profileSize": 1339,
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		]
 	},
 	{
 		"slug": "valentyn-babichev",
@@ -5710,6 +6276,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5734,6 +6307,13 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5742,6 +6322,13 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5782,6 +6369,13 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5798,6 +6392,13 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5838,6 +6439,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5855,6 +6463,13 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5904,7 +6519,17 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12V",
 		"code": "12V",
-		"profileSize": 1961
+		"profileSize": 2052,
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		]
 	},
 	{
 		"slug": "volodymyr-obiedalin",
@@ -5970,6 +6595,13 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6018,6 +6650,13 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6090,6 +6729,13 @@
 		"graduationYear": 2024,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6159,6 +6805,13 @@
 		"graduationYear": 2004,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6307,6 +6960,13 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6387,6 +7047,13 @@
 		"graduationYear": 2017,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6403,6 +7070,13 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
 		]
 	},
 	{

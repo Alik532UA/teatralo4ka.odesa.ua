@@ -6,6 +6,7 @@
 	import { asset } from '$app/paths';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
+	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
 	import { yearsOfService, yearsLabelKey } from '$lib/data/masters';
 	import type { PageData } from './$types';
 
@@ -317,6 +318,10 @@
 				<MasterGraduateFlow students={data.students} {masterName} />
 			</div>
 		</div>
+
+		{#if data.master.productions && data.master.productions.length > 0}
+			<MasterProductions productions={data.master.productions} {isEn} />
+		{/if}
 	</div>
 </div>
 

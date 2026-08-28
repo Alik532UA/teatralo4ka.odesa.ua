@@ -151,6 +151,20 @@ export interface MasterWorkPeriod {
 	to: number | null;
 }
 
+export interface MasterProduction {
+	number?: number;
+	year: number | string;
+	dateNote?: string;
+	institution?: string;
+	theatreGroup?: string;
+	title: string;
+	originalAuthor?: string;
+	participants?: string[];
+	awards?: string[];
+	videoUrl?: string;
+	isDtsh?: boolean;
+}
+
 export interface MasterProfile extends MasterIndexEntry {
 	bio?: string;
 	socials?: MasterSocial[];
@@ -166,6 +180,8 @@ export interface MasterProfile extends MasterIndexEntry {
 	 * На сторінці показується не самі роки, а їхня СУМА (`yearsOfService`).
 	 */
 	periods?: MasterWorkPeriod[];
+	/** Режисерські роботи, покази вистав та творчі проєкти. */
+	productions?: MasterProduction[];
 }
 
 export type Master = MasterProfile;
