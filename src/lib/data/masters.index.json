@@ -731,7 +731,9 @@
 		"roleTitle": "викладач акторської майстерності, майстер курсу",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"portrait": "/masters/portraits/vladyslav-mykhailiuk.webp",
+		"photo": "/masters/vladyslav-mykhailiuk.webp"
 	},
 	{
 		"id": "tetiana-minina",
@@ -816,7 +818,9 @@
 		"roleTitle": "викладачка історії мистецтв",
 		"subjects": [
 			"Історія мистецтв"
-		]
+		],
+		"portrait": "/masters/portraits/svitlana-ostapova.webp",
+		"photo": "/masters/svitlana-ostapova.webp"
 	},
 	{
 		"id": "olena-pavliukova",
@@ -877,7 +881,9 @@
 			"Сценічний рух"
 		],
 		"category": "directors",
-		"roleTitle": "викладач акторської майстерності та сценічного руху, майстер курсу"
+		"roleTitle": "викладач акторської майстерності та сценічного руху, майстер курсу",
+		"portrait": "/masters/portraits/pavlo-prymak.webp",
+		"photo": "/masters/pavlo-prymak.webp"
 	},
 	{
 		"id": "yuliia-purina",
@@ -1560,7 +1566,9 @@
 		"status": "active",
 		"subjects": [],
 		"category": "administration",
-		"roleTitle": "бухгалтерка-касирка"
+		"roleTitle": "бухгалтерка-касирка",
+		"portrait": "/masters/portraits/sofiia-tkach.webp",
+		"photo": "/masters/sofiia-tkach.webp"
 	},
 	{
 		"id": "dmytro-shylnykovskyi",
