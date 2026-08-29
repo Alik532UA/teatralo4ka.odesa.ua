@@ -1,0 +1,109 @@
+{
+	"code": "deva144p",
+	"slug": "kateryna-nesterenko",
+	"name": "Катерина Нестеренко",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2015
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"photoCount": 3,
+	"group": "Мамарада",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		}
+	],
+	"teachers": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"name": "Стогул Тетяна Володимирівна",
+			"department": "theatre",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"name": "Примак Павло Андрійович",
+			"department": "theatre",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "yevheniia-osadcha",
+			"name": "Осадча (Бур'ян) Євгенія Іванівна",
+			"department": "theatre",
+			"subjects": [
+				"Грим"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"name": "Ткач Олена Борисівна",
+			"department": "theatre",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/deva144p"
+		}
+	],
+	"plays": [
+		{
+			"year": 2015,
+			"text": "«Колобоня», мама Колобоні"
+		},
+		{
+			"year": 2020,
+			"text": "«Суботик», Суботик"
+		},
+		{
+			"year": 2021,
+			"text": "«Сентиментальна подорож», англійська принцеса"
+		},
+		{
+			"year": 2023,
+			"text": "«Нікому непотрібні», Пляма / Василіса"
+		},
+		{
+			"year": 2024,
+			"text": "«Уривки з класики»: «Королева комах», Місіс Хардвіг-Мур; «Дурні баби»; «Голос тихої безодні», Вона"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Смерть, Електричний стовп"
+		},
+		{
+			"year": 2026,
+			"text": "«Тінь», принцеса Луїза, Тінь"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": ""
+}
