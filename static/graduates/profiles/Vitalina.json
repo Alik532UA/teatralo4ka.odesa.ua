@@ -1,0 +1,156 @@
+{
+	"code": "Vitalina",
+	"slug": "vitalina-larionova",
+	"name": "Віталіна Ларіонова",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2016
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": false,
+	"group": "Світліні Мікіліївні",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		}
+	],
+	"teachers": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Режисер"
+			]
+		},
+		{
+			"id": "elmir-hanbarov",
+			"name": "Ганбаров Ельмір",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "yevheniia-osadcha",
+			"name": "Осадча (Бур'ян) Євгенія Іванівна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність",
+				"Грим"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"name": "Коннікова Олена Костянтинівна",
+			"department": "theatre",
+			"subjects": [
+				"Історія театру"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"name": "Ніколаєва Ганна Станіславівна",
+			"department": "music",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"name": "Стогул Тетяна Володимирівна",
+			"department": "theatre",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"name": "Ткач Олена Борисівна",
+			"department": "theatre",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "vira-yemtsova-datsiuk",
+			"name": "Ємцова-Дацюк Віра Вікторівна",
+			"department": "theatre",
+			"subjects": [
+				"Індивідуальна сценічна мова"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"name": "Примак Павло Андрійович",
+			"department": "theatre",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=61570595771873"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/m63_star"
+		}
+	],
+	"plays": [
+		{
+			"year": 2017,
+			"text": "«Комахи», Метелик Ізольда"
+		},
+		{
+			"year": 2018,
+			"text": "«Вінегрет», Картопля"
+		},
+		{
+			"year": 2018,
+			"text": "«За законами живої природи», Коник"
+		},
+		{
+			"year": 2019,
+			"text": "Етюди"
+		},
+		{
+			"year": 2020,
+			"text": "«Мишеня — суперсищик», Асистент Нам-Раш"
+		},
+		{
+			"year": 2021,
+			"text": "«Усі хлопці — дурні», Мама"
+		},
+		{
+			"year": 2023,
+			"text": "«Сім’я грати», Кіра підліток"
+		},
+		{
+			"year": 2024,
+			"text": "Уривки з класики: «Сватання на Гончарівці», Уляна; «Мина Мазайло», Уля; «Лісова пісня», Мавка; «Земля», Анна"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Донька, Йог"
+		},
+		{
+			"year": 2026,
+			"text": "«Тінь», Марія Грація Борджіа, Журналістка, Тінь 1 Помічник"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": ""
+}
