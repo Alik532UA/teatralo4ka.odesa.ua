@@ -3,7 +3,12 @@
 	import { t, locale } from "svelte-i18n";
 	import { ui } from "$lib/controllers/ui.svelte";
 	import type { DebugPanelConfig } from "$lib/services/settings";
-	import { nextTheme } from "$lib/config/themes";
+	import {
+		nextTheme,
+		themeColumns,
+		DEV_THEME_CYCLE,
+		PROD_THEME_CYCLE,
+	} from "$lib/config/themes";
 	import { dev } from "$app/environment";
 	import { Sun, Palette, FlaskConical, Moon, Waves } from "lucide-svelte";
 
@@ -17,6 +22,14 @@
 	let { isOpen, mobile = false, onChangeLang, debugPanel }: Props = $props();
 
 	const sfx = $derived(mobile ? '-mobile' : '');
+
+	/**
+	 * Кількість колонок для кнопок тем — щоб остання не лишалася в рядку сама.
+	 *
+	 * Береться з переліків, а не з рахунку кнопок у розмітці: `dev` додає
+	 * `dev-test-01`, і копія числа тут розійшлася б із переліком мовчки.
+	 */
+	const themeCols = themeColumns((dev ? DEV_THEME_CYCLE : PROD_THEME_CYCLE).length);
 	const mobileStyle = 'width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);';
 
 	/**
@@ -71,7 +84,16 @@
 	</div>
 	<div class="dropdown-group-unified" data-testid="settings-theme{sfx}-fieldset">
 		<span class="dropdown-label-unified">{$t("settings.theme")}</span>
-		<div class="dropdown-options-unified" data-testid="settings-theme{sfx}-options-list" style="flex-wrap: wrap;">
+		<!--
+			Сітка, а не flex-wrap: перенос сам вирішував, скільки кнопок влізе, і
+			на чотирьох темах давав 3+1 — одинока кнопка під рядком читається як
+			«щось не вмістилося». Кількість колонок рахує `themeColumns`.
+		-->
+		<div
+			class="dropdown-options-unified theme-options"
+			style="--theme-cols: {themeCols}"
+			data-testid="settings-theme{sfx}-options-list"
+		>
 			<button
 				class="dropdown-opt-unified"
 				class:active={ui.theme === "light"}
@@ -164,6 +186,23 @@
 {/if}
 
 <style>
+	/*
+	 * Перекриває `display: flex` глобального `.dropdown-options-unified`:
+	 * у мовної пари перенос не потрібен, а тут число колонок мусить бути задане
+	 * явно, інакше рядок ділиться так, як влізе.
+	 */
+	.theme-options {
+		display: grid;
+		grid-template-columns: repeat(var(--theme-cols, 3), 1fr);
+	}
+
+	/* `flex: 1` із глобальних стилів у сітці зайвий: ширину задає колонка, а
+	   `min-width: 0` не дає іконці розсунути її. */
+	.theme-options :global(.dropdown-opt-unified) {
+		flex: none;
+		min-width: 0;
+	}
+
 	.header__settings-dropdown {
 		width: 220px;
 		backdrop-filter: blur(16px);
