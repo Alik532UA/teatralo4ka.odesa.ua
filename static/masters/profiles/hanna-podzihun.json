@@ -6,11 +6,11 @@
 	"displayNameEn": "Hanna PODZIHUN",
 	"fullNameEn": "Hanna Podzihun",
 	"departments": [
-		"piano"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
 	"bio": "",
 	"socials": [],
-	"category": "accompanists"
+	"category": "accompanists",
+	"roleTitle": "концертмейстерка"
 }

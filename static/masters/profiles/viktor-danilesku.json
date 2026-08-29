@@ -6,10 +6,13 @@
 	"displayNameEn": "Viktor DANILESKU",
 	"fullNameEn": "Viktor Danilesku",
 	"departments": [
-		"piano"
+		"music"
 	],
-	"status": "active",
-	"subjects": [],
+	"status": "former",
+	"subjects": [
+		"Фортепіано"
+	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладач фортепіано"
 }

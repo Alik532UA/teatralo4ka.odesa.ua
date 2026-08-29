@@ -9,8 +9,11 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Акторська майстерність"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "directors"
+	"category": "directors",
+	"roleTitle": "викладач акторської майстерності, майстер курсу"
 }

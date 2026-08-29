@@ -8,8 +8,11 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "active",
-	"subjects": [],
+	"status": "former",
+	"subjects": [
+		"Акторська майстерність"
+	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 }

@@ -9,10 +9,12 @@
 		"theatre"
 	],
 	"status": "former",
-	"subjects": [],
+	"subjects": [
+		"Акторська майстерність"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/svitlana-myronenko.webp",
 	"portrait": "/masters/portraits/svitlana-myronenko.webp",
-	"unconfirmed": true
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 }

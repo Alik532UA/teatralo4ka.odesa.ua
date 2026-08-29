@@ -6,11 +6,14 @@
 	"displayNameEn": "Alisa KOCHEVA",
 	"fullNameEn": "Alisa Kocheva",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Вокал"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "vocalists"
+	"category": "vocalists",
+	"roleTitle": "викладачка вокалу"
 }

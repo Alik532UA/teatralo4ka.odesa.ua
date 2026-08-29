@@ -155,6 +155,30 @@
 	 */
 	const ADMIN_ORDER = ['olena-tkach', 'oksana-panchenko', 'natalia-shalashna', 'tetiana-korenchuk', 'sofiia-tkach'];
 
+	/*
+	 * Порядок служби турботи заданий автором 2026-08-29: бібліотека, психолог,
+	 * фотограф, декоратор, далі вахтери, далі прибиральники.
+	 *
+	 * Фіксованим переліком, а не сортуванням за роллю: «вахтер» і «прибиральник»
+	 * у даних записані як «менеджер з охорони» й «клінінг-менеджер», і виводити
+	 * порядок із тексту ролі означало б, що зміна формулювання тихо перемішає
+	 * розділ. Усередині двох останніх груп порядку не задано — там працює
+	 * звичайне сортування розділу.
+	 */
+	const SUPPORT_ORDER = [
+		'natalia-stoianova',
+		'olena-haraieva',
+		'daria-dias-valdis',
+		'burlak',
+		// вахтери
+		'yurii-drankov',
+		'viktor-kurov',
+		'natalia-lytvynova',
+		// прибиральники
+		'artur-lytvynenko',
+		'filarena-sukhanova'
+	];
+
 	/** Порядок за наперед заданим переліком; невідомі — у хвіст, між собою рівні. */
 	function byFixedOrder(order: string[], items: typeof allMasters) {
 		return [...items].sort((a, b) => {
@@ -200,6 +224,7 @@
 	 */
 	function sortCategoryItems(category: MasterSection, items: typeof allMasters) {
 		if (category === 'administration') return byFixedOrder(ADMIN_ORDER, items);
+		if (category === 'support') return byFixedOrder(SUPPORT_ORDER, items);
 		return [...items].sort(byStudentsThenPhotoThenName);
 	}
 

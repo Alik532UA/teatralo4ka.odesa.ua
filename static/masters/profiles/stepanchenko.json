@@ -1,17 +1,20 @@
 {
 	"id": "stepanchenko",
 	"slug": "stepanchenko",
-	"displayName": "Степанченко",
-	"fullName": "Степанченко",
-	"displayNameEn": "Stepanchenko",
-	"fullNameEn": "Stepanchenko",
+	"displayName": "Олена СТЕПАНЧЕНКО",
+	"fullName": "Степанченко Олена",
+	"displayNameEn": "Olena STEPANCHENKO",
+	"fullNameEn": "Olena Stepanchenko",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "former",
 	"photo": "/masters/stepanchenko.webp",
 	"portrait": "/masters/portraits/stepanchenko.webp",
 	"bio": "",
 	"socials": [],
-	"unconfirmed": true
+	"subjects": [
+		"Вокал"
+	],
+	"roleTitle": "викладачка вокалу"
 }

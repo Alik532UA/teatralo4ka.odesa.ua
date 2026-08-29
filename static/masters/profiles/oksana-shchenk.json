@@ -8,8 +8,11 @@
 	"departments": [
 		"theatre"
 	],
-	"status": "active",
-	"subjects": [],
+	"status": "former",
+	"subjects": [
+		"Англійська мова"
+	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка англійської мови"
 }

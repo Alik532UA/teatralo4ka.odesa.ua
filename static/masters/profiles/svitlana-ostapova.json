@@ -9,7 +9,11 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Історія мистецтв"
+	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка історії мистецтв",
+	"category": "speech"
 }

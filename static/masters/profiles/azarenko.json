@@ -1,10 +1,10 @@
 {
 	"id": "azarenko",
 	"slug": "azarenko",
-	"displayName": "Азаренко",
-	"fullName": "Азаренко",
-	"displayNameEn": "Azarenko",
-	"fullNameEn": "Azarenko",
+	"displayName": "Оксана АЗАРЕНКО",
+	"fullName": "Азаренко Оксана",
+	"displayNameEn": "Oksana AZARENKO",
+	"fullNameEn": "Oksana Azarenko",
 	"departments": [
 		"theatre"
 	],
@@ -13,5 +13,8 @@
 	"portrait": "/masters/portraits/azarenko.webp",
 	"bio": "",
 	"socials": [],
-	"unconfirmed": true
+	"subjects": [
+		"Грим"
+	],
+	"roleTitle": "викладачка гриму"
 }

@@ -6,11 +6,14 @@
 	"displayNameEn": "Olha CHERVONIAK",
 	"fullNameEn": "Olha Chervoniak",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Вокал"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "vocalists"
+	"category": "vocalists",
+	"roleTitle": "викладачка вокалу"
 }

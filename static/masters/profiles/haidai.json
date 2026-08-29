@@ -1,16 +1,17 @@
 {
 	"id": "haidai",
 	"slug": "haidai",
-	"displayName": "Гайдай",
-	"fullName": "Гайдай",
-	"displayNameEn": "Haidai",
-	"fullNameEn": "Haidai",
+	"displayName": "Регіна ГАЙДАЙ",
+	"fullName": "Гайдай Регіна",
+	"displayNameEn": "Rehina HAIDAI",
+	"fullNameEn": "Rehina Haidai",
 	"departments": [
-		"theatre"
+		"music"
 	],
-	"status": "active",
+	"status": "former",
 	"photo": "/masters/haidai.webp",
 	"portrait": "/masters/portraits/haidai.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "концертмейстерка"
 }

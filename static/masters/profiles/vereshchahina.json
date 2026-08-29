@@ -1,17 +1,17 @@
 {
 	"id": "vereshchahina",
 	"slug": "vereshchahina",
-	"displayName": "Верещагіна",
-	"fullName": "Верещагіна",
-	"displayNameEn": "Vereshchahina",
-	"fullNameEn": "Vereshchahina",
+	"displayName": "Тетяна ВЕРЕЩАГІНА",
+	"fullName": "Верещагіна Тетяна",
+	"displayNameEn": "Tetiana VERESHCHAHINA",
+	"fullNameEn": "Tetiana Vereshchahina",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "former",
 	"photo": "/masters/vereshchahina.webp",
 	"portrait": "/masters/portraits/vereshchahina.webp",
 	"bio": "",
 	"socials": [],
-	"unconfirmed": true
+	"roleTitle": "концертмейстерка"
 }

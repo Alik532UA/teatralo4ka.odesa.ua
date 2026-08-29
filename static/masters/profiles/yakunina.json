@@ -13,5 +13,6 @@
 	"portrait": "/masters/portraits/yakunina.webp",
 	"bio": "",
 	"socials": [],
-	"unconfirmed": true
+	"unconfirmed": true,
+	"visible": false
 }

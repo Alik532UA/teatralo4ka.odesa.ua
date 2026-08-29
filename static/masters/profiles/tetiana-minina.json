@@ -9,8 +9,11 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Хореографія"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "choreographers"
+	"category": "choreographers",
+	"roleTitle": "викладачка хореографії"
 }

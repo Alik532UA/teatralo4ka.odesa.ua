@@ -12,5 +12,6 @@
 	"photo": "/masters/matiunina.webp",
 	"portrait": "/masters/portraits/matiunina.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"visible": false
 }

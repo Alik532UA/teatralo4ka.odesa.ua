@@ -1,16 +1,20 @@
 {
 	"id": "larionova",
 	"slug": "larionova",
-	"displayName": "Ларіонова",
-	"fullName": "Ларіонова",
-	"displayNameEn": "Larionova",
-	"fullNameEn": "Larionova",
+	"displayName": "Юлія ЛАРІОНОВА",
+	"fullName": "Ларіонова Юлія",
+	"displayNameEn": "Yuliia LARIONOVA",
+	"fullNameEn": "Yuliia Larionova",
 	"departments": [
-		"theatre"
+		"music"
 	],
-	"status": "active",
+	"status": "former",
 	"photo": "/masters/larionova.webp",
 	"portrait": "/masters/portraits/larionova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"subjects": [
+		"Вокал"
+	],
+	"roleTitle": "викладачка вокалу"
 }

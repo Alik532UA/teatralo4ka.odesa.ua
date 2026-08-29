@@ -6,11 +6,14 @@
 	"displayNameEn": "Dariia NADOZHA",
 	"fullNameEn": "Dariia Nadozha",
 	"departments": [
-		"piano"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Фортепіано"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "musicians"
+	"category": "musicians",
+	"roleTitle": "викладачка фортепіано"
 }

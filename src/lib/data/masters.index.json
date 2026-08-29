@@ -231,9 +231,11 @@
 		],
 		"status": "active",
 		"subjects": [
-			"Вокал"
+			"Вокал",
+			"Обряди України"
 		],
-		"category": "vocalists"
+		"category": "vocalists",
+		"roleTitle": "викладачка вокалу та обрядів України"
 	},
 	{
 		"id": "anastasiia-nikolaieva",
@@ -337,7 +339,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "liudmyla-baranova",
@@ -347,10 +350,11 @@
 		"displayNameEn": "Liudmyla BARANOVA",
 		"fullNameEn": "Liudmyla Baranova",
 		"departments": [
-			"piano"
+			"music"
 		],
 		"status": "active",
-		"category": "accompanists"
+		"category": "accompanists",
+		"roleTitle": "концертмейстерка"
 	},
 	{
 		"id": "yevheniia-bohdanova",
@@ -376,10 +380,11 @@
 		"displayNameEn": "Yevheniia BONDAR",
 		"fullNameEn": "Yevheniia Bondar",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "active",
-		"category": "vocalists"
+		"category": "vocalists",
+		"roleTitle": "художня керівниця музичного театру, професорка, докторка мистецтвознавства, заслужена діячка мистецтв України"
 	},
 	{
 		"id": "mariia-buimovych",
@@ -391,7 +396,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "olha-buinytska",
@@ -401,12 +407,16 @@
 		"displayNameEn": "Olha BUINYTSKA",
 		"fullNameEn": "Olha Buinytska",
 		"departments": [
-			"theatre"
+			"guitar"
 		],
 		"status": "active",
 		"photo": "/masters/olha-buinytska.webp",
 		"portrait": "/masters/portraits/olha-buinytska.webp",
-		"category": "musicians"
+		"category": "musicians",
+		"roleTitle": "викладачка гітари",
+		"subjects": [
+			"Гітара"
+		]
 	},
 	{
 		"id": "yevheniia-osadcha",
@@ -424,7 +434,8 @@
 			"Індивідуальна сценічна мова",
 			"Грим"
 		],
-		"category": "directors"
+		"category": "directors",
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 	},
 	{
 		"id": "nataliia-burian",
@@ -436,7 +447,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "anhelina-kozlova",
@@ -448,7 +460,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "elmir-hanbarov",
@@ -479,7 +492,9 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"category": "support",
+		"roleTitle": "психологиня"
 	},
 	{
 		"id": "viktor-danilesku",
@@ -489,9 +504,13 @@
 		"displayNameEn": "Viktor DANILESKU",
 		"fullNameEn": "Viktor Danilesku",
 		"departments": [
-			"piano"
+			"music"
 		],
-		"status": "active"
+		"status": "former",
+		"roleTitle": "викладач фортепіано",
+		"subjects": [
+			"Фортепіано"
+		]
 	},
 	{
 		"id": "daria-dias-valdis",
@@ -503,7 +522,9 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"category": "support",
+		"roleTitle": "фотографиня"
 	},
 	{
 		"id": "liusiia-dun",
@@ -543,23 +564,33 @@
 		"displayNameEn": "Andrii KLYMENKO",
 		"fullNameEn": "Andrii Klymenko",
 		"departments": [
-			"theatre"
+			"guitar"
 		],
 		"status": "active",
-		"category": "musicians"
+		"category": "musicians",
+		"roleTitle": "викладач гітари",
+		"subjects": [
+			"Гітара"
+		]
 	},
 	{
 		"id": "yana-kovalchuk",
 		"slug": "yana-kovalchuk",
 		"displayName": "Яна КОВАЛЬЧУК",
-		"fullName": "Ковальчук Яна Вікторівна",
+		"fullName": "Ковальчук (Кореньок) Яна Вікторівна",
 		"displayNameEn": "Yana KOVALCHUK",
-		"fullNameEn": "Yana Kovalchuk",
+		"fullNameEn": "Yana Kovalchuk (Koreniok)",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "active",
-		"category": "vocalists"
+		"category": "vocalists",
+		"photo": "/masters/yana-kovalchuk.webp",
+		"portrait": "/masters/portraits/yana-kovalchuk.webp",
+		"roleTitle": "викладачка вокалу",
+		"subjects": [
+			"Вокал"
+		]
 	},
 	{
 		"id": "olena-kondratska",
@@ -569,10 +600,14 @@
 		"displayNameEn": "Olena KONDRATSKA",
 		"fullNameEn": "Olena Kondratska",
 		"departments": [
-			"theatre"
+			"guitar"
 		],
 		"status": "active",
-		"category": "musicians"
+		"category": "musicians",
+		"roleTitle": "викладачка гітари",
+		"subjects": [
+			"Гітара"
+		]
 	},
 	{
 		"id": "olena-konnikova",
@@ -601,10 +636,14 @@
 		"displayNameEn": "Alisa KOCHEVA",
 		"fullNameEn": "Alisa Kocheva",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "active",
-		"category": "vocalists"
+		"category": "vocalists",
+		"roleTitle": "викладачка вокалу",
+		"subjects": [
+			"Вокал"
+		]
 	},
 	{
 		"id": "vira-kurova",
@@ -648,7 +687,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "svitlana-myronenko",
@@ -663,7 +703,10 @@
 		"status": "former",
 		"photo": "/masters/svitlana-myronenko.webp",
 		"portrait": "/masters/portraits/svitlana-myronenko.webp",
-		"unconfirmed": true
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"subjects": [
+			"Акторська майстерність"
+		]
 	},
 	{
 		"id": "vladyslav-mykhailiuk",
@@ -676,7 +719,11 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "directors"
+		"category": "directors",
+		"roleTitle": "викладач акторської майстерності, майстер курсу",
+		"subjects": [
+			"Акторська майстерність"
+		]
 	},
 	{
 		"id": "tetiana-minina",
@@ -689,7 +736,11 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "choreographers"
+		"category": "choreographers",
+		"roleTitle": "викладачка хореографії",
+		"subjects": [
+			"Хореографія"
+		]
 	},
 	{
 		"id": "dariia-nadozha",
@@ -699,10 +750,14 @@
 		"displayNameEn": "Dariia NADOZHA",
 		"fullNameEn": "Dariia Nadozha",
 		"departments": [
-			"piano"
+			"music"
 		],
 		"status": "active",
-		"category": "musicians"
+		"category": "musicians",
+		"roleTitle": "викладачка фортепіано",
+		"subjects": [
+			"Фортепіано"
+		]
 	},
 	{
 		"id": "hanna-nikolaieva",
@@ -733,7 +788,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "svitlana-ostapova",
@@ -745,7 +801,12 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"category": "speech",
+		"roleTitle": "викладачка історії мистецтв",
+		"subjects": [
+			"Історія мистецтв"
+		]
 	},
 	{
 		"id": "olena-pavliukova",
@@ -757,7 +818,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "kristina-petrova",
@@ -769,7 +831,11 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "former",
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"subjects": [
+			"Акторська майстерність"
+		]
 	},
 	{
 		"id": "hanna-podzihun",
@@ -779,10 +845,11 @@
 		"displayNameEn": "Hanna PODZIHUN",
 		"fullNameEn": "Hanna Podzihun",
 		"departments": [
-			"piano"
+			"music"
 		],
 		"status": "active",
-		"category": "accompanists"
+		"category": "accompanists",
+		"roleTitle": "концертмейстерка"
 	},
 	{
 		"id": "pavlo-prymak",
@@ -796,9 +863,11 @@
 		],
 		"status": "active",
 		"subjects": [
+			"Акторська майстерність",
 			"Сценічний рух"
 		],
-		"category": "directors"
+		"category": "directors",
+		"roleTitle": "викладач акторської майстерності та сценічного руху, майстер курсу"
 	},
 	{
 		"id": "yuliia-purina",
@@ -810,7 +879,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "svitlana-radiushyna",
@@ -822,7 +892,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "diana-rudenko",
@@ -834,7 +905,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "kira-rusina",
@@ -846,7 +918,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "liubov-savina",
@@ -865,17 +938,18 @@
 		"portrait": "/masters/portraits/liubov-savina.webp"
 	},
 	{
-		"id": "oleksandra-sklifasovska",
-		"slug": "oleksandra-sklifasovska",
-		"displayName": "Олександра СКЛІФАСОВСЬКА",
-		"fullName": "Скліфасовська Олександра Сергіївна",
-		"displayNameEn": "Oleksandra SKLIFASOVSKA",
-		"fullNameEn": "Oleksandra Sklifasovska",
+		"id": "oleksandra-sklifosovska",
+		"slug": "oleksandra-sklifosovska",
+		"displayName": "Олександра СКЛІФОСОВСЬКА",
+		"fullName": "Скліфосовська Олександра Сергіївна",
+		"displayNameEn": "Oleksandra SKLIFOSOVSKA",
+		"fullNameEn": "Oleksandra Sklifosovska",
 		"departments": [
-			"piano"
+			"music"
 		],
 		"status": "active",
-		"category": "accompanists"
+		"category": "accompanists",
+		"roleTitle": "концертмейстерка"
 	},
 	{
 		"id": "tetiana-stohul",
@@ -906,7 +980,8 @@
 		"departments": [
 			"piano"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "iryna-tilniak",
@@ -919,7 +994,11 @@
 			"theatre"
 		],
 		"status": "active",
-		"category": "speech"
+		"category": "speech",
+		"roleTitle": "викладачка сценічного мовлення",
+		"subjects": [
+			"Сценічне мовлення"
+		]
 	},
 	{
 		"id": "vladyslav-tsobenko",
@@ -931,7 +1010,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "olha-chervoniak",
@@ -941,10 +1021,14 @@
 		"displayNameEn": "Olha CHERVONIAK",
 		"fullNameEn": "Olha Chervoniak",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "active",
-		"category": "vocalists"
+		"category": "vocalists",
+		"roleTitle": "викладачка вокалу",
+		"subjects": [
+			"Вокал"
+		]
 	},
 	{
 		"id": "svitlana-shvets",
@@ -956,7 +1040,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "oksana-shchenk",
@@ -968,7 +1053,11 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "former",
+		"roleTitle": "викладачка англійської мови",
+		"subjects": [
+			"Англійська мова"
+		]
 	},
 	{
 		"id": "tetiana-shcherbyna",
@@ -980,7 +1069,8 @@
 		"departments": [
 			"theatre"
 		],
-		"status": "active"
+		"status": "active",
+		"visible": false
 	},
 	{
 		"id": "samuil-imas",
@@ -1573,16 +1663,17 @@
 	{
 		"id": "haidai",
 		"slug": "haidai",
-		"displayName": "Гайдай",
-		"fullName": "Гайдай",
-		"displayNameEn": "Haidai",
-		"fullNameEn": "Haidai",
+		"displayName": "Регіна ГАЙДАЙ",
+		"fullName": "Гайдай Регіна",
+		"displayNameEn": "Rehina HAIDAI",
+		"fullNameEn": "Rehina Haidai",
 		"departments": [
-			"theatre"
+			"music"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/haidai.webp",
-		"portrait": "/masters/portraits/haidai.webp"
+		"portrait": "/masters/portraits/haidai.webp",
+		"roleTitle": "концертмейстерка"
 	},
 	{
 		"id": "koreniok",
@@ -1595,22 +1686,25 @@
 			"theatre"
 		],
 		"status": "active",
-		"photo": "/masters/koreniok.webp",
-		"portrait": "/masters/portraits/koreniok.webp"
+		"visible": false
 	},
 	{
 		"id": "larionova",
 		"slug": "larionova",
-		"displayName": "Ларіонова",
-		"fullName": "Ларіонова",
-		"displayNameEn": "Larionova",
-		"fullNameEn": "Larionova",
+		"displayName": "Юлія ЛАРІОНОВА",
+		"fullName": "Ларіонова Юлія",
+		"displayNameEn": "Yuliia LARIONOVA",
+		"fullNameEn": "Yuliia Larionova",
 		"departments": [
-			"theatre"
+			"music"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/larionova.webp",
-		"portrait": "/masters/portraits/larionova.webp"
+		"portrait": "/masters/portraits/larionova.webp",
+		"roleTitle": "викладачка вокалу",
+		"subjects": [
+			"Вокал"
+		]
 	},
 	{
 		"id": "matiunina",
@@ -1624,81 +1718,94 @@
 		],
 		"status": "active",
 		"photo": "/masters/matiunina.webp",
-		"portrait": "/masters/portraits/matiunina.webp"
+		"portrait": "/masters/portraits/matiunina.webp",
+		"visible": false
 	},
 	{
 		"id": "serkova",
 		"slug": "serkova",
-		"displayName": "Серкова",
-		"fullName": "Серкова",
-		"displayNameEn": "Serkova",
-		"fullNameEn": "Serkova",
+		"displayName": "Варвара СЕРКОВА",
+		"fullName": "Серкова Варвара",
+		"displayNameEn": "Varvara SERKOVA",
+		"fullNameEn": "Varvara Serkova",
 		"departments": [
-			"theatre"
+			"music"
 		],
-		"status": "active",
+		"status": "former",
 		"photo": "/masters/serkova.webp",
-		"portrait": "/masters/portraits/serkova.webp"
+		"portrait": "/masters/portraits/serkova.webp",
+		"roleTitle": "викладачка музичної теорії та сольфеджіо",
+		"subjects": [
+			"Музична теорія",
+			"Сольфеджіо"
+		]
 	},
 	{
 		"id": "azarenko",
 		"slug": "azarenko",
-		"displayName": "Азаренко",
-		"fullName": "Азаренко",
-		"displayNameEn": "Azarenko",
-		"fullNameEn": "Azarenko",
+		"displayName": "Оксана АЗАРЕНКО",
+		"fullName": "Азаренко Оксана",
+		"displayNameEn": "Oksana AZARENKO",
+		"fullNameEn": "Oksana Azarenko",
 		"departments": [
 			"theatre"
 		],
 		"status": "former",
 		"photo": "/masters/azarenko.webp",
 		"portrait": "/masters/portraits/azarenko.webp",
-		"unconfirmed": true
+		"roleTitle": "викладачка гриму",
+		"subjects": [
+			"Грим"
+		]
 	},
 	{
 		"id": "burlak",
 		"slug": "burlak",
-		"displayName": "Бурлак",
-		"fullName": "Бурлак",
-		"displayNameEn": "Burlak",
-		"fullNameEn": "Burlak",
+		"displayName": "Юрій БУРЛАК",
+		"fullName": "Бурлак Юрій",
+		"displayNameEn": "Yurii BURLAK",
+		"fullNameEn": "Yurii Burlak",
 		"departments": [
 			"theatre"
 		],
-		"status": "former",
+		"status": "active",
 		"photo": "/masters/burlak.webp",
 		"portrait": "/masters/portraits/burlak.webp",
-		"unconfirmed": true
+		"category": "support",
+		"roleTitle": "художник-декоратор"
 	},
 	{
 		"id": "vereshchahina",
 		"slug": "vereshchahina",
-		"displayName": "Верещагіна",
-		"fullName": "Верещагіна",
-		"displayNameEn": "Vereshchahina",
-		"fullNameEn": "Vereshchahina",
+		"displayName": "Тетяна ВЕРЕЩАГІНА",
+		"fullName": "Верещагіна Тетяна",
+		"displayNameEn": "Tetiana VERESHCHAHINA",
+		"fullNameEn": "Tetiana Vereshchahina",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "former",
 		"photo": "/masters/vereshchahina.webp",
 		"portrait": "/masters/portraits/vereshchahina.webp",
-		"unconfirmed": true
+		"roleTitle": "концертмейстерка"
 	},
 	{
 		"id": "hrachyk",
 		"slug": "hrachyk",
-		"displayName": "Грачик",
-		"fullName": "Грачик",
-		"displayNameEn": "Hrachyk",
-		"fullNameEn": "Hrachyk",
+		"displayName": "Тетяна ГРАЧИК",
+		"fullName": "Грачик Тетяна",
+		"displayNameEn": "Tetiana HRACHYK",
+		"fullNameEn": "Tetiana Hrachyk",
 		"departments": [
 			"theatre"
 		],
 		"status": "former",
 		"photo": "/masters/hrachyk.webp",
 		"portrait": "/masters/portraits/hrachyk.webp",
-		"unconfirmed": true
+		"roleTitle": "викладачка сценічного мовлення",
+		"subjects": [
+			"Сценічне мовлення"
+		]
 	},
 	{
 		"id": "zubynska",
@@ -1713,7 +1820,8 @@
 		"status": "former",
 		"photo": "/masters/zubynska.webp",
 		"portrait": "/masters/portraits/zubynska.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "kurkaiev",
@@ -1728,7 +1836,8 @@
 		"status": "former",
 		"photo": "/masters/kurkaiev.webp",
 		"portrait": "/masters/portraits/kurkaiev.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "milihlasova",
@@ -1743,7 +1852,8 @@
 		"status": "former",
 		"photo": "/masters/milihlasova.webp",
 		"portrait": "/masters/portraits/milihlasova.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "pyrohova",
@@ -1817,17 +1927,20 @@
 	{
 		"id": "stepanchenko",
 		"slug": "stepanchenko",
-		"displayName": "Степанченко",
-		"fullName": "Степанченко",
-		"displayNameEn": "Stepanchenko",
-		"fullNameEn": "Stepanchenko",
+		"displayName": "Олена СТЕПАНЧЕНКО",
+		"fullName": "Степанченко Олена",
+		"displayNameEn": "Olena STEPANCHENKO",
+		"fullNameEn": "Olena Stepanchenko",
 		"departments": [
-			"theatre"
+			"music"
 		],
 		"status": "former",
 		"photo": "/masters/stepanchenko.webp",
 		"portrait": "/masters/portraits/stepanchenko.webp",
-		"unconfirmed": true
+		"roleTitle": "викладачка вокалу",
+		"subjects": [
+			"Вокал"
+		]
 	},
 	{
 		"id": "yakunina",
@@ -1842,7 +1955,8 @@
 		"status": "former",
 		"photo": "/masters/yakunina.webp",
 		"portrait": "/masters/portraits/yakunina.webp",
-		"unconfirmed": true
+		"unconfirmed": true,
+		"visible": false
 	},
 	{
 		"id": "tetiana-stepanchuk",

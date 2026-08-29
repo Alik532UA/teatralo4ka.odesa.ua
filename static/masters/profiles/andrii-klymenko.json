@@ -6,11 +6,14 @@
 	"displayNameEn": "Andrii KLYMENKO",
 	"fullNameEn": "Andrii Klymenko",
 	"departments": [
-		"theatre"
+		"guitar"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Гітара"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "musicians"
+	"category": "musicians",
+	"roleTitle": "викладач гітари"
 }

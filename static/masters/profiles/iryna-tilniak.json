@@ -9,8 +9,11 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Сценічне мовлення"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "speech"
+	"category": "speech",
+	"roleTitle": "викладачка сценічного мовлення"
 }

@@ -6,11 +6,11 @@
 	"displayNameEn": "Liudmyla BARANOVA",
 	"fullNameEn": "Liudmyla Baranova",
 	"departments": [
-		"piano"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
 	"bio": "",
 	"socials": [],
-	"category": "accompanists"
+	"category": "accompanists",
+	"roleTitle": "концертмейстерка"
 }

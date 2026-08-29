@@ -1,16 +1,21 @@
 {
 	"id": "serkova",
 	"slug": "serkova",
-	"displayName": "Серкова",
-	"fullName": "Серкова",
-	"displayNameEn": "Serkova",
-	"fullNameEn": "Serkova",
+	"displayName": "Варвара СЕРКОВА",
+	"fullName": "Серкова Варвара",
+	"displayNameEn": "Varvara SERKOVA",
+	"fullNameEn": "Varvara Serkova",
 	"departments": [
-		"theatre"
+		"music"
 	],
-	"status": "active",
+	"status": "former",
 	"photo": "/masters/serkova.webp",
 	"portrait": "/masters/portraits/serkova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"subjects": [
+		"Музична теорія",
+		"Сольфеджіо"
+	],
+	"roleTitle": "викладачка музичної теорії та сольфеджіо"
 }

@@ -1,17 +1,18 @@
 {
 	"id": "burlak",
 	"slug": "burlak",
-	"displayName": "Бурлак",
-	"fullName": "Бурлак",
-	"displayNameEn": "Burlak",
-	"fullNameEn": "Burlak",
+	"displayName": "Юрій БУРЛАК",
+	"fullName": "Бурлак Юрій",
+	"displayNameEn": "Yurii BURLAK",
+	"fullNameEn": "Yurii Burlak",
 	"departments": [
 		"theatre"
 	],
-	"status": "former",
+	"status": "active",
 	"photo": "/masters/burlak.webp",
 	"portrait": "/masters/portraits/burlak.webp",
 	"bio": "",
 	"socials": [],
-	"unconfirmed": true
+	"roleTitle": "художник-декоратор",
+	"category": "support"
 }

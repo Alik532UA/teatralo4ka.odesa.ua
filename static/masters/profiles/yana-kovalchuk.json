@@ -2,15 +2,20 @@
 	"id": "yana-kovalchuk",
 	"slug": "yana-kovalchuk",
 	"displayName": "Яна КОВАЛЬЧУК",
-	"fullName": "Ковальчук Яна Вікторівна",
+	"fullName": "Ковальчук (Кореньок) Яна Вікторівна",
 	"displayNameEn": "Yana KOVALCHUK",
-	"fullNameEn": "Yana Kovalchuk",
+	"fullNameEn": "Yana Kovalchuk (Koreniok)",
 	"departments": [
-		"theatre"
+		"music"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Вокал"
+	],
 	"bio": "",
 	"socials": [],
-	"category": "vocalists"
+	"category": "vocalists",
+	"roleTitle": "викладачка вокалу",
+	"photo": "/masters/yana-kovalchuk.webp",
+	"portrait": "/masters/portraits/yana-kovalchuk.webp"
 }

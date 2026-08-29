@@ -10,9 +10,11 @@
 	],
 	"status": "active",
 	"subjects": [
-		"Вокал"
+		"Вокал",
+		"Обряди України"
 	],
 	"bio": "",
 	"socials": [],
-	"category": "vocalists"
+	"category": "vocalists",
+	"roleTitle": "викладачка вокалу та обрядів України"
 }

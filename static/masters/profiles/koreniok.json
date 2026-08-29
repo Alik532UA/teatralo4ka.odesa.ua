@@ -9,8 +9,7 @@
 		"theatre"
 	],
 	"status": "active",
-	"photo": "/masters/koreniok.webp",
-	"portrait": "/masters/portraits/koreniok.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"visible": false
 }

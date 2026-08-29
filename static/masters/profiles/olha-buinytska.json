@@ -6,13 +6,16 @@
 	"displayNameEn": "Olha BUINYTSKA",
 	"fullNameEn": "Olha Buinytska",
 	"departments": [
-		"theatre"
+		"guitar"
 	],
 	"status": "active",
-	"subjects": [],
+	"subjects": [
+		"Гітара"
+	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/olha-buinytska.webp",
 	"portrait": "/masters/portraits/olha-buinytska.webp",
-	"category": "musicians"
+	"category": "musicians",
+	"roleTitle": "викладачка гітари"
 }

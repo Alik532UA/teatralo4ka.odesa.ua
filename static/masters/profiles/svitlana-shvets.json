@@ -9,7 +9,7 @@
 		"theatre"
 	],
 	"status": "active",
-	"subjects": [],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"visible": false
 }
