@@ -4,7 +4,7 @@
 	import { asset } from '$app/paths';
 	import { ArrowLeft, Drama, Users, Sparkles, Award, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
+	import type { GraduateIndexEntry } from '$lib/data/graduates';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
@@ -120,8 +120,13 @@
 				</div>
 
 				<div class="people-grid" data-testid="group-members-list">
+					<!--
+						Випускник відкривається КАРТКОЮ тут, а не переходом у
+						галактику: людина прийшла дивитися групу, і посилання
+						забирало б її зі сторінки, з якої вона щойно почала. Картка
+						дістає анкету сама, тож посилання для цього не потрібне.
+					-->
 					{#each members as member, idx (member.slug)}
-						{@const hasProfile = Boolean(member.hasPhoto && member.code)}
 						{@const photoSrc = member.hasPhoto ? asset(`/graduates/${member.slug}-192.webp`) : null}
 						<GroupPersonCard
 							name={member.name}
@@ -129,14 +134,9 @@
 							subtitle={member.graduationYear
 								? `${$t('galaxy.graduated')} ${member.graduationYear}`
 								: null}
-							href={hasProfile && member.code
-								? localizedPath(graduateProfilePath(member.code), currentLang)
-								: undefined}
-							onclick={hasProfile && member.code
-								? undefined
-								: () => {
-										selectedGraduate = member;
-									}}
+							onclick={() => {
+								selectedGraduate = member;
+							}}
 							index={idx}
 							testid="group-member-card-{member.slug}"
 						/>

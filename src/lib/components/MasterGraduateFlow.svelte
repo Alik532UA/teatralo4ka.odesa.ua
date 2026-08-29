@@ -3,11 +3,8 @@
 	import { goto } from '$app/navigation';
 	import { locale, t } from 'svelte-i18n';
 	import { page } from '$app/state';
-	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
-	import {
-		graduateProfilePath,
-		type GraduateIndexEntry
-	} from '$lib/data/graduates';
+	import { localeFromPath } from '$lib/i18n/routing';
+	import type { GraduateIndexEntry } from '$lib/data/graduates';
 	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
@@ -152,13 +149,15 @@
 			return;
 		}
 
-		const graduate = person.entry.graduate;
-		if (graduate.code) {
-			goto(localizedPath(graduateProfilePath(graduate.code), locale));
-		} else {
-			// Немає коду (анкети) — показуємо спливаючу картку прямо тут
-			selectedGraduate = graduate;
-		}
+		/*
+		 * Випускник відкривається КАРТКОЮ тут, а не переходом у галактику.
+		 *
+		 * Доти перехід робився для тих, у кого є анкета, а картка лишалася тільки
+		 * для решти — тобто поведінка залежала від повноти даних: та сама зірка
+		 * то відкривала вікно, то забирала зі сторінки майстра. Картка дістає
+		 * анкету сама, тож різниці між цими двома випадками більше немає.
+		 */
+		selectedGraduate = person.entry.graduate;
 	}
 </script>
 
