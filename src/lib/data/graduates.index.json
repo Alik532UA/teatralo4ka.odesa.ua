@@ -5473,7 +5473,95 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"code": "karachevskasasha",
+		"enrollmentYears": [
+			2015
+		],
+		"hasPhoto": true,
+		"photoCount": 2,
+		"group": {
+			"abbr": null,
+			"name": "Світліні Мікіліївні"
+		},
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		],
+		"teachers": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre",
+				"subjects": [
+					"Режисер",
+					"Індивідуальна сценічна мова"
+				]
+			},
+			{
+				"id": "yevheniia-osadcha",
+				"name": "Осадча (Бур'ян) Євгенія Іванівна",
+				"department": "theatre",
+				"subjects": [
+					"Індивідуальна сценічна мова",
+					"Грим"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"name": "Коннікова Олена Костянтинівна",
+				"department": "theatre",
+				"subjects": [
+					"Історія театру"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"name": "Ніколаєва Ганна Станіславівна",
+				"department": "music",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"name": "Стогул Тетяна Володимирівна",
+				"department": "theatre",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"name": "Ткач Олена Борисівна",
+				"department": "theatre",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "pavlo-prymak",
+				"name": "Примак Павло Андрійович",
+				"department": "theatre",
+				"subjects": [
+					"Сценічний рух"
+				]
+			}
+		],
+		"socials": [
+			{
+				"network": "instagram",
+				"url": "https://www.instagram.com/sashxsqs"
+			}
+		],
+		"playCount": 9,
+		"profileSize": 2484
 	},
 	{
 		"slug": "oleksandra-khalfina",
