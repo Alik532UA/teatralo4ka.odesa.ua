@@ -48,14 +48,6 @@
 			]
 		},
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre",
-			"subjects": [
-				"Участь у виставах"
-			]
-		},
-		{
 			"id": "natalia-stepanenko",
 			"name": "Степаненко Наталя",
 			"department": "guitar",
@@ -85,6 +77,30 @@
 			"department": "theatre",
 			"subjects": [
 				"Сценічна мова"
+			]
+		},
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"name": "Коннікова Олена Костянтинівна",
+			"department": "theatre",
+			"subjects": [
+				"Історія театру"
+			]
+		},
+		{
+			"id": "iryna-yershova",
+			"name": "Єршова Ірина",
+			"department": "theatre",
+			"subjects": [
+				"Хореографія"
 			]
 		}
 	],
