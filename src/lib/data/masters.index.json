@@ -1412,7 +1412,7 @@
 		"subjects": [],
 		"photo": "/masters/tetiana-korenchuk.webp",
 		"category": "administration",
-		"roleTitle": "бухгалтерка-економістка",
+		"roleTitle": "головна бухгалтерка",
 		"portrait": "/masters/portraits/tetiana-korenchuk.webp"
 	},
 	{
@@ -1548,7 +1548,7 @@
 		"status": "active",
 		"subjects": [],
 		"category": "administration",
-		"roleTitle": "бухгалтерка"
+		"roleTitle": "бухгалтерка-касирка"
 	},
 	{
 		"id": "dmytro-shylnykovskyi",
