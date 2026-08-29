@@ -37,7 +37,11 @@ export interface GraduateGroup {
 	memberSlugs: string[];
 	plays: GroupPlay[];
 	bio?: string[];
-	photo?: string;
+	/**
+	 * Знімки групи для банера. Список, а не один рядок: банер їх перегортає, і
+	 * кожен відкривається на весь екран. Немає поля — банера просто немає.
+	 */
+	photos?: string[];
 }
 
 export const GROUPS: readonly GraduateGroup[] = [
@@ -46,7 +50,11 @@ export const GROUPS: readonly GraduateGroup[] = [
 		name: 'Захисники театральних куліс',
 		abbr: 'ЗТК',
 		nameEn: 'Defenders of Theatre Wings',
-		photo: '/groups/zakhysnyky-teatralnykh-kulis.webp',
+		photos: [
+			'/groups/zakhysnyky-teatralnykh-kulis.webp',
+			'/groups/zakhysnyky-teatralnykh-kulis-2.webp',
+			'/groups/zakhysnyky-teatralnykh-kulis-3.webp'
+		],
 		masters: [
 			{
 				id: 'tetiana-isachkina',

@@ -8,7 +8,7 @@
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
-	import { imageSize, type LocalImage } from '$lib/config/localImages';
+	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -45,6 +45,7 @@
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 	const groupTitle = $derived(isEn && data.group.nameEn ? data.group.nameEn : data.group.name);
 	const graduationYearsStr = $derived(data.group.graduationYears.join(', '));
+
 </script>
 
 <svelte:head>
@@ -76,19 +77,7 @@
 
 		<!-- Головна шапка групи -->
 		<header class="group-header">
-			{#if data.group.photo}
-				{@const size = imageSize(data.group.photo as LocalImage)}
-				<div class="group-photo-wrap" data-testid="group-photo-banner">
-					<img
-						src={asset(data.group.photo)}
-						alt={groupTitle}
-						class="group-photo-img"
-						loading="eager"
-						width={size.width}
-						height={size.height}
-					/>
-				</div>
-			{/if}
+			<GroupPhotoBanner photos={data.group.photos ?? []} title={groupTitle} />
 
 			<div class="group-header__badge-wrap">
 				{#if data.group.abbr}
@@ -305,29 +294,6 @@
 		text-align: center;
 	}
 
-	.group-photo-wrap {
-		max-width: 820px;
-		margin: 0 auto 2rem;
-		border-radius: 20px;
-		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-		background: rgba(15, 23, 42, 0.6);
-		backdrop-filter: blur(12px);
-	}
-
-	.group-photo-img {
-		width: 100%;
-		height: auto;
-		display: block;
-		object-fit: cover;
-		transition: transform 0.4s ease;
-	}
-
-	.group-photo-wrap:hover .group-photo-img {
-		transform: scale(1.015);
-	}
-
 	.group-header__badge-wrap {
 		display: flex;
 		align-items: center;
@@ -448,11 +414,6 @@
 		-webkit-text-fill-color: transparent;
 	}
 
-	:global(.light-theme) .group-photo-wrap {
-		border-color: rgba(0, 0, 0, 0.1);
-		box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
-		background: #f8fafc;
-	}
 
 	:global(.light-theme) .nav-back-link {
 		background: rgba(0, 0, 0, 0.04);
