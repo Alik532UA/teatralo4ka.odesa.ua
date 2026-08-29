@@ -2081,5 +2081,208 @@
 		"roleTitle": "завідувачка господарством, вахтерка, буфетниця",
 		"portrait": "/masters/portraits/nataliia-zybina.webp",
 		"photo": "/masters/nataliia-zybina.webp"
+	},
+	{
+		"id": "yevheniia-voiutska",
+		"slug": "yevheniia-voiutska",
+		"displayName": "Євгенія ВОЮЦЬКА",
+		"fullName": "Воюцька Євгенія",
+		"displayNameEn": "Yevheniia VOIUTSKA",
+		"fullNameEn": "Yevheniia Voiutska",
+		"departments": [
+			"music"
+		],
+		"subjects": [],
+		"roleTitle": "концертмейстерка",
+		"status": "former"
+	},
+	{
+		"id": "tamara-mykhailychenko",
+		"slug": "tamara-mykhailychenko",
+		"displayName": "Тамара МИХАЙЛИЧЕНКО",
+		"fullName": "Михайличенко Тамара",
+		"displayNameEn": "Tamara MYKHAILYCHENKO",
+		"fullNameEn": "Tamara Mykhailychenko",
+		"departments": [
+			"art"
+		],
+		"subjects": [
+			"Історія мистецтв"
+		],
+		"roleTitle": "викладачка історії мистецтв, керівниця художньої галереї «Міст»",
+		"status": "former"
+	},
+	{
+		"id": "nina-arkhontova",
+		"slug": "nina-arkhontova",
+		"displayName": "Ніна АРХОНТОВА",
+		"fullName": "Архонтова Ніна",
+		"displayNameEn": "Nina ARKHONTOVA",
+		"fullNameEn": "Nina Arkhontova",
+		"departments": [],
+		"subjects": [],
+		"roleTitle": "викладачка відділення «РАФАМаН»",
+		"status": "former"
+	},
+	{
+		"id": "liudmyla-volkova",
+		"slug": "liudmyla-volkova",
+		"displayName": "Людмила ВОЛКОВА",
+		"fullName": "Волкова Людмила",
+		"displayNameEn": "Liudmyla VOLKOVA",
+		"fullNameEn": "Liudmyla Volkova",
+		"departments": [
+			"vocal"
+		],
+		"subjects": [
+			"Вокал"
+		],
+		"roleTitle": "викладачка вокалу",
+		"status": "former"
+	},
+	{
+		"id": "nadiia-dolenko",
+		"slug": "nadiia-dolenko",
+		"displayName": "Надія ДОЛЕНКО",
+		"fullName": "Доленко Надія",
+		"displayNameEn": "Nadiia DOLENKO",
+		"fullNameEn": "Nadiia Dolenko",
+		"departments": [
+			"theatre"
+		],
+		"subjects": [
+			"Сценічне мовлення"
+		],
+		"roleTitle": "викладачка сценічного мовлення",
+		"status": "former"
+	},
+	{
+		"id": "oleksandra-ivanets",
+		"slug": "oleksandra-ivanets",
+		"displayName": "Олександра ІВАНЕЦЬ",
+		"fullName": "Іванець Олександра",
+		"displayNameEn": "Oleksandra IVANETS",
+		"fullNameEn": "Oleksandra Ivanets",
+		"departments": [
+			"vocal"
+		],
+		"subjects": [
+			"Вокал"
+		],
+		"roleTitle": "викладачка вокалу",
+		"status": "former"
+	},
+	{
+		"id": "roman-fedosieiev",
+		"slug": "roman-fedosieiev",
+		"displayName": "Роман ФЕДОСЄЄВ",
+		"fullName": "Федосєєв Роман",
+		"displayNameEn": "Roman FEDOSIEIEV",
+		"fullNameEn": "Roman Fedosieiev",
+		"departments": [
+			"theatre"
+		],
+		"subjects": [
+			"Акторська майстерність"
+		],
+		"roleTitle": "викладач акторської майстерності",
+		"status": "former"
+	},
+	{
+		"id": "lesia-cherkasova",
+		"slug": "lesia-cherkasova",
+		"displayName": "Леся ЧЕРКАСОВА",
+		"fullName": "Черкасова Леся",
+		"displayNameEn": "Lesia CHERKASOVA",
+		"fullNameEn": "Lesia Cherkasova",
+		"departments": [
+			"music"
+		],
+		"subjects": [],
+		"roleTitle": "концертмейстерка",
+		"status": "former"
+	},
+	{
+		"id": "iryna-yershova",
+		"slug": "iryna-yershova",
+		"displayName": "Ірина ЄРШОВА",
+		"fullName": "Єршова Ірина",
+		"displayNameEn": "Iryna YERSHOVA",
+		"fullNameEn": "Iryna Yershova",
+		"departments": [
+			"theatre"
+		],
+		"subjects": [
+			"Хореографія"
+		],
+		"roleTitle": "викладачка хореографії",
+		"status": "former"
+	},
+	{
+		"id": "adelina-tetradova",
+		"slug": "adelina-tetradova",
+		"displayName": "Аделіна ТЕТРАДОВА",
+		"fullName": "Тетрадова Аделіна",
+		"displayNameEn": "Adelina TETRADOVA",
+		"fullNameEn": "Adelina Tetradova",
+		"departments": [
+			"music"
+		],
+		"subjects": [],
+		"roleTitle": "концертмейстерка",
+		"status": "former"
+	},
+	{
+		"id": "nataliia-denysova",
+		"slug": "nataliia-denysova",
+		"displayName": "Наталія ДЕНИСОВА",
+		"fullName": "Денисова Наталія",
+		"displayNameEn": "Nataliia DENYSOVA",
+		"fullNameEn": "Nataliia Denysova",
+		"departments": [],
+		"subjects": [],
+		"roleTitle": "викладачка відділення «РАФАМаН», логопединя",
+		"status": "former"
+	},
+	{
+		"id": "dmytro-demkov",
+		"slug": "dmytro-demkov",
+		"displayName": "Дмитро ДЕМКОВ",
+		"fullName": "Демков Дмитро",
+		"displayNameEn": "Dmytro DEMKOV",
+		"fullNameEn": "Dmytro Demkov",
+		"departments": [
+			"theatre"
+		],
+		"subjects": [
+			"Акторська майстерність",
+			"Основи теле- і кіномайстерності"
+		],
+		"roleTitle": "викладач акторської майстерності, основ теле- і кіномайстерності",
+		"status": "former"
+	},
+	{
+		"id": "karen-petikian",
+		"slug": "karen-petikian",
+		"displayName": "Карен ПЕТІКЯН",
+		"fullName": "Петікян Карен",
+		"displayNameEn": "Karen PETIKIAN",
+		"fullNameEn": "Karen Petikian",
+		"departments": [],
+		"subjects": [],
+		"roleTitle": "фотограф",
+		"status": "former"
+	},
+	{
+		"id": "oleksandr-khiliuk",
+		"slug": "oleksandr-khiliuk",
+		"displayName": "Олександр ХІЛЮК",
+		"fullName": "Хілюк Олександр",
+		"displayNameEn": "Oleksandr KHILIUK",
+		"fullNameEn": "Oleksandr Khiliuk",
+		"departments": [],
+		"subjects": [],
+		"roleTitle": "IT-інженер",
+		"status": "former"
 	}
 ]
