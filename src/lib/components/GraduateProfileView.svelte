@@ -1035,7 +1035,16 @@
 				{/if}
 			{/if}
 
-			{#if !profile && graduate.hasPhoto}
+<!--
+				Чекати можна лише на те, що справді існує.
+
+				Доти умовою було `graduate.hasPhoto`, тобто фото правило за ознаку
+				наявності анкети — а це різні речі: портрет є в багатьох, у кого
+				анкети немає, і в них картка вічно писала «Завантаження…», хоча
+				вантажити не було чого. Адресує анкету саме `code`
+				(`graduateProfileJson`), тож і чекати треба лише за ним.
+			-->
+			{#if !profile && graduate.code}
 				<p class="row" data-testid="galaxy-card-loading-status">
 					{$t("common.loading")}
 				</p>

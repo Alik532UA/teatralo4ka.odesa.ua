@@ -1,0 +1,109 @@
+{
+	"code": "oleksandr-chehlatonev",
+	"slug": "oleksandr-chehlatonev",
+	"name": "Олександр Чеглатонев",
+	"graduationYear": 2014,
+	"enrollmentYears": [],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Захисники театральних куліс",
+	"masters": [
+		{
+			"id": "tetiana-isachkina",
+			"name": "Ісачкіна Тетяна Валеріївна",
+			"department": "theatre"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"name": "Ткач Федір Федорович",
+			"department": "theatre",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
+			"id": "samuil-imas",
+			"name": "Імас Самуїл Михайлович",
+			"department": "theatre",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"name": "Балдін Микола Олександрович",
+			"department": "theatre",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "natalia-stepanenko",
+			"name": "Степаненко Наталія Петрівна",
+			"department": "guitar",
+			"subjects": [
+				"Гітара"
+			]
+		},
+		{
+			"id": "iryna-ovcharenko",
+			"name": "Овчаренко Ірина Григоріївна",
+			"department": "theatre",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"name": "Коннікова Олена Костянтинівна",
+			"department": "theatre",
+			"subjects": [
+				"Історія театру"
+			]
+		},
+		{
+			"id": "iryna-yershova",
+			"name": "Єршова Ірина",
+			"department": "theatre",
+			"subjects": [
+				"Хореографія"
+			]
+		}
+	],
+	"socials": [],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Чайка», одноактовки"
+		},
+		{
+			"year": 2011,
+			"text": "«Мнимый больной»"
+		},
+		{
+			"year": 2010,
+			"text": "«Маленький принц»"
+		},
+		{
+			"year": 2009,
+			"text": "«Вперед Котенок»"
+		},
+		{
+			"year": 2008,
+			"text": "«Кощеевы страсти»"
+		},
+		{
+			"year": 2007,
+			"text": "«Дядюшка Кролик против дядюшки Ягуара»"
+		}
+	],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": ""
+}
