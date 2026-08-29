@@ -474,3 +474,60 @@ export function getGraduatesByMaster(masterId: string): GraduateIndexEntry[] {
 		.filter((s): s is Extract<MasterStudentEntry, { kind: 'graduate' }> => s.kind === 'graduate')
 		.map((s) => s.graduate);
 }
+
+/**
+ * Поля, за якими шукають людину в списку команди.
+ *
+ * Логіка тут, а не в компоненті: усе, що робить пошук — це перетворення рядків,
+ * і саме в них живуть помилки, яких не видно оком (регістр, апостроф, порожній
+ * запит, що раптом нічого не показує). Те саме рішення, що й у `siteSearch`.
+ */
+export interface MasterSearchable {
+	displayName?: string;
+	fullName?: string;
+	displayNameEn?: string;
+	fullNameEn?: string;
+	roleTitle?: string;
+	subjects?: string[];
+}
+
+/**
+ * Зводить рядок до вигляду, у якому порівняння не залежить від дрібниць.
+ *
+ * Апострофи зводяться до одного: у даних трапляються всі три варіанти
+ * (`'`, `’`, `ʼ`), і без цього «Бур'ян» не знаходився б за «Бурʼян» — тобто
+ * пошук мовчки не показував би людину, яка в списку є.
+ */
+function normalizeQuery(value: string): string {
+	return value
+		.toLowerCase()
+		.replace(/['’`ʼ]/gu, "'")
+		.replace(/\s+/gu, ' ')
+		.trim();
+}
+
+/**
+ * Чи підходить запис під запит. Порожній запит підходить усім — інакше поле
+ * пошуку в стані спокою ховало б увесь список.
+ */
+export function matchesMasterQuery(master: MasterSearchable, query: string): boolean {
+	const q = normalizeQuery(query);
+	if (!q) return true;
+
+	// Кожне слово запиту окремо: так «риськіна майстерність» знаходить людину
+	// за іменем І предметом, а не вимагає, щоб вони стояли поруч одним рядком.
+	const haystack = normalizeQuery(
+		[
+			master.displayName,
+			master.fullName,
+			master.displayNameEn,
+			master.fullNameEn,
+			master.roleTitle,
+			...(master.subjects ?? [])
+		]
+			.filter(Boolean)
+			.join(' ')
+	);
+
+	return q.split(' ').every((word) => haystack.includes(word));
+}

@@ -113,6 +113,10 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	'NewsSection.svelte': { axis: 'window', why: 'відступи секції сторінки' },
 	'PhotoLightbox.svelte': { axis: 'window', why: 'накладка на весь екран' },
 	'VideoModal.svelte': { axis: 'window', why: '`position: fixed` — плеєр поверх сторінки' },
+	'ScrollToTopButton.svelte': {
+		axis: 'window',
+		why: '`position: fixed` — плаваюча кнопка поверх сторінки, місця їй ніхто не дає'
+	},
 	'GroupPlaysTimeline.svelte': {
 		axis: 'window',
 		why:

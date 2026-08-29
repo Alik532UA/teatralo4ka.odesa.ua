@@ -5,7 +5,8 @@
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle, { type ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
-	import { masterSection, type MasterSection } from '$lib/data/masters';
+	import MasterSearch from '$lib/components/adults/MasterSearch.svelte';
+	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import { adultsViewMode } from '$lib/services/adultsViewMode.svelte';
 	import type { PageData } from './$types';
@@ -14,6 +15,14 @@
 
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
+
+	/**
+	 * Пошук фільтрує ЛЮДЕЙ, а розділи вже складаються з того, що лишилося:
+	 * порожні розділи відпадають самі нижче по `filter((g) => g.items.length)`.
+	 * Тому окремої логіки «сховати заголовок» тут немає й не потрібно.
+	 */
+	let query = $state('');
+	const visibleMasters = $derived(allMasters.filter((m) => matchesMasterQuery(m, query)));
 
 	// Стан і збереження — у контролері: ключ мусить нести префікс проєкту, бо
 	// origin спільний із рештою проєктів (STORAGE-NAMESPACE-v8).
@@ -238,7 +247,7 @@
 				 * `status`, і вона могла показати одну людину в двох розділах —
 				 * саме тому, що поле `category` відповідало на три різних питання.
 				 */
-				const items = allMasters.filter((m) => masterSection(m) === cfg.key);
+				const items = visibleMasters.filter((m) => masterSection(m) === cfg.key);
 
 				return {
 					key: cfg.key,
@@ -268,7 +277,14 @@
 						</p>
 					</div>
 
-					<MasterViewToggle {viewMode} onchange={handleViewChange} />
+					<div class="masters-header__tools">
+						<MasterSearch
+							value={query}
+							onchange={(v) => (query = v)}
+							found={visibleMasters.length}
+						/>
+						<MasterViewToggle {viewMode} onchange={handleViewChange} />
+					</div>
 				</header>
 
 				<div class="masters-groups" data-testid="residents-adults-masters-container">
@@ -344,6 +360,25 @@
 		.masters-header {
 			flex-direction: row;
 			text-align: left;
+		}
+	}
+
+	/* Пошук і перемикач вигляду — одним блоком, щоб на вузькому екрані вони
+	   лягали під заголовок стовпчиком, а не розповзалися по різних кутах. */
+	.masters-header__tools {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+		width: 100%;
+	}
+
+	@media (min-width: 768px) {
+		.masters-header__tools {
+			flex-direction: row;
+			align-items: flex-start;
+			justify-content: flex-end;
+			width: auto;
 		}
 	}
 

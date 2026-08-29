@@ -18,6 +18,7 @@
 	import { dismissSplash } from '$lib/utils/splash';
 	import Minimap from '$lib/components/Minimap.svelte';
 	import PageScrollbar from '$lib/components/PageScrollbar.svelte';
+	import ScrollToTopButton from '$lib/components/ScrollToTopButton.svelte';
 	import ScrollbarContextMenu from '$lib/components/ScrollbarContextMenu.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
@@ -387,6 +388,10 @@
 </div>
 
 <PageScrollbar />
+
+<!-- У корені, а не на сторінці: довгих сторінок на сайті більше ніж одна, і
+     кнопка мусить бути на кожній. -->
+<ScrollToTopButton />
 
 <!-- Меню смуги живе в корені: мінімапа з `overflow: hidden` обрізала б його. -->
 <ScrollbarContextMenu />

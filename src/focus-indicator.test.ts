@@ -189,6 +189,14 @@ function draws(body: string): boolean {
  * нижче падає, якщо названий рятівник зник із файлу.
  */
 const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
+	'src/lib/components/adults/MasterSearch.svelte': {
+		drawnBy: '.master-search__field:focus-within',
+		why:
+			'поле лежить усередині обгортки-рамки разом з іконкою та кнопкою ' +
+			'очищення: кільце навколо самого input було б ДРУГОЮ лінією всередині ' +
+			'цієї рамки. Межу підсвічує обгортка — той самий випадок, що й у ' +
+			'полів із `has-input-tools--framed`'
+	},
 	'src/lib/components/ui/RichTextEditor.svelte': {
 		drawnBy: '.rich-editor:focus-within',
 		why:
