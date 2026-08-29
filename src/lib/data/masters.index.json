@@ -235,7 +235,9 @@
 			"Обряди України"
 		],
 		"category": "vocalists",
-		"roleTitle": "викладачка вокалу та обрядів України"
+		"roleTitle": "викладачка вокалу та обрядів України",
+		"portrait": "/masters/portraits/natalia-bakina.webp",
+		"photo": "/masters/natalia-bakina.webp"
 	},
 	{
 		"id": "anastasiia-nikolaieva",
@@ -384,7 +386,9 @@
 		],
 		"status": "active",
 		"category": "vocalists",
-		"roleTitle": "художня керівниця музичного театру, професорка, докторка мистецтвознавства, заслужена діячка мистецтв України"
+		"roleTitle": "художня керівниця музичного театру, професорка, докторка мистецтвознавства, заслужена діячка мистецтв України",
+		"portrait": "/masters/portraits/yevheniia-bondar.webp",
+		"photo": "/masters/yevheniia-bondar.webp"
 	},
 	{
 		"id": "mariia-buimovych",
@@ -435,7 +439,9 @@
 			"Грим"
 		],
 		"category": "directors",
-		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"portrait": "/masters/portraits/yevheniia-osadcha.webp",
+		"photo": "/masters/yevheniia-osadcha.webp"
 	},
 	{
 		"id": "nataliia-burian",
@@ -571,7 +577,9 @@
 		"roleTitle": "викладач гітари",
 		"subjects": [
 			"Гітара"
-		]
+		],
+		"portrait": "/masters/portraits/andrii-klymenko.webp",
+		"photo": "/masters/andrii-klymenko.webp"
 	},
 	{
 		"id": "yana-kovalchuk",
@@ -740,7 +748,9 @@
 		"roleTitle": "викладачка хореографії",
 		"subjects": [
 			"Хореографія"
-		]
+		],
+		"portrait": "/masters/portraits/tetiana-minina.webp",
+		"photo": "/masters/tetiana-minina.webp"
 	},
 	{
 		"id": "dariia-nadozha",
@@ -998,7 +1008,9 @@
 		"roleTitle": "викладачка сценічного мовлення",
 		"subjects": [
 			"Сценічне мовлення"
-		]
+		],
+		"portrait": "/masters/portraits/iryna-tilniak.webp",
+		"photo": "/masters/iryna-tilniak.webp"
 	},
 	{
 		"id": "vladyslav-tsobenko",
