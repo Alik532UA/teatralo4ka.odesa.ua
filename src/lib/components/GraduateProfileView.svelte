@@ -8,6 +8,7 @@
 	import DepartmentIcon from "$lib/components/icons/DepartmentIcon.svelte";
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
+	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 	import {
 		getMasterById,
@@ -952,6 +953,8 @@
 				</ul>
 			{/if}
 
+			<GraduateVideoButton videoUrl={profile?.videoUrl} title={graduate.name} />
+
 			{#if enrollmentText || graduationText}
 				<div class="years" data-testid="galaxy-card-years-text">
 					{#if enrollmentText}<span class="years__item"
@@ -1162,6 +1165,7 @@
 </div>
 
 <GraduateFormModal isOpen={formModalOpen} onclose={closeForm} />
+
 
 <style>
 	.profile-layout {

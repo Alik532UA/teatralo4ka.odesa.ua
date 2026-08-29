@@ -149,6 +149,12 @@ export interface GraduateProfile {
 	masters: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
 	socials: GraduateSocial[];
+	/**
+	 * Запис випускника — уривок, показ, візитівка. Саме ПОСИЛАННЯ, а не голий
+	 * ідентифікатор: розбирає його `parseVideoUrl` — той самий, що для новин і
+	 * репертуару груп, — і він же вирішує, чи можна показати плеєр на сторінці.
+	 */
+	videoUrl?: string;
 	plays: GraduatePlay[];
 	/** Абзаци «про себе»: навчання після школи, робота, власні слова. */
 	bio: string[];

@@ -3031,7 +3031,60 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"hasPhoto": true,
+		"code": "vnpitel",
+		"enrollmentYears": [
+			2016
+		],
+		"group": {
+			"abbr": null,
+			"name": "Мамарада"
+		},
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			}
+		],
+		"teachers": [
+			{
+				"id": "pavlo-prymak",
+				"name": "Примак Павло Андрійович",
+				"department": "theatre",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"name": "Стогул Тетяна Володимирівна",
+				"department": "theatre",
+				"subjects": [
+					"Танець"
+				]
+			}
+		],
+		"socials": [
+			{
+				"network": "instagram",
+				"url": "https://www.instagram.com/vano.pitel"
+			}
+		],
+		"playCount": 3,
+		"profileSize": 1462
 	},
 	{
 		"slug": "ivan-shevchenko",

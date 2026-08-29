@@ -1,0 +1,78 @@
+{
+	"code": "vnpitel",
+	"slug": "ivan-pitel",
+	"name": "Іван Пітель",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2016
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"group": "Мамарада",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		}
+	],
+	"teachers": [
+		{
+			"id": "pavlo-prymak",
+			"name": "Примак Павло Андрійович",
+			"department": "theatre",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"name": "Риськіна Світлана Миколаївна",
+			"department": "theatre",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"name": "Стогул Тетяна Володимирівна",
+			"department": "theatre",
+			"subjects": [
+				"Танець"
+			]
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/vano.pitel"
+		}
+	],
+	"videoUrl": "https://youtu.be/6n4l3MWGu1g",
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Тінь», Вчений"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Сторож"
+		},
+		{
+			"year": 2024,
+			"text": "«Уривки з класики», Лукаш («Лісова пісня»), Джек («Як важливо бути серйозним»)"
+		}
+	],
+	"bio": [
+		"Вступив до КМАЕЦМ на актора театру і кіно в майстерню Дмитра Рибалевського"
+	],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": ""
+}
