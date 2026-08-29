@@ -268,12 +268,12 @@
 		],
 		"status": "former",
 		"subjects": [
-			"Акторська майстерність",
-			"Сценічна мова"
+			"Акторська майстерність"
 		],
 		"photo": "/masters/hanna-serebriannikova.webp",
 		"portrait": "/masters/portraits/hanna-serebriannikova.webp",
-		"category": "directors"
+		"category": "directors",
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 	},
 	{
 		"id": "iryna-kulbaba",
@@ -1901,12 +1901,13 @@
 		],
 		"status": "former",
 		"subjects": [
+			"Сценічне мовлення",
 			"Риторика"
 		],
 		"photo": "/masters/serebriannikova-n.webp",
 		"portrait": "/masters/portraits/serebriannikova-n.webp",
 		"category": "teachers",
-		"roleTitle": "викладачка риторики"
+		"roleTitle": "викладачка сценічного мовлення та риторики"
 	},
 	{
 		"id": "stelmakh",
