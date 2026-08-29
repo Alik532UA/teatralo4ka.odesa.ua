@@ -9,6 +9,7 @@
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
+	import GraduateYears from "$lib/components/GraduateYears.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 	import {
 		getMasterById,
@@ -414,17 +415,6 @@
 	const enrollmentYears = $derived(
 		profile?.enrollmentYears ?? graduate.enrollmentYears ?? [],
 	);
-	const enrollmentText = $derived(
-		enrollmentYears.length > 0
-			? `${$t("galaxy.enrolled")} ${enrollmentYears.join(", ")}`
-			: null,
-	);
-	const graduationText = $derived(
-		graduate.graduationYear
-			? `${$t("galaxy.graduated")} ${graduate.graduationYear}`
-			: null,
-	);
-
 	const group = $derived(
 		profile?.group ?? graduate.group?.name ?? graduate.group?.abbr ?? null,
 	);
@@ -567,9 +557,21 @@
 	const shouldSplitFaculty = $derived(
 		totalFaculty > 4 || normalizedMasters.length > 2,
 	);
-	// Якщо майстрів/викладачів багато і є колонка Біо — переносимо викладачів під Біо
+	/*
+	 * Викладачі їдуть у ТРЕТЮ колонку, щойно їх забагато для середньої.
+	 *
+	 * Умова `hasBio` тут стояла й ламала саме те, заради чого перенос
+	 * робився. Виглядало це так: у кого «Про себе» заповнене, у того викладачі
+	 * охайно ставали праворуч; у кого ні — лишалися в середній колонці й
+	 * розпирали її до прокрутки. Тобто розкладка залежала не від кількості
+	 * викладачів, а від того, чи людина написала про себе абзац.
+	 *
+	 * Третя колонка існує сама по собі: `{#if hasBio || canRelocateTeachersToBio}`
+	 * нижче створює її й без біо, і всередині тоді лишається сама плашка
+	 * викладачів.
+	 */
 	const canRelocateTeachersToBio = $derived(
-		hasBio && normalizedTeachers.length > 0 && shouldSplitFaculty,
+		normalizedTeachers.length > 0 && shouldSplitFaculty,
 	);
 	const hasSeparateTeachersCardInCenter = $derived(
 		shouldSplitFaculty &&
@@ -955,20 +957,13 @@
 
 			<GraduateVideoButton videoUrl={profile?.videoUrl} title={graduate.name} />
 
-			{#if enrollmentText || graduationText}
-				<div class="years" data-testid="galaxy-card-years-text">
-					{#if enrollmentText}<span class="years__item"
-							>{enrollmentText}</span
-						>{/if}
-					{#if enrollmentText && graduationText}<span
-							class="years__sep"
-							aria-hidden="true">·</span
-						>{/if}
-					{#if graduationText}<span class="years__item"
-							>{graduationText}</span
-						>{/if}
-				</div>
-			{/if}
+			<GraduateYears
+				enrollmentYears={[...enrollmentYears]}
+				graduationYear={graduate.graduationYear}
+				graduationLabelKey={profile?.graduationLabelKey ??
+					graduate.graduationLabelKey}
+				{isEn}
+			/>
 
 			{#if !graduate.hasPhoto}
 				<div class="fill-profile-wrap">
@@ -1287,7 +1282,14 @@
 			width: var(--center-social-img-size, 34px);
 			height: var(--center-social-img-size, 34px);
 		}
-		.col--center .years {
+		/*
+		 * `:global` тут обов'язковий: рядок років переїхав у `GraduateYears`,
+		 * і scoping Svelte більше не позначає його класом цього компонента.
+		 * Саме правило лишається ТУТ, бо воно частина стискання центральної
+		 * колонки — розміри рахує `recalc*` цього ж файлу й роздає через
+		 * `--center-years-*`.
+		 */
+		.col--center :global(.years) {
 			font-size: var(--center-years-size, 0.95rem);
 			margin: 0 0 var(--center-years-margin, 0.9rem);
 		}
@@ -1508,25 +1510,6 @@
 		font-size: clamp(1.3rem, 3.5dvh, 1.7rem);
 		text-align: center;
 		color: var(--galaxy-accent);
-	}
-	.years {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		align-items: center;
-		gap: 0.2rem 0.45rem;
-		margin: 0 0 0.9rem;
-		color: var(--galaxy-muted);
-		font-variant-numeric: tabular-nums;
-		text-align: center;
-		font-size: 0.95rem;
-		line-height: 1.35;
-	}
-	.years__item {
-		white-space: nowrap;
-	}
-	.years__sep {
-		opacity: 0.5;
 	}
 	.fill-profile-wrap {
 		display: flex;

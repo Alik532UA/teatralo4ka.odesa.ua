@@ -146,3 +146,25 @@ export function layoutRoster(groups: readonly RosterGroup[], perRow: number): Ro
 
 	return { cells, headingRows };
 }
+
+/**
+ * Відмінює слово «випускник» під число: 1 випускник, 2 випускники,
+ * 5 випускників, 11–19 випускників.
+ *
+ * Тут, а не в компоненті: це чиста функція без розмітки, її сусіди по файлу —
+ * такі самі помічники того самого реєстру. Мова приходить аргументом, бо
+ * `svelte-i18n` доступний лише всередині компонента, а рахувати форму слова
+ * можна й без нього.
+ */
+export function formatGraduateNoun(count: number, locale: string): string {
+	if (locale.startsWith('en')) {
+		return count === 1 ? 'graduate' : 'graduates';
+	}
+	const mod10 = count % 10;
+	const mod100 = count % 100;
+	// 11–19 — виняток: там завжди «випускників», хоч остання цифра будь-яка.
+	if (mod100 >= 11 && mod100 <= 19) return 'випускників';
+	if (mod10 === 1) return 'випускник';
+	if (mod10 >= 2 && mod10 <= 4) return 'випускника';
+	return 'випускників';
+}

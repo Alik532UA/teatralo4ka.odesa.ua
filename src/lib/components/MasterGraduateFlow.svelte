@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { Spring } from 'svelte/motion';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { goto } from '$app/navigation';
 	import { locale, t } from 'svelte-i18n';
 	import { page } from '$app/state';
@@ -8,6 +10,11 @@
 	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import {
+		closeGraduateModal,
+		graduateFromPageState,
+		openGraduateModal
+	} from '$lib/services/graduateModal.svelte';
 
 	interface Props {
 		graduates?: GraduateIndexEntry[];
@@ -17,12 +24,50 @@
 
 	let { graduates, students, masterName }: Props = $props();
 
+	/**
+	 * Ширина потоку йде за курсором — так само, як смуга авторського скролу.
+	 *
+	 * Числа й спосіб узяті звідти ж (`PageScrollbar`) свідомо: це той самий
+	 * жест на тому самому краю екрана, і два різні закони наближення читалися
+	 * б як несправність. Пружина потрібна, бо без неї ширина смикається за
+	 * кожним рухом миші.
+	 */
+	let mouseX = $state(0);
+	let windowWidth = $state(0);
+	let pointerInside = $state(false);
+
+	const wideLayout = new MediaQuery('(min-width: 860px)');
+	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
+
+	const proximity = $derived.by(() => {
+		if (!wideLayout.current || reducedMotion.current) return 0;
+		if (!pointerInside || !windowWidth) return 0;
+		const start = 0.32 * windowWidth;
+		const end = 0.04 * windowWidth;
+		const distance = windowWidth - mouseX;
+		if (distance > start) return 0;
+		if (distance < end) return 1;
+		return (start - distance) / (start - end);
+	});
+
+	const spread = new Spring(0, { stiffness: 0.05, damping: 0.4 });
+
+	$effect(() => {
+		spread.target = proximity;
+	});
+
+	/** Спокійна ширина — та сама, що була статичною до цієї зміни. */
+	const restWidth = $derived(Math.min(Math.max(280, windowWidth * 0.22), 400));
+	const nearWidth = $derived(Math.min(Math.max(360, windowWidth * 0.42), 620));
+	const streamWidth = $derived(restWidth + (nearWidth - restWidth) * spread.current);
+
 	let started = $state(false);
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 	let plainLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 
 	/** Випускник, чию картку зараз показуємо поверх сторінки. */
-	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
+	/* Вибір — у стані сторінки; див. `$lib/services/graduateModal`. */
+	const selectedGraduate = $derived(graduateFromPageState());
 
 	const normalizedStudents = $derived<MasterStudentEntry[]>(
 		students && students.length > 0
@@ -157,12 +202,27 @@
 		 * то відкривала вікно, то забирала зі сторінки майстра. Картка дістає
 		 * анкету сама, тож різниці між цими двома випадками більше немає.
 		 */
-		selectedGraduate = person.entry.graduate;
+		openGraduateModal(person.entry.graduate);
 	}
 </script>
 
+<!--
+	Курсор ловиться на ВІКНІ, а не на самому потоці: сам він
+	`pointer-events: none` (крізь нього видно й натискається сторінку), тож
+	власних подій миші не отримує зовсім.
+-->
+<svelte:window
+	bind:innerWidth={windowWidth}
+	onpointermove={(e) => {
+		mouseX = e.clientX;
+		pointerInside = true;
+	}}
+	onpointerleave={() => (pointerInside = false)}
+/>
+
 <aside
 	class="flow-stream"
+	style={wideLayout.current ? `width: ${streamWidth.toFixed(1)}px` : undefined}
 	aria-label={$t('galaxy.graduatesOfMaster', { default: `Випускники майстра: ${masterName}` })}
 	data-testid="master-graduate-flow-section"
 >
@@ -191,8 +251,9 @@
 <!-- Та сама картка, що й у галактиці. Анкету вона дістає сама, а кнопку
      «Заповнити анкету» й саму форму тримає всередині. -->
 <GraduateCard
+	showGalaxyLink
 	graduate={selectedGraduate}
-	onclose={() => { selectedGraduate = null; }}
+	onclose={closeGraduateModal}
 />
 
 <style>
@@ -211,7 +272,12 @@
 			right: 0;
 			top: 0;
 			bottom: 0;
-			width: clamp(280px, 34vw, 480px);
+			/*
+			 * Запасне значення: ширину задає інлайновий стиль, який рахує
+			 * наближення курсора. Це — те, що видно до першого руху мишею й
+			 * при знятому JavaScript.
+			 */
+			width: clamp(280px, 22vw, 400px);
 			height: auto;
 			min-height: 0;
 			z-index: 5;

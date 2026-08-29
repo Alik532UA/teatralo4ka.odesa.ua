@@ -1,0 +1,54 @@
+{
+	"title": "The Galaxy of Graduates has moved to the main site",
+	"lead": [
+		"We are glad to say the Galaxy of Graduates no longer lives apart on Google Sites — it is here, on the school's own site.",
+		"A request: find your page and fill in the form. If it already exists, please add to it — you can now name your teachers, not only the head of the course."
+	],
+	"searchLabel": "Find yourself",
+	"searchPlaceholder": "Start typing a first or last name",
+	"searchEmpty": "Nobody found. Try another spelling or a maiden name.",
+	"searchNoProfile": "the form is not filled in yet",
+	"featuresTitle": "What the new version can do",
+	"features": [
+		{
+			"id": "galaxy",
+			"title": "A living galaxy",
+			"text": "Graduates drift through our space of craft and memories!"
+		},
+		{
+			"id": "photos",
+			"title": "Several photographs instead of one",
+			"text": "A form can hold more than one photograph. They change right in flight, in chronological order — from a small child to a grown-up."
+		},
+		{
+			"id": "teachers",
+			"title": "Teachers now have their own pages",
+			"text": "Tap the head of the course or a teacher inside a graduate's card and the teacher's page opens — with a surprise on the right-hand side!"
+		},
+		{
+			"id": "groups",
+			"title": "A group can have its own page",
+			"text": "With repertoire by year and recordings, shared photographs, the cast of the course, its masters and teachers. A few groups have such a page so far; write to me to make one for yours."
+		},
+		{
+			"id": "form",
+			"title": "New fields in the form",
+			"text": "Teachers as a section of their own, next to the head of the course. Social links are no longer limited to Instagram and Facebook — YouTube works too. And a video card."
+		},
+		{
+			"id": "roster",
+			"title": "A searchable register",
+			"text": "Search by name, filters by department and by whether a form is filled in, a scale of years. The address remembers both the filter and your place in the list, so that link can be shared too."
+		},
+		{
+			"id": "page",
+			"title": "A page of your own once the form is filled in",
+			"text": "It has its own address, and the link can be sent to anyone. Right now 90 graduates out of 514 have such a page — the rest are in the galaxy by name only."
+		}
+	],
+	"note": "You can fill in or extend your form at any time. If something is missing or wrong, write to us and we will fix it.",
+	"ctaRoster": "See the list of graduates",
+	"ctaForm": "Fill in the form",
+	"ctaAsk": "Ask a question",
+	"askHint": "Hi!) Questions, corrections, a group page — write to me"
+}

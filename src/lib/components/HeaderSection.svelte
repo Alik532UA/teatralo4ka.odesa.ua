@@ -999,7 +999,7 @@
 		top: 0;
 		left: 0;
 		right: 0;
-		z-index: 100;
+		z-index: var(--z-header);
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
@@ -1011,7 +1011,7 @@
 	}
 
 	.header.menu-open {
-		z-index: 1100;
+		z-index: var(--z-header-menu);
 		pointer-events: auto; /* Re-enable for mobile overlay */
 	}
 

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { browser } from '$app/environment';
 	import { WITH_PHOTO, WITHOUT_PHOTO, type GraduateIndexEntry } from '$lib/data/graduates';
-	import { makeLanes, type Lane } from '$lib/utils/graduateGalaxy';
+	import { galaxyShare, makeLanes, shuffled, type Lane } from '$lib/utils/graduateGalaxy';
 	import GraduateStar from './GraduateStar.svelte';
 
 	interface Props {
@@ -13,40 +13,79 @@
 	let { onselect, paused = false }: Props = $props();
 
 	/**
-	 * Летять УСІ 482 випускники, без винятку й без ротації.
+	 * Скільки зірок летить — залежить від ПЛОЩІ екрана.
 	 *
-	 * Перша версія тримала на екрані тридцять і підмінювала їх, коли зірка
-	 * доїжджала до краю. Це економило роботу композитора й водночас означало, що
-	 * більшості людей у галактиці просто немає — а сторінка про те, що вони є.
+	 * Доти летіли всі 514, скільки б місця не було. На широкому це виглядало
+	 * задумано, на телефоні — суцільним килимом облич: та сама кількість на
+	 * шосту частину площі. Тепер частку рахує `galaxyShare`, і на великому
+	 * екрані вона однаково дорівнює одиниці, тобто там летять усі, як і раніше.
 	 *
-	 * Ціна відома й заміряна (див. коміт): 482 елементи з `translate`-анімацією
-	 * лежать на композиторі, а не на головному потоці, тож малює їх GPU. Разом із
-	 * ротацією пішла й потреба в `pickFree`.
+	 * Ротації, яку колись прибрали, це не повертає: підміни зірок на льоту
+	 * немає. Порядок перемішується РАЗ на завантаження, і на малому екрані
+	 * щоразу видно інших людей; повний перелік нікуди не дівається — він у
+	 * реєстрі за кнопкою «Усі випускники».
+	 *
+	 * Ціна лишається тією ж: елементи з `translate`-анімацією лежать на
+	 * композиторі, а не на головному потоці, тож малює їх GPU.
 	 */
 	let photoLanes = $state<Lane[]>([]);
 	let plainLanes = $state<Lane[]>([]);
 	let started = $state(false);
+	let viewportW = $state(0);
+	let viewportH = $state(0);
+
+	/** Порядок фіксується на завантаження: при зміні розміру люди не стрибають. */
+	let photoOrder = $state<GraduateIndexEntry[]>([]);
+	let plainOrder = $state<GraduateIndexEntry[]>([]);
+
+	const share = $derived(galaxyShare(viewportW, viewportH));
+	/**
+	 * Нижня межа — щоб у вузькому вікні галактика не спорожніла зовсім:
+	 * шість портретів і два десятки цяток ще читаються як зоряне небо.
+	 */
+	const photoCount = $derived(Math.max(6, Math.round(photoOrder.length * share)));
+	const plainCount = $derived(Math.max(20, Math.round(plainOrder.length * share)));
+
+	const photoShown = $derived(photoOrder.slice(0, photoCount));
+	const plainShown = $derived(plainOrder.slice(0, plainCount));
 
 	onMount(() => {
 		// Значення випадкові, тому з'являються лише після монтування: випадковість
 		// під час prerender дала б HTML, який не збігається з першим кадром у
 		// браузері, і гідрація «полагодила» б це стрибком усіх зірок.
-		photoLanes = makeLanes(WITH_PHOTO.length, 34, Math.random);
-		plainLanes = makeLanes(WITHOUT_PHOTO.length, 26, Math.random);
+		photoOrder = shuffled(WITH_PHOTO, Math.random);
+		plainOrder = shuffled(WITHOUT_PHOTO, Math.random);
 		started = true;
+	});
+
+	/**
+	 * Доріжки перераховуються, лише коли зміниться САМА КІЛЬКІСТЬ.
+	 *
+	 * Крок по висоті — `100 / count`, тож при іншій кількості зірки мусять
+	 * стати інакше. Але прив'язати це до ширини вікна означало б розкидати всю
+	 * галактику наново на кожному пікселі перетягування рамки.
+	 */
+	$effect(() => {
+		const photos = photoCount;
+		const plains = plainCount;
+		if (!started) return;
+		untrack(() => {
+			photoLanes = makeLanes(photos, 34, Math.random);
+			plainLanes = makeLanes(plains, 26, Math.random);
+		});
 	});
 
 	/** Обидві смуги одним переліком — щоб зірка описувалася в розмітці один раз. */
 	const flying = $derived(
 		started
 			? [
-					...WITHOUT_PHOTO.map((graduate, lane) => ({
+					...plainShown.map((graduate, lane) => ({
 						kind: 'plain' as const,
 						lane,
 						graduate,
 						geometry: plainLanes[lane]
 					})),
-					...WITH_PHOTO.map((graduate, lane) => ({
+					...photoShown.map((graduate, lane) => ({
 						kind: 'photo' as const,
 						lane,
 						graduate,
@@ -56,6 +95,8 @@
 			: []
 	);
 </script>
+
+<svelte:window bind:innerWidth={viewportW} bind:innerHeight={viewportH} />
 
 <div class="galaxy" data-testid="galaxy-section">
 	<!-- Зірки на канвасі — оформлення; читалці вони ні про що не кажуть. -->

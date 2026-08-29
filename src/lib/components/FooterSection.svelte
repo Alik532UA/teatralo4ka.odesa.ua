@@ -1,5 +1,6 @@
 <script lang="ts">
 	import PianoModal from "./ui/PianoModal.svelte";
+	import FooterPlayButton from "./FooterPlayButton.svelte";
 	import LocationIcon from "./icons/LocationIcon.svelte";
 	import PhoneIcon from "./icons/PhoneIcon.svelte";
 	import EmailIcon from "./icons/EmailIcon.svelte";
@@ -36,25 +37,14 @@
 <footer class="footer" id="main-footer" data-testid="footer-container">
 	<div class="container">
 		<div class="footer__content">
-			<!-- 1. Button "грати" - Piano Keyboard Style -->
-			<button
-				class="footer__btn-piano"
-				onclick={() => (isPianoOpen = true)}
-				aria-label={$t("footer.play")}
-				data-testid="footer-piano-btn"
-			>
-				<div class="footer__piano-visual">
-					<span class="footer__piano-white"></span>
-					<span class="footer__piano-white"></span>
-					<span class="footer__piano-white"></span>
-					<span class="footer__piano-white"></span>
-					<span class="footer__piano-white"></span>
-					<span class="footer__piano-black" style="left: 20%"></span>
-					<span class="footer__piano-black" style="left: 60%"></span>
-					<span class="footer__piano-black" style="left: 80%"></span>
-				</div>
-				<span class="footer__btn-piano-text">{$t("footer.play")}</span>
-			</button>
+			<!--
+				1. Клавіша, що по черзі стає піаніно й входом у галактику.
+				Обгортка лишає за собою лише МІСЦЕ в рядку підвала (`order` у
+				медіазапитах нижче); усе, що всередині, веде компонент.
+			-->
+			<div class="footer__play">
+				<FooterPlayButton onpiano={() => (isPianoOpen = true)} />
+			</div>
 
 			<!-- 2. Contacts Group -->
 			<div class="footer__contacts" data-testid="footer-contacts-container">
@@ -316,7 +306,7 @@
 		position: relative;
 		border: none;
 		transition: background 800ms ease-in-out;
-		z-index: 100;
+		z-index: var(--z-footer);
 		animation: fadeInUp 0.8s ease-out both;
 	}
 
@@ -362,74 +352,8 @@
 	}
 
 	/* Piano Button Style (Keyboard Segment) */
-	.footer__btn-piano {
-		position: relative;
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		width: 120px;
-		height: 36px;
-		background: var(--palette-black);
-		border: 2px solid var(--palette-black);
-		border-radius: 4px 4px 6px 6px;
-		cursor: pointer;
-		transition: all 0.2s ease;
-		box-shadow: 0 3px 0 var(--palette-black);
-		overflow: hidden;
-		padding: 0;
-	}
-
-	.footer__piano-visual {
-		position: absolute;
-		inset: 0;
-		display: flex;
-		background: var(--palette-black);
-	}
-
-	.footer__piano-white {
-		flex: 1;
-		background: var(--palette-white);
-		border-right: 1px solid var(--palette-gray-200);
-		height: 100%;
-	}
-
-	.footer__piano-white:last-child {
-		border-right: none;
-	}
-
-	.footer__piano-black {
-		position: absolute;
-		top: 0;
-		width: 12%;
-		height: 60%;
-		background: var(--palette-black);
-		border-radius: 0 0 2px 2px;
-		transform: translateX(-50%);
-		z-index: 1;
-	}
-
-	.footer__btn-piano:hover {
-		transform: translateY(1.5px);
-		box-shadow: 0 1.5px 0 var(--palette-black);
-	}
-
-	.footer__btn-piano:active {
-		transform: translateY(3px);
-		box-shadow: 0 0 0 var(--palette-black);
-	}
-
-	.footer__btn-piano-text {
-		font-family: var(--font-heading);
-		font-weight: 700;
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		color: var(--palette-black);
-		z-index: 2;
-		background: rgba(255, 255, 255, 0.7);
-		padding: 1px 4px;
-		border-radius: 3px;
-		pointer-events: none;
-		margin-bottom: 2px;
+	.footer__play {
+		flex-shrink: 0;
 	}
 
 	/* Order Button Style */
@@ -549,7 +473,7 @@
 			width: 100%;
 			justify-content: center;
 		}
-		.footer__btn-piano {
+		.footer__play {
 			order: 2;
 		}
 		.footer__social {
@@ -583,7 +507,7 @@
 			justify-content: center;
 			gap: var(--space-md);
 		}
-		.footer__btn-piano {
+		.footer__play {
 			order: 3;
 			flex: 0 0 auto;
 		}

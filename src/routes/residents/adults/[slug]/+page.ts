@@ -9,6 +9,7 @@ import {
 	MASTERS,
 	type MasterProfile
 } from '$lib/data/masters';
+import { getGroupsByMaster } from '$lib/data/groups';
 import { localeFromPath } from '$lib/i18n/routing';
 import type { PageLoad, EntryGenerator } from './$types';
 
@@ -107,6 +108,10 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 	return {
 		master: masterData,
 		students,
-		graduates
+		graduates,
+		// Групи виводяться з `GROUPS`, а не з реєстру майстрів: див. докблок
+		// `getGroupsByMaster`. Порожній масив — майстер груп не веде, і секція
+		// на сторінці просто не з'явиться.
+		groups: getGroupsByMaster(master.id)
 	};
 };

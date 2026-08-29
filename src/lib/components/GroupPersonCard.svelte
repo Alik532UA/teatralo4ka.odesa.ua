@@ -25,9 +25,46 @@
 		 */
 		index?: number;
 		testid?: string;
+		/**
+		 * Розкласти ім'я на два рядки: ім'я зверху, прізвище знизу.
+		 *
+		 * Прапорцем, а не завжди: у складі групи імена записані як
+		 * «Ім'я Прізвище» і від довжини то ставали в рядок, то ламалися навпіл
+		 * самі — картки виглядали різними без причини. У майстрів і викладачів
+		 * порядок буває інший, тож нав'язувати їм те саме правило наосліп не
+		 * можна.
+		 */
+		splitName?: boolean;
 	}
 
-	let { name, photo = null, subtitle = null, href, onclick, index = 0, testid }: Props = $props();
+	let {
+		name,
+		photo = null,
+		subtitle = null,
+		href,
+		onclick,
+		index = 0,
+		testid,
+		splitName = false
+	}: Props = $props();
+
+	/**
+	 * Ділить «Олександра Індічанська (Морозова)» на «Олександра» й
+	 * «Індічанська (Морозова)».
+	 *
+	 * Прізвище — ОСТАННЄ слово, а не друге: у «Марія Магдаліна Матвєєва» ім'я
+	 * складене, і поділ по другому слову дав би «Марія / Магдаліна Матвєєва».
+	 * Дівоче прізвище в дужках спершу знімається, а потім вертається до
+	 * прізвища — інакше останнім словом виявиться воно.
+	 */
+	const nameParts = $derived.by(() => {
+		const whole = name.trim();
+		const paren = /^(.*?)\s*(\([^)]*\))\s*$/.exec(whole);
+		const bare = (paren ? paren[1] : whole).trim().split(/\s+/).filter(Boolean);
+		if (!splitName || bare.length < 2) return { given: whole, surname: '' };
+		const surname = [bare[bare.length - 1], paren?.[2]].filter(Boolean).join(' ');
+		return { given: bare.slice(0, -1).join(' '), surname };
+	});
 </script>
 
 <!--
@@ -52,7 +89,13 @@
 		{/if}
 	</span>
 	<span class="person-card__meta">
-		<strong class="person-card__name">{name}</strong>
+		<strong class="person-card__name">
+			<span>{nameParts.given}</span>
+			{#if nameParts.surname}<span
+					class="person-card__surname"
+					style="--surname-len: {nameParts.surname.length}">{nameParts.surname}</span
+				>{/if}
+		</strong>
 		{#if subtitle}
 			<span class="person-card__subtitle">{subtitle}</span>
 		{/if}
@@ -196,10 +239,31 @@
 	}
 
 	.person-card__name {
+		display: flex;
+		flex-direction: column;
 		font-size: 1.05rem;
 		font-weight: 700;
 		line-height: 1.3;
 		color: var(--text-main, #f8fafc);
+	}
+	/*
+	 * Довге прізвище зменшується саме.
+	 *
+	 * Розмір рахується з КІЛЬКОСТІ ЛІТЕР, яку віддає розмітка в
+	 * `--surname-len`. Це наближення (літери різної ширини), зате воно не
+	 * вимагає замірів у браузері: жодного читання розкладки, жодного стрибка
+	 * після гідратації, і на сервері виходить рівно те саме, що на клієнті.
+	 *
+	 * `clamp` тримає обидва кінці: короткому прізвищу вирахуване значення
+	 * виходить більшим за 1.05rem і його зрізає верхня межа, дуже довгому —
+	 * менше 0.7rem, і його ловить нижня.
+	 */
+	.person-card__surname {
+		font-size: clamp(
+			0.7rem,
+			calc(1.05rem - (var(--surname-len, 10) - 12) * 0.035rem),
+			1.05rem
+		);
 	}
 
 	.person-card__subtitle {

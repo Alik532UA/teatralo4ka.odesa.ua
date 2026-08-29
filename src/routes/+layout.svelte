@@ -27,6 +27,7 @@
 	import { trackPageView } from '$lib/services/analytics';
 	import { webVitals } from '$lib/controllers/webVitals.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { installViewTransitions } from '$lib/utils/viewTransition';
 
 	let { children, data } = $props();
 
@@ -37,6 +38,7 @@
 	// client-side move between the site's pages. trackPageView initialises
 	// analytics itself, so there is no separate onMount call to order against.
 	afterNavigate(() => trackPageView());
+	installViewTransitions();
 
 	/**
 	 * Клас, що ховає нативну смугу, має рівно одного власника — цей ефект.

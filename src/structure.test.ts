@@ -142,6 +142,9 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-08-29: `GraduateCard.svelte` прибрано з переліку — 472 → 236. Тулбар і меню
+ *   контактів виділені в `GraduateCardToolbar` (213) та `GraduateCardContactMenu` (143);
+ *   усі троє в межах типових 300, тож окрема стеля більше не потрібна.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -164,7 +167,6 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 535,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
-	'src/lib/components/GraduateCard.svelte': 475,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 366,

@@ -31,6 +31,22 @@
 	let rosterDepartments = $state<Department[]>([]);
 	let rosterPhoto = $state<'all' | 'with' | 'without'>('all');
 	let rosterQuery = $state('');
+	/**
+	 * Вітальне вікно про переїзд: `?update=open`.
+	 *
+	 * Окремим параметром, а не автопоказом новачкам: посилання роздають руками
+	 * тим, хто ще не бачив нової галактики. Показувати його всім поспіль було б
+	 * тим самим оголошенням, що затуляє сторінку людям, які й так тут щодня.
+	 */
+	let updateOpen = $state(false);
+	/**
+	 * Рік, на якому стоїть список — це ГОРТАННЯ, а не фільтр.
+	 *
+	 * Доти адреса тримала самі фільтри, тож перший клік по року (він гортає, а
+	 * не фільтрує) нікуди не записувався: посилання відкривалося на початку
+	 * списку, і показати комусь потрібне місце було нічим.
+	 */
+	let rosterScrolledYear = $state<number | null>(null);
 
 	function syncParamUrl(key: string, value: string | null) {
 		if (!browser) return;
@@ -101,6 +117,21 @@
 		syncParamUrl('q', query.trim() || null);
 	}
 
+	function setScrolledYear(year: number | null) {
+		rosterScrolledYear = year;
+		syncParamUrl('at', year === null ? null : String(year));
+	}
+
+	/*
+	 * Пари `openUpdate` тут немає навмисно: вікно відкриває САМА АДРЕСА —
+	 * `readUrlParams` нижче бачить `?update=open` і піднімає прапорець. Кнопки
+	 * «показати оголошення» на сторінці немає, бо посилання роздають руками.
+	 */
+	function closeUpdate() {
+		updateOpen = false;
+		syncParamUrl('update', null);
+	}
+
 	function openForm() {
 		formModalOpen = true;
 		syncParamUrl('form', 'open');
@@ -126,7 +157,9 @@
 		url.searchParams.delete('dept');
 		url.searchParams.delete('photo');
 		url.searchParams.delete('q');
+		url.searchParams.delete('at');
 		window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
+		rosterScrolledYear = null;
 	}
 
 	const locale = $derived(localeFromPath(page.url.pathname));
@@ -214,6 +247,9 @@
 			const formParam = url.searchParams.get('form');
 			formModalOpen = formParam === 'open' || formParam === 'true';
 
+			const updateParam = url.searchParams.get('update');
+			updateOpen = updateParam === 'open' || updateParam === 'true';
+
 			const rosterParam = url.searchParams.get('roster');
 			rosterOpen = rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1';
 
@@ -248,6 +284,10 @@
 				} else {
 					rosterQuery = '';
 				}
+
+				const atParam = url.searchParams.get('at');
+				const atYear = atParam ? Number.parseInt(atParam, 10) : NaN;
+				rosterScrolledYear = Number.isNaN(atYear) ? null : atYear;
 			}
 		}
 
@@ -330,7 +370,7 @@
 
 <GraduateRoster
 	graduates={data.graduates}
-	open={rosterOpen && !selected}
+	open={rosterOpen && !selected && !updateOpen}
 	onclose={closeRoster}
 	onselect={openGraduate}
 	onopenform={openForm}
@@ -342,6 +382,8 @@
 	ondepartmentschange={setDepartments}
 	onphotochange={setPhoto}
 	onquerychange={setQuery}
+	initialScrolledYear={rosterScrolledYear}
+	onscrolledyearchange={setScrolledYear}
 />
 
 <GraduateCard
@@ -349,6 +391,17 @@
 	profile={selectedProfile}
 	onclose={() => history.back()}
 />
+
+<!--
+	Вікно вантажиться лише тоді, коли його попросили: більшість відвідувачів
+	приходить у галактику, а не по оголошення, і платити за нього завантаженням
+	вони не мусять.
+-->
+{#if updateOpen}
+	{#await import('$lib/components/GalaxyUpdateModal.svelte') then { default: GalaxyUpdateModal }}
+		<GalaxyUpdateModal onclose={closeUpdate} />
+	{/await}
+{/if}
 
 <GraduateFormModal
 	isOpen={formModalOpen}

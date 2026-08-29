@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t, locale } from "svelte-i18n";
 	import { untrack } from "svelte";
-	import { X, Plus, Eraser } from "lucide-svelte";
+	import { X, Plus, Eraser, SlidersHorizontal } from "lucide-svelte";
 	import { focusTrap } from "$lib/utils/focusTrap";
 	import {
 		GRADUATION_YEARS,
@@ -9,32 +9,19 @@
 		type GraduateIndexEntry,
 	} from "$lib/data/graduates";
 	import { filterGraduates } from "$lib/utils/graduateGalaxy";
-	import { layoutRoster, sortRoster, type Cell } from "$lib/utils/graduateRoster";
+	import {
+		formatGraduateNoun,
+		layoutRoster,
+		sortRoster,
+		type Cell,
+	} from "$lib/utils/graduateRoster";
 	import GraduateRosterHead from "./GraduateRosterHead.svelte";
 	import GraduateRosterRow from "./GraduateRosterRow.svelte";
 	import GraduateRosterYears from "./GraduateRosterYears.svelte";
 	import GraduateRosterFilters from "./GraduateRosterFilters.svelte";
 	import GraduateRosterEmpty from "./GraduateRosterEmpty.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
-
-	function formatGraduateNoun(count: number): string {
-		const currentLocale = $locale ?? 'uk';
-		if (currentLocale.startsWith('en')) {
-			return count === 1 ? 'graduate' : 'graduates';
-		}
-		const mod10 = count % 10;
-		const mod100 = count % 100;
-		if (mod100 >= 11 && mod100 <= 19) {
-			return 'випускників';
-		}
-		if (mod10 === 1) {
-			return 'випускник';
-		}
-		if (mod10 >= 2 && mod10 <= 4) {
-			return 'випускника';
-		}
-		return 'випускників';
-	}
+	import { overlayFade, overlayPop } from "$lib/utils/overlayTransition";
 
 	interface Props {
 		graduates: readonly GraduateIndexEntry[];
@@ -50,12 +37,22 @@
 		ondepartmentschange: (departments: Department[]) => void;
 		onphotochange: (photo: "all" | "with" | "without") => void;
 		onquerychange: (query: string) => void;
+		/**
+		 * Рік, на якому список стояв минулого разу, — з адреси. Читається один
+		 * раз, коли аркуш відкривається: далі рік веде сам список.
+		 */
+		initialScrolledYear?: number | null;
+		/**
+		 * Куди доїхав список. Викликається З ЗАТРИМКОЮ — див. `notifyScrolled`.
+		 */
+		onscrolledyearchange?: (year: number | null) => void;
 	}
 
 	let {
 		graduates, open, onclose, onselect, onopenform,
 		year, departments, photo, query,
 		onyearchange, ondepartmentschange, onphotochange, onquerychange,
+		initialScrolledYear = null, onscrolledyearchange,
 	}: Props = $props();
 
 	const id = $props.id();
@@ -145,12 +142,105 @@
 	);
 
 	let scrolledYear = $state<number | null>(null);
+	let notifyTimeout: ReturnType<typeof setTimeout> | undefined;
+
+	/**
+	 * Ставить рік і — згодом — повідомляє про це нагору.
+	 *
+	 * Затримка обов'язкова: `handleGridScroll` висить на `onscroll` без
+	 * жодного гальма, тобто спрацьовує десятки разів на секунду. Батько на
+	 * кожен виклик переписує адресу, а `history.replaceState` стільки разів
+	 * поспіль браузери душать (Safari просто кидає виняток після сотні за
+	 * півхвилини). Тому місцевий стан міняється ОДРАЗУ — список підсвічує рік
+	 * без затримки, — а нагору йде вже те, на чому гортання спинилося.
+	 */
+	function setScrolledYear(next: number | null) {
+		scrolledYear = next;
+		if (!onscrolledyearchange) return;
+		if (notifyTimeout) clearTimeout(notifyTimeout);
+		notifyTimeout = setTimeout(() => {
+			notifyTimeout = undefined;
+			onscrolledyearchange?.(next);
+		}, 250);
+	}
 	let lastInteractedYear = $state<number | null>(null);
 	let gridEl = $state<HTMLDivElement | null>(null);
 	let canScrollUp = $state(false);
 	let canScrollDown = $state(false);
 	let isScrollingProgrammatically = false;
 	let scrollTimeout: ReturnType<typeof setTimeout> | undefined;
+
+	/**
+	 * Фільтри згорнуті — але лише на вузькому екрані.
+	 *
+	 * На телефоні шапка аркуша не вміщала все одразу: два випадні списки
+	 * переповзали за правий край, а три круглі кнопки лягали окремим рядком
+	 * посеред нічого. Фільтри при цьому потрібні не щоразу — здебільшого
+	 * відкривають список і гортають.
+	 *
+	 * На широкому екрані стан не діє взагалі: там `.sheet__filters` має
+	 * `display: contents`, тобто фільтри лишаються прямими дітьми шапки, як і
+	 * були.
+	 */
+	let filtersOpen = $state(false);
+
+	/**
+	 * Відновлює позицію з адреси, коли аркуш відкривається.
+	 *
+	 * Один раз на відкриття, а не на кожну зміну `initialScrolledYear`: далі
+	 * рік веде сам список, і повторне втручання смикало б його назад під
+	 * пальцем.
+	 */
+	let restored = $state(false);
+	$effect(() => {
+		if (!open) {
+			restored = false;
+			return;
+		}
+		if (restored) return;
+		const target = initialScrolledYear;
+		/*
+		 * Порожня ціль защіпку НЕ ставить — і це не дрібниця.
+		 *
+		 * Аркуш відкривається з `?roster=open` одразу, а рік приходить із того
+		 * самого читання адреси мить по тому. Защіпнувшись на `null`, ефект
+		 * більше не спрацьовував: рік приїжджав у вже «відновлений» список, і
+		 * гортання не ставалося ніколи.
+		 */
+		if (target === null) return;
+		restored = true;
+
+		/*
+		 * Чекаємо на саму картку, а не на «якийсь час».
+		 *
+		 * Аркуш виїжджає з анімацією, список усередині малюється ще пізніше, і
+		 * фіксована затримка в 120 мс не спрацьовувала: `scrollToYear` не
+		 * знаходив `[data-year]` і мовчки виходив. Рік при цьому підсвічувався,
+		 * тобто збоку виглядало як «майже працює».
+		 *
+		 * Опитування ТАЙМЕРОМ, а не `requestAnimationFrame`. Перша спроба була
+		 * саме на кадрах, і вона мовчки не працювала, коли вкладку відкривали у
+		 * фоні: кадри там не малюються взагалі, тож зворотний виклик не
+		 * приходив жодного разу. Саме так відкривають надіслане посилання —
+		 * середнім кліком у сусідню вкладку.
+		 *
+		 * Межа в 30 спроб (≈1.5 с) потрібна, щоб цикл не крутився вічно, якщо
+		 * такого року в списку немає взагалі — наприклад, коли адресу склали
+		 * руками.
+		 */
+		let frames = 0;
+		const tryScroll = () => {
+			if (!open) return;
+			const ready = gridEl?.querySelector(`[data-year="${target}"]`);
+			if (ready && gridEl!.scrollHeight > gridEl!.clientHeight) {
+				scrolledYear = target;
+				scrollToYear(target, true);
+				return;
+			}
+			if (frames++ < 30) setTimeout(tryScroll, 50);
+		};
+		tryScroll();
+	});
 
 	function updateScrollBounds() {
 		if (!gridEl) return;
@@ -169,7 +259,7 @@
 
 	function handleYearSelect(clickedYear: number | 'all', event?: MouseEvent) {
 		if (clickedYear === 'all') {
-			scrolledYear = null;
+			setScrolledYear(null);
 			lastInteractedYear = null;
 			onyearchange('all');
 			if (gridEl) {
@@ -182,7 +272,7 @@
 		// Мультивибір з Ctrl / Cmd (поодиноке додавання/зняття року)
 		if (event?.ctrlKey || event?.metaKey) {
 			lastInteractedYear = clickedYear;
-			scrolledYear = null;
+			setScrolledYear(null);
 			if (selectedYears.includes(clickedYear)) {
 				const next = selectedYears.filter((y) => y !== clickedYear);
 				onyearchange(next.length > 0 ? next : 'all');
@@ -197,7 +287,7 @@
 			const start = Math.min(lastInteractedYear, clickedYear);
 			const end = Math.max(lastInteractedYear, clickedYear);
 			const range = GRADUATION_YEARS.filter((y) => y >= start && y <= end);
-			scrolledYear = null;
+			setScrolledYear(null);
 			onyearchange(range);
 			return;
 		}
@@ -212,7 +302,7 @@
 		// Якщо зараз активний жорсткий фільтр на цей самий рік -> знімаємо фільтр і лишаємося на скролі
 		if (selectedYears.length === 1 && selectedYears[0] === clickedYear) {
 			lastInteractedYear = clickedYear;
-			scrolledYear = clickedYear;
+			setScrolledYear(clickedYear);
 			onyearchange('all');
 			setTimeout(() => scrollToYear(clickedYear), 30);
 			return;
@@ -221,7 +311,7 @@
 		// Якщо зараз активний жорсткий фільтр на інший рік -> знімаємо фільтр і скролимо до нового року
 		if (selectedYears.length > 0) {
 			lastInteractedYear = clickedYear;
-			scrolledYear = clickedYear;
+			setScrolledYear(clickedYear);
 			onyearchange('all');
 			setTimeout(() => scrollToYear(clickedYear), 30);
 			return;
@@ -235,12 +325,20 @@
 		} else {
 			// Перший клік = плавний скрол до року в повному списку
 			lastInteractedYear = clickedYear;
-			scrolledYear = clickedYear;
+			setScrolledYear(clickedYear);
 			scrollToYear(clickedYear);
 		}
 	}
 
-	function scrollToYear(targetYear: number) {
+	/**
+	 * @param instant Стрибнути без анімації. Потрібно для відновлення з адреси:
+	 *   плавно повзти чотирнадцять тисяч пікселів від початку списку — не
+	 *   «плавно», а довго, і людина весь цей час бачить чужі роки. До того ж
+	 *   `behavior: 'smooth'` вимагає малювання: у вкладці, відкритій у фоні
+	 *   (саме так відкривають надіслане посилання), прокрутка просто не
+	 *   стається — заміряно, `scrollTop` лишається нулем.
+	 */
+	function scrollToYear(targetYear: number, instant = false) {
 		if (!gridEl) return;
 		const targetCard = gridEl.querySelector(`[data-year="${targetYear}"]`) as HTMLElement | null;
 		if (targetCard) {
@@ -251,8 +349,12 @@
 				updateScrollBounds();
 			}, 600);
 
-			const targetTop = targetCard.offsetTop - gridEl.offsetTop;
-			gridEl.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+			const targetTop = Math.max(0, targetCard.offsetTop - gridEl.offsetTop);
+			if (instant) {
+				gridEl.scrollTop = targetTop;
+			} else {
+				gridEl.scrollTo({ top: targetTop, behavior: 'smooth' });
+			}
 			updateScrollBounds();
 		}
 	}
@@ -278,14 +380,14 @@
 		}
 
 		if (gridEl.scrollTop < 20) {
-			scrolledYear = null;
+			setScrolledYear(null);
 		} else if (active !== null) {
-			scrolledYear = active;
+			setScrolledYear(active);
 		}
 	}
 
 	function resetAllFilters() {
-		scrolledYear = null;
+		setScrolledYear(null);
 		lastInteractedYear = null;
 		onyearchange("all");
 		ondepartmentschange([]);
@@ -317,6 +419,7 @@
 	-->
 	<div
 		class="backdrop"
+		transition:overlayFade
 		onclick={onclose}
 		role="presentation"
 		data-testid="galaxy-roster-backdrop"
@@ -324,6 +427,7 @@
 
 	<div
 		class="sheet"
+		transition:overlayPop={{ y: 22 }}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="{id}-title"
@@ -337,8 +441,14 @@
 				data-testid="galaxy-roster-title"
 			>
 				<span class="sheet__count" data-testid="galaxy-roster-count">{shown.length}</span>
-				<span class="sheet__count-word">{formatGraduateNoun(shown.length)}</span>
+				<span class="sheet__count-word">{formatGraduateNoun(shown.length, $locale ?? "uk")}</span>
 			</h2>
+
+			<!-- Порожній елемент на всю ширину — розрив рядка у flex-розкладці.
+			     Інакше на телефоні жодна комбінація ширин не сходиться: щоб
+			     пошук пішов на другий рядок, його база мусить бути більшою за
+			     200px, а щоб поруч став «Фільтри» — меншою за 180. -->
+			<span class="sheet__break" aria-hidden="true"></span>
 
 			<label class="sheet__field" for="{id}-search">
 				<span class="sr-only">{$t("galaxy.searchName")}</span>
@@ -352,25 +462,53 @@
 				/>
 			</label>
 
-			<GraduateRosterFilters
-				{departments}
-				{photo}
-				ondepartmentschange={ondepartmentschange}
-				onphotochange={onphotochange}
-			/>
-
 			<button
 				type="button"
-				class="sheet__icon-btn"
-				class:sheet__icon-btn--disabled={!hasActiveFilters}
-				disabled={!hasActiveFilters}
-				onclick={resetAllFilters}
-				title={$t("common.reset", { default: "Очистити фільтри" })}
-				aria-label={$t("common.reset", { default: "Очистити фільтри" })}
-				data-testid="galaxy-roster-reset-filters-btn"
+				class="sheet__icon-btn sheet__filters-toggle"
+				class:sheet__filters-toggle--on={filtersOpen}
+				onclick={() => (filtersOpen = !filtersOpen)}
+				aria-expanded={filtersOpen}
+				aria-controls="{id}-filters"
+				title={$t("galaxy.filters", { default: "Фільтри" })}
+				data-testid="galaxy-roster-filters-toggle-btn"
 			>
-				<Eraser size={18} aria-hidden="true" />
+				<SlidersHorizontal size={18} aria-hidden="true" />
+				<span class="sheet__filters-toggle-text"
+					>{$t("galaxy.filters", { default: "Фільтри" })}</span
+				>
+				<!-- Крапка каже, що фільтр діє, коли панель згорнута: інакше
+				     людина бачила б короткий список і не знала чому. -->
+				{#if hasActiveFilters}
+					<span class="sheet__filters-dot" aria-hidden="true"></span>
+				{/if}
 			</button>
+
+			<div
+				class="sheet__filters"
+				class:sheet__filters--open={filtersOpen}
+				id="{id}-filters"
+				data-testid="galaxy-roster-filters-panel"
+			>
+				<GraduateRosterFilters
+					{departments}
+					{photo}
+					ondepartmentschange={ondepartmentschange}
+					onphotochange={onphotochange}
+				/>
+
+				<button
+					type="button"
+					class="sheet__icon-btn"
+					class:sheet__icon-btn--disabled={!hasActiveFilters}
+					disabled={!hasActiveFilters}
+					onclick={resetAllFilters}
+					title={$t("common.reset", { default: "Очистити фільтри" })}
+					aria-label={$t("common.reset", { default: "Очистити фільтри" })}
+					data-testid="galaxy-roster-reset-filters-btn"
+				>
+					<Eraser size={18} aria-hidden="true" />
+				</button>
+			</div>
 
 			{#if onopenform}
 				<button
@@ -469,14 +607,14 @@
 	.backdrop {
 		position: fixed;
 		inset: 0;
-		z-index: 70;
+		z-index: var(--z-modal-backdrop);
 		background: rgb(3 6 20 / 0.72);
 		backdrop-filter: blur(3px);
 	}
 
 	.sheet {
 		position: fixed;
-		z-index: 71;
+		z-index: var(--z-modal);
 		left: 50%;
 		top: clamp(8px, 1.6dvh, 16px);
 		translate: -50% 0;
@@ -490,6 +628,24 @@
 		box-shadow: none;
 		border: none;
 		color: var(--galaxy-text);
+	}
+
+	/*
+	 * На широкому екрані панель НЕ створює коробки: фільтри й гумка лишаються
+	 * прямими дітьми шапки, тобто розкладка там така сама, як була до згортання.
+	 */
+	.sheet__filters {
+		display: contents;
+	}
+	/*
+	 * Селектор СКЛАДЕНИЙ, і не для краси: кнопка має обидва класи, а
+	 * `.sheet__icon-btn` з його `display: grid` оголошено нижче. При однаковій
+	 * вазі виграє той, хто пізніше, — і на широкому екрані перемикач лишався
+	 * видимим поруч із самими фільтрами.
+	 */
+	.sheet__icon-btn.sheet__filters-toggle,
+	.sheet__break {
+		display: none;
 	}
 
 	.sheet__head {
@@ -712,10 +868,100 @@
 			gap: 0.5rem;
 		}
 
+		/*
+		 * Три рядки замість каші:
+		 *   1) скільки випускників · «додати» · «закрити»
+		 *   2) пошук · «фільтри»
+		 *   3) самі фільтри — і лише коли їх розгорнули
+		 *
+		 * Порядок задається `order`, а не перестановкою в розмітці: на широкому
+		 * екрані та сама шапка лишається одним рядком, і переставляти там нічого
+		 * не треба.
+		 */
 		.sheet__head {
 			padding: 0.25rem 0.4rem;
-			padding-left: clamp(0.4rem, calc(72px - (100vw - (100vw - 1rem)) / 2), 72px);
+			gap: 0.5rem 0.4rem;
 		}
+		/*
+		 * База НУЛЬОВА (`flex: 1 1 0`), а не `auto`: `flex-wrap` розриває рядок
+		 * ЩЕ ДО стискання, і поки заголовок займав свою природну ширину
+		 * (заміряно 231px із 375), кнопка закриття падала вниз — до пошуку.
+		 */
+		/*
+		 * Місце під логотип лишає САМ ЗАГОЛОВОК, а не вся шапка.
+		 *
+		 * Маски лежать під аркушем (шапка без тла, тож вони просвічують) і
+		 * займають, за заміром, 48×48 у куті — x 12…60, y 6…54. Тобто затуляють
+		 * вони лише перший рядок: пошук починається на 96px, панель фільтрів на
+		 * 154px, і там ховатися вже нема від чого.
+		 *
+		 * Доти відступ у 64px тримала вся шапка, і ці 64px губилися на КОЖНОМУ
+		 * рядку: на 375px екрана пошук і фільтри втрачали шосту частину ширини
+		 * заради порожнечі.
+		 */
+		.sheet__title {
+			order: 1;
+			flex: 1 1 0;
+			min-width: 0;
+			overflow: hidden;
+			margin-left: 3rem;
+		}
+		/*
+		 * Три крапки саме на слові, а не на заголовку: заголовок — flex-контейнер
+		 * (число й слово стоять поруч на спільній базовій лінії), а
+		 * `text-overflow` до таких не застосовується взагалі. Без цього рядок
+		 * просто обрізався під кнопкою «додати» — без жодного знаку, що там ще
+		 * щось є.
+		 */
+		.sheet__count-word {
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.sheet__icon-btn--add { order: 2; }
+		.sheet__close { order: 3; }
+		.sheet__break {
+			order: 4;
+			display: block;
+			flex: 1 0 100%;
+			height: 0;
+		}
+		.sheet__field {
+			order: 5;
+			flex: 1 1 8rem;
+			min-width: 0;
+		}
+		.sheet__icon-btn.sheet__filters-toggle {
+			order: 6;
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			width: auto;
+			padding: 0 0.85rem;
+			border-radius: 999px;
+			font-size: 0.86rem;
+			font-weight: 600;
+		}
+		.sheet__icon-btn.sheet__filters-toggle--on { background: rgb(140 190 255 / 0.22); }
+		.sheet__filters-dot {
+			position: absolute;
+			top: 6px;
+			right: 6px;
+			width: 7px;
+			height: 7px;
+			border-radius: 50%;
+			background: var(--galaxy-accent);
+		}
+		.sheet__filters {
+			order: 7;
+			display: none;
+			flex: 1 0 100%;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.45rem;
+		}
+		.sheet__filters--open { display: flex; }
 
 		.sheet__body {
 			flex-direction: column;

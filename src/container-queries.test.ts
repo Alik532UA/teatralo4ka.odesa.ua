@@ -100,6 +100,14 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 			'це про палець, а не про місце'
 	},
 	'GraduateCard.svelte': { axis: 'window', why: '`position: fixed` — накладка поверх сторінки' },
+	'GraduateCardToolbar.svelte': {
+		axis: 'window',
+		why: 'кнопки тієї самої накладки: на вузькому вона стає аркушем, що гортається, і набір із-над картки переїжджає всередину'
+	},
+	'GraduateCardContactMenu.svelte': {
+		axis: 'window',
+		why: 'меню тієї самої накладки: ліворуч від кнопки на широкому, під нею на вузькому'
+	},
 	'GraduateProfileView.svelte': { axis: 'window', why: 'розкладка всієї сторінки профілю' },
 	'GraduateRoster.svelte': { axis: 'window', why: 'аркуш на весь екран' },
 	'GraduateRosterFilters.svelte': { axis: 'window', why: 'панель того самого аркуша' },

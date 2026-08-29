@@ -364,7 +364,7 @@
 		 */
 		height: 100dvh;
 		/* Нижче заставки (10000) і нижче модалок, але вище звичайного вмісту. */
-		z-index: 9000;
+		z-index: var(--z-page-chrome);
 		background: color-mix(in srgb, var(--scrollbar-track), transparent 40%);
 		/* Та сама тінь, що й у мінімапи: обидві накладки мають однаково
 		   відокремлюватися від сторінки. */

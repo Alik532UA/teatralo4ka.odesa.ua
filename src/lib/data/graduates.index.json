@@ -2492,7 +2492,11 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D_1",
 		"code": "dmytro-rozumenko",
-		"profileSize": 852
+		"profileSize": 868,
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		}
 	},
 	{
 		"slug": "dmytro-yatsenko",
@@ -2895,7 +2899,8 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09I",
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1164
+		"profileSize": 1207,
+		"graduationLabelKey": "galaxy.studiedUntil"
 	},
 	{
 		"slug": "ihor-vatsiuk",
@@ -2928,7 +2933,11 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		}
 	},
 	{
 		"slug": "inna-shevchenko",
@@ -4467,7 +4476,7 @@
 		],
 		"group": {
 			"abbr": null,
-			"name": "Скоморошки"
+			"name": "Скоморохи"
 		},
 		"masters": [
 			{
@@ -4494,7 +4503,7 @@
 		"playCount": 17,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12M",
 		"code": "mariia-mykhailova-didenko",
-		"profileSize": 2573
+		"profileSize": 2571
 	},
 	{
 		"slug": "mariia-poliakova",
@@ -4755,7 +4764,7 @@
 		],
 		"group": {
 			"abbr": null,
-			"name": "Скоморохи\", \"Парадокс"
+			"name": "Скоморохи"
 		},
 		"masters": [
 			{
@@ -4777,7 +4786,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M",
 		"code": "maryna-vishtaliuk-sukhanova",
-		"profileSize": 2138
+		"profileSize": 2167
 	},
 	{
 		"slug": "mikhail-suraho",
@@ -4909,6 +4918,17 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -5736,6 +5756,17 @@
 		"graduationYear": 2013,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6530,6 +6561,17 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{
@@ -6978,6 +7020,17 @@
 		"graduationYear": 2012,
 		"departments": [
 			"theatre"
+		],
+		"group": {
+			"abbr": null,
+			"name": "Скоморохи"
+		},
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
 		]
 	},
 	{

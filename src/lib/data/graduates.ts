@@ -81,6 +81,8 @@ export interface GraduateIndexEntry {
 	name: string;
 	/** `null` буває: у джерелі рік вказаний не завжди. */
 	graduationYear: number | null;
+	/** Свій підпис року замість «випуск NNNN» — див. `graduationCaption`. */
+	graduationLabelKey?: string;
 	departments: Department[];
 	/** Є портрет і подробиці — тобто анкету заповнено. Інакше поля нижче порожні. */
 	hasPhoto?: true;
@@ -146,6 +148,17 @@ export interface GraduateProfile {
 	 * решта назв не пропадала. Немає поля — курс мав рівно одну назву.
 	 */
 	groups?: string[];
+	/**
+	 * Свій підпис року замість типового «випуск NNNN».
+	 *
+	 * Ключ i18n, а не готовий рядок: підпис бачать обома мовами. Шаблон отримує
+	 * `{year}`. Потрібен тим, хто школу не закінчував офіційно, але в галактиці
+	 * лишається — у Ігоря Розводюка це «навчався до 2009».
+	 *
+	 * Ключем, а не прапорцем `didNotGraduate`: причини бувають різні, і кожна
+	 * наступна вимагала б нового прапорця замість нового рядка в словнику.
+	 */
+	graduationLabelKey?: string;
 	masters: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
 	socials: GraduateSocial[];
@@ -187,6 +200,24 @@ export function graduateProfileJson(code: string): string {
  * prerender. Далі `localizedPath` перетворює це на `ResolvedPathname` — тип, за
  * яким `svelte/no-navigation-without-resolve` визнає адресу перевіреною.
  */
+/**
+ * Підпис під іменем: «випуск 2014» або свій, якщо запис його має.
+ *
+ * Тут, а не в кожному компоненті: підпис показують і картка, і склад групи, і
+ * розійшовшись вони дали б ту саму людину з різними роками в різних місцях.
+ * `translate` приходить ззовні, бо `svelte-i18n` живе лише в компоненті.
+ */
+export function graduationCaption(
+	graduate: { graduationYear: number | null; graduationLabelKey?: string },
+	translate: (key: string, options?: { values?: Record<string, string | number> }) => string
+): string | null {
+	const year = graduate.graduationYear;
+	if (!year) return null;
+	return graduate.graduationLabelKey
+		? translate(graduate.graduationLabelKey, { values: { year } })
+		: `${translate('galaxy.graduated')} ${year}`;
+}
+
 export function graduateProfilePath(code: string): Pathname {
 	return `/projects/galaxy-graduates/${code}`;
 }

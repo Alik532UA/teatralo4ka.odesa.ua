@@ -4,15 +4,25 @@
 	import { asset } from '$app/paths';
 	import { ArrowLeft, Drama, Users, Sparkles, Award, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
-	import type { GraduateIndexEntry } from '$lib/data/graduates';
+	import { graduationCaption, type GraduateIndexEntry } from '$lib/data/graduates';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import {
+		closeGraduateModal,
+		graduateFromPageState,
+		openGraduateModal
+	} from '$lib/services/graduateModal.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 
 	let { data }: { data: PageData } = $props();
 
-	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
+	/*
+	 * Вибір живе в СТАНІ СТОРІНКИ, а не в локальному `$state`: тоді відкрита
+	 * картка має власну адресу, «назад» її закриває, а посилання можна
+	 * скопіювати. Докладніше — у `$lib/services/graduateModal`.
+	 */
+	const selectedGraduate = $derived(graduateFromPageState());
 
 	/**
 	 * Склад групи щоразу в новому порядку — щоб ніхто не стояв першим завжди.
@@ -131,12 +141,9 @@
 						<GroupPersonCard
 							name={member.name}
 							photo={photoSrc}
-							subtitle={member.graduationYear
-								? `${$t('galaxy.graduated')} ${member.graduationYear}`
-								: null}
-							onclick={() => {
-								selectedGraduate = member;
-							}}
+							subtitle={graduationCaption(member, $t)}
+							onclick={() => openGraduateModal(member)}
+							splitName
 							index={idx}
 							testid="group-member-card-{member.slug}"
 						/>
@@ -208,8 +215,9 @@
 <!-- Та сама картка, що й у галактиці. Анкету вона дістає сама, а кнопку
      «Заповнити анкету» й саму форму тримає всередині. -->
 <GraduateCard
+	showGalaxyLink
 	graduate={selectedGraduate}
-	onclose={() => { selectedGraduate = null; }}
+	onclose={closeGraduateModal}
 />
 
 <style>
