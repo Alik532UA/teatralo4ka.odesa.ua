@@ -57,7 +57,8 @@
 		"status": "active",
 		"subjects": [
 			"Акторська майстерність",
-			"Участь у виставах"
+			"Участь у виставах",
+			"Сценічна мова"
 		],
 		"photo": "/masters/fedir-tkach.webp",
 		"category": "directors",
@@ -77,7 +78,8 @@
 		"departments": [],
 		"status": "active",
 		"subjects": [
-			"Аудіотеатр"
+			"Аудіотеатр",
+			"Історія театру"
 		],
 		"photo": "/masters/olena-tkach.webp",
 		"category": "administration",
