@@ -57,7 +57,19 @@ export const GROUPS: readonly GraduateGroup[] = [
 		teachers: [
 			{ id: 'samuil-imas', name: 'Імас Самуїл Михайлович', subject: 'Риторика та поетика' },
 			{ id: 'mykola-baldin', name: 'Балдін Микола Олександрович', subject: 'Сценічний рух' },
-			{ id: 'iryna-ovcharenko', name: 'Овчаренко Ірина Григоріївна', subject: 'Вокал' }
+			{ id: 'iryna-ovcharenko', name: 'Овчаренко Ірина Григоріївна', subject: 'Вокал' },
+			{ id: 'olena-konnikova', name: 'Коннікова Олена Костянтинівна', subject: 'Історія театру' },
+			{ id: 'iryna-yershova', name: 'Єршова Ірина', subject: 'Хореографія' },
+			{
+				id: 'iryna-ulianenko',
+				name: 'Ульяненко Ірина Андріївна',
+				subject: 'Індивідуальна сценічна мова'
+			},
+			{
+				id: 'vira-yemtsova-datsiuk',
+				name: 'Ємцова-Дацюк Віра Вікторівна',
+				subject: 'Індивідуальна сценічна мова'
+			}
 		],
 		graduationYears: [2012],
 		memberSlugs: [
