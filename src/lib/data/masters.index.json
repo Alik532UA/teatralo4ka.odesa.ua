@@ -769,7 +769,9 @@
 		"roleTitle": "викладачка фортепіано",
 		"subjects": [
 			"Фортепіано"
-		]
+		],
+		"portrait": "/masters/portraits/dariia-nadozha.webp",
+		"photo": "/masters/dariia-nadozha.webp"
 	},
 	{
 		"id": "hanna-nikolaieva",
