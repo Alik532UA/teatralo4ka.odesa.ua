@@ -1777,7 +1777,7 @@
 	},
 	{
 		"slug": "bulhakova-yulia",
-		"name": "Булгакова Юля",
+		"name": "Юля Булгакова",
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
@@ -3534,7 +3534,7 @@
 	},
 	{
 		"slug": "kelembet-yeva",
-		"name": "Келембет Єва",
+		"name": "Єва Келембет",
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
@@ -3542,7 +3542,7 @@
 	},
 	{
 		"slug": "kelembet-yurii",
-		"name": "Келембет Юрій",
+		"name": "Юрій Келембет",
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
@@ -3989,7 +3989,7 @@
 	},
 	{
 		"slug": "leonenko-polina",
-		"name": "Леоненко Поліна",
+		"name": "Поліна Леоненко",
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
@@ -5127,7 +5127,7 @@
 	},
 	{
 		"slug": "nakonechna-anastasiia",
-		"name": "Наконечна Анастасія",
+		"name": "Анастасія Наконечна",
 		"graduationYear": 2023,
 		"departments": [
 			"art"
@@ -5560,8 +5560,8 @@
 				"url": "https://www.instagram.com/sashxsqs"
 			}
 		],
-		"playCount": 9,
-		"profileSize": 2484
+		"playCount": 10,
+		"profileSize": 2560
 	},
 	{
 		"slug": "oleksandra-khalfina",
