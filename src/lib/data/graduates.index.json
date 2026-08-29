@@ -6219,8 +6219,8 @@
 			2023
 		],
 		"group": {
-			"abbr": "Хлопаффки",
-			"name": null
+			"abbr": null,
+			"name": "Хлопаффки"
 		},
 		"masters": [
 			{
@@ -6232,13 +6232,13 @@
 		"socials": [
 			{
 				"network": "instagram",
-				"url": "https://www.instagram.com/givankey"
+				"url": "https://www.instagram.com/sofiacherrnova"
 			}
 		],
-		"playCount": 2,
+		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofia-Chernova",
 		"code": "Sofia-Chernova",
-		"profileSize": 813
+		"profileSize": 948
 	},
 	{
 		"slug": "sofiia-chernata",
