@@ -1,17 +1,19 @@
 {
 	"id": "d-rybalchenko",
 	"slug": "d-rybalchenko",
-	"displayName": "Д. РИБАЛЬЧЕНКО",
-	"fullName": "Рибальченко Д.Д.",
-	"displayNameEn": "D. RYBALCHENKO",
-	"fullNameEn": "D. Rybalchenko",
+	"displayName": "Даніела РИБАЛЬЧЕНКО",
+	"fullName": "Рибальченко Даніела",
+	"displayNameEn": "Daniela RYBALCHENKO",
+	"fullNameEn": "Daniela Rybalchenko",
 	"departments": [
 		"theatre"
 	],
 	"status": "former",
 	"subjects": [
-		"Акторська майстерність"
+		"Акторська майстерність",
+		"Історія театру"
 	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка акторської майстерності та історії театру"
 }

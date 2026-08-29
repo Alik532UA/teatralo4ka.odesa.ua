@@ -1,0 +1,19 @@
+{
+	"id": "tetiana-stepanchuk",
+	"slug": "tetiana-stepanchuk",
+	"displayName": "Тетяна СТЕПАНЧУК",
+	"fullName": "Степанчук Тетяна Анатоліївна",
+	"displayNameEn": "Tetiana STEPANCHUK",
+	"fullNameEn": "Tetiana Stepanchuk",
+	"departments": [
+		"art"
+	],
+	"status": "active",
+	"subjects": [
+		"Грим"
+	],
+	"category": "artists",
+	"roleTitle": "викладачка гриму",
+	"bio": "",
+	"socials": []
+}

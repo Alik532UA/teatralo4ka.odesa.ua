@@ -1,10 +1,10 @@
 {
 	"id": "pyrohova",
 	"slug": "pyrohova",
-	"displayName": "Пирогова",
-	"fullName": "Пирогова",
-	"displayNameEn": "Pyrohova",
-	"fullNameEn": "Pyrohova",
+	"displayName": "Надія ПІРОГОВА",
+	"fullName": "Пірогова Надія",
+	"displayNameEn": "Nadiia PIROHOVA",
+	"fullNameEn": "Nadiia Pirohova",
 	"departments": [
 		"theatre"
 	],
@@ -12,5 +12,6 @@
 	"photo": "/masters/pyrohova.webp",
 	"portrait": "/masters/portraits/pyrohova.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "концертмейстерка"
 }

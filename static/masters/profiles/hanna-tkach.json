@@ -2,9 +2,9 @@
 	"id": "hanna-tkach",
 	"slug": "hanna-tkach",
 	"displayName": "Ганна ТКАЧ",
-	"fullName": "Ткач Ганна Федорівна",
+	"fullName": "Ткач (Комадовська) Ганна Федорівна",
 	"displayNameEn": "Hanna TKACH",
-	"fullNameEn": "Hanna Tkach",
+	"fullNameEn": "Hanna Tkach (Komadovska)",
 	"departments": [
 		"theatre"
 	],
@@ -14,5 +14,6 @@
 	],
 	"bio": "",
 	"socials": [],
-	"category": "directors"
+	"category": "directors",
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 }

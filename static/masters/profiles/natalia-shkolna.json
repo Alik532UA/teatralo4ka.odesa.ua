@@ -8,13 +8,12 @@
 	"departments": [
 		"vocal"
 	],
-	"status": "active",
+	"status": "former",
 	"subjects": [
 		"Вокал"
 	],
 	"bio": "",
 	"socials": [],
 	"photo": "/masters/natalia-shkolna.webp",
-	"portrait": "/masters/portraits/natalia-shkolna.webp",
-	"visible": false
+	"portrait": "/masters/portraits/natalia-shkolna.webp"
 }

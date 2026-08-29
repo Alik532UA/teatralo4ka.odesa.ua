@@ -2,9 +2,9 @@
 	"id": "yevheniia-osadcha",
 	"slug": "yevheniia-osadcha",
 	"displayName": "Євгенія ОСАДЧА",
-	"fullName": "Осадча Євгенія Іванівна",
+	"fullName": "Осадча (Бур'ян) Євгенія Іванівна",
 	"displayNameEn": "Yevheniia OSADCHA",
-	"fullNameEn": "Yevheniia Osadcha",
+	"fullNameEn": "Yevheniia Osadcha (Bur'ian)",
 	"departments": [
 		"theatre"
 	],
@@ -15,5 +15,6 @@
 		"Грим"
 	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"category": "directors"
 }

@@ -1,0 +1,18 @@
+{
+	"id": "iryna-pak",
+	"slug": "iryna-pak",
+	"displayName": "Ірина ПАК",
+	"fullName": "Пак Ірина Олексіївна",
+	"displayNameEn": "Iryna PAK",
+	"fullNameEn": "Iryna Pak",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Хореографія"
+	],
+	"category": "choreographers",
+	"bio": "",
+	"socials": []
+}

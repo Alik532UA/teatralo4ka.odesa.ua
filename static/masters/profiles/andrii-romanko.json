@@ -1,10 +1,10 @@
 {
 	"id": "andrii-romanko",
 	"slug": "andrii-romanko",
-	"displayName": "Андрій РОМАНКО",
-	"fullName": "Романко Андрій",
-	"displayNameEn": "Andrii ROMANKO",
-	"fullNameEn": "Andrii Romanko",
+	"displayName": "Володимир РОМАНКО",
+	"fullName": "Романко Володимир",
+	"displayNameEn": "Volodymyr ROMANKO",
+	"fullNameEn": "Volodymyr Romanko",
 	"departments": [
 		"theatre"
 	],
@@ -16,5 +16,6 @@
 	"portrait": "/masters/portraits/andrii-romanko.webp",
 	"bio": "",
 	"socials": [],
-	"category": "teachers"
+	"category": "teachers",
+	"roleTitle": "викладач сценічного руху"
 }

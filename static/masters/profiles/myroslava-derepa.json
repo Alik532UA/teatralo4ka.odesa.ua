@@ -2,9 +2,9 @@
 	"id": "myroslava-derepa",
 	"slug": "myroslava-derepa",
 	"displayName": "Мирослава ДЕРЕПА",
-	"fullName": "Дерепа Мирослава Ігорівна",
+	"fullName": "Дерепа (Наконечна) Мирослава Ігорівна",
 	"displayNameEn": "Myroslava DEREPA",
-	"fullNameEn": "Myroslava Derepa",
+	"fullNameEn": "Myroslava Derepa (Nakonechna)",
 	"departments": [
 		"theatre"
 	],
@@ -13,5 +13,6 @@
 		"Акторська майстерність"
 	],
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
 }

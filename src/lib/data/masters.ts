@@ -49,7 +49,30 @@ export type MasterStatus = 'active' | 'former' | 'honorary';
  * різниці; заодно виявилося, що завідувачка МУЗИЧНИМ відділенням стояла з
  * `departments: ['theatre']`.
  */
-export type MasterCategory = 'administration' | 'heads' | 'directors' | 'teachers' | 'accompanists' | 'production' | 'it' | 'support';
+/**
+ * Роль людини в школі.
+ *
+ * `teachers` лишається, хоча діючих із цією роллю більше немає: 2026-08-29 фах
+ * розділили на п'ять окремих ролей (`artists`, `choreographers`, `vocalists`,
+ * `musicians`, `speech`), бо в переліку складу вони й були окремими групами.
+ * Значення тримається для тих, хто вже в «Історії школи» та «Світлій пам'яті»:
+ * там роль — це факт про минуле, і переписувати її заднім числом означало б
+ * вигадати, який саме фах людина вела.
+ */
+export type MasterCategory =
+	| 'administration'
+	| 'heads'
+	| 'directors'
+	| 'speech'
+	| 'artists'
+	| 'choreographers'
+	| 'vocalists'
+	| 'musicians'
+	| 'accompanists'
+	| 'teachers'
+	| 'production'
+	| 'it'
+	| 'support';
 
 /**
  * Розділ на сторінці `/residents/adults` — ПОХІДНА величина, не поле даних.

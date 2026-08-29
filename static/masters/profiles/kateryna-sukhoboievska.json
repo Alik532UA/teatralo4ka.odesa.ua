@@ -2,14 +2,20 @@
 	"id": "kateryna-sukhoboievska",
 	"slug": "kateryna-sukhoboievska",
 	"displayName": "Катерина СУХОБОЄВСЬКА",
-	"fullName": "Сухобоєвська Катерина",
+	"fullName": "Сухобоєвська Катерина Юріївна",
 	"displayNameEn": "Kateryna SUKHOBOIEVSKA",
 	"fullNameEn": "Kateryna Sukhoboievska",
 	"departments": [
-		"theatre"
+		"music"
 	],
-	"status": "former",
-	"subjects": [],
+	"status": "active",
+	"subjects": [
+		"Фортепіано"
+	],
+	"photo": "/masters/kateryna-sukhoboievska.webp",
 	"bio": "",
-	"socials": []
+	"socials": [],
+	"roleTitle": "викладачка фортепіано",
+	"portrait": "/masters/portraits/kateryna-sukhoboievska.webp",
+	"category": "musicians"
 }

@@ -69,7 +69,7 @@ const profiles = readdirSync(PROFILES_DIR)
 
 /** Роль — лише ці шість. Розділи «Світла пам'ять», «Історія школи» та
  * «Потребують уточнення» — це НЕ роль, вони обчислюються. */
-const ROLES: readonly MasterCategory[] = ['administration', 'heads', 'directors', 'teachers', 'accompanists', 'production', 'it', 'support'];
+const ROLES: readonly MasterCategory[] = ['administration', 'heads', 'directors', 'speech', 'artists', 'choreographers', 'vocalists', 'musicians', 'accompanists', 'teachers', 'production', 'it', 'support'];
 const STATUSES: readonly MasterStatus[] = ['active', 'former', 'honorary'];
 
 /** Розділи сторінки — той самий перелік, що в `categoryConfigs`. */

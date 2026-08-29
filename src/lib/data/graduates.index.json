@@ -183,7 +183,7 @@
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григорівна",
+				"name": "Овчаренко Ірина Григоріївна",
 				"department": "vocal",
 				"subjects": [
 					"Вокал"
@@ -545,7 +545,7 @@
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григорівна",
+				"name": "Овчаренко Ірина Григоріївна",
 				"department": "vocal"
 			},
 			{
@@ -4404,8 +4404,8 @@
 				"department": "theatre"
 			},
 			{
-				"id": "kateryna-bilenko",
-				"name": "Біленко Катерина Юріївна",
+				"id": "kateryna-sukhoboievska",
+				"name": "Сухобоєвська Катерина Юріївна",
 				"department": "music"
 			},
 			{
