@@ -30,6 +30,21 @@ export async function load({ params }) {
 			};
 		});
 
+	// Викладачі курсу — той самий пошук у реєстрі, що й для майстрів, але з
+	// предметом: саме він відрізняє викладача від майстра на картці.
+	const teachers = (group.teachers ?? []).map((teacher) => {
+		const found = (mastersIndex as MasterIndexEntry[]).find(
+			(candidate) => candidate.id === teacher.id || candidate.slug === teacher.id
+		);
+		return {
+			id: teacher.id,
+			slug: found?.slug ?? teacher.id,
+			fullName: found?.fullName ?? teacher.name,
+			photo: found?.photo,
+			subject: teacher.subject
+		};
+	});
+
 	// Випускники групи з індексу
 	const members: GraduateIndexEntry[] = group.memberSlugs
 		.map((slug) => GRADUATES.find((g) => g.slug === slug || g.code === slug))
@@ -38,6 +53,7 @@ export async function load({ params }) {
 	return {
 		group,
 		masters,
+		teachers,
 		members
 	};
 }

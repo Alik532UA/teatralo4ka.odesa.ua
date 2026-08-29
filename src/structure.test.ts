@@ -154,7 +154,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/RichTextEditor.svelte': 760,
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 688,
-	'src/routes/projects/galaxy-graduates/groups/[slug]/+page.svelte': 695,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/routes/residents/adults/[slug]/+page.svelte': 590,

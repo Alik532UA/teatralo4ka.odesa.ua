@@ -18,12 +18,21 @@ export interface GroupMaster {
 	department?: string | null;
 }
 
+export interface GroupTeacher {
+	id: string;
+	name: string;
+	/** Предмет — те, чим викладач відрізняється від майстра курсу на картці. */
+	subject: string;
+}
+
 export interface GraduateGroup {
 	slug: string;
 	name: string;
 	abbr: string | null;
 	nameEn?: string;
 	masters: GroupMaster[];
+	/** Викладачі курсу. Немає поля — група їх не має, секція просто не з'явиться. */
+	teachers?: GroupTeacher[];
 	graduationYears: number[];
 	memberSlugs: string[];
 	plays: GroupPlay[];
@@ -44,6 +53,11 @@ export const GROUPS: readonly GraduateGroup[] = [
 				name: 'Ісачкіна Тетяна Валеріївна',
 				department: 'theatre'
 			}
+		],
+		teachers: [
+			{ id: 'samuil-imas', name: 'Імас Самуїл Михайлович', subject: 'Риторика та поетика' },
+			{ id: 'mykola-baldin', name: 'Балдін Микола Олександрович', subject: 'Сценічний рух' },
+			{ id: 'iryna-ovcharenko', name: 'Овчаренко Ірина Григоріївна', subject: 'Вокал' }
 		],
 		graduationYears: [2012],
 		memberSlugs: [

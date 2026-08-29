@@ -2,16 +2,44 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
-	import { ArrowLeft, Drama, Users, Sparkles, User, Award, Calendar } from 'lucide-svelte';
+	import { ArrowLeft, Drama, Users, Sparkles, Award, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
 
 	let { data }: { data: PageData } = $props();
 
 	let selectedGraduate = $state<GraduateIndexEntry | null>(null);
+
+	/**
+	 * Склад групи щоразу в новому порядку — щоб ніхто не стояв першим завжди.
+	 *
+	 * Перемішування живе в `$effect`, а НЕ в тілі компонента, і це не стиль:
+	 * сторінка потрапляє в prerender, тож на сервері порядок мусить лишитися
+	 * тим самим, що й у готовому HTML. Перемішай його там — і гідратація
+	 * побачить іншу розмітку, ніж прийшла з мережі. Ефект виконується вже в
+	 * браузері, після гідратації, тому обидві сторони збігаються.
+	 *
+	 * Фішер—Йейтс, а не `sort(() => Math.random() - 0.5)`: другий дає нерівний
+	 * розподіл (порівняння не транзитивне) і в частині рушіїв майже не рухає
+	 * початок списку — тобто «випадковість», якої насправді немає.
+	 */
+	let shuffled = $state<GraduateIndexEntry[] | null>(null);
+
+	$effect(() => {
+		const source = data.members;
+		const list = [...source];
+		for (let i = list.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[list[i], list[j]] = [list[j], list[i]];
+		}
+		shuffled = list;
+	});
+
+	const members = $derived(shuffled ?? data.members);
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -84,53 +112,14 @@
 			{/if}
 		</header>
 
-		<!-- 1. Секція: Майстри курсу -->
-		{#if data.masters.length > 0}
-			<section class="group-section" aria-labelledby="section-masters-title">
-				<div class="section-heading">
-					<span class="icon-wrap icon-wrap--primary"><Award size={20} aria-hidden="true" /></span>
-					<h2 id="section-masters-title" class="section-heading__title">
-						{$t('galaxy.groupMaster')}
-					</h2>
-				</div>
+		<!--
+			1. Секція: Склад групи (Ансамбль випускників)
 
-				<div class="masters-grid">
-					{#each data.masters as master (master.id)}
-						{@const masterSlug = 'slug' in master ? master.slug : master.id}
-						{@const masterPhoto = 'photo' in master && master.photo ? asset(master.photo) : null}
-						<a
-							href={localizedPath(`/residents/adults/${masterSlug}`, currentLang)}
-							class="master-card"
-							data-testid="group-master-card"
-						>
-							<div class="master-card__avatar">
-								{#if masterPhoto}
-									<img
-										src={masterPhoto}
-										alt={master.fullName}
-										class="master-card__img"
-										loading="lazy"
-										width="72"
-										height="72"
-									/>
-								{:else}
-									<div class="master-card__placeholder">
-										<User size={32} aria-hidden="true" />
-									</div>
-								{/if}
-							</div>
-							<div class="master-card__info">
-								<span class="master-card__role">{$t('galaxy.groupMaster')}</span>
-								<strong class="master-card__name">{master.fullName}</strong>
-								<span class="master-card__link-hint">{$t('common.details')} →</span>
-							</div>
-						</a>
-					{/each}
-				</div>
-			</section>
-		{/if}
-
-		<!-- 2. Секція: Склад групи (Ансамбль випускників) -->
+			Хвиля пульсації йде НАСКРІЗЬ обома секціями: `index` рахується від
+			початку сторінки, а не від початку секції. Доти в кожної секції був
+			власний відлік, тож вони пульсували двома окремими хвилями — між
+			ними читалася пауза.
+		-->
 		{#if data.members.length > 0}
 			<section class="group-section" aria-labelledby="section-members-title">
 				<div class="section-heading">
@@ -141,62 +130,70 @@
 					<span class="section-heading__count">{data.members.length}</span>
 				</div>
 
-				<div class="members-grid" data-testid="group-members-list">
-					{#each data.members as member (member.slug)}
+				<div class="people-grid" data-testid="group-members-list">
+					{#each members as member, idx (member.slug)}
 						{@const hasProfile = Boolean(member.hasPhoto && member.code)}
 						{@const photoSrc = member.hasPhoto ? asset(`/graduates/${member.slug}-192.webp`) : null}
-						{#if hasProfile && member.code}
-							<a
-								href={localizedPath(graduateProfilePath(member.code), currentLang)}
-								class="member-card member-card--interactive"
-								data-testid="group-member-card-{member.slug}"
-							>
-								<div class="member-card__avatar">
-									{#if photoSrc}
-										<img
-											src={photoSrc}
-											alt={member.name}
-											class="member-card__img"
-											loading="lazy"
-											width="80"
-											height="80"
-										/>
-									{:else}
-										<div class="member-card__placeholder">
-											<User size={36} aria-hidden="true" />
-										</div>
-									{/if}
-								</div>
-								<div class="member-card__meta">
-									<strong class="member-card__name">{member.name}</strong>
-									{#if member.graduationYear}
-										<span class="member-card__year">{$t('galaxy.graduated')} {member.graduationYear}</span>
-									{/if}
-									<span class="member-card__profile-badge">{$t('galaxy.ownPage')} →</span>
-								</div>
-							</a>
-						{:else}
-							<button
-								type="button"
-								class="member-card member-card--interactive member-card--btn"
-								data-testid="group-member-card-{member.slug}"
-								onclick={() => { selectedGraduate = member; }}
-								aria-haspopup="dialog"
-							>
-								<div class="member-card__avatar">
-									<div class="member-card__placeholder">
-										<User size={36} aria-hidden="true" />
-									</div>
-								</div>
-								<div class="member-card__meta">
-									<strong class="member-card__name">{member.name}</strong>
-									{#if member.graduationYear}
-										<span class="member-card__year">{$t('galaxy.graduated')} {member.graduationYear}</span>
-									{/if}
-									<span class="member-card__profile-badge member-card__profile-badge--hint">{$t('galaxy.fillProfile') || 'Анкета'} →</span>
-								</div>
-							</button>
-						{/if}
+						<GroupPersonCard
+							name={member.name}
+							photo={photoSrc}
+							subtitle={member.graduationYear
+								? `${$t('galaxy.graduated')} ${member.graduationYear}`
+								: null}
+							href={hasProfile && member.code
+								? localizedPath(graduateProfilePath(member.code), currentLang)
+								: undefined}
+							onclick={hasProfile && member.code
+								? undefined
+								: () => {
+										selectedGraduate = member;
+									}}
+							index={idx}
+							testid="group-member-card-{member.slug}"
+						/>
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<!-- 2. Секція: майстер курсу й викладачі -->
+		{#if data.masters.length > 0 || data.teachers.length > 0}
+			<section class="group-section" aria-labelledby="section-faculty-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Award size={20} aria-hidden="true" /></span>
+					<h2 id="section-faculty-title" class="section-heading__title">
+						{$t('galaxy.groupFaculty')}
+					</h2>
+				</div>
+
+				<!--
+					Майстри й викладачі в ОДНІЙ сітці, майстер перший. Ролі
+					розрізняє підпис під іменем: у майстра це сама роль, у
+					викладача — предмет.
+				-->
+				<div class="people-grid">
+					{#each data.masters as master, idx (master.id)}
+						{@const masterSlug = 'slug' in master ? master.slug : master.id}
+						{@const masterPhoto = 'photo' in master && master.photo ? asset(master.photo) : null}
+						<GroupPersonCard
+							name={master.fullName}
+							photo={masterPhoto}
+							subtitle={$t('galaxy.groupMaster')}
+							href={localizedPath(`/residents/adults/${masterSlug}`, currentLang)}
+							index={members.length + idx}
+							testid="group-master-card"
+						/>
+					{/each}
+
+					{#each data.teachers as teacher, idx (teacher.id)}
+						<GroupPersonCard
+							name={teacher.fullName}
+							photo={teacher.photo ? asset(teacher.photo) : null}
+							subtitle={teacher.subject}
+							href={localizedPath(`/residents/adults/${teacher.slug}`, currentLang)}
+							index={members.length + data.masters.length + idx}
+							testid="group-teacher-card-{teacher.slug}"
+						/>
 					{/each}
 				</div>
 			</section>
@@ -432,206 +429,13 @@
 		color: var(--text-muted, #94a3b8);
 	}
 
-	/* Майстри */
-	.masters-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
-		gap: 1.25rem;
-	}
-
-	.master-card {
-		display: flex;
-		align-items: center;
-		gap: 1.25rem;
-		padding: 1.25rem;
-		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.03);
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		text-decoration: none;
-		color: inherit;
-		transition: all 0.25s ease;
-		backdrop-filter: blur(10px);
-	}
-
-	.master-card:hover {
-		background: rgba(255, 255, 255, 0.07);
-		border-color: rgba(99, 102, 241, 0.4);
-		transform: translateY(-2px);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-	}
-
-	.master-card__avatar {
-		width: 72px;
-		height: 72px;
-		border-radius: 50%;
-		overflow: hidden;
-		flex-shrink: 0;
-		border: 2px solid rgba(99, 102, 241, 0.5);
-		background: #1e293b;
-	}
-
-	.master-card__img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.master-card__placeholder {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #64748b;
-	}
-
-	.master-card__info {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		min-width: 0;
-	}
-
-	.master-card__role {
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		font-weight: 600;
-		color: #818cf8;
-	}
-
-	.master-card__name {
-		font-size: 1.1rem;
-		font-weight: 700;
-		line-height: 1.3;
-		color: var(--text-main, #f8fafc);
-	}
-
-	.master-card__link-hint {
-		font-size: 0.8rem;
-		font-weight: 500;
-		color: var(--text-muted, #94a3b8);
-		margin-top: 0.2rem;
-	}
-
-	/* Склад групи (Випускники) */
-	.members-grid {
+	/* Одна сітка на майстрів і на випускників — картка тепер спільна. */
+	.people-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
 		gap: 1.25rem;
 	}
 
-	.member-card {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		text-align: center;
-		padding: 1.5rem 1rem 1.25rem;
-		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.025);
-		border: 1px solid rgba(255, 255, 255, 0.06);
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-		font-family: inherit;
-		box-sizing: border-box;
-		width: 100%;
-	}
-
-	.member-card--btn {
-		cursor: pointer;
-		background: rgba(255, 255, 255, 0.025);
-		border: 1px solid rgba(255, 255, 255, 0.06);
-	}
-
-	.member-card--interactive:focus-visible {
-		outline: 2px solid #818cf8;
-		outline-offset: 2px;
-	}
-
-	.member-card--interactive:hover {
-		background: rgba(255, 255, 255, 0.07);
-		border-color: rgba(99, 102, 241, 0.4);
-		transform: translateY(-4px);
-		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
-	}
-
-	.member-card__avatar {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		overflow: hidden;
-		margin-bottom: 0.85rem;
-		border: 2px solid rgba(255, 255, 255, 0.12);
-		background: #1e293b;
-		transition: transform 0.25s ease;
-	}
-
-	.member-card--interactive:hover .member-card__avatar {
-		transform: scale(1.05);
-		border-color: #818cf8;
-	}
-
-	.member-card__img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.member-card__placeholder {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #64748b;
-	}
-
-	.member-card__meta {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 0.3rem;
-		width: 100%;
-	}
-
-	.member-card__name {
-		font-size: 1.05rem;
-		font-weight: 700;
-		line-height: 1.3;
-		color: var(--text-main, #f8fafc);
-	}
-
-	.member-card__year {
-		font-size: 0.8rem;
-		color: var(--text-muted, #94a3b8);
-	}
-
-	.member-card__profile-badge {
-		font-size: 0.75rem;
-		font-weight: 600;
-		color: #818cf8;
-		margin-top: 0.4rem;
-		padding: 0.2rem 0.6rem;
-		border-radius: 9999px;
-		background: rgba(99, 102, 241, 0.12);
-		border: 1px solid rgba(99, 102, 241, 0.25);
-		transition: all 0.2s ease;
-	}
-
-	.member-card__profile-badge--hint {
-		color: #cbd5e1;
-		background: rgba(255, 255, 255, 0.08);
-		border-color: rgba(255, 255, 255, 0.15);
-	}
-
-	.member-card--interactive:hover .member-card__profile-badge {
-		background: rgba(99, 102, 241, 0.25);
-		color: #e0e7ff;
-	}
-
-	/* Репертуар */
 	/* Світла тема */
 	:global(.light-theme) .group-page {
 		color: #1e293b;
@@ -669,34 +473,6 @@
 
 	:global(.light-theme) .section-heading {
 		border-bottom-color: rgba(0, 0, 0, 0.08);
-	}
-
-	:global(.light-theme) .master-card {
-		background: #ffffff;
-		border-color: rgba(0, 0, 0, 0.08);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-	}
-
-	:global(.light-theme) .master-card:hover {
-		background: #ffffff;
-		border-color: rgba(99, 102, 241, 0.5);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-	}
-
-	:global(.light-theme) .member-card {
-		background: #ffffff;
-		border-color: rgba(0, 0, 0, 0.08);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-	}
-
-	:global(.light-theme) .member-card--interactive:hover {
-		background: #ffffff;
-		border-color: rgba(99, 102, 241, 0.5);
-		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-	}
-
-	:global(.light-theme) .member-card__name {
-		color: #0f172a;
 	}
 
 	@media (max-width: 640px) {
