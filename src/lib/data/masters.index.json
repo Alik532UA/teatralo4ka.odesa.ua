@@ -421,9 +421,9 @@
 	{
 		"id": "yevheniia-osadcha",
 		"slug": "yevheniia-osadcha",
-		"displayName": "Євгенія ОСАДЧА",
+		"displayName": "Євгенія ОСАДЧА (БУР'ЯН)",
 		"fullName": "Осадча (Бур'ян) Євгенія Іванівна",
-		"displayNameEn": "Yevheniia OSADCHA",
+		"displayNameEn": "Yevheniia OSADCHA (BUR'IAN)",
 		"fullNameEn": "Yevheniia Osadcha (Bur'ian)",
 		"departments": [
 			"theatre"
@@ -576,9 +576,9 @@
 	{
 		"id": "yana-kovalchuk",
 		"slug": "yana-kovalchuk",
-		"displayName": "Яна КОВАЛЬЧУК",
+		"displayName": "Яна КОВАЛЬЧУК (КОРЕНЬОК)",
 		"fullName": "Ковальчук (Кореньок) Яна Вікторівна",
-		"displayNameEn": "Yana KOVALCHUK",
+		"displayNameEn": "Yana KOVALCHUK (KORENIOK)",
 		"fullNameEn": "Yana Kovalchuk (Koreniok)",
 		"departments": [
 			"music"
@@ -1130,9 +1130,9 @@
 	{
 		"id": "hanna-tkach",
 		"slug": "hanna-tkach",
-		"displayName": "Ганна ТКАЧ",
+		"displayName": "Ганна ТКАЧ (КОМАДОВСЬКА)",
 		"fullName": "Ткач (Комадовська) Ганна Федорівна",
-		"displayNameEn": "Hanna TKACH",
+		"displayNameEn": "Hanna TKACH (KOMADOVSKA)",
 		"fullNameEn": "Hanna Tkach (Komadovska)",
 		"departments": [
 			"theatre"
@@ -1223,9 +1223,9 @@
 	{
 		"id": "myroslava-derepa",
 		"slug": "myroslava-derepa",
-		"displayName": "Мирослава ДЕРЕПА",
+		"displayName": "Мирослава ДЕРЕПА (НАКОНЕЧНА)",
 		"fullName": "Дерепа (Наконечна) Мирослава Ігорівна",
-		"displayNameEn": "Myroslava DEREPA",
+		"displayNameEn": "Myroslava DEREPA (NAKONECHNA)",
 		"fullNameEn": "Myroslava Derepa (Nakonechna)",
 		"departments": [
 			"theatre"
@@ -2094,7 +2094,9 @@
 		],
 		"subjects": [],
 		"roleTitle": "концертмейстерка",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/yevheniia-voiutska.webp",
+		"photo": "/masters/yevheniia-voiutska.webp"
 	},
 	{
 		"id": "tamara-mykhailychenko",
@@ -2110,7 +2112,9 @@
 			"Історія мистецтв"
 		],
 		"roleTitle": "викладачка історії мистецтв, керівниця художньої галереї «Міст»",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/tamara-mykhailychenko.webp",
+		"photo": "/masters/tamara-mykhailychenko.webp"
 	},
 	{
 		"id": "nina-arkhontova",
@@ -2122,7 +2126,9 @@
 		"departments": [],
 		"subjects": [],
 		"roleTitle": "викладачка відділення «РАФАМаН»",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/nina-arkhontova.webp",
+		"photo": "/masters/nina-arkhontova.webp"
 	},
 	{
 		"id": "liudmyla-volkova",
@@ -2138,7 +2144,9 @@
 			"Вокал"
 		],
 		"roleTitle": "викладачка вокалу",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/liudmyla-volkova.webp",
+		"photo": "/masters/liudmyla-volkova.webp"
 	},
 	{
 		"id": "nadiia-dolenko",
@@ -2154,7 +2162,9 @@
 			"Сценічне мовлення"
 		],
 		"roleTitle": "викладачка сценічного мовлення",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/nadiia-dolenko.webp",
+		"photo": "/masters/nadiia-dolenko.webp"
 	},
 	{
 		"id": "oleksandra-ivanets",
@@ -2170,7 +2180,9 @@
 			"Вокал"
 		],
 		"roleTitle": "викладачка вокалу",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/oleksandra-ivanets.webp",
+		"photo": "/masters/oleksandra-ivanets.webp"
 	},
 	{
 		"id": "roman-fedosieiev",
@@ -2186,7 +2198,9 @@
 			"Акторська майстерність"
 		],
 		"roleTitle": "викладач акторської майстерності",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/roman-fedosieiev.webp",
+		"photo": "/masters/roman-fedosieiev.webp"
 	},
 	{
 		"id": "lesia-cherkasova",
@@ -2200,7 +2214,9 @@
 		],
 		"subjects": [],
 		"roleTitle": "концертмейстерка",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/lesia-cherkasova.webp",
+		"photo": "/masters/lesia-cherkasova.webp"
 	},
 	{
 		"id": "iryna-yershova",
@@ -2216,7 +2232,9 @@
 			"Хореографія"
 		],
 		"roleTitle": "викладачка хореографії",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/iryna-yershova.webp",
+		"photo": "/masters/iryna-yershova.webp"
 	},
 	{
 		"id": "adelina-tetradova",
@@ -2230,7 +2248,9 @@
 		],
 		"subjects": [],
 		"roleTitle": "концертмейстерка",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/adelina-tetradova.webp",
+		"photo": "/masters/adelina-tetradova.webp"
 	},
 	{
 		"id": "nataliia-denysova",
@@ -2242,7 +2262,9 @@
 		"departments": [],
 		"subjects": [],
 		"roleTitle": "викладачка відділення «РАФАМаН», логопединя",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/nataliia-denysova.webp",
+		"photo": "/masters/nataliia-denysova.webp"
 	},
 	{
 		"id": "dmytro-demkov",
@@ -2259,7 +2281,9 @@
 			"Основи теле- і кіномайстерності"
 		],
 		"roleTitle": "викладач акторської майстерності, основ теле- і кіномайстерності",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/dmytro-demkov.webp",
+		"photo": "/masters/dmytro-demkov.webp"
 	},
 	{
 		"id": "karen-petikian",
@@ -2271,7 +2295,9 @@
 		"departments": [],
 		"subjects": [],
 		"roleTitle": "фотограф",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/karen-petikian.webp",
+		"photo": "/masters/karen-petikian.webp"
 	},
 	{
 		"id": "oleksandr-khiliuk",
@@ -2283,6 +2309,8 @@
 		"departments": [],
 		"subjects": [],
 		"roleTitle": "IT-інженер",
-		"status": "former"
+		"status": "former",
+		"portrait": "/masters/portraits/oleksandr-khiliuk.webp",
+		"photo": "/masters/oleksandr-khiliuk.webp"
 	}
 ]
