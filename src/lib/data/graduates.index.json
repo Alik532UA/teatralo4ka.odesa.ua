@@ -13,9 +13,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -27,12 +25,10 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
 		"code": "albinaabuladze",
-		"profileSize": 2972,
+		"profileSize": 2142,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Режисер",
 					"Індивідуальна сценічна мова"
@@ -40,16 +36,12 @@
 			},
 			{
 				"id": "elmir-hanbarov",
-				"name": "Ганбаров Ельмир Миколайович",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
 			},
 			{
 				"id": "yevheniia-osadcha",
-				"name": "Бур'ян Євгенія Іванівна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність",
 					"Індивідуальна сценічна мова",
@@ -58,48 +50,36 @@
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Конікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "hanna-nikolaieva",
-				"name": "Ніколаєва Ганна Станіславівна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
 			},
 			{
 				"id": "olena-tkach",
-				"name": "Ткач Олена Борисівна",
-				"department": "theatre",
 				"subjects": [
 					"Аудіотеатр"
 				]
 			},
 			{
 				"id": "vira-yemtsova-datsiuk",
-				"name": "Ємцова-Дацюк Віра Вікторівна",
-				"department": "theatre",
 				"subjects": [
 					"Індивідуальна сценічна мова"
 				]
 			},
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
@@ -117,9 +97,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -139,90 +117,66 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "olena-prorok",
-				"name": "Пророк Олена Володимирівна",
-				"department": "piano"
+				"id": "olena-prorok"
 			}
 		],
 		"teachers": [
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "natalia-stepanenko",
-				"name": "Степаненко Наталя",
-				"department": "guitar",
 				"subjects": [
 					"Гітара"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "vocal",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "iryna-ulianenko",
-				"name": "Ульяненко Ірина Андріївна",
-				"department": "theatre",
 				"subjects": [
 					"Сценічна мова"
 				]
 			},
 			{
 				"id": "vira-yemtsova-datsiuk",
-				"name": "Ємцова-Дацюк Віра Вікторівна",
-				"department": "theatre",
 				"subjects": [
 					"Сценічна мова"
 				]
 			},
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -241,7 +195,7 @@
 		"playCount": 22,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/Alik",
 		"code": "Alik",
-		"profileSize": 5500
+		"profileSize": 4558
 	},
 	{
 		"id": "alina-burdeina",
@@ -257,9 +211,7 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		],
 		"socials": [
@@ -271,7 +223,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19A",
 		"code": "alina-burdeina",
-		"profileSize": 2854
+		"profileSize": 2800
 	},
 	{
 		"id": "alina-chernobai",
@@ -283,9 +235,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -345,9 +295,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -388,9 +336,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -459,9 +405,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -479,9 +423,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -497,7 +439,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13A",
 		"code": "alla-khaiut",
-		"profileSize": 1707
+		"profileSize": 1624
 	},
 	{
 		"id": "alla-kolesnyk",
@@ -513,19 +455,13 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -541,7 +477,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08A",
 		"code": "alla-kolesnyk",
-		"profileSize": 1700
+		"profileSize": 1459
 	},
 	{
 		"id": "alona-kozlova",
@@ -559,19 +495,13 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			},
 			{
-				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "vocal"
+				"id": "iryna-ovcharenko"
 			},
 			{
-				"id": "olena-prorok",
-				"name": "Пророк Олена Володимирівна",
-				"department": "piano"
+				"id": "olena-prorok"
 			}
 		],
 		"socials": [
@@ -587,7 +517,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_1",
 		"code": "alona-kozlova",
-		"profileSize": 1717
+		"profileSize": 1499
 	},
 	{
 		"id": "amryta-chernyshova",
@@ -599,9 +529,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -615,9 +543,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -644,14 +570,10 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "pavlo-koshka",
-				"name": "Кошка Павло Володимирович",
-				"department": "theatre"
+				"id": "pavlo-koshka"
 			}
 		],
 		"socials": [
@@ -667,44 +589,34 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A_1",
 		"code": "anastasiia-chalchynska",
-		"profileSize": 3368,
+		"profileSize": 2814,
 		"teachers": [
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -721,9 +633,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -768,9 +678,7 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		],
 		"socials": [
@@ -786,7 +694,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18F",
 		"code": "anastasiia-fishchenko",
-		"profileSize": 836
+		"profileSize": 782
 	},
 	{
 		"id": "anastasiia-homela",
@@ -798,9 +706,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -814,14 +720,10 @@
 		],
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -849,14 +751,10 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			},
 			{
-				"id": "anastasiia-nikolaieva",
-				"name": "Ніколаєва Анастасія Олексіївна",
-				"department": "vocal"
+				"id": "anastasiia-nikolaieva"
 			}
 		],
 		"socials": [
@@ -872,7 +770,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2231
+		"profileSize": 2088
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -884,9 +782,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -927,14 +823,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -948,9 +840,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -964,49 +854,37 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"hasPhoto": true,
 		"teachers": [
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -1014,7 +892,7 @@
 		],
 		"code": "anastasiia-kozova",
 		"playCount": 6,
-		"profileSize": 1749
+		"profileSize": 1276
 	},
 	{
 		"id": "anastasiia-kuropatkyna",
@@ -1026,9 +904,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1069,14 +945,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег В.",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		]
 	},
@@ -1094,9 +966,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1108,7 +978,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2004/04A",
 		"code": "anastasiia-lutaienko",
-		"profileSize": 1291
+		"profileSize": 1204
 	},
 	{
 		"id": "anastasiia-makukha",
@@ -1192,14 +1062,10 @@
 		],
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1280,9 +1146,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1298,7 +1162,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A",
 		"code": "anfisa-lazebna",
-		"profileSize": 2325
+		"profileSize": 2238
 	},
 	{
 		"id": "anhelina-boldakova",
@@ -1328,9 +1192,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1348,9 +1210,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -1366,7 +1226,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/12S",
 		"code": "anisiia-stasevych",
-		"profileSize": 1186
+		"profileSize": 1115
 	},
 	{
 		"id": "anna-arustamian",
@@ -1387,14 +1247,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег В.",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		]
 	},
@@ -1426,9 +1282,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1469,9 +1323,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1495,14 +1347,10 @@
 		"hasPhoto": true,
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -1518,7 +1366,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15A",
 		"code": "anna-rodonaia",
 		"playCount": 0,
-		"profileSize": 793
+		"profileSize": 647
 	},
 	{
 		"id": "anna-rusieva",
@@ -1534,9 +1382,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1552,7 +1398,7 @@
 		"playCount": 0,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09A",
 		"code": "anna-rusieva",
-		"profileSize": 1099
+		"profileSize": 1012
 	},
 	{
 		"id": "anna-rvachova",
@@ -1586,9 +1432,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1600,7 +1444,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17A",
 		"code": "anton-babich",
-		"profileSize": 1447
+		"profileSize": 1360
 	},
 	{
 		"id": "anzhelika-khachatrian",
@@ -1653,9 +1497,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1667,12 +1509,10 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A",
 		"code": "artem-starshov",
 		"playCount": 0,
-		"profileSize": 918,
+		"profileSize": 760,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -1693,9 +1533,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1707,7 +1545,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_2",
 		"code": "artem-suvorov",
-		"profileSize": 2021
+		"profileSize": 1934
 	},
 	{
 		"id": "artem-zimner",
@@ -1728,9 +1566,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1757,24 +1593,16 @@
 		],
 		"masters": [
 			{
-				"id": "myroslava-derepa",
-				"name": "Дерепа Мирослава Ігорівна",
-				"department": "theatre"
+				"id": "myroslava-derepa"
 			},
 			{
-				"id": "iryna-kulbaba",
-				"name": "Кульбаба Ірина Борисівна",
-				"department": "theatre"
+				"id": "iryna-kulbaba"
 			},
 			{
-				"id": "hanna-serebriannikova",
-				"name": "Серебряннікова Ганна Іванівна",
-				"department": "theatre"
+				"id": "hanna-serebriannikova"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -1790,7 +1618,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Dana",
 		"code": "Dana",
-		"profileSize": 1640
+		"profileSize": 1308
 	},
 	{
 		"id": "borys-ukrainskyi",
@@ -1802,9 +1630,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -1831,9 +1657,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -1849,7 +1673,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18D",
 		"code": "daiana-ponomarenko",
-		"profileSize": 1693
+		"profileSize": 1606
 	},
 	{
 		"id": "dana-broshkova",
@@ -1874,19 +1698,13 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			}
 		],
 		"socials": [
@@ -1898,7 +1716,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D",
 		"code": "daniela-rybalchenko",
-		"profileSize": 2338
+		"profileSize": 2097
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -1928,9 +1746,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2004,9 +1820,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -2022,7 +1836,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D_1",
 		"code": "dar-ia-hurevych",
-		"profileSize": 1332
+		"profileSize": 1261
 	},
 	{
 		"id": "daria-chala",
@@ -2047,9 +1861,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -2065,7 +1877,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2010/10D",
 		"code": "daria-dias-valdes-isachkina",
 		"playCount": 0,
-		"profileSize": 760
+		"profileSize": 673
 	},
 	{
 		"id": "daria-drykyna",
@@ -2078,9 +1890,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2094,14 +1904,10 @@
 		],
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2137,9 +1943,7 @@
 		"hasPhoto": true,
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -2151,7 +1955,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/daria-kristiian",
 		"code": "daria-kristiian",
-		"profileSize": 1440
+		"profileSize": 1369
 	},
 	{
 		"id": "daria-kristiian-2",
@@ -2213,14 +2017,10 @@
 		],
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -2232,7 +2032,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D",
 		"code": "daria-rybalchenko",
-		"profileSize": 2107
+		"profileSize": 1965
 	},
 	{
 		"id": "daria-sonhorova",
@@ -2267,9 +2067,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -2281,7 +2079,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23D",
 		"code": "daria-terzi",
-		"profileSize": 745
+		"profileSize": 662
 	},
 	{
 		"id": "daria-zemka",
@@ -2307,9 +2105,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -2325,7 +2121,7 @@
 		"playCount": 15,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D",
 		"code": "dariia-didenko",
-		"profileSize": 2981
+		"profileSize": 2898
 	},
 	{
 		"id": "dariia-kulish",
@@ -2342,9 +2138,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -2360,7 +2154,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14D",
 		"code": "dariia-kulish",
-		"profileSize": 1813
+		"profileSize": 1726
 	},
 	{
 		"id": "darya-maystrenko",
@@ -2408,14 +2202,10 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-nadopta",
-				"name": "Надопта Світлана",
-				"department": "theatre"
+				"id": "svitlana-nadopta"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2524,9 +2314,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -2542,7 +2330,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D_1",
 		"code": "dmytro-rozumenko",
-		"profileSize": 971
+		"profileSize": 888
 	},
 	{
 		"id": "dmytro-yatsenko",
@@ -2567,15 +2355,13 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23N",
 		"code": "dovhan-daria",
-		"profileSize": 922
+		"profileSize": 839
 	},
 	{
 		"id": "dzhenni-polianska",
@@ -2627,9 +2413,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -2641,7 +2425,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/ri2be",
 		"code": "ri2be",
-		"profileSize": 1261
+		"profileSize": 1174
 	},
 	{
 		"id": "ernst-severyn",
@@ -2694,14 +2478,10 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "d-rybalchenko",
-				"name": "Рибальченко Д.Д.",
-				"department": "theatre"
+				"id": "d-rybalchenko"
 			}
 		],
 		"socials": [
@@ -2717,7 +2497,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/sjsjduxuh",
 		"code": "sjsjduxuh",
-		"profileSize": 1071
+		"profileSize": 922
 	},
 	{
 		"id": "hanna-belchytska",
@@ -2756,16 +2536,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -2782,9 +2558,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2811,14 +2585,10 @@
 		],
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -2834,7 +2604,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19G",
 		"code": "heorhii-topor",
-		"profileSize": 1902
+		"profileSize": 1760
 	},
 	{
 		"id": "heorhii-zheliapov",
@@ -2884,9 +2654,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2909,14 +2677,10 @@
 		],
 		"masters": [
 			{
-				"id": "nadiia-rybakova",
-				"name": "Рибакова Надія В.",
-				"department": "theatre"
+				"id": "nadiia-rybakova"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -2934,9 +2698,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -2952,7 +2714,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09I",
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1314,
+		"profileSize": 1231,
 		"graduationLabelKey": "galaxy.studiedUntil"
 	},
 	{
@@ -2974,16 +2736,12 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -3010,9 +2768,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3071,9 +2827,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3093,8 +2847,6 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
@@ -3103,24 +2855,18 @@
 		"teachers": [
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
@@ -3133,7 +2879,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1500
+		"profileSize": 1164
 	},
 	{
 		"id": "ivan-shevchenko",
@@ -3154,14 +2900,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -3175,9 +2917,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3191,9 +2931,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3238,9 +2976,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -3252,7 +2988,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/kamywek_",
 		"code": "kamywek_",
-		"profileSize": 1249
+		"profileSize": 1162
 	},
 	{
 		"id": "karyna-sharkova",
@@ -3268,9 +3004,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -3282,7 +3016,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K",
 		"code": "karyna-sharkova",
 		"playCount": 0,
-		"profileSize": 606
+		"profileSize": 523
 	},
 	{
 		"id": "kateryna-kolisnychenko",
@@ -3318,19 +3052,13 @@
 		],
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "pavlo-koshka",
-				"name": "Кошка Павло Володимирович",
-				"department": "theatre"
+				"id": "pavlo-koshka"
 			}
 		],
 		"socials": [
@@ -3346,7 +3074,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15K",
 		"code": "kateryna-kudlach",
-		"profileSize": 2270
+		"profileSize": 2043
 	},
 	{
 		"id": "kateryna-kurchenko",
@@ -3358,9 +3086,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3392,9 +3118,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3412,9 +3136,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -3426,7 +3148,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian",
 		"code": "Kateryna-Muntian",
-		"profileSize": 1472
+		"profileSize": 1385
 	},
 	{
 		"id": "kateryna-nesterenko",
@@ -3445,8 +3167,6 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
@@ -3455,8 +3175,6 @@
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність",
 					"Сценічна мова"
@@ -3464,32 +3182,24 @@
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
 			},
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "yevheniia-osadcha",
-				"name": "Осадча (Бур'ян) Євгенія Іванівна",
-				"department": "theatre",
 				"subjects": [
 					"Грим"
 				]
 			},
 			{
 				"id": "olena-tkach",
-				"name": "Ткач Олена Борисівна",
-				"department": "theatre",
 				"subjects": [
 					"Аудіотеатр"
 				]
@@ -3502,7 +3212,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 2217
+		"profileSize": 1719
 	},
 	{
 		"id": "kateryna-petrenko",
@@ -3536,20 +3246,16 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "natalia-shkolna",
-				"name": "Школьна Наталя А.",
-				"department": "vocal"
+				"id": "natalia-shkolna"
 			}
 		],
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23K",
 		"code": "kateryna-poltavtseva",
-		"profileSize": 1069
+		"profileSize": 924
 	},
 	{
 		"id": "kateryna-tkachenko",
@@ -3597,9 +3303,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3635,9 +3339,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -3649,7 +3351,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/karakulya",
 		"code": "karakulya",
-		"profileSize": 1405
+		"profileSize": 1318
 	},
 	{
 		"id": "khrystyna-bila",
@@ -3689,9 +3391,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3718,9 +3418,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -3736,7 +3434,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12K",
 		"code": "kristina-slivka-spivak",
-		"profileSize": 1436
+		"profileSize": 1365
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -3748,49 +3446,37 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"hasPhoto": true,
 		"teachers": [
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -3798,7 +3484,7 @@
 		],
 		"code": "krystyna-manchenko",
 		"playCount": 6,
-		"profileSize": 1754
+		"profileSize": 1281
 	},
 	{
 		"id": "krystyna-maslova",
@@ -3828,9 +3514,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3898,9 +3582,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -3914,14 +3596,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -3940,19 +3618,13 @@
 		],
 		"masters": [
 			{
-				"id": "nadiia-rybakova",
-				"name": "Рибакова Надія В.",
-				"department": "theatre"
+				"id": "nadiia-rybakova"
 			},
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "oksana-panchenko",
-				"name": "Панченко Оксана Костянтинівна",
-				"department": "music"
+				"id": "oksana-panchenko"
 			}
 		],
 		"socials": [
@@ -3964,7 +3636,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M",
 		"code": "kulish-mariia",
-		"profileSize": 1760
+		"profileSize": 1522
 	},
 	{
 		"id": "kyryll-chekanov",
@@ -3980,9 +3652,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -3994,7 +3664,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K",
 		"code": "kyryll-chekanov",
-		"profileSize": 822
+		"profileSize": 735
 	},
 	{
 		"id": "kyrylo-karacheban",
@@ -4010,9 +3680,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -4024,7 +3692,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2016/16K",
 		"code": "kyrylo-karacheban",
-		"profileSize": 1071
+		"profileSize": 988
 	},
 	{
 		"id": "kyrylo-karazeiskyi",
@@ -4054,14 +3722,10 @@
 		],
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -4075,14 +3739,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -4100,9 +3760,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -4114,7 +3772,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11L",
 		"code": "liliia-halosa",
-		"profileSize": 943
+		"profileSize": 872
 	},
 	{
 		"id": "liliia-muravska",
@@ -4153,9 +3811,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -4173,9 +3829,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -4187,7 +3841,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/basha",
 		"code": "basha",
-		"profileSize": 1195
+		"profileSize": 1108
 	},
 	{
 		"id": "liubov-prysiazhna",
@@ -4235,16 +3889,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -4279,21 +3929,15 @@
 		],
 		"masters": [
 			{
-				"id": "pavlo-koshka",
-				"name": "Кошка Павло Миколайович",
-				"department": "theatre"
+				"id": "pavlo-koshka"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -4310,9 +3954,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -4453,14 +4095,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "pavlo-koshka",
-				"name": "Кошка Павло Володимирович",
-				"department": "theatre"
+				"id": "pavlo-koshka"
 			}
 		]
 	},
@@ -4478,9 +4116,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -4496,7 +4132,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24M",
 		"code": "mariia-mahdalina-matvieieva",
-		"profileSize": 994
+		"profileSize": 911
 	},
 	{
 		"id": "mariia-mandriesk",
@@ -4512,9 +4148,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -4530,7 +4164,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/mandresssk",
 		"code": "mandresssk",
-		"profileSize": 1518
+		"profileSize": 1431
 	},
 	{
 		"id": "mariia-mokriak",
@@ -4565,14 +4199,10 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "vira-koval",
-				"name": "Коваль Віра Борисівна",
-				"department": "art"
+				"id": "vira-koval"
 			}
 		],
 		"socials": [
@@ -4588,7 +4218,7 @@
 		"playCount": 17,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12M",
 		"code": "mariia-mykhailova-didenko",
-		"profileSize": 2575
+		"profileSize": 2423
 	},
 	{
 		"id": "mariia-poliakova",
@@ -4658,9 +4288,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -4672,7 +4300,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09M",
 		"code": "mariia-tkach-lysa",
 		"playCount": 0,
-		"profileSize": 720
+		"profileSize": 633
 	},
 	{
 		"id": "mariia-ukrainets",
@@ -4749,14 +4377,10 @@
 		],
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -4775,19 +4399,13 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "kateryna-sukhoboievska",
-				"name": "Сухобоєвська Катерина Юріївна",
-				"department": "music"
+				"id": "kateryna-sukhoboievska"
 			},
 			{
-				"id": "natalia-bakina",
-				"name": "Бакіна Наталя Г.",
-				"department": "vocal"
+				"id": "natalia-bakina"
 			}
 		],
 		"socials": [
@@ -4803,7 +4421,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23R",
 		"code": "maryna-kravchuk",
-		"profileSize": 1005
+		"profileSize": 787
 	},
 	{
 		"id": "maryna-perehud",
@@ -4819,14 +4437,10 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -4842,7 +4456,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08M",
 		"code": "maryna-perehud",
-		"profileSize": 1313
+		"profileSize": 1159
 	},
 	{
 		"id": "maryna-vishtaliuk-sukhanova",
@@ -4859,9 +4473,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -4877,7 +4489,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M",
 		"code": "maryna-vishtaliuk-sukhanova",
-		"profileSize": 2362
+		"profileSize": 2279
 	},
 	{
 		"id": "mikhail-suraho",
@@ -4911,9 +4523,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -4925,7 +4535,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23M",
 		"code": "milena-binkovska",
-		"profileSize": 1135
+		"profileSize": 1052
 	},
 	{
 		"id": "mykhailo-chyianov",
@@ -4946,16 +4556,12 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег В.",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -4976,14 +4582,10 @@
 		],
 		"masters": [
 			{
-				"id": "nadiia-rybakova",
-				"name": "Рибакова Надія В.",
-				"department": "theatre"
+				"id": "nadiia-rybakova"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -4999,7 +4601,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17M",
 		"code": "mykhailo-haniev",
-		"profileSize": 1281
+		"profileSize": 1146
 	},
 	{
 		"id": "mykhailo-priadko",
@@ -5011,9 +4613,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5054,16 +4654,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -5080,14 +4676,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5105,14 +4697,10 @@
 		],
 		"masters": [
 			{
-				"id": "nadiia-rybakova",
-				"name": "Рибакова Надія В.",
-				"department": "theatre"
+				"id": "nadiia-rybakova"
 			},
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -5124,7 +4712,7 @@
 		"playCount": 18,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M_1",
 		"code": "myroslava-tkach",
-		"profileSize": 2686
+		"profileSize": 2535
 	},
 	{
 		"id": "nadiia-hasynets",
@@ -5140,24 +4728,16 @@
 		],
 		"masters": [
 			{
-				"id": "myroslava-derepa",
-				"name": "Дерепа Мирослава Ігорівна",
-				"department": "theatre"
+				"id": "myroslava-derepa"
 			},
 			{
-				"id": "iryna-kulbaba",
-				"name": "Кульбаба Ірина Борисівна",
-				"department": "theatre"
+				"id": "iryna-kulbaba"
 			},
 			{
-				"id": "hanna-serebriannikova",
-				"name": "Серебряннікова Ганна Іванівна",
-				"department": "theatre"
+				"id": "hanna-serebriannikova"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -5173,7 +4753,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Nadiia-Hasynets",
 		"code": "Nadiia-Hasynets",
-		"profileSize": 1456
+		"profileSize": 1124
 	},
 	{
 		"id": "nadiia-kerymova",
@@ -5198,9 +4778,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -5216,12 +4794,10 @@
 		"playCount": 13,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98N",
 		"code": "nadiia-rybakova",
-		"profileSize": 2279,
+		"profileSize": 2121,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -5274,9 +4850,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -5308,9 +4882,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -5337,9 +4909,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -5351,7 +4921,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23O",
 		"code": "oleh-vizitiei",
-		"profileSize": 695
+		"profileSize": 612
 	},
 	{
 		"id": "oleh-volkov",
@@ -5363,14 +4933,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5384,56 +4950,42 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
 			},
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -5442,7 +4994,7 @@
 		"hasPhoto": true,
 		"code": "oleksandr-chehlatonev",
 		"playCount": 6,
-		"profileSize": 1909
+		"profileSize": 1365
 	},
 	{
 		"id": "oleksandr-didyk",
@@ -5521,9 +5073,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -5535,7 +5085,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O_1",
 		"code": "oleksandra-chuprina",
 		"playCount": 0,
-		"profileSize": 1371
+		"profileSize": 1284
 	},
 	{
 		"id": "oleksandra-dydenko",
@@ -5569,9 +5119,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -5587,7 +5135,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12O",
 		"code": "oleksandra-indichanska-morozova",
-		"profileSize": 1836
+		"profileSize": 1753
 	},
 	{
 		"id": "oleksandra-karachevska",
@@ -5606,8 +5154,6 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
@@ -5616,8 +5162,6 @@
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Режисер",
 					"Індивідуальна сценічна мова"
@@ -5625,8 +5169,6 @@
 			},
 			{
 				"id": "yevheniia-osadcha",
-				"name": "Осадча (Бур'ян) Євгенія Іванівна",
-				"department": "theatre",
 				"subjects": [
 					"Індивідуальна сценічна мова",
 					"Грим"
@@ -5634,40 +5176,30 @@
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "hanna-nikolaieva",
-				"name": "Ніколаєва Ганна Станіславівна",
-				"department": "music",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
 			},
 			{
 				"id": "olena-tkach",
-				"name": "Ткач Олена Борисівна",
-				"department": "theatre",
 				"subjects": [
 					"Аудіотеатр"
 				]
 			},
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
@@ -5680,7 +5212,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2803
+		"profileSize": 2129
 	},
 	{
 		"id": "oleksandra-khalfina",
@@ -5728,9 +5260,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -5772,14 +5302,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5811,9 +5337,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -5854,14 +5378,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5875,9 +5395,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -5904,9 +5422,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -5922,7 +5438,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02O",
 		"code": "olena-dzneladze",
-		"profileSize": 912
+		"profileSize": 825
 	},
 	{
 		"id": "olena-kiloian",
@@ -5952,16 +5468,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -5982,9 +5494,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -6004,7 +5514,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2000/odessitkavmonreale",
 		"code": "odessitkavmonreale",
-		"profileSize": 1604
+		"profileSize": 1517
 	},
 	{
 		"id": "olena-mrost",
@@ -6020,9 +5530,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -6034,7 +5542,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O",
 		"code": "olena-mrost",
-		"profileSize": 2024
+		"profileSize": 1937
 	},
 	{
 		"id": "olena-pushkarova",
@@ -6082,9 +5590,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6102,9 +5608,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -6120,12 +5624,10 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98O",
 		"code": "olha-poliakova",
-		"profileSize": 2363,
+		"profileSize": 2205,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -6160,14 +5662,10 @@
 		],
 		"masters": [
 			{
-				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre"
+				"id": "samuil-imas"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6181,16 +5679,12 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -6207,9 +5701,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6245,9 +5737,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -6263,7 +5753,7 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15P",
 		"code": "polina-hedzenko",
-		"profileSize": 2109
+		"profileSize": 2026
 	},
 	{
 		"id": "polina-kolomiiets",
@@ -6311,16 +5801,12 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег В.",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -6387,9 +5873,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -6401,7 +5885,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofia-Chernova",
 		"code": "Sofia-Chernova",
-		"profileSize": 1035
+		"profileSize": 964
 	},
 	{
 		"id": "sofiia-chernata",
@@ -6426,9 +5910,7 @@
 		],
 		"masters": [
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		],
 		"socials": [
@@ -6444,7 +5926,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/21S",
 		"code": "sofiia-holub",
-		"profileSize": 1217
+		"profileSize": 1163
 	},
 	{
 		"id": "sofiia-hrabilina",
@@ -6474,9 +5956,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6521,9 +6001,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -6535,7 +6013,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofiya-Skuratovych",
 		"code": "Sofiya-Skuratovych",
-		"profileSize": 826
+		"profileSize": 755
 	},
 	{
 		"id": "sofiya-rudenko",
@@ -6554,24 +6032,18 @@
 		"masters": [
 			{
 				"id": "liubov-savina",
-				"name": "Савіна Любов Федорівна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
 			},
 			{
 				"id": "tereza-zaurbekova",
-				"name": "Заурбекова Тереза Валеріївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
 			},
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
@@ -6580,32 +6052,24 @@
 		"teachers": [
 			{
 				"id": "olena-tkach",
-				"name": "Ткач Олена Борисівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
 			},
 			{
 				"id": "hanna-nikolaieva",
-				"name": "Ніколаєва Ганна Станіславівна",
-				"department": "music",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність",
 					"Сценічна мова"
@@ -6613,15 +6077,13 @@
 			},
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			}
 		],
 		"playCount": 9,
-		"profileSize": 2868
+		"profileSize": 2244
 	},
 	{
 		"id": "sofiya-shatalinska",
@@ -6647,14 +6109,10 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "liliia-velychko",
-				"name": "Величко Лілія М.",
-				"department": "vocal"
+				"id": "liliia-velychko"
 			}
 		],
 		"socials": [
@@ -6666,7 +6124,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24S",
 		"code": "sonia-makhnovska",
-		"profileSize": 876
+		"profileSize": 729
 	},
 	{
 		"id": "stanislav-prakhov",
@@ -6678,9 +6136,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6694,9 +6150,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -6747,16 +6201,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -6773,14 +6223,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "oleh-shevchuk",
-				"name": "Шевчук Олег В.",
-				"department": "theatre"
+				"id": "oleh-shevchuk"
 			}
 		]
 	},
@@ -6798,9 +6244,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -6816,7 +6260,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24T",
 		"code": "taisiia-ruseskul",
-		"profileSize": 817
+		"profileSize": 730
 	},
 	{
 		"id": "taisiia-terzi",
@@ -6856,9 +6300,7 @@
 		"hasPhoto": true,
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -6874,7 +6316,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T_1",
 		"code": "taras-opryshko",
 		"playCount": 0,
-		"profileSize": 607
+		"profileSize": 520
 	},
 	{
 		"id": "tetiana-borysova",
@@ -6886,9 +6328,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -6906,9 +6346,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -6924,7 +6362,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/05T",
 		"code": "tetiana-dudush-polishchuk",
-		"profileSize": 1386
+		"profileSize": 1303
 	},
 	{
 		"id": "tetiana-kamelevska",
@@ -6940,9 +6378,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -6958,7 +6394,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T",
 		"code": "tetiana-kamelevska",
-		"profileSize": 1212
+		"profileSize": 1141
 	},
 	{
 		"id": "tetiana-makukha",
@@ -6997,9 +6433,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7023,9 +6457,7 @@
 		"hasPhoto": true,
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -7041,12 +6473,10 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V",
 		"code": "vadym-krusser",
-		"profileSize": 1625,
+		"profileSize": 1467,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -7094,9 +6524,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		],
 		"socials": [
@@ -7108,7 +6536,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Valeriia",
 		"code": "Valeriia",
-		"profileSize": 808
+		"profileSize": 737
 	},
 	{
 		"id": "valeriia-burian",
@@ -7125,9 +6553,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -7139,7 +6565,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian",
 		"code": "leraburian",
-		"profileSize": 1461
+		"profileSize": 1374
 	},
 	{
 		"id": "valeriia-buturlakina",
@@ -7160,9 +6586,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -7279,9 +6703,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -7297,7 +6719,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2007/07V",
 		"code": "viktoriia-dolhozhyv",
-		"profileSize": 2205
+		"profileSize": 2118
 	},
 	{
 		"id": "viktoriia-hlushchuk",
@@ -7327,14 +6749,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "pavlo-koshka",
-				"name": "Кошка Павло Володимирович",
-				"department": "theatre"
+				"id": "pavlo-koshka"
 			}
 		]
 	},
@@ -7366,9 +6784,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7382,14 +6798,10 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			},
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		]
 	},
@@ -7439,9 +6851,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7464,9 +6874,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7494,8 +6902,6 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
@@ -7504,24 +6910,18 @@
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre",
 				"subjects": [
 					"Режисер"
 				]
 			},
 			{
 				"id": "elmir-hanbarov",
-				"name": "Ганбаров Ельмір",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність"
 				]
 			},
 			{
 				"id": "yevheniia-osadcha",
-				"name": "Осадча (Бур'ян) Євгенія Іванівна",
-				"department": "theatre",
 				"subjects": [
 					"Акторська майстерність",
 					"Грим"
@@ -7529,48 +6929,36 @@
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "hanna-nikolaieva",
-				"name": "Ніколаєва Ганна Станіславівна",
-				"department": "music",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "tetiana-stohul",
-				"name": "Стогул Тетяна Володимирівна",
-				"department": "theatre",
 				"subjects": [
 					"Танець"
 				]
 			},
 			{
 				"id": "olena-tkach",
-				"name": "Ткач Олена Борисівна",
-				"department": "theatre",
 				"subjects": [
 					"Аудіотеатр"
 				]
 			},
 			{
 				"id": "vira-yemtsova-datsiuk",
-				"name": "Ємцова-Дацюк Віра Вікторівна",
-				"department": "theatre",
 				"subjects": [
 					"Індивідуальна сценічна мова"
 				]
 			},
 			{
 				"id": "pavlo-prymak",
-				"name": "Примак Павло Андрійович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
@@ -7587,7 +6975,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 3206
+		"profileSize": 2384
 	},
 	{
 		"id": "vlada-hryhorashchenko",
@@ -7617,16 +7005,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -7653,16 +7037,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -7701,9 +7081,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -7719,52 +7097,40 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12V",
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3112,
+		"profileSize": 2568,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
 			},
 			{
 				"id": "samuil-imas",
-				"name": "Імас Самуїл Михайлович",
-				"department": "theatre",
 				"subjects": [
 					"Риторика та поетика"
 				]
 			},
 			{
 				"id": "mykola-baldin",
-				"name": "Балдін Микола Олександрович",
-				"department": "theatre",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
 				"id": "iryna-ovcharenko",
-				"name": "Овчаренко Ірина Григоріївна",
-				"department": "theatre",
 				"subjects": [
 					"Вокал"
 				]
 			},
 			{
 				"id": "olena-konnikova",
-				"name": "Коннікова Олена Костянтинівна",
-				"department": "theatre",
 				"subjects": [
 					"Історія театру"
 				]
 			},
 			{
 				"id": "iryna-yershova",
-				"name": "Єршова Ірина",
-				"department": "theatre",
 				"subjects": [
 					"Хореографія"
 				]
@@ -7812,14 +7178,10 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			},
 			{
-				"id": "tereza-zaurbekova",
-				"name": "Заурбекова Тереза Валеріївна",
-				"department": "theatre"
+				"id": "tereza-zaurbekova"
 			}
 		],
 		"socials": [
@@ -7831,7 +7193,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Yanslobodenyuk",
 		"code": "Yanslobodenyuk",
-		"profileSize": 1654
+		"profileSize": 1484
 	},
 	{
 		"id": "yana-kovina",
@@ -7843,9 +7205,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7904,9 +7264,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7992,16 +7350,12 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -8040,9 +7394,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -8058,7 +7410,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18E",
 		"code": "yevhen-lysenko",
-		"profileSize": 1862
+		"profileSize": 1775
 	},
 	{
 		"id": "yevhenii-karamavrov",
@@ -8079,16 +7431,12 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
 			{
 				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre",
 				"subjects": [
 					"Участь у виставах"
 				]
@@ -8164,9 +7512,7 @@
 		],
 		"masters": [
 			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
-				"department": "theatre"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"socials": [
@@ -8182,7 +7528,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17K",
 		"code": "yuliana-klymenko",
-		"profileSize": 1282
+		"profileSize": 1199
 	},
 	{
 		"id": "yuliana-kolendo",
@@ -8259,9 +7605,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -8356,9 +7700,7 @@
 		],
 		"masters": [
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -8381,14 +7723,10 @@
 		],
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
+				"id": "hanna-tkach"
 			},
 			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -8415,9 +7753,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"name": "Риськіна Світлана Миколаївна",
-				"department": "theatre"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"socials": [
@@ -8433,7 +7769,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02Z",
 		"code": "zlata-skalska",
-		"profileSize": 851
+		"profileSize": 764
 	},
 	{
 		"id": "zlata-stoyanova",

@@ -14,19 +14,13 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		},
 		{
-			"id": "kateryna-sukhoboievska",
-			"name": "Сухобоєвська Катерина Юріївна",
-			"department": "music"
+			"id": "kateryna-sukhoboievska"
 		},
 		{
-			"id": "natalia-bakina",
-			"name": "Бакіна Наталя Г.",
-			"department": "vocal"
+			"id": "natalia-bakina"
 		}
 	],
 	"socials": [

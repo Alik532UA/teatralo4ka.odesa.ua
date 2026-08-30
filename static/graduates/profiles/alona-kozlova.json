@@ -15,19 +15,13 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "oleh-shevchuk",
-			"name": "Шевчук Олег",
-			"department": "theatre"
+			"id": "oleh-shevchuk"
 		},
 		{
-			"id": "iryna-ovcharenko",
-			"name": "Овчаренко Ірина Григоріївна",
-			"department": "vocal"
+			"id": "iryna-ovcharenko"
 		},
 		{
-			"id": "olena-prorok",
-			"name": "Пророк Олена Володимирівна",
-			"department": "piano"
+			"id": "olena-prorok"
 		}
 	],
 	"socials": [

@@ -14,19 +14,13 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "nadiia-rybakova",
-			"name": "Рибакова Надія В.",
-			"department": "theatre"
+			"id": "nadiia-rybakova"
 		},
 		{
-			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre"
+			"id": "svitlana-ryskina"
 		},
 		{
-			"id": "oksana-panchenko",
-			"name": "Панченко Оксана Костянтинівна",
-			"department": "music"
+			"id": "oksana-panchenko"
 		}
 	],
 	"socials": [

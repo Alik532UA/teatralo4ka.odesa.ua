@@ -14,14 +14,10 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		},
 		{
-			"id": "vira-koval",
-			"name": "Коваль Віра Борисівна",
-			"department": "art"
+			"id": "vira-koval"
 		}
 	],
 	"socials": [

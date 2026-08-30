@@ -13,9 +13,7 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		}
 	],
 	"socials": [

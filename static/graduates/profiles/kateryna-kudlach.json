@@ -13,19 +13,13 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "samuil-imas",
-			"name": "Імас Самуїл Михайлович",
-			"department": "theatre"
+			"id": "samuil-imas"
 		},
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		},
 		{
-			"id": "pavlo-koshka",
-			"name": "Кошка Павло Володимирович",
-			"department": "theatre"
+			"id": "pavlo-koshka"
 		}
 	],
 	"socials": [

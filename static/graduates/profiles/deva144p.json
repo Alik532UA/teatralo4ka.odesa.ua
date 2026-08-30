@@ -15,8 +15,6 @@
 	"masters": [
 		{
 			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre",
 			"subjects": [
 				"Акторська майстерність"
 			]
@@ -25,8 +23,6 @@
 	"teachers": [
 		{
 			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre",
 			"subjects": [
 				"Акторська майстерність",
 				"Сценічна мова"
@@ -34,32 +30,24 @@
 		},
 		{
 			"id": "tetiana-stohul",
-			"name": "Стогул Тетяна Володимирівна",
-			"department": "theatre",
 			"subjects": [
 				"Танець"
 			]
 		},
 		{
 			"id": "pavlo-prymak",
-			"name": "Примак Павло Андрійович",
-			"department": "theatre",
 			"subjects": [
 				"Сценічний рух"
 			]
 		},
 		{
 			"id": "yevheniia-osadcha",
-			"name": "Осадча (Бур'ян) Євгенія Іванівна",
-			"department": "theatre",
 			"subjects": [
 				"Грим"
 			]
 		},
 		{
 			"id": "olena-tkach",
-			"name": "Ткач Олена Борисівна",
-			"department": "theatre",
 			"subjects": [
 				"Аудіотеатр"
 			]

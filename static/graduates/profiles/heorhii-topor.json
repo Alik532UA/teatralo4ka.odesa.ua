@@ -13,14 +13,10 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "hanna-tkach",
-			"name": "Ткач Ганна Федорівна",
-			"department": "theatre"
+			"id": "hanna-tkach"
 		},
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		}
 	],
 	"socials": [

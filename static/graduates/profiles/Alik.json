@@ -15,90 +15,66 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre"
+			"id": "svitlana-ryskina"
 		},
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		},
 		{
-			"id": "olena-prorok",
-			"name": "Пророк Олена Володимирівна",
-			"department": "piano"
+			"id": "olena-prorok"
 		}
 	],
 	"teachers": [
 		{
 			"id": "samuil-imas",
-			"name": "Імас Самуїл Михайлович",
-			"department": "theatre",
 			"subjects": [
 				"Риторика та поетика"
 			]
 		},
 		{
 			"id": "mykola-baldin",
-			"name": "Балдін Микола Олександрович",
-			"department": "theatre",
 			"subjects": [
 				"Сценічний рух"
 			]
 		},
 		{
 			"id": "natalia-stepanenko",
-			"name": "Степаненко Наталя",
-			"department": "guitar",
 			"subjects": [
 				"Гітара"
 			]
 		},
 		{
 			"id": "iryna-ovcharenko",
-			"name": "Овчаренко Ірина Григоріївна",
-			"department": "vocal",
 			"subjects": [
 				"Вокал"
 			]
 		},
 		{
 			"id": "iryna-ulianenko",
-			"name": "Ульяненко Ірина Андріївна",
-			"department": "theatre",
 			"subjects": [
 				"Сценічна мова"
 			]
 		},
 		{
 			"id": "vira-yemtsova-datsiuk",
-			"name": "Ємцова-Дацюк Віра Вікторівна",
-			"department": "theatre",
 			"subjects": [
 				"Сценічна мова"
 			]
 		},
 		{
 			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre",
 			"subjects": [
 				"Участь у виставах"
 			]
 		},
 		{
 			"id": "olena-konnikova",
-			"name": "Коннікова Олена Костянтинівна",
-			"department": "theatre",
 			"subjects": [
 				"Історія театру"
 			]
 		},
 		{
 			"id": "iryna-yershova",
-			"name": "Єршова Ірина",
-			"department": "theatre",
 			"subjects": [
 				"Хореографія"
 			]

@@ -13,9 +13,7 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre"
+			"id": "svitlana-ryskina"
 		}
 	],
 	"socials": [
@@ -60,8 +58,6 @@
 	"teachers": [
 		{
 			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre",
 			"subjects": [
 				"Режисер",
 				"Індивідуальна сценічна мова"
@@ -69,16 +65,12 @@
 		},
 		{
 			"id": "elmir-hanbarov",
-			"name": "Ганбаров Ельмир Миколайович",
-			"department": "theatre",
 			"subjects": [
 				"Акторська майстерність"
 			]
 		},
 		{
 			"id": "yevheniia-osadcha",
-			"name": "Бур'ян Євгенія Іванівна",
-			"department": "theatre",
 			"subjects": [
 				"Акторська майстерність",
 				"Індивідуальна сценічна мова",
@@ -87,48 +79,36 @@
 		},
 		{
 			"id": "olena-konnikova",
-			"name": "Конікова Олена Костянтинівна",
-			"department": "theatre",
 			"subjects": [
 				"Історія театру"
 			]
 		},
 		{
 			"id": "hanna-nikolaieva",
-			"name": "Ніколаєва Ганна Станіславівна",
-			"department": "theatre",
 			"subjects": [
 				"Вокал"
 			]
 		},
 		{
 			"id": "tetiana-stohul",
-			"name": "Стогул Тетяна Володимирівна",
-			"department": "theatre",
 			"subjects": [
 				"Танець"
 			]
 		},
 		{
 			"id": "olena-tkach",
-			"name": "Ткач Олена Борисівна",
-			"department": "theatre",
 			"subjects": [
 				"Аудіотеатр"
 			]
 		},
 		{
 			"id": "vira-yemtsova-datsiuk",
-			"name": "Ємцова-Дацюк Віра Вікторівна",
-			"department": "theatre",
 			"subjects": [
 				"Індивідуальна сценічна мова"
 			]
 		},
 		{
 			"id": "pavlo-prymak",
-			"name": "Примак Павло Андрійович",
-			"department": "theatre",
 			"subjects": [
 				"Сценічний рух"
 			]

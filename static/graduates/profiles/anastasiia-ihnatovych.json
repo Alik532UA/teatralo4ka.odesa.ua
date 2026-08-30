@@ -17,14 +17,10 @@
 	],
 	"masters": [
 		{
-			"id": "oleh-shevchuk",
-			"name": "Шевчук Олег",
-			"department": "theatre"
+			"id": "oleh-shevchuk"
 		},
 		{
-			"id": "anastasiia-nikolaieva",
-			"name": "Ніколаєва Анастасія Олексіївна",
-			"department": "vocal"
+			"id": "anastasiia-nikolaieva"
 		}
 	],
 	"socials": [

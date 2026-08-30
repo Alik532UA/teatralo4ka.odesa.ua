@@ -13,14 +13,10 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		},
 		{
-			"id": "natalia-shkolna",
-			"name": "Школьна Наталя А.",
-			"department": "vocal"
+			"id": "natalia-shkolna"
 		}
 	],
 	"socials": [],

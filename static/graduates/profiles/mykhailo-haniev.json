@@ -13,14 +13,10 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "nadiia-rybakova",
-			"name": "Рибакова Надія В.",
-			"department": "theatre"
+			"id": "nadiia-rybakova"
 		},
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		}
 	],
 	"socials": [

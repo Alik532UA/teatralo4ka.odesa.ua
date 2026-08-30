@@ -16,14 +16,10 @@
 	],
 	"masters": [
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		},
 		{
-			"id": "pavlo-koshka",
-			"name": "Кошка Павло Володимирович",
-			"department": "theatre"
+			"id": "pavlo-koshka"
 		}
 	],
 	"socials": [
@@ -102,40 +98,30 @@
 	"teachers": [
 		{
 			"id": "samuil-imas",
-			"name": "Імас Самуїл Михайлович",
-			"department": "theatre",
 			"subjects": [
 				"Риторика та поетика"
 			]
 		},
 		{
 			"id": "mykola-baldin",
-			"name": "Балдін Микола Олександрович",
-			"department": "theatre",
 			"subjects": [
 				"Сценічний рух"
 			]
 		},
 		{
 			"id": "iryna-ovcharenko",
-			"name": "Овчаренко Ірина Григоріївна",
-			"department": "theatre",
 			"subjects": [
 				"Вокал"
 			]
 		},
 		{
 			"id": "olena-konnikova",
-			"name": "Коннікова Олена Костянтинівна",
-			"department": "theatre",
 			"subjects": [
 				"Історія театру"
 			]
 		},
 		{
 			"id": "iryna-yershova",
-			"name": "Єршова Ірина",
-			"department": "theatre",
 			"subjects": [
 				"Хореографія"
 			]

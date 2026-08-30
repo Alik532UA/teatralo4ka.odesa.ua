@@ -17,14 +17,10 @@
 	],
 	"masters": [
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		},
 		{
-			"id": "tereza-zaurbekova",
-			"name": "Заурбекова Тереза Валеріївна",
-			"department": "theatre"
+			"id": "tereza-zaurbekova"
 		}
 	],
 	"socials": [

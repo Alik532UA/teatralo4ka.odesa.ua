@@ -13,24 +13,16 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "myroslava-derepa",
-			"name": "Дерепа Мирослава Ігорівна",
-			"department": "theatre"
+			"id": "myroslava-derepa"
 		},
 		{
-			"id": "iryna-kulbaba",
-			"name": "Кульбаба Ірина Борисівна",
-			"department": "theatre"
+			"id": "iryna-kulbaba"
 		},
 		{
-			"id": "hanna-serebriannikova",
-			"name": "Серебряннікова Ганна Іванівна",
-			"department": "theatre"
+			"id": "hanna-serebriannikova"
 		},
 		{
-			"id": "tetiana-isachkina",
-			"name": "Ісачкіна Тетяна Валеріївна",
-			"department": "theatre"
+			"id": "tetiana-isachkina"
 		}
 	],
 	"socials": [

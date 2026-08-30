@@ -33,9 +33,20 @@ import type { Pathname } from '$app/types';
 /** Відділення. Ключі збігаються з емодзі-маркерами джерела (див. парсер). */
 export type Department = 'theatre' | 'intensive' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
 
+/**
+ * Ребро «випускник → майстер».
+ *
+ * Несе `id` і більше нічого: ім'я та відділення — властивості самого майстра,
+ * і копіювати їх у кожен зв'язок означало платити вагою й ризикувати
+ * розходженням. Заміряно перед прибиранням: 535 копій на 25 КБ індексу, і
+ * жодна з них не була потрібна — усі 332 зв'язки знаходили майстра за `id`.
+ *
+ * `name` лишається запасним підписом на випадок, коли працівника ще немає в
+ * реєстрі. Гейт стежить, щоб таких не з'являлося мовчки.
+ */
 export interface GraduateMaster {
 	id?: string;
-	name: string;
+	name?: string;
 	department?: Department | string | null;
 }
 
@@ -63,7 +74,8 @@ export interface GraduateMaster {
  */
 export interface GraduateTeacher {
 	id?: string;
-	name: string;
+	/** Запасний підпис — див. `GraduateMaster.name`. */
+	name?: string;
 	department?: Department | string | null;
 	/** Предмети саме цього зв'язку. Перелік, як `subjects` у майстра. */
 	subjects?: string[];

@@ -13,9 +13,7 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "svitlana-ryskina",
-			"name": "Риськіна Світлана Миколаївна",
-			"department": "theatre"
+			"id": "svitlana-ryskina"
 		}
 	],
 	"socials": [
@@ -92,8 +90,6 @@
 	"teachers": [
 		{
 			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre",
 			"subjects": [
 				"Участь у виставах"
 			]

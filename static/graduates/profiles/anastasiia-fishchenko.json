@@ -13,9 +13,7 @@
 	"hasPhoto": true,
 	"masters": [
 		{
-			"id": "oleh-shevchuk",
-			"name": "Шевчук Олег",
-			"department": "theatre"
+			"id": "oleh-shevchuk"
 		}
 	],
 	"socials": [

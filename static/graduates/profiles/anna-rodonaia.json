@@ -14,14 +14,10 @@
 	],
 	"masters": [
 		{
-			"id": "samuil-imas",
-			"name": "Імас Самуїл Михайлович",
-			"department": "theatre"
+			"id": "samuil-imas"
 		},
 		{
-			"id": "fedir-tkach",
-			"name": "Ткач Федір Федорович",
-			"department": "theatre"
+			"id": "fedir-tkach"
 		}
 	],
 	"socials": [

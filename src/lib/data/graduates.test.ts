@@ -4,6 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import graduatesIndex from './graduates.index.json';
 import type { GraduateIndexEntry } from './graduates';
+import mastersIndex from './masters.index.json';
 
 /**
  * Цілісність реєстру випускників.
@@ -106,6 +107,33 @@ describe('реєстр випускників', () => {
 			.filter((g) => 'group' in (g as unknown as Record<string, unknown>))
 			.map((g) => g.id);
 		expect(bad, `копія назви в індексі:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Ребро «випускник → працівник» несе лише `id`. Це працює рівно доти, доки
+	 * кожен `id` знаходиться в реєстрі майстрів: інакше картка мовчки покаже
+	 * запасне ім'я — або, якщо його теж немає, порожнє місце.
+	 *
+	 * Заміряно перед прибиранням копій: усі 332 зв'язки знаходили майстра, тож
+	 * запасний підпис не був потрібен жодного разу. Ця перевірка й стежить, щоб
+	 * так лишалося.
+	 */
+	it('кожен зв\'язок із працівником знаходить його в реєстрі', () => {
+		const known = new Set([
+			...(mastersIndex as { id: string; slug: string }[]).map((m) => m.id),
+			...(mastersIndex as { id: string; slug: string }[]).map((m) => m.slug)
+		]);
+		const bad: string[] = [];
+		for (const g of index)
+			for (const edge of [...(g.masters ?? []), ...(g.teachers ?? [])]) {
+				const id = typeof edge === 'string' ? edge : edge.id;
+				if (!id) {
+					bad.push(`${g.id}: зв'язок без ключа`);
+					continue;
+				}
+				if (!known.has(id)) bad.push(`${g.id} → ${id}`);
+			}
+		expect(bad, `працівника немає в реєстрі:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('імена в профілі та в індексі збігаються', () => {
