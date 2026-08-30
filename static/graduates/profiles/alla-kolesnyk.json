@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Галясы\", \"БЮСТ",
+	"unlinkedGroups": [
+		"Галясы\", \"БЮСТ"
+	],
 	"masters": [
 		{
 			"id": "svitlana-ryskina",

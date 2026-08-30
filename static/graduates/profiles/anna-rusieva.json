@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Чудачки",
+	"unlinkedGroups": [
+		"Чудачки"
+	],
 	"masters": [
 		{
 			"id": "svitlana-ryskina",

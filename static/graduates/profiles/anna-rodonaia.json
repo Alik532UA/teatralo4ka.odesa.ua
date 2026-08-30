@@ -9,7 +9,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "ГруФФиш",
+	"unlinkedGroups": [
+		"ГруФФиш"
+	],
 	"masters": [
 		{
 			"id": "samuil-imas",

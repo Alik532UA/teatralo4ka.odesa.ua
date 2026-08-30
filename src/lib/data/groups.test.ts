@@ -3,7 +3,7 @@ import {
 	GROUPS,
 	getGroupBySlug,
 	getGroupByTitleOrAbbr,
-	getGroupByMember,
+	getGroupsByMember,
 	groupProfilePath
 } from './groups';
 import graduatesIndex from '$lib/data/graduates.index.json';
@@ -58,14 +58,16 @@ describe('GROUPS data integrity', () => {
 		expect(bad, `група без репертуару:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
-	it('хелпери getGroupBySlug, getGroupByTitleOrAbbr, getGroupByMember повертають правильні групи', () => {
+	it('хелпери getGroupBySlug, getGroupByTitleOrAbbr, getGroupsByMember повертають правильні групи', () => {
 		const group = getGroupBySlug('zakhysnyky-teatralnykh-kulis');
 		expect(group).toBeDefined();
 		expect(group?.name).toBe('Захисники театральних куліс');
 
 		expect(getGroupByTitleOrAbbr('ЗТК')?.slug).toBe('zakhysnyky-teatralnykh-kulis');
 		expect(getGroupByTitleOrAbbr('Захисники театральних куліс')?.slug).toBe('zakhysnyky-teatralnykh-kulis');
-		expect(getGroupByMember('alik-zapolnov')?.slug).toBe('zakhysnyky-teatralnykh-kulis');
+		expect(getGroupsByMember('alik-zapolnov').map((g) => g.slug)).toEqual([
+			'zakhysnyky-teatralnykh-kulis'
+		]);
 
 		expect(groupProfilePath('zakhysnyky-teatralnykh-kulis')).toBe(
 			'/projects/galaxy-graduates/groups/zakhysnyky-teatralnykh-kulis'

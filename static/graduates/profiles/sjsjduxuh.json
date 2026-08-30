@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Хомʼяки",
+	"unlinkedGroups": [
+		"Хомʼяки"
+	],
 	"masters": [
 		{
 			"id": "svitlana-ryskina",

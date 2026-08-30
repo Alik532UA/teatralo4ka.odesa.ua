@@ -12,9 +12,7 @@
 	],
 	"hasPhoto": true,
 	"photoCount": 2,
-	"group": "Адреналін",
-	"groups": [
-		"Адреналін",
+	"unlinkedGroups": [
 		"Кактуси",
 		"Шиворіт-Навиворіт"
 	],

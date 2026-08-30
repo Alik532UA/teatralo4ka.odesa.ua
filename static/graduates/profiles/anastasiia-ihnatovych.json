@@ -12,7 +12,9 @@
 		"vocal"
 	],
 	"hasPhoto": true,
-	"group": "Мультяшки",
+	"unlinkedGroups": [
+		"Мультяшки"
+	],
 	"masters": [
 		{
 			"id": "oleh-shevchuk",
@@ -99,10 +101,5 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
-	"groups": [
-		"Мультяшки",
-		"Адреналін",
-		"Шевчушки"
-	]
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3"
 }

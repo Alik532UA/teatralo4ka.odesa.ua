@@ -79,14 +79,15 @@ export function getGroupByTitleOrAbbr(query: string): GraduateGroup | undefined 
 }
 
 /**
- * Знаходить групу за ключем випускника.
+ * Усі групи випускника — саме УСІ, а не перша.
  *
- * Повертає ПЕРШУ: людина може бути в кількох групах одразу (заміряно — четверо),
- * і хто з них «головна», дані не кажуть. Тому в інтерфейсі цей хелпер не
- * використовується; сторінка викладача бере всі групи через `getGroupsByMaster`.
+ * Людина буває в кількох групах одразу (заміряно — четверо), і хто з них
+ * «головна», дані не кажуть. Доти картка малювала групи з рядка в анкеті, і
+ * третина тих рядків не вела нікуди; тепер вона бере їх звідси, тож кожна
+ * показана група — справжнє посилання.
  */
-export function getGroupByMember(memberId: string): GraduateGroup | undefined {
-	return GROUPS.find((g) => g.memberIds.includes(memberId));
+export function getGroupsByMember(memberId: string): GraduateGroup[] {
+	return GROUPS.filter((g) => g.memberIds.includes(memberId));
 }
 
 /**

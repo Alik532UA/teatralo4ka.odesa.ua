@@ -83,6 +83,31 @@ describe('реєстр випускників', () => {
 		expect(bad, `розходження:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	/*
+	 * Назва групи рядком — це саме той різновид зв'язку, якого не бачить жодна
+	 * перевірка: рядок завжди «валідний», навіть коли веде в нікуди. Заміряно
+	 * перед прибиранням: із 83 таких згадок на наявну групу вели 54.
+	 *
+	 * Зв'язок живе в `memberIds` групи. У профілі лишається `unlinkedGroups` —
+	 * і саме тому воно назване так, щоб не переплутати з робочим зв'язком.
+	 */
+	it('профіль не тримає групу рядком', () => {
+		const bad: string[] = [];
+		for (const { file, data } of profiles) {
+			const raw = data as Record<string, unknown>;
+			if ('group' in raw) bad.push(`${file}: поле \`group\``);
+			if ('groups' in raw) bad.push(`${file}: поле \`groups\``);
+		}
+		expect(bad, `зв'язок знову рядком:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('індекс теж не тримає копії назви групи', () => {
+		const bad = index
+			.filter((g) => 'group' in (g as unknown as Record<string, unknown>))
+			.map((g) => g.id);
+		expect(bad, `копія назви в індексі:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
 	it('імена в профілі та в індексі збігаються', () => {
 		const byId = new Map(index.map((g) => [g.id, g]));
 		const bad: string[] = [];

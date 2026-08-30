@@ -17,7 +17,7 @@
 		relationSubjects,
 	} from "$lib/data/masters";
 	import { localizedPath } from "$lib/i18n/routing";
-	import { getGroupByTitleOrAbbr } from "$lib/data/groups";
+	import { getGroupsByMember } from "$lib/data/groups";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -415,17 +415,24 @@
 	const enrollmentYears = $derived(
 		profile?.enrollmentYears ?? graduate.enrollmentYears ?? [],
 	);
-	const group = $derived(
-		profile?.group ?? graduate.group?.name ?? graduate.group?.abbr ?? null,
-	);
 	/**
-	 * Курс міг носити кілька назв — на старому сайті під «Назва групи» стояв
-	 * стовпчик. `profile.groups` тримає повний список, `group` — головну назву;
-	 * коли списку немає, показуємо саму головну.
+	 * Групи беруться зі ЗВ'ЯЗКУ, а не з рядка в анкеті.
+	 *
+	 * Доти картка малювала назви, які людина вписала, і шукала до них групу за
+	 * назвою — з 83 таких згадок на наявну групу вели 54. Решта малювалися
+	 * простим текстом, і виглядало це так само, як робоче посилання.
+	 *
+	 * Тепер справжні групи приходять із `memberIds`, тож кожна з них — посилання.
+	 * Слідом ідуть назви, яким сторінки ще немає: вони лишаються текстом, але
+	 * тепер це видно й у даних, а не лише на екрані.
 	 */
-	const groupNames = $derived<string[]>(
-		profile?.groups?.length ? profile.groups : group ? [group] : [],
-	);
+	const groupLinks = $derived<{ name: string; slug?: string }[]>([
+		...getGroupsByMember(graduate.id).map((g) => ({
+			name: isEn && g.nameEn ? g.nameEn : g.name,
+			slug: g.slug,
+		})),
+		...(profile?.unlinkedGroups ?? []).map((name) => ({ name })),
+	]);
 	const departments = $derived<Department[]>(
 		profile?.departments && profile.departments.length > 0
 			? profile.departments
@@ -983,16 +990,16 @@
 				</div>
 			{/if}
 
-			{#if groupNames.length}
+			{#if groupLinks.length}
 				<div class="groups-container" data-testid="galaxy-card-group-text">
 					<span class="groups-title">{$t("galaxy.group")}:</span>
 					<ul class="groups-list">
-						{#each groupNames as groupName (groupName)}
-							{@const matchingGroup = getGroupByTitleOrAbbr(groupName)}
+						{#each groupLinks as item (item.name)}
+							{@const groupName = item.name}
 							<li class="group-item">
-								{#if matchingGroup}
+								{#if item.slug}
 									<a
-										href={localizedPath(`/projects/galaxy-graduates/groups/${matchingGroup.slug}`, isEn ? "en" : "uk")}
+										href={localizedPath(`/projects/galaxy-graduates/groups/${item.slug}`, isEn ? "en" : "uk")}
 										class="group-link-wrapper"
 										title={groupName}
 										data-testid="galaxy-card-group-link"

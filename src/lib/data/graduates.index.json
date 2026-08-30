@@ -11,7 +11,6 @@
 		"enrollmentYears": [
 			2017
 		],
-		"group": null,
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -28,7 +27,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
 		"code": "albinaabuladze",
-		"profileSize": 2985,
+		"profileSize": 2972,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -138,10 +137,6 @@
 			2003,
 			2007
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -246,7 +241,7 @@
 		"playCount": 22,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/Alik",
 		"code": "Alik",
-		"profileSize": 5563
+		"profileSize": 5500
 	},
 	{
 		"id": "alina-burdeina",
@@ -260,10 +255,6 @@
 		"enrollmentYears": [
 			2014
 		],
-		"group": {
-			"abbr": null,
-			"name": "Кеди"
-		},
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -280,7 +271,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19A",
 		"code": "alina-burdeina",
-		"profileSize": 2843
+		"profileSize": 2854
 	},
 	{
 		"id": "alina-chernobai",
@@ -486,10 +477,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": null,
-			"name": "Шут"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -510,7 +497,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13A",
 		"code": "alla-khaiut",
-		"profileSize": 1696
+		"profileSize": 1707
 	},
 	{
 		"id": "alla-kolesnyk",
@@ -524,10 +511,6 @@
 		"enrollmentYears": [
 			2002
 		],
-		"group": {
-			"abbr": null,
-			"name": "Галясы\", \"БЮСТ"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -558,7 +541,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08A",
 		"code": "alla-kolesnyk",
-		"profileSize": 1689
+		"profileSize": 1700
 	},
 	{
 		"id": "alona-kozlova",
@@ -574,10 +557,6 @@
 		"enrollmentYears": [
 			2004
 		],
-		"group": {
-			"abbr": null,
-			"name": "Шевчушки"
-		},
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -608,7 +587,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_1",
 		"code": "alona-kozlova",
-		"profileSize": 1744
+		"profileSize": 1717
 	},
 	{
 		"id": "amryta-chernyshova",
@@ -663,10 +642,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -692,7 +667,7 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A_1",
 		"code": "anastasiia-chalchynska",
-		"profileSize": 3478,
+		"profileSize": 3368,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -791,10 +766,6 @@
 		"enrollmentYears": [
 			2005
 		],
-		"group": {
-			"abbr": null,
-			"name": "Шевчушки"
-		},
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -815,7 +786,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18F",
 		"code": "anastasiia-fishchenko",
-		"profileSize": 863
+		"profileSize": 836
 	},
 	{
 		"id": "anastasiia-homela",
@@ -876,10 +847,6 @@
 		"enrollmentYears": [
 			2004
 		],
-		"group": {
-			"abbr": null,
-			"name": "Мультяшки"
-		},
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -905,7 +872,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2292
+		"profileSize": 2231
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -995,10 +962,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -1051,7 +1014,7 @@
 		],
 		"code": "anastasiia-kozova",
 		"playCount": 6,
-		"profileSize": 1812
+		"profileSize": 1749
 	},
 	{
 		"id": "anastasiia-kuropatkyna",
@@ -1145,7 +1108,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2004/04A",
 		"code": "anastasiia-lutaienko",
-		"profileSize": 1304
+		"profileSize": 1291
 	},
 	{
 		"id": "anastasiia-makukha",
@@ -1315,10 +1278,6 @@
 		"enrollmentYears": [
 			2010
 		],
-		"group": {
-			"abbr": null,
-			"name": "Асорті"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -1339,7 +1298,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A",
 		"code": "anfisa-lazebna",
-		"profileSize": 2348
+		"profileSize": 2325
 	},
 	{
 		"id": "anhelina-boldakova",
@@ -1387,10 +1346,6 @@
 		"enrollmentYears": [
 			2009
 		],
-		"group": {
-			"abbr": null,
-			"name": "Фреш"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -1411,7 +1366,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/12S",
 		"code": "anisiia-stasevych",
-		"profileSize": 1205
+		"profileSize": 1186
 	},
 	{
 		"id": "anna-arustamian",
@@ -1538,10 +1493,6 @@
 			"theatre"
 		],
 		"hasPhoto": true,
-		"group": {
-			"abbr": null,
-			"name": "ГруФФиш"
-		},
 		"masters": [
 			{
 				"id": "samuil-imas",
@@ -1567,7 +1518,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15A",
 		"code": "anna-rodonaia",
 		"playCount": 0,
-		"profileSize": 782
+		"profileSize": 793
 	},
 	{
 		"id": "anna-rusieva",
@@ -1581,10 +1532,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": null,
-			"name": "Чудачки"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -1605,7 +1552,7 @@
 		"playCount": 0,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09A",
 		"code": "anna-rusieva",
-		"profileSize": 1088
+		"profileSize": 1099
 	},
 	{
 		"id": "anna-rvachova",
@@ -1637,10 +1584,6 @@
 		"enrollmentYears": [
 			2009
 		],
-		"group": {
-			"abbr": null,
-			"name": "Асорті"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -1657,7 +1600,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17A",
 		"code": "anton-babich",
-		"profileSize": 1470
+		"profileSize": 1447
 	},
 	{
 		"id": "anzhelika-khachatrian",
@@ -1724,7 +1667,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14A",
 		"code": "artem-starshov",
 		"playCount": 0,
-		"profileSize": 931,
+		"profileSize": 918,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -1748,10 +1691,6 @@
 		"enrollmentYears": [
 			2011
 		],
-		"group": {
-			"abbr": null,
-			"name": "Асорті"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -1768,7 +1707,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_2",
 		"code": "artem-suvorov",
-		"profileSize": 2044
+		"profileSize": 2021
 	},
 	{
 		"id": "artem-zimner",
@@ -1851,11 +1790,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Dana",
 		"code": "Dana",
-		"profileSize": 1712,
-		"group": {
-			"abbr": null,
-			"name": "ПаХLава"
-		}
+		"profileSize": 1640
 	},
 	{
 		"id": "borys-ukrainskyi",
@@ -1894,10 +1829,6 @@
 		"enrollmentYears": [
 			2010
 		],
-		"group": {
-			"abbr": null,
-			"name": "Асорті"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -1918,7 +1849,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18D",
 		"code": "daiana-ponomarenko",
-		"profileSize": 1716
+		"profileSize": 1693
 	},
 	{
 		"id": "dana-broshkova",
@@ -1967,7 +1898,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D",
 		"code": "daniela-rybalchenko",
-		"profileSize": 2351
+		"profileSize": 2338
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -2071,10 +2002,6 @@
 		"enrollmentYears": [
 			2015
 		],
-		"group": {
-			"abbr": null,
-			"name": "Человеки"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -2095,7 +2022,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D_1",
 		"code": "dar-ia-hurevych",
-		"profileSize": 1359
+		"profileSize": 1332
 	},
 	{
 		"id": "daria-chala",
@@ -2118,10 +2045,6 @@
 		"enrollmentYears": [
 			1997
 		],
-		"group": {
-			"abbr": null,
-			"name": "Фантазія"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -2142,7 +2065,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2010/10D",
 		"code": "daria-dias-valdes-isachkina",
 		"playCount": 0,
-		"profileSize": 749
+		"profileSize": 760
 	},
 	{
 		"id": "daria-drykyna",
@@ -2212,10 +2135,6 @@
 			"theatre"
 		],
 		"hasPhoto": true,
-		"group": {
-			"abbr": "Хлопаффки",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -2232,7 +2151,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/daria-kristiian",
 		"code": "daria-kristiian",
-		"profileSize": 1469
+		"profileSize": 1440
 	},
 	{
 		"id": "daria-kristiian-2",
@@ -2292,10 +2211,6 @@
 		"enrollmentYears": [
 			2009
 		],
-		"group": {
-			"abbr": null,
-			"name": "Чєловєкі"
-		},
 		"masters": [
 			{
 				"id": "hanna-tkach",
@@ -2317,7 +2232,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D",
 		"code": "daria-rybalchenko",
-		"profileSize": 2178
+		"profileSize": 2107
 	},
 	{
 		"id": "daria-sonhorova",
@@ -2350,10 +2265,6 @@
 		"enrollmentYears": [
 			2013
 		],
-		"group": {
-			"abbr": "ТВ Продакшн",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -2370,7 +2281,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23D",
 		"code": "daria-terzi",
-		"profileSize": 777
+		"profileSize": 745
 	},
 	{
 		"id": "daria-zemka",
@@ -2394,10 +2305,6 @@
 		"enrollmentYears": [
 			2002
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -2418,7 +2325,7 @@
 		"playCount": 15,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D",
 		"code": "dariia-didenko",
-		"profileSize": 3010
+		"profileSize": 2981
 	},
 	{
 		"id": "dariia-kulish",
@@ -2433,10 +2340,6 @@
 		"enrollmentYears": [
 			2003
 		],
-		"group": {
-			"abbr": null,
-			"name": "ТСН"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -2457,7 +2360,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2014/14D",
 		"code": "dariia-kulish",
-		"profileSize": 1802
+		"profileSize": 1813
 	},
 	{
 		"id": "darya-maystrenko",
@@ -2639,11 +2542,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12D_1",
 		"code": "dmytro-rozumenko",
-		"profileSize": 1000,
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		}
+		"profileSize": 971
 	},
 	{
 		"id": "dmytro-yatsenko",
@@ -2666,10 +2565,6 @@
 		"enrollmentYears": [
 			2018
 		],
-		"group": {
-			"abbr": "7т-19 (2023р.)",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -2680,7 +2575,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23N",
 		"code": "dovhan-daria",
-		"profileSize": 949
+		"profileSize": 922
 	},
 	{
 		"id": "dzhenni-polianska",
@@ -2730,10 +2625,6 @@
 		"enrollmentYears": [
 			2017
 		],
-		"group": {
-			"abbr": null,
-			"name": "Aншлаг+дєвішнік"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -2750,7 +2641,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/ri2be",
 		"code": "ri2be",
-		"profileSize": 1300
+		"profileSize": 1261
 	},
 	{
 		"id": "ernst-severyn",
@@ -2801,10 +2692,6 @@
 		"enrollmentYears": [
 			2018
 		],
-		"group": {
-			"abbr": "Хомʼяки",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -2830,7 +2717,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/sjsjduxuh",
 		"code": "sjsjduxuh",
-		"profileSize": 1060
+		"profileSize": 1071
 	},
 	{
 		"id": "hanna-belchytska",
@@ -2922,10 +2809,6 @@
 		"enrollmentYears": [
 			2009
 		],
-		"group": {
-			"abbr": null,
-			"name": "Человек - Ф. Ф."
-		},
 		"masters": [
 			{
 				"id": "hanna-tkach",
@@ -2951,7 +2834,7 @@
 		"playCount": 11,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19G",
 		"code": "heorhii-topor",
-		"profileSize": 1937
+		"profileSize": 1902
 	},
 	{
 		"id": "heorhii-zheliapov",
@@ -3049,10 +2932,6 @@
 		"enrollmentYears": [
 			2005
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -3073,7 +2952,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09I",
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1343,
+		"profileSize": 1314,
 		"graduationLabelKey": "galaxy.studiedUntil"
 	},
 	{
@@ -3109,11 +2988,7 @@
 					"Участь у виставах"
 				]
 			}
-		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		}
+		]
 	},
 	{
 		"id": "inna-shevchenko",
@@ -3215,10 +3090,6 @@
 		"enrollmentYears": [
 			2016
 		],
-		"group": {
-			"abbr": null,
-			"name": "Мамарада"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -3262,7 +3133,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1527
+		"profileSize": 1500
 	},
 	{
 		"id": "ivan-shevchenko",
@@ -3365,10 +3236,6 @@
 		"enrollmentYears": [
 			2020
 		],
-		"group": {
-			"abbr": "Аншлаг+Девичник",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -3385,7 +3252,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/kamywek_",
 		"code": "kamywek_",
-		"profileSize": 1289
+		"profileSize": 1249
 	},
 	{
 		"id": "karyna-sharkova",
@@ -3415,11 +3282,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K",
 		"code": "karyna-sharkova",
 		"playCount": 0,
-		"profileSize": 646,
-		"group": {
-			"abbr": null,
-			"name": "Рост-Ок"
-		}
+		"profileSize": 606
 	},
 	{
 		"id": "kateryna-kolisnychenko",
@@ -3483,7 +3346,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15K",
 		"code": "kateryna-kudlach",
-		"profileSize": 2283
+		"profileSize": 2270
 	},
 	{
 		"id": "kateryna-kurchenko",
@@ -3547,10 +3410,6 @@
 		"enrollmentYears": [
 			2015
 		],
-		"group": {
-			"abbr": null,
-			"name": "Aншлаг+дєвішнік"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -3567,7 +3426,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian",
 		"code": "Kateryna-Muntian",
-		"profileSize": 1511
+		"profileSize": 1472
 	},
 	{
 		"id": "kateryna-nesterenko",
@@ -3583,10 +3442,6 @@
 		],
 		"hasPhoto": true,
 		"photoCount": 3,
-		"group": {
-			"abbr": null,
-			"name": "Мамарада"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -3647,7 +3502,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 2244
+		"profileSize": 2217
 	},
 	{
 		"id": "kateryna-petrenko",
@@ -3679,10 +3534,6 @@
 		"enrollmentYears": [
 			2018
 		],
-		"group": {
-			"abbr": "7т-19 (2023р.)",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -3698,7 +3549,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23K",
 		"code": "kateryna-poltavtseva",
-		"profileSize": 1096
+		"profileSize": 1069
 	},
 	{
 		"id": "kateryna-tkachenko",
@@ -3782,10 +3633,6 @@
 		"enrollmentYears": [
 			2017
 		],
-		"group": {
-			"abbr": null,
-			"name": "Aншлаг+дєвішнік"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -3802,7 +3649,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/karakulya",
 		"code": "karakulya",
-		"profileSize": 1444
+		"profileSize": 1405
 	},
 	{
 		"id": "khrystyna-bila",
@@ -3869,10 +3716,6 @@
 		"enrollmentYears": [
 			2008
 		],
-		"group": {
-			"abbr": null,
-			"name": "Фреш"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -3893,7 +3736,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12K",
 		"code": "kristina-slivka-spivak",
-		"profileSize": 1455
+		"profileSize": 1436
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -3903,10 +3746,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -3959,7 +3798,7 @@
 		],
 		"code": "krystyna-manchenko",
 		"playCount": 6,
-		"profileSize": 1817
+		"profileSize": 1754
 	},
 	{
 		"id": "krystyna-maslova",
@@ -4125,7 +3964,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M",
 		"code": "kulish-mariia",
-		"profileSize": 1773
+		"profileSize": 1760
 	},
 	{
 		"id": "kyryll-chekanov",
@@ -4139,10 +3978,6 @@
 		"enrollmentYears": [
 			1994
 		],
-		"group": {
-			"abbr": null,
-			"name": "Средние"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -4159,7 +3994,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K",
 		"code": "kyryll-chekanov",
-		"profileSize": 811
+		"profileSize": 822
 	},
 	{
 		"id": "kyrylo-karacheban",
@@ -4173,10 +4008,6 @@
 		"enrollmentYears": [
 			2012
 		],
-		"group": {
-			"abbr": null,
-			"name": "Резонанс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -4193,7 +4024,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2016/16K",
 		"code": "kyrylo-karacheban",
-		"profileSize": 1098
+		"profileSize": 1071
 	},
 	{
 		"id": "kyrylo-karazeiskyi",
@@ -4267,10 +4098,6 @@
 		"enrollmentYears": [
 			2008
 		],
-		"group": {
-			"abbr": null,
-			"name": "Фреш"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -4287,7 +4114,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11L",
 		"code": "liliia-halosa",
-		"profileSize": 962
+		"profileSize": 943
 	},
 	{
 		"id": "liliia-muravska",
@@ -4360,11 +4187,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/basha",
 		"code": "basha",
-		"profileSize": 1184,
-		"group": {
-			"abbr": null,
-			"name": "Пріколісти"
-		}
+		"profileSize": 1195
 	},
 	{
 		"id": "liubov-prysiazhna",
@@ -4653,10 +4476,6 @@
 		"enrollmentYears": [
 			2016
 		],
-		"group": {
-			"abbr": "ТВ Продакшн",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -4677,7 +4496,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24M",
 		"code": "mariia-mahdalina-matvieieva",
-		"profileSize": 1026
+		"profileSize": 994
 	},
 	{
 		"id": "mariia-mandriesk",
@@ -4691,10 +4510,6 @@
 		"enrollmentYears": [
 			2020
 		],
-		"group": {
-			"abbr": null,
-			"name": "Аншлаг+дєвішнік"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -4715,7 +4530,7 @@
 		"playCount": 6,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/mandresssk",
 		"code": "mandresssk",
-		"profileSize": 1558
+		"profileSize": 1518
 	},
 	{
 		"id": "mariia-mokriak",
@@ -4748,10 +4563,6 @@
 		"enrollmentYears": [
 			2002
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -4777,7 +4588,7 @@
 		"playCount": 17,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12M",
 		"code": "mariia-mykhailova-didenko",
-		"profileSize": 2604
+		"profileSize": 2575
 	},
 	{
 		"id": "mariia-poliakova",
@@ -4845,10 +4656,6 @@
 		"enrollmentYears": [
 			2003
 		],
-		"group": {
-			"abbr": null,
-			"name": "Чудачки"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -4865,7 +4672,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2009/09M",
 		"code": "mariia-tkach-lysa",
 		"playCount": 0,
-		"profileSize": 709
+		"profileSize": 720
 	},
 	{
 		"id": "mariia-ukrainets",
@@ -4966,10 +4773,6 @@
 		"enrollmentYears": [
 			2020
 		],
-		"group": {
-			"abbr": "Alter ego",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -5000,7 +4803,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23R",
 		"code": "maryna-kravchuk",
-		"profileSize": 1025
+		"profileSize": 1005
 	},
 	{
 		"id": "maryna-perehud",
@@ -5039,7 +4842,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2008/08M",
 		"code": "maryna-perehud",
-		"profileSize": 1326
+		"profileSize": 1313
 	},
 	{
 		"id": "maryna-vishtaliuk-sukhanova",
@@ -5054,10 +4857,6 @@
 		"enrollmentYears": [
 			2004
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -5078,7 +4877,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M",
 		"code": "maryna-vishtaliuk-sukhanova",
-		"profileSize": 2404
+		"profileSize": 2362
 	},
 	{
 		"id": "mikhail-suraho",
@@ -5110,10 +4909,6 @@
 		"enrollmentYears": [
 			2017
 		],
-		"group": {
-			"abbr": "7т-19 (2023р.)",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -5130,7 +4925,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23M",
 		"code": "milena-binkovska",
-		"profileSize": 1162
+		"profileSize": 1135
 	},
 	{
 		"id": "mykhailo-chyianov",
@@ -5179,10 +4974,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": null,
-			"name": "ТУ-154"
-		},
 		"masters": [
 			{
 				"id": "nadiia-rybakova",
@@ -5208,7 +4999,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17M",
 		"code": "mykhailo-haniev",
-		"profileSize": 1300
+		"profileSize": 1281
 	},
 	{
 		"id": "mykhailo-priadko",
@@ -5218,10 +5009,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -5337,7 +5124,7 @@
 		"playCount": 18,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M_1",
 		"code": "myroslava-tkach",
-		"profileSize": 2699
+		"profileSize": 2686
 	},
 	{
 		"id": "nadiia-hasynets",
@@ -5351,10 +5138,6 @@
 		"enrollmentYears": [
 			2018
 		],
-		"group": {
-			"abbr": "ПаXLава",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "myroslava-derepa",
@@ -5390,7 +5173,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Nadiia-Hasynets",
 		"code": "Nadiia-Hasynets",
-		"profileSize": 1479
+		"profileSize": 1456
 	},
 	{
 		"id": "nadiia-kerymova",
@@ -5433,7 +5216,7 @@
 		"playCount": 13,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98N",
 		"code": "nadiia-rybakova",
-		"profileSize": 2292,
+		"profileSize": 2279,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -5552,10 +5335,6 @@
 		"enrollmentYears": [
 			2016
 		],
-		"group": {
-			"abbr": "ТВ Продакшн",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -5572,7 +5351,7 @@
 		"playCount": 1,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2023/23O",
 		"code": "oleh-vizitiei",
-		"profileSize": 727
+		"profileSize": 695
 	},
 	{
 		"id": "oleh-volkov",
@@ -5660,14 +5439,10 @@
 				]
 			}
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"hasPhoto": true,
 		"code": "oleksandr-chehlatonev",
 		"playCount": 6,
-		"profileSize": 1972
+		"profileSize": 1909
 	},
 	{
 		"id": "oleksandr-didyk",
@@ -5760,7 +5535,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O_1",
 		"code": "oleksandra-chuprina",
 		"playCount": 0,
-		"profileSize": 1384
+		"profileSize": 1371
 	},
 	{
 		"id": "oleksandra-dydenko",
@@ -5792,10 +5567,6 @@
 		"enrollmentYears": [
 			2004
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -5816,7 +5587,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12O",
 		"code": "oleksandra-indichanska-morozova",
-		"profileSize": 1865
+		"profileSize": 1836
 	},
 	{
 		"id": "oleksandra-karachevska",
@@ -5832,10 +5603,6 @@
 		],
 		"hasPhoto": true,
 		"photoCount": 2,
-		"group": {
-			"abbr": null,
-			"name": "Світліні Мікіліївні"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -5913,7 +5680,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2851
+		"profileSize": 2803
 	},
 	{
 		"id": "oleksandra-khalfina",
@@ -6106,10 +5873,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -6159,7 +5922,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02O",
 		"code": "olena-dzneladze",
-		"profileSize": 925
+		"profileSize": 912
 	},
 	{
 		"id": "olena-kiloian",
@@ -6241,7 +6004,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2000/odessitkavmonreale",
 		"code": "odessitkavmonreale",
-		"profileSize": 1617
+		"profileSize": 1604
 	},
 	{
 		"id": "olena-mrost",
@@ -6255,10 +6018,6 @@
 		"enrollmentYears": [
 			2000
 		],
-		"group": {
-			"abbr": null,
-			"name": "Йорики"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -6275,7 +6034,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11O",
 		"code": "olena-mrost",
-		"profileSize": 2013
+		"profileSize": 2024
 	},
 	{
 		"id": "olena-pushkarova",
@@ -6361,7 +6120,7 @@
 		"playCount": 12,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/1998/98O",
 		"code": "olha-poliakova",
-		"profileSize": 2376,
+		"profileSize": 2363,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -6484,10 +6243,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": null,
-			"name": "Росток"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -6508,7 +6263,7 @@
 		"playCount": 10,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2015/15P",
 		"code": "polina-hedzenko",
-		"profileSize": 2132
+		"profileSize": 2109
 	},
 	{
 		"id": "polina-kolomiiets",
@@ -6630,10 +6385,6 @@
 		"enrollmentYears": [
 			2023
 		],
-		"group": {
-			"abbr": null,
-			"name": "Хлопаффки"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -6650,7 +6401,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofia-Chernova",
 		"code": "Sofia-Chernova",
-		"profileSize": 1064
+		"profileSize": 1035
 	},
 	{
 		"id": "sofiia-chernata",
@@ -6673,10 +6424,6 @@
 		"enrollmentYears": [
 			2021
 		],
-		"group": {
-			"abbr": null,
-			"name": "Дівочі драми"
-		},
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -6697,7 +6444,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/21S",
 		"code": "sofiia-holub",
-		"profileSize": 1206
+		"profileSize": 1217
 	},
 	{
 		"id": "sofiia-hrabilina",
@@ -6772,10 +6519,6 @@
 		"enrollmentYears": [
 			2022
 		],
-		"group": {
-			"abbr": "Хлопаффки",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -6792,7 +6535,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Sofiya-Skuratovych",
 		"code": "Sofiya-Skuratovych",
-		"profileSize": 855
+		"profileSize": 826
 	},
 	{
 		"id": "sofiya-rudenko",
@@ -6808,10 +6551,6 @@
 		],
 		"hasPhoto": true,
 		"photoCount": 2,
-		"group": {
-			"abbr": null,
-			"name": "Адреналін"
-		},
 		"masters": [
 			{
 				"id": "liubov-savina",
@@ -6882,7 +6621,7 @@
 			}
 		],
 		"playCount": 9,
-		"profileSize": 2910
+		"profileSize": 2868
 	},
 	{
 		"id": "sofiya-shatalinska",
@@ -6906,10 +6645,6 @@
 		"enrollmentYears": [
 			2015
 		],
-		"group": {
-			"abbr": null,
-			"name": "Мама рада"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -6931,7 +6666,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24S",
 		"code": "sonia-makhnovska",
-		"profileSize": 904
+		"profileSize": 876
 	},
 	{
 		"id": "stanislav-prakhov",
@@ -6957,10 +6692,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -7065,10 +6796,6 @@
 		"enrollmentYears": [
 			2018
 		],
-		"group": {
-			"abbr": "Аншлаг+Девичник",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -7089,7 +6816,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24T",
 		"code": "taisiia-ruseskul",
-		"profileSize": 857
+		"profileSize": 817
 	},
 	{
 		"id": "taisiia-terzi",
@@ -7147,7 +6874,7 @@
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T_1",
 		"code": "taras-opryshko",
 		"playCount": 0,
-		"profileSize": 620
+		"profileSize": 607
 	},
 	{
 		"id": "tetiana-borysova",
@@ -7197,7 +6924,7 @@
 		"playCount": 5,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/05T",
 		"code": "tetiana-dudush-polishchuk",
-		"profileSize": 1399
+		"profileSize": 1386
 	},
 	{
 		"id": "tetiana-kamelevska",
@@ -7211,10 +6938,6 @@
 		"enrollmentYears": [
 			2007
 		],
-		"group": {
-			"abbr": null,
-			"name": "Фреш"
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -7235,7 +6958,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2011/11T",
 		"code": "tetiana-kamelevska",
-		"profileSize": 1231
+		"profileSize": 1212
 	},
 	{
 		"id": "tetiana-makukha",
@@ -7318,7 +7041,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V",
 		"code": "vadym-krusser",
-		"profileSize": 1638,
+		"profileSize": 1625,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -7369,10 +7092,6 @@
 		"enrollmentYears": [
 			2022
 		],
-		"group": {
-			"abbr": "Хлопаффки",
-			"name": null
-		},
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -7389,7 +7108,7 @@
 		"playCount": 2,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Valeriia",
 		"code": "Valeriia",
-		"profileSize": 837
+		"profileSize": 808
 	},
 	{
 		"id": "valeriia-burian",
@@ -7404,10 +7123,6 @@
 		"enrollmentYears": [
 			2015
 		],
-		"group": {
-			"abbr": null,
-			"name": "Aншлаг+дєвішнік"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -7424,7 +7139,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian",
 		"code": "leraburian",
-		"profileSize": 1500
+		"profileSize": 1461
 	},
 	{
 		"id": "valeriia-buturlakina",
@@ -7443,10 +7158,6 @@
 		"departments": [
 			"theatre"
 		],
-		"group": {
-			"abbr": null,
-			"name": "Скоморохи"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -7586,7 +7297,7 @@
 		"playCount": 9,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2007/07V",
 		"code": "viktoriia-dolhozhyv",
-		"profileSize": 2218
+		"profileSize": 2205
 	},
 	{
 		"id": "viktoriia-hlushchuk",
@@ -7780,10 +7491,6 @@
 		"enrollmentYears": [
 			2016
 		],
-		"group": {
-			"abbr": null,
-			"name": "Світліні Мікіліївні"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -7880,7 +7587,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 3254
+		"profileSize": 3206
 	},
 	{
 		"id": "vlada-hryhorashchenko",
@@ -7992,10 +7699,6 @@
 		"enrollmentYears": [
 			2006
 		],
-		"group": {
-			"abbr": "ЗТК",
-			"name": "Захисники театральних куліс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -8016,7 +7719,7 @@
 		"playCount": 8,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/12V",
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3175,
+		"profileSize": 3112,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -8128,11 +7831,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/Yanslobodenyuk",
 		"code": "Yanslobodenyuk",
-		"profileSize": 1681,
-		"group": {
-			"abbr": null,
-			"name": "Best Theater Socks (BTS)"
-		}
+		"profileSize": 1654
 	},
 	{
 		"id": "yana-kovina",
@@ -8339,10 +8038,6 @@
 		"enrollmentYears": [
 			2010
 		],
-		"group": {
-			"abbr": null,
-			"name": "Асорті"
-		},
 		"masters": [
 			{
 				"id": "svitlana-ryskina",
@@ -8363,7 +8058,7 @@
 		"playCount": 7,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18E",
 		"code": "yevhen-lysenko",
-		"profileSize": 1885
+		"profileSize": 1862
 	},
 	{
 		"id": "yevhenii-karamavrov",
@@ -8467,10 +8162,6 @@
 		"enrollmentYears": [
 			2013
 		],
-		"group": {
-			"abbr": null,
-			"name": "Резонанс"
-		},
 		"masters": [
 			{
 				"id": "tetiana-isachkina",
@@ -8491,7 +8182,7 @@
 		"playCount": 4,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2017/17K",
 		"code": "yuliana-klymenko",
-		"profileSize": 1309
+		"profileSize": 1282
 	},
 	{
 		"id": "yuliana-kolendo",
@@ -8742,7 +8433,7 @@
 		"playCount": 3,
 		"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02Z",
 		"code": "zlata-skalska",
-		"profileSize": 864
+		"profileSize": 851
 	},
 	{
 		"id": "zlata-stoyanova",

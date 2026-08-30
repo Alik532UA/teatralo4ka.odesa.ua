@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Дівочі драми",
+	"unlinkedGroups": [
+		"Дівочі драми"
+	],
 	"masters": [
 		{
 			"id": "oleh-shevchuk",

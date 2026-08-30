@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Кеди",
+	"unlinkedGroups": [
+		"Кеди"
+	],
 	"masters": [
 		{
 			"id": "oleh-shevchuk",

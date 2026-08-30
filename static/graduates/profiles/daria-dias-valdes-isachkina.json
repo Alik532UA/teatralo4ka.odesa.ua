@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Фантазія",
+	"unlinkedGroups": [
+		"Фантазія"
+	],
 	"masters": [
 		{
 			"id": "svitlana-ryskina",

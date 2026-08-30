@@ -13,7 +13,9 @@
 		"vocal"
 	],
 	"hasPhoto": true,
-	"group": "Скоморохи",
+	"unlinkedGroups": [
+		"Парадокс"
+	],
 	"masters": [
 		{
 			"id": "tetiana-isachkina",
@@ -81,9 +83,5 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M",
-	"groups": [
-		"Скоморохи",
-		"Парадокс"
-	]
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2013/13M"
 }

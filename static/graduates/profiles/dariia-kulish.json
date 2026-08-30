@@ -12,7 +12,9 @@
 		"music"
 	],
 	"hasPhoto": true,
-	"group": "ТСН",
+	"unlinkedGroups": [
+		"ТСН"
+	],
 	"masters": [
 		{
 			"id": "svitlana-ryskina",

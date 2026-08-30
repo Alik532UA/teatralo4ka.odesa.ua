@@ -11,7 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
-	"group": "Шут",
+	"unlinkedGroups": [
+		"Шут"
+	],
 	"masters": [
 		{
 			"id": "tetiana-isachkina",
