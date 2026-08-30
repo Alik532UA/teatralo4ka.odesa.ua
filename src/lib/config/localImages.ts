@@ -73,7 +73,12 @@ export const LOCAL_IMAGE_SIZES = {
 	'/png/History3.png': { width: 1200, height: 1200 },
 	'/groups/zakhysnyky-teatralnykh-kulis.webp': { width: 1280, height: 720 },
 	'/groups/zakhysnyky-teatralnykh-kulis-2.webp': { width: 768, height: 576 },
-	'/groups/zakhysnyky-teatralnykh-kulis-3.webp': { width: 787, height: 576 }
+	'/groups/zakhysnyky-teatralnykh-kulis-3.webp': { width: 787, height: 576 },
+	'/groups/tv-prodakshn.webp': { width: 1079, height: 720 },
+	'/groups/alter-ego.webp': { width: 1078, height: 720 },
+	'/groups/pakhlava.webp': { width: 1079, height: 720 },
+	'/groups/anshlah-devishnik.webp': { width: 1079, height: 720 },
+	'/groups/mamarada.webp': { width: 1079, height: 720 }
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */
