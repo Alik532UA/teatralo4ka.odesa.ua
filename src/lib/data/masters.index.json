@@ -866,8 +866,10 @@
 			"music"
 		],
 		"status": "active",
+		"photo": "/masters/hanna-podzihun.webp",
 		"category": "accompanists",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"portrait": "/masters/portraits/hanna-podzihun.webp"
 	},
 	{
 		"id": "pavlo-prymak",
