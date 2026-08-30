@@ -513,12 +513,18 @@
 	</div>
 {/snippet}
 
-<div
-	class="profile-layout"
-	class:has-plays={hasPlays}
-	class:has-bio={hasBio || canRelocateTeachersToBio}
-	data-testid="galaxy-profile-container"
->
+<!--
+	Обгортка існує заради ОДНОГО: контейнерний запит не може питати про самого
+	себе, а розкладка має залежати від ширини КАРТКИ, а не вікна. Картка
+	відкривається і модалкою, і окремою сторінкою — ширини там різні.
+-->
+<div class="layout-scope">
+	<div
+		class="profile-layout"
+		class:has-plays={hasPlays}
+		class:has-bio={hasBio || canRelocateTeachersToBio}
+		data-testid="galaxy-profile-container"
+	>
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
 		<div class="col col--left">
@@ -938,12 +944,25 @@
 			{/if}
 		</div>
 	{/if}
+	</div>
 </div>
 
 <GraduateFormModal isOpen={formModalOpen} onclose={closeForm} />
 
 
 <style>
+	/*
+	 * БЕЗ `container-type`, хоч це й напрошувалося.
+	 *
+	 * Заміряно: усередині `.card__inner`, у якого `width: fit-content`, розмірний
+	 * контейнер має ширину НУЛЬ — containment каже браузеру, що розмір не
+	 * залежить від вмісту, а батько водночас стискається до вмісту. Тому
+	 * контейнерні запити тут неможливі без відмови від fit-content у модалці, і
+	 * межі рахуються від вікна.
+	 */
+	.layout-scope {
+		width: 100%;
+	}
 	.profile-layout {
 		display: flex;
 		flex-direction: column;
@@ -999,8 +1018,53 @@
 		 * колонки лишалися на своїх мінімумах, а зміст обрізався. Заміряно на
 		 * iPad Air 820: три колонки 340/260/280 при 787 px картки — упритул.
 		 */
+		/*
+		 * ДВІ колонки, доки не вистачає місця на три.
+		 *
+		 * Заміряно: на iPad Air 820 три колонки вставали на своїх мінімумах
+		 * (340/260/280), зміст у двох із них скролився, а внизу лишалося 180 px
+		 * порожніми. Дві колонки на тій самій ширині дають кожній по ~380 px.
+		 *
+		 * Розподіл — за схемою замовника: перша колонка це ОСНОВА (фото, ім'я,
+		 * роки, група), під нею вистави; друга — все інше.
+		 */
 		.profile-layout.has-plays.has-bio {
-			grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 300px) minmax(280px, 1fr);
+			grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
+		}
+		.profile-layout.has-plays.has-bio .col--center {
+			grid-column: 1;
+			grid-row: 1;
+		}
+		.profile-layout.has-plays.has-bio .col--left {
+			grid-column: 1;
+			grid-row: 2;
+		}
+		.profile-layout.has-plays.has-bio .col--right {
+			grid-column: 2;
+			grid-row: 1 / span 2;
+		}
+
+		/*
+		 * ТРИ колонки з'являються, коли на них справді є місце: 980 px — це
+		 * 3 × 280 плюс проміжки. Нижче за цю межу третя колонка існувала лише
+		 * номінально, тиснучи решту до мінімумів.
+		 */
+		@media (min-width: 980px) {
+			.profile-layout.has-plays.has-bio {
+				grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 300px) minmax(280px, 1fr);
+			}
+			.profile-layout.has-plays.has-bio .col--left {
+				grid-column: 1;
+				grid-row: 1;
+			}
+			.profile-layout.has-plays.has-bio .col--center {
+				grid-column: 2;
+				grid-row: 1;
+			}
+			.profile-layout.has-plays.has-bio .col--right {
+				grid-column: 3;
+				grid-row: 1;
+			}
 		}
 		.profile-layout.has-plays:not(.has-bio) {
 			grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 300px);
