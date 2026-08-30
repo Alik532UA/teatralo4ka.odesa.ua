@@ -8,10 +8,20 @@
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
 	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
+	import { playsByIds } from '$lib/data/plays';
 	import { yearsOfService, yearsLabelKey } from '$lib/data/masters';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	/**
+	 * Вистави майстра розгортаються з ключів реєстру.
+	 *
+	 * Доти вони лежали в самому профілі — назва, рік, група, склад, — і та сама
+	 * вистава жила окремим записом у кожного, хто про неї згадував. Тепер запис
+	 * один, а профіль лише каже, які з них його.
+	 */
+	const masterPlays = $derived(playsByIds(data.master.playIds ?? []));
 
 	const isEn = $derived($locale === 'en');
 	const masterName = $derived(isEn ? data.master.fullNameEn : data.master.fullName);
@@ -332,8 +342,8 @@
 			<MasterGroups groups={data.groups} {isEn} />
 		{/if}
 
-		{#if data.master.productions && data.master.productions.length > 0}
-			<MasterProductions productions={data.master.productions} {isEn} />
+		{#if masterPlays.length > 0}
+			<MasterProductions productions={masterPlays} {isEn} />
 		{/if}
 	</div>
 </div>

@@ -42,31 +42,38 @@
 	"plays": [
 		{
 			"year": 2002,
-			"text": "«Как бабы-яги сказку спасали»"
+			"text": "«Как бабы-яги сказку спасали»",
+			"playId": "kak-baby-iahy-skazku-spasaly-2002"
 		},
 		{
 			"year": 2004,
-			"text": "«Сон в летнюю ночь»"
+			"text": "«Сон в летнюю ночь»",
+			"playId": "son-v-letniuiu-noch-2004"
 		},
 		{
 			"year": 2005,
-			"text": "«Тень»"
+			"text": "«Тень»",
+			"playId": "ten-2005"
 		},
 		{
 			"year": 2006,
-			"text": "«Дуэнья»"
+			"text": "«Дуэнья»",
+			"playId": "duenia-2006"
 		},
 		{
 			"year": 2007,
-			"text": "«Женский стол в Охотничьем зале»"
+			"text": "«Женский стол в Охотничьем зале»",
+			"playId": "zhenskyi-stol-v-okhotnychem-zale-2007"
 		},
 		{
 			"year": 2008,
-			"text": "«Крестики-нолики»"
+			"text": "«Крестики-нолики»",
+			"playId": "krestyky-nolyky-2008"
 		},
 		{
 			"year": 2008,
-			"text": "«А зори здесь тихие...»"
+			"text": "«А зори здесь тихие...»",
+			"playId": "a-zory-zdes-tykhye-2008"
 		}
 	],
 	"bio": [

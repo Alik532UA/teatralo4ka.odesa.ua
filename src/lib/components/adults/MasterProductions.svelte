@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { Sparkles, Trophy, Video, Search, Theater } from 'lucide-svelte';
-	import type { MasterProduction } from '$lib/data/masters';
+	import type { Play } from '$lib/data/plays';
 	import { earlyShows } from '$lib/services/earlyShows.svelte';
 	import MasterProductionCard from './MasterProductionCard.svelte';
 
 	interface Props {
-		productions: MasterProduction[];
+		productions: Play[];
 		isEn?: boolean;
 	}
 
@@ -46,7 +46,7 @@
 			if (searchQuery.trim()) {
 				const q = searchQuery.toLowerCase().trim();
 				const inTitle = p.title.toLowerCase().includes(q);
-				const inAuthor = p.originalAuthor?.toLowerCase().includes(q) ?? false;
+				const inAuthor = p.author?.toLowerCase().includes(q) ?? false;
 				const inGroup = p.theatreGroup?.toLowerCase().includes(q) ?? false;
 				const inYear = String(p.year).includes(q);
 				const inParticipants = p.participants?.some((part) => part.toLowerCase().includes(q)) ?? false;

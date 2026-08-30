@@ -32,19 +32,23 @@
 	"plays": [
 		{
 			"year": 2005,
-			"text": "«Гном Вася»"
+			"text": "«Гном Вася»",
+			"playId": "hnom-vasia-2005"
 		},
 		{
 			"year": 2006,
-			"text": "«Скоморохи»"
+			"text": "«Скоморохи»",
+			"playId": "skomorokhy-2006"
 		},
 		{
 			"year": 2007,
-			"text": "«Коты»"
+			"text": "«Коты»",
+			"playId": "koty-2007"
 		},
 		{
 			"year": 2008,
-			"text": "«Черная курица»"
+			"text": "«Черная курица»",
+			"playId": "chernaia-kurytsa-2008"
 		}
 	],
 	"bio": [

@@ -26,12 +26,13 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { Video, ExternalLink, Calendar, Users, Award } from 'lucide-svelte';
-	import { masterProfilePath, type MasterProduction } from '$lib/data/masters';
+	import { masterProfilePath } from '$lib/data/masters';
+	import type { Play } from '$lib/data/plays';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { ResolvedPathname } from '$app/types';
 
 	interface Props {
-		prod: MasterProduction;
+		prod: Play;
 		index: number;
 		isEn?: boolean;
 	}
@@ -75,7 +76,7 @@
 	</div>
 
 	<h3 class="prod-card__title">{prod.title}</h3>
-	{#if prod.originalAuthor}<p class="prod-card__author">{prod.originalAuthor}</p>{/if}
+	{#if prod.author}<p class="prod-card__author">{prod.author}</p>{/if}
 
 	{#if prod.awards?.length}
 		<div class="prod-card__awards" data-testid="master-production-awards-list">

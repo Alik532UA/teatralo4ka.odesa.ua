@@ -39,39 +39,48 @@
 	"plays": [
 		{
 			"year": 2011,
-			"text": "«Гном Вася»"
+			"text": "«Гном Вася»",
+			"playId": "hnom-vasia-2011"
 		},
 		{
 			"year": 2014,
-			"text": "«До свидания , овраг!»"
+			"text": "«До свидания , овраг!»",
+			"playId": "do-svydanyia-ovrah-2014"
 		},
 		{
 			"year": 2015,
-			"text": "«Все мальчишки - дураки»"
+			"text": "«Все мальчишки - дураки»",
+			"playId": "vse-malchyshky-duraky-2015"
 		},
 		{
 			"year": 2016,
-			"text": "«Чучело»"
+			"text": "«Чучело»",
+			"playId": "chuchelo-2016"
 		},
 		{
 			"year": 2017,
-			"text": "«Кентервильское привидение»"
+			"text": "«Кентервильское привидение»",
+			"playId": "kentervylskoe-pryvydenye-2017"
 		},
 		{
 			"year": 2018,
-			"text": "«Отрывки из классики»"
+			"text": "«Отрывки из классики»",
+			"playId": "otryvky-yz-klassyky-2018"
 		},
 		{
 			"year": 2019,
-			"text": "«Между небом и землей»"
+			"text": "«Между небом и землей»",
+			"playId": "mezhdu-nebom-y-zemlei-2019"
 		},
 		{
 			"year": 2020,
-			"text": "«Blondi»"
+			"text": "«Blondi»",
+			"playId": "blondi-2020"
 		},
 		{
 			"year": 2020,
-			"text": "«Шорох уходящих шагов»"
+			"text": "«Шорох уходящих шагов»",
+			"playId": "shorokh-ukhodiashchykh-shahov-2020"
 		}
 	],
 	"bio": [

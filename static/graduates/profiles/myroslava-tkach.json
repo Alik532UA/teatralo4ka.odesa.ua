@@ -33,7 +33,8 @@
 	"plays": [
 		{
 			"year": 2006,
-			"text": "«Сказка о глупом мышонке»"
+			"text": "«Сказка о глупом мышонке»",
+			"playId": "skazka-o-hlupom-myshonke-2006"
 		},
 		{
 			"year": 2007,
@@ -45,63 +46,78 @@
 		},
 		{
 			"year": 2010,
-			"text": "Посвящение «Север» - Медвежонок"
+			"text": "Посвящение «Север» - Медвежонок",
+			"playId": "sever-2010"
 		},
 		{
 			"year": 2010,
-			"text": "фестиваль в Болгарии «Ночь на Ивана Купала»"
+			"text": "фестиваль в Болгарии «Ночь на Ивана Купала»",
+			"playId": "noch-na-yvana-kupala-2010"
 		},
 		{
 			"year": 2011,
-			"text": "«Дюймовочка»"
+			"text": "«Дюймовочка»",
+			"playId": "diuimovochka-2011"
 		},
 		{
 			"year": 2012,
-			"text": "«Трям, здравствуйте!»"
+			"text": "«Трям, здравствуйте!»",
+			"playId": "triam-zdravstvuite-2012"
 		},
 		{
 			"year": 2013,
-			"text": "«Буратино»"
+			"text": "«Буратино»",
+			"playId": "buratyno-2013"
 		},
 		{
 			"year": 2014,
-			"text": "«До свиданья, овраг!»"
+			"text": "«До свиданья, овраг!»",
+			"playId": "do-svydania-ovrah-2014"
 		},
 		{
 			"year": 2015,
-			"text": "«Все мальчишки - дураки»"
+			"text": "«Все мальчишки - дураки»",
+			"playId": "vse-malchyshky-duraky-2015"
 		},
 		{
 			"year": 2016,
-			"text": "«Чучело»"
+			"text": "«Чучело»",
+			"playId": "chuchelo-2016"
 		},
 		{
 			"year": 2017,
-			"text": "«Кентервильское привидение»"
+			"text": "«Кентервильское привидение»",
+			"playId": "kentervylskoe-pryvydenye-2017"
 		},
 		{
 			"year": 2018,
-			"text": "«Отрывки из классики»"
+			"text": "«Отрывки из классики»",
+			"playId": "otryvky-yz-klassyky-2018"
 		},
 		{
 			"year": 2019,
-			"text": "«Между небом и землёй»"
+			"text": "«Между небом и землёй»",
+			"playId": "mezhdu-nebom-y-zemlei-2019"
 		},
 		{
 			"year": 2020,
-			"text": "«Восемь влюблённых женщин»"
+			"text": "«Восемь влюблённых женщин»",
+			"playId": "vosem-vliublennykh-zhenshchyn-2020"
 		},
 		{
 			"year": 2020,
-			"text": "«Blondie»"
+			"text": "«Blondie»",
+			"playId": "blondie-2020"
 		},
 		{
 			"year": 2020,
-			"text": "«Шорох уходящих шагов»"
+			"text": "«Шорох уходящих шагов»",
+			"playId": "shorokh-ukhodiashchykh-shahov-2020"
 		},
 		{
 			"year": 2022,
-			"text": "Посвята в Мистецтво, «Енеїда», Муза Сценмови"
+			"text": "Посвята в Мистецтво, «Енеїда», Муза Сценмови",
+			"playId": "eneida-2022"
 		}
 	],
 	"bio": [

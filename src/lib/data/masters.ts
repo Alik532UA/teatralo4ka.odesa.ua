@@ -174,19 +174,6 @@ export interface MasterWorkPeriod {
 	to: number | null;
 }
 
-export interface MasterProduction {
-	number?: number;
-	year: number | string;
-	dateNote?: string;
-	institution?: string;
-	theatreGroup?: string;
-	title: string;
-	originalAuthor?: string;
-	participants?: string[];
-	awards?: string[];
-	videoUrl?: string;
-	isDtsh?: boolean;
-}
 
 export interface MasterProfile extends MasterIndexEntry {
 	bio?: string;
@@ -204,7 +191,14 @@ export interface MasterProfile extends MasterIndexEntry {
 	 */
 	periods?: MasterWorkPeriod[];
 	/** Режисерські роботи, покази вистав та творчі проєкти. */
-	productions?: MasterProduction[];
+	/**
+	 * Вистави майстра — ПОСИЛАННЯ на реєстр, а не власні записи.
+	 *
+	 * Усе, що було в `MasterProduction` — назва, рік, група, склад, нагороди, —
+	 * це властивості самої вистави, а не стосунку майстра до неї. Тому вони
+	 * переїхали в `plays.data.json`, а тут лишився перелік ключів.
+	 */
+	playIds?: string[];
 }
 
 export type Master = MasterProfile;
