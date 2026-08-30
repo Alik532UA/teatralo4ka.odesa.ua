@@ -105,6 +105,15 @@ test('джерела звуку піаніно дозволені політик
 	expect(csp, 'media-src відсутній — звук ітиме через default-src').toContain('media-src');
 
 	await clickInFooter(page, 'footer-piano-btn');
+	/*
+	 * Чекаємо на появу самих `<audio>`, а не міряємо одразу.
+	 *
+	 * Модалка створює їх після монтування, і під навантаженням прогону цей
+	 * проміжок помітний: перевірка бачила нуль джерел і падала на власному
+	 * запобіжнику «перевірка мертва», хоч політика була ціла. Наодинці той
+	 * самий тест проходить завжди — тобто падала не політика, а поспіх.
+	 */
+	await page.locator('audio[src]').first().waitFor({ state: 'attached' });
 	const sources = await page.$$eval('audio[src]', (nodes) => nodes.map((n) => n.getAttribute('src') ?? ''));
 	expect(sources.length, 'у модалці немає жодного <audio> — перевірка мертва').toBeGreaterThan(0);
 

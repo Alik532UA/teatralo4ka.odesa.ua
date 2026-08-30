@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { waitForAnimations } from './ready';
 import type { ScrollbarMode } from '$lib/controllers/ui.svelte';
 
 /**
@@ -14,6 +15,25 @@ import type { ScrollbarMode } from '$lib/controllers/ui.svelte';
  * наздоганяли одна одну — і перетягування смикалося.
  */
 
+/**
+ * Бокс елемента, коли той перестав мінятися.
+ *
+ * Потрібен мінімапі в повному режимі: вона будує клон сторінки й доганяє його
+ * розмір кількома кадрами. Перший замір там завжди застарілий.
+ */
+async function settledBox(locator: ReturnType<Page['getByTestId']>) {
+	let previous = await locator.boundingBox();
+	for (let attempt = 0; attempt < 10; attempt += 1) {
+		await locator.page().waitForTimeout(120);
+		const next = await locator.boundingBox();
+		if (previous && next && Math.abs(next.height - previous.height) < 1 && Math.abs(next.y - previous.y) < 1) {
+			return next;
+		}
+		previous = next;
+	}
+	return (await locator.boundingBox())!;
+}
+
 /** Вмикає режим так само, як це робить кнопка в налаштуваннях. */
 async function setMode(page: Page, mode: ScrollbarMode) {
 	await page.evaluate((m) => {
@@ -22,6 +42,17 @@ async function setMode(page: Page, mode: ScrollbarMode) {
 	await page.reload();
 	await page.waitForLoadState('load');
 	await expect(page.locator('h1, h2').first()).toBeVisible();
+	/*
+	 * Чекаємо, поки смуга ДОГРАЄ свою появу.
+	 *
+	 * Без цього перевірки, що з нею взаємодіють, падали через раз і по-різному:
+	 * правий клік не відкривав меню, а наведення з утриманням не рушало
+	 * сторінку. Виглядало як поломка самої смуги, хоч заміряно протилежне —
+	 * після паузи в 800 мс те саме натискання відкриває меню з першого разу.
+	 * Причина в тому, що заголовок з'являється раніше за смугу, і на ньому
+	 * чекання закінчувалося.
+	 */
+	await waitForAnimations(page);
 }
 
 test.describe('режими смуги прокрутки', () => {
@@ -397,11 +428,30 @@ test.describe('режими смуги прокрутки', () => {
 	});
 
 	test('на сторінці без прокрутки жоден режим нічого не малює', async ({ page }) => {
-		// `/residents/adults` вміщається у вікно тестового розміру цілком.
 		// Перевірка була у власної смуги, а в мінімапи її забули — і вона висіла
 		// збоку з рамкою на всю висоту, тобто не показувала нічого корисного.
 		await page.goto('/residents/adults');
 		await page.waitForLoadState('load');
+
+		/*
+		 * ВІКНО підганяється під сторінку, а не сторінка добирається під вікно.
+		 *
+		 * Доти тут стояло «`/residents/adults` вміщається у вікно тестового
+		 * розміру цілком», і це була правда рівно доти, доки не додали
+		 * викладачів: заміряно — 1035 px при вікні 720, тобто перевірка почала
+		 * падати від НАПОВНЕННЯ сайту, а не від поломки. Жодна публічна
+		 * сторінка, крім однієї, у 720 вже не вміщається, і вибирати щоразу
+		 * нову означало б повертатися сюди після кожного нового розділу.
+		 *
+		 * Двічі, бо ширше вікно міняє переноси: після першого збільшення
+		 * сторінка зазвичай коротшає.
+		 */
+		const width = page.viewportSize()?.width ?? 1280;
+		for (let attempt = 0; attempt < 2; attempt += 1) {
+			const needed = await page.evaluate(() => document.documentElement.scrollHeight);
+			await page.setViewportSize({ width, height: needed + 80 });
+			await page.waitForTimeout(150);
+		}
 
 		const fits = await page.evaluate(
 			() => document.documentElement.scrollHeight <= window.innerHeight + 1
@@ -436,20 +486,58 @@ test.describe('режими смуги прокрутки', () => {
 			await expect(control).toBeVisible();
 
 			const viewport = page.viewportSize()!;
-			// Мінімапа у спокої схована за краєм — спершу підносимо мишу.
-			await page.mouse.move(viewport.width - 4, viewport.height / 2);
+			/*
+			 * Курсор увесь час тримається ПРАВОГО КРАЮ вікна, і це не дрібниця.
+			 *
+			 * У спокої мінімапа схована за край — видно лише смужку. Наводитися
+			 * на її «середину» можна тільки поки вона піднята, тож перевірка, що
+			 * відводила курсор і поверталася в середину, промахувалася повз уже
+			 * сховану мінімапу. Правий край працює для обох варіантів: і
+			 * схематичного, і повного.
+			 */
+			const edge = viewport.width - 4;
+
+			// Підносимо мишу — мінімапа виїжджає.
+			await page.mouse.move(edge, viewport.height / 2);
 			await page.waitForTimeout(900);
 
-			const box = (await control.boundingBox())!;
-			const x = Math.min(box.x + box.width / 2, viewport.width - 4);
+			/*
+			 * Розмір беремо УСТАЛЕНИЙ: `minimap-full` будує клон сторінки й
+			 * доганяє його кількома кадрами (заміряно: висота міняється з 564 на
+			 * 580 вже під час наведення).
+			 */
+			const box = await settledBox(control);
+
+			/*
+			 * Виходимо, скидаємо прокрутку, заходимо знову — ЩОЙНО ТУТ.
+			 *
+			 * Наведення саме по собі вже запускає доводчик, тож поки чекали на
+			 * розмір, він устигав довезти сторінку до низу. Далі рухати не було
+			 * куди, і перевірка бачила нуль — тим певніше, чим повільніша
+			 * машина, через що падала лише в паралельному прогоні.
+			 */
+			await page.mouse.move(box.x - 300, viewport.height / 2);
+			await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+			await page.waitForTimeout(250);
+			await page.mouse.move(edge, viewport.height / 2);
+			await page.waitForTimeout(400);
+
 			const atStart = await page.evaluate(() => window.scrollY);
 
 			// Нижче за рамку: сторінка на початку, тож рамка вгорі.
-			await page.mouse.move(x, box.y + box.height * 0.8);
-			await page.waitForTimeout(1600);
+			await page.mouse.move(edge, box.y + box.height * 0.8);
 
-			const moved = (await page.evaluate(() => window.scrollY)) - atStart;
-			expect(moved, `${mode}: доводчик має прокручувати`).toBeGreaterThan(0);
+			/*
+			 * Чекаємо на САМ РУХ, а не відміряний час: у доводчика власна
+			 * затримка перед стартом, і фіксована пауза міряла б швидкість
+			 * машини, а не його роботу.
+			 */
+			await expect
+				.poll(async () => (await page.evaluate(() => window.scrollY)) - atStart, {
+					timeout: 6000,
+					message: `${mode}: доводчик має прокручувати`
+				})
+				.toBeGreaterThan(0);
 
 			await page.mouse.move(box.x - 300, viewport.height / 2);
 			await page.waitForTimeout(300);
