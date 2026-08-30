@@ -1,11 +1,33 @@
+<script module lang="ts">
+	import { type GraduateIndexEntry } from '$lib/data/graduates';
+	import { getAllMasters } from '$lib/data/masters';
+	import graduatesIndex from '$lib/data/graduates.index.json';
+	import { createNameMatcher } from '$lib/utils/participantMatch';
+
+	/*
+	 * Розкладка робиться ОДИН раз на модуль, а не на кожну картку вистави: у
+	 * Федора Ткача їх вісімдесят, і доти кожна перебирала пів тисячі випускників
+	 * заново.
+	 *
+	 * Саме правило зіставлення — у `utils/participantMatch`: воно чисте, має
+	 * реальні приклади й перевіряється тестом, а не оком на сторінці.
+	 */
+	const matchGraduate = createNameMatcher(graduatesIndex as GraduateIndexEntry[]);
+
+	/* Майстер може згадуватися і ПІБ, і коротким іменем — обидва ведуть до нього. */
+	const matchMaster = createNameMatcher(
+		getAllMasters().flatMap((m) => [
+			{ slug: m.slug, name: m.fullName, master: m },
+			{ slug: m.slug, name: m.displayName, master: m }
+		])
+	);
+</script>
+
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { localizedPath } from '$lib/i18n/routing';
 	import { Video, ExternalLink, Calendar, Users, Award } from 'lucide-svelte';
-	import type { MasterProduction } from '$lib/data/masters';
-	import { graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
-	import { masterProfilePath, getAllMasters, type Master } from '$lib/data/masters';
-	import graduatesIndex from '$lib/data/graduates.index.json';
+	import { masterProfilePath, type MasterProduction } from '$lib/data/masters';
+	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { ResolvedPathname } from '$app/types';
 
 	interface Props {
@@ -16,24 +38,26 @@
 
 	let { prod, index, isEn = false }: Props = $props();
 
-	const graduatesList = graduatesIndex as GraduateIndexEntry[];
-	const gradMap: Record<string, GraduateIndexEntry> = {};
-	for (const g of graduatesList) gradMap[g.name.toLowerCase().trim()] = g;
+	type Participant =
+		| { kind: 'graduate'; graduate: GraduateIndexEntry }
+		| { kind: 'master'; href: ResolvedPathname }
+		| { kind: 'plain' };
 
-	const allMasters = getAllMasters();
-	const masterMap: Record<string, Master> = {};
-	for (const m of allMasters) {
-		masterMap[m.fullName.toLowerCase().trim()] = m;
-		masterMap[m.displayName.toLowerCase().trim()] = m;
-	}
-
-	function participantLink(name: string): { href?: ResolvedPathname; type: 'graduate' | 'master' | 'plain' } {
-		const clean = name.replace(/[+()]/g, '').trim().toLowerCase();
-		const g = gradMap[clean];
-		if (g?.code) return { href: localizedPath(graduateProfilePath(g.code), isEn ? 'en' : 'uk'), type: 'graduate' };
-		const m = masterMap[clean];
-		if (m) return { href: masterProfilePath(m.slug, isEn ? 'en' : 'uk'), type: 'master' };
-		return { type: 'plain' };
+	/**
+	 * Ким є учасник вистави: випускником, викладачем чи просто іменем.
+	 *
+	 * Випускником вважається БУДЬ-ХТО з реєстру, а не лише той, у кого є `code`.
+	 * Доти анкета була умовою посилання, і на сторінці Федора Ткача з 188 імен
+	 * натискалися 17 — решта у реєстрі є, просто ще не заповнили анкету. Картка
+	 * дістає анкету сама й однаково відкривається для тих, у кого її немає, —
+	 * те саме рішення, що й у потоці учнів.
+	 */
+	function participantLink(name: string): Participant {
+		const g = matchGraduate(name);
+		if (g) return { kind: 'graduate', graduate: g };
+		const m = matchMaster(name);
+		if (m) return { kind: 'master', href: masterProfilePath(m.slug, isEn ? 'en' : 'uk') };
+		return { kind: 'plain' };
 	}
 </script>
 
@@ -78,12 +102,34 @@
 				<span>{$t('galaxy.participants', { default: 'Учасники' })}:</span>
 			</div>
 			<div class="participants-tags">
+				<!--
+					Випускник відкривається КАРТКОЮ тут, а не переходом у галактику
+					— так само, як у потоці учнів поруч. Людина прийшла дивитися
+					вистави майстра, і посилання забирало б її зі сторінки; кнопка
+					«летіти до галактики» є в самій картці.
+
+					Картку малює `MasterGraduateFlow` на цій же сторінці: вибір
+					живе в стані сторінки, тож досить його туди покласти.
+				-->
 				{#each prod.participants as part, partIdx (part + partIdx)}
-					{@const link = participantLink(part)}
-					{#if link.href}
-						<a href={link.href} class="part-tag part-tag--link" class:part-tag--grad={link.type === 'graduate'} class:part-tag--master={link.type === 'master'} title={link.type === 'graduate' ? 'Переглянути профіль випускника' : 'Переглянути профіль викладача'} data-testid="master-production-participant-link-{partIdx}">{part}</a>
+					{@const who = participantLink(part)}
+					{#if who.kind === 'graduate'}
+						<button
+							type="button"
+							class="part-tag part-tag--link part-tag--grad"
+							onclick={() => openGraduateModal(who.graduate)}
+							title="Переглянути картку випускника"
+							data-testid="master-production-participant-btn-{partIdx}"
+						>{part}</button>
+					{:else if who.kind === 'master'}
+						<a
+							href={who.href}
+							class="part-tag part-tag--link part-tag--master"
+							title="Переглянути профіль викладача"
+							data-testid="master-production-participant-link-{partIdx}"
+						>{part}</a>
 					{:else}
-						<span class="part-tag">{part}</span>
+						<span class="part-tag part-tag--plain">{part}</span>
 					{/if}
 				{/each}
 			</div>
@@ -121,7 +167,17 @@
 	.prod-card__participants { margin-top: auto; padding-top: 0.85rem; border-top: 1px dashed var(--border-main); }
 	.participants-header { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.45rem; }
 	.participants-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-	.part-tag { display: inline-block; padding: 0.18rem 0.5rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); font-size: 0.78rem; color: var(--text-main); text-decoration: none; line-height: 1.3; }
+	/* `font-family` — бо частина плашок тепер <button>, а він шрифт не успадковує. */
+	.part-tag { display: inline-block; padding: 0.18rem 0.5rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); font-family: inherit; font-size: 0.78rem; color: var(--text-main); text-decoration: none; line-height: 1.3; }
+	/*
+	 * Ім'я, якого немає в реєстрі, — приглушене.
+	 *
+	 * Доти натискні й ненатискні плашки виглядали однаково, і дізнатися різницю
+	 * можна було лише спробувавши натиснути. Таких на сторінці Федора Ткача
+	 * вісімдесят п'ять зі ста вісімдесяти восьми — майже половина списку
+	 * обіцяла дію, якої немає.
+	 */
+	.part-tag--plain { opacity: 0.7; }
 	.part-tag--link { cursor: pointer; transition: all var(--transition-base, 0.18s ease); }
 	.part-tag--grad:hover { background: rgba(220, 38, 38, 0.1); border-color: var(--accent-primary); color: var(--accent-primary); transform: translateY(-1px); }
 	.part-tag--master { background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.25); color: #059669; }
