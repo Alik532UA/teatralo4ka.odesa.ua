@@ -1407,10 +1407,90 @@ body.page-galaxy ::-webkit-scrollbar-thumb:hover {
 	background-clip: content-box;
 }
 
+/*
+ * Запас під логотип, що звисає НИЖЧЕ шапки.
+ *
+ * Знак у шапці збільшений і зсунутий донизу (`scale(1.4) translateY(40px)` у
+ * `HeaderSection`), тож він накриває верхній лівий кут сторінки. Саме там у
+ * багатьох сторінок стоїть кнопка «назад» — і натиснути її не виходило.
+ *
+ * Числа — різниця між низом знака й низом шапки при відповідному масштабі,
+ * плюс просвіт: заміряно 135−88=47 на телефоні і 128−88=40 на планшеті. Сам
+ * логотип не чіпаємо — донизу рухається сторінка під ним.
+ *
+ * Значення тут, а не в `+layout.svelte`: це властивість ШАПКИ, і поруч із
+ * рештою її глобальних правил воно не розійдеться з тим масштабом, що його
+ * породжує. Використовує його `main` у лейауті.
+ *
+ * Правило для вужчого екрана йде ПІСЛЯ: специфічність однакова, перемагає
+ * останнє.
+ */
+@media (max-width: 768px) {
+	body {
+		--logo-bleed: 64px;
+	}
+}
+
+@media (max-width: 480px) {
+	body {
+		--logo-bleed: 72px;
+	}
+}
+
 /* Сторінка галактики сама керує прокруткою — типові відступи сторінок зайві. */
 body.page-galaxy .page-content,
 body.page-galaxy main {
 	padding: 0;
 	margin: 0;
 	max-width: none;
+}
+
+/*
+ * Згасання вмісту біля країв зони прокрутки.
+ *
+ * Вмикає його `utils/scrollFade`, дописуючи елементу `data-fade`; тут лише
+ * вигляд. Маска, а не накладка-градієнт зверху: накладці довелося б знати колір
+ * тла під собою, а зони прокрутки в нас стоять і на світлій сторінці, і в
+ * темному вікні галактики.
+ *
+ * Три правила замість одного, бо згасати має ЛИШЕ той край, куди є куди
+ * гортати: суцільна маска приглушувала б перший рядок списку, догорнутого до
+ * самого верху.
+ */
+[data-fade] {
+	transition:
+		mask-image var(--transition-base),
+		-webkit-mask-image var(--transition-base);
+}
+
+[data-fade~='top'][data-fade~='bottom'] {
+	mask-image: linear-gradient(
+		to bottom,
+		transparent 0,
+		black 36px,
+		black calc(100% - 36px),
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		transparent 0,
+		black 36px,
+		black calc(100% - 36px),
+		transparent 100%
+	);
+}
+
+[data-fade='top'] {
+	mask-image: linear-gradient(to bottom, transparent 0, black 36px, black 100%);
+	-webkit-mask-image: linear-gradient(to bottom, transparent 0, black 36px, black 100%);
+}
+
+[data-fade='bottom'] {
+	mask-image: linear-gradient(to bottom, black 0, black calc(100% - 36px), transparent 100%);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		black 0,
+		black calc(100% - 36px),
+		transparent 100%
+	);
 }

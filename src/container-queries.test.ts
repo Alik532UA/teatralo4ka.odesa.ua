@@ -93,6 +93,20 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	'DepartmentsSection.svelte': { axis: 'window', why: 'секція на всю ширину сторінки' },
 	'DetailPage.svelte': { axis: 'window', why: 'розкладка самої сторінки статті' },
 	'FooterSection.svelte': { axis: 'window', why: 'підвал сайту — завжди на всю ширину вікна' },
+	'GalaxyUpdateActions.svelte': {
+		axis: 'window',
+		why:
+			'ряд кнопок під вітальним вікном, а ширина того вікна — чиста функція ' +
+			'екрана (`min(1040px, 100vw - 2rem)`); на 480px, де стоїть запит, вона ' +
+			'з нею просто збігається'
+	},
+	'GalaxyUpdateModal.svelte': {
+		axis: 'window',
+		why:
+			'`position: fixed` — вікно поверх сторінки, розміряне від екрана ' +
+			'(`100vw`/`100dvh`); запит на 769px відсуває доріжку власної прокрутки, ' +
+			'бо на телефоні аркуш займає майже весь екран, а на столі — ні'
+	},
 	'GalleryCarousel.svelte': {
 		axis: 'window',
 		why:
@@ -135,6 +149,12 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	'SearchOverlay.svelte': { axis: 'window', why: 'фіксована панель поверх сторінки' },
 	'StaticPage.svelte': { axis: 'window', why: 'розкладка самої сторінки й таблиць у тексті' },
 	'admin/ArticleForm.svelte': { axis: 'window', why: 'форма займає сторінку адмінки цілком' },
+	'adults/MasterViewToggle.svelte': {
+		axis: 'window',
+		why:
+			'перемикач стоїть у шапці сторінки викладачів, а вона на всю ширину ' +
+			'сторінки; запит на 480px ховає підписи, лишаючи самі значки'
+	},
 	'ui/PianoModal.svelte': { axis: 'window', why: 'модалка на весь екран' },
 	'ui/Toast.svelte': { axis: 'window', why: 'фіксований контейнер сповіщень' }
 };

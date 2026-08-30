@@ -142,6 +142,11 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-08-30: `GraduateRoster.svelte` 750 → 770. Обрана єдина група року тепер
+ *   розтягується на вільний екран (`zoom` на картці, ширина ділиться на нього,
+ *   щоб колонки перерахувалися). Три чисті помічники вже винесено в
+ *   `utils/graduateRoster` — `formatGraduateNoun`, `centeredScrollTop`, `fitZoom`;
+ *   решта файлу — стан і розмітка аркуша, які без окремого компонента не діляться.
  * 2026-08-29: `GraduateCard.svelte` прибрано з переліку — 472 → 236. Тулбар і меню
  *   контактів виділені в `GraduateCardToolbar` (213) та `GraduateCardContactMenu` (143);
  *   усі троє в межах типових 300, тож окрема стеля більше не потрібна.
@@ -163,7 +168,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 510,
-	'src/lib/components/GraduateRoster.svelte': 750,
+	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 535,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

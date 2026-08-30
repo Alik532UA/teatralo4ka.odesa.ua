@@ -173,7 +173,9 @@
 										data-testid="master-profile-contact-admin-img"
 									/>
 									<p class="contact-popup__hint" data-testid="master-profile-contact-hint">
-										Привіт!) Щоб надати фото чи внести правки — напиши мені
+										Привіт!)<br />
+										Щоб надати фото чи внести<br />
+										правки&nbsp;— напиши мені
 									</p>
 									<div class="contact-popup__icons">
 										{#each contacts as c (c.name)}
@@ -289,9 +291,15 @@
 								data-testid="master-profile-card-contact-admin-img"
 							/>
 							<p class="contact-popup__hint" data-testid="master-profile-card-contact-hint">
-								{data.master.photo
-									? 'Привіт!) Щоб внести правки — напиши мені'
-									: 'Привіт!) Щоб надати фото чи внести правки — напиши мені'}
+								{#if data.master.photo}
+									Привіт!)<br />
+									Щоб внести правки<br />
+									— напиши мені
+								{:else}
+									Привіт!)<br />
+									Щоб надати фото чи внести<br />
+									правки&nbsp;— напиши мені
+								{/if}
 							</p>
 							<div class="contact-popup__icons">
 								{#each contacts as c (c.name)}

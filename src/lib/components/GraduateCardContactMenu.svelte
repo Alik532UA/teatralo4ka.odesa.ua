@@ -15,17 +15,22 @@
 		/**
 		 * Підпис над месенджерами. Різний за місцем: у картці випускника йдеться
 		 * про правки в анкеті, у вітальному вікні — про будь-яке питання.
+		 *
+		 * Перенос рядка задається `\n` і малюється через `<br>`, а не лишається
+		 * на волю переносу за шириною: поділ на три рядки тут навмисний.
+		 * Розмітка, а не `{@html}` — правило `svelte/no-at-html-tags` тут доречне,
+		 * і обходити його заради двох переносів не варто.
 		 */
 		hint?: string;
 		/**
-		 * `card` — ліворуч від олівця в картці; `above` — над кнопкою, коли та
-		 * стоїть підвалом вікна (вітальне вікно).
+		 * `card` — ліворуч від олівця в картці; `above` і `below` — картка над
+		 * кнопкою або під нею, залежно від того, де на екрані сама кнопка.
 		 */
-		placement?: 'card' | 'above';
+		placement?: 'card' | 'above' | 'below';
 	}
 
 	let {
-		hint = 'Привіт!) Щоб внести правки — напиши мені',
+		hint = 'Привіт!)\nЩоб внести правки\n— напиши мені',
 		placement = 'card'
 	}: Props = $props();
 
@@ -51,7 +56,9 @@
 
 <div
 	class="contact-popup"
+	class:contact-popup--stacked={placement !== 'card'}
 	class:contact-popup--above={placement === 'above'}
+	class:contact-popup--below={placement === 'below'}
 	transition:fly={{ x: 10, duration: 180 }}
 	data-testid="galaxy-card-contact-menu"
 >
@@ -64,7 +71,9 @@
 		loading="eager"
 		data-testid="galaxy-card-contact-admin-img"
 	/>
-	<p class="contact-popup__hint" data-testid="galaxy-card-contact-hint">{hint}</p>
+	<p class="contact-popup__hint" data-testid="galaxy-card-contact-hint">
+		{#each hint.split('\n') as line, i (i)}{#if i > 0}<br />{/if}{line}{/each}
+	</p>
 	<div class="contact-popup__icons">
 		{#each contacts as c (c.name)}
 			<!-- rel="external" — див. GraduateProfileView: саме за ним правило
@@ -110,18 +119,46 @@
 		white-space: nowrap;
 	}
 	/*
-	 * Над кнопкою: у вітальному вікні вона стоїть підвалом, і меню, розкрите
-	 * вниз, вийшло б за нижній край екрана.
+	 * Над кнопкою й СТОВПЧИКОМ — той самий вигляд, що на сторінці викладача:
+	 * аватар зверху, підпис, месенджери під ним.
+	 *
+	 * Рядком тут не стає: у картці випускника меню виїжджає збоку від олівця й
+	 * має вздовж себе всю ширину сторінки, а тут воно висить над кнопкою
+	 * підвалу, і той самий вміст у рядок розтягувався б на пів вікна.
 	 */
-	.contact-popup--above {
-		top: auto;
-		bottom: calc(100% + 0.5rem);
+	.contact-popup--stacked {
+		flex-direction: column;
+		align-items: center;
+		gap: 0.55rem;
 		right: auto;
 		left: 0;
 		transform: none;
-		width: max-content;
-		max-width: min(88vw, 26rem);
+		width: 260px;
+		max-width: 88vw;
+		padding: 1.1rem;
+		border-radius: 1rem;
 		white-space: normal;
+		text-align: center;
+		z-index: 2;
+	}
+	.contact-popup--above {
+		top: auto;
+		bottom: calc(100% + 0.6rem);
+	}
+	.contact-popup--below {
+		top: calc(100% + 0.6rem);
+		bottom: auto;
+	}
+	.contact-popup--stacked .contact-popup__avatar {
+		width: 40px;
+		height: 40px;
+	}
+	.contact-popup--stacked .contact-popup__hint {
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+	.contact-popup--stacked .contact-popup__icons {
+		gap: 0.6rem;
 	}
 	.contact-popup__avatar {
 		width: 28px;

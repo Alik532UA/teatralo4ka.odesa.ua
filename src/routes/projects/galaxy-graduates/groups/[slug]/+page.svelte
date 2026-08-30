@@ -169,13 +169,12 @@
 				-->
 				<div class="people-grid">
 					{#each data.masters as master, idx (master.id)}
-						{@const masterSlug = 'slug' in master ? master.slug : master.id}
 						{@const masterPhoto = 'photo' in master && master.photo ? asset(master.photo) : null}
 						<GroupPersonCard
-							name={master.fullName}
+							name={isEn ? master.displayNameEn : master.displayName}
 							photo={masterPhoto}
 							subtitle={$t('galaxy.groupMaster')}
-							href={localizedPath(`/residents/adults/${masterSlug}`, currentLang)}
+							href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
 							index={members.length + idx}
 							testid="group-master-card"
 						/>
@@ -183,7 +182,7 @@
 
 					{#each data.teachers as teacher, idx (teacher.id)}
 						<GroupPersonCard
-							name={teacher.fullName}
+							name={isEn ? teacher.displayNameEn : teacher.displayName}
 							photo={teacher.photo ? asset(teacher.photo) : null}
 							subtitle={teacher.subject}
 							href={localizedPath(`/residents/adults/${teacher.slug}`, currentLang)}
@@ -455,6 +454,20 @@
 
 		.group-section {
 			margin-bottom: 2.5rem;
+		}
+
+		/*
+		 * По дві картки в ряд, а не по одній.
+		 *
+		 * `auto-fill` із мінімумом у 220px другої колонки не пускав: дві такі
+		 * просять 440px плюс проміжок, а на телефоні сітці дістається 343
+		 * (заміряно на 375px). Через це шість випускників займали шість екранів.
+		 * Тут ширину задає не мінімум, а саме число колонок — рівно два, і
+		 * третій не з'явиться на планшеті.
+		 */
+		.people-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
 		}
 	}
 </style>

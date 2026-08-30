@@ -232,7 +232,9 @@
 									class="contact-popup__hint"
 									data-testid="graduate-profile-contact-hint"
 								>
-									Привіт!) Щоб внести правки — напиши мені
+									Привіт!)<br />
+									Щоб внести правки<br />
+									— напиши мені
 								</p>
 								<div class="contact-popup__icons">
 									{#each contacts as c (c.name)}

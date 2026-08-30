@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { t, locale } from 'svelte-i18n';
-	import { X } from 'lucide-svelte';
-	import { asset } from '$app/paths';
-	import { focusTrap } from '$lib/utils/focusTrap';
-	import { MediaQuery } from 'svelte/reactivity';
-	import { customScroll } from '$lib/utils/customScroll';
-	import { overlayFade, overlayPop } from '$lib/utils/overlayTransition';
-	import GalaxyUpdateSearch from './GalaxyUpdateSearch.svelte';
-	import GalaxyUpdateIllustration from './GalaxyUpdateIllustration.svelte';
-	import GalaxyUpdateActions from './GalaxyUpdateActions.svelte';
-	import GalaxyUpdateStars from './GalaxyUpdateStars.svelte';
+	import { t, locale } from "svelte-i18n";
+	import { X } from "lucide-svelte";
+	import { asset } from "$app/paths";
+	import { focusTrap } from "$lib/utils/focusTrap";
+	import { MediaQuery } from "svelte/reactivity";
+	import { customScroll } from "$lib/utils/customScroll";
+	import { scrollFade } from "$lib/utils/scrollFade";
+	import { overlayFade, overlayPop } from "$lib/utils/overlayTransition";
+	import GalaxyUpdateSearch from "./GalaxyUpdateSearch.svelte";
+	import GalaxyUpdateFeatures from "./GalaxyUpdateFeatures.svelte";
+	import GalaxyUpdateActions from "./GalaxyUpdateActions.svelte";
 
 	/**
 	 * Вітальне вікно про переїзд галактики зі старого сайту.
@@ -57,7 +57,7 @@
 	let text = $state<UpdateText | null>(null);
 	const id = $props.id();
 
-	const lang = $derived($locale === 'en' ? 'en' : 'uk');
+	const lang = $derived($locale === "en" ? "en" : "uk");
 
 	$effect(() => {
 		const file = asset(`/galaxy/update-${lang}.json`);
@@ -88,17 +88,20 @@
 	/**
 	 * Наскільки смуга прокрутки відходить від вікна.
 	 *
+	 * Знак зворотний до назви: у `customScroll` позиція рахується як
+	 * `left = … − TRACK_WIDTH − rightOffset`, тож ЧИМ МЕНШ ВІД'ЄМНЕ ЗНАЧЕННЯ,
+	 * ТИМ ЛІВІШЕ стоїть смуга.
+	 *
 	 * Значення РЕАКТИВНЕ, і це не примха: `customScroll` читає його один раз при
 	 * під'єднанні, тож постійні −56 виносили смугу за правий край телефона
 	 * (заміряно: 391 при екрані 375). Коли значення міняється, Svelte просто
 	 * під'єднує вкладення заново — з новим зсувом.
 	 */
-	const wideLayout = new MediaQuery('(min-width: 769px)');
-	const trackOffset = $derived(wideLayout.current ? -56 : -10);
-
+	const wideLayout = new MediaQuery("(min-width: 769px)");
+	const trackOffset = $derived(wideLayout.current ? -40 : -10);
 
 	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Escape') {
+		if (event.key === "Escape") {
 			event.preventDefault();
 			onclose();
 		}
@@ -108,12 +111,23 @@
 <svelte:window onkeydown={handleKeydown} />
 
 {#if text}
+	<!--
+		Тло НЕ закриває вікно кліком — свідомий виняток саме для цього вікна.
+
+		Решта накладок на сайті закриваються кліком повз них, і це правильно:
+		звідти йдуть, роздивившись. Сюди ж приходять за надісланим посиланням —
+		прочитати, знайти себе пошуком і перейти до анкети, тобто цілять у
+		дрібні елементи всередині. Промах повз поле пошуку коштував би всього
+		вікна, а відкрити його вдруге можна лише тим самим посиланням: кнопки
+		виклику в інтерфейсі воно не має.
+
+		Виходи лишаються два, обидва навмисні: хрестик і Escape.
+	-->
 	<div
 		class="backdrop"
-		class:backdrop--clear={hovered === 'galaxy'}
+		class:backdrop--clear={hovered === "galaxy"}
 		transition:overlayFade
-		onclick={onclose}
-		role="presentation"
+		aria-hidden="true"
 		data-testid="galaxy-update-backdrop"
 	></div>
 
@@ -130,78 +144,74 @@
 			type="button"
 			class="sheet__close"
 			onclick={onclose}
-			aria-label={$t('common.close')}
+			aria-label={$t("common.close")}
 			data-testid="galaxy-update-close-btn"
 		>
 			<X size={20} aria-hidden="true" />
 		</button>
 
 		<!--
-			Скрол такий самий, як у списку вистав на картці випускника: коли
-			людина обрала власну смугу прокрутки, вона має бути власною скрізь,
-			а не лише на «головних» екранах.
+			Картка — окремим шаром усередині `.sheet`.
+
+			`.sheet` тепер лише позиціонує й тримає висоту; тло, рамка й поля
+			переїхали сюди. Саме це дозволяє кнопкам стояти ПІД вікном, а не в
+			ньому: доти вони неминуче лежали б на цьому ж тлі.
 		-->
-		<div
-			class="sheet__scroll"
-			{@attach customScroll({
-				alignThumb: 'right',
-				rightOffset: trackOffset,
-				parentLevel: 1
-			})}
-		>
+		<div class="sheet__card">
+			<!--
+				Заголовок — ПОЗА зоною прокрутки, як і кнопки внизу.
+				Доти він їхав разом із текстом і зникав з першим же обертом колеса,
+				а разом із ним і відповідь на питання «що це за вікно».
+			-->
 			<h2 class="sheet__title" id="{id}-title" data-testid="galaxy-update-title">
 				{text.title}
 			</h2>
 
-			{#each text.lead as paragraph, index (index)}
-				<p class="lead" data-testid="galaxy-update-lead-item-{index}">{paragraph}</p>
-			{/each}
-
-			<h3 class="sheet__subtitle">{text.searchLabel}</h3>
-			<GalaxyUpdateSearch
-				label={text.searchLabel}
-				placeholder={text.searchPlaceholder}
-				emptyText={text.searchEmpty}
-				noProfileText={text.searchNoProfile}
-				{lang}
-			/>
-
-			<h3 class="sheet__subtitle">{text.featuresTitle}</h3>
-			<ul class="features" data-testid="galaxy-update-list">
-				{#each text.features as feature (feature.id)}
-					<li
-						class="feature"
-						class:feature--galaxy={feature.id === 'galaxy'}
-						onmouseenter={() => (hovered = feature.id)}
-						onmouseleave={() => (hovered = null)}
-						data-testid="galaxy-update-item-{feature.id}"
-					>
-						{#if feature.id === 'galaxy'}
-							<GalaxyUpdateStars />
-						{/if}
-						<span class="feature__body">
-							<strong class="feature__title">{feature.title}</strong>
-							<span class="feature__text">{feature.text}</span>
-						</span>
-						<GalaxyUpdateIllustration
-							id={feature.id}
-							{lang}
-							active={hovered === feature.id}
-						/>
-					</li>
+			<!--
+				Скрол такий самий, як у списку вистав на картці випускника: коли
+				людина обрала власну смугу прокрутки, вона має бути власною скрізь,
+				а не лише на «головних» екранах.
+			-->
+			<div
+				class="sheet__scroll"
+				{@attach customScroll({
+					alignThumb: "right",
+					rightOffset: trackOffset,
+					parentLevel: 1,
+				})}
+				{@attach scrollFade()}
+			>
+				{#each text.lead as paragraph, index (index)}
+					<p class="lead" data-testid="galaxy-update-lead-item-{index}">
+						{paragraph}
+					</p>
 				{/each}
-			</ul>
 
-			<p class="note" data-testid="galaxy-update-note-text">{text.note}</p>
+				<h3 class="sheet__subtitle">{text.searchLabel}</h3>
+				<GalaxyUpdateSearch
+					label={text.searchLabel}
+					placeholder={text.searchPlaceholder}
+					emptyText={text.searchEmpty}
+					noProfileText={text.searchNoProfile}
+					{lang}
+				/>
 
+				<h3 class="sheet__subtitle">{text.featuresTitle}</h3>
+				<GalaxyUpdateFeatures features={text.features} {lang} bind:hovered />
+
+				<p class="note" data-testid="galaxy-update-note-text">
+					{text.note}
+				</p>
+			</div>
 		</div>
 
 		<!--
-			Кнопки — ПОЗА зоною прокрутки.
-			Доти вони їхали разом із текстом, і спливаюче меню месенджерів
-			розпирало ту зону: замість накритися поверх, воно додавало сторінці
-			ще одну смугу прокрутки. Тепер вони стоять підвалом вікна, меню
-			розкривається вгору й лягає поверх тексту, нічого не зсуваючи.
+			Кнопки — ПІД карткою, а не в ній.
+			Спершу вони їхали разом із текстом, і спливаюче меню месенджерів
+			розпирало зону прокрутки: замість накритися поверх, воно додавало
+			сторінці ще одну смугу. Потім стали підвалом усередині вікна. Тепер
+			стоять під ним на самому тлі — меню розкривається вгору й лягає
+			поверх картки, нічого не зсуваючи.
 		-->
 		<GalaxyUpdateActions
 			rosterLabel={text.ctaRoster}
@@ -240,17 +250,43 @@
 		max-height: min(calc(100dvh - 2rem), 860px);
 		display: flex;
 		flex-direction: column;
+		color: var(--galaxy-text);
+	}
+	/*
+	 * `min-height: 0` — щоб картка стискалася до вільної висоти й віддавала
+	 * прокрутку внутрішньому шару. Без нього флекс-елемент не зменшується нижче
+	 * власного вмісту: картка вилазить за `max-height` вікна, а кнопки під нею
+	 * ідуть за нижній край екрана.
+	 *
+	 * `position: relative` — для доріжки власної прокрутки: `customScroll`
+	 * монтує її на батька зони прокрутки (`parentLevel: 1`), тобто сюди.
+	 */
+	.sheet__card {
+		position: relative;
+		flex: 1 1 auto;
+		min-height: 0;
+		display: flex;
+		flex-direction: column;
 		padding: clamp(1.1rem, 3vw, 1.9rem);
 		border-radius: 1.5rem;
 		background: var(--galaxy-card-bg);
 		border: 1px solid rgb(140 190 255 / 0.22);
 		box-shadow: 0 24px 60px rgb(0 0 0 / 0.55);
-		color: var(--galaxy-text);
 	}
+	/*
+	 * Бічні 4px — місце для обводки фокуса.
+	 *
+	 * Глобальне правило малює її як `outline: 2px` з відступом 2px, тобто на 4px
+	 * ЗА межею елемента. Поле пошуку стоїть упритул до країв, а контейнер
+	 * обрізає обидві осі — і кільце зрізалося рівно там, де воно й потрібне.
+	 * Від'ємні поля повертають вміст на те саме місце, тож нічого не зсувається.
+	 */
 	.sheet__scroll {
 		flex: 1 1 auto;
 		overflow-y: auto;
 		min-height: 0;
+		padding-inline: 4px;
+		margin-inline: -4px;
 	}
 	/*
 	 * На телефоні хрестик лишається В КУТІ вікна: там ширина аркуша — майже
@@ -258,6 +294,14 @@
 	 */
 	.sheet__close {
 		position: absolute;
+		/*
+		 * Без цього рядка кнопки НЕ ВИДНО на телефоні: там вона стоїть у куті
+		 * картки, а картка — позиціонований сусід, що йде в розмітці пізніше,
+		 * тож при `z-index: auto` малюється поверх. На широкому екрані кнопка
+		 * винесена за межі картки, і сховатися їй не було за чим — тому й
+		 * зникала вона тільки на вузькому.
+		 */
+		z-index: 1;
 		top: 0.75rem;
 		right: 0.75rem;
 		display: grid;
@@ -285,47 +329,6 @@
 		margin: 0 0 0.6rem;
 		line-height: 1.55;
 	}
-	.features {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		gap: 0.6rem;
-	}
-	.feature {
-		transition:
-			border-color var(--transition-base),
-			background var(--transition-base),
-			transform var(--transition-base);
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		padding: 0.7rem 0.9rem;
-		border-radius: 0.9rem;
-		background: rgb(255 255 255 / 0.05);
-		border: 1px solid rgb(140 190 255 / 0.14);
-	}
-	/* Пункт про галактику — коробка для зоряного шару під ним. */
-	.feature--galaxy {
-		position: relative;
-		overflow: hidden;
-		isolation: isolate;
-	}
-
-	.feature:hover {
-		border-color: rgb(140 190 255 / 0.5);
-		background: rgb(140 190 255 / 0.09);
-		transform: translateY(-2px);
-	}
-	.feature__body {
-		min-width: 0;
-	}
-	.feature__title {
-		display: block;
-		margin-bottom: 0.15rem;
-		color: #fff;
-	}
 	/*
 	 * На широкому вікно вужче на 8rem, і в цих полях стають і хрестик, і смуга
 	 * прокрутки. Без запасу вони або лізли б на текст, або виходили за край.
@@ -346,18 +349,6 @@
 		}
 	}
 
-	/* На вузькому ілюстрація стає під текстом, а не тулиться збоку. */
-	@media (max-width: 560px) {
-		.feature {
-			flex-direction: column;
-			align-items: flex-start;
-		}
-	}
-	.feature__text {
-		font-size: 0.92rem;
-		line-height: 1.5;
-		color: var(--galaxy-muted);
-	}
 	.note {
 		margin: 1.2rem 0 0;
 		font-size: 0.92rem;

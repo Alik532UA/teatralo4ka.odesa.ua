@@ -1,9 +1,6 @@
 {
-	"title": "The Galaxy of Graduates has moved to the main site",
-	"lead": [
-		"We are glad to say the Galaxy of Graduates no longer lives apart on Google Sites — it is here, on the school's own site.",
-		"A request: find your page and fill in the form. If it already exists, please add to it — you can now name your teachers, not only the head of the course."
-	],
+	"title": "The Galaxy of Graduates has moved to the school's main site",
+	"lead": ["A request: update and complete your own pages."],
 	"searchLabel": "Find yourself",
 	"searchPlaceholder": "Start typing a first or last name",
 	"searchEmpty": "Nobody found. Try another spelling or a maiden name.",
@@ -36,19 +33,14 @@
 			"text": "Teachers as a section of their own, next to the head of the course. Social links are no longer limited to Instagram and Facebook — YouTube works too. And a video card."
 		},
 		{
-			"id": "roster",
-			"title": "A searchable register",
-			"text": "Search by name, filters by department and by whether a form is filled in, a scale of years. The address remembers both the filter and your place in the list, so that link can be shared too."
-		},
-		{
-			"id": "page",
-			"title": "A page of your own once the form is filled in",
-			"text": "It has its own address, and the link can be sent to anyone. Right now 90 graduates out of 514 have such a page — the rest are in the galaxy by name only."
+			"id": "order",
+			"title": "The order of teachers depends on your forms",
+			"text": "The list on the teachers page is ordered by the number of students: the more graduates mention a teacher in their form, the higher that teacher appears — and subject teachers count, not only heads of course. So it matters to remember and list yours. You can also fill in forms for your groupmates and friends: you almost certainly share performances and the same teachers, so together it goes faster."
 		}
 	],
 	"note": "You can fill in or extend your form at any time. If something is missing or wrong, write to us and we will fix it.",
 	"ctaRoster": "See the list of graduates",
 	"ctaForm": "Fill in the form",
 	"ctaAsk": "Ask a question",
-	"askHint": "Hi!) Questions, corrections, a group page — write to me"
+	"askHint": "Hi!) Questions, corrections, a group page — write to me"
 }

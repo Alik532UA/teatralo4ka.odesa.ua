@@ -6,7 +6,7 @@
 	import { DOMPURIFY_HTML_CONFIG } from '$lib/utils/markedConfig';
 	import type { PageContent } from '$lib/i18n/types';
 
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -16,9 +16,16 @@
 		backHref?: string;
 		/** Optional back navigation label (e.g. "Всі проєкти") */
 		backLabel?: string;
+		/**
+		 * Дії саме цієї сторінки — під текстом і ПЕРЕД типовою навігацією
+		 * чернетки. Порядок не косметичний: «На головну / Новини / Проєкти» —
+		 * це вихід зі сторінки, і ставити його попереду прохання означало б
+		 * пропонувати піти раніше, ніж допомогти.
+		 */
+		actions?: Snippet;
 	}
 
-	let { data, testPrefix = 'static', backHref, backLabel }: Props = $props();
+	let { data, testPrefix = 'static', backHref, backLabel, actions }: Props = $props();
 
 	let activeLightboxImages = $state<LightboxImage[]>([]);
 	let activeLightboxIndex = $state(0);
@@ -90,6 +97,8 @@
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html DOMPurify.sanitize(content.html, DOMPURIFY_HTML_CONFIG)}
 					</div>
+
+					{@render actions?.()}
 
 					{#if content.metadata.status === 'draft'}
 						<div class="draft-actions" data-testid="{testPrefix}-draft-toolbar">

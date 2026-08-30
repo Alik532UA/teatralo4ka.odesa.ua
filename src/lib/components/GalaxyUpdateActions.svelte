@@ -1,19 +1,8 @@
 <script lang="ts">
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import type { ResolvedPathname } from '$app/types';
-	import GraduateCardContactMenu from './GraduateCardContactMenu.svelte';
+	import ContactAskButton from './ContactAskButton.svelte';
 
-	/**
-	 * Три кнопки внизу вітального вікна: список, анкета, питання.
-	 *
-	 * Окремим файлом, бо вікно з ілюстраціями переросло стелю
-	 * `structure.test.ts`. Заразом сюди поїхало й меню месенджерів — воно
-	 * прив'язане саме до кнопки «задати питання», а не до вікна загалом.
-	 *
-	 * Прикладу сторінки групи тут немає навмисно: обидві такі сторінки
-	 * відкриваються прямо з пункту про групи, і повторювати їх кнопкою знизу
-	 * означало б вести в те саме місце двічі.
-	 */
 	interface Props {
 		rosterLabel: string;
 		formLabel: string;
@@ -24,8 +13,6 @@
 	}
 
 	let { rosterLabel, formLabel, askLabel, askHint, lang }: Props = $props();
-
-	let askOpen = $state(false);
 
 	/**
 	 * Обидві кнопки — ПОСИЛАННЯ в нову вкладку, а не виклики, що відкривають
@@ -65,33 +52,28 @@
 		{formLabel}
 	</a>
 
-	<div class="ask">
-		<button
-			type="button"
-			class="btn"
-			onclick={() => (askOpen = !askOpen)}
-			aria-expanded={askOpen}
-			data-testid="galaxy-update-ask-btn"
-		>
-			{askLabel}
-		</button>
-		{#if askOpen}
-			<GraduateCardContactMenu hint={askHint} placement="above" />
-		{/if}
-	</div>
+	<ContactAskButton label={askLabel} hint={askHint} placement="above" />
 </div>
 
 <style>
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
+		justify-content: center;
 		gap: 0.6rem;
 		margin-top: 1.2rem;
 	}
-	.ask {
-		position: relative;
-	}
-	.btn {
+	/*
+	 * Друга половина селектора — для кнопки, яку малює `ContactAskButton`.
+	 *
+	 * Клас передається їй пропом, але scoped-стилі Svelte підписані хешем ЦЬОГО
+	 * компонента, а елемент народжується в дочірньому й дістає його хеш. Правило
+	 * просто не збігалося: кнопка виходила без рамки й тла, заввишки 16px замість
+	 * 46. `:global` під власним контейнером повертає її у вигляд
+	 * сусідів і нікуди за межі блоку не тече.
+	 */
+	.btn,
+	.actions :global(.btn) {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -104,6 +86,13 @@
 		min-height: 44px;
 		max-width: 100%;
 		text-align: center;
+		/*
+		 * Без цього рядка гнучка висота вище не працювала: глобальний `.btn`
+		 * ставить `white-space: nowrap`, і напис не переносився, а просто вилазив
+		 * за кнопку. Заміряно на 375px: кнопка 21…354, текст 5…370 — по обидва
+		 * боки назовні.
+		 */
+		white-space: normal;
 		padding: 0.4rem 1.1rem;
 		border: 1px solid rgb(140 190 255 / 0.35);
 		border-radius: 999px;
@@ -117,11 +106,35 @@
 			background var(--transition-fast),
 			border-color var(--transition-fast);
 	}
-	.btn:hover {
+	.btn:hover,
+	.actions :global(.btn:hover) {
 		background: rgb(140 190 255 / 0.22);
 		border-color: rgb(140 190 255 / 0.6);
 	}
-	.btn--main {
+	/*
+	 * Складений селектор — з тієї ж причини, що й у `AdultsCallToAction`:
+	 * базове правило вище теж складене, і одинокий `.btn--main` програвав йому
+	 * за специфічністю, тож головна кнопка нічим не відрізнялася від сусідніх.
+	 */
+	/*
+	 * На телефоні напис «Переглянути список випускників» не ставав у рядок, і
+	 * кнопка росла вдвічі: три такі з'їдали третину екрана, а картці лишалося
+	 * місця на півтора пункти. Менший кегль і тісніший трекінг повертають
+	 * кожну кнопку до одного рядка; перенос вище лишається запобіжником для
+	 * ще вужчих екранів і довших перекладів.
+	 */
+	@media (max-width: 480px) {
+		.actions {
+			margin-top: 0.9rem;
+		}
+		.btn,
+		.actions :global(.btn) {
+			font-size: 0.85rem;
+			letter-spacing: 0.4px;
+			padding-inline: 0.9rem;
+		}
+	}
+	.actions .btn--main {
 		background: rgb(140 190 255 / 0.28);
 		border-color: rgb(140 190 255 / 0.6);
 		color: #fff;

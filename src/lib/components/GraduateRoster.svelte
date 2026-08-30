@@ -10,10 +10,7 @@
 	} from "$lib/data/graduates";
 	import { filterGraduates } from "$lib/utils/graduateGalaxy";
 	import {
-		formatGraduateNoun,
-		layoutRoster,
-		sortRoster,
-		type Cell,
+		centeredScrollTop, fitZoom, formatGraduateNoun, layoutRoster, sortRoster, type Cell,
 	} from "$lib/utils/graduateRoster";
 	import GraduateRosterHead from "./GraduateRosterHead.svelte";
 	import GraduateRosterRow from "./GraduateRosterRow.svelte";
@@ -86,7 +83,36 @@
 		);
 	});
 
-	const perRow = $derived(Math.max(1, Math.floor(gridWidth / MIN_COLUMN)));
+	/**
+	 * Коли обрано РІВНО один рік, група розтягується на вільний екран.
+	 *
+	 * Ширина ділиться на `zoom` не для краси: збільшений вміст живе у власній
+	 * системі координат, і в тій самій смузі вміщається менше колонок. Без
+	 * ділення розкладка рахувала б їх по-старому, і рядки виходили б тісними.
+	 */
+	let yearZoom = $state(1);
+	const perRow = $derived(Math.max(1, Math.floor(gridWidth / yearZoom / MIN_COLUMN)));
+
+	$effect(() => {
+		const _ = shown.length;
+		const __ = gridWidth;
+		const single = selectedYears.length === 1;
+		untrack(() => {
+			yearZoom = 1;
+			if (!single || !gridEl) return;
+			// Заміряти треба БЕЗ збільшення — інакше в наступному кроці
+			// множимо вже помножене. Тому вимір відкладається на такт.
+			setTimeout(() => {
+				const card = gridEl?.querySelector('.year-card') as HTMLElement | null;
+				if (!gridEl || !card) return;
+				// Саме ВИСОТА КАРТКИ, а не `scrollHeight` списку: доки вміст
+				// коротший за контейнер, `scrollHeight` дорівнює `clientHeight`
+				// і про вільне місце не каже нічого (заміряно: 807 і 807 при
+				// картці на 388).
+				yearZoom = fitZoom(card.offsetHeight, gridEl.clientHeight);
+			}, 60);
+		});
+	});
 
 	interface YearGroup {
 		year: number | null;
@@ -349,7 +375,7 @@
 				updateScrollBounds();
 			}, 600);
 
-			const targetTop = Math.max(0, targetCard.offsetTop - gridEl.offsetTop);
+			const targetTop = centeredScrollTop(targetCard, gridEl);
 			if (instant) {
 				gridEl.scrollTop = targetTop;
 			} else {
@@ -559,6 +585,7 @@
 					{#each yearGroups as group (group.year)}
 						<section
 							class="year-card"
+							style={yearZoom > 1 ? `zoom: ${yearZoom.toFixed(3)}` : undefined}
 							data-year={group.year}
 							data-testid="galaxy-roster-year-card-{group.year}"
 						>

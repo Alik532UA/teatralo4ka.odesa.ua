@@ -6,6 +6,7 @@
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle, { type ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
 	import MasterSearch from '$lib/components/adults/MasterSearch.svelte';
+	import AdultsCallToAction from '$lib/components/adults/AdultsCallToAction.svelte';
 	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import { adultsViewMode } from '$lib/services/adultsViewMode.svelte';
@@ -262,7 +263,11 @@
 </script>
 
 <div class="adults-page">
-	<StaticPage {data} testPrefix="residents-adults" />
+	<StaticPage {data} testPrefix="residents-adults">
+		{#snippet actions()}
+			<AdultsCallToAction />
+		{/snippet}
+	</StaticPage>
 
 	{#if adultsVisibility.isVisible && allMasters.length > 0}
 		<section class="masters-section" aria-labelledby="masters-title" data-testid="residents-adults-masters-section">

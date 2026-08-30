@@ -491,7 +491,8 @@
 		flex: 1;
 		background: transparent;
 		position: relative;
-		padding-top: calc(var(--header-height, 72px) + var(--ticker-height, 0px));
+		/* `--logo-bleed` — запас під логотип, що звисає нижче шапки; див. global.css. */
+		padding-top: calc(var(--header-height, 72px) + var(--ticker-height, 0px) + var(--logo-bleed, 0px));
 		transition: padding-top var(--transition-base);
 	}
 

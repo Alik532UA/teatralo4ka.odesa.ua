@@ -16,19 +16,44 @@ export async function load({ params }) {
 		error(404, `Групу не знайдено: ${params.slug}`);
 	}
 
-	// Майстри курсу з деталями
-	const masters: (MasterIndexEntry | { id: string; fullName: string; displayName: string; photo?: string; departments?: string[] })[] =
-		group.masters.map((m) => {
-			const found = (mastersIndex as MasterIndexEntry[]).find((candidate) => candidate.id === m.id || candidate.slug === m.id);
-			if (found) return found;
-			return {
-				id: m.id,
-				slug: m.id,
-				fullName: m.name,
-				displayName: m.name,
-				departments: m.department ? [m.department] : []
-			};
-		});
+	/*
+	 * Ім'я для картки — `displayName` («Тетяна ІСАЧКІНА»), а не `fullName`
+	 * («Ісачкіна Тетяна Валеріївна»).
+	 *
+	 * Перше — те, як людину називають; друге — те, як її записують у документі.
+	 * На сторінці групи поруч стоять випускники, підписані іменем і прізвищем,
+	 * і ПІБ серед них читався як рядок із відомості. Так само підписані
+	 * викладачі всюди в галактиці й у розділі резидентів.
+	 *
+	 * Обидві мови віддаються тут, а вибір робить сторінка: мова живе в
+	 * `$locale`, а завантажувач пререндериться один раз.
+	 */
+	const masters: (
+		| MasterIndexEntry
+		| {
+				id: string;
+				slug: string;
+				/** ПІБ лишається — його бере опис сторінки для пошуковиків. */
+				fullName: string;
+				displayName: string;
+				displayNameEn: string;
+				photo?: string;
+				departments?: string[];
+		  }
+	)[] = group.masters.map((m) => {
+		const found = (mastersIndex as MasterIndexEntry[]).find(
+			(candidate) => candidate.id === m.id || candidate.slug === m.id
+		);
+		if (found) return found;
+		return {
+			id: m.id,
+			slug: m.id,
+			fullName: m.name,
+			displayName: m.name,
+			displayNameEn: m.name,
+			departments: m.department ? [m.department] : []
+		};
+	});
 
 	// Викладачі курсу — той самий пошук у реєстрі, що й для майстрів, але з
 	// предметом: саме він відрізняє викладача від майстра на картці.
@@ -39,7 +64,8 @@ export async function load({ params }) {
 		return {
 			id: teacher.id,
 			slug: found?.slug ?? teacher.id,
-			fullName: found?.fullName ?? teacher.name,
+			displayName: found?.displayName ?? teacher.name,
+			displayNameEn: found?.displayNameEn ?? teacher.name,
 			photo: found?.photo,
 			subject: teacher.subject
 		};

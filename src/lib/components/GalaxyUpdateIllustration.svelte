@@ -88,7 +88,7 @@
 		посилання належить саме цій людині. Слово «YouTube» тут зайве — його
 		несе сама іконка, а підпис лише розтягував рядок.
 	-->
-	<div class="social-demo" data-testid="galaxy-update-social-example">
+	<div class="social-demo" data-testid="galaxy-update-social-demo-card">
 		<img
 			class="social-demo__face"
 			src={asset('/graduates/volodymyr-chalchynskyi-96.webp')}
@@ -120,22 +120,22 @@
 {/if}
 
 <style>
-	.grid,
-	.chips,
-	.social-demo {
-		margin-left: auto;
-	}
-	.grid,
-	.chips {
-		justify-content: flex-end;
-	}
-
+	/*
+	 * Де саме ілюстрація стоїть у пункті — не її справа: обгортку `feature__figure`
+	 * розміщує `GalaxyUpdateFeatures` разом із `utils/floatBottom`. Тут лише те,
+	 * який вона має вигляд.
+	 */
 	.grid {
 		list-style: none;
-		margin: 0 0 0 auto;
+		margin: 0;
 		padding: 0;
 		display: grid;
-		grid-template-columns: repeat(2, auto);
+		/*
+		 * Один ряд, а не 2×2: плаваючий елемент віднімає в тексту ширину рівно
+		 * на свою ВИСОТУ. Квадрат 2×2 заввишки ~110px тиснув би текст п'ять
+		 * рядків, ряд із чотирьох — два.
+		 */
+		grid-template-columns: repeat(4, auto);
 		gap: 0.4rem;
 	}
 	.face {
@@ -187,6 +187,7 @@
 		background: rgb(140 190 255 / 0.2);
 		border-color: rgb(140 190 255 / 0.6);
 	}
+
 
 	/*
 	 * Аватарка й значок ОДНАКОВІ (48×48) і зсунуті ПО ДІАГОНАЛІ.

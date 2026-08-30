@@ -81,7 +81,7 @@
 		{/each}
 	</button>
 
-	<div class="photo-dots" data-testid="galaxy-update-photo-dots">
+	<div class="photo-dots" data-testid="galaxy-update-photo-dot-list">
 		{#each stack as _photo, i (i)}
 			<button
 				type="button"
@@ -89,20 +89,19 @@
 				class:photo-dot--active={i === shown}
 				onclick={() => (shown = i)}
 				aria-label={`${i + 1}`}
-				data-testid="galaxy-update-photo-dot-{i}"
+				data-testid="galaxy-update-photo-dot-btn-{i}"
 			></button>
 		{/each}
 	</div>
 </div>
 
 <style>
+	/* Де стоїть — вирішує `feature__figure`; тут лише вигляд. */
 	.photo-block {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 0.4rem;
-		flex-shrink: 0;
-		margin-left: auto;
 	}
 	.photo-stack {
 		position: relative;
