@@ -19,6 +19,7 @@
 	import { localizedPath } from "$lib/i18n/routing";
 	import { getGroupsByMember } from "$lib/data/groups";
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
+	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
 	import {
 		graduatePhoto,
@@ -996,6 +997,15 @@
 										</span>
 									</div>
 								{/if}
+
+								<!--
+									Однокурсники під самою назвою: група — це передусім люди,
+									поруч із якими вчилися, а не рядок у картці. Рядок є лише
+									там, де в групи справді є сторінка: без неї й складу немає.
+								-->
+								{#if item.slug}
+									<GroupMatesRow groupSlug={item.slug} excludeId={graduate.id} />
+								{/if}
 							</li>
 						{/each}
 					</ul>
@@ -1562,8 +1572,14 @@
 		list-style: none;
 		width: 100%;
 	}
+	/*
+	 * Колонкою, а не рядком: однокурсники стають ПІД назвою групи. Доти тут було
+	 * `inline-flex` у рядок, і ряд мініатюр ставав праворуч від назви, тиснучись
+	 * у половину ширини та розсипаючись на три ряди.
+	 */
 	.group-item {
-		display: inline-flex;
+		display: flex;
+		flex-direction: column;
 		align-items: stretch;
 		padding: 0;
 		background: rgb(255 255 255 / 0.06);
