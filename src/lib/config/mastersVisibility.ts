@@ -52,7 +52,7 @@ export function isMasterRecordPublic(m: MasterVisibility): boolean {
 }
 
 const HIDDEN_SLUGS: ReadonlySet<string> = new Set(
-	(mastersIndexData as { slug: string; visible?: boolean }[])
+	(mastersIndexData satisfies readonly { slug: string; visible?: boolean }[])
 		.filter((m) => !isMasterRecordPublic(m))
 		.map((m) => m.slug)
 );

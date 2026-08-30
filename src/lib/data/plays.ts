@@ -55,7 +55,12 @@ export interface Play {
 	masters?: string[];
 }
 
-export const PLAYS: readonly Play[] = playsData as readonly Play[];
+/*
+ * Приведення тут не потрібне: реєстр вистав збігається з типом ТОЧНО, і це
+ * перевіряє компілятор, а не довіра. `as` мовчки погодилося б і з файлом,
+ * у якому поля роз'їхалися.
+ */
+export const PLAYS: readonly Play[] = playsData satisfies readonly Play[];
 
 const BY_ID = new Map(PLAYS.map((p) => [p.id, p]));
 

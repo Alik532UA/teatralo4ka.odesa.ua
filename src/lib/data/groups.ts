@@ -55,12 +55,14 @@ export interface GraduateGroup {
  * втричі, і єдиним виходом був би запис у переліку боргів `structure.test.ts`,
  * який за задумом лише скорочується. Дані не борг: їх просто багато.
  *
- * Приведення типу, а не перевірка на кожному запуску: цілісність реєстру —
+ * `satisfies`, а не приведення: форму звіряє компілятор на збірці, і в бандл
+ * це не важить нічого. Перевірки на кожному запуску тут немає свідомо —
+ * цілісність реєстру —
  * кожен `memberSlug` існує, кожен `master.id` знайдеться, у кожної групи є
  * вистава — тримає `groups.test.ts`, і тримає на збірці, а не в браузері
  * читача.
  */
-export const GROUPS: readonly GraduateGroup[] = groupsData as readonly GraduateGroup[];
+export const GROUPS: readonly GraduateGroup[] = groupsData satisfies readonly GraduateGroup[];
 
 /** Знаходить групу за slug */
 export function getGroupBySlug(slug: string): GraduateGroup | undefined {

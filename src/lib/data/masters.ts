@@ -2,9 +2,8 @@ import { asset } from '$app/paths';
 import type { ResolvedPathname } from '$app/types';
 import { localizedPath, type Locale } from '$lib/i18n/routing';
 import { isMasterRecordPublic, type MasterVisibility } from '$lib/config/mastersVisibility';
-import type { Department, GraduateIndexEntry } from './graduates';
+import { GRADUATES, type Department, type GraduateIndexEntry } from './graduates';
 import mastersIndexData from './masters.index.json';
-import indexData from './graduates.index.json';
 
 /**
  * Життєвий цикл людини в школі. Про ЛЮДИНУ, а не про розділ сайту.
@@ -14,7 +13,9 @@ import indexData from './graduates.index.json';
  * не працює, не обов'язково показується в тому розділі — явний виняток
  * `unconfirmed` веде її в «Потребують уточнення» (див. `masterSection`).
  */
-export type MasterStatus = 'active' | 'former' | 'honorary';
+export const MASTER_STATUSES = ['active', 'former', 'honorary'] as const;
+
+export type MasterStatus = (typeof MASTER_STATUSES)[number];
 
 /**
  * Функціональна роль — ЧИМ людина займається. Більше нічого.
@@ -59,20 +60,23 @@ export type MasterStatus = 'active' | 'former' | 'honorary';
  * там роль — це факт про минуле, і переписувати її заднім числом означало б
  * вигадати, який саме фах людина вела.
  */
-export type MasterCategory =
-	| 'administration'
-	| 'heads'
-	| 'directors'
-	| 'speech'
-	| 'artists'
-	| 'choreographers'
-	| 'vocalists'
-	| 'musicians'
-	| 'accompanists'
-	| 'teachers'
-	| 'production'
-	| 'it'
-	| 'support';
+export const MASTER_CATEGORIES = [
+	'administration',
+	'heads',
+	'directors',
+	'speech',
+	'artists',
+	'choreographers',
+	'vocalists',
+	'musicians',
+	'accompanists',
+	'teachers',
+	'production',
+	'it',
+	'support'
+] as const;
+
+export type MasterCategory = (typeof MASTER_CATEGORIES)[number];
 
 /**
  * Розділ на сторінці `/residents/adults` — ПОХІДНА величина, не поле даних.
@@ -246,7 +250,20 @@ export type MasterStudentEntry =
 			subjects?: string[];
 	  };
 
-export const MASTERS: Master[] = (mastersIndexData as MasterIndexEntry[]).map((m) => ({
+/* Та сама розкладка, що в `graduates.ts`: форму тримає `satisfies`, значення
+ * відділень — спільний гейт. */
+type MasterEntryJson = Omit<
+	MasterIndexEntry,
+	'departments' | 'category' | 'status' | 'unconfirmed'
+> & {
+	departments: string[];
+	category?: string;
+	status?: string;
+	unconfirmed?: boolean;
+};
+const MASTERS_JSON = mastersIndexData satisfies readonly MasterEntryJson[];
+
+export const MASTERS: Master[] = (MASTERS_JSON as MasterIndexEntry[]).map((m) => ({
 	...m,
 	photo: m.photo ? asset(m.photo) : undefined,
 	portrait: m.portrait ? asset(m.portrait) : undefined
@@ -439,7 +456,7 @@ export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
 	}
 
 	// ── Випускники ──────────────────────────────────────────────────────────
-	for (const g of indexData as GraduateIndexEntry[]) {
+	for (const g of GRADUATES) {
 		const asCourseMaster = g.masters?.some((m) => (typeof m === 'string' ? m === masterId : m.id === masterId));
 		if (asCourseMaster) {
 			courseStudents.push({ kind: 'graduate', relation: 'master', graduate: g });

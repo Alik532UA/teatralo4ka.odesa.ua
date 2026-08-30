@@ -31,7 +31,22 @@ import type { Pathname } from '$app/types';
  */
 
 /** Відділення. Ключі збігаються з емодзі-маркерами джерела (див. парсер). */
-export type Department = 'theatre' | 'intensive' | 'music' | 'vocal' | 'art' | 'piano' | 'guitar';
+/**
+ * Відділення ЗНАЧЕННЯМ, а не лише типом: із цього ж списку перевірка бере
+ * перелік дозволених. Тримати союз у типі, а перелік — окремо в тесті
+ * означало б, що додане відділення мовчки лишиться поза наглядом.
+ */
+export const DEPARTMENTS = [
+	'theatre',
+	'intensive',
+	'music',
+	'vocal',
+	'art',
+	'piano',
+	'guitar'
+] as const;
+
+export type Department = (typeof DEPARTMENTS)[number];
 
 /**
  * Ребро «випускник → майстер».
@@ -270,10 +285,29 @@ export function graduateProfilePath(code: string): Pathname {
 	return `/projects/galaxy-graduates/${code}`;
 }
 
+/**
+ * Форму реєстру звіряє КОМПІЛЯТОР, а не приведення типу.
+ *
+ * Доти тут стояло `as GraduateIndexEntry[]` — воно мовчки погоджувалося з
+ * будь-яким вмістом файлу. `satisfies` натомість звіряє кожне поле на
+ * збірці й нічого не важить у бандлі.
+ *
+ * Виняток один: в імпортованому JSON TypeScript бачить `departments:
+ * string[]` і звузити рядок до союзу не вміє. Тому нагляд ділиться надвоє —
+ * решту форми тримає `satisfies`, а самі значення відділень тримає гейт
+ * «реєстри знають лише відомі відділення». Саме його бракувало: значень
+ * відділень не перевіряв ніхто.
+ */
+type IndexEntryJson = Omit<GraduateIndexEntry, 'departments' | 'hasPhoto'> & {
+	departments: string[];
+	hasPhoto?: boolean;
+};
+const INDEX_JSON = indexData satisfies readonly IndexEntryJson[];
+
 /** Відсортовано за роком випуску (новіші перші), у межах року — за іменем. */
-export const GRADUATES: readonly GraduateIndexEntry[] = (indexData as GraduateIndexEntry[]).filter(
-	(g) => !g.hidden
-);
+export const GRADUATES: readonly GraduateIndexEntry[] = (
+	INDEX_JSON as GraduateIndexEntry[]
+).filter((g) => !g.hidden);
 
 /**
  * Ті, у кого є портрет і анкета.

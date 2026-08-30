@@ -1,7 +1,6 @@
 <script module lang="ts">
-	import { type GraduateIndexEntry } from '$lib/data/graduates';
+	import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { getAllMasters } from '$lib/data/masters';
-	import graduatesIndex from '$lib/data/graduates.index.json';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 
 	/*
@@ -12,7 +11,9 @@
 	 * Саме правило зіставлення — у `utils/participantMatch`: воно чисте, має
 	 * реальні приклади й перевіряється тестом, а не оком на сторінці.
 	 */
-	const matchGraduate = createNameMatcher(graduatesIndex as GraduateIndexEntry[]);
+	/* Готовий реєстр, а не сирий JSON: там форму вже звірив компілятор, і звідти
+	 * не потраплять приховані записи — зв'язок вів би на картку, якої немає. */
+	const matchGraduate = createNameMatcher(GRADUATES);
 
 	/* Майстер може згадуватися і ПІБ, і коротким іменем — обидва ведуть до нього. */
 	const matchMaster = createNameMatcher(
