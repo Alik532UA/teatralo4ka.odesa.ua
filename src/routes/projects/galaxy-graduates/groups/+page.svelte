@@ -92,10 +92,14 @@
 								<Users size={13} aria-hidden="true" />
 								{group.memberIds.length}
 							</span>
-							<span class="group-card__badge">
-								<Theater size={13} aria-hidden="true" />
-								{group.playIds.length}
-							</span>
+							<!-- Репертуар може ще не бути внесений: значок «0» повідомляв би
+							     не про групу, а про стан наших даних. -->
+							{#if group.playIds.length > 0}
+								<span class="group-card__badge">
+									<Theater size={13} aria-hidden="true" />
+									{group.playIds.length}
+								</span>
+							{/if}
 						</span>
 
 						{#if group.masters.length}
