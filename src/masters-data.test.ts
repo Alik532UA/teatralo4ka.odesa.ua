@@ -4,7 +4,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import {
 	masterSection,
-	yearsLabelKey,
+	pluralKey,
 	yearsOfService,
 	type MasterCategory,
 	type MasterSection,
@@ -353,15 +353,15 @@ describe('роки роботи', () => {
 	});
 
 	it('українська форма слова «рік» — три варіанти', () => {
-		expect(yearsLabelKey(1)).toBe('One');
-		expect(yearsLabelKey(21)).toBe('One');
-		expect(yearsLabelKey(2)).toBe('Few');
-		expect(yearsLabelKey(34)).toBe('Few');
-		expect(yearsLabelKey(5)).toBe('Many');
+		expect(pluralKey(1)).toBe('One');
+		expect(pluralKey(21)).toBe('One');
+		expect(pluralKey(2)).toBe('Few');
+		expect(pluralKey(34)).toBe('Few');
+		expect(pluralKey(5)).toBe('Many');
 		// 11–14 — саме той випадок, який ламає наївне правило «закінчується на 1».
-		expect(yearsLabelKey(11)).toBe('Many');
-		expect(yearsLabelKey(112)).toBe('Many');
-		expect(yearsLabelKey(0)).toBe('Many');
+		expect(pluralKey(11)).toBe('Many');
+		expect(pluralKey(112)).toBe('Many');
+		expect(pluralKey(0)).toBe('Many');
 	});
 
 	it('усі три підписи є в обох словниках', () => {

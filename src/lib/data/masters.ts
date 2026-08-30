@@ -382,7 +382,12 @@ export function yearsOfService(periods: MasterWorkPeriod[] | undefined, currentY
  * ICU-плюралізації (`{n, plural, one {…}}`) у проєкті немає ніде, і вводити її
  * заради одного рядка означало б завести другий спосіб робити те саме.
  */
-export function yearsLabelKey(count: number): 'One' | 'Few' | 'Many' {
+/*
+ * Назва без «років»: те саме правило знадобилося другий раз — для «згадок в
+ * анкетах» у вітальному вікні. Лишити ім'я про роки означало б або брехати на
+ * другому виклику, або переписати правило вдруге.
+ */
+export function pluralKey(count: number): 'One' | 'Few' | 'Many' {
 	const mod10 = count % 10;
 	const mod100 = count % 100;
 	if (mod10 === 1 && mod100 !== 11) return 'One';
@@ -477,6 +482,46 @@ export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
 	}
 
 	return [...colleagues, ...courseStudents, ...subjectStudents];
+}
+
+/**
+ * Майстри й викладачі, впорядковані за кількістю ЗГАДОК в анкетах випускників.
+ *
+ * Саме це число визначає порядок викладачів на сторінках, і саме про нього
+ * вітальне вікно каже «залежить від ваших анкет». Доти фразу доводилося брати
+ * на віру: жодного місця, де це видно, на сайті не було.
+ *
+ * Одна людина рахується ОДИН раз, навіть якщо в анкеті вона стоїть і майстром
+ * курсу, і викладачем предмета. Інакше вийшло б не «скільки випускників її
+ * згадали», а «скільки рядків вона зайняла», і найчастіші майстри отримували б
+ * подвійну вагу просто за те, що вели і курс, і предмет.
+ *
+ * Непублічні не потрапляють сюди зовсім: вони не показуються ніде, і показ
+ * саме тут був би єдиним винятком.
+ */
+export function mastersByMentions(): { master: Master; mentions: number }[] {
+	const counts = new Map<string, number>();
+
+	for (const g of GRADUATES) {
+		const seen = new Set<string>();
+		for (const link of [...(g.masters ?? []), ...(g.teachers ?? [])]) {
+			const id = typeof link === 'string' ? link : link.id;
+			if (!id || seen.has(id)) continue;
+			seen.add(id);
+			counts.set(id, (counts.get(id) ?? 0) + 1);
+		}
+	}
+
+	return [...counts.entries()]
+		.map(([id, mentions]) => ({ master: getMasterById(id), mentions }))
+		.filter((entry): entry is { master: Master; mentions: number } =>
+			Boolean(entry.master) && isMasterPublic(entry.master!)
+		)
+		.sort(
+			(a, b) =>
+				b.mentions - a.mentions ||
+				a.master.displayName.localeCompare(b.master.displayName, 'uk')
+		);
 }
 
 /** Лише записи випускників — колеги-майстри в переліку випускників не значаться. */

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
-	import { ArrowLeft, ArrowRight, Users, Calendar, Sparkles, Theater } from 'lucide-svelte';
+	import { ArrowLeft, ArrowRight, Users, Calendar, Sparkles, Theater, Plus } from 'lucide-svelte';
+	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath } from '$lib/data/groups';
 	import mastersIndex from '$lib/data/masters.index.json';
@@ -73,6 +74,25 @@
 		</header>
 
 		<ul class="groups-grid" data-testid="galaxy-groups-list">
+			<!--
+				ПЕРШИМ пунктом — «додати групу», у тій самій плитці, що й решта.
+				Доти сторінка показувала сам лише перелік того, що вже є, і не
+				казала, що список поповнюється зверненням. Окрема кнопка десь збоку
+				сказала б це тихіше: тут вона стоїть там, де людина шукає СВОЮ групу
+				й не знаходить.
+			-->
+			<li>
+				<div class="group-card group-card--add" data-testid="galaxy-group-add-card">
+					<span class="group-card__head">
+						<span class="group-card__name">{$t('galaxy.addGroup')}</span>
+						<span class="group-card__abbr">
+							<Plus size={13} aria-hidden="true" />
+						</span>
+					</span>
+					<span class="group-card__masters">{$t('galaxy.addGroupHint')}</span>
+					<EditContactButton testIdPrefix="galaxy-group-add" openTo="up" />
+				</div>
+			</li>
 			{#each ordered as group (group.slug)}
 				<li>
 					<a
@@ -265,6 +285,17 @@
 		color: var(--text-muted);
 		font-size: 0.78rem;
 		font-weight: 600;
+	}
+	/*
+	 * Плитка «додати групу» — та сама, що й у решти, з двома відмінностями:
+	 * вона не посилання (кнопка всередині сама веде до контактів) і не має
+	 * значків із числами, бо рахувати в ній нічого. Пунктирна рамка каже, що це
+	 * місце під групу, а не група.
+	 */
+	.group-card--add {
+		border-style: dashed;
+		justify-content: space-between;
+		gap: 0.6rem;
 	}
 	.group-card__masters {
 		margin-top: auto;

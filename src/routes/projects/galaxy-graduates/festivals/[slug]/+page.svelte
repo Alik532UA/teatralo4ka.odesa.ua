@@ -22,6 +22,7 @@
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
+	import EditContactButton from '$lib/components/EditContactButton.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -123,6 +124,20 @@
 				<span class="fest-badge" data-testid="festival-years-badge">
 					<Calendar size={14} aria-hidden="true" />
 					{yearsStr}
+				</span>
+
+				<!--
+					Кнопка правок у тому самому рядку, що й плашки. Саме на цих
+					сторінках вона потрібна найбільше: учасників фестивалів
+					відновлювали листуванням, і помилку в прізвищі помітить той,
+					хто там був.
+				-->
+				<span class="fest-header__edit">
+					<EditContactButton
+						testIdPrefix="festival-page"
+						openTo="down"
+						hasPhoto={(data.festival.photos ?? []).length > 0}
+					/>
 				</span>
 			</div>
 
@@ -282,6 +297,10 @@
 	.fest-header {
 		margin-bottom: 3rem;
 		text-align: center;
+	}
+	.fest-header__edit {
+		display: inline-flex;
+		margin-left: auto;
 	}
 	.fest-header__badges {
 		display: flex;

@@ -1,6 +1,8 @@
 {
 	"title": "The Galaxy of Graduates has moved to the school's main site",
-	"lead": ["A request: update and complete your own pages."],
+	"lead": [
+		"A request: update and complete your own pages."
+	],
 	"searchLabel": "Find yourself",
 	"searchPlaceholder": "Start typing a first or last name",
 	"searchEmpty": "Nobody found. Try another spelling or a maiden name.",
@@ -25,7 +27,7 @@
 		{
 			"id": "groups",
 			"title": "A group can have its own page",
-			"text": "With repertoire by year and recordings, shared photographs, the cast of the course, its masters and teachers. A few groups have such a page so far; write to me to make one for yours."
+			"text": "With repertoire by year and recordings, shared photographs, the graduates of the group, its course master and teachers. These pages still need correcting, so look at your own group and write to me with the fixes — I will be waiting."
 		},
 		{
 			"id": "form",

@@ -9,7 +9,7 @@
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
 	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
 	import { playsByIds } from '$lib/data/plays';
-	import { yearsOfService, yearsLabelKey } from '$lib/data/masters';
+	import { yearsOfService, pluralKey } from '$lib/data/masters';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -257,7 +257,7 @@
 						-->
 						{#if yearsInSchool !== null}
 							<p class="master-years" data-testid="master-profile-years-text">
-								{$t(`galaxy.yearsInSchool${yearsLabelKey(yearsInSchool)}`, {
+								{$t(`galaxy.yearsInSchool${pluralKey(yearsInSchool)}`, {
 									values: { count: yearsInSchool },
 									default: `${yearsInSchool} р. у школі`
 								})}

@@ -116,6 +116,11 @@ const RESERVED_BY_CSS: Record<string, string> = {
 		'.page-cover — aspect-ratio 9/16, sticky-колонка сторінки',
 	'src/lib/components/ui/Toast.svelte | class="toast-card__img"':
 		'.toast-card__media — 110px × min-height 130px',
+	'src/lib/components/GalaxyUpdateTeacherRow.svelte | class="tip__portrait"':
+		'.tip__portrait — 62px завширшки, висота від `align-self: stretch`: ' +
+		'портрет тягнеться на висоту підказки, яку задає текст поруч. ' +
+		'Число тут розійшлося б із нею на першому ж довгому імені, ' +
+		'а сама підказка накладка — під нею вміст сторінки не рухається',
 	'src/lib/components/PhotoLightbox.svelte | class="lightbox-img"':
 		'накладка поверх сторінки: розмір задають max-width 90vw / max-height 78dvh, ' +
 		'і зсунути вона може лише саму себе — під нею вміст сторінки не рухається',

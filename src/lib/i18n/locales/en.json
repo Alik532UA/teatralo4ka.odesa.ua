@@ -1028,6 +1028,12 @@
       "CZ": "Czechia",
       "DE": "Germany",
       "UA": "Ukraine"
-    }
+    },
+    "mentionsOne": "{count} mention in profiles",
+    "mentionsFew": "{count} mentions in profiles",
+    "mentionsMany": "{count} mentions in profiles",
+    "myTeacher": "if this is your teacher, write to me",
+    "addGroup": "Add a group",
+    "addGroupHint": "Write to me and your group gets a page"
   }
 }

@@ -20,6 +20,7 @@
 	} from '$lib/services/graduateModal.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupRepertoire from '$lib/components/GroupRepertoire.svelte';
+	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -115,6 +116,20 @@
 				<span class="group-years-badge" data-testid="group-years-badge">
 					<Calendar size={14} aria-hidden="true" />
 					{$t('galaxy.graduated')}: {graduationYearsStr}
+				</span>
+
+				<!--
+					Кнопка правок стоїть у тому самому рядку, що й значки: сторінку
+					групи наповнюють ті самі люди, чиї анкети сюди й зводяться, і
+					писати про помилку їм тепер є звідки. Розкривається ВНИЗ — над
+					шапкою екрана вже немає.
+				-->
+				<span class="group-header__edit">
+					<EditContactButton
+						testIdPrefix="group-page"
+						openTo="down"
+						hasPhoto={(data.group.photos ?? []).length > 0}
+					/>
 				</span>
 			</div>
 
@@ -318,6 +333,10 @@
 		text-align: center;
 	}
 
+	.group-header__edit {
+		display: inline-flex;
+		margin-left: auto;
+	}
 	.group-header__badge-wrap {
 		display: flex;
 		align-items: center;

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import GalaxyUpdatePhotoStack from './GalaxyUpdatePhotoStack.svelte';
@@ -25,16 +26,28 @@
 
 	let { id, lang, active = false }: Props = $props();
 
-	const TEACHERS = [
-		{ slug: 'samuil-imas', name: 'Самуїл ІМАС' },
-		{ slug: 'svitlana-ryskina', name: 'Світлана РИСЬКІНА' },
-		{ slug: 'tetiana-isachkina', name: 'Тетяна ІСАЧКІНА' },
-		{ slug: 'fedir-tkach', name: 'Федір ТКАЧ' }
-	];
+	/*
+	 * ЗАПАСНИЙ перелік до попереднього варіанта — сітки 2×2. Закоментований
+	 * разом із її розміткою й стилями; повертати всі три частини треба разом.
+	 *
+	 * const TEACHERS = [
+	 * 	{ slug: 'samuil-imas', name: 'Самуїл ІМАС' },
+	 * 	{ slug: 'svitlana-ryskina', name: 'Світлана РИСЬКІНА' },
+	 * 	{ slug: 'tetiana-isachkina', name: 'Тетяна ІСАЧКІНА' },
+	 * 	{ slug: 'fedir-tkach', name: 'Федір ТКАЧ' }
+	 * ];
+	 */
 
+	/*
+	 * Одна конкретна група й вихід до ВСІХ, а не дві конкретні.
+	 *
+	 * Дві назви поспіль читалися як «ось ті дві, що є», і про решту ніхто не
+	 * здогадувався. Перша показує, який вигляд має сторінка групи, друга веде
+	 * туди, де їх усі, — а це і є те, що пункт пропонує зробити.
+	 */
 	const GROUPS = [
 		{ slug: 'zakhysnyky-teatralnykh-kulis', label: 'ЗТК' },
-		{ slug: 'skomorokhy', label: 'Скоморохи' }
+		{ slug: '', labelKey: 'galaxy.groupsTitle' }
 	];
 
 	/** Володимир Чалчинський — єдина анкета, де YouTube уже стоїть. */
@@ -44,6 +57,24 @@
 {#if id === 'photos'}
 	<GalaxyUpdatePhotoStack {active} />
 {:else if id === 'teachers'}
+	<!--
+		Тут порожньо навмисно: карусель викладачів малює не ілюстрація, а сам
+		пункт — вона накладка на весь його прямокутник, і зсередини ілюстрації
+		дотягтися до країв пункту неможливо.
+	-->
+	<!--
+		ЗАПАСНИЙ попередній варіант — сітка 2×2 з чотирьох імен, вписаних руками.
+		Лишений за проханням автора, щоб було до чого повернутися.
+
+		Чому його замінили: чотири імені обиралися вручну й нічим не були
+		обґрунтовані, а список у коді старів окремо від даних. Карусель показує
+		сімох із найбільшою кількістю пов'язаних випускників і рахує їх сама.
+
+		Щоб повернути: розкоментувати розмітку нижче, прибрати рядок із
+		`GalaxyUpdateTeacherArc` з `GalaxyUpdateFeatures`, і розкоментувати
+		стилі `.grid` та `.face` — вони лежать у такому самому коментарі внизу
+		файла.
+
 	<ul class="grid" class:is-pulsing={active} data-testid="galaxy-update-teachers-list">
 		{#each TEACHERS as person, i (person.slug)}
 			<li>
@@ -67,18 +98,24 @@
 			</li>
 		{/each}
 	</ul>
+	-->
 {:else if id === 'groups'}
 	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-groups-list">
-		{#each GROUPS as group, i (group.slug)}
+		{#each GROUPS as group, i (group.slug || 'all')}
 			<a
 				class="chip"
 				style="--order: {i}"
-				href={localizedPath(`/projects/galaxy-graduates/groups/${group.slug}`, lang)}
+				href={localizedPath(
+					group.slug
+						? `/projects/galaxy-graduates/groups/${group.slug}`
+						: '/projects/galaxy-graduates/groups/',
+					lang
+				)}
 				target="_blank"
 				rel="noopener"
-				data-testid="galaxy-update-group-link-{group.slug}"
+				data-testid="galaxy-update-group-link-{group.slug || 'all'}"
 			>
-				{group.label}
+				{group.labelKey ? $t(group.labelKey) : group.label}
 			</a>
 		{/each}
 	</div>
@@ -125,12 +162,18 @@
 	 * розміщує `GalaxyUpdateFeatures` разом із `utils/floatBottom`. Тут лише те,
 	 * який вона має вигляд.
 	 */
+	/*
+	 * ЗАПАСНІ стилі до попереднього варіанта — сітки 2×2. Закоментовані разом
+	 * із самою розміткою вище: Svelte звітує про кожен селектор, під який на
+	 * сторінці немає елемента, і залишені «про всяк випадок» правила давали б
+	 * сім попереджень на кожній збірці.
+	 *
 	.grid {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: grid;
-		/*
+		(*
 		 * Квадрат 2×2, однаковий на всіх ширинах.
 		 *
 		 * Ряд із чотирьох стояв тут доти, доки ілюстрація не вміла ставати
@@ -138,7 +181,7 @@
 		 * лише два рядки замість п'яти. Тепер ширину поруч міряє `floatBottom`
 		 * і сам вирішує, обтікати чи ні, — і квадрат нічого не ламає: на 414px
 		 * він лишає тексту 180px при потрібних 168 і спокійно обтікається.
-		 */
+		 *)
 		grid-template-columns: repeat(2, auto);
 		gap: 0.4rem;
 	}
@@ -162,6 +205,8 @@
 		height: 100%;
 		object-fit: cover;
 	}
+
+	 */
 
 	.chips {
 		display: flex;
@@ -241,7 +286,6 @@
 	 * різними способами. Тут вона коротша й без пауз: пункт наводять на
 	 * секунду-дві, а не роздивляються хвилину.
 	 */
-	.is-pulsing .face,
 	.is-pulsing .chip,
 	.social-demo__badge.is-pulsing {
 		animation: update-pulse 1.6s ease-in-out infinite;
@@ -260,13 +304,11 @@
 		}
 	}
 	/* Наведення на саму кнопку важливіше за хвилю — інакше вона тікає з-під курсора. */
-	.face:hover,
 	.chip:hover,
 	.social-demo__badge:hover {
 		animation: none;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.is-pulsing .face,
 		.is-pulsing .chip,
 		.social-demo__badge.is-pulsing {
 			animation: none;

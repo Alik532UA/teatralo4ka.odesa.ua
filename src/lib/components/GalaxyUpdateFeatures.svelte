@@ -3,6 +3,8 @@
 	import { floatBottom } from '$lib/utils/floatBottom';
 	import GalaxyUpdateIllustration from './GalaxyUpdateIllustration.svelte';
 	import GalaxyUpdateStars from './GalaxyUpdateStars.svelte';
+	import GalaxyUpdateTeacherRow from './GalaxyUpdateTeacherRow.svelte';
+	import GalaxyUpdateTeacherArc from './GalaxyUpdateTeacherArc.svelte';
 
 	/**
 	 * Перелік того, що вміє нова версія, — пункти вітального вікна.
@@ -30,12 +32,22 @@
 		<li
 			class="feature"
 			class:feature--galaxy={feature.id === 'galaxy'}
+			class:feature--arc={feature.id === 'teachers'}
 			onmouseenter={() => (hovered = feature.id)}
 			onmouseleave={() => (hovered = null)}
 			data-testid="galaxy-update-item-{feature.id}"
 		>
 			{#if feature.id === 'galaxy'}
 				<GalaxyUpdateStars />
+			{/if}
+			<!--
+				Карусель викладачів стоїть ПОРЯД із текстом, а не всередині нього:
+				вона накладка на весь пункт, тож ставити її у потік означало б
+				знову дати їй задавати висоту. Місце під неї відводить
+				`padding-right` у `.feature--arc`.
+			-->
+			{#if feature.id === 'teachers'}
+				<GalaxyUpdateTeacherArc {lang} active={hovered === feature.id} />
 			{/if}
 			<!--
 				Ілюстрація стоїть ПЕРЕД текстом і в тому самому блоці: плаваючий
@@ -58,6 +70,13 @@
 				</div>
 				<strong class="feature__title">{feature.title}</strong>
 				<span class="feature__text">{feature.text}</span>
+				<!--
+					Пункт про порядок викладачів показує сам порядок: інакше він
+					розповідає про правило, якого ніде не видно.
+				-->
+				{#if feature.id === 'order'}
+					<GalaxyUpdateTeacherRow />
+				{/if}
 			</div>
 		</li>
 	{/each}
@@ -72,6 +91,15 @@
 		gap: 0.6rem;
 	}
 	.feature {
+		/*
+		 * Без цього рядка пункт РОЗПИРАЄТЬСЯ вмістом: типове `min-width: auto`
+		 * у грид-елемента означає «не вужче за мінімальний вміст», а рядок
+		 * значків викладачів не переноситься й тому має мінімальну ширину в усі
+		 * свої значки. Заміряно: при вікні 600 сітка була 530 px, а пункт у ній
+		 * — 943, тобто вилазив на 413 px, і рядок значків так і лишався
+		 * завширшки як на десктопі — тому й не перераховувався на звуженні.
+		 */
+		min-width: 0;
 		transition:
 			border-color var(--transition-base),
 			background var(--transition-base),
@@ -82,6 +110,25 @@
 		border: 1px solid rgb(140 190 255 / 0.14);
 	}
 	/* Пункт про галактику — коробка для зоряного шару під ним. */
+	/*
+	 * Пункт із каруселлю: місце під неї відводиться відступом, а не потоком.
+	 *
+	 * `position: relative` робить цей пункт точкою відліку для накладки, а
+	 * `padding-right` лишає їй смугу праворуч, щоб текст під неї не заходив.
+	 * Висота ж лишається текстовою — саме цього бракувало: карусель у потоці
+	 * тягнула пункт до своїх 230 px незалежно від того, скільки в ньому слів.
+	 */
+	/*
+	 * ПІСЛЯ `.feature`, а не перед ним, і це не косметика: специфічність у них
+	 * однакова, а `.feature` задає `padding` скороченим записом. Стоячи вище,
+	 * це правило програвало — відступ праворуч скидався, і текст заходив під
+	 * карусель.
+	 */
+	.feature--arc {
+		position: relative;
+		padding-right: calc(0.9rem + 106px);
+	}
+
 	.feature--galaxy {
 		position: relative;
 		overflow: hidden;
