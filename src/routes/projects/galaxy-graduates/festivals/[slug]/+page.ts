@@ -2,6 +2,8 @@ import { error } from '@sveltejs/kit';
 import { FESTIVALS, getFestivalBySlug } from '$lib/data/festivals';
 import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
+import mastersIndex from '$lib/data/masters.index.json';
+import type { MasterIndexEntry } from '$lib/data/masters';
 
 export const prerender = true;
 
@@ -34,5 +36,14 @@ export async function load({ params }) {
 	 */
 	const plays = playsByIds(festival.playIds);
 
-	return { festival, members, plays };
+	/*
+	 * Викладачі розгортаються з реєстру ТУТ, як і склад: сторінка має дістати
+	 * готові дані, а не ходити в реєстр із розмітки. Ключ, якому нічого не
+	 * відповідає, мовчки відкидається — про саме́ розходження кричить гейт.
+	 */
+	const masters = festival.masterIds
+		.map((id) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id))
+		.filter((m) => m !== undefined);
+
+	return { festival, members, masters, plays };
 }

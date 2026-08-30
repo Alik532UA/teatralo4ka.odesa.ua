@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs';
 import { FESTIVALS, getFestivalBySlug, getFestivalsByMember, festivalPath } from './festivals';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import playsData from '$lib/data/plays.data.json';
+import mastersIndex from '$lib/data/masters.index.json';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /**
@@ -102,6 +103,14 @@ describe('реєстр фестивалів', () => {
 		for (const f of FESTIVALS)
 			for (const id of f.memberIds) if (!known.has(id)) bad.push(`${f.slug} → ${id}`);
 		expect(bad, `учасник веде в нікуди:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('кожен викладач існує в реєстрі працівників', () => {
+		const known = new Set((mastersIndex as { id: string }[]).map((m) => m.id));
+		const bad: string[] = [];
+		for (const f of FESTIVALS)
+			for (const id of f.masterIds) if (!known.has(id)) bad.push(`${f.slug} → ${id}`);
+		expect(bad, `викладача немає в реєстрі:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('кожен показ знаходиться в реєстрі вистав', () => {

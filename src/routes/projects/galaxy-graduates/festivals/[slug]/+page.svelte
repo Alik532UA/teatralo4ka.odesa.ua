@@ -2,7 +2,15 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
-	import { ArrowLeft, ArrowRight, Theater, Users, Globe, Calendar } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		ArrowRight,
+		Theater,
+		Users,
+		Globe,
+		GraduationCap,
+		Calendar
+	} from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduationCaption } from '$lib/data/graduates';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
@@ -133,6 +141,42 @@
 			</section>
 		{/if}
 
+		<!--
+			Викладачі, що їздили. GraduationCap — та сама іконка, що й на розділі
+			майстрів курсу: у словнику вона означає курс, тобто людей, які вчать.
+		-->
+		{#if data.masters.length > 0}
+			<section class="fest-section" aria-labelledby="section-faculty-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"
+						><GraduationCap size={20} aria-hidden="true" /></span
+					>
+					<h2 id="section-faculty-title" class="section-heading__title">
+						{$t('galaxy.festivalTeachers')}
+					</h2>
+					<span class="section-heading__count">{data.masters.length}</span>
+				</div>
+
+				<!--
+					Без підпису під іменем: `roleTitle` у працівників — це повна посада
+					(«викладач акторської майстерності вищої категорії, методист, …»), і
+					в картці 150 px вона перетворюється на стіну тексту. Хто це такі,
+					каже сам заголовок розділу.
+				-->
+				<div class="people-grid" data-testid="festival-teachers-list">
+					{#each data.masters as master, idx (master.id)}
+						<GroupPersonCard
+							name={isEn ? master.displayNameEn : master.displayName}
+							photo={master.photo ? asset(master.photo) : null}
+							href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
+							index={data.members.length + idx}
+							testid="festival-teacher-card-{master.slug}"
+						/>
+					{/each}
+				</div>
+			</section>
+		{/if}
+
 		{#if data.plays.length > 0}
 			<section class="fest-section" aria-labelledby="section-plays-title">
 				<div class="section-heading">
@@ -152,7 +196,7 @@
 			Порожня сторінка мовчки — гірше за сторінку, яка каже, чого на ній ще
 			немає: інакше читач вирішить, що зламалося.
 		-->
-		{#if data.members.length === 0 && data.plays.length === 0}
+		{#if data.members.length === 0 && data.masters.length === 0 && data.plays.length === 0}
 			<p class="fest-empty" data-testid="festival-empty-text">
 				{$t('galaxy.festivalEmpty')}
 			</p>
