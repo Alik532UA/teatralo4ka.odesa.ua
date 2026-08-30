@@ -97,6 +97,24 @@
 		</div>
 	{/if}
 
+	{#if prod.guests?.length}
+		<div class="prod-card__participants">
+			<div class="participants-header">
+				<Users size={14} aria-hidden="true" />
+				<span>{$t('galaxy.guestActors')}:</span>
+			</div>
+			<div class="participants-tags" data-testid="master-production-guests-list">
+				<!--
+					Тільки текстом: гості школи не закінчували, і зіставляти їх із
+					реєстром випускників нема з чим. Див. `guests` у `data/plays.ts`.
+				-->
+				{#each prod.guests as guest (guest)}
+					<span class="part-tag part-tag--plain">{guest}</span>
+				{/each}
+			</div>
+		</div>
+	{/if}
+
 	{#if prod.participants?.length}
 		<div class="prod-card__participants">
 			<div class="participants-header">

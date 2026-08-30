@@ -1026,6 +1026,20 @@
 		]
 	},
 	{
+		"id": "andrii-droviannikov",
+		"slug": "andrii-droviannikov",
+		"name": "Андрій Дровянніков",
+		"graduationYear": 2025,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
+	},
+	{
 		"id": "andrii-nastasev",
 		"slug": "andrii-nastasev",
 		"name": "Андрій Настас'ев",
@@ -1451,6 +1465,29 @@
 		"slug": "borys-ukrainskyi",
 		"name": "Борис Український",
 		"graduationYear": 2010,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
+	},
+	{
+		"id": "mykyta-olenin",
+		"slug": "mykyta-olenin",
+		"name": "Микита Оленін",
+		"graduationYear": 2011,
+		"departments": [
+			"art"
+		]
+	},
+	{
+		"id": "viktoriia-yefremova",
+		"slug": "viktoriia-yefremova",
+		"name": "Вікторія Єфремова",
+		"graduationYear": 2023,
 		"departments": [
 			"theatre"
 		],
@@ -3278,7 +3315,8 @@
 		],
 		"playCount": 2,
 		"code": "kyryll-chekanov",
-		"profileSize": 735
+		"profileSize": 735,
+		"graduationLabelKey": "galaxy.studiedUntil"
 	},
 	{
 		"id": "kyrylo-karacheban",
@@ -4513,7 +4551,7 @@
 		"name": "Олександра Бебешко",
 		"graduationYear": 2023,
 		"departments": [
-			"theatre"
+			"intensive"
 		]
 	},
 	{
