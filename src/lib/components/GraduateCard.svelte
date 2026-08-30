@@ -4,7 +4,6 @@
 	import { focusTrap } from "$lib/utils/focusTrap";
 	import { overlayFade, overlayPop } from "$lib/utils/overlayTransition";
 	import {
-		graduateProfilePath,
 		type GraduateIndexEntry,
 		type GraduateProfile,
 	} from "$lib/data/graduates";
@@ -65,18 +64,18 @@
 	);
 
 	/**
-	 * Адреса цього ж випускника в галактиці.
+	 * Адреса САМОЇ галактики, а не цього ж випускника.
 	 *
-	 * Хто анкети не заповнював, власної адреси не має (`code` порожній) — таких
-	 * ведемо в саму галактику: там людина принаймні є зіркою, і сторінка, на яку
-	 * нема чого покласти, не створюється.
+	 * Доти кнопка вела на власну сторінку людини, чия картка відкрита, — тобто
+	 * рівно на те, що читач уже бачить перед собою. «Летіти до галактики» має
+	 * везти в галактику.
+	 *
+	 * Навести галактику на конкретну зірку вона не вміє: параметр `at` там —
+	 * рік для списку, а не людина. Тому адреса одна для всіх.
 	 */
 	const galaxyHref = $derived.by(() => {
 		if (!showGalaxyLink) return null;
-		const locale = localeFromPath(page.url.pathname);
-		return graduate?.code
-			? localizedPath(graduateProfilePath(graduate.code), locale)
-			: localizedPath("/projects/galaxy-graduates/", locale);
+		return localizedPath("/projects/galaxy-graduates/", localeFromPath(page.url.pathname));
 	});
 
 	let innerEl = $state<HTMLElement | null>(null);
