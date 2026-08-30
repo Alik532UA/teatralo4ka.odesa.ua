@@ -431,12 +431,85 @@
 	 */
 	const hasFestivals = $derived(getFestivalsByMember(graduate.id).length > 0);
 
-	const groupLinks = $derived<{ name: string; slug?: string }[]>([
-		...getGroupsByMember(graduate.id).map((g) => ({
-			name: isEn && g.nameEn ? g.nameEn : g.name,
-			slug: g.slug,
+	/*
+	 * Фестивалі їдуть у ту колонку, де більше місця.
+	 *
+	 * Заміряються НЕ самі колонки, а їхній решта вміст: плашка вистав ліворуч
+	 * проти плашок «Про себе» й викладачів праворуч. Це не педантизм —
+	 * інакше перенос замкнув би сам себе: поставлений ліворуч блок робить ліву
+	 * колонку вищою, наступний замір відправив би його назад, і так по колу.
+	 *
+	 * У Чалчинського вісім вистав і довге «Про себе» — фестивалі стають
+	 * ліворуч; в Аліка вистав двадцять, і ліворуч місця немає — лишаються
+	 * праворуч.
+	 */
+	let festivalsInLeft = $state(false);
+
+	function recalcFestivalsColumn() {
+		if (!browser || !hasFestivals) return;
+		// На вузькому екрані колонки одна під одною — переносити нема куди.
+		if (window.innerWidth < 769 || !playsCardEl || !rightColEl) {
+			festivalsInLeft = false;
+			return;
+		}
+		const left = playsCardEl.offsetHeight;
+		const right = [...rightColEl.children]
+			.filter((el) => !el.classList.contains("bento-card--festivals"))
+			.reduce((sum, el) => sum + (el as HTMLElement).offsetHeight, 0);
+		// Запас, щоб блок не стрибав від різниці в десяток пікселів.
+		festivalsInLeft = left > 0 && left + 120 < right;
+	}
+
+	/*
+	 * Спостерігач, а не один замір на монтуванні.
+	 *
+	 * Перший замір трапляється, коли висоти ще не усталилися — шрифти й портрети
+	 * лише вантажаться, а `recalcPlaysFitting` узагалі стискає список ПІСЛЯ
+	 * нього. Заміряно на цьому й попалося: в Аліка блок їхав ліворуч, дарма що
+	 * ліва плашка 792 px проти 742 px праворуч.
+	 *
+	 * Замкнутися спостерігач не може: жодна з двох величин, які порівнюються,
+	 * від переїзду блока не залежить.
+	 */
+	$effect(() => {
+		if (!browser) return;
+		const _ = profile?.plays?.length;
+		const __ = profile?.bio?.length;
+		const ___ = normalizedTeachers.length;
+
+		recalcFestivalsColumn();
+		const ro = new ResizeObserver(() => recalcFestivalsColumn());
+		if (playsCardEl) ro.observe(playsCardEl);
+		if (rightColEl) ro.observe(rightColEl);
+		const onResize = () => recalcFestivalsColumn();
+		window.addEventListener("resize", onResize);
+		return () => {
+			ro.disconnect();
+			window.removeEventListener("resize", onResize);
+		};
+	});
+
+	/*
+	 * Довга назва групи в пілюлі ламається на три рядки й розпихає картку.
+	 * Порядок дій той самий, що зробила б людина: спершу взяти коротку назву,
+	 * якої група й так уже має («Захисники театральних куліс» → «ЗТК»), а якщо
+	 * її немає — зменшити кегль. Повна назва лишається в `title`, тож нічого не
+	 * втрачається.
+	 */
+	const LONG_NAME = 18;
+	const groupLinks = $derived<
+		{ name: string; full: string; slug?: string; long: boolean }[]
+	>([
+		...getGroupsByMember(graduate.id).map((g) => {
+			const full = isEn && g.nameEn ? g.nameEn : g.name;
+			const name = full.length > LONG_NAME && g.abbr ? g.abbr : full;
+			return { name, full, slug: g.slug, long: name.length > LONG_NAME };
+		}),
+		...(profile?.unlinkedGroups ?? []).map((name) => ({
+			name,
+			full: name,
+			long: name.length > LONG_NAME,
 		})),
-		...(profile?.unlinkedGroups ?? []).map((name) => ({ name })),
 	]);
 	const departments = $derived<Department[]>(
 		profile?.departments && profile.departments.length > 0
@@ -647,6 +720,17 @@
 	</span>
 {/snippet}
 
+<!--
+	Плашка фестивалів — сніпетом, бо малюється у ДВОХ місцях: ліворуч або
+	праворуч, залежно від того, де більше місця. Написана двічі, вона давала
+	один  двічі в одному компоненті — і гейт це справедливо ловив.
+-->
+{#snippet festivalsCard()}
+	<div class="bento-card bento-card--festivals" data-testid="galaxy-card-festivals-card">
+		<GraduateFestivals memberId={graduate.id} />
+	</div>
+{/snippet}
+
 {#snippet mastersContent()}
 	<div class="masters-container" data-testid="galaxy-card-masters-text">
 		<span class="masters-title"
@@ -745,6 +829,10 @@
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
 		<div class="col col--left">
+			{#if hasFestivals && festivalsInLeft}
+				{@render festivalsCard()}
+			{/if}
+
 			<section
 				class="bento-card bento-card--plays"
 				bind:this={playsCardEl}
@@ -967,32 +1055,32 @@
 				<div class="groups-container" data-testid="galaxy-card-group-text">
 					<span class="groups-title">{$t("galaxy.group")}:</span>
 					<ul class="groups-list">
-						{#each groupLinks as item (item.name)}
+						{#each groupLinks as item (item.full)}
 							{@const groupName = item.name}
 							<li class="group-item">
 								{#if item.slug}
 									<a
 										href={localizedPath(`/projects/galaxy-graduates/groups/${item.slug}`, isEn ? "en" : "uk")}
 										class="group-link-wrapper"
-										title={groupName}
+										title={item.full}
 										data-testid="galaxy-card-group-link"
 									>
 										<span class="group-badge" role="img" aria-label="theatre">
 											<DepartmentIcon department="theatre" size={14} />
 										</span>
-										<span class="group-name-text">
+										<span class="group-name-text" class:group-name-text--long={item.long}>
 											{groupName}
 										</span>
 									</a>
 								{:else}
 									<div
 										class="group-link-wrapper group-link-wrapper--static"
-										title={groupName}
+										title={item.full}
 									>
 										<span class="group-badge" role="img" aria-label="theatre">
 											<DepartmentIcon department="theatre" size={14} />
 										</span>
-										<span class="group-name-text">
+										<span class="group-name-text" class:group-name-text--long={item.long}>
 											{groupName}
 										</span>
 									</div>
@@ -1140,10 +1228,8 @@
 				властивість людини, як рік випуску чи відділення, а перелік подій, і
 				кожна з них веде на свою сторінку.
 			-->
-			{#if hasFestivals}
-				<div class="bento-card bento-card--festivals" data-testid="galaxy-card-festivals-card">
-					<GraduateFestivals memberId={graduate.id} />
-				</div>
+			{#if hasFestivals && !festivalsInLeft}
+				{@render festivalsCard()}
 			{/if}
 
 			<!-- Bento-плашка для Викладачів під блоком «Про себе» -->
@@ -1619,6 +1705,15 @@
 		font-size: 0.95rem;
 		font-weight: 700;
 		letter-spacing: 0.02em;
+	}
+	/*
+	 * Запасний хід для довгої назви, у якої немає короткої. Складений добір, а
+	 * не самотній модифікатор: у Svelte обидва мають вагу (0,1,0), і правило
+	 * перемагало б лише порядком у файлі.
+	 */
+	.group-item .group-name-text--long {
+		font-size: 0.8rem;
+		letter-spacing: 0;
 	}
 	.row {
 		margin: 0 0 0.5rem;
