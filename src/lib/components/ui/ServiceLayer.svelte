@@ -9,6 +9,7 @@
 	import { acceptsShortcut } from '$lib/services/keyboard';
 	import { createKeySequence } from '$lib/services/keySequence';
 	import { debugMode } from '$lib/services/debugMode.svelte';
+	import { earlyShows, EARLY_URL_PARAM } from '$lib/services/earlyShows.svelte';
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
 	import { page } from '$app/state';
 	import {
@@ -110,6 +111,16 @@
 	});
 
 	/**
+	 * Серія `J` (7 натискань) — показати чи сховати «Ранні покази» в переліку
+	 * вистав майстра. Що це за покази й чому вони сховані — у `earlyShows`.
+	 */
+	const earlyShowsSequence = createKeySequence({
+		code: 'KeyJ',
+		threshold: 7,
+		onComplete: () => earlyShows.toggle()
+	});
+
+	/**
 	 * Той самий розділ, але адресою: `?adults=1` показує, `?adults=0` ховає.
 	 *
 	 * **Чому не лише на сторінці «Дорослих».** Тоді посилання довелося б диктувати
@@ -138,11 +149,31 @@
 		if (asked !== null) adultsVisibility.setVisible(asked);
 	});
 
+	/*
+	 * «Ранні покази» адресою: `?early=1` показує, `?early=0` ховає.
+	 *
+	 * Влаштовано так само, як `?adults` вище, і з тієї ж причини — жест не буває
+	 * єдиним входом. Власний `appliedEarlyParam`, а не спільний: інакше два
+	 * параметри в одній адресі гасили б один одного, і той, що прочитався
+	 * другим, вважався б уже застосованим.
+	 */
+	let appliedEarlyParam: string | null = null;
+
+	$effect(() => {
+		const raw = page.url.searchParams.get(EARLY_URL_PARAM);
+		if (raw === appliedEarlyParam) return;
+		appliedEarlyParam = raw;
+
+		const asked = visibilityFromUrl(raw);
+		if (asked !== null) earlyShows.setVisible(asked);
+	});
+
 	onDestroy(() => {
 		versionSequence.reset();
 		resetSequence.reset();
 		galaxySequence.reset();
 		adultsSequence.reset();
+		earlyShowsSequence.reset();
 	});
 
 	function handleKeydown(event: KeyboardEvent) {
@@ -161,6 +192,7 @@
 		resetSequence.handle(event);
 		galaxySequence.handle(event);
 		adultsSequence.handle(event);
+		earlyShowsSequence.handle(event);
 
 		/*
 		 * WCAG SC 2.1.4, рівень A (HOTKEYS-v8 § 3, `HK-WCAG-CHARACTER-KEY`).

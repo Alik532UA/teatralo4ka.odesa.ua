@@ -2,6 +2,7 @@
 	import { t } from 'svelte-i18n';
 	import { Sparkles, Trophy, Video, Search, Theater } from 'lucide-svelte';
 	import type { MasterProduction } from '$lib/data/masters';
+	import { earlyShows } from '$lib/services/earlyShows.svelte';
 	import MasterProductionCard from './MasterProductionCard.svelte';
 
 	interface Props {
@@ -16,8 +17,27 @@
 	let activeFilter = $state<FilterType>('all');
 	let searchQuery = $state('');
 
+	/**
+	 * «Ранні покази» типово сховані — і з переліку, і з фільтрів, і з лічильників.
+	 *
+	 * Ховаються, а не видаляються: дані лишаються в профілі, а серія `J`
+	 * повертає їх на екран. Чому саме так — у `services/earlyShows`.
+	 *
+	 * Далі по файлу рахується САМЕ цей список, а не весь: інакше «Усі (80)»
+	 * обіцяло б вісімдесят, а показувало сімдесят дві.
+	 */
+	const visibleProductions = $derived(
+		earlyShows.visible ? productions : productions.filter((p) => p.isDtsh !== false)
+	);
+
+	/* Фільтр «Ранні покази» зникає разом із ними — інакше він лишався б обраним
+	   і сторінка показувала б порожньо. */
+	$effect(() => {
+		if (!earlyShows.visible && activeFilter === 'early') activeFilter = 'all';
+	});
+
 	const filteredProductions = $derived(
-		productions.filter((p) => {
+		visibleProductions.filter((p) => {
 			if (activeFilter === 'dtsh' && p.isDtsh === false) return false;
 			if (activeFilter === 'early' && p.isDtsh !== false) return false;
 			if (activeFilter === 'awards' && (!p.awards || p.awards.length === 0)) return false;
@@ -40,9 +60,9 @@
 		})
 	);
 
-	const awardsCount = $derived(productions.filter((p) => p.awards && p.awards.length > 0).length);
-	const videoCount = $derived(productions.filter((p) => p.videoUrl).length);
-	const dtshCount = $derived(productions.filter((p) => p.isDtsh !== false).length);
+	const awardsCount = $derived(visibleProductions.filter((p) => p.awards && p.awards.length > 0).length);
+	const videoCount = $derived(visibleProductions.filter((p) => p.videoUrl).length);
+	const dtshCount = $derived(visibleProductions.filter((p) => p.isDtsh !== false).length);
 	const earlyCount = $derived(productions.filter((p) => p.isDtsh === false).length);
 </script>
 
@@ -68,8 +88,8 @@
 			<Sparkles size={16} aria-hidden="true" />
 			<span>
 				{$t('galaxy.productionsCount', {
-					values: { count: productions.length },
-					default: `${productions.length} вистав та показів`
+					values: { count: visibleProductions.length },
+					default: `${visibleProductions.length} вистав та показів`
 				})}
 			</span>
 		</span>
@@ -86,7 +106,7 @@
 				onclick={() => (activeFilter = 'all')}
 				data-testid="master-productions-tab-all"
 			>
-				{$t('galaxy.filterAll', { default: 'Усі' })} ({productions.length})
+				{$t('galaxy.filterAll', { default: 'Усі' })} ({visibleProductions.length})
 			</button>
 
 			<button
@@ -101,17 +121,19 @@
 				{$t('galaxy.filterDtsh', { default: 'ДТШ (2006–2026)' })} ({dtshCount})
 			</button>
 
-			<button
-				type="button"
-				role="tab"
-				aria-selected={activeFilter === 'early'}
-				class="filter-tab"
-				class:filter-tab--active={activeFilter === 'early'}
-				onclick={() => (activeFilter = 'early')}
-				data-testid="master-productions-tab-early"
-			>
-				{$t('galaxy.filterEarly', { default: 'Ранні покази (1992–2015)' })} ({earlyCount})
-			</button>
+			{#if earlyShows.visible}
+				<button
+					type="button"
+					role="tab"
+					aria-selected={activeFilter === 'early'}
+					class="filter-tab"
+					class:filter-tab--active={activeFilter === 'early'}
+					onclick={() => (activeFilter = 'early')}
+					data-testid="master-productions-tab-early"
+				>
+					{$t('galaxy.filterEarly', { default: 'Ранні покази (1992–2015)' })} ({earlyCount})
+				</button>
+			{/if}
 
 			{#if awardsCount > 0}
 				<button

@@ -1,7 +1,7 @@
 {
   "name": "teatralo4ka.odesa.ua",
   "private": true,
-  "version": "0.0.185",
+  "version": "0.0.186",
   "type": "module",
   "engines": {
     "node": ">=22.12.0"
