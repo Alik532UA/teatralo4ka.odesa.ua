@@ -2,7 +2,15 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
-	import { ArrowLeft, Theater, Users, Sparkles, GraduationCap, Calendar } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		ArrowRight,
+		Theater,
+		Users,
+		Sparkles,
+		GraduationCap,
+		Calendar
+	} from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduationCaption, type GraduateIndexEntry } from '$lib/data/graduates';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
@@ -76,12 +84,21 @@
 		<!-- Хлібні крихти та навігація -->
 		<nav class="group-page__nav clears-logo" aria-label="Breadcrumb">
 			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				href={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
 				class="nav-back-link"
 				data-testid="group-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
+				<span>{$t('galaxy.backToGroups')}</span>
+			</a>
+
+			<a
+				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				class="nav-back-link nav-back-link--forward"
+				data-testid="group-galaxy-link"
+			>
 				<span>{$t('galaxy.title')}</span>
+				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>
 
@@ -268,7 +285,16 @@
 	}
 
 	/* Навігація */
+	/*
+	 * Крок назад веде до переліку груп, а не до галактики: саме звідти на цю
+	 * сторінку й приходять. Галактика лишається — але як крок УПЕРЕД, окремою
+	 * кнопкою праворуч.
+	 */
 	.group-page__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem;
 		margin-bottom: 2rem;
 	}
 
@@ -293,6 +319,11 @@
 		color: var(--text-main, #f8fafc);
 		border-color: rgba(255, 255, 255, 0.2);
 		transform: translateX(-3px);
+	}
+
+	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
+	.group-page__nav .nav-back-link--forward:hover {
+		transform: translateX(3px);
 	}
 
 	/* Шапка групи */

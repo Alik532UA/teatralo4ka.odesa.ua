@@ -2,7 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { fly } from 'svelte/transition';
-	import { ArrowLeft, Plus, Camera, Pencil } from 'lucide-svelte';
+	import { ArrowLeft, ArrowRight, Plus, Camera, Pencil } from 'lucide-svelte';
 	import { asset } from '$app/paths';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
@@ -117,7 +117,16 @@
 				data-testid="master-profile-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.allTeachers', { default: 'Всі викладачі' })}</span>
+				<span>{$t('galaxy.allTeachers', { default: 'Всі дорослі' })}</span>
+			</a>
+
+			<a
+				href={localizedPath('/projects/galaxy-graduates/', isEn ? 'en' : 'uk')}
+				class="back-btn back-btn--forward"
+				data-testid="master-profile-galaxy-link"
+			>
+				<span>{$t('galaxy.title')}</span>
+				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</div>
 
@@ -360,7 +369,16 @@
 		padding: 0 1rem;
 	}
 
+	/*
+	 * Два шляхи, а не один: назад до переліку дорослих і вперед до галактики.
+	 * `wrap` — бо разом підписи довші за вузький екран, і на iPhone SE другий
+	 * лягає на свій рядок замість того, щоб вилізти за край.
+	 */
 	.master-page__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem;
 		margin-bottom: 1.5rem;
 	}
 
@@ -383,6 +401,14 @@
 	.back-btn:hover {
 		border-color: var(--accent-primary);
 		transform: translateX(-3px);
+	}
+
+	/*
+	 * Складений добір, а не самотній модифікатор: у Svelte `.back-btn:hover`
+	 * має ту саму вагу, і правило нижче лише випадково перемагало б порядком.
+	 */
+	.master-page__nav .back-btn--forward:hover {
+		transform: translateX(3px);
 	}
 
 	.master-page__layout {
