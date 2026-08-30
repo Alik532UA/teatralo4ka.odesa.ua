@@ -100,12 +100,7 @@
 		syncFormUrl(false);
 	}
 
-	let playsCardEl = $state<HTMLElement | null>(null);
 	let playsListEl = $state<HTMLUListElement | null>(null);
-
-	let rightColEl = $state<HTMLElement | null>(null);
-
-	let centerColEl = $state<HTMLElement | null>(null);
 
 	const isEn = $derived($locale === "en");
 	const enrollmentYears = $derived(
@@ -123,64 +118,6 @@
 	 * тепер це видно й у даних, а не лише на екрані.
 	 */
 	const hasFestivals = $derived(getFestivalsByMember(graduate.id).length > 0);
-
-	/*
-	 * Фестивалі їдуть у ту колонку, де більше місця.
-	 *
-	 * Заміряються НЕ самі колонки, а їхній решта вміст: плашка вистав ліворуч
-	 * проти плашок «Про себе» й викладачів праворуч. Це не педантизм —
-	 * інакше перенос замкнув би сам себе: поставлений ліворуч блок робить ліву
-	 * колонку вищою, наступний замір відправив би його назад, і так по колу.
-	 *
-	 * У Чалчинського вісім вистав і довге «Про себе» — фестивалі стають
-	 * ліворуч; в Аліка вистав двадцять, і ліворуч місця немає — лишаються
-	 * праворуч.
-	 */
-	let festivalsInLeft = $state(false);
-
-	function recalcFestivalsColumn() {
-		if (!browser || !hasFestivals) return;
-		// На вузькому екрані колонки одна під одною — переносити нема куди.
-		if (window.innerWidth < 769 || !playsCardEl || !rightColEl) {
-			festivalsInLeft = false;
-			return;
-		}
-		const left = playsCardEl.offsetHeight;
-		const right = [...rightColEl.children]
-			.filter((el) => !el.classList.contains("bento-card--festivals"))
-			.reduce((sum, el) => sum + (el as HTMLElement).offsetHeight, 0);
-		// Запас, щоб блок не стрибав від різниці в десяток пікселів.
-		festivalsInLeft = left > 0 && left + 120 < right;
-	}
-
-	/*
-	 * Спостерігач, а не один замір на монтуванні.
-	 *
-	 * Перший замір трапляється, коли висоти ще не усталилися — шрифти й портрети
-	 * лише вантажаться, а `recalcPlaysFitting` узагалі стискає список ПІСЛЯ
-	 * нього. Заміряно на цьому й попалося: в Аліка блок їхав ліворуч, дарма що
-	 * ліва плашка 792 px проти 742 px праворуч.
-	 *
-	 * Замкнутися спостерігач не може: жодна з двох величин, які порівнюються,
-	 * від переїзду блока не залежить.
-	 */
-	$effect(() => {
-		if (!browser) return;
-		const _ = profile?.plays?.length;
-		const __ = profile?.bio?.length;
-		const ___ = normalizedTeachers.length;
-
-		recalcFestivalsColumn();
-		const ro = new ResizeObserver(() => recalcFestivalsColumn());
-		if (playsCardEl) ro.observe(playsCardEl);
-		if (rightColEl) ro.observe(rightColEl);
-		const onResize = () => recalcFestivalsColumn();
-		window.addEventListener("resize", onResize);
-		return () => {
-			ro.disconnect();
-			window.removeEventListener("resize", onResize);
-		};
-	});
 
 	/*
 	 * Довга назва групи в пілюлі ламається на три рядки й розпихає картку.
@@ -339,34 +276,197 @@
 		),
 	);
 
-	const totalFaculty = $derived(
-		normalizedMasters.length + normalizedTeachers.length,
-	);
-	// Якщо майстри + викладачі > 4 або майстрів > 2 — виділяємо в окремі Bento-плашки
-	const shouldSplitFaculty = $derived(
-		totalFaculty > 4 || normalizedMasters.length > 2,
-	);
 	/*
-	 * Викладачі їдуть у ТРЕТЮ колонку, щойно їх забагато для середньої.
+	 * Майстри й викладачі — ЗАВЖДИ власні плашки.
 	 *
-	 * Умова `hasBio` тут стояла й ламала саме те, заради чого перенос
-	 * робився. Виглядало це так: у кого «Про себе» заповнене, у того викладачі
-	 * охайно ставали праворуч; у кого ні — лишалися в середній колонці й
-	 * розпирали її до прокрутки. Тобто розкладка залежала не від кількості
-	 * викладачів, а від того, чи людина написала про себе абзац.
-	 *
-	 * Третя колонка існує сама по собі: `{#if hasBio || canRelocateTeachersToBio}`
-	 * нижче створює її й без біо, і всередині тоді лишається сама плашка
-	 * викладачів.
+	 * Доти вони при малій кількості жили всередині основної плашки, а при
+	 * великій виділялися в окремі, ще й переїжджали між колонками за трьома
+	 * різними умовами. Це те саме «рівномірне заповнення», тільки записане
+	 * навмання підібраними числами (`> 4`, `> 2`) і без жодного заміру. Тепер
+	 * рішення одне й на всіх: плашка є плашка, а куди її покласти — рахує
+	 * `distribute` за справжніми висотами.
 	 */
-	const canRelocateTeachersToBio = $derived(
-		normalizedTeachers.length > 0 && shouldSplitFaculty,
+
+	/*
+	 * ── Розподіл плашок по колонках ────────────────────────────────────────
+	 *
+	 * Плашки більше не прибиті до колонок у розмітці. Колонка — просто
+	 * контейнер, а що в ній лежить, вирішує розподіл: інакше «рівномірно
+	 * заповнити» неможливо в принципі, бо в одного випускника двадцять вистав,
+	 * а в іншого три.
+	 *
+	 * Схему першої плашки кожної колонки задав замовник, і вона різна для
+	 * різної кількості колонок. Решта — «дивитися для рівномірного заповнення»,
+	 * тобто саме те, що робить `distribute` нижче.
+	 */
+	type BlockKey =
+		| "main"
+		| "masters"
+		| "teachers"
+		| "plays"
+		| "festivals"
+		| "bio";
+
+	/** Порядок читання, коли колонка одна. Він же — черга для решти плашок. */
+	const SINGLE_ORDER: BlockKey[] = [
+		"main",
+		"masters",
+		"teachers",
+		"plays",
+		"festivals",
+		"bio",
+	];
+
+	/** Чим ПОЧИНАЄТЬСЯ кожна колонка. Далі йде вирівнювання. */
+	const SEEDS: Record<number, BlockKey[][]> = {
+		1: [SINGLE_ORDER],
+		2: [["main"], ["masters", "teachers"]],
+		3: [["plays"], ["main"], ["bio"]],
+		4: [["plays"], ["main"], ["masters", "teachers"], ["bio"]],
+	};
+
+	const presentBlocks = $derived(
+		SINGLE_ORDER.filter((key) => {
+			if (key === "main") return true;
+			if (key === "masters") return normalizedMasters.length > 0;
+			if (key === "teachers") return normalizedTeachers.length > 0;
+			if (key === "plays") return hasPlays;
+			if (key === "festivals") return hasFestivals;
+			return hasBio;
+		}),
 	);
-	const hasSeparateTeachersCardInCenter = $derived(
-		shouldSplitFaculty &&
-			normalizedTeachers.length > 0 &&
-			!canRelocateTeachersToBio,
+
+	/**
+	 * Скільки колонок вміщає ширина. Межі — з переліку пристроїв замовника:
+	 * 375 → одна, 768 і 820 → дві, 1024 і звичайний десктоп → три, 4K → чотири.
+	 */
+	function columnsForWidth(width: number): number {
+		if (width < 768) return 1;
+		if (width < 1024) return 2;
+		if (width < 1900) return 3;
+		return 4;
+	}
+
+	/*
+	 * Три, а не одна, доки не виміряно ширину.
+	 *
+	 * Пререндер ширини не знає, і хибний здогад видно оком: сторінка блимає
+	 * іншою розкладкою до гідратації. Три обрано тому, що на вузькому екрані
+	 * колонки СТАЮТЬ ОДНА ПІД ОДНУ (нижче 768 розкладка — звичайний стовпчик),
+	 * тож для телефона три контейнери й один контейнер виглядають однаково.
+	 * Хибним здогад лишається тільки в порядку плашок, і лише на мить.
+	 */
+	let columnCount = $state(3);
+
+	/**
+	 * Чи вже пораховано розкладку за справжньою шириною.
+	 *
+	 * Позначка потрібна перевіркам: до гідратації в розмітці стоїть здогад, і
+	 * гейт, що заміряв би її, звітував би про три колонки на планшеті — тобто
+	 * про те, чого людина не бачить довше за мить.
+	 */
+	let widthKnown = $state(false);
+
+	$effect(() => {
+		if (!browser) return;
+		const apply = () => {
+			columnCount = columnsForWidth(window.innerWidth);
+			widthKnown = true;
+		};
+		apply();
+		window.addEventListener("resize", apply);
+		return () => window.removeEventListener("resize", apply);
+	});
+
+	/** Заміряні висоти плашок. Порожньо — розподіл іде на самих лише схемах. */
+	let blockHeights = $state<Partial<Record<BlockKey, number>>>({});
+
+	/**
+	 * Жадібний розподіл: спершу схема замовника, далі найвища плашка з тих, що
+	 * лишилися, — у найнижчу на цей момент колонку.
+	 *
+	 * Це класична евристика для розкладання на купи рівної ваги, і саме вона
+	 * дає «рівномірне заповнення» без жодного числа, прив'язаного до конкретної
+	 * людини: у кого вистав три, у того плашка вистав легка й поїде туди, де
+	 * місця більше.
+	 */
+	function distribute(
+		count: number,
+		present: BlockKey[],
+		heights: Partial<Record<BlockKey, number>>,
+	): BlockKey[][] {
+		const seeds = SEEDS[count] ?? SEEDS[1];
+		const columns = seeds.map((seed) =>
+			seed.filter((key) => present.includes(key)),
+		);
+		if (count <= 1) return columns;
+
+		/*
+		 * Незаміряній плашці дається середня вага, а не нуль: із нулем усі вони
+		 * на першому кадрі падали б в одну колонку, і перший же замір розкидав
+		 * би їх — тобто розкладка сіпалася б у всіх, у кого немає JS-заміру.
+		 */
+		const weight = (key: BlockKey) => heights[key] ?? 240;
+		const placed = new Set(columns.flat());
+		const totals = columns.map((column) =>
+			column.reduce((sum, key) => sum + weight(key), 0),
+		);
+
+		const rest = present
+			.filter((key) => !placed.has(key))
+			.sort((a, b) => weight(b) - weight(a));
+
+		for (const key of rest) {
+			let target = 0;
+			for (let i = 1; i < totals.length; i += 1) {
+				if (totals[i] < totals[target]) target = i;
+			}
+			columns[target].push(key);
+			totals[target] += weight(key);
+		}
+
+		return columns;
+	}
+
+	const columns = $derived(
+		distribute(columnCount, presentBlocks, blockHeights),
 	);
+
+	let layoutEl = $state<HTMLElement | null>(null);
+
+	/*
+	 * Замір висот — і захист від зациклення.
+	 *
+	 * Перенос плашки міняє висоту колонки, а висота колонки впливає на перенос:
+	 * саме так зациклюється наївна версія. Рятує те, що колонки РІВНІ ЗАВШИРШКИ
+	 * (`repeat(N, minmax(0, 1fr))`), тож висота плашки не залежить від того, у
+	 * якій вона колонці, — а отже новий замір не суперечить попередньому.
+	 *
+	 * Поріг у 6 px додано понад це: без нього дробові пікселі підпису лічилися б
+	 * за зміну й тримали б спостерігача в постійній роботі.
+	 */
+	$effect(() => {
+		if (!browser || !layoutEl) return;
+		const _ = columns;
+
+		const measure = () => {
+			const next: Partial<Record<BlockKey, number>> = {};
+			for (const el of layoutEl!.querySelectorAll<HTMLElement>(
+				"[data-block]",
+			)) {
+				next[el.dataset.block as BlockKey] = el.offsetHeight;
+			}
+			const changed = (Object.keys(next) as BlockKey[]).some(
+				(key) => Math.abs((blockHeights[key] ?? 0) - next[key]!) > 6,
+			);
+			if (changed) blockHeights = next;
+		};
+
+		measure();
+		const ro = new ResizeObserver(measure);
+		for (const el of layoutEl.querySelectorAll("[data-block]")) ro.observe(el);
+		return () => ro.disconnect();
+	});
 
 	function getSocialIcon(network: string): string | null {
 		const lower = network.toLowerCase();
@@ -419,7 +519,7 @@
 	один  двічі в одному компоненті — і гейт це справедливо ловив.
 -->
 {#snippet festivalsCard()}
-	<div class="bento-card bento-card--festivals" data-testid="galaxy-card-festivals-card">
+	<div class="bento-card bento-card--festivals" data-block="festivals" data-testid="galaxy-card-festivals-card">
 		<GraduateFestivals memberId={graduate.id} />
 	</div>
 {/snippet}
@@ -518,19 +618,16 @@
 	себе, а розкладка має залежати від ширини КАРТКИ, а не вікна. Картка
 	відкривається і модалкою, і окремою сторінкою — ширини там різні.
 -->
-<div class="layout-scope">
-	<div
-		class="profile-layout"
-		class:has-plays={hasPlays}
-		class:has-bio={hasBio || canRelocateTeachersToBio}
-		data-testid="galaxy-profile-container"
-	>
-	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
-	{#if hasPlays}
-		<div class="col col--left">
+<!--
+	Плашки лежать у сніпетах, а колонки нижче — просто цикл по тому, що
+	нарахував `distribute`. Доти кожна плашка була прибита до своєї колонки, і
+	«рівномірно заповнити» було ніяк: розкладка не мала жодного способу
+	переставити довгий список туди, де є місце.
+-->
+{#snippet playsCard()}
 			<section
 				class="bento-card bento-card--plays"
-				bind:this={playsCardEl}
+				data-block="plays"
 				data-testid="galaxy-card-plays-section"
 			>
 				<h3 class="block__title">{$t("galaxy.playsTitle")}</h3>
@@ -559,23 +656,12 @@
 					{/each}
 				</ul>
 			</section>
+{/snippet}
 
-			<!-- Фестивалі ПІД виставами: головне в колонці — репертуар, а поїздки
-			     до нього додаток, а не заголовок над ним. -->
-			{#if hasFestivals && festivalsInLeft}
-				{@render festivalsCard()}
-			{/if}
-		</div>
-	{/if}
-
-	<!-- ЦЕНТРАЛЬНА КОЛОНКА: Фото, ім'я, роки, група, майстри, викладачі, соцмережі -->
-	<div
-		class="col col--center"
-		bind:this={centerColEl}
-		{@attach customScroll({ alignThumb: "right", rightOffset: -10 })}
-	>
+{#snippet mainCard()}
 		<div
 			class="bento-card bento-card--main"
+			data-block="main"
 			data-testid="galaxy-card-main-info"
 		>
 			{#if graduate.hasPhoto}
@@ -801,16 +887,6 @@
 				</div>
 			{/if}
 
-			<!-- Якщо розділення не потрібне — показуємо майстрів та викладачів тут всередині -->
-			{#if !shouldSplitFaculty}
-				{#if normalizedMasters.length > 0}
-					{@render mastersContent()}
-				{/if}
-				{#if normalizedTeachers.length > 0}
-					{@render teachersContent()}
-				{/if}
-			{/if}
-
 <!--
 				Чекати можна лише на те, що справді існує.
 
@@ -826,38 +902,32 @@
 				</p>
 			{/if}
 		</div>
+{/snippet}
 
-		<!-- Окрема Bento-плашка для Майстрів курсу (коли розділено) -->
-		{#if shouldSplitFaculty && normalizedMasters.length > 0}
+{#snippet mastersCard()}
 			<div
 				class="bento-card bento-card--faculty"
+				data-block="masters"
 				data-testid="galaxy-card-masters-card"
 			>
 				{@render mastersContent()}
 			</div>
-		{/if}
+{/snippet}
 
-		<!-- Окрема Bento-плашка для Викладачів (якщо вони залишились у центрі) -->
-		{#if hasSeparateTeachersCardInCenter}
+{#snippet teachersCard()}
 			<div
 				class="bento-card bento-card--faculty"
+				data-block="teachers"
 				data-testid="galaxy-card-teachers-card"
 			>
 				{@render teachersContent()}
 			</div>
-		{/if}
-	</div>
+{/snippet}
 
-	<!-- ПРАВА КОЛОНКА: Про себе, під час навчання, після випуску, фестивалі (+ Викладачі, якщо перенесені) -->
-	{#if hasBio || canRelocateTeachersToBio}
-		<div
-			class="col col--right"
-			bind:this={rightColEl}
-			{@attach customScroll({ alignThumb: "right", rightOffset: -10 })}
-		>
-			{#if hasBio}
+{#snippet bioCard()}
 				<div
 					class="bento-card bento-card--bio"
+					data-block="bio"
 					data-testid="galaxy-card-bio-section"
 				>
 					{#if profile!.duringStudies}
@@ -922,28 +992,32 @@
 						</section>
 					{/if}
 				</div>
-			{/if}
+{/snippet}
 
-			<!--
-				Фестивалі — ВЛАСНА плашка, а не рядок в основній інформації: це не
-				властивість людини, як рік випуску чи відділення, а перелік подій, і
-				кожна з них веде на свою сторінку.
-			-->
-			{#if hasFestivals && !festivalsInLeft}
-				{@render festivalsCard()}
-			{/if}
+{#snippet blockOf(key: string)}
+	{#if key === "main"}{@render mainCard()}
+	{:else if key === "plays"}{@render playsCard()}
+	{:else if key === "masters"}{@render mastersCard()}
+	{:else if key === "teachers"}{@render teachersCard()}
+	{:else if key === "festivals"}{@render festivalsCard()}
+	{:else if key === "bio"}{@render bioCard()}{/if}
+{/snippet}
 
-			<!-- Bento-плашка для Викладачів під блоком «Про себе» -->
-			{#if canRelocateTeachersToBio}
-				<div
-					class="bento-card bento-card--faculty"
-					data-testid="galaxy-card-teachers-bio-card"
-				>
-					{@render teachersContent()}
-				</div>
-			{/if}
-		</div>
-	{/if}
+<div class="layout-scope">
+	<div
+		class="profile-layout"
+		style="--cols: {columns.length}"
+		bind:this={layoutEl}
+		data-measured={widthKnown ? "yes" : "no"}
+		data-testid="galaxy-profile-container"
+	>
+		{#each columns as keys, index (index)}
+			<div class="col" data-testid="galaxy-profile-column-panel-{index}">
+				{#each keys as key (key)}
+					{@render blockOf(key)}
+				{/each}
+			</div>
+		{/each}
 	</div>
 </div>
 
@@ -980,23 +1054,18 @@
 		flex-direction: column;
 		gap: 1rem;
 	}
-	.col--center {
-		order: 1;
-		text-align: center;
-	}
-	.col--left {
-		order: 2;
-	}
-	.col--right {
-		order: 3;
-	}
+	/*
+	 * Класів `col--left/center/right` більше немає: колонка не знає, що в ній
+	 * лежить. Порядок плашок задає розподіл у скрипті, а вигляд — класи самих
+	 * плашок.
+	 */
 
 	.bento-card {
 		width: 100%;
 		box-sizing: border-box;
 	}
 
-	@media (min-width: 769px) {
+	@media (min-width: 768px) {
 		.profile-layout {
 			display: grid;
 			grid-template-columns: minmax(280px, 420px);
@@ -1019,58 +1088,20 @@
 		 * iPad Air 820: три колонки 340/260/280 при 787 px картки — упритул.
 		 */
 		/*
-		 * ДВІ колонки, доки не вистачає місця на три.
+		 * Скільки колонок — вирішує скрипт і передає числом у `--cols`.
 		 *
-		 * Заміряно: на iPad Air 820 три колонки вставали на своїх мінімумах
-		 * (340/260/280), зміст у двох із них скролився, а внизу лишалося 180 px
-		 * порожніми. Дві колонки на тій самій ширині дають кожній по ~380 px.
+		 * Медіазапитами це не робиться: сітка тут не самоціль, а наслідок
+		 * розподілу плашок, і те саме число потрібне обом. Два джерела правди про
+		 * кількість колонок вже призводили до розбіжності — CSS давав три колонки
+		 * там, де змісту вистачало на дві.
 		 *
-		 * Розподіл — за схемою замовника: перша колонка це ОСНОВА (фото, ім'я,
-		 * роки, група), під нею вистави; друга — все інше.
+		 * Колонки РІВНІ: `minmax(0, 1fr)`. Це не смак, а умова, без якої розподіл
+		 * зациклюється — висота плашки не сміє залежати від того, у яку колонку
+		 * вона потрапила.
 		 */
-		.profile-layout.has-plays.has-bio {
-			grid-template-columns: minmax(280px, 1fr) minmax(280px, 1fr);
-		}
-		.profile-layout.has-plays.has-bio .col--center {
-			grid-column: 1;
-			grid-row: 1;
-		}
-		.profile-layout.has-plays.has-bio .col--left {
-			grid-column: 1;
-			grid-row: 2;
-		}
-		.profile-layout.has-plays.has-bio .col--right {
-			grid-column: 2;
-			grid-row: 1 / span 2;
-		}
-
-		/*
-		 * ТРИ колонки з'являються, коли на них справді є місце: 980 px — це
-		 * 3 × 280 плюс проміжки. Нижче за цю межу третя колонка існувала лише
-		 * номінально, тиснучи решту до мінімумів.
-		 */
-		@media (min-width: 980px) {
-			.profile-layout.has-plays.has-bio {
-				grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 300px) minmax(280px, 1fr);
-			}
-			.profile-layout.has-plays.has-bio .col--left {
-				grid-column: 1;
-				grid-row: 1;
-			}
-			.profile-layout.has-plays.has-bio .col--center {
-				grid-column: 2;
-				grid-row: 1;
-			}
-			.profile-layout.has-plays.has-bio .col--right {
-				grid-column: 3;
-				grid-row: 1;
-			}
-		}
-		.profile-layout.has-plays:not(.has-bio) {
-			grid-template-columns: minmax(280px, 1.2fr) minmax(260px, 300px);
-		}
-		.profile-layout.has-bio:not(.has-plays) {
-			grid-template-columns: minmax(260px, 300px) minmax(280px, 1fr);
+		.profile-layout {
+			grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+			width: 100%;
 		}
 
 		/*
@@ -1085,13 +1116,21 @@
 		 */
 		.col {
 			/*
-			 * Стеля — САМЕ ВІКНО, без магічних 820. Але прокрутка лишається: без
-			 * неї найвища колонка просто вилазила за модалку, і зміст ставав
-			 * недосяжним (заміряно на iPad Air: 316 px нижче екрана без способу
-			 * дійти). Скролиться те, що справді не вмістилося, — і рівно стільки.
+			 * БЕЗ стелі й без власної прокрутки — узагалі.
+			 *
+			 * Стеля тут була двічі, і двічі помилково: спершу магічні 820 px,
+			 * потім `calc(100dvh - 130px)`, де 130 — теж навмання взяте число.
+			 * Заміряно на iPad Pro 1024×1366 з другим варіантом: колонки
+			 * закінчувалися на 952, 980 і 1368 — три різні низи, причому третій
+			 * на 2 px за екраном. Тобто число не збігалося з дійсним відступом
+			 * зверху й не могло збігатися: у модалці він один, на власній
+			 * сторінці інший.
+			 *
+			 * Правило замовника — прокрутка потрібна тоді, коли місця НЕМАЄ.
+			 * Стеля робила протилежне: вкорочувала колонку, поки під карткою
+			 * лишалося порожньо. Тепер колонка має рівно висоту свого змісту, а
+			 * прокрутку бере на себе те, що й має, — модалка або сторінка.
 			 */
-			max-height: calc(100dvh - 130px);
-			overflow-y: auto;
 			min-height: 0;
 			background: transparent;
 			border: none;
@@ -1108,35 +1147,34 @@
 			height: 0;
 		}
 
-		.col--left {
-			order: 1;
-			max-width: min(920px, 60vw);
-			overflow: visible;
-		}
-		.col--center {
-			order: 2;
+		/*
+		 * Осьове вирівнювання належить ПЛАШЦІ, а не колонці: основна плашка й
+		 * плашки майстрів центровані де завгодно, бо тепер вони можуть опинитися
+		 * у будь-якій колонці.
+		 */
+		.bento-card--main,
+		.bento-card--faculty {
 			text-align: center;
-			gap: clamp(0.75rem, 1.5vh, 1.25rem);
 		}
-		.col--center .bento-card {
+		.bento-card {
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
-		.col--center .photo-container {
+		.bento-card--main .photo-container {
 			margin: 0 auto 1.1rem;
 		}
-		.col--center .photo,
-		.col--center .photo-stack {
+		.bento-card--main .photo,
+		.bento-card--main .photo-stack {
 			width: clamp(100px, 40vw, 175px);
 			height: clamp(100px, 40vw, 175px);
 		}
-		.col--center .name {
+		.bento-card--main .name {
 			font-size: clamp(1.3rem, 3.5dvh, 1.7rem);
 			margin: 0 0 0.5rem;
 		}
-		.col--center .socials {
+		.bento-card--main .socials {
 			margin: 0.2rem 0 0.8rem;
 		}
-		.col--center .social__img {
+		.bento-card--main .social__img {
 			width: 34px;
 			height: 34px;
 		}
@@ -1147,50 +1185,51 @@
 		 * колонки — розміри рахує `recalc*` цього ж файлу й роздає через
 		 * `--center-years-*`.
 		 */
-		.col--center :global(.years) {
+		.bento-card--main :global(.years) {
 			font-size: 0.95rem;
 			margin: 0 0 0.9rem;
 		}
-		.col--center .groups-container {
+		.bento-card--main .groups-container {
 			font-size: 0.95rem;
 			margin: 0 0 1rem;
 		}
-		.col--center .bento-card--main .masters-container {
+		.bento-card--main .masters-container {
 			margin: 0 0 1.1rem;
 		}
-		.col--center .bento-card--faculty .masters-container {
+		.bento-card--faculty .masters-container {
 			margin-bottom: 0;
 		}
-		.col--center .master-item {
+		.bento-card--main .master-item,
+		.bento-card--faculty .master-item {
 			padding: 0;
 		}
-		.col--center .master-link-wrapper {
+		.bento-card--main .master-link-wrapper,
+		.bento-card--faculty .master-link-wrapper {
 			padding: 0.25rem 0.75rem;
 		}
-		.col--center .master-name {
+		.bento-card--main .master-name,
+		.bento-card--faculty .master-name {
 			font-size: 0.92rem;
 		}
-		.col--right {
-			order: 3;
-			max-width: min(580px, 42vw);
+		.bento-card--bio {
 			font-size: 0.95rem;
 		}
-		.col--right .bento-card {
+		.bento-card--bio {
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
-		.col--right .block {
+		.bento-card--bio .block {
 			margin-top: 0;
 			margin-bottom: 1.25rem;
 		}
-		.col--right .block__title {
+		.bento-card--bio .block__title {
 			margin: 0 0 0.5rem;
 		}
-		.col--right .para {
+		.bento-card--bio .para {
 			font-size: 0.95rem;
 			line-height: 1.55;
 			margin: 0 0 0.6rem;
 		}
-		.col--right .block:last-child {
+		.bento-card--bio .block:last-child {
 			margin-bottom: 0;
 		}
 
@@ -1201,27 +1240,25 @@
 			box-shadow: 0 16px 48px rgb(0 0 0 / 0.4);
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
+		/*
+		 * Останнє магічне число, що лишалося після зняття стель у колонках:
+		 * `max-height: min(88dvh, 820px)`. Заміряно на iPad Pro 1024×1366 —
+		 * список вистав показував 734 px із 1399, тобто ховав 665 px, і робив це
+		 * тоді, коли під карткою лишалося порожнє місце. Саме це видно на
+		 * скріншоті замовника: смуга прокрутки в першій колонці й порожнеча
+		 * знизу. Картка більше нічого не обрізає.
+		 */
 		.bento-card--plays {
 			display: flex;
 			flex-direction: column;
-			max-height: min(88dvh, 820px);
-			overflow: visible;
 		}
 		.bento-card--plays .block__title {
 			flex-shrink: 0;
 			margin: 0 0 0.5rem;
 		}
 		.bento-card--plays .plays {
-			min-height: 0;
-			overflow-y: auto;
 			font-size: 0.92rem;
 			line-height: 1.35;
-			scrollbar-width: none;
-		}
-		.bento-card--plays .plays::-webkit-scrollbar {
-			display: none;
-			width: 0;
-			height: 0;
 		}
 		.bento-card--plays .play {
 			padding: 0.35rem 0;

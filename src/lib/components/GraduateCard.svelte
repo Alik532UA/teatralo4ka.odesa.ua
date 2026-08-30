@@ -2,6 +2,7 @@
 	import { getAbortSignal } from "svelte";
 	import { page } from "$app/state";
 	import { focusTrap } from "$lib/utils/focusTrap";
+	import { scrollFade } from "$lib/utils/scrollFade";
 	import { overlayFade, overlayPop } from "$lib/utils/overlayTransition";
 	import {
 		type GraduateIndexEntry,
@@ -140,6 +141,7 @@
 		contactOpen = false;
 		onclose();
 	}
+
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
@@ -166,6 +168,7 @@
 		<div
 			class="card__inner"
 			bind:this={innerEl}
+			{@attach scrollFade()}
 			data-testid="galaxy-card-inner"
 		>
 			<GraduateCardToolbar
@@ -207,17 +210,13 @@
 		 */
 		max-height: calc(100dvh - 90px);
 		/*
-		 * `auto`, а не `visible`. Модалка має `position: fixed`, тож прокрутка
-		 * сторінки її не рухає: із `visible` усе, що не вмістилося у вікно,
-		 * просто обрізалося й ставало НЕДОСЯЖНИМ. Заміряно на iPad Air 820:
-		 * останній рядок вистав був на 350 px нижче екрана без жодного способу
-		 * до нього дійти.
-		 *
-		 * Доти цього не було видно, бо кожна колонка скролилася сама; коли
-		 * колонкам зняли стелю висоти, обрізати стало нікому — і зміст зник.
+		 * Сама картка НЕ прокручується і НЕ приймає подій: прокрутка живе на
+		 * `.card__inner` нижче. Різниця не косметична — картка завширшки майже з
+		 * увесь екран, і якби події приймала вона, клік повз зміст перестав би
+		 * закривати вікно. Внутрішній контейнер завширшки рівно зі зміст, тож
+		 * порожні поля обабіч і далі належать підкладці.
 		 */
-		overflow-y: auto;
-		overflow-x: visible;
+		overflow: visible;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -231,10 +230,17 @@
 	.card__inner {
 		position: relative;
 		/*
-		 * Не стискатися: як флекс-елемент усередині картки з `max-height` він
-		 * ужимався до її висоти, і прокрутки виходило 34 px замість 350 —
-		 * тобто зміст лишався недосяжним попри `overflow-y: auto`.
+		 * Прокрутка ТУТ, і це єдине місце, де вона лишилася.
+		 *
+		 * Колонки більше не мають власних стель — вони ростуть за змістом. Тож
+		 * усе, що не вмістилося у вікно, має прокручувати щось одне зверху, і
+		 * цим одним є внутрішній контейнер. Доти прокрутка стояла на `.card`,
+		 * але та ж таки `.card` мала `pointer-events: none` — колесо до неї не
+		 * доходило, і зміст за екраном був недосяжний.
 		 */
+		max-height: 100%;
+		overflow-y: auto;
+		scrollbar-width: none;
 		flex-shrink: 0;
 		width: fit-content;
 		max-width: 100%;
@@ -242,7 +248,12 @@
 		flex-direction: column;
 		align-items: center;
 		padding: 0;
-		pointer-events: none;
+		pointer-events: auto;
+	}
+	.card__inner::-webkit-scrollbar {
+		display: none;
+		width: 0;
+		height: 0;
 	}
 	.card__inner :global(.profile-layout),
 	.card__inner :global(.col) {
@@ -269,7 +280,12 @@
 			padding-top: 0;
 			pointer-events: auto;
 		}
-		.card__inner :global(.profile-layout),
+		.card__inner::-webkit-scrollbar {
+		display: none;
+		width: 0;
+		height: 0;
+	}
+	.card__inner :global(.profile-layout),
 		.card__inner :global(.col) {
 			pointer-events: auto;
 		}

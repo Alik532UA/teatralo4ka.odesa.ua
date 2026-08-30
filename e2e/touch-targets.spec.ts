@@ -86,7 +86,6 @@ const BELOW_STANDARD: Record<string, string[]> = {
 		'button.active.gc-dot',
 		'button.active.view-btn',
 		'button.f-dot',
-		'button.footer__btn-piano',
 		'button.footer__link',
 		'button.gc-dot',
 		'button.gc-play-btn',
@@ -100,7 +99,6 @@ const BELOW_STANDARD: Record<string, string[]> = {
 		'a.footer__link',
 		'a.footer__social-link',
 		'a.skip-link',
-		'button.footer__btn-piano',
 		'button.footer__link',
 		'button.header__burger.header__burger--mobile',
 		'button.header__burger.header__search-mobile'

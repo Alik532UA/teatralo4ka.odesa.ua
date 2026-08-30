@@ -8,6 +8,7 @@
 	import { Pencil, X } from "lucide-svelte";
 	import { asset } from "$app/paths";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
+	import { scrollFade } from "$lib/utils/scrollFade";
 	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
 	import { localeFromPath, localizedPath } from "$lib/i18n/routing";
 	import {
@@ -196,6 +197,7 @@
 		<article
 			class="profile__card"
 			bind:this={profileEl}
+			{@attach scrollFade()}
 			style="--shift-y: {shiftY}px"
 			data-testid="graduate-profile-card"
 		>
@@ -504,7 +506,18 @@
 			position: relative;
 			z-index: 1;
 			width: min(1760px, 96vw);
-			max-height: min(90dvh, 840px);
+			/*
+			 * ДРУГА копія магічних 840. Перша жила в модалці й різала зміст;
+			 * прибрали її — а тут лишилася, і власна сторінка випускника далі
+			 * обрізала останні рядки. Заміряно на 1440×900: останній рядок
+			 * вистав закінчувався на 988 px при вікні 900, і колесо його не
+			 * діставало, бо сцена має `overflow: hidden`, а сама картка не
+			 * прокручувалася взагалі.
+			 *
+			 * Тепер межа одна — висота сцени, а прокрутку бере картка нижче.
+			 */
+			max-height: 100%;
+			min-height: 0;
 			margin: 0;
 			padding: 0;
 			display: flex;
@@ -522,7 +535,14 @@
 			box-shadow: none;
 			padding: 0;
 			transform: translateY(var(--shift-y, 0px));
-			overflow: visible;
+			/*
+			 * Прокручується САМЕ картка, а не сцена: сцена — нерухоме тло на
+			 * весь екран із зорями, і зсувати її не можна. Ширина картки
+			 * дорівнює змісту, тож поля обабіч лишаються тлом.
+			 */
+			max-height: 100%;
+			overflow-y: auto;
+			scrollbar-width: none;
 			display: flex;
 			flex-direction: column;
 			align-items: center;

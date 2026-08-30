@@ -4,7 +4,9 @@
 	import { localizedPath } from '$lib/i18n/routing';
 
 	/**
-	 * Клавіша підвала, що по черзі стає то піаніно, то входом у галактику.
+	 * Клавіша підвала, що по черзі стає то піаніно, то входом у галактику, —
+	 * але тільки там, де є курсор. На телефоні обидві кнопки стоять поруч, і
+	 * причина цього описана нижче, біля `sideBySide`.
 	 *
 	 * Розмір задано ОБГОРТЦІ, а не кожному з варіантів, і варіанти лежать у ній
 	 * абсолютно. Інакше на кожній підміні підвал сіпався б: два різні написи
@@ -33,6 +35,30 @@
 	/** Поки курсор на кнопці, таймер її не чіпає — людина її роздивляється. */
 	let hovered = $state(false);
 	let lastManualSwap = 0;
+
+	/**
+	 * На вузькому екрані підміни НЕМАЄ: обидві кнопки стоять поруч.
+	 *
+	 * Підміна тримається на тому, чого на телефоні немає. Курсор може завмерти
+	 * над кнопкою й зупинити таймер, колесо й права кнопка дають підміну на
+	 * вимогу — з пальцем не працює жодне з трьох. Лишається сама лише черга по
+	 * одинадцять секунд: половину часу потрібної кнопки просто немає на екрані,
+	 * і дочекатися її — єдиний спосіб. У підвалі, що вже переносить рядки,
+	 * місця на дві кнопки вистачає (2 × 120 плюс проміжок — 252 px при 375).
+	 *
+	 * Заразом це прибрало нестабільність двох перевірок CSP: вони клацали
+	 * піаніно, а на мобільному прогоні встигала статися підміна, і клік летів у
+	 * порожнечу.
+	 */
+	let sideBySide = $state(false);
+
+	$effect(() => {
+		const mq = window.matchMedia('(max-width: 768px)');
+		const apply = () => (sideBySide = mq.matches);
+		apply();
+		mq.addEventListener('change', apply);
+		return () => mq.removeEventListener('change', apply);
+	});
 
 	/**
 	 * Перехід Svelte при ПЕРШОМУ рендері не програється — саме тому окремого
@@ -74,6 +100,8 @@
 	 * `setInterval` нікому не потрібен і нікого не будить.
 	 */
 	$effect(() => {
+		// Обидві кнопки на екрані — міняти нічого й ніде.
+		if (sideBySide) return;
 		const id = setInterval(() => {
 			if (hovered) return;
 			/*
@@ -120,6 +148,7 @@
 -->
 <div
 	class="swap"
+	class:swap--both={sideBySide}
 	onmouseenter={() => (hovered = true)}
 	onmouseleave={() => (hovered = false)}
 	onwheel={handleWheel}
@@ -127,52 +156,73 @@
 	role="presentation"
 	data-testid="footer-play-container"
 >
-	{#if showGalaxy}
-		<a
-			href={galaxyHref}
-			class="swap__face swap__face--galaxy"
-			in:flip
-			out:flip
-			aria-label={$t('galaxy.title')}
-			title={$t('galaxy.title')}
-			data-testid="footer-galaxy-link"
-		>
-			<span class="galaxy__sky" aria-hidden="true">
-				<span class="galaxy__star" style="--x: 14%; --y: 30%; --d: 0s"></span>
-				<span class="galaxy__star" style="--x: 38%; --y: 68%; --d: 0.7s"></span>
-				<span class="galaxy__star" style="--x: 62%; --y: 24%; --d: 1.4s"></span>
-				<span class="galaxy__star" style="--x: 84%; --y: 60%; --d: 2.1s"></span>
-			</span>
-			<span class="swap__text">{$t('galaxy.flyShort')}</span>
-		</a>
+	{#if sideBySide}
+		{@render galaxyFace(0)}
+		{@render pianoFace(0)}
+	{:else if showGalaxy}
+		{@render galaxyFace(420)}
 	{:else}
-		<button
-			class="swap__face swap__face--piano"
-			in:flip
-			out:flip
-			onclick={onpiano}
-			aria-label={$t('footer.play')}
-			title={$t('footer.play')}
-			data-testid="footer-piano-btn"
-		>
-			<!--
-				Напису тут немає навмисно: клавіші самі кажуть, що це піаніно, а
-				слово затуляло їх білою плашкою. Для диктора назва лишається в
-				`aria-label`, для миші — у підказці.
-			-->
-			<span class="piano__keys" aria-hidden="true">
-				<span class="piano__white"></span>
-				<span class="piano__white"></span>
-				<span class="piano__white"></span>
-				<span class="piano__white"></span>
-				<span class="piano__white"></span>
-				<span class="piano__black" style="left: 20%"></span>
-				<span class="piano__black" style="left: 60%"></span>
-				<span class="piano__black" style="left: 80%"></span>
-			</span>
-		</button>
+		{@render pianoFace(420)}
 	{/if}
 </div>
+
+<!--
+	Обидва варіанти лежать у сніпетах, а не двічі в розмітці: інакше
+	`data-testid` тієї самої кнопки трапився б у файлі двічі, і сторонній читач
+	не знав би, яка з двох копій справжня. Тут копія одна, а гілка вирішує лише,
+	скільки їх показати.
+
+	Тривалість переходить параметром, бо директиву не можна поставити під умову:
+	нуль означає «без повороту», і саме він потрібен, коли обидві кнопки стоять
+	поруч і підмінятися їм нема на що.
+-->
+{#snippet galaxyFace(dur: number)}
+	<a
+		href={galaxyHref}
+		class="swap__face swap__face--galaxy"
+		in:flip={{ duration: dur }}
+		out:flip={{ duration: dur }}
+		aria-label={$t('galaxy.title')}
+		title={$t('galaxy.title')}
+		data-testid="footer-galaxy-link"
+	>
+		<span class="galaxy__sky" aria-hidden="true">
+			<span class="galaxy__star" style="--x: 14%; --y: 30%; --d: 0s"></span>
+			<span class="galaxy__star" style="--x: 38%; --y: 68%; --d: 0.7s"></span>
+			<span class="galaxy__star" style="--x: 62%; --y: 24%; --d: 1.4s"></span>
+			<span class="galaxy__star" style="--x: 84%; --y: 60%; --d: 2.1s"></span>
+		</span>
+		<span class="swap__text">{$t('galaxy.flyShort')}</span>
+	</a>
+{/snippet}
+
+{#snippet pianoFace(dur: number)}
+	<button
+		class="swap__face swap__face--piano"
+		in:flip={{ duration: dur }}
+		out:flip={{ duration: dur }}
+		onclick={onpiano}
+		aria-label={$t('footer.play')}
+		title={$t('footer.play')}
+		data-testid="footer-piano-btn"
+	>
+		<!--
+			Напису тут немає навмисно: клавіші самі кажуть, що це піаніно, а
+			слово затуляло їх білою плашкою. Для диктора назва лишається в
+			`aria-label`, для миші — у підказці.
+		-->
+		<span class="piano__keys" aria-hidden="true">
+			<span class="piano__white"></span>
+			<span class="piano__white"></span>
+			<span class="piano__white"></span>
+			<span class="piano__white"></span>
+			<span class="piano__white"></span>
+			<span class="piano__black" style="left: 20%"></span>
+			<span class="piano__black" style="left: 60%"></span>
+			<span class="piano__black" style="left: 80%"></span>
+		</span>
+	</button>
+{/snippet}
 
 <style>
 	.swap {
@@ -182,6 +232,31 @@
 		flex-shrink: 0;
 		/* Глибина, без якої поворот виглядав би плоским стисканням. */
 		perspective: 320px;
+	}
+
+	/*
+	 * Дві кнопки поруч: обгортка перестає бути сценою для підміни й стає
+	 * звичайним рядком, а варіанти виходять з абсолютного позиціювання. Ширина
+	 * задається тут, бо в режимі підміни її тримала сама обгортка.
+	 */
+	.swap--both {
+		display: flex;
+		gap: var(--space-sm, 0.5rem);
+		width: auto;
+		/*
+		 * 44, а не 36: тут кнопку натискають пальцем, і це саме той поріг, який
+		 * перевіряє `touch-targets`. Доти обидва варіанти були в переліку
+		 * винятків — спершу під іменем `footer__btn-piano`, яке після
+		 * перейменування перестало збігатися з будь-чим на сторінці.
+		 */
+		height: 44px;
+		perspective: none;
+	}
+	.swap--both .swap__face {
+		position: relative;
+		inset: auto;
+		width: 120px;
+		flex-shrink: 0;
 	}
 
 	.swap__face {
