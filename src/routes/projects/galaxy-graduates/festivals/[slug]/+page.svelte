@@ -7,7 +7,6 @@
 		ArrowRight,
 		Theater,
 		Users,
-		Globe,
 		GraduationCap,
 		Calendar
 	} from 'lucide-svelte';
@@ -35,6 +34,34 @@
 	 * скопіювати. Те саме рішення, що й на сторінці групи.
 	 */
 	const selectedGraduate = $derived(graduateFromPageState());
+
+	/**
+	 * Склад поїздки щоразу в новому порядку — щоб ніхто не стояв першим завжди.
+	 *
+	 * Перемішування живе в `$effect`, а НЕ в тілі компонента, і це не стиль:
+	 * сторінка потрапляє в prerender, тож на сервері порядок мусить лишитися тим
+	 * самим, що й у готовому HTML. Перемішай його там — і гідратація побачить
+	 * іншу розмітку, ніж прийшла з мережі. Ефект виконується вже в браузері.
+	 *
+	 * Фішер—Йейтс, а не `sort(() => Math.random() - 0.5)`: другий дає нерівний
+	 * розподіл (порівняння не транзитивне) і в частині рушіїв майже не рухає
+	 * початок списку — тобто «випадковість», якої насправді немає.
+	 *
+	 * Викладачів це не стосується: їх у поїздці двоє-п'ятеро, і порядок там —
+	 * той, у якому їх назвали.
+	 */
+	let shuffled = $state<typeof data.members | null>(null);
+
+	$effect(() => {
+		const list = [...data.members];
+		for (let i = list.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[list[i], list[j]] = [list[j], list[i]];
+		}
+		shuffled = list;
+	});
+
+	const members = $derived(shuffled ?? data.members);
 
 	const festivalTitle = $derived(
 		isEn && data.festival.nameEn ? data.festival.nameEn : data.festival.name
@@ -80,7 +107,6 @@
 
 			<div class="fest-header__badges">
 				<span class="fest-badge" data-testid="festival-where-badge">
-					<span class="icon-wrap icon-wrap--gold"><Globe size={14} aria-hidden="true" /></span>
 					<span class="fest-badge__flags">
 						{#each data.festival.countries as code (code)}
 							<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
@@ -125,7 +151,7 @@
 					сторінки, з якої вона щойно почала.
 				-->
 				<div class="people-grid" data-testid="festival-members-list">
-					{#each data.members as member, idx (member.id)}
+					{#each members as member, idx (member.id)}
 						{@const photoSrc = member.hasPhoto ? asset(`/graduates/${member.slug}-192.webp`) : null}
 						<GroupPersonCard
 							name={member.name}
@@ -340,14 +366,6 @@
 		border-color: rgba(99, 102, 241, 0.3);
 		color: #a5b4fc;
 	}
-	.icon-wrap--gold {
-		width: 1.7rem;
-		height: 1.7rem;
-		background: rgba(234, 179, 8, 0.15);
-		border-color: rgba(234, 179, 8, 0.3);
-		color: #fde68a;
-	}
-
 	.people-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));

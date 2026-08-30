@@ -84,16 +84,6 @@ const VOCABULARY = [
 		]
 	},
 	{
-		concept: 'фестиваль: місце проведення',
-		icon: 'Globe',
-		sites: [
-			{
-				file: 'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte',
-				marker: 'festival-where-badge'
-			}
-		]
-	},
-	{
 		concept: 'позивний групи',
 		icon: 'Sparkles',
 		sites: [
