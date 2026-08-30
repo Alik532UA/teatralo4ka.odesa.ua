@@ -1,0 +1,30 @@
+[
+	{
+		"slug": "slavianskyi-venok",
+		"name": "Славянский венок",
+		"nameEn": "Slavianskyi Venok",
+		"years": [2010],
+		"countries": ["BG"],
+		"memberIds": ["alik-zapolnov", "olena-mrost"],
+		"playIds": ["slavianskyi-venok-2010"]
+	},
+	{
+		"slug": "kvitucha-chekhiia",
+		"name": "Квітуча Чехія",
+		"nameEn": "Blooming Czechia",
+		"years": [2011],
+		"countries": ["AT", "CZ", "DE"],
+		"memberIds": ["alik-zapolnov"],
+		"playIds": []
+	},
+	{
+		"slug": "mrii-dim",
+		"name": "Мрій-Дім",
+		"nameEn": "Mrii-Dim",
+		"years": [2012, 2013],
+		"countries": ["UA"],
+		"city": "Прилуки",
+		"memberIds": ["alik-zapolnov"],
+		"playIds": ["uryvky-z-dramaturhii-20-stolittia-2012", "uryvky-z-klasyky-2013"]
+	}
+]

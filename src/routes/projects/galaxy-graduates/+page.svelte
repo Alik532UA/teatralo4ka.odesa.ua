@@ -4,7 +4,7 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { List, Plus } from 'lucide-svelte';
+	import { List, Plus, GraduationCap, Globe } from 'lucide-svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
@@ -354,6 +354,24 @@
 			<span>{$t('galaxy.all')}</span>
 			<span class="stage__total" data-testid="galaxy-roster-total-count">{data.graduates.length}</span>
 		</button>
+
+		<a
+			class="stage__roster-btn stage__roster-btn--nav"
+			href={localizedPath('/projects/galaxy-graduates/groups/', locale)}
+			data-testid="galaxy-groups-link"
+		>
+			<GraduationCap size={18} aria-hidden="true" />
+			<span>{$t('galaxy.groupsTitle')}</span>
+		</a>
+
+		<a
+			class="stage__roster-btn stage__roster-btn--nav"
+			href={localizedPath('/projects/galaxy-graduates/festivals/', locale)}
+			data-testid="galaxy-festivals-link"
+		>
+			<Globe size={18} aria-hidden="true" />
+			<span>{$t('galaxy.festivalsTitle')}</span>
+		</a>
 
 		<button
 			type="button"

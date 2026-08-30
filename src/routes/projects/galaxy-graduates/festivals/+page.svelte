@@ -1,0 +1,256 @@
+<script lang="ts">
+	import { t, locale } from 'svelte-i18n';
+	import { ArrowLeft, ArrowRight, Users, Calendar, Theater } from 'lucide-svelte';
+	import { localizedPath } from '$lib/i18n/routing';
+	import { FESTIVALS, festivalPath, flagOf, latestYear } from '$lib/data/festivals';
+
+	const isEn = $derived($locale === 'en');
+	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
+
+	/**
+	 * Найновіші згори — так само, як у переліку груп: людина шукає свою поїздку,
+	 * а не найдавнішу.
+	 */
+	const ordered = $derived(
+		[...FESTIVALS].sort(
+			(a, b) => latestYear(b) - latestYear(a) || a.name.localeCompare(b.name, 'uk')
+		)
+	);
+
+	/** «2012, 2013» — роки списком, бо на фестиваль їздять не раз. */
+	const yearsOf = (years: number[]) => [...years].sort((x, y) => x - y).join(', ');
+
+	/*
+	 * Місце рахується рядком, а не збирається в розмітці: Svelte прибирає пробіл
+	 * перед {/if}, і «Прилуки, Україна» виходило злитим у «Прилуки,Україна».
+	 */
+	const whereOf = (city: string | undefined, countries: string[]) =>
+		[city, countries.map((c) => $t(`galaxy.country.${c}`)).join(' · ')].filter(Boolean).join(', ');
+</script>
+
+<svelte:head>
+	<title>{$t('galaxy.festivalsTitle')} | {$t('hero.title')}</title>
+	<meta name="description" content={$t('galaxy.festivalsDescription')} />
+</svelte:head>
+
+<main class="festivals-page" data-testid="graduate-festivals-panel">
+	<div class="container">
+		<nav class="festivals-page__nav clears-logo" aria-label="Breadcrumb">
+			<a
+				href={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
+				class="nav-link"
+				data-testid="galaxy-festivals-back-link"
+			>
+				<ArrowLeft size={18} aria-hidden="true" />
+				<span>{$t('galaxy.backToGroups')}</span>
+			</a>
+
+			<a
+				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				class="nav-link nav-link--forward"
+				data-testid="galaxy-festivals-galaxy-link"
+			>
+				<span>{$t('galaxy.title')}</span>
+				<ArrowRight size={18} aria-hidden="true" />
+			</a>
+		</nav>
+
+		<header class="festivals-header">
+			<h1 class="festivals-header__title" data-testid="galaxy-festivals-title">
+				{$t('galaxy.festivalsTitle')}
+			</h1>
+			<p class="festivals-header__count">{ordered.length}</p>
+		</header>
+
+		<ul class="festivals-grid" data-testid="galaxy-festivals-list">
+			{#each ordered as festival (festival.slug)}
+				<li>
+					<a
+						class="fest-card"
+						href={localizedPath(festivalPath(festival.slug), currentLang)}
+						data-testid="galaxy-festival-card-{festival.slug}"
+					>
+						<span class="fest-card__head">
+							<span class="fest-card__name">
+								{isEn && festival.nameEn ? festival.nameEn : festival.name}
+							</span>
+							<!--
+								Прапорці — прикраса, тому `aria-hidden`: країну однаково називає
+								підпис поруч, і читалці екрана два рази поспіль вона не потрібна.
+							-->
+							<span class="fest-card__flags" aria-hidden="true">
+								{festival.countries.map(flagOf).join(' ')}
+							</span>
+						</span>
+
+						<span class="fest-card__where">{whereOf(festival.city, festival.countries)}</span>
+
+						<span class="fest-card__meta">
+							<span class="fest-card__badge">
+								<Calendar size={13} aria-hidden="true" />
+								{yearsOf(festival.years)}
+							</span>
+							<!--
+								Значків «0» немає навмисно: склад і показ вносять поступово, і
+								нуль повідомляв би не про фестиваль, а про стан наших даних.
+							-->
+							{#if festival.memberIds.length > 0}
+								<span class="fest-card__badge">
+									<Users size={13} aria-hidden="true" />
+									{festival.memberIds.length}
+								</span>
+							{/if}
+							{#if festival.playIds.length > 0}
+								<span class="fest-card__badge">
+									<Theater size={13} aria-hidden="true" />
+									{festival.playIds.length}
+								</span>
+							{/if}
+						</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	</div>
+</main>
+
+<style>
+	.festivals-page {
+		position: relative;
+		min-height: 100dvh;
+		padding: 2rem 1rem 5rem;
+		color: var(--text-main, #f0f2f5);
+	}
+
+	.festivals-page__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-bottom: 1.5rem;
+	}
+	.nav-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem 1rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-main);
+		font-size: 0.9rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition:
+			border-color var(--transition-base),
+			transform var(--transition-base);
+	}
+	.nav-link:hover {
+		border-color: var(--accent-primary);
+		transform: translateX(-3px);
+	}
+	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
+	.festivals-page__nav .nav-link--forward:hover {
+		transform: translateX(3px);
+	}
+
+	.festivals-header {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 2rem;
+	}
+	.festivals-header__title {
+		margin: 0;
+		font-size: clamp(1.6rem, 4vw, 2.4rem);
+		font-weight: 800;
+		color: var(--text-title);
+	}
+	.festivals-header__count {
+		margin: 0;
+		display: grid;
+		place-items: center;
+		min-width: 2rem;
+		height: 2rem;
+		padding: 0 0.5rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		font-weight: 700;
+	}
+
+	.festivals-grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+		gap: 1rem;
+	}
+
+	.fest-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		height: 100%;
+		padding: 1.1rem 1.25rem;
+		border-radius: var(--radius-xl, 20px);
+		background: var(--bg-card);
+		border: 1px solid var(--border-main);
+		box-shadow: var(--shadow-sm);
+		color: inherit;
+		text-decoration: none;
+		transition:
+			transform var(--transition-base),
+			border-color var(--transition-base),
+			box-shadow var(--transition-base);
+	}
+	.fest-card:hover {
+		transform: translateY(-3px);
+		border-color: var(--accent-primary);
+		box-shadow: var(--shadow-main);
+	}
+	.fest-card__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.fest-card__name {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--text-title);
+		line-height: 1.25;
+	}
+	.fest-card__flags {
+		font-size: 1rem;
+		line-height: 1;
+		letter-spacing: 0.1em;
+	}
+	.fest-card__where {
+		font-size: 0.86rem;
+		color: var(--text-muted);
+		line-height: 1.4;
+	}
+	.fest-card__meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		margin-top: auto;
+		padding-top: 0.5rem;
+	}
+	.fest-card__badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		padding: 0.15rem 0.5rem;
+		border-radius: var(--radius-sm, 6px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.78rem;
+		font-weight: 600;
+	}
+</style>

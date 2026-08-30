@@ -72,9 +72,16 @@ export async function load({ params }) {
 		};
 	});
 
-	// Випускники групи з індексу
+	/*
+	 * Пошук за `id`, а не за адресою.
+	 *
+	 * `memberIds` — саме ключі, і гейт груп звіряє їх із `g.id`. Пошук же йшов за
+	 * `slug`/`code` і працював лише збігом: сьогодні в жодного випускника вони не
+	 * розходяться. Першого ж виправлення адреси — а таких за одну сесію було
+	 * п'ять — вистачило б, щоб людина зникла зі складу, а гейт лишився зеленим.
+	 */
 	const members: GraduateIndexEntry[] = group.memberIds
-		.map((slug) => GRADUATES.find((g) => g.slug === slug || g.code === slug))
+		.map((id) => GRADUATES.find((g) => g.id === id))
 		.filter((g): g is GraduateIndexEntry => Boolean(g));
 
 	/*

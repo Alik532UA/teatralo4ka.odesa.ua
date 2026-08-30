@@ -1013,6 +1013,19 @@
       "instrumental": "Instrumental Department",
       "piano": "Piano",
       "guitar": "Guitar"
+    },
+    "festivalsTitle": "Festivals",
+    "festivalsDescription": "Festivals the Odesa Theatre School travelled to: years, countries, participants and the productions shown.",
+    "backToFestivals": "All festivals",
+    "festivalMembers": "Who travelled",
+    "festivalPlays": "Productions shown",
+    "festivalEmpty": "Participants and productions are still being added.",
+    "country": {
+      "AT": "Austria",
+      "BG": "Bulgaria",
+      "CZ": "Czechia",
+      "DE": "Germany",
+      "UA": "Ukraine"
     }
   }
 }
