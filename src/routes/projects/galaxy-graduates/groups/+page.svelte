@@ -94,7 +94,7 @@
 							</span>
 							<span class="group-card__badge">
 								<Theater size={13} aria-hidden="true" />
-								{group.plays.length}
+								{group.playIds.length}
 							</span>
 						</span>
 

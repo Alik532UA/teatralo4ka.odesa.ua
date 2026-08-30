@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { GROUPS, getGroupBySlug } from '$lib/data/groups';
 import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
+import { playsByIds } from '$lib/data/plays';
 import type { MasterIndexEntry } from '$lib/data/masters';
 
 export const prerender = true;
@@ -76,10 +77,19 @@ export async function load({ params }) {
 		.map((slug) => GRADUATES.find((g) => g.slug === slug || g.code === slug))
 		.filter((g): g is GraduateIndexEntry => Boolean(g));
 
+	/*
+	 * Репертуар розгортається з ключів ТУТ, а не в компоненті: сторінка має
+	 * дістати готові дані, а не ходити в реєстр із розмітки. Ключі, яким нічого
+	 * не відповідає, `playsByIds` мовчки відкидає — про саме́ розходження кричить
+	 * гейт, і кричить на збірці.
+	 */
+	const plays = playsByIds(group.playIds);
+
 	return {
 		group,
 		masters,
 		teachers,
-		members
+		members,
+		plays
 	};
 }

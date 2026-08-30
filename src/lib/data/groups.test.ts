@@ -48,14 +48,14 @@ describe('GROUPS data integrity', () => {
 		}
 	});
 
-	it('усі вистави в групі мають валідні роки та назви', () => {
-		for (const group of GROUPS) {
-			expect(group.plays.length).toBeGreaterThan(0);
-			for (const play of group.plays) {
-				expect(play.year).toBeGreaterThanOrEqual(1990);
-				expect(play.text.trim().length).toBeGreaterThan(0);
-			}
-		}
+	/*
+	 * Репертуар тепер — ключі, а не копії назв, тож валідність самих вистав
+	 * перевіряє `plays.test.ts`. Тут лишається те, що стосується групи: сторінка
+	 * без жодної вистави була б порожньою.
+	 */
+	it('у кожної групи є щонайменше одна вистава', () => {
+		const bad = GROUPS.filter((g) => g.playIds.length === 0).map((g) => g.slug);
+		expect(bad, `група без репертуару:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('хелпери getGroupBySlug, getGroupByTitleOrAbbr, getGroupByMember повертають правильні групи', () => {

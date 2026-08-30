@@ -3,10 +3,10 @@
 	import { asset } from '$app/paths';
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import { parseVideoUrl } from '$lib/utils/videoEmbed';
-	import type { GroupPlay } from '$lib/data/groups';
+	import type { Play } from '$lib/data/plays';
 
 	interface Props {
-		plays: readonly GroupPlay[];
+		plays: readonly Play[];
 	}
 
 	let { plays }: Props = $props();
@@ -29,10 +29,10 @@
 	Нутрощі рядка однакові для обох випадків, тож лежать у сніпеті: гілки нижче
 	відрізняються лише тегом.
 -->
-{#snippet playRow(play: GroupPlay, hasVideo: boolean)}
+{#snippet playRow(play: Play, hasVideo: boolean)}
 	<span class="play-card__year-badge">{play.year}</span>
 	<span class="play-card__content">
-		<h3 class="play-card__title">{play.text}</h3>
+		<h3 class="play-card__title">{play.title}</h3>
 	</span>
 	{#if hasVideo}
 		<span class="play-card__video" data-testid="group-play-video-badge-{play.year}">
@@ -49,7 +49,7 @@
 {/snippet}
 
 <div class="plays-timeline" data-testid="group-plays-list">
-	{#each plays as play, idx (idx)}
+	{#each plays as play, idx (play.id)}
 		{@const video = videos[idx]}
 		<!--
 			Вистава із записом — справжній <button>, а не div із обробником:
@@ -76,7 +76,7 @@
 
 <VideoModal
 	video={openIndex >= 0 ? videos[openIndex] : null}
-	title={openIndex >= 0 ? plays[openIndex].text : ''}
+	title={openIndex >= 0 ? plays[openIndex].title : ''}
 	onclose={() => {
 		openIndex = -1;
 	}}

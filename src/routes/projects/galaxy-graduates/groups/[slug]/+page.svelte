@@ -195,17 +195,17 @@
 		{/if}
 
 		<!-- 3. Секція: Репертуар вистав -->
-		{#if data.group.plays.length > 0}
+		{#if data.plays.length > 0}
 			<section class="group-section" aria-labelledby="section-plays-title">
 				<div class="section-heading">
 					<span class="icon-wrap icon-wrap--primary"><Theater size={20} aria-hidden="true" /></span>
 					<h2 id="section-plays-title" class="section-heading__title">
 						{$t('galaxy.groupRepertoire')}
 					</h2>
-					<span class="section-heading__count">{data.group.plays.length}</span>
+					<span class="section-heading__count">{data.plays.length}</span>
 				</div>
 
-				<GroupPlaysTimeline plays={data.group.plays} />
+				<GroupPlaysTimeline plays={data.plays} />
 			</section>
 		{/if}
 	</div>

@@ -64,36 +64,13 @@
 			"anastasiia-chalchynska",
 			"krystyna-manchenko"
 		],
-		"plays": [
-			{
-				"year": 2012,
-				"text": "«Чайка», одноактовки",
-				"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ"
-			},
-			{
-				"year": 2011,
-				"text": "«Мнимый больной»",
-				"videoUrl": "https://www.youtube.com/watch?v=CP56qEi4sWY"
-			},
-			{
-				"year": 2010,
-				"text": "«Маленький принц»",
-				"videoUrl": "https://www.youtube.com/watch?v=UTLPVBLLJYs"
-			},
-			{
-				"year": 2009,
-				"text": "«Вперед Котенок»",
-				"videoUrl": "https://www.youtube.com/watch?v=Sbes3lG9HOc"
-			},
-			{
-				"year": 2008,
-				"text": "«Кощеевы страсти»",
-				"videoUrl": "https://www.youtube.com/watch?v=L1S6Z-bGUMU"
-			},
-			{
-				"year": 2007,
-				"text": "«Дядюшка Кролик против дядюшки Ягуара»"
-			}
+		"playIds": [
+			"chaika-2012",
+			"mnymyi-bolnoi-2011",
+			"malenkyi-prynts-2010",
+			"vpered-kotenok-2009",
+			"koshcheevy-strasty-2008",
+			"diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
 		]
 	},
 	{
@@ -136,55 +113,19 @@
 			"olena-beluhina",
 			"vanessa-serbul"
 		],
-		"plays": [
-			{
-				"year": 2004,
-				"text": "«Чиполлино»"
-			},
-			{
-				"year": 2005,
-				"text": "«Гном Вася»"
-			},
-			{
-				"year": 2005,
-				"text": "«Цветик-семицветик»"
-			},
-			{
-				"year": 2006,
-				"text": "«Времена года»"
-			},
-			{
-				"year": 2006,
-				"text": "«Сказка о попе и его работнике Балде»"
-			},
-			{
-				"year": 2007,
-				"text": "«Чёрная курица, или Подземные жители»"
-			},
-			{
-				"year": 2008,
-				"text": "«Cat’s» («Кошки»)"
-			},
-			{
-				"year": 2009,
-				"text": "«Вечер с ангелами»"
-			},
-			{
-				"year": 2009,
-				"text": "«Звуки музыки»"
-			},
-			{
-				"year": 2010,
-				"text": "«Детский садик»"
-			},
-			{
-				"year": 2010,
-				"text": "«Мнимый больной»"
-			},
-			{
-				"year": 2012,
-				"text": "«Юбилей»"
-			}
+		"playIds": [
+			"chypollyno-2004",
+			"hnom-vasia-2005",
+			"tsvetyk-semytsvetyk-2005",
+			"vremena-hoda-2006",
+			"skazka-o-pope-y-eho-rabotnyke-balde-2006",
+			"chernaia-kurytsa-yly-podzemnye-zhytely-2007",
+			"cats-koshky-2008",
+			"vecher-s-anhelamy-2009",
+			"zvuky-muzyky-2009",
+			"detskyi-sadyk-2010",
+			"mnymyi-bolnoi-2010",
+			"iubylei-2012"
 		]
 	},
 	{
@@ -211,115 +152,34 @@
 			"erika-chichasova",
 			"taisiia-ruseskul"
 		],
-		"plays": [
-			{
-				"year": 2025,
-				"text": "«Голоси»"
-			},
-			{
-				"year": 2025,
-				"text": "«Байдужий красень + Людський голос»"
-			},
-			{
-				"year": 2024,
-				"text": "«Четверта стіна»"
-			},
-			{
-				"year": 2024,
-				"text": "«4 стіна»"
-			},
-			{
-				"year": 2023,
-				"text": "«Уривки з класики»"
-			},
-			{
-				"year": 2023,
-				"text": "«На перші гулі»"
-			},
-			{
-				"year": 2023,
-				"text": "«звірячі історії»"
-			},
-			{
-				"year": 2023,
-				"text": "«Кассандра»"
-			},
-			{
-				"year": 2022,
-				"text": "«Листи до Бога»"
-			},
-			{
-				"year": 2022,
-				"text": "«Дівчата»"
-			},
-			{
-				"year": 2022,
-				"text": "«Geist»"
-			},
-			{
-				"year": 2021,
-				"text": "«Казки про всяк випадок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Аватари»"
-			},
-			{
-				"year": 2021,
-				"text": "«Всі миші люблять сир»"
-			},
-			{
-				"year": 2020,
-				"text": "«Етюди»"
-			},
-			{
-				"year": 2020,
-				"text": "«Все літо в один день»"
-			},
-			{
-				"year": 2020,
-				"text": "«вір у себе»"
-			},
-			{
-				"year": 2020,
-				"text": "«Просто вір у себе»"
-			},
-			{
-				"year": 2019,
-				"text": "«Мусорний мюзикл»"
-			},
-			{
-				"year": 2019,
-				"text": "роль: температуріус"
-			},
-			{
-				"year": 2019,
-				"text": "«Сміттєвий мюзикл»"
-			},
-			{
-				"year": 2019,
-				"text": "«Аватари»"
-			},
-			{
-				"year": 2018,
-				"text": "«Все літо в один день»"
-			},
-			{
-				"year": 2017,
-				"text": "етюди (кішка"
-			},
-			{
-				"year": 2016,
-				"text": "казка терем ок лиса"
-			},
-			{
-				"year": 2016,
-				"text": "«ТеремOK»"
-			},
-			{
-				"year": 2015,
-				"text": "«Ріпка»"
-			}
+		"playIds": [
+			"holosy-2025",
+			"baiduzhyi-krasen-liudskyi-holos-2025",
+			"chetverta-stina-2024",
+			"4-stina-2024",
+			"uryvky-z-klasyky-2023",
+			"na-pershi-huli-2023",
+			"zviriachi-istorii-2023",
+			"kassandra-2023",
+			"lysty-do-boha-2022",
+			"divchata-2022",
+			"geist-2022",
+			"kazky-pro-vsiak-vypadok-2021",
+			"avatary-2021",
+			"vsi-myshi-liubliat-syr-2021",
+			"etiudy-2020",
+			"vse-lito-v-odyn-den-2020",
+			"vir-u-sebe-2020",
+			"prosto-vir-u-sebe-2020",
+			"musornyi-miuzykl-2019",
+			"rol-temperaturius-2019",
+			"smittievyi-miuzykl-2019",
+			"avatary-2019",
+			"vse-lito-v-odyn-den-2018",
+			"etiudy-kishka-2017",
+			"kazka-terem-ok-lysa-2016",
+			"teremok-2016",
+			"ripka-2015"
 		]
 	},
 	{
@@ -344,59 +204,20 @@
 			"daiana-ponomarenko",
 			"yevhen-lysenko"
 		],
-		"plays": [
-			{
-				"year": 2018,
-				"text": "«Тот, кто открывает двери»"
-			},
-			{
-				"year": 2018,
-				"text": "«Двери»"
-			},
-			{
-				"year": 2017,
-				"text": "«Толпа одиноких»"
-			},
-			{
-				"year": 2017,
-				"text": "«Крокі»"
-			},
-			{
-				"year": 2017,
-				"text": "«Натовп самотніх»"
-			},
-			{
-				"year": 2016,
-				"text": "«Ревизор»"
-			},
-			{
-				"year": 2016,
-				"text": "«Отрывки из классики»"
-			},
-			{
-				"year": 2015,
-				"text": "«Сказки сквозь камень»"
-			},
-			{
-				"year": 2015,
-				"text": "«Казки крізь каміння»"
-			},
-			{
-				"year": 2014,
-				"text": "«Весёлый Роджер»"
-			},
-			{
-				"year": 2013,
-				"text": "«Аліса в Задзеркаллі»"
-			},
-			{
-				"year": 2012,
-				"text": "«Моя Вообразилия»"
-			},
-			{
-				"year": 2010,
-				"text": "«Кошкин дом»"
-			}
+		"playIds": [
+			"tot-kto-otkryvaet-dvery-2018",
+			"dvery-2018",
+			"tolpa-odynokykh-2017",
+			"kroki-2017",
+			"natovp-samotnikh-2017",
+			"revyzor-2016",
+			"otryvky-yz-klassyky-2016",
+			"skazky-skvoz-kamen-2015",
+			"kazky-kriz-kaminnia-2015",
+			"veselyi-rodzher-2014",
+			"alisa-v-zadzerkalli-2013",
+			"moia-voobrazylyia-2012",
+			"koshkyn-dom-2010"
 		]
 	},
 	{
@@ -436,43 +257,16 @@
 			"mariia-mahdalina-matvieieva",
 			"oleh-vizitiei"
 		],
-		"plays": [
-			{
-				"year": 2024,
-				"text": "«Тривожні люди»"
-			},
-			{
-				"year": 2023,
-				"text": "«З цією виставою щось не так »"
-			},
-			{
-				"year": 2023,
-				"text": "«Сон Забрьохи»"
-			},
-			{
-				"year": 2023,
-				"text": "«Конотопська відьма»"
-			},
-			{
-				"year": 2022,
-				"text": "«Вісім люблячих жінок»"
-			},
-			{
-				"year": 2022,
-				"text": "«8 люблячих жінок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Пароль Поцілунок»"
-			},
-			{
-				"year": 2020,
-				"text": "«Кароліна в країні жахів»"
-			},
-			{
-				"year": 2019,
-				"text": "«Етюди »"
-			}
+		"playIds": [
+			"tryvozhni-liudy-2024",
+			"z-tsiieiu-vystavoiu-shchos-ne-tak-2023",
+			"son-zabrokhy-2023",
+			"konotopska-vidma-2023",
+			"visim-liubliachykh-zhinok-2022",
+			"8-liubliachykh-zhinok-2022",
+			"parol-potsilunok-2021",
+			"karolina-v-kraini-zhakhiv-2020",
+			"etiudy-2019"
 		]
 	},
 	{
@@ -501,31 +295,13 @@
 			"anastasiia-kuropatkyna",
 			"anastasiia-ivanes"
 		],
-		"plays": [
-			{
-				"year": 2011,
-				"text": "«Толпа одиноких»"
-			},
-			{
-				"year": 2011,
-				"text": "«Идиот»"
-			},
-			{
-				"year": 2010,
-				"text": "«Три сестри»"
-			},
-			{
-				"year": 2010,
-				"text": "«Дикая утка»"
-			},
-			{
-				"year": 2010,
-				"text": "«Чополлино»"
-			},
-			{
-				"year": 2009,
-				"text": "«Отрывки из классики»"
-			}
+		"playIds": [
+			"tolpa-odynokykh-2011",
+			"ydyot-2011",
+			"try-sestry-2010",
+			"dykaia-utka-2010",
+			"chopollyno-2010",
+			"otryvky-yz-klassyky-2009"
 		]
 	},
 	{
@@ -548,47 +324,17 @@
 			"sofiia-skuratovych",
 			"valeriia-babenko"
 		],
-		"plays": [
-			{
-				"year": 2025,
-				"text": "«Ромео і Джульєтта»"
-			},
-			{
-				"year": 2025,
-				"text": "«Соловей»"
-			},
-			{
-				"year": 2025,
-				"text": "«Трамвай Бажання»"
-			},
-			{
-				"year": 2025,
-				"text": "«Дівчинка з Ведмедиком»"
-			},
-			{
-				"year": 2024,
-				"text": "Уривки з класики (Мама)"
-			},
-			{
-				"year": 2024,
-				"text": "«Аліса в Задзеркаллі»"
-			},
-			{
-				"year": 2024,
-				"text": "«Аліса»"
-			},
-			{
-				"year": 2023,
-				"text": "«Аліса в країні див»"
-			},
-			{
-				"year": 2023,
-				"text": "Етюди"
-			},
-			{
-				"year": 2022,
-				"text": "Етюди (клоунесса; італьянка; другорядні ролі)"
-			}
+		"playIds": [
+			"romeo-i-dzhulietta-2025",
+			"solovei-2025",
+			"tramvai-bazhannia-2025",
+			"divchynka-z-vedmedykom-2025",
+			"uryvky-z-klasyky-mama-2024",
+			"alisa-v-zadzerkalli-2024",
+			"alisa-2024",
+			"alisa-v-kraini-dyv-2023",
+			"etiudy-2023",
+			"etiudy-klounessa-italianka-druhoriadni-roli-2022"
 		]
 	},
 	{
@@ -625,63 +371,21 @@
 			"anastasiia-fishchenko",
 			"anastasiia-ihnatovych"
 		],
-		"plays": [
-			{
-				"year": 2022,
-				"text": "«Енеїда»"
-			},
-			{
-				"year": 2018,
-				"text": "« Замарашка»"
-			},
-			{
-				"year": 2017,
-				"text": "« Золотая лавина»"
-			},
-			{
-				"year": 2016,
-				"text": "«Отрывки из классики»"
-			},
-			{
-				"year": 2015,
-				"text": "«Солёное детство»"
-			},
-			{
-				"year": 2015,
-				"text": "«Недетские игрушки»"
-			},
-			{
-				"year": 2014,
-				"text": "«Приятного аппетита, Тигр»"
-			},
-			{
-				"year": 2014,
-				"text": "«Общежитие»"
-			},
-			{
-				"year": 2013,
-				"text": "«Э. Т. Ю. Д. Ы.»"
-			},
-			{
-				"year": 2012,
-				"text": "«Волшебный колодец»"
-			},
-			{
-				"year": 2011,
-				"text": "«Золушка»"
-			},
-			{
-				"year": 2010,
-				"text": "«Клубничное королевство»"
-			},
-			{
-				"year": 2009,
-				"text": "«Облачко»"
-			},
-			{
-				"year": 2003,
-				"text": "Утренники (2003–2008)"
-			}
+		"playIds": [
+			"eneida-2022",
+			"zamarashka-2018",
+			"zolotaia-lavyna-2017",
+			"otryvky-yz-klassyky-2016",
+			"solenoe-detstvo-2015",
+			"nedetskye-yhrushky-2015",
+			"pryiatnoho-appetyta-tyhr-2014",
+			"obshchezhytye-2014",
+			"e-t-iu-d-y-2013",
+			"volshebnyi-kolodets-2012",
+			"zolushka-2011",
+			"klubnychnoe-korolevstvo-2010",
+			"oblachko-2009",
+			"utrennyky-2003-2008-2003"
 		]
 	},
 	{
@@ -709,67 +413,22 @@
 			"daria-rybalchenko",
 			"heorhii-topor"
 		],
-		"plays": [
-			{
-				"year": 2022,
-				"text": "«Піду до зірок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Чапаєв та Василіса»"
-			},
-			{
-				"year": 2020,
-				"text": "«Граємо Зощенко»"
-			},
-			{
-				"year": 2019,
-				"text": "«Отрывки из классики»"
-			},
-			{
-				"year": 2018,
-				"text": "«Фейс-бу-чік»"
-			},
-			{
-				"year": 2018,
-				"text": "«Фото топлес»"
-			},
-			{
-				"year": 2017,
-				"text": "«Гензель та Гретель»"
-			},
-			{
-				"year": 2016,
-				"text": "«Зоряний експрес»"
-			},
-			{
-				"year": 2016,
-				"text": "«Звёздный экспресс»"
-			},
-			{
-				"year": 2015,
-				"text": "«Олівер Твіст»"
-			},
-			{
-				"year": 2013,
-				"text": "«Етюди»"
-			},
-			{
-				"year": 2012,
-				"text": "«Дім мавпи»"
-			},
-			{
-				"year": 2011,
-				"text": "«Гуси-лебеді»"
-			},
-			{
-				"year": 2011,
-				"text": "«Город монстров»"
-			},
-			{
-				"year": 2010,
-				"text": "«Місто монстрів»"
-			}
+		"playIds": [
+			"pidu-do-zirok-2022",
+			"chapaiev-ta-vasylisa-2021",
+			"hraiemo-zoshchenko-2020",
+			"otryvky-yz-klassyky-2019",
+			"feis-bu-chik-2018",
+			"foto-toples-2018",
+			"henzel-ta-hretel-2017",
+			"zorianyi-ekspres-2016",
+			"zvezdnyi-ekspress-2016",
+			"oliver-tvist-2015",
+			"etiudy-2013",
+			"dim-mavpy-2012",
+			"husy-lebedi-2011",
+			"horod-monstrov-2011",
+			"misto-monstriv-2010"
 		]
 	},
 	{
@@ -824,39 +483,15 @@
 			"sonia-makhnovska",
 			"ivan-pitel"
 		],
-		"plays": [
-			{
-				"year": 2026,
-				"text": "«Тінь»"
-			},
-			{
-				"year": 2025,
-				"text": "«Перевізник»"
-			},
-			{
-				"year": 2024,
-				"text": "«Уривки з класики»"
-			},
-			{
-				"year": 2024,
-				"text": "«Четверта стіна»"
-			},
-			{
-				"year": 2023,
-				"text": "«Нікому не потрібні»"
-			},
-			{
-				"year": 2021,
-				"text": "«Сентиментальна подорож»"
-			},
-			{
-				"year": 2020,
-				"text": "«Суботик»"
-			},
-			{
-				"year": 2015,
-				"text": "«Колобоня»"
-			}
+		"playIds": [
+			"tin-2026",
+			"pereviznyk-2025",
+			"uryvky-z-klasyky-2024",
+			"chetverta-stina-2024",
+			"nikomu-ne-potribni-2023",
+			"sentymentalna-podorozh-2021",
+			"subotyk-2020",
+			"kolobonia-2015"
 		]
 	},
 	{
@@ -883,43 +518,16 @@
 			"kateryna-poltavtseva",
 			"milena-binkovska"
 		],
-		"plays": [
-			{
-				"year": 2023,
-				"text": "«З цією виставою щось не так / Вбивство в маєтку Гавершамів»"
-			},
-			{
-				"year": 2022,
-				"text": "«8 любьячих жінок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Пароль Поцелуй»"
-			},
-			{
-				"year": 2021,
-				"text": "«Пароль поцілунок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Аста»"
-			},
-			{
-				"year": 2020,
-				"text": "«Кароліна»"
-			},
-			{
-				"year": 2020,
-				"text": "«Кароліна в країні жахів»"
-			},
-			{
-				"year": 2020,
-				"text": "«Дивовижні пригоди кролика Едварда»"
-			},
-			{
-				"year": 2019,
-				"text": "Етюди"
-			}
+		"playIds": [
+			"z-tsiieiu-vystavoiu-shchos-ne-tak-vbyvstvo-v-mai-2023",
+			"8-liubiachykh-zhinok-2022",
+			"parol-potselui-2021",
+			"parol-potsilunok-2021",
+			"asta-2021",
+			"karolina-2020",
+			"karolina-v-kraini-zhakhiv-2020",
+			"dyvovyzhni-pryhody-krolyka-edvarda-2020",
+			"etiudy-2019"
 		]
 	},
 	{
@@ -955,35 +563,14 @@
 			"bohdana-dymchenko",
 			"nadiia-hasynets"
 		],
-		"plays": [
-			{
-				"year": 2024,
-				"text": "«Тривожні люди»"
-			},
-			{
-				"year": 2023,
-				"text": "«З цією виставою щось не так »"
-			},
-			{
-				"year": 2023,
-				"text": "«З цією пʼєсою щось не так»"
-			},
-			{
-				"year": 2021,
-				"text": "«Пароль Поцілунок»"
-			},
-			{
-				"year": 2020,
-				"text": "«Кароліна в країні жахів»"
-			},
-			{
-				"year": 2020,
-				"text": "«Кораліна в крїни кошмарів»"
-			},
-			{
-				"year": 2019,
-				"text": "«Етюди »"
-			}
+		"playIds": [
+			"tryvozhni-liudy-2024",
+			"z-tsiieiu-vystavoiu-shchos-ne-tak-2023",
+			"z-tsiieiu-piesoiu-shchos-ne-tak-2023",
+			"parol-potsilunok-2021",
+			"karolina-v-kraini-zhakhiv-2020",
+			"koralina-v-kriny-koshmariv-2020",
+			"etiudy-2019"
 		]
 	},
 	{
@@ -1020,59 +607,20 @@
 			"daria-rybalchenko",
 			"maryna-kravchuk"
 		],
-		"plays": [
-			{
-				"year": 2023,
-				"text": "«Рецепти виживання»"
-			},
-			{
-				"year": 2022,
-				"text": "«Піду до зірок»"
-			},
-			{
-				"year": 2021,
-				"text": "«Чапаєв та Василіса»"
-			},
-			{
-				"year": 2020,
-				"text": "«Граємо Зощенко»"
-			},
-			{
-				"year": 2019,
-				"text": "«Уривки з класики»"
-			},
-			{
-				"year": 2018,
-				"text": "«Фейс-бу-чік»"
-			},
-			{
-				"year": 2017,
-				"text": "«Гензель та Гретель»"
-			},
-			{
-				"year": 2016,
-				"text": "«Зоряний експрес»"
-			},
-			{
-				"year": 2015,
-				"text": "«Олівер Твіст»"
-			},
-			{
-				"year": 2013,
-				"text": "«Етюди»"
-			},
-			{
-				"year": 2012,
-				"text": "«Дім мавпи»"
-			},
-			{
-				"year": 2011,
-				"text": "«Гуси-лебеді»"
-			},
-			{
-				"year": 2010,
-				"text": "«Місто монстрів»"
-			}
+		"playIds": [
+			"retsepty-vyzhyvannia-2023",
+			"pidu-do-zirok-2022",
+			"chapaiev-ta-vasylisa-2021",
+			"hraiemo-zoshchenko-2020",
+			"uryvky-z-klasyky-2019",
+			"feis-bu-chik-2018",
+			"henzel-ta-hretel-2017",
+			"zorianyi-ekspres-2016",
+			"oliver-tvist-2015",
+			"etiudy-2013",
+			"dim-mavpy-2012",
+			"husy-lebedi-2011",
+			"misto-monstriv-2010"
 		]
 	},
 	{
@@ -1098,47 +646,17 @@
 			"fedir-didyk",
 			"oleksandra-novykova"
 		],
-		"plays": [
-			{
-				"year": 2015,
-				"text": "«Билли +»"
-			},
-			{
-				"year": 2015,
-				"text": "«Женский вопрос»"
-			},
-			{
-				"year": 2014,
-				"text": "«Думайте о нас»"
-			},
-			{
-				"year": 2013,
-				"text": "«Женитьба Бальзаминова»"
-			},
-			{
-				"year": 2012,
-				"text": "«Тринадцатая звезда»"
-			},
-			{
-				"year": 2011,
-				"text": "«Врун из тридевятого царства»"
-			},
-			{
-				"year": 2011,
-				"text": "«Мнимый больной»"
-			},
-			{
-				"year": 2010,
-				"text": "«Дурочка»"
-			},
-			{
-				"year": 2009,
-				"text": "«Дюймовочка»"
-			},
-			{
-				"year": 2008,
-				"text": "«Репка»"
-			}
+		"playIds": [
+			"bylly-2015",
+			"zhenskyi-vopros-2015",
+			"dumaite-o-nas-2014",
+			"zhenytba-balzamynova-2013",
+			"trynadtsataia-zvezda-2012",
+			"vrun-yz-trydeviatoho-tsarstva-2011",
+			"mnymyi-bolnoi-2011",
+			"durochka-2010",
+			"diuimovochka-2009",
+			"repka-2008"
 		]
 	},
 	{
@@ -1159,35 +677,14 @@
 			"kyrylo-karacheban",
 			"yuliana-klymenko"
 		],
-		"plays": [
-			{
-				"year": 2017,
-				"text": "«Вдова полковника»"
-			},
-			{
-				"year": 2016,
-				"text": "«Стеклянный зверинец»"
-			},
-			{
-				"year": 2015,
-				"text": "«Вдова полковника»"
-			},
-			{
-				"year": 2015,
-				"text": "«Плюшевый кролик»"
-			},
-			{
-				"year": 2014,
-				"text": "«Отрывки из классики»"
-			},
-			{
-				"year": 2014,
-				"text": "«Этюды»"
-			},
-			{
-				"year": 2013,
-				"text": "«Плюшевый Кролик»"
-			}
+		"playIds": [
+			"vdova-polkovnyka-2017",
+			"stekliannyi-zverynets-2016",
+			"vdova-polkovnyka-2015",
+			"pliushevyi-krolyk-2015",
+			"otryvky-yz-klassyky-2014",
+			"etiudy-2014-2",
+			"pliushevyi-krolyk-2013"
 		]
 	},
 	{
@@ -1256,87 +753,27 @@
 			"anastasiia-ihnatovych",
 			"sofiya-rudenko"
 		],
-		"plays": [
-			{
-				"year": 2026,
-				"text": "«Заручини»"
-			},
-			{
-				"year": 2025,
-				"text": "«Нічні зошити, або Театр тіней»"
-			},
-			{
-				"year": 2024,
-				"text": "«Я усіх вас люблю»"
-			},
-			{
-				"year": 2023,
-				"text": "«Як подружитися з Чакалкою»"
-			},
-			{
-				"year": 2022,
-				"text": "«Казка про мишей»"
-			},
-			{
-				"year": 2021,
-				"text": "Етюди: школярка"
-			},
-			{
-				"year": 2019,
-				"text": "«Нове вбрання для короля»"
-			},
-			{
-				"year": 2018,
-				"text": "« Замарашка»"
-			},
-			{
-				"year": 2018,
-				"text": "«Багаж»"
-			},
-			{
-				"year": 2017,
-				"text": "« Золотая лавина»"
-			},
-			{
-				"year": 2017,
-				"text": "«Бременські музиканти»"
-			},
-			{
-				"year": 2016,
-				"text": "«Отрывки из классики»"
-			},
-			{
-				"year": 2015,
-				"text": "«Недетские игрушки»"
-			},
-			{
-				"year": 2014,
-				"text": "«Общежитие»"
-			},
-			{
-				"year": 2013,
-				"text": "«Э. Т. Ю. Д. Ы.»"
-			},
-			{
-				"year": 2012,
-				"text": "«Волшебный колодец»"
-			},
-			{
-				"year": 2011,
-				"text": "«Золушка»"
-			},
-			{
-				"year": 2010,
-				"text": "«Клубничное королевство»"
-			},
-			{
-				"year": 2009,
-				"text": "«Облачко»"
-			},
-			{
-				"year": 2003,
-				"text": "Утренники (2003–2008)"
-			}
+		"playIds": [
+			"zaruchyny-2026",
+			"nichni-zoshyty-abo-teatr-tinei-2025",
+			"ia-usikh-vas-liubliu-2024",
+			"iak-podruzhytysia-z-chakalkoiu-2023",
+			"kazka-pro-myshei-2022",
+			"etiudy-shkoliarka-2021",
+			"nove-vbrannia-dlia-korolia-2019",
+			"zamarashka-2018",
+			"bahazh-2018",
+			"zolotaia-lavyna-2017",
+			"bremenski-muzykanty-2017",
+			"otryvky-yz-klassyky-2016",
+			"nedetskye-yhrushky-2015",
+			"obshchezhytye-2014",
+			"e-t-iu-d-y-2013",
+			"volshebnyi-kolodets-2012",
+			"zolushka-2011",
+			"klubnychnoe-korolevstvo-2010",
+			"oblachko-2009",
+			"utrennyky-2003-2008-2003"
 		]
 	},
 	{
@@ -1404,75 +841,24 @@
 			"oleksandra-karachevska",
 			"vitalina-larionova"
 		],
-		"plays": [
-			{
-				"year": 2026,
-				"text": "«Тінь»"
-			},
-			{
-				"year": 2026,
-				"text": "«Дім Бернарди Альби»"
-			},
-			{
-				"year": 2025,
-				"text": "«Перевізник»"
-			},
-			{
-				"year": 2024,
-				"text": "«Голос тихої безодні»"
-			},
-			{
-				"year": 2024,
-				"text": "«Сватання на Гончарівці»"
-			},
-			{
-				"year": 2023,
-				"text": "«Нікому не потрібні»"
-			},
-			{
-				"year": 2023,
-				"text": "«Сім’я грати»"
-			},
-			{
-				"year": 2021,
-				"text": "«Сентиментальна подорож»"
-			},
-			{
-				"year": 2021,
-				"text": "«Усі хлопці — дурні»"
-			},
-			{
-				"year": 2020,
-				"text": "«Суботик»"
-			},
-			{
-				"year": 2020,
-				"text": "«Мишеня — суперсищик»"
-			},
-			{
-				"year": 2019,
-				"text": "Етюди"
-			},
-			{
-				"year": 2018,
-				"text": "«Вінегрет»"
-			},
-			{
-				"year": 2018,
-				"text": "«За законами живої природи»"
-			},
-			{
-				"year": 2017,
-				"text": "«Комахи»"
-			},
-			{
-				"year": 2016,
-				"text": "«Казкова історія»"
-			},
-			{
-				"year": 2015,
-				"text": "«Колобоня»"
-			}
+		"playIds": [
+			"tin-2026",
+			"dim-bernardy-alby-2026",
+			"pereviznyk-2025",
+			"holos-tykhoi-bezodni-2024",
+			"svatannia-na-honcharivtsi-2024",
+			"nikomu-ne-potribni-2023",
+			"simia-hraty-2023",
+			"sentymentalna-podorozh-2021",
+			"usi-khloptsi-durni-2021",
+			"subotyk-2020",
+			"myshenia-supersyshchyk-2020",
+			"etiudy-2019",
+			"vinehret-2018",
+			"za-zakonamy-zhyvoi-pryrody-2018",
+			"komakhy-2017",
+			"kazkova-istoriia-2016",
+			"kolobonia-2015"
 		]
 	},
 	{
@@ -1498,15 +884,9 @@
 			"anastasiia-dereviankyna",
 			"liubov-bernaus"
 		],
-		"plays": [
-			{
-				"year": 2013,
-				"text": "Уривки з «класики»"
-			},
-			{
-				"year": 2012,
-				"text": "«Матінка Міддоус»"
-			}
+		"playIds": [
+			"uryvky-z-klasyky-2013",
+			"matinka-middous-2012"
 		]
 	},
 	{
@@ -1539,27 +919,12 @@
 			"yuliia-zaslavska",
 			"alina-nakonechna"
 		],
-		"plays": [
-			{
-				"year": 2017,
-				"text": "«Аеропорт»"
-			},
-			{
-				"year": 2016,
-				"text": "Уривки з «класики»"
-			},
-			{
-				"year": 2015,
-				"text": "«Де всі…»"
-			},
-			{
-				"year": 2014,
-				"text": "Показ етюдів"
-			},
-			{
-				"year": 2013,
-				"text": "«Таємниці замку Ойленштайн»"
-			}
+		"playIds": [
+			"aeroport-2017",
+			"uryvky-z-klasyky-2016",
+			"de-vsi-2015",
+			"pokaz-etiudiv-2014",
+			"taiemnytsi-zamku-oilenshtain-2013"
 		]
 	}
 ]
