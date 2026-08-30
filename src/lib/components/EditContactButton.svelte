@@ -41,9 +41,18 @@
 		 * немає.
 		 */
 		openTo?: 'up' | 'down';
+		/**
+		 * `button` — олівець, що розкриває меню; `inline` — те саме меню
+		 * розгорнутим, без кнопки.
+		 *
+		 * Другий режим існує для місць, де ховати нічого: у плитці «додати
+		 * групу» вже стоїть прохання написати, і олівець поруч із ним питав
+		 * удруге те саме, до того ж ховаючи відповідь за ще одним натисканням.
+		 */
+		mode?: 'button' | 'inline';
 	}
 
-	let { testIdPrefix, hasPhoto = true, openTo = 'up' }: Props = $props();
+	let { testIdPrefix, hasPhoto = true, openTo = 'up', mode = 'button' }: Props = $props();
 
 	const contacts = [
 		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
@@ -89,23 +98,26 @@
 	role="group"
 	aria-label={label}
 >
-	<button
-		type="button"
-		class="edit-btn"
-		onclick={toggle}
-		aria-expanded={open}
-		aria-label={label}
-		title={label}
-		data-testid="{testIdPrefix}-edit-btn"
-	>
-		<Pencil size={17} aria-hidden="true" />
-	</button>
+	{#if mode === 'button'}
+		<button
+			type="button"
+			class="edit-btn"
+			onclick={toggle}
+			aria-expanded={open}
+			aria-label={label}
+			title={label}
+			data-testid="{testIdPrefix}-edit-btn"
+		>
+			<Pencil size={17} aria-hidden="true" />
+		</button>
+	{/if}
 
-	{#if open}
+	{#if open || mode === 'inline'}
 		<div
 			class="edit-popup"
 			class:edit-popup--down={openTo === 'down'}
-			transition:fly={{ y: -8, duration: 180 }}
+			class:edit-popup--inline={mode === 'inline'}
+			transition:fly={{ y: -8, duration: mode === 'inline' ? 0 : 180 }}
 			data-testid="{testIdPrefix}-contact-menu"
 		>
 			<img
@@ -204,6 +216,20 @@
 	.edit-popup--down {
 		bottom: auto;
 		top: calc(100% + 12px);
+	}
+	/*
+	 * Розгорнутий режим: меню перестає бути накладкою й стає звичайним рядком.
+	 * Тло й рамку теж знято — воно стоїть усередині плитки, у якої вони вже є,
+	 * і друга рамка читалася б як вкладена картка.
+	 */
+	.edit-popup--inline {
+		position: static;
+		max-width: none;
+		padding: 0;
+		border: none;
+		background: none;
+		box-shadow: none;
+		justify-content: flex-start;
 	}
 	.edit-popup__avatar {
 		border-radius: 50%;

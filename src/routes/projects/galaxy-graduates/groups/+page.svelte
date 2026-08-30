@@ -90,7 +90,12 @@
 						</span>
 					</span>
 					<span class="group-card__masters">{$t('galaxy.addGroupHint')}</span>
-					<EditContactButton testIdPrefix="galaxy-group-add" openTo="up" />
+					<!--
+						Розгорнуто, без олівця: прохання написати вже стоїть рядком
+						вище, і кнопка поруч питала б удруге те саме, ховаючи
+						відповідь за ще одним натисканням. Місця в плитці вистачає.
+					-->
+					<EditContactButton testIdPrefix="galaxy-group-add" mode="inline" />
 				</div>
 			</li>
 			{#each ordered as group (group.slug)}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { asset } from '$app/paths';
+	import { Plus } from 'lucide-svelte';
 	import { mastersByMentions, pluralKey } from '$lib/data/masters';
 
 	/**
@@ -47,13 +48,24 @@
 		return () => ro.disconnect();
 	});
 
-	const shown = $derived(ranked.slice(0, fits));
+	/*
+	 * Останнє місце в рядку ЗАРЕЗЕРВОВАНО за кнопкою «+».
+	 *
+	 * Не прикраса: рядок показує тих, кого вже згадали в анкетах, і людина, чий
+	 * викладач сюди не потрапив, інакше вирішила б, що його на сайті немає.
+	 * Кнопка стоїть саме там, де закінчується список, — тобто там, де це
+	 * питання й виникає.
+	 */
+	const shown = $derived(ranked.slice(0, Math.max(0, fits - 1)));
 
 	/**
 	 * Кого зараз роздивляються. Рідну підказку браузера тут замінено власною
 	 * з простої причини: у неї не можна покласти кнопку, а саме кнопка й
 	 * потрібна — впізнавши свого викладача, людина має куди про це написати.
 	 */
+	/** Ключ кнопки «+»: у неї немає id майстра, а стан підказки один на всіх. */
+	const ADD_ID = '__add__';
+
 	let hovered = $state<string | null>(null);
 	let closeTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -110,6 +122,72 @@
 	якого боку відкритися, щоб не вилізти за край. Рідна підказка браузера це
 	вміє сама, а на дотику її замінює `aria-label` для диктора.
 -->
+<!--
+	Одна підказка на два випадки — впізнаного викладача й кнопку «+».
+	Розрізняє їх лише те, чи є кого показувати ліворуч; решта — те саме
+	прохання написати. Двома копіями розмітки це вже було, і `testid-conventions`
+	слушно на них поскаржився: два однакові `data-testid` у файлі означають, що
+	перевірка може влучити не в ту панель.
+-->
+{#snippet tipPanel(
+	photo: string | null,
+	name: string | null,
+	count: string | null,
+	cta: string,
+	idPrefix: string
+)}
+	<span class="tip" class:tip--flip={flip} data-testid="galaxy-update-teacher-tip-panel">
+		{#if photo}
+			<img
+				src={photo}
+				alt=""
+				class="tip__portrait"
+				loading="lazy"
+				data-testid="galaxy-update-teacher-tip-photo-img"
+			/>
+		{/if}
+
+		<span class="tip__body">
+			{#if name}<span class="tip__name">{name}</span>{/if}
+			{#if count}<span class="tip__count">{count}</span>{/if}
+
+			<span class="tip__ask">
+				<img
+					src={asset('/graduates/alik-zapolnov-96.webp')}
+					alt="Алік Запольнов"
+					width="28"
+					height="28"
+					class="tip__admin"
+					loading="lazy"
+					data-testid="{idPrefix}-admin-img"
+				/>
+				<span class="tip__cta">{cta}</span>
+				<span class="tip__icons">
+					{#each CONTACTS as contact (contact.name)}
+						<a
+							href={contact.url}
+							target="_blank"
+							rel="external noopener noreferrer"
+							class="tip__link"
+							aria-label="{cta} — {contact.name}"
+							title={contact.name}
+							data-testid="{idPrefix}-link-{contact.name.toLowerCase()}"
+						>
+							<img
+								src={asset(`/social_media/${contact.icon}`)}
+								alt={contact.name}
+								width="24"
+								height="24"
+								loading="lazy"
+							/>
+						</a>
+					{/each}
+				</span>
+			</span>
+		</span>
+	</span>
+{/snippet}
+
 <div class="row" bind:this={rowEl} data-testid="galaxy-update-teachers-row-list">
 	{#each shown as entry (entry.master.id)}
 		{@const label = caption(entry.master.displayName, entry.mentions)}
@@ -133,81 +211,42 @@
 			</span>
 
 			{#if hovered === entry.master.id}
-				<!--
-					Підказка виходить ЗА межі рядка, тому рядок не сміє її обрізати:
-					`overflow: hidden` там лишається задля значків, тож підказка
-					висить у `position: fixed`-подібному шарі — абсолютно від слоту,
-					а сам слот виведено з-під обрізання власним `z-index`.
-				-->
-				<span
-					class="tip"
-					class:tip--flip={flip}
-					data-testid="galaxy-update-teacher-tip-panel"
-				>
-					<!--
-						Ліворуч — сам викладач, на всю висоту підказки: підказка
-						відповідає на питання «хто це?», і відповідь має бути
-						видима, а не підписана. Значок у рядку 34 px, і роздивитися
-						обличчя на ньому неможливо.
-					-->
-					{#if entry.master.photo}
-						<img
-							src={entry.master.photo}
-							alt=""
-							class="tip__portrait"
-							loading="lazy"
-							data-testid="galaxy-update-teacher-tip-photo-img"
-						/>
-					{/if}
-
-					<span class="tip__body">
-						<span class="tip__name">{entry.master.displayName}</span>
-						<span class="tip__count">{mentionLabel(entry.mentions)}</span>
-
-						<!--
-							Прохання написати — ОКРЕМИЙ контейнер усередині підказки.
-							Верх її розповідає про викладача, низ — про те, що з цим
-							робити, і це різні речі: без візуального шва фотографія
-							адміністратора читалася як ще одна фотографія викладача.
-						-->
-						<span class="tip__ask">
-							<img
-								src={asset('/graduates/alik-zapolnov-96.webp')}
-								alt="Алік Запольнов"
-								width="28"
-								height="28"
-								class="tip__admin"
-								loading="lazy"
-								data-testid="galaxy-update-teacher-tip-admin-img"
-							/>
-							<span class="tip__cta">{$t('galaxy.myTeacher')}</span>
-							<span class="tip__icons">
-								{#each CONTACTS as contact (contact.name)}
-									<a
-										href={contact.url}
-										target="_blank"
-										rel="external noopener noreferrer"
-										class="tip__link"
-										aria-label="{$t('galaxy.myTeacher')} — {contact.name}"
-										title={contact.name}
-										data-testid="galaxy-update-teacher-tip-link-{contact.name.toLowerCase()}"
-									>
-										<img
-											src={asset(`/social_media/${contact.icon}`)}
-											alt={contact.name}
-											width="24"
-											height="24"
-											loading="lazy"
-										/>
-									</a>
-								{/each}
-							</span>
-						</span>
-					</span>
-				</span>
+				{@render tipPanel(
+					entry.master.photo ?? null,
+					entry.master.displayName,
+					mentionLabel(entry.mentions),
+					$t('galaxy.myTeacher'),
+					'galaxy-update-teacher-tip'
+				)}
 			{/if}
 		</span>
 	{/each}
+
+	<span
+		class="row__slot"
+		onmouseenter={(event) => show(ADD_ID, event.currentTarget)}
+		onmouseleave={hide}
+		role="presentation"
+	>
+		<span
+			class="row__badge row__badge--add"
+			role="img"
+			aria-label={$t('galaxy.teacherMissing')}
+			data-testid="galaxy-update-teacher-add-badge"
+		>
+			<Plus size={17} aria-hidden="true" />
+		</span>
+
+		{#if hovered === ADD_ID}
+			{@render tipPanel(
+				null,
+				null,
+				null,
+				$t('galaxy.teacherMissing'),
+				'galaxy-update-teacher-add'
+			)}
+		{/if}
+	</span>
 </div>
 
 <style>
@@ -257,6 +296,11 @@
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+	.row__badge--add {
+		background: rgb(140 190 255 / 0.18);
+		border-style: dashed;
+		color: var(--galaxy-accent);
 	}
 	.row__letter {
 		font-size: 0.85rem;

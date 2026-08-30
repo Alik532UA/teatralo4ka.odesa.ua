@@ -1034,6 +1034,7 @@
     "mentionsMany": "{count} mentions in profiles",
     "myTeacher": "if this is your teacher, write to me",
     "addGroup": "Add a group",
-    "addGroupHint": "Write to me and your group gets a page"
+    "addGroupHint": "Write to me and your group gets a page",
+    "teacherMissing": "did not find your teacher? write to me"
   }
 }
