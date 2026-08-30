@@ -829,10 +829,6 @@
 	<!-- ЛІВА КОЛОНКА: Вистави та ролі -->
 	{#if hasPlays}
 		<div class="col col--left">
-			{#if hasFestivals && festivalsInLeft}
-				{@render festivalsCard()}
-			{/if}
-
 			<section
 				class="bento-card bento-card--plays"
 				bind:this={playsCardEl}
@@ -864,6 +860,12 @@
 					{/each}
 				</ul>
 			</section>
+
+			<!-- Фестивалі ПІД виставами: головне в колонці — репертуар, а поїздки
+			     до нього додаток, а не заголовок над ним. -->
+			{#if hasFestivals && festivalsInLeft}
+				{@render festivalsCard()}
+			{/if}
 		</div>
 	{/if}
 

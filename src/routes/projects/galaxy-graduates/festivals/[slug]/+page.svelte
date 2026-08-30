@@ -107,12 +107,14 @@
 
 			<div class="fest-header__badges">
 				<span class="fest-badge" data-testid="festival-where-badge">
-					<span class="fest-badge__flags">
-						{#each data.festival.countries as code (code)}
-							<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
-						{/each}
-					</span>
-					{whereStr}
+					{#if data.festival.city}<span class="fest-badge__city">{data.festival.city},</span>{/if}
+					{#each data.festival.countries as code, i (code)}
+						{#if i > 0}<span class="fest-badge__sep" aria-hidden="true">·</span>{/if}
+						<span class="fest-badge__pair">
+							<CountryFlag {code} />
+							{$t(`galaxy.country.${code}`)}
+						</span>
+					{/each}
 				</span>
 				<span class="fest-badge" data-testid="festival-years-badge">
 					<Calendar size={14} aria-hidden="true" />
@@ -296,12 +298,22 @@
 		font-size: 0.85rem;
 		font-weight: 600;
 	}
-	.fest-badge__flags {
-		font-size: 1rem;
-		line-height: 1;
-		/* Без letter-spacing: інтервал роз'єднує пару символів-індикаторів,
-		   і замість прапора виходять дві літери. */
-		letter-spacing: normal;
+	/*
+	 * Прапор стоїть біля СВОЄЇ назви, а не купкою попереду.
+	 *
+	 * Доти було «🇦🇹🇨🇿🇩🇪 Австрія · Чехія · Німеччина», і читач мусив здогадуватися,
+	 * котрий прапор до котрої країни; при трьох країнах це вже не очевидно.
+	 */
+	.fest-badge__pair {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.fest-badge__sep {
+		opacity: 0.5;
+	}
+	.fest-badge__city {
+		margin-right: 0.15rem;
 	}
 	.fest-header__title {
 		margin: 0;

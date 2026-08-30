@@ -21,12 +21,6 @@
 	/** «2012, 2013» — роки списком, бо на фестиваль їздять не раз. */
 	const yearsOf = (years: number[]) => [...years].sort((x, y) => x - y).join(', ');
 
-	/*
-	 * Місце рахується рядком, а не збирається в розмітці: Svelte прибирає пробіл
-	 * перед {/if}, і «Прилуки, Україна» виходило злитим у «Прилуки,Україна».
-	 */
-	const whereOf = (city: string | undefined, countries: string[]) =>
-		[city, countries.map((c) => $t(`galaxy.country.${c}`)).join(' · ')].filter(Boolean).join(', ');
 </script>
 
 <svelte:head>
@@ -75,19 +69,22 @@
 							<span class="fest-card__name">
 								{isEn && festival.nameEn ? festival.nameEn : festival.name}
 							</span>
-							<!--
-								`CountryFlag`, а не емодзі: у системних шрифтах Windows прапорців
-								немає, і 🇺🇦 показувалося б як «UA». Компонент малює їх SVG — саме
-								тому вони й видно в тексті анкети, який іде через `RichTextWithFlags`.
-							-->
-							<span class="fest-card__flags">
-								{#each festival.countries as code (code)}
-									<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
-								{/each}
-							</span>
 						</span>
 
-						<span class="fest-card__where">{whereOf(festival.city, festival.countries)}</span>
+						<!--
+							Прапор стоїть біля СВОЄЇ назви, а не купкою попереду: при трьох
+							країнах читач інакше мусить здогадуватися, котрий до котрої.
+						-->
+						<span class="fest-card__where">
+							{#if festival.city}{festival.city},{/if}
+							{#each festival.countries as code, i (code)}
+								{#if i > 0}<span class="fest-card__sep" aria-hidden="true">·</span>{/if}
+								<span class="fest-card__pair">
+									<CountryFlag {code} />
+									{$t(`galaxy.country.${code}`)}
+								</span>
+							{/each}
+						</span>
 
 						<span class="fest-card__meta">
 							<span class="fest-card__badge">
@@ -228,12 +225,13 @@
 		color: var(--text-title);
 		line-height: 1.25;
 	}
-	.fest-card__flags {
-		font-size: 1rem;
-		line-height: 1;
-		/* Без letter-spacing: інтервал роз'єднує пару символів-індикаторів,
-		   і замість прапора виходять дві літери. */
-		letter-spacing: normal;
+	.fest-card__pair {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+	.fest-card__sep {
+		opacity: 0.5;
 	}
 	.fest-card__where {
 		font-size: 0.86rem;
