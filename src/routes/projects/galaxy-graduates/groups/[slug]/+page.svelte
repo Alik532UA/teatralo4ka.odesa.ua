@@ -74,7 +74,7 @@
 
 	<div class="container">
 		<!-- Хлібні крихти та навігація -->
-		<nav class="group-page__nav" aria-label="Breadcrumb">
+		<nav class="group-page__nav clears-logo" aria-label="Breadcrumb">
 			<a
 				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
 				class="nav-back-link"

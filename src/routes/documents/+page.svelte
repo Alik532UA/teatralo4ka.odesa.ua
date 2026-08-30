@@ -23,7 +23,7 @@
 
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="documents-page-section">
 	<div class="back-nav" data-testid="documents-back-nav">
-		<a href={resolve('/about')} class="back-link" data-testid="documents-back-to-about-link">
+		<a href={resolve('/about')} class="back-link clears-logo" data-testid="documents-back-to-about-link">
 			<ArrowLeft size={18} />
 			<span>{$t('documents.backToAbout')}</span>
 		</a>

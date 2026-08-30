@@ -100,7 +100,7 @@
 <div class="master-page" data-testid="master-profile-section">
 	<div class="container master-page__container">
 		<!-- Хлібні крихти / Навігація назад -->
-		<div class="master-page__nav">
+		<div class="master-page__nav clears-logo">
 			<a
 				href={localizedPath('/residents/adults/', isEn ? 'en' : 'uk')}
 				class="back-btn"
