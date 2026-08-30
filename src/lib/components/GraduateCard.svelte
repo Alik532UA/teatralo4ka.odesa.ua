@@ -200,7 +200,12 @@
 		top: 50%;
 		translate: -50% calc(-50% + var(--shift-y, 0px));
 		width: min(1760px, 96vw);
-		max-height: min(calc(100dvh - 90px), 840px);
+		/*
+		 * Без абсолютної стелі: 840 було магічним числом, і на екрані заввишки
+		 * 1366 модалка сама вкорочувала себе, лишаючи 436 px порожніми. Тепер межа
+		 * одна — сама висота вікна.
+		 */
+		max-height: calc(100dvh - 90px);
 		overflow: visible;
 		display: flex;
 		flex-direction: column;
@@ -235,7 +240,7 @@
 		.card {
 			width: min(560px, calc(100vw - 2rem));
 			height: auto;
-			max-height: min(90dvh, 820px);
+			max-height: 90dvh;
 			overflow-y: auto;
 			background: var(--galaxy-card-bg);
 			border-radius: 1.75rem;
