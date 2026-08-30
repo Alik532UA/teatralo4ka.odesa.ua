@@ -35,7 +35,14 @@ export interface GraduateGroup {
 	/** Викладачі курсу. Немає поля — група їх не має, секція просто не з'явиться. */
 	teachers?: GroupTeacher[];
 	graduationYears: number[];
-	memberSlugs: string[];
+	/**
+	 * Склад групи — за СТІЙКИМ ключем випускника, а не за адресою.
+	 *
+	 * Доти тут лежали `slug`, і кожне виправлення імені (за одну сесію їх було
+	 * п'ять) тихо розривало склад. Гейт це ловив, але постфактум — коли дані вже
+	 * були зламані. `id` не міняється ніколи, тож рвати нема чого.
+	 */
+	memberIds: string[];
 	plays: GroupPlay[];
 	bio?: string[];
 	/**
@@ -76,9 +83,15 @@ export function getGroupByTitleOrAbbr(query: string): GraduateGroup | undefined 
 	);
 }
 
-/** Знаходить групу за slug випускника */
-export function getGroupByMember(memberSlug: string): GraduateGroup | undefined {
-	return GROUPS.find((g) => g.memberSlugs.includes(memberSlug));
+/**
+ * Знаходить групу за ключем випускника.
+ *
+ * Повертає ПЕРШУ: людина може бути в кількох групах одразу (заміряно — четверо),
+ * і хто з них «головна», дані не кажуть. Тому в інтерфейсі цей хелпер не
+ * використовується; сторінка викладача бере всі групи через `getGroupsByMaster`.
+ */
+export function getGroupByMember(memberId: string): GraduateGroup | undefined {
+	return GROUPS.find((g) => g.memberIds.includes(memberId));
 }
 
 /**

@@ -72,7 +72,7 @@ export async function load({ params }) {
 	});
 
 	// Випускники групи з індексу
-	const members: GraduateIndexEntry[] = group.memberSlugs
+	const members: GraduateIndexEntry[] = group.memberIds
 		.map((slug) => GRADUATES.find((g) => g.slug === slug || g.code === slug))
 		.filter((g): g is GraduateIndexEntry => Boolean(g));
 

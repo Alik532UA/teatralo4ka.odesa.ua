@@ -90,7 +90,7 @@
 							</span>
 							<span class="group-card__badge">
 								<Users size={13} aria-hidden="true" />
-								{group.memberSlugs.length}
+								{group.memberIds.length}
 							</span>
 							<span class="group-card__badge">
 								<Theater size={13} aria-hidden="true" />

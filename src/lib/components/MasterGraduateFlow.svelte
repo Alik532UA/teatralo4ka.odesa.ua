@@ -111,6 +111,10 @@
 					hasPhoto: Boolean(m.photo),
 					photo: m.photo ?? null,
 					graduate: {
+						/* Колега летить у потоці карткою випускника, тож мусить мати
+						   ту саму форму. Ключ береться майстрів — власного в нього
+						   немає, і вигадувати другий для тієї самої людини не варто. */
+						id: m.id,
 						slug: m.slug,
 						name: $locale === 'en' ? m.displayNameEn : m.displayName,
 						graduationYear: null,

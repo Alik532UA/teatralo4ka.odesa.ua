@@ -25,13 +25,18 @@ describe('GROUPS data integrity', () => {
 		}
 	});
 
-	it('кожен memberSlug у групі існує в graduates.index.json', () => {
-		const allSlugs = new Set((graduatesIndex as GraduateIndexEntry[]).map((g) => g.slug));
-		for (const group of GROUPS) {
-			for (const memberSlug of group.memberSlugs) {
-				expect(allSlugs.has(memberSlug), `Випускник ${memberSlug} має бути в graduates.index.json`).toBe(true);
-			}
-		}
+	/*
+	 * Звіряється саме з `id`, а не зі `slug`: адресу законно виправляють, ключ —
+	 * ні. Якби перевірка й далі дивилася на адресу, вона червоніла б від кожного
+	 * виправлення імені й не бачила б справжнього розриву зв'язку.
+	 */
+	it('кожен memberId у групі існує в реєстрі випускників', () => {
+		const known = new Set((graduatesIndex as GraduateIndexEntry[]).map((g) => g.id));
+		const bad: string[] = [];
+		for (const group of GROUPS)
+			for (const memberId of group.memberIds)
+				if (!known.has(memberId)) bad.push(`${group.slug} → ${memberId}`);
+		expect(bad, `склад посилається в нікуди:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('кожен master.id у групі існує в masters.index.json', () => {

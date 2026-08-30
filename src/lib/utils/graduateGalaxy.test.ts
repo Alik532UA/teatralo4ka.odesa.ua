@@ -9,6 +9,7 @@ const cyclic = (values: number[]) => {
 };
 
 const graduate = (name: string, graduationYear: number | null): GraduateIndexEntry => ({
+	id: name.toLowerCase().replace(/\s+/g, '-'),
 	slug: name.toLowerCase().replace(/\s+/g, '-'),
 	name,
 	graduationYear,
@@ -119,8 +120,8 @@ describe('filterGraduates', () => {
 
 	it('фільтр за наявністю анкети/фото', () => {
 		const mixed: GraduateIndexEntry[] = [
-			{ slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'], hasPhoto: true },
-			{ slug: 'b', name: 'Б', graduationYear: 2020, departments: ['theatre'] }
+			{ id: 'a', slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'], hasPhoto: true },
+			{ id: 'b', slug: 'b', name: 'Б', graduationYear: 2020, departments: ['theatre'] }
 		];
 		expect(filterGraduates(mixed, { photo: 'with' })).toHaveLength(1);
 		expect(filterGraduates(mixed, { photo: 'with' })[0].name).toBe('А');
@@ -131,10 +132,10 @@ describe('filterGraduates', () => {
 
 	it('фільтр за кількома відділеннями одночасно', () => {
 		const depts: GraduateIndexEntry[] = [
-			{ slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'] },
-			{ slug: 'b', name: 'Б', graduationYear: 2020, departments: ['art'] },
-			{ slug: 'c', name: 'В', graduationYear: 2020, departments: ['vocal'] },
-			{ slug: 'd', name: 'Г', graduationYear: 2020, departments: ['piano'] }
+			{ id: 'a', slug: 'a', name: 'А', graduationYear: 2020, departments: ['theatre'] },
+			{ id: 'b', slug: 'b', name: 'Б', graduationYear: 2020, departments: ['art'] },
+			{ id: 'c', slug: 'c', name: 'В', graduationYear: 2020, departments: ['vocal'] },
+			{ id: 'd', slug: 'd', name: 'Г', graduationYear: 2020, departments: ['piano'] }
 		];
 		expect(filterGraduates(depts, { departments: ['theatre', 'art'] })).toHaveLength(2);
 		expect(filterGraduates(depts, { departments: ['vocal'] })).toHaveLength(1);

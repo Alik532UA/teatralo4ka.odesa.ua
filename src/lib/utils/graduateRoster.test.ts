@@ -7,6 +7,7 @@ const person = (
 	graduationYear: number | null,
 	hasPhoto?: true
 ): GraduateIndexEntry => ({
+	id: name.toLowerCase().replace(/\s+/g, '-'),
 	slug: name.toLowerCase().replace(/\s+/g, '-'),
 	name,
 	graduationYear,
