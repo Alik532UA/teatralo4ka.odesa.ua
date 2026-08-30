@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { fly } from 'svelte/transition';
-	import { Pencil } from 'lucide-svelte';
+	import { Pencil, Plus } from 'lucide-svelte';
 	import { asset } from '$app/paths';
 
 	/**
@@ -15,10 +15,12 @@
 	 * Полагодити в одній копії й не помітити другої — рівно те, що вже сталося
 	 * з магічною стелею `840px`.
 	 *
-	 * Звідси ним користуються сторінки групи й фестивалю. Сторінки викладача й
-	 * випускника поки лишаються на власних копіях: у них своя геометрія
-	 * (кнопка в куті картки проти кнопки в шапці) і свої `data-testid`, за
-	 * якими їх адресують наявні перевірки. Це борг, а не задум.
+	 * Копій було ТРИ, і всі зведено сюди: сторінки групи, фестивалю, викладача
+	 * (там їх було дві — біля портрета й у куті картки) і випускника. Різну
+	 * геометрію дає `openTo`, різні `data-testid` — `testIdPrefix` разом із
+	 * окремим `buttonTestId`: у викладача кнопка зветься `master-profile-edit-btn`,
+	 * а її меню — `master-profile-card-contact-menu`, тобто префікси в них
+	 * розійшлися ще до злиття, і перевірки адресують саме ці імена.
 	 *
 	 * Адресу для листування зашито тут, а не в даних, свідомо: адміністратор
 	 * сайту один, і винесення його контактів у реєстр створило б порожню
@@ -26,21 +28,31 @@
 	 */
 	interface Props {
 		/**
-		 * Початок `data-testid` — свій на кожній сторінці, бо перевірки цих
-		 * сторінок писалися окремо й адресують кнопку по-різному.
+		 * Початок `data-testid` для МЕНЮ та його вмісту: `<prefix>-menu`,
+		 * `<prefix>-hint`, `<prefix>-admin-img`, `<prefix>-link-<мережа>`.
 		 */
 		testIdPrefix: string;
+		/**
+		 * `data-testid` самої кнопки — окремо від меню.
+		 *
+		 * Не примха: на сторінці викладача кнопка зветься
+		 * `master-profile-edit-btn`, а меню — `master-profile-card-contact-menu`.
+		 * Спільного початку в них немає, і перевірки шукають саме ці імена.
+		 */
+		buttonTestId?: string;
 		/**
 		 * Чи є на сторінці фотографія. Від цього залежить сам текст прохання:
 		 * там, де фото немає, його заразом і просять.
 		 */
 		hasPhoto?: boolean;
 		/**
-		 * Куди розкривати меню. Угору — коли кнопка стоїть у нижньому куті
-		 * картки; вниз — коли вона в шапці сторінки, бо там угорі екрана вже
-		 * немає.
+		 * Куди розкривати меню.
+		 *
+		 * `up` — кнопка в нижньому куті картки; `down` — у шапці сторінки, бо
+		 * там угорі екрана вже немає; `side` — ліворуч від кнопки, коли та
+		 * кругла й стоїть у рядку (портрет викладача, тулбар випускника).
 		 */
-		openTo?: 'up' | 'down';
+		openTo?: 'up' | 'down' | 'side';
 		/**
 		 * `button` — олівець, що розкриває меню; `inline` — те саме меню
 		 * розгорнутим, без кнопки.
@@ -50,9 +62,36 @@
 		 * удруге те саме, до того ж ховаючи відповідь за ще одним натисканням.
 		 */
 		mode?: 'button' | 'inline';
+		/**
+		 * Який знак на кнопці. `plus` стоїть там, де просять ДОДАТИ те, чого
+		 * немає (портрет викладача без фотографії), `pencil` — де правлять уже
+		 * наявне. Різниця не косметична: перше читається як запрошення, друге —
+		 * як виправлення помилки.
+		 */
+		icon?: 'pencil' | 'plus';
+		/** Свій підпис кнопки, коли типове «внести правки» тут не про те. */
+		label?: string;
+		/**
+		 * Відкривати меню вже на НАВЕДЕННІ, не чекаючи натискання.
+		 *
+		 * Так поводилася копія в тулбарі картки випускника, і не дарма: там
+		 * кнопка одна з двох у куті, і людина наводить на неї, щоб зрозуміти, що
+		 * це. Решті місць це зайве — меню вискакувало б від випадкового руху
+		 * повз аватар.
+		 */
+		openOnHover?: boolean;
 	}
 
-	let { testIdPrefix, hasPhoto = true, openTo = 'up', mode = 'button' }: Props = $props();
+	let {
+		testIdPrefix,
+		buttonTestId,
+		hasPhoto = true,
+		openTo = 'up',
+		mode = 'button',
+		icon = 'pencil',
+		label: ownLabel,
+		openOnHover = false
+	}: Props = $props();
 
 	const contacts = [
 		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
@@ -78,6 +117,7 @@
 			clearTimeout(closeTimeout);
 			closeTimeout = null;
 		}
+		if (openOnHover) open = true;
 	}
 
 	function handleMouseLeave() {
@@ -86,13 +126,39 @@
 		}, 300);
 	}
 
+	let wrapEl = $state<HTMLElement | null>(null);
+
+	/*
+	 * Клік ПОВЗ меню закриває його.
+	 *
+	 * Наведення тут головне, але на дотику `mouseleave` не настає ніколи, і без
+	 * цього меню лишалося б відкритим, доки не натиснуть саму кнопку ще раз.
+	 * Так поводилися обидві копії до злиття.
+	 */
+	/** Escape закриває меню, не чіпаючи того, що під ним. */
+	function handleWindowKeydown(event: KeyboardEvent) {
+		if (event.key !== 'Escape' || !open) return;
+		event.stopPropagation();
+		open = false;
+	}
+
+	function handleWindowClick(event: MouseEvent) {
+		if (!open || !wrapEl) return;
+		if (wrapEl.contains(event.target as Node)) return;
+		open = false;
+	}
+
 	const label = $derived(
-		$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })
+		ownLabel ??
+			$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })
 	);
 </script>
 
+<svelte:window onclick={handleWindowClick} onkeydown={handleWindowKeydown} />
+
 <div
 	class="edit-wrap"
+	bind:this={wrapEl}
 	onmouseenter={handleMouseEnter}
 	onmouseleave={handleMouseLeave}
 	role="group"
@@ -106,9 +172,13 @@
 			aria-expanded={open}
 			aria-label={label}
 			title={label}
-			data-testid="{testIdPrefix}-edit-btn"
+			data-testid={buttonTestId ?? `${testIdPrefix}-edit-btn`}
 		>
-			<Pencil size={17} aria-hidden="true" />
+			{#if icon === 'plus'}
+				<Plus size={18} aria-hidden="true" />
+			{:else}
+				<Pencil size={17} aria-hidden="true" />
+			{/if}
 		</button>
 	{/if}
 
@@ -116,9 +186,10 @@
 		<div
 			class="edit-popup"
 			class:edit-popup--down={openTo === 'down'}
+			class:edit-popup--side={openTo === 'side'}
 			class:edit-popup--inline={mode === 'inline'}
 			transition:fly={{ y: -8, duration: mode === 'inline' ? 0 : 180 }}
-			data-testid="{testIdPrefix}-contact-menu"
+			data-testid="{testIdPrefix}-menu"
 		>
 			<img
 				src={asset('/graduates/alik-zapolnov-96.webp')}
@@ -129,7 +200,7 @@
 				loading="lazy"
 				data-testid="{testIdPrefix}-contact-admin-img"
 			/>
-			<p class="edit-popup__hint" data-testid="{testIdPrefix}-contact-hint">
+			<p class="edit-popup__hint" data-testid="{testIdPrefix}-hint">
 				{#if hasPhoto}
 					Привіт!)<br />
 					Щоб внести правки<br />
@@ -150,7 +221,7 @@
 						aria-label={contact.name}
 						title={contact.name}
 						onclick={(event) => event.stopPropagation()}
-						data-testid="{testIdPrefix}-contact-link-{contact.name.toLowerCase()}"
+						data-testid="{testIdPrefix}-link-{contact.name.toLowerCase()}"
 					>
 						<img
 							src={asset(`/social_media/${contact.icon}`)}
@@ -216,6 +287,17 @@
 	.edit-popup--down {
 		bottom: auto;
 		top: calc(100% + 12px);
+	}
+	/*
+	 * Убік від кнопки, а не над нею: там, де кнопка кругла й стоїть у рядку
+	 * (портрет викладача, тулбар випускника), угору відкриватися нікуди —
+	 * над нею вже край картки.
+	 */
+	.edit-popup--side {
+		bottom: auto;
+		top: 50%;
+		right: calc(100% + 0.65rem);
+		translate: 0 -50%;
 	}
 	/*
 	 * Розгорнутий режим: меню перестає бути накладкою й стає звичайним рядком.

@@ -287,10 +287,15 @@ test.describe('меню контактів', () => {
 			 * різних ширинах — на широкому екрані його показує `onmouseenter`,
 			 * на вузькому лишається натискання. Перевірка має відкрити його тим
 			 * способом, який працює саме тут, а не наполягати на своєму.
+			 *
+			 * Адресуємо кнопку за `data-testid`, а не за класом обгортки:
+			 * `.contact-wrap` зникла разом із власною копією цього блока, коли
+			 * всі три копії звели в `EditContactButton`, і перевірка чекала на
+			 * неї до самого таймауту.
 			 */
-			const toggle = page.locator('.contact-wrap').locator('button, a, [role="button"]').first();
+			const toggle = page.getByTestId('graduate-profile-edit-btn');
 			const menu = page.getByTestId('graduate-profile-contact-menu');
-			await page.locator('.contact-wrap').hover();
+			await toggle.hover();
 			if (!(await menu.isVisible())) await toggle.click({ force: true });
 			await menu.waitFor();
 

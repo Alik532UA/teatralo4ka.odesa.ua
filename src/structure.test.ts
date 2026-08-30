@@ -125,6 +125,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * та фіксовану шапку модального вікна налаштувань мобільного меню з закріпленою кнопкою закриття й авторським оверлей-скролом на вмісті.
  * 2026-08-22: `src/routes/residents/adults/[slug]/+page.svelte` 400 -> 420. Додано підтримку кнопок олівця для викладачів з фотографією (25% прозорість, 100% при ховері) та месенджерів адміністратора у спливаючому вікні.
  *
+ * 2026-08-31: обидві стелі ПРИБРАНО — і сторінки викладача (590), і сторінки
+ * випускника (535). Кнопка правок із контактним меню жила в трьох копіях, з
+ * них дві на цих сторінках; після переїзду в `EditContactButton` вони
+ * схудли до 346 і 256 рядків, тобто до типових 400 із запасом. Це рідкісний
+ * випадок, коли стеля йде не тому, що її обійшли, а тому, що борг закрито.
+ *
  * 2026-08-26, розміри зображень: `DepartmentsSection` 352 → 353. Три рядки
  * `{@const size = imageSize(...)}` мінус два: помічник звуження типу лишився,
  * а `asset()` переїхав із даних у розмітку. Розгортання `{...imageSize()}`
@@ -164,12 +170,10 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 688,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 595,
-	'src/routes/residents/adults/[slug]/+page.svelte': 590,
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 510,
 	'src/lib/components/GraduateRoster.svelte': 770,
-	'src/routes/projects/galaxy-graduates/[code]/+page.svelte': 535,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
 	'src/lib/components/ui/Select.svelte': 390,

@@ -95,7 +95,7 @@
 						вище, і кнопка поруч питала б удруге те саме, ховаючи
 						відповідь за ще одним натисканням. Місця в плитці вистачає.
 					-->
-					<EditContactButton testIdPrefix="galaxy-group-add" mode="inline" />
+					<EditContactButton testIdPrefix="galaxy-group-add-contact" mode="inline" />
 				</div>
 			</li>
 			{#each ordered as group (group.slug)}

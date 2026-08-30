@@ -4,10 +4,9 @@
 	import { browser } from "$app/environment";
 	import { page } from "$app/state";
 	import { goto } from "$app/navigation";
-	import { fly } from "svelte/transition";
-	import { Pencil, X } from "lucide-svelte";
-	import { asset } from "$app/paths";
+	import { X } from "lucide-svelte";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
+	import EditContactButton from "$lib/components/EditContactButton.svelte";
 	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
 	import { localeFromPath, localizedPath } from "$lib/i18n/routing";
 	import {
@@ -25,8 +24,6 @@
 	);
 
 	let isDesktop = $state(false);
-	let contactOpen = $state(false);
-	let contactEl: HTMLDivElement | undefined = $state();
 
 	let profileEl = $state<HTMLElement | null>(null);
 	let shiftY = $state(0);
@@ -77,86 +74,11 @@
 		}
 	}
 
-	const contacts = [
-		{ name: "Telegram", url: "https://t.me/alik532", icon: "telegram.svg" },
-		{
-			name: "Viber",
-			url: "viber://chat?number=%2B380937251208",
-			icon: "viber.svg",
-		},
-		{
-			name: "WhatsApp",
-			url: "https://wa.me/380937251208",
-			icon: "whatsapp.svg",
-		},
-		{
-			name: "LinkedIn",
-			url: "https://linkedin.com/in/alik-qa-engineer",
-			icon: "linkedin.svg",
-		},
-	];
-
-	let hoverOpenedAt = 0;
-	let closeTimeout: ReturnType<typeof setTimeout> | undefined;
-
-	function handleMouseEnter() {
-		if (closeTimeout) {
-			clearTimeout(closeTimeout);
-			closeTimeout = undefined;
-		}
-		if (!contactOpen) {
-			contactOpen = true;
-			hoverOpenedAt = Date.now();
-		}
-	}
-
-	function handleMouseLeave() {
-		if (contactOpen) {
-			closeTimeout = setTimeout(() => {
-				contactOpen = false;
-				closeTimeout = undefined;
-			}, 2000);
-		}
-	}
-
-	function toggleContact(e: Event) {
-		e.stopPropagation();
-		if (contactOpen && Date.now() - hoverOpenedAt < 1000) {
-			return;
-		}
-		if (closeTimeout) {
-			clearTimeout(closeTimeout);
-			closeTimeout = undefined;
-		}
-		contactOpen = !contactOpen;
-		if (contactOpen) {
-			hoverOpenedAt = 0;
-		}
-	}
-
-	function handleContactKeydown(e: KeyboardEvent) {
-		if (e.key === "Enter" || e.key === " ") {
-			e.preventDefault();
-			toggleContact(e);
-		}
-		if (e.key === "Escape" && contactOpen) {
-			if (closeTimeout) {
-				clearTimeout(closeTimeout);
-				closeTimeout = undefined;
-			}
-			contactOpen = false;
-		}
-	}
-
-	function handleClickOutside(e: MouseEvent) {
-		if (contactOpen && contactEl && !contactEl.contains(e.target as Node)) {
-			if (closeTimeout) {
-				clearTimeout(closeTimeout);
-				closeTimeout = undefined;
-			}
-			contactOpen = false;
-		}
-	}
+	/*
+	 * Контактів, стану меню й трьох обробників тут БІЛЬШЕ НЕМАЄ: усе веде
+	 * `EditContactButton`. Це була третя копія того самого блока, і саме в ній
+	 * меню виїжджало за екран на телефоні.
+	 */
 
 	onMount(() => {
 		const mql = window.matchMedia("(min-width: 768px)");
@@ -171,14 +93,11 @@
 		mql.addEventListener("change", update);
 
 		return () => {
-			if (closeTimeout) clearTimeout(closeTimeout);
 			document.body.classList.remove("page-galaxy");
 			mql.removeEventListener("change", update);
 		};
 	});
 </script>
-
-<svelte:window onclick={handleClickOutside} />
 
 <svelte:head>
 	<title>{data.graduate.name} — {$t("galaxy.title")}</title>
@@ -201,89 +120,18 @@
 		>
 			<div class="card__toolbar" data-testid="graduate-profile-toolbar">
 				{#if data.graduate.hasPhoto}
-					<div
-						class="contact-wrap"
-						bind:this={contactEl}
-						onmouseenter={handleMouseEnter}
-						onmouseleave={handleMouseLeave}
-						role="group"
-						aria-label={$t("common.contact", {
-							default: "Контакти",
-						})}
-					>
-						{#if contactOpen}
-							<div
-								class="contact-popup"
-								transition:fly={{ x: 10, duration: 180 }}
-								data-testid="graduate-profile-contact-menu"
-							>
-								<img
-									src={asset(
-										"/graduates/alik-zapolnov-96.webp",
-									)}
-									alt="Алік Запольнов"
-									width="28"
-									height="28"
-									class="contact-popup__avatar"
-									loading="eager"
-									data-testid="graduate-profile-contact-admin-img"
-								/>
-								<p
-									class="contact-popup__hint"
-									data-testid="graduate-profile-contact-hint"
-								>
-									Привіт!)<br />
-									Щоб внести правки<br />
-									— напиши мені
-								</p>
-								<div class="contact-popup__icons">
-									{#each contacts as c (c.name)}
-										<!-- rel="external" — саме за ним правило визнає посилання
-										     зовнішнім; точковий disable перед `<a>` не діє, бо
-										     правило звітує на рядку атрибута `href`. -->
-										<a
-											href={c.url}
-											target="_blank"
-											rel="external noopener noreferrer"
-											class="contact-popup__link"
-											aria-label={c.name}
-											title={c.name}
-											onclick={(e) => e.stopPropagation()}
-											data-testid="graduate-profile-contact-link-{c.name.toLowerCase()}"
-										>
-											<img
-												src={asset(
-													`/social_media/${c.icon}`,
-												)}
-												alt={c.name}
-												width="28"
-												height="28"
-												loading="eager"
-											/>
-										</a>
-									{/each}
-								</div>
-							</div>
-						{/if}
-
-						<button
-							type="button"
-							class="card__action card__contact"
-							onclick={toggleContact}
-							onmouseenter={handleMouseEnter}
-							onkeydown={handleContactKeydown}
-							aria-expanded={contactOpen}
-							aria-label={$t("common.contact", {
-								default: "Зв'язатися",
-							})}
-							title={$t("common.contact", {
-								default: "Зв'язатися",
-							})}
-							data-testid="graduate-profile-edit-btn"
-						>
-							<Pencil size={20} aria-hidden="true" />
-						</button>
-					</div>
+					<!--
+						Кнопка правок і її меню — спільний компонент. Тут була третя
+						копія того самого блока, і саме в ній меню виїжджало за екран
+						на телефоні, поки дві інші стояли цілі.
+					-->
+					<EditContactButton
+						testIdPrefix="graduate-profile-contact"
+						buttonTestId="graduate-profile-edit-btn"
+						openTo="down"
+						hasPhoto={!!data.graduate.hasPhoto}
+						label={$t('common.contact', { default: "Зв'язатися" })}
+					/>
 				{/if}
 
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -363,14 +211,6 @@
 		text-decoration: none;
 	}
 
-	.card__contact {
-		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
-	}
-
-	.card__contact:hover,
 	.card__close:hover {
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.7);
@@ -378,76 +218,6 @@
 	}
 
 	/* Контактне випадаюче меню */
-	.contact-wrap {
-		position: relative;
-	}
-
-	.contact-popup {
-		position: absolute;
-		top: 50%;
-		right: calc(100% + 0.65rem);
-		transform: translateY(-50%);
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.65rem;
-		padding: 0.35rem 0.65rem;
-		background: rgb(3 6 20 / 0.88);
-		border: 1px solid rgb(140 190 255 / 0.28);
-		border-radius: 999px;
-		box-shadow: 0 8px 28px rgb(0 0 0 / 0.55);
-		backdrop-filter: blur(14px);
-		white-space: nowrap;
-	}
-
-	.contact-popup__avatar {
-		width: 28px;
-		height: 28px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: 1px solid rgb(140 190 255 / 0.4);
-		flex-shrink: 0;
-	}
-
-	.contact-popup__hint {
-		margin: 0;
-		font-size: 0.84rem;
-		color: rgb(180 210 255 / 0.85);
-		line-height: 1;
-	}
-
-	.contact-popup__icons {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.35rem;
-	}
-
-	.contact-popup__link {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 38px;
-		height: 38px;
-		border-radius: 50%;
-		text-decoration: none;
-		transition:
-			transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-			filter 0.2s ease;
-	}
-
-	.contact-popup__link:hover {
-		transform: scale(1.18);
-		filter: drop-shadow(0 0 8px rgb(140 190 255 / 0.5));
-	}
-
-	.contact-popup__link img {
-		width: 28px;
-		height: 28px;
-		object-fit: contain;
-		filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.3));
-	}
-
 	@media (max-width: 767px) {
 		.card__toolbar {
 			position: sticky;
@@ -475,26 +245,6 @@
 		 * тулбаром біля правого краю картки, переносячи значки на другий рядок,
 		 * якщо не вміщаються.
 		 */
-		.contact-wrap {
-			position: static;
-		}
-
-		.contact-popup {
-			right: 0;
-			left: auto;
-			top: 3.2rem;
-			flex-direction: row;
-			flex-wrap: wrap;
-			justify-content: flex-end;
-			/*
-			 * Межа від ВІКНА, а не від батька: точкою відліку тут стає липкий
-			 * тулбар, а він завширшки з дві кнопки — `100%` від нього душило
-			 * меню до 80 px.
-			 */
-			max-width: calc(100vw - 2rem);
-			white-space: normal;
-			border-radius: 1.1rem;
-		}
 	}
 
 	@media (min-width: 768px) {

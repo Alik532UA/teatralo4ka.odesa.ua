@@ -134,7 +134,7 @@
 				-->
 				<span class="fest-header__edit">
 					<EditContactButton
-						testIdPrefix="festival-page"
+						testIdPrefix="festival-page-contact"
 						openTo="down"
 						hasPhoto={(data.festival.photos ?? []).length > 0}
 					/>
@@ -388,6 +388,24 @@
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
 		gap: 1rem;
+	}
+
+	/*
+	 * На телефоні — рівно ДВОЄ в рядок, як на сторінці групи.
+	 *
+	 * `auto-fill` із мінімумом у 150px мав би пускати двох і сюди, але не
+	 * пускав: грид-елемент із типовим `min-width: auto` не вужчий за свій
+	 * найдовший рядок, а прізвища на кшталт «Вішталюк (Суханова)» цей мінімум
+	 * перекривають. Через це двадцять чотири учасники займали двадцять чотири
+	 * рядки, тоді як у групі поруч ті самі картки стояли парами.
+	 *
+	 * Тут ширину задає не мінімум, а саме число колонок.
+	 */
+	@media (max-width: 767px) {
+		.people-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
+		}
 	}
 
 	.fest-empty {

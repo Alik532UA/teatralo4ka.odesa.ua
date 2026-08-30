@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
+	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { fly } from 'svelte/transition';
-	import { ArrowLeft, ArrowRight, Plus, Camera, Pencil } from 'lucide-svelte';
-	import { asset } from '$app/paths';
+	import { ArrowLeft, ArrowRight, Camera } from 'lucide-svelte';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
@@ -36,68 +35,14 @@
 	 */
 	const yearsInSchool = $derived(yearsOfService(data.master.periods, new Date().getFullYear()));
 
-	let avatarContactOpen = $state(false);
-	let cardContactOpen = $state(false);
-	let avatarWrapEl = $state<HTMLDivElement | null>(null);
-	let cardWrapEl = $state<HTMLDivElement | null>(null);
-	let avatarCloseTimeout: ReturnType<typeof setTimeout> | null = null;
-	let cardCloseTimeout: ReturnType<typeof setTimeout> | null = null;
-
-	const contacts = [
-		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
-		{ name: 'Viber', url: 'viber://chat?number=%2B380937251208', icon: 'viber.svg' },
-		{ name: 'WhatsApp', url: 'https://wa.me/380937251208', icon: 'whatsapp.svg' },
-		{ name: 'LinkedIn', url: 'https://linkedin.com/in/alik-qa-engineer', icon: 'linkedin.svg' }
-	];
-
-	function toggleAvatarContact(e: MouseEvent) {
-		e.stopPropagation();
-		avatarContactOpen = !avatarContactOpen;
-	}
-
-	function handleAvatarMouseEnter() {
-		if (avatarCloseTimeout) {
-			clearTimeout(avatarCloseTimeout);
-			avatarCloseTimeout = null;
-		}
-	}
-
-	function handleAvatarMouseLeave() {
-		avatarCloseTimeout = setTimeout(() => {
-			avatarContactOpen = false;
-		}, 300);
-	}
-
-	function toggleCardContact(e: MouseEvent) {
-		e.stopPropagation();
-		cardContactOpen = !cardContactOpen;
-	}
-
-	function handleCardMouseEnter() {
-		if (cardCloseTimeout) {
-			clearTimeout(cardCloseTimeout);
-			cardCloseTimeout = null;
-		}
-	}
-
-	function handleCardMouseLeave() {
-		cardCloseTimeout = setTimeout(() => {
-			cardContactOpen = false;
-		}, 300);
-	}
-
-	function handleClickOutside(e: MouseEvent) {
-		const target = e.target as Node;
-		if (avatarWrapEl && !avatarWrapEl.contains(target)) {
-			avatarContactOpen = false;
-		}
-		if (cardWrapEl && !cardWrapEl.contains(target)) {
-			cardContactOpen = false;
-		}
-	}
+	/*
+	 * Стану контактних меню тут БІЛЬШЕ НЕМАЄ: і те, що біля портрета, і те, що
+	 * в куті картки, веде `EditContactButton`. Разом із ним пішли дві копії
+	 * розмітки, дві копії стилів, два таймери закриття й спільний обробник
+	 * кліку повз меню — усе це жило тут у двох примірниках, які встигли
+	 * розійтися.
+	 */
 </script>
-
-<svelte:window onclick={handleClickOutside} />
 
 <svelte:head>
 	<title>{masterName} — {$t('nav.residents', { default: 'Резиденти' })} — Одеська театральна школа</title>
@@ -135,14 +80,7 @@
 			<article class="master-card" data-testid="master-profile-card">
 				<div class="master-header">
 					<!-- Аватар майстра / заглушка камера з кнопкою + якщо фото немає -->
-					<div
-						class="avatar-container"
-						bind:this={avatarWrapEl}
-						onmouseenter={handleAvatarMouseEnter}
-						onmouseleave={handleAvatarMouseLeave}
-						role="group"
-						aria-label={$t('common.contact', { default: 'Контакти' })}
-					>
+					<div class="avatar-container">
 						{#if data.master.photo}
 							<img
 								src={data.master.photo}
@@ -162,58 +100,22 @@
 								<Camera size={48} aria-hidden="true" />
 							</div>
 
-							<!-- Кнопка "+" біля фото (тільки коли фото немає) -->
-							<button
-								type="button"
-								class="avatar-add-btn"
-								onclick={toggleAvatarContact}
-								aria-expanded={avatarContactOpen}
-								aria-label={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
-								title={$t('common.contact', { default: "Додати фото або зв'язатися з адміністратором" })}
-								data-testid="master-profile-add-btn"
-							>
-								<Plus size={18} aria-hidden="true" />
-							</button>
-
-							<!-- Спливаюче міні-вікно контактів біля аватара -->
-							{#if avatarContactOpen}
-								<div
-									class="contact-popup"
-									transition:fly={{ y: 8, duration: 180 }}
-									data-testid="master-profile-contact-menu"
-								>
-									<img
-										src={asset('/graduates/alik-zapolnov-96.webp')}
-										alt="Алік Запольнов"
-										width="32"
-										height="32"
-										class="contact-popup__avatar"
-										loading="eager"
-										data-testid="master-profile-contact-admin-img"
-									/>
-									<p class="contact-popup__hint" data-testid="master-profile-contact-hint">
-										Привіт!)<br />
-										Щоб надати фото чи внести<br />
-										правки&nbsp;— напиши мені
-									</p>
-									<div class="contact-popup__icons">
-										{#each contacts as c (c.name)}
-											<a
-												href={c.url}
-												target="_blank"
-												rel="external noopener noreferrer"
-												class="contact-popup__link"
-												aria-label={c.name}
-												title={c.name}
-												onclick={(e) => e.stopPropagation()}
-												data-testid="master-profile-contact-link-{c.name.toLowerCase()}"
-											>
-												<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
-											</a>
-										{/each}
-									</div>
-								</div>
-							{/if}
+							<!--
+								Кнопка «+» біля фото: її показують лише там, де фото
+								немає, і просить вона саме фото, а не правки.
+							-->
+							<span class="avatar-add">
+								<EditContactButton
+									testIdPrefix="master-profile-contact"
+									buttonTestId="master-profile-add-btn"
+									icon="plus"
+									openTo="down"
+									hasPhoto={false}
+									label={$t('common.contact', {
+										default: "Додати фото або зв'язатися з адміністратором"
+									})}
+								/>
+							</span>
 						{/if}
 					</div>
 
@@ -273,71 +175,14 @@
 					</div>
 				{/if}
 
-				<!-- Кнопка олівець у нижньому правому куті картки -->
-				<div
-					class="card-edit-wrap"
-					bind:this={cardWrapEl}
-					onmouseenter={handleCardMouseEnter}
-					onmouseleave={handleCardMouseLeave}
-					role="group"
-					aria-label={$t('common.contact', { default: 'Контакти' })}
-				>
-					<button
-						type="button"
-						class="card-edit-btn"
-						onclick={toggleCardContact}
-						aria-expanded={cardContactOpen}
-						aria-label={$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })}
-						title={$t('common.contact', { default: "Внести правки або зв'язатися з адміністратором" })}
-						data-testid="master-profile-edit-btn"
-					>
-						<Pencil size={17} aria-hidden="true" />
-					</button>
-
-					{#if cardContactOpen}
-						<div
-							class="contact-popup contact-popup--card"
-							transition:fly={{ y: -8, duration: 180 }}
-							data-testid="master-profile-card-contact-menu"
-						>
-							<img
-								src={asset('/graduates/alik-zapolnov-96.webp')}
-								alt="Алік Запольнов"
-								width="32"
-								height="32"
-								class="contact-popup__avatar"
-								loading="eager"
-								data-testid="master-profile-card-contact-admin-img"
-							/>
-							<p class="contact-popup__hint" data-testid="master-profile-card-contact-hint">
-								{#if data.master.photo}
-									Привіт!)<br />
-									Щоб внести правки<br />
-									— напиши мені
-								{:else}
-									Привіт!)<br />
-									Щоб надати фото чи внести<br />
-									правки&nbsp;— напиши мені
-								{/if}
-							</p>
-							<div class="contact-popup__icons">
-								{#each contacts as c (c.name)}
-									<a
-										href={c.url}
-										target="_blank"
-										rel="external noopener noreferrer"
-										class="contact-popup__link"
-										aria-label={c.name}
-										title={c.name}
-										onclick={(e) => e.stopPropagation()}
-										data-testid="master-profile-card-contact-link-{c.name.toLowerCase()}"
-									>
-										<img src={asset(`/social_media/${c.icon}`)} alt={c.name} width="28" height="28" loading="eager" />
-									</a>
-								{/each}
-							</div>
-						</div>
-					{/if}
+				<!-- Кнопка «олівець» у нижньому правому куті картки. -->
+				<div class="card-edit-wrap">
+					<EditContactButton
+						testIdPrefix="master-profile-card-contact"
+						buttonTestId="master-profile-edit-btn"
+						openTo="up"
+						hasPhoto={!!data.master.photo}
+					/>
 				</div>
 			</article>
 
@@ -492,29 +337,6 @@
 		color: var(--accent-text);
 	}
 
-	.avatar-add-btn {
-		position: absolute;
-		right: 4px;
-		bottom: 4px;
-		display: grid;
-		place-items: center;
-		width: 38px;
-		height: 38px;
-		border-radius: 50%;
-		background: var(--accent-primary);
-		border: 2px solid var(--bg-card);
-		color: var(--text-on-accent);
-		cursor: pointer;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-		transition: transform 0.2s ease, filter 0.2s ease;
-	}
-
-	.avatar-add-btn:hover,
-	.avatar-add-btn[aria-expanded="true"] {
-		transform: scale(1.12);
-		filter: brightness(1.1);
-	}
-
 	/* Card Edit Button in bottom right */
 	.card-edit-wrap {
 		position: absolute;
@@ -522,79 +344,6 @@
 		right: 1.25rem;
 		left: auto;
 		z-index: 20;
-	}
-
-	.card-edit-btn {
-		display: grid;
-		place-items: center;
-		width: 38px;
-		height: 38px;
-		border-radius: 50%;
-		background: var(--accent-primary);
-		border: 2px solid var(--bg-card);
-		color: var(--text-on-accent);
-		cursor: pointer;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-		transition: transform 0.2s ease, filter 0.2s ease;
-	}
-
-	.card-edit-btn:hover,
-	.card-edit-btn[aria-expanded="true"] {
-		transform: scale(1.12);
-		filter: brightness(1.1);
-	}
-
-	/* Contact popup */
-	.contact-popup {
-		position: absolute;
-		top: calc(100% + 12px);
-		left: 0;
-		z-index: 50;
-		width: 260px;
-		padding: 1.1rem;
-		background: var(--bg-card);
-		border: 1px solid var(--border-main);
-		border-radius: var(--radius-lg, 16px);
-		box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
-		text-align: center;
-	}
-
-	.contact-popup--card {
-		top: auto;
-		bottom: calc(100% + 12px);
-		right: 0;
-		left: auto;
-	}
-
-	.contact-popup__avatar {
-		border-radius: 50%;
-		margin: 0 auto 0.5rem;
-		display: block;
-		border: 2px solid var(--accent-primary);
-	}
-
-	.contact-popup__hint {
-		margin: 0 0 0.75rem;
-		font-size: 0.85rem;
-		line-height: 1.4;
-		color: var(--text-main);
-	}
-
-	.contact-popup__icons {
-		display: flex;
-		justify-content: center;
-		gap: 0.6rem;
-	}
-
-	.contact-popup__link {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		transition: transform 0.2s ease;
-	}
-
-	.contact-popup__link:hover {
-		transform: scale(1.18);
 	}
 
 	/* Titles */

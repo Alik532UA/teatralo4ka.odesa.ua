@@ -126,7 +126,7 @@
 				-->
 				<span class="group-header__edit">
 					<EditContactButton
-						testIdPrefix="group-page"
+						testIdPrefix="group-page-contact"
 						openTo="down"
 						hasPhoto={(data.group.photos ?? []).length > 0}
 					/>
