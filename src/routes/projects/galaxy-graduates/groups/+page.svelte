@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
-	import { ArrowLeft, Users, Calendar, Sparkles, Theater } from 'lucide-svelte';
+	import { ArrowLeft, ArrowRight, Users, Calendar, Sparkles, Theater } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath } from '$lib/data/groups';
 	import mastersIndex from '$lib/data/masters.index.json';
@@ -45,12 +45,21 @@
 	<div class="container">
 		<nav class="groups-page__nav clears-logo" aria-label="Breadcrumb">
 			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				href={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
 				class="nav-back-link"
 				data-testid="galaxy-groups-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
+				<span>{$t('galaxy.backToFestivals')}</span>
+			</a>
+
+			<a
+				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				class="nav-back-link nav-back-link--forward"
+				data-testid="galaxy-groups-galaxy-link"
+			>
 				<span>{$t('galaxy.title')}</span>
+				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>
 
@@ -121,7 +130,16 @@
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main, #f0f2f5);
 	}
+	/*
+	 * Дві сторони, як на сусідніх сторінках: назад до фестивалів, уперед до
+	 * галактики. Доти галактика стояла ЛІВОРУЧ зі стрілкою назад, хоч на решті
+	 * сторінок та сама кнопка — крок уперед і стоїть праворуч.
+	 */
 	.groups-page__nav {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 0.75rem;
 		margin-bottom: 1.5rem;
 	}
 	.nav-back-link {
@@ -136,10 +154,17 @@
 		font-size: 0.9rem;
 		font-weight: 600;
 		text-decoration: none;
-		transition: border-color var(--transition-base);
+		transition:
+			border-color var(--transition-base),
+			transform var(--transition-base);
 	}
 	.nav-back-link:hover {
 		border-color: var(--accent-primary);
+		transform: translateX(-3px);
+	}
+	/* Складений добір: модифікатор має ту саму вагу, що й правило вище. */
+	.groups-page__nav .nav-back-link--forward:hover {
+		transform: translateX(3px);
 	}
 
 	.groups-header {
