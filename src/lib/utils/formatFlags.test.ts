@@ -12,7 +12,7 @@ describe('formatFlags', () => {
 	});
 
 	it('parses mixed text with flags into tokens', () => {
-		const text = '🇨🇿 🇦🇹 🇩🇪 Квітуча Чехія, 2011 (Австрія, Чехія, німеччина)';
+		const text = '🇨🇿 🇦🇹 🇩🇪 Квітуча Чехія, 2011 (Австрія, Чехія, Німеччина)';
 		const tokens = parseContentWithFlags(text);
 
 		expect(tokens).toEqual([
@@ -21,7 +21,7 @@ describe('formatFlags', () => {
 			{ type: 'flag', code: 'AT', emoji: '🇦🇹' },
 			{ type: 'text', value: ' ' },
 			{ type: 'flag', code: 'DE', emoji: '🇩🇪' },
-			{ type: 'text', value: ' Квітуча Чехія, 2011 (Австрія, Чехія, німеччина)' }
+			{ type: 'text', value: ' Квітуча Чехія, 2011 (Австрія, Чехія, Німеччина)' }
 		]);
 	});
 

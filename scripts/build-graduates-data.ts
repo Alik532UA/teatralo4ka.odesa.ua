@@ -61,10 +61,8 @@ interface IndexEntry {
 	enrollmentYears?: number[];
 	group?: string;
 	masters?: string[];
-	socials?: { network: string; url: string }[];
 	playCount?: number;
 	profileSize?: number;
-	sourceUrl?: string;
 }
 
 /** Код сторінки зі старої адреси: `…/GG/2015/15K` → `15K`. */
@@ -81,6 +79,21 @@ const parsed: Parsed[] = fs
 const byCode = new Map(parsed.map((record) => [record.source.code, record]));
 if (byCode.size !== parsed.length) throw new Error('коди сторінок не унікальні');
 
+/**
+ * Адреса-джерело живе у профілі, а не в індексі, тож ключ з'єднання беремо
+ * звідти. Раніше він лежав в індексі й їхав у клієнтський бандл на кожну
+ * сторінку сайту заради скрипта, який у браузері не виконується ніколи.
+ *
+ * Профіль лежить під іменем `entry.code` — перевірено на всіх 90.
+ */
+function sourceUrlOf(entry: IndexEntry): string | null {
+	if (!entry.code) return null;
+	const file = path.join(PROFILES_DIR, `${entry.code}.json`);
+	if (!fs.existsSync(file)) return null;
+	const profile = JSON.parse(fs.readFileSync(file, 'utf8')) as { sourceUrl?: string };
+	return profile.sourceUrl ?? null;
+}
+
 const index: IndexEntry[] = JSON.parse(fs.readFileSync(INDEX_FILE, 'utf8'));
 const before = index.map((entry) => `${entry.slug}|${entry.name}|${entry.graduationYear}`);
 
@@ -88,9 +101,10 @@ let matched = 0;
 const profiles: Record<string, unknown>[] = [];
 
 for (const entry of index) {
-	if (!entry.sourceUrl) continue;
+	const sourceUrl = sourceUrlOf(entry);
+	if (!sourceUrl) continue;
 
-	const code = codeFromUrl(entry.sourceUrl);
+	const code = codeFromUrl(sourceUrl);
 	const record = byCode.get(code);
 	if (!record) throw new Error(`індекс посилається на ${code}, якого немає серед розібраних`);
 	matched += 1;
@@ -118,7 +132,7 @@ for (const entry of index) {
 		festivals: record.festivals,
 		duringStudies: record.duringStudies,
 		afterGraduation: record.afterGraduation,
-		sourceUrl: entry.sourceUrl
+		sourceUrl
 	};
 
 	const profileJson = JSON.stringify(profileData);

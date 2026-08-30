@@ -542,7 +542,9 @@
 		}),
 	);
 
-	const socials = $derived(profile?.socials ?? graduate.socials ?? []);
+	// Лише з профілю: в індексі посилань більше немає, і запасний шлях звідти
+	// був би мертвим кодом, який мовчки показує порожньо.
+	const socials = $derived(profile?.socials ?? []);
 	const hasPlays = $derived(Boolean(profile && profile.plays.length > 0));
 	const hasAnyPlayYear = $derived(
 		Boolean(profile?.plays.some((p) => Boolean(p.year))),

@@ -136,6 +136,38 @@ describe('реєстр випускників', () => {
 		expect(bad, `працівника немає в реєстрі:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	/*
+	 * Індекс імпортується модулем і їде в бандл ЦІЛКОМ — на кожну сторінку сайту,
+	 * навіть туди, де жодного випускника не показують. Тому все, що потрібне лише
+	 * відкритій картці, живе у профілі, який довантажується на вимогу.
+	 *
+	 * Заміряно на переносі: 84 набори посилань і 82 адреси джерела важили 16 КБ
+	 * зі 109, і кожне значення вже лежало в профілі точно таким самим. Повернути
+	 * їх сюди легко й непомітно — зростає лише вага, нічого не ламається.
+	 */
+	it('індекс не тягне того, що потрібне лише картці', () => {
+		const heavy = ['socials', 'sourceUrl', 'bio', 'plays', 'festivals'];
+		const bad: string[] = [];
+		for (const g of index) {
+			const raw = g as unknown as Record<string, unknown>;
+			for (const key of heavy) if (key in raw) bad.push(`${g.id}.${key}`);
+		}
+		expect(bad, `важке поле повернулося в індекс:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('те, що прибрано з індексу, лежить у профілі', () => {
+		const withProfile = new Set(profiles.map((p) => p.data.id));
+		const bad: string[] = [];
+		for (const g of index) {
+			if (!('profileSize' in g) || !withProfile.has(g.id)) continue;
+			const data = profiles.find((p) => p.data.id === g.id)!.data as Record<string, unknown>;
+			if (!('sourceUrl' in data) && !('socials' in data)) bad.push(g.id);
+		}
+		expect(bad, `профіль порожній там, де індекс обіцяє вміст:\n  ${bad.join('\n  ')}`).toEqual(
+			[]
+		);
+	});
+
 	it('імена в профілі та в індексі збігаються', () => {
 		const byId = new Map(index.map((g) => [g.id, g]));
 		const bad: string[] = [];
