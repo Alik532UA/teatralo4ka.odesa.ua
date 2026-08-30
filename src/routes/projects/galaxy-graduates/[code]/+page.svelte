@@ -8,7 +8,6 @@
 	import { Pencil, X } from "lucide-svelte";
 	import { asset } from "$app/paths";
 	import GraduateProfileView from "$lib/components/GraduateProfileView.svelte";
-	import { scrollFade } from "$lib/utils/scrollFade";
 	import GraduateGalaxy from "$lib/components/GraduateGalaxy.svelte";
 	import { localeFromPath, localizedPath } from "$lib/i18n/routing";
 	import {
@@ -33,7 +32,7 @@
 	let shiftY = $state(0);
 
 	function updateShift() {
-		if (!browser || window.innerWidth < 769 || !profileEl) {
+		if (!browser || window.innerWidth < 768 || !profileEl) {
 			shiftY = 0;
 			return;
 		}
@@ -160,7 +159,7 @@
 	}
 
 	onMount(() => {
-		const mql = window.matchMedia("(min-width: 769px)");
+		const mql = window.matchMedia("(min-width: 768px)");
 		isDesktop = mql.matches;
 		if (isDesktop) document.body.classList.add("page-galaxy");
 
@@ -197,7 +196,6 @@
 		<article
 			class="profile__card"
 			bind:this={profileEl}
-			{@attach scrollFade()}
 			style="--shift-y: {shiftY}px"
 			data-testid="graduate-profile-card"
 		>
@@ -450,7 +448,7 @@
 		filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.3));
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 767px) {
 		.card__toolbar {
 			position: sticky;
 			top: 0;
@@ -465,15 +463,41 @@
 			color: inherit;
 		}
 
+		/*
+		 * На телефоні меню прив'язується до КАРТКИ, а не до кнопки.
+		 *
+		 * Кнопка стоїть майже біля правого краю, і меню від неї не вміщалося в
+		 * жоден бік: заміряно на iPhone SE — 389 px завширшки при початку на
+		 * 259, тобто 273 px за екраном. Причина — `white-space: nowrap` і
+		 * прив'язка до `.contact-wrap`, вужчої за саме меню.
+		 *
+		 * Тому обгортка тут перестає бути точкою відліку, і меню стає під
+		 * тулбаром біля правого краю картки, переносячи значки на другий рядок,
+		 * якщо не вміщаються.
+		 */
+		.contact-wrap {
+			position: static;
+		}
+
 		.contact-popup {
-			right: auto;
-			left: 0;
-			top: calc(100% + 0.4rem);
+			right: 0;
+			left: auto;
+			top: 3.2rem;
 			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+			/*
+			 * Межа від ВІКНА, а не від батька: точкою відліку тут стає липкий
+			 * тулбар, а він завширшки з дві кнопки — `100%` від нього душило
+			 * меню до 80 px.
+			 */
+			max-width: calc(100vw - 2rem);
+			white-space: normal;
+			border-radius: 1.1rem;
 		}
 	}
 
-	@media (min-width: 769px) {
+	@media (min-width: 768px) {
 		:global(body.page-galaxy) .profile-stage {
 			position: fixed;
 			inset: 0;
@@ -539,10 +563,19 @@
 			 * Прокручується САМЕ картка, а не сцена: сцена — нерухоме тло на
 			 * весь екран із зорями, і зсувати її не можна. Ширина картки
 			 * дорівнює змісту, тож поля обабіч лишаються тлом.
+			 *
+			 * Прокрутки тут немає: її беруть колонки всередині. Роль цього
+			 * рівня — передати стелю вниз, і `flex: 0 1 auto` з `min-height: 0`
+			 * робить саме це.
 			 */
-			max-height: 100%;
-			overflow-y: auto;
-			scrollbar-width: none;
+			flex: 0 1 auto;
+			min-height: 0;
+			/*
+			 * `visible`, а не `hidden`: тулбар стоїть НАД карткою
+			 * (`top: -3.2rem`), і обрізання прибирало його з екрана разом із
+			 * кнопками. Висоту тримає флекс.
+			 */
+			overflow: visible;
 			display: flex;
 			flex-direction: column;
 			align-items: center;

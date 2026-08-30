@@ -2,7 +2,6 @@
 	import { getAbortSignal } from "svelte";
 	import { page } from "$app/state";
 	import { focusTrap } from "$lib/utils/focusTrap";
-	import { scrollFade } from "$lib/utils/scrollFade";
 	import { overlayFade, overlayPop } from "$lib/utils/overlayTransition";
 	import {
 		type GraduateIndexEntry,
@@ -83,7 +82,7 @@
 	let shiftY = $state(0);
 
 	function updateShift() {
-		if (!browser || window.innerWidth < 769 || !innerEl) {
+		if (!browser || window.innerWidth < 768 || !innerEl) {
 			shiftY = 0;
 			return;
 		}
@@ -168,7 +167,6 @@
 		<div
 			class="card__inner"
 			bind:this={innerEl}
-			{@attach scrollFade()}
 			data-testid="galaxy-card-inner"
 		>
 			<GraduateCardToolbar
@@ -238,10 +236,22 @@
 		 * але та ж таки `.card` мала `pointer-events: none` — колесо до неї не
 		 * доходило, і зміст за екраном був недосяжний.
 		 */
-		max-height: 100%;
-		overflow-y: auto;
-		scrollbar-width: none;
-		flex-shrink: 0;
+		/*
+		 * Прокрутки ТУТ немає: її знову беруть на себе колонки, як просив
+		 * замовник. Завдання цього рівня — ПЕРЕДАТИ вниз стелю висоти, а не
+		 * прокручувати. `flex: 0 1 auto` разом із `min-height: 0` дає саме це:
+		 * контейнер стискається до висоти картки, а що не вмістилося — справа
+		 * колонок.
+		 */
+		flex: 0 1 auto;
+		min-height: 0;
+		/*
+		 * `visible`, а не `hidden`: тулбар із кнопками «редагувати» й «закрити»
+		 * стоїть НАД карткою (`top: -3.2rem`), тобто поза її межами, і обрізання
+		 * прибирало його з екрана разом із кнопками. Висоту тут тримає флекс, а
+		 * не переповнення, тож обрізати нічого не треба.
+		 */
+		overflow: visible;
 		width: fit-content;
 		max-width: 100%;
 		display: flex;
@@ -264,7 +274,7 @@
 	.card__inner :global(.custom-scroll-thumb) {
 		pointer-events: auto;
 	}
-	@media (max-width: 768px) {
+	@media (max-width: 767px) {
 		.card {
 			width: min(560px, calc(100vw - 2rem));
 			height: auto;

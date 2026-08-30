@@ -11,6 +11,7 @@
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import GraduateYears from "$lib/components/GraduateYears.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
+	import { scrollFade } from "$lib/utils/scrollFade";
 	import {
 		getMasterById,
 		masterProfilePath,
@@ -321,7 +322,7 @@
 	const SEEDS: Record<number, BlockKey[][]> = {
 		1: [SINGLE_ORDER],
 		2: [["main"], ["masters", "teachers"]],
-		3: [["plays"], ["main"], ["bio"]],
+		3: [["plays"], ["main", "masters"], ["bio"]],
 		4: [["plays"], ["main"], ["masters", "teachers"], ["bio"]],
 	};
 
@@ -526,7 +527,7 @@
 
 {#snippet mastersContent()}
 	<div class="masters-container" data-testid="galaxy-card-masters-text">
-		<span class="masters-title"
+		<span class="galaxy-block-title"
 			>{$t("galaxy.masters", { default: "Майстри курсу" })}:</span
 		>
 		<ul class="masters-list">
@@ -565,7 +566,7 @@
 		class="masters-container teachers-container"
 		data-testid="galaxy-card-teachers-text"
 	>
-		<span class="masters-title"
+		<span class="galaxy-block-title"
 			>{$t("galaxy.teachers", { default: "Викладачі" })}:</span
 		>
 		<ul class="masters-list teachers-list">
@@ -630,7 +631,7 @@
 				data-block="plays"
 				data-testid="galaxy-card-plays-section"
 			>
-				<h3 class="block__title">{$t("galaxy.playsTitle")}</h3>
+				<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
 				<ul
 					class="plays"
 					bind:this={playsListEl}
@@ -840,7 +841,7 @@
 
 			{#if groupLinks.length}
 				<div class="groups-container" data-testid="galaxy-card-group-text">
-					<span class="groups-title">{$t("galaxy.group")}:</span>
+					<span class="galaxy-block-title">{$t("galaxy.group")}:</span>
 					<ul class="groups-list">
 						{#each groupLinks as item (item.full)}
 							{@const groupName = item.name}
@@ -932,7 +933,7 @@
 				>
 					{#if profile!.duringStudies}
 						<section class="block">
-							<h3 class="block__title">
+							<h3 class="block__title galaxy-block-title">
 								{$t("galaxy.duringStudies")}
 							</h3>
 							<p class="para">
@@ -945,7 +946,7 @@
 
 					{#if profile!.afterGraduation}
 						<section class="block">
-							<h3 class="block__title">
+							<h3 class="block__title galaxy-block-title">
 								{$t("galaxy.afterGraduation")}
 							</h3>
 							<p class="para">
@@ -958,7 +959,7 @@
 
 					{#if profile!.bio.length > 0}
 						<section class="block">
-							<h3 class="block__title">{$t("galaxy.about")}</h3>
+							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
 							{#each profile!.bio as paragraph, index (index)}
 								<p
 									class="para"
@@ -975,7 +976,7 @@
 							class="block"
 							data-testid="galaxy-card-festivals-section"
 						>
-							<h3 class="block__title">
+							<h3 class="block__title galaxy-block-title">
 								{$t("galaxy.festivals")}
 							</h3>
 							<ul class="plays">
@@ -1012,7 +1013,12 @@
 		data-testid="galaxy-profile-container"
 	>
 		{#each columns as keys, index (index)}
-			<div class="col" data-testid="galaxy-profile-column-panel-{index}">
+			<div
+				class="col"
+				{@attach customScroll({ alignThumb: "right", rightOffset: -10 })}
+				{@attach scrollFade()}
+				data-testid="galaxy-profile-column-panel-{index}"
+			>
 				{#each keys as key (key)}
 					{@render blockOf(key)}
 				{/each}
@@ -1034,8 +1040,26 @@
 	 * контейнерні запити тут неможливі без відмови від fit-content у модалці, і
 	 * межі рахуються від вікна.
 	 */
+	/*
+	 * Обгортка передає висоту вниз: від картки до колонок.
+	 *
+	 * Без `min-height: 0` жодна стеля згори сюди не доходить — типове
+	 * `min-height: auto` у флекс-елемента означає «не менше за зміст», і колонки
+	 * розпихали б картку замість того, щоб прокручуватися всередині неї.
+	 */
 	.layout-scope {
 		width: 100%;
+		flex: 1 1 auto;
+		min-height: 0;
+		/*
+		 * Флекс, а не відсотки. Заміряно: `height: 100%` на розкладці не діяв
+		 * зовсім — навіть інлайном, — бо власна висота обгортки прийшла від
+		 * флексу батька, і відсоток проти такої висоти не резолвиться.
+		 * Флексовий ланцюг такої вимоги не має: він роздає доступне місце за
+		 * фактично використаною висотою.
+		 */
+		display: flex;
+		flex-direction: column;
 	}
 	.profile-layout {
 		display: flex;
@@ -1102,6 +1126,21 @@
 		.profile-layout {
 			grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
 			width: 100%;
+			/*
+			 * `stretch`, а не `start`: інакше кожна колонка має висоту свого
+			 * змісту, і «прокручується та, у якої не вмістилося» перетворюється
+			 * на «прокручується та, у якої найдовший список», незалежно від
+			 * того, скільки місця на екрані.
+			 */
+			align-items: stretch;
+			/*
+			 * Один рядок на всю висоту. `auto` дав би рядку висоту НАЙДОВШОГО
+			 * змісту (заміряно: 980 px при 852 доступних), і колонки вилазили б
+			 * за картку замість того, щоб прокручуватися всередині.
+			 */
+			grid-template-rows: minmax(0, 1fr);
+			flex: 1 1 auto;
+			min-height: 0;
 		}
 
 		/*
@@ -1116,22 +1155,24 @@
 		 */
 		.col {
 			/*
-			 * БЕЗ стелі й без власної прокрутки — узагалі.
+			 * Кожна колонка прокручується САМА — прохання замовника, і воно
+			 * узгоджується з правилом «прокрутка потрібна, коли місця немає»
+			 * рівно за однієї умови: колонка мусить займати ВСЮ доступну висоту.
 			 *
-			 * Стеля тут була двічі, і двічі помилково: спершу магічні 820 px,
-			 * потім `calc(100dvh - 130px)`, де 130 — теж навмання взяте число.
-			 * Заміряно на iPad Pro 1024×1366 з другим варіантом: колонки
-			 * закінчувалися на 952, 980 і 1368 — три різні низи, причому третій
-			 * на 2 px за екраном. Тобто число не збігалося з дійсним відступом
-			 * зверху й не могло збігатися: у модалці він один, на власній
-			 * сторінці інший.
+			 * Саме цього тут бракувало двічі. Спершу стояли магічні 820 px, потім
+			 * `calc(100dvh - 130px)` — обидва рази число не збігалося з дійсним
+			 * відступом зверху й не могло збігатися: у модалці він один, на
+			 * власній сторінці інший. Заміряно на iPad Pro 1024×1366: колонки
+			 * закінчувалися на 952, 980 і 1368 — три різні низи, третій за екраном,
+			 * і при цьому список вистав ховав 665 px.
 			 *
-			 * Правило замовника — прокрутка потрібна тоді, коли місця НЕМАЄ.
-			 * Стеля робила протилежне: вкорочувала колонку, поки під карткою
-			 * лишалося порожньо. Тепер колонка має рівно висоту свого змісту, а
-			 * прокрутку бере на себе те, що й має, — модалка або сторінка.
+			 * Тепер числа немає взагалі. Висоту дає ланцюг: картка обмежена вікном,
+			 * розкладка розтягується на неї (`height: 100%`), а `stretch` у сітці
+			 * робить усі колонки однаково високими. Скролиться та, чий зміст
+			 * справді довший за екран, — і рівно вона.
 			 */
 			min-height: 0;
+			overflow-y: auto;
 			background: transparent;
 			border: none;
 			box-shadow: none;
@@ -1451,12 +1492,7 @@
 		color: var(--galaxy-text);
 		text-align: center;
 	}
-	.groups-title {
-		display: block;
-		font-size: 0.92rem;
-		color: var(--galaxy-muted);
-		margin-bottom: 0.4rem;
-	}
+
 	.groups-list {
 		display: flex;
 		flex-direction: column;
@@ -1534,12 +1570,7 @@
 		color: var(--galaxy-text);
 		text-align: center;
 	}
-	.masters-title {
-		display: block;
-		font-size: 0.92rem;
-		color: var(--galaxy-muted);
-		margin-bottom: 0.4rem;
-	}
+
 	.masters-list {
 		display: flex;
 		flex-direction: column;
@@ -1702,13 +1733,7 @@
 		margin-top: 1.1rem;
 		text-align: left;
 	}
-	.block__title {
-		margin: 0 0 0.5rem;
-		font-size: 1rem;
-		color: var(--galaxy-accent);
-		border-bottom: 1px solid rgb(140 190 255 / 0.2);
-		padding-bottom: 0.3rem;
-	}
+
 	.plays {
 		margin: 0;
 		padding: 0;

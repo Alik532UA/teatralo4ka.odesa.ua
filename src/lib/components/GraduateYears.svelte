@@ -81,22 +81,33 @@
 		white-space: nowrap;
 	}
 	/*
-	 * Підкреслення пунктиром, а не суцільне: рядок стоїть під іменем разом із
-	 * роком вступу, який посиланням НЕ є, і суцільна лінія читалася б як
-	 * помилка розмітки — «чому підкреслено половину рядка».
+	 * КНОПКА, а не підкреслений текст.
+	 *
+	 * Пунктирне підкреслення обиралося колись, щоб не читатися як помилка
+	 * розмітки поруч із роком вступу, який посиланням не є. Але воно й не
+	 * читалося як щось натисне: рік випуску веде в реєстр, відфільтрований по
+	 * цьому ж року, і про це не здогадувався ніхто. Пілюля з рамкою каже це
+	 * сама, а рік вступу поруч лишається звичайним текстом — різниця між ними
+	 * тепер видима, і саме та, що є насправді.
 	 */
 	.years__item--link {
 		color: inherit;
-		text-decoration: underline dotted;
-		text-underline-offset: 0.2em;
-		border-radius: 4px;
+		text-decoration: none;
+		padding: 0.12rem 0.6rem;
+		border: 1px solid rgb(140 190 255 / 0.35);
+		border-radius: var(--radius-full, 9999px);
+		background: rgb(140 190 255 / 0.08);
+		line-height: 1.3;
 		transition:
 			color var(--transition-fast),
-			text-decoration-color var(--transition-fast);
+			background var(--transition-fast),
+			border-color var(--transition-fast);
 	}
-	.years__item--link:hover {
+	.years__item--link:hover,
+	.years__item--link:focus-visible {
 		color: var(--galaxy-accent);
-		text-decoration-style: solid;
+		background: rgb(140 190 255 / 0.18);
+		border-color: rgb(140 190 255 / 0.6);
 	}
 	.years__sep {
 		opacity: 0.5;

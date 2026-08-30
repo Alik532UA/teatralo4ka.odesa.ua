@@ -31,7 +31,7 @@
 
 {#if festivals.length}
 	<div class="fests" data-testid="galaxy-card-festivals-list">
-		<span class="fests__title">{$t('galaxy.festivalsTitle')}:</span>
+		<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}:</span>
 		<ul class="fests__list">
 			{#each festivals as festival (festival.slug)}
 				<li>
@@ -63,13 +63,7 @@
 		flex-direction: column;
 		gap: 0.4rem;
 	}
-	.fests__title {
-		font-size: 0.8rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		color: var(--text-muted);
-	}
+
 	.fests__list {
 		list-style: none;
 		margin: 0;

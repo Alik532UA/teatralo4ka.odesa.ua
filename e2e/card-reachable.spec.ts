@@ -96,38 +96,46 @@ const WHEEL_STEP = 300;
 const WHEEL_LIMIT = 60;
 
 /**
- * Які блоки НЕ вдалося побачити, гортаючи колесом згори донизу.
+ * Які блоки НЕ вдалося побачити, гортаючи КОЛЕСОМ.
  *
- * Курсор ставиться в центр екрана — туди, куди його поставила б людина. Саме це
- * й ловить випадок, коли прокручується не те, під чим стоїть курсор: програмна
- * прокрутка такого не помічає взагалі.
+ * Курсор ставиться над тією колонкою, у якій лежить блок, — інакше перевірка
+ * питала б не те: кожна колонка прокручується сама, і колесо в центрі екрана
+ * рухає лише ту, під якою стоїть курсор.
  */
 async function unreachableByWheel(page: Page, size: { width: number; height: number }) {
-	const seen = new Set<string>();
-	await page.mouse.move(size.width / 2, size.height / 2);
-	await page.mouse.wheel(0, -WHEEL_STEP * WHEEL_LIMIT);
-	await page.waitForTimeout(200);
+	const missed: string[] = [];
 
-	for (let step = 0; step <= WHEEL_LIMIT; step += 1) {
-		for (const probe of PROBES) {
-			if (seen.has(probe.name)) continue;
-			const target = page.locator(probe.selector).last();
-			// Блока може не бути взагалі — тоді й ховати нічого.
-			if ((await target.count()) === 0) {
-				seen.add(probe.name);
-				continue;
-			}
+	for (const probe of PROBES) {
+		const target = page.locator(probe.selector).last();
+		// Блока може не бути взагалі — тоді й ховати нічого.
+		if ((await target.count()) === 0) continue;
+
+		const column = await target.evaluate((el) => {
+			const col = el.closest('.col');
+			if (!col) return null;
+			const box = col.getBoundingClientRect();
+			return { x: box.left + box.width / 2, y: box.top + box.height / 2 };
+		});
+		if (!column) continue;
+
+		await page.mouse.move(column.x, column.y);
+		await page.mouse.wheel(0, -WHEEL_STEP * WHEEL_LIMIT);
+		await page.waitForTimeout(150);
+
+		let seen = false;
+		for (let step = 0; step <= WHEEL_LIMIT; step += 1) {
 			const box = await target.boundingBox();
 			if (box && box.y >= -2 && box.y + box.height <= size.height + 2) {
-				seen.add(probe.name);
+				seen = true;
+				break;
 			}
+			await page.mouse.wheel(0, WHEEL_STEP);
+			await page.waitForTimeout(50);
 		}
-		if (seen.size === PROBES.length) break;
-		await page.mouse.wheel(0, WHEEL_STEP);
-		await page.waitForTimeout(60);
+		if (!seen) missed.push(probe.name);
 	}
 
-	return PROBES.filter((probe) => !seen.has(probe.name)).map((probe) => probe.name);
+	return missed;
 }
 
 test.describe('картка випускника', () => {
@@ -174,6 +182,13 @@ test.describe('картка випускника', () => {
 				const hiding = [...(layout?.querySelectorAll('*') ?? [])]
 					.filter((el): el is HTMLElement => el instanceof HTMLElement)
 					/*
+					 * Сама колонка ховати ЗМІСТ має право — прокрутка в колонках і
+					 * є те, що просив замовник. Заборона стосується всього, що
+					 * всередині: плашка з власною стелею ховає зміст тоді, коли
+					 * колонка навколо неї ще має місце.
+					 */
+					.filter((el) => !el.classList.contains('col'))
+					/*
 					 * Картинки й значки — повз. У них `scrollHeight` означає ВЛАСНИЙ
 					 * розмір файлу, а не схований зміст: значок соцмережі 42 px,
 					 * показаний як 34 px, дає «сховано 8 px», хоча нічого не сховано.
@@ -189,7 +204,22 @@ test.describe('картка випускника', () => {
 							`${el.scrollHeight - el.clientHeight} px`
 					);
 
-				return { колонок: lefts.size, ховають: hiding };
+				/*
+				 * Чи ВПИСУЮТЬСЯ колонки у вікно. Це друга половина правила
+				 * «прокрутка потрібна, коли місця немає»: колонка сміє
+				 * прокручуватися лише тоді, коли вона вже займає всю доступну
+				 * висоту. Заміряно на iPad Air: колонки були 1132 px при вікні
+				 * 1180 — тобто прокручувалися, використавши місце повністю.
+				 *
+				 * Коли колонка одна, прокручується сторінка, і питання не стоїть.
+				 */
+				const bottoms = cols.map((c) => c.getBoundingClientRect().bottom);
+				const heights = cols.map((c) => Math.round(c.getBoundingClientRect().height));
+				const крайЗаЕкраном =
+					lefts.size > 1 ? Math.round(Math.max(...bottoms) - window.innerHeight) : 0;
+				const розбіжністьВисот = Math.max(...heights) - Math.min(...heights);
+
+				return { колонок: lefts.size, ховають: hiding, крайЗаЕкраном, розбіжністьВисот };
 			}, HIDDEN_TOLERANCE);
 
 			expect(
@@ -204,11 +234,86 @@ test.describe('картка випускника', () => {
 				`${size.name}: колонок ${report.колонок}, а має бути ${size.cols}`
 			).toBe(size.cols);
 
+			expect(
+				report.крайЗаЕкраном,
+				`${size.name}: колонки виходять за нижній край на ${report.крайЗаЕкраном} px — ` +
+					`прокручуватися має їхній вміст, а не вилазити сама колонка`
+			).toBeLessThanOrEqual(56);
+
+			expect(
+				report.розбіжністьВисот,
+				`${size.name}: колонки різної висоти (${report.розбіжністьВисот} px) — ` +
+					`тоді «скролиться та, у якої не вмістилося» перетворюється на ` +
+					`«та, у якої найдовший список»`
+			).toBeLessThanOrEqual(2);
+
 			const unreachable = await unreachableByWheel(page, size);
 			expect(
 				unreachable,
 				`${size.name}: до цих блоків не можна дійти КОЛЕСОМ:\n  ` + unreachable.join('\n  ')
 			).toEqual([]);
+		});
+	}
+});
+
+/**
+ * Меню контактів відкривається В ЕКРАН.
+ *
+ * Заміряно на iPhone SE: меню було 389 px завширшки й починалося на 259 — тобто
+ * 273 px за правим краєм, разом із трьома з чотирьох посилань. Причина в двох
+ * речах одразу: `white-space: nowrap` не давав меню звузитися, а точкою відліку
+ * була `.contact-wrap` — обгортка кнопки, вужча за саме меню, притиснута до
+ * правого краю картки.
+ *
+ * `viewport-overflow` цього не бачив і не міг: меню з'являється лише після
+ * натискання, а той гейт міряє сторінку як вона є.
+ *
+ * Зворотний експеримент: повернути `left: 0` замість `right: 0` — перевірка
+ * назве, на скільки пікселів і в який бік меню вийшло.
+ */
+test.describe('меню контактів', () => {
+	for (const size of [
+		{ width: 375, height: 667, name: 'iPhone SE' },
+		{ width: 768, height: 1024, name: 'iPad Mini' }
+	]) {
+		test(`${size.name} ${size.width}×${size.height}`, async ({ page }) => {
+			await page.setViewportSize({ width: size.width, height: size.height });
+			await gotoReady(page, PAGE);
+			await page.locator('.profile-layout[data-measured="yes"]').waitFor();
+			await waitForAnimations(page);
+
+			/*
+			 * Спершу наведення, потім клік: меню відкривається по-різному на
+			 * різних ширинах — на широкому екрані його показує `onmouseenter`,
+			 * на вузькому лишається натискання. Перевірка має відкрити його тим
+			 * способом, який працює саме тут, а не наполягати на своєму.
+			 */
+			const toggle = page.locator('.contact-wrap').locator('button, a, [role="button"]').first();
+			const menu = page.getByTestId('graduate-profile-contact-menu');
+			await page.locator('.contact-wrap').hover();
+			if (!(await menu.isVisible())) await toggle.click({ force: true });
+			await menu.waitFor();
+
+			const report = await page.evaluate((viewport) => {
+				const menu = document.querySelector('[data-testid="graduate-profile-contact-menu"]')!;
+				const box = menu.getBoundingClientRect();
+				// Кожне посилання окремо: меню може вміститися, а значки — витекти.
+				const hidden = [...menu.querySelectorAll('a')]
+					.map((a) => a.getBoundingClientRect())
+					.filter((r) => r.right > viewport + 1 || r.left < -1).length;
+				return {
+					заПравим: Math.round(box.right - viewport),
+					заЛівим: Math.round(-box.left),
+					посиланьЗаЕкраном: hidden
+				};
+			}, size.width);
+
+			expect(report.заПравим, `${size.name}: меню виходить за правий край`).toBeLessThanOrEqual(0);
+			expect(report.заЛівим, `${size.name}: меню виходить за лівий край`).toBeLessThanOrEqual(0);
+			expect(
+				report.посиланьЗаЕкраном,
+				`${size.name}: ${report.посиланьЗаЕкраном} посилань поза екраном`
+			).toBe(0);
 		});
 	}
 });
