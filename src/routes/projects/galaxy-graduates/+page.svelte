@@ -435,12 +435,25 @@
 		background: var(--galaxy-bg);
 	}
 
+	/*
+	 * Переноситься, а не тягнеться в один рядок.
+	 *
+	 * Доти тут стояв `inline-flex` без переносу, і поки кнопок було дві, це
+	 * тримало. З двома входами — у групи й фестивалі — рядок став 566 px на
+	 * екрані 412, тобто поїхав за край; спіймав це `viewport-overflow`, а не око.
+	 *
+	 * `left` разом із `right` і `justify-content: flex-end` — щоб перенесені
+	 * кнопки лишалися притиснутими до правого краю, а не розповзалися.
+	 */
 	.stage__controls {
 		position: absolute;
 		z-index: 3;
+		left: clamp(0.75rem, 2vw, 1.5rem);
 		right: clamp(0.75rem, 2vw, 1.5rem);
 		bottom: clamp(0.75rem, 2vh, 1.5rem);
-		display: inline-flex;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
 		align-items: center;
 		gap: 0.5rem;
 	}
