@@ -68,6 +68,43 @@ describe('GROUPS data integrity', () => {
 		expect(bad, `ні складу, ні репертуару:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	/*
+	 * Поділ злитої групи має бути РОЗБИТТЯМ, а не ще одним списком поруч.
+	 *
+	 * Вистава, що потрапила і в частину, і в спільні, показалася б на сторінці
+	 * двічі; вистава, що не потрапила нікуди, зникла б зі сторінки, лишившись у
+	 * даних. Обидва різновиди помилки тихі — сторінка від них не падає.
+	 *
+	 * Так само зі складом: людина, приписана обом частинам, суперечить самому
+	 * задуму поділу.
+	 */
+	it('частини злитої групи не дублюють і не губають нічого', () => {
+		const bad: string[] = [];
+		for (const group of GROUPS) {
+			if (!group.parts?.length) continue;
+
+			const seenPlay = new Map<string, number>();
+			for (const id of [...group.playIds, ...group.parts.flatMap((p) => p.playIds)])
+				seenPlay.set(id, (seenPlay.get(id) ?? 0) + 1);
+			for (const [id, n] of seenPlay)
+				if (n > 1) bad.push(`${group.slug}: вистава «${id}» у ${n} списках`);
+
+			const seenMember = new Map<string, number>();
+			for (const id of group.parts.flatMap((p) => p.memberIds))
+				seenMember.set(id, (seenMember.get(id) ?? 0) + 1);
+			for (const [id, n] of seenMember)
+				if (n > 1) bad.push(`${group.slug}: ${id} у ${n} частинах`);
+
+			for (const part of group.parts) {
+				if (!part.name.trim()) bad.push(`${group.slug}: частина без назви`);
+				for (const id of part.memberIds)
+					if (!group.memberIds.includes(id))
+						bad.push(`${group.slug} → «${part.name}»: ${id} не у складі групи`);
+			}
+		}
+		expect(bad, `поділ групи розійшовся:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
 	it('хелпери getGroupBySlug, getGroupByTitleOrAbbr, getGroupsByMember повертають правильні групи', () => {
 		const group = getGroupBySlug('zakhysnyky-teatralnykh-kulis');
 		expect(group).toBeDefined();

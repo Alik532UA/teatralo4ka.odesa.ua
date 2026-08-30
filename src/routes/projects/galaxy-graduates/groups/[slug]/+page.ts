@@ -92,7 +92,16 @@ export async function load({ params }) {
 	 */
 	const plays = playsByIds(group.playIds);
 
+	/*
+	 * Частини злитої групи розгортаються тут же. Порожні відкидаються: частина
+	 * без жодної вистави дала б на сторінці заголовок над нічим.
+	 */
+	const parts = (group.parts ?? [])
+		.map((part) => ({ name: part.name, plays: playsByIds(part.playIds) }))
+		.filter((part) => part.plays.length > 0);
+
 	return {
+		parts,
 		group,
 		masters,
 		teachers,

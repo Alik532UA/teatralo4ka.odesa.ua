@@ -154,35 +154,59 @@
 		],
 		"playIds": [
 			"holosy-2025",
-			"baiduzhyi-krasen-liudskyi-holos-2025",
 			"chetverta-stina-2024",
-			"4-stina-2024",
 			"uryvky-z-klasyky-2023",
 			"na-pershi-huli-2023",
-			"zviriachi-istorii-2023",
 			"kassandra-2023",
 			"lysty-do-boha-2022",
-			"divchata-2022",
-			"geist-2022",
-			"kazky-pro-vsiak-vypadok-2021",
-			"avatary-2021",
-			"vsi-myshi-liubliat-syr-2021",
-			"etiudy-2020",
-			"vse-lito-v-odyn-den-2020",
-			"vir-u-sebe-2020",
-			"prosto-vir-u-sebe-2020",
-			"musornyi-miuzykl-2019",
 			"rol-temperaturius-2019",
-			"smittievyi-miuzykl-2019",
-			"avatary-2019",
-			"vse-lito-v-odyn-den-2018",
-			"etiudy-kishka-2017",
-			"kazka-terem-ok-lysa-2016",
-			"teremok-2016",
-			"ripka-2015"
+			"etiudy-kishka-2017"
 		],
 		"photos": [
-			"/groups/anshlah-devishnik.webp"
+			"/groups/anshlah-devishnik.webp",
+			"/groups/anshlah-devishnik-2.webp"
+		],
+		"parts": [
+			{
+				"name": "Аншлаг",
+				"memberIds": [
+					"valeriia-burian",
+					"kateryna-muntian"
+				],
+				"playIds": [
+					"zviriachi-istorii-2023",
+					"vsi-myshi-liubliat-syr-2021",
+					"vir-u-sebe-2020",
+					"prosto-vir-u-sebe-2020",
+					"kazka-terem-ok-lysa-2016",
+					"teremok-2016",
+					"ripka-2015"
+				]
+			},
+			{
+				"name": "Дєвішнік",
+				"memberIds": [
+					"taisiia-ruseskul",
+					"khrystia-oslavska",
+					"erika-chichasova",
+					"karyna-kaminieva",
+					"mariia-mandriesk"
+				],
+				"playIds": [
+					"baiduzhyi-krasen-liudskyi-holos-2025",
+					"4-stina-2024",
+					"divchata-2022",
+					"geist-2022",
+					"kazky-pro-vsiak-vypadok-2021",
+					"avatary-2021",
+					"etiudy-2020",
+					"vse-lito-v-odyn-den-2020",
+					"musornyi-miuzykl-2019",
+					"smittievyi-miuzykl-2019",
+					"avatary-2019",
+					"vse-lito-v-odyn-den-2018"
+				]
+			}
 		]
 	},
 	{

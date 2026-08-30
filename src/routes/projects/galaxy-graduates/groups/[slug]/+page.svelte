@@ -211,13 +211,34 @@
 			</section>
 		{/if}
 
-		<!-- 3. Секція: Репертуар вистав -->
+		<!--
+			3. Секція: Репертуар вистав
+
+			У злитої групи він розпадається на списки: спершу репертуар кожної
+			частини окремо, потім спільні вистави. Одним списком двадцять сім
+			вистав «Аншлаг+Дєвішнік» стерли б те, що частина з них ішла
+			паралельно й різними людьми.
+		-->
+		{#each data.parts as part (part.name)}
+			<section class="group-section" aria-labelledby="section-part-{part.name}">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Theater size={20} aria-hidden="true" /></span>
+					<h2 id="section-part-{part.name}" class="section-heading__title">
+						{$t('galaxy.groupRepertoire')}: «{part.name}»
+					</h2>
+					<span class="section-heading__count">{part.plays.length}</span>
+				</div>
+
+				<GroupPlaysTimeline plays={part.plays} />
+			</section>
+		{/each}
+
 		{#if data.plays.length > 0}
 			<section class="group-section" aria-labelledby="section-plays-title">
 				<div class="section-heading">
 					<span class="icon-wrap icon-wrap--primary"><Theater size={20} aria-hidden="true" /></span>
 					<h2 id="section-plays-title" class="section-heading__title">
-						{$t('galaxy.groupRepertoire')}
+						{data.parts.length ? $t('galaxy.groupRepertoireShared') : $t('galaxy.groupRepertoire')}
 					</h2>
 					<span class="section-heading__count">{data.plays.length}</span>
 				</div>

@@ -78,6 +78,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/groups/alter-ego.webp': { width: 1078, height: 720 },
 	'/groups/pakhlava.webp': { width: 1079, height: 720 },
 	'/groups/anshlah-devishnik.webp': { width: 1079, height: 720 },
+	'/groups/anshlah-devishnik-2.webp': { width: 1079, height: 720 },
 	'/groups/mamarada.webp': { width: 1079, height: 720 },
 	'/festivals/kvitucha-chekhiia-2.webp': { width: 1278, height: 720 },
 	'/festivals/kvitucha-chekhiia-3.webp': { width: 1278, height: 720 },

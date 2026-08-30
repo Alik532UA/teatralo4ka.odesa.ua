@@ -476,7 +476,15 @@
 			const href = slug
 				? masterProfilePath(slug, isEn ? "en" : "uk")
 				: null;
-			return { id, slug, displayName, fullName, department: dept, href };
+			return {
+				id,
+				slug,
+				displayName,
+				fullName,
+				department: dept,
+				photo: masterInfo?.photo ?? null,
+				href
+			};
 		}),
 	);
 
@@ -541,6 +549,7 @@
 				fullName,
 				department: dept,
 				subject,
+				photo: masterInfo?.photo ?? null,
 				href,
 			};
 		}),
@@ -608,6 +617,35 @@
 	}
 </script>
 
+<!--
+	Значок людини: МІНІАТЮРА, а якщо фотографії немає — знак відділення.
+
+	Знак відділення однаковий у всіх, хто на ньому працює, тож у списку з семи
+	викладачів він не розрізняв нікого — сім однакових масок поспіль. Обличчя
+	розрізняє одразу. Заміряно: фотографія є у 103 із 140 працівників, тому
+	запасний знак лишається й досі потрібен доволі часто.
+-->
+{#snippet personBadge(photo: string | null, department: string | null)}
+	{@const label = department
+		? $t(`galaxy.departments.${department}`, { default: department })
+		: undefined}
+	<span class="master-badge" role="img" title={label} aria-label={label}>
+		{#if photo}
+			<img
+				class="master-badge__photo"
+				src={photo}
+				alt=""
+				width="22"
+				height="22"
+				loading="lazy"
+				decoding="async"
+			/>
+		{:else}
+			<DepartmentIcon {department} size={16} />
+		{/if}
+	</span>
+{/snippet}
+
 {#snippet mastersContent()}
 	<div class="masters-container" data-testid="galaxy-card-masters-text">
 		<span class="masters-title"
@@ -625,50 +663,14 @@
 							data-testid="galaxy-card-master-link-{master.slug ||
 								index}"
 						>
-							<span
-								class="master-badge"
-								role="img"
-								title={master.department
-									? $t(`galaxy.departments.${master.department}`, {
-											default: master.department,
-										})
-									: undefined}
-								aria-label={master.department
-									? $t(`galaxy.departments.${master.department}`, {
-											default: master.department,
-										})
-									: undefined}
-							>
-								<DepartmentIcon
-									department={master.department}
-									size={16}
-								/>
-							</span>
+							{@render personBadge(master.photo, master.department)}
 							<span class="master-name">
 								{master.displayName}
 							</span>
 						</a>
 					{:else}
 						<div class="master-link-wrapper">
-							<span
-								class="master-badge"
-								role="img"
-								title={master.department
-									? $t(`galaxy.departments.${master.department}`, {
-											default: master.department,
-										})
-									: undefined}
-								aria-label={master.department
-									? $t(`galaxy.departments.${master.department}`, {
-											default: master.department,
-										})
-									: undefined}
-							>
-								<DepartmentIcon
-									department={master.department}
-									size={16}
-								/>
-							</span>
+							{@render personBadge(master.photo, master.department)}
 							<span class="master-name" title={master.fullName}
 								>{master.displayName}</span
 							>
@@ -700,25 +702,7 @@
 							data-testid="galaxy-card-teacher-link-{teacher.slug ||
 								index}"
 						>
-							<span
-								class="master-badge"
-								role="img"
-								title={teacher.department
-									? $t(`galaxy.departments.${teacher.department}`, {
-											default: teacher.department,
-										})
-									: undefined}
-								aria-label={teacher.department
-									? $t(`galaxy.departments.${teacher.department}`, {
-											default: teacher.department,
-										})
-									: undefined}
-							>
-								<DepartmentIcon
-									department={teacher.department}
-									size={16}
-								/>
-							</span>
+							{@render personBadge(teacher.photo, teacher.department)}
 							<div class="teacher-info">
 								<span class="master-name">
 									{teacher.displayName}
@@ -732,25 +716,7 @@
 						</a>
 					{:else}
 						<div class="teacher-link-wrapper">
-							<span
-								class="master-badge"
-								role="img"
-								title={teacher.department
-									? $t(`galaxy.departments.${teacher.department}`, {
-											default: teacher.department,
-										})
-									: undefined}
-								aria-label={teacher.department
-									? $t(`galaxy.departments.${teacher.department}`, {
-											default: teacher.department,
-										})
-									: undefined}
-							>
-								<DepartmentIcon
-									department={teacher.department}
-									size={16}
-								/>
-							</span>
+							{@render personBadge(teacher.photo, teacher.department)}
 							<div class="teacher-info">
 								<span class="master-name" title={teacher.fullName}
 									>{teacher.displayName}</span
@@ -1751,6 +1717,14 @@
 		align-items: center;
 		justify-content: center;
 		color: #8cb4ff;
+	}
+	.master-badge__photo {
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		object-fit: cover;
+		display: block;
+		border: 1px solid rgb(140 180 255 / 0.35);
 	}
 	.master-name {
 		font-size: 0.92rem;
