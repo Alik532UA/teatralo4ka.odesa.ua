@@ -5,7 +5,7 @@
 	import { ArrowLeft, ArrowRight, Theater, Users, Globe, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduationCaption } from '$lib/data/graduates';
-	import { flagOf } from '$lib/data/festivals';
+	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import {
 		closeGraduateModal,
@@ -73,10 +73,11 @@
 			<div class="fest-header__badges">
 				<span class="fest-badge" data-testid="festival-where-badge">
 					<span class="icon-wrap icon-wrap--gold"><Globe size={14} aria-hidden="true" /></span>
-					<!-- Прапорці ховаються від читалки: країну називає підпис поруч. -->
-					<span class="fest-badge__flags" aria-hidden="true"
-						>{data.festival.countries.map(flagOf).join(' ')}</span
-					>
+					<span class="fest-badge__flags">
+						{#each data.festival.countries as code (code)}
+							<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
+						{/each}
+					</span>
 					{whereStr}
 				</span>
 				<span class="fest-badge" data-testid="festival-years-badge">
@@ -228,7 +229,9 @@
 	.fest-badge__flags {
 		font-size: 1rem;
 		line-height: 1;
-		letter-spacing: 0.1em;
+		/* Без letter-spacing: інтервал роз'єднує пару символів-індикаторів,
+		   і замість прапора виходять дві літери. */
+		letter-spacing: normal;
 	}
 	.fest-header__title {
 		margin: 0;

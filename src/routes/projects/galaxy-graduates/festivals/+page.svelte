@@ -2,7 +2,8 @@
 	import { t, locale } from 'svelte-i18n';
 	import { ArrowLeft, ArrowRight, Users, Calendar, Theater } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { FESTIVALS, festivalPath, flagOf, latestYear } from '$lib/data/festivals';
+	import { FESTIVALS, festivalPath, latestYear } from '$lib/data/festivals';
+	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -75,11 +76,14 @@
 								{isEn && festival.nameEn ? festival.nameEn : festival.name}
 							</span>
 							<!--
-								Прапорці — прикраса, тому `aria-hidden`: країну однаково називає
-								підпис поруч, і читалці екрана два рази поспіль вона не потрібна.
+								`CountryFlag`, а не емодзі: у системних шрифтах Windows прапорців
+								немає, і 🇺🇦 показувалося б як «UA». Компонент малює їх SVG — саме
+								тому вони й видно в тексті анкети, який іде через `RichTextWithFlags`.
 							-->
-							<span class="fest-card__flags" aria-hidden="true">
-								{festival.countries.map(flagOf).join(' ')}
+							<span class="fest-card__flags">
+								{#each festival.countries as code (code)}
+									<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
+								{/each}
 							</span>
 						</span>
 
@@ -227,7 +231,9 @@
 	.fest-card__flags {
 		font-size: 1rem;
 		line-height: 1;
-		letter-spacing: 0.1em;
+		/* Без letter-spacing: інтервал роз'єднує пару символів-індикаторів,
+		   і замість прапора виходять дві літери. */
+		letter-spacing: normal;
 	}
 	.fest-card__where {
 		font-size: 0.86rem;

@@ -26,22 +26,35 @@ import { chromium } from '@playwright/test';
 const MAX_WIDTH = 1280;
 const MAX_HEIGHT = 720;
 const QUALITY = 0.82;
-const OUT_DIR = path.join('static', 'groups');
+/** Куди кладеться результат: групи й фестивалі мають однакові банери. */
+const KINDS = { groups: 'groups', festivals: 'festivals' } as const;
+type Kind = keyof typeof KINDS;
 
 function parseArgs() {
 	const args = process.argv.slice(2);
 	let slug = '';
 	let index = 0;
 	let src = '';
+	let kind: Kind = 'groups';
 
 	for (const arg of args) {
 		if (arg.startsWith('--slug=')) slug = arg.slice('--slug='.length);
 		if (arg.startsWith('--index=')) index = parseInt(arg.slice('--index='.length), 10);
 		if (arg.startsWith('--src=')) src = arg.slice('--src='.length);
+		if (arg.startsWith('--kind=')) {
+			const value = arg.slice('--kind='.length);
+			if (!(value in KINDS)) {
+				console.error(`Невідомий --kind: ${value}. Можна: ${Object.keys(KINDS).join(', ')}`);
+				process.exit(1);
+			}
+			kind = value as Kind;
+		}
 	}
 
 	if (!slug || !src) {
-		console.error('Usage: npx tsx scripts/convert-group-photo.ts --slug=<slug> [--index=N] --src=<path>');
+		console.error(
+			'Usage: npx tsx scripts/convert-group-photo.ts --slug=<slug> [--index=N] [--kind=groups|festivals] --src=<path>'
+		);
 		process.exit(1);
 	}
 
@@ -50,11 +63,12 @@ function parseArgs() {
 		process.exit(1);
 	}
 
-	return { slug, index, src };
+	return { slug, index, src, kind };
 }
 
 async function main() {
-	const { slug, index, src } = parseArgs();
+	const { slug, index, src, kind } = parseArgs();
+	const outDir = path.join('static', KINDS[kind]);
 
 	const ext = path.extname(src).toLowerCase();
 	const mime = ext === '.png' ? 'image/png' : 'image/jpeg';
@@ -102,9 +116,9 @@ async function main() {
 
 	await browser.close();
 
-	fs.mkdirSync(OUT_DIR, { recursive: true });
+	fs.mkdirSync(outDir, { recursive: true });
 	const outName = index > 1 ? `${slug}-${index}.webp` : `${slug}.webp`;
-	const outPath = path.join(OUT_DIR, outName);
+	const outPath = path.join(outDir, outName);
 	fs.writeFileSync(outPath, Buffer.from(result.base64, 'base64'));
 
 	const wasKb = Math.round(fs.statSync(src).size / 1024);
@@ -117,7 +131,7 @@ async function main() {
 	// `imageSize()` розкладає `LOCAL_IMAGE_SIZES[path]` і падає на `undefined`.
 	// Перевірено на власній шкурі — саме так і сталося на першому ж банері.
 	console.log('\nДодати в `src/lib/config/localImages.ts`:');
-	console.log(`\t'/groups/${outName}': { width: ${result.width}, height: ${result.height} },`);
+	console.log(`\t'/${KINDS[kind]}/${outName}': { width: ${result.width}, height: ${result.height} },`);
 }
 
 main();

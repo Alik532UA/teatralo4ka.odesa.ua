@@ -6,7 +6,12 @@
 		"years": [2010],
 		"countries": ["BG"],
 		"memberIds": ["alik-zapolnov", "olena-mrost"],
-		"playIds": ["slavianskyi-venok-2010"]
+		"playIds": ["slavianskyi-venok-2010"],
+		"photos": [
+			"/festivals/slavianskyi-venok.webp",
+			"/festivals/slavianskyi-venok-2.webp",
+			"/festivals/slavianskyi-venok-3.webp"
+		]
 	},
 	{
 		"slug": "kvitucha-chekhiia",
@@ -15,16 +20,33 @@
 		"years": [2011],
 		"countries": ["AT", "CZ", "DE"],
 		"memberIds": ["alik-zapolnov"],
-		"playIds": []
+		"playIds": [],
+		"photos": [
+			"/festivals/kvitucha-chekhiia.webp",
+			"/festivals/kvitucha-chekhiia-2.webp",
+			"/festivals/kvitucha-chekhiia-3.webp"
+		]
 	},
 	{
-		"slug": "mrii-dim",
+		"slug": "mrii-dim-2012",
 		"name": "Мрій-Дім",
 		"nameEn": "Mrii-Dim",
-		"years": [2012, 2013],
+		"years": [2012],
 		"countries": ["UA"],
 		"city": "Прилуки",
 		"memberIds": ["alik-zapolnov"],
-		"playIds": ["uryvky-z-dramaturhii-20-stolittia-2012", "uryvky-z-klasyky-2013"]
+		"playIds": ["uryvky-z-dramaturhii-20-stolittia-2012"],
+		"photos": ["/festivals/mrii-dim-2012.webp", "/festivals/mrii-dim-2012-2.webp"]
+	},
+	{
+		"slug": "mrii-dim-2013",
+		"name": "Мрій-Дім",
+		"nameEn": "Mrii-Dim",
+		"years": [2013],
+		"countries": ["UA"],
+		"city": "Прилуки",
+		"memberIds": ["alik-zapolnov"],
+		"playIds": ["uryvky-z-klasyky-2013"],
+		"photos": ["/festivals/mrii-dim-2013.webp"]
 	}
 ]

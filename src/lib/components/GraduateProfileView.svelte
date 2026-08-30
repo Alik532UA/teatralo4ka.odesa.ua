@@ -18,6 +18,8 @@
 	} from "$lib/data/masters";
 	import { localizedPath } from "$lib/i18n/routing";
 	import { getGroupsByMember } from "$lib/data/groups";
+	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
+	import { getFestivalsByMember } from "$lib/data/festivals";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -426,6 +428,8 @@
 	 * Слідом ідуть назви, яким сторінки ще немає: вони лишаються текстом, але
 	 * тепер це видно й у даних, а не лише на екрані.
 	 */
+	const hasFestivals = $derived(getFestivalsByMember(graduate.id).length > 0);
+
 	const groupLinks = $derived<{ name: string; slug?: string }[]>([
 		...getGroupsByMember(graduate.id).map((g) => ({
 			name: isEn && g.nameEn ? g.nameEn : g.name,
@@ -1152,6 +1156,17 @@
 							</ul>
 						</section>
 					{/if}
+				</div>
+			{/if}
+
+			<!--
+				Фестивалі — ВЛАСНА плашка, а не рядок в основній інформації: це не
+				властивість людини, як рік випуску чи відділення, а перелік подій, і
+				кожна з них веде на свою сторінку.
+			-->
+			{#if hasFestivals}
+				<div class="bento-card bento-card--festivals" data-testid="galaxy-card-festivals-card">
+					<GraduateFestivals memberId={graduate.id} />
 				</div>
 			{/if}
 
