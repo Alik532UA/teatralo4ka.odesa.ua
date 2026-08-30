@@ -26,7 +26,7 @@
 
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Video, ExternalLink, Calendar, Users, Award } from 'lucide-svelte';
+	import { Video, ExternalLink, Calendar, Users, Trophy } from 'lucide-svelte';
 	import { masterProfilePath } from '$lib/data/masters';
 	import type { Play } from '$lib/data/plays';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
@@ -82,7 +82,7 @@
 	{#if prod.awards?.length}
 		<div class="prod-card__awards" data-testid="master-production-awards-list">
 			{#each prod.awards as award (award)}
-				<div class="award-item"><Award size={16} aria-hidden="true" /><span>{award}</span></div>
+				<div class="award-item"><Trophy size={16} aria-hidden="true" /><span>{award}</span></div>
 			{/each}
 		</div>
 	{/if}

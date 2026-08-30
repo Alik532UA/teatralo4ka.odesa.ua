@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Drama, Piano, MicVocal, Music, Palette, Guitar, Zap, GraduationCap } from 'lucide-svelte';
+	import { Drama, Piano, MicVocal, Music, Palette, Guitar, Zap, School } from 'lucide-svelte';
 
 	interface Props {
 		department?: string | null;
@@ -25,7 +25,9 @@
 {:else if department === 'guitar'}
 	<Guitar {size} class="dept-icon {className}" aria-hidden="true" />
 {:else}
-	<GraduationCap {size} class="dept-icon {className}" aria-hidden="true" />
+	<!-- Відділення без власного знаку. Не `GraduationCap`: він означає курс —
+	     майстрів курсу й навчальні групи, — і третього значення не має. -->
+	<School {size} class="dept-icon {className}" aria-hidden="true" />
 {/if}
 
 <style>

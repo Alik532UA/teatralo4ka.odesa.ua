@@ -2,7 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
-	import { ArrowLeft, Theater, Users, Sparkles, Award, Calendar } from 'lucide-svelte';
+	import { ArrowLeft, Theater, Users, Sparkles, GraduationCap, Calendar } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { graduationCaption, type GraduateIndexEntry } from '$lib/data/graduates';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
@@ -156,7 +156,7 @@
 		{#if data.masters.length > 0 || data.teachers.length > 0}
 			<section class="group-section" aria-labelledby="section-faculty-title">
 				<div class="section-heading">
-					<span class="icon-wrap icon-wrap--primary"><Award size={20} aria-hidden="true" /></span>
+					<span class="icon-wrap icon-wrap--primary"><GraduationCap size={20} aria-hidden="true" /></span>
 					<h2 id="section-faculty-title" class="section-heading__title">
 						{$t('galaxy.groupFaculty')}
 					</h2>

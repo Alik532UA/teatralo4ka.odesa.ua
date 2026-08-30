@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Sparkles, Trophy, Video, Search, Theater } from 'lucide-svelte';
+	import { Trophy, Video, Search, Theater } from 'lucide-svelte';
 	import type { Play } from '$lib/data/plays';
 	import { earlyShows } from '$lib/services/earlyShows.svelte';
 	import MasterProductionCard from './MasterProductionCard.svelte';
@@ -85,7 +85,7 @@
 		</div>
 
 		<span class="total-badge" data-testid="master-productions-total-badge">
-			<Sparkles size={16} aria-hidden="true" />
+			<Theater size={16} aria-hidden="true" />
 			<span>
 				{$t('galaxy.productionsCount', {
 					values: { count: visibleProductions.length },

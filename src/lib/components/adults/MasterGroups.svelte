@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Users, ArrowRight } from 'lucide-svelte';
+	import { ArrowRight, GraduationCap } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { groupProfilePath, type GraduateGroup } from '$lib/data/groups';
 
@@ -34,7 +34,7 @@
 <section class="groups-section" data-testid="master-groups-section">
 	<div class="section-header">
 		<div class="section-icon">
-			<Users size={24} aria-hidden="true" />
+			<GraduationCap size={24} aria-hidden="true" />
 		</div>
 		<h2 class="section-title" data-testid="master-groups-title">
 			{$t('galaxy.groups', { default: 'Навчальні групи' })}
