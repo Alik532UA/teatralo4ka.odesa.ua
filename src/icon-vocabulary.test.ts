@@ -73,10 +73,7 @@ const VOCABULARY = [
 				file: 'src/lib/components/adults/MasterProductions.svelte',
 				marker: 'master-productions-total-badge'
 			},
-			{
-				file: 'src/routes/projects/galaxy-graduates/groups/[slug]/+page.svelte',
-				marker: 'section-plays-title'
-			},
+			{ file: 'src/lib/components/GroupRepertoire.svelte', marker: 'section-plays-title' },
 			{
 				file: 'src/routes/projects/galaxy-graduates/groups/+page.svelte',
 				marker: 'group.playIds.length'

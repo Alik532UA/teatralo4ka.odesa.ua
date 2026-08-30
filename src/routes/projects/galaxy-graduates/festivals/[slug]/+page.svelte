@@ -106,16 +106,20 @@
 			<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
 
 			<div class="fest-header__badges">
-				<span class="fest-badge" data-testid="festival-where-badge">
-					{#if data.festival.city}<span class="fest-badge__city">{data.festival.city},</span>{/if}
-					{#each data.festival.countries as code, i (code)}
-						{#if i > 0}<span class="fest-badge__sep" aria-hidden="true">·</span>{/if}
-						<span class="fest-badge__pair">
-							<CountryFlag {code} />
-							{$t(`galaxy.country.${code}`)}
-						</span>
-					{/each}
-				</span>
+				<!--
+					Кожна країна — ВЛАСНА плашка, а не всі в одній через роздільник.
+					Три країни в одному овалі читалися як одне місце; окремі плашки
+					одразу показують, що поїздка була до трьох різних країн.
+				-->
+				{#if data.festival.city}
+					<span class="fest-badge" data-testid="festival-city-badge">{data.festival.city}</span>
+				{/if}
+				{#each data.festival.countries as code (code)}
+					<span class="fest-badge" data-testid="festival-where-badge-{code}">
+						<CountryFlag {code} />
+						{$t(`galaxy.country.${code}`)}
+					</span>
+				{/each}
 				<span class="fest-badge" data-testid="festival-years-badge">
 					<Calendar size={14} aria-hidden="true" />
 					{yearsStr}
@@ -297,23 +301,6 @@
 		color: var(--text-muted);
 		font-size: 0.85rem;
 		font-weight: 600;
-	}
-	/*
-	 * Прапор стоїть біля СВОЄЇ назви, а не купкою попереду.
-	 *
-	 * Доти було «🇦🇹🇨🇿🇩🇪 Австрія · Чехія · Німеччина», і читач мусив здогадуватися,
-	 * котрий прапор до котрої країни; при трьох країнах це вже не очевидно.
-	 */
-	.fest-badge__pair {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3rem;
-	}
-	.fest-badge__sep {
-		opacity: 0.5;
-	}
-	.fest-badge__city {
-		margin-right: 0.15rem;
 	}
 	.fest-header__title {
 		margin: 0;
