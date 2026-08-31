@@ -3,6 +3,7 @@
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { ArrowLeft, ArrowRight, Camera } from 'lucide-svelte';
+	import { graduateCardHref } from '$lib/data/graduates';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
@@ -34,6 +35,20 @@
 	 * на годинник, дала б у зібраному HTML одне число, а після гідратації — інше.
 	 */
 	const yearsInSchool = $derived(yearsOfService(data.master.periods, new Date().getFullYear()));
+
+	/*
+	 * Кнопка на СВОЮ сторінку випускника — у того, хто цю школу закінчував.
+	 *
+	 * Сторінки лишаються дві навмисно: `code` випускника (`Alik`,
+	 * `nadiia-rybakova`) — це сама адреса зі старого сайту, і третьої на ту саму
+	 * людину бути не мусить. Причини й перелік — у `data/dualRole.ts`.
+	 *
+	 * `graduateCardHref`, а не `graduateProfilePath`: у шести з одинадцяти цих
+	 * людей власної сторінки немає, і адресу картки в галактиці дає лише він.
+	 */
+	const graduateHref = $derived(
+		data.alsoGraduate ? graduateCardHref(data.alsoGraduate, isEn ? 'en' : 'uk') : null
+	);
 
 	/*
 	 * Стану контактних меню тут БІЛЬШЕ НЕМАЄ: і те, що біля портрета, і те, що
@@ -164,6 +179,26 @@
 									default: `${yearsInSchool} р. у школі`
 								})}
 							</p>
+						{/if}
+
+						<!--
+							Тут, а не в хлібних крихтах: це факт про саму людину («я тут
+							учився»), а не навігація по розділах сайту. У крихтах він стояв
+							би третьою стрілкою поряд із «Всі дорослі» й «Галактика», тобто
+							читався б як ще один розділ.
+						-->
+						{#if graduateHref && data.alsoGraduate}
+							<a
+								href={graduateHref}
+								class="graduate-link"
+								data-testid="master-profile-graduate-link"
+							>
+								<span>{$t('galaxy.graduatePageLink', { default: 'Сторінка випускника' })}</span>
+								{#if data.alsoGraduate.graduationYear}
+									<span class="graduate-link__year">{data.alsoGraduate.graduationYear}</span>
+								{/if}
+								<ArrowRight size={16} aria-hidden="true" />
+							</a>
 						{/if}
 					</div>
 				</div>
@@ -409,6 +444,41 @@
 		font-size: 0.95rem;
 		font-weight: 600;
 		color: var(--text-muted);
+	}
+
+	/*
+	 * Акцентна рамка, а не типова `--border-main`, як у `.dept-pill`: пілюлі
+	 * поряд — це ПІДПИСИ (відділення, предмети, роки), і посилання, вбране так
+	 * само, читалося б як ще один підпис. Решта — з `.back-btn`, бо це та сама
+	 * річ: перехід на іншу сторінку.
+	 */
+	.graduate-link {
+		display: inline-flex;
+		align-items: center;
+		/* Батько — колонка-flex, тож `inline-flex` сам по собі розтягується на
+		   всю ширину картки й пілюля перестає бути пілюлею. */
+		align-self: flex-start;
+		gap: 0.5rem;
+		margin-top: 0.7rem;
+		padding: 0.45rem 1rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-card);
+		border: 1px solid var(--accent-primary);
+		color: var(--text-title);
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 600;
+		transition: background var(--transition-base, 0.25s ease), transform var(--transition-base, 0.25s ease);
+	}
+
+	.graduate-link:hover {
+		background: var(--bg-surface);
+		transform: translateX(3px);
+	}
+
+	.graduate-link__year {
+		color: var(--text-muted);
+		font-weight: 500;
 	}
 
 	.master-subjects {

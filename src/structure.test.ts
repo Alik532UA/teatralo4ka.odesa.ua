@@ -157,6 +157,16 @@ const LIMITS: Array<[RegExp, number]> = [
  *   контактів виділені в `GraduateCardToolbar` (213) та `GraduateCardContactMenu` (143);
  *   усі троє в межах типових 300, тож окрема стеля більше не потрібна.
  * 2026-08-31: `src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte` 400 → 430. Додано поділ репертуару на основні та допоміжні групи («за участі») з компактним оформленням чипів.
+ * 2026-08-31: `data/masters.ts` 250 → 258. Вісім рядків у `getStudentsByMaster`:
+ *   випускник, який тепер тут працює, летить у потоці рівнем «колега» й веде на
+ *   свою сторінку працівника (`alsoGraduateId`, див. `data/dualRole.ts`). З них
+ *   ЧОТИРИ — набір `asColleague` і безумовний `continue`, тобто виправлення
+ *   тихого дефекту, а не показ:
+ *   людина з обома джерелами зв'язку (`studiedUnder` у працівника й майстер в
+ *   анкеті випускника) з'являлася в потоці двічі. Ділити файл заради шести
+ *   рядків було б гірше: похідні мапи вже виїхали в `dualRole.ts`, а решта
+ *   `getStudentsByMaster` — це один обхід двох реєстрів, який без другого
+ *   модуля не розділяється.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -187,7 +197,8 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/DetailPage.svelte': 322,
 	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/+layout.svelte': 345,
-	'src/lib/components/SearchOverlay.svelte': 312
+	'src/lib/components/SearchOverlay.svelte': 312,
+	'src/lib/data/masters.ts': 258
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

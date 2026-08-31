@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { FileText, Theater } from "lucide-svelte";
+	import { ArrowRight, FileText, Theater } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
@@ -19,6 +19,7 @@
 		relationSubjects,
 	} from "$lib/data/masters";
 	import { localizedPath } from "$lib/i18n/routing";
+	import { linkedMasterId } from "$lib/data/dualRole";
 	import { getGroupsByMember } from "$lib/data/groups";
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
@@ -121,6 +122,22 @@
 	 * тепер це видно й у даних, а не лише на екрані.
 	 */
 	const hasFestivals = $derived(getFestivalsByMember(graduate.id).length > 0);
+
+	/*
+	 * Кнопка на СВОЮ сторінку працівника — у того, хто тепер тут працює.
+	 *
+	 * Одинадцять людей зі 530; перелік і причини — у `data/dualRole.ts`. Звідти ж
+	 * і правило видимості: на прихованого працівника (`visible: false`) зв'язок
+	 * не веде, тож окремої перевірки тут немає й бути не мусить — інакше вона
+	 * розійшлася б із такою самою перевіркою на сторінці працівника.
+	 *
+	 * Читається `graduate.id`, а не `slug`: ключем зв'язків у цьому проєкті є
+	 * саме `id`, і `slug` законно змінюється (докблок `GraduateIndexEntry.id`).
+	 */
+	const alsoMaster = $derived.by(() => {
+		const id = linkedMasterId(graduate.id);
+		return id ? (getMasterById(id) ?? null) : null;
+	});
 
 	/*
 	 * Довга назва групи в пілюлі ламається на три рядки й розпихає картку.
@@ -900,6 +917,26 @@
 					graduate.graduationLabelKey}
 				{isEn}
 			/>
+
+			<!--
+				Під іменем і роками, а не в переліку майстрів нижче: там ідеться
+				про ЧУЖИХ людей, у яких ця людина вчилася, і посилання на неї саму
+				в тому списку читалося б як «вона вчилася в себе».
+			-->
+			{#if alsoMaster}
+				<a
+					href={masterProfilePath(alsoMaster.slug, isEn ? "en" : "uk")}
+					class="teacher-page-link"
+					data-testid="galaxy-card-teacher-page-link"
+				>
+					<span
+						>{$t("galaxy.teacherPageLink", {
+							default: "Сторінка викладача",
+						})}</span
+					>
+					<ArrowRight size={16} aria-hidden="true" />
+				</a>
+			{/if}
 
 			{#if !graduate.hasPhoto}
 				<div class="fill-profile-wrap">
@@ -1687,6 +1724,35 @@
 		justify-content: center;
 		margin: 0.2rem 0 1rem;
 	}
+	/*
+	 * Мова та сама, що у `.fill-profile-btn` поряд: картка завжди темна, тож
+	 * кольори тут літеральні, а не з тем (сусідній селектор так само). Але
+	 * рамка тонша й без тіні — це перехід, а не заклик до дії, і поводитися
+	 * помітніше за «Заповнити анкету» він не мусить.
+	 */
+	.teacher-page-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+		padding: 0.45rem 1rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.08);
+		border: 1px solid rgb(140 190 255 / 0.45);
+		color: #ffffff;
+		text-decoration: none;
+		font-size: 0.88rem;
+		font-weight: 600;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.teacher-page-link:hover {
+		background: rgb(255 255 255 / 0.16);
+		transform: translateX(3px);
+	}
+
 	.fill-profile-btn {
 		display: inline-flex;
 		align-items: center;

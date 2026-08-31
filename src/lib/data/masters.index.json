@@ -443,7 +443,8 @@
 		"category": "directors",
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"portrait": "/masters/portraits/yevheniia-osadcha.webp",
-		"photo": "/masters/yevheniia-osadcha.webp"
+		"photo": "/masters/yevheniia-osadcha.webp",
+		"alsoGraduateId": "yevheniia-burian"
 	},
 	{
 		"id": "nataliia-burian",
@@ -532,7 +533,8 @@
 		],
 		"status": "active",
 		"category": "support",
-		"roleTitle": "фотографиня"
+		"roleTitle": "фотографиня",
+		"alsoGraduateId": "daria-dias-valdes-isachkina"
 	},
 	{
 		"id": "liusiia-dun",
@@ -928,7 +930,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"alsoGraduateId": "diana-rudenko"
 	},
 	{
 		"id": "kira-rusina",
@@ -1035,7 +1038,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"alsoGraduateId": "vladyslav-tsobenko"
 	},
 	{
 		"id": "olha-chervoniak",
@@ -1168,7 +1172,8 @@
 		"category": "directors",
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"photo": "/masters/hanna-tkach.webp",
-		"portrait": "/masters/portraits/hanna-tkach.webp"
+		"portrait": "/masters/portraits/hanna-tkach.webp",
+		"alsoGraduateId": "hanna-tkach"
 	},
 	{
 		"id": "oleh-shevchuk",
@@ -1206,7 +1211,8 @@
 		"photo": "/masters/pavlo-koshka.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/pavlo-koshka.webp",
-		"roleTitle": "викладач акторської майстерності, майстер курсу"
+		"roleTitle": "викладач акторської майстерності, майстер курсу",
+		"alsoGraduateId": "pavlo-koshka"
 	},
 	{
 		"id": "iryna-ulianenko",
@@ -1278,7 +1284,8 @@
 		],
 		"photo": "/masters/nadiia-rybakova.webp",
 		"category": "directors",
-		"portrait": "/masters/portraits/nadiia-rybakova.webp"
+		"portrait": "/masters/portraits/nadiia-rybakova.webp",
+		"alsoGraduateId": "nadiia-rybakova"
 	},
 	{
 		"id": "d-rybalchenko",
@@ -1295,7 +1302,8 @@
 			"Акторська майстерність",
 			"Історія театру"
 		],
-		"roleTitle": "викладачка акторської майстерності та історії театру"
+		"roleTitle": "викладачка акторської майстерності та історії театру",
+		"alsoGraduateId": "daniela-rybalchenko"
 	},
 	{
 		"id": "oleksandr-kozoviakin",
@@ -1375,7 +1383,8 @@
 		],
 		"photo": "/masters/svitlana-nadopta.webp",
 		"portrait": "/masters/portraits/svitlana-nadopta.webp",
-		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"alsoGraduateId": "svitlana-nadopta"
 	},
 	{
 		"id": "yurii-drankov",
@@ -1409,7 +1418,8 @@
 		"photo": "/masters/alik-zapolnov.webp",
 		"category": "it",
 		"roleTitle": "IT-інженер",
-		"portrait": "/masters/portraits/alik-zapolnov.webp"
+		"portrait": "/masters/portraits/alik-zapolnov.webp",
+		"alsoGraduateId": "alik-zapolnov"
 	},
 	{
 		"id": "volodymyr-kesov",
@@ -2018,7 +2028,8 @@
 		"subjects": [
 			"Хореографія"
 		],
-		"category": "choreographers"
+		"category": "choreographers",
+		"alsoGraduateId": "darya-maystrenko"
 	},
 	{
 		"id": "iryna-pak",

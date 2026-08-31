@@ -117,7 +117,11 @@
 						id: m.id,
 						slug: m.slug,
 						name: $locale === 'en' ? m.displayNameEn : m.displayName,
-						graduationYear: null,
+						/* Рік бере запис випускника ТІЄЇ САМОЇ людини, якщо він є:
+						   у працівника такого поля немає, а ці семеро доти летіли
+						   записом випускника й рік показували. Див.
+						   `MasterStudentEntry`. */
+						graduationYear: entry.graduate?.graduationYear ?? null,
 						departments: m.departments,
 						...(m.photo ? { hasPhoto: true as const } : {})
 					},

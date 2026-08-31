@@ -1,6 +1,7 @@
 import indexData from './graduates.index.json';
 import { asset } from '$app/paths';
-import type { Pathname } from '$app/types';
+import type { Pathname, ResolvedPathname } from '$app/types';
+import { localizedPath, type Locale } from '$lib/i18n/routing';
 
 /**
  * Випускники «Галактики» — дані в репозиторії, не у Firestore.
@@ -295,6 +296,48 @@ export function graduationCaption(
 
 export function graduateProfilePath(code: string): Pathname {
 	return `/projects/galaxy-graduates/${code}`;
+}
+
+/**
+ * Адреса, за якою відкривається КАРТКА цієї людини. Є в кожного.
+ *
+ * ## Навіщо, якщо вже є `graduateProfilePath`
+ *
+ * Власну сторінку мають 90 із 530 — ті, у кого є `code`. У решти 440 картка
+ * теж відкривається, але АДРЕСИ в неї не було жодної: `openGraduateModal` для
+ * запису без коду робить `pushState('')`, тобто лишає поточну. Поки картку
+ * відкривали лише кліком по зірці, цього було досить — стан є, «назад» його
+ * знімає.
+ *
+ * Досить стало не досить, коли на сторінці викладача з'явилася кнопка
+ * «сторінка випускника»: посиланню потрібна адреса, а в шести з одинадцяти
+ * подвійних людей (Ганна Ткач, Павло Кошка, Світлана Надопта, Діана Руденко,
+ * Владислав Цобенко, Євгенія Бур'ян) коду немає. Без цього кнопка або не
+ * показувалася б саме там, де потрібна найбільше, або вела б у галактику
+ * «взагалі», лишаючи людину шукати себе серед 530 зірок.
+ *
+ * `?g=<slug>` саме параметром, а не новим маршрутом: галактика вже читає
+ * `?roster=`, `?year=`, `?dept=`, `?photo=`, `?q=`, `?at=`, `?form=`,
+ * `?update=` — це той самий спосіб сказати їй, з чого починати. Новий маршрут
+ * натомість дав би ДРУГУ адресу тим, у кого вже є `code`, а `code` — це стара
+ * адреса зі старого сайту, і другої в неї бути не мусить.
+ *
+ * `slug`, а не `id`, бо параметр читає людина, і `slug` — те саме, що в решті
+ * адрес. Ключем зв'язків лишається `id` (див. докблок `GraduateIndexEntry.id`).
+ *
+ * Приведення до `ResolvedPathname` — те саме, що робить `localizedPath`
+ * усередині себе: рядок із запитом типом `Pathname` бути не може, тож перевірку
+ * шляху робить `localizedPath`, а запит дописується вже поверх перевіреного.
+ */
+export function graduateCardHref(
+	graduate: { code?: string; slug: string },
+	locale: Locale
+): ResolvedPathname {
+	if (graduate.code) return localizedPath(graduateProfilePath(graduate.code), locale);
+	/* Коса риска на кінці обов'язкова: `trailingSlash: 'always'`, і саме таку
+	 * адресу знає згенерований тип `Pathname` — без неї це помилка збірки. */
+	const galaxy = localizedPath('/projects/galaxy-graduates/', locale);
+	return `${galaxy}?g=${encodeURIComponent(graduate.slug)}` as ResolvedPathname;
 }
 
 /**

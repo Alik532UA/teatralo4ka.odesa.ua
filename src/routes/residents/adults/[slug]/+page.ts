@@ -10,6 +10,8 @@ import {
 	type MasterProfile
 } from '$lib/data/masters';
 import { getGroupsByMaster } from '$lib/data/groups';
+import { linkedGraduateId } from '$lib/data/dualRole';
+import { GRADUATES } from '$lib/data/graduates';
 import { localeFromPath } from '$lib/i18n/routing';
 import type { PageLoad, EntryGenerator } from './$types';
 
@@ -105,10 +107,24 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 	 */
 	const graduates = getGraduatesByMaster(master.id);
 
+	/*
+	 * Той самий працівник у реєстрі випускників — для кнопки «сторінка
+	 * випускника». `null` у більшості: таких людей одинадцять зі 141, і ще двом
+	 * зв'язок обрізає `dualRole` за `visible: false`.
+	 *
+	 * Пошук по `GRADUATES`, а не по повному JSON: цей масив уже без прихованих,
+	 * тож кнопка не може повести на запис, якого на сайті немає.
+	 */
+	const alsoGraduateKey = linkedGraduateId(master.id);
+	const alsoGraduate = alsoGraduateKey
+		? (GRADUATES.find((g) => g.id === alsoGraduateKey) ?? null)
+		: null;
+
 	return {
 		master: masterData,
 		students,
 		graduates,
+		alsoGraduate,
 		// Групи виводяться з `GROUPS`, а не з реєстру майстрів: див. докблок
 		// `getGroupsByMaster`. Порожній масив — майстер груп не веде, і секція
 		// на сторінці просто не з'явиться.

@@ -3,6 +3,7 @@ import type { ResolvedPathname } from '$app/types';
 import { localizedPath, type Locale } from '$lib/i18n/routing';
 import { isMasterRecordPublic, type MasterVisibility } from '$lib/config/mastersVisibility';
 import { GRADUATES, type Department, type GraduateIndexEntry } from './graduates';
+import { linkedMasterId } from './dualRole';
 import mastersIndexData from './masters.index.json';
 
 /**
@@ -163,6 +164,44 @@ export interface MasterIndexEntry {
 	subjects?: string[];
 	/** У кого ця людина вчилася сама. Порожньо — не вчилася тут або невідомо. */
 	studiedUnder?: (string | MasterMentorLink)[];
+	/**
+	 * Та сама людина в реєстрі випускників. Одна з двох сторінок, не третя.
+	 *
+	 * ## Чому збігу `id` для цього НЕ ДОСИТЬ
+	 *
+	 * У сімох людей `id` в обох реєстрах уже однаковий — Алік Запольнов, Ганна
+	 * Ткач, Надія Рибакова, Павло Кошка, Світлана Надопта, Діана Руденко,
+	 * Владислав Цобенко. Це ВИПАДКОВІСТЬ: реєстри заморозили ключі незалежно, і
+	 * жоден рядок коду цей збіг не читав.
+	 *
+	 * А ще в чотирьох він розійшовся, і саме там, де розходиться завжди:
+	 *
+	 *   `yevheniia-osadcha` → `yevheniia-burian` — прізвище змінилося;
+	 *   `d-rybalchenko` → `daniela-rybalchenko` — інший ключ на ту саму людину;
+	 *   `daria-dias-valdis` → `daria-dias-valdes-isachkina` — Валдіс/Валдес;
+	 *   `dariia-maistrenko` → `darya-maystrenko` — Дарія/Дар'я.
+	 *
+	 * Тобто зв'язок «за однаковим ключем» знайшов би 7 із 11 і мовчав про решту.
+	 * Гірше зворотне: неспоріднений збіг ключів (а прізвищ-двійників у даних
+	 * повно — 45 пар на одне прізвище, і майже всі це РОДИЧІ) він оголосив би
+	 * однією людиною без жодної помилки.
+	 *
+	 * ## Чому саме тут, а не в реєстрі випускників
+	 *
+	 * Записів тут 141 проти 530, і правлять їх руками. Але вирішує не це, а
+	 * скрипти: `npm run data:graduates` СТИРАЄ теку `static/graduates/profiles/`
+	 * цілком і збирає наново з дампа, тож зв'язок у профілі випускника не
+	 * прожив би до першого прогону. `masters.index.json` натомість правиться на
+	 * місці (`build-master-photos.ts` дописує лише шляхи портретів), тож поле
+	 * виживає.
+	 *
+	 * Друга причина — напрямок імпорту: `masters.ts` уже читає `graduates.ts`
+	 * односторонньо, і зворотне посилання дало б цикл.
+	 *
+	 * Читається НЕ звідси, а через [`dualRole.ts`](./dualRole.ts): там же й
+	 * правило видимості — на прихованого викладача зв'язок не веде.
+	 */
+	alsoGraduateId?: string;
 }
 
 /**
@@ -248,6 +287,19 @@ export type MasterStudentEntry =
 			relation?: 'master' | 'teacher';
 			master: Master;
 			subjects?: string[];
+			/**
+			 * Запис випускника ТІЄЇ САМОЇ людини, якщо він є (`alsoGraduateId`).
+			 *
+			 * Потрібен рівно для одного — року випуску під зіркою. Доти ці семеро
+			 * летіли в потоці записом випускника й рік мали; якби переведення в
+			 * рівень «колега» просто взяло запис працівника, рік зник би, бо в
+			 * нього такого поля немає. Тобто це не додаткові дані, а ті самі, що
+			 * вже показувалися.
+			 *
+			 * Опційне, і `?.` при читанні обов'язкове: у трьох колег
+			 * (`studiedUnder` без анкети) запису випускника немає взагалі.
+			 */
+			graduate?: GraduateIndexEntry;
 	  };
 
 /* Та сама розкладка, що в `graduates.ts`: форму тримає `satisfies`, значення
@@ -440,7 +492,7 @@ export function relationSubjects(link: { subjects?: string[]; subject?: string }
  * порядку надходження, і так найбільші зірки не опиняються всі в одному краю.
  */
 export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
-	const colleagues: MasterStudentEntry[] = [];
+	const colleagues: Extract<MasterStudentEntry, { kind: 'master' }>[] = [];
 	const courseStudents: MasterStudentEntry[] = [];
 	const subjectStudents: MasterStudentEntry[] = [];
 
@@ -460,25 +512,78 @@ export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
 		});
 	}
 
+	/*
+	 * Хто вже в колегах. Потрібно, бо в ОДНОЇ людини можуть бути обидва джерела:
+	 * `studiedUnder` у записі працівника і зв'язок майстра в анкеті випускника.
+	 * Доти це був тихий баг, який КАРАВ за правильне заповнення даних — щойно
+	 * майстрині `hanna-tkach` дописали б `studiedUnder: ['svitlana-ryskina']`
+	 * (тобто правду за наявною моделлю), вона з'явилася б у потоці Риськіної
+	 * двічі: раз колегою, раз випускницею. Захист `m.id === masterId` вище від
+	 * цього не рятував — там інша вісь.
+	 *
+	 * Перший запис важливіший: у `studiedUnder` предмети й вид зв'язку записані
+	 * руками, а з анкети виводиться лише вид.
+	 */
+	const asColleague = new Set(colleagues.map((c) => c.master.id));
+
 	// ── Випускники ──────────────────────────────────────────────────────────
 	for (const g of GRADUATES) {
 		const asCourseMaster = g.masters?.some((m) => (typeof m === 'string' ? m === masterId : m.id === masterId));
-		if (asCourseMaster) {
-			courseStudents.push({ kind: 'graduate', relation: 'master', graduate: g });
-			// `continue`: одна людина — один запис. Якщо майстер вів і курс, і
-			// предмет, курс важливіший, і подвійна зірка в потоці була б помилкою.
+		const teacherLink = g.teachers?.find((t) => (typeof t === 'string' ? t === masterId : t.id === masterId));
+		if (!asCourseMaster && teacherLink === undefined) continue;
+
+		/*
+		 * Випускник, який тепер тут працює, летить рівнем КОЛЕГИ й веде на свою
+		 * сторінку працівника — див. `dualRole.ts`. Доти таких було 32 зірки на
+		 * 14 сторінках, і всі підписані «випускник»: на сторінці викладачки
+		 * Ганни Ткач її колега Даніела Рибальченко була простою учнею, хоч сама
+		 * викладає. Тобто рівень `kind: 'master'` не спрацьовував рівно там, для
+		 * чого його й вигадали.
+		 *
+		 * `alsoMaster.id !== masterId` — та сама умова «сам у себе не вчився», але
+		 * на другій осі: у сімох людей `id` в обох реєстрах однаковий.
+		 */
+		const alsoMasterId = linkedMasterId(g.id);
+		const alsoMaster = alsoMasterId ? getMasterById(alsoMasterId) : undefined;
+		if (alsoMaster) {
+			/*
+			 * `continue` тут БЕЗУМОВНИЙ, і саме це виправлення знайшов гейт
+			 * `src/dual-role.test.ts` контрольним прогоном: доти умова була
+			 * складена в один `if`, і людина, вже додана в колеги, провалювалася
+			 * далі й ставала ЩЕ Й зіркою випускника. Тобто набір `asColleague`
+			 * сам по собі дубля не спиняв — спиняє його те, що з цієї гілки
+			 * виходу вниз немає.
+			 *
+			 * Той самий вихід накриває й «сам у себе не вчився»
+			 * (`alsoMaster.id === masterId`): у сімох людей `id` в обох реєстрах
+			 * однаковий, тож на власній сторінці такий запис знайшовся б.
+			 */
+			if (alsoMaster.id !== masterId && !asColleague.has(alsoMaster.id)) {
+				asColleague.add(alsoMaster.id);
+				colleagues.push({
+					kind: 'master',
+					master: alsoMaster,
+					relation: asCourseMaster ? 'master' : 'teacher',
+					subjects: typeof teacherLink === 'object' ? relationSubjects(teacherLink) : [],
+					graduate: g
+				});
+			}
 			continue;
 		}
 
-		const teacherLink = g.teachers?.find((t) => (typeof t === 'string' ? t === masterId : t.id === masterId));
-		if (teacherLink !== undefined) {
-			subjectStudents.push({
-				kind: 'graduate',
-				relation: 'teacher',
-				graduate: g,
-				subjects: typeof teacherLink === 'string' ? [] : relationSubjects(teacherLink)
-			});
+		if (asCourseMaster) {
+			// Одна людина — один запис. Якщо майстер вів і курс, і предмет, курс
+			// важливіший, і подвійна зірка в потоці була б помилкою.
+			courseStudents.push({ kind: 'graduate', relation: 'master', graduate: g });
+			continue;
 		}
+
+		subjectStudents.push({
+			kind: 'graduate',
+			relation: 'teacher',
+			graduate: g,
+			subjects: typeof teacherLink === 'object' ? relationSubjects(teacherLink) : []
+		});
 	}
 
 	return [...colleagues, ...courseStudents, ...subjectStudents];

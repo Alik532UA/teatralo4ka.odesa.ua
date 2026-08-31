@@ -47,6 +47,35 @@
 	 * списку, і показати комусь потрібне місце було нічим.
 	 */
 	let rosterScrolledYear = $state<number | null>(null);
+	/**
+	 * Картка, відкрита ПАРАМЕТРОМ адреси `?g=<slug>`.
+	 *
+	 * ## Навіщо параметр узагалі
+	 *
+	 * Адреси в картки не було: власну сторінку мають 90 із 530, а решті
+	 * `openGraduate` робить `pushState('')`, тобто лишає поточну. Поки картку
+	 * відкривали лише кліком по зірці, цього було досить; кнопці «сторінка
+	 * випускника» на сторінці працівника — уже ні: шість із одинадцяти таких людей
+	 * коду не мають. Адресу будує `graduateCardHref` у `$lib/data/graduates`.
+	 *
+	 * ## Чому ЛОКАЛЬНИЙ стан, а не `pushState`, як у кліку по зірці
+	 *
+	 * Заміряно, а не вирішено. Обидві спроби зробити це станом сторінки падали з
+	 * «Cannot call pushState(...) before router is initialized» — і в `onMount`, і
+	 * в `afterNavigate`: на першому переході роутер ще не готовий. Падало ТИХО, у
+	 * необроблену обіцянку, тож зовні це виглядало як «параметр не працює» — і
+	 * лише на прямому заході за адресою, тобто рівно там, для чого параметр і
+	 * потрібен. Через клік по посиланню все працювало, бо там роутер уже готовий.
+	 *
+	 * Так само влаштовані сусідні параметри цієї ж сторінки — `?form=`, `?update=`,
+	 * `?roster=`: вони теж відкривають накладку локальним станом. Тобто це не
+	 * виняток, а той самий спосіб.
+	 *
+	 * Параметр із адреси НЕ знімається, доки картка відкрита: так посилання
+	 * лишається чинним і його можна переслати далі. Знімає його закриття
+	 * (`closeCard`).
+	 */
+	let paramGraduate = $state<GraduateIndexEntry | null>(null);
 
 	function syncParamUrl(key: string, value: string | null) {
 		if (!browser) return;
@@ -182,7 +211,11 @@
 			page.state.graduateCode
 				? graduate.code === page.state.graduateCode
 				: graduate.slug === page.state.graduateSlug
-		) ?? null
+		) ??
+			/* Стан сторінки ПЕРЕВАЖАЄ параметр: відкрив картку за посиланням,
+			   клацнув іншу зірку — показати треба другу. */
+			paramGraduate ??
+			null
 	);
 
 	/**
@@ -203,6 +236,27 @@
 			ensureGraduateProfile(code, getAbortSignal());
 		}
 	});
+
+	/**
+	 * Закриття картки — двома різними шляхами, бо відкрили її двома різними.
+	 *
+	 * Клік по зірці поклав запис в історію (`pushState`), тож зняти його має саме
+	 * історія — інакше в ній лишиться запис, з якого «назад» відкриє картку знову.
+	 *
+	 * Параметр адреси запису в історію не додавав, і `history.back()` тут був би
+	 * помилкою: на прямому заході за посиланням позаду немає нічого, тобто хрестик
+	 * просто не працював би. Тому параметр знімається — `replaceState` не додає
+	 * запису, тож «назад» веде туди, звідки прийшли (наприклад, на сторінку
+	 * працівника).
+	 */
+	function closeCard() {
+		if (paramGraduate && !page.state.graduateCode && !page.state.graduateSlug) {
+			paramGraduate = null;
+			syncParamUrl('g', null);
+			return;
+		}
+		history.back();
+	}
 
 	async function openGraduate(graduate: GraduateIndexEntry) {
 		if (!graduate.code) {
@@ -250,6 +304,13 @@
 			const updateParam = url.searchParams.get('update');
 			updateOpen = updateParam === 'open' || updateParam === 'true';
 
+			const gParam = url.searchParams.get('g');
+			/* Приймає і `slug`, і `code`: посилання ходять по руках, і людині
+			   різниці між ними не видно. */
+			paramGraduate = gParam
+				? (data.graduates.find((g) => g.slug === gParam || g.code === gParam) ?? null)
+				: null;
+
 			const rosterParam = url.searchParams.get('roster');
 			rosterOpen = rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1';
 
@@ -285,11 +346,13 @@
 					rosterQuery = '';
 				}
 
-				const atParam = url.searchParams.get('at');
+					const atParam = url.searchParams.get('at');
 				const atYear = atParam ? Number.parseInt(atParam, 10) : NaN;
 				rosterScrolledYear = Number.isNaN(atYear) ? null : atYear;
 			}
 		}
+
+
 
 		readUrlParams();
 		window.addEventListener('popstate', readUrlParams);
@@ -422,7 +485,7 @@
 <GraduateCard
 	graduate={selected}
 	profile={selectedProfile}
-	onclose={() => history.back()}
+	onclose={closeCard}
 />
 
 <!--
