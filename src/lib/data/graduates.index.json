@@ -8203,5 +8203,45 @@
 				]
 			}
 		]
+	},
+	{
+		"id": "anton-dehtiar",
+		"slug": "anton-dehtiar",
+		"name": "Антон Дегтяр",
+		"graduationYear": 2007,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true
+	},
+	{
+		"id": "hanna-lebedieva",
+		"slug": "hanna-lebedieva",
+		"name": "Ганна Лебедєва",
+		"graduationYear": 2007,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true
+	},
+	{
+		"id": "artur-lebediev",
+		"slug": "artur-lebediev",
+		"name": "Артур Лебедєв",
+		"graduationYear": 2007,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true
+	},
+	{
+		"id": "hanna-medvedska",
+		"slug": "hanna-medvedska",
+		"name": "Ганна Медведська",
+		"graduationYear": 2018,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true
 	}
 ]

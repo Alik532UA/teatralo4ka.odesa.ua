@@ -412,12 +412,19 @@
 			}
 		],
 		"graduationYears": [
+			2017,
 			2018
 		],
 		"memberIds": [
 			"alona-kozlova",
 			"anastasiia-fishchenko",
-			"anastasiia-ihnatovych"
+			"anastasiia-ihnatovych",
+			"yevheniia-futynets",
+			"hanna-medvedska",
+			"yevheniia-burian",
+			"danylo-tomachynskyi",
+			"anastasiia-lovkina",
+			"anna-halchynska"
 		],
 		"playIds": [
 			"eneida-2022",
@@ -1064,9 +1071,30 @@
 			"hanna-voiutska",
 			"kyryll-chekanov",
 			"kyrylo-stoianov",
-			"anastasiia-chepeliuk"
+			"anastasiia-chepeliuk",
+			"anton-dehtiar",
+			"hanna-lebedieva",
+			"artur-lebediev",
+			"hanna-tkach"
 		],
-		"playIds": []
+		"playIds": [],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			},
+			{
+				"id": "yevheniia-voiutska",
+				"name": "Воюцька Євгенія",
+				"subject": "Концертмейстер"
+			},
+			{
+				"id": "poliakova-starsha",
+				"name": "Полякова (старша)",
+				"subject": "Хореографія"
+			}
+		]
 	},
 	{
 		"slug": "fantaziia",

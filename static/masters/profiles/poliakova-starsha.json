@@ -1,0 +1,15 @@
+{
+	"id": "poliakova-starsha",
+	"slug": "poliakova-starsha",
+	"fullName": "Полякова (старша)",
+	"displayName": "Полякова (старша)",
+	"category": "choreographers",
+	"status": "former",
+	"departments": [
+		"theatre"
+	],
+	"visible": false,
+	"unconfirmed": true,
+	"displayNameEn": "Poliakova (elder)",
+	"fullNameEn": "Poliakova (elder)"
+}
