@@ -2473,6 +2473,12 @@
 				"subjects": [
 					"Участь у виставах"
 				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
 			}
 		]
 	},
@@ -4046,7 +4052,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 9,
+		"playCount": 12,
 		"code": "maryna-vishtaliuk-sukhanova",
 		"profileSize": 2279
 	},

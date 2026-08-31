@@ -21,6 +21,14 @@
 			"id": "tetiana-isachkina"
 		}
 	],
+	"teachers": [
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	],
 	"socials": [
 		{
 			"network": "facebook",
