@@ -50,21 +50,27 @@
 <main class="play-page" data-testid="play-page-section">
 	<div class="container">
 		<nav class="play-page__nav clears-logo" aria-label="Breadcrumb">
+			<!--
+				Назад — до ПЕРЕЛІКУ ВИСТАВ, а не одразу в галактику: це найближчий
+				вищий рівень, і саме туди людина очікує повернутися, роздивившись
+				одну виставу. Доти переліку не існувало, і кнопка вела через голову
+				на два рівні вгору.
+			-->
 			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
+				href={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
 				class="play-nav"
 				data-testid="play-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.backToGalaxy')}</span>
+				<span>{$t('galaxy.backToPlays')}</span>
 			</a>
 
 			<a
-				href={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
+				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
 				class="play-nav play-nav--forward"
-				data-testid="play-groups-link"
+				data-testid="play-galaxy-link"
 			>
-				<span>{$t('galaxy.backToGroups')}</span>
+				<span>{$t('galaxy.title')}</span>
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>

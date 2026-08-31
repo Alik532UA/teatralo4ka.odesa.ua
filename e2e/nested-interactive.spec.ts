@@ -57,6 +57,7 @@ const EXTRA_PAGES = [
 	'/projects/galaxy-graduates/groups/zakhysnyky-teatralnykh-kulis',
 	'/projects/galaxy-graduates/festivals',
 	'/projects/galaxy-graduates/festivals/slovianskyi-vinok',
+	'/projects/galaxy-graduates/plays',
 	'/projects/galaxy-graduates/plays/mnymyi-bolnoi-2011',
 	'/residents/adults/fedir-tkach'
 ];

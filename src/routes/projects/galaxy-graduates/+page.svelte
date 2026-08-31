@@ -4,7 +4,7 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { List, Plus, GraduationCap, Globe } from 'lucide-svelte';
+	import { List, Plus, GraduationCap, Globe, Theater } from 'lucide-svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
@@ -371,6 +371,21 @@
 		>
 			<Globe size={18} aria-hidden="true" />
 			<span>{$t('galaxy.festivalsTitle')}</span>
+		</a>
+
+		<!--
+			Вистави — третій перелік поруч із групами й фестивалями. Доти сторінки
+			вистав існували, але дістатися до них можна було лише з чужої анкети
+			чи репертуару групи: спільного входу не було, і адреса /plays/ віддавала
+			404.
+		-->
+		<a
+			class="stage__roster-btn stage__roster-btn--nav"
+			href={localizedPath('/projects/galaxy-graduates/plays/', locale)}
+			data-testid="galaxy-plays-link"
+		>
+			<Theater size={18} aria-hidden="true" />
+			<span>{$t('galaxy.playsTitle')}</span>
 		</a>
 
 		<button

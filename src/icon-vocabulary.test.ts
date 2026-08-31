@@ -82,6 +82,10 @@ const VOCABULARY = [
 			},
 			{ file: 'src/lib/components/GroupRepertoire.svelte', marker: 'section-plays-title' },
 			{
+				file: 'src/routes/projects/galaxy-graduates/+page.svelte',
+				marker: 'galaxy-plays-link'
+			},
+			{
 				file: 'src/routes/projects/galaxy-graduates/groups/+page.svelte',
 				marker: 'group.playIds.length'
 			}
