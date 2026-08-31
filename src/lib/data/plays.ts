@@ -1,4 +1,5 @@
 import playsData from './plays.data.json';
+import type { Pathname } from '$app/types';
 
 /**
  * Реєстр вистав.
@@ -117,4 +118,15 @@ export function playsByIds(ids: readonly string[]): Play[] {
 		.map((id) => BY_ID.get(id))
 		.filter((p): p is Play => Boolean(p))
 		.sort((a, b) => b.year - a.year || a.title.localeCompare(b.title, 'uk'));
+}
+
+/**
+ * Адреса сторінки вистави.
+ *
+ * Типізована як `Pathname` з тієї ж причини, що й шлях майстра: за цим типом
+ * `svelte/no-navigation-without-resolve` визнає адресу перевіреною, і описка
+ * ловиться компіляцією, а не читачем.
+ */
+export function playPath(id: string): Pathname {
+	return `/projects/galaxy-graduates/plays/${id}` as Pathname;
 }

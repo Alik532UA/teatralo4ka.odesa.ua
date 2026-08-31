@@ -98,8 +98,9 @@
 		},
 		{
 			"year": 2004,
-			"text": "«Сказки Пушкина», коршун, поштар",
-			"playId": "skazky-pushkyna-2004"
+			"text": "«Казки Пушкіна», шуліка, поштар",
+			"playId": "skazky-pushkyna-2004",
+			"role": "шуліка, поштар"
 		},
 		{
 			"year": 2008,
@@ -127,18 +128,21 @@
 		},
 		{
 			"year": 2011,
-			"text": "«Сны Алисы Дулитл», Автор",
-			"playId": "sny-alysy-dulytl-2011"
+			"text": "«Сни Аліси Дуліттл», Автор",
+			"playId": "sny-alysy-dulytl-2011",
+			"role": "Автор"
 		},
 		{
 			"year": 2012,
-			"text": "«Играем Чехова», Шамраев, Шипучин Андрей Андреевич",
-			"playId": "yhraem-chekhova-2012"
+			"text": "«Граємо Чехова», Шамраєв, Шипучин Андрій Андрійович",
+			"playId": "yhraem-chekhova-2012",
+			"role": "Шамраєв, Шипучин Андрій Андрійович"
 		},
 		{
 			"year": 2012,
-			"text": "«Русалочка», Осминог",
-			"playId": "rusalochka-2012"
+			"text": "«Русалонька», Восьминіг",
+			"playId": "rusalochka-2012",
+			"role": "Восьминіг"
 		},
 		{
 			"year": 2012,
@@ -152,38 +156,44 @@
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики: Незнайомка; О. Блока», Поэт",
-			"playId": "uryvky-z-klasyky-neznaiomka-o-bloka-2013"
+			"text": "«Уривки з класики: Незнайома; О. Блок», Поет",
+			"playId": "uryvky-z-klasyky-neznaiomka-o-bloka-2013",
+			"role": "Поет"
 		},
 		{
 			"year": 2014,
-			"text": "«Уривки з класики: Ася; І. Тургенев», Н. Н.",
-			"playId": "uryvky-z-klasyky-asia-i-turhenev-2014"
+			"text": "«Уривки з класики: Ася; І. Тургенєв», М. М.",
+			"playId": "uryvky-z-klasyky-asia-i-turhenev-2014",
+			"role": "М. М."
 		},
 		{
 			"year": 2014,
-			"text": "«Жестяные девчонки», Боря",
-			"playId": "zhestianye-devchonky-2014"
+			"text": "«Бляшані дівчата», Боря",
+			"playId": "zhestianye-devchonky-2014",
+			"role": "Боря"
 		},
 		{
 			"year": 2014,
-			"text": "«Думайте о нас», Шут",
-			"playId": "dumaite-o-nas-2014"
+			"text": "«Думайте про нас», Блазень",
+			"playId": "dumaite-o-nas-2014",
+			"role": "Блазень"
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики: Униженные и оскорбленные»",
+			"text": "«Уривки з класики: Принижені та зневажені»",
 			"playId": "uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015"
 		},
 		{
 			"year": 2015,
-			"text": "«Женский вопрос», Коля",
-			"playId": "zhenskyi-vopros-2015"
+			"text": "«Жіноче питання», Коля",
+			"playId": "zhenskyi-vopros-2015",
+			"role": "Коля"
 		},
 		{
 			"year": 2015,
-			"text": "«Билли+», Учитель, Доктор, Билли",
-			"playId": "bylly-2015"
+			"text": "«Біллі +», Учитель, Доктор, Біллі",
+			"playId": "bylly-2015",
+			"role": "Учитель, Доктор, Біллі"
 		},
 		{
 			"year": 2023,
@@ -192,8 +202,9 @@
 		},
 		{
 			"year": 2013,
-			"text": "Посвята в Мистецтво, «Театральнє королевство», Принц",
-			"playId": "teatralnie-korolevstvo-2013"
+			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
+			"playId": "teatralnie-korolevstvo-2013",
+			"role": "Принц"
 		},
 		{
 			"year": 2014,

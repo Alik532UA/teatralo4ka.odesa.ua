@@ -1035,6 +1035,16 @@
     "myTeacher": "if this is your teacher, write to me",
     "addGroup": "Add a group",
     "addGroupHint": "Write to me and your group gets a page",
-    "teacherMissing": "did not find your teacher? write to me"
+    "teacherMissing": "did not find your teacher? write to me",
+    "playTitle": "Production",
+    "playCast": "Who performed",
+    "playCastNote": "The cast comes from the profiles: these are the people who named this production themselves. If you performed and are missing — write to us.",
+    "playCastEmpty": "No profile mentions this production yet. If you performed in it, write to us and your name will appear here.",
+    "playInRepertoire": "In the repertoire of",
+    "playAtFestivals": "Taken to festivals",
+    "playMasters": "Masters",
+    "playGuests": "Guest actors",
+    "playAwards": "Awards",
+    "playParticipants": "Also took part"
   }
 }

@@ -29,18 +29,21 @@
 	"plays": [
 		{
 			"year": 2015,
-			"text": "«Билли +», Адалана",
-			"playId": "bylly-2015"
+			"text": "«Біллі +», Адалана",
+			"playId": "bylly-2015",
+			"role": "Адалана"
 		},
 		{
 			"year": 2015,
-			"text": "«Женский вопрос», Тётя Маша",
-			"playId": "zhenskyi-vopros-2015"
+			"text": "«Жіноче питання», Тітка Маша",
+			"playId": "zhenskyi-vopros-2015",
+			"role": "Тітка Маша"
 		},
 		{
 			"year": 2014,
-			"text": "«Думайте о нас», Мария",
-			"playId": "dumaite-o-nas-2014"
+			"text": "«Думайте про нас», Марія",
+			"playId": "dumaite-o-nas-2014",
+			"role": "Марія"
 		},
 		{
 			"year": 2013,

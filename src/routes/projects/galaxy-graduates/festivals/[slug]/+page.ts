@@ -1,5 +1,6 @@
-import { error } from '@sveltejs/kit';
-import { FESTIVALS, getFestivalBySlug } from '$lib/data/festivals';
+import { error, redirect } from '@sveltejs/kit';
+import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
+import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -11,7 +12,28 @@ export function entries() {
 	return FESTIVALS.map((festival) => ({ slug: festival.slug }));
 }
 
-export async function load({ params }) {
+/**
+ * Адреси, які змінилися вже після виходу сторінки в прод.
+ *
+ * Той самий прийом, що в сторінок майстрів: стара адреса НЕ пререндериться —
+ * її віддає `fallback: '404.html'`, клієнтський роутер виконує цей `load`,
+ * бачить стару назву й веде на нову. Ціна відома й прийнята: у статиці стара
+ * адреса лишається кодом 404, тобто краулер без JS редиректу не побачить.
+ *
+ * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
+ * венок»), тоді як сама назва українська. Адреса прожила в проді менш ніж
+ * добу, але вона встигла потрапити в sitemap, тож просто зникнути не може.
+ */
+const RENAMED_SLUGS: Record<string, string> = {
+	'slavianskyi-venok': 'slovianskyi-vinok'
+};
+
+export async function load({ params, url }) {
+	const renamedTo = RENAMED_SLUGS[params.slug];
+	if (renamedTo) {
+		redirect(301, localizedPath(festivalPath(renamedTo), localeFromPath(url.pathname)));
+	}
+
 	const festival = getFestivalBySlug(params.slug);
 	if (!festival) {
 		error(404, `Фестиваль не знайдено: ${params.slug}`);

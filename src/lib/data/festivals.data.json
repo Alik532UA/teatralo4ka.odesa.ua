@@ -1,6 +1,6 @@
 [
 	{
-		"slug": "slavianskyi-venok",
+		"slug": "slovianskyi-vinok",
 		"name": "Слов'янський вінок",
 		"nameEn": "Slovianskyi Vinok",
 		"years": [
@@ -33,7 +33,14 @@
 			"polina-hedzenko",
 			"marharet-tsypynska",
 			"mykhailo-haniev",
-			"hryhorii-naumov"
+			"hryhorii-naumov",
+			"maiia-isaiko",
+			"liliia-ternavska",
+			"myroslava-tkach",
+			"mariia-shadryna",
+			"oleksandr-chehlatonev",
+			"anastasiia-zubrytska",
+			"iryna-panchenko"
 		],
 		"masterIds": [
 			"olena-tkach",
@@ -43,12 +50,12 @@
 			"nadiia-rybakova"
 		],
 		"playIds": [
-			"slavianskyi-venok-2010"
+			"slovianskyi-vinok-2010"
 		],
 		"photos": [
-			"/festivals/slavianskyi-venok.webp",
-			"/festivals/slavianskyi-venok-2.webp",
-			"/festivals/slavianskyi-venok-3.webp"
+			"/festivals/slovianskyi-vinok.webp",
+			"/festivals/slovianskyi-vinok-2.webp",
+			"/festivals/slovianskyi-vinok-3.webp"
 		]
 	},
 	{
@@ -87,7 +94,14 @@
 			"mykyta-shevchenko",
 			"polina-hedzenko",
 			"marharet-tsypynska",
-			"mykhailo-haniev"
+			"mykhailo-haniev",
+			"liliia-ternavska",
+			"myroslava-tkach",
+			"oleksandr-chehlatonev",
+			"anastasiia-zubrytska",
+			"iryna-panchenko",
+			"oleksandra-novykova",
+			"anastasiia-kuropatkyna"
 		],
 		"masterIds": [
 			"olena-tkach",

@@ -58,7 +58,13 @@ const DATA_REGISTRIES = [
 	{ file: 'src/lib/data/plays.data.json', marker: 'chaika-2012' },
 	{ file: 'src/lib/data/masters.index.json', marker: 'svitlana-ryskina' },
 	{ file: 'src/lib/data/groups.data.json', marker: 'zakhysnyky-teatralnykh' },
-	{ file: 'src/lib/data/festivals.data.json', marker: 'slavianskyi-venok' }
+	{ file: 'src/lib/data/festivals.data.json', marker: 'slovianskyi-vinok' },
+	/*
+	 * Склад вистав — теж ДАНІ, хоч і згенеровані: це зворотний зріз анкет.
+	 * Порахований як код, він з'їдав 10 КБ стелі коду, і виглядало б це так,
+	 * ніби потовщав застосунок, тоді як приросли самі лише записи.
+	 */
+	{ file: 'src/lib/data/play-cast.json', marker: 'graduateId' }
 ] as const;
 
 /** Розмір реєстру в brotli — тим самим рівнем стиску, що кладе `precompress`. */

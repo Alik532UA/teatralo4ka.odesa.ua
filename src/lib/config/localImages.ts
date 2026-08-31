@@ -86,9 +86,9 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/mrii-dim-2012.webp': { width: 960, height: 720 },
 	'/festivals/mrii-dim-2012-2.webp': { width: 697, height: 720 },
 	'/festivals/mrii-dim-2013.webp': { width: 1087, height: 720 },
-	'/festivals/slavianskyi-venok-2.webp': { width: 960, height: 720 },
-	'/festivals/slavianskyi-venok-3.webp': { width: 960, height: 720 },
-	'/festivals/slavianskyi-venok.webp': { width: 960, height: 720 }
+	'/festivals/slovianskyi-vinok-2.webp': { width: 960, height: 720 },
+	'/festivals/slovianskyi-vinok-3.webp': { width: 960, height: 720 },
+	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 }
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */

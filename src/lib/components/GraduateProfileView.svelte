@@ -22,6 +22,7 @@
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
+	import { playPath } from "$lib/data/plays";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -663,9 +664,27 @@
 								<span class="play__year">{play.year ?? ""}</span
 								>
 							{/if}
-							<span class="play__text"
-								><RichTextWithFlags text={play.text} /></span
-							>
+							<!--
+								Рядок стає ПОСИЛАННЯМ лише там, де є `playId`:
+								лише тоді відомо, на яку саме виставу вести. У
+								складених рядків («Уривки з класики» трьома
+								уривками одразу) ключа немає навмисно, і
+								вигадувати посилання для них означало б вести
+								читача навмання.
+							-->
+							{#if play.playId}
+								<a
+									class="play__text play__link"
+									href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
+									data-testid="galaxy-card-play-link-{index}"
+								>
+									<RichTextWithFlags text={play.text} />
+								</a>
+							{:else}
+								<span class="play__text"
+									><RichTextWithFlags text={play.text} /></span
+								>
+							{/if}
 						</li>
 					{/each}
 				</ul>
@@ -1929,6 +1948,26 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+	}
+	/*
+	 * Підкреслення пунктиром, а не суцільне: у рядку вистави підкреслювати
+	 * доводиться і назву, і роль разом — суцільна лінія під усім рядком
+	 * читалася б як помилка розмітки. Той самий прийом, що в року випуску до
+	 * того, як він став кнопкою.
+	 */
+	.play__link {
+		color: inherit;
+		text-decoration: underline dotted;
+		text-underline-offset: 0.18em;
+		text-decoration-color: rgb(140 190 255 / 0.45);
+		transition:
+			color var(--transition-fast),
+			text-decoration-color var(--transition-fast);
+	}
+	.play__link:hover,
+	.play__link:focus-visible {
+		color: var(--galaxy-accent);
+		text-decoration-style: solid;
 	}
 	.play {
 		display: flex;
