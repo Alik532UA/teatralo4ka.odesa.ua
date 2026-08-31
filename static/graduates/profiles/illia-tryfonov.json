@@ -1,0 +1,39 @@
+{
+	"id": "illia-tryfonov",
+	"slug": "illia-tryfonov",
+	"code": "illia-tryfonov",
+	"name": "Ілля Трифонов",
+	"graduationYear": 2013,
+	"departments": [
+		"theatre"
+	],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Граємо Чехова»",
+			"playId": "hraiemo-chekhova-2012"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

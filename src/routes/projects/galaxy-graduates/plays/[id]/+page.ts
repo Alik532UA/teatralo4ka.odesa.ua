@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { PLAYS, getPlayById } from '$lib/data/plays';
 import { castOf } from '$lib/data/playCast';
-import { GROUPS } from '$lib/data/groups';
+import { classifyPlayGroups } from '$lib/data/groups';
 import { FESTIVALS } from '$lib/data/festivals';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
@@ -36,11 +36,15 @@ export function load({ params }) {
 	const cast = castOf(play.id);
 
 	/*
-	 * Групи, у чиєму репертуарі вистава числиться. Це НЕ склад і показується
-	 * окремо від нього: репертуар групи каже, що вистава належить її історії, а
-	 * не що в ній грали всі її учасники.
+	 * Групи, у чиєму репертуарі вистава числиться.
+	 *
+	 * Визначаються єдиною канонічною функцією `classifyPlayGroups` за складом:
+	 * основні (>= 50% або найбільша частка) та допоміжні (>= 3 учасники).
 	 */
-	const groups = GROUPS.filter((group) => group.playIds.includes(play.id));
+	const { primaryGroups, supportingGroups, groups } = classifyPlayGroups(
+		play.id,
+		cast.map((c) => c.graduate.id)
+	);
 
 	/** Фестивалі, де виставу возили. Те саме застереження, що й з групами. */
 	const festivals = FESTIVALS.filter((festival) => festival.playIds.includes(play.id));
@@ -50,5 +54,5 @@ export function load({ params }) {
 		.map((id) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id))
 		.filter((m) => m !== undefined);
 
-	return { play, cast, groups, festivals, masters };
+	return { play, cast, groups, primaryGroups, supportingGroups, festivals, masters };
 }

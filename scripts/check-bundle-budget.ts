@@ -55,7 +55,7 @@ const BUILD_DIR = 'build';
  */
 const DATA_REGISTRIES = [
 	{ file: 'src/lib/data/graduates.index.json', marker: 'alik-zapolnov' },
-	{ file: 'src/lib/data/plays.data.json', marker: 'chaika-2012' },
+	{ file: 'src/lib/data/plays.data.json', marker: 'hraiemo-chekhova-2012' },
 	{ file: 'src/lib/data/masters.index.json', marker: 'svitlana-ryskina' },
 	{ file: 'src/lib/data/groups.data.json', marker: 'zakhysnyky-teatralnykh' },
 	{ file: 'src/lib/data/festivals.data.json', marker: 'slovianskyi-vinok' },

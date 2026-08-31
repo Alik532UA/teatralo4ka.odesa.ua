@@ -2226,11 +2226,6 @@
 		"year": 2012
 	},
 	{
-		"id": "yhraem-chekhova-2012",
-		"title": "«Граємо Чехова»",
-		"year": 2012
-	},
-	{
 		"id": "infanta-new-2012",
 		"title": "«Інфанта-NEW»",
 		"year": 2012,
@@ -2336,17 +2331,6 @@
 	{
 		"id": "uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012",
 		"title": "«Уривки з класики: Той, що отримує ляпаса»",
-		"year": 2012
-	},
-	{
-		"id": "chaika-2012",
-		"title": "«Чайка», одноактівки",
-		"year": 2012,
-		"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ"
-	},
-	{
-		"id": "iubylei-2012",
-		"title": "«Юбилей»",
 		"year": 2012
 	},
 	{
@@ -7512,5 +7496,11 @@
 		"masters": [
 			"olena-tkach"
 		]
+	},
+	{
+		"id": "hraiemo-chekhova-2012",
+		"title": "«Граємо Чехова»",
+		"year": 2012,
+		"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ"
 	}
 ]

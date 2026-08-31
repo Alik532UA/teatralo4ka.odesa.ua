@@ -156,6 +156,7 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-29: `GraduateCard.svelte` прибрано з переліку — 472 → 236. Тулбар і меню
  *   контактів виділені в `GraduateCardToolbar` (213) та `GraduateCardContactMenu` (143);
  *   усі троє в межах типових 300, тож окрема стеля більше не потрібна.
+ * 2026-08-31: `src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte` 400 → 430. Додано поділ репертуару на основні та допоміжні групи («за участі») з компактним оформленням чипів.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -184,6 +185,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
+	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312
 };

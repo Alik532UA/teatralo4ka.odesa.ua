@@ -46,6 +46,17 @@
 			"year": 2008,
 			"text": "«Черная курица»",
 			"playId": "chernaia-kurytsa-2008"
+		},
+		{
+			"year": 2012,
+			"text": "«Граємо Чехова»",
+			"playId": "hraiemo-chekhova-2012"
+		},
+		{
+			"year": 2011,
+			"text": "«Уявно хворий»",
+			"playId": "mnymyi-bolnoi-2011",
+			"role": "Скоморох"
 		}
 	],
 	"bio": [

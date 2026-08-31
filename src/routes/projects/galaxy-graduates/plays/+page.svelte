@@ -4,7 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { PLAYS, playPath } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
-	import { GROUPS } from '$lib/data/groups';
+	import { classifyPlayGroups } from '$lib/data/groups';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -21,18 +21,25 @@
 	const castSize = (id: string) => PLAY_CAST[id]?.length ?? 0;
 
 	/**
-	 * Назва групи для плашки.
+	 * Назви основних груп для плашок на картці.
 	 *
-	 * Береться з РЕЄСТРУ груп, а не з поля `theatreGroup` самої вистави: у полі
-	 * лежить те, як групу підписали в профілі майстра («гр. „Скоморохи“»), і
-	 * підписи там різняться між собою. Реєстр дає одну назву. Поле лишається
-	 * запасним — воно є там, де реєстр про виставу ще не знає: у репертуарах
-	 * груп числяться 150 вистав, а `theatreGroup` заповнений у 80.
+	 * Логіка відповідає сторінці вистави:
+	 * 1. Якщо у вистави є склад (з анкет):
+	 *    - Групи з >= 50% учасників у складі (або група з найбільшою кількістю учасників) — основні.
+	 * 2. Якщо складу ще немає — беруться групи з реєстру (playIds).
+	 * 3. Якщо в реєстрі груп немає — запасний підпис із `theatreGroup`.
 	 */
-	function groupLabel(id: string, fallback?: string): string | undefined {
-		const group = GROUPS.find((g) => g.playIds.includes(id));
-		if (group) return isEn && group.nameEn ? group.nameEn : group.name;
-		return fallback ? tidyGroupLabel(fallback) : undefined;
+	function playGroups(playId: string, fallback?: string): string[] {
+		const cast = PLAY_CAST[playId] || [];
+		const { primaryGroups } = classifyPlayGroups(
+			playId,
+			cast.map((c) => c.graduateId)
+		);
+		if (primaryGroups.length > 0) {
+			return primaryGroups.map((g) => (isEn && g.nameEn ? g.nameEn : g.name));
+		}
+		const tidied = fallback ? tidyGroupLabel(fallback) : undefined;
+		return tidied ? [tidied] : [];
 	}
 
 	/**
@@ -58,7 +65,7 @@
 		PLAYS.map((play) => ({
 			play,
 			cast: castSize(play.id),
-			group: groupLabel(play.id, play.theatreGroup)
+			groups: playGroups(play.id, play.theatreGroup)
 		}))
 	);
 
@@ -66,10 +73,10 @@
 		const q = query.trim().toLowerCase();
 		if (!q) return enriched;
 		return enriched.filter(
-			({ play, group }) =>
+			({ play, groups }) =>
 				play.title.toLowerCase().includes(q) ||
 				(play.author?.toLowerCase().includes(q) ?? false) ||
-				(group?.toLowerCase().includes(q) ?? false) ||
+				groups.some((g) => g.toLowerCase().includes(q)) ||
 				String(play.year).includes(q)
 		);
 	});
@@ -164,7 +171,7 @@
 						</div>
 
 						<ul class="plays-grid">
-							{#each items as { play, cast, group } (play.id)}
+							{#each items as { play, cast, groups } (play.id)}
 								<li>
 									<a
 										class="play-card"
@@ -177,9 +184,9 @@
 										{/if}
 
 										<span class="play-card__meta">
-											{#if group}
+											{#each groups as group (group)}
 												<span class="play-card__badge play-card__badge--group">{group}</span>
-											{/if}
+											{/each}
 											<!--
 												Нуль не показується: «0 в анкетах» повідомляв би не про
 												виставу, а про те, що анкети ще не заповнені. Вистав без

@@ -1,0 +1,25 @@
+{
+	"id": "mykhailo-priadko",
+	"slug": "mykhailo-priadko",
+	"code": "mykhailo-priadko",
+	"name": "Михайло Прядко",
+	"graduationYear": 2012,
+	"departments": [
+		"theatre"
+	],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Граємо Чехова»",
+			"playId": "hraiemo-chekhova-2012"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

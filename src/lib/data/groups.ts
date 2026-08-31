@@ -131,3 +131,78 @@ export function getGroupsByMaster(masterId: string): GraduateGroup[] {
 export function groupProfilePath(slug: string): Pathname {
 	return `/projects/galaxy-graduates/groups/${slug}` as Pathname;
 }
+
+/** Результат аналізу належності вистави до груп. */
+export interface PlayGroupsClassification {
+	/** Основні (або рівнозначні) групи: >= 50% складу або найбільша частка */
+	primaryGroups: GraduateGroup[];
+	/** Допоміжні групи («за участі»): >= 3 учасників */
+	supportingGroups: GraduateGroup[];
+	/** Усі групи для репертуару */
+	groups: GraduateGroup[];
+}
+
+/**
+ * Визначає основні та допоміжні групи для вистави за складом випускників.
+ *
+ * Логіка:
+ * 1. Якщо у вистави є склад (з анкет):
+ *    - Групи з >= 50% учасників у складі (або група з найбільшою кількістю учасників) — основні.
+ *    - Інші групи з >= 3 учасниками — допоміжні («за участі»).
+ *    - Групи з < 3 учасниками і < 50% не відображаються.
+ * 2. Якщо складу немає — беруться групи з реєстру (playIds).
+ */
+export function classifyPlayGroups(
+	playId: string,
+	castMemberIds: string[] = []
+): PlayGroupsClassification {
+	const candidateGroups = GROUPS.filter(
+		(group) =>
+			group.playIds.includes(playId) ||
+			group.memberIds.some((m) => castMemberIds.includes(m))
+	);
+
+	if (candidateGroups.length === 0) {
+		return { primaryGroups: [], supportingGroups: [], groups: [] };
+	}
+
+	const scored = candidateGroups.map((group) => {
+		const castCount = group.memberIds.filter((m) => castMemberIds.includes(m)).length;
+		const ratio = group.memberIds.length > 0 ? castCount / group.memberIds.length : 0;
+		const isExplicit = group.playIds.includes(playId);
+		return { group, castCount, ratio, isExplicit };
+	});
+
+	const maxCast = scored.length > 0 ? Math.max(...scored.map((s) => s.castCount)) : 0;
+
+	const primaryGroups: GraduateGroup[] = [];
+	const supportingGroups: GraduateGroup[] = [];
+
+	if (maxCast === 0) {
+		for (const s of scored) {
+			if (s.isExplicit) primaryGroups.push(s.group);
+		}
+	} else {
+		for (const s of scored) {
+			if (s.ratio >= 0.5 && s.castCount > 0) {
+				primaryGroups.push(s.group);
+			} else if (s.castCount === maxCast && maxCast > 0) {
+				if (!primaryGroups.some((g) => g.slug === s.group.slug)) {
+					primaryGroups.push(s.group);
+				}
+			} else if (s.castCount >= 3) {
+				supportingGroups.push(s.group);
+			}
+		}
+	}
+
+	const filteredSupporting = supportingGroups.filter(
+		(g) => !primaryGroups.some((p) => p.slug === g.slug)
+	);
+
+	return {
+		primaryGroups,
+		supportingGroups: filteredSupporting,
+		groups: [...primaryGroups, ...filteredSupporting]
+	};
+}

@@ -1,0 +1,45 @@
+{
+	"id": "olena-beluhina",
+	"slug": "olena-beluhina",
+	"code": "olena-beluhina",
+	"name": "Олена Белугіна",
+	"graduationYear": 2013,
+	"departments": [
+		"theatre"
+	],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Граємо Чехова»",
+			"playId": "hraiemo-chekhova-2012"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

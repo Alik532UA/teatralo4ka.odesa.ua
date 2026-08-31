@@ -155,17 +155,6 @@
 			"graduateId": "oleksandra-indichanska-morozova"
 		}
 	],
-	"chaika-2012": [
-		{
-			"graduateId": "anastasiia-kozova"
-		},
-		{
-			"graduateId": "krystyna-manchenko"
-		},
-		{
-			"graduateId": "oleksandr-chehlatonev"
-		}
-	],
 	"chapaiev-i-vasylisa-2021": [
 		{
 			"graduateId": "heorhii-topor"
@@ -502,6 +491,57 @@
 			"graduateId": "heorhii-topor"
 		}
 	],
+	"hraiemo-chekhova-2012": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "Шамраєв, Шипучин Андрій Андрійович"
+		},
+		{
+			"graduateId": "anastasiia-chalchynska",
+			"role": "«Чайка», Ніна Зарічна"
+		},
+		{
+			"graduateId": "anastasiia-kozova"
+		},
+		{
+			"graduateId": "dariia-didenko",
+			"role": "«Ведмідь», Олена Іванівна Попова"
+		},
+		{
+			"graduateId": "dmytro-rozumenko"
+		},
+		{
+			"graduateId": "illia-tryfonov"
+		},
+		{
+			"graduateId": "krystyna-manchenko"
+		},
+		{
+			"graduateId": "mariia-mykhailova-didenko",
+			"role": "«Ювілей», Мерчуткіна Настасья Федорівна"
+		},
+		{
+			"graduateId": "maryna-vishtaliuk-sukhanova",
+			"role": "«Ювілей», Тетяна Олексіївна (дружина)"
+		},
+		{
+			"graduateId": "mykhailo-priadko"
+		},
+		{
+			"graduateId": "oleksandr-chehlatonev"
+		},
+		{
+			"graduateId": "oleksandra-indichanska-morozova",
+			"role": "«Чайка», Ірина Миколаївна Аркадіна"
+		},
+		{
+			"graduateId": "olena-beluhina"
+		},
+		{
+			"graduateId": "volodymyr-chalchynskyi",
+			"role": "«Чайка», Тригорін"
+		}
+	],
 	"hraiemo-zoshchenko-2020": [
 		{
 			"graduateId": "daria-rybalchenko"
@@ -545,11 +585,6 @@
 	"instsenizatsiia-za-kazkamy-ivana-franka-2022": [
 		{
 			"graduateId": "yan-slobodeniuk"
-		}
-	],
-	"iubylei-2012": [
-		{
-			"graduateId": "maryna-vishtaliuk-sukhanova"
 		}
 	],
 	"iumoryna-2011": [
@@ -793,7 +828,19 @@
 			"graduateId": "anastasiia-kozova"
 		},
 		{
+			"graduateId": "dariia-didenko",
+			"role": "Скоморох"
+		},
+		{
+			"graduateId": "dmytro-rozumenko",
+			"role": "Скоморох"
+		},
+		{
 			"graduateId": "krystyna-manchenko"
+		},
+		{
+			"graduateId": "mariia-mykhailova-didenko",
+			"role": "Скоморох"
 		},
 		{
 			"graduateId": "maryna-vishtaliuk-sukhanova"
@@ -1564,12 +1611,6 @@
 	"vyi-2019": [
 		{
 			"graduateId": "daniela-rybalchenko"
-		}
-	],
-	"yhraem-chekhova-2012": [
-		{
-			"graduateId": "alik-zapolnov",
-			"role": "Шамраєв, Шипучин Андрій Андрійович"
 		}
 	],
 	"yhraem-zoshchenko-2020": [

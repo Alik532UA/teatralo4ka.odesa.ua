@@ -178,14 +178,18 @@
 			Репертуар групи каже, що вистава належить її історії, а не що в ній
 			грали всі її учасники.
 		-->
-		{#if data.groups.length > 0 || data.festivals.length > 0}
+		{#if (data.primaryGroups?.length ?? 0) > 0 || (data.supportingGroups?.length ?? 0) > 0 || data.festivals.length > 0}
 			<section class="play-section" aria-labelledby="play-where-title">
 				<div class="play-heading">
 					<span class="play-heading__icon play-heading__icon--primary"><Theater size={20} aria-hidden="true" /></span>
-					<h2 id="play-where-title" class="play-heading__title">{$t('galaxy.playInRepertoire')}</h2>
+					<h2 id="play-where-title" class="play-heading__title">
+						{(data.primaryGroups?.length ?? 0) === 1 && (data.supportingGroups?.length ?? 0) === 0
+							? $t('galaxy.playInRepertoireSingle')
+							: $t('galaxy.playInRepertoire')}
+					</h2>
 				</div>
 				<ul class="chips" data-testid="play-where-list">
-					{#each data.groups as group (group.slug)}
+					{#each data.primaryGroups ?? data.groups as group (group.slug)}
 						<li>
 							<a
 								class="chip"
@@ -196,6 +200,22 @@
 							</a>
 						</li>
 					{/each}
+					{#if (data.supportingGroups?.length ?? 0) > 0}
+						<li class="chips__item--label">
+							<span class="supporting-label">{$t('galaxy.playWithParticipation')}:</span>
+						</li>
+						{#each data.supportingGroups as group (group.slug)}
+							<li>
+								<a
+									class="chip chip--supporting"
+									href={localizedPath(groupProfilePath(group.slug), currentLang)}
+									data-testid="play-group-link-{group.slug}"
+								>
+									{group.abbr || (isEn && group.nameEn ? group.nameEn : group.name)}
+								</a>
+							</li>
+						{/each}
+					{/if}
 					{#each data.festivals as festival (festival.slug)}
 						<li>
 							<a
@@ -433,6 +453,23 @@
 	.chip:focus-visible {
 		border-color: var(--accent-primary);
 		color: var(--accent-primary);
+	}
+	.chips__item--label {
+		display: inline-flex;
+		align-items: center;
+	}
+	.supporting-label {
+		color: var(--text-muted);
+		font-size: 0.85rem;
+		font-weight: 500;
+		padding: 0 0.25rem;
+	}
+	.chip--supporting {
+		font-size: 0.82rem;
+		padding: 0.25rem 0.75rem;
+		font-weight: 500;
+		opacity: 0.9;
+		border-style: dotted;
 	}
 	.chip--festival {
 		border-style: dashed;
