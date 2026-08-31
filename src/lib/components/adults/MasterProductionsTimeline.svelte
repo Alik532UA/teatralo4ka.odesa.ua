@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { Trophy, Video } from 'lucide-svelte';
-	import type { Play } from '$lib/data/plays';
+	import { playPath, type Play } from '$lib/data/plays';
+	import { localizedPath } from '$lib/i18n/routing';
 
 	/**
 	 * Хронологія: вистави згруповані за роками.
@@ -29,9 +30,10 @@
 	 */
 	interface Props {
 		productions: Play[];
+		isEn?: boolean;
 	}
 
-	let { productions }: Props = $props();
+	let { productions, isEn = false }: Props = $props();
 
 	/*
 	 * Групування без `Map` — навмисно.
@@ -74,7 +76,13 @@
 					<li class="prod-year__item" data-testid="master-productions-year-item-{prod.number ?? String(year) + '-' + idx}">
 						<span class="prod-year__dot" aria-hidden="true"></span>
 						<span class="prod-year__body">
-							<span class="prod-year__name">{prod.title}</span>
+							<a
+								href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
+								class="prod-year__name-link"
+								data-testid="master-productions-timeline-link-{prod.number ?? String(year) + '-' + idx}"
+							>
+								<span class="prod-year__name">{prod.title}</span>
+							</a>
 							{#if prod.author}<span class="prod-year__author">{prod.author}</span>{/if}
 						</span>
 						<span class="prod-year__marks">
@@ -162,6 +170,17 @@
 		font-size: 0.95rem;
 		font-weight: 600;
 		color: var(--text-title);
+		transition: color var(--transition-base, 0.2s ease);
+	}
+	.prod-year__name-link {
+		color: inherit;
+		text-decoration: none;
+		display: inline-block;
+	}
+	.prod-year__name-link:hover .prod-year__name {
+		color: var(--accent-primary);
+		text-decoration: underline;
+		text-underline-offset: 2px;
 	}
 	.prod-year__author {
 		font-size: 0.8rem;

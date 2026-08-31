@@ -74,16 +74,16 @@
 	/**
 	 * Три режими показу. Перемикач той самий, що в переліку викладачів, тож
 	 * набір приходить звідси — див. докблок `productionsViewMode`, чому саме ці
-	 * три й чому типова лишається плитка.
+	 * три й чому типовою є хронологія.
 	 */
 	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
-		{ value: 'tiles', label: $t('galaxy.viewModes.tiles', { default: 'Плитка' }), icon: LayoutGrid },
-		{ value: 'list', label: $t('galaxy.viewModes.list', { default: 'Список' }), icon: List },
 		{
 			value: 'timeline',
 			label: $t('galaxy.viewModes.timeline', { default: 'Хронологія' }),
 			icon: CalendarRange
-		}
+		},
+		{ value: 'list', label: $t('galaxy.viewModes.list', { default: 'Список' }), icon: List },
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles', { default: 'Плитка' }), icon: LayoutGrid }
 	]);
 
 	const view = $derived(productionsViewMode.current);
@@ -159,9 +159,9 @@
 			чого не видно.
 		-->
 		{#if view === 'list'}
-			<MasterProductionsList productions={filteredProductions} />
+			<MasterProductionsList productions={filteredProductions} {isEn} />
 		{:else if view === 'timeline'}
-			<MasterProductionsTimeline productions={filteredProductions} />
+			<MasterProductionsTimeline productions={filteredProductions} {isEn} />
 		{:else}
 			<div class="productions-list" data-testid="master-productions-list">
 				{#each filteredProductions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}

@@ -28,7 +28,8 @@
 	import { t } from 'svelte-i18n';
 	import { Video, ExternalLink, Calendar, Users, Trophy } from 'lucide-svelte';
 	import { masterProfilePath } from '$lib/data/masters';
-	import type { Play } from '$lib/data/plays';
+	import { playPath, type Play } from '$lib/data/plays';
+	import { localizedPath } from '$lib/i18n/routing';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { ResolvedPathname } from '$app/types';
 
@@ -76,7 +77,15 @@
 		{#if prod.isDtsh === false && prod.institution}<span class="institution-badge">{prod.institution}</span>{/if}
 	</div>
 
-	<h3 class="prod-card__title">{prod.title}</h3>
+	<h3 class="prod-card__title">
+		<a
+			href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
+			class="prod-card__title-link"
+			data-testid="master-production-title-link-{prod.number ?? index}"
+		>
+			{prod.title}
+		</a>
+	</h3>
 	{#if prod.author}<p class="prod-card__author">{prod.author}</p>{/if}
 
 	{#if prod.awards?.length}
@@ -177,6 +186,8 @@
 	:global(.theme-dark) .group-badge, :global(.theme-dark-cyan) .group-badge { color: #60a5fa; background: rgba(37, 99, 235, 0.2); }
 	.institution-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-muted); font-size: 0.75rem; }
 	.prod-card__title { margin: 0.2rem 0 0.4rem; font-size: 1.2rem; font-weight: 700; color: var(--text-title); line-height: 1.3; }
+	.prod-card__title-link { color: inherit; text-decoration: none; transition: color var(--transition-base, 0.2s ease); }
+	.prod-card__title-link:hover { color: var(--accent-primary); text-decoration: underline; text-underline-offset: 3px; }
 	.prod-card__author { margin: 0 0 0.85rem; font-size: 0.88rem; color: var(--text-muted); font-style: italic; line-height: 1.4; }
 	.prod-card__awards { margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
 	.award-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md, 10px); background: rgba(217, 119, 6, 0.08); border: 1px solid rgba(217, 119, 6, 0.25); color: #b45309; font-size: 0.84rem; font-weight: 600; line-height: 1.35; }

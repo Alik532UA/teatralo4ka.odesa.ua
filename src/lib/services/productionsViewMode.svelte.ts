@@ -26,7 +26,7 @@ import { storage } from './storage';
  */
 const STORAGE_KEY = 'master_productions_view';
 
-export const PRODUCTION_VIEWS = ['tiles', 'list', 'timeline'] as const;
+export const PRODUCTION_VIEWS = ['timeline', 'list', 'tiles'] as const;
 
 export type ProductionView = (typeof PRODUCTION_VIEWS)[number];
 
@@ -42,7 +42,7 @@ export function isProductionView(value: string | null): value is ProductionView 
 }
 
 class ProductionsViewState {
-	current = $state<ProductionView>('tiles');
+	current = $state<ProductionView>('timeline');
 
 	constructor() {
 		if (browser) {

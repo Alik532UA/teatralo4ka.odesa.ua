@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { Trophy, Video, Users } from 'lucide-svelte';
-	import type { Play } from '$lib/data/plays';
+	import { playPath, type Play } from '$lib/data/plays';
+	import { localizedPath } from '$lib/i18n/routing';
 
 	/**
 	 * Список: один рядок — одна вистава.
@@ -25,9 +26,10 @@
 	 */
 	interface Props {
 		productions: Play[];
+		isEn?: boolean;
 	}
 
-	let { productions }: Props = $props();
+	let { productions, isEn = false }: Props = $props();
 </script>
 
 <ol class="prod-rows" data-testid="master-productions-rows-list">
@@ -39,7 +41,13 @@
 			</span>
 
 			<span class="prod-row__main">
-				<span class="prod-row__title">{prod.title}</span>
+				<a
+					href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
+					class="prod-row__title-link"
+					data-testid="master-productions-row-link-{prod.number ?? idx}"
+				>
+					<span class="prod-row__title">{prod.title}</span>
+				</a>
 				{#if prod.author}<span class="prod-row__author">{prod.author}</span>{/if}
 			</span>
 
@@ -126,6 +134,17 @@
 		font-size: 0.95rem;
 		font-weight: 600;
 		color: var(--text-title);
+		transition: color var(--transition-base, 0.2s ease);
+	}
+	.prod-row__title-link {
+		color: inherit;
+		text-decoration: none;
+		display: inline-block;
+	}
+	.prod-row__title-link:hover .prod-row__title {
+		color: var(--accent-primary);
+		text-decoration: underline;
+		text-underline-offset: 2px;
 	}
 	.prod-row__author {
 		font-size: 0.82rem;

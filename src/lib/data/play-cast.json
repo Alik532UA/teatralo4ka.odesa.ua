@@ -27,11 +27,6 @@
 			"graduateId": "daniela-rybalchenko"
 		}
 	],
-	"8-liubliachykh-zhinok-2022": [
-		{
-			"graduateId": "mariia-mahdalina-matvieieva"
-		}
-	],
 	"a-zory-zdes-tykhye-2006": [
 		{
 			"graduateId": "viktoriia-dolhozhyv"
@@ -646,11 +641,6 @@
 			"graduateId": "vitalina-larionova"
 		}
 	],
-	"konotopska-vidma-2023": [
-		{
-			"graduateId": "mariia-mahdalina-matvieieva"
-		}
-	],
 	"koralina-v-kriny-koshmariv-2020": [
 		{
 			"graduateId": "nadiia-hasynets"
@@ -1230,6 +1220,9 @@
 			"graduateId": "daria-terzi"
 		},
 		{
+			"graduateId": "mariia-mahdalina-matvieieva"
+		},
+		{
 			"graduateId": "oleh-vizitiei"
 		}
 	],
@@ -1483,6 +1476,9 @@
 	"visim-liubliachykh-zhinok-2022": [
 		{
 			"graduateId": "daria-terzi"
+		},
+		{
+			"graduateId": "mariia-mahdalina-matvieieva"
 		}
 	],
 	"volshebnyi-kolodets-2012": [
