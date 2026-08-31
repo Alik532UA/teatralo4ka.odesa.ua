@@ -414,11 +414,6 @@
 		"year": 2023
 	},
 	{
-		"id": "konotopska-vidma-2023",
-		"title": "«Конотопська відьма»",
-		"year": 2023
-	},
-	{
 		"id": "na-pershi-huli-2023",
 		"title": "«На перші гулі»",
 		"year": 2023
@@ -493,8 +488,8 @@
 		"id": "son-zabrokhy-2023",
 		"title": "«Сон Забрьохи»",
 		"year": 2023,
-		"author": "фантасмагорія (за мотивами повісті Г.Квітки-Основ'яненко \" Конотопська відьма\")",
-		"theatreGroup": "гр. 7т-20",
+		"author": "Г. Квітка-Основ’яненко (фантасмагорія за мотивами повісті «Конотопська відьма»)",
+		"theatreGroup": "гр. 7Т-20 «ТВ Продакшн»",
 		"dateNote": "09.06 п’ятниця, 17.00 (ауд. 7); 10.06 субота, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -554,11 +549,6 @@
 		"isDtsh": true
 	},
 	{
-		"id": "8-liubliachykh-zhinok-2022",
-		"title": "«8 люблячих жінок»",
-		"year": 2022
-	},
-	{
 		"id": "8-liubiachykh-zhinok-2022",
 		"title": "«8 любьячих жінок»",
 		"year": 2022
@@ -566,7 +556,12 @@
 	{
 		"id": "visim-liubliachykh-zhinok-2022",
 		"title": "«Вісім люблячих жінок»",
-		"year": 2022
+		"year": 2022,
+		"author": "Р. Тома",
+		"theatreGroup": "гр. ТВ Продакшн",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "divchata-2022",
