@@ -422,6 +422,11 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1295,6 +1300,11 @@
 		"graduationYear": 2001,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1419,6 +1429,11 @@
 		"graduationYear": 2000,
 		"departments": [
 			"vocal"
+		],
+		"masters": [
+			{
+				"id": "oleksandr-stepanov"
+			}
 		]
 	},
 	{
@@ -1996,6 +2011,11 @@
 					"Вокал"
 				]
 			}
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2365,6 +2385,11 @@
 		"graduationYear": 2001,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -2902,6 +2927,11 @@
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -3689,6 +3719,11 @@
 		"graduationYear": 2002,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3826,6 +3861,11 @@
 		"graduationYear": 2004,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3898,6 +3938,11 @@
 		"graduationYear": 2001,
 		"departments": [
 			"vocal"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -4047,6 +4092,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -4172,6 +4222,11 @@
 		"graduationYear": 2000,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -4208,6 +4263,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5032,6 +5092,11 @@
 					"Вокал"
 				]
 			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5188,6 +5253,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5479,6 +5549,11 @@
 		"graduationYear": 2000,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5531,6 +5606,11 @@
 		"graduationYear": 2006,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -5633,11 +5713,6 @@
 		"departments": [
 			"theatre"
 		],
-		"masters": [
-			{
-				"id": "svitlana-ryskina"
-			}
-		],
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -5666,7 +5741,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
@@ -5762,6 +5837,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5771,6 +5851,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -5780,6 +5865,11 @@
 		"graduationYear": 2001,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5841,6 +5931,11 @@
 		"graduationYear": 2003,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5850,6 +5945,11 @@
 		"graduationYear": 2004,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -6342,6 +6442,11 @@
 		"graduationYear": 2004,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -6382,7 +6487,7 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
@@ -6862,6 +6967,11 @@
 		"graduationYear": 2003,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7031,6 +7141,11 @@
 		"graduationYear": 2002,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7357,6 +7472,11 @@
 		"graduationYear": 1999,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7779,6 +7899,11 @@
 		"graduationYear": 2001,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7804,12 +7929,11 @@
 		"name": "Юлія Бучацька",
 		"graduationYear": 1998,
 		"departments": [
-			"theatre",
 			"vocal"
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina"
+				"id": "oleksandr-stepanov"
 			}
 		],
 		"teachers": [
@@ -7917,6 +8041,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7962,6 +8091,11 @@
 		"graduationYear": 2004,
 		"departments": [
 			"vocal"
+		],
+		"masters": [
+			{
+				"id": "oleksandr-stepanov"
+			}
 		]
 	},
 	{
@@ -7971,6 +8105,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
