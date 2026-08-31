@@ -103,12 +103,16 @@
 		<X size={18} aria-hidden="true" />
 	</button>
 
+	<!--
+		Пояснювального рядка тут НЕМА навмисно. Він казав «Ця людина є і
+		випускницею, і працівницею школи» — і в цій фразі рід зашитий у слова, тож
+		на Павлі Кошці вона читалася неправдою. Родових варіантів довелося б
+		тримати два, а вибирати між ними — за даними, яких у реєстрі немає: статі
+		ми не зберігаємо й зберігати не збираємося.
+		Але головне не це: дві кнопки нижче й так називають, що саме відкриється,
+		тож рядок нічого не додавав.
+	-->
 	<h2 class="sheet__title" id="dual-role-title">{graduate.name}</h2>
-	<p class="sheet__hint">
-		{$t('galaxy.dualRoleHint', {
-			default: 'Ця людина є і випускницею, і працівницею школи. Яку сторінку відкрити?'
-		})}
-	</p>
 
 	<div class="sheet__choices">
 		<button type="button" class="choice" onclick={onGraduate} data-testid="dual-role-graduate-btn">
@@ -168,17 +172,10 @@
 	}
 
 	.sheet__title {
-		margin: 0 2rem 0.3rem 0;
+		margin: 0 2rem 0.9rem 0;
 		font-size: 1.15rem;
 		font-weight: 700;
 		color: var(--text-title);
-	}
-
-	.sheet__hint {
-		margin: 0 0 1rem;
-		font-size: 0.88rem;
-		color: var(--text-muted);
-		line-height: 1.4;
 	}
 
 	.sheet__choices {
