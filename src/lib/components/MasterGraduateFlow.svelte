@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Spring } from 'svelte/motion';
 	import { MediaQuery } from 'svelte/reactivity';
-	import { hideOnScrollDown } from '$lib/utils/hideOnScrollDown.svelte';
+	import { hideWhenScrolledDeep } from '$lib/utils/hideWhenScrolledDeep.svelte';
 	import { goto } from '$app/navigation';
 	import { locale, t } from 'svelte-i18n';
 	import { page } from '$app/state';
@@ -64,14 +64,18 @@
 	const streamWidth = $derived(restWidth + (nearWidth - restWidth) * spread.current);
 
 	/**
-	 * Потік з'їжджає за правий край, коли читач іде сторінкою ВНИЗ.
+	 * Потік з'їжджає за правий край, коли читач опустився ГЛИБОКО.
 	 *
 	 * Він `position: fixed` на всю висоту праворуч, тобто висить над змістом.
 	 * Угорі сторінки це доречно, нижче — перекриває праву частину рядків груп і
-	 * репертуару. Чому саме за напрямком і навіщо порог — у докблоці
-	 * `hideOnScrollDown`.
+	 * репертуару.
+	 *
+	 * Раніше рішення ухвалював напрямок руху, і воно смикалося: вісім пікселів
+	 * униз угорі сторінки ховали потік, який нікому не заважав, а рух угору біля
+	 * підвалу повертав стовпець просто на текст. Тепер вирішує глибина — чому
+	 * саме так і звідки число, у докблоці `hideWhenScrolledDeep`.
 	 */
-	const scroll = hideOnScrollDown();
+	const scroll = hideWhenScrolledDeep();
 
 	let started = $state(false);
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
@@ -336,16 +340,35 @@
 			height: auto;
 			min-height: 0;
 			z-index: 5;
-			/* Власного `prefers-reduced-motion` тут немає навмисно: у
-			   `styles/global.css` уже стоїть правило, яке гасить `transition` усім
-			   через `!important`. Локальна копія була б другим джерелом того самого. */
-			transition: translate var(--transition-base);
+			/*
+			 * ПОВЕРНЕННЯ — миттєве, і це не пропуск.
+			 *
+			 * Перехід тут оголошений `none`, а сам перехід живе в правилі
+			 * `--hidden` нижче. Браузер бере `transition` із того стану, до якого
+			 * йде: додається клас — діє правило `--hidden`, тобто від'їзд
+			 * плавний; знімається — діє це правило, тобто стовпець стає на місце
+			 * одразу. Саме такої несиметрії й хотіли: зникнення не має відволікати,
+			 * а поява має статися до того, як по ній клацнуть.
+			 *
+			 * Власного `prefers-reduced-motion` тут немає навмисно: у
+			 * `styles/global.css` уже стоїть правило, яке гасить `transition` усім
+			 * через `!important`. Локальна копія була б другим джерелом того самого.
+			 */
+			transition: none;
 		}
 
-		/* Повністю за край, а не прозорість: напівпрозорий стовпець однаково
-		   читається як пляма над текстом. */
+		/*
+		 * Повністю за край, а не прозорість: напівпрозорий стовпець однаково
+		 * читається як пляма над текстом.
+		 *
+		 * Тривалість своя, довша за `--transition-base` (250 мс): цей стовпець
+		 * їде на 280–400 пікселів, і на такій відстані чверть секунди читається
+		 * як стрибок, а не як рух. Крива сповільнюється до кінця — тобто до краю
+		 * екрана стовпець підходить майже зупинившись, і від'їзд не смикає око.
+		 */
 		.flow-stream--hidden {
 			translate: 100% 0;
+			transition: translate 420ms cubic-bezier(0.22, 1, 0.36, 1);
 		}
 	}
 

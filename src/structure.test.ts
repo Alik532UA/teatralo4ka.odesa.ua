@@ -167,6 +167,11 @@ const LIMITS: Array<[RegExp, number]> = [
  *   рядків було б гірше: похідні мапи вже виїхали в `dualRole.ts`, а решта
  *   `getStudentsByMaster` — це один обхід двох реєстрів, який без другого
  *   модуля не розділяється.
+ * 2026-09-01: `MasterGraduateFlow.svelte` 305 → 306. Один рядок: від'їзд потоку
+ *   плавний, а повернення миттєве, і ця несиметрія робиться двома оголошеннями
+ *   `transition` замість одного — своє в базовому правилі та своє в `--hidden`.
+ *   Прапорця в коді натомість не потрібно: браузер сам бере перехід зі стану, до
+ *   якого йде.
  * 2026-09-01: `galaxy-graduates/plays/+page.svelte` 400 → 420. Сімнадцять рядків на
  *   три режими показу: набір `VIEW_OPTIONS`, стан режиму й переклад вистав у
  *   спільну форму рядка. Ділити сторінку далі нема на що — пошук, лічильники й
@@ -215,7 +220,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
 	'src/lib/data/masters.ts': 258,
-	'src/lib/components/MasterGraduateFlow.svelte': 305,
+	'src/lib/components/MasterGraduateFlow.svelte': 306,
 	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 420
 };
 
