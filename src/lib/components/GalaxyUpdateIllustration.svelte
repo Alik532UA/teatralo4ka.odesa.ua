@@ -52,24 +52,18 @@
 
 	/*
 	 * Та сама пара, що й у груп: одна конкретна поїздка й вихід до всіх.
-	 * «Слов'янський вінок» узятий не навмання — це найбільша поїздка в реєстрі,
-	 * тридцять один учасник.
 	 */
 	const FESTIVALS = [
-		{ slug: 'slovianskyi-vinok', label: '«Слов\'янський вінок»' },
+		{ slug: 'kvitucha-chekhiia', label: '«Квітуча Чехія»' },
 		{ slug: '', labelKey: 'galaxy.festivalsTitle' }
 	];
 
 	/*
-	 * У вистав спільної сторінки-переліку немає, тож замість «усі» — друга
-	 * конкретна. Обидві обрані за тим, що вони показують саме́ призначення
-	 * сторінки: «Уявно хворий» має найбільший склад у реєстрі, восьмеро з ТРЬОХ
-	 * груп — тобто одразу видно, що склад не дорівнює групі; «Чайка» ж
-	 * навпаки — одна група й одна вистава.
+	 * Та сама пара, що й у груп та фестивалів: одна конкретна вистава й вихід до всіх.
 	 */
 	const PLAYS = [
 		{ id: 'mnymyi-bolnoi-2011', label: '«Уявно хворий»' },
-		{ id: 'chaika-2012', label: '«Чайка»' }
+		{ id: '', labelKey: 'galaxy.playsTitle' }
 	];
 
 	/** Володимир Чалчинський — єдина анкета, де YouTube уже стоїть. */
@@ -163,16 +157,21 @@
 	</div>
 {:else if id === 'plays'}
 	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-plays-list">
-		{#each PLAYS as play, i (play.id)}
+		{#each PLAYS as play, i (play.id || 'all')}
 			<a
 				class="chip"
 				style="--order: {i}"
-				href={localizedPath(`/projects/galaxy-graduates/plays/${play.id}`, lang)}
+				href={localizedPath(
+					play.id
+						? `/projects/galaxy-graduates/plays/${play.id}`
+						: '/projects/galaxy-graduates/plays/',
+					lang
+				)}
 				target="_blank"
 				rel="noopener"
-				data-testid="galaxy-update-play-link-{play.id}"
+				data-testid="galaxy-update-play-link-{play.id || 'all'}"
 			>
-				{play.label}
+				{play.labelKey ? $t(play.labelKey) : play.label}
 			</a>
 		{/each}
 	</div>

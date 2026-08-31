@@ -35,14 +35,14 @@
 			"text": "With repertoire by year and recordings, shared photographs, the graduates of the group, its course master and teachers. These pages still need correcting, so look at your own group and write to me with the fixes — I will be waiting."
 		},
 		{
-			"id": "festivals",
-			"title": "Festival trips have their own pages too",
-			"text": "Each one lists who travelled, which productions were taken along, the teachers of the trip and the shared photographs. The lists of participants were restored by correspondence, so mistakes are inevitable: if you were on a trip and are missing, write to me and I will add you."
-		},
-		{
 			"id": "plays",
 			"title": "Every production now has its own page",
-			"text": "It shows who performed and in which role, the masters, the recording, and whose repertoire the production belongs to. The cast comes from YOUR profiles: a person appears only through their own mention, so nobody is credited merely for having been in the group. If you performed and are missing, fill in the form or write to me."
+			"text": "It shows who performed and in which role, the masters, the recording, and whose repertoire the production belongs to. The cast and directors are assembled from your forms as well as AI analysis of lists: so there are many errors that we will fix together! If you spot a mistake, write to me."
+		},
+		{
+			"id": "festivals",
+			"title": "Festival trips have their own pages too",
+			"text": "Each one lists who travelled, which productions were taken along, the teachers of the trip and the shared photographs. The lists of participants were restored without AI, simply by trying to recognize faces in old photos, so mistakes are inevitable: if you were on a trip and are missing, write to me and I will add you."
 		},
 		{
 			"id": "form",

@@ -1544,7 +1544,27 @@
 		],
 		"playCount": 11,
 		"code": "artem-suvorov",
-		"profileSize": 1934
+		"profileSize": 1934,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "artem-zimner",
