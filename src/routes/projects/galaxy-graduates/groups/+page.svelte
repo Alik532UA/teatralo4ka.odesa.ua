@@ -1,12 +1,27 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
-	import { ArrowLeft, ArrowRight, Users, Calendar, Sparkles, Theater, Plus } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		ArrowRight,
+		Users,
+		Calendar,
+		Sparkles,
+		Theater,
+		Plus,
+		CalendarRange,
+		List,
+		LayoutGrid
+	} from 'lucide-svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath } from '$lib/data/groups';
 	import mastersIndex from '$lib/data/masters.index.json';
 	import type { MasterIndexEntry } from '$lib/data/masters';
+	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -64,6 +79,43 @@
 	 * порядок, і осмислений кращий за довільний, якщо скрипт не дійде.
 	 */
 	const ordered = $derived(shuffled ?? byYear);
+
+	const view = createGalaxyView('galaxy_groups_view');
+
+	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'timeline', label: $t('galaxy.viewModes.timeline'), icon: CalendarRange },
+		{ value: 'list', label: $t('galaxy.viewModes.list'), icon: List },
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles'), icon: LayoutGrid }
+	]);
+
+	/**
+	 * Ті самі групи рядками — і ЗА РОКАМИ, а не перемішані.
+	 *
+	 * Плитка лишається випадковою, і це не суперечність: перемішування вирішує
+	 * задачу саме плитки — рівне поле однакових карток, у якому групи початку
+	 * двотисячних не бачив ніхто, бо до них не догортали (докладно вище, над
+	 * `byYear`). Хронологія й список натомість ВІДПОВІДАЮТЬ роком: випадковий
+	 * порядок у режимі, який називається «хронологія», був би просто неправдою.
+	 *
+	 * Заразом це знімає з рядків клопіт із гідратацією: перемішування живе лише
+	 * в тій гілці, де воно й потрібне.
+	 */
+	const rows = $derived<GalaxyRow[]>(
+		byYear.map((g) => ({
+			key: g.slug,
+			href: localizedPath(groupProfilePath(g.slug), currentLang),
+			year: Math.max(...g.graduationYears),
+			yearLabel: g.graduationYears.join(', '),
+			title: isEn && g.nameEn ? g.nameEn : g.name,
+			subtitle: g.masters.map((m) => masterName(m.id, m.name)).join(' · '),
+			memberIds: g.memberIds,
+			marks: [
+				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
+				{ icon: Users, text: String(g.memberIds.length) },
+				...(g.playIds.length ? [{ icon: Theater, text: String(g.playIds.length) }] : [])
+			]
+		}))
+	);
 </script>
 
 <svelte:head>
@@ -103,8 +155,56 @@
 			<p class="groups-header__count">
 				{ordered.length}
 			</p>
+
+			<div class="groups-header__view">
+				<MasterViewToggle
+					viewMode={view.current}
+					onchange={view.set}
+					options={VIEW_OPTIONS}
+					testIdPrefix="galaxy-groups-view"
+				/>
+			</div>
 		</header>
 
+		<!--
+			«Додати групу» — сніпетом, бо картка потрібна в УСІХ трьох режимах.
+			Скопіювати її в кожну гілку означало б три однакових шматки, які
+			розійдуться на першій же правці, а показувати лише в плитці — сховати
+			прохання написати від тих, хто дивиться хронологію.
+		-->
+		{#snippet addCard()}
+			<div class="group-card group-card--add" data-testid="galaxy-group-add-card">
+				<span class="group-card__head">
+					<span class="group-card__name">{$t('galaxy.addGroup')}</span>
+					<span class="group-card__abbr">
+						<Plus size={13} aria-hidden="true" />
+					</span>
+				</span>
+				<span class="group-card__masters">{$t('galaxy.addGroupHint')}</span>
+				<!--
+					Розгорнуто, без олівця: прохання написати вже стоїть рядком
+					вище, і кнопка поруч питала б удруге те саме, ховаючи
+					відповідь за ще одним натисканням. Місця в плитці вистачає.
+				-->
+				<EditContactButton testIdPrefix="galaxy-group-add-contact" mode="inline" />
+			</div>
+		{/snippet}
+
+		{#if view.current !== 'tiles'}
+			<!--
+				У рядках картка стоїть НАД переліком, а не першим рядком: усередині
+				неї кнопка звернення, і в сітці рядка вона ламала б і ліву лінію, і
+				праву. Той самий `testIdPrefix`, що в плитки, — режим показується
+				рівно один.
+			-->
+			<div class="groups-add-solo">{@render addCard()}</div>
+			<GalaxyRows
+				{rows}
+				grouped={view.current === 'timeline'}
+				testIdPrefix="galaxy-groups"
+				maxFaces={8}
+			/>
+		{:else}
 		<ul class="groups-grid" data-testid="galaxy-groups-list">
 			<!--
 				ПЕРШИМ пунктом — «додати групу», у тій самій плитці, що й решта.
@@ -113,23 +213,7 @@
 				сказала б це тихіше: тут вона стоїть там, де людина шукає СВОЮ групу
 				й не знаходить.
 			-->
-			<li>
-				<div class="group-card group-card--add" data-testid="galaxy-group-add-card">
-					<span class="group-card__head">
-						<span class="group-card__name">{$t('galaxy.addGroup')}</span>
-						<span class="group-card__abbr">
-							<Plus size={13} aria-hidden="true" />
-						</span>
-					</span>
-					<span class="group-card__masters">{$t('galaxy.addGroupHint')}</span>
-					<!--
-						Розгорнуто, без олівця: прохання написати вже стоїть рядком
-						вище, і кнопка поруч питала б удруге те саме, ховаючи
-						відповідь за ще одним натисканням. Місця в плитці вистачає.
-					-->
-					<EditContactButton testIdPrefix="galaxy-group-add-contact" mode="inline" />
-				</div>
-			</li>
+			<li>{@render addCard()}</li>
 			{#each ordered as group (group.slug)}
 				<li>
 					<a
@@ -195,6 +279,7 @@
 				</li>
 			{/each}
 		</ul>
+		{/if}
 	</div>
 </main>
 
@@ -244,9 +329,20 @@
 
 	.groups-header {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.75rem;
 		margin-bottom: 2rem;
+	}
+	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
+	.groups-header__view {
+		margin-left: auto;
+	}
+	/* Картка звернення поза плиткою: у повну ширину вона розтягла б прохання
+	   написати на весь екран, а це не головне на сторінці. */
+	.groups-add-solo {
+		max-width: 24rem;
+		margin-bottom: 1.25rem;
 	}
 	.groups-header__title {
 		margin: 0;

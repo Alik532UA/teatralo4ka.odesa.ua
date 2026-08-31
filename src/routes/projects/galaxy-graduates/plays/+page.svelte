@@ -1,10 +1,24 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
-	import { ArrowLeft, ArrowRight, Users, Trophy, Video, Search } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		ArrowRight,
+		Users,
+		Trophy,
+		Video,
+		Search,
+		CalendarRange,
+		List,
+		LayoutGrid
+	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { PLAYS, playPath } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
 	import { classifyPlayGroups } from '$lib/data/groups';
+	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -84,23 +98,58 @@
 	/**
 	 * Роки — заголовками, а не плашкою в кожній картці.
 	 *
-	 * Вистав 362 за 32 роки, і рівний перелік із них читати нічим: рік у картці
+	 * Вистав 733 за 32 роки, і рівний перелік із них читати нічим: рік у картці
 	 * помічає лише той, хто вже вчитався в неї. Той самий висновок уже зроблено
 	 * в переліку випускників, де рік теж винесено заголовком групи.
 	 *
-	 * Без `Map`: `svelte/prefer-svelte-reactivity` забороняє змінюваний `Map` у
-	 * рунному коді, а `SvelteMap` тут зайвий — величина проміжна й назовні не
-	 * виходить. Пошук роком по вже зібраних групах коштує O(років), а років 32.
+	 * Групує спільна `groupByYear`: та сама петля стояла тут і в рядках, і
+	 * розходження порядку між режимами одної сторінки помітили б не одразу.
 	 */
-	const byYear = $derived.by(() => {
-		const groups: Array<[number, typeof found]> = [];
-		for (const item of found) {
-			const existing = groups.find(([year]) => year === item.play.year);
-			if (existing) existing[1].push(item);
-			else groups.push([item.play.year, [item]]);
-		}
-		return groups.sort((a, b) => b[0] - a[0]);
-	});
+	const byYear = $derived(groupByYear(found, (item) => item.play.year));
+
+	const view = createGalaxyView('galaxy_plays_view');
+
+	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'timeline', label: $t('galaxy.viewModes.timeline'), icon: CalendarRange },
+		{ value: 'list', label: $t('galaxy.viewModes.list'), icon: List },
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles'), icon: LayoutGrid }
+	]);
+
+	/**
+	 * Знайдені вистави у спільній формі рядка — для хронології та списку.
+	 *
+	 * Рахується з `found`, а не з `PLAYS`: пошук мусить звужувати всі три режими
+	 * однаково, інакше «знайдено 4» стояло б над повним переліком.
+	 */
+	const rows = $derived<GalaxyRow[]>(
+		found.map(({ play, cast, groups }) => ({
+			key: play.id,
+			href: localizedPath(playPath(play.id), currentLang),
+			year: play.year,
+			title: play.title,
+			subtitle: play.author,
+			memberIds: (PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
+			/* Через `null` і `filter`, а не розкидами порожніх масивів: тих самих
+			   умов чотири, і `...(x ? [y] : [])` учетверте читається гірше, ніж
+			   сама умова. Нулі й порожні поля не показуються — вони повідомляли б
+			   не про виставу, а про стан наших даних. */
+			marks: [
+				...groups.map((name) => ({ icon: null, text: name, tone: 'group' as const })),
+				cast > 0 ? { icon: Users, text: String(cast) } : null,
+				play.awards?.length
+					? {
+							icon: Trophy,
+							text: String(play.awards.length),
+							title: play.awards.join('; '),
+							tone: 'award' as const
+						}
+					: null,
+				play.videoUrl
+					? { icon: Video, href: play.videoUrl, tone: 'video' as const, title: $t('galaxy.watchVideo') }
+					: null
+			].filter((m) => m !== null)
+		}))
+	);
 </script>
 
 <svelte:head>
@@ -135,6 +184,15 @@
 				{$t('galaxy.playsTitle')}
 			</h1>
 			<p class="plays-header__count" data-testid="galaxy-plays-total-count">{PLAYS.length}</p>
+
+			<div class="plays-header__view">
+				<MasterViewToggle
+					viewMode={view.current}
+					onchange={view.set}
+					options={VIEW_OPTIONS}
+					testIdPrefix="galaxy-plays-view"
+				/>
+			</div>
 		</header>
 
 		<!--
@@ -161,6 +219,14 @@
 			<p class="plays-empty" data-testid="galaxy-plays-empty-text">
 				{$t('galaxy.playsNothingFound')}
 			</p>
+		{:else if view.current !== 'tiles'}
+			<!--
+				Той самий `testIdPrefix`, що в плитки: `galaxy-plays-list` і
+				`galaxy-plays-year-section-*` означають перелік і роки на цій
+				сторінці, а не в якомусь одному вигляді. Режим показується рівно
+				один, тож збігу в межах сторінки не буває.
+			-->
+			<GalaxyRows {rows} grouped={view.current === 'timeline'} testIdPrefix="galaxy-plays" />
 		{:else}
 			<div class="plays-years" data-testid="galaxy-plays-list">
 				{#each byYear as [year, items] (year)}
@@ -262,9 +328,14 @@
 
 	.plays-header {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.75rem;
 		margin-bottom: 1.25rem;
+	}
+	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
+	.plays-header__view {
+		margin-left: auto;
 	}
 	.plays-header__title {
 		margin: 0;

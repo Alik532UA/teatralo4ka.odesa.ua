@@ -24,12 +24,31 @@ import { gotoReady } from './ready';
  *   3. Дорога назад зі сторінки вистави веде В ПЕРЕЛІК, а не через голову в
  *      галактику.
  *
+ * ## Три режими показу
+ *
+ * Сторінка вміє хронологію, список і плитку, і типовий режим — ХРОНОЛОГІЯ. Тому
+ * перевірки більше не питають про «картки»: у двох режимах із трьох карток немає
+ * взагалі. Питають про те, що є в кожному, — посилання на виставу.
+ *
+ * Заразом додана перевірка самого перемикача: він міняє розмітку, і зламатися в
+ * ньому може як перехід (натиснув — нічого не сталося), так і вміст (перейшов, а
+ * вистав у новому режимі менше).
+ *
  * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
  *
  * Прибрати кнопку «Вистави» на сторінці галактики — впаде друга перевірка, і
  * заразом (на наступній збірці) зникне сама сторінка. Показати в переліку лише
- * вистави з відомим складом — впаде перша й назве обидва числа.
+ * вистави з відомим складом — впаде перша й назве обидва числа. Зробити типовим
+ * режимом плитку — впаде «типовий режим — хронологія».
  */
+
+/*
+ * Посилання на виставу в БУДЬ-ЯКОМУ режимі: у рядках це `-row-link-`, у плитці
+ * `-card-`. Перевірки міряють досяжність вистав, а не обраний вигляд, тож і
+ * добірка мусить бути спільною.
+ */
+const ПОСИЛАННЯ =
+	'[data-testid^="galaxy-plays-row-link-"], [data-testid^="galaxy-plays-card-"]';
 
 const ПЕРЕЛІК = '/projects/galaxy-graduates/plays';
 
@@ -50,10 +69,15 @@ test.describe('перелік вистав', () => {
 
 		await expect(page.getByTestId('galaxy-plays-title')).toBeVisible();
 
-		const карток = await page.locator('[data-testid^="galaxy-plays-card-"]').count();
+		await expect(
+			page.getByTestId('galaxy-plays-view-btn-timeline'),
+			'типовий режим не хронологія — сторінка відкрилася іншим виглядом'
+		).toHaveAttribute('aria-pressed', 'true');
+
+		const посилань = await page.locator(ПОСИЛАННЯ).count();
 		expect(
-			карток,
-			`у переліку ${карток} карток, а в реєстрі ${УСЬОГО} вистав — частина сторінок ` +
+			посилань,
+			`у переліку ${посилань} вистав, а в реєстрі ${УСЬОГО} — частина сторінок ` +
 				'лишилася недосяжною з переліку'
 		).toBe(УСЬОГО);
 
@@ -71,7 +95,7 @@ test.describe('перелік вистав', () => {
 		const пошук = page.getByTestId('galaxy-plays-search-input');
 
 		await пошук.fill('Цибуліно');
-		const знайдено = await page.locator('[data-testid^="galaxy-plays-card-"]').count();
+		const знайдено = await page.locator(ПОСИЛАННЯ).count();
 		expect(знайдено, 'пошук за відомою назвою не знайшов нічого').toBeGreaterThan(0);
 		expect(знайдено, 'пошук нічого не звузив — фільтр не працює').toBeLessThan(УСЬОГО);
 		await expect(page.getByTestId('galaxy-plays-found-count')).toHaveText(String(знайдено));
@@ -81,6 +105,31 @@ test.describe('перелік вистав', () => {
 			page.getByTestId('galaxy-plays-empty-text'),
 			'порожній результат мовчить — читач не розуміє, це помилка чи справді нічого немає'
 		).toBeVisible();
+	});
+
+	test('перемикач режимів міняє вигляд і не губить вистав', async ({ page }) => {
+		await gotoReady(page, ПЕРЕЛІК);
+
+		const років = new Set(ВИСТАВИ.map((play) => play.year)).size;
+		const заголовки = page.locator('[data-testid^="galaxy-plays-year-section-"]');
+
+		/* Список: ті самі вистави, але БЕЗ заголовків років — інакше він нічим не
+		   відрізняється від хронології, і два режими з трьох роблять те саме. */
+		await page.getByTestId('galaxy-plays-view-btn-list').click();
+		expect(await page.locator(ПОСИЛАННЯ).count(), 'у списку вистав менше, ніж у реєстрі').toBe(
+			УСЬОГО
+		);
+		expect(await заголовки.count(), 'у списку лишилися заголовки років').toBe(0);
+
+		/* Плитка: вистави повертаються картками, роки — заголовками. */
+		await page.getByTestId('galaxy-plays-view-btn-tiles').click();
+		expect(
+			await page.locator('[data-testid^="galaxy-plays-card-"]').count(),
+			'у плитці карток менше, ніж вистав у реєстрі'
+		).toBe(УСЬОГО);
+
+		await page.getByTestId('galaxy-plays-view-btn-timeline').click();
+		expect(await заголовки.count(), 'у хронології заголовків років менше, ніж років').toBe(років);
 	});
 
 	test('у перелік можна потрапити з галактики', async ({ page }) => {
@@ -96,7 +145,7 @@ test.describe('перелік вистав', () => {
 	test('картка веде на виставу, а звідти є дорога назад у перелік', async ({ page }) => {
 		await gotoReady(page, ПЕРЕЛІК);
 
-		await page.locator('[data-testid^="galaxy-plays-card-"]').first().click();
+		await page.locator(ПОСИЛАННЯ).first().click();
 		await expect(page).toHaveURL(/\/projects\/galaxy-graduates\/plays\/[^/]+\/?$/);
 		await expect(page.getByTestId('play-title')).toBeVisible();
 

@@ -1,0 +1,82 @@
+import { browser } from '$app/environment';
+import { storage } from './storage';
+
+/**
+ * Режим показу на сторінках-переліках галактики: хронологія / список / плитка.
+ *
+ * ## Чому ФАБРИКА, а не третій сінглтон
+ *
+ * Такий стан у проєкті вже двічі написаний руками —
+ * [`adultsViewMode`](./adultsViewMode.svelte.ts) і
+ * [`productionsViewMode`](./productionsViewMode.svelte.ts). Обидва — класи з
+ * тим самим тілом: поле `$state`, читання з `storage` у конструкторі під
+ * `browser`, наскрізний запис у мутаторі. Третій, четвертий і п'ятий примірники
+ * тієї самої форми означали б, що виправлення в одному не доходить до решти.
+ *
+ * Тут потрібні ТРИ незалежні стани — вистави, групи, фестивалі, — бо режим
+ * запам'ятовується окремо для кожної сторінки: людина може хотіти хронологію
+ * вистав і плитку груп. Тому фабрика з ключем сховища, а не спільний стан на
+ * усіх: спільний означав би, що перемикач на одній сторінці тихо міняє вигляд
+ * двох інших.
+ *
+ * Наявні два сінглтони НЕ переписуються: вони працюють, і переписати їх «за
+ * компанію» означало б зачепити переліки викладачів і репертуар майстра
+ * зміною, якої ніхто не просив.
+ *
+ * ## Чому типова — хронологія
+ *
+ * Ці три сторінки відповідають на питання «що і коли було», і рік тут головна
+ * вісь: у вистав їх 733 за 28 років, у груп 24 за 19, у фестивалів 4. Плитка,
+ * якою вони були досі, показує все як рівномірне поле карток — тобто ховає
+ * саме той порядок, за яким їх шукають. Те саме рішення й з тієї самої причини
+ * вже ухвалене для репертуару майстра.
+ */
+export const GALAXY_VIEWS = ['timeline', 'list', 'tiles'] as const;
+
+export type GalaxyView = (typeof GALAXY_VIEWS)[number];
+
+/**
+ * Охоронець типу для збереженого значення.
+ *
+ * Потрібен не лише проти сміття в сховищі: `MasterViewToggle` віддає рядок, бо
+ * служить кільком розділам із різними наборами режимів. Звуження робить той,
+ * хто знає свій набір.
+ */
+export function isGalaxyView(value: string | null): value is GalaxyView {
+	return value !== null && (GALAXY_VIEWS as readonly string[]).includes(value);
+}
+
+export interface GalaxyViewState {
+	readonly current: GalaxyView;
+	set(view: string): void;
+}
+
+/**
+ * @param storageKey Через ПІДКРЕСЛЕННЯ, як `master_productions_view` поруч:
+ * `storage` додає свій префікс `teatralo4ka_`, і ключі з дефісами читалися б у
+ * сховищі як інша родина налаштувань.
+ */
+export function createGalaxyView(storageKey: string): GalaxyViewState {
+	let current = $state<GalaxyView>('timeline');
+
+	/* Читання в конструкторі під `browser`, а не в `onMount`: інакше перший кадр
+	 * малюється типовим режимом, і сторінка перемальовується вже після появи. */
+	if (browser) {
+		const saved = storage.get(storageKey);
+		if (isGalaxyView(saved)) current = saved;
+	}
+
+	return {
+		get current() {
+			return current;
+		},
+		/* Наскрізний запис у мутаторі, без `$effect` (SVELTE-CORE-v8 § 1.9): ефект
+		 * писав би у сховище й на першому обчисленні, тобто зберігав би те, чого
+		 * людина не вибирала. */
+		set(view: string) {
+			if (!isGalaxyView(view)) return;
+			current = view;
+			if (browser) storage.set(storageKey, view);
+		}
+	};
+}

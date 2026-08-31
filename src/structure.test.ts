@@ -167,6 +167,13 @@ const LIMITS: Array<[RegExp, number]> = [
  *   рядків було б гірше: похідні мапи вже виїхали в `dualRole.ts`, а решта
  *   `getStudentsByMaster` — це один обхід двох реєстрів, який без другого
  *   модуля не розділяється.
+ * 2026-09-01: `galaxy-graduates/plays/+page.svelte` 400 → 420. Сімнадцять рядків на
+ *   три режими показу: набір `VIEW_OPTIONS`, стан режиму й переклад вистав у
+ *   спільну форму рядка. Ділити сторінку далі нема на що — пошук, лічильники й
+ *   плитка вже й так тримаються одним екраном коду, а рядки, плашки й групування
+ *   за роками саме цією зміною винесені в `components/galaxy/` і в
+ *   `services/galaxyViewMode`. Сусідні дві сторінки того самого розділу
+ *   лишилися в межах 400 (352 і 294) — стеля потрібна лише тій, де ще й пошук.
  * 2026-08-31: `MasterGraduateFlow.svelte` 300 → 305. П'ять рядків CSS на те, що
  *   потік з'їжджає за правий край, коли читач іде сторінкою вниз: доти він
  *   `position: fixed` висів над змістом і перекривав праву частину рядків груп
@@ -208,7 +215,8 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
 	'src/lib/data/masters.ts': 258,
-	'src/lib/components/MasterGraduateFlow.svelte': 305
+	'src/lib/components/MasterGraduateFlow.svelte': 305,
+	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 420
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

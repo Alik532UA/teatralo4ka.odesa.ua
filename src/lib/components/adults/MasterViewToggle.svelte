@@ -55,10 +55,16 @@
 <div class="view-toggle" role="group" aria-label={$t('galaxy.viewModes.viewLabel', { default: 'Режим відображення' })} data-testid="{testIdPrefix}-toggle">
 	{#each shown as option (option.value)}
 		{@const Icon = option.icon}
+		<!--
+			Активний режим позначений і `aria-pressed`, а не лише кольором: у групі
+			з трьох кнопок читалка інакше називає всі три однаково, і людина не чує,
+			який вигляд уже обраний.
+		-->
 		<button
 			type="button"
 			class="view-btn"
 			class:view-btn--active={viewMode === option.value}
+			aria-pressed={viewMode === option.value}
 			onclick={() => onchange(option.value)}
 			title={option.label}
 			data-testid="{testIdPrefix}-btn-{option.value}"

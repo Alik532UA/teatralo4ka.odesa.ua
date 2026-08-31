@@ -1,10 +1,23 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
-	import { ArrowLeft, ArrowRight, Users, Calendar, Theater } from 'lucide-svelte';
+	import {
+		ArrowLeft,
+		ArrowRight,
+		Users,
+		Calendar,
+		Theater,
+		CalendarRange,
+		List,
+		LayoutGrid
+	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { FESTIVALS, festivalPath, latestYear } from '$lib/data/festivals';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
+	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -22,6 +35,39 @@
 	/** «2012, 2013» — роки списком, бо на фестиваль їздять не раз. */
 	const yearsOf = (years: number[]) => [...years].sort((x, y) => x - y).join(', ');
 
+	const view = createGalaxyView('galaxy_festivals_view');
+
+	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'timeline', label: $t('galaxy.viewModes.timeline'), icon: CalendarRange },
+		{ value: 'list', label: $t('galaxy.viewModes.list'), icon: List },
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles'), icon: LayoutGrid }
+	]);
+
+	/**
+	 * Ті самі фестивалі у спільній формі рядка — для хронології та списку.
+	 *
+	 * Країни тут ТЕКСТОМ, а не прапорами: у плитці прапор стоїть біля своєї
+	 * назви й читається, а в рядку між назвою фестивалю й обличчями учасників
+	 * три прапорці поспіль перетворюються на смужку кольорів без підпису. Назва
+	 * країни коштує кілька символів і не потребує здогадок.
+	 */
+	const rows = $derived<GalaxyRow[]>(
+		ordered.map((f) => ({
+			key: f.slug,
+			href: localizedPath(festivalPath(f.slug), currentLang),
+			year: latestYear(f),
+			yearLabel: yearsOf(f.years),
+			title: isEn && f.nameEn ? f.nameEn : f.name,
+			subtitle: [f.city, ...f.countries.map((c) => $t(`galaxy.country.${c}`))]
+				.filter(Boolean)
+				.join(' · '),
+			memberIds: f.memberIds,
+			marks: [
+				...(f.memberIds.length ? [{ icon: Users, text: String(f.memberIds.length) }] : []),
+				...(f.playIds.length ? [{ icon: Theater, text: String(f.playIds.length) }] : [])
+			]
+		}))
+	);
 </script>
 
 <svelte:head>
@@ -56,8 +102,31 @@
 				{$t('galaxy.festivalsTitle')}
 			</h1>
 			<p class="festivals-header__count">{ordered.length}</p>
+
+			<div class="festivals-header__view">
+				<MasterViewToggle
+					viewMode={view.current}
+					onchange={view.set}
+					options={VIEW_OPTIONS}
+					testIdPrefix="galaxy-festivals-view"
+				/>
+			</div>
 		</header>
 
+		{#if view.current !== 'tiles'}
+			<!--
+				Той самий `testIdPrefix`, що в плитки, — навмисно: `galaxy-festivals-list`
+				означає «перелік фестивалів на цій сторінці», а не «перелік у вигляді
+				плитки». Режим показується РІВНО один, тож збігу в межах сторінки не
+				буває, а перевірки не мусять знати, який вигляд обрав читач.
+			-->
+			<GalaxyRows
+				{rows}
+				grouped={view.current === 'timeline'}
+				testIdPrefix="galaxy-festivals"
+				maxFaces={10}
+			/>
+		{:else}
 		<ul class="festivals-grid" data-testid="galaxy-festivals-list">
 			{#each ordered as festival (festival.slug)}
 				<li>
@@ -127,6 +196,7 @@
 				</li>
 			{/each}
 		</ul>
+		{/if}
 	</div>
 </main>
 
@@ -172,9 +242,14 @@
 
 	.festivals-header {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.75rem;
 		margin-bottom: 2rem;
+	}
+	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
+	.festivals-header__view {
+		margin-left: auto;
 	}
 	.festivals-header__title {
 		margin: 0;
