@@ -167,6 +167,15 @@ const LIMITS: Array<[RegExp, number]> = [
  *   рядків було б гірше: похідні мапи вже виїхали в `dualRole.ts`, а решта
  *   `getStudentsByMaster` — це один обхід двох реєстрів, який без другого
  *   модуля не розділяється.
+ * 2026-08-31: `MasterGraduateFlow.svelte` 300 → 305. П'ять рядків CSS на те, що
+ *   потік з'їжджає за правий край, коли читач іде сторінкою вниз: доти він
+ *   `position: fixed` висів над змістом і перекривав праву частину рядків груп
+ *   і репертуару. Сама логіка напрямку скролу в компоненті НЕ лежить — вона
+ *   виїхала в `utils/hideOnScrollDown.svelte.ts` (27 рядків), бо «куди рухається
+ *   читач» — це не про траєкторії зірок. Вікно вибору сторінки для людини, що є
+ *   і випускником, і працівником, теж окремим компонентом (`DualRoleChooser`).
+ *   Тут лишилося рівно оформлення: перехід, клас-модифікатор і причина, чому
+ *   локального `prefers-reduced-motion` немає.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -198,7 +207,8 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
-	'src/lib/data/masters.ts': 258
+	'src/lib/data/masters.ts': 258,
+	'src/lib/components/MasterGraduateFlow.svelte': 305
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

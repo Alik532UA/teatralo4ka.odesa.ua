@@ -96,6 +96,24 @@
 							</a>
 							{#if prod.author}<span class="prod-year__author">{prod.author}</span>{/if}
 						</span>
+						<!--
+							Склад — ВЛАСНА колонка сітки, а не окремий рядок під нею:
+							четвертим елементом він падав на другий поверх і розтягував
+							рядок удвічі. На вузькому контейнері колонка сама з'їжджає
+							вниз — так само, як позначки праворуч.
+						-->
+						{#if castIds.length}
+							<span class="prod-year__cast">
+								<GraduateAvatarRow
+									ids={castIds}
+									testIdPrefix="master-productions-year-cast-{prod.id}"
+									max={6}
+								/>
+							</span>
+						{:else}
+							<span></span>
+						{/if}
+
 						<span class="prod-year__marks">
 							{#each caption.names as name (name)}
 								<span class="prod-year__group">{name}</span>
@@ -117,12 +135,6 @@
 							{/if}
 						</span>
 
-						{#if castIds.length}
-							<GraduateAvatarRow
-								ids={castIds}
-								testIdPrefix="master-productions-year-cast-{prod.id}"
-							/>
-						{/if}
 					</li>
 				{/each}
 			</ul>
@@ -169,7 +181,7 @@
 	}
 	.prod-year__item {
 		display: grid;
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: auto 1fr auto auto;
 		align-items: center;
 		gap: 0.7rem;
 		position: relative;
@@ -216,6 +228,11 @@
 		flex-wrap: wrap;
 		justify-content: flex-end;
 	}
+	.prod-year__cast {
+		display: block;
+		min-width: 0;
+	}
+
 	.prod-year__number {
 		font-size: 0.72rem;
 		font-weight: 500;
@@ -264,6 +281,7 @@
 			grid-template-columns: auto 1fr;
 			row-gap: 0.3rem;
 		}
+		.prod-year__cast,
 		.prod-year__marks {
 			grid-column: 2 / -1;
 			justify-content: flex-start;

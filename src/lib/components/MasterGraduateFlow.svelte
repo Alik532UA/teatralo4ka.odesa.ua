@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { Spring } from 'svelte/motion';
 	import { MediaQuery } from 'svelte/reactivity';
+	import { hideOnScrollDown } from '$lib/utils/hideOnScrollDown.svelte';
 	import { goto } from '$app/navigation';
 	import { locale, t } from 'svelte-i18n';
 	import { page } from '$app/state';
@@ -10,6 +11,7 @@
 	import { masterProfilePath, type MasterStudentEntry } from '$lib/data/masters';
 	import GraduateStar from '$lib/components/GraduateStar.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import DualRoleChooser from '$lib/components/DualRoleChooser.svelte';
 	import {
 		closeGraduateModal,
 		graduateFromPageState,
@@ -61,6 +63,16 @@
 	const nearWidth = $derived(Math.min(Math.max(360, windowWidth * 0.42), 620));
 	const streamWidth = $derived(restWidth + (nearWidth - restWidth) * spread.current);
 
+	/**
+	 * Потік з'їжджає за правий край, коли читач іде сторінкою ВНИЗ.
+	 *
+	 * Він `position: fixed` на всю висоту праворуч, тобто висить над змістом.
+	 * Угорі сторінки це доречно, нижче — перекриває праву частину рядків груп і
+	 * репертуару. Чому саме за напрямком і навіщо порог — у докблоці
+	 * `hideOnScrollDown`.
+	 */
+	const scroll = hideOnScrollDown();
+
 	let started = $state(false);
 	let photoLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
 	let plainLanes = $state<{ left: number; duration: number; delay: number }[]>([]);
@@ -105,17 +117,30 @@
 		normalizedStudents.map((entry) => {
 			if (entry.kind === 'master') {
 				const m = entry.master;
+				/*
+				 * Обличчя — з АНКЕТИ ВИПУСКНИКА, якщо вона є.
+				 *
+				 * Доти зірка брала портрет працівника, і людина в потоці учнів
+				 * виглядала дорослою викладачкою — тобто не тією, ким її пам'ятає
+				 * майстер, у чиєму потоці вона летить. Портрет працівника лишається
+				 * запасним: у трьох колег (`studiedUnder` без анкети) анкети немає.
+				 */
+				const fromGraduate = entry.graduate?.hasPhoto === true;
 				return {
 					key: `master:${m.slug}`,
 					tier: 'colleague' as const,
-					hasPhoto: Boolean(m.photo),
-					photo: m.photo ?? null,
+					hasPhoto: fromGraduate || Boolean(m.photo),
+					/* `null` означає «брати з теки випускників за slug» — саме це й
+					   потрібно, коли анкета є. */
+					photo: fromGraduate ? null : (m.photo ?? null),
 					graduate: {
 						/* Колега летить у потоці карткою випускника, тож мусить мати
 						   ту саму форму. Ключ береться майстрів — власного в нього
 						   немає, і вигадувати другий для тієї самої людини не варто. */
 						id: m.id,
-						slug: m.slug,
+						/* Slug випускника, коли беремо його портрет: адреса знімка
+						   складається саме з нього (`/graduates/<slug>-96.webp`). */
+						slug: fromGraduate && entry.graduate ? entry.graduate.slug : m.slug,
 						name: $locale === 'en' ? m.displayNameEn : m.displayName,
 						/* Рік бере запис випускника ТІЄЇ САМОЇ людини, якщо він є:
 						   у працівника такого поля немає, а ці семеро доти летіли
@@ -123,7 +148,8 @@
 						   `MasterStudentEntry`. */
 						graduationYear: entry.graduate?.graduationYear ?? null,
 						departments: m.departments,
-						...(m.photo ? { hasPhoto: true as const } : {})
+						...(fromGraduate || m.photo ? { hasPhoto: true as const } : {}),
+						...(entry.graduate?.photoCount ? { photoCount: entry.graduate.photoCount } : {})
 					},
 					entry
 				};
@@ -194,10 +220,22 @@
 			: []
 	);
 
+	/**
+	 * Кого спитати, яку сторінку відкрити.
+	 *
+	 * У людини, що є і випускником, і працівником, справді ДВІ сторінки, і вони
+	 * відповідають на різні питання. Вгадувати за читача — помилятися в половині
+	 * випадків; подробиці в докблоці `DualRoleChooser`.
+	 */
+	let chooser = $state<StarPerson | null>(null);
+
 	function handleSelect(person: StarPerson) {
 		const locale = localeFromPath(page.url.pathname);
 
 		if (person.entry.kind === 'master') {
+			/* Анкети немає — вибору немає: у трьох колег (`studiedUnder` без
+			   запису випускника) друга сторінка просто не існує. */
+			if (person.entry.graduate) return void (chooser = person);
 			goto(masterProfilePath(person.entry.master.slug, locale));
 			return;
 		}
@@ -230,6 +268,7 @@
 
 <aside
 	class="flow-stream"
+	class:flow-stream--hidden={scroll.hidden}
 	style={wideLayout.current ? `width: ${streamWidth.toFixed(1)}px` : undefined}
 	aria-label={$t('galaxy.graduatesOfMaster', { default: `Випускники майстра: ${masterName}` })}
 	data-testid="master-graduate-flow-section"
@@ -258,6 +297,14 @@
 
 <!-- Та сама картка, що й у галактиці. Анкету вона дістає сама, а кнопку
      «Заповнити анкету» й саму форму тримає всередині. -->
+{#if chooser && chooser.entry.kind === 'master' && chooser.entry.graduate}
+	<DualRoleChooser
+		master={chooser.entry.master}
+		graduate={chooser.entry.graduate}
+		onclose={() => (chooser = null)}
+	/>
+{/if}
+
 <GraduateCard
 	showGalaxyLink
 	graduate={selectedGraduate}
@@ -289,8 +336,19 @@
 			height: auto;
 			min-height: 0;
 			z-index: 5;
+			/* Власного `prefers-reduced-motion` тут немає навмисно: у
+			   `styles/global.css` уже стоїть правило, яке гасить `transition` усім
+			   через `!important`. Локальна копія була б другим джерелом того самого. */
+			transition: translate var(--transition-base);
+		}
+
+		/* Повністю за край, а не прозорість: напівпрозорий стовпець однаково
+		   читається як пляма над текстом. */
+		.flow-stream--hidden {
+			translate: 100% 0;
 		}
 	}
+
 
 	.flow-lanes {
 		position: absolute;

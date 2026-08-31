@@ -62,6 +62,19 @@
 				{#if prod.author}<span class="prod-row__author">{prod.author}</span>{/if}
 			</span>
 
+			<!-- Склад — власна колонка сітки; чому не окремий рядок, див. хронологію. -->
+			{#if castIds.length}
+				<span class="prod-row__cast">
+					<GraduateAvatarRow
+						ids={castIds}
+						testIdPrefix="master-productions-row-cast-{prod.id}"
+						max={6}
+					/>
+				</span>
+			{:else}
+				<span></span>
+			{/if}
+
 			<span class="prod-row__marks">
 				{#each caption.names as name (name)}
 					<span class="prod-row__group">{name}</span>
@@ -93,11 +106,6 @@
 				{/if}
 			</span>
 
-			{#if castIds.length}
-				<span class="prod-row__cast">
-					<GraduateAvatarRow ids={castIds} testIdPrefix="master-productions-row-cast-{prod.id}" />
-				</span>
-			{/if}
 		</li>
 	{/each}
 </ol>
@@ -105,7 +113,7 @@
 <style>
 	.prod-row__cast {
 		display: block;
-		grid-column: 1 / -1;
+		min-width: 0;
 	}
 
 	.prod-rows {
@@ -120,7 +128,7 @@
 	}
 	.prod-row {
 		display: grid;
-		grid-template-columns: minmax(5.5rem, auto) 1fr auto;
+		grid-template-columns: minmax(5.5rem, auto) 1fr auto auto;
 		align-items: center;
 		gap: 1rem;
 		padding: 0.7rem 1rem;
@@ -238,6 +246,7 @@
 			grid-template-columns: minmax(4.5rem, auto) 1fr;
 			row-gap: 0.4rem;
 		}
+		.prod-row__cast,
 		.prod-row__marks {
 			grid-column: 1 / -1;
 			justify-content: flex-start;
