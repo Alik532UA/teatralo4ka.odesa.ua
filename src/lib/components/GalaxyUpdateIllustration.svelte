@@ -50,6 +50,28 @@
 		{ slug: '', labelKey: 'galaxy.groupsTitle' }
 	];
 
+	/*
+	 * Та сама пара, що й у груп: одна конкретна поїздка й вихід до всіх.
+	 * «Слов'янський вінок» узятий не навмання — це найбільша поїздка в реєстрі,
+	 * тридцять один учасник.
+	 */
+	const FESTIVALS = [
+		{ slug: 'slovianskyi-vinok', label: '«Слов\'янський вінок»' },
+		{ slug: '', labelKey: 'galaxy.festivalsTitle' }
+	];
+
+	/*
+	 * У вистав спільної сторінки-переліку немає, тож замість «усі» — друга
+	 * конкретна. Обидві обрані за тим, що вони показують саме́ призначення
+	 * сторінки: «Уявно хворий» має найбільший склад у реєстрі, восьмеро з ТРЬОХ
+	 * груп — тобто одразу видно, що склад не дорівнює групі; «Чайка» ж
+	 * навпаки — одна група й одна вистава.
+	 */
+	const PLAYS = [
+		{ id: 'mnymyi-bolnoi-2011', label: '«Уявно хворий»' },
+		{ id: 'chaika-2012', label: '«Чайка»' }
+	];
+
 	/** Володимир Чалчинський — єдина анкета, де YouTube уже стоїть. */
 	const YOUTUBE_URL = 'https://www.youtube.com/@DreamSchoolua';
 </script>
@@ -116,6 +138,41 @@
 				data-testid="galaxy-update-group-link-{group.slug || 'all'}"
 			>
 				{group.labelKey ? $t(group.labelKey) : group.label}
+			</a>
+		{/each}
+	</div>
+{:else if id === 'festivals'}
+	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-festivals-list">
+		{#each FESTIVALS as festival, i (festival.slug || 'all')}
+			<a
+				class="chip"
+				style="--order: {i}"
+				href={localizedPath(
+					festival.slug
+						? `/projects/galaxy-graduates/festivals/${festival.slug}`
+						: '/projects/galaxy-graduates/festivals/',
+					lang
+				)}
+				target="_blank"
+				rel="noopener"
+				data-testid="galaxy-update-festival-link-{festival.slug || 'all'}"
+			>
+				{festival.labelKey ? $t(festival.labelKey) : festival.label}
+			</a>
+		{/each}
+	</div>
+{:else if id === 'plays'}
+	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-plays-list">
+		{#each PLAYS as play, i (play.id)}
+			<a
+				class="chip"
+				style="--order: {i}"
+				href={localizedPath(`/projects/galaxy-graduates/plays/${play.id}`, lang)}
+				target="_blank"
+				rel="noopener"
+				data-testid="galaxy-update-play-link-{play.id}"
+			>
+				{play.label}
 			</a>
 		{/each}
 	</div>
