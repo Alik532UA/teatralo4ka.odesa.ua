@@ -73,5 +73,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian",
+	"teachers": [
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
 }

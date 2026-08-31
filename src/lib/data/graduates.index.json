@@ -76,6 +76,12 @@
 				"subjects": [
 					"Сценічний рух"
 				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		],
 		"photoCount": 2
@@ -272,6 +278,26 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -281,6 +307,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -358,6 +404,14 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -381,6 +435,20 @@
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
 			}
 		]
 	},
@@ -751,6 +819,26 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -1067,7 +1155,27 @@
 		],
 		"playCount": 7,
 		"code": "anfisa-lazebna",
-		"profileSize": 2238
+		"profileSize": 2238,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "anhelina-boldakova",
@@ -1270,7 +1378,27 @@
 		],
 		"playCount": 0,
 		"code": "anna-rusieva",
-		"profileSize": 976
+		"profileSize": 976,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "anna-rvachova",
@@ -1309,7 +1437,27 @@
 		],
 		"playCount": 6,
 		"code": "anton-babich",
-		"profileSize": 1360
+		"profileSize": 1360,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "anzhelika-khachatrian",
@@ -1428,6 +1576,26 @@
 		"graduationYear": 2018,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -1525,7 +1693,27 @@
 		],
 		"playCount": 8,
 		"code": "daiana-ponomarenko",
-		"profileSize": 1606
+		"profileSize": 1606,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "dana-broshkova",
@@ -1622,6 +1810,14 @@
 		"departments": [
 			"theatre",
 			"music"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -1700,7 +1896,27 @@
 		],
 		"code": "daria-dias-valdes-isachkina",
 		"playCount": 0,
-		"profileSize": 673
+		"profileSize": 673,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "daria-drykyna",
@@ -1732,6 +1948,14 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -1741,6 +1965,14 @@
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -1750,6 +1982,26 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -1841,7 +2093,15 @@
 		],
 		"playCount": 12,
 		"code": "daria-rybalchenko",
-		"profileSize": 1965
+		"profileSize": 1965,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		]
 	},
 	{
 		"id": "daria-sonhorova",
@@ -1987,6 +2247,20 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -2023,6 +2297,14 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -2069,6 +2351,14 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -2186,7 +2476,15 @@
 		],
 		"playCount": 6,
 		"code": "ri2be",
-		"profileSize": 1174
+		"profileSize": 1174,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "ernst-severyn",
@@ -2294,6 +2592,12 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -2421,6 +2725,26 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -2490,6 +2814,19 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "samuil-imas"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -2679,6 +3016,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -2844,7 +3201,15 @@
 		],
 		"playCount": 9,
 		"code": "Kateryna-Muntian",
-		"profileSize": 1385
+		"profileSize": 1385,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "kateryna-nesterenko",
@@ -3033,7 +3398,15 @@
 		],
 		"playCount": 7,
 		"code": "karakulya",
-		"profileSize": 1318
+		"profileSize": 1318,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "khrystyna-bila",
@@ -3052,6 +3425,14 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -3084,6 +3465,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -3205,6 +3606,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -3223,6 +3644,14 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -3322,7 +3751,15 @@
 		"playCount": 2,
 		"code": "kyryll-chekanov",
 		"profileSize": 735,
-		"graduationLabelKey": "galaxy.studiedUntil"
+		"graduationLabelKey": "galaxy.studiedUntil",
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "kyrylo-karacheban",
@@ -3377,6 +3814,14 @@
 			},
 			{
 				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
 			}
 		]
 	},
@@ -3514,6 +3959,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -3593,6 +4058,26 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -3621,6 +4106,26 @@
 		"departments": [
 			"theatre",
 			"music"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -3736,6 +4241,14 @@
 			},
 			{
 				"id": "pavlo-koshka"
+			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -3897,7 +4410,27 @@
 		],
 		"code": "mariia-tkach-lysa",
 		"playCount": 0,
-		"profileSize": 597
+		"profileSize": 597,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "mariia-ukrainets",
@@ -4036,7 +4569,7 @@
 	{
 		"id": "maryna-vishtaliuk-sukhanova",
 		"slug": "maryna-vishtaliuk-sukhanova",
-		"name": "Марина Вішталюк (Суханова)",
+		"name": "Марина Суханова",
 		"graduationYear": 2013,
 		"departments": [
 			"theatre",
@@ -4060,6 +4593,30 @@
 				"id": "mykola-baldin",
 				"subjects": [
 					"Сценічний рух"
+				]
+			},
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "iryna-ovcharenko",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "iryna-ulianenko",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "natalia-stepanenko",
+				"subjects": [
+					"Гітара"
 				]
 			}
 		]
@@ -4156,7 +4713,27 @@
 		],
 		"playCount": 4,
 		"code": "mykhailo-haniev",
-		"profileSize": 1146
+		"profileSize": 1146,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "mykhailo-priadko",
@@ -4260,7 +4837,15 @@
 		],
 		"playCount": 18,
 		"code": "myroslava-tkach",
-		"profileSize": 2535
+		"profileSize": 2535,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		]
 	},
 	{
 		"id": "nadiia-hasynets",
@@ -4327,6 +4912,12 @@
 				"subjects": [
 					"Участь у виставах"
 				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -4378,6 +4969,14 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -4387,6 +4986,14 @@
 		"graduationYear": 2005,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -4760,6 +5367,14 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -4804,6 +5419,9 @@
 			},
 			{
 				"id": "tetiana-isachkina"
+			},
+			{
+				"id": "samuil-imas"
 			}
 		]
 	},
@@ -4836,6 +5454,26 @@
 		"masters": [
 			{
 				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -4895,6 +5533,26 @@
 			{
 				"id": "tetiana-isachkina"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -4934,6 +5592,19 @@
 		"graduationYear": 1998,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -4963,6 +5634,12 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -5007,7 +5684,27 @@
 		],
 		"playCount": 8,
 		"code": "olena-mrost",
-		"profileSize": 1937
+		"profileSize": 1937,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "olena-pushkarova",
@@ -5085,6 +5782,12 @@
 				"subjects": [
 					"Участь у виставах"
 				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -5141,6 +5844,12 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -5252,6 +5961,24 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -5621,6 +6348,12 @@
 				"subjects": [
 					"Участь у виставах"
 				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -5638,6 +6371,26 @@
 			},
 			{
 				"id": "oleh-shevchuk"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -5687,6 +6440,14 @@
 		"graduationYear": 2019,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
 		]
 	},
 	{
@@ -5740,7 +6501,15 @@
 		],
 		"playCount": 5,
 		"code": "tetiana-dudush-polishchuk",
-		"profileSize": 1303
+		"profileSize": 1303,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "tetiana-kamelevska",
@@ -5907,7 +6676,15 @@
 		],
 		"playCount": 9,
 		"code": "leraburian",
-		"profileSize": 1374
+		"profileSize": 1374,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "valeriia-buturlakina",
@@ -5993,6 +6770,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6002,6 +6787,26 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6050,7 +6855,27 @@
 		],
 		"playCount": 9,
 		"code": "viktoriia-dolhozhyv",
-		"profileSize": 2118
+		"profileSize": 2118,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "viktoriia-hlushchuk",
@@ -6133,6 +6958,14 @@
 			},
 			{
 				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -6293,6 +7126,12 @@
 				"subjects": [
 					"Сценічний рух"
 				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		],
 		"playCount": 10,
@@ -6366,6 +7205,24 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -6546,6 +7403,19 @@
 		"graduationYear": 1998,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6632,6 +7502,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6661,6 +7539,12 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -6702,7 +7586,27 @@
 		],
 		"playCount": 7,
 		"code": "yevhen-lysenko",
-		"profileSize": 1775
+		"profileSize": 1775,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "yevhenii-karamavrov",
@@ -6731,6 +7635,12 @@
 				"id": "fedir-tkach",
 				"subjects": [
 					"Участь у виставах"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
 				]
 			}
 		]
@@ -6827,6 +7737,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6837,6 +7755,19 @@
 		"departments": [
 			"theatre",
 			"vocal"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6846,6 +7777,26 @@
 		"graduationYear": 2009,
 		"departments": [
 			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6983,6 +7934,26 @@
 			{
 				"id": "fedir-tkach"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -7057,6 +8028,180 @@
 		"graduationYear": 2020,
 		"departments": [
 			"theatre"
+		]
+	},
+	{
+		"id": "hanna-voiutska",
+		"slug": "hanna-voiutska",
+		"name": "Ганна Воюцька",
+		"graduationYear": 2007,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "alisa-stepanova",
+		"slug": "alisa-stepanova",
+		"name": "Аліса Степанова",
+		"graduationYear": 2018,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "kateryna-haidei",
+		"slug": "kateryna-haidei",
+		"name": "Катерина Гайдей",
+		"graduationYear": 2021,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		]
+	},
+	{
+		"id": "artem-zymner",
+		"slug": "artem-zymner",
+		"name": "Артем Зимнер",
+		"graduationYear": 2019,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		]
+	},
+	{
+		"id": "daniil-kalio",
+		"slug": "daniil-kalio",
+		"name": "Даніїл Каліо",
+		"graduationYear": 2019,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		]
+	},
+	{
+		"id": "oksana-tyshchenko",
+		"slug": "oksana-tyshchenko",
+		"name": "Оксана Тищенко",
+		"graduationYear": 2005,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "nina-chychykova",
+		"slug": "nina-chychykova",
+		"name": "Ніна Чичикова",
+		"graduationYear": 2005,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "viktor-chychykov",
+		"slug": "viktor-chychykov",
+		"name": "Віктор Чичиков",
+		"graduationYear": 2005,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "serhii-chychykov",
+		"slug": "serhii-chychykov",
+		"name": "Сергій Чичиков",
+		"graduationYear": 2005,
+		"departments": [
+			"theatre"
+		],
+		"hidden": true,
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	}
 ]

@@ -93,5 +93,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D",
+	"teachers": [
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		}
+	]
 }

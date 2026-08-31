@@ -57,5 +57,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/ri2be"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/ri2be",
+	"teachers": [
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
 }

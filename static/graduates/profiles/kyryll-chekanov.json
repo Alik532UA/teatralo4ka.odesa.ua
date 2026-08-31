@@ -41,5 +41,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2002/02K",
+	"teachers": [
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
 }

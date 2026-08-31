@@ -2,7 +2,7 @@
 	"id": "maryna-vishtaliuk-sukhanova",
 	"code": "maryna-vishtaliuk-sukhanova",
 	"slug": "maryna-vishtaliuk-sukhanova",
-	"name": "Марина Вішталюк (Суханова)",
+	"name": "Марина Суханова",
 	"graduationYear": 2013,
 	"enrollmentYears": [
 		2004
@@ -26,6 +26,30 @@
 			"id": "mykola-baldin",
 			"subjects": [
 				"Сценічний рух"
+			]
+		},
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "iryna-ovcharenko",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "iryna-ulianenko",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "natalia-stepanenko",
+			"subjects": [
+				"Гітара"
 			]
 		}
 	],

@@ -71,5 +71,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian",
+	"teachers": [
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
 }

@@ -230,7 +230,9 @@
 			"artem-suvorov",
 			"daiana-ponomarenko",
 			"yevhen-lysenko",
-			"vladyslav-tsobenko"
+			"vladyslav-tsobenko",
+			"bohdan-dudchenko",
+			"alisa-stepanova"
 		],
 		"playIds": [
 			"tot-kto-otkryvaet-dvery-2018",
@@ -246,6 +248,23 @@
 			"alisa-v-zadzerkalli-2013",
 			"moia-voobrazylyia-2012",
 			"koshkyn-dom-2010"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			}
 		]
 	},
 	{
@@ -965,6 +984,23 @@
 			"de-vsi-2015",
 			"pokaz-etiudiv-2014",
 			"taiemnytsi-zamku-oilenshtain-2013"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			}
 		]
 	},
 	{
@@ -983,7 +1019,162 @@
 		],
 		"memberIds": [
 			"anna-rusieva",
-			"mariia-tkach-lysa"
+			"mariia-tkach-lysa",
+			"yuliia-fasii",
+			"alina-putikova",
+			"karyna-dorodnykh",
+			"daria-klycheva",
+			"marharyta-zhovnenko"
+		],
+		"playIds": [],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			}
+		]
+	},
+	{
+		"slug": "sn2007",
+		"name": "СН2007",
+		"abbr": null,
+		"nameEn": "SN2007",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2007
+		],
+		"memberIds": [
+			"viktoriia-dolhozhyv",
+			"stella-artemenko",
+			"hanna-voiutska",
+			"kyryll-chekanov",
+			"kyrylo-stoianov",
+			"anastasiia-chepeliuk"
+		],
+		"playIds": []
+	},
+	{
+		"slug": "fantaziia",
+		"name": "Фантазія",
+		"abbr": null,
+		"nameEn": "Fantaziia",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			}
+		],
+		"graduationYears": [
+			2010
+		],
+		"memberIds": [
+			"daria-dias-valdes-isachkina",
+			"krystyna-trach",
+			"viacheslav-todorovych",
+			"maksym-halias",
+			"kostiantyn-afanasev",
+			"karyna-dorodnykh",
+			"alina-putikova",
+			"marharyta-zhovnenko"
+		],
+		"playIds": []
+	},
+	{
+		"slug": "smaily",
+		"name": "Смайли",
+		"abbr": null,
+		"nameEn": "Smiles",
+		"masters": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			}
+		],
+		"graduationYears": [
+			2019,
+			2020
+		],
+		"memberIds": [
+			"alisa-sivanych",
+			"myroslava-tkach",
+			"diana-dorosheva",
+			"artem-zymner",
+			"daniil-kalio",
+			"danylo-klymenko",
+			"khrystyna-pirko",
+			"diana-rudenko",
+			"taras-lushpa",
+			"kseniia-korzhovska"
+		],
+		"playIds": []
+	},
+	{
+		"slug": "chainyky",
+		"name": "Чайники",
+		"abbr": null,
+		"nameEn": "Teapots",
+		"masters": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013,
+			2014,
+			2015,
+			2016
+		],
+		"memberIds": [
+			"inna-shevchenko",
+			"marta-smerechynska",
+			"anna-rodonaia",
+			"kateryna-kudlach",
+			"oleksandra-sydorova"
 		],
 		"playIds": []
 	}

@@ -73,5 +73,25 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18D"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18D",
+	"teachers": [
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
 }
