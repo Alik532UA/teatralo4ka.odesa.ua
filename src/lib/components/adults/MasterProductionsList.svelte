@@ -3,6 +3,8 @@
 	import { Trophy, Video, Users } from 'lucide-svelte';
 	import { playPath, type Play } from '$lib/data/plays';
 	import { localizedPath } from '$lib/i18n/routing';
+	import { playGroupCaption } from '$lib/data/groups';
+	import { PLAY_CAST } from '$lib/data/playCast';
 
 	/**
 	 * Список: один рядок — одна вистава.
@@ -34,6 +36,13 @@
 
 <ol class="prod-rows" data-testid="master-productions-rows-list">
 	{#each productions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
+		<!-- Назва курсу видима, номер — тихо. Чому так: `playGroupCaption`. -->
+		{@const caption = playGroupCaption(
+			prod.id,
+			(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+			prod.theatreGroup,
+			isEn
+		)}
 		<li class="prod-row" data-testid="master-productions-row-{prod.number ?? idx}">
 			<span class="prod-row__year">
 				{#if prod.number}<span class="prod-row__num">#{prod.number}</span>{/if}
@@ -52,8 +61,11 @@
 			</span>
 
 			<span class="prod-row__marks">
-				{#if prod.theatreGroup}
-					<span class="prod-row__group">{prod.theatreGroup}</span>
+				{#each caption.names as name (name)}
+					<span class="prod-row__group">{name}</span>
+				{/each}
+				{#if caption.number ?? caption.note}
+					<span class="prod-row__number">{caption.number ?? caption.note}</span>
 				{/if}
 				{#if prod.participants?.length}
 					<span class="prod-row__mark" title={$t('galaxy.participants', { default: 'Склад' })}>
@@ -157,6 +169,13 @@
 		flex-wrap: wrap;
 		justify-content: flex-end;
 	}
+	.prod-row__number {
+		font-size: 0.72rem;
+		font-weight: 500;
+		color: var(--text-muted);
+		letter-spacing: 0.02em;
+	}
+
 	.prod-row__group {
 		padding: 0.15rem 0.55rem;
 		border-radius: var(--radius-full, 9999px);

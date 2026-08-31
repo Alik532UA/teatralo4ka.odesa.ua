@@ -3,6 +3,8 @@
 	import { Trophy, Video } from 'lucide-svelte';
 	import { playPath, type Play } from '$lib/data/plays';
 	import { localizedPath } from '$lib/i18n/routing';
+	import { playGroupCaption } from '$lib/data/groups';
+	import { PLAY_CAST } from '$lib/data/playCast';
 
 	/**
 	 * Хронологія: вистави згруповані за роками.
@@ -73,6 +75,13 @@
 
 			<ul class="prod-year__items">
 				{#each plays as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
+					<!-- Назва курсу видима, номер — тихо. Чому так: `playGroupCaption`. -->
+					{@const caption = playGroupCaption(
+						prod.id,
+						(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+						prod.theatreGroup,
+						isEn
+					)}
 					<li class="prod-year__item" data-testid="master-productions-year-item-{prod.number ?? String(year) + '-' + idx}">
 						<span class="prod-year__dot" aria-hidden="true"></span>
 						<span class="prod-year__body">
@@ -86,7 +95,12 @@
 							{#if prod.author}<span class="prod-year__author">{prod.author}</span>{/if}
 						</span>
 						<span class="prod-year__marks">
-							{#if prod.theatreGroup}<span class="prod-year__group">{prod.theatreGroup}</span>{/if}
+							{#each caption.names as name (name)}
+								<span class="prod-year__group">{name}</span>
+							{/each}
+							{#if caption.number ?? caption.note}
+								<span class="prod-year__number">{caption.number ?? caption.note}</span>
+							{/if}
 							{#if prod.awards?.length}
 								<span class="prod-year__mark prod-year__mark--award" title={prod.awards.join('; ')}>
 									<Trophy size={13} aria-hidden="true" />
@@ -193,6 +207,13 @@
 		flex-wrap: wrap;
 		justify-content: flex-end;
 	}
+	.prod-year__number {
+		font-size: 0.72rem;
+		font-weight: 500;
+		color: var(--text-muted);
+		letter-spacing: 0.02em;
+	}
+
 	.prod-year__group {
 		padding: 0.12rem 0.5rem;
 		border-radius: var(--radius-full, 9999px);

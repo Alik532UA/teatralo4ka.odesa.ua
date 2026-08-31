@@ -33,7 +33,7 @@
 		"title": "«Дім Бернарди Альби»",
 		"year": 2026,
 		"author": "Федерико Гарсія Лорка",
-		"theatreGroup": "гр. 7т-20",
+		"theatreGroup": "гр. 7Т-20",
 		"dateNote": "26 травня вівторок, 18.00 (ауд. 7); 27 травня середа, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
@@ -85,7 +85,7 @@
 		"title": "«Тінь»",
 		"year": 2026,
 		"author": "Є.Шварц",
-		"theatreGroup": "гр. 8т-21",
+		"theatreGroup": "гр. 8Т-21",
 		"dateNote": "28 травня четвер, 18.00 (ауд. 7); 29 травня п’ятниця, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
@@ -412,7 +412,7 @@
 		"title": "«З цією пʼєсою щось не так»",
 		"year": 2023,
 		"author": "Г. Льюїс, Г. Шилдс, Дж. Сайер",
-		"theatreGroup": "гр. 7т -19",
+		"theatreGroup": "гр. 7Т-19",
 		"dateNote": "06.06 вівторок, 17.30 (ауд. 7); 08.06 четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -492,7 +492,7 @@
 		"title": "«Сім'я–Грати»",
 		"year": 2023,
 		"author": "Євгенія Бур’ян",
-		"theatreGroup": "гр. 5т-15",
+		"theatreGroup": "гр. 5Т-15",
 		"dateNote": "06.06 вівторок, 15.30 (ауд. 7); 07.06 середа, 16.00 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov",
@@ -677,7 +677,7 @@
 		"title": "«Аста»",
 		"year": 2021,
 		"author": "Серафіма Орлова",
-		"theatreGroup": "гр. 5т18",
+		"theatreGroup": "гр. 5Т-18",
 		"dateNote": "27 травня четвер, 17.30 (ауд. 7); 29 травня субота, 13.00",
 		"masters": [
 			"tetiana-isachkina"
@@ -5340,7 +5340,7 @@
 		"title": "«Душа подушки»",
 		"year": 2021,
 		"author": "Олжас Жанайдаров",
-		"theatreGroup": "гр. 4 т14",
+		"theatreGroup": "гр. 4Т-14",
 		"dateNote": "31 травня понеділок, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -5382,7 +5382,7 @@
 		"title": "«Всім, кого стосується»",
 		"year": 2021,
 		"author": "Дана Сідерос",
-		"theatreGroup": "гр. 5т19",
+		"theatreGroup": "гр. 5Т-19",
 		"dateNote": "7 червня понеділок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -5410,7 +5410,7 @@
 		"id": "uryvky-iz-klasyky-2021",
 		"title": "Уривки із класики",
 		"year": 2021,
-		"theatreGroup": "гр. 6Т 21",
+		"theatreGroup": "гр. 6Т-21",
 		"dateNote": "8 червня вівторок, 16.00 (ауд. 7); 9 червня середа, 17.00",
 		"masters": [
 			"iryna-kulbaba",
@@ -5422,7 +5422,7 @@
 		"title": "«Служниці»",
 		"year": 2021,
 		"author": "Жан Жене",
-		"theatreGroup": "гр. 8т25",
+		"theatreGroup": "гр. 8Т-25",
 		"dateNote": "8 червня вівторок, 18.00 (ауд. 7); 10 червня четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -5585,7 +5585,7 @@
 		"title": "«Мрії про Нарнію»",
 		"year": 2022,
 		"author": "Тизер-вистави (за мотивами К.-С. Льюїса)",
-		"theatreGroup": "гр. 4Т-8 «Хом’яки\".",
+		"theatreGroup": "гр. 4Т-8 «Хом’яки\"",
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"liubov-savina"
@@ -5617,7 +5617,7 @@
 		"title": "«Тварини та птахи»",
 		"year": 2022,
 		"author": "Етюди",
-		"theatreGroup": "гр. 3Т-6 \"Феєрія\",",
+		"theatreGroup": "гр. 3Т-6 \"Феєрія\"",
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"svitlana-ryskina"
@@ -5636,7 +5636,7 @@
 		"title": "«Лісові пригоди або хто найхитріший?»",
 		"year": 2022,
 		"author": "Інсценізація за казками І.Франка",
-		"theatreGroup": "гр. 3Т-7 «BEST THEATER SOCKS»,",
+		"theatreGroup": "гр. 3Т-7 «BEST THEATER SOCKS»",
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
@@ -5647,7 +5647,7 @@
 		"title": "«Пісочниця з WI-FI у космосі»",
 		"year": 2022,
 		"author": "підліткові історії за І.Васьковською, Д.Уткіною",
-		"theatreGroup": "гр. 5Т-17 «Под-Рост-ОК».",
+		"theatreGroup": "гр. 5Т-17 «Под-Рост-ОК»",
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
@@ -5669,7 +5669,7 @@
 		"title": "«Монологи про війну»",
 		"year": 2022,
 		"author": "Авторські",
-		"theatreGroup": "гр. 7Т-22.",
+		"theatreGroup": "гр. 7Т-22",
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"hanna-serebriannikova"
@@ -6186,7 +6186,7 @@
 		"id": "pidsumkovi-dlia-estetychno-teatral-noho-viddilenni-2024",
 		"title": "Підсумкові для естетично- театрального відділення",
 		"year": 2024,
-		"theatreGroup": "гр. 4е-6, 4е-7, 1т-1, 1т-3, 3мт-9, мт-2,",
+		"theatreGroup": "гр. 4е-6, 4е-7, 1т-1, 1т-3, 3мт-9, мт-2",
 		"dateNote": "01.06 субота, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
@@ -6214,7 +6214,7 @@
 		"id": "pidsumkovi-dlia-serednikh-teatral-ne-viddilennia-2024",
 		"title": "Підсумкові для середніх- театральне відділення",
 		"year": 2024,
-		"theatreGroup": "гр. 2Т-4,2т-5 3т-8 +художн.",
+		"theatreGroup": "гр. 2Т-4,2т-5 3т-8 +художн",
 		"dateNote": "03.06 понеділок, 12.00 (ауд. 7); 06.06 четвер, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
@@ -6995,7 +6995,7 @@
 		"title": "«Козенятко, яке вміло рахувати до десяти»",
 		"year": 2026,
 		"author": "Етюдний показ за мотивами казки Альфа Прейсена",
-		"theatreGroup": "гр. 3т-7",
+		"theatreGroup": "гр. 3Т-7",
 		"dateNote": "1 травня п’ятниця, 16.10 (ауд. 11); 2 травня субота, 11.00 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
@@ -7005,7 +7005,7 @@
 		"id": "etiudnyi-pokaz-za-motyvamy-baiok-l-hlibova-2026",
 		"title": "Етюдний показ за мотивами байок Л.Глібова",
 		"year": 2026,
-		"theatreGroup": "гр. 1т-1",
+		"theatreGroup": "гр. 1Т-1",
 		"dateNote": "4 травня понеділок, 16.10 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
@@ -7016,7 +7016,7 @@
 		"title": "«Чаклунки-дивачки та Листопад»",
 		"year": 2026,
 		"author": "Лани Ра (з тренінгами та етюдами)",
-		"theatreGroup": "гр. 1т-1н",
+		"theatreGroup": "гр. 1Т-1Н",
 		"dateNote": "5 травня вівторок, 16.10 (ауд. 11); 13 травня середа, 15.20 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
@@ -7027,7 +7027,7 @@
 		"title": "«Там Лін»",
 		"year": 2026,
 		"author": "Інсценування шотландської народної казки",
-		"theatreGroup": "гр. 2е-3",
+		"theatreGroup": "гр. 2Е-3",
 		"dateNote": "6 травня середа, 15.20 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
@@ -7038,7 +7038,7 @@
 		"title": "«А чи не зіграти «Піноккіо»",
 		"year": 2026,
 		"author": "?» за мотивами роману «Пригоди Піноккіо» Карло Коллоді",
-		"theatreGroup": "гр. 4е-8",
+		"theatreGroup": "гр. 4Е-8",
 		"dateNote": "7 травня четвер, 15.20 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
@@ -7049,7 +7049,7 @@
 		"title": "«Привід замка Кентервіль»",
 		"year": 2026,
 		"author": "Оскар Вайлд",
-		"theatreGroup": "гр. 5т-17",
+		"theatreGroup": "гр. 5Т-17",
 		"dateNote": "7 травня четвер, 17.00 (ауд. 7); 8 травня п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
@@ -7060,7 +7060,7 @@
 		"title": "«Хто на кухні головний?»",
 		"year": 2026,
 		"author": "Ірина Ліндлі",
-		"theatreGroup": "гр. 1е-1",
+		"theatreGroup": "гр. 1Е-1",
 		"dateNote": "9 травня субота, 11.10 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
@@ -7102,7 +7102,7 @@
 		"title": "«Танцюючий ураган або мрія робота»",
 		"year": 2026,
 		"author": "Б. Базилевич",
-		"theatreGroup": "гр. 4е-6",
+		"theatreGroup": "гр. 4Е-6",
 		"dateNote": "12 травня вівторок, 15.20 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
@@ -7112,7 +7112,7 @@
 		"id": "etiudnyi-pokaz-na-osnovi-real-noho-zhyttia-ta-trok-2026",
 		"title": "‎ Етюдний показ на основі реального життя, та трохи за мотивами Дж.Родарі та П. Глазового.",
 		"year": 2026,
-		"theatreGroup": "гр. 2т-3",
+		"theatreGroup": "гр. 2Т-3",
 		"dateNote": "13 травня середа, 16.30 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
@@ -7123,7 +7123,7 @@
 		"title": "«Попелюшка»",
 		"year": 2026,
 		"author": "Н. Уварова",
-		"theatreGroup": "гр. 4е-7",
+		"theatreGroup": "гр. 4Е-7",
 		"dateNote": "14 травня четвер, 15.20 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
@@ -7134,7 +7134,7 @@
 		"title": "«Незламні та Дракон»",
 		"year": 2026,
 		"author": "Т. Ісачкіної",
-		"theatreGroup": "гр. 2т-4",
+		"theatreGroup": "гр. 2Т-4",
 		"dateNote": "14 травня четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -7157,7 +7157,7 @@
 		"title": "«Усмішка»",
 		"year": 2026,
 		"author": "Рея Бредбері",
-		"theatreGroup": "гр. 4т-13",
+		"theatreGroup": "гр. 4Т-13",
 		"dateNote": "15 травня п’ятниця, 17.30 (ауд. 7); 16 травня субота, 13.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -7178,7 +7178,7 @@
 		"title": "«Фізкультура для Баби Яги»",
 		"year": 2026,
 		"author": "Наталя Уварова (‎)",
-		"theatreGroup": "гр. 3е-4",
+		"theatreGroup": "гр. 3Е-4",
 		"dateNote": "18 травня понеділок, 15.20 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
@@ -7189,7 +7189,7 @@
 		"title": "«Підліткова сповідь»",
 		"year": 2026,
 		"author": "читка монологів",
-		"theatreGroup": "гр. 3т-8",
+		"theatreGroup": "гр. 3Т-8",
 		"dateNote": "19 травня вівторок, 16.10 (ауд. 17)",
 		"masters": [
 			"vladyslav-mykhailiuk"
@@ -7200,7 +7200,7 @@
 		"title": "«Пригоди гномусі Манюсі»",
 		"year": 2026,
 		"author": "М.Ліпскерова \" Самий маленький гном\"",
-		"theatreGroup": "гр. 3е-5",
+		"theatreGroup": "гр. 3Е-5",
 		"dateNote": "20 травня середа, 15.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -7222,7 +7222,7 @@
 		"title": "«Покидьки»",
 		"year": 2026,
 		"author": "Катерина Пенькова",
-		"theatreGroup": "гр. 3т-9",
+		"theatreGroup": "гр. 3Т-9",
 		"dateNote": "21 травня четвер, 16.10 (ауд. 7); 27 травня середа, 16.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina",
@@ -7244,7 +7244,7 @@
 		"title": "«Досвід»",
 		"year": 2026,
 		"author": "Т. Ісачкіна (підліткова драма)",
-		"theatreGroup": "гр. 5т-15",
+		"theatreGroup": "гр. 5Т-15",
 		"dateNote": "22 травня п’ятниця, 16.00 (ауд. 7); 23 травня субота, 13.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
@@ -7255,7 +7255,7 @@
 		"title": "«Душа подушки»",
 		"year": 2026,
 		"author": "Олжас Жанайдаров",
-		"theatreGroup": "гр. 2т-5",
+		"theatreGroup": "гр. 2Т-5",
 		"dateNote": "25 травня понеділок, 16.00 (ауд. 7); 26 травня вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"

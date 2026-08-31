@@ -2,6 +2,8 @@
 	import { t } from 'svelte-i18n';
 	import { LayoutGrid, List, CalendarRange, Theater } from 'lucide-svelte';
 	import type { Play } from '$lib/data/plays';
+	import { playGroupCaption } from '$lib/data/groups';
+	import { PLAY_CAST } from '$lib/data/playCast';
 	import { earlyShows } from '$lib/services/earlyShows.svelte';
 	import {
 		productionsViewMode,
@@ -53,7 +55,18 @@
 				const q = searchQuery.toLowerCase().trim();
 				const inTitle = p.title.toLowerCase().includes(q);
 				const inAuthor = p.author?.toLowerCase().includes(q) ?? false;
-				const inGroup = p.theatreGroup?.toLowerCase().includes(q) ?? false;
+				/* Шукається і сире поле (щоб номер «3Т-9» лишався знаходжуваним), і
+				   назва, яку читач БАЧИТЬ: після переходу на `playGroupCaption` вона
+				   часто приходить із реєстру груп, а не з поля, і пошук по полю її не
+				   знайшов би. */
+				const inGroup =
+					(p.theatreGroup?.toLowerCase().includes(q) ?? false) ||
+					playGroupCaption(
+						p.id,
+						(PLAY_CAST[p.id] ?? []).map((c) => c.graduateId),
+						p.theatreGroup,
+						isEn
+					).names.some((n) => n.toLowerCase().includes(q));
 				const inYear = String(p.year).includes(q);
 				const inParticipants = p.participants?.some((part) => part.toLowerCase().includes(q)) ?? false;
 				const inAwards = p.awards?.some((aw) => aw.toLowerCase().includes(q)) ?? false;

@@ -1,6 +1,8 @@
 <script module lang="ts">
 	import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { getAllMasters } from '$lib/data/masters';
+	import { playGroupCaption } from '$lib/data/groups';
+	import { PLAY_CAST } from '$lib/data/playCast';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 
 	/*
@@ -55,6 +57,15 @@
 	 * дістає анкету сама й однаково відкривається для тих, у кого її немає, —
 	 * те саме рішення, що й у потоці учнів.
 	 */
+	const groupCaption = $derived(
+		playGroupCaption(
+			prod.id,
+			(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+			prod.theatreGroup,
+			isEn
+		)
+	);
+
 	function participantLink(name: string): Participant {
 		const g = matchGraduate(name);
 		if (g) return { kind: 'graduate', graduate: g };
@@ -72,7 +83,18 @@
 				<Calendar size={13} aria-hidden="true" />
 				<span>{prod.year}{prod.dateNote ? ` · ${prod.dateNote}` : ''}</span>
 			</span>
-			{#if prod.theatreGroup}<span class="group-badge">{prod.theatreGroup}</span>{/if}
+			<!--
+				Назва курсу — плашкою, номер — тихою припискою. Номер змінюється
+				щороку («ТВ Продакшн» був 6Т-19, потім 7Т-20), тож головною ознакою
+				бути не може; чому він усе одно лишається на екрані — у докблоці
+				`playGroupCaption`.
+			-->
+			{#each groupCaption.names as name (name)}
+				<span class="group-badge">{name}</span>
+			{/each}
+			{#if groupCaption.number ?? groupCaption.note}
+				<span class="group-number">{groupCaption.number ?? groupCaption.note}</span>
+			{/if}
 		</div>
 		{#if prod.isDtsh === false && prod.institution}<span class="institution-badge">{prod.institution}</span>{/if}
 	</div>
@@ -182,6 +204,8 @@
 	.prod-card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
 	.num-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-title); font-size: 0.75rem; font-weight: 700; }
 	.year-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-main); font-size: 0.8rem; font-weight: 600; }
+	.group-number { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; }
+
 	.group-badge { padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); color: #2563eb; font-size: 0.8rem; font-weight: 600; }
 	:global(.theme-dark) .group-badge, :global(.theme-dark-cyan) .group-badge { color: #60a5fa; background: rgba(37, 99, 235, 0.2); }
 	.institution-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-muted); font-size: 0.75rem; }
