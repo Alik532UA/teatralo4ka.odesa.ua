@@ -120,13 +120,40 @@ test('sitemap перелічує тільки адреси, які справд�
 
 	expect(urls.length, 'sitemap порожній').toBeGreaterThan(0);
 
+	/*
+	 * Запити йдуть ПАКЕТАМИ, і це не прикраса.
+	 *
+	 * Доти вони йшли по одному, і при 28 адресах це було непомітно. Сторінки
+	 * вистав довели мапу до 1089 адрес (заміряно 2026-08-31), послідовний обхід
+	 * перестав укладатися в 30 с — тест почав падати за часом, тобто мовчати про
+	 * саму властивість, заради якої існує. Пакет по 25 лишає перевірку тією
+	 * самою: жодна адреса не пропущена, просто чекання йде паралельно.
+	 *
+	 * Помилки збираються ВСІ, а не перша-ліпша: якщо мапа розійшлася з сайтом,
+	 * корисно бачити масштаб, а не лише найранішу адресу за абеткою.
+	 */
+	const ПАКЕТ = 25;
+	const биті: string[] = [];
+	for (let i = 0; i < urls.length; i += ПАКЕТ) {
+		const пакет = urls.slice(i, i + ПАКЕТ);
+		const відповіді = await Promise.all(
+			пакет.map(async (url) => {
+				const path = new URL(url).pathname;
+				return { path, status: (await page.request.get(path)).status() };
+			})
+		);
+		биті.push(
+			...відповіді.filter((r) => r.status !== 200).map((r) => `${r.path} → ${r.status}`)
+		);
+	}
+
 	// Попередня версія sitemap будувалася зі списку markdown-файлів і пропонувала
 	// пошуковику 28 адрес, з яких існувало 5.
-	for (const url of urls) {
-		const path = new URL(url).pathname;
-		const response = await page.request.get(path);
-		expect(response.status(), `${path} у sitemap, але віддає ${response.status()}`).toBe(200);
-	}
+	expect(
+		биті,
+		`адреси в sitemap, які не віддають 200 (${биті.length} із ${urls.length}):\n  ` +
+			биті.slice(0, 20).join('\n  ')
+	).toEqual([]);
 
 	expect(urls.some((u) => u.includes('/admin')), 'адмінка не має бути в sitemap').toBe(false);
 });

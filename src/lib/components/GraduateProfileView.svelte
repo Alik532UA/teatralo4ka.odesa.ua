@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { FileText } from "lucide-svelte";
+	import { FileText, Theater } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
 	import DepartmentIcon from "$lib/components/icons/DepartmentIcon.svelte";
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
+	import { hasLink } from "$lib/utils/formatFlags";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import GraduateYears from "$lib/components/GraduateYears.svelte";
@@ -672,13 +673,37 @@
 								вигадувати посилання для них означало б вести
 								читача навмання.
 							-->
-							{#if play.playId}
+							{#if play.playId && !hasLink(play.text)}
 								<a
 									class="play__text play__link"
 									href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
 									data-testid="galaxy-card-play-link-{index}"
 								>
 									<RichTextWithFlags text={play.text} />
+								</a>
+							{:else if play.playId}
+								<!--
+									Рядок має ВЛАСНЕ посилання всередині — обгорнути його
+									ще одним не можна: `<a>` в `<a>` невалідний, браузер
+									таке мовчки лагодить, а Svelte у dev валить сторінку
+									цілком. Заміряно на цій самій анкеті: сторінка не
+									рендерилася взагалі.
+
+									Тому текст лишається текстом зі своїм посиланням, а до
+									вистави веде окремий значок — той самий прийом, що з
+									кнопкою запису в репертуарі групи.
+								-->
+								<span class="play__text"
+									><RichTextWithFlags text={play.text} /></span
+								>
+								<a
+									class="play__page-link"
+									href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
+									aria-label="{$t('galaxy.playTitle')}: {play.text}"
+									title={$t("galaxy.playTitle")}
+									data-testid="galaxy-card-play-link-{index}"
+								>
+									<Theater size={15} aria-hidden="true" />
 								</a>
 							{:else}
 								<span class="play__text"
@@ -1968,6 +1993,18 @@
 	.play__link:focus-visible {
 		color: var(--galaxy-accent);
 		text-decoration-style: solid;
+	}
+	/* Значок веде на сторінку вистави там, де сам рядок посиланням бути не може. */
+	.play__page-link {
+		display: inline-flex;
+		align-items: center;
+		margin-left: 0.35rem;
+		color: rgb(140 190 255 / 0.55);
+		transition: color var(--transition-fast);
+	}
+	.play__page-link:hover,
+	.play__page-link:focus-visible {
+		color: var(--galaxy-accent);
 	}
 	.play {
 		display: flex;

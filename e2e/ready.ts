@@ -56,7 +56,28 @@ export async function gotoReady(page: Page, path: string) {
  */
 export async function clickInFooter(page: Page, testId: string) {
 	const target = page.getByTestId(testId).first();
-	await target.scrollIntoViewIfNeeded();
+
+	/*
+	 * Спершу чекаємо на ВИДИМІСТЬ, і лише потім прокручуємо.
+	 *
+	 * Причина конкретна: підвал перемальовується після гідрації — на вузькому
+	 * екрані кнопки стоять поруч, на широкому міняються місцями, тож розмітка
+	 * після монтування інша. Якщо локатор розв'язався до перемальовування, вузол
+	 * до моменту прокрутки вже від'єднаний, і `scrollIntoViewIfNeeded` падає з
+	 * «Element is not attached to the DOM». Заміряно 2026-08-31: перевірка звуку
+	 * піаніно так падала на мобільному проєкті і поодинці, і в повному наборі.
+	 *
+	 * `expect(...).toBeVisible()` розв'язує локатор наново на кожній спробі, тож
+	 * чекання переживає перемальовування. Прокрутка після нього все одно
+	 * страхується повтором: між нею й перевіркою лишається той самий проміжок,
+	 * просто набагато вужчий.
+	 */
+	await expect(target).toBeVisible();
+	await target.scrollIntoViewIfNeeded().catch(async () => {
+		await expect(target).toBeVisible();
+		await target.scrollIntoViewIfNeeded();
+	});
+
 	await waitForAnimations(page);
 	await target.click();
 }

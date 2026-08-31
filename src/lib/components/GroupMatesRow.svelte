@@ -8,11 +8,34 @@
 	interface Props {
 		/** Адреса групи; немає — рядок не малюється. */
 		groupSlug: string;
-		/** Чия це картка: сама людина серед однокурсників не показується. */
-		excludeId: string;
+		/**
+		 * Чия це картка: сама людина серед однокурсників не показується.
+		 * Порожньо — показуються всі, як у переліку груп.
+		 */
+		excludeId?: string;
+		/**
+		 * Чи робити кожну мініатюру посиланням.
+		 *
+		 * `false` потрібне там, де сам рядок уже лежить УСЕРЕДИНІ посилання —
+		 * у картці переліку груп. `<a>` всередині `<a>` — невалідна розмітка, і
+		 * браузери розбирають її по-різному; там натискання й так веде на
+		 * сторінку групи, а звідти вже можна перейти до конкретної людини.
+		 */
+		linked?: boolean;
+		/**
+		 * Початок `data-testid`. Свій потрібен тому, що на сторінці переліку
+		 * таких рядків стільки ж, скільки груп, а `testid.spec` вимагає
+		 * унікальності в межах сторінки.
+		 */
+		testIdPrefix?: string;
 	}
 
-	let { groupSlug, excludeId }: Props = $props();
+	let {
+		groupSlug,
+		excludeId = '',
+		linked = true,
+		testIdPrefix = 'galaxy-card-groupmates'
+	}: Props = $props();
 
 	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
 
@@ -33,7 +56,7 @@
 </script>
 
 {#if mates.length}
-	<ul class="mates" data-testid="galaxy-card-groupmates-list">
+	<ul class="mates" data-testid="{testIdPrefix}-list">
 		{#each mates as mate (mate.id)}
 			{@const photo = mate.hasPhoto ? asset(`/graduates/${mate.slug}-96.webp`) : null}
 			<li>
@@ -42,12 +65,12 @@
 					і кнопка в нікуди гірша за спокійний кружечок. Тьмяність тут означає
 					рівно те саме, що й у списку учасників вистави.
 				-->
-				{#if mate.code}
+				{#if mate.code && linked}
 					<a
 						class="mates__item"
 						href={localizedPath(graduateProfilePath(mate.code), lang)}
 						title={mate.name}
-						data-testid="galaxy-card-groupmate-link-{mate.id}"
+						data-testid="{testIdPrefix}-link-{mate.id}"
 					>
 						{#if photo}
 							<img src={photo} alt={mate.name} width="26" height="26" loading="lazy" />

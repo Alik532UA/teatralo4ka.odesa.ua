@@ -2,6 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { ArrowLeft, ArrowRight, Users, Calendar, Sparkles, Theater, Plus } from 'lucide-svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath } from '$lib/data/groups';
 	import mastersIndex from '$lib/data/masters.index.json';
@@ -172,6 +173,24 @@
 								{group.masters.map((m) => masterName(m.id, m.name)).join(' · ')}
 							</span>
 						{/if}
+
+						<!--
+							Мініатюри складу — те саме, що в картці випускника, тільки
+							БЕЗ посилань: рядок лежить усередині картки-посилання, а
+							`<a>` всередині `<a>` невалідний. Натискання й так веде на
+							сторінку групи, а звідти вже можна перейти до людини.
+
+							Свій `testIdPrefix` обов'язковий: таких рядків на сторінці
+							стільки ж, скільки груп, а `testid.spec` вимагає
+							унікальності в межах сторінки.
+						-->
+						<span class="group-card__mates">
+							<GroupMatesRow
+								groupSlug={group.slug}
+								linked={false}
+								testIdPrefix="galaxy-group-mates-{group.slug}"
+							/>
+						</span>
 					</a>
 				</li>
 			{/each}
@@ -332,6 +351,16 @@
 		border-style: dashed;
 		justify-content: space-between;
 		gap: 0.6rem;
+	}
+	/*
+	 * Мініатюри притиснуті до низу картки: у груп різна кількість плашок і
+	 * різна довжина назв, і без цього ряди облич стрибали б по вертикалі від
+	 * картки до картки.
+	 */
+	.group-card__mates {
+		display: block;
+		margin-top: auto;
+		padding-top: 0.75rem;
 	}
 	.group-card__masters {
 		margin-top: auto;

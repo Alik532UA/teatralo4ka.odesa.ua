@@ -74,3 +74,17 @@ export function parseContentWithFlags(text: string): ContentToken[] {
 
 	return tokens;
 }
+
+/**
+ * Чи є в тексті власне посилання `[підпис](адреса)`.
+ *
+ * Питання не пусте: рядок із власним посиланням НЕ МОЖНА загортати в ще одне.
+ * `<a>` всередині `<a>` — невалідна розмітка; браузер її мовчки лагодить, а
+ * Svelte у dev валить сторінку цілком (`node_invalid_placement_ssr`), і
+ * заміряно це саме так: анкета Марини Вішталюк, де в рядку вистави стоїть
+ * посилання на групу, не рендерилася взагалі.
+ */
+export function hasLink(text: string): boolean {
+	LINK.lastIndex = 0;
+	return LINK.test(text);
+}
