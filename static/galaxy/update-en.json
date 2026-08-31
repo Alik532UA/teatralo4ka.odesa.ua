@@ -25,6 +25,11 @@
 			"text": "Tap the head of the course or a teacher inside a graduate's card and the teacher's page opens — with a surprise on the right-hand side!"
 		},
 		{
+			"id": "order",
+			"title": "On the future adults page, the order of teachers depends on your forms",
+			"text": "The list on the teachers page is ordered by the number of students: the more graduates mention a teacher in their form, the higher that teacher appears — and subject teachers count, not only heads of course. So it matters to remember and list yours. You can also fill in forms for your groupmates and friends: you almost certainly share performances and the same teachers, so together it goes faster."
+		},
+		{
 			"id": "groups",
 			"title": "A group can have its own page",
 			"text": "With repertoire by year and recordings, shared photographs, the graduates of the group, its course master and teachers. These pages still need correcting, so look at your own group and write to me with the fixes — I will be waiting."
@@ -33,11 +38,6 @@
 			"id": "form",
 			"title": "New fields in the form",
 			"text": "Teachers as a section of their own, next to the head of the course. Social links are no longer limited to Instagram and Facebook — YouTube works too. And a video card."
-		},
-		{
-			"id": "order",
-			"title": "On the future adults page, the order of teachers depends on your forms",
-			"text": "The list on the teachers page is ordered by the number of students: the more graduates mention a teacher in their form, the higher that teacher appears — and subject teachers count, not only heads of course. So it matters to remember and list yours. You can also fill in forms for your groupmates and friends: you almost certainly share performances and the same teachers, so together it goes faster."
 		}
 	],
 	"note": "You can fill in or extend your form at any time. If something is missing or wrong, write to us and we will fix it.",
