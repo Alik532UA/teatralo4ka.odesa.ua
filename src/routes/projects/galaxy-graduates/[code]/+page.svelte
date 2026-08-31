@@ -129,6 +129,7 @@
 						testIdPrefix="graduate-profile-contact"
 						buttonTestId="graduate-profile-edit-btn"
 						openTo="down"
+						variant="ghost"
 						hasPhoto={!!data.graduate.hasPhoto}
 						label={$t('common.contact', { default: "Зв'язатися" })}
 					/>

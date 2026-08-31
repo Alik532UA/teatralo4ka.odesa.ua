@@ -80,6 +80,16 @@
 		 * повз аватар.
 		 */
 		openOnHover?: boolean;
+		/**
+		 * Вигляд кнопки. `accent` — суцільне коло кольору акценту (плитка
+		 * «додати групу», кут картки викладача); `ghost` — темне прозоре коло зі
+		 * світлою рамкою, як сусідній «закрити» в тулбарі картки випускника.
+		 *
+		 * Другий існує саме заради тієї сусідки: дві кнопки поруч у тому самому
+		 * куті мусять виглядати парою, і після переїзду в спільний компонент
+		 * одна з них стала яскраво-синьою, а друга лишилася темною.
+		 */
+		variant?: 'accent' | 'ghost';
 	}
 
 	let {
@@ -90,7 +100,8 @@
 		mode = 'button',
 		icon = 'pencil',
 		label: ownLabel,
-		openOnHover = false
+		openOnHover = false,
+		variant = 'accent'
 	}: Props = $props();
 
 	const contacts = [
@@ -168,6 +179,7 @@
 		<button
 			type="button"
 			class="edit-btn"
+			class:edit-btn--ghost={variant === 'ghost'}
 			onclick={toggle}
 			aria-expanded={open}
 			aria-label={label}
@@ -260,6 +272,24 @@
 	.edit-btn:focus-visible {
 		transform: scale(1.06);
 		filter: brightness(1.06);
+	}
+	/* Та сама пара чисел і кольорів, що в сусідньої кнопки «закрити». */
+	.edit-btn--ghost {
+		width: 44px;
+		height: 44px;
+		background: rgb(3 6 20 / 0.75);
+		border: 1px solid rgb(140 190 255 / 0.35);
+		color: #cfe4ff;
+		box-shadow: none;
+		backdrop-filter: blur(8px);
+	}
+	.edit-btn--ghost:hover,
+	.edit-btn--ghost:focus-visible {
+		transform: none;
+		filter: none;
+		background: rgb(140 190 255 / 0.25);
+		border-color: rgb(140 190 255 / 0.7);
+		color: #fff;
 	}
 	/*
 	 * Меню розкривається ВГОРУ й до правого краю кнопки: кнопка стоїть у

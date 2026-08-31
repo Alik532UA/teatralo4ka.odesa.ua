@@ -732,26 +732,49 @@
 						/>
 					{/if}
 					{#if departments.length > 0}
+						<!--
+							Одне відділення — знак І НАЗВА; кілька — самі знаки з
+							власною підказкою.
+
+							Причина в тому, що назви довгі («Театральне відділення»,
+							«Інструментальне відділення»), і три такі поспіль не
+							вміщаються в жодну колонку. Коли ж відділення одне,
+							ховати його назву за наведенням нема сенсу: місця
+							вистачає, а знак сам по собі мало кому щось каже.
+						-->
 						<div
 							class="dept-badges"
+							class:dept-badges--single={departments.length === 1}
 							data-testid="galaxy-card-dept-badges"
 						>
-							{#each departments as dept (dept)}
+							{#each departments as dept, index (dept)}
+								{@const label = $t(`galaxy.departments.${dept}`, {
+									default: dept,
+								})}
 								<span
 									class="dept-badge"
+									class:dept-badge--tip-left={departments.length > 1 &&
+										index < departments.length / 2}
 									role="img"
-									title={$t(`galaxy.departments.${dept}`, {
-										default: dept,
-									})}
-									aria-label={$t(
-										`galaxy.departments.${dept}`,
-										{ default: dept },
-									)}
+									aria-label={label}
+									data-testid="galaxy-card-dept-badge-{dept}"
 								>
 									<DepartmentIcon
 										department={dept}
 										size={18}
 									/>
+									{#if departments.length === 1}
+										<span class="dept-badge__name">{label}</span>
+									{:else}
+										<!--
+											Підказка виїжджає НАЗОВНІ від ряду: знак із
+											лівої половини розкриває її ліворуч, із
+											правої — праворуч. Усередину не можна —
+											там сусідні знаки, і підказка лягала б
+											просто на них.
+										-->
+										<span class="dept-badge__tip" aria-hidden="true">{label}</span>
+									{/if}
 								</span>
 							{/each}
 						</div>
@@ -1197,6 +1220,19 @@
 		.bento-card--faculty {
 			text-align: center;
 		}
+		/*
+		 * Мірило для назви відділення — ПЛАШКА, а не ряд значків.
+		 *
+		 * Спершу `container-type` стояв на самому ряду, і це повторило пастку,
+		 * уже описану вище біля `.layout-scope`: containment робить ширину
+		 * незалежною від вмісту, а ряд лежить у `.photo-container`, який
+		 * стискається до вмісту. Заміряно: ряд мав ширину НУЛЬ, кола
+		 * перетворилися на овали 20×32 і розповзлися на три рядки. У плашки
+		 * ширина справжня — `width: 100%` колонки.
+		 */
+		.bento-card--main {
+			container-type: inline-size;
+		}
 		.bento-card {
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
@@ -1409,7 +1445,129 @@
 		justify-content: center;
 		gap: 0.4rem;
 	}
+
+	/*
+	 * ВЛАСНА підказка замість рідної.
+	 *
+	 * Рідна не вміє двох речей, потрібних саме тут: з'явитися одразу (вона
+	 * чекає близько секунди, і за цей час курсор устигає піти) і відкритися в
+	 * потрібний бік.
+	 *
+	 * Точка відліку — РЯД знаків, а не сам знак, і це головне рішення тут.
+	 * Прив'язана до знака підказка виходила за картку: заміряно на 375 — від
+	 * крайнього знака до краю лишається кілька десятків пікселів, і навіть
+	 * стиснута до 46 % ширини вона вилазила на 33 px. Прив'язана до ряду вона
+	 * впирається в його ж край, тобто за побудовою лишається всередині; а
+	 * `max-width` рахується від половини ряду за відніманням половини самого стовпчика
+	 * знаків, тож не наїжджає й на них.
+	 *
+	 * `max-width: 0` у спокої, а не `display: none`: назву треба ВИМІРЯТИ, щоб
+	 * розкриття було плавним, а зникле з розкладки не міряється.
+	 */
+	.dept-badges {
+		position: relative;
+		/*
+		 * На всю ширину, а не до вмісту.
+		 *
+		 * `.photo-container` — флекс, тож ряд знаків ужимався до 109 px, тобто
+		 * рівно до трьох кіл. Через це «край ряду», до якого чіпляється
+		 * підказка, збігався з краєм крайнього знака, і вона лягала просто на
+		 * нього. Розтягнутий ряд дає їй справжній край картки.
+		 */
+		width: 100%;
+	}
+	/*
+	 * Знак перестає бути точкою відліку, коли відділень кілька: інакше
+	 * підказка, попри `right: 0`, сідає просто на нього — заміряно, вона
+	 * перекривала знак у всіх шести перевірених випадках.
+	 */
+	.dept-badges:not(.dept-badges--single) .dept-badge {
+		position: static;
+	}
+	.dept-badge__tip {
+		position: absolute;
+		left: auto;
+		right: 0;
+		top: 50%;
+		translate: 0 -50%;
+		z-index: 5;
+		max-width: 0;
+		overflow: hidden;
+		/*
+		 * Текст ПЕРЕНОСИТЬСЯ, а не обрізається: назви на кшталт «Відділення
+		 * сольного співу» одним рядком у відведене місце не вміщаються, а
+		 * обрізаний текст не читається взагалі.
+		 */
+		white-space: normal;
+		text-align: center;
+		text-wrap: balance;
+		line-height: 1.25;
+		font-size: 0.72rem;
+		font-weight: 600;
+		color: #eaf2ff;
+		background: rgb(3 6 20 / 0.92);
+		border: 1px solid rgb(140 190 255 / 0.4);
+		border-radius: var(--radius-full, 9999px);
+		padding: 0.3rem 0;
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			max-width 0.22s ease,
+			padding 0.22s ease,
+			opacity 0.18s ease;
+	}
+	/* Знак із лівої половини ряду розкриває підказку до ЛІВОГО краю. */
+	.dept-badge--tip-left .dept-badge__tip {
+		right: auto;
+		left: 0;
+	}
+	.dept-badge:hover .dept-badge__tip,
+	.dept-badge:focus-visible .dept-badge__tip {
+		/*
+		 * Половина ряду мінус половина стовпчика знаків: три кола по 32 з
+		 * проміжками 6.4 займають 108 px, тобто 54 з кожного боку від центру.
+		 */
+		max-width: calc(50% - 3.6rem);
+		padding: 0.3rem 0.6rem;
+		opacity: 1;
+	}
+
+	/*
+	 * Одне відділення — пілюля з назвою, а не коло зі знаком.
+	 *
+	 * Ширина тут `auto`, а кегль стискається до `clamp`: назви бувають довгі
+	 * («Інструментальне відділення»), а рядок мусить лишитися ОДИН — перенесена
+	 * навпіл назва в пілюлі читається як дві різні.
+	 */
+	.dept-badges--single .dept-badge {
+		width: auto;
+		gap: 0.35rem;
+		padding: 0 0.7rem;
+		border-radius: var(--radius-full, 9999px);
+		max-width: 100%;
+	}
+	.dept-badge__name {
+		/*
+		 * Кегль СТИСКАЄТЬСЯ лише коли треба: 4.6 % ширини картки дає повні
+		 * 0.8rem уже на 280 px і опускається до 0.62rem тільки у вузькій
+		 * колонці. З 2.4 % назва виходила 9.92 px навіть на десктопі, де місця
+		 * вистачало з надлишком (заміряно: 145 px вільних праворуч).
+		 */
+		font-size: clamp(0.62rem, 4.6cqw, 0.8rem);
+		font-weight: 600;
+		line-height: 1;
+		white-space: nowrap;
+		color: #cfe4ff;
+	}
+
 	.dept-badge {
+		position: relative;
+		/*
+		 * НЕ стискатися: без цього плашки ужималися до 20 px при висоті 32,
+		 * тобто кола ставали овалами, а потім і зовсім переносилися по одній на
+		 * рядок. Заміряно саме так — 20×32 у трьох рядках.
+		 */
+		flex-shrink: 0;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
@@ -1420,14 +1578,28 @@
 		border: 1px solid rgb(140 190 255 / 0.35);
 		color: #bfe0ff;
 		transition:
-			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			border-color 0.2s ease,
 			background 0.2s ease;
 	}
+	/*
+	 * БЕЗ `transform` під курсором — і це не смак.
+	 *
+	 * Трансформований елемент стає системою координат для своїх абсолютних
+	 * нащадків, `position: static` того не скасовує. Через це підказка, якій
+	 * велено стати біля краю РЯДУ, з'являлася впритул до самого знака — і саме
+	 * тоді, коли на нього наводять, тобто рівно в мить, коли її видно.
+	 * Заміряно: `left: 0` обчислювався в нуль, а по факту підказка стояла на
+	 * 665 px при лівому краї ряду на 520.
+	 *
+	 * Збільшення замінене на сяйво: воно каже те саме («ця плашка жива»), але
+	 * нічого не робить із координатами.
+	 */
 	.dept-badge:hover {
-		transform: scale(1.1);
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.6);
 		color: #fff;
+		box-shadow: 0 0 0 3px rgb(140 190 255 / 0.18);
 	}
 	.star {
 		width: 96px;

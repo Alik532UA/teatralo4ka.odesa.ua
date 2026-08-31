@@ -1274,12 +1274,17 @@ body.page-galaxy,
 	overflow: hidden;
 }
 
-body.page-galaxy h1,
-body.page-galaxy h2,
-body.page-galaxy h3,
-body.page-galaxy h4,
-body.page-galaxy h5,
-body.page-galaxy h6 {
+/*
+ * Заголовки галактики — білі, КРІМ тих, що мають власний стиль.
+ *
+ * Виняток не косметичний: `body.page-galaxy h3` має специфічність (0,2,1) і
+ * перебивав `.galaxy-block-title` (0,1,0). Через це «Вистави та ролі» й «Про
+ * себе» — єдині два заголовки картки, записані тегом `h3`, — виходили білими,
+ * тоді як чотири сусідні (вони `span`) лишалися акцентними. Клас `page-galaxy`
+ * ставиться на `body` лише на широкому екрані, тому на телефоні всі шість
+ * виглядали однаково, і дефект був видимий рівно на комп'ютері.
+ */
+body.page-galaxy :is(h1, h2, h3, h4, h5, h6):not(.galaxy-block-title) {
 	color: #ffffff;
 }
 
