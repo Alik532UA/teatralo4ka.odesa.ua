@@ -1,6 +1,7 @@
 <script lang="ts">
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import GalaxyMarks from './GalaxyMarks.svelte';
+	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import { groupByYear, type GalaxyRow } from './galaxyRow';
 
 	/**
@@ -91,6 +92,19 @@
 				<span class="grow__years">{item.yearLabel}</span>
 			{/if}
 			<GalaxyMarks marks={item.marks ?? []} testIdPrefix="{testIdPrefix}-row-{item.key}" />
+
+			<!--
+				Прапори — САМИМИ ОСТАННІМИ, після плашок: так вони стоять у переліку
+				фестивалів на сторінці викладача, і правий край рядків лишається
+				однаковим у всіх розділах галактики.
+			-->
+			{#if item.flags?.length}
+				<span class="grow__flags" data-testid="{testIdPrefix}-flags-container-{item.key}">
+					{#each item.flags as flag (flag.code)}
+						<CountryFlag code={flag.code} title={flag.label} />
+					{/each}
+				</span>
+			{/if}
 		</span>
 	</li>
 {/snippet}
@@ -229,6 +243,12 @@
 		align-items: center;
 		gap: 0.3rem;
 		justify-content: flex-end;
+	}
+	.grow__flags {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+		flex-shrink: 0;
 	}
 	.grow__years {
 		color: var(--text-muted);
