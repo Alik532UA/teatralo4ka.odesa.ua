@@ -13,6 +13,9 @@
 	"hasPhoto": true,
 	"masters": [
 		{
+			"id": "samuil-imas"
+		},
+		{
 			"id": "fedir-tkach"
 		}
 	],

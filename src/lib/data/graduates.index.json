@@ -219,6 +219,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -244,11 +247,19 @@
 	{
 		"id": "alina-ivanova",
 		"slug": "alina-ivanova",
-		"name": "Аліна Іванова",
+		"name": "Аліна Іванова (Катречко)",
 		"graduationYear": 2010,
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "samuil-imas"
+			},
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -329,6 +340,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -912,6 +928,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -1122,6 +1141,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1236,6 +1260,9 @@
 			2009
 		],
 		"masters": [
+			{
+				"id": "samuil-imas"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -1691,6 +1718,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -1981,6 +2011,9 @@
 			"intensive"
 		],
 		"masters": [
+			{
+				"id": "samuil-imas"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -2776,6 +2809,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3113,6 +3151,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -3563,6 +3606,11 @@
 					"Вокал"
 				]
 			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3578,6 +3626,9 @@
 			2008
 		],
 		"masters": [
+			{
+				"id": "samuil-imas"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -3706,6 +3757,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -3947,6 +4003,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		],
@@ -4074,6 +4133,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -4226,6 +4290,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -5489,6 +5558,11 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5539,6 +5613,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -6704,6 +6783,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		],
@@ -6985,6 +7067,11 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -7867,6 +7954,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7877,6 +7969,14 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "samuil-imas"
+			},
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
