@@ -9,7 +9,13 @@ export interface FlagToken {
 	emoji: string;
 }
 
-export type ContentToken = TextToken | FlagToken;
+export interface LinkToken {
+	type: 'link';
+	label: string;
+	href: string;
+}
+
+export type ContentToken = TextToken | FlagToken | LinkToken;
 
 export function emojiToCountryCode(emoji: string): string {
 	const codePoints = [...emoji].map((char) => char.codePointAt(0) ?? 0);
@@ -21,10 +27,29 @@ export function emojiToCountryCode(emoji: string): string {
 	return '';
 }
 
+/**
+ * Посилання в тексті анкети: `[підпис](адреса)`.
+ *
+ * Навіщо взагалі розмітка в даних, які досі були простим текстом: в анкетах
+ * раз у раз згадуються речі, у яких на сайті вже є власна сторінка (навчальна
+ * група, з якою грали виставу) або власний сайт (театр, у якому людина
+ * працює). Без посилання читач мусить шукати їх сам, а назва «ЗТК» узагалі
+ * нікому нічого не каже.
+ *
+ * Синтаксис узятий із markdown навмисно: його впізнає будь-хто, хто редагує
+ * ці файли руками, а іншої розмітки тут немає й не планується — жирного,
+ * курсиву й заголовків анкетам не треба.
+ *
+ * Адреса проходить `safeUrl` на боці компонента: файли анкет редагує
+ * адміністратор, але `javascript:` в атрибуті `href` Svelte не екранує, і
+ * покладатися на добрі наміри автора файлу тут нема причин.
+ */
+const LINK = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
+
 export function parseContentWithFlags(text: string): ContentToken[] {
 	if (!text) return [];
 	const tokens: ContentToken[] = [];
-	const regex = /(\p{Regional_Indicator}{2})/gu;
+	const regex = /(\p{Regional_Indicator}{2}|\[[^\]\n]+\]\([^)\s]+\))/gu;
 	let lastIndex = 0;
 	let match: RegExpExecArray | null;
 
@@ -32,9 +57,14 @@ export function parseContentWithFlags(text: string): ContentToken[] {
 		if (match.index > lastIndex) {
 			tokens.push({ type: 'text', value: text.slice(lastIndex, match.index) });
 		}
-		const emoji = match[0];
-		const code = emojiToCountryCode(emoji);
-		tokens.push({ type: 'flag', code, emoji });
+		const piece = match[0];
+		LINK.lastIndex = 0;
+		const link = LINK.exec(piece);
+		if (link) {
+			tokens.push({ type: 'link', label: link[1], href: link[2] });
+		} else {
+			tokens.push({ type: 'flag', code: emojiToCountryCode(piece), emoji: piece });
+		}
 		lastIndex = regex.lastIndex;
 	}
 
