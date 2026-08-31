@@ -2,7 +2,7 @@
 	import { locale } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { GRADUATES, graduateProfilePath } from '$lib/data/graduates';
+	import { GRADUATES, graduateAddress, graduateProfilePath } from '$lib/data/graduates';
 
 	/**
 	 * Рядок мініатюр випускників — по СПИСКУ ключів, а не по одній сутності.
@@ -270,13 +270,15 @@
 			{@const photo = mate.hasPhoto ? asset(`/graduates/${mate.slug}-96.webp`) : null}
 			<li>
 				<!--
-					Посилання — лише туди, де сторінка справді є: анкету заповнили не всі,
-					і кнопка в нікуди гірша за спокійний кружечок.
+					Посилання тепер у КОЖНОГО: сторінка є в усіх 530, а не лише в тих 90,
+					хто був на старому сайті. Тьмяний кружечок лишився там, де рядок
+					лежить усередині іншого посилання (`linked={false}`) — там він означає
+					не «сторінки немає», а «натискати треба картку».
 				-->
-				{#if mate.code && linked}
+				{#if linked}
 					<a
 						class="mates__item"
-						href={localizedPath(graduateProfilePath(mate.code), lang)}
+						href={localizedPath(graduateProfilePath(graduateAddress(mate)), lang)}
 						title={mate.name}
 						data-testid="{testIdPrefix}-link-{mate.id}"
 					>

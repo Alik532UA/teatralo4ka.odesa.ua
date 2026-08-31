@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ArrowRight, FileText, Theater } from "lucide-svelte";
+	import { ArrowRight, FileText, Pencil, Theater } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
@@ -345,14 +345,33 @@
 		4: [["plays"], ["main"], ["masters", "teachers"], ["bio"]],
 	};
 
+	/** Театральне відділення — саме там роль у виставі очікувана. */
+	const isTheatre = $derived(Boolean(graduate.departments?.includes("theatre")));
+
+	/**
+	 * Які плашки показувати.
+	 *
+	 * Дві з них показуються ЗАВЖДИ, навіть порожніми, і це не недогляд.
+	 *
+	 * «Про себе» — бо доти сторінка без розповіді просто не мала такого блока, і
+	 * з екрана було не відрізнити «людина нічого не написала» від «ми не питали».
+	 * Порожня плашка з олівцем каже прямо: місце є, слова чекають.
+	 *
+	 * «Вистави» — те саме, але лише для театрального відділення: у 413 із 530
+	 * роль у виставі очікувана, а в художника чи піаніста порожній список вистав
+	 * не питання до людини, а неправда про те, чим вона тут займалася.
+	 *
+	 * Решта плашок і далі зникають порожніми: майстрів, викладачів і фестивалі
+	 * людина про себе не «заповнює» — це наші дані, і питати про них нема кого.
+	 */
 	const presentBlocks = $derived(
 		SINGLE_ORDER.filter((key) => {
 			if (key === "main") return true;
 			if (key === "masters") return normalizedMasters.length > 0;
 			if (key === "teachers") return normalizedTeachers.length > 0;
-			if (key === "plays") return hasPlays;
+			if (key === "plays") return hasPlays || isTheatre;
 			if (key === "festivals") return hasFestivals;
-			return hasBio;
+			return true;
 		}),
 	);
 
@@ -663,6 +682,13 @@
 				data-block="plays"
 				data-testid="galaxy-card-plays-section"
 			>
+				{#if !hasPlays}
+					<!-- Заголовок і олівець в один рядок — так само, як у «Про себе». -->
+					<div class="block--empty">
+						<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
+						{@render blockEdit("galaxy-card-plays-edit-btn")}
+					</div>
+				{:else}
 				<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
 				<ul
 					class="plays"
@@ -730,6 +756,7 @@
 						</li>
 					{/each}
 				</ul>
+				{/if}
 			</section>
 {/snippet}
 
@@ -938,7 +965,13 @@
 				</a>
 			{/if}
 
-			{#if !graduate.hasPhoto}
+			<!--
+				Кнопка з'являється за ДВОМА ознаками: немає знімка або невідомий рік
+				вступу. Це навмисно не «мало даних узагалі»: у кого є фото й рік
+				вступу, тому нема про що нагадувати, навіть якщо решта скупа —
+				решту заповнює школа, а не він.
+			-->
+			{#if !graduate.hasPhoto || !graduate.enrollmentYears?.length}
 				<div class="fill-profile-wrap">
 					<button
 						type="button"
@@ -1042,13 +1075,37 @@
 			</div>
 {/snippet}
 
+<!--
+	Олівець порожньої плашки. Веде в ту саму анкету, що й кнопка «Заповнити
+	анкету», — інакше поруч жили б два різних способи сказати те саме.
+-->
+{#snippet blockEdit(testId: string)}
+	<button
+		type="button"
+		class="block-edit-btn"
+		onclick={openForm}
+		title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+		aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+		data-testid={testId}
+	>
+		<Pencil size={16} aria-hidden="true" />
+	</button>
+{/snippet}
+
 {#snippet bioCard()}
 				<div
 					class="bento-card bento-card--bio"
 					data-block="bio"
 					data-testid="galaxy-card-bio-section"
 				>
-					{#if profile!.duringStudies}
+					{#if !hasBio}
+						<section class="block block--empty">
+							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
+							{@render blockEdit("galaxy-card-bio-edit-btn")}
+						</section>
+					{/if}
+
+					{#if profile?.duringStudies}
 						<section class="block">
 							<h3 class="block__title galaxy-block-title">
 								{$t("galaxy.duringStudies")}
@@ -1061,7 +1118,7 @@
 						</section>
 					{/if}
 
-					{#if profile!.afterGraduation}
+					{#if profile?.afterGraduation}
 						<section class="block">
 							<h3 class="block__title galaxy-block-title">
 								{$t("galaxy.afterGraduation")}
@@ -1074,7 +1131,7 @@
 						</section>
 					{/if}
 
-					{#if profile!.bio.length > 0}
+					{#if profile && profile.bio.length > 0}
 						<section class="block">
 							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
 							{#each profile!.bio as paragraph, index (index)}
@@ -1088,7 +1145,7 @@
 						</section>
 					{/if}
 
-					{#if profile!.festivals.length > 0}
+					{#if profile && profile.festivals.length > 0}
 						<section
 							class="block"
 							data-testid="galaxy-card-festivals-section"
@@ -2030,6 +2087,35 @@
 		height: 34px;
 		object-fit: contain;
 	}
+	/* Порожня плашка: заголовок і олівець в один рядок, без порожнечі під ними. */
+	.block--empty {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+	.block--empty .block__title {
+		margin-bottom: 0;
+		border-bottom: none;
+	}
+
+	.block-edit-btn {
+		display: grid;
+		place-items: center;
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-title);
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: border-color var(--transition-base);
+	}
+	.block-edit-btn:hover {
+		border-color: var(--accent-primary);
+	}
+
 	.block {
 		margin-top: 1.1rem;
 		text-align: left;

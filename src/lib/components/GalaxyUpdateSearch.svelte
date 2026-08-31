@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import type { ResolvedPathname } from '$app/types';
-	import { GRADUATES, graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
+	import {
+		GRADUATES,
+		graduateAddress,
+		graduateProfilePath,
+		type GraduateIndexEntry
+	} from '$lib/data/graduates';
 	import { filterGraduates } from '$lib/utils/graduateGalaxy';
 
 	/**
@@ -45,7 +50,8 @@
 
 	/** Своя сторінка є лише в тих, хто заповнив анкету, — решта без адреси. */
 	function pageHref(graduate: GraduateIndexEntry) {
-		return graduate.code ? localizedPath(graduateProfilePath(graduate.code), lang) : null;
+		/* Сторінка є в кожного — розвилки більше немає. */
+		return localizedPath(graduateProfilePath(graduateAddress(graduate)), lang);
 	}
 </script>
 
