@@ -4054,7 +4054,15 @@
 		],
 		"playCount": 12,
 		"code": "maryna-vishtaliuk-sukhanova",
-		"profileSize": 2279
+		"profileSize": 2279,
+		"teachers": [
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			}
+		]
 	},
 	{
 		"id": "mikhail-suraho",

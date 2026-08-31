@@ -24,7 +24,23 @@ import { join } from 'node:path';
  *  1. предмет зв'язку існує в переліку майстра. Ловить описки, вигадані назви й
  *     розбіжність регістру («акторська майстерність» проти «Акторська»);
  *  2. `subject` (стара форма, вільний рядок) не з'являється в нових записах;
- *  3. `studiedUnder` вказує на наявного майстра й не на самого себе.
+ *  3. `studiedUnder` вказує на наявного майстра й не на самого себе;
+ *  4. зв'язок видно з ОБОХ боків — і зі сторінки випускника, і зі сторінки
+ *     викладача.
+ *
+ * ## Чому знадобилася четверта
+ *
+ * Сторінки читають ті самі зв'язки з РІЗНИХ файлів, і це не симетрично:
+ *
+ *   сторінка випускника: `profile?.teachers ?? graduate.teachers` —
+ *     анкета ПЕРЕКРИВАЄ реєстр, і порожнє поле в ній ховає реєстр цілком;
+ *   сторінка викладача: `getStudentsByMaster` обходить `GRADUATES`, тобто
+ *     самий лише РЕЄСТР — анкет вона не читає взагалі.
+ *
+ * Наслідок заміряно на живому дефекті 2026-08-31: Миколу Балдіна вписали
+ * Марині Вішталюк в АНКЕТУ, її сторінка його показала, а на його сторінці її
+ * не було — бо в реєстрі зв'язку не існувало. Односторонній зв'язок виглядає
+ * як робочий рівно доти, доки не відкриєш другу сторінку.
  *
  * ## Зворотний експеримент проведено на ДВОХ дефектах (AI-AGENT-PITFALLS-v8 § 1.1)
  *
@@ -52,6 +68,7 @@ interface GraduateRecord {
 	slug?: string;
 	code?: string;
 	teachers?: (string | TeacherLink)[];
+	masters?: (string | TeacherLink)[];
 }
 
 interface MasterRecord {
@@ -215,5 +232,88 @@ describe('майстри, які самі тут вчилися', () => {
 		}
 
 		expect(problems, `індекс і профіль майстра розійшлися:\n${problems.join('\n')}`).toEqual([]);
+	});
+});
+
+/** Ідентифікатори зв'язків, у якій би формі їх не записали. */
+function linkIds(list: (string | TeacherLink)[] | undefined): Set<string> {
+	const out = new Set<string>();
+	for (const item of list ?? []) {
+		const id = typeof item === 'string' ? item : item.id;
+		if (id) out.add(id);
+	}
+	return out;
+}
+
+describe('звʼязок видно з обох боків', () => {
+	const withRecord = profiles
+		.map((p) => ({
+			...p,
+			record: graduates.find((g) => g.slug === p.data.slug || g.code === p.data.code)
+		}))
+		.filter((p) => p.record);
+
+	it('перевірка жива: анкети зіставлено з реєстром', () => {
+		expect(
+			withRecord.length,
+			'жодну анкету не вдалося зіставити з реєстром — перевірка нічого не стверджує'
+		).toBeGreaterThan(50);
+	});
+
+	/**
+	 * Зв'язок з анкети мусить бути й у реєстрі.
+	 *
+	 * Інакше він односторонній: сторінка випускника покаже викладача, а
+	 * сторінка викладача цього випускника — ні, бо `getStudentsByMaster`
+	 * обходить самий лише реєстр.
+	 */
+	it('усе, що є в анкеті, є і в реєстрі', () => {
+		const missing: string[] = [];
+		for (const { file, data, record } of withRecord) {
+			for (const field of ['masters', 'teachers'] as const) {
+				const inProfile = linkIds(data[field]);
+				const inRegistry = linkIds(record![field]);
+				for (const id of inProfile) {
+					if (!inRegistry.has(id)) {
+						missing.push(`${data.slug ?? file} · ${field}: ${id}`);
+					}
+				}
+			}
+		}
+		expect(
+			missing,
+			'звʼязок є в анкеті, але не в реєстрі — тоді сторінка викладача цього ' +
+				'випускника НЕ покаже, бо вона читає реєстр. Дописати той самий ' +
+				'ідентифікатор у `graduates.index.json`:\n' +
+				missing.join('\n')
+		).toEqual([]);
+	});
+
+	/**
+	 * І навпаки: непорожня анкета ПЕРЕКРИВАЄ реєстр цілком, тож зв'язок, який
+	 * лишився тільки в реєстрі, зникне зі сторінки випускника — але
+	 * лишиться на сторінці викладача.
+	 */
+	it('непорожня анкета не ховає звʼязків реєстру', () => {
+		const hidden: string[] = [];
+		for (const { file, data, record } of withRecord) {
+			for (const field of ['masters', 'teachers'] as const) {
+				// Порожнє поле анкети реєстр не перекриває — там працює `??`.
+				if (!data[field]?.length) continue;
+				const inProfile = linkIds(data[field]);
+				for (const id of linkIds(record![field])) {
+					if (!inProfile.has(id)) {
+						hidden.push(`${data.slug ?? file} · ${field}: ${id}`);
+					}
+				}
+			}
+		}
+		expect(
+			hidden,
+			'звʼязок є в реєстрі, але анкета його перекриває — сторінка випускника ' +
+				'його не покаже, а сторінка викладача покаже. Дописати той самий ' +
+				'ідентифікатор в анкету:\n' +
+				hidden.join('\n')
+		).toEqual([]);
 	});
 });
