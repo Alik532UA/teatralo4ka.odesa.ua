@@ -26,7 +26,7 @@ function parseArgs() {
 		if (arg.startsWith('--src=')) src = arg.slice('--src='.length);
 	}
 
-	if (!slug || !index || !src) {
+	if (!slug || !index || index < 1 || !src) {
 		console.error('Usage: npx tsx scripts/convert-extra-photo.ts --slug=<slug> --index=<N> --src=<path>');
 		process.exit(1);
 	}
@@ -85,7 +85,8 @@ async function main() {
 			{ dataUrl, size, quality: QUALITY }
 		);
 
-		const outName = `${slug}-${index}-${size}.webp`;
+		// `--index=1` — головне фото, і в його імені номера немає.
+		const outName = index === 1 ? `${slug}-${size}.webp` : `${slug}-${index}-${size}.webp`;
 		const outPath = path.join(OUT_DIR, outName);
 		fs.writeFileSync(outPath, Buffer.from(webpBase64, 'base64'));
 		const bytes = fs.statSync(outPath).size;
