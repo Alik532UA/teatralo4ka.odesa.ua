@@ -203,7 +203,8 @@
 		а `e2e/testid.spec.ts` вимагає унікальності в її межах.
 	-->
 	{#if castIds.length}
-		<GraduateAvatarRow ids={castIds} testIdPrefix="master-production-cast-{prod.id}" max={10} />
+		<!-- `fitToWidth`: картка має власну ширину, тож обличчя рахуються з неї. -->
+		<GraduateAvatarRow ids={castIds} testIdPrefix="master-production-cast-{prod.id}" max={10} fitToWidth />
 	{/if}
 </article>
 

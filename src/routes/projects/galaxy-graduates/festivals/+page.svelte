@@ -191,6 +191,7 @@
 							linked={false}
 							testIdPrefix="galaxy-festival-members-{festival.slug}"
 							max={20}
+							fitToWidth
 						/>
 					</a>
 				</li>

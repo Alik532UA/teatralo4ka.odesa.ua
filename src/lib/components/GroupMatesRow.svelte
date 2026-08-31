@@ -36,4 +36,5 @@
 	const ids = $derived(getGroupBySlug(groupSlug)?.memberIds ?? []);
 </script>
 
-<GraduateAvatarRow {ids} {excludeId} {linked} {testIdPrefix} />
+<!-- `fitToWidth`: обидва місця показу — картки з власною шириною. -->
+<GraduateAvatarRow {ids} {excludeId} {linked} {testIdPrefix} fitToWidth />

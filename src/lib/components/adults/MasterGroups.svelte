@@ -81,6 +81,7 @@
 							linked={false}
 							testIdPrefix="master-group-mates-{group.slug}"
 							max={8}
+							fitToWidth
 						/>
 					</span>
 					<span class="group-card__arrow" aria-hidden="true">
