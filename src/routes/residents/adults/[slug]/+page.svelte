@@ -232,12 +232,12 @@
 			<MasterGroups groups={data.groups} {isEn} />
 		{/if}
 
+		<!-- Порожній перелік секцію не малює — умова всередині компонента. -->
+		<MasterFestivals masterId={data.master.id} />
+
 		{#if masterPlays.length > 0}
 			<MasterProductions productions={masterPlays} {isEn} />
 		{/if}
-
-		<!-- Порожній перелік секцію не малює — умова всередині компонента. -->
-		<MasterFestivals masterId={data.master.id} />
 	</div>
 </div>
 

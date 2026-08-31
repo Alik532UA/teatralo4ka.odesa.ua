@@ -3,7 +3,6 @@
 	import { Globe } from 'lucide-svelte';
 	import { getFestivalsByMaster } from '$lib/data/festivals';
 	import GraduateFestivals from '$lib/components/GraduateFestivals.svelte';
-	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
 	 * Фестивалі, на які їздив цей працівник.
@@ -17,9 +16,10 @@
 	 * випускника. Різниця лише в тому, ЧИЙ список йому дати: тут `masterIds`,
 	 * там `memberIds`.
 	 *
-	 * Мініатюри учасників — рядок із `GraduateAvatarRow`, як у переліку груп:
-	 * фестиваль без облич читається як рядок службової звітності, хоч це
-	 * поїздка конкретних людей.
+	 * Мініатюри учасників малює той самий `GraduateFestivals` (`showMembers`) —
+	 * усередині картки свого фестивалю. Окремим списком під усіма фестивалями
+	 * вони висіли самі по собі, і з екрана не було видно, хто з якої поїздки.
+	 * Свій підпис списку вимкнений: заголовок секції вже каже «Фестивалі».
 	 *
 	 * `Globe` — та сама іконка, якою фестивалі підписані в галактиці; своя
 	 * іконка для того самого поняття означала б, що читач їх не зіставить.
@@ -44,18 +44,7 @@
 			</h2>
 		</div>
 
-		<GraduateFestivals {festivals} testIdPrefix="master-festivals" />
-
-		<ul class="fests-section__members" data-testid="master-festivals-members-list">
-			{#each festivals as festival (festival.slug)}
-				<li>
-					<GraduateAvatarRow
-						ids={festival.memberIds}
-						testIdPrefix="master-festival-members-{festival.slug}"
-					/>
-				</li>
-			{/each}
-		</ul>
+		<GraduateFestivals {festivals} testIdPrefix="master-festivals" showMembers showTitle={false} />
 	</section>
 {/if}
 
@@ -93,12 +82,4 @@
 		color: var(--text-title);
 	}
 
-	.fests-section__members {
-		list-style: none;
-		margin: 0.5rem 0 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
 </style>

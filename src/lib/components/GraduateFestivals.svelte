@@ -2,6 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { festivalPath, type Festival } from '$lib/data/festivals';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 
 	interface Props {
@@ -20,9 +21,34 @@
 		 * викладача, а `e2e/testid.spec.ts` вимагає унікальності в межах сторінки.
 		 */
 		testIdPrefix?: string;
+		/**
+		 * Мініатюри учасників — усередині картки того фестивалю, до якого вони
+		 * належать.
+		 *
+		 * Перша спроба малювала їх окремим списком ПІД усіма фестивалями: два
+		 * рядки облич висіли самі по собі, і з екрана не було видно, хто з якої
+		 * поїздки. Тепер рядок стоїть у тому самому `<li>`, і картка обводить
+		 * обох.
+		 *
+		 * Типово вимкнено: в анкеті випускника цей блок стоїть у вузькій колонці
+		 * поряд із виставами, і тридцять облич на фестиваль розсунули б її.
+		 */
+		showMembers?: boolean;
+		/**
+		 * Свій підпис «Фестивалі:» над списком.
+		 *
+		 * Вимикається там, де блок уже стоїть у секції з таким самим заголовком
+		 * — інакше слово «Фестивалі» читається двічі підряд.
+		 */
+		showTitle?: boolean;
 	}
 
-	let { festivals, testIdPrefix = 'galaxy-card-festivals' }: Props = $props();
+	let {
+		festivals,
+		testIdPrefix = 'galaxy-card-festivals',
+		showMembers = false,
+		showTitle = true
+	}: Props = $props();
 
 	/*
 	 * Фестивалі беруться з РЕЄСТРУ, а не з тексту «про себе».
@@ -43,12 +69,15 @@
 
 {#if festivals.length}
 	<div class="fests" data-testid="{testIdPrefix}-list">
-		<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}:</span>
+		{#if showTitle}
+			<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}:</span>
+		{/if}
 		<ul class="fests__list">
 			{#each festivals as festival (festival.slug)}
-				<li>
+				<li class="fests__row" class:fests__row--card={showMembers}>
 					<a
 						class="fests__link"
+						class:fests__link--bare={showMembers}
 						href={localizedPath(festivalPath(festival.slug), lang)}
 						title={whereOf(festival.city, festival.countries)}
 						data-testid="{testIdPrefix}-link-{festival.slug}"
@@ -63,6 +92,18 @@
 							{/each}
 						</span>
 					</a>
+
+					<!--
+						Рядок СЕСТРИНСЬКИЙ до посилання, а не всередині нього: мініатюри
+						самі є посиланнями, а `<a>` в `<a>` валить сторінку (гейт
+						`nested-interactive`).
+					-->
+					{#if showMembers}
+						<GraduateAvatarRow
+							ids={festival.memberIds}
+							testIdPrefix="{testIdPrefix}-members-{festival.slug}"
+						/>
+					{/if}
 				</li>
 			{/each}
 		</ul>
@@ -84,6 +125,26 @@
 		flex-direction: column;
 		gap: 0.35rem;
 	}
+	/* Коли мініатюри показуються, рамкою стає сам рядок — щоб посилання й обличчя
+	   читалися як одна картка, а не як два сусідні блоки. */
+	.fests__row--card {
+		border-radius: var(--radius-md, 12px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		padding-bottom: 0.2rem;
+		transition: border-color var(--transition-base);
+	}
+	.fests__row--card:hover {
+		border-color: var(--accent-primary);
+	}
+	.fests__link--bare {
+		background: none;
+		border: 0;
+	}
+	.fests__link--bare:hover {
+		transform: none;
+	}
+
 	.fests__link {
 		display: flex;
 		flex-wrap: wrap;
