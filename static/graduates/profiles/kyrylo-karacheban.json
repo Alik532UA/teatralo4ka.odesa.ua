@@ -13,6 +13,9 @@
 	"hasPhoto": true,
 	"masters": [
 		{
+			"id": "samuil-imas"
+		},
+		{
 			"id": "tetiana-isachkina"
 		}
 	],
@@ -44,5 +47,13 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2016/16K"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2016/16K",
+	"teachers": [
+		{
+			"id": "mykola-baldin"
+		},
+		{
+			"id": "iryna-kaplia"
+		}
+	]
 }

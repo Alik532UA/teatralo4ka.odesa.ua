@@ -3917,12 +3917,23 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "tetiana-isachkina"
 			}
 		],
 		"playCount": 3,
 		"code": "kyrylo-karacheban",
-		"profileSize": 1144
+		"profileSize": 1144,
+		"teachers": [
+			{
+				"id": "mykola-baldin"
+			},
+			{
+				"id": "iryna-kaplia"
+			}
+		]
 	},
 	{
 		"id": "kyrylo-karazeiskyi",
