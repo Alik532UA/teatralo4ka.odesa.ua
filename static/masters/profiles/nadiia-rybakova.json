@@ -16,5 +16,12 @@
 	"socials": [],
 	"photo": "/masters/nadiia-rybakova.webp",
 	"category": "directors",
-	"portrait": "/masters/portraits/nadiia-rybakova.webp"
+	"portrait": "/masters/portraits/nadiia-rybakova.webp",
+	"playIds": [
+		"mukha-tsokotukha-2008",
+		"emelia-2008",
+		"vovka-v-trydeviatom-tsarstve-2007",
+		"utrennyk-2007",
+		"teremok-2007"
+	]
 }

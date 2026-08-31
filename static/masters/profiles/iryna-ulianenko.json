@@ -17,5 +17,8 @@
 	"photo": "/masters/iryna-ulianenko.webp",
 	"category": "teachers",
 	"portrait": "/masters/portraits/iryna-ulianenko.webp",
-	"roleTitle": "викладачка сценічного мовлення"
+	"roleTitle": "викладачка сценічного мовлення",
+	"playIds": [
+		"otkrytyi-pokaz-po-stsenycheskoi-rechy-2008"
+	]
 }

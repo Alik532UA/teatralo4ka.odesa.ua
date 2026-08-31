@@ -31,7 +31,13 @@
 	{
 		"id": "dim-bernardy-alby-2026",
 		"title": "«Дім Бернарди Альби»",
-		"year": 2026
+		"year": 2026,
+		"author": "Федерико Гарсія Лорка",
+		"theatreGroup": "гр. 7т-20",
+		"dateNote": "26 травня вівторок, 18.00 (ауд. 7); 27 травня середа, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "dumky-vholos-2026",
@@ -57,7 +63,8 @@
 		"number": 71,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Яктус+Паша» («Інтенсив-Насті+Паша»)",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "23 травня субота, 14.30 (ауд. 7); 25 травня понеділок, 18.00 (ауд. 7)"
 	},
 	{
 		"id": "stateve-vykhovannia-2026",
@@ -70,12 +77,19 @@
 		"number": 72,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "18 травня понеділок, 17.30 (ауд. 7); 19 травня вівторок, 17.30 (ауд. 7)"
 	},
 	{
 		"id": "tin-2026",
 		"title": "«Тінь»",
-		"year": 2026
+		"year": 2026,
+		"author": "Є.Шварц",
+		"theatreGroup": "гр. 8т-21",
+		"dateNote": "28 травня четвер, 18.00 (ауд. 7); 29 травня п’ятниця, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "pokaz-etiudiv-2026",
@@ -87,7 +101,8 @@
 		"number": 70,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Інтенсив-Тихон»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "30 квітня четвер, 18.00 (ауд. 17); 1 травня п’ятниця, 18.00 (ауд. 17); 2 травня субота, 14.00 (ауд. 17)"
 	},
 	{
 		"id": "alisa-new-2025",
@@ -2834,7 +2849,12 @@
 	{
 		"id": "a-zory-zdes-tykhye-2008",
 		"title": "«А зори здесь тихие...»",
-		"year": 2008
+		"year": 2008,
+		"author": "Литературно-театрализов. композиция по повести Б. Васильева (выпускной экзамен по сценической речи)",
+		"dateNote": "22.05 четверг, 18.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "karpatskaia-vesna-2008",
@@ -2871,7 +2891,13 @@
 	{
 		"id": "krestyky-nolyky-2008",
 		"title": "«Крестики-нолики»",
-		"year": 2008
+		"year": 2008,
+		"author": "А. Червинский (Выпускной спектакль)",
+		"theatreGroup": "гр. 18",
+		"dateNote": "24.05 суббота, 17.00; 25.05 воскресенье, 17.00",
+		"masters": [
+			"fedir-tkach"
+		]
 	},
 	{
 		"id": "letuchyi-korabl-2008",
@@ -2886,7 +2912,14 @@
 	{
 		"id": "salun-matushky-mydous-2008",
 		"title": "«Салун Матушки Мидоус»",
-		"year": 2008
+		"year": 2008,
+		"author": "Дж. Харрис",
+		"theatreGroup": "гр. 12",
+		"dateNote": "14.05 среда, 17.30; 16.05 пятница, 16.30",
+		"masters": [
+			"tetiana-isachkina",
+			"adelina-tetradova"
+		]
 	},
 	{
 		"id": "khrestyky-nulyky-2008",
@@ -5385,7 +5418,7 @@
 		"id": "mukha-tsokotukha-2021",
 		"title": "«Муха-Цокотуха»",
 		"year": 2021,
-		"author": "Музична вистава (( за мотивами одноіменної казки))",
+		"author": "Музична вистава ( за мотивами одноіменної казки)",
 		"theatreGroup": "гр. 3-Е-5",
 		"dateNote": "22 травня субота, 14.30 (ауд. 11); 31 травня понеділок, 16.10 (ауд. 11)",
 		"masters": [
@@ -6771,6 +6804,711 @@
 		"title": "Підсумкові для старших- ВИПУСКНИЙ",
 		"year": 2025,
 		"dateNote": "07.06 субота, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "zamarashky-2007",
+		"title": "«Замарашки»",
+		"year": 2007,
+		"author": "Я.Главацкий",
+		"theatreGroup": "гр. Театр выпускников",
+		"dateNote": "10.05, 19.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "samyi-malen-kyi-hnom-2007",
+		"title": "«Самый маленький гном»",
+		"year": 2007,
+		"theatreGroup": "гр. 1",
+		"dateNote": "15.05- вторник, 16.00; 16.05-среда, 16.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "vremena-hoda-2007",
+		"title": "«Времена года»",
+		"year": 2007,
+		"theatreGroup": "гр. 7",
+		"dateNote": "19.05-суббота, 11.00; 22.05- вторник, 16.30",
+		"masters": [
+			"tetiana-isachkina"
+		],
+		"author": "С.Маршак"
+	},
+	{
+		"id": "smekh-y-slezy-2007",
+		"title": "«Смех и слезы»",
+		"year": 2007,
+		"author": "С. Михалков",
+		"theatreGroup": "гр. 9",
+		"dateNote": "19.05-суббота, 13.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "sluha-dvukh-hospod-2007",
+		"title": "«Слуга двух господ»",
+		"year": 2007,
+		"author": "К.Гольдони",
+		"theatreGroup": "гр. 11",
+		"dateNote": "21.05-понедельн., 17.30; 22.05- вторник, 18.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "zapysky-zamoskvorechnoho-zhytelia-2007",
+		"title": "«Записки Замоскворечного жителя»",
+		"year": 2007,
+		"author": "Островский (отрывки из пьес)",
+		"theatreGroup": "гр. 10",
+		"dateNote": "23.05-среда, 18.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "diadiushka-krolyk-protyv-diadiushky-iahuara-hr-3-2007",
+		"title": "«Дядюшка Кролик против дядюшки Ягуара»",
+		"year": 2007,
+		"author": "А.Абрайс",
+		"theatreGroup": "гр. 3",
+		"dateNote": "24.05- четверг, 16.00; 29.05- вторник, 16.00",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "vovka-v-trydeviatom-tsarstve-2007",
+		"title": "«Вовка в Тридевятом царстве»",
+		"year": 2007,
+		"author": "В.Коростылев",
+		"theatreGroup": "гр. 4",
+		"dateNote": "24.05- четверг, 17.30",
+		"masters": [
+			"nadiia-rybakova"
+		]
+	},
+	{
+		"id": "utrennyk-2007",
+		"title": "Утренник",
+		"year": 2007,
+		"theatreGroup": "гр. 1,2,3",
+		"dateNote": "25.05- пятница, 10.00; 26.05-суббота, 10.00",
+		"masters": [
+			"nadiia-rybakova"
+		]
+	},
+	{
+		"id": "try-tsarstva-try-hosudarstv-2007",
+		"title": "«Три царства—три государств»",
+		"year": 2007,
+		"author": "Исачкина Т",
+		"theatreGroup": "гр. 5",
+		"dateNote": "25.05- пятница, 16.30",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "teremok-2007",
+		"title": "«Теремок»",
+		"year": 2007,
+		"author": "С.Маршак",
+		"theatreGroup": "гр. 2",
+		"dateNote": "26.05-суббота, 13.00",
+		"masters": [
+			"nadiia-rybakova"
+		]
+	},
+	{
+		"id": "yzumrudnyi-horod-2007",
+		"title": "«Изумрудный город»",
+		"year": 2007,
+		"author": "Л.Ф.Баум , А.Волков",
+		"theatreGroup": "гр. 6",
+		"dateNote": "26.05-суббота, 17.00; 27.05-воскресенье, 16.00",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "yntensyvnoho-klassa-2007",
+		"title": "«интенсивного класса»",
+		"year": 2007,
+		"author": "Открытый урок-зачет",
+		"theatreGroup": "гр. 8",
+		"dateNote": "28.05-понедельн.., 16.00",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "eshche-raz-o-holom-korole-2007",
+		"title": "«Еще раз о голом короле»",
+		"year": 2007,
+		"author": "Л. Филатов",
+		"theatreGroup": "гр. 12",
+		"dateNote": "29.05- вторник, 18.30",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "zhenskyi-stol-2007",
+		"title": "«Женский стол»",
+		"year": 2007,
+		"author": "В.Мережко (в охотничьем зале»)",
+		"theatreGroup": "гр. 13",
+		"dateNote": "30.05-среда, 18.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "podvedenye-ytohov-festyvalia-vecher-vypusknoi-2007",
+		"title": "Подведение итогов фестиваля, вечер выпускной",
+		"year": 2007,
+		"dateNote": "01 .06"
+	},
+	{
+		"id": "teatralyzovannaia-kompozytsyia-po-rasskazam-a-p-ch-2008",
+		"title": "театрализованная композиция по рассказам А.П. Чехова (выпускной экзамен по сценической речи)",
+		"year": 2008,
+		"author": "Литературно",
+		"theatreGroup": "гр. 18",
+		"dateNote": "16.05 пятница, 18.30",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "otkrytyi-pokaz-po-stsenycheskoi-rechy-2008",
+		"title": "Открытый показ по сценической речи",
+		"year": 2008,
+		"dateNote": "18.05 воскресенье, 13.00; 19.05 понедельник, 18.00; 21.05 среда, 18.00",
+		"masters": [
+			"iryna-ulianenko",
+			"svitlana-ryskina",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "prykliuchenyia-buratyno-2008",
+		"title": "«Приключения Буратино»",
+		"year": 2008,
+		"author": "А.Н. Толстой",
+		"theatreGroup": "гр. 8",
+		"dateNote": "19.05 понедельник, 16.30; 21.05 среда, 16.00",
+		"masters": [
+			"svitlana-ryskina",
+			"iryna-kaplia",
+			"adelina-tetradova"
+		]
+	},
+	{
+		"id": "koshcheevy-strasty-hr-7-2008",
+		"title": "«Кощеевы страсти»",
+		"year": 2008,
+		"author": "В. Панфилов",
+		"theatreGroup": "гр. 7",
+		"dateNote": "20.05 вторник, 16.30; 24.05 суббота, 12.00",
+		"masters": [
+			"tetiana-isachkina",
+			"iryna-ovcharenko",
+			"iryna-yershova"
+		]
+	},
+	{
+		"id": "urok-dochkam-2008",
+		"title": "«Урок дочкам»",
+		"year": 2008,
+		"author": "И.А. Крылов",
+		"theatreGroup": "гр. 14",
+		"dateNote": "22.05 четверг, 16.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "utrennyk-2008",
+		"title": "Утренник",
+		"year": 2008,
+		"theatreGroup": "гр. 1,2,3",
+		"dateNote": "23.05 пятница, 10.00"
+	},
+	{
+		"id": "repka-na-novyi-lad-2008",
+		"title": "«Репка на новый лад»",
+		"year": 2008,
+		"theatreGroup": "гр. 6",
+		"dateNote": "23.05 пятница, 15.30",
+		"masters": [
+			"tetiana-isachkina",
+			"iryna-yershova"
+		]
+	},
+	{
+		"id": "teatr-kotov-2008",
+		"title": "«Театр котов»",
+		"year": 2008,
+		"author": "муз. А.Л. Веббера",
+		"theatreGroup": "гр. 5",
+		"dateNote": "23.05 пятница, 17.30; 24.05 суббота, 14.30",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "alysa-v-strane-chudes-2008",
+		"title": "«Алиса в стране чудес»",
+		"year": 2008,
+		"author": "Льюис Каррол",
+		"theatreGroup": "гр. 10",
+		"dateNote": "26.05 понедельник, 16.00",
+		"masters": [
+			"svitlana-ryskina",
+			"yevheniia-voiutska"
+		]
+	},
+	{
+		"id": "kentervyl-skoe-pryvydenye-2008",
+		"title": "«Кентервильское привидение»",
+		"year": 2008,
+		"author": "О.Уайльд",
+		"theatreGroup": "гр. 14",
+		"dateNote": "26.05 понедельник, 17.30",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "mukha-tsokotukha-2008",
+		"title": "«Муха-Цокотуха»",
+		"year": 2008,
+		"theatreGroup": "гр. 3",
+		"dateNote": "27.05 вторник, 16.00",
+		"masters": [
+			"nadiia-rybakova",
+			"adelina-tetradova"
+		]
+	},
+	{
+		"id": "a-liubov-ly-eto-2008",
+		"title": "«А любовь ли это…»",
+		"year": 2008,
+		"author": "Р. Тома",
+		"theatreGroup": "гр. 16",
+		"dateNote": "27.05 вторник, 17.30"
+	},
+	{
+		"id": "polet-kuznechyka-2008",
+		"title": "«Полет Кузнечика»",
+		"year": 2008,
+		"author": "Р.Галушко",
+		"theatreGroup": "гр. 17",
+		"dateNote": "28.05 среда, 18.00",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "emelia-2008",
+		"title": "«Емеля»",
+		"year": 2008,
+		"author": "В.Панфилов",
+		"theatreGroup": "гр. 5,9",
+		"dateNote": "29.05 четверг, 16.00",
+		"masters": [
+			"nadiia-rybakova",
+			"iryna-yershova"
+		]
+	},
+	{
+		"id": "komnata-nevest-2008",
+		"title": "«Комната невест»",
+		"year": 2008,
+		"author": "В. Красногоров",
+		"theatreGroup": "гр. 13",
+		"dateNote": "29.05 четверг, 18.00",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "otkrytyi-pokaz-yntensyvnoho-klassa-po-akterskomu-m-2008",
+		"title": "Открытый показ интенсивного класса по актерскому мастерству",
+		"year": 2008,
+		"theatreGroup": "гр. 11",
+		"dateNote": "30.05 пятница, 16.30",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "podvedenye-ytohov-vypusknoi-vecher-2008",
+		"title": "Подведение итогов Выпускной вечер",
+		"year": 2008,
+		"dateNote": "31.05"
+	},
+	{
+		"id": "den-narodzhennia-infanty-2026",
+		"title": "«День народження Інфанти»",
+		"year": 2026,
+		"author": "казок Оскара Вайлда",
+		"theatreGroup": "гр. студія \"Лі-Те-Ра\"",
+		"dateNote": "25 квітня субота, 14.00 (ауд. 7); 27 квітня понеділок, 17.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "kontsert-klasu-hitary-2026",
+		"title": "Концерт класу гітари",
+		"year": 2026,
+		"dateNote": "25 квітня субота, 17.00 (ауд. 11)",
+		"masters": [
+			"andrii-klymenko"
+		]
+	},
+	{
+		"id": "zvitnyi-kontsert-muzychnoho-viddilennia-2026",
+		"title": "Звітний концерт музичного відділення",
+		"year": 2026,
+		"dateNote": "26 квітня неділя, 12.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "ispyt-sol-fedzhio-2026",
+		"title": "Іспит. Сольфеджіо",
+		"year": 2026,
+		"dateNote": "29 квітня середа, 16.10 (ауд. 3)"
+	},
+	{
+		"id": "kozeniatko-iake-vmilo-rakhuvaty-do-desiaty-2026",
+		"title": "«Козенятко, яке вміло рахувати до десяти»",
+		"year": 2026,
+		"author": "Етюдний показ за мотивами казки Альфа Прейсена",
+		"theatreGroup": "гр. 3т-7",
+		"dateNote": "1 травня п’ятниця, 16.10 (ауд. 11); 2 травня субота, 11.00 (ауд. 11)",
+		"masters": [
+			"hanna-serebriannikova"
+		]
+	},
+	{
+		"id": "etiudnyi-pokaz-za-motyvamy-baiok-l-hlibova-2026",
+		"title": "Етюдний показ за мотивами байок Л.Глібова",
+		"year": 2026,
+		"theatreGroup": "гр. 1т-1",
+		"dateNote": "4 травня понеділок, 16.10 (ауд. 11)",
+		"masters": [
+			"hanna-serebriannikova"
+		]
+	},
+	{
+		"id": "chaklunky-dyvachky-ta-lystopad-2026",
+		"title": "«Чаклунки-дивачки та Листопад»",
+		"year": 2026,
+		"author": "Лани Ра (з тренінгами та етюдами)",
+		"theatreGroup": "гр. 1т-1н",
+		"dateNote": "5 травня вівторок, 16.10 (ауд. 11); 13 травня середа, 15.20 (ауд. 11)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "tam-lin-2026",
+		"title": "«Там Лін»",
+		"year": 2026,
+		"author": "Інсценування шотландської народної казки",
+		"theatreGroup": "гр. 2е-3",
+		"dateNote": "6 травня середа, 15.20 (ауд. 11)",
+		"masters": [
+			"hanna-serebriannikova"
+		]
+	},
+	{
+		"id": "a-chy-ne-zihraty-pinokkio-2026",
+		"title": "«А чи не зіграти «Піноккіо»",
+		"year": 2026,
+		"author": "?» за мотивами роману «Пригоди Піноккіо» Карло Коллоді",
+		"theatreGroup": "гр. 4е-8",
+		"dateNote": "7 травня четвер, 15.20 (ауд. 11)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "pryvid-zamka-kentervil-2026",
+		"title": "«Привід замка Кентервіль»",
+		"year": 2026,
+		"author": "Оскар Вайлд",
+		"theatreGroup": "гр. 5т-17",
+		"dateNote": "7 травня четвер, 17.00 (ауд. 7); 8 травня п’ятниця, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "khto-na-kukhni-holovnyi-2026",
+		"title": "«Хто на кухні головний?»",
+		"year": 2026,
+		"author": "Ірина Ліндлі",
+		"theatreGroup": "гр. 1е-1",
+		"dateNote": "9 травня субота, 11.10 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "tantsi-plius-2026",
+		"title": "«Танці плюс»",
+		"year": 2026,
+		"author": "Олжас Жанайдаров",
+		"theatreGroup": "гр. 4Т-11",
+		"dateNote": "9 травня субота, 12.30 (ауд. 7); 11 травня понеділок, 17.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kontsert-klasiv-fortepiano-2026",
+		"title": "Концерт класів фортепіано",
+		"year": 2026,
+		"dateNote": "10 травня неділя, 12.00 (ауд. 11)",
+		"masters": [
+			"olena-prorok"
+		]
+	},
+	{
+		"id": "zhabiachi-pryhody-2026",
+		"title": "«Жаб'ячі пригоди»",
+		"year": 2026,
+		"author": "Н.Забіли",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "11 травня понеділок, 15.20 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "tantsiuiuchyi-urahan-abo-mriia-robota-2026",
+		"title": "«Танцюючий ураган або мрія робота»",
+		"year": 2026,
+		"author": "Б. Базилевич",
+		"theatreGroup": "гр. 4е-6",
+		"dateNote": "12 травня вівторок, 15.20 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "etiudnyi-pokaz-na-osnovi-real-noho-zhyttia-ta-trok-2026",
+		"title": "‎ Етюдний показ на основі реального життя, та трохи за мотивами Дж.Родарі та П. Глазового.",
+		"year": 2026,
+		"theatreGroup": "гр. 2т-3",
+		"dateNote": "13 травня середа, 16.30 (ауд. 11)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "popeliushka-2026",
+		"title": "«Попелюшка»",
+		"year": 2026,
+		"author": "Н. Уварова",
+		"theatreGroup": "гр. 4е-7",
+		"dateNote": "14 травня четвер, 15.20 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "nezlamni-ta-drakon-2026",
+		"title": "«Незламні та Дракон»",
+		"year": 2026,
+		"author": "Т. Ісачкіної",
+		"theatreGroup": "гр. 2т-4",
+		"dateNote": "14 травня четвер, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kazky-matusi-midous-2026",
+		"title": "«Казки Матусі Мідоус»",
+		"year": 2026,
+		"author": "Дж.Харріс (інсценізація Ф.Ткача)",
+		"theatreGroup": "гр. Муз. театр",
+		"dateNote": "15 травня п’ятниця, 16.10 (ауд. 7); 16 травня субота, 12.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "usmishka-2026",
+		"title": "«Усмішка»",
+		"year": 2026,
+		"author": "Рея Бредбері",
+		"theatreGroup": "гр. 4т-13",
+		"dateNote": "15 травня п’ятниця, 17.30 (ауд. 7); 16 травня субота, 13.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vokala-2026",
+		"title": "Концерт класу вокала",
+		"year": 2026,
+		"dateNote": "17 травня неділя, 12.00 (ауд. 11)",
+		"masters": [
+			"natalia-bakina",
+			"yana-kovalchuk"
+		]
+	},
+	{
+		"id": "fizkul-tura-dlia-baby-iahy-2026",
+		"title": "«Фізкультура для Баби Яги»",
+		"year": 2026,
+		"author": "Наталя Уварова (‎)",
+		"theatreGroup": "гр. 3е-4",
+		"dateNote": "18 травня понеділок, 15.20 (ауд. 11)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "pidlitkova-spovid-2026",
+		"title": "«Підліткова сповідь»",
+		"year": 2026,
+		"author": "читка монологів",
+		"theatreGroup": "гр. 3т-8",
+		"dateNote": "19 травня вівторок, 16.10 (ауд. 17)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "pryhody-hnomusi-maniusi-2026",
+		"title": "«Пригоди гномусі Манюсі»",
+		"year": 2026,
+		"author": "М.Ліпскерова \" Самий маленький гном\"",
+		"theatreGroup": "гр. 3е-5",
+		"dateNote": "20 травня середа, 15.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "toreodory-z-vasiukivky-2026",
+		"title": "«Тореодори з Васюківки»",
+		"year": 2026,
+		"author": "Етюдний показ за мотивами В.Нестайко",
+		"theatreGroup": "гр. 1Т-2",
+		"dateNote": "20 травня середа, 17.00 (ауд. 7); 23 травня субота, 11.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "pokyd-ky-2026",
+		"title": "«Покидьки»",
+		"year": 2026,
+		"author": "Катерина Пенькова",
+		"theatreGroup": "гр. 3т-9",
+		"dateNote": "21 травня четвер, 16.10 (ауд. 7); 27 травня середа, 16.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "uryvky-z-klasyky-2026",
+		"title": "Уривки з класики",
+		"year": 2026,
+		"theatreGroup": "гр. 5Т-16",
+		"dateNote": "21 травня четвер, 18.00 (ауд. 7); 22 травня п’ятниця, 18.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "dosvid-2026",
+		"title": "«Досвід»",
+		"year": 2026,
+		"author": "Т. Ісачкіна (підліткова драма)",
+		"theatreGroup": "гр. 5т-15",
+		"dateNote": "22 травня п’ятниця, 16.00 (ауд. 7); 23 травня субота, 13.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "dusha-podushky-2026",
+		"title": "«Душа подушки»",
+		"year": 2026,
+		"author": "Олжас Жанайдаров",
+		"theatreGroup": "гр. 2т-5",
+		"dateNote": "25 травня понеділок, 16.00 (ауд. 7); 26 травня вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "1-4e-6-4e-7-4e-8-uchni-khudozhn-oho-viddilennia-2026",
+		"title": "1, 4Е-6, 4Е-7, 4Е-8 + учні художнього відділення",
+		"year": 2026,
+		"author": "Підсумкові заходи 1Е",
+		"dateNote": "28 травня четвер, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "2-2e-3-3e-4-3e-5-uchni-muzychnoho-viddilennia-2026",
+		"title": "2, 2Е-3, 3Е-4, 3Е-5 + учні музичного відділення",
+		"year": 2026,
+		"author": "Підсумкові заходи 2Е",
+		"dateNote": "29 травня п’ятниця, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "1n-1t-1-1t-2-2t-3-2t-4-2t-5-2026",
+		"title": "1Н, 1Т-1, 1Т-2, 2Т-3, 2Т-4, 2Т-5,",
+		"year": 2026,
+		"author": "Підсумкові заходи 1Т",
+		"dateNote": "30 травня субота, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "7-3t-8-3t-9-3t-10-4t-11-4t-13-2026",
+		"title": "7, 3Т-8, 3Т-9, 3Т-10, 4Т-11, 4Т-13,",
+		"year": 2026,
+		"author": "Підсумкові заходи 3Т",
+		"dateNote": "30 травня субота, 13.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "14-5t-15-5t-16-5t-17-6t-18-6t-19-7t-20-8t-21-2026",
+		"title": "14, 5Т-15, 5Т-16, 5Т-17, 6Т-18, 6Т-19, 7Т-20, 8Т-21",
+		"year": 2026,
+		"author": "Випускний 5Т",
+		"dateNote": "30 травня субота, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
 		]

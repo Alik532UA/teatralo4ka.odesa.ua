@@ -20,6 +20,10 @@
 	"roleTitle": "викладачка акторської майстерності та сценічного мовлення вищої категорії",
 	"portrait": "/masters/portraits/tetiana-isachkina.webp",
 	"playIds": [
+		"nezlamni-ta-drakon-2026",
+		"usmishka-2026",
+		"pryhody-hnomusi-maniusi-2026",
+		"dosvid-2026",
 		"pryhody-mysheniat-i-hrufaliat-2025",
 		"chomu-zaiets-spyt-z-rozpliushchenymy-ochyma-2025",
 		"son-pro-malen-koho-pryntsa-2025",
@@ -37,6 +41,7 @@
 		"lisovi-pryhody-abo-khto-naikhytrishyi-2022",
 		"pisochnytsia-z-wi-fi-u-kosmosi-2022",
 		"klasyky-2022",
+		"visim-liubliachykh-zhinok-2022",
 		"asta-2021",
 		"veseli-skoromovky-2021",
 		"rafaman-2021",
@@ -80,6 +85,15 @@
 		"peppy-dlynnyi-chulok-2013",
 		"spektakl-2013",
 		"vosem-liubiashchykh-zhenshchyn-2013",
-		"visim-liubliachykh-zhinok-2022"
+		"salun-matushky-mydous-2008",
+		"teatralyzovannaia-kompozytsyia-po-rasskazam-a-p-ch-2008",
+		"otkrytyi-pokaz-po-stsenycheskoi-rechy-2008",
+		"koshcheevy-strasty-hr-7-2008",
+		"repka-na-novyi-lad-2008",
+		"teatr-kotov-2008",
+		"vremena-hoda-2007",
+		"diadiushka-krolyk-protyv-diadiushky-iahuara-hr-3-2007",
+		"try-tsarstva-try-hosudarstv-2007",
+		"eshche-raz-o-holom-korole-2007"
 	]
 }
