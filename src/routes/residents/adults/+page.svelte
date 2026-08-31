@@ -4,12 +4,12 @@
 	import MasterCard from '$lib/components/adults/MasterCard.svelte';
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
-	import MasterViewToggle, { type ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
+	import MasterViewToggle from '$lib/components/adults/MasterViewToggle.svelte';
 	import MasterSearch from '$lib/components/adults/MasterSearch.svelte';
 	import AdultsCallToAction from '$lib/components/adults/AdultsCallToAction.svelte';
 	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
-	import { adultsViewMode } from '$lib/services/adultsViewMode.svelte';
+	import { adultsViewMode, isMode } from '$lib/services/adultsViewMode.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -29,8 +29,9 @@
 	// origin спільний із рештою проєктів (STORAGE-NAMESPACE-v8).
 	const viewMode = $derived(adultsViewMode.current);
 
-	function handleViewChange(mode: ViewMode) {
-		adultsViewMode.set(mode);
+	/* Перемикач віддає рядок — звужуємо охоронцем типу з контролера. */
+	function handleViewChange(mode: string) {
+		if (isMode(mode)) adultsViewMode.set(mode);
 	}
 
 	interface CategoryConfig {

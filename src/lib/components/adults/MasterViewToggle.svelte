@@ -4,50 +4,69 @@
 
 	export type ViewMode = 'cards' | 'gallery' | 'compact';
 
-	interface Props {
-		viewMode: ViewMode;
-		onchange: (mode: ViewMode) => void;
+	/**
+	 * Один опис режиму: значення, підпис і значок.
+	 *
+	 * `typeof LayoutGrid` — це тип будь-якої іконки lucide, вони всі однакові за
+	 * формою. Так виходить назвати тип точно, не вводячи ані узагальнень, ані
+	 * `any`: у цьому коді немає жодного іншого місця з узагальненнями, і заводити
+	 * перше заради перемикача було б зайвим.
+	 */
+	export interface ViewOption {
+		value: string;
+		label: string;
+		icon: typeof LayoutGrid;
 	}
 
-	let { viewMode, onchange }: Props = $props();
+	/**
+	 * Той самий перемикач служить двом місцям — переліку викладачів і розділу
+	 * вистав у профілі майстра. Це навмисно: людина бачить ОДИН елемент
+	 * керування, а не два схожих із різною поведінкою.
+	 *
+	 * Режими при цьому різні, тож вони приходять списком, а не зашиті всередині.
+	 * Значення — рядок, а не звужений тип: інакше довелося б вводити узагальнення
+	 * в компонент, який більше нічого від них не отримує. Звужує викликач, у себе,
+	 * охоронцем типу — так само, як `adultsViewMode` звужує збережене значення.
+	 */
+	interface Props {
+		viewMode: string;
+		onchange: (mode: string) => void;
+		options?: ReadonlyArray<ViewOption>;
+		testIdPrefix?: string;
+	}
+
+	let {
+		viewMode,
+		onchange,
+		options = undefined,
+		testIdPrefix = 'residents-adults-view'
+	}: Props = $props();
+
+	/* Режими переліку викладачів лишаються типовими — сторінка їх не передає. */
+	const MASTER_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'cards', label: $t('galaxy.viewModes.cards', { default: 'Картки' }), icon: LayoutGrid },
+		{ value: 'gallery', label: $t('galaxy.viewModes.gallery', { default: 'Галерея' }), icon: ImageIcon },
+		{ value: 'compact', label: $t('galaxy.viewModes.compact', { default: 'Компактно' }), icon: Grid2X2 }
+	]);
+
+	const shown = $derived(options ?? MASTER_OPTIONS);
 </script>
 
-<div class="view-toggle" role="group" aria-label={$t('galaxy.viewModes.viewLabel', { default: 'Режим відображення' })} data-testid="residents-adults-view-toggle">
-	<button
-		type="button"
-		class="view-btn"
-		class:view-btn--active={viewMode === 'cards'}
-		onclick={() => onchange('cards')}
-		title={$t('galaxy.viewModes.cards', { default: 'Картки' })}
-		data-testid="residents-adults-view-btn-cards"
-	>
-		<LayoutGrid size={18} aria-hidden="true" />
-		<span>{$t('galaxy.viewModes.cards', { default: 'Картки' })}</span>
-	</button>
-
-	<button
-		type="button"
-		class="view-btn"
-		class:view-btn--active={viewMode === 'gallery'}
-		onclick={() => onchange('gallery')}
-		title={$t('galaxy.viewModes.gallery', { default: 'Галерея' })}
-		data-testid="residents-adults-view-btn-gallery"
-	>
-		<ImageIcon size={18} aria-hidden="true" />
-		<span>{$t('galaxy.viewModes.gallery', { default: 'Галерея' })}</span>
-	</button>
-
-	<button
-		type="button"
-		class="view-btn"
-		class:view-btn--active={viewMode === 'compact'}
-		onclick={() => onchange('compact')}
-		title={$t('galaxy.viewModes.compact', { default: 'Компактно' })}
-		data-testid="residents-adults-view-btn-compact"
-	>
-		<Grid2X2 size={18} aria-hidden="true" />
-		<span>{$t('galaxy.viewModes.compact', { default: 'Компактно' })}</span>
-	</button>
+<div class="view-toggle" role="group" aria-label={$t('galaxy.viewModes.viewLabel', { default: 'Режим відображення' })} data-testid="{testIdPrefix}-toggle">
+	{#each shown as option (option.value)}
+		{@const Icon = option.icon}
+		<button
+			type="button"
+			class="view-btn"
+			class:view-btn--active={viewMode === option.value}
+			onclick={() => onchange(option.value)}
+			title={option.label}
+			data-testid="{testIdPrefix}-btn-{option.value}"
+		>
+			<Icon size={18} aria-hidden="true" />
+			<span>{option.label}</span>
+		</button>
+	{/each}
 </div>
 
 <style>

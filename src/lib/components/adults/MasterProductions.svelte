@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Trophy, Video, Search, Theater } from 'lucide-svelte';
+	import { LayoutGrid, List, CalendarRange, Theater } from 'lucide-svelte';
 	import type { Play } from '$lib/data/plays';
 	import { earlyShows } from '$lib/services/earlyShows.svelte';
+	import {
+		productionsViewMode,
+		isProductionView
+	} from '$lib/services/productionsViewMode.svelte';
 	import MasterProductionCard from './MasterProductionCard.svelte';
+	import MasterProductionsFilters, { type FilterType } from './MasterProductionsFilters.svelte';
+	import MasterProductionsList from './MasterProductionsList.svelte';
+	import MasterProductionsTimeline from './MasterProductionsTimeline.svelte';
+	import MasterViewToggle, { type ViewOption } from './MasterViewToggle.svelte';
 
 	interface Props {
 		productions: Play[];
@@ -11,8 +19,6 @@
 	}
 
 	let { productions = [], isEn = false }: Props = $props();
-
-	type FilterType = 'all' | 'dtsh' | 'early' | 'awards' | 'video';
 
 	let activeFilter = $state<FilterType>('all');
 	let searchQuery = $state('');
@@ -64,6 +70,28 @@
 	const videoCount = $derived(visibleProductions.filter((p) => p.videoUrl).length);
 	const dtshCount = $derived(visibleProductions.filter((p) => p.isDtsh !== false).length);
 	const earlyCount = $derived(productions.filter((p) => p.isDtsh === false).length);
+
+	/**
+	 * Три режими показу. Перемикач той самий, що в переліку викладачів, тож
+	 * набір приходить звідси — див. докблок `productionsViewMode`, чому саме ці
+	 * три й чому типова лишається плитка.
+	 */
+	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles', { default: 'Плитка' }), icon: LayoutGrid },
+		{ value: 'list', label: $t('galaxy.viewModes.list', { default: 'Список' }), icon: List },
+		{
+			value: 'timeline',
+			label: $t('galaxy.viewModes.timeline', { default: 'Хронологія' }),
+			icon: CalendarRange
+		}
+	]);
+
+	const view = $derived(productionsViewMode.current);
+
+	/* Перемикач віддає рядок — звужує той, хто знає свій набір. */
+	function chooseView(mode: string) {
+		if (isProductionView(mode)) productionsViewMode.set(mode);
+	}
 </script>
 
 <section class="productions-section" data-testid="master-productions-section">
@@ -95,90 +123,28 @@
 		</span>
 	</div>
 
-	<div class="controls-bar">
-		<div class="filter-tabs" role="tablist" aria-label="Фільтр вистав">
-			<button
-				type="button"
-				role="tab"
-				aria-selected={activeFilter === 'all'}
-				class="filter-tab"
-				class:filter-tab--active={activeFilter === 'all'}
-				onclick={() => (activeFilter = 'all')}
-				data-testid="master-productions-tab-all"
-			>
-				{$t('galaxy.filterAll', { default: 'Усі' })} ({visibleProductions.length})
-			</button>
-
-			<button
-				type="button"
-				role="tab"
-				aria-selected={activeFilter === 'dtsh'}
-				class="filter-tab"
-				class:filter-tab--active={activeFilter === 'dtsh'}
-				onclick={() => (activeFilter = 'dtsh')}
-				data-testid="master-productions-tab-dtsh"
-			>
-				{$t('galaxy.filterDtsh', { default: 'ДТШ (2006–2026)' })} ({dtshCount})
-			</button>
-
-			{#if earlyShows.visible}
-				<button
-					type="button"
-					role="tab"
-					aria-selected={activeFilter === 'early'}
-					class="filter-tab"
-					class:filter-tab--active={activeFilter === 'early'}
-					onclick={() => (activeFilter = 'early')}
-					data-testid="master-productions-tab-early"
-				>
-					{$t('galaxy.filterEarly', { default: 'Ранні покази (1992–2015)' })} ({earlyCount})
-				</button>
-			{/if}
-
-			{#if awardsCount > 0}
-				<button
-					type="button"
-					role="tab"
-					aria-selected={activeFilter === 'awards'}
-					class="filter-tab"
-					class:filter-tab--active={activeFilter === 'awards'}
-					onclick={() => (activeFilter = 'awards')}
-					data-testid="master-productions-tab-awards"
-				>
-					<Trophy size={14} aria-hidden="true" />
-					<span>{$t('galaxy.filterAwards', { default: 'З нагородами' })} ({awardsCount})</span>
-				</button>
-			{/if}
-
-			{#if videoCount > 0}
-				<button
-					type="button"
-					role="tab"
-					aria-selected={activeFilter === 'video'}
-					class="filter-tab"
-					class:filter-tab--active={activeFilter === 'video'}
-					onclick={() => (activeFilter = 'video')}
-					data-testid="master-productions-tab-video"
-				>
-					<Video size={14} aria-hidden="true" />
-					<span>{$t('galaxy.filterVideo', { default: 'З відео' })} ({videoCount})</span>
-				</button>
-			{/if}
-		</div>
-
-		<div class="search-wrap">
-			<div class="search-icon-box" aria-hidden="true">
-				<Search size={16} />
-			</div>
-			<input
-				type="search"
-				bind:value={searchQuery}
-				placeholder="Пошук вистави, автора, групи, року чи учасника..."
-				class="search-input"
-				aria-label="Пошук вистави або учасника"
-				data-testid="master-productions-search-input"
+	<div class="section-controls">
+		<div class="section-controls__filters">
+			<MasterProductionsFilters
+				{activeFilter}
+				{searchQuery}
+				counts={{
+					all: visibleProductions.length,
+					dtsh: dtshCount,
+					early: earlyCount,
+					awards: awardsCount,
+					video: videoCount
+				}}
+				onfilter={(f) => (activeFilter = f)}
+				onsearch={(q) => (searchQuery = q)}
 			/>
 		</div>
+		<MasterViewToggle
+			viewMode={view}
+			onchange={chooseView}
+			options={VIEW_OPTIONS}
+			testIdPrefix="master-productions-view"
+		/>
 	</div>
 
 	{#if filteredProductions.length === 0}
@@ -186,11 +152,23 @@
 			<p>{$t('galaxy.nothingFoundByFilters', { default: 'Нічого не знайдено за фільтрами' })}</p>
 		</div>
 	{:else}
-		<div class="productions-list" data-testid="master-productions-list">
-			{#each filteredProductions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
-				<MasterProductionCard {prod} index={idx} {isEn} />
-			{/each}
-		</div>
+		<!--
+			Три режими, і показується РІВНО один: `{#if}`, а не приховування
+			стилями. Інакше сторінка малювала б усі три щоразу — при вісімдесяти
+			виставах це втричі більше вузлів і втричі довша гідрація заради того,
+			чого не видно.
+		-->
+		{#if view === 'list'}
+			<MasterProductionsList productions={filteredProductions} />
+		{:else if view === 'timeline'}
+			<MasterProductionsTimeline productions={filteredProductions} />
+		{:else}
+			<div class="productions-list" data-testid="master-productions-list">
+				{#each filteredProductions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
+					<MasterProductionCard {prod} index={idx} {isEn} />
+				{/each}
+			</div>
+		{/if}
 	{/if}
 </section>
 
@@ -248,72 +226,24 @@
 		font-weight: 600;
 		color: var(--text-title);
 	}
-	.controls-bar {
+	/*
+	 * Фільтри й перемикач стоять в одному ряду, поки вміщаються.
+	 *
+	 * Перемикач не стискається (`flex-shrink: 0` у ньому самому), тож при
+	 * нестачі місця вниз іде саме панель фільтрів — вона переносна за
+	 * побудовою, а перемикач із трьох кнопок обрізався б.
+	 */
+	.section-controls {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
 		gap: 1rem;
 		margin-bottom: 2rem;
 	}
-	.filter-tabs {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-	.filter-tab {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-		padding: 0.45rem 0.9rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-card);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.85rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition: all var(--transition-base, 0.2s ease);
-	}
-	.filter-tab:hover {
-		color: var(--text-title);
-		border-color: var(--accent-primary);
-	}
-	.filter-tab--active {
-		background: var(--accent-primary);
-		border-color: var(--accent-primary);
-		color: var(--text-on-accent);
-	}
-	.search-wrap {
-		position: relative;
-		min-width: 280px;
-		flex-grow: 1;
-		max-width: 380px;
-	}
-	.search-icon-box {
-		position: absolute;
-		left: 0.85rem;
-		top: 50%;
-		transform: translateY(-50%);
-		color: var(--text-muted);
-		pointer-events: none;
-		display: flex;
-		align-items: center;
-	}
-	.search-input {
-		width: 100%;
-		padding: 0.5rem 1rem 0.5rem 2.4rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-card);
-		border: 1px solid var(--border-main);
-		color: var(--text-title);
-		font-size: 0.88rem;
-		outline: none;
-		transition: border-color var(--transition-base, 0.2s ease), box-shadow var(--transition-base, 0.2s ease);
-	}
-	.search-input:focus {
-		border-color: var(--accent-primary);
-		box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+	.section-controls__filters {
+		flex: 1 1 auto;
+		min-width: 0;
 	}
 	.productions-list {
 		display: grid;

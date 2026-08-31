@@ -36,7 +36,14 @@ const VOCABULARY = [
 		icon: 'Trophy',
 		sites: [
 			{ file: 'src/lib/components/adults/MasterProductionCard.svelte', marker: 'award-item' },
-			{ file: 'src/lib/components/adults/MasterProductions.svelte', marker: 'galaxy.filterAwards' }
+			{
+				file: 'src/lib/components/adults/MasterProductionsFilters.svelte',
+				marker: 'galaxy.filterAwards'
+			},
+			{
+				file: 'src/lib/components/adults/MasterProductionsList.svelte',
+				marker: 'master-productions-row-awards-mark'
+			}
 		]
 	},
 	{

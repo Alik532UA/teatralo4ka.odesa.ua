@@ -29,7 +29,12 @@ const STORAGE_KEY = 'adults_view_mode';
 
 const MODES = ['cards', 'gallery', 'compact'] as const satisfies readonly ViewMode[];
 
-function isMode(value: string | null): value is ViewMode {
+/**
+ * Охоронець типу відкритий назовні: перемикач служить двом розділам із різними
+ * наборами режимів і тому віддає рядок. Звужує той, хто знає свій набір, — тут
+ * і в [`productionsViewMode`](./productionsViewMode.svelte.ts).
+ */
+export function isMode(value: string | null): value is ViewMode {
 	return value !== null && (MODES as readonly string[]).includes(value);
 }
 
