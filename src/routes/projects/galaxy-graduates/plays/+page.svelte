@@ -14,9 +14,10 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { PLAYS, playPath } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
-	import { classifyPlayGroups } from '$lib/data/groups';
+	import { playGroupNames } from '$lib/data/groups';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import PlaysScope from '$lib/components/galaxy/PlaysScope.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
@@ -34,59 +35,45 @@
 	 */
 	const castSize = (id: string) => PLAY_CAST[id]?.length ?? 0;
 
-	/**
-	 * Назви основних груп для плашок на картці.
-	 *
-	 * Логіка відповідає сторінці вистави:
-	 * 1. Якщо у вистави є склад (з анкет):
-	 *    - Групи з >= 50% учасників у складі (або група з найбільшою кількістю учасників) — основні.
-	 * 2. Якщо складу ще немає — беруться групи з реєстру (playIds).
-	 * 3. Якщо в реєстрі груп немає — запасний підпис із `theatreGroup`.
-	 */
-	function playGroups(playId: string, fallback?: string): string[] {
-		const cast = PLAY_CAST[playId] || [];
-		const { primaryGroups } = classifyPlayGroups(
-			playId,
-			cast.map((c) => c.graduateId)
-		);
-		if (primaryGroups.length > 0) {
-			return primaryGroups.map((g) => (isEn && g.nameEn ? g.nameEn : g.name));
-		}
-		const tidied = fallback ? tidyGroupLabel(fallback) : undefined;
-		return tidied ? [tidied] : [];
-	}
-
-	/**
-	 * Прибирає з запасного підпису те, що не є назвою: «гр. » і лапки навколо.
-	 *
-	 * Без цього плашки читалися по-різному в сусідніх картках — «Адреналін» з
-	 * реєстру поруч із «гр. «ЛІ-Те-Ра»» з поля. Заміряно: 35 різних значень
-	 * `theatreGroup`, і 27 із них починаються з «гр. ».
-	 *
-	 * Лапки знімаються ЛИШЕ коли всередині їх більше немає. Інакше жадібний
-	 * розбір псує складені підписи: «гр. «Інтенсив» – «ХлопаФФки»» перетворився
-	 * б на «Інтенсив» – «ХлопаФФки» — з обрізаною першою лапкою й зайвою
-	 * останньою. Перевірено на всіх 35 значеннях: складені й ті, що з
-	 * уточненням у дужках, лишаються цілими.
-	 */
-	function tidyGroupLabel(raw: string): string {
-		const withoutPrefix = raw.trim().replace(/^гр\.\s*/, '');
-		const bare = /^«([^«»]+)»$/.exec(withoutPrefix);
-		return bare ? bare[1] : withoutPrefix;
-	}
-
 	const enriched = $derived(
 		PLAYS.map((play) => ({
 			play,
 			cast: castSize(play.id),
-			groups: playGroups(play.id, play.theatreGroup)
+			groups: playGroupNames(
+				play.id,
+				(PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
+				play.theatreGroup,
+				isEn
+			)
 		}))
 	);
 
+	/**
+	 * Типово показуються лише вистави з ВІДОМИМ СКЛАДОМ — 255 із 733.
+	 *
+	 * Що саме це означає й чому названо так, а не «вистави випускників», — у
+	 * докблоці `PlaysScope`. Тут важливе інше: стан НЕ зберігається між заходами,
+	 * на відміну від режиму показу. Це навмисно: «типово ввімкнений» мусить
+	 * означати «ввімкнений щоразу», інакше типове значення діяло б один раз у
+	 * житті браузера, і сторінка показувала б різне різним людям без причини.
+	 */
+	let onlyWithCast = $state(true);
+
+	const q = $derived(query.trim().toLowerCase());
+
+	/*
+	 * Пошук шукає по ВСІХ 733, тобто сам знімає фільтр.
+	 *
+	 * Інакше введена назва не знаходилася б у 478 випадках із 733, і сторінка
+	 * казала б «нічого не знайдено» про виставу, яка в реєстрі є. Людина, що
+	 * набирає назву, вже знає, чого хоче, — обмежувати її нашою обізнаністю про
+	 * склад немає підстав.
+	 */
+	const базові = $derived(!q && onlyWithCast ? enriched.filter((item) => item.cast > 0) : enriched);
+
 	const found = $derived.by(() => {
-		const q = query.trim().toLowerCase();
-		if (!q) return enriched;
-		return enriched.filter(
+		if (!q) return базові;
+		return базові.filter(
 			({ play, groups }) =>
 				play.title.toLowerCase().includes(q) ||
 				(play.author?.toLowerCase().includes(q) ?? false) ||
@@ -214,6 +201,19 @@
 				<span class="plays-search__found" data-testid="galaxy-plays-found-count">{found.length}</span>
 			{/if}
 		</div>
+
+		<!--
+			Рядок області показу видно лише коли НЕ шукають: під час пошуку фільтр
+			однаково знятий, а скільки знайдено — каже лічильник у самому пошуку.
+		-->
+		{#if !q}
+			<PlaysScope
+				shown={found.length}
+				total={PLAYS.length}
+				{onlyWithCast}
+				onchange={(v) => (onlyWithCast = v)}
+			/>
+		{/if}
 
 		{#if byYear.length === 0}
 			<p class="plays-empty" data-testid="galaxy-plays-empty-text">

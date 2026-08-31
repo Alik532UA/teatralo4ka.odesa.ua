@@ -339,3 +339,52 @@ export function playGroupCaption(
 		note: fromField.note
 	};
 }
+
+/**
+ * Прибирає з запасного підпису те, що не є назвою: «гр. » і лапки навколо.
+ *
+ * Без цього плашки читалися по-різному в сусідніх картках — «Адреналін» з
+ * реєстру поруч із «гр. «ЛІ-Те-Ра»» з поля. Заміряно: 35 різних значень
+ * `theatreGroup`, і 27 із них починаються з «гр. ».
+ *
+ * Лапки знімаються ЛИШЕ коли всередині їх більше немає. Інакше жадібний розбір
+ * псує складені підписи: «гр. «Інтенсив» – «ХлопаФФки»» перетворився б на
+ * «Інтенсив» – «ХлопаФФки» — з обрізаною першою лапкою й зайвою останньою.
+ * Перевірено на всіх 35 значеннях: складені й ті, що з уточненням у дужках,
+ * лишаються цілими.
+ */
+function tidyGroupLabel(raw: string): string {
+	const withoutPrefix = raw.trim().replace(/^гр\.\s*/, '');
+	const bare = /^«([^«»]+)»$/.exec(withoutPrefix);
+	return bare ? bare[1] : withoutPrefix;
+}
+
+/**
+ * Назви основних груп вистави — для плашок у переліку.
+ *
+ * Живе ТУТ, а не на сторінці переліку, з двох причин. Перша: поруч уже стоять
+ * `classifyPlayGroups` і `playGroupCaption`, тобто вся решта відповідей на
+ * питання «якої групи ця вистава». Друга практична — сторінка переліку впритул
+ * до стелі `structure.test.ts`, і чистій логіці даних там не місце.
+ *
+ * Порядок рішень той самий, що на сторінці вистави:
+ * 1. Є склад із анкет — беруться основні групи (>= 50% або найбільша частка).
+ * 2. Складу ще немає — групи з реєстру (`playIds`).
+ * 3. У реєстрі груп немає — запасний підпис із `theatreGroup`.
+ */
+export function playGroupNames(
+	playId: string,
+	/* Склад приходить ГОТОВИМ, а не дістається тут: `groups.ts` навмисно не знає
+	   про `playCast` — так само, як у `playGroupCaption` поруч. Тип змінюваний, бо
+	   такий у сусідньої `classifyPlayGroups`, якій цей список і передається. */
+	castMemberIds: string[],
+	fallback: string | undefined,
+	isEn: boolean
+): string[] {
+	const { primaryGroups } = classifyPlayGroups(playId, castMemberIds);
+	if (primaryGroups.length > 0) {
+		return primaryGroups.map((g) => (isEn && g.nameEn ? g.nameEn : g.name));
+	}
+	const tidied = fallback ? tidyGroupLabel(fallback) : undefined;
+	return tidied ? [tidied] : [];
+}
