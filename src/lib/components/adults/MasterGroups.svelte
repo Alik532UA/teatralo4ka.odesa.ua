@@ -3,6 +3,7 @@
 	import { ArrowRight, GraduationCap } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { groupProfilePath, type GraduateGroup } from '$lib/data/groups';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
 	 * Навчальні групи майстра курсу.
@@ -68,6 +69,18 @@
 							{$t('galaxy.groupGraduationYears', { default: 'Роки випуску' })}:
 							{yearsLabel(group.graduationYears)}
 						</span>
+						<!--
+							Мініатюри складу — той самий рядок, що в переліку груп.
+							`linked={false}` обов'язково: картка сама вже посилання,
+							а `<a>` в `<a>` валить сторінку (див. `GraduateAvatarRow`).
+							Свій `testIdPrefix` — бо таких рядків на сторінці стільки ж,
+							скільки груп.
+						-->
+						<GraduateAvatarRow
+							ids={group.memberIds}
+							linked={false}
+							testIdPrefix="master-group-mates-{group.slug}"
+						/>
 					</span>
 					<span class="group-card__arrow" aria-hidden="true">
 						<ArrowRight size={18} />

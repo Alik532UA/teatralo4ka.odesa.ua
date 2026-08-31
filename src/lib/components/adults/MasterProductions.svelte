@@ -178,7 +178,7 @@
 		{:else}
 			<div class="productions-list" data-testid="master-productions-list">
 				{#each filteredProductions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
-					<MasterProductionCard {prod} index={idx} {isEn} />
+					<MasterProductionCard {prod} {isEn} />
 				{/each}
 			</div>
 		{/if}

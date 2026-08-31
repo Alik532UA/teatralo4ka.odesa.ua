@@ -4,6 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { FESTIVALS, festivalPath, latestYear } from '$lib/data/festivals';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -108,6 +109,19 @@
 								</span>
 							{/if}
 						</span>
+
+						<!--
+							Мініатюри учасників — той самий рядок, що в переліку груп.
+							`linked={false}`: картка фестивалю сама вже посилання, а
+							`<a>` в `<a>` валить сторінку (див. `GraduateAvatarRow`).
+							Свій `testIdPrefix` зі слагом фестивалю — таких рядків на
+							сторінці стільки ж, скільки фестивалів.
+						-->
+						<GraduateAvatarRow
+							ids={festival.memberIds}
+							linked={false}
+							testIdPrefix="galaxy-festival-members-{festival.slug}"
+						/>
 					</a>
 				</li>
 			{/each}

@@ -68,6 +68,23 @@ export function getFestivalsByMember(memberId: string): Festival[] {
 	return FESTIVALS.filter((f) => f.memberIds.includes(memberId));
 }
 
+/**
+ * Фестивалі, на які їздив цей ПРАЦІВНИК.
+ *
+ * Окремою функцією, а не тим самим `getFestivalsByMember` з іншим ключем:
+ * `memberIds` і `masterIds` — два різні поля, і людина в них означає різне.
+ * Випускник у складі й викладач, що вів групу, обидва «були на фестивалі», але
+ * шукати їх треба в різних списках; спроба зіставити одним полем знайшла б
+ * викладача лише тоді, коли він ще й випускник цієї школи.
+ *
+ * Заміряно на реєстрі: у чотирьох фестивалях `masterIds` заповнені в усіх
+ * чотирьох (по 2–5 людей), а в `memberIds` жоден із цих п'ятьох викладачів не
+ * значиться.
+ */
+export function getFestivalsByMaster(masterId: string): Festival[] {
+	return FESTIVALS.filter((f) => f.masterIds.includes(masterId));
+}
+
 /** Найпізніший рік — за ним перелік упорядковується, новіші перші. */
 export function latestYear(festival: Festival): number {
 	return Math.max(...festival.years);

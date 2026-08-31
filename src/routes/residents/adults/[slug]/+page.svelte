@@ -6,6 +6,7 @@
 	import { graduateCardHref } from '$lib/data/graduates';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
+	import MasterFestivals from '$lib/components/adults/MasterFestivals.svelte';
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
 	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
 	import { playsByIds } from '$lib/data/plays';
@@ -234,6 +235,9 @@
 		{#if masterPlays.length > 0}
 			<MasterProductions productions={masterPlays} {isEn} />
 		{/if}
+
+		<!-- Порожній перелік секцію не малює — умова всередині компонента. -->
+		<MasterFestivals masterId={data.master.id} />
 	</div>
 </div>
 

@@ -3,6 +3,7 @@
 	import { getAllMasters } from '$lib/data/masters';
 	import { playGroupCaption } from '$lib/data/groups';
 	import { PLAY_CAST } from '$lib/data/playCast';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 
 	/*
@@ -37,11 +38,14 @@
 
 	interface Props {
 		prod: Play;
-		index: number;
 		isEn?: boolean;
 	}
 
-	let { prod, index, isEn = false }: Props = $props();
+	/* `index` прибрано разом із його єдиним призначенням: він стояв у `data-testid`
+	 * поряд із `prod.number`, і саме ця пара давала дублікати — вистава з номером
+	 * 66 і вистава без номера на позиції 66 отримували однаковий ключ. Тепер
+	 * testid стоїть на `prod.id`, який унікальний за побудовою. */
+	let { prod, isEn = false }: Props = $props();
 
 	type Participant =
 		| { kind: 'graduate'; graduate: GraduateIndexEntry }
@@ -57,10 +61,14 @@
 	 * дістає анкету сама й однаково відкривається для тих, у кого її немає, —
 	 * те саме рішення, що й у потоці учнів.
 	 */
+	/* Склад — зі зрізу анкет: заява «я в цьому грав» робиться там і більше ніде
+	 * (див. докблок `plays.ts`). */
+	const castIds = $derived((PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId));
+
 	const groupCaption = $derived(
 		playGroupCaption(
 			prod.id,
-			(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+			castIds,
 			prod.theatreGroup,
 			isEn
 		)
@@ -75,7 +83,7 @@
 	}
 </script>
 
-<article class="prod-card" class:prod-card--has-award={prod.awards?.length} data-testid="master-production-card-{prod.number ?? index}">
+<article class="prod-card" class:prod-card--has-award={prod.awards?.length} data-testid="master-production-card-{prod.id}">
 	<div class="prod-card__header">
 		<div class="prod-card__meta">
 			{#if prod.number}<span class="num-badge" title="Номер вистави в ДТШ">#{prod.number}</span>{/if}
@@ -103,7 +111,7 @@
 		<a
 			href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
 			class="prod-card__title-link"
-			data-testid="master-production-title-link-{prod.number ?? index}"
+			data-testid="master-production-title-link-{prod.id}"
 		>
 			{prod.title}
 		</a>
@@ -185,6 +193,17 @@
 				{/each}
 			</div>
 		</div>
+	{/if}
+
+	<!--
+		Склад із анкет — мініатюрами, як у переліку груп. Тут посилання
+		ДОЗВОЛЕНІ: картка вистави не є одним суцільним `<a>`, посилання в ній
+		лише на назві. Свій `testIdPrefix` із ключем вистави — інакше та сама
+		людина у двох виставах дала б однаковий `data-testid` двічі на сторінці,
+		а `e2e/testid.spec.ts` вимагає унікальності в її межах.
+	-->
+	{#if castIds.length}
+		<GraduateAvatarRow ids={castIds} testIdPrefix="master-production-cast-{prod.id}" />
 	{/if}
 </article>
 

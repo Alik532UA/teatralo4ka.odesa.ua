@@ -553,7 +553,7 @@
 -->
 {#snippet festivalsCard()}
 	<div class="bento-card bento-card--festivals" data-block="festivals" data-testid="galaxy-card-festivals-card">
-		<GraduateFestivals memberId={graduate.id} />
+		<GraduateFestivals festivals={getFestivalsByMember(graduate.id)} />
 	</div>
 {/snippet}
 

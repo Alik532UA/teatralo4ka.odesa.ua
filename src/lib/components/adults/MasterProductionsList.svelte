@@ -5,6 +5,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { playGroupCaption } from '$lib/data/groups';
 	import { PLAY_CAST } from '$lib/data/playCast';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
 	 * Список: один рядок — одна вистава.
@@ -43,7 +44,8 @@
 			prod.theatreGroup,
 			isEn
 		)}
-		<li class="prod-row" data-testid="master-productions-row-{prod.number ?? idx}">
+		{@const castIds = (PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId)}
+		<li class="prod-row" data-testid="master-productions-row-{prod.id}">
 			<span class="prod-row__year">
 				{#if prod.number}<span class="prod-row__num">#{prod.number}</span>{/if}
 				<span class="prod-row__date">{prod.year}</span>
@@ -53,7 +55,7 @@
 				<a
 					href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
 					class="prod-row__title-link"
-					data-testid="master-productions-row-link-{prod.number ?? idx}"
+					data-testid="master-productions-row-link-{prod.id}"
 				>
 					<span class="prod-row__title">{prod.title}</span>
 				</a>
@@ -77,7 +79,7 @@
 					<span
 						class="prod-row__mark prod-row__mark--award"
 						title={prod.awards.join('; ')}
-						data-testid="master-productions-row-awards-mark-{prod.number ?? idx}"
+						data-testid="master-productions-row-awards-mark-{prod.id}"
 					>
 						<Trophy size={14} aria-hidden="true" />
 						<span>{prod.awards.length}</span>
@@ -85,16 +87,27 @@
 				{/if}
 				{#if prod.videoUrl}
 					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-					<a class="prod-row__mark prod-row__mark--video" href={prod.videoUrl} target="_blank" rel="external noopener noreferrer" title={$t('galaxy.watchVideo', { default: 'Дивитися відео' })} data-testid="master-productions-row-video-link-{prod.number ?? idx}">
+					<a class="prod-row__mark prod-row__mark--video" href={prod.videoUrl} target="_blank" rel="external noopener noreferrer" title={$t('galaxy.watchVideo', { default: 'Дивитися відео' })} data-testid="master-productions-row-video-link-{prod.id}">
 						<Video size={14} aria-hidden="true" />
 					</a>
 				{/if}
 			</span>
+
+			{#if castIds.length}
+				<span class="prod-row__cast">
+					<GraduateAvatarRow ids={castIds} testIdPrefix="master-productions-row-cast-{prod.id}" />
+				</span>
+			{/if}
 		</li>
 	{/each}
 </ol>
 
 <style>
+	.prod-row__cast {
+		display: block;
+		grid-column: 1 / -1;
+	}
+
 	.prod-rows {
 		container-type: inline-size;
 		list-style: none;

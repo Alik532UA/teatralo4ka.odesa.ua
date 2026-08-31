@@ -1,15 +1,28 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { getFestivalsByMember, festivalPath } from '$lib/data/festivals';
+	import { festivalPath, type Festival } from '$lib/data/festivals';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 
 	interface Props {
-		/** СТІЙКИЙ ключ випускника, а не адреса: зв'язок тримається на `id`. */
-		memberId: string;
+		/**
+		 * Готовий перелік, а не ключ людини.
+		 *
+		 * Доти компонент сам кликав `getFestivalsByMember` — і тим прив'язувався
+		 * до ОДНОГО поля реєстру. На сторінці викладача потрібне інше
+		 * (`masterIds`), а показ той самий; резолвити всередині означало б або
+		 * другий проп-режим, або копію розмітки. Тепер хто кличе — той і
+		 * вирішує, чиї це фестивалі.
+		 */
+		festivals: Festival[];
+		/**
+		 * Початок `data-testid`: блок є і в анкеті випускника, і на сторінці
+		 * викладача, а `e2e/testid.spec.ts` вимагає унікальності в межах сторінки.
+		 */
+		testIdPrefix?: string;
 	}
 
-	let { memberId }: Props = $props();
+	let { festivals, testIdPrefix = 'galaxy-card-festivals' }: Props = $props();
 
 	/*
 	 * Фестивалі беруться з РЕЄСТРУ, а не з тексту «про себе».
@@ -19,7 +32,6 @@
 	 * той самий факт є зв'язком, тож картка веде на сторінку фестивалю, а сам
 	 * рядок з анкети прибрано, щоб не було двох джерел однієї правди.
 	 */
-	const festivals = $derived(getFestivalsByMember(memberId));
 	const isEn = $derived($locale === 'en');
 	const lang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 
@@ -30,7 +42,7 @@
 </script>
 
 {#if festivals.length}
-	<div class="fests" data-testid="galaxy-card-festivals-list">
+	<div class="fests" data-testid="{testIdPrefix}-list">
 		<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}:</span>
 		<ul class="fests__list">
 			{#each festivals as festival (festival.slug)}
@@ -39,7 +51,7 @@
 						class="fests__link"
 						href={localizedPath(festivalPath(festival.slug), lang)}
 						title={whereOf(festival.city, festival.countries)}
-						data-testid="galaxy-card-festival-link-{festival.slug}"
+						data-testid="{testIdPrefix}-link-{festival.slug}"
 					>
 						<span class="fests__years">{festival.years.join(', ')}</span>
 						<span class="fests__name">

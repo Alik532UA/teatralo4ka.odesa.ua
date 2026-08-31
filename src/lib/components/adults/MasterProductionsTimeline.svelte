@@ -5,6 +5,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { playGroupCaption } from '$lib/data/groups';
 	import { PLAY_CAST } from '$lib/data/playCast';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
 	 * Хронологія: вистави згруповані за роками.
@@ -82,13 +83,14 @@
 						prod.theatreGroup,
 						isEn
 					)}
-					<li class="prod-year__item" data-testid="master-productions-year-item-{prod.number ?? String(year) + '-' + idx}">
+					{@const castIds = (PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId)}
+					<li class="prod-year__item" data-testid="master-productions-year-item-{prod.id}">
 						<span class="prod-year__dot" aria-hidden="true"></span>
 						<span class="prod-year__body">
 							<a
 								href={localizedPath(playPath(prod.id), isEn ? 'en' : 'uk')}
 								class="prod-year__name-link"
-								data-testid="master-productions-timeline-link-{prod.number ?? String(year) + '-' + idx}"
+								data-testid="master-productions-timeline-link-{prod.id}"
 							>
 								<span class="prod-year__name">{prod.title}</span>
 							</a>
@@ -109,11 +111,18 @@
 							{/if}
 							{#if prod.videoUrl}
 								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a class="prod-year__mark prod-year__mark--video" href={prod.videoUrl} target="_blank" rel="external noopener noreferrer" title={$t('galaxy.watchVideo', { default: 'Дивитися відео' })} data-testid="master-productions-year-video-link-{prod.number ?? String(year) + '-' + idx}">
+								<a class="prod-year__mark prod-year__mark--video" href={prod.videoUrl} target="_blank" rel="external noopener noreferrer" title={$t('galaxy.watchVideo', { default: 'Дивитися відео' })} data-testid="master-productions-year-video-link-{prod.id}">
 									<Video size={13} aria-hidden="true" />
 								</a>
 							{/if}
 						</span>
+
+						{#if castIds.length}
+							<GraduateAvatarRow
+								ids={castIds}
+								testIdPrefix="master-productions-year-cast-{prod.id}"
+							/>
+						{/if}
 					</li>
 				{/each}
 			</ul>
