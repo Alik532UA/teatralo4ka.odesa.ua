@@ -1,9 +1,22 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { ArrowRight, GraduationCap } from 'lucide-svelte';
+	import {
+		ArrowRight,
+		GraduationCap,
+		Users,
+		Theater,
+		Sparkles,
+		CalendarRange,
+		List,
+		LayoutGrid
+	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { groupProfilePath, type GraduateGroup } from '$lib/data/groups';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
+	import MasterViewToggle, { type ViewOption } from './MasterViewToggle.svelte';
+	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
 	/**
 	 * Навчальні групи майстра курсу.
@@ -30,6 +43,45 @@
 		const last = sorted[sorted.length - 1];
 		return first === last ? String(first) : `${first} — ${last}`;
 	}
+
+	/*
+	 * Свій ключ сховища, окремий від переліку груп у галактиці: там та сама
+	 * сутність, але інша задача — там шукають СВОЮ групу серед двадцяти
+	 * чотирьох, тут читають курси одного майстра. Спільний ключ означав би, що
+	 * вибір в одному місці тихо міняє вигляд іншого.
+	 */
+	const view = createGalaxyView('master_groups_view');
+
+	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
+		{ value: 'timeline', label: $t('galaxy.viewModes.timeline'), icon: CalendarRange },
+		{ value: 'list', label: $t('galaxy.viewModes.list'), icon: List },
+		{ value: 'tiles', label: $t('galaxy.viewModes.tiles'), icon: LayoutGrid }
+	]);
+
+	/**
+	 * Ті самі групи у спільній формі рядка — для хронології та списку.
+	 *
+	 * Майстер підписом НЕ йде: це його ж сторінка, і його ім'я в кожному рядку
+	 * було б єдиним, що там повторюється. Кількість вихованців натомість
+	 * з'являється — але числом зі значком, без слова, тому три відмінкові форми
+	 * («вихованець / вихованці / вихованців»), через які її немає в картці, тут
+	 * не потрібні.
+	 */
+	const rows = $derived<GalaxyRow[]>(
+		groups.map((g) => ({
+			key: g.slug,
+			href: localizedPath(groupProfilePath(g.slug), lang),
+			year: Math.max(...g.graduationYears),
+			yearLabel: yearsLabel(g.graduationYears),
+			title: isEn ? (g.nameEn ?? g.name) : g.name,
+			memberIds: g.memberIds,
+			marks: [
+				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
+				{ icon: Users, text: String(g.memberIds.length) },
+				...(g.playIds.length ? [{ icon: Theater, text: String(g.playIds.length) }] : [])
+			]
+		}))
+	);
 </script>
 
 <section class="groups-section" data-testid="master-groups-section">
@@ -40,8 +92,30 @@
 		<h2 class="section-title" data-testid="master-groups-title">
 			{$t('galaxy.groups', { default: 'Навчальні групи' })}
 		</h2>
+
+		<div class="section-header__view">
+			<MasterViewToggle
+				viewMode={view.current}
+				onchange={view.set}
+				options={VIEW_OPTIONS}
+				testIdPrefix="master-groups-view"
+			/>
+		</div>
 	</div>
 
+	{#if view.current !== 'tiles'}
+		<!--
+			Той самий `testIdPrefix`, що в плитки: `master-groups-list` означає
+			перелік груп цього майстра, а не перелік у вигляді плитки. Режим
+			показується рівно один, тож збігу в межах сторінки не буває.
+		-->
+		<GalaxyRows
+			{rows}
+			grouped={view.current === 'timeline'}
+			testIdPrefix="master-groups"
+			maxFaces={8}
+		/>
+	{:else}
 	<ul class="groups-list" data-testid="master-groups-list">
 		{#each groups as group (group.slug)}
 			<li>
@@ -91,6 +165,7 @@
 			</li>
 		{/each}
 	</ul>
+	{/if}
 </section>
 
 <style>
@@ -101,9 +176,14 @@
 	}
 	.section-header {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 1rem;
 		margin-bottom: 1.5rem;
+	}
+	/* Перемикач до правого краю — там, де він стоїть у репертуарі нижче. */
+	.section-header__view {
+		margin-left: auto;
 	}
 	.section-icon {
 		display: grid;
