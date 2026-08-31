@@ -257,6 +257,84 @@ test.describe('картка випускника', () => {
 });
 
 /**
+ * Картка того, хто анкети НЕ заповнював.
+ *
+ * ## Чому це окрема перевірка
+ *
+ * Усе вище міряє одну адресу — `/projects/galaxy-graduates/Alik`, найповнішу
+ * анкету на сайті. А власна сторінка є лише в того, у кого є код: заміряно —
+ * 427 випускників із 517 анкети не мають узагалі, і їхня картка відкривається
+ * тільки модалкою з переліку. Тобто перевірка дивилася на найкращий випадок і
+ * не бачила більшості.
+ *
+ * ## Дефект, який це ловить
+ *
+ * Схема на три колонки розрахована на заповнену анкету. У кого є сама лише
+ * основна плашка, дві колонки лишалися ПОРОЖНІМИ, а сітка ділила ширину
+ * натроє однаково. Друга половина біди: `minmax(0, 1fr)` усередині картки з
+ * `width: fit-content` дає кругову ширину — колонка питає в картки, картка у
+ * вмісту. Заміряно: `--cols: 3`, три колонки по 42 px, картка 181 px, ім'я
+ * переносилося по літерах.
+ *
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ *
+ * Прибрати відкидання порожніх колонок у `distribute` — упаде перевірка на
+ * порожні. Повернути `minmax(0, 1fr)` — упаде перевірка ширини.
+ */
+test.describe('картка без анкети', () => {
+	test.skip(({ isMobile }) => !!isMobile, 'розширення задає сам тест');
+
+	for (const size of [
+		{ width: 1440, height: 900, name: 'ноутбук' },
+		{ width: 375, height: 667, name: 'iPhone SE' }
+	]) {
+		test(`${size.name} ${size.width}×${size.height}`, async ({ page }) => {
+			await page.setViewportSize({ width: size.width, height: size.height });
+			await gotoReady(page, '/projects/galaxy-graduates/?roster=open');
+
+			/*
+			 * Рядок БЕЗ портрета — у такого анкети немає: фото приходить разом
+			 * із нею. Той самий спосіб уже вживає `galaxy-graduate.spec.ts`.
+			 */
+			const plain = page
+				.locator('[data-testid^="galaxy-roster-list-item-"]')
+				.filter({ hasNot: page.locator('img') })
+				.first();
+			await plain.locator('button').click();
+			await page.locator('.profile-layout').waitFor();
+			await waitForAnimations(page);
+
+			const report = await page.evaluate(() => {
+				const layout = document.querySelector('.profile-layout')!;
+				const cols = [...document.querySelectorAll('.col')] as HTMLElement[];
+				const name = document.querySelector('.name') as HTMLElement | null;
+				return {
+					порожніх: cols.filter((c) => c.children.length === 0).length,
+					ширинаКартки: Math.round(layout.getBoundingClientRect().width),
+					ширинаІмені: name ? Math.round(name.getBoundingClientRect().width) : 0,
+					ім_я: name?.textContent?.trim() ?? ''
+				};
+			});
+
+			expect(
+				report.порожніх,
+				`${size.name}: ${report.порожніх} порожніх колонок — вони з'їдають ширину`
+			).toBe(0);
+
+			/*
+			 * 240 px — не рівне число, а межа знизу: сама плашка просить 280, і
+			 * запас лишений на телефон, де картка вужча за екран разом із його
+			 * полями. Заміряно на зламаній версії: 181.
+			 */
+			expect(
+				report.ширинаКартки,
+				`${size.name}: картка «${report.ім_я}» завширшки ${report.ширинаКартки} px — схлопнулася`
+			).toBeGreaterThanOrEqual(240);
+		});
+	}
+});
+
+/**
  * Меню контактів відкривається В ЕКРАН.
  *
  * Заміряно на iPhone SE: меню було 389 px завширшки й починалося на 259 — тобто
