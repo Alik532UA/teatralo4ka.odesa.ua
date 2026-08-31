@@ -200,7 +200,20 @@
 </button>
 
 <style>
+	/*
+	 * Діаметр обличчя — ОДНЕ число на ранг, і саме тому змінна.
+	 *
+	 * Доти розмір стояв двічі: на самому `<img class="star__photo">` і окремо на
+	 * `.star__photos` — обгортці стопки мультифото. Ранги переозначували лише
+	 * перше, тож у колеги з кількома знімками картинка ставала 44×52: ширину
+	 * задавала обгортка (44, без переозначення), висоту — правило ранга (52).
+	 * Коло перетворювалося на овал, і лише в тих, у кого фото більше за одне.
+	 *
+	 * Змінна прибирає саму можливість розходження: обидва місця читають її, а
+	 * ранг міняє її один раз.
+	 */
 	.star {
+		--photo-size: 44px;
 		display: grid;
 		place-items: center;
 		padding: 0;
@@ -271,8 +284,8 @@
 	}
 
 	.star__photo {
-		width: 44px;
-		height: 44px;
+		width: var(--photo-size);
+		height: var(--photo-size);
 		border-radius: 50%;
 		object-fit: cover;
 		filter: brightness(0.85) saturate(0.9);
@@ -283,17 +296,18 @@
 		transition: filter 280ms ease;
 	}
 
+	.star--tier-colleague {
+		--photo-size: 52px;
+	}
+
 	.star--tier-colleague .star__photo {
-		width: 52px;
-		height: 52px;
 		/* Обведення яскравіше: колега мусить читатися як окремий ранг і без
 		   порівняння з сусідньою зіркою, якої в кадрі може й не бути. */
 		outline-color: rgb(255 255 255 / 0.7);
 	}
 
-	.star--tier-student .star__photo {
-		width: 38px;
-		height: 38px;
+	.star--tier-student {
+		--photo-size: 38px;
 	}
 
 	.star:hover .star__photo,
@@ -307,8 +321,8 @@
 	 */
 	.star__photos {
 		position: relative;
-		width: 44px;
-		height: 44px;
+		width: var(--photo-size);
+		height: var(--photo-size);
 	}
 
 	/*

@@ -260,6 +260,9 @@
 	.mates__more {
 		width: auto;
 		min-width: 26px;
+		/* Пігулка, а не коло: плашка ширша за висоту, і `border-radius: 50%` з
+		   `.mates__item` робив з неї ЕЛІПС — заміряно 33×26. */
+		border-radius: 9999px;
 		padding: 0 0.35rem;
 		font-size: 0.68rem;
 		font-weight: 700;
