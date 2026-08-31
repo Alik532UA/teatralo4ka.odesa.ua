@@ -86,6 +86,42 @@ test.describe('сторінка вистави', () => {
 		await expect(page.getByTestId('play-cast-maryna-vishtaliuk-sukhanova')).toBeVisible();
 	});
 
+	/**
+	 * Репертуар групи: рядок веде на виставу, значок — на запис.
+	 *
+	 * Доти було навпаки й неповно: вистава із записом була кнопкою плеєра, а без
+	 * запису — мертвою карткою. Тобто натискання на назву або відкривало відео,
+	 * або не робило нічого, а сторінки вистави не давало ніколи. Дві дії в одному
+	 * місці — дві окремі цілі, і перевіряються вони окремо.
+	 */
+	test('у репертуарі групи рядок і запис — різні цілі', async ({ page }) => {
+		await gotoReady(page, '/projects/galaxy-graduates/groups/zakhysnyky-teatralnykh-kulis');
+
+		const rows = page.locator('[data-testid^="group-play-card-"]');
+		const videos = page.locator('[data-testid^="group-play-video-btn-"]');
+		expect(await rows.count(), 'репертуар порожній — перевірка мертва').toBeGreaterThan(0);
+		expect(
+			await videos.count(),
+			'жодної кнопки запису — або зникли записи, або кнопка перестала малюватися'
+		).toBeGreaterThan(0);
+
+		await rows.first().click();
+		await expect(page).toHaveURL(/\/plays\/[^/]+\/?$/);
+		await expect(page.getByTestId('play-title')).toBeVisible();
+
+		await page.goBack();
+		await page.locator('[data-testid^="group-play-video-btn-"]').first().waitFor();
+
+		const before = page.url();
+		await videos.first().click();
+		// Плеєр відкривається НА МІСЦІ: адреса лишається тією самою.
+		await expect(page).toHaveURL(before);
+		await expect(
+			page.locator('iframe[src*="youtube"]'),
+			'кнопка запису не відкрила плеєр'
+		).toBeVisible();
+	});
+
 	test('вистава без анкет каже про це прямо, а не мовчить', async ({ page }) => {
 		await gotoReady(page, БЕЗ_СКЛАДУ);
 

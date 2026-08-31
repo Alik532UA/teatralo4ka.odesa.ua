@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
+	import { t, locale } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import VideoModal from '$lib/components/VideoModal.svelte';
 	import { parseVideoUrl } from '$lib/utils/videoEmbed';
-	import type { Play } from '$lib/data/plays';
+	import { playPath, type Play } from '$lib/data/plays';
+	import { localizedPath } from '$lib/i18n/routing';
 
 	interface Props {
 		plays: readonly Play[];
@@ -23,54 +24,56 @@
 
 	/** Індекс вистави, чий плеєр відкрито; `-1` — закрито. */
 	let openIndex = $state(-1);
+
+	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
 </script>
 
 <!--
-	Нутрощі рядка однакові для обох випадків, тож лежать у сніпеті: гілки нижче
-	відрізняються лише тегом.
--->
-{#snippet playRow(play: Play, hasVideo: boolean)}
-	<span class="play-card__year-badge">{play.year}</span>
-	<span class="play-card__content">
-		<h3 class="play-card__title">{play.title}</h3>
-	</span>
-	{#if hasVideo}
-		<span class="play-card__video" data-testid="group-play-video-badge-{play.year}">
-			<img
-				src={asset('/social_media/YouTube-se-512px-50q.png')}
-				alt=""
-				width="24"
-				height="24"
-				loading="lazy"
-			/>
-			<span class="play-card__video-label">{$t('galaxy.watchRecording')}</span>
-		</span>
-	{/if}
-{/snippet}
+	Рядок веде на СТОРІНКУ вистави, а запис відкриває окрема кнопка поруч.
 
+	Доти було навпаки й неповно: вистава із записом була кнопкою плеєра, а без
+	запису — мертвою карткою. Тобто натискання на назву або відкривало відео,
+	або не робило нічого, а сторінки вистави не давало ніколи.
+
+	Кнопка стоїть ПОРУЧ із посиланням, а не всередині: `<button>` усередині
+	`<a>` — невалідна розмітка, і браузери розбирають її по-різному. Тому рядок
+	це обгортка з двох сусідів.
+-->
 <div class="plays-timeline" data-testid="group-plays-list">
 	{#each plays as play, idx (play.id)}
 		{@const video = videos[idx]}
-		<!--
-			Вистава із записом — справжній <button>, а не div із обробником:
-			запис відкривається плеєром ТУТ, не забираючи людину зі сторінки, і
-			рядок при цьому лишається доступним із клавіатури. Без запису це
-			звичайна картка, щоб курсор не обіцяв дії, якої немає.
-		-->
-		{#if video}
-			<button
-				type="button"
-				class="play-card play-card--playable"
-				onclick={() => (openIndex = idx)}
+		<div class="play-row">
+			<a
+				class="play-card"
+				href={localizedPath(playPath(play.id), lang)}
 				data-testid="group-play-card-{play.year}"
 			>
-				{@render playRow(play, true)}
-			</button>
-		{:else}
-			<article class="play-card" data-testid="group-play-card-{play.year}">
-				{@render playRow(play, false)}
-			</article>
-		{/if}
+				<span class="play-card__year-badge">{play.year}</span>
+				<span class="play-card__content">
+					<h3 class="play-card__title">{play.title}</h3>
+				</span>
+			</a>
+
+			{#if video}
+				<button
+					type="button"
+					class="play-video-btn"
+					onclick={() => (openIndex = idx)}
+					aria-label="{$t('galaxy.watchRecording')}: {play.title}"
+					title={$t('galaxy.watchRecording')}
+					data-testid="group-play-video-btn-{play.year}"
+				>
+					<img
+						src={asset('/social_media/YouTube-se-512px-50q.png')}
+						alt=""
+						width="24"
+						height="24"
+						loading="lazy"
+					/>
+					<span class="play-video-btn__label">{$t('galaxy.watchRecording')}</span>
+				</button>
+			{/if}
+		</div>
 	{/each}
 </div>
 
@@ -89,7 +92,21 @@
 		gap: 0.85rem;
 	}
 
+	/*
+	 * Рядок — обгортка з двох сусідів: посилання на всю вільну ширину й кнопка
+	 * запису праворуч. Тло й рамка лишилися на посиланні, щоб кнопка читалася
+	 * як окрема ціль, а не як частина картки.
+	 */
+	.play-row {
+		display: flex;
+		align-items: stretch;
+		gap: 0.5rem;
+	}
+
 	.play-card {
+		flex: 1 1 auto;
+		min-width: 0;
+		text-decoration: none;
 		display: flex;
 		align-items: center;
 		gap: 1.25rem;
@@ -110,33 +127,47 @@
 		transform: translateX(4px);
 	}
 
-	.play-card--playable {
-		cursor: pointer;
-	}
-
-	.play-card--playable:hover {
-		border-color: rgba(255, 0, 0, 0.35);
-	}
-
-	/* Значок запису притиснутий до правого краю рядка. */
-	.play-card__video {
+	/* Кнопка запису — власна ціль поруч із рядком, а не частина його. */
+	.play-video-btn {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
-		margin-left: auto;
 		flex-shrink: 0;
+		padding: 0 1rem;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.025);
+		border: 1px solid rgba(255, 255, 255, 0.06);
 		color: var(--text-muted, #94a3b8);
+		font: inherit;
 		font-size: 0.85rem;
+		cursor: pointer;
+		transition: all 0.2s ease;
 	}
 
-	.play-card__video img {
+	.play-video-btn img {
 		width: 24px;
 		height: 24px;
 		object-fit: contain;
 	}
 
-	.play-card--playable:hover .play-card__video {
+	.play-video-btn:hover,
+	.play-video-btn:focus-visible {
+		background: rgba(255, 255, 255, 0.05);
+		border-color: rgba(255, 0, 0, 0.35);
 		color: var(--text-main, #f1f5f9);
+	}
+
+	/*
+	 * На телефоні від кнопки лишається сам значок: підпис «Дивитися запис»
+	 * забирав у назви вистави половину рядка.
+	 */
+	@media (max-width: 767px) {
+		.play-video-btn__label {
+			display: none;
+		}
+		.play-video-btn {
+			padding: 0 0.75rem;
+		}
 	}
 
 	.play-card__year-badge {
@@ -179,9 +210,6 @@
 
 	@media (max-width: 560px) {
 		/* На вузькому екрані підпис зайвий — іконки досить. */
-		.play-card__video-label {
-			display: none;
-		}
 	}
 
 	/*
