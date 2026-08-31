@@ -73,6 +73,7 @@
 | `console.log` у коді застосунку | `errorLogger.logError()` / `.logWarning()` / `.logInfo()`. Правило `error`; у `scripts/` і конфігах воно вимкнене — там `console` і є виводом |
 | Голий `Set` / `Map` як реактивний стан | `SvelteSet` / `SvelteMap` зі `svelte/reactivity` |
 | `width`/`height` числом поруч із тегом для СВОГО файлу | `imageSize('/шлях')` із `$lib/config/localImages` — числа там звіряються із заголовками файлів на диску |
+| Виводити склад вистави з групи (`memberIds` × `playIds`) | Читати `playId` в анкетах: склад авторський і поштучний. Пояснення й заміри — у докблоці `src/lib/data/plays.ts` |
 
 Кожен рядок цієї таблиці, крім останнього, — правило ESLint. Вимкнути правило
 можна лише разом із записаною поруч причиною (CODE-QUALITY-v8 § 6.4.1);

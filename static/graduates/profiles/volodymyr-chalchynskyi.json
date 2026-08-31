@@ -38,8 +38,9 @@
 		},
 		{
 			"year": 2011,
-			"text": "«Мнимый больной», Арган",
-			"playId": "mnymyi-bolnoi-2011"
+			"text": "«Уявно хворий», Арган",
+			"playId": "mnymyi-bolnoi-2011",
+			"role": "Арган"
 		},
 		{
 			"year": 2011,
@@ -49,21 +50,24 @@
 		{
 			"year": 2010,
 			"text": "«Маленький принц», Льотчик",
-			"playId": "malenkyi-prynts-2010"
+			"playId": "malenkyi-prynts-2010",
+			"role": "Льотчик"
 		},
 		{
 			"year": 2009,
-			"text": "«Вперед Котенок», Котяра",
-			"playId": "vpered-kotenok-2009"
+			"text": "«Вперед, кошеня», Котяра",
+			"playId": "vpered-kotenok-2009",
+			"role": "Котяра"
 		},
 		{
 			"year": 2008,
-			"text": "«Кощеевы страсти», Кощей",
-			"playId": "koshcheevy-strasty-2008"
+			"text": "«Кощієві пристрасті», Кощій",
+			"playId": "koshcheevy-strasty-2008",
+			"role": "Кощій"
 		},
 		{
 			"year": 2007,
-			"text": "«Дядюшка Кролик против дядюшки Ягуара»",
+			"text": "«Дядечко Кролик проти дядечка Ягуара»",
 			"playId": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
 		}
 	],

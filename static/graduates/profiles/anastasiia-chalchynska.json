@@ -54,8 +54,9 @@
 		},
 		{
 			"year": 2011,
-			"text": "«Мнимый больной», Туанетта",
-			"playId": "mnymyi-bolnoi-2011"
+			"text": "«Уявно хворий», Туанетта",
+			"playId": "mnymyi-bolnoi-2011",
+			"role": "Туанетта"
 		},
 		{
 			"year": 2011,
@@ -65,21 +66,24 @@
 		{
 			"year": 2010,
 			"text": "«Маленький принц», Лис",
-			"playId": "malenkyi-prynts-2010"
+			"playId": "malenkyi-prynts-2010",
+			"role": "Лис"
 		},
 		{
 			"year": 2009,
-			"text": "«Вперед Котенок», Карасик",
-			"playId": "vpered-kotenok-2009"
+			"text": "«Вперед, кошеня», Карасик",
+			"playId": "vpered-kotenok-2009",
+			"role": "Карасик"
 		},
 		{
 			"year": 2008,
-			"text": "«Кощеевы страсти», Баба Яга",
-			"playId": "koshcheevy-strasty-2008"
+			"text": "«Кощієві пристрасті», Баба Яга",
+			"playId": "koshcheevy-strasty-2008",
+			"role": "Баба Яга"
 		},
 		{
 			"year": 2007,
-			"text": "«Дядюшка Кролик против дядюшки Ягуара»",
+			"text": "«Дядечко Кролик проти дядечка Ягуара»",
 			"playId": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
 		}
 	],

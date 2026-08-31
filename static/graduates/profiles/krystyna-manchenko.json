@@ -50,12 +50,12 @@
 	"plays": [
 		{
 			"year": 2012,
-			"text": "«Чайка», одноактовки",
+			"text": "«Чайка», одноактівки",
 			"playId": "chaika-2012"
 		},
 		{
 			"year": 2011,
-			"text": "«Мнимый больной»",
+			"text": "«Уявно хворий»",
 			"playId": "mnymyi-bolnoi-2011"
 		},
 		{
@@ -65,17 +65,17 @@
 		},
 		{
 			"year": 2009,
-			"text": "«Вперед Котенок»",
+			"text": "«Вперед, кошеня»",
 			"playId": "vpered-kotenok-2009"
 		},
 		{
 			"year": 2008,
-			"text": "«Кощеевы страсти»",
+			"text": "«Кощієві пристрасті»",
 			"playId": "koshcheevy-strasty-2008"
 		},
 		{
 			"year": 2007,
-			"text": "«Дядюшка Кролик против дядюшки Ягуара»",
+			"text": "«Дядечко Кролик проти дядечка Ягуара»",
 			"playId": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
 		}
 	],

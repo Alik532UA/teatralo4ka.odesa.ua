@@ -103,23 +103,27 @@
 		},
 		{
 			"year": 2008,
-			"text": "«Кощеевы страсти», Петька",
-			"playId": "koshcheevy-strasty-2008"
+			"text": "«Кощієві пристрасті», Петька",
+			"playId": "koshcheevy-strasty-2008",
+			"role": "Петька"
 		},
 		{
 			"year": 2009,
-			"text": "«Вперёд котёнок», Башмак",
-			"playId": "vpered-kotenok-2009"
+			"text": "«Вперед, кошеня», Черевик",
+			"playId": "vpered-kotenok-2009",
+			"role": "Черевик"
 		},
 		{
 			"year": 2010,
 			"text": "«Маленький принц», Маленький принц",
-			"playId": "malenkyi-prynts-2010"
+			"playId": "malenkyi-prynts-2010",
+			"role": "Маленький принц"
 		},
 		{
 			"year": 2011,
-			"text": "«Мнимый больной», Томас Диафуарус",
-			"playId": "mnymyi-bolnoi-2011"
+			"text": "«Уявно хворий», Тома Діафуарус",
+			"playId": "mnymyi-bolnoi-2011",
+			"role": "Тома Діафуарус"
 		},
 		{
 			"year": 2011,
