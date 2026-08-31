@@ -62,6 +62,9 @@
 			"graduateId": "anfisa-lazebna"
 		},
 		{
+			"graduateId": "artem-suvorov"
+		},
+		{
 			"graduateId": "daiana-ponomarenko"
 		},
 		{
@@ -71,11 +74,6 @@
 	"alisa-v-zadzerkalli-2024": [
 		{
 			"graduateId": "sofia-chernova"
-		}
-	],
-	"alysa-v-zazerkale-2013": [
-		{
-			"graduateId": "artem-suvorov"
 		}
 	],
 	"alysa-v-zazerkalyy-2012": [
@@ -442,12 +440,10 @@
 	],
 	"henzel-ta-hretel-2017": [
 		{
-			"graduateId": "daria-rybalchenko"
-		}
-	],
-	"henzel-y-hretel-2017": [
-		{
 			"graduateId": "daniela-rybalchenko"
+		},
+		{
+			"graduateId": "daria-rybalchenko"
 		},
 		{
 			"graduateId": "heorhii-topor"
@@ -536,9 +532,12 @@
 			"role": "«Чайка», Тригорін"
 		}
 	],
-	"hraiemo-zoshchenko-2020": [
+	"hraiemo-zoshchenka-2020": [
 		{
 			"graduateId": "daria-rybalchenko"
+		},
+		{
+			"graduateId": "heorhii-topor"
 		}
 	],
 	"hrikh-2012": [
@@ -629,7 +628,13 @@
 			"graduateId": "anfisa-lazebna"
 		},
 		{
+			"graduateId": "artem-suvorov"
+		},
+		{
 			"graduateId": "daiana-ponomarenko"
+		},
+		{
+			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"kazky-na-vsiak-vypadok-2021": [
@@ -799,17 +804,17 @@
 			"graduateId": "liubov-prepodobna"
 		}
 	],
-	"mezhdu-nebom-y-zemlei-2019": [
+	"misto-monstriv-2010": [
+		{
+			"graduateId": "daria-rybalchenko"
+		}
+	],
+	"mizh-nebom-i-zemleiu-2019": [
 		{
 			"graduateId": "kulish-mariia"
 		},
 		{
 			"graduateId": "myroslava-tkach"
-		}
-	],
-	"misto-monstriv-2010": [
-		{
-			"graduateId": "daria-rybalchenko"
 		}
 	],
 	"mnymyi-bolnoi-2011": [
@@ -893,19 +898,36 @@
 			"graduateId": "vitalina-larionova"
 		}
 	],
-	"natovp-samotnikh-2017": [
+	"natovp-samotnikh-2011": [
 		{
-			"graduateId": "daiana-ponomarenko"
+			"graduateId": "anisiia-stasevych"
+		},
+		{
+			"graduateId": "liliia-halosa"
 		}
 	],
-	"ne-sportyvnaia-ystoryia-2018": [
+	"natovp-samotnikh-2017": [
 		{
-			"graduateId": "daniela-rybalchenko"
+			"graduateId": "anfisa-lazebna"
+		},
+		{
+			"graduateId": "artem-suvorov"
+		},
+		{
+			"graduateId": "daiana-ponomarenko"
+		},
+		{
+			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"nedetskye-yhrushky-2015": [
 		{
 			"graduateId": "anastasiia-ihnatovych"
+		}
+	],
+	"nesportyvna-istoriia-2018": [
+		{
+			"graduateId": "daniela-rybalchenko"
 		}
 	],
 	"neznaika-2007": [
@@ -993,14 +1015,12 @@
 			"graduateId": "myroslava-tkach"
 		}
 	],
-	"parol-potselui-2021": [
-		{
-			"graduateId": "dovhan-daria"
-		}
-	],
 	"parol-potsilunok-2021": [
 		{
 			"graduateId": "bohdana-dymchenko"
+		},
+		{
+			"graduateId": "dovhan-daria"
 		},
 		{
 			"graduateId": "kateryna-poltavtseva"
@@ -1193,14 +1213,6 @@
 			"graduateId": "anton-babich"
 		}
 	],
-	"skazky-skvoz-kamny-2015": [
-		{
-			"graduateId": "artem-suvorov"
-		},
-		{
-			"graduateId": "yevhen-lysenko"
-		}
-	],
 	"skomorokhy-2006": [
 		{
 			"graduateId": "dmytro-rozumenko"
@@ -1342,28 +1354,9 @@
 			"graduateId": "daniela-rybalchenko"
 		}
 	],
-	"tolpa-odynokykh-2011": [
-		{
-			"graduateId": "anisiia-stasevych"
-		},
-		{
-			"graduateId": "liliia-halosa"
-		}
-	],
 	"tolpa-odynokykh-2016": [
 		{
 			"graduateId": "anton-babich"
-		}
-	],
-	"tolpa-odynokykh-2017": [
-		{
-			"graduateId": "anfisa-lazebna"
-		},
-		{
-			"graduateId": "artem-suvorov"
-		},
-		{
-			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"tot-kto-otkryvaet-dvery-2018": [
@@ -1492,12 +1485,10 @@
 			"graduateId": "artem-suvorov"
 		},
 		{
-			"graduateId": "yevhen-lysenko"
-		}
-	],
-	"veselyi-rodzher-2014-2": [
-		{
 			"graduateId": "daiana-ponomarenko"
+		},
+		{
+			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"vinehret-2018": [
@@ -1518,14 +1509,14 @@
 			"graduateId": "mariia-mahdalina-matvieieva"
 		}
 	],
+	"visim-zakokhanykh-zhinok-2020": [
+		{
+			"graduateId": "myroslava-tkach"
+		}
+	],
 	"volshebnyi-kolodets-2012": [
 		{
 			"graduateId": "anastasiia-ihnatovych"
-		}
-	],
-	"vosem-vliublennykh-zhenshchyn-2020": [
-		{
-			"graduateId": "myroslava-tkach"
 		}
 	],
 	"vpered-kotenok-2009": [
@@ -1601,11 +1592,6 @@
 	"vyi-2019": [
 		{
 			"graduateId": "daniela-rybalchenko"
-		}
-	],
-	"yhraem-zoshchenko-2020": [
-		{
-			"graduateId": "heorhii-topor"
 		}
 	],
 	"yscheznovenye-pryntsessy-fyfelly-3-2010": [
@@ -1736,9 +1722,7 @@
 		},
 		{
 			"graduateId": "daria-rybalchenko"
-		}
-	],
-	"zvezdnyi-ekspress-2016": [
+		},
 		{
 			"graduateId": "heorhii-topor"
 		}
