@@ -19,5 +19,20 @@
 	"category": "directors",
 	"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 	"portrait": "/masters/portraits/yevheniia-osadcha.webp",
-	"photo": "/masters/yevheniia-osadcha.webp"
+	"photo": "/masters/yevheniia-osadcha.webp",
+	"playIds": [
+		"tsar-plaksii-ta-loskoton-2025",
+		"diuimovochka-2025",
+		"tse-shcho-rukavychka-2025",
+		"etiudnyi-pokaz-2025",
+		"uryvky-z-klasyky-2024",
+		"syla-kazky-2024",
+		"zubata-vtrata-2024",
+		"simia-hraty-2023",
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"my-na-misiats-letymo-2023",
+		"vovk-ta-semero-kozeniat-2023",
+		"vidkrytyi-urok-z-hrymu-2023",
+		"misto-za-shpaleramy-2023"
+	]
 }

@@ -18,5 +18,9 @@
 	"photo": "/masters/vira-yemtsova-datsiuk.webp",
 	"category": "speech",
 	"roleTitle": "викладачка сценічного мовлення",
-	"portrait": "/masters/portraits/vira-yemtsova-datsiuk.webp"
+	"portrait": "/masters/portraits/vira-yemtsova-datsiuk.webp",
+	"playIds": [
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"ispyt-z-stsenichnoho-movlennia-2021"
+	]
 }

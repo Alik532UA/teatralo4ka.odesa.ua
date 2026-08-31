@@ -17,5 +17,28 @@
 	"socials": [],
 	"category": "directors",
 	"roleTitle": "викладачка акторської майстерності та сценічного мовлення",
-	"portrait": "/masters/portraits/tereza-zaurbekova.webp"
+	"portrait": "/masters/portraits/tereza-zaurbekova.webp",
+	"playIds": [
+		"nichni-zoshyty-abo-teatr-tinei-2025",
+		"pryvydy-2025",
+		"otakyi-rozziava-2025",
+		"ia-usikh-vas-liubliu-2024",
+		"v-poshukakh-kolumba-2024",
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"kozeniata-stara-kazka-na-novyi-lad-2023",
+		"balada-pro-korolivs-kyi-buterbrod-2023",
+		"iak-podruzhytys-z-chekalkoiu-2023",
+		"znaiomtes-tse-my-2022",
+		"u-poshukakh-kolumba-2022",
+		"on-lain-roboty-2022",
+		"sentymentalna-podorozh-2021",
+		"aktors-kyi-treninh-ta-etiudy-2021",
+		"ispyt-z-stsenichnoho-movlennia-2021",
+		"u-poshukakh-natkhnennia-2021",
+		"ne-101-a-14-dolmatyntsiv-2020",
+		"lyshe-bud-soboiu-2020",
+		"myshynia-superdetektyv-2020",
+		"etiudnyi-pokaz-2020",
+		"sim-subot-na-tyzhni-i-v-subotu-subotyk-povernuvsia-2020"
+	]
 }

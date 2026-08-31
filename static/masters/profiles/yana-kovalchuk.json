@@ -17,5 +17,9 @@
 	"category": "vocalists",
 	"roleTitle": "викладачка вокалу",
 	"photo": "/masters/yana-kovalchuk.webp",
-	"portrait": "/masters/portraits/yana-kovalchuk.webp"
+	"portrait": "/masters/portraits/yana-kovalchuk.webp",
+	"playIds": [
+		"kontsert-klasu-vykladachiv-koval-chuk-ia-v-i-bilen-2025",
+		"kontsert-klasu-mat-kovs-ki-a-o-bakina-n-h-koval-ch-2024"
+	]
 }

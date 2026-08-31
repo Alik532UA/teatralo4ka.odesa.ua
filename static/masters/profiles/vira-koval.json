@@ -17,5 +17,14 @@
 	"socials": [],
 	"category": "heads",
 	"roleTitle": "завідувачка художнім відділенням, викладачка образотворчого мистецтва вищої категорії, методистка",
-	"portrait": "/masters/portraits/vira-koval.webp"
+	"portrait": "/masters/portraits/vira-koval.webp",
+	"playIds": [
+		"pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2019",
+		"pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-1t-4-1t-5--2019",
+		"pidsumkove-sviato-u-hrup-6t-23-6t-21-6t-22-vypuskn-2019",
+		"pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2018",
+		"pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-2t-4-2t-5--2018",
+		"pidsumkove-sviato-u-hrup-4t-10-4t-11-4t-12-4t-13-4-2018",
+		"pidsumkove-sviato-u-hrup-6t-19-6t-20-7t-21-7t-22-v-2018"
+	]
 }

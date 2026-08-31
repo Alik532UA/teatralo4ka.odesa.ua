@@ -17,5 +17,8 @@
 	"socials": [],
 	"roleTitle": "викладачка вокалу",
 	"portrait": "/masters/portraits/anastasiia-nikolaieva.webp",
-	"category": "teachers"
+	"category": "teachers",
+	"playIds": [
+		"teatralevstvo-kryvykh-dzerkal-2023"
+	]
 }

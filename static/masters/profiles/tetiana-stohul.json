@@ -17,5 +17,9 @@
 	"photo": "/masters/tetiana-stohul.webp",
 	"category": "choreographers",
 	"roleTitle": "викладачка хореографії першої категорії",
-	"portrait": "/masters/portraits/tetiana-stohul.webp"
+	"portrait": "/masters/portraits/tetiana-stohul.webp",
+	"playIds": [
+		"u-poshukakh-kolumba-2022",
+		"zalikovyi-zakhid-klasiv-khoreohrafii-ta-fol-kloru-2021"
+	]
 }

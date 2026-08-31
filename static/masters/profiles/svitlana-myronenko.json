@@ -16,5 +16,10 @@
 	"socials": [],
 	"photo": "/masters/svitlana-myronenko.webp",
 	"portrait": "/masters/portraits/svitlana-myronenko.webp",
-	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+	"playIds": [
+		"teremok-2017",
+		"skazochnaia-ystoryia-2017",
+		"belosnezh-y-sem-hnomys-2017"
+	]
 }

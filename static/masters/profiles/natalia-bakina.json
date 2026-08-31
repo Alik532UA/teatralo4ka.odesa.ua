@@ -18,5 +18,9 @@
 	"category": "vocalists",
 	"roleTitle": "викладачка вокалу та обрядів України",
 	"portrait": "/masters/portraits/natalia-bakina.webp",
-	"photo": "/masters/natalia-bakina.webp"
+	"photo": "/masters/natalia-bakina.webp",
+	"playIds": [
+		"kontsert-klasu-vokalu-vykl-nykolaieva-h-s-bakina-n-2025",
+		"kontsert-klasu-mat-kovs-ki-a-o-bakina-n-h-koval-ch-2024"
+	]
 }

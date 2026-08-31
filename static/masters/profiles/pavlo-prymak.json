@@ -18,5 +18,8 @@
 	"category": "directors",
 	"roleTitle": "викладач акторської майстерності та сценічного руху, майстер курсу",
 	"portrait": "/masters/portraits/pavlo-prymak.webp",
-	"photo": "/masters/pavlo-prymak.webp"
+	"photo": "/masters/pavlo-prymak.webp",
+	"playIds": [
+		"urok-zalik-zi-stsenichnoho-rukhu-2023"
+	]
 }

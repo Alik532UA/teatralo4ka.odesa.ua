@@ -16,5 +16,10 @@
 	"socials": [],
 	"photo": "/masters/natalia-stepanenko.webp",
 	"roleTitle": "викладачка гітари вищої категорії, методистка",
-	"portrait": "/masters/portraits/natalia-stepanenko.webp"
+	"portrait": "/masters/portraits/natalia-stepanenko.webp",
+	"playIds": [
+		"kontsert-klasu-vykladachiv-velychko-l-m-i-stepanen-2025",
+		"kontsert-klasu-velychko-l-m-stepanenko-n-p-2024",
+		"kontsert-klasu-hitary-2018"
+	]
 }

@@ -110,7 +110,13 @@
 	{
 		"id": "holosy-2025",
 		"title": "«Голоси»",
-		"year": 2025
+		"year": 2025,
+		"author": "За мотивами п’єс Ж. Кокто",
+		"theatreGroup": "гр. 8Т-22",
+		"dateNote": "05.06 четвер, 18.00 (ауд. 7); 06.06 п’ятниця (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "divchynka-z-vedmedykom-2025",
@@ -120,12 +126,24 @@
 	{
 		"id": "nichni-zoshyty-abo-teatr-tinei-2025",
 		"title": "«Нічні зошити, або Театр тіней»",
-		"year": 2025
+		"year": 2025,
+		"author": "За мотивами текстів Рея Бредбери, Скота Коутона, Елли Купер, Дж.Е.Уайта",
+		"theatreGroup": "гр. 5Т-17",
+		"dateNote": "19.05 понеділок, 17.00 (ауд. 7); 03.06 вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
 	},
 	{
 		"id": "pereviznyk-2025",
 		"title": "«Перевізник»",
-		"year": 2025
+		"year": 2025,
+		"author": "Г.Яблонська",
+		"theatreGroup": "гр. 7Т-21",
+		"dateNote": "26.05 понеділок, 18.00 (ауд. 7); 27.05 вівторок, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "romeo-i-dzhulietta-2025",
@@ -157,12 +175,14 @@
 		"year": 2025,
 		"author": "за казкою Джанні Родарі",
 		"masters": [
-			"fedir-tkach"
+			"fedir-tkach",
+			"liubov-savina"
 		],
 		"number": 65,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Музичний театр»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "16.05 п’ятниця, 17.00 (ауд. 7); 17.05 субота, 12.30 (ауд. 7)"
 	},
 	{
 		"id": "charivnyk-krainy-oz-2025",
@@ -175,7 +195,8 @@
 		"number": 63,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "23.05 п’ятниця, 18.00 (ауд. 7); 24.05 субота, 15.00 (ауд. 7)"
 	},
 	{
 		"id": "pokaz-etiudiv-2025",
@@ -195,12 +216,14 @@
 		"year": 2025,
 		"author": "Р. Тома «8 люблячих жінок», І. Шоу «Віддайте полеглих землі», М. Коцюбинський «Тіні забутих предків», О. Кобилянська «У неділю рано зілля копала», О. Генрі «Дари волхвів», В. Домонтович «Дівчинка з ведмедиком», Т. Вільямс «Трамвай «Жадання»», В. Шекспір «Ромео і Джульєтта»",
 		"masters": [
-			"fedir-tkach"
+			"fedir-tkach",
+			"svitlana-ryskina"
 		],
 		"number": 66,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "28.05 середа, 18.00 (ауд. 7); 29.05 четвер, 17.30 (ауд. 7); 02.06 понеділок, 18.00 (ауд. 7); 03.06 вівторок, 18.00 (ауд. 7)"
 	},
 	{
 		"id": "4-stina-2024",
@@ -232,7 +255,8 @@
 		"participants": [
 			"Соф’я Чернова",
 			"Катерина"
-		]
+		],
+		"dateNote": "23.05 четвер, 18.00 (ауд. 7); 24.05 п’ятниця, 18.00 (ауд. 7)"
 	},
 	{
 		"id": "holos-tykhoi-bezodni-2024",
@@ -262,17 +286,37 @@
 	{
 		"id": "tryvozhni-liudy-2024",
 		"title": "«Тривожні люди»",
-		"year": 2024
+		"year": 2024,
+		"author": "Фредерік Бекмен",
+		"theatreGroup": "гр. 8Т-23",
+		"dateNote": "06.06 четвер, 17.00 (ауд. 7); 07.06 п’ятниця, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "uryvky-z-klasyky-2024",
 		"title": "«Уривки з класики»",
-		"year": 2024
+		"year": 2024,
+		"theatreGroup": "гр. 6Т-21",
+		"dateNote": "20.05 понеділок, 18.00 (ауд. 7); 21.05 вівторок, 17.00 (ауд. 7); 28.05 вівторок, 18.00 (ауд. 7); 29.05 середа, 18.00 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov",
+			"yevheniia-osadcha",
+			"svitlana-ryskina",
+			"d-rybalchenko"
+		]
 	},
 	{
 		"id": "chetverta-stina-2024",
 		"title": "«Четверта стіна»",
-		"year": 2024
+		"year": 2024,
+		"author": "Алекс Вуд",
+		"theatreGroup": "гр. 7Т-22",
+		"dateNote": "04.06 вівторок, 17.00 (ауд. 7); 05.06 середа, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "ia-pishov-na-viinu-2024",
@@ -290,7 +334,13 @@
 	{
 		"id": "ia-usikh-vas-liubliu-2024",
 		"title": "«Я усіх вас люблю»",
-		"year": 2024
+		"year": 2024,
+		"author": "Ірина Тануніна",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "20.05 понеділок, 16.00 (ауд. 7); 22.05 середа, 16.00 (ауд. 7); 30.05 четвер, 16.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
 	},
 	{
 		"id": "pokaz-etiudiv-2024",
@@ -334,7 +384,7 @@
 	},
 	{
 		"id": "z-tsiieiu-vystavoiu-shchos-ne-tak-2023",
-		"title": "«З цією виставою щось не так »",
+		"title": "«З цією виставою щось не так»",
 		"year": 2023
 	},
 	{
@@ -345,7 +395,13 @@
 	{
 		"id": "z-tsiieiu-piesoiu-shchos-ne-tak-2023",
 		"title": "«З цією пʼєсою щось не так»",
-		"year": 2023
+		"year": 2023,
+		"author": "Г. Льюїс, Г. Шилдс, Дж. Сайер",
+		"theatreGroup": "гр. 7т -19",
+		"dateNote": "06.06 вівторок, 17.30 (ауд. 7); 08.06 четвер, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "zviriachi-istorii-2023",
@@ -375,12 +431,24 @@
 	{
 		"id": "nikomu-nepotribni-2023",
 		"title": "«Нікому непотрібні»",
-		"year": 2023
+		"year": 2023,
+		"author": "М.Зелінська, М.Светлінова",
+		"theatreGroup": "гр. 5Т-14",
+		"dateNote": "05.06 понеділок, 17.30 (ауд. 7); 08.06 четвер, 15.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "pryhody-mortiny-ta-ii-druziv-2023",
 		"title": "«Пригоди Мортіни та її друзів»",
-		"year": 2023
+		"year": 2023,
+		"author": "Барбара Кантіні",
+		"theatreGroup": "гр. 4Т-11",
+		"dateNote": "29.05 понеділок, 17.00 (ауд. 7); 05.06 понеділок, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "retsepty-vyzhyvannia-2023",
@@ -406,17 +474,31 @@
 			"Єлизавета Малюженко",
 			"Катерина Курченко",
 			"Марина Кравчук"
-		]
+		],
+		"dateNote": "30.05 вівторок, 18.00 (ауд. УКР.театр); 06.06 вівторок, 18.00 (ауд. УКР.театр)"
 	},
 	{
 		"id": "simia-hraty-2023",
 		"title": "«Сім'я–Грати»",
-		"year": 2023
+		"year": 2023,
+		"author": "Євгенія Бур’ян",
+		"theatreGroup": "гр. 5т-15",
+		"dateNote": "06.06 вівторок, 15.30 (ауд. 7); 07.06 середа, 16.00 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov",
+			"yevheniia-osadcha"
+		]
 	},
 	{
 		"id": "son-zabrokhy-2023",
 		"title": "«Сон Забрьохи»",
-		"year": 2023
+		"year": 2023,
+		"author": "фантасмагорія (за мотивами повісті Г.Квітки-Основ'яненко \" Конотопська відьма\")",
+		"theatreGroup": "гр. 7т-20",
+		"dateNote": "09.06 п’ятниця, 17.00 (ауд. 7); 10.06 субота, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "uryvky-z-klasyky-2023",
@@ -431,7 +513,14 @@
 	{
 		"id": "etiudy-2023",
 		"title": "Етюди",
-		"year": 2023
+		"year": 2023,
+		"theatreGroup": "гр. 5Т-13",
+		"dateNote": "23.05 вівторок, 18.00 (ауд. 17); 24.05 середа, 18.00 (ауд. 17); 25.05 четвер, 18.00 (ауд. 17); 27.05 субота, 13.40 (ауд. 7); 29.05 понеділок, 15.30 (ауд. 7); 02.06 п’ятниця, 15.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"svitlana-ryskina",
+			"vladyslav-mykhailiuk"
+		]
 	},
 	{
 		"id": "pokaz-etiudiv-2023",
@@ -482,7 +571,13 @@
 	{
 		"id": "divchata-2022",
 		"title": "«Дівчата»",
-		"year": 2022
+		"year": 2022,
+		"author": ". Читка уривка з п'єси К.Гуземи",
+		"theatreGroup": "гр. Учениці старших груп МТШ",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "eneida-2022",
@@ -502,7 +597,13 @@
 	{
 		"id": "lysty-do-boha-2022",
 		"title": "«Листи до Бога»",
-		"year": 2022
+		"year": 2022,
+		"author": "Авторські історії підлітків",
+		"theatreGroup": "гр. 5Т-16 \"Девичник\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "pidu-do-zirok-2022",
@@ -523,7 +624,8 @@
 			"Катерина Курченко",
 			"Єлизавета Малюженко",
 			"Марина Кравчук"
-		]
+		],
+		"dateNote": "2022 (Відео-показ)"
 	},
 	{
 		"id": "geist-2022",
@@ -538,7 +640,13 @@
 	{
 		"id": "avatary-2021",
 		"title": "«Аватари»",
-		"year": 2021
+		"year": 2021,
+		"author": "Влада Ольховськая",
+		"theatreGroup": "гр. 4Т-13",
+		"dateNote": "22 травня субота, 12.00 (ауд. 7); 29 травня субота, 15.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "alisa-2021",
@@ -551,12 +659,19 @@
 		"number": 51,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Явища природи»",
-		"isDtsh": true
+		"isDtsh": true,
+		"dateNote": "25 травня вівторок, 18.00 (ауд. 7); 30 травня неділя, 16.00 (ауд. 7)"
 	},
 	{
 		"id": "asta-2021",
 		"title": "«Аста»",
-		"year": 2021
+		"year": 2021,
+		"author": "Серафіма Орлова",
+		"theatreGroup": "гр. 5т18",
+		"dateNote": "27 травня четвер, 17.30 (ауд. 7); 29 травня субота, 13.00",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "v-poshukakh-natkhnennia-2021",
@@ -566,7 +681,13 @@
 	{
 		"id": "vsi-myshi-liubliat-syr-2021",
 		"title": "«Всі миші люблять сир»",
-		"year": 2021
+		"year": 2021,
+		"author": "Дюла Урбан",
+		"theatreGroup": "гр. 4Т-15",
+		"dateNote": "5 червня субота, 13.30 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov"
+		]
 	},
 	{
 		"id": "zakon-2021",
@@ -591,7 +712,13 @@
 	{
 		"id": "parol-potsilunok-2021",
 		"title": "«Пароль Поцілунок»",
-		"year": 2021
+		"year": 2021,
+		"author": "Руслан Герасимов",
+		"theatreGroup": "гр. 5Т-17",
+		"dateNote": "3 червня четвер, 17.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
 	},
 	{
 		"id": "pepi-dovhapanchokha-2021",
@@ -601,7 +728,13 @@
 	{
 		"id": "sentymentalna-podorozh-2021",
 		"title": "«Сентиментальна подорож»",
-		"year": 2021
+		"year": 2021,
+		"author": "Наталя Мароз, Геннадій Шутуров",
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "2 червня середа, 16.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
 	},
 	{
 		"id": "usi-khloptsi-durni-2021",
@@ -611,7 +744,14 @@
 	{
 		"id": "chapaiev-i-vasylisa-2021",
 		"title": "«Чапаєв і Василіса»",
-		"year": 2021
+		"year": 2021,
+		"author": "Лєни Лягушонкової",
+		"institution": "Український театр",
+		"theatreGroup": "гр. 7Т-24",
+		"dateNote": "17 травня понеділок, 18.00 (ауд. Укр т)",
+		"masters": [
+			"fedir-tkach"
+		]
 	},
 	{
 		"id": "chapaiev-ta-vasylisa-2021",
@@ -686,7 +826,8 @@
 			"Іван Волошин",
 			"Олег Шевчук",
 			"Володимир Романко"
-		]
+		],
+		"dateNote": "липень-жовтень 2020"
 	},
 	{
 		"id": "vir-u-sebe-2020",
@@ -731,7 +872,8 @@
 			"Давід Окс",
 			"Ганна Серебряннікова",
 			"Владислав Дьяченко"
-		]
+		],
+		"dateNote": "липень-жовтень 2020"
 	},
 	{
 		"id": "hraiemo-zoshchenko-2020",
@@ -741,7 +883,13 @@
 	{
 		"id": "dyvovyzhni-pryhody-krolyka-edvarda-2020",
 		"title": "«Дивовижні пригоди кролика Едварда»",
-		"year": 2020
+		"year": 2020,
+		"author": "Кейт Дікаміло",
+		"theatreGroup": "гр. 5Т-18",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "etiudy-2020",
@@ -804,7 +952,13 @@
 	{
 		"id": "tak-buvaie-2020",
 		"title": "«Так буває»",
-		"year": 2020
+		"year": 2020,
+		"author": "Підліткова драматургія (Вистава за реальними та нереальними історіями)",
+		"theatreGroup": "гр. 7Т-22 «Дівочі драми»",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "shorokh-ukhodiashchykh-shahov-2020",
@@ -867,13 +1021,25 @@
 	},
 	{
 		"id": "etiudy-2019",
-		"title": "«Етюди »",
-		"year": 2019
+		"title": "«Етюди»",
+		"year": 2019,
+		"theatreGroup": "гр. 1Т-4",
+		"dateNote": "13.05 понеділок, 18.00 (ауд. 11); 17.05 п’ятниця, 18.00 (ауд. 17)",
+		"masters": [
+			"karen-petikian",
+			"samuil-imas"
+		]
 	},
 	{
 		"id": "kotyhoroshivka-2019",
 		"title": "«Котигорошівка»",
-		"year": 2019
+		"year": 2019,
+		"author": "Н.Симчич",
+		"theatreGroup": "гр. 5Т-17",
+		"dateNote": "23.05 четвер, 17.00 (ауд. 7); 26.05 неділя, 15.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "mezhdu-nebom-y-zemlei-2019",
@@ -888,7 +1054,10 @@
 	{
 		"id": "nove-vbrannia-dlia-korolia-2019",
 		"title": "«Нове вбрання для короля»",
-		"year": 2019
+		"year": 2019,
+		"author": "За Г-Х Андерсеном, переспів з англійської І.Малковича",
+		"theatreGroup": "гр. 3Е-5",
+		"dateNote": "8.05 середа, 16.30 (ауд. 11)"
 	},
 	{
 		"id": "otryvky-yz-klassyky-2019",
@@ -918,12 +1087,19 @@
 			"Микита Сураго",
 			"Олексій Сураго",
 			"Олександра Синіцина"
-		]
+		],
+		"dateNote": "19.05 неділя, 16.00 (ауд. 7); 21.05 вівторок, 17.00 (ауд. 7)"
 	},
 	{
 		"id": "smittievyi-miuzykl-2019",
 		"title": "«Сміттєвий мюзикл»",
-		"year": 2019
+		"year": 2019,
+		"author": "Катерина Брезгунова",
+		"theatreGroup": "гр. 2Т-7",
+		"dateNote": "18.05. субота, 12.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "tini-zabutykh-predkiv-2019",
@@ -985,8 +1161,14 @@
 	},
 	{
 		"id": "zamarashka-2018",
-		"title": "« Замарашка»",
-		"year": 2018
+		"title": "«Замарашка»",
+		"year": 2018,
+		"author": "Януш Гловацький",
+		"theatreGroup": "гр. 8Т-24",
+		"dateNote": "27.05. неділя, 17.00 (ауд. 7); 29.05. вівторок, 17.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "a-mozhe-ni-ta-inshi-kazky-2018",
@@ -1024,7 +1206,13 @@
 	{
 		"id": "dveri-2018",
 		"title": "«Двері»",
-		"year": 2018
+		"year": 2018,
+		"author": "За п’єсами С. Мрожека, Н.Неждани, Л. Лунарі",
+		"theatreGroup": "гр. 8Т-23",
+		"dateNote": "26.05. субота, 17.00 (ауд. 7); 28.05. понеділок, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "za-zakonamy-zhyvoi-pryrody-2018",
@@ -1111,8 +1299,14 @@
 	},
 	{
 		"id": "zolotaia-lavyna-2017",
-		"title": "« Золотая лавина»",
-		"year": 2017
+		"title": "«Золотая лавина»",
+		"year": 2017,
+		"author": "В. Красногоров",
+		"theatreGroup": "гр. 8Т-23",
+		"dateNote": "20 мая суббота, 18.30 (ауд. 7); 27 мая суббота, 17.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "aeroport-2017",
@@ -1132,7 +1326,10 @@
 	{
 		"id": "henzel-y-hretel-2017",
 		"title": "«Гензель и Гретель»",
-		"year": 2017
+		"year": 2017,
+		"author": "Фантазии по мотивам сказки Братьев Гримм",
+		"theatreGroup": "гр. 4Т-13",
+		"dateNote": "29 мая понедельник, 19.00 (ауд. 7)"
 	},
 	{
 		"id": "henzel-ta-hretel-2017",
@@ -1220,7 +1417,13 @@
 	{
 		"id": "kentervylskoe-pryvydenye-2017",
 		"title": "«Кентервильское привидение»",
-		"year": 2017
+		"year": 2017,
+		"author": "Оскар Уайльд",
+		"theatreGroup": "гр. 6Т-19",
+		"dateNote": "21 мая воскресенье, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "komakhy-2017",
@@ -1240,12 +1443,24 @@
 	{
 		"id": "ryzhaia-pesa-2017",
 		"title": "«Рыжая пьеса»",
-		"year": 2017
+		"year": 2017,
+		"author": "Кс. Драгунская",
+		"theatreGroup": "гр. 5Т-16",
+		"dateNote": "30 мая вторник, 15.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "tolpa-odynokykh-2017",
 		"title": "«Толпа одиноких»",
-		"year": 2017
+		"year": 2017,
+		"author": "Е.Садур",
+		"theatreGroup": "гр. 7Т-21",
+		"dateNote": "30 мая вторник, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "etiudy-kishka-2017",
@@ -1260,7 +1475,10 @@
 	{
 		"id": "zvezdnyi-ekspress-2016",
 		"title": "«Звёздный экспресс»",
-		"year": 2016
+		"year": 2016,
+		"author": "Мюзикл (Либретто - Ричард Стилгоу)",
+		"theatreGroup": "гр. 3Т-9",
+		"dateNote": "30 мая понедельник, 18.00 (ауд. 7)"
 	},
 	{
 		"id": "zorianyi-ekspres-2016",
@@ -1270,7 +1488,13 @@
 	{
 		"id": "yzumrudnyi-horod-2016",
 		"title": "«Изумрудный город»",
-		"year": 2016
+		"year": 2016,
+		"author": "О.Шевчук, С.Халиченко (инсценировка сказки А. Волкова)",
+		"theatreGroup": "гр. 4Т-11",
+		"dateNote": "21 мая суббота, 16.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "kazkova-istoriia-2016",
@@ -1280,7 +1504,15 @@
 	{
 		"id": "otryvky-yz-klassyky-2016",
 		"title": "«Отрывки из классики»",
-		"year": 2016
+		"year": 2016,
+		"theatreGroup": "гр. 7Т-17",
+		"dateNote": "14 мая суббота, 18.00 (ауд. 7); 19 мая четверг, 18.00 (ауд. 7); 21 мая суббота, 18.00 (ауд. 7); 26 мая четверг, 18.00 (ауд. 7); 28 мая суббота, 17.00 (ауд. 7); 29 мая воскресенье, 16.00 (ауд. 7); 31 мая вторник, 18.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk",
+			"fedir-tkach",
+			"svitlana-ryskina",
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "revyzor-2016",
@@ -1369,7 +1601,13 @@
 	{
 		"id": "vse-malchyshky-duraky-2015",
 		"title": "«Все мальчишки - дураки»",
-		"year": 2015
+		"year": 2015,
+		"author": "К.Драгунская",
+		"theatreGroup": "гр. 4Т-10",
+		"dateNote": "23 мая суббота, 14.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "de-vsi-2015",
@@ -1430,7 +1668,13 @@
 	{
 		"id": "pliushevyi-krolyk-2015",
 		"title": "«Плюшевый кролик»",
-		"year": 2015
+		"year": 2015,
+		"author": "Инсценировка рассказа М.Уильямс",
+		"theatreGroup": "гр. 6Т-13",
+		"dateNote": "19 мая вторник, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
 	},
 	{
 		"id": "ripka-2015",
@@ -1445,12 +1689,24 @@
 	{
 		"id": "skazky-skvoz-kamny-2015",
 		"title": "«Сказки сквозь камни»",
-		"year": 2015
+		"year": 2015,
+		"author": "О.Ширенова",
+		"theatreGroup": "гр. 5Т-12",
+		"dateNote": "23 мая суббота, 16.30 (ауд. 7); 27 мая среда, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "solenoe-detstvo-2015",
 		"title": "«Солёное детство»",
-		"year": 2015
+		"year": 2015,
+		"author": "А.Гезалов",
+		"theatreGroup": "гр. 6Т-15",
+		"dateNote": "21 мая четверг, 16.30 (ауд. 7); 31мая воскресенье, 19.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015",
@@ -1460,7 +1716,14 @@
 	{
 		"id": "ia-2015",
 		"title": "«Я»",
-		"year": 2015
+		"year": 2015,
+		"author": "Проект (. Авторские монологи по мотивам известных литературных персонажей)",
+		"theatreGroup": "гр. 8Т-20",
+		"dateNote": "5 июня пятница, 18.00 (ауд. ТЮЗ)",
+		"masters": [
+			"fedir-tkach",
+			"pavlo-koshka"
+		]
 	},
 	{
 		"id": "proiekt-ia-2015",
@@ -1522,7 +1785,13 @@
 	{
 		"id": "bermudskyi-kvadrat-2014",
 		"title": "«Бермудский квадрат»",
-		"year": 2014
+		"year": 2014,
+		"author": "Анна Яблонская",
+		"theatreGroup": "гр. 18-Т",
+		"dateNote": "7 июня (суббота), 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "veselyi-rodzher-2014-2",
@@ -1532,12 +1801,24 @@
 	{
 		"id": "veselyi-rodzher-2014",
 		"title": "«Весёлый Роджер»",
-		"year": 2014
+		"year": 2014,
+		"author": "Дамир Салимзянов",
+		"theatreGroup": "гр. 6-Т",
+		"dateNote": "22 мая (четверг), 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "do-svydanyia-ovrah-2014",
 		"title": "«До свидания , овраг!»",
-		"year": 2014
+		"year": 2014,
+		"author": "К. Сергиенко",
+		"theatreGroup": "гр. 5-Т",
+		"dateNote": "15 мая( четв.), 17.00 (ауд. 7); 17 мая ( суб.), 12.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "do-svydania-ovrah-2014",
@@ -1562,7 +1843,13 @@
 	{
 		"id": "lodochnyk-2014",
 		"title": "«Лодочник»",
-		"year": 2014
+		"year": 2014,
+		"author": "Анна Яблонская",
+		"theatreGroup": "гр. 18-Т",
+		"dateNote": "27 мая (вторник), 19.00 (ауд. 7); 29 мая (четв), 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "monolohy-2014",
@@ -1585,7 +1872,8 @@
 			"Яна Ковіна",
 			"Марта Смеречинська",
 			"Ганна Вацик"
-		]
+		],
+		"dateNote": "22 мая (четверг), 18.30 (ауд. 7)"
 	},
 	{
 		"id": "obshchezhytye-2014",
@@ -1629,7 +1917,13 @@
 	{
 		"id": "pryiatnoho-appetyta-tyhr-2014",
 		"title": "«Приятного аппетита, Тигр»",
-		"year": 2014
+		"year": 2014,
+		"author": "Д. Биссет",
+		"theatreGroup": "гр. 7-Т",
+		"dateNote": "4 июня (среда), 15.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
 	},
 	{
 		"id": "skazky-skvoz-kamny-2014",
@@ -1725,12 +2019,12 @@
 	},
 	{
 		"id": "vrednye-sovety-2013",
-		"title": "« Вредные советы»",
+		"title": "«Вредные советы»",
 		"year": 2013
 	},
 	{
 		"id": "kto-boytsia-vyrdzhynyy-vulf-2013",
-		"title": "« Кто боится Вирджинии Вульф»",
+		"title": "«Кто боится Вирджинии Вульф»",
 		"year": 2013
 	},
 	{
@@ -1746,7 +2040,13 @@
 	{
 		"id": "alysa-v-zazerkale-2013",
 		"title": "«Алиса в Зазеркалье»",
-		"year": 2013
+		"year": 2013,
+		"author": "Льюис Кэрролл",
+		"theatreGroup": "гр. 5-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "alisa-v-zadzerkalli-2013",
@@ -1833,7 +2133,13 @@
 	{
 		"id": "ten-2013",
 		"title": "«Тень»",
-		"year": 2013
+		"year": 2013,
+		"author": "Е.Л.Шварц",
+		"theatreGroup": "гр. 17-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "tin-2013",
@@ -1848,7 +2154,12 @@
 	{
 		"id": "e-t-iu-d-y-2013",
 		"title": "«Э. Т. Ю. Д. Ы.»",
-		"year": 2013
+		"year": 2013,
+		"theatreGroup": "гр. 8-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"pavlo-koshka"
+		]
 	},
 	{
 		"id": "uryvky-z-klasyky-2013",
@@ -2452,7 +2763,7 @@
 		],
 		"number": 7,
 		"institution": "Одеська дитяча театральна школа / ТЮГ",
-		"theatreGroup": "Молодіжний театр «Тітри» (Театр випускників)",
+		"theatreGroup": "гр. Молодіжний театр «Тітри» (Театр випускників)",
 		"isDtsh": true,
 		"participants": [
 			"Ганна Ткач",
@@ -2522,7 +2833,7 @@
 	},
 	{
 		"id": "koshky-2008",
-		"title": "« Кошки»",
+		"title": "«Кошки»",
 		"year": 2008
 	},
 	{
@@ -2748,7 +3059,7 @@
 		],
 		"number": 1,
 		"institution": "Одеська дитяча театральна школа",
-		"theatreGroup": "Театр випускників",
+		"theatreGroup": "гр. Театр випускників",
 		"isDtsh": true,
 		"participants": [
 			"Ганна Ткач",
@@ -2851,7 +3162,7 @@
 			"fedir-tkach"
 		],
 		"dateNote": "травень",
-		"theatreGroup": "Міні-театр «ДЮК»",
+		"theatreGroup": "гр. Міні-театр «ДЮК»",
 		"isDtsh": false
 	},
 	{
@@ -2874,7 +3185,7 @@
 			"fedir-tkach"
 		],
 		"dateNote": "30.05, 01.06",
-		"theatreGroup": "Міні-театр «ДЮК»",
+		"theatreGroup": "гр. Міні-театр «ДЮК»",
 		"isDtsh": false,
 		"participants": [
 			"Сергій Стовба",
@@ -2916,7 +3227,7 @@
 			"fedir-tkach"
 		],
 		"dateNote": "травень",
-		"theatreGroup": "«Мій набір старші»",
+		"theatreGroup": "гр. «Мій набір старші»",
 		"isDtsh": false,
 		"participants": [
 			"Галина Пахтер",
@@ -2936,7 +3247,7 @@
 		"masters": [
 			"fedir-tkach"
 		],
-		"theatreGroup": "«Мій набір молодші»",
+		"theatreGroup": "гр. «Мій набір молодші»",
 		"isDtsh": false
 	},
 	{
@@ -2949,7 +3260,7 @@
 			"fedir-tkach"
 		],
 		"dateNote": "21.05",
-		"theatreGroup": "«Мій набір старші»",
+		"theatreGroup": "гр. «Мій набір старші»",
 		"isDtsh": false,
 		"participants": [
 			"В'ячеслав Бондаренко",
@@ -2972,10 +3283,3501 @@
 		"masters": [
 			"fedir-tkach"
 		],
-		"theatreGroup": "«Підкидьки»",
+		"theatreGroup": "гр. «Підкидьки»",
 		"isDtsh": false,
 		"participants": [
 			"Ірина Гончарук (Ковальська)"
+		]
+	},
+	{
+		"id": "nazvanye-raboty-2013",
+		"title": "Название работы",
+		"year": 2013,
+		"theatreGroup": "гр. группа",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "skazka-pro-zvezdocheta-2013",
+		"title": "«Сказка про звездочета»",
+		"year": 2013,
+		"author": "С.Маршак",
+		"theatreGroup": "гр. 4-Э",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "kot-naoborot-2013",
+		"title": "«Кот Наоборот»",
+		"year": 2013,
+		"author": "О.Емельянова",
+		"theatreGroup": "гр. 5-Э",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "poliana-fei-2013",
+		"title": "«Поляна Фей»",
+		"year": 2013,
+		"author": "Исценировка по стихам Лении Мажор",
+		"theatreGroup": "гр. 3-Э",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "kak-lysa-volka-sudyla-2013",
+		"title": "«Как лиса волка судила»",
+		"year": 2013,
+		"author": "Русская народная сказка",
+		"theatreGroup": "гр. 1-Э",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "den-rozhdenyia-rozochky-2013",
+		"title": "«День рождения Розочки»",
+		"year": 2013,
+		"author": "По стихам С.Маршака",
+		"theatreGroup": "гр. 7-Э",
+		"dateNote": "травень 2013",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "martyshkyn-dom-2013",
+		"title": "«Мартышкин дом»",
+		"year": 2013,
+		"author": "Б.Заходер",
+		"theatreGroup": "гр. 6-Э",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "teremok-2013",
+		"title": "«Теремок»",
+		"year": 2013,
+		"author": "Русская народная сказка",
+		"theatreGroup": "гр. 2-Э",
+		"dateNote": "травень 2013"
+	},
+	{
+		"id": "natashy-2013",
+		"title": "«Наташи»",
+		"year": 2013,
+		"author": "Ярослава Пулинович",
+		"theatreGroup": "гр. 13-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "barmalei-2013",
+		"title": "«Бармалей»",
+		"year": 2013,
+		"author": "Корней Чуковский",
+		"theatreGroup": "гр. 2-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "prykliuchenyia-buratyno-2013",
+		"title": "«Приключения Буратино»",
+		"year": 2013,
+		"author": "По мотивам сказки А. Н. Толстого",
+		"theatreGroup": "гр. 4-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "otryvky-yz-klassyky-2013",
+		"title": "Отрывки из классики",
+		"year": 2013,
+		"theatreGroup": "гр. 14-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "vodevyl-2013",
+		"title": "«Водевиль +»",
+		"year": 2013,
+		"author": "А.Сологуб, И.А.Крылов",
+		"theatreGroup": "гр. 16-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "a-n-ostrovskyi-stseny-yz-moskovskoi-zhyzny-2013",
+		"title": "А.Н.Островский. Сцены из московской жизни.",
+		"year": 2013,
+		"theatreGroup": "гр. 15-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "makaka-kleopatra-2013",
+		"title": "«Макака Клеопатра»",
+		"year": 2013,
+		"author": "Александр и Лариса Измайловы",
+		"theatreGroup": "гр. 3-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "malen-koe-pryvydenye-2013",
+		"title": "«Маленькое привидение»",
+		"year": 2013,
+		"author": "Отфрид Пройслер",
+		"theatreGroup": "гр. 11-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "peppy-dlynnyi-chulok-2013",
+		"title": "«Пеппи Длинный чулок»",
+		"year": 2013,
+		"author": "Астрид Линдгрен",
+		"theatreGroup": "гр. 7-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-yntensyvnoho-klassa-2013",
+		"title": "Показ по актерскому мастерству интенсивного класса",
+		"year": 2013,
+		"theatreGroup": "гр. 12-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "spektakl-2013",
+		"title": "«Спектакль»",
+		"year": 2013,
+		"author": "Эдвард Олби",
+		"theatreGroup": "гр. 19-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "liubov-k-trem-apel-synam-2013",
+		"title": "«Любовь к трем апельсинам»",
+		"year": 2013,
+		"author": "Карло Гоцци",
+		"theatreGroup": "гр. 10-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"pavlo-koshka"
+		]
+	},
+	{
+		"id": "otkrytyi-pokaz-po-akterskomu-masterstvu-2013",
+		"title": "Открытый показ по актерскому мастерству",
+		"year": 2013,
+		"theatreGroup": "гр. 9-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "vosem-liubiashchykh-zhenshchyn-2013",
+		"title": "«Восемь любящих женщин»",
+		"year": 2013,
+		"author": "Робер Тома",
+		"theatreGroup": "гр. 18-Т",
+		"dateNote": "травень 2013",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "otkrytyi-pokaz-po-rechy-2014",
+		"title": "Открытый показ по речи",
+		"year": 2014,
+		"dateNote": "8 мая(четв.), 16.00 (ауд. зал); 20 мая (вторник), 15.00 (ауд. 17)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "kontsert-klassa-prepodavatelia-velychko-l-n-2014",
+		"title": "Концерт класса преподавателя Величко Л.Н.",
+		"year": 2014,
+		"dateNote": "18мая(воскр), 12.00 (ауд. 7)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "ystoryy-o-tiul-ke-y-hruffalo-2014",
+		"title": "«Истории о Тюльке и Груффало»",
+		"year": 2014,
+		"author": "Джулия Дональдсон",
+		"theatreGroup": "гр. 11-Т",
+		"dateNote": "19 мая (понедельник), 18.30 (ауд. 7); 21 мая(среда), 18.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "otkrytyi-pokaz-po-akterskomu-masterstvu-trenynh-et-2014",
+		"title": "Открытый показ по актерскому мастерству (тренинг, этюды)",
+		"year": 2014,
+		"theatreGroup": "гр. 14-Т",
+		"dateNote": "20 мая (вторник), 17.00 (ауд. 7); 24 мая (суббота), 10.30 (ауд. 11); 28 мая (среда), 15.00 (ауд. 7); 4 июня (среда), 12.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "putanytsa-2014",
+		"title": "«Путаница»",
+		"year": 2014,
+		"author": "К.Чуковский",
+		"theatreGroup": "гр. 1-Э",
+		"dateNote": "21 мая(среда), 15.00 (ауд. 11)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "vrednye-sovety-2014",
+		"title": "«Вредные советы»",
+		"year": 2014,
+		"author": "Г. Остер",
+		"theatreGroup": "гр. 4-Э",
+		"dateNote": "23 мая(пятн), 16.00 (ауд. 11)"
+	},
+	{
+		"id": "prazdnyk-neposlushanyia-2014",
+		"title": "«Праздник непослушания»",
+		"year": 2014,
+		"author": "С Михалков (,)",
+		"theatreGroup": "гр. 3-Т",
+		"dateNote": "24 мая (суббота), 12.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "kokon-2014",
+		"title": "«Кокон»",
+		"year": 2014,
+		"author": "Юлия Зеленина",
+		"theatreGroup": "гр. 17-Т",
+		"dateNote": "24 мая (суббота), 16.00 (ауд. 7); 28 мая (среда), 18.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "dumaite-o-nas-hr-16-t-2014",
+		"title": "«Думайте о нас»",
+		"year": 2014,
+		"author": "Евгений Клюев",
+		"theatreGroup": "гр. 16-Т",
+		"dateNote": "25 мая(воскр), 15.00 (ауд. 7); 30 мая (пятн), 18.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "posle-bukvy-ia-2014",
+		"title": "«После буквы Я»",
+		"year": 2014,
+		"author": "Доктор Сьюз",
+		"theatreGroup": "гр. 5-Э",
+		"dateNote": "26 мая (понедельник), 15.00"
+	},
+	{
+		"id": "pyter-pen-2014",
+		"title": "«Питер Пен»",
+		"year": 2014,
+		"author": "Джеймс Мэтью Барри (инсценировка)",
+		"theatreGroup": "гр. 4-Т",
+		"dateNote": "26 мая (понедельник), 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "yntensyvnoho-kursa-2014",
+		"title": "«интенсивного курса»",
+		"year": 2014,
+		"author": "Зачет по актерскому мастерству",
+		"theatreGroup": "гр. 12/2-Т",
+		"dateNote": "26 мая (понедельник), 18.30 (ауд. 17); 28 мая (среда), 17.00 (ауд. 17)",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "malen-kye-volshebnyky-2014",
+		"title": "«Маленькие волшебники»",
+		"year": 2014,
+		"author": "Инсценировка сказок собственного сочинения",
+		"theatreGroup": "гр. 2-Э",
+		"dateNote": "27 мая (вторник), 15.00 (ауд. 11)"
+	},
+	{
+		"id": "ystor-y-ia-2014",
+		"title": "«Истор и Я»",
+		"year": 2014,
+		"theatreGroup": "гр. 9-Т",
+		"dateNote": "27 мая (вторник), 16.00 (ауд. 7)",
+		"masters": [
+			"pavlo-koshka"
+		]
+	},
+	{
+		"id": "parad-pryntsess-2014",
+		"title": "«Парад Принцесс»",
+		"year": 2014,
+		"author": "ФЛешермейер, Р Дотремер",
+		"theatreGroup": "гр. 3-Э",
+		"dateNote": "28 мая (среда), 16.00 (ауд. 11)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-mladshykh-uchenykov-shkoly-2014",
+		"title": "Итоговый праздник младших учеников школы",
+		"year": 2014,
+		"dateNote": "31 мая (Суббота), 12.00"
+	},
+	{
+		"id": "zhestianye-devchonky-hr-10-t-2014",
+		"title": "«Жестяные девчонки»",
+		"year": 2014,
+		"author": "Р. Орешник",
+		"theatreGroup": "гр. 10-Т",
+		"dateNote": "4 июня (среда), 18.00 (ауд. 7); 7 июня (суббота), 15.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "sentymental-noe-puteshestvye-2014",
+		"title": "«Сентиментальное путешествие»",
+		"year": 2014,
+		"author": "Н Мороз",
+		"theatreGroup": "гр. 8-Т",
+		"dateNote": "5 июня (четверг), 15.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "86997503343751-2014",
+		"title": "«86997503343751»",
+		"year": 2014,
+		"author": "Театральный проект",
+		"theatreGroup": "гр. 19-Т",
+		"dateNote": "5 июня (четверг), 18.00 (ауд. 7); 6 июня (пятн), 18.00 (ауд. 7)",
+		"masters": [
+			"pavlo-koshka"
+		]
+	},
+	{
+		"id": "rafaman-2014",
+		"title": "«Рафаман»",
+		"year": 2014,
+		"author": "Итоговый праздник для учеников",
+		"dateNote": "6 июня (пятн), 10.30 (ауд. 7)"
+	},
+	{
+		"id": "pastushka-y-trubochyst-2015",
+		"title": "«Пастушка и Трубочист»",
+		"year": 2015,
+		"author": "Инсценировка сказок Г-Х. Андерсена",
+		"theatreGroup": "гр. 2Т-6",
+		"dateNote": "15 мая пятница, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2015",
+		"title": "Показ по актерскому мастерству. Тренинг, этюды",
+		"year": 2015,
+		"theatreGroup": "гр. 1Т-1",
+		"dateNote": "18 мая понедельник, 16.30 (ауд. 11); 21 мая четверг, 18.00 (ауд. 11)",
+		"masters": [
+			"svitlana-ryskina",
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "otryvky-yz-klassyky-2015",
+		"title": "Отрывки из классики",
+		"year": 2015,
+		"theatreGroup": "гр. 7Т-17",
+		"dateNote": "19 мая вторник, 18.30 (ауд. 7); 20 мая среда, 18.30 (ауд. 7); 2 июня вторник, 17.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "tsyrk-syn-ora-makarolly-2015",
+		"title": "«Цирк синьора Макаролли»",
+		"year": 2015,
+		"author": "П.Синявский",
+		"theatreGroup": "гр. 2Э-2",
+		"dateNote": "20 мая среда, 15.00 (ауд. 11)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2015",
+		"title": "Показ по актерскому мастерству. Этюды",
+		"year": 2015,
+		"theatreGroup": "гр. 5Т-11",
+		"dateNote": "22 мая пятница, 17.00 (ауд. 17)",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "sny-dzhovanny-2015",
+		"title": "«Сны Джованни»",
+		"year": 2015,
+		"author": "по мотивам сказок Дж.Родари",
+		"theatreGroup": "гр. 1Т-4",
+		"dateNote": "22 мая пятница, 18.30 (ауд. 11)"
+	},
+	{
+		"id": "zhenskyi-vopros-hr-8t-21-2015",
+		"title": "«Женский вопрос»",
+		"year": 2015,
+		"author": "Тэффи",
+		"theatreGroup": "гр. 8Т-21",
+		"dateNote": "22 мая пятница, 19.30 (ауд. 7); 1 июня понедельник, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kot-v-sapohakh-2015",
+		"title": "«Кот в сапогах»",
+		"year": 2015,
+		"author": "С.Прокофьева, Г.Сапгир",
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "23 мая суббота, 12.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "hde-vse-2015",
+		"title": "«Где все?»",
+		"year": 2015,
+		"author": "по мотивам пьес шведских драматургов А.Дууса, Л.Лангсет, Р.Линдберга",
+		"theatreGroup": "гр. 6Т-16",
+		"dateNote": "23 мая суббота, 18.30 (ауд. 7); 26 мая вторник, 18.30 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "prykliuchenyia-olyvera-tvysta-2015",
+		"title": "«Приключения Оливера Твиста»",
+		"year": 2015,
+		"author": "Мюзикл Л.Барта (по мотивам романа Ч. Диккенса)",
+		"theatreGroup": "гр. 1Т-3 2Т-5",
+		"dateNote": "24 мая воскресенье, 16.00 (ауд. 7); 6 июня суббота, 16.00 (ауд. 7)"
+	},
+	{
+		"id": "ne-detskye-yhrushky-2015",
+		"title": "«Не Детские игрушки»",
+		"year": 2015,
+		"author": "по пьесе Б.Срблянович «Семейные истории»",
+		"theatreGroup": "гр. 6Т-17",
+		"dateNote": "24 мая воскресенье, 18.00 (ауд. 7)"
+	},
+	{
+		"id": "novye-ystoryy-kroshky-enota-2015",
+		"title": "«Новые истории крошки Енота»",
+		"year": 2015,
+		"author": "по мотивам сказки Л.Муур",
+		"theatreGroup": "гр. 2Э-1",
+		"dateNote": "25 мая понедельник, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "rusalochka-kheppy-end-2015",
+		"title": "«Русалочка. Хеппи-энд»",
+		"year": 2015,
+		"author": "Мюзикл (по мотивам сказки Г-Х. Андерсена)",
+		"theatreGroup": "гр. 4Т-9",
+		"dateNote": "25 мая понедельник, 17.00 (ауд. 7); 28 мая четверг, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "horod-bez-liubvy-2015",
+		"title": "«Город без любви»",
+		"year": 2015,
+		"author": "Л.Устинов",
+		"theatreGroup": "гр. 6Т-14",
+		"dateNote": "25 мая понедельник, 19.00 (ауд. 7)",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "kot-v-shliape-2015",
+		"title": "«Кот в шляпе»",
+		"year": 2015,
+		"author": "Доктор Сьюз",
+		"theatreGroup": "гр. 3Э-3",
+		"dateNote": "26 мая вторник, 15.00 (ауд. 11)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "yvan-yvanych-samovar-2015",
+		"title": "«Иван Иваныч Самовар»",
+		"year": 2015,
+		"author": "Д.Хармс",
+		"theatreGroup": "гр. 3Э-4",
+		"dateNote": "26 мая вторник, 16.30 (ауд. 11)"
+	},
+	{
+		"id": "zhyl-byl-korol-2015",
+		"title": "«Жил-был Король»",
+		"year": 2015,
+		"author": "по мотивам «Сказок про королей» С.Седова",
+		"theatreGroup": "гр. 1Т-2",
+		"dateNote": "27 мая среда, 16.00 (ауд. 11)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "kontsert-klassa-prepodavatelia-velychko-l-n-2015",
+		"title": "Концерт класса преподавателя Величко Л.Н.",
+		"year": 2015,
+		"dateNote": "30 мая суббота, 11.00 (ауд. 7)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-dlia-hrupp-2e-1-2e-2-3e-3-3e-4-1-2015",
+		"title": "Итоговый праздник для групп 2э-1,2э-2, 3э-3, 3э-4, 1т-1, 1т-2, 1т-3, 1т-4, 2т-5, 2т-6,",
+		"year": 2015,
+		"dateNote": "30 мая суббота, 13.00 (ауд. Двор школы)",
+		"masters": [
+			"svitlana-ryskina",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kontsert-klassa-prepodavatelia-ovcharenko-y-h-2015",
+		"title": "Концерт класса преподавателя Овчаренко И.Г.",
+		"year": 2015,
+		"dateNote": "30 мая суббота, 15.00 (ауд. 7)",
+		"masters": [
+			"iryna-ovcharenko"
+		]
+	},
+	{
+		"id": "kontsert-klassa-prepodavatelia-panchenko-o-k-2015",
+		"title": "Концерт класса преподавателя Панченко О.К",
+		"year": 2015,
+		"dateNote": "31мая воскресенье, 12.00 (ауд. 7)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "kontsert-klassa-prepodavatelia-laryonovoi-iu-f-2015",
+		"title": "Концерт класса преподавателя Ларионовой Ю.Ф.",
+		"year": 2015,
+		"dateNote": "31мая воскресенье, 17.00 (ауд. 7)"
+	},
+	{
+		"id": "zelenaia-zvezda-2015",
+		"title": "«Зеленая звезда»",
+		"year": 2015,
+		"author": "А.Слаповский",
+		"theatreGroup": "гр. 8Т-22",
+		"dateNote": "3 июня среда, 18.00 (ауд. 7); 4 июня четверг, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "rafaman-2015",
+		"title": "«РАФАМАН»",
+		"year": 2015,
+		"author": "Итоговый праздник отделения раннего развития",
+		"theatreGroup": "гр. 1м,2м, 3м, 4м",
+		"dateNote": "5 июня пятница, 10.30 (ауд. 7)"
+	},
+	{
+		"id": "bylly-hr-8t-21-2015",
+		"title": "«Билли +»",
+		"year": 2015,
+		"author": "Дэниэль Киз",
+		"theatreGroup": "гр. 8Т-21",
+		"dateNote": "6 июня суббота, 19.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-dlia-hrupp-3t-7-3t-8-4t-9-4t-10--2015",
+		"title": "Итоговый праздник для групп 3т-7, 3т-8, 4т-9, 4т-10, 5т-12, 6т-17",
+		"year": 2015,
+		"dateNote": "7 июня воскресенье, 12.00"
+	},
+	{
+		"id": "ytohovyi-prazdnyk-dlia-hrupp-5t-11-6t-13-6t-14-6t--2015",
+		"title": "Итоговый праздник для групп 5т-11, 6т-13, 6т-14, 6т-15, 6т-16, 7т-18, 7т-19. Выпускной для групп 8т-20, 8т-21, 8т-22",
+		"year": 2015,
+		"dateNote": "7 июня воскресенье, 16.00"
+	},
+	{
+		"id": "kontsert-vokal-noho-klassa-2016",
+		"title": "Концерт вокального класса",
+		"year": 2016,
+		"dateNote": "10 мая вторник, 18.00 (ауд. 11); 22 мая воскресенье, 14.00 (ауд. 11)"
+	},
+	{
+		"id": "okhota-na-snarka-2016",
+		"title": "«Охота на Снарка»",
+		"year": 2016,
+		"author": "Льюис Кэрролл",
+		"theatreGroup": "гр. 3Э-8",
+		"dateNote": "16 мая понедельник, 17.00 (ауд. 11)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2016",
+		"title": "Показ по актерскому мастерству. Тренинг, этюды",
+		"year": 2016,
+		"theatreGroup": "гр. 1Т-2",
+		"dateNote": "17 мая вторник, 16.00 (ауд. 11); 20 мая пятница, 15.30 (ауд. 11); 21 мая суббота, 13.30 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba",
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "devochka-so-spychkamy-2016",
+		"title": "«Девочка со спичками»",
+		"year": 2016,
+		"author": "По мотивам сказки Г.Х.Андерсена",
+		"theatreGroup": "гр. 6Т-15",
+		"dateNote": "17 мая вторник, 18.00 (ауд. 7); 22 мая воскресенье, 16.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "hadkyi-utenok-2016",
+		"title": "«Гадкий утенок»",
+		"year": 2016,
+		"author": "Мюзикл (По мотивам сказки Г.Х.Андерсена)",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "18 мая среда, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2016",
+		"title": "Показ по актерскому мастерству. Этюды",
+		"year": 2016,
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "18 мая среда, 18.00 (ауд. 11); 19 мая четверг, 17.00 (ауд. 11); 27 мая пятница, 19.00 (ауд. 17)",
+		"masters": [
+			"fedir-tkach",
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "repka-2016",
+		"title": "«Репка»",
+		"year": 2016,
+		"author": "Фантазии на тему народной сказки (. Римейк)",
+		"theatreGroup": "гр. 2Э-4",
+		"dateNote": "19 мая четверг, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "kolobok-2016",
+		"title": "«Колобок»",
+		"year": 2016,
+		"author": "Фантазии на тему народной сказки",
+		"theatreGroup": "гр. 1Э-1",
+		"dateNote": "20 мая пятница, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "diuimovochka-y-motylek-2016",
+		"title": "«Дюймовочка и Мотылек»",
+		"year": 2016,
+		"author": "по мотивам сказок Г.Х. Андерсена. А.Яблонская",
+		"theatreGroup": "гр. 2Т-4",
+		"dateNote": "20 мая пятница, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "kontsert-klassa-ynstrumentalystov-2016",
+		"title": "Концерт класса инструменталистов",
+		"year": 2016,
+		"dateNote": "22 мая воскресенье, 12.00 (ауд. 7)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "nebylytsy-2016",
+		"title": "«Небылицы»",
+		"year": 2016,
+		"author": "сказки собственного сочинения",
+		"theatreGroup": "гр. 2Э-3",
+		"dateNote": "23 мая понедельник, 15.00 (ауд. 11)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kto-skazal-miau-2016",
+		"title": "«Кто сказал «Мяу»",
+		"year": 2016,
+		"author": "По мотивам сказки В. Сутеева",
+		"theatreGroup": "гр. 2Э-5",
+		"dateNote": "23 мая понедельник, 16.10 (ауд. 11)"
+	},
+	{
+		"id": "fedoryno-hore-2016",
+		"title": "«Федорино горе»",
+		"year": 2016,
+		"author": "К. Чуковский",
+		"theatreGroup": "гр. 3Э-6",
+		"dateNote": "24 мая вторник, 16.00 (ауд. 11)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "vremena-hoda-2016",
+		"title": "«Времена года»",
+		"year": 2016,
+		"author": "С. Маршак",
+		"theatreGroup": "гр. 3Т-10",
+		"dateNote": "24 мая вторник, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-skorohovorky-2016",
+		"title": "Показ по актерскому мастерству. Скороговорки",
+		"year": 2016,
+		"theatreGroup": "гр. 1Э-2",
+		"dateNote": "25 мая среда, 15.20 (ауд. 11)"
+	},
+	{
+		"id": "fantazery-2016",
+		"title": "«Фантазеры»",
+		"year": 2016,
+		"author": "Инсценировка по рассказам Н.Носова",
+		"theatreGroup": "гр. 3Э-7",
+		"dateNote": "25 мая среда, 16.10 (ауд. 11)"
+	},
+	{
+		"id": "o-liubvy-y-vechnosty-2016",
+		"title": "«О любви и вечности»",
+		"year": 2016,
+		"author": "Л. Измайлова, А. Измайлов инсценировка по новеллам Р. Бредбери",
+		"theatreGroup": "гр. 5Т-12",
+		"dateNote": "25 мая среда, 18.00 (ауд. 7); 29 мая воскресенье, 14.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "boikot-2016",
+		"title": "«Бойкот»",
+		"year": 2016,
+		"author": "инсценировка повести В. Железникова «Чучело»",
+		"theatreGroup": "гр. 5Т-14",
+		"dateNote": "27 мая пятница, 17.00 (ауд. 7); 28 мая суббота, 14.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "rafaman-2016",
+		"title": "«РАФАМАН»",
+		"year": 2016,
+		"author": "Итоговое мероприятие учеников отделения",
+		"theatreGroup": "гр. 1М,2М, 3М,4М",
+		"dateNote": "30 мая понедельник, 11.00 (ауд. 7)"
+	},
+	{
+		"id": "chaiky-2016",
+		"title": "«Чайки»",
+		"year": 2016,
+		"author": ". Полёты по притче Ричарда Баха",
+		"theatreGroup": "гр. 1Т-4",
+		"dateNote": "30 мая понедельник, 16.00 (ауд. 7)"
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-1e-1-1e-2-2e-3-2-2016",
+		"title": "Итоговый праздник учеников групп 1Э-1, 1Э-2, 2Э-3, 2Э-4, 2Э-5, 3Э-6, 3Э-7",
+		"year": 2016,
+		"dateNote": "31 мая вторник, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3e-8-1t-1-1t-2-1-2016",
+		"title": "Итоговый праздник учеников групп 3Э-8, 1Т-1, 1Т-2, 1Т-3, 2Т-4, 2Т5, 2Т-6,",
+		"year": 2016,
+		"dateNote": "1 июня среда, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3t-7-3t-8-3t-9-3-2016",
+		"title": "Итоговый праздник учеников групп 3Т-7, 3Т-8, 3Т-9, 3т-10, 4Т-11, 5Т-12, 5Т-14",
+		"year": 2016,
+		"dateNote": "2 июня четверг, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "keep-calm-and-be-free-2016",
+		"title": "«KEEP CALM AND BE FREE»",
+		"year": 2016,
+		"author": "Проект",
+		"theatreGroup": "гр. 8Т-20",
+		"dateNote": "3 июня пятница, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-5t-13-6t-15-6t-16-7t-17-7t-18-7t-2016",
+		"title": "Итоговый праздник 5Т-13, 6Т-15,6Т-16, 7Т-17, 7Т-18, 7Т-19, и выпускной 8Т-20",
+		"year": 2016,
+		"dateNote": "4 июня суббота, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "akademycheskyi-kontsert-dopolnytel-nyi-klassa-yndy-2017",
+		"title": "Академический концерт (дополнительный) класса индивидуального вокала",
+		"year": 2017,
+		"dateNote": "4 мая четверг, 16.00 (ауд. 2)",
+		"masters": [
+			"iryna-ovcharenko"
+		]
+	},
+	{
+		"id": "akademycheskyi-kontsert-dopolnytel-nyi-klassov-for-2017",
+		"title": "Академический концерт(дополнительный) классов фортепиано и гитары",
+		"year": 2017,
+		"dateNote": "5 мая пятница, 17.00 (ауд. 16)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "teremok-2017",
+		"title": "«Терем”ОК»",
+		"year": 2017,
+		"author": "по мотивам сказки С Маршака",
+		"theatreGroup": "гр. 3Э-7",
+		"dateNote": "16 мая вторник, 15.20 (ауд. 11)",
+		"masters": [
+			"svitlana-myronenko"
+		]
+	},
+	{
+		"id": "skazochnaia-ystoryia-2017",
+		"title": "«Сказочная история»",
+		"year": 2017,
+		"author": "А Квотион",
+		"theatreGroup": "гр. 2Э-4",
+		"dateNote": "17 мая среда, 15.20 (ауд. 11)",
+		"masters": [
+			"svitlana-myronenko"
+		]
+	},
+	{
+		"id": "belosnezh-y-sem-hnomys-2017",
+		"title": "«Белоснеж и семь гномис»",
+		"year": 2017,
+		"author": "по мотивам сказки Братьев Гримм",
+		"theatreGroup": "гр. 2Т-6",
+		"dateNote": "18 мая четверг, 15.20 (ауд. 7)",
+		"masters": [
+			"svitlana-myronenko"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2017",
+		"title": "Показ по актерскому мастерству. Тренинг, этюды",
+		"year": 2017,
+		"theatreGroup": "гр. 1Т-2",
+		"dateNote": "18 мая четверг, 16.30 (ауд. 11); 24 мая среда, 16.00 (ауд. 7); 29 мая понедельник, 16.00 (ауд. 11); 30 мая вторник, 12.30 (ауд. 11)",
+		"masters": [
+			"iryna-kulbaba",
+			"svitlana-nadopta",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "skazka-ardennskoho-lesa-2017",
+		"title": "«Сказка Арденнского леса»",
+		"year": 2017,
+		"author": "Юлий Ким",
+		"theatreGroup": "гр. 4Т-12 6Т-18",
+		"dateNote": "19 мая пятница, 18.00 (ауд. 7); 20 мая суббота, 15.30 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "alysa-v-strane-chudes-2017",
+		"title": "«Алиса в стране чудес»",
+		"year": 2017,
+		"author": "Льюис Кэрролл",
+		"theatreGroup": "гр. 4Т-11",
+		"dateNote": "20 мая суббота, 14.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "sovershennaia-volna-2017",
+		"title": "«Совершенная волна»",
+		"year": 2017,
+		"author": "инсценировка по рассказу Серджио Бамбарена «Дельфин»",
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "21 мая воскресенье, 15.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "pro-drakoniv-i-shchastia-2017",
+		"title": "«Про драконів і щастя»",
+		"year": 2017,
+		"author": "Инсценировка стихотворения К. Михалицина, Н. Гайди",
+		"theatreGroup": "гр. 3Э-6",
+		"dateNote": "22 мая понедельник, 15.00 (ауд. 11)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2017",
+		"title": "Показ по актерскому мастерству. Этюды",
+		"year": 2017,
+		"theatreGroup": "гр. 5Т-15",
+		"dateNote": "22 мая понедельник, 18.30 (ауд. 17); 26 мая пятница, 18.00 (ауд. 17)",
+		"masters": [
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "skazka-o-poteriannom-vremeny-2017",
+		"title": "«Сказка о потерянном времени»",
+		"year": 2017,
+		"author": "По мотивам сказки Е.Шварца",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "23 мая вторник, 16.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "vpered-kotenok-2017",
+		"title": "«Вперед, котенок»",
+		"year": 2017,
+		"author": "А.Зинчук",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "23 мая вторник, 17.00 (ауд. 7); 26 мая пятница, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "otryvky-yz-klassyky-2017",
+		"title": "Отрывки из классики",
+		"year": 2017,
+		"theatreGroup": "гр. 7Т-20",
+		"dateNote": "23 мая вторник, 18.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "koshkyn-dom-2017",
+		"title": "«Кошкин дом»",
+		"year": 2017,
+		"author": "Инсценировка по сказке С. Маршака",
+		"theatreGroup": "гр. 2Э-1",
+		"dateNote": "24 мая среда, 14.30 (ауд. 11)",
+		"masters": [
+			"pavlo-koshka"
+		]
+	},
+	{
+		"id": "krasavytsa-y-chudovyshche-2017",
+		"title": "«Красавица и Чудовище»",
+		"year": 2017,
+		"author": "по мотивам сказки Линды Вулвертон",
+		"theatreGroup": "гр. 3Т-9",
+		"dateNote": "24 мая среда, 18.00 (ауд. 7); 25 мая четверг, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "holyi-korol-2017",
+		"title": "«Голый Король»",
+		"year": 2017,
+		"author": "Евгений Шварц",
+		"theatreGroup": "гр. 6Т-17",
+		"dateNote": "27 мая суббота, 13.00 (ауд. 7); 31 мая среда, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-nadopta"
+		]
+	},
+	{
+		"id": "muzykal-no-lyteraturnaia-kompozytsyia-po-stykhotvo-2017",
+		"title": "Музыкально-литературная композиция по стихотворениям Б. Заходера",
+		"year": 2017,
+		"theatreGroup": "гр. 2Э-2",
+		"dateNote": "29 мая понедельник, 14.00 (ауд. 11)"
+	},
+	{
+		"id": "prykliuchenyia-funtyka-2017",
+		"title": "«Приключения Фунтика»",
+		"year": 2017,
+		"author": "Инсценировка по сказке В. Шульжика",
+		"theatreGroup": "гр. 2Э-5",
+		"dateNote": "29 мая понедельник, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "malen-kyi-prynts-2017",
+		"title": "«Маленький принц»",
+		"year": 2017,
+		"author": "Фантазии по мотивам сказки С Экзюпери",
+		"theatreGroup": "гр. 3Т-10",
+		"dateNote": "29 мая понедельник, 17.00 (ауд. 7)"
+	},
+	{
+		"id": "na-solnechnoi-poliane-2017",
+		"title": "«На солнечной поляне»",
+		"year": 2017,
+		"author": "по сказкам собственного сочинения",
+		"theatreGroup": "гр. 2Э-3",
+		"dateNote": "30 мая вторник, 11.00 (ауд. 11)"
+	},
+	{
+		"id": "rafaman-2017",
+		"title": "«РАФАМАН»",
+		"year": 2017,
+		"author": "Итоговое мероприятие учеников отделения",
+		"theatreGroup": "гр. 1М,2М3М,4М",
+		"dateNote": "31 мая среда, 10.30 (ауд. 7)"
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-2e-1-2e-2-2e-3-2-2017",
+		"title": "Итоговый праздник учеников групп 2Э-1, 2Э-2, 2Э-3, 2Э-4, 2Э-5, 3Э-6, 3Э-7 + художественное и музыкальное",
+		"year": 2017,
+		"theatreGroup": "гр. 61 + 17 худ. +6музык",
+		"dateNote": "31 мая среда, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-1t-1-1t-2-1t-3-1-2017",
+		"title": "Итоговый праздник учеников групп 1Т-1, 1Т-2, 1Т-3, 1Т-4, 2Т-5, 2Т-6, 3Т-8, + художники и музыкальное",
+		"year": 2017,
+		"theatreGroup": "гр. 69 + 10 худ +9 муз",
+		"dateNote": "1 июня четверг, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "vdova-polkovnyka-yly-vrachy-nycheho-ne-znaiut-2017",
+		"title": "«Вдова полковника или врачи ничего не знают»",
+		"year": 2017,
+		"author": "Ю. Смул",
+		"theatreGroup": "гр. 8Т-20",
+		"dateNote": "1 июня четверг, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "zona-turbulentnosty-2017",
+		"title": "«Зона турбулентности»",
+		"year": 2017,
+		"author": "Иммерсивный проект",
+		"theatreGroup": "гр. 8Т-24",
+		"dateNote": "2 июня пятница, 18.00 (ауд. «Терминал-42»)",
+		"institution": "Термінал-42",
+		"masters": [
+			"fedir-tkach",
+			"pavlo-koshka"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3t-7-3t-9-3t-10--2017",
+		"title": "Итоговый праздник учеников групп 3Т-7, 3Т-9, 3Т-10, 4Т-11, 4Т-12, 4Т-13, 4Т-14,5Т-15, 5Т-16",
+		"year": 2017,
+		"theatreGroup": "гр. 85 чел",
+		"dateNote": "3 июня суббота, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "ytohovyi-prazdnyk-6t-17-6t-18-6t-19-7t-20-7t-21-vy-2017",
+		"title": "Итоговый праздник 6Т-17, 6Т-18, 6Т-19 7Т-20, 7Т-21, выпускной 8Т-22, 8Т-23, 8Т-24,+ художники выпускники",
+		"year": 2017,
+		"theatreGroup": "гр. 71+5 чел",
+		"dateNote": "3 июня суббота, 16.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "vir-ta-mrii-2018",
+		"title": "«Вірь та Мрій»",
+		"year": 2018,
+		"author": "Казка",
+		"theatreGroup": "гр. 4Т-13",
+		"dateNote": "2.05. середа, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "tsyrk-pryntipram-2018",
+		"title": "«Цирк Принтіпрам»",
+		"year": 2018,
+		"author": "Д. Хармс",
+		"theatreGroup": "гр. 3Е-7",
+		"dateNote": "3.05. четвер, 14.30 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "tsvetik-semitsvietik-2018",
+		"title": "«Цветік-Семіцвєтік»",
+		"year": 2018,
+		"author": "В.Катаєв",
+		"theatreGroup": "гр. 3Е-5",
+		"dateNote": "4.05. п’ятниця, 14.30 (ауд. 11)"
+	},
+	{
+		"id": "aktors-kyi-treninh-etiudy-2018",
+		"title": "Акторський тренінг. Етюди",
+		"year": 2018,
+		"theatreGroup": "гр. 5Т-15",
+		"dateNote": "4.05. п’ятниця, 17.00 (ауд. 17); 5.05. субота, 12.00 (ауд. 11); 7.05. понеділок, 16.00 (ауд. 7); 10.05. четвер, 15.00 (ауд. 11)",
+		"masters": [
+			"karen-petikian",
+			"tetiana-isachkina",
+			"elmir-hanbarov",
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "diuimovochka-2018",
+		"title": "«Дюймовочка»",
+		"year": 2018,
+		"author": "Г-Х. Андерсен",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "7.05. понеділок, 15.00 (ауд. 11); 11.05. п’ятниця, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "metelyk-2018",
+		"title": "«Метелик»",
+		"year": 2018,
+		"author": "Г-Х. Андерсен",
+		"theatreGroup": "гр. 3Е-4",
+		"dateNote": "8.05. вівторок, 15.20 (ауд. 11)"
+	},
+	{
+		"id": "foto-toplies-2018",
+		"title": "«Фото топлєс»",
+		"year": 2018,
+		"author": "Н. Блок-Астаф’єва",
+		"theatreGroup": "гр. 5Т-17",
+		"dateNote": "11.05. п’ятниця, 18.00 (ауд. 7); 13.05. неділя, 17.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "salun-matusi-midous-2018",
+		"title": "«Салун Матусі Мідоус»",
+		"year": 2018,
+		"author": "Дж.Харріс",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "12.05. субота, 11.00 (ауд. 7); 14.05. понеділок, 16.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "prynts-ta-zlydar-2018",
+		"title": "«Принц та Злидар»",
+		"year": 2018,
+		"author": "Марк Твен",
+		"theatreGroup": "гр. 3Т-9",
+		"dateNote": "12.05. субота, 13.00 (ауд. 7); 17.05. четвер, 18.00 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "bremens-ki-muzyky-2018",
+		"title": "«Бременські музики»",
+		"year": 2018,
+		"author": "Брати Грімм",
+		"theatreGroup": "гр. 2Е-1",
+		"dateNote": "14.05. понеділок, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "akademkontsert-instrumentalistiv-2018",
+		"title": "Академконцерт інструменталістів",
+		"year": 2018,
+		"dateNote": "15.05. вівторок, 14.00 (ауд. 16)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "korolivstvo-kryvykh-dzerkal-2018",
+		"title": "«Королівство кривих дзеркал»",
+		"year": 2018,
+		"author": "В. Губарєв",
+		"theatreGroup": "гр. 2Т-6",
+		"dateNote": "15.05. вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "lysty-do-boha-2018",
+		"title": "«Листи до Бога»",
+		"year": 2018,
+		"author": "за мотивами п’єси Я. Богданової",
+		"theatreGroup": "гр. 5Т-16",
+		"dateNote": "15.05. вівторок, 17.30 (ауд. 7); 19.05 субота, 14.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "akademkontsert-vokal-noho-klasu-2018",
+		"title": "Академконцерт вокального класу",
+		"year": 2018,
+		"dateNote": "16.05. середа, 14.00 (ауд. 2); 17.05. четвер, 14.00 (ауд. 2)",
+		"masters": [
+			"iryna-ovcharenko"
+		]
+	},
+	{
+		"id": "troie-porosiat-2018",
+		"title": "«Троє поросят»",
+		"year": 2018,
+		"author": "за мотивами народної казки",
+		"theatreGroup": "гр. 3Е-3",
+		"dateNote": "16.05. середа, 15.00 (ауд. 11)"
+	},
+	{
+		"id": "kontsert-klasu-sol-noho-spivu-2018",
+		"title": "Концерт класу сольного співу",
+		"year": 2018,
+		"dateNote": "16.05. середа, 17.30 (ауд. 11); 20.05. неділя, 12.00 (ауд. 11); 28.05. понеділок (ауд. 11); 30.05. середа, 15.00 (ауд. 11)",
+		"masters": [
+			"hanna-nikolaieva",
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "polianna-2018",
+		"title": "«Поліанна»",
+		"year": 2018,
+		"author": "За мотивами роману Е.Портер",
+		"theatreGroup": "гр. 3Т-8+",
+		"dateNote": "17.05. четвер, 16.00 (ауд. 7); 22.05. вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "son-pro-malen-koho-pryntsa-2018",
+		"title": "«Сон про Маленького Принца»",
+		"year": 2018,
+		"author": "за мотивами повісті Антуана де Сент-Экзюпері",
+		"theatreGroup": "гр. 2Т-7",
+		"dateNote": "18.05. п’ятниця, 15.30 (ауд. 7)"
+	},
+	{
+		"id": "a-mozhe-ni-2018",
+		"title": "«А може ні»",
+		"year": 2018,
+		"author": "За мотивами сучасних польських казок",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "18.05. п’ятниця, 18.00 (ауд. 7); 20.05. неділя, 15.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "uryvky-z-klasychnykh-tvoriv-2018",
+		"title": "Уривки з класичних творів",
+		"year": 2018,
+		"theatreGroup": "гр. 7Т-22",
+		"dateNote": "19.05 субота, 17.00 (ауд. 7); 20.05. неділя, 17.00 (ауд. 7); 21.05. понеділок, 18.30 (ауд. 7); 22.05. вівторок, 18.00 (ауд. 7); 24.05. четвер, 17.00 (ауд. 7); 25.05. п’ятниця, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina",
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "trynadtsiata-zirka-2018",
+		"title": "«Тринадцята зірка»",
+		"year": 2018,
+		"author": "В.Ольшанський",
+		"theatreGroup": "гр. 4Т-12",
+		"dateNote": "21.05. понеділок, 16.30 (ауд. 7); 23.05. середа, 16.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "nesportyvna-istoriia-2018",
+		"title": "«Неспортивна історія»",
+		"year": 2018,
+		"author": "І. Агеев",
+		"theatreGroup": "гр. 5Т-18",
+		"dateNote": "23.05. середа, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "rafaman-2018",
+		"title": "«РАФАМАН»",
+		"year": 2018,
+		"author": "Підсумкове свято у груп",
+		"theatreGroup": "гр. 1М,2М, 3М,4М",
+		"dateNote": "30.05. середа, 10.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "kontsert-klasu-hitary-2018",
+		"title": "Концерт класу гітари",
+		"year": 2018,
+		"dateNote": "30.05. середа, 18.00 (ауд. 7)",
+		"masters": [
+			"natalia-stepanenko"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2018",
+		"title": "Підсумкове свято у груп 2Э-1, 2Э-2, 3Э-3, 3Э-4, 3Э-5, 3Э-6, 3Э-7+ молодші учні худож-го та муз-го відділень",
+		"year": 2018,
+		"dateNote": "31.05. четвер, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "shex-pr-party-2018",
+		"title": "«SheX.PR-party»",
+		"year": 2018,
+		"author": "за мотивами трагедій В. Шекспіра",
+		"theatreGroup": "гр. 8Т-25",
+		"dateNote": "31.05. четвер, 17.00 (ауд. 7); 01.06. п’ятниця, 17.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-2t-4-2t-5--2018",
+		"title": "Підсумкове свято у груп 1Т-1, 1Т-2, 1Т-3, 2Т-4, 2Т-5, 2Т-6, 2Т-7, 3Т-8, 3Т-9+ учні художнього та музичного відділень",
+		"year": 2018,
+		"dateNote": "01.06. п’ятниця, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-4t-10-4t-11-4t-12-4t-13-4-2018",
+		"title": "Підсумкове свято у груп 4Т-10, 4Т-11, 4Т-12, 4Т-13, 4Т-14, 5Т-15, 5Т-16, 5Т-17, 5Т-18+учні художнього та музичного від.",
+		"year": 2018,
+		"dateNote": "02.06. субота, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-6t-19-6t-20-7t-21-7t-22-v-2018",
+		"title": "Підсумкове свято у груп 6Т-19. 6Т-20,7Т-21, 7Т-22, випускний 8Т-23, 8Т-24, 8Т-25",
+		"year": 2018,
+		"dateNote": "02.06. субота, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "kazka-pro-kyta-2019",
+		"title": "«Казка про кита»",
+		"year": 2019,
+		"author": "Н.Шемякіна",
+		"theatreGroup": "гр. 3Е-3",
+		"dateNote": "6 травня понеділок, 15.20 (ауд. 11)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "telefon-2019",
+		"title": "«Телефон»",
+		"year": 2019,
+		"author": "К.Чуковський",
+		"theatreGroup": "гр. 2Е-1",
+		"dateNote": "7.05 вівторок, 14.30 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "aktors-kyi-treninh-etiudy-2019",
+		"title": "Акторський тренінг. Етюди",
+		"year": 2019,
+		"theatreGroup": "гр. 3Т-10",
+		"dateNote": "7.05 вівторок, 17.00 (ауд. 11); 13.05 понеділок, 16.30 (ауд. 11); 14.05 вівторок, 17.00 (ауд. 11); 15.05 середа, 16.10 (ауд. 7); 16.05 четвер, 15.20 (ауд. 11)",
+		"masters": [
+			"myroslava-derepa",
+			"svitlana-ryskina",
+			"elmir-hanbarov",
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "ripka-2019",
+		"title": "«Ріпка»",
+		"year": 2019,
+		"author": "В.Євтушенко старі казки на новий лад",
+		"theatreGroup": "гр. 3Е-4",
+		"dateNote": "10.05 п’ятниця, 15.20 (ауд. 11)"
+	},
+	{
+		"id": "ia-vas-vsikh-kokhaiu-2019",
+		"title": "«Я вас всіх кохаю»",
+		"year": 2019,
+		"author": "І. Тануніна",
+		"theatreGroup": "гр. 6Т-23",
+		"dateNote": "11.05 субота, 13.00 (ауд. 7); 25.05 субота, 12.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "ne-khvorii-ne-chkhai-ne-kashliai-2019",
+		"title": "«Не хворій, не чхай, не кашляй»",
+		"year": 2019,
+		"author": "Д.Войдак",
+		"theatreGroup": "гр. 2Т-9",
+		"dateNote": "14.05 вівторок, 15.30 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "volokhata-azbuka-2019",
+		"title": "«Волохата Азбука»",
+		"year": 2019,
+		"author": "Б.Заходер",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "15.05 середа, 15.20 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "luskunchyk-2019",
+		"title": "«Лускунчик»",
+		"year": 2019,
+		"author": "інсценування за казкою Є. Гофмана",
+		"theatreGroup": "гр. 3Т-11",
+		"dateNote": "16.05 четвер, 16.10 (ауд. 7); 22.05 середа, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "boh-izdyt-na-velosypedi-2019",
+		"title": "«Бог їздить на велосипеді»",
+		"year": 2019,
+		"author": "І. Васьковська",
+		"theatreGroup": "гр. 5Т-18",
+		"dateNote": "18.05. субота, 16.00 (ауд. 7); 20.05 понеділок, 17.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "zaruchyny-2019",
+		"title": "«Заручини»",
+		"year": 2019,
+		"author": "Моріс Метерлінк (Дипломна робота ХНУІ Серебряннікової Ганни)",
+		"theatreGroup": "гр. 5Т-19",
+		"dateNote": "19.05 неділя, 18.00 (ауд. 7); 26.05 неділя, 17.00 (ауд. Театр на Чайній)",
+		"masters": [
+			"fedir-tkach",
+			"hanna-serebriannikova"
+		],
+		"institution": "Театр на Чайній"
+	},
+	{
+		"id": "iak-babky-iozhky-kazku-riatuvaly-2019",
+		"title": "«Як Бабки Йожки казку рятували»",
+		"year": 2019,
+		"author": "М.Макієнко",
+		"theatreGroup": "гр. 2Т-8",
+		"dateNote": "20.05 понеділок, 16.10 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "uryvky-z-klasychnykh-tvoriv-2019",
+		"title": "Уривки з класичних творів",
+		"year": 2019,
+		"theatreGroup": "гр. 6Т-21",
+		"dateNote": "22.05 середа, 17.30 (ауд. 7); 23.05 четвер, 18.30 (ауд. 7); 27.05 понеділок, 18.00 (ауд. 7); 28.05 вівторок, 18.30 (ауд. 7); 29.05 середа, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina",
+			"fedir-tkach",
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "malen-ka-pryntsesa-2019",
+		"title": "«Маленька принцеса»",
+		"year": 2019,
+		"author": "За мотивами творів Ф.Бернета",
+		"theatreGroup": "гр. 3Т-13",
+		"dateNote": "24.05 п’ятниця, 16.30 (ауд. 7)"
+	},
+	{
+		"id": "snihova-koroleva-2019",
+		"title": "«Снігова Королева»",
+		"year": 2019,
+		"author": "Є.Шварц",
+		"theatreGroup": "гр. 3Т-12",
+		"dateNote": "24.05 п’ятниця, 18.00 (ауд. 7); 27.05 понеділок, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "bremens-k-muzykanty-2019",
+		"title": "«Бременськ музиканти»",
+		"year": 2019,
+		"author": "Музично-драматичний експеримент за казкою Братів Грим",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "25.05 субота, 15.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "balahanchyk-brativ-hrym-2019",
+		"title": "«Балаганчик Братів Грим»",
+		"year": 2019,
+		"author": "О.Михайлов",
+		"theatreGroup": "гр. 7Т-24",
+		"dateNote": "28.05 вівторок, 17.00 (ауд. 7); 30.05 четвер, 16.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "bremens-ki-muzykanty-2019",
+		"title": "«Бременські музиканти»",
+		"year": 2019,
+		"author": "Музично-драматичний експеримент за мотивами казки Братів Грим",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "29.05 середа, 16.00 (ауд. 7)",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2019",
+		"title": "Підсумкове свято у груп 2Е-1, 2Е-2, 3Е-3, 3Е-4, 3Е-5, + молодші учні художнього та музичного відділень",
+		"year": 2019,
+		"dateNote": "30.05 четвер, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "mizh-nebom-i-zemleiu-2019",
+		"title": "«Між небом і землею»",
+		"year": 2019,
+		"author": ", використано тексти Л.Піранделло та Е.Шмітта",
+		"theatreGroup": "гр. 8Т-26",
+		"dateNote": "30.05 четвер, 18.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "rafaman-2019",
+		"title": "«РАФАМАН»",
+		"year": 2019,
+		"author": "Підсумкове свято у груп",
+		"theatreGroup": "гр. 1М,2М, 3М,4М",
+		"dateNote": "31.05 п’ятниця, 10.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-1t-4-1t-5--2019",
+		"title": "Підсумкове свято у груп 1Т-1, 1Т-2, 1Т-3, 1Т-4, 1Т-5, 2Т-6, 2Т-7, 2Т-8, 2Т-9",
+		"year": 2019,
+		"dateNote": "31.05 п’ятниця, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "hraiemo-v-brekhta-2019",
+		"title": "«Граємо в Брехта»",
+		"year": 2019,
+		"theatreGroup": "гр. 8Т-25",
+		"dateNote": "31.05 п’ятниця, 18.00 (ауд. 7); 01.06. субота, 16.00 (ауд. 7)",
+		"masters": [
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-3t-10-3t-11-3t-12-3t-13-4-2019",
+		"title": "Підсумкове свято у груп 3Т-10, 3Т-11, 3Т-12, 3Т-13, 4Т-14, 4Т-15, 5Т-16, 5Т-17, 5Т-18, 5Т-19+учні художнього та музичного від.",
+		"year": 2019,
+		"dateNote": "01.06. субота, 13.00"
+	},
+	{
+		"id": "personazhi-2019",
+		"title": "«Персонажі»",
+		"year": 2019,
+		"author": "Л.Піранделло",
+		"theatreGroup": "гр. 8Т-26",
+		"dateNote": "01.06. субота, 18.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-u-hrup-6t-23-6t-21-6t-22-vypuskn-2019",
+		"title": "Підсумкове свято у груп 6Т-23, 6Т-21, 6Т-22, випускний, 7Т-24, 8Т-25, 8Т-26",
+		"year": 2019,
+		"dateNote": "02.06. неділя, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach",
+			"vira-koval"
+		]
+	},
+	{
+		"id": "tykhyi-shelest-siahaiuchykh-krokiv-2020",
+		"title": "«Тихий шелест сягаючих кроків»",
+		"year": 2020,
+		"author": "Випускна вистава за п’єсою Д.Богославського",
+		"theatreGroup": "гр. 8Т-26",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "blondi-hr-8t-26-2020",
+		"title": "«Блонді»",
+		"year": 2020,
+		"author": "Випускна вистава за п’єсою Д.Богославського",
+		"theatreGroup": "гр. 8Т-26",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "visim-zakokhanykh-zhinok-2020",
+		"title": "«Вісім закоханих жінок»",
+		"year": 2020,
+		"author": "Випускна вистава за п’єсою Р.Тома",
+		"theatreGroup": "гр. 7Т-25 «Шпильки»",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "ne-101-a-14-dolmatyntsiv-2020",
+		"title": "«Не 101, а 14 долматинців»",
+		"year": 2020,
+		"author": "Інсценування казки Доді Сміта",
+		"theatreGroup": "гр. 4Е–7",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tereza-zaurbekova",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "lyshe-bud-soboiu-2020",
+		"title": "«Лише будь собою!»",
+		"year": 2020,
+		"author": "Музична-драматична історія власного видуму",
+		"theatreGroup": "гр. 4Т-15",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tereza-zaurbekova",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "myshynia-superdetektyv-2020",
+		"title": "«Мишиня – супердетектив»",
+		"year": 2020,
+		"author": "Інсценування казки Олени Колегової",
+		"theatreGroup": "гр. 3Т-9",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tereza-zaurbekova",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "etiudnyi-pokaz-2020",
+		"title": "Етюдний показ.",
+		"year": 2020,
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tereza-zaurbekova",
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "stari-kazky-na-novyi-lad-ivasyk-telesyk-2020",
+		"title": "«Старі казки на новий лад. Івасик Телесик»",
+		"year": 2020,
+		"author": "Віктор Євтушенко",
+		"theatreGroup": "гр. 1Т-3 (4е7)",
+		"dateNote": "липень-жовтень 2020"
+	},
+	{
+		"id": "sim-subot-na-tyzhni-i-v-subotu-subotyk-povernuvsia-2020",
+		"title": "«Сім субот на тижні. І в суботу Суботик повернувся»",
+		"year": 2020,
+		"author": "за мотивами казки Пауля Маара",
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "stari-kazky-na-novyi-lad-zolota-rybka-2020",
+		"title": "«Старі казки на новий лад. Золота рибка»",
+		"year": 2020,
+		"author": "Віктор Євтушенко",
+		"theatreGroup": "гр. 1Т-3 (4е7)",
+		"dateNote": "липень-жовтень 2020"
+	},
+	{
+		"id": "veselyi-iarmarok-2020",
+		"title": "«Веселий Ярмарок»",
+		"year": 2020,
+		"author": "Фольклорна композиція",
+		"theatreGroup": "гр. 3Е-5",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kazka-pro-movu-2020",
+		"title": "«Казка про мову»",
+		"year": 2020,
+		"author": "власних творів",
+		"theatreGroup": "гр. 4Е-8",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "pryhody-karlsona-2020",
+		"title": "«Пригоди Карлсона»",
+		"year": 2020,
+		"author": "( за мотивами казки А. Ліндгрен )",
+		"theatreGroup": "гр. 3Т-6",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kola-bez-tsukru-2020",
+		"title": "«Кола без цукру»",
+		"year": 2020,
+		"author": "прем’єра п’єси О.Андрейчекової (тизер вистави)",
+		"theatreGroup": "гр. 5Т-20",
+		"dateNote": "липень-жовтень 2020"
+	},
+	{
+		"id": "bahazh-2020",
+		"title": "«Багаж»",
+		"year": 2020,
+		"author": "Самуїл Маршак",
+		"theatreGroup": "гр. 1Т-2 «Адреналін»",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "koralina-v-kraini-koshmariv-2020",
+		"title": "«Кораліна в країні кошмарів»",
+		"year": 2020,
+		"author": "Ніл Гейман",
+		"theatreGroup": "гр. 5Т-17 «ПаXLава»",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "tantsy-plius-2020",
+		"title": "«Танцы плюс»",
+		"year": 2020,
+		"author": "Олжас Жанайдаров",
+		"theatreGroup": "гр. 6Т-21 «Зроблено в Україні»",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"iryna-kulbaba"
+		]
+	},
+	{
+		"id": "klaptyky-po-zakutkakh-2020",
+		"title": "«Клаптики по закутках»",
+		"year": 2020,
+		"author": "Г.Остер",
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "zviriachi-istorii-2020",
+		"title": "«Звірячі історіі»",
+		"year": 2020,
+		"author": "Дені Нігро",
+		"theatreGroup": "гр. 5Т-19",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "orkestr-2020",
+		"title": "«Оркестр»",
+		"year": 2020,
+		"author": "Ж.Ануй",
+		"theatreGroup": "гр. 8Т-25",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "use-lito-v-odyn-den-2020",
+		"title": "«Усе літо в один день»",
+		"year": 2020,
+		"author": "Інсценування по розповіді Рєя Бредбери",
+		"theatreGroup": "гр. 4Т-13",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "dzus-abo-istorii-kota-fylafeia-2020",
+		"title": "«Дзусь! Або історії кота Филафея»",
+		"year": 2020,
+		"author": "Валерій Зимін",
+		"theatreGroup": "гр. 4Т-12",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "uryvky-z-klasyky-2020",
+		"title": "Уривки з класики",
+		"year": 2020,
+		"theatreGroup": "гр. 7Т-23",
+		"dateNote": "липень-жовтень 2020",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "ispyty-sol-noho-spivu-2021",
+		"title": "Іспити сольного співу",
+		"year": 2021,
+		"dateNote": "11 травня вівторок, 12.30 (ауд. 7); 12 травня середа, 12.30 (ауд. 7); 13 травня четвер, 12.30 (ауд. 7); 20 травня четвер, 12.30 (ауд. 7); 21 травня п’ятниця, 12.30 (ауд. 11)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "aktors-kyi-treninh-ta-etiudy-2021",
+		"title": "Акторський тренінг та етюди",
+		"year": 2021,
+		"theatreGroup": "гр. 2Т-4",
+		"dateNote": "12 травня середа, 16.00 (ауд. 11); 15 травня субота, 13.30 (ауд. 11); 20 травня четвер, 16.10 (ауд. 11); 24 травня понеділок, 16.30 (ауд. 11); 25 травня вівторок, 17.00 (ауд. 11)",
+		"masters": [
+			"svitlana-ryskina",
+			"iryna-kulbaba",
+			"tereza-zaurbekova",
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "ispyt-z-stsenichnoho-movlennia-2021",
+		"title": "Іспит з сценічного мовлення",
+		"year": 2021,
+		"dateNote": "12 травня середа, 17.00 (ауд. 17); 18 травня вівторок, 17.00 (ауд. 11); 19 травня середа, 18.00 (ауд. 11); 24 травня понеділок, 15.00 (ауд. 11); 25 травня вівторок, 15.20 (ауд. 11)",
+		"masters": [
+			"svitlana-vitiuk",
+			"hanna-serebriannikova",
+			"svitlana-ryskina",
+			"vira-yemtsova-datsiuk",
+			"tereza-zaurbekova",
+			"oleh-shevchuk",
+			"liubov-savina",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "ispyt-z-klasu-forpepiano-2021",
+		"title": "Іспит з класу форпепіано",
+		"year": 2021,
+		"dateNote": "14 травня п’ятниця, 12.30 (ауд. 11); 15 травня субота, 12.00 (ауд. 16)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "etiudy-verbatimy-2021",
+		"title": "Етюди. Вербатіми",
+		"year": 2021,
+		"theatreGroup": "гр. 5Т-16",
+		"dateNote": "14 травня п’ятниця, 18.00 (ауд. 17); 15 травня субота, 17.00 (ауд. 17); 21 травня п’ятниця, 18.00 (ауд. 17)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "ispyt-z-stsenichnoho-movlennia-monolohy-2021",
+		"title": "Іспит з сценічного мовлення. Монологи",
+		"year": 2021,
+		"theatreGroup": "гр. випуск",
+		"dateNote": "15 травня субота, 15.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "ispyt-z-klasu-hitary-2021",
+		"title": "Іспит з класу гітари",
+		"year": 2021,
+		"dateNote": "16 травня неділя, 13.30 (ауд. 11)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "perepolokh-2021",
+		"title": "«Переполох»",
+		"year": 2021,
+		"author": "О.Гончарова",
+		"theatreGroup": "гр. 4-Е-8",
+		"dateNote": "20 травня четвер, 15.00 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "veseli-skoromovky-2021",
+		"title": "«Веселі скоромовки»",
+		"year": 2021,
+		"author": "Тетяна Ісачкіна",
+		"theatreGroup": "гр. 2Э-2",
+		"dateNote": "22 травня субота, 11.00 (ауд. 11)",
+		"masters": [
+			"tetiana-isachkina",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "mukha-tsokotukha-2021",
+		"title": "«Муха-Цокотуха»",
+		"year": 2021,
+		"author": "Музична вистава (( за мотивами одноіменної казки))",
+		"theatreGroup": "гр. 3-Е-5",
+		"dateNote": "22 травня субота, 14.30 (ауд. 11); 31 травня понеділок, 16.10 (ауд. 11)",
+		"masters": [
+			"liubov-savina",
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "malen-kyi-prynts-2021",
+		"title": "«Маленький принц»",
+		"year": 2021,
+		"author": "Антуана де Сент-Екзюпері",
+		"theatreGroup": "гр. 4Т-12",
+		"dateNote": "26 травня середа, 17.30 (ауд. 7); 1червня вівторок, 17.30 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "koshenia-murkanto-2021",
+		"title": "«Кошеня Мурканто»",
+		"year": 2021,
+		"author": "Дмитро Бочаров",
+		"theatreGroup": "гр. 4Э-7",
+		"dateNote": "27 травня четвер, 15.00 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "pryhody-peppi-dovhapanchokha-2021",
+		"title": "«Пригоди Пеппі Довгапанчоха»",
+		"year": 2021,
+		"author": "Н. Вібе",
+		"theatreGroup": "гр. 3Т-6",
+		"dateNote": "27 травня четвер, 16.00 (ауд. 7); 3 червня четвер, 15.30 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "u-poshukakh-natkhnennia-2021",
+		"title": "«У пошуках Натхнення»",
+		"year": 2021,
+		"author": "Олексей Щипанов",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "28 травня п’ятниця, 15.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "kola-bez-tsukru-2021",
+		"title": "«Кола без цукру»",
+		"year": 2021,
+		"author": "за п’есою Олени Андрейчикової",
+		"theatreGroup": "гр. 5Т-20",
+		"dateNote": "28 травня п’ятниця, 17.00 (ауд. 7)"
+	},
+	{
+		"id": "zalikovyi-zakhid-klasiv-khoreohrafii-ta-fol-kloru-2021",
+		"title": "Заліковий захід класів хореографії та фольклору",
+		"year": 2021,
+		"theatreGroup": "гр. 1Е-1 2Е-3 3Е-6",
+		"dateNote": "29 травня субота, 11.00 (ауд. 7)",
+		"masters": [
+			"tetiana-stohul",
+			"olha-imas",
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "kontsert-klasiv-vokalu-ta-fortepiano-2021",
+		"title": "Концерт класів: вокалу, та фортепіано",
+		"year": 2021,
+		"dateNote": "30 травня неділя, 12.30 (ауд. 7)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "rafaman-2021",
+		"title": "«РАФАМАН»",
+		"year": 2021,
+		"author": "Підсумкове свято у учнів відділення",
+		"dateNote": "31 травня понеділок, 11.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina",
+			"olha-imas",
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "dusha-podushky-2021",
+		"title": "«Душа подушки»",
+		"year": 2021,
+		"author": "Олжас Жанайдаров",
+		"theatreGroup": "гр. 4 т14",
+		"dateNote": "31 травня понеділок, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "usi-khlopchyky-duraky-2021",
+		"title": "«Усі хлопчики дураки»",
+		"year": 2021,
+		"author": "Ксенія Драгунська",
+		"theatreGroup": "гр. 3Т-9",
+		"dateNote": "1червня вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "hraiemo-pro-tev-ie-2021",
+		"title": "«Граємо про Тевьє»",
+		"year": 2021,
+		"author": "твору Шолом Алейхема",
+		"theatreGroup": "гр. 7Т-23",
+		"dateNote": "5 червня субота, 17.00 (ауд. 7); 7 червня понеділок, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vokalu-vykladacha-nikolaievoi-h-s-2021",
+		"title": "Концерт класу вокалу, викладача Ніколаєвої Г.С.",
+		"year": 2021,
+		"dateNote": "6 червня неділя, 14.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "vsim-koho-stosuiet-sia-2021",
+		"title": "«Всім, кого стосується»",
+		"year": 2021,
+		"author": "Дана Сідерос",
+		"theatreGroup": "гр. 5т19",
+		"dateNote": "7 червня понеділок, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-2e-2-2e-3-3ie-5-4e-7-4e-8-2021",
+		"title": "Підсумкове свято--2Е-2, 2Е-3, 3Є-5, 4Е-7, 4Е-8",
+		"year": 2021,
+		"dateNote": "8 червня вівторок, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-3t-9-3t-6-1t-2-1t-1-khudozhnie-v-2021",
+		"title": "Підсумкове свято--3Т-9, 3Т-6, 1Т-2, 1Т-1, + художнє відділення",
+		"year": 2021,
+		"dateNote": "8 червня вівторок, 13.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "uryvky-iz-klasyky-2021",
+		"title": "Уривки із класики",
+		"year": 2021,
+		"theatreGroup": "гр. 6Т 21",
+		"dateNote": "8 червня вівторок, 16.00 (ауд. 7); 9 червня середа, 17.00",
+		"masters": [
+			"iryna-kulbaba",
+			"oleh-shevchuk"
+		]
+	},
+	{
+		"id": "sluzhnytsi-2021",
+		"title": "«Служниці»",
+		"year": 2021,
+		"author": "Жан Жене",
+		"theatreGroup": "гр. 8т25",
+		"dateNote": "8 червня вівторок, 18.00 (ауд. 7); 10 червня четвер, 17.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-1e-1-3e-4-3e-6-muzychne-viddilen-2021",
+		"title": "Підсумкове свято—1Е-1, 3Е-4, 3Е-6 + музичне відділення",
+		"year": 2021,
+		"dateNote": "9 червня середа, 12.00",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-3t-8-2t-5-2t-4-1t-3-2021",
+		"title": "Підсумкове свято—3Т-8, 2Т-5, 2Т-4, 1Т-3",
+		"year": 2021,
+		"dateNote": "9 червня середа, 13.00",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "alisa-v-kraini-chudes-2021",
+		"title": "«Аліса в країні чудес»",
+		"year": 2021,
+		"author": "Л. Керролла",
+		"theatreGroup": "гр. 3Т-7",
+		"dateNote": "9 червня середа, 15.00 (ауд. 7)"
+	},
+	{
+		"id": "pidsumkove-sviato-5t-18-5t-17-4t-15-4t-13-4t-11-4t-2021",
+		"title": "Підсумкове свято—5Т-18, 5Т-17, 4Т-15, 4Т-13, 4Т-11, 4Т-10",
+		"year": 2021,
+		"dateNote": "10 червня четвер, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "pidsumkove-sviato-5t-20-5t-19-5t-16-4t-14-4t-12-3t-2021",
+		"title": "Підсумкове свято—5Т-20, 5Т-19, 5Т-16, 4Т-14, 4Т-12, 3Т-7",
+		"year": 2021,
+		"dateNote": "11 червня п’ятниця, 13.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "vypusknyi-hr-8t-25-7t-24-7t-23-7t-22-6t-21-2021",
+		"title": "Випускний -- гр. 8Т-25, 7Т-24, 7Т-23; 7Т-22, 6Т-21",
+		"year": 2021,
+		"dateNote": "11 червня п’ятниця, 15.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "khatka-iaku-zbuduvav-sobi-dzhek-2022",
+		"title": "«Хатка, яку збудував собі Джек»",
+		"year": 2022,
+		"author": "за англійською казкою Переклад Ю.Андруховича та І.Малковича",
+		"theatreGroup": "гр. 2Е-1 \"Супер-дітки\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "znaiomtes-tse-my-2022",
+		"title": "«Знайомтесь, це - ми»",
+		"year": 2022,
+		"author": "Театральне ревю",
+		"theatreGroup": "гр. 2Е-2 \"Зіркова команда\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "treninh-vpravy-etiudy-2022",
+		"title": "Тренінг, вправи, етюди",
+		"year": 2022,
+		"theatreGroup": "гр. 3Е-3 \"Гучні\", гр.4Е-6 \"Влучні\", гр. 1Т-1 \"Творчі\"",
+		"dateNote": "2022 (Відео-показ)"
+	},
+	{
+		"id": "kazka-pro-drakonchyka-ta-inshykh-2022",
+		"title": "«Казка про Дракончика та інших»",
+		"year": 2022,
+		"author": "Авторська (Театр ляльок)",
+		"theatreGroup": "гр. 3Е-4 \"Вертікультяптьониші\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "neznaika-ta-ioho-druzi-2022",
+		"title": "«Незнайка та його друзі»",
+		"year": 2022,
+		"author": "за М.Носовим ZOOM-репетиція вистави",
+		"theatreGroup": "гр. 3Е-5 \"Шалунишки\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"svitlana-ryskina",
+			"olha-imas",
+			"samuil-imas"
+		]
+	},
+	{
+		"id": "dobroho-vechora-my-z-ukrainy-2022",
+		"title": "«Доброго вечора, ми з України!»",
+		"year": 2022,
+		"author": "Поетичний етюд +тизер вистави \"У країні сонячних зайчиків\" за В.Нестайком",
+		"theatreGroup": "гр. 4Е-7 \"Джерельце\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"liubov-savina",
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "u-poshukakh-kolumba-2022",
+		"title": "«У пошуках Колумба»",
+		"year": 2022,
+		"author": "за О.Анненковою +етюди на персонажів",
+		"theatreGroup": "гр. 4Е-8 \"Одеситочки\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tereza-zaurbekova",
+			"tetiana-stohul"
+		]
+	},
+	{
+		"id": "etiudy-2022",
+		"title": "Етюди",
+		"year": 2022,
+		"theatreGroup": "гр. 1Т-3 «Шиворіт – навиворіт»",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"liubov-savina",
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "kyts-ky-myshky-2022",
+		"title": "«Кицьки-мишки»",
+		"year": 2022,
+		"author": "Тік-Ток хвилинка +тизер вистави",
+		"theatreGroup": "гр. 2Т-4 «Барашки Шон»",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "mrii-pro-narniiu-2022",
+		"title": "«Мрії про Нарнію»",
+		"year": 2022,
+		"author": "Тизер-вистави (за мотивами К.-С. Льюїса)",
+		"theatreGroup": "гр. 4Т-8 «Хом’яки\".",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "ia-ukraina-2022",
+		"title": "«Я - Україна!»",
+		"year": 2022,
+		"author": "театрально-соціальний проект + випуск гумористичних новин",
+		"theatreGroup": "гр. 4Т-11 \" Правнуки Станіславського\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "on-lain-roboty-2022",
+		"title": "Он-лайн роботи",
+		"year": 2022,
+		"theatreGroup": "гр. 2Т-5 \"Чудики\"",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "tvaryny-ta-ptakhy-2022",
+		"title": "«Тварини та птахи»",
+		"year": 2022,
+		"author": "Етюди",
+		"theatreGroup": "гр. 3Т-6 \"Феєрія\",",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "nedytiacha-istoriia-2022",
+		"title": "«Недитяча історія»",
+		"year": 2022,
+		"author": "уривки з підліткової драматургії за М.Зелінською",
+		"theatreGroup": "гр. 5Т-15 \"ДТШустриці\"",
+		"dateNote": "2022 (Відео-показ)"
+	},
+	{
+		"id": "lisovi-pryhody-abo-khto-naikhytrishyi-2022",
+		"title": "«Лісові пригоди або хто найхитріший?»",
+		"year": 2022,
+		"author": "Інсценізація за казками І.Франка",
+		"theatreGroup": "гр. 3Т-7 «BEST THEATER SOCKS»,",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pisochnytsia-z-wi-fi-u-kosmosi-2022",
+		"title": "«Пісочниця з WI-FI у космосі»",
+		"year": 2022,
+		"author": "підліткові історії за І.Васьковською, Д.Уткіною",
+		"theatreGroup": "гр. 5Т-17 «Под-Рост-ОК».",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "tselofanove-zhyttia-2022",
+		"title": "«Целофанове життя»",
+		"year": 2022,
+		"author": ". Авторські монологи підлітків",
+		"theatreGroup": "гр. 5Т-14 «ClickBait»",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "monolohy-pro-viinu-2022",
+		"title": "«Монологи про війну»",
+		"year": 2022,
+		"author": "Авторські",
+		"theatreGroup": "гр. 7Т-22.",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"hanna-serebriannikova"
+		]
+	},
+	{
+		"id": "klasyky-2022",
+		"title": "«класики»",
+		"year": 2022,
+		"author": "Уривки з",
+		"theatreGroup": "гр. 6Т-21 «ТV-продакшн»",
+		"dateNote": "2022 (Відео-показ)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pokaz-zi-stsenichnoho-movlennia-2023",
+		"title": "Показ зі сценічного мовлення",
+		"year": 2023,
+		"dateNote": "06.05 субота, 12.50 (ауд. 17); 11.05 четвер, 16.10 (ауд. 7); 12.05 П’ятниця, 17.00 (ауд. 7); 13.05 субота, 13.40 (ауд. 7); 15.05 понеділок, 16.10 (ауд. 11); 17.05 середа, 16.10 (ауд. 11); 18.05 четвер, 16.10 (ауд. 17)",
+		"masters": [
+			"svitlana-vitiuk",
+			"tetiana-isachkina",
+			"svitlana-ryskina",
+			"tereza-zaurbekova",
+			"vladyslav-mykhailiuk",
+			"vira-yemtsova-datsiuk",
+			"liubov-savina",
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "akademichnyi-kontsert-sol-nyi-spiv-2023",
+		"title": "Академічний концерт. Сольний спів",
+		"year": 2023,
+		"dateNote": "10.05 середа, 12.00 (ауд. 7); 11.05 четвер, 12.00 (ауд. 7)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "akademichnyi-kontsert-hitara-2023",
+		"title": "Академічний концерт. Гітара",
+		"year": 2023,
+		"dateNote": "11.05 четвер, 14.00 (ауд. 11)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "akademichnyi-kontsert-fortepiano-2023",
+		"title": "Академічний концерт. Фортепіано",
+		"year": 2023,
+		"dateNote": "12.05 П’ятниця, 12.00 (ауд. 11); 13.05 субота, 12.00 (ауд. 11)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "robota-z-kameroiu-2023",
+		"title": "«Робота з камерою»",
+		"year": 2023,
+		"author": "Презентаційний захід з предмету",
+		"dateNote": "17.05 середа, 17.00 (ауд. 17)",
+		"masters": [
+			"dmytro-demkov"
+		]
+	},
+	{
+		"id": "urok-zalik-zi-stsenichnoho-rukhu-2023",
+		"title": "Урок –залік зі сценічного руху",
+		"year": 2023,
+		"dateNote": "22.05 понеділок, 17.00 (ауд. 6)",
+		"masters": [
+			"pavlo-prymak"
+		]
+	},
+	{
+		"id": "pryhody-barvinka-2023",
+		"title": "«Пригоди Барвінка»",
+		"year": 2023,
+		"author": "Інсценізація казки Б.Чалого",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "23.05 вівторок, 16.00 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kozeniata-stara-kazka-na-novyi-lad-2023",
+		"title": "«Козенята-стара казка на новий лад»",
+		"year": 2023,
+		"theatreGroup": "гр. 3Е-3",
+		"dateNote": "24.05 середа, 15.00 (ауд. 11); 03.06 субота, 11.00 (ауд. 11)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "my-na-misiats-letymo-2023",
+		"title": "«Ми на місяць летимо»",
+		"year": 2023,
+		"author": "Грицько Бойко",
+		"theatreGroup": "гр. 1Е-1",
+		"dateNote": "25.05 четвер, 15.00 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov",
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "balada-pro-korolivs-kyi-buterbrod-2023",
+		"title": "«Балада про королівський бутерброд»",
+		"year": 2023,
+		"author": "Ален Мілн, переклад Ф. Ткач",
+		"theatreGroup": "гр. 1Т-2",
+		"dateNote": "26.05 п’ятниця, 16.00 (ауд. 7); 06.06 вівторок, 14.00 (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "sobaky-2023",
+		"title": "«Собаки»",
+		"year": 2023,
+		"author": "К.Сергієнко «До побачення, Яр»",
+		"theatreGroup": "гр. 4Т-10",
+		"dateNote": "26.05 п’ятниця, 17.30 (ауд. 7); 01.06 четвер, 17.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "vovk-ta-semero-kozeniat-2023",
+		"title": "«Вовк та Семеро козенят»",
+		"year": 2023,
+		"author": "К. Лук’яненко",
+		"theatreGroup": "гр. 4Е-5",
+		"dateNote": "27.05 субота, 12.00 (ауд. 11); 31.05 середа, 14.00 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov",
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "pokaz-v-pryvatnii-shkoli-2023",
+		"title": "Показ в приватній школі",
+		"year": 2023,
+		"dateNote": "30.05 вівторок, 13.00",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "vidkrytyi-urok-z-hrymu-2023",
+		"title": "Відкритий урок з гриму",
+		"year": 2023,
+		"dateNote": "30.05 вівторок, 16.00 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "iak-podruzhytys-z-chekalkoiu-2023",
+		"title": "«Як подружитись з Чекалкою»",
+		"year": 2023,
+		"author": "Іван Андрусяк",
+		"theatreGroup": "гр. 3Т-7",
+		"dateNote": "31.05 середа, 15.30 (ауд. 7); 01.06 четвер, 15.00 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "uryvky-iz-klasyky-2023",
+		"title": "Уривки із класики",
+		"year": 2023,
+		"theatreGroup": "гр. 6Т-17",
+		"dateNote": "31.05 середа, 18.00 (ауд. 7); 03.06 субота, 15.00 (ауд. 7); 07.06 середа, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina",
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "zvitnyi-kontsert-muzychnoho-viddilennia-2023",
+		"title": "Звітний концерт музичного відділення",
+		"year": 2023,
+		"dateNote": "01.06 четвер, 13.00 (ауд. 7)",
+		"masters": [
+			"liliia-velychko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vykl-panchenko-o-k-2023",
+		"title": "Концерт класу викл. Панченко О.К.",
+		"year": 2023,
+		"dateNote": "02.06 п’ятниця, 14.00 (ауд. 11)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "misto-za-shpaleramy-2023",
+		"title": "«Місто за шпалерами»",
+		"year": 2023,
+		"author": "Наталія Блок",
+		"theatreGroup": "гр. 2Т-6",
+		"dateNote": "03.06 субота, 13.00 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov",
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "taiemnytsi-zamku-oilenshtain-2023",
+		"title": "«Таємниці замку Ойленштайн»",
+		"year": 2023,
+		"author": "Ф.Ткач (за мотивами казок В.Пройслера)",
+		"theatreGroup": "гр. 2Т-4",
+		"dateNote": "04.06 неділя (ауд. 7)",
+		"masters": [
+			"fedir-tkach",
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "solo-musica-2023",
+		"title": "«Solo musicа»",
+		"year": 2023,
+		"author": "Хор",
+		"dateNote": "04.06 неділя, 14.00 (ауд. 7)"
+	},
+	{
+		"id": "z-ukrainoiu-v-sertsi-2023",
+		"title": "«З Україною в серці»",
+		"year": 2023,
+		"author": "Концерт",
+		"dateNote": "05.06 понеділок, 14.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-molodshykh-uchniv-1e-1-2e-2-3e-3-4-2023",
+		"title": "Підсумкові для молодших учнів (1Е-1,2Е-2,3Е-3, 4Е-5,) 3-муз,",
+		"year": 2023,
+		"dateNote": "07.06 середа, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "teatralevstvo-kryvykh-dzerkal-2023",
+		"title": "«Театралевство кривих дзеркал»",
+		"year": 2023,
+		"author": "Мюзікл (за мотивами казки В.Губарева, інсценізація В. Михайлюка.)",
+		"theatreGroup": "гр. 2Т-5, 3Т-9",
+		"dateNote": "09.06 п’ятниця, 15.00 (ауд. 7)",
+		"masters": [
+			"vladyslav-mykhailiuk",
+			"anastasiia-nikolaieva",
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-serednikh-1t-1-2t-5-1t-3-2t-6-3t-7-2023",
+		"title": "Підсумкові для середніх (1Т-1, 2Т-5, 1Т-3, 2Т-6,3Т-7, 3Т-9, 4Т-10, 4Т-11, 4Т-12)+ худ-16",
+		"year": 2023,
+		"dateNote": "10.06 субота, 13.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-starshykh-5t-13-5t-14-5t-15-6t-16--2023",
+		"title": "Підсумкові для старших (5Т-13, 5Т-14, 5Т-15, 6Т-16, 6Т-17, 7Т-18, 7Т-19, 7Т-20)+музичне 10, +худ,6",
+		"year": 2023,
+		"dateNote": "11.06 неділя, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "poetychna-videoversiia-za-virshamy-andriia-khaiets-2024",
+		"title": "Поетична відеоверсія за віршами Андрія Хаєцького",
+		"year": 2024,
+		"theatreGroup": "гр. 6Т-19",
+		"dateNote": "07.05 вівторок, 17.00 YouTube (ауд. 17)",
+		"masters": [
+			"fedir-tkach",
+			"svitlana-vitiuk"
+		]
+	},
+	{
+		"id": "etiudy-2024",
+		"title": "Етюди",
+		"year": 2024,
+		"theatreGroup": "гр. 4Т-12",
+		"dateNote": "08.05 середа, 18.00 (ауд. 17); 09.05 четвер, 18.00 (ауд. 17); 10.05 п’ятниця, 18.00 (ауд. 17); 11.05 субота, 11.00 (ауд. 11); 15.05 середа, 18.00 (ауд. 17); 16.05 четвер, 18.00 (ауд. 17); 17.05 п’ятниця, 18.00 (ауд. 17); 18.05 субота, 12.00 (ауд. 11)",
+		"masters": [
+			"fedir-tkach",
+			"vladyslav-mykhailiuk",
+			"elmir-hanbarov",
+			"d-rybalchenko",
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "telefon-2024",
+		"title": "«Телефон»",
+		"year": 2024,
+		"author": "Іван Багряний",
+		"theatreGroup": "гр. 2Е-3",
+		"dateNote": "14.05 вівторок, 14.30 (ауд. 11); 25.05 субота, 11.00 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov",
+			"d-rybalchenko"
+		]
+	},
+	{
+		"id": "kvitka-semybarvytsia-2024",
+		"title": "«Квітка- семибарвиця»",
+		"year": 2024,
+		"author": "В. Катаєв",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "14.05 вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "ispyt-instrumentalisty-2024",
+		"title": "Іспит ( інструменталісти)",
+		"year": 2024,
+		"dateNote": "15.05 середа, 10.00 (ауд. 11)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "ispyt-sol-nyi-spiv-2024",
+		"title": "Іспит (сольний спів)",
+		"year": 2024,
+		"dateNote": "15.05 середа, 12.00 (ауд. 11)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "davai-druzhyty-2024",
+		"title": "«Давай дружити»",
+		"year": 2024,
+		"author": "Н. Забіла",
+		"theatreGroup": "гр. 1Е-1",
+		"dateNote": "15.05 середа, 15.00 (ауд. 11); 28.05 вівторок, 15.00 (ауд. 11)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "syla-kazky-2024",
+		"title": "«Сила казки»",
+		"year": 2024,
+		"author": "Г. Малик",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "16.05 четвер, 15.20 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "zubata-vtrata-2024",
+		"title": "«Зубата втрата»",
+		"year": 2024,
+		"author": "Катерина Лук’яненко",
+		"theatreGroup": "гр. 3Е-4",
+		"dateNote": "17.05 п’ятниця, 15.20 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "treninh-etiudy-2024",
+		"title": "Тренінг, етюди",
+		"year": 2024,
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "18.05 субота, 15.00 (ауд. 11); 24.05 п’ятниця, 15.00 (ауд. 11)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "mal-ovanyi-hlek-2024",
+		"title": "«Мальований глек»",
+		"year": 2024,
+		"author": "Віра Правоторова",
+		"theatreGroup": "гр. 3Е-5",
+		"dateNote": "21.05 вівторок, 15.20 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kazky-kriz-kaminnia-2024",
+		"title": "«Казки крізь каміння»",
+		"year": 2024,
+		"author": "Ольга Ширинова",
+		"theatreGroup": "гр. 5Т-15",
+		"dateNote": "22.05 середа, 18.00 (ауд. 7); 25.05 субота, 16.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "stan-doroslym-2024",
+		"title": "«Стань дорослим»",
+		"year": 2024,
+		"author": "Пісаренчиха",
+		"theatreGroup": "гр. 4Е-6",
+		"dateNote": "23.05 четвер, 15.00 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "lisova-pisnia-2024",
+		"title": "«Лісова пісня»",
+		"year": 2024,
+		"author": "Леся Українка",
+		"theatreGroup": "гр. Муз. театр",
+		"dateNote": "24.05 п’ятниця, 16.00 (ауд. 7)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "zahubleni-u-2024",
+		"title": "«Загублені у…»",
+		"year": 2024,
+		"author": "Т.Ісачкіна",
+		"theatreGroup": "гр. 5Т-16",
+		"dateNote": "25.05 субота, 14.00 (ауд. 7); 27.05 понеділок, 18.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "v-poshukakh-kolumba-2024",
+		"title": "«В пошуках Колумба»",
+		"year": 2024,
+		"author": "Ольга Аненко",
+		"theatreGroup": "гр. 4Е-7",
+		"dateNote": "27.05 понеділок, 15.20 (ауд. 11)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "v-poshukakh-narnii-2024",
+		"title": "«В пошуках Нарнії»",
+		"year": 2024,
+		"author": "За мотивами Л.Керрола",
+		"theatreGroup": "гр. 3Т-11",
+		"dateNote": "28.05 вівторок, 16.00 (ауд. 7); 31.05 п’ятниця, 16.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "henzel-i-hretel-2024",
+		"title": "«Гензель і Гретель»",
+		"year": 2024,
+		"author": "За мотивами Бр . Грим Марія Власова",
+		"theatreGroup": "гр. 3Т-10",
+		"dateNote": "29.05 середа, 16.00 (ауд. 7)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "natashkiny-mrii-2024",
+		"title": "«Наташкіни мрії»",
+		"year": 2024,
+		"author": "Ярослава Пулінович",
+		"theatreGroup": "гр. 5Т-17",
+		"dateNote": "30.05 четвер, 18.00 (ауд. 7); 31.05 п’ятниця, 18.00 (ауд. 7)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-estetychnoho-viddilennia-2024",
+		"title": "Підсумкові для естетичного відділення",
+		"year": 2024,
+		"theatreGroup": "гр. 1е-1, 2е-2, 2е-3, 3е-4, 3е-5",
+		"dateNote": "31.05 п’ятниця, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "z-mriiamy-v-maibutnie-2024",
+		"title": "«З мріями в майбутнє»",
+		"year": 2024,
+		"author": "Звітній концерт музичного відділення",
+		"dateNote": "01.06 субота, 12.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-estetychno-teatral-noho-viddilenni-2024",
+		"title": "Підсумкові для естетично- театрального відділення",
+		"year": 2024,
+		"theatreGroup": "гр. 4е-6, 4е-7, 1т-1, 1т-3, 3мт-9, мт-2,",
+		"dateNote": "01.06 субота, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "kontsert-klasu-panchenko-o-k-2024",
+		"title": "Концерт класу Панченко О.К.",
+		"year": 2024,
+		"dateNote": "02.06 неділя, 12.00 (ауд. 11)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-nikolaieva-h-s-2024",
+		"title": "Концерт класу Ніколаєва Г.С.",
+		"year": 2024,
+		"dateNote": "02.06 неділя, 14.00 (ауд. 11)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-serednikh-teatral-ne-viddilennia-2024",
+		"title": "Підсумкові для середніх- театральне відділення",
+		"year": 2024,
+		"theatreGroup": "гр. 2Т-4,2т-5 3т-8 +художн.",
+		"dateNote": "03.06 понеділок, 12.00 (ауд. 7); 06.06 четвер, 13.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "kontsert-klasu-velychko-l-m-stepanenko-n-p-2024",
+		"title": "Концерт класу Величко Л.М + Степаненко Н.П.",
+		"year": 2024,
+		"dateNote": "03.06 понеділок, 14.30 (ауд. 11)",
+		"masters": [
+			"liliia-velychko",
+			"natalia-stepanenko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-mat-kovs-ki-a-o-bakina-n-h-koval-ch-2024",
+		"title": "Концерт класу Матьковські А.О. + Бакіна Н.Г.+Ковальчук Я.В.",
+		"year": 2024,
+		"dateNote": "04.06 вівторок, 12.00 (ауд. 11)",
+		"masters": [
+			"yana-kovalchuk",
+			"natalia-bakina"
+		]
+	},
+	{
+		"id": "kontsert-klasu-ovcharenko-i-h-bilenko-k-iu-2024",
+		"title": "Концерт класу Овчаренко І.Г. +Біленко К.Ю.",
+		"year": 2024,
+		"dateNote": "04.06 вівторок, 14.00 (ауд. 11)",
+		"masters": [
+			"iryna-ovcharenko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-klymenko-a-d-2024",
+		"title": "Концерт класу Клименко А.Д.",
+		"year": 2024,
+		"dateNote": "05.06 середа, 12.00 (ауд. 11)",
+		"masters": [
+			"andrii-klymenko"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-starshykh-teatral-ne-viddilennia-v-2024",
+		"title": "Підсумкові для старших- театральне відділення ВИПУСКНИЙ",
+		"year": 2024,
+		"theatreGroup": "гр. 5т-17,5т-18, 6т-19, 6т-20, 6т-21,7т-22, 8т-23",
+		"dateNote": "08.06 субота, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "etiudy-2025",
+		"title": "Етюди",
+		"year": 2025,
+		"theatreGroup": "гр. 5Т-15",
+		"dateNote": "07.05 середа, 18.00 (ауд. 17); 08.05 четвер, 18.00 (ауд. 17); 09.05 п’ятниця, 18.00 (ауд. 17)",
+		"masters": [
+			"fedir-tkach"
+		]
+	},
+	{
+		"id": "pryvydy-2025",
+		"title": "«Привиди»",
+		"year": 2025,
+		"author": "Етюдний показ за мотивами казок С.Дерманського",
+		"theatreGroup": "гр. 1Т-4, 2РТ",
+		"dateNote": "09.05 п’ятниця, 16.10 (ауд. 7)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "khtos-abo-vodiane-sertse-2025",
+		"title": "«Хтось, або Водяне серце»",
+		"year": 2025,
+		"author": "Етюдний показ, за мотивами п’єси Т.Янко",
+		"theatreGroup": "гр. 1Т-3",
+		"dateNote": "10.05 субота, 12.00",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "akademkontsert-instrumentalistiv-2025",
+		"title": "Академконцерт інструменталістів",
+		"year": 2025,
+		"dateNote": "13.05 вівторок, 12.00 (ауд. 11)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "kazkovi-pryhody-2025",
+		"title": "«Казкові пригоди»",
+		"year": 2025,
+		"author": "А.Гаїнцева, Т. Кожевнікова",
+		"theatreGroup": "гр. 3Е-6",
+		"dateNote": "13.05 вівторок, 14.30 (ауд. 11)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "treninh-etiudy-2025",
+		"title": "Тренінг, етюди",
+		"year": 2025,
+		"theatreGroup": "гр. 4Т-14",
+		"dateNote": "13.05 вівторок, 17.00 (ауд. 11)",
+		"masters": [
+			"svitlana-ryskina"
+		]
+	},
+	{
+		"id": "akademkontsert-vokalistiv-2025",
+		"title": "Академконцерт вокалістів",
+		"year": 2025,
+		"dateNote": "14.05 середа, 12.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "tsar-plaksii-ta-loskoton-2025",
+		"title": "«Цар Плаксій та Лоскотон»",
+		"year": 2025,
+		"author": "За мотивами В.Симоненко",
+		"theatreGroup": "гр. 1Е-1",
+		"dateNote": "14.05 середа, 15.20 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "diuimovochka-2025",
+		"title": "«Дюймовочка»",
+		"year": 2025,
+		"author": "Наталія Ігнатьєва",
+		"theatreGroup": "гр. 3Е-4",
+		"dateNote": "15.05 четвер, 14.30 (ауд. 11); 19.05 понеділок, 14.30 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "pryhody-pana-syrnyka-2025",
+		"title": "«Пригоди Пана Сирника»",
+		"year": 2025,
+		"author": "С. Лінинська",
+		"theatreGroup": "гр. 4Е-8",
+		"dateNote": "15.05 четвер, 16.00 (ауд. 11)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "tse-shcho-rukavychka-2025",
+		"title": "«Це що, рукавичка?»",
+		"year": 2025,
+		"author": "За мотивами української народної казки",
+		"theatreGroup": "гр. 4Е-7",
+		"dateNote": "16.05 п’ятниця, 15.20 (ауд. 11); 22.05 четвер, 14.30 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "izhachok-nindzia-2025",
+		"title": "«Іжачок –ніндзя»",
+		"year": 2025,
+		"author": "І. Білиць",
+		"theatreGroup": "гр. 3Е-5",
+		"dateNote": "17.05 субота, 11.00 (ауд. 11); 21.05 середа, 15.20",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "aktors-kyi-treninh-2025",
+		"title": "Акторський тренінг",
+		"year": 2025,
+		"theatreGroup": "гр. 1Т-1",
+		"dateNote": "17.05 субота, 14.30 (ауд. 11)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "pryhody-mysheniat-i-hrufaliat-2025",
+		"title": "«Пригоди Мишенят і Груфалят»",
+		"year": 2025,
+		"author": "Джулія Дональдсон",
+		"theatreGroup": "гр. 2Е-3",
+		"dateNote": "19.05 понеділок, 15.20 (ауд. 7); 20.05 вівторок, 15.30 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "knyha-dzhunhliv-2025",
+		"title": "«Книга Джунглів»",
+		"year": 2025,
+		"author": "За мотивами казкової повісті Редьярда Кіплінга",
+		"theatreGroup": "гр. 2Т-5",
+		"dateNote": "20.05 вівторок, 17.00 (ауд. 7); 28.05 середа, 16.00 (ауд. 7)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "otakyi-rozziava-2025",
+		"title": "«Отакий Роззява»",
+		"year": 2025,
+		"author": "С.Маршак",
+		"theatreGroup": "гр. 2Е-2",
+		"dateNote": "21.05 середа, 14.30 (ауд. 11)",
+		"masters": [
+			"tereza-zaurbekova"
+		]
+	},
+	{
+		"id": "kraina-merezhyna-2025",
+		"title": "«Країна Мережина»",
+		"year": 2025,
+		"author": "за п’єсою Лани Ра («Як рятували країну Мережину»)",
+		"theatreGroup": "гр. 1РТ",
+		"dateNote": "21.05 середа, 17.00 (ауд. 11)",
+		"masters": [
+			"vladyslav-mykhailiuk"
+		]
+	},
+	{
+		"id": "etiudnyi-pokaz-2025",
+		"title": "Етюдний показ",
+		"year": 2025,
+		"theatreGroup": "гр. 3Т-11",
+		"dateNote": "22.05 четвер, 16.10 (ауд. 11)",
+		"masters": [
+			"yevheniia-osadcha"
+		]
+	},
+	{
+		"id": "chomu-zaiets-spyt-z-rozpliushchenymy-ochyma-2025",
+		"title": "«Чому заєць спить з розплющеними очима»",
+		"year": 2025,
+		"author": "Африканська народна казка",
+		"theatreGroup": "гр. 4Т-12",
+		"dateNote": "22.05 четвер, 17.00 (ауд. 7); 26.05 понеділок, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "son-pro-malen-koho-pryntsa-2025",
+		"title": "«Сон про Маленького принца»",
+		"year": 2025,
+		"author": "Антуан де Сент-Екзюпері",
+		"theatreGroup": "гр. 3Т-10",
+		"dateNote": "23.05 п’ятниця, 16.10 (ауд. 7); 27.05 вівторок, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pan-shkarpetkos-ta-sribne-suziria-panchyshky-2025",
+		"title": "«Пан Шкарпеткос та срібне сузір’я Панчишки»",
+		"year": 2025,
+		"author": "Лана Ра",
+		"theatreGroup": "гр. 2Т-7",
+		"dateNote": "24.05 субота, 12.00 (ауд. 7); 30.05 п’ятниця, 15.30 (ауд. 7)",
+		"masters": [
+			"elmir-hanbarov"
+		]
+	},
+	{
+		"id": "del-finy-u-poshukakh-mrii-2025",
+		"title": "«Дельфіни. У пошуках мрії»",
+		"year": 2025,
+		"author": "Ю.Вітковська",
+		"theatreGroup": "гр. 3Т-8",
+		"dateNote": "24.05 субота, 13.30 (ауд. 7); 25.05 неділя, 12.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "kontsert-vokal-noho-i-khoreohrafichnoho-ansambliv-2025",
+		"title": "Концерт вокального і хореографічного ансамблів",
+		"year": 2025,
+		"dateNote": "25.05 неділя, 14.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "my-stavymo-vystavu-2025",
+		"title": "«Ми ставимо виставу»",
+		"year": 2025,
+		"author": "С.Юрченко (за повістю О.Лущевської «Задзеркалля»)",
+		"theatreGroup": "гр. 4Т-13",
+		"dateNote": "29.05 четвер, 16.00 (ауд. 7); 30.05 п’ятниця, 17.00 (ауд. 7)",
+		"masters": [
+			"liubov-savina"
+		]
+	},
+	{
+		"id": "ostannii-dzvonyk-zosh-37-2025",
+		"title": "Останній дзвоник ЗОШ№37",
+		"year": 2025,
+		"dateNote": "30.05 п’ятниця, 10.00 (ауд. 7)"
+	},
+	{
+		"id": "kontsert-klasu-vykl-prorok-o-v-2025",
+		"title": "Концерт класу викл. Пророк О.В.",
+		"year": 2025,
+		"dateNote": "30.05 п’ятниця, 17.00 (ауд. 11)",
+		"masters": [
+			"olena-prorok"
+		]
+	},
+	{
+		"id": "zvitnyi-kontsert-muz-viddilennia-2025",
+		"title": "Звітний концерт муз відділення",
+		"year": 2025,
+		"dateNote": "31.05 субота, 12.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-molodshykh-2025",
+		"title": "Підсумкові для молодших",
+		"year": 2025,
+		"dateNote": "31.05 субота, 14.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vykl-panchenko-o-k-2025",
+		"title": "Концерт класу викл. Панченко О.К",
+		"year": 2025,
+		"dateNote": "01.06 неділя, 12.00 (ауд. 11)",
+		"masters": [
+			"oksana-panchenko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vokalu-vykl-nykolaieva-h-s-bakina-n-2025",
+		"title": "Концерт класу вокалу викл. Николаєва Г.С.,Бакіна Н.Г.",
+		"year": 2025,
+		"dateNote": "01.06 неділя, 14.00 (ауд. 7)",
+		"masters": [
+			"hanna-nikolaieva",
+			"natalia-bakina"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-serednikh-2025",
+		"title": "Підсумкові для середніх",
+		"year": 2025,
+		"dateNote": "02.06 понеділок, 11.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vykladachiv-velychko-l-m-i-stepanen-2025",
+		"title": "Концерт класу викладачів Величко Л.М. і Степаненко Н.П.",
+		"year": 2025,
+		"dateNote": "03.06 вівторок, 12.00 (ауд. 11)",
+		"masters": [
+			"liliia-velychko",
+			"natalia-stepanenko"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vykladachiv-koval-chuk-ia-v-i-bilen-2025",
+		"title": "Концерт класу викладачів Ковальчук Я.В. і Біленко К.Ю.",
+		"year": 2025,
+		"dateNote": "03.06 вівторок, 15.00 (ауд. 11)",
+		"masters": [
+			"yana-kovalchuk"
+		]
+	},
+	{
+		"id": "kontsert-klasu-vykl-klymenko-a-d-2025",
+		"title": "Концерт класу викл. Клименко А.Д.",
+		"year": 2025,
+		"dateNote": "04.06 середа, 16.00 (ауд. 11)",
+		"masters": [
+			"andrii-klymenko"
+		]
+	},
+	{
+		"id": "vel-vetovyi-krolyk-abo-iak-ihrashky-staiut-spravzh-2025",
+		"title": "«Вельветовий Кролик, або як іграшки стають справжніми»",
+		"year": 2025,
+		"author": "М. Вільямс",
+		"theatreGroup": "гр. 6Т-19",
+		"dateNote": "04.06 середа, 18.00 (ауд. 7); 05.06 четвер, 16.00 (ауд. 7)",
+		"masters": [
+			"tetiana-isachkina"
+		]
+	},
+	{
+		"id": "pidsumkovi-dlia-starshykh-vypusknyi-2025",
+		"title": "Підсумкові для старших- ВИПУСКНИЙ",
+		"year": 2025,
+		"dateNote": "07.06 субота, 12.00 (ауд. 7)",
+		"masters": [
+			"olena-tkach"
 		]
 	}
 ]

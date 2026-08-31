@@ -17,5 +17,8 @@
 	"socials": [],
 	"category": "musicians",
 	"roleTitle": "викладачка фортепіано",
-	"portrait": "/masters/portraits/olena-prorok.webp"
+	"portrait": "/masters/portraits/olena-prorok.webp",
+	"playIds": [
+		"kontsert-klasu-vykl-prorok-o-v-2025"
+	]
 }

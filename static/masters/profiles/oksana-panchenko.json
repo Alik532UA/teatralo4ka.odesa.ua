@@ -15,5 +15,15 @@
 	"socials": [],
 	"category": "administration",
 	"roleTitle": "заступниця директорки з навчальної роботи, викладачка фортепіано вищої категорії",
-	"portrait": "/masters/portraits/oksana-panchenko.webp"
+	"portrait": "/masters/portraits/oksana-panchenko.webp",
+	"playIds": [
+		"kontsert-klasu-vykl-panchenko-o-k-2025",
+		"kontsert-klasu-panchenko-o-k-2024",
+		"kontsert-klasu-vykl-panchenko-o-k-2023",
+		"kontsert-klasiv-vokalu-ta-fortepiano-2021",
+		"akademkontsert-instrumentalistiv-2018",
+		"akademycheskyi-kontsert-dopolnytel-nyi-klassov-for-2017",
+		"kontsert-klassa-ynstrumentalystov-2016",
+		"kontsert-klassa-prepodavatelia-panchenko-o-k-2015"
+	]
 }

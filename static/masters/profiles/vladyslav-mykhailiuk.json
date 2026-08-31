@@ -17,5 +17,18 @@
 	"category": "directors",
 	"roleTitle": "викладач акторської майстерності, майстер курсу",
 	"portrait": "/masters/portraits/vladyslav-mykhailiuk.webp",
-	"photo": "/masters/vladyslav-mykhailiuk.webp"
+	"photo": "/masters/vladyslav-mykhailiuk.webp",
+	"playIds": [
+		"kazkovi-pryhody-2025",
+		"knyha-dzhunhliv-2025",
+		"kraina-merezhyna-2025",
+		"etiudy-2024",
+		"kvitka-semybarvytsia-2024",
+		"lisova-pisnia-2024",
+		"henzel-i-hretel-2024",
+		"etiudy-2023",
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"pokaz-v-pryvatnii-shkoli-2023",
+		"teatralevstvo-kryvykh-dzerkal-2023"
+	]
 }

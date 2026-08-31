@@ -17,5 +17,9 @@
 	"category": "musicians",
 	"roleTitle": "викладач гітари",
 	"portrait": "/masters/portraits/andrii-klymenko.webp",
-	"photo": "/masters/andrii-klymenko.webp"
+	"photo": "/masters/andrii-klymenko.webp",
+	"playIds": [
+		"kontsert-klasu-vykl-klymenko-a-d-2025",
+		"kontsert-klasu-klymenko-a-d-2024"
+	]
 }

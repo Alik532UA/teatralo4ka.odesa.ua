@@ -17,5 +17,20 @@
 	"photo": "/masters/hanna-nikolaieva.webp",
 	"category": "heads",
 	"roleTitle": "завідувачка музичним відділенням, викладачка вокалу першої категорії",
-	"portrait": "/masters/portraits/hanna-nikolaieva.webp"
+	"portrait": "/masters/portraits/hanna-nikolaieva.webp",
+	"playIds": [
+		"akademkontsert-instrumentalistiv-2025",
+		"akademkontsert-vokalistiv-2025",
+		"kontsert-vokal-noho-i-khoreohrafichnoho-ansambliv-2025",
+		"zvitnyi-kontsert-muz-viddilennia-2025",
+		"kontsert-klasu-vokalu-vykl-nykolaieva-h-s-bakina-n-2025",
+		"ispyt-instrumentalisty-2024",
+		"ispyt-sol-nyi-spiv-2024",
+		"z-mriiamy-v-maibutnie-2024",
+		"kontsert-klasu-nikolaieva-h-s-2024",
+		"z-ukrainoiu-v-sertsi-2023",
+		"teatralevstvo-kryvykh-dzerkal-2023",
+		"kontsert-klasu-vokalu-vykladacha-nikolaievoi-h-s-2021",
+		"kontsert-klasu-sol-noho-spivu-2018"
+	]
 }

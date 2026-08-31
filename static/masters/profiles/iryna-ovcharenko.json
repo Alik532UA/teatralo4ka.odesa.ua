@@ -18,5 +18,11 @@
 	"socials": [],
 	"category": "vocalists",
 	"roleTitle": "викладачка вокалу першої категорії",
-	"portrait": "/masters/portraits/iryna-ovcharenko.webp"
+	"portrait": "/masters/portraits/iryna-ovcharenko.webp",
+	"playIds": [
+		"kontsert-klasu-ovcharenko-i-h-bilenko-k-iu-2024",
+		"akademkontsert-vokal-noho-klasu-2018",
+		"akademycheskyi-kontsert-dopolnytel-nyi-klassa-yndy-2017",
+		"kontsert-klassa-prepodavatelia-ovcharenko-y-h-2015"
+	]
 }

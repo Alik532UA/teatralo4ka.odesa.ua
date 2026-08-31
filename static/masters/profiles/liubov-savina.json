@@ -14,5 +14,31 @@
 	"photo": "/masters/liubov-savina.webp",
 	"category": "directors",
 	"roleTitle": "викладачка акторської майстерності та сценічного мовлення першої категорії",
-	"portrait": "/masters/portraits/liubov-savina.webp"
+	"portrait": "/masters/portraits/liubov-savina.webp",
+	"playIds": [
+		"tsybulino-2025",
+		"khtos-abo-vodiane-sertse-2025",
+		"pryhody-pana-syrnyka-2025",
+		"del-finy-u-poshukakh-mrii-2025",
+		"my-stavymo-vystavu-2025",
+		"etiudy-2024",
+		"mal-ovanyi-hlek-2024",
+		"stan-doroslym-2024",
+		"v-poshukakh-narnii-2024",
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"pryhody-barvinka-2023",
+		"taiemnytsi-zamku-oilenshtain-2023",
+		"dobroho-vechora-my-z-ukrainy-2022",
+		"etiudy-2022",
+		"kyts-ky-myshky-2022",
+		"mrii-pro-narniiu-2022",
+		"aktors-kyi-treninh-ta-etiudy-2021",
+		"ispyt-z-stsenichnoho-movlennia-2021",
+		"perepolokh-2021",
+		"mukha-tsokotukha-2021",
+		"pryhody-peppi-dovhapanchokha-2021",
+		"veselyi-iarmarok-2020",
+		"kazka-pro-movu-2020",
+		"pryhody-karlsona-2020"
+	]
 }

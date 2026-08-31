@@ -17,5 +17,14 @@
 	"photo": "/masters/pavlo-koshka.webp",
 	"category": "directors",
 	"portrait": "/masters/portraits/pavlo-koshka.webp",
-	"roleTitle": "викладач акторської майстерності, майстер курсу"
+	"roleTitle": "викладач акторської майстерності, майстер курсу",
+	"playIds": [
+		"koshkyn-dom-2017",
+		"zona-turbulentnosty-2017",
+		"ia-2015",
+		"ystor-y-ia-2014",
+		"86997503343751-2014",
+		"e-t-iu-d-y-2013",
+		"liubov-k-trem-apel-synam-2013"
+	]
 }

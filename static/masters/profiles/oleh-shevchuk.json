@@ -17,5 +17,28 @@
 	"category": "directors",
 	"photo": "/masters/oleh-shevchuk.webp",
 	"portrait": "/masters/portraits/oleh-shevchuk.webp",
-	"roleTitle": "викладач акторської майстерності, майстер курсу"
+	"roleTitle": "викладач акторської майстерності, майстер курсу",
+	"playIds": [
+		"ispyt-z-stsenichnoho-movlennia-2021",
+		"uryvky-iz-klasyky-2021",
+		"tak-buvaie-2020",
+		"kotyhoroshivka-2019",
+		"balahanchyk-brativ-hrym-2019",
+		"hraiemo-v-brekhta-2019",
+		"zamarashka-2018",
+		"uryvky-z-klasychnykh-tvoriv-2018",
+		"zolotaia-lavyna-2017",
+		"ryzhaia-pesa-2017",
+		"otryvky-yz-klassyky-2017",
+		"yzumrudnyi-horod-2016",
+		"otryvky-yz-klassyky-2016",
+		"devochka-so-spychkamy-2016",
+		"solenoe-detstvo-2015",
+		"pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2015",
+		"kot-v-sapohakh-2015",
+		"pryiatnoho-appetyta-tyhr-2014",
+		"prazdnyk-neposlushanyia-2014",
+		"sentymental-noe-puteshestvye-2014",
+		"otkrytyi-pokaz-po-akterskomu-masterstvu-2013"
+	]
 }

@@ -16,5 +16,24 @@
 	"socials": [],
 	"photo": "/masters/iryna-kulbaba.webp",
 	"portrait": "/masters/portraits/iryna-kulbaba.webp",
-	"category": "directors"
+	"category": "directors",
+	"playIds": [
+		"parol-potsilunok-2021",
+		"aktors-kyi-treninh-ta-etiudy-2021",
+		"uryvky-iz-klasyky-2021",
+		"bahazh-2020",
+		"koralina-v-kraini-koshmariv-2020",
+		"tantsy-plius-2020",
+		"kazka-pro-kyta-2019",
+		"aktors-kyi-treninh-etiudy-2019",
+		"bremens-k-muzykanty-2019",
+		"bremens-ki-muzykanty-2019",
+		"korolivstvo-kryvykh-dzerkal-2018",
+		"polianna-2018",
+		"pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2017",
+		"skazka-o-poteriannom-vremeny-2017",
+		"pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2016",
+		"fedoryno-hore-2016",
+		"kot-v-shliape-2015"
+	]
 }

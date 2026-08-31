@@ -14,5 +14,10 @@
 	"photo": "/masters/svitlana-vitiuk.webp",
 	"roleTitle": "викладачка сценічного мовлення першої категорії",
 	"portrait": "/masters/portraits/svitlana-vitiuk.webp",
-	"category": "teachers"
+	"category": "teachers",
+	"playIds": [
+		"poetychna-videoversiia-za-virshamy-andriia-khaiets-2024",
+		"pokaz-zi-stsenichnoho-movlennia-2023",
+		"ispyt-z-stsenichnoho-movlennia-2021"
+	]
 }

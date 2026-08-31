@@ -17,5 +17,17 @@
 	"bio": "",
 	"socials": [],
 	"category": "directors",
-	"portrait": "/masters/portraits/samuil-imas.webp"
+	"portrait": "/masters/portraits/samuil-imas.webp",
+	"playIds": [
+		"neznaika-ta-ioho-druzi-2022",
+		"zalikovyi-zakhid-klasiv-khoreohrafii-ta-fol-kloru-2021",
+		"rafaman-2021",
+		"etiudy-2019",
+		"pokaz-po-akterskomu-masterstvu-etiudy-2017",
+		"pokaz-po-akterskomu-masterstvu-etiudy-2016",
+		"pokaz-po-akterskomu-masterstvu-etiudy-2015",
+		"horod-bez-liubvy-2015",
+		"yntensyvnoho-kursa-2014",
+		"pokaz-po-akterskomu-masterstvu-yntensyvnoho-klassa-2013"
+	]
 }

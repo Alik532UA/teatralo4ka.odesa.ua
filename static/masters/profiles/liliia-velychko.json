@@ -17,5 +17,21 @@
 	"socials": [],
 	"category": "teachers",
 	"roleTitle": "у минулому — завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
-	"portrait": "/masters/portraits/liliia-velychko.webp"
+	"portrait": "/masters/portraits/liliia-velychko.webp",
+	"playIds": [
+		"kontsert-klasu-vykladachiv-velychko-l-m-i-stepanen-2025",
+		"kontsert-klasu-velychko-l-m-stepanenko-n-p-2024",
+		"akademichnyi-kontsert-sol-nyi-spiv-2023",
+		"akademichnyi-kontsert-hitara-2023",
+		"akademichnyi-kontsert-fortepiano-2023",
+		"zvitnyi-kontsert-muzychnoho-viddilennia-2023",
+		"dobroho-vechora-my-z-ukrainy-2022",
+		"ispyty-sol-noho-spivu-2021",
+		"ispyt-z-klasu-forpepiano-2021",
+		"ispyt-z-klasu-hitary-2021",
+		"mukha-tsokotukha-2021",
+		"kontsert-klasu-sol-noho-spivu-2018",
+		"kontsert-klassa-prepodavatelia-velychko-l-n-2015",
+		"kontsert-klassa-prepodavatelia-velychko-l-n-2014"
+	]
 }

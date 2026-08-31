@@ -17,5 +17,10 @@
 	"socials": [],
 	"portrait": "/masters/portraits/olha-imas.webp",
 	"category": "teachers",
-	"roleTitle": "викладачка хореографії"
+	"roleTitle": "викладачка хореографії",
+	"playIds": [
+		"neznaika-ta-ioho-druzi-2022",
+		"zalikovyi-zakhid-klasiv-khoreohrafii-ta-fol-kloru-2021",
+		"rafaman-2021"
+	]
 }

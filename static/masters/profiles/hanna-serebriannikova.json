@@ -17,5 +17,10 @@
 	"photo": "/masters/hanna-serebriannikova.webp",
 	"portrait": "/masters/portraits/hanna-serebriannikova.webp",
 	"category": "directors",
-	"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+	"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+	"playIds": [
+		"monolohy-pro-viinu-2022",
+		"ispyt-z-stsenichnoho-movlennia-2021",
+		"zaruchyny-2019"
+	]
 }
