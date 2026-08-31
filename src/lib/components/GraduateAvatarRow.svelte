@@ -61,9 +61,24 @@
 		 * картка фестивалю — на всю.
 		 */
 		max?: number;
+		/**
+		 * Рядок стоїть УСЕРЕДИНІ іншого рядка, а не під ним.
+		 *
+		 * Знімає власні відступи: типово вони тримають мініатюри під карткою, а
+		 * посередині лінії той самий нижній відступ збиває обличчя щодо назви й
+		 * прапорів на кілька пікселів.
+		 */
+		inline?: boolean;
 	}
 
-	let { ids, excludeId = '', linked = true, testIdPrefix, max = 12 }: Props = $props();
+	let {
+		ids,
+		excludeId = '',
+		linked = true,
+		testIdPrefix,
+		max = 12,
+		inline = false
+	}: Props = $props();
 
 	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
 
@@ -136,7 +151,7 @@
 </script>
 
 {#if people.length}
-	<ul class="mates" data-testid="{testIdPrefix}-list">
+	<ul class="mates" class:mates--inline={inline} data-testid="{testIdPrefix}-list">
 		{#each people as mate (mate.id)}
 			{@const photo = mate.hasPhoto ? asset(`/graduates/${mate.slug}-96.webp`) : null}
 			<li>
@@ -208,6 +223,12 @@
 		 */
 		mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 14px), transparent 100%);
 	}
+	.mates--inline {
+		padding: 0;
+		justify-content: flex-start;
+		min-width: 0;
+	}
+
 	.mates__item {
 		display: grid;
 		flex-shrink: 0;

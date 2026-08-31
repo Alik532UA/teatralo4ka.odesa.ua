@@ -86,25 +86,32 @@
 						<span class="fests__name">
 							{isEn && festival.nameEn ? festival.nameEn : festival.name}
 						</span>
-						<span class="fests__flags">
-							{#each festival.countries as code (code)}
-								<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
-							{/each}
-						</span>
 					</a>
 
 					<!--
-						Рядок СЕСТРИНСЬКИЙ до посилання, а не всередині нього: мініатюри
-						самі є посиланнями, а `<a>` в `<a>` валить сторінку (гейт
-						`nested-interactive`).
+						Мініатюри — МІЖ назвою і прапорами, у тому самому рядку.
+						Рядком нижче вони розтягували картку вдвічі, і зв'язок «ці
+						обличчя — цієї поїздки» читався гірше, ніж коли все на одній
+						лінії.
+						Сестринські до посилання, а не всередині: мініатюри самі є
+						посиланнями, а `<a>` в `<a>` валить сторінку (гейт
+						`nested-interactive`). Саме тому й прапори переїхали з
+						посилання сюди — інакше вони опинилися б за мініатюрами.
 					-->
 					{#if showMembers}
 						<GraduateAvatarRow
 							ids={festival.memberIds}
 							testIdPrefix="{testIdPrefix}-members-{festival.slug}"
-							max={20}
+							max={16}
+							inline
 						/>
 					{/if}
+
+					<span class="fests__flags">
+						{#each festival.countries as code (code)}
+							<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
+						{/each}
+					</span>
 				</li>
 			{/each}
 		</ul>
@@ -128,11 +135,19 @@
 	}
 	/* Коли мініатюри показуються, рамкою стає сам рядок — щоб посилання й обличчя
 	   читалися як одна картка, а не як два сусідні блоки. */
+	.fests__row {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		gap: 0.45rem;
+		min-width: 0;
+	}
+
 	.fests__row--card {
 		border-radius: var(--radius-md, 12px);
 		background: var(--bg-surface);
 		border: 1px solid var(--border-main);
-		padding-bottom: 0.2rem;
+		padding: 0.35rem 0.6rem;
 		transition: border-color var(--transition-base);
 	}
 	.fests__row--card:hover {
@@ -141,6 +156,10 @@
 	.fests__link--bare {
 		background: none;
 		border: 0;
+		padding: 0;
+		/* Не «на всю ширину»: вільне місце віддається мініатюрам, а не назві —
+		   інакше обличчя притискаються до прапорів. */
+		flex: 0 1 auto;
 	}
 	.fests__link--bare:hover {
 		transform: none;
@@ -183,6 +202,7 @@
 	 */
 	.fests__flags {
 		margin-left: auto;
+		flex-shrink: 0;
 		font-size: 1rem;
 		line-height: 1;
 		letter-spacing: normal;
