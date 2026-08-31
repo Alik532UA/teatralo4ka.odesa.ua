@@ -102,6 +102,7 @@
 						<GraduateAvatarRow
 							ids={festival.memberIds}
 							testIdPrefix="{testIdPrefix}-members-{festival.slug}"
+							max={20}
 						/>
 					{/if}
 				</li>
