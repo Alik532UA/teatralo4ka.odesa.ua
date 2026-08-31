@@ -59,7 +59,13 @@
 	],
 	"alisa-v-zadzerkalli-2013": [
 		{
+			"graduateId": "anfisa-lazebna"
+		},
+		{
 			"graduateId": "daiana-ponomarenko"
+		},
+		{
+			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"alisa-v-zadzerkalli-2024": [
@@ -75,14 +81,6 @@
 	"alysa-v-zazerkalyy-2012": [
 		{
 			"graduateId": "anton-babich"
-		}
-	],
-	"alysa-v-zazerkalyy-2013": [
-		{
-			"graduateId": "anfisa-lazebna"
-		},
-		{
-			"graduateId": "yevhen-lysenko"
 		}
 	],
 	"asta-2021": [
@@ -203,11 +201,6 @@
 			"graduateId": "valeriia-burian"
 		}
 	],
-	"chopollyno-2010": [
-		{
-			"graduateId": "kristina-slivka-spivak"
-		}
-	],
 	"chuchelo-2016": [
 		{
 			"graduateId": "kulish-mariia"
@@ -216,17 +209,20 @@
 			"graduateId": "myroslava-tkach"
 		}
 	],
+	"chypollyno-2004": [
+		{
+			"graduateId": "maryna-vishtaliuk-sukhanova"
+		}
+	],
 	"chypollyno-2010": [
+		{
+			"graduateId": "kristina-slivka-spivak"
+		},
 		{
 			"graduateId": "liliia-halosa"
 		},
 		{
 			"graduateId": "tetiana-kamelevska"
-		}
-	],
-	"chypolynno-2004": [
-		{
-			"graduateId": "maryna-vishtaliuk-sukhanova"
 		}
 	],
 	"detskyi-sadyk-2010": [
@@ -376,9 +372,7 @@
 	"etiudy-2014": [
 		{
 			"graduateId": "daniela-rybalchenko"
-		}
-	],
-	"etiudy-2014-2": [
+		},
 		{
 			"graduateId": "heorhii-topor"
 		},
@@ -631,6 +625,9 @@
 		}
 	],
 	"kazky-kriz-kaminnia-2015": [
+		{
+			"graduateId": "anfisa-lazebna"
+		},
 		{
 			"graduateId": "daiana-ponomarenko"
 		}
@@ -973,9 +970,7 @@
 	"oliver-tvist-2015": [
 		{
 			"graduateId": "daria-rybalchenko"
-		}
-	],
-	"olyver-tvyst-2015": [
+		},
 		{
 			"graduateId": "heorhii-topor"
 		}
@@ -1191,11 +1186,6 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "шуліка, поштар"
-		}
-	],
-	"skazky-skvoz-kamen-2015": [
-		{
-			"graduateId": "anfisa-lazebna"
 		}
 	],
 	"skazky-skvoz-kamny-2014": [
@@ -1742,12 +1732,10 @@
 	],
 	"zorianyi-ekspres-2016": [
 		{
-			"graduateId": "daria-rybalchenko"
-		}
-	],
-	"zvednyi-ekspres-2016": [
-		{
 			"graduateId": "daniela-rybalchenko"
+		},
+		{
+			"graduateId": "daria-rybalchenko"
 		}
 	],
 	"zvezdnyi-ekspress-2016": [
