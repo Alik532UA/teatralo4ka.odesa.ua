@@ -490,9 +490,6 @@
 				"id": "svitlana-ryskina"
 			},
 			{
-				"id": "tetiana-isachkina"
-			},
-			{
 				"id": "fedir-tkach"
 			}
 		],
@@ -631,6 +628,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -1324,6 +1324,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -3608,6 +3611,9 @@
 		],
 		"masters": [
 			{
+				"id": "tetiana-isachkina"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -4908,6 +4914,14 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			},
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -5778,6 +5792,9 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-ryskina"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -6503,6 +6520,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -7715,6 +7735,11 @@
 		"graduationYear": 2008,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
