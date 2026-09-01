@@ -83,7 +83,7 @@ test.describe('сторінка вистави', () => {
 		).toBeGreaterThanOrEqual(2);
 
 		await expect(page.getByTestId('play-cast-alik-zapolnov')).toBeVisible();
-		await expect(page.getByTestId('play-cast-maryna-vishtaliuk-sukhanova')).toBeVisible();
+		await expect(page.getByTestId('play-cast-maryna-sukhanova')).toBeVisible();
 	});
 
 	/**

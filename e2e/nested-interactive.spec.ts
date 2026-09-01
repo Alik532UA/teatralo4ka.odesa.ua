@@ -10,7 +10,7 @@ import { PUBLIC_PAGES } from './pages';
  *
  * Розбирач HTML не пускає посилання в посилання: він РОЗРИВАЄ зовнішній тег і
  * переставляє вміст. Svelte у dev натомість валить сторінку цілком
- * (`node_invalid_placement_ssr`): анкета Марини Вішталюк не рендерилася взагалі
+ * (`node_invalid_placement_ssr`): анкета Марини Суханової не рендерилася взагалі
  * — спрацьовувала межа помилки, а в консолі було лише «[object Object]».
  * Терпимість тут нульова.
  *
@@ -52,7 +52,7 @@ import { PUBLIC_PAGES } from './pages';
 /** Сторінки поза `PUBLIC_ENTRIES`: у них власні генератори адрес. */
 const EXTRA_PAGES = [
 	'/projects/galaxy-graduates/Alik',
-	'/projects/galaxy-graduates/maryna-vishtaliuk-sukhanova',
+	'/projects/galaxy-graduates/maryna-sukhanova',
 	'/projects/galaxy-graduates/groups',
 	'/projects/galaxy-graduates/groups/zakhysnyky-teatralnykh-kulis',
 	'/projects/galaxy-graduates/festivals',
