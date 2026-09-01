@@ -1149,7 +1149,8 @@
 		],
 		"status": "honorary",
 		"subjects": [
-			"Вокал"
+			"Вокал",
+			"Груповий вокал"
 		],
 		"category": "teachers",
 		"photo": "/masters/iryna-kaplia.webp",
@@ -1245,7 +1246,8 @@
 		],
 		"status": "former",
 		"subjects": [
-			"Вокал"
+			"Вокал",
+			"Хор"
 		],
 		"photo": "/masters/liliia-velychko.webp",
 		"category": "teachers",
@@ -1330,6 +1332,9 @@
 			"theatre"
 		],
 		"status": "former",
+		"subjects": [
+			"Сценічна мова"
+		],
 		"photo": "/masters/svitlana-vitiuk.webp",
 		"roleTitle": "викладачка сценічного мовлення першої категорії",
 		"portrait": "/masters/portraits/svitlana-vitiuk.webp",
@@ -1775,7 +1780,8 @@
 		"roleTitle": "викладачка музичної теорії та сольфеджіо",
 		"subjects": [
 			"Музична теорія",
-			"Сольфеджіо"
+			"Сольфеджіо",
+			"Музична література"
 		]
 	},
 	{
@@ -2427,5 +2433,23 @@
 		"category": "directors",
 		"portrait": "/masters/portraits/mykhailo-drobotov.webp",
 		"visible": false
+	},
+	{
+		"id": "volodymyr-radzikhovskyi",
+		"slug": "volodymyr-radzikhovskyi",
+		"displayName": "Володимир РАДЗІХОВСЬКИЙ",
+		"fullName": "Радзіховський Володимир Анатолійович",
+		"displayNameEn": "Volodymyr RADZIKHOVSKYI",
+		"fullNameEn": "Volodymyr Radzikhovskyi",
+		"departments": [
+			"theatre"
+		],
+		"status": "former",
+		"subjects": [
+			"Сценічний рух"
+		],
+		"category": "teachers",
+		"visible": false,
+		"unconfirmed": true
 	}
 ]
