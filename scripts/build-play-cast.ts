@@ -33,7 +33,7 @@ interface AnketaPlay {
 	playId?: string;
 	role?: string;
 	text?: string;
-	item?: string;
+	items?: string[];
 	fromRegistry?: boolean;
 }
 
@@ -49,11 +49,10 @@ export interface CastEntry {
 	graduateId: string;
 	role?: string;
 	/**
-	 * Номер програми — уривок вечора. Немає: людина назвала вечір, а не уривок,
-	 * і в якому саме номері вона грала, ми не знаємо. Пояснення рівня — у
-	 * докблоці `PlayProgrammeItem`.
+	 * Номери програми — уривки вечора. Порожньо: людина назвала вечір, а не
+	 * уривок. Перелік, бо в одному вечорі буває кілька уривків однієї людини.
 	 */
-	item?: string;
+	items?: string[];
 	/** Рядок зі списку школи, а не зі слів людини. Див. `GraduatePlay.fromRegistry`. */
 	fromRegistry?: boolean;
 }
@@ -82,7 +81,7 @@ export function buildCast(): Record<string, CastEntry[]> {
 			if (!play.playId) continue;
 			const entry: CastEntry = { graduateId: id };
 			if (play.role) entry.role = play.role;
-			if (play.item) entry.item = play.item;
+			if (play.items?.length) entry.items = play.items;
 			if (play.fromRegistry) entry.fromRegistry = true;
 			(cast[play.playId] ??= []).push(entry);
 		}

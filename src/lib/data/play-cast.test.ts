@@ -81,12 +81,13 @@ describe('склад вистав', () => {
 			if (!play) continue; // про невідому виставу кричить інша перевірка
 			const known = new Set((play.programme ?? []).map((item) => item.id));
 			for (const entry of list) {
-				if (!entry.item) continue;
-				if (known.has(entry.item)) continue;
-				bad.push(
-					`${playId}: ${entry.graduateId} посилається на номер «${entry.item}», ` +
-						`а в програмі вистави є ${known.size > 0 ? [...known].join(', ') : 'взагалі нічого'}`
-				);
+				for (const item of entry.items ?? []) {
+					if (known.has(item)) continue;
+					bad.push(
+						`${playId}: ${entry.graduateId} посилається на номер «${item}», ` +
+							`а в програмі вистави є ${known.size > 0 ? [...known].join(', ') : 'взагалі нічого'}`
+					);
+				}
 			}
 		}
 		expect(
@@ -102,7 +103,7 @@ describe('склад вистав', () => {
 		expect(зПрограмою.length, 'жодного вечора з програмою — перевірка вище нічого не стверджує').toBeGreaterThan(0);
 		const зНомером = Object.values(cast)
 			.flat()
-			.filter((e) => e.item);
+			.filter((e) => e.items?.length);
 		expect(зНомером.length, 'жодного складу з номером — те саме').toBeGreaterThan(0);
 	});
 

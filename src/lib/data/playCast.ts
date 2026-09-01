@@ -24,8 +24,8 @@ import { GRADUATES, type GraduateIndexEntry } from './graduates';
 export interface CastEntry {
 	graduateId: string;
 	role?: string;
-	/** Номер програми — уривок вечора. Див. `PlayProgrammeItem` у `plays.ts`. */
-	item?: string;
+	/** Номери програми — уривки вечора. Див. `PlayProgrammeItem` у `plays.ts`. */
+	items?: string[];
 	/** Рядок зі списку школи, а не зі слів людини. Див. `GraduatePlay.fromRegistry`. */
 	fromRegistry?: boolean;
 }
@@ -36,8 +36,8 @@ export const PLAY_CAST = castData as Record<string, CastEntry[]>;
 export interface CastMember {
 	graduate: GraduateIndexEntry;
 	role?: string;
-	/** Номер програми, у якому людина грала. Немає — вона назвала весь вечір. */
-	item?: string;
+	/** Номери програми, у яких людина грала. Порожньо — вона назвала весь вечір. */
+	items?: string[];
 	/** Ім'я прийшло зі списку школи, а не зі слів людини. */
 	fromRegistry?: boolean;
 }
@@ -57,7 +57,7 @@ export function castOf(playId: string): CastMember[] {
 			members.push({
 				graduate,
 				role: entry.role,
-				item: entry.item,
+				items: entry.items,
 				fromRegistry: entry.fromRegistry
 			});
 	}

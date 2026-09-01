@@ -43,7 +43,9 @@
 			"year": 2025,
 			"text": "Уривки з класики: «Ромео і Джульєтта», Джульєтта",
 			"playId": "uryvky-z-klasyky-2025",
-			"item": "romeo-i-dzhulietta"
+			"items": [
+				"romeo-i-dzhulietta"
+			]
 		}
 	],
 	"bio": [

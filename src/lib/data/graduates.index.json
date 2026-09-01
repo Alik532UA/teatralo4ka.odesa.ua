@@ -186,7 +186,7 @@
 		],
 		"playCount": 22,
 		"code": "Alik",
-		"profileSize": 5935
+		"profileSize": 5991
 	},
 	{
 		"id": "alina-burdeina",
@@ -225,7 +225,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 944,
+		"profileSize": 1037,
 		"playCount": 5
 	},
 	{
@@ -835,7 +835,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 954,
+		"profileSize": 1061,
 		"playCount": 5
 	},
 	{
@@ -3199,7 +3199,7 @@
 			}
 		],
 		"playCount": 2,
-		"profileSize": 781
+		"profileSize": 874
 	},
 	{
 		"id": "inna-shevchenko",
@@ -3391,7 +3391,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1368,
+		"profileSize": 1465,
 		"playCount": 8
 	},
 	{
@@ -3994,7 +3994,7 @@
 		],
 		"playCount": 8,
 		"code": "kristina-slivka-spivak",
-		"profileSize": 2534
+		"profileSize": 2678
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -7009,7 +7009,7 @@
 		],
 		"playCount": 4,
 		"code": "Sofia-Chernova",
-		"profileSize": 1318
+		"profileSize": 1332
 	},
 	{
 		"id": "sofiia-chernata",
@@ -7687,7 +7687,7 @@
 		],
 		"playCount": 2,
 		"code": "Valeriia",
-		"profileSize": 946
+		"profileSize": 960
 	},
 	{
 		"id": "valeriia-burian",
@@ -8381,7 +8381,7 @@
 		],
 		"playCount": 8,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3410,
+		"profileSize": 3439,
 		"teachers": [
 			{
 				"id": "fedir-tkach",

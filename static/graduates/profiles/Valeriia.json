@@ -32,7 +32,9 @@
 			"year": 2025,
 			"text": "Уривки з класики, «Дівчинка з Ведмедиком» - Зіна",
 			"playId": "uryvky-z-klasyky-2025",
-			"item": "divchynka-z-vedmedykom"
+			"items": [
+				"divchynka-z-vedmedykom"
+			]
 		}
 	],
 	"bio": [],

@@ -59,7 +59,7 @@
 	const номери = $derived(
 		(programme ?? []).map((item) => ({
 			item,
-			count: cast.filter((entry) => entry.item === item.id).length
+			count: cast.filter((entry) => entry.items?.includes(item.id)).length
 		}))
 	);
 
@@ -74,7 +74,7 @@
 	 */
 	const безНомера = $derived.by(() => {
 		const відомі = new Set((programme ?? []).map((item) => item.id));
-		return cast.filter((entry) => !entry.item || !відомі.has(entry.item));
+		return cast.filter((entry) => !(entry.items ?? []).some((i) => відомі.has(i)));
 	});
 
 	/**
@@ -146,7 +146,7 @@
 			? [...cast]
 			: обраний === БЕЗ_НОМЕРА
 				? безНомера
-				: cast.filter((entry) => entry.item === обраний)
+				: cast.filter((entry) => обраний !== null && entry.items?.includes(обраний))
 	);
 </script>
 

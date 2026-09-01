@@ -48,6 +48,9 @@
 			"year": 2012,
 			"text": "Уривки з драматургії 20 століття",
 			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"items": [
+				"zona"
+			],
 			"fromRegistry": true
 		},
 		{

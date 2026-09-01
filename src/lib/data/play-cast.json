@@ -2257,31 +2257,52 @@
 	"uryvky-z-dramaturhii-20-stolittia-2012": [
 		{
 			"graduateId": "alik-zapolnov",
-			"item": "toi-khto-otrymuie-liapasy"
+			"items": [
+				"toi-khto-otrymuie-liapasy"
+			]
 		},
 		{
 			"graduateId": "alina-chernobai",
+			"items": [
+				"sklianyi-zvirynets"
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "anastasiia-ivanes",
+			"items": [
+				"koly-myne-5-rokiv",
+				"rafael"
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "illia-tryfonov",
+			"items": [
+				"sklianyi-zvirynets"
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "ivan-voloshyn",
+			"items": [
+				"zona"
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "kristina-slivka-spivak",
+			"items": [
+				"toi-khto-otrymuie-liapasy"
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "volodymyr-chalchynskyi",
-			"item": "hrikh"
+			"items": [
+				"hrikh",
+				"rafael"
+			]
 		}
 	],
 	"uryvky-z-klasyky-2008": [
@@ -2348,7 +2369,9 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "Поет",
-			"item": "neznaiomka"
+			"items": [
+				"neznaiomka"
+			]
 		},
 		{
 			"graduateId": "daniil-prymachov",
@@ -2379,7 +2402,9 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "М. М.",
-			"item": "asia"
+			"items": [
+				"asia"
+			]
 		},
 		{
 			"graduateId": "anastasiia-andrianova",
@@ -2437,7 +2462,9 @@
 	"uryvky-z-klasyky-2015": [
 		{
 			"graduateId": "alik-zapolnov",
-			"item": "prynyzheni-ta-znevazheni"
+			"items": [
+				"prynyzheni-ta-znevazheni"
+			]
 		},
 		{
 			"graduateId": "anastasiia-kostina",
@@ -2544,11 +2571,15 @@
 	"uryvky-z-klasyky-2025": [
 		{
 			"graduateId": "sofia-chernova",
-			"item": "romeo-i-dzhulietta"
+			"items": [
+				"romeo-i-dzhulietta"
+			]
 		},
 		{
 			"graduateId": "valeriia-babenko",
-			"item": "divchynka-z-vedmedykom"
+			"items": [
+				"divchynka-z-vedmedykom"
+			]
 		},
 		{
 			"graduateId": "violetta-nezvinska"
