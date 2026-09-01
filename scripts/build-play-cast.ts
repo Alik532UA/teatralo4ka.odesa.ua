@@ -79,11 +79,35 @@ export function buildCast(): Record<string, CastEntry[]> {
 
 		for (const play of anketa.plays ?? []) {
 			if (!play.playId) continue;
-			const entry: CastEntry = { graduateId: id };
-			if (play.role) entry.role = play.role;
-			if (play.items?.length) entry.items = play.items;
-			if (play.fromRegistry) entry.fromRegistry = true;
-			(cast[play.playId] ??= []).push(entry);
+			/*
+			 * Людина в складі вистави трапляється РАЗ, скільки б рядків про неї не
+			 * було в анкеті.
+			 *
+			 * Рядків буває кілька: в «Уривках з класики» 2015 Алік Запольнов грав
+			 * і в «Асі» Тургенєва (роль «М. М.»), і в «Принижених та зневажених» —
+			 * два різні номери, у кожного своя роль, а роль живе в рядку. На
+			 * сторінці ж це одна людина: без злиття `{#each}` діставав два записи
+			 * з тим самим ключем і падав з `each_key_duplicate`, тобто сторінка
+			 * показу не відкривалася зовсім.
+			 *
+			 * Номери об'єднуються, роль береться перша названа, а `fromRegistry`
+			 * лишається тільки тоді, коли ЖОДЕН із рядків не є словами самої
+			 * людини: досить одного власного рядка, щоб заява перестала бути
+			 * «зі списку школи».
+			 */
+			const list = (cast[play.playId] ??= []);
+			const existing = list.find((entry) => entry.graduateId === id);
+			const entry = existing ?? { graduateId: id };
+			if (play.role && !entry.role) entry.role = play.role;
+			if (play.items?.length) {
+				entry.items = [...new Set([...(entry.items ?? []), ...play.items])];
+			}
+			if (play.fromRegistry) {
+				if (!existing) entry.fromRegistry = true;
+			} else {
+				delete entry.fromRegistry;
+			}
+			if (!existing) list.push(entry);
 		}
 	}
 

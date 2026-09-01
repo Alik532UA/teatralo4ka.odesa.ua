@@ -198,6 +198,34 @@ describe('склад вистав', () => {
 		).toEqual([]);
 	});
 
+	/*
+	 * У складі вистави людина трапляється РАЗ.
+	 *
+	 * Це не косметика: `{#each}` на сторінці показу ключований `graduate.id`, і
+	 * другий запис із тим самим ключем валить рендер із `each_key_duplicate` —
+	 * сторінка не відкривається зовсім. Заміряно: саме так сталося, щойно в
+	 * анкеті з'явилися два рядки про один вечір (різні уривки, різні ролі).
+	 *
+	 * Злиття робить `build-play-cast`; ця перевірка сторожить результат.
+	 */
+	it('у складі вистави людина трапляється рівно раз', () => {
+		const bad: string[] = [];
+		for (const [playId, list] of Object.entries(cast)) {
+			const seen = new Map<string, number>();
+			for (const entry of list) {
+				seen.set(entry.graduateId, (seen.get(entry.graduateId) ?? 0) + 1);
+			}
+			for (const [graduateId, count] of seen) {
+				if (count > 1) bad.push(`${playId}: ${graduateId} — ${count} записи`);
+			}
+		}
+		expect(
+			bad,
+			'та сама людина двічі в складі вистави — сторінка показу впаде на' +
+				' `each_key_duplicate`:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
 	it('файл зрізу лежить там, де його шукає скрипт', () => {
 		expect(fs.existsSync(path.join('src', 'lib', 'data', 'play-cast.json'))).toBe(true);
 	});
