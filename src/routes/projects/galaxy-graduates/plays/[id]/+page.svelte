@@ -3,6 +3,7 @@
 	import {
 		ArrowLeft,
 		ArrowRight,
+		Globe,
 		Theater,
 		GraduationCap,
 		Calendar,
@@ -150,7 +151,7 @@
 			Репертуар групи каже, що вистава належить її історії, а не що в ній
 			грали всі її учасники.
 		-->
-		{#if (data.primaryGroups?.length ?? 0) > 0 || (data.supportingGroups?.length ?? 0) > 0 || data.festivals.length > 0}
+		{#if (data.primaryGroups?.length ?? 0) > 0 || (data.supportingGroups?.length ?? 0) > 0}
 			<section class="play-section" aria-labelledby="play-where-title">
 				<div class="play-heading">
 					<span class="play-heading__icon play-heading__icon--primary"><Theater size={20} aria-hidden="true" /></span>
@@ -188,6 +189,29 @@
 							</li>
 						{/each}
 					{/if}
+				</ul>
+			</section>
+		{/if}
+
+		<!--
+			ФЕСТИВАЛІ — окремий розділ, а не плашка серед курсів.
+			
+			Доти вони стояли в тому самому переліку, під заголовком «У репертуарі
+			групи», і «Мрій-Дім» читався як ще один курс школи. Це різні речі:
+			курс — хто грав, фестиваль — куди возили.
+		-->
+		{#if data.festivals.length > 0}
+			<section class="play-section" aria-labelledby="play-festivals-title">
+				<div class="play-heading">
+					<span class="play-heading__icon play-heading__icon--primary">
+						<Globe size={20} aria-hidden="true" />
+					</span>
+					<h2 id="play-festivals-title" class="play-heading__title">
+						{$t('galaxy.festivalsTitle')}
+					</h2>
+					<span class="play-heading__count">{data.festivals.length}</span>
+				</div>
+				<ul class="chips" data-testid="play-festivals-list">
 					{#each data.festivals as festival (festival.slug)}
 						<li>
 							<a
