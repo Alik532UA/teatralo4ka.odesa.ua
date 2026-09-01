@@ -3,6 +3,7 @@
 	import { List, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
+	import { isNearBox } from '$lib/utils/pointerProximity';
 
 	/**
 	 * Керування сценою галактики: переліки й кнопка анкети.
@@ -37,6 +38,55 @@
 
 	let menuOpen = $state(false);
 
+	/**
+	 * Курсор БІЛЯ кнопок — і три рівні прозорості: 50% удалині, 75% поблизу,
+	 * 100% під курсором.
+	 *
+	 * ## Чому відстань рахується, а не робиться зона наведення
+	 *
+	 * Простіше було б розтягнути невидиму зону навколо рядка (`::before` із
+	 * від'ємним `inset`) і взяти звичайний `:hover`. Ціна цього — зона перехоплює
+	 * натискання: смуга 120 пікселів навколо кнопок накрила б зірки, і людина, що
+	 * цілиться в обличчя біля краю, натискала б у порожнє.
+	 *
+	 * Відстань до прямокутника цього не робить: слухач пасивний, нічого не
+	 * перехоплює, а `requestAnimationFrame` не дає рахувати частіше за кадр.
+	 *
+	 * Сама математика — у `utils/pointerProximity` під звичайним тестом: у
+	 * прихованій панелі цього оточення кадрів немає, тож `requestAnimationFrame`
+	 * не викликається й поведінку там не заміряти.
+	 *
+	 * ## Чому 120 пікселів
+	 *
+	 * Приблизно два діаметри кнопки: далі за це рух курсора вже не «до кнопок», а
+	 * просто рух по галактиці. Менше — і плашки не встигали б з'явитися до того,
+	 * як курсор дійде.
+	 */
+	const ЗОНА = 120;
+
+	let controlsEl = $state<HTMLElement | null>(null);
+	let near = $state(false);
+
+	$effect(() => {
+		const el = controlsEl;
+		if (!el) return;
+
+		let frame = 0;
+		const onMove = (event: PointerEvent) => {
+			if (frame) return;
+			frame = requestAnimationFrame(() => {
+				frame = 0;
+				near = isNearBox({ x: event.clientX, y: event.clientY }, el.getBoundingClientRect(), ЗОНА);
+			});
+		};
+
+		window.addEventListener('pointermove', onMove, { passive: true });
+		return () => {
+			window.removeEventListener('pointermove', onMove);
+			if (frame) cancelAnimationFrame(frame);
+		};
+	});
+
 	/*
 	 * Вихід із повного екрана ЗЗОВНІ — клавішею Esc або системною кнопкою —
 	 * сервіс сам не помітить: подію дає документ. Життєвий цикл слухача веде
@@ -61,7 +111,12 @@
 	}
 </script>
 
-<div class="stage__controls" class:stage__controls--open={menuOpen}>
+<div
+	class="stage__controls"
+	class:stage__controls--open={menuOpen}
+	class:stage__controls--near={near}
+	bind:this={controlsEl}
+>
 	<!--
 		Значок-перемикач: на широкому екрані його немає (CSS), на телефоні він
 		єдине, що видно, доки меню згорнуте.
@@ -83,16 +138,6 @@
 	</button>
 
 	<div class="stage__items">
-		<button
-			type="button"
-			class="stage__roster-btn"
-			onclick={() => pick(onopenroster)}
-			data-testid="galaxy-open-roster-btn"
-		>
-			<List size={18} aria-hidden="true" />
-			<span>{$t('galaxy.all')}</span>
-			<span class="stage__total" data-testid="galaxy-roster-total-count">{total}</span>
-		</button>
 
 		<a
 			class="stage__roster-btn stage__roster-btn--nav"
@@ -125,6 +170,23 @@
 			<Theater size={18} aria-hidden="true" />
 			<span>{$t('galaxy.playsTitle')}</span>
 		</a>
+
+		<!--
+			«Усі випускники» стоїть ПІСЛЯ трьох переліків і поруч із плюсом, хоч і
+			є головною дією: так просив замовник, і в цьому є сенс — праворуч
+			найближче до великого пальця й до курсору, що йде до кнопки анкети.
+			Три переліки поруч трохи менші за розміром: вони другорядні.
+		-->
+		<button
+			type="button"
+			class="stage__roster-btn"
+			onclick={() => pick(onopenroster)}
+			data-testid="galaxy-open-roster-btn"
+		>
+			<List size={18} aria-hidden="true" />
+			<span>{$t('galaxy.all')}</span>
+			<span class="stage__total" data-testid="galaxy-roster-total-count">{total}</span>
+		</button>
 
 		<button
 			type="button"
@@ -226,6 +288,20 @@
 			border-color 0.2s ease;
 	}
 
+	/*
+	 * Три переліки — трохи менші за «Усі випускники»: вони другорядні, і різниця
+	 * в розмірі каже це без слів.
+	 *
+	 * Лише на широкому екрані. Гейт `e2e/touch-targets` міряє цілі дотику на
+	 * мобільному з порогом 44px, і в меню ці ж кнопки вертаються до 44 (див.
+	 * медіазапит нижче).
+	 */
+	.stage__roster-btn--nav {
+		min-height: 38px;
+		padding: 0 0.8rem;
+		font-size: 0.82rem;
+	}
+
 	.stage__roster-btn:hover {
 		background: rgb(12 22 56 / 0.85);
 		border-color: rgb(140 190 255 / 0.6);
@@ -305,6 +381,52 @@
 	}
 
 	/*
+	 * Три рівні прозорості на комп'ютері: 50% удалині, 75% поблизу, 100% під
+	 * курсором.
+	 *
+	 * Прозорість несе КОЖНА кнопка, а не рядок: `opacity` на батькові
+	 * перемножується з дитячою, і кнопка під курсором не змогла б стати
+	 * яскравішою за рядок — 0.5 × 1 це все одно 0.5.
+	 *
+	 * Рівень приходить ЗМІННОЮ на контейнері, а не селектором
+	 * `.stage__controls--near .stage__items > *`. Селектор теж працював би —
+	 * специфічності в нього досить, — але змінна тримає всі три рівні в трьох
+	 * рядках поруч, а не розкидає по вкладених селекторах, і не залежить від
+	 * того, як scoping Svelte перепише спадковість (`:where(.s-hash)` у
+	 * скомпільованих правилах).
+	 *
+	 * Заміряти це в прихованій браузерній панелі можна лише з вимкненою
+	 * транзицією: кадрів рендеру там немає, тож `transition: opacity` застигає на
+	 * початковому значенні, і `getComputedStyle` віддає 0.5 навіть тоді, коли
+	 * змінна вже 0.75. Півгодини пішло на пошук «дефекту», якого не було.
+	 *
+	 * `:focus-visible` теж дає повну видимість: інакше кнопка, до якої дійшли
+	 * клавіатурою, лишалася б напівпрозорою — тобто фокус було б не видно.
+	 *
+	 * Лише там, де є курсор і широкий екран. На дотику наближення не існує, а в
+	 * меню на телефоні напівпрозорі пункти читалися б як недоступні.
+	 */
+	@media (hover: hover) and (min-width: 641px) {
+		.stage__controls {
+			--stage-dim: 0.5;
+		}
+
+		.stage__controls--near {
+			--stage-dim: 0.75;
+		}
+
+		.stage__items > * {
+			opacity: var(--stage-dim);
+			transition: opacity 0.25s ease;
+		}
+
+		.stage__items > *:hover,
+		.stage__items > *:focus-visible {
+			opacity: 1;
+		}
+	}
+
+	/*
 	 * Телефон: усе за одним значком.
 	 *
 	 * Межа 640 — не кругле число зі стелі: п'ять кнопок у рядок займають
@@ -381,6 +503,13 @@
 
 		.stage__controls--open .stage__label {
 			display: inline;
+		}
+
+		/* У меню всі пункти однакові, і ціль дотику знову 44px. */
+		.stage__controls--open .stage__roster-btn--nav {
+			min-height: 44px;
+			padding: 0 1rem;
+			font-size: 0.9rem;
 		}
 	}
 </style>

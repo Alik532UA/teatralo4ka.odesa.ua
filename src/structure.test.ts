@@ -148,6 +148,14 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-09-01: `GalaxyStageControls.svelte` 300 → 330. Керування сценою
+ *   галактики — п'ять кнопок, і кожна вимога до них додала свій шар: меню за
+ *   одним значком на телефоні (з підписами, яких у рядку немає), повний екран
+ *   із власним сервісом, три рівні прозорості за відстанню до курсора. Ділити
+ *   нема по чому: усе це — вигляд і поведінка ОДНОГО рядка кнопок, і два
+ *   компоненти замість одного означали б спільний стан «меню відкрите» між
+ *   ними. Математику відстані вже винесено в `utils/pointerProximity`, а сам
+ *   повний екран — у `services/fullscreen`.
  * 2026-09-01: `GraduateRosterFilters.svelte` 510 → 390 (СТЕЛЯ ОПУСТИЛАСЯ).
  *   Додався другий випадайний список — фільтр по майстру курсу, — і файл
  *   перевалив стелю на 62 рядки. Майже всі вони були повтором: кожен список
@@ -234,6 +242,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
+	'src/lib/components/GalaxyStageControls.svelte': 330,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
