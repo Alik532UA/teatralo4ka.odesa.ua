@@ -2,7 +2,13 @@
 	import { locale } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { GRADUATES, graduateAddress, graduateProfilePath } from '$lib/data/graduates';
+	import {
+		GRADUATES,
+		graduateAddress,
+		graduateProfilePath,
+		type GraduateIndexEntry
+	} from '$lib/data/graduates';
+	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 
 	/**
 	 * Рядок мініатюр випускників — по СПИСКУ ключів, а не по одній сутності.
@@ -72,6 +78,17 @@
 		 */
 		max?: number;
 		/**
+		 * Натискання відкриває картку НА ЦІЙ сторінці (типово), а не веде на іншу.
+		 *
+		 * `false` потрібне там, де картка САМА і є сторінкою — на власній сторінці
+		 * випускника. Там стану нікому малювати: приймача немає, і перехоплене
+		 * натискання лишало адресу зміненою, а на екрані того самого господаря
+		 * сторінки. Заміряно: адреса ставала
+		 * `/projects/galaxy-graduates/oleksandr-chehlatonev`, а заголовок і далі
+		 * «Алік Запольнов».
+		 */
+		openInPlace?: boolean;
+		/**
 		 * Показати ВСІХ, скільком би це не коштувало рядків.
 		 *
 		 * Знімає й `max`, і замір, і плашку «+N»: у деяких місцях половина складу
@@ -119,6 +136,7 @@
 		linked = true,
 		testIdPrefix,
 		max = 12,
+		openInPlace = true,
 		showAll = false,
 		fitToWidth = false,
 		inline = false
@@ -190,6 +208,32 @@
 	});
 
 	const ordered = $derived(mixed ?? byPhoto);
+
+	/**
+	 * Натискання відкриває картку НА ЦІЙ сторінці, а не веде на іншу.
+	 *
+	 * Доти обличчя були звичайними посиланнями, і читач, який натиснув склад
+	 * вистави на сторінці викладача, опинявся в галактиці — а закривши картку,
+	 * мусив шукати викладача заново. Потік учнів на тій самій сторінці давно
+	 * поводився правильно, і різниці між ним і рештою облич ніщо не виправдовувало.
+	 *
+	 * `<a href>` при цьому ЛИШАЄТЬСЯ, і це головне в цьому обробнику. Адреса
+	 * потрібна пошуковикам, вона показується в статусному рядку, і саме вона
+	 * відкривається середньою кнопкою чи з Ctrl — тобто «відкрити в новій вкладці»
+	 * працює й далі. Перехоплюється РІВНО просте натискання лівою.
+	 *
+	 * Сторінка мусить малювати `GraduateCardOnPage` — інакше стан покладеться, а
+	 * показувати картку буде нікому.
+	 */
+	function openHere(event: MouseEvent, mate: GraduateIndexEntry) {
+		if (!openInPlace) return;
+		/* Модифікатори й не-ліва кнопка — не наша справа: це навмисне «відкрити
+		   інакше», і забирати його в читача ми не маємо права. */
+		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+			return;
+		event.preventDefault();
+		openGraduateModal(mate);
+	}
 
 	/**
 	 * Скільки мініатюр ВМІЩУЄТЬСЯ — із заміру, а не з припущення.
@@ -300,6 +344,7 @@
 						class="mates__item"
 						href={localizedPath(graduateProfilePath(graduateAddress(mate)), lang)}
 						title={mate.name}
+						onclick={(event) => openHere(event, mate)}
 						data-testid="{testIdPrefix}-link-{mate.id}"
 					>
 						{#if photo}

@@ -17,6 +17,7 @@
 	import { playGroupNames } from '$lib/data/groups';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import PlaysScope from '$lib/components/galaxy/PlaysScope.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
@@ -287,6 +288,13 @@
 		{/if}
 	</div>
 </main>
+
+<!--
+	Обличчя в рядках відкривають картку ТУТ, а не ведуть у галактику: інакше
+	читач, який натиснув склад вистав, лишався б потім у галактиці й шукав цю
+	сторінку заново. Чому саме так — у докблоці `GraduateCardOnPage`.
+-->
+<GraduateCardOnPage />
 
 <style>
 	.plays-page {
