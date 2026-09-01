@@ -1010,6 +1010,8 @@
     },
     "filterAllDepts": "Усі відділення",
     "filterAllMasters": "Усі майстри курсів",
+    "enterFullscreen": "На весь екран",
+    "exitFullscreen": "Вийти з повного екрана",
     "filterMastersShort": "Майстри",
     "filterAllProfiles": "Усі випускники",
     "filterWithProfile": "З анкетою",

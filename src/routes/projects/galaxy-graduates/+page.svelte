@@ -4,7 +4,9 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { List, Plus, GraduationCap, Globe, Theater } from 'lucide-svelte';
+	import { Expand, Shrink } from 'lucide-svelte';
+	import { fullscreen } from '$lib/services/fullscreen.svelte';
+	import GalaxyStageControls from '$lib/components/GalaxyStageControls.svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
@@ -306,6 +308,13 @@
 		pushState(profileHref(graduate), { graduateAddress: graduateAddress(graduate) });
 	}
 
+	/*
+	 * Вихід ЗЗОВНІ — клавішею Esc або системною кнопкою — сервіс сам не помітить:
+	 * подію дає документ. Життєвий цикл слухача веде сторінка, бо в сервісі
+	 * (module-level singleton) рун немає.
+	 */
+	$effect(() => fullscreen.watch());
+
 	/**
 	 * Клас на `<body>`, а не правки в layout.
 	 *
@@ -432,62 +441,40 @@
 <div class="stage">
 	<GraduateGalaxy onselect={openGraduate} />
 
-	<div class="stage__controls">
-		<button
-			type="button"
-			class="stage__roster-btn"
-			onclick={openRoster}
-			data-testid="galaxy-open-roster-btn"
-		>
-			<List size={18} aria-hidden="true" />
-			<span>{$t('galaxy.all')}</span>
-			<span class="stage__total" data-testid="galaxy-roster-total-count">{data.graduates.length}</span>
-		</button>
+	<!--
+		Повний екран — праворуч ЗВЕРХУ, окремо від нижнього рядка переліків.
+		Причина не в композиції: у повному екрані ховається шапка сайту, і якби
+		кнопка стояла в ній, виходу з режиму не лишилося б.
 
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/groups/', locale)}
-			data-testid="galaxy-groups-link"
-		>
-			<GraduationCap size={18} aria-hidden="true" />
-			<span>{$t('galaxy.groupsTitle')}</span>
-		</a>
+		Значок — СТРІЛКИ, а не кути: `Maximize`/`Minimize` читаються як рамка, у
+		них немає напрямку, тобто вони не кажуть, куди поїде екран. Той самий
+		вибір, що в сусідньому `VetCrewGames`, звідки перенесено й сам сервіс.
+	-->
+	<button
+		type="button"
+		class="stage__fullscreen-btn"
+		onclick={() => fullscreen.toggle()}
+		title={fullscreen.active
+			? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+			: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+		aria-label={fullscreen.active
+			? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+			: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+		data-testid="galaxy-fullscreen-btn"
+	>
+		{#if fullscreen.active}
+			<Shrink size={20} aria-hidden="true" />
+		{:else}
+			<Expand size={20} aria-hidden="true" />
+		{/if}
+	</button>
 
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/festivals/', locale)}
-			data-testid="galaxy-festivals-link"
-		>
-			<Globe size={18} aria-hidden="true" />
-			<span>{$t('galaxy.festivalsTitle')}</span>
-		</a>
-
-		<!--
-			Вистави — третій перелік поруч із групами й фестивалями. Доти сторінки
-			вистав існували, але дістатися до них можна було лише з чужої анкети
-			чи репертуару групи: спільного входу не було, і адреса /plays/ віддавала
-			404.
-		-->
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/plays/', locale)}
-			data-testid="galaxy-plays-link"
-		>
-			<Theater size={18} aria-hidden="true" />
-			<span>{$t('galaxy.playsTitle')}</span>
-		</a>
-
-		<button
-			type="button"
-			class="stage__add-btn"
-			onclick={openForm}
-			title={$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}
-			aria-label={$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}
-			data-testid="galaxy-open-form-btn"
-		>
-			<Plus size={20} aria-hidden="true" />
-		</button>
-	</div>
+	<GalaxyStageControls
+		total={data.graduates.length}
+		{locale}
+		onopenroster={openRoster}
+		onopenform={openForm}
+	/>
 </div>
 
 <GraduateRoster
@@ -551,73 +538,41 @@
 	 * `left` разом із `right` і `justify-content: flex-end` — щоб перенесені
 	 * кнопки лишалися притиснутими до правого краю, а не розповзалися.
 	 */
-	.stage__controls {
+	/*
+	 * Та сама пігулка, що в переліків знизу, але кругла й одна: підпису вона не
+	 * має, бо в кутку екрана місце коштує дорого, а значок зі стрілками читається
+	 * без слів.
+	 */
+	.stage__fullscreen-btn {
 		position: absolute;
 		z-index: 3;
-		left: clamp(0.75rem, 2vw, 1.5rem);
+		top: clamp(0.75rem, 2vh, 1.5rem);
 		right: clamp(0.75rem, 2vw, 1.5rem);
-		bottom: clamp(0.75rem, 2vh, 1.5rem);
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.stage__roster-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
+		display: grid;
+		place-items: center;
 		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
-		min-height: 44px;
-		padding: 0 1rem;
+		width: 44px;
+		height: 44px;
 		border: 1px solid rgb(255 255 255 / 0.22);
 		border-radius: 999px;
 		background: rgb(5 10 31 / 0.72);
 		color: var(--galaxy-text);
-		font: inherit;
-		font-size: 0.9rem;
 		cursor: pointer;
-		backdrop-filter: blur(4px);
-		transition: background 0.2s ease, border-color 0.2s ease;
-	}
-
-	.stage__roster-btn:hover {
-		background: rgb(12 22 56 / 0.85);
-		border-color: rgb(140 190 255 / 0.6);
-	}
-
-	.stage__add-btn {
-		display: grid;
-		place-items: center;
-		width: 44px;
-		height: 44px;
-		border: 1px solid rgb(140 190 255 / 0.4);
-		border-radius: 50%;
-		background: rgb(5 10 31 / 0.72);
-		color: #cfe4ff;
-		cursor: pointer;
-		backdrop-filter: blur(4px);
+		backdrop-filter: blur(8px);
 		transition:
-			transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-			background 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
+			border-color var(--transition-base),
+			background var(--transition-base);
+	}
+	.stage__fullscreen-btn:hover,
+	.stage__fullscreen-btn:focus-visible {
+		border-color: rgb(140 190 255 / 0.6);
+		background: rgb(5 10 31 / 0.9);
 	}
 
-	.stage__add-btn:hover {
-		background: rgb(12 22 56 / 0.9);
-		border-color: rgb(140 190 255 / 0.8);
-		color: #fff;
-		transform: rotate(90deg) scale(1.08);
-	}
 
-	.stage__add-btn:active {
-		transform: rotate(90deg) scale(0.92);
-	}
 
-	.stage__total {
-		opacity: 0.65;
-		font-variant-numeric: tabular-nums;
-	}
+
+
+
+
 </style>

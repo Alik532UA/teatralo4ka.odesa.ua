@@ -82,7 +82,9 @@ const VOCABULARY = [
 			},
 			{ file: 'src/lib/components/GroupRepertoire.svelte', marker: 'section-plays-title' },
 			{
-				file: 'src/routes/projects/galaxy-graduates/+page.svelte',
+				// Керування сценою переїхало зі сторінки в окремий компонент:
+				// на телефоні ці кнопки ховаються за одним значком.
+				file: 'src/lib/components/GalaxyStageControls.svelte',
 				marker: 'galaxy-plays-link'
 			},
 			{

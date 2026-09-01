@@ -31,8 +31,8 @@
  * більше немає. CRLF стереже сам тест, а не зайвий крок у ланцюжку.
  */
 export function bioParagraphs(bio: string | null | undefined): string[] {
-  return (bio ?? "")
-    .split(/\n\s*\n/)
-    .map((part) => part.trim())
-    .filter(Boolean);
+	return (bio ?? "")
+		.split(/\n\s*\n/)
+		.map((part) => part.trim())
+		.filter(Boolean);
 }

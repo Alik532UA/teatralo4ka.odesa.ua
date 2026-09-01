@@ -1010,6 +1010,8 @@
     },
     "filterAllDepts": "All departments",
     "filterAllMasters": "All course masters",
+    "enterFullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
     "filterMastersShort": "Masters",
     "filterAllProfiles": "All graduates",
     "filterWithProfile": "With profile",
