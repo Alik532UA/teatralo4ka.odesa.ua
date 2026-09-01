@@ -1433,6 +1433,32 @@
 			"graduateId": "yan-slobodeniuk"
 		}
 	],
+	"uryvky-z-dramaturhii-20-stolittia-2012": [
+		{
+			"graduateId": "alik-zapolnov",
+			"item": "toi-khto-otrymuie-liapasy"
+		}
+	],
+	"uryvky-z-klasyky-2013": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "Поет",
+			"item": "neznaiomka"
+		}
+	],
+	"uryvky-z-klasyky-2014": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "М. М.",
+			"item": "asia"
+		}
+	],
+	"uryvky-z-klasyky-2015": [
+		{
+			"graduateId": "alik-zapolnov",
+			"item": "prynyzheni-ta-znevazheni"
+		}
+	],
 	"uryvky-z-klasyky-2016": [
 		{
 			"graduateId": "anastasiia-ihnatovych"
@@ -1451,31 +1477,9 @@
 			"graduateId": "violetta-nezvinska"
 		}
 	],
-	"uryvky-z-klasyky-asia-i-turhenev-2014": [
-		{
-			"graduateId": "alik-zapolnov",
-			"role": "М. М."
-		}
-	],
 	"uryvky-z-klasyky-mama-2024": [
 		{
 			"graduateId": "daria-kristiian"
-		}
-	],
-	"uryvky-z-klasyky-neznaiomka-o-bloka-2013": [
-		{
-			"graduateId": "alik-zapolnov",
-			"role": "Поет"
-		}
-	],
-	"uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012": [
-		{
-			"graduateId": "alik-zapolnov"
-		}
-	],
-	"uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015": [
-		{
-			"graduateId": "alik-zapolnov"
 		}
 	],
 	"use-lito-v-odyn-den-2020": [

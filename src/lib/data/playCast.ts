@@ -24,6 +24,8 @@ import { GRADUATES, type GraduateIndexEntry } from './graduates';
 export interface CastEntry {
 	graduateId: string;
 	role?: string;
+	/** Номер програми — уривок вечора. Див. `PlayProgrammeItem` у `plays.ts`. */
+	item?: string;
 }
 
 export const PLAY_CAST = castData as Record<string, CastEntry[]>;
@@ -32,6 +34,8 @@ export const PLAY_CAST = castData as Record<string, CastEntry[]>;
 export interface CastMember {
 	graduate: GraduateIndexEntry;
 	role?: string;
+	/** Номер програми, у якому людина грала. Немає — вона назвала весь вечір. */
+	item?: string;
 }
 
 /**
@@ -45,7 +49,7 @@ export function castOf(playId: string): CastMember[] {
 	const members: CastMember[] = [];
 	for (const entry of PLAY_CAST[playId] ?? []) {
 		const graduate = GRADUATES.find((g) => g.id === entry.graduateId);
-		if (graduate) members.push({ graduate, role: entry.role });
+		if (graduate) members.push({ graduate, role: entry.role, item: entry.item });
 	}
 	return members.sort((a, b) => a.graduate.name.localeCompare(b.graduate.name, 'uk'));
 }

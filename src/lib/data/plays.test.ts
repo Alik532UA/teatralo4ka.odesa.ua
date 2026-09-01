@@ -3,6 +3,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { PLAYS, getPlayById, playsByIds } from './plays';
+import { GRADUATES } from './graduates';
+import { createNameMatcher } from '$lib/utils/participantMatch';
 import { GROUPS } from './groups';
 import mastersIndex from './masters.index.json';
 import type { MasterIndexEntry } from './masters';
@@ -354,6 +356,85 @@ describe('реєстр вистав', () => {
 				`${a} і ${b} — різні назви, вони не мусять зійтися`
 			).toBe(false);
 		}
+	});
+
+	/*
+	 * У ОСНОВІ складу не буває тих, хто вже випустився.
+	 *
+	 * ## Що саме поламалося
+	 *
+	 * У джерелі «ФФ ПОКАЗИ» осередок «Учасники» часто містить лише «+Ім'я» —
+	 * це означає «склад курсу плюс ці». Склад курсу тоді успадковується з
+	 * попереднього рядка того самого курсу. Колишній розбір успадковував його
+	 * НАВМАННЯ: у «Уривках з драматургії 20 століття» 2012 року він переніс
+	 * Анісію Стасевич і Лілію Гальосу, які випустилися 2011-го, а Аліну Чернобай
+	 * і Анастасію Іванес, які ще вчилися, — не переніс.
+	 *
+	 * Заміряно перед виправленням: 23 імені в основах показів належали людям, що
+	 * випустилися раніше. Із них 15 — законні (див. нижче), а 8 були саме такою
+	 * помилкою успадкування, у чотирьох показах.
+	 *
+	 * ## Чому це правило, а не здогад
+	 *
+	 * Основа складу — це КУРС, тобто ті, хто вчиться. Випускник у виставі буває
+	 * часто (Алік Запольнов випустився 2012-го й грав до 2015-го), але він
+	 * приходить ДОДАТКОВО — і в джерелі стоїть саме зі знаком «+». Тому
+	 * `extraParticipants` це правило не перевіряє взагалі: там випускник —
+	 * норма, і заміряно шість таких.
+	 *
+	 * ## Кого правило не стосується
+	 *
+	 * Театр випускників і «Молодіжний театр «Тітри»» — трупи, де ВСІ за
+	 * визначенням випустилися. Це не виняток зі списку, а інша природа колективу,
+	 * тож перевіряється за назвою.
+	 */
+	const ALUMNI_TROUPES = ['театр випускників', 'молодіжний театр'] as const;
+
+	function isAlumniTroupe(theatreGroup: string | undefined): boolean {
+		const g = (theatreGroup ?? '').toLowerCase();
+		return ALUMNI_TROUPES.some((name) => g.includes(name));
+	}
+
+	it('в основі складу немає тих, хто випустився до цього показу', () => {
+		const match = createNameMatcher(GRADUATES);
+		const bad: string[] = [];
+		for (const play of PLAYS) {
+			if (isAlumniTroupe(play.theatreGroup)) continue;
+			for (const raw of play.participants ?? []) {
+				const graduate = match(raw);
+				const year = graduate?.graduationYear;
+				if (!year || year >= play.year) continue;
+				bad.push(
+					`${play.id} (${play.year}, ${play.theatreGroup ?? 'курс не вказано'}): ` +
+						`${raw} — випуск ${year}`
+				);
+			}
+		}
+		expect(
+			bad,
+			'у ОСНОВІ складу стоїть той, хто вже випустився. Якщо він справді грав — ' +
+				'його місце в `extraParticipants` («прийшов додатково», знак «+» у джерелі); ' +
+				'якщо це успадкування навмання — прибрати:' + bad.map((b) => `${Б}n  ${b}`).join('')
+		).toEqual([]);
+	});
+
+	it('перевірка жива: випускники в «прийшли додатково» правилом не чіпаються', () => {
+		/*
+		 * Зворотний бік того самого правила. Якби перевірка дивилася на обидва
+		 * поля, вона червоніла б на шести законних записах — і її вимкнули б.
+		 */
+		const match = createNameMatcher(GRADUATES);
+		let випускниківДодатково = 0;
+		for (const play of PLAYS) {
+			for (const raw of play.extraParticipants ?? []) {
+				const year = match(raw)?.graduationYear;
+				if (year && year < play.year) випускниківДодатково += 1;
+			}
+		}
+		expect(
+			випускниківДодатково,
+			'жодного випускника в «прийшли додатково» — перевірка вище нічого не боронить'
+		).toBeGreaterThan(0);
 	});
 
 	it('`playsByIds` віддає найновіші згори й мовчки минає невідомі ключі', () => {

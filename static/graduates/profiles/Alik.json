@@ -147,7 +147,8 @@
 		{
 			"year": 2012,
 			"text": "«Уривки з класики: Той, що отримує ляпаса», Той",
-			"playId": "uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012"
+			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"item": "toi-khto-otrymuie-liapasy"
 		},
 		{
 			"year": 2013,
@@ -157,13 +158,15 @@
 		{
 			"year": 2013,
 			"text": "«Уривки з класики: Незнайома; О. Блок», Поет",
-			"playId": "uryvky-z-klasyky-neznaiomka-o-bloka-2013",
+			"playId": "uryvky-z-klasyky-2013",
+			"item": "neznaiomka",
 			"role": "Поет"
 		},
 		{
 			"year": 2014,
 			"text": "«Уривки з класики: Ася; І. Тургенєв», М. М.",
-			"playId": "uryvky-z-klasyky-asia-i-turhenev-2014",
+			"playId": "uryvky-z-klasyky-2014",
+			"item": "asia",
 			"role": "М. М."
 		},
 		{
@@ -181,7 +184,8 @@
 		{
 			"year": 2015,
 			"text": "«Уривки з класики: Принижені та зневажені»",
-			"playId": "uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015"
+			"playId": "uryvky-z-klasyky-2015",
+			"item": "prynyzheni-ta-znevazheni"
 		},
 		{
 			"year": 2015,

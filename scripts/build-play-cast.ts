@@ -33,6 +33,7 @@ interface AnketaPlay {
 	playId?: string;
 	role?: string;
 	text?: string;
+	item?: string;
 }
 
 interface Anketa {
@@ -42,10 +43,16 @@ interface Anketa {
 	plays?: AnketaPlay[];
 }
 
-/** Один рядок складу: хто і в якій ролі. Роль може бути невідома. */
+/** Один рядок складу: хто, у якій ролі і в якому номері програми. */
 export interface CastEntry {
 	graduateId: string;
 	role?: string;
+	/**
+	 * Номер програми — уривок вечора. Немає: людина назвала вечір, а не уривок,
+	 * і в якому саме номері вона грала, ми не знаємо. Пояснення рівня — у
+	 * докблоці `PlayProgrammeItem`.
+	 */
+	item?: string;
 }
 
 const PROFILES = path.join('static', 'graduates', 'profiles');
@@ -72,6 +79,7 @@ export function buildCast(): Record<string, CastEntry[]> {
 			if (!play.playId) continue;
 			const entry: CastEntry = { graduateId: id };
 			if (play.role) entry.role = play.role;
+			if (play.item) entry.item = play.item;
 			(cast[play.playId] ??= []).push(entry);
 		}
 	}
