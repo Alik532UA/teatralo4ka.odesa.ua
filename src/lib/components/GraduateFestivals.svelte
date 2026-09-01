@@ -67,6 +67,18 @@
 	}
 </script>
 
+<!--
+	Прапори сніпетом, бо місце в рядку в них РІЗНЕ.
+	Де саме — нижче, біля кожного виклику.
+-->
+{#snippet flagsOf(festival: Festival)}
+	<span class="fests__flags">
+		{#each festival.countries as code (code)}
+			<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
+		{/each}
+	</span>
+{/snippet}
+
 {#if festivals.length}
 	<div class="fests" data-testid="{testIdPrefix}-list">
 		{#if showTitle}
@@ -86,6 +98,13 @@
 						<span class="fests__name">
 							{isEn && festival.nameEn ? festival.nameEn : festival.name}
 						</span>
+						<!--
+							Без мініатюр прапор стоїть УСЕРЕДИНІ плашки: сама плашка й є
+							тут візуальною межею рядка, і прапор поза нею читався як
+							нічий. Так було в анкеті випускника, доки прапори не
+							переїхали звідси заради мініатюр.
+						-->
+						{#if !showMembers}{@render flagsOf(festival)}{/if}
 					</a>
 
 					<!--
@@ -95,8 +114,7 @@
 						лінії.
 						Сестринські до посилання, а не всередині: мініатюри самі є
 						посиланнями, а `<a>` в `<a>` валить сторінку (гейт
-						`nested-interactive`). Саме тому й прапори переїхали з
-						посилання сюди — інакше вони опинилися б за мініатюрами.
+						`nested-interactive`).
 					-->
 					{#if showMembers}
 						<!--
@@ -113,11 +131,11 @@
 						/>
 					{/if}
 
-					<span class="fests__flags">
-						{#each festival.countries as code (code)}
-							<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
-						{/each}
-					</span>
+					<!--
+						З мініатюрами плашка обіймає лише назву, а межею рядка стає сама
+						картка — тож прапор іде за обличчями, до її правого краю.
+					-->
+					{#if showMembers}{@render flagsOf(festival)}{/if}
 				</li>
 			{/each}
 		</ul>
