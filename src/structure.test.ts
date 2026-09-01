@@ -164,6 +164,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   автогри світлішають лише під курсором. Правила мусять жити тут: обидва
  *   елементи — власна розмітка цього віджета, і виносити три селектори в чужий
  *   файл означало б розірвати їх із тим, що вони фарбують.
+ * 2026-09-01: `plays/[id]/+page.svelte` — стелю ПРИБРАНО, борг закрито. Блок «Хто
+ *   грав» переїхав у `PlayCastSection` разом зі своїм станом (фільтр по номерах
+ *   програми), і сторінка стала 387 рядків замість 456. Стелі 430 більше немає
+ *   чого тримати.
  * 2026-09-01: `GraduateRosterFilters.svelte` 510 → 390 (СТЕЛЯ ОПУСТИЛАСЯ).
  *   Додався другий випадайний список — фільтр по майстру курсу, — і файл
  *   перевалив стелю на 62 рядки. Майже всі вони були повтором: кожен список
@@ -262,7 +266,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/residents/adults/[slug]/+page.svelte': 405,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,

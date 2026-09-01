@@ -4,19 +4,17 @@
 		ArrowLeft,
 		ArrowRight,
 		Theater,
-		Users,
 		GraduationCap,
 		Calendar,
 		Trophy
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { graduatePhoto } from '$lib/data/graduates';
 	import { groupProfilePath } from '$lib/data/groups';
 	import { festivalPath } from '$lib/data/festivals';
 	import { masterProfilePath } from '$lib/data/masters';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
+	import PlayCastSection from '$lib/components/PlayCastSection.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
-	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import type { PageData } from './$types';
@@ -33,10 +31,6 @@
 	 * розсипається. Рік випуску тут доречний і сам по собі — він каже, чи людина
 	 * була на той час першокурсницею, чи вже випускалася.
 	 */
-	function subtitle(role: string | undefined, year: number | null | undefined): string | null {
-		if (role) return role;
-		return year ? `${$t('galaxy.graduationShort', { default: 'випуск' })} ${year}` : null;
-	}
 </script>
 
 <svelte:head>
@@ -118,42 +112,12 @@
 			вже після цієї вистави, а сама вистава могла зіграти двома групами
 			разом. Заміри в докблоці `plays.ts`.
 		-->
-		<section class="play-section" aria-labelledby="play-cast-title">
-			<div class="play-heading">
-				<span class="play-heading__icon play-heading__icon--blue"><Users size={20} aria-hidden="true" /></span>
-				<h2 id="play-cast-title" class="play-heading__title">{$t('galaxy.playCast')}</h2>
-				<span class="play-heading__count">{data.cast.length}</span>
-			</div>
-
-			{#if data.cast.length > 0}
-				<ul class="people-grid" data-testid="play-cast-list">
-					{#each data.cast as entry, index (entry.graduate.id)}
-						<li>
-							<!--
-								Картка відкривається НА ЦІЙ сторінці, а не веде в галактику.
-								Доти тут стояв `href`, і натискання забирало читача зі
-								сторінки вистави: закривши картку, він опинявся в галактиці
-								й мусив шукати виставу заново. На сторінках груп і
-								фестивалів це вже було зроблено `onclick`, а тут лишалося
-								посилання — різниця, якої ніхто не пояснював.
-							-->
-							<GroupPersonCard
-								name={entry.graduate.name}
-								photo={entry.graduate.hasPhoto ? graduatePhoto(entry.graduate.slug, 192) : null}
-								subtitle={subtitle(entry.role, entry.graduate.graduationYear)}
-								onclick={() => openGraduateModal(entry.graduate)}
-								{index}
-								splitName
-								testid="play-cast-{entry.graduate.slug}"
-							/>
-						</li>
-					{/each}
-				</ul>
-				<p class="play-note" data-testid="play-cast-note-text">{$t('galaxy.playCastNote')}</p>
-			{:else}
-				<p class="play-note" data-testid="play-cast-empty-text">{$t('galaxy.playCastEmpty')}</p>
-			{/if}
-		</section>
+		<PlayCastSection
+			cast={data.cast}
+			programme={data.play.programme}
+			participants={data.play.participants}
+			extraParticipants={data.play.extraParticipants}
+		/>
 
 		{#if data.masters.length > 0}
 			<section class="play-section" aria-labelledby="play-masters-title">
@@ -239,7 +203,7 @@
 			</section>
 		{/if}
 
-		{#if data.play.awards?.length || data.play.participants?.length || data.play.extraParticipants?.length || data.play.guests?.length}
+		{#if data.play.awards?.length || data.play.guests?.length}
 			<section class="play-section" aria-labelledby="play-extra-title">
 				<div class="play-heading">
 					<span class="play-heading__icon play-heading__icon--gold"><Trophy size={20} aria-hidden="true" /></span>
@@ -253,30 +217,10 @@
 					</ul>
 				{/if}
 				<!--
-					Склад показу й ті, хто прийшов ДОДАТКОВО, — два різних переліки.
-
-					Доти обидва йшли одним під підписом «Також брали участь», і в
-					«Уривках з класики» 2013 виходило, що всі шестеро прийшли
-					додатково. У джерелі ж стоїть «+Макс Пономаренко»: п'ятеро —
-					основа групи «Freedom». Пояснення знака «+» — у докблоці
-					`Play.extraParticipants`.
+					Склад показу й ті, хто прийшов додатково, переїхали в блок «Хто
+					грав»: це ті самі люди показу, просто без анкет, і під
+					нагородами вони читалися як приписка до диплома.
 				-->
-				{#if data.play.participants?.length}
-					<p class="play-note">{$t('galaxy.playLineup')}</p>
-					<ul class="play-list" data-testid="play-participants-list">
-						{#each data.play.participants as person (person)}
-							<li>{person}</li>
-						{/each}
-					</ul>
-				{/if}
-				{#if data.play.extraParticipants?.length}
-					<p class="play-note">{$t('galaxy.playParticipants')}</p>
-					<ul class="play-list" data-testid="play-extra-participants-list">
-						{#each data.play.extraParticipants as person (person)}
-							<li>{person}</li>
-						{/each}
-					</ul>
-				{/if}
 				{#if data.play.guests?.length}
 					<p class="play-note">{$t('galaxy.playGuests')}</p>
 					<ul class="play-list" data-testid="play-guests-list">
@@ -407,11 +351,6 @@
 		width: 2.2rem;
 		height: 2.2rem;
 		border-radius: var(--radius-md, 12px);
-	}
-	.play-heading__icon--blue {
-		background: rgb(99 102 241 / 0.15);
-		border: 1px solid rgb(99 102 241 / 0.3);
-		color: #a5b4fc;
 	}
 	.play-heading__icon--gold {
 		background: rgb(249 179 29 / 0.15);

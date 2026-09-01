@@ -111,7 +111,7 @@
 	>
 		{@render body()}
 	</a>
-{:else}
+{:else if onclick}
 	<button
 		type="button"
 		class="person-card"
@@ -122,6 +122,18 @@
 	>
 		{@render body()}
 	</button>
+{:else}
+	<!--
+		Ні адреси, ні обробника — картка НЕ кнопка.
+
+		Так буває в складі показу з паперу школи: ім'я є, а анкети в людини немає,
+		тож вести нікуди. Доти така картка все одно ставала `<button>`, і читалка
+		екрана обіцяла дію, якої немає, а клавіатура ловила фокус на порожньому
+		місці.
+	-->
+	<div class="person-card person-card--static" style="--card-order: {index}" data-testid={testid}>
+		{@render body()}
+	</div>
 {/if}
 
 <style>
@@ -159,6 +171,11 @@
 		 */
 		animation: person-card-wave 15s infinite ease-in-out;
 		animation-delay: calc(var(--card-order, 0) * 0.15s);
+	}
+
+	/* Статична картка нічого не обіцяє: ні курсора-руки, ні реакції. */
+	.person-card--static {
+		cursor: default;
 	}
 
 	/*
