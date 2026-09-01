@@ -176,22 +176,49 @@ test.describe('картка в галактиці має власну адрес
 		}
 	});
 
-	test('у кого анкети немає — адреса не змінюється', async ({ page }) => {
+	/*
+	 * Раніше цей тест звався «у кого анкети немає — адреса не змінюється» і
+	 * стеріг протилежне: клік на людину без анкети НЕ міняв адреси, бо адреси в
+	 * неї не було. Правило скасоване свідомо — адресу отримали всі 530, і
+	 * причина записана в `graduates.ts`: сторінка людині належить незалежно від
+	 * того, чи вона заповнила анкету, бо ім'я, рік і відділення в нас є.
+	 *
+	 * Тест лишається на місці, але стереже вже НОВЕ правило, і саме тому не
+	 * викинутий: без нього ніхто б не помітив, якби відсутність анкети знову
+	 * почала ховати адресу.
+	 */
+	test('у кого анкети немає — адреса все одно власна', async ({ page }) => {
 		await gotoReady(page, '/projects/galaxy-graduates');
-		const before = new URL(page.url()).pathname;
 
 		await page.locator('[data-testid="galaxy-open-roster-btn"]').click();
-		// Рядок без портрета — анкету ще не заповнено, показувати за адресою нічого.
+		// Рядок без портрета — анкету ще не заповнено.
 		const plain = page
 			.locator('[data-testid^="galaxy-roster-list-item-"]')
 			.filter({ hasNot: page.locator('img') })
 			.first();
+		const slug = (await plain.getAttribute('data-testid'))!.replace(
+			'galaxy-roster-list-item-',
+			''
+		);
 		await plain.locator('button').click();
 
-		await expect(page.locator(CARD)).toBeVisible();
+		/*
+		 * Телефон і десктоп поводяться РІЗНО, як і в сусідньому тесті вище:
+		 * вузький екран веде на власну сторінку, широкий відкриває картку
+		 * поверх галактики. Спільне — адреса: вона стає адресою цієї людини.
+		 */
+		const isMobile = (page.viewportSize()?.width ?? 1280) <= 768;
+		if (isMobile) {
+			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${slug}/?$`));
+			await expect(page.locator('[data-testid="graduate-profile-card"]')).toBeVisible();
+		} else {
+			await expect(page.locator(CARD)).toBeVisible();
+			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${slug}/?$`));
+		}
+
+		// Анкети немає — просимо її заповнити; олівця контактів немає, бо немає фото.
 		await expect(page.locator('[data-testid="galaxy-card-fill-form-btn"]')).toBeVisible();
 		await expect(page.locator('[data-testid="graduate-profile-edit-btn"]')).toHaveCount(0);
-		expect(new URL(page.url()).pathname, 'адреса мусить лишитися').toBe(before);
 	});
 
 	test('сторінка галактики веде на всі 80 профілів навіть без JS-зірок', async ({ page }) => {
