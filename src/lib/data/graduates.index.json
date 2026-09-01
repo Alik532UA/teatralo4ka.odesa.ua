@@ -1146,6 +1146,26 @@
 			{
 				"id": "svitlana-ryskina"
 			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -2813,6 +2833,26 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -5442,7 +5482,27 @@
 		"code": "oleksandra-chuprina",
 		"playCount": 0,
 		"profileSize": 1398,
-		"photoCount": 2
+		"photoCount": 2,
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "oleksandra-dydenko",
@@ -5647,6 +5707,26 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
@@ -7988,6 +8068,26 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
 			}
 		]
 	},
