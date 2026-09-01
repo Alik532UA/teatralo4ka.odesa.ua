@@ -64,8 +64,24 @@ export function getFestivalBySlug(slug: string): Festival | undefined {
  * Так само, як із групами: людина їздила не раз, і котра з поїздок «головна»,
  * дані не кажуть.
  */
+/**
+ * Новіші згори.
+ *
+ * Порядок у реєстрі — від найдавнішого, бо так його й вносили. Доти обидва ці
+ * переліки віддавали саме його, а сторінка-перелік фестивалів сортувала сама, і
+ * та сама людина бачила поїздки в різному порядку залежно від того, звідки
+ * дивиться. Сортування ТУТ, а не в показі: порядок — властивість відповіді на
+ * питання «на яких фестивалях ця людина була», а не одного місця показу.
+ *
+ * Тай-брейк назвою — щоб дві поїздки того самого року не мінялися місцями між
+ * збірками (у реєстрі є два «Мрій-Дім» поспіль).
+ */
+function newestFirst(list: Festival[]): Festival[] {
+	return [...list].sort((a, b) => latestYear(b) - latestYear(a) || a.name.localeCompare(b.name, 'uk'));
+}
+
 export function getFestivalsByMember(memberId: string): Festival[] {
-	return FESTIVALS.filter((f) => f.memberIds.includes(memberId));
+	return newestFirst(FESTIVALS.filter((f) => f.memberIds.includes(memberId)));
 }
 
 /**
@@ -82,7 +98,7 @@ export function getFestivalsByMember(memberId: string): Festival[] {
  * значиться.
  */
 export function getFestivalsByMaster(masterId: string): Festival[] {
-	return FESTIVALS.filter((f) => f.masterIds.includes(masterId));
+	return newestFirst(FESTIVALS.filter((f) => f.masterIds.includes(masterId)));
 }
 
 /** Найпізніший рік — за ним перелік упорядковується, новіші перші. */
