@@ -5,7 +5,9 @@ import {
 	getGroupByTitleOrAbbr,
 	getGroupsByMember,
 	groupProfilePath,
-	coGroupsForPlay
+	coGroupsForPlay,
+	cleanGroupLabel,
+	namedGroupsOfPlay
 } from './groups';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -149,6 +151,36 @@ describe('GROUPS data integrity', () => {
 		 * Скоморохами»: група виглядає чужою лише тому, що своєї ми не знаємо.
 		 */
 		expect(coGroupsForPlay('mnymyi-bolnoi-2011', 'ніхто-такий-не-існує')).toEqual([]);
+	});
+
+	/*
+	 * Курс із паперу школи — і те, як його звідти дістати.
+	 *
+	 * Підпис у полі буває «гр. «ФРЕШ» (+ хлопці-легіонери)» або «гр. 4Т-12
+	 * 6Т-18»: приставка, лапки, дужки й два курси одним рядком. Заміряно на
+	 * «Уривках з драматургії 20 століття» 2012: без цього сторінка оголошувала
+	 * основним курсом ЗТК, бо в складі з анкет трьох легіонерів із ЗТК проти
+	 * однієї людини з Фреша.
+	 */
+	it('cleanGroupLabel зносить приставку, лапки й дужки', () => {
+		expect(cleanGroupLabel('гр. «ФРЕШ» (+ хлопці-легіонери)')).toBe('ФРЕШ');
+		expect(cleanGroupLabel('гр. «ТУ-154»')).toBe('ТУ-154');
+		expect(cleanGroupLabel('гр. 4Т-12 6Т-18')).toBe('4Т-12 6Т-18');
+		expect(cleanGroupLabel(undefined)).toBe('');
+		expect(cleanGroupLabel('   ')).toBe('');
+	});
+
+	it('namedGroupsOfPlay знаходить курс за підписом із паперу', () => {
+		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «ФРЕШ» (+ хлопці-легіонери)' }).map((g) => g.slug)).toEqual([
+			'fresh'
+		]);
+		// друге ім'я того самого курсу — з розкладу
+		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «Freedom»', theatreGroupAlt: 'гр. 14-Т' }).map((g) => g.slug)).toEqual([
+			'freedom'
+		]);
+		// назви, якої в реєстрі немає, вигадувати не треба
+		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «БулаФФки»' })).toEqual([]);
+		expect(namedGroupsOfPlay({})).toEqual([]);
 	});
 
 	it('coGroupsForPlay: вистава без груп у реєстрі — порожньо', () => {

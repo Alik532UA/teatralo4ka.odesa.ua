@@ -166,6 +166,62 @@ export function groupProfilePath(slug: string): Pathname {
 	return `/projects/galaxy-graduates/groups/${slug}` as Pathname;
 }
 
+/**
+ * Назва курсу з ПАПЕРА школи, зведена до того, що можна шукати в реєстрі.
+ *
+ * У полі `theatreGroup` лежить те, як курс підписали в репертуарі чи розкладі:
+ * «гр. «ФРЕШ» (+ хлопці-легіонери)», «гр. 4Т-12 6Т-18», «гр. «ТУ-154»». Треба
+ * знести приставку «гр.», лапки й дужки — усе, що не є самою назвою.
+ */
+export function cleanGroupLabel(raw: string | undefined): string {
+	if (!raw) return '';
+	let s = raw.replace(/\([^)]*\)/g, ' ');
+	s = s.replace(/^\s*гр\.?\s*/i, ' ');
+	for (const q of ['«', '»', '"', '„', '“']) s = s.split(q).join(' ');
+	return s.replace(/\s+/g, ' ').trim();
+}
+
+/**
+ * Курси, які папір школи НАЗВАВ для цієї вистави.
+ *
+ * ## Чому папір важливіший за підрахунок складу
+ *
+ * `classifyPlayGroups` виводить курс зі складу: чий курс дав більше учасників,
+ * той і основний. Це чесний спосіб, поки іншого немає, — але він помиляється
+ * саме там, де в показі грали гості. «Уривки з драматургії 20 століття» 2012
+ * були показом курсу «Фреш», а в складі з анкет — три «хлопці-легіонери» із
+ * ЗТК і одна людина з Фреша; підрахунок оголошував ЗТК основним курсом, і
+ * сторінка казала неправду.
+ *
+ * Папір такої помилки зробити не може: у ньому написано, чий це показ.
+ *
+ * ## Чому дві назви
+ *
+ * Той самий курс у репертуарі зветься «ТУ-154», а в розкладі «6Т-16» — і в
+ * реєстрі груп трапляється як одне, так і друге. Тому пробуються обидва поля.
+ *
+ * ## Чому назва розбивається на слова
+ *
+ * У розкладі буває «гр. 4Т-12 6Т-18» — два курси одним рядком. Цілим таке не
+ * знаходиться, а по слову — знаходиться кожен.
+ */
+export function namedGroupsOfPlay(play: {
+	theatreGroup?: string;
+	theatreGroupAlt?: string;
+}): GraduateGroup[] {
+	const out: GraduateGroup[] = [];
+	for (const raw of [play.theatreGroup, play.theatreGroupAlt]) {
+		const label = cleanGroupLabel(raw);
+		if (!label) continue;
+		const candidates = [label, ...(label.includes(' ') ? label.split(' ') : [])];
+		for (const candidate of candidates) {
+			const group = getGroupByTitleOrAbbr(candidate);
+			if (group && !out.some((g) => g.slug === group.slug)) out.push(group);
+		}
+	}
+	return out;
+}
+
 /** Результат аналізу належності вистави до груп. */
 export interface PlayGroupsClassification {
 	/** Основні (або рівнозначні) групи: >= 50% складу або найбільша частка */

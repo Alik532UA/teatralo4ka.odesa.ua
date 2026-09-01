@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { PLAYS, getPlayById, playPath } from '$lib/data/plays';
 import { castOf } from '$lib/data/playCast';
-import { classifyPlayGroups } from '$lib/data/groups';
+import { classifyPlayGroups, namedGroupsOfPlay } from '$lib/data/groups';
 import { FESTIVALS } from '$lib/data/festivals';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
@@ -104,10 +104,30 @@ export function load({ params, url }) {
 	 * Визначаються єдиною канонічною функцією `classifyPlayGroups` за складом:
 	 * основні (>= 50% або найбільша частка) та допоміжні (>= 3 учасники).
 	 */
-	const { primaryGroups, supportingGroups, groups } = classifyPlayGroups(
+	const classified = classifyPlayGroups(
 		play.id,
 		cast.map((c) => c.graduate.id)
 	);
+
+	/*
+	 * Курс із ПАПЕРА школи головніший за підрахунок складу.
+	 *
+	 * Підрахунок помиляється саме там, де в показі грали гості: «Уривки з
+	 * драматургії 20 століття» 2012 були показом курсу «Фреш», а в складі — три
+	 * «хлопці-легіонери» із ЗТК проти однієї людини з Фреша, і основним курсом
+	 * оголошувався ЗТК.
+	 *
+	 * Підрахунок не викидається: курси, які він знайшов і яких папір не назвав,
+	 * стають «за участі» — для того самого показу це правда, легіонери справді
+	 * прийшли із ЗТК.
+	 */
+	const named = namedGroupsOfPlay(play);
+	const primaryGroups = named.length > 0 ? named : classified.primaryGroups;
+	const supportingGroups = (named.length > 0
+		? [...classified.primaryGroups, ...classified.supportingGroups]
+		: classified.supportingGroups
+	).filter((g) => !primaryGroups.some((p) => p.slug === g.slug));
+	const groups = [...primaryGroups, ...supportingGroups];
 
 	/** Фестивалі, де виставу возили. Те саме застереження, що й з групами. */
 	const festivals = FESTIVALS.filter((festival) => festival.playIds.includes(play.id));
