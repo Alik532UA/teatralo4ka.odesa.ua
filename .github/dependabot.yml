@@ -19,6 +19,30 @@ updates:
       minor-and-patch:
         patterns: ['*']
         update-types: ['minor', 'patch']
+      # `vitest` і `@vitest/coverage-v8` поодинці не їдуть НІКОЛИ: coverage
+      # тримає peer на точну версію vitest. Заміряно 2026-09-01: PR #8 (vitest
+      # 3.2.7 → 4.1.11) упав чотири рази з чотирьох, і всі — на `npm ci`:
+      #     npm error Conflicting peer dependency: vitest@3.2.7
+      # Мажор для них має сенс лише спільним PR, тому окрема група саме на
+      # мажори — мінори й патчі й далі їдуть у великій.
+      vitest:
+        patterns: ['vitest', '@vitest/*']
+        update-types: ['major']
+    # Чого НЕ пропонувати, доки проєкт не переїде.
+    #
+    # `@sveltejs/vite-plugin-svelte@7` вимагає `vite@^8`, а тут `vite@^7.3.1`.
+    # Це не оновлення, а міграція, яка тягне за собою SvelteKit, — і жоден PR
+    # від бота її не зробить. Заміряно: PR #7 упав чотири рази з чотирьох, і
+    # щоразу на тому самому:
+    #     npm error peer vite@"^8.0.0-beta.7 || ^8.0.0" from
+    #     @sveltejs/vite-plugin-svelte@7.3.0
+    #
+    # Двадцять із двадцяти падінь CI за останні сто прогонів — це ці дві PR на
+    # перезапусках. Червоне в переліку перестає означати «дивись сюди», і саме
+    # це тут лікується. Мінори й патчі плагіна їдуть як досі.
+    ignore:
+      - dependency-name: '@sveltejs/vite-plugin-svelte'
+        update-types: ['version-update:semver-major']
     commit-message:
       prefix: 'deps'
   - package-ecosystem: github-actions
