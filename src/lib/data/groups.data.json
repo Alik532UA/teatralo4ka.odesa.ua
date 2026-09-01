@@ -1195,5 +1195,46 @@
 			"oleksandra-sydorova"
 		],
 		"playIds": []
+	},
+	{
+		"slug": "yoryky",
+		"name": "Йорики",
+		"abbr": null,
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2011
+		],
+		"memberIds": [
+			"oleksandra-chuprina",
+			"yevheniia-hymmelfarb",
+			"hryhorii-baklanov",
+			"oleksandra-shchepynska",
+			"olena-mrost",
+			"andranik-davtian"
+		],
+		"playIds": [],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика"
+			},
+			{
+				"id": "mykola-baldin",
+				"name": "Балдін Микола Олександрович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "iryna-kaplia",
+				"name": "Капля Ірина",
+				"subject": "Вокал"
+			}
+		]
 	}
 ]
