@@ -145,7 +145,7 @@
 			data-testid="galaxy-groups-link"
 		>
 			<GraduationCap size={18} aria-hidden="true" />
-			<span>{$t('galaxy.groupsTitle')}</span>
+			<span class="stage__nav-label">{$t('galaxy.groupsTitle')}</span>
 		</a>
 
 		<a
@@ -154,7 +154,7 @@
 			data-testid="galaxy-festivals-link"
 		>
 			<Globe size={18} aria-hidden="true" />
-			<span>{$t('galaxy.festivalsTitle')}</span>
+			<span class="stage__nav-label">{$t('galaxy.festivalsTitle')}</span>
 		</a>
 
 		<!--
@@ -168,7 +168,7 @@
 			data-testid="galaxy-plays-link"
 		>
 			<Theater size={18} aria-hidden="true" />
-			<span>{$t('galaxy.playsTitle')}</span>
+			<span class="stage__nav-label">{$t('galaxy.playsTitle')}</span>
 		</a>
 
 		<!--
@@ -422,6 +422,56 @@
 
 		.stage__items > *:hover,
 		.stage__items > *:focus-visible {
+			opacity: 1;
+		}
+	}
+
+	/*
+	 * Три переліки вдалині — самі значки, поблизу — значок із підписом.
+	 *
+	 * Анімується `max-width`, а не `width`: від `auto` до числа транзиція не
+	 * рахується взагалі, тож ширина стрибала б без жодної анімації. Тому підпис
+	 * лежить у смузі нульової ширини з `overflow: hidden`, а поблизу смуга
+	 * розтягується до стелі, більшої за найдовший підпис («Групи випускників»).
+	 * Стеля лише обмежує — ширшою за свій текст кнопка не стає (заміряно: 46px
+	 * згорнута, 191px розкрита).
+	 *
+	 * Відступ між значком і підписом теж анімується і живе на підписі, а не як
+	 * `gap` кнопки: `gap` не знає, що сусід має нульову ширину, і згорнута кнопка
+	 * носила б 0.5rem порожнечі праворуч від значка.
+	 *
+	 * Півсекунди й одна крива на всі три властивості — рух виходить один, а не
+	 * три різні.
+	 *
+	 * ## Чому 900px, а не 641px, як у прозорості
+	 *
+	 * Рядок кнопок має `flex-wrap: wrap`. Заміряно: згорнутий він 435px, а
+	 * розкритий 733px — плюс відступи контейнера це близько 770px. У вужчому
+	 * вікні розкриття перекинуло б кнопки на другий рядок, і замість плавного
+	 * підпису читач бачив би стрибок усього керування. Тому вузькому вікну
+	 * підписи лишаються видимими завжди — так, як було до цієї зміни.
+	 */
+	@media (hover: hover) and (min-width: 900px) {
+		.stage__roster-btn--nav {
+			gap: 0;
+		}
+
+		.stage__nav-label {
+			display: inline-block;
+			max-width: 0;
+			margin-left: 0;
+			overflow: hidden;
+			white-space: nowrap;
+			opacity: 0;
+			transition:
+				max-width 0.5s ease,
+				margin-left 0.5s ease,
+				opacity 0.5s ease;
+		}
+
+		.stage__controls--near .stage__nav-label {
+			max-width: 14rem;
+			margin-left: 0.5rem;
 			opacity: 1;
 		}
 	}

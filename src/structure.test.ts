@@ -156,6 +156,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   компоненти замість одного означали б спільний стан «меню відкрите» між
  *   ними. Математику відстані вже винесено в `utils/pointerProximity`, а сам
  *   повний екран — у `services/fullscreen`.
+ * 2026-09-01: `GalaxyStageControls.svelte` 330 → 345. Підписи трьох переліків
+ *   згортаються, коли курсор далеко. Це той самий рядок кнопок і той самий
+ *   стан `near`, що вже рахувався для прозорості, — лише ще один шар вигляду
+ *   на ньому.
  * 2026-09-01: `GraduateRosterFilters.svelte` 510 → 390 (СТЕЛЯ ОПУСТИЛАСЯ).
  *   Додався другий випадайний список — фільтр по майстру курсу, — і файл
  *   перевалив стелю на 62 рядки. Майже всі вони були повтором: кожен список
@@ -242,7 +246,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
-	'src/lib/components/GalaxyStageControls.svelte': 330,
+	'src/lib/components/GalaxyStageControls.svelte': 345,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
