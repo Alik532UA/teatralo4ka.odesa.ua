@@ -16,7 +16,7 @@ import zlib from 'zlib';
  * адмінки, редактор TipTap — вантажиться за потребою, і рахувати її разом
  * означало б лякатися числа, якого відвідувач не платить.
  *
- * Розмір береться з `.br`, які кладе `precompress: true`: GitHub Pages віддає
+ * Розмір рахується стисканням brotli у пам'яті (рівень 11): GitHub Pages віддає
  * саме їх. Міряти нестиснуті файли — це міряти те, чого ніхто не завантажує.
  *
  * ## Про числа
@@ -67,7 +67,7 @@ const DATA_REGISTRIES = [
 	{ file: 'src/lib/data/play-cast.json', marker: 'graduateId' }
 ] as const;
 
-/** Розмір реєстру в brotli — тим самим рівнем стиску, що кладе `precompress`. */
+/** Розмір реєстру в brotli — тим самим рівнем 11, що й `sizeKb` нижче. */
 function registryKb(file: string): number {
 	return (
 		zlib.brotliCompressSync(fs.readFileSync(file), {
@@ -158,13 +158,28 @@ const FIREBASE_IN_HOME_CEILING_KB = 100;
  */
 const FIREBASE_MARKER = '@firebase/';
 
+/**
+ * Розмір у brotli — стискаємо В ПАМ'ЯТІ, а не читаємо `.br` із диска.
+ *
+ * Доти брався сусідній `.br`, який кладе `precompress: true`, із запасним
+ * варіантом «немає — беремо сирий файл». Запасний варіант і був пасткою: коли
+ * `precompress` вимкнули (він валив збірку — див. `svelte.config.js`), перевірка
+ * мовчки почала міряти НЕСТИСНЕНІ файли й показала 1072 КБ там, де насправді 290
+ * із чимось. Троє бюджетів «перевищено» — і жоден із них не виріс.
+ *
+ * Тепер перевірка не залежить від прапорців збірки взагалі: вона міряє те, що
+ * обіцяє міряти. Той самий прийом уже стоїть поруч у `registryKb`.
+ *
+ * Рівень 11 — той самий, що ставив `precompress`, тобто числа порівнянні з
+ * попередніми замірами в докблоках нижче.
+ */
 function sizeKb(file: string): number {
-	// `.br` — те, що реально йде по мережі. Якщо його немає (precompress
-	// вимкнули), беремо сирий файл: краще завищена оцінка, ніж мовчазний нуль.
-	const brotli = `${file}.br`;
-	const target = fs.existsSync(brotli) ? brotli : file;
-	if (!fs.existsSync(target)) return 0;
-	return fs.statSync(target).size / 1024;
+	if (!fs.existsSync(file)) return 0;
+	return (
+		zlib.brotliCompressSync(fs.readFileSync(file), {
+			params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 }
+		}).length / 1024
+	);
 }
 
 /** Скрипти й модулі, які згадані в HTML головної сторінки. */
@@ -204,7 +219,7 @@ function main() {
 	const totalKb = allJs.reduce((sum, f) => sum + sizeKb(f), 0);
 
 	// Чанки з SDK бази — і в усьому бандлі, і окремо в критичному шляху головної.
-	// Читаємо НЕстиснутий `.js` (маркер у `.br` не видно), а розмір беремо з `.br`.
+	// Маркер шукаємо у вихідному тексті чанка; розмір `sizeKb` порахує сам.
 	const carriesFirebase = (f: string) => fs.readFileSync(f, 'utf8').includes(FIREBASE_MARKER);
 	const firebaseAnywhere = allJs.filter(carriesFirebase);
 	const firebaseInHome = home.filter((f) => fs.existsSync(f) && carriesFirebase(f));
