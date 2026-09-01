@@ -40,6 +40,30 @@ const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
 	'--focus-card-width': {
 		declaredIn: 'src/lib/components/ContentWidget.svelte',
 		why: 'ширину картки задає віджет-обгортка, читає її ContentCard всередині'
+	},
+	'--fest-surface': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--fest-border': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--fest-text': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--fest-title': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--fest-muted': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--fest-accent': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
 	}
 };
 

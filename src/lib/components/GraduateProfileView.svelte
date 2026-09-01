@@ -665,7 +665,14 @@
 -->
 {#snippet festivalsCard()}
 	<div class="bento-card bento-card--festivals" data-block="festivals" data-testid="galaxy-card-festivals-card">
-		<GraduateFestivals festivals={getFestivalsByMember(graduate.id)} />
+		<!--
+			Палітра галактики — обгорткою, а не всередині `GraduateFestivals`: той
+			самий список стоїть ще й на сторінці викладача, де тема сайту правильна.
+			Пояснення змінних — у докблоці стилів того компонента.
+		-->
+		<div class="fests-galaxy">
+			<GraduateFestivals festivals={getFestivalsByMember(graduate.id)} />
+		</div>
 	</div>
 {/snippet}
 
@@ -1407,6 +1414,19 @@
 	 * плашок.
 	 */
 
+	/*
+	 * Стала палітра галактики для плашки фестивалів. Значення ті самі, що в
+	 * сусідніх блоках картки: тло напівпрозоре біле, рамка блакитна, текст
+	 * `--galaxy-*`.
+	 */
+	.fests-galaxy {
+		--fest-surface: rgb(255 255 255 / 0.07);
+		--fest-border: rgb(140 190 255 / 0.25);
+		--fest-text: var(--galaxy-text);
+		--fest-title: var(--galaxy-text);
+		--fest-muted: var(--galaxy-muted);
+		--fest-accent: var(--galaxy-accent);
+	}
 	.bento-card {
 		width: 100%;
 		box-sizing: border-box;

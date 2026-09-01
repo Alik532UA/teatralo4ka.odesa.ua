@@ -143,6 +143,19 @@
 {/if}
 
 <style>
+	/*
+	 * Кольори приходять ЗМІННИМИ, а типові значення — теми сайту.
+	 *
+	 * Цей самий список стоїть у двох місцях із різними палітрами: на сторінці
+	 * викладача (`MasterFestivals`) — тема сайту, у картці випускника — стала
+	 * палітра галактики. Доти він брав токени сайту в обох, і в картці галактики
+	 * фестивалі малювалися світлою темою серед темної картки.
+	 *
+	 * Тому не прапорець і не клас-варіант, а змінна з типовим значенням: батько
+	 * ставить свої значення на обгортці, вони успадковуються, а там, де ніхто
+	 * нічого не ставив, лишається тема сайту. Оголошення на самому компоненті
+	 * тут не годиться — воно перемогло б успадковане від батька.
+	 */
 	.fests {
 		display: flex;
 		flex-direction: column;
@@ -194,16 +207,16 @@
 		border-radius: var(--radius-md, 12px);
 		/* Напівпрозоро в спокої, повністю під курсором — так само, як у рядках
 		   переліків галактики. Однаковий рядок мусить і поводитися однаково. */
-		background: color-mix(in srgb, var(--bg-surface), transparent 50%);
-		border: 1px solid var(--border-main);
+		background: color-mix(in srgb, var(--fest-surface, var(--bg-surface)), transparent 50%);
+		border: 1px solid var(--fest-border, var(--border-main));
 		padding: 0.35rem 0.6rem;
 		transition:
 			background var(--transition-base),
 			border-color var(--transition-base);
 	}
 	.fests__row--card:hover {
-		background: var(--bg-surface);
-		border-color: var(--accent-primary);
+		background: var(--fest-surface, var(--bg-surface));
+		border-color: var(--fest-accent, var(--accent-primary));
 	}
 	.fests__link {
 		display: flex;
@@ -222,9 +235,9 @@
 		flex: 1 1 auto;
 		padding: 0.35rem 0.6rem;
 		border-radius: var(--radius-md, 12px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-main);
+		background: var(--fest-surface, var(--bg-surface));
+		border: 1px solid var(--fest-border, var(--border-main));
+		color: var(--fest-text, var(--text-main));
 		text-decoration: none;
 		font-size: 0.88rem;
 		transition:
@@ -232,7 +245,7 @@
 			transform var(--transition-base);
 	}
 	.fests__link:hover {
-		border-color: var(--accent-primary);
+		border-color: var(--fest-accent, var(--accent-primary));
 		transform: translateX(3px);
 	}
 	/*
@@ -263,11 +276,11 @@
 
 	.fests__name {
 		font-weight: 600;
-		color: var(--text-title);
+		color: var(--fest-title, var(--text-title));
 	}
 	.fests__years {
 		font-variant-numeric: tabular-nums;
-		color: var(--text-muted);
+		color: var(--fest-muted, var(--text-muted));
 		font-size: 0.82rem;
 	}
 	/*
