@@ -3,7 +3,7 @@
 	import { Check, ChevronDown } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
 	import type { SelectOption } from '$lib/components/ui/select';
-	import { placePanel } from '$lib/utils/dropdownPlace';
+	import { containingBlockOffset, placePanel } from '$lib/utils/dropdownPlace';
 	import type { Department } from '$lib/data/graduates';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 
@@ -28,31 +28,10 @@
 	let deptPos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 420, above: false });
 	let deptOffset = $state({ x: 0, y: 0 });
 
-	function getContainingBlockOffset(el: HTMLElement): { x: number; y: number } {
-		if (typeof window === 'undefined') return { x: 0, y: 0 };
-		let curr = el.parentElement;
-		while (curr && curr !== document.body && curr !== document.documentElement) {
-			const style = window.getComputedStyle(curr);
-			if (
-				style.transform !== 'none' ||
-				style.translate !== 'none' ||
-				style.rotate !== 'none' ||
-				style.scale !== 'none' ||
-				style.filter !== 'none' ||
-				style.perspective !== 'none' ||
-				(style.contain && (style.contain.includes('paint') || style.contain.includes('layout')))
-			) {
-				const rect = curr.getBoundingClientRect();
-				return { x: rect.left, y: rect.top };
-			}
-			curr = curr.parentElement;
-		}
-		return { x: 0, y: 0 };
-	}
 
 	function placeDeptPanel() {
 		if (!deptTrigger) return;
-		deptOffset = getContainingBlockOffset(deptTrigger);
+		deptOffset = containingBlockOffset(deptTrigger);
 		const raw = placePanel(deptTrigger.getBoundingClientRect(), {
 			width: window.innerWidth,
 			height: window.innerHeight

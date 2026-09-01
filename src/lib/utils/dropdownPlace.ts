@@ -111,3 +111,66 @@ export function placePanel(
 		top: useAbove ? Math.max(edge, trigger.top - edge - maxHeight) : trigger.bottom + edge
 	};
 }
+
+/**
+ * Чи створює цей набір стилів КОНТЕЙНЕР для `position: fixed`.
+ *
+ * Питання не теоретичне. `position: fixed` рахується від вікна лише доти, доки
+ * жоден предок не створив свого контейнера — а створює його майже все, що
+ * заведено на анімацію: `transform`, `translate`, `rotate`, `scale`, `filter`,
+ * `perspective`, `will-change: transform`, `contain: paint|layout`.
+ *
+ * Заміряно 2026-09-01 на сторінці випускника: підказка з іменем однокурсника
+ * малювалася на 208 пікселів праворуч і на 122 вниз від аватарки, до якої
+ * належала. Причина — `<article class="profile__card">` із
+ * `transform: matrix(1, 0, 0, 1, 0, 12)`, тобто картка, що виїжджає на місце.
+ * Її власні координати (208, 122) і були тим зсувом: підказка вважала їх
+ * початком вікна.
+ *
+ * Функція чиста й приймає САМІ значення, а не елемент, — щоб її перевіряв
+ * звичайний тест без DOM.
+ */
+export function createsFixedContainingBlock(style: {
+	transform?: string;
+	translate?: string;
+	rotate?: string;
+	scale?: string;
+	filter?: string;
+	perspective?: string;
+	willChange?: string;
+	contain?: string;
+}): boolean {
+	const заведено = (значення: string | undefined) =>
+		Boolean(значення) && значення !== 'none' && значення !== 'normal';
+
+	return (
+		заведено(style.transform) ||
+		заведено(style.translate) ||
+		заведено(style.rotate) ||
+		заведено(style.scale) ||
+		заведено(style.filter) ||
+		заведено(style.perspective) ||
+		Boolean(style.willChange?.includes('transform')) ||
+		Boolean(style.contain && /\b(paint|layout|strict|content)\b/.test(style.contain))
+	);
+}
+
+/**
+ * Початок координат для `position: fixed` усередині цього елемента.
+ *
+ * Обходить предків до першого, що створює власний контейнер (див.
+ * `createsFixedContainingBlock`), і віддає його лівий верхній кут. Нуль —
+ * означає «контейнер і є вікно», тобто нічого відніматися не мусить.
+ */
+export function containingBlockOffset(el: HTMLElement): { x: number; y: number } {
+	if (typeof window === 'undefined') return { x: 0, y: 0 };
+	let curr = el.parentElement;
+	while (curr && curr !== document.body && curr !== document.documentElement) {
+		if (createsFixedContainingBlock(window.getComputedStyle(curr))) {
+			const rect = curr.getBoundingClientRect();
+			return { x: rect.left, y: rect.top };
+		}
+		curr = curr.parentElement;
+	}
+	return { x: 0, y: 0 };
+}

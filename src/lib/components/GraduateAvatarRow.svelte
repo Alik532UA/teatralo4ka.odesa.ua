@@ -2,6 +2,7 @@
 	import { locale } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import { localizedPath } from '$lib/i18n/routing';
+	import { containingBlockOffset } from '$lib/utils/dropdownPlace';
 	import {
 		GRADUATES,
 		graduateAddress,
@@ -244,11 +245,33 @@
 	 */
 	let tip = $state<{ text: string; x: number; y: number } | null>(null);
 
+	/*
+	 * Координати — віконні, але з поправкою на КОНТЕЙНЕР.
+	 *
+	 * Підказка стоїть `position: fixed`, і доти цього вважалося досить: беремо
+	 * прямокутник кружечка з `getBoundingClientRect` — і по місцях. Заміряно
+	 * 2026-09-01, що виходило насправді: на сторінці випускника підказка
+	 * малювалася на 208 пікселів праворуч і на 122 вниз від своєї аватарки.
+	 *
+	 * `position: fixed` рахується від вікна лише доки жоден предок не створив
+	 * свого контейнера, а тут його створює сама картка — `.profile__card` з
+	 * `transform`, якою вона виїжджає на місце. Її кут (208, 122) підказка й
+	 * вважала початком вікна.
+	 *
+	 * Тому від віконних координат віднімається кут контейнера. Там, де
+	 * контейнера немає (рядок у звичайному потоці), зсув нульовий і нічого не
+	 * змінюється.
+	 */
 	function showTip(event: Event, text: string) {
 		const el = event.currentTarget;
 		if (!(el instanceof HTMLElement)) return;
 		const r = el.getBoundingClientRect();
-		tip = { text, x: Math.round(r.left + r.width / 2), y: Math.round(r.top) };
+		const зсув = containingBlockOffset(el);
+		tip = {
+			text,
+			x: Math.round(r.left + r.width / 2 - зсув.x),
+			y: Math.round(r.top - зсув.y)
+		};
 	}
 
 	function hideTip() {

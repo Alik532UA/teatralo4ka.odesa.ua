@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { placePanel } from './dropdownPlace';
+import { placePanel, createsFixedContainingBlock } from './dropdownPlace';
 
 /**
  * Дефект, від якого написано і функцію, і ці перевірки: панель відкривалася
@@ -90,5 +90,71 @@ describe('placePanel', () => {
 		// Крихітне вікно: підлога `minHeight` лишає панель зі власною прокруткою.
 		const p = placePanel({ top: 40, bottom: 80, left: 0, width: 200 }, { width: 320, height: 120 });
 		expect(p.maxHeight).toBeGreaterThanOrEqual(120);
+	});
+});
+
+/**
+ * Чи створює набір стилів контейнер для `position: fixed`.
+ *
+ * ## Що саме стережеться
+ *
+ * Головне — ПОВНОТА переліку. Підказка з іменем однокурсника з'їхала на 208
+ * пікселів саме тому, що `transform` картки ніхто не врахував; забути тут
+ * `filter` чи `contain` означає повторити ту саму помилку на іншій сторінці.
+ *
+ * Друге — типові значення НЕ вважаються контейнером. `transform: none`,
+ * `will-change: auto`, `contain: none` стоять на майже кожному елементі
+ * сторінки, і якби вони спрацьовували, обхід зупинявся б на першому ж предку й
+ * підказка з'їжджала б завжди.
+ *
+ * ## Зворотні експерименти (AI-AGENT-PITFALLS-v8 § 1.1)
+ *
+ * 1. Прибрати `filter` із перевірки — падає «filter створює контейнер».
+ * 2. Замінити умову `значення !== 'none'` на просто `Boolean(значення)` —
+ *    падає «типові значення не вважаються контейнером».
+ * 3. Звузити `contain` до самого `paint` — падає перевірка `contain: layout`.
+ *
+ * Усі три прогнані.
+ */
+describe('createsFixedContainingBlock', () => {
+	it('transform створює контейнер — саме на цьому з’їхала підказка', () => {
+		expect(createsFixedContainingBlock({ transform: 'matrix(1, 0, 0, 1, 0, 12)' })).toBe(true);
+	});
+
+	it('filter, perspective і scale — теж', () => {
+		expect(createsFixedContainingBlock({ filter: 'blur(4px)' })).toBe(true);
+		expect(createsFixedContainingBlock({ perspective: '400px' })).toBe(true);
+		expect(createsFixedContainingBlock({ scale: '1.05' })).toBe(true);
+		expect(createsFixedContainingBlock({ translate: '0 12px' })).toBe(true);
+		expect(createsFixedContainingBlock({ rotate: '3deg' })).toBe(true);
+	});
+
+	it('will-change враховується лише коли в ньому transform', () => {
+		expect(createsFixedContainingBlock({ willChange: 'transform' })).toBe(true);
+		expect(createsFixedContainingBlock({ willChange: 'opacity' })).toBe(false);
+	});
+
+	it('contain: paint, layout, strict і content', () => {
+		expect(createsFixedContainingBlock({ contain: 'paint' })).toBe(true);
+		expect(createsFixedContainingBlock({ contain: 'layout' })).toBe(true);
+		expect(createsFixedContainingBlock({ contain: 'strict' })).toBe(true);
+		expect(createsFixedContainingBlock({ contain: 'content' })).toBe(true);
+		expect(createsFixedContainingBlock({ contain: 'size' }), 'size не про малювання').toBe(false);
+	});
+
+	it('ТИПОВІ значення контейнера не створюють', () => {
+		expect(
+			createsFixedContainingBlock({
+				transform: 'none',
+				translate: 'none',
+				rotate: 'none',
+				scale: 'none',
+				filter: 'none',
+				perspective: 'none',
+				willChange: 'auto',
+				contain: 'none'
+			})
+		).toBe(false);
+		expect(createsFixedContainingBlock({}), 'порожній набір — теж ні').toBe(false);
 	});
 });
