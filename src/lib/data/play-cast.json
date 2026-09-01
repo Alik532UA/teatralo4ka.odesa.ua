@@ -981,10 +981,6 @@
 	],
 	"korol-pomyraie-2012": [
 		{
-			"graduateId": "alik-zapolnov",
-			"fromRegistry": true
-		},
-		{
 			"graduateId": "alina-chernobai",
 			"fromRegistry": true
 		},
@@ -1002,10 +998,6 @@
 		},
 		{
 			"graduateId": "maksym-ponomarenko",
-			"fromRegistry": true
-		},
-		{
-			"graduateId": "volodymyr-chalchynskyi",
 			"fromRegistry": true
 		}
 	],
