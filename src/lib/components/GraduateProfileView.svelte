@@ -22,6 +22,7 @@
 	import { localizedPath } from "$lib/i18n/routing";
 	import { linkedMasterId } from "$lib/data/dualRole";
 	import { getGroupsByMember } from "$lib/data/groups";
+	import { masterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
@@ -213,6 +214,20 @@
 				href
 			};
 		}),
+	);
+
+	/*
+	 * Ключ підпису рахується з ЗАПИСІВ реєстру, а не з `normalizedMasters`: там
+	 * імена вже локалізовані, а рід визначається по батькові й прізвищу —
+	 * українськими, яких в англійському варіанті немає.
+	 */
+	const masterLabel = $derived(
+		masterLabelKey(
+			rawMasters
+				.map((m) => (typeof m === "string" ? m : m.id))
+				.map((id) => (id ? getMasterById(id) : undefined))
+				.filter((m) => m !== undefined),
+		),
 	);
 
 	const rawTeachers = $derived(profile?.teachers ?? graduate.teachers ?? []);
@@ -678,8 +693,14 @@
 
 {#snippet mastersContent()}
 	<div class="masters-container" data-testid="galaxy-card-masters-text">
+		<!--
+			Підпис у роді й числі: «Майстриня курсу» для однієї, «Майстер курсу»
+			для одного, «Майстри курсу» для кількох. Заміряно: майстер один у 243
+			випускників із 332, і в 202 із них це жінка — тобто стала множина була
+			неправильною в трьох випадках із чотирьох. Правило — у `masterLabel`.
+		-->
 		<span class="galaxy-block-title"
-			>{$t("galaxy.masters", { default: "Майстри курсу" })}:</span
+			>{$t(masterLabel, { default: "Майстри курсу" })}:</span
 		>
 		<ul class="masters-list">
 			{#each normalizedMasters as master, index (index)}

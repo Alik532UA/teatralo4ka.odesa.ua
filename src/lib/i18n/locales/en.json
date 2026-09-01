@@ -902,6 +902,8 @@
     "graduated": "graduated",
     "studiedUntil": "studied until {year}",
     "group": "Group",
+    "masterOne": "Course master",
+    "masterOneF": "Course master",
     "masters": "Course masters",
     "teachers": "Teachers",
     "plays": "Productions and roles",

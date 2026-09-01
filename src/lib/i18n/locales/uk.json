@@ -902,6 +902,8 @@
     "graduated": "випуск",
     "studiedUntil": "навчався до {year}",
     "group": "Група",
+    "masterOne": "Майстер курсу",
+    "masterOneF": "Майстриня курсу",
     "masters": "Майстри курсу",
     "teachers": "Викладачі",
     "plays": "Вистав і ролей",

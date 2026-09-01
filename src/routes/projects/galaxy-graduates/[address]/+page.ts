@@ -11,6 +11,7 @@ import {
 	type GraduateProfile
 } from '$lib/data/graduates';
 import { getMasterById } from '$lib/data/masters';
+import { masterGender } from '$lib/utils/masterLabel';
 
 /**
  * Власна сторінка випускника — і власна адреса.
@@ -34,19 +35,23 @@ export const prerender = true;
  * дорожче за саме дублювання. Опис збирається з даних: ім'я, рік випуску,
  * майстри курсу й кількість вистав — тобто те, за чим людину справді шукають.
  */
-const SEO: Record<string, { graduated: string; masters: string; plays: (n: number) => string }> = {
+const SEO: Record<
+	string,
+	{ graduated: string; masterOne: string; masterOneF: string; masters: string }
+> = {
 	uk: {
 		graduated: 'випуск',
-		masters: 'Майстри курсу',
-		plays: (n) => `${n} вистав і ролей на сторінці`
+		masterOne: 'Майстер курсу',
+		masterOneF: 'Майстриня курсу',
+		masters: 'Майстри курсу'
 	},
 	en: {
 		graduated: 'graduated',
-		masters: 'Course masters',
-		plays: (n) => `${n} plays and roles listed`
+		masterOne: 'Course master',
+		masterOneF: 'Course master',
+		masters: 'Course masters'
 	}
 };
-
 /**
  * Стара адреса → нова. Перейменування адреси людини, а не помилка даних.
  *
@@ -168,6 +173,11 @@ function describe(
 	 * модуль.
 	 */
 	const rawMasters = profile?.masters ?? graduate.masters ?? [];
+	/* Записи реєстру — саме з них правило бере рід (по батькові, прізвище, посада). */
+	const masterKeys = rawMasters
+		.map((m) => (typeof m === 'string' ? m : m.id))
+		.map((id) => (id ? getMasterById(id) : undefined))
+		.filter((m) => m !== undefined);
 	const masterNames = rawMasters.map((m) => {
 		/* У записі зв'язку `id` може бути й порожнім — тоді лишається лише те, що
 		   там написано словами. */
@@ -176,11 +186,33 @@ function describe(
 		return знайдений?.displayName ?? запис.name ?? запис.id ?? '';
 	}).filter(Boolean);
 	const year = profile?.graduationYear ?? graduate.graduationYear;
-	const plays = profile?.plays.length ?? 0;
+
+	/*
+	 * Кількості вистав тут НЕМАЄ, і це не спрощення.
+	 *
+	 * Той самий рядок іде в `description`, `og:description` і
+	 * `twitter:description`, а соцмережі кешують прев'ю надовго. Число ж береться
+	 * з `profile.plays.length` — саме з того поля, яке росте: сайт сам кличе
+	 * «Заповнити анкету». Заміряно: одного дня воно змінилося приблизно для 110
+	 * людей, і сам лічильник з'явився на 175 сторінках замість 93.
+	 *
+	 * Тобто опис у кеші був би неправильним більшу частину часу, поки його
+	 * читають, а просити кожного випускника скидати кеш соцмережі — не робота.
+	 * Пошукової користі число теж не давало: людину шукають за іменем.
+	 *
+	 * Заодно з ним зникла граматика «1 вистав і ролей» — так читалися 29
+	 * сторінок, і ще 36 казали «2 вистав» замість «2 вистави».
+	 */
+	const label =
+		masterKeys.length === 1
+			? masterGender(masterKeys[0]) === 'f'
+				? words.masterOneF
+				: words.masterOne
+			: words.masters;
+
 	return [
 		year ? `${graduate.name}, ${words.graduated} ${year}` : graduate.name,
-		masterNames.length > 0 ? `${words.masters}: ${masterNames.join(', ')}` : '',
-		plays > 0 ? words.plays(plays) : ''
+		masterNames.length > 0 ? `${label}: ${masterNames.join(', ')}` : ''
 	]
 		.filter(Boolean)
 		.join('. ');
