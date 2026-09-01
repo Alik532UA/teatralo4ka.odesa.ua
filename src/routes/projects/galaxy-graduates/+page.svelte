@@ -19,7 +19,8 @@
 		graduateAddress,
 		graduateProfilePath,
 		type Department,
-		type GraduateIndexEntry
+		type GraduateIndexEntry,
+		hasProfile
 	} from '$lib/data/graduates';
 
 	let { data } = $props();
@@ -207,14 +208,12 @@
 	 * закривати. `pushState` дає обидві половини задарма: браузер сам знімає стан
 	 * на `popstate`, тож окремого обробника історії не потрібно.
 	 *
-	 * Хто анкети не заповнював, адреси не отримує — показувати за нею нічого, крім
-	 * імені. Для них стан теж є, але без зміни адреси (`pushState('')`).
+	 * Ключ стану ОДИН — адреса (`code`, якщо є, інакше `slug`). Доти їх було два,
+	 * бо власної сторінки в 440 випускників не існувало; подробиці в `app.d.ts`.
 	 */
 	const selected = $derived(
-		data.graduates.find((graduate) =>
-			page.state.graduateCode
-				? graduate.code === page.state.graduateCode
-				: graduate.slug === page.state.graduateSlug
+		data.graduates.find(
+			(graduate) => graduateAddress(graduate) === page.state.graduateAddress
 		) ??
 			/* Стан сторінки ПЕРЕВАЖАЄ параметр: відкрив картку за посиланням,
 			   клацнув іншу зірку — показати треба другу. */
@@ -232,12 +231,17 @@
 	 * ще та сама. Досить швидко клацнути дві зірки поспіль — і перший запит
 	 * перестає бути потрібним ще до відповіді.
 	 */
-	const selectedProfile = $derived(cachedGraduateProfile(page.state.graduateCode));
+	const selectedProfile = $derived(cachedGraduateProfile(page.state.graduateAddress));
 
 	$effect(() => {
-		const code = page.state.graduateCode;
-		if (code && browser) {
-			ensureGraduateProfile(code, getAbortSignal());
+		const адреса = page.state.graduateAddress;
+		/* Питаємо файл лише в того, у кого він є: сторінка тепер у всіх 530, а
+		   анкета — у 93. Без цієї перевірки 437 карток летіли б по 404. */
+		const запис = адреса
+			? data.graduates.find((g) => graduateAddress(g) === адреса)
+			: undefined;
+		if (адреса && запис && hasProfile(запис) && browser) {
+			ensureGraduateProfile(адреса, getAbortSignal());
 		}
 	});
 
@@ -254,7 +258,7 @@
 	 * працівника).
 	 */
 	function closeCard() {
-		if (paramGraduate && !page.state.graduateCode && !page.state.graduateSlug) {
+		if (paramGraduate && !page.state.graduateAddress) {
 			paramGraduate = null;
 			syncParamUrl('g', null);
 			return;
@@ -263,11 +267,14 @@
 	}
 
 	async function openGraduate(graduate: GraduateIndexEntry) {
-		if (!graduate.code) {
-			pushState('', { graduateSlug: graduate.slug });
-			return;
-		}
-
+		/*
+		 * Розвилки «є код / немає коду» тут БІЛЬШЕ НЕМА.
+		 *
+		 * Доти в кого коду не було, той отримував `pushState('')` — стан
+		 * кладеться, адреса лишається чужою. Тому Ілля Трифонов, відкритий із
+		 * реєстру, показувався за адресою `/?roster=open&q=триф`, хоч власна
+		 * сторінка в нього вже була.
+		 */
 		if (browser && window.matchMedia('(max-width: 768px)').matches) {
 			await goto(profileHref(graduate));
 			return;
@@ -284,7 +291,7 @@
 		// піде по профіль. Доти виклик стояв і тут, і в ефекті, тож на кожен
 		// клік летіли ДВА запити за той самий файл: `profiles.has(code)` ще
 		// порожній, поки перший не відповів.
-		pushState(profileHref(graduate), { graduateCode: graduate.code });
+		pushState(profileHref(graduate), { graduateAddress: graduateAddress(graduate) });
 	}
 
 	/**

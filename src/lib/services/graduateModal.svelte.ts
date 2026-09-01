@@ -32,16 +32,12 @@ import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 /**
  * Кладе випускника в стан сторінки й переписує адресу.
  *
- * У кого немає `code`, немає й власної сторінки — таким адреса не міняється
- * (`pushState('')` лишає поточну), але стан усе одно кладеться: без нього
- * «назад» не мала б чого знімати, і картка зависла б відкритою.
+ * Адреса міняється ЗАВЖДИ. Доти тут стояла розвилка: у кого немає `code`, тому
+ * `pushState('')` — тобто стан кладеться, а адреса лишається чужою. Це було
+ * правдою, доки власної сторінки в тих 440 не існувало; відколи вона є, розвилка
+ * лише ховала її від людини, яка вже стоїть на картці.
  */
 export function openGraduateModal(graduate: GraduateIndexEntry): void {
-	if (!graduate.code) {
-		pushState('', { graduateSlug: graduate.slug });
-		return;
-	}
-
 	/*
 	 * `resolve()` тут не викликається свідомо — під SSR він віддає ВІДНОСНИЙ
 	 * шлях, і мовний префікс поверх нього дає `/en../../../projects/…`. Замість
@@ -53,7 +49,7 @@ export function openGraduateModal(graduate: GraduateIndexEntry): void {
 		graduateProfilePath(graduateAddress(graduate)),
 		localeFromPath(page.url.pathname)
 	);
-	pushState(href, { graduateCode: graduate.code });
+	pushState(href, { graduateAddress: graduateAddress(graduate) });
 }
 
 /**
@@ -64,13 +60,9 @@ export function openGraduateModal(graduate: GraduateIndexEntry): void {
  * хто саме її відкрив — склад групи, потік учнів майстра чи зірка в галактиці.
  */
 export function graduateFromPageState(): GraduateIndexEntry | null {
-	const { graduateCode, graduateSlug } = page.state;
-	if (!graduateCode && !graduateSlug) return null;
-	return (
-		GRADUATES.find((graduate) =>
-			graduateCode ? graduate.code === graduateCode : graduate.slug === graduateSlug
-		) ?? null
-	);
+	const { graduateAddress: адреса } = page.state;
+	if (!адреса) return null;
+	return GRADUATES.find((graduate) => graduateAddress(graduate) === адреса) ?? null;
 }
 
 /**

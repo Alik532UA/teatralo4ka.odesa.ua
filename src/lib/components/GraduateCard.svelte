@@ -6,6 +6,8 @@
 	import {
 		type GraduateIndexEntry,
 		type GraduateProfile,
+		graduateAddress,
+		hasProfile,
 	} from "$lib/data/graduates";
 	import { localeFromPath, localizedPath } from "$lib/i18n/routing";
 	import {
@@ -49,18 +51,23 @@
 	 * Це те, що робить компонент придатним для будь-якої сторінки: доки читання
 	 * файлу жило тільки в галактиці, решта показувала спрощений вигляд без
 	 * подробиць — і людина з заповненою анкетою виглядала як незаповнена.
-	 * Хто коду не має, анкети не має за визначенням: `ensureGraduateProfile`
-	 * на порожньому коді нічого не робить, і картка чесно показує сам запис.
+	 * Питається АДРЕСА (`code`, якщо є, інакше `slug`), а наявність анкети —
+	 * окремою ознакою `hasProfile`. Доти обидва рішення ухвалював `code`, і на цьому
+	 * ховалися анкети трьох людей: Ілля Трифонов, Михайло Прядко та Олена Белугіна
+	 * мають файл анкети, але коду не мають, тож картка його не питала — і показувала
+	 * порожні «Вистави» тому, у кого в анкеті вистава є.
 	 */
 	$effect(() => {
-		const code = graduate?.code;
-		if (code && profile === undefined && browser) {
-			ensureGraduateProfile(code, getAbortSignal());
+		const адреса = graduate ? graduateAddress(graduate) : null;
+		if (адреса && graduate && hasProfile(graduate) && profile === undefined && browser) {
+			ensureGraduateProfile(адреса, getAbortSignal());
 		}
 	});
 
 	const shownProfile = $derived(
-		profile !== undefined ? profile : cachedGraduateProfile(graduate?.code),
+		profile !== undefined
+			? profile
+			: cachedGraduateProfile(graduate ? graduateAddress(graduate) : null),
 	);
 
 	/**
