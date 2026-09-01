@@ -23,6 +23,12 @@
 			"playId": "etiudy-2023"
 		},
 		{
+			"year": 2023,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2023",
+			"fromRegistry": true
+		},
+		{
 			"year": 2024,
 			"text": "«Аліса у задзеркаллі», Аліса та Верть",
 			"playId": "alisa-v-zadzerkalli-2024"

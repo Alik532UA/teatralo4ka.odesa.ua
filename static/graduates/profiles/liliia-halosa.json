@@ -37,9 +37,21 @@
 			"playId": "chypollyno-2010"
 		},
 		{
+			"year": 2010,
+			"text": "«Цибуліно»",
+			"playId": "tsybulino-2010",
+			"fromRegistry": true
+		},
+		{
 			"year": 2011,
 			"text": "«Натовп самотніх», Дівчина з вагітним животом",
 			"playId": "natovp-samotnikh-2011"
+		},
+		{
+			"year": 2011,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2011",
+			"fromRegistry": true
 		}
 	],
 	"bio": [

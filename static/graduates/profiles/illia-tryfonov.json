@@ -31,6 +31,12 @@
 			"year": 2012,
 			"text": "«Граємо Чехова»",
 			"playId": "hraiemo-chekhova-2012"
+		},
+		{
+			"year": 2012,
+			"text": "Уривки з драматургії 20 століття",
+			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],

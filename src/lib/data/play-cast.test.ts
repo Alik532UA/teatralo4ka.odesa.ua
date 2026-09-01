@@ -4,6 +4,8 @@ import path from 'node:path';
 import { buildCast } from '../../../scripts/build-play-cast';
 import { PLAY_CAST as cast } from './playCast';
 import { PLAYS } from './plays';
+import { GRADUATES } from './graduates';
+import { createNameMatcher } from '$lib/utils/participantMatch';
 
 /**
  * Склад вистав не має права відстати від анкет.
@@ -102,6 +104,43 @@ describe('склад вистав', () => {
 			.flat()
 			.filter((e) => e.item);
 		expect(зНомером.length, 'жодного складу з номером — те саме').toBeGreaterThan(0);
+	});
+
+	/*
+	 * Прапорець `fromRegistry` не можна поставити з нічого.
+	 *
+	 * Він означає «цей рядок узято зі списку школи», і єдине, що це підтверджує,
+	 * — саме ім'я в `participants` або `extraParticipants` тієї вистави. Без
+	 * перевірки прапорець став би зручним способом додати людину у виставу, ні
+	 * на що не спираючись: напис під складом обіцяв би список школи, якого
+	 * немає.
+	 *
+	 * Заміряно: після хвилі 1 таких рядків 52 у 25 анкетах.
+	 */
+	it('кожен рядок «зі списку школи» справді є в списку школи', () => {
+		const match = createNameMatcher(GRADUATES);
+		const bad: string[] = [];
+		let перевірено = 0;
+		for (const [playId, list] of Object.entries(cast)) {
+			const play = PLAYS.find((p) => p.id === playId);
+			if (!play) continue;
+			const наПапері = new Set(
+				[...(play.participants ?? []), ...(play.extraParticipants ?? [])]
+					.map((raw) => match(raw)?.id)
+					.filter((id): id is string => Boolean(id))
+			);
+			for (const entry of list) {
+				if (!entry.fromRegistry) continue;
+				перевірено += 1;
+				if (наПапері.has(entry.graduateId)) continue;
+				bad.push(`${playId}: ${entry.graduateId} позначений як «зі списку школи», а в списку його немає`);
+			}
+		}
+		expect(перевірено, 'жодного рядка зі списку школи — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(
+			bad,
+			'прапорець `fromRegistry` без підстави в складі показу:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
 	});
 
 	it('файл зрізу лежить там, де його шукає скрипт', () => {

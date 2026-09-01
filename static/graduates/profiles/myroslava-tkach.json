@@ -85,6 +85,12 @@
 			"playId": "kentervylskoe-pryvydenye-2017"
 		},
 		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
+		},
+		{
 			"year": 2018,
 			"text": "Уривки з класики",
 			"playId": "otryvky-yz-klassyky-2018"

@@ -28,15 +28,27 @@
 	],
 	"plays": [
 		{
-			"year": 2012,
-			"text": "«Граємо Чехова»: «Чайка», Тригорін",
-			"playId": "hraiemo-chekhova-2012",
-			"role": "«Чайка», Тригорін"
+			"year": 2007,
+			"text": "«Дядечко Кролик проти дядечка Ягуара»",
+			"playId": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
 		},
 		{
-			"year": 2012,
-			"text": "«Гріх» Уривки, Сталинський",
-			"playId": "hrikh-2012"
+			"year": 2008,
+			"text": "«Кощієві пристрасті», Кощій",
+			"playId": "koshcheevy-strasty-2008",
+			"role": "Кощій"
+		},
+		{
+			"year": 2009,
+			"text": "«Вперед, кошеня», Котяра",
+			"playId": "vpered-kotenok-2009",
+			"role": "Котяра"
+		},
+		{
+			"year": 2010,
+			"text": "«Маленький принц», Льотчик",
+			"playId": "malenkyi-prynts-2010",
+			"role": "Льотчик"
 		},
 		{
 			"year": 2011,
@@ -50,27 +62,27 @@
 			"playId": "durochka-2011"
 		},
 		{
-			"year": 2010,
-			"text": "«Маленький принц», Льотчик",
-			"playId": "malenkyi-prynts-2010",
-			"role": "Льотчик"
+			"year": 2012,
+			"text": "«Граємо Чехова»: «Чайка», Тригорін",
+			"playId": "hraiemo-chekhova-2012",
+			"role": "«Чайка», Тригорін"
 		},
 		{
-			"year": 2009,
-			"text": "«Вперед, кошеня», Котяра",
-			"playId": "vpered-kotenok-2009",
-			"role": "Котяра"
+			"year": 2012,
+			"text": "«Гріх» Уривки, Сталинський",
+			"playId": "hrikh-2012"
 		},
 		{
-			"year": 2008,
-			"text": "«Кощієві пристрасті», Кощій",
-			"playId": "koshcheevy-strasty-2008",
-			"role": "Кощій"
+			"year": 2012,
+			"text": "«Король помирає»",
+			"playId": "korol-pomyraie-2012",
+			"fromRegistry": true
 		},
 		{
-			"year": 2007,
-			"text": "«Дядечко Кролик проти дядечка Ягуара»",
-			"playId": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007"
+			"year": 2012,
+			"text": "Уривки з драматургії 20 століття",
+			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"fromRegistry": true
 		}
 	],
 	"bio": [

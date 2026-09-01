@@ -35,6 +35,18 @@
 	],
 	"plays": [
 		{
+			"year": 2021,
+			"text": "Показ етюдів та вербатімів",
+			"playId": "pokaz-etiudiv-ta-verbatimiv-2021",
+			"fromRegistry": true
+		},
+		{
+			"year": 2022,
+			"text": "«Піду до зірок»",
+			"playId": "pidu-do-zirok-2022",
+			"fromRegistry": true
+		},
+		{
 			"year": 2023,
 			"text": "«Рецепти виживання», Юстя",
 			"playId": "retsepty-vyzhyvannia-2023"

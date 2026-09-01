@@ -24,6 +24,12 @@
 	],
 	"plays": [
 		{
+			"year": 2023,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2023",
+			"fromRegistry": true
+		},
+		{
 			"year": 2024,
 			"text": "«Аліса», 9 Аліса.",
 			"playId": "alisa-2024"

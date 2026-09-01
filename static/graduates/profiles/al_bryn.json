@@ -45,6 +45,12 @@
 			"year": 2015,
 			"text": "«Жіноче питання»",
 			"playId": "zhenskyi-vopros-2015"
+		},
+		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],

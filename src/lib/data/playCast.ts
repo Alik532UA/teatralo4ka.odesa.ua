@@ -26,6 +26,8 @@ export interface CastEntry {
 	role?: string;
 	/** Номер програми — уривок вечора. Див. `PlayProgrammeItem` у `plays.ts`. */
 	item?: string;
+	/** Рядок зі списку школи, а не зі слів людини. Див. `GraduatePlay.fromRegistry`. */
+	fromRegistry?: boolean;
 }
 
 export const PLAY_CAST = castData as Record<string, CastEntry[]>;
@@ -36,6 +38,8 @@ export interface CastMember {
 	role?: string;
 	/** Номер програми, у якому людина грала. Немає — вона назвала весь вечір. */
 	item?: string;
+	/** Ім'я прийшло зі списку школи, а не зі слів людини. */
+	fromRegistry?: boolean;
 }
 
 /**
@@ -49,7 +53,13 @@ export function castOf(playId: string): CastMember[] {
 	const members: CastMember[] = [];
 	for (const entry of PLAY_CAST[playId] ?? []) {
 		const graduate = GRADUATES.find((g) => g.id === entry.graduateId);
-		if (graduate) members.push({ graduate, role: entry.role, item: entry.item });
+		if (graduate)
+			members.push({
+				graduate,
+				role: entry.role,
+				item: entry.item,
+				fromRegistry: entry.fromRegistry
+			});
 	}
 	return members.sort((a, b) => a.graduate.name.localeCompare(b.graduate.name, 'uk'));
 }

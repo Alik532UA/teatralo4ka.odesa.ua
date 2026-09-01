@@ -151,6 +151,12 @@
 			"item": "toi-khto-otrymuie-liapasy"
 		},
 		{
+			"year": 2012,
+			"text": "«Король помирає»",
+			"playId": "korol-pomyraie-2012",
+			"fromRegistry": true
+		},
+		{
 			"year": 2013,
 			"text": "«Тінь»",
 			"playId": "ten-2013"
@@ -161,6 +167,12 @@
 			"playId": "uryvky-z-klasyky-2013",
 			"item": "neznaiomka",
 			"role": "Поет"
+		},
+		{
+			"year": 2013,
+			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
+			"playId": "teatralnie-korolevstvo-2013",
+			"role": "Принц"
 		},
 		{
 			"year": 2014,
@@ -182,6 +194,11 @@
 			"role": "Блазень"
 		},
 		{
+			"year": 2014,
+			"text": "Посвята в Мистецтво, «Шахи», Першокурсник",
+			"playId": "shakhy-2014"
+		},
+		{
 			"year": 2015,
 			"text": "«Уривки з класики: Принижені та зневажені»",
 			"playId": "uryvky-z-klasyky-2015",
@@ -200,25 +217,14 @@
 			"role": "Учитель, Доктор, Біллі"
 		},
 		{
-			"year": 2023,
-			"text": "«Сон Забрьохи», Пістряк",
-			"playId": "son-zabrokhy-2023"
-		},
-		{
-			"year": 2013,
-			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
-			"playId": "teatralnie-korolevstvo-2013",
-			"role": "Принц"
-		},
-		{
-			"year": 2014,
-			"text": "Посвята в Мистецтво, «Шахи», Першокурсник",
-			"playId": "shakhy-2014"
-		},
-		{
 			"year": 2022,
 			"text": "Посвята в Мистецтво, «Енеїда», Еней",
 			"playId": "eneida-2022"
+		},
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Пістряк",
+			"playId": "son-zabrokhy-2023"
 		}
 	],
 	"bio": [

@@ -43,9 +43,27 @@
 			"text": "Уривки з класики (Рита з п'єси «Чорна Пантера і Білий Медвідь» В. Винниченка), (Надя з п'єси О.Володіна «Старшая сестра»)"
 		},
 		{
+			"year": 2014,
+			"text": "«Тюлька та Ґруффало»",
+			"playId": "tiulka-ta-gruffalo-2014",
+			"fromRegistry": true
+		},
+		{
 			"year": 2015,
 			"text": "Проект «Я», Кармен",
 			"playId": "ia-2015"
+		},
+		{
+			"year": 2015,
+			"text": "Проєкт «Я»",
+			"playId": "proiekt-ia-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
 		}
 	],
 	"bio": [

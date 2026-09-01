@@ -34,6 +34,12 @@
 			"playId": "alisa-v-zadzerkalli-2024"
 		},
 		{
+			"year": 2024,
+			"text": "«Аліса»",
+			"playId": "alisa-2024",
+			"fromRegistry": true
+		},
+		{
 			"year": 2025,
 			"text": "Уривки з класики: «Ромео і Джульєтта», Джульєтта",
 			"playId": "romeo-i-dzhulietta-2025"

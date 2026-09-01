@@ -30,7 +30,26 @@
 			"url": "https://www.instagram.com/rodonaya/"
 		}
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Тюлька та Ґруффало»",
+			"playId": "tiulka-ta-gruffalo-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
+		}
+	],
 	"bio": [
 		"Закінчила ГІТІС мастерню Л.Е.Хейфеца 2016-2020"
 	],

@@ -44,6 +44,10 @@
 	],
 	"alisa-2024": [
 		{
+			"graduateId": "sofia-chernova",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "sofiia-skuratovych"
 		}
 	],
@@ -117,6 +121,12 @@
 	"bermudskyi-kvadrat-2014": [
 		{
 			"graduateId": "dariia-kulish"
+		}
+	],
+	"bezimenna-zirka-2020": [
+		{
+			"graduateId": "daria-rybalchenko",
+			"fromRegistry": true
 		}
 	],
 	"blondi-2020": [
@@ -223,6 +233,12 @@
 		},
 		{
 			"graduateId": "tetiana-kamelevska"
+		}
+	],
+	"de-vsi-2015": [
+		{
+			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
 		}
 	],
 	"detskyi-sadyk-2010": [
@@ -434,6 +450,14 @@
 	],
 	"foto-toples-2018": [
 		{
+			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-rybalchenko",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "heorhii-topor"
 		}
 	],
@@ -548,6 +572,10 @@
 	],
 	"hraiemo-zoshchenka-2020": [
 		{
+			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "daria-rybalchenko"
 		},
 		{
@@ -620,6 +648,12 @@
 	"karpatskaia-vesna-2008": [
 		{
 			"graduateId": "olena-mrost"
+		}
+	],
+	"kazka-ardenskoho-lisu-2017": [
+		{
+			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
 		}
 	],
 	"kazka-pro-myshei-2022": [
@@ -703,6 +737,20 @@
 	"koralina-v-kraini-koshmariv-2020": [
 		{
 			"graduateId": "nadiia-hasynets"
+		}
+	],
+	"korol-pomyraie-2012": [
+		{
+			"graduateId": "alik-zapolnov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "volodymyr-chalchynskyi",
+			"fromRegistry": true
 		}
 	],
 	"koroleva-komakh-2024": [
@@ -906,7 +954,29 @@
 	],
 	"myna-mazailo-2006": [
 		{
+			"graduateId": "nadiia-rybakova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "olha-poliakova",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "vadym-krusser"
+		}
+	],
+	"myna-mazailo-new-2009": [
+		{
+			"graduateId": "nadiia-rybakova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "olha-poliakova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vadym-krusser",
+			"fromRegistry": true
 		}
 	],
 	"myshenia-supersyshchyk-2020": [
@@ -922,7 +992,15 @@
 			"graduateId": "anisiia-stasevych"
 		},
 		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "liliia-halosa"
+		},
+		{
+			"graduateId": "tetiana-kamelevska",
+			"fromRegistry": true
 		}
 	],
 	"natovp-samotnikh-2017": [
@@ -1084,6 +1162,10 @@
 	"pidu-do-zirok-2022": [
 		{
 			"graduateId": "daria-rybalchenko"
+		},
+		{
+			"graduateId": "maryna-kravchuk",
+			"fromRegistry": true
 		}
 	],
 	"pliushevyi-krolyk-2013": [
@@ -1101,6 +1183,34 @@
 			"graduateId": "tetiana-dudush-polishchuk"
 		}
 	],
+	"pokaz-etiudiv-2014": [
+		{
+			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
+		}
+	],
+	"pokaz-etiudiv-2016": [
+		{
+			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
+		}
+	],
+	"pokaz-etiudiv-2023": [
+		{
+			"graduateId": "sofiia-skuratovych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "violetta-nezvinska",
+			"fromRegistry": true
+		}
+	],
+	"pokaz-etiudiv-ta-verbatimiv-2021": [
+		{
+			"graduateId": "maryna-kravchuk",
+			"fromRegistry": true
+		}
+	],
 	"prazdnychnyi-son-do-obeda-2010": [
 		{
 			"graduateId": "alla-khaiut"
@@ -1109,6 +1219,12 @@
 	"prazdnyk-neposlushanyia-2014": [
 		{
 			"graduateId": "roman-arabadzhi"
+		}
+	],
+	"proiekt-ia-2015": [
+		{
+			"graduateId": "kateryna-kudlach",
+			"fromRegistry": true
 		}
 	],
 	"prosto-vir-u-sebe-2020": [
@@ -1132,6 +1248,10 @@
 		}
 	],
 	"retsepty-vyzhyvannia-2023": [
+		{
+			"graduateId": "daria-rybalchenko",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "maryna-kravchuk"
 		}
@@ -1240,6 +1360,12 @@
 			"graduateId": "dmytro-rozumenko"
 		}
 	],
+	"slon-khorton-new-2010": [
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		}
+	],
 	"slovianskyi-vinok-2010": [
 		{
 			"graduateId": "olena-mrost"
@@ -1313,6 +1439,12 @@
 			"graduateId": "dariia-kulish"
 		}
 	],
+	"taiemnytsi-zamku-oilenshtain-2013": [
+		{
+			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
+		}
+	],
 	"tak-buvaie-2020": [
 		{
 			"graduateId": "sofiia-holub"
@@ -1377,6 +1509,16 @@
 			"graduateId": "daniela-rybalchenko"
 		}
 	],
+	"tiulka-ta-gruffalo-2014": [
+		{
+			"graduateId": "anna-rodonaia",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-kudlach",
+			"fromRegistry": true
+		}
+	],
 	"tolpa-odynokykh-2016": [
 		{
 			"graduateId": "anton-babich"
@@ -1428,6 +1570,24 @@
 			"graduateId": "maryna-sukhanova"
 		}
 	],
+	"tsybulino-2010": [
+		{
+			"graduateId": "anisiia-stasevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liliia-halosa",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-kamelevska",
+			"fromRegistry": true
+		}
+	],
 	"u-poshukakh-natkhnennia-2021": [
 		{
 			"graduateId": "yan-slobodeniuk"
@@ -1437,6 +1597,36 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"item": "toi-khto-otrymuie-liapasy"
+		},
+		{
+			"graduateId": "illia-tryfonov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "volodymyr-chalchynskyi",
+			"fromRegistry": true
+		}
+	],
+	"uryvky-z-klasyky-2011": [
+		{
+			"graduateId": "anisiia-stasevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liliia-halosa",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-kamelevska",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2013": [
@@ -1451,12 +1641,32 @@
 			"graduateId": "alik-zapolnov",
 			"role": "М. М.",
 			"item": "asia"
+		},
+		{
+			"graduateId": "anna-rodonaia",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "artem-starshov",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2015": [
 		{
 			"graduateId": "alik-zapolnov",
 			"item": "prynyzheni-ta-znevazheni"
+		},
+		{
+			"graduateId": "anna-rodonaia",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-kudlach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandr-chehlatonev",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2016": [
@@ -1465,11 +1675,23 @@
 		},
 		{
 			"graduateId": "daiana-ponomarenko"
+		},
+		{
+			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2019": [
 		{
+			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "daria-rybalchenko"
+		},
+		{
+			"graduateId": "heorhii-topor",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2025": [
@@ -1480,6 +1702,12 @@
 	"uryvky-z-klasyky-mama-2024": [
 		{
 			"graduateId": "daria-kristiian"
+		}
+	],
+	"uryvky-z-ukrainskoi-klasyky-2010": [
+		{
+			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
 		}
 	],
 	"use-lito-v-odyn-den-2020": [
@@ -1752,6 +1980,20 @@
 	"zolushka-2011": [
 		{
 			"graduateId": "anastasiia-ihnatovych"
+		}
+	],
+	"zona-turbulentnosti-2017": [
+		{
+			"graduateId": "alla-brynza",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "myroslava-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "roman-arabadzhi",
+			"fromRegistry": true
 		}
 	],
 	"zorianyi-ekspres-2016": [

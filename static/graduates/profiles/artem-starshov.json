@@ -22,7 +22,14 @@
 			"url": "https://www.facebook.com/krimer.arty"
 		}
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		}
+	],
 	"bio": [
 		"Навчався у Київському Національному університеті культури і мистецтв",
 		"Актор театру та кіно, Київ",

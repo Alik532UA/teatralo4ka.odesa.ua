@@ -4,6 +4,8 @@
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import { GRADUATES, graduatePhoto } from '$lib/data/graduates';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
+	import { MASTERS, masterProfilePath } from '$lib/data/masters';
+	import { locale } from 'svelte-i18n';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { CastMember } from '$lib/data/playCast';
 	import type { PlayProgrammeItem } from '$lib/data/plays';
@@ -88,8 +90,33 @@
 	 */
 	const знайти = createNameMatcher(GRADUATES);
 
+	/**
+	 * Другий матчер — по ПРАЦІВНИКАХ.
+	 *
+	 * У складах показів п'ять імен належать не випускникам, а працівникам школи
+	 * («Олег Шевчук», «Володимир Романко»). Без цього матчера вони лишалися б
+	 * картками без переходу, хоч власна сторінка в них є. Той самий прийом уже
+	 * стоїть у `MasterProductionCard`.
+	 */
+	const знайтиПрацівника = createNameMatcher(
+		MASTERS.map((m) => ({ ...m, name: m.displayName ?? m.fullName ?? '' }))
+	);
+
+	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
+
+	/**
+	 * Хто ВЖЕ показаний карткою вище — той із паперового переліку зникає.
+	 *
+	 * Інакше після хвилі 1 (52 рядки зі списків школи переїхали в анкети) та сама
+	 * людина стояла б двічі: раз у складі й раз у папері. Перевіряється щоразу
+	 * заново, а не на збірці, — тож із кожною новою анкетою папір коротшає сам.
+	 */
+	const уКартках = $derived(new Set(cast.map((entry) => entry.graduate.id)));
+
 	function паперові(імена: readonly string[] | undefined) {
-		return (імена ?? []).map((raw) => ({ raw, graduate: знайти(raw) }));
+		return (імена ?? [])
+			.map((raw) => ({ raw, graduate: знайти(raw), master: знайтиПрацівника(raw) }))
+			.filter(({ graduate }) => !(graduate && уКартках.has(graduate.id)));
 	}
 
 	/** Той самий підпис, що в решти карток сторінки: «випуск 2012». */
@@ -99,6 +126,9 @@
 
 	const склад = $derived(паперові(participants));
 	const додатково = $derived(паперові(extraParticipants));
+
+	/** Чи є в складі хоч один рядок зі списків школи — від цього залежить напис. */
+	const зіСписків = $derived(cast.some((entry) => entry.fromRegistry));
 
 	const видимі = $derived(
 		обраний === null
@@ -180,29 +210,46 @@
 				</li>
 			{/each}
 		</ul>
-		<p class="play-note" data-testid="play-cast-note-text">{$t('galaxy.playCastNote')}</p>
+		<!--
+			Напис мусить бути правдою про ОБИДВА джерела. Доти він казав «тут ті,
+			хто САМ назвав цю виставу своєю» — і після того, як 52 рядки переїхали
+			зі списків школи в анкети, це стало напівправдою.
+		-->
+		<p class="play-note" data-testid="play-cast-note-text">
+			{$t('galaxy.playCastNote')}{#if зіСписків}
+				&nbsp;{$t('galaxy.playCastNoteSchool')}{/if}
+		</p>
 	{:else}
 		<p class="play-note" data-testid="play-cast-empty-text">{$t('galaxy.playCastEmpty')}</p>
 	{/if}
 
 	{#snippet паперовийПерелік(
-		люди: { raw: string; graduate: ReturnType<typeof знайти> }[],
+		люди: {
+			raw: string;
+			graduate: ReturnType<typeof знайти>;
+			master: ReturnType<typeof знайтиПрацівника>;
+		}[],
 		підпис: string,
 		testid: string,
 		зсув: number
 	)}
 		<p class="paper__title">{підпис}</p>
 		<ul class="people-grid" data-testid={testid}>
-			{#each люди as { raw, graduate }, i (raw)}
+			{#each люди as { raw, graduate, master }, i (raw)}
 				<li>
 					<GroupPersonCard
-						name={graduate?.name ?? raw}
-						photo={graduate?.hasPhoto ? graduatePhoto(graduate.slug, 192) : null}
-						subtitle={підписРоку(graduate?.graduationYear)}
+						name={graduate?.name ?? master?.displayName ?? raw}
+						photo={graduate?.hasPhoto
+							? graduatePhoto(graduate.slug, 192)
+							: (master?.photo ?? null)}
+						subtitle={graduate
+							? підписРоку(graduate.graduationYear)
+							: (master?.subjects?.join(', ') ?? null)}
+						href={master && !graduate ? masterProfilePath(master.slug, lang) : undefined}
 						onclick={graduate ? () => openGraduateModal(graduate) : undefined}
 						index={зсув + i}
 						splitName
-						testid="{testid}-{graduate?.slug ?? i}"
+						testid="{testid}-{graduate?.slug ?? master?.slug ?? i}"
 					/>
 				</li>
 			{/each}

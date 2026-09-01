@@ -34,6 +34,7 @@ interface AnketaPlay {
 	role?: string;
 	text?: string;
 	item?: string;
+	fromRegistry?: boolean;
 }
 
 interface Anketa {
@@ -53,6 +54,8 @@ export interface CastEntry {
 	 * докблоці `PlayProgrammeItem`.
 	 */
 	item?: string;
+	/** Рядок зі списку школи, а не зі слів людини. Див. `GraduatePlay.fromRegistry`. */
+	fromRegistry?: boolean;
 }
 
 const PROFILES = path.join('static', 'graduates', 'profiles');
@@ -80,6 +83,7 @@ export function buildCast(): Record<string, CastEntry[]> {
 			const entry: CastEntry = { graduateId: id };
 			if (play.role) entry.role = play.role;
 			if (play.item) entry.item = play.item;
+			if (play.fromRegistry) entry.fromRegistry = true;
 			(cast[play.playId] ??= []).push(entry);
 		}
 	}

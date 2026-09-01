@@ -67,6 +67,12 @@
 			"playId": "feis-bu-chik-2018"
 		},
 		{
+			"year": 2018,
+			"text": "«Фото-топлес»",
+			"playId": "foto-toples-2018",
+			"fromRegistry": true
+		},
+		{
 			"year": 2019,
 			"text": "«Уривки з класики», Чорна пантера, Джонсі, Ткачиха",
 			"playId": "uryvky-z-klasyky-2019"
@@ -77,6 +83,12 @@
 			"playId": "hraiemo-zoshchenka-2020"
 		},
 		{
+			"year": 2020,
+			"text": "«Безіменна зірка»",
+			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true
+		},
+		{
 			"year": 2021,
 			"text": "«Чапаєв та Василіса», Чапаєв",
 			"playId": "chapaiev-ta-vasylisa-2021"
@@ -85,6 +97,12 @@
 			"year": 2022,
 			"text": "«Піду до зірок», Даніела",
 			"playId": "pidu-do-zirok-2022"
+		},
+		{
+			"year": 2023,
+			"text": "«Рецепти виживання»",
+			"playId": "retsepty-vyzhyvannia-2023",
+			"fromRegistry": true
 		}
 	],
 	"bio": [

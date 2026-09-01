@@ -49,6 +49,12 @@
 			"playId": "myna-mazailo-2006"
 		},
 		{
+			"year": 2009,
+			"text": "«Мина Мазайло-NEW»",
+			"playId": "myna-mazailo-new-2009",
+			"fromRegistry": true
+		},
+		{
 			"year": 2014,
 			"text": "Посвята в Мистецтво, «Шахи», Білий слон",
 			"playId": "shakhy-2014"
