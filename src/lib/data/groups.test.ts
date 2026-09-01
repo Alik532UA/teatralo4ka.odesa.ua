@@ -4,7 +4,8 @@ import {
 	getGroupBySlug,
 	getGroupByTitleOrAbbr,
 	getGroupsByMember,
-	groupProfilePath
+	groupProfilePath,
+	coGroupsForPlay
 } from './groups';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -119,5 +120,38 @@ describe('GROUPS data integrity', () => {
 		expect(groupProfilePath('zakhysnyky-teatralnykh-kulis')).toBe(
 			'/projects/galaxy-graduates/groups/zakhysnyky-teatralnykh-kulis'
 		);
+	});
+
+	/*
+	 * «Уявно хворий» — вистава ЗТК і Скоморохів одночасно, і саме вона єдина
+	 * мала примітку «(разом з групою ЗТК)», написану руками в анкеті Марини
+	 * Суханової. Тепер відповідь обчислюється, і ці три перевірки закріплюють
+	 * рівно те, що примітка казала, — плюс головне правило про незнання.
+	 */
+	it('coGroupsForPlay: чужі групи вистави — крім власних груп випускника', () => {
+		// Марина зі Скоморохів → лишається ЗТК
+		expect(coGroupsForPlay('mnymyi-bolnoi-2011', 'maryna-sukhanova').map((g) => g.slug)).toEqual([
+			'zakhysnyky-teatralnykh-kulis'
+		]);
+
+		// Алік із ЗТК → лишаються Скоморохи. Тобто відповідь ЗАЛЕЖИТЬ від того,
+		// хто питає: та сама вистава, інша своя група.
+		expect(coGroupsForPlay('mnymyi-bolnoi-2011', 'alik-zapolnov').map((g) => g.slug)).toEqual([
+			'skomorokhy'
+		]);
+	});
+
+	it('coGroupsForPlay: без своєї групи — порожньо, а не «всі чужі»', () => {
+		/*
+		 * Це не дрібниця, а суть правила. Заміряно: із 124 рядків, де вистава
+		 * належить ще й іншій групі, 82 — про людей, не прив'язаних до жодної
+		 * групи. Без цієї умови плашка казала б Скоморохові «разом з
+		 * Скоморохами»: група виглядає чужою лише тому, що своєї ми не знаємо.
+		 */
+		expect(coGroupsForPlay('mnymyi-bolnoi-2011', 'ніхто-такий-не-існує')).toEqual([]);
+	});
+
+	it('coGroupsForPlay: вистава без груп у реєстрі — порожньо', () => {
+		expect(coGroupsForPlay('такої-вистави-немає', 'maryna-sukhanova')).toEqual([]);
 	});
 });

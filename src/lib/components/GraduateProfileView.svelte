@@ -7,6 +7,7 @@
 	import { safeUrl } from "$lib/utils/safeUrl";
 	import DepartmentIcon from "$lib/components/icons/DepartmentIcon.svelte";
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
+	import PlayRowExtras from '$lib/components/PlayRowExtras.svelte';
 	import { hasLink } from "$lib/utils/formatFlags";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
@@ -738,50 +739,74 @@
 								>
 							{/if}
 							<!--
-								Рядок стає ПОСИЛАННЯМ лише там, де є `playId`:
-								лише тоді відомо, на яку саме виставу вести. У
-								складених рядків («Уривки з класики» трьома
-								уривками одразу) ключа немає навмисно, і
-								вигадувати посилання для них означало б вести
-								читача навмання.
-							-->
-							{#if play.playId && !hasLink(play.text)}
-								<a
-									class="play__text play__link"
-									href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
-									data-testid="galaxy-card-play-link-{index}"
-								>
-									<RichTextWithFlags text={play.text} />
-								</a>
-							{:else if play.playId}
-								<!--
-									Рядок має ВЛАСНЕ посилання всередині — обгорнути його
-									ще одним не можна: `<a>` в `<a>` невалідний, браузер
-									таке мовчки лагодить, а Svelte у dev валить сторінку
-									цілком. Заміряно на цій самій анкеті: сторінка не
-									рендерилася взагалі.
+								Текст і хвіст стоять У КОЛОНЦІ, а не в один рядок.
 
-									Тому текст лишається текстом зі своїм посиланням, а до
-									вистави веде окремий значок — той самий прийом, що з
-									кнопкою запису в репертуарі групи.
+								Доти «разом з ЗТК» і кнопка запису стояли праворуч від
+								тексту, і у вузькій картці вони з'їдали під них місце: назва
+								вистави з роллю тислася в колонку з двох слів («Уявно /
+								хворий», / Тома / Діафуарус»). Заміряно на скріншоті
+								замовника. Тому хвіст завжди йде рядком нижче — і в широкій
+								картці теж, бо два різних поводження тут не варті двадцяти
+								пікселів висоти.
+							-->
+							<div class="play__body">
+								<!--
+									Рядок стає ПОСИЛАННЯМ лише там, де є `playId`:
+									лише тоді відомо, на яку саме виставу вести. У
+									складених рядків («Уривки з класики» трьома
+									уривками одразу) ключа немає навмисно, і
+									вигадувати посилання для них означало б вести
+									читача навмання.
 								-->
-								<span class="play__text"
-									><RichTextWithFlags text={play.text} /></span
-								>
-								<a
-									class="play__page-link"
-									href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
-									aria-label="{$t('galaxy.playTitle')}: {play.text}"
-									title={$t("galaxy.playTitle")}
-									data-testid="galaxy-card-play-link-{index}"
-								>
-									<Theater size={15} aria-hidden="true" />
-								</a>
-							{:else}
-								<span class="play__text"
-									><RichTextWithFlags text={play.text} /></span
-								>
-							{/if}
+								{#if play.playId && !hasLink(play.text)}
+									<a
+										class="play__text play__link"
+										href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
+										data-testid="galaxy-card-play-link-{index}"
+									>
+										<RichTextWithFlags text={play.text} />
+									</a>
+								{:else if play.playId}
+									<!--
+										Рядок має ВЛАСНЕ посилання всередині — обгорнути його
+										ще одним не можна: `<a>` в `<a>` невалідний, браузер
+										таке мовчки лагодить, а Svelte у dev валить сторінку
+										цілком. Заміряно на цій самій анкеті: сторінка не
+										рендерилася взагалі.
+
+										Тому текст лишається текстом зі своїм посиланням, а до
+										вистави веде окремий значок — той самий прийом, що з
+										кнопкою запису в репертуарі групи.
+									-->
+									<span class="play__text"
+										><RichTextWithFlags text={play.text} /></span
+									>
+									<a
+										class="play__page-link"
+										href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
+										aria-label="{$t('galaxy.playTitle')}: {play.text}"
+										title={$t("galaxy.playTitle")}
+										data-testid="galaxy-card-play-link-{index}"
+									>
+										<Theater size={15} aria-hidden="true" />
+									</a>
+								{:else}
+									<span class="play__text"
+										><RichTextWithFlags text={play.text} /></span
+									>
+								{/if}
+								<!--
+									З ким разом грав і чи є запис — обчислюється з реєстру,
+									а не пишеться в текст руками. Чому саме так — у
+									докблоках `PlayRowExtras` і `coGroupsForPlay`.
+								-->
+								<PlayRowExtras
+									playId={play.playId}
+									memberId={graduate.id}
+									hideCoGroups={play.hideCoGroups}
+									testidBase="galaxy-card-play-item-{index}"
+								/>
+							</div>
 						</li>
 					{/each}
 				</ul>
@@ -2201,6 +2226,23 @@
 		min-width: 3.2rem;
 		color: var(--galaxy-muted);
 		font-variant-numeric: tabular-nums;
+	}
+	/*
+	 * Сітка, а не колонка: у першому рядку назва й кнопка запису праворуч, у
+	 * другому — «разом з ЗТК», притиснуте праворуч. Клітинки другої колонки
+	 * розставляє собі сам `PlayRowExtras`.
+	 *
+	 * `minmax(0, 1fr)` — щоб довга назва з роллю переносилася, а не розпирала
+	 * рядок: із простим `1fr` мінімальна ширина колонки дорівнює найдовшому
+	 * слову й картку розносить.
+	 */
+	.play__body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: start;
+		min-width: 0;
+		column-gap: 0.4rem;
+		row-gap: 0.15rem;
 	}
 	.play__text {
 		min-width: 0;
