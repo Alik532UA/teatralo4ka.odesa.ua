@@ -11,6 +11,7 @@
 	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
 	import { playsByIds } from '$lib/data/plays';
 	import { yearsOfService, pluralKey } from '$lib/data/masters';
+	import { bioParagraphs } from '$lib/utils/bioParagraphs';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -26,6 +27,8 @@
 
 	const isEn = $derived($locale === 'en');
 	const masterName = $derived(isEn ? data.master.fullNameEn : data.master.fullName);
+
+	const paragraphs = $derived(bioParagraphs(data.master.bio));
 	const displayName = $derived(isEn ? data.master.displayNameEn : data.master.displayName);
 	// Одна перевірка одного факту: доти `isHonorary` і `status` перевірялися
 	// поряд, хоч означали те саме.
@@ -204,10 +207,20 @@
 					</div>
 				</div>
 
-				{#if data.master.bio}
+				{#if paragraphs.length}
 					<div class="master-bio" data-testid="master-profile-bio-section">
 						<h2 class="master-bio__title">{$t('galaxy.bioTitle', { default: 'Про викладача' })}</h2>
-						<p class="master-bio__text">{data.master.bio}</p>
+						<!--
+							Ключ — індекс, і це свідомо: абзаци не додаються, не зникають і не
+							міняються місцями, бо весь перелік перечитується з одного рядка
+							`bio`. Іншого ключа тут просто немає — сам текст абзацу в ролі
+							ключа впав би на двох однакових абзацах.
+						-->
+						{#each paragraphs as paragraph, index (index)}
+							<p class="master-bio__text" data-testid="master-profile-bio-item-{index}">
+								{paragraph}
+							</p>
+						{/each}
 					</div>
 				{/if}
 
@@ -509,6 +522,19 @@
 		font-size: 1rem;
 		line-height: 1.65;
 		color: var(--text-main);
+	}
+
+	/*
+	 * Відступ між СУСІДНІМИ абзацами, а не на кожному.
+	 *
+	 * `margin: 0` вище лишається: доки біографія була одним рядком, це прибирало
+	 * зайвий проміжок під заголовком «Про викладача». Щойно абзаців стало сім,
+	 * той самий нуль склеїв їх у суцільну плиту тексту — заміряно на сторінці
+	 * Володимира Туманова. Сусідній селектор додає проміжок лише там, де він і
+	 * потрібен: МІЖ абзацами, не перед першим і не після останнього.
+	 */
+	.master-bio__text + .master-bio__text {
+		margin-top: 0.8rem;
 	}
 
 	.master-flow-wrapper {
