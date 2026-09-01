@@ -1030,7 +1030,16 @@
 									там, де в групи справді є сторінка: без неї й складу немає.
 								-->
 								{#if item.slug}
-									<GroupMatesRow groupSlug={item.slug} excludeId={graduate.id} />
+									<!--
+										`showAll`: половина складу тут гірша за високий чип. Груп
+										більше за одинадцять людей у базі немає, тож найгірший
+										випадок — два поверхи облич.
+									-->
+									<GroupMatesRow
+										groupSlug={item.slug}
+										excludeId={graduate.id}
+										showAll
+									/>
 								{/if}
 							</li>
 						{/each}

@@ -18,6 +18,8 @@
 		groupSlug: string;
 		/** Чия це картка: сама людина серед однокурсників не показується. */
 		excludeId?: string;
+		/** Див. `GraduateAvatarRow.showAll`. */
+		showAll?: boolean;
 		/** Див. `GraduateAvatarRow.linked`. */
 		linked?: boolean;
 		/** Див. `GraduateAvatarRow.testIdPrefix`. */
@@ -27,6 +29,7 @@
 	let {
 		groupSlug,
 		excludeId = '',
+		showAll = false,
 		linked = true,
 		testIdPrefix = 'galaxy-card-groupmates'
 	}: Props = $props();
@@ -37,4 +40,4 @@
 </script>
 
 <!-- `fitToWidth`: обидва місця показу — картки з власною шириною. -->
-<GraduateAvatarRow {ids} {excludeId} {linked} {testIdPrefix} fitToWidth />
+<GraduateAvatarRow {ids} {excludeId} {linked} {testIdPrefix} {showAll} fitToWidth />
