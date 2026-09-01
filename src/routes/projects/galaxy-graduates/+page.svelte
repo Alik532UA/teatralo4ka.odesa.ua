@@ -15,7 +15,7 @@
 	} from '$lib/services/graduateProfiles.svelte';
 	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
-		WITH_PAGE,
+		GRADUATES,
 		graduateAddress,
 		graduateProfilePath,
 		type Department,
@@ -418,7 +418,14 @@
 -->
 <nav class="sr-only" aria-label={$t('galaxy.profilesNav')} data-testid="galaxy-profiles-nav">
 	<ul>
-		{#each WITH_PAGE as graduate (graduate.slug)}
+		<!--
+			`GRADUATES`, а не `WITH_PAGE`: перший — ті, кого показуємо, другий — ті,
+			кому будуємо сторінку, і від появи прихованих випускників це вже різні
+			переліки. Прихованого тут бути не може: він саме тому й прихований, що
+			в переліках його не показують, — а сторінка за прямою адресою в нього
+			лишається. Розбір — у докблоці `config/graduatesVisibility.ts`.
+		-->
+		{#each GRADUATES as graduate (graduate.slug)}
 			<li>
 				<!-- Адреса складена вручну (`graduateProfilePath` + мовний префікс), тож
 				     прямого виклику `resolve()` в атрибуті немає — див. `openGraduate`. -->

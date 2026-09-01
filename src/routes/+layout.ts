@@ -4,6 +4,7 @@ import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { isHiddenRoute } from '$lib/config/hiddenRoutes';
 import { isHiddenMasterPath } from '$lib/config/mastersVisibility';
+import { isHiddenGraduatePath } from '$lib/config/graduatesVisibility';
 
 export const prerender = true;
 export const ssr = true;
@@ -67,7 +68,10 @@ export async function load({ url }: { url: URL }) {
 	 * майстрів `Disallow` дав би протилежне потрібному — закриту від краулера
 	 * сторінку, у якій `noindex` не буде прочитаний ніколи.
 	 */
-	const hidden = isHiddenRoute(url.pathname) || isHiddenMasterPath(url.pathname);
+	const hidden =
+		isHiddenRoute(url.pathname) ||
+		isHiddenMasterPath(url.pathname) ||
+		isHiddenGraduatePath(url.pathname);
 
 	return {
 		lang,

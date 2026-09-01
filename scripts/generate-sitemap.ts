@@ -5,6 +5,10 @@ import { LOCALES, localeFromPath, localeAlternates } from '../src/lib/i18n/routi
 import { isRedirectPage } from '../src/lib/config/redirects';
 import { HIDDEN_ROUTES, isHiddenRoute } from '../src/lib/config/hiddenRoutes';
 import { hiddenMastersCount, isHiddenMasterPath } from '../src/lib/config/mastersVisibility';
+import {
+	hiddenGraduatesCount,
+	isHiddenGraduatePath
+} from '../src/lib/config/graduatesVisibility';
 import { SITE_ORIGIN } from '../src/lib/config/site';
 
 /**
@@ -52,7 +56,10 @@ function isExcluded(page: string): boolean {
 		// Майстер із `visible: false`: сторінка в `build/` лишається, у мапі сайту
 		// її немає. Заміряно 2026-08-24: сторінки майстрів — 144 із 344 адрес мапи,
 		// тобто 42%, і серед них були записи без посади, предметів і фотографії.
-		isHiddenMasterPath(pathname)
+		isHiddenMasterPath(pathname) ||
+		// Випускник із `hidden`: сторінка в `build/` лишається (адресу роздають
+		// роками), у мапі сайту її немає — та сама модель, що з майстрами.
+		isHiddenGraduatePath(pathname)
 	);
 }
 
@@ -309,6 +316,10 @@ function generateSitemap() {
 	const hiddenMasters = hiddenMastersCount();
 	if (hiddenMasters > 0) {
 		console.log(`   поза індексом: ${hiddenMasters} сторінок майстрів (visible: false)`);
+	}
+	const hiddenGraduates = hiddenGraduatesCount();
+	if (hiddenGraduates > 0) {
+		console.log(`   поза індексом: ${hiddenGraduates} сторінок випускників (hidden: true)`);
 	}
 }
 

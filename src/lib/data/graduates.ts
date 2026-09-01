@@ -541,7 +541,26 @@ export const GRADUATION_YEARS: readonly number[] = [
  * група, майстер курсу й вистави.
  *
  * Константа лишилася під тією самою назвою навмисно: вона й далі відповідає на
- * питання «кому будувати сторінку», просто відповідь тепер «усім». Прибрати її
- * означало б лишити `entries()` без пояснення, чому там уже не фільтр.
+ * питання «кому будувати сторінку», просто відповідь тепер «усім».
+ *
+ * І «всім» тут означає ВСІМ, зокрема прихованим: `hidden` ховає людину з
+ * переліків, а не з сайту. Тому `WITH_PAGE` і `GRADUATES` — уже різні переліки,
+ * і плутати їх не можна: перший будує сторінки, другий малює списки. Розбір — у
+ * докблоці `config/graduatesVisibility.ts`.
  */
-export const WITH_PAGE: readonly GraduateIndexEntry[] = GRADUATES;
+export const WITH_PAGE: readonly GraduateIndexEntry[] = INDEX_JSON as GraduateIndexEntry[];
+
+/**
+ * Пошук за АДРЕСОЮ — серед усіх, зокрема прихованих.
+ *
+ * `GRADUATES` прихованих не містить, і сторінка шукала людину саме там: адреса
+ * приходила, запис не знаходився, і маршрут віддавав 404. Тобто прапорець
+ * `hidden` ховав людину не з переліків, а з сайту зовсім.
+ *
+ * Ховати треба з ПЕРЕЛІКІВ, а сторінка мусить лишатися живою: адреса випускника
+ * це ідентифікатор, який роздають роками. Повний розбір — у докблоці
+ * `config/graduatesVisibility.ts`.
+ */
+export function findByAddress(address: string): GraduateIndexEntry | undefined {
+	return WITH_PAGE.find((candidate) => graduateAddress(candidate) === address);
+}

@@ -1,8 +1,8 @@
 import { error, redirect } from '@sveltejs/kit';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import {
-	GRADUATES,
 	WITH_PAGE,
+	findByAddress,
 	graduateAddress,
 	graduateProfileJson,
 	graduateProfilePath,
@@ -124,7 +124,7 @@ export async function load({ params, fetch, url }) {
 		redirect(301, localizedPath(graduateProfilePath(renamedTo), localeFromPath(url.pathname)));
 	}
 
-	const graduate = GRADUATES.find((candidate) => graduateAddress(candidate) === params.address);
+	const graduate = findByAddress(params.address);
 	if (!graduate) error(404, `Немає випускника за адресою ${params.address}`);
 
 	/*
