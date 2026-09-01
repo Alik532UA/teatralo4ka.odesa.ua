@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { readFileSync } from 'node:fs';
-import { gotoReady } from './ready';
+import { gotoReady, openStageMenu } from './ready';
 
 /**
  * Перелік усіх вистав — `/projects/galaxy-graduates/plays/`.
@@ -191,6 +191,8 @@ test.describe('перелік вистав', () => {
 
 	test('у перелік можна потрапити з галактики', async ({ page }) => {
 		await gotoReady(page, '/projects/galaxy-graduates');
+		// На телефоні кнопки сцени лежать за одним значком — див. `openStageMenu`.
+		await openStageMenu(page);
 		const вхід = page.getByTestId('galaxy-plays-link');
 		await expect(вхід, 'на сторінці галактики немає входу в перелік вистав').toBeVisible();
 

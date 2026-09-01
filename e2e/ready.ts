@@ -152,3 +152,23 @@ export async function waitForAnimations(page: Page) {
 	// намальоване.
 	await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => r(null))));
 }
+
+/**
+ * Відкриває меню керування сценою галактики — там, де воно є.
+ *
+ * На телефоні всі кнопки сцени (переліки груп, фестивалів, вистав, «Усі
+ * випускники», плюс, повний екран) ховаються за одним значком: п'ять кнопок у
+ * рядок займали чверть екрана. На широкому екрані значка немає — кнопки й так
+ * у рядку, — тож помічник там нічого не робить.
+ *
+ * Без цього перевірки, написані до появи меню, падали на телефоні з
+ * «unexpected value hidden»: `data-testid` знаходився, елемент існував, але
+ * лежав у закритому меню. Заміряно: 10 таких падінь у чотирьох файлах.
+ */
+export async function openStageMenu(page: Page) {
+	const кнопка = page.locator('[data-testid="galaxy-stage-menu-btn"]');
+	if (!(await кнопка.isVisible().catch(() => false))) return;
+	await кнопка.click();
+	// Кнопки з'являються не в тому ж кадрі, що клік.
+	await page.locator('[data-testid="galaxy-open-roster-btn"]').waitFor({ state: 'visible' });
+}

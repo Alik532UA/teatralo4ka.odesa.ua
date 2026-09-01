@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { gotoReady } from "./ready";
+import { gotoReady, openStageMenu } from "./ready";
 
 /**
  * Перелік випускників у галактиці.
@@ -32,6 +32,7 @@ const YEAR_BTN = '[data-testid^="galaxy-roster-year-"][data-testid$="-btn"]';
 
 async function openRoster(page: Page) {
   await gotoReady(page, "/projects/galaxy-graduates");
+  await openStageMenu(page);
   await page.locator(OPEN).click();
   await expect(page.locator(MODAL)).toBeVisible();
   // Перший кадр після відкриття: до нього ширина сітки ще нуль, і колонок один.

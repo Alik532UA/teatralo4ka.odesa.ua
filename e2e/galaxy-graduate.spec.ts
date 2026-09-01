@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { gotoReady, waitForAnimations } from './ready';
+import { gotoReady, openStageMenu, waitForAnimations } from './ready';
 
 /**
  * Сторінка випускника: перенос даних зі старого сайту й власна адреса.
@@ -149,6 +149,7 @@ test.describe('картка в галактиці має власну адрес
 		const data = await profileData(page);
 		await gotoReady(page, '/projects/galaxy-graduates');
 
+		await openStageMenu(page);
 		await page.locator('[data-testid="galaxy-open-roster-btn"]').click();
 		await page.locator('[data-testid="galaxy-roster-kateryna-kudlach-btn"]').click();
 
@@ -190,6 +191,7 @@ test.describe('картка в галактиці має власну адрес
 	test('у кого анкети немає — адреса все одно власна', async ({ page }) => {
 		await gotoReady(page, '/projects/galaxy-graduates');
 
+		await openStageMenu(page);
 		await page.locator('[data-testid="galaxy-open-roster-btn"]').click();
 		// Рядок без портрета — анкету ще не заповнено.
 		const plain = page
