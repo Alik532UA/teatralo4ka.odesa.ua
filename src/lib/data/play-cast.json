@@ -2411,13 +2411,6 @@
 	],
 	"uryvky-z-klasyky-2014": [
 		{
-			"graduateId": "alik-zapolnov",
-			"role": "М. М.",
-			"items": [
-				"asia"
-			]
-		},
-		{
 			"graduateId": "anastasiia-andrianova",
 			"fromRegistry": true
 		},
@@ -2427,9 +2420,6 @@
 		},
 		{
 			"graduateId": "anna-rodonaia",
-			"items": [
-				"asia"
-			],
 			"fromRegistry": true
 		},
 		{
@@ -2476,6 +2466,13 @@
 	"uryvky-z-klasyky-2015": [
 		{
 			"graduateId": "alik-zapolnov",
+			"role": "М. М.",
+			"items": [
+				"asia"
+			]
+		},
+		{
+			"graduateId": "alik-zapolnov",
 			"items": [
 				"prynyzheni-ta-znevazheni"
 			]
@@ -2486,6 +2483,9 @@
 		},
 		{
 			"graduateId": "anna-rodonaia",
+			"items": [
+				"asia"
+			],
 			"fromRegistry": true
 		},
 		{
