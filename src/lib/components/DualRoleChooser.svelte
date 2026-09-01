@@ -57,14 +57,34 @@
 	);
 	const masterCaption = $derived(master.roleTitle ?? null);
 
+	/*
+	 * Значення читаються ДО закриття, і це не стиль, а необхідність.
+	 *
+	 * Пропси у Svelte 5 — геттери: `graduate` тут не копія запису, а виклик
+	 * `chooser.entry.graduate` у того, хто відкрив вікно. `onclose()` ставить
+	 * `chooser = null`, і наступне звернення до пропа падає:
+	 *
+	 *     TypeError: Cannot read properties of null (reading 'entry')
+	 *         at get graduate (MasterGraduateFlow.svelte)
+	 *         at onGraduate (DualRoleChooser.svelte)
+	 *
+	 * Тобто вікно закривалося, а перехід не відбувався — натискання виглядало як
+	 * «нічого не сталося». У `onMaster` та сама вада: `master.slug` читався після
+	 * закриття, просто про неї ще не спіткнулися.
+	 *
+	 * Закрити ПІСЛЯ переходу було б гіршим виправленням: тоді порядок знову
+	 * важить, просто в інший бік. Знімок значення не залежить від порядку взагалі.
+	 */
 	function onGraduate() {
+		const запис = graduate;
 		onclose();
-		openGraduateModal(graduate);
+		openGraduateModal(запис);
 	}
 
 	function onMaster() {
+		const шлях = masterProfilePath(master.slug, localeFromPath(page.url.pathname));
 		onclose();
-		goto(masterProfilePath(master.slug, localeFromPath(page.url.pathname)));
+		goto(шлях);
 	}
 
 	function handleKeydown(event: KeyboardEvent) {
