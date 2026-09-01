@@ -2356,8 +2356,8 @@
 	{
 		"id": "poliakova-starsha",
 		"slug": "poliakova-starsha",
-		"fullName": "Полякова (старша)",
-		"displayName": "Полякова (старша)",
+		"fullName": "Полякова Лариса Данілова",
+		"displayName": "Лариса ПОЛЯКОВА",
 		"category": "choreographers",
 		"status": "former",
 		"departments": [
@@ -2365,8 +2365,11 @@
 		],
 		"visible": false,
 		"unconfirmed": true,
-		"displayNameEn": "Poliakova (elder)",
-		"fullNameEn": "Poliakova (elder)"
+		"displayNameEn": "Larysa POLIAKOVA",
+		"fullNameEn": "Larysa Poliakova",
+		"subjects": [
+			"Хореографія"
+		]
 	},
 	{
 		"id": "oleksandr-stepanov",
