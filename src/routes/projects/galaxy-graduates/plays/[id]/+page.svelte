@@ -10,11 +10,13 @@
 		Trophy
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { graduateProfilePath, graduatePhoto, graduateAddress} from '$lib/data/graduates';
+	import { graduatePhoto } from '$lib/data/graduates';
 	import { groupProfilePath } from '$lib/data/groups';
 	import { festivalPath } from '$lib/data/festivals';
 	import { masterProfilePath } from '$lib/data/masters';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
+	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
+	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import type { PageData } from './$types';
@@ -127,14 +129,19 @@
 				<ul class="people-grid" data-testid="play-cast-list">
 					{#each data.cast as entry, index (entry.graduate.id)}
 						<li>
+							<!--
+								Картка відкривається НА ЦІЙ сторінці, а не веде в галактику.
+								Доти тут стояв `href`, і натискання забирало читача зі
+								сторінки вистави: закривши картку, він опинявся в галактиці
+								й мусив шукати виставу заново. На сторінках груп і
+								фестивалів це вже було зроблено `onclick`, а тут лишалося
+								посилання — різниця, якої ніхто не пояснював.
+							-->
 							<GroupPersonCard
 								name={entry.graduate.name}
 								photo={entry.graduate.hasPhoto ? graduatePhoto(entry.graduate.slug, 192) : null}
 								subtitle={subtitle(entry.role, entry.graduate.graduationYear)}
-								href={localizedPath(
-									graduateProfilePath(graduateAddress(entry.graduate)),
-									currentLang
-								)}
+								onclick={() => openGraduateModal(entry.graduate)}
 								{index}
 								splitName
 								testid="play-cast-{entry.graduate.slug}"
@@ -265,6 +272,12 @@
 		{/if}
 	</div>
 </main>
+
+<!--
+	Картка випускника, що відкривається поверх цієї сторінки. Чому саме так — у
+	докблоці `GraduateCardOnPage`.
+-->
+<GraduateCardOnPage />
 
 <style>
 	.play-page {
@@ -475,4 +488,5 @@
 	.chip--festival {
 		border-style: dashed;
 	}
+
 </style>
