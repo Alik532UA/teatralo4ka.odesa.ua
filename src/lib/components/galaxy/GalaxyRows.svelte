@@ -188,6 +188,16 @@
 		padding: 0.4rem 0.5rem;
 		border-radius: var(--radius-md, 12px);
 		border: 1px solid transparent;
+		/*
+		 * Фон є ЗАВЖДИ, тільки напівпрозорий. Доти рядок був прозорий, і межі в
+		 * нього не було видно, доки не наведеш курсор: перелік читався як
+		 * суцільний текст, а не як набір рядків. Повний фон під курсором лишається
+		 * — він і показує, на чому саме курсор.
+		 */
+		background: color-mix(in srgb, var(--bg-surface), transparent 50%);
+		transition:
+			background var(--transition-base),
+			border-color var(--transition-base);
 	}
 	.grow:hover {
 		background: var(--bg-surface);

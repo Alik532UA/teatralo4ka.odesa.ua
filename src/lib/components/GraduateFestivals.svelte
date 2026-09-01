@@ -192,12 +192,17 @@
 
 	.fests__row--card {
 		border-radius: var(--radius-md, 12px);
-		background: var(--bg-surface);
+		/* Напівпрозоро в спокої, повністю під курсором — так само, як у рядках
+		   переліків галактики. Однаковий рядок мусить і поводитися однаково. */
+		background: color-mix(in srgb, var(--bg-surface), transparent 50%);
 		border: 1px solid var(--border-main);
 		padding: 0.35rem 0.6rem;
-		transition: border-color var(--transition-base);
+		transition:
+			background var(--transition-base),
+			border-color var(--transition-base);
 	}
 	.fests__row--card:hover {
+		background: var(--bg-surface);
 		border-color: var(--accent-primary);
 	}
 	.fests__link--bare {
