@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { List, GraduationCap, Globe, Theater, Plus, Menu, X } from 'lucide-svelte';
+	import { List, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
+	import { fullscreen } from '$lib/services/fullscreen.svelte';
 
 	/**
 	 * Керування сценою галактики: переліки й кнопка анкети.
@@ -35,6 +36,13 @@
 	let { total, locale, onopenroster, onopenform }: Props = $props();
 
 	let menuOpen = $state(false);
+
+	/*
+	 * Вихід із повного екрана ЗЗОВНІ — клавішею Esc або системною кнопкою —
+	 * сервіс сам не помітить: подію дає документ. Життєвий цикл слухача веде
+	 * компонент, бо в сервісі (module-level singleton) рун немає.
+	 */
+	$effect(() => fullscreen.watch());
 
 	/** На телефоні перелік і анкета ховаються за один значок. */
 	function toggleMenu() {
@@ -127,6 +135,46 @@
 			data-testid="galaxy-open-form-btn"
 		>
 			<Plus size={20} aria-hidden="true" />
+			<!--
+				Підпис видно ЛИШЕ в меню на телефоні. У рядку на широкому екрані
+				кнопка кругла й підпис їй нема де вмістити, а в стовпчику самотній
+				плюс не каже, що станеться: «додати» — що саме?
+			-->
+			<span class="stage__label">{$t('galaxy.fillProfile', { default: 'Заповнити анкету' })}</span>
+		</button>
+
+		<!--
+			Повний екран стоїть ТУТ, а не окремо на сцені, хоч на широкому екрані
+			й виглядає як окрема кнопка в кутку. Так він один: два примірники
+			означали б два однакові `data-testid` на сторінці, і перевірки не
+			могли б послатися на конкретний.
+
+			Значок — стрілки (`Expand`/`Shrink`), а не кути: у кутів немає
+			напрямку, тобто вони не кажуть, куди поїде екран. Той самий вибір, що
+			в сусідньому `VetCrewGames`, звідки перенесено сервіс.
+		-->
+		<button
+			type="button"
+			class="stage__fullscreen-btn"
+			onclick={() => pick(() => fullscreen.toggle())}
+			title={fullscreen.active
+				? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+				: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+			aria-label={fullscreen.active
+				? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+				: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+			data-testid="galaxy-fullscreen-btn"
+		>
+			{#if fullscreen.active}
+				<Shrink size={20} aria-hidden="true" />
+			{:else}
+				<Expand size={20} aria-hidden="true" />
+			{/if}
+			<span class="stage__label">
+				{fullscreen.active
+					? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+					: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+			</span>
 		</button>
 	</div>
 </div>
@@ -212,6 +260,45 @@
 		transform: rotate(90deg) scale(0.92);
 	}
 
+	/*
+	 * Повний екран: на широкому екрані — кружечок у ПРАВОМУ ВЕРХНЬОМУ кутку,
+	 * хоч у розмітці він стоїть у нижньому рядку.
+	 *
+	 * `position: fixed`, а не `absolute`: рядок керування притиснутий до низу
+	 * сцени, і від нього до верху не дотягнутися. Сцена лежить `fixed; inset: 0`
+	 * без жодного `transform`, тож вікно тут і є система координат.
+	 */
+	.stage__fullscreen-btn {
+		position: fixed;
+		z-index: 3;
+		top: clamp(0.75rem, 2vh, 1.5rem);
+		right: clamp(0.75rem, 2vw, 1.5rem);
+		display: grid;
+		place-items: center;
+		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
+		width: 44px;
+		height: 44px;
+		border: 1px solid rgb(255 255 255 / 0.22);
+		border-radius: 999px;
+		background: rgb(5 10 31 / 0.72);
+		color: var(--galaxy-text);
+		cursor: pointer;
+		backdrop-filter: blur(8px);
+		transition:
+			border-color var(--transition-base),
+			background var(--transition-base);
+	}
+	.stage__fullscreen-btn:hover,
+	.stage__fullscreen-btn:focus-visible {
+		border-color: rgb(140 190 255 / 0.6);
+		background: rgb(5 10 31 / 0.9);
+	}
+
+	/* Підписи кнопок-значків живуть лише в меню на телефоні. */
+	.stage__label {
+		display: none;
+	}
+
 	.stage__total {
 		opacity: 0.65;
 		font-variant-numeric: tabular-nums;
@@ -256,9 +343,44 @@
 		}
 
 		/* У стовпчику підпис має вести за собою всю ширину плашки. */
-		.stage__controls--open .stage__roster-btn {
+		.stage__controls--open .stage__roster-btn,
+		.stage__controls--open .stage__add-btn,
+		.stage__controls--open .stage__fullscreen-btn {
 			justify-content: flex-start;
 			width: 100%;
+		}
+
+		/*
+		 * У меню кнопки анкети й повного екрана стають такими самими плашками, як
+		 * переліки: у стовпчику кружечок поруч із підписаними рядками читався б як
+		 * щось інакше за призначенням, хоч він тут рівно такий самий пункт.
+		 */
+		.stage__controls--open .stage__add-btn,
+		.stage__controls--open .stage__fullscreen-btn {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			min-height: 44px;
+			height: auto;
+			padding: 0 1rem;
+			border-radius: 999px;
+		}
+
+		/* Обертання плюса лишається кружечку: на широкій плашці воно ні до чого. */
+		.stage__controls--open .stage__add-btn:hover,
+		.stage__controls--open .stage__add-btn:active {
+			transform: none;
+		}
+
+		/* У стовпчику він уже не в кутку — стає звичайним рядком меню. */
+		.stage__controls--open .stage__fullscreen-btn {
+			position: static;
+			top: auto;
+			right: auto;
+		}
+
+		.stage__controls--open .stage__label {
+			display: inline;
 		}
 	}
 </style>

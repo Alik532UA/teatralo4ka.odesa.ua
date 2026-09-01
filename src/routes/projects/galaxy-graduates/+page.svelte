@@ -4,8 +4,6 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { Expand, Shrink } from 'lucide-svelte';
-	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import GalaxyStageControls from '$lib/components/GalaxyStageControls.svelte';
 	import GraduateGalaxy from '$lib/components/GraduateGalaxy.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
@@ -308,13 +306,6 @@
 		pushState(profileHref(graduate), { graduateAddress: graduateAddress(graduate) });
 	}
 
-	/*
-	 * Вихід ЗЗОВНІ — клавішею Esc або системною кнопкою — сервіс сам не помітить:
-	 * подію дає документ. Життєвий цикл слухача веде сторінка, бо в сервісі
-	 * (module-level singleton) рун немає.
-	 */
-	$effect(() => fullscreen.watch());
-
 	/**
 	 * Клас на `<body>`, а не правки в layout.
 	 *
@@ -441,33 +432,6 @@
 <div class="stage">
 	<GraduateGalaxy onselect={openGraduate} />
 
-	<!--
-		Повний екран — праворуч ЗВЕРХУ, окремо від нижнього рядка переліків.
-		Причина не в композиції: у повному екрані ховається шапка сайту, і якби
-		кнопка стояла в ній, виходу з режиму не лишилося б.
-
-		Значок — СТРІЛКИ, а не кути: `Maximize`/`Minimize` читаються як рамка, у
-		них немає напрямку, тобто вони не кажуть, куди поїде екран. Той самий
-		вибір, що в сусідньому `VetCrewGames`, звідки перенесено й сам сервіс.
-	-->
-	<button
-		type="button"
-		class="stage__fullscreen-btn"
-		onclick={() => fullscreen.toggle()}
-		title={fullscreen.active
-			? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
-			: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
-		aria-label={fullscreen.active
-			? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
-			: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
-		data-testid="galaxy-fullscreen-btn"
-	>
-		{#if fullscreen.active}
-			<Shrink size={20} aria-hidden="true" />
-		{:else}
-			<Expand size={20} aria-hidden="true" />
-		{/if}
-	</button>
 
 	<GalaxyStageControls
 		total={data.graduates.length}
@@ -538,36 +502,6 @@
 	 * `left` разом із `right` і `justify-content: flex-end` — щоб перенесені
 	 * кнопки лишалися притиснутими до правого краю, а не розповзалися.
 	 */
-	/*
-	 * Та сама пігулка, що в переліків знизу, але кругла й одна: підпису вона не
-	 * має, бо в кутку екрана місце коштує дорого, а значок зі стрілками читається
-	 * без слів.
-	 */
-	.stage__fullscreen-btn {
-		position: absolute;
-		z-index: 3;
-		top: clamp(0.75rem, 2vh, 1.5rem);
-		right: clamp(0.75rem, 2vw, 1.5rem);
-		display: grid;
-		place-items: center;
-		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
-		width: 44px;
-		height: 44px;
-		border: 1px solid rgb(255 255 255 / 0.22);
-		border-radius: 999px;
-		background: rgb(5 10 31 / 0.72);
-		color: var(--galaxy-text);
-		cursor: pointer;
-		backdrop-filter: blur(8px);
-		transition:
-			border-color var(--transition-base),
-			background var(--transition-base);
-	}
-	.stage__fullscreen-btn:hover,
-	.stage__fullscreen-btn:focus-visible {
-		border-color: rgb(140 190 255 / 0.6);
-		background: rgb(5 10 31 / 0.9);
-	}
 
 
 
