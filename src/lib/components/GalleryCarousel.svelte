@@ -380,7 +380,19 @@
 		opacity: 0;
 		box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 	}
-	.gc-carousel:hover .gc-play-btn { opacity: 1; }
+	/*
+	 * `:focus-within` поруч із `:hover` — не оздоблення, а умова видимості.
+	 *
+	 * Кнопка стоїть `opacity: 0` і на десктопі проявляється лише під мишею. Той,
+	 * хто йшов Tab-ом, доходив до неї й не бачив НІЧОГО: прозорість гасить і саму
+	 * кнопку, і кільце фокуса на ній (ACCESSIBILITY-v8 § 3, WCAG 2.4.11). Це той
+	 * самий дефект, що вже виправляли в цьому ж компоненті для стрілок; тоді
+	 * пропустили один контрол, бо шукали руками.
+	 *
+	 * Тепер тримає інваріант `src/focus-indicator.test.ts`.
+	 */
+	.gc-carousel:hover .gc-play-btn,
+	.gc-carousel:focus-within .gc-play-btn { opacity: 1; }
 	.gc-play-btn:hover { background: rgba(255,255,255,0.9); }
 
 	/* â”€â”€ Dots â€” below carousel, styled like ContentWidget â”€â”€ */
@@ -463,7 +475,8 @@
 		.gc-caption { font-size: 0.95rem; }
 		.gc-overlay { padding: 1rem; }
 		.gc-play-btn { opacity: 0.7; }
-		.gc-carousel:hover .gc-play-btn { opacity: 0.9; }
+		.gc-carousel:hover .gc-play-btn,
+		.gc-carousel:focus-within .gc-play-btn { opacity: 0.9; }
 	}
 
 	@media (max-width: 480px) {

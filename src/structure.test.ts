@@ -237,6 +237,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   і випускником, і працівником, теж окремим компонентом (`DualRoleChooser`).
  *   Тут лишилося рівно оформлення: перехід, клас-модифікатор і причина, чому
  *   локального `prefers-reduced-motion` немає.
+ * 2026-09-02: `GalleryCarousel.svelte` 366 → 368. Рівно два рядки селектора —
+ *   `.gc-carousel:focus-within .gc-play-btn` у базовому правилі й у медіазапиті.
+ *   Кнопка пауза/грати стояла `opacity: 0` і проявлялася лише під мишею, тобто
+ *   Tab доводив до контрола, якого не видно, разом із кільцем фокуса на ньому
+ *   (ACCESSIBILITY-v8 § 3, WCAG 2.4.11). Пояснення поруч у рядок не рахується —
+ *   `countSloc` знімає коментарі, — тож ці два рядки і є вся ціна.
  * 2026-09-02: `ui/PianoModal.svelte` 595 → 608. Тринадцять рядків, і в них
  *   нуль логіки — саме той випадок, для якого в храповика є вентиль (як записи
  *   про `HK-TEXT-ENTRY-GUARD` і про причини до `svelte-ignore` вище). Піаніно
@@ -269,7 +275,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/+page.svelte': 432,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
-	'src/lib/components/GalleryCarousel.svelte': 366,
+	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/data/betaChecklist.ts': 390,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

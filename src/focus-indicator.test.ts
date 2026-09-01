@@ -308,4 +308,90 @@ describe('фокус видно очима (ACCESSIBILITY-v8 § 3)', () => {
 				`назвати предка у DRAWN_BY_ANCESTOR:\n  ${[...new Set(broken)].sort().join('\n  ')}`
 		).toEqual([]);
 	});
+
+	/**
+	 * Друга половина того самого правила: контрол, схований прозорістю.
+	 *
+	 * Кільце фокуса можна зробити невидимим, не чіпаючи `outline` жодного разу —
+	 * досить сховати сам контрол. `opacity: 0` гасить і кнопку, і кільце на ній,
+	 * а розкриття по `:hover` дає це лише мишею. Для перевірки вище такий файл
+	 * бездоганний: `outline` там ніхто не знімав.
+	 *
+	 * Знайдено 2026-09-02 у `GalleryCarousel`: кнопка пауза/грати каруселі стояла
+	 * `opacity: 0` і проявлялася тільки під мишею. Той, хто йшов Tab-ом, доходив
+	 * до неї й не бачив нічого — фокус є, на екрані порожньо. Це той самий
+	 * дефект, який у цьому ж компоненті вже виправляли для стрілок; тоді
+	 * пропустили один контрол, бо шукали руками.
+	 *
+	 * axe цього не бачить: у дереві доступності кнопка є, вона сфокусована й має
+	 * підпис. Невидима вона лише очима.
+	 *
+	 * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): прибрати
+	 * `.gc-carousel:focus-within .gc-play-btn` — перевірка називає файл і клас.
+	 * Зроблено, падає.
+	 */
+	it('контрол, схований opacity: 0, проявляється й на фокусі, а не лише під мишею', () => {
+		/**
+		 * Чи стоїть клас на елементі, який отримує фокус.
+		 *
+		 * Ім'я тега шукається НАЗАД від самого атрибута `class`, а не збиранням
+		 * тегів регуляркою «від `<` до `>`». Причина конкретна й уже коштувала
+		 * хибного спрацювання на `HeroSection`: в атрибутах цього проєкту повно
+		 * стрілок `=>`, тобто символ `>` трапляється ВСЕРЕДИНІ значення, і
+		 * наївний «тег» розтягувався на пів розмітки, підбираючи чужі класи.
+		 * Той самий сканер довелося писати й у `modal-focus.test.ts`.
+		 */
+		function onFocusable(markup: string, cls: string): boolean {
+			const FOCUSABLE_TAG = /^(button|a|input|select|textarea)$/;
+			for (const m of markup.matchAll(new RegExp(`class=["'][^"']*\\b${cls}\\b`, 'g'))) {
+				const open = markup.lastIndexOf('<', m.index);
+				if (open === -1) continue;
+				const tag = /^<([a-zA-Z][\w-]*)/.exec(markup.slice(open, m.index))?.[1];
+				if (!tag) continue;
+				if (FOCUSABLE_TAG.test(tag)) return true;
+				// Будь-який тег стає фокусованим від `tabindex`, крім `-1`.
+				if (/\btabindex=(?!["']-1["'])/.test(markup.slice(open, m.index))) return true;
+			}
+			return false;
+		}
+
+		const hidden: string[] = [];
+
+		for (const { file, rules: fileRules } of parsed) {
+			if (!file.endsWith('.svelte')) continue;
+			const markup = stripComments(readFileSync(file, 'utf8')).split('<style')[0];
+
+			for (const rule of fileRules) {
+				const invisible = ownDeclarations(rule.body).some(
+					(d) => d.prop === 'opacity' && d.value === '0'
+				);
+				if (!invisible) continue;
+
+				for (const selector of selectors(rule.selector)) {
+					const cls = /^\.([\w-]+)$/.exec(base(selector))?.[1];
+					if (!cls || !onFocusable(markup, cls)) continue;
+
+					// Розкриття будь-яким станом фокуса — байдуже, на самому контролі
+					// чи на предку: видимість успадковується вниз, тож обидва варіанти
+					// однаково рятують.
+					const revealedOnFocus = fileRules.some(
+						(other) =>
+							/:focus(-visible|-within)?\b/.test(other.selector) &&
+							new RegExp(`\\.${cls}\\b`).test(other.selector) &&
+							ownDeclarations(other.body).some(
+								(d) => d.prop === 'opacity' && d.value !== '0'
+							)
+					);
+					if (!revealedOnFocus) hidden.push(`${file}:${rule.line} — .${cls}`);
+				}
+			}
+		}
+
+		expect(
+			[...new Set(hidden)].sort(),
+			'контрол схований прозорістю й не проявляється на фокусі: Tab доводить ' +
+				'до нього, а на екрані не змінюється нічого (WCAG 2.4.11). Додати ' +
+				`:focus-visible на сам контрол або :focus-within на предка:\n  ${[...new Set(hidden)].sort().join('\n  ')}`
+		).toEqual([]);
+	});
 });
