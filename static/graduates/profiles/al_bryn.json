@@ -1,0 +1,53 @@
+{
+	"id": "alla-brynza",
+	"slug": "al_bryn",
+	"code": "al_bryn",
+	"name": "Алла Бринза",
+	"graduationYear": 2015,
+	"enrollmentYears": [
+		2007
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		}
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Думайте про нас»",
+			"playId": "dumaite-o-nas-2014"
+		},
+		{
+			"year": 2015,
+			"text": "«Біллі +»",
+			"playId": "bylly-2015"
+		},
+		{
+			"year": 2015,
+			"text": "«Жіноче питання»",
+			"playId": "zhenskyi-vopros-2015"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

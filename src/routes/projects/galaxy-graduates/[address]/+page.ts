@@ -101,7 +101,12 @@ const RENAMED_ADDRESSES: Record<string, string> = {
 	// його знають як співака (YouTube, Instagram). Ключ звʼязків `id` лишився
 	// `roman-arabadzhi`: на нього вказують склади вистав і групи, і саме для
 	// такого випадку id та адреса й розділені.
-	'roman-arabadzhi': 'reverenciel'
+	'roman-arabadzhi': 'reverenciel',
+	// 2026-09-01: Алла Бринза попросила адресу `al_bryn`. Підкреслення в
+	// слагах не траплялося ні разу на 530, зате в адресах воно вже є — коди
+	// старого сайту на кшталт `18A_1` і `kamywek_`. Ключ зв'язків `id`
+	// лишився `alla-brynza`: на нього вказує склад групи «Рост-Ок».
+	'alla-brynza': 'al_bryn'
 };
 
 export function entries() {

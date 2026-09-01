@@ -145,6 +145,9 @@
 			"role": "Учитель, Доктор, Біллі"
 		},
 		{
+			"graduateId": "alla-brynza"
+		},
+		{
 			"graduateId": "polina-hedzenko",
 			"role": "Адалана"
 		}
@@ -302,6 +305,9 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "Блазень"
+		},
+		{
+			"graduateId": "alla-brynza"
 		},
 		{
 			"graduateId": "polina-hedzenko",
@@ -1692,6 +1698,9 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "Коля"
+		},
+		{
+			"graduateId": "alla-brynza"
 		},
 		{
 			"graduateId": "polina-hedzenko",

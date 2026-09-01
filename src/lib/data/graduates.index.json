@@ -462,11 +462,15 @@
 	},
 	{
 		"id": "alla-brynza",
-		"slug": "alla-brynza",
+		"slug": "al_bryn",
 		"name": "Алла Бринза",
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2007
 		],
 		"masters": [
 			{
@@ -486,7 +490,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"playCount": 3,
+		"profileSize": 829
 	},
 	{
 		"id": "alla-khaiut",
