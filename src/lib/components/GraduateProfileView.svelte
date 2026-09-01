@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ArrowRight, FileText, Pencil, Theater } from "lucide-svelte";
+	import { ArrowRight, FileText, Theater } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
@@ -23,7 +23,7 @@
 	import { getGroupsByMember } from "$lib/data/groups";
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
-	import EditContactButton from "$lib/components/EditContactButton.svelte";
+	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
 	import { playPath } from "$lib/data/plays";
 	import {
@@ -376,14 +376,23 @@
 	 * роль у виставі очікувана, а в художника чи піаніста порожній список вистав
 	 * не питання до людини, а неправда про те, чим вона тут займалася.
 	 *
-	 * Решта плашок і далі зникають порожніми: майстрів, викладачів і фестивалі
-	 * людина про себе не «заповнює» — це наші дані, і питати про них нема кого.
+	 * «Викладачі» — теж завжди. Доти вони зникали порожніми з міркуванням
+	 * «це наші дані, питати про них нема кого», і те міркування було правдою
+	 * лише поки порожня плашка вміла єдине: просити анкету в самої людини.
+	 * Тепер порожня плашка веде до вікна адміністратора, тобто спитати ЯК
+	 * РАЗ є кого — школу. А сорок сім учнів Балдіна проти чотирьохсот без
+	 * жодного вписаного викладача показують, що дані тут не «наші повні», а
+	 * «наші початі».
+	 *
+	 * Майстри курсу й фестивалі порожніми й далі зникають: там прохання
+	 * «додати» стосувалося б не цієї людини, а всієї групи чи всього
+	 * фестивалю, і ставити його на сторінці однієї людини означало б
+	 * запитувати не в того.
 	 */
 	const presentBlocks = $derived(
 		SINGLE_ORDER.filter((key) => {
 			if (key === "main") return true;
 			if (key === "masters") return normalizedMasters.length > 0;
-			if (key === "teachers") return normalizedTeachers.length > 0;
 			if (key === "plays") return hasPlays || isTheatre;
 			if (key === "festivals") return hasFestivals;
 			return true;
@@ -698,10 +707,15 @@
 				data-testid="galaxy-card-plays-section"
 			>
 				{#if !hasPlays}
-					<!-- Заголовок і олівець в один рядок — так само, як у «Про себе». -->
-					<div class="block--empty">
+					<!-- Заголовок, а під ним «інформація відсутня» і «+ додати». -->
+					<div class="block">
 						<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
-						{@render blockEdit("galaxy-card-plays")}
+						<GraduateBlockEmpty
+							base="galaxy-card-plays"
+							{askForForm}
+							hasPhoto={!!graduate.hasPhoto}
+							onform={openForm}
+						/>
 					</div>
 				{:else}
 				<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
@@ -1109,45 +1123,24 @@
 				data-block="teachers"
 				data-testid="galaxy-card-teachers-card"
 			>
-				{@render teachersContent()}
+				{#if normalizedTeachers.length > 0}
+					{@render teachersContent()}
+				{:else}
+					<div class="block">
+						<h3 class="block__title galaxy-block-title">
+							{$t("galaxy.teachers", { default: "Викладачі" })}:
+						</h3>
+						<GraduateBlockEmpty
+							base="galaxy-card-teachers"
+							{askForForm}
+							hasPhoto={!!graduate.hasPhoto}
+							onform={openForm}
+						/>
+					</div>
+				{/if}
 			</div>
 {/snippet}
 
-<!--
-	Олівець порожньої плашки веде В РІЗНІ місця, і це не примха.
-
-	Доки в людини немає знімка або року вступу, є що просити в НЕЇ самої — олівець
-	відкриває ту саму анкету, що й кнопка «Заповнити анкету» під іменем (умова в
-	них спільна, див. `askForForm`).
-
-	Коли ж і знімок, і рік вступу вже є, анкета більше нічого не додасть: вистави,
-	роль і розповідь про себе вносить школа. Тому олівець відкриває стандартне
-	вікно звернення до адміністратора — той самий `EditContactButton`, що на
-	сторінках групи, фестивалю й викладача. Своє вікно тут було б п'ятою копією
-	того, що вже один раз звели докупи.
--->
-{#snippet blockEdit(base: string)}
-	{#if askForForm}
-		<button
-			type="button"
-			class="block-edit-btn"
-			onclick={openForm}
-			title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
-			aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
-			data-testid="{base}-edit-btn"
-		>
-			<Pencil size={16} aria-hidden="true" />
-		</button>
-	{:else}
-		<EditContactButton
-			testIdPrefix="{base}-contact"
-			buttonTestId="{base}-contact-btn"
-			openTo="side"
-			variant="ghost"
-			hasPhoto={!!graduate.hasPhoto}
-		/>
-	{/if}
-{/snippet}
 
 {#snippet bioCard()}
 				<div
@@ -1156,9 +1149,14 @@
 					data-testid="galaxy-card-bio-section"
 				>
 					{#if !hasBio}
-						<section class="block block--empty">
+						<section class="block">
 							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
-							{@render blockEdit("galaxy-card-bio")}
+							<GraduateBlockEmpty
+								base="galaxy-card-bio"
+								{askForForm}
+								hasPhoto={!!graduate.hasPhoto}
+								onform={openForm}
+							/>
 						</section>
 					{/if}
 
@@ -2145,33 +2143,7 @@
 		object-fit: contain;
 	}
 	/* Порожня плашка: заголовок і олівець в один рядок, без порожнечі під ними. */
-	.block--empty {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.5rem;
-	}
-	.block--empty .block__title {
-		margin-bottom: 0;
-		border-bottom: none;
-	}
 
-	.block-edit-btn {
-		display: grid;
-		place-items: center;
-		width: 30px;
-		height: 30px;
-		border-radius: 50%;
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-title);
-		cursor: pointer;
-		flex-shrink: 0;
-		transition: border-color var(--transition-base);
-	}
-	.block-edit-btn:hover {
-		border-color: var(--accent-primary);
-	}
 
 	.block {
 		margin-top: 1.1rem;

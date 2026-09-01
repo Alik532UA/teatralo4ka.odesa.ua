@@ -907,6 +907,8 @@
     "plays": "Productions and roles",
     "noProfile": "The form is not filled in yet — only the name so far",
     "fillProfile": "Fill out questionnaire",
+    "blockEmpty": "no information yet",
+    "blockAdd": "add",
     "askQuestion": "Write to us",
     "askHint": "Hi!) Questions, corrections, a form — write to me",
     "formModalTitle": "Graduate questionnaire",

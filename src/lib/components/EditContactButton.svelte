@@ -96,6 +96,16 @@
 		 * одна з них стала яскраво-синьою, а друга лишилася темною.
 		 */
 		variant?: 'accent' | 'ghost';
+		/**
+		 * Форма кнопки. `round` — кружечок з іконкою, як усюди доти; `text` —
+		 * плашка «+ додати» з написом.
+		 *
+		 * Потрібна порожнім плашкам на сторінці випускника: там, де інформації
+		 * немає, самотній олівець нічого не пояснював — читач бачив іконку без
+		 * підказки, що саме нею робити. Напис поруч із «інформація відсутня»
+		 * читається як запрошення, а кружечок читався як службова кнопка.
+		 */
+		shape?: 'round' | 'text';
 	}
 
 	let {
@@ -107,7 +117,8 @@
 		icon = 'pencil',
 		label: ownLabel,
 		openOnHover = false,
-		variant = 'accent'
+		variant = 'accent',
+		shape = 'round'
 	}: Props = $props();
 
 	const contacts = [
@@ -186,13 +197,17 @@
 			type="button"
 			class="edit-btn"
 			class:edit-btn--ghost={variant === 'ghost'}
+			class:edit-btn--text={shape === 'text'}
 			onclick={toggle}
 			aria-expanded={open}
 			aria-label={label}
 			title={label}
 			data-testid={buttonTestId ?? `${testIdPrefix}-edit-btn`}
 		>
-			{#if icon === 'plus'}
+			{#if shape === 'text'}
+				<Plus size={14} aria-hidden="true" />
+				<span>{$t('galaxy.blockAdd', { default: 'додати' })}</span>
+			{:else if icon === 'plus'}
 				<Plus size={18} aria-hidden="true" />
 			{:else}
 				<Pencil size={17} aria-hidden="true" />
@@ -321,6 +336,25 @@
 		border: 1px solid var(--border-main);
 		box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
 	}
+	/*
+	 * Плашка з написом замість кружечка. Розміри не «на око»: висота 30
+	 * збігається з кружечком поруч (`.block-edit-btn` у порожній плашці мав
+	 * рівно 30), тож рядок «інформація відсутня — + додати» не стрибає.
+	 */
+	.edit-btn--text {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: auto;
+		height: 30px;
+		gap: 0.3rem;
+		padding: 0 0.7rem;
+		border-radius: 999px;
+		font-size: 0.82rem;
+		font-weight: 600;
+		white-space: nowrap;
+	}
+
 	.edit-popup--down {
 		bottom: auto;
 		top: calc(100% + 12px);

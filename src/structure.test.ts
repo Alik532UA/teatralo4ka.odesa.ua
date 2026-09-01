@@ -148,6 +148,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-09-01: `EditContactButton.svelte` 300 → 320. Кнопка навчилася двох
+ *   речей, і обидві — про НЕЇ саму, тож ділити файл нема по чому. `card` —
+ *   смужка ліворуч, точно як у картці випускника (доти той самий олівець тієї
+ *   самої людини давав два різні віджети). `shape: 'text'` — плашка «+ додати»
+ *   замість кружечка для порожніх плашок, де самотня іконка нічого не
+ *   пояснювала. Сам рядок порожньої плашки у файл не потрапив: він живе
+ *   окремим `GraduateBlockEmpty`, бо потрібен трьом плашкам.
  * 2026-08-30: `GraduateRoster.svelte` 750 → 770. Обрана єдина група року тепер
  *   розтягується на вільний екран (`zoom` на картці, ширина ділиться на нього,
  *   щоб колонки перерахувалися). Три чисті помічники вже винесено в
@@ -217,6 +224,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
+	'src/lib/components/EditContactButton.svelte': 320,
 	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
