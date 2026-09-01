@@ -148,6 +148,14 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-09-01: `GraduateRosterFilters.svelte` 510 → 390 (СТЕЛЯ ОПУСТИЛАСЯ).
+ *   Додався другий випадайний список — фільтр по майстру курсу, — і файл
+ *   перевалив стелю на 62 рядки. Майже всі вони були повтором: кожен список
+ *   ніс свою копію стану «відкрито», обчислення місця, поправки на контейнер,
+ *   підкладки й панелі. Оболонку винесено в `ui/FilterDropdown`, самі варіанти
+ *   лишилися снайпетами в батька — і файл схуднув до 383, тобто НИЖЧЕ за
+ *   попередню стелю. Гейт зробив рівно те, для чого існує: показав, що
+ *   зростання було не про новий фільтр, а про копію.
  * 2026-09-01: `residents/adults/[slug]/+page.svelte` 400 → 405. Абзац біографії
  *   виводиться через `RichTextWithFlags`, а не голим рядком: у Михайла
  *   Дроботова в тексті посилання на сайт театру, де він тридцять років грав, і
@@ -225,7 +233,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
-	'src/lib/components/GraduateRosterFilters.svelte': 510,
+	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

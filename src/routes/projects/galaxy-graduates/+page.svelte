@@ -31,6 +31,7 @@
 	/** Стан фільтрів ростера — живе тут, щоб синхронізувати з URL. */
 	let rosterYears = $state<number[]>([]);
 	let rosterDepartments = $state<Department[]>([]);
+	let rosterMasters = $state<string[]>([]);
 	let rosterPhoto = $state<'all' | 'with' | 'without'>('all');
 	let rosterQuery = $state('');
 	/**
@@ -106,6 +107,12 @@
 			url.searchParams.delete('dept');
 		}
 
+		if (rosterMasters.length > 0) {
+			url.searchParams.set('master', rosterMasters.join(','));
+		} else {
+			url.searchParams.delete('master');
+		}
+
 		if (rosterPhoto !== 'all') {
 			url.searchParams.set('photo', rosterPhoto);
 		} else {
@@ -135,6 +142,11 @@
 
 	function setDepartments(departments: Department[]) {
 		rosterDepartments = departments;
+		syncFiltersToUrl();
+	}
+
+	function setMasters(masters: string[]) {
+		rosterMasters = masters;
 		syncFiltersToUrl();
 	}
 
@@ -343,6 +355,9 @@
 					rosterDepartments = [];
 				}
 
+				const masterParam = url.searchParams.get('master');
+				rosterMasters = masterParam ? masterParam.split(',').filter(Boolean) : [];
+
 				const photoParam = url.searchParams.get('photo');
 				if (photoParam === 'with' || photoParam === 'without') {
 					rosterPhoto = photoParam;
@@ -483,10 +498,12 @@
 	onopenform={openForm}
 	year={rosterYears}
 	departments={rosterDepartments}
+	masters={rosterMasters}
 	photo={rosterPhoto}
 	query={rosterQuery}
 	onyearchange={setYears}
 	ondepartmentschange={setDepartments}
+	onmasterschange={setMasters}
 	onphotochange={setPhoto}
 	onquerychange={setQuery}
 	initialScrolledYear={rosterScrolledYear}

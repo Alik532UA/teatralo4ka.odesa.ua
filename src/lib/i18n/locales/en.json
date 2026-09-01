@@ -1009,6 +1009,8 @@
       "needsClarificationSubtitle": "Entries with an unconfirmed role and those awaiting confirmation"
     },
     "filterAllDepts": "All departments",
+    "filterAllMasters": "All course masters",
+    "filterMastersShort": "Masters",
     "filterAllProfiles": "All graduates",
     "filterWithProfile": "With profile",
     "filterWithoutProfile": "Without profile",

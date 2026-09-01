@@ -1,56 +1,40 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Check, ChevronDown } from 'lucide-svelte';
+	import { Check } from 'lucide-svelte';
 	import Select from '$lib/components/ui/Select.svelte';
+	import FilterDropdown from '$lib/components/ui/FilterDropdown.svelte';
 	import type { SelectOption } from '$lib/components/ui/select';
-	import { containingBlockOffset, placePanel } from '$lib/utils/dropdownPlace';
+	import { getMasterById } from '$lib/data/masters';
 	import type { Department } from '$lib/data/graduates';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 
 	interface Props {
 		departments: readonly Department[];
+		/** Обрані майстри курсу — за `id`, порожньо означає «усі». */
+		masters: readonly string[];
+		/**
+		 * Майстри, у яких є хоч один випускник, від найбільшого до найменшого.
+		 * Рахує їх `courseMasterCounts` — тут лише показуємо.
+		 */
+		masterOptions: readonly { id: string; count: number }[];
 		photo: 'all' | 'with' | 'without';
 		ondepartmentschange: (value: Department[]) => void;
+		onmasterschange: (value: string[]) => void;
 		onphotochange: (value: 'all' | 'with' | 'without') => void;
 	}
 
 	let {
 		departments = [],
+		masters = [],
+		masterOptions = [],
 		photo = 'all',
 		ondepartmentschange,
+		onmasterschange,
 		onphotochange
 	}: Props = $props();
 
 	const allDeptKeys: Department[] = ['theatre', 'intensive', 'music', 'vocal', 'piano', 'guitar', 'art'];
 
-	let deptOpen = $state(false);
-	let deptTrigger = $state<HTMLButtonElement | null>(null);
-	let deptPos = $state({ left: 0, top: 0, minWidth: 0, maxWidth: 0, maxHeight: 420, above: false });
-	let deptOffset = $state({ x: 0, y: 0 });
-
-
-	function placeDeptPanel() {
-		if (!deptTrigger) return;
-		deptOffset = containingBlockOffset(deptTrigger);
-		const raw = placePanel(deptTrigger.getBoundingClientRect(), {
-			width: window.innerWidth,
-			height: window.innerHeight
-		});
-		deptPos = {
-			...raw,
-			left: raw.left - deptOffset.x,
-			top: raw.top - deptOffset.y
-		};
-	}
-
-	function toggleDeptPanel() {
-		if (deptOpen) {
-			deptOpen = false;
-		} else {
-			placeDeptPanel();
-			deptOpen = true;
-		}
-	}
 
 	function toggleDepartment(key: Department) {
 		if (departments.includes(key)) {
@@ -81,6 +65,35 @@
 		return `${$t('galaxy.filterAllDepts', { default: 'Відділення' })} (${departments.length})`;
 	});
 
+	/*
+	 * Другий випадайний список — за тим самим прикладом, що відділення:
+	 * та сама кнопка, та сама підкладка, ті самі чекбокси. Різниця лише в
+	 * тому, що варіанти не вписані руками, а приходять із даних: майстрів
+	 * курсів двадцять сім, і перелічувати їх у розмітці означало б правити
+	 * її щоразу, коли з'явиться новий.
+	 */
+
+	function toggleMaster(id: string) {
+		if (masters.includes(id)) {
+			onmasterschange(masters.filter((m) => m !== id));
+		} else {
+			onmasterschange([...masters, id]);
+		}
+	}
+
+	/** Ім'я з РЕЄСТРУ: у зв'язку лежить самий `id`. */
+	function masterName(id: string): string {
+		return getMasterById(id)?.displayName ?? id;
+	}
+
+	const masterLabel = $derived.by(() => {
+		if (masters.length === 0) {
+			return $t('galaxy.filterAllMasters', { default: 'Усі майстри курсів' });
+		}
+		if (masters.length === 1) return masterName(masters[0]);
+		return `${$t('galaxy.filterMastersShort', { default: 'Майстри' })} (${masters.length})`;
+	});
+
 	const photoOptions = $derived<SelectOption[]>([
 		{ value: 'all', label: $t('galaxy.filterAllProfiles', { default: 'Усі випускники' }) },
 		{ value: 'with', label: $t('galaxy.filterWithProfile', { default: 'З анкетою' }) },
@@ -89,47 +102,51 @@
 </script>
 
 <div class="filters" data-testid="galaxy-roster-filters-container">
-	<div class="multi-select">
-		<button
-			type="button"
-			class="filter-trigger"
-			class:open={deptOpen}
-			bind:this={deptTrigger}
-			onclick={toggleDeptPanel}
-			aria-expanded={deptOpen}
-			aria-haspopup="listbox"
-			data-testid="galaxy-roster-dept-filter-btn"
-		>
-			<span class="filter-trigger__label">{deptLabel}</span>
-			<ChevronDown
-				size={14}
-				strokeWidth={2.5}
-				class="filter-trigger__chevron {deptOpen ? 'open' : ''}"
-				aria-hidden="true"
-			/>
-		</button>
+	<FilterDropdown label={masterLabel} testIdPrefix="galaxy-roster-master">
+		{#snippet options()}
+				<button
+					type="button"
+					class="filter-option filter-option--main"
+					class:selected={masters.length === 0}
+					onclick={() => onmasterschange([])}
+					data-testid="galaxy-roster-master-opt-all-btn"
+				>
+					<span class="filter-checkbox" class:checked={masters.length === 0}>
+						{#if masters.length === 0}
+							<Check size={12} strokeWidth={3} />
+						{/if}
+					</span>
+					<span class="filter-option__text"
+						>{$t('galaxy.filterAllMasters', { default: 'Усі майстри курсів' })}</span
+					>
+				</button>
 
-		{#if deptOpen}
-			<div
-				class="filter-backdrop"
-				role="presentation"
-				style={deptOffset.x !== 0 || deptOffset.y !== 0
-					? `left: -${deptOffset.x}px; top: -${deptOffset.y}px; width: 100vw; height: 100vh;`
-					: ''}
-				onpointerdown={() => (deptOpen = false)}
-				oncontextmenu={(e) => {
-					e.preventDefault();
-					deptOpen = false;
-				}}
-			></div>
+				<div class="filter-divider" role="separator"></div>
 
-			<div
-				class="filter-panel"
-				style="left: {deptPos.left}px; top: {deptPos.top}px; min-width: {deptPos.minWidth}px; max-width: {deptPos.maxWidth}px; max-height: {deptPos.maxHeight}px;"
-				role="listbox"
-				aria-multiselectable="true"
-				data-testid="galaxy-roster-dept-dropdown-menu"
-			>
+				{#each masterOptions as option (option.id)}
+					<button
+						type="button"
+						class="filter-option filter-option--main"
+						class:selected={masters.includes(option.id)}
+						onclick={() => toggleMaster(option.id)}
+						data-testid="galaxy-roster-master-opt-{option.id}-btn"
+					>
+						<span class="filter-checkbox" class:checked={masters.includes(option.id)}>
+							{#if masters.includes(option.id)}
+								<Check size={12} strokeWidth={3} />
+							{/if}
+						</span>
+						<span class="filter-option__text filter-option__text--main">{masterName(option.id)}</span>
+						<!-- Скільком людям він майстер: без числа вибір із двадцяти семи
+						     імен нічого не підказує про те, що за ним стоїть. -->
+						<span class="filter-option__count">{option.count}</span>
+					</button>
+				{/each}
+		{/snippet}
+	</FilterDropdown>
+
+	<FilterDropdown label={deptLabel} testIdPrefix="galaxy-roster-dept">
+		{#snippet options()}
 				<!-- 0. Усі відділення -->
 				<button
 					type="button"
@@ -279,9 +296,8 @@
 					<DepartmentIcon department="art" size={16} class="filter-option__icon" />
 					<span class="filter-option__text filter-option__text--main">{$t('galaxy.departments.art')}</span>
 				</button>
-			</div>
-		{/if}
-	</div>
+		{/snippet}
+	</FilterDropdown>
 
 	<Select
 		value={photo}
@@ -301,72 +317,21 @@
 		flex-shrink: 0;
 	}
 
-	.multi-select {
-		position: relative;
-		display: inline-flex;
-	}
 
-	.filter-trigger {
-		display: inline-flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.5rem;
-		min-height: 44px;
-		padding: 0 0.85rem;
-		border: 1px solid rgb(255 255 255 / 0.18);
-		border-radius: 999px;
-		background: rgb(255 255 255 / 0.06);
-		color: var(--galaxy-text, #eaf2ff);
-		font-family: inherit;
-		font-size: 0.86rem;
-		font-weight: 600;
-		cursor: pointer;
-		outline: none;
-		transition: border-color 0.2s ease, background 0.2s ease;
-	}
 
-	.filter-trigger:hover,
-	.filter-trigger:focus-visible,
-	.filter-trigger.open {
-		border-color: rgb(140 190 255 / 0.6);
-		background: rgb(255 255 255 / 0.12);
-	}
 
-	.filter-trigger__label {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
 
-	:global(.filter-trigger__chevron) {
-		flex-shrink: 0;
-		opacity: 0.8;
-		transition: transform 0.2s ease;
-	}
 
-	:global(.filter-trigger__chevron.open) {
-		transform: rotate(180deg);
-	}
 
-	.filter-backdrop {
-		position: fixed;
-		inset: 0;
-		z-index: 9400;
-	}
 
-	.filter-panel {
-		position: fixed;
-		z-index: 9401;
-		width: max-content;
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		padding: 0.4rem;
-		overflow-y: auto;
-		border-radius: 16px;
-		background: #0b1330;
-		border: 1px solid rgba(255, 255, 255, 0.18);
-		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+	/* Число праворуч, приглушене: воно підказка, а не сама назва. */
+	.filter-option__count {
+		margin-left: auto;
+		padding-left: 0.5rem;
+		font-size: 0.75rem;
+		font-variant-numeric: tabular-nums;
+		color: var(--text-muted);
 	}
 
 	.filter-divider {
@@ -501,14 +466,6 @@
 			flex-wrap: wrap;
 			flex-shrink: 1;
 			width: 100%;
-		}
-		.multi-select {
-			flex: 1 1 9rem;
-			min-width: 0;
-		}
-		.filter-trigger {
-			width: 100%;
-			min-width: 0;
 		}
 	}
 </style>

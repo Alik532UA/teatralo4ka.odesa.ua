@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { filterGraduates, makeLanes } from './graduateGalaxy';
+import { courseMasterCounts, filterGraduates, makeLanes } from './graduateGalaxy';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /** Передбачуваний «випадок»: значення по колу, щоб перевіряти межі, а не везіння. */
@@ -141,5 +141,85 @@ describe('filterGraduates', () => {
 		expect(filterGraduates(depts, { departments: ['vocal'] })).toHaveLength(1);
 		expect(filterGraduates(depts, { departments: ['music'] })).toHaveLength(2); // vocal + piano
 		expect(filterGraduates(depts, { departments: [] })).toHaveLength(4);
+	});
+});
+
+/** Той самий випускник, але з майстрами курсу. */
+const зМайстрами = (
+	name: string,
+	graduationYear: number | null,
+	masters: string[]
+): GraduateIndexEntry => ({
+	...graduate(name, graduationYear),
+	masters: masters.map((id) => ({ id }))
+});
+
+/**
+ * Фільтр по майстру курсу й перелік майстрів для нього.
+ *
+ * ## Що саме стережеться
+ *
+ * 1. Достатньо ОДНОГО збігу. У частини випускників майстрів курсу декілька — у
+ *    Романа Арабаджі четверо, — і людина належить кожному з них однаково. Умова
+ *    «усі вибрані майстри мусять бути в людини» дала б порожньо на будь-якому
+ *    виборі з двох.
+ * 2. Порожній перелік означає «усі», як і в решти фільтрів. Інакше типовий стан
+ *    сторінки мусив би перелічувати всіх двадцятьох сімох.
+ * 3. Перелік майстрів упорядкований за КІЛЬКІСТЮ, і при однаковій кількості —
+ *    за ідентифікатором: без другого правила порядок залежав би від того, у
+ *    якому порядку трапилися записи, і дифи стрибали б.
+ * 4. Люди без майстра просто не додають нічого до переліку.
+ *
+ * ## Зворотні експерименти (AI-AGENT-PITFALLS-v8 § 1.1)
+ *
+ * 1. Замінити `some` на `every` у фільтрі — падає «збігу одного досить».
+ * 2. Прибрати умову `masters.length > 0` — падає «порожній перелік не фільтрує».
+ * 3. Прибрати `|| a.id.localeCompare(b.id)` — падає перевірка однакових
+ *    лічильників.
+ *
+ * Усі три прогнані.
+ */
+describe('фільтр по майстру курсу', () => {
+	const набір = [
+		зМайстрами('Одна', 2020, ['ryskina']),
+		зМайстрами('Друга', 2021, ['tkach']),
+		зМайстрами('Третя', 2022, ['ryskina', 'tkach']),
+		graduate('Без майстра', 2023)
+	];
+
+	it('збігу ОДНОГО майстра досить', () => {
+		const тільки = filterGraduates(набір, { masters: ['ryskina'] });
+		expect(тільки.map((g) => g.name)).toEqual(['Одна', 'Третя']);
+	});
+
+	it('вибір двох майстрів дає обʼєднання, а не перетин', () => {
+		const обидва = filterGraduates(набір, { masters: ['ryskina', 'tkach'] });
+		expect(обидва.map((g) => g.name)).toEqual(['Одна', 'Друга', 'Третя']);
+	});
+
+	it('порожній перелік не фільтрує нічого', () => {
+		expect(filterGraduates(набір, { masters: [] })).toHaveLength(4);
+		expect(filterGraduates(набір, {})).toHaveLength(4);
+	});
+
+	it('людина без майстра не проходить жодного вибору', () => {
+		const усі = filterGraduates(набір, { masters: ['ryskina', 'tkach'] });
+		expect(усі.some((g) => g.name === 'Без майстра')).toBe(false);
+	});
+
+	it('майстри рахуються й упорядковуються за кількістю', () => {
+		expect(courseMasterCounts(набір)).toEqual([
+			{ id: 'ryskina', count: 2 },
+			{ id: 'tkach', count: 2 }
+		]);
+	});
+
+	it('при однаковій кількості порядок за ідентифікатором — щоб не стрибав', () => {
+		const рівні = [зМайстрами('А', 2020, ['zzz']), зМайстрами('Б', 2021, ['aaa'])];
+		expect(courseMasterCounts(рівні).map((m) => m.id)).toEqual(['aaa', 'zzz']);
+	});
+
+	it('перелік не містить тих, у кого немає жодного випускника', () => {
+		expect(courseMasterCounts([graduate('Сама', 2020)])).toEqual([]);
 	});
 });

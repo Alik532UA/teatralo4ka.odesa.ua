@@ -8,7 +8,7 @@
 		type Department,
 		type GraduateIndexEntry,
 	} from "$lib/data/graduates";
-	import { filterGraduates } from "$lib/utils/graduateGalaxy";
+	import { courseMasterCounts, filterGraduates } from "$lib/utils/graduateGalaxy";
 	import {
 		centeredScrollTop, fitZoom, formatGraduateNoun, layoutRoster, sortRoster, type Cell,
 	} from "$lib/utils/graduateRoster";
@@ -28,10 +28,13 @@
 		onopenform?: () => void;
 		year: number | "all" | readonly number[];
 		departments: Department[];
+		/** Обрані майстри курсу — за `id`, порожньо означає «усі». */
+		masters: string[];
 		photo: "all" | "with" | "without";
 		query: string;
 		onyearchange: (year: number | "all" | readonly number[]) => void;
 		ondepartmentschange: (departments: Department[]) => void;
+		onmasterschange: (masters: string[]) => void;
 		onphotochange: (photo: "all" | "with" | "without") => void;
 		onquerychange: (query: string) => void;
 		/**
@@ -47,8 +50,8 @@
 
 	let {
 		graduates, open, onclose, onselect, onopenform,
-		year, departments, photo, query,
-		onyearchange, ondepartmentschange, onphotochange, onquerychange,
+		year, departments, masters, photo, query,
+		onyearchange, ondepartmentschange, onmasterschange, onphotochange, onquerychange,
 		initialScrolledYear = null, onscrolledyearchange,
 	}: Props = $props();
 
@@ -79,7 +82,7 @@
 	const shown = $derived.by(() => {
 		const _ = rosterSeed;
 		return sortRoster(
-			filterGraduates(graduates, { year, query, departments, photo }),
+			filterGraduates(graduates, { year, query, departments, masters, photo }),
 		);
 	});
 
@@ -163,6 +166,7 @@
 	const hasActiveFilters = $derived(
 		selectedYears.length > 0 ||
 		departments.length > 0 ||
+		masters.length > 0 ||
 		photo !== "all" ||
 		query.trim().length > 0,
 	);
@@ -417,6 +421,7 @@
 		lastInteractedYear = null;
 		onyearchange("all");
 		ondepartmentschange([]);
+		onmasterschange([]);
 		onphotochange("all");
 		onquerychange("");
 		if (gridEl) {
@@ -517,8 +522,11 @@
 			>
 				<GraduateRosterFilters
 					{departments}
+					{masters}
 					{photo}
+					masterOptions={courseMasterCounts(graduates)}
 					ondepartmentschange={ondepartmentschange}
+					onmasterschange={onmasterschange}
 					onphotochange={onphotochange}
 				/>
 

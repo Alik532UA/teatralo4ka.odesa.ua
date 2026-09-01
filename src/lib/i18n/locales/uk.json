@@ -1009,6 +1009,8 @@
       "needsClarificationSubtitle": "Записи з нез’ясованою роллю та ті, що чекають на підтвердження"
     },
     "filterAllDepts": "Усі відділення",
+    "filterAllMasters": "Усі майстри курсів",
+    "filterMastersShort": "Майстри",
     "filterAllProfiles": "Усі випускники",
     "filterWithProfile": "З анкетою",
     "filterWithoutProfile": "Без анкети",

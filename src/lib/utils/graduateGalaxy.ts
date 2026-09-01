@@ -66,6 +66,25 @@ export interface GraduateFilterOptions {
 	photo?: 'all' | 'with' | 'without';
 	department?: 'all' | Department;
 	departments?: readonly Department[];
+	/**
+	 * Майстри курсу — за `id` зв'язку, а не за іменем.
+	 *
+	 * Порожній перелік означає «усі», як і в решти фільтрів: інакше типовий стан
+	 * сторінки мусив би перелічувати всіх двадцятьох сімох.
+	 */
+	masters?: readonly string[];
+}
+
+/**
+ * `id` майстра з обох можливих форм зв'язку.
+ *
+ * У полі `masters` лежить або обʼєкт `{ id }`, або сам рядок — стара форма з
+ * перенесення, коли ідентифікатора ще не було. Рядок повертається як є: у
+ * реєстрі майстрів такого `id` не знайдеться, і фільтр просто не спрацює на
+ * ньому, що правильніше, ніж упасти.
+ */
+function masterId(link: string | { id?: string }): string {
+	return typeof link === 'string' ? link : (link.id ?? '');
 }
 
 /**
@@ -85,6 +104,7 @@ export function filterGraduates(
 	const photo = options.photo ?? 'all';
 	const department = options.department ?? 'all';
 	const departments = options.departments ?? [];
+	const masters = options.masters ?? [];
 	const effectiveDepts = departments.length > 0
 		? departments.flatMap((d) => {
 			if (d === 'music') return ['music', 'vocal', 'piano', 'guitar'] as const;
@@ -100,6 +120,13 @@ export function filterGraduates(
 		if (photo === 'with' && !graduate.hasPhoto) return false;
 		if (photo === 'without' && graduate.hasPhoto) return false;
 		if (effectiveDepts.length > 0 && !effectiveDepts.some((d) => graduate.departments?.includes(d))) {
+			return false;
+		}
+		/*
+		 * Достатньо ОДНОГО збігу: у 27 випускників майстрів курсу декілька (у
+		 * Романа Арабаджі четверо), і людина належить кожному з них однаково.
+		 */
+		if (masters.length > 0 && !(graduate.masters ?? []).some((m) => masters.includes(masterId(m)))) {
 			return false;
 		}
 		if (department !== 'all') {
@@ -154,4 +181,38 @@ export function shuffled<T>(items: readonly T[], random: () => number): T[] {
 		[out[i], out[j]] = [out[j], out[i]];
 	}
 	return out;
+}
+
+/**
+ * Майстри курсів, у яких є хоч один випускник, — від найбільшого до найменшого.
+ *
+ * ## Чому за КІЛЬКІСТЮ, а не за абеткою
+ *
+ * У переліку 27 імен, і розподіл у них крутий: у Світлани Риськіної 103
+ * випускники, у Федора Ткача 95, у Тетяни Ісачкіної 67 — а в семи майстрів по
+ * одному. Абеткою читач шукав би трьох найпотрібніших очима по всьому списку;
+ * за кількістю вони перші три рядки.
+ *
+ * ## Чому лише ті, у кого хтось є
+ *
+ * У реєстрі майстрів 145 записів, але майстром КУРСУ значиться 27. Показати всі
+ * 145 означало б фільтр, у якому 118 варіантів гарантовано дають порожньо.
+ *
+ * Ідентифікатор, а не ім'я: імена міняються (за одну сесію їх виправили тричі),
+ * а `id` — ключ зв'язку, і саме він їде в адресу сторінки як `?master=`.
+ */
+export function courseMasterCounts(
+	graduates: readonly GraduateIndexEntry[]
+): { id: string; count: number }[] {
+	const скільки = new Map<string, number>();
+	for (const graduate of graduates) {
+		for (const link of graduate.masters ?? []) {
+			const id = masterId(link);
+			if (!id) continue;
+			скільки.set(id, (скільки.get(id) ?? 0) + 1);
+		}
+	}
+	return [...скільки]
+		.map(([id, count]) => ({ id, count }))
+		.sort((a, b) => b.count - a.count || a.id.localeCompare(b.id));
 }
