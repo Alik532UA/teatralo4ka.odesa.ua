@@ -1,5 +1,6 @@
 import type { Pathname } from '$app/types';
 import groupsData from './groups.data.json';
+import { getPlayById } from './plays';
 
 export interface GroupMaster {
 	id: string;
@@ -146,7 +147,30 @@ export function coGroupsForPlay(playId: string, memberId: string): GraduateGroup
 	const own = getGroupsByMember(memberId);
 	if (own.length === 0) return [];
 	const ownSlugs = new Set(own.map((g) => g.slug));
-	return GROUPS.filter((g) => g.playIds.includes(playId) && !ownSlugs.has(g.slug));
+
+	/*
+	 * Два джерела, а не одне.
+	 *
+	 * Репертуар групи (`playIds`) заповнений нерівно: у «Фреша» там шість вистав,
+	 * і показу 2012 року серед них немає — хоч у самому записі показу написано
+	 * «гр. «ФРЕШ»». Через це в анкеті Аліка Запольнова рядок 2013 року казав
+	 * «разом з Freedom», а рядок 2012-го не казав нічого: та сама людина, той
+	 * самий випадок, різна відповідь.
+	 *
+	 * Тепер питаються обидва: і репертуари груп, і курс, названий у самому
+	 * показі. Заміряно: рядків із плашкою 100 → 111.
+	 */
+	const play = getPlayById(playId);
+	const fromRegistry = GROUPS.filter((g) => g.playIds.includes(playId));
+	const named = play ? namedGroupsOfPlay(play) : [];
+
+	const out: GraduateGroup[] = [];
+	for (const group of [...fromRegistry, ...named]) {
+		if (ownSlugs.has(group.slug)) continue;
+		if (out.some((g) => g.slug === group.slug)) continue;
+		out.push(group);
+	}
+	return out;
 }
 
 /**
