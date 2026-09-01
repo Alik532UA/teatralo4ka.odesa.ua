@@ -7193,12 +7193,17 @@
 		]
 	},
 	{
-		"id": "tetiana-nikitenko-2",
-		"slug": "tetiana-nikitenko-2",
-		"name": "Тетяна Нікітенко",
+		"id": "yelyzaveta-nikitenko",
+		"slug": "yelyzaveta-nikitenko",
+		"name": "Єлизавета Нікітенко",
 		"graduationYear": 2018,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
