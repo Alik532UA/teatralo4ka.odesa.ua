@@ -2370,7 +2370,15 @@
 			"graduateId": "alik-zapolnov",
 			"role": "Поет",
 			"items": [
-				"neznaiomka"
+				"neznaiomka",
+				"antihona",
+				"sonety"
+			]
+		},
+		{
+			"graduateId": "anna-arustamian",
+			"items": [
+				"antihona"
 			]
 		},
 		{
@@ -2379,6 +2387,9 @@
 		},
 		{
 			"graduateId": "kseniia-zhvachkyna",
+			"items": [
+				"neznaiomka"
+			],
 			"fromRegistry": true
 		},
 		{

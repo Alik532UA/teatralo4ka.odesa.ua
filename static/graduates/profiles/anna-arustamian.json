@@ -1,0 +1,23 @@
+{
+	"id": "anna-arustamian",
+	"slug": "anna-arustamian",
+	"code": "anna-arustamian",
+	"name": "Анна Арустамян",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2013,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			]
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

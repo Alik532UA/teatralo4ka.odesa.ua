@@ -18,6 +18,9 @@
 			"year": 2013,
 			"text": "«Уривки з класики»",
 			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"neznaiomka"
+			],
 			"fromRegistry": true
 		}
 	],
