@@ -41,6 +41,9 @@
 			"year": 2014,
 			"text": "«Уривки з класики»",
 			"playId": "uryvky-z-klasyky-2014",
+			"items": [
+				"asia"
+			],
 			"fromRegistry": true
 		},
 		{

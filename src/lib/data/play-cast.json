@@ -2427,6 +2427,9 @@
 		},
 		{
 			"graduateId": "anna-rodonaia",
+			"items": [
+				"asia"
+			],
 			"fromRegistry": true
 		},
 		{
