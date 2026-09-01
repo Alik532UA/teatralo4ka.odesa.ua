@@ -160,6 +160,14 @@ const LIMITS: Array<[RegExp, number]> = [
  *   замість кружечка для порожніх плашок, де самотня іконка нічого не
  *   пояснювала. Сам рядок порожньої плашки у файл не потрапив: він живе
  *   окремим `GraduateBlockEmpty`, бо потрібен трьом плашкам.
+ *
+ * 2026-09-01 (того ж дня): стеля `EditContactButton.svelte` СКАСОВАНА — файл
+ *   схуднув до 231 рядка, тобто в типові 300 із запасом. Вміст віконця
+ *   «напиши мені» (аватар, підпис, чотири месенджери) переїхав у спільний
+ *   `ContactMenuBody`, звідки його бере і `GraduateCardContactMenu`. Разом із
+ *   розміткою пішли дванадцять правил CSS і перелік контактів, який доти
+ *   існував у двох копіях. Гейт § 8 сам і вимагав прибрати рядок, щоб перелік
+ *   стель не став пам'ятником.
  * 2026-08-30: `GraduateRoster.svelte` 750 → 770. Обрана єдина група року тепер
  *   розтягується на вільний екран (`zoom` на картці, ширина ділиться на нього,
  *   щоб колонки перерахувалися). Три чисті помічники вже винесено в
@@ -229,7 +237,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/lib/components/EditContactButton.svelte': 320,
 	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
 	'src/routes/residents/adults/[slug]/+page.svelte': 405,
 	'src/routes/+layout.svelte': 345,

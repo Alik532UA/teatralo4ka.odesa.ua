@@ -2,7 +2,7 @@
 	import { t } from 'svelte-i18n';
 	import { fly } from 'svelte/transition';
 	import { Pencil, Plus } from 'lucide-svelte';
-	import { asset } from '$app/paths';
+	import ContactMenuBody from './ContactMenuBody.svelte';
 
 	/**
 	 * Кнопка-олівець «внести правки» з контактами адміністратора.
@@ -121,12 +121,6 @@
 		shape = 'round'
 	}: Props = $props();
 
-	const contacts = [
-		{ name: 'Telegram', url: 'https://t.me/alik532', icon: 'telegram.svg' },
-		{ name: 'Viber', url: 'viber://chat?number=%2B380937251208', icon: 'viber.svg' },
-		{ name: 'WhatsApp', url: 'https://wa.me/380937251208', icon: 'whatsapp.svg' },
-		{ name: 'LinkedIn', url: 'https://linkedin.com/in/alik-qa-engineer', icon: 'linkedin.svg' }
-	];
 
 	let open = $state(false);
 	let closeTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -225,48 +219,11 @@
 			transition:fly={{ y: -8, duration: mode === 'inline' ? 0 : 180 }}
 			data-testid="{testIdPrefix}-menu"
 		>
-			<img
-				src={asset('/graduates/alik-zapolnov-96.webp')}
-				alt="Алік Запольнов"
-				width="32"
-				height="32"
-				class="edit-popup__avatar"
-				loading="lazy"
-				data-testid="{testIdPrefix}-contact-admin-img"
+			<ContactMenuBody
+				{testIdPrefix}
+				{hasPhoto}
+				size={openTo === 'card' ? 'strip' : 'block'}
 			/>
-			<p class="edit-popup__hint" data-testid="{testIdPrefix}-hint">
-				{#if hasPhoto}
-					Привіт!)<br />
-					Щоб внести правки<br />
-					— напиши мені
-				{:else}
-					Привіт!)<br />
-					Щоб надати фото чи внести<br />
-					правки&nbsp;— напиши мені
-				{/if}
-			</p>
-			<div class="edit-popup__icons">
-				{#each contacts as contact (contact.name)}
-					<a
-						href={contact.url}
-						target="_blank"
-						rel="external noopener noreferrer"
-						class="edit-popup__link"
-						aria-label={contact.name}
-						title={contact.name}
-						onclick={(event) => event.stopPropagation()}
-						data-testid="{testIdPrefix}-link-{contact.name.toLowerCase()}"
-					>
-						<img
-							src={asset(`/social_media/${contact.icon}`)}
-							alt={contact.name}
-							width="28"
-							height="28"
-							loading="lazy"
-						/>
-					</a>
-				{/each}
-			</div>
 		</div>
 	{/if}
 </div>
@@ -411,19 +368,6 @@
 	 * більше за цю правку, бо тягне за собою `data-testid` восьми місць
 	 * виклику.
 	 */
-	.edit-popup--card .edit-popup__avatar {
-		width: 28px;
-		height: 28px;
-	}
-	.edit-popup--card .edit-popup__hint {
-		font-size: 0.84rem;
-		line-height: 1;
-		color: rgb(180 210 255 / 0.85);
-	}
-	.edit-popup--card .edit-popup__link {
-		width: 38px;
-		height: 38px;
-	}
 
 	/*
 	 * На вузькому екрані смужка НЕ вміщається — і тоді меню падає вниз.
@@ -448,9 +392,6 @@
 			border-radius: 1.1rem;
 			padding: 0.45rem 0.7rem;
 		}
-		.edit-popup--card .edit-popup__hint {
-			line-height: 1.3;
-		}
 	}
 	/*
 	 * Убік від кнопки, а не над нею: там, де кнопка кругла й стоїть у рядку
@@ -470,31 +411,5 @@
 		background: none;
 		box-shadow: none;
 		justify-content: flex-start;
-	}
-	.edit-popup__avatar {
-		border-radius: 50%;
-		flex-shrink: 0;
-	}
-	.edit-popup__hint {
-		margin: 0;
-		font-size: 0.82rem;
-		line-height: 1.3;
-		color: var(--text-main);
-		white-space: nowrap;
-	}
-	.edit-popup__icons {
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-	}
-	.edit-popup__link {
-		display: grid;
-		place-items: center;
-		border-radius: 50%;
-		transition: transform var(--transition-fast);
-	}
-	.edit-popup__link:hover,
-	.edit-popup__link:focus-visible {
-		transform: scale(1.1);
 	}
 </style>
