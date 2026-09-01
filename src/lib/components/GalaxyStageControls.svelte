@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { List, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
@@ -176,6 +176,12 @@
 			є головною дією: так просив замовник, і в цьому є сенс — праворуч
 			найближче до великого пальця й до курсору, що йде до кнопки анкети.
 			Три переліки поруч трохи менші за розміром: вони другорядні.
+
+			Значок — лупа, а не список. `List` у цьому проєкті означає «режим
+			списку» — у перемикачах вигляду `ContentWidget`, `MasterProductions`
+			та в редакторі, — тож на кнопці, що ВІДКРИВАЄ перелік, він казав не
+			те. Лупа ж усюди означає пошук (шапка, `SearchOverlay`,
+			`MasterSearch`), а ростер і відкривається з полем пошуку за іменем.
 		-->
 		<button
 			type="button"
@@ -183,7 +189,7 @@
 			onclick={() => pick(onopenroster)}
 			data-testid="galaxy-open-roster-btn"
 		>
-			<List size={18} aria-hidden="true" />
+			<Search size={18} aria-hidden="true" />
 			<span>{$t('galaxy.all')}</span>
 			<span class="stage__total" data-testid="galaxy-roster-total-count">{total}</span>
 		</button>
