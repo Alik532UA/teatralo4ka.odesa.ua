@@ -1,0 +1,46 @@
+{
+	"id": "violetta-nezvinska",
+	"slug": "violetta-nezvinska",
+	"code": "violetta-nezvinska",
+	"name": "Віолетта Незвінська",
+	"graduationYear": 2025,
+	"enrollmentYears": [
+		2022
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "«Етюдний показ»",
+			"playId": "etiudy-2023"
+		},
+		{
+			"year": 2024,
+			"text": "«Аліса у задзеркаллі», Аліса та Верть",
+			"playId": "alisa-v-zadzerkalli-2024"
+		},
+		{
+			"year": 2025,
+			"text": "«Соловей», Смерть",
+			"playId": "solovei-2025"
+		},
+		{
+			"year": 2025,
+			"text": "«Уривки», «У неділю рано зілля копала» Туркиня",
+			"playId": "uryvky-z-klasyky-2025"
+		}
+	],
+	"bio": [
+		"Працюю тренером з сучасної хореографії та вчусь на психолога"
+	],
+	"socials": [],
+	"festivals": []
+}

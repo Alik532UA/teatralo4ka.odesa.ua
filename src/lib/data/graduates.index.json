@@ -7890,11 +7890,17 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2022
+		],
 		"masters": [
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 4,
+		"profileSize": 994
 	},
 	{
 		"id": "vira-sotsenko",
