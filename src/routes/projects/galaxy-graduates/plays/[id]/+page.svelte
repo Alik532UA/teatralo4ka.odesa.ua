@@ -239,7 +239,7 @@
 			</section>
 		{/if}
 
-		{#if data.play.awards?.length || data.play.participants?.length || data.play.guests?.length}
+		{#if data.play.awards?.length || data.play.participants?.length || data.play.extraParticipants?.length || data.play.guests?.length}
 			<section class="play-section" aria-labelledby="play-extra-title">
 				<div class="play-heading">
 					<span class="play-heading__icon play-heading__icon--gold"><Trophy size={20} aria-hidden="true" /></span>
@@ -252,10 +252,27 @@
 						{/each}
 					</ul>
 				{/if}
+				<!--
+					Склад показу й ті, хто прийшов ДОДАТКОВО, — два різних переліки.
+
+					Доти обидва йшли одним під підписом «Також брали участь», і в
+					«Уривках з класики» 2013 виходило, що всі шестеро прийшли
+					додатково. У джерелі ж стоїть «+Макс Пономаренко»: п'ятеро —
+					основа групи «Freedom». Пояснення знака «+» — у докблоці
+					`Play.extraParticipants`.
+				-->
 				{#if data.play.participants?.length}
-					<p class="play-note">{$t('galaxy.playParticipants')}</p>
+					<p class="play-note">{$t('galaxy.playLineup')}</p>
 					<ul class="play-list" data-testid="play-participants-list">
 						{#each data.play.participants as person (person)}
+							<li>{person}</li>
+						{/each}
+					</ul>
+				{/if}
+				{#if data.play.extraParticipants?.length}
+					<p class="play-note">{$t('galaxy.playParticipants')}</p>
+					<ul class="play-list" data-testid="play-extra-participants-list">
+						{#each data.play.extraParticipants as person (person)}
 							<li>{person}</li>
 						{/each}
 					</ul>
