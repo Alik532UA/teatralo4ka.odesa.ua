@@ -160,6 +160,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   згортаються, коли курсор далеко. Це той самий рядок кнопок і той самий
  *   стан `near`, що вже рахувався для прозорості, — лише ще один шар вигляду
  *   на ньому.
+ * 2026-09-01: `ContentWidget.svelte` 688 → 700. Перемикач вигляду й кнопка
+ *   автогри світлішають лише під курсором. Правила мусять жити тут: обидва
+ *   елементи — власна розмітка цього віджета, і виносити три селектори в чужий
+ *   файл означало б розірвати їх із тим, що вони фарбують.
  * 2026-09-01: `GraduateRosterFilters.svelte` 510 → 390 (СТЕЛЯ ОПУСТИЛАСЯ).
  *   Додався другий випадайний список — фільтр по майстру курсу, — і файл
  *   перевалив стелю на 62 рядки. Майже всі вони були повтором: кожен список
@@ -240,7 +244,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/MenuEditor.svelte': 865,
 	'src/lib/components/ui/RichTextEditor.svelte': 760,
 	'src/routes/admin/articles/+page.svelte': 718,
-	'src/lib/components/ContentWidget.svelte': 688,
+	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 595,
 	'src/lib/components/GraduateProfileView.svelte': 1695,
