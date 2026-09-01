@@ -23,6 +23,7 @@
 	import { getGroupsByMember } from "$lib/data/groups";
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
+	import EditContactButton from "$lib/components/EditContactButton.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
 	import { playPath } from "$lib/data/plays";
 	import {
@@ -347,6 +348,19 @@
 
 	/** Театральне відділення — саме там роль у виставі очікувана. */
 	const isTheatre = $derived(Boolean(graduate.departments?.includes("theatre")));
+
+	/**
+	 * Чи є ще про що просити САМУ людину.
+	 *
+	 * Знімок і рік вступу приходять з анкети, тобто від неї. Решта — вистави,
+	 * майстри, група — наші дані, і просити їх у випускника нема сенсу: він їх
+	 * не заповнює.
+	 *
+	 * Одна величина на два місця: кнопку «Заповнити анкету» під іменем і олівець
+	 * у порожніх плашках. Дві копії цієї умови розійшлися б на першій правці, і
+	 * сторінка просила б анкету в одному місці й не просила в іншому.
+	 */
+	const askForForm = $derived(!graduate.hasPhoto || !graduate.enrollmentYears?.length);
 
 	/**
 	 * Які плашки показувати.
@@ -686,7 +700,7 @@
 					<!-- Заголовок і олівець в один рядок — так само, як у «Про себе». -->
 					<div class="block--empty">
 						<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
-						{@render blockEdit("galaxy-card-plays-edit-btn")}
+						{@render blockEdit("galaxy-card-plays")}
 					</div>
 				{:else}
 				<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
@@ -971,7 +985,7 @@
 				вступу, тому нема про що нагадувати, навіть якщо решта скупа —
 				решту заповнює школа, а не він.
 			-->
-			{#if !graduate.hasPhoto || !graduate.enrollmentYears?.length}
+			{#if askForForm}
 				<div class="fill-profile-wrap">
 					<button
 						type="button"
@@ -1085,20 +1099,39 @@
 {/snippet}
 
 <!--
-	Олівець порожньої плашки. Веде в ту саму анкету, що й кнопка «Заповнити
-	анкету», — інакше поруч жили б два різних способи сказати те саме.
+	Олівець порожньої плашки веде В РІЗНІ місця, і це не примха.
+
+	Доки в людини немає знімка або року вступу, є що просити в НЕЇ самої — олівець
+	відкриває ту саму анкету, що й кнопка «Заповнити анкету» під іменем (умова в
+	них спільна, див. `askForForm`).
+
+	Коли ж і знімок, і рік вступу вже є, анкета більше нічого не додасть: вистави,
+	роль і розповідь про себе вносить школа. Тому олівець відкриває стандартне
+	вікно звернення до адміністратора — той самий `EditContactButton`, що на
+	сторінках групи, фестивалю й викладача. Своє вікно тут було б п'ятою копією
+	того, що вже один раз звели докупи.
 -->
-{#snippet blockEdit(testId: string)}
-	<button
-		type="button"
-		class="block-edit-btn"
-		onclick={openForm}
-		title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
-		aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
-		data-testid={testId}
-	>
-		<Pencil size={16} aria-hidden="true" />
-	</button>
+{#snippet blockEdit(base: string)}
+	{#if askForForm}
+		<button
+			type="button"
+			class="block-edit-btn"
+			onclick={openForm}
+			title={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+			aria-label={$t("galaxy.fillProfile", { default: "Заповнити анкету" })}
+			data-testid="{base}-edit-btn"
+		>
+			<Pencil size={16} aria-hidden="true" />
+		</button>
+	{:else}
+		<EditContactButton
+			testIdPrefix="{base}-contact"
+			buttonTestId="{base}-contact-btn"
+			openTo="side"
+			variant="ghost"
+			hasPhoto={!!graduate.hasPhoto}
+		/>
+	{/if}
 {/snippet}
 
 {#snippet bioCard()}
@@ -1110,7 +1143,7 @@
 					{#if !hasBio}
 						<section class="block block--empty">
 							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
-							{@render blockEdit("galaxy-card-bio-edit-btn")}
+							{@render blockEdit("galaxy-card-bio")}
 						</section>
 					{/if}
 
