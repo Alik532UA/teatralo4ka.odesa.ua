@@ -109,7 +109,7 @@
 			"graduateId": "erika-chichasova"
 		}
 	],
-	"balahanchyk-bratev-hrymm-2019": [
+	"balahanchyk-brativ-hrym-2019": [
 		{
 			"graduateId": "alina-burdeina"
 		}
@@ -122,9 +122,7 @@
 	"blondi-2020": [
 		{
 			"graduateId": "kulish-mariia"
-		}
-	],
-	"blondie-2020": [
+		},
 		{
 			"graduateId": "myroslava-tkach"
 		}
@@ -157,14 +155,12 @@
 			"graduateId": "oleksandra-indichanska-morozova"
 		}
 	],
-	"chapaiev-i-vasylisa-2021": [
-		{
-			"graduateId": "heorhii-topor"
-		}
-	],
 	"chapaiev-ta-vasylisa-2021": [
 		{
 			"graduateId": "daria-rybalchenko"
+		},
+		{
+			"graduateId": "heorhii-topor"
 		}
 	],
 	"chernaia-kurytsa-2007": [
@@ -286,14 +282,12 @@
 			"graduateId": "valeriia-babenko"
 		}
 	],
-	"do-svydania-ovrah-2014": [
-		{
-			"graduateId": "myroslava-tkach"
-		}
-	],
 	"do-svydanyia-ovrah-2014": [
 		{
 			"graduateId": "kulish-mariia"
+		},
+		{
+			"graduateId": "myroslava-tkach"
 		}
 	],
 	"duenia-2006": [
@@ -432,12 +426,10 @@
 	],
 	"feis-bu-chik-2019": [
 		{
-			"graduateId": "heorhii-topor"
-		}
-	],
-	"feisbuchyk-2019": [
-		{
 			"graduateId": "daniela-rybalchenko"
+		},
+		{
+			"graduateId": "heorhii-topor"
 		}
 	],
 	"foto-toples-2018": [
@@ -592,7 +584,7 @@
 			"graduateId": "sofiya-rudenko"
 		}
 	],
-	"iak-podruzhytysia-z-chakalkoiu-2023": [
+	"iak-podruzhytys-z-chekalkoiu-2023": [
 		{
 			"graduateId": "sofiya-rudenko"
 		}
@@ -677,6 +669,14 @@
 			"graduateId": "myroslava-tkach"
 		}
 	],
+	"khrestyky-nulyky-2008": [
+		{
+			"graduateId": "alla-kolesnyk"
+		},
+		{
+			"graduateId": "maryna-perehud"
+		}
+	],
 	"klochky-po-zakoulochkam-2009": [
 		{
 			"graduateId": "dariia-kulish"
@@ -700,7 +700,7 @@
 			"graduateId": "vitalina-larionova"
 		}
 	],
-	"koralina-v-kriny-koshmariv-2020": [
+	"koralina-v-kraini-koshmariv-2020": [
 		{
 			"graduateId": "nadiia-hasynets"
 		}
@@ -759,14 +759,6 @@
 	"kotyhoroshivka-2019": [
 		{
 			"graduateId": "sofiia-holub"
-		}
-	],
-	"krestyky-nolyky-2008": [
-		{
-			"graduateId": "alla-kolesnyk"
-		},
-		{
-			"graduateId": "maryna-perehud"
 		}
 	],
 	"kto-boytsia-vyrdzhynyy-vulf-2013": [
@@ -967,9 +959,12 @@
 			"graduateId": "sofiya-rudenko"
 		}
 	],
-	"nikomu-ne-potribni-2023": [
+	"nikomu-nepotribni-2023": [
 		{
 			"graduateId": "halaida-oleksandra"
+		},
+		{
+			"graduateId": "kateryna-nesterenko"
 		},
 		{
 			"graduateId": "liubov-prepodobna"
@@ -979,11 +974,6 @@
 		},
 		{
 			"graduateId": "sonia-makhnovska"
-		}
-	],
-	"nikomu-nepotribni-2023": [
-		{
-			"graduateId": "kateryna-nesterenko"
 		}
 	],
 	"noch-na-yvana-kupala-2010": [
@@ -1032,11 +1022,6 @@
 	"otryvky-yz-klassyky-2009": [
 		{
 			"graduateId": "liliia-halosa"
-		}
-	],
-	"otryvky-yz-klassyky-2016": [
-		{
-			"graduateId": "anastasiia-ihnatovych"
 		}
 	],
 	"otryvky-yz-klassyky-2018": [
@@ -1359,17 +1344,15 @@
 	],
 	"ten-2013": [
 		{
+			"graduateId": "alik-zapolnov"
+		},
+		{
 			"graduateId": "dariia-kulish"
 		}
 	],
 	"teremok-2016": [
 		{
 			"graduateId": "valeriia-burian"
-		}
-	],
-	"tin-2013": [
-		{
-			"graduateId": "alik-zapolnov"
 		}
 	],
 	"tin-2026": [
@@ -1445,7 +1428,15 @@
 			"graduateId": "maryna-sukhanova"
 		}
 	],
+	"u-poshukakh-natkhnennia-2021": [
+		{
+			"graduateId": "yan-slobodeniuk"
+		}
+	],
 	"uryvky-z-klasyky-2016": [
+		{
+			"graduateId": "anastasiia-ihnatovych"
+		},
 		{
 			"graduateId": "daiana-ponomarenko"
 		}
@@ -1487,6 +1478,14 @@
 			"graduateId": "alik-zapolnov"
 		}
 	],
+	"use-lito-v-odyn-den-2020": [
+		{
+			"graduateId": "erika-chichasova"
+		},
+		{
+			"graduateId": "khrystia-oslavska"
+		}
+	],
 	"usi-khloptsi-durni-2021": [
 		{
 			"graduateId": "vitalina-larionova"
@@ -1495,11 +1494,6 @@
 	"utrennyky-2003-2008-2003": [
 		{
 			"graduateId": "anastasiia-ihnatovych"
-		}
-	],
-	"v-poshukakh-natkhnennia-2021": [
-		{
-			"graduateId": "yan-slobodeniuk"
 		}
 	],
 	"vdova-polkovnyka-2015": [
@@ -1608,14 +1602,6 @@
 	"vse-lito-v-odyn-den-2018": [
 		{
 			"graduateId": "taisiia-ruseskul"
-		}
-	],
-	"vse-lito-v-odyn-den-2020": [
-		{
-			"graduateId": "erika-chichasova"
-		},
-		{
-			"graduateId": "khrystia-oslavska"
 		}
 	],
 	"vse-malchyshky-duraky-2015": [
