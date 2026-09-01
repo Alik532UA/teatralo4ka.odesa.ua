@@ -417,6 +417,11 @@
 		"graduationYear": 2014,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -588,6 +593,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -670,6 +680,11 @@
 		"graduationYear": 2016,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -806,6 +821,11 @@
 		"graduationYear": 2020,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -960,6 +980,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -1007,6 +1032,11 @@
 		"graduationYear": 2006,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -1189,6 +1219,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -1239,6 +1274,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -1382,6 +1422,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -1479,6 +1524,11 @@
 		"graduationYear": 2012,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -1752,6 +1802,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -1930,6 +1985,11 @@
 		"graduationYear": 2016,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -1939,6 +1999,11 @@
 		"graduationYear": 2018,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -2166,6 +2231,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -2266,6 +2336,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -2395,6 +2470,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -2449,6 +2529,11 @@
 		"graduationYear": 2014,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -2489,6 +2574,11 @@
 		"graduationYear": 2017,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -2684,6 +2774,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -2786,6 +2881,11 @@
 		"graduationYear": 2006,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -2795,6 +2895,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -3007,6 +3112,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -3206,6 +3316,11 @@
 		"graduationYear": 2012,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -3268,6 +3383,14 @@
 		"departments": [
 			"music",
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			},
+			{
+				"id": "olena-prorok"
+			}
 		]
 	},
 	{
@@ -3331,10 +3454,15 @@
 	{
 		"id": "kateryna-maktas",
 		"slug": "kateryna-maktas",
-		"name": "Катерина Мактас",
+		"name": "Катерина Мантас",
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -3487,6 +3615,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -3747,10 +3880,15 @@
 	{
 		"id": "krystyna-nykolaieva",
 		"slug": "krystyna-nykolaieva",
-		"name": "Кристина Николаєва",
+		"name": "Кристина Ніколаєва",
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -3860,6 +3998,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -4229,6 +4372,11 @@
 		"graduationYear": 2014,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -4428,6 +4576,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -4437,6 +4590,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -4455,6 +4613,11 @@
 		"graduationYear": 2018,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -4715,6 +4878,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -4906,6 +5074,11 @@
 		"graduationYear": 2016,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -4997,6 +5170,11 @@
 		"graduationYear": 2017,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -5195,6 +5373,11 @@
 		"graduationYear": 2010,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -5204,6 +5387,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -5519,6 +5707,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -5629,6 +5822,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -5638,6 +5836,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -5692,6 +5895,11 @@
 		"graduationYear": 2014,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -5765,6 +5973,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -5907,6 +6120,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -5954,6 +6172,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6243,6 +6466,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -6252,6 +6480,11 @@
 		"graduationYear": 2010,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6385,6 +6618,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6496,6 +6734,11 @@
 		"graduationYear": 2020,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -6681,6 +6924,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6804,6 +7052,11 @@
 		"graduationYear": 2007,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6918,6 +7171,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -6927,6 +7185,11 @@
 		"graduationYear": 2018,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7003,6 +7266,11 @@
 		"graduationYear": 2011,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -7072,6 +7340,11 @@
 		"graduationYear": 2017,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7122,6 +7395,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -7131,6 +7409,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -7317,6 +7600,11 @@
 		"graduationYear": 2017,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7391,6 +7679,11 @@
 		"graduationYear": 2009,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -7423,6 +7716,11 @@
 		"graduationYear": 2017,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7541,6 +7839,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7550,6 +7853,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -7582,6 +7890,11 @@
 		"departments": [
 			"music",
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -7722,6 +8035,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -7774,10 +8092,15 @@
 	{
 		"id": "yana-lunieva",
 		"slug": "yana-lunieva",
-		"name": "Яна Лунєва",
+		"name": "Яна Луньова",
 		"graduationYear": 2010,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -7787,6 +8110,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -7827,6 +8155,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
@@ -8017,6 +8350,11 @@
 		"graduationYear": 2013,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -8138,6 +8476,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
 		]
 	},
 	{
@@ -8306,6 +8649,11 @@
 		"graduationYear": 2005,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
 		]
 	},
 	{
@@ -8329,6 +8677,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "olha-maiorova"
+			}
 		]
 	},
 	{
