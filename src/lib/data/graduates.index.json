@@ -3295,7 +3295,15 @@
 		],
 		"playCount": 3,
 		"code": "kateryna-kudlach",
-		"profileSize": 2249
+		"profileSize": 2249,
+		"teachers": [
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			}
+		]
 	},
 	{
 		"id": "kateryna-kurchenko",
