@@ -3975,6 +3975,11 @@
 		"graduationYear": 2010,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
