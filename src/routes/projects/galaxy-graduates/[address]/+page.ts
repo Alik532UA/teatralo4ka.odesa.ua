@@ -1,10 +1,11 @@
-import { error } from '@sveltejs/kit';
-import { localeFromPath } from '$lib/i18n/routing';
+import { error, redirect } from '@sveltejs/kit';
+import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import {
 	GRADUATES,
 	WITH_PAGE,
 	graduateAddress,
 	graduateProfileJson,
+	graduateProfilePath,
 	hasProfile,
 	type GraduateIndexEntry,
 	type GraduateProfile
@@ -46,11 +47,53 @@ const SEO: Record<string, { graduated: string; masters: string; plays: (n: numbe
 	}
 };
 
+/**
+ * Стара адреса → нова. Перейменування адреси людини, а не помилка даних.
+ *
+ * ## Чому редирект узагалі потрібен
+ *
+ * Адреса випускника — це ідентифікатор, який людина роздавала роками: у цьому
+ * проєкті вона й досі повторює стару адресу з Google-сайту. Тому зміна адреси
+ * не буває безслідною: посилання, що вже стоять у мережі, ведуть у нікуди, і
+ * сторінка з 404 виглядає як «людину видалили», а не «людина перейменувалася».
+ *
+ * ## Чому тут, а не окремим маршрутом-заглушкою, як `fest-odessa-teatr-pro`
+ *
+ * Це той самий вибір, що вже зроблено для сторінки майстра
+ * (`residents/adults/[slug]/+page.ts`), і причини ті самі, перевірені там:
+ * пререндерена заглушка обов'язково мусить бути в реєстрі `config/redirects.ts`
+ * (інакше `checkNoEmptyPages` валить збірку на `meta refresh`), реєстр вимагає
+ * мовного дзеркала `/en/…`, а `target` у ньому — «хвіст шляху», який для
+ * сусідньої сторінки не працює.
+ *
+ * Тому стара адреса НЕ пререндериться (її немає в `entries()`), а віддає її
+ * `fallback: '404.html'`. Клієнтський роутер виконує цей `load`, бачить стару
+ * адресу й веде на нову. Ціна відома й прийнята: у статиці стара адреса
+ * лишається кодом 404, тобто краулер без JS редиректу не побачить — але людина
+ * за старим посиланням потрапить куди слід.
+ *
+ * Мовний префікс зберігається: `/en/projects/galaxy-graduates/<стара>` веде на
+ * `/en/projects/galaxy-graduates/<нова>`.
+ */
+const RENAMED_ADDRESSES: Record<string, string> = {
+	// 2026-09-01: на прохання самої людини з адреси й з ключа зв'язків прибрано
+	// дівоче прізвище. Показне ім'я не змінювалося — у реєстрі вже стояло
+	// «Марина Суханова», старе прізвище лишалося тільки в ідентифікаторах.
+	// Разом з адресою перейменовано `id`, на який вказували дванадцять записів
+	// у `play-cast.json`, група в `groups.data.json` і двоє фестивалів.
+	'maryna-vishtaliuk-sukhanova': 'maryna-sukhanova'
+};
+
 export function entries() {
 	return WITH_PAGE.map((graduate) => ({ address: graduateAddress(graduate) }));
 }
 
 export async function load({ params, fetch, url }) {
+	const renamedTo = RENAMED_ADDRESSES[params.address];
+	if (renamedTo) {
+		redirect(301, localizedPath(graduateProfilePath(renamedTo), localeFromPath(url.pathname)));
+	}
+
 	const graduate = GRADUATES.find((candidate) => graduateAddress(candidate) === params.address);
 	if (!graduate) error(404, `Немає випускника за адресою ${params.address}`);
 
