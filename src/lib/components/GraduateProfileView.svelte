@@ -458,6 +458,7 @@
 		count: number,
 		present: BlockKey[],
 		heights: Partial<Record<BlockKey, number>>,
+		wideFirst = false,
 	): BlockKey[][] {
 		const seeds = SEEDS[count] ?? SEEDS[1];
 		const columns = seeds.map((seed) =>
@@ -475,6 +476,18 @@
 		const totals = columns.map((column) =>
 			column.reduce((sum, key) => sum + weight(key), 0),
 		);
+
+		/*
+		 * Широка перша колонка НІКОГО більше не приймає.
+		 *
+		 * Уся ця евристика тримається на тому, що колонки рівні завширшки: тоді
+		 * висота плашки не залежить від того, у якій вона колонці, і новий замір
+		 * не суперечить попередньому. Щойно перша колонка ширша за решту, це
+		 * перестає бути правдою — плашка, що переїхала в неї, стає нижчою,
+		 * розподіл змінюється, вона їде назад, і так по колу. Нескінченна вага
+		 * закриває колонку для решти й тим лишає припущення в силі.
+		 */
+		if (wideFirst) totals[0] = Number.POSITIVE_INFINITY;
 
 		const rest = present
 			.filter((key) => !placed.has(key))
@@ -505,8 +518,63 @@
 		return filled.length > 0 ? filled : columns.slice(0, 1);
 	}
 
+	/**
+	 * Для якої кількості колонок уже вирішено, що вистав багато. `-1` — не
+	 * вирішено ні для якої.
+	 *
+	 * ## Чому не число вистав
+	 *
+	 * Бо не число вистав переповнює колонку, а висота: у рядку від однієї до
+	 * трьох ліній залежно від довжини назви з роллю. Заміряно на анкеті Аліка
+	 * Запольнова при вікні 1280×800: 22 рядки — від 32 до 75 пікселів, зміст
+	 * 1161 при колонці 752.
+	 *
+	 * ## Чому рішення ухвалюється РАЗ і не скасовується
+	 *
+	 * Щільність робить плашку нижчою — і вона починає вміщатися. Скасувавши
+	 * рішення, ми повернули б їй висоту, вона знову не вмістилася б, і так по
+	 * колу на кожному кадрі. Тому рішення ухвалюється один раз на кожну
+	 * кількість колонок: змінилася ширина вікна настільки, що колонок стало
+	 * більше — питання ставиться заново, вже на новому просторі.
+	 */
+	let denseCols = $state(-1);
+
+	/** Вистав більше, ніж уміщає колонка: плашка щільніша, а колонка ширша. */
+	const densePlays = $derived(denseCols === columnCount);
+
+	$effect(() => {
+		const cols = columnCount;
+		const висота = blockHeights.plays;
+		if (!layoutEl || cols < 3 || !висота) return;
+		if (denseCols === cols) return;
+		if (висота > layoutEl.clientHeight) denseCols = cols;
+	});
+
 	const columns = $derived(
-		distribute(columnCount, presentBlocks, blockHeights),
+		distribute(columnCount, presentBlocks, blockHeights, densePlays),
+	);
+
+	/**
+	 * Ширини колонок рядком, а не `repeat()`.
+	 *
+	 * `repeat()` вимагає цілого числа й не приймає `calc(var(--cols) - 1)`, тож
+	 * «одна колонка ширша, решта рівні» через нього не виражається взагалі.
+	 *
+	 * Ширша саме перша й саме тоді, коли в ній вистави: у схемах на три й
+	 * чотири колонки вистави стоять першими самі, а плашка «основне» поруч
+	 * віддає ці пікселі без шкоди — заміряно, при 1280px вона стає 348 замість
+	 * 393 і фотографія з ім'ям вміщаються так само.
+	 *
+	 * 1.5 — із заміру: 1.3 давало зміст 1070 замість 1161, а 1.5 — 1010.
+	 */
+	const gridColumns = $derived(
+		columns
+			.map((keys, index) =>
+				densePlays && index === 0 && keys[0] === "plays"
+					? "minmax(280px, 1.5fr)"
+					: "minmax(280px, 1fr)",
+			)
+			.join(" "),
 	);
 
 	let layoutEl = $state<HTMLElement | null>(null);
@@ -704,6 +772,7 @@
 {#snippet playsCard()}
 			<section
 				class="bento-card bento-card--plays"
+				class:bento-card--plays-dense={densePlays}
 				data-block="plays"
 				data-testid="galaxy-card-plays-section"
 			>
@@ -1261,7 +1330,7 @@
 <div class="layout-scope">
 	<div
 		class="profile-layout"
-		style="--cols: {columns.length}"
+		style="--cols: {columns.length}; --grid-cols: {gridColumns}"
 		bind:this={layoutEl}
 		data-measured={widthKnown ? "yes" : "no"}
 		data-testid="galaxy-profile-container"
@@ -1384,7 +1453,7 @@
 		 * було видно — там мінімальний вміст сам по собі широкий.
 		 */
 		.profile-layout {
-			grid-template-columns: repeat(var(--cols, 3), minmax(280px, 1fr));
+			grid-template-columns: var(--grid-cols, repeat(var(--cols, 3), minmax(280px, 1fr)));
 			width: 100%;
 			/*
 			 * `stretch`, а не `start`: інакше кожна колонка має висоту свого
@@ -2227,6 +2296,34 @@
 		color: var(--galaxy-muted);
 		font-variant-numeric: tabular-nums;
 	}
+	/*
+	 * Щільний режим плашки вистав: менший шрифт і тісніші рядки.
+	 *
+	 * Увімкнений лише там, де зміст не вміщався (див. `denseCols`), тобто від
+	 * трьох колонок — а це від 1024px. На телефоні картка й так один стовпчик,
+	 * що прокручується сторінкою: дрібніший шрифт там нічого не виграв би, а
+	 * читати було б важче.
+	 *
+	 * Числа з заміру на анкеті Аліка Запольнова, вікно 1280×800, колонка
+	 * вміщає 752:
+	 *
+	 *   як було ....................... 1161
+	 *   ширша колонка (1.5fr) ......... 1010
+	 *   + шрифт 0.84rem ................ 956
+	 *   + відступи рядків 0.22rem ....... 853
+	 *
+	 * Прокрутка не зникає — переповнення падає з 409 до 101 пікселя.
+	 */
+	.bento-card--plays-dense .plays {
+		font-size: 0.84rem;
+	}
+	.bento-card--plays-dense .play {
+		padding: 0.22rem 0;
+	}
+	.bento-card--plays-dense .play__body {
+		row-gap: 0.05rem;
+	}
+
 	/*
 	 * Сітка, а не колонка: у першому рядку назва й кнопка запису праворуч, у
 	 * другому — «разом з ЗТК», притиснуте праворуч. Клітинки другої колонки
