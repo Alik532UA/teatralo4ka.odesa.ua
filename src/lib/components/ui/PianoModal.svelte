@@ -5,6 +5,7 @@
 	import { X } from "lucide-svelte";
 	import { SvelteSet } from "svelte/reactivity";
 	import { captureKeyboard } from "$lib/services/keyboard";
+	import { focusTrap } from "$lib/utils/focusTrap";
 
 	interface Props {
 		isOpen: boolean;
@@ -12,6 +13,11 @@
 	}
 
 	let { isOpen, onClose }: Props = $props();
+
+	// `$props.id()`, а не лічильник і не Math.random: два піаніно на сторінці
+	// дали б однаковий id і `aria-labelledby` вказував би на чужий заголовок
+	// (SVELTE-CORE-v8 § 1.7).
+	const hintId = $props.id();
 
 	// --- CONFIGURATION ---
 	// You can easily change the range here
@@ -180,8 +186,27 @@
 		chordCodes.forEach(c => stopNote(c));
 	}
 
+	/**
+	 * Escape закриває піаніно — у ОБОХ режимах.
+	 *
+	 * Доти тут стояло пояснення «у режимі `keyboard` піаніно читає КОЖНУ клавішу
+	 * як ноту, тож Escape там нота». Це неправда про власний код: нотами
+	 * призначені рівно `WHITE_KEY_CODES` і `BLACK_KEY_CODES` — двадцять одна
+	 * літера й дужка, — а `startNote('Escape')` не знаходить клавіші й виходить.
+	 * Тобто Escape не робив нічого взагалі, і накладка лишалася єдиною на сайті,
+	 * з якої немає виходу звичним жестом (ACCESSIBILITY-v8 § 4.4).
+	 */
 	function handleKeydown(e: KeyboardEvent) {
-		if (!isOpen || e.repeat || viewMode !== 'keyboard') return;
+		if (!isOpen) return;
+		if (e.code === 'Escape') {
+			e.preventDefault();
+			// Інші накладки під цією не мусять закритися заодно: клавіатуру тримає
+			// піаніно, і Escape належить йому.
+			e.stopPropagation();
+			onClose();
+			return;
+		}
+		if (e.repeat || viewMode !== 'keyboard') return;
 		startNote(e.code);
 	}
 
@@ -224,17 +249,45 @@
 
 {#if isOpen}
    <!--
-		Клік по тлу лише ДУБЛЮЄ кнопку × — вона тут же й доступна з клавіатури.
-		Escape навмисно не обробляється: у режимі `keyboard` піаніно читає КОЖНУ
-		клавішу як ноту, тож Escape там нота. Через це модалки немає в переліку
-		Esc-накладок у `services/keyboard.ts` — і це узгоджений стан, не пропуск.
+		Клік по тлу лише ДУБЛЮЄ кнопку × — вона тут же й доступна з клавіатури,
+		як і Escape (`handleKeydown`).
+
+		`role="dialog"` + `aria-modal` + пастка фокуса — тим самим набором, що й
+		решта модалок проєкту. Доти піаніно було ЄДИНИМ файлом `*Modal*` без
+		`aria-modal`, і через це його не бачив інваріант `src/modal-focus.test.ts`:
+		він перебирає модалки саме за цим атрибутом, тобто перевіряв лише тих, хто
+		вже зізнався. Мовчазна відсутність читалася як «модалок без пастки немає».
+
+		`tabindex="-1"`, а не `0`: діалог має бути фокусованим програмно — пастка
+		ставить на нього фокус при відкритті, — але власної зупинки в Tab-порядку
+		не має. `focusTrap` саме за `tabindex="-1"` і відрізняє контейнер від
+		вмісту, який має входити в цикл.
+   -->
+   <!--
+		Обидва придушення — з причинами, а не «щоб не блимало».
+
+		`a11y_click_events_have_key_events`: клік по тлу дублює кнопку ×, і саме
+		вона, а не тло, доступна з клавіатури; те саме робить Escape.
+
+		`a11y_no_static_element_interactions`: клавіші інструмента — це `<div>` із
+		`pointerdown`. Кнопками їх зробити не можна не через лінь: `<button>` дає
+		Tab-зупинку, а їх тут двадцять одна, і всі всередині модалки з пасткою
+		фокуса — тобто Tab по діалогу перетворився б на прохід по клавіатурі
+		піаніно. З клавіатури інструмент грається інакше й краще: ряд
+		`A S D F G H J K L ; '` (білі) і `W E R T Y U I O P [` (чорні), підписи
+		видно на самих клавішах. Кнопка × і перемикач режимів у Tab-порядку є.
    -->
    <!-- svelte-ignore a11y_click_events_have_key_events -->
    <!-- svelte-ignore a11y_no_static_element_interactions -->
-   <div 
-   		class="piano-modal" 
-		transition:fade={{ duration: 300 }} 
-		onclick={(e) => e.target === e.currentTarget && onClose()} 
+   <div
+   		class="piano-modal"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby={hintId}
+		tabindex="-1"
+		{@attach focusTrap()}
+		transition:fade={{ duration: 300 }}
+		onclick={(e) => e.target === e.currentTarget && onClose()}
 		data-testid="piano-modal-overlay-container"
 	>
 	   <button
@@ -246,10 +299,10 @@
 		>
 			<X size={32} aria-hidden="true" />
 		</button>
-       
+
 	   <section id="wrap" data-testid="piano-modal-content-container">
 		   <header class="piano-header" data-testid="piano-modal-header">
-			   <h2 class="piano-hint" data-testid="piano-modal-hint">{$t("piano.hint")}</h2>
+			   <h2 class="piano-hint" id={hintId} data-testid="piano-modal-hint">{$t("piano.hint")}</h2>
 			   
 			   <div class="controls-wrapper">
 				   <div class="view-toggle">

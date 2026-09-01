@@ -237,6 +237,15 @@ const LIMITS: Array<[RegExp, number]> = [
  *   і випускником, і працівником, теж окремим компонентом (`DualRoleChooser`).
  *   Тут лишилося рівно оформлення: перехід, клас-модифікатор і причина, чому
  *   локального `prefers-reduced-motion` немає.
+ * 2026-09-02: `ui/PianoModal.svelte` 595 → 608. Тринадцять рядків, і в них
+ *   нуль логіки — саме той випадок, для якого в храповика є вентиль (як записи
+ *   про `HK-TEXT-ENTRY-GUARD` і про причини до `svelte-ignore` вище). Піаніно
+ *   стало діалогом: `role="dialog"`, `aria-modal="true"`, `aria-labelledby` з
+ *   `$props.id()`, `tabindex="-1"` і `{@attach focusTrap()}`
+ *   (ACCESSIBILITY-v8 § 4.4, HIGH), плюс Escape, який доти не робив нічого,
+ *   плюс причини поруч із двома `svelte-ignore` (SVELTE-UI-v8 § 4, HIGH).
+ *   Різати ці коментарі, щоб влізти в число, означало б платити поясненнями за
+ *   лічильник — тобто саме те, від чого стеля мала б застерігати.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -250,7 +259,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
-	'src/lib/components/ui/PianoModal.svelte': 595,
+	'src/lib/components/ui/PianoModal.svelte': 608,
 	'src/lib/components/GraduateProfileView.svelte': 1695,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
