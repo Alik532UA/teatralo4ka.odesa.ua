@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { PLAYS, getPlayById, playPath } from '$lib/data/plays';
 import { castOf } from '$lib/data/playCast';
-import { classifyPlayGroups, namedGroupsOfPlay } from '$lib/data/groups';
+import { classifyPlayGroups, groupsOfPlay, namedGroupsOfPlay } from '$lib/data/groups';
 import { FESTIVALS } from '$lib/data/festivals';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
@@ -123,10 +123,23 @@ export function load({ params, url }) {
 	 */
 	const named = namedGroupsOfPlay(play);
 	const primaryGroups = named.length > 0 ? named : classified.primaryGroups;
-	const supportingGroups = (named.length > 0
-		? [...classified.primaryGroups, ...classified.supportingGroups]
-		: classified.supportingGroups
-	).filter((g) => !primaryGroups.some((p) => p.slug === g.slug));
+
+	/*
+	 * У «за участі» падає ВСЕ інше, що зв'язане з показом, — включно з
+	 * репертуарами груп (`groupsOfPlay`). Інакше сторінка показу мовчала б про
+	 * групу, чия сторінка цей показ уже показує: саме через таку однобічність
+	 * «Уривки з драматургії» й розійшлися з Фрешем. Гейт `симетрія «вистава ↔
+	 * група»` тримає обидва боки разом.
+	 */
+	const supportingGroups = [
+		...groupsOfPlay(play),
+		...classified.primaryGroups,
+		...classified.supportingGroups
+	].filter(
+		(g, i, all) =>
+			!primaryGroups.some((p) => p.slug === g.slug) &&
+			all.findIndex((x) => x.slug === g.slug) === i
+	);
 	const groups = [...primaryGroups, ...supportingGroups];
 
 	/** Фестивалі, де виставу возили. Те саме застереження, що й з групами. */

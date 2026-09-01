@@ -11,7 +11,7 @@
 		LayoutGrid
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { groupProfilePath, type GraduateGroup } from '$lib/data/groups';
+	import { groupProfilePath, type GraduateGroup, playIdsOfGroup } from '$lib/data/groups';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import MasterViewToggle, { type ViewOption } from './MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
@@ -78,7 +78,9 @@
 			marks: [
 				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
 				{ icon: Users, text: String(g.memberIds.length) },
-				...(g.playIds.length ? [{ icon: Theater, text: String(g.playIds.length) }] : [])
+				...(playIdsOfGroup(g.slug).length
+					? [{ icon: Theater, text: String(playIdsOfGroup(g.slug).length) }]
+					: [])
 			]
 		}))
 	);

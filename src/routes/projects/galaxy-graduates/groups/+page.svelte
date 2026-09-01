@@ -15,7 +15,7 @@
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { GROUPS, groupProfilePath } from '$lib/data/groups';
+	import { GROUPS, groupProfilePath, playIdsOfGroup } from '$lib/data/groups';
 	import mastersIndex from '$lib/data/masters.index.json';
 	import type { MasterIndexEntry } from '$lib/data/masters';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -113,7 +113,9 @@
 			marks: [
 				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
 				{ icon: Users, text: String(g.memberIds.length) },
-				...(g.playIds.length ? [{ icon: Theater, text: String(g.playIds.length) }] : [])
+				...(playIdsOfGroup(g.slug).length
+					? [{ icon: Theater, text: String(playIdsOfGroup(g.slug).length) }]
+					: [])
 			]
 		}))
 	);
@@ -245,10 +247,10 @@
 							</span>
 							<!-- Репертуар може ще не бути внесений: значок «0» повідомляв би
 							     не про групу, а про стан наших даних. -->
-							{#if group.playIds.length > 0}
+							{#if playIdsOfGroup(group.slug).length > 0}
 								<span class="group-card__badge">
 									<Theater size={13} aria-hidden="true" />
-									{group.playIds.length}
+									{playIdsOfGroup(group.slug).length}
 								</span>
 							{/if}
 						</span>

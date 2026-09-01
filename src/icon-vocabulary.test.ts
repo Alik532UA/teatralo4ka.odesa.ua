@@ -88,8 +88,11 @@ const VOCABULARY = [
 				marker: 'galaxy-plays-link'
 			},
 			{
+				// Мітка змінилася разом із джерелом: репертуар групи читається
+				// через `playIdsOfGroup`, а не з `group.playIds` — інакше сторінка
+				// курсу показувала б менше, ніж знає сама вистава.
 				file: 'src/routes/projects/galaxy-graduates/groups/+page.svelte',
-				marker: 'group.playIds.length'
+				marker: 'playIdsOfGroup(group.slug).length'
 			}
 		]
 	},

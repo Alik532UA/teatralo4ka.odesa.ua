@@ -1,6 +1,6 @@
 import type { Pathname } from '$app/types';
 import groupsData from './groups.data.json';
-import { getPlayById } from './plays';
+import { PLAYS, getPlayById } from './plays';
 
 export interface GroupMaster {
 	id: string;
@@ -117,6 +117,63 @@ export function getGroupsByMember(memberId: string): GraduateGroup[] {
 }
 
 /**
+ * Вистави, названі в самих показах: `slug` групи → ключі вистав.
+ *
+ * Рахується ОДИН раз на завантаження модуля, а не на кожен виклик: інакше
+ * покажчик груп (25 сторінок) перебирав би 705 вистав двадцять п'ять разів із
+ * розбором підпису курсу на кожній.
+ */
+const NAMED_PLAYS_BY_GROUP: ReadonlyMap<string, readonly string[]> = (() => {
+	const map = new Map<string, string[]>();
+	for (const play of PLAYS) {
+		for (const group of namedGroupsOfPlay(play)) {
+			const list = map.get(group.slug) ?? [];
+			if (!list.includes(play.id)) list.push(play.id);
+			map.set(group.slug, list);
+		}
+	}
+	return map;
+})();
+
+/**
+ * ЄДИНА відповідь на «які вистави в цієї групи» — з обох джерел.
+ *
+ * ## Чому не `group.playIds`
+ *
+ * Зв'язок «вистава ↔ курс» лежить у ДВОХ місцях і різними словами: у групи це
+ * доглянутий перелік `playIds`, у показу — підпис `theatreGroup` («гр. «ФРЕШ»
+ * (+ хлопці-легіонери)»). Сторінка показу читала другий, сторінка групи —
+ * перший, і вони розходилися: «Уривки з драматургії 20 століття» 2012
+ * показували «У репертуарі групи: Фреш», а на сторінці Фреша цієї вистави не
+ * було.
+ *
+ * Заміряно: 13 таких вистав. Плюс 171 у зворотний бік — показ у репертуарі
+ * групи, а підпис курсу в ньому інший (це номер курсу на рік, «7Т-20» замість
+ * «Світліні Мікіліївні», і реєстр таких псевдонімів не знає).
+ *
+ * Тому обидва напрями рахуються з ОБ'ЄДНАННЯ двох джерел — і збігаються за
+ * побудовою, а не за домовленістю. Гейт `симетрія «вистава ↔ група»` тримає це
+ * далі.
+ */
+export function playIdsOfGroup(slug: string): string[] {
+	const group = getGroupBySlug(slug);
+	const out = [...(group?.playIds ?? [])];
+	for (const id of NAMED_PLAYS_BY_GROUP.get(slug) ?? []) {
+		if (!out.includes(id)) out.push(id);
+	}
+	return out;
+}
+
+/** Те саме з іншого боку: групи цієї вистави — з обох джерел. */
+export function groupsOfPlay(play: { id: string; theatreGroup?: string; theatreGroupAlt?: string }): GraduateGroup[] {
+	const out = GROUPS.filter((g) => g.playIds.includes(play.id));
+	for (const group of namedGroupsOfPlay(play)) {
+		if (!out.some((g) => g.slug === group.slug)) out.push(group);
+	}
+	return out;
+}
+
+/**
  * Групи, ЩЕ Й ЧИЄЮ є ця вистава — крім власних груп самого випускника.
  *
  * Питання, на яке це відповідає: «з ким разом він у цьому грав». Доти відповідь
@@ -161,16 +218,8 @@ export function coGroupsForPlay(playId: string, memberId: string): GraduateGroup
 	 * показі. Заміряно: рядків із плашкою 100 → 111.
 	 */
 	const play = getPlayById(playId);
-	const fromRegistry = GROUPS.filter((g) => g.playIds.includes(playId));
-	const named = play ? namedGroupsOfPlay(play) : [];
-
-	const out: GraduateGroup[] = [];
-	for (const group of [...fromRegistry, ...named]) {
-		if (ownSlugs.has(group.slug)) continue;
-		if (out.some((g) => g.slug === group.slug)) continue;
-		out.push(group);
-	}
-	return out;
+	if (!play) return [];
+	return groupsOfPlay(play).filter((g) => !ownSlugs.has(g.slug));
 }
 
 /**

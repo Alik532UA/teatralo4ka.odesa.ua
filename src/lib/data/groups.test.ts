@@ -1,3 +1,5 @@
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, it, expect } from 'vitest';
 import {
 	GROUPS,
@@ -7,8 +9,11 @@ import {
 	groupProfilePath,
 	coGroupsForPlay,
 	cleanGroupLabel,
-	namedGroupsOfPlay
+	namedGroupsOfPlay,
+	playIdsOfGroup,
+	groupsOfPlay
 } from './groups';
+import { PLAYS } from './plays';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
@@ -181,6 +186,87 @@ describe('GROUPS data integrity', () => {
 		// назви, якої в реєстрі немає, вигадувати не треба
 		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «БулаФФки»' })).toEqual([]);
 		expect(namedGroupsOfPlay({})).toEqual([]);
+	});
+
+	/*
+	 * СИМЕТРІЯ «вистава ↔ група».
+	 *
+	 * ## Що саме поламалося
+	 *
+	 * Цей зв'язок лежить у двох місцях і різними словами: у групи — доглянутий
+	 * перелік `playIds`, у показу — підпис `theatreGroup` («гр. «ФРЕШ» (+
+	 * хлопці-легіонери)»). Сторінка показу читала другий, сторінка групи —
+	 * перший, і вони розходилися: «Уривки з драматургії 20 століття» 2012
+	 * казали «У репертуарі групи: Фреш», а на сторінці Фреша цієї вистави не
+	 * було.
+	 *
+	 * Заміряно перед виправленням: 13 вистав, чий курс названий у показі, але
+	 * показу немає в репертуарі групи, і 171 у зворотний бік.
+	 *
+	 * ## Чому перевіряються ФУНКЦІЇ, а не дані
+	 *
+	 * Дані так і лишаються двома джерелами — і це нормально: папір школи й
+	 * доглянутий реєстр наповнюють одне одного. Домовленість тут інша: обидва
+	 * боки САЙТУ читають об'єднання (`playIdsOfGroup` і `groupsOfPlay`), і саме
+	 * це має тримати перевірка. Щойно хтось знову прочитає `group.playIds`
+	 * напряму, симетрія зникне — а тест лишиться зеленим, бо функції в порядку.
+	 * Тому нижче ще й перевірка, що напряму ніхто не читає.
+	 */
+	it('симетрія «вистава ↔ група»: обидві функції кажуть те саме', () => {
+		const bad: string[] = [];
+		for (const group of GROUPS) {
+			for (const playId of playIdsOfGroup(group.slug)) {
+				const play = PLAYS.find((p) => p.id === playId);
+				if (!play) continue; // про мертвий ключ кричить інша перевірка
+				if (groupsOfPlay(play).some((g) => g.slug === group.slug)) continue;
+				bad.push(`${group.slug} має ${playId}, а ${playId} не має ${group.slug}`);
+			}
+		}
+		for (const play of PLAYS) {
+			for (const group of groupsOfPlay(play)) {
+				if (playIdsOfGroup(group.slug).includes(play.id)) continue;
+				bad.push(`${play.id} має ${group.slug}, а ${group.slug} не має ${play.id}`);
+			}
+		}
+		expect(
+			bad,
+			'зв’язок «вистава ↔ група» став однобічним — сторінка показу й сторінка' +
+				' курсу скажуть різне:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
+	it('репертуар групи ніде не читається напряму, лише через playIdsOfGroup', () => {
+		/*
+		 * Однобічність з'являється не в даних, а в місці читання. Доти
+		 * `group.playIds` читали сторінка курсу, покажчик курсів і групи майстра —
+		 * і всі троє показували менше, ніж знає показ.
+		 *
+		 * Виняток один: сам `groups.ts`, де об'єднання й будується.
+		 */
+		const dirs = ['src/routes', 'src/lib/components'];
+		const bad: string[] = [];
+		const walk = (dir: string) => {
+			for (const entry of readdirSync(dir, { withFileTypes: true })) {
+				const full = join(dir, entry.name);
+				if (entry.isDirectory()) {
+					walk(full);
+					continue;
+				}
+				if (!/\.(svelte|ts)$/.test(entry.name)) continue;
+				const src = readFileSync(full, 'utf8');
+				src.split('\n').forEach((line, i) => {
+					if (/\bgroup\w*\.playIds\b/.test(line)) {
+						bad.push(`${full}:${i + 1} — ${line.trim().slice(0, 80)}`);
+					}
+				});
+			}
+		};
+		for (const dir of dirs) walk(dir);
+		expect(
+			bad,
+			'`playIds` групи читається напряму — це знову зробить зв’язок однобічним.' +
+				' Треба `playIdsOfGroup(slug)`:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
 	});
 
 	it('coGroupsForPlay: вистава без груп у реєстрі — порожньо', () => {

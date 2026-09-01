@@ -1,5 +1,7 @@
 import { error } from '@sveltejs/kit';
-import { GROUPS, getGroupBySlug } from '$lib/data/groups';
+import { GROUPS, getGroupBySlug,
+	playIdsOfGroup
+} from '$lib/data/groups';
 import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
 import { playsByIds } from '$lib/data/plays';
@@ -90,7 +92,8 @@ export async function load({ params }) {
 	 * не відповідає, `playsByIds` мовчки відкидає — про саме́ розходження кричить
 	 * гейт, і кричить на збірці.
 	 */
-	const plays = playsByIds(group.playIds);
+	// Репертуар — з ОБОХ джерел: див. докблок `playIdsOfGroup`.
+	const plays = playsByIds(playIdsOfGroup(group.slug));
 
 	/*
 	 * Частини злитої групи розгортаються тут же. Порожні відкидаються: частина
