@@ -4,6 +4,7 @@
 	import { X, ExternalLink } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { focusTrap } from '$lib/utils/focusTrap';
+	import { portalToBody } from '$lib/utils/portalToBody';
 	import type { VideoInfo } from '$lib/utils/videoEmbed';
 
 	interface Props {
@@ -49,6 +50,7 @@
 {#if video}
 	<div
 		class="video-backdrop"
+		{@attach portalToBody()}
 		transition:fade={{ duration: 180 }}
 		onclick={onclose}
 		role="presentation"
@@ -57,6 +59,7 @@
 
 	<div
 		class="video-modal"
+		{@attach portalToBody()}
 		role="dialog"
 		aria-modal="true"
 		aria-label={title}
