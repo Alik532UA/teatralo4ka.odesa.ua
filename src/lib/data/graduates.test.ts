@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import graduatesIndex from './graduates.index.json';
 import type { GraduateIndexEntry } from './graduates';
@@ -179,5 +179,45 @@ describe('реєстр випускників', () => {
 			if (entry.name !== data.name) bad.push(`${file}: «${data.name}» проти «${entry.name}»`);
 		}
 		expect(bad, `ім'я розійшлося:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Індекс не має права відстати від анкет.
+	 *
+	 * `profileSize` — не косметика: `GraduateCard` тягне анкету ЛИШЕ тоді, коли
+	 * цей запис є (умова `hasProfile`). Немає числа — картка навіть не спробує
+	 * прочитати файл, і сторінка людини покаже «інформація відсутня», хоч анкета
+	 * лежить поряд.
+	 *
+	 * `playCount` показується в переліку випускників. Заміряно: після переносу 52
+	 * рядків зі списків школи в анкети він відстав у 25 записах, і жодна
+	 * перевірка цього не побачила — саме тому вона тут.
+	 */
+	it('profileSize і playCount в індексі збігаються з анкетами', () => {
+		const dir = join('static', 'graduates', 'profiles');
+		const bad: string[] = [];
+		for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+			const path = join(dir, file);
+			const profile = JSON.parse(readFileSync(path, 'utf8'));
+			const id = profile.id ?? profile.slug ?? profile.code;
+			const entry = (graduatesIndex as GraduateIndexEntry[]).find((g) => g.id === id);
+			if (!entry) {
+				bad.push(`${file}: анкета є, а запису «${id}» в індексі немає`);
+				continue;
+			}
+			const size = statSync(path).size;
+			const count = (profile.plays ?? []).length;
+			if (entry.profileSize !== size) {
+				bad.push(`${file}: profileSize ${entry.profileSize ?? '—'}, а файл ${size}`);
+			}
+			if ((entry.playCount ?? 0) !== count) {
+				bad.push(`${file}: playCount ${entry.playCount ?? '—'}, а вистав у анкеті ${count}`);
+			}
+		}
+		expect(
+			bad,
+			'індекс розійшовся з анкетами. Перезібрати: npm run data:graduates:' +
+				bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
 	});
 });

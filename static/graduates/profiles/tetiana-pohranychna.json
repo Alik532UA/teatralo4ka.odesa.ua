@@ -1,0 +1,27 @@
+{
+	"id": "tetiana-pohranychna",
+	"slug": "tetiana-pohranychna",
+	"code": "tetiana-pohranychna",
+	"name": "Тетяна Погранична",
+	"graduationYear": 2015,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "Проєкт «Я»",
+			"playId": "proiekt-ia-2015",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

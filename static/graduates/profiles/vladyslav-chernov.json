@@ -1,0 +1,27 @@
+{
+	"id": "vladyslav-chernov",
+	"slug": "vladyslav-chernov",
+	"code": "vladyslav-chernov",
+	"name": "Владислав Чернов",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Інфанта-NEW»",
+			"playId": "infanta-new-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

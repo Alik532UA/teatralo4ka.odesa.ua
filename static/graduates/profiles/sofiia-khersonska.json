@@ -1,0 +1,45 @@
+{
+	"id": "sofiia-khersonska",
+	"slug": "sofiia-khersonska",
+	"code": "sofiia-khersonska",
+	"name": "Софія Херсонська",
+	"graduationYear": 2015,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2011,
+			"text": "«Інфанта»",
+			"playId": "infanta-2011",
+			"fromRegistry": true
+		},
+		{
+			"year": 2012,
+			"text": "«Інфанта-NEW»",
+			"playId": "infanta-new-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Наташі»",
+			"playId": "natashi-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "Проєкт «Я»",
+			"playId": "proiekt-ia-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

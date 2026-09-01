@@ -1,0 +1,21 @@
+{
+	"id": "maksym-korobchynskyi",
+	"slug": "maksym-korobchynskyi",
+	"code": "maksym-korobchynskyi",
+	"name": "Максим Коробчинський",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Безіменна зірка»",
+			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

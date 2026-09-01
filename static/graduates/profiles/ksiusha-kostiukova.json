@@ -1,0 +1,21 @@
+{
+	"id": "ksiusha-kostiukova",
+	"slug": "ksiusha-kostiukova",
+	"code": "ksiusha-kostiukova",
+	"name": "Ксюша Костюкова",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2019,
+			"text": "«Синій птах»",
+			"playId": "synii-ptakh-2019",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

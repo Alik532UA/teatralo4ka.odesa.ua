@@ -1,0 +1,45 @@
+{
+	"id": "anhelina-zakharova",
+	"slug": "anhelina-zakharova",
+	"code": "anhelina-zakharova",
+	"name": "Ангеліна Захарова",
+	"graduationYear": 2009,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2007,
+			"text": "«Смарагдове місто»",
+			"playId": "smarahdove-misto-2007",
+			"fromRegistry": true
+		},
+		{
+			"year": 2007,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2007",
+			"fromRegistry": true
+		},
+		{
+			"year": 2008,
+			"text": "«Кімната нареченої»",
+			"playId": "kimnata-narechenoi-2008",
+			"fromRegistry": true
+		},
+		{
+			"year": 2008,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2008",
+			"fromRegistry": true
+		},
+		{
+			"year": 2009,
+			"text": "«Дивні баби»",
+			"playId": "dyvni-baby-2009",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

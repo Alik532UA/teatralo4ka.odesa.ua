@@ -125,7 +125,39 @@
 	],
 	"bezimenna-zirka-2020": [
 		{
+			"graduateId": "daria-ekim",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "daria-rybalchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "david-oks",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "lada-bilak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "maksym-korobchynskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "nataliia-shynkarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-polozova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "zlata-malancheva",
 			"fromRegistry": true
 		}
 	],
@@ -237,7 +269,35 @@
 	],
 	"de-vsi-2015": [
 		{
+			"graduateId": "alina-nakonechna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-kovtunenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "hryhorii-naumov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharet-tsypynska",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-yavnyk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "svitlana-smyrna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-zaslavska",
 			"fromRegistry": true
 		}
 	],
@@ -352,6 +412,28 @@
 			"graduateId": "anisiia-stasevych"
 		}
 	],
+	"dyvni-baby-2009": [
+		{
+			"graduateId": "alina-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anhelina-zakharova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-khyzhniak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-zatulina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-motruk",
+			"fromRegistry": true
+		}
+	],
 	"dyvovyzhni-pryhody-krolyka-edvarda-2020": [
 		{
 			"graduateId": "milena-binkovska"
@@ -450,6 +532,10 @@
 	],
 	"foto-toples-2018": [
 		{
+			"graduateId": "amryta-chernyshova",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "dar-ia-hurevych",
 			"fromRegistry": true
 		},
@@ -459,6 +545,18 @@
 		},
 		{
 			"graduateId": "heorhii-topor"
+		},
+		{
+			"graduateId": "nataliia-shynkarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "stanislav-prakhov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-spaska",
+			"fromRegistry": true
 		}
 	],
 	"geist-2022": [
@@ -576,10 +674,38 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "daria-ekim",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "daria-rybalchenko"
 		},
 		{
+			"graduateId": "david-oks",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "heorhii-topor"
+		},
+		{
+			"graduateId": "lada-bilak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "nataliia-shynkarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "stanislav-prakhov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-spaska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "zlata-malancheva",
+			"fromRegistry": true
 		}
 	],
 	"hrikh-2012": [
@@ -617,6 +743,54 @@
 			"graduateId": "sofiya-rudenko"
 		}
 	],
+	"infanta-2011": [
+		{
+			"graduateId": "anastasiia-andrianova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivanzhelin-popova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-khersonska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
+			"fromRegistry": true
+		}
+	],
+	"infanta-new-2012": [
+		{
+			"graduateId": "anastasiia-andrianova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivanzhelin-popova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-khersonska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vladyslav-chernov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
+			"fromRegistry": true
+		}
+	],
 	"instsenizatsiia-za-kazkamy-ivana-franka-2022": [
 		{
 			"graduateId": "yan-slobodeniuk"
@@ -652,7 +826,27 @@
 	],
 	"kazka-ardenskoho-lisu-2017": [
 		{
+			"graduateId": "anastasiia-huchok",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-skvortsova",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "dar-ia-hurevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "olha-yefimchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "stanislav-prakhov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-spaska",
 			"fromRegistry": true
 		}
 	],
@@ -708,7 +902,53 @@
 			"graduateId": "alla-kolesnyk"
 		},
 		{
+			"graduateId": "anastasiia-chepeliuk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-novykova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "aryna-postolova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "krystyna-prokopets",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "maryna-perehud"
+		},
+		{
+			"graduateId": "olha-mykhailova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-borysova",
+			"fromRegistry": true
+		}
+	],
+	"kimnata-narechenoi-2008": [
+		{
+			"graduateId": "alina-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anhelina-zakharova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-khyzhniak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-zatulina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-motruk",
+			"fromRegistry": true
 		}
 	],
 	"klochky-po-zakoulochkam-2009": [
@@ -745,7 +985,23 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "alina-chernobai",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "kristina-slivka-spivak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "maksym-ponomarenko",
 			"fromRegistry": true
 		},
 		{
@@ -871,6 +1127,28 @@
 			"graduateId": "liubov-prepodobna"
 		}
 	],
+	"matinka-middous-2012": [
+		{
+			"graduateId": "daniil-prymachov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kseniia-zhvachkyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liubov-bernaus",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-kulbaba",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yana-kovina",
+			"fromRegistry": true
+		}
+	],
 	"misto-monstriv-2010": [
 		{
 			"graduateId": "daria-rybalchenko"
@@ -947,6 +1225,40 @@
 			"graduateId": "yevhen-lysenko"
 		}
 	],
+	"monolohy-2014": [
+		{
+			"graduateId": "anastasiia-andrianova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "hanna-vatsyk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivana-kasatkyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivanzhelin-popova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marta-smerechynska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yana-kovina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
+			"fromRegistry": true
+		}
+	],
 	"musornyi-miuzykl-2019": [
 		{
 			"graduateId": "khrystia-oslavska"
@@ -954,20 +1266,48 @@
 	],
 	"myna-mazailo-2006": [
 		{
+			"graduateId": "hanna-tkach",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "nadiia-rybakova",
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "olena-liashenko",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "olha-poliakova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "pavlo-koshka",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "vadym-krusser"
+		},
+		{
+			"graduateId": "volodymyr-obiedalin",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yevhenii-tyshchenko",
+			"fromRegistry": true
 		}
 	],
 	"myna-mazailo-new-2009": [
 		{
+			"graduateId": "hanna-tkach",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "nadiia-rybakova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "olena-liashenko",
 			"fromRegistry": true
 		},
 		{
@@ -975,7 +1315,23 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "pavlo-koshka",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "svitlana-nadopta",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "vadym-krusser",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "volodymyr-obiedalin",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yevhenii-tyshchenko",
 			"fromRegistry": true
 		}
 	],
@@ -987,9 +1343,47 @@
 			"graduateId": "vitalina-larionova"
 		}
 	],
+	"natashi-2013": [
+		{
+			"graduateId": "anastasiia-andrianova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivanzhelin-popova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-khersonska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
+			"fromRegistry": true
+		}
+	],
 	"natovp-samotnikh-2011": [
 		{
+			"graduateId": "alina-chernobai",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-kuropatkyna",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anisiia-stasevych"
+		},
+		{
+			"graduateId": "ivan-voloshyn",
+			"fromRegistry": true
 		},
 		{
 			"graduateId": "kristina-slivka-spivak",
@@ -1164,7 +1558,23 @@
 			"graduateId": "daria-rybalchenko"
 		},
 		{
+			"graduateId": "hlib-yeromin",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-kurchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mariia-kulbaba",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "maryna-kravchuk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yelyzaveta-maliuzhenko",
 			"fromRegistry": true
 		}
 	],
@@ -1183,7 +1593,49 @@
 			"graduateId": "tetiana-dudush-polishchuk"
 		}
 	],
+	"pokaz-etiudiv-2007": [
+		{
+			"graduateId": "alina-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anhelina-zakharova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-khyzhniak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-zatulina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-motruk",
+			"fromRegistry": true
+		}
+	],
 	"pokaz-etiudiv-2014": [
+		{
+			"graduateId": "anastasiia-homela",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-lovkina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-halchynska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "hryhorii-naumov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharet-tsypynska",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "mykhailo-haniev",
 			"fromRegistry": true
@@ -1193,9 +1645,25 @@
 		{
 			"graduateId": "dar-ia-hurevych",
 			"fromRegistry": true
+		},
+		{
+			"graduateId": "olha-yefimchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "stanislav-prakhov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-spaska",
+			"fromRegistry": true
 		}
 	],
 	"pokaz-etiudiv-2023": [
+		{
+			"graduateId": "nikol-onyshchenko",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "sofiia-skuratovych",
 			"fromRegistry": true
@@ -1205,9 +1673,35 @@
 			"fromRegistry": true
 		}
 	],
+	"pokaz-etiudiv-2024-2": [
+		{
+			"graduateId": "kira-husyeva",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "pavlo-maksymov",
+			"fromRegistry": true
+		}
+	],
 	"pokaz-etiudiv-ta-verbatimiv-2021": [
 		{
+			"graduateId": "kateryna-kurchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-moliboha",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "maryna-kravchuk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-yefremova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yelyzaveta-maliuzhenko",
 			"fromRegistry": true
 		}
 	],
@@ -1223,7 +1717,31 @@
 	],
 	"proiekt-ia-2015": [
 		{
+			"graduateId": "anastasiia-homela",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivana-kasatkyna",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "kateryna-kudlach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-khersonska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-pohranychna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
 			"fromRegistry": true
 		}
 	],
@@ -1253,7 +1771,19 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "hryhorii-naumov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-kurchenko",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "maryna-kravchuk"
+		},
+		{
+			"graduateId": "yelyzaveta-maliuzhenko",
+			"fromRegistry": true
 		}
 	],
 	"revyzor-2011": [
@@ -1360,7 +1890,37 @@
 			"graduateId": "dmytro-rozumenko"
 		}
 	],
+	"slon-khorton-2009": [
+		{
+			"graduateId": "alina-ivanova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "borys-ukrainskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-drykyna",
+			"fromRegistry": true
+		}
+	],
 	"slon-khorton-new-2010": [
+		{
+			"graduateId": "alina-ivanova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "borys-ukrainskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-drykyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "kristina-slivka-spivak",
 			"fromRegistry": true
@@ -1369,6 +1929,28 @@
 	"slovianskyi-vinok-2010": [
 		{
 			"graduateId": "olena-mrost"
+		}
+	],
+	"smarahdove-misto-2007": [
+		{
+			"graduateId": "alina-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anhelina-zakharova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-khyzhniak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-zatulina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-motruk",
+			"fromRegistry": true
 		}
 	],
 	"smittievyi-miuzykl-2019": [
@@ -1389,6 +1971,20 @@
 	"solenoe-detstvo-2015": [
 		{
 			"graduateId": "alona-kozlova"
+		}
+	],
+	"solovei-2009": [
+		{
+			"graduateId": "alina-ivanova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "borys-ukrainskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-drykyna",
+			"fromRegistry": true
 		}
 	],
 	"solovei-2025": [
@@ -1426,6 +2022,12 @@
 			"graduateId": "oleh-vizitiei"
 		}
 	],
+	"sorok-pershyi-2018": [
+		{
+			"graduateId": "kateryna-yevtushenko",
+			"fromRegistry": true
+		}
+	],
 	"subotyk-2020": [
 		{
 			"graduateId": "kateryna-nesterenko"
@@ -1439,7 +2041,57 @@
 			"graduateId": "dariia-kulish"
 		}
 	],
+	"synii-ptakh-2019": [
+		{
+			"graduateId": "ksiusha-kostiukova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mariia-kulbaba",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mykyta-suraho",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksii-suraho",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "polina-leonenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-nesterenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yeva-reznik",
+			"fromRegistry": true
+		}
+	],
 	"taiemnytsi-zamku-oilenshtain-2013": [
+		{
+			"graduateId": "anastasiia-homela",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-lovkina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-halchynska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "hryhorii-naumov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharet-tsypynska",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "mykhailo-haniev",
 			"fromRegistry": true
@@ -1511,11 +2163,27 @@
 	],
 	"tiulka-ta-gruffalo-2014": [
 		{
+			"graduateId": "anastasiia-kostina",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anna-rodonaia",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "kateryna-kudlach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marta-smerechynska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleh-volkov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-sydorova",
 			"fromRegistry": true
 		}
 	],
@@ -1572,7 +2240,23 @@
 	],
 	"tsybulino-2010": [
 		{
+			"graduateId": "alina-chernobai",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-kuropatkyna",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anisiia-stasevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
 			"fromRegistry": true
 		},
 		{
@@ -1599,7 +2283,19 @@
 			"item": "toi-khto-otrymuie-liapasy"
 		},
 		{
+			"graduateId": "alina-chernobai",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "illia-tryfonov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
 			"fromRegistry": true
 		},
 		{
@@ -1611,9 +2307,51 @@
 			"fromRegistry": true
 		}
 	],
+	"uryvky-z-klasyky-2008": [
+		{
+			"graduateId": "alina-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anhelina-zakharova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-khyzhniak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "aryna-postolova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-zatulina",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-motruk",
+			"fromRegistry": true
+		}
+	],
 	"uryvky-z-klasyky-2011": [
 		{
+			"graduateId": "alina-chernobai",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-kuropatkyna",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anisiia-stasevych",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
 			"fromRegistry": true
 		},
 		{
@@ -1634,6 +2372,30 @@
 			"graduateId": "alik-zapolnov",
 			"role": "Поет",
 			"item": "neznaiomka"
+		},
+		{
+			"graduateId": "daniil-prymachov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kseniia-zhvachkyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liubov-bernaus",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "maksym-ponomarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-kulbaba",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yana-kovina",
+			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2014": [
@@ -1643,11 +2405,55 @@
 			"item": "asia"
 		},
 		{
+			"graduateId": "anastasiia-andrianova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-homela",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anna-rodonaia",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "artem-starshov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "hanna-vatsyk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kucheruk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivana-kasatkyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivanzhelin-popova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marta-smerechynska",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mykyta-shevchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-pohranychna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vladyslav-chernov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-khlopotna",
 			"fromRegistry": true
 		}
 	],
@@ -1655,6 +2461,10 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"item": "prynyzheni-ta-znevazheni"
+		},
+		{
+			"graduateId": "anastasiia-kostina",
+			"fromRegistry": true
 		},
 		{
 			"graduateId": "anna-rodonaia",
@@ -1665,23 +2475,71 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "maksym-ponomarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleh-volkov",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "oleksandr-chehlatonev",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-sydorova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-khersonska",
 			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2016": [
 		{
+			"graduateId": "alina-nakonechna",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "anastasiia-ihnatovych"
+		},
+		{
+			"graduateId": "anastasiia-kovtunenko",
+			"fromRegistry": true
 		},
 		{
 			"graduateId": "daiana-ponomarenko"
 		},
 		{
+			"graduateId": "hryhorii-naumov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharet-tsypynska",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "mykhailo-haniev",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-yavnyk",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "svitlana-smyrna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-zaslavska",
 			"fromRegistry": true
 		}
 	],
 	"uryvky-z-klasyky-2019": [
+		{
+			"graduateId": "amryta-chernyshova",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "dar-ia-hurevych",
 			"fromRegistry": true
@@ -1691,6 +2549,18 @@
 		},
 		{
 			"graduateId": "heorhii-topor",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-yevtushenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "stanislav-prakhov",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-spaska",
 			"fromRegistry": true
 		}
 	],
@@ -1705,6 +2575,22 @@
 		}
 	],
 	"uryvky-z-ukrainskoi-klasyky-2010": [
+		{
+			"graduateId": "alina-ivanova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "borys-ukrainskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-drykyna",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-voloshyn",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "kristina-slivka-spivak",
 			"fromRegistry": true
@@ -1988,11 +2874,31 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "mariia-kulbaba",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mykhailo-fedorov",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "myroslava-tkach",
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "oleksandra-sydorova",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "roman-arabadzhi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "viktoriia-kulbaba",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vladyslav-tsobenko",
 			"fromRegistry": true
 		}
 	],

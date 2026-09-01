@@ -1,0 +1,22 @@
+{
+	"id": "hlib-yeromin",
+	"slug": "hlib-yeromin",
+	"code": "hlib-yeromin",
+	"name": "Гліб Єрьомін",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre",
+		"intensive"
+	],
+	"plays": [
+		{
+			"year": 2022,
+			"text": "«Піду до зірок»",
+			"playId": "pidu-do-zirok-2022",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

@@ -1,0 +1,21 @@
+{
+	"id": "nikol-onyshchenko",
+	"slug": "nikol-onyshchenko",
+	"code": "nikol-onyshchenko",
+	"name": "Ніколь Онищенко",
+	"graduationYear": 2026,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2023",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

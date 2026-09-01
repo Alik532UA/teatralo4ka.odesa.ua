@@ -1,0 +1,39 @@
+{
+	"id": "marharet-tsypynska",
+	"slug": "marharet-tsypynska",
+	"code": "marharet-tsypynska",
+	"name": "Маргарет Ципинська",
+	"graduationYear": 2017,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2013,
+			"text": "«Таємниці замку Ойленштайн»",
+			"playId": "taiemnytsi-zamku-oilenshtain-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Де всі…»",
+			"playId": "de-vsi-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2016,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2016",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

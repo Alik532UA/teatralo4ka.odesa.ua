@@ -1,0 +1,27 @@
+{
+	"id": "aryna-postolova",
+	"slug": "aryna-postolova",
+	"code": "aryna-postolova",
+	"name": "Арина Постолова",
+	"graduationYear": 2009,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2008,
+			"text": "«Хрестики-нулики»",
+			"playId": "khrestyky-nulyky-2008",
+			"fromRegistry": true
+		},
+		{
+			"year": 2008,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2008",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

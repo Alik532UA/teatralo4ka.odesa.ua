@@ -1,0 +1,21 @@
+{
+	"id": "vladyslav-tsobenko",
+	"slug": "vladyslav-tsobenko",
+	"code": "vladyslav-tsobenko",
+	"name": "Владислав Цобенко",
+	"graduationYear": 2018,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

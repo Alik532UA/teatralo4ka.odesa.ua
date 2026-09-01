@@ -1,0 +1,33 @@
+{
+	"id": "mariia-kulbaba",
+	"slug": "mariia-kulbaba",
+	"code": "mariia-kulbaba",
+	"name": "Марія Кульбаба",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
+		},
+		{
+			"year": 2019,
+			"text": "«Синій птах»",
+			"playId": "synii-ptakh-2019",
+			"fromRegistry": true
+		},
+		{
+			"year": 2022,
+			"text": "«Піду до зірок»",
+			"playId": "pidu-do-zirok-2022",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

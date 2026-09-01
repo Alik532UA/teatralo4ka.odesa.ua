@@ -1,0 +1,45 @@
+{
+	"id": "vira-spaska",
+	"slug": "vira-spaska",
+	"code": "vira-spaska",
+	"name": "Віра Спаська",
+	"graduationYear": 2020,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2016,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2016",
+			"fromRegistry": true
+		},
+		{
+			"year": 2017,
+			"text": "«Казка Арденського лісу»",
+			"playId": "kazka-ardenskoho-lisu-2017",
+			"fromRegistry": true
+		},
+		{
+			"year": 2018,
+			"text": "«Фото-топлес»",
+			"playId": "foto-toples-2018",
+			"fromRegistry": true
+		},
+		{
+			"year": 2019,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2019",
+			"fromRegistry": true
+		},
+		{
+			"year": 2020,
+			"text": "«Граємо Зощенка!»",
+			"playId": "hraiemo-zoshchenka-2020",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

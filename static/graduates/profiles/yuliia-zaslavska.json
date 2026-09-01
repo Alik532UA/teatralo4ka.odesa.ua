@@ -1,0 +1,27 @@
+{
+	"id": "yuliia-zaslavska",
+	"slug": "yuliia-zaslavska",
+	"code": "yuliia-zaslavska",
+	"name": "Юлія Заславська",
+	"graduationYear": 2017,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2015,
+			"text": "«Де всі…»",
+			"playId": "de-vsi-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2016,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2016",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

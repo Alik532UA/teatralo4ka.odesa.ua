@@ -1,0 +1,21 @@
+{
+	"id": "mykyta-shevchenko",
+	"slug": "mykyta-shevchenko",
+	"code": "mykyta-shevchenko",
+	"name": "Микита Шевченко",
+	"graduationYear": 2015,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

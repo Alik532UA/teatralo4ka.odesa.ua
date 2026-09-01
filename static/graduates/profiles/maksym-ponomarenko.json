@@ -1,0 +1,33 @@
+{
+	"id": "maksym-ponomarenko",
+	"slug": "maksym-ponomarenko",
+	"code": "maksym-ponomarenko",
+	"name": "Максим Пономаренко",
+	"graduationYear": 2013,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Король помирає»",
+			"playId": "korol-pomyraie-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

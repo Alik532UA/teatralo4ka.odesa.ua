@@ -1,0 +1,21 @@
+{
+	"id": "mykhailo-fedorov",
+	"slug": "mykhailo-fedorov",
+	"code": "mykhailo-fedorov",
+	"name": "Михайло Федоров",
+	"graduationYear": 2019,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

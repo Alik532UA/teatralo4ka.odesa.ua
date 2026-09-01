@@ -1,0 +1,27 @@
+{
+	"id": "anna-halchynska",
+	"slug": "anna-halchynska",
+	"code": "anna-halchynska",
+	"name": "Анна Гальчинська",
+	"graduationYear": 2017,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2013,
+			"text": "«Таємниці замку Ойленштайн»",
+			"playId": "taiemnytsi-zamku-oilenshtain-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2014",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

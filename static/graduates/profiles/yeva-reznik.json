@@ -1,0 +1,21 @@
+{
+	"id": "yeva-reznik",
+	"slug": "yeva-reznik",
+	"code": "yeva-reznik",
+	"name": "Єва Резнік",
+	"graduationYear": 2024,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2019,
+			"text": "«Синій птах»",
+			"playId": "synii-ptakh-2019",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

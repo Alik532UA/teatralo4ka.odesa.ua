@@ -1,0 +1,21 @@
+{
+	"id": "anastasiia-chepeliuk",
+	"slug": "anastasiia-chepeliuk",
+	"code": "anastasiia-chepeliuk",
+	"name": "Анастасія Чепелюк",
+	"graduationYear": 2008,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2008,
+			"text": "«Хрестики-нулики»",
+			"playId": "khrestyky-nulyky-2008",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

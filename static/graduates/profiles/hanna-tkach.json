@@ -1,0 +1,27 @@
+{
+	"id": "hanna-tkach",
+	"slug": "hanna-tkach",
+	"code": "hanna-tkach",
+	"name": "Ганна Ткач",
+	"graduationYear": 2005,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2006,
+			"text": "«Мина Мазайло»",
+			"playId": "myna-mazailo-2006",
+			"fromRegistry": true
+		},
+		{
+			"year": 2009,
+			"text": "«Мина Мазайло-NEW»",
+			"playId": "myna-mazailo-new-2009",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

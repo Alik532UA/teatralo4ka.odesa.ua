@@ -1,0 +1,27 @@
+{
+	"id": "david-oks",
+	"slug": "david-oks",
+	"code": "david-oks",
+	"name": "Давід Окс",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Безіменна зірка»",
+			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true
+		},
+		{
+			"year": 2020,
+			"text": "«Граємо Зощенка!»",
+			"playId": "hraiemo-zoshchenka-2020",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

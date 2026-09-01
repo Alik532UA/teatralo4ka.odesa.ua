@@ -1,0 +1,21 @@
+{
+	"id": "oleksandra-polozova",
+	"slug": "oleksandra-polozova",
+	"code": "oleksandra-polozova",
+	"name": "Олександра Полозова",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Безіменна зірка»",
+			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

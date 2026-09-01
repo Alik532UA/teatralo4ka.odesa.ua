@@ -1,0 +1,27 @@
+{
+	"id": "hanna-vatsyk",
+	"slug": "hanna-vatsyk",
+	"code": "hanna-vatsyk",
+	"name": "Ганна Вацик",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Монологи»",
+			"playId": "monolohy-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

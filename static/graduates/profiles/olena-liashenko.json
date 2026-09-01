@@ -1,0 +1,27 @@
+{
+	"id": "olena-liashenko",
+	"slug": "olena-liashenko",
+	"code": "olena-liashenko",
+	"name": "Олена Ляшенко",
+	"graduationYear": 2005,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2006,
+			"text": "«Мина Мазайло»",
+			"playId": "myna-mazailo-2006",
+			"fromRegistry": true
+		},
+		{
+			"year": 2009,
+			"text": "«Мина Мазайло-NEW»",
+			"playId": "myna-mazailo-new-2009",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

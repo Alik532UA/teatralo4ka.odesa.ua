@@ -1,0 +1,39 @@
+{
+	"id": "anastasiia-homela",
+	"slug": "anastasiia-homela",
+	"code": "anastasiia-homela",
+	"name": "Анастасія Гомела",
+	"graduationYear": 2015,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2013,
+			"text": "«Таємниці замку Ойленштайн»",
+			"playId": "taiemnytsi-zamku-oilenshtain-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "Проєкт «Я»",
+			"playId": "proiekt-ia-2015",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

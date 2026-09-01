@@ -1,0 +1,27 @@
+{
+	"id": "daniil-prymachov",
+	"slug": "daniil-prymachov",
+	"code": "daniil-prymachov",
+	"name": "Даніїл Примачов",
+	"graduationYear": 2013,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Матінка Міддоус»",
+			"playId": "matinka-middous-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2013",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

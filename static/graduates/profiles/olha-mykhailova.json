@@ -1,0 +1,21 @@
+{
+	"id": "olha-mykhailova",
+	"slug": "olha-mykhailova",
+	"code": "olha-mykhailova",
+	"name": "Ольга Михайлова",
+	"graduationYear": 2008,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2008,
+			"text": "«Хрестики-нулики»",
+			"playId": "khrestyky-nulyky-2008",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

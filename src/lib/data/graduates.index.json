@@ -18,7 +18,7 @@
 		],
 		"playCount": 5,
 		"code": "albinaabuladze",
-		"profileSize": 2142,
+		"profileSize": 2661,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -184,9 +184,9 @@
 				]
 			}
 		],
-		"playCount": 22,
+		"playCount": 23,
 		"code": "Alik",
-		"profileSize": 5647
+		"profileSize": 5831
 	},
 	{
 		"id": "alina-burdeina",
@@ -207,7 +207,7 @@
 		],
 		"playCount": 4,
 		"code": "alina-burdeina",
-		"profileSize": 2991
+		"profileSize": 2990
 	},
 	{
 		"id": "alina-chernobai",
@@ -224,7 +224,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 944,
+		"playCount": 5
 	},
 	{
 		"id": "alina-demediuk",
@@ -260,7 +262,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 806,
+		"playCount": 4
 	},
 	{
 		"id": "alina-klimova",
@@ -312,7 +316,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 498,
+		"playCount": 2
 	},
 	{
 		"id": "alina-putikova",
@@ -385,7 +391,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 885,
+		"playCount": 5
 	},
 	{
 		"id": "alisa-butkovska",
@@ -491,8 +499,8 @@
 				]
 			}
 		],
-		"playCount": 3,
-		"profileSize": 829
+		"playCount": 4,
+		"profileSize": 976
 	},
 	{
 		"id": "alla-khaiut",
@@ -537,7 +545,7 @@
 		],
 		"playCount": 7,
 		"code": "alla-kolesnyk",
-		"profileSize": 1704
+		"profileSize": 1705
 	},
 	{
 		"id": "alona-kozlova",
@@ -580,7 +588,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 518,
+		"playCount": 2
 	},
 	{
 		"id": "anastasiia-andrianova",
@@ -594,7 +604,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 869,
+		"playCount": 5
 	},
 	{
 		"id": "anastasiia-beloded",
@@ -681,7 +693,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 402,
+		"playCount": 1
 	},
 	{
 		"id": "anastasiia-cherkashyna",
@@ -748,7 +762,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 798,
+		"playCount": 4
 	},
 	{
 		"id": "anastasiia-huchok",
@@ -765,7 +781,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 407,
+		"playCount": 1
 	},
 	{
 		"id": "anastasiia-huz",
@@ -799,7 +817,7 @@
 		],
 		"playCount": 11,
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2438
+		"profileSize": 2435
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -816,7 +834,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 954,
+		"playCount": 5
 	},
 	{
 		"id": "anastasiia-ivanova",
@@ -865,7 +885,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 540,
+		"playCount": 2
 	},
 	{
 		"id": "anastasiia-kovtunenko",
@@ -899,7 +921,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 523,
+		"playCount": 2
 	},
 	{
 		"id": "anastasiia-kozova",
@@ -966,7 +990,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 669,
+		"playCount": 3
 	},
 	{
 		"id": "anastasiia-kuzmenko",
@@ -1015,7 +1041,9 @@
 			{
 				"id": "oleh-shevchuk"
 			}
-		]
+		],
+		"profileSize": 552,
+		"playCount": 2
 	},
 	{
 		"id": "anastasiia-lutaienko",
@@ -1138,7 +1166,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 427,
+		"playCount": 1
 	},
 	{
 		"id": "anastasiia-strusevych",
@@ -1331,7 +1361,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 920,
+		"playCount": 5
 	},
 	{
 		"id": "anisiia-stasevych",
@@ -1353,9 +1385,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 4,
+		"playCount": 6,
 		"code": "anisiia-stasevych",
-		"profileSize": 1346
+		"profileSize": 1599
 	},
 	{
 		"id": "anna-arustamian",
@@ -1392,7 +1424,9 @@
 			{
 				"id": "oleh-shevchuk"
 			}
-		]
+		],
+		"profileSize": 539,
+		"playCount": 2
 	},
 	{
 		"id": "anna-holodiahina",
@@ -1427,7 +1461,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 896,
+		"playCount": 5
 	},
 	{
 		"id": "anna-lepynys",
@@ -1481,7 +1517,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 373,
+		"playCount": 1
 	},
 	{
 		"id": "anna-pistryna",
@@ -1515,8 +1553,8 @@
 			}
 		],
 		"code": "anna-rodonaia",
-		"playCount": 0,
-		"profileSize": 773
+		"playCount": 3,
+		"profileSize": 1191
 	},
 	{
 		"id": "anna-rusieva",
@@ -1683,8 +1721,8 @@
 			}
 		],
 		"code": "artem-starshov",
-		"playCount": 0,
-		"profileSize": 892,
+		"playCount": 1,
+		"profileSize": 1030,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -1759,7 +1797,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 520,
+		"playCount": 2
 	},
 	{
 		"id": "bohdan-dudchenko",
@@ -1835,7 +1875,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 789,
+		"playCount": 4
 	},
 	{
 		"id": "mykyta-olenin",
@@ -1863,7 +1905,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 426,
+		"playCount": 1
 	},
 	{
 		"id": "yulia-bulhakova",
@@ -1957,7 +2001,7 @@
 		],
 		"playCount": 12,
 		"code": "daniela-rybalchenko",
-		"profileSize": 2473
+		"profileSize": 2475
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -1992,7 +2036,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 522,
+		"playCount": 2
 	},
 	{
 		"id": "danylo-chupryn",
@@ -2085,9 +2131,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 4,
+		"playCount": 9,
 		"code": "dar-ia-hurevych",
-		"profileSize": 1438
+		"profileSize": 2112
 	},
 	{
 		"id": "daria-chala",
@@ -2155,7 +2201,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 786,
+		"playCount": 4
 	},
 	{
 		"id": "daria-ekim",
@@ -2180,7 +2228,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"profileSize": 493,
+		"playCount": 2
 	},
 	{
 		"id": "daria-khramchykhyna",
@@ -2330,9 +2380,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 12,
+		"playCount": 15,
 		"code": "daria-rybalchenko",
-		"profileSize": 2442,
+		"profileSize": 2844,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -2513,7 +2563,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"profileSize": 489,
+		"playCount": 2
 	},
 	{
 		"id": "diana-babenko",
@@ -2835,7 +2887,7 @@
 		],
 		"playCount": 3,
 		"code": "sjsjduxuh",
-		"profileSize": 1108
+		"profileSize": 1107
 	},
 	{
 		"id": "hanna-belchytska",
@@ -2895,7 +2947,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 485,
+		"playCount": 2
 	},
 	{
 		"id": "hanna-vatsyk",
@@ -2912,7 +2966,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 482,
+		"playCount": 2
 	},
 	{
 		"id": "heorhii-slyvynskyi",
@@ -2943,9 +2999,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 11,
+		"playCount": 12,
 		"code": "heorhii-topor",
-		"profileSize": 2106
+		"profileSize": 2244
 	},
 	{
 		"id": "heorhii-zheliapov",
@@ -3007,7 +3063,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 375,
+		"playCount": 1
 	},
 	{
 		"id": "hryhorii-baklanov",
@@ -3078,7 +3136,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 929,
+		"playCount": 5
 	},
 	{
 		"id": "ihor-rozvodiuk",
@@ -3138,8 +3198,8 @@
 				]
 			}
 		],
-		"playCount": 1,
-		"profileSize": 603
+		"playCount": 2,
+		"profileSize": 781
 	},
 	{
 		"id": "inna-shevchenko",
@@ -3176,7 +3236,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 950,
+		"playCount": 6
 	},
 	{
 		"id": "iryna-panchenko",
@@ -3253,7 +3315,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 902,
+		"playCount": 5
 	},
 	{
 		"id": "ivan-pitel",
@@ -3297,7 +3361,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1164
+		"profileSize": 1417
 	},
 	{
 		"id": "ivan-shevchenko",
@@ -3326,7 +3390,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 1368,
+		"playCount": 8
 	},
 	{
 		"id": "ivana-kasatkyna",
@@ -3340,7 +3406,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 617,
+		"playCount": 3
 	},
 	{
 		"id": "ivanzhelin-popova",
@@ -3354,7 +3422,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 849,
+		"playCount": 5
 	},
 	{
 		"id": "karyna-bohdanova",
@@ -3506,9 +3576,9 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"playCount": 3,
+		"playCount": 6,
 		"code": "kateryna-kudlach",
-		"profileSize": 2356,
+		"profileSize": 2752,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -3530,7 +3600,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 695,
+		"playCount": 3
 	},
 	{
 		"id": "kateryna-levchenko",
@@ -3572,7 +3644,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 420,
+		"playCount": 1
 	},
 	{
 		"id": "kateryna-muntian",
@@ -3659,7 +3733,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 1719
+		"profileSize": 2106
 	},
 	{
 		"id": "kateryna-petrenko",
@@ -3761,7 +3835,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 532,
+		"playCount": 2
 	},
 	{
 		"id": "yeva-kelembet",
@@ -3858,7 +3934,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 355,
+		"playCount": 1
 	},
 	{
 		"id": "kostiantyn-afanasev",
@@ -3914,9 +3992,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 1,
+		"playCount": 8,
 		"code": "kristina-slivka-spivak",
-		"profileSize": 1536
+		"profileSize": 2534
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -4011,7 +4089,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 398,
+		"playCount": 1
 	},
 	{
 		"id": "krystyna-syvak",
@@ -4128,7 +4208,9 @@
 			{
 				"id": "pavlo-koshka"
 			}
-		]
+		],
+		"profileSize": 528,
+		"playCount": 2
 	},
 	{
 		"id": "ksiusha-kostiukova",
@@ -4145,7 +4227,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 377,
+		"playCount": 1
 	},
 	{
 		"id": "kulish-mariia",
@@ -4283,7 +4367,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"profileSize": 494,
+		"playCount": 2
 	},
 	{
 		"id": "polina-leonenko",
@@ -4300,7 +4386,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 368,
+		"playCount": 1
 	},
 	{
 		"id": "liliia-halosa",
@@ -4322,9 +4410,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 3,
+		"playCount": 5,
 		"code": "liliia-halosa",
-		"profileSize": 1054
+		"profileSize": 1307
 	},
 	{
 		"id": "liliia-muravska",
@@ -4381,7 +4469,9 @@
 			{
 				"id": "pavlo-koshka"
 			}
-		]
+		],
+		"profileSize": 512,
+		"playCount": 2
 	},
 	{
 		"id": "liubov-prepodobna",
@@ -4402,7 +4492,7 @@
 		],
 		"playCount": 5,
 		"code": "basha",
-		"profileSize": 1314
+		"profileSize": 1313
 	},
 	{
 		"id": "liubov-prysiazhna",
@@ -4498,7 +4588,9 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"profileSize": 407,
+		"playCount": 1
 	},
 	{
 		"id": "maksym-mysnyk",
@@ -4554,7 +4646,9 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"profileSize": 668,
+		"playCount": 3
 	},
 	{
 		"id": "marharet-tsypynska",
@@ -4588,7 +4682,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 800,
+		"playCount": 4
 	},
 	{
 		"id": "marharyta-matvienko",
@@ -4790,7 +4886,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 638,
+		"playCount": 3
 	},
 	{
 		"id": "mariia-mahdalina-matvieieva",
@@ -5067,7 +5165,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 672,
+		"playCount": 3
 	},
 	{
 		"id": "maryna-kravchuk",
@@ -5093,9 +5193,9 @@
 				"id": "natalia-bakina"
 			}
 		],
-		"playCount": 1,
+		"playCount": 3,
 		"code": "maryna-kravchuk",
-		"profileSize": 942
+		"profileSize": 1233
 	},
 	{
 		"id": "maryna-perehud",
@@ -5119,7 +5219,7 @@
 		],
 		"playCount": 3,
 		"code": "maryna-perehud",
-		"profileSize": 1343
+		"profileSize": 1344
 	},
 	{
 		"id": "maryna-sukhanova",
@@ -5142,7 +5242,7 @@
 		],
 		"playCount": 12,
 		"code": "maryna-sukhanova",
-		"profileSize": 3625,
+		"profileSize": 3523,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -5249,7 +5349,9 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"profileSize": 397,
+		"playCount": 1
 	},
 	{
 		"id": "mykhailo-haniev",
@@ -5271,9 +5373,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 4,
+		"playCount": 8,
 		"code": "mykhailo-haniev",
-		"profileSize": 1621,
+		"profileSize": 2159,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -5363,7 +5465,9 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"profileSize": 390,
+		"playCount": 1
 	},
 	{
 		"id": "mykyta-suraho",
@@ -5380,7 +5484,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 358,
+		"playCount": 1
 	},
 	{
 		"id": "myroslava-tkach",
@@ -5402,9 +5508,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 18,
+		"playCount": 19,
 		"code": "myroslava-tkach",
-		"profileSize": 3101,
+		"profileSize": 3248,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -5442,7 +5548,7 @@
 		],
 		"playCount": 4,
 		"code": "Nadiia-Hasynets",
-		"profileSize": 1350
+		"profileSize": 1351
 	},
 	{
 		"id": "nadiia-kerymova",
@@ -5478,9 +5584,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 13,
+		"playCount": 15,
 		"code": "nadiia-rybakova",
-		"profileSize": 2865,
+		"profileSize": 3125,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -5585,7 +5691,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"profileSize": 663,
+		"playCount": 3
 	},
 	{
 		"id": "nataliia-voroniuk",
@@ -5630,7 +5738,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 376,
+		"playCount": 1
 	},
 	{
 		"id": "oksana-ivanova",
@@ -5677,7 +5787,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 507,
+		"playCount": 2
 	},
 	{
 		"id": "oleksandr-chehlatonev",
@@ -5738,8 +5850,8 @@
 		],
 		"hasPhoto": true,
 		"code": "oleksandr-chehlatonev",
-		"playCount": 6,
-		"profileSize": 1749
+		"playCount": 7,
+		"profileSize": 1919
 	},
 	{
 		"id": "oleksandr-didyk",
@@ -5974,7 +6086,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2129
+		"profileSize": 2638
 	},
 	{
 		"id": "oleksandra-khalfina",
@@ -6047,7 +6159,9 @@
 					"Риторика та поетика"
 				]
 			}
-		]
+		],
+		"profileSize": 402,
+		"playCount": 1
 	},
 	{
 		"id": "oleksandra-potapenko",
@@ -6125,7 +6239,9 @@
 			{
 				"id": "samuil-imas"
 			}
-		]
+		],
+		"profileSize": 694,
+		"playCount": 3
 	},
 	{
 		"id": "oleksandra-trostianska",
@@ -6187,7 +6303,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 503,
+		"playCount": 2
 	},
 	{
 		"id": "oleksandra-yuzefovych",
@@ -6236,7 +6354,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 363,
+		"playCount": 1
 	},
 	{
 		"id": "olena-beluhina",
@@ -6366,7 +6486,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 503,
+		"playCount": 2
 	},
 	{
 		"id": "olena-machtakova",
@@ -6501,7 +6623,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 383,
+		"playCount": 1
 	},
 	{
 		"id": "olha-poliakova",
@@ -6520,9 +6644,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 12,
+		"playCount": 14,
 		"code": "olha-poliakova",
-		"profileSize": 2627,
+		"profileSize": 2887,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -6581,7 +6705,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 527,
+		"playCount": 2
 	},
 	{
 		"id": "pavlo-koshka",
@@ -6609,7 +6735,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 490,
+		"playCount": 2
 	},
 	{
 		"id": "pavlo-maksymov",
@@ -6623,7 +6751,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 367,
+		"playCount": 1
 	},
 	{
 		"id": "pavlo-zhukov",
@@ -6801,8 +6931,8 @@
 				]
 			}
 		],
-		"profileSize": 3819,
-		"playCount": 6
+		"profileSize": 3966,
+		"playCount": 7
 	},
 	{
 		"id": "ruslana-menkova",
@@ -6877,9 +7007,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 3,
+		"playCount": 4,
 		"code": "Sofia-Chernova",
-		"profileSize": 1125
+		"profileSize": 1231
 	},
 	{
 		"id": "sofiia-chernata",
@@ -6944,7 +7074,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 850,
+		"playCount": 5
 	},
 	{
 		"id": "sofiia-lozko",
@@ -6995,9 +7127,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 3,
+		"playCount": 4,
 		"code": "Sofiya-Skuratovych",
-		"profileSize": 906
+		"profileSize": 1029
 	},
 	{
 		"id": "sofiya-rudenko",
@@ -7067,7 +7199,7 @@
 			}
 		],
 		"playCount": 9,
-		"profileSize": 2244
+		"profileSize": 2714
 	},
 	{
 		"id": "sofiya-shatalinska",
@@ -7101,7 +7233,7 @@
 		],
 		"playCount": 2,
 		"code": "sonia-makhnovska",
-		"profileSize": 878
+		"profileSize": 877
 	},
 	{
 		"id": "stanislav-prakhov",
@@ -7115,7 +7247,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 929,
+		"playCount": 5
 	},
 	{
 		"id": "stanyslav-stepanov",
@@ -7204,7 +7338,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 386,
+		"playCount": 1
 	},
 	{
 		"id": "svitlana-smyrna",
@@ -7241,7 +7377,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 495,
+		"playCount": 2
 	},
 	{
 		"id": "taisiia-ruseskul",
@@ -7337,7 +7475,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 386,
+		"playCount": 1
 	},
 	{
 		"id": "tetiana-dudush-polishchuk",
@@ -7388,9 +7528,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 3,
+		"playCount": 6,
 		"code": "tetiana-kamelevska",
-		"profileSize": 1346
+		"profileSize": 1735
 	},
 	{
 		"id": "tetiana-makukha",
@@ -7449,7 +7589,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 516,
+		"playCount": 2
 	},
 	{
 		"id": "tetiana-shemchuk",
@@ -7482,9 +7624,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 7,
+		"playCount": 8,
 		"code": "vadym-krusser",
-		"profileSize": 1740,
+		"profileSize": 1874,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -7829,7 +7971,9 @@
 			{
 				"id": "pavlo-koshka"
 			}
-		]
+		],
+		"profileSize": 676,
+		"playCount": 3
 	},
 	{
 		"id": "viktoriia-lysak",
@@ -7869,7 +8013,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 910,
+		"playCount": 5
 	},
 	{
 		"id": "viktoriia-nesterenko",
@@ -7894,7 +8040,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 391,
+		"playCount": 1
 	},
 	{
 		"id": "viktoriia-shepshelei",
@@ -7959,8 +8107,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 4,
-		"profileSize": 994
+		"playCount": 5,
+		"profileSize": 1117
 	},
 	{
 		"id": "vira-sotsenko",
@@ -7988,7 +8136,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 903,
+		"playCount": 5
 	},
 	{
 		"id": "vitalii-makarenko",
@@ -8083,7 +8233,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2384
+		"profileSize": 3020
 	},
 	{
 		"id": "vlada-hryhorashchenko",
@@ -8133,7 +8283,9 @@
 					"Участь у виставах"
 				]
 			}
-		]
+		],
+		"profileSize": 512,
+		"playCount": 2
 	},
 	{
 		"id": "vladyslav-fylonenko",
@@ -8188,7 +8340,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 407,
+		"playCount": 1
 	},
 	{
 		"id": "vladyslav-volk",
@@ -8225,9 +8379,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 8,
+		"playCount": 10,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3235,
+		"profileSize": 3545,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -8279,7 +8433,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 526,
+		"playCount": 2
 	},
 	{
 		"id": "volodymyr-yaryhin",
@@ -8340,7 +8496,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 612,
+		"playCount": 3
 	},
 	{
 		"id": "yana-lunova",
@@ -8427,7 +8585,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 711,
+		"playCount": 3
 	},
 	{
 		"id": "yelyzaveta-nedaivoda",
@@ -8540,7 +8700,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 346,
+		"playCount": 1
 	},
 	{
 		"id": "yevanhelina-zubynska",
@@ -8641,7 +8803,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 519,
+		"playCount": 2
 	},
 	{
 		"id": "yevheniia-burian",
@@ -8889,7 +9053,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 956,
+		"playCount": 6
 	},
 	{
 		"id": "yuliia-khomiakova",
@@ -9034,7 +9200,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 498,
+		"playCount": 2
 	},
 	{
 		"id": "yurii-tkachenko",
@@ -9060,7 +9228,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"profileSize": 522,
+		"playCount": 2
 	},
 	{
 		"id": "zlata-peikova",

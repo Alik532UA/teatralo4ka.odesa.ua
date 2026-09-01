@@ -1,0 +1,33 @@
+{
+	"id": "anastasiia-kuropatkyna",
+	"slug": "anastasiia-kuropatkyna",
+	"code": "anastasiia-kuropatkyna",
+	"name": "Анастасія Куропаткина",
+	"graduationYear": 2011,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Цибуліно»",
+			"playId": "tsybulino-2010",
+			"fromRegistry": true
+		},
+		{
+			"year": 2011,
+			"text": "«Натовп самотніх»",
+			"playId": "natovp-samotnikh-2011",
+			"fromRegistry": true
+		},
+		{
+			"year": 2011,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2011",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

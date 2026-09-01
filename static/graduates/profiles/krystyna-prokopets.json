@@ -1,0 +1,21 @@
+{
+	"id": "krystyna-prokopets",
+	"slug": "krystyna-prokopets",
+	"code": "krystyna-prokopets",
+	"name": "Кристина Прокопець",
+	"graduationYear": 2008,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2008,
+			"text": "«Хрестики-нулики»",
+			"playId": "khrestyky-nulyky-2008",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

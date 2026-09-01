@@ -1,0 +1,39 @@
+{
+	"id": "borys-ukrainskyi",
+	"slug": "borys-ukrainskyi",
+	"code": "borys-ukrainskyi",
+	"name": "Борис Український",
+	"graduationYear": 2010,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2009,
+			"text": "«Слон Хортон»",
+			"playId": "slon-khorton-2009",
+			"fromRegistry": true
+		},
+		{
+			"year": 2009,
+			"text": "«Соловей»",
+			"playId": "solovei-2009",
+			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "«Слон Хортон-NEW»",
+			"playId": "slon-khorton-new-2010",
+			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "Уривки з української класики",
+			"playId": "uryvky-z-ukrainskoi-klasyky-2010",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

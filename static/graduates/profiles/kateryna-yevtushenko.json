@@ -1,0 +1,27 @@
+{
+	"id": "kateryna-yevtushenko",
+	"slug": "kateryna-yevtushenko",
+	"code": "kateryna-yevtushenko",
+	"name": "Катерина Євтушенко",
+	"graduationYear": 2020,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2018,
+			"text": "«Сорок перший»",
+			"playId": "sorok-pershyi-2018",
+			"fromRegistry": true
+		},
+		{
+			"year": 2019,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2019",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

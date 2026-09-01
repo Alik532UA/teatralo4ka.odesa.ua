@@ -1,0 +1,27 @@
+{
+	"id": "liubov-bernaus",
+	"slug": "liubov-bernaus",
+	"code": "liubov-bernaus",
+	"name": "Любов Бернаус",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Матінка Міддоус»",
+			"playId": "matinka-middous-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2013",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

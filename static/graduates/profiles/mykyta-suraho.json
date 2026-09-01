@@ -1,0 +1,21 @@
+{
+	"id": "mykyta-suraho",
+	"slug": "mykyta-suraho",
+	"code": "mykyta-suraho",
+	"name": "Микита Сураго",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2019,
+			"text": "«Синій птах»",
+			"playId": "synii-ptakh-2019",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

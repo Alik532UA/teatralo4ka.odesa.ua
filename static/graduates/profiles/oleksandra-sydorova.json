@@ -1,0 +1,33 @@
+{
+	"id": "oleksandra-sydorova",
+	"slug": "oleksandra-sydorova",
+	"code": "oleksandra-sydorova",
+	"name": "Олександра Сидорова",
+	"graduationYear": 2016,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Тюлька та Ґруффало»",
+			"playId": "tiulka-ta-gruffalo-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2017,
+			"text": "«Зона турбулентності»",
+			"playId": "zona-turbulentnosti-2017",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

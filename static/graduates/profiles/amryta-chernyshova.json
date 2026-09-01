@@ -1,0 +1,27 @@
+{
+	"id": "amryta-chernyshova",
+	"slug": "amryta-chernyshova",
+	"code": "amryta-chernyshova",
+	"name": "Амрита Чернишова",
+	"graduationYear": 2020,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2018,
+			"text": "«Фото-топлес»",
+			"playId": "foto-toples-2018",
+			"fromRegistry": true
+		},
+		{
+			"year": 2019,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2019",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

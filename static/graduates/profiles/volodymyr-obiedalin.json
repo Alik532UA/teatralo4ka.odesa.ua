@@ -1,0 +1,27 @@
+{
+	"id": "volodymyr-obiedalin",
+	"slug": "volodymyr-obiedalin",
+	"code": "volodymyr-obiedalin",
+	"name": "Володимир Об'єдалін",
+	"graduationYear": 1999,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2006,
+			"text": "«Мина Мазайло»",
+			"playId": "myna-mazailo-2006",
+			"fromRegistry": true
+		},
+		{
+			"year": 2009,
+			"text": "«Мина Мазайло-NEW»",
+			"playId": "myna-mazailo-new-2009",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

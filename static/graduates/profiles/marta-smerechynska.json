@@ -1,0 +1,34 @@
+{
+	"id": "marta-smerechynska",
+	"slug": "marta-smerechynska",
+	"code": "marta-smerechynska",
+	"name": "Марта Смеречинська",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre",
+		"intensive"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Монологи»",
+			"playId": "monolohy-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Тюлька та Ґруффало»",
+			"playId": "tiulka-ta-gruffalo-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2014",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

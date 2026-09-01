@@ -1,0 +1,21 @@
+{
+	"id": "pavlo-maksymov",
+	"slug": "pavlo-maksymov",
+	"code": "pavlo-maksymov",
+	"name": "Павло Максимов",
+	"graduationYear": 2026,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2024,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2024-2",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

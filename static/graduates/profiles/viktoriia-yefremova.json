@@ -1,0 +1,21 @@
+{
+	"id": "viktoriia-yefremova",
+	"slug": "viktoriia-yefremova",
+	"code": "viktoriia-yefremova",
+	"name": "Вікторія Єфремова",
+	"graduationYear": 2023,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2021,
+			"text": "Показ етюдів та вербатімів",
+			"playId": "pokaz-etiudiv-ta-verbatimiv-2021",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

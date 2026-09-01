@@ -1,0 +1,21 @@
+{
+	"id": "anastasiia-skvortsova",
+	"slug": "anastasiia-skvortsova",
+	"code": "anastasiia-skvortsova",
+	"name": "Анастасія Скворцова",
+	"graduationYear": 2018,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2017,
+			"text": "«Казка Арденського лісу»",
+			"playId": "kazka-ardenskoho-lisu-2017",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

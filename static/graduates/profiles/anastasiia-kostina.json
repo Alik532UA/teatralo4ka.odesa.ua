@@ -1,0 +1,27 @@
+{
+	"id": "anastasiia-kostina",
+	"slug": "anastasiia-kostina",
+	"code": "anastasiia-kostina",
+	"name": "Анастасія Костіна",
+	"graduationYear": 2016,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2014,
+			"text": "«Тюлька та Ґруффало»",
+			"playId": "tiulka-ta-gruffalo-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2015",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

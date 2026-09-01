@@ -1,0 +1,45 @@
+{
+	"id": "alina-chernobai",
+	"slug": "alina-chernobai",
+	"code": "alina-chernobai",
+	"name": "Аліна Чернобай",
+	"graduationYear": 2012,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Цибуліно»",
+			"playId": "tsybulino-2010",
+			"fromRegistry": true
+		},
+		{
+			"year": 2011,
+			"text": "«Натовп самотніх»",
+			"playId": "natovp-samotnikh-2011",
+			"fromRegistry": true
+		},
+		{
+			"year": 2011,
+			"text": "«Уривки з класики»",
+			"playId": "uryvky-z-klasyky-2011",
+			"fromRegistry": true
+		},
+		{
+			"year": 2012,
+			"text": "«Король помирає»",
+			"playId": "korol-pomyraie-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2012,
+			"text": "Уривки з драматургії 20 століття",
+			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}
