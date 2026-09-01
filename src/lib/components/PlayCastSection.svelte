@@ -2,7 +2,7 @@
 	import { t } from 'svelte-i18n';
 	import { Users } from 'lucide-svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
-	import { GRADUATES, graduatePhoto } from '$lib/data/graduates';
+	import { GRADUATES, HIDDEN_GRADUATES, graduatePhoto } from '$lib/data/graduates';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 	import { MASTERS, masterProfilePath } from '$lib/data/masters';
 	import { locale } from 'svelte-i18n';
@@ -102,6 +102,16 @@
 		MASTERS.map((m) => ({ ...m, name: m.displayName ?? m.fullName ?? '' }))
 	);
 
+	/**
+	 * Хто просив не показувати себе — того в паперовому складі немає.
+	 *
+	 * `hidden` вже викидає людину з `GRADUATES`, тож звичайний матчер її не
+	 * знаходить — і показ намалював би її карткою БЕЗ переходу, як сторонню.
+	 * Тобто прапорець приховування дав би протилежний результат: замість зникнути
+	 * людина перестала б бути посиланням, лишившись на видноті.
+	 */
+	const знайтиПриховану = createNameMatcher(HIDDEN_GRADUATES);
+
 	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
 
 	/**
@@ -115,6 +125,7 @@
 
 	function паперові(імена: readonly string[] | undefined) {
 		return (імена ?? [])
+			.filter((raw) => !знайтиПриховану(raw))
 			.map((raw) => ({ raw, graduate: знайти(raw), master: знайтиПрацівника(raw) }))
 			.filter(({ graduate }) => !(graduate && уКартках.has(graduate.id)));
 	}

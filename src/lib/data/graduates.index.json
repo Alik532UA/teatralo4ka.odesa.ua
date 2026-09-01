@@ -9493,5 +9493,24 @@
 			"theatre"
 		],
 		"hidden": true
+	},
+	{
+		"id": "volodymyr-zakharchenko",
+		"slug": "volodymyr-zakharchenko",
+		"name": "Володимир Захарченко",
+		"graduationYear": 2013,
+		"graduationLabelKey": "galaxy.studiedUntil",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "pavlo-koshka"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"hidden": true
 	}
 ]
