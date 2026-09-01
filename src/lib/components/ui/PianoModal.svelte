@@ -4,6 +4,7 @@
 	import { t } from "svelte-i18n";
 	import { X } from "lucide-svelte";
 	import { SvelteSet } from "svelte/reactivity";
+	import { captureKeyboard } from "$lib/services/keyboard";
 
 	interface Props {
 		isOpen: boolean;
@@ -197,6 +198,27 @@
 			window.removeEventListener("keyup", handleKeyup);
 			audioFadeIntervals.forEach((interval) => clearInterval(interval));
 		};
+	});
+
+	/*
+	 * Поки піаніно відкрите, клавіатура належить ЙОМУ (`captureKeyboard`).
+	 *
+	 * Без цього літери сайту працювали поверх нот, і збіг тут не випадковий, а
+	 * повний: `KeyL` — біла клавіша й водночас перемикач мови, тобто одне
+	 * натискання посеред гри переносило людину на `/en/…` і піаніно зникало;
+	 * `KeyT` — чорна клавіша й перемикач теми; `KeyG`, `KeyH`, `KeyJ` — білі
+	 * клавіші й службові серії по сім натискань; `KeyR` — чорна клавіша й
+	 * аварійне скидання. Захист `isTypingTarget` тут не спрацьовує за побудовою:
+	 * піаніно не поле вводу.
+	 *
+	 * `$effect` на `isOpen`, а не `onMount`: компонент змонтований завжди (у
+	 * підвалі стоїть `<PianoModal isOpen={…}>`), а забирати клавіатуру треба лише
+	 * на час, поки накладка відкрита. Cleanup віддає її назад — саме тому
+	 * `captureKeyboard` повертає функцію, а не має окремої пари `release()`.
+	 */
+	$effect(() => {
+		if (!isOpen) return;
+		return captureKeyboard();
 	});
 </script>
 

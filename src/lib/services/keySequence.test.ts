@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createKeySequence, type KeyStroke } from './keySequence';
+import { captureKeyboard } from './keyboard';
 
 /**
  * Кожен тест тут відповідає реальному способу спрацювати випадково.
@@ -64,6 +65,34 @@ describe('createKeySequence', () => {
 		sequence.handle(press({ target: INSIDE_FIELD }));
 
 		expect(onComplete).not.toHaveBeenCalled();
+	});
+
+	it('накладка забрала клавіатуру — серія НЕ рахується', () => {
+		const onComplete = vi.fn();
+		const sequence = createKeySequence({ code: 'KeyR', threshold: 2, onComplete });
+		const release = captureKeyboard();
+
+		// `KeyR` — це чорна клавіша піаніно. Поки воно відкрите, це нота, а не крок
+		// до аварійного скидання; полем вводу піаніно не є, тож захист вище тут
+		// не спрацьовує за побудовою.
+		sequence.handle(press());
+		sequence.handle(press());
+		expect(onComplete).not.toHaveBeenCalled();
+
+		release();
+	});
+
+	it('накладка НЕ скидає вже набране: після закриття серія триває', () => {
+		const onComplete = vi.fn();
+		const sequence = createKeySequence({ code: 'KeyR', threshold: 2, onComplete });
+
+		sequence.handle(press());
+		const release = captureKeyboard();
+		sequence.handle(press());
+		release();
+		sequence.handle(press());
+
+		expect(onComplete).toHaveBeenCalledTimes(1);
 	});
 
 	it('натискання в полі НЕ скидає вже набране', () => {
