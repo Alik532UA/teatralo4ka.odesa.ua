@@ -169,6 +169,14 @@
 			"graduateId": "myroslava-tkach"
 		}
 	],
+	"boikot-2016": [
+		{
+			"graduateId": "kulish-mariia"
+		},
+		{
+			"graduateId": "myroslava-tkach"
+		}
+	],
 	"bremenski-muzykanty-2017": [
 		{
 			"graduateId": "sofiya-rudenko"
@@ -241,14 +249,6 @@
 		},
 		{
 			"graduateId": "valeriia-burian"
-		}
-	],
-	"chuchelo-2016": [
-		{
-			"graduateId": "kulish-mariia"
-		},
-		{
-			"graduateId": "myroslava-tkach"
 		}
 	],
 	"chypollyno-2004": [
@@ -351,11 +351,6 @@
 	"divchata-2022": [
 		{
 			"graduateId": "mariia-mandriesk"
-		}
-	],
-	"divchynka-z-vedmedykom-2025": [
-		{
-			"graduateId": "valeriia-babenko"
 		}
 	],
 	"do-svydanyia-ovrah-2014": [
@@ -706,11 +701,6 @@
 		{
 			"graduateId": "zlata-malancheva",
 			"fromRegistry": true
-		}
-	],
-	"hrikh-2012": [
-		{
-			"graduateId": "volodymyr-chalchynskyi"
 		}
 	],
 	"hruffalo-2013": [
@@ -1788,11 +1778,6 @@
 			"graduateId": "valeriia-burian"
 		}
 	],
-	"romeo-i-dzhulietta-2025": [
-		{
-			"graduateId": "sofia-chernova"
-		}
-	],
 	"rusalochka-2000": [
 		{
 			"graduateId": "olena-machtakova"
@@ -2296,7 +2281,7 @@
 		},
 		{
 			"graduateId": "volodymyr-chalchynskyi",
-			"fromRegistry": true
+			"item": "hrikh"
 		}
 	],
 	"uryvky-z-klasyky-2008": [
@@ -2557,6 +2542,14 @@
 		}
 	],
 	"uryvky-z-klasyky-2025": [
+		{
+			"graduateId": "sofia-chernova",
+			"item": "romeo-i-dzhulietta"
+		},
+		{
+			"graduateId": "valeriia-babenko",
+			"item": "divchynka-z-vedmedykom"
+		},
 		{
 			"graduateId": "violetta-nezvinska"
 		}

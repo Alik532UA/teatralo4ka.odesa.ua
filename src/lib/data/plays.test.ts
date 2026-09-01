@@ -437,6 +437,80 @@ describe('реєстр вистав', () => {
 		).toBeGreaterThan(0);
 	});
 
+	/*
+	 * Уривок не буває окремою виставою.
+	 *
+	 * ## Чому попередніх перевірок не досить
+	 *
+	 * Гейт двійників дивиться на СХОЖІ назви в одному році. Але уривок має назву
+	 * НЕ схожу на вечір: «Гріх» проти «Уривки з драматургії 20 століття». Для
+	 * нього це різні вистави, і він мовчав.
+	 *
+	 * А розбір, яким уривки згортали, шукав двокрапку в назві («Уривки з
+	 * класики: Незнайома») — і не бачив тих, де її немає. Саме так «Гріх» 2012
+	 * року лишився окремою сторінкою з одним учасником, хоч той самий твір
+	 * стоїть у програмі вечора, куди той учасник теж записаний.
+	 *
+	 * ## Що перевіряється
+	 *
+	 * Назва вистави не повинна збігатися з НОМЕРОМ ПРОГРАМИ іншої вистави того
+	 * самого року. Порівнюється твір у лапках: у програмі він записаний з
+	 * автором («В. Винниченко «Гріх»»), у назві — сам («Гріх»).
+	 *
+	 * ## Чому перелік творів має бути саме ПЕРЕЛІКОМ
+	 *
+	 * У «Тварин та птахів» 2022 поле `author` містить одне слово «Етюди» — це
+	 * жанр, а не програма. Без цієї умови гейт оголосив би показ етюдів курсу
+	 * 1Т-3 уривком показу курсу 3Т-6: різні курси, різні майстри, той самий
+	 * жанр. Тому враховується або справжня `programme`, або `author`, у якому
+	 * НЕ менше двох творів у лапках.
+	 */
+	function worksOf(play: (typeof PLAYS)[number]): string[] {
+		if (play.programme?.length) return play.programme.map((item) => item.title);
+		const author = play.author ?? '';
+		const parts = author
+			.split(/(?<=»),\s*/)
+			.map((s) => s.trim())
+			.filter(Boolean);
+		return parts.length > 1 && parts.every((p) => p.includes('«')) ? parts : [];
+	}
+
+	function workCore(title: string): string {
+		const quoted = /«([^»]+)»/.exec(title);
+		return (quoted ? quoted[1] : title).trim().toLowerCase();
+	}
+
+	it('назва вистави не збігається з номером програми іншої вистави того ж року', () => {
+		const byYear = new Map<number, typeof PLAYS[number][]>();
+		for (const play of PLAYS) {
+			const list = byYear.get(play.year) ?? [];
+			list.push(play);
+			byYear.set(play.year, list);
+		}
+
+		const bad: string[] = [];
+		for (const [, list] of byYear) {
+			for (const play of list) {
+				const mine = workCore(play.title);
+				if (!mine) continue;
+				for (const evening of list) {
+					if (evening.id === play.id) continue;
+					const works = worksOf(evening).map(workCore);
+					if (!works.includes(mine)) continue;
+					bad.push(
+						`${play.id} «${play.title}» — це номер програми ${evening.id} «${evening.title}»`
+					);
+				}
+			}
+		}
+		expect(
+			bad,
+			'уривок став окремою виставою. Згорнути у вечір: додати номер у `programme`,' +
+				' у рядку анкети замінити `playId` на вечір і дописати `item`, а стару адресу' +
+				' в `RENAMED_PLAY_IDS`:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
 	it('`playsByIds` віддає найновіші згори й мовчки минає невідомі ключі', () => {
 		const known = PLAYS.slice(0, 3).map((p) => p.id);
 		const out = playsByIds([...known, 'takoi-vystavy-nemaie-1999']);

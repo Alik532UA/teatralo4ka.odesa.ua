@@ -32,6 +32,10 @@ import type { MasterIndexEntry } from '$lib/data/masters';
  */
 const RENAMED_PLAY_IDS: Record<string, string> = {
 	// Записи-уривки, згорнуті у свій вечір: уривок не вистава, а номер програми.
+	'chuchelo-2016': 'boikot-2016',
+	'divchynka-z-vedmedykom-2025': 'uryvky-z-klasyky-2025',
+	'hrikh-2012': 'uryvky-z-dramaturhii-20-stolittia-2012',
+	'romeo-i-dzhulietta-2025': 'uryvky-z-klasyky-2025',
 	'uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012': 'uryvky-z-dramaturhii-20-stolittia-2012',
 	'uryvky-z-klasyky-neznaiomka-o-bloka-2013': 'uryvky-z-klasyky-2013',
 	'uryvky-z-klasyky-asia-i-turhenev-2014': 'uryvky-z-klasyky-2014',

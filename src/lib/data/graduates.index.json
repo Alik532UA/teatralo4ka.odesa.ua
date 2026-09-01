@@ -4257,7 +4257,7 @@
 		],
 		"playCount": 9,
 		"code": "kulish-mariia",
-		"profileSize": 1822
+		"profileSize": 1906
 	},
 	{
 		"id": "kyryll-chekanov",
@@ -5510,7 +5510,7 @@
 		],
 		"playCount": 19,
 		"code": "myroslava-tkach",
-		"profileSize": 3248,
+		"profileSize": 3386,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -7009,7 +7009,7 @@
 		],
 		"playCount": 4,
 		"code": "Sofia-Chernova",
-		"profileSize": 1231
+		"profileSize": 1318
 	},
 	{
 		"id": "sofiia-chernata",
@@ -7687,7 +7687,7 @@
 		],
 		"playCount": 2,
 		"code": "Valeriia",
-		"profileSize": 872
+		"profileSize": 946
 	},
 	{
 		"id": "valeriia-burian",
@@ -8379,9 +8379,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 9,
+		"playCount": 8,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3545,
+		"profileSize": 3410,
 		"teachers": [
 			{
 				"id": "fedir-tkach",

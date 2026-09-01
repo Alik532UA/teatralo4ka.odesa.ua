@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import fs from 'node:fs';
-import path from 'node:path';
+import fs, { readFileSync, readdirSync } from 'node:fs';
+import path, { join } from 'node:path';
 import { buildCast } from '../../../scripts/build-play-cast';
 import { PLAY_CAST as cast } from './playCast';
 import { PLAYS } from './plays';
@@ -140,6 +140,39 @@ describe('склад вистав', () => {
 		expect(
 			bad,
 			'прапорець `fromRegistry` без підстави в складі показу:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
+	/*
+	 * Одна вистава — один рядок в анкеті.
+	 *
+	 * Рядок «зі списку школи» має сенс лише поки людина не назвала цю виставу
+	 * сама. Щойно назвала — школин рядок стає повтором, і сторінка показує ту
+	 * саму подію двічі, ще й різними словами: «"Гріх" Уривки, Сталинський» і
+	 * «Уривки з драматургії 20 століття» — це один вечір.
+	 *
+	 * З'явитися такий повтор може тихо: досить згорнути уривок у вечір, до якого
+	 * людину вже дописали списком. Саме так і сталося.
+	 */
+	it('вистава не повторюється в анкеті двічі', () => {
+		const dir = join('static', 'graduates', 'profiles');
+		const bad: string[] = [];
+		for (const file of readdirSync(dir).filter((f) => f.endsWith('.json'))) {
+			const profile = JSON.parse(readFileSync(join(dir, file), 'utf8'));
+			const seen = new Map<string, number>();
+			for (const play of profile.plays ?? []) {
+				if (!play.playId) continue;
+				seen.set(play.playId, (seen.get(play.playId) ?? 0) + 1);
+			}
+			for (const [playId, count] of seen) {
+				if (count > 1) bad.push(`${file}: ${playId} — ${count} рядки`);
+			}
+		}
+		expect(
+			bad,
+			'та сама вистава двічі в одній анкеті. Якщо один рядок `fromRegistry` —' +
+				' прибрати саме його: свої слова людини важать більше за список школи:' +
+				bad.map((b) => `\n  ${b}`).join('')
 		).toEqual([]);
 	});
 
