@@ -1,0 +1,116 @@
+{
+	"id": "roman-arabadzhi",
+	"slug": "reverenciel",
+	"code": "reverenciel",
+	"name": "Роман Арабаджі",
+	"graduationYear": 2019,
+	"enrollmentYears": [
+		2013
+	],
+	"departments": [
+		"theatre",
+		"music"
+	],
+	"hasPhoto": true,
+	"photoCount": 2,
+	"masters": [
+		{
+			"id": "natalia-shkolna"
+		},
+		{
+			"id": "oksana-panchenko"
+		},
+		{
+			"id": "oleh-shevchuk"
+		},
+		{
+			"id": "svitlana-nadopta"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "svitlana-vitiuk",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "volodymyr-radzikhovskyi",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "liliia-velychko",
+			"subjects": [
+				"Хор"
+			]
+		},
+		{
+			"id": "serkova",
+			"subjects": [
+				"Сольфеджіо",
+				"Музична теорія",
+				"Музична література"
+			]
+		}
+	],
+	"unlinkedGroups": [
+		"Крокозябрики",
+		"Надоптяни"
+	],
+	"plays": [],
+	"bio": [
+		"2018-2022 студент Одеського фахового коледжу мистецтв ім. К. Ф. Данькевича;",
+		"З 2022 студент Одеської національної музичної академії ім. А. В. Нежданової кафедри сольного співу;",
+		"З 2024 року співпрацюю з Open Opera Ukraine, зокрема виконав партії Генія Холоду та Еола в постановці семі-опери Г. Перселла «Король Артур: У пошуках героя» (м. Київ);",
+		"З 2024 є запрошеним солістом Національного Будинку Музики (м. Київ), з котрими й досі виконую барокову музику;",
+		"Лауреат міжнародних конкурсів ім. Олексія Стирчі (Кишинів) — Гран-Прі, ім. Василя Сліпака (Львів) — II премія, ім. Миколи Огренича (Одеса) — I премія.",
+		"З 2025 року також викладаю англійську"
+	],
+	"socials": [
+		{
+			"network": "youtube",
+			"url": "https://www.youtube.com/@romanarabadzhi"
+		},
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/ArabadzhiRoman"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/a.r.abadzhi/"
+		}
+	],
+	"festivals": []
+}

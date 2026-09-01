@@ -96,7 +96,12 @@ const RENAMED_ADDRESSES: Record<string, string> = {
 	// немає, тож перейменування коштувало лише цих рядків.
 	'kateryna-maktas': 'kateryna-mantas',
 	'yana-lunieva': 'yana-lunova',
-	'krystyna-nykolaieva': 'krystyna-nikolaieva'
+	'krystyna-nykolaieva': 'krystyna-nikolaieva',
+	// 2026-09-01: Роман Арабаджі попросив адресу `reverenciel` — під цим імʼям
+	// його знають як співака (YouTube, Instagram). Ключ звʼязків `id` лишився
+	// `roman-arabadzhi`: на нього вказують склади вистав і групи, і саме для
+	// такого випадку id та адреса й розділені.
+	'roman-arabadzhi': 'reverenciel'
 };
 
 export function entries() {

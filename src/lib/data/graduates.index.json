@@ -6706,15 +6706,30 @@
 	},
 	{
 		"id": "roman-arabadzhi",
-		"slug": "roman-arabadzhi",
+		"slug": "reverenciel",
 		"name": "Роман Арабаджі",
 		"graduationYear": 2019,
 		"departments": [
-			"theatre"
+			"theatre",
+			"music"
+		],
+		"hasPhoto": true,
+		"photoCount": 2,
+		"enrollmentYears": [
+			2013
 		],
 		"masters": [
 			{
+				"id": "natalia-shkolna"
+			},
+			{
+				"id": "oksana-panchenko"
+			},
+			{
 				"id": "oleh-shevchuk"
+			},
+			{
+				"id": "svitlana-nadopta"
 			}
 		],
 		"teachers": [
@@ -6741,8 +6756,41 @@
 				"subjects": [
 					"Вокал"
 				]
+			},
+			{
+				"id": "svitlana-vitiuk",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "volodymyr-radzikhovskyi",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "liliia-velychko",
+				"subjects": [
+					"Хор"
+				]
+			},
+			{
+				"id": "serkova",
+				"subjects": [
+					"Сольфеджіо",
+					"Музична теорія",
+					"Музична література"
+				]
 			}
-		]
+		],
+		"profileSize": 2831
 	},
 	{
 		"id": "ruslana-menkova",
