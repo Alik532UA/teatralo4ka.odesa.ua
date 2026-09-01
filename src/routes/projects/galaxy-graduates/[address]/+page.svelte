@@ -12,6 +12,7 @@
 	import {
 		graduateProfilePath,
 		type GraduateIndexEntry,
+		graduateAddress,
 	} from "$lib/data/graduates";
 
 	let { data } = $props();
@@ -56,22 +57,17 @@
 		};
 	});
 
+	/*
+	 * Сторінка є в КОЖНОГО, тож розвилки «є код / немає коду» більше немає: доти
+	 * друга гілка вела в галактику з параметром `?g=`.
+	 */
 	function handleSelectOtherGraduate(other: GraduateIndexEntry) {
-		if (other.code) {
-			goto(
-				localizedPath(
-					graduateProfilePath(other.code),
-					localeFromPath(page.url.pathname),
-				),
-			);
-		} else {
-			goto(
-				localizedPath(
-					"/projects/galaxy-graduates/",
-					localeFromPath(page.url.pathname),
-				),
-			);
-		}
+		goto(
+			localizedPath(
+				graduateProfilePath(graduateAddress(other)),
+				localeFromPath(page.url.pathname),
+			),
+		);
 	}
 
 	/*

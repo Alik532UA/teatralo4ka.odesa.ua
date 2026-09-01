@@ -1,6 +1,11 @@
 import { pushState } from '$app/navigation';
 import { page } from '$app/state';
-import { GRADUATES, graduateProfilePath, type GraduateIndexEntry } from '$lib/data/graduates';
+import {
+	GRADUATES,
+	graduateAddress,
+	graduateProfilePath,
+	type GraduateIndexEntry
+} from '$lib/data/graduates';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 
 /**
@@ -44,7 +49,10 @@ export function openGraduateModal(graduate: GraduateIndexEntry): void {
 	 * ТИПІЗОВАНА: `graduateProfilePath` віддає `Pathname`, `localizedPath` —
 	 * `ResolvedPathname`, і саме за типом правило визнає її перевіреною.
 	 */
-	const href = localizedPath(graduateProfilePath(graduate.code), localeFromPath(page.url.pathname));
+	const href = localizedPath(
+		graduateProfilePath(graduateAddress(graduate)),
+		localeFromPath(page.url.pathname)
+	);
 	pushState(href, { graduateCode: graduate.code });
 }
 

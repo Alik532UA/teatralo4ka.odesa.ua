@@ -16,6 +16,7 @@
 	import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 	import {
 		WITH_PAGE,
+		graduateAddress,
 		graduateProfilePath,
 		type Department,
 		type GraduateIndexEntry
@@ -193,7 +194,10 @@
 
 	const locale = $derived(localeFromPath(page.url.pathname));
 
-	const profileHref = (code: string) => localizedPath(graduateProfilePath(code), locale);
+	/* Адресу дає `graduateAddress`, а не поле `code`: у 440 із 530 коду немає, і
+	   раніше саме тут народжувалося `/projects/galaxy-graduates/undefined`. */
+	const profileHref = (graduate: { code?: string; slug: string }) =>
+		localizedPath(graduateProfilePath(graduateAddress(graduate)), locale);
 
 	/**
 	 * Відкрита картка живе в СТАНІ СТОРІНКИ, а не в змінній компонента.
@@ -265,7 +269,7 @@
 		}
 
 		if (browser && window.matchMedia('(max-width: 768px)').matches) {
-			await goto(profileHref(graduate.code));
+			await goto(profileHref(graduate));
 			return;
 		}
 
@@ -280,7 +284,7 @@
 		// піде по профіль. Доти виклик стояв і тут, і в ефекті, тож на кожен
 		// клік летіли ДВА запити за той самий файл: `profiles.has(code)` ще
 		// порожній, поки перший не відповів.
-		pushState(profileHref(graduate.code), { graduateCode: graduate.code });
+		pushState(profileHref(graduate), { graduateCode: graduate.code });
 	}
 
 	/**
@@ -397,7 +401,7 @@
 				<!-- Адреса складена вручну (`graduateProfilePath` + мовний префікс), тож
 				     прямого виклику `resolve()` в атрибуті немає — див. `openGraduate`. -->
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a href={profileHref(graduate.code as string)}>{graduate.name}</a>
+				<a href={profileHref(graduate)}>{graduate.name}</a>
 			</li>
 		{/each}
 	</ul>

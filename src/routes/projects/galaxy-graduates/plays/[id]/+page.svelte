@@ -10,7 +10,7 @@
 		Trophy
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { graduateProfilePath, graduatePhoto } from '$lib/data/graduates';
+	import { graduateProfilePath, graduatePhoto, graduateAddress} from '$lib/data/graduates';
 	import { groupProfilePath } from '$lib/data/groups';
 	import { festivalPath } from '$lib/data/festivals';
 	import { masterProfilePath } from '$lib/data/masters';
@@ -131,9 +131,10 @@
 								name={entry.graduate.name}
 								photo={entry.graduate.hasPhoto ? graduatePhoto(entry.graduate.slug, 192) : null}
 								subtitle={subtitle(entry.role, entry.graduate.graduationYear)}
-								href={entry.graduate.code
-									? localizedPath(graduateProfilePath(entry.graduate.code), currentLang)
-									: undefined}
+								href={localizedPath(
+									graduateProfilePath(graduateAddress(entry.graduate)),
+									currentLang
+								)}
 								{index}
 								splitName
 								testid="play-cast-{entry.graduate.slug}"
