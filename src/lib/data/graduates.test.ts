@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import graduatesIndex from './graduates.index.json';
 import type { GraduateIndexEntry } from './graduates';
@@ -205,7 +205,18 @@ describe('реєстр випускників', () => {
 				bad.push(`${file}: анкета є, а запису «${id}» в індексі немає`);
 				continue;
 			}
-			const size = statSync(path).size;
+			/*
+			 * Розмір рахується по вмісту, зведеному до LF, а не по файлу на диску.
+			 *
+			 * Заміряно на CI: та сама анкета важила 5777 байтів у репозиторії й
+			 * 6023 в індексі — різниця рівно в кількості рядків. Причина не в
+			 * даних: генератор рахує `Buffer.byteLength` рядка, зібраного з \n,
+			 * а на Windows файл лягає з CRLF, і `statSync().size` дає на
+			 * байт більше за кожен рядок. Перевірка, що дивиться на диск, тоді
+			 * зелена на одній машині й червона на іншій — саме так вона й
+			 * повалила збірку.
+			 */
+			const size = Buffer.byteLength(readFileSync(path, 'utf8').replace(/\r\n/g, '\n'), 'utf8');
 			const count = (profile.plays ?? []).length;
 			if (entry.profileSize !== size) {
 				bad.push(`${file}: profileSize ${entry.profileSize ?? '—'}, а файл ${size}`);

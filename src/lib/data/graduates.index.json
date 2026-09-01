@@ -186,7 +186,7 @@
 		],
 		"playCount": 22,
 		"code": "Alik",
-		"profileSize": 6023
+		"profileSize": 5777
 	},
 	{
 		"id": "alina-burdeina",
@@ -225,7 +225,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1037,
+		"profileSize": 989,
 		"playCount": 5
 	},
 	{
@@ -835,7 +835,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1061,
+		"profileSize": 1012,
 		"playCount": 5
 	},
 	{
@@ -1408,7 +1408,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 415,
+		"profileSize": 392,
 		"playCount": 1
 	},
 	{
@@ -1556,7 +1556,7 @@
 		],
 		"code": "anna-rodonaia",
 		"playCount": 3,
-		"profileSize": 1285
+		"profileSize": 1222
 	},
 	{
 		"id": "anna-rusieva",
@@ -3201,7 +3201,7 @@
 			}
 		],
 		"playCount": 2,
-		"profileSize": 874
+		"profileSize": 826
 	},
 	{
 		"id": "inna-shevchenko",
@@ -3393,7 +3393,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1465,
+		"profileSize": 1399,
 		"playCount": 8
 	},
 	{
@@ -3996,7 +3996,7 @@
 		],
 		"playCount": 8,
 		"code": "kristina-slivka-spivak",
-		"profileSize": 2678
+		"profileSize": 2586
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -4211,7 +4211,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 595,
+		"profileSize": 565,
 		"playCount": 2
 	},
 	{
@@ -4259,7 +4259,7 @@
 		],
 		"playCount": 9,
 		"code": "kulish-mariia",
-		"profileSize": 1906
+		"profileSize": 1820
 	},
 	{
 		"id": "kyryll-chekanov",
@@ -5512,7 +5512,7 @@
 		],
 		"playCount": 19,
 		"code": "myroslava-tkach",
-		"profileSize": 3386,
+		"profileSize": 3246,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -7011,7 +7011,7 @@
 		],
 		"playCount": 4,
 		"code": "Sofia-Chernova",
-		"profileSize": 1332
+		"profileSize": 1274
 	},
 	{
 		"id": "sofiia-chernata",
@@ -7689,7 +7689,7 @@
 		],
 		"playCount": 2,
 		"code": "Valeriia",
-		"profileSize": 960
+		"profileSize": 915
 	},
 	{
 		"id": "valeriia-burian",
@@ -8383,7 +8383,7 @@
 		],
 		"playCount": 8,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3439,
+		"profileSize": 3309,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
