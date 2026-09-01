@@ -1,0 +1,21 @@
+{
+	"id": "mykhailo-drobotov",
+	"slug": "mykhailo-drobotov",
+	"displayName": "Михайло ДРОБОТОВ",
+	"fullName": "Дроботов Михайло Капітонович",
+	"displayNameEn": "Mykhailo DROBOTOV",
+	"fullNameEn": "Mykhailo Drobotov",
+	"departments": [
+		"theatre"
+	],
+	"status": "honorary",
+	"subjects": [
+		"Акторська майстерність"
+	],
+	"photo": "/masters/mykhailo-drobotov.webp",
+	"bio": "(1958—2023) — заслужений артист України. Більш ніж 30 років був актором трупи Одеського обласного академічного драматичного театру, створив багато образів у виставах класичного і сучасного репертуару. Поставив декілька вистав як режисер. Яскраво проявляв себе як театральний педагог.",
+	"socials": [],
+	"category": "directors",
+	"portrait": "/masters/portraits/mykhailo-drobotov.webp",
+	"visible": false
+}
