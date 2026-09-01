@@ -322,6 +322,10 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2003
+		],
 		"teachers": [
 			{
 				"id": "samuil-imas",
