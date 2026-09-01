@@ -908,6 +908,30 @@
 				{graduate.name}
 			</svelte:element>
 
+			<!--
+				ОДРАЗУ під іменем, перед соцмережами: це друга роль тієї самої
+				людини, тобто продовження того, хто вона, а не ще одна ознака в
+				переліку. Нижче, під роками, воно губилося між ними й групою.
+
+				І не в переліку майстрів: там ідеться про ЧУЖИХ людей, у яких ця
+				людина вчилася, і посилання на неї саму читалося б як «вона
+				вчилася в себе».
+			-->
+			{#if alsoMaster}
+				<a
+					href={masterProfilePath(alsoMaster.slug, isEn ? "en" : "uk")}
+					class="teacher-page-link"
+					data-testid="galaxy-card-teacher-page-link"
+				>
+					<span
+						>{$t("galaxy.teacherPageLink", {
+							default: "Сторінка викладача",
+						})}</span
+					>
+					<ArrowRight size={16} aria-hidden="true" />
+				</a>
+			{/if}
+
 			{#if socials.length > 0}
 				<ul class="socials" data-testid="galaxy-card-socials-list">
 					{#each socials as social (social.network + social.url)}
@@ -958,26 +982,6 @@
 					graduate.graduationLabelKey}
 				{isEn}
 			/>
-
-			<!--
-				Під іменем і роками, а не в переліку майстрів нижче: там ідеться
-				про ЧУЖИХ людей, у яких ця людина вчилася, і посилання на неї саму
-				в тому списку читалося б як «вона вчилася в себе».
-			-->
-			{#if alsoMaster}
-				<a
-					href={masterProfilePath(alsoMaster.slug, isEn ? "en" : "uk")}
-					class="teacher-page-link"
-					data-testid="galaxy-card-teacher-page-link"
-				>
-					<span
-						>{$t("galaxy.teacherPageLink", {
-							default: "Сторінка викладача",
-						})}</span
-					>
-					<ArrowRight size={16} aria-hidden="true" />
-				</a>
-			{/if}
 
 			<!--
 				Кнопка з'являється за ДВОМА ознаками: немає знімка або невідомий рік
