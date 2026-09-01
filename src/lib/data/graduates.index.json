@@ -186,7 +186,7 @@
 		],
 		"playCount": 22,
 		"code": "Alik",
-		"profileSize": 4267
+		"profileSize": 5647
 	},
 	{
 		"id": "alina-burdeina",
@@ -207,7 +207,7 @@
 		],
 		"playCount": 4,
 		"code": "alina-burdeina",
-		"profileSize": 3000
+		"profileSize": 2991
 	},
 	{
 		"id": "alina-chernobai",
@@ -503,7 +503,7 @@
 		],
 		"playCount": 7,
 		"code": "alla-khaiut",
-		"profileSize": 1935
+		"profileSize": 1927
 	},
 	{
 		"id": "alla-kolesnyk",
@@ -527,7 +527,7 @@
 		],
 		"playCount": 7,
 		"code": "alla-kolesnyk",
-		"profileSize": 1753
+		"profileSize": 1704
 	},
 	{
 		"id": "alona-kozlova",
@@ -556,7 +556,7 @@
 		],
 		"playCount": 6,
 		"code": "alona-kozlova",
-		"profileSize": 1768
+		"profileSize": 1740
 	},
 	{
 		"id": "amryta-chernyshova",
@@ -724,7 +724,7 @@
 		],
 		"playCount": 2,
 		"code": "anastasiia-fishchenko",
-		"profileSize": 933
+		"profileSize": 929
 	},
 	{
 		"id": "anastasiia-homela",
@@ -789,7 +789,7 @@
 		],
 		"playCount": 11,
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2458
+		"profileSize": 2438
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -1026,7 +1026,7 @@
 		],
 		"playCount": 5,
 		"code": "anastasiia-lutaienko",
-		"profileSize": 1388
+		"profileSize": 1377
 	},
 	{
 		"id": "anastasiia-makukha",
@@ -1261,7 +1261,7 @@
 		],
 		"playCount": 7,
 		"code": "anfisa-lazebna",
-		"profileSize": 2784,
+		"profileSize": 2768,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -1345,7 +1345,7 @@
 		],
 		"playCount": 4,
 		"code": "anisiia-stasevych",
-		"profileSize": 1311
+		"profileSize": 1346
 	},
 	{
 		"id": "anna-arustamian",
@@ -1596,7 +1596,7 @@
 		],
 		"playCount": 6,
 		"code": "anton-babich",
-		"profileSize": 1865,
+		"profileSize": 1864,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -1703,7 +1703,7 @@
 		],
 		"playCount": 11,
 		"code": "artem-suvorov",
-		"profileSize": 2506,
+		"profileSize": 2494,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -1808,7 +1808,7 @@
 		],
 		"playCount": 5,
 		"code": "Dana",
-		"profileSize": 1308
+		"profileSize": 1555
 	},
 	{
 		"id": "borys-ukrainskyi",
@@ -1883,7 +1883,7 @@
 		],
 		"playCount": 8,
 		"code": "daiana-ponomarenko",
-		"profileSize": 2161,
+		"profileSize": 2159,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -1947,7 +1947,7 @@
 		],
 		"playCount": 12,
 		"code": "daniela-rybalchenko",
-		"profileSize": 2467
+		"profileSize": 2473
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -2077,7 +2077,7 @@
 		],
 		"playCount": 4,
 		"code": "dar-ia-hurevych",
-		"profileSize": 1445
+		"profileSize": 1438
 	},
 	{
 		"id": "daria-chala",
@@ -2406,7 +2406,7 @@
 		],
 		"playCount": 15,
 		"code": "dariia-didenko",
-		"profileSize": 3444
+		"profileSize": 3442
 	},
 	{
 		"id": "dariia-kulish",
@@ -2428,7 +2428,7 @@
 		],
 		"playCount": 11,
 		"code": "dariia-kulish",
-		"profileSize": 2077
+		"profileSize": 2073
 	},
 	{
 		"id": "darya-maystrenko",
@@ -2656,7 +2656,7 @@
 		],
 		"playCount": 6,
 		"code": "dmytro-rozumenko",
-		"profileSize": 1326
+		"profileSize": 1318
 	},
 	{
 		"id": "dmytro-yatsenko",
@@ -2686,7 +2686,7 @@
 		],
 		"playCount": 4,
 		"code": "dovhan-daria",
-		"profileSize": 998
+		"profileSize": 1004
 	},
 	{
 		"id": "dzhenni-polianska",
@@ -2751,7 +2751,7 @@
 		],
 		"playCount": 6,
 		"code": "ri2be",
-		"profileSize": 1174,
+		"profileSize": 1479,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -2825,7 +2825,7 @@
 		],
 		"playCount": 3,
 		"code": "sjsjduxuh",
-		"profileSize": 922
+		"profileSize": 1108
 	},
 	{
 		"id": "hanna-belchytska",
@@ -3089,7 +3089,7 @@
 		],
 		"playCount": 5,
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1454,
+		"profileSize": 1448,
 		"graduationLabelKey": "galaxy.studiedUntil"
 	},
 	{
@@ -3422,7 +3422,7 @@
 		],
 		"playCount": 4,
 		"code": "kamywek_",
-		"profileSize": 1162
+		"profileSize": 1339
 	},
 	{
 		"id": "karyna-sharkova",
@@ -3498,7 +3498,7 @@
 		],
 		"playCount": 3,
 		"code": "kateryna-kudlach",
-		"profileSize": 2249,
+		"profileSize": 2356,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -3790,7 +3790,7 @@
 		],
 		"playCount": 7,
 		"code": "karakulya",
-		"profileSize": 1318,
+		"profileSize": 1652,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -3906,7 +3906,7 @@
 		],
 		"playCount": 1,
 		"code": "kristina-slivka-spivak",
-		"profileSize": 1503
+		"profileSize": 1536
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -4158,7 +4158,7 @@
 		],
 		"playCount": 9,
 		"code": "kulish-mariia",
-		"profileSize": 1834
+		"profileSize": 1822
 	},
 	{
 		"id": "kyryll-chekanov",
@@ -4179,7 +4179,7 @@
 		],
 		"playCount": 2,
 		"code": "kyryll-chekanov",
-		"profileSize": 964,
+		"profileSize": 970,
 		"graduationLabelKey": "galaxy.studiedUntil",
 		"teachers": [
 			{
@@ -4212,7 +4212,7 @@
 		],
 		"playCount": 3,
 		"code": "kyrylo-karacheban",
-		"profileSize": 1144,
+		"profileSize": 1252,
 		"teachers": [
 			{
 				"id": "mykola-baldin"
@@ -4309,7 +4309,7 @@
 		],
 		"playCount": 3,
 		"code": "liliia-halosa",
-		"profileSize": 1033
+		"profileSize": 1054
 	},
 	{
 		"id": "liliia-muravska",
@@ -4387,7 +4387,7 @@
 		],
 		"playCount": 5,
 		"code": "basha",
-		"profileSize": 1108
+		"profileSize": 1314
 	},
 	{
 		"id": "liubov-prysiazhna",
@@ -4817,7 +4817,7 @@
 		],
 		"playCount": 6,
 		"code": "mandresssk",
-		"profileSize": 1431
+		"profileSize": 1666
 	},
 	{
 		"id": "mariia-mokriak",
@@ -4860,7 +4860,7 @@
 		],
 		"playCount": 17,
 		"code": "mariia-mykhailova-didenko",
-		"profileSize": 3030
+		"profileSize": 3023
 	},
 	{
 		"id": "mariia-poliakova",
@@ -5104,7 +5104,7 @@
 		],
 		"playCount": 3,
 		"code": "maryna-perehud",
-		"profileSize": 1353
+		"profileSize": 1343
 	},
 	{
 		"id": "maryna-sukhanova",
@@ -5127,7 +5127,7 @@
 		],
 		"playCount": 12,
 		"code": "maryna-sukhanova",
-		"profileSize": 3535,
+		"profileSize": 3625,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -5389,7 +5389,7 @@
 		],
 		"playCount": 18,
 		"code": "myroslava-tkach",
-		"profileSize": 3131,
+		"profileSize": 3101,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -5465,7 +5465,7 @@
 		],
 		"playCount": 13,
 		"code": "nadiia-rybakova",
-		"profileSize": 2558,
+		"profileSize": 2865,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -5823,7 +5823,7 @@
 		],
 		"code": "oleksandra-chuprina",
 		"playCount": 0,
-		"profileSize": 1398,
+		"profileSize": 1676,
 		"photoCount": 2,
 		"teachers": [
 			{
@@ -5888,7 +5888,7 @@
 		],
 		"playCount": 7,
 		"code": "oleksandra-indichanska-morozova",
-		"profileSize": 2148
+		"profileSize": 2151
 	},
 	{
 		"id": "oleksandra-karachevska",
@@ -6292,7 +6292,7 @@
 		],
 		"playCount": 3,
 		"code": "olena-dzneladze",
-		"profileSize": 987
+		"profileSize": 979
 	},
 	{
 		"id": "olena-kiloian",
@@ -6372,7 +6372,7 @@
 		],
 		"playCount": 2,
 		"code": "odessitkavmonreale",
-		"profileSize": 1517
+		"profileSize": 1733
 	},
 	{
 		"id": "olena-mrost",
@@ -6393,7 +6393,7 @@
 		],
 		"playCount": 8,
 		"code": "olena-mrost",
-		"profileSize": 2485,
+		"profileSize": 2385,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -6507,7 +6507,7 @@
 		],
 		"playCount": 12,
 		"code": "olha-poliakova",
-		"profileSize": 2626,
+		"profileSize": 2627,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -6657,7 +6657,7 @@
 		],
 		"playCount": 10,
 		"code": "polina-hedzenko",
-		"profileSize": 2473
+		"profileSize": 2477
 	},
 	{
 		"id": "polina-kolomiiets",
@@ -6933,7 +6933,7 @@
 		],
 		"playCount": 3,
 		"code": "Sofiya-Skuratovych",
-		"profileSize": 755
+		"profileSize": 906
 	},
 	{
 		"id": "sofiya-rudenko",
@@ -7294,7 +7294,7 @@
 		],
 		"playCount": 5,
 		"code": "tetiana-dudush-polishchuk",
-		"profileSize": 1611,
+		"profileSize": 1620,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -7326,7 +7326,7 @@
 		],
 		"playCount": 3,
 		"code": "tetiana-kamelevska",
-		"profileSize": 1320
+		"profileSize": 1346
 	},
 	{
 		"id": "tetiana-makukha",
@@ -7420,7 +7420,7 @@
 		],
 		"playCount": 7,
 		"code": "vadym-krusser",
-		"profileSize": 1743,
+		"profileSize": 1740,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -7481,7 +7481,7 @@
 		],
 		"playCount": 2,
 		"code": "Valeriia",
-		"profileSize": 737
+		"profileSize": 872
 	},
 	{
 		"id": "valeriia-burian",
@@ -7503,7 +7503,7 @@
 		],
 		"playCount": 9,
 		"code": "leraburian",
-		"profileSize": 1374,
+		"profileSize": 1747,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -7707,7 +7707,7 @@
 		],
 		"playCount": 9,
 		"code": "viktoriia-dolhozhyv",
-		"profileSize": 2673,
+		"profileSize": 2678,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -8256,7 +8256,7 @@
 		],
 		"playCount": 4,
 		"code": "Yanslobodenyuk",
-		"profileSize": 1484
+		"profileSize": 1697
 	},
 	{
 		"id": "yana-kovina",
@@ -8509,7 +8509,7 @@
 		],
 		"playCount": 7,
 		"code": "yevhen-lysenko",
-		"profileSize": 2307,
+		"profileSize": 2323,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -8690,7 +8690,7 @@
 		],
 		"playCount": 4,
 		"code": "yuliana-klymenko",
-		"profileSize": 1401
+		"profileSize": 1393
 	},
 	{
 		"id": "yuliana-kolendo",
@@ -9020,7 +9020,7 @@
 		],
 		"playCount": 3,
 		"code": "zlata-skalska",
-		"profileSize": 926
+		"profileSize": 918
 	},
 	{
 		"id": "zlata-stoyanova",
