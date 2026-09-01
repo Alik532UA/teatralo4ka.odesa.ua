@@ -148,6 +148,11 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-08-28: `ContentCard.svelte` 598 → 610. Уся картка стала посиланням <a> (як у DepartmentsSection), кнопка всередині — span.
  * 2026-08-29: `groups/[slug]/+page.svelte` 695. Додано сторінку навчальної групи випускників, фотобанер та інтерактивні картки.
  * 2026-08-29: `RichTextEditor.svelte` 755 → 760. Строга типізація storage та рівнів заголовків (виправлення боргу any).
+ * 2026-09-01: `residents/adults/[slug]/+page.svelte` 400 → 405. Абзац біографії
+ *   виводиться через `RichTextWithFlags`, а не голим рядком: у Михайла
+ *   Дроботова в тексті посилання на сайт театру, де він тридцять років грав, і
+ *   голий рядок показав би `[назва](адреса)` дослівно. Плюс два рядки — імпорт
+ *   і сам компонент; розбір розмітки в проєкті лишається один.
  * 2026-09-01: `EditContactButton.svelte` 300 → 320. Кнопка навчилася двох
  *   речей, і обидві — про НЕЇ саму, тож ділити файл нема по чому. `card` —
  *   смужка ліворуч, точно як у картці випускника (доти той самий олівець тієї
@@ -226,6 +231,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/DetailPage.svelte': 322,
 	'src/lib/components/EditContactButton.svelte': 320,
 	'src/routes/projects/galaxy-graduates/plays/[id]/+page.svelte': 430,
+	'src/routes/residents/adults/[slug]/+page.svelte': 405,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
 	'src/lib/data/masters.ts': 258,

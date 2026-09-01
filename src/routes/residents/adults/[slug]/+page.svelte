@@ -12,6 +12,7 @@
 	import { playsByIds } from '$lib/data/plays';
 	import { yearsOfService, pluralKey } from '$lib/data/masters';
 	import { bioParagraphs } from '$lib/utils/bioParagraphs';
+	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -216,9 +217,21 @@
 							`bio`. Іншого ключа тут просто немає — сам текст абзацу в ролі
 							ключа впав би на двох однакових абзацах.
 						-->
+
+						<!--
+							Текст абзацу йде через `RichTextWithFlags`, а не в шаблон
+							напряму: у біографіях бувають посилання — у Михайла Дроботова
+							це сайт театру, де він тридцять років грав. Голий рядок показав
+							би `[назва](адреса)` дослівно, а `{@html}` тут неприйнятний. Той
+							самий компонент малює прапори країн в анкетах випускників, тож
+							розбір розмітки в проєкті один.
+						-->
 						{#each paragraphs as paragraph, index (index)}
 							<p class="master-bio__text" data-testid="master-profile-bio-item-{index}">
-								{paragraph}
+								<RichTextWithFlags
+									text={paragraph}
+									linkTestIdPrefix="master-profile-bio-item-{index}"
+								/>
 							</p>
 						{/each}
 					</div>
