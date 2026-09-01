@@ -801,6 +801,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		]
@@ -1973,6 +1976,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "samuil-imas"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -3302,6 +3308,9 @@
 		],
 		"masters": [
 			{
+				"id": "samuil-imas"
+			},
+			{
 				"id": "fedir-tkach"
 			},
 			{
@@ -4513,6 +4522,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "samuil-imas"
+			},
 			{
 				"id": "pavlo-koshka"
 			},
