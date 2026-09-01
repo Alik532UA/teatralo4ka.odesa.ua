@@ -254,9 +254,16 @@ export interface GraduateProfile {
 	sourceUrl: string;
 }
 
-/** Адреса файлу профілю. */
-export function graduateProfileJson(code: string): string {
-	return asset(`/graduates/profiles/${code}.json`);
+/**
+ * Адреса файлу профілю.
+ *
+ * Параметр — АДРЕСА (`graduateAddress`), а не `code`, і це не косметика імені:
+ * файли трьох профілів названі слагом, бо коду в тих людей немає. Поки параметр
+ * звався `code`, викликачі щиро передавали туди `graduate.code` — і для тих
+ * трьох виходило `undefined.json`.
+ */
+export function graduateProfileJson(address: string): string {
+	return asset(`/graduates/profiles/${address}.json`);
 }
 
 /**

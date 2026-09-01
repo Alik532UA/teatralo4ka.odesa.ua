@@ -84,11 +84,16 @@ if (byCode.size !== parsed.length) throw new Error('коди сторінок н
  * звідти. Раніше він лежав в індексі й їхав у клієнтський бандл на кожну
  * сторінку сайту заради скрипта, який у браузері не виконується ніколи.
  *
- * Профіль лежить під іменем `entry.code` — перевірено на всіх 90.
+ * Файл названий АДРЕСОЮ: код, якщо він є, інакше слаг. Довго тут стояв самий
+ * `entry.code` із приміткою «перевірено на всіх 90» — і це була правда про 90 із
+ * 93. Три профілі (`illia-tryfonov`, `mykhailo-priadko`, `olena-beluhina`)
+ * створені руками й названі слагом, бо коду в тих людей немає; за старою умовою
+ * скрипт їх не бачив і `sourceUrl` у них губився.
  */
 function sourceUrlOf(entry: IndexEntry): string | null {
-	if (!entry.code) return null;
-	const file = path.join(PROFILES_DIR, `${entry.code}.json`);
+	const address = entry.code ?? entry.slug;
+	if (!address) return null;
+	const file = path.join(PROFILES_DIR, `${address}.json`);
 	if (!fs.existsSync(file)) return null;
 	const profile = JSON.parse(fs.readFileSync(file, 'utf8')) as { sourceUrl?: string };
 	return profile.sourceUrl ?? null;

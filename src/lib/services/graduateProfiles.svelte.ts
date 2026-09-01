@@ -24,8 +24,11 @@ const cache = new SvelteMap<string, GraduateProfile>();
  * Уже прочитана анкета або `null`. Читати можна з `$derived`: `SvelteMap`
  * будить руни на `set()`, тож картка перемалюється сама, коли файл прийде.
  */
-export function cachedGraduateProfile(code: string | null | undefined): GraduateProfile | null {
-	return code ? (cache.get(code) ?? null) : null;
+/** Ключ кешу — АДРЕСА випускника (див. `graduateProfileJson`), не `code`. */
+export function cachedGraduateProfile(
+	address: string | null | undefined
+): GraduateProfile | null {
+	return address ? (cache.get(address) ?? null) : null;
 }
 
 /**
@@ -43,23 +46,23 @@ export function cachedGraduateProfile(code: string | null | undefined): Graduate
  * означає перестати його читати.
  */
 export async function ensureGraduateProfile(
-	code: string | null | undefined,
+	address: string | null | undefined,
 	signal?: AbortSignal
 ): Promise<void> {
-	if (!code || !browser || cache.has(code)) return;
+	if (!address || !browser || cache.has(address)) return;
 	try {
-		const response = await fetch(graduateProfileJson(code), { signal });
+		const response = await fetch(graduateProfileJson(address), { signal });
 		if (!response.ok) {
-			errorLogger.logWarning(`профіль ${code} не читається (${response.status})`, {
+			errorLogger.logWarning(`профіль ${address} не читається (${response.status})`, {
 				component: 'graduate-profiles'
 			});
 			return;
 		}
-		cache.set(code, (await response.json()) as GraduateProfile);
+		cache.set(address, (await response.json()) as GraduateProfile);
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'AbortError') return;
 		errorLogger.logWarning(
-			`профіль ${code} не завантажився`,
+			`профіль ${address} не завантажився`,
 			{ component: 'graduate-profiles' },
 			error
 		);
