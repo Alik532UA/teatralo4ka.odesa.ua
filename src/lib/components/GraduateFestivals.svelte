@@ -205,18 +205,6 @@
 		background: var(--bg-surface);
 		border-color: var(--accent-primary);
 	}
-	.fests__link--bare {
-		background: none;
-		border: 0;
-		padding: 0;
-		/* Не «на всю ширину»: вільне місце віддається мініатюрам, а не назві —
-		   інакше обличчя притискаються до прапорів. */
-		flex: 0 1 auto;
-	}
-	.fests__link--bare:hover {
-		transform: none;
-	}
-
 	.fests__link {
 		display: flex;
 		flex-wrap: wrap;
@@ -247,6 +235,32 @@
 		border-color: var(--accent-primary);
 		transform: translateX(3px);
 	}
+	/*
+	 * Модифікатор мусить стояти ПІСЛЯ базового правила.
+	 *
+	 * Вага в них однакова (по одному класу плюс хеш області), тож вирішує лише
+	 * порядок у файлі. Доти `--bare` стояв ВИЩЕ за базове — і не працював зовсім:
+	 * фон, рамка й відступи приходили з базового, тобто плашка з назвою малювалася
+	 * всередині картки рядка як контейнер у контейнері. Заміряно: `background`
+	 * `rgb(0, 36, 47)`, рамка 1 px, `border-radius` 10 px — усе з базового, попри
+	 * `background: none` тут.
+	 */
+	.fests__link--bare {
+		background: none;
+		border: 0;
+		padding: 0;
+		/*
+		 * НЕ розтягується: вільне місце віддається мініатюрам, а не назві. Саме
+		 * через це обличчя й починаються ОДРАЗУ після назви, а не з середини
+		 * рядка — доки базове `flex: 1 1 auto` перемагало, назва з'їдала всю
+		 * ширину до прапорів.
+		 */
+		flex: 0 1 auto;
+	}
+	.fests__link--bare:hover {
+		transform: none;
+	}
+
 	.fests__name {
 		font-weight: 600;
 		color: var(--text-title);
