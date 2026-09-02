@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { masterGender, masterLabelKey } from './masterLabel';
-import { MASTERS } from '$lib/data/masters';
+import { masterGender, masterLabelKey, dualRoleMasterLabelKey } from './masterLabel';
+import { MASTERS, getMasterById } from '$lib/data/masters';
 import { GRADUATES } from '$lib/data/graduates';
 
 describe('підпис майстра курсу', () => {
@@ -63,5 +63,32 @@ describe('підпис майстра курсу', () => {
 			}
 		}
 		expect(без, 'у єдиного майстра немає ознаки роду: підпис стане чоловічим навмання').toEqual([]);
+	});
+});
+
+describe('підпис сторінки дорослого у подвійній ролі', () => {
+	it('для викладачів повертає galaxy.teacherPageLink', () => {
+		expect(dualRoleMasterLabelKey({ category: 'directors' })).toBe('galaxy.teacherPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'speech' })).toBe('galaxy.teacherPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'choreographers' })).toBe('galaxy.teacherPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'artists' })).toBe('galaxy.teacherPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'teachers' })).toBe('galaxy.teacherPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'heads' })).toBe('galaxy.teacherPageLink');
+
+		const koshka = getMasterById('pavlo-koshka');
+		expect(dualRoleMasterLabelKey(koshka)).toBe('galaxy.teacherPageLink');
+
+		const nadopta = getMasterById('svitlana-nadopta');
+		expect(dualRoleMasterLabelKey(nadopta)).toBe('galaxy.teacherPageLink');
+	});
+
+	it('для непедагогічних ролей (it, support, production, administration) повертає galaxy.teamPageLink', () => {
+		expect(dualRoleMasterLabelKey({ category: 'it' })).toBe('galaxy.teamPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'production' })).toBe('galaxy.teamPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'support' })).toBe('galaxy.teamPageLink');
+		expect(dualRoleMasterLabelKey({ category: 'administration' })).toBe('galaxy.teamPageLink');
+
+		const alik = getMasterById('alik-zapolnov');
+		expect(dualRoleMasterLabelKey(alik)).toBe('galaxy.teamPageLink');
 	});
 });

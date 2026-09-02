@@ -22,7 +22,7 @@
 	import { localizedPath } from "$lib/i18n/routing";
 	import { linkedMasterId } from "$lib/data/dualRole";
 	import { getGroupsByMember } from "$lib/data/groups";
-	import { masterLabelKey } from '$lib/utils/masterLabel';
+	import { masterLabelKey, dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
@@ -1061,7 +1061,7 @@
 					data-testid="galaxy-card-teacher-page-link"
 				>
 					<span
-						>{$t("galaxy.teacherPageLink", {
+						>{$t(dualRoleMasterLabelKey(alsoMaster), {
 							default: "Сторінка викладача",
 						})}</span
 					>

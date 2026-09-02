@@ -59,3 +59,26 @@ export function masterLabelKey(
 	if (masters.length !== 1) return 'galaxy.masters';
 	return masterGender(masters[0]) === 'f' ? 'galaxy.masterOneF' : 'galaxy.masterOne';
 }
+
+/**
+ * Непедагогічні ролі (школа в них уся, а не одне відділення, і предметів немає).
+ * Для них підпис посилання на сторінку дорослого — «У команді школи» (`galaxy.teamPageLink`),
+ * а для викладачів — «Сторінка викладача» (`galaxy.teacherPageLink`).
+ */
+export const NON_TEACHING_CATEGORIES = new Set<string>([
+	'administration',
+	'production',
+	'it',
+	'support'
+]);
+
+/**
+ * Ключ підпису сторінки дорослого у вікні подвійної ролі та профілі випускника.
+ */
+export function dualRoleMasterLabelKey(
+	master?: Pick<MasterIndexEntry, 'category'> | null
+): 'galaxy.teacherPageLink' | 'galaxy.teamPageLink' {
+	return master?.category && NON_TEACHING_CATEGORIES.has(master.category)
+		? 'galaxy.teamPageLink'
+		: 'galaxy.teacherPageLink';
+}
