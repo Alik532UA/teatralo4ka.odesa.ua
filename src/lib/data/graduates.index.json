@@ -3353,6 +3353,11 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
+		"photoCount": 2,
+		"enrollmentYears": [
+			2006
+		],
 		"masters": [
 			{
 				"id": "fedir-tkach"
@@ -3381,7 +3386,7 @@
 				]
 			}
 		],
-		"profileSize": 1014,
+		"profileSize": 1362,
 		"playCount": 5
 	},
 	{

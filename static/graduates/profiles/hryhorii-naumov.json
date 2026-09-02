@@ -4,9 +4,14 @@
 	"code": "hryhorii-naumov",
 	"name": "Григорій Наумов",
 	"graduationYear": 2018,
+	"enrollmentYears": [
+		2006
+	],
 	"departments": [
 		"theatre"
 	],
+	"hasPhoto": true,
+	"photoCount": 2,
 	"plays": [
 		{
 			"year": 2013,
@@ -48,6 +53,26 @@
 		},
 		{
 			"id": "nadiia-rybakova"
+		}
+	],
+	"teachers": [
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
 		}
 	]
 }

@@ -46,7 +46,7 @@ async function main() {
 
 	// Read source as data URL
 	const ext = path.extname(src).toLowerCase();
-	const mime = ext === '.png' ? 'image/png' : 'image/jpeg';
+	const mime = ext === '.png' ? 'image/png' : (ext === '.webp' ? 'image/webp' : 'image/jpeg');
 	const buf = fs.readFileSync(src);
 	const dataUrl = `data:${mime};base64,${buf.toString('base64')}`;
 
