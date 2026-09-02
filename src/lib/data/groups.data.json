@@ -314,7 +314,8 @@
 			"etiudy-2019"
 		],
 		"photos": [
-			"/groups/tv-prodakshn.webp"
+			"/groups/tv-prodakshn.webp",
+			"/groups/tv-prodakshn-2.webp"
 		],
 		"verificationStatus": "possible_errors"
 	},
@@ -443,7 +444,10 @@
 			"oblachko-2009",
 			"utrennyky-2003-2008-2003"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/shevchushky.webp"
+		]
 	},
 	{
 		"slug": "cheloveky",
@@ -480,7 +484,10 @@
 			"stus-zaboronenyi-2020"
 		],
 		"verificationStatus": "verified",
-		"isCurrent": false
+		"isCurrent": false,
+		"photos": [
+			"/groups/cheloveky.webp"
+		]
 	},
 	{
 		"slug": "mamarada",
@@ -545,7 +552,8 @@
 			"kolobonia-2015"
 		],
 		"photos": [
-			"/groups/mamarada.webp"
+			"/groups/mamarada.webp",
+			"/groups/mamarada-2.webp"
 		],
 		"verificationStatus": "possible_errors"
 	},
@@ -712,7 +720,10 @@
 			"diuimovochka-2009",
 			"repka-2008"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/rost-ok.webp"
+		]
 	},
 	{
 		"slug": "rezonans",
@@ -741,7 +752,10 @@
 			"etiudy-2014",
 			"pliushevyi-krolyk-2013"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/rezonans.webp"
+		]
 	},
 	{
 		"slug": "adrenalin",
@@ -941,7 +955,10 @@
 			"uryvky-z-klasyky-2013"
 		],
 		"verificationStatus": "verified",
-		"isCurrent": false
+		"isCurrent": false,
+		"photos": [
+			"/groups/freedom.webp"
+		]
 	},
 	{
 		"slug": "tu-154",
@@ -997,7 +1014,11 @@
 			}
 		],
 		"verificationStatus": "verified",
-		"isCurrent": false
+		"isCurrent": false,
+		"photos": [
+			"/groups/tu-154.webp",
+			"/groups/tu-154-2.webp"
+		]
 	},
 	{
 		"slug": "chudachky",
@@ -1170,7 +1191,11 @@
 			"kseniia-korzhovska"
 		],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/smaily.webp",
+			"/groups/smaily-2.webp"
+		]
 	},
 	{
 		"slug": "chainyky",
@@ -1198,7 +1223,11 @@
 			"oleksandra-sydorova"
 		],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/chainyky.webp",
+			"/groups/chainyky-2.webp"
+		]
 	},
 	{
 		"slug": "yoryky",
@@ -1364,6 +1393,9 @@
 			"uryvky-z-klasyky-2014",
 			"monolohy-2014",
 			"proiekt-ia-2015"
+		],
+		"photos": [
+			"/groups/shchaslyffchyky.webp"
 		]
 	},
 	{
@@ -1387,6 +1419,9 @@
 		"playIds": [
 			"taiemnytsi-zamku-oilenshtain-2013",
 			"pokaz-etiudiv-2014"
+		],
+		"photos": [
+			"/groups/freestyle.webp"
 		]
 	},
 	{
@@ -1458,6 +1493,9 @@
 			"a-mozhe-ni-new-2019",
 			"bezimenna-zirka-2020",
 			"chapaiev-ta-vasylisa-2021"
+		],
+		"photos": [
+			"/groups/art-kids.webp"
 		]
 	},
 	{
@@ -1685,5 +1723,1028 @@
 		"playIds": [
 			"zaruchyny-2026"
 		]
+	},
+	{
+		"slug": "kuvyrkom",
+		"name": "«Кувирком»",
+		"abbr": null,
+		"nameEn": "«Kuvyrkom»",
+		"masters": [
+			{
+				"id": "a-r-poliakova",
+				"name": "Полякова А.Р.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"ytohovyi-prazdnyk-uchenykov-hrupp-1e-1-1e-2-2e-3-2-2016"
+		],
+		"photos": [
+			"/groups/kuvyrkom.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "pauza",
+		"name": "«Пауза»",
+		"abbr": null,
+		"nameEn": "«Pauza»",
+		"masters": [
+			{
+				"id": "a-r-poliakova",
+				"name": "Полякова А.Р.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"ytohovyi-prazdnyk-uchenykov-hrupp-3e-8-1t-1-1t-2-1-2016"
+		],
+		"photos": [
+			"/groups/pauza.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "gang",
+		"name": "«Gang»",
+		"abbr": null,
+		"nameEn": "«Gang»",
+		"masters": [
+			{
+				"id": "hanna-tkach",
+				"name": "Ткач (Комадовська) Ганна Федорівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"chaiky-2016"
+		],
+		"photos": [
+			"/groups/gang.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kapytoshky",
+		"name": "«Капітошки»",
+		"abbr": null,
+		"nameEn": "«Kapytoshky»",
+		"masters": [
+			{
+				"id": "matiunina",
+				"name": "Матюніна Валентина Анатоліївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-po-akterskomu-masterstvu-skorohovorky-2016"
+		],
+		"photos": [
+			"/groups/kapytoshky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "raduzhni-koty",
+		"name": "«Веселкові коти»",
+		"abbr": null,
+		"nameEn": "«Rainbow Cats»",
+		"masters": [
+			{
+				"id": "matiunina",
+				"name": "Матюніна Валентина Анатоліївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"fantazery-2016"
+		],
+		"photos": [
+			"/groups/raduzhni-koty.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "feierverk",
+		"name": "«Феєрверк»",
+		"abbr": null,
+		"nameEn": "«Feierverk»",
+		"masters": [
+			{
+				"id": "matiunina",
+				"name": "Матюніна Валентина Анатоліївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"rafaman-2016"
+		],
+		"photos": [
+			"/groups/feierverk.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "svitliachky",
+		"name": "«Світлячки»",
+		"abbr": null,
+		"nameEn": "«Svitliachky»",
+		"masters": [
+			{
+				"id": "iryna-kulbaba",
+				"name": "Кульбаба Ірина Борисівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2016"
+		],
+		"photos": [
+			"/groups/svitliachky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zrobleno-v-ukraini",
+		"name": "«Зроблено в Україні»",
+		"abbr": null,
+		"nameEn": "«Made in Ukraine»",
+		"masters": [
+			{
+				"id": "iryna-kulbaba",
+				"name": "Кульбаба Ірина Борисівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"fedoryno-hore-2016"
+		],
+		"photos": [
+			"/groups/zrobleno-v-ukraini.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "hranuly",
+		"name": "«Гранули»",
+		"abbr": null,
+		"nameEn": "«Hranuly»",
+		"masters": [
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"devochka-so-spychkamy-2016"
+		],
+		"photos": [
+			"/groups/hranuly.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kedy",
+		"name": "«Кеди»",
+		"abbr": null,
+		"nameEn": "«Kedy»",
+		"masters": [
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"yzumrudnyi-horod-2016"
+		],
+		"photos": [
+			"/groups/kedy.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ptenchyky",
+		"name": "«Пташенята»",
+		"abbr": null,
+		"nameEn": "«Ptenchyky»",
+		"masters": [
+			{
+				"id": "o-i-sakara",
+				"name": "Сакара О.І.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"ytohovyi-prazdnyk-uchenykov-hrupp-1e-1-1e-2-2e-3-2-2016"
+		],
+		"photos": [
+			"/groups/ptenchyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "akuna-matata",
+		"name": "«Акуна Матата»",
+		"abbr": null,
+		"nameEn": "«Hakuna Matata»",
+		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013,
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"okhota-na-snarka-2016",
+			"poliana-fei-2013"
+		],
+		"photos": [
+			"/groups/akuna-matata.webp",
+			"/groups/akuna-matata-2.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zhemchuzhynky",
+		"name": "«Перлинки»",
+		"abbr": null,
+		"nameEn": "«Pearls»",
+		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"hadkyi-utenok-2016"
+		],
+		"photos": [
+			"/groups/zhemchuzhynky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "nadoptiany",
+		"name": "«Надоптяни»",
+		"abbr": null,
+		"nameEn": "«Nadoptiany»",
+		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"o-liubvy-y-vechnosty-2016"
+		],
+		"photos": [
+			"/groups/nadoptiany.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "pizza",
+		"name": "«Pizza»",
+		"abbr": null,
+		"nameEn": "«Pizza»",
+		"masters": [
+			{
+				"id": "svitlana-myronenko",
+				"name": "Мироненко (Петровська) Світлана Володимирівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"repka-2016"
+		],
+		"photos": [
+			"/groups/pizza.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ukhtyshky",
+		"name": "«Ухтишки»",
+		"abbr": null,
+		"nameEn": "«Ukhtyshky»",
+		"masters": [
+			{
+				"id": "svitlana-myronenko",
+				"name": "Мироненко (Петровська) Світлана Володимирівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"kolobok-2016"
+		],
+		"photos": [
+			"/groups/ukhtyshky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "assorti",
+		"name": "«Асорті»",
+		"abbr": null,
+		"nameEn": "«Assorti»",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013,
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"alisa-v-zadzerkalli-2013"
+		],
+		"photos": [
+			"/groups/assorti.webp",
+			"/groups/assorti-2.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vverkh-tormashkamy",
+		"name": "«Догори дриґом»",
+		"abbr": null,
+		"nameEn": "«Upside Down»",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"boikot-2016"
+		],
+		"photos": [
+			"/groups/vverkh-tormashkamy.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "shpylky",
+		"name": "«Шпильки»",
+		"abbr": null,
+		"nameEn": "«Shpylky»",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"uryvky-z-klasyky-2016"
+		],
+		"photos": [
+			"/groups/shpylky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "rostochek",
+		"name": "«Паросток»",
+		"abbr": null,
+		"nameEn": "«Rostochek»",
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"nebylytsy-2016"
+		],
+		"photos": [
+			"/groups/rostochek.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kharizmatyky",
+		"name": "«Харизматики»",
+		"abbr": null,
+		"nameEn": "«Kharizmatyky»",
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"vremena-hoda-2016"
+		],
+		"photos": [
+			"/groups/kharizmatyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "krasyvi-liudy",
+		"name": "«Красиві люди»",
+		"abbr": null,
+		"nameEn": "«Beautiful People»",
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-po-akterskomu-masterstvu-etiudy-2016"
+		],
+		"photos": [
+			"/groups/krasyvi-liudy.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "fliston",
+		"name": "«Флістон»",
+		"abbr": null,
+		"nameEn": "«Fliston»",
+		"masters": [
+			{
+				"id": "natalia-dombrovska",
+				"name": "Домбровська Наталя Євгенівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"rafaman-2016"
+		],
+		"photos": [
+			"/groups/fliston.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "akvarel",
+		"name": "«Акварель»",
+		"abbr": null,
+		"nameEn": "«Akvarel»",
+		"masters": [
+			{
+				"id": "vira-kurova",
+				"name": "Курова Віра Михайлівна",
+				"department": "art"
+			}
+		],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [
+			"ytohovyi-prazdnyk-uchenykov-hrupp-3t-7-3t-8-3t-9-3-2016"
+		],
+		"photos": [
+			"/groups/akvarel.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "krokoziabryky",
+		"name": "«Крокозябрики»",
+		"abbr": null,
+		"nameEn": "«Krokoziabryky»",
+		"masters": [
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"otkrytyi-pokaz-po-akterskomu-masterstvu-2013"
+		],
+		"photos": [
+			"/groups/krokoziabryky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "bantyky",
+		"name": "«Бантики»",
+		"abbr": null,
+		"nameEn": "«Bantyky»",
+		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"barmalei-2013"
+		],
+		"photos": [
+			"/groups/bantyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatralni-metelyky",
+		"name": "«Театральні метелики»",
+		"abbr": null,
+		"nameEn": "«Theatre Butterflies»",
+		"masters": [
+			{
+				"id": "svitlana-nadopta",
+				"name": "Надопта Світлана",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"makaka-kleopatra-2013"
+		],
+		"photos": [
+			"/groups/teatralni-metelyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "komanda",
+		"name": "«Команда»",
+		"abbr": null,
+		"nameEn": "«Team»",
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"peppy-dlynnyi-chulok-2013"
+		],
+		"photos": [
+			"/groups/komanda.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "multyashky",
+		"name": "«Мультяшки»",
+		"abbr": null,
+		"nameEn": "«Multyashky»",
+		"masters": [
+			{
+				"id": "pavlo-koshka",
+				"name": "Кошка Павло Володимирович",
+				"department": "theatre"
+			},
+			{
+				"id": "svitlana-myronenko",
+				"name": "Мироненко (Петровська) Світлана Володимирівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"e-t-iu-d-y-2013"
+		],
+		"photos": [
+			"/groups/multyashky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kofeiny4ky",
+		"name": "«Кофейни4ки»",
+		"abbr": null,
+		"nameEn": "«Coffee Pots»",
+		"masters": [
+			{
+				"id": "oleh-shevchuk",
+				"name": "Шевчук Олег В.",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"otkrytyi-pokaz-po-akterskomu-masterstvu-2013"
+		],
+		"photos": [
+			"/groups/kofeiny4ky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "plius",
+		"name": "«Плюс»",
+		"abbr": null,
+		"nameEn": "«Plus»",
+		"masters": [
+			{
+				"id": "pavlo-koshka",
+				"name": "Кошка Павло Володимирович",
+				"department": "theatre"
+			},
+			{
+				"id": "svitlana-myronenko",
+				"name": "Мироненко (Петровська) Світлана Володимирівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"liubov-k-trem-apel-synam-2013"
+		],
+		"photos": [
+			"/groups/plius.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "romantyky",
+		"name": "«Романтики»",
+		"abbr": null,
+		"nameEn": "«Romantics»",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"vodevyl-2013"
+		],
+		"photos": [
+			"/groups/romantyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "tsn",
+		"name": "«ТСН»",
+		"abbr": "ТСН",
+		"nameEn": "«TSN»",
+		"masters": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"ten-2013"
+		],
+		"photos": [
+			"/groups/tsn.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "shut",
+		"name": "«ШУТ»",
+		"abbr": "ШУТ",
+		"nameEn": "«SHUT»",
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"vosem-liubiashchykh-zhenshchyn-2013"
+		],
+		"photos": [
+			"/groups/shut.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "paradoks",
+		"name": "«Парадокс»",
+		"abbr": null,
+		"nameEn": "«Paradox»",
+		"masters": [
+			{
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"spektakl-2013"
+		],
+		"photos": [
+			"/groups/paradoks.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "bulbashky",
+		"name": "«Бульбашки»",
+		"abbr": null,
+		"nameEn": "«Bubbles»",
+		"masters": [
+			{
+				"id": "kristina-petrova",
+				"name": "Петрова Крістіна Олегівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"kak-lysa-volka-sudyla-2013"
+		],
+		"photos": [
+			"/groups/bulbashky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "veseli-cholovichky",
+		"name": "«Веселі чоловічки»",
+		"abbr": null,
+		"nameEn": "«Merry Little Men»",
+		"masters": [
+			{
+				"id": "kristina-petrova",
+				"name": "Петрова Крістіна Олегівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"teremok-2013"
+		],
+		"photos": [
+			"/groups/veseli-cholovichky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatrashky",
+		"name": "«Театрашки»",
+		"abbr": null,
+		"nameEn": "«Teatrashky»",
+		"masters": [
+			{
+				"id": "hanna-tkach",
+				"name": "Ткач (Комадовська) Ганна Федорівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"skazka-pro-zvezdocheta-2013"
+		],
+		"photos": [
+			"/groups/teatrashky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "telemilytriamyky",
+		"name": "«Телемилитрямики»",
+		"abbr": null,
+		"nameEn": "«Telemilytriamyky»",
+		"masters": [
+			{
+				"id": "hanna-tkach",
+				"name": "Ткач (Комадовська) Ганна Федорівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"kot-naoborot-2013"
+		],
+		"photos": [
+			"/groups/telemilytriamyky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vertykultiapy",
+		"name": "«Вертикультяпи»",
+		"abbr": null,
+		"nameEn": "«Vertykultiapy»",
+		"masters": [
+			{
+				"id": "hanna-tkach",
+				"name": "Ткач (Комадовська) Ганна Федорівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"martyshkyn-dom-2013"
+		],
+		"photos": [
+			"/groups/vertykultiapy.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "bdzhilky",
+		"name": "«Бджілки»",
+		"abbr": null,
+		"nameEn": "«Little Bees»",
+		"masters": [
+			{
+				"id": "kristina-petrova",
+				"name": "Петрова Крістіна Олегівна",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"den-rozhdenyia-rozochky-2013"
+		],
+		"photos": [
+			"/groups/bdzhilky.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "karandashi",
+		"name": "«Олівці»",
+		"abbr": null,
+		"nameEn": "«Pencils»",
+		"masters": [
+			{
+				"id": "olha-maiorova",
+				"name": "Майорова Ольга Олександрівна",
+				"department": "art"
+			}
+		],
+		"graduationYears": [
+			2013
+		],
+		"memberIds": [],
+		"playIds": [
+			"teatralnie-korolevstvo-2013"
+		],
+		"photos": [
+			"/groups/karandashi.webp"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]

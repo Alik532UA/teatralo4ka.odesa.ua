@@ -102,12 +102,12 @@
 
 | вісь                       | скільки записів у кожному значенні                                                                                                                                                                            |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| усього                     | 145                                                                                                                                                                                                           |
-| `category` — роль          | без поля 55 · `directors` 18 · `teachers` 14 · `support` 10 · `accompanists` 9 · `musicians` 7 · `vocalists` 7 · `administration` 6 · `choreographers` 5 · `heads` 4 · `speech` 4 · `artists` 3 · `production` 2 · `it` 1 |
-| `status` — цикл            | `active` 75 · `former` 64 · `honorary` 6                                                                                                                                                                      |
-| розділ — `masterSection()` | `history` 56 · `needsClarification` 25 · `support` 9 · `directors` 8 · `musicians` 7 · `vocalists` 7 · `accompanists` 6 · `honorary` 6 · `administration` 5 · `choreographers` 4 · `speech` 4 · `artists` 3 · `heads` 3 · `it` 1 · `production` 1 |
-| прогалини — скільки записів БЕЗ поля | `subjects` 63 · `roleTitle` 39 · `photo` 38 · `departments` 23 |
-| `visibility` — видимість | без поля 117 · `linked` 28 |
+| усього                     | 147                                                                                                                                                                                                           |
+| `category` — роль          | без поля 55 · `directors` 20 · `teachers` 14 · `support` 10 · `accompanists` 9 · `musicians` 7 · `vocalists` 7 · `administration` 6 · `choreographers` 5 · `heads` 4 · `speech` 4 · `artists` 3 · `production` 2 · `it` 1 |
+| `status` — цикл            | `active` 75 · `former` 66 · `honorary` 6                                                                                                                                                                      |
+| розділ — `masterSection()` | `history` 58 · `needsClarification` 25 · `support` 9 · `directors` 8 · `musicians` 7 · `vocalists` 7 · `accompanists` 6 · `honorary` 6 · `administration` 5 · `choreographers` 4 · `speech` 4 · `artists` 3 · `heads` 3 · `it` 1 · `production` 1 |
+| прогалини — скільки записів БЕЗ поля | `subjects` 63 · `roleTitle` 41 · `photo` 40 · `departments` 23 |
+| `visibility` — видимість | без поля 117 · `linked` 30 |
 
 > Дві верхні осі й нижня розходяться НАВМИСНО, і це не помилка даних: роль —
 > факт про людину, розділ — місце на сторінці. Франковська лишається

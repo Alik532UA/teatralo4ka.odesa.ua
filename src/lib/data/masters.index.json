@@ -2596,5 +2596,41 @@
 		"visibility": "linked",
 		"unconfirmed": true,
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "a-r-poliakova",
+		"slug": "a-r-poliakova",
+		"fullName": "Полякова А.Р.",
+		"displayName": "А.Р. ПОЛЯКОВА",
+		"category": "directors",
+		"status": "former",
+		"departments": [
+			"theatre"
+		],
+		"visibility": "linked",
+		"displayNameEn": "A.R. POLIAKOVA",
+		"fullNameEn": "A.R. Poliakova",
+		"subjects": [
+			"Акторська майстерність"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "o-i-sakara",
+		"slug": "o-i-sakara",
+		"fullName": "Сакара О.І.",
+		"displayName": "О.І. САКАРА",
+		"category": "directors",
+		"status": "former",
+		"departments": [
+			"theatre"
+		],
+		"visibility": "linked",
+		"displayNameEn": "O.I. SAKARA",
+		"fullNameEn": "O.I. Sakara",
+		"subjects": [
+			"Акторська майстерність"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]
