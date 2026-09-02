@@ -29,29 +29,29 @@
 			"playId": "koshkyn-dom-2010"
 		},
 		{
-			"year": 2011,
-			"text": "«Моя Уявляндія», Реаліст і Сонний майстер",
-			"playId": "moia-voobrazylyia-2011"
-		},
-		{
 			"year": 2012,
-			"text": "«Аліса в Задзеркаллі», Труляля",
-			"playId": "alysa-v-zazerkalyy-2012"
+			"text": "«Моя Уявляндія», Реаліст і Сонний майстер",
+			"playId": "moia-voobrazylyia-2012"
 		},
 		{
 			"year": 2013,
-			"text": "«Веселий Роджер», Юнга",
-			"playId": "veselyi-rodzher-2013"
+			"text": "«Аліса в Задзеркаллі», Труляля",
+			"playId": "alisa-v-zadzerkalli-2013"
 		},
 		{
 			"year": 2014,
-			"text": "«Казки крізь каміння», Зеро",
-			"playId": "skazky-skvoz-kamny-2014"
+			"text": "«Веселий Роджер», Юнга",
+			"playId": "veselyi-rodzher-2014"
 		},
 		{
-			"year": 2016,
+			"year": 2015,
+			"text": "«Казки крізь каміння», Зеро",
+			"playId": "kazky-kriz-kaminnia-2015"
+		},
+		{
+			"year": 2017,
 			"text": "«Натовп самотніх», Хлопчик, Перший охоронець",
-			"playId": "tolpa-odynokykh-2016"
+			"playId": "natovp-samotnikh-2017"
 		}
 	],
 	"bio": [

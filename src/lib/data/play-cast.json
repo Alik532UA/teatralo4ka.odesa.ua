@@ -66,6 +66,9 @@
 			"graduateId": "anfisa-lazebna"
 		},
 		{
+			"graduateId": "anton-babich"
+		},
+		{
 			"graduateId": "artem-suvorov"
 		},
 		{
@@ -81,11 +84,6 @@
 		},
 		{
 			"graduateId": "violetta-nezvinska"
-		}
-	],
-	"alysa-v-zazerkalyy-2012": [
-		{
-			"graduateId": "anton-babich"
 		}
 	],
 	"asta-2021": [
@@ -256,17 +254,6 @@
 			"graduateId": "maryna-sukhanova"
 		}
 	],
-	"chypollyno-2010": [
-		{
-			"graduateId": "kristina-slivka-spivak"
-		},
-		{
-			"graduateId": "liliia-halosa"
-		},
-		{
-			"graduateId": "tetiana-kamelevska"
-		}
-	],
 	"de-vsi-2015": [
 		{
 			"graduateId": "alina-nakonechna",
@@ -381,12 +368,10 @@
 	],
 	"durochka-2010": [
 		{
-			"graduateId": "polina-hedzenko"
-		}
-	],
-	"durochka-2011": [
-		{
 			"graduateId": "anastasiia-chalchynska"
+		},
+		{
+			"graduateId": "polina-hedzenko"
 		},
 		{
 			"graduateId": "volodymyr-chalchynskyi"
@@ -512,14 +497,12 @@
 			"graduateId": "daria-kristiian"
 		}
 	],
-	"feis-bu-chik-2018": [
-		{
-			"graduateId": "daria-rybalchenko"
-		}
-	],
 	"feis-bu-chik-2019": [
 		{
 			"graduateId": "daniela-rybalchenko"
+		},
+		{
+			"graduateId": "daria-rybalchenko"
 		},
 		{
 			"graduateId": "heorhii-topor"
@@ -860,6 +843,9 @@
 			"graduateId": "anfisa-lazebna"
 		},
 		{
+			"graduateId": "anton-babich"
+		},
+		{
 			"graduateId": "artem-suvorov"
 		},
 		{
@@ -1194,22 +1180,18 @@
 			"role": "Арган"
 		}
 	],
-	"moia-voobraziliia-2012": [
-		{
-			"graduateId": "daiana-ponomarenko"
-		}
-	],
-	"moia-voobrazylyia-2011": [
-		{
-			"graduateId": "anton-babich"
-		}
-	],
 	"moia-voobrazylyia-2012": [
 		{
 			"graduateId": "anfisa-lazebna"
 		},
 		{
+			"graduateId": "anton-babich"
+		},
+		{
 			"graduateId": "artem-suvorov"
+		},
+		{
+			"graduateId": "daiana-ponomarenko"
 		},
 		{
 			"graduateId": "yevhen-lysenko"
@@ -1390,6 +1372,9 @@
 	"natovp-samotnikh-2017": [
 		{
 			"graduateId": "anfisa-lazebna"
+		},
+		{
+			"graduateId": "anton-babich"
 		},
 		{
 			"graduateId": "artem-suvorov"
@@ -1791,12 +1776,6 @@
 			"graduateId": "olena-machtakova"
 		}
 	],
-	"rusalochka-2012": [
-		{
-			"graduateId": "alik-zapolnov",
-			"role": "Восьминіг"
-		}
-	],
 	"ryzhaia-pesa-2017": [
 		{
 			"graduateId": "alina-burdeina"
@@ -1816,6 +1795,10 @@
 		}
 	],
 	"sestra-moia-rusalochka-2012": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "Восьминіг"
+		},
 		{
 			"graduateId": "alla-khaiut"
 		}
@@ -1863,11 +1846,6 @@
 		{
 			"graduateId": "alik-zapolnov",
 			"role": "шуліка, поштар"
-		}
-	],
-	"skazky-skvoz-kamny-2014": [
-		{
-			"graduateId": "anton-babich"
 		}
 	],
 	"skomorokhy-2006": [
@@ -2172,11 +2150,6 @@
 			"fromRegistry": true
 		}
 	],
-	"tolpa-odynokykh-2016": [
-		{
-			"graduateId": "anton-babich"
-		}
-	],
 	"tot-kto-otkryvaet-dvery-2018": [
 		{
 			"graduateId": "anfisa-lazebna"
@@ -2245,16 +2218,13 @@
 			"fromRegistry": true
 		},
 		{
-			"graduateId": "kristina-slivka-spivak",
-			"fromRegistry": true
+			"graduateId": "kristina-slivka-spivak"
 		},
 		{
-			"graduateId": "liliia-halosa",
-			"fromRegistry": true
+			"graduateId": "liliia-halosa"
 		},
 		{
-			"graduateId": "tetiana-kamelevska",
-			"fromRegistry": true
+			"graduateId": "tetiana-kamelevska"
 		}
 	],
 	"u-poshukakh-natkhnennia-2021": [
@@ -3062,14 +3032,12 @@
 			"graduateId": "maryna-sukhanova"
 		}
 	],
-	"veselyi-rodzher-2013": [
-		{
-			"graduateId": "anton-babich"
-		}
-	],
 	"veselyi-rodzher-2014": [
 		{
 			"graduateId": "anfisa-lazebna"
+		},
+		{
+			"graduateId": "anton-babich"
 		},
 		{
 			"graduateId": "artem-suvorov"

@@ -66,6 +66,18 @@ const RENAMED_PLAY_IDS: Record<string, string> = {
 	'otryvky-yz-klassyky-2016': 'uryvky-z-klasyky-2016',
 	'vse-lito-v-odyn-den-2020': 'use-lito-v-odyn-den-2020',
 	'zona-turbulentnosty-2017': 'zona-turbulentnosti-2017',
+
+	// Двійники через помилки в роках або написанні в анкетах
+	'alysa-v-zazerkalyy-2012': 'alisa-v-zadzerkalli-2013',
+	'chypollyno-2010': 'tsybulino-2010',
+	'durochka-2011': 'durochka-2010',
+	'feis-bu-chik-2018': 'feis-bu-chik-2019',
+	'moia-voobrazylyia-2011': 'moia-voobrazylyia-2012',
+	'moia-voobraziliia-2012': 'moia-voobrazylyia-2012',
+	'rusalochka-2012': 'sestra-moia-rusalochka-2012',
+	'skazky-skvoz-kamny-2014': 'kazky-kriz-kaminnia-2015',
+	'tolpa-odynokykh-2016': 'natovp-samotnikh-2017',
+	'veselyi-rodzher-2013': 'veselyi-rodzher-2014',
 };
 
 export const prerender = true;

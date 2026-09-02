@@ -186,7 +186,7 @@
 		],
 		"playCount": 24,
 		"code": "Alik",
-		"profileSize": 6339
+		"profileSize": 6351
 	},
 	{
 		"id": "alina-burdeina",
@@ -1753,7 +1753,7 @@
 		],
 		"playCount": 6,
 		"code": "anton-babich",
-		"profileSize": 1864,
+		"profileSize": 1867,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -4307,9 +4307,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 8,
+		"playCount": 7,
 		"code": "kristina-slivka-spivak",
-		"profileSize": 2586
+		"profileSize": 2469
 	},
 	{
 		"id": "krystyna-manchenko",
@@ -4746,9 +4746,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 5,
+		"playCount": 4,
 		"code": "liliia-halosa",
-		"profileSize": 1307
+		"profileSize": 1190
 	},
 	{
 		"id": "liliia-muravska",
@@ -7960,9 +7960,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 6,
+		"playCount": 5,
 		"code": "tetiana-kamelevska",
-		"profileSize": 1735
+		"profileSize": 1618
 	},
 	{
 		"id": "tetiana-makukha",

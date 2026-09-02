@@ -1311,12 +1311,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "feis-bu-chik-2018",
-		"title": "«Фейс-бу-чік»",
-		"year": 2018,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "foto-toples-2018",
 		"title": "«Фото-топлес»",
 		"year": 2018,
@@ -1578,12 +1572,6 @@
 	{
 		"id": "teremok-2016",
 		"title": "«ТеремОК»",
-		"year": 2016,
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "tolpa-odynokykh-2016",
-		"title": "«Натовп самотніх»",
 		"year": 2016,
 		"verificationStatus": "possible_errors"
 	},
@@ -2130,12 +2118,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "skazky-skvoz-kamny-2014",
-		"title": "«Казки крізь каміння»",
-		"year": 2014,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "tiulka-ta-gruffalo-2014",
 		"title": "«Тюлька та Ґруффало»",
 		"year": 2014,
@@ -2287,12 +2269,6 @@
 	{
 		"id": "buratyno-2013",
 		"title": "«Буратіно»",
-		"year": 2013,
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "veselyi-rodzher-2013",
-		"title": "«Веселий Роджер»",
 		"year": 2013,
 		"verificationStatus": "possible_errors"
 	},
@@ -2511,12 +2487,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "alysa-v-zazerkalyy-2012",
-		"title": "«Аліса в Задзеркаллі»",
-		"year": 2012,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "volshebnyi-kolodets-2012",
 		"title": "«Чарівний колодязь»",
 		"year": 2012,
@@ -2617,25 +2587,26 @@
 		"id": "moia-voobrazylyia-2012",
 		"title": "«Моя Уявляндія»",
 		"year": 2012,
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "moia-voobraziliia-2012",
-		"title": "«Моя Вообразілія»",
-		"year": 2012,
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "rusalochka-2012",
-		"title": "«Русалонька»",
-		"year": 2012,
-		"verificationStatus": "possible_errors"
+		"institution": "Одеська дитяча театральна школа",
+		"theatreGroup": "гр. «Асорті»",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"isDtsh": true,
+		"verificationStatus": "verified"
 	},
 	{
 		"id": "sestra-moia-rusalochka-2012",
 		"title": "«Сестра моя, Русалонька»",
 		"year": 2012,
-		"verificationStatus": "possible_errors"
+		"author": "Людмила Разумовська",
+		"institution": "Одеська дитяча театральна школа",
+		"theatreGroup": "гр. «Шут»",
+		"masters": [
+			"tetiana-isachkina"
+		],
+		"isDtsh": true,
+		"verificationStatus": "verified"
 	},
 	{
 		"id": "telefon-2012",
@@ -2740,12 +2711,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "durochka-2011",
-		"title": "«Дурочка»",
-		"year": 2011,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "diuimovochka-2011",
 		"title": "«Дюймовочка»",
 		"year": 2011,
@@ -2789,12 +2754,6 @@
 		"title": "«Уявно хворий»",
 		"year": 2011,
 		"videoUrl": "https://www.youtube.com/watch?v=CP56qEi4sWY",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "moia-voobrazylyia-2011",
-		"title": "«Моя Уявляндія»",
-		"year": 2011,
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2903,7 +2862,13 @@
 		"id": "durochka-2010",
 		"title": "«Дурочка»",
 		"year": 2010,
-		"verificationStatus": "possible_errors"
+		"institution": "Одеська дитяча театральна школа",
+		"theatreGroup": "гр. «Рост-Ок»",
+		"masters": [
+			"tetiana-isachkina"
+		],
+		"isDtsh": true,
+		"verificationStatus": "verified"
 	},
 	{
 		"id": "yscheznovenye-pryntsessy-fyfelly-3-2010",
@@ -3033,12 +2998,6 @@
 			"Лілія Гальоса",
 			"Анастасія Іванес"
 		],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "chypollyno-2010",
-		"title": "«Чиполліно»",
-		"year": 2010,
 		"verificationStatus": "possible_errors"
 	},
 	{

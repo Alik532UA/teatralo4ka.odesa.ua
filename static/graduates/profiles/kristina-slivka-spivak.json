@@ -33,18 +33,12 @@
 		{
 			"year": 2010,
 			"text": "«Чиполліно», синьора Вишня / Сищик",
-			"playId": "chypollyno-2010"
+			"playId": "tsybulino-2010"
 		},
 		{
 			"year": 2010,
 			"text": "«Слон Хортон-NEW»",
 			"playId": "slon-khorton-new-2010",
-			"fromRegistry": true
-		},
-		{
-			"year": 2010,
-			"text": "«Цибуліно»",
-			"playId": "tsybulino-2010",
 			"fromRegistry": true
 		},
 		{
