@@ -1,5 +1,10 @@
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { describe, it, expect } from 'vitest';
-import { STATS, getEntityHref, generateTextReport } from './stats';
+import { getEntityHref, generateTextReport, type StatsData } from './stats';
+
+const statsJsonPath = join(process.cwd(), 'static/galaxy/stats.json');
+const STATS: StatsData = JSON.parse(readFileSync(statsJsonPath, 'utf8'));
 
 describe('реєстр статистики наповнення архіву (STATS)', () => {
 	it('містить валідну структуру з 5 категоріями', () => {

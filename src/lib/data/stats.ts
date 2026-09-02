@@ -1,5 +1,5 @@
+import { asset } from '$app/paths';
 import type { Pathname } from '$app/types';
-import statsData from './stats.data.json';
 
 export type MissingItemTuple = [id: string, title: string, subtitle?: string];
 
@@ -31,7 +31,9 @@ export interface StatsData {
 	categories: StatCategory[];
 }
 
-export const STATS = statsData as unknown as StatsData;
+export function statsJsonUrl(): string {
+	return asset('/galaxy/stats.json');
+}
 
 /**
  * Генерує канонічний шлях до сутності за її категорією та ID.

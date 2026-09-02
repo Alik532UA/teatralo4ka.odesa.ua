@@ -40,7 +40,7 @@ const PLAY_CAST_PATH = path.join(ROOT, 'src/lib/data/play-cast.json');
 const MASTERS_INDEX_PATH = path.join(ROOT, 'src/lib/data/masters.index.json');
 const MASTERS_PROFILES_DIR = path.join(ROOT, 'static/masters/profiles');
 const FESTIVALS_PATH = path.join(ROOT, 'src/lib/data/festivals.data.json');
-const OUTPUT_PATH = path.join(ROOT, 'src/lib/data/stats.data.json');
+const OUTPUT_PATH = path.join(ROOT, 'static/galaxy/stats.json');
 
 interface RawGraduateIndex {
 	slug: string;

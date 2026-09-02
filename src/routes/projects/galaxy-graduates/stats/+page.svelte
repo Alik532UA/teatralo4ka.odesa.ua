@@ -12,8 +12,17 @@
 		BarChart3
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { STATS, generateTextReport, type StatCategory } from '$lib/data/stats';
+	import { generateTextReport, type StatCategory, type StatsData } from '$lib/data/stats';
 	import StatsMetricCard from '$lib/components/galaxy/StatsMetricCard.svelte';
+
+	interface Props {
+		data: {
+			stats: StatsData;
+		};
+	}
+
+	let { data }: Props = $props();
+	const stats = $derived(data.stats);
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -22,11 +31,11 @@
 	let copiedReport = $state(false);
 
 	const selectedCategory = $derived<StatCategory>(
-		STATS.categories.find((c) => c.id === activeCategory) || STATS.categories[0]
+		stats.categories.find((c) => c.id === activeCategory) || stats.categories[0]
 	);
 
 	async function handleCopyReport() {
-		const text = generateTextReport(STATS);
+		const text = generateTextReport(stats);
 		try {
 			await navigator.clipboard.writeText(text);
 			copiedReport = true;
@@ -103,8 +112,8 @@
 
 			<div class="stats-overview">
 				<div class="stats-score-card">
-					<div class="stats-score-circle" style:--pct="{STATS.overallPercent}%">
-						<span class="stats-score-val">{STATS.overallPercent}%</span>
+					<div class="stats-score-circle" style:--pct="{stats.overallPercent}%">
+						<span class="stats-score-val">{stats.overallPercent}%</span>
 					</div>
 					<div class="stats-score-info">
 						<span class="stats-score-label">{isEn ? 'Overall Archive Score' : 'Загальний індекс бази'}</span>
@@ -132,7 +141,7 @@
 		</header>
 
 		<div class="stats-tabs" role="tablist" aria-label={isEn ? 'Category tabs' : 'Вкладки категорій'} data-testid="stats-tabs">
-			{#each STATS.categories as category (category.id)}
+			{#each stats.categories as category (category.id)}
 				{@const IconComponent = getCategoryIcon(category.id)}
 				{@const isActive = activeCategory === category.id}
 				<button
