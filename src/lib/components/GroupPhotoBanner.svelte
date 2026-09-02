@@ -33,6 +33,25 @@
 		return `${width} / ${height}`;
 	});
 
+	/**
+	 * CSS `aspect-ratio` першого портретного фото, або `undefined`.
+	 *
+	 * Портретне фото у коробці 16:10 з `object-fit: cover` втрачає ≈60 %
+	 * висоти — обличчя зрізаються. Тому для портретного знімка коробка
+	 * отримує пропорцію самого зображення (`width / height`), і `cover`
+	 * заповнює її точно — рамка лягає по краю фото, а не по краю коробки.
+	 */
+	const portraitRatio = $derived.by(() => {
+		if (fit !== 'cover') return undefined;
+		const portrait = photos.find((p) => {
+			const s = imageSize(p as LocalImage);
+			return s.height > s.width;
+		});
+		if (!portrait) return undefined;
+		const { width, height } = imageSize(portrait as LocalImage);
+		return `${width} / ${height}`;
+	});
+
 	/** Кожні стільки мілісекунд банер перегортається сам. */
 	const ROTATE_MS = 5000;
 
@@ -84,7 +103,8 @@
 	<div
 		class="banner"
 		class:banner--whole={fit === 'whole'}
-		style:aspect-ratio={ownRatio}
+		class:banner--portrait={portraitRatio !== undefined}
+		style:aspect-ratio={ownRatio ?? portraitRatio}
 		role="button"
 		tabindex="0"
 		aria-label={title}
@@ -200,6 +220,12 @@
 	/* Афіша: цілком, без кадрування — пропорцію коробці задає саме зображення. */
 	.banner--whole .banner__img {
 		object-fit: contain;
+	}
+
+	/* Портретне фото: пропорцію коробці задає inline `aspect-ratio` з
+	   реальних розмірів знімка, `cover` заповнює точно — рамка по фото. */
+	.banner--portrait {
+		max-height: 600px;
 	}
 
 	.banner__dots {
