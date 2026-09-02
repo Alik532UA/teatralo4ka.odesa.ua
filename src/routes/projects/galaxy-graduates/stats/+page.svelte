@@ -12,17 +12,52 @@
 		BarChart3
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { generateTextReport, type StatCategory, type StatsData } from '$lib/data/stats';
+	import {
+		generateTextReport,
+		type StatCategory,
+		type StatsData,
+		type HistoryDailySnapshot
+	} from '$lib/data/stats';
 	import StatsMetricCard from '$lib/components/galaxy/StatsMetricCard.svelte';
+	import StatsTimeline from '$lib/components/galaxy/StatsTimeline.svelte';
 
 	interface Props {
 		data: {
 			stats: StatsData;
+			history: HistoryDailySnapshot[];
 		};
 	}
 
 	let { data }: Props = $props();
 	const stats = $derived(data.stats);
+	const history = $derived(data.history || []);
+
+	let selectedHistoryIndex = $state(0);
+
+	$effect(() => {
+		if (history.length > 0 && selectedHistoryIndex === 0) {
+			selectedHistoryIndex = history.length - 1;
+		}
+	});
+
+	const isHistorical = $derived(
+		history.length > 0 && selectedHistoryIndex < history.length - 1
+	);
+	const selectedSnapshot = $derived<HistoryDailySnapshot | undefined>(
+		history[selectedHistoryIndex]
+	);
+
+	const activeOverallPercent = $derived(
+		isHistorical && selectedSnapshot ? selectedSnapshot.overallPercent : stats.overallPercent
+	);
+
+	function getActiveCategoryPercent(catId: string): number {
+		if (isHistorical && selectedSnapshot) {
+			return (selectedSnapshot.categoryPercents as Record<string, number>)[catId] ?? 0;
+		}
+		const cat = stats.categories.find((c) => c.id === catId);
+		return cat ? cat.overallPercent : 0;
+	}
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -112,8 +147,8 @@
 
 			<div class="stats-overview">
 				<div class="stats-score-card">
-					<div class="stats-score-circle" style:--pct="{stats.overallPercent}%">
-						<span class="stats-score-val">{stats.overallPercent}%</span>
+					<div class="stats-score-circle" style:--pct="{activeOverallPercent}%">
+						<span class="stats-score-val">{activeOverallPercent}%</span>
 					</div>
 					<div class="stats-score-info">
 						<span class="stats-score-label">{isEn ? 'Overall Archive Score' : 'Загальний індекс бази'}</span>
@@ -140,10 +175,19 @@
 			</div>
 		</header>
 
+		{#if history.length > 0}
+			<StatsTimeline
+				snapshots={history}
+				bind:selectedIndex={selectedHistoryIndex}
+				{currentLang}
+			/>
+		{/if}
+
 		<div class="stats-tabs" role="tablist" aria-label={isEn ? 'Category tabs' : 'Вкладки категорій'} data-testid="stats-tabs">
 			{#each stats.categories as category (category.id)}
 				{@const IconComponent = getCategoryIcon(category.id)}
 				{@const isActive = activeCategory === category.id}
+				{@const catPercent = getActiveCategoryPercent(category.id)}
 				<button
 					type="button"
 					role="tab"
@@ -159,9 +203,9 @@
 					<span class="tab-btn__title">{isEn ? category.titleEn : category.titleUk}</span>
 					<span
 						class="tab-btn__badge"
-						style:background-color={getMetricStatusColor(category.overallPercent)}
+						style:background-color={getMetricStatusColor(catPercent)}
 					>
-						{category.overallPercent}%
+						{catPercent}%
 					</span>
 				</button>
 			{/each}
@@ -186,9 +230,9 @@
 					<span class="summary-meter-label">{isEn ? 'Average Completeness' : 'Середня повнота'}:</span>
 					<span
 						class="summary-meter-badge"
-						style:color={getMetricStatusColor(selectedCategory.overallPercent)}
+						style:color={getMetricStatusColor(getActiveCategoryPercent(selectedCategory.id))}
 					>
-						{selectedCategory.overallPercent}%
+						{getActiveCategoryPercent(selectedCategory.id)}%
 					</span>
 				</div>
 			</div>
@@ -200,6 +244,10 @@
 						categoryId={selectedCategory.id}
 						{isEn}
 						{currentLang}
+						{isHistorical}
+						historicalCompleted={selectedSnapshot?.metrics[metric.id]?.completed}
+						historicalTotal={selectedSnapshot?.metrics[metric.id]?.total}
+						historicalPercent={selectedSnapshot?.metrics[metric.id]?.percent}
 					/>
 				{/each}
 			</div>

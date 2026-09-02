@@ -55,4 +55,25 @@ describe('реєстр статистики наповнення архіву (S
 		expect(report).toContain('ФЕСТИВАЛІ');
 		expect(report).toContain('https://teatralo4ka.odesa.ua/projects/galaxy-graduates/stats');
 	});
+
+	it('містить коректний хронологічний файл історії (stats-history.json)', () => {
+		const historyPath = join(process.cwd(), 'static/galaxy/stats-history.json');
+		const history = JSON.parse(readFileSync(historyPath, 'utf8'));
+		expect(Array.isArray(history)).toBe(true);
+		expect(history.length).toBeGreaterThan(0);
+
+		for (const snapshot of history) {
+			expect(snapshot.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+			expect(typeof snapshot.overallPercent).toBe('number');
+			expect(snapshot.overallPercent).toBeGreaterThanOrEqual(0);
+			expect(snapshot.overallPercent).toBeLessThanOrEqual(100);
+			expect(snapshot.categoryPercents).toBeDefined();
+			expect(typeof snapshot.categoryPercents.graduates).toBe('number');
+			expect(typeof snapshot.categoryPercents.groups).toBe('number');
+			expect(typeof snapshot.categoryPercents.plays).toBe('number');
+			expect(typeof snapshot.categoryPercents.masters).toBe('number');
+			expect(typeof snapshot.categoryPercents.festivals).toBe('number');
+			expect(snapshot.metrics).toBeDefined();
+		}
+	});
 });

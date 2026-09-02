@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.405",
+	"version": "0.0.406",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -36,7 +36,8 @@
 		"photos:graduates": "tsx scripts/fetch-graduate-photos.ts",
 		"parse:roster": "tsx scripts/parse-graduate-roster.ts",
 		"data:graduates": "tsx scripts/build-graduates-data.ts",
-		"build:stats": "tsx scripts/build-stats.ts"
+		"build:stats": "tsx scripts/build-stats.ts",
+		"build:stats-history": "tsx scripts/build-stats-history.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",

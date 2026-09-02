@@ -8,13 +8,36 @@
 		categoryId: 'graduates' | 'groups' | 'plays' | 'masters' | 'festivals';
 		isEn: boolean;
 		currentLang: 'uk' | 'en';
+		historicalCompleted?: number;
+		historicalTotal?: number;
+		historicalPercent?: number;
+		isHistorical?: boolean;
 	}
 
-	let { metric, categoryId, isEn, currentLang }: Props = $props();
+	let {
+		metric,
+		categoryId,
+		isEn,
+		currentLang,
+		historicalCompleted,
+		historicalTotal,
+		historicalPercent,
+		isHistorical = false
+	}: Props = $props();
 
 	let isExpanded = $state(false);
 	let searchQuery = $state('');
 	let visibleLimit = $state(24);
+
+	const displayCompleted = $derived(
+		isHistorical && historicalCompleted !== undefined ? historicalCompleted : metric.completed
+	);
+	const displayTotal = $derived(
+		isHistorical && historicalTotal !== undefined ? historicalTotal : metric.total
+	);
+	const displayPercent = $derived(
+		isHistorical && historicalPercent !== undefined ? historicalPercent : metric.percent
+	);
 
 	function toggleExpanded() {
 		isExpanded = !isExpanded;
@@ -26,8 +49,8 @@
 	}
 
 	const statusColor = $derived.by(() => {
-		if (metric.percent >= 80) return '#10b981';
-		if (metric.percent >= 50) return '#f59e0b';
+		if (displayPercent >= 80) return '#10b981';
+		if (displayPercent >= 50) return '#f59e0b';
 		return '#f43f5e';
 	});
 
@@ -58,21 +81,25 @@
 			{/if}
 		</div>
 		<div class="metric-card__value">
-			<span class="metric-percent" style:color={statusColor}>{metric.percent}%</span>
-			<span class="metric-fraction">{metric.completed} / {metric.total}</span>
+			<span class="metric-percent" style:color={statusColor}>{displayPercent}%</span>
+			<span class="metric-fraction">{displayCompleted} / {displayTotal}</span>
 		</div>
 	</div>
 
 	<div class="progress-bar-track" aria-hidden="true">
 		<div
 			class="progress-bar-fill"
-			style:width="{metric.percent}%"
+			style:width="{displayPercent}%"
 			style:background-color={statusColor}
 		></div>
 	</div>
 
 	<div class="metric-card__actions">
-		{#if metric.missingItems.length > 0}
+		{#if isHistorical}
+			<span class="historical-hint">
+				{isEn ? 'Snapshot at 00:00' : 'Архівний стан на 00:00'}
+			</span>
+		{:else if metric.missingItems.length > 0}
 			<button
 				type="button"
 				class="toggle-missing-btn"
@@ -245,4 +272,5 @@
 		transition: all 0.15s ease;
 	}
 	.load-more-btn:hover { border: 1px solid var(--accent-primary); color: var(--text-title); }
+	.historical-hint { font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
 </style>

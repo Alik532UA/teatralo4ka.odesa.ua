@@ -31,8 +31,32 @@ export interface StatsData {
 	categories: StatCategory[];
 }
 
+export interface HistoryMetricSummary {
+	completed: number;
+	total: number;
+	percent: number;
+}
+
+export interface HistoryDailySnapshot {
+	date: string;
+	commitHash?: string;
+	overallPercent: number;
+	categoryPercents: {
+		graduates: number;
+		groups: number;
+		plays: number;
+		masters: number;
+		festivals: number;
+	};
+	metrics: Record<string, HistoryMetricSummary>;
+}
+
 export function statsJsonUrl(): string {
 	return asset('/galaxy/stats.json');
+}
+
+export function statsHistoryJsonUrl(): string {
+	return asset('/galaxy/stats-history.json');
 }
 
 /**

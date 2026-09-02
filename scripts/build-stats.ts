@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { buildStatsHistory } from './build-stats-history';
 
 export type MissingItemTuple = [id: string, title: string, subtitle?: string];
 
@@ -790,3 +791,5 @@ fs.writeFileSync(OUTPUT_PATH, JSON.stringify(stats), 'utf8');
 console.log(
 	`📊 Статистику згенеровано: Загальний показник ${stats.overallPercent}%, 5 категорій збережено в ${path.relative(ROOT, OUTPUT_PATH)}`
 );
+
+buildStatsHistory();
