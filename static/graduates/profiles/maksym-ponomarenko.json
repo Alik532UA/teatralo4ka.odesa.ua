@@ -16,8 +16,51 @@
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Антігона; Софокл», Хор",
 			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			],
+			"role": "Хор",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Привиди; Г. Ібсен», Пастор Мандерс",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"pryvydy"
+			],
+			"role": "Пастор Мандерс",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Безприданниця; О. Островський», Паратов",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"bezprydannytsia"
+			],
+			"role": "Паратов",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Украдене щастя; І. Франко», Михайло",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"ukradene-shchastia"
+			],
+			"role": "Михайло",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
+			],
 			"fromRegistry": true
 		},
 		{

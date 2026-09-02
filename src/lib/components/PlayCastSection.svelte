@@ -8,6 +8,7 @@
 	import { locale } from 'svelte-i18n';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { CastMember } from '$lib/data/playCast';
+	import { roleInItem, rolesLine } from '$lib/data/castRoles';
 	import type { PlayProgrammeItem } from '$lib/data/plays';
 
 	/**
@@ -135,6 +136,23 @@
 		return year ? `${$t('galaxy.graduationShort', { default: 'випуск' })} ${year}` : null;
 	}
 
+	/**
+	 * Роль під ім'ям — ТА, що стосується обраного уривка.
+	 *
+	 * Роль живе в уривку, а не у вечорі: Даніїл Примачов 2013 року — Креонт,
+	 * Поет, Мокій і Микола в чотирьох різних номерах, і «перша названа» роль
+	 * підписувала б Креонтом усі чотири. Тому з увімкненим уривком — роль у
+	 * ньому, а якщо її там не названо («Актори — усі» в «Сонетах»), рік випуску,
+	 * як у решти карток без ролі. Без фільтра — усі ролі вечора разом, а коли їх
+	 * по уривках не розкладено, та єдина, що записана. Самі правила — у
+	 * `castRoles.ts`, де їх тримає тест.
+	 */
+	function підпис(entry: CastMember): string | null {
+		const рік = підписРоку(entry.graduate.graduationYear);
+		if (обраний !== null && обраний !== БЕЗ_НОМЕРА) return roleInItem(entry.roles, обраний) ?? рік;
+		return rolesLine(entry.roles, (programme ?? []).map((item) => item.id)) ?? entry.role ?? рік;
+	}
+
 	const склад = $derived(паперові(participants));
 	const додатково = $derived(паперові(extraParticipants));
 
@@ -212,7 +230,7 @@
 					<GroupPersonCard
 						name={entry.graduate.name}
 						photo={entry.graduate.hasPhoto ? graduatePhoto(entry.graduate.slug, 192) : null}
-						subtitle={entry.role ?? підписРоку(entry.graduate.graduationYear)}
+						subtitle={підпис(entry)}
 						onclick={() => openGraduateModal(entry.graduate)}
 						{index}
 						splitName

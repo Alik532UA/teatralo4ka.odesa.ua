@@ -989,6 +989,10 @@
 		{
 			"graduateId": "maksym-ponomarenko",
 			"fromRegistry": true
+		},
+		{
+			"graduateId": "volodymyr-zakharchenko",
+			"fromRegistry": true
 		}
 	],
 	"koroleva-komakh-2024": [
@@ -1110,6 +1114,10 @@
 		}
 	],
 	"matinka-middous-2012": [
+		{
+			"graduateId": "anastasiia-dereviankyna",
+			"fromRegistry": true
+		},
 		{
 			"graduateId": "daniil-prymachov",
 			"fromRegistry": true
@@ -2368,44 +2376,247 @@
 	"uryvky-z-klasyky-2013": [
 		{
 			"graduateId": "alik-zapolnov",
-			"role": "Поет",
+			"role": "Людина, що читала Жана Ануя",
 			"items": [
-				"neznaiomka",
 				"antihona",
+				"neznaiomka",
 				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Людина, що читала Жана Ануя"
+				},
+				{
+					"item": "neznaiomka",
+					"role": "Пан у блакитному"
+				},
+				{
+					"item": "sonety",
+					"role": "Людина із залу"
+				}
+			]
+		},
+		{
+			"graduateId": "anastasiia-dereviankyna",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"pryvydy",
+				"diadko-vania",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "pryvydy",
+					"role": "Тінь"
+				},
+				{
+					"item": "diadko-vania",
+					"role": "Соня"
+				}
 			]
 		},
 		{
 			"graduateId": "anna-arustamian",
+			"role": "Антігона",
 			"items": [
-				"antihona"
+				"antihona",
+				"bezprydannytsia",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Антігона"
+				},
+				{
+					"item": "bezprydannytsia",
+					"role": "Огудалова"
+				}
 			]
 		},
 		{
 			"graduateId": "daniil-prymachov",
+			"role": "Креонт",
+			"items": [
+				"antihona",
+				"neznaiomka",
+				"myna-mazailo",
+				"ukradene-shchastia",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Креонт"
+				},
+				{
+					"item": "neznaiomka",
+					"role": "Поет"
+				},
+				{
+					"item": "myna-mazailo",
+					"role": "Мокій"
+				},
+				{
+					"item": "ukradene-shchastia",
+					"role": "Микола"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "kseniia-zhvachkyna",
+			"role": "Хор",
 			"items": [
-				"neznaiomka"
+				"antihona",
+				"neznaiomka",
+				"ukradene-shchastia",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "neznaiomka",
+					"role": "Незнайомка"
+				},
+				{
+					"item": "ukradene-shchastia",
+					"role": "Анна"
+				}
 			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "liubov-bernaus",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"natalka-poltavka",
+				"diadko-vania",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "natalka-poltavka",
+					"role": "Терпилиха"
+				},
+				{
+					"item": "diadko-vania",
+					"role": "Олена Андріївна"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "maksym-ponomarenko",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"pryvydy",
+				"bezprydannytsia",
+				"ukradene-shchastia",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "pryvydy",
+					"role": "Пастор Мандерс"
+				},
+				{
+					"item": "bezprydannytsia",
+					"role": "Паратов"
+				},
+				{
+					"item": "ukradene-shchastia",
+					"role": "Михайло"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "viktoriia-kulbaba",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"pryvydy",
+				"myna-mazailo",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "pryvydy",
+					"role": "Фру Алвінг"
+				},
+				{
+					"item": "myna-mazailo",
+					"role": "Уля"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "volodymyr-zakharchenko",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"pryvydy",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "pryvydy",
+					"role": "Тінь"
+				}
+			]
+		},
+		{
 			"graduateId": "yana-kovina",
+			"role": "Хор",
+			"items": [
+				"antihona",
+				"natalka-poltavka",
+				"bezprydannytsia",
+				"sonety"
+			],
+			"roles": [
+				{
+					"item": "antihona",
+					"role": "Хор"
+				},
+				{
+					"item": "natalka-poltavka",
+					"role": "Наталка"
+				},
+				{
+					"item": "bezprydannytsia",
+					"role": "Лариса"
+				}
+			],
 			"fromRegistry": true
 		}
 	],
@@ -2470,6 +2681,12 @@
 			"items": [
 				"asia",
 				"prynyzheni-ta-znevazheni"
+			],
+			"roles": [
+				{
+					"item": "asia",
+					"role": "М. М."
+				}
 			]
 		},
 		{

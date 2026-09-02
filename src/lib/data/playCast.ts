@@ -1,5 +1,6 @@
 import castData from './play-cast.json';
 import { GRADUATES, type GraduateIndexEntry } from './graduates';
+import type { CastRole } from './castRoles';
 
 /**
  * Склад вистав — зворотний зріз анкет: не «вистави цієї людини», а «люди цієї
@@ -26,6 +27,8 @@ export interface CastEntry {
 	role?: string;
 	/** Номери програми — уривки вечора. Див. `PlayProgrammeItem` у `plays.ts`. */
 	items?: string[];
+	/** Роль у кожному номері окремо. Чому не досить `role` і чому перелік, а не мапа — у `scripts/build-play-cast.ts`. */
+	roles?: CastRole[];
 	/** Рядок зі списку школи, а не зі слів людини. Див. `GraduatePlay.fromRegistry`. */
 	fromRegistry?: boolean;
 }
@@ -38,6 +41,8 @@ export interface CastMember {
 	role?: string;
 	/** Номери програми, у яких людина грала. Порожньо — вона назвала весь вечір. */
 	items?: string[];
+	/** Роль у кожному з номерів окремо — для картки під фільтром уривка. Читають `castRoles.ts`. */
+	roles?: CastRole[];
 	/** Ім'я прийшло зі списку школи, а не зі слів людини. */
 	fromRegistry?: boolean;
 }
@@ -58,6 +63,7 @@ export function castOf(playId: string): CastMember[] {
 				graduate,
 				role: entry.role,
 				items: entry.items,
+				roles: entry.roles,
 				fromRegistry: entry.fromRegistry
 			});
 	}

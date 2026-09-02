@@ -1,8 +1,8 @@
 {
-	"id": "viktoriia-kulbaba",
-	"slug": "viktoriia-kulbaba",
-	"code": "viktoriia-kulbaba",
-	"name": "Вікторія Кульбаба",
+	"id": "anastasiia-dereviankyna",
+	"slug": "anastasiia-dereviankyna",
+	"code": "anastasiia-dereviankyna",
+	"name": "Анастасія Дерев'янкина",
 	"graduationYear": 2014,
 	"departments": [
 		"theatre"
@@ -21,28 +21,25 @@
 			"items": [
 				"antihona"
 			],
-			"role": "Хор",
-			"fromRegistry": true
+			"role": "Хор"
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики: Привиди; Г. Ібсен», Фру Алвінг",
+			"text": "«Уривки з класики: Привиди; Г. Ібсен», Тінь",
 			"playId": "uryvky-z-klasyky-2013",
 			"items": [
 				"pryvydy"
 			],
-			"role": "Фру Алвінг",
-			"fromRegistry": true
+			"role": "Тінь"
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики: Мина Мазайло; М. Куліш», Уля",
+			"text": "«Уривки з класики: Дядько Ваня; А. Чехов», Соня",
 			"playId": "uryvky-z-klasyky-2013",
 			"items": [
-				"myna-mazailo"
+				"diadko-vania"
 			],
-			"role": "Уля",
-			"fromRegistry": true
+			"role": "Соня"
 		},
 		{
 			"year": 2013,
@@ -50,14 +47,7 @@
 			"playId": "uryvky-z-klasyky-2013",
 			"items": [
 				"sonety"
-			],
-			"fromRegistry": true
-		},
-		{
-			"year": 2017,
-			"text": "«Зона турбулентності»",
-			"playId": "zona-turbulentnosti-2017",
-			"fromRegistry": true
+			]
 		}
 	],
 	"bio": [],

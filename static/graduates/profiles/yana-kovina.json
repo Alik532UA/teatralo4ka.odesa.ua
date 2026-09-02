@@ -16,8 +16,41 @@
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Антігона; Софокл», Хор",
 			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			],
+			"role": "Хор",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Наталка Полтавка; І. Котляревський», Наталка",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"natalka-poltavka"
+			],
+			"role": "Наталка",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Безприданниця; О. Островський», Лариса",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"bezprydannytsia"
+			],
+			"role": "Лариса",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
+			],
 			"fromRegistry": true
 		},
 		{

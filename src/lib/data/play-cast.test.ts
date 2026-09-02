@@ -4,7 +4,7 @@ import path, { join } from 'node:path';
 import { buildCast } from '../../../scripts/build-play-cast';
 import { PLAY_CAST as cast } from './playCast';
 import { PLAYS } from './plays';
-import { GRADUATES } from './graduates';
+import { GRADUATES, HIDDEN_GRADUATES } from './graduates';
 import { createNameMatcher } from '$lib/utils/participantMatch';
 
 /**
@@ -98,6 +98,32 @@ describe('склад вистав', () => {
 		).toEqual([]);
 	});
 
+	/*
+	 * Роль по уривку — лише в уривку, який людина назвала.
+	 *
+	 * `roles` будується з пари «items + role» одного рядка, тож розійтися вони
+	 * можуть тільки через помилку збірки. Але саме таку помилку читач і не
+	 * побачить: картка під фільтром показала б роль, а сам фільтр людину — ні.
+	 */
+	it('роль по уривку стосується лише уривків, які людина назвала', () => {
+		const bad: string[] = [];
+		let перевірено = 0;
+		for (const [playId, list] of Object.entries(cast)) {
+			for (const entry of list) {
+				for (const { item } of entry.roles ?? []) {
+					перевірено += 1;
+					if (!(entry.items ?? []).includes(item))
+						bad.push(`${playId}: ${entry.graduateId} має роль у «${item}», якого немає серед її уривків`);
+				}
+			}
+		}
+		expect(перевірено, 'жодної ролі по уривках — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(
+			bad,
+			'роль приписана уривку, якого людина не називала:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
 	it('перевірка номерів жива: у реєстрі є вечори з програмою і склад із номерами', () => {
 		const зПрограмою = PLAYS.filter((p) => (p.programme?.length ?? 0) > 0);
 		expect(зПрограмою.length, 'жодного вечора з програмою — перевірка вище нічого не стверджує').toBeGreaterThan(0);
@@ -117,9 +143,15 @@ describe('склад вистав', () => {
 	 * немає.
 	 *
 	 * Заміряно: після хвилі 1 таких рядків 52 у 25 анкетах.
+	 *
+	 * Зіставлення — з УСІМА випускниками, зокрема прихованими. Прапорець
+	 * `hidden` ховає людину з переліків, а зі списку школи її ім'я не зникає:
+	 * Володимир Захарченко стоїть у «+» «Короля помирає» 2012, і його рядок про
+	 * цей показ так само «зі списку школи». Зіставляти лише з видимими означало
+	 * б оголосити цей рядок безпідставним саме через те, що людину не показують.
 	 */
 	it('кожен рядок «зі списку школи» справді є в списку школи', () => {
-		const match = createNameMatcher(GRADUATES);
+		const match = createNameMatcher([...GRADUATES, ...HIDDEN_GRADUATES]);
 		const bad: string[] = [];
 		let перевірено = 0;
 		for (const [playId, list] of Object.entries(cast)) {

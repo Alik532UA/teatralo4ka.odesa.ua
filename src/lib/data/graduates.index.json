@@ -184,9 +184,9 @@
 				]
 			}
 		],
-		"playCount": 22,
+		"playCount": 24,
 		"code": "Alik",
-		"profileSize": 5777
+		"profileSize": 6335
 	},
 	{
 		"id": "alina-burdeina",
@@ -727,7 +727,9 @@
 		"graduationYear": 2014,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 1240,
+		"playCount": 5
 	},
 	{
 		"id": "anastasiia-fishchenko",
@@ -1408,8 +1410,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 392,
-		"playCount": 1
+		"profileSize": 915,
+		"playCount": 3
 	},
 	{
 		"id": "anna-halchynska",
@@ -2039,8 +2041,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 522,
-		"playCount": 2
+		"profileSize": 1601,
+		"playCount": 6
 	},
 	{
 		"id": "danylo-chupryn",
@@ -4211,8 +4213,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 565,
-		"playCount": 2
+		"profileSize": 1357,
+		"playCount": 5
 	},
 	{
 		"id": "ksiusha-kostiukova",
@@ -4472,8 +4474,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 512,
-		"playCount": 2
+		"profileSize": 1400,
+		"playCount": 5
 	},
 	{
 		"id": "liubov-prepodobna",
@@ -4649,8 +4651,8 @@
 				]
 			}
 		],
-		"profileSize": 668,
-		"playCount": 3
+		"profileSize": 1796,
+		"playCount": 7
 	},
 	{
 		"id": "marharet-tsypynska",
@@ -7974,8 +7976,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 676,
-		"playCount": 3
+		"profileSize": 1480,
+		"playCount": 6
 	},
 	{
 		"id": "viktoriia-lysak",
@@ -8499,8 +8501,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 612,
-		"playCount": 3
+		"profileSize": 1478,
+		"playCount": 6
 	},
 	{
 		"id": "yana-lunova",
@@ -9513,6 +9515,8 @@
 				"id": "tetiana-isachkina"
 			}
 		],
+		"profileSize": 1142,
+		"playCount": 4,
 		"hidden": true
 	}
 ]

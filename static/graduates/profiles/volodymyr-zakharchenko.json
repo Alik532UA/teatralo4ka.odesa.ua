@@ -1,0 +1,56 @@
+{
+	"id": "volodymyr-zakharchenko",
+	"slug": "volodymyr-zakharchenko",
+	"code": "volodymyr-zakharchenko",
+	"name": "Володимир Захарченко",
+	"graduationYear": 2013,
+	"graduationLabelKey": "galaxy.studiedUntil",
+	"departments": [
+		"theatre"
+	],
+	"masters": [
+		{
+			"id": "pavlo-koshka"
+		},
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"plays": [
+		{
+			"year": 2012,
+			"text": "«Король помирає»",
+			"playId": "korol-pomyraie-2012",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Антігона; Софокл», Хор",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			],
+			"role": "Хор"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Привиди; Г. Ібсен», Тінь",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"pryvydy"
+			],
+			"role": "Тінь"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
+			]
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

@@ -10,10 +10,28 @@
 	"plays": [
 		{
 			"year": 2013,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Антігона; Софокл», Антігона",
 			"playId": "uryvky-z-klasyky-2013",
 			"items": [
 				"antihona"
+			],
+			"role": "Антігона"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Безприданниця; О. Островський», Огудалова",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"bezprydannytsia"
+			],
+			"role": "Огудалова"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
 			]
 		}
 	],

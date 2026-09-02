@@ -16,8 +16,51 @@
 		},
 		{
 			"year": 2013,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Антігона; Софокл», Креонт",
 			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			],
+			"role": "Креонт",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Незнайомка; О. Блок», Поет",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"neznaiomka"
+			],
+			"role": "Поет",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Мина Мазайло; М. Куліш», Мокій",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"myna-mazailo"
+			],
+			"role": "Мокій",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Украдене щастя; І. Франко», Микола",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"ukradene-shchastia"
+			],
+			"role": "Микола",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір»",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
+			],
 			"fromRegistry": true
 		}
 	],
