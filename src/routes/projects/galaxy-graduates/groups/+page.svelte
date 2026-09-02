@@ -56,30 +56,34 @@
 	 * початок списку — тобто «випадковість», якої насправді немає. Той самий
 	 * порядок міркувань, що й в учасників фестивалю.
 	 */
-	const byYear = $derived(
-		[...GROUPS].sort((a, b) => {
+	const currentGroups = $derived(GROUPS.filter((g) => g.isCurrent));
+	const needsClarificationGroups = $derived(GROUPS.filter((g) => !g.isCurrent && g.memberIds.length === 0));
+	const graduatedGroups = $derived(GROUPS.filter((g) => !g.isCurrent && g.memberIds.length > 0));
+
+	const graduatedByYear = $derived(
+		[...graduatedGroups].sort((a, b) => {
 			const ya = Math.max(...a.graduationYears);
 			const yb = Math.max(...b.graduationYears);
 			return yb - ya || a.name.localeCompare(b.name, 'uk');
 		})
 	);
 
-	let shuffled = $state<typeof GROUPS | null>(null);
+	let shuffledGraduated = $state<typeof GROUPS | null>(null);
 
 	$effect(() => {
-		const list = [...GROUPS];
+		const list = [...graduatedGroups];
 		for (let i = list.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[list[i], list[j]] = [list[j], list[i]];
 		}
-		shuffled = list;
+		shuffledGraduated = list;
 	});
 
 	/*
 	 * До гідратації — за роками: пререндерена розмітка мусить мати ЯКИЙСЬ
 	 * порядок, і осмислений кращий за довільний, якщо скрипт не дійде.
 	 */
-	const ordered = $derived(shuffled ?? byYear);
+	const orderedGraduated = $derived(shuffledGraduated ?? graduatedByYear);
 
 	const view = createGalaxyView('galaxy_groups_view');
 
@@ -89,35 +93,44 @@
 		{ value: 'tiles', label: $t('galaxy.viewModes.tiles'), icon: LayoutGrid }
 	]);
 
-	/**
-	 * Ті самі групи рядками — і ЗА РОКАМИ, а не перемішані.
-	 *
-	 * Плитка лишається випадковою, і це не суперечність: перемішування вирішує
-	 * задачу саме плитки — рівне поле однакових карток, у якому групи початку
-	 * двотисячних не бачив ніхто, бо до них не догортали (докладно вище, над
-	 * `byYear`). Хронологія й список натомість ВІДПОВІДАЮТЬ роком: випадковий
-	 * порядок у режимі, який називається «хронологія», був би просто неправдою.
-	 *
-	 * Заразом це знімає з рядків клопіт із гідратацією: перемішування живе лише
-	 * в тій гілці, де воно й потрібне.
-	 */
-	const rows = $derived<GalaxyRow[]>(
-		byYear.map((g) => ({
+	function mapGroupToRow(g: (typeof GROUPS)[number], statusLabel?: string): GalaxyRow {
+		return {
 			key: g.slug,
 			href: localizedPath(groupProfilePath(g.slug), currentLang),
 			year: Math.max(...g.graduationYears),
-			yearLabel: g.graduationYears.join(', '),
+			yearLabel: statusLabel ?? g.graduationYears.join(', '),
 			title: isEn && g.nameEn ? g.nameEn : g.name,
 			subtitle: g.masters.map((m) => masterName(m.id, m.name)).join(' · '),
 			memberIds: g.memberIds,
 			marks: [
+				...(statusLabel ? [{ icon: null, text: statusLabel, tone: 'group' as const }] : []),
 				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
 				{ icon: Users, text: String(g.memberIds.length) },
 				...(playIdsOfGroup(g.slug).length
 					? [{ icon: Theater, text: String(playIdsOfGroup(g.slug).length) }]
 					: [])
 			]
-		}))
+		};
+	}
+
+	const topSections = $derived([
+		{
+			id: 'current',
+			title: $t('galaxy.currentGroups', { default: 'Поточні групи' }),
+			rows: currentGroups.map((g) => mapGroupToRow(g, $t('galaxy.currentGroupBadge', { default: 'Поточна' }))),
+			emptyText: $t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' }),
+			showIfEmpty: true
+		},
+		{
+			id: 'clarification',
+			title: $t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' }),
+			rows: needsClarificationGroups.map((g) => mapGroupToRow(g, $t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' }))),
+			showIfEmpty: false
+		}
+	]);
+
+	const rows = $derived<GalaxyRow[]>(
+		graduatedByYear.map((g) => mapGroupToRow(g))
 	);
 </script>
 
@@ -156,7 +169,7 @@
 				{$t('galaxy.groupsTitle', { default: 'Групи випускників' })}
 			</h1>
 			<p class="groups-header__count">
-				{ordered.length}
+				{GROUPS.length}
 			</p>
 
 			<div class="groups-header__view">
@@ -193,6 +206,68 @@
 			</div>
 		{/snippet}
 
+		{#snippet groupCard(group: (typeof GROUPS)[number])}
+			<a
+				class="group-card"
+				href={localizedPath(groupProfilePath(group.slug), currentLang)}
+				data-testid="galaxy-group-card-{group.slug}"
+			>
+				<span class="group-card__head">
+					<span class="group-card__name">
+						{isEn && group.nameEn ? group.nameEn : group.name}
+					</span>
+					{#if group.abbr}
+						<span class="group-card__abbr">
+							<Sparkles size={13} aria-hidden="true" />
+							{group.abbr}
+						</span>
+					{/if}
+					{#if group.isCurrent}
+						<span class="group-card__current-badge">{$t('galaxy.currentGroupBadge', { default: 'Поточна' })}</span>
+					{:else if group.memberIds.length === 0}
+						<span class="group-card__clarification-badge">{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}</span>
+					{/if}
+				</span>
+
+				<span class="group-card__meta">
+					<span class="group-card__badge">
+						<Calendar size={13} aria-hidden="true" />
+						{#if group.isCurrent}
+							{$t('galaxy.currentGroupBadge', { default: 'Поточна' })}
+						{:else if group.memberIds.length === 0}
+							{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}
+						{:else}
+							{group.graduationYears.join(', ')}
+						{/if}
+					</span>
+					<span class="group-card__badge">
+						<Users size={13} aria-hidden="true" />
+						{group.memberIds.length}
+					</span>
+					{#if playIdsOfGroup(group.slug).length > 0}
+						<span class="group-card__badge">
+							<Theater size={13} aria-hidden="true" />
+							{playIdsOfGroup(group.slug).length}
+						</span>
+					{/if}
+				</span>
+
+				{#if group.masters.length}
+					<span class="group-card__masters">
+						{group.masters.map((m) => masterName(m.id, m.name)).join(' · ')}
+					</span>
+				{/if}
+
+				<span class="group-card__mates">
+					<GroupMatesRow
+						groupSlug={group.slug}
+						linked={false}
+						testIdPrefix="galaxy-group-mates-{group.slug}"
+					/>
+				</span>
+			</a>
+		{/snippet}
+
 		{#if view.current !== 'tiles'}
 			<!--
 				У рядках картка стоїть НАД переліком, а не першим рядком: усередині
@@ -203,85 +278,56 @@
 			<div class="groups-add-solo">{@render addCard()}</div>
 			<GalaxyRows
 				{rows}
+				{topSections}
 				grouped={view.current === 'timeline'}
 				testIdPrefix="galaxy-groups"
 				maxFaces={8}
 			/>
 		{:else}
-		<ul class="groups-grid" data-testid="galaxy-groups-list">
-			<!--
-				ПЕРШИМ пунктом — «додати групу», у тій самій плитці, що й решта.
-				Доти сторінка показувала сам лише перелік того, що вже є, і не
-				казала, що список поповнюється зверненням. Окрема кнопка десь збоку
-				сказала б це тихіше: тут вона стоїть там, де людина шукає СВОЮ групу
-				й не знаходить.
-			-->
-			<li>{@render addCard()}</li>
-			{#each ordered as group (group.slug)}
-				<li>
-					<a
-						class="group-card"
-						href={localizedPath(groupProfilePath(group.slug), currentLang)}
-						data-testid="galaxy-group-card-{group.slug}"
-					>
-						<span class="group-card__head">
-							<span class="group-card__name">
-								{isEn && group.nameEn ? group.nameEn : group.name}
-							</span>
-							{#if group.abbr}
-								<span class="group-card__abbr">
-									<Sparkles size={13} aria-hidden="true" />
-									{group.abbr}
-								</span>
-							{/if}
-						</span>
+		<div class="groups-tiles-container" data-testid="galaxy-groups-tiles-panel">
+			<section class="groups-category" data-testid="galaxy-groups-current-section">
+				<div class="groups-category__head">
+					<h2 class="groups-category__title">{$t('galaxy.currentGroups', { default: 'Поточні групи' })}</h2>
+					<span class="groups-category__count">{currentGroups.length}</span>
+				</div>
+				{#if currentGroups.length === 0}
+					<p class="groups-category__empty">{$t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' })}</p>
+				{:else}
+					<ul class="groups-grid">
+						{#each currentGroups as group (group.slug)}
+							<li>{@render groupCard(group)}</li>
+						{/each}
+					</ul>
+				{/if}
+			</section>
 
-						<span class="group-card__meta">
-							<span class="group-card__badge">
-								<Calendar size={13} aria-hidden="true" />
-								{group.graduationYears.join(', ')}
-							</span>
-							<span class="group-card__badge">
-								<Users size={13} aria-hidden="true" />
-								{group.memberIds.length}
-							</span>
-							<!-- Репертуар може ще не бути внесений: значок «0» повідомляв би
-							     не про групу, а про стан наших даних. -->
-							{#if playIdsOfGroup(group.slug).length > 0}
-								<span class="group-card__badge">
-									<Theater size={13} aria-hidden="true" />
-									{playIdsOfGroup(group.slug).length}
-								</span>
-							{/if}
-						</span>
+			{#if needsClarificationGroups.length > 0}
+				<section class="groups-category" data-testid="galaxy-groups-clarification-section">
+					<div class="groups-category__head">
+						<h2 class="groups-category__title">{$t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' })}</h2>
+						<span class="groups-category__count">{needsClarificationGroups.length}</span>
+					</div>
+					<ul class="groups-grid">
+						{#each needsClarificationGroups as group (group.slug)}
+							<li>{@render groupCard(group)}</li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
 
-						{#if group.masters.length}
-							<span class="group-card__masters">
-								{group.masters.map((m) => masterName(m.id, m.name)).join(' · ')}
-							</span>
-						{/if}
-
-						<!--
-							Мініатюри складу — те саме, що в картці випускника, тільки
-							БЕЗ посилань: рядок лежить усередині картки-посилання, а
-							`<a>` всередині `<a>` невалідний. Натискання й так веде на
-							сторінку групи, а звідти вже можна перейти до людини.
-
-							Свій `testIdPrefix` обов'язковий: таких рядків на сторінці
-							стільки ж, скільки груп, а `testid.spec` вимагає
-							унікальності в межах сторінки.
-						-->
-						<span class="group-card__mates">
-							<GroupMatesRow
-								groupSlug={group.slug}
-								linked={false}
-								testIdPrefix="galaxy-group-mates-{group.slug}"
-							/>
-						</span>
-					</a>
-				</li>
-			{/each}
-		</ul>
+			<section class="groups-category" data-testid="galaxy-groups-graduated-section">
+				<div class="groups-category__head">
+					<h2 class="groups-category__title">{$t('galaxy.graduatedGroups', { default: 'Випущені групи' })}</h2>
+					<span class="groups-category__count">{graduatedGroups.length}</span>
+				</div>
+				<ul class="groups-grid" data-testid="galaxy-groups-list">
+					<li>{@render addCard()}</li>
+					{#each orderedGraduated as group (group.slug)}
+						<li>{@render groupCard(group)}</li>
+					{/each}
+				</ul>
+			</section>
+		</div>
 		{/if}
 	</div>
 </main>
@@ -373,6 +419,62 @@
 		color: var(--text-muted);
 		font-size: 0.9rem;
 		font-weight: 700;
+	}
+
+	.groups-tiles-container {
+		display: flex;
+		flex-direction: column;
+		gap: 2.25rem;
+	}
+	.groups-category__head {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 1rem;
+		padding-bottom: 0.4rem;
+		border-bottom: 1px solid var(--border-main);
+	}
+	.groups-category__title {
+		margin: 0;
+		font-size: 1.2rem;
+		font-weight: 800;
+		color: var(--text-title);
+	}
+	.groups-category__count {
+		padding: 0.1rem 0.5rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
+	.groups-category__empty {
+		margin: 0;
+		padding: 0.85rem 1rem;
+		border-radius: var(--radius-md, 8px);
+		background: var(--bg-surface);
+		border: 1px dashed var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.88rem;
+	}
+	.group-card__current-badge {
+		padding: 0.15rem 0.5rem;
+		border-radius: var(--radius-sm, 6px);
+		background: rgba(14, 165, 233, 0.12);
+		border: 1px solid rgba(14, 165, 233, 0.35);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--accent-primary);
+	}
+	.group-card__clarification-badge {
+		padding: 0.15rem 0.5rem;
+		border-radius: var(--radius-sm, 6px);
+		background: rgba(245, 158, 11, 0.12);
+		border: 1px solid rgba(245, 158, 11, 0.35);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--warning-color, #f59e0b);
 	}
 
 	.groups-grid {

@@ -43,9 +43,29 @@
 		 * такої самої будови.
 		 */
 		maxFaces?: number;
+		/** Верхні спеціальні секції (наприклад, «Поточні групи», «Потребують уточнення») */
+		topSections?: readonly {
+			id: string;
+			title: string;
+			rows: readonly GalaxyRow[];
+			emptyText?: string;
+			showIfEmpty?: boolean;
+		}[];
+		/** Рядки, що завжди йдуть першими (legacy fallback) */
+		topRows?: readonly GalaxyRow[];
+		/** Заголовок верхнього блоку в хронології */
+		topSectionTitle?: string;
 	}
 
-	let { rows, grouped, testIdPrefix, maxFaces = 6 }: Props = $props();
+	let {
+		rows,
+		grouped,
+		testIdPrefix,
+		maxFaces = 6,
+		topSections,
+		topRows,
+		topSectionTitle
+	}: Props = $props();
 
 	const byYear = $derived(groupByYear(rows, (r) => r.year));
 </script>
@@ -111,6 +131,42 @@
 
 {#if grouped}
 	<div class="gyears" data-testid="{testIdPrefix}-list">
+		{#if topSections?.length}
+			{#each topSections as sec (sec.id)}
+				{#if sec.rows.length > 0 || sec.showIfEmpty}
+					<section class="gyear gyear--top" data-testid="{testIdPrefix}-{sec.id}-section">
+						<div class="gyear__head">
+							<h2 class="gyear__title">{sec.title}</h2>
+							<span class="gyear__count" data-testid="{testIdPrefix}-{sec.id}-count">
+								{sec.rows.length}
+							</span>
+						</div>
+						{#if sec.rows.length > 0}
+							<ul class="gyear__items">
+								{#each sec.rows as item (item.key)}{@render row(item)}{/each}
+							</ul>
+						{:else if sec.emptyText}
+							<p class="gyear__empty" data-testid="{testIdPrefix}-{sec.id}-empty-message">
+								{sec.emptyText}
+							</p>
+						{/if}
+					</section>
+				{/if}
+			{/each}
+		{:else if topRows?.length}
+			<section class="gyear" data-testid="{testIdPrefix}-current-section">
+				<div class="gyear__head">
+					<h2 class="gyear__title">{topSectionTitle ?? 'Поточні'}</h2>
+					<span class="gyear__count" data-testid="{testIdPrefix}-current-count">
+						{topRows.length}
+					</span>
+				</div>
+				<ul class="gyear__items">
+					{#each topRows as item (item.key)}{@render row(item)}{/each}
+				</ul>
+			</section>
+		{/if}
+
 		{#each byYear as [year, items] (year)}
 			<section class="gyear" data-testid="{testIdPrefix}-year-section-{year}">
 				<div class="gyear__head">
@@ -127,6 +183,13 @@
 	</div>
 {:else}
 	<ul class="gyear__items gyear__items--flat" data-testid="{testIdPrefix}-list">
+		{#if topSections?.length}
+			{#each topSections as sec (sec.id)}
+				{#each sec.rows as item (item.key)}{@render row(item)}{/each}
+			{/each}
+		{:else if topRows?.length}
+			{#each topRows as item (item.key)}{@render row(item)}{/each}
+		{/if}
 		{#each rows as item (item.key)}{@render row(item)}{/each}
 	</ul>
 {/if}
@@ -166,6 +229,15 @@
 		color: var(--text-muted);
 		font-size: 0.75rem;
 		font-weight: 700;
+	}
+	.gyear__empty {
+		margin: 0;
+		padding: 0.85rem 1rem;
+		border-radius: var(--radius-md, 8px);
+		background: var(--bg-surface);
+		border: 1px dashed var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.88rem;
 	}
 
 	.gyear__items {

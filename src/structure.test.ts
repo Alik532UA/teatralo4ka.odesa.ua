@@ -260,6 +260,9 @@ const LIMITS: Array<[RegExp, number]> = [
  *   та властивість `verificationStatus` в `MasterIndexEntry` для системи верифікації сторінок.
  * 2026-09-02: `residents/adults/[slug]/+page.svelte` 405 → 417. Додано плашку верифікації
  *   та ізоляцію фонового потоку випускників (`z-index: 2` для контенту).
+ * 2026-09-02: `MasterGroups.svelte` (350) та `galaxy-graduates/groups/+page.svelte` (490).
+ *   Розділення навчальних груп на категорії «Поточні групи», «Потребують уточнення» та «Випущені групи»
+ *   у всіх трьох режимах відображення (хронологія, список, плитка).
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -276,7 +279,9 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PianoModal.svelte': 608,
 	'src/lib/components/GraduateProfileView.svelte': 1600,
 	'src/lib/components/FooterSection.svelte': 510,
+	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 490,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
+	'src/lib/components/adults/MasterGroups.svelte': 350,
 	'src/lib/components/GalaxyStageControls.svelte': 345,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,

@@ -183,8 +183,11 @@ describe('GROUPS data integrity', () => {
 		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «Freedom»', theatreGroupAlt: 'гр. 14-Т' }).map((g) => g.slug)).toEqual([
 			'freedom'
 		]);
+		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «БулаФФки»' }).map((g) => g.slug)).toEqual([
+			'bulaffky'
+		]);
 		// назви, якої в реєстрі немає, вигадувати не треба
-		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «БулаФФки»' })).toEqual([]);
+		expect(namedGroupsOfPlay({ theatreGroup: 'гр. «НеіснуючаГрупа»' })).toEqual([]);
 		expect(namedGroupsOfPlay({})).toEqual([]);
 	});
 

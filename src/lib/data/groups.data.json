@@ -345,14 +345,15 @@
 			"anastasiia-ivanes"
 		],
 		"playIds": [
+			"tsybulino-2010",
+			"tsybulino-new-2010",
+			"uryvky-z-klasyky-2011",
 			"natovp-samotnikh-2011",
-			"ydyot-2011",
-			"try-sestry-2010",
-			"dykaia-utka-2010",
-			"chypollyno-2010",
-			"otryvky-yz-klassyky-2009"
+			"uryvky-z-dramaturhii-20-stolittia-2012",
+			"korol-pomyraie-2012"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "khlopaffky",
@@ -376,17 +377,14 @@
 			"violetta-nezvinska"
 		],
 		"playIds": [
-			"uryvky-z-klasyky-2025",
-			"solovei-2025",
-			"tramvai-bazhannia-2025",
-			"uryvky-z-klasyky-mama-2024",
-			"alisa-v-zadzerkalli-2024",
+			"pokaz-etiudiv-2023",
 			"alisa-2024",
-			"alisa-v-kraini-dyv-2023",
-			"etiudy-2023",
-			"etiudy-klounessa-italianka-druhoriadni-roli-2022"
+			"alisa-new-2025",
+			"solovei-2025",
+			"uryvky-z-klasyky-2025"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "shevchushky",
@@ -473,22 +471,16 @@
 			"heorhii-topor"
 		],
 		"playIds": [
-			"pidu-do-zirok-2022",
-			"chapaiev-ta-vasylisa-2021",
-			"hraiemo-zoshchenka-2020",
-			"uryvky-z-klasyky-2019",
-			"feis-bu-chik-2018",
+			"pokaz-etiudiv-2016",
+			"kazka-ardenskoho-lisu-2017",
 			"foto-toples-2018",
-			"henzel-ta-hretel-2017",
-			"zorianyi-ekspres-2016",
-			"oliver-tvist-2015",
-			"etiudy-2013",
-			"dim-mavpy-2012",
-			"husy-lebedi-2011",
-			"horod-monstrov-2011",
-			"misto-monstriv-2010"
+			"feis-bu-chik-2019",
+			"uryvky-z-klasyky-2019",
+			"hraiemo-zoshchenka-2020",
+			"stus-zaboronenyi-2020"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "mamarada",
@@ -675,24 +667,16 @@
 			"maryna-kravchuk"
 		],
 		"playIds": [
-			"retsepty-vyzhyvannia-2023",
+			"pokaz-etiudiv-ta-verbatimiv-2021",
 			"pidu-do-zirok-2022",
-			"chapaiev-ta-vasylisa-2021",
-			"hraiemo-zoshchenka-2020",
-			"uryvky-z-klasyky-2019",
-			"feis-bu-chik-2018",
-			"henzel-ta-hretel-2017",
-			"zorianyi-ekspres-2016",
-			"oliver-tvist-2015",
-			"etiudy-2013",
-			"dim-mavpy-2012",
-			"husy-lebedi-2011",
-			"misto-monstriv-2010"
+			"uryvky-z-dramaturhii-2023",
+			"retsepty-vyzhyvannia-2023"
 		],
 		"photos": [
 			"/groups/alter-ego.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "rost-ok",
@@ -782,11 +766,6 @@
 			{
 				"id": "tereza-zaurbekova",
 				"name": "Заурбекова Тереза Валеріївна",
-				"department": "theatre"
-			},
-			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
 				"department": "theatre"
 			}
 		],
@@ -958,10 +937,11 @@
 			"liubov-bernaus"
 		],
 		"playIds": [
-			"uryvky-z-klasyky-2013",
-			"matinka-middous-2012"
+			"matinka-middous-2012",
+			"uryvky-z-klasyky-2013"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "tu-154",
@@ -994,11 +974,10 @@
 			"alina-nakonechna"
 		],
 		"playIds": [
-			"aeroport-2017",
-			"uryvky-z-klasyky-2016",
 			"de-vsi-2015",
-			"pokaz-etiudiv-2014",
-			"taiemnytsi-zamku-oilenshtain-2013"
+			"uryvky-z-klasyky-2016",
+			"dyvni-dyva-2017",
+			"zona-turbulentnosti-2017"
 		],
 		"teachers": [
 			{
@@ -1017,7 +996,8 @@
 				"subject": "Вокал"
 			}
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified",
+		"isCurrent": false
 	},
 	{
 		"slug": "chudachky",
@@ -1261,5 +1241,449 @@
 			}
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "titry",
+		"name": "Молодіжний театр «Тітри»",
+		"abbr": null,
+		"nameEn": "Youth Theatre \"Titry\"",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2009
+		],
+		"memberIds": [],
+		"playIds": [
+			"myna-mazailo-2006",
+			"myna-mazailo-new-2009"
+		]
+	},
+	{
+		"slug": "bulaffky",
+		"name": "БулаФФки",
+		"abbr": null,
+		"nameEn": "BulaFFky",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2009
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2007",
+			"smarahdove-misto-2007",
+			"uryvky-z-klasyky-2008",
+			"kimnata-narechenoi-2008",
+			"kimnata-narechenoi-new-2009",
+			"dyvni-baby-2009"
+		]
+	},
+	{
+		"slug": "biust",
+		"name": "БЮСТ",
+		"abbr": null,
+		"nameEn": "BIUST",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2008
+		],
+		"memberIds": [],
+		"playIds": [
+			"khrestyky-nulyky-2008"
+		]
+	},
+	{
+		"slug": "osobystosti",
+		"name": "Особистості",
+		"abbr": null,
+		"nameEn": "Osobystosti",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2010
+		],
+		"memberIds": [],
+		"playIds": [
+			"slon-khorton-2009",
+			"solovei-2009",
+			"slon-khorton-new-2010",
+			"uryvky-z-ukrainskoi-klasyky-2010"
+		]
+	},
+	{
+		"slug": "shchaslyffchyky",
+		"name": "ЩаслиФФчики",
+		"abbr": null,
+		"nameEn": "ShchaslyFFchyky",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2015
+		],
+		"memberIds": [],
+		"playIds": [
+			"infanta-2011",
+			"infanta-new-2012",
+			"natashi-2013",
+			"uryvky-z-klasyky-2014",
+			"monolohy-2014",
+			"proiekt-ia-2015"
+		]
+	},
+	{
+		"slug": "freestyle",
+		"name": "FreeStyle",
+		"abbr": null,
+		"nameEn": "FreeStyle",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2014
+		],
+		"memberIds": [],
+		"playIds": [
+			"taiemnytsi-zamku-oilenshtain-2013",
+			"pokaz-etiudiv-2014"
+		]
+	},
+	{
+		"slug": "hruffish",
+		"name": "ГруФФіш",
+		"abbr": null,
+		"nameEn": "HruFFish",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2015
+		],
+		"memberIds": [],
+		"playIds": [
+			"tiulka-ta-gruffalo-2014",
+			"uryvky-z-klasyky-2015"
+		]
+	},
+	{
+		"slug": "druhe-dykhannia",
+		"name": "Друге дихання",
+		"abbr": null,
+		"nameEn": "Druhe Dykhannia",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2018
+		],
+		"memberIds": [],
+		"playIds": [
+			"shake-s-pr-party-2018"
+		]
+	},
+	{
+		"slug": "art-kids",
+		"name": "Art-Kids",
+		"abbr": null,
+		"nameEn": "Art-Kids",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2021
+		],
+		"memberIds": [],
+		"playIds": [
+			"a-mozhe-ni-2018",
+			"sorok-pershyi-2018",
+			"a-mozhe-ni-new-2019",
+			"bezimenna-zirka-2020",
+			"chapaiev-ta-vasylisa-2021"
+		]
+	},
+	{
+		"slug": "prestyzh",
+		"name": "ПреСтиЖ",
+		"abbr": null,
+		"nameEn": "PreStyZh",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2019
+		],
+		"memberIds": [],
+		"playIds": [
+			"synii-ptakh-2019"
+		]
+	},
+	{
+		"slug": "yavyshcha-pryrody",
+		"name": "Явища природи",
+		"abbr": null,
+		"nameEn": "Yavyshcha Pryrody",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2021
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2020",
+			"alisa-2021"
+		]
+	},
+	{
+		"slug": "intensyv-molodshi",
+		"name": "Інтенсив-молодші (вкл. Любінські)",
+		"abbr": null,
+		"nameEn": "Intensyv Juniors (incl. Liubinski)",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2024
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2024"
+		]
+	},
+	{
+		"slug": "intensyv-starshi",
+		"name": "Інтенсив-старші (вкл. Паша Максимов)",
+		"abbr": null,
+		"nameEn": "Intensyv Seniors (incl. Pasha Maksymov)",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2024
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2024"
+		]
+	},
+	{
+		"slug": "repete",
+		"name": "RePeTe",
+		"abbr": null,
+		"nameEn": "RePeTe",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"ia-pishov-na-viinu-2024",
+			"charivnyk-krainy-oz-2025",
+			"dumky-vholos-2026",
+			"stateve-vykhovannia-2026"
+		]
+	},
+	{
+		"slug": "intensyv-nasti",
+		"name": "Інтенсив-Насті (вкл. Паша)",
+		"abbr": null,
+		"nameEn": "Intensyv Nasti (incl. Pasha)",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2025",
+			"zaruchyny-2026"
+		]
+	},
+	{
+		"slug": "muzychnyi-teatr",
+		"name": "Музичний театр",
+		"abbr": null,
+		"nameEn": "Musical Theatre",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2025
+		],
+		"memberIds": [],
+		"playIds": [
+			"tsybulino-2025"
+		]
+	},
+	{
+		"slug": "li-te-ra",
+		"name": "Лі-Те-Ра",
+		"abbr": null,
+		"nameEn": "Li-Te-Ra",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"den-narodzhennia-infanty-2026",
+			"vid-bazhana-do-zhadana-2026"
+		]
+	},
+	{
+		"slug": "intensyv-tykhon",
+		"name": "Інтенсив-Тихон",
+		"abbr": null,
+		"nameEn": "Intensyv Tykhon",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"pokaz-etiudiv-2026"
+		]
+	},
+	{
+		"slug": "kaktus-pasha",
+		"name": "Кактус+Паша",
+		"abbr": null,
+		"nameEn": "Kaktus + Pasha",
+		"verificationStatus": "verified",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"zaruchyny-2026"
+		]
 	}
 ]

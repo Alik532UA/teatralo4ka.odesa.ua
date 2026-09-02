@@ -31,6 +31,8 @@ export interface GraduateGroup {
 	abbr: string | null;
 	nameEn?: string;
 	verificationStatus?: VerificationStatusProp;
+	/** Чи є група поточною (ще навчається, не випустилась) */
+	isCurrent?: boolean;
 	masters: GroupMaster[];
 	/** Викладачі курсу. Немає поля — група їх не має, секція просто не з'явиться. */
 	teachers?: GroupTeacher[];

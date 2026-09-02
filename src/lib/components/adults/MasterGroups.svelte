@@ -67,22 +67,47 @@
 	 * («вихованець / вихованці / вихованців»), через які її немає в картці, тут
 	 * не потрібні.
 	 */
-	const rows = $derived<GalaxyRow[]>(
-		groups.map((g) => ({
+	const currentGroups = $derived(groups.filter((g) => g.isCurrent));
+	const needsClarificationGroups = $derived(groups.filter((g) => !g.isCurrent && g.memberIds.length === 0));
+	const graduatedGroups = $derived(groups.filter((g) => !g.isCurrent && g.memberIds.length > 0));
+
+	function mapGroupToRow(g: GraduateGroup, statusLabel?: string): GalaxyRow {
+		return {
 			key: g.slug,
 			href: localizedPath(groupProfilePath(g.slug), lang),
 			year: Math.max(...g.graduationYears),
-			yearLabel: yearsLabel(g.graduationYears),
+			yearLabel: statusLabel ?? yearsLabel(g.graduationYears),
 			title: isEn ? (g.nameEn ?? g.name) : g.name,
 			memberIds: g.memberIds,
 			marks: [
+				...(statusLabel ? [{ icon: null, text: statusLabel, tone: 'group' as const }] : []),
 				...(g.abbr ? [{ icon: Sparkles, text: g.abbr, tone: 'group' as const }] : []),
 				{ icon: Users, text: String(g.memberIds.length) },
 				...(playIdsOfGroup(g.slug).length
 					? [{ icon: Theater, text: String(playIdsOfGroup(g.slug).length) }]
 					: [])
 			]
-		}))
+		};
+	}
+
+	const topSections = $derived([
+		{
+			id: 'current',
+			title: $t('galaxy.currentGroups', { default: 'Поточні групи' }),
+			rows: currentGroups.map((g) => mapGroupToRow(g, $t('galaxy.currentGroupBadge', { default: 'Поточна' }))),
+			emptyText: $t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' }),
+			showIfEmpty: true
+		},
+		{
+			id: 'clarification',
+			title: $t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' }),
+			rows: needsClarificationGroups.map((g) => mapGroupToRow(g, $t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' }))),
+			showIfEmpty: false
+		}
+	]);
+
+	const rows = $derived<GalaxyRow[]>(
+		graduatedGroups.map((g) => mapGroupToRow(g))
 	);
 </script>
 
@@ -105,6 +130,48 @@
 		</div>
 	</div>
 
+	{#snippet groupCard(group: GraduateGroup)}
+		<a
+			class="group-card"
+			href={localizedPath(groupProfilePath(group.slug), lang)}
+			data-testid="master-group-card-{group.slug}"
+		>
+			<span class="group-card__body">
+				<span class="group-card__name">
+					{isEn ? (group.nameEn ?? group.name) : group.name}
+					{#if group.abbr}
+						<span class="group-card__abbr">{group.abbr}</span>
+					{/if}
+					{#if group.isCurrent}
+						<span class="group-card__current-badge">{$t('galaxy.currentGroupBadge', { default: 'Поточна' })}</span>
+					{:else if group.memberIds.length === 0}
+						<span class="group-card__clarification-badge">{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}</span>
+					{/if}
+				</span>
+				<span class="group-card__meta">
+					{#if group.isCurrent}
+						{$t('galaxy.currentGroupBadge', { default: 'Поточна група' })}
+					{:else if group.memberIds.length === 0}
+						{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}
+					{:else}
+						{$t('galaxy.groupGraduationYears', { default: 'Роки випуску' })}:
+						{yearsLabel(group.graduationYears)}
+					{/if}
+				</span>
+				<GraduateAvatarRow
+					ids={group.memberIds}
+					linked={false}
+					testIdPrefix="master-group-mates-{group.slug}"
+					max={8}
+					fitToWidth
+				/>
+			</span>
+			<span class="group-card__arrow" aria-hidden="true">
+				<ArrowRight size={18} />
+			</span>
+		</a>
+	{/snippet}
+
 	{#if view.current !== 'tiles'}
 		<!--
 			Той самий `testIdPrefix`, що в плитки: `master-groups-list` означає
@@ -113,60 +180,55 @@
 		-->
 		<GalaxyRows
 			{rows}
+			{topSections}
 			grouped={view.current === 'timeline'}
 			testIdPrefix="master-groups"
 			maxFaces={8}
 		/>
 	{:else}
-	<ul class="groups-list" data-testid="master-groups-list">
-		{#each groups as group (group.slug)}
-			<li>
-				<a
-					class="group-card"
-					href={localizedPath(groupProfilePath(group.slug), lang)}
-					data-testid="master-group-card-{group.slug}"
-				>
-					<span class="group-card__body">
-						<span class="group-card__name">
-							{isEn ? (group.nameEn ?? group.name) : group.name}
-							{#if group.abbr}
-								<span class="group-card__abbr">{group.abbr}</span>
-							{/if}
-						</span>
-						<!--
-							Тут лише роки випуску. Кількість вихованців проситься
-							поруч, але українською вона вимагає трьох форм
-							(«вихованець / вихованці / вихованців»), а наявний
-							ключ `galaxy.graduatesCount` — це голий підпис
-							«Вихованців» без числа. Три нові ключі заради рядка,
-							якого не просили, того не варті.
-						-->
-						<span class="group-card__meta">
-							{$t('galaxy.groupGraduationYears', { default: 'Роки випуску' })}:
-							{yearsLabel(group.graduationYears)}
-						</span>
-						<!--
-							Мініатюри складу — той самий рядок, що в переліку груп.
-							`linked={false}` обов'язково: картка сама вже посилання,
-							а `<a>` в `<a>` валить сторінку (див. `GraduateAvatarRow`).
-							Свій `testIdPrefix` — бо таких рядків на сторінці стільки ж,
-							скільки груп.
-						-->
-						<GraduateAvatarRow
-							ids={group.memberIds}
-							linked={false}
-							testIdPrefix="master-group-mates-{group.slug}"
-							max={8}
-							fitToWidth
-						/>
-					</span>
-					<span class="group-card__arrow" aria-hidden="true">
-						<ArrowRight size={18} />
-					</span>
-				</a>
-			</li>
-		{/each}
-	</ul>
+	<div class="groups-tiles-container" data-testid="master-groups-tiles-panel">
+		<section class="groups-category" data-testid="master-groups-current-section">
+			<div class="groups-category__head">
+				<h3 class="groups-category__title">{$t('galaxy.currentGroups', { default: 'Поточні групи' })}</h3>
+				<span class="groups-category__count">{currentGroups.length}</span>
+			</div>
+			{#if currentGroups.length === 0}
+				<p class="groups-category__empty">{$t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' })}</p>
+			{:else}
+				<ul class="groups-list">
+					{#each currentGroups as group (group.slug)}
+						<li>{@render groupCard(group)}</li>
+					{/each}
+				</ul>
+			{/if}
+		</section>
+
+		{#if needsClarificationGroups.length > 0}
+			<section class="groups-category" data-testid="master-groups-clarification-section">
+				<div class="groups-category__head">
+					<h3 class="groups-category__title">{$t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' })}</h3>
+					<span class="groups-category__count">{needsClarificationGroups.length}</span>
+				</div>
+				<ul class="groups-list">
+					{#each needsClarificationGroups as group (group.slug)}
+						<li>{@render groupCard(group)}</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
+
+		<section class="groups-category" data-testid="master-groups-graduated-section">
+			<div class="groups-category__head">
+				<h3 class="groups-category__title">{$t('galaxy.graduatedGroups', { default: 'Випущені групи' })}</h3>
+				<span class="groups-category__count">{graduatedGroups.length}</span>
+			</div>
+			<ul class="groups-list" data-testid="master-groups-list">
+				{#each graduatedGroups as group (group.slug)}
+					<li>{@render groupCard(group)}</li>
+				{/each}
+			</ul>
+		</section>
+	</div>
 	{/if}
 </section>
 
@@ -204,6 +266,43 @@
 		font-weight: 700;
 		color: var(--text-title);
 		line-height: 1.25;
+	}
+	.groups-tiles-container {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+	.groups-category__head {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 0.85rem;
+		padding-bottom: 0.4rem;
+		border-bottom: 1px solid var(--border-main);
+	}
+	.groups-category__title {
+		margin: 0;
+		font-size: 1.1rem;
+		font-weight: 800;
+		color: var(--text-title);
+	}
+	.groups-category__count {
+		padding: 0.1rem 0.5rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
+	.groups-category__empty {
+		margin: 0;
+		padding: 0.85rem 1rem;
+		border-radius: var(--radius-md, 8px);
+		background: var(--bg-surface);
+		border: 1px dashed var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.88rem;
 	}
 	.groups-list {
 		list-style: none;
@@ -257,6 +356,24 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--text-muted);
+	}
+	.group-card__current-badge {
+		padding: 0.1rem 0.45rem;
+		border-radius: var(--radius-full, 9999px);
+		background: rgba(14, 165, 233, 0.12);
+		border: 1px solid rgba(14, 165, 233, 0.35);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--accent-primary);
+	}
+	.group-card__clarification-badge {
+		padding: 0.1rem 0.45rem;
+		border-radius: var(--radius-full, 9999px);
+		background: rgba(245, 158, 11, 0.12);
+		border: 1px solid rgba(245, 158, 11, 0.35);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--warning-color, #f59e0b);
 	}
 	.group-card__meta {
 		font-size: 0.88rem;
