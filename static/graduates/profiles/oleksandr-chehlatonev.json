@@ -92,8 +92,12 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Ведмідь; А. Чехов», Смирнов",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"vedmid"
+			],
+			"role": "Смирнов",
 			"fromRegistry": true
 		}
 	],

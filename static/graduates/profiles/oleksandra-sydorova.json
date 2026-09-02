@@ -16,8 +16,32 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Ведмідь; А. Чехов», Попова",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"vedmid"
+			],
+			"role": "Попова",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Пил в очі; Е. Лабіш», Мадам Маленжар",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pyl-v-ochi"
+			],
+			"role": "Мадам Маленжар",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Мілетта",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Мілетта",
 			"fromRegistry": true
 		},
 		{

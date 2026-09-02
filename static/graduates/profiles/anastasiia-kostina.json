@@ -16,8 +16,42 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Свої люди — поквитаємось; О. Островський», Аграфена Кіндратівна",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"svoi-liudy-pokvytaiemos"
+			],
+			"role": "Аграфена Кіндратівна",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Про що тирса шелестіла; С. Черкасенко», Оксана",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pro-shcho-tyrsa-shelestila"
+			],
+			"role": "Оксана",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Пил в очі; Е. Лабіш», Еммеліна",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pyl-v-ochi"
+			],
+			"role": "Еммеліна",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Беліна",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Беліна",
 			"fromRegistry": true
 		}
 	],

@@ -16,8 +16,22 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Пил в очі; Е. Лабіш», Месьє Маленжар",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pyl-v-ochi"
+			],
+			"role": "Месьє Маленжар",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Тільтіль",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Тільтіль",
 			"fromRegistry": true
 		}
 	],

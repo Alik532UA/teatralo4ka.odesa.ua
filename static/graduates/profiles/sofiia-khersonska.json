@@ -34,8 +34,32 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Моя старша сестра; О. Володін», Ліда",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"moia-starsha-sestra"
+			],
+			"role": "Ліда",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Пил в очі; Е. Лабіш», Александрина",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pyl-v-ochi"
+			],
+			"role": "Александрина",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Жаніль",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Жаніль",
 			"fromRegistry": true
 		}
 	],

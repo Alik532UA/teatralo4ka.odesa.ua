@@ -45,11 +45,32 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Родина щіткарів; М. Ірчан», Єва",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"rodyna-shchitkariv"
+			],
+			"role": "Єва",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Ася; І. Тургенєв», Ася",
 			"playId": "uryvky-z-klasyky-2015",
 			"items": [
 				"asia"
 			],
+			"role": "Ася",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Еметта",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Еметта",
 			"fromRegistry": true
 		}
 	],

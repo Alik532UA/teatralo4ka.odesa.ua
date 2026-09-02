@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 import { gotoReady, openStageMenu, waitForAnimations } from './ready';
+import { groupPlayRows } from '../src/lib/data/playRowGroups';
+import type { GraduatePlay } from '../src/lib/data/graduates';
 
 /**
  * Сторінка випускника: перенос даних зі старого сайту й власна адреса.
@@ -25,7 +27,7 @@ interface Profile {
 	name: string;
 	masters: (string | { name: string; department?: string | null })[];
 	socials: { network: string }[];
-	plays: { year: number | null; text: string }[];
+	plays: GraduatePlay[];
 	bio: string[];
 }
 
@@ -60,13 +62,31 @@ test.describe('сторінка випускника', () => {
 			data.socials.length
 		);
 
-		// Вистави: стільки ж і той самий текст, у тому самому порядку.
+		/*
+		 * Вистави: стільки рядків, скільки дає згортання по вечорах, і в тому
+		 * самому порядку. Кілька рядків анкети про один вечір сторінка показує
+		 * ОДНИМ рядком (`groupPlayRows`): назва вечора, а під нею уривки з
+		 * ролями. Тому для вечора звіряються рік, роль із кожного рядка й
+		 * кількість уривків, а для одиночного рядка — його текст дослівно, як і
+		 * доти. Це те саме правило, що й у компонента, а не його копія: функція
+		 * імпортується звідти ж.
+		 */
 		expect(data.plays.length, 'у цього випускника мусять бути вистави').toBeGreaterThan(0);
+		const groups = groupPlayRows(data.plays);
 		const plays = await page.locator(PLAY).allInnerTexts();
-		expect(plays).toHaveLength(data.plays.length);
-		for (const [index, play] of data.plays.entries()) {
-			expect(plays[index].replace(/\s+/g, ' ')).toContain(play.text);
-			if (play.year) expect(plays[index]).toContain(String(play.year));
+		expect(plays).toHaveLength(groups.length);
+		for (const [index, group] of groups.entries()) {
+			const shown = plays[index].replace(/\s+/g, ' ');
+			if (group.kind === 'single') {
+				expect(shown).toContain(group.row.text);
+				if (group.row.year) expect(shown).toContain(String(group.row.year));
+				continue;
+			}
+			if (group.year) expect(shown).toContain(String(group.year));
+			for (const row of group.rows) if (row.role) expect(shown).toContain(row.role);
+			await expect(
+				page.locator(`[data-testid^="galaxy-card-play-part-item-${index}-"]`)
+			).toHaveCount(group.rows.length);
 		}
 
 		// Біографія: жоден абзац не загубився.
@@ -157,7 +177,7 @@ test.describe('картка в галактиці має власну адрес
 		if (isMobile) {
 			await expect(page).toHaveURL(PROFILE_URL);
 			await expect(page.locator('h1')).toHaveText(data.name);
-			await expect(page.locator(PLAY)).toHaveCount(data.plays.length);
+			await expect(page.locator(PLAY)).toHaveCount(groupPlayRows(data.plays).length);
 			await expect(page.locator(BIO)).toHaveCount(data.bio.length);
 
 			await page.goBack();
@@ -168,7 +188,7 @@ test.describe('картка в галактиці має власну адрес
 			await expect(page).toHaveURL(PROFILE_URL);
 			// І в картці ті самі подробиці, що й на власній сторінці: файл профілю
 			// читається на кліку, а не лежить у бандлі галактики.
-			await expect(page.locator(`${CARD} ${PLAY}`)).toHaveCount(data.plays.length);
+			await expect(page.locator(`${CARD} ${PLAY}`)).toHaveCount(groupPlayRows(data.plays).length);
 			await expect(page.locator(`${CARD} ${BIO}`)).toHaveCount(data.bio.length);
 
 			await page.goBack();

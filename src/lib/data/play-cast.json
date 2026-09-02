@@ -2677,7 +2677,7 @@
 	"uryvky-z-klasyky-2015": [
 		{
 			"graduateId": "alik-zapolnov",
-			"role": "М. М.",
+			"role": "Пан N",
 			"items": [
 				"asia",
 				"prynyzheni-ta-znevazheni"
@@ -2685,43 +2685,199 @@
 			"roles": [
 				{
 					"item": "asia",
-					"role": "М. М."
+					"role": "Пан N"
 				}
 			]
 		},
 		{
 			"graduateId": "anastasiia-kostina",
+			"role": "Аграфена Кіндратівна",
+			"items": [
+				"svoi-liudy-pokvytaiemos",
+				"pro-shcho-tyrsa-shelestila",
+				"pyl-v-ochi",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "svoi-liudy-pokvytaiemos",
+					"role": "Аграфена Кіндратівна"
+				},
+				{
+					"item": "pro-shcho-tyrsa-shelestila",
+					"role": "Оксана"
+				},
+				{
+					"item": "pyl-v-ochi",
+					"role": "Еммеліна"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Беліна"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "anna-rodonaia",
+			"role": "Єва",
 			"items": [
-				"asia"
+				"rodyna-shchitkariv",
+				"asia",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "rodyna-shchitkariv",
+					"role": "Єва"
+				},
+				{
+					"item": "asia",
+					"role": "Ася"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Еметта"
+				}
 			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "kateryna-kudlach",
-			"fromRegistry": true
+			"role": "Надя",
+			"items": [
+				"moia-starsha-sestra",
+				"pro-shcho-tyrsa-shelestila",
+				"chorna-pantera-i-bilyi-vedmid",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "moia-starsha-sestra",
+					"role": "Надя"
+				},
+				{
+					"item": "pro-shcho-tyrsa-shelestila",
+					"role": "Килина"
+				},
+				{
+					"item": "chorna-pantera-i-bilyi-vedmid",
+					"role": "Рита"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Розарель"
+				}
+			]
 		},
 		{
 			"graduateId": "maksym-ponomarenko",
+			"role": "Антін",
+			"items": [
+				"rodyna-shchitkariv",
+				"pro-shcho-tyrsa-shelestila",
+				"chorna-pantera-i-bilyi-vedmid",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "rodyna-shchitkariv",
+					"role": "Антін"
+				},
+				{
+					"item": "pro-shcho-tyrsa-shelestila",
+					"role": "Отаман Сірко"
+				},
+				{
+					"item": "chorna-pantera-i-bilyi-vedmid",
+					"role": "Корній"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Режисер"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "oleh-volkov",
+			"role": "Месьє Маленжар",
+			"items": [
+				"pyl-v-ochi",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "pyl-v-ochi",
+					"role": "Месьє Маленжар"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Тільтіль"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "oleksandr-chehlatonev",
+			"role": "Смирнов",
+			"items": [
+				"vedmid"
+			],
+			"roles": [
+				{
+					"item": "vedmid",
+					"role": "Смирнов"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "oleksandra-sydorova",
+			"role": "Попова",
+			"items": [
+				"vedmid",
+				"pyl-v-ochi",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "vedmid",
+					"role": "Попова"
+				},
+				{
+					"item": "pyl-v-ochi",
+					"role": "Мадам Маленжар"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Мілетта"
+				}
+			],
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "sofiia-khersonska",
+			"role": "Ліда",
+			"items": [
+				"moia-starsha-sestra",
+				"pyl-v-ochi",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "moia-starsha-sestra",
+					"role": "Ліда"
+				},
+				{
+					"item": "pyl-v-ochi",
+					"role": "Александрина"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Жаніль"
+				}
+			],
 			"fromRegistry": true
 		}
 	],

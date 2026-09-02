@@ -186,7 +186,7 @@
 		],
 		"playCount": 24,
 		"code": "Alik",
-		"profileSize": 6335
+		"profileSize": 6337
 	},
 	{
 		"id": "alina-burdeina",
@@ -888,8 +888,8 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 540,
-		"playCount": 2
+		"profileSize": 1574,
+		"playCount": 5
 	},
 	{
 		"id": "anastasiia-kovtunenko",
@@ -1557,8 +1557,8 @@
 			}
 		],
 		"code": "anna-rodonaia",
-		"playCount": 3,
-		"profileSize": 1222
+		"playCount": 5,
+		"profileSize": 1795
 	},
 	{
 		"id": "anna-rusieva",
@@ -3580,9 +3580,9 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"playCount": 6,
+		"playCount": 8,
 		"code": "kateryna-kudlach",
-		"profileSize": 2752,
+		"profileSize": 3402,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -4651,8 +4651,8 @@
 				]
 			}
 		],
-		"profileSize": 1796,
-		"playCount": 7
+		"profileSize": 2823,
+		"playCount": 10
 	},
 	{
 		"id": "marharet-tsypynska",
@@ -5792,8 +5792,8 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 507,
-		"playCount": 2
+		"profileSize": 913,
+		"playCount": 3
 	},
 	{
 		"id": "oleksandr-chehlatonev",
@@ -5855,7 +5855,7 @@
 		"hasPhoto": true,
 		"code": "oleksandr-chehlatonev",
 		"playCount": 7,
-		"profileSize": 1919
+		"profileSize": 2029
 	},
 	{
 		"id": "oleksandr-didyk",
@@ -6244,8 +6244,8 @@
 				"id": "samuil-imas"
 			}
 		],
-		"profileSize": 694,
-		"playCount": 3
+		"profileSize": 1339,
+		"playCount": 5
 	},
 	{
 		"id": "oleksandra-trostianska",
@@ -7079,8 +7079,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 850,
-		"playCount": 5
+		"profileSize": 1512,
+		"playCount": 7
 	},
 	{
 		"id": "sofiia-lozko",

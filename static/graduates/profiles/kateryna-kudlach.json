@@ -40,10 +40,6 @@
 		},
 		{
 			"year": 2014,
-			"text": "Уривки з класики (Рита з п'єси «Чорна Пантера і Білий Медвідь» В. Винниченка), (Надя з п'єси О.Володіна «Старшая сестра»)"
-		},
-		{
-			"year": 2014,
 			"text": "«Тюлька та Ґруффало»",
 			"playId": "tiulka-ta-gruffalo-2014",
 			"fromRegistry": true
@@ -61,9 +57,39 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Моя старша сестра; О. Володін», Надя",
 			"playId": "uryvky-z-klasyky-2015",
-			"fromRegistry": true
+			"items": [
+				"moia-starsha-sestra"
+			],
+			"role": "Надя"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Про що тирса шелестіла; С. Черкасенко», Килина",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pro-shcho-tyrsa-shelestila"
+			],
+			"role": "Килина"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Чорна Пантера і Білий Ведмідь; В. Винниченко», Рита",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"chorna-pantera-i-bilyi-vedmid"
+			],
+			"role": "Рита"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Розарель",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Розарель"
 		}
 	],
 	"bio": [

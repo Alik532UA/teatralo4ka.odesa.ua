@@ -65,8 +65,42 @@
 		},
 		{
 			"year": 2015,
-			"text": "«Уривки з класики»",
+			"text": "«Уривки з класики: Родина щіткарів; М. Ірчан», Антін",
 			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"rodyna-shchitkariv"
+			],
+			"role": "Антін",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Про що тирса шелестіла; С. Черкасенко», Отаман Сірко",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pro-shcho-tyrsa-shelestila"
+			],
+			"role": "Отаман Сірко",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Чорна Пантера і Білий Ведмідь; В. Винниченко», Корній",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"chorna-pantera-i-bilyi-vedmid"
+			],
+			"role": "Корній",
+			"fromRegistry": true
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Режисер",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Режисер",
 			"fromRegistry": true
 		}
 	],
