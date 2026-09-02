@@ -94,11 +94,55 @@
 				]
 			: []
 	);
+
+	let galaxyEl = $state<HTMLDivElement | null>(null);
+	let tiltX = $state(0);
+	let tiltY = $state(0);
+	let pointerX = $state(0);
+	let pointerY = $state(0);
+	let pointerActive = $state(false);
+
+	function handlePointerMove(e: PointerEvent) {
+		if (!browser || !galaxyEl) return;
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		const rect = galaxyEl.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+			tiltX = 0;
+			tiltY = 0;
+			pointerActive = false;
+			return;
+		}
+		pointerX = x;
+		pointerY = y;
+		pointerActive = true;
+		const relX = (x / rect.width - 0.5) * 2;
+		const relY = (y / rect.height - 0.5) * 2;
+		tiltX = relX * 12;
+		tiltY = relY * 8;
+	}
+
+	function handlePointerLeave() {
+		tiltX = 0;
+		tiltY = 0;
+		pointerActive = false;
+	}
 </script>
 
-<svelte:window bind:innerWidth={viewportW} bind:innerHeight={viewportH} />
+<svelte:window
+	bind:innerWidth={viewportW}
+	bind:innerHeight={viewportH}
+	onpointermove={handlePointerMove}
+	onpointerleave={handlePointerLeave}
+/>
 
-<div class="galaxy" data-testid="galaxy-section">
+<div
+	bind:this={galaxyEl}
+	class="galaxy"
+	data-testid="galaxy-section"
+	style="--cursor-x: {pointerX.toFixed(1)}px; --cursor-y: {pointerY.toFixed(1)}px; --cursor-opacity: {pointerActive ? '1' : '0'};"
+>
 	<!-- Зірки на канвасі — оформлення; читалці вони ні про що не кажуть. -->
 	<div class="galaxy__stars" aria-hidden="true">
 		{#if browser}
@@ -108,7 +152,12 @@
 		{/if}
 	</div>
 
-	<ul class="galaxy__lanes" class:is-paused={paused} data-testid="galaxy-list">
+	<ul
+		class="galaxy__lanes"
+		class:is-paused={paused}
+		style="--tilt-x: {tiltX.toFixed(2)}px; --tilt-y: {tiltY.toFixed(2)}px;"
+		data-testid="galaxy-list"
+	>
 		{#each flying as item (item.kind + item.lane)}
 			<li
 				class="lane"
@@ -142,6 +191,21 @@
 		z-index: 0;
 	}
 
+	.galaxy::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: radial-gradient(
+			550px circle at var(--cursor-x, -1000px) var(--cursor-y, -1000px),
+			rgba(14, 165, 233, 0.07),
+			transparent 70%
+		);
+		z-index: 1;
+		opacity: var(--cursor-opacity, 0);
+		transition: opacity 0.3s ease;
+	}
+
 	.galaxy__lanes {
 		position: absolute;
 		inset: 0;
@@ -149,6 +213,9 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
+		translate: var(--tilt-x, 0px) var(--tilt-y, 0px);
+		transition: translate 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+		will-change: translate;
 	}
 
 	.galaxy__lanes.is-paused .lane {
@@ -202,6 +269,10 @@
 	 * втратила б головне, а вимога стосується руху, не вмісту.
 	 */
 	@media (prefers-reduced-motion: reduce) {
+		.galaxy::after {
+			display: none;
+		}
+
 		.galaxy__lanes {
 			display: flex;
 			flex-wrap: wrap;
@@ -209,6 +280,8 @@
 			gap: 0.4rem;
 			padding: 1rem;
 			overflow-y: auto;
+			translate: none;
+			transition: none;
 		}
 
 		.lane {
