@@ -39,7 +39,7 @@ const RENAMED_PLAY_IDS: Record<string, string> = {
 	'uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012': 'uryvky-z-dramaturhii-20-stolittia-2012',
 	'uryvky-z-klasyky-neznaiomka-o-bloka-2013': 'uryvky-z-klasyky-2013',
 	'uryvky-z-klasyky-asia-i-turhenev-2014': 'uryvky-z-klasyky-2014',
-	'uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015': 'uryvky-z-klasyky-2015',
+	'uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015': 'uryvky-z-klasyky-2015-3',
 
 	// Двійники з двох джерел: репертуар майстра й розклад.
 	'balahanchyk-bratev-hrymm-2019': 'balahanchyk-brativ-hrym-2019',

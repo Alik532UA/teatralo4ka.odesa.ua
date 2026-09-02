@@ -1902,22 +1902,17 @@
 					"Жаніль",
 					"Розарель"
 				]
-			},
-			{
-				"id": "prynyzheni-ta-znevazheni",
-				"title": "«Принижені та зневажені»",
-				"fromProfile": true
 			}
 		],
 		"photos": [
 			"/plays/uryvky-z-klasyky-2015.webp",
 			"/plays/uryvky-z-klasyky-2015-2.webp"
 		],
-		"institution": "Одеське театрально-художнє училище (ОТХУ)",
+		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ГруФФиш»",
 		"theatreGroupAlt": "гр. 7Т-17",
 		"number": 30,
-		"dateNote": "19 травня вівторок, 18.30 (ауд. 7); 20 травня середа, 18.30 (ауд. 7); 2 червня вівторок, 17.00 (ауд. 7)",
+		"dateNote": "19 травня вівторок, 18.30 (ауд. 7); 20 травня середа, 18.30 (ауд. 7)",
 		"isDtsh": true,
 		"participants": [
 			"Катерина Кудлач",
@@ -1936,13 +1931,12 @@
 		],
 		"masters": [
 			"fedir-tkach",
-			"tetiana-isachkina",
 			"natalia-dombrovska",
 			"svitlana-vitiuk",
 			"iryna-ovcharenko",
 			"lesia-cherkasova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "verified"
 	},
 	{
 		"id": "uryvky-z-klasyky-2015-2",
@@ -1956,6 +1950,29 @@
 			"fedir-tkach"
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "uryvky-z-klasyky-2015-3",
+		"title": "«Уривки з класики»",
+		"year": 2015,
+		"author": "Ф. Достоєвський «Принижені та зневажені»",
+		"programme": [
+			{
+				"id": "prynyzheni-ta-znevazheni",
+				"title": "Ф. Достоєвський «Принижені та зневажені»"
+			}
+		],
+		"institution": "Одеська дитяча театральна школа",
+		"theatreGroup": "гр. 7Т-18",
+		"dateNote": "2 червня (вівторок), 17.00 (ауд. 7)",
+		"isDtsh": true,
+		"extraParticipants": [
+			"Алік Запольнов"
+		],
+		"masters": [
+			"tetiana-isachkina"
+		],
+		"verificationStatus": "verified"
 	},
 	{
 		"id": "bermudskyi-kvadrat-2014",

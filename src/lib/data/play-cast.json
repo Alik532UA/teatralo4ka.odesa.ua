@@ -2679,8 +2679,7 @@
 			"graduateId": "alik-zapolnov",
 			"role": "Пан N",
 			"items": [
-				"asia",
-				"prynyzheni-ta-znevazheni"
+				"asia"
 			],
 			"roles": [
 				{
@@ -2907,6 +2906,14 @@
 				}
 			],
 			"fromRegistry": true
+		}
+	],
+	"uryvky-z-klasyky-2015-3": [
+		{
+			"graduateId": "alik-zapolnov",
+			"items": [
+				"prynyzheni-ta-znevazheni"
+			]
 		}
 	],
 	"uryvky-z-klasyky-2016": [
