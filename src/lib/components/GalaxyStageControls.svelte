@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, BarChart3, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
@@ -169,6 +169,15 @@
 		>
 			<Theater size={18} aria-hidden="true" />
 			<span class="stage__nav-label">{$t('galaxy.playsTitle')}</span>
+		</a>
+
+		<a
+			class="stage__roster-btn stage__roster-btn--nav"
+			href={localizedPath('/projects/galaxy-graduates/stats/', locale)}
+			data-testid="galaxy-stats-link"
+		>
+			<BarChart3 size={18} aria-hidden="true" />
+			<span class="stage__nav-label">{$t('galaxy.statsTitle', { default: 'Статистика' })}</span>
 		</a>
 
 		<!--

@@ -263,6 +263,8 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-02: `MasterGroups.svelte` (350) та `galaxy-graduates/groups/+page.svelte` (490).
  *   Розділення навчальних груп на категорії «Поточні групи», «Потребують уточнення» та «Випущені групи»
  *   у всіх трьох режимах відображення (хронологія, список, плитка).
+ * 2026-09-02: `GalaxyStageControls.svelte` 345 → 355. Додано кнопку переходу до розділу
+ *   статистики наповнення архіву (/projects/galaxy-graduates/stats/).
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -282,7 +284,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 490,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 345,
+	'src/lib/components/GalaxyStageControls.svelte': 355,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,
