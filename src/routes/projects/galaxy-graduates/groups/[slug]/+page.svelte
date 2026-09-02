@@ -22,6 +22,7 @@
 	import GroupRepertoire from '$lib/components/GroupRepertoire.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
+	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -101,6 +102,8 @@
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>
+
+		<VerificationNoticeBanner status={data.group.verificationStatus} />
 
 		<!-- Головна шапка групи -->
 		<header class="group-header">

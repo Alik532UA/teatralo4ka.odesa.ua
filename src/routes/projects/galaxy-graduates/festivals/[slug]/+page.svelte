@@ -23,6 +23,7 @@
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -102,6 +103,8 @@
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>
+
+		<VerificationNoticeBanner status={data.festival.verificationStatus} />
 
 		<header class="fest-header">
 			<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />

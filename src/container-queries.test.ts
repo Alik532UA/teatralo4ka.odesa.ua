@@ -199,7 +199,11 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 			'сторінки; запит на 480px ховає підписи, лишаючи самі значки'
 	},
 	'ui/PianoModal.svelte': { axis: 'window', why: 'модалка на весь екран' },
-	'ui/Toast.svelte': { axis: 'window', why: 'фіксований контейнер сповіщень' }
+	'ui/Toast.svelte': { axis: 'window', why: 'фіксований контейнер сповіщень' },
+	'VerificationNoticeBanner.svelte': {
+		axis: 'window',
+		why: 'плашка на всю ширину контейнера сторінки під навігацією'
+	}
 };
 
 /**

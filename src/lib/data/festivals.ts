@@ -1,10 +1,12 @@
 import type { Pathname } from '$app/types';
+import type { VerificationStatusProp } from './groups';
 import festivalsData from './festivals.data.json';
 
 export interface Festival {
 	slug: string;
 	name: string;
 	nameEn?: string;
+	verificationStatus?: VerificationStatusProp;
 	/**
 	 * Роки участі — СПИСОК, хоча зазвичай у ньому один рік.
 	 *

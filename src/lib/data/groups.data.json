@@ -71,7 +71,8 @@
 			"koshcheevy-strasty-2008",
 			"diadiushka-krolyk-protyv-diadiushky-iahuara-2007",
 			"hraiemo-chekhova-2012"
-		]
+		],
+		"verificationStatus": "verified"
 	},
 	{
 		"slug": "skomorokhy",
@@ -126,7 +127,8 @@
 			"detskyi-sadyk-2010",
 			"mnymyi-bolnoi-2011",
 			"hraiemo-chekhova-2012"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "anshlah-devishnik",
@@ -205,7 +207,8 @@
 					"vse-lito-v-odyn-den-2018"
 				]
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "asorti",
@@ -261,7 +264,8 @@
 				"name": "Капля Ірина",
 				"subject": "Вокал"
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "tv-prodakshn",
@@ -311,7 +315,8 @@
 		],
 		"photos": [
 			"/groups/tv-prodakshn.webp"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "fresh",
@@ -346,7 +351,8 @@
 			"dykaia-utka-2010",
 			"chypollyno-2010",
 			"otryvky-yz-klassyky-2009"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "khlopaffky",
@@ -379,7 +385,8 @@
 			"alisa-v-kraini-dyv-2023",
 			"etiudy-2023",
 			"etiudy-klounessa-italianka-druhoriadni-roli-2022"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "shevchushky",
@@ -437,7 +444,8 @@
 			"klubnychnoe-korolevstvo-2010",
 			"oblachko-2009",
 			"utrennyky-2003-2008-2003"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "cheloveky",
@@ -479,7 +487,8 @@
 			"husy-lebedi-2011",
 			"horod-monstrov-2011",
 			"misto-monstriv-2010"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "mamarada",
@@ -545,7 +554,8 @@
 		],
 		"photos": [
 			"/groups/mamarada.webp"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "7t-19",
@@ -580,7 +590,8 @@
 			"karolina-v-kraini-zhakhiv-2020",
 			"dyvovyzhni-pryhody-krolyka-edvarda-2020",
 			"etiudy-2019"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "pakhlava",
@@ -626,7 +637,8 @@
 		],
 		"photos": [
 			"/groups/pakhlava.webp"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "alter-ego",
@@ -679,7 +691,8 @@
 		],
 		"photos": [
 			"/groups/alter-ego.webp"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "rost-ok",
@@ -714,7 +727,8 @@
 			"durochka-2010",
 			"diuimovochka-2009",
 			"repka-2008"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "rezonans",
@@ -742,7 +756,8 @@
 			"uryvky-z-klasyky-2014",
 			"etiudy-2014",
 			"pliushevyi-krolyk-2013"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "adrenalin",
@@ -830,7 +845,8 @@
 			"klubnychnoe-korolevstvo-2010",
 			"oblachko-2009",
 			"utrennyky-2003-2008-2003"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "svitlini-mikiliivni",
@@ -915,7 +931,8 @@
 			"komakhy-2017",
 			"kazkova-istoriia-2016",
 			"kolobonia-2015"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "freedom",
@@ -943,7 +960,8 @@
 		"playIds": [
 			"uryvky-z-klasyky-2013",
 			"matinka-middous-2012"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "tu-154",
@@ -998,7 +1016,8 @@
 				"name": "Капля Ірина",
 				"subject": "Вокал"
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "chudachky",
@@ -1040,7 +1059,8 @@
 				"name": "Капля Ірина",
 				"subject": "Вокал"
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "sn2007",
@@ -1086,7 +1106,8 @@
 				"name": "Полякова (старша)",
 				"subject": "Хореографія"
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "fantaziia",
@@ -1130,7 +1151,8 @@
 			"alina-putikova",
 			"marharyta-zhovnenko"
 		],
-		"playIds": []
+		"playIds": [],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "smaily",
@@ -1167,7 +1189,8 @@
 			"taras-lushpa",
 			"kseniia-korzhovska"
 		],
-		"playIds": []
+		"playIds": [],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "chainyky",
@@ -1194,7 +1217,8 @@
 			"kateryna-kudlach",
 			"oleksandra-sydorova"
 		],
-		"playIds": []
+		"playIds": [],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "yoryky",
@@ -1235,6 +1259,7 @@
 				"name": "Капля Ірина",
 				"subject": "Вокал"
 			}
-		]
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]

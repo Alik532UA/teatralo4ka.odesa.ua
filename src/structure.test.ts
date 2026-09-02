@@ -256,6 +256,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   рядок вистави разом зі стилями виїхав у `GraduatePlayRow` (вечір з кількох
  *   уривків там згортається в один рядок), і файл упав з 1684 до 1598. Число
  *   знято одразу, щоб звільнене місце не заросло мовчки.
+ * 2026-09-02: `masters.ts` 258 → 260. Рівно два рядки — імпорт `VerificationStatusProp`
+ *   та властивість `verificationStatus` в `MasterIndexEntry` для системи верифікації сторінок.
+ * 2026-09-02: `residents/adults/[slug]/+page.svelte` 405 → 417. Додано плашку верифікації
+ *   та ізоляцію фонового потоку випускників (`z-index: 2` для контенту).
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -285,10 +289,10 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
-	'src/routes/residents/adults/[slug]/+page.svelte': 405,
+	'src/routes/residents/adults/[slug]/+page.svelte': 417,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
-	'src/lib/data/masters.ts': 258,
+	'src/lib/data/masters.ts': 260,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 420
 };

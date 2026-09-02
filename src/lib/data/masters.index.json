@@ -22,7 +22,8 @@
 		"portrait": "/masters/portraits/svitlana-ryskina.webp",
 		"studiedUnder": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-isachkina",
@@ -42,7 +43,8 @@
 		"photo": "/masters/tetiana-isachkina.webp",
 		"category": "directors",
 		"roleTitle": "викладачка акторської майстерності та сценічного мовлення вищої категорії",
-		"portrait": "/masters/portraits/tetiana-isachkina.webp"
+		"portrait": "/masters/portraits/tetiana-isachkina.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "fedir-tkach",
@@ -66,7 +68,8 @@
 		"portrait": "/masters/portraits/fedir-tkach.webp",
 		"studiedUnder": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-tkach",
@@ -87,7 +90,8 @@
 		"portrait": "/masters/portraits/olena-tkach.webp",
 		"studiedUnder": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-prorok",
@@ -106,7 +110,8 @@
 		"photo": "/masters/olena-prorok.webp",
 		"category": "musicians",
 		"roleTitle": "викладачка фортепіано",
-		"portrait": "/masters/portraits/olena-prorok.webp"
+		"portrait": "/masters/portraits/olena-prorok.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vira-koval",
@@ -125,7 +130,8 @@
 		"photo": "/masters/vira-koval.webp",
 		"category": "heads",
 		"roleTitle": "завідувачка художнім відділенням, викладачка образотворчого мистецтва вищої категорії, методистка",
-		"portrait": "/masters/portraits/vira-koval.webp"
+		"portrait": "/masters/portraits/vira-koval.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-ovcharenko",
@@ -145,7 +151,8 @@
 		"photo": "/masters/iryna-ovcharenko.webp",
 		"category": "vocalists",
 		"roleTitle": "викладачка вокалу першої категорії",
-		"portrait": "/masters/portraits/iryna-ovcharenko.webp"
+		"portrait": "/masters/portraits/iryna-ovcharenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-stepanenko",
@@ -163,7 +170,8 @@
 		],
 		"photo": "/masters/natalia-stepanenko.webp",
 		"roleTitle": "викладачка гітари вищої категорії, методистка",
-		"portrait": "/masters/portraits/natalia-stepanenko.webp"
+		"portrait": "/masters/portraits/natalia-stepanenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vira-yemtsova-datsiuk",
@@ -183,7 +191,8 @@
 		"photo": "/masters/vira-yemtsova-datsiuk.webp",
 		"category": "speech",
 		"roleTitle": "викладачка сценічного мовлення",
-		"portrait": "/masters/portraits/vira-yemtsova-datsiuk.webp"
+		"portrait": "/masters/portraits/vira-yemtsova-datsiuk.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tereza-zaurbekova",
@@ -202,7 +211,8 @@
 		"photo": "/masters/tereza-zaurbekova.webp",
 		"category": "directors",
 		"roleTitle": "викладачка акторської майстерності та сценічного мовлення",
-		"portrait": "/masters/portraits/tereza-zaurbekova.webp"
+		"portrait": "/masters/portraits/tereza-zaurbekova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oksana-panchenko",
@@ -219,7 +229,8 @@
 		"photo": "/masters/oksana-panchenko.webp",
 		"category": "administration",
 		"roleTitle": "заступниця директорки з навчальної роботи, викладачка фортепіано вищої категорії",
-		"portrait": "/masters/portraits/oksana-panchenko.webp"
+		"portrait": "/masters/portraits/oksana-panchenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-bakina",
@@ -239,7 +250,8 @@
 		"category": "vocalists",
 		"roleTitle": "викладачка вокалу та обрядів України",
 		"portrait": "/masters/portraits/natalia-bakina.webp",
-		"photo": "/masters/natalia-bakina.webp"
+		"photo": "/masters/natalia-bakina.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "anastasiia-nikolaieva",
@@ -258,7 +270,8 @@
 		"photo": "/masters/anastasiia-nikolaieva.webp",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/anastasiia-nikolaieva.webp",
-		"category": "teachers"
+		"category": "teachers",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-serebriannikova",
@@ -277,7 +290,8 @@
 		"photo": "/masters/hanna-serebriannikova.webp",
 		"portrait": "/masters/portraits/hanna-serebriannikova.webp",
 		"category": "directors",
-		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-kulbaba",
@@ -295,7 +309,8 @@
 		],
 		"photo": "/masters/iryna-kulbaba.webp",
 		"portrait": "/masters/portraits/iryna-kulbaba.webp",
-		"category": "directors"
+		"category": "directors",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-shkolna",
@@ -312,7 +327,8 @@
 			"Вокал"
 		],
 		"photo": "/masters/natalia-shkolna.webp",
-		"portrait": "/masters/portraits/natalia-shkolna.webp"
+		"portrait": "/masters/portraits/natalia-shkolna.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kateryna-sukhoboievska",
@@ -331,7 +347,8 @@
 		"photo": "/masters/kateryna-sukhoboievska.webp",
 		"roleTitle": "викладачка фортепіано",
 		"portrait": "/masters/portraits/kateryna-sukhoboievska.webp",
-		"category": "musicians"
+		"category": "musicians",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nataliia-afanasieva",
@@ -344,7 +361,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liudmyla-baranova",
@@ -358,7 +376,8 @@
 		],
 		"status": "active",
 		"category": "accompanists",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yevheniia-bohdanova",
@@ -374,7 +393,8 @@
 		"photo": "/masters/yevheniia-bohdanova.webp",
 		"roleTitle": "концертмейстер",
 		"portrait": "/masters/portraits/yevheniia-bohdanova.webp",
-		"category": "accompanists"
+		"category": "accompanists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yevheniia-bondar",
@@ -390,7 +410,8 @@
 		"category": "vocalists",
 		"roleTitle": "художня керівниця музичного театру, професорка, докторка мистецтвознавства, заслужена діячка мистецтв України",
 		"portrait": "/masters/portraits/yevheniia-bondar.webp",
-		"photo": "/masters/yevheniia-bondar.webp"
+		"photo": "/masters/yevheniia-bondar.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mariia-buimovych",
@@ -403,7 +424,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olha-buinytska",
@@ -422,7 +444,8 @@
 		"roleTitle": "викладачка гітари",
 		"subjects": [
 			"Гітара"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yevheniia-osadcha",
@@ -444,7 +467,8 @@
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"portrait": "/masters/portraits/yevheniia-osadcha.webp",
 		"photo": "/masters/yevheniia-osadcha.webp",
-		"alsoGraduateId": "yevheniia-burian"
+		"alsoGraduateId": "yevheniia-burian",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nataliia-burian",
@@ -457,7 +481,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "anhelina-kozlova",
@@ -470,7 +495,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "elmir-hanbarov",
@@ -489,7 +515,8 @@
 		"portrait": "/masters/portraits/elmir-hanbarov.webp",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-haraieva",
@@ -503,7 +530,8 @@
 		],
 		"status": "active",
 		"category": "support",
-		"roleTitle": "психологиня"
+		"roleTitle": "психологиня",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "viktor-danilesku",
@@ -519,7 +547,8 @@
 		"roleTitle": "викладач фортепіано",
 		"subjects": [
 			"Фортепіано"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "daria-dias-valdis",
@@ -534,7 +563,8 @@
 		"status": "active",
 		"category": "support",
 		"roleTitle": "фотографиня",
-		"alsoGraduateId": "daria-dias-valdes-isachkina"
+		"alsoGraduateId": "daria-dias-valdes-isachkina",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liusiia-dun",
@@ -550,7 +580,8 @@
 		"photo": "/masters/liusiia-dun.webp",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/liusiia-dun.webp",
-		"category": "teachers"
+		"category": "teachers",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-kyselova",
@@ -564,7 +595,8 @@
 		"photo": "/masters/svitlana-kyselova.webp",
 		"category": "accompanists",
 		"roleTitle": "викладачка фортепіано та теорії музики першої категорії, концертмейстер",
-		"portrait": "/masters/portraits/svitlana-kyselova.webp"
+		"portrait": "/masters/portraits/svitlana-kyselova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "andrii-klymenko",
@@ -583,7 +615,8 @@
 			"Гітара"
 		],
 		"portrait": "/masters/portraits/andrii-klymenko.webp",
-		"photo": "/masters/andrii-klymenko.webp"
+		"photo": "/masters/andrii-klymenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yana-kovalchuk",
@@ -602,7 +635,8 @@
 		"roleTitle": "викладачка вокалу",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-kondratska",
@@ -619,7 +653,8 @@
 		"roleTitle": "викладачка гітари",
 		"subjects": [
 			"Гітара"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-konnikova",
@@ -638,7 +673,8 @@
 		"portrait": "/masters/portraits/olena-konnikova.webp",
 		"subjects": [
 			"Історія театру"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-kocheva",
@@ -655,7 +691,8 @@
 		"roleTitle": "викладачка вокалу",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vira-kurova",
@@ -671,7 +708,8 @@
 		"photo": "/masters/vira-kurova.webp",
 		"category": "artists",
 		"roleTitle": "викладачка образотворчого мистецтва вищої категорії, методист",
-		"portrait": "/masters/portraits/vira-kurova.webp"
+		"portrait": "/masters/portraits/vira-kurova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olha-maiorova",
@@ -687,7 +725,8 @@
 		"photo": "/masters/olha-maiorova.webp",
 		"category": "artists",
 		"roleTitle": "викладач образотворчого мистецтва вищої категорії",
-		"portrait": "/masters/portraits/olha-maiorova.webp"
+		"portrait": "/masters/portraits/olha-maiorova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "viktoriia-marar",
@@ -700,7 +739,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-myronenko",
@@ -718,7 +758,8 @@
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vladyslav-mykhailiuk",
@@ -737,7 +778,8 @@
 			"Акторська майстерність"
 		],
 		"portrait": "/masters/portraits/vladyslav-mykhailiuk.webp",
-		"photo": "/masters/vladyslav-mykhailiuk.webp"
+		"photo": "/masters/vladyslav-mykhailiuk.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-minina",
@@ -756,7 +798,8 @@
 			"Хореографія"
 		],
 		"portrait": "/masters/portraits/tetiana-minina.webp",
-		"photo": "/masters/tetiana-minina.webp"
+		"photo": "/masters/tetiana-minina.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dariia-nadozha",
@@ -775,7 +818,8 @@
 			"Фортепіано"
 		],
 		"portrait": "/masters/portraits/dariia-nadozha.webp",
-		"photo": "/masters/dariia-nadozha.webp"
+		"photo": "/masters/dariia-nadozha.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-nikolaieva",
@@ -794,7 +838,8 @@
 		"portrait": "/masters/portraits/hanna-nikolaieva.webp",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-orlova",
@@ -807,7 +852,8 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-ostapova",
@@ -826,7 +872,8 @@
 			"Історія мистецтв"
 		],
 		"portrait": "/masters/portraits/svitlana-ostapova.webp",
-		"photo": "/masters/svitlana-ostapova.webp"
+		"photo": "/masters/svitlana-ostapova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-pavliukova",
@@ -839,7 +886,8 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kristina-petrova",
@@ -855,7 +903,8 @@
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"subjects": [
 			"Акторська майстерність"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-podzihun",
@@ -871,7 +920,8 @@
 		"photo": "/masters/hanna-podzihun.webp",
 		"category": "accompanists",
 		"roleTitle": "концертмейстерка",
-		"portrait": "/masters/portraits/hanna-podzihun.webp"
+		"portrait": "/masters/portraits/hanna-podzihun.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pavlo-prymak",
@@ -891,7 +941,8 @@
 		"category": "directors",
 		"roleTitle": "викладач акторської майстерності та сценічного руху, майстер курсу",
 		"portrait": "/masters/portraits/pavlo-prymak.webp",
-		"photo": "/masters/pavlo-prymak.webp"
+		"photo": "/masters/pavlo-prymak.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yuliia-purina",
@@ -904,7 +955,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-radiushyna",
@@ -917,7 +969,8 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diana-rudenko",
@@ -931,7 +984,8 @@
 		],
 		"status": "active",
 		"visible": false,
-		"alsoGraduateId": "diana-rudenko"
+		"alsoGraduateId": "diana-rudenko",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kira-rusina",
@@ -944,7 +998,8 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liubov-savina",
@@ -960,7 +1015,8 @@
 		"photo": "/masters/liubov-savina.webp",
 		"category": "directors",
 		"roleTitle": "викладачка акторської майстерності та сценічного мовлення першої категорії",
-		"portrait": "/masters/portraits/liubov-savina.webp"
+		"portrait": "/masters/portraits/liubov-savina.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleksandra-sklifosovska",
@@ -974,7 +1030,8 @@
 		],
 		"status": "active",
 		"category": "accompanists",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-stohul",
@@ -993,7 +1050,8 @@
 		"portrait": "/masters/portraits/tetiana-stohul.webp",
 		"subjects": [
 			"Танець"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "havriil-terekhov",
@@ -1006,7 +1064,8 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-tilniak",
@@ -1025,7 +1084,8 @@
 			"Сценічне мовлення"
 		],
 		"portrait": "/masters/portraits/iryna-tilniak.webp",
-		"photo": "/masters/iryna-tilniak.webp"
+		"photo": "/masters/iryna-tilniak.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vladyslav-tsobenko",
@@ -1039,7 +1099,8 @@
 		],
 		"status": "active",
 		"visible": false,
-		"alsoGraduateId": "vladyslav-tsobenko"
+		"alsoGraduateId": "vladyslav-tsobenko",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olha-chervoniak",
@@ -1056,7 +1117,8 @@
 		"roleTitle": "викладачка вокалу",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-shvets",
@@ -1069,7 +1131,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oksana-shchenk",
@@ -1085,7 +1148,8 @@
 		"roleTitle": "викладачка англійської мови",
 		"subjects": [
 			"Англійська мова"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-shcherbyna",
@@ -1098,7 +1162,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "samuil-imas",
@@ -1117,7 +1182,8 @@
 		],
 		"photo": "/masters/samuil-imas.webp",
 		"category": "directors",
-		"portrait": "/masters/portraits/samuil-imas.webp"
+		"portrait": "/masters/portraits/samuil-imas.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mykola-baldin",
@@ -1135,7 +1201,8 @@
 		],
 		"photo": "/masters/mykola-baldin.webp",
 		"category": "teachers",
-		"portrait": "/masters/portraits/mykola-baldin.webp"
+		"portrait": "/masters/portraits/mykola-baldin.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-kaplia",
@@ -1154,7 +1221,8 @@
 		],
 		"category": "teachers",
 		"photo": "/masters/iryna-kaplia.webp",
-		"portrait": "/masters/portraits/iryna-kaplia.webp"
+		"portrait": "/masters/portraits/iryna-kaplia.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-tkach",
@@ -1174,7 +1242,8 @@
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
 		"photo": "/masters/hanna-tkach.webp",
 		"portrait": "/masters/portraits/hanna-tkach.webp",
-		"alsoGraduateId": "hanna-tkach"
+		"alsoGraduateId": "hanna-tkach",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleh-shevchuk",
@@ -1193,7 +1262,8 @@
 		"category": "directors",
 		"photo": "/masters/oleh-shevchuk.webp",
 		"portrait": "/masters/portraits/oleh-shevchuk.webp",
-		"roleTitle": "викладач акторської майстерності, майстер курсу"
+		"roleTitle": "викладач акторської майстерності, майстер курсу",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pavlo-koshka",
@@ -1213,7 +1283,8 @@
 		"category": "directors",
 		"portrait": "/masters/portraits/pavlo-koshka.webp",
 		"roleTitle": "викладач акторської майстерності, майстер курсу",
-		"alsoGraduateId": "pavlo-koshka"
+		"alsoGraduateId": "pavlo-koshka",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-ulianenko",
@@ -1232,7 +1303,8 @@
 		"photo": "/masters/iryna-ulianenko.webp",
 		"category": "teachers",
 		"portrait": "/masters/portraits/iryna-ulianenko.webp",
-		"roleTitle": "викладачка сценічного мовлення"
+		"roleTitle": "викладачка сценічного мовлення",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liliia-velychko",
@@ -1252,7 +1324,8 @@
 		"photo": "/masters/liliia-velychko.webp",
 		"category": "teachers",
 		"roleTitle": "у минулому — завідувачка музичним відділенням, викладачка вокалу та обрядів України вищої категорії, методистка",
-		"portrait": "/masters/portraits/liliia-velychko.webp"
+		"portrait": "/masters/portraits/liliia-velychko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "myroslava-derepa",
@@ -1268,7 +1341,8 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"roleTitle": "викладачка акторської майстерності, майстриня курсу"
+		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nadiia-rybakova",
@@ -1287,7 +1361,8 @@
 		"photo": "/masters/nadiia-rybakova.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/nadiia-rybakova.webp",
-		"alsoGraduateId": "nadiia-rybakova"
+		"alsoGraduateId": "nadiia-rybakova",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "d-rybalchenko",
@@ -1305,7 +1380,8 @@
 			"Історія театру"
 		],
 		"roleTitle": "викладачка акторської майстерності та історії театру",
-		"alsoGraduateId": "daniela-rybalchenko"
+		"alsoGraduateId": "daniela-rybalchenko",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleksandr-kozoviakin",
@@ -1319,7 +1395,8 @@
 		],
 		"status": "former",
 		"roleTitle": "композитор, концертмейстер",
-		"category": "accompanists"
+		"category": "accompanists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-vitiuk",
@@ -1338,7 +1415,8 @@
 		"photo": "/masters/svitlana-vitiuk.webp",
 		"roleTitle": "викладачка сценічного мовлення першої категорії",
 		"portrait": "/masters/portraits/svitlana-vitiuk.webp",
-		"category": "teachers"
+		"category": "teachers",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yaroslava-turbinska",
@@ -1354,7 +1432,8 @@
 		"photo": "/masters/yaroslava-turbinska.webp",
 		"roleTitle": "концертмейстер",
 		"portrait": "/masters/portraits/yaroslava-turbinska.webp",
-		"category": "accompanists"
+		"category": "accompanists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "anna-matkovska",
@@ -1370,7 +1449,8 @@
 		"photo": "/masters/anna-matkovska.webp",
 		"roleTitle": "викладачка вокалу",
 		"portrait": "/masters/portraits/anna-matkovska.webp",
-		"category": "teachers"
+		"category": "teachers",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-nadopta",
@@ -1389,7 +1469,8 @@
 		"photo": "/masters/svitlana-nadopta.webp",
 		"portrait": "/masters/portraits/svitlana-nadopta.webp",
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
-		"alsoGraduateId": "svitlana-nadopta"
+		"alsoGraduateId": "svitlana-nadopta",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yurii-drankov",
@@ -1406,7 +1487,8 @@
 		"photo": "/masters/yurii-drankov.webp",
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
-		"portrait": "/masters/portraits/yurii-drankov.webp"
+		"portrait": "/masters/portraits/yurii-drankov.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alik-zapolnov",
@@ -1424,7 +1506,8 @@
 		"category": "it",
 		"roleTitle": "IT-інженер",
 		"portrait": "/masters/portraits/alik-zapolnov.webp",
-		"alsoGraduateId": "alik-zapolnov"
+		"alsoGraduateId": "alik-zapolnov",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "volodymyr-kesov",
@@ -1439,7 +1522,8 @@
 		"photo": "/masters/volodymyr-kesov.webp",
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
-		"portrait": "/masters/portraits/volodymyr-kesov.webp"
+		"portrait": "/masters/portraits/volodymyr-kesov.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-korenchuk",
@@ -1454,7 +1538,8 @@
 		"photo": "/masters/tetiana-korenchuk.webp",
 		"category": "administration",
 		"roleTitle": "головна бухгалтерка",
-		"portrait": "/masters/portraits/tetiana-korenchuk.webp"
+		"portrait": "/masters/portraits/tetiana-korenchuk.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "viktor-kurov",
@@ -1469,7 +1554,8 @@
 		"photo": "/masters/viktor-kurov.webp",
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
-		"portrait": "/masters/portraits/viktor-kurov.webp"
+		"portrait": "/masters/portraits/viktor-kurov.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "artur-lytvynenko",
@@ -1484,7 +1570,8 @@
 		"photo": "/masters/artur-lytvynenko.webp",
 		"category": "support",
 		"roleTitle": "клінінг-менеджер",
-		"portrait": "/masters/portraits/artur-lytvynenko.webp"
+		"portrait": "/masters/portraits/artur-lytvynenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-lytvynova",
@@ -1499,7 +1586,8 @@
 		"photo": "/masters/natalia-lytvynova.webp",
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
-		"portrait": "/masters/portraits/natalia-lytvynova.webp"
+		"portrait": "/masters/portraits/natalia-lytvynova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-rudiukova",
@@ -1516,7 +1604,8 @@
 		"photo": "/masters/olena-rudiukova.webp",
 		"roleTitle": "концертмейстер вищої категорії",
 		"portrait": "/masters/portraits/olena-rudiukova.webp",
-		"category": "accompanists"
+		"category": "accompanists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-stoianova",
@@ -1531,7 +1620,8 @@
 		"photo": "/masters/natalia-stoianova.webp",
 		"category": "support",
 		"roleTitle": "бібліотекар, архіваріус",
-		"portrait": "/masters/portraits/natalia-stoianova.webp"
+		"portrait": "/masters/portraits/natalia-stoianova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "filarena-sukhanova",
@@ -1546,7 +1636,8 @@
 		"photo": "/masters/filarena-sukhanova.webp",
 		"category": "support",
 		"roleTitle": "клінінг-менеджер",
-		"portrait": "/masters/portraits/filarena-sukhanova.webp"
+		"portrait": "/masters/portraits/filarena-sukhanova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liubov-frankovska",
@@ -1561,7 +1652,8 @@
 		"photo": "/masters/liubov-frankovska.webp",
 		"category": "administration",
 		"roleTitle": "головна бухгалтерка",
-		"portrait": "/masters/portraits/liubov-frankovska.webp"
+		"portrait": "/masters/portraits/liubov-frankovska.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-shalashna",
@@ -1576,7 +1668,8 @@
 		"photo": "/masters/natalia-shalashna.webp",
 		"category": "administration",
 		"roleTitle": "заступниця директорки з АГЧ",
-		"portrait": "/masters/portraits/natalia-shalashna.webp"
+		"portrait": "/masters/portraits/natalia-shalashna.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sofiia-tkach",
@@ -1591,7 +1684,8 @@
 		"category": "administration",
 		"roleTitle": "бухгалтерка-касирка",
 		"portrait": "/masters/portraits/sofiia-tkach.webp",
-		"photo": "/masters/sofiia-tkach.webp"
+		"photo": "/masters/sofiia-tkach.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dmytro-shylnykovskyi",
@@ -1606,7 +1700,8 @@
 		"photo": "/masters/dmytro-shylnykovskyi.webp",
 		"category": "production",
 		"roleTitle": "звукорежисер",
-		"portrait": "/masters/portraits/dmytro-shylnykovskyi.webp"
+		"portrait": "/masters/portraits/dmytro-shylnykovskyi.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olha-imas",
@@ -1625,7 +1720,8 @@
 		"photo": "/masters/olha-imas.webp",
 		"portrait": "/masters/portraits/olha-imas.webp",
 		"category": "teachers",
-		"roleTitle": "викладачка хореографії"
+		"roleTitle": "викладачка хореографії",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natalia-dombrovska",
@@ -1644,7 +1740,8 @@
 		"photo": "/masters/natalia-dombrovska.webp",
 		"portrait": "/masters/portraits/natalia-dombrovska.webp",
 		"category": "teachers",
-		"roleTitle": "викладачка хореографії"
+		"roleTitle": "викладачка хореографії",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "olena-kuznetsova",
@@ -1661,7 +1758,8 @@
 		"roleTitle": "світлорежисер",
 		"portrait": "/masters/portraits/olena-kuznetsova.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kyrylo-mazur",
@@ -1681,7 +1779,8 @@
 		"photo": "/masters/kyrylo-mazur.webp",
 		"portrait": "/masters/portraits/kyrylo-mazur.webp",
 		"category": "teachers",
-		"roleTitle": "викладач гітари"
+		"roleTitle": "викладач гітари",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svitlana-pruba",
@@ -1701,7 +1800,8 @@
 		"photo": "/masters/svitlana-pruba.webp",
 		"portrait": "/masters/portraits/svitlana-pruba.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "haidai",
@@ -1716,7 +1816,8 @@
 		"status": "former",
 		"photo": "/masters/haidai.webp",
 		"portrait": "/masters/portraits/haidai.webp",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koreniok",
@@ -1729,7 +1830,8 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "larionova",
@@ -1747,7 +1849,8 @@
 		"roleTitle": "викладачка вокалу",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "matiunina",
@@ -1762,7 +1865,8 @@
 		"status": "active",
 		"photo": "/masters/matiunina.webp",
 		"portrait": "/masters/portraits/matiunina.webp",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "serkova",
@@ -1782,7 +1886,8 @@
 			"Музична теорія",
 			"Сольфеджіо",
 			"Музична література"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "azarenko",
@@ -1800,7 +1905,8 @@
 		"roleTitle": "викладачка гриму",
 		"subjects": [
 			"Грим"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "burlak",
@@ -1816,7 +1922,8 @@
 		"photo": "/masters/burlak.webp",
 		"portrait": "/masters/portraits/burlak.webp",
 		"category": "support",
-		"roleTitle": "художник-декоратор"
+		"roleTitle": "художник-декоратор",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vereshchahina",
@@ -1831,7 +1938,8 @@
 		"status": "former",
 		"photo": "/masters/vereshchahina.webp",
 		"portrait": "/masters/portraits/vereshchahina.webp",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hrachyk",
@@ -1849,7 +1957,8 @@
 		"roleTitle": "викладачка сценічного мовлення",
 		"subjects": [
 			"Сценічне мовлення"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zubynska",
@@ -1865,7 +1974,8 @@
 		"photo": "/masters/zubynska.webp",
 		"portrait": "/masters/portraits/zubynska.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kurkaiev",
@@ -1881,7 +1991,8 @@
 		"photo": "/masters/kurkaiev.webp",
 		"portrait": "/masters/portraits/kurkaiev.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "milihlasova",
@@ -1897,7 +2008,8 @@
 		"photo": "/masters/milihlasova.webp",
 		"portrait": "/masters/portraits/milihlasova.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pyrohova",
@@ -1912,7 +2024,8 @@
 		"status": "former",
 		"photo": "/masters/pyrohova.webp",
 		"portrait": "/masters/portraits/pyrohova.webp",
-		"roleTitle": "концертмейстерка"
+		"roleTitle": "концертмейстерка",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "andrii-romanko",
@@ -1931,7 +2044,8 @@
 		"photo": "/masters/andrii-romanko.webp",
 		"portrait": "/masters/portraits/andrii-romanko.webp",
 		"category": "teachers",
-		"roleTitle": "викладач сценічного руху"
+		"roleTitle": "викладач сценічного руху",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "serebriannikova-n",
@@ -1951,7 +2065,8 @@
 		"photo": "/masters/serebriannikova-n.webp",
 		"portrait": "/masters/portraits/serebriannikova-n.webp",
 		"category": "teachers",
-		"roleTitle": "викладачка сценічного мовлення та риторики"
+		"roleTitle": "викладачка сценічного мовлення та риторики",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stelmakh",
@@ -1967,7 +2082,8 @@
 		"status": "former",
 		"photo": "/masters/stelmakh.webp",
 		"portrait": "/masters/portraits/stelmakh.webp",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stepanchenko",
@@ -1985,7 +2101,8 @@
 		"roleTitle": "викладачка вокалу",
 		"subjects": [
 			"Вокал"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yakunina",
@@ -2001,7 +2118,8 @@
 		"photo": "/masters/yakunina.webp",
 		"portrait": "/masters/portraits/yakunina.webp",
 		"unconfirmed": true,
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tetiana-stepanchuk",
@@ -2018,7 +2136,8 @@
 			"Грим"
 		],
 		"category": "artists",
-		"roleTitle": "викладачка гриму"
+		"roleTitle": "викладачка гриму",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dariia-maistrenko",
@@ -2035,7 +2154,8 @@
 			"Хореографія"
 		],
 		"category": "choreographers",
-		"alsoGraduateId": "darya-maystrenko"
+		"alsoGraduateId": "darya-maystrenko",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-pak",
@@ -2051,7 +2171,8 @@
 		"subjects": [
 			"Хореографія"
 		],
-		"category": "choreographers"
+		"category": "choreographers",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-shpak",
@@ -2067,7 +2188,8 @@
 		"subjects": [
 			"Вокал"
 		],
-		"category": "vocalists"
+		"category": "vocalists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "les-selianinov",
@@ -2083,7 +2205,8 @@
 		"subjects": [
 			"Музика"
 		],
-		"category": "accompanists"
+		"category": "accompanists",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "anhelina-pohosian",
@@ -2099,7 +2222,8 @@
 		"subjects": [
 			"Музика"
 		],
-		"category": "musicians"
+		"category": "musicians",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mykhailo-yaksha",
@@ -2112,7 +2236,8 @@
 		"status": "honorary",
 		"subjects": [],
 		"photo": "/masters/mykhailo-yaksha.webp",
-		"portrait": "/masters/portraits/mykhailo-yaksha.webp"
+		"portrait": "/masters/portraits/mykhailo-yaksha.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nataliia-zybina",
@@ -2126,7 +2251,8 @@
 		"subjects": [],
 		"roleTitle": "завідувачка господарством, вахтерка, буфетниця",
 		"portrait": "/masters/portraits/nataliia-zybina.webp",
-		"photo": "/masters/nataliia-zybina.webp"
+		"photo": "/masters/nataliia-zybina.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yevheniia-voiutska",
@@ -2142,7 +2268,8 @@
 		"roleTitle": "концертмейстерка",
 		"status": "former",
 		"portrait": "/masters/portraits/yevheniia-voiutska.webp",
-		"photo": "/masters/yevheniia-voiutska.webp"
+		"photo": "/masters/yevheniia-voiutska.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tamara-mykhailychenko",
@@ -2160,7 +2287,8 @@
 		"roleTitle": "викладачка історії мистецтв, керівниця художньої галереї «Міст»",
 		"status": "former",
 		"portrait": "/masters/portraits/tamara-mykhailychenko.webp",
-		"photo": "/masters/tamara-mykhailychenko.webp"
+		"photo": "/masters/tamara-mykhailychenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nina-arkhontova",
@@ -2174,7 +2302,8 @@
 		"roleTitle": "викладачка відділення «РАФАМаН»",
 		"status": "former",
 		"portrait": "/masters/portraits/nina-arkhontova.webp",
-		"photo": "/masters/nina-arkhontova.webp"
+		"photo": "/masters/nina-arkhontova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liudmyla-volkova",
@@ -2192,7 +2321,8 @@
 		"roleTitle": "викладачка вокалу",
 		"status": "former",
 		"portrait": "/masters/portraits/liudmyla-volkova.webp",
-		"photo": "/masters/liudmyla-volkova.webp"
+		"photo": "/masters/liudmyla-volkova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nadiia-dolenko",
@@ -2210,7 +2340,8 @@
 		"roleTitle": "викладачка сценічного мовлення",
 		"status": "former",
 		"portrait": "/masters/portraits/nadiia-dolenko.webp",
-		"photo": "/masters/nadiia-dolenko.webp"
+		"photo": "/masters/nadiia-dolenko.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleksandra-ivanets",
@@ -2228,7 +2359,8 @@
 		"roleTitle": "викладачка вокалу",
 		"status": "former",
 		"portrait": "/masters/portraits/oleksandra-ivanets.webp",
-		"photo": "/masters/oleksandra-ivanets.webp"
+		"photo": "/masters/oleksandra-ivanets.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "roman-fedosieiev",
@@ -2246,7 +2378,8 @@
 		"roleTitle": "викладач акторської майстерності",
 		"status": "former",
 		"portrait": "/masters/portraits/roman-fedosieiev.webp",
-		"photo": "/masters/roman-fedosieiev.webp"
+		"photo": "/masters/roman-fedosieiev.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lesia-cherkasova",
@@ -2262,7 +2395,8 @@
 		"roleTitle": "концертмейстерка",
 		"status": "former",
 		"portrait": "/masters/portraits/lesia-cherkasova.webp",
-		"photo": "/masters/lesia-cherkasova.webp"
+		"photo": "/masters/lesia-cherkasova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iryna-yershova",
@@ -2280,7 +2414,8 @@
 		"roleTitle": "викладачка хореографії",
 		"status": "former",
 		"portrait": "/masters/portraits/iryna-yershova.webp",
-		"photo": "/masters/iryna-yershova.webp"
+		"photo": "/masters/iryna-yershova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "adelina-tetradova",
@@ -2296,7 +2431,8 @@
 		"roleTitle": "концертмейстерка",
 		"status": "former",
 		"portrait": "/masters/portraits/adelina-tetradova.webp",
-		"photo": "/masters/adelina-tetradova.webp"
+		"photo": "/masters/adelina-tetradova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nataliia-denysova",
@@ -2310,7 +2446,8 @@
 		"roleTitle": "викладачка відділення «РАФАМаН», логопединя",
 		"status": "former",
 		"portrait": "/masters/portraits/nataliia-denysova.webp",
-		"photo": "/masters/nataliia-denysova.webp"
+		"photo": "/masters/nataliia-denysova.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dmytro-demkov",
@@ -2329,7 +2466,8 @@
 		"roleTitle": "викладач акторської майстерності, основ теле- і кіномайстерності",
 		"status": "former",
 		"portrait": "/masters/portraits/dmytro-demkov.webp",
-		"photo": "/masters/dmytro-demkov.webp"
+		"photo": "/masters/dmytro-demkov.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "karen-petikian",
@@ -2343,7 +2481,8 @@
 		"roleTitle": "фотограф",
 		"status": "former",
 		"portrait": "/masters/portraits/karen-petikian.webp",
-		"photo": "/masters/karen-petikian.webp"
+		"photo": "/masters/karen-petikian.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleksandr-khiliuk",
@@ -2357,7 +2496,8 @@
 		"roleTitle": "IT-інженер",
 		"status": "former",
 		"portrait": "/masters/portraits/oleksandr-khiliuk.webp",
-		"photo": "/masters/oleksandr-khiliuk.webp"
+		"photo": "/masters/oleksandr-khiliuk.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "poliakova-starsha",
@@ -2375,7 +2515,8 @@
 		"fullNameEn": "Larysa Poliakova",
 		"subjects": [
 			"Хореографія"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oleksandr-stepanov",
@@ -2394,7 +2535,8 @@
 			"Вокал"
 		],
 		"category": "heads",
-		"roleTitle": "завідувач естрадного відділення, художній керівник фестивалю «Зірочка»"
+		"roleTitle": "завідувач естрадного відділення, художній керівник фестивалю «Зірочка»",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "volodymyr-tumanov",
@@ -2413,7 +2555,8 @@
 		"photo": "/masters/volodymyr-tumanov.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/volodymyr-tumanov.webp",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mykhailo-drobotov",
@@ -2432,7 +2575,8 @@
 		"photo": "/masters/mykhailo-drobotov.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/mykhailo-drobotov.webp",
-		"visible": false
+		"visible": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "volodymyr-radzikhovskyi",
@@ -2450,6 +2594,7 @@
 		],
 		"category": "teachers",
 		"visible": false,
-		"unconfirmed": true
+		"unconfirmed": true,
+		"verificationStatus": "possible_errors"
 	}
 ]

@@ -10,7 +10,8 @@
 		"number": 68,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ЛІ-Те-Ра»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "den-narodzhennia-infanty-infanta-2026",
@@ -26,7 +27,8 @@
 		"isDtsh": true,
 		"extraParticipants": [
 			"музичний гурт «Крапки над і»"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dim-bernardy-alby-2026",
@@ -37,7 +39,8 @@
 		"dateNote": "26 травня вівторок, 18.00 (ауд. 7); 27 травня середа, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dumky-vholos-2026",
@@ -50,7 +53,8 @@
 		"number": 67,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zaruchyny-2026",
@@ -64,7 +68,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Яктус+Паша» («Інтенсив-Насті+Паша»)",
 		"isDtsh": true,
-		"dateNote": "23 травня субота, 14.30 (ауд. 7); 25 травня понеділок, 18.00 (ауд. 7)"
+		"dateNote": "23 травня субота, 14.30 (ауд. 7); 25 травня понеділок, 18.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stateve-vykhovannia-2026",
@@ -78,7 +83,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
-		"dateNote": "18 травня понеділок, 17.30 (ауд. 7); 19 травня вівторок, 17.30 (ауд. 7)"
+		"dateNote": "18 травня понеділок, 17.30 (ауд. 7); 19 травня вівторок, 17.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tin-2026",
@@ -89,7 +95,8 @@
 		"dateNote": "28 травня четвер, 18.00 (ауд. 7); 29 травня п’ятниця, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2026",
@@ -102,7 +109,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Інтенсив-Тихон»",
 		"isDtsh": true,
-		"dateNote": "30 квітня четвер, 18.00 (ауд. 17); 1 травня п’ятниця, 18.00 (ауд. 17); 2 травня субота, 14.00 (ауд. 17)"
+		"dateNote": "30 квітня четвер, 18.00 (ауд. 17); 1 травня п’ятниця, 18.00 (ауд. 17); 2 травня субота, 14.00 (ауд. 17)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-new-2025",
@@ -115,12 +123,14 @@
 		"number": 61,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "baiduzhyi-krasen-liudskyi-holos-2025",
 		"title": "«Байдужий красень + Людський голос»",
-		"year": 2025
+		"year": 2025,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "holosy-2025",
@@ -131,7 +141,8 @@
 		"dateNote": "05.06 четвер, 18.00 (ауд. 7); 06.06 п’ятниця (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nichni-zoshyty-abo-teatr-tinei-2025",
@@ -142,7 +153,8 @@
 		"dateNote": "19.05 понеділок, 17.00 (ауд. 7); 03.06 вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pereviznyk-2025",
@@ -153,7 +165,8 @@
 		"dateNote": "26.05 понеділок, 18.00 (ауд. 7); 27.05 вівторок, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "solovei-2025",
@@ -167,12 +180,14 @@
 		"dateNote": "лютий",
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tramvai-bazhannia-2025",
 		"title": "«Трамвай Бажання»",
-		"year": 2025
+		"year": 2025,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsybulino-2025",
@@ -187,7 +202,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Музичний театр»",
 		"isDtsh": true,
-		"dateNote": "16.05 п’ятниця, 17.00 (ауд. 7); 17.05 субота, 12.30 (ауд. 7)"
+		"dateNote": "16.05 п’ятниця, 17.00 (ауд. 7); 17.05 субота, 12.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "charivnyk-krainy-oz-2025",
@@ -201,7 +217,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
-		"dateNote": "23.05 п’ятниця, 18.00 (ауд. 7); 24.05 субота, 15.00 (ауд. 7)"
+		"dateNote": "23.05 п’ятниця, 18.00 (ауд. 7); 24.05 субота, 15.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2025",
@@ -213,7 +230,8 @@
 		"number": 64,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Інтенсив-Насті»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2025",
@@ -262,22 +280,26 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
 		"isDtsh": true,
-		"dateNote": "28.05 середа, 18.00 (ауд. 7); 29.05 четвер, 17.30 (ауд. 7); 02.06 понеділок, 18.00 (ауд. 7); 03.06 вівторок, 18.00 (ауд. 7)"
+		"dateNote": "28.05 середа, 18.00 (ауд. 7); 29.05 четвер, 17.30 (ауд. 7); 02.06 понеділок, 18.00 (ауд. 7); 03.06 вівторок, 18.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "4-stina-2024",
 		"title": "«4 стіна»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-v-zadzerkali-2024",
 		"title": "«Аліса в Задзеркалі»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-v-zadzerkalli-2024",
 		"title": "«Аліса в Задзеркаллі»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-2024",
@@ -295,32 +317,38 @@
 			"Соф’я Чернова",
 			"Катерина"
 		],
-		"dateNote": "23.05 четвер, 18.00 (ауд. 7); 24.05 п’ятниця, 18.00 (ауд. 7)"
+		"dateNote": "23.05 четвер, 18.00 (ауд. 7); 24.05 п’ятниця, 18.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "holos-tykhoi-bezodni-2024",
 		"title": "«Голос тихої безодні»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhaivoronok-2024",
 		"title": "«Жайворонок»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zahubleni-2024",
 		"title": "«Загублені…»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koroleva-komakh-2024",
 		"title": "«Королева комах»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svatannia-na-honcharivtsi-2024",
 		"title": "«Сватання на Гончарівці»",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tryvozhni-liudy-2024",
@@ -331,7 +359,8 @@
 		"dateNote": "06.06 четвер, 17.00 (ауд. 7); 07.06 п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2024",
@@ -344,7 +373,8 @@
 			"yevheniia-osadcha",
 			"svitlana-ryskina",
 			"d-rybalchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chetverta-stina-2024",
@@ -355,7 +385,8 @@
 		"dateNote": "04.06 вівторок, 17.00 (ауд. 7); 05.06 середа, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ia-pishov-na-viinu-2024",
@@ -368,7 +399,8 @@
 		"number": 60,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ia-usikh-vas-liubliu-2024",
@@ -379,7 +411,8 @@
 		"dateNote": "20.05 понеділок, 16.00 (ауд. 7); 22.05 середа, 16.00 (ауд. 7); 30.05 четвер, 16.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2024",
@@ -392,7 +425,8 @@
 		"number": 57,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Інтенсив-мол» («Любінські»)",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2024-2",
@@ -409,27 +443,32 @@
 		"videoUrl": "https://youtu.be/l7bLSshy-VM",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-mama-2024",
 		"title": "Уривки з класики (Мама)",
-		"year": 2024
+		"year": 2024,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-v-kraini-dyv-2023",
 		"title": "«Аліса в країні див»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "z-tsiieiu-vystavoiu-shchos-ne-tak-2023",
 		"title": "«З цією виставою щось не так»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "z-tsiieiu-vystavoiu-shchos-ne-tak-vbyvstvo-v-mai-2023",
 		"title": "«З цією виставою щось не так / Вбивство в маєтку Гавершамів»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "z-tsiieiu-piesoiu-shchos-ne-tak-2023",
@@ -440,22 +479,26 @@
 		"dateNote": "06.06 вівторок, 17.30 (ауд. 7); 08.06 четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zviriachi-istorii-2023",
 		"title": "«звірячі історії»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kassandra-2023",
 		"title": "«Кассандра»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "na-pershi-huli-2023",
 		"title": "«На перші гулі»",
-		"year": 2023
+		"year": 2023,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nikomu-nepotribni-2023",
@@ -466,7 +509,8 @@
 		"dateNote": "05.06 понеділок, 17.30 (ауд. 7); 08.06 четвер, 15.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-mortiny-ta-ii-druziv-2023",
@@ -477,7 +521,8 @@
 		"dateNote": "29.05 понеділок, 17.00 (ауд. 7); 05.06 понеділок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "retsepty-vyzhyvannia-2023",
@@ -506,7 +551,8 @@
 			"Григорій Наумов",
 			"Дар'я Рибальченко"
 		],
-		"dateNote": "30.05 вівторок, 18.00 (ауд. УКР.театр); 06.06 вівторок, 18.00 (ауд. УКР.театр)"
+		"dateNote": "30.05 вівторок, 18.00 (ауд. УКР.театр); 06.06 вівторок, 18.00 (ауд. УКР.театр)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "simia-hraty-2023",
@@ -518,7 +564,8 @@
 		"masters": [
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "son-zabrokhy-2023",
@@ -529,7 +576,8 @@
 		"dateNote": "09.06 п’ятниця, 17.00 (ауд. 7); 10.06 субота, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2023",
@@ -541,7 +589,8 @@
 			"fedir-tkach",
 			"svitlana-ryskina",
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2023",
@@ -559,7 +608,8 @@
 			"Віолетта Незвінська",
 			"Софія Скуратович",
 			"Ніколь Онищенко"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-dramaturhii-2023",
@@ -572,12 +622,14 @@
 		"number": 54,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Alter Ego»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "8-liubiachykh-zhinok-2022",
 		"title": "«8 люблячих жінок»",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "visim-liubliachykh-zhinok-2022",
@@ -587,7 +639,8 @@
 		"theatreGroup": "гр. ТВ Продакшн",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "divchata-2022",
@@ -598,22 +651,26 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "eneida-2022",
 		"title": "«Енеїда»",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "instsenizatsiia-za-kazkamy-ivana-franka-2022",
 		"title": "«Інсценізація за казками Івана Франка»",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-pro-myshei-2022",
 		"title": "«Казка про мишей»",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lysty-do-boha-2022",
@@ -624,7 +681,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidu-do-zirok-2022",
@@ -648,17 +706,20 @@
 			"Аріна",
 			"Гліб Єрьомін"
 		],
-		"dateNote": "2022 (Відео-показ)"
+		"dateNote": "2022 (Відео-показ)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "geist-2022",
 		"title": "«Geist»",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-klounessa-italianka-druhoriadni-roli-2022",
 		"title": "Етюди (клоунесса; італьянка; другорядні ролі)",
-		"year": 2022
+		"year": 2022,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "avatary-2021",
@@ -669,7 +730,8 @@
 		"dateNote": "22 травня субота, 12.00 (ауд. 7); 29 травня субота, 15.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-2021",
@@ -683,7 +745,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Явища природи»",
 		"isDtsh": true,
-		"dateNote": "25 травня вівторок, 18.00 (ауд. 7); 30 травня неділя, 16.00 (ауд. 7)"
+		"dateNote": "25 травня вівторок, 18.00 (ауд. 7); 30 травня неділя, 16.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "asta-2021",
@@ -694,7 +757,8 @@
 		"dateNote": "27 травня четвер, 17.30 (ауд. 7); 29 травня субота, 13.00",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vsi-myshi-liubliat-syr-2021",
@@ -705,22 +769,26 @@
 		"dateNote": "5 червня субота, 13.30 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zakon-2021",
 		"title": "«Закон»",
-		"year": 2021
+		"year": 2021,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazky-na-vsiak-vypadok-2021",
 		"title": "«Казки на всяк випадок»",
-		"year": 2021
+		"year": 2021,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazky-pro-vsiak-vypadok-2021",
 		"title": "«Казки про всяк випадок»",
-		"year": 2021
+		"year": 2021,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "parol-potsilunok-2021",
@@ -731,12 +799,14 @@
 		"dateNote": "3 червня четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pepi-dovhapanchokha-2021",
 		"title": "«Пепі Довгапанчоха»",
-		"year": 2021
+		"year": 2021,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sentymentalna-podorozh-2021",
@@ -747,12 +817,14 @@
 		"dateNote": "2 червня середа, 16.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "usi-khloptsi-durni-2021",
 		"title": "«Усі хлопці — дурні»",
-		"year": 2021
+		"year": 2021,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chapaiev-ta-vasylisa-2021",
@@ -770,7 +842,8 @@
 		"isDtsh": true,
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-ta-verbatimiv-2021",
@@ -793,12 +866,14 @@
 			"Олександр",
 			"Анастасія",
 			"Олег"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "8-liubiashchykh-zhenshchyn-2020",
 		"title": "«8 люблячих жінок»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bezimenna-zirka-2020",
@@ -827,12 +902,14 @@
 			"Олег Шевчук",
 			"Володимир Романко"
 		],
-		"dateNote": "липень-жовтень 2020"
+		"dateNote": "липень-жовтень 2020",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vir-u-sebe-2020",
 		"title": "«вір у себе»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hraiemo-zoshchenka-2020",
@@ -865,7 +942,8 @@
 			"Ганна Серебряннікова",
 			"Владислав Дьяченко"
 		],
-		"dateNote": "липень-жовтень 2020"
+		"dateNote": "липень-жовтень 2020",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dyvovyzhni-pryhody-krolyka-edvarda-2020",
@@ -876,37 +954,44 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2020",
 		"title": "«Етюди»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "karolina-v-kraini-zhakhiv-2020",
 		"title": "«Кароліна в країні жахів»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "karolina-2020",
 		"title": "«Кароліна»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malyi-i-karalson-2020",
 		"title": "«Малий і Каралсон»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "myshenia-supersyshchyk-2020",
 		"title": "«Мишеня — суперсищик»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prosto-vir-u-sebe-2020",
 		"title": "«Просто вір у себе»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stus-zaboronenyi-2020",
@@ -919,12 +1004,14 @@
 		"number": 46,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "subotyk-2020",
 		"title": "«Суботик»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tak-buvaie-2020",
@@ -935,12 +1022,14 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "shorokh-ukhodiashchykh-shahov-2020",
 		"title": "«Шурхіт кроків, що віддаляються»",
-		"year": 2020
+		"year": 2020,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "blondi-2020",
@@ -951,7 +1040,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2020",
@@ -963,7 +1053,8 @@
 		"number": 49,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Явища природи»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-mozhe-ni-new-2019",
@@ -980,17 +1071,20 @@
 		"number": 43,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "avatary-2019",
 		"title": "«Аватари»",
-		"year": 2019
+		"year": 2019,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vyi-2019",
 		"title": "«Вий»",
-		"year": 2019
+		"year": 2019,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2019",
@@ -1001,7 +1095,8 @@
 		"masters": [
 			"karen-petikian",
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kotyhoroshivka-2019",
@@ -1012,12 +1107,14 @@
 		"dateNote": "23.05 четвер, 17.00 (ауд. 7); 26.05 неділя, 15.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "musornyi-miuzykl-2019",
 		"title": "«Мусорний мюзикл»",
-		"year": 2019
+		"year": 2019,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nove-vbrannia-dlia-korolia-2019",
@@ -1025,7 +1122,8 @@
 		"year": 2019,
 		"author": "За Г-Х Андерсеном, переспів з англійської І.Малковича",
 		"theatreGroup": "гр. 3Е-5",
-		"dateNote": "8.05 середа, 16.30 (ауд. 11)"
+		"dateNote": "8.05 середа, 16.30 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "synii-ptakh-2019",
@@ -1053,7 +1151,8 @@
 		"extraParticipants": [
 			"Олександра Синіцина"
 		],
-		"dateNote": "19.05 неділя, 16.00 (ауд. 7); 21.05 вівторок, 17.00 (ауд. 7)"
+		"dateNote": "19.05 неділя, 16.00 (ауд. 7); 21.05 вівторок, 17.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "smittievyi-miuzykl-2019",
@@ -1064,12 +1163,14 @@
 		"dateNote": "18.05. субота, 12.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tini-zabutykh-predkiv-2019",
 		"title": "«Тіні забутих предків»",
-		"year": 2019
+		"year": 2019,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "feis-bu-chik-2019",
@@ -1085,12 +1186,14 @@
 		"isDtsh": true,
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "edyt-pyaf-2019",
 		"title": "«Едіт Піаф»",
-		"year": 2019
+		"year": 2019,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2019",
@@ -1112,7 +1215,8 @@
 			"Віра Спаська",
 			"Катерина Євтушенко",
 			"Амрита Чернишова"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zamarashka-2018",
@@ -1123,7 +1227,8 @@
 		"dateNote": "27.05. неділя, 17.00 (ауд. 7); 29.05. вівторок, 17.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-mozhe-ni-ta-inshi-kazky-2018",
@@ -1136,22 +1241,26 @@
 		"number": 40,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bahazh-2018",
 		"title": "«Багаж»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vinehret-2018",
 		"title": "«Вінегрет»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vse-lito-v-odyn-den-2018",
 		"title": "«Все літо в один день»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dveri-2018",
@@ -1162,17 +1271,20 @@
 		"dateNote": "26.05. субота, 17.00 (ауд. 7); 28.05. понеділок, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "za-zakonamy-zhyvoi-pryrody-2018",
 		"title": "«За законами живої природи»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otryvky-yz-klassyky-2018",
 		"title": "«Уривки з класики»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sorok-pershyi-2018",
@@ -1189,17 +1301,20 @@
 		"participants": [
 			"Катерина Євтушенко",
 			"Андрій Кручковський"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tot-kto-otkryvaet-dvery-2018",
 		"title": "«Той, хто відчиняє двері»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "feis-bu-chik-2018",
 		"title": "«Фейс-бу-чік»",
-		"year": 2018
+		"year": 2018,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "foto-toples-2018",
@@ -1228,7 +1343,8 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "shake-s-pr-party-2018",
@@ -1244,7 +1360,8 @@
 		"number": 38,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Друге дихання»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zolotaia-lavyna-2017",
@@ -1255,22 +1372,26 @@
 		"dateNote": "20 травня субота, 18.30 (ауд. 7); 27 травня субота, 17.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "aeroport-2017",
 		"title": "«Аеропорт»",
-		"year": 2017
+		"year": 2017,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bremenski-muzykanty-2017",
 		"title": "«Бременські музиканти»",
-		"year": 2017
+		"year": 2017,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vdova-polkovnyka-2017",
 		"title": "«Вдова полковника»",
-		"year": 2017
+		"year": 2017,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "henzel-ta-hretel-2017",
@@ -1278,7 +1399,8 @@
 		"year": 2017,
 		"author": "Фантазії за мотивами казки братів Ґрімм",
 		"theatreGroup": "гр. 4Т-13",
-		"dateNote": "29 травня понеділок, 19.00 (ауд. 7)"
+		"dateNote": "29 травня понеділок, 19.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dyvni-dyva-2017",
@@ -1294,7 +1416,8 @@
 		"number": 35,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ТУ-154»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zona-turbulentnosti-2017",
@@ -1330,7 +1453,8 @@
 		"masters": [
 			"fedir-tkach",
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-ardenskoho-lisu-2017",
@@ -1361,7 +1485,8 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kentervylskoe-pryvydenye-2017",
@@ -1372,17 +1497,20 @@
 		"dateNote": "21 травня неділя, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "komakhy-2017",
 		"title": "«Комахи»",
-		"year": 2017
+		"year": 2017,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kroki-2017",
 		"title": "«Крокі»",
-		"year": 2017
+		"year": 2017,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natovp-samotnikh-2017",
@@ -1393,7 +1521,8 @@
 		"dateNote": "30 травня вівторок, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ryzhaia-pesa-2017",
@@ -1404,7 +1533,8 @@
 		"dateNote": "30 травня вівторок, 15.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zorianyi-ekspres-2016",
@@ -1412,7 +1542,8 @@
 		"year": 2016,
 		"author": "Мюзикл (Либретто - Ричард Стилгоу)",
 		"theatreGroup": "гр. 3Т-9",
-		"dateNote": "30 травня понеділок, 18.00 (ауд. 7)"
+		"dateNote": "30 травня понеділок, 18.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yzumrudnyi-horod-2016",
@@ -1423,37 +1554,44 @@
 		"dateNote": "21 травня субота, 16.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazkova-istoriia-2016",
 		"title": "«Казкова історія»",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "revyzor-2016",
 		"title": "«Ревізор»",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stekliannyi-zverynets-2016",
 		"title": "«Скляний звіринець»",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teremok-2016",
 		"title": "«ТеремОК»",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tolpa-odynokykh-2016",
 		"title": "«Натовп самотніх»",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-terem-ok-lysa-2016",
 		"title": "казка терем ок лиса",
-		"year": 2016
+		"year": 2016,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2016",
@@ -1474,7 +1612,8 @@
 			"Віра Спаська",
 			"Станіслав Прахов",
 			"Ольга Єфімченко"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2016",
@@ -1502,7 +1641,8 @@
 			"oleh-shevchuk",
 			"svitlana-ryskina",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bylly-2015",
@@ -1513,12 +1653,14 @@
 		"dateNote": "6 червня субота, 19.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vdova-polkovnyka-2015",
 		"title": "«Вдова полковника»",
-		"year": 2015
+		"year": 2015,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vse-malchyshky-duraky-2015",
@@ -1529,7 +1671,8 @@
 		"dateNote": "23 травня субота, 14.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "de-vsi-2015",
@@ -1557,7 +1700,8 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhenskyi-vopros-2015",
@@ -1568,7 +1712,8 @@
 		"dateNote": "22 травня п’ятниця, 19.30 (ауд. 7); 1 червня понеділок, 18.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazky-kriz-kaminnia-2015",
@@ -1579,12 +1724,14 @@
 		"dateNote": "23 травня субота, 16.30 (ауд. 7); 27 травня середа, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kolobonia-2015",
 		"title": "«Колобоня»",
-		"year": 2015
+		"year": 2015,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nedetskye-yhrushky-2015",
@@ -1592,12 +1739,14 @@
 		"year": 2015,
 		"author": "за п’єсою Б. Срблянович «Сімейні історії»",
 		"theatreGroup": "гр. 6Т-17",
-		"dateNote": "24 травня неділя, 18.00 (ауд. 7)"
+		"dateNote": "24 травня неділя, 18.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oliver-tvist-2015",
 		"title": "«Олівер Твіст»",
-		"year": 2015
+		"year": 2015,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pliushevyi-krolyk-2015",
@@ -1608,12 +1757,14 @@
 		"dateNote": "19 травня вівторок, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ripka-2015",
 		"title": "«Ріпка»",
-		"year": 2015
+		"year": 2015,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "solenoe-detstvo-2015",
@@ -1624,7 +1775,8 @@
 		"dateNote": "21 травня четвер, 16.30 (ауд. 7); 31травня неділя, 19.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ia-2015",
@@ -1636,7 +1788,8 @@
 		"masters": [
 			"fedir-tkach",
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "proiekt-ia-2015",
@@ -1658,7 +1811,8 @@
 			"Ірина Кучерук",
 			"Анастасія Гомела",
 			"Катерина Кудлач"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2015",
@@ -1784,7 +1938,8 @@
 			"svitlana-vitiuk",
 			"iryna-ovcharenko",
 			"lesia-cherkasova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2015-2",
@@ -1796,7 +1951,8 @@
 		"isDtsh": false,
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bermudskyi-kvadrat-2014",
@@ -1807,7 +1963,8 @@
 		"dateNote": "7 червня (субота), 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "veselyi-rodzher-2014",
@@ -1818,7 +1975,8 @@
 		"dateNote": "22 травня (четвер), 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "do-svydanyia-ovrah-2014",
@@ -1829,7 +1987,8 @@
 		"dateNote": "15 травня( четвер.), 17.00 (ауд. 7); 17 травня ( субота.), 12.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dumaite-o-nas-2014",
@@ -1840,12 +1999,14 @@
 		"dateNote": "25 травня(неділя), 15.00 (ауд. 7); 30 травня (п’ятниця), 18.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2014",
 		"title": "«Етюди»",
-		"year": 2014
+		"year": 2014,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhestianye-devchonky-2014",
@@ -1856,7 +2017,8 @@
 		"dateNote": "4 червня (середа), 18.00 (ауд. 7); 7 червня (субота), 15.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lodochnyk-2014",
@@ -1867,7 +2029,8 @@
 		"dateNote": "27 травня (вівторок), 19.00 (ауд. 7); 29 травня (четвер), 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "monolohy-2014",
@@ -1893,17 +2056,20 @@
 			"Марта Смеречинська",
 			"Ганна Вацик"
 		],
-		"dateNote": "22 травня (четвер), 18.30 (ауд. 7)"
+		"dateNote": "22 травня (четвер), 18.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "obshchezhytye-2014",
 		"title": "«Гуртожиток»",
-		"year": 2014
+		"year": 2014,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "performans-2014",
 		"title": "«Перформанс»",
-		"year": 2014
+		"year": 2014,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidu-do-kotiv-2014",
@@ -1927,7 +2093,8 @@
 			"Дар'я Калімбет",
 			"Денис Дмитрієв",
 			"Наталія Шпилевська"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryiatnoho-appetyta-tyhr-2014",
@@ -1938,12 +2105,14 @@
 		"dateNote": "4 червня (середа), 15.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazky-skvoz-kamny-2014",
 		"title": "«Казки крізь каміння»",
-		"year": 2014
+		"year": 2014,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tiulka-ta-gruffalo-2014",
@@ -1966,12 +2135,14 @@
 			"Ірина Тимофєєва",
 			"Ганна Красильникова",
 			"Олег Волков"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "shakhy-2014",
 		"title": "«Шахи»",
-		"year": 2014
+		"year": 2014,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2014",
@@ -1991,7 +2162,8 @@
 			"Анастасія Льовкіна",
 			"Анна Гальчинська",
 			"Анастасія Гомела"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2014",
@@ -2058,22 +2230,26 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vrednye-sovety-2013",
 		"title": "«Шкідливі поради»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kto-boytsia-vyrdzhynyy-vulf-2013",
 		"title": "«Хто боїться Вірджинії Вулф»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "8-liubiashchykh-zhenshchyn-2013",
 		"title": "«8 люблячих жінок»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-v-zadzerkalli-2013",
@@ -2084,32 +2260,38 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "buratyno-2013",
 		"title": "«Буратіно»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "veselyi-rodzher-2013",
 		"title": "«Веселий Роджер»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hruffalo-2013",
 		"title": "«Груффало»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2013",
 		"title": "«Етюди»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhenytba-balzamynova-2013",
 		"title": "«Одруження Бальзамінова»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natashi-2013",
@@ -2131,12 +2313,14 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pliushevyi-krolyk-2013",
 		"title": "«Плюшевий Кролик»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "taiemnytsi-zamku-oilenshtain-2013",
@@ -2158,12 +2342,14 @@
 			"Анна Гальчинська",
 			"Арсен Арутюнян",
 			"Анастасія Гомела"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teatralnie-korolevstvo-2013",
 		"title": "«Театральне королівство»",
-		"year": 2013
+		"year": 2013,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ten-2013",
@@ -2174,7 +2360,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "e-t-iu-d-y-2013",
@@ -2184,7 +2371,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2013",
@@ -2298,32 +2486,38 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alysa-v-zazerkalyy-2012",
 		"title": "«Аліса в Задзеркаллі»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "volshebnyi-kolodets-2012",
 		"title": "«Чарівний колодязь»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "husy-lebedy-2012",
 		"title": "«Гуси-лебеді»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dve-strely-2012",
 		"title": "«Дві стріли»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dim-mavpy-2012",
 		"title": "«Дім мавпи»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "infanta-new-2012",
@@ -2349,7 +2543,8 @@
 			"Софія Херсонська",
 			"Анастасія Андріанова",
 			"Юлія Хлопотна"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "korol-pomyraie-2012",
@@ -2372,7 +2567,8 @@
 		"extraParticipants": [
 			"Максим Пономаренко",
 			"Володимир Захарченко"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "matinka-middous-2012",
@@ -2393,42 +2589,50 @@
 			"Вікторія Кульбаба",
 			"Анастасія Дерев'янкина",
 			"Любов Бернаус"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "moia-voobrazylyia-2012",
 		"title": "«Моя Уявляндія»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "moia-voobraziliia-2012",
 		"title": "«Моя Вообразілія»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rusalochka-2012",
 		"title": "«Русалонька»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sestra-moia-rusalochka-2012",
 		"title": "«Сестра моя, Русалонька»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "telefon-2012",
 		"title": "«Телефон»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "trynadtsataia-zvezda-2012",
 		"title": "«Тринадцята зірка»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "triam-zdravstvuite-2012",
 		"title": "«Трям, здрастуйте!»",
-		"year": 2012
+		"year": 2012,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-dramaturhii-20-stolittia-2012",
@@ -2481,52 +2685,62 @@
 			"Алік Запольнов",
 			"Володимир Чалчинський",
 			"Ілля Трифонов"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vrun-yz-trydeviatoho-tsarstva-2011",
 		"title": "«Брехун із Тридев’ятого царства»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hnom-vasia-2011",
 		"title": "«Гном Вася»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "horod-monstrov-2011",
 		"title": "«Місто монстрів»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "husy-lebedi-2011",
 		"title": "«Гуси-лебеді»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "detskyi-sadyk-2011",
 		"title": "«Дитячий садок»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "durochka-2011",
 		"title": "«Дурочка»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diuimovochka-2011",
 		"title": "«Дюймовочка»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zolushka-2011",
 		"title": "«Попелюшка»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ydyot-2011",
 		"title": "«Ідіот»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "infanta-2011",
@@ -2546,18 +2760,21 @@
 			"Софія Херсонська",
 			"Анастасія Андріанова",
 			"Юлія Хлопотна"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mnymyi-bolnoi-2011",
 		"title": "«Уявно хворий»",
 		"year": 2011,
-		"videoUrl": "https://www.youtube.com/watch?v=CP56qEi4sWY"
+		"videoUrl": "https://www.youtube.com/watch?v=CP56qEi4sWY",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "moia-voobrazylyia-2011",
 		"title": "«Моя Уявляндія»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natovp-samotnikh-2011",
@@ -2580,42 +2797,50 @@
 			"Крістіна Співак",
 			"Лілія Гальоса",
 			"Анастасія Іванес"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "revyzor-2011",
 		"title": "«Ревізор»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "svoy-liudy-sochtemsia-2011",
 		"title": "«Свої люди — порозуміємось»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sny-alysy-dulytl-2011",
 		"title": "«Сни Аліси Дуліттл»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tanho-2011",
 		"title": "«Танго»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsarevna-liahushka-2011",
 		"title": "«Царівна-жаба»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsvetushchaia-chekhyia-2011",
 		"title": "«Квітуча Чехія»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iumoryna-2011",
 		"title": "«Юморина»",
-		"year": 2011
+		"year": 2011,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2011",
@@ -2638,68 +2863,81 @@
 			"Крістіна Співак",
 			"Лілія Гальоса",
 			"Анастасія Іванес"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "detskyi-sadyk-2010",
 		"title": "«Дитячий садок»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dykaia-utka-2010",
 		"title": "«Дика качка»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "durochka-2010",
 		"title": "«Дурочка»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yscheznovenye-pryntsessy-fyfelly-3-2010",
 		"title": "«Зникнення принцеси Фіфелли 3»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "klubnychnoe-korolevstvo-2010",
 		"title": "«Суничне королівство»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koshkyn-dom-2010",
 		"title": "«Котячий дім»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malenkyi-prynts-2010",
 		"title": "«Маленький принц»",
 		"year": 2010,
-		"videoUrl": "https://www.youtube.com/watch?v=UTLPVBLLJYs"
+		"videoUrl": "https://www.youtube.com/watch?v=UTLPVBLLJYs",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "misto-monstriv-2010",
 		"title": "«Місто монстрів»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "noch-na-yvana-kupala-2010",
 		"title": "«Ніч на Івана Купала»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prazdnychnyi-son-do-obeda-2010",
 		"title": "«Святковий сон до обіду»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sever-2010",
 		"title": "«Північ»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "slovianskyi-vinok-2010",
 		"title": "«Слов'янський вінок»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "slon-khorton-new-2010",
@@ -2726,12 +2964,14 @@
 		"extraParticipants": [
 			"Іван Волошин",
 			"Крістіна Співак"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "try-sestry-2010",
 		"title": "«Три сестри»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsybulino-new-2010",
@@ -2747,7 +2987,8 @@
 		"number": 15,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «ФРЕШ»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsybulino-2010",
@@ -2770,12 +3011,14 @@
 			"Крістіна Співак",
 			"Лілія Гальоса",
 			"Анастасія Іванес"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chypollyno-2010",
 		"title": "«Чиполліно»",
-		"year": 2010
+		"year": 2010,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-ukrainskoi-klasyky-2010",
@@ -2796,18 +3039,21 @@
 			"Дар'я Дрикина",
 			"Іван Волошин",
 			"Крістіна Співак"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vecher-s-anhelamy-2009",
 		"title": "«Вечір з ангелами»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vpered-kotenok-2009",
 		"title": "«Вперед, кошеня»",
 		"year": 2009,
-		"videoUrl": "https://www.youtube.com/watch?v=Sbes3lG9HOc"
+		"videoUrl": "https://www.youtube.com/watch?v=Sbes3lG9HOc",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dyvni-baby-2009",
@@ -2828,17 +3074,20 @@
 			"Вікторія Мотрук",
 			"Анна Хижняк",
 			"Аліна Ткач"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diuimovochka-2009",
 		"title": "«Дюймовочка»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zvuky-muzyky-2009",
 		"title": "«Звуки музики»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kimnata-narechenoi-new-2009",
@@ -2854,12 +3103,14 @@
 		"number": 8,
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
-		"isDtsh": true
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "klochky-po-zakoulochkam-2009",
 		"title": "«Клаптики по закутках»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "myna-mazailo-new-2009",
@@ -2889,22 +3140,26 @@
 		"extraParticipants": [
 			"Віктор Фурдуй",
 			"Світлана Надопта"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "oblachko-2009",
 		"title": "«Хмаринка»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otryvky-yz-klassyky-2009",
 		"title": "«Уривки з класики»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazka-o-mushke-kotoraia-liubyla-rabotat-2009",
 		"title": "«Казка про Мушку, яка любила працювати»",
-		"year": 2009
+		"year": 2009,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "slon-khorton-2009",
@@ -2923,7 +3178,8 @@
 			"Євгенія Нізвінська",
 			"Аліна Катречко (Іванова)",
 			"Дар'я Дрикина"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "solovei-2009",
@@ -2942,12 +3198,14 @@
 			"Євгенія Нізвінська",
 			"Аліна Катречко (Іванова)",
 			"Дар'я Дрикина"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koshky-2008",
 		"title": "«Кішки»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-zory-zdes-tykhye-2008",
@@ -2957,12 +3215,14 @@
 		"dateNote": "22.05 четвер, 18.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "karpatskaia-vesna-2008",
 		"title": "«Карпатська весна»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kimnata-narechenoi-2008",
@@ -2985,7 +3245,8 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koshcheevy-strasty-2008",
@@ -2999,17 +3260,20 @@
 			"tetiana-isachkina",
 			"iryna-ovcharenko",
 			"iryna-yershova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "letuchyi-korabl-2008",
 		"title": "«Летючий корабель»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "repka-2008",
 		"title": "«Ріпка»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "salun-matushky-mydous-2008",
@@ -3021,7 +3285,8 @@
 		"masters": [
 			"tetiana-isachkina",
 			"adelina-tetradova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "khrestyky-nulyky-2008",
@@ -3048,22 +3313,26 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chernaia-kurytsa-2008",
 		"title": "«Чорна курка»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "cats-koshky-2008",
 		"title": "«Cat’s» («Кішки»)",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "cats-2008",
 		"title": "«Cats»",
-		"year": 2008
+		"year": 2008,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2008",
@@ -3089,7 +3358,8 @@
 		"extraParticipants": [
 			"Арина Постолова",
 			"Арсеній Постолов"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diadiushka-krolyk-protyv-diadiushky-iahuara-2007",
@@ -3100,22 +3370,26 @@
 		"dateNote": "24.05- четвер, 16.00; 29.05- вівторок, 16.00",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhenskyi-stol-v-okhotnychem-zale-2007",
 		"title": "«Жіночий стіл у Охотничому залі»",
-		"year": 2007
+		"year": 2007,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koty-2007",
 		"title": "«Коти»",
-		"year": 2007
+		"year": 2007,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "neznaika-2007",
 		"title": "«Незнайко»",
-		"year": 2007
+		"year": 2007,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "smarahdove-misto-2007",
@@ -3138,17 +3412,20 @@
 		],
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chernaia-kurytsa-yly-podzemnye-zhytely-2007",
 		"title": "«Чорна курка, або Підземні мешканці»",
-		"year": 2007
+		"year": 2007,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chernaia-kurytsa-2007",
 		"title": "«Чорна курка»",
-		"year": 2007
+		"year": 2007,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-etiudiv-2007",
@@ -3169,27 +3446,32 @@
 			"Вікторія Мотрук",
 			"Анна Хижняк",
 			"Аліна Ткач"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-zory-zdes-tykhye-2006",
 		"title": "«А зорі тут тихі»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vremena-hoda-2006",
 		"title": "«Пори року»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "duenia-2006",
 		"title": "«Дуенья»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zolushka-2006",
 		"title": "«Попелюшка»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "myna-mazailo-2006",
@@ -3212,82 +3494,98 @@
 			"Павло Кошка",
 			"Євгеній Тищенко",
 			"Вадим Круссер"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "obruchenye-2006",
 		"title": "«Заручини»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazka-o-hlupom-myshonke-2006",
 		"title": "«Казка про дурне мишеня»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazka-o-pope-y-eho-rabotnyke-balde-2006",
 		"title": "«Казка про попа та його робітника Балду»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skomorokhy-2006",
 		"title": "«Скоморохи»",
-		"year": 2006
+		"year": 2006,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hnom-vasia-2005",
 		"title": "«Гном Вася»",
-		"year": 2005
+		"year": 2005,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malenkyi-prynts-2005",
 		"title": "«Маленький принц»",
-		"year": 2005
+		"year": 2005,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "son-v-letniuiu-noch-2005",
 		"title": "«Сон літньої ночі»",
-		"year": 2005
+		"year": 2005,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ten-2005",
 		"title": "«Тінь»",
-		"year": 2005
+		"year": 2005,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsvetyk-semytsvetyk-2005",
 		"title": "«Квітка-семиквітка»",
-		"year": 2005
+		"year": 2005,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazky-pushkyna-2004",
 		"title": "«Казки Пушкіна»",
-		"year": 2004
+		"year": 2004,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "son-v-letniuiu-noch-2004",
 		"title": "«Сон літньої ночі»",
-		"year": 2004
+		"year": 2004,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chypollyno-2004",
 		"title": "«Чиполліно»",
-		"year": 2004
+		"year": 2004,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novorichni-pryhody-mashi-ta-viti-2003",
 		"title": "«Новорічні пригоди Маші та Віті»",
-		"year": 2003
+		"year": 2003,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "utrennyky-2003-2008-2003",
 		"title": "Ранки (2003–2008)",
-		"year": 2003
+		"year": 2003,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kak-baby-iahy-skazku-spasaly-2002",
 		"title": "«Як баби-яги казку рятували»",
-		"year": 2002
+		"year": 2002,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tzinh-pe-2001",
@@ -3300,17 +3598,20 @@
 		],
 		"dateNote": "травень",
 		"theatreGroup": "гр. Міні-театр «ДЮК»",
-		"isDtsh": false
+		"isDtsh": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "peppy-dlynnyi-chulok-2000",
 		"title": "«Пеппі Довгапанчоха»",
-		"year": 2000
+		"year": 2000,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rusalochka-2000",
 		"title": "«Русалочка»",
-		"year": 2000
+		"year": 2000,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "try-italiiski-apelsyny-2000",
@@ -3337,22 +3638,26 @@
 			"Тетяна Карнацевич",
 			"Володимир Карпенко",
 			"Павло Дерев'янчук"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "2-mesiatsev-1999",
 		"title": "«Дванадцять місяців»",
-		"year": 1999
+		"year": 1999,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "za-dvoma-zaitsiamy-1998",
 		"title": "«За двома зайцями»",
-		"year": 1998
+		"year": 1998,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pochemu-zaiats-spyt-s-otkrytymy-hlazamy-1998",
 		"title": "«Чому заєць спить з відкритими очима»",
-		"year": 1998
+		"year": 1998,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-ardenskoho-lisu-1994",
@@ -3373,7 +3678,8 @@
 			"Євген Осташевський",
 			"Іван Мунтян",
 			"Валерій Сливченко"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prynts-i-troianda-1993",
@@ -3385,7 +3691,8 @@
 			"fedir-tkach"
 		],
 		"theatreGroup": "гр. «Мій набір молодші»",
-		"isDtsh": false
+		"isDtsh": false,
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-1993",
@@ -3409,7 +3716,8 @@
 			"Катерина Музикант",
 			"Ірина Хрущ",
 			"Дмитро Розенталь"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "balahanchyk-1992",
@@ -3424,7 +3732,8 @@
 		"isDtsh": false,
 		"participants": [
 			"Ірина Гончарук (Ковальська)"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazka-pro-zvezdocheta-2013",
@@ -3432,7 +3741,8 @@
 		"year": 2013,
 		"author": "С.Маршак",
 		"theatreGroup": "гр. 4-Е",
-		"dateNote": "травень 2013"
+		"dateNote": "травень 2013",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kot-naoborot-2013",
@@ -3440,7 +3750,8 @@
 		"year": 2013,
 		"author": "О.Емельянова",
 		"theatreGroup": "гр. 5-Е",
-		"dateNote": "травень 2013"
+		"dateNote": "травень 2013",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "poliana-fei-2013",
@@ -3451,7 +3762,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kak-lysa-volka-sudyla-2013",
@@ -3459,7 +3771,8 @@
 		"year": 2013,
 		"author": "Російська народна казка",
 		"theatreGroup": "гр. 1-Е",
-		"dateNote": "травень 2013"
+		"dateNote": "травень 2013",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "den-rozhdenyia-rozochky-2013",
@@ -3470,7 +3783,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "martyshkyn-dom-2013",
@@ -3478,7 +3792,8 @@
 		"year": 2013,
 		"author": "Б.Заходер",
 		"theatreGroup": "гр. 6-Е",
-		"dateNote": "травень 2013"
+		"dateNote": "травень 2013",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teremok-2013",
@@ -3486,7 +3801,8 @@
 		"year": 2013,
 		"author": "Російська народна казка",
 		"theatreGroup": "гр. 2-Е",
-		"dateNote": "травень 2013"
+		"dateNote": "травень 2013",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "barmalei-2013",
@@ -3497,7 +3813,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prykliuchenyia-buratyno-2013",
@@ -3508,7 +3825,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vodevyl-2013",
@@ -3519,7 +3837,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-n-ostrovskyi-stseny-yz-moskovskoi-zhyzny-2013",
@@ -3529,7 +3848,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "makaka-kleopatra-2013",
@@ -3540,7 +3860,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malen-koe-pryvydenye-2013",
@@ -3551,7 +3872,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "peppy-dlynnyi-chulok-2013",
@@ -3562,7 +3884,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-yntensyvnoho-klassa-2013",
@@ -3572,7 +3895,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "spektakl-2013",
@@ -3583,7 +3907,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "liubov-k-trem-apel-synam-2013",
@@ -3594,7 +3919,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otkrytyi-pokaz-po-akterskomu-masterstvu-2013",
@@ -3604,7 +3930,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vosem-liubiashchykh-zhenshchyn-2013",
@@ -3615,7 +3942,8 @@
 		"dateNote": "травень 2013",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otkrytyi-pokaz-po-rechy-2014",
@@ -3624,7 +3952,8 @@
 		"dateNote": "8 травня(четвер.), 16.00 (ауд. зал); 20 травня (вівторок), 15.00 (ауд. 17)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-prepodavatelia-velychko-l-n-2014",
@@ -3633,7 +3962,8 @@
 		"dateNote": "18травня(неділя), 12.00 (ауд. 7)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ystoryy-o-tiul-ke-y-hruffalo-2014",
@@ -3644,7 +3974,8 @@
 		"dateNote": "19 травня (понеділок), 18.30 (ауд. 7); 21 травня(середа), 18.00 (ауд. 7)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otkrytyi-pokaz-po-akterskomu-masterstvu-trenynh-et-2014",
@@ -3655,7 +3986,8 @@
 		"masters": [
 			"fedir-tkach",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "putanytsa-2014",
@@ -3666,7 +3998,8 @@
 		"dateNote": "21 травня(середа), 15.00 (ауд. 11)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vrednye-sovety-2014",
@@ -3674,7 +4007,8 @@
 		"year": 2014,
 		"author": "Г. Остер",
 		"theatreGroup": "гр. 4-Е",
-		"dateNote": "23 травня(п’ятниця), 16.00 (ауд. 11)"
+		"dateNote": "23 травня(п’ятниця), 16.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prazdnyk-neposlushanyia-2014",
@@ -3685,7 +4019,8 @@
 		"dateNote": "24 травня (субота), 12.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kokon-2014",
@@ -3696,7 +4031,8 @@
 		"dateNote": "24 травня (субота), 16.00 (ауд. 7); 28 травня (середа), 18.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "posle-bukvy-ia-2014",
@@ -3704,7 +4040,8 @@
 		"year": 2014,
 		"author": "Доктор Сьюз",
 		"theatreGroup": "гр. 5-Е",
-		"dateNote": "26 травня (понеділок), 15.00"
+		"dateNote": "26 травня (понеділок), 15.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pyter-pen-2014",
@@ -3715,7 +4052,8 @@
 		"dateNote": "26 травня (понеділок), 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yntensyvnoho-kursa-2014",
@@ -3725,7 +4063,8 @@
 		"dateNote": "26 травня (понеділок), 18.30 (ауд. 17); 28 травня (середа), 17.00 (ауд. 17)",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malen-kye-volshebnyky-2014",
@@ -3733,7 +4072,8 @@
 		"year": 2014,
 		"author": "Інсценізація казок власного авторства",
 		"theatreGroup": "гр. 2-Е",
-		"dateNote": "27 травня (вівторок), 15.00 (ауд. 11)"
+		"dateNote": "27 травня (вівторок), 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ystor-y-ia-2014",
@@ -3743,7 +4083,8 @@
 		"dateNote": "27 травня (вівторок), 16.00 (ауд. 7)",
 		"masters": [
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "parad-pryntsess-2014",
@@ -3754,13 +4095,15 @@
 		"dateNote": "28 травня (середа), 16.00 (ауд. 11)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-mladshykh-uchenykov-shkoly-2014",
 		"title": "Підсумкове свято молодших учнів школи",
 		"year": 2014,
-		"dateNote": "31 травня (Субота), 12.00"
+		"dateNote": "31 травня (Субота), 12.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sentymental-noe-puteshestvye-2014",
@@ -3771,7 +4114,8 @@
 		"dateNote": "5 червня (четвер), 15.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "86997503343751-2014",
@@ -3782,14 +4126,16 @@
 		"dateNote": "5 червня (четвер), 18.00 (ауд. 7); 6 червня (п’ятниця), 18.00 (ауд. 7)",
 		"masters": [
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2014",
 		"title": "«Рафаман»",
 		"year": 2014,
 		"author": "Підсумкове свято для учнів",
-		"dateNote": "6 червня (п’ятниця), 10.30 (ауд. 7)"
+		"dateNote": "6 червня (п’ятниця), 10.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pastushka-y-trubochyst-2015",
@@ -3800,7 +4146,8 @@
 		"dateNote": "15 травня п’ятниця, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2015",
@@ -3811,7 +4158,8 @@
 		"masters": [
 			"svitlana-ryskina",
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsyrk-syn-ora-makarolly-2015",
@@ -3822,7 +4170,8 @@
 		"dateNote": "20 травня середа, 15.00 (ауд. 11)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2015",
@@ -3832,7 +4181,8 @@
 		"dateNote": "22 травня п’ятниця, 17.00 (ауд. 17)",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sny-dzhovanny-2015",
@@ -3840,7 +4190,8 @@
 		"year": 2015,
 		"author": "за мотивами казок Дж. Родарі",
 		"theatreGroup": "гр. 1Т-4",
-		"dateNote": "22 травня п’ятниця, 18.30 (ауд. 11)"
+		"dateNote": "22 травня п’ятниця, 18.30 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kot-v-sapohakh-2015",
@@ -3851,7 +4202,8 @@
 		"dateNote": "23 травня субота, 12.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prykliuchenyia-olyvera-tvysta-2015",
@@ -3859,7 +4211,8 @@
 		"year": 2015,
 		"author": "Мюзикл Л. Барта (за мотивами роману Ч. Діккенса)",
 		"theatreGroup": "гр. 1Т-3 2Т-5",
-		"dateNote": "24 травня неділя, 16.00 (ауд. 7); 6 червня субота, 16.00 (ауд. 7)"
+		"dateNote": "24 травня неділя, 16.00 (ауд. 7); 6 червня субота, 16.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novye-ystoryy-kroshky-enota-2015",
@@ -3867,7 +4220,8 @@
 		"year": 2015,
 		"author": "за мотивами казки Л. Муур",
 		"theatreGroup": "гр. 2Е-1",
-		"dateNote": "25 травня понеділок, 15.00 (ауд. 11)"
+		"dateNote": "25 травня понеділок, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rusalochka-kheppy-end-2015",
@@ -3878,7 +4232,8 @@
 		"dateNote": "25 травня понеділок, 17.00 (ауд. 7); 28 травня четвер, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "horod-bez-liubvy-2015",
@@ -3889,7 +4244,8 @@
 		"dateNote": "25 травня понеділок, 19.00 (ауд. 7)",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kot-v-shliape-2015",
@@ -3900,7 +4256,8 @@
 		"dateNote": "26 травня вівторок, 15.00 (ауд. 11)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yvan-yvanych-samovar-2015",
@@ -3908,7 +4265,8 @@
 		"year": 2015,
 		"author": "Д.Хармс",
 		"theatreGroup": "гр. 3Е-4",
-		"dateNote": "26 травня вівторок, 16.30 (ауд. 11)"
+		"dateNote": "26 травня вівторок, 16.30 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhyl-byl-korol-2015",
@@ -3919,7 +4277,8 @@
 		"dateNote": "27 травня середа, 16.00 (ауд. 11)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-prepodavatelia-velychko-l-n-2015",
@@ -3928,7 +4287,8 @@
 		"dateNote": "30 травня субота, 11.00 (ауд. 7)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-dlia-hrupp-2e-1-2e-2-3e-3-3e-4-1-2015",
@@ -3938,7 +4298,8 @@
 		"masters": [
 			"svitlana-ryskina",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-prepodavatelia-ovcharenko-y-h-2015",
@@ -3947,7 +4308,8 @@
 		"dateNote": "30 травня субота, 15.00 (ауд. 7)",
 		"masters": [
 			"iryna-ovcharenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-prepodavatelia-panchenko-o-k-2015",
@@ -3956,13 +4318,15 @@
 		"dateNote": "31травня неділя, 12.00 (ауд. 7)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-prepodavatelia-laryonovoi-iu-f-2015",
 		"title": "Концерт класу викладача Ларіонової Ю. Ф.",
 		"year": 2015,
-		"dateNote": "31травня неділя, 17.00 (ауд. 7)"
+		"dateNote": "31травня неділя, 17.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zelenaia-zvezda-2015",
@@ -3973,7 +4337,8 @@
 		"dateNote": "3 червня середа, 18.00 (ауд. 7); 4 червня четвер, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2015",
@@ -3981,25 +4346,29 @@
 		"year": 2015,
 		"author": "Підсумкове свято відділення раннього розвитку",
 		"theatreGroup": "гр. 1м,2м, 3м, 4м",
-		"dateNote": "5 червня п’ятниця, 10.30 (ауд. 7)"
+		"dateNote": "5 червня п’ятниця, 10.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-dlia-hrupp-3t-7-3t-8-4t-9-4t-10--2015",
 		"title": "Підсумкове свято груп 3Т-7, 3Т-8, 4Т-9, 4Т-10, 5Т-12, 6Т-17",
 		"year": 2015,
-		"dateNote": "7 червня неділя, 12.00"
+		"dateNote": "7 червня неділя, 12.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-dlia-hrupp-5t-11-6t-13-6t-14-6t--2015",
 		"title": "Підсумкове свято груп 5Т-11, 6Т-13, 6Т-14, 6Т-15, 6Т-16, 7Т-18, 7Т-19. Випускний груп 8Т-20, 8Т-21, 8Т-22",
 		"year": 2015,
-		"dateNote": "7 червня неділя, 16.00"
+		"dateNote": "7 червня неділя, 16.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-vokal-noho-klassa-2016",
 		"title": "Концерт вокального класу",
 		"year": 2016,
-		"dateNote": "10 травня вівторок, 18.00 (ауд. 11); 22 травня неділя, 14.00 (ауд. 11)"
+		"dateNote": "10 травня вівторок, 18.00 (ауд. 11); 22 травня неділя, 14.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "okhota-na-snarka-2016",
@@ -4010,7 +4379,8 @@
 		"dateNote": "16 травня понеділок, 17.00 (ауд. 11)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2016",
@@ -4021,7 +4391,8 @@
 		"masters": [
 			"iryna-kulbaba",
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "devochka-so-spychkamy-2016",
@@ -4032,7 +4403,8 @@
 		"dateNote": "17 травня вівторок, 18.00 (ауд. 7); 22 травня неділя, 16.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hadkyi-utenok-2016",
@@ -4043,7 +4415,8 @@
 		"dateNote": "18 травня середа, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2016",
@@ -4054,7 +4427,8 @@
 		"masters": [
 			"fedir-tkach",
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "repka-2016",
@@ -4062,7 +4436,8 @@
 		"year": 2016,
 		"author": "Фантазії на тему народної казки (. Римейк)",
 		"theatreGroup": "гр. 2Е-4",
-		"dateNote": "19 травня четвер, 15.00 (ауд. 11)"
+		"dateNote": "19 травня четвер, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kolobok-2016",
@@ -4070,7 +4445,8 @@
 		"year": 2016,
 		"author": "Фантазії на тему народної казки",
 		"theatreGroup": "гр. 1Е-1",
-		"dateNote": "20 травня п’ятниця, 15.00 (ауд. 11)"
+		"dateNote": "20 травня п’ятниця, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diuimovochka-y-motylek-2016",
@@ -4081,7 +4457,8 @@
 		"dateNote": "20 травня п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klassa-ynstrumentalystov-2016",
@@ -4090,7 +4467,8 @@
 		"dateNote": "22 травня неділя, 12.00 (ауд. 7)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nebylytsy-2016",
@@ -4101,7 +4479,8 @@
 		"dateNote": "23 травня понеділок, 15.00 (ауд. 11)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kto-skazal-miau-2016",
@@ -4109,7 +4488,8 @@
 		"year": 2016,
 		"author": "За мотивами казки В. Сутєєва",
 		"theatreGroup": "гр. 2Е-5",
-		"dateNote": "23 травня понеділок, 16.10 (ауд. 11)"
+		"dateNote": "23 травня понеділок, 16.10 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "fedoryno-hore-2016",
@@ -4120,7 +4500,8 @@
 		"dateNote": "24 травня вівторок, 16.00 (ауд. 11)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vremena-hoda-2016",
@@ -4131,14 +4512,16 @@
 		"dateNote": "24 травня вівторок, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-skorohovorky-2016",
 		"title": "Показ з акторської майстерності. Скоромовки",
 		"year": 2016,
 		"theatreGroup": "гр. 1Е-2",
-		"dateNote": "25 травня середа, 15.20 (ауд. 11)"
+		"dateNote": "25 травня середа, 15.20 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "fantazery-2016",
@@ -4146,7 +4529,8 @@
 		"year": 2016,
 		"author": "Інсценізація за оповіданнями Н. Носова",
 		"theatreGroup": "гр. 3Е-7",
-		"dateNote": "25 травня середа, 16.10 (ауд. 11)"
+		"dateNote": "25 травня середа, 16.10 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "o-liubvy-y-vechnosty-2016",
@@ -4157,7 +4541,8 @@
 		"dateNote": "25 травня середа, 18.00 (ауд. 7); 29 травня неділя, 14.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "boikot-2016",
@@ -4168,7 +4553,8 @@
 		"dateNote": "27 травня п’ятниця, 17.00 (ауд. 7); 28 травня субота, 14.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2016",
@@ -4176,7 +4562,8 @@
 		"year": 2016,
 		"author": "Підсумковий захід учнів відділення",
 		"theatreGroup": "гр. 1М,2М, 3М,4М",
-		"dateNote": "30 травня понеділок, 11.00 (ауд. 7)"
+		"dateNote": "30 травня понеділок, 11.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chaiky-2016",
@@ -4184,7 +4571,8 @@
 		"year": 2016,
 		"author": ". Польоти за притчею Ричарда Баха",
 		"theatreGroup": "гр. 1Т-4",
-		"dateNote": "30 травня понеділок, 16.00 (ауд. 7)"
+		"dateNote": "30 травня понеділок, 16.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-1e-1-1e-2-2e-3-2-2016",
@@ -4193,7 +4581,8 @@
 		"dateNote": "31 травня вівторок, 12.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3e-8-1t-1-1t-2-1-2016",
@@ -4202,7 +4591,8 @@
 		"dateNote": "1 червня середа, 11.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3t-7-3t-8-3t-9-3-2016",
@@ -4211,7 +4601,8 @@
 		"dateNote": "2 червня четвер, 12.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "keep-calm-and-be-free-2016",
@@ -4222,7 +4613,8 @@
 		"dateNote": "3 червня п’ятниця, 18.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-5t-13-6t-15-6t-16-7t-17-7t-18-7t-2016",
@@ -4231,7 +4623,8 @@
 		"dateNote": "4 червня субота, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademycheskyi-kontsert-dopolnytel-nyi-klassa-yndy-2017",
@@ -4240,7 +4633,8 @@
 		"dateNote": "4 травня четвер, 16.00 (ауд. 2)",
 		"masters": [
 			"iryna-ovcharenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademycheskyi-kontsert-dopolnytel-nyi-klassov-for-2017",
@@ -4249,7 +4643,8 @@
 		"dateNote": "5 травня п’ятниця, 17.00 (ауд. 16)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teremok-2017",
@@ -4260,7 +4655,8 @@
 		"dateNote": "16 травня вівторок, 15.20 (ауд. 11)",
 		"masters": [
 			"svitlana-myronenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazochnaia-ystoryia-2017",
@@ -4271,7 +4667,8 @@
 		"dateNote": "17 травня середа, 15.20 (ауд. 11)",
 		"masters": [
 			"svitlana-myronenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "belosnezh-y-sem-hnomys-2017",
@@ -4282,7 +4679,8 @@
 		"dateNote": "18 травня четвер, 15.20 (ауд. 7)",
 		"masters": [
 			"svitlana-myronenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-trenynh-etiudy-2017",
@@ -4294,7 +4692,8 @@
 			"iryna-kulbaba",
 			"svitlana-nadopta",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alysa-v-strane-chudes-2017",
@@ -4305,7 +4704,8 @@
 		"dateNote": "20 травня субота, 14.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sovershennaia-volna-2017",
@@ -4316,7 +4716,8 @@
 		"dateNote": "21 травня неділя, 15.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pro-drakoniv-i-shchastia-2017",
@@ -4327,7 +4728,8 @@
 		"dateNote": "22 травня понеділок, 15.00 (ауд. 11)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-po-akterskomu-masterstvu-etiudy-2017",
@@ -4337,7 +4739,8 @@
 		"dateNote": "22 травня понеділок, 18.30 (ауд. 17); 26 травня п’ятниця, 18.00 (ауд. 17)",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "skazka-o-poteriannom-vremeny-2017",
@@ -4348,7 +4751,8 @@
 		"dateNote": "23 травня вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vpered-kotenok-2017",
@@ -4359,7 +4763,8 @@
 		"dateNote": "23 травня вівторок, 17.00 (ауд. 7); 26 травня п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otryvky-yz-klassyky-2017",
@@ -4369,7 +4774,8 @@
 		"dateNote": "23 травня вівторок, 18.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koshkyn-dom-2017",
@@ -4380,7 +4786,8 @@
 		"dateNote": "24 травня середа, 14.30 (ауд. 11)",
 		"masters": [
 			"pavlo-koshka"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "krasavytsa-y-chudovyshche-2017",
@@ -4391,7 +4798,8 @@
 		"dateNote": "24 травня середа, 18.00 (ауд. 7); 25 травня четвер, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "holyi-korol-2017",
@@ -4402,14 +4810,16 @@
 		"dateNote": "27 травня субота, 13.00 (ауд. 7); 31 травня середа, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-nadopta"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "muzykal-no-lyteraturnaia-kompozytsyia-po-stykhotvo-2017",
 		"title": "Музично-літературна композиція за віршами Б. Заходера",
 		"year": 2017,
 		"theatreGroup": "гр. 2Е-2",
-		"dateNote": "29 травня понеділок, 14.00 (ауд. 11)"
+		"dateNote": "29 травня понеділок, 14.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prykliuchenyia-funtyka-2017",
@@ -4417,7 +4827,8 @@
 		"year": 2017,
 		"author": "Інсценізація за казкою В. Шульжика",
 		"theatreGroup": "гр. 2Е-5",
-		"dateNote": "29 травня понеділок, 15.00 (ауд. 11)"
+		"dateNote": "29 травня понеділок, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malen-kyi-prynts-2017",
@@ -4425,7 +4836,8 @@
 		"year": 2017,
 		"author": "Фантазії за мотивами казки С. Екзюпері",
 		"theatreGroup": "гр. 3Т-10",
-		"dateNote": "29 травня понеділок, 17.00 (ауд. 7)"
+		"dateNote": "29 травня понеділок, 17.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "na-solnechnoi-poliane-2017",
@@ -4433,7 +4845,8 @@
 		"year": 2017,
 		"author": "по сказкам собственного сочинения",
 		"theatreGroup": "гр. 2Е-3",
-		"dateNote": "30 травня вівторок, 11.00 (ауд. 11)"
+		"dateNote": "30 травня вівторок, 11.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2017",
@@ -4441,7 +4854,8 @@
 		"year": 2017,
 		"author": "Підсумковий захід учнів відділення",
 		"theatreGroup": "гр. 1М,2М3М,4М",
-		"dateNote": "31 травня середа, 10.30 (ауд. 7)"
+		"dateNote": "31 травня середа, 10.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-2e-1-2e-2-2e-3-2-2017",
@@ -4451,7 +4865,8 @@
 		"dateNote": "31 травня середа, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-1t-1-1t-2-1t-3-1-2017",
@@ -4461,7 +4876,8 @@
 		"dateNote": "1 червня четвер, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vdova-polkovnyka-yly-vrachy-nycheho-ne-znaiut-2017",
@@ -4472,7 +4888,8 @@
 		"dateNote": "1 червня четвер, 18.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-3t-7-3t-9-3t-10--2017",
@@ -4482,7 +4899,8 @@
 		"dateNote": "3 червня субота, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ytohovyi-prazdnyk-6t-17-6t-18-6t-19-7t-20-7t-21-vy-2017",
@@ -4492,7 +4910,8 @@
 		"dateNote": "3 червня субота, 16.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vir-ta-mrii-2018",
@@ -4503,7 +4922,8 @@
 		"dateNote": "2.05. середа, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsyrk-pryntipram-2018",
@@ -4514,7 +4934,8 @@
 		"dateNote": "3.05. четвер, 14.30 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsvetik-semitsvietik-2018",
@@ -4522,7 +4943,8 @@
 		"year": 2018,
 		"author": "В.Катаєв",
 		"theatreGroup": "гр. 3Е-5",
-		"dateNote": "4.05. п’ятниця, 14.30 (ауд. 11)"
+		"dateNote": "4.05. п’ятниця, 14.30 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "aktors-kyi-treninh-etiudy-2018",
@@ -4535,7 +4957,8 @@
 			"tetiana-isachkina",
 			"elmir-hanbarov",
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diuimovochka-2018",
@@ -4543,7 +4966,8 @@
 		"year": 2018,
 		"author": "Г-Х. Андерсен",
 		"theatreGroup": "гр. 2Е-2",
-		"dateNote": "7.05. понеділок, 15.00 (ауд. 11); 11.05. п’ятниця, 15.00 (ауд. 11)"
+		"dateNote": "7.05. понеділок, 15.00 (ауд. 11); 11.05. п’ятниця, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "metelyk-2018",
@@ -4551,7 +4975,8 @@
 		"year": 2018,
 		"author": "Г-Х. Андерсен",
 		"theatreGroup": "гр. 3Е-4",
-		"dateNote": "8.05. вівторок, 15.20 (ауд. 11)"
+		"dateNote": "8.05. вівторок, 15.20 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "salun-matusi-midous-2018",
@@ -4562,7 +4987,8 @@
 		"dateNote": "12.05. субота, 11.00 (ауд. 7); 14.05. понеділок, 16.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prynts-ta-zlydar-2018",
@@ -4573,7 +4999,8 @@
 		"dateNote": "12.05. субота, 13.00 (ауд. 7); 17.05. четвер, 18.00 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bremens-ki-muzyky-2018",
@@ -4581,7 +5008,8 @@
 		"year": 2018,
 		"author": "Брати Грімм",
 		"theatreGroup": "гр. 2Е-1",
-		"dateNote": "14.05. понеділок, 15.00 (ауд. 11)"
+		"dateNote": "14.05. понеділок, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademkontsert-instrumentalistiv-2018",
@@ -4590,7 +5018,8 @@
 		"dateNote": "15.05. вівторок, 14.00 (ауд. 16)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "korolivstvo-kryvykh-dzerkal-2018",
@@ -4601,7 +5030,8 @@
 		"dateNote": "15.05. вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lysty-do-boha-2018",
@@ -4612,7 +5042,8 @@
 		"dateNote": "15.05. вівторок, 17.30 (ауд. 7); 19.05 субота, 14.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademkontsert-vokal-noho-klasu-2018",
@@ -4621,7 +5052,8 @@
 		"dateNote": "16.05. середа, 14.00 (ауд. 2); 17.05. четвер, 14.00 (ауд. 2)",
 		"masters": [
 			"iryna-ovcharenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "troie-porosiat-2018",
@@ -4629,7 +5061,8 @@
 		"year": 2018,
 		"author": "за мотивами народної казки",
 		"theatreGroup": "гр. 3Е-3",
-		"dateNote": "16.05. середа, 15.00 (ауд. 11)"
+		"dateNote": "16.05. середа, 15.00 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-sol-noho-spivu-2018",
@@ -4639,7 +5072,8 @@
 		"masters": [
 			"hanna-nikolaieva",
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "polianna-2018",
@@ -4650,7 +5084,8 @@
 		"dateNote": "17.05. четвер, 16.00 (ауд. 7); 22.05. вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "son-pro-malen-koho-pryntsa-2018",
@@ -4658,7 +5093,8 @@
 		"year": 2018,
 		"author": "за мотивами повісті Антуана де Сент-Екзюпері",
 		"theatreGroup": "гр. 2Т-7",
-		"dateNote": "18.05. п’ятниця, 15.30 (ауд. 7)"
+		"dateNote": "18.05. п’ятниця, 15.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-mozhe-ni-2018",
@@ -4669,7 +5105,8 @@
 		"dateNote": "18.05. п’ятниця, 18.00 (ауд. 7); 20.05. неділя, 15.00 (ауд. 7)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasychnykh-tvoriv-2018",
@@ -4680,7 +5117,8 @@
 		"masters": [
 			"svitlana-ryskina",
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "trynadtsiata-zirka-2018",
@@ -4691,7 +5129,8 @@
 		"dateNote": "21.05. понеділок, 16.30 (ауд. 7); 23.05. середа, 16.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nesportyvna-istoriia-2018",
@@ -4702,7 +5141,8 @@
 		"dateNote": "23.05. середа, 18.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2018",
@@ -4713,7 +5153,8 @@
 		"dateNote": "30.05. середа, 10.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-hitary-2018",
@@ -4722,7 +5163,8 @@
 		"dateNote": "30.05. середа, 18.00 (ауд. 7)",
 		"masters": [
 			"natalia-stepanenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2018",
@@ -4732,7 +5174,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "shex-pr-party-2018",
@@ -4743,7 +5186,8 @@
 		"dateNote": "31.05. четвер, 17.00 (ауд. 7); 01.06. п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-2t-4-2t-5--2018",
@@ -4753,7 +5197,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-4t-10-4t-11-4t-12-4t-13-4-2018",
@@ -4763,7 +5208,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-6t-19-6t-20-7t-21-7t-22-v-2018",
@@ -4773,7 +5219,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-pro-kyta-2019",
@@ -4784,7 +5231,8 @@
 		"dateNote": "6 травня понеділок, 15.20 (ауд. 11)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "telefon-2019",
@@ -4795,7 +5243,8 @@
 		"dateNote": "7.05 вівторок, 14.30 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "aktors-kyi-treninh-etiudy-2019",
@@ -4808,7 +5257,8 @@
 			"svitlana-ryskina",
 			"elmir-hanbarov",
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ripka-2019",
@@ -4816,7 +5266,8 @@
 		"year": 2019,
 		"author": "В.Євтушенко старі казки на новий лад",
 		"theatreGroup": "гр. 3Е-4",
-		"dateNote": "10.05 п’ятниця, 15.20 (ауд. 11)"
+		"dateNote": "10.05 п’ятниця, 15.20 (ауд. 11)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ia-vas-vsikh-kokhaiu-2019",
@@ -4827,7 +5278,8 @@
 		"dateNote": "11.05 субота, 13.00 (ауд. 7); 25.05 субота, 12.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ne-khvorii-ne-chkhai-ne-kashliai-2019",
@@ -4838,7 +5290,8 @@
 		"dateNote": "14.05 вівторок, 15.30 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "volokhata-azbuka-2019",
@@ -4849,7 +5302,8 @@
 		"dateNote": "15.05 середа, 15.20 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "luskunchyk-2019",
@@ -4860,7 +5314,8 @@
 		"dateNote": "16.05 четвер, 16.10 (ауд. 7); 22.05 середа, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "boh-izdyt-na-velosypedi-2019",
@@ -4871,7 +5326,8 @@
 		"dateNote": "18.05. субота, 16.00 (ауд. 7); 20.05 понеділок, 17.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zaruchyny-2019",
@@ -4884,7 +5340,8 @@
 			"fedir-tkach",
 			"hanna-serebriannikova"
 		],
-		"institution": "Театр на Чайній"
+		"institution": "Театр на Чайній",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iak-babky-iozhky-kazku-riatuvaly-2019",
@@ -4895,7 +5352,8 @@
 		"dateNote": "20.05 понеділок, 16.10 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasychnykh-tvoriv-2019",
@@ -4907,7 +5365,8 @@
 			"svitlana-ryskina",
 			"fedir-tkach",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malen-ka-pryntsesa-2019",
@@ -4915,7 +5374,8 @@
 		"year": 2019,
 		"author": "За мотивами творів Ф.Бернета",
 		"theatreGroup": "гр. 3Т-13",
-		"dateNote": "24.05 п’ятниця, 16.30 (ауд. 7)"
+		"dateNote": "24.05 п’ятниця, 16.30 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "snihova-koroleva-2019",
@@ -4926,7 +5386,8 @@
 		"dateNote": "24.05 п’ятниця, 18.00 (ауд. 7); 27.05 понеділок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "balahanchyk-brativ-hrym-2019",
@@ -4937,7 +5398,8 @@
 		"dateNote": "28.05 вівторок, 17.00 (ауд. 7); 30.05 четвер, 16.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bremens-ki-muzykanty-2019",
@@ -4948,7 +5410,8 @@
 		"dateNote": "25.05 субота, 15.00 (ауд. 7); 29.05 середа, 16.00 (ауд. 7)",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-2e-1-2e-2-3e-3-3e-4-3e-5--2019",
@@ -4958,7 +5421,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mizh-nebom-i-zemleiu-2019",
@@ -4969,7 +5433,8 @@
 		"dateNote": "30.05 четвер, 18.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2019",
@@ -4980,7 +5445,8 @@
 		"dateNote": "31.05 п’ятниця, 10.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-1t-1-1t-2-1t-3-1t-4-1t-5--2019",
@@ -4990,7 +5456,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hraiemo-v-brekhta-2019",
@@ -5000,13 +5467,15 @@
 		"dateNote": "31.05 п’ятниця, 18.00 (ауд. 7); 01.06. субота, 16.00 (ауд. 7)",
 		"masters": [
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-3t-10-3t-11-3t-12-3t-13-4-2019",
 		"title": "Підсумкове свято у груп 3Т-10, 3Т-11, 3Т-12, 3Т-13, 4Т-14, 4Т-15, 5Т-16, 5Т-17, 5Т-18, 5Т-19+учні художнього та музичного від.",
 		"year": 2019,
-		"dateNote": "01.06. субота, 13.00"
+		"dateNote": "01.06. субота, 13.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "personazhi-2019",
@@ -5017,7 +5486,8 @@
 		"dateNote": "01.06. субота, 18.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-u-hrup-6t-23-6t-21-6t-22-vypuskn-2019",
@@ -5027,7 +5497,8 @@
 		"masters": [
 			"olena-tkach",
 			"vira-koval"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tykhyi-shelest-siahaiuchykh-krokiv-2020",
@@ -5038,7 +5509,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "visim-zakokhanykh-zhinok-2020",
@@ -5049,7 +5521,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ne-101-a-14-dolmatyntsiv-2020",
@@ -5061,7 +5534,8 @@
 		"masters": [
 			"tereza-zaurbekova",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lyshe-bud-soboiu-2020",
@@ -5073,7 +5547,8 @@
 		"masters": [
 			"tereza-zaurbekova",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "myshynia-superdetektyv-2020",
@@ -5085,7 +5560,8 @@
 		"masters": [
 			"tereza-zaurbekova",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudnyi-pokaz-2020",
@@ -5096,7 +5572,8 @@
 		"masters": [
 			"tereza-zaurbekova",
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stari-kazky-na-novyi-lad-ivasyk-telesyk-2020",
@@ -5104,7 +5581,8 @@
 		"year": 2020,
 		"author": "Віктор Євтушенко",
 		"theatreGroup": "гр. 1Т-3 (4е7)",
-		"dateNote": "липень-жовтень 2020"
+		"dateNote": "липень-жовтень 2020",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sim-subot-na-tyzhni-i-v-subotu-subotyk-povernuvsia-2020",
@@ -5115,7 +5593,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stari-kazky-na-novyi-lad-zolota-rybka-2020",
@@ -5123,7 +5602,8 @@
 		"year": 2020,
 		"author": "Віктор Євтушенко",
 		"theatreGroup": "гр. 1Т-3 (4е7)",
-		"dateNote": "липень-жовтень 2020"
+		"dateNote": "липень-жовтень 2020",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "veselyi-iarmarok-2020",
@@ -5134,7 +5614,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-pro-movu-2020",
@@ -5145,7 +5626,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-karlsona-2020",
@@ -5156,7 +5638,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kola-bez-tsukru-2020",
@@ -5164,7 +5647,8 @@
 		"year": 2020,
 		"author": "прем’єра п’єси О.Андрейчекової (тизер вистави)",
 		"theatreGroup": "гр. 5Т-20",
-		"dateNote": "липень-жовтень 2020"
+		"dateNote": "липень-жовтень 2020",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "bahazh-2020",
@@ -5175,7 +5659,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koralina-v-kraini-koshmariv-2020",
@@ -5186,7 +5671,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tantsy-plius-2020",
@@ -5197,7 +5683,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"iryna-kulbaba"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "klaptyky-po-zakutkakh-2020",
@@ -5208,7 +5695,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zviriachi-istorii-2020",
@@ -5219,7 +5707,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "orkestr-2020",
@@ -5230,7 +5719,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "use-lito-v-odyn-den-2020",
@@ -5241,7 +5731,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dzus-abo-istorii-kota-fylafeia-2020",
@@ -5252,7 +5743,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2020",
@@ -5262,7 +5754,8 @@
 		"dateNote": "липень-жовтень 2020",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyty-sol-noho-spivu-2021",
@@ -5271,7 +5764,8 @@
 		"dateNote": "11 травня вівторок, 12.30 (ауд. 7); 12 травня середа, 12.30 (ауд. 7); 13 травня четвер, 12.30 (ауд. 7); 20 травня четвер, 12.30 (ауд. 7); 21 травня п’ятниця, 12.30 (ауд. 11)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "aktors-kyi-treninh-ta-etiudy-2021",
@@ -5284,7 +5778,8 @@
 			"iryna-kulbaba",
 			"tereza-zaurbekova",
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-z-stsenichnoho-movlennia-2021",
@@ -5300,7 +5795,8 @@
 			"oleh-shevchuk",
 			"liubov-savina",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-z-klasu-forpepiano-2021",
@@ -5309,7 +5805,8 @@
 		"dateNote": "14 травня п’ятниця, 12.30 (ауд. 11); 15 травня субота, 12.00 (ауд. 16)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-verbatimy-2021",
@@ -5319,7 +5816,8 @@
 		"dateNote": "14 травня п’ятниця, 18.00 (ауд. 17); 15 травня субота, 17.00 (ауд. 17); 21 травня п’ятниця, 18.00 (ауд. 17)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-z-stsenichnoho-movlennia-monolohy-2021",
@@ -5329,7 +5827,8 @@
 		"dateNote": "15 травня субота, 15.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-z-klasu-hitary-2021",
@@ -5338,7 +5837,8 @@
 		"dateNote": "16 травня неділя, 13.30 (ауд. 11)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "perepolokh-2021",
@@ -5349,7 +5849,8 @@
 		"dateNote": "20 травня четвер, 15.00 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "veseli-skoromovky-2021",
@@ -5361,7 +5862,8 @@
 		"masters": [
 			"tetiana-isachkina",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mukha-tsokotukha-2021",
@@ -5373,7 +5875,8 @@
 		"masters": [
 			"liubov-savina",
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "malen-kyi-prynts-2021",
@@ -5384,7 +5887,8 @@
 		"dateNote": "26 травня середа, 17.30 (ауд. 7); 1червня вівторок, 17.30 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "koshenia-murkanto-2021",
@@ -5395,7 +5899,8 @@
 		"dateNote": "27 травня четвер, 15.00 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-peppi-dovhapanchokha-2021",
@@ -5406,7 +5911,8 @@
 		"dateNote": "27 травня четвер, 16.00 (ауд. 7); 3 червня четвер, 15.30 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "u-poshukakh-natkhnennia-2021",
@@ -5417,7 +5923,8 @@
 		"dateNote": "28 травня п’ятниця, 15.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kola-bez-tsukru-2021",
@@ -5425,7 +5932,8 @@
 		"year": 2021,
 		"author": "за п’есою Олени Андрейчикової",
 		"theatreGroup": "гр. 5Т-20",
-		"dateNote": "28 травня п’ятниця, 17.00 (ауд. 7)"
+		"dateNote": "28 травня п’ятниця, 17.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zalikovyi-zakhid-klasiv-khoreohrafii-ta-fol-kloru-2021",
@@ -5437,7 +5945,8 @@
 			"tetiana-stohul",
 			"olha-imas",
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasiv-vokalu-ta-fortepiano-2021",
@@ -5446,7 +5955,8 @@
 		"dateNote": "30 травня неділя, 12.30 (ауд. 7)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "rafaman-2021",
@@ -5458,7 +5968,8 @@
 			"tetiana-isachkina",
 			"olha-imas",
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dusha-podushky-2021",
@@ -5469,7 +5980,8 @@
 		"dateNote": "31 травня понеділок, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "usi-khlopchyky-duraky-2021",
@@ -5480,7 +5992,8 @@
 		"dateNote": "1червня вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hraiemo-pro-tev-ie-2021",
@@ -5491,7 +6004,8 @@
 		"dateNote": "5 червня субота, 17.00 (ауд. 7); 7 червня понеділок, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vokalu-vykladacha-nikolaievoi-h-s-2021",
@@ -5500,7 +6014,8 @@
 		"dateNote": "6 червня неділя, 14.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vsim-koho-stosuiet-sia-2021",
@@ -5511,7 +6026,8 @@
 		"dateNote": "7 червня понеділок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-2e-2-2e-3-3ie-5-4e-7-4e-8-2021",
@@ -5520,7 +6036,8 @@
 		"dateNote": "8 червня вівторок, 12.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-3t-9-3t-6-1t-2-1t-1-khudozhnie-v-2021",
@@ -5529,7 +6046,8 @@
 		"dateNote": "8 червня вівторок, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-iz-klasyky-2021",
@@ -5540,7 +6058,8 @@
 		"masters": [
 			"iryna-kulbaba",
 			"oleh-shevchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sluzhnytsi-2021",
@@ -5551,7 +6070,8 @@
 		"dateNote": "8 червня вівторок, 18.00 (ауд. 7); 10 червня четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-1e-1-3e-4-3e-6-muzychne-viddilen-2021",
@@ -5560,7 +6080,8 @@
 		"dateNote": "9 червня середа, 12.00",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-3t-8-2t-5-2t-4-1t-3-2021",
@@ -5569,7 +6090,8 @@
 		"dateNote": "9 червня середа, 13.00",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alisa-v-kraini-chudes-2021",
@@ -5577,7 +6099,8 @@
 		"year": 2021,
 		"author": "Л. Керролла",
 		"theatreGroup": "гр. 3Т-7",
-		"dateNote": "9 червня середа, 15.00 (ауд. 7)"
+		"dateNote": "9 червня середа, 15.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-5t-18-5t-17-4t-15-4t-13-4t-11-4t-2021",
@@ -5586,7 +6109,8 @@
 		"dateNote": "10 червня четвер, 12.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkove-sviato-5t-20-5t-19-5t-16-4t-14-4t-12-3t-2021",
@@ -5595,7 +6119,8 @@
 		"dateNote": "11 червня п’ятниця, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vypusknyi-hr-8t-25-7t-24-7t-23-7t-22-6t-21-2021",
@@ -5604,7 +6129,8 @@
 		"dateNote": "11 червня п’ятниця, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "khatka-iaku-zbuduvav-sobi-dzhek-2022",
@@ -5615,7 +6141,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "znaiomtes-tse-my-2022",
@@ -5626,14 +6153,16 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "treninh-vpravy-etiudy-2022",
 		"title": "Тренінг, вправи, етюди",
 		"year": 2022,
 		"theatreGroup": "гр. 3Е-3 \"Гучні\", гр.4Е-6 \"Влучні\", гр. 1Т-1 \"Творчі\"",
-		"dateNote": "2022 (Відео-показ)"
+		"dateNote": "2022 (Відео-показ)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazka-pro-drakonchyka-ta-inshykh-2022",
@@ -5644,7 +6173,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "neznaika-ta-ioho-druzi-2022",
@@ -5657,7 +6187,8 @@
 			"svitlana-ryskina",
 			"olha-imas",
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dobroho-vechora-my-z-ukrainy-2022",
@@ -5669,7 +6200,8 @@
 		"masters": [
 			"liubov-savina",
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "u-poshukakh-kolumba-2022",
@@ -5681,7 +6213,8 @@
 		"masters": [
 			"tereza-zaurbekova",
 			"tetiana-stohul"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2022",
@@ -5692,7 +6225,8 @@
 		"masters": [
 			"liubov-savina",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kyts-ky-myshky-2022",
@@ -5703,7 +6237,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mrii-pro-narniiu-2022",
@@ -5714,7 +6249,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ia-ukraina-2022",
@@ -5725,7 +6261,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "on-lain-roboty-2022",
@@ -5735,7 +6272,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tvaryny-ta-ptakhy-2022",
@@ -5746,7 +6284,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nedytiacha-istoriia-2022",
@@ -5754,7 +6293,8 @@
 		"year": 2022,
 		"author": "уривки з підліткової драматургії за М.Зелінською",
 		"theatreGroup": "гр. 5Т-15 \"ДТШустриці\"",
-		"dateNote": "2022 (Відео-показ)"
+		"dateNote": "2022 (Відео-показ)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lisovi-pryhody-abo-khto-naikhytrishyi-2022",
@@ -5765,7 +6305,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pisochnytsia-z-wi-fi-u-kosmosi-2022",
@@ -5776,7 +6317,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tselofanove-zhyttia-2022",
@@ -5787,7 +6329,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "monolohy-pro-viinu-2022",
@@ -5798,7 +6341,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"hanna-serebriannikova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "klasyky-2022",
@@ -5808,7 +6352,8 @@
 		"dateNote": "2022 (Відео-показ)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-zi-stsenichnoho-movlennia-2023",
@@ -5824,7 +6369,8 @@
 			"vira-yemtsova-datsiuk",
 			"liubov-savina",
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademichnyi-kontsert-sol-nyi-spiv-2023",
@@ -5833,7 +6379,8 @@
 		"dateNote": "10.05 середа, 12.00 (ауд. 7); 11.05 четвер, 12.00 (ауд. 7)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademichnyi-kontsert-hitara-2023",
@@ -5842,7 +6389,8 @@
 		"dateNote": "11.05 четвер, 14.00 (ауд. 11)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademichnyi-kontsert-fortepiano-2023",
@@ -5851,7 +6399,8 @@
 		"dateNote": "12.05 П’ятниця, 12.00 (ауд. 11); 13.05 субота, 12.00 (ауд. 11)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "robota-z-kameroiu-2023",
@@ -5861,7 +6410,8 @@
 		"dateNote": "17.05 середа, 17.00 (ауд. 17)",
 		"masters": [
 			"dmytro-demkov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "urok-zalik-zi-stsenichnoho-rukhu-2023",
@@ -5870,7 +6420,8 @@
 		"dateNote": "22.05 понеділок, 17.00 (ауд. 6)",
 		"masters": [
 			"pavlo-prymak"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-barvinka-2023",
@@ -5881,7 +6432,8 @@
 		"dateNote": "23.05 вівторок, 16.00 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kozeniata-stara-kazka-na-novyi-lad-2023",
@@ -5891,7 +6443,8 @@
 		"dateNote": "24.05 середа, 15.00 (ауд. 11); 03.06 субота, 11.00 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "my-na-misiats-letymo-2023",
@@ -5903,7 +6456,8 @@
 		"masters": [
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "balada-pro-korolivs-kyi-buterbrod-2023",
@@ -5915,7 +6469,8 @@
 		"masters": [
 			"fedir-tkach",
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sobaky-2023",
@@ -5926,7 +6481,8 @@
 		"dateNote": "26.05 п’ятниця, 17.30 (ауд. 7); 01.06 четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vovk-ta-semero-kozeniat-2023",
@@ -5938,7 +6494,8 @@
 		"masters": [
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokaz-v-pryvatnii-shkoli-2023",
@@ -5947,7 +6504,8 @@
 		"dateNote": "30.05 вівторок, 13.00",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vidkrytyi-urok-z-hrymu-2023",
@@ -5956,7 +6514,8 @@
 		"dateNote": "30.05 вівторок, 16.00 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "iak-podruzhytys-z-chekalkoiu-2023",
@@ -5967,7 +6526,8 @@
 		"dateNote": "31.05 середа, 15.30 (ауд. 7); 01.06 четвер, 15.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-iz-klasyky-2023",
@@ -5978,7 +6538,8 @@
 		"masters": [
 			"tetiana-isachkina",
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zvitnyi-kontsert-muzychnoho-viddilennia-2023",
@@ -5987,7 +6548,8 @@
 		"dateNote": "01.06 четвер, 13.00 (ауд. 7)",
 		"masters": [
 			"liliia-velychko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykl-panchenko-o-k-2023",
@@ -5996,7 +6558,8 @@
 		"dateNote": "02.06 п’ятниця, 14.00 (ауд. 11)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "misto-za-shpaleramy-2023",
@@ -6008,7 +6571,8 @@
 		"masters": [
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "taiemnytsi-zamku-oilenshtain-2023",
@@ -6020,14 +6584,16 @@
 		"masters": [
 			"fedir-tkach",
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "solo-musica-2023",
 		"title": "«Solo musicа»",
 		"year": 2023,
 		"author": "Хор",
-		"dateNote": "04.06 неділя, 14.00 (ауд. 7)"
+		"dateNote": "04.06 неділя, 14.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "z-ukrainoiu-v-sertsi-2023",
@@ -6037,7 +6603,8 @@
 		"dateNote": "05.06 понеділок, 14.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-molodshykh-uchniv-1e-1-2e-2-3e-3-4-2023",
@@ -6046,7 +6613,8 @@
 		"dateNote": "07.06 середа, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teatralevstvo-kryvykh-dzerkal-2023",
@@ -6059,7 +6627,8 @@
 			"vladyslav-mykhailiuk",
 			"anastasiia-nikolaieva",
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-serednikh-1t-1-2t-5-1t-3-2t-6-3t-7-2023",
@@ -6068,7 +6637,8 @@
 		"dateNote": "10.06 субота, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-starshykh-5t-13-5t-14-5t-15-6t-16--2023",
@@ -6077,7 +6647,8 @@
 		"dateNote": "11.06 неділя, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "poetychna-videoversiia-za-virshamy-andriia-khaiets-2024",
@@ -6088,7 +6659,8 @@
 		"masters": [
 			"fedir-tkach",
 			"svitlana-vitiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2024",
@@ -6102,7 +6674,8 @@
 			"elmir-hanbarov",
 			"d-rybalchenko",
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "telefon-2024",
@@ -6114,7 +6687,8 @@
 		"masters": [
 			"elmir-hanbarov",
 			"d-rybalchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kvitka-semybarvytsia-2024",
@@ -6125,7 +6699,8 @@
 		"dateNote": "14.05 вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-instrumentalisty-2024",
@@ -6134,7 +6709,8 @@
 		"dateNote": "15.05 середа, 10.00 (ауд. 11)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-sol-nyi-spiv-2024",
@@ -6143,7 +6719,8 @@
 		"dateNote": "15.05 середа, 12.00 (ауд. 11)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "davai-druzhyty-2024",
@@ -6154,7 +6731,8 @@
 		"dateNote": "15.05 середа, 15.00 (ауд. 11); 28.05 вівторок, 15.00 (ауд. 11)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "syla-kazky-2024",
@@ -6165,7 +6743,8 @@
 		"dateNote": "16.05 четвер, 15.20 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zubata-vtrata-2024",
@@ -6176,7 +6755,8 @@
 		"dateNote": "17.05 п’ятниця, 15.20 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "treninh-etiudy-2024",
@@ -6186,7 +6766,8 @@
 		"dateNote": "18.05 субота, 15.00 (ауд. 11); 24.05 п’ятниця, 15.00 (ауд. 11)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mal-ovanyi-hlek-2024",
@@ -6197,7 +6778,8 @@
 		"dateNote": "21.05 вівторок, 15.20 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazky-kriz-kaminnia-2024",
@@ -6208,7 +6790,8 @@
 		"dateNote": "22.05 середа, 18.00 (ауд. 7); 25.05 субота, 16.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "stan-doroslym-2024",
@@ -6219,7 +6802,8 @@
 		"dateNote": "23.05 четвер, 15.00 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "lisova-pisnia-2024",
@@ -6230,7 +6814,8 @@
 		"dateNote": "24.05 п’ятниця, 16.00 (ауд. 7)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zahubleni-u-2024",
@@ -6241,7 +6826,8 @@
 		"dateNote": "25.05 субота, 14.00 (ауд. 7); 27.05 понеділок, 18.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "v-poshukakh-kolumba-2024",
@@ -6252,7 +6838,8 @@
 		"dateNote": "27.05 понеділок, 15.20 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "v-poshukakh-narnii-2024",
@@ -6263,7 +6850,8 @@
 		"dateNote": "28.05 вівторок, 16.00 (ауд. 7); 31.05 п’ятниця, 16.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "henzel-i-hretel-2024",
@@ -6274,7 +6862,8 @@
 		"dateNote": "29.05 середа, 16.00 (ауд. 7)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "natashkiny-mrii-2024",
@@ -6285,7 +6874,8 @@
 		"dateNote": "30.05 четвер, 18.00 (ауд. 7); 31.05 п’ятниця, 18.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-estetychnoho-viddilennia-2024",
@@ -6295,7 +6885,8 @@
 		"dateNote": "31.05 п’ятниця, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "z-mriiamy-v-maibutnie-2024",
@@ -6305,7 +6896,8 @@
 		"dateNote": "01.06 субота, 12.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-estetychno-teatral-noho-viddilenni-2024",
@@ -6315,7 +6907,8 @@
 		"dateNote": "01.06 субота, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-panchenko-o-k-2024",
@@ -6324,7 +6917,8 @@
 		"dateNote": "02.06 неділя, 12.00 (ауд. 11)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-nikolaieva-h-s-2024",
@@ -6333,7 +6927,8 @@
 		"dateNote": "02.06 неділя, 14.00 (ауд. 11)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-serednikh-teatral-ne-viddilennia-2024",
@@ -6343,7 +6938,8 @@
 		"dateNote": "03.06 понеділок, 12.00 (ауд. 7); 06.06 четвер, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-velychko-l-m-stepanenko-n-p-2024",
@@ -6353,7 +6949,8 @@
 		"masters": [
 			"liliia-velychko",
 			"natalia-stepanenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-mat-kovs-ki-a-o-bakina-n-h-koval-ch-2024",
@@ -6363,7 +6960,8 @@
 		"masters": [
 			"yana-kovalchuk",
 			"natalia-bakina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-ovcharenko-i-h-bilenko-k-iu-2024",
@@ -6372,7 +6970,8 @@
 		"dateNote": "04.06 вівторок, 14.00 (ауд. 11)",
 		"masters": [
 			"iryna-ovcharenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-klymenko-a-d-2024",
@@ -6381,7 +6980,8 @@
 		"dateNote": "05.06 середа, 12.00 (ауд. 11)",
 		"masters": [
 			"andrii-klymenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-starshykh-teatral-ne-viddilennia-v-2024",
@@ -6391,7 +6991,8 @@
 		"dateNote": "08.06 субота, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudy-2025",
@@ -6401,7 +7002,8 @@
 		"dateNote": "07.05 середа, 18.00 (ауд. 17); 08.05 четвер, 18.00 (ауд. 17); 09.05 п’ятниця, 18.00 (ауд. 17)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryvydy-2025",
@@ -6412,7 +7014,8 @@
 		"dateNote": "09.05 п’ятниця, 16.10 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "khtos-abo-vodiane-sertse-2025",
@@ -6423,7 +7026,8 @@
 		"dateNote": "10.05 субота, 12.00",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademkontsert-instrumentalistiv-2025",
@@ -6432,7 +7036,8 @@
 		"dateNote": "13.05 вівторок, 12.00 (ауд. 11)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazkovi-pryhody-2025",
@@ -6443,7 +7048,8 @@
 		"dateNote": "13.05 вівторок, 14.30 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "treninh-etiudy-2025",
@@ -6453,7 +7059,8 @@
 		"dateNote": "13.05 вівторок, 17.00 (ауд. 11)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "akademkontsert-vokalistiv-2025",
@@ -6462,7 +7069,8 @@
 		"dateNote": "14.05 середа, 12.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tsar-plaksii-ta-loskoton-2025",
@@ -6473,7 +7081,8 @@
 		"dateNote": "14.05 середа, 15.20 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "diuimovochka-2025",
@@ -6484,7 +7093,8 @@
 		"dateNote": "15.05 четвер, 14.30 (ауд. 11); 19.05 понеділок, 14.30 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-pana-syrnyka-2025",
@@ -6495,7 +7105,8 @@
 		"dateNote": "15.05 четвер, 16.00 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tse-shcho-rukavychka-2025",
@@ -6506,7 +7117,8 @@
 		"dateNote": "16.05 п’ятниця, 15.20 (ауд. 11); 22.05 четвер, 14.30 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "izhachok-nindzia-2025",
@@ -6517,7 +7129,8 @@
 		"dateNote": "17.05 субота, 11.00 (ауд. 11); 21.05 середа, 15.20",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "aktors-kyi-treninh-2025",
@@ -6527,7 +7140,8 @@
 		"dateNote": "17.05 субота, 14.30 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-mysheniat-i-hrufaliat-2025",
@@ -6538,7 +7152,8 @@
 		"dateNote": "19.05 понеділок, 15.20 (ауд. 7); 20.05 вівторок, 15.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "knyha-dzhunhliv-2025",
@@ -6549,7 +7164,8 @@
 		"dateNote": "20.05 вівторок, 17.00 (ауд. 7); 28.05 середа, 16.00 (ауд. 7)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otakyi-rozziava-2025",
@@ -6560,7 +7176,8 @@
 		"dateNote": "21.05 середа, 14.30 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kraina-merezhyna-2025",
@@ -6571,7 +7188,8 @@
 		"dateNote": "21.05 середа, 17.00 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudnyi-pokaz-2025",
@@ -6581,7 +7199,8 @@
 		"dateNote": "22.05 четвер, 16.10 (ауд. 11)",
 		"masters": [
 			"yevheniia-osadcha"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chomu-zaiets-spyt-z-rozpliushchenymy-ochyma-2025",
@@ -6592,7 +7211,8 @@
 		"dateNote": "22.05 четвер, 17.00 (ауд. 7); 26.05 понеділок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "son-pro-malen-koho-pryntsa-2025",
@@ -6603,7 +7223,8 @@
 		"dateNote": "23.05 п’ятниця, 16.10 (ауд. 7); 27.05 вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pan-shkarpetkos-ta-sribne-suziria-panchyshky-2025",
@@ -6614,7 +7235,8 @@
 		"dateNote": "24.05 субота, 12.00 (ауд. 7); 30.05 п’ятниця, 15.30 (ауд. 7)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "del-finy-u-poshukakh-mrii-2025",
@@ -6625,7 +7247,8 @@
 		"dateNote": "24.05 субота, 13.30 (ауд. 7); 25.05 неділя, 12.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-vokal-noho-i-khoreohrafichnoho-ansambliv-2025",
@@ -6634,7 +7257,8 @@
 		"dateNote": "25.05 неділя, 14.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "my-stavymo-vystavu-2025",
@@ -6645,13 +7269,15 @@
 		"dateNote": "29.05 четвер, 16.00 (ауд. 7); 30.05 п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ostannii-dzvonyk-zosh-37-2025",
 		"title": "Останній дзвоник ЗОШ№37",
 		"year": 2025,
-		"dateNote": "30.05 п’ятниця, 10.00 (ауд. 7)"
+		"dateNote": "30.05 п’ятниця, 10.00 (ауд. 7)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykl-prorok-o-v-2025",
@@ -6660,7 +7286,8 @@
 		"dateNote": "30.05 п’ятниця, 17.00 (ауд. 11)",
 		"masters": [
 			"olena-prorok"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zvitnyi-kontsert-muz-viddilennia-2025",
@@ -6669,7 +7296,8 @@
 		"dateNote": "31.05 субота, 12.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-molodshykh-2025",
@@ -6678,7 +7306,8 @@
 		"dateNote": "31.05 субота, 14.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykl-panchenko-o-k-2025",
@@ -6687,7 +7316,8 @@
 		"dateNote": "01.06 неділя, 12.00 (ауд. 11)",
 		"masters": [
 			"oksana-panchenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vokalu-vykl-nykolaieva-h-s-bakina-n-2025",
@@ -6697,7 +7327,8 @@
 		"masters": [
 			"hanna-nikolaieva",
 			"natalia-bakina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-serednikh-2025",
@@ -6706,7 +7337,8 @@
 		"dateNote": "02.06 понеділок, 11.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykladachiv-velychko-l-m-i-stepanen-2025",
@@ -6716,7 +7348,8 @@
 		"masters": [
 			"liliia-velychko",
 			"natalia-stepanenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykladachiv-koval-chuk-ia-v-i-bilen-2025",
@@ -6725,7 +7358,8 @@
 		"dateNote": "03.06 вівторок, 15.00 (ауд. 11)",
 		"masters": [
 			"yana-kovalchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vykl-klymenko-a-d-2025",
@@ -6734,7 +7368,8 @@
 		"dateNote": "04.06 середа, 16.00 (ауд. 11)",
 		"masters": [
 			"andrii-klymenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vel-vetovyi-krolyk-abo-iak-ihrashky-staiut-spravzh-2025",
@@ -6745,7 +7380,8 @@
 		"dateNote": "04.06 середа, 18.00 (ауд. 7); 05.06 четвер, 16.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidsumkovi-dlia-starshykh-vypusknyi-2025",
@@ -6754,7 +7390,8 @@
 		"dateNote": "07.06 субота, 12.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zamarashky-2007",
@@ -6765,7 +7402,8 @@
 		"dateNote": "10.05, 19.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "samyi-malen-kyi-hnom-2007",
@@ -6775,7 +7413,8 @@
 		"dateNote": "15.05- вівторок, 16.00; 16.05-середа, 16.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vremena-hoda-2007",
@@ -6786,7 +7425,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"author": "С.Маршак"
+		"author": "С.Маршак",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "smekh-y-slezy-2007",
@@ -6797,7 +7437,8 @@
 		"dateNote": "19.05-субота, 13.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sluha-dvukh-hospod-2007",
@@ -6808,7 +7449,8 @@
 		"dateNote": "21.05-понеділок., 17.30; 22.05- вівторок, 18.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zapysky-zamoskvorechnoho-zhytelia-2007",
@@ -6819,7 +7461,8 @@
 		"dateNote": "23.05-середа, 18.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vovka-v-trydeviatom-tsarstve-2007",
@@ -6830,7 +7473,8 @@
 		"dateNote": "24.05- четвер, 17.30",
 		"masters": [
 			"nadiia-rybakova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "utrennyk-2007",
@@ -6840,7 +7484,8 @@
 		"dateNote": "25.05- п’ятниця, 10.00; 26.05-субота, 10.00",
 		"masters": [
 			"nadiia-rybakova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "try-tsarstva-try-hosudarstv-2007",
@@ -6851,7 +7496,8 @@
 		"dateNote": "25.05- п’ятниця, 16.30",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teremok-2007",
@@ -6862,7 +7508,8 @@
 		"dateNote": "26.05-субота, 13.00",
 		"masters": [
 			"nadiia-rybakova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yntensyvnoho-klassa-2007",
@@ -6872,7 +7519,8 @@
 		"dateNote": "28.05-понеділок.., 16.00",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "eshche-raz-o-holom-korole-2007",
@@ -6883,7 +7531,8 @@
 		"dateNote": "29.05- вівторок, 18.30",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhenskyi-stol-2007",
@@ -6894,13 +7543,15 @@
 		"dateNote": "30.05-середа, 18.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "podvedenye-ytohov-festyvalia-vecher-vypusknoi-2007",
 		"title": "Підсумки фестивалю, випускний вечір",
 		"year": 2007,
-		"dateNote": "01 .06"
+		"dateNote": "01 .06",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teatralyzovannaia-kompozytsyia-po-rasskazam-a-p-ch-2008",
@@ -6911,7 +7562,8 @@
 		"dateNote": "16.05 п’ятниця, 18.30",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otkrytyi-pokaz-po-stsenycheskoi-rechy-2008",
@@ -6922,7 +7574,8 @@
 			"iryna-ulianenko",
 			"svitlana-ryskina",
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "prykliuchenyia-buratyno-2008",
@@ -6935,7 +7588,8 @@
 			"svitlana-ryskina",
 			"iryna-kaplia",
 			"adelina-tetradova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "urok-dochkam-2008",
@@ -6946,14 +7600,16 @@
 		"dateNote": "22.05 четвер, 16.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "utrennyk-2008",
 		"title": "Ранок",
 		"year": 2008,
 		"theatreGroup": "гр. 1,2,3",
-		"dateNote": "23.05 п’ятниця, 10.00"
+		"dateNote": "23.05 п’ятниця, 10.00",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "repka-na-novyi-lad-2008",
@@ -6964,7 +7620,8 @@
 		"masters": [
 			"tetiana-isachkina",
 			"iryna-yershova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "teatr-kotov-2008",
@@ -6975,7 +7632,8 @@
 		"dateNote": "23.05 п’ятниця, 17.30; 24.05 субота, 14.30",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alysa-v-strane-chudes-2008",
@@ -6987,7 +7645,8 @@
 		"masters": [
 			"svitlana-ryskina",
 			"yevheniia-voiutska"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kentervyl-skoe-pryvydenye-2008",
@@ -6998,7 +7657,8 @@
 		"dateNote": "26.05 понеділок, 17.30",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mukha-tsokotukha-2008",
@@ -7009,7 +7669,8 @@
 		"masters": [
 			"nadiia-rybakova",
 			"adelina-tetradova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-liubov-ly-eto-2008",
@@ -7017,7 +7678,8 @@
 		"year": 2008,
 		"author": "Р. Тома",
 		"theatreGroup": "гр. 16",
-		"dateNote": "27.05 вівторок, 17.30"
+		"dateNote": "27.05 вівторок, 17.30",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "polet-kuznechyka-2008",
@@ -7028,7 +7690,8 @@
 		"dateNote": "28.05 середа, 18.00",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "emelia-2008",
@@ -7040,7 +7703,8 @@
 		"masters": [
 			"nadiia-rybakova",
 			"iryna-yershova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "otkrytyi-pokaz-yntensyvnoho-klassa-po-akterskomu-m-2008",
@@ -7050,13 +7714,15 @@
 		"dateNote": "30.05 п’ятниця, 16.30",
 		"masters": [
 			"samuil-imas"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "podvedenye-ytohov-vypusknoi-vecher-2008",
 		"title": "Підсумки. Випускний вечір",
 		"year": 2008,
-		"dateNote": "31.05"
+		"dateNote": "31.05",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "den-narodzhennia-infanty-2026",
@@ -7067,7 +7733,8 @@
 		"dateNote": "25 квітня субота, 14.00 (ауд. 7); 27 квітня понеділок, 17.00 (ауд. 7)",
 		"masters": [
 			"fedir-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-hitary-2026",
@@ -7076,7 +7743,8 @@
 		"dateNote": "25 квітня субота, 17.00 (ауд. 11)",
 		"masters": [
 			"andrii-klymenko"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zvitnyi-kontsert-muzychnoho-viddilennia-2026",
@@ -7085,13 +7753,15 @@
 		"dateNote": "26 квітня неділя, 12.00 (ауд. 7)",
 		"masters": [
 			"hanna-nikolaieva"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "ispyt-sol-fedzhio-2026",
 		"title": "Іспит. Сольфеджіо",
 		"year": 2026,
-		"dateNote": "29 квітня середа, 16.10 (ауд. 3)"
+		"dateNote": "29 квітня середа, 16.10 (ауд. 3)",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kozeniatko-iake-vmilo-rakhuvaty-do-desiaty-2026",
@@ -7102,7 +7772,8 @@
 		"dateNote": "1 травня п’ятниця, 16.10 (ауд. 11); 2 травня субота, 11.00 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudnyi-pokaz-za-motyvamy-baiok-l-hlibova-2026",
@@ -7112,7 +7783,8 @@
 		"dateNote": "4 травня понеділок, 16.10 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "chaklunky-dyvachky-ta-lystopad-2026",
@@ -7123,7 +7795,8 @@
 		"dateNote": "5 травня вівторок, 16.10 (ауд. 11); 13 травня середа, 15.20 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tam-lin-2026",
@@ -7134,7 +7807,8 @@
 		"dateNote": "6 травня середа, 15.20 (ауд. 11)",
 		"masters": [
 			"hanna-serebriannikova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "a-chy-ne-zihraty-pinokkio-2026",
@@ -7145,7 +7819,8 @@
 		"dateNote": "7 травня четвер, 15.20 (ауд. 11)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryvid-zamka-kentervil-2026",
@@ -7156,7 +7831,8 @@
 		"dateNote": "7 травня четвер, 17.00 (ауд. 7); 8 травня п’ятниця, 17.00 (ауд. 7)",
 		"masters": [
 			"svitlana-ryskina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "khto-na-kukhni-holovnyi-2026",
@@ -7167,7 +7843,8 @@
 		"dateNote": "9 травня субота, 11.10 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tantsi-plius-2026",
@@ -7178,7 +7855,8 @@
 		"dateNote": "9 травня субота, 12.30 (ауд. 7); 11 травня понеділок, 17.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasiv-fortepiano-2026",
@@ -7187,7 +7865,8 @@
 		"dateNote": "10 травня неділя, 12.00 (ауд. 11)",
 		"masters": [
 			"olena-prorok"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "zhabiachi-pryhody-2026",
@@ -7198,7 +7877,8 @@
 		"dateNote": "11 травня понеділок, 15.20 (ауд. 11)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "tantsiuiuchyi-urahan-abo-mriia-robota-2026",
@@ -7209,7 +7889,8 @@
 		"dateNote": "12 травня вівторок, 15.20 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "etiudnyi-pokaz-na-osnovi-real-noho-zhyttia-ta-trok-2026",
@@ -7219,7 +7900,8 @@
 		"dateNote": "13 травня середа, 16.30 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "popeliushka-2026",
@@ -7230,7 +7912,8 @@
 		"dateNote": "14 травня четвер, 15.20 (ауд. 11)",
 		"masters": [
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "nezlamni-ta-drakon-2026",
@@ -7241,7 +7924,8 @@
 		"dateNote": "14 травня четвер, 17.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kazky-matusi-midous-2026",
@@ -7253,7 +7937,8 @@
 		"masters": [
 			"fedir-tkach",
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "usmishka-2026",
@@ -7264,7 +7949,8 @@
 		"dateNote": "15 травня п’ятниця, 17.30 (ауд. 7); 16 травня субота, 13.30 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kontsert-klasu-vokala-2026",
@@ -7274,7 +7960,8 @@
 		"masters": [
 			"natalia-bakina",
 			"yana-kovalchuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "fizkul-tura-dlia-baby-iahy-2026",
@@ -7285,7 +7972,8 @@
 		"dateNote": "18 травня понеділок, 15.20 (ауд. 11)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pidlitkova-spovid-2026",
@@ -7296,7 +7984,8 @@
 		"dateNote": "19 травня вівторок, 16.10 (ауд. 17)",
 		"masters": [
 			"vladyslav-mykhailiuk"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pryhody-hnomusi-maniusi-2026",
@@ -7307,7 +7996,8 @@
 		"dateNote": "20 травня середа, 15.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "toreodory-z-vasiukivky-2026",
@@ -7318,7 +8008,8 @@
 		"dateNote": "20 травня середа, 17.00 (ауд. 7); 23 травня субота, 11.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "pokyd-ky-2026",
@@ -7330,7 +8021,8 @@
 		"masters": [
 			"svitlana-ryskina",
 			"elmir-hanbarov"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "uryvky-z-klasyky-2026",
@@ -7340,7 +8032,8 @@
 		"dateNote": "21 травня четвер, 18.00 (ауд. 7); 22 травня п’ятниця, 18.00 (ауд. 7)",
 		"masters": [
 			"liubov-savina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dosvid-2026",
@@ -7351,7 +8044,8 @@
 		"dateNote": "22 травня п’ятниця, 16.00 (ауд. 7); 23 травня субота, 13.00 (ауд. 7)",
 		"masters": [
 			"tetiana-isachkina"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "dusha-podushky-2026",
@@ -7362,7 +8056,8 @@
 		"dateNote": "25 травня понеділок, 16.00 (ауд. 7); 26 травня вівторок, 16.00 (ауд. 7)",
 		"masters": [
 			"tereza-zaurbekova"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "1-4e-6-4e-7-4e-8-uchni-khudozhn-oho-viddilennia-2026",
@@ -7371,7 +8066,8 @@
 		"dateNote": "28 травня четвер, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "2-2e-3-3e-4-3e-5-uchni-muzychnoho-viddilennia-2026",
@@ -7380,7 +8076,8 @@
 		"dateNote": "29 травня п’ятниця, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "1n-1t-1-1t-2-2t-3-2t-4-2t-5-2026",
@@ -7389,7 +8086,8 @@
 		"dateNote": "30 травня субота, 11.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "7-3t-8-3t-9-3t-10-4t-11-4t-13-2026",
@@ -7398,7 +8096,8 @@
 		"dateNote": "30 травня субота, 13.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "14-5t-15-5t-16-5t-17-6t-18-6t-19-7t-20-8t-21-2026",
@@ -7407,12 +8106,14 @@
 		"dateNote": "30 травня субота, 15.00 (ауд. 7)",
 		"masters": [
 			"olena-tkach"
-		]
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hraiemo-chekhova-2012",
 		"title": "«Граємо Чехова»",
 		"year": 2012,
-		"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ"
+		"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ",
+		"verificationStatus": "possible_errors"
 	}
 ]

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { ArrowLeft, ArrowRight, Camera } from 'lucide-svelte';
 	import { graduateCardHref } from '$lib/data/graduates';
@@ -94,6 +95,8 @@
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</div>
+
+		<VerificationNoticeBanner status={data.master.verificationStatus} />
 
 		<div class="master-page__layout">
 			<!-- ЛІВА КОЛОНКА: Інформація про майстра курсу -->
@@ -255,14 +258,20 @@
 		</div>
 
 		{#if data.groups.length > 0}
-			<MasterGroups groups={data.groups} {isEn} />
+			<div class="master-section-layer">
+				<MasterGroups groups={data.groups} {isEn} />
+			</div>
 		{/if}
 
 		<!-- Порожній перелік секцію не малює — умова всередині компонента. -->
-		<MasterFestivals masterId={data.master.id} />
+		<div class="master-section-layer">
+			<MasterFestivals masterId={data.master.id} />
+		</div>
 
 		{#if masterPlays.length > 0}
-			<MasterProductions productions={masterPlays} {isEn} />
+			<div class="master-section-layer">
+				<MasterProductions productions={masterPlays} {isEn} />
+			</div>
 		{/if}
 	</div>
 </div>
@@ -285,6 +294,8 @@
 	 * лягає на свій рядок замість того, щоб вилізти за край.
 	 */
 	.master-page__nav {
+		position: relative;
+		z-index: 2;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -338,6 +349,7 @@
 	/* Master Card */
 	.master-card {
 		position: relative;
+		z-index: 2;
 		background: var(--bg-card);
 		border: 1px solid var(--border-main);
 		border-radius: var(--radius-xl, 24px);
@@ -553,5 +565,9 @@
 	.master-flow-wrapper {
 		display: flex;
 		justify-content: center;
+	}
+	.master-section-layer {
+		position: relative;
+		z-index: 2;
 	}
 </style>

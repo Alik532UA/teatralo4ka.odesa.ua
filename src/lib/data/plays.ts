@@ -1,5 +1,6 @@
 import playsData from './plays.data.json';
 import type { Pathname } from '$app/types';
+import type { VerificationStatusProp } from './groups';
 
 /**
  * Реєстр вистав.
@@ -107,6 +108,7 @@ export interface Play {
 	id: string;
 	title: string;
 	year: number;
+	verificationStatus?: VerificationStatusProp;
 	/** «за казками Оскара Вайльда», «поетична вистава» — як записано в джерелі. */
 	author?: string;
 	/** Посилання на запис. Розбирає його `parseVideoUrl`, як і всюди на сайті. */

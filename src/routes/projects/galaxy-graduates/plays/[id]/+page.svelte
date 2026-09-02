@@ -16,6 +16,7 @@
 	import PlayCastSection from '$lib/components/PlayCastSection.svelte';
 	import PlayHeader from '$lib/components/PlayHeader.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
+	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -69,6 +70,8 @@
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</nav>
+
+		<VerificationNoticeBanner status={data.play.verificationStatus} />
 
 		<!-- Афіша, значки, назва, автори й записи — у PlayHeader зі своїми стилями. -->
 		<PlayHeader play={data.play} />

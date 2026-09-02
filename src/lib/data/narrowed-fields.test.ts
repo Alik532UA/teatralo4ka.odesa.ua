@@ -2,6 +2,9 @@
 import { describe, it, expect } from 'vitest';
 import graduatesIndex from './graduates.index.json';
 import mastersIndex from './masters.index.json';
+import groupsData from './groups.data.json';
+import playsData from './plays.data.json';
+import festivalsData from './festivals.data.json';
 import { DEPARTMENTS } from './graduates';
 import { MASTER_CATEGORIES, MASTER_STATUSES } from './masters';
 
@@ -89,5 +92,41 @@ describe('поля, які компілятор не звужує', () => {
 				bad.push(`${m.id}.status → «${m.status}»`);
 		}
 		expect(bad, `невідоме значення:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('реєстри груп, вистав, фестивалів та працівників мають валідний verificationStatus', () => {
+		const allowed = new Set(['verified', 'possible_errors', 'definite_errors']);
+		const bad: string[] = [];
+
+		for (const g of groupsData as { slug: string; verificationStatus?: string }[]) {
+			if (g.verificationStatus !== undefined && !allowed.has(g.verificationStatus)) {
+				bad.push(`група ${g.slug} → «${g.verificationStatus}»`);
+			}
+		}
+
+		for (const p of playsData as { id: string; verificationStatus?: string }[]) {
+			if (p.verificationStatus !== undefined && !allowed.has(p.verificationStatus)) {
+				bad.push(`вистава ${p.id} → «${p.verificationStatus}»`);
+			}
+		}
+
+		for (const f of festivalsData as { slug: string; verificationStatus?: string }[]) {
+			if (f.verificationStatus !== undefined && !allowed.has(f.verificationStatus)) {
+				bad.push(`фестиваль ${f.slug} → «${f.verificationStatus}»`);
+			}
+		}
+
+		for (const m of mastersIndex as { id: string; verificationStatus?: string }[]) {
+			if (m.verificationStatus !== undefined && !allowed.has(m.verificationStatus)) {
+				bad.push(`працівник ${m.id} → «${m.verificationStatus}»`);
+			}
+		}
+
+		expect(bad, `невідомий verificationStatus:\n  ${bad.join('\n  ')}`).toEqual([]);
+
+		const ztk = (groupsData as { slug: string; verificationStatus?: string }[]).find(
+			(g) => g.slug === 'zakhysnyky-teatralnykh-kulis'
+		);
+		expect(ztk?.verificationStatus).toBe('verified');
 	});
 });

@@ -4,6 +4,7 @@ import { localizedPath, type Locale } from '$lib/i18n/routing';
 import { isMasterRecordPublic, type MasterVisibility } from '$lib/config/mastersVisibility';
 import { GRADUATES, type Department, type GraduateIndexEntry } from './graduates';
 import { linkedMasterId } from './dualRole';
+import type { VerificationStatusProp } from './groups';
 import mastersIndexData from './masters.index.json';
 
 /**
@@ -127,6 +128,7 @@ export interface MasterIndexEntry {
 	photo?: string;
 	portrait?: string;
 	status?: MasterStatus;
+	verificationStatus?: VerificationStatusProp;
 	/**
 	 * «Відображаємо на сайті: ні». Поля немає = показуємо.
 	 *

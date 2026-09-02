@@ -22,11 +22,15 @@ export interface GroupPart {
 	playIds: string[];
 }
 
+export type VerificationStatus = 'verified' | 'possible_errors' | 'definite_errors';
+export type VerificationStatusProp = VerificationStatus | (string & {});
+
 export interface GraduateGroup {
 	slug: string;
 	name: string;
 	abbr: string | null;
 	nameEn?: string;
+	verificationStatus?: VerificationStatusProp;
 	masters: GroupMaster[];
 	/** Викладачі курсу. Немає поля — група їх не має, секція просто не з'явиться. */
 	teachers?: GroupTeacher[];
