@@ -8,7 +8,7 @@
 	import { locale } from 'svelte-i18n';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { CastMember } from '$lib/data/playCast';
-	import { roleInItem, rolesLine } from '$lib/data/castRoles';
+	import { byBilling, roleInItem, rolesLine } from '$lib/data/castRoles';
 	import type { PlayProgrammeItem } from '$lib/data/plays';
 
 	/**
@@ -159,13 +159,18 @@
 	/** Чи є в складі хоч один рядок зі списків школи — від цього залежить напис. */
 	const зіСписків = $derived(cast.some((entry) => entry.fromRegistry));
 
-	const видимі = $derived(
-		обраний === null
-			? [...cast]
-			: обраний === БЕЗ_НОМЕРА
-				? безНомера
-				: cast.filter((entry) => обраний !== null && entry.items?.includes(обраний))
-	);
+	/*
+	 * Під фільтром номера — порядок АФІШІ (`item.roles`), без фільтра — абетка:
+	 * у вечора спільного порядку немає, а в номера є. Пояснення в `byBilling`.
+	 */
+	const видимі = $derived.by(() => {
+		if (обраний === null) return [...cast];
+		if (обраний === БЕЗ_НОМЕРА) return безНомера;
+		// Локальна константа: у вкладеній стрілці TypeScript не бачить перевірки на null вище.
+		const id = обраний;
+		const номер = (programme ?? []).find((item) => item.id === id);
+		return byBilling(cast.filter((entry) => entry.items?.includes(id)), id, номер?.roles);
+	});
 </script>
 
 <section class="play-section" aria-labelledby="play-cast-title">

@@ -124,6 +124,41 @@ describe('склад вистав', () => {
 		).toEqual([]);
 	});
 
+	/*
+	 * Порядок складу під фільтром задає перелік ролей номера в програмі
+	 * (`PlayProgrammeItem.roles`), і зі складом він збігається лише за ТОЧНИМ
+	 * написанням ролі. Розійтися легко й тихо: «Тіні» в афіші проти «Тінь» у
+	 * рядку анкети — і людина мовчки їде в кінець переліку, без жодної помилки.
+	 * Тому обидва боки звіряються тут: кожна роль з програми має виконавця, і
+	 * кожна роль зі складу названа в програмі — там, де програма ролі перелічує.
+	 */
+	it('ролі номера в програмі й у складі — один і той самий перелік', () => {
+		const bad: string[] = [];
+		let перевірено = 0;
+		for (const play of PLAYS) {
+			for (const item of play.programme ?? []) {
+				if (!item.roles?.length) continue;
+				перевірено += 1;
+				if (new Set(item.roles).size !== item.roles.length)
+					bad.push(`${play.id} › ${item.id}: роль повторюється в переліку програми`);
+				const уСкладі = new Set(
+					(cast[play.id] ?? []).flatMap((entry) =>
+						(entry.roles ?? []).filter((r) => r.item === item.id).map((r) => r.role)
+					)
+				);
+				for (const role of item.roles)
+					if (!уСкладі.has(role)) bad.push(`${play.id} › ${item.id}: роль «${role}» з програми не має виконавця у складі`);
+				for (const role of уСкладі)
+					if (!item.roles.includes(role)) bad.push(`${play.id} › ${item.id}: роль «${role}» зі складу не названа в програмі`);
+			}
+		}
+		expect(перевірено, 'жодного номера з переліком ролей — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(
+			bad,
+			'перелік ролей програми й склад розійшлися:' + bad.map((b) => `\n  ${b}`).join('')
+		).toEqual([]);
+	});
+
 	it('перевірка номерів жива: у реєстрі є вечори з програмою і склад із номерами', () => {
 		const зПрограмою = PLAYS.filter((p) => (p.programme?.length ?? 0) > 0);
 		expect(зПрограмою.length, 'жодного вечора з програмою — перевірка вище нічого не стверджує').toBeGreaterThan(0);

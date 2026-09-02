@@ -44,3 +44,28 @@ export function rolesLine(
 	const distinct = [...new Set(sorted.map((r) => r.role))];
 	return distinct.join(distinct.some((r) => r.includes(',')) ? '; ' : ', ');
 }
+
+/**
+ * Склад номера в порядку АФІШІ, а не за абеткою.
+ *
+ * Програмка перелічує ролі у своєму порядку — головні спершу, «Хор — усі»
+ * наприкінці, — і читач чекає побачити людей саме так: у «Незнайомці» спершу
+ * Незнайомка, потім Пан у блакитному, потім Поет. Абетка ставила Аліка
+ * Запольнова першим у кожному номері.
+ *
+ * Хто грав роль, якої в переліку немає, або ролі не названо взагалі («Актори —
+ * усі» в «Сонетах»), іде після названих — у тому порядку, у якому прийшов,
+ * тобто за абеткою. Без переліку ролей порядок не змінюється зовсім.
+ */
+export function byBilling<T extends { roles?: readonly CastRole[] }>(
+	members: readonly T[],
+	itemId: string,
+	billing: readonly string[] | undefined
+): T[] {
+	if (!billing?.length) return [...members];
+	const rank = (member: T): number => {
+		const at = billing.indexOf(roleInItem(member.roles, itemId) ?? '');
+		return at === -1 ? billing.length : at;
+	};
+	return [...members].sort((a, b) => rank(a) - rank(b));
+}

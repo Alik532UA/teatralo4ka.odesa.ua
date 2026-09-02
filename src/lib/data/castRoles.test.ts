@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { roleInItem, rolesLine } from './castRoles';
+import { byBilling, roleInItem, rolesLine } from './castRoles';
 
 /**
  * Підпис під ім'ям у вечорі з уривків.
@@ -47,5 +47,43 @@ describe('ролі по номерах програми', () => {
 	it('без розкладки по номерах — null, щоб картка взяла роль або рік', () => {
 		expect(rolesLine(undefined, order)).toBeNull();
 		expect(rolesLine([], order)).toBeNull();
+	});
+
+	it('склад номера іде в порядку афіші, а не за абеткою', () => {
+		const abetka = [
+			{ name: 'Алік Запольнов', roles: [{ item: 'neznaiomka', role: 'Пан у блакитному' }] },
+			{ name: 'Даніїл Примачов', roles: [{ item: 'neznaiomka', role: 'Поет' }] },
+			{ name: 'Ксенія Жвачкина', roles: [{ item: 'neznaiomka', role: 'Незнайомка' }] }
+		];
+		const afisha = ['Незнайомка', 'Пан у блакитному', 'Поет'];
+		expect(byBilling(abetka, 'neznaiomka', afisha).map((m) => m.name)).toEqual([
+			'Ксенія Жвачкина',
+			'Алік Запольнов',
+			'Даніїл Примачов'
+		]);
+	});
+
+	it('роль поза переліком або без ролі — після названих, у своєму порядку', () => {
+		const abetka = [
+			{ name: 'Анастасія', roles: [{ item: 'antihona', role: 'Хор' }] },
+			{ name: 'Анна', roles: [{ item: 'antihona', role: 'Антігона' }] },
+			{ name: 'Яна', roles: [{ item: 'antihona', role: 'Хор' }] },
+			{ name: 'Хтось', roles: undefined }
+		];
+		expect(byBilling(abetka, 'antihona', ['Антігона']).map((m) => m.name)).toEqual([
+			'Анна',
+			'Анастасія',
+			'Яна',
+			'Хтось'
+		]);
+	});
+
+	it('без переліку ролей порядок не змінюється', () => {
+		const yakBulo = [
+			{ name: 'б', roles: [{ item: 'x', role: 'Б' }] },
+			{ name: 'а', roles: [{ item: 'x', role: 'А' }] }
+		];
+		expect(byBilling(yakBulo, 'x', undefined).map((m) => m.name)).toEqual(['б', 'а']);
+		expect(byBilling(yakBulo, 'x', []).map((m) => m.name)).toEqual(['б', 'а']);
 	});
 });
