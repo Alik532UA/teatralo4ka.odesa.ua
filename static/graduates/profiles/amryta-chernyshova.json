@@ -23,5 +23,13 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		},
+		{
+			"id": "hanna-tkach"
+		}
+	]
 }

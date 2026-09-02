@@ -17,6 +17,15 @@
 	],
 	"masters": [
 		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "svitlana-myronenko"
+		},
+		{
+			"id": "pavlo-koshka"
+		},
+		{
 			"id": "oleh-shevchuk"
 		},
 		{
@@ -94,7 +103,9 @@
 		"Закінчую Харківський Національний Університет Мистецтв ім. Котляревського, художній керівник Дмитрієва О.Ф.",
 		"Працювала в театрі ляльок ім. Афанасьєва."
 	],
-	"festivals": [],
+	"festivals": [
+		"Вистава «Shake-S-PR-party» Ф. Ткача на фестивалі «Театр.PRO»"
+	],
 	"duringStudies": null,
 	"afterGraduation": null,
 	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3"

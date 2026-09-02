@@ -15,16 +15,13 @@
 	"photoCount": 2,
 	"masters": [
 		{
-			"id": "natalia-shkolna"
-		},
-		{
-			"id": "oksana-panchenko"
-		},
-		{
 			"id": "oleh-shevchuk"
 		},
 		{
 			"id": "svitlana-nadopta"
+		},
+		{
+			"id": "oksana-panchenko"
 		}
 	],
 	"teachers": [

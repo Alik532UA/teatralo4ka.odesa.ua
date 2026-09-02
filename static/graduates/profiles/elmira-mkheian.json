@@ -1,0 +1,28 @@
+{
+	"id": "elmira-mkheian",
+	"code": "elmira-mkheian",
+	"slug": "elmira-mkheian",
+	"name": "Ельміра Мхеян",
+	"graduationYear": 2017,
+	"departments": [
+		"theatre"
+	],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"plays": [
+		{
+			"text": "«Де всі» (реж. Ф. Ткач, фестиваль у Києві)"
+		}
+	],
+	"festivals": [
+		"Вистава «Де всі» Ф. Ткача на фестивалі в Києві"
+	],
+	"bio": [],
+	"socials": []
+}

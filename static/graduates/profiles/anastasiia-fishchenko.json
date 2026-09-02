@@ -13,6 +13,15 @@
 	"hasPhoto": true,
 	"masters": [
 		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "svitlana-myronenko"
+		},
+		{
+			"id": "pavlo-koshka"
+		},
+		{
 			"id": "oleh-shevchuk"
 		}
 	],

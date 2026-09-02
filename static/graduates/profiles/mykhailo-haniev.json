@@ -13,10 +13,13 @@
 	"hasPhoto": true,
 	"masters": [
 		{
+			"id": "fedir-tkach"
+		},
+		{
 			"id": "nadiia-rybakova"
 		},
 		{
-			"id": "fedir-tkach"
+			"id": "pavlo-koshka"
 		}
 	],
 	"socials": [
