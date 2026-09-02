@@ -1,32 +1,54 @@
+/*
+ * `dev-test-light-01` — світла пастельна тема, доступна ТІЛЬКИ в dev.
+ *
+ * Палітра автора (2026-09-02): #9ADCFF, #FFF89A, #FFB2A6, #FF8AAE. Фон
+ * лишається майже білим — це теж його вимога: чотири кольори працюють як
+ * поверхні та акценти, а не як тло сторінки.
+ *
+ * ## Чому текст і `--accent-text` не з палітри
+ *
+ * Усі чотири тони світлі, а гейт `src/contrast.test.ts` міряє кожну пару
+ * «тло+текст» у кожній темі за WCAG AA. Заміряно: #9ADCFF як текст на майже
+ * білому дає 1,4 — тобто жоден із чотирьох кольорів текстом бути не може.
+ * Тому текст лишається темно-синім із палітри проєкту (14,25 на #FFF89A), а
+ * `--accent-text` — темним бірюзовим #005F73 (7,15 на тлі сторінки): це
+ * темний родич блакитного #9ADCFF, тож акцент читається як той самий колір,
+ * лише придатний для тексту.
+ *
+ * Селектор лишився `.yellow-theme`: технічний ключ теми — `yellow`, і
+ * перейменування його зачепило б збережену тему в браузерах, п'ять місць
+ * реєстрації й `data-theme`. Автор перейменував ПІДПИС, який видно в панелі
+ * («dev-test-01» → «dev-test-light-01»), а не ключ.
+ */
 .yellow-theme {
 	/* Semantic Backgrounds */
-	--bg-page: #f7f7f0;
-	--bg-surface: #F6F7D7;
-	--bg-card: #F6F7D7;
-	--bg-header: color-mix(in srgb, #F6F7D7, transparent 10%);
-	--bg-footer: #F6F7D7;
-	
+	--bg-page: #fbfcfd;
+	--bg-surface: #fff89a;
+	--bg-card: #fff89a;
+	--bg-header: color-mix(in srgb, #fff89a, transparent 10%);
+	--bg-footer: #fff89a;
+
 	/* Semantic Text */
 	--text-main: var(--palette-navy-700);
 	--text-title: var(--palette-navy-900);
 	--text-muted: var(--palette-navy-800);
 	--text-on-accent: var(--palette-navy-900);
-	
+
 	/* Semantic Accents */
-	--accent-primary: #3EC1D3;
-	--accent-secondary: #FF9A00;
-	--accent-text: #005F73;
-	
+	--accent-primary: #9adcff;
+	--accent-secondary: #ff8aae;
+	--accent-text: #005f73;
+
 	/* Component Specific */
-	--header-nav-link: #005F73;
+	--header-nav-link: #005f73;
 	--header-nav-active: var(--palette-navy-900);
 	--text-on-nav-active: var(--palette-white);
-	--btn-all-bg: #FF9A00;
+	--btn-all-bg: #ffb2a6;
 	--footer-text: var(--palette-navy-900);
 
 	/* Interactive */
-	--border-main: rgba(62, 193, 211, 0.35);
-	--shadow-main: 0 4px 20px rgba(62, 193, 211, 0.22);
+	--border-main: rgba(154, 220, 255, 0.55);
+	--shadow-main: 0 4px 20px rgba(255, 138, 174, 0.25);
 
 	--warning-color: #b45309;
 }

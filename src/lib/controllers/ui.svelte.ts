@@ -165,13 +165,13 @@ export class UIState {
 			// Update color-scheme meta
 			const csMeta = document.querySelector('meta[name="color-scheme"]');
 			if (csMeta) {
-				if (t === 'dark' || t === 'dark-cyan') csMeta.setAttribute('content', 'dark');
+				if (t === 'dark' || t === 'dark-cyan' || t === 'dark-blue') csMeta.setAttribute('content', 'dark');
 				else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
 				else csMeta.setAttribute('content', 'light dark');
 			}
 
 			// Update classes
-			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme', 'dark-cyan-theme');
+			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme', 'dark-cyan-theme', 'dark-blue-theme');
 			document.documentElement.classList.add(`${t}-theme`);
 		}
 		storage.set('theme', t);

@@ -19,13 +19,27 @@
 
 import { dev } from '$app/environment';
 
-export type Theme = 'light' | 'light-yellow' | 'yellow' | 'dark' | 'dark-cyan';
+export type Theme = 'light' | 'light-yellow' | 'yellow' | 'dark' | 'dark-cyan' | 'dark-blue';
 
 /** Публічний перелік тем для продакшену (4 теми). */
 export const PROD_THEME_CYCLE = ['light', 'light-yellow', 'dark', 'dark-cyan'] as const satisfies readonly Theme[];
 
-/** Розширений перелік для dev (включає dev-test-01 / yellow). */
-export const DEV_THEME_CYCLE = ['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan'] as const satisfies readonly Theme[];
+/**
+ * Розширений перелік для dev: додає дві тестові теми, яких у продакшені немає.
+ *
+ * `yellow` — це «dev-test-light-01», `dark-blue` — «dev-test-dark-01» (підписи
+ * видно в панелі, ключі лишаються технічними). Кожна стоїть біля своєї родини
+ * за яскравістю, щоб перебір і далі читався як плавне затемнення: світлі —
+ * перед темними.
+ */
+export const DEV_THEME_CYCLE = [
+	'light',
+	'light-yellow',
+	'yellow',
+	'dark',
+	'dark-cyan',
+	'dark-blue'
+] as const satisfies readonly Theme[];
 
 /**
  * Кортеж, а не масив: `as const` дає точний тип елементів, тож `nextTheme`

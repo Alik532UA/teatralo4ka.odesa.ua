@@ -10,7 +10,7 @@
 		PROD_THEME_CYCLE,
 	} from "$lib/config/themes";
 	import { dev } from "$app/environment";
-	import { Sun, Palette, FlaskConical, Moon, Waves } from "lucide-svelte";
+	import { Sun, Palette, FlaskConical, Moon, Waves, TestTube } from "lucide-svelte";
 
 	interface Props {
 		isOpen: boolean;
@@ -26,8 +26,8 @@
 	/**
 	 * Кількість колонок для кнопок тем — щоб остання не лишалася в рядку сама.
 	 *
-	 * Береться з переліків, а не з рахунку кнопок у розмітці: `dev` додає
-	 * `dev-test-01`, і копія числа тут розійшлася б із переліком мовчки.
+	 * Береться з переліків, а не з рахунку кнопок у розмітці: `dev` додає дві
+	 * тестові теми, і копія числа тут розійшлася б із переліком мовчки.
 	 */
 	const themeCols = themeColumns((dev ? DEV_THEME_CYCLE : PROD_THEME_CYCLE).length);
 	const mobileStyle = 'width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);';
@@ -115,8 +115,8 @@
 					class="dropdown-opt-unified"
 					class:active={ui.theme === "yellow"}
 					onclick={() => ui.setTheme("yellow")}
-					aria-label={$t("settings.yellow") || "dev-test-01"}
-					title="dev-test-01"
+					aria-label={$t("settings.yellow") || "dev-test-light-01"}
+					title="dev-test-light-01"
 					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
 					data-testid="theme-yellow{sfx}-btn"
 				><FlaskConical size={20} /></button>
@@ -137,6 +137,17 @@
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-cyan')}
 				data-testid="theme-dark-cyan{sfx}-btn"
 			><Waves size={20} /></button>
+			{#if dev}
+				<button
+					class="dropdown-opt-unified"
+					class:active={ui.theme === "dark-blue"}
+					onclick={() => ui.setTheme("dark-blue")}
+					aria-label={$t("settings.darkBlue") || "dev-test-dark-01"}
+					title="dev-test-dark-01"
+					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-blue')}
+					data-testid="theme-dark-blue{sfx}-btn"
+				><TestTube size={20} /></button>
+			{/if}
 		</div>
 	</div>
 	<!--

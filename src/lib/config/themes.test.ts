@@ -22,8 +22,17 @@ describe('перебір тем', () => {
 		expect(THEME_CYCLE.length).toBeGreaterThanOrEqual(4);
 	});
 
-	it('у dev перелічує п\'ять тем проєкту (включно з dev-test-01), у prod — чотири', () => {
-		expect([...DEV_THEME_CYCLE]).toEqual(['light', 'light-yellow', 'yellow', 'dark', 'dark-cyan']);
+	it('у dev шість тем (із двома тестовими), у prod — чотири', () => {
+		// `yellow` — це «dev-test-light-01», `dark-blue` — «dev-test-dark-01»:
+		// підписи видно в панелі, а ключі лишаються технічними.
+		expect([...DEV_THEME_CYCLE]).toEqual([
+			'light',
+			'light-yellow',
+			'yellow',
+			'dark',
+			'dark-cyan',
+			'dark-blue'
+		]);
 		expect([...PROD_THEME_CYCLE]).toEqual(['light', 'light-yellow', 'dark', 'dark-cyan']);
 	});
 
@@ -32,7 +41,13 @@ describe('перебір тем', () => {
 		expect(nextTheme('light-yellow', true)).toBe('yellow');
 		expect(nextTheme('yellow', true)).toBe('dark');
 		expect(nextTheme('dark', true)).toBe('dark-cyan');
-		expect(nextTheme('dark-cyan', true)).toBe('light');
+		expect(nextTheme('dark-cyan', true)).toBe('dark-blue');
+		expect(nextTheme('dark-blue', true)).toBe('light');
+	});
+
+	it('тестові теми в prod не з\'являються — і лікуються перебором', () => {
+		expect(PROD_THEME_CYCLE).not.toContain('dark-blue');
+		expect(nextTheme('dark-blue', false)).toBe(PROD_THEME_CYCLE[0]);
 	});
 
 	it('кожен крок у prod перебирає 4 публічні теми', () => {

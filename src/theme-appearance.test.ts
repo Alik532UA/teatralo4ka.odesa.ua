@@ -72,7 +72,8 @@ const THEMES: { name: string; scheme: 'light' | 'dark' }[] = [
 	{ name: 'dark-cyan-theme', scheme: 'dark' },
 	{ name: 'light-theme', scheme: 'light' },
 	{ name: 'yellow-theme', scheme: 'light' },
-	{ name: 'light-yellow-theme', scheme: 'light' }
+	{ name: 'light-yellow-theme', scheme: 'light' },
+	{ name: 'dark-blue-theme', scheme: 'dark' }
 ];
 
 describe('вигляд, який малює браузер', () => {
@@ -125,7 +126,7 @@ describe('вигляд, який малює браузер', () => {
 	 * за СИСТЕМНОЮ перевагою, а не за її власною природою. Найдорожчий випадок —
 	 * жовті теми: вони світлі, але системна перевага може бути темна.
 	 */
-	it('кожна з п\'яти тем звужує схему, і селектор строго специфічніший за :root', () => {
+	it('кожна з шести тем звужує схему, і селектор строго специфічніший за :root', () => {
 		const problems: string[] = [];
 
 		for (const { name, scheme } of THEMES) {

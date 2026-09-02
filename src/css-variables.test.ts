@@ -119,7 +119,7 @@ describe('CSS-змінні', () => {
 
 	it('знаходить джерела, оголошення й посилання — перевірка жива', () => {
 		expect(sources.length).toBeGreaterThan(50);
-		expect(globalCss.length).toBe(6);
+		expect(globalCss.length).toBe(7);
 		expect(declaredGlobally.size).toBeGreaterThan(50);
 		expect(references.length).toBeGreaterThan(100);
 	});

@@ -7,6 +7,7 @@
 @import './themes/yellow.css';
 @import './themes/light-yellow.css';
 @import './themes/dark-cyan.css';
+@import './themes/dark-blue.css';
 
 /* --- Fonts --- */
 @font-face {
@@ -46,7 +47,9 @@
 html.dark-theme,
 html[data-theme='dark'],
 html.dark-cyan-theme,
-html[data-theme='dark-cyan'] {
+html[data-theme='dark-cyan'],
+html.dark-blue-theme,
+html[data-theme='dark-blue'] {
 	color-scheme: dark;
 }
 
@@ -1257,7 +1260,9 @@ body.page-galaxy,
 :root[data-theme='dark'] body.page-galaxy,
 :root[data-theme='dark-cyan'] body.page-galaxy,
 :root[data-theme='yellow'] body.page-galaxy,
-:root[data-theme='light-yellow'] body.page-galaxy {
+:root.dark-blue-theme body.page-galaxy,
+:root[data-theme='light-yellow'] body.page-galaxy,
+:root[data-theme='dark-blue'] body.page-galaxy {
 	--text-main: var(--galaxy-text, #eaf2ff);
 	--text-title: #ffffff;
 	--text-muted: var(--galaxy-muted, #a8bfe0);
