@@ -37,7 +37,8 @@ test.describe('сторінка вистави', () => {
 		await page.locator('.profile-layout[data-measured="yes"]').waitFor();
 
 		const links = page.locator('[data-testid^="galaxy-card-play-link-"]');
-		const rows = page.locator('.plays li');
+		// Лише рядки переліку: уривки одного вечора вкладені у свій рядок і власного посилання не мають.
+		const rows = page.locator('.plays > li');
 		expect(
 			await links.count(),
 			'жоден рядок вистави не став посиланням — сторінки вистав недосяжні з анкети'

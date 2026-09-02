@@ -2152,7 +2152,8 @@
 			},
 			{
 				"id": "neznaiomka",
-				"title": "О. Блок «Незнайомка»"
+				"title": "О. Блок «Незнайомка»",
+				"videoUrl": "https://www.youtube.com/watch?v=XnkFOqio1GY"
 			},
 			{
 				"id": "bezprydannytsia",
@@ -2174,6 +2175,9 @@
 				"id": "sonety",
 				"title": "В. Шекспір «Сонети»"
 			}
+		],
+		"photos": [
+			"/plays/uryvky-z-klasyky-2013.webp"
 		],
 		"awards": [
 			"Дипломанти театрального фестивалю «Мрій-Дім» (м. Прилуки)"

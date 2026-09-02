@@ -1,14 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ArrowRight, FileText, Theater } from "lucide-svelte";
+	import { ArrowRight, FileText } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
 	import DepartmentIcon from "$lib/components/icons/DepartmentIcon.svelte";
 	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
-	import PlayRowExtras from '$lib/components/PlayRowExtras.svelte';
-	import { hasLink } from "$lib/utils/formatFlags";
+	import GraduatePlayRow from "$lib/components/GraduatePlayRow.svelte";
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import GraduateYears from "$lib/components/GraduateYears.svelte";
@@ -27,7 +26,7 @@
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
-	import { playPath } from "$lib/data/plays";
+	import { groupPlayRows } from "$lib/data/playRowGroups";
 	import {
 		graduatePhoto,
 		graduatePhotoSrcset,
@@ -304,6 +303,8 @@
 	const hasAnyPlayYear = $derived(
 		Boolean(profile?.plays.some((p) => Boolean(p.year))),
 	);
+	/** Рядки одного вечора — одним рядком переліку; правило й заміри в `playRowGroups.ts`. */
+	const playGroups = $derived(groupPlayRows(profile?.plays ?? []));
 	const hasBio = $derived(
 		Boolean(
 			profile &&
@@ -826,85 +827,14 @@
 						parentLevel: 2,
 					})}
 				>
-					{#each profile!.plays as play, index (index)}
-						<li
-							class="play"
-							data-testid="galaxy-card-play-item-{index}"
-						>
-							{#if hasAnyPlayYear}
-								<span class="play__year">{play.year ?? ""}</span
-								>
-							{/if}
-							<!--
-								Текст і хвіст стоять У КОЛОНЦІ, а не в один рядок.
-
-								Доти «разом з ЗТК» і кнопка запису стояли праворуч від
-								тексту, і у вузькій картці вони з'їдали під них місце: назва
-								вистави з роллю тислася в колонку з двох слів («Уявно /
-								хворий», / Тома / Діафуарус»). Заміряно на скріншоті
-								замовника. Тому хвіст завжди йде рядком нижче — і в широкій
-								картці теж, бо два різних поводження тут не варті двадцяти
-								пікселів висоти.
-							-->
-							<div class="play__body">
-								<!--
-									Рядок стає ПОСИЛАННЯМ лише там, де є `playId`:
-									лише тоді відомо, на яку саме виставу вести. У
-									складених рядків («Уривки з класики» трьома
-									уривками одразу) ключа немає навмисно, і
-									вигадувати посилання для них означало б вести
-									читача навмання.
-								-->
-								{#if play.playId && !hasLink(play.text)}
-									<a
-										class="play__text play__link"
-										href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
-										data-testid="galaxy-card-play-link-{index}"
-									>
-										<RichTextWithFlags text={play.text} />
-									</a>
-								{:else if play.playId}
-									<!--
-										Рядок має ВЛАСНЕ посилання всередині — обгорнути його
-										ще одним не можна: `<a>` в `<a>` невалідний, браузер
-										таке мовчки лагодить, а Svelte у dev валить сторінку
-										цілком. Заміряно на цій самій анкеті: сторінка не
-										рендерилася взагалі.
-
-										Тому текст лишається текстом зі своїм посиланням, а до
-										вистави веде окремий значок — той самий прийом, що з
-										кнопкою запису в репертуарі групи.
-									-->
-									<span class="play__text"
-										><RichTextWithFlags text={play.text} /></span
-									>
-									<a
-										class="play__page-link"
-										href={localizedPath(playPath(play.playId), isEn ? "en" : "uk")}
-										aria-label="{$t('galaxy.playTitle')}: {play.text}"
-										title={$t("galaxy.playTitle")}
-										data-testid="galaxy-card-play-link-{index}"
-									>
-										<Theater size={15} aria-hidden="true" />
-									</a>
-								{:else}
-									<span class="play__text"
-										><RichTextWithFlags text={play.text} /></span
-									>
-								{/if}
-								<!--
-									З ким разом грав і чи є запис — обчислюється з реєстру,
-									а не пишеться в текст руками. Чому саме так — у
-									докблоках `PlayRowExtras` і `coGroupsForPlay`.
-								-->
-								<PlayRowExtras
-									playId={play.playId}
-									memberId={graduate.id}
-									hideCoGroups={play.hideCoGroups}
-									testidBase="galaxy-card-play-item-{index}"
-								/>
-							</div>
-						</li>
+					{#each playGroups as group, index (index)}
+						<GraduatePlayRow
+							{group}
+							{index}
+							memberId={graduate.id}
+							showYear={hasAnyPlayYear}
+							dense={densePlays}
+						/>
 					{/each}
 				</ul>
 				{/if}
@@ -1684,10 +1614,6 @@
 			font-size: 0.92rem;
 			line-height: 1.35;
 		}
-		.bento-card--plays .play {
-			padding: 0.35rem 0;
-			gap: 0.5rem;
-		}
 		.bento-card--faculty {
 			text-align: center;
 		}
@@ -2285,42 +2211,15 @@
 		text-align: left;
 	}
 
+	/*
+	 * Рядки вистав малює `GraduatePlayRow` зі своїми стилями (Svelte скоупить їх
+	 * по компоненту). Тут лишаються `.plays`, `.play` і `.play__text`, бо тими
+	 * самими класами верстається ще й перелік фестивалів нижче.
+	 */
 	.plays {
 		margin: 0;
 		padding: 0;
 		list-style: none;
-	}
-	/*
-	 * Підкреслення пунктиром, а не суцільне: у рядку вистави підкреслювати
-	 * доводиться і назву, і роль разом — суцільна лінія під усім рядком
-	 * читалася б як помилка розмітки. Той самий прийом, що в року випуску до
-	 * того, як він став кнопкою.
-	 */
-	.play__link {
-		color: inherit;
-		text-decoration: underline dotted;
-		text-underline-offset: 0.18em;
-		text-decoration-color: rgb(140 190 255 / 0.45);
-		transition:
-			color var(--transition-fast),
-			text-decoration-color var(--transition-fast);
-	}
-	.play__link:hover,
-	.play__link:focus-visible {
-		color: var(--galaxy-accent);
-		text-decoration-style: solid;
-	}
-	/* Значок веде на сторінку вистави там, де сам рядок посиланням бути не може. */
-	.play__page-link {
-		display: inline-flex;
-		align-items: center;
-		margin-left: 0.35rem;
-		color: rgb(140 190 255 / 0.55);
-		transition: color var(--transition-fast);
-	}
-	.play__page-link:hover,
-	.play__page-link:focus-visible {
-		color: var(--galaxy-accent);
 	}
 	.play {
 		display: flex;
@@ -2331,19 +2230,12 @@
 	.play:first-child {
 		border-top: none;
 	}
-	.play__year {
-		flex-shrink: 0;
-		min-width: 3.2rem;
-		color: var(--galaxy-muted);
-		font-variant-numeric: tabular-nums;
-	}
 	/*
-	 * Щільний режим плашки вистав: менший шрифт і тісніші рядки.
-	 *
-	 * Увімкнений лише там, де зміст не вміщався (див. `denseCols`), тобто від
-	 * трьох колонок — а це від 1024px. На телефоні картка й так один стовпчик,
-	 * що прокручується сторінкою: дрібніший шрифт там нічого не виграв би, а
-	 * читати було б важче.
+	 * Щільний режим плашки вистав: менший шрифт тут, тісніші рядки — пропом
+	 * `dense` у `GraduatePlayRow`. Увімкнений лише там, де зміст не вміщався
+	 * (див. `denseCols`), тобто від трьох колонок — а це від 1024px. На телефоні
+	 * картка й так один стовпчик, що прокручується сторінкою: дрібніший шрифт
+	 * там нічого не виграв би, а читати було б важче.
 	 *
 	 * Числа з заміру на анкеті Аліка Запольнова, вікно 1280×800, колонка
 	 * вміщає 752:
@@ -2357,37 +2249,6 @@
 	 */
 	.bento-card--plays-dense .plays {
 		font-size: 0.84rem;
-	}
-	.bento-card--plays-dense .play {
-		padding: 0.22rem 0;
-	}
-	.bento-card--plays-dense .play__body {
-		row-gap: 0.05rem;
-	}
-
-	/*
-	 * Сітка, а не колонка: у першому рядку назва й кнопка запису праворуч, у
-	 * другому — «разом з ЗТК», притиснуте праворуч. Клітинки другої колонки
-	 * розставляє собі сам `PlayRowExtras`.
-	 *
-	 * `minmax(0, 1fr)` — щоб довга назва з роллю переносилася, а не розпирала
-	 * рядок: із простим `1fr` мінімальна ширина колонки дорівнює найдовшому
-	 * слову й картку розносить.
-	 */
-	.play__body {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		align-items: start;
-		/*
-		 * `flex: 1` — щоб кнопка запису стояла в СВОЇЙ колонці праворуч, однаково
-		 * в кожному рядку. Без цього сітка звужувалася до ширини тексту (типове
-		 * `flex: 0 1 auto`), і кнопка липла до назви: у «Кощієві пристрасті»,
-		 * Петька» вона стояла на 120 пікселів лівіше, ніж у сусіднього рядка.
-		 */
-		flex: 1;
-		min-width: 0;
-		column-gap: 0.4rem;
-		row-gap: 0.15rem;
 	}
 	.play__text {
 		min-width: 0;

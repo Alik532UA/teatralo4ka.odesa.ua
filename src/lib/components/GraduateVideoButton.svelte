@@ -9,9 +9,17 @@
 		videoUrl?: string;
 		/** Ім'я випускника: йде в заголовок плеєра. */
 		title: string;
+		/**
+		 * Напис на кнопці замість типового «Дивитися запис» — коли кнопок поруч
+		 * кілька і їх треба розрізняти: записи окремих уривків вечора підписані
+		 * назвою уривка.
+		 */
+		label?: string;
+		/** Свій `data-testid`, коли на сторінці кілька таких кнопок. */
+		testid?: string;
 	}
 
-	let { videoUrl, title }: Props = $props();
+	let { videoUrl, title, label, testid = 'galaxy-card-video-btn' }: Props = $props();
 
 	/**
 	 * Кнопка з'являється лише коли посилання СПРАВДІ розпізналося як відео —
@@ -33,10 +41,10 @@
 		type="button"
 		class="watch-btn"
 		onclick={() => (open = true)}
-		data-testid="galaxy-card-video-btn"
+		data-testid={testid}
 	>
 		<Play size={16} aria-hidden="true" />
-		<span>{$t('galaxy.watchRecording')}</span>
+		<span>{label ?? $t('galaxy.watchRecording')}</span>
 	</button>
 
 	<VideoModal video={open ? video : null} {title} onclose={() => (open = false)} />

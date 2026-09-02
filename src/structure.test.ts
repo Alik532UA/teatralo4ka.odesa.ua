@@ -252,6 +252,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   плюс причини поруч із двома `svelte-ignore` (SVELTE-UI-v8 § 4, HIGH).
  *   Різати ці коментарі, щоб влізти в число, означало б платити поясненнями за
  *   лічильник — тобто саме те, від чого стеля мала б застерігати.
+ * 2026-09-02: `GraduateProfileView.svelte` 1695 → 1600. Стелю ОПУЩЕНО, не піднято:
+ *   рядок вистави разом зі стилями виїхав у `GraduatePlayRow` (вечір з кількох
+ *   уривків там згортається в один рядок), і файл упав з 1684 до 1598. Число
+ *   знято одразу, щоб звільнене місце не заросло мовчки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -266,7 +270,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1695,
+	'src/lib/components/GraduateProfileView.svelte': 1600,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/GalaxyStageControls.svelte': 345,

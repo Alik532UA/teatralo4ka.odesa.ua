@@ -1,11 +1,14 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { PLAYS, getPlayById, playsByIds } from './plays';
 import { GRADUATES } from './graduates';
 import { createNameMatcher } from '$lib/utils/participantMatch';
 import { GROUPS } from './groups';
+import { FESTIVALS } from './festivals';
+import { LOCAL_IMAGE_SIZES } from '$lib/config/localImages';
+import { parseVideoUrl } from '$lib/utils/videoEmbed';
 import mastersIndex from './masters.index.json';
 import type { MasterIndexEntry } from './masters';
 
@@ -83,6 +86,60 @@ describe('реєстр вистав', () => {
 			(p) => `${p.id}: «${p.title}» ${p.year}`
 		);
 		expect(bad, `непридатні записи:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Знімок, на який посилається реєстр, мусить існувати І мати розмір у мапі.
+	 *
+	 * Банер бере `width`/`height` з `LOCAL_IMAGE_SIZES` через `imageSize(photo)`
+	 * — і для шляху, якого в мапі немає, це `undefined.width`, тобто сторінка
+	 * падає вже в браузері, а не на збірці. Файл без запису в мапі й запис без
+	 * файлу — обидва тихі; `localImages.test.ts` ловить лише другий випадок.
+	 * Перевіряються всі три реєстри з банером, бо помилка в них однакова.
+	 */
+	it('кожен знімок із реєстрів лежить у static і має розмір у localImages', () => {
+		const bad: string[] = [];
+		let перевірено = 0;
+		const owners = [
+			...PLAYS.map((p) => ({ id: p.id, photos: p.photos })),
+			...GROUPS.map((g) => ({ id: g.slug, photos: g.photos })),
+			...FESTIVALS.map((f) => ({ id: f.slug, photos: f.photos }))
+		];
+		for (const { id, photos } of owners)
+			for (const photo of photos ?? []) {
+				перевірено += 1;
+				if (!existsSync(join('static', photo))) bad.push(`${id}: файлу ${photo} немає`);
+				if (!(photo in LOCAL_IMAGE_SIZES)) bad.push(`${id}: ${photo} не має розміру в localImages.ts`);
+			}
+		expect(перевірено, 'жодного знімка — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(bad, `знімок без файлу або без розміру:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Посилання на запис, яке не розпізнається, — це кнопка, якої не буде.
+	 *
+	 * `GraduateVideoButton` і `PlayRowExtras` малюють кнопку лише тоді, коли
+	 * `parseVideoUrl` повернув відео; нерозпізнане посилання просто зникає, і
+	 * той, хто його вписав, бачить ту саму сторінку без кнопки — без жодного
+	 * сигналу, що саме не так. Тому розбір робиться тут, на збірці, і для запису
+	 * вечора, і для запису кожного номера програми.
+	 */
+	it('кожне посилання на запис вечора чи номера розпізнається як відео', () => {
+		const bad: string[] = [];
+		let перевірено = 0;
+		for (const play of PLAYS) {
+			const links = [
+				{ where: play.id, url: play.videoUrl },
+				...(play.programme ?? []).map((item) => ({ where: `${play.id} › ${item.id}`, url: item.videoUrl }))
+			];
+			for (const { where, url } of links) {
+				if (!url) continue;
+				перевірено += 1;
+				if (!parseVideoUrl(url)) bad.push(`${where}: ${url}`);
+			}
+		}
+		expect(перевірено, 'жодного запису — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(bad, `запис не розпізнається як відео:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('кожен майстер у виставі існує в реєстрі майстрів', () => {

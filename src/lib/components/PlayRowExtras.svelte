@@ -34,6 +34,17 @@
 	interface Props {
 		/** Ключ вистави. Немає — немає ні плашки, ні запису. */
 		playId?: string;
+		/**
+		 * Номери програми з цього рядка анкети. Запис уривка головніший за запис
+		 * вечора: коли в рядку названо уривок і в нього є власний запис, кнопка
+		 * веде на нього.
+		 */
+		items?: readonly string[];
+		/**
+		 * Лише запис уривка, без запасного запису вечора — для рядка уривка під
+		 * шапкою вечора, де запис вечора уже стоїть рядком вище.
+		 */
+		itemsOnly?: boolean;
 		/** `id` випускника: від його власних груп залежить, які групи «чужі». */
 		memberId: string;
 		/** Точковий вимикач плашки для цього рядка (`GraduatePlay.hideCoGroups`). */
@@ -42,7 +53,8 @@
 		testidBase: string;
 	}
 
-	let { playId, memberId, hideCoGroups = false, testidBase }: Props = $props();
+	let { playId, items, itemsOnly = false, memberId, hideCoGroups = false, testidBase }: Props =
+		$props();
 
 	const isEn = $derived($locale === 'en');
 	const lang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -58,7 +70,28 @@
 	 * `ContentCard`). Заміряно: записи має 9 вистав із 733, і в анкетах це 43
 	 * рядки.
 	 */
-	const video = $derived(parseVideoUrl(play?.videoUrl));
+	/**
+	 * Уривок із цього рядка, у якого є запис, — перший у порядку програми.
+	 *
+	 * Вечір буває записаний цілком (`Play.videoUrl`), а буває — окремими
+	 * уривками (`PlayProgrammeItem.videoUrl`), і трапляється обидва разом. Рядок
+	 * про уривок веде на запис уривка; коли такого немає — на запис вечора, щоб
+	 * не губити його там, де уривок у людини один і шапки вечора над ним нема.
+	 */
+	const itemWithVideo = $derived(
+		(play?.programme ?? []).find((item) => items?.includes(item.id) && parseVideoUrl(item.videoUrl))
+	);
+	const video = $derived(
+		itemWithVideo
+			? parseVideoUrl(itemWithVideo.videoUrl)
+			: itemsOnly
+				? null
+				: parseVideoUrl(play?.videoUrl)
+	);
+	/** Заголовок плеєра: вечір, а для уривка — вечір і уривок. */
+	const videoTitle = $derived(
+		itemWithVideo ? `${play?.title ?? ''}: ${itemWithVideo.title}` : (play?.title ?? '')
+	);
 	let open = $state(false);
 </script>
 
@@ -76,7 +109,7 @@
 		class="extras__video-btn"
 		onclick={() => (open = true)}
 		title={$t('galaxy.watchRecording')}
-		aria-label="{$t('galaxy.watchRecording')}: {play?.title ?? ''}"
+		aria-label="{$t('galaxy.watchRecording')}: {videoTitle}"
 		data-testid="{testidBase}-video-btn"
 	>
 		<PlayIcon size={13} aria-hidden="true" />
@@ -103,7 +136,7 @@
 	`VideoModal`), тож у сітці він не займає клітинки: відкритий — це
 	`position: fixed` поверх сторінки.
 -->
-<VideoModal video={open ? video : null} title={play?.title ?? ''} onclose={() => (open = false)} />
+<VideoModal video={open ? video : null} title={videoTitle} onclose={() => (open = false)} />
 
 <style>
 	/*

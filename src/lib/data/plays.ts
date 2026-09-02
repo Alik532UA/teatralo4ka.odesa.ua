@@ -81,6 +81,12 @@ export interface PlayProgrammeItem {
 	 * (докблок нижче), тож поле мусить бути таким, яке JSON виражає точно.
 	 */
 	fromProfile?: boolean;
+	/**
+	 * Запис САМЕ ЦЬОГО номера. Вечір буває записаний цілком (`Play.videoUrl`),
+	 * а буває — окремими уривками, і трапляється обидва разом; тому поле є на
+	 * обох рівнях, а не на одному. Розбирає той самий `parseVideoUrl`.
+	 */
+	videoUrl?: string;
 }
 
 export interface Play {
@@ -92,6 +98,13 @@ export interface Play {
 	author?: string;
 	/** Посилання на запис. Розбирає його `parseVideoUrl`, як і всюди на сайті. */
 	videoUrl?: string;
+	/**
+	 * Афіша чи знімки показу — для того самого банера, що в групи й фестивалю
+	 * (`GroupPhotoBanner`). Шляхи від кореня `static/`; розмір кожного файлу
+	 * мусить стояти в `localImages.ts`, інакше банер упаде на `imageSize` уже в
+	 * браузері — гейт у `plays.test.ts` перевіряє це наперед.
+	 */
+	photos?: string[];
 	awards?: string[];
 	/** Заклад, де показували. */
 	institution?: string;

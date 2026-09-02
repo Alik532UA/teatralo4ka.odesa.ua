@@ -88,7 +88,9 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/mrii-dim-2013.webp': { width: 1087, height: 720 },
 	'/festivals/slovianskyi-vinok-2.webp': { width: 960, height: 720 },
 	'/festivals/slovianskyi-vinok-3.webp': { width: 960, height: 720 },
-	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 }
+	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 },
+	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
+	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 }
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */

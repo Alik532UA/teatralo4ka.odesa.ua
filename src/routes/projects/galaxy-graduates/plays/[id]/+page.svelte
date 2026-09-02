@@ -6,7 +6,6 @@
 		Globe,
 		Theater,
 		GraduationCap,
-		Calendar,
 		Trophy
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
@@ -15,9 +14,8 @@
 	import { masterProfilePath } from '$lib/data/masters';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import PlayCastSection from '$lib/components/PlayCastSection.svelte';
+	import PlayHeader from '$lib/components/PlayHeader.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
-	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
-	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -72,38 +70,8 @@
 			</a>
 		</nav>
 
-		<header class="play-header">
-			<div class="play-header__badges">
-				<span class="play-badge" data-testid="play-year-badge">
-					<Calendar size={14} aria-hidden="true" />
-					{data.play.year}{#if data.play.dateNote}, {data.play.dateNote}{/if}
-				</span>
-				{#if data.play.number}
-					<span class="play-badge" data-testid="play-number-badge">№{data.play.number}</span>
-				{/if}
-				{#if data.play.institution}
-					<span class="play-badge" data-testid="play-institution-badge">
-						{data.play.institution}
-					</span>
-				{/if}
-
-				<span class="play-header__edit">
-					<EditContactButton testIdPrefix="play-page-contact" openTo="down" />
-				</span>
-			</div>
-
-			<h1 class="play-header__title" data-testid="play-title">{data.play.title}</h1>
-
-			{#if data.play.author}
-				<p class="play-header__author" data-testid="play-author-text">{data.play.author}</p>
-			{/if}
-
-			{#if data.play.videoUrl}
-				<div class="play-header__video">
-					<GraduateVideoButton videoUrl={data.play.videoUrl} title={data.play.title} />
-				</div>
-			{/if}
-		</header>
+		<!-- Афіша, значки, назва, автори й записи — у PlayHeader зі своїми стилями. -->
+		<PlayHeader play={data.play} />
 
 		<!--
 			СКЛАД — головне, заради чого ця сторінка існує, і тому він перший.
@@ -297,47 +265,7 @@
 		flex-wrap: wrap;
 		margin-bottom: var(--space-lg);
 	}
-	.play-header {
-		margin-bottom: var(--space-2xl);
-	}
-	.play-header__badges {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-bottom: 0.75rem;
-	}
-	.play-header__edit {
-		display: inline-flex;
-		margin-left: auto;
-	}
-	.play-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-		padding: 0.25rem 0.7rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.82rem;
-		font-weight: 600;
-	}
-	.play-header__title {
-		margin: 0;
-		font-size: clamp(1.5rem, 4vw, 2.2rem);
-		font-weight: 700;
-		color: var(--text-title);
-		text-wrap: balance;
-	}
-	.play-header__author {
-		margin: 0.4rem 0 0;
-		color: var(--text-muted);
-		font-size: 0.95rem;
-	}
-	.play-header__video {
-		margin-top: 0.9rem;
-	}
+	/* Стилі шапки — у `PlayHeader`, разом із її розміткою. */
 	/*
 	 * Заголовок секції — свої класи, а не `.section-heading` зі сторінок групи
 	 * й фестивалю: стилі Svelte приватні, і чужий клас тут лишився б без

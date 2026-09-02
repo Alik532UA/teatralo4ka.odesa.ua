@@ -8,9 +8,30 @@
 		photos: readonly string[];
 		/** Назва групи: йде в `alt`, у підписи крапок і в заголовок лайтбокса. */
 		title: string;
+		/**
+		 * `cover` — знімок кадрується під коробку 16:10, як фото групи.
+		 * `whole` — показується цілком: для афіші, у якої по краях текст.
+		 */
+		fit?: 'cover' | 'whole';
 	}
 
-	let { photos, title }: Props = $props();
+	let { photos, title, fit = 'cover' }: Props = $props();
+
+	/**
+	 * Афіша показується ЦІЛКОМ, а не кадрується під 16:10.
+	 *
+	 * Знімок групи можна обрізати без втрат — обличчя лишаються в кадрі. Афіша
+	 * — це текст по краях: назва школи згори, назви творів унизу; `object-fit:
+	 * cover` у коробці 16:10 зрізав би по вісім відсотків зверху й знизу, і
+	 * читач бачив би афішу без заголовка. Тому в режимі `whole` коробка бере
+	 * пропорцію самого зображення (першого — стопка з кількох афіш тут не
+	 * передбачена), а знімок вписується в неї без обрізання.
+	 */
+	const ownRatio = $derived.by(() => {
+		if (fit !== 'whole' || photos.length === 0) return undefined;
+		const { width, height } = imageSize(photos[0] as LocalImage);
+		return `${width} / ${height}`;
+	});
 
 	/** Кожні стільки мілісекунд банер перегортається сам. */
 	const ROTATE_MS = 5000;
@@ -62,6 +83,8 @@
 	-->
 	<div
 		class="banner"
+		class:banner--whole={fit === 'whole'}
+		style:aspect-ratio={ownRatio}
 		role="button"
 		tabindex="0"
 		aria-label={title}
@@ -172,6 +195,11 @@
 
 	.banner__img.is-active {
 		opacity: 1;
+	}
+
+	/* Афіша: цілком, без кадрування — пропорцію коробці задає саме зображення. */
+	.banner--whole .banner__img {
+		object-fit: contain;
 	}
 
 	.banner__dots {
