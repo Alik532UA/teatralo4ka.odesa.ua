@@ -33,6 +33,7 @@ declare global {
 		 */
 		interface PageData {
 			seoDescription?: string;
+			ogImageUrl?: string;
 		}
 
 		/**
