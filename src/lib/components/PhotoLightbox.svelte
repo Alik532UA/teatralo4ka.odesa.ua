@@ -4,6 +4,23 @@
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import { browser } from '$app/environment';
 
+	/**
+	 * Портал: переміщує елемент у `document.body`, щоб він вийшов з будь-якого
+	 * stacking context предків. Без цього `position: fixed; z-index: 99999` не
+	 * допомагає, бо хедер зі `z-index: 100` лежить в іншому контексті.
+	 */
+	function portal(node: HTMLElement) {
+		const target = document.body;
+		target.appendChild(node);
+		return {
+			destroy() {
+				if (node.parentNode === target) {
+					target.removeChild(node);
+				}
+			}
+		};
+	}
+
 	export interface LightboxImage {
 		src: string;
 		alt?: string;
@@ -99,6 +116,7 @@
 		ontouchmove={handleTouchMove}
 		ontouchend={handleTouchEnd}
 		data-testid="photo-lightbox-backdrop"
+		use:portal
 		{@attach focusTrap()}
 	>
 		<!-- Close button -->
