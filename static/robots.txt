@@ -9,6 +9,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 # --- Пошукові AI-агенти: від них залежить видимість у відповідях ---
 
@@ -18,6 +20,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 # перехід за посиланням на запит користувача
 User-agent: ChatGPT-User
@@ -25,6 +29,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 # індексатор Perplexity
 User-agent: PerplexityBot
@@ -32,6 +38,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 # краулер Anthropic
 User-agent: ClaudeBot
@@ -39,6 +47,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 # --- Тренувальні краулери: на видимість у пошуку не впливають ---
 # Дозволені свідомо; рішення записане в PROJECT-CONTEXT.md.
@@ -50,6 +60,8 @@ Allow: /
 Disallow: /admin/
 Disallow: /beta-test-checklists/
 Disallow: /en/beta-test-checklists/
+Disallow: /projects/galaxy-graduates/stats/
+Disallow: /en/projects/galaxy-graduates/stats/
 
 Host: https://teatralo4ka.odesa.ua
 Sitemap: https://teatralo4ka.odesa.ua/sitemap.xml

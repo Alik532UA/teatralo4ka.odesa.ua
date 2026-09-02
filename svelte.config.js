@@ -102,7 +102,7 @@ const PUBLIC_ENTRIES = [
  * інваріант `src/beta-checklist.test.ts` — інакше це були б два списки, які
  * розходяться.
  */
-const HIDDEN_ENTRIES = ['/beta-test-checklists'];
+const HIDDEN_ENTRIES = ['/beta-test-checklists', '/projects/galaxy-graduates/stats'];
 import adapter from '@sveltejs/adapter-static';
 import { relative, sep } from 'node:path';
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, BarChart3, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
@@ -109,40 +109,6 @@
 		дія();
 		menuOpen = false;
 	}
-	/**
-	 * Кнопка статистики ПРИХОВАНА, а не видалена — на прохання автора, щоб
-	 * повернути її можна було одним словом: `true`.
-	 *
-	 * Сторінка наповнення архіву лишається за своєю адресою, і туди ходять за
-	 * прямим посиланням, а не з панелі сцени.
-	 *
-	 * ## Чому `hidden`, а не `{#if}` і не видалення розмітки
-	 *
-	 * Prerender знаходить сторінки ЗА ПОСИЛАННЯМИ, і ця кнопка була єдиним
-	 * посиланням на статистику: її адреси немає ані в `prerender.entries`, ані в
-	 * `entries()` самого маршруту. Заміряно на збірці 2026-09-02: після видалення
-	 * розмітки в `build/` не стало ні сторінки статистики, ні її англійського
-	 * дзеркала — тобто «сторінка лишається за адресою» перетворилося б на 404.
-	 * `{#if}` дав би те саме: без вузла немає й `href`.
-	 *
-	 * `hidden` лишає посилання в HTML — краулер його бачить, сторінка
-	 * збирається, — а людина кнопки не бачить: атрибут дає `display: none`, тож
-	 * вона не потрапляє ні в порядок обходу з клавіатури, ні до читалки. Це та
-	 * сама причина, чому тут не `opacity: 0` і не `visibility: hidden`: ті
-	 * лишають елемент фокусованим, і Tab доводив би до кнопки, якої не видно
-	 * (ACCESSIBILITY-v8 § 3, WCAG 2.4.11) — рівно той дефект, який у цьому
-	 * проєкті вже ловив гейт `focus-indicator`.
-	 *
-	 * ## Чому не механізм службових сторінок (`config/hiddenRoutes.ts`)
-	 *
-	 * Він робить більше: сторінка збирається завжди, поза індексом, із `noindex`
-	 * і `Disallow`. Але його інваріант (`beta-checklist.test.ts`, «сторінка не
-	 * з'являється в меню й у пошуку сайту») забороняє згадувати таку адресу
-	 * будь-де в коді сайту — навіть у коментарі. Тобто він несумісний із
-	 * ПРИХОВАНОЮ кнопкою за побудовою: або кнопка лишається в розмітці, або
-	 * адреса живе лише в тому реєстрі. Автор просив кнопку лишити.
-	 */
-	const STATS_LINK_VISIBLE = false;
 </script>
 
 <div
@@ -203,17 +169,6 @@
 		>
 			<Theater size={18} aria-hidden="true" />
 			<span class="stage__nav-label">{$t('galaxy.playsTitle')}</span>
-		</a>
-
-		<!-- Прихована, але лишається в розмітці — див. `STATS_LINK_VISIBLE`. -->
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/stats/', locale)}
-			hidden={!STATS_LINK_VISIBLE}
-			data-testid="galaxy-stats-link"
-		>
-			<BarChart3 size={18} aria-hidden="true" />
-			<span class="stage__nav-label">{$t('galaxy.statsTitle', { default: 'Статистика' })}</span>
 		</a>
 
 		<!--
@@ -319,18 +274,6 @@
 		display: none;
 	}
 
-	/*
-	 * `hidden` мусить перемагати `display` КЛАСУ — інакше він не працює зовсім.
-	 *
-	 * Браузерне правило `[hidden] { display: none }` має специфічність тега, тож
-	 * будь-який `display` у класі його перебиває. Заміряно на живій сторінці:
-	 * кнопка статистики з атрибутом `hidden` лишалася видимою — `display: flex`,
-	 * ширина 45 px. Селектор із класом і атрибутом (0,2,0) виграє в самого класу
-	 * (0,1,0), тож `!important` тут не потрібен.
-	 */
-	.stage__roster-btn[hidden] {
-		display: none;
-	}
 	.stage__roster-btn {
 		display: inline-flex;
 		align-items: center;
