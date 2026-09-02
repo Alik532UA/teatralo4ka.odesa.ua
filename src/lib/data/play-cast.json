@@ -2743,6 +2743,34 @@
 			"fromRegistry": true
 		},
 		{
+			"graduateId": "iryna-tymofiienko",
+			"role": "Липочка",
+			"items": [
+				"svoi-liudy-pokvytaiemos",
+				"pyl-v-ochi",
+				"chorna-pantera-i-bilyi-vedmid",
+				"zaruchyny"
+			],
+			"roles": [
+				{
+					"item": "svoi-liudy-pokvytaiemos",
+					"role": "Липочка"
+				},
+				{
+					"item": "pyl-v-ochi",
+					"role": "Мадам Ратипуа"
+				},
+				{
+					"item": "chorna-pantera-i-bilyi-vedmid",
+					"role": "Сніжинка"
+				},
+				{
+					"item": "zaruchyny",
+					"role": "Розель"
+				}
+			]
+		},
+		{
 			"graduateId": "kateryna-kudlach",
 			"role": "Надя",
 			"items": [

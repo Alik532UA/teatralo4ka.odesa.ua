@@ -10,7 +10,7 @@ import {
 	type MasterSection,
 	type MasterStatus
 } from './lib/data/masters';
-import { isHiddenMasterPath, isMasterRecordPublic } from './lib/config/mastersVisibility';
+import { isMasterListed, isUnlistedMasterPath } from './lib/config/mastersVisibility';
 
 /**
  * Три осі даних майстрів і два поля, доданих 2026-08-24.
@@ -51,7 +51,7 @@ interface MasterRecord {
 	status?: MasterStatus;
 	category?: MasterCategory;
 	departments?: string[];
-	visible?: boolean;
+	visibility?: string;
 	photo?: string;
 	unconfirmed?: true;
 	periods?: unknown;
@@ -139,7 +139,7 @@ describe('індекс і профіль — те саме про ту саму 
 		for (const { file, data } of profiles) {
 			const entry = byId.get(data.id);
 			if (!entry) continue;
-			for (const field of ['status', 'category', 'visible', 'unconfirmed'] as const) {
+			for (const field of ['status', 'category', 'visibility', 'unconfirmed'] as const) {
 				if (JSON.stringify(entry[field]) !== JSON.stringify(data[field])) {
 					problems.push(`${file} → ${field}: профіль ${JSON.stringify(data[field])}, індекс ${JSON.stringify(entry[field])}`);
 				}
@@ -378,34 +378,34 @@ describe('роки роботи', () => {
 	});
 });
 
-describe('«Відображаємо на сайті»', () => {
-	it('поля немає = показуємо', () => {
-		expect(isMasterRecordPublic({})).toBe(true);
-		expect(isMasterRecordPublic({ visible: true })).toBe(true);
-		expect(isMasterRecordPublic({ visible: false })).toBe(false);
+describe('видимість працівника', () => {
+	it('поля немає = у переліку; `linked` і `direct` — поза ним', () => {
+		expect(isMasterListed({})).toBe(true);
+		expect(isMasterListed({ visibility: 'linked' })).toBe(false);
+		expect(isMasterListed({ visibility: 'direct' })).toBe(false);
 	});
 
 	it('приховані адреси знає ОДИН модуль — і обома мовами', () => {
-		const hidden = index.filter((m) => !isMasterRecordPublic(m));
+		const hidden = index.filter((m) => !isMasterListed(m));
 		for (const m of hidden) {
 			for (const path of [
 				`/residents/adults/${m.slug}`,
 				`/residents/adults/${m.slug}/`,
 				`/en/residents/adults/${m.slug}/`
 			]) {
-				expect(isHiddenMasterPath(path), `${path} мусить бути поза індексом`).toBe(true);
+				expect(isUnlistedMasterPath(path), `${path} мусить бути поза індексом`).toBe(true);
 			}
 		}
 		// Публічний запис — навпаки: інакше «нікого не приховано» виглядало б так
 		// само, як «правило зіставляє все».
-		const shown = index.find((m) => isMasterRecordPublic(m));
+		const shown = index.find((m) => isMasterListed(m));
 		expect(shown, 'жодного публічного запису — перевірка мертва').toBeDefined();
-		expect(isHiddenMasterPath(`/residents/adults/${shown!.slug}/`)).toBe(false);
+		expect(isUnlistedMasterPath(`/residents/adults/${shown!.slug}/`)).toBe(false);
 	});
 
 	it('чужі адреси правило не зіставляє', () => {
-		expect(isHiddenMasterPath('/residents/adults/')).toBe(false);
-		expect(isHiddenMasterPath('/residents/children/')).toBe(false);
-		expect(isHiddenMasterPath('/')).toBe(false);
+		expect(isUnlistedMasterPath('/residents/adults/')).toBe(false);
+		expect(isUnlistedMasterPath('/residents/children/')).toBe(false);
+		expect(isUnlistedMasterPath('/')).toBe(false);
 	});
 });

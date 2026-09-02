@@ -104,7 +104,7 @@ const FROM_DUMP = process.argv.includes('--from-dump');
  *
  * `id` і `code` — ключ зв'язків і адреса: на них указують склади вистав, групи
  * й фестивалі. `masters` і `teachers` — зв'язки за `id`, яких дамп не має
- * взагалі. `unlinkedGroups`, `photoCount`, `graduationLabelKey`, `videoUrl`
+ * взагалі. `unlinkedGroups`, `photoCount`, `kind`, `visibility`, `videoUrl`
  * з'явилися вже в репозиторії.
  */
 const REPO_OWNED = new Set([
@@ -118,7 +118,8 @@ const REPO_OWNED = new Set([
 	'teachers',
 	'unlinkedGroups',
 	'photoCount',
-	'graduationLabelKey',
+	'kind',
+	'visibility',
 	'videoUrl'
 ]);
 

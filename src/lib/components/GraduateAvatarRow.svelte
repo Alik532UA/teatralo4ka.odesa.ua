@@ -4,7 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { containingBlockOffset } from '$lib/utils/dropdownPlace';
 	import {
-		GRADUATES,
+		LINKED_GRADUATES,
 		graduateAddress,
 		graduateProfilePath,
 		type GraduateIndexEntry
@@ -151,7 +151,7 @@
 	const found = $derived(
 		ids
 			.filter((id) => id !== excludeId)
-			.map((id) => GRADUATES.find((g) => g.id === id))
+			.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
 			.filter((g) => g !== undefined)
 	);
 

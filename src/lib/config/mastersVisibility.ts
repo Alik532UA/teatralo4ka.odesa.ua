@@ -6,16 +6,30 @@
 // той модуль імпортує `asset` із `$app/paths`, тобто в tsx падає ще на імпорті.
 import { stripLocale } from '../i18n/routing';
 import mastersIndexData from '../data/masters.index.json';
+import { isLinked, isListed } from './visibility';
 
 /**
- * «Відображаємо на сайті: так/ні» — і що саме означає «ні».
+ * Видимість працівника — три рівні, спільні з випускниками (`./visibility.ts`).
+ *
+ *   `listed` (поля немає) — картка на `/residents/adults`, сторінка індексується.
+ *   `linked` — картки в списку немає, але скрізь, де є зв'язок, людина
+ *      показується: у майстрах вистави, в анкеті випускника, у кнопці «також
+ *      випускник» (`dualRole.ts`), серед майстрів за згадками; сторінка жива,
+ *      `noindex`, не в мапі сайту. Заміряно 2026-09-02: таких 28, і на
+ *      чотирьох указують анкети (Туманов, Дроботов, Радзіховський, Полякова).
+ *   `direct` — не показується нікуди; сторінка лише за прямим посиланням.
+ *      Записів такого рівня серед працівників поки немає.
+ *
+ * До 2026-09-02 тут був прапорець `visible: false`, і він означав саме
+ * `linked` — а однойменний за змістом `hidden` у випускників означав `direct`.
+ * Одне поле з трьома значеннями в обох реєстрах прибрало цю плутанину.
  *
  * ## Чому це окремий модуль, а не прапорець у розмітці списку
  *
  * Прибрати людину зі списку — це одна з ЧОТИРЬОХ обіцянок, і решта три ламаються
  * окремо й тихо:
  *
- *   1. список `/residents/adults` не малює картку;
+ *   1. список `/residents/adults` не малює картку (`getListedMasters`);
  *   2. `+layout.ts` віддає сторінці `noindex` і не малює `canonical`/`hreflang`;
  *   3. `generate-sitemap.ts` не кладе адресу в мапу сайту;
  *   4. сама сторінка ЛИШАЄТЬСЯ живою.
@@ -36,24 +50,31 @@ import mastersIndexData from '../data/masters.index.json';
  * прочитаний НІКОЛИ, і вже проіндексована адреса лишиться в індексі. Для зняття
  * з індексу правильний інструмент — саме `noindex` без `Disallow`.
  *
- * ## Типове значення — «показуємо»
+ * ## Типове значення — `listed`
  *
- * Поля немає в жодному записі, і це означає «так». Прапорець — виняток, який
- * ставлять руками; інакше 118 записів довелося б розмітити словом «так», і
+ * Поля немає у переважній більшості записів, і це означає «усюди». Рівень
+ * ставлять руками; інакше 117 записів довелося б розмітити словом «так», і
  * забуте поле в новому записі ховало б людину без жодної помилки.
  */
 export interface MasterVisibility {
-	visible?: boolean;
+	/** Рівень; поля немає — `listed`. Рядком, бо з JSON літерал не виводиться. */
+	visibility?: string;
 }
 
-/** Чи показуємо цей запис на сайті. Поля немає = показуємо. */
-export function isMasterRecordPublic(m: MasterVisibility): boolean {
-	return m.visible !== false;
+/** У переліку на `/residents/adults`. Поля немає = так. */
+export function isMasterListed(m: MasterVisibility): boolean {
+	return isListed(m);
 }
 
-const HIDDEN_SLUGS: ReadonlySet<string> = new Set(
-	(mastersIndexData satisfies readonly { slug: string; visible?: boolean }[])
-		.filter((m) => !isMasterRecordPublic(m))
+/** Показуємо там, де є зв'язок: `listed` і `linked`. */
+export function isMasterLinked(m: MasterVisibility): boolean {
+	return isLinked(m);
+}
+
+/** Адреси поза індексом — рівні `linked` і `direct`. */
+const UNLISTED_SLUGS: ReadonlySet<string> = new Set(
+	(mastersIndexData satisfies readonly { slug: string; visibility?: string }[])
+		.filter((m) => !isMasterListed(m))
 		.map((m) => m.slug)
 );
 
@@ -65,19 +86,19 @@ function masterSlugFromPath(pathname: string): string | null {
 }
 
 /**
- * Чи ця адреса — сторінка майстра, якого ми не показуємо.
+ * Чи ця адреса — сторінка майстра поза індексом (`linked` або `direct`).
  *
  * Хвостова коса риска знімається: `trailingSlash: 'always'` дає її в адресі, а
  * обхід `build/` у `generate-sitemap.ts` — ні. Мовний префікс теж:
  * `/en/residents/adults/x` — та сама людина, що й `/residents/adults/x`, і
  * забути про це означало б залишити англійське дзеркало в мапі сайту.
  */
-export function isHiddenMasterPath(pathname: string): boolean {
+export function isUnlistedMasterPath(pathname: string): boolean {
 	const slug = masterSlugFromPath(pathname);
-	return slug !== null && HIDDEN_SLUGS.has(slug);
+	return slug !== null && UNLISTED_SLUGS.has(slug);
 }
 
-/** Скільки записів приховано. Для звітів збірки — щоб «нуль» був видимим. */
-export function hiddenMastersCount(): number {
-	return HIDDEN_SLUGS.size;
+/** Скільки записів поза індексом. Для звітів збірки — щоб «нуль» був видимим. */
+export function unlistedMastersCount(): number {
+	return UNLISTED_SLUGS.size;
 }

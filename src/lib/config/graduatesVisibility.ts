@@ -6,16 +6,36 @@
 // той модуль імпортує `asset` із `$app/paths`, тобто в tsx падає ще на імпорті.
 import { stripLocale } from '../i18n/routing';
 import graduatesIndexData from '../data/graduates.index.json';
+import { isLinked, isListed } from './visibility';
 
 /**
- * «Прихований» випускник — і що саме це означає.
+ * Видимість випускника — три рівні, спільні з працівниками (`./visibility.ts`).
+ *
+ * ## Що означає кожен рівень саме тут
+ *
+ *   `listed` (поля немає) — зірка в галактиці, рядок у реєстрі, картки за
+ *      зв'язками, сторінка індексується. Перелік — `GRADUATES`.
+ *   `linked` — з галактики й реєстру викинутий, але в складах вистав, групах,
+ *      фестивалях, потоках учнів майстра й у зв'язку «також працівник»
+ *      показується (`LINKED_GRADUATES`); сторінка жива, `noindex`, не в мапі
+ *      сайту. Це учні, ті, хто не закінчив, і випускники, яких у галактиці
+ *      показувати не треба, а зв'язки — треба.
+ *   `direct` — не показується нікуди, зв'язки в даних збираються; сторінка
+ *      жива лише за прямим посиланням.
+ *
+ * Статус людини («хто») — окреме поле `kind` у `data/graduates.ts`, і від
+ * видимості він не залежить: той, хто не закінчив, буває і в галактиці
+ * (Розводюк), і лише за зв'язками (Тимофієнко), і лише за посиланням
+ * (Захарченко).
  *
  * ## Чотири обіцянки, і четверта протилежна першим трьом
  *
- *   1. галактика, перелік випускників, склади вистав і фестивалі його не
- *      показують — це робить `hidden` у `graduates.ts`, який викидає запис із
- *      `GRADUATES`;
- *   2. `+layout.ts` віддає сторінці `noindex` і не малює `canonical`/`hreflang`;
+ *   1. галактика, перелік випускників і роки випуску людину не показують — це
+ *      робить `GRADUATES` у `graduates.ts`, який лишає лише `listed`; склади
+ *      вистав, групи й фестивалі читають `LINKED_GRADUATES` і викидають лише
+ *      `direct`;
+ *   2. `+layout.ts` віддає сторінці `noindex` і не малює `canonical`/`hreflang`
+ *      для обох нижніх рівнів;
  *   3. `generate-sitemap.ts` не кладе адресу в мапу сайту;
  *   4. сама сторінка ЛИШАЄТЬСЯ живою за прямим посиланням.
  *
@@ -24,8 +44,8 @@ import graduatesIndexData from '../data/graduates.index.json';
  * Google-сайту), і перетворити її на 404 означало б «людину видалили», а не
  * «людину не показуємо в переліках».
  *
- * Модель та сама, що для майстрів у `mastersVisibility.ts`: «поза індексом», а
- * не «не існує».
+ * Модель та сама, що для працівників у `mastersVisibility.ts`: «поза індексом»,
+ * а не «не існує».
  *
  * ## Чому адреса, а не `slug`
  *
@@ -36,17 +56,24 @@ import graduatesIndexData from '../data/graduates.index.json';
 export interface GraduateVisibility {
 	slug: string;
 	code?: string;
-	hidden?: boolean;
+	/** Рівень; поля немає — `listed`. Рядком, бо з JSON літерал не виводиться. */
+	visibility?: string;
 }
 
-/** Чи показуємо цей запис у переліках. Поля немає = показуємо. */
-export function isGraduateRecordPublic(g: { hidden?: boolean }): boolean {
-	return g.hidden !== true;
+/** У переліку: галактика, реєстр, роки випуску. Поля немає = так. */
+export function isGraduateListed(g: { visibility?: string }): boolean {
+	return isListed(g);
 }
 
-const HIDDEN_ADDRESSES: ReadonlySet<string> = new Set(
+/** Показуємо там, де є зв'язок: `listed` і `linked`. */
+export function isGraduateLinked(g: { visibility?: string }): boolean {
+	return isLinked(g);
+}
+
+/** Адреси поза індексом — рівні `linked` і `direct`. */
+const UNLISTED_ADDRESSES: ReadonlySet<string> = new Set(
 	(graduatesIndexData satisfies readonly GraduateVisibility[])
-		.filter((g) => !isGraduateRecordPublic(g))
+		.filter((g) => !isGraduateListed(g))
 		.map((g) => g.code ?? g.slug)
 );
 
@@ -58,7 +85,7 @@ function graduateAddressFromPath(pathname: string): string | null {
 }
 
 /**
- * Чи ця адреса — сторінка випускника, якого ми не показуємо.
+ * Чи ця адреса — сторінка випускника поза індексом (`linked` або `direct`).
  *
  * Хвостова коса риска знімається (`trailingSlash: 'always'` дає її в адресі, а
  * обхід `build/` — ні), мовний префікс теж: `/en/projects/galaxy-graduates/x` —
@@ -67,12 +94,12 @@ function graduateAddressFromPath(pathname: string): string | null {
  * Підрозділи галактики (`/plays/…`, `/groups/…`, `/festivals/…`) сюди не
  * потрапляють: у них два сегменти після `galaxy-graduates`, а тут рівно один.
  */
-export function isHiddenGraduatePath(pathname: string): boolean {
+export function isUnlistedGraduatePath(pathname: string): boolean {
 	const address = graduateAddressFromPath(pathname);
-	return address !== null && HIDDEN_ADDRESSES.has(address);
+	return address !== null && UNLISTED_ADDRESSES.has(address);
 }
 
-/** Скільки записів приховано. Для звітів збірки — щоб «нуль» був видимим. */
-export function hiddenGraduatesCount(): number {
-	return HIDDEN_ADDRESSES.size;
+/** Скільки записів поза індексом. Для звітів збірки — щоб «нуль» був видимим. */
+export function unlistedGraduatesCount(): number {
+	return UNLISTED_ADDRESSES.size;
 }

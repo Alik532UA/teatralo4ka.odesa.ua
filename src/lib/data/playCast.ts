@@ -1,5 +1,5 @@
 import castData from './play-cast.json';
-import { GRADUATES, type GraduateIndexEntry } from './graduates';
+import { LINKED_GRADUATES, type GraduateIndexEntry } from './graduates';
 import type { CastRole } from './castRoles';
 
 /**
@@ -57,7 +57,7 @@ export interface CastMember {
 export function castOf(playId: string): CastMember[] {
 	const members: CastMember[] = [];
 	for (const entry of PLAY_CAST[playId] ?? []) {
-		const graduate = GRADUATES.find((g) => g.id === entry.graduateId);
+		const graduate = LINKED_GRADUATES.find((g) => g.id === entry.graduateId);
 		if (graduate)
 			members.push({
 				graduate,

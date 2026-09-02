@@ -2002,6 +2002,19 @@
 		"playCount": 4
 	},
 	{
+		"id": "iryna-tymofiienko",
+		"slug": "iryna-tymofiienko",
+		"name": "Ірина Тимофієнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"profileSize": 1318,
+		"playCount": 4
+	},
+	{
 		"id": "mykyta-olenin",
 		"slug": "mykyta-olenin",
 		"name": "Микита Оленін",
@@ -3394,6 +3407,7 @@
 		"slug": "ihor-rozvodiuk",
 		"name": "Ігор Розводюк",
 		"graduationYear": 2009,
+		"kind": "attended",
 		"departments": [
 			"theatre"
 		],
@@ -3408,8 +3422,7 @@
 		],
 		"playCount": 5,
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1448,
-		"graduationLabelKey": "galaxy.studiedUntil"
+		"profileSize": 1402
 	},
 	{
 		"id": "ihor-vatsiuk",
@@ -4587,6 +4600,7 @@
 		"slug": "kyryll-chekanov",
 		"name": "Кирило Чеканов",
 		"graduationYear": 2002,
+		"kind": "attended",
 		"departments": [
 			"theatre"
 		],
@@ -4602,7 +4616,6 @@
 		"playCount": 2,
 		"code": "kyryll-chekanov",
 		"profileSize": 970,
-		"graduationLabelKey": "galaxy.studiedUntil",
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9837,10 +9850,10 @@
 		"slug": "hanna-voiutska",
 		"name": "Ганна Воюцька",
 		"graduationYear": 2007,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9855,10 +9868,10 @@
 		"slug": "alisa-stepanova",
 		"name": "Аліса Степанова",
 		"graduationYear": 2018,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -9890,10 +9903,10 @@
 		"slug": "kateryna-haidei",
 		"name": "Катерина Гайдей",
 		"graduationYear": 2021,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -9908,10 +9921,10 @@
 		"slug": "oksana-tyshchenko",
 		"name": "Оксана Тищенко",
 		"graduationYear": 2005,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9926,10 +9939,10 @@
 		"slug": "nina-chychykova",
 		"name": "Ніна Чичикова",
 		"graduationYear": 2005,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9944,10 +9957,10 @@
 		"slug": "viktor-chychykov",
 		"name": "Віктор Чичиков",
 		"graduationYear": 2005,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9962,10 +9975,10 @@
 		"slug": "serhii-chychykov",
 		"name": "Сергій Чичиков",
 		"graduationYear": 2005,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
-		"hidden": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -9980,37 +9993,38 @@
 		"slug": "anton-dehtiar",
 		"name": "Антон Дегтяр",
 		"graduationYear": 2007,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
-		],
-		"hidden": true
+		]
 	},
 	{
 		"id": "hanna-lebedieva",
 		"slug": "hanna-lebedieva",
 		"name": "Ганна Лебедєва",
 		"graduationYear": 2007,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
-		],
-		"hidden": true
+		]
 	},
 	{
 		"id": "artur-lebediev",
 		"slug": "artur-lebediev",
 		"name": "Артур Лебедєв",
 		"graduationYear": 2007,
+		"visibility": "direct",
 		"departments": [
 			"theatre"
-		],
-		"hidden": true
+		]
 	},
 	{
 		"id": "volodymyr-zakharchenko",
 		"slug": "volodymyr-zakharchenko",
 		"name": "Володимир Захарченко",
 		"graduationYear": 2013,
-		"graduationLabelKey": "galaxy.studiedUntil",
+		"kind": "attended",
+		"visibility": "direct",
 		"departments": [
 			"theatre"
 		],
@@ -10022,8 +10036,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1142,
-		"playCount": 4,
-		"hidden": true
+		"profileSize": 1096,
+		"playCount": 4
 	}
 ]

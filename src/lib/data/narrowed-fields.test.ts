@@ -5,8 +5,9 @@ import mastersIndex from './masters.index.json';
 import groupsData from './groups.data.json';
 import playsData from './plays.data.json';
 import festivalsData from './festivals.data.json';
-import { DEPARTMENTS } from './graduates';
+import { DEPARTMENTS, GRADUATE_KINDS } from './graduates';
 import { MASTER_CATEGORIES, MASTER_STATUSES } from './masters';
+import { VISIBILITY_LEVELS } from '$lib/config/visibility';
 
 /**
  * Поля, які компілятор звірити не може.
@@ -38,13 +39,20 @@ import { MASTER_CATEGORIES, MASTER_STATUSES } from './masters';
  * `category: 'зірки'` у майстра, `hasPhoto: false`. Кожна перевірка впала й
  * назвала саме той запис і те поле.
  */
-const graduates = graduatesIndex as { id: string; departments?: string[]; hasPhoto?: boolean }[];
+const graduates = graduatesIndex as {
+	id: string;
+	departments?: string[];
+	hasPhoto?: boolean;
+	kind?: string;
+	visibility?: string;
+}[];
 const masters = mastersIndex as {
 	id: string;
 	departments?: string[];
 	category?: string;
 	status?: string;
 	unconfirmed?: boolean;
+	visibility?: string;
 }[];
 
 describe('поля, які компілятор не звужує', () => {
@@ -128,5 +136,61 @@ describe('поля, які компілятор не звужує', () => {
 			(g) => g.slug === 'zakhysnyky-teatralnykh-kulis'
 		);
 		expect(ztk?.verificationStatus).toBe('verified');
+	});
+
+	/*
+	 * Видимість — одне поле з трьома значеннями в ОБОХ реєстрах
+	 * (`config/visibility.ts`). Невідоме значення читається як `listed`, тобто
+	 * описка не сховала б людину мовчки — вона показала б її; саме тому описку
+	 * має ловити збірка, а не читач.
+	 */
+	it('видимість — лише три відомі рівні, в обох реєстрах', () => {
+		const levels = new Set<string>(VISIBILITY_LEVELS);
+		const bad: string[] = [];
+		for (const g of graduates)
+			if (g.visibility !== undefined && !levels.has(g.visibility))
+				bad.push(`graduates ${g.id}.visibility → «${g.visibility}»`);
+		for (const m of masters)
+			if (m.visibility !== undefined && !levels.has(m.visibility))
+				bad.push(`masters ${m.id}.visibility → «${m.visibility}»`);
+		expect(bad, `невідомий рівень видимости:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('kind випускника — лише відомі значення', () => {
+		const kinds = new Set<string>(GRADUATE_KINDS);
+		const bad = graduates
+			.filter((g) => g.kind !== undefined && !kinds.has(g.kind))
+			.map((g) => `${g.id}.kind → «${g.kind}»`);
+		expect(bad, `невідомий статус:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Учень у галактиці не буває — так вирішив автор 2026-09-02: його сторінку
+	 * й зв'язки збираємо заздалегідь, а в переліку випускників він з'явиться,
+	 * коли стане випускником. Рік у нього очікуваний, і перелік за роками
+	 * поставив би його поруч зі справжнім випуском.
+	 */
+	it('учень не буває в переліку', () => {
+		const bad = graduates
+			.filter((g) => g.kind === 'student' && (g.visibility ?? 'listed') === 'listed')
+			.map((g) => g.id);
+		expect(bad, `учень у галактиці — потрібен рівень linked або direct:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Старі поля не повертаються. `hidden` і `visible` означали різне під схожими
+	 * іменами, `graduationLabelKey` тримав статус у ключі перекладу; повернення
+	 * будь-якого з них знову зробило б відповідь «чи показуємо» такою, що її
+	 * треба виводити з коду.
+	 */
+	it('старі поля видимости й підпису не повернулися', () => {
+		const bad: string[] = [];
+		for (const g of graduates as unknown as Record<string, unknown>[]) {
+			if ('hidden' in g) bad.push(`graduates ${g.id}: hidden → visibility`);
+			if ('graduationLabelKey' in g) bad.push(`graduates ${g.id}: graduationLabelKey → kind`);
+		}
+		for (const m of masters as unknown as Record<string, unknown>[])
+			if ('visible' in m) bad.push(`masters ${m.id}: visible → visibility`);
+		expect(bad, `старе поле повернулося:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 });

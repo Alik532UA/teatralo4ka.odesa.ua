@@ -1,7 +1,7 @@
 import { pushState } from '$app/navigation';
 import { page } from '$app/state';
 import {
-	GRADUATES,
+	LINKED_GRADUATES,
 	graduateAddress,
 	graduateProfilePath,
 	type GraduateIndexEntry
@@ -62,7 +62,7 @@ export function openGraduateModal(graduate: GraduateIndexEntry): void {
 export function graduateFromPageState(): GraduateIndexEntry | null {
 	const { graduateAddress: адреса } = page.state;
 	if (!адреса) return null;
-	return GRADUATES.find((graduate) => graduateAddress(graduate) === адреса) ?? null;
+	return LINKED_GRADUATES.find((graduate) => graduateAddress(graduate) === адреса) ?? null;
 }
 
 /**

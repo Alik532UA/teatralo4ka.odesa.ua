@@ -17,5 +17,5 @@
 	"socials": [],
 	"category": "directors",
 	"portrait": "/masters/portraits/mykhailo-drobotov.webp",
-	"visible": false
+	"visibility": "linked"
 }

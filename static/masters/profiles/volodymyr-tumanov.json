@@ -17,5 +17,5 @@
 	"socials": [],
 	"category": "directors",
 	"portrait": "/masters/portraits/volodymyr-tumanov.webp",
-	"visible": false
+	"visibility": "linked"
 }

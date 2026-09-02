@@ -1,10 +1,10 @@
 // JSON читається НАПРЯМУ, а не через `masters.ts`/`graduates.ts`, і причина не
 // в економії: `masters.ts` імпортує цей модуль (`getStudentsByMaster` вирішує,
 // якою зіркою летить подвійна людина), тож зворотний імпорт дав би цикл. Тут
-// потрібні лише ключі й два прапорці — типи нижче описують рівно їх.
+// потрібні лише ключі й рівень видимості — типи нижче описують рівно їх.
 import mastersIndexData from './masters.index.json';
 import graduatesIndexData from './graduates.index.json';
-import { isMasterRecordPublic } from '../config/mastersVisibility';
+import { isLinked } from '../config/visibility';
 
 /**
  * Одна людина у ДВОХ реєстрах: випускник, який тепер тут працює.
@@ -35,49 +35,49 @@ import { isMasterRecordPublic } from '../config/mastersVisibility';
  * працівника. Дві сторінки відповідають на різні питання — «ким я був тут» і
  * «чим я тут займаюся», — і зв'язок лише робить кожну з них видимою з іншої.
  *
- * ## Прихований працівник зв'язку НЕ отримує — у ЖОДНОМУ напрямку
+ * ## Рівень `direct` зв'язку НЕ отримує — у ЖОДНОМУ напрямку
  *
- * `visible: false` означає «не показуємо в переліку команди», і
- * [`mastersVisibility.ts`](../config/mastersVisibility.ts) перелічує чотири
- * поверхні цієї обіцянки. Кнопка стала б п'ятою, про яку там не сказано, тож
- * зв'язок обривається тут — в одному місці, а не трьома перевірками на трьох
- * сторінках. Таких серед одинадцяти двоє: Діана Руденко і Владислав Цобенко.
+ * Кнопка «також працівник» / «також випускник» — це зв'язок, тож рівень
+ * `linked` («показуємо там, де є зв'язок», `config/visibility.ts`) її отримує:
+ * так вирішив автор 2026-09-02, і саме тому двоє працівників рівня `linked`
+ * серед одинадцяти — Діана Руденко і Владислав Цобенко — тепер мають кнопку,
+ * якої за колишнім `visible: false` не мали. Обривається лише `direct`: його не
+ * показують нізвідки, і кнопка стала б єдиною поверхнею, де він з'являється.
  *
- * Обривається саме в ОБИДВА боки, і це не надмірність: односторонній зв'язок
- * дав би зірку, що на сторінці майстра підписана «колега», а веде на сторінку,
- * якої в переліку немає. Правило одне — «прихованого не видно нізвідки», —
- * і симетричність його стереже `src/dual-role.test.ts`.
+ * Обривається в ОБИДВА боки, і це не надмірність: односторонній зв'язок дав би
+ * зірку, що на сторінці майстра підписана «колега», а веде на сторінку, якої не
+ * показують. Симетричність стереже `src/dual-role.test.ts`.
  */
 interface LinkableMaster {
 	id: string;
-	visible?: boolean;
+	visibility?: string;
 	alsoGraduateId?: string;
 }
 
 interface LinkableGraduate {
 	id: string;
-	hidden?: boolean;
+	visibility?: string;
 }
 
 const MASTER_ROWS = mastersIndexData satisfies readonly LinkableMaster[];
 const GRADUATE_ROWS = graduatesIndexData satisfies readonly LinkableGraduate[];
 
-/* Прихованих випускників теж пропускаємо: `GRADUATES` їх відфільтровує, тож
- * посилання вело б у нікуди. Заміряно: серед одинадцяти таких немає жодного —
+/* Випускників рівня `direct` пропускаємо: `LINKED_GRADUATES` їх відфільтровує,
+ * тож посилання вело б у нікуди. Заміряно: серед одинадцяти таких немає жодного —
  * перевірка на майбутнє, а не на теперішній стан. */
-const VISIBLE_GRADUATE_IDS: ReadonlySet<string> = new Set(
-	(GRADUATE_ROWS as LinkableGraduate[]).filter((g) => !g.hidden).map((g) => g.id)
+const LINKED_GRADUATE_IDS: ReadonlySet<string> = new Set(
+	(GRADUATE_ROWS as LinkableGraduate[]).filter(isLinked).map((g) => g.id)
 );
 
-/** `masterId → graduateId` і навпаки. Обидві мапи вже без прихованих. */
+/** `masterId → graduateId` і навпаки. Обидві мапи вже без рівня `direct`. */
 const GRADUATE_BY_MASTER = new Map<string, string>();
 const MASTER_BY_GRADUATE = new Map<string, string>();
 
 for (const master of MASTER_ROWS as LinkableMaster[]) {
 	const graduateId = master.alsoGraduateId;
 	if (!graduateId) continue;
-	if (!isMasterRecordPublic(master)) continue;
-	if (!VISIBLE_GRADUATE_IDS.has(graduateId)) continue;
+	if (!isLinked(master)) continue;
+	if (!LINKED_GRADUATE_IDS.has(graduateId)) continue;
 	GRADUATE_BY_MASTER.set(master.id, graduateId);
 	MASTER_BY_GRADUATE.set(graduateId, master.id);
 }

@@ -11,7 +11,7 @@ import {
 } from '$lib/data/masters';
 import { getGroupsByMaster } from '$lib/data/groups';
 import { linkedGraduateId } from '$lib/data/dualRole';
-import { GRADUATES } from '$lib/data/graduates';
+import { LINKED_GRADUATES } from '$lib/data/graduates';
 import { localeFromPath } from '$lib/i18n/routing';
 import type { PageLoad, EntryGenerator } from './$types';
 
@@ -109,15 +109,15 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 
 	/*
 	 * Той самий працівник у реєстрі випускників — для кнопки «сторінка
-	 * випускника». `null` у більшості: таких людей одинадцять зі 141, і ще двом
-	 * зв'язок обрізає `dualRole` за `visible: false`.
+	 * випускника». `null` у більшості: таких людей одинадцять зі 141; рівень
+	 * `direct` зв'язок обрізає (`dualRole`), `linked` — ні.
 	 *
-	 * Пошук по `GRADUATES`, а не по повному JSON: цей масив уже без прихованих,
-	 * тож кнопка не може повести на запис, якого на сайті немає.
+	 * Пошук по `LINKED_GRADUATES`, а не по повному JSON: цей масив уже без рівня
+	 * `direct`, тож кнопка не може повести на запис, якого не показують.
 	 */
 	const alsoGraduateKey = linkedGraduateId(master.id);
 	const alsoGraduate = alsoGraduateKey
-		? (GRADUATES.find((g) => g.id === alsoGraduateKey) ?? null)
+		? (LINKED_GRADUATES.find((g) => g.id === alsoGraduateKey) ?? null)
 		: null;
 
 	return {

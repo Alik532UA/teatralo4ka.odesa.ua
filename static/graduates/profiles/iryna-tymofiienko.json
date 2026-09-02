@@ -1,0 +1,51 @@
+{
+	"id": "iryna-tymofiienko",
+	"slug": "iryna-tymofiienko",
+	"code": "iryna-tymofiienko",
+	"name": "Ірина Тимофієнко",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Свої люди — поквитаємось; О. Островський», Липочка",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"svoi-liudy-pokvytaiemos"
+			],
+			"role": "Липочка"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Пил в очі; Е. Лабіш», Мадам Ратипуа",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"pyl-v-ochi"
+			],
+			"role": "Мадам Ратипуа"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Чорна Пантера і Білий Ведмідь; В. Винниченко», Сніжинка",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"chorna-pantera-i-bilyi-vedmid"
+			],
+			"role": "Сніжинка"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Заручини; М. Метерлінк», Розель",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"zaruchyny"
+			],
+			"role": "Розель"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

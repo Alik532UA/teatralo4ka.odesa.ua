@@ -361,7 +361,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -424,7 +424,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -481,7 +481,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -495,7 +495,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -739,7 +739,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -852,7 +852,7 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -886,7 +886,7 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -955,7 +955,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -969,7 +969,7 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -983,7 +983,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"alsoGraduateId": "diana-rudenko",
 		"verificationStatus": "possible_errors"
 	},
@@ -998,7 +998,7 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1064,7 +1064,7 @@
 			"piano"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1098,7 +1098,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"alsoGraduateId": "vladyslav-tsobenko",
 		"verificationStatus": "possible_errors"
 	},
@@ -1131,7 +1131,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1162,7 +1162,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1758,7 +1758,7 @@
 		"roleTitle": "світлорежисер",
 		"portrait": "/masters/portraits/olena-kuznetsova.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1800,7 +1800,7 @@
 		"photo": "/masters/svitlana-pruba.webp",
 		"portrait": "/masters/portraits/svitlana-pruba.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1830,7 +1830,7 @@
 			"theatre"
 		],
 		"status": "active",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1865,7 +1865,7 @@
 		"status": "active",
 		"photo": "/masters/matiunina.webp",
 		"portrait": "/masters/portraits/matiunina.webp",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1974,7 +1974,7 @@
 		"photo": "/masters/zubynska.webp",
 		"portrait": "/masters/portraits/zubynska.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -1991,7 +1991,7 @@
 		"photo": "/masters/kurkaiev.webp",
 		"portrait": "/masters/portraits/kurkaiev.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2008,7 +2008,7 @@
 		"photo": "/masters/milihlasova.webp",
 		"portrait": "/masters/portraits/milihlasova.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2082,7 +2082,7 @@
 		"status": "former",
 		"photo": "/masters/stelmakh.webp",
 		"portrait": "/masters/portraits/stelmakh.webp",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2118,7 +2118,7 @@
 		"photo": "/masters/yakunina.webp",
 		"portrait": "/masters/portraits/yakunina.webp",
 		"unconfirmed": true,
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2509,7 +2509,7 @@
 		"departments": [
 			"theatre"
 		],
-		"visible": false,
+		"visibility": "linked",
 		"unconfirmed": true,
 		"displayNameEn": "Larysa POLIAKOVA",
 		"fullNameEn": "Larysa Poliakova",
@@ -2555,7 +2555,7 @@
 		"photo": "/masters/volodymyr-tumanov.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/volodymyr-tumanov.webp",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2575,7 +2575,7 @@
 		"photo": "/masters/mykhailo-drobotov.webp",
 		"category": "directors",
 		"portrait": "/masters/portraits/mykhailo-drobotov.webp",
-		"visible": false,
+		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -2593,7 +2593,7 @@
 			"Сценічний рух"
 		],
 		"category": "teachers",
-		"visible": false,
+		"visibility": "linked",
 		"unconfirmed": true,
 		"verificationStatus": "possible_errors"
 	}

@@ -901,6 +901,7 @@
 		"enrolled": "enrolled",
 		"graduated": "graduated",
 		"studiedUntil": "studied until {year}",
+		"studying": "studying",
 		"group": "Group",
 		"masterOne": "Course master",
 		"masterOneF": "Course master",

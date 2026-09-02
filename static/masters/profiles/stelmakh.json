@@ -14,5 +14,5 @@
 	"portrait": "/masters/portraits/stelmakh.webp",
 	"bio": "",
 	"socials": [],
-	"visible": false
+	"visibility": "linked"
 }

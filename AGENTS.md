@@ -107,7 +107,7 @@
 | `status` — цикл            | `active` 75 · `former` 64 · `honorary` 6                                                                                                                                                                      |
 | розділ — `masterSection()` | `history` 56 · `needsClarification` 25 · `support` 9 · `directors` 8 · `musicians` 7 · `vocalists` 7 · `accompanists` 6 · `honorary` 6 · `administration` 5 · `choreographers` 4 · `speech` 4 · `artists` 3 · `heads` 3 · `it` 1 · `production` 1 |
 | прогалини — скільки записів БЕЗ поля | `subjects` 63 · `roleTitle` 39 · `photo` 38 · `departments` 23 |
-| не показуємо на сайті (`visible: false`) | 28 |
+| `visibility` — видимість | без поля 117 · `linked` 28 |
 
 > Дві верхні осі й нижня розходяться НАВМИСНО, і це не помилка даних: роль —
 > факт про людину, розділ — місце на сторінці. Франковська лишається
@@ -142,8 +142,10 @@
   розділ** — на записі, який і без нього в технічному розділі, він мертвий рядок
   (один такий уже був і прибраний того ж дня: `unconfirmed: false` у Ткач Ганни,
   поки розділ залежав від фотографії).
-- **«Відображаємо на сайті» — `visible?: boolean`, типове значення «так».**
-  Політика в ОДНОМУ модулі `config/mastersVisibility.ts`, і «ні» означає **чотири
+- **Видимість — `visibility?: 'listed' | 'linked' | 'direct'`, поля немає = `listed`.**
+  Три рівні спільні з випускниками (`config/visibility.ts`; розділ «Види людей і
+  три рівні видимості» у PROJECT-CONTEXT.md). Політика в ОДНОМУ модулі
+  `config/mastersVisibility.ts`, і рівень поза переліком означає **чотири
   обіцянки**: немає картки у списку, `noindex` без `canonical`/`hreflang`, немає
   адреси в `sitemap.xml`, **сторінка лишається живою**. Останнє — вимога, а не
   недогляд: на частину майстрів указують анкети випускників, і зникнення сторінки
@@ -213,7 +215,7 @@
 ```
 npm run check          # svelte-check, має бути 0 помилок і 0 попереджень
 npm run lint           # eslint, має бути 0 помилок
-npm test               # юніт-інваріанти vitest (99 файлів; число під гейтом doc-numbers)
+npm test               # юніт-інваріанти vitest (100 файлів; число під гейтом doc-numbers)
 npm run build:masters  # збірка веб-аватарів та постерів із assets/masters-raw/
 npm run bump-version   # автоінкремент версії
 npm run build          # збірка сайту; postbuild перевіряє sitemap і бандл

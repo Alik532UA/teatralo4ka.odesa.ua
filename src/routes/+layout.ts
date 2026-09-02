@@ -3,8 +3,8 @@ import '$lib/i18n';
 import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { isHiddenRoute } from '$lib/config/hiddenRoutes';
-import { isHiddenMasterPath } from '$lib/config/mastersVisibility';
-import { isHiddenGraduatePath } from '$lib/config/graduatesVisibility';
+import { isUnlistedMasterPath } from '$lib/config/mastersVisibility';
+import { isUnlistedGraduatePath } from '$lib/config/graduatesVisibility';
 
 export const prerender = true;
 export const ssr = true;
@@ -61,8 +61,8 @@ export async function load({ url }: { url: URL }) {
 	 * узгоджені руками, розійшлися б — у цьому проєкті так уже було з
 	 * заглушками-перенаправленнями, і шість порожніх адрес поїхали в sitemap.
 	 *
-	 * Друге джерело — сторінки майстрів із `visible: false`
-	 * (`config/mastersVisibility.ts`). Модель та сама («адреса працює, індексу
+	 * Друге джерело — сторінки майстрів і випускників поза переліком: рівні
+	 * `linked` і `direct` (`config/visibility.ts`). Модель та сама («адреса працює, індексу
 	 * немає»), реєстр окремий: у `HIDDEN_ROUTES` кожен запис зобовʼязаний бути ще
 	 * й у `prerender.entries`, у `HIDDEN_ENTRIES` та в `robots.txt`, а для
 	 * майстрів `Disallow` дав би протилежне потрібному — закриту від краулера
@@ -70,8 +70,8 @@ export async function load({ url }: { url: URL }) {
 	 */
 	const hidden =
 		isHiddenRoute(url.pathname) ||
-		isHiddenMasterPath(url.pathname) ||
-		isHiddenGraduatePath(url.pathname);
+		isUnlistedMasterPath(url.pathname) ||
+		isUnlistedGraduatePath(url.pathname);
 
 	return {
 		lang,

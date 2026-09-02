@@ -1,5 +1,5 @@
 <script module lang="ts">
-	import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
+	import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { getAllMasters } from '$lib/data/masters';
 	import { playGroupCaption } from '$lib/data/groups';
 	import { PLAY_CAST } from '$lib/data/playCast';
@@ -15,8 +15,8 @@
 	 * реальні приклади й перевіряється тестом, а не оком на сторінці.
 	 */
 	/* Готовий реєстр, а не сирий JSON: там форму вже звірив компілятор, і звідти
-	 * не потраплять приховані записи — зв'язок вів би на картку, якої немає. */
-	const matchGraduate = createNameMatcher(GRADUATES);
+	 * не потрапляє рівень `direct` — зв'язок вів би на картку, якої не показують. */
+	const matchGraduate = createNameMatcher(LINKED_GRADUATES);
 
 	/* Майстер може згадуватися і ПІБ, і коротким іменем — обидва ведуть до нього. */
 	const matchMaster = createNameMatcher(

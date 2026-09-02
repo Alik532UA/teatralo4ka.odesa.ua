@@ -2,6 +2,8 @@ import indexData from './graduates.index.json';
 import { asset } from '$app/paths';
 import type { Pathname, ResolvedPathname } from '$app/types';
 import { localizedPath, type Locale } from '$lib/i18n/routing';
+import type { Visibility } from '$lib/config/visibility';
+import { isGraduateLinked, isGraduateListed } from '$lib/config/graduatesVisibility';
 
 /**
  * Випускники «Галактики» — дані в репозиторії, не у Firestore.
@@ -48,6 +50,21 @@ export const DEPARTMENTS = [
 ] as const;
 
 export type Department = (typeof DEPARTMENTS)[number];
+
+/**
+ * ХТО це для школи. Значенням, а не лише типом: звідси гейт бере перелік
+ * дозволених, і додане значення не лишається поза наглядом.
+ *
+ *   `graduate` (поля немає) — свідоцтво про закінчення є;
+ *   `attended` — навчався й не закінчив («навчався до N»);
+ *   `student` — ще вчиться; у `graduationYear` очікуваний рік випуску.
+ *
+ * Статус не залежить від видимості (`visibility`): той, хто не закінчив,
+ * буває і в галактиці (Ігор Розводюк), і лише за зв'язками (Ірина Тимофієнко),
+ * і лише за прямим посиланням (Володимир Захарченко).
+ */
+export const GRADUATE_KINDS = ['graduate', 'attended', 'student'] as const;
+export type GraduateKind = (typeof GRADUATE_KINDS)[number];
 
 /**
  * Ребро «випускник → майстер».
@@ -122,8 +139,18 @@ export interface GraduateIndexEntry {
 	name: string;
 	/** `null` буває: у джерелі рік вказаний не завжди. */
 	graduationYear: number | null;
-	/** Свій підпис року замість «випуск NNNN» — див. `graduationCaption`. */
-	graduationLabelKey?: string;
+	/**
+	 * Хто це для школи — див. `GRADUATE_KINDS`. Поля немає — випускник.
+	 *
+	 * Підпис під іменем виводиться звідси (`graduationCaption`): «випуск 2014»,
+	 * «навчався до 2009», «навчається». Доти статус проходив через ключ перекладу
+	 * `graduationLabelKey` — поле оформлення грало роль статусу, і з бази не
+	 * було видно, хто перед тобою. Учень тримає в `graduationYear` ОЧІКУВАНИЙ рік
+	 * випуску (рішення автора 2026-09-02); у переліку за роком він став би поруч
+	 * зі своїм майбутнім випуском — але учнів у переліку не буває, і це стереже
+	 * гейт `narrowed-fields.test.ts`.
+	 */
+	kind?: GraduateKind;
 	departments: Department[];
 	/** Є портрет і подробиці — тобто анкету заповнено. Інакше поля нижче порожні. */
 	hasPhoto?: true;
@@ -168,8 +195,16 @@ export interface GraduateIndexEntry {
 	 * відстало у 25 записах.
 	 */
 	playCount?: number;
-	/** Прихований з сайту (наприклад, ще навчається) */
-	hidden?: boolean;
+	/**
+	 * Три рівні видимості — `config/visibility.ts`. Поля немає — `listed`.
+	 *
+	 * Поле, а не обчислення: автор просив, щоб при аналізі бази було видно, кого
+	 * показуємо, без читання логіки. Причина невидимості тут не зберігається —
+	 * вона в коміті, що поставив рівень, або в DATA-QUESTIONS. Статус «ще
+	 * навчається» — це `kind`, а не рівень видимости: доти учнів ховали тим самим
+	 * `hidden`, і два різних питання виглядали одним.
+	 */
+	visibility?: Visibility;
 }
 
 /**
@@ -286,17 +321,6 @@ export interface GraduateProfile {
 	 * цього поле й чистили.
 	 */
 	unlinkedGroups?: string[];
-	/**
-	 * Свій підпис року замість типового «випуск NNNN».
-	 *
-	 * Ключ i18n, а не готовий рядок: підпис бачать обома мовами. Шаблон отримує
-	 * `{year}`. Потрібен тим, хто школу не закінчував офіційно, але в галактиці
-	 * лишається — у Ігоря Розводюка це «навчався до 2009».
-	 *
-	 * Ключем, а не прапорцем `didNotGraduate`: причини бувають різні, і кожна
-	 * наступна вимагала б нового прапорця замість нового рядка в словнику.
-	 */
-	graduationLabelKey?: string;
 	masters: (string | GraduateMaster)[];
 	teachers?: (string | GraduateTeacher)[];
 	socials: GraduateSocial[];
@@ -346,20 +370,26 @@ export function graduateProfileJson(address: string): string {
  * яким `svelte/no-navigation-without-resolve` визнає адресу перевіреною.
  */
 /**
- * Підпис під іменем: «випуск 2014» або свій, якщо запис його має.
+ * Підпис під іменем — з `kind`: «випуск 2014», «навчався до 2009», «навчається».
  *
  * Тут, а не в кожному компоненті: підпис показують і картка, і склад групи, і
  * розійшовшись вони дали б ту саму людину з різними роками в різних місцях.
  * `translate` приходить ззовні, бо `svelte-i18n` живе лише в компоненті.
+ *
+ * Учень підписується без року навмисно: рік у нього ОЧІКУВАНИЙ, і показувати
+ * його як факт означало б обіцяти випуск. Той, хто не закінчив, без року
+ * лишається без підпису — форма «навчався до» ще й чоловіча, і борг жіночої
+ * форми записаний у PROJECT-CONTEXT.
  */
 export function graduationCaption(
-	graduate: { graduationYear: number | null; graduationLabelKey?: string },
+	graduate: { graduationYear: number | null; kind?: GraduateKind },
 	translate: (key: string, options?: { values?: Record<string, string | number> }) => string
 ): string | null {
+	if (graduate.kind === 'student') return translate('galaxy.studying');
 	const year = graduate.graduationYear;
 	if (!year) return null;
-	return graduate.graduationLabelKey
-		? translate(graduate.graduationLabelKey, { values: { year } })
+	return graduate.kind === 'attended'
+		? translate('galaxy.studiedUntil', { values: { year } })
 		: `${translate('galaxy.graduated')} ${year}`;
 }
 
@@ -430,31 +460,50 @@ export function graduateCardHref(
  * «реєстри знають лише відомі відділення». Саме його бракувало: значень
  * відділень не перевіряв ніхто.
  */
-type IndexEntryJson = Omit<GraduateIndexEntry, 'departments' | 'hasPhoto'> & {
+type IndexEntryJson = Omit<GraduateIndexEntry, 'departments' | 'hasPhoto' | 'kind' | 'visibility'> & {
 	departments: string[];
 	hasPhoto?: boolean;
+	/* Так само рядком: значення тримає гейт `narrowed-fields.test.ts`. */
+	kind?: string;
+	visibility?: string;
 };
 const INDEX_JSON = indexData satisfies readonly IndexEntryJson[];
 
-/** Відсортовано за роком випуску (новіші перші), у межах року — за іменем. */
+/**
+ * У ПЕРЕЛІКУ: зірки галактики, рядки реєстру, роки випуску, лічильники.
+ * Лише рівень `listed` (`config/visibility.ts`).
+ */
 export const GRADUATES: readonly GraduateIndexEntry[] = (
 	INDEX_JSON as GraduateIndexEntry[]
-).filter((g) => !g.hidden);
+).filter(isGraduateListed);
 
 /**
- * Приховані — і саме тому їх видно окремо.
+ * ЗА ЗВ'ЯЗКАМИ: кого показуємо там, де на людину є посилання — склад вистави,
+ * група, фестиваль, потік учнів майстра, кнопка «також працівник», картка з
+ * адреси. Рівні `listed` і `linked`.
  *
- * `hidden` викидає людину з `GRADUATES`, тобто з галактики, переліку, складів і
- * фестивалів. Але в паперових списках школи її ім'я лишається вільним текстом, і
- * без цього переліку показ малював би її звичайною карткою: не як випускницю (у
- * реєстрі її «немає»), а як сторонню людину без сторінки — тобто рівно там, де
- * її й просили не показувати.
- *
- * Тому приховані доступні окремо: щоб показ міг ЗІСТАВИТИ ім'я й промовчати.
+ * Окремий перелік, а не `GRADUATES`: людина рівня `linked` у галактиці не
+ * летить, але в складі «Уривків з класики» стоїть — і саме за цим переліком
+ * склад її знаходить. Доти такої межі не було: `hidden` викидав людину
+ * звідусіль одразу, і Тимофієнко, яка грала чотири ролі, не мала запису взагалі.
  */
-export const HIDDEN_GRADUATES: readonly GraduateIndexEntry[] = (
+export const LINKED_GRADUATES: readonly GraduateIndexEntry[] = (
 	INDEX_JSON as GraduateIndexEntry[]
-).filter((g) => g.hidden === true);
+).filter(isGraduateLinked);
+
+/**
+ * ЛИШЕ ЗА ПРЯМИМ ПОСИЛАННЯМ — і саме тому їх видно окремо.
+ *
+ * Такої людини немає ні в `GRADUATES`, ні в `LINKED_GRADUATES`. Але в паперових
+ * списках школи її ім'я лишається вільним текстом, і без цього переліку показ
+ * малював би її звичайною карткою: не як випускницю (у реєстрі її «немає»), а як
+ * сторонню людину без сторінки — тобто рівно там, де її й просили не показувати.
+ *
+ * Тому рівень `direct` доступний окремо: щоб показ міг ЗІСТАВИТИ ім'я й промовчати.
+ */
+export const DIRECT_GRADUATES: readonly GraduateIndexEntry[] = (
+	INDEX_JSON as GraduateIndexEntry[]
+).filter((g) => !isGraduateLinked(g));
 
 /**
  * Ті, у кого є портрет і анкета.
@@ -551,8 +600,8 @@ export const GRADUATION_YEARS: readonly number[] = [
  * Константа лишилася під тією самою назвою навмисно: вона й далі відповідає на
  * питання «кому будувати сторінку», просто відповідь тепер «усім».
  *
- * І «всім» тут означає ВСІМ, зокрема прихованим: `hidden` ховає людину з
- * переліків, а не з сайту. Тому `WITH_PAGE` і `GRADUATES` — уже різні переліки,
+ * І «всім» тут означає ВСІМ, зокрема рівням `linked` і `direct`: видимість ховає
+ * людину з переліків, а не з сайту. Тому `WITH_PAGE` і `GRADUATES` — уже різні переліки,
  * і плутати їх не можна: перший будує сторінки, другий малює списки. Розбір — у
  * докблоці `config/graduatesVisibility.ts`.
  */
@@ -561,9 +610,9 @@ export const WITH_PAGE: readonly GraduateIndexEntry[] = INDEX_JSON as GraduateIn
 /**
  * Пошук за АДРЕСОЮ — серед усіх, зокрема прихованих.
  *
- * `GRADUATES` прихованих не містить, і сторінка шукала людину саме там: адреса
- * приходила, запис не знаходився, і маршрут віддавав 404. Тобто прапорець
- * `hidden` ховав людину не з переліків, а з сайту зовсім.
+ * `GRADUATES` містить лише рівень `listed`, і сторінка шукала людину саме там:
+ * адреса приходила, запис не знаходився, і маршрут віддавав 404. Тобто
+ * видимість ховала людину не з переліків, а з сайту зовсім.
  *
  * Ховати треба з ПЕРЕЛІКІВ, а сторінка мусить лишатися живою: адреса випускника
  * це ідентифікатор, який роздають роками. Повний розбір — у докблоці

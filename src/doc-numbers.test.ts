@@ -128,10 +128,9 @@ describe(`числа в ${AGENTS}`, () => {
 		expect(bad, `таблиця розійшлася з masters.index.json:\n${bad.join('\n')}`).toEqual([]);
 	});
 
-	it('скільки записів не показуємо на сайті', () => {
-		const written = Number(/\|\s*не показуємо[^|]*\|\s*(\d+)\s*\|/.exec(source)?.[1]);
-		expect(written, 'рядок «не показуємо» в таблиці не знайдено').not.toBeNaN();
-		expect(written).toBe((MASTERS as MasterIndexEntry[]).filter((m) => m.visible === false).length);
+	it('скільки записів на кожному рівні видимости', () => {
+		const bad = diff(pairsOf(row('visibility')), tally((m) => m.visibility));
+		expect(bad, `таблиця розійшлася з masters.index.json:\n${bad.join('\n')}`).toEqual([]);
 	});
 
 	/**

@@ -64,14 +64,14 @@ const ROOT = '.';
 interface MasterRow {
 	id: string;
 	displayName: string;
-	visible?: boolean;
+	visibility?: string;
 	alsoGraduateId?: string;
 }
 
 interface GraduateRow {
 	id: string;
 	name: string;
-	hidden?: boolean;
+	visibility?: string;
 }
 
 const masters = JSON.parse(
@@ -114,8 +114,8 @@ describe('одна людина у двох реєстрах', () => {
 			const graduate = GRADUATES_BY_ID.get(m.alsoGraduateId as string);
 			if (!graduate) {
 				bad.push(`${m.id} → ${m.alsoGraduateId}: такого випускника немає`);
-			} else if (graduate.hidden) {
-				bad.push(`${m.id} → ${m.alsoGraduateId}: випускник прихований, посилання веде в нікуди`);
+			} else if (graduate.visibility === 'direct') {
+				bad.push(`${m.id} → ${m.alsoGraduateId}: випускник рівня direct, посилання веде в нікуди`);
 			}
 		}
 		expect(bad, `зв'язок веде не туди:\n  ${bad.join('\n  ')}`).toEqual([]);
@@ -137,10 +137,10 @@ describe('одна людина у двох реєстрах', () => {
 		const bad: string[] = [];
 		for (const m of linkedMasters) {
 			const forward = linkedGraduateId(m.id);
-			const hidden = m.visible === false;
+			const hidden = m.visibility === 'direct';
 
-			// Прихований працівник обрізається в ОБИДВА боки — правило одне на всі
-			// поверхні, див. докблок `dualRole.ts`.
+			// Рівень `direct` обрізається в ОБИДВА боки, `linked` — ні: кнопка це
+			// зв'язок, а за зв'язками людину показують. Див. докблок `dualRole.ts`.
 			if (hidden) {
 				if (forward !== null) bad.push(`${m.id}: прихований, а зв'язок віддається`);
 				if (linkedMasterId(m.alsoGraduateId as string) !== null)

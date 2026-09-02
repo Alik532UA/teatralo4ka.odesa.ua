@@ -1,8 +1,9 @@
 import { asset } from '$app/paths';
 import type { ResolvedPathname } from '$app/types';
 import { localizedPath, type Locale } from '$lib/i18n/routing';
-import { isMasterRecordPublic, type MasterVisibility } from '$lib/config/mastersVisibility';
-import { GRADUATES, type Department, type GraduateIndexEntry } from './graduates';
+import { isMasterLinked, isMasterListed } from '$lib/config/mastersVisibility';
+import type { Visibility } from '$lib/config/visibility';
+import { LINKED_GRADUATES, type Department, type GraduateIndexEntry } from './graduates';
 import { linkedMasterId } from './dualRole';
 import type { VerificationStatusProp } from './groups';
 import mastersIndexData from './masters.index.json';
@@ -130,14 +131,12 @@ export interface MasterIndexEntry {
 	status?: MasterStatus;
 	verificationStatus?: VerificationStatusProp;
 	/**
-	 * «Відображаємо на сайті: ні». Поля немає = показуємо.
-	 *
-	 * Що саме означає «ні» і чому сторінка при цьому лишається живою — у
-	 * [`config/mastersVisibility.ts`](../config/mastersVisibility.ts). Тут лише
-	 * поле: рішення про чотири поверхні (список, `noindex`, мапа сайту, сама
-	 * сторінка) ухвалюється в одному місці, а не чотирма правками.
+	 * Три рівні видимості — `config/visibility.ts`, спільні з випускниками. Поля
+	 * немає — `listed`. До 2026-09-02 тут був `visible: false`, і він означав
+	 * рівень `linked`: картки в списку немає, а за зв'язками людину показують.
+	 * Політика й чотири обіцянки — у `config/mastersVisibility.ts`.
 	 */
-	visible?: boolean;
+	visibility?: Visibility;
 	/**
 	 * Чи запис підтверджений — ЯВНИЙ ВИНЯТОК із правила розділу.
 	 *
@@ -308,12 +307,13 @@ export type MasterStudentEntry =
  * відділень — спільний гейт. */
 type MasterEntryJson = Omit<
 	MasterIndexEntry,
-	'departments' | 'category' | 'status' | 'unconfirmed'
+	'departments' | 'category' | 'status' | 'unconfirmed' | 'visibility'
 > & {
 	departments: string[];
 	category?: string;
 	status?: string;
 	unconfirmed?: boolean;
+	visibility?: string;
 };
 const MASTERS_JSON = mastersIndexData satisfies readonly MasterEntryJson[];
 
@@ -388,14 +388,9 @@ export function masterSection(m: SectionInput): MasterSection {
 	return m.category ?? 'needsClarification';
 }
 
-/** Чи показуємо запис на сайті. Політика й межі — у `config/mastersVisibility.ts`. */
-export function isMasterPublic(m: MasterVisibility): boolean {
-	return isMasterRecordPublic(m);
-}
-
-/** Лише ті, кого показуємо. Для списку на `/residents/adults`. */
-export function getPublicMasters(): Master[] {
-	return MASTERS.filter(isMasterPublic);
+/** Лише рівень `listed` — для списку на `/residents/adults`. Політика — `config/mastersVisibility.ts`. */
+export function getListedMasters(): Master[] {
+	return MASTERS.filter(isMasterListed);
 }
 
 /**
@@ -529,7 +524,7 @@ export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
 	const asColleague = new Set(colleagues.map((c) => c.master.id));
 
 	// ── Випускники ──────────────────────────────────────────────────────────
-	for (const g of GRADUATES) {
+	for (const g of LINKED_GRADUATES) {
 		const asCourseMaster = g.masters?.some((m) => (typeof m === 'string' ? m === masterId : m.id === masterId));
 		const teacherLink = g.teachers?.find((t) => (typeof t === 'string' ? t === masterId : t.id === masterId));
 		if (!asCourseMaster && teacherLink === undefined) continue;
@@ -603,13 +598,13 @@ export function getStudentsByMaster(masterId: string): MasterStudentEntry[] {
  * згадали», а «скільки рядків вона зайняла», і найчастіші майстри отримували б
  * подвійну вагу просто за те, що вели і курс, і предмет.
  *
- * Непублічні не потрапляють сюди зовсім: вони не показуються ніде, і показ
- * саме тут був би єдиним винятком.
+ * Рівень `direct` сюди не потрапляє — його не показують ніде; `linked`
+ * потрапляє, бо згадка в анкеті — це зв'язок (`config/visibility.ts`).
  */
 export function mastersByMentions(): { master: Master; mentions: number }[] {
 	const counts = new Map<string, number>();
 
-	for (const g of GRADUATES) {
+	for (const g of LINKED_GRADUATES) {
 		const seen = new Set<string>();
 		for (const link of [...(g.masters ?? []), ...(g.teachers ?? [])]) {
 			const id = typeof link === 'string' ? link : link.id;
@@ -622,7 +617,7 @@ export function mastersByMentions(): { master: Master; mentions: number }[] {
 	return [...counts.entries()]
 		.map(([id, mentions]) => ({ master: getMasterById(id), mentions }))
 		.filter((entry): entry is { master: Master; mentions: number } =>
-			Boolean(entry.master) && isMasterPublic(entry.master!)
+			Boolean(entry.master) && isMasterLinked(entry.master!)
 		)
 		.sort(
 			(a, b) =>

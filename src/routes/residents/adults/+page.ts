@@ -1,5 +1,5 @@
 import { loadPageWithMetadata } from '$lib/i18n/loader';
-import { getPublicMasters, getGraduatesByMaster } from '$lib/data/masters';
+import { getListedMasters, getGraduatesByMaster } from '$lib/data/masters';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
@@ -9,18 +9,18 @@ export const load: PageLoad = async () => {
 	const en = loadPageWithMetadata('en', 'residents-adults');
 
 	/*
-	 * `getPublicMasters`, а не `getAllMasters`: відсів робиться ТУТ, а не у
+	 * `getListedMasters`, а не `getAllMasters`: відсів робиться ТУТ, а не у
 	 * розмітці. Фільтр у `{#each}` прибрав би картку з екрана й лишив би запис у
 	 * серіалізованих даних сторінки.
 	 *
 	 * Межа перевірена й названа вголос: сам `masters.index.json` імпортується
 	 * модулем і потрапляє в клієнтський чанк ЦІЛКОМ, тож запис із
-	 * `visible: false` у бандлі лишається (заміряно у `build/_app/immutable/`).
+	 * рівня `linked` у бандлі лишається (заміряно у `build/_app/immutable/`).
 	 * «Не показуємо» тут означає «немає в списку, немає в мапі сайту, сторінка
 	 * має `noindex`» — а не «дані недосяжні». Це прийнято свідомо: репозиторій
 	 * відкритий, і довжина шляху до JSON нічого не додає до захисту.
 	 */
-	const masters = getPublicMasters().map((m) => {
+	const masters = getListedMasters().map((m) => {
 		const graduates = getGraduatesByMaster(m.id);
 		return {
 			...m,

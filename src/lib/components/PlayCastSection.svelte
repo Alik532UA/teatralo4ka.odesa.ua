@@ -2,7 +2,7 @@
 	import { t } from 'svelte-i18n';
 	import { Users } from 'lucide-svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
-	import { GRADUATES, HIDDEN_GRADUATES, graduatePhoto } from '$lib/data/graduates';
+	import { DIRECT_GRADUATES, LINKED_GRADUATES, graduatePhoto } from '$lib/data/graduates';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 	import { MASTERS, masterProfilePath } from '$lib/data/masters';
 	import { locale } from 'svelte-i18n';
@@ -89,7 +89,7 @@
 	 * немає, і вести нікуди. Саме тому `GroupPersonCard` без `href` і `onclick`
 	 * малює не кнопку, а простий блок.
 	 */
-	const знайти = createNameMatcher(GRADUATES);
+	const знайти = createNameMatcher(LINKED_GRADUATES);
 
 	/**
 	 * Другий матчер — по ПРАЦІВНИКАХ.
@@ -106,12 +106,12 @@
 	/**
 	 * Хто просив не показувати себе — того в паперовому складі немає.
 	 *
-	 * `hidden` вже викидає людину з `GRADUATES`, тож звичайний матчер її не
-	 * знаходить — і показ намалював би її карткою БЕЗ переходу, як сторонню.
-	 * Тобто прапорець приховування дав би протилежний результат: замість зникнути
+	 * Рівень `direct` уже викинутий із `LINKED_GRADUATES`, тож звичайний матчер
+	 * його не знаходить — і показ намалював би людину карткою БЕЗ переходу, як
+	 * сторонню. Тобто невидимість дала б протилежний результат: замість зникнути
 	 * людина перестала б бути посиланням, лишившись на видноті.
 	 */
-	const знайтиПриховану = createNameMatcher(HIDDEN_GRADUATES);
+	const знайтиПриховану = createNameMatcher(DIRECT_GRADUATES);
 
 	const lang = $derived<'uk' | 'en'>($locale === 'en' ? 'en' : 'uk');
 

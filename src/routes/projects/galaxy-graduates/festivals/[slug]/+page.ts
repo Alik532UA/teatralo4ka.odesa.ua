@@ -1,7 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
-import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
+import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
@@ -48,7 +48,7 @@ export async function load({ params, url }) {
 	 * людей, ніж є в даних.
 	 */
 	const members: GraduateIndexEntry[] = festival.memberIds
-		.map((id) => GRADUATES.find((g) => g.id === id))
+		.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
 		.filter((g): g is GraduateIndexEntry => Boolean(g));
 
 	/*

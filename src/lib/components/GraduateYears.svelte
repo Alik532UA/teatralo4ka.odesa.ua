@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { graduationCaption } from '$lib/data/graduates';
+	import { graduationCaption, type GraduateKind } from '$lib/data/graduates';
 	import type { ResolvedPathname } from '$app/types';
 
 	/**
@@ -15,12 +15,12 @@
 	interface Props {
 		enrollmentYears: number[];
 		graduationYear: number | null;
-		/** Свій підпис замість «випуск» — див. `graduationCaption`. */
-		graduationLabelKey?: string;
+		/** Хто це для школи — від цього підпис: «випуск», «навчався до», «навчається». */
+		kind?: GraduateKind;
 		isEn: boolean;
 	}
 
-	let { enrollmentYears, graduationYear, graduationLabelKey, isEn }: Props = $props();
+	let { enrollmentYears, graduationYear, kind, isEn }: Props = $props();
 
 	const enrollmentText = $derived(
 		enrollmentYears.length > 0
@@ -29,7 +29,7 @@
 	);
 
 	const graduationText = $derived(
-		graduationCaption({ graduationYear, graduationLabelKey }, $t)
+		graduationCaption({ graduationYear, kind }, $t)
 	);
 
 	/**

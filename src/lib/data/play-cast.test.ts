@@ -4,7 +4,7 @@ import path, { join } from 'node:path';
 import { buildCast } from '../../../scripts/build-play-cast';
 import { PLAY_CAST as cast } from './playCast';
 import { PLAYS } from './plays';
-import { GRADUATES, HIDDEN_GRADUATES } from './graduates';
+import { WITH_PAGE } from './graduates';
 import { createNameMatcher } from '$lib/utils/participantMatch';
 
 /**
@@ -179,14 +179,14 @@ describe('склад вистав', () => {
 	 *
 	 * Заміряно: після хвилі 1 таких рядків 52 у 25 анкетах.
 	 *
-	 * Зіставлення — з УСІМА випускниками, зокрема прихованими. Прапорець
-	 * `hidden` ховає людину з переліків, а зі списку школи її ім'я не зникає:
+	 * Зіставлення — з УСІМА випускниками (`WITH_PAGE`), зокрема рівнів `linked` і
+	 * `direct`. Видимість ховає людину з переліків, а зі списку школи її ім'я не зникає:
 	 * Володимир Захарченко стоїть у «+» «Короля помирає» 2012, і його рядок про
 	 * цей показ так само «зі списку школи». Зіставляти лише з видимими означало
 	 * б оголосити цей рядок безпідставним саме через те, що людину не показують.
 	 */
 	it('кожен рядок «зі списку школи» справді є в списку школи', () => {
-		const match = createNameMatcher([...GRADUATES, ...HIDDEN_GRADUATES]);
+		const match = createNameMatcher(WITH_PAGE);
 		const bad: string[] = [];
 		let перевірено = 0;
 		for (const [playId, list] of Object.entries(cast)) {

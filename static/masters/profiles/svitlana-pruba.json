@@ -18,5 +18,5 @@
 	"socials": [],
 	"portrait": "/masters/portraits/svitlana-pruba.webp",
 	"unconfirmed": true,
-	"visible": false
+	"visibility": "linked"
 }

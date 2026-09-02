@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import { GROUPS, getGroupBySlug,
 	playIdsOfGroup
 } from '$lib/data/groups';
-import { GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
+import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
 import { playsByIds } from '$lib/data/plays';
 import type { MasterIndexEntry } from '$lib/data/masters';
@@ -83,7 +83,7 @@ export async function load({ params }) {
 	 * п'ять — вистачило б, щоб людина зникла зі складу, а гейт лишився зеленим.
 	 */
 	const members: GraduateIndexEntry[] = group.memberIds
-		.map((id) => GRADUATES.find((g) => g.id === id))
+		.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
 		.filter((g): g is GraduateIndexEntry => Boolean(g));
 
 	/*

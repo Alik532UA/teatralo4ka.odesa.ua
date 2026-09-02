@@ -20,7 +20,12 @@ import type { GraduatePlay } from '../src/lib/data/graduates';
 const CODE = 'kateryna-kudlach';
 const PROFILE = `/projects/galaxy-graduates/${CODE}`;
 const CARD = '[data-testid="galaxy-card-modal"]';
-const PLAY = '[data-testid^="galaxy-card-play-item-"]';
+/*
+ * Саме `li`: рядок вистави — це елемент списку, а той самий префікс testid мають
+ * ще посилання плашки «разом з» і кнопка запису всередині рядка. Без `li`
+ * локатор рахував їх за рядки, і анкета з трьома плашками давала 8 замість 5.
+ */
+const PLAY = 'li[data-testid^="galaxy-card-play-item-"]';
 const BIO = '[data-testid^="galaxy-card-bio-item-"]';
 
 interface Profile {
