@@ -2137,6 +2137,7 @@
 		"title": "«Уривки з класики»",
 		"year": 2013,
 		"author": "Софокл «Антігона», І. Котляревський «Наталка Полтавка», Г. Ібсен «Привиди», О. Блок «Незнайомка», О. Островський «Безприданниця», М. Куліш «Мина Мазайло», А. Чехов «Дядько Ваня», І. Франко «Украдене щастя», В. Шекспір «Сонети»",
+		"videoUrl": "https://www.youtube.com/watch?v=myz7zF6uAX8",
 		"programme": [
 			{
 				"id": "antihona",
@@ -2178,6 +2179,7 @@
 			{
 				"id": "bezprydannytsia",
 				"title": "О. Островський «Безприданниця»",
+				"videoUrl": "https://www.youtube.com/watch?v=ZZ7sPhvUIwc",
 				"roles": [
 					"Лариса",
 					"Паратов",
@@ -2187,6 +2189,7 @@
 			{
 				"id": "myna-mazailo",
 				"title": "М. Куліш «Мина Мазайло»",
+				"videoUrl": "https://www.youtube.com/watch?v=MrDxv5caotI",
 				"roles": [
 					"Уля",
 					"Мокій"
