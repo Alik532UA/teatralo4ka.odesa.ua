@@ -32,6 +32,88 @@ function leaves(value: Json, prefix = ''): [string, Json][] {
 	return Object.entries(value).flatMap(([k, v]) => leaves(v, prefix ? `${prefix}.${k}` : k));
 }
 
+/**
+ * Шукає повтори ключів на одному рівні об'єкта в JSON (те, що `JSON.parse` затирає мовчки).
+ */
+export function findDuplicateJsonKeys(jsonText: string): string[] {
+	const duplicates: string[] = [];
+	type Frame = { type: 'object'; keys: Set<string>; path: string } | { type: 'array' };
+	const stack: Frame[] = [];
+	let inString = false;
+	let isEscaped = false;
+	let currentString = '';
+	let lastKey: string | null = null;
+	let expectingKey = false;
+
+	for (let i = 0; i < jsonText.length; i++) {
+		const char = jsonText[i];
+
+		if (inString) {
+			if (isEscaped) {
+				isEscaped = false;
+			} else if (char === '\\') {
+				isEscaped = true;
+			} else if (char === '"') {
+				inString = false;
+				if (expectingKey) {
+					lastKey = currentString;
+					expectingKey = false;
+				}
+			} else {
+				currentString += char;
+			}
+			continue;
+		}
+
+		if (char === '"') {
+			inString = true;
+			currentString = '';
+		} else if (char === '{') {
+			const parent = stack
+				.filter((f): f is { type: 'object'; keys: Set<string>; path: string } => f.type === 'object')
+				.map((f) => f.path)
+				.filter(Boolean)
+				.join('.');
+			stack.push({
+				type: 'object',
+				keys: new Set(),
+				path: lastKey ? (parent ? `${parent}.${lastKey}` : lastKey) : parent
+			});
+			expectingKey = true;
+			lastKey = null;
+		} else if (char === '}') {
+			stack.pop();
+			lastKey = null;
+			expectingKey = false;
+		} else if (char === '[') {
+			stack.push({ type: 'array' });
+			lastKey = null;
+			expectingKey = false;
+		} else if (char === ']') {
+			stack.pop();
+			lastKey = null;
+			expectingKey = false;
+		} else if (char === ':') {
+			const top = stack.at(-1);
+			if (top && top.type === 'object' && lastKey !== null) {
+				if (top.keys.has(lastKey)) {
+					const fullKey = top.path ? `${top.path}.${lastKey}` : lastKey;
+					duplicates.push(fullKey);
+				} else {
+					top.keys.add(lastKey);
+				}
+			}
+		} else if (char === ',') {
+			const top = stack.at(-1);
+			if (top && top.type === 'object') {
+				expectingKey = true;
+			}
+			lastKey = null;
+		}
+	}
+	return duplicates;
+}
+
 const locales = readdirSync(LOCALES_DIR)
 	.filter((f) => f.endsWith('.json'))
 	.map((f) => f.replace('.json', ''));
@@ -47,6 +129,14 @@ describe('переклади', () => {
 		expect(locales.length).toBeGreaterThan(1);
 		expect(baseKeys.length).toBeGreaterThan(0);
 	});
+
+	for (const lang of locales) {
+		it(`${lang}: жодного дубліката ключів у JSON-словнику`, () => {
+			const raw = readFileSync(join(LOCALES_DIR, `${lang}.json`), 'utf8');
+			const dups = findDuplicateJsonKeys(raw);
+			expect(dups, `дублікати ключів у ${lang}.json: ${dups.join(', ')}`).toEqual([]);
+		});
+	}
 
 	for (const lang of locales.filter((l) => l !== BASE)) {
 		it(`${lang}: той самий набір ключів, що й ${BASE}`, () => {
