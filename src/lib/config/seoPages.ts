@@ -31,7 +31,10 @@ export type SeoPageKey =
 	| 'statute'
 	| 'galaxy'
 	| 'galaxyUpdate'
-	| 'galaxyForm';
+	| 'galaxyForm'
+	| 'galaxyFestivals'
+	| 'galaxyGroups'
+	| 'galaxyPlays';
 export type SeoLangKey = 'uk' | 'en';
 export const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -62,6 +65,21 @@ export const SEO_FALLBACK = {
 				title: 'Анкета випускника',
 				description:
 					'Анкета випускника Одеської театральної школи: вистави й ролі, майстер курсу, викладачі, фото й соцмережі. Залітай до нас у Галактику Випускників'
+			},
+			galaxyFestivals: {
+				title: 'Фестивалі',
+				description:
+					'Фестивалі, на які їздила Одеська театральна школа: роки, країни, учасники та показані вистави.'
+			},
+			galaxyGroups: {
+				title: 'Групи випускників',
+				description:
+					'Навчальні групи «Галактики випускників»: склад, майстри курсу та репертуар вистав.'
+			},
+			galaxyPlays: {
+				title: 'Вистави та ролі',
+				description:
+					'Усі вистави, покази та етюди Одеської театральної школи: рік, автор, група і хто грав.'
 			},
 			about: {
 				title: 'Про школу',
@@ -119,6 +137,21 @@ export const SEO_FALLBACK = {
 				title: 'Graduate form',
 				description:
 					'The Odesa Theatre School graduate form: performances and roles, course master, teachers, photos and social links. Fly into our Galaxy of Graduates'
+			},
+			galaxyFestivals: {
+				title: 'Festivals',
+				description:
+					'Festivals the Odesa Theatre School travelled to: years, countries, participants and the productions shown.'
+			},
+			galaxyGroups: {
+				title: 'Graduate groups',
+				description:
+					'Study groups of the graduates galaxy: roster, course masters and the repertoire of plays.'
+			},
+			galaxyPlays: {
+				title: 'Plays and roles',
+				description:
+					'Every play, showing and study of the Odesa Theatre School: year, author, group and cast.'
 			},
 			about: {
 				title: 'About School',
@@ -189,6 +222,12 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'galaxyUpdate';
 		case '/projects/galaxy-graduates/form':
 			return 'galaxyForm';
+		case '/projects/galaxy-graduates/festivals':
+			return 'galaxyFestivals';
+		case '/projects/galaxy-graduates/groups':
+			return 'galaxyGroups';
+		case '/projects/galaxy-graduates/plays':
+			return 'galaxyPlays';
 		/*
 		 * Галактика доти провалювалася в `default` і брала опис ГОЛОВНОЇ. Видно
 		 * це було лише в прев'ю месенджера: посилання на галактику підписувалося

@@ -67,10 +67,6 @@
 
 <svelte:head>
 	<title>{masterName} — {$t('nav.residents', { default: 'Резиденти' })} — Одеська театральна школа</title>
-	<meta
-		name="description"
-		content="{masterName}, майстер курсу Одеської театральної школи."
-	/>
 </svelte:head>
 
 <div class="master-page" data-testid="master-profile-section">

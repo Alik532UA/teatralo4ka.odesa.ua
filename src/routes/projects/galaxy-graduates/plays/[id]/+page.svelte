@@ -35,12 +35,6 @@
 
 <svelte:head>
 	<title>{data.play.title} — {$t('galaxy.title')}</title>
-	<meta
-		name="description"
-		content="{data.play.title}, {data.play.year}. {$t('galaxy.playCast')}: {data.cast
-			.map((entry) => entry.graduate.name)
-			.join(', ') || '—'}"
-	/>
 </svelte:head>
 
 <main class="play-page" data-testid="play-page-section">

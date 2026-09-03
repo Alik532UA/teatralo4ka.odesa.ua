@@ -89,7 +89,6 @@
 
 <svelte:head>
 	<title>{$t('galaxy.festivalsTitle')} | {$t('hero.title')}</title>
-	<meta name="description" content={$t('galaxy.festivalsDescription')} />
 </svelte:head>
 
 <main class="festivals-page" data-testid="graduate-festivals-panel">

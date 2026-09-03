@@ -3,6 +3,8 @@ import { GROUPS, getGroupBySlug,
 	playIdsOfGroup
 } from '$lib/data/groups';
 import { lineageOf } from '$lib/data/groupLineage';
+import { detailWords, joinDescription } from '$lib/config/seoDetail';
+import { localeFromPath } from '$lib/i18n/routing';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
 import { playsByIds } from '$lib/data/plays';
@@ -14,7 +16,7 @@ export function entries() {
 	return GROUPS.map((group) => ({ slug: group.slug }));
 }
 
-export async function load({ params }) {
+export async function load({ params, url }) {
 	const group = getGroupBySlug(params.slug);
 	if (!group) {
 		error(404, `Групу не знайдено: ${params.slug}`);
@@ -114,9 +116,27 @@ export async function load({ params }) {
 	 */
 	const lineage = lineageOf(group.slug);
 
+	/*
+	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>`: у `og:description` доходить
+	 * лише `seoDescription`. Розбір — у докблоці `config/seoDetail.ts`.
+	 */
+	const words = detailWords(url.pathname);
+	const isEn = localeFromPath(url.pathname) === 'en';
+	const назва = isEn && group.nameEn ? group.nameEn : group.name;
+	const роки = [...group.graduationYears].sort((a, b) => a - b).join(', ');
+	const іменаМайстрів = masters.map((m) => m.displayName).filter(Boolean);
+	const seoDescription = joinDescription([
+		group.abbr ? `${назва} (${group.abbr}), ${words.graduation} ${роки}` : `${назва}, ${words.graduation} ${роки}`,
+		іменаМайстрів.length > 0
+			? `${іменаМайстрів.length === 1 ? words.masterOne : words.masterMany}: ${іменаМайстрів.join(', ')}`
+			: undefined,
+		words.groupTail
+	]);
+
 	return {
 		parts,
 		group,
+		seoDescription,
 		masters,
 		teachers,
 		members,

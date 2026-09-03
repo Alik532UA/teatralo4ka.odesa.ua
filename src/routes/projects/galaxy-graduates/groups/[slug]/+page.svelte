@@ -70,10 +70,6 @@
 
 <svelte:head>
 	<title>{groupTitle} — {$t('galaxy.groupsTitle')} | {$t('hero.title')}</title>
-	<meta
-		name="description"
-		content="{groupTitle} ({data.group.abbr || ''}): {$t('galaxy.groupMaster')} — {data.masters.map((m) => m.fullName).join(', ')}. {$t('galaxy.groupEnsemble')}, {$t('galaxy.groupRepertoire').toLowerCase()}."
-	/>
 </svelte:head>
 
 <main class="group-page" data-testid="graduate-group-panel">

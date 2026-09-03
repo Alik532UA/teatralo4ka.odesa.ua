@@ -1,4 +1,5 @@
 import { error, redirect } from '@sveltejs/kit';
+import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
@@ -67,5 +68,22 @@ export async function load({ params, url }) {
 		.map((id) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id))
 		.filter((m) => m !== undefined);
 
-	return { festival, members, masters, plays };
+	/*
+	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>` сторінки: у `og:description`
+	 * доходить лише те, що завантажувач поклав у `seoDescription`. Подробиці й
+	 * замір — у докблоці `config/seoDetail.ts`.
+	 *
+	 * Країн у тексті немає навмисно: їхні назви живуть у словниках
+	 * (`galaxy.country.*`), а `$t` у `load` недосяжний.
+	 */
+	const words = detailWords(url.pathname);
+	const назва = localeFromPath(url.pathname) === 'en' && festival.nameEn ? festival.nameEn : festival.name;
+	const роки = [...festival.years].sort((a, b) => a - b).join(', ');
+	const seoDescription = joinDescription([
+		`«${назва}», ${роки}`,
+		festival.city,
+		words.festivalTail
+	]);
+
+	return { festival, members, masters, plays, seoDescription };
 }

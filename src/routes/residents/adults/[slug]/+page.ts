@@ -120,8 +120,22 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 		? (LINKED_GRADUATES.find((g) => g.id === alsoGraduateKey) ?? null)
 		: null;
 
+	/*
+	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>`: у `og:description` доходить
+	 * лише `seoDescription`. Розбір — у докблоці `config/seoDetail.ts`.
+	 *
+	 * `roleTitle` — це вже готовий людський текст із реєстру («завідувачка
+	 * театральним відділенням, викладачка…»), тож слів звідкись брати не треба.
+	 * Немає його в 41 із 147 записів — тоді лишається саме ім'я, і це чесніше за
+	 * вигадану посаду.
+	 */
+	const seoDescription = masterData.roleTitle
+		? `${masterData.displayName} — ${masterData.roleTitle}`
+		: masterData.displayName;
+
 	return {
 		master: masterData,
+		seoDescription,
 		students,
 		graduates,
 		alsoGraduate,

@@ -108,12 +108,6 @@
 
 <svelte:head>
 	<title>{isEn ? 'Archival Completeness Statistics' : 'Статистика наповнення архіву'} | {$t('hero.title')}</title>
-	<meta
-		name="description"
-		content={isEn
-			? 'Monitoring of archive data completeness for graduates, troupes, plays, faculty, and festivals.'
-			: 'Моніторинг повноти даних архіву театральної школи: випускники, навчальні групи, вистави, викладачі та фестивалі.'}
-	/>
 </svelte:head>
 
 <main class="stats-page" data-testid="stats-section">

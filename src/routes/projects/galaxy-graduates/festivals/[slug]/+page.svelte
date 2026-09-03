@@ -69,17 +69,10 @@
 		isEn && data.festival.nameEn ? data.festival.nameEn : data.festival.name
 	);
 	const yearsStr = $derived([...data.festival.years].sort((a, b) => a - b).join(', '));
-	const countriesStr = $derived(
-		data.festival.countries.map((c) => $t(`galaxy.country.${c}`)).join(' · ')
-	);
-	const whereStr = $derived(
-		data.festival.city ? `${data.festival.city}, ${countriesStr}` : countriesStr
-	);
 </script>
 
 <svelte:head>
 	<title>{festivalTitle} — {$t('galaxy.festivalsTitle')} | {$t('hero.title')}</title>
-	<meta name="description" content="{festivalTitle}, {yearsStr}. {whereStr}." />
 </svelte:head>
 
 <main class="fest-page" data-testid="festival-panel">

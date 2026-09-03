@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
+import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { PLAYS, getPlayById, playPath } from '$lib/data/plays';
 import { castOf } from '$lib/data/playCast';
 import { classifyPlayGroups, groupsOfPlay, namedGroupsOfPlay } from '$lib/data/groups';
@@ -185,5 +186,33 @@ export function load({ params, url }) {
 		})
 		.filter((entry) => entry !== undefined);
 
-	return { play, cast, staff, groups, primaryGroups, supportingGroups, festivals, masters };
+	/*
+	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>`: у `og:description` доходить
+	 * лише `seoDescription`. Розбір — у докблоці `config/seoDetail.ts`.
+	 *
+	 * Складу в описі НЕМА навмисно: він росте від кожної нової анкети, а
+	 * соцмережі кешують прев'ю надовго — той самий висновок і з тієї самої
+	 * причини вже записаний у докблоці опису анкети випускника.
+	 */
+	const words = detailWords(url.pathname);
+	/*
+	 * Автор ОБРІЗАЄТЬСЯ: у вечорів із номерів це перелік усіх творів — в «Уривках
+	 * з класики» 2015 він на дев'ять назв і триста символів. Прев'ю однаково
+	 * покаже перші рядки, тож без обрізання хвіст опису не побачив би ніхто.
+	 */
+	const автор =
+		play.author && play.author.length > 90 ? `${play.author.slice(0, 90).trimEnd()}…` : play.author;
+	const seoDescription = joinDescription([`${play.title}, ${play.year}`, автор, words.playTail]);
+
+	return {
+		play,
+		cast,
+		staff,
+		groups,
+		primaryGroups,
+		supportingGroups,
+		festivals,
+		masters,
+		seoDescription
+	};
 }

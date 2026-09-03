@@ -143,7 +143,6 @@
 
 <svelte:head>
 	<title>{$t('galaxy.playsTitle')} | {$t('hero.title')}</title>
-	<meta name="description" content={$t('galaxy.playsDescription')} />
 </svelte:head>
 
 <main class="plays-page" data-testid="galaxy-plays-panel">

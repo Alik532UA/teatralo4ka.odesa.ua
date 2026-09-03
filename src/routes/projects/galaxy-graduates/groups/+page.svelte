@@ -177,10 +177,6 @@
 
 <svelte:head>
 	<title>{$t('galaxy.groupsTitle', { default: 'Групи випускників' })} | {$t('hero.title')}</title>
-	<meta
-		name="description"
-		content="Навчальні групи «Галактики випускників»: склад, майстри курсу та репертуар вистав."
-	/>
 </svelte:head>
 
 <main class="groups-page" data-testid="graduate-groups-panel">

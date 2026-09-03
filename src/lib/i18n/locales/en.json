@@ -819,6 +819,18 @@
 			"galaxyForm": {
 				"title": "Graduate form",
 				"description": "The Odesa Theatre School graduate form: performances and roles, course master, teachers, photos and social links. Fly into our Galaxy of Graduates"
+			},
+			"galaxyFestivals": {
+				"title": "Festivals",
+				"description": "Festivals the Odesa Theatre School travelled to: years, countries, participants and the productions shown."
+			},
+			"galaxyGroups": {
+				"title": "Graduate groups",
+				"description": "Study groups of the graduates galaxy: roster, course masters and the repertoire of plays."
+			},
+			"galaxyPlays": {
+				"title": "Plays and roles",
+				"description": "Every play, showing and study of the Odesa Theatre School: year, author, group and cast."
 			}
 		}
 	},
