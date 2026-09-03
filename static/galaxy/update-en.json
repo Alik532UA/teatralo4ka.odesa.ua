@@ -27,7 +27,12 @@
 		{
 			"id": "order",
 			"title": "On the future adults page, the order of teachers depends on your forms",
-			"text": "The list on the teachers page is ordered by the number of students: the more graduates mention a teacher in their form, the higher that teacher appears — and subject teachers count, not only heads of course. So it matters to remember and list yours. You can also fill in forms for your groupmates and friends: you almost certainly share performances and the same teachers, so together it goes faster."
+			"text": "The list on the teachers page is ordered by the number of students: the more graduates mention a teacher in their form, the higher that teacher appears — and subject teachers count, not only heads of course. So it matters to remember and list yours."
+		},
+		{
+			"id": "together",
+			"title": "Don't wait for everyone to respond",
+			"text": "Fill in a form for a coursemate or a friend — you share the performances and the teachers, so you already know most of it. Every such form is one more page of the school history brought back."
 		},
 		{
 			"id": "groups",
