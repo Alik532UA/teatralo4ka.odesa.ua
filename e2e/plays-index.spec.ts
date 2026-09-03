@@ -117,7 +117,14 @@ test.describe('перелік вистав', () => {
 		const знайдено = await page.locator(ПОСИЛАННЯ).count();
 		expect(знайдено, 'пошук за відомою назвою не знайшов нічого').toBeGreaterThan(0);
 		expect(знайдено, 'пошук нічого не звузив — фільтр не працює').toBeLessThan(УСЬОГО);
-		await expect(page.getByTestId('galaxy-plays-found-count')).toHaveText(String(знайдено));
+		/*
+		 * `toContainText`, а не `toHaveText`: після переходу на спільний
+		 * `SearchField` лічильник каже «Знайдено: N», а не саме число — те саме
+		 * поле й той самий підпис, що на сторінках груп і фестивалів.
+		 */
+		await expect(page.getByTestId('galaxy-plays-search-count-text')).toContainText(
+			String(знайдено)
+		);
 
 		await пошук.fill('такогонемаєточно');
 		await expect(
@@ -184,9 +191,9 @@ test.describe('перелік вистав', () => {
 		 */
 		await page.getByTestId('galaxy-plays-search-input').fill('Теремок');
 		await expect(
-			page.getByTestId('galaxy-plays-found-count'),
+			page.getByTestId('galaxy-plays-search-count-text'),
 			'пошук не знайшов виставу, бо про неї ще не заповнили анкету'
-		).not.toHaveText('0');
+		).toContainText('Знайдено');
 	});
 
 	test('у перелік можна потрапити з галактики', async ({ page }) => {

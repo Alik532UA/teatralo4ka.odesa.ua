@@ -6,7 +6,6 @@
 		Users,
 		Trophy,
 		Video,
-		Search,
 		CalendarRange,
 		List,
 		LayoutGrid
@@ -18,6 +17,7 @@
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
+	import SearchField from '$lib/components/SearchField.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import PlaysScope from '$lib/components/galaxy/PlaysScope.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
@@ -189,19 +189,15 @@
 			прикладу, а наслідок числа: груп двадцять, вистав 362. Двадцять
 			переглядають очима, 362 — ні.
 		-->
-		<div class="plays-search">
-			<span class="plays-search__icon" aria-hidden="true"><Search size={16} /></span>
-			<input
-				type="search"
-				bind:value={query}
-				class="plays-search__input"
-				placeholder={$t('galaxy.playsSearch')}
-				aria-label={$t('galaxy.playsSearch')}
-				data-testid="galaxy-plays-search-input"
+		<div class="plays-search-row">
+			<SearchField
+				value={query}
+				onchange={(v) => (query = v)}
+				found={found.length}
+				placeholderKey="galaxy.playsSearch"
+				nothingKey="galaxy.playsNothingFound"
+				testid="galaxy-plays-search"
 			/>
-			{#if query.trim()}
-				<span class="plays-search__found" data-testid="galaxy-plays-found-count">{found.length}</span>
-			{/if}
 		</div>
 
 		<!--
@@ -384,44 +380,10 @@
 		font-weight: 700;
 	}
 
-	.plays-search {
-		position: relative;
-		display: flex;
-		align-items: center;
-		max-width: 460px;
+
+	.plays-search-row {
 		margin-bottom: 2rem;
-	}
-	.plays-search__icon {
-		position: absolute;
-		left: 0.85rem;
-		display: flex;
-		color: var(--text-muted);
-		pointer-events: none;
-	}
-	.plays-search__input {
-		width: 100%;
-		padding: 0.55rem 3rem 0.55rem 2.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-card);
-		border: 1px solid var(--border-main);
-		color: var(--text-title);
-		font-size: 0.9rem;
-		outline: none;
-		transition: border-color var(--transition-base);
-	}
-	.plays-search__input:focus {
-		border-color: var(--accent-primary);
-	}
-	.plays-search__found {
-		position: absolute;
-		right: 0.75rem;
-		padding: 0.1rem 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.78rem;
-		font-weight: 700;
+		max-width: 460px;
 	}
 
 	.plays-years {
