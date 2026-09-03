@@ -8837,6 +8837,7 @@
 			"theatre"
 		],
 		"hasPhoto": true,
+		"photoCount": 2,
 		"enrollmentYears": [
 			2006
 		],
@@ -8847,7 +8848,7 @@
 		],
 		"playCount": 8,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3309,
+		"profileSize": 3327,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
