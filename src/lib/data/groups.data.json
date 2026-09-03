@@ -967,11 +967,6 @@
 		"abbr": null,
 		"masters": [
 			{
-				"id": "nadiia-rybakova",
-				"name": "Рибакова Надія В.",
-				"department": "theatre"
-			},
-			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -1416,7 +1411,11 @@
 		"graduationYears": [
 			2014
 		],
-		"memberIds": [],
+		"memberIds": [
+			"hryhorii-naumov",
+			"mykhailo-haniev",
+			"marharet-tsypynska"
+		],
 		"playIds": [
 			"taiemnytsi-zamku-oilenshtain-2013",
 			"pokaz-etiudiv-2014"
