@@ -29,7 +29,9 @@ export type SeoPageKey =
 	| 'admission'
 	| 'documents'
 	| 'statute'
-	| 'galaxy';
+	| 'galaxy'
+	| 'galaxyUpdate'
+	| 'galaxyForm';
 export type SeoLangKey = 'uk' | 'en';
 export const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -50,6 +52,16 @@ export const SEO_FALLBACK = {
 				title: 'Галактика випускників',
 				description:
 					'Галактика випускників Одеської театральної школи: понад 500 випускників, групи, вистави й фестивалі!'
+			},
+			galaxyUpdate: {
+				title: 'Що нового в галактиці',
+				description:
+					'Що нового в галактиці випускників: власні сторінки викладачів, груп, вистав і фестивалів, кілька фото в анкеті. Подивіться, що змінилося, і перевірте свою сторінку.'
+			},
+			galaxyForm: {
+				title: 'Анкета випускника',
+				description:
+					'Анкета випускника Одеської театральної школи: вистави й ролі, майстер курсу, викладачі, фото й соцмережі. Залітай до нас у Галактику Випускників'
 			},
 			about: {
 				title: 'Про школу',
@@ -97,6 +109,16 @@ export const SEO_FALLBACK = {
 				title: 'Galaxy of graduates',
 				description:
 					'The galaxy of Odesa Theatre School graduates: over 500 graduates, groups, performances and festivals!'
+			},
+			galaxyUpdate: {
+				title: "What's new in the galaxy",
+				description:
+					"What's new in the graduates galaxy: pages of their own for teachers, groups, performances and festivals, several photos in a profile. See what changed and check your page."
+			},
+			galaxyForm: {
+				title: 'Graduate form',
+				description:
+					'The Odesa Theatre School graduate form: performances and roles, course master, teachers, photos and social links. Fly into our Galaxy of Graduates'
 			},
 			about: {
 				title: 'About School',
@@ -163,6 +185,10 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'statute';
 		case '/projects/galaxy-graduates':
 			return 'galaxy';
+		case '/projects/galaxy-graduates/update':
+			return 'galaxyUpdate';
+		case '/projects/galaxy-graduates/form':
+			return 'galaxyForm';
 		/*
 		 * Галактика доти провалювалася в `default` і брала опис ГОЛОВНОЇ. Видно
 		 * це було лише в прев'ю месенджера: посилання на галактику підписувалося

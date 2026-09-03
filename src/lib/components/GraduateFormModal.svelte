@@ -5,6 +5,10 @@
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import { browser } from '$app/environment';
 
+	const FORM_VIEW_URL =
+		'https://docs.google.com/forms/d/e/1FAIpQLSfT1mDSKiVjVSisavSUCBSfB43IE_Dj7dzP5EngQOA9O1V3Ng/viewform';
+	const FORM_EMBED_URL = `${FORM_VIEW_URL}?embedded=true`;
+
 	interface Props {
 		isOpen: boolean;
 		onclose: () => void;
@@ -17,8 +21,7 @@
 	// (PROJECT-STRUCTURE-v8 § 1).
 	let { isOpen, onclose }: Props = $props();
 
-	const FORM_VIEW_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfT1mDSKiVjVSisavSUCBSfB43IE_Dj7dzP5EngQOA9O1V3Ng/viewform';
-	const FORM_EMBED_URL = `${FORM_VIEW_URL}?embedded=true`;
+
 
 	let isLoading = $state(true);
 

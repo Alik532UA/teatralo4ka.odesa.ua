@@ -80,6 +80,15 @@ const PUBLIC_ENTRIES = [
 	'/projects/teatr-pro',
 	'/projects/festival',
 	'/projects/galaxy-graduates',
+	// Дві адреси, які існують заради ПРЕВ'Ю в месенджері: посилання на
+	// оголошення й на анкету роздають руками, а `?update=open` / `?form=open`
+	// власного підпису мати не можуть — query-рядок у мета-теги не потрапляє.
+	// Тут вони обов'язкові: prerender знаходить сторінки за ПОСИЛАННЯМИ, а на
+	// ці двоє з сайту нічого не веде (їх роздають зовні). Заміряно: без цих
+	// рядків у `build/` не з'явилося жодного з чотирьох файлів (дві сторінки
+	// × дві мови), хоч dev-сервер їх віддавав.
+	'/projects/galaxy-graduates/update',
+	'/projects/galaxy-graduates/form',
 	'/projects/photo-archive',
 	'/projects/spring-odesa-theatre',
 	'/projects/support-production',

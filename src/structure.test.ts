@@ -307,6 +307,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   з нулем логіки плюс одна чиста функція (тепер зі своїм тестом). Той самий
  *   аргумент, що для `data/betaChecklist.ts`. Layout упав 365 → 240, тобто нижче
  *   канонічної межі 400, і борг закрито — рядок пішов, як вимагає § 8.
+ *
+ * 2026-09-04: `data/betaChecklist.ts` 390 → 392. Два рядки — перші записи в
+ *   `BETA_UNCOVERED_ROUTES`: адреси `galaxy-graduates/update` і `.../form`, які
+ *   існують заради прев'ю в месенджері й власного вмісту не мають. Файл і далі
+ *   ДАНІ: логіки в ньому нуль, а виняток тут оформлюється ЯВНО саме тому, що
+ *   забута сторінка виглядає точно так само, як свідомо пропущена.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -333,7 +339,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 390,
+	'src/lib/data/betaChecklist.ts': 392,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

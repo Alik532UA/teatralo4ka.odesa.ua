@@ -811,6 +811,14 @@
 			"galaxy": {
 				"title": "Galaxy of graduates",
 				"description": "The galaxy of Odesa Theatre School graduates: over 500 graduates, groups, performances and festivals!"
+			},
+			"galaxyUpdate": {
+				"title": "What's new in the galaxy",
+				"description": "What's new in the graduates galaxy: pages of their own for teachers, groups, performances and festivals, several photos in a profile. See what changed and check your page."
+			},
+			"galaxyForm": {
+				"title": "Graduate form",
+				"description": "The Odesa Theatre School graduate form: performances and roles, course master, teachers, photos and social links. Fly into our Galaxy of Graduates"
 			}
 		}
 	},

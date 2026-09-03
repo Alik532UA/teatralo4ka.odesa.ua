@@ -183,7 +183,17 @@ export default ts.config(
 			// полем об'єкта (`hit.href`), а такого правило не відстежує в принципі —
 			// воно приймає лише прямий виклик resolve() або змінну, у чиєму
 			// оголошенні цей виклик стоїть.
-			'src/lib/components/SearchOverlay.svelte'
+			'src/lib/components/SearchOverlay.svelte',
+			// Дві адреси заради прев'ю в месенджері. Ціль в обох — галактика з
+			// QUERY-параметром (`?update=open` / `?form=open`), а `resolve()`
+			// приймає ідентифікатор маршруту й параметра дописати не вміє: адреса
+			// тут це `resolve()` ПЛЮС рядок запиту, тобто для правила вона вже
+			// «не статична». Сам маршрут при цьому проходить через
+			// `localizedPath`, і помилку в ньому впіймає той самий `resolve()`
+			// усередині. Точкові коментарі не працюють із тієї ж причини, що в
+			// шапці: один із двох викликів — атрибут `href` у тегу.
+			'src/routes/projects/galaxy-graduates/update/+page.svelte',
+			'src/routes/projects/galaxy-graduates/form/+page.svelte'
 		],
 		rules: {
 			'svelte/no-navigation-without-resolve': 'off'
