@@ -47,6 +47,17 @@ const VOCABULARY = [
 		]
 	},
 	{
+		/*
+		 * Родовід — саме `GitBranch`, і причина не в моді на git-іконки: зв'язок
+		 * груп буває багато-до-багатьох (кілька злилися, одна розпалася), і це
+		 * галуження, а не стрілка вперед. `History` чи `ArrowRight` обіцяли б
+		 * рівно те, чого механізм НЕ означає, — один лінійний ланцюг.
+		 */
+		concept: 'родовід груп: з чого постала й чим стала',
+		icon: 'GitBranch',
+		sites: [{ file: 'src/lib/components/GroupLineageSection.svelte', marker: 'group-lineage-title' }]
+	},
+	{
 		concept: 'курс: майстри курсу й навчальні групи',
 		icon: 'GraduationCap',
 		sites: [

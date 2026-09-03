@@ -1086,7 +1086,12 @@
 		"playGuests": "Запрошені актори",
 		"playAwards": "Нагороди",
 		"playLineup": "Склад показу",
-		"playParticipants": "Також брали участь"
+		"playParticipants": "Також брали участь",
+		"lineageTitle": "Історія групи",
+		"lineageWas": "До цього була",
+		"lineageMergedFrom": "Зібралася з",
+		"lineageBecame": "Далі стала",
+		"lineageSplitInto": "Далі розпалася на"
 	},
 	"verification": {
 		"possibleErrors": "Інформація на цій сторінці не пройшла перевірку людиною, а була зібрана AI на основі різноманітних даних. На цій сторінці можуть бути помилки. Знайшов помилку?",

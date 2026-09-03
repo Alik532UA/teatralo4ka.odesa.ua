@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { GROUPS, getGroupBySlug,
 	playIdsOfGroup
 } from '$lib/data/groups';
+import { lineageOf } from '$lib/data/groupLineage';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
 import { playsByIds } from '$lib/data/plays';
@@ -103,12 +104,23 @@ export async function load({ params }) {
 		.map((part) => ({ name: part.name, plays: playsByIds(part.playIds) }))
 		.filter((part) => part.plays.length > 0);
 
+	/*
+	 * Родовід — обидва боки з ОДНОГО реєстру ребер, і підписи вже виведені.
+	 *
+	 * Виводить їх `lineageOf`, а не розмітка: різновид зв'язку («стала» проти
+	 * «розпалася на») — це кількість ребер, тобто питання до даних, а не до
+	 * шаблону. Розмітка, яка сама вирішує, який напис показати, розійшлася б із
+	 * тим, як ту саму кількість читає інша сторінка.
+	 */
+	const lineage = lineageOf(group.slug);
+
 	return {
 		parts,
 		group,
 		masters,
 		teachers,
 		members,
-		plays
+		plays,
+		lineage
 	};
 }

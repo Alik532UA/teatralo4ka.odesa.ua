@@ -1086,7 +1086,12 @@
 		"playGuests": "Guest actors",
 		"playAwards": "Awards",
 		"playLineup": "Show cast",
-		"playParticipants": "Also took part"
+		"playParticipants": "Also took part",
+		"lineageTitle": "Group history",
+		"lineageWas": "Previously",
+		"lineageMergedFrom": "Formed from",
+		"lineageBecame": "Later became",
+		"lineageSplitInto": "Later split into"
 	},
 	"verification": {
 		"possibleErrors": "The information on this page has not been verified by a human, but was compiled by AI from various data sources. There may be errors on this page. Found a mistake?",

@@ -1,0 +1,126 @@
+import lineageData from './group-lineage.data.json';
+import { GROUPS, type GraduateGroup } from './groups';
+
+/**
+ * Родовід груп: що з чого стало.
+ *
+ * ## Задача
+ *
+ * «FreeStyle» 2014 року перформатували, і далі та сама історія продовжилася під
+ * назвою «ТУ-154». Дві сторінки, між якими не було нічого: читач бачив дві
+ * незнайомі групи з однією людиною в спільному складі й не мав звідки дізнатися,
+ * що це одна лінія.
+ *
+ * Але зв'язок груп НЕ буває лише «одна до одної». Кілька груп зливаються в одну,
+ * одна розпадається на кілька, кілька перерозподіляються в кілька, одна
+ * перетікає в іншу. Механізм, розрахований на пару, довелося б переписувати на
+ * першому ж злитті — а такі в школі вже є.
+ *
+ * ## Чому ОКРЕМИЙ реєстр, а не поле в групі
+ *
+ * Зв'язок належить ДВОМ групам одночасно. Поле в одній із них — довільний вибір
+ * («де записувати, у попередниці чи в наступниці?»), а поля в обох — та сама
+ * копія двічі, тобто спосіб розійтися. Проєкт цим уже колись обпікся: зв'язок
+ * «вистава ↔ група» був однобічним, сторінка групи показ показувала, а сторінка
+ * показу групу — ні, і довелося ставити окремий гейт симетрії.
+ *
+ * Тут зв'язок записаний ОДИН раз, а обидві сторінки виводять свій бік із того
+ * самого рядка. Розійтися нема чому.
+ *
+ * ## Чому напрямлені ребра, а не поле «різновид»
+ *
+ * Усі чотири випадки, які треба вміти, — це та сама пара `from → to`, лише в
+ * різній кількості:
+ *
+ *   A → B ................... одна перетекла в іншу
+ *   A → C, B → C ............ кілька злилися в одну
+ *   A → B, A → C ............ одна розпалася на кілька
+ *   A → C, A → D, B → C ..... кілька перерозподілилися в кілька
+ *
+ * Тому різновид тут не ЗАПИСУЮТЬ, а виводять із самих ребер. Записаний
+ * `kind: 'merge'` у групи, у якої попередниця одна, був би неправдою, яку не
+ * розв'язати нічим, окрім того самого підрахунку — тобто полем, що вміє
+ * суперечити даним поруч.
+ */
+export interface GroupLineageEdge {
+	/** Група, ЯКА стала. `slug` із реєстру груп. */
+	from: string;
+	/** Група, ЯКОЮ стала. `slug` із реєстру груп. */
+	to: string;
+	/**
+	 * Одним рядком — що саме сталося: «групу перформатували», «злилися після
+	 * випуску 2016». Це не назва різновиду (той виводиться), а те, чого з чисел
+	 * не видно. Немає поля — сторінка просто покаже зв'язок без пояснення.
+	 */
+	note?: string;
+	noteEn?: string;
+}
+
+export const LINEAGE: readonly GroupLineageEdge[] = lineageData satisfies readonly GroupLineageEdge[];
+
+/** Один бік родоводу: сама група плюс пояснення з ребра, яким вона прийшла. */
+export interface LineageLink {
+	group: GraduateGroup;
+	note?: string;
+	noteEn?: string;
+}
+
+/**
+ * Ребро → ланка родоводу. Невідомий `slug` мовчки відкидається.
+ *
+ * Мовчки — бо кричати про це має ГЕЙТ на збірці (`groupLineage.test.ts`), а не
+ * сторінка читача карткою без назви. Той самий вибір, що в `playsByIds` і в
+ * складі групи.
+ */
+function ланка(slug: string, edge: GroupLineageEdge): LineageLink | undefined {
+	const group = GROUPS.find((g) => g.slug === slug);
+	return group ? { group, note: edge.note, noteEn: edge.noteEn } : undefined;
+}
+
+function ланки(edges: GroupLineageEdge[], бік: (e: GroupLineageEdge) => string): LineageLink[] {
+	return edges
+		.map((edge) => ланка(бік(edge), edge))
+		.filter((link): link is LineageLink => link !== undefined);
+}
+
+/** Групи, з яких ця постала: ребра, що ведуть У неї. */
+export function predecessorsOf(slug: string): LineageLink[] {
+	return ланки(
+		LINEAGE.filter((e) => e.to === slug),
+		(e) => e.from
+	);
+}
+
+/** Групи, якими ця стала: ребра, що ведуть ІЗ неї. */
+export function successorsOf(slug: string): LineageLink[] {
+	return ланки(
+		LINEAGE.filter((e) => e.from === slug),
+		(e) => e.to
+	);
+}
+
+/**
+ * Родовід групи обома боками — і підпис до кожного.
+ *
+ * Підпис виводиться з КІЛЬКОСТІ, і саме тому їх по два на бік, а не по чотири.
+ * «Далі стала» проти «Далі розпалася на»; «До цього була» проти «Зібралася з».
+ * Тонша різниця — «перетекла» проти «влилася разом з іншими» — на цій сторінці
+ * не потрібна: її видно з ІНШОГО боку зв'язку, де та сама група каже
+ * «Зібралася з: A, B». Дублювати її ще й тут означало б два написи про одне.
+ */
+export function lineageOf(slug: string): {
+	predecessors: LineageLink[];
+	successors: LineageLink[];
+	/** Ключі i18n — щоб компонент не збирав рядки з умов. */
+	beforeKey: 'galaxy.lineageWas' | 'galaxy.lineageMergedFrom';
+	afterKey: 'galaxy.lineageBecame' | 'galaxy.lineageSplitInto';
+} {
+	const predecessors = predecessorsOf(slug);
+	const successors = successorsOf(slug);
+	return {
+		predecessors,
+		successors,
+		beforeKey: predecessors.length > 1 ? 'galaxy.lineageMergedFrom' : 'galaxy.lineageWas',
+		afterKey: successors.length > 1 ? 'galaxy.lineageSplitInto' : 'galaxy.lineageBecame'
+	};
+}

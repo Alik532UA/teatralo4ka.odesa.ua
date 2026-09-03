@@ -19,6 +19,7 @@
 		openGraduateModal
 	} from '$lib/services/graduateModal.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
+	import GroupLineageSection from '$lib/components/GroupLineageSection.svelte';
 	import GroupRepertoire from '$lib/components/GroupRepertoire.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
@@ -184,6 +185,20 @@
 					{/each}
 				</div>
 			</section>
+		{/if}
+
+		<!--
+			Родовід стоїть ПЕРЕД майстрами й репертуаром, бо відповідає на питання
+			«що це за група» — те саме, з яким читач сюди прийшов. Порожніх
+			заголовків не буває: секція з'являється лише коли зв'язок є хоч в один бік.
+		-->
+		{#if data.lineage.predecessors.length > 0 || data.lineage.successors.length > 0}
+			<GroupLineageSection
+				predecessors={data.lineage.predecessors}
+				successors={data.lineage.successors}
+				beforeKey={data.lineage.beforeKey}
+				afterKey={data.lineage.afterKey}
+			/>
 		{/if}
 
 		<!-- 2. Секція: майстер курсу й викладачі -->

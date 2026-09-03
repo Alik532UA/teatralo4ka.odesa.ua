@@ -203,6 +203,13 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	'VerificationNoticeBanner.svelte': {
 		axis: 'window',
 		why: 'плашка на всю ширину контейнера сторінки під навігацією'
+	},
+	'GroupLineageSection.svelte': {
+		axis: 'window',
+		why:
+			'секція на всю ширину сторінки групи, поруч зі складом і репертуаром; ' +
+			'запит на 640px ставить посилання на групи стовпчиком, бо в рядок вони ' +
+			'на телефоні не влазять — це про ширину ЕКРАНА, а не про місце в сітці'
 	}
 };
 
