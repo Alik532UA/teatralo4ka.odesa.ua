@@ -267,22 +267,34 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Кнопка статистики з’явилася й пішла: сторінку наповнення архіву прибрано з
  *   пошуку остаточно (`config/hiddenRoutes.ts`), тож посилання на неї з панелі
  *   сцени не лишилося. Стеля повернулася до значення, яке було до кнопки; файл 341.
- * 2026-09-03: `galaxy-graduates/groups/+page.svelte` 490 → 505. Поле пошуку —
- *   те саме, що на сторінці вистав, якого в переліку груп не було.
+ * 2026-09-03: `galaxy-graduates/groups/+page.svelte` 490 → 495, і всередині дня
+ *   це були два рухи в різні боки.
  *
- *   Копії немає: саме поле винесено в `components/SearchField.svelte` (з
- *   `adults/MasterSearch.svelte`, який був третьою такою розміткою), а правило
- *   збігу — у `matchesGroupQuery` поруч із даними, зі своїм тестом. Тут лишилося
- *   рівно те, що не буває чистим: стан запиту, звуження ТРЬОХ категорій одним
- *   похідним і місце поля в шапці.
+ *   Спершу +12 на поле пошуку, якого в переліку груп не було (на сторінці вистав
+ *   воно вже стояло). Копії не з'явилося: саме поле винесено в
+ *   `components/SearchField.svelte` (з `adults/MasterSearch.svelte`, який був
+ *   третьою такою розміткою), а правило збігу — у `matchesGroupQuery` поруч із
+ *   даними, зі своїм тестом. На сторінці лишилося те, що не буває чистим: стан
+ *   запиту, звуження ТРЬОХ категорій одним похідним і місце поля в шапці. Саме
+ *   звуження одним похідним і дало більшу частину рядків, і платити варто: три
+ *   `filter` із запитом окремо розійшлися б на першій правці, а лічильник у полі
+ *   й числа над категоріями почали б розказувати різне.
  *
- *   Звуження саме одним похідним і дало більшу частину рядків, і платити за це
- *   варто: три `filter` із запитом окремо розійшлися б на першій правці, а
- *   лічильник у полі й числа над категоріями почали б розказувати різне.
+ *   Потім −11: сніпет «Додати групу» разом зі своїми стилями поїхав у
+ *   `galaxy/GalaxyAddCard.svelte`, бо той самий блок знадобився ще й переліку
+ *   вистав. Тому підсумок 495, а не 505 — і стеля стоїть на 495, а не на
+ *   заміряних 491: чотири рядки запасу, щоб храповик не червонів від наступного
+ *   коментаря.
  *
- *   Того ж коміта запис `data/masters.ts` (260) ПРИБРАНО: приватна
+ *   Того ж дня запис `data/masters.ts` (260) ПРИБРАНО: приватна
  *   `normalizeQuery` поїхала у спільний `utils/searchQuery`, і файл упав до 249,
- *   тобто в канонічну межю 250. Борг закрито — рядок пішов, як вимагає § 8.
+ *   тобто в канонічну межу 250. Борг закрито — рядок пішов, як вимагає § 8.
+ *
+ * 2026-09-03: `galaxy-graduates/plays/+page.svelte` 420 → 430. Звернення
+ *   «Додати виставу», якого на сторінці не було зовсім, — тим самим
+ *   `GalaxyAddCard`. Рядки тут майже всі коментар про те, ЧОМУ картка стоїть над
+ *   переліком, а не в сітці: плитки вистав розкладені по роках, і картка
+ *   всередині сітки читалася б як прохання додати показ саме до того року.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -299,7 +311,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PianoModal.svelte': 608,
 	'src/lib/components/GraduateProfileView.svelte': 1600,
 	'src/lib/components/FooterSection.svelte': 510,
-	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 505,
+	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 495,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
 	'src/lib/components/GalaxyStageControls.svelte': 345,
@@ -318,7 +330,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
-	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 420,
+	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 430,
 	/*
 	 * 2026-09-03: 291 → 335. Блок «Хто грав» навчився показувати ТРЕТІЙ різновид
 	 * людини — працівника школи з роллю в номері (`Play.staff`).

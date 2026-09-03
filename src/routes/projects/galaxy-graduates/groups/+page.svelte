@@ -7,12 +7,11 @@
 		Calendar,
 		Sparkles,
 		Theater,
-		Plus,
 		CalendarRange,
 		List,
 		LayoutGrid
 	} from 'lucide-svelte';
-	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath, matchesGroupQuery, playIdsOfGroup } from '$lib/data/groups';
@@ -212,30 +211,6 @@
 			</div>
 		</header>
 
-		<!--
-			«Додати групу» — сніпетом, бо картка потрібна в УСІХ трьох режимах.
-			Скопіювати її в кожну гілку означало б три однакових шматки, які
-			розійдуться на першій же правці, а показувати лише в плитці — сховати
-			прохання написати від тих, хто дивиться хронологію.
-		-->
-		{#snippet addCard()}
-			<div class="group-card group-card--add" data-testid="galaxy-group-add-card">
-				<span class="group-card__head">
-					<span class="group-card__name">{$t('galaxy.addGroup')}</span>
-					<span class="group-card__abbr">
-						<Plus size={13} aria-hidden="true" />
-					</span>
-				</span>
-				<span class="group-card__masters">{$t('galaxy.addGroupHint')}</span>
-				<!--
-					Розгорнуто, без олівця: прохання написати вже стоїть рядком
-					вище, і кнопка поруч питала б удруге те саме, ховаючи
-					відповідь за ще одним натисканням. Місця в плитці вистачає.
-				-->
-				<EditContactButton testIdPrefix="galaxy-group-add-contact" mode="inline" />
-			</div>
-		{/snippet}
-
 		{#snippet groupCard(group: (typeof GROUPS)[number])}
 			<a
 				class="group-card"
@@ -305,7 +280,12 @@
 				праву. Той самий `testIdPrefix`, що в плитки, — режим показується
 				рівно один.
 			-->
-			<div class="groups-add-solo">{@render addCard()}</div>
+			<GalaxyAddCard
+				title={$t('galaxy.addGroup')}
+				hint={$t('galaxy.addGroupHint')}
+				testIdPrefix="galaxy-group-add"
+				variant="row"
+			/>
 			<GalaxyRows
 				{rows}
 				{topSections}
@@ -351,7 +331,13 @@
 					<span class="groups-category__count">{graduatedGroups.length}</span>
 				</div>
 				<ul class="groups-grid" data-testid="galaxy-groups-list">
-					<li>{@render addCard()}</li>
+					<li>
+						<GalaxyAddCard
+							title={$t('galaxy.addGroup')}
+							hint={$t('galaxy.addGroupHint')}
+							testIdPrefix="galaxy-group-add"
+						/>
+					</li>
 					{#each orderedGraduated as group (group.slug)}
 						<li>{@render groupCard(group)}</li>
 					{/each}
@@ -429,12 +415,6 @@
 	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
 	.groups-header__view {
 		margin-left: auto;
-	}
-	/* Картка звернення поза плиткою: у повну ширину вона розтягла б прохання
-	   написати на весь екран, а це не головне на сторінці. */
-	.groups-add-solo {
-		max-width: 24rem;
-		margin-bottom: 1.25rem;
 	}
 	.groups-header__title {
 		margin: 0;
@@ -584,17 +564,6 @@
 		color: var(--text-muted);
 		font-size: 0.78rem;
 		font-weight: 600;
-	}
-	/*
-	 * Плитка «додати групу» — та сама, що й у решти, з двома відмінностями:
-	 * вона не посилання (кнопка всередині сама веде до контактів) і не має
-	 * значків із числами, бо рахувати в ній нічого. Пунктирна рамка каже, що це
-	 * місце під групу, а не група.
-	 */
-	.group-card--add {
-		border-style: dashed;
-		justify-content: space-between;
-		gap: 0.6rem;
 	}
 	/*
 	 * Мініатюри притиснуті до низу картки: у груп різна кількість плашок і

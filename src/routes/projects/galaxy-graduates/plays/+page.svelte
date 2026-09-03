@@ -17,6 +17,7 @@
 	import { playGroupNames } from '$lib/data/groups';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
+	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import PlaysScope from '$lib/components/galaxy/PlaysScope.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
@@ -215,6 +216,23 @@
 				onchange={(v) => (onlyWithCast = v)}
 			/>
 		{/if}
+
+		<!--
+			Звернення СТОЇТЬ НАД переліком в обох режимах, а не всередині сітки, як
+			у групах. Причина в даних: плитки вистав розкладені по РОКАХ, і картка
+			всередині сітки належала б якомусь одному року — тобто прохання додати
+			показ 2015-го читалося б як прохання додати саме до 2015-го. Це
+			звернення про весь архів.
+
+			Над порожнім результатом пошуку його теж видно: людина, яка нічого не
+			знайшла, — саме та, кому є що додати.
+		-->
+		<GalaxyAddCard
+			title={$t('galaxy.addPlay')}
+			hint={$t('galaxy.addPlayHint')}
+			testIdPrefix="galaxy-play-add"
+			variant="row"
+		/>
 
 		{#if byYear.length === 0}
 			<p class="plays-empty" data-testid="galaxy-plays-empty-text">

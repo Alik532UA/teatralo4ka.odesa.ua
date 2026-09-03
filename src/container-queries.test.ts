@@ -204,6 +204,13 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 		axis: 'window',
 		why: 'плашка на всю ширину контейнера сторінки під навігацією'
 	},
+	'galaxy/GalaxyAddCard.svelte': {
+		axis: 'window',
+		why:
+			'запит стосується ЛИШЕ вигляду `row`, а він завжди на всю ширину ' +
+			'сторінки — над переліком, поза сіткою. Вигляд `tile` живе в клітинці ' +
+			'сітки й розмірного запиту не має зовсім: там усе робить `height: 100%`'
+	},
 	'GroupLineageSection.svelte': {
 		axis: 'window',
 		why:
