@@ -960,9 +960,27 @@ button {
 .dropdown-opt-unified.theme-opt {
 	background: var(--sw-bg);
 	color: var(--sw-fg);
-	/* Облямівка тим самим кольором, що текст: на світлих темах кнопка інакше
-	   зливається з тлом панелі. */
-	border: 1px solid var(--sw-fg);
+	/*
+	 * Облямівка — АКЦЕНТ теми, і це не оздоба.
+	 *
+	 * Перша редакція брала тлом `--bg-page`, і кнопки вийшли попарно однакові:
+	 * світла й світло-жовта — обидві білі, три темні — обидві темні (знімок
+	 * автора). Тепер тло — `--bg-surface`, тобто характерний тон теми (жовтий у
+	 * жовтій, синій у синій), а облямівка додає її акцент. Разом ці два кольори
+	 * розрізняють усі шість.
+	 */
+	border: 2px solid var(--sw-accent);
+	/*
+	 * НЕОБРАНІ дрібніші, обрана — повного розміру (вимога автора: «інші теми
+	 * мають розмір кнопки 80%»). Так обрану тему видно і кольором обведення, і
+	 * розміром — а обведення саме собою на кольорових кнопках читалося слабко.
+	 *
+	 * 80% від 44px — 35px, тобто вище за обов'язковий мінімум WCAG 2.2 AA
+	 * (24px, SC 2.5.8). Власний стандарт проєкту в 44px міряє
+	 * `e2e/touch-targets.spec.ts` — він дивиться на ВИДИМІ контроли, а панель
+	 * налаштувань закрита, поки її не відкрили.
+	 */
+	transform: scale(0.8);
 }
 
 .dropdown-opt-unified.theme-opt:hover,
@@ -980,47 +998,48 @@ button {
 .dropdown-opt-unified.theme-opt.active {
 	background: var(--sw-bg);
 	color: var(--sw-fg);
+	transform: none;
 	outline: 2px solid var(--accent-primary);
 	outline-offset: 1px;
 }
 
 .theme-opt[data-theme-key='light'] {
-	--sw-bg: #ffffff;
+	--sw-bg: #e5f7fd;
 	--sw-fg: #006c8d;
 	--sw-accent: #00b5ec;
 	--sw-on: #00242f;
 }
 
 .theme-opt[data-theme-key='light-yellow'] {
-	--sw-bg: #ffffff;
+	--sw-bg: #ffed00;
 	--sw-fg: #003d50;
 	--sw-accent: #00242f;
 	--sw-on: #ffffff;
 }
 
 .theme-opt[data-theme-key='yellow'] {
-	--sw-bg: #fbfcfd;
+	--sw-bg: #fff89a;
 	--sw-fg: #003d50;
 	--sw-accent: #9adcff;
 	--sw-on: #00242f;
 }
 
 .theme-opt[data-theme-key='dark'] {
-	--sw-bg: #003646;
+	--sw-bg: #00242f;
 	--sw-fg: #e5f7fd;
 	--sw-accent: #00b5ec;
 	--sw-on: #00242f;
 }
 
 .theme-opt[data-theme-key='dark-cyan'] {
-	--sw-bg: #222831;
+	--sw-bg: #393e46;
 	--sw-fg: #eeeeee;
 	--sw-accent: #00adb5;
 	--sw-on: #222831;
 }
 
 .theme-opt[data-theme-key='dark-blue'] {
-	--sw-bg: #1b262c;
+	--sw-bg: #0f4c75;
 	--sw-fg: #bbe1fa;
 	--sw-accent: #bbe1fa;
 	--sw-on: #1b262c;
