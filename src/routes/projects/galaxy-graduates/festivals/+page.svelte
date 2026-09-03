@@ -11,7 +11,9 @@
 		LayoutGrid
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { FESTIVALS, festivalPath, latestYear } from '$lib/data/festivals';
+	import { FESTIVALS, festivalPath, latestYear, matchesFestivalQuery } from '$lib/data/festivals';
+	import SearchField from '$lib/components/SearchField.svelte';
+	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -27,8 +29,19 @@
 	 * Найновіші згори — так само, як у переліку груп: людина шукає свою поїздку,
 	 * а не найдавнішу.
 	 */
+	/**
+	 * Пошук — той самий, що в групах і виставах, і в тому самому місці.
+	 *
+	 * Доти його тут не було зовсім, тож на трьох сусідніх сторінках розділу поле
+	 * стояло в трьох різних станах: у виставах окремим рядком, у групах усередині
+	 * шапки, тут ніде. Правило збігу живе в `matchesFestivalQuery` — там, де дані.
+	 */
+	let query = $state('');
+
+	const знайдені = $derived(FESTIVALS.filter((f) => matchesFestivalQuery(f, query)));
+
 	const ordered = $derived(
-		[...FESTIVALS].sort(
+		[...знайдені].sort(
 			(a, b) => latestYear(b) - latestYear(a) || a.name.localeCompare(b.name, 'uk')
 		)
 	);
@@ -116,6 +129,29 @@
 				/>
 			</div>
 		</header>
+
+		<div class="festivals-search-row">
+			<SearchField
+				value={query}
+				onchange={(v) => (query = v)}
+				found={знайдені.length}
+				placeholderKey="galaxy.festivalsSearch"
+				nothingKey="galaxy.festivalsSearchNothing"
+				testid="galaxy-festivals-search"
+			/>
+		</div>
+
+		<!--
+			Звернення СТОЇТЬ НАД переліком в обох режимах — як у виставах, і з тієї
+			самої причини: плитки фестивалів розкладені по роках, тож картка
+			всередині сітки належала б якомусь одному року.
+		-->
+		<GalaxyAddCard
+			title={$t('galaxy.addFestival')}
+			hint={$t('galaxy.addFestivalHint')}
+			testIdPrefix="galaxy-festival-add"
+			variant="row"
+		/>
 
 		{#if view.current !== 'tiles'}
 			<!--
@@ -250,6 +286,11 @@
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
 	.festivals-page__nav .nav-link--forward:hover {
 		transform: translateX(3px);
+	}
+
+	.festivals-search-row {
+		margin-bottom: 2rem;
+		max-width: 460px;
 	}
 
 	.festivals-header {

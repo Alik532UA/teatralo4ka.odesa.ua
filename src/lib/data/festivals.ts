@@ -1,4 +1,5 @@
 import type { Pathname } from '$app/types';
+import { matchesQuery } from '$lib/utils/searchQuery';
 import type { VerificationStatusProp } from './groups';
 import festivalsData from './festivals.data.json';
 
@@ -111,4 +112,21 @@ export function latestYear(festival: Festival): number {
 /** Шлях сторінки фестивалю БЕЗ мовного префікса — його додає `localizedPath`. */
 export function festivalPath(slug: string): Pathname {
 	return `/projects/galaxy-graduates/festivals/${slug}` as Pathname;
+}
+
+/**
+ * Чи підходить фестиваль під запит пошуку.
+ *
+ * Правила збігу — у `utils/searchQuery`, як і в групах та майстрах; тут лише
+ * ЯКІ поля шукаються.
+ *
+ * Країни в переліку не випадково: фестиваль частіше згадують саме так
+ * («той, що в Чехії»), ніж власною назвою. Роки — окремими словами, бо на
+ * фестиваль їздять не раз, і в записі їх список.
+ */
+export function matchesFestivalQuery(festival: Festival, query: string): boolean {
+	return matchesQuery(
+		[festival.name, festival.nameEn, ...festival.countries, ...festival.years],
+		query
+	);
 }

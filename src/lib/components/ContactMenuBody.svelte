@@ -53,9 +53,25 @@
 		 * `large` — стовпчик, де віконце має власну ширину (вітальне вікно).
 		 */
 		size?: 'strip' | 'block' | 'large';
+		/**
+		 * `false` — лише значки месенджерів, без обличчя й без підпису.
+		 *
+		 * Потрібно там, де прохання написати вже СКАЗАНЕ рядком поруч: у картці
+		 * «Додати виставу» стояло «Напишіть мені — і показ з'явиться в архіві», а
+		 * відразу за ним це віконце казало «Привіт!) Щоб внести правки — напиши
+		 * мені». Дві різні фрази про одну дію в одному рядку — і читач мусив
+		 * вибирати, яка з них справжня.
+		 */
+		showGreeting?: boolean;
 	}
 
-	let { testIdPrefix, hasPhoto = true, hint, size = 'strip' }: Props = $props();
+	let {
+		testIdPrefix,
+		hasPhoto = true,
+		hint,
+		size = 'strip',
+		showGreeting = true
+	}: Props = $props();
 
 	const ТИПОВИЙ_ПІДПИС = 'Привіт!)\nЩоб внести правки\n— напиши мені';
 	const БЕЗ_ФОТО = 'Привіт!)\nЩоб надати фото чи внести\nправки — напиши мені';
@@ -70,6 +86,7 @@
 	];
 </script>
 
+{#if showGreeting}
 <img
 	src={asset('/graduates/alik-zapolnov-96.webp')}
 	alt="Алік Запольнов"
@@ -83,6 +100,7 @@
 <p class="hint hint--{size}" data-testid="{testIdPrefix}-hint">
 	{#each текст.split('\n') as line, i (i)}{#if i > 0}<br />{/if}{line}{/each}
 </p>
+{/if}
 
 <div class="icons icons--{size}">
 	{#each contacts as contact (contact.name)}

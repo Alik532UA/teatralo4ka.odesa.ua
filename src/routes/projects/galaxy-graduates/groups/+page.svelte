@@ -190,17 +190,6 @@
 				{GROUPS.length}
 			</p>
 
-			<div class="groups-header__search">
-				<SearchField
-					value={query}
-					onchange={(v) => (query = v)}
-					found={знайдені.length}
-					placeholderKey="galaxy.groupsSearch"
-					nothingKey="galaxy.groupsSearchNothing"
-					testid="galaxy-groups-search"
-				/>
-			</div>
-
 			<div class="groups-header__view">
 				<MasterViewToggle
 					viewMode={view.current}
@@ -210,6 +199,25 @@
 				/>
 			</div>
 		</header>
+
+		<!--
+			Пошук ОКРЕМИМ рядком під шапкою, а не в ній.
+			
+			Доти він тиснувся між заголовком і перемикачем вигляду, і на трьох
+			сусідніх сторінках розділу опинявся в трьох різних місцях: у виставах —
+			окремим рядком, у групах — усередині шапки, у фестивалях його не було
+			зовсім. Читач, що переходить між ними, шукав поле щоразу заново.
+		-->
+		<div class="groups-search-row">
+			<SearchField
+				value={query}
+				onchange={(v) => (query = v)}
+				found={знайдені.length}
+				placeholderKey="galaxy.groupsSearch"
+				nothingKey="galaxy.groupsSearchNothing"
+				testid="galaxy-groups-search"
+			/>
+		</div>
 
 		{#snippet groupCard(group: (typeof GROUPS)[number])}
 			<a
@@ -367,10 +375,9 @@
 	 * галактики. Доти галактика стояла ЛІВОРУЧ зі стрілкою назад, хоч на решті
 	 * сторінок та сама кнопка — крок уперед і стоїть праворуч.
 	 */
-	.groups-header__search {
-		flex: 1 1 260px;
-		min-width: 0;
-		max-width: 420px;
+	.groups-search-row {
+		margin-bottom: 2rem;
+		max-width: 460px;
 	}
 
 	.groups-page__nav {

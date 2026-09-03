@@ -68,6 +68,8 @@
 		 * удруге те саме, до того ж ховаючи відповідь за ще одним натисканням.
 		 */
 		mode?: 'button' | 'inline';
+		/** `false` — у меню лишаються лише значки. Див. `ContactMenuBody`. */
+		showGreeting?: boolean;
 		/**
 		 * Який знак на кнопці. `plus` стоїть там, де просять ДОДАТИ те, чого
 		 * немає (портрет викладача без фотографії), `pencil` — де правлять уже
@@ -118,7 +120,8 @@
 		label: ownLabel,
 		openOnHover = false,
 		variant = 'accent',
-		shape = 'round'
+		shape = 'round',
+		showGreeting = true
 	}: Props = $props();
 
 
@@ -222,6 +225,7 @@
 			<ContactMenuBody
 				{testIdPrefix}
 				{hasPhoto}
+				{showGreeting}
 				size={openTo === 'card' ? 'strip' : 'block'}
 			/>
 		</div>
