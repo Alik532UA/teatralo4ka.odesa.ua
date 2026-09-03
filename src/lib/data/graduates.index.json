@@ -7592,16 +7592,16 @@
 				]
 			},
 			{
-				"id": "hanna-nikolaieva",
-				"subjects": [
-					"Вокал"
-				]
-			},
-			{
 				"id": "fedir-tkach",
 				"subjects": [
 					"Акторська майстерність",
 					"Сценічна мова"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
 				]
 			},
 			{
