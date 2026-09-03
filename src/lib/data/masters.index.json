@@ -2135,9 +2135,11 @@
 		"subjects": [
 			"Грим"
 		],
+		"photo": "/masters/tetiana-stepanchuk.webp",
 		"category": "artists",
 		"roleTitle": "викладачка гриму",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/tetiana-stepanchuk.webp"
 	},
 	{
 		"id": "dariia-maistrenko",
