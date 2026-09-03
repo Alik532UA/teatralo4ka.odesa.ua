@@ -141,11 +141,24 @@ describe('склад вистав', () => {
 				перевірено += 1;
 				if (new Set(item.roles).size !== item.roles.length)
 					bad.push(`${play.id} › ${item.id}: роль повторюється в переліку програми`);
-				const уСкладі = new Set(
-					(cast[play.id] ?? []).flatMap((entry) =>
+				/*
+				 * Виконавців ДВА джерела, і друге тут обов'язкове.
+				 *
+				 * `cast` — зріз анкет, тобто лише випускники. Роль у номері може
+				 * належати ще й працівникові школи (`Play.staff`): у «Заручинах»
+				 * 2015 «Біла фігура» й «Фея» — Н. Домбровська та В. Ємцова-Дацюк.
+				 * Дивлячись лише в анкети, перевірка сказала б, що ці дві ролі
+				 * «не мають виконавця», — і єдиним способом її вгамувати було б
+				 * прибрати їх з афіші, тобто зіпсувати дані заради гейта.
+				 */
+				const уСкладі = new Set([
+					...(cast[play.id] ?? []).flatMap((entry) =>
 						(entry.roles ?? []).filter((r) => r.item === item.id).map((r) => r.role)
+					),
+					...(play.staff ?? []).flatMap((entry) =>
+						entry.roles.filter((r) => r.item === item.id).map((r) => r.role)
 					)
-				);
+				]);
 				for (const role of item.roles)
 					if (!уСкладі.has(role)) bad.push(`${play.id} › ${item.id}: роль «${role}» з програми не має виконавця у складі`);
 				for (const role of уСкладі)

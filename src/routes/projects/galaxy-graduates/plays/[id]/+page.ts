@@ -166,5 +166,24 @@ export function load({ params, url }) {
 		.map((id) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id))
 		.filter((m) => m !== undefined);
 
-	return { play, cast, groups, primaryGroups, supportingGroups, festivals, masters };
+	/*
+	 * Працівники школи, які в показі ГРАЛИ, — розгортаються ТУТ, а не в блоці
+	 * «Хто грав».
+	 *
+	 * Причина та сама, що для складу груп: реєстр читає завантажувач, а розмітка
+	 * дістає готові записи. Ще й `mastersIndex` уже імпортований цим модулем
+	 * заради `masters` вище, тож розгортання тут не додає в бандл нічого.
+	 *
+	 * Запис без відповідника в реєстрі мовчки відкидається — але такого бути не
+	 * може: `id` звіряє гейт `plays.test.ts` на збірці, тобто про розрив кричить
+	 * він, а не порожня картка на сторінці.
+	 */
+	const staff = (play.staff ?? [])
+		.map((entry) => {
+			const master = (mastersIndex as MasterIndexEntry[]).find((m) => m.id === entry.id);
+			return master ? { master, roles: entry.roles } : undefined;
+		})
+		.filter((entry) => entry !== undefined);
+
+	return { play, cast, staff, groups, primaryGroups, supportingGroups, festivals, masters };
 }

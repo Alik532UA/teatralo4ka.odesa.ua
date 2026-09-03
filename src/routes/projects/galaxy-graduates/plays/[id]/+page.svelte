@@ -86,6 +86,7 @@
 		-->
 		<PlayCastSection
 			cast={data.cast}
+			staff={data.staff}
 			programme={data.play.programme}
 			participants={data.play.participants}
 			extraParticipants={data.play.extraParticipants}

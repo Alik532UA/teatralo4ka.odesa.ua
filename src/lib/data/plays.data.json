@@ -1888,7 +1888,9 @@
 					"Розель",
 					"Еметта",
 					"Жаніль",
-					"Розарель"
+					"Розарель",
+					"Біла фігура",
+					"Фея"
 				]
 			}
 		],
@@ -1923,6 +1925,26 @@
 			"svitlana-vitiuk",
 			"iryna-ovcharenko",
 			"lesia-cherkasova"
+		],
+		"staff": [
+			{
+				"id": "natalia-dombrovska",
+				"roles": [
+					{
+						"item": "zaruchyny",
+						"role": "Біла фігура"
+					}
+				]
+			},
+			{
+				"id": "vira-yemtsova-datsiuk",
+				"roles": [
+					{
+						"item": "zaruchyny",
+						"role": "Фея"
+					}
+				]
+			}
 		],
 		"videoUrl": "https://youtu.be/uaLfIsgl7mg",
 		"verificationStatus": "verified"

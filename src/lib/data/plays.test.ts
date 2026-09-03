@@ -578,6 +578,45 @@ describe('реєстр вистав', () => {
 		).toEqual([]);
 	});
 
+	/*
+	 * Працівник школи в складі показу (`Play.staff`) тримається на двох ключах, і
+	 * обидва — чужі: `id` веде в реєстр працівників, `roles[].item` — у програму
+	 * цього ж вечора. Порвати можна тихо: завантажувач сторінки відкидає запис
+	 * без відповідника в реєстрі мовчки (інакше сторінка малювала б картку без
+	 * імені), а роль, що вказує на неіснуючий номер, просто ніколи не потрапить
+	 * під фільтр. У жодному з двох випадків читач не побачить помилки — він
+	 * побачить, що людини в складі немає.
+	 *
+	 * Заміряно на трьох дефектах: `id: 'natalia-dombrovsk'`, `item: 'zaruchini'`
+	 * і другий запис на ту саму людину — кожен названий окремим рядком.
+	 */
+	it('склад показу з працівників школи веде на наявні записи й номери', () => {
+		const known = new Set((mastersIndex as MasterIndexEntry[]).map((m) => m.id));
+		const bad: string[] = [];
+		let перевірено = 0;
+
+		for (const play of PLAYS) {
+			const seen = new Set<string>();
+			const номери = new Set((play.programme ?? []).map((item) => item.id));
+			for (const entry of play.staff ?? []) {
+				перевірено += 1;
+				if (!known.has(entry.id)) bad.push(`${play.id}: працівника «${entry.id}» немає в реєстрі`);
+				if (seen.has(entry.id)) bad.push(`${play.id}: працівник «${entry.id}» записаний двічі`);
+				seen.add(entry.id);
+				if (entry.roles.length === 0)
+					bad.push(`${play.id}: у «${entry.id}» немає жодної ролі — тоді він належить у masters`);
+				for (const { item, role } of entry.roles) {
+					if (!номери.has(item))
+						bad.push(`${play.id}: «${entry.id}» має роль у номері «${item}», якого в програмі немає`);
+					if (!role.trim()) bad.push(`${play.id}: у «${entry.id}» порожня роль у «${item}»`);
+				}
+			}
+		}
+
+		expect(перевірено, 'жодного працівника в складах показів — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(bad, 'склад показу розійшовся з реєстрами:' + bad.map((b) => `\n  ${b}`).join('')).toEqual([]);
+	});
+
 	it('`playsByIds` віддає найновіші згори й мовчки минає невідомі ключі', () => {
 		const known = PLAYS.slice(0, 3).map((p) => p.id);
 		const out = playsByIds([...known, 'takoi-vystavy-nemaie-1999']);

@@ -9,6 +9,9 @@
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { CastMember } from '$lib/data/playCast';
 	import { byBilling, roleInItem, rolesLine } from '$lib/data/castRoles';
+	import type { CastRole } from '$lib/data/castRoles';
+	import type { GraduateIndexEntry } from '$lib/data/graduates';
+	import type { MasterIndexEntry } from '$lib/data/masters';
 	import type { PlayProgrammeItem } from '$lib/data/plays';
 
 	/**
@@ -41,15 +44,77 @@
 	 * не під нагородами, бо це ті самі люди показу — просто без анкет, тож
 	 * картки на них немає. Пояснення знака «+» — у докблоці
 	 * `Play.extraParticipants`.
+	 *
+	 * ## Третє джерело: працівник школи з РОЛЛЮ
+	 *
+	 * `staff` — ті, хто в показі грав, а не вчив. Вони йдуть у той самий перелік
+	 * «Хто грав», що й випускники, і в тому самому порядку афіші; від паперового
+	 * складу відрізняються рівно тим, що роль у них названа. Чому це окреме поле,
+	 * а не `masters` і не `participants` — у докблоці `Play.staff`.
 	 */
 	interface Props {
 		cast: readonly CastMember[];
+		staff?: readonly StaffMember[];
 		programme?: readonly PlayProgrammeItem[];
 		participants?: readonly string[];
 		extraParticipants?: readonly string[];
 	}
 
-	let { cast, programme, participants, extraParticipants }: Props = $props();
+	let { cast, staff, programme, participants, extraParticipants }: Props = $props();
+
+	/**
+	 * Працівник школи, який у цьому показі ГРАВ, — уже розгорнутий завантажувачем.
+	 *
+	 * Роль тут обов'язкова: без неї людина належить не сюди, а в `masters`
+	 * («хто вчив») або в паперовий склад.
+	 *
+	 * Оголошення стоїть НИЖЧЕ за `Props`, які його вживають, і це не недогляд:
+	 * інтерфейси в TypeScript підіймаються, а великий докблок вище описує сам
+	 * компонент — вклинившись між ним і `Props`, цей опис прочитався б як опис
+	 * компонента.
+	 */
+	interface StaffMember {
+		master: MasterIndexEntry;
+		roles: readonly CastRole[];
+	}
+
+	/**
+	 * Одна картка «Хто грав» — незалежно від того, звідки прийшла людина.
+	 *
+	 * Два джерела й один перелік: випускник приходить зі зрізу анкет, працівник
+	 * школи — з афіші показу. Спільне рівно те, що читає розкладка: ключ, ролі по
+	 * номерах, перелік номерів і чим підписати картку. Тому злиття робиться ОДИН
+	 * раз тут, а не в кожному з чотирьох місць, які раніше дивилися просто в
+	 * `cast`: фільтр, лічильник у заголовку, лічильники номерів і сама сітка.
+	 * Інакше нова людина з'явилася б у сітці й не з'явилася б у числі над нею.
+	 */
+	interface Особа {
+		key: string;
+		items: string[];
+		roles?: readonly CastRole[];
+		graduate?: GraduateIndexEntry;
+		master?: MasterIndexEntry;
+		/** Роль вечора — коли по номерах її не розкладено. Лише у випускників. */
+		role?: string;
+		fromRegistry?: boolean;
+	}
+
+	const усі = $derived<Особа[]>([
+		...cast.map((entry) => ({
+			key: entry.graduate.id,
+			items: entry.items ?? [],
+			roles: entry.roles,
+			graduate: entry.graduate,
+			role: entry.role,
+			fromRegistry: entry.fromRegistry
+		})),
+		...(staff ?? []).map((entry) => ({
+			key: entry.master.id,
+			items: entry.roles.map((r) => r.item),
+			roles: entry.roles,
+			master: entry.master
+		}))
+	]);
 
 	/** Ключ кнопки «уривок не названо». Номера з таким ключем не буває. */
 	const БЕЗ_НОМЕРА = '—';
@@ -60,7 +125,7 @@
 	const номери = $derived(
 		(programme ?? []).map((item) => ({
 			item,
-			count: cast.filter((entry) => entry.items?.includes(item.id)).length
+			count: усі.filter((особа) => особа.items.includes(item.id)).length
 		}))
 	);
 
@@ -75,7 +140,7 @@
 	 */
 	const безНомера = $derived.by(() => {
 		const відомі = new Set((programme ?? []).map((item) => item.id));
-		return cast.filter((entry) => !(entry.items ?? []).some((i) => відомі.has(i)));
+		return усі.filter((особа) => !особа.items.some((i) => відомі.has(i)));
 	});
 
 	/**
@@ -122,13 +187,13 @@
 	 * людина стояла б двічі: раз у складі й раз у папері. Перевіряється щоразу
 	 * заново, а не на збірці, — тож із кожною новою анкетою папір коротшає сам.
 	 */
-	const уКартках = $derived(new Set(cast.map((entry) => entry.graduate.id)));
+	const уКартках = $derived(new Set(усі.map((особа) => особа.graduate?.id ?? особа.master?.id)));
 
 	function паперові(імена: readonly string[] | undefined) {
 		return (імена ?? [])
 			.filter((raw) => !знайтиПриховану(raw))
 			.map((raw) => ({ raw, graduate: знайти(raw), master: знайтиПрацівника(raw) }))
-			.filter(({ graduate }) => !(graduate && уКартках.has(graduate.id)));
+			.filter(({ graduate, master }) => !уКартках.has(graduate?.id ?? master?.id));
 	}
 
 	/** Той самий підпис, що в решти карток сторінки: «випуск 2012». */
@@ -147,10 +212,17 @@
 	 * по уривках не розкладено, та єдина, що записана. Самі правила — у
 	 * `castRoles.ts`, де їх тримає тест.
 	 */
-	function підпис(entry: CastMember): string | null {
-		const рік = підписРоку(entry.graduate.graduationYear);
-		if (обраний !== null && обраний !== БЕЗ_НОМЕРА) return roleInItem(entry.roles, обраний) ?? рік;
-		return rolesLine(entry.roles, (programme ?? []).map((item) => item.id)) ?? entry.role ?? рік;
+	function підпис(особа: Особа): string | null {
+		/*
+		 * Запас — те, чим підписати картку, коли ролі немає. У випускника це рік
+		 * випуску, у працівника школи — предмети: саме так його підписує і
+		 * паперовий склад, і решта сторінок сайту.
+		 */
+		const запас = особа.graduate
+			? підписРоку(особа.graduate.graduationYear)
+			: (особа.master?.subjects?.join(', ') ?? null);
+		if (обраний !== null && обраний !== БЕЗ_НОМЕРА) return roleInItem(особа.roles, обраний) ?? запас;
+		return rolesLine(особа.roles, (programme ?? []).map((item) => item.id)) ?? особа.role ?? запас;
 	}
 
 	const склад = $derived(паперові(participants));
@@ -164,12 +236,12 @@
 	 * у вечора спільного порядку немає, а в номера є. Пояснення в `byBilling`.
 	 */
 	const видимі = $derived.by(() => {
-		if (обраний === null) return [...cast];
+		if (обраний === null) return [...усі];
 		if (обраний === БЕЗ_НОМЕРА) return безНомера;
 		// Локальна константа: у вкладеній стрілці TypeScript не бачить перевірки на null вище.
 		const id = обраний;
 		const номер = (programme ?? []).find((item) => item.id === id);
-		return byBilling(cast.filter((entry) => entry.items?.includes(id)), id, номер?.roles);
+		return byBilling(усі.filter((особа) => особа.items.includes(id)), id, номер?.roles);
 	});
 </script>
 
@@ -177,10 +249,10 @@
 	<div class="play-heading">
 		<span class="play-heading__icon"><Users size={20} aria-hidden="true" /></span>
 		<h2 id="play-cast-title" class="play-heading__title">{$t('galaxy.playCast')}</h2>
-		<span class="play-heading__count">{cast.length}</span>
+		<span class="play-heading__count">{усі.length}</span>
 	</div>
 
-	{#if cast.length > 0}
+	{#if усі.length > 0}
 		{#if єФільтр}
 			<div class="filters" role="group" aria-label={$t('galaxy.playProgrammeFilter')}>
 				<button
@@ -192,7 +264,7 @@
 					data-testid="play-programme-filter-btn-all"
 				>
 					{$t('galaxy.playProgrammeAll')}
-					<span class="filters__count">{cast.length}</span>
+					<span class="filters__count">{усі.length}</span>
 				</button>
 				{#each номери as { item, count } (item.id)}
 					<button
@@ -226,20 +298,27 @@
 		{/if}
 
 		<ul class="people-grid" data-testid="play-cast-list">
-			{#each видимі as entry, index (entry.graduate.id)}
+			{#each видимі as особа, index (особа.key)}
 				<li>
 					<!--
-						Картка відкривається НА ЦІЙ сторінці, а не веде в галактику:
-						закривши її, читач лишається на виставі.
+						Картка ВИПУСКНИКА відкривається НА ЦІЙ сторінці, а не веде в
+						галактику: закривши її, читач лишається на виставі. Працівник школи
+						модалки не має, тож його картка — звичайне посилання на його
+						сторінку, як і в паперовому складі нижче.
 					-->
 					<GroupPersonCard
-						name={entry.graduate.name}
-						photo={entry.graduate.hasPhoto ? graduatePhoto(entry.graduate.slug, 192) : null}
-						subtitle={підпис(entry)}
-						onclick={() => openGraduateModal(entry.graduate)}
+						name={особа.graduate?.name ?? особа.master?.displayName ?? особа.key}
+						photo={особа.graduate
+							? (особа.graduate.hasPhoto ? graduatePhoto(особа.graduate.slug, 192) : null)
+							: (особа.master?.photo ?? null)}
+						subtitle={підпис(особа)}
+						href={особа.master ? masterProfilePath(особа.master.slug, lang) : undefined}
+						onclick={особа.graduate
+							? () => openGraduateModal(особа.graduate!)
+							: undefined}
 						{index}
 						splitName
-						testid="play-cast-{entry.graduate.slug}"
+						testid="play-cast-{особа.graduate?.slug ?? особа.master?.slug ?? особа.key}"
 					/>
 				</li>
 			{/each}
@@ -291,7 +370,7 @@
 	{/snippet}
 
 	{#if склад.length > 0}
-		{@render паперовийПерелік(склад, $t('galaxy.playLineup'), 'play-participants-list', cast.length)}
+		{@render паперовийПерелік(склад, $t('galaxy.playLineup'), 'play-participants-list', усі.length)}
 	{/if}
 
 	{#if додатково.length > 0}
@@ -299,7 +378,7 @@
 			додатково,
 			$t('galaxy.playParticipants'),
 			'play-extra-participants-list',
-			cast.length + склад.length
+			усі.length + склад.length
 		)}
 	{/if}
 </section>
