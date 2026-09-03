@@ -957,6 +957,46 @@ button {
  * незалежно від порядку правил — і не зламається, коли файл перегрупують
  * (SVELTE-UI-v8 `SUI-SCOPE-SPECIFICITY`).
  */
+/*
+ * ПРЕВ'Ю ТЕМИ ПІД КУРСОРОМ: поки курсор на кнопці, сторінка стоїть у її темі.
+ *
+ * Клас вішає `ui.previewTheme` (`controllers/ui.svelte.ts`) разом зі зміною
+ * теми документа. Тут — лише плавність: без переходу тема мінялася б стрибком
+ * на кожному русі між кнопками.
+ *
+ * ## Чому `*`, а не перелік поверхонь
+ *
+ * Тему тримають ТОКЕНИ, і їх читають сотні правил у десятках компонентів —
+ * картки, значки, облямівки, іконки. Перелічити «головні поверхні» означало б
+ * плавно міняти тло сторінки й стрибком — усе, що на ній лежить.
+ *
+ * Ціна обмежена свідомо: правило живе лише поки курсор на кнопці теми (клас
+ * знімається на відведенні й на справжній зміні), перелічує рівно п'ять
+ * властивостей кольору й виключає `canvas` — його малює скрипт, і CSS-перехід
+ * там нічого не дає, крім роботи композитору.
+ *
+ * `prefers-reduced-motion` вимикає перехід, але не саме прев'ю: показати тему
+ * — не рух, а інформація (ACCESSIBILITY-v8 § 7).
+ */
+html.theme-previewing,
+html.theme-previewing body,
+html.theme-previewing *:not(canvas) {
+	transition:
+		background-color 0.28s ease,
+		color 0.28s ease,
+		border-color 0.28s ease,
+		fill 0.28s ease,
+		stroke 0.28s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.theme-previewing,
+	html.theme-previewing body,
+	html.theme-previewing *:not(canvas) {
+		transition: none;
+	}
+}
+
 .dropdown-opt-unified.theme-opt {
 	background: var(--sw-bg);
 	color: var(--sw-fg);

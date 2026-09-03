@@ -8,6 +8,7 @@
 		themeColumns,
 		DEV_THEME_CYCLE,
 		PROD_THEME_CYCLE,
+		type Theme,
 	} from "$lib/config/themes";
 	import { dev } from "$app/environment";
 	import { Sun, Palette, FlaskConical, Moon, Waves, TestTube } from "lucide-svelte";
@@ -55,6 +56,43 @@
 	function keyshortcut(key: 'T' | 'L', mine: boolean): string | undefined {
 		return ui.hotkeysEnabled && mine ? key : undefined;
 	}
+
+	/**
+	 * Наведення на кнопку теми ПОКАЗУЄ цю тему на всій сторінці, поки курсор там.
+	 *
+	 * Прохання автора: «коли наводиш на тему, то поки курсор на темі, то плавно
+	 * поміняти сайт на тему, на якій курсор». Мініатюра кнопки каже про тему
+	 * чотирма кольорами, сторінка — усіма; вибір стає видимим до кліку.
+	 *
+	 * ## Тільки МИША
+	 *
+	 * `pointerenter` приходить і від тапу, а `pointerleave` на дотику — ні: тема
+	 * застрягла б показаною, доки людина не торкнеться чогось іншого. Тобто на
+	 * телефоні прев'ю не просто зайве, воно ламало б перемикач. Клавіатура має
+	 * свій шлях — `T` перебирає теми по-справжньому.
+	 *
+	 * Сама зміна теми лежить у контролері (`previewTheme`): він не зберігає вибір
+	 * і не піднімає блюр, тож між кнопками можна вести курсором без блимання.
+	 */
+	function previewOn(t: Theme, e: PointerEvent) {
+		if (e.pointerType === 'mouse') ui.previewTheme(t);
+	}
+
+	function previewOff(e: PointerEvent) {
+		if (e.pointerType === 'mouse') ui.previewTheme(null);
+	}
+
+	/*
+	 * Панель зникає разом із курсором на ній — наприклад, коли її закрили
+	 * клавішею або кліком поза нею. `pointerleave` тоді не приходить, і сторінка
+	 * лишилася б у показаній «на пробу» темі назавжди.
+	 *
+	 * Тут, а не на контейнері кнопок: `pointerleave` на `<div>` вимагає ролі
+	 * (`a11y_no_static_element_interactions`), а роль для простої обгортки була б
+	 * вигадкою. Кнопки знімають прев'ю самі, а це — страхування на випадок, коли
+	 * подія не прийде взагалі.
+	 */
+	$effect(() => () => ui.previewTheme(null));
 </script>
 
 <div
@@ -100,6 +138,8 @@
 				onclick={() => ui.setTheme("light")}
 				aria-label={$t("settings.light")}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light')}
+				onpointerenter={(e) => previewOn("light", e)}
+				onpointerleave={previewOff}
 				data-theme-key="light"
 				data-testid="theme-light{sfx}-btn"
 			><Palette size={20} /></button>
@@ -109,6 +149,8 @@
 				onclick={() => ui.setTheme("light-yellow")}
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light-yellow')}
+				onpointerenter={(e) => previewOn("light-yellow", e)}
+				onpointerleave={previewOff}
 				data-theme-key="light-yellow"
 				data-testid="theme-light-yellow{sfx}-btn"
 			><Sun size={20} /></button>
@@ -120,6 +162,8 @@
 					aria-label={$t("settings.yellow") || "dev-test-light-01"}
 					title="dev-test-light-01"
 					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
+					onpointerenter={(e) => previewOn("yellow", e)}
+					onpointerleave={previewOff}
 					data-theme-key="yellow"
 					data-testid="theme-yellow{sfx}-btn"
 				><FlaskConical size={20} /></button>
@@ -130,6 +174,8 @@
 				onclick={() => ui.setTheme("dark")}
 				aria-label={$t("settings.dark")}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark')}
+				onpointerenter={(e) => previewOn("dark", e)}
+				onpointerleave={previewOff}
 				data-theme-key="dark"
 				data-testid="theme-dark{sfx}-btn"
 			><Moon size={20} /></button>
@@ -139,6 +185,8 @@
 				onclick={() => ui.setTheme("dark-cyan")}
 				aria-label={$t("settings.darkCyan") || "Dark Cyan"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-cyan')}
+				onpointerenter={(e) => previewOn("dark-cyan", e)}
+				onpointerleave={previewOff}
 				data-theme-key="dark-cyan"
 				data-testid="theme-dark-cyan{sfx}-btn"
 			><Waves size={20} /></button>
@@ -150,6 +198,8 @@
 					aria-label={$t("settings.darkBlue") || "dev-test-dark-01"}
 					title="dev-test-dark-01"
 					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-blue')}
+					onpointerenter={(e) => previewOn("dark-blue", e)}
+					onpointerleave={previewOff}
 					data-theme-key="dark-blue"
 					data-testid="theme-dark-blue{sfx}-btn"
 				><TestTube size={20} /></button>

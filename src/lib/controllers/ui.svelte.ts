@@ -16,6 +16,14 @@ export class UIState {
 	isMenuOpen = $state(false);
 	isPhonesModalOpen = $state(false);
 	theme = $state<Theme>('light');
+	/**
+	 * Тема, яку показуємо «на пробу» під курсором, або `null`.
+	 *
+	 * Окремо від `theme`: та означає «що обрано» й лежить у сховищі, ця —
+	 * «що зараз видно». Плутати їх не можна, інакше кнопка `.active` переїжджала
+	 * б за курсором, а після відведення сторінка лишалася б у чужій темі.
+	 */
+	previewedTheme = $state<Theme | null>(null);
 	backgroundType = $state<0 | 1 | 2 | 3 | 4>(4);
 	isThemeChanging = $state(false);
 	isLangChanging = $state(false);
@@ -147,8 +155,68 @@ export class UIState {
 		}
 	};
 
+	/**
+	 * Малює тему в документі — клас, атрибут і мета-схему. Нічого не зберігає.
+	 *
+	 * Витягнуто з `setTheme`, бо тепер тему малює ще й прев'ю під курсором
+	 * (`previewTheme`). Копія цього списку класів була б найтихішою з можливих
+	 * помилок: додану тему забули б прибирати, два класи лежали б на `html`
+	 * одночасно, і переміг би той, чиї правила стоять пізніше в бандлі.
+	 */
+	private applyThemeToDocument(t: Theme) {
+		if (typeof document === 'undefined') return;
+		document.documentElement.setAttribute('data-theme', t);
+
+		// Update color-scheme meta
+		const csMeta = document.querySelector('meta[name="color-scheme"]');
+		if (csMeta) {
+			if (t === 'dark' || t === 'dark-cyan' || t === 'dark-blue') csMeta.setAttribute('content', 'dark');
+			else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
+			else csMeta.setAttribute('content', 'light dark');
+		}
+
+		// Update classes
+		document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme', 'dark-cyan-theme', 'dark-blue-theme');
+		document.documentElement.classList.add(`${t}-theme`);
+	}
+
+	/**
+	 * Показує тему «на пробу», поки курсор стоїть на її кнопці; `null` — вертає
+	 * обрану.
+	 *
+	 * ## Чому не `setTheme`
+	 *
+	 * Прев'ю НЕ зберігається (`storage.set` тут немає) і не піднімає блюр: блюр
+	 * гасить сторінку на 300 мс перед зміною, і на кожному русі курсора між
+	 * шістьма кнопками екран блимав би шість разів. Тому прев'ю малює документ
+	 * напряму, а `theme` — тобто «що обрано» — не змінює: кнопка `.active` і далі
+	 * позначає справжню тему, і після відведення курсора все вертається саме до
+	 * неї.
+	 *
+	 * ## Чому справжня зміна головніша
+	 *
+	 * Клік по кнопці запускає `setTheme`, який чекає блюру; курсор при цьому
+	 * зазвичай іде з кнопки РАНІШЕ, ніж той дочекався, і `previewTheme(null)`
+	 * повернув би СТАРУ тему поверх нової. Тому поки йде справжня зміна
+	 * (`isThemeChanging`), прев'ю не робить нічого.
+	 *
+	 * Клас `theme-previewing` на `html` вмикає плавний перехід кольорів
+	 * (`global.css`) — без нього тема мінялася б стрибком.
+	 */
+	previewTheme = (t: Theme | null) => {
+		if (typeof document === 'undefined' || this.isThemeChanging) return;
+		this.previewedTheme = t;
+		document.documentElement.classList.toggle('theme-previewing', t !== null);
+		this.applyThemeToDocument(t ?? this.theme);
+	};
+
 	setTheme = async (t: Theme, options: { withBlur?: boolean } = {}) => {
-		if (this.theme === t) return;
+		// Прев'ю могло вже намалювати цю тему в документі, а `theme` лишається
+		// обраною — тож порівнюємо саме її, і клік по кнопці під курсором працює.
+		if (this.theme === t) {
+			this.previewTheme(null);
+			return;
+		}
 
 		const withBlur = options.withBlur ?? true;
 
@@ -159,21 +227,11 @@ export class UIState {
 		}
 
 		this.theme = t;
+		this.previewedTheme = null;
 		if (typeof document !== 'undefined') {
-			document.documentElement.setAttribute('data-theme', t);
-			
-			// Update color-scheme meta
-			const csMeta = document.querySelector('meta[name="color-scheme"]');
-			if (csMeta) {
-				if (t === 'dark' || t === 'dark-cyan' || t === 'dark-blue') csMeta.setAttribute('content', 'dark');
-				else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
-				else csMeta.setAttribute('content', 'light dark');
-			}
-
-			// Update classes
-			document.documentElement.classList.remove('dark-theme', 'light-theme', 'yellow-theme', 'light-yellow-theme', 'dark-cyan-theme', 'dark-blue-theme');
-			document.documentElement.classList.add(`${t}-theme`);
+			document.documentElement.classList.remove('theme-previewing');
 		}
+		this.applyThemeToDocument(t);
 		storage.set('theme', t);
 
 		if (withBlur && this.enableBlurEffect) {
