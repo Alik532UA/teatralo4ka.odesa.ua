@@ -38,6 +38,12 @@
 			]
 		},
 		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
 			"id": "natalia-stepanenko",
 			"subjects": [
 				"Гітара"
@@ -59,12 +65,6 @@
 			"id": "vira-yemtsova-datsiuk",
 			"subjects": [
 				"Сценічна мова"
-			]
-		},
-		{
-			"id": "fedir-tkach",
-			"subjects": [
-				"Участь у виставах"
 			]
 		},
 		{
