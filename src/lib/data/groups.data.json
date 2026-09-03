@@ -353,7 +353,7 @@
 			"uryvky-z-dramaturhii-20-stolittia-2012",
 			"korol-pomyraie-2012"
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false
 	},
 	{
@@ -384,7 +384,7 @@
 			"solovei-2025",
 			"uryvky-z-klasyky-2025"
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false
 	},
 	{
@@ -483,7 +483,7 @@
 			"hraiemo-zoshchenka-2020",
 			"stus-zaboronenyi-2020"
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"photos": [
 			"/groups/cheloveky.webp"
@@ -683,7 +683,7 @@
 		"photos": [
 			"/groups/alter-ego.webp"
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false
 	},
 	{
@@ -955,7 +955,7 @@
 			"matinka-middous-2012",
 			"uryvky-z-klasyky-2013"
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"photos": [
 			"/groups/freedom.webp"
@@ -1014,7 +1014,7 @@
 				"subject": "Вокал"
 			}
 		],
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"photos": [
 			"/groups/tu-154.webp",
@@ -1277,7 +1277,7 @@
 		"name": "Молодіжний театр «Тітри»",
 		"abbr": null,
 		"nameEn": "Youth Theatre \"Titry\"",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1300,7 +1300,7 @@
 		"name": "БулаФФки",
 		"abbr": null,
 		"nameEn": "BulaFFky",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1327,7 +1327,7 @@
 		"name": "БЮСТ",
 		"abbr": null,
 		"nameEn": "BIUST",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1349,7 +1349,7 @@
 		"name": "Особистості",
 		"abbr": null,
 		"nameEn": "Osobystosti",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1374,7 +1374,7 @@
 		"name": "ЩаслиФФчики",
 		"abbr": null,
 		"nameEn": "ShchaslyFFchyky",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1404,7 +1404,7 @@
 		"name": "FreeStyle",
 		"abbr": null,
 		"nameEn": "FreeStyle",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1430,7 +1430,7 @@
 		"name": "ГруФФіш",
 		"abbr": null,
 		"nameEn": "HruFFish",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1453,7 +1453,7 @@
 		"name": "Друге дихання",
 		"abbr": null,
 		"nameEn": "Druhe Dykhannia",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1475,7 +1475,7 @@
 		"name": "Art-Kids",
 		"abbr": null,
 		"nameEn": "Art-Kids",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1504,7 +1504,7 @@
 		"name": "ПреСтиЖ",
 		"abbr": null,
 		"nameEn": "PreStyZh",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1526,7 +1526,7 @@
 		"name": "Явища природи",
 		"abbr": null,
 		"nameEn": "Yavyshcha Pryrody",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1549,7 +1549,7 @@
 		"name": "Інтенсив-молодші (вкл. Любінські)",
 		"abbr": null,
 		"nameEn": "Intensyv Juniors (incl. Liubinski)",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1571,7 +1571,7 @@
 		"name": "Інтенсив-старші (вкл. Паша Максимов)",
 		"abbr": null,
 		"nameEn": "Intensyv Seniors (incl. Pasha Maksymov)",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1593,7 +1593,7 @@
 		"name": "RePeTe",
 		"abbr": null,
 		"nameEn": "RePeTe",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1618,7 +1618,7 @@
 		"name": "Інтенсив-Насті (вкл. Паша)",
 		"abbr": null,
 		"nameEn": "Intensyv Nasti (incl. Pasha)",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1641,7 +1641,7 @@
 		"name": "Музичний театр",
 		"abbr": null,
 		"nameEn": "Musical Theatre",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1663,7 +1663,7 @@
 		"name": "Лі-Те-Ра",
 		"abbr": null,
 		"nameEn": "Li-Te-Ra",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1686,7 +1686,7 @@
 		"name": "Інтенсив-Тихон",
 		"abbr": null,
 		"nameEn": "Intensyv Tykhon",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
@@ -1708,7 +1708,7 @@
 		"name": "Кактус+Паша",
 		"abbr": null,
 		"nameEn": "Kaktus + Pasha",
-		"verificationStatus": "verified",
+		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
 			{
