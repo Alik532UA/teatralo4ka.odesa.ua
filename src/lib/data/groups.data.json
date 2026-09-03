@@ -1225,6 +1225,22 @@
 		]
 	},
 	{
+		"slug": "chainyky-2016",
+		"name": "Чайники 2016",
+		"abbr": null,
+		"nameEn": "Teapots 2016",
+		"masters": [],
+		"graduationYears": [
+			2016
+		],
+		"memberIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/groups/chainyky-2016.webp"
+		]
+	},
+	{
 		"slug": "yoryky",
 		"name": "Йорики",
 		"abbr": null,
