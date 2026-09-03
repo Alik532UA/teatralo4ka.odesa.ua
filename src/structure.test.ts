@@ -326,6 +326,24 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Перехід на спільний компонент забрав розмітку й п'ять правил стилів разом
  *   із невживаним імпортом іконки, і файл упав нижче канонічної межі 400. Борг
  *   закрито — рядок пішов, як вимагає § 8.
+ *
+ * 2026-09-04: `galaxy-graduates/groups/+page.svelte` 495 → 515. Рядок області
+ *   показу: типово сторінка показує лише випущені групи (27 із 87), решта — за
+ *   одним натисканням. Прохання автора, і воно про шум: дві третини типового
+ *   вигляду складалися з карток «потребує уточнення», у яких нема чого читати.
+ *
+ *   Сам рядок керування спільний із виставами (`galaxy/GalaxyScope.svelte`,
+ *   винесений із `PlaysScope` цим же комітом), тож тут лишилися стан, підписи й
+ *   умова в ДВОХ місцях — порожній `topSections` для режиму рядків і `{#if}` у
+ *   плитці, бо там три категорії написані розміткою.
+ *
+ *   ЗАПИСАНИЙ БОРГ, а не виправлення: це вже третій рух стелі цього файлу за
+ *   день (490 → 505 → 495 → 515), і причина щоразу та сама — сторінка тримає
+ *   ТРИ режими показу й ТРИ категорії в одному файлі. Наступна правка тут мусить
+ *   починатися з виносу плиткової панелі (`groups-tiles-container` разом зі
+ *   сніпетом `groupCard` і стилями `groups-category*`) окремим компонентом, а не
+ *   з підняття числа. Оцінка: близько сотні рядків, тобто файл повернувся б під
+ *   канонічні 400.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -342,7 +360,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PianoModal.svelte': 608,
 	'src/lib/components/GraduateProfileView.svelte': 1600,
 	'src/lib/components/FooterSection.svelte': 510,
-	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 495,
+	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
 	'src/lib/components/GalaxyStageControls.svelte': 345,

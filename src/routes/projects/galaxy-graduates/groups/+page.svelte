@@ -7,6 +7,7 @@
 		Calendar,
 		Sparkles,
 		Theater,
+		GraduationCap,
 		CalendarRange,
 		List,
 		LayoutGrid
@@ -16,6 +17,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath, matchesGroupQuery, playIdsOfGroup } from '$lib/data/groups';
 	import SearchField from '$lib/components/SearchField.svelte';
+	import GalaxyScope from '$lib/components/galaxy/GalaxyScope.svelte';
 	import mastersIndex from '$lib/data/masters.index.json';
 	import type { MasterIndexEntry } from '$lib/data/masters';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -71,6 +73,26 @@
 	let query = $state('');
 
 	const знайдені = $derived(GROUPS.filter((g) => matchesGroupQuery(g, query)));
+
+	/**
+	 * Типово показані ЛИШЕ випущені групи — решта за одним натисканням.
+	 *
+	 * Прохання автора, і воно про шум: із 87 груп шістдесят «потребують
+	 * уточнення» (склад ще не зібрано) і кілька поточних. Тобто типовий вигляд
+	 * сторінки на дві третини складався з карток, у яких нема чого читати, а
+	 * випущені групи — те, за чим сюди приходять, — лежали під ними.
+	 *
+	 * Той самий прийом, що на сторінці вистав, і той самий рядок керування: там
+	 * типово показані вистави з відомим складом, 255 із 733.
+	 *
+	 * Пошук СКИДАЄ звуження, як і у виставах: людина, що набрала назву, вже знає,
+	 * чого хоче, і «нічого не знайдено» про групу, яка в реєстрі є, було б
+	 * неправдою.
+	 */
+	let onlyGraduated = $state(true);
+
+	const q = $derived(query.trim());
+	const вужче = $derived(onlyGraduated && !q);
 
 	const currentGroups = $derived(знайдені.filter((g) => g.isCurrent));
 	const needsClarificationGroups = $derived(
@@ -131,7 +153,8 @@
 		};
 	}
 
-	const topSections = $derived([
+	/* Порожньо у звуженому вигляді: обидві додаткові категорії — саме те, що він приховує. */
+	const topSections = $derived(вужче ? [] : [
 		{
 			id: 'current',
 			title: $t('galaxy.currentGroups', { default: 'Поточні групи' }),
@@ -219,6 +242,28 @@
 			/>
 		</div>
 
+		<!--
+			Рядок області показу видно лише коли НЕ шукають: пошук звуження однаково
+			скидає, а скільки знайдено — каже лічильник у самому полі. Та сама умова,
+			що на сторінці вистав.
+		-->
+		{#if !q}
+			<GalaxyScope
+				count={вужче
+					? $t('galaxy.groupsScopeShown', {
+							values: { shown: graduatedGroups.length, total: GROUPS.length }
+						})
+					: $t('galaxy.groupsScopeAll', { values: { total: GROUPS.length } })}
+				action={вужче
+					? $t('galaxy.groupsScopeShowAll')
+					: $t('galaxy.groupsScopeGraduatedOnly')}
+				hint={$t('galaxy.groupsScopeHint')}
+				icon={вужче ? null : GraduationCap}
+				onclick={() => (onlyGraduated = !onlyGraduated)}
+				testIdPrefix="galaxy-groups-scope"
+			/>
+		{/if}
+
 		{#snippet groupCard(group: (typeof GROUPS)[number])}
 			<a
 				class="group-card"
@@ -303,6 +348,13 @@
 			/>
 		{:else}
 		<div class="groups-tiles-container" data-testid="galaxy-groups-tiles-panel">
+			<!--
+				Дві додаткові категорії — рівно те, що приховує звужений вигляд. Умова
+				стоїть тут, а не в даних: у режимі рядків їх ховає порожній
+				`topSections`, а в плитці вони написані розміткою, і третього місця,
+				де про це вирішувати, бути не повинно.
+			-->
+			{#if !вужче}
 			<section class="groups-category" data-testid="galaxy-groups-current-section">
 				<div class="groups-category__head">
 					<h2 class="groups-category__title">{$t('galaxy.currentGroups', { default: 'Поточні групи' })}</h2>
@@ -331,6 +383,7 @@
 						{/each}
 					</ul>
 				</section>
+			{/if}
 			{/if}
 
 			<section class="groups-category" data-testid="galaxy-groups-graduated-section">

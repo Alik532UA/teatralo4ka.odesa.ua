@@ -19,7 +19,7 @@
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import SearchField from '$lib/components/SearchField.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
-	import PlaysScope from '$lib/components/galaxy/PlaysScope.svelte';
+	import GalaxyScope from '$lib/components/galaxy/GalaxyScope.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
@@ -205,11 +205,17 @@
 			однаково знятий, а скільки знайдено — каже лічильник у самому пошуку.
 		-->
 		{#if !q}
-			<PlaysScope
-				shown={found.length}
-				total={PLAYS.length}
-				{onlyWithCast}
-				onchange={(v) => (onlyWithCast = v)}
+			<GalaxyScope
+				count={onlyWithCast
+					? $t('galaxy.playsScopeShown', { values: { shown: found.length, total: PLAYS.length } })
+					: $t('galaxy.playsScopeAll', { values: { total: PLAYS.length } })}
+				action={onlyWithCast
+					? $t('galaxy.playsScopeShowAll')
+					: $t('galaxy.playsScopeOnlyCast')}
+				hint={$t('galaxy.playsScopeHint')}
+				icon={onlyWithCast ? null : Users}
+				onclick={() => (onlyWithCast = !onlyWithCast)}
+				testIdPrefix="galaxy-plays-scope"
 			/>
 		{/if}
 

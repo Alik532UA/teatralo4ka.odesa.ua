@@ -1111,7 +1111,12 @@
 		"festivalsSearch": "Search by name, country or year",
 		"festivalsSearchNothing": "Nothing found",
 		"addFestival": "Add a trip",
-		"addFestivalHint": "Were you on a trip that is missing here? Write to me and I will add it"
+		"addFestivalHint": "Were you on a trip that is missing here? Write to me and I will add it",
+		"groupsScopeShown": "Showing {shown} of {total}",
+		"groupsScopeAll": "Showing all {total}",
+		"groupsScopeShowAll": "Show all",
+		"groupsScopeGraduatedOnly": "Graduated only",
+		"groupsScopeHint": "Groups that have graduated and whose roster is known. The rest are still studying or their roster is not known yet."
 	},
 	"verification": {
 		"possibleErrors": "The information on this page has not been verified by a human, but was compiled by AI from various data sources. There may be errors on this page. Found a mistake?",
