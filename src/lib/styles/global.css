@@ -958,11 +958,16 @@ button {
  * (SVELTE-UI-v8 `SUI-SCOPE-SPECIFICITY`).
  */
 /*
- * ПРЕВ'Ю ТЕМИ ПІД КУРСОРОМ: поки курсор на кнопці, сторінка стоїть у її темі.
+ * ПЛАВНА ЗМІНА ТЕМИ — і під курсором, і по-справжньому.
  *
- * Клас вішає `ui.previewTheme` (`controllers/ui.svelte.ts`) разом зі зміною
- * теми документа. Тут — лише плавність: без переходу тема мінялася б стрибком
- * на кожному русі між кнопками.
+ * Клас вішає контролер (`controllers/ui.svelte.ts`): `previewTheme` — поки
+ * курсор на кнопці теми, `setTheme` — на час самої зміни. Тут лише плавність:
+ * без переходу тема мінялася б стрибком.
+ *
+ * 0,56 с — удвічі довше за першу редакцію (0,28) на прохання автора: «в 2 рази
+ * повільніше». Це та сама тривалість і для прев'ю, і для вибору теми — інакше
+ * та сама зміна кольорів ішла б із різною швидкістю залежно від того, чи курсор
+ * стояв на кнопці.
  *
  * ## Чому `*`, а не перелік поверхонь
  *
@@ -970,29 +975,29 @@ button {
  * картки, значки, облямівки, іконки. Перелічити «головні поверхні» означало б
  * плавно міняти тло сторінки й стрибком — усе, що на ній лежить.
  *
- * Ціна обмежена свідомо: правило живе лише поки курсор на кнопці теми (клас
- * знімається на відведенні й на справжній зміні), перелічує рівно п'ять
+ * Ціна обмежена свідомо: правило живе лише поки курсор на кнопці теми або доки
+ * триває зміна (контролер знімає клас таймером), перелічує рівно п'ять
  * властивостей кольору й виключає `canvas` — його малює скрипт, і CSS-перехід
  * там нічого не дає, крім роботи композитору.
  *
- * `prefers-reduced-motion` вимикає перехід, але не саме прев'ю: показати тему
- * — не рух, а інформація (ACCESSIBILITY-v8 § 7).
+ * `prefers-reduced-motion` вимикає перехід, але не саму зміну теми: побачити
+ * тему — не рух, а інформація (ACCESSIBILITY-v8 § 7).
  */
-html.theme-previewing,
-html.theme-previewing body,
-html.theme-previewing *:not(canvas) {
+html.theme-shifting,
+html.theme-shifting body,
+html.theme-shifting *:not(canvas) {
 	transition:
-		background-color 0.28s ease,
-		color 0.28s ease,
-		border-color 0.28s ease,
-		fill 0.28s ease,
-		stroke 0.28s ease;
+		background-color 0.56s ease,
+		color 0.56s ease,
+		border-color 0.56s ease,
+		fill 0.56s ease,
+		stroke 0.56s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	html.theme-previewing,
-	html.theme-previewing body,
-	html.theme-previewing *:not(canvas) {
+	html.theme-shifting,
+	html.theme-shifting body,
+	html.theme-shifting *:not(canvas) {
 		transition: none;
 	}
 }

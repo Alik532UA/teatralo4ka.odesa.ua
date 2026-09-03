@@ -195,20 +195,50 @@ export class UIState {
 	 *
 	 * ## Чому справжня зміна головніша
 	 *
-	 * Клік по кнопці запускає `setTheme`, який чекає блюру; курсор при цьому
-	 * зазвичай іде з кнопки РАНІШЕ, ніж той дочекався, і `previewTheme(null)`
-	 * повернув би СТАРУ тему поверх нової. Тому поки йде справжня зміна
-	 * (`isThemeChanging`), прев'ю не робить нічого.
+	 * Зміна теми блюру вже не піднімає, але параметр лишився, і з ним —
+	 * очікування 300 мс. Поки воно триває, курсор зазвичай іде з кнопки, і
+	 * `previewTheme(null)` повернув би СТАРУ тему поверх нової. Тому під час
+	 * `isThemeChanging` прев'ю не робить нічого.
 	 *
-	 * Клас `theme-previewing` на `html` вмикає плавний перехід кольорів
+	 * Клас `theme-shifting` на `html` вмикає плавний перехід кольорів
 	 * (`global.css`) — без нього тема мінялася б стрибком.
 	 */
+	/** Знімає клас плавного переходу, коли той доїхав. */
+	private shiftTimer: ReturnType<typeof setTimeout> | null = null;
+
 	previewTheme = (t: Theme | null) => {
 		if (typeof document === 'undefined' || this.isThemeChanging) return;
 		this.previewedTheme = t;
-		document.documentElement.classList.toggle('theme-previewing', t !== null);
+		/*
+		 * Клас вішається й на показ, і на ПОВЕРНЕННЯ — його знімає лише таймер.
+		 *
+		 * Повернення до обраної теми — така сама зміна кольорів, і без класу вона
+		 * стрибала б: показ плавний, відведення різке. Знімати клас тут-таки теж
+		 * не можна, і це заміряно: вибір теми закриває панель, її прибирання
+		 * кличе `previewTheme(null)`, і перехід обривався на 200-й мілісекунді з
+		 * 560. Одне джерело зняття — таймер — прибирає обидві гонки.
+		 */
+		this.startThemeShift();
 		this.applyThemeToDocument(t ?? this.theme);
 	};
+
+	/**
+	 * Вмикає плавний перехід кольорів на час зміни теми.
+	 *
+	 * Тривалість із ЗАПАСОМ над 0,56 с із `global.css`: клас мусить дожити до
+	 * кінця переходу, інакше останні кадри стрибнуть. Запас, а не те саме число,
+	 * — щоб не тримати копію тривалості в двох місцях; кожен новий показ теми
+	 * перезапускає таймер, тож зайві 340 мс нікого не чекають.
+	 */
+	private startThemeShift() {
+		if (typeof document === 'undefined') return;
+		document.documentElement.classList.add('theme-shifting');
+		if (this.shiftTimer) clearTimeout(this.shiftTimer);
+		this.shiftTimer = setTimeout(() => {
+			document.documentElement.classList.remove('theme-shifting');
+			this.shiftTimer = null;
+		}, 900);
+	}
 
 	setTheme = async (t: Theme, options: { withBlur?: boolean } = {}) => {
 		// Прев'ю могло вже намалювати цю тему в документі, а `theme` лишається
@@ -218,7 +248,20 @@ export class UIState {
 			return;
 		}
 
-		const withBlur = options.withBlur ?? true;
+		/*
+		 * ТЕМА МІНЯЄТЬСЯ БЕЗ БЛЮРУ — типове значення `false`.
+		 *
+		 * Просив автор: «при натисканні міняється з ефектом blur → без ефекту
+		 * blur». Блюр гасив сторінку на 300 мс ПЕРЕД зміною, тобто ховав саме те,
+		 * що людина хотіла побачити; а коли курсор стоїть на кнопці, сторінка вже
+		 * показує цю тему прев'ю, і гасити її вдруге безглуздо. Замість гасіння —
+		 * той самий плавний перехід кольорів, що й у прев'ю.
+		 *
+		 * Параметр лишається: він потрібен тому, хто захоче блюр назад точково, і
+		 * ним же вимикали блюр раніше. Зміна МОВИ блюр зберігає (`isLangChanging`),
+		 * тому напис перемикача в панелі звузився до мови.
+		 */
+		const withBlur = options.withBlur ?? false;
 
 		if (withBlur && this.enableBlurEffect) {
 			this.isThemeChanging = true;
@@ -228,9 +271,7 @@ export class UIState {
 
 		this.theme = t;
 		this.previewedTheme = null;
-		if (typeof document !== 'undefined') {
-			document.documentElement.classList.remove('theme-previewing');
-		}
+		this.startThemeShift();
 		this.applyThemeToDocument(t);
 		storage.set('theme', t);
 

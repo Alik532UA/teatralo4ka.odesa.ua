@@ -175,7 +175,7 @@
 		"scrollbarCustom": "Author's",
 		"scrollbarMinimap": "Minimal minimap",
 		"scrollbarMinimapFull": "Minimap",
-		"blur": "Blur effect when changing language or theme",
+		"blur": "Blur effect when changing language",
 		"hotkeys": "Keyboard shortcuts",
 		"hotkeysHint": "T — theme, L — language",
 		"on": "On",
