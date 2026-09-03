@@ -1463,7 +1463,9 @@
 		"graduationYears": [
 			2018
 		],
-		"memberIds": [],
+		"memberIds": [
+			"hryhorii-naumov"
+		],
 		"playIds": [
 			"shake-s-pr-party-2018"
 		]
