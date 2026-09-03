@@ -295,6 +295,18 @@ const LIMITS: Array<[RegExp, number]> = [
  *   `GalaxyAddCard`. Рядки тут майже всі коментар про те, ЧОМУ картка стоїть над
  *   переліком, а не в сітці: плитки вистав розкладені по роках, і картка
  *   всередині сітки читалася б як прохання додати показ саме до того року.
+ *
+ * 2026-09-03: запис `routes/+layout.svelte` (345) ПРИБРАНО — файл 240.
+ *
+ *   Галактиці треба було власний опис для прев'ю месенджера, а це десять рядків
+ *   двомовного тексту в SEO-карті. Карта лежала в САМОМУ layout, тобто ціна
+ *   опису однієї сторінки була «підняти стелю найгарячішого файлу проєкту», і
+ *   росла б із кожною наступною сторінкою.
+ *
+ *   Тому карта разом із `routeToSeoKey` поїхала в `config/seoPages.ts`: це ДАНІ
+ *   з нулем логіки плюс одна чиста функція (тепер зі своїм тестом). Той самий
+ *   аргумент, що для `data/betaChecklist.ts`. Layout упав 365 → 240, тобто нижче
+ *   канонічної межі 400, і борг закрито — рядок пішов, як вимагає § 8.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -327,7 +339,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
-	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 430,

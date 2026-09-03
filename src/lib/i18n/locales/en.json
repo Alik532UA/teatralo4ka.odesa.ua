@@ -807,6 +807,10 @@
 			"documents": {
 				"title": "Official Documents",
 				"description": "Official documents, school statute and public information of Odesa Theatre School."
+			},
+			"galaxy": {
+				"title": "Galaxy of graduates",
+				"description": "The galaxy of Odesa Theatre School graduates: over 500 graduates, groups, performances and festivals!"
 			}
 		}
 	},
