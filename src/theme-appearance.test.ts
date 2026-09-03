@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
+import { THEMES as THEME_KEYS, TokenResolver, type Rgb } from '../vitest/support/tokens';
 
 /**
  * Вигляд НЕ наших пікселів — тих, що малює браузер: мета-тег `color-scheme`,
@@ -171,5 +172,84 @@ describe('вигляд, який малює браузер', () => {
 			onControls.map(({ selector }) => selector),
 			'схема контролів мусить успадковуватися від документа, інакше вона розійдеться з темою сторінки'
 		).toEqual([]);
+	});
+});
+
+/**
+ * Мініатюри тем у панелі налаштувань — і те, що вони НЕ розійдуться з темами.
+ *
+ * Кнопка теми показує кольори САМОЇ теми, а не активної: інакше обрати тему на
+ * око не можна — доти всі шість кнопок були прозорі й однакові (заміряно в
+ * браузері 2026-09-02). Прочитати токени чужої теми з CSS неможливо: імена
+ * змінних не збираються з рядків, тож шість наборів у `global.css` оголошені
+ * явно.
+ *
+ * Явна копія без інваріанта старіє мовчки — саме той клас помилки, який у цьому
+ * проєкті вже коштував неправильних пропорцій у `HeroSection` і трьох різних
+ * написань тієї самої вистави. Тому кожне значення звіряється з тим, що дає
+ * розв'язувач токенів на самих файлах тем.
+ *
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): змінити будь-який
+ * `--sw-*` на сусідній відтінок — перевірка назве тему, змінну й обидва
+ * значення.
+ */
+describe('мініатюри тем у панелі', () => {
+	const resolver = new TokenResolver();
+	const hex = (c: Rgb | null) =>
+		c ? '#' + c.map((v) => v.toString(16).padStart(2, '0')).join('') : null;
+
+	/** `--sw-<роль>` кнопки → токен, який ця роль показує. */
+	const ROLES: Record<string, string> = {
+		bg: '--bg-page',
+		fg: '--text-main',
+		accent: '--accent-primary',
+		on: '--text-on-accent'
+	};
+
+	/**
+	 * Значення `--sw-*` із блоку `.theme-opt[data-theme-key='<тема>']`.
+	 *
+	 * Пошук рядком, а не регуляркою: селектор містить і точку, і квадратні
+	 * дужки, і лапки — у зібраному з назви теми шаблоні кожне з них треба
+	 * екранувати, і перша редакція цієї перевірки впала саме на цьому
+	 * («Range out of order in character class», бо `[data-theme-key…]`
+	 * прочиталося як клас символів).
+	 */
+	function swatches(theme: string): Map<string, string> {
+		const marker = `.theme-opt[data-theme-key='${theme}'] {`;
+		const at = GLOBAL_CSS.indexOf(marker);
+		const out = new Map<string, string>();
+		if (at === -1) return out;
+		const body = GLOBAL_CSS.slice(at + marker.length).split('}')[0];
+		for (const d of body.matchAll(/--sw-([\w-]+)\s*:\s*([^;]+);/g)) {
+			out.set(d[1], d[2].trim().toLowerCase());
+		}
+		return out;
+	}
+
+	it('перевірка жива: набір є в кожної теми, і роли всі', () => {
+		for (const theme of THEME_KEYS) {
+			const own = swatches(theme);
+			expect(own.size, `${theme}: блоку --sw-* немає в global.css`).toBe(
+				Object.keys(ROLES).length
+			);
+		}
+	});
+
+	it('кожен колір мініатюри дорівнює токену своєї теми', () => {
+		const bad: string[] = [];
+		for (const theme of THEME_KEYS) {
+			const own = swatches(theme);
+			for (const [role, token] of Object.entries(ROLES)) {
+				const written = own.get(role);
+				const real = hex(resolver.resolve(token, theme));
+				if (!written || !real) {
+					bad.push(`${theme}.${role}: не розв'язується (${written ?? '—'} проти ${real ?? '—'})`);
+					continue;
+				}
+				if (written !== real) bad.push(`${theme}.${role}: у панелі ${written}, у темі ${real} (${token})`);
+			}
+		}
+		expect(bad, `мініатюра розійшлася з темою:\n${bad.join('\n')}`).toEqual([]);
 	});
 });

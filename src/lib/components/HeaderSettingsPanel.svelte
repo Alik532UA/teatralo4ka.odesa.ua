@@ -95,56 +95,62 @@
 			data-testid="settings-theme{sfx}-options-list"
 		>
 			<button
-				class="dropdown-opt-unified"
+				class="dropdown-opt-unified theme-opt"
 				class:active={ui.theme === "light"}
 				onclick={() => ui.setTheme("light")}
 				aria-label={$t("settings.light")}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light')}
+				data-theme-key="light"
 				data-testid="theme-light{sfx}-btn"
 			><Palette size={20} /></button>
 			<button
-				class="dropdown-opt-unified"
+				class="dropdown-opt-unified theme-opt"
 				class:active={ui.theme === "light-yellow"}
 				onclick={() => ui.setTheme("light-yellow")}
 				aria-label={$t("settings.lightYellow") || "Light Yellow"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'light-yellow')}
+				data-theme-key="light-yellow"
 				data-testid="theme-light-yellow{sfx}-btn"
 			><Sun size={20} /></button>
 			{#if dev}
 				<button
-					class="dropdown-opt-unified"
+					class="dropdown-opt-unified theme-opt"
 					class:active={ui.theme === "yellow"}
 					onclick={() => ui.setTheme("yellow")}
 					aria-label={$t("settings.yellow") || "dev-test-light-01"}
 					title="dev-test-light-01"
 					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'yellow')}
+					data-theme-key="yellow"
 					data-testid="theme-yellow{sfx}-btn"
 				><FlaskConical size={20} /></button>
 			{/if}
 			<button
-				class="dropdown-opt-unified"
+				class="dropdown-opt-unified theme-opt"
 				class:active={ui.theme === "dark"}
 				onclick={() => ui.setTheme("dark")}
 				aria-label={$t("settings.dark")}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark')}
+				data-theme-key="dark"
 				data-testid="theme-dark{sfx}-btn"
 			><Moon size={20} /></button>
 			<button
-				class="dropdown-opt-unified"
+				class="dropdown-opt-unified theme-opt"
 				class:active={ui.theme === "dark-cyan"}
 				onclick={() => ui.setTheme("dark-cyan")}
 				aria-label={$t("settings.darkCyan") || "Dark Cyan"}
 				aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-cyan')}
+				data-theme-key="dark-cyan"
 				data-testid="theme-dark-cyan{sfx}-btn"
 			><Waves size={20} /></button>
 			{#if dev}
 				<button
-					class="dropdown-opt-unified"
+					class="dropdown-opt-unified theme-opt"
 					class:active={ui.theme === "dark-blue"}
 					onclick={() => ui.setTheme("dark-blue")}
 					aria-label={$t("settings.darkBlue") || "dev-test-dark-01"}
 					title="dev-test-dark-01"
 					aria-keyshortcuts={keyshortcut('T', themeShortcut === 'dark-blue')}
+					data-theme-key="dark-blue"
 					data-testid="theme-dark-blue{sfx}-btn"
 				><TestTube size={20} /></button>
 			{/if}
