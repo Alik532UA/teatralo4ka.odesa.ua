@@ -5,7 +5,7 @@
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle from '$lib/components/adults/MasterViewToggle.svelte';
-	import MasterSearch from '$lib/components/adults/MasterSearch.svelte';
+	import SearchField from '$lib/components/SearchField.svelte';
 	import AdultsCallToAction from '$lib/components/adults/AdultsCallToAction.svelte';
 	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
@@ -284,10 +284,13 @@
 					</div>
 
 					<div class="masters-header__tools">
-						<MasterSearch
+						<SearchField
 							value={query}
 							onchange={(v) => (query = v)}
 							found={visibleMasters.length}
+							placeholderKey="galaxy.searchMasters"
+							nothingKey="galaxy.searchNothing"
+							testid="residents-adults-search"
 						/>
 						<MasterViewToggle {viewMode} onchange={handleViewChange} />
 					</div>

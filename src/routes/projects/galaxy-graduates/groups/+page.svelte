@@ -15,7 +15,8 @@
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { GROUPS, groupProfilePath, playIdsOfGroup } from '$lib/data/groups';
+	import { GROUPS, groupProfilePath, matchesGroupQuery, playIdsOfGroup } from '$lib/data/groups';
+	import SearchField from '$lib/components/SearchField.svelte';
 	import mastersIndex from '$lib/data/masters.index.json';
 	import type { MasterIndexEntry } from '$lib/data/masters';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -56,9 +57,27 @@
 	 * початок списку — тобто «випадковість», якої насправді немає. Той самий
 	 * порядок міркувань, що й в учасників фестивалю.
 	 */
-	const currentGroups = $derived(GROUPS.filter((g) => g.isCurrent));
-	const needsClarificationGroups = $derived(GROUPS.filter((g) => !g.isCurrent && g.memberIds.length === 0));
-	const graduatedGroups = $derived(GROUPS.filter((g) => !g.isCurrent && g.memberIds.length > 0));
+	/**
+	 * Пошук звужує ВСІ ТРИ категорії, а не одну.
+	 *
+	 * Через спільний `знайдені`, а не трьома фільтрами поруч: категорії — це
+	 * три різні `filter` по тому самому реєстру, і додати запит у кожен окремо
+	 * означало б три місця, які розійдуться на першій правці. Заодно лічильник
+	 * у полі («знайдено N») і числа над категоріями тоді неминуче розказували б
+	 * різне.
+	 *
+	 * Правило збігу живе в `matchesGroupQuery` — там, де лежать самі дані, і
+	 * там, де його тримає тест.
+	 */
+	let query = $state('');
+
+	const знайдені = $derived(GROUPS.filter((g) => matchesGroupQuery(g, query)));
+
+	const currentGroups = $derived(знайдені.filter((g) => g.isCurrent));
+	const needsClarificationGroups = $derived(
+		знайдені.filter((g) => !g.isCurrent && g.memberIds.length === 0)
+	);
+	const graduatedGroups = $derived(знайдені.filter((g) => !g.isCurrent && g.memberIds.length > 0));
 
 	const graduatedByYear = $derived(
 		[...graduatedGroups].sort((a, b) => {
@@ -171,6 +190,17 @@
 			<p class="groups-header__count">
 				{GROUPS.length}
 			</p>
+
+			<div class="groups-header__search">
+				<SearchField
+					value={query}
+					onchange={(v) => (query = v)}
+					found={знайдені.length}
+					placeholderKey="galaxy.groupsSearch"
+					nothingKey="galaxy.groupsSearchNothing"
+					testid="galaxy-groups-search"
+				/>
+			</div>
 
 			<div class="groups-header__view">
 				<MasterViewToggle
@@ -351,6 +381,12 @@
 	 * галактики. Доти галактика стояла ЛІВОРУЧ зі стрілкою назад, хоч на решті
 	 * сторінок та сама кнопка — крок уперед і стоїть праворуч.
 	 */
+	.groups-header__search {
+		flex: 1 1 260px;
+		min-width: 0;
+		max-width: 420px;
+	}
+
 	.groups-page__nav {
 		display: flex;
 		flex-wrap: wrap;

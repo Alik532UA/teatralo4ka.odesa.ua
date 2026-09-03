@@ -189,8 +189,8 @@ function draws(body: string): boolean {
  * нижче падає, якщо названий рятівник зник із файлу.
  */
 const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
-	'src/lib/components/adults/MasterSearch.svelte': {
-		drawnBy: '.master-search__field:focus-within',
+	'src/lib/components/SearchField.svelte': {
+		drawnBy: '.search-field__field:focus-within',
 		why:
 			'поле лежить усередині обгортки-рамки разом з іконкою та кнопкою ' +
 			'очищення: кільце навколо самого input було б ДРУГОЮ лінією всередині ' +

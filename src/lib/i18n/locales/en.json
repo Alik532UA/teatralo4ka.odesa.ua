@@ -1087,6 +1087,8 @@
 		"playAwards": "Awards",
 		"playLineup": "Show cast",
 		"playParticipants": "Also took part",
+		"groupsSearch": "Search by name or year",
+		"groupsSearchNothing": "Nothing found",
 		"lineageTitle": "Group history",
 		"lineageWas": "Previously",
 		"lineageMergedFrom": "Formed from",

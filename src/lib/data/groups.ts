@@ -1,6 +1,7 @@
 import type { Pathname } from '$app/types';
 import groupsData from './groups.data.json';
 import { PLAYS, getPlayById } from './plays';
+import { matchesQuery } from '$lib/utils/searchQuery';
 
 export interface GroupMaster {
 	id: string;
@@ -556,4 +557,29 @@ export function playGroupNames(
 	}
 	const tidied = fallback ? tidyGroupLabel(fallback) : undefined;
 	return tidied ? [tidied] : [];
+}
+
+/**
+ * Чи підходить група під запит пошуку.
+ *
+ * Правила збігу — у `utils/searchQuery` (апострофи, регістр, слова окремо й у
+ * будь-якому порядку); тут лишається те, що справді про групу, — ЯКІ поля
+ * шукаються.
+ *
+ * Роки — окремими словами, а не діапазоном: людина набирає «2016», а в записі
+ * лежить `[2013, 2014, 2015, 2016]`, і саме входження в перелік робить пошук
+ * за роком чесним. Абревіатура теж у переліку: «ЗТК» коротше й пам'ятніше за
+ * повну назву, і саме її й набирають.
+ *
+ * Складу тут НЕМАЄ навмисно. Спокуса є — знайти групу за прізвищем випускника,
+ * — але `memberIds` це ключі (`inna-shevchenko`), а не імена; шукати по них
+ * означало б або знаходити за латиницею те, що людина набирає кирилицею, або
+ * тягнути в цей модуль реєстр випускників, чого він свідомо не робить (та сама
+ * межа, що в `playGroupNames` поруч). Людину шукають у ростері галактики.
+ */
+export function matchesGroupQuery(group: GraduateGroup, query: string): boolean {
+	return matchesQuery(
+		[group.name, group.nameEn, group.abbr, ...group.graduationYears],
+		query
+	);
 }

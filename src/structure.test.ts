@@ -267,6 +267,22 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Кнопка статистики з’явилася й пішла: сторінку наповнення архіву прибрано з
  *   пошуку остаточно (`config/hiddenRoutes.ts`), тож посилання на неї з панелі
  *   сцени не лишилося. Стеля повернулася до значення, яке було до кнопки; файл 341.
+ * 2026-09-03: `galaxy-graduates/groups/+page.svelte` 490 → 505. Поле пошуку —
+ *   те саме, що на сторінці вистав, якого в переліку груп не було.
+ *
+ *   Копії немає: саме поле винесено в `components/SearchField.svelte` (з
+ *   `adults/MasterSearch.svelte`, який був третьою такою розміткою), а правило
+ *   збігу — у `matchesGroupQuery` поруч із даними, зі своїм тестом. Тут лишилося
+ *   рівно те, що не буває чистим: стан запиту, звуження ТРЬОХ категорій одним
+ *   похідним і місце поля в шапці.
+ *
+ *   Звуження саме одним похідним і дало більшу частину рядків, і платити за це
+ *   варто: три `filter` із запитом окремо розійшлися б на першій правці, а
+ *   лічильник у полі й числа над категоріями почали б розказувати різне.
+ *
+ *   Того ж коміта запис `data/masters.ts` (260) ПРИБРАНО: приватна
+ *   `normalizeQuery` поїхала у спільний `utils/searchQuery`, і файл упав до 249,
+ *   тобто в канонічну межю 250. Борг закрито — рядок пішов, як вимагає § 8.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -283,7 +299,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/PianoModal.svelte': 608,
 	'src/lib/components/GraduateProfileView.svelte': 1600,
 	'src/lib/components/FooterSection.svelte': 510,
-	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 490,
+	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 505,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
 	'src/lib/components/GalaxyStageControls.svelte': 345,
@@ -301,7 +317,6 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
 	'src/routes/+layout.svelte': 345,
 	'src/lib/components/SearchOverlay.svelte': 312,
-	'src/lib/data/masters.ts': 260,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	'src/routes/projects/galaxy-graduates/plays/+page.svelte': 420,
 	/*

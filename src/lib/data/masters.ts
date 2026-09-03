@@ -7,6 +7,7 @@ import { LINKED_GRADUATES, type Department, type GraduateIndexEntry } from './gr
 import { linkedMasterId } from './dualRole';
 import type { VerificationStatusProp } from './groups';
 import mastersIndexData from './masters.index.json';
+import { matchesQuery } from '$lib/utils/searchQuery';
 
 /**
  * Життєвий цикл людини в школі. Про ЛЮДИНУ, а не про розділ сайту.
@@ -649,32 +650,15 @@ export interface MasterSearchable {
 	subjects?: string[];
 }
 
-/**
- * Зводить рядок до вигляду, у якому порівняння не залежить від дрібниць.
- *
- * Апострофи зводяться до одного: у даних трапляються всі три варіанти
- * (`'`, `’`, `ʼ`), і без цього «Бур'ян» не знаходився б за «Бурʼян» — тобто
- * пошук мовчки не показував би людину, яка в списку є.
- */
-function normalizeQuery(value: string): string {
-	return value
-		.toLowerCase()
-		.replace(/['’`ʼ]/gu, "'")
-		.replace(/\s+/gu, ' ')
-		.trim();
-}
 
 /**
  * Чи підходить запис під запит. Порожній запит підходить усім — інакше поле
  * пошуку в стані спокою ховало б увесь список.
  */
 export function matchesMasterQuery(master: MasterSearchable, query: string): boolean {
-	const q = normalizeQuery(query);
-	if (!q) return true;
-
-	// Кожне слово запиту окремо: так «риськіна майстерність» знаходить людину
-	// за іменем І предметом, а не вимагає, щоб вони стояли поруч одним рядком.
-	const haystack = normalizeQuery(
+	// Правила збігу — у `utils/searchQuery`: апострофи, регістр, слова окремо.
+	// Тут лишається те, що справді про майстра, — ЯКІ поля шукаються.
+	return matchesQuery(
 		[
 			master.displayName,
 			master.fullName,
@@ -682,10 +666,7 @@ export function matchesMasterQuery(master: MasterSearchable, query: string): boo
 			master.fullNameEn,
 			master.roleTitle,
 			...(master.subjects ?? [])
-		]
-			.filter(Boolean)
-			.join(' ')
+		],
+		query
 	);
-
-	return q.split(' ').every((word) => haystack.includes(word));
 }
