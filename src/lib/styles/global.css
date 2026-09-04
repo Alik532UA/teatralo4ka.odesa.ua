@@ -1339,6 +1339,34 @@ html.theme-shifting *:not(canvas) {
 	font-weight: 700;
 }
 
+/*
+ * ПОСИЛАННЯ ВСЕРЕДИНІ ТЕКСТУ СТОРІНКИ.
+ *
+ * Стилю не існувало до 2026-09-04, і це не дивно: жодна markdown-сторінка
+ * посилань у тексті не мала — перше з'явилося в новині про сімнадцять
+ * студентів, де кожне ім'я веде на сторінку випускника. Заміряно на ній же:
+ * колір посилання дорівнював кольору сусіднього тексту (`rgb(229, 247, 253)`
+ * обидва), `text-decoration: none`, вага 400 — тобто чотирнадцять посилань були
+ * НЕВІДРІЗНЯЛЬНІ від звичайних слів, і читач не мав способу дізнатися, що на
+ * імені можна натиснути.
+ *
+ * Підкреслення, а не лише колір: WCAG 2.2 SC 1.4.1 — ознакою посилання в тексті
+ * не може бути ОДИН колір. `text-underline-offset` тримає лінію від літер із
+ * нижніми виносними, інакше в кириличних «р» і «у» вона перерізає хвіст.
+ */
+.prose a {
+	color: var(--accent-primary);
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+	transition: color var(--transition-base);
+}
+.prose a:hover,
+.prose a:focus-visible {
+	color: var(--text-title);
+	text-decoration-thickness: 2px;
+}
+
 .prose blockquote {
 	border-left: 4px solid var(--accent-primary);
 	padding-left: 1.5rem;
