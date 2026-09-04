@@ -1558,12 +1558,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "stekliannyi-zverynets-2016",
-		"title": "«Скляний звіринець»",
-		"year": 2016,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "teremok-2016",
 		"title": "«ТеремОК»",
 		"year": 2016,
@@ -1624,6 +1618,25 @@
 			"svitlana-ryskina",
 			"tetiana-isachkina"
 		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "uryvky-z-klasyky-2016-2",
+		"title": "«Уривки з класики»",
+		"year": 2016,
+		"author": "Т. Вільямс «Скляний звіринець», М. Старицький «За двома зайцями»",
+		"programme": [
+			{
+				"id": "sklianyi-zvirynets",
+				"title": "Т. Вільямс «Скляний звіринець»"
+			},
+			{
+				"id": "za-dvoma-zaitsiamy",
+				"title": "М. Старицький «За двома зайцями»"
+			}
+		],
+		"theatreGroup": "гр. 6Т-13",
+		"masters": ["tetiana-isachkina"],
 		"verificationStatus": "possible_errors"
 	},
 	{

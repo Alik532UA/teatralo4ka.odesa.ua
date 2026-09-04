@@ -3047,6 +3047,26 @@
 			"fromRegistry": true
 		}
 	],
+	"uryvky-z-klasyky-2016-2": [
+		{
+			"graduateId": "yuliana-klymenko",
+			"role": "Лора",
+			"items": [
+				"sklianyi-zvirynets",
+				"za-dvoma-zaitsiamy"
+			],
+			"roles": [
+				{
+					"item": "sklianyi-zvirynets",
+					"role": "Лора"
+				},
+				{
+					"item": "za-dvoma-zaitsiamy",
+					"role": "Секлита"
+				}
+			]
+		}
+	],
 	"uryvky-z-klasyky-2019": [
 		{
 			"graduateId": "amryta-chernyshova",
