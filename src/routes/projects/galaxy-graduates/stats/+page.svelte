@@ -8,7 +8,6 @@
 		Globe,
 		Copy,
 		Check,
-		ArrowLeft,
 		BarChart3
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
@@ -20,6 +19,7 @@
 	} from '$lib/data/stats';
 	import StatsMetricCard from '$lib/components/galaxy/StatsMetricCard.svelte';
 	import StatsTimeline from '$lib/components/galaxy/StatsTimeline.svelte';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	interface Props {
 		data: {
@@ -112,16 +112,12 @@
 
 <main class="stats-page" data-testid="stats-section">
 	<div class="container">
-		<nav class="stats-page__nav clears-logo" aria-label="Breadcrumb">
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="nav-back-link"
-				data-testid="stats-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.title', { default: 'Сузір’я випускників' })}</span>
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			variant="plain"
+			backHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			backLabel={$t('galaxy.title', { default: 'Сузір’я випускників' })}
+			backTestId="stats-back-link"
+		/>
 
 		<header class="stats-header">
 			<div class="stats-header__meta">
@@ -252,9 +248,6 @@
 <style>
 	.stats-page { padding: 2rem 0 5rem; min-height: 80dvh; }
 	.container { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem; }
-	.stats-page__nav { margin-bottom: 2rem; display: flex; align-items: center; }
-	.nav-back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.15s ease; }
-	.nav-back-link:hover { color: var(--accent-primary); }
 	.stats-header { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
 	@media (min-width: 860px) {
 		.stats-header { flex-direction: row; justify-content: space-between; align-items: flex-end; }

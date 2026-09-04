@@ -3,8 +3,6 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
 	import {
-		ArrowLeft,
-		ArrowRight,
 		Theater,
 		Users,
 		GraduationCap,
@@ -24,6 +22,7 @@
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -77,25 +76,14 @@
 
 <main class="fest-page" data-testid="festival-panel">
 	<div class="container">
-		<nav class="fest-page__nav clears-logo" aria-label="Breadcrumb">
-			<a
-				href={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
-				class="nav-link"
-				data-testid="festival-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.backToFestivals')}</span>
-			</a>
-
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="nav-link nav-link--forward"
-				data-testid="festival-galaxy-link"
-			>
-				<span>{$t('galaxy.title')}</span>
-				<ArrowRight size={18} aria-hidden="true" />
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			backHref={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
+			backLabel={$t('galaxy.backToFestivals')}
+			backTestId="festival-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="festival-galaxy-link"
+		/>
 
 		<VerificationNoticeBanner status={data.festival.verificationStatus} />
 
@@ -258,38 +246,7 @@
 		color: var(--text-main, #f0f2f5);
 	}
 
-	.fest-page__nav {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-bottom: 2rem;
-	}
-	.nav-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-main);
-		font-size: 0.9rem;
-		font-weight: 600;
-		text-decoration: none;
-		transition:
-			border-color var(--transition-base),
-			transform var(--transition-base);
-	}
-	.nav-link:hover {
-		border-color: var(--accent-primary);
-		transform: translateX(-3px);
-	}
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
-	.fest-page__nav .nav-link--forward:hover {
-		transform: translateX(3px);
-	}
-
 	.fest-header {
 		margin-bottom: 3rem;
 		text-align: center;

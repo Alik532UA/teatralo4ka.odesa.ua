@@ -132,10 +132,35 @@ const ALL_ICONS = VOCABULARY.map((v) => v.icon);
  */
 const NEAR = 2;
 
+/**
+ * Іконка трапляється у ДВОХ формах, і читаються вони РІЗНО.
+ *
+ * `<Theater ` — звичайний тег у розмітці, і тоді від мітки його відділяють
+ * рядки: іконка стоїть між `aria-labelledby` секції та її заголовком. Звідси
+ * вікно ±2.
+ *
+ * `icon: Theater` — та сама іконка, але в ОПИСУВАЧІ: у панелі сцени галактики
+ * п'ять переліків згорнуті в `{#each}`, значок приходить полем масиву, а тег
+ * там записаний як `<Значок`. У цій формі іконка й мітка стоять на ОДНОМУ
+ * рядку, тож вікно тут не потрібне — і шкідливе.
+ *
+ * Це перевірено на собі, двома падіннями підряд. Спершу перевірка знала лише
+ * тег і побачила біля мітки нуль іконок. Потім я додав форму описувача, лишивши
+ * вікно ±2, — і вона назвала «GraduationCap, Theater»: у вікно влізли СУСІДНІ
+ * записи масиву, бо кожен займає один рядок. Тому правило таке: якщо мітка й
+ * `icon:` стоять на одному рядку, вважається лише той рядок.
+ */
+const описувач = (icon: string) => [`icon: ${icon},`, `icon: ${icon} `];
+
 function iconsNear(lines: string[], marker: string): Set<string> {
 	const found = new Set<string>();
 	lines.forEach((line, n) => {
 		if (!line.includes(marker)) return;
+		const свій = ALL_ICONS.filter((icon) => описувач(icon).some((ф) => line.includes(ф)));
+		if (свій.length) {
+			for (const icon of свій) found.add(icon);
+			return;
+		}
 		for (let i = Math.max(0, n - NEAR); i <= Math.min(lines.length - 1, n + NEAR); i++)
 			for (const icon of ALL_ICONS) if (lines[i].includes(`<${icon} `)) found.add(icon);
 	});

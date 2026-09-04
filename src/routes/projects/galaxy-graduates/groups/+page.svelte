@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import {
-		ArrowLeft,
-		ArrowRight,
 		Users,
 		Calendar,
 		Sparkles,
@@ -25,6 +23,7 @@
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -181,25 +180,14 @@
 
 <main class="groups-page" data-testid="graduate-groups-panel">
 	<div class="container">
-		<nav class="groups-page__nav clears-logo" aria-label="Breadcrumb">
-			<a
-				href={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
-				class="nav-back-link"
-				data-testid="galaxy-groups-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.backToFestivals')}</span>
-			</a>
-
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="nav-back-link nav-back-link--forward"
-				data-testid="galaxy-groups-galaxy-link"
-			>
-				<span>{$t('galaxy.title')}</span>
-				<ArrowRight size={18} aria-hidden="true" />
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			backHref={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
+			backLabel={$t('galaxy.backToFestivals')}
+			backTestId="galaxy-groups-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="galaxy-groups-galaxy-link"
+		/>
 
 		<header class="groups-header">
 			<h1 class="groups-header__title" data-testid="galaxy-groups-title">
@@ -429,38 +417,7 @@
 		max-width: 460px;
 	}
 
-	.groups-page__nav {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-bottom: 1.5rem;
-	}
-	.nav-back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-main);
-		font-size: 0.9rem;
-		font-weight: 600;
-		text-decoration: none;
-		transition:
-			border-color var(--transition-base),
-			transform var(--transition-base);
-	}
-	.nav-back-link:hover {
-		border-color: var(--accent-primary);
-		transform: translateX(-3px);
-	}
 	/* Складений добір: модифікатор має ту саму вагу, що й правило вище. */
-	.groups-page__nav .nav-back-link--forward:hover {
-		transform: translateX(3px);
-	}
-
 	.groups-header {
 		display: flex;
 		flex-wrap: wrap;

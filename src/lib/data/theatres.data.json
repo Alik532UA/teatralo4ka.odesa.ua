@@ -1,0 +1,194 @@
+[
+	{
+		"slug": "dnipro-lialok",
+		"name": "Дніпровський міський театр ляльок",
+		"city": "Дніпро",
+		"countries": [
+			"UA"
+		],
+		"website": "https://puppet.dp.ua/",
+		"members": [
+			{
+				"id": "daniela-rybalchenko",
+				"mention": "міському Дніпровському театрі ляльок",
+				"note": "практика"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "drama-i-komediia-livyi-bereh",
+		"name": "Театр драми і комедії на лівому березі Дніпра",
+		"fullName": "Київський академічний театр драми і комедії на лівому березі Дніпра",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"website": "https://drama-comedy.kiev.ua/",
+		"members": [
+			{
+				"id": "anfisa-lazebna",
+				"role": "білетерка, грає у виставах",
+				"mention": "театрі драми і комедії на лівому березі Дніпра"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kharkiv-lialok-afanasieva",
+		"name": "Театр ляльок імені В. Афанасьєва",
+		"fullName": "Харківський державний академічний театр ляльок імені Віктора Афанасьєва",
+		"city": "Харків",
+		"countries": [
+			"UA"
+		],
+		"website": "https://puppet.kharkov.ua/",
+		"members": [
+			{
+				"id": "anastasiia-ihnatovych",
+				"role": "працювала",
+				"mention": "театрі ляльок ім. Афанасьєва"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "krakiv-komediia",
+		"name": "Краківський театр «Комедія»",
+		"city": "Краків",
+		"countries": [
+			"PL"
+		],
+		"members": [
+			{
+				"id": "yuliana-klymenko",
+				"since": 2021,
+				"mention": "Краківським Театром Комедія",
+				"note": "співпраця"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kyiv-lesi-ukrainky",
+		"name": "Театр імені Лесі Українки",
+		"fullName": "Національний академічний драматичний театр імені Лесі Українки — до 2022 року «театр російської драми»",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"website": "https://rusdram.com.ua/",
+		"members": [
+			{
+				"id": "mykhailo-haniev",
+				"since": 2021,
+				"role": "актор",
+				"mention": "Національного академічного театру російської драми ім.Лесі Українки"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lviv-lesi-ukrainky",
+		"name": "Львівський академічний драматичний театр імені Лесі Українки",
+		"city": "Львів",
+		"countries": [
+			"UA"
+		],
+		"website": "https://teatrlesi.lviv.ua/",
+		"members": [
+			{
+				"id": "kateryna-kudlach",
+				"since": 2019,
+				"until": 2021,
+				"role": "акторка",
+				"mention": "Львівському академічному драматичному театрі імені Лесі Українки"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odeska-opera",
+		"name": "Одеська опера",
+		"fullName": "Одеський національний академічний театр опери та балету",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"website": "https://opera.odessa.ua/",
+		"members": [
+			{
+				"id": "vadym-krusser",
+				"role": "артист балету",
+				"mention": "Одеського національного академічного театру опери та балету"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odeskyi-oblasnyi-dramatychnyi",
+		"name": "Одеський обласний академічний драматичний театр",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"website": "https://academteatr.od.ua/",
+		"members": [
+			{
+				"id": "maryna-sukhanova",
+				"since": 2019,
+				"role": "актриса",
+				"mention": "Одеський обласний академічний драматичний театр"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "praska-52",
+		"name": "Театр «Праска 52»",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "yuliana-klymenko",
+				"since": 2018,
+				"role": "акторка",
+				"mention": "Театрі Праска 52"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-na-lypkakh",
+		"name": "Київський театр на Липках",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "anisiia-stasevych",
+				"mention": "Київський театр на Липках"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zoloti-vorota",
+		"name": "Театр «Золоті Ворота»",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"website": "https://zolotivorota.com.ua/",
+		"members": [
+			{
+				"id": "anfisa-lazebna",
+				"mention": "театре «Золоті Ворота»",
+				"note": "студентські вистави «Жити в Києві» і «Мій номер. Бабин Яр»"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	}
+]

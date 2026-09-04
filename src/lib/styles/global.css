@@ -1379,7 +1379,23 @@ html.theme-shifting *:not(canvas) {
  * нижніми виносними, інакше в кириличних «р» і «у» вона перерізає хвіст.
  */
 .prose a {
-	color: var(--accent-primary);
+	/*
+	 * `--accent-text`, а НЕ `--accent-primary`, і це виправлення дефекту, який я
+	 * сам і зробив.
+	 *
+	 * `--accent-primary` у цьому проєкті — ТЛО акцентних кнопок, а не колір
+	 * тексту; про це прямо сказано в докблоці `themes/dark-blue.css`, і
+	 * `themes/light.css` тримає для тексту окремий `--accent-text` саме заради
+	 * контрасту. Поставивши акцент-тло кольором посилання, я зробив шість
+	 * посилань на `/admission`, `/documents/statute` і ще п'яти сторінках
+	 * нечитними: axe назвав `color-contrast` рівня serious на кожній.
+	 *
+	 * Знайшла це `e2e/a11y.spec.ts` — і не одразу, бо після тієї правки я
+	 * прогнав перевірку помітності посилань, а не axe. Обидві потрібні: перша
+	 * стежить, щоб посилання БУЛО ВИДНО серед тексту, друга — щоб його взагалі
+	 * можна було прочитати.
+	 */
+	color: var(--accent-text, var(--accent-primary));
 	text-decoration: underline;
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.2em;

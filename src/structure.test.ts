@@ -359,6 +359,17 @@ const LIMITS: Array<[RegExp, number]> = [
  *   по описувачу «значок + адреса + ключ підпису»: п'ять однакових `<a>` — це
  *   вже копія, а не збіг. Зараз їх чотири, і опис забрав би рядків більше, ніж
  *   віддав.
+ *
+ * 2026-09-04: `GalaxyStageControls.svelte` 349 → 336. Стелю ОПУЩЕНО, і борг,
+ *   записаний рядком вище, закрито: з'явився п'ятий перелік (театри), і замість
+ *   п'ятого однакового `<a>` чотири наявні згорнуто в `{#each}` по описувачу.
+ *
+ *   Розмір: 336 замість 357, які дав би п'ятий тег. Виграш саме від того, що
+ *   кожен запис описувача — ОДИН рядок; перша спроба розписала їх на шість
+ *   рядків кожен і дала 360, тобто більше, ніж було. Це варто пам'ятати: сама
+ *   ідея «згорнути в цикл» розміру не зменшує, зменшує форма запису.
+ *
+ *   Число знято одразу, щоб звільнене місце не заросло мовчки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -378,7 +389,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 349,
+	'src/lib/components/GalaxyStageControls.svelte': 336,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

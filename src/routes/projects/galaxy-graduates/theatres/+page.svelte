@@ -2,7 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { Users, MapPin } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { INSTITUTIONS, institutionPath, institutionSize } from '$lib/data/institutions';
+	import { THEATRES, theatrePath, theatreSize } from '$lib/data/theatres';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
@@ -11,95 +11,90 @@
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 
 	/**
-	 * Порядок — за кількістю наших людей, від більшої.
+	 * Порядок — за кількістю наших людей, від більшої, потім за назвою.
 	 *
-	 * Не за абеткою: заклад, куди вступили семеро, і заклад з одним вступником
-	 * — це різна вага в історії школи, і перелік мусить це показувати. Абетка
-	 * поставила б «École de culture générale» першою.
-	 *
-	 * Другий ключ — назва, щоб порядок був стійкий: заклади з однаковим числом
-	 * інакше стрибали б місцями між збірками.
+	 * Те саме правило, що в переліку навчальних закладів, і з тієї ж причини:
+	 * театр, у якому працюють двоє, важить у житті школи більше за той, де один,
+	 * а другий ключ тримає порядок стійким між збірками.
 	 */
-	const заклади = $derived(
-		[...INSTITUTIONS].sort(
-			(a, b) =>
-				institutionSize(b) - institutionSize(a) ||
-				a.name.localeCompare(b.name, isEn ? 'en' : 'uk')
+	const театри = $derived(
+		[...THEATRES].sort(
+			(a, b) => theatreSize(b) - theatreSize(a) || a.name.localeCompare(b.name, isEn ? 'en' : 'uk')
 		)
 	);
 
-	const усього = $derived(заклади.reduce((сума, i) => сума + institutionSize(i), 0));
+	const усього = $derived(театри.reduce((сума, t) => сума + theatreSize(t), 0));
 </script>
 
 <svelte:head>
-	<title>{$t('galaxy.institutionsTitle')} | {$t('hero.title')}</title>
+	<title>{$t('galaxy.theatresTitle')} | {$t('hero.title')}</title>
 </svelte:head>
 
-<main class="insts-page" data-testid="galaxy-institutions-panel">
+<main class="ths-page" data-testid="galaxy-theatres-panel">
 	<div class="container">
 				<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
-			backLabel={$t('galaxy.playsTitle')}
-			backTestId="galaxy-institutions-back-link"
+			backHref={localizedPath('/projects/galaxy-graduates/institutions/', currentLang)}
+			backLabel={$t('galaxy.institutionsTitle')}
+			backTestId="galaxy-theatres-back-link"
 			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			forwardLabel={$t('galaxy.title')}
-			forwardTestId="galaxy-institutions-galaxy-link"
+			forwardTestId="galaxy-theatres-galaxy-link"
 		/>
 
-		<header class="insts-header">
-			<h1 class="insts-header__title" data-testid="galaxy-institutions-title">
-				{$t('galaxy.institutionsTitle')}
+		<header class="ths-header">
+			<h1 class="ths-header__title" data-testid="galaxy-theatres-title">
+				{$t('galaxy.theatresTitle')}
 			</h1>
-			<p class="insts-header__count" data-testid="galaxy-institutions-total-count">
-				{заклади.length}
+			<p class="ths-header__count" data-testid="galaxy-theatres-total-count">
+				{театри.length}
 			</p>
 		</header>
 
-		<p class="insts-hint" data-testid="galaxy-institutions-hint-text">
-			{$t('galaxy.institutionsHint', { values: { people: усього } })}
+		<p class="ths-hint" data-testid="galaxy-theatres-hint-text">
+			{$t('galaxy.theatresHint', { values: { people: усього } })}
 		</p>
 
 		<!--
-			Звернення СТОЇТЬ НАД переліком — так само, як у виставах, і з тієї ж
-			причини: воно про весь розділ, а не про якийсь один заклад.
+			Звернення СТОЇТЬ НАД переліком — так само, як у виставах і закладах, і
+			з тієї ж причини: воно про весь розділ, а не про якийсь один театр.
 		-->
 		<GalaxyAddCard
-			title={$t('galaxy.addInstitution')}
-			hint={$t('galaxy.addInstitutionHint')}
-			testIdPrefix="galaxy-institution-add"
+			title={$t('galaxy.addTheatre')}
+			hint={$t('galaxy.addTheatreHint')}
+			testIdPrefix="galaxy-theatre-add"
 			variant="row"
 		/>
 
-		<ul class="insts-grid" data-testid="galaxy-institutions-list">
-			{#each заклади as заклад (заклад.slug)}
+		<ul class="ths-grid" data-testid="galaxy-theatres-list">
+			{#each театри as театр (театр.slug)}
 				<li>
 					<a
-						class="inst-card"
-						href={localizedPath(institutionPath(заклад.slug), currentLang)}
-						data-testid="galaxy-institutions-card-{заклад.slug}"
+						class="th-card"
+						href={localizedPath(theatrePath(театр.slug), currentLang)}
+						data-testid="galaxy-theatres-card-{театр.slug}"
 					>
-						<span class="inst-card__head">
-							<span class="inst-card__name"
-								>{isEn && заклад.nameEn ? заклад.nameEn : заклад.name}</span
+						<span class="th-card__head">
+							<span class="th-card__name"
+								>{isEn && театр.nameEn ? театр.nameEn : театр.name}</span
 							>
-							<span class="inst-card__people">
+							<span class="th-card__people">
 								<Users size={13} aria-hidden="true" />
-								{institutionSize(заклад)}
+								{theatreSize(театр)}
 							</span>
 						</span>
 
-						{#if заклад.fullName}
-							<span class="inst-card__full">{заклад.fullName}</span>
+						{#if театр.fullName}
+							<span class="th-card__full">{театр.fullName}</span>
 						{/if}
 
-						<span class="inst-card__meta">
-							{#each заклад.countries as code (code)}
-								<span class="inst-card__badge"><CountryFlag {code} /></span>
+						<span class="th-card__meta">
+							{#each театр.countries as code (code)}
+								<span class="th-card__badge"><CountryFlag {code} /></span>
 							{/each}
-							{#if заклад.city}
-								<span class="inst-card__badge">
+							{#if театр.city}
+								<span class="th-card__badge">
 									<MapPin size={12} aria-hidden="true" />
-									{заклад.city}
+									{театр.city}
 								</span>
 							{/if}
 						</span>
@@ -111,26 +106,26 @@
 </main>
 
 <style>
-	.insts-page {
+	.ths-page {
 		position: relative;
 		min-height: 100dvh;
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main);
 	}
-	.insts-header {
+	.ths-header {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.75rem;
 		margin-bottom: 0.5rem;
 	}
-	.insts-header__title {
+	.ths-header__title {
 		margin: 0;
 		font-size: clamp(1.6rem, 4vw, 2.4rem);
 		font-weight: 800;
 		color: var(--text-title);
 	}
-	.insts-header__count {
+	.ths-header__count {
 		margin: 0;
 		display: grid;
 		place-items: center;
@@ -144,7 +139,7 @@
 		font-size: 0.9rem;
 		font-weight: 700;
 	}
-	.insts-hint {
+	.ths-hint {
 		margin: 0 0 1.5rem;
 		max-width: 62ch;
 		color: var(--text-muted);
@@ -152,7 +147,7 @@
 		line-height: 1.5;
 	}
 
-	.insts-grid {
+	.ths-grid {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -160,7 +155,7 @@
 		grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
 		gap: 0.9rem;
 	}
-	.inst-card {
+	.th-card {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
@@ -177,24 +172,24 @@
 			border-color var(--transition-base),
 			box-shadow var(--transition-base);
 	}
-	.inst-card:hover {
+	.th-card:hover {
 		transform: translateY(-3px);
 		border-color: var(--accent-primary);
 		box-shadow: var(--shadow-main);
 	}
-	.inst-card__head {
+	.th-card__head {
 		display: flex;
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 0.6rem;
 	}
-	.inst-card__name {
+	.th-card__name {
 		font-size: 1.05rem;
 		font-weight: 700;
 		color: var(--text-title);
 		line-height: 1.3;
 	}
-	.inst-card__people {
+	.th-card__people {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25rem;
@@ -203,19 +198,19 @@
 		font-size: 0.85rem;
 		font-weight: 700;
 	}
-	.inst-card__full {
+	.th-card__full {
 		font-size: 0.8rem;
 		color: var(--text-muted);
 		line-height: 1.35;
 	}
-	.inst-card__meta {
+	.th-card__meta {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.35rem;
 		margin-top: auto;
 		padding-top: 0.5rem;
 	}
-	.inst-card__badge {
+	.th-card__badge {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25rem;

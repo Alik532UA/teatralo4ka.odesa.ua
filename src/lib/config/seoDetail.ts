@@ -44,7 +44,9 @@ const WORDS = {
 		/** Хвіст опису поїздки на фестиваль. */
 		festivalTail: 'Учасники, вистави та спільні фото поїздки',
 		/** Хвіст опису навчального закладу, куди вступили наші випускники. */
-		institutionTail: 'Наші випускники, які тут навчаються, і роки вступу'
+		institutionTail: 'Наші випускники, які тут навчаються, і роки вступу',
+		/** Хвіст опису театру, у якому працюють наші випускники. */
+		theatreTail: 'Наші випускники, які тут працюють, посади й роки'
 	},
 	en: {
 		graduation: 'graduated',
@@ -53,7 +55,8 @@ const WORDS = {
 		groupTail: 'Roster, teachers and the repertoire of plays',
 		playTail: 'Who performed, whose repertoire it belongs to and the recording',
 		festivalTail: 'Participants, productions and shared photos of the trip',
-		institutionTail: 'Our graduates studying here and the years they enrolled'
+		institutionTail: 'Our graduates studying here and the years they enrolled',
+		theatreTail: 'Our graduates working here, their roles and years'
 	}
 } as const;
 

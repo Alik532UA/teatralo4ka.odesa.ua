@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import { asset } from '$app/paths';
-	import { ArrowLeft, ArrowRight, GraduationCap, Users, MapPin } from 'lucide-svelte';
+	import { GraduationCap, Users, MapPin } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
@@ -14,6 +14,7 @@
 		closeGraduateModal
 	} from '$lib/services/graduateModal.svelte';
 	import type { PageData } from './$types';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -52,25 +53,14 @@
 
 <main class="inst-page" data-testid="institution-page-section">
 	<div class="container">
-		<nav class="inst-page__nav clears-logo" aria-label="Breadcrumb">
-			<a
-				href={localizedPath('/projects/galaxy-graduates/institutions/', currentLang)}
-				class="inst-nav"
-				data-testid="institution-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.institutionsTitle')}</span>
-			</a>
-
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="inst-nav inst-nav--forward"
-				data-testid="institution-galaxy-link"
-			>
-				<span>{$t('galaxy.title')}</span>
-				<ArrowRight size={18} aria-hidden="true" />
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			backHref={localizedPath('/projects/galaxy-graduates/institutions/', currentLang)}
+			backLabel={$t('galaxy.institutionsTitle')}
+			backTestId="institution-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="institution-galaxy-link"
+		/>
 
 		<VerificationNoticeBanner status={data.institution.verificationStatus} />
 
@@ -172,37 +162,6 @@
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main);
 	}
-	.inst-page__nav {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-bottom: 1.5rem;
-	}
-	.inst-nav {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-main);
-		font-size: 0.9rem;
-		font-weight: 600;
-		text-decoration: none;
-		transition:
-			border-color var(--transition-base),
-			transform var(--transition-base);
-	}
-	.inst-nav:hover {
-		border-color: var(--accent-primary);
-		transform: translateX(-3px);
-	}
-	.inst-nav--forward:hover {
-		transform: translateX(3px);
-	}
-
 	.inst-header {
 		margin-bottom: var(--space-2xl, 2.5rem);
 	}

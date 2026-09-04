@@ -3,8 +3,6 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
 	import {
-		ArrowLeft,
-		ArrowRight,
 		Users,
 		Sparkles,
 		GraduationCap,
@@ -24,6 +22,7 @@
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -80,25 +79,14 @@
 
 	<div class="container">
 		<!-- Хлібні крихти та навігація -->
-		<nav class="group-page__nav clears-logo" aria-label="Breadcrumb">
-			<a
-				href={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
-				class="nav-back-link"
-				data-testid="group-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.backToGroups')}</span>
-			</a>
-
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="nav-back-link nav-back-link--forward"
-				data-testid="group-galaxy-link"
-			>
-				<span>{$t('galaxy.title')}</span>
-				<ArrowRight size={18} aria-hidden="true" />
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			backHref={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
+			backLabel={$t('galaxy.backToGroups')}
+			backTestId="group-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="group-galaxy-link"
+		/>
 
 		<VerificationNoticeBanner status={data.group.verificationStatus} />
 
@@ -305,42 +293,7 @@
 	 * сторінку й приходять. Галактика лишається — але як крок УПЕРЕД, окремою
 	 * кнопкою праворуч.
 	 */
-	.group-page__nav {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-bottom: 2rem;
-	}
-
-	.nav-back-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 1rem;
-		border-radius: 9999px;
-		background: rgba(255, 255, 255, 0.05);
-		border: 1px solid rgba(255, 255, 255, 0.1);
-		color: var(--text-muted, #94a3b8);
-		text-decoration: none;
-		font-size: 0.9rem;
-		font-weight: 500;
-		transition: all 0.2s ease;
-		backdrop-filter: blur(8px);
-	}
-
-	.nav-back-link:hover {
-		background: rgba(255, 255, 255, 0.1);
-		color: var(--text-main, #f8fafc);
-		border-color: rgba(255, 255, 255, 0.2);
-		transform: translateX(-3px);
-	}
-
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
-	.group-page__nav .nav-back-link--forward:hover {
-		transform: translateX(3px);
-	}
-
 	/* Шапка групи */
 	.group-header {
 		margin-bottom: 3.5rem;
@@ -471,17 +424,6 @@
 		-webkit-text-fill-color: transparent;
 	}
 
-
-	:global(.light-theme) .nav-back-link {
-		background: rgba(0, 0, 0, 0.04);
-		border-color: rgba(0, 0, 0, 0.08);
-		color: #475569;
-	}
-
-	:global(.light-theme) .nav-back-link:hover {
-		background: rgba(0, 0, 0, 0.08);
-		color: #0f172a;
-	}
 
 	:global(.light-theme) .group-years-badge {
 		background: rgba(0, 0, 0, 0.04);

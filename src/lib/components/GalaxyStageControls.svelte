@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, School, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, School, Drama, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
@@ -109,6 +109,22 @@
 		дія();
 		menuOpen = false;
 	}
+	const БАЗА = '/projects/galaxy-graduates/';
+
+	/**
+	 * Переліки галактики: значок, адреса й ключ підпису.
+	 *
+	 * Порядок тут і є порядком на екрані. Він не абетковий, а за тим, як розділи
+	 * з'являлися: групи, фестивалі, вистави, заклади освіти, театри.
+	 */
+	const ПЕРЕЛІКИ = [
+		{ icon: GraduationCap, href: `${БАЗА}groups/`, label: 'galaxy.groupsTitle', testid: 'galaxy-groups-link' },
+		{ icon: Globe, href: `${БАЗА}festivals/`, label: 'galaxy.festivalsTitle', testid: 'galaxy-festivals-link' },
+		{ icon: Theater, href: `${БАЗА}plays/`, label: 'galaxy.playsTitle', testid: 'galaxy-plays-link' },
+		{ icon: School, href: `${БАЗА}institutions/`, label: 'galaxy.institutionsTitle', testid: 'galaxy-institutions-link' },
+		{ icon: Drama, href: `${БАЗА}theatres/`, label: 'galaxy.theatresTitle', testid: 'galaxy-theatres-link' }
+	] as const;
+
 </script>
 
 <div
@@ -139,55 +155,35 @@
 
 	<div class="stage__items">
 
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/groups/', locale)}
-			data-testid="galaxy-groups-link"
-		>
-			<GraduationCap size={18} aria-hidden="true" />
-			<span class="stage__nav-label">{$t('galaxy.groupsTitle')}</span>
-		</a>
-
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/festivals/', locale)}
-			data-testid="galaxy-festivals-link"
-		>
-			<Globe size={18} aria-hidden="true" />
-			<span class="stage__nav-label">{$t('galaxy.festivalsTitle')}</span>
-		</a>
-
 		<!--
-			Вистави — третій перелік поруч із групами й фестивалями. Доти сторінки
-			вистав існували, але дістатися до них можна було лише з чужої анкети чи
-			репертуару групи: спільного входу не було, і адреса /plays/ віддавала 404.
+			ЧОТИРИ ПОСИЛАННЯ ОДНИМ `{#each}`, а не написані підряд.
+
+			Спершу їх було три, і кожне стояло окремим тегом зі своїм коментарем.
+			Коли з'явився четвертий (навчальні заклади), у стелі розміру цього
+			файлу було записано: наступне посилання мусить починатися зі
+			згортання переліку, бо п'ять однакових `<a>` — це вже копія, а не
+			збіг. Театри стали п'ятим, і борг закрито тут.
+
+			Описувач тримає ЗНАЧОК КОМПОНЕНТОМ, а не назвою: `<svelte:component>`
+			для цього не потрібен — у Svelte 5 звичайний тег із великої літери
+			приймає значення змінної. Причина кожного переліку лишилася в
+			докблоці своїх даних (`data/institutions.ts`, `data/theatres.ts`), а
+			не тут: тут вони всі однакові.
 		-->
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/plays/', locale)}
-			data-testid="galaxy-plays-link"
-		>
-			<Theater size={18} aria-hidden="true" />
-			<span class="stage__nav-label">{$t('galaxy.playsTitle')}</span>
-		</a>
+		{#each ПЕРЕЛІКИ as перелік (перелік.testid)}
+			{@const Значок = перелік.icon}
+			<a
+				class="stage__roster-btn stage__roster-btn--nav"
+				href={localizedPath(перелік.href, locale)}
+				data-testid={перелік.testid}
+			>
+				<Значок size={18} aria-hidden="true" />
+				<span class="stage__nav-label">{$t(перелік.label)}</span>
+			</a>
+		{/each}
 
 		<!--
-			Заклади — четвертий перелік. Доти заклад існував лише рядком у полі
-			«Після випуску» окремої анкети — «КНУТКіТ, акторський, курс
-			Д. Богомазова», — і з такого рядка не видно, що до КНУТКіТ вступили
-			семеро. Без входу тут сторінка була б досяжна лише з анкети.
-		-->
-		<a
-			class="stage__roster-btn stage__roster-btn--nav"
-			href={localizedPath('/projects/galaxy-graduates/institutions/', locale)}
-			data-testid="galaxy-institutions-link"
-		>
-			<School size={18} aria-hidden="true" />
-			<span class="stage__nav-label">{$t('galaxy.institutionsTitle')}</span>
-		</a>
-
-		<!--
-			«Усі випускники» стоїть ПІСЛЯ чотирьох переліків і поруч із плюсом, хоч і
+			«Усі випускники» стоїть ПІСЛЯ переліків і поруч із плюсом, хоч і
 			є головною дією: так просив замовник, і в цьому є сенс — праворуч
 			найближче до великого пальця й до курсору, що йде до кнопки анкети.
 			Переліки поруч трохи менші за розміром: вони другорядні.

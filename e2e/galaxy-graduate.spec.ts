@@ -94,12 +94,22 @@ test.describe('сторінка випускника', () => {
 			).toHaveCount(group.rows.length);
 		}
 
-		// Біографія: жоден абзац не загубився.
+		/*
+		 * Біографія: жоден абзац не загубився.
+		 *
+		 * Розмітка посилань знімається ПЕРЕД порівнянням: абзац в анкеті може
+		 * містити `[назва](адреса)`, а на екрані стоїть лише назва. Доти цього не
+		 * було видно — посилання в анкетах були рідкістю; відколи згадка театру
+		 * веде на його сторінку, у цього випускника таких абзаців два, і
+		 * перевірка справедливо впала на різниці «текст проти розмітки».
+		 */
 		expect(data.bio.length, 'у цього випускника мусить бути біографія').toBeGreaterThan(0);
 		const bio = await page.locator(BIO).allInnerTexts();
 		expect(bio).toHaveLength(data.bio.length);
+		const безРозмітки = (текст: string) =>
+			текст.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\s+/g, ' ');
 		for (const [index, paragraph] of data.bio.entries()) {
-			expect(bio[index].replace(/\s+/g, ' ')).toBe(paragraph.replace(/\s+/g, ' '));
+			expect(безРозмітки(bio[index])).toBe(безРозмітки(paragraph));
 		}
 	});
 

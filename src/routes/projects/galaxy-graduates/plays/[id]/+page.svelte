@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import {
-		ArrowLeft,
-		ArrowRight,
 		Globe,
 		Theater,
 		GraduationCap,
@@ -19,6 +17,7 @@
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import type { PageData } from './$types';
+	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -40,31 +39,15 @@
 
 <main class="play-page" data-testid="play-page-section">
 	<div class="container">
-		<nav class="play-page__nav clears-logo" aria-label="Breadcrumb">
-			<!--
-				Назад — до ПЕРЕЛІКУ ВИСТАВ, а не одразу в галактику: це найближчий
-				вищий рівень, і саме туди людина очікує повернутися, роздивившись
-				одну виставу. Доти переліку не існувало, і кнопка вела через голову
-				на два рівні вгору.
-			-->
-			<a
-				href={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
-				class="play-nav"
-				data-testid="play-back-link"
-			>
-				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.backToPlays')}</span>
-			</a>
-
-			<a
-				href={localizedPath('/projects/galaxy-graduates/', currentLang)}
-				class="play-nav play-nav--forward"
-				data-testid="play-galaxy-link"
-			>
-				<span>{$t('galaxy.title')}</span>
-				<ArrowRight size={18} aria-hidden="true" />
-			</a>
-		</nav>
+				<GalaxyBreadcrumb
+			variant="plain"
+			backHref={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
+			backLabel={$t('galaxy.backToPlays')}
+			backTestId="play-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="play-galaxy-link"
+		/>
 
 		<VerificationNoticeBanner status={data.play.verificationStatus} />
 
@@ -254,30 +237,6 @@
 	 * приватні, тож чужий клас тут не отримав би жодного оформлення. Гейт
 	 * `component-styles` саме про це й нагадав.
 	 */
-	.play-nav {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.4rem;
-		color: var(--text-muted);
-		text-decoration: none;
-		font-weight: 600;
-		transition: color var(--transition-fast);
-	}
-	.play-nav:hover,
-	.play-nav:focus-visible {
-		color: var(--accent-primary);
-	}
-	.play-nav--forward {
-		margin-left: auto;
-	}
-	.play-page__nav {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: var(--space-md);
-		flex-wrap: wrap;
-		margin-bottom: var(--space-lg);
-	}
 	/* Стилі шапки — у `PlayHeader`, разом із її розміткою. */
 	/*
 	 * Заголовок секції — свої класи, а не `.section-heading` зі сторінок групи
