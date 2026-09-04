@@ -1,35 +1,35 @@
 {
 	"id": "karyna-sharkova",
-	"code": "karyna-sharkova",
 	"slug": "karyna-sharkova",
+	"code": "karyna-sharkova",
 	"name": "Карина Шаркова",
 	"graduationYear": 2024,
-	"enrollmentYears": [
-		2015
-	],
 	"departments": [
 		"theatre"
 	],
+	"enrollmentYears": [
+		2015
+	],
 	"hasPhoto": true,
-	"unlinkedGroups": [
-		"Рост-Ок",
-		"Росточек"
-	],
-	"masters": [
-		{
-			"id": "tetiana-isachkina"
-		}
-	],
+	"plays": [],
+	"bio": [],
+	"duringStudies": null,
+	"afterGraduation": "Вступ 2026: «École de culture générale» (Вале, Швейцарія), акторський",
 	"socials": [
 		{
 			"network": "instagram",
 			"url": "https://www.instagram.com/s.h.a.r.k.o.v.a.k"
 		}
 	],
-	"plays": [],
-	"bio": [],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2024/24K",
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"unlinkedGroups": [
+		"Рост-Ок",
+		"Росточек"
+	]
 }

@@ -1,27 +1,17 @@
 {
 	"id": "albina-abuladze",
-	"code": "albinaabuladze",
 	"slug": "albina-abuladze",
+	"code": "albinaabuladze",
 	"name": "Альбіна Абуладзе",
 	"graduationYear": 2026,
-	"enrollmentYears": [
-		2017
-	],
 	"departments": [
 		"theatre"
 	],
+	"enrollmentYears": [
+		2017
+	],
 	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "svitlana-ryskina"
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/allbinna_at"
-		}
-	],
+	"photoCount": 2,
 	"plays": [
 		{
 			"year": 2020,
@@ -51,10 +41,21 @@
 	"bio": [
 		"Вступила до \"Київського національного університету культури і мистецтв\""
 	],
-	"festivals": [],
 	"duringStudies": null,
-	"afterGraduation": null,
+	"afterGraduation": "Вступ 2026: КНУКіМ, акторський, курс О. Печериці",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/allbinna_at"
+		}
+	],
+	"festivals": [],
 	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2026/albinaabuladze",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
 	"teachers": [
 		{
 			"id": "svitlana-ryskina",
@@ -119,6 +120,5 @@
 				"Вокал"
 			]
 		}
-	],
-	"photoCount": 2
+	]
 }

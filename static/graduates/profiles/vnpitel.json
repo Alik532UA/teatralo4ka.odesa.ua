@@ -1,16 +1,45 @@
 {
 	"id": "ivan-pitel",
-	"code": "vnpitel",
 	"slug": "ivan-pitel",
+	"code": "vnpitel",
 	"name": "Іван Пітель",
 	"graduationYear": 2026,
-	"enrollmentYears": [
-		2016
-	],
 	"departments": [
 		"theatre"
 	],
+	"enrollmentYears": [
+		2016
+	],
 	"hasPhoto": true,
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Тінь», Вчений",
+			"playId": "tin-2026"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Сторож",
+			"playId": "pereviznyk-2025"
+		},
+		{
+			"year": 2024,
+			"text": "«Уривки з класики», Лукаш («Лісова пісня»), Джек («Як важливо бути серйозним»)"
+		}
+	],
+	"bio": [
+		"Вступив до КМАЕЦМ на актора театру і кіно в майстерню Дмитра Рибалевського"
+	],
+	"duringStudies": null,
+	"afterGraduation": "Вступ 2026: КМАЕЦМ, акторський, курс Д. Рибалевського",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/vano.pitel"
+		}
+	],
+	"festivals": [],
+	"sourceUrl": "",
 	"masters": [
 		{
 			"id": "svitlana-ryskina",
@@ -39,34 +68,5 @@
 			]
 		}
 	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/vano.pitel"
-		}
-	],
-	"videoUrl": "https://youtu.be/6n4l3MWGu1g",
-	"plays": [
-		{
-			"year": 2026,
-			"text": "«Тінь», Вчений",
-			"playId": "tin-2026"
-		},
-		{
-			"year": 2025,
-			"text": "«Перевізник», Сторож",
-			"playId": "pereviznyk-2025"
-		},
-		{
-			"year": 2024,
-			"text": "«Уривки з класики», Лукаш («Лісова пісня»), Джек («Як важливо бути серйозним»)"
-		}
-	],
-	"bio": [
-		"Вступив до КМАЕЦМ на актора театру і кіно в майстерню Дмитра Рибалевського"
-	],
-	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": ""
+	"videoUrl": "https://youtu.be/6n4l3MWGu1g"
 }

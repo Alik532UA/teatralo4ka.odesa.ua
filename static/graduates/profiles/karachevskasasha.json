@@ -1,77 +1,17 @@
 {
 	"id": "oleksandra-karachevska",
-	"code": "karachevskasasha",
 	"slug": "oleksandra-karachevska",
+	"code": "karachevskasasha",
 	"name": "Олександра Карачевська",
 	"graduationYear": 2026,
-	"enrollmentYears": [
-		2015
-	],
 	"departments": [
 		"theatre"
 	],
+	"enrollmentYears": [
+		2015
+	],
 	"hasPhoto": true,
 	"photoCount": 2,
-	"masters": [
-		{
-			"id": "svitlana-ryskina",
-			"subjects": [
-				"Акторська майстерність"
-			]
-		}
-	],
-	"teachers": [
-		{
-			"id": "svitlana-ryskina",
-			"subjects": [
-				"Режисер",
-				"Індивідуальна сценічна мова"
-			]
-		},
-		{
-			"id": "yevheniia-osadcha",
-			"subjects": [
-				"Індивідуальна сценічна мова",
-				"Грим"
-			]
-		},
-		{
-			"id": "olena-konnikova",
-			"subjects": [
-				"Історія театру"
-			]
-		},
-		{
-			"id": "hanna-nikolaieva",
-			"subjects": [
-				"Вокал"
-			]
-		},
-		{
-			"id": "tetiana-stohul",
-			"subjects": [
-				"Танець"
-			]
-		},
-		{
-			"id": "olena-tkach",
-			"subjects": [
-				"Аудіотеатр"
-			]
-		},
-		{
-			"id": "pavlo-prymak",
-			"subjects": [
-				"Сценічний рух"
-			]
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/sashxsqs"
-		}
-	],
 	"plays": [
 		{
 			"year": 2015,
@@ -126,8 +66,68 @@
 	"bio": [
 		"Вступ до КНУКіМ 🥳"
 	],
-	"festivals": [],
 	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": ""
+	"afterGraduation": "Вступ 2026: КНУКіМ, акторський, курс О. Печериці",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/sashxsqs"
+		}
+	],
+	"festivals": [],
+	"sourceUrl": "",
+	"masters": [
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		}
+	],
+	"teachers": [
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Режисер",
+				"Індивідуальна сценічна мова"
+			]
+		},
+		{
+			"id": "yevheniia-osadcha",
+			"subjects": [
+				"Індивідуальна сценічна мова",
+				"Грим"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	]
 }

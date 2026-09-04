@@ -1,17 +1,64 @@
 {
 	"id": "kateryna-nesterenko",
-	"code": "deva144p",
 	"slug": "kateryna-nesterenko",
+	"code": "deva144p",
 	"name": "Катерина Нестеренко",
 	"graduationYear": 2026,
-	"enrollmentYears": [
-		2015
-	],
 	"departments": [
 		"theatre"
 	],
+	"enrollmentYears": [
+		2015
+	],
 	"hasPhoto": true,
 	"photoCount": 3,
+	"plays": [
+		{
+			"year": 2015,
+			"text": "«Колобоня», мама Колобоні",
+			"playId": "kolobonia-2015"
+		},
+		{
+			"year": 2020,
+			"text": "«Суботик», Суботик",
+			"playId": "subotyk-2020"
+		},
+		{
+			"year": 2021,
+			"text": "«Сентиментальна подорож», англійська принцеса",
+			"playId": "sentymentalna-podorozh-2021"
+		},
+		{
+			"year": 2023,
+			"text": "«Нікому непотрібні», Пляма / Василіса",
+			"playId": "nikomu-nepotribni-2023"
+		},
+		{
+			"year": 2024,
+			"text": "«Уривки з класики»: «Королева комах», Місіс Хардвіг-Мур; «Дурні баби»; «Голос тихої безодні», Вона"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Смерть, Електричний стовп",
+			"playId": "pereviznyk-2025"
+		},
+		{
+			"year": 2026,
+			"text": "«Тінь», принцеса Луїза, Тінь",
+			"playId": "tin-2026"
+		}
+	],
+	"bio": [],
+	"duringStudies": null,
+	"afterGraduation": "Вступ 2026: КНУТКіТ, театр ляльок, курс Л. Попова",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/deva144p"
+		}
+	],
+	"festivals": [],
+	"sourceUrl": "",
 	"masters": [
 		{
 			"id": "svitlana-ryskina",
@@ -52,52 +99,5 @@
 				"Аудіотеатр"
 			]
 		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/deva144p"
-		}
-	],
-	"plays": [
-		{
-			"year": 2015,
-			"text": "«Колобоня», мама Колобоні",
-			"playId": "kolobonia-2015"
-		},
-		{
-			"year": 2020,
-			"text": "«Суботик», Суботик",
-			"playId": "subotyk-2020"
-		},
-		{
-			"year": 2021,
-			"text": "«Сентиментальна подорож», англійська принцеса",
-			"playId": "sentymentalna-podorozh-2021"
-		},
-		{
-			"year": 2023,
-			"text": "«Нікому непотрібні», Пляма / Василіса",
-			"playId": "nikomu-nepotribni-2023"
-		},
-		{
-			"year": 2024,
-			"text": "«Уривки з класики»: «Королева комах», Місіс Хардвіг-Мур; «Дурні баби»; «Голос тихої безодні», Вона"
-		},
-		{
-			"year": 2025,
-			"text": "«Перевізник», Смерть, Електричний стовп",
-			"playId": "pereviznyk-2025"
-		},
-		{
-			"year": 2026,
-			"text": "«Тінь», принцеса Луїза, Тінь",
-			"playId": "tin-2026"
-		}
-	],
-	"bio": [],
-	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": ""
+	]
 }

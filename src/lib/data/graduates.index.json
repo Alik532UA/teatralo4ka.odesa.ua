@@ -18,7 +18,7 @@
 		],
 		"playCount": 5,
 		"code": "albinaabuladze",
-		"profileSize": 2661,
+		"profileSize": 2741,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -235,7 +235,9 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 394,
+		"playCount": 0
 	},
 	{
 		"id": "alina-halach",
@@ -898,7 +900,9 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"profileSize": 373,
+		"playCount": 0
 	},
 	{
 		"id": "anastasiia-karaivan",
@@ -3653,7 +3657,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1417
+		"profileSize": 1507
 	},
 	{
 		"id": "ivan-shevchenko",
@@ -3825,7 +3829,7 @@
 		],
 		"code": "karyna-sharkova",
 		"playCount": 0,
-		"profileSize": 625
+		"profileSize": 725
 	},
 	{
 		"id": "kateryna-kolisnychenko",
@@ -4043,7 +4047,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 2106
+		"profileSize": 2187
 	},
 	{
 		"id": "kateryna-petrenko",
@@ -4052,7 +4056,9 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 364,
+		"playCount": 0
 	},
 	{
 		"id": "kateryna-pichuhina",
@@ -4799,7 +4805,9 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 346,
+		"playCount": 0
 	},
 	{
 		"id": "liubov-bernaus",
@@ -5823,7 +5831,9 @@
 		"graduationYear": 2026,
 		"departments": [
 			"intensive"
-		]
+		],
+		"profileSize": 370,
+		"playCount": 0
 	},
 	{
 		"id": "mykyta-chemerys",
@@ -6128,7 +6138,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 376,
+		"profileSize": 488,
 		"playCount": 1
 	},
 	{
@@ -6483,7 +6493,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2638
+		"profileSize": 2718
 	},
 	{
 		"id": "oleksandra-khalfina",
@@ -7168,7 +7178,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 367,
+		"profileSize": 475,
 		"playCount": 1
 	},
 	{
@@ -9506,7 +9516,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 357,
+		"playCount": 0
 	},
 	{
 		"id": "yuliia-buchatska",
@@ -9844,7 +9856,9 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 352,
+		"playCount": 0
 	},
 	{
 		"id": "zlata-tverezovska",
