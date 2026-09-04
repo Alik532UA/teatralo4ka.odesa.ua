@@ -1091,6 +1091,20 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "ekonomichnyi-universytet",
+		"name": "Економічний університет",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "liubov-prepodobna",
+				"programme": "культурологія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "istanbul-kultur",
 		"name": "Istanbul Kültür University",
 		"city": "Стамбул",
