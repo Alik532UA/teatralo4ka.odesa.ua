@@ -46,10 +46,12 @@ export function load({ params, url }) {
 			? institution.nameEn
 			: institution.name;
 	const роки = [
-		...new Set([
-			...institution.students.map((s) => s.year),
-			...(institution.unlistedStudents ?? []).map((s) => s.year)
-		])
+		...new Set(
+			[
+				...institution.students.map((s) => s.year),
+				...(institution.unlistedStudents ?? []).map((s) => s.year)
+			].filter((year): year is number => typeof year === 'number')
+		)
 	].sort((a, b) => a - b);
 	const seoDescription = joinDescription([
 		`${назва}${підписРоку(роки)}`,

@@ -28,10 +28,14 @@
 	 * як студент цього закладу, і в трьох із чотирнадцяти ці роки різні (Аліна
 	 * Демедюк випустилася 2025-го, Карина Шаркова 2024-го, а вступили обидві
 	 * 2026-го). Рік випуску видно в картці, яка відкривається натисканням.
+	 *
+	 * Року може й не бути — тоді підпис починається з напряму. Чому саме так, а
+	 * не «рік невідомий», сказано в докблоці поля `year` у `data/institutions.ts`:
+	 * для другого закладу поспіль джерело року просто не називає.
 	 */
-	function підпис(student: { year: number; programme?: string; master?: string; note?: string }) {
+	function підпис(student: { year?: number; programme?: string; master?: string; note?: string }) {
 		const частини = [
-			$t('galaxy.institutionEnrolled', { values: { year: student.year } }),
+			student.year ? $t('galaxy.institutionEnrolled', { values: { year: student.year } }) : null,
 			student.programme,
 			student.master ? $t('galaxy.institutionCourse', { values: { master: student.master } }) : null,
 			student.note

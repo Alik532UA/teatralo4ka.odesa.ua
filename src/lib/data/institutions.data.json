@@ -4,15 +4,218 @@
 		"name": "КНУТКіТ",
 		"fullName": "Київський національний університет театру, кіно і телебачення імені І. К. Карпенка-Карого",
 		"city": "Київ",
-		"countries": ["UA"],
+		"countries": [
+			"UA"
+		],
 		"students": [
-			{ "id": "anastasiia-ivanova", "year": 2026, "programme": "акторський", "master": "Д. Богомазова" },
-			{ "id": "pavlo-maksymov", "year": 2026, "programme": "акторський", "master": "О. Замятіна" },
-			{ "id": "yuliana-tymonova", "year": 2026, "programme": "акторський", "master": "О. Замятіна" },
-			{ "id": "kateryna-nesterenko", "year": 2026, "programme": "театр ляльок", "master": "Л. Попова" },
-			{ "id": "nikol-onyshchenko", "year": 2026, "programme": "акторський", "master": "Д. Богомазова" },
-			{ "id": "zlata-stoyanova", "year": 2026, "programme": "акторський", "master": "С. Калантая" },
-			{ "id": "kateryna-petrenko", "year": 2026, "programme": "акторський", "master": "О. Замятіна" }
+			{
+				"id": "anastasiia-ivanova",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Д. Богомазова"
+			},
+			{
+				"id": "pavlo-maksymov",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Замятіна"
+			},
+			{
+				"id": "yuliana-tymonova",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Замятіна"
+			},
+			{
+				"id": "kateryna-nesterenko",
+				"year": 2026,
+				"programme": "театр ляльок",
+				"master": "Л. Попова"
+			},
+			{
+				"id": "nikol-onyshchenko",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Д. Богомазова"
+			},
+			{
+				"id": "zlata-stoyanova",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "С. Калантая"
+			},
+			{
+				"id": "kateryna-petrenko",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Замятіна"
+			},
+			{
+				"id": "nataliia-voroniuk",
+				"year": 2005,
+				"programme": "акторський"
+			},
+			{
+				"id": "pavlo-koshka",
+				"programme": "режисура"
+			},
+			{
+				"id": "yuliia-vasylieva",
+				"year": 2007,
+				"programme": "режисура"
+			},
+			{
+				"id": "maksym-nakonechnyi",
+				"year": 2007,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-chepeliuk",
+				"year": 2008,
+				"programme": "акторський"
+			},
+			{
+				"id": "kostiantyn-afanasev",
+				"year": 2010,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "borys-ukrainskyi",
+				"year": 2010,
+				"programme": "акторський"
+			},
+			{
+				"id": "oleksandra-chuprina",
+				"year": 2011,
+				"programme": "режисура"
+			},
+			{
+				"id": "anisiia-stasevych",
+				"year": 2011,
+				"programme": "акторський"
+			},
+			{
+				"id": "volodymyr-chalchynskyi",
+				"year": 2012,
+				"programme": "акторський"
+			},
+			{
+				"id": "alina-chernobai",
+				"year": 2012,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "tetiana-shemchuk",
+				"year": 2012,
+				"programme": "акторський"
+			},
+			{
+				"id": "daniil-prymachov",
+				"year": 2013,
+				"programme": "акторський"
+			},
+			{
+				"id": "ivan-voloshyn",
+				"year": 2013,
+				"programme": "режисура"
+			},
+			{
+				"id": "illia-tryfonov",
+				"year": 2013,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "inna-shevchenko",
+				"year": 2013,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "marta-smerechynska",
+				"year": 2014,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "sofiia-khersonska",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "iryna-kucheruk",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "polina-hedzenko",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "vladyslav-tsobenko",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "danylo-tomachynskyi",
+				"year": 2018,
+				"programme": "режисура"
+			},
+			{
+				"id": "yevheniia-burian",
+				"year": 2018,
+				"programme": "театр ляльок"
+			},
+			{
+				"id": "svitlana-smyrna",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "hryhorii-naumov",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "daryna-zhuravel",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "taras-lushpa",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "vladyslav-volk",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "myroslava-tkach",
+				"programme": "режисура"
+			},
+			{
+				"id": "dar-ia-hurevych",
+				"year": 2020,
+				"programme": "акторський"
+			},
+			{
+				"id": "daria-rybalchenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-moliboha",
+				"year": 2022,
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-kurchenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "mariia-mandriesk",
+				"year": 2025,
+				"programme": "акторський"
+			}
 		],
 		"verificationStatus": "possible_errors"
 	},
@@ -21,11 +224,300 @@
 		"name": "КНУКіМ",
 		"fullName": "Київський національний університет культури і мистецтв",
 		"city": "Київ",
-		"countries": ["UA"],
+		"countries": [
+			"UA"
+		],
 		"students": [
-			{ "id": "albina-abuladze", "year": 2026, "programme": "акторський", "master": "О. Печериці" },
-			{ "id": "mykhailo-zabozhanov", "year": 2026, "programme": "акторський", "master": "О. Печериці" },
-			{ "id": "oleksandra-karachevska", "year": 2026, "programme": "акторський", "master": "О. Печериці" }
+			{
+				"id": "albina-abuladze",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Печериці"
+			},
+			{
+				"id": "mykhailo-zabozhanov",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Печериці"
+			},
+			{
+				"id": "oleksandra-karachevska",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Печериці"
+			},
+			{
+				"id": "olha-poliakova",
+				"programme": "режисура"
+			},
+			{
+				"id": "nadiia-rybakova",
+				"year": 1998,
+				"programme": "режисура"
+			},
+			{
+				"id": "yuliana-kolendo",
+				"year": 2001,
+				"programme": "режисура"
+			},
+			{
+				"id": "olha-poliakova-2",
+				"year": 2003,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "svitlana-nadopta",
+				"programme": "менеджмент"
+			},
+			{
+				"id": "alisa-tunkevych",
+				"year": 2006,
+				"programme": "акторський"
+			},
+			{
+				"id": "oleksandr-sydashov",
+				"year": 2007,
+				"programme": "акторський"
+			},
+			{
+				"id": "tetiana-borysova",
+				"year": 2008,
+				"programme": "акторський"
+			},
+			{
+				"id": "liliia-halosa",
+				"year": 2011,
+				"programme": "акторський"
+			},
+			{
+				"id": "tetiana-kamelevska",
+				"year": 2011,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-kuropatkyna",
+				"year": 2011,
+				"programme": "фото й відео"
+			},
+			{
+				"id": "dana-broshkova",
+				"year": 2014,
+				"programme": "акторський"
+			},
+			{
+				"id": "dariia-kulish",
+				"year": 2014,
+				"programme": "акторський"
+			},
+			{
+				"id": "artem-starshov",
+				"year": 2014,
+				"programme": "акторський"
+			},
+			{
+				"id": "vladyslav-chernov",
+				"year": 2014,
+				"programme": "акторський"
+			},
+			{
+				"id": "anastasiia-chalchynska",
+				"year": 2014,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-yevdokymova",
+				"year": 2017,
+				"programme": "акторський"
+			},
+			{
+				"id": "heorhii-zheliapov",
+				"year": 2017,
+				"programme": "акторський"
+			},
+			{
+				"id": "yevhen-lysenko",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "anfisa-lazebna",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "anastasiia-fishchenko",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "oleksandra-shapaieva",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "alisa-sivanych",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "danylo-chupryn",
+				"year": 2019,
+				"programme": "кіно, фото, відео"
+			},
+			{
+				"id": "valeriia-babenko",
+				"year": 2025,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "otkhfk",
+		"name": "ОТХФК",
+		"fullName": "Одеський театрально-художній фаховий коледж — раніше ОТХУ (училище) та ОТХК (коледж)",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "olha-poliakova",
+				"year": 1998,
+				"programme": "режисура"
+			},
+			{
+				"id": "zlata-skalska",
+				"year": 2002,
+				"programme": "акторський"
+			},
+			{
+				"id": "viktoriia-sushko",
+				"year": 2002,
+				"programme": "звукорежисура"
+			},
+			{
+				"id": "olena-liashenko",
+				"year": 2005,
+				"programme": "акторський"
+			},
+			{
+				"id": "svitlana-nadopta",
+				"year": 2006,
+				"programme": "режисура"
+			},
+			{
+				"id": "pavlo-koshka",
+				"year": 2006,
+				"programme": "режисура"
+			},
+			{
+				"id": "anhelina-zakharova",
+				"year": 2009,
+				"programme": "акторський"
+			},
+			{
+				"id": "mariia-mykhailova-didenko",
+				"year": 2012,
+				"programme": "костюмерне"
+			},
+			{
+				"id": "maksym-ponomarenko",
+				"year": 2013,
+				"programme": "режисура"
+			},
+			{
+				"id": "maryna-sukhanova",
+				"year": 2013,
+				"programme": "акторський"
+			},
+			{
+				"id": "mariia-iskokova",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "yuliia-ivanytska",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "myroslava-tkach",
+				"year": 2020,
+				"programme": "акторський"
+			},
+			{
+				"id": "vira-spaska",
+				"year": 2020,
+				"programme": "акторський"
+			},
+			{
+				"id": "nataliia-shynkarenko",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "daria-rybalchenko",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "anna-hrave",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "viktoriia-kazmyrchuk",
+				"year": 2021,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-moldovanu",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "daria-chala",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "veronika-birahova",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "kyrylo-karazeiskyi",
+				"year": 2025,
+				"programme": "акторський"
+			},
+			{
+				"id": "yeva-horokhova",
+				"year": 2026,
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-petrenko",
+				"year": 2026,
+				"programme": "акторський"
+			},
+			{
+				"id": "alina-halach",
+				"year": 2026,
+				"programme": "акторський"
+			}
+		],
+		"unlistedStudents": [
+			{
+				"name": "Ксенія Довгаль",
+				"year": 2026,
+				"programme": "художньо-гримерне"
+			},
+			{
+				"name": "Олеся Гринько",
+				"year": 2026,
+				"programme": "кіно-фото-відео"
+			}
 		],
 		"verificationStatus": "possible_errors"
 	},
@@ -34,26 +526,555 @@
 		"name": "КМАЕЦМ",
 		"fullName": "Київська муніципальна академія естрадного та циркового мистецтв",
 		"city": "Київ",
-		"countries": ["UA", "DE"],
+		"countries": [
+			"UA",
+			"DE"
+		],
 		"students": [
-			{ "id": "ivan-pitel", "year": 2026, "programme": "акторський", "master": "Д. Рибалевського" },
+			{
+				"id": "ivan-pitel",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Д. Рибалевського"
+			},
 			{
 				"id": "alina-demediuk",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "Т. Губрій",
 				"note": "філіал у Мюнхені, Німеччина"
+			},
+			{
+				"id": "taras-lushpa",
+				"programme": "магістратура"
+			},
+			{
+				"id": "diana-rudenko",
+				"year": 2020,
+				"programme": "акторський"
+			},
+			{
+				"id": "myroslava-tkach",
+				"programme": "режисура"
+			},
+			{
+				"id": "daniela-rybalchenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "diana-kucherenko",
+				"year": 2020,
+				"programme": "режисура"
+			},
+			{
+				"id": "nataliia-shynkarenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "maksym-korobchynskyi",
+				"year": 2021,
+				"programme": "режисура"
+			},
+			{
+				"id": "anhelina-kravchenko",
+				"year": 2021,
+				"programme": "естрадний"
+			},
+			{
+				"id": "mariia-cherkashyna",
+				"year": 2021,
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-kurchenko",
+				"year": 2023,
+				"programme": "акторський"
+			},
+			{
+				"id": "maryna-kravchuk",
+				"year": 2023,
+				"programme": "режисура"
+			},
+			{
+				"id": "yelyzaveta-maliuzhenko",
+				"year": 2023,
+				"programme": "акторський"
+			},
+			{
+				"id": "mariia-mahdalina-matvieieva",
+				"year": 2024,
+				"programme": "естрадний"
+			},
+			{
+				"id": "taisiia-ruseskul",
+				"year": 2024,
+				"programme": "акторський"
+			},
+			{
+				"id": "sofiia-hrabilina",
+				"year": 2024,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "khnum",
+		"name": "ХНУМ ім. І. Котляревського",
+		"fullName": "Харківський національний університет мистецтв імені І. П. Котляревського",
+		"city": "Харків",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "zlata-skalska",
+				"programme": "акторський"
+			},
+			{
+				"id": "hanna-tkach",
+				"year": 2005,
+				"programme": "режисура"
+			},
+			{
+				"id": "anhelina-zakharova",
+				"programme": "акторський"
+			},
+			{
+				"id": "hanna-horbunova",
+				"year": 2013,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-ihnatovych",
+				"year": 2018,
+				"programme": "театр ляльок"
+			},
+			{
+				"id": "khrystyna-bila",
+				"year": 2019,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ofkm-dankevycha",
+		"name": "ОФКМ ім. Данькевича",
+		"fullName": "Одеський фаховий коледж мистецтв імені К. Ф. Данькевича — раніше ОУМіК (училище музики і культури)",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yuliia-buchatska",
+				"year": 1998,
+				"programme": "музичне мистецтво"
+			},
+			{
+				"id": "amryta-chernyshova",
+				"year": 2020
+			},
+			{
+				"id": "oleksandra-polozova",
+				"year": 2021
+			},
+			{
+				"id": "yelyzaveta-zikhrei",
+				"year": 2021
+			},
+			{
+				"id": "viktoriia-babii",
+				"year": 2025,
+				"programme": "інструментальний"
+			}
+		],
+		"unlistedStudents": [
+			{
+				"name": "Родоміра Долбишева",
+				"year": 2026,
+				"programme": "хореографічне"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "onu",
+		"name": "ОНУ ім. І. Мечникова",
+		"fullName": "Одеський національний університет імені І. І. Мечникова",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "kyrylo-stoianov",
+				"year": 2004,
+				"programme": "культурологія"
+			},
+			{
+				"id": "iryna-tsurkan",
+				"year": 2005,
+				"programme": "культурологія"
+			},
+			{
+				"id": "oleksii-chechelnytskyi",
+				"year": 2006,
+				"programme": "культурологія"
+			},
+			{
+				"id": "viktoriia-dolhozhyv",
+				"year": 2007,
+				"programme": "культурологія"
+			},
+			{
+				"id": "aryna-postolova",
+				"year": 2009,
+				"programme": "культурологія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "pnpu",
+		"name": "ПНПУ ім. К. Ушинського",
+		"fullName": "Південноукраїнський національний педагогічний університет імені К. Д. Ушинського",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yuliia-kolesnyk",
+				"year": 2005,
+				"programme": "художня графіка"
+			},
+			{
+				"id": "tamara-mahomedova",
+				"year": 2007,
+				"programme": "художня графіка"
+			},
+			{
+				"id": "nadiia-rybalko",
+				"year": 2010,
+				"programme": "художня графіка"
+			},
+			{
+				"id": "dariia-didenko",
+				"year": 2012,
+				"programme": "музика і хореографія"
+			},
+			{
+				"id": "serhii-cherkasov",
+				"year": 2014,
+				"programme": "музика і хореографія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kimu",
+		"name": "КіМУ",
+		"fullName": "Київський міжнародний університет",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "albina-tytova",
+				"year": 2009,
+				"programme": "акторський"
+			},
+			{
+				"id": "karyna-dorodnykh",
+				"year": 2010,
+				"programme": "акторський"
+			},
+			{
+				"id": "rodion-oborotov",
+				"year": 2016,
+				"programme": "акторський"
 			}
 		],
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "lnu",
-		"name": "ЛНУ",
+		"name": "ЛНУ ім. І. Франка",
+		"fullName": "Львівський національний університет імені Івана Франка",
 		"city": "Львів",
-		"countries": ["UA"],
+		"countries": [
+			"UA"
+		],
 		"students": [
-			{ "id": "liora-kazatsker", "year": 2026, "programme": "акторський", "master": "Д. Захоженко" }
+			{
+				"id": "liora-kazatsker",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Д. Захоженко"
+			},
+			{
+				"id": "kateryna-kudlach",
+				"year": 2015,
+				"programme": "акторський"
+			},
+			{
+				"id": "khrystia-oslavska",
+				"year": 2025,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "dtkhk",
+		"name": "ДТХК",
+		"fullName": "Дніпровський театрально-художній коледж",
+		"city": "Дніпро",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yevheniia-futynets",
+				"year": 2017,
+				"programme": "акторський"
+			},
+			{
+				"id": "daniela-rybalchenko",
+				"year": 2020,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kam",
+		"name": "КАМ",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "daiana-ponomarenko",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "alina-burdeina",
+				"year": 2019,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kktk",
+		"name": "ККТК",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "viktoriia-motruk",
+				"year": 2009,
+				"programme": "акторський"
+			},
+			{
+				"id": "iryna-zatulina",
+				"year": 2009,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lakim",
+		"name": "ЛАКіМ",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "anna-mariia-vyskochyl",
+				"year": 2024,
+				"programme": "акторський"
+			},
+			{
+				"id": "yeva-reznik",
+				"year": 2024,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "nakkkim",
+		"name": "НАКККіМ",
+		"fullName": "Національна академія керівних кадрів культури і мистецтв",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "maksym-ponomarenko",
+				"programme": "менеджмент"
+			},
+			{
+				"id": "sofiia-holub",
+				"year": 2021,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odaba",
+		"name": "ОДАБА",
+		"fullName": "Одеська державна академія будівництва та архітектури",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yeva-isachkina",
+				"year": 2022,
+				"programme": "художня графіка"
+			},
+			{
+				"id": "daria-sonhorova",
+				"year": 2024,
+				"programme": "художня графіка"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "onma",
+		"name": "ОНМА ім. А. Нежданової",
+		"fullName": "Одеська національна музична академія імені А. В. Нежданової",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "ivana-kasatkyna",
+				"year": 2015,
+				"programme": "клас бандури"
+			},
+			{
+				"id": "roman-arabadzhi",
+				"year": 2019,
+				"programme": "вокал"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "onpu",
+		"name": "ОНПУ",
+		"fullName": "Одеський національний політехнічний університет",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "daria-dias-valdes-isachkina",
+				"year": 2010,
+				"programme": "культурологія"
+			},
+			{
+				"id": "anastasiia-ivanes",
+				"year": 2013,
+				"programme": "культурологія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "rose-bruford",
+		"name": "Rose Bruford College",
+		"city": "Лондон",
+		"countries": [
+			"GB"
+		],
+		"students": [
+			{
+				"id": "mariia-zyhar",
+				"year": 2022,
+				"programme": "акторський"
+			},
+			{
+				"id": "anastasiia-malneva",
+				"year": 2022,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vsmu",
+		"name": "VŠMU",
+		"fullName": "Vysoká škola múzických umení — вища школа музичних мистецтв",
+		"city": "Братислава",
+		"countries": [
+			"SK"
+		],
+		"students": [
+			{
+				"id": "yelyzaveta-nedaivoda",
+				"year": 2016,
+				"programme": "кінорежисура"
+			},
+			{
+				"id": "kateryna-kolisnychenko",
+				"year": 2017,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "wroclaw-art",
+		"name": "Академія мистецтв у Вроцлаві",
+		"city": "Вроцлав",
+		"countries": [
+			"PL"
+		],
+		"students": [
+			{
+				"id": "mariia-mosolova",
+				"year": 2016
+			},
+			{
+				"id": "yuliana-klymenko",
+				"year": 2017
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "cours-florent",
+		"name": "Cours Florent",
+		"fullName": "Школа драматичного мистецтва Франсуа Флорана, факультет Acting in English",
+		"city": "Париж",
+		"countries": [
+			"FR"
+		],
+		"students": [
+			{
+				"id": "sofia-chernova",
+				"year": 2025
+			}
 		],
 		"verificationStatus": "possible_errors"
 	},
@@ -61,31 +1082,222 @@
 		"slug": "ecole-de-culture-generale",
 		"name": "«École de culture générale»",
 		"city": "Вале",
-		"countries": ["CH"],
-		"students": [{ "id": "karyna-sharkova", "year": 2026, "programme": "акторський" }],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"slug": "otkhfk",
-		"name": "ОТХФК",
-		"fullName": "Одеський театрально-художній фаховий коледж",
-		"city": "Одеса",
-		"countries": ["UA"],
-		"students": [],
-		"unlistedStudents": [
-			{ "name": "Ксенія Довгаль", "year": 2026, "programme": "художньо-гримерне" },
-			{ "name": "Олеся Гринько", "year": 2026, "programme": "кіно-фото-відео" }
+		"countries": [
+			"CH"
+		],
+		"students": [
+			{
+				"id": "karyna-sharkova",
+				"year": 2026,
+				"programme": "акторський"
+			}
 		],
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"slug": "ofkm-dankevycha",
-		"name": "ОФКМ ім. Данькевича",
+		"slug": "istanbul-kultur",
+		"name": "Istanbul Kültür University",
+		"city": "Стамбул",
+		"countries": [
+			"TR"
+		],
+		"students": [
+			{
+				"id": "daria-kristiian",
+				"year": 2025
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kmat-lyfaria",
+		"name": "КМАТ ім. С. Лифаря",
+		"fullName": "Київська муніципальна академія танцю імені Сержа Лифаря",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "vadym-krusser",
+				"year": 2005,
+				"programme": "класична хореографія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ldakm",
+		"name": "ЛДАКМ ім. М. Матусовського",
+		"fullName": "Луганська державна академія культури і мистецтв імені М. Л. Матусовського",
+		"city": "Луганськ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "olena-liashenko",
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lfkkim",
+		"name": "ЛФККіМ",
+		"city": "Львів",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "mariia-poliakova-2",
+				"year": 2024,
+				"programme": "акторський"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "moldova-conservatory",
+		"name": "Молдавська державна консерваторія",
+		"city": "Кишинів",
+		"countries": [
+			"MD"
+		],
+		"students": [
+			{
+				"id": "alla-khaiut",
+				"year": 2013,
+				"programme": "академічний вокал"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "natfiz",
+		"name": "NATFIZ",
+		"fullName": "Національна академія театрального й кіномистецтва",
+		"city": "Софія",
+		"countries": [
+			"BG"
+		],
+		"students": [
+			{
+				"id": "ivanzhelin-popova",
+				"year": 2014,
+				"programme": "режисура"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "okhu-hrekova",
+		"name": "ОХУ ім. М. Грекова",
+		"fullName": "Одеське художнє училище імені М. Б. Грекова",
 		"city": "Одеса",
-		"countries": ["UA"],
-		"students": [],
-		"unlistedStudents": [
-			{ "name": "Родоміра Долбишева", "year": 2026, "programme": "хореографічне" }
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "mykhailo-chyianov",
+				"year": 2016,
+				"programme": "живопис"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "server",
+		"name": "Комп’ютерний коледж «Сервер»",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "mariia-pospelova",
+				"year": 2005,
+				"programme": "дизайн та інтер’єр"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "shag",
+		"name": "Комп’ютерна академія «Шаг»",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "diana-bartkoviak",
+				"year": 2007,
+				"programme": "графіка й дизайн"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "sorbonne",
+		"name": "Сорбонна",
+		"city": "Париж",
+		"countries": [
+			"FR"
+		],
+		"students": [
+			{
+				"id": "viktoriia-shepshelei",
+				"year": 2019
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "univerzita-karlova",
+		"name": "Univerzita Karlova",
+		"fullName": "Карлів університет, курс дослідження театру філософського факультету",
+		"city": "Прага",
+		"countries": [
+			"CZ"
+		],
+		"students": [
+			{
+				"id": "kateryna-tsysar",
+				"year": 2024,
+				"programme": "курс дослідження театру філософського факультету"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vfkmd",
+		"name": "ВФКМД ім. В. Шкрібляка",
+		"city": "Вижниця",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yuliana-ilinchuk",
+				"year": 2024,
+				"programme": "художнє"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "warsaw-art",
+		"name": "Академія мистецтв і дизайну у Варшаві",
+		"city": "Варшава",
+		"countries": [
+			"PL"
+		],
+		"students": [
+			{
+				"id": "veronika-shiliak",
+				"year": 2020
+			}
 		],
 		"verificationStatus": "possible_errors"
 	}

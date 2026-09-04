@@ -55,7 +55,7 @@
 		<h3 class="galaxy-block-title">{$t('galaxy.institutionBlockTitle')}</h3>
 		{#each вступи as { institution, student } (institution.slug)}
 			<p class="line" data-testid="{testIdPrefix}-item-{institution.slug}">
-				<span class="line__year">{student.year}</span>
+				{#if student.year}<span class="line__year">{student.year}</span>{/if}
 				<a
 					class="line__link"
 					href={localizedPath(institutionPath(institution.slug), lang)}
