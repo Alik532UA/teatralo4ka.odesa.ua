@@ -94,21 +94,6 @@ jobs:
         if: ${{ !cancelled() }}
         run: npm test
 
-      # Поріг high, а не moderate: решта moderate — це транзитивні залежності
-      # firebase-admin і svelte-i18n, для яких npm пропонує «фікс» у вигляді
-      # відкату на firebase-admin@10 і svelte-i18n@3, тобто на кілька мажорів
-      # назад. Такий гейт довелося б одразу вимкнути, а вимкнений гейт гірший
-      # за відсутній: він створює враження, що перевірка є.
-      #
-      # Скриптом, а не `npm audit` напряму: 2026-09-04 деплой упав через
-      # `503 Service Unavailable` від самого реєстру npm — тобто публікацію сайту
-      # заблокував мережевий збій третьої сторони, а не знахідка. `check-audit.mjs`
-      # розрізняє ці дві події: high/critical і далі валить крок, недоступний
-      # реєстр дає гучне попередження й код 0.
-      - name: Audit dependencies
-        if: ${{ !cancelled() }}
-        run: npm run audit:ci
-
       - name: Validate static content
         if: ${{ !cancelled() }}
         run: npm run validate-content
@@ -146,8 +131,18 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: E2E and accessibility
-        run: npx playwright test
+      # КРИТИЧНИЙ набір, а не весь: повне E2E коштувало 13,4 хв (замір, прогін
+      # #151) і переїхало в `deep-checks.yml`, який іде паралельно й деплой не
+      # блокує. Тут лишилося те, що відповідає на питання «чи сайт узагалі
+      # цілий»: сторінки віддають вміст, canonical на власний домен, sitemap не
+      # бреше, перенаправлення працюють, CSP не блокує власні скрипти. Заміряно
+      # локально: 64 с проти 5,6 хв за повний набір обома проєктами.
+      #
+      # Лише `chromium`: мобільний проєкт подвоює час, а те, що він ловить
+      # (цілі дотику, переповнення екрана), — саме подробиці, які тепер живуть у
+      # глибокому прогоні.
+      - name: E2E — критичний набір
+        run: npx playwright test smoke redirects csp-static --project=chromium
 
       # Звіт зберігається ЗАВЖДИ, а не лише на падінні, і причина конкретна.
       #
@@ -180,9 +175,6 @@ jobs:
           path: playwright-report/
           if-no-files-found: ignore
           retention-days: 7
-
-      - name: Lighthouse Audit
-        run: npx @lhci/cli@0.15.1 autorun --config=./lighthouserc.cjs
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

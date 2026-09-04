@@ -1,0 +1,119 @@
+name: Deep Checks
+
+# CI-CD-AND-TOOLS-v8 § 1.6.
+#
+# ЧОМУ ТРЕТІЙ WORKFLOW, А НЕ КРОКИ В ДВОХ НАЯВНИХ
+#
+# `deploy.yml` тримав УСІ перевірки перед розгортанням, і прогін тривав 40 хв
+# 8 с (замір, прогін #151). Тобто виправлення однієї помилки в тексті
+# публікувалося за сорок хвилин, і дві третини цього часу — три кроки: повне
+# E2E 13,4 хв (замір із того ж прогону), Lighthouse і встановлення браузерів.
+#
+# `gates.yml` для них не годиться, і це записано в ньому самому: він ходить по
+# `pull_request`, зокрема від Dependabot, а той не отримує репозиторних
+# секретів. Збірка й Playwright без `VITE_FIREBASE_*` падають — тобто червоний
+# PR не з вини залежності, гейт, який доводиться вимикати.
+#
+# Тому глибокі перевірки живуть тут: той самий тригер, що в деплою, але окремим
+# прогоном. Деплой їх не чекає, а результат приходить у ті самі ~25 хв, у які
+# він приходив і раніше.
+#
+# ЩО САМЕ ЦЕ КОШТУЄ, І ЧОМУ ЦЕ ПРИЙНЯТО
+#
+# Регресія, видима лише на мобільному проєкті (цілі дотику, переповнення
+# екрана), знахідка axe або просідання Lighthouse тепер МОЖУТЬ потрапити в
+# продакшн і будуть видні за ~25 хв, а не до публікації. Свідоме рішення автора.
+#
+# У блокуючому шляху натомість лишився критичний набір E2E (`smoke`,
+# `redirects`, `csp-static` на chromium — 64 с локально): він відповідає на
+# питання «чи сайт узагалі цілий» — сторінки віддають вміст, canonical на
+# власний домен, sitemap не бреше, перенаправлення працюють, CSP не блокує
+# власні скрипти. Решта E2E — про подробиці, і саме вона коштувала 13 хвилин.
+#
+# ЧОМУ ЗБІРКА ТУТ СВОЯ
+#
+# Playwright і Lighthouse працюють над `build/`. Забрати його артефактом із
+# деплою означало б чекати на деплой (`workflow_run`), тобто повернути
+# послідовність, від якої й тікаємо. Друга збірка коштує ~2,5 хв РАННЕРА, але
+# нуль хвилин очікування — а дорогий тут саме час до публікації.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Та сама причина, що в обох сусідніх файлах (CI-CD-AND-TOOLS-v8 § 1.3): пуш
+# пачкою комітів при `true` лишає лише останній прогін, і крок, доданий у
+# проміжному коміті, не виконується ЖОДНОГО разу.
+concurrency:
+  group: deep-checks
+  cancel-in-progress: false
+
+jobs:
+  deep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # Версія збігається з `engines.node`, `.nvmrc` і сусідніми воркфлоу —
+      # інваріант `src/dependencies.test.ts` тримає їх разом.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Скриптом, а не `npm audit` напряму: 2026-09-04 деплой упав через
+      # `503 Service Unavailable` від реєстру npm. `check-audit.mjs` розрізняє
+      # знахідку (падіння) і недоступний реєстр (попередження й код 0).
+      - name: Audit dependencies
+        if: ${{ !cancelled() }}
+        run: npm run audit:ci
+
+      - name: Build for school
+        if: ${{ !cancelled() }}
+        env:
+          VITE_SCHOOL_ID: teatralo4ka.odesa.ua
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          VITE_APPCHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APPCHECK_RECAPTCHA_SITE_KEY }}
+        run: npm run build
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      # ПОВНИЙ набір, обидва проєкти — те, що з деплою й забрали.
+      - name: E2E and accessibility (full)
+        if: ${{ !cancelled() }}
+        run: npx playwright test
+
+      # Звіт зберігається завжди: у CI стоїть `retries: 2`, тож flaky лишає крок
+      # зеленим, і `if: failure()` викидав би трейс саме тоді, коли він потрібен.
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report-deep
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Lighthouse Audit
+        if: ${{ !cancelled() }}
+        run: npx @lhci/cli@0.15.1 autorun --config=./lighthouserc.cjs
