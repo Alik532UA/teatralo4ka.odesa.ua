@@ -8,6 +8,7 @@
 	import StaticPage from '$lib/components/StaticPage.svelte';
 	import PhotoBentoGallery, { type BentoImage } from '$lib/components/PhotoBentoGallery.svelte';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
+	import ProseGraduateLinks from '$lib/components/ProseGraduateLinks.svelte';
 
 	let { data } = $props();
 
@@ -47,6 +48,14 @@
 		backHref={resolve('/news')}
 		backLabel={$t('news.backToNews')}
 	/>
+
+	<!--
+		Імена в тексті ведуть на сторінки випускників, і натискання мусить
+		відкривати картку ТУТ — так само, як обличчя в складі вистави чи групи.
+		Інакше новина зникає, і після закриття картки читач опиняється в
+		галактиці. Розбір — у докблоці `ProseGraduateLinks`.
+	-->
+	<ProseGraduateLinks />
 
 	{#if знімки.length > 0}
 		<section
