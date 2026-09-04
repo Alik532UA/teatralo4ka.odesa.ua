@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { X } from 'lucide-svelte';
+	import { X, Expand, Shrink } from 'lucide-svelte';
 	import {
 		slideshow,
 		SLIDE_SECONDS,
 		SLIDE_FADE_MS,
 		SLIDESHOW_FILTERS
 	} from '$lib/services/graduateSlideshow.svelte';
+	import { fullscreen } from '$lib/services/fullscreen.svelte';
 
 	/**
 	 * Рядок налаштувань слайдшоу — згори екрана, поверх картки.
@@ -30,8 +31,42 @@
 	 *
 	 * Рух курсора треба бачити всюди по екрану, а не лише над самим рядком —
 	 * інакше він з'являвся б лише тоді, коли й так уже під курсором.
+	 *
+	 * ## Чому повний екран перемикається ЗВІДСИ
+	 *
+	 * Автор: «кнопка lucide-expand — доступна, але прихована за блюром;
+	 * очікуваний результат: доступна, і видна, але як і меню тільки коли є рух
+	 * миші».
+	 *
+	 * Кнопка в кутку сцени НЕ МОЖЕ стати видимою над карткою, і причина не в
+	 * числі: `.stage__controls` — позиційований елемент із власним `z-index`,
+	 * тобто окремий КОНТЕКСТ НАКЛАДАННЯ. Усе, що всередині, впорядковується лише
+	 * між собою, а назовні йде одним шаром на рівні 3 — нижче за підложку картки
+	 * (9500). Тому попередня спроба піднімала кнопці `z-index` аж до 99999 і не
+	 * давала нічого; тоді це списали на незрозуміле, і причина знайшлася лише
+	 * тут.
+	 *
+	 * Тож під час показу кутові кнопки не малюються взагалі, а повний екран
+	 * живе в цьому рядку: він лежить поверх картки й уже гасне без руху курсора
+	 * — тобто рівно те правило, яке просив автор. `data-testid` навмисно той
+	 * самий: у розмітці ці дві кнопки взаємно виключні, і перевірки й далі
+	 * посилаються на одну назву.
 	 */
 	const ПАУЗА_МС = 2500;
+
+	interface Props {
+		/**
+		 * Зупинка показу — СТОРІНКОЮ, а не `slideshow.stop()` звідси.
+		 *
+		 * Доти кнопка гасила показ сама, і на екрані лишалася відкрита анкета
+		 * того, кого показували останнім: автор це й побачив. Закрити картку,
+		 * вийти з повного екрана й вернутися на адресу галактики може лише
+		 * сторінка — історія й стан адреси її.
+		 */
+		onstop: () => void;
+	}
+
+	let { onstop }: Props = $props();
 
 	let рухається = $state(true);
 	let наведено = $state(false);
@@ -115,38 +150,53 @@
 		</select>
 	</label>
 
-	<button
-		type="button"
-		class="bar__stop"
-		onclick={() => slideshow.stop()}
-		data-testid="galaxy-slideshow-stop-btn"
-	>
-		<X size={16} aria-hidden="true" />
-		<span>{$t('galaxy.slideshowStop')}</span>
-	</button>
+	<div class="bar__actions">
+		<button
+			type="button"
+			class="bar__icon-btn"
+			onclick={() => fullscreen.toggle()}
+			title={fullscreen.active ? $t('galaxy.exitFullscreen') : $t('galaxy.enterFullscreen')}
+			aria-label={fullscreen.active ? $t('galaxy.exitFullscreen') : $t('galaxy.enterFullscreen')}
+			data-testid="galaxy-fullscreen-btn"
+		>
+			{#if fullscreen.active}
+				<Shrink size={18} aria-hidden="true" />
+			{:else}
+				<Expand size={18} aria-hidden="true" />
+			{/if}
+		</button>
+
+		<button
+			type="button"
+			class="bar__stop"
+			onclick={onstop}
+			data-testid="galaxy-slideshow-stop-btn"
+		>
+			<X size={16} aria-hidden="true" />
+			<span>{$t('galaxy.slideshowStop')}</span>
+		</button>
+	</div>
 </div>
 
 <style>
 	/*
-	 * ШИРИНА: рядок, а не два.
+	 * ШИРИНА: рядок, а не два, і тепер від краю до краю.
 	 *
 	 * Доти панель була `max-width: 62rem` по центру, і чотири елементи керування
 	 * у неї не влазили — «Кого показувати» зі «Спинити показ» переносилися на
-	 * другий рядок. Тепер вона тягнеться від лівого краю майже до правого.
+	 * другий рядок.
 	 *
-	 * САМЕ «майже»: у правому куті стоять ДВІ кнопки по 44 px — показ (пауза) і
-	 * повний екран, — і панель мусить лишити місце обом. Кнопка повного екрана
-	 * має бути доступною, про це автор попросив окремо; кнопка показу — це
-	 * пауза, тобто теж те, чим користуються під час показу.
-	 *
-	 * Заміряно: із запасом 4,5 rem панель на 1280 px тяглася до 1208 і накривала
-	 * кнопку показу (1160..1204). Тепер запас — дві кнопки плюс проміжки.
+	 * Перша правка розтягнула її до лівого краю, але лишила праворуч запас під
+	 * дві кутові кнопки по 44 px (заміряно: із запасом 4,5 rem панель на 1280 px
+	 * тяглася до 1208 і накривала кнопку показу, 1160..1204). Тепер запас не
+	 * потрібен: під час показу кутових кнопок немає взагалі — і пауза, і повний
+	 * екран стоять у цьому ж рядку. Розбір — у докблоці вище.
 	 */
 	.bar {
 		position: fixed;
 		top: 0;
 		left: clamp(0.5rem, 1.5vw, 1.5rem);
-		right: calc(clamp(0.5rem, 1.5vw, 1.5rem) + 2 * 44px + 1rem);
+		right: clamp(0.5rem, 1.5vw, 1.5rem);
 		z-index: var(--z-modal, 1000);
 		display: flex;
 		flex-wrap: wrap;
@@ -198,6 +248,30 @@
 		border: 1px solid rgb(255 255 255 / 0.18);
 		color: inherit;
 		font-size: 0.85rem;
+	}
+
+	/* Дві дії тримаються разом праворуч: обидві про те, ЯК дивитися, а не що. */
+	.bar__actions {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.bar__icon-btn {
+		display: grid;
+		place-items: center;
+		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
+		width: 44px;
+		height: 44px;
+		border-radius: var(--radius-full, 9999px);
+		background: rgb(255 255 255 / 0.1);
+		border: 1px solid rgb(255 255 255 / 0.22);
+		color: inherit;
+		cursor: pointer;
+		transition: background var(--transition-base);
+	}
+	.bar__icon-btn:hover {
+		background: rgb(255 255 255 / 0.2);
 	}
 
 	.bar__stop {

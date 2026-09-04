@@ -389,6 +389,24 @@ const LIMITS: Array<[RegExp, number]> = [
  *   прозорості за відстанню курсора, повний екран). Наступне зростання ТУТ
  *   мусить починатися з виносу кнопок «дивитися» (показ і повний екран)
  *   окремим компонентом: вони вже стоять поруч і разом означають одне.
+ * 2026-09-05: `GalaxyStageControls.svelte` 359 → 361. Рівно два рядки — `{#if}`
+ *   і `{/if}` навколо тих самих двох кутових кнопок: під час показу анкет їх
+ *   немає взагалі, бо пауза й повний екран переїхали в рядок налаштувань
+ *   (розбір — у докблоці `GraduateSlideshowBar`, причина — контекст
+ *   накладання).
+ *
+ *   Попередній запис обіцяв, що НАСТУПНЕ зростання тут почнеться з виносу цих
+ *   двох кнопок окремим компонентом. Обіцянку перевірено й вона не виконується,
+ *   і ось чому: вигляд обох кнопок на телефоні описаний селекторами ВІД СТАНУ
+ *   БАТЬКА — `.stage__controls--open .stage__fullscreen-btn` робить із кружечка
+ *   в кутку звичайний рядок розкритого меню (`position: static`, повна ширина,
+ *   видимий підпис). Svelte скоупить стилі по компоненту, тож у дитини ці
+ *   правила перестали б діяти (саме це стереже `component-styles`), і меню на
+ *   телефоні розпалося б — а ціна питання тут два рядки умови.
+ *
+ *   Винос лишається правильним, але починатися мусить не з кнопок, а з того,
+ *   що їх тримає: `menuOpen` мусить приходити в дитину пропом, а всі правила
+ *   «в меню воно виглядає так» — переїхати всередину неї. Це вже не два рядки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -408,7 +426,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 359,
+	'src/lib/components/GalaxyStageControls.svelte': 361,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

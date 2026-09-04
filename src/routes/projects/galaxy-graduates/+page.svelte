@@ -11,6 +11,7 @@
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import GraduateSlideshowBar from '$lib/components/galaxy/GraduateSlideshowBar.svelte';
 	import { slideshow, matchesSlideshowFilter } from '$lib/services/graduateSlideshow.svelte';
+	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { INSTITUTIONS } from '$lib/data/institutions';
 	import { THEATRES } from '$lib/data/theatres';
 	import {
@@ -347,8 +348,7 @@
 	 */
 	function toggleSlideshow() {
 		if (slideshow.active) {
-			slideshow.stop();
-			if (page.state.graduateAddress) history.back();
+			stopSlideshow();
 			return;
 		}
 		черга = [...показ].sort(() => Math.random() - 0.5);
@@ -356,7 +356,38 @@
 		if (!черга.length) return;
 		slideshow.active = true;
 		pushState(profileHref(черга[0]), { graduateAddress: graduateAddress(черга[0]) });
+		/*
+		 * Показ відкривається на весь екран — так просив автор, і це його суть:
+		 * анкети дивляться, а не гортають між іншими справами.
+		 *
+		 * Прапорець потрібен, бо повний екран міг бути ВЖЕ ввімкнений — людина
+		 * розгорнула галактику, а показ пустила потім. Тоді зупинка не має права
+		 * його гасити: вона вимикає лише те, що сама ввімкнула.
+		 */
+		сталиПовноекранними = !fullscreen.active;
+		if (сталиПовноекранними) fullscreen.toggle();
 	}
+
+	/**
+	 * Зупинка — ОДНИМ шляхом, звідки її не викликали.
+	 *
+	 * Доти кнопка «Спинити показ» у рядку налаштувань кликала лише
+	 * `slideshow.stop()`, тобто гасила показ і лишала на екрані анкету того, кого
+	 * показували останнім. Автор саме це й побачив: «залишається анкета
+	 * останнього кого показували відкритою». Тепер обидві кнопки — і в панелі
+	 * сцени, і в рядку — роблять те саме: закривають картку, виходять із повного
+	 * екрана й лишають галактику.
+	 */
+	function stopSlideshow() {
+		slideshow.stop();
+		if (сталиПовноекранними && fullscreen.active) fullscreen.toggle();
+		сталиПовноекранними = false;
+		if (page.state.graduateAddress) history.back();
+	}
+
+	/* Не `$state`: цього прапорця ніхто не показує, він лише пам'ятає, чи повний
+	   екран наш. Зробити його станом означало б зайве оновлення на кожному пуску. */
+	let сталиПовноекранними = false;
 
 	let черга = $state<GraduateIndexEntry[]>([]);
 	let крок = $state(0);
@@ -377,6 +408,21 @@
 		if (!slideshow.active || !черга.length) return;
 		const секунди = slideshow.seconds;
 		const згасання = slideshow.fadeMs;
+		/*
+		 * `крок` читається САМЕ ТУТ, і без цього рядка слайдшоу мінялося РІВНО
+		 * ОДИН раз — автор це й побачив: «тільки один раз перемикається, а далі
+		 * не переключається».
+		 *
+		 * Причина: ефект заводить один `setTimeout` і перезапускається лише тоді,
+		 * коли міняється щось із його залежностей. Доти залежностями були
+		 * `active`, довжина черги й два числа — жодне з них не міняється на
+		 * слайді, тож після першої зміни новий таймер ніхто не ставив. Тепер
+		 * залежністю є й номер кроку: кожен завершений слайд заводить наступний.
+		 *
+		 * Прогін цього не спіймав, бо перевіряв, що адреса змінилася ОДИН раз.
+		 * Тепер він чекає двох змін підряд.
+		 */
+		void крок;
 		const таймери: ReturnType<typeof setTimeout>[] = [];
 
 		таймери.push(
@@ -587,7 +633,7 @@
 	четвертою панеллю на сцені, якою ніхто не користується.
 -->
 {#if slideshow.active}
-	<GraduateSlideshowBar />
+	<GraduateSlideshowBar onstop={stopSlideshow} />
 {/if}
 
 <!--

@@ -240,48 +240,67 @@
 			не випадкове: обидві кнопки про те, як дивитися, а не куди йти. Решта
 			панелі веде в переліки.
 		-->
-		<button
-			type="button"
-			class="stage__fullscreen-btn stage__fullscreen-btn--show"
-			onclick={() => pick(() => onslideshow?.())}
-			title={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
-			aria-label={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
-			aria-pressed={slideshow.active}
-			data-testid="galaxy-slideshow-btn"
-		>
-			{#if slideshow.active}
-				<Pause size={20} aria-hidden="true" />
-			{:else}
-				<Play size={20} aria-hidden="true" />
-			{/if}
-			<span class="stage__label">
-				{slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
-			</span>
-		</button>
+		<!--
+			ПІД ЧАС ПОКАЗУ обох кутових кнопок немає, і це не косметика.
 
-		<button
-			type="button"
-			class="stage__fullscreen-btn"
-			onclick={() => pick(() => fullscreen.toggle())}
-			title={fullscreen.active
-				? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
-				: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
-			aria-label={fullscreen.active
-				? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
-				: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
-			data-testid="galaxy-fullscreen-btn"
-		>
-			{#if fullscreen.active}
-				<Shrink size={20} aria-hidden="true" />
-			{:else}
-				<Expand size={20} aria-hidden="true" />
-			{/if}
-			<span class="stage__label">
-				{fullscreen.active
+			Цей рядок керування — позиційований елемент із власним `z-index`, тобто
+			окремий КОНТЕКСТ НАКЛАДАННЯ: усе всередині впорядковується лише між
+			собою, а назовні йде одним шаром на рівні 3. Підложка картки стоїть на
+			9500, тож ЖОДНЕ число на самій кнопці не підіймає її над карткою —
+			попередня спроба дійшла до 99999 і не змінила нічого. Тоді це списали
+			на незрозуміле; причина ось вона.
+
+			Тому під час показу пауза й повний екран переїжджають у рядок
+			налаштувань (`GraduateSlideshowBar`): той лежить поверх картки й гасне
+			без руху курсора — саме те, про що просив автор («доступна, і видна,
+			але як і меню тільки коли є рух миші»). Умова саме `{#if}`, а не клас:
+			кнопка повного екрана тут і в рядку носять однаковий `data-testid`, і в
+			дереві мусить бути рівно одна з них.
+		-->
+		{#if !slideshow.active}
+			<button
+				type="button"
+				class="stage__fullscreen-btn stage__fullscreen-btn--show"
+				onclick={() => pick(() => onslideshow?.())}
+				title={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+				aria-label={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+				aria-pressed={slideshow.active}
+				data-testid="galaxy-slideshow-btn"
+			>
+				{#if slideshow.active}
+					<Pause size={20} aria-hidden="true" />
+				{:else}
+					<Play size={20} aria-hidden="true" />
+				{/if}
+				<span class="stage__label">
+					{slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+				</span>
+			</button>
+
+			<button
+				type="button"
+				class="stage__fullscreen-btn"
+				onclick={() => pick(() => fullscreen.toggle())}
+				title={fullscreen.active
 					? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
 					: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
-			</span>
-		</button>
+				aria-label={fullscreen.active
+					? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+					: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+				data-testid="galaxy-fullscreen-btn"
+			>
+				{#if fullscreen.active}
+					<Shrink size={20} aria-hidden="true" />
+				{:else}
+					<Expand size={20} aria-hidden="true" />
+				{/if}
+				<span class="stage__label">
+					{fullscreen.active
+						? $t('galaxy.exitFullscreen', { default: 'Вийти з повного екрана' })
+						: $t('galaxy.enterFullscreen', { default: 'На весь екран' })}
+				</span>
+				</button>
+		{/if}
 	</div>
 </div>
 
