@@ -83,41 +83,38 @@
 			forwardTestId="galaxy-theatres-galaxy-link"
 		/>
 
-		<header class="ths-header">
-			<h1 class="ths-header__title" data-testid="galaxy-theatres-title">
-				{$t('galaxy.theatresTitle')}
-			</h1>
-			<p class="ths-header__count" data-testid="galaxy-theatres-total-count">
-				{театри.length}
-			</p>
-		</header>
-
-		<p class="ths-hint" data-testid="galaxy-theatres-hint-text">
-			{$t('galaxy.theatresHint', { values: { people: усього } })}
-		</p>
-
-		<!--
-			Звернення СТОЇТЬ НАД переліком — так само, як у виставах і закладах, і
-			з тієї ж причини: воно про весь розділ, а не про якийсь один театр.
-		-->
-		<GalaxyAddCard
-			title={$t('galaxy.addTheatre')}
-			hint={$t('galaxy.addTheatreHint')}
-			testIdPrefix="galaxy-theatre-add"
-			variant="row"
-		/>
-
 		<GalaxyRegistry
 			rows={рядки}
 			storageKey="theatres"
 			testIdPrefix="galaxy-theatres"
+			title={$t('galaxy.theatresTitle')}
+			titleTestId="galaxy-theatres-title"
+			count={театри.length}
+			countTestId="galaxy-theatres-total-count"
+			hint={$t('galaxy.theatresHint', { values: { people: усього } })}
+			hintTestId="galaxy-theatres-hint-text"
 			matches={збіг}
 			placeholderKey="galaxy.theatresSearch"
 			nothingKey="galaxy.theatresSearchNothing"
 			tiles={плиткаТеатрів}
+			addCard={зверненняДодати}
 		/>
 	</div>
 </main>
+
+<!--
+	Звернення «Додати» — сніпетом, бо його МІСЦЕ спільне (між пошуком і
+	переліком), а текст і значки свої. Доти воно стояло вище за назву розділу, і
+	вся шапка через це з'їжджала — розбір у пропі `addCard` `GalaxyRegistry`.
+-->
+{#snippet зверненняДодати()}
+	<GalaxyAddCard
+		title={$t('galaxy.addTheatre')}
+		hint={$t('galaxy.addTheatreHint')}
+		testIdPrefix="galaxy-theatre-add"
+		variant="row"
+	/>
+{/snippet}
 
 <!--
 	Плитка — ВЛАСНА, і це не виняток із спільного переліку, а його задум: у
@@ -187,41 +184,6 @@
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main);
 	}
-	.ths-header {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 0.5rem;
-	}
-	.ths-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.ths-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-	.ths-hint {
-		margin: 0 0 1.5rem;
-		max-width: 62ch;
-		color: var(--text-muted);
-		font-size: 0.92rem;
-		line-height: 1.5;
-	}
-
 	.ths-grid {
 		list-style: none;
 		margin: 0;

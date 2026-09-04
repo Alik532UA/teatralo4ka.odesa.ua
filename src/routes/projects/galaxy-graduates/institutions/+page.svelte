@@ -86,41 +86,38 @@
 			forwardTestId="galaxy-institutions-galaxy-link"
 		/>
 
-		<header class="insts-header">
-			<h1 class="insts-header__title" data-testid="galaxy-institutions-title">
-				{$t('galaxy.institutionsTitle')}
-			</h1>
-			<p class="insts-header__count" data-testid="galaxy-institutions-total-count">
-				{заклади.length}
-			</p>
-		</header>
-
-		<p class="insts-hint" data-testid="galaxy-institutions-hint-text">
-			{$t('galaxy.institutionsHint', { values: { people: усього } })}
-		</p>
-
-		<!--
-			Звернення СТОЇТЬ НАД переліком — так само, як у виставах, і з тієї ж
-			причини: воно про весь розділ, а не про якийсь один заклад.
-		-->
-		<GalaxyAddCard
-			title={$t('galaxy.addInstitution')}
-			hint={$t('galaxy.addInstitutionHint')}
-			testIdPrefix="galaxy-institution-add"
-			variant="row"
-		/>
-
 		<GalaxyRegistry
 			rows={рядки}
 			storageKey="institutions"
 			testIdPrefix="galaxy-institutions"
+			title={$t('galaxy.institutionsTitle')}
+			titleTestId="galaxy-institutions-title"
+			count={заклади.length}
+			countTestId="galaxy-institutions-total-count"
+			hint={$t('galaxy.institutionsHint', { values: { people: усього } })}
+			hintTestId="galaxy-institutions-hint-text"
 			matches={збіг}
 			placeholderKey="galaxy.institutionsSearch"
 			nothingKey="galaxy.institutionsSearchNothing"
 			tiles={плиткаЗакладів}
+			addCard={зверненняДодати}
 		/>
 	</div>
 </main>
+
+<!--
+	Звернення «Додати» — сніпетом, бо його МІСЦЕ спільне (між пошуком і
+	переліком), а текст і значки свої. Доти воно стояло вище за назву розділу, і
+	вся шапка через це з'їжджала — розбір у пропі `addCard` `GalaxyRegistry`.
+-->
+{#snippet зверненняДодати()}
+	<GalaxyAddCard
+		title={$t('galaxy.addInstitution')}
+		hint={$t('galaxy.addInstitutionHint')}
+		testIdPrefix="galaxy-institution-add"
+		variant="row"
+	/>
+{/snippet}
 
 <!--
 	Плитка — ВЛАСНА: у закладу в картці повна назва, місто й число вступників.
@@ -188,41 +185,6 @@
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main);
 	}
-	.insts-header {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 0.5rem;
-	}
-	.insts-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.insts-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-	.insts-hint {
-		margin: 0 0 1.5rem;
-		max-width: 62ch;
-		color: var(--text-muted);
-		font-size: 0.92rem;
-		line-height: 1.5;
-	}
-
 	.insts-grid {
 		list-style: none;
 		margin: 0;

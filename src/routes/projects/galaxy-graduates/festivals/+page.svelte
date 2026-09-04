@@ -10,16 +10,16 @@
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { FESTIVALS, festivalPath, latestYear, matchesFestivalQuery } from '$lib/data/festivals';
-	import SearchField from '$lib/components/SearchField.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
-	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -101,32 +101,21 @@
 			forwardTestId="galaxy-festivals-galaxy-link"
 		/>
 
-		<header class="festivals-header">
-			<h1 class="festivals-header__title" data-testid="galaxy-festivals-title">
-				{$t('galaxy.festivalsTitle')}
-			</h1>
-			<p class="festivals-header__count">{ordered.length}</p>
-
-			<div class="festivals-header__view">
-				<MasterViewToggle
-					viewMode={view.current}
-					onchange={view.set}
-					options={VIEW_OPTIONS}
-					testIdPrefix="galaxy-festivals-view"
-				/>
-			</div>
-		</header>
-
-		<div class="festivals-search-row">
-			<SearchField
-				value={query}
-				onchange={(v) => (query = v)}
-				found={знайдені.length}
-				placeholderKey="galaxy.festivalsSearch"
-				nothingKey="galaxy.festivalsSearchNothing"
-				testid="galaxy-festivals-search"
-			/>
-		</div>
+		<GalaxyRegistryHeader
+			title={$t('galaxy.festivalsTitle')}
+			titleTestId="galaxy-festivals-title"
+			count={ordered.length}
+			searchValue={query}
+			onSearch={(v) => (query = v)}
+			found={знайдені.length}
+			placeholderKey="galaxy.festivalsSearch"
+			nothingKey="galaxy.festivalsSearchNothing"
+			searchTestId="galaxy-festivals-search"
+			viewMode={view.current}
+			onView={view.set}
+			viewOptions={VIEW_OPTIONS}
+			viewTestId="galaxy-festivals-view"
+		/>
 
 		<!--
 			Звернення СТОЇТЬ НАД переліком в обох режимах — як у виставах, і з тієї
@@ -244,43 +233,7 @@
 	}
 
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
-	.festivals-search-row {
-		margin-bottom: 2rem;
-		max-width: 460px;
-	}
-
-	.festivals-header {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 2rem;
-	}
 	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
-	.festivals-header__view {
-		margin-left: auto;
-	}
-	.festivals-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.festivals-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-
 	.festivals-grid {
 		list-style: none;
 		margin: 0;

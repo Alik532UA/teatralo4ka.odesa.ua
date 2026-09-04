@@ -2,8 +2,8 @@
 	import { t } from 'svelte-i18n';
 	import { untrack, type Snippet } from 'svelte';
 	import { CalendarRange, List, LayoutGrid } from 'lucide-svelte';
-	import SearchField from '$lib/components/SearchField.svelte';
-	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
+	import type { ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
@@ -63,9 +63,27 @@
 		matches?: (row: GalaxyRow, query: string) => boolean;
 		/** Плитка — власна розмітка сторінки. Немає сніпета — режиму плитки не буде. */
 		tiles?: Snippet<[readonly GalaxyRow[]]>;
+		/**
+		 * Звернення «Додати …» — МІЖ пошуком і переліком.
+		 *
+		 * Сніпетом, бо текст і значки в нього свої, а місце — спільне. Саме місце
+		 * й було половиною скарги автора: на закладах і театрах це звернення
+		 * стояло ВИЩЕ за назву розділу, тож уся шапка з'їжджала на сімдесят
+		 * пікселів проти трьох старших сторінок (заміряно: h1 на 315 замість
+		 * 241). Тепер порядок один: назва з перемикачем, пошук, звернення,
+		 * перелік.
+		 */
+		addCard?: Snippet;
 		/** Ключі словника для поля пошуку — свої в кожного переліку. */
 		placeholderKey: string;
 		nothingKey: string;
+		/** Назва розділу, число поруч із нею й рядок-пояснення — усе в шапці. */
+		title: string;
+		titleTestId: string;
+		count: number;
+		countTestId?: string;
+		hint?: string;
+		hintTestId?: string;
 		/** Скільком обличчям бути в рядку. Типове — як у фестивалів. */
 		maxFaces?: number;
 	}
@@ -76,8 +94,15 @@
 		testIdPrefix,
 		matches,
 		tiles,
+		addCard,
 		placeholderKey,
 		nothingKey,
+		title,
+		titleTestId,
+		count,
+		countTestId,
+		hint,
+		hintTestId,
 		maxFaces = 10
 	}: Props = $props();
 
@@ -122,24 +147,28 @@
 	const режим = $derived(view.current === 'tiles' && !tiles ? 'timeline' : view.current);
 </script>
 
-<div class="registry">
-	<div class="registry__controls">
-		<SearchField
-			value={запит}
-			onchange={(v) => (запит = v)}
-			found={знайдені.length}
-			{placeholderKey}
-			{nothingKey}
-			testid="{testIdPrefix}-search"
-		/>
-		<MasterViewToggle
-			viewMode={режим}
-			onchange={(mode) => view.set(mode)}
-			options={РЕЖИМИ}
-			testIdPrefix="{testIdPrefix}-view"
-		/>
-	</div>
+<GalaxyRegistryHeader
+	{title}
+	{titleTestId}
+	{count}
+	{countTestId}
+	{hint}
+	{hintTestId}
+	searchValue={запит}
+	onSearch={(v) => (запит = v)}
+	found={знайдені.length}
+	{placeholderKey}
+	{nothingKey}
+	searchTestId="{testIdPrefix}-search"
+	viewMode={режим}
+	onView={(mode) => view.set(mode)}
+	viewOptions={РЕЖИМИ}
+	viewTestId="{testIdPrefix}-view"
+/>
 
+{#if addCard}{@render addCard()}{/if}
+
+<div class="registry">
 	{#if режим === 'tiles' && tiles}
 		{@render tiles(знайдені)}
 	{:else}
@@ -161,13 +190,10 @@
 		flex-direction: column;
 		gap: 1.1rem;
 	}
-	/* Пошук і перемикач одним рядком, а на вузькому — стовпчиком: та сама
-	   розкладка, що в переліках вистав і груп. */
-	.registry__controls {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-	}
+	/*
+	 * Шапка ЗОВНІ цього контейнера — і це не дрібниця розкладки. Вона мусить
+	 * стояти в тому самому потоці, що на трьох старших сторінках: назва з
+	 * перемикачем, під нею пошук, а вже потім звернення «Додати» і сам перелік.
+	 * Усередині `.registry` вона отримала б чужий `gap` і поїхала б на 1,1 rem.
+	 */
 </style>

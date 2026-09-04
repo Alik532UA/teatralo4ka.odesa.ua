@@ -14,16 +14,16 @@
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { GROUPS, groupProfilePath, matchesGroupQuery, playIdsOfGroup } from '$lib/data/groups';
-	import SearchField from '$lib/components/SearchField.svelte';
 	import GalaxyScope from '$lib/components/galaxy/GalaxyScope.svelte';
 	import mastersIndex from '$lib/data/masters.index.json';
 	import type { MasterIndexEntry } from '$lib/data/masters';
-	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -189,23 +189,21 @@
 			forwardTestId="galaxy-groups-galaxy-link"
 		/>
 
-		<header class="groups-header">
-			<h1 class="groups-header__title" data-testid="galaxy-groups-title">
-				{$t('galaxy.groupsTitle', { default: 'Групи випускників' })}
-			</h1>
-			<p class="groups-header__count">
-				{GROUPS.length}
-			</p>
-
-			<div class="groups-header__view">
-				<MasterViewToggle
-					viewMode={view.current}
-					onchange={view.set}
-					options={VIEW_OPTIONS}
-					testIdPrefix="galaxy-groups-view"
-				/>
-			</div>
-		</header>
+		<GalaxyRegistryHeader
+			title={$t('galaxy.groupsTitle', { default: 'Групи випускників' })}
+			titleTestId="galaxy-groups-title"
+			count={GROUPS.length}
+			searchValue={query}
+			onSearch={(v) => (query = v)}
+			found={знайдені.length}
+			placeholderKey="galaxy.groupsSearch"
+			nothingKey="galaxy.groupsSearchNothing"
+			searchTestId="galaxy-groups-search"
+			viewMode={view.current}
+			onView={view.set}
+			viewOptions={VIEW_OPTIONS}
+			viewTestId="galaxy-groups-view"
+		/>
 
 		<!--
 			Пошук ОКРЕМИМ рядком під шапкою, а не в ній.
@@ -215,17 +213,6 @@
 			окремим рядком, у групах — усередині шапки, у фестивалях його не було
 			зовсім. Читач, що переходить між ними, шукав поле щоразу заново.
 		-->
-		<div class="groups-search-row">
-			<SearchField
-				value={query}
-				onchange={(v) => (query = v)}
-				found={знайдені.length}
-				placeholderKey="galaxy.groupsSearch"
-				nothingKey="galaxy.groupsSearchNothing"
-				testid="galaxy-groups-search"
-			/>
-		</div>
-
 		<!--
 			Рядок області показу видно лише коли НЕ шукають: пошук звуження однаково
 			скидає, а скільки знайдено — каже лічильник у самому полі. Та сама умова,
@@ -412,44 +399,8 @@
 	 * галактики. Доти галактика стояла ЛІВОРУЧ зі стрілкою назад, хоч на решті
 	 * сторінок та сама кнопка — крок уперед і стоїть праворуч.
 	 */
-	.groups-search-row {
-		margin-bottom: 2rem;
-		max-width: 460px;
-	}
-
 	/* Складений добір: модифікатор має ту саму вагу, що й правило вище. */
-	.groups-header {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 2rem;
-	}
 	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
-	.groups-header__view {
-		margin-left: auto;
-	}
-	.groups-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.groups-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-
 	.groups-tiles-container {
 		display: flex;
 		flex-direction: column;

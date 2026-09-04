@@ -12,16 +12,16 @@
 	import { PLAYS, playPath, type Play } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
 	import { playGroupNames } from '$lib/data/groups';
-	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
-	import SearchField from '$lib/components/SearchField.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import GalaxyScope from '$lib/components/galaxy/GalaxyScope.svelte';
 	import GalaxyPlaysTiles from '$lib/components/galaxy/GalaxyPlaysTiles.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -210,38 +210,28 @@
 			forwardTestId="galaxy-plays-galaxy-link"
 		/>
 
-		<header class="plays-header">
-			<h1 class="plays-header__title" data-testid="galaxy-plays-title">
-				{$t('galaxy.playsTitle')}
-			</h1>
-			<p class="plays-header__count" data-testid="galaxy-plays-total-count">{PLAYS.length}</p>
-
-			<div class="plays-header__view">
-				<MasterViewToggle
-					viewMode={view.current}
-					onchange={view.set}
-					options={VIEW_OPTIONS}
-					testIdPrefix="galaxy-plays-view"
-				/>
-			</div>
-		</header>
+		<GalaxyRegistryHeader
+			title={$t('galaxy.playsTitle')}
+			titleTestId="galaxy-plays-title"
+			count={PLAYS.length}
+			countTestId="galaxy-plays-total-count"
+			searchValue={query}
+			onSearch={(v) => (query = v)}
+			found={found.length}
+			placeholderKey="galaxy.playsSearch"
+			nothingKey="galaxy.playsNothingFound"
+			searchTestId="galaxy-plays-search"
+			viewMode={view.current}
+			onView={view.set}
+			viewOptions={VIEW_OPTIONS}
+			viewTestId="galaxy-plays-view"
+		/>
 
 		<!--
 			Пошук є, хоч на сторінці груп його немає, — і це не відступ від
 			прикладу, а наслідок числа: груп двадцять, вистав 362. Двадцять
 			переглядають очима, 362 — ні.
 		-->
-		<div class="plays-search-row">
-			<SearchField
-				value={query}
-				onchange={(v) => (query = v)}
-				found={found.length}
-				placeholderKey="galaxy.playsSearch"
-				nothingKey="galaxy.playsNothingFound"
-				testid="galaxy-plays-search"
-			/>
-		</div>
-
 		<!--
 			Звернення СТОЇТЬ НАД переліком в обох режимах, а не всередині сітки, як
 			у групах. Причина в даних: плитки вистав розкладені по РОКАХ, і картка
@@ -336,44 +326,7 @@
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main, #f0f2f5);
 	}
-	.plays-header {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 1.25rem;
-	}
 	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
-	.plays-header__view {
-		margin-left: auto;
-	}
-	.plays-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.plays-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
-		border-radius: var(--radius-full, 9999px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
-	}
-
-
-	.plays-search-row {
-		margin-bottom: 2rem;
-		max-width: 460px;
-	}
-
 	/*
 	 * Розділ — не рік, і оформлення це показує.
 	 *
