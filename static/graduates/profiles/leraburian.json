@@ -1,27 +1,12 @@
 {
 	"id": "valeriia-burian",
-	"code": "leraburian",
 	"slug": "valeriia-burian",
+	"code": "leraburian",
 	"name": "Валерія Бурʼян",
 	"graduationYear": 2025,
-	"enrollmentYears": [
-		2015
-	],
 	"departments": [
 		"theatre",
 		"vocal"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "svitlana-ryskina"
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/leraburian"
-		}
 	],
 	"plays": [
 		{
@@ -67,13 +52,27 @@
 			"year": 2025,
 			"text": "«Голоси»",
 			"playId": "holosy-2025"
+		},
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/leraburian"
+		}
+	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
 	"teachers": [
 		{
 			"id": "iryna-kaplia",
@@ -81,5 +80,12 @@
 				"Вокал"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [
+		2015
+	],
+	"hasPhoto": true,
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/leraburian"
 }

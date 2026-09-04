@@ -1,26 +1,11 @@
 {
 	"id": "kateryna-muntian",
-	"code": "Kateryna-Muntian",
 	"slug": "kateryna-muntian",
+	"code": "Kateryna-Muntian",
 	"name": "Катерина Мунтян",
 	"graduationYear": 2025,
-	"enrollmentYears": [
-		2015
-	],
 	"departments": [
 		"theatre"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "svitlana-ryskina"
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/katonee"
-		}
 	],
 	"plays": [
 		{
@@ -65,13 +50,27 @@
 			"year": 2025,
 			"text": "«Голоси»",
 			"playId": "holosy-2025"
+		},
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/katonee"
+		}
+	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
 	"teachers": [
 		{
 			"id": "iryna-kaplia",
@@ -79,5 +78,12 @@
 				"Вокал"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [
+		2015
+	],
+	"hasPhoto": true,
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2025/Kateryna-Muntian"
 }

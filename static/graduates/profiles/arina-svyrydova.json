@@ -1,0 +1,22 @@
+{
+	"id": "arina-svyrydova",
+	"slug": "arina-svyrydova",
+	"code": "arina-svyrydova",
+	"name": "Аріна Свиридова",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2022,
+			"text": "Посвята в Мистецтво, «Енеїда», Муза малювання",
+			"playId": "posviata-2022",
+			"role": "Муза малювання",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

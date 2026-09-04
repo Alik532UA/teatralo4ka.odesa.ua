@@ -1,29 +1,11 @@
 {
 	"id": "myroslava-tkach",
-	"code": "myroslava-tkach",
 	"slug": "myroslava-tkach",
+	"code": "myroslava-tkach",
 	"name": "Мирослава Ткач",
 	"graduationYear": 2020,
-	"enrollmentYears": [
-		2006
-	],
 	"departments": [
 		"theatre"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "svitlana-ryskina"
-		},
-		{
-			"id": "nadiia-rybakova"
-		}
-	],
-	"socials": [
-		{
-			"network": "facebook",
-			"url": "https://www.facebook.com/rosya.tkach"
-		}
 	],
 	"plays": [
 		{
@@ -117,18 +99,43 @@
 		},
 		{
 			"year": 2022,
-			"text": "Посвята в Мистецтво, «Енеїда», Муза Сценмови",
-			"playId": "posviata-2022"
+			"text": "Посвята в Мистецтво, «Енеїда», Муза сценмовлення",
+			"playId": "posviata-2022",
+			"role": "Муза сценмовлення"
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie Ma",
+			"playId": "posviata-2023",
+			"role": "Barbie Ma",
+			"fromRegistry": true
+		},
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
 		}
 	],
 	"bio": [
 		"1 рік - КНУТКіТ ім. Карпенка-Карого",
 		"Зараз- Київська муніципальна академія естрадного та циркового мистецтв майстерня С.І. Жиркова"
 	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/rosya.tkach"
+		}
+	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M_1",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		},
+		{
+			"id": "nadiia-rybakova"
+		}
+	],
 	"teachers": [
 		{
 			"id": "samuil-imas",
@@ -136,5 +143,12 @@
 				"Риторика та поетика"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [
+		2006
+	],
+	"hasPhoto": true,
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20M_1"
 }

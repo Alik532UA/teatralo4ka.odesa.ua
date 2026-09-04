@@ -6,7 +6,8 @@
 		Globe,
 		Theater,
 		GraduationCap,
-		Trophy
+		Trophy,
+		UserPlus
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { groupProfilePath } from '$lib/data/groups';
@@ -193,32 +194,46 @@
 			</section>
 		{/if}
 
-		{#if data.play.awards?.length || data.play.guests?.length}
-			<section class="play-section" aria-labelledby="play-extra-title">
+		<!--
+			Склад показу й ті, хто прийшов додатково, переїхали в блок «Хто грав»:
+			це ті самі люди показу, просто без анкет, і під нагородами вони
+			читалися як приписка до диплома.
+		-->
+		{#if data.play.awards?.length}
+			<section class="play-section" aria-labelledby="play-awards-title">
 				<div class="play-heading">
 					<span class="play-heading__icon play-heading__icon--gold"><Trophy size={20} aria-hidden="true" /></span>
-					<h2 id="play-extra-title" class="play-heading__title">{$t('galaxy.playAwards')}</h2>
+					<h2 id="play-awards-title" class="play-heading__title">{$t('galaxy.playAwards')}</h2>
 				</div>
-				{#if data.play.awards?.length}
-					<ul class="play-list" data-testid="play-awards-list">
-						{#each data.play.awards as award (award)}
-							<li>{award}</li>
-						{/each}
-					</ul>
-				{/if}
-				<!--
-					Склад показу й ті, хто прийшов додатково, переїхали в блок «Хто
-					грав»: це ті самі люди показу, просто без анкет, і під
-					нагородами вони читалися як приписка до диплома.
-				-->
-				{#if data.play.guests?.length}
-					<p class="play-note">{$t('galaxy.playGuests')}</p>
-					<ul class="play-list" data-testid="play-guests-list">
-						{#each data.play.guests as person (person)}
-							<li>{person}</li>
-						{/each}
-					</ul>
-				{/if}
+				<ul class="play-list" data-testid="play-awards-list">
+					{#each data.play.awards as award (award)}
+						<li>{award}</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
+
+		<!--
+			ЗАПРОШЕНІ — ВЛАСНА СЕКЦІЯ, а не приписка під нагородами.
+			
+			Доти обидва переліки жили в одній секції з єдиним заголовком
+			«Нагороди», і поки нагороди були в кожного запису з гостями, цього не
+			було видно. Заміряно на «Ken & Barbi team» 2023: нагород немає, гості
+			є — і сторінка підписала «Аніматорська компанія „Країна казок“»
+			словом «Нагороди». Той самий висновок, що вже зроблено для складу
+			показу вище, лише зроблений на один клас даних пізніше.
+		-->
+		{#if data.play.guests?.length}
+			<section class="play-section" aria-labelledby="play-guests-title">
+				<div class="play-heading">
+					<span class="play-heading__icon play-heading__icon--primary"><UserPlus size={20} aria-hidden="true" /></span>
+					<h2 id="play-guests-title" class="play-heading__title">{$t('galaxy.playGuests')}</h2>
+				</div>
+				<ul class="play-list" data-testid="play-guests-list">
+					{#each data.play.guests as person (person)}
+						<li>{person}</li>
+					{/each}
+				</ul>
 			</section>
 		{/if}
 	</div>
@@ -314,13 +329,6 @@
 	}
 	.play-section {
 		margin-bottom: var(--space-2xl);
-	}
-	.play-note {
-		margin: 0.9rem 0 0;
-		max-width: 60ch;
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		line-height: 1.5;
 	}
 	.play-list {
 		margin: 0.5rem 0 0;

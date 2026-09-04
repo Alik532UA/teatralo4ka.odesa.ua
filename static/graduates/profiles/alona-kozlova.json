@@ -1,38 +1,13 @@
 {
 	"id": "alona-kozlova",
-	"code": "alona-kozlova",
 	"slug": "alona-kozlova",
+	"code": "alona-kozlova",
 	"name": "Альона Козлова",
 	"graduationYear": 2018,
-	"enrollmentYears": [
-		2004
-	],
 	"departments": [
 		"theatre",
 		"piano",
 		"vocal"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "oleh-shevchuk"
-		},
-		{
-			"id": "iryna-ovcharenko"
-		},
-		{
-			"id": "olena-prorok"
-		}
-	],
-	"socials": [
-		{
-			"network": "facebook",
-			"url": "https://www.facebook.com/profile.php?id=100006761885924"
-		},
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/al.koz/"
-		}
 	],
 	"plays": [
 		{
@@ -60,9 +35,16 @@
 			"playId": "zamarashka-2018"
 		},
 		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
+		},
+		{
 			"year": 2022,
-			"text": "Посвята в Мистецтво, «Енеїда», Муза Вокалу",
-			"playId": "posviata-2022"
+			"text": "Посвята в Мистецтво, «Енеїда», Муза вокалу",
+			"playId": "posviata-2022",
+			"role": "Муза вокалу"
 		}
 	],
 	"bio": [
@@ -70,7 +52,32 @@
 		"Аніматор",
 		"Актриса на ютуб каналі Troom Troom"
 	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100006761885924"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/al.koz/"
+		}
+	],
 	"festivals": [],
+	"masters": [
+		{
+			"id": "oleh-shevchuk"
+		},
+		{
+			"id": "iryna-ovcharenko"
+		},
+		{
+			"id": "olena-prorok"
+		}
+	],
+	"enrollmentYears": [
+		2004
+	],
+	"hasPhoto": true,
 	"duringStudies": null,
 	"afterGraduation": null,
 	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_1"

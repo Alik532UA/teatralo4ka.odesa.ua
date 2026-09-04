@@ -13,6 +13,19 @@
 			"text": "«Зона турбулентності»",
 			"playId": "zona-turbulentnosti-2017",
 			"fromRegistry": true
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Ken",
+			"playId": "posviata-2023",
+			"role": "Ken",
+			"fromRegistry": true
+		},
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],

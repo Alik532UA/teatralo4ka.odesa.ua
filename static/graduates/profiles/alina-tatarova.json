@@ -1,0 +1,22 @@
+{
+	"id": "alina-tatarova",
+	"slug": "alina-tatarova",
+	"code": "alina-tatarova",
+	"name": "Аліна Татарова",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie friend dancer",
+			"playId": "posviata-2023",
+			"role": "Barbie friend dancer",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

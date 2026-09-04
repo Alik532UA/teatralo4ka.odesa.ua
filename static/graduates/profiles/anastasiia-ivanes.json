@@ -41,6 +41,12 @@
 				"rafael"
 			],
 			"fromRegistry": true
+		},
+		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],

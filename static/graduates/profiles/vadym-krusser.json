@@ -1,28 +1,11 @@
 {
 	"id": "vadym-krusser",
-	"code": "vadym-krusser",
 	"slug": "vadym-krusser",
+	"code": "vadym-krusser",
 	"name": "Вадим Круссер",
 	"graduationYear": 2005,
-	"enrollmentYears": [],
 	"departments": [
 		"theatre"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "svitlana-ryskina"
-		}
-	],
-	"socials": [
-		{
-			"network": "facebook",
-			"url": "https://www.facebook.com/vadim.krus"
-		},
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/p/CVJY6muoYTe/"
-		}
 	],
 	"plays": [
 		{
@@ -61,17 +44,30 @@
 		},
 		{
 			"year": 2022,
-			"text": "Посвята в Мистецтво, «Енеїда», Муз(-ик чи -ей)",
-			"playId": "posviata-2022"
+			"text": "Посвята в Мистецтво, «Енеїда», Муз танцю",
+			"playId": "posviata-2022",
+			"role": "Муз танцю"
 		}
 	],
 	"bio": [
 		"Зараз маю дуже цікаве, насичене, барвисте життя артиста балету Одеського національного академічного театру опери та балету!"
 	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/vadim.krus"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/p/CVJY6muoYTe/"
+		}
+	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
 	"teachers": [
 		{
 			"id": "fedir-tkach",
@@ -79,5 +75,10 @@
 				"Участь у виставах"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [],
+	"hasPhoto": true,
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2005/06V"
 }

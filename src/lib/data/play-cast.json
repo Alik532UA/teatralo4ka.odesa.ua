@@ -1674,18 +1674,139 @@
 			"graduateId": "vadym-krusser"
 		}
 	],
+	"posviata-2021": [
+		{
+			"graduateId": "alisa-kuznetsova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "alona-kozlova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-huz",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anastasiia-ivanes",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daniil-olenin",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-rybalchenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "heorhii-slyvynskyi",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yevanhelina-zubynska",
+			"fromRegistry": true
+		}
+	],
 	"posviata-2022": [
 		{
-			"graduateId": "alik-zapolnov"
+			"graduateId": "alik-zapolnov",
+			"role": "Еней"
 		},
 		{
-			"graduateId": "alona-kozlova"
+			"graduateId": "alona-kozlova",
+			"role": "Муза вокалу"
 		},
 		{
-			"graduateId": "myroslava-tkach"
+			"graduateId": "arina-svyrydova",
+			"role": "Муза малювання",
+			"fromRegistry": true
 		},
 		{
-			"graduateId": "vadym-krusser"
+			"graduateId": "myroslava-tkach",
+			"role": "Муза сценмовлення"
+		},
+		{
+			"graduateId": "vadym-krusser",
+			"role": "Муз танцю"
+		},
+		{
+			"graduateId": "yevheniia-burian",
+			"role": "Муза музики",
+			"fromRegistry": true
+		}
+	],
+	"posviata-2023": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "Режисер відеомонтажу",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "alina-tatarova",
+			"role": "Barbie friend dancer",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "alisa-kuznetsova",
+			"role": "Barbie friend painter",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daniela-rybalchenko",
+			"role": "Barbie",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-dias-valdes-isachkina",
+			"role": "Декорація Barbie",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mariia-zyhar",
+			"role": "Barbie friend painter",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "myroslava-tkach",
+			"role": "Barbie Ma",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vladyslav-tsobenko",
+			"role": "Ken",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yevheniia-burian",
+			"role": "Barbie friend singer",
+			"fromRegistry": true
+		}
+	],
+	"posviata-2025": [
+		{
+			"graduateId": "emiliana-hanbarova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-muntian",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "myroslava-tkach",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "valeriia-burian",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vladyslav-tsobenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yevheniia-burian",
+			"fromRegistry": true
 		}
 	],
 	"posviata-teatralne-korolivstvo-2012": [

@@ -1,0 +1,28 @@
+{
+	"id": "alisa-kuznetsova",
+	"slug": "alisa-kuznetsova",
+	"code": "alisa-kuznetsova",
+	"name": "Аліса Кузнецова",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie friend painter",
+			"playId": "posviata-2023",
+			"role": "Barbie friend painter",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

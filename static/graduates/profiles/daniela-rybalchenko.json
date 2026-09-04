@@ -1,29 +1,11 @@
 {
 	"id": "daniela-rybalchenko",
-	"code": "daniela-rybalchenko",
 	"slug": "daniela-rybalchenko",
+	"code": "daniela-rybalchenko",
 	"name": "Даніела Рибальченко",
 	"graduationYear": 2020,
-	"enrollmentYears": [
-		2009
-	],
 	"departments": [
 		"theatre"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "hanna-tkach"
-		},
-		{
-			"id": "tetiana-isachkina"
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://instagram.com/bogudannaya?utm_medium=copy_link"
-		}
 	],
 	"plays": [
 		{
@@ -84,13 +66,38 @@
 			"year": 2020,
 			"text": "«8 люблячих жінок», Луиза",
 			"playId": "8-liubiashchykh-zhenshchyn-2020"
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie",
+			"playId": "posviata-2023",
+			"role": "Barbie",
+			"fromRegistry": true
 		}
 	],
 	"bio": [
 		"Закінчила Дніпровський театрально-художній коледж по спеціальності актор театру ляльок.",
 		"Пройшла практику у міському Дніпровському театрі ляльок"
 	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/bogudannaya?utm_medium=copy_link"
+		}
+	],
 	"festivals": [],
+	"masters": [
+		{
+			"id": "hanna-tkach"
+		},
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"enrollmentYears": [
+		2009
+	],
+	"hasPhoto": true,
 	"duringStudies": null,
 	"afterGraduation": null,
 	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D"

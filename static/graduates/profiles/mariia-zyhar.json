@@ -1,0 +1,22 @@
+{
+	"id": "mariia-zyhar",
+	"slug": "mariia-zyhar",
+	"code": "mariia-zyhar",
+	"name": "Марія Зигарь",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie friend painter",
+			"playId": "posviata-2023",
+			"role": "Barbie friend painter",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

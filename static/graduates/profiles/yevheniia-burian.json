@@ -1,0 +1,58 @@
+{
+	"id": "yevheniia-burian",
+	"slug": "yevheniia-burian",
+	"code": "yevheniia-burian",
+	"name": "Євгенія Бур'ян",
+	"graduationYear": 2018,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2022,
+			"text": "Посвята в Мистецтво, «Енеїда», Муза музики",
+			"playId": "posviata-2022",
+			"role": "Муза музики",
+			"fromRegistry": true
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Barbie friend singer",
+			"playId": "posviata-2023",
+			"role": "Barbie friend singer",
+			"fromRegistry": true
+		},
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "svitlana-myronenko"
+		},
+		{
+			"id": "pavlo-koshka"
+		},
+		{
+			"id": "oleh-shevchuk"
+		},
+		{
+			"id": "iryna-ovcharenko"
+		},
+		{
+			"id": "olena-prorok"
+		},
+		{
+			"id": "anastasiia-nikolaieva"
+		}
+	]
+}

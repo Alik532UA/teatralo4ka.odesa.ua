@@ -8235,6 +8235,23 @@
 			}
 		],
 		"dateNote": "13 жовтня",
+		"participants": [
+			"Ансамбль танцю «Fusion»",
+			"Євангеліна Зубинська",
+			"Аліса Кузнецова",
+			"Анастасія Гузь",
+			"Даніїл Оленін",
+			"Георгій Сливинський",
+			"Дар’я Рибальченко",
+			"Альона Козлова",
+			"Анастасія Іванес"
+		],
+		"masters": [
+			"hanna-tkach",
+			"fedir-tkach",
+			"svitlana-ryskina",
+			"natalia-dombrovska"
+		],
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -8244,7 +8261,24 @@
 		"kind": "posviata",
 		"videoUrl": "https://youtu.be/R9zbtV5C5sE",
 		"dateNote": "22 жовтня",
-		"verificationStatus": "possible_errors"
+		"guests": [
+			"Нюся і Сеня (YouTube-канал Agugugu)"
+		],
+		"masters": [
+			"hanna-tkach",
+			"fedir-tkach",
+			"tetiana-stohul",
+			"anastasiia-nikolaieva"
+		],
+		"verificationStatus": "possible_errors",
+		"participants": [
+			"Вадим Круссер",
+			"Алік Запольнов",
+			"Альона Козлова",
+			"Євгенія Бур’ян",
+			"Мирослава Ткач",
+			"Аріна Свиридова"
+		]
 	},
 	{
 		"id": "posviata-2023",
@@ -8253,6 +8287,28 @@
 		"kind": "posviata",
 		"videoUrl": "https://youtu.be/nip6chz8Vq0",
 		"dateNote": "22 жовтня",
+		"participants": [
+			"Владислав Цобенко",
+			"Даніела Рибальченко",
+			"Мирослава Ткач",
+			"Олена Фурманова",
+			"Євгенія Бур’ян",
+			"Аліна Татарова",
+			"Аліса Кузнецова",
+			"Марія Зигарь",
+			"Дар’я Діас Валдес (Ісачкіна)",
+			"Алік Запольнов"
+		],
+		"guests": [
+			"Аніматорська компанія «Країна казок»"
+		],
+		"masters": [
+			"hanna-tkach",
+			"fedir-tkach",
+			"tetiana-minina",
+			"olha-maiorova",
+			"vira-koval"
+		],
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -8269,6 +8325,20 @@
 		"kind": "posviata",
 		"videoUrl": "https://youtu.be/l1DRJgOOtyg",
 		"dateNote": "25 жовтня",
+		"participants": [
+			"Еміліана Ганбарова",
+			"Валерія Бур’ян",
+			"Катерина Мунтян",
+			"Карина Камєнєва",
+			"Марина Вішталюк",
+			"Євгенія Бур’ян",
+			"Мирослава Ткач",
+			"Владислав Цобенко"
+		],
+		"masters": [
+			"hanna-tkach",
+			"fedir-tkach"
+		],
 		"verificationStatus": "possible_errors"
 	},
 	{

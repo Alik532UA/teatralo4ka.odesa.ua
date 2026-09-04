@@ -1,23 +1,23 @@
 {
 	"id": "daria-dias-valdes-isachkina",
-	"code": "daria-dias-valdes-isachkina",
 	"slug": "daria-dias-valdes-isachkina",
+	"code": "daria-dias-valdes-isachkina",
 	"name": "Дар’я Діас Валдес (Ісачкіна)",
 	"graduationYear": 2010,
-	"enrollmentYears": [
-		1997
-	],
 	"departments": [
 		"theatre"
 	],
-	"hasPhoto": true,
-	"unlinkedGroups": [
-		"Фантазія"
-	],
-	"masters": [
+	"plays": [
 		{
-			"id": "svitlana-ryskina"
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Декорація Barbie",
+			"playId": "posviata-2023",
+			"role": "Декорація Barbie",
+			"fromRegistry": true
 		}
+	],
+	"bio": [
+		"Працюю фотографом"
 	],
 	"socials": [
 		{
@@ -29,14 +29,12 @@
 			"url": "https://www.instagram.com/dasha_isachkina/"
 		}
 	],
-	"plays": [],
-	"bio": [
-		"Працюю фотографом"
-	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2010/10D",
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
 	"teachers": [
 		{
 			"id": "samuil-imas",
@@ -56,5 +54,15 @@
 				"Вокал"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [
+		1997
+	],
+	"hasPhoto": true,
+	"unlinkedGroups": [
+		"Фантазія"
+	],
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2010/10D"
 }

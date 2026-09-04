@@ -1,0 +1,21 @@
+{
+	"id": "anastasiia-huz",
+	"slug": "anastasiia-huz",
+	"code": "anastasiia-huz",
+	"name": "Анастасія Гузь",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

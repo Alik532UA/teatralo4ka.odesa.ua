@@ -1,29 +1,11 @@
 {
 	"id": "daria-rybalchenko",
-	"code": "daria-rybalchenko",
 	"slug": "daria-rybalchenko",
+	"code": "daria-rybalchenko",
 	"name": "Дар'я Рибальченко",
 	"graduationYear": 2021,
-	"enrollmentYears": [
-		2009
-	],
 	"departments": [
 		"theatre"
-	],
-	"hasPhoto": true,
-	"masters": [
-		{
-			"id": "hanna-tkach"
-		},
-		{
-			"id": "fedir-tkach"
-		}
-	],
-	"socials": [
-		{
-			"network": "instagram",
-			"url": "https://instagram.com/darirenko"
-		}
 	],
 	"plays": [
 		{
@@ -62,15 +44,15 @@
 			"playId": "henzel-ta-hretel-2017"
 		},
 		{
-			"year": 2019,
-			"text": "«Фейс-бу-чік», Кіра Лойко",
-			"playId": "feis-bu-chik-2019"
-		},
-		{
 			"year": 2018,
 			"text": "«Фото-топлес»",
 			"playId": "foto-toples-2018",
 			"fromRegistry": true
+		},
+		{
+			"year": 2019,
+			"text": "«Фейс-бу-чік», Кіра Лойко",
+			"playId": "feis-bu-chik-2019"
 		},
 		{
 			"year": 2019,
@@ -94,6 +76,12 @@
 			"playId": "chapaiev-ta-vasylisa-2021"
 		},
 		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
+		},
+		{
 			"year": 2022,
 			"text": "«Піду до зірок», Даніела",
 			"playId": "pidu-do-zirok-2022"
@@ -108,10 +96,21 @@
 	"bio": [
 		"Вступила до університету імені Карпенко Карого на спеціальність актор кіно. Майстерня Сергія Калантая та Інни Капінос"
 	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://instagram.com/darirenko"
+		}
+	],
 	"festivals": [],
-	"duringStudies": null,
-	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D",
+	"masters": [
+		{
+			"id": "hanna-tkach"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	],
 	"teachers": [
 		{
 			"id": "samuil-imas",
@@ -119,5 +118,12 @@
 				"Риторика та поетика"
 			]
 		}
-	]
+	],
+	"enrollmentYears": [
+		2009
+	],
+	"hasPhoto": true,
+	"duringStudies": null,
+	"afterGraduation": null,
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2021/21D"
 }

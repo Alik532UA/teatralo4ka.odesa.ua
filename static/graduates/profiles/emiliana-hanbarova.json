@@ -1,0 +1,21 @@
+{
+	"id": "emiliana-hanbarova",
+	"slug": "emiliana-hanbarova",
+	"code": "emiliana-hanbarova",
+	"name": "Еміліана Ганбарова",
+	"graduationYear": 2025,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2025,
+			"text": "Посвята в Мистецтво, «Океанічна театралка»",
+			"playId": "posviata-2025",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

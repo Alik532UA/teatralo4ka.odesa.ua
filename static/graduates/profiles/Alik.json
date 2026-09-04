@@ -1,18 +1,197 @@
 {
 	"id": "alik-zapolnov",
-	"code": "Alik",
 	"slug": "alik-zapolnov",
+	"code": "Alik",
 	"name": "Алік Запольнов",
 	"graduationYear": 2012,
-	"enrollmentYears": [
-		2003,
-		2007
-	],
 	"departments": [
 		"theatre",
 		"piano"
 	],
-	"hasPhoto": true,
+	"plays": [
+		{
+			"year": 2003,
+			"text": "«Новорічні пригоди Маші та Віті», молчун",
+			"playId": "novorichni-pryhody-mashi-ta-viti-2003"
+		},
+		{
+			"year": 2004,
+			"text": "«Казки Пушкіна», шуліка, поштар",
+			"playId": "skazky-pushkyna-2004",
+			"role": "шуліка, поштар"
+		},
+		{
+			"year": 2008,
+			"text": "«Кощієві пристрасті», Петька",
+			"playId": "koshcheevy-strasty-2008",
+			"role": "Петька"
+		},
+		{
+			"year": 2009,
+			"text": "«Вперед, кошеня», Черевик",
+			"playId": "vpered-kotenok-2009",
+			"role": "Черевик"
+		},
+		{
+			"year": 2010,
+			"text": "«Маленький принц», Маленький принц",
+			"playId": "malenkyi-prynts-2010",
+			"role": "Маленький принц"
+		},
+		{
+			"year": 2011,
+			"text": "«Уявно хворий», Тома Діафуарус",
+			"playId": "mnymyi-bolnoi-2011",
+			"role": "Тома Діафуарус"
+		},
+		{
+			"year": 2011,
+			"text": "«Сни Аліси Дуліттл», Автор",
+			"playId": "sny-alysy-dulytl-2011",
+			"role": "Автор"
+		},
+		{
+			"year": 2012,
+			"text": "«Граємо Чехова», Шамраєв, Шипучин Андрій Андрійович",
+			"playId": "hraiemo-chekhova-2012",
+			"role": "Шамраєв, Шипучин Андрій Андрійович"
+		},
+		{
+			"year": 2012,
+			"text": "«Русалонька», Восьминіг",
+			"playId": "sestra-moia-rusalochka-2012",
+			"role": "Восьминіг"
+		},
+		{
+			"year": 2012,
+			"text": "«Уривки з класики: Той, що отримує ляпаса», Той",
+			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
+			"items": [
+				"toi-khto-otrymuie-liapasy"
+			]
+		},
+		{
+			"year": 2012,
+			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
+			"playId": "posviata-teatralne-korolivstvo-2012",
+			"role": "Принц"
+		},
+		{
+			"year": 2013,
+			"text": "«Тінь»",
+			"playId": "ten-2013"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Антігона; Софокл», Людина, що читала Жана Ануя",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"antihona"
+			],
+			"role": "Людина, що читала Жана Ануя"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Незнайомка; О. Блок», Пан у блакитному",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"neznaiomka"
+			],
+			"role": "Пан у блакитному"
+		},
+		{
+			"year": 2013,
+			"text": "«Уривки з класики: Сонети; В. Шекспір», Людина із залу",
+			"playId": "uryvky-z-klasyky-2013",
+			"items": [
+				"sonety"
+			],
+			"role": "Людина із залу"
+		},
+		{
+			"year": 2013,
+			"text": "Посвята в Мистецтво, «Шахи», Першокурсник",
+			"playId": "posviata-2013"
+		},
+		{
+			"year": 2014,
+			"text": "«Бляшані дівчата», Боря",
+			"playId": "zhestianye-devchonky-2014",
+			"role": "Боря"
+		},
+		{
+			"year": 2014,
+			"text": "«Думайте про нас», Блазень",
+			"playId": "dumaite-o-nas-2014",
+			"role": "Блазень"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Ася; І. Тургенєв», Пан N",
+			"playId": "uryvky-z-klasyky-2015",
+			"items": [
+				"asia"
+			],
+			"role": "Пан N"
+		},
+		{
+			"year": 2015,
+			"text": "«Уривки з класики: Принижені та зневажені»",
+			"playId": "uryvky-z-klasyky-2015-3",
+			"items": [
+				"prynyzheni-ta-znevazheni"
+			]
+		},
+		{
+			"year": 2015,
+			"text": "«Жіноче питання», Коля",
+			"playId": "zhenskyi-vopros-2015",
+			"role": "Коля"
+		},
+		{
+			"year": 2015,
+			"text": "«Біллі +», Учитель, Доктор, Біллі",
+			"playId": "bylly-2015",
+			"role": "Учитель, Доктор, Біллі"
+		},
+		{
+			"year": 2022,
+			"text": "Посвята в Мистецтво, «Енеїда», Еней",
+			"playId": "posviata-2022",
+			"role": "Еней"
+		},
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Пістряк",
+			"playId": "son-zabrokhy-2023"
+		},
+		{
+			"year": 2023,
+			"text": "Посвята в Мистецтво, «Ken & Barbi team», Режисер відеомонтажу",
+			"playId": "posviata-2023",
+			"role": "Режисер відеомонтажу",
+			"fromRegistry": true
+		}
+	],
+	"bio": [
+		"Під час навчання брав активну участь у житі МТШ: переїзд, фестивалі.",
+		"Після випуску:",
+		"Працював техніком у ДТШ та грав у виставах.",
+		"Після цього працював режесером відеомонтажу на TV та YouTube.",
+		"Зараз у IT сфері та трохи в ДТШ 😉",
+		"Є адміністратором цього сайту 😎"
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/alikzapolnov"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/alikzapolnov/"
+		}
+	],
+	"festivals": [],
 	"masters": [
 		{
 			"id": "tetiana-isachkina"
@@ -80,182 +259,11 @@
 			]
 		}
 	],
-	"socials": [
-		{
-			"network": "facebook",
-			"url": "https://www.facebook.com/alikzapolnov"
-		},
-		{
-			"network": "instagram",
-			"url": "https://www.instagram.com/alikzapolnov/"
-		}
+	"enrollmentYears": [
+		2003,
+		2007
 	],
-	"plays": [
-		{
-			"year": 2003,
-			"text": "«Новорічні пригоди Маші та Віті», молчун",
-			"playId": "novorichni-pryhody-mashi-ta-viti-2003"
-		},
-		{
-			"year": 2004,
-			"text": "«Казки Пушкіна», шуліка, поштар",
-			"playId": "skazky-pushkyna-2004",
-			"role": "шуліка, поштар"
-		},
-		{
-			"year": 2008,
-			"text": "«Кощієві пристрасті», Петька",
-			"playId": "koshcheevy-strasty-2008",
-			"role": "Петька"
-		},
-		{
-			"year": 2009,
-			"text": "«Вперед, кошеня», Черевик",
-			"playId": "vpered-kotenok-2009",
-			"role": "Черевик"
-		},
-		{
-			"year": 2010,
-			"text": "«Маленький принц», Маленький принц",
-			"playId": "malenkyi-prynts-2010",
-			"role": "Маленький принц"
-		},
-		{
-			"year": 2011,
-			"text": "«Уявно хворий», Тома Діафуарус",
-			"playId": "mnymyi-bolnoi-2011",
-			"role": "Тома Діафуарус"
-		},
-		{
-			"year": 2011,
-			"text": "«Сни Аліси Дуліттл», Автор",
-			"playId": "sny-alysy-dulytl-2011",
-			"role": "Автор"
-		},
-		{
-			"year": 2012,
-			"text": "«Граємо Чехова», Шамраєв, Шипучин Андрій Андрійович",
-			"playId": "hraiemo-chekhova-2012",
-			"role": "Шамраєв, Шипучин Андрій Андрійович"
-		},
-		{
-			"year": 2012,
-			"text": "«Русалонька», Восьминіг",
-			"playId": "sestra-moia-rusalochka-2012",
-			"role": "Восьминіг"
-		},
-		{
-			"year": 2012,
-			"text": "«Уривки з класики: Той, що отримує ляпаса», Той",
-			"playId": "uryvky-z-dramaturhii-20-stolittia-2012",
-			"items": [
-				"toi-khto-otrymuie-liapasy"
-			]
-		},
-		{
-			"year": 2013,
-			"text": "«Тінь»",
-			"playId": "ten-2013"
-		},
-		{
-			"year": 2013,
-			"text": "«Уривки з класики: Антігона; Софокл», Людина, що читала Жана Ануя",
-			"playId": "uryvky-z-klasyky-2013",
-			"items": [
-				"antihona"
-			],
-			"role": "Людина, що читала Жана Ануя"
-		},
-		{
-			"year": 2013,
-			"text": "«Уривки з класики: Незнайомка; О. Блок», Пан у блакитному",
-			"playId": "uryvky-z-klasyky-2013",
-			"items": [
-				"neznaiomka"
-			],
-			"role": "Пан у блакитному"
-		},
-		{
-			"year": 2013,
-			"text": "«Уривки з класики: Сонети; В. Шекспір», Людина із залу",
-			"playId": "uryvky-z-klasyky-2013",
-			"items": [
-				"sonety"
-			],
-			"role": "Людина із залу"
-		},
-		{
-			"year": 2012,
-			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
-			"playId": "posviata-teatralne-korolivstvo-2012",
-			"role": "Принц"
-		},
-		{
-			"year": 2014,
-			"text": "«Бляшані дівчата», Боря",
-			"playId": "zhestianye-devchonky-2014",
-			"role": "Боря"
-		},
-		{
-			"year": 2014,
-			"text": "«Думайте про нас», Блазень",
-			"playId": "dumaite-o-nas-2014",
-			"role": "Блазень"
-		},
-		{
-			"year": 2013,
-			"text": "Посвята в Мистецтво, «Шахи», Першокурсник",
-			"playId": "posviata-2013"
-		},
-		{
-			"year": 2015,
-			"text": "«Уривки з класики: Ася; І. Тургенєв», Пан N",
-			"playId": "uryvky-z-klasyky-2015",
-			"items": [
-				"asia"
-			],
-			"role": "Пан N"
-		},
-		{
-			"year": 2015,
-			"text": "«Уривки з класики: Принижені та зневажені»",
-			"playId": "uryvky-z-klasyky-2015-3",
-			"items": [
-				"prynyzheni-ta-znevazheni"
-			]
-		},
-		{
-			"year": 2015,
-			"text": "«Жіноче питання», Коля",
-			"playId": "zhenskyi-vopros-2015",
-			"role": "Коля"
-		},
-		{
-			"year": 2015,
-			"text": "«Біллі +», Учитель, Доктор, Біллі",
-			"playId": "bylly-2015",
-			"role": "Учитель, Доктор, Біллі"
-		},
-		{
-			"year": 2022,
-			"text": "Посвята в Мистецтво, «Енеїда», Еней",
-			"playId": "posviata-2022"
-		},
-		{
-			"year": 2023,
-			"text": "«Сон Забрьохи», Пістряк",
-			"playId": "son-zabrokhy-2023"
-		}
-	],
-	"bio": [
-		"Під час навчання брав активну участь у житі МТШ: переїзд, фестивалі.",
-		"Після випуску:",
-		"Працював техніком у ДТШ та грав у виставах.",
-		"Після цього працював режесером відеомонтажу на TV та YouTube.",
-		"Зараз у IT сфері та трохи в ДТШ 😉",
-		"Є адміністратором цього сайту 😎"
-	],
-	"festivals": [],
+	"hasPhoto": true,
 	"duringStudies": null,
 	"afterGraduation": null,
 	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2012/Alik"

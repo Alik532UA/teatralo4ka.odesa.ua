@@ -184,9 +184,9 @@
 				]
 			}
 		],
-		"playCount": 24,
+		"playCount": 25,
 		"code": "Alik",
-		"profileSize": 6363
+		"profileSize": 6634
 	},
 	{
 		"id": "alina-burdeina",
@@ -385,7 +385,9 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 452,
+		"playCount": 1
 	},
 	{
 		"id": "alina-tkach",
@@ -431,7 +433,9 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 593,
+		"playCount": 2
 	},
 	{
 		"id": "alisa-semenova",
@@ -588,9 +592,9 @@
 				"id": "olena-prorok"
 			}
 		],
-		"playCount": 6,
+		"playCount": 7,
 		"code": "alona-kozlova",
-		"profileSize": 1742
+		"profileSize": 1909
 	},
 	{
 		"id": "amryta-chernyshova",
@@ -830,7 +834,9 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 373,
+		"playCount": 1
 	},
 	{
 		"id": "anastasiia-ihnatovych",
@@ -882,8 +888,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1012,
-		"playCount": 5
+		"profileSize": 1143,
+		"playCount": 6
 	},
 	{
 		"id": "anastasiia-ivanova",
@@ -1792,7 +1798,9 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 467,
+		"playCount": 1
 	},
 	{
 		"id": "artem-husar",
@@ -2131,9 +2139,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 12,
+		"playCount": 13,
 		"code": "daniela-rybalchenko",
-		"profileSize": 2438
+		"profileSize": 2620
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -2151,7 +2159,9 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 368,
+		"playCount": 1
 	},
 	{
 		"id": "daniil-prymachov",
@@ -2332,8 +2342,8 @@
 			}
 		],
 		"code": "daria-dias-valdes-isachkina",
-		"playCount": 0,
-		"profileSize": 1071,
+		"playCount": 1,
+		"profileSize": 1292,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -2560,9 +2570,9 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"playCount": 15,
+		"playCount": 16,
 		"code": "daria-rybalchenko",
-		"profileSize": 2844,
+		"profileSize": 2975,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -3027,7 +3037,9 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 436,
+		"playCount": 1
 	},
 	{
 		"id": "erika-chichasova",
@@ -3226,7 +3238,9 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 395,
+		"playCount": 1
 	},
 	{
 		"id": "heorhii-topor",
@@ -3961,9 +3975,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 9,
+		"playCount": 10,
 		"code": "Kateryna-Muntian",
-		"profileSize": 1748,
+		"profileSize": 1922,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -5480,7 +5494,9 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 444,
+		"playCount": 1
 	},
 	{
 		"id": "mark-mazur",
@@ -5881,9 +5897,9 @@
 				"id": "nadiia-rybakova"
 			}
 		],
-		"playCount": 19,
+		"playCount": 21,
 		"code": "myroslava-tkach",
-		"profileSize": 3248,
+		"profileSize": 3666,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -8058,7 +8074,7 @@
 		],
 		"playCount": 8,
 		"code": "vadym-krusser",
-		"profileSize": 1878,
+		"profileSize": 1903,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -8139,9 +8155,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 9,
+		"playCount": 10,
 		"code": "leraburian",
-		"profileSize": 1747,
+		"profileSize": 1921,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -8794,8 +8810,8 @@
 				]
 			}
 		],
-		"profileSize": 461,
-		"playCount": 1
+		"profileSize": 811,
+		"playCount": 3
 	},
 	{
 		"id": "vladyslav-volk",
@@ -9188,7 +9204,9 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 403,
+		"playCount": 1
 	},
 	{
 		"id": "yevhen-huriev",
@@ -9319,7 +9337,9 @@
 			{
 				"id": "anastasiia-nikolaieva"
 			}
-		]
+		],
+		"profileSize": 1110,
+		"playCount": 3
 	},
 	{
 		"id": "yevheniia-futynets",

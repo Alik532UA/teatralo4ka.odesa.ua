@@ -484,6 +484,13 @@ describe('реєстр вистав', () => {
 	 * Театр випускників і «Молодіжний театр «Тітри»» — трупи, де ВСІ за
 	 * визначенням випустилися. Це не виняток зі списку, а інша природа колективу,
 	 * тож перевіряється за назвою.
+	 *
+	 * З ТІЄЇ САМОЇ ПРИЧИНИ — «Посвята в Мистецтво» (`kind: 'posviata'`). Її для
+	 * учнів готують випускники, і в титрах поруч із кожним іменем стоїть рік
+	 * випуску: «Енеїда» 2022 — випуски 2005, 2012, 2018, 2018, 2020 і 2022.
+	 * Тобто «випустився раніше за показ» тут не помилка успадкування, а сам
+	 * задум заходу, і саме він робить основу складу основою: ніякого курсу, поверх
+	 * якого хтось «прийшов додатково», у Посвяти немає.
 	 */
 	const ALUMNI_TROUPES = ['театр випускників', 'молодіжний театр'] as const;
 
@@ -496,7 +503,7 @@ describe('реєстр вистав', () => {
 		const match = createNameMatcher(GRADUATES);
 		const bad: string[] = [];
 		for (const play of PLAYS) {
-			if (isAlumniTroupe(play.theatreGroup)) continue;
+			if (isAlumniTroupe(play.theatreGroup) || play.kind === 'posviata') continue;
 			for (const raw of play.participants ?? []) {
 				const graduate = match(raw);
 				const year = graduate?.graduationYear;

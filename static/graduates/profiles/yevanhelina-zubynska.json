@@ -1,0 +1,21 @@
+{
+	"id": "yevanhelina-zubynska",
+	"slug": "yevanhelina-zubynska",
+	"code": "yevanhelina-zubynska",
+	"name": "Євангеліна Зубинська",
+	"graduationYear": 2021,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2021,
+			"text": "Посвята в Мистецтво",
+			"playId": "posviata-2021",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}
