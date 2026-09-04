@@ -57,6 +57,8 @@ export interface CodeNewsItem {
 	id: string;
 	/** Ім'я файлу в `i18n/pages/{uk,en}` без розширення. */
 	slug: string;
+	/** `object-position` обкладинки в картці переліку й на головній. */
+	coverPosition?: string;
 	/** Знімки галереї в порядку показу. Порожньо — галереї немає. */
 	photos: readonly BentoImage[];
 }
@@ -124,6 +126,9 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 	{
 		id: '30-y-sezon-i-17-studentiv-2026',
 		slug: 'news-30-y-sezon-i-17-studentiv-2026',
+		/* Прохання автора: «зовсім трохи посунути ліворуч». Сім відсотків від
+		   середини — це 27 px на цій картці. */
+		coverPosition: '57% center',
 		photos: [
 			фото('01.jpg', 1280, 959, ПІДПИС),
 			фото('02.jpg', 960, 1280, ПІДПИС, 'center 25%'),
@@ -186,7 +191,11 @@ export function codeNewsCards(lang: 'uk' | 'en'): ContentCardItem[] {
 			/* Перший знімок галереї — обкладинка картки: окремого поля для неї в
 			   frontmatter немає, а вибирати з одинадцяти знімків «найкращий»
 			   машина не вміє. */
-			coverUrl: item.photos[0] ? asset(item.photos[0].src as `/${string}`) : ''
+			coverUrl: item.photos[0] ? asset(item.photos[0].src as `/${string}`) : '',
+			/* Кадрування обкладинки — своє, а не те, що в мозаїці: там у плитки
+			   інша пропорція. Розбір і замір — у полі `coverPosition`
+			   `ContentCard`. */
+			coverPosition: item.coverPosition
 		});
 	}
 	return cards;

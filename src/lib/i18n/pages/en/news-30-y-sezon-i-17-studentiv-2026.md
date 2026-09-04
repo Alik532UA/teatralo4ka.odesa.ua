@@ -1,24 +1,24 @@
 ---
-title: "The 30th anniversary season and seventeen of our students"
+title: "The 30th anniversary season and eighteen of our students"
 date: "2026-09-04"
 author: "Alik"
 category: "news"
 lang: "en"
 seo:
-  title: "30th season and 17 of our students — Odesa Theatre School"
-  description: "Tomorrow the anniversary 30th season of Teatralo4ka begins. Seventeen of our graduates have become students of performing arts schools in Ukraine and Europe, five of them on state-funded places."
+  title: "30th season and 18 of our students — Odesa Theatre School"
+  description: "Tomorrow the anniversary 30th season of Teatralo4ka begins. Eighteen of our graduates have become students of performing arts schools in Ukraine and Europe, five of them on state-funded places."
 status: "published"
 version: "1.0.0"
-excerpt: "Seventeen of our graduates have become students of performing arts schools in Ukraine and Europe — five of them on state-funded places."
+excerpt: "Eighteen of our graduates have become students of performing arts schools in Ukraine and Europe — five of them on state-funded places."
 ---
 
-# The 30th anniversary season and seventeen of our students
+# The 30th anniversary season and eighteen of our students
 
 Tomorrow the anniversary **30th season** of Teatralo4ka begins 😍
 
 And on the eve of the new 2026–2027 (“six-seven” 😜) academic year we warmly congratulate our graduates who have become students of performing arts schools in Ukraine and Europe!!! 👍
 
-**WE HAVE AS MANY AS 17 STUDENTS!!!** (five of them on state-funded places!) 🤩
+**WE HAVE AS MANY AS 18 STUDENTS!!!** (five of them on state-funded places!) 🤩
 
 1. [Anastasiia Ivanova](/en/projects/galaxy-graduates/anastasiia-ivanova) — KNUTKiT (Kyiv), acting, course of D. Bohomazov
 2. [Pavlo Maksymov](/en/projects/galaxy-graduates/pavlo-maksymov) — KNUTKiT (Kyiv), acting, course of O. Zamiatin
@@ -37,3 +37,4 @@ And on the eve of the new 2026–2027 (“six-seven” 😜) academic year we wa
 15. Kseniia Dovhal — OTKhFK (Odesa), stage make-up and design
 16. Olesia Hrynko — OTKhFK (Odesa), film, photo and video
 17. Rodomira Dolbysheva — Dankevych College of Arts (Odesa), choreography
+18. [Anna-Mariia Vyskochyl](/en/projects/galaxy-graduates/anna-mariia-vyskochyl) — Kyiv University of Culture, acting, course of V. Dovzhenko

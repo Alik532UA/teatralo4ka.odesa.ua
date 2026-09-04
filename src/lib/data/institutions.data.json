@@ -893,27 +893,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"slug": "lakim",
-		"name": "ЛАКіМ",
-		"city": "Київ",
-		"countries": [
-			"UA"
-		],
-		"students": [
-			{
-				"id": "anna-mariia-vyskochyl",
-				"year": 2024,
-				"programme": "акторський"
-			},
-			{
-				"id": "yeva-reznik",
-				"year": 2024,
-				"programme": "акторський"
-			}
-		],
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"slug": "nakkkim",
 		"name": "НАКККіМ",
 		"fullName": "Національна академія керівних кадрів культури і мистецтв",
@@ -1122,6 +1101,39 @@
 				"id": "vadym-krusser",
 				"year": 2005,
 				"programme": "класична хореографія"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kuk",
+		"name": "Київський університет культури",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "anna-mariia-vyskochyl",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "В. Довженка"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lakim",
+		"name": "ЛАКіМ",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"students": [
+			{
+				"id": "yeva-reznik",
+				"year": 2024,
+				"programme": "акторський"
 			}
 		],
 		"verificationStatus": "possible_errors"

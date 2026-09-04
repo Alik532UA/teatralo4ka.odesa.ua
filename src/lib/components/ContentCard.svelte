@@ -15,6 +15,19 @@
 		 
 		color: string;
 		coverUrl: string;
+		/**
+		 * `object-position` обкладинки — яку частину знімка показати в картці.
+		 *
+		 * Потрібне, бо картка ВИСОКА, а знімки здебільшого широкі: `cover`
+		 * обрізає їх по боках, і типова середина не завжди влучає. На новині
+		 * 4 вересня 2026 автор попросив «зовсім трохи посунути ліворуч» —
+		 * заміряно: знімок 1280×959 у коробці близько 300×510 віддає 681 px
+		 * ширини на 300, тобто по 190 px відрізається з кожного боку, і крок
+		 * у сім відсотків — це 27 px зсуву.
+		 *
+		 * Немає поля — картка кадрує по центру, як усі новини з бази.
+		 */
+		coverPosition?: string;
 		/** For static pages that have a full path already */
 		href?: string;
 		/** Whether the link points to an external site */
@@ -171,7 +184,14 @@
 			data-testid={imgTestId ? `${imgTestId}-player` : undefined}
 		></iframe>
 	{:else}
-		<img src={item.coverUrl} alt={item.title} class={imgClass} draggable="false" data-testid={imgTestId} />
+		<img
+			src={item.coverUrl}
+			alt={item.title}
+			class={imgClass}
+			draggable="false"
+			style={item.coverPosition ? `object-position: ${item.coverPosition}` : ''}
+			data-testid={imgTestId}
+		/>
 	{/if}
 	{@render videoControl(idBase)}
 {/snippet}
