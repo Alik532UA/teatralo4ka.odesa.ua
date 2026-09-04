@@ -184,13 +184,21 @@ export abstract class CanvasEngine {
 		return `${r}, ${g}, ${b}`;
 	}
 
+	private colorsCache: { key: string; value: { primary: string; secondary: string } } | null = null;
+
+	/**
+	 * Кольори кадру. Кеш — на рядок `this.color`.
+	 *
+	 * Кожен рушій кличе це раз на кадр, а тіло розбирало HEX по символах і
+	 * будувало два рядки — тобто 60 разів на секунду на однаковому вході. Тема
+	 * міняється натисканням, не щокадру, тож ключем досить самого кольору.
+	 */
 	protected getColors() {
+		if (this.colorsCache?.key === this.color) return this.colorsCache.value;
 		const rgb = this.hexToRgb(this.color);
 		const primary = `rgba(${rgb}, `;
-
-		return {
-			primary: primary,
-			secondary: primary,
-		};
+		const value = { primary, secondary: primary };
+		this.colorsCache = { key: this.color, value };
+		return value;
 	}
 }

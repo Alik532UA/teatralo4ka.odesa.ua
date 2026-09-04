@@ -72,6 +72,10 @@ export class StarfieldEngine extends CanvasEngine {
 	private targetMouseY = -1000;
 	private mouseActive = false;
 	private mouseIntensity = 0;
+	/** Сира позиція курсора у вікні; у координати канваса переводиться в кадрі. */
+	private pointerClientX = 0;
+	private pointerClientY = 0;
+	private pointerFresh = false;
 
 	private handlePointerMoveBound = (e: PointerEvent) => this.handlePointerMove(e);
 	private handlePointerLeaveBound = () => this.handlePointerLeave();
@@ -92,11 +96,29 @@ export class StarfieldEngine extends CanvasEngine {
 		super.unmount();
 	}
 
+	/**
+	 * Обробник рухається НАЛЕГКО: запам'ятати координати вікна й вийти.
+	 *
+	 * Доти він читав `getBoundingClientRect()` на кожну подію, а `pointermove`
+	 * приходить частіше за кадр (у мишей 125–1000 Гц) — тобто на кожну подію
+	 * припадав примусовий перерахунок розкладки сторінки, де 400+ летючих
+	 * елементів. Заміряно на цій сторінці: під рухом курсора 18,5 к/с проти 56
+	 * у спокої, головний потік зайнятий 57 % часу. Переклад лічби в кадр —
+	 * половина того виправлення (друга половина в `GraduateGalaxy`).
+	 */
 	private handlePointerMove(e: PointerEvent) {
-		if (!this.canvas) return;
+		this.pointerClientX = e.clientX;
+		this.pointerClientY = e.clientY;
+		this.pointerFresh = true;
+	}
+
+	/** Перевести вікно в координати канваса — РАЗ на кадр і лише коли є що. */
+	private samplePointer() {
+		if (!this.pointerFresh || !this.canvas) return;
+		this.pointerFresh = false;
 		const rect = this.canvas.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
+		const x = this.pointerClientX - rect.left;
+		const y = this.pointerClientY - rect.top;
 		if (x >= -40 && x <= rect.width + 40 && y >= -40 && y <= rect.height + 40) {
 			this.targetMouseX = x;
 			this.targetMouseY = y;
@@ -161,6 +183,8 @@ export class StarfieldEngine extends CanvasEngine {
 	protected draw() {
 		if (!this.ctx) return;
 
+		this.samplePointer();
+
 		const now = performance.now();
 		// Перший кадр і повернення з фону дають величезну різницю часу — обрізаємо
 		// її, інакше зірки стрибнули б через півекрана одним кадром.
@@ -210,6 +234,12 @@ export class StarfieldEngine extends CanvasEngine {
 		const cos15 = 0.9659;
 		const sin15 = 0.2588;
 
+		/* Незмінне за кадр — обчислюється один раз, а не 220. Радіус дії й
+		   поріг реакції ті самі, що були в тілі циклу. */
+		const реагуємо = this.mouseIntensity > 0.01;
+		const effectRadius = 140;
+		const effectRadiusSq = effectRadius * effectRadius;
+
 		for (const star of this.stars) {
 			star.x += star.speed * cos15 * delta;
 			star.y -= star.speed * sin15 * delta;
@@ -230,12 +260,10 @@ export class StarfieldEngine extends CanvasEngine {
 			let proximityFlare = 0;
 			let proximityGlow = 1;
 
-			if (this.mouseIntensity > 0.01) {
+			if (реагуємо) {
 				const dx = (star.x + star.vx) - this.mouseX;
 				const dy = (star.y + star.vy) - this.mouseY;
 				const distSq = dx * dx + dy * dy;
-				const effectRadius = 140;
-				const effectRadiusSq = effectRadius * effectRadius;
 
 				if (distSq < effectRadiusSq && distSq > 4) {
 					const dist = Math.sqrt(distSq);

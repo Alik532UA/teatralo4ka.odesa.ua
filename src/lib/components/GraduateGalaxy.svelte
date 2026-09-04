@@ -98,16 +98,83 @@
 	let galaxyEl = $state<HTMLDivElement | null>(null);
 	let tiltX = $state(0);
 	let tiltY = $state(0);
-	let pointerX = $state(0);
-	let pointerY = $state(0);
+	let pointerX = $state(-2000);
+	let pointerY = $state(-2000);
 	let pointerActive = $state(false);
 
+	/**
+	 * РЕАКЦІЯ НА КУРСОР — раз на кадр, а не на кожну подію.
+	 *
+	 * ## Що було виміряно
+	 *
+	 * Галактика «підглючувала» саме під рухом мишею, і замір це підтвердив
+	 * (1440×900, збірка, 140 рухів курсора): у спокої 56 к/с, медіана кадру
+	 * 16,7 мс, довгих задач НУЛЬ. Під рухом — 18,5 к/с, медіана 50 мс, і
+	 * головний потік зайнятий 4288 мс із 7516, тобто 57 % часу, 74 довгі задачі.
+	 * Кожен кадр довший за 32 мс. Тобто гальмувала не сама анімація, а обробка
+	 * курсора.
+	 *
+	 * ## Чому саме вона
+	 *
+	 * `pointermove` приходить частіше за кадр (у мишей 125–1000 Гц), а обробник
+	 * робив на КОЖНУ подію три дорогі речі:
+	 *
+	 *   1. `matchMedia(...)` — новий об'єкт запиту щоразу;
+	 *   2. `getBoundingClientRect()` — примусовий перерахунок розкладки;
+	 *   3. запис у п'ять станів, звідки виходили CSS-змінні на `.galaxy` і
+	 *      `.galaxy__lanes`. І це найдорожче: користувацькі властивості
+	 *      УСПАДКОВУЮТЬСЯ, тож зміна змінної на контейнері знецінює обчислений
+	 *      стиль усього піддерева — а це 400+ доріжок, кожна з кнопкою й
+	 *      зображенням. Плюс `::after` перемальовував радіальний градієнт на
+	 *      весь екран.
+	 *
+	 * ## Що зроблено
+	 *
+	 * Подія тепер лише запам'ятовує координати вікна й просить кадр. Уся лічба —
+	 * в кадрі, тобто не частіше за 60 разів на секунду, скільки б подій не
+	 * прийшло. Прямокутник галактики кешується й скидається лише на зміні
+	 * розміру вікна (сцена нерухома: `position: fixed`), а `prefers-reduced-
+	 * motion` читається один раз на монтуванні — так само, як це робить
+	 * `CanvasEngine`.
+	 *
+	 * Самі ефекти НЕ змінені: нахил смуг ті самі 12/8 px, підсвітка — той самий
+	 * градієнт 550 px і та сама поява за 0,3 с.
+	 */
+	let рухДозволено = false;
+	let сироX = 0;
+	let сироY = 0;
+	let кадрКурсора = 0;
+	let рамка: DOMRect | null = null;
+
+	onMount(() => {
+		рухДозволено = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		return () => {
+			if (кадрКурсора) cancelAnimationFrame(кадрКурсора);
+		};
+	});
+
+	/* Прямокутник міряється заново лише після зміни розміру вікна. */
+	$effect(() => {
+		void viewportW;
+		void viewportH;
+		рамка = null;
+	});
+
 	function handlePointerMove(e: PointerEvent) {
-		if (!browser || !galaxyEl) return;
-		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		const rect = galaxyEl.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
+		if (!рухДозволено) return;
+		сироX = e.clientX;
+		сироY = e.clientY;
+		if (кадрКурсора) return;
+		кадрКурсора = requestAnimationFrame(порахуватиКурсор);
+	}
+
+	function порахуватиКурсор() {
+		кадрКурсора = 0;
+		if (!galaxyEl) return;
+		рамка ??= galaxyEl.getBoundingClientRect();
+		const rect = рамка;
+		const x = сироX - rect.left;
+		const y = сироY - rect.top;
 		if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
 			tiltX = 0;
 			tiltY = 0;
@@ -128,6 +195,12 @@
 		tiltY = 0;
 		pointerActive = false;
 	}
+
+	/* Підсвітка — окремий шар 1100×1100 із НЕРУХОМИМ градієнтом, який їздить
+	   зсувом. Числа: радіус градієнта 550 px, тобто центр шару має стояти під
+	   курсором. Розбір, чому не `::after` із рухомим центром, — у стилях. */
+	const glowX = $derived(pointerX - 550);
+	const glowY = $derived(pointerY - 550);
 </script>
 
 <svelte:window
@@ -137,12 +210,13 @@
 	onpointerleave={handlePointerLeave}
 />
 
-<div
-	bind:this={galaxyEl}
-	class="galaxy"
-	data-testid="galaxy-section"
-	style="--cursor-x: {pointerX.toFixed(1)}px; --cursor-y: {pointerY.toFixed(1)}px; --cursor-opacity: {pointerActive ? '1' : '0'};"
->
+<div bind:this={galaxyEl} class="galaxy" data-testid="galaxy-section">
+	<!-- Шар підсвітки під курсором. Окремим елементом БЕЗ дітей: див. стилі. -->
+	<div
+		class="galaxy__glow"
+		aria-hidden="true"
+		style="translate: {glowX}px {glowY}px; opacity: {pointerActive ? 1 : 0};"
+	></div>
 	<!-- Зірки на канвасі — оформлення; читалці вони ні про що не кажуть. -->
 	<div class="galaxy__stars" aria-hidden="true">
 		{#if browser}
@@ -155,7 +229,7 @@
 	<ul
 		class="galaxy__lanes"
 		class:is-paused={paused}
-		style="--tilt-x: {tiltX.toFixed(2)}px; --tilt-y: {tiltY.toFixed(2)}px;"
+		style="translate: {tiltX.toFixed(2)}px {tiltY.toFixed(2)}px;"
 		data-testid="galaxy-list"
 	>
 		{#each flying as item (item.kind + item.lane)}
@@ -191,21 +265,53 @@
 		z-index: 0;
 	}
 
-	.galaxy::after {
-		content: '';
+	/*
+	 * ПІДСВІТКА: шар зі сталим градієнтом, який ЇЗДИТЬ, а не перемальовується.
+	 *
+	 * Доти це був `::after` на всю сцену, де центр градієнта задавала пара
+	 * власних властивостей із позицією курсора — назви тут навмисно не
+	 * виписані: гейт `css-variables` читає коментар як код і вважав би це
+	 * посиланням на змінну, якої більше немає. Виглядало так само, коштувало
+	 * інакше:
+	 * центр градієнта — частина фону, тож кожен рух курсора змушував браузер
+	 * перемальовувати градієнт РОЗМІРОМ У ВЕСЬ ЕКРАН, і робив це головний потік.
+	 * Плюс змінні жили на `.galaxy`, а користувацькі властивості
+	 * успадковуються — тобто заново обчислювався стиль усіх 400+ доріжок під
+	 * ним.
+	 *
+	 * Тепер градієнт стоїть на місці всередині шару 1100×1100 (двічі радіус),
+	 * а під курсор його ставить `translate`. Зсув браузер віддає композитору:
+	 * ні перемальовування, ні перерахунку стилю сусідів. Вигляд той самий —
+	 * ті самі 550 px, той самий колір і та сама поява за 0,3 с.
+	 *
+	 * Дітей у шару немає навмисно: успадкування нікого не зачіпає.
+	 */
+	.galaxy__glow {
 		position: absolute;
-		inset: 0;
+		top: 0;
+		left: 0;
+		width: 1100px;
+		height: 1100px;
 		pointer-events: none;
 		background: radial-gradient(
-			550px circle at var(--cursor-x, -1000px) var(--cursor-y, -1000px),
+			550px circle at center,
 			rgba(14, 165, 233, 0.07),
 			transparent 70%
 		);
 		z-index: 1;
-		opacity: var(--cursor-opacity, 0);
 		transition: opacity 0.3s ease;
+		will-change: translate;
 	}
 
+	/*
+	 * Нахил смуг приходить ІНЛАЙНОВИМ `translate`, а не парою змінних.
+	 *
+	 * Причина та сама, що в підсвітки, і вона важливіша тут: `--tilt-x` на
+	 * цьому елементі успадковувалася в кожну з 400+ доріжок, тож кожен рух
+	 * курсора знецінював обчислений стиль усього піддерева. Звичайна
+	 * властивість `translate` не успадковується — зміна лишається на самому
+	 * елементі й іде композитору.
+	 */
 	.galaxy__lanes {
 		position: absolute;
 		inset: 0;
@@ -213,7 +319,6 @@
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		translate: var(--tilt-x, 0px) var(--tilt-y, 0px);
 		transition: translate 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
 		will-change: translate;
 	}
@@ -269,10 +374,16 @@
 	 * втратила б головне, а вимога стосується руху, не вмісту.
 	 */
 	@media (prefers-reduced-motion: reduce) {
-		.galaxy::after {
+		.galaxy__glow {
 			display: none;
 		}
 
+		/*
+		 * `translate` тут уже НЕ скидається: він приходить інлайном, тобто
+		 * правило його однаково не перебило б. Скидати нічого й не треба —
+		 * обробник курсора при «зменшити рух» виходить одразу, тож нахил
+		 * лишається нулем, а нуль і `none` дають те саме.
+		 */
 		.galaxy__lanes {
 			display: flex;
 			flex-wrap: wrap;
@@ -280,7 +391,6 @@
 			gap: 0.4rem;
 			padding: 1rem;
 			overflow-y: auto;
-			translate: none;
 			transition: none;
 		}
 
