@@ -6,6 +6,8 @@
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GalaxyRegistry from '$lib/components/galaxy/GalaxyRegistry.svelte';
+	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -29,6 +31,43 @@
 	);
 
 	const усього = $derived(заклади.reduce((сума, i) => сума + institutionSize(i), 0));
+
+	/**
+	 * Ті самі заклади у спільній формі рядка — для хронології та списку.
+	 *
+	 * Рік — НАЙРАНІШИЙ вступ із відомих: у хронології рядок стоїть під
+	 * заголовком раз, і осмислено поставити його там, де наш перший туди
+	 * вступив. У другого закладу поспіль року немає взагалі (розбір у полі
+	 * `year` у `data/institutions.ts`), тож у частини рік вийде 0 — у
+	 * хронології такі стоять окремим заголовком, а не прикидаються цьогорічними.
+	 *
+	 * `memberIds` — і є ті обличчя, яких на цій сторінці бракувало.
+	 */
+	const рядки = $derived<GalaxyRow[]>(
+		заклади.map((заклад) => {
+			const роки = заклад.students.map((s) => s.year).filter((y): y is number => !!y);
+			return {
+				key: заклад.slug,
+				href: localizedPath(institutionPath(заклад.slug), currentLang),
+				year: роки.length ? Math.min(...роки) : 0,
+				title: isEn && заклад.nameEn ? заклад.nameEn : заклад.name,
+				subtitle: [заклад.city, заклад.fullName].filter(Boolean).join(' · ') || undefined,
+				memberIds: заклад.students.map((s) => s.id),
+				flags: заклад.countries.map((code) => ({ code, label: $t(`galaxy.country.${code}`) }))
+			};
+		})
+	);
+
+	/*
+	 * Мапа «адреса → заклад»: плитка малює лише ЗНАЙДЕНІ рядки, а картці
+	 * потрібен сам заклад із усіма полями. Те саме рішення й та сама причина, що
+	 * на сторінці театрів.
+	 */
+	const закладиЗаАдресою = $derived(new Map(заклади.map((i) => [i.slug, i])));
+
+	/* Пошук іде ще й по місту та повній назві — те, чого типовий збіг не знає. */
+	const збіг = (row: GalaxyRow, q: string) =>
+		`${row.title} ${row.subtitle ?? ''}`.toLowerCase().includes(q);
 </script>
 
 <svelte:head>
@@ -70,8 +109,25 @@
 			variant="row"
 		/>
 
-		<ul class="insts-grid" data-testid="galaxy-institutions-list">
-			{#each заклади as заклад (заклад.slug)}
+		<GalaxyRegistry
+			rows={рядки}
+			storageKey="institutions"
+			testIdPrefix="galaxy-institutions"
+			matches={збіг}
+			placeholderKey="galaxy.institutionsSearch"
+			nothingKey="galaxy.institutionsSearchNothing"
+			tiles={плиткаЗакладів}
+		/>
+	</div>
+</main>
+
+<!--
+	Плитка — ВЛАСНА: у закладу в картці повна назва, місто й число вступників.
+	Спільним лишається зв'язування; розбір — у докблоці `GalaxyRegistry`.
+-->
+{#snippet плиткаЗакладів(рядкиПлитки: readonly GalaxyRow[])}
+	<ul class="insts-grid" data-testid="galaxy-institutions-list">
+			{#each рядкиПлитки.map((row) => закладиЗаАдресою.get(row.key)!) as заклад (заклад.slug)}
 				<li>
 					<a
 						class="inst-card"
@@ -106,9 +162,8 @@
 					</a>
 				</li>
 			{/each}
-		</ul>
-	</div>
-</main>
+	</ul>
+{/snippet}
 
 <style>
 	.insts-page {

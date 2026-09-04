@@ -61,6 +61,15 @@ const ЗАКЛАДИ = JSON.parse(readFileSync('src/lib/data/institutions.data.j
 	}>;
 
 const ПЕРЕЛІК = '/projects/galaxy-graduates/institutions';
+
+/*
+ * Посилання на заклад у БУДЬ-ЯКОМУ режимі показу: у хронології та списку це
+ * рядок, у плитці — картка. Перевірки міряють досяжність сторінок, а не обраний
+ * вигляд, тож і добірка мусить бути спільною — те саме рішення, що в переліку
+ * вистав.
+ */
+const ПОСИЛАННЯ =
+	'[data-testid^="galaxy-institutions-row-link-"], [data-testid^="galaxy-institutions-card-"]';
 const НАЙБІЛЬШИЙ = [...ЗАКЛАДИ].sort(
 	(a, b) =>
 		b.students.length +
@@ -74,7 +83,7 @@ test.describe('навчальні заклади', () => {
 
 		await expect(page.getByTestId('galaxy-institutions-title')).toBeVisible();
 
-		const карток = await page.locator('[data-testid^="galaxy-institutions-card-"]').count();
+		const карток = await page.locator(ПОСИЛАННЯ).count();
 		expect(
 			карток,
 			`у переліку ${карток} закладів, а в реєстрі ${ЗАКЛАДИ.length} — ` +
@@ -90,6 +99,12 @@ test.describe('навчальні заклади', () => {
 		 * вступниками й заклад з одним мають різну вагу в історії школи. Абетка
 		 * поставила б першим «École de culture générale» з одним.
 		 */
+		/*
+		 * Порядок перевіряється в ПЛИТЦІ: у хронології рядки стоять за роком
+		 * вступу, і «найбільший перший» там не діє й не мусить. Це не обхід —
+		 * плитка і є той режим, у якому порядок за кількістю людей видно.
+		 */
+		await page.getByTestId('galaxy-institutions-view-btn-tiles').click();
 		await expect(
 			page.locator('[data-testid^="galaxy-institutions-card-"]').first(),
 			'перелік не починається з найбільшого закладу — порядок став абеткою'

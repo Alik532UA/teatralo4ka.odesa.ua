@@ -6,6 +6,8 @@
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GalaxyRegistry from '$lib/components/galaxy/GalaxyRegistry.svelte';
+	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -24,6 +26,45 @@
 	);
 
 	const усього = $derived(театри.reduce((сума, t) => сума + theatreSize(t), 0));
+
+	/**
+	 * Ті самі театри у спільній формі рядка — для хронології та списку.
+	 *
+	 * Рік — НАЙРАНІШИЙ початок роботи з відомих: у хронології рядок стоїть під
+	 * заголовком раз, і осмислено поставити його там, де наш перший там
+	 * з'явився. Театрів без жодного року двоє (у їхніх анкетах років немає), і
+	 * для них рік — 0: у хронології вони йдуть окремим заголовком у кінці, а не
+	 * прикидаються сьогоднішніми.
+	 *
+	 * `memberIds` — і є ті обличчя, яких на цій сторінці бракувало: `GalaxyRows`
+	 * малює їх сам, щойно ключі є.
+	 */
+	const рядки = $derived<GalaxyRow[]>(
+		театри.map((театр) => {
+			const роки = театр.members.map((m) => m.since).filter((y): y is number => !!y);
+			return {
+				key: театр.slug,
+				href: localizedPath(theatrePath(театр.slug), currentLang),
+				year: роки.length ? Math.min(...роки) : 0,
+				title: isEn && театр.nameEn ? театр.nameEn : театр.name,
+				subtitle: [театр.city, театр.fullName].filter(Boolean).join(' · ') || undefined,
+				memberIds: театр.members.map((m) => m.id),
+				flags: театр.countries.map((code) => ({ code, label: $t(`galaxy.country.${code}`) }))
+			};
+		})
+	);
+
+	/*
+	 * Мапа «адреса → театр»: плитка малює лише ЗНАЙДЕНІ рядки, а картці потрібен
+	 * сам театр із усіма полями. Без мапи плитка або показувала б усе (тобто
+	 * пошук у ній не діяв би), або мусила б нести всі поля в рядку — а рядок
+	 * спільний, і полів театру в нього не покладеш.
+	 */
+	const театриЗаАдресою = $derived(new Map(театри.map((t) => [t.slug, t])));
+
+	/* Пошук іде ще й по місту та повній назві — те, чого типовий збіг не знає. */
+	const збіг = (row: GalaxyRow, q: string) =>
+		`${row.title} ${row.subtitle ?? ''}`.toLowerCase().includes(q);
 </script>
 
 <svelte:head>
@@ -65,8 +106,27 @@
 			variant="row"
 		/>
 
-		<ul class="ths-grid" data-testid="galaxy-theatres-list">
-			{#each театри as театр (театр.slug)}
+		<GalaxyRegistry
+			rows={рядки}
+			storageKey="theatres"
+			testIdPrefix="galaxy-theatres"
+			matches={збіг}
+			placeholderKey="galaxy.theatresSearch"
+			nothingKey="galaxy.theatresSearchNothing"
+			tiles={плиткаТеатрів}
+		/>
+	</div>
+</main>
+
+<!--
+	Плитка — ВЛАСНА, і це не виняток із спільного переліку, а його задум: у
+	театру в картці місто, повна назва й число людей, у закладу освіти інше, у
+	вистави третє. Спільним лишається зв'язування (пошук, режими, обличчя,
+	картка на місці), а картка своя. Розбір — у докблоці `GalaxyRegistry`.
+-->
+{#snippet плиткаТеатрів(рядкиПлитки: readonly GalaxyRow[])}
+	<ul class="ths-grid" data-testid="galaxy-theatres-list">
+			{#each рядкиПлитки.map((row) => театриЗаАдресою.get(row.key)!) as театр (театр.slug)}
 				<li>
 					<a
 						class="th-card"
@@ -101,9 +161,8 @@
 					</a>
 				</li>
 			{/each}
-		</ul>
-	</div>
-</main>
+	</ul>
+{/snippet}
 
 <style>
 	.ths-page {

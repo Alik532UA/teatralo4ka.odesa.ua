@@ -43,6 +43,10 @@ const ТЕАТРИ = JSON.parse(readFileSync('src/lib/data/theatres.data.json', 
 }>;
 
 const ПЕРЕЛІК = '/projects/galaxy-graduates/theatres';
+
+/* Посилання на театр у будь-якому режимі — розбір той самий, що в закладах. */
+const ПОСИЛАННЯ =
+	'[data-testid^="galaxy-theatres-row-link-"], [data-testid^="galaxy-theatres-card-"]';
 const НАЙБІЛЬШИЙ = [...ТЕАТРИ].sort((a, b) => b.members.length - a.members.length)[0];
 const З_САЙТОМ = ТЕАТРИ.find((t) => t.website)!;
 
@@ -52,7 +56,7 @@ test.describe('театри', () => {
 
 		await expect(page.getByTestId('galaxy-theatres-title')).toBeVisible();
 
-		const карток = await page.locator('[data-testid^="galaxy-theatres-card-"]').count();
+		const карток = await page.locator(ПОСИЛАННЯ).count();
 		expect(
 			карток,
 			`у переліку ${карток} театрів, а в реєстрі ${ТЕАТРИ.length} — ` +
