@@ -55,14 +55,14 @@
 			"fromRegistry": true
 		},
 		{
-			"year": 2014,
+			"year": 2013,
 			"text": "Посвята в Мистецтво, «Шахи», Білий слон",
-			"playId": "shakhy-2014"
+			"playId": "posviata-2013"
 		},
 		{
 			"year": 2022,
 			"text": "Посвята в Мистецтво, «Енеїда», Муз(-ик чи -ей)",
-			"playId": "eneida-2022"
+			"playId": "posviata-2022"
 		}
 	],
 	"bio": [

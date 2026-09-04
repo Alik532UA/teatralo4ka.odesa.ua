@@ -655,12 +655,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "eneida-2022",
-		"title": "«Енеїда»",
-		"year": 2022,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "instsenizatsiia-za-kazkamy-ivana-franka-2022",
 		"title": "«Інсценізація за казками Івана Франка»",
 		"year": 2022,
@@ -2164,12 +2158,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "shakhy-2014",
-		"title": "«Шахи»",
-		"year": 2014,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "pokaz-etiudiv-2014",
 		"title": "Показ етюдів",
 		"year": 2014,
@@ -2362,12 +2350,6 @@
 			"Арсен Арутюнян",
 			"Анастасія Гомела"
 		],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "teatralnie-korolevstvo-2013",
-		"title": "«Театральне королівство»",
-		"year": 2013,
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -8116,6 +8098,319 @@
 		"title": "«Граємо Чехова»",
 		"year": 2012,
 		"videoUrl": "https://www.youtube.com/watch?v=FGwjAn3NqJQ",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2008",
+		"title": "Посвята в Мистецтво",
+		"year": 2008,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/cg57LmUr8CQ",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2009",
+		"title": "Посвята в Мистецтво",
+		"year": 2009,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2010",
+		"title": "Посвята в Мистецтво",
+		"year": 2010,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2011",
+		"title": "Посвята в Мистецтво",
+		"year": 2011,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-teatralne-korolivstvo-2012",
+		"title": "Театральне королівство",
+		"year": 2012,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/H8pI5Yivxkg",
+		"dateNote": "5–7 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-teatralna-politsiia-2012",
+		"title": "Театральна поліція",
+		"year": 2012,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/RV-w0Trz-kI",
+		"dateNote": "14 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2013",
+		"title": "Шахи",
+		"year": 2013,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/aHFT2K6UXWE",
+		"dateNote": "13–20 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2014",
+		"title": "Посвята в Мистецтво",
+		"year": 2014,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2015",
+		"title": "Посвята в Мистецтво",
+		"year": 2015,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2016",
+		"title": "Посвята в Мистецтво",
+		"year": 2016,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2017",
+		"title": "Гра ДТШколи",
+		"year": 2017,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/tGE6i8liKxY",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2018",
+		"title": "Посвята в Мистецтво",
+		"year": 2018,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/KPdlE7zpsBg",
+		"dateNote": "13 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2019",
+		"title": "Король Лев",
+		"year": 2019,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/GuU4OZD5eZY",
+		"dateNote": "13 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2020",
+		"title": "Посвята в Мистецтво",
+		"year": 2020,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2021",
+		"title": "Посвята в Мистецтво",
+		"year": 2021,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/mib2wf7CZOc",
+		"videoParts": [
+			"https://youtu.be/ilnLYAnOHi4",
+			"https://youtu.be/1i3yVSQa7Bo",
+			"https://youtu.be/bRbpesR5-yQ",
+			"https://youtu.be/d3S-5aroabs"
+		],
+		"dateNote": "13 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2022",
+		"title": "Енеїда",
+		"year": 2022,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/R9zbtV5C5sE",
+		"dateNote": "22 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2023",
+		"title": "Ken & Barbi team",
+		"year": 2023,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/nip6chz8Vq0",
+		"dateNote": "22 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2024",
+		"title": "Посвята в Мистецтво",
+		"year": 2024,
+		"kind": "posviata",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "posviata-2025",
+		"title": "Океанічна театралка",
+		"year": 2025,
+		"kind": "posviata",
+		"videoUrl": "https://youtu.be/l1DRJgOOtyg",
+		"dateNote": "25 жовтня",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2004",
+		"title": "Новий рік",
+		"year": 2004,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2005",
+		"title": "Новий рік",
+		"year": 2005,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2006",
+		"title": "Новий рік",
+		"year": 2006,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2007",
+		"title": "Новий рік",
+		"year": 2007,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2008",
+		"title": "Новий рік",
+		"year": 2008,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2009",
+		"title": "Новий рік",
+		"year": 2009,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2010",
+		"title": "Новий рік",
+		"year": 2010,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2011",
+		"title": "Новий рік",
+		"year": 2011,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2012",
+		"title": "Новий рік",
+		"year": 2012,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2013",
+		"title": "Новий рік",
+		"year": 2013,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2014",
+		"title": "Новий рік",
+		"year": 2014,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2015",
+		"title": "Новий рік",
+		"year": 2015,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2016",
+		"title": "Новий рік",
+		"year": 2016,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2017",
+		"title": "Новий рік",
+		"year": 2017,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2018",
+		"title": "Новий рік",
+		"year": 2018,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2019",
+		"title": "Новий рік",
+		"year": 2019,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2020",
+		"title": "Новий рік",
+		"year": 2020,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2021",
+		"title": "Новий рік",
+		"year": 2021,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2022",
+		"title": "Новий рік",
+		"year": 2022,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2023",
+		"title": "Новий рік",
+		"year": 2023,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2024",
+		"title": "Новий рік",
+		"year": 2024,
+		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2025",
+		"title": "Новий рік",
+		"year": 2025,
+		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	}
 ]

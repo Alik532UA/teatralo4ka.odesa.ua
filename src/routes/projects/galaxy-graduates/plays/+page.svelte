@@ -20,6 +20,7 @@
 	import SearchField from '$lib/components/SearchField.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import GalaxyScope from '$lib/components/galaxy/GalaxyScope.svelte';
+	import GalaxyPlaysTiles from '$lib/components/galaxy/GalaxyPlaysTiles.svelte';
 	import { groupByYear, type GalaxyRow } from '$lib/components/galaxy/galaxyRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
@@ -64,18 +65,16 @@
 	const q = $derived(query.trim().toLowerCase());
 
 	/*
-	 * Пошук шукає по ВСІХ 733, тобто сам знімає фільтр.
+	 * Пошук шукає по ВСІХ записах, тобто сам знімає фільтр.
 	 *
-	 * Інакше введена назва не знаходилася б у 478 випадках із 733, і сторінка
+	 * Інакше введена назва не знаходилася б у 478 випадках із 730, і сторінка
 	 * казала б «нічого не знайдено» про виставу, яка в реєстрі є. Людина, що
 	 * набирає назву, вже знає, чого хоче, — обмежувати її нашою обізнаністю про
 	 * склад немає підстав.
 	 */
-	const базові = $derived(!q && onlyWithCast ? enriched.filter((item) => item.cast > 0) : enriched);
-
-	const found = $derived.by(() => {
-		if (!q) return базові;
-		return базові.filter(
+	const пошуком = $derived.by(() => {
+		if (!q) return enriched;
+		return enriched.filter(
 			({ play, groups }) =>
 				play.title.toLowerCase().includes(q) ||
 				(play.author?.toLowerCase().includes(q) ?? false) ||
@@ -84,17 +83,22 @@
 		);
 	});
 
-	/**
-	 * Роки — заголовками, а не плашкою в кожній картці.
+	/** Вистави курсів — усе, що не щорічний захід школи. */
+	const курсові = $derived(enriched.filter(({ play }) => !play.kind));
+
+	/*
+	 * Область показу звужує ЛИШЕ вистави курсів, а заходи — ніколи.
 	 *
-	 * Вистав 733 за 32 роки, і рівний перелік із них читати нічим: рік у картці
-	 * помічає лише той, хто вже вчитався в неї. Той самий висновок уже зроблено
-	 * в переліку випускників, де рік теж винесено заголовком групи.
-	 *
-	 * Групує спільна `groupByYear`: та сама петля стояла тут і в рядках, і
-	 * розходження порядку між режимами одної сторінки помітили б не одразу.
+	 * Причина в числах, і вона та сама, через яку фільтр узагалі з'явився:
+	 * курсових вистав 691, і перелік із них читати нічим, доки не лишити ті, про
+	 * склад яких ми щось знаємо. Посвят 19, новорічних 22 — це переглядають
+	 * очима цілком. А головне: у заготовок складу ще НЕМА за визначенням, тож
+	 * фільтр «тільки з відомим складом» приховав би обидва розділи повністю —
+	 * тобто сторінка мовчала б саме про те, що на ній щойно з'явилося.
 	 */
-	const byYear = $derived(groupByYear(found, (item) => item.play.year));
+	const found = $derived(
+		!q && onlyWithCast ? пошуком.filter(({ play, cast }) => Boolean(play.kind) || cast > 0) : пошуком
+	);
 
 	const view = createGalaxyView('galaxy_plays_view');
 
@@ -105,13 +109,14 @@
 	]);
 
 	/**
-	 * Знайдені вистави у спільній формі рядка — для хронології та списку.
+	 * Вистави у спільній формі рядка — для хронології та списку.
 	 *
-	 * Рахується з `found`, а не з `PLAYS`: пошук мусить звужувати всі три режими
-	 * однаково, інакше «знайдено 4» стояло б над повним переліком.
+	 * Функція, а не одне похідне: розділів три, і кожен малює свої рядки. Одне
+	 * спільне `rows` означало б, що «Посвята» й «Новий рік» показують той самий
+	 * перелік, що й вистави курсів.
 	 */
-	const rows = $derived<GalaxyRow[]>(
-		found.map(({ play, cast, groups }) => ({
+	const rowsOf = (items: typeof enriched): GalaxyRow[] =>
+		items.map(({ play, cast, groups }) => ({
 			key: play.id,
 			href: localizedPath(playPath(play.id), currentLang),
 			year: play.year,
@@ -137,7 +142,49 @@
 					? { icon: Video, href: play.videoUrl, tone: 'video' as const, title: $t('galaxy.watchVideo') }
 					: null
 			].filter((m) => m !== null)
-		}))
+		}));
+
+	/**
+	 * ТРИ РОЗДІЛИ, а не один перелік.
+	 *
+	 * Прохання автора: «треба окремі розділи "Посвята в Мистецтво" та окремий
+	 * розділ "Новий рік"». Причина не в оформленні, а в тому, чиї це події:
+	 * Посвяту для учнів готують випускники різних років і груп, новорічний показ
+	 * — курс, який цього року випускається, а решта вистав належить репертуару
+	 * свого курсу. Три різні відповіді на питання «хто це поставив» — три
+	 * розділи; повний розбір у докблоці `PlayKind`.
+	 *
+	 * `kind` у дескрипторі, а не лише `testId`: за ним область показу знаходить
+	 * свій розділ, і саме він робить умову в розмітці читабельною.
+	 */
+	const РОЗДІЛИ = $derived(
+		(
+			[
+				[null, 'galaxy-plays', 'playsSectionPlays'],
+				['posviata', 'galaxy-posviata', 'playsSectionPosviata'],
+				['new-year', 'galaxy-new-year', 'playsSectionNewYear']
+			] as const
+		).map(([kind, testId, ключ]) => {
+			const items = found.filter(({ play }) => (play.kind ?? null) === kind);
+			return {
+				kind,
+				testId,
+				heading: $t(`galaxy.${ключ}`),
+				hint: $t(`galaxy.${ключ}Hint`),
+				items,
+				rows: rowsOf(items),
+				/*
+				 * Роки — заголовками, а не плашкою в кожній картці: рік у картці
+				 * помічає лише той, хто вже вчитався в неї. Той самий висновок уже
+				 * зроблено в переліку випускників.
+				 *
+				 * Групує спільна `groupByYear` — та сама петля стояла і тут, і в
+				 * рядках, і розходження порядку між режимами однієї сторінки
+				 * помітили б не одразу.
+				 */
+				byYear: groupByYear(items, (item) => item.play.year)
+			};
+		})
 	);
 </script>
 
@@ -200,25 +247,6 @@
 		</div>
 
 		<!--
-			Рядок області показу видно лише коли НЕ шукають: під час пошуку фільтр
-			однаково знятий, а скільки знайдено — каже лічильник у самому пошуку.
-		-->
-		{#if !q}
-			<GalaxyScope
-				count={onlyWithCast
-					? $t('galaxy.playsScopeShown', { values: { shown: found.length, total: PLAYS.length } })
-					: $t('galaxy.playsScopeAll', { values: { total: PLAYS.length } })}
-				action={onlyWithCast
-					? $t('galaxy.playsScopeShowAll')
-					: $t('galaxy.playsScopeOnlyCast')}
-				hint={$t('galaxy.playsScopeHint')}
-				icon={onlyWithCast ? null : Users}
-				onclick={() => (onlyWithCast = !onlyWithCast)}
-				testIdPrefix="galaxy-plays-scope"
-			/>
-		{/if}
-
-		<!--
 			Звернення СТОЇТЬ НАД переліком в обох режимах, а не всередині сітки, як
 			у групах. Причина в даних: плитки вистав розкладені по РОКАХ, і картка
 			всередині сітки належала б якомусь одному року — тобто прохання додати
@@ -235,75 +263,65 @@
 			variant="row"
 		/>
 
-		{#if byYear.length === 0}
+		{#if found.length === 0}
 			<p class="plays-empty" data-testid="galaxy-plays-empty-text">
 				{$t('galaxy.playsNothingFound')}
 			</p>
-		{:else if view.current !== 'tiles'}
-			<!--
-				Той самий `testIdPrefix`, що в плитки: `galaxy-plays-list` і
-				`galaxy-plays-year-section-*` означають перелік і роки на цій
-				сторінці, а не в якомусь одному вигляді. Режим показується рівно
-				один, тож збігу в межах сторінки не буває.
-			-->
-			<GalaxyRows {rows} grouped={view.current === 'timeline'} testIdPrefix="galaxy-plays" />
 		{:else}
-			<div class="plays-years" data-testid="galaxy-plays-list">
-				{#each byYear as [year, items] (year)}
-					<section class="plays-year" data-testid="galaxy-plays-year-section-{year}">
-						<div class="plays-year__head">
-							<h2 class="plays-year__title">{year}</h2>
-							<span class="plays-year__count">{items.length}</span>
+			{#each РОЗДІЛИ as розділ (розділ.testId)}
+				{#if розділ.items.length > 0}
+					<section class="plays-block" data-testid="{розділ.testId}-section">
+						<div class="plays-block__head">
+							<h2 class="plays-block__title">{розділ.heading}</h2>
+							<span class="plays-block__count" data-testid="{розділ.testId}-count">
+								{розділ.items.length}
+							</span>
 						</div>
+						<p class="plays-block__hint">{розділ.hint}</p>
 
-						<ul class="plays-grid">
-							{#each items as { play, cast, groups } (play.id)}
-								<li>
-									<a
-										class="play-card"
-										href={localizedPath(playPath(play.id), currentLang)}
-										data-testid="galaxy-plays-card-{play.id}"
-									>
-										<span class="play-card__title">{play.title}</span>
-										{#if play.author}
-											<span class="play-card__author">{play.author}</span>
-										{/if}
+						<!--
+							Рядок області показу — ВСЕРЕДИНІ розділу вистав курсів, бо
+							звужує він тільки його. Доти він стояв над усім переліком, і
+							після поділу читався б як твердження про всі три розділи:
+							«показано 255 з 730» над розділом, у якому 19 записів.
 
-										<span class="play-card__meta">
-											{#each groups as group (group)}
-												<span class="play-card__badge play-card__badge--group">{group}</span>
-											{/each}
-											<!--
-												Нуль не показується: «0 в анкетах» повідомляв би не про
-												виставу, а про те, що анкети ще не заповнені. Вистав без
-												жодної згадки 89 — рядок «0» стояв би в кожній четвертій
-												картці й не означав нічого.
-											-->
-											{#if cast > 0}
-												<span class="play-card__badge">
-													<Users size={12} aria-hidden="true" />
-													{cast}
-												</span>
-											{/if}
-											{#if play.awards?.length}
-												<span class="play-card__badge play-card__badge--award">
-													<Trophy size={12} aria-hidden="true" />
-													{play.awards.length}
-												</span>
-											{/if}
-											{#if play.videoUrl}
-												<span class="play-card__badge play-card__badge--video">
-													<Video size={12} aria-hidden="true" />
-												</span>
-											{/if}
-										</span>
-									</a>
-								</li>
-							{/each}
-						</ul>
+							Видно лише коли НЕ шукають: під час пошуку фільтр однаково
+							знятий, а скільки знайдено — каже лічильник у самому пошуку.
+						-->
+						{#if розділ.kind === null && !q}
+							<GalaxyScope
+								count={onlyWithCast
+									? $t('galaxy.playsScopeShown', {
+											values: { shown: розділ.items.length, total: курсові.length }
+										})
+									: $t('galaxy.playsScopeAll', { values: { total: курсові.length } })}
+								action={onlyWithCast
+									? $t('galaxy.playsScopeShowAll')
+									: $t('galaxy.playsScopeOnlyCast')}
+								hint={$t('galaxy.playsScopeHint')}
+								icon={onlyWithCast ? null : Users}
+								onclick={() => (onlyWithCast = !onlyWithCast)}
+								testIdPrefix="galaxy-plays-scope"
+							/>
+						{/if}
+
+						<!--
+							Той самий `testIdPrefix` у рядках і в плитках: він означає
+							РОЗДІЛ, а не вигляд. Режим показується рівно один, тож збігу в
+							межах сторінки не буває.
+						-->
+						{#if view.current !== 'tiles'}
+							<GalaxyRows
+								rows={розділ.rows}
+								grouped={view.current === 'timeline'}
+								testIdPrefix={розділ.testId}
+							/>
+						{:else}
+							<GalaxyPlaysTiles byYear={розділ.byYear} testIdPrefix={розділ.testId} />
+						{/if}
 					</section>
-				{/each}
-			</div>
+				{/if}
+			{/each}
 		{/if}
 	</div>
 </main>
@@ -391,107 +409,41 @@
 		max-width: 460px;
 	}
 
-	.plays-years {
-		display: flex;
-		flex-direction: column;
-		gap: 2rem;
+	/*
+	 * Розділ — не рік, і оформлення це показує.
+	 *
+	 * Заголовок року всередині розділу лишається таким, як був (`GalaxyPlaysTiles`),
+	 * а заголовок розділу мусить читатися вище за нього — інакше «Посвята в
+	 * Мистецтво» і «2013» виглядали б одним рівнем, і поділ, заради якого все це
+	 * робилося, не було б видно.
+	 */
+	.plays-block {
+		margin-bottom: 3rem;
 	}
-	.plays-year__head {
+	.plays-block__head {
 		display: flex;
 		align-items: baseline;
 		gap: 0.6rem;
-		padding-bottom: 0.4rem;
-		margin-bottom: 0.9rem;
-		border-bottom: 2px solid var(--border-main);
 	}
-	.plays-year__title {
+	.plays-block__title {
 		margin: 0;
-		font-size: 1.4rem;
+		font-size: clamp(1.3rem, 2.6vw, 1.75rem);
 		font-weight: 800;
 		color: var(--text-title);
+	}
+	.plays-block__count {
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--text-muted);
 		font-variant-numeric: tabular-nums;
 	}
-	.plays-year__count {
-		font-size: 0.8rem;
-		font-weight: 700;
+	/* Пояснення розділу — не окраса: саме воно каже, чиї це вистави. */
+	.plays-block__hint {
+		margin: 0.35rem 0 1.25rem;
+		max-width: 62ch;
+		font-size: 0.88rem;
+		line-height: 1.45;
 		color: var(--text-muted);
-	}
-
-	.plays-grid {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
-		gap: 0.9rem;
-	}
-	.play-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.35rem;
-		height: 100%;
-		padding: 0.9rem 1.05rem;
-		border-radius: var(--radius-lg, 16px);
-		background: var(--bg-card);
-		border: 1px solid var(--border-main);
-		box-shadow: var(--shadow-sm);
-		color: inherit;
-		text-decoration: none;
-		transition:
-			transform var(--transition-base),
-			border-color var(--transition-base),
-			box-shadow var(--transition-base);
-	}
-	.play-card:hover {
-		transform: translateY(-3px);
-		border-color: var(--accent-primary);
-		box-shadow: var(--shadow-main);
-	}
-	.play-card__title {
-		font-size: 1rem;
-		font-weight: 700;
-		color: var(--text-title);
-		line-height: 1.3;
-	}
-	.play-card__author {
-		font-size: 0.82rem;
-		color: var(--text-muted);
-		line-height: 1.35;
-	}
-	.play-card__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem;
-		/* Плашки притиснуті до низу: назви різної довжини, інакше вони стрибали б. */
-		margin-top: auto;
-		padding-top: 0.5rem;
-	}
-	.play-card__badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		padding: 0.12rem 0.45rem;
-		border-radius: var(--radius-sm, 6px);
-		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.74rem;
-		font-weight: 600;
-	}
-	.play-card__badge--group {
-		color: #a5b4fc;
-		border-color: rgba(99, 102, 241, 0.3);
-		background: rgba(99, 102, 241, 0.12);
-	}
-	.play-card__badge--award {
-		color: #fbbf24;
-		border-color: rgba(251, 191, 36, 0.3);
-		background: rgba(251, 191, 36, 0.1);
-	}
-	.play-card__badge--video {
-		color: #f87171;
-		border-color: rgba(248, 113, 113, 0.3);
-		background: rgba(248, 113, 113, 0.1);
 	}
 
 	.plays-empty {

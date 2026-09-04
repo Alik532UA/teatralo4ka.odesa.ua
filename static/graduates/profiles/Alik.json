@@ -185,9 +185,9 @@
 			"role": "Людина із залу"
 		},
 		{
-			"year": 2013,
+			"year": 2012,
 			"text": "Посвята в Мистецтво, «Театральне королівство», Принц",
-			"playId": "teatralnie-korolevstvo-2013",
+			"playId": "posviata-teatralne-korolivstvo-2012",
 			"role": "Принц"
 		},
 		{
@@ -203,9 +203,9 @@
 			"role": "Блазень"
 		},
 		{
-			"year": 2014,
+			"year": 2013,
 			"text": "Посвята в Мистецтво, «Шахи», Першокурсник",
-			"playId": "shakhy-2014"
+			"playId": "posviata-2013"
 		},
 		{
 			"year": 2015,
@@ -239,7 +239,7 @@
 		{
 			"year": 2022,
 			"text": "Посвята в Мистецтво, «Енеїда», Еней",
-			"playId": "eneida-2022"
+			"playId": "posviata-2022"
 		},
 		{
 			"year": 2023,

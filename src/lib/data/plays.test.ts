@@ -130,7 +130,10 @@ describe('реєстр вистав', () => {
 		for (const play of PLAYS) {
 			const links = [
 				{ where: play.id, url: play.videoUrl },
-				...(play.programme ?? []).map((item) => ({ where: `${play.id} › ${item.id}`, url: item.videoUrl }))
+				...(play.programme ?? []).map((item) => ({ where: `${play.id} › ${item.id}`, url: item.videoUrl })),
+				// Серії того самого запису — третє місце, де посилання може зникнути
+				// без сигналу. Див. `Play.videoParts`.
+				...(play.videoParts ?? []).map((url, i) => ({ where: `${play.id} › серія ${i + 1}`, url }))
 			];
 			for (const { where, url } of links) {
 				if (!url) continue;
@@ -622,5 +625,87 @@ describe('реєстр вистав', () => {
 		const out = playsByIds([...known, 'takoi-vystavy-nemaie-1999']);
 		expect(out).toHaveLength(known.length);
 		for (let i = 1; i < out.length; i++) expect(out[i - 1].year).toBeGreaterThanOrEqual(out[i].year);
+	});
+});
+
+/**
+ * Заходи школи — «Посвята в Мистецтво» й «Новий рік» (`Play.kind`).
+ *
+ * ## Чому це взагалі стережеться
+ *
+ * `kind` типізовано як `PlayKind | (string & {})`, і не з примхи: літеральний
+ * союз не виводиться з JSON через `satisfies` — розбір у докблоці
+ * `PlayKindProp`. Ціна цього послаблення в тому, що описка `posvyata` СКОМПІЛЮЄТЬСЯ
+ * й не впаде ніде: запис просто не потрапить ні в «Посвяту», ні в «Новий рік»,
+ * ні у «Вистави курсів», і сторінка мовчки його не покаже. Тут це видно до
+ * коміту.
+ *
+ * ## Головне твердження — про репертуар
+ *
+ * Посвяту готують випускники різних років і груп, тож до репертуару жодного
+ * курсу вона не належить. Це не оформлення: `eneida-2022` лежала в `playIds`
+ * групи «Шевчужки», а `teatralnie-korolevstvo-2013` — у «Карандашів», і сторінки
+ * обох груп показували захід серед своїх вистав. Рядки прибрано, але прийти
+ * назад вони можуть тим самим шляхом, яким прийшли, — черговим імпортом
+ * розкладу.
+ *
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ *
+ * Проведено: `kind` змінено на `posvyata` — впала перевірка різновиду й назвала
+ * запис; `posviata-2022` дописано в `playIds` групи «Шевчужки» — впала перевірка
+ * репертуару й назвала обидві сторони.
+ */
+describe('заходи школи', () => {
+	const ВИДИ = ['posviata', 'new-year'] as const;
+	const заходи = PLAYS.filter((p) => p.kind);
+
+	it('перевірка жива: заходи в реєстрі є', () => {
+		expect(заходи.length, 'жодного запису з `kind` — перевіряти нема що').toBeGreaterThan(0);
+	});
+
+	it('різновид — рівно один зі відомих', () => {
+		const bad = заходи
+			.filter((p) => !(ВИДИ as readonly string[]).includes(p.kind as string))
+			.map((p) => `${p.id}: kind «${p.kind}»`);
+		expect(
+			bad,
+			`невідомий різновид — запис не потрапить ні в один розділ сторінки ` +
+				`(відомі: ${ВИДИ.join(', ')}):\n  ${bad.join('\n  ')}`
+		).toEqual([]);
+	});
+
+	it('«Посвята» не числиться в репертуарі жодної групи', () => {
+		const посвяти = new Set(заходи.filter((p) => p.kind === 'posviata').map((p) => p.id));
+		const bad: string[] = [];
+		for (const group of GROUPS) {
+			const свої = [...group.playIds, ...(group.parts ?? []).flatMap((part) => part.playIds)];
+			for (const id of свої) if (посвяти.has(id)) bad.push(`${group.slug} → ${id}`);
+		}
+		expect(
+			bad,
+			'Посвяту готують випускники різних років і груп — курс її не ставив:\n  ' + bad.join('\n  ')
+		).toEqual([]);
+	});
+
+	/*
+	 * Рік без заготовки — це 404 там, де людина його шукає.
+	 *
+	 * Заходи щорічні, тож перелік мусить бути суцільним: діра означає або
+	 * видалений запис, або пропущений при заповненні рік. Межі перевірка бере з
+	 * самого реєстру, а не з констант, — інакше кожен новий рік вимагав би
+	 * правки ще й тут.
+	 */
+	it('роки заходів ідуть без пропусків', () => {
+		const bad: string[] = [];
+		for (const вид of ВИДИ) {
+			const роки = [...new Set(заходи.filter((p) => p.kind === вид).map((p) => p.year))].sort();
+			if (роки.length === 0) continue;
+			const пропуски = [];
+			for (let y = роки[0]; y <= роки[роки.length - 1]; y += 1) {
+				if (!роки.includes(y)) пропуски.push(y);
+			}
+			if (пропуски.length > 0) bad.push(`${вид}: немає ${пропуски.join(', ')}`);
+		}
+		expect(bad, `рік без заготовки — сторінка, якої немає:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 });

@@ -429,20 +429,6 @@
 			"graduateId": "daniela-rybalchenko"
 		}
 	],
-	"eneida-2022": [
-		{
-			"graduateId": "alik-zapolnov"
-		},
-		{
-			"graduateId": "alona-kozlova"
-		},
-		{
-			"graduateId": "myroslava-tkach"
-		},
-		{
-			"graduateId": "vadym-krusser"
-		}
-	],
 	"etiudy-2013": [
 		{
 			"graduateId": "daria-rybalchenko"
@@ -1680,6 +1666,34 @@
 			"fromRegistry": true
 		}
 	],
+	"posviata-2013": [
+		{
+			"graduateId": "alik-zapolnov"
+		},
+		{
+			"graduateId": "vadym-krusser"
+		}
+	],
+	"posviata-2022": [
+		{
+			"graduateId": "alik-zapolnov"
+		},
+		{
+			"graduateId": "alona-kozlova"
+		},
+		{
+			"graduateId": "myroslava-tkach"
+		},
+		{
+			"graduateId": "vadym-krusser"
+		}
+	],
+	"posviata-teatralne-korolivstvo-2012": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "Принц"
+		}
+	],
 	"prazdnychnyi-son-do-obeda-2010": [
 		{
 			"graduateId": "alla-khaiut"
@@ -1806,14 +1820,6 @@
 	"sever-2010": [
 		{
 			"graduateId": "myroslava-tkach"
-		}
-	],
-	"shakhy-2014": [
-		{
-			"graduateId": "alik-zapolnov"
-		},
-		{
-			"graduateId": "vadym-krusser"
 		}
 	],
 	"shorokh-ukhodiashchykh-shahov-2020": [
@@ -2068,12 +2074,6 @@
 	"tanho-2011": [
 		{
 			"graduateId": "olena-mrost"
-		}
-	],
-	"teatralnie-korolevstvo-2013": [
-		{
-			"graduateId": "alik-zapolnov",
-			"role": "Принц"
 		}
 	],
 	"telefon-2012": [

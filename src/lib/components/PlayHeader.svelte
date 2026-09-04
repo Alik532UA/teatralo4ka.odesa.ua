@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from 'svelte-i18n';
 	import { Calendar } from 'lucide-svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
@@ -30,6 +31,11 @@
 	 * кнопок може бути кілька: перша — «Дивитися запис» усього вечора, решта
 	 * підписані назвою уривка. Той самий запис уривка стоїть і в анкеті
 	 * учасника, у рядку цього уривка (`PlayRowVideoButton`).
+	 *
+	 * Третій випадок — `Play.videoParts`: та сама подія, викладена серіями.
+	 * Кнопки підписані номером, а не назвою, бо назви в серії немає — і саме тому
+	 * вони не `programme`: номер програми означав би окремий твір з окремим
+	 * складом. Посвята 2021 має запис цілком і ще чотири серії до нього.
 	 */
 	interface Props {
 		play: Play;
@@ -39,6 +45,9 @@
 
 	/** Уривки з власним записом, у порядку програми. */
 	const clips = $derived((play.programme ?? []).filter((item) => item.videoUrl));
+
+	/** Серії того самого запису, у порядку викладення. */
+	const parts = $derived(play.videoParts ?? []);
 </script>
 
 <header class="play-header">
@@ -72,7 +81,7 @@
 		<p class="play-header__author" data-testid="play-author-text">{play.author}</p>
 	{/if}
 
-	{#if play.videoUrl || clips.length > 0}
+	{#if play.videoUrl || clips.length > 0 || parts.length > 0}
 		<div class="play-header__video" data-testid="play-recordings-list">
 			<GraduateVideoButton videoUrl={play.videoUrl} title={play.title} />
 			{#each clips as item (item.id)}
@@ -81,6 +90,14 @@
 					title="{play.title}: {item.title}"
 					label={item.title}
 					testid="play-programme-video-btn-{item.id}"
+				/>
+			{/each}
+			{#each parts as url, i (url)}
+				<GraduateVideoButton
+					videoUrl={url}
+					title="{play.title}: {$t('galaxy.videoPart', { values: { n: i + 1 } })}"
+					label={$t('galaxy.videoPart', { values: { n: i + 1 } })}
+					testid="play-video-part-btn-{i + 1}"
 				/>
 			{/each}
 		</div>
