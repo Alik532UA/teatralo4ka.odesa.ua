@@ -13,6 +13,19 @@
 		title?: string;
 		/** `object-position` — яку частину знімка показати в плитці. */
 		position?: string;
+		/**
+		 * Плитка КВАДРАТНА, хоч за позицією в мозаїці мала б бути широкою.
+		 *
+		 * Мозаїка задає розміри за НОМЕРОМ плитки, і це працює, доки знімки
+		 * приблизно однієї пропорції. Восьма позиція широка на дві колонки — а в
+		 * новині 4 вересня там стоїть портретне селфі, і `object-fit: cover`
+		 * різав його по обличчю.
+		 *
+		 * Поле в даних, а не правка правила `--7`: те саме правило малює галерею
+		 * «Про школу», де на восьмій позиції широкий кадр і все гаразд. Мозаїка
+		 * лишається як є, а окремий знімок може з неї вийти.
+		 */
+		square?: boolean;
 		width?: number;
 		height?: number;
 	}
@@ -57,6 +70,7 @@
 	{#each items as img, i (img.src)}
 		<div
 			class="g-bento__item g-bento__item--{i}"
+			class:g-bento__item--square={img.square}
 			data-testid="{testIdPrefix}-item-{i}"
 			onclick={() => onpick(i)}
 			onkeydown={activateOnKey(() => onpick(i))}
@@ -111,17 +125,32 @@
 		transform: scale(1.08);
 	}
 	
-	/* Adaptive Grid Spans */
+	/*
+	 * Мозаїка: широкі плитки названі, решта лишається типовою.
+	 *
+	 * Правил було десять, і шість із них казали `span 1 / span 1` — тобто РІВНО
+	 * те, що елемент сітки отримує й без жодного правила. Прибрано як
+	 * беззмістовні (перевірено на обох галереях: вигляд той самий), і разом із
+	 * цим клієнтський код повернувся під бюджет, який ця сама правка й перетнула.
+	 *
+	 * Плитки з 10-ї і далі теж без правил, і це навмисно: мозаїка розписана на
+	 * десять, а одинадцятий знімок новини 4 вересня просто стає звичайним 1×1.
+	 */
 	.g-bento__item--0 { grid-column: span 2; grid-row: span 2; }
 	.g-bento__item--1 { grid-column: span 2; grid-row: span 1; }
-	.g-bento__item--2 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--3 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--4 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--5 { grid-column: span 1; grid-row: span 1; }
 	.g-bento__item--6 { grid-column: span 2; grid-row: span 1; }
 	.g-bento__item--7 { grid-column: span 2; grid-row: span 1; }
-	.g-bento__item--8 { grid-column: span 1; grid-row: span 1; }
-	.g-bento__item--9 { grid-column: span 1; grid-row: span 1; }
+
+	/*
+	 * Виняток із мозаїки — ПІСЛЯ правил `--N` навмисно.
+	 *
+	 * Специфічність однакова (один клас), тож вирішує порядок у файлі: правило,
+	 * що стоїть нижче, перебиває спан за номером. Через `!important` було б
+	 * коротше, але тоді його не змогли б перебити скидання в медіазапитах
+	 * нижче — а вони саме для того, щоб на планшеті й телефоні мозаїки не було
+	 * взагалі.
+	 */
+	.g-bento__item--square { grid-column: span 1; grid-row: span 1; }
 
 	.g-bento__overlay {
 		position: absolute;
