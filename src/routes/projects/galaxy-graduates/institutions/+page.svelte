@@ -4,6 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { INSTITUTIONS, institutionPath, institutionSize } from '$lib/data/institutions';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 	import GalaxyRegistry from '$lib/components/galaxy/GalaxyRegistry.svelte';
@@ -159,6 +160,21 @@
 								</span>
 							{/if}
 						</span>
+
+						<!--
+							Мініатюри учасників — той самий рядок, що в плитці фестивалів.
+							`linked={false}`: сама плитка вже посилання, а `<a>` в `<a>`
+							валить сторінку (гейт `nested-interactive`). Свій
+							`testIdPrefix` із адресою: таких рядків на сторінці стільки ж,
+							скільки плиток.
+						-->
+						<GraduateAvatarRow
+							ids={заклад.students.map((s) => s.id)}
+							linked={false}
+							testIdPrefix="galaxy-institutions-members-{заклад.slug}"
+							max={20}
+							fitToWidth
+						/>
 					</a>
 				</li>
 			{/each}

@@ -44,6 +44,7 @@
 		PLAYS.map((play) => ({
 			play,
 			cast: castSize(play.id),
+			castIds: (PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
 			groups: playGroupNames(
 				play.id,
 				(PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),

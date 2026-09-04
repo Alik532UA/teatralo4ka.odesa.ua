@@ -3,6 +3,7 @@
 	import { Users, Trophy, Video } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { playPath, type Play } from '$lib/data/plays';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
 	 * Плитки вистав, розкладені по роках.
@@ -26,6 +27,15 @@
 		play: Play;
 		/** Скільки людей назвали виставу своєю — з анкет, не з групи. */
 		cast: number;
+		/**
+		 * Ті самі люди КЛЮЧАМИ — для мініатюр.
+		 *
+		 * Число й ключі разом, хоч перше виводиться з другого: число показується
+		 * плашкою навіть тоді, коли обличчя не влізли, і читати `ids.length` у
+		 * розмітці означало б два різні джерела однієї цифри. Рахує сторінка —
+		 * там, де живе реєстр складу.
+		 */
+		castIds: readonly string[];
 		/** Готові назви груп: рахувати їх у компоненті нічим. */
 		groups: string[];
 	}
@@ -51,7 +61,7 @@
 			</div>
 
 			<ul class="plays-grid">
-				{#each items as { play, cast, groups } (play.id)}
+				{#each items as { play, cast, castIds, groups } (play.id)}
 					<li>
 						<a
 							class="play-card"
@@ -93,6 +103,21 @@
 									</span>
 								{/if}
 							</span>
+
+							<!--
+								Мініатюри складу — той самий рядок, що в плитці фестивалів.
+								`linked={false}`: сама плитка вже посилання, а `<a>` в `<a>`
+								валить сторінку (гейт `nested-interactive`).
+							-->
+							{#if castIds.length > 0}
+								<GraduateAvatarRow
+									ids={castIds}
+									linked={false}
+									testIdPrefix="{testIdPrefix}-cast-{play.id}"
+									max={20}
+									fitToWidth
+								/>
+							{/if}
 						</a>
 					</li>
 				{/each}
