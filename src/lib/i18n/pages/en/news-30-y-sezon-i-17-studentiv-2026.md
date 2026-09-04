@@ -34,7 +34,7 @@ And on the eve of the new 2026–2027 (“six-seven” 😜) academic year we wa
 12. [Liora Kazatsker](/en/projects/galaxy-graduates/liora-kazatsker) — LNU (Lviv), acting, course of D. Zakhozhenko
 13. [Alina Demediuk](/en/projects/galaxy-graduates/alina-demediuk) — KMAECM, Munich branch (Germany), acting, course of T. Hubrii
 14. [Karyna Sharkova](/en/projects/galaxy-graduates/karyna-sharkova) — «École de culture générale» (Valais, Switzerland), acting
-15. Kseniia Dovhal — OTKhFK (Odesa), stage make-up and design
-16. Olesia Hrynko — OTKhFK (Odesa), film, photo and video
-17. Rodomira Dolbysheva — Dankevych College of Arts (Odesa), choreography
-18. [Anna-Mariia Vyskochyl](/en/projects/galaxy-graduates/anna-mariia-vyskochyl) — Kyiv University of Culture, acting, course of V. Dovzhenko
+15. [Anna-Mariia Vyskochyl](/en/projects/galaxy-graduates/anna-mariia-vyskochyl) — Kyiv University of Culture, acting, course of V. Dovzhenko
+16. Kseniia Dovhal — OTKhFK (Odesa), stage make-up and design
+17. Olesia Hrynko — OTKhFK (Odesa), film, photo and video
+18. Rodomira Dolbysheva — Dankevych College of Arts (Odesa), choreography

@@ -167,6 +167,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/news/2026-09-04/09.jpg': { width: 187, height: 554 },
 	'/news/2026-09-04/10.jpg': { width: 1280, height: 853 },
 	'/news/2026-09-04/11.jpg': { width: 1280, height: 959 },
+	'/news/2026-09-04/12.jpg': { width: 1280, height: 913 },
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */
