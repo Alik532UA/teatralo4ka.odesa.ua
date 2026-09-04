@@ -43,7 +43,7 @@ import { gotoReady } from './ready';
  * упаде ГУЧНО, а зв'язки самого реєстру (markdown, знімки, мапа розмірів,
  * пошук) тримає `src/lib/config/codeNews.test.ts`.
  */
-const АДРЕСА = '30-y-sezon-i-17-studentiv-2026';
+const АДРЕСА = '2026-year-30th-season-18-students';
 
 test.describe('новина з коду', () => {
 	test.describe('без JavaScript', () => {

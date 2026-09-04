@@ -1,6 +1,7 @@
 // Відносний імпорт, а не `$lib`: цей модуль читає ще й `scripts/generate-sitemap.ts`,
 // який виконується в Node через tsx, де аліасів SvelteKit не існує.
 import { LOCALES, withLocale } from '../i18n/routing';
+import { RENAMED_NEWS_IDS } from './newsAliases';
 
 /**
  * Сторінки, які нічого не показують, а відправляють далі (`meta http-equiv="refresh"`).
@@ -46,7 +47,21 @@ const BASE: Record<string, RedirectPage> = {
 	// Дві орфографії однієї назви — обидві були в пошуку, обидві ведуть на нову
 	// адресу розділу.
 	'/fest-odesa-teatr-pro': { target: 'projects/teatr-pro', external: false },
-	'/fest-odessa-teatr-pro': { target: 'projects/teatr-pro', external: false }
+	'/fest-odessa-teatr-pro': { target: 'projects/teatr-pro', external: false },
+
+	/*
+	 * Перейменовані адреси новин — ВИВОДЯТЬСЯ з реєстру, а не перелічуються.
+	 *
+	 * Другий список поруч розійшовся б із першим на наступному перейменуванні, і
+	 * розходження було б тихим: сторінка перенаправлення існувала б, а мапа
+	 * сайту клала б її в індекс порожньою. Саме про це і є докблок цього файлу.
+	 */
+	...Object.fromEntries(
+		Object.entries(RENAMED_NEWS_IDS).map(([старий, новий]) => [
+			`/news/${старий}`,
+			{ target: `/news/${новий}`, external: false }
+		])
+	)
 };
 
 /**

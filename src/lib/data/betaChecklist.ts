@@ -1,4 +1,5 @@
 import { UKRAINIAN_HOLIDAYS } from '$lib/config/ukrainianHolidays';
+import { RENAMED_NEWS_IDS } from '$lib/config/newsAliases';
 /**
  * Дані чеклиста бета-тестування (BETA-CHECKLIST-v8).
  *
@@ -88,7 +89,19 @@ export interface BetaTab {
  */
 export const BETA_UNCOVERED_ROUTES: readonly string[] = [
 	'/projects/galaxy-graduates/update',
-	'/projects/galaxy-graduates/form'
+	'/projects/galaxy-graduates/form',
+	/*
+	 * Старі адреси перейменованих новин — ВИВОДЯТЬСЯ, а не перелічуються.
+	 *
+	 * Перевіряти там нема чого: людина цієї сторінки не побачить, браузер піде
+	 * далі. Що вона існує й веде куди треба, стереже `e2e/redirects.spec.ts`.
+	 *
+	 * Саме виводяться, бо наступне перейменування інакше знову впало б цим
+	 * гейтом, і хтось дописав би рядок руками — а це вже другий список тих
+	 * самих адрес. Заглушки `/fest-*` тут навпаки НЕ виводяться: у них у
+	 * чеклисті є свої пункти, і це навмисно.
+	 */
+	...Object.keys(RENAMED_NEWS_IDS).map((id) => `/news/${id}`)
 ];
 
 export const BETA_TABS: readonly BetaTab[] = [
@@ -224,7 +237,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 	{
 		id: 'content',
 		title: { uk: 'Новини й проєкти з бази', en: 'News and projects from the database' },
-		routes: ['/news', '/news/30-y-sezon-i-17-studentiv-2026', '/projects'],
+		routes: ['/news', '/news/2026-year-30th-season-18-students', '/projects'],
 		checks: [
 			{
 				id: 'content_1',

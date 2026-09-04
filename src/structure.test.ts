@@ -370,6 +370,11 @@ const LIMITS: Array<[RegExp, number]> = [
  *   ідея «згорнути в цикл» розміру не зменшує, зменшує форма запису.
  *
  *   Число знято одразу, щоб звільнене місце не заросло мовчки.
+ * 2026-09-04: `betaChecklist.ts` 412 → 414. Рівно два рядки: імпорт реєстру
+ *   перейменованих новин і розгортання його в `BETA_UNCOVERED_ROUTES`. Список
+ *   ВИВОДИТЬСЯ, а не переліковується руками — інакше наступне перейменування
+ *   валило б гейт чеклиста, і хтось дописав би адресу рядком, тобто завів би
+ *   другий список тих самих адрес.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -396,7 +401,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 412,
+	'src/lib/data/betaChecklist.ts': 414,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

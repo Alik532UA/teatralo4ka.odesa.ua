@@ -101,6 +101,9 @@ const PUBLIC_ENTRIES = [
 	//      prerender шукає сторінки за ПОСИЛАННЯМИ, а на чернетку з переліку
 	//      новин нічого не веде — тобто без цього рядка її не збирала б і
 	//      українська гілка, щойно новина перестане бути єдиною.
+	'/news/2026-year-30th-season-18-students',
+	// Стара адреса тієї самої новини: сторінка перенаправлення. Розбір — у
+	// `src/lib/config/newsAliases.ts`.
 	'/news/30-y-sezon-i-17-studentiv-2026',
 	'/projects/photo-archive',
 	'/projects/spring-odesa-theatre',

@@ -1,6 +1,8 @@
-import { localeFromPath } from '$lib/i18n/routing';
+import { redirect } from '@sveltejs/kit';
+import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { loadPageWithMetadata } from '$lib/i18n/loader';
 import { CODE_NEWS, codeNewsById } from '$lib/config/codeNews';
+import { RENAMED_NEWS_IDS } from '$lib/config/newsAliases';
 
 /**
  * Новина приходить із ДВОХ джерел, і маршрут у них один.
@@ -25,11 +27,27 @@ import { CODE_NEWS, codeNewsById } from '$lib/config/codeNews';
  */
 export const prerender = true;
 
+/*
+ * Разом із новими адресами — СТАРІ, перейменовані. Без них стара адреса не
+ * пререндериться, і той, хто розкриває посилання в соцмережі, побачив би
+ * сторінку 404 замість перенаправлення. Розбір — у `config/newsAliases.ts`.
+ */
 export function entries() {
-	return CODE_NEWS.map((item) => ({ id: item.id }));
+	return [
+		...CODE_NEWS.map((item) => ({ id: item.id })),
+		...Object.keys(RENAMED_NEWS_IDS).map((id) => ({ id }))
+	];
 }
 
 export function load({ params, url }) {
+	const перейменовано = RENAMED_NEWS_IDS[params.id];
+	if (перейменовано) {
+		redirect(
+			301,
+			localizedPath(`/news/${перейменовано}`, localeFromPath(url.pathname))
+		);
+	}
+
 	const код = codeNewsById(params.id);
 	if (!код) {
 		/*
