@@ -127,17 +127,32 @@
 </div>
 
 <style>
+	/*
+	 * ШИРИНА: рядок, а не два.
+	 *
+	 * Доти панель була `max-width: 62rem` по центру, і чотири елементи керування
+	 * у неї не влазили — «Кого показувати» зі «Спинити показ» переносилися на
+	 * другий рядок. Тепер вона тягнеться від лівого краю майже до правого.
+	 *
+	 * САМЕ «майже»: у правому куті стоять ДВІ кнопки по 44 px — показ (пауза) і
+	 * повний екран, — і панель мусить лишити місце обом. Кнопка повного екрана
+	 * має бути доступною, про це автор попросив окремо; кнопка показу — це
+	 * пауза, тобто теж те, чим користуються під час показу.
+	 *
+	 * Заміряно: із запасом 4,5 rem панель на 1280 px тяглася до 1208 і накривала
+	 * кнопку показу (1160..1204). Тепер запас — дві кнопки плюс проміжки.
+	 */
 	.bar {
 		position: fixed;
 		top: 0;
-		left: 50%;
-		transform: translateX(-50%);
+		left: clamp(0.5rem, 1.5vw, 1.5rem);
+		right: calc(clamp(0.5rem, 1.5vw, 1.5rem) + 2 * 44px + 1rem);
 		z-index: var(--z-modal, 1000);
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.75rem 1.25rem;
-		max-width: min(100%, 62rem);
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
 		padding: 0.6rem 1rem;
 		border-radius: 0 0 var(--radius-lg, 16px) var(--radius-lg, 16px);
 		background: rgb(5 10 31 / 0.82);
@@ -170,8 +185,10 @@
 		font-variant-numeric: tabular-nums;
 		font-weight: 700;
 	}
+	/* Повзунки вужчі за початкові 8 rem: рядок мусить лишатися одним і на
+	   1280 px, а точність тут не потрібна — крок цілий. */
 	.bar__field input[type='range'] {
-		width: 8rem;
+		width: clamp(5rem, 9vw, 8rem);
 		accent-color: var(--galaxy-accent, #8cc4ff);
 	}
 	.bar__field select {
@@ -207,8 +224,6 @@
 		.bar {
 			left: 0;
 			right: 0;
-			transform: none;
-			max-width: 100%;
 			border-radius: 0;
 			flex-direction: column;
 			align-items: stretch;

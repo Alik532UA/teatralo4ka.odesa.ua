@@ -422,6 +422,7 @@
 	.stage__fullscreen-btn--show {
 		right: calc(clamp(0.75rem, 2vw, 1.5rem) + 44px + 0.5rem);
 	}
+
 	.stage__fullscreen-btn:hover,
 	.stage__fullscreen-btn:focus-visible {
 		border-color: rgb(140 190 255 / 0.6);

@@ -30,6 +30,18 @@
 		/** Спливаюче меню контактів відкрите. Двобічне: див. Escape вище. */
 		open: boolean;
 		onclose: () => void;
+		/**
+		 * Тільки перегляд: ані олівця, ані хрестика.
+		 *
+		 * Увімкнено в слайдшоу, і причина авторова: «тут не місце для
+		 * редагування, то тут перегляд, а кнопка закрити є зверху там, де
+		 * налаштування показу, і називається "Спинити показ"». Дві кнопки в тому
+		 * куті ще й закривали кнопку повного екрана.
+		 *
+		 * Кнопки ЗНИКАЮТЬ, а не глушаться: глуха кнопка в куті читається як
+		 * поломка, а не як задум.
+		 */
+		viewOnly?: boolean;
 	}
 
 	let {
@@ -37,6 +49,7 @@
 		galaxyHref = null,
 		open = $bindable(),
 		onclose,
+		viewOnly = false,
 	}: Props = $props();
 
 	/**
@@ -110,7 +123,7 @@
 	{/if}
 
 	<div class="card__toolbar" data-testid="galaxy-card-toolbar">
-		{#if hasPhoto}
+		{#if hasPhoto && !viewOnly}
 			<div
 				class="contact-wrap"
 			onmouseenter={handleMouseEnter}
@@ -138,15 +151,17 @@
 		</div>
 	{/if}
 
-		<button
-			type="button"
-			class="card__action card__close"
-			onclick={onclose}
-			aria-label={$t("common.close")}
-			data-testid="galaxy-card-close-btn"
-		>
-			<X size={20} aria-hidden="true" />
-		</button>
+		{#if !viewOnly}
+			<button
+				type="button"
+				class="card__action card__close"
+				onclick={onclose}
+				aria-label={$t("common.close")}
+				data-testid="galaxy-card-close-btn"
+			>
+				<X size={20} aria-hidden="true" />
+			</button>
+		{/if}
 	</div>
 </div>
 

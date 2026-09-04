@@ -28,6 +28,10 @@ import { gotoReady, openStageMenu } from './ready';
  *    інакше «назад» перестає працювати як вихід.
  * 5. Рядок налаштувань гасне до одного відсотка без руху курсора й повертається
  *    від руху.
+ * 6. Три речі, які автор попросив ПІСЛЯ першого показу й кожна з яких ламається
+ *    окремо: елементи керування стоять в ОДНОМУ рядку; у картці немає ні
+ *    олівця, ні хрестика (закривають показом, а не карткою); кнопка повного
+ *    екрана доступна — доти вона зникала не з розмітки, а під картку.
  */
 const ГАЛАКТИКА = '/projects/galaxy-graduates';
 
@@ -125,6 +129,84 @@ test.describe('слайдшоу випускників', () => {
 				0.9
 			);
 		}).toPass({ timeout: 5000 });
+	});
+
+	test('елементи керування стоять в одному рядку', async ({ page }) => {
+		await gotoReady(page, ГАЛАКТИКА);
+		await openStageMenu(page);
+		await page.getByTestId('galaxy-slideshow-btn').click();
+
+		const панель = page.getByTestId('galaxy-slideshow-settings-panel');
+		await expect(панель).toBeVisible();
+
+		/*
+		 * «Один рядок» міряється СЕРЕДИНАМИ полів, а не їхніми верхніми краями.
+		 *
+		 * Перша редакція брала верхні краї й падала на 14, 14, 11, 10 — а це
+		 * якраз ПРАВИЛЬНА розкладка: `align-items: center` вирівнює по центру, і
+		 * поля різної висоти закономірно починаються на різних рівнях. Тобто
+		 * перевірка ловила не перенос, а власну мірку.
+		 *
+		 * Середини одного рядка збігаються з точністю до пікселів; поле,
+		 * перенесене вниз, відстає на всю висоту рядка — тут це десятки.
+		 */
+		const середини = await панель.evaluate((el) =>
+			[...el.querySelectorAll('label, button')].map((e) => {
+				const b = e.getBoundingClientRect();
+				return Math.round(b.top + b.height / 2);
+			})
+		);
+		const розкид = Math.max(...середини) - Math.min(...середини);
+		expect(
+			розкид,
+			`середини полів розкидані на ${розкид} px (${середини.join(', ')}) — щось перенеслося на другий рядок`
+		).toBeLessThan(10);
+	});
+
+	test('у показі картка без олівця й хрестика, а повний екран доступний', async ({ page }) => {
+		await gotoReady(page, ГАЛАКТИКА);
+		await openStageMenu(page);
+		await page.getByTestId('galaxy-slideshow-btn').click();
+		await expect(page.getByTestId('galaxy-card-modal')).toBeVisible();
+
+		await expect(
+			page.getByTestId('galaxy-card-close-btn'),
+			'хрестик у показі зайвий: закривають кнопкою «Спинити показ»'
+		).toBeHidden();
+		await expect(
+			page.getByTestId('graduate-profile-edit-btn'),
+			'олівець у показі зайвий: тут перегляд, а не редагування'
+		).toBeHidden();
+
+		/*
+		 * «Доступна» тут означає САМЕ це: не «є в розмітці», а її можна натиснути.
+		 * Playwright перед клацанням сам перевіряє, що в цій точці лежить саме
+		 * вона, — тобто картка її не накриває.
+		 */
+		const екран = page.getByTestId('galaxy-fullscreen-btn');
+		await expect(екран).toBeVisible();
+		await екран.click({ timeout: 4000 });
+
+		/*
+		 * І панель не накриває ЖОДНОЇ з двох кнопок у куті. Перша спроба лишала
+		 * запас під одну — заміряно на 1280 px: панель тяглася до 1208 і лягала
+		 * на кнопку показу (1160..1204). Пауза потрібна під час показу так само,
+		 * як повний екран.
+		 */
+		const межі = await page.evaluate(() => {
+			const r = (s: string) => document.querySelector(s)!.getBoundingClientRect();
+			const п = r('[data-testid="galaxy-slideshow-settings-panel"]');
+			return {
+				панель: п.right,
+				пуск: r('[data-testid="galaxy-slideshow-btn"]').left,
+				екран: r('[data-testid="galaxy-fullscreen-btn"]').left
+			};
+		});
+		expect(
+			межі.панель <= межі.пуск && межі.панель <= межі.екран,
+			`панель тягнеться до ${Math.round(межі.панель)}, а кнопки починаються на ` +
+				`${Math.round(межі.пуск)} і ${Math.round(межі.екран)} — панель їх накриває`
+		).toBe(true);
 	});
 
 	test('кнопка «спинити» закриває показ', async ({ page }) => {

@@ -578,6 +578,7 @@
 	profile={selectedProfile}
 	dimmed={slideshow.dimmed}
 	dimMs={slideshow.fadeMs}
+	viewOnly={slideshow.active}
 	onclose={closeCard}
 />
 
