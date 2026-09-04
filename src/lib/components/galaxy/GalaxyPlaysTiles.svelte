@@ -85,7 +85,9 @@
 										{play.awards.length}
 									</span>
 								{/if}
-								{#if play.videoUrl}
+								<!-- `videoParts` теж запис: у «Підкови на щастя» власного
+								     `videoUrl` немає — там три вечори різними курсами. -->
+								{#if play.videoUrl || play.videoParts?.length}
 									<span class="play-card__badge play-card__badge--video">
 										<Video size={12} aria-hidden="true" />
 									</span>

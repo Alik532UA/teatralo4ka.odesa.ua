@@ -8217,10 +8217,22 @@
 		"kind": "posviata",
 		"videoUrl": "https://youtu.be/mib2wf7CZOc",
 		"videoParts": [
-			"https://youtu.be/ilnLYAnOHi4",
-			"https://youtu.be/1i3yVSQa7Bo",
-			"https://youtu.be/bRbpesR5-yQ",
-			"https://youtu.be/d3S-5aroabs"
+			{
+				"label": "1 серія",
+				"url": "https://youtu.be/ilnLYAnOHi4"
+			},
+			{
+				"label": "2 серія",
+				"url": "https://youtu.be/1i3yVSQa7Bo"
+			},
+			{
+				"label": "3 серія",
+				"url": "https://youtu.be/bRbpesR5-yQ"
+			},
+			{
+				"label": "4 серія",
+				"url": "https://youtu.be/d3S-5aroabs"
+			}
 		],
 		"dateNote": "13 жовтня",
 		"verificationStatus": "possible_errors"
@@ -8261,156 +8273,227 @@
 	},
 	{
 		"id": "novyi-rik-2004",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2004,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2005",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2005,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2006",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2006,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2007",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2007,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2008",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2008,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2009",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2009,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2010",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2010,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2011",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2011,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2012",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2012,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2013",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2013,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2014",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2014,
 		"kind": "new-year",
+		"videoUrl": "https://youtu.be/BjM3oRltGa4",
+		"dateNote": "27–28 грудня 2013",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2015",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2015,
 		"kind": "new-year",
+		"videoUrl": "https://youtu.be/zLiBEPepGaQ",
+		"dateNote": "25–26 грудня 2014",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2016",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2016,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2017",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2017,
 		"kind": "new-year",
+		"videoUrl": "https://youtu.be/DtALXjGv2I0",
+		"dateNote": "23–24 грудня 2016",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2018",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2018,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2019",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2019,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2020",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2020,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2021",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2021,
 		"kind": "new-year",
+		"videoParts": [
+			{
+				"label": "перший запис",
+				"url": "https://youtu.be/jDBXQl4GWM4"
+			},
+			{
+				"label": "другий запис",
+				"url": "https://youtu.be/fmVpsLhS7Js"
+			}
+		],
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2022",
-		"title": "Новий рік",
+		"title": "Greatest Show",
 		"year": 2022,
 		"kind": "new-year",
+		"videoParts": [
+			{
+				"label": "24 грудня",
+				"url": "https://youtu.be/zLkpX9aoLdA",
+				"note": "18:00"
+			},
+			{
+				"label": "25 грудня",
+				"url": "https://youtu.be/g42N3AageHY",
+				"note": "13:00"
+			}
+		],
+		"dateNote": "24 і 25 грудня 2021",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2023",
-		"title": "Новий рік",
+		"title": "Родина Кролько",
 		"year": 2023,
 		"kind": "new-year",
+		"videoUrl": "https://youtu.be/tuK95xoR7CY",
+		"dateNote": "23 грудня 2022",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2024",
-		"title": "Новий рік",
+		"title": "Дракон-Холостяк",
 		"year": 2024,
 		"kind": "new-year",
+		"videoParts": [
+			{
+				"label": "перший запис",
+				"url": "https://youtu.be/M2EfC8PSmwg"
+			},
+			{
+				"label": "другий запис",
+				"url": "https://youtu.be/PcA0fPNqcFo"
+			}
+		],
+		"dateNote": "22 грудня 2023",
 		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "novyi-rik-2025",
-		"title": "Новий рік",
+		"title": "Новорічна вистава",
 		"year": 2025,
 		"kind": "new-year",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "novyi-rik-2026",
+		"title": "Підкова на щастя",
+		"year": 2026,
+		"kind": "new-year",
+		"videoParts": [
+			{
+				"label": "22 грудня",
+				"url": "https://youtu.be/ds5HX0rlte8",
+				"note": "групи 2Е-2, 2Е-3, 3Е-4, 3Е-5, 1Т-1Н, 1Т-1, 2Т-3, 2Т-5, 3Т-7, 4Т-13 та учні музичного відділення"
+			},
+			{
+				"label": "23 грудня",
+				"url": "https://youtu.be/HwAMHazKBT4",
+				"note": "групи 1Е-1, 4Е-6, 4Е-7, 4Е-8, 1Т-2, 3Т-8, 3Т-9, 4Т-11, 5Т-14, 5Т-15, 5Т-17 та учні художнього відділення"
+			},
+			{
+				"label": "24 грудня",
+				"url": "https://youtu.be/iq2w8pREyUU",
+				"note": "групи 2Т-4, 5Т-16, 6Т-18+6Т-19, музичний театр; М. Ганчо «Зимова казка», 6Т-19 «Бутерброд»"
+			},
+			{
+				"label": "Жартики із «Зельонки»",
+				"url": "https://youtu.be/_g4cNw2RdAg"
+			}
+		],
+		"dateNote": "22–24 грудня 2025",
 		"verificationStatus": "possible_errors"
 	}
 ]

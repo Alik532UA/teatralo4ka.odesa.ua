@@ -11,7 +11,7 @@
 		LayoutGrid
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { PLAYS, playPath } from '$lib/data/plays';
+	import { PLAYS, playPath, type Play } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
 	import { playGroupNames } from '$lib/data/groups';
 	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -37,6 +37,9 @@
 	 * них хибних, бо людина могла прийти в групу вже після вистави.
 	 */
 	const castSize = (id: string) => PLAY_CAST[id]?.length ?? 0;
+
+	/** Перше посилання на запис — власне або першої з частин. Порожньо: записів немає. */
+	const запис = (play: Play) => play.videoUrl ?? play.videoParts?.[0]?.url;
 
 	const enriched = $derived(
 		PLAYS.map((play) => ({
@@ -138,8 +141,12 @@
 							tone: 'award' as const
 						}
 					: null,
-				play.videoUrl
-					? { icon: Video, href: play.videoUrl, tone: 'video' as const, title: $t('galaxy.watchVideo') }
+				/* `videoParts` теж вважається записом: у «Підкови на щастя» й «Greatest
+				   Show» ЖОДНОГО `videoUrl` немає — там кілька вечорів, і жоден не
+				   головніший за інший. Без цього рядка картка таких показів мовчала б
+				   про те, що запис узагалі є. */
+				запис(play)
+					? { icon: Video, href: запис(play), tone: 'video' as const, title: $t('galaxy.watchVideo') }
 					: null
 			].filter((m) => m !== null)
 		}));

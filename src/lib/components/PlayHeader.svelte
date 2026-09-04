@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
 	import { Calendar } from 'lucide-svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
@@ -32,10 +31,15 @@
 	 * підписані назвою уривка. Той самий запис уривка стоїть і в анкеті
 	 * учасника, у рядку цього уривка (`PlayRowVideoButton`).
 	 *
-	 * Третій випадок — `Play.videoParts`: та сама подія, викладена серіями.
-	 * Кнопки підписані номером, а не назвою, бо назви в серії немає — і саме тому
-	 * вони не `programme`: номер програми означав би окремий твір з окремим
-	 * складом. Посвята 2021 має запис цілком і ще чотири серії до нього.
+	 * Третій випадок — `Play.videoParts`: кілька записів ТІЄЇ САМОЇ події. Підпис
+	 * приходить із даних, і це не дрібниця: «Greatest Show» — два вечори, 24
+	 * грудня 18:00 і 25 грудня 13:00, а Посвята 2021 — чотири серії одного файлу.
+	 * Одним шаблоном ці два випадки не підписати.
+	 *
+	 * Малюються ПЕРЕЛІКОМ, а не рядком кнопок, бо в частини записів є `note` —
+	 * у «Підкові на щастя» це десять-одинадцять курсів на кожен вечір. У рядок
+	 * кнопок такий текст не влазить, а викидати його означало б лишити на
+	 * сторінці найцінніше з того, що про цей показ узагалі відомо.
 	 */
 	interface Props {
 		play: Play;
@@ -81,7 +85,7 @@
 		<p class="play-header__author" data-testid="play-author-text">{play.author}</p>
 	{/if}
 
-	{#if play.videoUrl || clips.length > 0 || parts.length > 0}
+	{#if play.videoUrl || clips.length > 0}
 		<div class="play-header__video" data-testid="play-recordings-list">
 			<GraduateVideoButton videoUrl={play.videoUrl} title={play.title} />
 			{#each clips as item (item.id)}
@@ -92,19 +96,53 @@
 					testid="play-programme-video-btn-{item.id}"
 				/>
 			{/each}
-			{#each parts as url, i (url)}
-				<GraduateVideoButton
-					videoUrl={url}
-					title="{play.title}: {$t('galaxy.videoPart', { values: { n: i + 1 } })}"
-					label={$t('galaxy.videoPart', { values: { n: i + 1 } })}
-					testid="play-video-part-btn-{i + 1}"
-				/>
-			{/each}
 		</div>
+	{/if}
+
+	{#if parts.length > 0}
+		<ul class="play-header__parts" data-testid="play-recording-parts-list">
+			{#each parts as part, i (part.url)}
+				<li class="play-part">
+					<GraduateVideoButton
+						videoUrl={part.url}
+						title="{play.title}: {part.label}"
+						label={part.label}
+						testid="play-video-part-btn-{i + 1}"
+					/>
+					{#if part.note}
+						<span class="play-part__note">{part.note}</span>
+					{/if}
+				</li>
+			{/each}
+		</ul>
 	{/if}
 </header>
 
 <style>
+	.play-header__parts {
+		list-style: none;
+		margin: 0.75rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+	.play-part {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	/* Курси вечора — поруч із кнопкою, а не під нею: рядок читається як один
+	   пункт «коли й хто», а не як два незалежні. */
+	.play-part__note {
+		flex: 1 1 18ch;
+		min-width: 0;
+		font-size: 0.82rem;
+		line-height: 1.35;
+		color: var(--text-muted);
+	}
+
 	.play-header {
 		margin-bottom: var(--space-2xl);
 	}

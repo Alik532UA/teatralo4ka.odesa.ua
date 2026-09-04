@@ -131,9 +131,9 @@ describe('реєстр вистав', () => {
 			const links = [
 				{ where: play.id, url: play.videoUrl },
 				...(play.programme ?? []).map((item) => ({ where: `${play.id} › ${item.id}`, url: item.videoUrl })),
-				// Серії того самого запису — третє місце, де посилання може зникнути
-				// без сигналу. Див. `Play.videoParts`.
-				...(play.videoParts ?? []).map((url, i) => ({ where: `${play.id} › серія ${i + 1}`, url }))
+				// Записи-частини — третє місце, де посилання може зникнути без
+				// сигналу. Див. `Play.videoParts`.
+				...(play.videoParts ?? []).map((part) => ({ where: `${play.id} › ${part.label}`, url: part.url }))
 			];
 			for (const { where, url } of links) {
 				if (!url) continue;
@@ -143,6 +143,33 @@ describe('реєстр вистав', () => {
 		}
 		expect(перевірено, 'жодного запису — перевірка нічого не стверджує').toBeGreaterThan(0);
 		expect(bad, `запис не розпізнається як відео:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Підпис частини — єдине, що відрізняє її від сусідньої.
+	 *
+	 * Порожній підпис дає кнопку без назви: «Підкова на щастя» має чотири
+	 * записи, і без підписів читач не має способу зрозуміти, який із них 22
+	 * грудня. Однакові підписи — гірше: `{#each}` ключується по `url`, тож
+	 * сторінка не впаде, а просто покаже «24 грудня» двічі й змовчить, що один
+	 * із них насправді 25-го.
+	 */
+	it('у кожного запису-частини є свій підпис', () => {
+		const bad: string[] = [];
+		let перевірено = 0;
+		for (const play of PLAYS) {
+			const parts = play.videoParts ?? [];
+			if (parts.length === 0) continue;
+			перевірено += parts.length;
+			for (const part of parts) {
+				if (!part.label?.trim()) bad.push(`${play.id}: запис без підпису (${part.url})`);
+			}
+			const підписи = parts.map((p) => p.label?.trim());
+			const повтори = підписи.filter((l, i) => підписи.indexOf(l) !== i);
+			for (const l of new Set(повтори)) bad.push(`${play.id}: підпис «${l}» двічі`);
+		}
+		expect(перевірено, 'жодного запису-частини — перевірка нічого не стверджує').toBeGreaterThan(0);
+		expect(bad, `кнопка без назви або дві однакові:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('кожен майстер у виставі існує в реєстрі майстрів', () => {
