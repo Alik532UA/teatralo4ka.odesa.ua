@@ -67,7 +67,12 @@ const rules = [...CSS.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([, selector, body]
 }));
 const withScheme = rules.filter(({ body }) => /(^|[;\s])color-scheme\s*:/.test(body));
 
-/** Усі теми проєкту й те, якою схемою кожна мусить бути. */
+/**
+ * Усі теми проєкту й те, якою схемою кожна мусить бути.
+ *
+ * `name` — клас на `<html>`, а значення атрибута `data-theme` виходить із нього
+ * відкиданням хвоста `-theme`: інлайн-скрипт у `app.html` ставить обидва разом.
+ */
 const THEMES: { name: string; scheme: 'light' | 'dark' }[] = [
 	{ name: 'dark-theme', scheme: 'dark' },
 	{ name: 'dark-cyan-theme', scheme: 'dark' },
@@ -85,6 +90,68 @@ describe('вигляд, який малює браузер', () => {
 		expect(withScheme.length, 'у global.css немає жодного правила з color-scheme').toBeGreaterThan(
 			0
 		);
+	});
+
+	/**
+	 * КУЛІСИ ЗАСТАВКИ мусять бути темними в КОЖНІЙ темній темі.
+	 *
+	 * Заставка малюється до будь-якого CSS проєкту, тож її кольори живуть окремим
+	 * набором змінних у `app.html`, а темний набір видавався за ПЕРЕЛІКОМ НАЗВ
+	 * тем. Коли з'явилася шоста тема (`dark-blue`), у той перелік її не додали —
+	 * і автор побачив жовті куліси на темно-синій сторінці. Це рівно та сама
+	 * пастка, що з банером перевірки в жовтих темах: правило знає імена тем, а
+	 * нова тема свого імені там не має.
+	 *
+	 * Тому перевіряється не текст селектора, а те, чи він СПРАВДІ накриває кожну
+	 * темну тему. Форми селекторів розпізнаються ті, що тут вживаються:
+	 * `[data-theme="x"]`, `[data-theme^="dark"]`, `.x-theme`, `[class*="dark-"]`.
+	 *
+	 * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): на попередній редакції
+	 * `app.html`, де стояв перелік із чотирьох селекторів, перевірка червона саме
+	 * на `dark-blue-theme` — з неї цю правку й почали.
+	 */
+	it('темні куліси заставки накривають кожну темну тему', () => {
+		const АТРИБУТ = /\[data-theme\s*=\s*["']([^"']+)["']\]/;
+		const ПРЕФІКС = /\[data-theme\s*\^=\s*["']([^"']+)["']\]/;
+		const КЛАС = /\.([\w-]+)/;
+		const ЧАСТИНА = /\[class\s*\*=\s*["']([^"']+)["']\]/;
+
+		function накриває(selector: string, тема: { name: string; value: string }): boolean {
+			return selector.split(',').some((частина) => {
+				const sel = частина.trim();
+				const атрибут = АТРИБУТ.exec(sel);
+				if (атрибут) return атрибут[1] === тема.value;
+				const префікс = ПРЕФІКС.exec(sel);
+				if (префікс) return тема.value.startsWith(префікс[1]);
+				const частинаКласу = ЧАСТИНА.exec(sel);
+				if (частинаКласу) return тема.name.includes(частинаКласу[1]);
+				const клас = КЛАС.exec(sel);
+				if (клас) return клас[1] === тема.name;
+				return false;
+			});
+		}
+
+		/* Коментарі зачищаються: у цьому ж файлі вони ЦИТУЮТЬ селектори тем, і без
+		   зачистки сканер порахував би цитату за правило. */
+		const html = APP_HTML.replace(/<!--[\s\S]*?-->/g, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
+		const rules = [...html.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map(([, selector, body]) => ({
+			selector: selector.trim(),
+			body
+		}));
+		const велюр = rules.filter(({ body }) => /--sp-v-base\s*:/.test(body));
+		expect(велюр.length, 'у app.html не знайдено набору кольорів куліс').toBeGreaterThan(1);
+
+		/* Базове правило на бареному `html` — світлий набір; шукаємо темні. */
+		const темні = велюр.filter(({ selector }) => selector.replace(/\s+/g, '') !== 'html');
+		const problems: string[] = [];
+		for (const { name, scheme } of THEMES) {
+			if (scheme !== 'dark') continue;
+			const тема = { name, value: name.replace(/-theme$/, '') };
+			if (!темні.some(({ selector }) => накриває(selector, тема))) {
+				problems.push(`${name}: темний набір куліс її не накриває — заставка буде жовтою`);
+			}
+		}
+		expect(problems, `куліси заставки: ${problems.join('; ')}`).toEqual([]);
 	});
 
 	it('мета color-scheme не дорівнює «light» — інакше Force Dark на Android', () => {
