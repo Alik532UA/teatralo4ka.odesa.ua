@@ -1840,7 +1840,6 @@
 			"theatre"
 		],
 		"hasPhoto": true,
-		"photoCount": 2,
 		"enrollmentYears": [
 			2007
 		],
@@ -1851,7 +1850,7 @@
 		],
 		"code": "artem-starshov",
 		"playCount": 1,
-		"profileSize": 1048,
+		"profileSize": 1030,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
