@@ -34,7 +34,6 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: "npm"
 
       # Емулятор Firestore — java-процес. Без цього кроку `emulators:exec` падає
       # з «java not found», і виглядає це як зламані правила.
@@ -43,8 +42,22 @@ jobs:
           distribution: temurin
           java-version: "21"
 
+      # Причина відпечатку — у `scripts/deps-hash.mjs`, і вона коротко така:
+      # `hashFiles('package-lock.json')` тут не працює НІКОЛИ, бо pre-commit
+      # піднімає версію в lock-файлі на кожен коміт.
+      - name: Відпечаток залежностей
+        id: deps
+        run: echo "hash=$(node scripts/deps-hash.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: npm-${{ runner.os }}-
+
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
 
       - name: Перевірка правил доступу
         run: npm run check:rules
@@ -76,10 +89,39 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: "npm"
 
+      # ЧОМУ КЕШ ТУТ СВІЙ, А НЕ `cache: "npm"` У setup-node
+      #
+      # Вбудований кеш беріг ключ від УСЬОГО `package-lock.json`, а
+      # `.husky/pre-commit` кличе `bump-version`, який піднімає в ньому `version`
+      # на КОЖЕН коміт. Тобто ключ був новий завжди, і в журналі кожного job
+      # стояло `npm cache is not found` — кеш не влучав ані разу за весь час.
+      #
+      # Доки реєстр npm швидкий, це невидимо: 647 пакетів за 14 с (замір, прогін
+      # 33772902182). 2026-09-04 реєстр деградував, і той самий крок дав 5 хв
+      # 02 с у деплої (прогін 33862103373), 7 хв 03 с у глибоких перевірках і
+      # 4 хв 09 с у гейтах — прямо в часі до публікації.
+      #
+      # Подробиці, чому саме відпечаток, а не один `restore-keys`, — у
+      # `scripts/deps-hash.mjs`.
+      - name: Відпечаток залежностей
+        id: deps
+        run: echo "hash=$(node scripts/deps-hash.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: npm-${{ runner.os }}-
+
+      # `--prefer-offline` — щоб теплий `~/.npm` справді використовувався: без
+      # нього npm однаково питає реєстр про кожен пакет. `--no-audit` знімає ще
+      # один похід у реєстр із install — аудит має власний крок у
+      # `deep-checks.yml`, і саджати його всередину install означало б завалити
+      # публікацію від чужого 503 (це вже сталося 2026-09-04).
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
       # --- Гейти якості (CODE-QUALITY-v8 § 6, CI-CD-AND-TOOLS-v8 § 1.6) ---
       # Без цих трьох кроків пайплайн був install -> build -> deploy: 57 тестів
       # існували в репозиторії і не виконувалися жодного разу.
@@ -122,11 +164,22 @@ jobs:
       # Після build і ДО deploy: E2E перевіряє саме `build/`, тож запускати їх
       # раніше нема на чому, а пізніше — вже пізно. `npx playwright test`, а не
       # `npm run test:e2e`: збірка щойно була, збирати вдруге незащо.
+      #
+      # Ключ — той самий відпечаток, що й для npm, і з тієї самої причини: ключ
+      # `hashFiles('package-lock.json')` мінявся щокоміту, тож у журналі стояло
+      # `Cache not found`, а в кінці — `Cache saved` на 268 МБ. Тобто браузери
+      # качалися заново кожного разу, а сховище кешу (межа 10 ГБ) забивалося
+      # копіями того самого.
+      #
+      # `restore-keys` тут безпечний, хоч і може підняти кеш під ІНШУ версію
+      # Playwright: наступний `playwright install` доганяє чого бракує, а зайве
+      # просто лежить на диску раннера.
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          key: pw-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: pw-${{ runner.os }}-
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium

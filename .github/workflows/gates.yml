@@ -61,7 +61,22 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: "npm"
+
+      # Причина відпечатку — у `scripts/deps-hash.mjs` і в `deploy.yml`:
+      # `hashFiles('package-lock.json')` не влучає НІКОЛИ, бо pre-commit
+      # піднімає версію в lock-файлі щокоміту. Замір 2026-09-04 у цьому самому
+      # воркфлоу: `npm ci` — 4 хв 09 с у job `gates` проти 11 с у сусідньому
+      # `rules` того ж прогону, і `npm cache is not found` в обох.
+      - name: Відпечаток залежностей
+        id: deps
+        run: echo "hash=$(node scripts/deps-hash.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: npm-${{ runner.os }}-
 
       # Емулятор Firestore — java-процес. Без цього кроку `emulators:exec` падає
       # з «java not found», і виглядає це як зламані правила.
@@ -71,7 +86,7 @@ jobs:
           java-version: "21"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
 
       # 29 випадків: 10 «застосунок мусить це вміти» й 19 «сторонній не мусить
       # цього могти». Правило «дозволити все» валить другий набір, «заборонити
@@ -89,10 +104,25 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "22"
-          cache: "npm"
+
+      # Причина відпечатку — у `scripts/deps-hash.mjs` і в `deploy.yml`:
+      # `hashFiles('package-lock.json')` не влучає НІКОЛИ, бо pre-commit
+      # піднімає версію в lock-файлі щокоміту. Замір 2026-09-04 у цьому самому
+      # воркфлоу: `npm ci` — 4 хв 09 с у job `gates` проти 11 с у сусідньому
+      # `rules` того ж прогону, і `npm cache is not found` в обох.
+      - name: Відпечаток залежностей
+        id: deps
+        run: echo "hash=$(node scripts/deps-hash.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: npm-${{ runner.os }}-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
 
       - name: Types and Svelte check
         run: npm run check
