@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.442",
+	"version": "0.0.443",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -16,6 +16,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest run",
 		"test:gates": "node scripts/gates.mjs",
+		"audit:ci": "node scripts/check-audit.mjs",
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"validate-content": "tsx scripts/validate-content.ts",

@@ -99,9 +99,15 @@ jobs:
       # відкату на firebase-admin@10 і svelte-i18n@3, тобто на кілька мажорів
       # назад. Такий гейт довелося б одразу вимкнути, а вимкнений гейт гірший
       # за відсутній: він створює враження, що перевірка є.
+      #
+      # Скриптом, а не `npm audit` напряму: 2026-09-04 деплой упав через
+      # `503 Service Unavailable` від самого реєстру npm — тобто публікацію сайту
+      # заблокував мережевий збій третьої сторони, а не знахідка. `check-audit.mjs`
+      # розрізняє ці дві події: high/critical і далі валить крок, недоступний
+      # реєстр дає гучне попередження й код 0.
       - name: Audit dependencies
         if: ${{ !cancelled() }}
-        run: npm audit --audit-level=high
+        run: npm run audit:ci
 
       - name: Validate static content
         if: ${{ !cancelled() }}
