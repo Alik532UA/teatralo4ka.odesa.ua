@@ -30,6 +30,7 @@ const entries = config.kit?.prerender?.entries ?? [];
 export { REDIRECT_PAGES } from '../src/lib/config/redirects';
 import { REDIRECT_PAGES as REDIRECTS } from '../src/lib/config/redirects';
 import { isHiddenRoute } from '../src/lib/config/hiddenRoutes';
+import { isPreviewHop } from '../src/lib/config/previewHops';
 
 export { HIDDEN_ROUTES } from '../src/lib/config/hiddenRoutes';
 
@@ -55,8 +56,15 @@ export { HIDDEN_ROUTES } from '../src/lib/config/hiddenRoutes';
  * `e2e/beta-checklist.spec.ts` плюс скрипт над `build/`, який перевіряє саме
  * ПРОТИЛЕЖНЕ: що `noindex` є, а canonical немає.
  */
+/*
+ * `isPreviewHop` — четверта причина виключення, і вона та сама, що для
+ * заглушок вище: сторінка везе мета-теги й одразу веде в галактику, тож усі
+ * перевірки стосувалися б уже іншої сторінки. Заміряно: без цього рядка повний
+ * прогін давав 11 падінь на двох адресах. Розбір — у `config/previewHops.ts`.
+ */
 export const PUBLIC_PAGES: string[] = entries.filter(
-	(p: string) => !p.startsWith('/admin') && !(p in REDIRECTS) && !isHiddenRoute(p)
+	(p: string) =>
+		!p.startsWith('/admin') && !(p in REDIRECTS) && !isHiddenRoute(p) && !isPreviewHop(p)
 );
 
 if (PUBLIC_PAGES.length === 0) {
