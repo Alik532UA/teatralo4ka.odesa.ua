@@ -94,6 +94,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "nadiia-rybakova"
@@ -257,6 +258,7 @@
 			"theatre",
 			"intensive"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -265,7 +267,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 806,
+		"profileSize": 825,
 		"playCount": 4
 	},
 	{
@@ -484,6 +486,7 @@
 			"theatre",
 			"intensive"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
@@ -711,6 +714,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
@@ -719,7 +723,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 402,
+		"profileSize": 421,
 		"playCount": 1
 	},
 	{
@@ -1468,6 +1472,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "nadiia-rybakova"
@@ -1476,7 +1481,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 920,
+		"profileSize": 939,
 		"playCount": 5
 	},
 	{
@@ -1739,6 +1744,7 @@
 		"departments": [
 			"vocal"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "oleksandr-stepanov"
@@ -1834,6 +1840,7 @@
 			"theatre"
 		],
 		"hasPhoto": true,
+		"photoCount": 2,
 		"enrollmentYears": [
 			2007
 		],
@@ -1844,7 +1851,7 @@
 		],
 		"code": "artem-starshov",
 		"playCount": 1,
-		"profileSize": 1030,
+		"profileSize": 1048,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -1920,6 +1927,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -1928,7 +1936,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 520,
+		"profileSize": 539,
 		"playCount": 2
 	},
 	{
@@ -2115,6 +2123,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "nadiia-rybakova"
@@ -2338,6 +2347,7 @@
 			"theatre"
 		],
 		"hasPhoto": true,
+		"photoCount": 2,
 		"enrollmentYears": [
 			1997
 		],
@@ -2348,7 +2358,7 @@
 		],
 		"code": "daria-dias-valdes-isachkina",
 		"playCount": 1,
-		"profileSize": 1292,
+		"profileSize": 1310,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -2379,6 +2389,7 @@
 			"theatre",
 			"intensive"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -2387,7 +2398,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 786,
+		"profileSize": 805,
 		"playCount": 4
 	},
 	{
@@ -2425,6 +2436,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -3491,6 +3503,7 @@
 			"theatre",
 			"intensive"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -3513,12 +3526,13 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 950,
+		"profileSize": 969,
 		"playCount": 6
 	},
 	{
@@ -3605,6 +3619,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "nadiia-rybakova"
@@ -3613,7 +3628,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 902,
+		"profileSize": 921,
 		"playCount": 5
 	},
 	{
@@ -3682,6 +3697,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -3693,7 +3709,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1399,
+		"profileSize": 1418,
 		"playCount": 8
 	},
 	{
@@ -4973,6 +4989,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -5553,6 +5570,7 @@
 			"theatre",
 			"intensive"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -5561,7 +5579,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 672,
+		"profileSize": 691,
 		"playCount": 3
 	},
 	{
@@ -6751,6 +6769,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -7144,6 +7163,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -7163,7 +7183,7 @@
 				]
 			}
 		],
-		"profileSize": 490,
+		"profileSize": 509,
 		"playCount": 2
 	},
 	{
@@ -7271,6 +7291,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "samuil-imas"
@@ -7507,6 +7528,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "pavlo-koshka"
@@ -7515,7 +7537,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1512,
+		"profileSize": 1531,
 		"playCount": 7
 	},
 	{
@@ -7713,6 +7735,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
@@ -8751,6 +8774,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
@@ -8764,7 +8788,7 @@
 				]
 			}
 		],
-		"profileSize": 512,
+		"profileSize": 531,
 		"playCount": 2
 	},
 	{
@@ -9096,6 +9120,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -9296,6 +9321,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
@@ -9315,7 +9341,7 @@
 				]
 			}
 		],
-		"profileSize": 519,
+		"profileSize": 538,
 		"playCount": 2
 	},
 	{
@@ -9496,6 +9522,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"

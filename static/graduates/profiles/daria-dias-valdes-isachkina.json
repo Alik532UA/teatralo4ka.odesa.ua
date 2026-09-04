@@ -7,6 +7,8 @@
 	"departments": [
 		"theatre"
 	],
+	"hasPhoto": true,
+	"photoCount": 2,
 	"plays": [
 		{
 			"year": 2023,
@@ -58,7 +60,6 @@
 	"enrollmentYears": [
 		1997
 	],
-	"hasPhoto": true,
 	"unlinkedGroups": [
 		"Фантазія"
 	],

@@ -8,6 +8,7 @@
 		"theatre",
 		"intensive"
 	],
+	"hasPhoto": true,
 	"plays": [
 		{
 			"year": 2014,
