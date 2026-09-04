@@ -148,8 +148,10 @@
 	const currentLocale = $derived(($locale as string) || 'uk');
 	const activeLang = $derived<SeoLangKey>(currentLocale === 'en' ? 'en' : FALLBACK_LANG);
 	const brandTitle = $derived(safeT('seo.brandTitle', SEO_FALLBACK[activeLang].brandTitle));
+	// Назва зі сторінки старша за карту SEO — рівно як опис нижче. Розбір у `App.PageData`.
 	const metaTitle = $derived(
-		safeT(`seo.pages.${seoKey}.title`, SEO_FALLBACK[activeLang].pages[seoKey].title)
+		page.data.seoTitle ||
+			safeT(`seo.pages.${seoKey}.title`, SEO_FALLBACK[activeLang].pages[seoKey].title)
 	);
 	// Опис зі сторінки старший за карту SEO — чому саме так, у `App.PageData`.
 	const metaDescription = $derived(

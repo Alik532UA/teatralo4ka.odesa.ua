@@ -6,6 +6,7 @@
 	import { getArticles, getDisplayDate, mapArticleToWidgetItem, type Article } from "$lib/services/articles";
 	import { locale, t } from "svelte-i18n";
 	import { getNewsPageSettings, getCachedNewsPageSettings, newsToContentConfig, DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE, type NewsWidgetConfig } from "$lib/services/settings";
+	import { codeNewsCards } from "$lib/config/codeNews";
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────────────────
 	const cachedNews = browser ? getCachedNewsPageSettings() : null;
@@ -25,10 +26,24 @@
 	// Reactive locale for widget re-mapping
 	const activeLang = $derived((($locale as string) || 'uk') as 'uk' | 'en');
 
+	/*
+	 * ПЕРЕЛІК ЗВОДИТЬ ДВА ДЖЕРЕЛА: базу й репозиторій.
+	 *
+	 * Новини з коду не чекають на Firestore — вони вже в бандлі, тож стоять у
+	 * переліку з першого кадру, ще до `onMount`. Саме тому вони й додаються
+	 * ЗВЕРХУ списку, а не всередину сортування за датою: сортувати нема з чим,
+	 * доки база не відповіла, і перестрибування карток після відповіді читалося
+	 * б як помилка. Коли новин у коді стане більше однієї, тут з'явиться спільне
+	 * сортування — а поки їх одна, порядок «код, далі база» і є хронологією.
+	 *
+	 * Чернетки не приходять узагалі: `codeNewsCards` віддає лише `published`,
+	 * так само як фільтр нижче віддає лише `isPublished` зі статей бази.
+	 */
 	let newsItems = $derived.by(() => {
-		return rawNewsArticles
+		const зБази = rawNewsArticles
 			.filter(a => a.translations?.[activeLang]?.isPublished)
 			.map((item, index) => mapArticleToWidgetItem(item, activeLang, index));
+		return [...codeNewsCards(activeLang), ...зБази];
 	});
 
 	onMount(async () => {
@@ -71,7 +86,12 @@
 <!-- News Section -->
 <section class="news news--page" id="news-section" aria-labelledby="news-title" data-testid="news-page-section">
 	<div class="container" data-testid="news-page-container">
-		{#if loading}
+		<!--
+			Напис «завантажується» — лише коли показати НІЧОГО. Доти він стояв на
+			час запиту завжди, і новини з коду, які вже в бандлі, ховалися за ним
+			разом із рештою — тобто готовий вміст чекав на мережу без причини.
+		-->
+		{#if loading && newsItems.length === 0}
 			<p class="news-page__status" data-testid="news-page-loading-status">{$t('news.loading')}</p>
 		{:else if newsItems.length > 0}
 			<ContentWidget

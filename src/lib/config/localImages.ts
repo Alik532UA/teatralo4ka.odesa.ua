@@ -156,6 +156,17 @@ export const LOCAL_IMAGE_SIZES = {
 	'/groups/zrobleno-v-ukraini.webp': { width: 1280, height: 850 },
 	'/history/kolektyv-dtsh-2016.webp': { width: 1280, height: 913 },
 	'/history/muzychne-viddilennia-2016.webp': { width: 1280, height: 850 },
+	'/news/2026-09-04/01.jpg': { width: 1280, height: 959 },
+	'/news/2026-09-04/02.jpg': { width: 1280, height: 960 },
+	'/news/2026-09-04/03.jpg': { width: 1280, height: 960 },
+	'/news/2026-09-04/04.jpg': { width: 1195, height: 929 },
+	'/news/2026-09-04/05.jpg': { width: 960, height: 1280 },
+	'/news/2026-09-04/06.jpg': { width: 960, height: 1280 },
+	'/news/2026-09-04/07.jpg': { width: 1280, height: 960 },
+	'/news/2026-09-04/08.jpg': { width: 1280, height: 960 },
+	'/news/2026-09-04/09.jpg': { width: 187, height: 554 },
+	'/news/2026-09-04/10.jpg': { width: 1280, height: 853 },
+	'/news/2026-09-04/11.jpg': { width: 1280, height: 959 },
 } as const satisfies Record<string, ImageSize>;
 
 /** Шляхи, розмір яких відомий. Усе інше — помилка типів, а не порожній атрибут. */

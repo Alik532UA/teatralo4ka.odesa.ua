@@ -39,7 +39,17 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'teatr-pro', href: () => resolve('/projects/teatr-pro') },
 	{ slug: 'residents-adults', href: () => resolve('/residents/adults') },
 	{ slug: 'residents-graduates', href: () => resolve('/residents/graduates') },
-	{ slug: 'residents-kids', href: () => resolve('/residents/kids') }
+	{ slug: 'residents-kids', href: () => resolve('/residents/kids') },
+	/*
+	 * Новина з коду — єдиний тут запис із ПАРАМЕТРОМ у маршруті.
+	 *
+	 * Саме заради цього рядка новина й лежить у репозиторії: те, що написано в
+	 * базі, у пошук по сайту не потрапляє взагалі (`searchIndex.ts` — сторінки
+	 * вже в бандлі, статті ні). Чернетка при цьому шукається так само, як
+	 * шукається чернетка `festival.md`: приховує сторінку `archived`, а не
+	 * `draft`.
+	 */
+	{ slug: 'news-2026-09-04', href: () => resolve('/news/[id]', { id: '2026-09-04' }) }
 ];
 
 /**

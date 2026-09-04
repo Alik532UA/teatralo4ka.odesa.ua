@@ -224,7 +224,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 	{
 		id: 'content',
 		title: { uk: 'Новини й проєкти з бази', en: 'News and projects from the database' },
-		routes: ['/news', '/projects'],
+		routes: ['/news', '/news/2026-09-04', '/projects'],
 		checks: [
 			{
 				id: 'content_1',
@@ -263,6 +263,26 @@ export const BETA_TABS: readonly BetaTab[] = [
 				},
 				coverage: 'testable',
 				negative: true
+			},
+			{
+				id: 'content_5',
+				category: { uk: 'Новина з коду', en: 'News from the code' },
+				text: {
+					uk: 'Відкрийте новину «Знімки початку навчального року» й вимкніть JavaScript (або подивіться вихідний код сторінки). Текст новини й одинадцять знімків мусять бути ВЖЕ в ньому — це новина з репозиторію, а не з бази.',
+					en: 'Open the story “Photos from the start of the school year” and disable JavaScript (or view the page source). The text and all eleven photos must already be there — this story lives in the repository, not in the database.'
+				},
+				coverage: 'testable',
+				testid: 'article-gallery-list'
+			},
+			{
+				id: 'content_6',
+				category: { uk: 'Новина з коду', en: 'News from the code' },
+				text: {
+					uk: 'На тій самій новині натисніть будь-який знімок — має відкритися велике фото зі стрілками. Далі надішліть посилання на новину собі в Telegram: у прев’ю мусить бути назва саме цієї новини, а не «Одеська театральна школа».',
+					en: 'On the same story click any photo — a large image with arrows must open. Then send the story link to yourself in Telegram: the preview must show this story’s own title, not “Odesa Theatre School”.'
+				},
+				coverage: 'manual',
+				testid: 'article-gallery-img-0'
 			}
 		]
 	},

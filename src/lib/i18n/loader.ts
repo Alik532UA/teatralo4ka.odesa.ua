@@ -108,6 +108,29 @@ export function loadPageForSearch(
   return { title, text: plainTextFromMarkdown(content) };
 }
 
+/**
+ * Лише frontmatter, БЕЗ рендеру markdown.
+ *
+ * Причина та сама, що в `loadPageForSearch` вище: `loadPageWithMetadata`
+ * проганяє текст через `marked` і DOMPurify, а переліку новин потрібні назва,
+ * дата й анотація — тобто рівно те, що вже лежить у frontmatter. Заміряно на
+ * першій же новині в коді: перелік `/news` через повний завантажувач підняв
+ * увесь клієнтський код із 667 до 669 КБ і повалив бюджет
+ * (`scripts/check-bundle-budget.ts`), бо тягнув у свій чанк розмітковий
+ * конвеєр цілком.
+ *
+ * Повертає `null` для `archived` — з тієї самої причини, що й пошук: показувати
+ * архівну сторінку не можна, отже й у переліку її бути не повинно.
+ */
+export function loadPageMetadata(lang: string, slug: string): PageMetadata | null {
+	const fileContent = PAGES[lang]?.[slug];
+	if (!fileContent) return null;
+
+	const { data } = parseFrontmatter(fileContent);
+	const metadata = pageMetadataSchema.parse(data) as PageMetadata;
+	return metadata.status === 'archived' ? null : metadata;
+}
+
 /** Слуги, які справді є на диску — для перевірки повноти переліку пошуку. */
 export function listPageSlugs(lang: string): string[] {
   return Object.keys(PAGES[lang] ?? {});

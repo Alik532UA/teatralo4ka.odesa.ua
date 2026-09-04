@@ -54,6 +54,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * заради числа означало б розкидати один перелік, який читають цілим. Логіки в
  * файлі нуль — лише типи й константи.
  *
+ * 2026-09-04: `data/betaChecklist.ts` 392 → 412. Два пункти про першу новину,
+ * яка живе в КОДІ, а не в базі: чи справді її текст і одинадцять знімків уже в
+ * HTML без JavaScript, і чи прев'ю посилання називає саму новину. Це рівно те,
+ * що відрізняє два джерела новин одне від одного, і перевірити його можна лише
+ * руками — тобто пунктом чеклиста, а не гейтом. Логіки не додано жодного рядка.
+ *
  * 2026-08-23 (друга правка того ж дня): `data/betaChecklist.ts` 368 → 387. Два
  * пункти про заставку й коментар до них. `admin_8` — святкові куліси: оформлення
  * саме собою з'являється тринадцять днів на рік, тож перевірити його інакше, ніж
@@ -370,7 +376,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 392,
+	'src/lib/data/betaChecklist.ts': 412,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
