@@ -1605,7 +1605,8 @@
 		"graduationYear": 2024,
 		"departments": [
 			"theatre"
-		]
+		],
+		"hasPhoto": true
 	},
 	{
 		"id": "anna-moldavchuk",
