@@ -105,13 +105,10 @@
 		align-items: center;
 		gap: 0.65rem;
 		margin-bottom: 1.75rem;
-		border-bottom: 1px solid rgb(255 255 255 / 0.08);
+		border-bottom: 1px solid light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.08));
 		padding-bottom: 0.75rem;
 	}
 
-	:global([data-theme='light']) .lineage__heading {
-		border-bottom-color: rgb(0 0 0 / 0.1);
-	}
 
 	.lineage__icon {
 		display: inline-flex;
@@ -156,8 +153,8 @@
 		gap: 0.5rem;
 		padding: 0.5rem 0.9rem;
 		border-radius: 0.75rem;
-		border: 1px solid rgb(255 255 255 / 0.14);
-		background: rgb(255 255 255 / 0.05);
+		border: 1px solid light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.14));
+		background: light-dark(rgb(0 0 0 / 0.04), rgb(255 255 255 / 0.05));
 		color: var(--text-main);
 		text-decoration: none;
 		transition:
@@ -165,10 +162,14 @@
 			border-color var(--transition-fast);
 	}
 
-	:global([data-theme='light']) .lineage__link {
-		border-color: rgb(0 0 0 / 0.14);
-		background: rgb(0 0 0 / 0.04);
-	}
+	/*
+	 * Світле й темне значення — парою в самій властивості.
+	 *
+	 * Доти світлі значення стояли окремим правилом під селектором однієї теми
+	 * (`light`), а тем шість: дві ЖОВТІ теми теж світлі, але тим селектором не
+	 * накривалися й отримували оформлення для темного тла. Розбір і замір — у
+	 * докблоці `VerificationNoticeBanner`, з якого почалася ця правка.
+	 */
 
 	.lineage__link:hover {
 		transform: translateY(-2px);

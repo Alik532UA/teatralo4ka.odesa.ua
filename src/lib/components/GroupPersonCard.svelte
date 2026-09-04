@@ -146,8 +146,9 @@
 		box-sizing: border-box;
 		padding: 1.5rem 1rem 1.25rem;
 		border-radius: 16px;
-		background: rgba(255, 255, 255, 0.025);
-		border: 1px solid rgba(255, 255, 255, 0.06);
+		background: light-dark(#ffffff, rgba(255, 255, 255, 0.025));
+		border: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.06));
+		box-shadow: 0 2px 8px light-dark(rgb(0 0 0 / 0.04), transparent);
 		text-decoration: none;
 		color: inherit;
 		font-family: inherit;
@@ -204,9 +205,17 @@
 	}
 
 	/* Наведення важливіше за хвилю: інакше вона зсувала б картку з-під курсора. */
+	/*
+	 * Світле й темне значення — парою в самій властивості.
+	 *
+	 * Доти світлі значення стояли окремим правилом під селектором однієї теми
+	 * (`light`), а тем шість: дві ЖОВТІ теми теж світлі, але тим селектором не
+	 * накривалися й отримували оформлення для темного тла. Розбір і замір — у
+	 * докблоці `VerificationNoticeBanner`, з якого почалася ця правка.
+	 */
 	.person-card:hover {
 		animation: none;
-		background: rgba(255, 255, 255, 0.07);
+		background: light-dark(#f8fafc, rgba(255, 255, 255, 0.07));
 		border-color: rgba(99, 102, 241, 0.4);
 		transform: translateY(-4px);
 		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
@@ -288,18 +297,6 @@
 		color: var(--text-muted, #94a3b8);
 	}
 
-	:global(.light-theme) .person-card {
-		background: #ffffff;
-		border-color: rgba(0, 0, 0, 0.08);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-	}
-
-	:global(.light-theme) .person-card:hover {
-		background: #f8fafc;
-		border-color: rgba(99, 102, 241, 0.4);
-	}
-
-	:global(.light-theme) .person-card__name {
-		color: #1e293b;
-	}
+	/* Правил під одну тему тут більше немає: рамка на наведенні в них була та
+	   сама, а колір імені приходить токеном `--text-main`. */
 </style>

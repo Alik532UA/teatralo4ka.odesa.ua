@@ -113,16 +113,25 @@
 		width: 100%;
 		padding: 1rem 1.25rem;
 		border-radius: 12px;
-		background: rgba(255, 255, 255, 0.025);
-		border: 1px solid rgba(255, 255, 255, 0.06);
+		background: light-dark(#ffffff, rgba(255, 255, 255, 0.025));
+		border: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.06));
+		box-shadow: 0 2px 6px light-dark(rgb(0 0 0 / 0.02), transparent);
 		color: inherit;
 		font: inherit;
 		text-align: left;
 		transition: all 0.2s ease;
 	}
 
+	/*
+	 * Світле й темне значення — парою в самій властивості.
+	 *
+	 * Доти світлі значення стояли окремим правилом під селектором однієї теми
+	 * (`light`), а тем шість: дві ЖОВТІ теми теж світлі, але тим селектором не
+	 * накривалися й отримували оформлення для темного тла. Розбір і замір — у
+	 * докблоці `VerificationNoticeBanner`, з якого почалася ця правка.
+	 */
 	.play-card:hover {
-		background: rgba(255, 255, 255, 0.05);
+		background: light-dark(#f8fafc, rgba(255, 255, 255, 0.05));
 		border-color: rgba(255, 255, 255, 0.12);
 		transform: translateX(4px);
 	}
@@ -170,12 +179,20 @@
 		}
 	}
 
+	/*
+	 * Колір числа — парою: світло-індиговий читається лише на темному.
+	 *
+	 * Знайшов це не я, а axe у прогоні по шести темах: контраст 1,61–1,65
+	 * (`#a5b4fc` на `#e8e8fd`) у трьох світлих темах — 20 порушень на сторінці
+	 * групи. Тобто рік вистави в них був майже невидимий, і в НАЙСВІТЛІШІЙ темі
+	 * теж, не лише в жовтих.
+	 */
 	.play-card__year-badge {
 		padding: 0.35rem 0.75rem;
 		border-radius: 8px;
 		background: rgba(99, 102, 241, 0.15);
 		border: 1px solid rgba(99, 102, 241, 0.3);
-		color: #a5b4fc;
+		color: light-dark(#3730a3, #a5b4fc);
 		font-weight: 700;
 		font-size: 0.95rem;
 		letter-spacing: 0.02em;
@@ -194,19 +211,8 @@
 		color: var(--text-main, #f1f5f9);
 	}
 
-	:global(.light-theme) .play-card {
-		background: #ffffff;
-		border-color: rgba(0, 0, 0, 0.08);
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-	}
-
-	:global(.light-theme) .play-card:hover {
-		background: #f8fafc;
-	}
-
-	:global(.light-theme) .play-card__title {
-		color: #1e293b;
-	}
+	/* Правил під одну тему тут більше немає: колір назви й так приходить
+	   токеном `--text-main`, який кожна тема оголошує сама. */
 
 	@media (max-width: 560px) {
 		/* На вузькому екрані підпис зайвий — іконки досить. */

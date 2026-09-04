@@ -233,7 +233,7 @@
 	.banner__border {
 		position: absolute;
 		inset: 0;
-		border: 16px solid rgba(255, 255, 255, 0.15);
+		border: 16px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.15));
 		border-radius: inherit;
 		pointer-events: none;
 	}
@@ -278,7 +278,7 @@
 		padding: 0;
 		border: none;
 		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.3);
+		background: light-dark(rgb(0 0 0 / 0.2), rgba(255, 255, 255, 0.3));
 		cursor: pointer;
 		transition:
 			background 0.25s ease,
@@ -299,11 +299,12 @@
 		outline-offset: 3px;
 	}
 
-	:global(.light-theme) .banner__border {
-		border-color: rgba(0, 0, 0, 0.08);
-	}
-
-	:global(.light-theme) .banner__dot {
-		background: rgba(0, 0, 0, 0.2);
-	}
+	/*
+	 * Світле й темне значення — парою в самій властивості.
+	 *
+	 * Доти світлі значення стояли окремим правилом під селектором однієї теми
+	 * (`light`), а тем шість: дві ЖОВТІ теми теж світлі, але тим селектором не
+	 * накривалися й отримували оформлення для темного тла. Розбір і замір — у
+	 * докблоці `VerificationNoticeBanner`, з якого почалася ця правка.
+	 */
 </style>

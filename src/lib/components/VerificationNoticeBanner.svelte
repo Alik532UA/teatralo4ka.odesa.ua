@@ -82,28 +82,50 @@
 		transition: border-color var(--transition-base);
 	}
 
+	/*
+	 * КОЛЬОРИ ЧЕРЕЗ `light-dark()`, а не через селектор однієї теми.
+	 *
+	 * ## Що було зламано
+	 *
+	 * Тем у проєкті шість: `light`, `dark`, `yellow`, `light-yellow`,
+	 * `dark-cyan`, `dark-blue`. Банер мав темні значення в основному правилі й
+	 * світлі — під `[data-theme='light']`. Дві ЖОВТІ теми світлі, але цим
+	 * селектором не накриваються, тож отримували колір тексту для темного тла.
+	 *
+	 * Заміряно на сторінці вистави (контраст тексту до складеного фону):
+	 *
+	 *   light 8,28 · dark 10,16 · dark-cyan 11,17 · dark-blue 11,66
+	 *   yellow 1,01 ✗ · light-yellow 1,03 ✗
+	 *
+	 * Одиниця — це «того самого кольору». Автор так і побачив: «світлий текст
+	 * на світлому фоні, текст не видно».
+	 *
+	 * ## Чому саме `light-dark()`, а не ще два селектори
+	 *
+	 * Перелічити жовті теми поруч зі світлою — та сама пастка, лише відкладена:
+	 * наступна тема знову не потрапить у список. `light-dark()` питає не назву
+	 * теми, а `color-scheme`, який `global.css` звужує КОЖНІЙ темі (і це
+	 * стережеться гейтом `theme-appearance`). Тобто нова тема отримує правильну
+	 * половину вже тим, що оголосила свою схему.
+	 *
+	 * Порядок аргументів — `light-dark(світле, темне)`, як у палітрі
+	 * `themes/light.css`.
+	 *
+	 * Чого axe не бачить: у банера `backdrop-filter`, а крізь нього axe фон не
+	 * обчислює й відносить елемент до «не змогла визначити», а не до порушень.
+	 * Тому контраст банера стережеться власним заміром у
+	 * `e2e/theme-contrast.spec.ts`.
+	 */
 	.verification-banner--possible {
-		background: rgb(245 158 11 / 0.1);
-		border: 1px solid rgb(245 158 11 / 0.35);
-		color: #fef3c7;
-	}
-
-	:global([data-theme='light']) .verification-banner--possible {
-		background: rgb(245 158 11 / 0.12);
-		border-color: rgb(217 119 6 / 0.4);
-		color: #78350f;
+		background: light-dark(rgb(245 158 11 / 0.12), rgb(245 158 11 / 0.1));
+		border: 1px solid light-dark(rgb(217 119 6 / 0.4), rgb(245 158 11 / 0.35));
+		color: light-dark(#78350f, #fef3c7);
 	}
 
 	.verification-banner--definite {
 		background: rgb(239 68 68 / 0.12);
-		border: 1px solid rgb(239 68 68 / 0.4);
-		color: #fee2e2;
-	}
-
-	:global([data-theme='light']) .verification-banner--definite {
-		background: rgb(239 68 68 / 0.12);
-		border-color: rgb(220 38 38 / 0.45);
-		color: #7f1d1d;
+		border: 1px solid light-dark(rgb(220 38 38 / 0.45), rgb(239 68 68 / 0.4));
+		color: light-dark(#7f1d1d, #fee2e2);
 	}
 
 	.verification-banner__content {
@@ -161,7 +183,7 @@
 		width: 26px;
 		height: 26px;
 		border-radius: 50%;
-		background: rgb(255 255 255 / 0.12);
+		background: light-dark(rgb(0 0 0 / 0.08), rgb(255 255 255 / 0.12));
 		transition:
 			transform var(--transition-fast),
 			background var(--transition-fast);
@@ -169,15 +191,7 @@
 
 	.verification-banner__link:hover {
 		transform: scale(1.15);
-		background: rgb(255 255 255 / 0.25);
-	}
-
-	:global([data-theme='light']) .verification-banner__link {
-		background: rgb(0 0 0 / 0.08);
-	}
-
-	:global([data-theme='light']) .verification-banner__link:hover {
-		background: rgb(0 0 0 / 0.16);
+		background: light-dark(rgb(0 0 0 / 0.16), rgb(255 255 255 / 0.25));
 	}
 
 	.verification-banner__social-icon {

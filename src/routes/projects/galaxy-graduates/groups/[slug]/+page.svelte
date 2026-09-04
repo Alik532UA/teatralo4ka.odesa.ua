@@ -349,8 +349,8 @@
 		gap: 0.4rem;
 		padding: 0.35rem 0.85rem;
 		border-radius: 9999px;
-		background: rgba(255, 255, 255, 0.06);
-		border: 1px solid rgba(255, 255, 255, 0.12);
+		background: light-dark(rgb(0 0 0 / 0.04), rgba(255, 255, 255, 0.06));
+		border: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.12));
 		color: var(--text-muted, #94a3b8);
 		font-size: 0.85rem;
 		font-weight: 500;
@@ -361,7 +361,14 @@
 		font-weight: 800;
 		line-height: 1.15;
 		margin: 0 0 0.5rem;
-		background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+		/* Пара значень у КОЖНОМУ стопі градієнта: у світлих темах напис на
+		   світлому тлі був майже білим. Розбір — у докблоці банера перевірки. */
+		background: linear-gradient(
+			135deg,
+			light-dark(#0f172a, #ffffff) 0%,
+			light-dark(#334155, #cbd5e1) 50%,
+			light-dark(#475569, #94a3b8) 100%
+		);
 		background-clip: text;
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
@@ -384,7 +391,7 @@
 		align-items: center;
 		gap: 0.65rem;
 		margin-bottom: 1.75rem;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+		border-bottom: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.08));
 		padding-bottom: 0.75rem;
 	}
 
@@ -412,28 +419,19 @@
 		gap: 1.25rem;
 	}
 
-	/* Світла тема */
-	:global(.light-theme) .group-page {
-		color: #1e293b;
-	}
-
-	:global(.light-theme) .group-header__title {
-		background: linear-gradient(135deg, #0f172a 0%, #334155 50%, #475569 100%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-
-	:global(.light-theme) .group-years-badge {
-		background: rgba(0, 0, 0, 0.04);
-		border-color: rgba(0, 0, 0, 0.08);
-		color: #64748b;
-	}
-
-	:global(.light-theme) .section-heading {
-		border-bottom-color: rgba(0, 0, 0, 0.08);
-	}
+	/*
+	 * Правил під ОДНУ тему тут більше немає — світле й темне значення стоять
+	 * парою в самій властивості.
+	 *
+	 * Причина: тем шість, і дві ЖОВТІ теми світлі, але селектором `.light-theme`
+	 * не накривалися, тобто отримували оформлення для темного тла. Колір тексту
+	 * сторінки й підпису років при цьому й так приходить токенами
+	 * (`--text-main`, `--text-muted`), які кожна тема оголошує сама, тож ці два
+	 * перекриття були зайві навіть у світлій темі.
+	 *
+	 * Розбір і замір — у докблоці `VerificationNoticeBanner`, з якого почалася
+	 * ця правка.
+	 */
 
 	@media (max-width: 640px) {
 		.group-page {
