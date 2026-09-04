@@ -1093,6 +1093,18 @@
 		"theatresSearchNothing": "Театрів не знайдено",
 		"institutionsSearch": "Шукати заклад за назвою або містом",
 		"institutionsSearchNothing": "Закладів не знайдено",
+		"slideshowStart": "Показ анкет",
+		"slideshowStop": "Спинити показ",
+		"slideshowSettings": "Налаштування показу",
+		"slideshowSeconds": "На випускника",
+		"slideshowSecondsShort": "с",
+		"slideshowFade": "Зміна",
+		"slideshowWho": "Кого показувати",
+		"slideshowFilter": {
+			"withPhoto": "З фотографією",
+			"all": "Усіх випускників",
+			"artPath": "З закладом освіти або театром"
+		},
 		"institutionBlockTitle": "Творчий заклад освіти",
 		"institutionsTitle": "Навчальні заклади",
 		"institutionsHint": "Творчі заклади, куди вступили наші випускники. Разом {people} вступів у переліку.",

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount, getAbortSignal } from 'svelte';
-	import { goto, pushState } from '$app/navigation';
+	import { goto, pushState, replaceState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import GalaxyStageControls from '$lib/components/GalaxyStageControls.svelte';
@@ -9,6 +9,10 @@
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateRoster from '$lib/components/GraduateRoster.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
+	import GraduateSlideshowBar from '$lib/components/galaxy/GraduateSlideshowBar.svelte';
+	import { slideshow, matchesSlideshowFilter } from '$lib/services/graduateSlideshow.svelte';
+	import { INSTITUTIONS } from '$lib/data/institutions';
+	import { THEATRES } from '$lib/data/theatres';
 	import {
 		cachedGraduateProfile,
 		ensureGraduateProfile
@@ -307,6 +311,106 @@
 	}
 
 	/**
+	 * СЛАЙДШОУ: хто в ньому, і як воно крутиться.
+	 *
+	 * ## Кого показувати
+	 *
+	 * Ознака «є творчий шлях» рахується тут, а не в сервісі: сервіс не мусить
+	 * знати ні про заклади освіти, ні про театри — він знає лише три числа й
+	 * назву фільтра. Множина збирається один раз, а не на кожному слайді.
+	 */
+	const зТворчимШляхом = new Set([
+		...INSTITUTIONS.flatMap((i) => i.students.map((s) => s.id)),
+		...THEATRES.flatMap((t) => t.members.map((m) => m.id))
+	]);
+
+	const показ = $derived(
+		data.graduates.filter((g) =>
+			matchesSlideshowFilter(slideshow.filter, {
+				hasPhoto: g.hasPhoto,
+				hasArtPath: зТворчимШляхом.has(g.id)
+			})
+		)
+	);
+
+	/**
+	 * Пуск і зупинка.
+	 *
+	 * Перший слайд кладе запис в історію, решта його ЗАМІНЮЄ. Інакше двісті
+	 * слайдів дали б двісті записів, і «назад» довелося б тиснути двісті разів;
+	 * а зупинка — це `history.back()`, той самий шлях, яким закривається картка,
+	 * відкрита кліком по зірці.
+	 *
+	 * Порядок ВИПАДКОВИЙ, і це рішення, а не недогляд: за роком випуску слайдшоу
+	 * щоразу починалося б з тих самих людей, і далі перших тридцяти ніхто б не
+	 * додивився.
+	 */
+	function toggleSlideshow() {
+		if (slideshow.active) {
+			slideshow.stop();
+			if (page.state.graduateAddress) history.back();
+			return;
+		}
+		черга = [...показ].sort(() => Math.random() - 0.5);
+		крок = 0;
+		if (!черга.length) return;
+		slideshow.active = true;
+		pushState(profileHref(черга[0]), { graduateAddress: graduateAddress(черга[0]) });
+	}
+
+	let черга = $state<GraduateIndexEntry[]>([]);
+	let крок = $state(0);
+
+	/**
+	 * Годинник слайдшоу.
+	 *
+	 * Один `setTimeout` на слайд, а не `setInterval`: тривалість міняється
+	 * повзунком просто під час показу, і інтервал, заведений раз, лишився б зі
+	 * старим числом до перезапуску.
+	 *
+	 * Зміна двофазна — і саме це та «плавна повільна анімація» з прохання:
+	 * картка гасне (`dimmed`), і рівно через час згасання під нею підміняється
+	 * випускник, після чого вона запалюється. Підміняти без згасання означало б
+	 * стрибок, а гасити після підміни — блимання новою анкетою.
+	 */
+	$effect(() => {
+		if (!slideshow.active || !черга.length) return;
+		const секунди = slideshow.seconds;
+		const згасання = slideshow.fadeMs;
+		const таймери: ReturnType<typeof setTimeout>[] = [];
+
+		таймери.push(
+			setTimeout(() => {
+				slideshow.dimmed = true;
+				таймери.push(
+					setTimeout(() => {
+						крок = (крок + 1) % черга.length;
+						const наступний = черга[крок];
+						replaceState(profileHref(наступний), {
+							graduateAddress: graduateAddress(наступний)
+						});
+						slideshow.dimmed = false;
+					}, згасання)
+				);
+			}, секунди * 1000)
+		);
+
+		/* Обидва таймери знімаються разом: ефект перезапускається на кожному
+		   слайді й на кожному руху повзунка, і забутий внутрішній таймер
+		   підмінив би випускника вже після зупинки. */
+		return () => таймери.forEach(clearTimeout);
+	});
+
+	/*
+	 * Закрили картку хрестиком або кнопкою «назад» — слайдшоу спиняється саме.
+	 * Без цього воно крутилося б далі, підміняючи стан під закритою карткою й
+	 * відкриваючи її знову.
+	 */
+	$effect(() => {
+		if (slideshow.active && !page.state.graduateAddress) slideshow.stop();
+	});
+
+	/**
 	 * Клас на `<body>`, а не правки в layout.
 	 *
 	 * Галактика займає весь екран, тож шапка й підвал тут зайві — але прибирати їх
@@ -445,6 +549,7 @@
 		{locale}
 		onopenroster={openRoster}
 		onopenform={openForm}
+		onslideshow={toggleSlideshow}
 	/>
 </div>
 
@@ -471,8 +576,18 @@
 <GraduateCard
 	graduate={selected}
 	profile={selectedProfile}
+	dimmed={slideshow.dimmed}
+	dimMs={slideshow.fadeMs}
 	onclose={closeCard}
 />
+
+<!--
+	Рядок налаштувань з'являється ЛИШЕ під час показу: поза ним він був би
+	четвертою панеллю на сцені, якою ніхто не користується.
+-->
+{#if slideshow.active}
+	<GraduateSlideshowBar />
+{/if}
 
 <!--
 	Вікно вантажиться лише тоді, коли його попросили: більшість відвідувачів

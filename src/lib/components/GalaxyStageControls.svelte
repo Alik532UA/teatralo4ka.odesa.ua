@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, School, Drama, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, School, Drama, Plus, Menu, X, Expand, Shrink, Play, Pause } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
+	import { slideshow } from '$lib/services/graduateSlideshow.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
 
 	/**
@@ -32,9 +33,11 @@
 		locale: Locale;
 		onopenroster: () => void;
 		onopenform: () => void;
+		/** Пуск і зупинка слайдшоу — сторінка знає, кого показувати. */
+		onslideshow?: () => void;
 	}
 
-	let { total, locale, onopenroster, onopenform }: Props = $props();
+	let { total, locale, onopenroster, onopenform, onslideshow }: Props = $props();
 
 	let menuOpen = $state(false);
 
@@ -232,6 +235,30 @@
 			напрямку, тобто вони не кажуть, куди поїде екран. Той самий вибір, що
 			в сусідньому `VetCrewGames`, звідки перенесено сервіс.
 		-->
+		<!--
+			Слайдшоу — ЛІВОРУЧ від повного екрана, як просив автор, і це сусідство
+			не випадкове: обидві кнопки про те, як дивитися, а не куди йти. Решта
+			панелі веде в переліки.
+		-->
+		<button
+			type="button"
+			class="stage__fullscreen-btn stage__fullscreen-btn--show"
+			onclick={() => pick(() => onslideshow?.())}
+			title={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+			aria-label={slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+			aria-pressed={slideshow.active}
+			data-testid="galaxy-slideshow-btn"
+		>
+			{#if slideshow.active}
+				<Pause size={20} aria-hidden="true" />
+			{:else}
+				<Play size={20} aria-hidden="true" />
+			{/if}
+			<span class="stage__label">
+				{slideshow.active ? $t('galaxy.slideshowStop') : $t('galaxy.slideshowStart')}
+			</span>
+		</button>
+
 		<button
 			type="button"
 			class="stage__fullscreen-btn"
@@ -380,6 +407,20 @@
 		transition:
 			border-color var(--transition-base),
 			background var(--transition-base);
+	}
+
+	/*
+	 * Показ анкет — ЛІВОРУЧ від повного екрана, тобто на його ширину плюс
+	 * проміжок правіше від правого краю. Модифікатор, а не другий набір правил:
+	 * кнопки однакові в усьому, крім місця, і копія п'ятнадцяти рядків
+	 * розійшлася б на першій же правці вигляду.
+	 *
+	 * Правило стоїть ПІСЛЯ базового — вага в них однакова, тож вирішує порядок.
+	 * У розкритому меню на телефоні його перебиває `--open` (два класи проти
+	 * одного), і кнопка там стає таким самим рядком, як решта.
+	 */
+	.stage__fullscreen-btn--show {
+		right: calc(clamp(0.75rem, 2vw, 1.5rem) + 44px + 0.5rem);
 	}
 	.stage__fullscreen-btn:hover,
 	.stage__fullscreen-btn:focus-visible {

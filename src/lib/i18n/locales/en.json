@@ -1093,6 +1093,18 @@
 		"theatresSearchNothing": "No theatres found",
 		"institutionsSearch": "Search a school by name or city",
 		"institutionsSearchNothing": "No schools found",
+		"slideshowStart": "Play the profiles",
+		"slideshowStop": "Stop the show",
+		"slideshowSettings": "Slideshow settings",
+		"slideshowSeconds": "Per graduate",
+		"slideshowSecondsShort": "s",
+		"slideshowFade": "Transition",
+		"slideshowWho": "Who to show",
+		"slideshowFilter": {
+			"withPhoto": "With a photo",
+			"all": "All graduates",
+			"artPath": "With a school or a theatre"
+		},
 		"institutionBlockTitle": "Performing arts school",
 		"institutionsTitle": "Schools and universities",
 		"institutionsHint": "Performing arts schools our graduates went on to. {people} enrolments listed in total.",

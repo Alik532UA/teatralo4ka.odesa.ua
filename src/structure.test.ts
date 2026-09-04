@@ -375,6 +375,20 @@ const LIMITS: Array<[RegExp, number]> = [
  *   ВИВОДИТЬСЯ, а не переліковується руками — інакше наступне перейменування
  *   валило б гейт чеклиста, і хтось дописав би адресу рядком, тобто завів би
  *   другий список тих самих адрес.
+ * 2026-09-04: `GalaxyStageControls.svelte` 336 → 356. Кнопка показу анкет
+ *   («play») ліворуч від повного екрана — прохання автора. Двадцять рядків: сам
+ *   тег із двома станами (грає / спинити), два значки в наявному імпорті, проп
+ *   `onslideshow` і читання стану сервісу.
+ *
+ *   Разом із трьома рядками модифікатора місця (кнопка стоїть на ширину
+ *   сусідньої правіше від краю) це 359.
+ *
+ *   Стеля цього файлу за день упала 349 → 336 виносом переліків у `{#each}` і
+ *   тепер піднімається вище за початок. Це не привід ще раз щось виносити:
+ *   решта файлу — саме те, що не буває спільним (меню на телефоні, три рівні
+ *   прозорості за відстанню курсора, повний екран). Наступне зростання ТУТ
+ *   мусить починатися з виносу кнопок «дивитися» (показ і повний екран)
+ *   окремим компонентом: вони вже стоять поруч і разом означають одне.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -394,7 +408,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 336,
+	'src/lib/components/GalaxyStageControls.svelte': 359,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

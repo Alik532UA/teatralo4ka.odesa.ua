@@ -35,11 +35,23 @@
 		 */
 		showGalaxyLink?: boolean;
 		onclose: () => void;
+		/**
+		 * Пригасити картку — половина «плавної зміни» у слайдшоу.
+		 *
+		 * Сторінка гасить картку, під час згасання підміняє випускника й запалює
+		 * знову. Саме так, а не через `{#key}` із переходом: `{#key}` перестворює
+		 * вузли, а разом із ними — пастку фокуса, і фокус стрибав би на кожному
+		 * слайді. Тривалість приходить числом, бо її вибирає людина повзунком.
+		 */
+		dimmed?: boolean;
+		dimMs?: number;
 	}
 
 	let {
 		graduate,
 		profile,
+		dimmed = false,
+		dimMs = 0,
 		showGalaxyLink = false,
 		onclose,
 	}: Props = $props();
@@ -173,6 +185,8 @@
 	>
 		<div
 			class="card__inner"
+			class:card__inner--dimmed={dimmed}
+			style="--dim-ms: {dimMs}ms"
 			bind:this={innerEl}
 			data-testid="galaxy-card-inner"
 		>
@@ -194,6 +208,22 @@
 {/if}
 
 <style>
+	/*
+	 * Пригашення керується ПРОПОМ, а тривалість — змінною: повзунок слайдшоу
+	 * віддає мілісекунди, і зашити їх у стилі означало б, що налаштування нічого
+	 * не міняє. `opacity` разом із `transform`, бо просте згасання на повний
+	 * розмір картки читається як блимання.
+	 */
+	.card__inner--dimmed {
+		opacity: 0;
+		transform: scale(0.985);
+	}
+	.card__inner {
+		transition:
+			opacity var(--dim-ms, 0ms) ease,
+			transform var(--dim-ms, 0ms) ease;
+	}
+
 	.backdrop {
 		position: fixed;
 		inset: 0;

@@ -75,6 +75,15 @@ type Axis = 'window' | 'container';
  * `container` — вигляд залежить від НАЯВНОГО МІСЦЯ, тобто це борг на `@container`.
  */
 const VERDICT: Record<string, { axis: Axis; why: string }> = {
+	'galaxy/GraduateSlideshowBar.svelte': {
+		axis: 'window',
+		why:
+			'рядок налаштувань слайдшоу стоїть `position: fixed` по центру ВЕРХУ ' +
+			'екрана — місця йому не дає ніхто, він сам є накладкою на весь показ. ' +
+			'Контейнерний запит тут не має чого міряти: контейнера в нього немає, ' +
+			'а межа 640 px описує саме вікно — на вужчому три повзунки в рядок не ' +
+			'влазять і рядок стає стовпчиком'
+	},
 	'PhotoBentoGallery.svelte': {
 		axis: 'window',
 		why:
