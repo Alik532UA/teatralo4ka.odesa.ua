@@ -278,6 +278,27 @@ test.describe('слайдшоу випускників', () => {
 		).toBe(0);
 	});
 
+	test('порядок кнопок: спершу «спинити», потім повний екран', async ({ page }, testInfo) => {
+		test.skip(testInfo.project.name === 'mobile', 'на телефоні рядок навмисно стає стовпчиком');
+		await gotoReady(page, ГАЛАКТИКА);
+		await openStageMenu(page);
+		await page.getByTestId('galaxy-slideshow-btn').click();
+		await expect(page.getByTestId('galaxy-slideshow-settings-panel')).toBeVisible();
+
+		/*
+		 * Прохання автора дослівно: «актуальний результат galaxy-fullscreen-btn,
+		 * Спинити показ; очікуваний — Спинити показ, galaxy-fullscreen-btn».
+		 * Тобто вимога саме до порядку, а не до відступів, — і міряється порядок.
+		 */
+		const спинити = await page.getByTestId('galaxy-slideshow-stop-btn').boundingBox();
+		const екран = await page.getByTestId('galaxy-fullscreen-btn').boundingBox();
+		expect(спинити && екран, 'обидві кнопки мусять бути на екрані').toBeTruthy();
+		expect(
+			спинити!.x + спинити!.width <= екран!.x + 1,
+			`«Спинити показ» на ${Math.round(спинити!.x)}, повний екран на ${Math.round(екран!.x)} — «Спинити» мусить бути лівіше`
+		).toBe(true);
+	});
+
 	test('«спинити показ» закриває анкету й вертає в галактику', async ({ page }) => {
 		await gotoReady(page, ГАЛАКТИКА);
 		await openStageMenu(page);

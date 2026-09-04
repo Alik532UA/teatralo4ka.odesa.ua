@@ -150,7 +150,25 @@
 		</select>
 	</label>
 
+	<!--
+		ПОРЯДОК: спершу «Спинити показ», потім повний екран — так просив автор.
+
+		Сусідство саме таке й не випадкове: підписана кнопка стоїть у кінці
+		рядка, де її шукають (як «Усі випускники» на панелі сцени), а значок без
+		підпису — за нею, у самому куті. Прогін це стереже: `слайдшоу
+		випускників › порядок кнопок`.
+	-->
 	<div class="bar__actions">
+		<button
+			type="button"
+			class="bar__stop"
+			onclick={onstop}
+			data-testid="galaxy-slideshow-stop-btn"
+		>
+			<X size={16} aria-hidden="true" />
+			<span>{$t('galaxy.slideshowStop')}</span>
+		</button>
+
 		<button
 			type="button"
 			class="bar__icon-btn"
@@ -164,16 +182,6 @@
 			{:else}
 				<Expand size={18} aria-hidden="true" />
 			{/if}
-		</button>
-
-		<button
-			type="button"
-			class="bar__stop"
-			onclick={onstop}
-			data-testid="galaxy-slideshow-stop-btn"
-		>
-			<X size={16} aria-hidden="true" />
-			<span>{$t('galaxy.slideshowStop')}</span>
 		</button>
 	</div>
 </div>
