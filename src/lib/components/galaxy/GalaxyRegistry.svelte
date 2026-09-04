@@ -7,7 +7,7 @@
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
-	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
+	import { createGalaxyView, type GalaxyView } from '$lib/services/galaxyViewMode.svelte';
 
 	/**
 	 * Сторінка-перелік галактики: пошук, три режими показу, обличчя, картка на місці.
@@ -86,6 +86,14 @@
 		hintTestId?: string;
 		/** Скільком обличчям бути в рядку. Типове — як у фестивалів. */
 		maxFaces?: number;
+		/**
+		 * Яким режимом відкривається перелік, поки людина не вибрала свій.
+		 *
+		 * Типове — хронологія, як у трьох старших сторінок. Заклади освіти й
+		 * театри відкриваються плиткою: розбір, чому саме там рік слабка вісь, —
+		 * у докблоці `services/galaxyViewMode.svelte.ts`.
+		 */
+		defaultView?: GalaxyView;
 	}
 
 	let {
@@ -103,7 +111,8 @@
 		countTestId,
 		hint,
 		hintTestId,
-		maxFaces = 10
+		maxFaces = 10,
+		defaultView = 'timeline'
 	}: Props = $props();
 
 	/*
@@ -115,7 +124,10 @@
 	 * скинути обраний режим. Тому читання загорнуте в `untrack` — це той самий
 	 * «один раз», але сказаний уголос, а не приховане ігнорування.
 	 */
-	const view = createGalaxyView(untrack(() => storageKey));
+	const view = createGalaxyView(
+		untrack(() => storageKey),
+		untrack(() => defaultView)
+	);
 
 	/*
 	 * Режим плитки з'являється ЛИШЕ коли сторінка дала сніпет. Інакше перемикач

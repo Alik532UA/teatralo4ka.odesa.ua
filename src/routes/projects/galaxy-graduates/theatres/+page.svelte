@@ -86,6 +86,7 @@
 		<GalaxyRegistry
 			rows={рядки}
 			storageKey="theatres"
+			defaultView="tiles"
 			testIdPrefix="galaxy-theatres"
 			title={$t('galaxy.theatresTitle')}
 			titleTestId="galaxy-theatres-title"

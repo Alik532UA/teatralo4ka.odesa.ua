@@ -56,6 +56,12 @@ test.describe('театри', () => {
 
 		await expect(page.getByTestId('galaxy-theatres-title')).toBeVisible();
 
+		/* Типовий режим — плитка; розбір той самий, що в закладів освіти. */
+		await expect(
+			page.getByTestId('galaxy-theatres-view-btn-tiles'),
+			'перелік театрів відкрився не плиткою'
+		).toHaveAttribute('aria-pressed', 'true');
+
 		const карток = await page.locator(ПОСИЛАННЯ).count();
 		expect(
 			карток,
