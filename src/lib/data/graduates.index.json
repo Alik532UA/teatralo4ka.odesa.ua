@@ -3362,6 +3362,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
