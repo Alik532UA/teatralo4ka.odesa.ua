@@ -863,12 +863,10 @@
 									class="photo photo--stacked"
 									class:photo--active={i === activePhotoIndex}
 									class:photo--behind={i !== activePhotoIndex}
-									style="--stack-offset: {i ===
-									activePhotoIndex
-										? 0
-										: i < activePhotoIndex
-											? -1
-											: 1}"
+									style="--stack-offset: {i -
+									activePhotoIndex}; --stack-depth: {Math.abs(
+									i - activePhotoIndex
+								)}"
 									src={photo.src}
 									srcset={photo.srcset}
 									sizes="(max-width: 520px) 40vw, 175px"
@@ -1658,12 +1656,28 @@
 			z-index 0s;
 	}
 	.photo--active {
-		z-index: 2;
+		z-index: 20;
 		opacity: 1;
 		transform: translate(0, 0) rotate(0deg) scale(1);
 	}
+	/*
+	 * Зсув ПРОПОРЦІЙНИЙ відстані до активного знімка, а не просто «ліворуч /
+	 * праворуч».
+	 *
+	 * Доти `--stack-offset` мав лише три значення — 0, −1 і +1, — тож усі знімки
+	 * з одного боку лягали точно один на одного. При трьох фото стопка виглядала
+	 * як дві, хоч перемикання й крапки працювали правильно: третій знімок був, але
+	 * рівно під другим.
+	 *
+	 * `--stack-depth` (модуль тієї самої відстані) дає порядок перекриття: ближчий
+	 * знімок лежить над дальшим. Без нього всі «за» мали однаковий `z-index`, і
+	 * хто з них видимий, вирішував порядок у розмітці.
+	 *
+	 * Розліт помірний навмисно: у реєстрі максимум три знімки (заміряно), тобто
+	 * крайній відходить на 36px і 8°. Ширшого віяла коробка 175px не витримає.
+	 */
 	.photo--behind {
-		z-index: 1;
+		z-index: calc(10 - var(--stack-depth));
 		opacity: 0.7;
 		transform: translate(
 				calc(var(--stack-offset) * 18px),
