@@ -49,7 +49,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	 * шукається чернетка `festival.md`: приховує сторінку `archived`, а не
 	 * `draft`.
 	 */
-	{ slug: 'news-2026-09-04', href: () => resolve('/news/[id]', { id: '2026-09-04' }) }
+	{ slug: 'news-30-y-sezon-i-17-studentiv-2026', href: () => resolve('/news/[id]', { id: '30-y-sezon-i-17-studentiv-2026' }) }
 ];
 
 /**
