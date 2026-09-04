@@ -26,6 +26,7 @@
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
+	import GraduateInstitutions from "$lib/components/GraduateInstitutions.svelte";
 	import { groupPlayRows } from "$lib/data/playRowGroups";
 	import {
 		graduatePhoto,
@@ -305,15 +306,6 @@
 	);
 	/** Рядки одного вечора — одним рядком переліку; правило й заміри в `playRowGroups.ts`. */
 	const playGroups = $derived(groupPlayRows(profile?.plays ?? []));
-	const hasBio = $derived(
-		Boolean(
-			profile &&
-				(profile.duringStudies ||
-					profile.afterGraduation ||
-					profile.bio.length > 0 ||
-					profile.festivals.length > 0),
-		),
-	);
 
 	/*
 	 * Майстри й викладачі — ЗАВЖДИ власні плашки.
@@ -1197,17 +1189,7 @@
 					data-block="bio"
 					data-testid="galaxy-card-bio-section"
 				>
-					{#if !hasBio}
-						<section class="block">
-							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
-							<GraduateBlockEmpty
-								base="galaxy-card-bio"
-								{askForForm}
-								hasPhoto={!!graduate.hasPhoto}
-								onform={openForm}
-							/>
-						</section>
-					{/if}
+
 
 					{#if profile?.duringStudies}
 						<section class="block">
@@ -1222,22 +1204,33 @@
 						</section>
 					{/if}
 
-					{#if profile?.afterGraduation}
-						<section class="block">
-							<h3 class="block__title galaxy-block-title">
-								{$t("galaxy.afterGraduation")}
-							</h3>
-							<p class="para">
-								<RichTextWithFlags
-									text={profile!.afterGraduation}
-								/>
-							</p>
-						</section>
-					{/if}
+					<!--
+						Заклад освіти й «Після випуску» — ОДИН блок, а не два.
+						Доти тут стояли заголовок, той самий факт прозою і ще раз
+						він плашкою: «Після випуску / Вступ 2026: КНУКіМ,
+						акторський, курс О. Печериці / [КНУКіМ вступ 2026]».
+						Автор назвав це дублюванням у трьох місцях, і мав рацію.
+						Тепер компонент показує АБО рядок із реєстру закладів
+						(де назва закладу і є посиланням), АБО прозу — там, де
+						закладу в реєстрі немає.
+					-->
+					<GraduateInstitutions
+						graduateId={graduate.id}
+						afterGraduation={profile?.afterGraduation ?? null}
+					/>
 
-					{#if profile && profile.bio.length > 0}
-						<section class="block">
-							<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
+					<!--
+						«Про себе» стоїть ЗАВЖДИ — з текстом або з запрошенням
+						його дописати.
+						Доти запрошення показувалося лише тоді, коли порожня
+						була ВСЯ картка (`hasBio`), тож у людини, яка має вступ
+						до закладу й нічого більше, розділу «Про себе» не було
+						взагалі: ні тексту, ні запрошення. Автор попросив
+						«інформація відсутня [+додати]» саме для такого випадку.
+					-->
+					<section class="block">
+						<h3 class="block__title galaxy-block-title">{$t("galaxy.about")}</h3>
+						{#if profile && profile.bio.length > 0}
 							{#each profile!.bio as paragraph, index (index)}
 								<p
 									class="para"
@@ -1246,8 +1239,15 @@
 									<RichTextWithFlags text={paragraph} />
 								</p>
 							{/each}
-						</section>
-					{/if}
+						{:else}
+							<GraduateBlockEmpty
+								base="galaxy-card-bio"
+								{askForForm}
+								hasPhoto={!!graduate.hasPhoto}
+								onform={openForm}
+							/>
+						{/if}
+					</section>
 
 					{#if profile && profile.festivals.length > 0}
 						<section

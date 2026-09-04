@@ -1,0 +1,92 @@
+[
+	{
+		"slug": "knutkit",
+		"name": "КНУТКіТ",
+		"fullName": "Київський національний університет театру, кіно і телебачення імені І. К. Карпенка-Карого",
+		"city": "Київ",
+		"countries": ["UA"],
+		"students": [
+			{ "id": "anastasiia-ivanova", "year": 2026, "programme": "акторський", "master": "Д. Богомазова" },
+			{ "id": "pavlo-maksymov", "year": 2026, "programme": "акторський", "master": "О. Замятіна" },
+			{ "id": "yuliana-tymonova", "year": 2026, "programme": "акторський", "master": "О. Замятіна" },
+			{ "id": "kateryna-nesterenko", "year": 2026, "programme": "театр ляльок", "master": "Л. Попова" },
+			{ "id": "nikol-onyshchenko", "year": 2026, "programme": "акторський", "master": "Д. Богомазова" },
+			{ "id": "zlata-stoyanova", "year": 2026, "programme": "акторський", "master": "С. Калантая" },
+			{ "id": "kateryna-petrenko", "year": 2026, "programme": "акторський", "master": "О. Замятіна" }
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "knukim",
+		"name": "КНУКіМ",
+		"fullName": "Київський національний університет культури і мистецтв",
+		"city": "Київ",
+		"countries": ["UA"],
+		"students": [
+			{ "id": "albina-abuladze", "year": 2026, "programme": "акторський", "master": "О. Печериці" },
+			{ "id": "mykhailo-zabozhanov", "year": 2026, "programme": "акторський", "master": "О. Печериці" },
+			{ "id": "oleksandra-karachevska", "year": 2026, "programme": "акторський", "master": "О. Печериці" }
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kmaetsm",
+		"name": "КМАЕЦМ",
+		"fullName": "Київська муніципальна академія естрадного та циркового мистецтв",
+		"city": "Київ",
+		"countries": ["UA", "DE"],
+		"students": [
+			{ "id": "ivan-pitel", "year": 2026, "programme": "акторський", "master": "Д. Рибалевського" },
+			{
+				"id": "alina-demediuk",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Т. Губрій",
+				"note": "філіал у Мюнхені, Німеччина"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lnu",
+		"name": "ЛНУ",
+		"city": "Львів",
+		"countries": ["UA"],
+		"students": [
+			{ "id": "liora-kazatsker", "year": 2026, "programme": "акторський", "master": "Д. Захоженко" }
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ecole-de-culture-generale",
+		"name": "«École de culture générale»",
+		"city": "Вале",
+		"countries": ["CH"],
+		"students": [{ "id": "karyna-sharkova", "year": 2026, "programme": "акторський" }],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "otkhfk",
+		"name": "ОТХФК",
+		"fullName": "Одеський театрально-художній фаховий коледж",
+		"city": "Одеса",
+		"countries": ["UA"],
+		"students": [],
+		"unlistedStudents": [
+			{ "name": "Ксенія Довгаль", "year": 2026, "programme": "художньо-гримерне" },
+			{ "name": "Олеся Гринько", "year": 2026, "programme": "кіно-фото-відео" }
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "ofkm-dankevycha",
+		"name": "ОФКМ ім. Данькевича",
+		"city": "Одеса",
+		"countries": ["UA"],
+		"students": [],
+		"unlistedStudents": [
+			{ "name": "Родоміра Долбишева", "year": 2026, "programme": "хореографічне" }
+		],
+		"verificationStatus": "possible_errors"
+	}
+]

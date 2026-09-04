@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, School, Plus, Menu, X, Expand, Shrink } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { isNearBox } from '$lib/utils/pointerProximity';
@@ -172,10 +172,25 @@
 		</a>
 
 		<!--
-			«Усі випускники» стоїть ПІСЛЯ трьох переліків і поруч із плюсом, хоч і
+			Заклади — четвертий перелік. Доти заклад існував лише рядком у полі
+			«Після випуску» окремої анкети — «КНУТКіТ, акторський, курс
+			Д. Богомазова», — і з такого рядка не видно, що до КНУТКіТ вступили
+			семеро. Без входу тут сторінка була б досяжна лише з анкети.
+		-->
+		<a
+			class="stage__roster-btn stage__roster-btn--nav"
+			href={localizedPath('/projects/galaxy-graduates/institutions/', locale)}
+			data-testid="galaxy-institutions-link"
+		>
+			<School size={18} aria-hidden="true" />
+			<span class="stage__nav-label">{$t('galaxy.institutionsTitle')}</span>
+		</a>
+
+		<!--
+			«Усі випускники» стоїть ПІСЛЯ чотирьох переліків і поруч із плюсом, хоч і
 			є головною дією: так просив замовник, і в цьому є сенс — праворуч
 			найближче до великого пальця й до курсору, що йде до кнопки анкети.
-			Три переліки поруч трохи менші за розміром: вони другорядні.
+			Переліки поруч трохи менші за розміром: вони другорядні.
 
 			Значок — лупа, а не список. `List` у цьому проєкті означає «режим
 			списку» — у перемикачах вигляду `ContentWidget`, `MasterProductions`

@@ -42,7 +42,9 @@ const WORDS = {
 		/** Хвіст опису вистави. */
 		playTail: 'Хто грав, у чиєму репертуарі та запис показу',
 		/** Хвіст опису поїздки на фестиваль. */
-		festivalTail: 'Учасники, вистави та спільні фото поїздки'
+		festivalTail: 'Учасники, вистави та спільні фото поїздки',
+		/** Хвіст опису навчального закладу, куди вступили наші випускники. */
+		institutionTail: 'Наші випускники, які тут навчаються, і роки вступу'
 	},
 	en: {
 		graduation: 'graduated',
@@ -50,7 +52,8 @@ const WORDS = {
 		masterMany: 'Course masters',
 		groupTail: 'Roster, teachers and the repertoire of plays',
 		playTail: 'Who performed, whose repertoire it belongs to and the recording',
-		festivalTail: 'Participants, productions and shared photos of the trip'
+		festivalTail: 'Participants, productions and shared photos of the trip',
+		institutionTail: 'Our graduates studying here and the years they enrolled'
 	}
 } as const;
 

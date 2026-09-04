@@ -350,6 +350,15 @@ const LIMITS: Array<[RegExp, number]> = [
  *   сніпетом `groupCard` і стилями `groups-category*`) окремим компонентом, а не
  *   з підняття числа. Оцінка: близько сотні рядків, тобто файл повернувся б під
  *   канонічні 400.
+ *
+ * 2026-09-04: `GalaxyStageControls.svelte` 345 → 349. Четверте посилання — на
+ *   перелік навчальних заходів, куди вступили випускники. Рівно чотири рядки:
+ *   значок у наявному імпорті та `<a>` на п'ять рядків (файл 349).
+ *
+ *   Наступне посилання тут мусить починатися зі згортання переліку в `{#each}`
+ *   по описувачу «значок + адреса + ключ підпису»: п'ять однакових `<a>` — це
+ *   вже копія, а не збіг. Зараз їх чотири, і опис забрав би рядків більше, ніж
+ *   віддав.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -369,7 +378,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 345,
+	'src/lib/components/GalaxyStageControls.svelte': 349,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 432,

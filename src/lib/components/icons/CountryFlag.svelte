@@ -116,6 +116,17 @@
 			<circle cx="13.8" cy="12" r="4.8" fill="#E30A17" />
 			<polygon points="17,12 21,13.5 19.5,12 21,10.5" fill="#fff" />
 		</svg>
+	{:else if upperCode === 'CH'}
+		<!--
+			Швейцарія. Прапор офіційно квадратний, але тут він у тій самій рамці
+			32×24, що й решта: у переліку закладів прапори стоять поруч, і один
+			квадратний серед прямокутних читався б як помилка, а не як точність.
+		-->
+		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
+			<rect width="32" height="24" fill="#D52B1E" />
+			<rect x="13.5" y="5" width="5" height="14" fill="#fff" />
+			<rect x="8.5" y="10" width="15" height="4" fill="#fff" />
+		</svg>
 	{:else if upperCode === 'IL'}
 		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
 			<rect width="32" height="24" fill="#fff" />

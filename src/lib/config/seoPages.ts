@@ -34,7 +34,8 @@ export type SeoPageKey =
 	| 'galaxyForm'
 	| 'galaxyFestivals'
 	| 'galaxyGroups'
-	| 'galaxyPlays';
+	| 'galaxyPlays'
+	| 'galaxyInstitutions';
 export type SeoLangKey = 'uk' | 'en';
 export const FALLBACK_LANG: SeoLangKey = 'uk';
 
@@ -80,6 +81,11 @@ export const SEO_FALLBACK = {
 				title: 'Вистави та ролі',
 				description:
 					'Усі вистави, покази та етюди Одеської театральної школи: рік, автор, група і хто грав.'
+			},
+			galaxyInstitutions: {
+				title: 'Навчальні заклади',
+				description:
+					'Творчі навчальні заклади України та Європи, куди вступили випускники Одеської театральної школи: хто саме й якого року.'
 			},
 			about: {
 				title: 'Про школу',
@@ -152,6 +158,11 @@ export const SEO_FALLBACK = {
 				title: 'Plays and roles',
 				description:
 					'Every play, showing and study of the Odesa Theatre School: year, author, group and cast.'
+			},
+			galaxyInstitutions: {
+				title: 'Schools and universities',
+				description:
+					'Performing arts schools in Ukraine and Europe that graduates of the Odesa Theatre School went on to: who exactly and in which year.'
 			},
 			about: {
 				title: 'About School',
@@ -228,6 +239,8 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'galaxyGroups';
 		case '/projects/galaxy-graduates/plays':
 			return 'galaxyPlays';
+		case '/projects/galaxy-graduates/institutions':
+			return 'galaxyInstitutions';
 		/*
 		 * Галактика доти провалювалася в `default` і брала опис ГОЛОВНОЇ. Видно
 		 * це було лише в прев'ю месенджера: посилання на галактику підписувалося
