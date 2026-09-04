@@ -2,10 +2,39 @@
  * Конвертує додаткове фото випускника у 3 розміри webp.
  *
  * Використання:
- *   npx tsx scripts/convert-extra-photo.ts --slug=alik-zapolnov --index=2 --src="C:\path\to\photo.jpg"
+ *   npx tsx scripts/convert-extra-photo.ts --slug=... --index=1 --src="C:\path\photo.jpg"
+ *   ... --top=0.02   — зсунути квадрат вище (0 = від самого верху, 0.5 = центр)
+ *   ... --left=0.35  — те саме по горизонталі для широких знімків
  *
  * Використовує Playwright/Chromium як кодек webp (як fetch-graduate-photos.ts).
+ *
+ * ## ЧОМУ КВАДРАТ БЕРЕТЬСЯ НЕ З ЦЕНТРУ
+ *
+ * Доти обрізка була строго центральною, і на портретних знімках вона різала
+ * МАКУШКУ. Заміряно на теці з 27 фотографіями (2026-09-05): голова зрізана або
+ * впритул до краю у восьми — Павло Кошка, Анна Степанова, Євгеній Тищенко,
+ * Аліса Тункевич, Анастасія Чепелюк, Максим Наконечний, Дар'я Дрикина, Дана
+ * Брошкова. Автор побачив це першим і назвав поіменно.
+ *
+ * Причина проста: у вертикальному портреті обличчя майже завжди у ВЕРХНІЙ
+ * третині, а зайва висота — це ноги й тло внизу. Центр ділить надлишок навпіл,
+ * тобто половину зрізає згори.
+ *
+ * Тому у вертикальних знімків квадрат тепер береться біля верху (`TOP_BIAS`);
+ * горизонтальні лишаються центрованими — там надлишок по ширині, і людина
+ * зазвичай посередині. Обидва значення перекриваються прапорцями: жодне число
+ * не вгадає кадру, де людина стоїть скраю.
  */
+
+/**
+ * Частка ЗАЙВОЇ висоти, що лишається НАД квадратом у вертикальних знімках.
+ *
+ * 0.08, а не 0: невеликий запас згори лишає повітря над головою — інакше
+ * портрет, знятий упритул, починався б рівно з волосся.
+ */
+const TOP_BIAS = 0.08;
+/** Горизонталь лишається центром: у широкому кадрі людина зазвичай посередині. */
+const LEFT_BIAS = 0.5;
 import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from '@playwright/test';
@@ -19,11 +48,15 @@ function parseArgs() {
 	let slug = '';
 	let index = 0;
 	let src = '';
+	let top = TOP_BIAS;
+	let left = LEFT_BIAS;
 
 	for (const arg of args) {
 		if (arg.startsWith('--slug=')) slug = arg.slice('--slug='.length);
 		if (arg.startsWith('--index=')) index = parseInt(arg.slice('--index='.length), 10);
 		if (arg.startsWith('--src=')) src = arg.slice('--src='.length);
+		if (arg.startsWith('--top=')) top = Number(arg.slice('--top='.length));
+		if (arg.startsWith('--left=')) left = Number(arg.slice('--left='.length));
 	}
 
 	if (!slug || !index || index < 1 || !src) {
@@ -36,13 +69,17 @@ function parseArgs() {
 		process.exit(1);
 	}
 
-	return { slug, index, src };
+	/* Поза межами 0..1 квадрат вийшов би за краї зображення. */
+	top = Math.min(1, Math.max(0, Number.isFinite(top) ? top : TOP_BIAS));
+	left = Math.min(1, Math.max(0, Number.isFinite(left) ? left : LEFT_BIAS));
+
+	return { slug, index, src, top, left };
 }
 
 async function main() {
-	const { slug, index, src } = parseArgs();
+	const { slug, index, src, top, left } = parseArgs();
 
-	console.log(`Converting ${src} for ${slug} (index ${index})...`);
+	console.log(`Converting ${src} for ${slug} (index ${index}, top ${top}, left ${left})...`);
 
 	// Read source as data URL
 	const ext = path.extname(src).toLowerCase();
@@ -56,14 +93,15 @@ async function main() {
 
 	for (const size of SIZES) {
 		const webpBase64: string = await page.evaluate(
-			async ({ dataUrl, size, quality }) => {
+			async ({ dataUrl, size, quality, top, left }) => {
 				return new Promise<string>((resolve, reject) => {
 					const img = new Image();
 					img.onload = async () => {
-						// Center crop to square
+						// Квадрат: по горизонталі центр, по вертикалі — ближче до верху.
+						// Розбір, чому не центр, — у докблоці файлу.
 						const side = Math.min(img.width, img.height);
-						const sx = Math.round((img.width - side) / 2);
-						const sy = Math.round((img.height - side) / 2);
+						const sx = Math.round((img.width - side) * left);
+						const sy = Math.round((img.height - side) * top);
 
 						const canvas = new OffscreenCanvas(size, size);
 						const ctx = canvas.getContext('2d')!;
@@ -82,7 +120,7 @@ async function main() {
 					img.src = dataUrl;
 				});
 			},
-			{ dataUrl, size, quality: QUALITY }
+			{ dataUrl, size, quality: QUALITY, top, left }
 		);
 
 		// `--index=1` — головне фото, і в його імені номера немає.
