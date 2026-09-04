@@ -9,7 +9,196 @@
 		],
 		"students": [
 			{
+				"id": "daria-rybalchenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-kurchenko",
+				"programme": "акторський"
+			},
+			{
+				"id": "myroslava-tkach",
+				"programme": "режисура"
+			},
+			{
+				"id": "pavlo-koshka",
+				"programme": "режисура"
+			},
+			{
+				"id": "nataliia-voroniuk",
+				"year": 2005,
+				"programme": "акторський"
+			},
+			{
+				"id": "maksym-nakonechnyi",
+				"year": 2007,
+				"programme": "режисура"
+			},
+			{
+				"id": "yuliia-vasylieva",
+				"year": 2007,
+				"programme": "режисура"
+			},
+			{
+				"id": "anastasiia-chepeliuk",
+				"year": 2008,
+				"programme": "акторський"
+			},
+			{
+				"id": "borys-ukrainskyi",
+				"year": 2010,
+				"programme": "акторський"
+			},
+			{
+				"id": "kostiantyn-afanasev",
+				"year": 2010,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "anisiia-stasevych",
+				"year": 2011,
+				"programme": "акторський"
+			},
+			{
+				"id": "hryhorii-baklanov",
+				"year": 2011,
+				"programme": "акторський"
+			},
+			{
+				"id": "oleksandra-chuprina",
+				"year": 2011,
+				"programme": "режисура"
+			},
+			{
+				"id": "alina-chernobai",
+				"year": 2012,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "tetiana-shemchuk",
+				"year": 2012,
+				"programme": "акторський"
+			},
+			{
+				"id": "volodymyr-chalchynskyi",
+				"year": 2012,
+				"programme": "акторський"
+			},
+			{
+				"id": "daniil-prymachov",
+				"year": 2013,
+				"programme": "акторський"
+			},
+			{
+				"id": "illia-tryfonov",
+				"year": 2013,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "inna-shevchenko",
+				"year": 2013,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "ivan-voloshyn",
+				"year": 2013,
+				"programme": "режисура"
+			},
+			{
+				"id": "marta-smerechynska",
+				"year": 2014,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "iryna-kucheruk",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "polina-hedzenko",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "sofiia-khersonska",
+				"year": 2015,
+				"programme": "кіно і телебачення"
+			},
+			{
+				"id": "danylo-tomachynskyi",
+				"year": 2018,
+				"programme": "режисура"
+			},
+			{
+				"id": "daryna-zhuravel",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "hryhorii-naumov",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "svitlana-smyrna",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "vladyslav-tsobenko",
+				"year": 2018,
+				"programme": "акторський"
+			},
+			{
+				"id": "yevheniia-burian",
+				"year": 2018,
+				"programme": "театр ляльок"
+			},
+			{
+				"id": "taras-lushpa",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "vladyslav-volk",
+				"year": 2019,
+				"programme": "акторський"
+			},
+			{
+				"id": "dar-ia-hurevych",
+				"year": 2020,
+				"programme": "акторський"
+			},
+			{
+				"id": "kateryna-moliboha",
+				"year": 2022,
+				"programme": "акторський"
+			},
+			{
+				"id": "mariia-mandriesk",
+				"year": 2025,
+				"programme": "акторський"
+			},
+			{
 				"id": "anastasiia-ivanova",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "Д. Богомазова"
+			},
+			{
+				"id": "kateryna-nesterenko",
+				"year": 2026,
+				"programme": "театр ляльок",
+				"master": "Л. Попова"
+			},
+			{
+				"id": "kateryna-petrenko",
+				"year": 2026,
+				"programme": "акторський",
+				"master": "О. Замятіна"
+			},
+			{
+				"id": "nikol-onyshchenko",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "Д. Богомазова"
@@ -27,194 +216,10 @@
 				"master": "О. Замятіна"
 			},
 			{
-				"id": "kateryna-nesterenko",
-				"year": 2026,
-				"programme": "театр ляльок",
-				"master": "Л. Попова"
-			},
-			{
-				"id": "nikol-onyshchenko",
-				"year": 2026,
-				"programme": "акторський",
-				"master": "Д. Богомазова"
-			},
-			{
 				"id": "zlata-stoyanova",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "С. Калантая"
-			},
-			{
-				"id": "kateryna-petrenko",
-				"year": 2026,
-				"programme": "акторський",
-				"master": "О. Замятіна"
-			},
-			{
-				"id": "nataliia-voroniuk",
-				"year": 2005,
-				"programme": "акторський"
-			},
-			{
-				"id": "pavlo-koshka",
-				"programme": "режисура"
-			},
-			{
-				"id": "yuliia-vasylieva",
-				"year": 2007,
-				"programme": "режисура"
-			},
-			{
-				"id": "maksym-nakonechnyi",
-				"year": 2007,
-				"programme": "режисура"
-			},
-			{
-				"id": "anastasiia-chepeliuk",
-				"year": 2008,
-				"programme": "акторський"
-			},
-			{
-				"id": "kostiantyn-afanasev",
-				"year": 2010,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "borys-ukrainskyi",
-				"year": 2010,
-				"programme": "акторський"
-			},
-			{
-				"id": "oleksandra-chuprina",
-				"year": 2011,
-				"programme": "режисура"
-			},
-			{
-				"id": "anisiia-stasevych",
-				"year": 2011,
-				"programme": "акторський"
-			},
-			{
-				"id": "volodymyr-chalchynskyi",
-				"year": 2012,
-				"programme": "акторський"
-			},
-			{
-				"id": "alina-chernobai",
-				"year": 2012,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "tetiana-shemchuk",
-				"year": 2012,
-				"programme": "акторський"
-			},
-			{
-				"id": "daniil-prymachov",
-				"year": 2013,
-				"programme": "акторський"
-			},
-			{
-				"id": "ivan-voloshyn",
-				"year": 2013,
-				"programme": "режисура"
-			},
-			{
-				"id": "illia-tryfonov",
-				"year": 2013,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "inna-shevchenko",
-				"year": 2013,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "marta-smerechynska",
-				"year": 2014,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "sofiia-khersonska",
-				"year": 2015,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "iryna-kucheruk",
-				"year": 2015,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "polina-hedzenko",
-				"year": 2015,
-				"programme": "кіно і телебачення"
-			},
-			{
-				"id": "vladyslav-tsobenko",
-				"year": 2018,
-				"programme": "акторський"
-			},
-			{
-				"id": "danylo-tomachynskyi",
-				"year": 2018,
-				"programme": "режисура"
-			},
-			{
-				"id": "yevheniia-burian",
-				"year": 2018,
-				"programme": "театр ляльок"
-			},
-			{
-				"id": "svitlana-smyrna",
-				"year": 2018,
-				"programme": "акторський"
-			},
-			{
-				"id": "hryhorii-naumov",
-				"year": 2018,
-				"programme": "акторський"
-			},
-			{
-				"id": "daryna-zhuravel",
-				"year": 2018,
-				"programme": "акторський"
-			},
-			{
-				"id": "taras-lushpa",
-				"year": 2019,
-				"programme": "акторський"
-			},
-			{
-				"id": "vladyslav-volk",
-				"year": 2019,
-				"programme": "акторський"
-			},
-			{
-				"id": "myroslava-tkach",
-				"programme": "режисура"
-			},
-			{
-				"id": "dar-ia-hurevych",
-				"year": 2020,
-				"programme": "акторський"
-			},
-			{
-				"id": "daria-rybalchenko",
-				"programme": "акторський"
-			},
-			{
-				"id": "kateryna-moliboha",
-				"year": 2022,
-				"programme": "акторський"
-			},
-			{
-				"id": "kateryna-kurchenko",
-				"programme": "акторський"
-			},
-			{
-				"id": "mariia-mandriesk",
-				"year": 2025,
-				"programme": "акторський"
 			}
 		],
 		"verificationStatus": "possible_errors"
