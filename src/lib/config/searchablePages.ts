@@ -33,6 +33,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'theatre', href: () => resolve('/departments/theatre') },
 	{ slug: 'festival', href: () => resolve('/projects/festival') },
 	{ slug: 'galaxy-graduates', href: () => resolve('/projects/galaxy-graduates') },
+	{ slug: 'creativity-planet', href: () => resolve('/projects/creativity-planet') },
 	{ slug: 'photo-archive', href: () => resolve('/projects/photo-archive') },
 	{ slug: 'spring-odesa-theatre', href: () => resolve('/projects/spring-odesa-theatre') },
 	{ slug: 'support-production', href: () => resolve('/projects/support-production') },

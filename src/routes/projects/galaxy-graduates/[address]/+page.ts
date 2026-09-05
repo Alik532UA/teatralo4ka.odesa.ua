@@ -37,15 +37,28 @@ export const prerender = true;
  */
 const SEO: Record<
 	string,
-	{ graduated: string; masterOne: string; masterOneF: string; masters: string }
+	{
+		graduated: string;
+		masterOne: string;
+		masterOneF: string;
+		masters: string;
+		/**
+		 * Опис сторінки УЧНЯ. Без роду («учень/учениця»): стать за іменем не
+		 * вгадують, а помилитися в описі, який іде в пошук і в прев'ю
+		 * месенджера, — гірше, ніж написати нейтрально.
+		 */
+		studying: string;
+	}
 > = {
 	uk: {
+		studying: 'навчається в Одеській театральній школі. Планета творчості',
 		graduated: 'випуск',
 		masterOne: 'Майстер курсу',
 		masterOneF: 'Майстриня курсу',
 		masters: 'Майстри курсу'
 	},
 	en: {
+		studying: 'studying at the Odesa Theatre School. Planet of Creativity',
 		graduated: 'graduated',
 		masterOne: 'Course master',
 		masterOneF: 'Course master',
@@ -163,6 +176,18 @@ function describe(
 	pathname: string
 ): string {
 	const words = SEO[localeFromPath(pathname)] ?? SEO.uk;
+
+	/*
+	 * УЧЕНЬ описується інакше, і це не косметика.
+	 *
+	 * Опис збирається з року випуску й майстрів курсу — у того, хто вчиться
+	 * зараз, немає ні першого, ні других. Заміряно на зібраній сторінці Родоміри
+	 * Долбишевої: `<meta name="description">` дорівнював самому імені, тобто
+	 * сторінка йшла в пошук без жодного слова про те, хто це.
+	 */
+	if (graduate.kind === 'student') {
+		return `${graduate.name} — ${words.studying}.`;
+	}
 	/*
 	 * Імена майстрів дістаються з РЕЄСТРУ: у записах зв'язку лежить самий `id`, і
 	 * без цього опис сторінки читався б «Майстри курсу: nadiia-rybakova,

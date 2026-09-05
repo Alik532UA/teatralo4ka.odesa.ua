@@ -118,7 +118,10 @@
 </script>
 
 <svelte:head>
-	<title>{data.graduate.name} — {$t("galaxy.title")}</title>
+	<!-- Учень підписаний своїм розділом: у галактиці його немає. -->
+	<title
+		>{data.graduate.name} — {учень ? $t("planet.title") : $t("galaxy.title")}</title
+	>
 </svelte:head>
 
 <div

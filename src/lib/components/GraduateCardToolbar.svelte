@@ -52,6 +52,17 @@
 		viewOnly = false,
 	}: Props = $props();
 
+	/*
+	 * Підпис «полетіти» — за тим, КУДИ веде посилання, а не завжди в галактику.
+	 * Учневі воно веде на «Планету творчості» (у галактиці його немає), і напис
+	 * «Летіти до галактики випускників» на ньому був би просто неправдою.
+	 */
+	const політ = $derived(
+		galaxyHref && String(galaxyHref).includes("creativity-planet")
+			? $t("planet.flyToPlanet")
+			: $t("galaxy.flyToGalaxy"),
+	);
+
 	/**
 	 * Мить, коли меню відкрилося наведенням. Без неї клік одразу після
 	 * наведення закривав щойно відкрите меню: миша спершу відкриває, палець
@@ -112,12 +123,12 @@
 			<a
 				href={galaxyHref}
 				class="card__action card__galaxy"
-				aria-label={$t("galaxy.flyToGalaxy")}
-				title={$t("galaxy.flyToGalaxy")}
+				aria-label={політ}
+				title={політ}
 				data-testid="galaxy-card-fly-link"
 			>
 				<Rocket size={20} aria-hidden="true" />
-				<span class="card__galaxy-text">{$t("galaxy.flyToGalaxy")}</span>
+				<span class="card__galaxy-text">{політ}</span>
 			</a>
 		</div>
 	{/if}
