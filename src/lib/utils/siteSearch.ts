@@ -52,8 +52,12 @@ import { foldLetters } from './searchQuery';
  * фестивалі, заклади освіти, театри. Окремий вид, а не `page`, бо ці записи
  * приходять із даних, а не з markdown-сторінок, і вантажаться лише тоді, коли
  * пошук справді відкрили (розбір — у `services/searchGalaxy`).
+ *
+ * `master` — викладачі й працівники школи. Теж із реєстру, але це ІНШИЙ розділ
+ * сайту (`/residents/adults/`), і підписати їх «Галактикою» означало б послати
+ * читача не туди, куди веде рядок.
  */
-export type SearchKind = 'page' | 'news' | 'galaxy';
+export type SearchKind = 'page' | 'news' | 'galaxy' | 'master';
 
 export interface SearchEntry {
 	/** Унікальний ключ для `{#each}`. */

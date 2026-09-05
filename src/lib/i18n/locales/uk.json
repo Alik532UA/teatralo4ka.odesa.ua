@@ -916,7 +916,8 @@
 		"kindPage": "Сторінка",
 		"kindNews": "Новина",
 		"open": "Пошук",
-		"kindGalaxy": "Галактика"
+		"kindGalaxy": "Галактика",
+		"kindMaster": "Викладач"
 	},
 	"galaxy": {
 		"title": "Галактика випускників",

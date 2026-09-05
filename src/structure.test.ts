@@ -422,6 +422,13 @@ const LIMITS: Array<[RegExp, number]> = [
  *   анкети: учневі відкривається анкета «Планети творчості», випускникові —
  *   та сама, що й була. Один проп у виклику вікна, і саме тут його місце: ця
  *   картка — єдине місце, де відома різниця між учнем і випускником.
+ * 2026-09-05 (пізніше того самого дня): `SearchOverlay.svelte` 331 → 340.
+ * Дев'ять рядків: реєстри тепер приїжджають ДВОМА кроками — спершу шапки з
+ * бандла, потім той самий перелік перебудовується з текстом анкет
+ * (`services/searchProfiles`), плюс значок і підпис для нового виду записів
+ * «Викладач». Розділяти компонент за цим немає на що: це той самий один
+ * `$effect` завантаження й та сама одна умова в розмітці.
+ *
  * 2026-09-05: `SearchOverlay.svelte` 312 → 331. Дев'ятнадцять рядків — пошук по
  *   галактиці: власний стан для записів реєстрів, `import()` при відкритті
  *   накладки, третій вид у значку та підписі результату.
@@ -461,7 +468,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
-	'src/lib/components/SearchOverlay.svelte': 331,
+	'src/lib/components/SearchOverlay.svelte': 340,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*
 	 * 2026-09-03: 291 → 335. Блок «Хто грав» навчився показувати ТРЕТІЙ різновид

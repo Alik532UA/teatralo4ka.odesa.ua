@@ -916,7 +916,8 @@
 		"kindPage": "Page",
 		"kindNews": "News",
 		"open": "Search",
-		"kindGalaxy": "Galaxy"
+		"kindGalaxy": "Galaxy",
+		"kindMaster": "Teacher"
 	},
 	"galaxy": {
 		"title": "Galaxy of Graduates",

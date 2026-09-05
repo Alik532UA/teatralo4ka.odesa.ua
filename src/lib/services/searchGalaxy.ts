@@ -4,6 +4,8 @@ import { GROUPS, groupProfilePath } from '$lib/data/groups';
 import { FESTIVALS, festivalPath } from '$lib/data/festivals';
 import { INSTITUTIONS, institutionPath } from '$lib/data/institutions';
 import { THEATRES, theatrePath } from '$lib/data/theatres';
+import { MASTERS, masterProfilePath } from '$lib/data/masters';
+import { isMasterListed } from '$lib/config/mastersVisibility';
 import type { SearchEntry } from '$lib/utils/siteSearch';
 
 /**
@@ -33,6 +35,13 @@ import type { SearchEntry } from '$lib/utils/siteSearch';
  *
  * Сторінки статистики й бета-чеклиста в реєстрах не живуть узагалі, тож
  * виключати їх нема де: вони й далі поза пошуком.
+ *
+ * ## Текст анкет
+ *
+ * Реєстри дають лише ШАПКИ — ім'я, назву, рік. Те, що всередині анкети (ролі,
+ * вистави, біографія), лежить окремими файлами й приїжджає покажчиком
+ * `services/searchProfiles`, який кладеться сюди параметром. Розбір, чому це
+ * додатковий текст, а не власні записи, — там же.
  */
 
 /** Рік, майстри й відділення в одному рядку — те, за чим людину шукають. */
@@ -50,7 +59,12 @@ function людина(
 	};
 }
 
-export function galaxyEntries(): SearchEntry[] {
+/**
+ * @param текстАнкет Додатковий текст із `services/searchProfiles`, ключ — `id`
+ * запису. Дописується до наявного запису, а не додає новий рядок: інакше людина
+ * з'являлася б у результатах двічі.
+ */
+export function galaxyEntries(текстАнкет?: ReadonlyMap<string, string>): SearchEntry[] {
 	const out: SearchEntry[] = [];
 
 	for (const g of GRADUATES) out.push(людина(g, 'випуск'));
@@ -108,6 +122,46 @@ export function galaxyEntries(): SearchEntry[] {
 			   нею, і шукати його будуть так само. */
 			text: [t.name, t.fullName, ...(t.formerNames ?? []), t.city].filter(Boolean).join(' ')
 		});
+	}
+
+	/*
+	 * Викладачі й працівники школи.
+	 *
+	 * Їх не було в пошуку взагалі — заміряно 2026-09-05: запит «Риськіна»
+	 * (завідувачка театральним відділенням) давав нуль. Причина проста: реєстр
+	 * майстрів живе в іншому розділі сайту, і коли пошук навчали галактиці, про
+	 * нього не згадали.
+	 *
+	 * `isMasterListed` — те саме правило видимості, що й у переліку дорослих:
+	 * рівні `linked` і `direct` у пошук не потрапляють.
+	 */
+	for (const m of MASTERS) {
+		if (!isMasterListed(m)) continue;
+		out.push({
+			id: `master:${m.slug}`,
+			title: m.displayName || m.fullName || m.slug,
+			href: `${masterProfilePath(m.slug)}/`,
+			kind: 'master',
+			text: [m.displayName, m.fullName, m.roleTitle, ...(m.subjects ?? [])]
+				.filter(Boolean)
+				.join(' ')
+		});
+	}
+
+	/*
+	 * Текст анкет — накладкою поверх готових записів.
+	 *
+	 * Саме тут пошук перестає бачити лише ШАПКИ реєстрів: у `text` людини
+	 * дописуються її ролі, вистави, біографія й фестивалі, а в майстра — посада
+	 * й предмети. Ключі покажчика зроблені такими самими, як `id` тут, тож
+	 * зіставлення — це просто пошук у мапі, без жодної спільної логіки, яку
+	 * можна розсинхронізувати.
+	 */
+	if (текстАнкет?.size) {
+		for (const запис of out) {
+			const додаток = текстАнкет.get(запис.id);
+			if (додаток) запис.text = `${запис.text} ${додаток}`;
+		}
 	}
 
 	return out;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
-	import { Search, X, FileText, Newspaper, Sparkles } from 'lucide-svelte';
+	import { Search, X, FileText, Newspaper, Sparkles, Users } from 'lucide-svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import { newsEntries, pageEntries } from '$lib/services/searchIndex';
 	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
@@ -58,12 +58,27 @@
 		if (open) input?.focus();
 	});
 
-	/** Реєстри галактики — один раз за сеанс, коли пошук відкрили. */
+	/**
+	 * Реєстри — один раз за сеанс, і ДВОМА кроками.
+	 *
+	 * Спершу шапки: імена, назви вистав, курсів, викладачів. Вони вже в бандлі,
+	 * тобто доступні в ту саму мить, коли модуль приїхав, — і пошук по них
+	 * працює, поки текст анкет ще в дорозі.
+	 *
+	 * Потім той самий перелік перебудовується з текстом анкет
+	 * (`searchProfiles`): ролі, вистави, біографії. Це вже мережа, і чекати на
+	 * неї, тримаючи порожній пошук, не було б за що — набране до того часу
+	 * шукається по шапках.
+	 */
 	$effect(() => {
 		if (!open || galaxy.length > 0 || galaxyLoading) return;
 		galaxyLoading = true;
 		import('$lib/services/searchGalaxy')
-			.then(({ galaxyEntries }) => (galaxy = galaxyEntries()))
+			.then(async ({ galaxyEntries }) => {
+				galaxy = galaxyEntries();
+				const { profileText } = await import('$lib/services/searchProfiles');
+				galaxy = galaxyEntries(await profileText());
+			})
 			.catch((error) => console.warn('Пошук: реєстри галактики недоступні', error))
 			.finally(() => (galaxyLoading = false));
 	});
@@ -196,7 +211,7 @@
 						<span class="search__hit-icon" aria-hidden="true">
 							{#if hit.kind === 'news'}<Newspaper size={15} />{:else if hit.kind === 'galaxy'}<Sparkles
 									size={15}
-								/>{:else}<FileText size={15} />{/if}
+								/>{:else if hit.kind === 'master'}<Users size={15} />{:else}<FileText size={15} />{/if}
 						</span>
 						<span class="search__hit-body">
 							<span class="search__hit-title">{hit.title}</span>
@@ -207,7 +222,9 @@
 								? $t('search.kindNews')
 								: hit.kind === 'galaxy'
 									? $t('search.kindGalaxy')
-									: $t('search.kindPage')}
+									: hit.kind === 'master'
+										? $t('search.kindMaster')
+										: $t('search.kindPage')}
 						</span>
 					</a>
 				{/each}
