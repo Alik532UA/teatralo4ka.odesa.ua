@@ -1106,13 +1106,6 @@
 		background: rgba(225, 29, 72, 0.02);
 	}
 
-	:global(.prose img) {
-		max-width: 100%;
-		border-radius: 24px;
-		margin: 2rem 0;
-		box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-	}
-
 	/* ── Upload info modal ──────────────────────────────────────────────── */
 	.modal-overlay {
 		position: fixed;

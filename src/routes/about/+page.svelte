@@ -108,7 +108,8 @@
 
 <section class="page-content container" style="padding: var(--page-pad-top) 24px var(--page-pad-bottom);" data-testid="about-page-section">
 	{#if content}
-		<article class="prose" style="margin-bottom: 2.5rem;" data-testid="about-page-article-section">
+		<!-- `prose--zoomable`: знімки в тексті відкриває лайтбокс нижче, і клас саме про це. -->
+		<article class="prose prose--zoomable" style="margin-bottom: 2.5rem;" data-testid="about-page-article-section">
 			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
 			     пропущений через DOMPurify безпосередньо перед вставкою. -->
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -156,15 +157,6 @@
 />
 
 <style>
-	.prose :global(img) {
-		cursor: pointer;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-	.prose :global(img:hover) {
-		transform: scale(1.015);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-	}
-
 	.about-docs-card {
 		display: flex;
 		align-items: center;

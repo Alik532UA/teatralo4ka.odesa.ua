@@ -294,32 +294,19 @@
 		display: block;
 	}
 
-	.prose :global(h2) {
-		font-family: var(--font-heading);
-		color: var(--text-title);
-		margin-top: 3rem;
-		margin-bottom: 1.5rem;
-		font-size: 2rem;
-	}
-
-	.prose :global(p) {
-		margin-bottom: 1.5rem;
-	}
-
-	.prose :global(img) {
-		max-width: 100%;
-		border-radius: 20px;
-		margin: 2rem 0;
-	}
-
-	.prose :global(ul), .prose :global(ol) {
-		margin-bottom: 1.5rem;
-		padding-left: 1.5rem;
-	}
-
-	.prose :global(li) {
-		margin-bottom: 0.5rem;
-	}
+	/*
+	 * Типографії `.prose` тут НЕМАЄ, і це не забудькуватість.
+	 *
+	 * Була: копія правил `h2`, `p`, `img`, `ul`, `ol`, `li`, перенесена сюди
+	 * разом із розкладкою з `DetailPage`. І серед них `padding-left: 1.5rem` для
+	 * списків — рівно те число, яке 2026-09-04 у `global.css` виправили на
+	 * 2.5rem, бо в 1.5rem не влазить двоцифровий номер і в нього зникає перша
+	 * цифра. Компонентне правило специфічніше за глобальне, тож у новині знову
+	 * пішло «0, 1, 2» замість «10, 11, 12».
+	 *
+	 * Тепер `.prose` належить `global.css` цілком, а гейт `prose-ownership`
+	 * стежить, щоб копія не з'явилася втретє.
+	 */
 
 	@media (max-width: 768px) {
 		h1 {

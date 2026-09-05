@@ -1289,6 +1289,9 @@ html.theme-shifting *:not(canvas) {
 	display: block;
 	overflow-x: auto;
 	width: 100%;
+	border-collapse: collapse;
+	margin: 1.5rem 0;
+	font-size: 1rem;
 }
 
 .prose h1 {
@@ -1299,12 +1302,20 @@ html.theme-shifting *:not(canvas) {
 	margin-bottom: 1.5rem;
 }
 
+/*
+ * Числа тут — ті, за якими сайт і виглядав, просто жили вони не тут.
+ *
+ * `StaticPage` і `DetailPage` (а за ним `ArticleView`) тримали ВЛАСНІ копії
+ * `.prose h2` з іншими числами — 2rem і відступ 3rem, — і саме ці копії
+ * малювали всі сторінки репозиторію та всі новини. Тобто правило нижче було
+ * майже ніде не діюче. Тепер числа з копій стоять тут, а копії прибрані.
+ */
 .prose h2 {
 	font-family: var(--font-heading);
-	font-size: 1.8rem;
+	font-size: 2rem;
 	color: var(--text-title);
-	margin-top: 2.5rem;
-	margin-bottom: 1rem;
+	margin-top: 3rem;
+	margin-bottom: 1.5rem;
 }
 
 .prose h3 {
@@ -1356,6 +1367,80 @@ html.theme-shifting *:not(canvas) {
 .prose li {
 	margin-bottom: 0.5rem;
 	color: var(--text-main);
+}
+
+/*
+ * ЗОБРАЖЕННЯ В ТЕКСТІ.
+ *
+ * Було трьома копіями — `StaticPage`, `about/+page`, `ArticleView` — і четвертою
+ * в адмінці (`ArticleForm`, до того ж оголошеною `:global`, тобто на весь сайт).
+ * Копії розійшлися: радіус 20px проти 24px, у частини ще й тінь. Тут одна.
+ */
+.prose img {
+	max-width: 100%;
+	border-radius: 20px;
+	margin: 2rem 0;
+}
+
+/*
+ * ЗНІМОК, ЯКИЙ ВІДКРИВАЄТЬСЯ НА ВЕСЬ ЕКРАН — окремим модифікатором.
+ *
+ * Курсор і підйом на наведенні обіцяють, що знімок можна розкрити, а виконує цю
+ * обіцянку обробник лайтбокса на сторінці. Тому це НЕ типографія `.prose`, і
+ * ставити її всім не можна: на сторінці новини обробника немає, і курсор
+ * обіцяв би те, чого не станеться.
+ *
+ * Модифікатор ставить та сторінка, у якої лайтбокс справді є — `StaticPage` і
+ * «Про школу». Так само влаштований `.statute-prose`: свої правила сторінки
+ * живуть на СВОЄМУ класі, а не перекривають спільний.
+ */
+.prose--zoomable img {
+	cursor: pointer;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prose--zoomable img:hover {
+	transform: scale(1.015);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * КЛІТИНКИ ТАБЛИЦІ.
+ *
+ * Переїхали зі `StaticPage`, і саме на них посилається докблок `.prose table`
+ * вище («при `white-space: nowrap` на клітинках»): правило й пояснення до нього
+ * жили в різних файлах, тож пояснення описувало те, чого поруч не було.
+ */
+.prose th,
+.prose td {
+	padding: 0.75rem 1rem;
+	text-align: left;
+	border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
+}
+
+.prose th {
+	font-weight: 700;
+	color: var(--text-title);
+	white-space: nowrap;
+}
+
+.prose td {
+	white-space: nowrap;
+}
+
+.prose tr:last-child td {
+	border-bottom: none;
+}
+
+@media (max-width: 600px) {
+	.prose table {
+		font-size: 0.9rem;
+	}
+
+	.prose th,
+	.prose td {
+		padding: 0.5rem 0.6rem;
+	}
 }
 
 .prose strong {

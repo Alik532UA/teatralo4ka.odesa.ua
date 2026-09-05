@@ -91,7 +91,7 @@
 					</aside>
 				{/if}
 				<div class="page-main">
-					<div class="prose">
+					<div class="prose prose--zoomable">
 						<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
 						     пропущений через DOMPurify безпосередньо перед вставкою. -->
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -180,59 +180,16 @@
 	.page-cover__img:hover {
 		transform: scale(1.02);
 	}
-	.prose :global(h2) {
-		font-family: var(--font-heading);
-		color: var(--text-title);
-		margin-top: 3rem;
-		margin-bottom: 1.5rem;
-		font-size: 2rem;
-	}
-	.prose :global(p) {
-		margin-bottom: 1.5rem;
-	}
-	.prose :global(img) {
-		max-width: 100%;
-		border-radius: 20px;
-		margin: 2rem 0;
-		cursor: pointer;
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-	}
-	.prose :global(img:hover) {
-		transform: scale(1.015);
-		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-	}
-	.prose :global(table) {
-		width: 100%;
-		border-collapse: collapse;
-		margin: 1.5rem 0;
-		font-size: 1rem;
-	}
-	.prose :global(th),
-	.prose :global(td) {
-		padding: 0.75rem 1rem;
-		text-align: left;
-		border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));
-	}
-	.prose :global(th) {
-		font-weight: 700;
-		color: var(--text-title);
-		white-space: nowrap;
-	}
-	.prose :global(td) {
-		white-space: nowrap;
-	}
-	.prose :global(tr:last-child td) {
-		border-bottom: none;
-	}
-	@media (max-width: 600px) {
-		.prose :global(table) {
-			font-size: 0.9rem;
-		}
-		.prose :global(th),
-		.prose :global(td) {
-			padding: 0.5rem 0.6rem;
-		}
-	}
+	/*
+	 * Типографія `.prose` живе в `global.css` — і зображення, і таблиця, і
+	 * заголовки. Тут була їхня копія; розбір і причина — у гейті
+	 * `prose-ownership`.
+	 *
+	 * Курсор і підйом знімка на наведенні теж переїхали, але на МОДИФІКАТОР
+	 * `.prose--zoomable`: обіцянку «знімок відкриється» виконує обробник нижче,
+	 * і клас ставиться там, де цей обробник є.
+	 */
+
 	@media (max-width: 768px) {
 		.back-nav {
 			text-align: center;
