@@ -42,7 +42,19 @@
 	// (PROJECT-STRUCTURE-v8 § 1).
 	let { isOpen, onclose, variant = 'graduate' }: Props = $props();
 
+	/**
+	 * Заголовок вікна — теж за видом.
+	 *
+	 * Автор побачив розходження одразу: у вікні відкривалася анкета «Планета
+	 * Творчості!», а підпис над нею казав «Анкета випускника». Ключ у ключа: у
+	 * випускника свій, в учня свій.
+	 */
+	const TITLE_KEYS = { graduate: 'galaxy.formModalTitle', student: 'planet.formModalTitle' } as const;
+
 	const FORM_VIEW_URL = $derived(FORMS[variant]);
+	const заголовок = $derived(
+		$t(TITLE_KEYS[variant], { default: variant === 'student' ? 'Анкета учня' : 'Анкета випускника' })
+	);
 	const FORM_EMBED_URL = $derived(`${FORM_VIEW_URL}?embedded=true`);
 
 
@@ -109,7 +121,7 @@
 		<div class="form-modal__header" data-testid="graduate-form-header">
 			<div class="form-modal__title-wrap">
 				<h3 class="form-modal__title" id="graduate-form-title" data-testid="graduate-form-title">
-					{$t('galaxy.formModalTitle', { default: 'Анкета випускника' })}
+					{заголовок}
 				</h3>
 			</div>
 
@@ -151,7 +163,7 @@
 				src={FORM_EMBED_URL}
 				class="form-modal__iframe"
 				class:is-loaded={!isLoading}
-				title={$t('galaxy.formModalTitle', { default: 'Анкета випускника' })}
+				title={заголовок}
 				onload={() => (isLoading = false)}
 				data-testid="graduate-form-frame-container"
 			></iframe>
