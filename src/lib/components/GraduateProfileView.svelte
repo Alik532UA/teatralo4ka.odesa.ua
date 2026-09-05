@@ -1319,7 +1319,16 @@
 	</div>
 </div>
 
-<GraduateFormModal isOpen={formModalOpen} onclose={closeForm} />
+<!--
+	Учневі відкривається АНКЕТА УЧНЯ: та сама кнопка на його сторінці мусить
+	вести туди, куди веде кнопка на «Планеті творчості», а не в анкету
+	випускників.
+-->
+<GraduateFormModal
+	isOpen={formModalOpen}
+	onclose={closeForm}
+	variant={graduate.kind === 'student' ? 'student' : 'graduate'}
+/>
 
 
 <style>

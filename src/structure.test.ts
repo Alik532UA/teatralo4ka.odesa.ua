@@ -418,6 +418,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   другий компонент: розмітка й уся логіка картки збігаються до рядка,
  *   різниця лише в трьох правилах кольору. Копія заради них коштувала б
  *   пів тисячі рядків і розійшлася б на першій же правці змісту.
+ * 2026-09-05: `GraduateProfileView.svelte` 1611 → 1615. Чотири рядки — вибір
+ *   анкети: учневі відкривається анкета «Планети творчості», випускникові —
+ *   та сама, що й була. Один проп у виклику вікна, і саме тут його місце: ця
+ *   картка — єдине місце, де відома різниця між учнем і випускником.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -432,7 +436,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1611,
+	'src/lib/components/GraduateProfileView.svelte': 1615,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,

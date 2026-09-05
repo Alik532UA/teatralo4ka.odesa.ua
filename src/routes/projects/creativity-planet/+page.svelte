@@ -193,7 +193,11 @@
 
 <GraduateCard graduate={відкритий ?? null} profile={анкета} onclose={() => history.back()} />
 
-<GraduateFormModal isOpen={анкетаВідкрита} onclose={() => (анкетаВідкрита = false)} />
+<GraduateFormModal
+	isOpen={анкетаВідкрита}
+	onclose={() => (анкетаВідкрита = false)}
+	variant="student"
+/>
 
 <style>
 	/*

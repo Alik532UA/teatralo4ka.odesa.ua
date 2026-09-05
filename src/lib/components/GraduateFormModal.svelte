@@ -5,13 +5,34 @@
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import { browser } from '$app/environment';
 
-	const FORM_VIEW_URL =
-		'https://docs.google.com/forms/d/e/1FAIpQLSfT1mDSKiVjVSisavSUCBSfB43IE_Dj7dzP5EngQOA9O1V3Ng/viewform';
-	const FORM_EMBED_URL = `${FORM_VIEW_URL}?embedded=true`;
+	/**
+	 * ДВІ РІЗНІ АНКЕТИ, і плутати їх не можна.
+	 *
+	 * `graduate` — та, що була завжди: її посилання роздане й лишається без
+	 * змін (пряма вимога автора).
+	 *
+	 * `student` — анкета «Планета Творчості!» для тих, хто вчиться зараз. Автор
+	 * дав адресу виду `docs.google.com/forms/d/<id>` — це бік РЕДАКТОРА: як
+	 * анонімний відвідувач вона віддає перенаправлення з `?edit_requested=true`.
+	 * Тому тут стоїть кінцева адреса для відповідача (`/forms/d/e/…/viewform`),
+	 * та сама, на яку веде ланцюжок перенаправлень. Заміряно `curl`-ом: статус
+	 * 200, заголовок сторінки «Планета Творчості!».
+	 *
+	 * Це не педантизм: у вікні форма показується в `iframe`, а Google блокує
+	 * вбудовування проміжних адрес — вікно відкрилося б порожнім.
+	 */
+	const FORMS = {
+		graduate:
+			'https://docs.google.com/forms/d/e/1FAIpQLSfT1mDSKiVjVSisavSUCBSfB43IE_Dj7dzP5EngQOA9O1V3Ng/viewform',
+		student:
+			'https://docs.google.com/forms/d/e/1FAIpQLSdJJl2M-N0p9lIId8BexVk7zCTXA4xg9inw1uhbTybDzY-LAA/viewform'
+	} as const;
 
 	interface Props {
 		isOpen: boolean;
 		onclose: () => void;
+		/** Кого питаємо: випускника (типово) чи учня «Планети творчості». */
+		variant?: keyof typeof FORMS;
 	}
 
 	// `graduateName?: string` тут був, і його не передавав жоден виклик, а сам
@@ -19,7 +40,10 @@
 	// через URL у цій конфігурації. Прибрано разом із пропом — оголошений і
 	// нікуди не підключений параметр читається як зроблена робота
 	// (PROJECT-STRUCTURE-v8 § 1).
-	let { isOpen, onclose }: Props = $props();
+	let { isOpen, onclose, variant = 'graduate' }: Props = $props();
+
+	const FORM_VIEW_URL = $derived(FORMS[variant]);
+	const FORM_EMBED_URL = $derived(`${FORM_VIEW_URL}?embedded=true`);
 
 
 
