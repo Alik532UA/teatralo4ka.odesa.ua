@@ -126,16 +126,9 @@
 			</div>
 
 			<div class="form-modal__actions">
+				<!-- Адреса зовнішня (Google Forms), тож `resolve()` до неї не застосовний. Тег навмисно одним рядком: `disable-next-line` накриває САМЕ наступний рядок, і розбитий на атрибути тег знову зробив би lint червоним. -->
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-				<a
-					href={FORM_VIEW_URL}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="form-modal__action-btn"
-					title={$t('galaxy.openInNewTab', { default: 'Відкрити в новій вкладці' })}
-					aria-label={$t('galaxy.openInNewTab', { default: 'Відкрити в новій вкладці' })}
-					data-testid="graduate-form-external-link"
-				>
+				<a href={FORM_VIEW_URL} target="_blank" rel="noopener noreferrer" class="form-modal__action-btn" title={$t('galaxy.openInNewTab', { default: 'Відкрити в новій вкладці' })} aria-label={$t('galaxy.openInNewTab', { default: 'Відкрити в новій вкладці' })} data-testid="graduate-form-external-link">
 					<ExternalLink size={18} aria-hidden="true" />
 				</a>
 
