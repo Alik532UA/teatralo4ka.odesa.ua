@@ -35,7 +35,9 @@
 			"fromRegistry": true
 		}
 	],
-	"bio": [],
+	"bio": [
+		"Знімається в кіно."
+	],
 	"socials": [],
 	"festivals": []
 }

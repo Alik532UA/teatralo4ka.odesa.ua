@@ -35,6 +35,22 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "kamianske-lesi-ukrainky",
+		"name": "Кам'янський театр імені Лесі Українки",
+		"city": "Кам'янське",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "yevheniia-futynets",
+				"role": "актриса",
+				"mention": "театру імені Лесі Українки"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "kharkiv-lialok-afanasieva",
 		"name": "Театр ляльок імені В. Афанасьєва",
 		"fullName": "Харківський державний академічний театр ляльок імені Віктора Афанасьєва",
@@ -89,6 +105,43 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "kyiv-na-pecherskomu",
+		"name": "Київський драматичний театр на Печерську",
+		"city": "Київ",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "daryna-zhuravel",
+				"role": "актриса",
+				"mention": "театру на Печерську"
+			},
+			{
+				"id": "hryhorii-baklanov",
+				"role": "актор",
+				"mention": "театру на Печерську"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kyshyniv-teatr-molodi",
+		"name": "Державний драматичний театр молоді",
+		"city": "Кишинів",
+		"countries": [
+			"MD"
+		],
+		"members": [
+			{
+				"id": "alla-khaiut",
+				"role": "актриса",
+				"mention": "театру молоді"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "lviv-lesi-ukrainky",
 		"name": "Львівський академічний драматичний театр імені Лесі Українки",
 		"city": "Львів",
@@ -121,6 +174,11 @@
 				"id": "vadym-krusser",
 				"role": "артист балету",
 				"mention": "Одеського національного академічного театру опери та балету"
+			},
+			{
+				"id": "pavlo-koshka",
+				"role": "режисер",
+				"mention": "театру опери та балету"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -144,6 +202,39 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "odeskyi-rosiiskyi-dramatychnyi",
+		"name": "Одеський академічний російський драматичний театр",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "maryna-sukhanova",
+				"role": "актриса",
+				"mention": "російського драматичного театру"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odeskyi-tiuh-oleshi",
+		"name": "Одеський театр юного глядача імені Юрія Олеші",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "zlata-skalska",
+				"since": 2005,
+				"role": "актриса",
+				"mention": "театру юного глядача"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "praska-52",
 		"name": "Театр «Праска 52»",
 		"countries": [
@@ -160,6 +251,22 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "tbilisi-hryboiedova",
+		"name": "Тбіліський російський драматичний театр імені Олександра Грибоєдова",
+		"city": "Тбілісі",
+		"countries": [
+			"GE"
+		],
+		"members": [
+			{
+				"id": "nataliia-voroniuk",
+				"role": "актриса",
+				"mention": "театру імені Олександра Грибоєдова"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "teatr-na-lypkakh",
 		"name": "Київський театр на Липках",
 		"city": "Київ",
@@ -170,6 +277,22 @@
 			{
 				"id": "anisiia-stasevych",
 				"mention": "Київський театр на Липках"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vasylka",
+		"name": "Одеський академічний музично-драматичний театр імені Василя Василька",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "alina-ivanova",
+				"role": "актриса",
+				"mention": "театру імені Василя Василька"
 			}
 		],
 		"verificationStatus": "possible_errors"
