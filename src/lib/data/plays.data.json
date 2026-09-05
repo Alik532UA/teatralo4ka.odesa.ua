@@ -1514,7 +1514,7 @@
 	},
 	{
 		"id": "ryzhaia-pesa-2017",
-		"title": "«Рудa п’єса»",
+		"title": "«Руда п’єса»",
 		"year": 2017,
 		"author": "Кс. Драгунская",
 		"theatreGroup": "гр. 5Т-16",
@@ -1636,7 +1636,9 @@
 			}
 		],
 		"theatreGroup": "гр. 6Т-13",
-		"masters": ["tetiana-isachkina"],
+		"masters": [
+			"tetiana-isachkina"
+		],
 		"verificationStatus": "possible_errors"
 	},
 	{
@@ -6586,7 +6588,7 @@
 	},
 	{
 		"id": "solo-musica-2023",
-		"title": "«Solo musicа»",
+		"title": "«Solo musica»",
 		"year": 2023,
 		"author": "Хор",
 		"dateNote": "04.06 неділя, 14.00 (ауд. 7)",
@@ -7427,7 +7429,7 @@
 	},
 	{
 		"id": "smekh-y-slezy-2007",
-		"title": "«Смiх і сльози»",
+		"title": "«Сміх і сльози»",
 		"year": 2007,
 		"author": "С. Михалков",
 		"theatreGroup": "гр. 9",
