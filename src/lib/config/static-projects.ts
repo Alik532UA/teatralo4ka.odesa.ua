@@ -37,6 +37,16 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		excerpts: { uk: 'Історія школи у світлинах: від перших вистав до сучасних подій', en: "The school's history in photographs: from first performances to modern events" },
 	},
 	{
+		id: 'creativity-planet',
+		slug: 'creativity-planet',
+		color: '#5EEAD4',
+		titles: { uk: 'Планета творчості', en: 'Planet of Creativity' },
+		excerpts: {
+			uk: 'Учні, які вчаться зараз: анкета, обличчя на планеті — і переїзд у галактику після випуску',
+			en: 'Pupils studying right now: a profile, a face on the planet — and a move to the galaxy after graduation'
+		},
+	},
+	{
 		id: 'galaxy-graduates',
 		slug: 'galaxy-graduates',
 		color: '#A78BFA',

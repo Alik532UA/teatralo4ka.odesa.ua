@@ -306,6 +306,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/projects/teatr-pro',
 			'/projects/festival',
 			'/projects/galaxy-graduates',
+			'/projects/creativity-planet',
 			'/projects/photo-archive',
 			'/projects/spring-odesa-theatre',
 			'/projects/support-production',

@@ -10101,5 +10101,32 @@
 		],
 		"profileSize": 1096,
 		"playCount": 4
+	},
+	{
+		"id": "kseniia-dovhal",
+		"slug": "kseniia-dovhal",
+		"name": "Ксенія Довгаль",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
+	},
+	{
+		"id": "olesia-hrynko",
+		"slug": "olesia-hrynko",
+		"name": "Олеся Гринько",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
+	},
+	{
+		"id": "rodomira-dolbysheva",
+		"slug": "rodomira-dolbysheva",
+		"name": "Родоміра Долбишева",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
 	}
 ]

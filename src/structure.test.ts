@@ -407,6 +407,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Винос лишається правильним, але починатися мусить не з кнопок, а з того,
  *   що їх тримає: `menuOpen` мусить приходити в дитину пропом, а всі правила
  *   «в меню воно виглядає так» — переїхати всередину неї. Це вже не два рядки.
+ * 2026-09-05: `betaChecklist.ts` 414 → 415. Рівно один рядок — адреса нової
+ *   сторінки «Планета творчості» у вкладці «Проєкти». Гейт чеклиста вимагає,
+ *   щоб КОЖЕН маршрут проєкту заявляла рівно одна вкладка, тож рядок тут не
+ *   косметика, а умова існування сторінки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -433,7 +437,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 414,
+	'src/lib/data/betaChecklist.ts': 415,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

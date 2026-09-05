@@ -357,16 +357,14 @@
 				"id": "alina-halach",
 				"year": 2026,
 				"programme": "акторський"
-			}
-		],
-		"unlistedStudents": [
+			},
 			{
-				"name": "Ксенія Довгаль",
+				"id": "kseniia-dovhal",
 				"year": 2026,
 				"programme": "художньо-гримерне"
 			},
 			{
-				"name": "Олеся Гринько",
+				"id": "olesia-hrynko",
 				"year": 2026,
 				"programme": "кіно-фото-відео"
 			}
@@ -683,11 +681,9 @@
 				"id": "viktoriia-babii",
 				"year": 2025,
 				"programme": "інструментальний"
-			}
-		],
-		"unlistedStudents": [
+			},
 			{
-				"name": "Родоміра Долбишева",
+				"id": "rodomira-dolbysheva",
 				"year": 2026,
 				"programme": "хореографічне"
 			}

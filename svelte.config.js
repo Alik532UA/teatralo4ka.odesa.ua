@@ -80,6 +80,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/teatr-pro',
 	'/projects/festival',
 	'/projects/galaxy-graduates',
+	'/projects/creativity-planet',
 	// Дві адреси, які існують заради ПРЕВ'Ю в месенджері: посилання на
 	// оголошення й на анкету роздають руками, а `?update=open` / `?form=open`
 	// власного підпису мати не можуть — query-рядок у мета-теги не потрапляє.
