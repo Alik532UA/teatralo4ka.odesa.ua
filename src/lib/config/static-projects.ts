@@ -43,8 +43,8 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		coverUrl: asset('/png/creativity-planet.png'),
 		titles: { uk: 'Планета творчості', en: 'Planet of Creativity' },
 		excerpts: {
-			uk: 'Учні, які вчаться зараз: анкета, обличчя на планеті — і переїзд у галактику після випуску',
-			en: 'Pupils studying right now: a profile, a face on the planet — and a move to the galaxy after graduation'
+			uk: 'Шлях починається тут: спершу планета, потім — галактика випускників',
+			en: 'The journey starts here: first the planet, then the galaxy of graduates'
 		},
 	},
 	{
