@@ -1298,6 +1298,7 @@
 <div class="layout-scope">
 	<div
 		class="profile-layout"
+		class:profile-layout--bloom={graduate.kind === 'student'}
 		style="--cols: {columns.length}; --grid-cols: {gridColumns}"
 		bind:this={layoutEl}
 		data-measured={widthKnown ? "yes" : "no"}
@@ -1363,6 +1364,54 @@
 		box-shadow: 0 18px 48px rgb(0 0 0 / 0.28);
 		padding: clamp(1.25rem, 3vh, 1.75rem);
 	}
+	/*
+	 * УЧЕНЬ: обгортка без власної поверхні.
+	 *
+	 * Плашка з темним тлом і тінню `0 18px 48px rgb(0 0 0 / 0.28)` малювалася
+	 * під ЧОРНЕ небо галактики. На світлій темі вона стала білою на білому, і
+	 * від неї лишилася сама тінь — сірий прямокутник, що виглядав як ще один
+	 * блок за картками. Автор так це й назвав: «закруглення мають дивну тінь, на
+	 * фоні ще один блок».
+	 *
+	 * Поверхні тут і не потрібні: кожна плашка всередині має власну. Тому в
+	 * учня обгортка прозора, а поля лишаються нулю — простір дає сама сторінка.
+	 */
+	.profile-layout--bloom {
+		background: transparent;
+		border-color: transparent;
+		box-shadow: none;
+		padding: 0;
+	}
+
+	/*
+	 * Кнопка анкети в учня — суцільний акцент теми замість напівпрозорого
+	 * градієнта з білим написом. Той градієнт розрахований на темне тло; на
+	 * світлому виходив блідий напис на блідій плашці.
+	 */
+	.profile-layout--bloom .fill-profile-btn {
+		background: var(--accent-primary);
+		border-color: var(--accent-primary);
+		color: var(--text-on-accent);
+		box-shadow: none;
+	}
+	.profile-layout--bloom .fill-profile-btn:hover {
+		background: var(--accent-primary);
+		filter: brightness(1.08);
+	}
+
+	/*
+	 * Плашки в учня — з тінню теми, а не з чорною на 40 %.
+	 *
+	 * Та тінь малювалася під зоряне небо; на світлій сторінці вона лягала сірим
+	 * прямокутником нижче й правіше кожної плашки — саме те, що автор назвав
+	 * «дивною тінню» біля закруглень. Рамка так само: замість блакитної
+	 * напівпрозорої — звичайна рамка теми.
+	 */
+	.profile-layout--bloom .bento-card {
+		border-color: var(--border-main);
+		box-shadow: var(--shadow-main);
+	}
+
 	.col {
 		min-width: 0;
 		display: flex;

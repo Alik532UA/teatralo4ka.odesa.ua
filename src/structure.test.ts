@@ -411,6 +411,13 @@ const LIMITS: Array<[RegExp, number]> = [
  *   сторінки «Планета творчості» у вкладці «Проєкти». Гейт чеклиста вимагає,
  *   щоб КОЖЕН маршрут проєкту заявляла рівно одна вкладка, тож рядок тут не
  *   косметика, а умова існування сторінки.
+ * 2026-09-05: `GraduateProfileView.svelte` 1600 → 1611. Одинадцять рядків —
+ *   вигляд ТІЄЇ САМОЇ картки для учня: прозора обгортка замість темної плашки,
+ *   суцільна кнопка анкети замість напівпрозорого градієнта й тінь теми замість
+ *   чорної на 40 %. Усе це модифікатор `--bloom` на наявному контейнері, а не
+ *   другий компонент: розмітка й уся логіка картки збігаються до рядка,
+ *   різниця лише в трьох правилах кольору. Копія заради них коштувала б
+ *   пів тисячі рядків і розійшлася б на першій же правці змісту.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -425,7 +432,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1600,
+	'src/lib/components/GraduateProfileView.svelte': 1611,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
