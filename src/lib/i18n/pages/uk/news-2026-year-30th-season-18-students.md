@@ -35,6 +35,6 @@ excerpt: "Вісімнадцять наших випускників стали 
 13. [Аліна Демедюк](/projects/galaxy-graduates/alina-demediuk) — КМАЕЦМ (філіал у Мюнхені, Німеччина), акторський, курс Т. Губрій
 14. [Карина Шаркова](/projects/galaxy-graduates/karyna-sharkova) — «École de culture générale» (Вале, Швейцарія), акторський
 15. [Анна-Марія Вискочил](/projects/galaxy-graduates/anna-mariia-vyskochyl) — Київський університет культури, акторський, курс В. Довженка
-16. Ксенія Довгаль — ОТХФК, художньо-гримерне
-17. Олеся Гринько — ОТХФК, кіно-фото-відео
-18. Родоміра Долбишева — ОФКМ ім. Данькевича, хореографічне
+16. [Ксенія Довгаль](/projects/galaxy-graduates/kseniia-dovhal) — ОТХФК, художньо-гримерне
+17. [Олеся Гринько](/projects/galaxy-graduates/olesia-hrynko) — ОТХФК, кіно-фото-відео
+18. [Родоміра Долбишева](/projects/galaxy-graduates/rodomira-dolbysheva) — ОФКМ ім. Данькевича, хореографічне

@@ -915,7 +915,8 @@
 		"loadingNews": "Loading news…",
 		"kindPage": "Page",
 		"kindNews": "News",
-		"open": "Search"
+		"open": "Search",
+		"kindGalaxy": "Galaxy"
 	},
 	"galaxy": {
 		"title": "Galaxy of Graduates",

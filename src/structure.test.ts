@@ -422,6 +422,14 @@ const LIMITS: Array<[RegExp, number]> = [
  *   анкети: учневі відкривається анкета «Планети творчості», випускникові —
  *   та сама, що й була. Один проп у виклику вікна, і саме тут його місце: ця
  *   картка — єдине місце, де відома різниця між учнем і випускником.
+ * 2026-09-05: `SearchOverlay.svelte` 312 → 331. Дев'ятнадцять рядків — пошук по
+ *   галактиці: власний стан для записів реєстрів, `import()` при відкритті
+ *   накладки, третій вид у значку та підписі результату.
+ *
+ *   Саме `import()`, а не звичайний імпорт, і саме тому рядків більше: шапка
+ *   тягне цей компонент на КОЖНІЙ сторінці, а реєстри важать сотні кілобайтів.
+ *   Дешевший запис (імпорт угорі) коштував би ваги головної, а не рядків тут.
+ *   Сама збірка записів живе окремим модулем `services/searchGalaxy`.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
@@ -454,7 +462,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/lib/components/DetailPage.svelte': 322,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
-	'src/lib/components/SearchOverlay.svelte': 312,
+	'src/lib/components/SearchOverlay.svelte': 331,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*
 	 * 2026-09-03: 291 → 335. Блок «Хто грав» навчився показувати ТРЕТІЙ різновид

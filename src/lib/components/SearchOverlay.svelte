@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
-	import { Search, X, FileText, Newspaper } from 'lucide-svelte';
+	import { Search, X, FileText, Newspaper, Sparkles } from 'lucide-svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import { newsEntries, pageEntries } from '$lib/services/searchIndex';
 	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
@@ -31,6 +31,15 @@
 	let hitLinks = $state.raw<(HTMLAnchorElement | null)[]>([]);
 	let news = $state.raw<SearchEntry[]>([]);
 	let newsLoading = $state(false);
+	/**
+	 * Записи галактики — люди, вистави, курси, фестивалі, заклади, театри.
+	 *
+	 * Вантажаться `import()`-ом при відкритті накладки, а не імпортом угорі:
+	 * шапка тягне цей компонент на КОЖНІЙ сторінці, а реєстри важать сотні
+	 * кілобайтів. Поки вони їдуть, пошук уже працює по сторінках.
+	 */
+	let galaxy = $state.raw<SearchEntry[]>([]);
+	let galaxyLoading = $state(false);
 
 	const lang = $derived(($locale === 'en' ? 'en' : 'uk') as 'uk' | 'en');
 
@@ -38,13 +47,25 @@
 	 * Сторінки шукаються за всіма мовами сайту.
 	 */
 	const pages = $derived(pageEntries());
-	const hits = $derived<SearchHit[]>(searchEntries([...pages, ...news], query, 20, lang));
+	const hits = $derived<SearchHit[]>(
+		searchEntries([...pages, ...galaxy, ...news], query, 20, lang)
+	);
 
 	const tooShort = $derived(query.trim().length > 0 && query.trim().length < MIN_QUERY_LENGTH);
 
 	/** Фокус у поле одразу: накладку відкривають, щоб друкувати. */
 	$effect(() => {
 		if (open) input?.focus();
+	});
+
+	/** Реєстри галактики — один раз за сеанс, коли пошук відкрили. */
+	$effect(() => {
+		if (!open || galaxy.length > 0 || galaxyLoading) return;
+		galaxyLoading = true;
+		import('$lib/services/searchGalaxy')
+			.then(({ galaxyEntries }) => (galaxy = galaxyEntries()))
+			.catch((error) => console.warn('Пошук: реєстри галактики недоступні', error))
+			.finally(() => (galaxyLoading = false));
 	});
 
 	/** Новини — один запит на сеанс за всіма мовами, коли пошук відкрили. */
@@ -173,14 +194,20 @@
 						data-testid="search-hit-{hit.kind}-link"
 					>
 						<span class="search__hit-icon" aria-hidden="true">
-							{#if hit.kind === 'news'}<Newspaper size={15} />{:else}<FileText size={15} />{/if}
+							{#if hit.kind === 'news'}<Newspaper size={15} />{:else if hit.kind === 'galaxy'}<Sparkles
+									size={15}
+								/>{:else}<FileText size={15} />{/if}
 						</span>
 						<span class="search__hit-body">
 							<span class="search__hit-title">{hit.title}</span>
 							{#if hit.snippet}<span class="search__hit-snippet">{hit.snippet}</span>{/if}
 						</span>
 						<span class="search__hit-kind">
-							{hit.kind === 'news' ? $t('search.kindNews') : $t('search.kindPage')}
+							{hit.kind === 'news'
+								? $t('search.kindNews')
+								: hit.kind === 'galaxy'
+									? $t('search.kindGalaxy')
+									: $t('search.kindPage')}
 						</span>
 					</a>
 				{/each}
@@ -231,6 +258,25 @@
 		border-bottom: 1px solid var(--border-main);
 		color: var(--accent-primary);
 		flex-shrink: 0;
+		transition: border-color var(--transition-base);
+	}
+
+	/*
+	 * ФОКУС ПІДСВІЧУЄ ОБГОРТКА, а не саме поле — і це виправлення мого ж
+	 * регресу.
+	 *
+	 * 28 серпня я прибрав звідси `outline: none`, щоб фокус було видно з
+	 * клавіатури. Наслідок автор побачив одразу: глобальне кільце
+	 * `:focus-visible` намалювало ПРЯМОКУТНИК усередині круглої плашки пошуку —
+	 * «старомодна обвода» замість безрамкового поля, яке тут було.
+	 *
+	 * Обидві вимоги сумісні, і в проєкті вже є для цього спосіб: кільце навколо
+	 * самого input було б другою лінією всередині плашки, тож межу підсвічує
+	 * рядок, у якому поле лежить (`SearchField`, `has-input-tools--framed` —
+	 * той самий випадок і той самий виняток у гейті `focus-indicator`).
+	 */
+	.search__field:focus-within {
+		border-bottom-color: var(--accent-primary);
 	}
 
 	.search__input {
@@ -239,18 +285,16 @@
 		border: none;
 		background: none;
 		/*
-		 * Кільце фокуса тут НЕ знімається (ACCESSIBILITY-v8 § 3).
-		 *
-		 * Поле безрамкове й прозоре, тож замінити кільце нічим — а `outline: none`
-		 * у компоненті перекриває глобальне `:focus-visible` вагою скоупу. Доти
-		 * єдиною ознакою фокуса лишалася каретка: повернувшись `Tab`ом із
-		 * результатів пошуку назад у поле, людина не бачила цього ніяк.
-		 *
-		 * Кільце малюється лише клавіатурі: відкриття пошуку мишею фокусує поле
-		 * програмно, і `:focus-visible` при цьому не спрацьовує. Форму кільця
-		 * задає глобальне правило — власного тут немає навмисно, щоб фокус на
-		 * всьому сайті виглядав однаково. Місце є: у поля-обгортки `padding:
-		 * 0.85rem 1rem`, а кільце виступає на 2px.
+		 * Кільце фокуса знімається, бо його малює ОБГОРТКА — розбір у правилі
+		 * `.search__field:focus-within` вище, виняток названий у гейті
+		 * `focus-indicator` (`DRAWN_BY_ANCESTOR`).
+		 */
+		outline: none;
+		/*
+		 * Чому не можна просто лишити глобальне кільце: воно виступає на 2px
+		 * назовні поля, тобто малює прямокутник поверх круглої плашки. А чому
+		 * `outline: none` тут узагалі дозволений — бо межу підсвічує рядок вище;
+		 * без нього гейт `focus-indicator` червоніє, і правильно.
 		 */
 		font-family: inherit;
 		font-size: 1rem;

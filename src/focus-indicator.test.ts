@@ -197,6 +197,15 @@ const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
 			'цієї рамки. Межу підсвічує обгортка — той самий випадок, що й у ' +
 			'полів із `has-input-tools--framed`'
 	},
+	'src/lib/components/SearchOverlay.svelte': {
+		drawnBy: '.search__field:focus-within',
+		why:
+			'поле лежить у рядку разом із лупою та трьома кнопками, і сам рядок ' +
+			'має нижню межу: кільце навколо input було б ДРУГОЮ лінією всередині ' +
+			'круглої плашки пошуку. Саме так воно й виглядало між 28 серпня та ' +
+			'5 вересня — прямокутник у круглій плашці, і автор назвав це ' +
+			'«старомодною обводою». Тепер межу підсвічує рядок'
+	},
 	'src/lib/components/ui/RichTextEditor.svelte': {
 		drawnBy: '.rich-editor:focus-within',
 		why:
