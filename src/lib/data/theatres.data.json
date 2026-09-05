@@ -199,23 +199,10 @@
 				"mention": "Одеський обласний академічний драматичний театр"
 			}
 		],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"slug": "odeskyi-rosiiskyi-dramatychnyi",
-		"name": "Одеський академічний російський драматичний театр",
-		"city": "Одеса",
-		"countries": [
-			"UA"
-		],
-		"members": [
-			{
-				"id": "maryna-sukhanova",
-				"role": "актриса",
-				"mention": "російського драматичного театру"
-			}
-		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"formerNames": [
+			"Одеський академічний російський драматичний театр"
+		]
 	},
 	{
 		"slug": "odeskyi-tiuh-oleshi",

@@ -104,7 +104,9 @@ export function galaxyEntries(): SearchEntry[] {
 			title: t.name,
 			href: `${theatrePath(t.slug)}/`,
 			kind: 'galaxy',
-			text: [t.name, t.city].filter(Boolean).join(' ')
+			/* Колишня назва теж у тексті: у шкільних архівах театр згаданий саме
+			   нею, і шукати його будуть так само. */
+			text: [t.name, t.fullName, ...(t.formerNames ?? []), t.city].filter(Boolean).join(' ')
 		});
 	}
 

@@ -1178,7 +1178,8 @@
 		"groupsScopeAll": "Showing all {total}",
 		"groupsScopeShowAll": "Show all",
 		"groupsScopeGraduatedOnly": "Graduated only",
-		"groupsScopeHint": "Groups that have graduated and whose roster is known. The rest are still studying or their roster is not known yet."
+		"groupsScopeHint": "Groups that have graduated and whose roster is known. The rest are still studying or their roster is not known yet.",
+		"theatreFormerName": "Former name"
 	},
 	"planet": {
 		"title": "Planet of Creativity",

@@ -91,6 +91,17 @@
 			{/if}
 
 			<!--
+				КОЛИШНЯ НАЗВА стоїть на сторінці, а не лише в даних: у шкільних
+				архівах той самий театр згаданий під нею, і людина, яка прийшла з
+				паперу, мусить зрозуміти, що потрапила куда треба.
+			-->
+			{#if data.theatre.formerNames?.length}
+				<p class="th-header__former" data-testid="theatre-former-name-text">
+					{$t('galaxy.theatreFormerName')}: {data.theatre.formerNames.join('; ')}
+				</p>
+			{/if}
+
+			<!--
 				САЙТ ТЕАТРУ — ЗАРАДИ ЦЬОГО РЯДКА СТОРІНКА Й ІСНУЄ.
 
 				Прохання автора звучало так: «замість посилання на сайт театру
@@ -214,6 +225,12 @@
 	}
 	/* Повна назва — підзаголовок, а не другий заголовок: вона довга, і читають її
 	   лише ті, кому коротка не сказала нічого. */
+	.th-header__former {
+		margin: 0.15rem 0 0;
+		color: var(--galaxy-muted, #a8bfe0);
+		font-size: 0.86rem;
+	}
+
 	.th-header__full {
 		margin: 0.4rem 0 0;
 		max-width: 62ch;
