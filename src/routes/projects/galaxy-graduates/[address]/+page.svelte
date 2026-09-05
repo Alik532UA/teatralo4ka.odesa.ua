@@ -17,6 +17,21 @@
 
 	let { data } = $props();
 
+	/**
+	 * УЧЕНЬ на своїй сторінці — у темі САЙТУ, а не в палітрі галактики.
+	 *
+	 * Автор: «персональні сторінки учнів — дизайн кольори кожної нашої теми з
+	 * сайту». Причина та сама, що й на «Планеті творчості»: галактика темна
+	 * тому, що вона зоряне небо на весь екран, а сторінка учня — звичайна
+	 * сторінка сайту, і перемикач тем мусить на неї діяти.
+	 *
+	 * Практично це означає дві речі: тілу НЕ додається клас галактики (саме він
+	 * підміняє токени теми космічною палітрою — див. `global.css`), і позаду не
+	 * летять зірки з випускниками. Летючі зірки тут узагалі не про учня: це
+	 * перелік ВИПУСКНИКІВ, тобто чужий розділ за його спиною.
+	 */
+	const учень = $derived(data.graduate.kind === 'student');
+
 	const galaxyHref = $derived(
 		localizedPath(
 			"/projects/galaxy-graduates/",
@@ -79,11 +94,11 @@
 	onMount(() => {
 		const mql = window.matchMedia("(min-width: 768px)");
 		isDesktop = mql.matches;
-		if (isDesktop) document.body.classList.add("page-galaxy");
+		if (isDesktop && !учень) document.body.classList.add("page-galaxy");
 
 		const update = (e: MediaQueryListEvent) => {
 			isDesktop = e.matches;
-			if (isDesktop) document.body.classList.add("page-galaxy");
+			if (isDesktop && !учень) document.body.classList.add("page-galaxy");
 			else document.body.classList.remove("page-galaxy");
 		};
 		mql.addEventListener("change", update);
@@ -99,8 +114,12 @@
 	<title>{data.graduate.name} — {$t("galaxy.title")}</title>
 </svelte:head>
 
-<div class="profile-stage" data-testid="graduate-profile-section">
-	{#if browser && isDesktop}
+<div
+	class="profile-stage"
+	class:profile-stage--themed={учень}
+	data-testid="graduate-profile-section"
+>
+	{#if browser && isDesktop && !учень}
 		<div class="profile-stage__stars" aria-hidden="true">
 			<GraduateGalaxy onselect={handleSelectOtherGraduate} />
 		</div>
@@ -167,6 +186,34 @@
 <style>
 	.profile-stage {
 		width: 100%;
+	}
+
+	/*
+	 * Сторінка учня: тло й простір беруться з теми сайту. Решта кольорів
+	 * усередині картки приходить токенами сама — саме тому тілу й не додається
+	 * клас галактики, який ті токени підміняє.
+	 */
+	.profile-stage--themed {
+		/*
+		 * ПЕРЕМАПА ПАЛІТРИ: картка всередині написана на змінних `--galaxy-*`, і
+		 * тут вони вказують на токени теми. Тобто жодного рядка в самій картці
+		 * міняти не треба — вона фарбується темою сайту, лишаючись тією самою
+		 * карткою для випускника в галактиці.
+		 *
+		 * Без цього виходило напівтемне: тло сторінки бралося з теми, а плашки
+		 * всередині лишалися космічними, і в світлій темі axe знаходив два
+		 * нечитні написи (контраст 3,06 — акцент теми на темному тлі плашки).
+		 */
+		--galaxy-bg: var(--bg-page);
+		--galaxy-card-bg: var(--bg-card);
+		--galaxy-text: var(--text-main);
+		--galaxy-muted: var(--text-muted);
+		--galaxy-accent: var(--accent-text);
+
+		min-height: 100dvh;
+		padding: 2rem 1rem 4rem;
+		background: var(--bg-page);
+		color: var(--text-main);
 	}
 
 	.profile-stage__stars {

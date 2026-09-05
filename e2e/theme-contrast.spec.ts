@@ -72,6 +72,12 @@ const ГРУПИ = JSON.parse(
 
 const ГРУПА = ГРУПИ.find((g) => g.verificationStatus === 'possible_errors');
 
+/** Учень — для сторінки, яка живе в темі сайту, а не в палітрі галактики. */
+const ЛЮДИ = JSON.parse(
+	readFileSync(new URL('../src/lib/data/graduates.index.json', import.meta.url), 'utf8')
+) as { slug: string; kind?: string }[];
+const УЧЕНЬ = ЛЮДИ.find((г) => г.kind === 'student');
+
 /** Тема ставиться так, як її ставить сам сайт: значення в сховищі до першого кадру. */
 async function зТемою(page: import('@playwright/test').Page, тема: string) {
 	await page.addInitScript((t) => {
@@ -124,6 +130,25 @@ test.describe('контраст у кожній темі', () => {
 				v.nodes.map((n) => `${n.target.join(' ')} — ${n.any?.[0]?.message ?? ''}`)
 			);
 			expect(вузли, `у темі ${тема} планета має нечитні написи`).toEqual([]);
+		});
+
+		test(`${тема}: сторінка учня без порушень контрасту`, async ({ page }, testInfo) => {
+			test.skip(testInfo.project.name === 'mobile', 'правила контрасту від ширини не залежать');
+			await зТемою(page, тема);
+			await gotoReady(page, `/projects/galaxy-graduates/${УЧЕНЬ!.slug}/`);
+			await waitForAnimations(page);
+
+			/*
+			 * Сторінка учня — єдине місце, де КАРТКА випускника фарбується темою
+			 * сайту: змінні `--galaxy-*` на ній перенаправлені на токени теми.
+			 * Півдороги тут коштувало два нечитні написи (контраст 3,06): тло
+			 * бралося з теми, а плашки всередині лишалися космічними.
+			 */
+			const { violations } = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
+			const вузли = violations.flatMap((v) =>
+				v.nodes.map((n) => `${n.target.join(' ')} — ${n.any?.[0]?.message ?? ''}`)
+			);
+			expect(вузли, `у темі ${тема} сторінка учня має нечитні написи`).toEqual([]);
 		});
 
 		test(`${тема}: текст банера перевірки видно`, async ({ page }, testInfo) => {

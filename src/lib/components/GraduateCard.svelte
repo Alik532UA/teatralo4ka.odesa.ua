@@ -189,6 +189,7 @@
 	>
 		<div
 			class="card__inner"
+			class:card__inner--themed={graduate?.kind === 'student'}
 			class:card__inner--dimmed={dimmed}
 			style="--dim-ms: {dimMs}ms"
 			bind:this={innerEl}
@@ -240,6 +241,22 @@
 	 * не міняє. `opacity` разом із `transform`, бо просте згасання на повний
 	 * розмір картки читається як блимання.
 	 */
+	/*
+	 * КАРТКА УЧНЯ — у темі сайту, а не в палітрі галактики.
+	 *
+	 * Змінні `--galaxy-*` тут перенаправлені на токени теми, тож усередині
+	 * нічого міняти не довелося: та сама картка фарбується космосом у галактиці
+	 * й темою на планеті. Причина — прохання автора про сторінки учнів: планета
+	 * живе в темі сайту, і темна картка поверх неї виглядала б чужою.
+	 */
+	.card__inner--themed {
+		--galaxy-bg: var(--bg-page);
+		--galaxy-card-bg: var(--bg-card);
+		--galaxy-text: var(--text-main);
+		--galaxy-muted: var(--text-muted);
+		--galaxy-accent: var(--accent-text);
+	}
+
 	.card__inner--dimmed {
 		opacity: 0;
 		transform: scale(0.985);

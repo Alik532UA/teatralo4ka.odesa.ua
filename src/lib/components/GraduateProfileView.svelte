@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ArrowRight, FileText } from "lucide-svelte";
+	import { ArrowRight, FileText, Flower2 } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
@@ -952,6 +952,19 @@
 						</div>
 					{/if}
 				</div>
+			{:else if graduate.kind === 'student'}
+				<!--
+					УЧНЕВІ без фотографії — КВІТКА, а не зірка.
+
+					Зірка належить галактиці: людина, яка випустилася, світить
+					звідкись іздалеку. Учень же стоїть на «Планеті творчості», і
+					там порожнє місце позначає квітка — «тут росте». Автор
+					побачив розходження одразу: на планеті квітка, а на власній
+					сторінці того самого учня — зірка.
+				-->
+				<div class="bloom" data-testid="galaxy-card-bloom">
+					<Flower2 size={44} aria-hidden="true" />
+				</div>
 			{:else}
 				<div class="star" aria-hidden="true"></div>
 			{/if}
@@ -1887,6 +1900,20 @@
 		color: #fff;
 		box-shadow: 0 0 0 3px rgb(140 190 255 / 0.18);
 	}
+	/* Квітка учня: те саме коло, що й зірка, але з кольорами теми — сторінка
+	   учня живе в темі сайту, а не в палітрі галактики. */
+	.bloom {
+		display: grid;
+		place-items: center;
+		width: 96px;
+		height: 96px;
+		margin: 0 auto 0.5rem;
+		border-radius: 50%;
+		background: var(--bg-surface, rgb(255 255 255 / 0.06));
+		border: 2px solid color-mix(in srgb, var(--accent-primary, #38bdf8) 55%, transparent);
+		color: var(--accent-text, #7dd3fc);
+	}
+
 	.star {
 		width: 96px;
 		height: 96px;
