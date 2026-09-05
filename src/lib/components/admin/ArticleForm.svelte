@@ -32,16 +32,30 @@
 		FileText, Globe, Folder
 	} from 'lucide-svelte';
 
+	import ArticleMediaEditor from '$lib/components/admin/ArticleMediaEditor.svelte';
+	import {
+		coverOf,
+		DEFAULT_MEDIA_SHAPE,
+		legacyMedia,
+		type ArticleMediaItem,
+		type MediaLayout,
+		type MediaShape
+	} from '$lib/utils/articleMedia';
+
 	export interface ArticleFormData {
 		contentType: ContentType;
+		/** Пропорція плиток медіа на сторінці статті. */
+		mediaShape: MediaShape;
+		/** Стовпець плиток збоку від тексту або все одне за одним. */
+		mediaLayout: MediaLayout;
 		category: string;
 		slug: string;
 		dateMode: DateMode;
 		customDate: Timestamp | null;
 		sortOrder?: number;
 		translations: {
-			uk: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string };
-			en: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string };
+			uk: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string; media: ArticleMediaItem[] };
+			en: { title: string; content: string; excerpt: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: ContentFormat; externalUrl: string; media: ArticleMediaItem[] };
 		};
 	}
 
@@ -57,6 +71,9 @@
 		initialDateMode?: DateMode;
 		initialCustomDateStr?: string;
 		initialSortOrder?: number;
+		initialMedia?: ArticleMediaItem[];
+		initialMediaShape?: MediaShape;
+		initialMediaLayout?: MediaLayout;
 		initialDifferentCovers?: boolean;
 		initialDifferentVideos?: boolean;
 		initialDifferentExternalUrls?: boolean;
@@ -75,6 +92,9 @@
 		createdAtDate = null,
 		updatedAtDate = null,
 		initialCategory = 'news',
+		initialMedia = [],
+		initialMediaShape = DEFAULT_MEDIA_SHAPE,
+		initialMediaLayout = 'column' as MediaLayout,
 		initialSlug = '',
 		initialDateMode = 'createdAt' as DateMode,
 		initialCustomDateStr = new Date().toISOString().split('T')[0],
@@ -177,10 +197,31 @@
 	let slug = $state(untrack(() => initialSlug));
 	let activeLang = $state<'uk' | 'en'>('uk');
 
+	/**
+	 * Медіа статті — ОДИН перелік на обидві мови.
+	 *
+	 * Схема тримає його в перекладі (поруч із обкладинкою), але редагується він
+	 * один: знімок не залежить від мови, і два різні переліки означали б, що
+	 * сторінка виглядає по-різному без жодної причини. Підпис відрізнявся б —
+	 * але його ніхто не просив, а зайве поле в формі коштує дорожче.
+	 *
+	 * Порожній перелік у наявної статті заповнюється зі СТАРИХ полів: інакше,
+	 * відкривши давню новину, автор побачив би порожньо там, де обкладинка є.
+	 */
+	let mediaItems = $state<ArticleMediaItem[]>(
+		untrack(() =>
+			initialMedia.length
+				? initialMedia.map((m) => ({ ...m }))
+				: legacyMedia(initialTranslations?.uk?.coverUrl, initialTranslations?.uk?.videoUrl)
+		)
+	);
+	let mediaShape = $state<MediaShape>(untrack(() => initialMediaShape));
+	let mediaLayout = $state<MediaLayout>(untrack(() => initialMediaLayout));
+
 	let translations = $state(
 		untrack(() => ({
-			uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.uk },
-			en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', ...initialTranslations?.en },
+			uk: { title: '', content: '', excerpt: '', isPublished: mode === 'create', coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', media: [] as ArticleMediaItem[], ...initialTranslations?.uk },
+			en: { title: '', content: '', excerpt: '', isPublished: false, coverUrl: '', videoUrl: '', contentFormat: 'markdown' as ContentFormat, externalUrl: '', media: [] as ArticleMediaItem[], ...initialTranslations?.en },
 		}))
 	);
 
@@ -325,7 +366,33 @@
 
 		const customDate = dateMode === 'custom' ? Timestamp.fromDate(new Date(customDateStr)) : null;
 		const sortOrder = sortOrderStr.trim() !== '' ? parseInt(sortOrderStr, 10) : undefined;
-		onsubmit({ contentType: selectedType, category, slug, dateMode, customDate, sortOrder, translations });
+		/*
+		 * Старі поля лишаються ЗАПОВНЕНИМИ, і це не данина сумісності заради
+		 * сумісності. `coverUrl` читають картка переліку, сповіщення про гарячу
+		 * новину й списки адмінки — усі вони знають про одну обкладинку. Тому
+		 * перше фото переліку й перше відео дублюються туди: перелік — джерело
+		 * правди для СТОРІНКИ, старі поля — для тих, хто досі бачить одне.
+		 */
+		const медіа = mediaItems.filter((m) => m.url.trim() !== '').map((m) => ({ ...m }));
+		const обкладинка = coverOf(медіа)?.url ?? '';
+		const запис = медіа.find((m) => m.kind === 'video')?.url ?? '';
+		for (const мова of ['uk', 'en'] as const) {
+			translations[мова].media = медіа.map((m) => ({ ...m }));
+			translations[мова].coverUrl = обкладинка;
+			translations[мова].videoUrl = запис;
+		}
+
+		onsubmit({
+			contentType: selectedType,
+			category,
+			slug,
+			dateMode,
+			customDate,
+			sortOrder,
+			mediaShape,
+			mediaLayout,
+			translations
+		});
 	}
 
 	function saveDraftToFile() {
@@ -784,6 +851,26 @@
 						</div>
 					{/each}
 				</div>
+			</div>
+
+			<!--
+				МЕДІА НОВИНИ — перелік замість двох полів вище.
+
+				Поля обкладинки й відео лишилися: їх читають картка переліку,
+				сповіщення про гарячу новину й списки адмінки. Але заповнює їх
+				тепер сам перелік при збереженні — розбір у `handleFormSubmit`.
+			-->
+			<div style="display: flex; flex-direction: column; gap: 1rem;" data-testid="{tp}-media-section">
+				<div style="display: flex; align-items: center; gap: 0.75rem; color: var(--text-title); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.6;">
+					<LayoutPanelTop size={18} />
+					{$t('admin.editor.mediaTitle')}
+				</div>
+				<ArticleMediaEditor
+					bind:items={mediaItems}
+					bind:shape={mediaShape}
+					bind:layout={mediaLayout}
+					testIdPrefix={tp}
+				/>
 			</div>
 
 			<!-- Languages & Publication -->

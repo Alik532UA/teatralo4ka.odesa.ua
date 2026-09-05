@@ -1,5 +1,10 @@
 import { asset } from '$app/paths';
-import type { BentoImage } from '$lib/components/PhotoBentoGallery.svelte';
+import {
+	coverOf,
+	type ArticleMediaItem,
+	type MediaLayout,
+	type MediaShape
+} from '$lib/utils/articleMedia';
 import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
 import { loadPageMetadata } from '$lib/i18n/loader';
 import { getCategoryLabel } from '$lib/config/categories';
@@ -63,19 +68,24 @@ export interface CodeNewsItem {
 	slug: string;
 	/** `object-position` обкладинки в картці переліку й на головній. */
 	coverPosition?: string;
-	/** Знімки галереї в порядку показу. Порожньо — галереї немає. */
-	photos: readonly BentoImage[];
 	/**
-	 * Запис із події: YouTube, Vimeo, Instagram або Facebook — розбирає
-	 * `utils/videoEmbed`, той самий, що для новин із бази й репертуару груп.
+	 * Медіа новини в порядку показу: знімки й записи одним переліком.
 	 *
-	 * У новини з бази відео — поле статті, і сторінку малює `DetailPage`. Тут
-	 * сторінку малює `StaticPage` із markdown, а markdown у цьому проєкті
-	 * розбирається власним парсером без масивів — тобто посилання на запис
-	 * нікуди в тексті не поставиш так, щоб з нього вийшов плеєр. Тому воно
-	 * лежить поряд зі знімками, у реєстрі.
+	 * Доти тут були `photos` і окреме `videoUrl` — тобто «друге відео» не мало
+	 * куди подітися, а порядок «спершу запис, потім знімки» задати було нічим.
+	 * Тепер порядок задає автор, а вид кожного елемента названий явно
+	 * (`utils/articleMedia`, спільний із новинами з бази).
 	 */
-	videoUrl?: string;
+	media: readonly ArticleMediaItem[];
+	/**
+	 * Пропорція плиток НА СТОРІНЦІ. Немає — вертикальна.
+	 *
+	 * У переліку новин картка лишається вертикальною завжди: там пропорція
+	 * належить сітці переліку, а не новині.
+	 */
+	mediaShape?: MediaShape;
+	/** Стовпець плиток збоку від тексту (типово) або все одне за одним. */
+	mediaLayout?: MediaLayout;
 }
 
 /**
@@ -97,7 +107,19 @@ function зТеки(тека: string) {
 		height: number,
 		alt: string,
 		position?: string
-	): BentoImage => ({ src: `/news/${тека}/${файл}`, alt, title: alt, width, height, position });
+	): ArticleMediaItem => ({
+		kind: 'photo',
+		url: `/news/${тека}/${файл}`,
+		alt,
+		width,
+		height,
+		position
+	});
+}
+
+/** Запис події: YouTube, Vimeo, Instagram або Facebook — розбирає `utils/videoEmbed`. */
+function відео(url: string, alt: string): ArticleMediaItem {
+	return { kind: 'video', url, alt };
 }
 
 /*
@@ -163,7 +185,7 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 		 * порожня сторінка виглядала б як помилка збірки, а обіцянка тексту —
 		 * як те, чим вона і є.
 		 */
-		videoUrl: 'https://youtube.com/shorts/B0kDXqZ023k?feature=share',
+
 		/*
 		 * Знімок один, і кадрування йому НЕ задане навмисно.
 		 *
@@ -175,10 +197,28 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 		 * всіх» не існує. Тому тут середина, а якщо в картці треба інше — це
 		 * одне поле.
 		 */
-		photos: [фотоВідкриття('01.jpg', 720, 1280, 'Відкриття ювілейного 30-го сезону, 5 вересня 2026')]
+		/*
+		 * Пропорція не задана — отже вертикальна, як у решти новин. І знімок
+		 * (720×1280), і сам запис тут вертикальні кадри зі сторіс, тож квадрат
+		 * зрізав би їм і верх, і низ.
+		 */
+		media: [
+			фотоВідкриття('01.jpg', 720, 1280, 'Відкриття ювілейного 30-го сезону, 5 вересня 2026'),
+			відео('https://youtube.com/shorts/B0kDXqZ023k?feature=share', 'Відкриття 30-го сезону')
+		]
 	},
 	{
 		id: '2026-year-30th-season-18-students',
+		/*
+		 * КВАДРАТ — і лише тут.
+		 *
+		 * Автор попросив квадратні плитки саме для цієї новини: знімків
+		 * дванадцять, вони й широкі, і вертикальні, і в спільному стовпці
+		 * вертикальна рамка різала б широкі найсильніше. Решта новин лишається
+		 * вертикальною — це типове значення, і міняти його всім було моєю
+		 * помилкою, яку автор виправив одразу.
+		 */
+		mediaShape: 'square',
 		slug: 'news-2026-year-30th-season-18-students',
 		/*
 		 * Кадрування обкладинки — ПРАВОРУЧ від середини, і число тут не на око.
@@ -200,7 +240,7 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 		 * обрізається — це не помилка кадрування, а межа пропорції.
 		 */
 		coverPosition: '46% center',
-		photos: [
+		media: [
 			фото('01.jpg', 1280, 959, ПІДПИС),
 			фото('02.jpg', 960, 1280, ПІДПИС, 'center 25%'),
 			фото('03.jpg', 1280, 960, ПІДПИС),
@@ -299,10 +339,25 @@ export function codeNewsCards(lang: 'uk' | 'en'): ContentCardItem[] {
 			category: getCategoryLabel(meta.category, lang),
 			excerpt: meta.excerpt ?? meta.seo.description,
 			color: '',
-			/* Перший знімок галереї — обкладинка картки: окремого поля для неї в
+			/* Перше ФОТО переліку — обкладинка картки: окремого поля для неї в
 			   frontmatter немає, а вибирати з одинадцяти знімків «найкращий»
-			   машина не вміє. */
-			coverUrl: item.photos[0] ? asset(item.photos[0].src as `/${string}`) : '',
+			   машина не вміє. Саме фото, а не перший елемент: новина може
+			   починатися записом, і тоді картка лишилася б без зображення. */
+			coverUrl: (() => {
+				const знімок = coverOf(item.media);
+				return знімок ? asset(знімок.url as `/${string}`) : '';
+			})(),
+			/*
+			 * ЗАПИС — у картку переліку, а не лише на сторінку.
+			 *
+			 * Автор побачив різницю й назвав її точно: у новини з бази в переліку
+			 * є кнопка «відео», а в новини з коду її не було, хоч запис у неї є.
+			 * Причина проста: картка бере відео з поля `videoUrl`, а реєстр коду
+			 * його не віддавав. Тепер віддає перше відео переліку — і кнопка,
+			 * плеєр просто в картці й позначка на обкладинці працюють однаково
+			 * для обох джерел, без жодного рядка в самій картці.
+			 */
+			videoUrl: item.media.find((m) => m.kind === 'video')?.url,
 			/* Кадрування обкладинки — своє, а не те, що в мозаїці: там у плитки
 			   інша пропорція. Розбір і замір — у полі `coverPosition`
 			   `ContentCard`. */

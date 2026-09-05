@@ -6,7 +6,7 @@
 	import { seo } from '$lib/services/seo.svelte';
 	import { getCategoryLabel } from '$lib/config/categories';
 	import ArticleView from '$lib/components/ArticleView.svelte';
-	import { cardImageUrl, parseVideoUrl } from '$lib/utils/videoEmbed';
+	import { legacyMedia } from '$lib/utils/articleMedia';
 	import { page } from '$app/state';
 
 	interface Props {
@@ -80,10 +80,24 @@
 	 * новій вкладці. Причина в CSP: вбудовування вимагало б нових доменів і
 	 * стороннього SDK, а ламалося б мовчки, порожньою рамкою.
 	 */
+	/**
+	 * Медіа статті: новий перелік, а якщо його немає — старі два поля.
+	 *
+	 * Саме тут живе сумісність. Новини, написані до 2026-09-05, мають `coverUrl`
+	 * і `videoUrl`, і переписувати їх ніхто не буде; `legacyMedia` зводить ці
+	 * два поля до того самого переліку, яким тепер говорять і реєстр новин у
+	 * коді, і адмінка. Показ від джерела не залежить узагалі.
+	 */
+	const медіа = $derived.by(() => {
+		/* Порожній рядок — звичайне значення з адмінки: незаповнене поле вона
+		   зберігає як `''`, і без відсіву в переліку з'явилася б плитка без
+		   нічого. */
+		const свої = (translation?.media ?? []).filter((m) => m.url.trim() !== '');
+		if (свої.length) return свої;
+		return legacyMedia(translation?.coverUrl, translation?.videoUrl, translation?.title);
+	});
+
 	let videoOpen = $state(false);
-	const video = $derived(parseVideoUrl(translation?.videoUrl));
-	/** Обкладинка сторінки: своє зображення, інакше кадр із відео. */
-	const cover = $derived(cardImageUrl(translation?.coverUrl, translation?.videoUrl));
 
 	/**
 	 * Перехід на іншу статтю скидає плеєр: інакше на новій сторінці лишалося б
@@ -145,8 +159,9 @@
 		title={translation.title || ''}
 		dateLabel={formatDate(article)}
 		categoryLabel={getCategoryLabel(article.category, $locale === 'en' ? 'en' : 'uk')}
-		coverUrl={cover}
-		{video}
+		media={медіа}
+		shape={article?.mediaShape}
+		layout={article?.mediaLayout}
 		bind:videoOpen
 		{backHref}
 		backLabel={$t(backLabelKey)}

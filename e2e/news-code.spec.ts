@@ -57,8 +57,15 @@ test.describe('новина з коду', () => {
 			const пункти = page.locator('.prose ol li');
 			expect(await пункти.count(), 'перелік студентів мусить бути в HTML').toBeGreaterThan(10);
 
-			// Кожен знімок галереї — теж у HTML, а не домальований скриптом.
-			const знімки = page.locator('[data-testid="article-gallery-list"] img');
+			/*
+			 * Кожен знімок — теж у HTML, а не домальований скриптом.
+			 *
+			 * Плитки, а не колишня мозаїка: медіа новини тепер один перелік
+			 * (`components/ArticleMedia`). Без JavaScript замір висоти не працює, і
+			 * стовпець показує одну плитку, а решта йде під статтею — але В HTML
+			 * мусять бути ВСІ, і саме це тут і рахується.
+			 */
+			const знімки = page.locator('[data-testid^="article-media-photo-btn-"]');
 			expect(
 				await знімки.count(),
 				'знімки мусять бути в HTML, а не домальовані скриптом'
@@ -128,12 +135,12 @@ test.describe('новина з коду', () => {
 		await expect(page).toHaveURL(new RegExp(`${адреса.replace(/\//g, '\\/')}/?$`));
 
 		// А сама новина НІКУДИ не поділася — саме це й просив автор.
-		await expect(page.locator('[data-testid="article-gallery-list"]')).toBeVisible();
+		await expect(page.locator('[data-testid^="article-media-photo-btn-"]').first()).toBeVisible();
 		await expect(page.locator('h1').first()).toContainText('сезон');
 
 		// «Назад» закриває картку й лишає новину на місці.
 		await page.goBack();
 		await expect(page).toHaveURL(new RegExp(`/news/${АДРЕСА}/?$`));
-		await expect(page.locator('[data-testid="article-gallery-list"]')).toBeVisible();
+		await expect(page.locator('[data-testid^="article-media-photo-btn-"]').first()).toBeVisible();
 	});
 });

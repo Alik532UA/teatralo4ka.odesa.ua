@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { ArticleSchema } from "../schemas";
+import type { ArticleMediaItem, MediaLayout, MediaShape } from "$lib/utils/articleMedia";
 import type { ArticleCategory } from "../config/categories";
 import { getCategoryLabel } from "../config/categories";
 import { getContentExcerpt } from "../utils/renderContent";
@@ -40,12 +41,24 @@ export interface ArticleTranslation {
   videoUrl?: string;
   contentFormat?: ContentFormat;
   externalUrl?: string;
+  /**
+   * Медіа статті в порядку показу — знімки й записи одним переліком.
+   *
+   * Порожньо або немає — читаються `coverUrl` і `videoUrl` вище
+   * (`utils/articleMedia.legacyMedia`). Саме тому старі поля лишилися: жодну
+   * наявну новину не треба переписувати, а нові пишуться вже сюди.
+   */
+  media?: ArticleMediaItem[];
 }
 
 export type ContentType = 'article' | 'page' | 'page_project';
 
 export interface Article {
   id?: string;
+  /** Пропорція плиток медіа на сторінці. Немає — квадрат. */
+  mediaShape?: MediaShape;
+  /** Стовпець плиток збоку від тексту (типово) або все одне за одним. */
+  mediaLayout?: MediaLayout;
   slug?: string;
   type?: ContentType;
   category: ArticleCategory | string;

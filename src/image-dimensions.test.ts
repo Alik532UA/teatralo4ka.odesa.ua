@@ -109,9 +109,19 @@ const RESERVED_BY_CSS: Record<string, string> = {
 	'src/lib/components/ContentCard.svelte | class={imgClass}':
 		'.focus-card__img-wrap / .grid-card__img-wrap — flex-basis 40 % і 35 % від картки; ' +
 		'.list-item__img-wrap — 90px × aspect-ratio 9/16. Обкладинка приходить із Firestore',
-	'src/lib/components/ArticleView.svelte | class="article-cover__img"':
-		'.article-cover__media — aspect-ratio 9/16 на всю ширину; ' +
-		'та сама пропорція в плеєра, щоб вміст не стрибав при перемиканні',
+	/*
+	 * Медіа статті: місце відводить `aspect-ratio` самої плитки, і воно НЕ
+	 * фіксоване — пропорцію вибирає автор новини (квадрат, вертикаль,
+	 * горизонталь). Через це числа в атрибутах були б не просто зайві, а
+	 * неправдиві: той самий знімок стоїть у квадраті в однієї новини і в
+	 * вертикалі в іншої.
+	 */
+	'src/lib/components/ArticleMedia.svelte | src={item.url}':
+		'.media-tile — aspect-ratio від `shapeRatio`, ширину задає стовпець або сітка',
+	'src/lib/components/ArticleMedia.svelte | src={відео.posterUrl}':
+		'.media-tile — та сама плитка; кадр відео приходить із YouTube і власних розмірів не має',
+	'src/lib/components/ArticleMedia.svelte | class="media-frame__img"':
+		'.media-frame — та сама пропорція, що в плеєра поруч, щоб вміст не стрибав при перемиканні',
 	'src/lib/components/StaticPage.svelte | class="page-cover__img"':
 		'.page-cover — aspect-ratio 9/16, sticky-колонка сторінки',
 	'src/lib/components/ui/Toast.svelte | class="toast-card__img"':

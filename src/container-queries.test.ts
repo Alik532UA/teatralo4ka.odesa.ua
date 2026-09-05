@@ -161,6 +161,8 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	 * чужій сітці. У `DetailPage` запит лишився на смузі «назад».
 	 */
 	'ArticleView.svelte': { axis: 'window', why: 'розкладка самої сторінки статті' },
+	'ArticleMedia.svelte': { axis: 'window', why: 'стовпець медіа складається під текст разом із сіткою статті' },
+	'admin/ArticleMediaEditor.svelte': { axis: 'window', why: 'рядок форми в адмінці: на телефоні поля стають одне під одним' },
 	'FooterSection.svelte': { axis: 'window', why: 'підвал сайту — завжди на всю ширину вікна' },
 	'GalaxyUpdateActions.svelte': {
 		axis: 'window',

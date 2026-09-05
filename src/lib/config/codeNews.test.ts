@@ -31,6 +31,15 @@ import { SEARCHABLE_PAGES } from './searchablePages';
  * markdown і назвала обидві мови; `01.jpg` перейменовано — впала перевірка
  * файлів; запис прибрано з `LOCAL_IMAGE_SIZES` — впала перевірка розмірів.
  */
+/**
+ * Знімки новини — це елементи `media` виду `photo`.
+ *
+ * Раніше поле звалося `photos` і містило лише їх; тепер один перелік тримає й
+ * записи, тож у перевірок файлів і розмірів мусить бути ця вибірка, а не все
+ * підряд: у відео немає ані файлу в `static`, ані рядка в мапі розмірів.
+ */
+const знімки = (item: (typeof CODE_NEWS)[number]) => item.media.filter((m) => m.kind === 'photo');
+
 describe('новини в коді', () => {
 	const СТОРІНКИ = join('src', 'lib', 'i18n', 'pages');
 
@@ -84,10 +93,10 @@ describe('новини в коді', () => {
 		const bad: string[] = [];
 		let перевірено = 0;
 		for (const item of CODE_NEWS) {
-			for (const фото of item.photos) {
+			for (const фото of знімки(item)) {
 				перевірено += 1;
-				if (!existsSync(join('static', фото.src))) bad.push(`${item.id}: немає static${фото.src}`);
-				if (!(фото.src in LOCAL_IMAGE_SIZES)) bad.push(`${item.id}: ${фото.src} поза мапою розмірів`);
+				if (!existsSync(join('static', фото.url))) bad.push(`${item.id}: немає static${фото.url}`);
+				if (!(фото.url in LOCAL_IMAGE_SIZES)) bad.push(`${item.id}: ${фото.url} поза мапою розмірів`);
 			}
 		}
 		expect(перевірено, 'жодного знімка — перевірка нічого не стверджує').toBeGreaterThan(0);
@@ -97,12 +106,12 @@ describe('новини в коді', () => {
 	it('розмір у реєстрі збігається з мапою розмірів', () => {
 		const bad: string[] = [];
 		for (const item of CODE_NEWS) {
-			for (const фото of item.photos) {
-				const у_мапі = LOCAL_IMAGE_SIZES[фото.src as keyof typeof LOCAL_IMAGE_SIZES];
+			for (const фото of знімки(item)) {
+				const у_мапі = LOCAL_IMAGE_SIZES[фото.url as keyof typeof LOCAL_IMAGE_SIZES];
 				if (!у_мапі) continue;
 				if (фото.width !== у_мапі.width || фото.height !== у_мапі.height) {
 					bad.push(
-						`${фото.src}: реєстр ${фото.width}×${фото.height}, мапа ${у_мапі.width}×${у_мапі.height}`
+						`${фото.url}: реєстр ${фото.width}×${фото.height}, мапа ${у_мапі.width}×${у_мапі.height}`
 					);
 				}
 			}
@@ -116,8 +125,10 @@ describe('новини в коді', () => {
 
 	it('у теці знімків немає файлів, яких реєстр не знає', () => {
 		const bad: string[] = [];
-		const теки = new Set(CODE_NEWS.flatMap((item) => item.photos.map((ф) => ф.src.replace(/\/[^/]+$/, ''))));
-		const відомі = new Set(CODE_NEWS.flatMap((item) => item.photos.map((ф) => ф.src)));
+		const теки = new Set(
+			CODE_NEWS.flatMap((item) => знімки(item).map((ф) => ф.url.replace(/\/[^/]+$/, '')))
+		);
+		const відомі = new Set(CODE_NEWS.flatMap((item) => знімки(item).map((ф) => ф.url)));
 		for (const тека of теки) {
 			const шлях = join('static', тека);
 			if (!existsSync(шлях)) continue;

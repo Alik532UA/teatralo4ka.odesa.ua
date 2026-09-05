@@ -1,11 +1,16 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { t } from 'svelte-i18n';
-	import { Play, Image as ImageIcon, ExternalLink } from 'lucide-svelte';
-	import type { VideoInfo } from '$lib/utils/videoEmbed';
+	import ArticleMedia from '$lib/components/ArticleMedia.svelte';
+	import {
+		DEFAULT_MEDIA_SHAPE,
+		type ArticleMediaItem,
+		type MediaLayout,
+		type MediaShape
+	} from '$lib/utils/articleMedia';
+	import { measureHeight } from '$lib/utils/measureHeight';
 
 	/**
-	 * Сторінка однієї статті: обкладинка ліворуч, плашка з датою, назва, текст.
+	 * Сторінка однієї статті: медіа ліворуч, плашка з датою, назва, текст.
 	 *
 	 * ## Чому окремий компонент
 	 *
@@ -19,6 +24,17 @@
 	 * Тому розкладка живе ТУТ, а джерела приносять готові рядки. Різниця між
 	 * ними лишається в них і сюди не переїжджає: запит, стани «завантажується /
 	 * не знайдено», вибір мови й санітизація тексту.
+	 *
+	 * ## Що тут, а що в `ArticleMedia`
+	 *
+	 * Тут — СІТКА: три області («медіа», «текст», «решта») і те, як вони
+	 * складаються на вузькому екрані. Там — самі медіа: плитки, лайтбокс, плеєр і
+	 * поділ «скільки влізе збоку / що піде під статтею». Через цей поділ
+	 * `ArticleMedia` віддає ДВА кореневі вузли, і кожен стає у свою область.
+	 *
+	 * Висота колонки тексту міряється тут (`bind:clientHeight`) і передається
+	 * туди: скільком плиткам стати збоку, вирішує саме вона — так просив автор
+	 * («галерея в один стовбець на висоту тексту»).
 	 *
 	 * ## Чому текст приходить сніпетом, а не рядком HTML
 	 *
@@ -34,22 +50,16 @@
 		dateLabel?: string;
 		/** Готова назва категорії. Порожньо — плашки немає. */
 		categoryLabel?: string;
-		/** Обкладинка: готова адреса, `asset()`/`base` вже враховані. */
-		coverUrl?: string;
+		/** Медіа статті: адреси вже готові (`asset()` зробило джерело). */
+		media?: readonly ArticleMediaItem[];
+		/** Пропорція плиток. Немає — вертикальна, як було до переліку медіа. */
+		shape?: MediaShape;
+		/** Стовпець плиток (типово) або все одне за одним. */
+		layout?: MediaLayout;
 		/**
-		 * `object-position` обкладинки — коли центр ріже не те, що треба.
-		 *
-		 * Рамка обкладинки вертикальна (9/16), а знімок буває широким, і тоді
-		 * центр показує смугу посеред кадру. Число приходить із реєстру новини —
-		 * там воно й пораховане, разом із заміром.
-		 */
-		coverPosition?: string;
-		/** Розібране посилання на запис (`parseVideoUrl`), або `null`. */
-		video?: VideoInfo | null;
-		/**
-		 * Плеєр відкритий. Двостороннє навмисно: приходять і з кнопки в
-		 * сповіщенні про гарячу новину (`?video=1`), тобто рішення «показати
-		 * одразу» ухвалює сторінка, а перемикає кнопка тут.
+		 * Плеєр пари «фото + відео» відкритий. Двостороннє навмисно: приходять і з
+		 * кнопки в сповіщенні про гарячу новину (`?video=1`), тобто рішення
+		 * «показати одразу» ухвалює сторінка, а перемикає кнопка в медіа.
 		 */
 		videoOpen?: boolean;
 		backHref: string;
@@ -57,7 +67,7 @@
 		testIdPrefix: string;
 		/** Текст статті — разом із власною санітизацією. */
 		prose: Snippet;
-		/** Що показати ПІД статтею: галерея знімків новини з коду. */
+		/** Що показати ПІД статтею, окрім медіа. */
 		below?: Snippet;
 	}
 
@@ -65,9 +75,9 @@
 		title,
 		dateLabel,
 		categoryLabel,
-		coverUrl,
-		coverPosition,
-		video = null,
+		media = [],
+		shape = DEFAULT_MEDIA_SHAPE,
+		layout = 'column',
 		videoOpen = $bindable(false),
 		backHref,
 		backLabel,
@@ -75,6 +85,22 @@
 		prose,
 		below
 	}: Props = $props();
+
+	/** Стовпець збоку є лише в розкладці «стовпець» і лише коли медіа є. */
+	const збоку = $derived(media.length > 0 && layout === 'column');
+
+	/**
+	 * Заміряна висота тексту — від неї залежить, скільком плиткам стати збоку.
+	 *
+	 * Мірка своя, а не `bind:clientHeight`: прив'язка Svelte давала 1347 при
+	 * справжніх 1579 і більше не оновлювалася — ні від довантаженого шрифту, ні
+	 * від зміни розміру вікна. Замір і розбір — у `utils/measureHeight`.
+	 *
+	 * Прикріплення створюється ОДИН раз: новий об'єкт на кожен рендер Svelte
+	 * перечіпляв би, а замір змінює стан — тобто це була б петля.
+	 */
+	let висотаТексту = $state(0);
+	const мірка = measureHeight((v) => (висотаТексту = v));
 </script>
 
 <section class="detail-page container" data-testid="{testIdPrefix}-section">
@@ -85,79 +111,20 @@
 	</div>
 
 	<article data-testid="{testIdPrefix}-content-container">
-		<div class="article-body" class:has-cover={!!coverUrl || !!video}>
-			{#if coverUrl || video}
-				<aside class="article-cover" data-testid="{testIdPrefix}-cover-container">
-					<!--
-						Окрема обгортка для медіа, а не одна коробка на все.
-						Обрізання (`overflow: hidden`) і пропорція 9/16 живуть ТУТ:
-						коли вони стояли на `<aside>`, кнопка виштовхувалася за межі
-						коробки й обрізалася — на сторінці її не було видно взагалі.
-					-->
-					<div class="article-cover__media">
-						{#if videoOpen && video?.embeddable}
-							<!-- Плеєр стає на місце зображення, у тій самій рамці. -->
-							<iframe
-								src="{video.embedUrl}?autoplay=1"
-								{title}
-								class="article-cover__player"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen
-								referrerpolicy="strict-origin-when-cross-origin"
-								data-testid="{testIdPrefix}-cover-video-container"
-							></iframe>
-						{:else if coverUrl}
-							<img
-								src={coverUrl}
-								alt={title}
-								class="article-cover__img"
-								style={coverPosition ? `object-position: ${coverPosition}` : ''}
-								loading="eager"
-								fetchpriority="high"
-								decoding="async"
-								data-testid="{testIdPrefix}-cover-img"
-							/>
-						{/if}
-					</div>
-
-					{#if video}
-						{#if video.embeddable}
-							<button
-								type="button"
-								class="btn btn-outline article-cover__video-btn"
-								onclick={() => (videoOpen = !videoOpen)}
-								data-testid="{testIdPrefix}-cover-video-btn"
-							>
-								{#if videoOpen}
-									<ImageIcon size={16} aria-hidden="true" />
-									{$t('common.showCover')}
-								{:else}
-									<Play size={16} aria-hidden="true" />
-									{$t('common.watchVideo')}
-								{/if}
-							</button>
-						{:else}
-							<!-- Instagram/Facebook: вбудувати не можемо, тож честніше
-							     відкрити там, де воно справді працює. -->
-							<!-- Правило звітує на рядку з `href`, тому він мусить бути на тому
-							     самому рядку, що й `<a` — інакше disable-next-line його не
-							     покриває. Той самий прийом, що для `backHref` вище. -->
-							<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-							<a href={video.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="btn btn-outline article-cover__video-btn"
-								data-testid="{testIdPrefix}-cover-video-link"
-							>
-								<ExternalLink size={16} aria-hidden="true" />
-								{$t('common.watchVideo')}
-							</a>
-						{/if}
-					{/if}
-				</aside>
+		<div class="article-body" class:has-media={збоку}>
+			{#if media.length > 0}
+				<ArticleMedia
+					{media}
+					{shape}
+					{layout}
+					textHeight={висотаТексту}
+					{title}
+					bind:videoOpen
+					{testIdPrefix}
+				/>
 			{/if}
 
-			<div class="article-main">
+			<div class="article-main" {@attach мірка}>
 				<div class="article-header" data-testid="{testIdPrefix}-header">
 					{#if dateLabel || categoryLabel}
 						<div class="article-meta" data-testid="{testIdPrefix}-meta-section">
@@ -180,8 +147,6 @@
 	</article>
 </section>
 
-<!-- Галерея йде ПОЗА секцією статті: у неї своя ширина й свої відступи, а
-     всередині колонки тексту вона стиснулася б до 1fr сітки. -->
 {@render below?.()}
 
 <style>
@@ -231,12 +196,27 @@
 	}
 
 	.article-main {
+		grid-area: text;
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
 	}
 
+	/*
+	 * ТРИ ОБЛАСТІ, а не «обкладинка й текст».
+	 *
+	 * `media` — стовпець плиток, `text` — стаття, `rest` — те з медіа, що не
+	 * влізло збоку, на всю ширину. Області названі тут, бо сітка належить статті;
+	 * самі вузли приносить `ArticleMedia` двома коренями й ставить кожен у свою
+	 * область. Без сітки з областями «решту» довелося б малювати другим
+	 * компонентом — і поділ «скільки влізе» розійшовся б надвоє.
+	 */
 	.article-body {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			'text'
+			'rest';
 		max-width: 800px;
 		margin: 0 auto;
 		line-height: 1.8;
@@ -244,69 +224,18 @@
 		color: var(--color-body-text);
 	}
 
-	.article-body.has-cover {
-		display: grid;
-		grid-template-columns: 280px 1fr;
-		gap: 2.5rem;
+	.article-body.has-media {
+		grid-template-columns: 280px minmax(0, 1fr);
+		grid-template-areas:
+			'media text'
+			'rest rest';
+		gap: 0 2.5rem;
 		max-width: 1000px;
 		align-items: start;
 	}
 
-	/* Колонка: медіа зверху, кнопка під ним. Нічого не обрізає — інакше кнопка
-	   опиняється за межами коробки й зникає з екрана. */
-	.article-cover {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		position: sticky;
-		top: 120px;
-	}
-
-	/* Саме медіа: пропорція, скруглення й обрізання — тут. */
-	.article-cover__media {
-		border-radius: 20px;
-		overflow: hidden;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-		aspect-ratio: 9 / 16;
-		width: 100%;
-	}
-
-	/* Плеєр займає те саме місце, що й зображення, і в тій самій пропорції —
-	   інакше вміст сторінки стрибав би при перемиканні. */
-	.article-cover__player {
-		width: 100%;
-		height: 100%;
-		border: 0;
-		background: var(--bg-surface);
-		display: block;
-	}
-
-	.article-cover__video-btn {
-		width: 100%;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-
-	.article-cover__img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	/*
-	 * Типографії `.prose` тут НЕМАЄ, і це не забудькуватість.
-	 *
-	 * Була: копія правил `h2`, `p`, `img`, `ul`, `ol`, `li`, перенесена сюди
-	 * разом із розкладкою з `DetailPage`. І серед них `padding-left: 1.5rem` для
-	 * списків — рівно те число, яке 2026-09-04 у `global.css` виправили на
-	 * 2.5rem, бо в 1.5rem не влазить двоцифровий номер і в нього зникає перша
-	 * цифра. Компонентне правило специфічніше за глобальне, тож у новині знову
-	 * пішло «0, 1, 2» замість «10, 11, 12».
-	 *
-	 * Тепер `.prose` належить `global.css` цілком, а гейт `prose-ownership`
-	 * стежить, щоб копія не з'явилася втретє.
-	 */
+	/* Прозі свої правила НЕ задаються: `.prose` належить `global.css` цілком —
+	   розбір у гейті `prose-ownership`. */
 
 	@media (max-width: 768px) {
 		h1 {
@@ -317,14 +246,18 @@
 			text-align: center;
 		}
 
-		.article-body.has-cover {
-			grid-template-columns: 1fr;
-		}
-
-		.article-cover {
-			max-width: 240px;
-			margin: 0 auto;
-			position: static;
+		/*
+		 * На вузькому екрані стовпець стає НАД текстом: дві колонки по 280 px тут
+		 * не вміщаються, а медіа мусить лишитися перед статтею — так само, як
+		 * обкладинка стояла доти.
+		 */
+		.article-body.has-media {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				'media'
+				'text'
+				'rest';
+			gap: 1.5rem 0;
 		}
 	}
 </style>

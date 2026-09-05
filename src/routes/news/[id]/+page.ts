@@ -55,7 +55,7 @@ export function load({ params, url }) {
 		 * 404 — на цьому маршруті `id` із Firestore цілком законний, і рішення
 		 * «немає такої» ухвалює `DetailPage` після запиту.
 		 */
-		return { code: null, photos: [], uk: null, en: null, seoDescription: undefined, seoTitle: undefined };
+		return { code: null, media: [], uk: null, en: null, seoDescription: undefined, seoTitle: undefined };
 	}
 
 	const uk = loadPageWithMetadata('uk', код.slug);
@@ -74,7 +74,7 @@ export function load({ params, url }) {
 
 	return {
 		code: код,
-		photos: код.photos,
+		media: код.media,
 		uk,
 		en,
 		seoDescription: своя?.metadata.seo.description,

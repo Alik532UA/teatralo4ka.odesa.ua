@@ -5,6 +5,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { getAdminArticleById, updateArticle } from '$lib/services/admin-articles';
+	import { DEFAULT_MEDIA_SHAPE, type ArticleMediaItem, type MediaLayout, type MediaShape } from '$lib/utils/articleMedia';
 	import { logError } from '$lib/services/firebaseErrors';
 	import { onMount } from 'svelte';
 	import type { DateMode, ContentType } from '$lib/services/articles';
@@ -27,6 +28,9 @@
 		differentCovers: boolean;
 		differentVideos: boolean;
 		differentExternalUrls: boolean;
+		media: ArticleMediaItem[];
+		mediaShape: MediaShape;
+		mediaLayout: MediaLayout;
 		translations: {
 			uk: { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
 			en: { title: string; content: string; isPublished: boolean; coverUrl: string; videoUrl: string; contentFormat: 'markdown' | 'html'; externalUrl: string };
@@ -83,6 +87,15 @@
 				differentCovers: translations.uk.coverUrl !== translations.en.coverUrl,
 				differentVideos: translations.uk.videoUrl !== translations.en.videoUrl,
 				differentExternalUrls: translations.uk.externalUrl !== translations.en.externalUrl,
+				/*
+				 * Медіа беруться з УКРАЇНСЬКОГО перекладу: форма редагує один
+				 * перелік на обидві мови (розбір — у `ArticleMediaEditor`), і
+				 * зберігає його теж в обидва. Порожньо тут означає стару статтю з
+				 * однією обкладинкою — форма добере її зі старих полів сама.
+				 */
+				media: article.translations?.uk?.media ?? [],
+				mediaShape: article.mediaShape ?? DEFAULT_MEDIA_SHAPE,
+				mediaLayout: article.mediaLayout ?? 'column',
 				translations,
 			};
 			const createdDate = toDateObj(article.createdAt);
@@ -139,6 +152,9 @@
 		initialDifferentCovers={articleData.differentCovers}
 		initialDifferentExternalUrls={articleData.differentExternalUrls}
 		initialTranslations={articleData.translations}
+		initialMedia={articleData.media}
+		initialMediaShape={articleData.mediaShape}
+		initialMediaLayout={articleData.mediaLayout}
 		{contentType}
 		onsubmit={handleSubmit}
 	/>
