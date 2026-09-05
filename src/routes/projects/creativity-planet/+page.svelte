@@ -133,7 +133,25 @@
 			</h1>
 			<p class="planet-header__count" data-testid="creativity-planet-count">{STUDENTS.length}</p>
 		</header>
-		<p class="planet-hint">{$t('planet.hint')}</p>
+		<!--
+			ЗАПРОШЕННЯ СТОЇТЬ ЗГОРИ, одразу під заголовком, і воно ж єдине —
+			рішення автора. Доти під заголовком було пояснення, що таке планета
+			(«…переїдуть у галактику з тією самою сторінкою й адресою»), а
+			запрошення з кнопкою висіло аж під планетою. Пояснення читалося як
+			технічний опис, а кнопку внизу бачив лише той, хто догортав.
+		-->
+		<div class="planet-invite">
+			<p>{$t('planet.invite')}</p>
+			<button
+				type="button"
+				class="planet-invite__btn"
+				onclick={() => (анкетаВідкрита = true)}
+				data-testid="creativity-planet-form-btn"
+			>
+				<Plus size={18} aria-hidden="true" />
+				<span>{$t('galaxy.fillProfile')}</span>
+			</button>
+		</div>
 
 		<div class="planet-wrap">
 			<div class="planet" data-testid="creativity-planet-list">
@@ -169,19 +187,6 @@
 					<p class="planet-empty">{$t('planet.empty')}</p>
 				{/if}
 			</div>
-		</div>
-
-		<div class="planet-invite">
-			<p>{$t('planet.invite')}</p>
-			<button
-				type="button"
-				class="planet-invite__btn"
-				onclick={() => (анкетаВідкрита = true)}
-				data-testid="creativity-planet-form-btn"
-			>
-				<Plus size={18} aria-hidden="true" />
-				<span>{$t('galaxy.fillProfile')}</span>
-			</button>
 		</div>
 	</div>
 </main>
@@ -245,12 +250,6 @@
 		color: var(--text-muted);
 		font-size: 0.9rem;
 		font-weight: 700;
-	}
-	.planet-hint {
-		max-width: 62ch;
-		margin: 0 0 2rem;
-		color: var(--text-muted);
-		line-height: 1.55;
 	}
 
 	.planet-wrap {
@@ -366,15 +365,15 @@
 		color: var(--text-muted);
 	}
 
+	/* Запрошення стоїть під заголовком, а не по центру сторінки: воно тепер
+	   вступ, а не післямова. Тому вирівнювання ліворуч, як у заголовка. */
 	.planet-invite {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		justify-content: center;
 		gap: 0.75rem 1rem;
 		max-width: 62ch;
-		margin: 0 auto;
-		text-align: center;
+		margin: 0 0 1.5rem;
 		color: var(--text-muted);
 	}
 	.planet-invite p {

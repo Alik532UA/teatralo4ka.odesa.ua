@@ -1181,8 +1181,7 @@
 	},
 	"planet": {
 		"title": "Planet of Creativity",
-		"hint": "These are the pupils studying right now. When they graduate, they move to the Galaxy of Graduates — same page, same address.",
-		"invite": "Studying at the school? Fill in the form and your face appears on the planet.",
+		"invite": "Studying at the school? Fill in the form — and you appear on the Planet of Creativity.",
 		"empty": "The planet is empty so far. The first profile could be yours."
 	},
 	"verification": {
