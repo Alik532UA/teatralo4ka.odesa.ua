@@ -119,7 +119,14 @@
 	<title>{$t('planet.title')} | {$t('hero.title')}</title>
 </svelte:head>
 
-<main class="planet-page" data-testid="creativity-planet-panel">
+<!--
+	Тег `section`, а НЕ `main`: `main` уже малює layout (`#main-content`), і
+	другий такий тег на сторінці — і поламаний орієнтир для читалки (їх мусить
+	бути рівно один), і мовчазна пастка для прогонів: `locator('main')`
+	знаходив ДВА елементи, тобто смоук-перевірка «сторінка не порожня» падала
+	не тому, що сторінка порожня. Заміряно 2026-09-05 повним прогоном e2e.
+-->
+<section class="planet-page" data-testid="creativity-planet-panel">
 	<div class="container">
 		<!--
 			Ліворуч — НАЗАД У ПРОЄКТИ, праворуч — далі в галактику. Так само
@@ -198,7 +205,7 @@
 			</div>
 		</div>
 	</div>
-</main>
+</section>
 
 <GraduateCard graduate={відкритий ?? null} profile={анкета} onclose={() => history.back()} />
 
