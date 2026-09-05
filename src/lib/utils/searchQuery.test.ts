@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { matchesQuery, normalizeQuery } from './searchQuery';
+import { foldLetters, matchesQuery, normalizeQuery } from './searchQuery';
 
 /**
  * Правила пошуку — тестом, а не оком на сторінці.
@@ -49,5 +49,33 @@ describe('збіг із запитом', () => {
 
 	it('число як поле шукається так само, як рядок', () => {
 		expect(matchesQuery(['Чайники', 2016], '2016')).toBe(true);
+	});
+});
+
+describe('згортання схожих літер', () => {
+	it('зводить різні написання тієї самої літери до одного вигляду', () => {
+		expect(foldLetters('тункевіч')).toBe(foldLetters('тункевич'));
+		expect(foldLetters('маріна')).toBe(foldLetters('марина'));
+		expect(foldLetters("дар'я")).toBe(foldLetters('дар’я'));
+	});
+
+	it('НЕ змінює довжини рядка', () => {
+		/*
+		 * Зворотний експеримент до дефекту, який напрошується: класичний «кістяк»
+		 * слова викидає м'які знаки й апострофи. Виглядав би він правильно, а
+		 * фрагмент навколо збігу в `siteSearch` мовчки з'їжджав би на кілька
+		 * символів — тобто різався б посеред слова.
+		 */
+		for (const s of ['Дар’я Гуревич', 'Ґудзик', 'Їжак', 'ABC 123', 'Тьмяний']) {
+			expect(foldLetters(s).length, s).toBe(s.length);
+		}
+	});
+
+	it('фільтри переліків знаходять прізвище іншим написанням', () => {
+		// Те саме правило, що й у пошуку по сайту: різниця в одній літері — це
+		// різні руки, а не різні люди.
+		expect(matchesQuery(['Аліса Тункевич'], 'тункевіч')).toBe(true);
+		expect(matchesQuery(['Марина Суханова'], 'маріна')).toBe(true);
+		expect(matchesQuery(['Дар’я Гуревич'], "дар'я")).toBe(true);
 	});
 });

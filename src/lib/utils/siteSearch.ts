@@ -25,7 +25,7 @@
  *
  * Звідси три шари, від найдешевшого до найдорожчого:
  *
- * 1. **Згортання схожих літер** (`fold`) — детерміноване, без жодного здогаду.
+ * 1. **Згортання схожих літер** (`foldLetters`) — детерміноване, без жодного здогаду.
  *    Закриває перші три випадки й майже нічого не коштує: рядки й так зводилися
  *    до порівнюваного вигляду, просто таблиця замін тепер ширша.
  * 2. **Слова в будь-якому порядку** — кожне слово запиту мусить знайтися десь
@@ -44,6 +44,8 @@
  * близько 3380 — це мілісекунди простим перебором, а кожен із тих механізмів
  * додав би ваги в бандл шапки, яку платить КОЖНА сторінка сайту.
  */
+
+import { foldLetters } from './searchQuery';
 
 /**
  * `galaxy` — усе, що живе в реєстрах розділу випускників: люди, вистави, курси,
@@ -117,51 +119,6 @@ const SCORE_TYPO_TITLE = 3;
  */
 export function normalize(value: string): string {
 	return value.toLowerCase().replace(/\s+/g, ' ').trim();
-}
-
-/**
- * Літери, які в НАШИХ даних означають одне й те саме.
- *
- * Таблиця виведена з реальних розходжень, а не з фонетики: и/і/ы/й/ї — це те
- * саме прізвище, записане різними руками («Тункевич» і «Тункевіч», «Марина» і
- * «Маріна»), а три види апострофа трапляються всередині одного реєстру.
- *
- * Плата за це — трохи менша точність: «били» і «білі» стають одним словом. Для
- * пошуку по іменах це правильний бік вибору: не знайти людину, яка в базі є,
- * гірше, ніж побачити один зайвий рядок у переліку.
- */
-const FOLD: Record<string, string> = {
-	и: 'і',
-	ы: 'і',
-	й: 'і',
-	ї: 'і',
-	є: 'е',
-	э: 'е',
-	ё: 'е',
-	ґ: 'г',
-	'’': "'",
-	'ʼ': "'",
-	'`': "'",
-	'´': "'"
-};
-
-/**
- * Згортання схожих літер — символ у символ.
- *
- * ДОВЖИНА ЗБЕРІГАЄТЬСЯ, і це не дрібниця: позиція збігу, знайдена у згорнутому
- * тексті, потім ріже фрагмент із тексту для показу. Згортання, яке викидає
- * символи (скажімо, м'який знак), зсунуло б фрагмент — і виглядало б це як
- * обрізане посеред слова, тобто як помилка, якої ніде не видно в коді.
- */
-export function fold(value: string): string {
-	let out = '';
-	for (const ch of value) {
-		const low = ch.toLowerCase();
-		// Регістр буває довшим за оригінал (турецьке «İ») — тоді лишаємо як є.
-		const one = low.length === ch.length ? low : ch;
-		out += FOLD[one] ?? one;
-	}
-	return out;
 }
 
 /** Розділові знаки словом не є; апостроф — є, він живе всередині слів. */
@@ -256,10 +213,10 @@ function prepare(entry: SearchEntry): Prepared {
 	if (cached) return cached;
 
 	const display = entry.text.replace(/\s+/gu, ' ').trim();
-	const title = fold(normalize(entry.title));
+	const title = foldLetters(normalize(entry.title));
 	const value: Prepared = {
 		title,
-		text: fold(display),
+		text: foldLetters(display),
 		display,
 		titleWords: words(title).filter((w) => w.length >= MIN_TYPO_WORD)
 	};
@@ -390,7 +347,7 @@ function typoHit(entry: SearchEntry, qWords: string[], currentLang?: string): Se
  * місця, де можна помилитися; а от шарів тут три — розбір угорі файлу.
  */
 export function searchEntries(entries: SearchEntry[], query: string, limit = 20, currentLang?: string): SearchHit[] {
-	const q = fold(normalize(query));
+	const q = foldLetters(normalize(query));
 	if (q.length < MIN_QUERY_LENGTH) return [];
 
 	const qWords = words(q);

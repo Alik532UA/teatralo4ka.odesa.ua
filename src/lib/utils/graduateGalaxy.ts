@@ -1,4 +1,5 @@
 import type { Department, GraduateIndexEntry } from '$lib/data/graduates';
+import { matchesQuery } from '$lib/utils/searchQuery';
 
 /**
  * Чиста логіка галактики випускників: розкладка доріжок і фільтр переліку.
@@ -94,7 +95,6 @@ export function filterGraduates(
 	graduates: readonly GraduateIndexEntry[],
 	options: GraduateFilterOptions
 ): GraduateIndexEntry[] {
-	const needle = (options.query ?? '').trim().toLowerCase();
 	const rawYear = options.years ?? options.year;
 	const selectedYears = Array.isArray(rawYear)
 		? rawYear
@@ -137,8 +137,17 @@ export function filterGraduates(
 					: [department];
 			if (!targetDepts.some((d) => graduate.departments?.includes(d as Department))) return false;
 		}
-		if (needle === '') return true;
-		return graduate.name.toLowerCase().includes(needle);
+		/*
+		 * Ім'я звіряється спільним правилом, а не власним `includes`.
+		 *
+		 * Доти тут стояло просте порівняння підрядків, і поле «пошук за
+		 * прізвищем» — найімовірніше місце, де прізвище набирають з пам'яті, —
+		 * не знаходило ні «Тункевіч» замість «Тункевич», ні «Дар'я» з прямим
+		 * апострофом, ні «Тункевич Аліса» в іншому порядку. Правило для цього
+		 * в проєкті вже було (`utils/searchQuery`), просто цей фільтр його не
+		 * знав.
+		 */
+		return matchesQuery([graduate.name], options.query ?? '');
 	});
 }
 

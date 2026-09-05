@@ -2,7 +2,6 @@
 import { describe, expect, it } from 'vitest';
 import {
 	MIN_QUERY_LENGTH,
-	fold,
 	normalize,
 	plainTextFromMarkdown,
 	searchEntries,
@@ -178,26 +177,6 @@ describe('searchEntries', () => {
 
 		const hitsUk = searchEntries(entries, 'School', 20, 'uk');
 		expect(hitsUk[0].id).toBe('page:uk:about');
-	});
-});
-
-describe('fold', () => {
-	it('зводить різні написання тієї самої літери до одного вигляду', () => {
-		expect(fold('Тункевіч')).toBe(fold('Тункевич'));
-		expect(fold('Маріна')).toBe(fold('Марина'));
-		expect(fold("Дар'я")).toBe(fold('Дар’я'));
-	});
-
-	it('НЕ змінює довжини рядка', () => {
-		/*
-		 * Зворотний експеримент до дефекту, якого тут ще не було, але який
-		 * напрошується: класичний «кістяк» слова викидає м'які знаки й апострофи.
-		 * Виглядав би він правильно, а фрагмент навколо збігу мовчки з'їжджав би
-		 * на кілька символів — тобто різався б посеред слова.
-		 */
-		for (const s of ['Дар’я Гуревич', 'Ґудзик', 'Їжак', 'ABC 123', 'Тьмяний']) {
-			expect(fold(s).length, s).toBe(s.length);
-		}
 	});
 });
 
