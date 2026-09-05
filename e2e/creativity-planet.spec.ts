@@ -107,6 +107,17 @@ test.describe('планета творчості', () => {
 		).toBe(false);
 	});
 
+	test('хрестик на сторінці учня вертає на планету, а не в галактику', async ({ page }) => {
+		await gotoReady(page, `/projects/galaxy-graduates/${УЧНІ[0].slug}/`);
+
+		/*
+		 * У галактиці учня немає взагалі, тож кнопка «закрити» вела б у перелік,
+		 * де його не знайти. Автор побачив це на сторінці Родоміри Долбишевої.
+		 */
+		await page.getByTestId('graduate-profile-close-btn').click();
+		await expect(page).toHaveURL(/\/projects\/creativity-planet\/?$/);
+	});
+
 	test('натискання відкриває картку з власною адресою і без року випуску', async ({
 		page
 	}, testInfo) => {

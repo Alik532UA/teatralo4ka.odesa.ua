@@ -32,9 +32,16 @@
 	 */
 	const учень = $derived(data.graduate.kind === 'student');
 
-	const galaxyHref = $derived(
+	/**
+	 * Куди веде хрестик — ТУДИ, ЗВІДКИ ЛЮДИНА ПРИЙШЛА ЗА СМИСЛОМ.
+	 *
+	 * Випускника закриваємо в галактику, учня — на «Планету творчості»: у
+	 * галактиці його немає взагалі, і кнопка «закрити» вела б у перелік, де
+	 * його не знайти. Автор саме це й побачив на сторінці Родоміри Долбишевої.
+	 */
+	const домівка = $derived(
 		localizedPath(
-			"/projects/galaxy-graduates/",
+			учень ? "/projects/creativity-planet/" : "/projects/galaxy-graduates/",
 			localeFromPath(page.url.pathname),
 		),
 	);
@@ -161,12 +168,12 @@
 
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a
-					href={galaxyHref}
+					href={домівка}
 					class="card__action card__close"
 					aria-label={$t("common.close", { default: "Закрити" })}
-					title={$t("galaxy.backToGalaxy", {
-						default: "Повернутися до галактики",
-					})}
+					title={учень
+						? $t("planet.backToPlanet", { default: "Повернутися на планету творчості" })
+						: $t("galaxy.backToGalaxy", { default: "Повернутися до галактики" })}
 					data-testid="graduate-profile-close-btn"
 				>
 					<X size={20} aria-hidden="true" />

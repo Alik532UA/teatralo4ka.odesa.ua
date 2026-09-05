@@ -97,7 +97,13 @@
 	 */
 	const galaxyHref = $derived.by(() => {
 		if (!showGalaxyLink) return null;
-		return localizedPath("/projects/galaxy-graduates/", localeFromPath(page.url.pathname));
+		/* Учня — на планету: у галактиці його немає, і посилання туди вело б у
+		   перелік, де його не знайти. Розбір — на сторінці людини. */
+		const куди =
+			graduate?.kind === "student"
+				? "/projects/creativity-planet/"
+				: "/projects/galaxy-graduates/";
+		return localizedPath(куди, localeFromPath(page.url.pathname));
 	});
 
 	let innerEl = $state<HTMLElement | null>(null);

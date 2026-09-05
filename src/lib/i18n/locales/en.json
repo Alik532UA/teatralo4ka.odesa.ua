@@ -1184,7 +1184,8 @@
 		"invite": "Studying at the school? Fill in the form — and you appear on the Planet of Creativity.",
 		"empty": "The planet is empty so far. The first profile could be yours.",
 		"formModalTitle": "Pupil questionnaire",
-		"allProjects": "All projects"
+		"allProjects": "All projects",
+		"backToPlanet": "Back to the Planet of Creativity"
 	},
 	"verification": {
 		"possibleErrors": "The information on this page has not been verified by a human, but was compiled by AI from various data sources. There may be errors on this page. Found a mistake?",
