@@ -5,7 +5,7 @@
 		import { locale, t } from 'svelte-i18n';
 	import { seo } from '$lib/services/seo.svelte';
 	import { getCategoryLabel } from '$lib/config/categories';
-	import { Play, Image as ImageIcon, ExternalLink } from 'lucide-svelte';
+	import ArticleView from '$lib/components/ArticleView.svelte';
 	import { cardImageUrl, parseVideoUrl } from '$lib/utils/videoEmbed';
 	import { page } from '$app/state';
 
@@ -122,133 +122,66 @@
 	}
 </script>
 
-<section class="detail-page container" data-testid="{testIdPrefix}-section">
-	<div class="back-nav" data-testid="{testIdPrefix}-back-toolbar">
-		<!-- Готова адреса від resolve() у виклику компонента. -->
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-		<a href={backHref} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
-	</div>
-
-	{#if loading}
-		<div class="detail-page__loading" data-testid="{testIdPrefix}-loading-container">
-			<p data-testid="{testIdPrefix}-loading-status">{$t(loadingKey)}</p>
+{#if loading || error}
+	<section class="detail-page container" data-testid="{testIdPrefix}-section">
+		<div class="back-nav" data-testid="{testIdPrefix}-back-toolbar">
+			<!-- Готова адреса від resolve() у виклику компонента. -->
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={backHref} class="btn btn-outline" data-testid="{testIdPrefix}-back-link">{$t(backLabelKey)}</a>
 		</div>
-	{:else if error}
-		<div class="detail-page__error" data-testid="{testIdPrefix}-error-container">
-			<h1 class="detail-page__error-title" data-testid="{testIdPrefix}-error-title">{error}</h1>
-		</div>
-	{:else if article && translation}
-		<article data-testid="{testIdPrefix}-content-container">
-			<div class="article-body" class:has-cover={!!cover || !!video}>
-				{#if cover || video}
-					<aside class="article-cover" data-testid="{testIdPrefix}-cover-container">
-						<!--
-							Окрема обгортка для медіа, а не одна коробка на все.
-							Обрізання (`overflow: hidden`) і пропорція 9/16 живуть ТУТ:
-							коли вони стояли на `<aside>`, кнопка виштовхувалася за межі
-							коробки й обрізалася — на сторінці її не було видно взагалі.
-						-->
-						<div class="article-cover__media">
-						{#if videoOpen && video?.embeddable}
-							<!-- Плеєр стає на місце зображення, у тій самій рамці. -->
-							<iframe
-								src="{video.embedUrl}?autoplay=1"
-								title={translation.title || $t('common.hasVideo')}
-								class="article-cover__player"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowfullscreen
-								referrerpolicy="strict-origin-when-cross-origin"
-								data-testid="{testIdPrefix}-cover-video-container"
-							></iframe>
-						{:else if cover}
-							<img
-								src={cover}
-								alt={translation.title || ''}
-								class="article-cover__img"
-								loading="eager"
-								fetchpriority="high"
-								decoding="async"
-								data-testid="{testIdPrefix}-cover-img"
-							/>
-						{/if}
-						</div>
 
-						{#if video}
-							{#if video.embeddable}
-								<button
-									type="button"
-									class="btn btn-outline article-cover__video-btn"
-									onclick={() => (videoOpen = !videoOpen)}
-									data-testid="{testIdPrefix}-cover-video-btn"
-								>
-									{#if videoOpen}
-										<ImageIcon size={16} aria-hidden="true" />
-										{$t('common.showCover')}
-									{:else}
-										<Play size={16} aria-hidden="true" />
-										{$t('common.watchVideo')}
-									{/if}
-								</button>
-							{:else}
-								<!-- Instagram/Facebook: вбудувати не можемо, тож честніше
-								     відкрити там, де воно справді працює. -->
-								<!-- Правило звітує на рядку з `href`, тому він мусить бути на тому
-								     самому рядку, що й `<a` — інакше disable-next-line його не
-								     покриває. Той самий прийом, що для `backHref` вище. -->
-								<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-								<a href={video.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="btn btn-outline article-cover__video-btn"
-									data-testid="{testIdPrefix}-cover-video-link"
-								>
-									<ExternalLink size={16} aria-hidden="true" />
-									{$t('common.watchVideo')}
-								</a>
-							{/if}
-						{/if}
-					</aside>
-				{/if}
-
-				<div class="article-main">
-					<div class="article-header" data-testid="{testIdPrefix}-header">
-						{#if formatDate(article) || getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
-							<div class="article-meta" data-testid="{testIdPrefix}-meta-section">
-								{#if getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
-									<span class="tag" data-testid="{testIdPrefix}-category-badge">
-										{getCategoryLabel(article.category, ($locale === 'en' ? 'en' : 'uk'))}
-									</span>
-								{/if}
-								{#if formatDate(article)}
-									<time data-testid="{testIdPrefix}-date-value">
-										{formatDate(article)}
-									</time>
-								{/if}
-							</div>
-						{/if}
-						<h1 data-testid="{testIdPrefix}-title">
-							{translation.title || ''}
-						</h1>
-					</div>
-
-					<div class="prose" data-testid="{testIdPrefix}-prose-container">
-						<!-- Виняток за SECURITY-v8 § 5.3: контент із Firestore, який пише
-						     редактор адмінки, тобто джерело недовірене. renderContent
-						     завжди проганяє його через DOMPurify — і для markdown, і для
-						     формату html (там ще й із конфігом, що дозволяє iframe). -->
-						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-						{@html renderContent(translation.content || '', translation.contentFormat)}
-					</div>
-				</div>
+		{#if loading}
+			<div class="detail-page__loading" data-testid="{testIdPrefix}-loading-container">
+				<p data-testid="{testIdPrefix}-loading-status">{$t(loadingKey)}</p>
 			</div>
-		</article>
-	{/if}
-</section>
+		{:else}
+			<div class="detail-page__error" data-testid="{testIdPrefix}-error-container">
+				<h1 class="detail-page__error-title" data-testid="{testIdPrefix}-error-title">{error}</h1>
+			</div>
+		{/if}
+	</section>
+{:else if article && translation}
+	<ArticleView
+		title={translation.title || ''}
+		dateLabel={formatDate(article)}
+		categoryLabel={getCategoryLabel(article.category, $locale === 'en' ? 'en' : 'uk')}
+		coverUrl={cover}
+		{video}
+		bind:videoOpen
+		{backHref}
+		backLabel={$t(backLabelKey)}
+		{testIdPrefix}
+	>
+		{#snippet prose()}
+			<!-- Виняток за SECURITY-v8 § 5.3: контент із Firestore, який пише
+			     редактор адмінки, тобто джерело недовірене. renderContent
+			     завжди проганяє його через DOMPurify — і для markdown, і для
+			     формату html (там ще й із конфігом, що дозволяє iframe). -->
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			{@html renderContent(translation.content || '', translation.contentFormat)}
+		{/snippet}
+	</ArticleView>
+{/if}
 
 <style>
+	/*
+	 * Тут лишилися стилі СТАНІВ запиту, а розкладка статті поїхала в
+	 * `ArticleView` — разом із власною копією цих двох правил.
+	 *
+	 * Копія навмисна й дрібна: `.detail-page` задає відступи сторінки, а
+	 * `.back-nav` — ширину смуги «назад», і потрібні вони обом гілкам. Спроба
+	 * поділитися ними означала б або глобальний клас на дві сторінки, або
+	 * обгортку навколо станів «завантажується / не знайдено» — тобто більше
+	 * зв'язності, ніж коштують шість рядків.
+	 */
 	.detail-page {
 		padding: var(--page-pad-top) 24px var(--page-pad-bottom);
 		min-height: 80dvh;
+	}
+
+	.back-nav {
+		max-width: 1000px;
+		margin: 0 auto 2rem;
 	}
 
 	.detail-page__loading {
@@ -267,154 +200,9 @@
 		margin-bottom: 2rem;
 	}
 
-	.back-nav {
-		max-width: 1000px;
-		margin: 0 auto 2rem;
-	}
-
-	.article-header {
-		margin-bottom: 2.5rem;
-	}
-
-	.article-meta {
-		display: flex;
-		gap: 1rem;
-		align-items: center;
-		margin-bottom: 1.25rem;
-	}
-
-	.tag {
-		background: var(--accent-primary);
-		color: var(--text-on-accent);
-		padding: 0.4rem 1rem;
-		border-radius: var(--radius-full);
-		font-size: 0.8rem;
-		font-weight: 700;
-		text-transform: uppercase;
-	}
-
-	time {
-		color: var(--color-muted-text);
-		font-weight: 500;
-	}
-
-	h1 {
-		font-family: var(--font-heading);
-		font-size: 3rem;
-		font-weight: 900;
-		color: var(--text-title);
-		line-height: 1.1;
-		margin: 0;
-	}
-
-	.article-main {
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-	}
-
-	.article-body {
-		max-width: 800px;
-		margin: 0 auto;
-		line-height: 1.8;
-		font-size: 1.1rem;
-		color: var(--color-body-text);
-	}
-
-	.article-body.has-cover {
-		display: grid;
-		grid-template-columns: 280px 1fr;
-		gap: 2.5rem;
-		max-width: 1000px;
-		align-items: start;
-	}
-
-	/* Колонка: медіа зверху, кнопка під ним. Нічого не обрізає — інакше кнопка
-	   опиняється за межами коробки й зникає з екрана. */
-	.article-cover {
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-		position: sticky;
-		top: 120px;
-	}
-
-	/* Саме медіа: пропорція, скруглення й обрізання — тут. */
-	.article-cover__media {
-		border-radius: 20px;
-		overflow: hidden;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-		aspect-ratio: 9 / 16;
-		width: 100%;
-	}
-
-	/* Плеєр займає те саме місце, що й зображення, і в тій самій пропорції —
-	   інакше вміст сторінки стрибав би при перемиканні. */
-	.article-cover__player {
-		width: 100%;
-		height: 100%;
-		border: 0;
-		background: var(--bg-surface);
-		display: block;
-	}
-
-	.article-cover__video-btn {
-		width: 100%;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-
-	.article-cover__img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	.prose :global(h2) {
-		font-family: var(--font-heading);
-		color: var(--text-title);
-		margin-top: 3rem;
-		margin-bottom: 1.5rem;
-		font-size: 2rem;
-	}
-
-	.prose :global(p) {
-		margin-bottom: 1.5rem;
-	}
-
-	.prose :global(img) {
-		max-width: 100%;
-		border-radius: 20px;
-		margin: 2rem 0;
-	}
-
-	.prose :global(ul), .prose :global(ol) {
-		margin-bottom: 1.5rem;
-		padding-left: 1.5rem;
-	}
-
-	.prose :global(li) {
-		margin-bottom: 0.5rem;
-	}
-
 	@media (max-width: 768px) {
-		h1 {
-			font-size: 2.2rem;
-		}
-
 		.back-nav {
 			text-align: center;
-		}
-
-		.article-body.has-cover {
-			grid-template-columns: 1fr;
-		}
-
-		.article-cover {
-			max-width: 240px;
-			margin: 0 auto;
-			position: static;
 		}
 	}
 </style>

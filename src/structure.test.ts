@@ -460,7 +460,6 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
-	'src/lib/components/DetailPage.svelte': 322,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
 	'src/lib/components/SearchOverlay.svelte': 331,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,

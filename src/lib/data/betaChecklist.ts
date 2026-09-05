@@ -237,7 +237,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 	{
 		id: 'content',
 		title: { uk: 'Новини й проєкти з бази', en: 'News and projects from the database' },
-		routes: ['/news', '/news/2026-year-30th-season-18-students', '/projects'],
+		routes: ['/news', '/news/2026-year-30th-season-18-students', '/news/30th-season-opened-2026', '/projects'],
 		checks: [
 			{
 				id: 'content_1',

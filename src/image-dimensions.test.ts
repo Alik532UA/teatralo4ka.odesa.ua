@@ -109,7 +109,7 @@ const RESERVED_BY_CSS: Record<string, string> = {
 	'src/lib/components/ContentCard.svelte | class={imgClass}':
 		'.focus-card__img-wrap / .grid-card__img-wrap — flex-basis 40 % і 35 % від картки; ' +
 		'.list-item__img-wrap — 90px × aspect-ratio 9/16. Обкладинка приходить із Firestore',
-	'src/lib/components/DetailPage.svelte | class="article-cover__img"':
+	'src/lib/components/ArticleView.svelte | class="article-cover__img"':
 		'.article-cover__media — aspect-ratio 9/16 на всю ширину; ' +
 		'та сама пропорція в плеєра, щоб вміст не стрибав при перемиканні',
 	'src/lib/components/StaticPage.svelte | class="page-cover__img"':

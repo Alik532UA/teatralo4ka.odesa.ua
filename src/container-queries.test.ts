@@ -155,6 +155,12 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	},
 	'DepartmentsSection.svelte': { axis: 'window', why: 'секція на всю ширину сторінки' },
 	'DetailPage.svelte': { axis: 'window', why: 'розкладка самої сторінки статті' },
+	/*
+	 * Розкладка статті поїхала звідси в `ArticleView`, і вердикт у неї той
+	 * самий: дві колонки на одну — це рішення про СТОРІНКУ, не про місце в
+	 * чужій сітці. У `DetailPage` запит лишився на смузі «назад».
+	 */
+	'ArticleView.svelte': { axis: 'window', why: 'розкладка самої сторінки статті' },
 	'FooterSection.svelte': { axis: 'window', why: 'підвал сайту — завжди на всю ширину вікна' },
 	'GalaxyUpdateActions.svelte': {
 		axis: 'window',

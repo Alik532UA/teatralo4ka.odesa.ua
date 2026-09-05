@@ -12,8 +12,6 @@ version: "1.0.0"
 excerpt: "Eighteen of our graduates have become students of performing arts schools in Ukraine and Europe — five of them on state-funded places."
 ---
 
-# The 30th anniversary season and eighteen of our students
-
 Tomorrow the anniversary **30th season** of Teatralo4ka begins 😍
 
 And on the eve of the new 2026–2027 (“six-seven” 😜) academic year we warmly congratulate our graduates who have become students of performing arts schools in Ukraine and Europe!!! 👍
