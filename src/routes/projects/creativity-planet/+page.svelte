@@ -121,10 +121,19 @@
 
 <main class="planet-page" data-testid="creativity-planet-panel">
 	<div class="container">
+		<!--
+			Ліворуч — НАЗАД У ПРОЄКТИ, праворуч — далі в галактику. Так само
+			влаштовані решта сторінок розділу: ліва кнопка веде на рівень вище,
+			права — на сусідній розділ. Доти тут стояла сама галактика ліворуч,
+			тобто «нагору» вело вбік.
+		-->
 		<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/galaxy-graduates/', мова_uk)}
-			backLabel={$t('galaxy.title')}
+			backHref={localizedPath('/projects/', мова_uk)}
+			backLabel={$t('planet.allProjects')}
 			backTestId="creativity-planet-back-link"
+			forwardHref={localizedPath('/projects/galaxy-graduates/', мова_uk)}
+			forwardLabel={$t('galaxy.title')}
+			forwardTestId="creativity-planet-galaxy-link"
 		/>
 
 		<header class="planet-header">

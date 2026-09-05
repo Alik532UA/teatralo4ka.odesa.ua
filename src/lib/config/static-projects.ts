@@ -37,6 +37,14 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		excerpts: { uk: 'Історія школи у світлинах: від перших вистав до сучасних подій', en: "The school's history in photographs: from first performances to modern events" },
 	},
 	{
+		id: 'galaxy-graduates',
+		slug: 'galaxy-graduates',
+		color: '#A78BFA',
+		coverUrl: asset('/png/galaxy-graduates.png'),
+		titles: { uk: 'Галактика випускників', en: 'Galaxy of Graduates' },
+		excerpts: { uk: 'Спільнота випускників: зустрічі, майстер-класи та творча підтримка', en: 'Graduate community: reunions, masterclasses, and creative support' },
+	},
+	{
 		id: 'creativity-planet',
 		slug: 'creativity-planet',
 		color: '#5EEAD4',
@@ -46,14 +54,6 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 			uk: 'Шлях починається тут: спершу планета, потім — галактика випускників',
 			en: 'The journey starts here: first the planet, then the galaxy of graduates'
 		},
-	},
-	{
-		id: 'galaxy-graduates',
-		slug: 'galaxy-graduates',
-		color: '#A78BFA',
-		coverUrl: asset('/png/galaxy-graduates.png'),
-		titles: { uk: 'Галактика випускників', en: 'Galaxy of Graduates' },
-		excerpts: { uk: 'Спільнота випускників: зустрічі, майстер-класи та творча підтримка', en: 'Graduate community: reunions, masterclasses, and creative support' },
 	},
 ];
 
