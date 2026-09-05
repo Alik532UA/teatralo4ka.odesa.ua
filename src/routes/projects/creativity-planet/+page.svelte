@@ -191,11 +191,27 @@
 <GraduateFormModal isOpen={анкетаВідкрита} onclose={() => (анкетаВідкрита = false)} />
 
 <style>
+	/*
+	 * КОЛЬОРИ — ТОКЕНАМИ ТЕМИ, а не власною космічною палітрою.
+	 *
+	 * Перша редакція фарбувала сторінку так само, як галактику: темне тло
+	 * `--galaxy-bg`, світлий текст, сині кола. Автор попросив інакше: «дизайн
+	 * кольори кожної нашої теми з сайту». І він має рацію не лише за смаком —
+	 * галактика темна тому, що вона ЗОРЯНЕ НЕБО й займає весь екран; планета ж
+	 * лишається звичайною сторінкою сайту, і чужа палітра на ній означала б, що
+	 * перемикач тем на неї не діє.
+	 *
+	 * Тому тут немає жодного літерала кольору: тло — `--bg-page`, поверхні —
+	 * `--bg-surface`/`--bg-card`, написи — `--text-*`, а сама планета зібрана з
+	 * акцентів теми через `color-mix`. У шести темах проєкту це дає шість різних
+	 * планет із того самого коду; що написи на них лишаються читними, перевіряє
+	 * `theme-contrast.spec.ts`.
+	 */
 	.planet-page {
 		min-height: 100dvh;
 		padding: 2rem 1rem 5rem;
-		background: var(--galaxy-bg);
-		color: var(--galaxy-text, #eaf2ff);
+		background: var(--bg-page);
+		color: var(--text-main);
 	}
 
 	.container {
@@ -214,10 +230,7 @@
 		margin: 0;
 		font-size: clamp(1.6rem, 4vw, 2.4rem);
 		font-weight: 800;
-		/* Колір ЯВНО: глобальне правило для h1 фарбує заголовок у `--text-title`,
-		   а він розрахований на світле тло сторінки — на темній планеті напис
-		   виходив майже чорним. */
-		color: var(--galaxy-text, #eaf2ff);
+		color: var(--text-title);
 	}
 	.planet-header__count {
 		margin: 0;
@@ -226,16 +239,17 @@
 		min-width: 2rem;
 		height: 2rem;
 		padding: 0 0.5rem;
-		border-radius: 9999px;
-		background: rgb(255 255 255 / 0.08);
-		border: 1px solid rgb(255 255 255 / 0.18);
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		color: var(--text-muted);
 		font-size: 0.9rem;
 		font-weight: 700;
 	}
 	.planet-hint {
 		max-width: 62ch;
 		margin: 0 0 2rem;
-		color: var(--galaxy-muted, #a8bfe0);
+		color: var(--text-muted);
 		line-height: 1.55;
 	}
 
@@ -246,23 +260,41 @@
 	}
 
 	/*
-	 * САМА ПЛАНЕТА. Коло з м'яким світлом ізсередини й тінню знизу — щоб воно
-	 * читалося кулею, а не наліпкою. Розмір у `vmin`: планета мусить уміщатися
-	 * у висоту так само, як у ширину, інакше на широкому й низькому екрані вона
-	 * поїхала б за край.
+	 * САМА ПЛАНЕТА — куля з акцентів теми.
+	 *
+	 * Два світлові плями `radial-gradient` і нахилений `linear-gradient` під
+	 * ними: перше дає об'єм, друге — колір. Усі три беруть акценти теми, тож у
+	 * жовтій темі планета жовта, у морській — бірюзова, і жодного окремого
+	 * правила під тему для цього не потрібно.
+	 *
+	 * Розмір у `vmin`: планета мусить уміщатися у висоту так само, як у ширину,
+	 * інакше на широкому й низькому екрані вона поїхала б за край.
 	 */
 	.planet {
 		position: relative;
 		width: min(78vmin, 620px);
 		aspect-ratio: 1;
 		border-radius: 50%;
+		border: 1px solid var(--border-main);
 		background:
-			radial-gradient(circle at 32% 28%, rgb(140 190 255 / 0.35), transparent 55%),
-			radial-gradient(circle at 68% 78%, rgb(94 234 212 / 0.22), transparent 60%),
-			linear-gradient(160deg, #12224d, #0a1330 60%, #060b1d);
+			radial-gradient(
+				circle at 32% 28%,
+				color-mix(in srgb, var(--accent-primary) 45%, transparent),
+				transparent 58%
+			),
+			radial-gradient(
+				circle at 68% 78%,
+				color-mix(in srgb, var(--accent-secondary) 38%, transparent),
+				transparent 62%
+			),
+			linear-gradient(
+				160deg,
+				color-mix(in srgb, var(--accent-primary) 16%, var(--bg-surface)),
+				var(--bg-surface)
+			);
 		box-shadow:
-			inset 0 -30px 60px rgb(0 0 0 / 0.55),
-			0 30px 80px rgb(4 10 30 / 0.6);
+			inset 0 -30px 60px color-mix(in srgb, var(--text-title) 10%, transparent),
+			var(--shadow-main);
 	}
 
 	.pupil {
@@ -293,10 +325,10 @@
 		height: clamp(64px, 13vmin, 96px);
 		border-radius: 50%;
 		overflow: hidden;
-		background: rgb(9 18 44 / 0.85);
-		border: 2px solid rgb(140 190 255 / 0.45);
-		color: #9ae6c8;
-		box-shadow: 0 8px 24px rgb(3 8 24 / 0.55);
+		background: var(--bg-card);
+		border: 2px solid color-mix(in srgb, var(--accent-primary) 55%, var(--border-main));
+		color: var(--accent-text);
+		box-shadow: var(--shadow-main);
 	}
 	.pupil__face img {
 		width: 100%;
@@ -305,13 +337,22 @@
 		display: block;
 	}
 
+	/*
+	 * Підпис лежить НА планеті, тобто на кольоровій поверхні, а не на тлі
+	 * сторінки. Тому під ним власна плашка кольору поверхні: без неї в темах із
+	 * насиченим акцентом ім'я читалося б через раз, і це саме той клас дефекту,
+	 * від якого сторінку рятує `theme-contrast`.
+	 */
 	.pupil__name {
 		max-width: 11rem;
+		padding: 0.1rem 0.45rem;
+		border-radius: var(--radius-sm, 6px);
+		background: color-mix(in srgb, var(--bg-surface) 82%, transparent);
+		color: var(--text-main);
 		font-size: 0.78rem;
 		font-weight: 600;
-		line-height: 1.2;
+		line-height: 1.25;
 		text-align: center;
-		text-shadow: 0 2px 8px rgb(3 8 24 / 0.9);
 	}
 
 	.planet-empty {
@@ -322,7 +363,7 @@
 		margin: 0;
 		padding: 2rem;
 		text-align: center;
-		color: var(--galaxy-muted, #a8bfe0);
+		color: var(--text-muted);
 	}
 
 	.planet-invite {
@@ -334,7 +375,7 @@
 		max-width: 62ch;
 		margin: 0 auto;
 		text-align: center;
-		color: var(--galaxy-muted, #a8bfe0);
+		color: var(--text-muted);
 	}
 	.planet-invite p {
 		margin: 0;
@@ -345,16 +386,16 @@
 		gap: 0.5rem;
 		min-height: 44px;
 		padding: 0 1.1rem;
-		border-radius: 9999px;
-		background: rgb(140 190 255 / 0.16);
-		border: 1px solid rgb(140 190 255 / 0.5);
-		color: var(--galaxy-text, #eaf2ff);
+		border-radius: var(--radius-full, 9999px);
+		background: var(--accent-primary);
+		border: 1px solid var(--accent-primary);
+		color: var(--text-on-accent);
 		font: inherit;
 		font-weight: 700;
 		cursor: pointer;
-		transition: background var(--transition-base);
+		transition: filter var(--transition-base);
 	}
 	.planet-invite__btn:hover {
-		background: rgb(140 190 255 / 0.3);
+		filter: brightness(1.08);
 	}
 </style>

@@ -107,6 +107,25 @@ test.describe('контраст у кожній темі', () => {
 			expect(вузли, `у темі ${тема} axe бачить недостатній контраст`).toEqual([]);
 		});
 
+		test(`${тема}: «Планета творчості» без порушень контрасту`, async ({ page }, testInfo) => {
+			test.skip(testInfo.project.name === 'mobile', 'правила контрасту від ширини не залежать');
+			await зТемою(page, тема);
+			await gotoReady(page, '/projects/creativity-planet/');
+			await waitForAnimations(page);
+
+			/*
+			 * Сторінка навмисно НЕ має власної палітри: планета зібрана з акцентів
+			 * теми через `color-mix`, тобто в шести темах вона шість різних
+			 * кольорів. Саме тому її контраст і треба міряти в кожній: підпис під
+			 * обличчям лежить не на тлі сторінки, а на самій планеті.
+			 */
+			const { violations } = await new AxeBuilder({ page }).withRules(['color-contrast']).analyze();
+			const вузли = violations.flatMap((v) =>
+				v.nodes.map((n) => `${n.target.join(' ')} — ${n.any?.[0]?.message ?? ''}`)
+			);
+			expect(вузли, `у темі ${тема} планета має нечитні написи`).toEqual([]);
+		});
+
 		test(`${тема}: текст банера перевірки видно`, async ({ page }, testInfo) => {
 			test.skip(testInfo.project.name === 'mobile', 'кольори від ширини не залежать');
 			await зТемою(page, тема);

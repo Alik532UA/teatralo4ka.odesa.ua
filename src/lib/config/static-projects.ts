@@ -40,6 +40,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		id: 'creativity-planet',
 		slug: 'creativity-planet',
 		color: '#5EEAD4',
+		coverUrl: asset('/png/creativity-planet.png'),
 		titles: { uk: 'Планета творчості', en: 'Planet of Creativity' },
 		excerpts: {
 			uk: 'Учні, які вчаться зараз: анкета, обличчя на планеті — і переїзд у галактику після випуску',
