@@ -71,7 +71,12 @@
 	 */
 	let query = $state('');
 
-	const знайдені = $derived(GROUPS.filter((g) => matchesGroupQuery(g, query)));
+	/*
+	 * Резолвер імені передається в правило: ім'я майстрині стоїть у рядку, і
+	 * шукати його треба саме тим написанням, яке читач бачить. Розбір — у
+	 * докблоці `matchesGroupQuery`.
+	 */
+	const знайдені = $derived(GROUPS.filter((g) => matchesGroupQuery(g, query, masterName)));
 
 	/**
 	 * Типово показані ЛИШЕ випущені групи — решта за одним натисканням.

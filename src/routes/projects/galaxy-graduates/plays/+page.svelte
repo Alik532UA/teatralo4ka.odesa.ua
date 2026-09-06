@@ -9,7 +9,7 @@
 		LayoutGrid
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { PLAYS, playPath, type Play } from '$lib/data/plays';
+	import { PLAYS, playPath, type Play, matchesPlayQuery } from '$lib/data/plays';
 	import { PLAY_CAST } from '$lib/data/playCast';
 	import { playGroupNames } from '$lib/data/groups';
 	import { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
@@ -65,7 +65,7 @@
 	 */
 	let onlyWithCast = $state(true);
 
-	const q = $derived(query.trim().toLowerCase());
+	const q = $derived(query.trim());
 
 	/*
 	 * Пошук шукає по ВСІХ записах, тобто сам знімає фільтр.
@@ -77,13 +77,9 @@
 	 */
 	const пошуком = $derived.by(() => {
 		if (!q) return enriched;
-		return enriched.filter(
-			({ play, groups }) =>
-				play.title.toLowerCase().includes(q) ||
-				(play.author?.toLowerCase().includes(q) ?? false) ||
-				groups.some((g) => g.toLowerCase().includes(q)) ||
-				String(play.year).includes(q)
-		);
+		/* Правило збігу — у `data/plays`: там воно спільне з рештою сайту, і там
+		   записано, чим власне `includes` було гіршим. */
+		return enriched.filter(({ play, groups }) => matchesPlayQuery(play, groups, q));
 	});
 
 	/** Вистави курсів — усе, що не щорічний захід школи. */

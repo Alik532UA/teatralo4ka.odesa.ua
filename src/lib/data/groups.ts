@@ -576,10 +576,35 @@ export function playGroupNames(
  * означало б або знаходити за латиницею те, що людина набирає кирилицею, або
  * тягнути в цей модуль реєстр випускників, чого він свідомо не робить (та сама
  * межа, що в `playGroupNames` поруч). Людину шукають у ростері галактики.
+ *
+ * ## МАЙСТЕР — шукається, і це виправлення
+ *
+ * Ім'я майстрині стоїть у самому рядку переліку («Тетяна ІСАЧКІНА» під назвою
+ * групи), а пошук його не знав: заміряно на живій сторінці — «Ісачкіна» давала
+ * нуль. Тобто перелік показував те, чого не міг знайти, — той самий дефект, що
+ * з містом на сторінці фестивалів («Прилуки»).
+ *
+ * Показане ім'я приходить із реєстру майстрів (коротке), а в даних групи лежить
+ * ПІБ, тож шукаються обидва: `masterName` віддає те, що читач бачить, а
+ * `master.name` — те, що написано в реєстрі груп. Резолвер приходить
+ * аргументом із тієї ж причини, що назва країни у фестивалях: коротке ім'я
+ * знає інший реєстр, і тягнути його сюди цей модуль не має.
  */
-export function matchesGroupQuery(group: GraduateGroup, query: string): boolean {
+export function matchesGroupQuery(
+	group: GraduateGroup,
+	query: string,
+	masterName?: (id: string, fallback: string) => string
+): boolean {
+	const показані = masterName ? group.masters.map((m) => masterName(m.id, m.name)) : [];
 	return matchesQuery(
-		[group.name, group.nameEn, group.abbr, ...group.graduationYears],
+		[
+			group.name,
+			group.nameEn,
+			group.abbr,
+			...group.graduationYears,
+			...group.masters.map((m) => m.name),
+			...показані
+		],
 		query
 	);
 }

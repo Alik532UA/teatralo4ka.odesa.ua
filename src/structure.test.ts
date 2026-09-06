@@ -39,6 +39,12 @@ import { describe, expect, it } from 'vitest';
  *   читає markdown, тобто повний текст усіх сторінок: 41.7 КБ brotli у
  *   критичному шляху головної, і зростало з кожною новиною в коді. Після
  *   переносу головна впала з 297 до 260 КБ.
+ * 2026-09-06: `data/groups.ts` — 256 рядків при канонічній межі 250, і це НОВИЙ
+ *   запис, а не підняття. Шість рядків над межею — це майстер, який став
+ *   шуканим: ім'я майстрині стоїть у самому рядку переліку груп, а пошук його
+ *   не знав («Ісачкіна» давала нуль — заміряно на живій сторінці). Правило
+ *   збігу лежить там, де дані, як у фестивалів і закладів; винести його окремим
+ *   файлом означало б відірвати правило від того, про що воно.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -492,6 +498,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/data/betaChecklist.ts': 416,
+	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

@@ -1,3 +1,4 @@
+import { matchesQuery } from '$lib/utils/searchQuery';
 import institutionsData from './institutions.data.json';
 import type { Pathname } from '$app/types';
 import type { VerificationStatusProp } from './groups';
@@ -178,4 +179,45 @@ export function institutionsOfGraduate(
 		if (student) out.push({ institution, student });
 	}
 	return out;
+}
+
+/**
+ * Чи підходить заклад під запит пошуку.
+ *
+ * ## Чому правило тут, а не на сторінці
+ *
+ * Доти сторінка зіставляла сама: `${row.title} ${row.subtitle}`.toLowerCase()
+ * .includes(q)`. Обіцянку поля («за назвою або містом») воно формально
+ * виконувало, але гірше за решту сайту: без згортання літер і без слів у
+ * будь-якому порядку. Заміряно на сторінці вистав, де було те саме: «Полтавка
+ * Наталка» не знаходила «Наталку Полтавку», «Мольер» не знаходив «Мольєра», а
+ * пошук по САЙТУ знаходив обидва — бо він бере правило з `utils/searchQuery`.
+ *
+ * Тепер правило одне на весь проєкт, а тут лишається те, що справді про
+ * заклад, — ЯКІ поля шукаються.
+ *
+ * ## Країна — СЛОВОМ, а не лише кодом
+ *
+ * У реєстрі лежить `UA`, а прапор і підпис малює інтерфейс, тож назву знає
+ * лише він (`galaxy.country.*`). Та сама межа й те саме рішення, що в
+ * `matchesFestivalQuery`: сторінка передає перекладач. Код лишається теж — хто
+ * набрав «UA», щось знайде.
+ */
+export function matchesInstitutionQuery(
+	institution: Institution,
+	query: string,
+	countryName?: (code: string) => string
+): boolean {
+	const назвиКраїн = countryName ? institution.countries.map(countryName) : [];
+	return matchesQuery(
+		[
+			institution.name,
+			institution.nameEn,
+			institution.fullName,
+			institution.city,
+			...institution.countries,
+			...назвиКраїн
+		],
+		query
+	);
 }

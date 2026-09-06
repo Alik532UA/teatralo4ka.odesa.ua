@@ -105,7 +105,7 @@
 			type="search"
 			value={searchQuery}
 			oninput={(e) => onsearch(e.currentTarget.value)}
-			placeholder="Пошук вистави, автора, групи, року чи учасника..."
+			placeholder={$t('galaxy.productionsSearch')}
 			class="search-input"
 			aria-label="Пошук вистави або учасника"
 			data-testid="master-productions-search-input"

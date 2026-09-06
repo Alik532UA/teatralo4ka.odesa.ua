@@ -53,9 +53,16 @@
 			// Search
 			const title = p.translations?.[currentLang]?.title || '';
 			const excerpt = (p.translations?.[currentLang]?.content || '').replace(/[#*`_[\]()]/g, '');
-			const searchMatch = !search.trim() || 
+			/*
+			 * КАТЕГОРІЯ — те, що поле обіцяє підписом («за назвою або категорією»),
+			 * і чого доти не шукало. Заміряно за кодом: тут порівнювалися лише
+			 * назва й текст, а сусідній перелік статей категорію звіряв — тобто
+			 * дві сторінки з одним підписом поводилися по-різному.
+			 */
+			const searchMatch = !search.trim() ||
 				title.toLowerCase().includes(search.toLowerCase()) ||
-				excerpt.toLowerCase().includes(search.toLowerCase());
+				excerpt.toLowerCase().includes(search.toLowerCase()) ||
+				(p.category?.toLowerCase().includes(search.toLowerCase()) ?? false);
 			
 			if (!searchMatch) return false;
 

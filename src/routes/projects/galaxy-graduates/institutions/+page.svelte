@@ -2,7 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { Users, MapPin } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { INSTITUTIONS, institutionPath, institutionSize } from '$lib/data/institutions';
+	import { INSTITUTIONS, institutionPath, institutionSize, matchesInstitutionQuery } from '$lib/data/institutions';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
@@ -66,9 +66,21 @@
 	 */
 	const закладиЗаАдресою = $derived(new Map(заклади.map((i) => [i.slug, i])));
 
-	/* Пошук іде ще й по місту та повній назві — те, чого типовий збіг не знає. */
-	const збіг = (row: GalaxyRow, q: string) =>
-		`${row.title} ${row.subtitle ?? ''}`.toLowerCase().includes(q);
+	/*
+	 * Правило збігу живе в `data/institutions` — там, де самі дані, як у
+	 * фестивалів і груп. Тут лишається лише те, чого дані не знають: НАЗВА
+	 * КРАЇНИ, бо в реєстрі стоїть код, а слово залежить від мови сторінки.
+	 *
+	 * Доти тут стояло власне `includes` по назві й підзаголовку — рівно те
+	 * саме, що робив типовий збіг `GalaxyRegistry`, хоч коментар обіцяв
+	 * інше. Разом із переїздом країна СТАЛА шуканою: у рядку її прапор
+	 * показувався, а «Німеччина» давала нуль.
+	 */
+	const назваКраїни = (code: string) => $t(`galaxy.country.${code}`);
+	const збіг = (row: GalaxyRow, q: string) => {
+		const запис = закладиЗаАдресою.get(row.key);
+		return запис ? matchesInstitutionQuery(запис, q, назваКраїни) : false;
+	};
 </script>
 
 <svelte:head>

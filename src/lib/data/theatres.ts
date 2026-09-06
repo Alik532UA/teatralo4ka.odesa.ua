@@ -1,3 +1,4 @@
+import { matchesQuery } from '$lib/utils/searchQuery';
 import theatresData from './theatres.data.json';
 import type { Pathname } from '$app/types';
 import type { VerificationStatusProp } from './groups';
@@ -158,4 +159,50 @@ export function theatresOfGraduate(
 		if (member) out.push({ theatre, member });
 	}
 	return out;
+}
+
+/**
+ * Чи підходить театр під запит пошуку.
+ *
+ * ## Чому правило тут, а не на сторінці
+ *
+ * Доти сторінка зіставляла сама: `${row.title} ${row.subtitle}`.toLowerCase()
+ * .includes(q)`. Обіцянку поля («за назвою або містом») воно формально
+ * виконувало, але гірше за решту сайту: без згортання літер і без слів у
+ * будь-якому порядку. Заміряно на сторінці вистав, де було те саме: «Полтавка
+ * Наталка» не знаходила «Наталку Полтавку», «Мольер» не знаходив «Мольєра», а
+ * пошук по САЙТУ знаходив обидва — бо він бере правило з `utils/searchQuery`.
+ *
+ * Тепер правило одне на весь проєкт, а тут лишається те, що справді про
+ * театр, — ЯКІ поля шукаються.
+ *
+ * ## Країна — СЛОВОМ, а не лише кодом
+ *
+ * У реєстрі лежить `UA`, а прапор і підпис малює інтерфейс, тож назву знає
+ * лише він (`galaxy.country.*`). Та сама межа й те саме рішення, що в
+ * `matchesFestivalQuery`: сторінка передає перекладач. Код лишається теж — хто
+ * набрав «UA», щось знайде.
+ */
+export function matchesTheatreQuery(
+	theatre: Theatre,
+	query: string,
+	countryName?: (code: string) => string
+): boolean {
+	const назвиКраїн = countryName ? theatre.countries.map(countryName) : [];
+	return matchesQuery(
+		[
+			theatre.name,
+			theatre.nameEn,
+			theatre.fullName,
+			/* Стара назва — теж: у шкільних архівах театр стоїть під нею, і пошук
+			   по сайту її вже бере. Поле обіцянка не називає, і це навмисно: воно
+			   допомагає тому, хто пам'ятає давню назву, а обіцяти його нема
+			   потреби. */
+			...(theatre.formerNames ?? []),
+			theatre.city,
+			...theatre.countries,
+			...назвиКраїн
+		],
+		query
+	);
 }
