@@ -33,7 +33,7 @@ function стаття(id: string, опції: Partial<StoredArticle> = {}): Stor
 		slug: `slug-${id}`,
 		type: 'article',
 		category: 'news',
-		author: '',
+		author: 'Alik',
 		dateMode: 'createdAt',
 		createdAt: мітка('2026-09-01T10:00:00.000Z'),
 		updatedAt: мітка('2026-09-02T10:00:00.000Z'),
@@ -68,6 +68,10 @@ describe('файл із відібраними новинами', () => {
 		expect(файл.items[0].id, 'без `id` перенесена новина стоятиме в переліку двічі').toBe(
 			'aBcD1234'
 		);
+	});
+
+	it('несе підпис автора — у markdown це поле `author`', () => {
+		expect(buildNewsExport([стаття('a')], ЗАРАЗ).items[0].author).toBe('Alik');
 	});
 
 	it('несе дату в ISO — з неї конвертер робить теку знімків', () => {

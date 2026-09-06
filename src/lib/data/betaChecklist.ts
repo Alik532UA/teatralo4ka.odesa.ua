@@ -1,5 +1,6 @@
 import { UKRAINIAN_HOLIDAYS } from '$lib/config/ukrainianHolidays';
 import { RENAMED_NEWS_IDS } from '$lib/config/newsAliases';
+import { CODE_NEWS } from '$lib/config/codeNews';
 /**
  * Дані чеклиста бета-тестування (BETA-CHECKLIST-v8).
  *
@@ -237,7 +238,19 @@ export const BETA_TABS: readonly BetaTab[] = [
 	{
 		id: 'content',
 		title: { uk: 'Новини й проєкти з бази', en: 'News and projects from the database' },
-		routes: ['/news', '/news/2026-year-30th-season-18-students', '/news/30th-season-opened-2026', '/projects'],
+		/*
+		 * Адреси новин із коду ВИВОДЯТЬСЯ з реєстру, а не перелічуються.
+		 *
+		 * Доти вони стояли рядком, і кожна нова новина валила гейт «сторінка є, а
+		 * перевіряти її нічим» — тобто той, хто додавав новину, дописував сюди
+		 * адресу руками. Це другий перелік тих самих адрес, і саме про таке вже
+		 * записано вище, біля перейменованих: наступне перейменування знову впало б
+		 * цим гейтом, і хтось дописав би рядок.
+		 *
+		 * Перевіряють їх ті самі пункти, що й решту новин: вкладка про те, ЯК
+		 * виглядає новина, а не про яку саме.
+		 */
+		routes: ['/news', ...CODE_NEWS.map((новина) => `/news/${новина.id}`), '/projects'],
 		checks: [
 			{
 				id: 'content_1',

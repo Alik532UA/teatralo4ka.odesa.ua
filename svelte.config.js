@@ -108,6 +108,7 @@ const PUBLIC_ENTRIES = [
 	// `build/` не з'являлося (заміряно: `news/30th-season-opened-2026/` був,
 	// `en/news/30th-season-opened-2026/` — ні, мапа сайту 1543 проти 1424).
 	'/news/30th-season-opened-2026',
+	/* Перенесені новини дописує `npm run news:from-firestore`. */
 	// Стара адреса тієї самої новини: сторінка перенаправлення. Розбір — у
 	// `src/lib/config/newsAliases.ts`.
 	'/news/30-y-sezon-i-17-studentiv-2026',

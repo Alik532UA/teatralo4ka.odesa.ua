@@ -27,6 +27,12 @@ import { describe, expect, it } from 'vitest';
  *   імпорт типу, стан із кешу і передача його в `newsFeed`. Без них приховану
  *   з адмінки новину видно було б саме на головній — тобто там, де її бачить
  *   найбільше людей. Логіки тут нуль: рішення ухвалює `utils/newsFeed`.
+ * 2026-09-06: `data/betaChecklist.ts` 415 → 416. Рівно один рядок: перелік адрес
+ *   новин із коду замінено на `...CODE_NEWS.map(…)`. Це не приріст, а
+ *   ЗАМІНА другого списку тих самих адрес на виведення — той самий крок, що вже
+ *   зроблено поруч для перейменованих новин, і зроблено з тієї ж причини:
+ *   кожна нова новина валила гейт «сторінка є, а перевіряти її нічим», і рядок
+ *   дописували руками. Один рядок — це імпорт реєстру.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -479,7 +485,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 415,
+	'src/lib/data/betaChecklist.ts': 416,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,

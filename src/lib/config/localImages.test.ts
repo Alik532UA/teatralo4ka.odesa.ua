@@ -1,8 +1,9 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { LOCAL_IMAGE_SIZES, imageSize, type LocalImage } from './localImages';
+import { розмірФайла, type Розмір } from '../../../scripts/image-header';
 
 /**
  * Кожне число в мапі звіряється із ЗАГОЛОВКОМ файлу на диску.
@@ -13,82 +14,22 @@ import { LOCAL_IMAGE_SIZES, imageSize, type LocalImage } from './localImages';
  * на дві різні пропорції, і жодна перевірка цього не бачила
  * (AI-AGENT-PITFALLS-v8 § 5.5).
  *
- * Заголовки читаються самотужки, без бібліотеки: PNG тримає розмір у фіксованих
- * байтах IHDR, JPEG — у сегменті SOFn, SVG — в атрибутах кореневого тега. Три
- * формати, десяток рядків, нуль нових залежностей (DEPENDENCIES-v8 § 1).
+ * Заголовки читаються самотужки, без бібліотеки — розбір у
+ * `scripts/image-header.ts`, куди він переїхав разом із причиною.
  */
 
 const STATIC = join(process.cwd(), 'static');
 
-function pngSize(buffer: Buffer): [number, number] {
-	// IHDR стоїть одразу за 8-байтовим підписом: довжина, тип, далі ширина й висота.
-	return [buffer.readUInt32BE(16), buffer.readUInt32BE(20)];
-}
-
-function jpegSize(buffer: Buffer): [number, number] | null {
-	let i = 2; // за SOI
-	while (i < buffer.length - 8) {
-		if (buffer[i] !== 0xff) {
-			i += 1;
-			continue;
-		}
-		const marker = buffer[i + 1];
-		// SOFn — усе з 0xC0..0xCF, крім таблиць Хаффмана (C4), RSTn (C8) і DAC (CC).
-		const isFrame = marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
-		if (isFrame) return [buffer.readUInt16BE(i + 7), buffer.readUInt16BE(i + 5)];
-		i += 2 + buffer.readUInt16BE(i + 2);
-	}
-	return null;
-}
-
-function svgSize(text: string): [number, number] | null {
-	const start = text.indexOf('<svg');
-	if (start === -1) return null;
-	const tag = text.slice(start, text.indexOf('>', start) + 1);
-	const width = tag.match(/\bwidth="([\d.]+)/);
-	const height = tag.match(/\bheight="([\d.]+)/);
-	if (width && height) return [Math.round(+width[1]), Math.round(+height[1])];
-	// Без явних атрибутів пропорцію задає viewBox — саме її й читає браузер.
-	const box = tag.match(/viewBox="[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)"/);
-	return box ? [Math.round(+box[1]), Math.round(+box[2])] : null;
-}
-
-function webpSize(buffer: Buffer): [number, number] | null {
-	if (buffer.length < 30) return null;
-	const riff = buffer.toString('ascii', 0, 4);
-	const webp = buffer.toString('ascii', 8, 12);
-	if (riff !== 'RIFF' || webp !== 'WEBP') return null;
-
-	const chunk = buffer.toString('ascii', 12, 16);
-	if (chunk === 'VP8X') {
-		const width = 1 + (buffer[24] | (buffer[25] << 8) | (buffer[26] << 16));
-		const height = 1 + (buffer[27] | (buffer[28] << 8) | (buffer[29] << 16));
-		return [width, height];
-	}
-	if (chunk === 'VP8 ') {
-		const width = buffer.readUInt16LE(26) & 0x3fff;
-		const height = buffer.readUInt16LE(28) & 0x3fff;
-		return [width, height];
-	}
-	if (chunk === 'VP8L') {
-		const b1 = buffer[21];
-		const b2 = buffer[22];
-		const b3 = buffer[23];
-		const b4 = buffer[24];
-		const width = 1 + (((b2 & 0x3f) << 8) | b1);
-		const height = 1 + (((b4 & 0xf) << 10) | (b3 << 2) | ((b2 & 0xc0) >> 6));
-		return [width, height];
-	}
-	return null;
-}
-
-function sizeOnDisk(path: string): [number, number] | null {
+/**
+ * Читачі заголовків живуть у `scripts/image-header.ts`.
+ *
+ * Вони переїхали звідси, коли розмір знадобився ще й конвертерові новин: той
+ * вписує в цю ж мапу розміри щойно завантажених знімків, і друга копія розбору
+ * заголовків розійшлася б із цією мовчки.
+ */
+function sizeOnDisk(path: string): Розмір | null {
 	const file = join(STATIC, path);
-	if (!existsSync(file)) return null;
-	if (path.endsWith('.svg')) return svgSize(readFileSync(file, 'utf8'));
-	if (path.endsWith('.png')) return pngSize(readFileSync(file));
-	if (path.endsWith('.webp')) return webpSize(readFileSync(file));
-	return jpegSize(readFileSync(file));
+	return existsSync(file) ? розмірФайла(file) : null;
 }
 
 const entries = Object.keys(LOCAL_IMAGE_SIZES) as LocalImage[];

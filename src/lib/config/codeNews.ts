@@ -185,7 +185,10 @@ const фотоВідкриття = зТеки('2026-09-05');
  */
 const ПІДПИС = 'Театрало4ка, вересень 2026';
 
+/* Теки знімків перенесених новин дописує `npm run news:from-firestore`. */
+
 export const CODE_NEWS: readonly CodeNewsItem[] = [
+	/* Записи перенесених новин дописує `npm run news:from-firestore`. */
 	{
 		id: '30th-season-opened-2026',
 		slug: 'news-30th-season-opened-2026',

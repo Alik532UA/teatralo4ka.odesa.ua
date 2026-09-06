@@ -41,6 +41,8 @@ export interface NewsExportItem {
 	slug?: string;
 	type?: string;
 	category: string;
+	/** Хто підписаний під статтею — у markdown це поле `author`. */
+	author: string;
 	dateMode: string;
 	/** Дата показу в ISO — те, з чого конвертер робить теку `static/news/<дата>/`. */
 	dateISO: string | null;
@@ -80,6 +82,7 @@ export function buildNewsExport(articles: readonly StoredArticle[], now: Date): 
 			...(стаття.slug ? { slug: стаття.slug } : {}),
 			...(стаття.type ? { type: стаття.type } : {}),
 			category: стаття.category,
+			author: стаття.author ?? '',
 			dateMode: стаття.dateMode,
 			dateISO: датаПоказу(стаття),
 			...(стаття.sortOrder !== undefined ? { sortOrder: стаття.sortOrder } : {}),
