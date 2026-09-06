@@ -37,7 +37,12 @@
 	 */
 	let query = $state('');
 
-	const знайдені = $derived(FESTIVALS.filter((f) => matchesFestivalQuery(f, query)));
+	/* Назву країни знає лише сторінка: у даних лежить код, а слово залежить від
+	   мови інтерфейсу. Розбір — у докблоці `matchesFestivalQuery`. */
+	const назваКраїни = (code: string) => $t(`galaxy.country.${code}`);
+	const знайдені = $derived(
+		FESTIVALS.filter((f) => matchesFestivalQuery(f, query, назваКраїни))
+	);
 
 	const ordered = $derived(
 		[...знайдені].sort(

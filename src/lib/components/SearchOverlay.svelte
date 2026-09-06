@@ -43,6 +43,10 @@
 
 	const lang = $derived(($locale === 'en' ? 'en' : 'uk') as 'uk' | 'en');
 
+	/* Назву країни знає лише інтерфейс: у реєстрах лежить код. Розбір — у
+	   `services/searchGalaxy`. */
+	const назваКраїни = (code: string) => $t(`galaxy.country.${code}`);
+
 	/**
 	 * Сторінки шукаються за всіма мовами сайту.
 	 */
@@ -75,9 +79,9 @@
 		galaxyLoading = true;
 		import('$lib/services/searchGalaxy')
 			.then(async ({ galaxyEntries }) => {
-				galaxy = galaxyEntries();
+				galaxy = galaxyEntries(undefined, назваКраїни);
 				const { profileText } = await import('$lib/services/searchProfiles');
-				galaxy = galaxyEntries(await profileText());
+				galaxy = galaxyEntries(await profileText(), назваКраїни);
 			})
 			.catch((error) => console.warn('Пошук: реєстри галактики недоступні', error))
 			.finally(() => (galaxyLoading = false));

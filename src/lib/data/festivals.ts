@@ -123,10 +123,37 @@ export function festivalPath(slug: string): Pathname {
  * Країни в переліку не випадково: фестиваль частіше згадують саме так
  * («той, що в Чехії»), ніж власною назвою. Роки — окремими словами, бо на
  * фестиваль їздять не раз, і в записі їх список.
+ *
+ * ## Чому назва країни приходить ЗВЕРХУ, а не береться тут
+ *
+ * У записі країна лежить кодом (`UA`), а поле пошуку обіцяє шукати «за
+ * назвою, містом, країною або роком» — і автор перевірив цю обіцянку першим:
+ * «Україна» давала нуль, «Прилуки» теж. Перше — бо в полях були лише КОДИ,
+ * друге — бо міста в переліку не було взагалі.
+ *
+ * Назва країни залежить від мови сторінки й живе в `galaxy.country.*`, а цей
+ * модуль — дані: тягнути сюди i18n означало б зв'язати реєстр із мовою
+ * інтерфейсу. Тому сторінка передає перекладач, як і в решті місць, де дані
+ * потребують слова людською мовою (`getCategoryLabel`, `masterLabel`).
+ *
+ * Код країни лишається в переліку: «UA» набирають рідко, але той, хто набрав,
+ * має щось знайти.
  */
-export function matchesFestivalQuery(festival: Festival, query: string): boolean {
+export function matchesFestivalQuery(
+	festival: Festival,
+	query: string,
+	countryName?: (code: string) => string
+): boolean {
+	const назвиКраїн = countryName ? festival.countries.map(countryName) : [];
 	return matchesQuery(
-		[festival.name, festival.nameEn, ...festival.countries, ...festival.years],
+		[
+			festival.name,
+			festival.nameEn,
+			festival.city,
+			...festival.countries,
+			...назвиКраїн,
+			...festival.years
+		],
 		query
 	);
 }

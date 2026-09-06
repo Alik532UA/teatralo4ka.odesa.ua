@@ -1,6 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { FESTIVALS, getFestivalBySlug, getFestivalsByMember, festivalPath } from './festivals';
+import {
+	FESTIVALS,
+	festivalPath,
+	getFestivalBySlug,
+	getFestivalsByMember,
+	matchesFestivalQuery
+} from './festivals';
+import uk from '$lib/i18n/locales/uk.json';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import playsData from '$lib/data/plays.data.json';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -138,6 +145,51 @@ describe('реєстр фестивалів', () => {
 			for (const code of f.countries)
 				if (!known.has(code)) bad.push(`${f.slug} → «${code}»`);
 		expect(bad, `прапор буде показано літерами:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/**
+	 * Поле пошуку обіцяє «назву, місто, країну або рік» — і мусить це виконувати.
+	 *
+	 * Автор перевірив обіцянку першим і знайшов, що вона неправдива: «Україна»
+	 * давала нуль, «Прилуки» теж. Причини були різні — у полях лежали КОДИ
+	 * країн, а міста в переліку не було взагалі, — і саме тому перевірка
+	 * питає про кожне слово обіцянки окремо.
+	 */
+	it('пошук знаходить за назвою, містом, країною і роком', () => {
+		const країна = (code: string) =>
+			(uk.galaxy.country as Record<string, string>)[code] ?? code;
+		const слуги = (запит: string) =>
+			FESTIVALS.filter((f) => matchesFestivalQuery(f, запит, країна)).map((f) => f.slug);
+
+		const зМістом = FESTIVALS.find((f) => f.city);
+		expect(зМістом, 'у реєстрі немає жодного міста — перевіряти нема чого').toBeTruthy();
+		expect(слуги(зМістом!.city!), 'місто в пошуку не шукається').toContain(зМістом!.slug);
+
+		const зКраїною = FESTIVALS.find((f) => f.countries.length > 0)!;
+		const код = зКраїною.countries[0];
+		expect(слуги(країна(код)), `назва країни «${країна(код)}» не шукається`).toContain(
+			зКраїною.slug
+		);
+		// Код теж лишається: той, хто набрав «UA», має щось знайти.
+		expect(слуги(код), `код країни «${код}» не шукається`).toContain(зКраїною.slug);
+
+		expect(слуги(зКраїною.name), 'назва не шукається').toContain(зКраїною.slug);
+		expect(слуги(String(зКраїною.years[0])), 'рік не шукається').toContain(зКраїною.slug);
+
+		// Чужого не знаходить: інакше перевірка була б зеленою на «шукає завжди все».
+		expect(слуги('такої-країни-немає')).toEqual([]);
+	});
+
+	it('обіцянка поля названа тими самими словами, що шукаються', () => {
+		/*
+		 * Рядок-обіцянка й перелік полів розходяться ТИХО: поле каже «за містом», а
+		 * місто з полів прибрали — і ніхто не дізнається, поки не спробує. Тому
+		 * перевіряється сам текст.
+		 */
+		const обіцянка = uk.galaxy.festivalsSearch.toLowerCase();
+		for (const слово of ['назв', 'міст', 'краї', 'рок']) {
+			expect(обіцянка.includes(слово), `обіцянка не згадує «${слово}»: «${обіцянка}»`).toBe(true);
+		}
 	});
 
 	it('хелпери знаходять фестиваль за адресою та за учасником', () => {

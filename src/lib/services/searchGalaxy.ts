@@ -64,7 +64,23 @@ function людина(
  * запису. Дописується до наявного запису, а не додає новий рядок: інакше людина
  * з'являлася б у результатах двічі.
  */
-export function galaxyEntries(текстАнкет?: ReadonlyMap<string, string>): SearchEntry[] {
+export function galaxyEntries(
+	текстАнкет?: ReadonlyMap<string, string>,
+	назваКраїни?: (code: string) => string
+): SearchEntry[] {
+	/**
+	 * Країна словом, а не кодом.
+	 *
+	 * У реєстрах країна лежить кодом (`UA`, `GE`), бо назва залежить від мови.
+	 * Пошук без назви означав, що фестиваль у Болгарії чи театр у Грузії не
+	 * знайти тим словом, яким їх називають, — а саме так їх і згадують. Тому
+	 * накладка приносить перекладач, а код лишається в тексті теж: той, хто
+	 * набрав «UA», має щось знайти.
+	 */
+	const країни = (коди?: readonly string[]) => {
+		const список = коди ?? [];
+		return назваКраїни ? [...список, ...список.map(назваКраїни)] : [...список];
+	};
 	const out: SearchEntry[] = [];
 
 	for (const g of GRADUATES) out.push(людина(g, 'випуск'));
@@ -98,7 +114,7 @@ export function galaxyEntries(текстАнкет?: ReadonlyMap<string, string>
 			title: f.name,
 			href: `${festivalPath(f.slug)}/`,
 			kind: 'galaxy',
-			text: [f.name, f.nameEn, f.city].filter(Boolean).join(' ')
+			text: [f.name, f.nameEn, f.city, ...країни(f.countries)].filter(Boolean).join(' ')
 		});
 	}
 
@@ -108,7 +124,7 @@ export function galaxyEntries(текстАнкет?: ReadonlyMap<string, string>
 			title: i.name,
 			href: `${institutionPath(i.slug)}/`,
 			kind: 'galaxy',
-			text: [i.name, i.fullName, i.city].filter(Boolean).join(' ')
+			text: [i.name, i.fullName, i.city, ...країни(i.countries)].filter(Boolean).join(' ')
 		});
 	}
 
@@ -120,7 +136,9 @@ export function galaxyEntries(текстАнкет?: ReadonlyMap<string, string>
 			kind: 'galaxy',
 			/* Колишня назва теж у тексті: у шкільних архівах театр згаданий саме
 			   нею, і шукати його будуть так само. */
-			text: [t.name, t.fullName, ...(t.formerNames ?? []), t.city].filter(Boolean).join(' ')
+			text: [t.name, t.fullName, ...(t.formerNames ?? []), t.city, ...країни(t.countries)]
+				.filter(Boolean)
+				.join(' ')
 		});
 	}
 
