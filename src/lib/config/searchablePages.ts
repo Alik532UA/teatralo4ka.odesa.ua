@@ -52,6 +52,20 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	 */
 	{ slug: 'news-2026-year-30th-season-18-students', href: () => resolve('/news/[id]', { id: '2026-year-30th-season-18-students' }) },
 	{ slug: 'news-30th-season-opened-2026', href: () => resolve('/news/[id]', { id: '30th-season-opened-2026' }) },
+	{ slug: 'news-dedication-to-art-2022', href: () => resolve('/news/[id]', { id: 'dedication-to-art-2022' }) },
+	{ slug: 'news-dedication-to-art-2024', href: () => resolve('/news/[id]', { id: 'dedication-to-art-2024' }) },
+	{ slug: 'news-intensive-class-2025', href: () => resolve('/news/[id]', { id: 'intensive-class-2025' }) },
+	{ slug: 'news-dedication-to-art-2025', href: () => resolve('/news/[id]', { id: 'dedication-to-art-2025' }) },
+	{ slug: 'news-thoughts-aloud-play-2025', href: () => resolve('/news/[id]', { id: 'thoughts-aloud-play-2025' }) },
+	{ slug: 'news-29th-birthday-2025', href: () => resolve('/news/[id]', { id: '29th-birthday-2025' }) },
+	{ slug: 'news-prosvita-120-performance-2025', href: () => resolve('/news/[id]', { id: 'prosvita-120-performance-2025' }) },
+	{ slug: 'news-charity-new-year-play-2025', href: () => resolve('/news/[id]', { id: 'charity-new-year-play-2025' }) },
+	{ slug: 'news-alumni-concert-2026', href: () => resolve('/news/[id]', { id: 'alumni-concert-2026' }) },
+	{ slug: 'news-lesya-ukrainka-155-2026', href: () => resolve('/news/[id]', { id: 'lesya-ukrainka-155-2026' }) },
+	{ slug: 'news-li-te-ra-studio-2026', href: () => resolve('/news/[id]', { id: 'li-te-ra-studio-2026' }) },
+	{ slug: 'news-art-supports-army-2026', href: () => resolve('/news/[id]', { id: 'art-supports-army-2026' }) },
+	{ slug: 'news-teatr-pro-2026-results', href: () => resolve('/news/[id]', { id: 'teatr-pro-2026-results' }) },
+	{ slug: 'news-art-like-fest-triumph-2026', href: () => resolve('/news/[id]', { id: 'art-like-fest-triumph-2026' }) },
 	/* Перенесені новини дописує `npm run news:from-firestore`. */
 ];
 

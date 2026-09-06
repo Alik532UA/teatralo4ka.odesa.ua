@@ -113,7 +113,7 @@
 	<ArticleView
 		title={вміст.metadata.title}
 		dateLabel={дата}
-		categoryLabel={getCategoryLabel(вміст.metadata.category, мова)}
+		categoryLabel={getCategoryLabel(вміст.metadata.newsCategory ?? вміст.metadata.category, мова)}
 		media={медіа}
 		shape={код.mediaShape}
 		layout={код.mediaLayout}

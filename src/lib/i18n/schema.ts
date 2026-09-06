@@ -13,6 +13,21 @@ export const pageMetadataSchema = z.object({
     keywords: z.string().optional(),
     ogImage: z.string().optional(),
   }),
+  /**
+   * Плашка новини на картці: «Благодійність», «Святкування», «Фестиваль»…
+   *
+   * `category` вище — це РІД сторінки, і для новини він завжди `news`: саме
+   * так її відрізняють від розділів сайту, і саме це вимагає гейт
+   * `config/codeNews.test.ts`. Але в базі стаття має ще й свою категорію
+   * показу, і з чотирнадцяти перенесених новин дві були не «Новина», а
+   * «Благодійність» і «Святкування». Без окремого поля вони мовчки ставали
+   * новинами — тобто перенос у код губив те, що автор виставив руками.
+   *
+   * Значення — ключ із `config/categories.ARTICLE_CATEGORIES`; його ж читає
+   * `getCategoryLabel`, тому підпис виходить двома мовами без жодного рядка
+   * тут. Немає поля — плашка та сама, що доти («Новина»).
+   */
+  newsCategory: z.string().optional(),
   status: z.enum(['published', 'draft', 'archived']),
   version: z.string().regex(/^\d+\.\d+\.\d+$/),
   excerpt: z.string().max(300).optional(),

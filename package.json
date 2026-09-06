@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.523",
+	"version": "0.0.524",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -9,7 +9,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"prebuild": "npm run validate-content && npm run build:search-index",
+		"prebuild": "npm run validate-content && npm run build:news-cards && npm run build:search-index",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync && husky || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -20,6 +20,7 @@
 		"test:watch": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"validate-content": "tsx scripts/validate-content.ts",
+		"build:news-cards": "tsx scripts/build-news-cards.ts",
 		"build:search-index": "tsx scripts/build-search-index.ts",
 		"audit:play-naming": "tsx scripts/audit-play-naming.ts",
 		"news:from-firestore": "tsx scripts/news-from-firestore.ts",

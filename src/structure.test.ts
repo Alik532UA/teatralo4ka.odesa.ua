@@ -33,6 +33,12 @@ import { describe, expect, it } from 'vitest';
  *   зроблено поруч для перейменованих новин, і зроблено з тієї ж причини:
  *   кожна нова новина валила гейт «сторінка є, а перевіряти її нічим», і рядок
  *   дописували руками. Один рядок — це імпорт реєстру.
+ * 2026-09-06: `SearchOverlay.svelte` 340 → 341. РІВНО ОДИН рядок: покажчик
+ *   сторінок переїхав на `import()` — так само, як реєстри галактики поруч, і з
+ *   тієї ж причини. Шапка тягне цей компонент на кожній сторінці, а покажчик
+ *   читає markdown, тобто повний текст усіх сторінок: 41.7 КБ brotli у
+ *   критичному шляху головної, і зростало з кожною новиною в коді. Після
+ *   переносу головна впала з 297 до 260 КБ.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -490,7 +496,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
-	'src/lib/components/SearchOverlay.svelte': 340,
+	'src/lib/components/SearchOverlay.svelte': 341,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*
 	 * 2026-09-03: 291 → 335. Блок «Хто грав» навчився показувати ТРЕТІЙ різновид

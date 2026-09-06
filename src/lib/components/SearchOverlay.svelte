@@ -2,7 +2,6 @@
 	import { locale, t } from 'svelte-i18n';
 	import { Search, X, FileText, Newspaper, Sparkles, Users } from 'lucide-svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
-	import { newsEntries, pageEntries } from '$lib/services/searchIndex';
 	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
 	import { focusTrap } from '$lib/utils/focusTrap';
 
@@ -30,7 +29,20 @@
 	/** Посилання результатів — щоб стрілки могли переносити фокус. */
 	let hitLinks = $state.raw<(HTMLAnchorElement | null)[]>([]);
 	let news = $state.raw<SearchEntry[]>([]);
-	let newsLoading = $state(false);
+	/**
+	 * Сторінки — теж `import()`-ом, а не імпортом угорі.
+	 *
+	 * Покажчик сторінок читає markdown із бандла, а той приїжджає ПОВНИМ
+	 * текстом усіх сторінок — 41.7 КБ brotli. Шапка тягне цей компонент на
+	 * кожній сторінці сайту, тож цей чанк лежав у критичному шляху головної й
+	 * ріс із кожною новиною в коді. Заміряно на партії з чотирнадцяти новин:
+	 * головна вийшла за бюджет (297 із 290 КБ).
+	 *
+	 * Затримка тут нікого не чекає: модуль потрібен лише з першою натиснутою
+	 * літерою, а до `MIN_QUERY_LENGTH` пошук усе одно нічого не показує.
+	 */
+	let pages = $state.raw<SearchEntry[]>([]);
+	let pagesLoading = $state(false);
 	/**
 	 * Записи галактики — люди, вистави, курси, фестивалі, заклади, театри.
 	 *
@@ -47,10 +59,6 @@
 	   `services/searchGalaxy`. */
 	const назваКраїни = (code: string) => $t(`galaxy.country.${code}`);
 
-	/**
-	 * Сторінки шукаються за всіма мовами сайту.
-	 */
-	const pages = $derived(pageEntries());
 	const hits = $derived<SearchHit[]>(
 		searchEntries([...pages, ...galaxy, ...news], query, 20, lang)
 	);
@@ -87,13 +95,22 @@
 			.finally(() => (galaxyLoading = false));
 	});
 
-	/** Новини — один запит на сеанс за всіма мовами, коли пошук відкрили. */
+	/**
+	 * Сторінки й новини — з того самого модуля, один раз за сеанс.
+	 *
+	 * Сторінки шукаються за ВСІМА мовами сайту (`pageEntries()` без аргументу),
+	 * новини — один запит до бази на сеанс.
+	 */
 	$effect(() => {
-		if (!open || news.length > 0 || newsLoading) return;
-		newsLoading = true;
-		newsEntries()
-			.then((list) => (news = list))
-			.finally(() => (newsLoading = false));
+		if (!open || pagesLoading || (pages.length > 0 && news.length > 0)) return;
+		pagesLoading = true;
+		import('$lib/services/searchIndex')
+			.then(async ({ pageEntries, newsEntries }) => {
+				pages = pageEntries();
+				news = await newsEntries();
+			})
+			.catch((error) => console.warn('Пошук: покажчик сторінок недоступний', error))
+			.finally(() => (pagesLoading = false));
 	});
 
 	// Курсор повертається на початок, щойно змінився запит: інакше він указував би
@@ -234,8 +251,12 @@
 				{/each}
 			{/if}
 
-			<!-- Новини доїжджають окремо: сторінки шукаються, поки триває запит. -->
-			{#if newsLoading && query.trim()}
+			<!--
+				Покажчик доїжджає окремо: галактика тим часом уже шукається, бо її
+				реєстри в бандлі. Одна ознака на сторінки й новини — вони з одного
+				модуля й приїжджають разом.
+			-->
+			{#if pagesLoading && query.trim()}
 				<p class="search__note search__note--quiet" data-testid="search-news-loading-status">
 					{$t('search.loadingNews')}
 				</p>

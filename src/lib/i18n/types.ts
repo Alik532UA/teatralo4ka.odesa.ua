@@ -11,6 +11,8 @@ export interface PageMetadata {
     keywords?: string;
     ogImage?: string;
   };
+  /** Плашка новини на картці — ключ `ARTICLE_CATEGORIES`. Розбір у схемі. */
+  newsCategory?: string;
   status: 'published' | 'draft' | 'archived';
   version: string;
   excerpt?: string;

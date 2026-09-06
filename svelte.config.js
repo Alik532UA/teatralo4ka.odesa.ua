@@ -108,6 +108,20 @@ const PUBLIC_ENTRIES = [
 	// `build/` не з'являлося (заміряно: `news/30th-season-opened-2026/` був,
 	// `en/news/30th-season-opened-2026/` — ні, мапа сайту 1543 проти 1424).
 	'/news/30th-season-opened-2026',
+	'/news/dedication-to-art-2022',
+	'/news/dedication-to-art-2024',
+	'/news/intensive-class-2025',
+	'/news/dedication-to-art-2025',
+	'/news/thoughts-aloud-play-2025',
+	'/news/29th-birthday-2025',
+	'/news/prosvita-120-performance-2025',
+	'/news/charity-new-year-play-2025',
+	'/news/alumni-concert-2026',
+	'/news/lesya-ukrainka-155-2026',
+	'/news/li-te-ra-studio-2026',
+	'/news/art-supports-army-2026',
+	'/news/teatr-pro-2026-results',
+	'/news/art-like-fest-triumph-2026',
 	/* Перенесені новини дописує `npm run news:from-firestore`. */
 	// Стара адреса тієї самої новини: сторінка перенаправлення. Розбір — у
 	// `src/lib/config/newsAliases.ts`.

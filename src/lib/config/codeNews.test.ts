@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { CODE_NEWS, codeNewsById, replacedArticleIds } from './codeNews';
 import { LOCAL_IMAGE_SIZES } from './localImages';
 import { SEARCHABLE_PAGES } from './searchablePages';
+import { ARTICLE_CATEGORIES } from './categories';
 
 /**
  * Новина в коді тримається на ЧОТИРЬОХ файлах, які нічим не пов'язані.
@@ -55,6 +56,25 @@ describe('новини в коді', () => {
 		expect([...new Set(дублі)], 'два записи з тим самим ключем').toEqual([]);
 	});
 
+	/**
+	 * `slug` новини — це `news-<id>`, і цю рівність читає ГЕНЕРАТОР карток.
+	 *
+	 * `scripts/build-news-cards.ts` бере перелік новин із теки markdown і
+	 * відновлює `id`, відрізавши `news-`. Перша редакція генератора шукала пари
+	 * в самому реєстрі регуляркою і пропустила одну новину з шістнадцяти — між
+	 * `id` і `slug` там стоять коментар і `mediaShape`. Розбір мови регуляркою
+	 * прибрано, а замість нього стоїть ця рівність.
+	 */
+	it('`slug` дорівнює `news-<id>` — на цьому тримається покажчик карток', () => {
+		const bad = CODE_NEWS.filter((item) => item.slug !== `news-${item.id}`).map(
+			(item) => `${item.id}: slug «${item.slug}», а очікується «news-${item.id}»`
+		);
+		expect(
+			bad,
+			'генератор карток не знайде цю новину, і в переліку її не буде:\n  ' + bad.join('\n  ')
+		).toEqual([]);
+	});
+
 	it('markdown існує ОБОМА мовами', () => {
 		const bad: string[] = [];
 		for (const item of CODE_NEWS) {
@@ -86,6 +106,34 @@ describe('новини в коді', () => {
 			bad,
 			'новина з іншою категорією стане в один ряд із розділами сайту — ' +
 				`саме «news» у «pageMetadataSchema» і є місцем, передбаченим під це:\n  ${bad.join('\n  ')}`
+		).toEqual([]);
+	});
+
+	/**
+	 * Плашка новини — ключ, який `getCategoryLabel` УМІЄ перекласти.
+	 *
+	 * Помилка тут тиха й видна лише оком на картці: невідомий ключ
+	 * `getCategoryLabel` віддає як є, тобто на картці з'явилося б сире
+	 * «charity» замість «Благодійність». Поле пише конвертер із категорії
+	 * статті в базі, а там категорію набирають руками — тож друк цілком
+	 * можливий.
+	 */
+	it('`newsCategory` у frontmatter — відомий ключ категорії', () => {
+		const bad: string[] = [];
+		for (const item of CODE_NEWS) {
+			for (const мова of ['uk', 'en']) {
+				const файл = join(СТОРІНКИ, мова, `${item.slug}.md`);
+				if (!existsSync(файл)) continue;
+				const знайдено = readFileSync(файл, 'utf8').match(/^newsCategory:\s*"?([\w-]+)"?\s*$/m);
+				if (знайдено && !(знайдено[1] in ARTICLE_CATEGORIES)) {
+					bad.push(`${мова}/${item.slug}.md: «${знайдено[1]}»`);
+				}
+			}
+		}
+		expect(
+			bad,
+			'на картці з’явиться сирий ключ замість підпису — `getCategoryLabel` ' +
+				`віддає невідоме як є:\n  ${bad.join('\n  ')}`
 		).toEqual([]);
 	});
 

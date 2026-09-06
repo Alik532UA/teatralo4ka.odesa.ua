@@ -169,6 +169,20 @@ export const LOCAL_IMAGE_SIZES = {
 	'/news/2026-09-04/11.jpg': { width: 1280, height: 959 },
 	'/news/2026-09-04/12.jpg': { width: 1280, height: 913 },
 	'/news/2026-09-05/01.jpg': { width: 720, height: 1280 },
+	'/news/2022-10-26/01.jpg': { width: 720, height: 900 },
+	'/news/2024-10-01/01.jpg': { width: 1440, height: 960 },
+	'/news/2025-09-13/01.jpg': { width: 1080, height: 1920 },
+	'/news/2025-09-19/01.jpg': { width: 640, height: 358 },
+	'/news/2025-10-28/01.jpg': { width: 640, height: 1136 },
+	'/news/2025-12-01/01.jpg': { width: 720, height: 1280 },
+	'/news/2025-12-02/01.jpg': { width: 848, height: 563 },
+	'/news/2025-12-25/01.jpg': { width: 640, height: 1136 },
+	'/news/2026-02-17/01.jpg': { width: 720, height: 1280 },
+	'/news/2026-03-03/01.jpg': { width: 640, height: 1136 },
+	'/news/2026-03-27/01.jpg': { width: 640, height: 1136 },
+	'/news/2026-04-20/01.jpg': { width: 640, height: 1136 },
+	'/news/2026-06-13/01.jpg': { width: 640, height: 1136 },
+	'/news/2026-06-21/01.jpg': { width: 720, height: 1280 },
 	/* Знімки перенесених новин дописує `npm run news:from-firestore`. Місце значуще: запис
 	   мусить лишитися всередині мапи, і саме тому мітка стоїть тут, а не
 	   вгорі — інакше вставка потрапила б у чужий рядок. */
