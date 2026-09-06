@@ -75,6 +75,15 @@ type Axis = 'window' | 'container';
  * `container` — вигляд залежить від НАЯВНОГО МІСЦЯ, тобто це борг на `@container`.
  */
 const VERDICT: Record<string, { axis: Axis; why: string }> = {
+	'admin/ContentRowCard.svelte': {
+		axis: 'window',
+		why:
+			'рядок переліку в адмінці займає всю ширину сторінки — місця йому не ' +
+			'дає ніхто, окрім самого вікна, і на 640 px він перекладається з ' +
+			'рядка в сітку. Контейнерний запит тут міряв би той самий розмір, ' +
+			'тільки через зайвий шар: ані в колонці, ані у вкладеній сітці цей ' +
+			'рядок не стоїть і стояти не збирається'
+	},
 	'galaxy/GraduateSlideshowBar.svelte': {
 		axis: 'window',
 		why:

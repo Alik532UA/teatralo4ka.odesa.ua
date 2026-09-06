@@ -86,6 +86,19 @@ export interface CodeNewsItem {
 	mediaShape?: MediaShape;
 	/** Стовпець плиток збоку від тексту (типово) або все одне за одним. */
 	mediaLayout?: MediaLayout;
+	/**
+	 * `id` статті в базі, яку ця новина ЗАМІНЯЄ.
+	 *
+	 * Ставиться, коли новину перенесли з Firestore у код: перелік новин після
+	 * цього не показує статтю з бази, навіть якщо її забули приховати в
+	 * адмінці. Без цього поля одна новина стояла б у переліку двічі — і саме
+	 * так і сталося б, бо порядок дій автора («опублікувати в коді, потім
+	 * приховати в базі») лишає між кроками проміжок.
+	 *
+	 * Пишеться конвертером `scripts/news-from-firestore.ts` разом із самою
+	 * новиною, тож руками про нього думати не треба.
+	 */
+	replacesArticleId?: string;
 }
 
 /**
@@ -297,6 +310,18 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 		]
 	}
 ];
+
+/**
+ * `id` статей у базі, які вже перенесені в код.
+ *
+ * Перелік новин відсіює їх, щоб та сама новина не стояла двічі: у коді й у
+ * базі. Розбір — у полі `replacesArticleId`.
+ */
+export function replacedArticleIds(): Set<string> {
+	return new Set(
+		CODE_NEWS.map((item) => item.replacesArticleId).filter((id): id is string => Boolean(id))
+	);
+}
 
 /** Новина з коду за сегментом адреси, або `undefined` — тоді її шукають у базі. */
 export function codeNewsById(id: string): CodeNewsItem | undefined {

@@ -10,7 +10,15 @@
 	import { t, locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { Timestamp } from 'firebase/firestore';
-	import { ArrowLeft, Calendar, FileText, Folder, Globe, Paperclip, Plus, Search, SquarePen, Tag, Trash2 } from 'lucide-svelte';
+	import { ArrowLeft, Calendar, Eye, EyeOff, FileText, Folder, Globe, Paperclip, Plus, Search, SquarePen, Tag, Trash2 } from 'lucide-svelte';
+	import { SvelteSet } from 'svelte/reactivity';
+	import ContentRowCard from '$lib/components/admin/ContentRowCard.svelte';
+	import NewsExportBar from '$lib/components/admin/NewsExportBar.svelte';
+	import { contentRows, filterRows, rowTypeCounts, rowYears } from '$lib/utils/adminContentRows';
+	import { getNewsOverrides, saveNewsOverrides } from '$lib/services/newsOverrides';
+	import { withHidden, type NewsOverrides } from '$lib/utils/newsOverrides';
+	import { copyCodeNewsToDatabase } from '$lib/services/codeNewsCopy';
+	import { buildNewsExport, newsExportFileName } from '$lib/utils/newsExport';
 	import Select from '$lib/components/ui/Select.svelte';
 	import { getContentExcerpt } from '$lib/utils/renderContent';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
@@ -18,6 +26,16 @@
 	let searchEl = $state<HTMLInputElement | null>(null);
 
 	let allItems = $state<StoredArticle[]>([]);
+	/*
+	 * Рішення про новини з КОДУ: приховані й замінені. Читаються тим самим
+	 * публічним документом, що й на сайті, — адмінка не має власного джерела
+	 * правди, інакше показувала б не те, що бачить читач.
+	 */
+	let overrides = $state<NewsOverrides | null>(null);
+	let працює = $state<string | null>(null);
+	/* Відібране для одного файла. Набір, а не поле в рядку: «виділити всі»
+	   мусить лишитися однією дією, а фільтри тим часом змінюють самі рядки. */
+	const вибрані = new SvelteSet<string>();
 	let loading = $state(true);
 	let search = $state('');
 	let importing = $state(false);
@@ -54,78 +72,45 @@
 		return isSuperAdmin || permissions?.canEditPages === true;
 	}
 
-	const typeCounts = $derived.by(() => {
-		const counts = { all: allItems.length, article: 0, page: 0, page_project: 0 };
-		allItems.forEach(a => {
-			const type = getItemType(a);
-			if (type in counts) counts[type as keyof typeof counts]++;
-		});
-		return counts;
-	});
+	const currentLang = $derived(((($locale as string) || 'uk') as 'uk' | 'en'));
 
-	const availableYears = $derived.by(() => {
-		// Локальний тимчасовий набір усередині $derived.by: живе один прохід,
-		// назовні віддається масивом. SvelteSet тут лише додав би обгортку.
-		// eslint-disable-next-line svelte/prefer-svelte-reactivity
-		const years = new Set<string>();
-		allItems.forEach(a => {
-			const ts = getDisplayDate(a);
-			if (ts) years.add(ts.toDate().getFullYear().toString());
-		});
-		return Array.from(years).sort((a, b) => b.localeCompare(a));
-	});
+	/*
+	 * ПЕРЕЛІК ЗВОДИТЬ ДВА ДЖЕРЕЛА — базу й репозиторій.
+	 *
+	 * Доти адмінка бачила саму лише базу, тобто новини, які вже переїхали в код,
+	 * зникали з-перед очей того, хто ними керує: ні приховати, ні замінити. Автор
+	 * попросив прямо — «список і з firebase і з коду».
+	 *
+	 * Зведення, фільтри й лічильники живуть у `utils/adminContentRows`: там вони
+	 * перевіряються без браузера, і там же записано, чому фільтр один на обидва
+	 * джерела, а не по копії на кожне.
+	 */
+	const усіРядки = $derived(contentRows(allItems, currentLang, overrides));
+	const typeCounts = $derived(rowTypeCounts(усіРядки));
+	const availableYears = $derived(rowYears(усіРядки));
+	const filtered = $derived(
+		filterRows(усіРядки, {
+			пошук: search,
+			тип: filterType,
+			стан: filterStatus,
+			категорія: filterCategory,
+			рік: filterYear
+		})
+	);
 
-	const sorted = $derived.by(() => {
-		return [...allItems].sort((a, b) => {
-			const dateA = getDisplayDate(a)?.toMillis() || 0;
-			const dateB = getDisplayDate(b)?.toMillis() || 0;
-			return dateB - dateA;
-		});
-	});
-
-	const filtered = $derived.by(() => {
-		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
-		return sorted.filter(a => {
-			// Type filter
-			if (filterType !== 'all' && getItemType(a) !== filterType) return false;
-
-			// Search filter
-			const title = a.translations?.[currentLang]?.title || '';
-			const excerpt = (a.translations?.[currentLang]?.content || '').replace(/[#*`_[\]()]/g, '');
-			const searchMatch = !search.trim() || 
-				title.toLowerCase().includes(search.toLowerCase()) ||
-				excerpt.toLowerCase().includes(search.toLowerCase()) ||
-				a.category?.toLowerCase().includes(search.toLowerCase());
-			
-			if (!searchMatch) return false;
-
-			// Status filter
-			if (filterStatus !== 'all') {
-				const isPub = a.translations?.[currentLang]?.isPublished === true;
-				if (filterStatus === 'published' && !isPub) return false;
-				if (filterStatus === 'draft' && isPub) return false;
-			}
-
-			// Category filter
-			if (filterCategory !== 'all' && a.category !== filterCategory) return false;
-
-			// Year filter
-			if (filterYear !== 'all') {
-				const ts = getDisplayDate(a);
-				if (filterYear === 'none') {
-					if (ts) return false;
-				} else {
-					if (!ts || ts.toDate().getFullYear().toString() !== filterYear) return false;
-				}
-			}
-
-			return true;
-		});
-	});
+	/** Відібрати можна лише статтю з бази: у файл ідуть саме вони. */
+	const відбірні = $derived(filtered.filter((р) => р.вид === 'db' && р.тип === 'article'));
+	const усіВідібрані = $derived(
+		відбірні.length > 0 && відбірні.every((р) => р.вид === 'db' && вибрані.has(р.стаття.id))
+	);
 
 	async function loadAll() {
 		loading = true;
-		allItems = await fetchAllContent();
+		/* Обидва джерела паралельно, і жодне не валить друге: без перевизначень
+		   перелік просто показує всі новини з коду — так, як було доти. */
+		const [вміст, рішення] = await Promise.allSettled([fetchAllContent(), getNewsOverrides()]);
+		if (вміст.status === 'fulfilled') allItems = вміст.value;
+		if (рішення.status === 'fulfilled') overrides = рішення.value;
 		loading = false;
 	}
 
@@ -218,11 +203,6 @@
 		return getContentExcerpt(translation?.content || '', translation?.contentFormat, 120);
 	}
 
-	function getTitle(article: Article) {
-		const currentLang = (get(locale) as 'uk' | 'en') || 'uk';
-		return article.translations?.[currentLang]?.title || '';
-	}
-
 	function getCoverUrl(article: Article): string {
 		return article.translations?.uk?.coverUrl || article.translations?.en?.coverUrl || '';
 	}
@@ -234,6 +214,86 @@
 			case 'page_project': return { label: get(t)('admin.content.badgeProject'), class: 'cl-type-project' };
 			default: return { label: get(t)('admin.content.badgeArticle'), class: 'cl-type-article' };
 		}
+	}
+
+	const canManageSettings = $derived(isSuperAdmin || permissions?.canManageSettings === true);
+
+	/**
+	 * Приховати новину з коду з переліків сайту — або повернути її туди.
+	 *
+	 * Стан підміняється ЛИШЕ після відповіді бази: інакше перелік перемалювався б
+	 * на невдалому записі, і автор бачив би приховане, якого насправді немає.
+	 */
+	async function перемкнутиПриховання(codeNewsId: string, приховати: boolean) {
+		if (працює) return;
+		працює = codeNewsId;
+		const нові = withHidden(overrides, codeNewsId, приховати);
+		try {
+			await saveNewsOverrides(нові);
+			overrides = нові;
+			toast.success(get(t)(приховати ? 'admin.content.codeHideDone' : 'admin.content.codeShowDone'));
+		} catch (e: unknown) {
+			logError(e);
+			toast.error(e instanceof Error ? e.message : get(t)('admin.content.codeHideError'));
+		} finally {
+			працює = null;
+		}
+	}
+
+	/** Копія новини з коду в базі — і одразу редактор для неї. */
+	async function зробитиКопію(codeNewsId: string) {
+		if (працює) return;
+		if (!(await toast.confirm(get(t)('admin.content.codeCopyConfirm')))) return;
+		працює = codeNewsId;
+		try {
+			const { articleId, overrides: нові } = await copyCodeNewsToDatabase(codeNewsId, overrides);
+			overrides = нові;
+			toast.success(get(t)('admin.content.codeCopyDone'));
+			await goto(resolve('/admin/content/[id]', { id: articleId }));
+		} catch (e: unknown) {
+			logError(e);
+			toast.error(e instanceof Error ? e.message : get(t)('admin.content.codeCopyError'));
+		} finally {
+			працює = null;
+		}
+	}
+
+	function перемкнутиВибір(id: string, вибрано: boolean) {
+		if (вибрано) вибрані.add(id);
+		else вибрані.delete(id);
+	}
+
+	/** «Виділити всі» діє на ВИДИМЕ: фільтри для того тут і стоять. */
+	function перемкнутиВсі() {
+		if (усіВідібрані) {
+			for (const рядок of відбірні) if (рядок.вид === 'db') вибрані.delete(рядок.стаття.id);
+		} else {
+			for (const рядок of відбірні) if (рядок.вид === 'db') вибрані.add(рядок.стаття.id);
+		}
+	}
+
+	/**
+	 * Відібране — одним файлом на диск. Базу це не чіпає.
+	 *
+	 * Саме одним: «варто все підготувати щоб на prod я міг зберегти новини і
+	 * відправити в цей чат одним файлом, а не кожний окремо зберігати».
+	 */
+	function зберегтиВибрані() {
+		const статті = allItems.filter((a) => вибрані.has(a.id));
+		if (статті.length === 0) {
+			toast.error(get(t)('admin.content.exportEmpty'));
+			return;
+		}
+		const зараз = new Date();
+		const файл = buildNewsExport(статті, зараз);
+		const blob = new Blob([JSON.stringify(файл, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url;
+		a.download = newsExportFileName(зараз, файл.count);
+		a.click();
+		URL.revokeObjectURL(url);
+		toast.success(get(t)('admin.content.exportDone', { values: { count: файл.count } }));
 	}
 
 	async function handleBulkLoad(e: Event) {
@@ -396,6 +456,36 @@
 		</div>
 	</div>
 
+	<!--
+		ВІДБІР ДЛЯ ОДНОГО ФАЙЛА.
+		Прапорці стоять на статтях із бази, бо в код переносять саме їх. «Виділити
+		всі» діє на видиме — фільтри для того тут і стоять: «я хочу виділити всі і
+		зняти чекбокси з тимчасових новин».
+	-->
+	{#if !loading && відбірні.length > 0}
+		<NewsExportBar
+			selectedCount={вибрані.size}
+			allSelected={усіВідібрані}
+			onToggleAll={перемкнутиВсі}
+			onExport={зберегтиВибрані}
+		/>
+	{/if}
+
+	<!--
+		МЕЖА, ПРО ЯКУ ТРЕБА СКАЗАТИ СЛОВАМИ.
+		Сторінка новини з коду зібрана заздалегідь, тож приховання й заміна діють у
+		переліках негайно, а сам текст на її адресі зміниться після наступної
+		збірки. Мовчати про це — означало б лишити автора гадати, чому «не
+		змінилося».
+	-->
+	{#if !loading && filtered.some((рядок) => рядок.вид === 'code')}
+		<p class="cl-code-note" data-testid="admin-content-code-hint">
+			<!-- Без піктограми: кожна з `lucide-svelte` — окремий компонент у
+			     бандлі, а тут вона не додає нічого, чого не каже сам текст. -->
+			{$t('admin.content.codeNote')}
+		</p>
+	{/if}
+
 	<!-- List -->
 	<div class="cl-list" data-testid="admin-content-table-container">
 		{#if loading}
@@ -408,68 +498,124 @@
 				<p>{search ? $t('admin.content.noResults') : $t('admin.content.noItems')}</p>
 			</div>
 		{:else}
-			{#each filtered as item (item.id)}
-				{@const badge = getTypeBadge(item)}
-				<div class="cl-card" data-testid={`admin-content-row-${item.id}-container`}>
-					<!-- Thumbnail -->
-					<div class="cl-thumb" class:cl-thumb-empty={!getCoverUrl(item)}>
-						{#if getCoverUrl(item)}
-							<img src={getCoverUrl(item)} alt="" loading="lazy" />
-						{:else}
-							<Paperclip size={24} opacity={0.3} />
-						{/if}
-					</div>
-
-					<!-- Info -->
-					<div class="cl-info">
-						<div class="cl-info-top">
-							<span class="cl-type-badge {badge.class}">{badge.label}</span>
-							{#if item.category}
-								<span class="cl-category" data-testid={`admin-content-row-${item.id}-category`}>
-								{getCategoryLabel(item.category, (get(locale) as 'uk' | 'en') || 'uk')}
-								</span>
-							{/if}
-							<span class="cl-date" data-testid={`admin-content-row-${item.id}-date`}>{formatDate(item)}</span>
-						</div>
-						<h3 class="cl-item-title" data-testid={`admin-content-row-${item.id}-title`}>{getTitle(item)}</h3>
-						<p class="cl-excerpt">{getExcerpt(item)}</p>
-					</div>
-
-					<!-- Status badges -->
-					<div class="cl-langs" data-testid={`admin-content-row-${item.id}-status`}>
-						<button 
-							class="cl-lang-badge {item.translations?.uk?.isPublished ? 'published' : 'draft'}"
-							class:is-toggling={togglingId === `${item.id}-uk`}
-							onclick={() => togglePublish(item, 'uk')}
-							title={item.translations?.uk?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'UA' } }) : $t('admin.content.publish', { values: { lang: 'UA' } })}
-							disabled={!!togglingId}
-						>
-							UA
-						</button>
-						<button 
-							class="cl-lang-badge {item.translations?.en?.isPublished ? 'published' : 'draft'}"
-							class:is-toggling={togglingId === `${item.id}-en`}
-							onclick={() => togglePublish(item, 'en')}
-							title={item.translations?.en?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'EN' } }) : $t('admin.content.publish', { values: { lang: 'EN' } })}
-							disabled={!!togglingId}
-						>
-							EN
-						</button>
-					</div>
-
-					<!-- Actions -->
-					<div class="cl-actions" data-testid={`admin-content-row-${item.id}-actions`}>
-						<a href={resolve('/admin/content/[id]', { id: item.id })} class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
-							<SquarePen size={17} aria-hidden="true" />
-							<span>{$t('admin.articles.edit')}</span>
-						</a>
-						{#if canDeleteItem(item)}
-							<button onclick={() => handleDelete(item)} class="cl-action-btn cl-delete-btn" data-testid={`admin-content-delete-${item.id}-btn`} title={$t('admin.articles.delete')}>
-								<Trash2 size={17} aria-hidden="true" />
-							</button>
-						{/if}
-					</div>
-				</div>
+			{#each filtered as рядок (рядок.ключ)}
+				{#if рядок.вид === 'db'}
+					{@const item = рядок.стаття}
+					{@const badge = getTypeBadge(item)}
+					<ContentRowCard
+						coverUrl={getCoverUrl(item)}
+						badgeLabel={badge.label}
+						badgeClass={badge.class}
+						category={item.category ? getCategoryLabel(item.category, currentLang) : ''}
+						date={formatDate(item)}
+						title={рядок.назва}
+						excerpt={getExcerpt(item)}
+						rowKey={item.id}
+						selectable={рядок.тип === 'article'}
+						selected={вибрані.has(item.id)}
+						selectLabel={$t('admin.content.selectRow', { values: { title: рядок.назва } })}
+						onSelect={(вибрано) => перемкнутиВибір(item.id, вибрано)}
+					>
+						{#snippet status()}
+							<div class="cl-langs" data-testid={`admin-content-row-${item.id}-status`}>
+								<button
+									class="cl-lang-badge {item.translations?.uk?.isPublished ? 'published' : 'draft'}"
+									class:is-toggling={togglingId === `${item.id}-uk`}
+									onclick={() => togglePublish(item, 'uk')}
+									title={item.translations?.uk?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'UA' } }) : $t('admin.content.publish', { values: { lang: 'UA' } })}
+									disabled={!!togglingId}
+								>
+									UA
+								</button>
+								<button
+									class="cl-lang-badge {item.translations?.en?.isPublished ? 'published' : 'draft'}"
+									class:is-toggling={togglingId === `${item.id}-en`}
+									onclick={() => togglePublish(item, 'en')}
+									title={item.translations?.en?.isPublished ? $t('admin.content.unpublish', { values: { lang: 'EN' } }) : $t('admin.content.publish', { values: { lang: 'EN' } })}
+									disabled={!!togglingId}
+								>
+									EN
+								</button>
+							</div>
+						{/snippet}
+						{#snippet actions()}
+							<div class="cl-actions" data-testid={`admin-content-row-${item.id}-actions`}>
+								<a href={resolve('/admin/content/[id]', { id: item.id })} class="cl-action-btn cl-edit-btn" data-testid={`admin-content-edit-${item.id}-btn`} title={$t('admin.articles.edit')}>
+									<SquarePen size={17} aria-hidden="true" />
+									<span>{$t('admin.articles.edit')}</span>
+								</a>
+								{#if canDeleteItem(item)}
+									<button onclick={() => handleDelete(item)} class="cl-action-btn cl-delete-btn" data-testid={`admin-content-delete-${item.id}-btn`} title={$t('admin.articles.delete')}>
+										<Trash2 size={17} aria-hidden="true" />
+									</button>
+								{/if}
+							</div>
+						{/snippet}
+					</ContentRowCard>
+				{:else}
+					<!--
+						Новина, що живе В КОДІ. Правити її текст звідси не можна — файл лежить
+						у репозиторії, — але приховати або замінити копією можна, і саме заради
+						цих двох дій вона тут і показана.
+					-->
+					<ContentRowCard
+						coverUrl={рядок.картка.coverUrl}
+						badgeLabel={$t('admin.content.badgeCode')}
+						badgeClass="cl-type-code"
+						category={рядок.картка.category}
+						date={рядок.картка.date}
+						title={рядок.назва}
+						excerpt={рядок.опис}
+						rowKey={рядок.id}
+					>
+						{#snippet status()}
+							<div class="cl-langs" data-testid={`admin-content-row-${рядок.id}-status`}>
+								{#if рядок.заміна}
+									<a href={resolve('/admin/content/[id]', { id: рядок.заміна })} class="cl-code-state" data-testid={`admin-content-row-${рядок.id}-replaced-link`}>
+										{$t('admin.content.codeReplaced')}
+									</a>
+								{:else if рядок.приховано}
+									<span class="cl-code-state" data-testid={`admin-content-row-${рядок.id}-hidden-badge`}>
+										{$t('admin.content.codeHidden')}
+									</span>
+								{/if}
+							</div>
+						{/snippet}
+						{#snippet actions()}
+							<div class="cl-actions" data-testid={`admin-content-row-${рядок.id}-actions`}>
+								<a href={resolve('/news/[id]', { id: рядок.id })} class="cl-action-btn cl-edit-btn" data-testid={`admin-content-open-${рядок.id}-link`} title={$t('admin.content.codeOpen')}>
+									<!-- `Globe` — та сама піктограма, що вже стоїть на вкладці
+									     «Сторінки»: «це є на сайті». Свою для цього одного
+									     посилання довелося б тягнути в бандл окремо. -->
+									<Globe size={17} aria-hidden="true" />
+									<span>{$t('admin.content.codeOpen')}</span>
+								</a>
+								{#if canManageSettings && !рядок.заміна}
+									<button
+										class="cl-action-btn"
+										onclick={() => перемкнутиПриховання(рядок.id, !рядок.приховано)}
+										disabled={працює === рядок.id}
+										data-testid={`admin-content-hide-${рядок.id}-btn`}
+										title={рядок.приховано ? $t('admin.content.codeShow') : $t('admin.content.codeHide')}
+									>
+										{#if рядок.приховано}<Eye size={17} aria-hidden="true" />{:else}<EyeOff size={17} aria-hidden="true" />{/if}
+									</button>
+								{/if}
+								{#if canCreateArticle && canManageSettings && !рядок.заміна}
+									<button
+										class="cl-action-btn"
+										onclick={() => зробитиКопію(рядок.id)}
+										disabled={працює === рядок.id}
+										data-testid={`admin-content-copy-${рядок.id}-btn`}
+										title={$t('admin.content.codeCopy')}
+									>
+										<SquarePen size={17} aria-hidden="true" />
+									</button>
+								{/if}
+							</div>
+						{/snippet}
+					</ContentRowCard>
+				{/if}
 			{/each}
 		{/if}
 	</div>
@@ -688,126 +834,6 @@
 	gap: 0.75rem;
 }
 
-/* Card */
-.cl-card {
-	display: flex;
-	align-items: center;
-	gap: 1.5rem;
-	background: var(--bg-card);
-	border: 1px solid var(--color-border);
-	border-radius: 24px;
-	padding: 1.25rem;
-	transition: all 0.2s;
-}
-.cl-card:hover {
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-	border-color: var(--accent-primary-light, #3aacce);
-}
-
-/* Thumbnail */
-.cl-thumb {
-	width: 84px;
-	height: 84px;
-	border-radius: 16px;
-	overflow: hidden;
-	flex-shrink: 0;
-	background: var(--color-border);
-}
-.cl-thumb img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-.cl-thumb-empty {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: var(--bg-surface);
-	color: var(--color-muted-text);
-}
-
-/* Info */
-.cl-info {
-	flex: 1;
-	min-width: 0;
-}
-.cl-info-top {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	margin-bottom: 0.5rem;
-	flex-wrap: wrap;
-}
-.cl-type-badge {
-	font-size: 0.68rem;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	padding: 3px 10px;
-	border-radius: 20px;
-}
-.cl-type-article {
-	background: rgba(59, 130, 246, 0.1);
-	color: #2563eb;
-}
-.cl-type-page {
-	background: rgba(16, 185, 129, 0.1);
-	color: #059669;
-}
-.cl-type-project {
-	background: rgba(168, 85, 247, 0.1);
-	color: #7c3aed;
-}
-:global(.dark-theme) .cl-type-article {
-	background: rgba(96, 165, 250, 0.15);
-	color: #93bbfd;
-}
-:global(.dark-theme) .cl-type-page {
-	background: rgba(52, 211, 153, 0.15);
-	color: #6ee7b7;
-}
-:global(.dark-theme) .cl-type-project {
-	background: rgba(192, 132, 252, 0.15);
-	color: #c4b5fd;
-}
-.cl-category {
-	font-size: 0.7rem;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-	color: var(--accent-primary);
-	background: rgba(33, 150, 186, 0.08);
-	padding: 3px 12px;
-	border-radius: 20px;
-}
-.cl-date {
-	font-size: 0.8rem;
-	font-weight: 600;
-	color: var(--color-muted-text);
-	opacity: 0.8;
-}
-.cl-item-title {
-	font-size: 1.15rem;
-	font-weight: 700;
-	color: var(--color-dark-text);
-	margin: 0;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 1.3;
-}
-.cl-excerpt {
-	font-size: 0.88rem;
-	line-height: 1.5;
-	opacity: 0.5;
-	margin-top: 0.4rem;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
-}
-
 /* Lang badges */
 .cl-langs {
 	display: flex;
@@ -929,6 +955,31 @@
 	color: var(--text-on-accent);
 }
 
+.cl-code-note {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	margin: 0 0 1rem;
+	font-size: 0.82rem;
+	line-height: 1.5;
+	opacity: 0.7;
+}
+
+/* Стан новини з коду */
+.cl-code-state {
+	font-size: 0.72rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: #b45309;
+	text-align: center;
+	max-width: 8rem;
+	line-height: 1.3;
+}
+:global(.dark-theme) .cl-code-state {
+	color: #fcd34d;
+}
+
 /* Skeleton */
 .cl-skeleton {
 	height: 110px;
@@ -968,24 +1019,8 @@
 	.cl-header-actions { width: 100%; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-start; }
 	.cl-create-btn { flex: 1; justify-content: center; }
 
-	/* Card Fix */
-	.cl-card { 
-		display: grid; 
-		grid-template-columns: 60px 1fr; 
-		grid-template-areas: 
-			"thumb info"
-			"thumb status"
-			"actions actions";
-		gap: 0.75rem; 
-		padding: 1rem; 
-		align-items: start;
-	}
-	.cl-thumb { width: 60px; height: 60px; border-radius: 12px; grid-area: thumb; }
-	.cl-info { grid-area: info; min-width: 0; }
-	.cl-item-title { font-size: 1rem; white-space: normal; }
-	.cl-excerpt { display: none; }
-	
-	/* Badges and Actions Fix */
+	/* Оболонка рядка та її телефонний вигляд — у `admin/ContentRowCard`; тут
+	   лишилися ділянки, які заповнює РОЗМІТКА ЦІЄЇ СТОРІНКИ. */
 	.cl-langs { 
 		grid-area: status; 
 		flex-direction: row; 
@@ -1007,7 +1042,5 @@
 	/* Filter Tabs Fix */
 	.cl-type-tabs { gap: 0.35rem; }
 	.cl-type-tab { padding: 0.5rem 0.75rem; font-size: 0.78rem; flex: 1; justify-content: center; }
-	
-	.cl-info-top { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
 }
 </style>

@@ -11,6 +11,8 @@
 	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig, type GalleryWidgetConfig } from '$lib/services/settings';
 	import { getArticles, getAllProjects, getDisplayDate, mapArticleToWidgetItem, type Article } from '$lib/services/articles';
 	import { newsFeed } from '$lib/utils/newsFeed';
+	import { getCachedNewsOverrides, getNewsOverrides } from '$lib/services/newsOverrides';
+	import type { NewsOverrides } from '$lib/utils/newsOverrides';
 	import { getStaticProjects } from '$lib/config/static-projects';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
@@ -81,6 +83,14 @@
 	 * Хронологія спільна — той самий `utils/newsFeed`, що на `/news`. Новини з
 	 * коду й далі показуються з першого кадру, ще до відповіді бази.
 	 */
+	/*
+	 * Приховане й замінене з адмінки — тим самим способом, що решта налаштувань:
+	 * спершу збережене в браузері, потім свіже з бази. Кеш тут не косметика: без
+	 * нього прихована новина з коду встигла б блимнути в переліку, бо вона вже в
+	 * бандлі й малюється з першого кадру.
+	 */
+	let newsOverrides = $state<NewsOverrides | null>(browser ? getCachedNewsOverrides() : null);
+
 	let newsItems = $derived.by(() =>
 		newsFeed(
 			activeLang,
@@ -89,7 +99,8 @@
 				.map((item, index) => ({
 					картка: mapArticleToWidgetItem(item, activeLang, index),
 					час: getDisplayDate(item)?.toMillis() ?? 0
-				}))
+				})),
+			newsOverrides
 		)
 	);
 
@@ -152,6 +163,14 @@
 			})
 			.catch((e) => { newsError = true; perf('+page.svelte: getArticles ERROR: ' + e?.message); })
 			.finally(() => { newsReady = true; });
+
+		/*
+		 * Перевизначення НЕ в перегонах із заставкою: вони лише прибирають зайве з
+		 * переліку, тож затримувати ними перший кадр немає за що.
+		 */
+		getNewsOverrides()
+			.then((o) => { newsOverrides = o; })
+			.catch((e) => { perf('+page.svelte: getNewsOverrides ERROR: ' + e?.message); });
 
 		const projectsPromise = getAllProjects(lang)
 			.then(projects => {

@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { CODE_NEWS, codeNewsById } from './codeNews';
+import { CODE_NEWS, codeNewsById, replacedArticleIds } from './codeNews';
 import { LOCAL_IMAGE_SIZES } from './localImages';
 import { SEARCHABLE_PAGES } from './searchablePages';
 
@@ -180,6 +180,35 @@ describe('новини в коді', () => {
 					.map((id) => `'/news/${id}',`)
 					.join('\n  ')}`
 		).toEqual([]);
+	});
+
+	/**
+	 * `replacesArticleId` — єдине, що не дає перенесеній новині стояти в переліку
+	 * ДВІЧІ.
+	 *
+	 * Поле пише конвертер, і помилка в ньому тиха: зайвий пробіл або чужий `id`
+	 * не ламають нічого — просто стаття з бази лишається поруч зі своєю ж копією
+	 * в коді. Тому інваріанти тут, а не в надії на уважність.
+	 */
+	it('`replacesArticleId` не порожній, не дублюється й не плутається з ключем адреси', () => {
+		const пари = CODE_NEWS.filter((item) => item.replacesArticleId !== undefined);
+		const порожні = пари.filter((item) => !item.replacesArticleId?.trim()).map((i) => i.id);
+		expect(порожні, `порожній «replacesArticleId»: ${порожні.join(', ')}`).toEqual([]);
+
+		const усі = пари.map((item) => item.replacesArticleId);
+		const дублі = [...new Set(усі.filter((id, i) => усі.indexOf(id) !== i))];
+		expect(дублі, `дві новини заявляють ту саму статтю: ${дублі.join(', ')}`).toEqual([]);
+
+		const ключі = new Set(CODE_NEWS.map((item) => item.id));
+		const плутанина = усі.filter((id) => id && ключі.has(id));
+		expect(
+			плутанина,
+			'у полі стоїть ключ адреси новини, а треба `id` статті з Firestore: ' + плутанина.join(', ')
+		).toEqual([]);
+
+		expect(replacedArticleIds().size, 'перелік переїхалих не збігається з реєстром').toBe(
+			new Set(усі).size
+		);
 	});
 
 	it('`codeNewsById` знаходить своє й не вигадує чужого', () => {

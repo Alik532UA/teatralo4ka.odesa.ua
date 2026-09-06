@@ -12,8 +12,36 @@
 	import ArticleView from '$lib/components/ArticleView.svelte';
 	import DetailPage from '$lib/components/DetailPage.svelte';
 	import ProseGraduateLinks from '$lib/components/ProseGraduateLinks.svelte';
+	import { browser } from '$app/environment';
+	import { getCachedNewsOverrides } from '$lib/services/newsOverrides';
+	import { replacementFor } from '$lib/utils/newsOverrides';
 
 	let { data } = $props();
+
+	/**
+	 * Чи цю новину з коду ЗАМІНИЛИ свіжою версією з адмінки.
+	 *
+	 * ## Чому лише збережене в браузері, без запиту до бази
+	 *
+	 * Уся ця робота робиться заради одного: «більшість новин в коді, щоб швидше
+	 * вантажився сайт і менше запитів до firebase». Сторінка новини з коду
+	 * сьогодні не робить ЖОДНОГО запиту — вміст прийшов зі збірки. Додати сюди
+	 * читання документа перевизначень означало б завести перший запит на кожен
+	 * перегляд кожної новини в коді заради дії, яка трапляється зрідка. Тобто
+	 * зламати рівно те, по що прийшли.
+	 *
+	 * Тому тут читається лише кеш, який наповнює перелік новин: хто відкрив
+	 * новину з головної або зі `/news`, той уже має свіжі перевизначення й
+	 * побачить нову версію. Хто прийшов прямим посиланням із месенджера —
+	 * побачить старий текст, аж поки не буде наступної збірки.
+	 *
+	 * Це та сама межа, що описана в `utils/newsOverrides`: механізм перевизначень
+	 * не переписує вже зібраний HTML. Автор про неї знає, і адмінка каже це
+	 * словами, а не мовчить.
+	 */
+	const заміна = $derived(
+		browser ? replacementFor(getCachedNewsOverrides(), page.params.id ?? '') : undefined
+	);
 
 	/*
 	 * Дві гілки на одному маршруті — і це не розгалуження заради зручності.
@@ -81,7 +109,7 @@
 	});
 </script>
 
-{#if код && вміст}
+{#if код && вміст && !заміна}
 	<ArticleView
 		title={вміст.metadata.title}
 		dateLabel={дата}
@@ -110,9 +138,14 @@
 	-->
 	<ProseGraduateLinks />
 {:else}
-	{#key page.params.id}
+	<!--
+		`param` — або адреса з бази, або `id` статті, яка ЗАМІНИЛА новину з коду.
+		Друга гілка через це не дублюється: запит, стани «завантажується / не
+		знайдено» і шаблон у заміни рівно ті самі, що в звичайної новини з бази.
+	-->
+	{#key заміна ?? page.params.id}
 		<DetailPage
-			param={page.params.id}
+			param={заміна ?? page.params.id}
 			fetchFn={getArticleById}
 			backHref={resolve('/news')}
 			backLabelKey="news.backToNews"

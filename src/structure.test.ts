@@ -22,6 +22,11 @@ import { describe, expect, it } from 'vitest';
  *
  * Стеля НЕ звужується на кожен знятий рядок навмисно: гейт, який червоніє від
  * будь-якої правки в бік покращення, вимикають першим.
+ * 2026-09-06: `routes/+page.svelte` 432 → 436. Чотири рядки — головна навчилася
+ *   читати перевизначення новин (`settings/newsOverrides`): імпорт служби,
+ *   імпорт типу, стан із кешу і передача його в `newsFeed`. Без них приховану
+ *   з адмінки новину видно було б саме на головній — тобто там, де її бачить
+ *   найбільше людей. Логіки тут нуль: рішення ухвалює `utils/newsFeed`.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -470,7 +475,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalaxyStageControls.svelte': 361,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
-	'src/routes/+page.svelte': 432,
+	'src/routes/+page.svelte': 436,
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,

@@ -193,8 +193,10 @@ service cloud.firestore {
     // нижче пускає до них НЕАВТОРИЗОВАНИХ (сайт рендериться без входу), тож
     // сюди потрапляє лише те, що справді має бути публічним. Новий документ
     // без рядка тут не читається відвідувачами й не зберігається адміністратором.
+    // 'newsOverrides' — приховані й замінені новини з КОДУ: документ читає кожна
+    // сторінка з переліком новин, тож він публічний, як 'hotNews'.
     function isValidSettingId(sid) {
-      return sid in ['home', 'header', 'news', 'projects', 'about', 'hotNews'];
+      return sid in ['home', 'header', 'news', 'projects', 'about', 'hotNews', 'newsOverrides'];
     }
     function isValidSettingsDoc(data) {
       return data.size() <= 32 &&

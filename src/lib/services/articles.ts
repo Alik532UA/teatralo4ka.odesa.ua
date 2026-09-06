@@ -18,6 +18,7 @@ import type { ArticleCategory } from "../config/categories";
 import { getCategoryLabel } from "../config/categories";
 import { getContentExcerpt } from "../utils/renderContent";
 import { isSafeUrl } from "../utils/safeUrl";
+import { getDisplayDate } from "../utils/articleDate";
 import { cardImageUrl } from "../utils/videoEmbed";
 import { PUBLIC_ARTICLES_LIMIT, PUBLIC_PAGES_LIMIT, PUBLIC_PROJECTS_LIMIT } from "../firebase/queryLimits";
 import type { ContentCardItem } from "../components/ContentCard.svelte";
@@ -55,7 +56,7 @@ export type ContentType = 'article' | 'page' | 'page_project';
 
 export interface Article {
   id?: string;
-  /** Пропорція плиток медіа на сторінці. Немає — квадрат. */
+  /** Пропорція плиток медіа на сторінці. Немає — `DEFAULT_MEDIA_SHAPE`. */
   mediaShape?: MediaShape;
   /** Стовпець плиток збоку від тексту (типово) або все одне за одним. */
   mediaLayout?: MediaLayout;
@@ -166,15 +167,12 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   return maxItems ? filtered.slice(0, maxItems) : filtered;
 }
 
-export function getDisplayDate(article: Article): Timestamp | null {
-  switch (article.dateMode) {
-    case 'createdAt': return (article.createdAt as Timestamp) ?? null;
-    case 'updatedAt': return (article.updatedAt as Timestamp) ?? null;
-    case 'custom': return (article.customDate as Timestamp) ?? null;
-    case 'hidden': return null;
-    default: return (article.createdAt as Timestamp) ?? null;
-  }
-}
+/*
+ * Саме правило — у `utils/articleDate` (імпорт угорі): воно чисте, а цей модуль
+ * піднімає Firestore уже на імпорті. Звідси функція віддається далі, щоб жоден
+ * із наявних викликачів не змінився.
+ */
+export { getDisplayDate };
 
 const CARD_COLORS = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#1A535C', '#F7FFF7', '#FF9F1C'];
 

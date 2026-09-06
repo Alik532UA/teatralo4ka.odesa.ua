@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { newsFeed, type DatedCard } from './newsFeed';
-import { CODE_NEWS, codeNewsCards, codeNewsTime } from '$lib/config/codeNews';
+import { CODE_NEWS, codeNewsCards, codeNewsTime, replacedArticleIds } from '$lib/config/codeNews';
 
 /**
  * Хронологія переліку новин — на СПРАВЖНІХ новинах із коду.
@@ -66,6 +66,58 @@ describe('перелік новин', () => {
 			.sort((a, b) => codeNewsTime('uk', b.id) - codeNewsTime('uk', a.id))
 			.map((c) => c.id);
 		expect(ids).toEqual(очікуваний);
+	});
+
+	it('прихована новина з коду зникає з переліку', () => {
+		const жертва = codeNewsCards('uk')[0].id;
+		const ids = newsFeed('uk', [], { hidden: [жертва], replacedBy: {} }).map((c) => c.id);
+		expect(ids, 'приховане з адмінки лишилося в переліку').not.toContain(жертва);
+		expect(ids.length, 'прибрали більше, ніж просили').toBe(codeNewsCards('uk').length - 1);
+	});
+
+	it('ЗАМІНЕНА новина з коду теж зникає — інакше вона стояла б двічі', () => {
+		/*
+		 * Замінена новина лишається в `replacedBy`, а не в `hidden`: адмінці
+		 * потрібно пам'ятати, ЧИМ саме її замінили. Але в переліку замість неї
+		 * стоїть стаття з бази, тож показувати обидві означало б одну новину двічі
+		 * — саме тому `hiddenCodeNews` зводить обидва поля.
+		 */
+		const жертва = codeNewsCards('uk')[0].id;
+		const ids = newsFeed('uk', [зБази('нова-версія', Date.now())], {
+			hidden: [],
+			replacedBy: { [жертва]: 'нова-версія' }
+		}).map((c) => c.id);
+		expect(ids).not.toContain(жертва);
+		expect(ids, 'нова версія мусить лишитися').toContain('нова-версія');
+	});
+
+	it('перевизначення нема — перелік такий самий, як без них', () => {
+		// Інакше попередні дві перевірки могли б проходити через порожній перелік.
+		const без = newsFeed('uk', [зБази('а', 1)]).map((c) => c.id);
+		const порожні = newsFeed('uk', [зБази('а', 1)], { hidden: [], replacedBy: {} }).map((c) => c.id);
+		expect(порожні).toEqual(без);
+		expect(без.length).toBe(codeNewsCards('uk').length + 1);
+	});
+
+	it('стаття, яку вже перенесли в код, у переліку не дублюється', () => {
+		/*
+		 * Порядок дій автора («опублікувати новину в коді, потім прибрати з бази»)
+		 * лишає між кроками проміжок, і саме в ньому одна новина стояла б двічі.
+		 * Реєстр про це знає полем `replacesArticleId`; тут воно передається
+		 * прямо, бо в реєстрі поки що жодного такого запису немає.
+		 */
+		const ids = newsFeed('uk', [зБази('переїхала', 5), зБази('лишилася', 6)], null,
+			new Set(['переїхала'])
+		).map((c) => c.id);
+		expect(ids, 'стаття з бази, вже перенесена в код, лишилася в переліку').not.toContain('переїхала');
+		expect(ids).toContain('лишилася');
+	});
+
+	it('типове значення `переїхали` — саме реєстр новин', () => {
+		// Без цієї перевірки попередня стверджувала б лише про свій аргумент.
+		const вигадана = 'id-якого-немає-в-реєстрі';
+		expect(replacedArticleIds().has(вигадана)).toBe(false);
+		expect(newsFeed('uk', [зБази(вигадана, 7)]).map((c) => c.id)).toContain(вигадана);
 	});
 
 	it('стаття без дати йде в кінець, а не на початок', () => {

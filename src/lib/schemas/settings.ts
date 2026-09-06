@@ -225,6 +225,18 @@ export const HotNewsItemSchema = z.object({
 
 export type ValidatedHotNewsItem = z.infer<typeof HotNewsItemSchema>;
 
+/**
+ * Перевизначення новин, які живуть у коді: приховати або замінити.
+ *
+ * Розбір і семантика — у `utils/newsOverrides`. Схема тут лише відкидає
+ * непридатне: ключі новин і `id` статей — короткі рядки, а межі стоять, бо
+ * документ публічно читається кожною сторінкою з переліком новин.
+ */
+export const NewsOverridesSchema = z.object({
+	hidden: optional(z.array(z.string().min(1).max(120)).max(200)),
+	replacedBy: optional(z.record(z.string().min(1).max(120), z.string().min(1).max(120)))
+});
+
 export const HotNewsConfigSchema = z.object({
 	enabled: optional(z.boolean()),
 	displayMode: optional(z.enum(['queue', 'stack2', 'all'])),

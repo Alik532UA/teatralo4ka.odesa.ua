@@ -7,6 +7,8 @@
 	import { locale, t } from "svelte-i18n";
 	import { getNewsPageSettings, getCachedNewsPageSettings, newsToContentConfig, DEFAULT_NEWS_WIDGET_PAGE, DEFAULT_NEWS_WIDGET_PAGE_MOBILE, type NewsWidgetConfig } from "$lib/services/settings";
 	import { newsFeed } from "$lib/utils/newsFeed";
+	import { getCachedNewsOverrides, getNewsOverrides } from "$lib/services/newsOverrides";
+	import type { NewsOverrides } from "$lib/utils/newsOverrides";
 
 	// ── SWR: instant from cache, then revalidate ──────────────────────────────────────────
 	const cachedNews = browser ? getCachedNewsPageSettings() : null;
@@ -16,6 +18,14 @@
 		if (isMobile) return mobile ?? { ...DEFAULT_NEWS_WIDGET_PAGE_MOBILE };
 		return desktop ?? { ...DEFAULT_NEWS_WIDGET_PAGE };
 	}
+
+	/*
+	 * Приховане й замінене з адмінки — тим самим способом, що решта налаштувань:
+	 * спершу збережене в браузері, потім свіже з бази. Кеш тут не косметика: без
+	 * нього прихована новина з коду встигла б блимнути в переліку, бо вона вже в
+	 * бандлі й малюється з першого кадру.
+	 */
+	let newsOverrides = $state<NewsOverrides | null>(browser ? getCachedNewsOverrides() : null);
 
 	let rawNewsArticles = $state<Article[]>([]);
 	let widgetConfig = $state<NewsWidgetConfig>(pickConfig(cachedNews?.newsWidget, cachedNews?.mobileNewsWidget));
@@ -47,17 +57,21 @@
 				.map((item, index) => ({
 					картка: mapArticleToWidgetItem(item, activeLang, index),
 					час: getDisplayDate(item)?.toMillis() ?? 0
-				}))
+				})),
+			newsOverrides
 		)
 	);
 
 	onMount(async () => {
 		try {
 			const lang = ($locale as "uk" | "en") || "uk";
-			const [articlesResult, settingsResult] = await Promise.allSettled([
+			const [articlesResult, settingsResult, overridesResult] = await Promise.allSettled([
 				getArticles(lang, true),
 				getNewsPageSettings(),
+				getNewsOverrides(),
 			]);
+
+			if (overridesResult.status === 'fulfilled') newsOverrides = overridesResult.value;
 
 			if (settingsResult.status === 'fulfilled' && settingsResult.value) {
 				widgetConfig = pickConfig(settingsResult.value.newsWidget, settingsResult.value.mobileNewsWidget);

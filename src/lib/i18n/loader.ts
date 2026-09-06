@@ -131,6 +131,29 @@ export function loadPageMetadata(lang: string, slug: string): PageMetadata | nul
 	return metadata.status === 'archived' ? null : metadata;
 }
 
+/**
+ * Frontmatter і СИРИЙ markdown, без рендеру.
+ *
+ * Потрібно рівно одному місцю — адмінці, коли автор робить із новини в коді
+ * копію для правки в базі: у редактор має лягти той самий текст, що лежить у
+ * репозиторії, а не HTML, з якого його довелося б витягати назад.
+ *
+ * Окремо від `loadPageWithMetadata` з тієї ж причини, що й `loadPageMetadata`
+ * вище: той тягне за собою `marked` і DOMPurify, а тут вони не потрібні —
+ * розмітку розбере редактор.
+ */
+export function loadPageMarkdown(
+	lang: string,
+	slug: string
+): { metadata: PageMetadata; markdown: string } | null {
+	const fileContent = PAGES[lang]?.[slug];
+	if (!fileContent) return null;
+
+	const { data, content } = parseFrontmatter(fileContent);
+	const metadata = pageMetadataSchema.parse(data) as PageMetadata;
+	return { metadata, markdown: content };
+}
+
 /** Слуги, які справді є на диску — для перевірки повноти переліку пошуку. */
 export function listPageSlugs(lang: string): string[] {
   return Object.keys(PAGES[lang] ?? {});

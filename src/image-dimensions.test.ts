@@ -140,7 +140,7 @@ const RESERVED_BY_CSS: Record<string, string> = {
 		'.cover-preview — 70px × aspect-ratio 9/16 інлайном',
 	'src/routes/admin/articles/+page.svelte | src={getCoverUrl(article)}':
 		'.al-thumb — 84 × 84 px (60 × 60 на вузькому екрані)',
-	'src/routes/admin/content/+page.svelte | src={getCoverUrl(item)}':
+	'src/lib/components/admin/ContentRowCard.svelte | src={coverUrl}':
 		'.cl-thumb — 84 × 84 px (60 × 60 на вузькому екрані)',
 	'src/routes/admin/pages/+page.svelte | src={getCoverUrl(page)}':
 		'.pl-thumb — 84 × 84 px (60 × 60 на вузькому екрані)'

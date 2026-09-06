@@ -1,5 +1,6 @@
-import { codeNewsCards, codeNewsTime } from '$lib/config/codeNews';
+import { codeNewsCards, codeNewsTime, replacedArticleIds } from '$lib/config/codeNews';
 import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
+import { hiddenCodeNews, type NewsOverrides } from './newsOverrides';
 
 /**
  * Перелік новин із ДВОХ джерел, зведений хронологією.
@@ -32,6 +33,21 @@ import type { ContentCardItem } from '$lib/components/ContentCard.svelte';
  * викликач приносить час у мілісекундах поруч із карткою: для бази це
  * `getDisplayDate`, для коду — `codeNewsTime`, який для цього й написали (і
  * який доти не викликався ніде).
+ *
+ * ## Дві причини, чому картка може не потрапити в перелік
+ *
+ * Обидві існують, бо новина живе то в коді, то в базі, і перехід між ними
+ * робиться в два кроки — а між кроками є проміжок:
+ *
+ * 1. Новину з коду ПРИХОВАЛИ або ЗАМІНИЛИ з адмінки (`newsOverrides`). Коміту
+ *    це не вартує, а діяти мусить негайно.
+ * 2. Статтю з бази вже ПЕРЕНЕСЛИ в код (`replacesArticleId` у реєстрі новин).
+ *    Тут фільтр страхує від зворотного порядку дій: автор публікує новину в
+ *    коді, а приховати ту, що в базі, збирається «потім». Без фільтра ті
+ *    «потім» показували б одну новину двічі.
+ *
+ * Перше рішення приходить із бази й тому опційне: поки документ не прочитано,
+ * перелік показує все — так само, як показував доти.
  */
 
 /** Картка з бази разом із часом, за яким її ставити в перелік. */
@@ -41,11 +57,25 @@ export interface DatedCard {
 	час: number;
 }
 
-export function newsFeed(lang: 'uk' | 'en', зБази: readonly DatedCard[]): ContentCardItem[] {
-	const зКоду: DatedCard[] = codeNewsCards(lang).map((картка) => ({
-		картка,
-		час: codeNewsTime(lang, картка.id)
-	}));
+/**
+ * @param переїхали `id` статей, уже перенесених у код. Типово — з реєстру;
+ * параметр існує тому, що поки в реєстрі немає ЖОДНОГО `replacesArticleId`,
+ * і перевірка на типовому значенні не стверджувала б нічого. Перший же
+ * перенесений випуск наповнить типове значення, а перевірка й далі буде про
+ * саме правило, а не про поточний вміст реєстру.
+ */
+export function newsFeed(
+	lang: 'uk' | 'en',
+	зБази: readonly DatedCard[],
+	overrides: NewsOverrides | null = null,
+	переїхали: ReadonlySet<string> = replacedArticleIds()
+): ContentCardItem[] {
+	const приховані = hiddenCodeNews(overrides);
+	const зКоду: DatedCard[] = codeNewsCards(lang)
+		.filter((картка) => !приховані.has(картка.id))
+		.map((картка) => ({ картка, час: codeNewsTime(lang, картка.id) }));
+
+	const лишеЖиві = зБази.filter((x) => !переїхали.has(x.картка.id));
 
 	/*
 	 * Новіші перші, а за однакового часу вище лишається те, що стояло раніше в
@@ -55,7 +85,5 @@ export function newsFeed(lang: 'uk' | 'en', зБази: readonly DatedCard[]): C
 	 * стабільність) картки того самого дня переставлялися б залежно від того, як
 	 * швидко відповіла база.
 	 */
-	return [...зКоду, ...зБази]
-		.sort((a, b) => b.час - a.час)
-		.map((x) => x.картка);
+	return [...зКоду, ...лишеЖиві].sort((a, b) => b.час - a.час).map((x) => x.картка);
 }
