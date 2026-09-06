@@ -10,7 +10,7 @@
 	import { browser } from '$app/environment';
 	import { getHomeSettings, getCachedHomeSettings, DEFAULT_BLOCKS, DEFAULT_NEWS_WIDGET_HOME, DEFAULT_NEWS_WIDGET_HOME_MOBILE, DEFAULT_PROJECTS_WIDGET_HOME, DEFAULT_PROJECTS_WIDGET_HOME_MOBILE, DEFAULT_GALLERY_WIDGET_HOME, DEFAULT_GALLERY_WIDGET_HOME_MOBILE, type BlockConfig, type NewsWidgetConfig, type ProjectsWidgetConfig, type GalleryWidgetConfig } from '$lib/services/settings';
 	import { getArticles, getAllProjects, getDisplayDate, mapArticleToWidgetItem, type Article } from '$lib/services/articles';
-	import { codeNewsCards } from '$lib/config/codeNews';
+	import { newsFeed } from '$lib/utils/newsFeed';
 	import { getStaticProjects } from '$lib/config/static-projects';
 	import GalleryCarousel from '$lib/components/GalleryCarousel.svelte';
 	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
@@ -78,16 +78,20 @@
 	 * джерело він не знав; той самий шаблон для проєктів (`getStaticProjects`)
 	 * уже стояв рядками нижче, і саме він показує, як це має виглядати.
 	 *
-	 * Порядок «код, далі база» той самий, що в `/news`, і з тієї ж причини:
-	 * новини з коду вже в бандлі, тож стоять у переліку з першого кадру, а
-	 * сортувати їх із базою нема з чим, доки та не відповіла.
+	 * Хронологія спільна — той самий `utils/newsFeed`, що на `/news`. Новини з
+	 * коду й далі показуються з першого кадру, ще до відповіді бази.
 	 */
-	let newsItems = $derived.by(() => {
-		const зБази = rawNewsArticles
-			.filter(a => a.translations?.[activeLang]?.isPublished)
-			.map((item, index) => mapArticleToWidgetItem(item, activeLang, index));
-		return [...codeNewsCards(activeLang), ...зБази];
-	});
+	let newsItems = $derived.by(() =>
+		newsFeed(
+			activeLang,
+			rawNewsArticles
+				.filter((a) => a.translations?.[activeLang]?.isPublished)
+				.map((item, index) => ({
+					картка: mapArticleToWidgetItem(item, activeLang, index),
+					час: getDisplayDate(item)?.toMillis() ?? 0
+				}))
+		)
+	);
 
 	let projectItems = $derived.by(() => {
 		const firebaseItems = rawProjectArticles
