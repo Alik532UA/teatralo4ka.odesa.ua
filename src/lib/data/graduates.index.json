@@ -5595,6 +5595,25 @@
 		"playCount": 3
 	},
 	{
+		"id": "maryna-cheban",
+		"slug": "maryna-cheban",
+		"name": "Марина Чебан",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"piano"
+		],
+		"teachers": [
+			{
+				"id": "oksana-panchenko",
+				"subjects": [
+					"Фортепіано"
+				]
+			}
+		]
+	},
+	{
 		"id": "maryna-kravchuk",
 		"slug": "maryna-kravchuk",
 		"name": "Марина Кравчук",

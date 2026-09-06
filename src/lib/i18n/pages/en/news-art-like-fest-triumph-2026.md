@@ -11,8 +11,8 @@ status: "published"
 version: "1.0.0"
 ---
 
-"Teatralo4ka" students at the "Art Like Fest - 2026" festival in Yaremche:
+"Teatralo4ka" students at the ["Art Like Fest - 2026"](/en/projects/galaxy-graduates/festivals/art-like-fest-2026) festival in Yaremche:
 
 Vocal ensemble "Music masterpiece" (director Hanna Nikolaieva) — 1st Prize
-Maryna Cheban - piano (director Oksana Panchenko) — 1st Prize
-Valeriia Burian - monologue (director Svitlana Ryskina) — 1st Prize
+[Maryna Cheban](/en/projects/galaxy-graduates/maryna-cheban) - piano (director Oksana Panchenko) — 1st Prize
+[Valeriia Burian](/en/projects/galaxy-graduates/leraburian) - monologue (director Svitlana Ryskina) — 1st Prize

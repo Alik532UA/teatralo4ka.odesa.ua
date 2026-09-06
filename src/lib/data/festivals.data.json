@@ -188,5 +188,37 @@
 			"/festivals/mrii-dim-2013.webp"
 		],
 		"verificationStatus": "verified"
+	},
+	{
+		"slug": "art-like-fest-2026",
+		"name": "Art Like Fest",
+		"nameEn": "Art Like Fest",
+		"years": [
+			2026
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Яремче",
+		"memberIds": [
+			"valeriia-burian",
+			"maryna-cheban"
+		],
+		"masterIds": [
+			"hanna-nikolaieva",
+			"oksana-panchenko",
+			"svitlana-ryskina"
+		],
+		"playIds": [],
+		"bio": [
+			"Три перші премії — за трьома різними напрямами.",
+			"Вокальний ансамбль «Music masterpiece» (керівниця Ганна Ніколаєва) — 1 премія.",
+			"Марина Чебан, фортепіано (керівниця Оксана Панченко) — 1 премія.",
+			"Валерія Бурʼян, монолог (керівниця Світлана Риськіна) — 1 премія."
+		],
+		"photos": [
+			"/news/2026-06-21/01.jpg"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]
