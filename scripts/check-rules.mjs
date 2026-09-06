@@ -235,6 +235,7 @@ await seed(`projects/${SCHOOL}/articles/draft`, {
 });
 await seed(`projects/${SCHOOL}/settings/home`, { updatedAt: new Date('2026-01-01T00:00:00Z') });
 await seed(`projects/${SCHOOL}/settings/secretpanel`, { updatedAt: new Date('2026-01-01T00:00:00Z') });
+await seed(`projects/${SCHOOL}/settings/newsOverrides`, { hidden: [], replacedBy: {}, updatedAt: new Date('2026-01-01T00:00:00Z') });
 
 // ------------------------------------------------------------------- випадки
 
@@ -251,6 +252,17 @@ const CASES = [
 		name: 'гість читає публічні налаштування (home)',
 		allowed: true,
 		run: () => read(`projects/${SCHOOL}/settings/home`, null)
+	},
+	{
+		/*
+		 * Перелік новин читає цей документ на КОЖНІЙ сторінці, і читає без входу:
+		 * приховану з адмінки новину з коду треба прибрати й для гостя. Тобто id
+		 * мусить бути у whitelist `isValidSettingId`, інакше сайт мовчки показує
+		 * приховане.
+		 */
+		name: 'гість читає перевизначення новин (newsOverrides)',
+		allowed: true,
+		run: () => read(`projects/${SCHOOL}/settings/newsOverrides`, null)
 	},
 	{
 		name: 'адмін школи читає чернетку',
@@ -289,6 +301,23 @@ const CASES = [
 		name: 'адмін школи зберігає налаштування зі whitelist',
 		allowed: true,
 		run: () => write(`projects/${SCHOOL}/settings/header`, {}, ['updatedAt'], admin.token)
+	},
+	{
+		/*
+		 * Саме цей запис і впав у проді 6 вересня 2026: правила з `newsOverrides`
+		 * лежали в репозиторії, але не були розгорнуті, і адмінка на «приховати»
+		 * віддала «Missing or insufficient permissions». Перевірка тут не ловить
+		 * забутий деплой — вона стереже, щоб рядок whitelist не зник із файлу.
+		 */
+		name: 'адмін зберігає перевизначення новин (newsOverrides)',
+		allowed: true,
+		run: () =>
+			write(
+				`projects/${SCHOOL}/settings/newsOverrides`,
+				{ hidden: ['30th-season-opened-2026'], replacedBy: {} },
+				['updatedAt'],
+				admin.token
+			)
 	},
 	{
 		name: 'адмін читає свій документ користувача',
