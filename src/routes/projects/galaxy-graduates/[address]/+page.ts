@@ -4,6 +4,7 @@ import {
 	WITH_PAGE,
 	findByAddress,
 	graduateAddress,
+	completeProfile,
 	graduateProfileJson,
 	graduateProfilePath,
 	hasProfile,
@@ -112,7 +113,9 @@ export async function load({ params, fetch, url }) {
 		// всі 96 КБ профілів у бандл кожної сторінки.
 		const response = await fetch(graduateProfileJson(params.address));
 		if (!response.ok) error(404, `Профіль ${params.address} не читається (${response.status})`);
-		profile = await response.json();
+		// Через `completeProfile`, а не напряму: файл правлять руками, і поля, яких
+		// у ньому немає, не мусять валити збірку — розбір у самій функції.
+		profile = completeProfile(await response.json());
 	}
 
 	return { graduate, profile, seoDescription: describe(graduate, profile, url.pathname) };

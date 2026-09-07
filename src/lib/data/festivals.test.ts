@@ -7,6 +7,7 @@ import {
 	getFestivalsByMember,
 	matchesFestivalQuery
 } from './festivals';
+import { parseVideoUrl } from '$lib/utils/videoEmbed';
 import uk from '$lib/i18n/locales/uk.json';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import playsData from '$lib/data/plays.data.json';
@@ -155,6 +156,29 @@ describe('реєстр фестивалів', () => {
 	 * країн, а міста в переліку не було взагалі, — і саме тому перевірка
 	 * питає про кожне слово обіцянки окремо.
 	 */
+	/**
+	 * ЗАПИС ПОЇЗДКИ — власне поле фестивалю, а не позичене у вистави.
+	 *
+	 * Автор попросив саме це: «за замовчуванням робити відношення відео до
+	 * фестивалю як до такого, не тільки до "Показані вистави"». Доти запис жив
+	 * лише на виставі, тобто кнопка стояла внизу сторінки й підписом стосувалася
+	 * показу, а не поїздки.
+	 *
+	 * Перевіряється розпізнаваність: кнопку малює `parseVideoUrl`, і посилання,
+	 * якого він не розбирає, дало б поле в даних і порожнє місце на сторінці —
+	 * рівно той клас «обіцяємо й не робимо», з якого почалася ця робота.
+	 */
+	it('кожен запис поїздки розпізнається як відео', () => {
+		const зЗаписом = FESTIVALS.filter((f) => f.videoUrl);
+		expect(зЗаписом.length, 'жоден фестиваль не має запису — перевіряти нема чого').toBeGreaterThan(
+			0
+		);
+		const bad = зЗаписом.filter((f) => !parseVideoUrl(f.videoUrl)).map((f) => `${f.slug}: ${f.videoUrl}`);
+		expect(bad, `посилання не розпізналося, кнопки на сторінці не буде:\n  ${bad.join('\n  ')}`).toEqual(
+			[]
+		);
+	});
+
 	it('пошук знаходить за назвою, містом, країною і роком', () => {
 		const країна = (code: string) =>
 			(uk.galaxy.country as Record<string, string>)[code] ?? code;

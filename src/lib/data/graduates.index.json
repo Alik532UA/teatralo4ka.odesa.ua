@@ -9744,7 +9744,7 @@
 	},
 	{
 		"id": "yeva-horokhova",
-		"slug": "yeva-horokhova",
+		"slug": "gorohova",
 		"name": "Єва Горохова",
 		"graduationYear": 2026,
 		"departments": [
@@ -9754,7 +9754,16 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"aliases": [
+			"yeva-horokhova"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"hasPhoto": true,
+		"playCount": 3,
+		"profileSize": 744
 	},
 	{
 		"id": "yeva-imas",
@@ -10851,6 +10860,78 @@
 		"graduationYear": null,
 		"departments": [],
 		"kind": "friend",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "sofiia-smolianska",
+		"slug": "sofiia-smolianska",
+		"name": "Софія Смолянська",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "nikol-vietieva",
+		"slug": "nikol-vietieva",
+		"name": "Ніколь Вєтєва",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "mariia-orlova",
+		"slug": "mariia-orlova",
+		"name": "Марія Орлова",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "kateryna-tiutiunnyk",
+		"slug": "kateryna-tiutiunnyk",
+		"name": "Катерина Тютюнник",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "hanna-dvoinykh",
+		"slug": "hanna-dvoinykh",
+		"name": "Ганна Двойних",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "anastasiia-nikolaieva",
+		"slug": "anastasiia-nikolaieva",
+		"name": "Анастасія Ніколаєва",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
 		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	}

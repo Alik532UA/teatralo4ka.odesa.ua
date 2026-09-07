@@ -1,0 +1,40 @@
+{
+	"id": "yeva-horokhova",
+	"slug": "gorohova",
+	"name": "Єва Горохова",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2023
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"plays": [
+		{
+			"year": 2025,
+			"text": "«Уривки з класики»: «Дванадцята ніч», Віола"
+		},
+		{
+			"year": 2025,
+			"text": "«Уривки з класики»: «Медея», Медея"
+		},
+		{
+			"year": 2024,
+			"text": "«Загублені, або не дитячі ігри», Мія",
+			"playId": "zahubleni-u-2024",
+			"role": "Мія"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/gueele"
+		}
+	]
+}

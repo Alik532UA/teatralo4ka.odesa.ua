@@ -91,6 +91,10 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 },
 	'/festivals/zymova-kazka-2007.webp': { width: 1268, height: 889 },
 	'/festivals/druzhba-2008.webp': { width: 866, height: 1280 },
+	'/festivals/art-like-fest-2026-2.webp': { width: 720, height: 1280 },
+	'/festivals/art-like-fest-2026-3.webp': { width: 1280, height: 960 },
+	'/festivals/art-like-fest-2026-4.webp': { width: 720, height: 1280 },
+	'/festivals/art-like-fest-2026-5.webp': { width: 720, height: 1280 },
 	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
 	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
 	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },

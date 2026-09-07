@@ -51,16 +51,29 @@
 {/if}
 
 <style>
+	/*
+	 * КОЛЬОРИ ТОКЕНАМИ, а не жорсткою космічною синькою.
+	 *
+	 * Кнопка народилася в картці випускника, де тло майже чорне, і мала
+	 * `background: rgb(3 6 20 / 0.45)` з написом #cfe4ff. Тепер вона стоїть ще й
+	 * на сторінці ФЕСТИВАЛЮ, а та живе в темі сайту: у світлій темі та сама
+	 * пілюля виходила сірою зі світло-блакитним написом. Це той самий клас, що й
+	 * ряд облич і плашки відділень, — розбір у `AGENTS.md`, «У галактиці ДВІ
+	 * палітри».
+	 *
+	 * `--bg-surface` і `--accent-text` підміняються самі: усередині
+	 * `body.page-galaxy` вони космічні, поза нею — з теми.
+	 */
 	.watch-btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4rem;
 		margin: 0 0 0.75rem;
 		padding: 0.4rem 0.9rem;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: 1px solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
 		border-radius: 999px;
-		background: rgb(3 6 20 / 0.45);
-		color: #cfe4ff;
+		background: color-mix(in srgb, var(--bg-surface), transparent 15%);
+		color: var(--accent-text, #8cb4ff);
 		font: inherit;
 		font-size: 0.85rem;
 		cursor: pointer;
@@ -71,13 +84,13 @@
 	}
 
 	.watch-btn:hover {
-		background: rgb(140 190 255 / 0.2);
-		border-color: rgb(140 190 255 / 0.7);
-		color: #fff;
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 85%);
+		border-color: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 30%);
+		color: var(--text-title);
 	}
 
 	.watch-btn:focus-visible {
-		outline: 2px solid var(--accent-primary);
+		outline: 2px solid var(--accent-text);
 		outline-offset: 3px;
 	}
 </style>

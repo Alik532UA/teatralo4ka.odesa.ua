@@ -147,8 +147,18 @@ test.describe('медіа новини', () => {
 	 * зеленого мовчання тут не буде.
 	 */
 	test('одне фото й одне відео лишаються одним контейнером', async ({ page }) => {
+		/*
+		 * Шукається ЧИСТА пара: фото, запис і більше нічого. Новина з галереєю теж
+		 * має обкладинку й кнопку (з 7 вересня 2026 пара може стояти над
+		 * галереєю), але «плиток нуль» для неї — уже неправда, і саме на цьому
+		 * перевірка почервоніла. Її предмет — випадок «двоє медіа й один
+		 * контейнер», тож і сторінка потрібна саме така.
+		 */
 		const пари = сторінкиНовин().filter(
-			(n) => n.html.includes('article-cover-video-btn') && n.html.includes('article-cover-img')
+			(n) =>
+				n.html.includes('article-cover-video-btn') &&
+				n.html.includes('article-cover-img') &&
+				!n.html.includes('article-media-photo-btn-')
 		);
 
 		expect(
@@ -169,6 +179,43 @@ test.describe('медіа новини', () => {
 		await expect(page.getByTestId('article-cover-video-container')).toBeVisible();
 	});
 
+	/**
+	 * ПАРА Й ГАЛЕРЕЯ НА ОДНІЙ СТОРІНЦІ — і в різних пропорціях.
+	 *
+	 * Автор попросив обидва окремо, і спершу зроблено було лише перше: «прев'ю
+	 * всі квадратні» — і квадратною стала й обкладинка з записом, та ще й
+	 * розсипалася на дві плитки, бо пара вимагала рівно двох медіа на всю
+	 * новину. Друге прохання назвало обидва дефекти: «перше фото і відео
+	 * вертикальні» та «фото і відео в одному контейнері».
+	 *
+	 * Тому тут чотири числа з однієї сторінки: контейнер пари один, він
+	 * вертикальний (9/16), плитка галереї квадратна (1/1), і кнопка перемикання
+	 * на місці. Кожне ламається тихо — сторінка не падає, вона просто виглядає
+	 * не так.
+	 */
+	test('обкладинка й запис — одна вертикальна пара над квадратною галереєю', async ({ page }) => {
+		await gotoReady(page, '/news/30th-season-opened-2026');
+
+		const заміряне = await page.evaluate(() => {
+			const рамка = document.querySelector('.media-frame');
+			const плитка = document.querySelector('.media-tile');
+			return {
+				рамок: document.querySelectorAll('.media-frame').length,
+				пропорціяПари: рамка ? getComputedStyle(рамка).aspectRatio : '',
+				пропорціяПлитки: плитка ? getComputedStyle(плитка).aspectRatio : ''
+			};
+		});
+
+		expect(заміряне.рамок, 'пара розсипалася або задвоїлася').toBe(1);
+		expect(заміряне.пропорціяПари, 'контейнер пари не вертикальний').toBe('9 / 16');
+		expect(заміряне.пропорціяПлитки, 'плитка галереї не квадратна').toBe('1 / 1');
+		await expect(page.getByTestId('article-cover-img'), 'обкладинки немає').toBeVisible();
+		await expect(
+			page.getByTestId('article-cover-video-btn'),
+			'кнопки перемикання на запис немає'
+		).toBeVisible();
+	});
+
 	test('велика галерея новини нічого не губить і відкривається', async ({ page }) => {
 		await gotoReady(page, '/news/30th-season-opened-2026');
 
@@ -178,12 +225,14 @@ test.describe('медіа новини', () => {
 		const знімків = await плитки.count();
 		expect(знімків, 'галерея зникла зі сторінки').toBeGreaterThan(20);
 
-		const сума = await page.evaluate(() => {
-			const стовпець = document.querySelector('.article-media')?.children.length ?? 0;
-			const решта = document.querySelector('.article-media-rest')?.children.length ?? 0;
-			return стовпець + решта;
-		});
-		expect(сума, 'частина медіа не потрапила ні в стовпець, ні в решту').toBe(знімків + 1);
+		/*
+		 * Стовпець тепер несе ПАРУ (рамка з обкладинкою й кнопка), а не плитки, —
+		 * тож у галереї мають опинитися рівно всі знімки, крім того, що в парі.
+		 */
+		const решта = await page.evaluate(
+			() => document.querySelector('.article-media-rest')?.children.length ?? 0
+		);
+		expect(решта, 'частина знімків не потрапила в галерею').toBe(знімків);
 
 		await page.locator('[data-testid^="article-media-photo-btn-"]').first().click();
 		await expect(page.getByTestId('photo-lightbox-img')).toBeVisible();

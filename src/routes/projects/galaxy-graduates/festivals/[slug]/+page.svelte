@@ -23,6 +23,7 @@
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -130,6 +131,16 @@
 			{#if isEn && data.festival.name !== festivalTitle}
 				<p class="fest-header__subtitle-uk">{data.festival.name}</p>
 			{/if}
+
+			<!--
+				Запис ПОЇЗДКИ — одразу під назвою, а не в розділі показів унизу.
+				Розбір і прохання автора — у докблоці `Festival.videoUrl`.
+			-->
+			<GraduateVideoButton
+				videoUrl={data.festival.videoUrl}
+				title={festivalTitle}
+				testid="festival-video-btn"
+			/>
 
 			{#if data.festival.bio?.length}
 				<div class="fest-header__bio">

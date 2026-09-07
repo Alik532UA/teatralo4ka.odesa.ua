@@ -81,6 +81,9 @@ const УЧЕНЬ = ЛЮДИ.find((г) => г.kind === 'student');
  */
 const СТОРІНКИ = [
 	'/projects/galaxy-graduates/festivals/',
+	/* Сторінка поїздки: ряд облич, плашки країн і кнопка запису — усе те, що
+	   народилося в космічній палітрі, а живе в темі сайту. */
+	'/projects/galaxy-graduates/festivals/zymova-kazka-2007/',
 	'/projects/galaxy-graduates/institutions/',
 	'/projects/galaxy-graduates/theatres/',
 	'/projects/galaxy-graduates/stats/'

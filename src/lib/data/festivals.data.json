@@ -202,7 +202,13 @@
 		"city": "Яремче",
 		"memberIds": [
 			"valeriia-burian",
-			"maryna-cheban"
+			"maryna-cheban",
+			"sofiia-smolianska",
+			"nikol-vietieva",
+			"mariia-orlova",
+			"kateryna-tiutiunnyk",
+			"hanna-dvoinykh",
+			"anastasiia-nikolaieva"
 		],
 		"masterIds": [
 			"hanna-nikolaieva",
@@ -217,9 +223,14 @@
 			"Валерія Бурʼян, монолог (керівниця Світлана Риськіна) — 1 премія."
 		],
 		"photos": [
-			"/news/2026-06-21/01.jpg"
+			"/news/2026-06-21/01.jpg",
+			"/festivals/art-like-fest-2026-2.webp",
+			"/festivals/art-like-fest-2026-3.webp",
+			"/festivals/art-like-fest-2026-4.webp",
+			"/festivals/art-like-fest-2026-5.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=LgaknRd4R14"
 	},
 	{
 		"slug": "zymova-kazka-2007",
@@ -267,7 +278,8 @@
 		"photos": [
 			"/festivals/zymova-kazka-2007.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://youtu.be/wVGTQt_49k8"
 	},
 	{
 		"slug": "odeskyi-tramvaichyk-2007",
@@ -345,7 +357,8 @@
 		"photos": [
 			"/festivals/druzhba-2008.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://youtu.be/v-dMjlmzPxM"
 	},
 	{
 		"slug": "pivdenni-masky-2009",

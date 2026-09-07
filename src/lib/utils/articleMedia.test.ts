@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
 	coverOf,
 	fitCount,
+	coverPairSize,
 	isSwapPair,
 	legacyMedia,
 	shapeFactor,
@@ -61,6 +62,28 @@ describe('пара «одне фото + одне відео»', () => {
 		// Саме тут і починається стовпець плиток; помилка тут означала б, що
 		// сторінка з трьома знімками показує один і ховає два.
 		expect(isSwapPair([фото('a.jpg')])).toBe(false);
+
+		/*
+		 * ПАРА НА ПОЧАТКУ ПЕРЕЛІКУ — новина може мати ще й галерею.
+		 *
+		 * Саме на цьому зламалася новина про 30-й сезон: кадр зі сторіс, запис і
+		 * тридцять три знімки від фотографки. `isSwapPair` бачив довжину 35 і
+		 * казав «ні», тож обкладинка з відео розсипалися на дві квадратні плитки.
+		 */
+		expect(
+			coverPairSize([фото('a.jpg'), відео('https://youtu.be/x'), фото('b.jpg'), фото('c.jpg')]),
+			'обкладинка й запис на початку — це пара, скільки б знімків не було далі'
+		).toBe(2);
+		expect(
+			coverPairSize([відео('https://youtu.be/x'), фото('a.jpg'), фото('b.jpg')]),
+			'порядок усередині пари вільний'
+		).toBe(2);
+		expect(
+			coverPairSize([фото('a.jpg'), фото('b.jpg'), відео('https://youtu.be/x')]),
+			'два знімки поспіль парою не є — запис аж третій'
+		).toBe(0);
+		expect(coverPairSize([фото('a.jpg')]), 'одного елемента для пари замало').toBe(0);
+		expect(coverPairSize([]), 'порожній перелік').toBe(0);
 		expect(isSwapPair([фото('a.jpg'), фото('b.jpg')])).toBe(false);
 		expect(isSwapPair([відео('https://youtu.be/x'), відео('https://youtu.be/y')])).toBe(false);
 		expect(isSwapPair([фото('a.jpg'), фото('b.jpg'), відео('https://youtu.be/x')])).toBe(false);

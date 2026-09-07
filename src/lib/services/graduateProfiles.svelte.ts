@@ -16,7 +16,7 @@
 import { SvelteMap } from 'svelte/reactivity';
 import { browser } from '$app/environment';
 import { errorLogger } from '$lib/services/errorLogger';
-import { graduateProfileJson, type GraduateProfile } from '$lib/data/graduates';
+import { completeProfile, graduateProfileJson, type GraduateProfile } from '$lib/data/graduates';
 
 const cache = new SvelteMap<string, GraduateProfile>();
 
@@ -58,7 +58,9 @@ export async function ensureGraduateProfile(
 			});
 			return;
 		}
-		cache.set(address, (await response.json()) as GraduateProfile);
+		// Через `completeProfile`: анкети правлять руками, і поля, яких у файлі
+		// немає, не мусять ламати картку — розбір у самій функції.
+		cache.set(address, completeProfile(await response.json()));
 	} catch (error) {
 		if (error instanceof DOMException && error.name === 'AbortError') return;
 		errorLogger.logWarning(

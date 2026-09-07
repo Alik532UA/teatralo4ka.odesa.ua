@@ -94,7 +94,15 @@ const GRADUATES_BY_ID = new Map(graduates.map((g) => [g.id, g]));
  * Формат — `id`: причина. Причина обов'язкова: без неї запис за півроку не
  * відрізнити від забутого зв'язку.
  */
-const NOT_THE_SAME: Record<string, string> = {};
+const NOT_THE_SAME: Record<string, string> = {
+	'anastasiia-nikolaieva':
+		'учениця вокального ансамблю «Music masterpiece», яку автор назвав серед ' +
+		'учасниць поїздки на Art Like Fest 2026 разом із п’ятьма ровесницями, і ' +
+		'колишня викладачка вокалу — за наявними даними різні люди. Певності ' +
+		'немає, і саме тому тут запис, а не зв’язок: зв’язок склеїв би дві ' +
+		'сторінки в одну людину, а помилка в цей бік дорожча. Питання авторові — ' +
+		'DATA-QUESTIONS § 16.2'
+};
 
 const linkedMasters = masters.filter((m) => m.alsoGraduateId);
 

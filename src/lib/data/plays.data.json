@@ -6837,7 +6837,7 @@
 	},
 	{
 		"id": "zahubleni-u-2024",
-		"title": "«Загублені у…»",
+		"title": "«Загублені, або не дитячі ігри»",
 		"year": 2024,
 		"author": "Т.Ісачкіна",
 		"theatreGroup": "гр. 5Т-16",
@@ -8607,7 +8607,6 @@
 		"awards": [
 			"Лауреати I ступеня Міжнародного фестивалю «Зимова казка» (Чехія)"
 		],
-		"videoUrl": "https://youtu.be/wVGTQt_49k8",
 		"isDtsh": false,
 		"verificationStatus": "possible_errors"
 	},
@@ -8618,7 +8617,6 @@
 		"awards": [
 			"Лауреати I ступеня XXIV Міжнародного фестивалю «Дружба-2008» (м. Васлуй, Румунія)"
 		],
-		"videoUrl": "https://youtu.be/v-dMjlmzPxM",
 		"isDtsh": false,
 		"verificationStatus": "possible_errors"
 	}

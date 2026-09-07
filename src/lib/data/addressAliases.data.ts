@@ -26,5 +26,6 @@ export const GRADUATE_ALIASES_DATA: Record<string, string> = {
 	'valeriia-babenko': 'Valeriia',
 	'valeriia-burian': 'leraburian',
 	'vitalina-larionova': 'Vitalina',
-	'yan-slobodeniuk': 'Yanslobodenyuk'
+	'yan-slobodeniuk': 'Yanslobodenyuk',
+	'yeva-horokhova': 'gorohova'
 };

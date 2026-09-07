@@ -380,6 +380,39 @@ export interface GraduateProfile {
 }
 
 /**
+ * Профіль із файлу — з ДОПИСАНИМИ обов'язковими полями.
+ *
+ * ## Навіщо, якщо тип уже все обіцяє
+ *
+ * Бо тип обіцяє, а файл — ні. Анкети в цьому проєкті правлять руками (це
+ * записано в `PROJECT-CONTEXT`: генератор затирає ручні правки, тож джерело —
+ * сам файл), і `JSON.parse` погоджується з будь-яким вмістом. Тобто `bio: []`
+ * у типі обов'язкове, а у файлі його може не бути — і компілятор цього не
+ * бачить, бо між ними мережа.
+ *
+ * Коштувало це збірки: 7 вересня 2026 анкета Єви Горохової без `bio` і
+ * `festivals` дала `Cannot read properties of undefined (reading 'length')` під
+ * час пререндеру, тобто ВСЯ збірка впала на одному файлі, у якому не було
+ * помилки — лише не було полів, яких у нього ніхто не просив.
+ *
+ * Тому доповнення тут, в одному місці, а не `?.` у двох десятках рядків
+ * розмітки: розмітка має право вірити типові, а межа з файлом — не має.
+ */
+export function completeProfile(raw: Partial<GraduateProfile>): GraduateProfile {
+	return {
+		...(raw as GraduateProfile),
+		masters: raw.masters ?? [],
+		socials: raw.socials ?? [],
+		plays: raw.plays ?? [],
+		bio: raw.bio ?? [],
+		festivals: raw.festivals ?? [],
+		departments: raw.departments ?? [],
+		duringStudies: raw.duringStudies ?? null,
+		afterGraduation: raw.afterGraduation ?? null
+	};
+}
+
+/**
  * Адреса файлу профілю.
  *
  * Параметр — АДРЕСА (`graduateAddress`), а не `code`, і це не косметика імені:

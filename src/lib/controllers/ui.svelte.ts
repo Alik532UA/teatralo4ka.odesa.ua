@@ -167,12 +167,19 @@ export class UIState {
 		if (typeof document === 'undefined') return;
 		document.documentElement.setAttribute('data-theme', t);
 
-		// Update color-scheme meta
+		/*
+		 * Мета-тег іде за темою — і для світлих це `only light`, а не `light`.
+		 *
+		 * Android Chrome перемальовує в темне кожну сторінку, яку вважає світлою
+		 * без власної темної теми; єдиний документований спосіб відмовитися —
+		 * ключове слово `only`. Розбір і замір — у докблоці `styles/global.css`
+		 * поруч зі звуженням схеми, і ті самі рядки стоять у скрипті першого
+		 * кадру `app.html`. Три місця звіряє `theme-appearance.test.ts`.
+		 */
 		const csMeta = document.querySelector('meta[name="color-scheme"]');
 		if (csMeta) {
-			if (t === 'dark' || t === 'dark-cyan' || t === 'dark-blue') csMeta.setAttribute('content', 'dark');
-			else if (t === 'yellow' || t === 'light-yellow') csMeta.setAttribute('content', 'light');
-			else csMeta.setAttribute('content', 'light dark');
+			const темна = t === 'dark' || t === 'dark-cyan' || t === 'dark-blue';
+			csMeta.setAttribute('content', темна ? 'dark' : 'only light');
 		}
 
 		// Update classes

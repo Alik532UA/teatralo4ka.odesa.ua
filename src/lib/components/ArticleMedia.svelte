@@ -9,7 +9,7 @@
 	import {
 		DEFAULT_MEDIA_SHAPE,
 		fitCount,
-		isSwapPair,
+		coverPairSize,
 		shapeFactor,
 		shapeRatio,
 		type ArticleMediaItem,
@@ -84,7 +84,15 @@
 	const ПРОМІЖОК = 12;
 
 	const пропорція = $derived(shapeRatio(shape));
-	const пара = $derived(layout === 'column' && isSwapPair(media));
+	/*
+	 * ПАРА — це перші два елементи, а не «весь перелік із двох».
+	 *
+	 * Розбір і замір — у докблоці `coverPairSize`. Коротко: новина може мати
+	 * обкладинку, запис І галерею, і автор просив, щоб перші двоє лишалися одним
+	 * контейнером із перемиканням, а не двома плитками.
+	 */
+	const парних = $derived(layout === 'column' ? coverPairSize(media) : 0);
+	const пара = $derived(парних === 2);
 
 	/**
 	 * Заміряна ширина стовпця: висоту плитки дає пропорція, а не ще один замір.
@@ -101,8 +109,12 @@
 			: fitCount(textHeight, ширина * shapeFactor(shape), ПРОМІЖОК)
 	);
 
-	const уСтовпці = $derived(layout === 'sequence' ? [] : пара ? media : media.slice(0, плиток));
-	const решта = $derived(layout === 'sequence' ? [...media] : пара ? [] : media.slice(плиток));
+	const уСтовпці = $derived(
+		layout === 'sequence' ? [] : пара ? media.slice(0, парних) : media.slice(0, плиток)
+	);
+	const решта = $derived(
+		layout === 'sequence' ? [...media] : пара ? media.slice(парних) : media.slice(плиток)
+	);
 
 	/** Знімки — усі й у порядку показу: лайтбокс гортає галерею, а не один кадр. */
 	const знімки = $derived(media.filter((m) => m.kind === 'photo'));
@@ -114,9 +126,16 @@
 	let лайтбокс = $state(false);
 	let плеєр = $state<VideoInfo | null>(null);
 
+	/*
+	 * Відео й фото пари шукаються СЕРЕД ПЕРШИХ ДВОХ, а не в усьому переліку:
+	 * інакше в новині з галереєю кнопка брала б запис, якого в парі немає.
+	 */
+	const пароване = $derived(media.slice(0, парних));
 	/** Відео пари — розібране заздалегідь: від нього залежить сама наявність кнопки. */
-	const відеоПари = $derived(пара ? parseVideoUrl(media.find((m) => m.kind === 'video')?.url) : null);
-	const фотоПари = $derived(пара ? media.find((m) => m.kind === 'photo') : undefined);
+	const відеоПари = $derived(
+		пара ? parseVideoUrl(пароване.find((m) => m.kind === 'video')?.url) : null
+	);
+	const фотоПари = $derived(пара ? пароване.find((m) => m.kind === 'photo') : undefined);
 
 	function вибрати(item: ArticleMediaItem) {
 		if (item.kind === 'video') {
@@ -171,7 +190,14 @@
 				зберегти саме це: «як зараз вони міняються в середині одного
 				контейнера по запиту користувача».
 			-->
-			<div class="media-frame" style="aspect-ratio: {пропорція}">
+			<!--
+				Контейнер пари ЗАВЖДИ вертикальний, а не такий, як плитки галереї.
+				Автор попросив саме це: «перше фото і відео вертикальні (як і в
+				інших новинах)». Пропорція новини лишається пропорцією ПЛИТОК —
+				нею він того ж дня зробив галерею квадратною, і два прохання
+				стосуються різних речей.
+			-->
+			<div class="media-frame" style="aspect-ratio: {shapeRatio('portrait')}">
 				{#if videoOpen && відеоПари?.embeddable}
 					<iframe
 						src="{відеоПари.embedUrl}?autoplay=1"
