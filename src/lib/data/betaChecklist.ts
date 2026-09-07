@@ -102,7 +102,17 @@ export const BETA_UNCOVERED_ROUTES: readonly string[] = [
 	 * самих адрес. Заглушки `/fest-*` тут навпаки НЕ виводяться: у них у
 	 * чеклисті є свої пункти, і це навмисно.
 	 */
-	...Object.keys(RENAMED_NEWS_IDS).map((id) => `/news/${id}`)
+	...Object.keys(RENAMED_NEWS_IDS).map((id) => `/news/${id}`),
+	/*
+	 * Стара адреса групи «Асорті»: курс мав дві картки, їх звели в одну
+	 * (`groups/asorti`). Перевіряти нічого — людина цієї сторінки не побачить,
+	 * браузер піде далі; що вона веде куди треба, стереже `e2e/redirects.spec.ts`.
+	 *
+	 * Рядком, а не виведенням: у `config/redirects.ts` поруч лежать заглушки
+	 * `/fest-*`, і в них у чеклисті СВОЇ пункти. Вивести звідти означало б
+	 * мовчки зняти з перевірки й ті дві.
+	 */
+	'/projects/galaxy-graduates/groups/assorti'
 ];
 
 export const BETA_TABS: readonly BetaTab[] = [

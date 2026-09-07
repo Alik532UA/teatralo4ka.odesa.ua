@@ -130,7 +130,9 @@ const PUBLIC_ENTRIES = [
 	'/projects/spring-odesa-theatre',
 	'/projects/support-production',
 	'/fest-odesa-teatr-pro',
-	'/fest-odessa-teatr-pro'
+	'/fest-odessa-teatr-pro',
+	/* Стара адреса злитої групи «Асорті» — заглушка з `meta refresh`. */
+	'/projects/galaxy-graduates/groups/assorti'
 ];
 
 /**

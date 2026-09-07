@@ -49,6 +49,13 @@ const BASE: Record<string, RedirectPage> = {
 	'/fest-odesa-teatr-pro': { target: 'projects/teatr-pro', external: false },
 	'/fest-odessa-teatr-pro': { target: 'projects/teatr-pro', external: false },
 
+	// Дві картки одного курсу «Асорті» звели в одну (2026-09-07): у першій був
+	// склад, у другій знімки. Стара адреса лишається живою — вона була в мапі сайту.
+	'/projects/galaxy-graduates/groups/assorti': {
+		target: 'projects/galaxy-graduates/groups/asorti',
+		external: false
+	},
+
 	/*
 	 * Перейменовані адреси новин — ВИВОДЯТЬСЯ з реєстру, а не перелічуються.
 	 *

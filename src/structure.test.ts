@@ -45,6 +45,12 @@ import { describe, expect, it } from 'vitest';
  *   не знав («Ісачкіна» давала нуль — заміряно на живій сторінці). Правило
  *   збігу лежить там, де дані, як у фестивалів і закладів; винести його окремим
  *   файлом означало б відірвати правило від того, про що воно.
+ * 2026-09-07: `data/betaChecklist.ts` 416 → 417. РІВНО ОДИН рядок — адреса
+ *   старої картки групи «Асорті» в `BETA_UNCOVERED_ROUTES`. Дві картки одного
+ *   курсу звели в одну, стара адреса лишилася заглушкою з `meta refresh`, і
+ *   перевіряти на ній нема чого: людина її не побачить. Виведенням це не
+ *   зробиш — поруч у тому ж реєстрі лежать заглушки `/fest-*`, у яких у
+ *   чеклисті СВОЇ пункти.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -497,7 +503,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 416,
+	'src/lib/data/betaChecklist.ts': 417,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
