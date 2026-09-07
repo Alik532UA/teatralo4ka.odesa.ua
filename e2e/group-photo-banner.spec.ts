@@ -150,4 +150,34 @@ test.describe('банер знімків групи', () => {
 		// І не відкрила лайтбокс: коробка під стрілками робить саме це.
 		await expect(page.locator('[data-testid="photo-lightbox-prev-btn"]')).toHaveCount(0);
 	});
+
+	/**
+	 * Правило спільне для ВСІХ, хто малює банер, а не для однієї сторінки.
+	 *
+	 * Компонент малюють троє: сторінка групи, сторінка фестивалю і шапка
+	 * вистави. Перевірка вище ходить по групі; ця бере виставу — саме там жив
+	 * окремий режим `fit="whole"` («показати афішу цілком»), який зник, бо тепер
+	 * так поводяться всі. Якщо колись повернуть кадрування «за замовчуванням»,
+	 * упаде саме ця перевірка, а не сторінка в проді.
+	 *
+	 * Заміряно на решті видів під час цієї роботи: `groups/paradoks` і
+	 * `groups/rost-ok` (лише вертикальний, 400×600), `festivals/mrii-dim-2012`
+	 * (960×720 і 697×720 — кожен свій), `festivals/art-like-fest-2026`
+	 * (338×601), `plays/uryvky-z-klasyky-2015` (804×600).
+	 */
+	test('те саме правило на сторінці вистави', async ({ page }) => {
+		await gotoReady(page, '/projects/galaxy-graduates/plays/tryvozhni-liudy-2024');
+		const банер = page.locator('[data-testid="group-photo-banner"]');
+		await expect(банер).toBeVisible();
+
+		await page.mouse.move(5, 5);
+		await page.waitForTimeout(350);
+		const рамка = (await банер.boundingBox())!;
+		const афіша = 1280 / 859;
+
+		expect(
+			Math.abs(рамка.width / рамка.height - афіша),
+			`афіша ${рамка.width}×${рамка.height} кадрується, а мусить бути цілою`
+		).toBeLessThan(0.02);
+	});
 });
