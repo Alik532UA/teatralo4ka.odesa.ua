@@ -2663,5 +2663,29 @@
 		"status": "active",
 		"visibility": "linked",
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "tetiana-kyriichuk",
+		"slug": "tetiana-kyriichuk",
+		"displayName": "Тетяна КИРІЙЧУК",
+		"fullName": "Кирійчук Тетяна",
+		"displayNameEn": "Tetiana KYRIICHUK",
+		"fullNameEn": "Tetiana Kyriichuk",
+		"departments": [],
+		"status": "former",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "halyna-kloss",
+		"slug": "halyna-kloss",
+		"displayName": "Галина КЛОСС",
+		"fullName": "Клосс Галина",
+		"displayNameEn": "Halyna KLOSS",
+		"fullNameEn": "Halyna Kloss",
+		"departments": [],
+		"status": "former",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	}
 ]

@@ -276,7 +276,7 @@
 
 		{#if masterPlays.length > 0}
 			<div class="master-section-layer">
-				<MasterProductions productions={masterPlays} {isEn} />
+				<MasterProductions productions={masterPlays} castIds={data.castIds} {isEn} />
 			</div>
 		{/if}
 	</div>

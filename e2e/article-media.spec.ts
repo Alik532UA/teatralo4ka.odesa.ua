@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { gotoReady } from './ready';
 
 /**
@@ -27,7 +29,36 @@ const АДРЕСА = '2026-year-30th-season-18-students';
 /** Проміжок між плитками — те саме число, що в `ArticleMedia`. */
 const ПРОМІЖОК = 12;
 
+/**
+ * Замір після того, як компонент ПОРАХУВАВ, а не одразу після `load`.
+ *
+ * Ширину стовпця компонент бере не з розмітки, а власною міркою через
+ * `ResizeObserver`, і та спрацьовує вже після першого кадру. Доти перевірка
+ * міряла раніше: `ширина` в компоненті ще нуль, `fitCount` за домовленістю
+ * вертає 1, і збоку стояла одна плитка при п'яти, що влазять. Падало це раз на
+ * два прогони — тобто читалося як флак і роками нічого не означало б.
+ *
+ * Чекаємо не «правильного» числа (це зробило б перевірку тавтологією), а того,
+ * щоб воно перестало мінятися: два однакові заміри поспіль.
+ */
 async function заміряти(page: import('@playwright/test').Page) {
+	/* Шрифт міняє висоту тексту на 232 px — саме він і зрушує число плиток. */
+	await page.evaluate(() => document.fonts?.ready);
+	let однакових = 0;
+	let попереднє = -1;
+	for (let спроба = 0; спроба < 30; спроба += 1) {
+		const зараз = await зчитати(page);
+		однакових = зараз.стовпець === попереднє ? однакових + 1 : 0;
+		/* ТРИ однакові поспіль, а не два: перші два збігалися ще на нулі, поки
+		   спостерігач не відпрацював, і перевірка поверталася зарано. */
+		if (однакових >= 3 && зараз.ширина > 0 && зараз.висота > 0) return зараз;
+		попереднє = зараз.стовпець;
+		await page.waitForTimeout(100);
+	}
+	return зчитати(page);
+}
+
+async function зчитати(page: import('@playwright/test').Page) {
 	return page.evaluate(() => {
 		const стовпець = document.querySelector('.article-media');
 		const решта = document.querySelector('.article-media-rest');
@@ -83,14 +114,51 @@ test.describe('медіа новини', () => {
 		await expect(page.getByTestId('photo-lightbox-img')).toBeHidden();
 	});
 
-	test('одне фото й одне відео лишаються одним контейнером', async ({ page }) => {
-		/*
-		 * Друга новина — рівно та пара, яку автор просив не чіпати: «коли одна
-		 * фотографія і одне відео, то як зараз вони міняються в середині одного
-		 * контейнера».
-		 */
-		await gotoReady(page, '/news/30th-season-opened-2026');
+	/*
+	 * Реєстр новин тут НЕ ІМПОРТУЄТЬСЯ: `config/codeNews.ts` тягне `$app/paths`,
+	 * якого в прогоні Playwright не існує — перша редакція цієї перевірки впала
+	 * на «Cannot find package '$app'», тобто перевірки просто не було. Та сама
+	 * пастка описана в `theme-contrast.spec.ts`.
+	 *
+	 * Тому джерело — ЗІБРАНІ сторінки: у них видно рівно те, що поїде читачеві.
+	 */
+	const НОВИНИ = join('build', 'news');
+	function сторінкиНовин(): { id: string; html: string }[] {
+		return readdirSync(НОВИНИ, { withFileTypes: true })
+			.filter((e) => e.isDirectory() && existsSync(join(НОВИНИ, e.name, 'index.html')))
+			.map((e) => ({
+				id: e.name,
+				html: readFileSync(join(НОВИНИ, e.name, 'index.html'), 'utf8')
+			}));
+	}
 
+	/**
+	 * ПАРА «одне фото + одне відео» перевіряється НА ДАНИХ, а не на вписаній адресі.
+	 *
+	 * Тут стояло `/news/30th-season-opened-2026` — колись у тієї новини справді
+	 * було одне фото й один запис, і саме її автор просив не чіпати: «коли одна
+	 * фотографія і одне відео, то як зараз вони міняються в середині одного
+	 * контейнера». 7 вересня 2026 автор надіслав до неї ще тридцять три знімки, і
+	 * перевірка почала шукати обкладинку, якої на сторінці більше немає, — тобто
+	 * стерегла не правило, а стан однієї новини.
+	 *
+	 * Тепер пара шукається серед усіх зібраних новин: правило перевіряється там,
+	 * де воно живе. Якщо пари не лишиться жодної, перевірка скаже це вголос —
+	 * зеленого мовчання тут не буде.
+	 */
+	test('одне фото й одне відео лишаються одним контейнером', async ({ page }) => {
+		const пари = сторінкиНовин().filter(
+			(n) => n.html.includes('article-cover-video-btn') && n.html.includes('article-cover-img')
+		);
+
+		expect(
+			пари.length,
+			'у зібраних новинах немає жодної пари «фото + запис» — правило зараз ' +
+				'перевіряє лише юніт-тест `utils/articleMedia.test.ts`. Якщо так і задумано, ' +
+				'приберіть цю перевірку разом із поясненням, а не лишайте її зеленою'
+		).toBeGreaterThan(0);
+
+		await gotoReady(page, `/news/${пари[0].id}`);
 		await expect(page.getByTestId('article-cover-img')).toBeVisible();
 		await expect(
 			page.locator('[data-testid^="article-media-photo-btn-"]'),
@@ -99,5 +167,26 @@ test.describe('медіа новини', () => {
 
 		await page.getByTestId('article-cover-video-btn').click();
 		await expect(page.getByTestId('article-cover-video-container')).toBeVisible();
+	});
+
+	test('велика галерея новини нічого не губить і відкривається', async ({ page }) => {
+		await gotoReady(page, '/news/30th-season-opened-2026');
+
+		/* Скільки знімків на сторінці — з неї самої; що жоден не загубився при
+		   поділі на стовпець і решту, каже сума нижче. */
+		const плитки = page.locator('[data-testid^="article-media-photo-btn-"]');
+		const знімків = await плитки.count();
+		expect(знімків, 'галерея зникла зі сторінки').toBeGreaterThan(20);
+
+		const сума = await page.evaluate(() => {
+			const стовпець = document.querySelector('.article-media')?.children.length ?? 0;
+			const решта = document.querySelector('.article-media-rest')?.children.length ?? 0;
+			return стовпець + решта;
+		});
+		expect(сума, 'частина медіа не потрапила ні в стовпець, ні в решту').toBe(знімків + 1);
+
+		await page.locator('[data-testid^="article-media-photo-btn-"]').first().click();
+		await expect(page.getByTestId('photo-lightbox-img')).toBeVisible();
+		await page.keyboard.press('Escape');
 	});
 });

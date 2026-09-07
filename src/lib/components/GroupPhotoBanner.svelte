@@ -197,21 +197,20 @@
 		Клікабельна коробка, а не кожен знімок окремо: вони лежать стопкою й
 		перемикаються прозорістю, тож клік мусить ловити сама коробка — інакше
 		він діставався б лише верхньому.
+
+		Але ловить його ОКРЕМА КНОПКА поверх стопки, а не сама коробка з
+		`role="button"`. Доти було саме так — і разом зі стрілками, доданими
+		того ж дня, вийшли дві кнопки ВСЕРЕДИНІ третьої. Браузер таку розмітку
+		лагодить мовчки, а зчитувач екрана читає стрілку як частину великої
+		кнопки «відкрити»; гейт `e2e/nested-interactive.spec.ts` назвав обидві
+		сторінки поіменно. Тепер кнопка відкриття й стрілки — СУСІДИ, і
+		`stopPropagation` у стрілках більше нічого не рятує: він лишається лише
+		для випадку, коли клік летить крізь `backdrop-filter`.
 	-->
 	<div
 		class="banner"
 		style:aspect-ratio={пропорція}
 		style:max-width={`${ширина}px`}
-		role="button"
-		tabindex="0"
-		aria-label={title}
-		onclick={open}
-		onkeydown={(e) => {
-			if (e.key === 'Enter' || e.key === ' ') {
-				e.preventDefault();
-				open();
-			}
-		}}
 		data-testid="group-photo-banner"
 	>
 		{#each photos as photo, i (photo)}
@@ -230,6 +229,14 @@
 			/>
 		{/each}
 
+
+		<button
+			type="button"
+			class="banner__open"
+			aria-label={title}
+			onclick={open}
+			data-testid="group-photo-open-btn"
+		></button>
 
 		{#if photos.length > 1}
 			<button
@@ -380,8 +387,33 @@
 	 * Стрілки — поверх знімка, як у лайтбоксі. Ціль дотику 44×44 (WCAG 2.2
 	 * SC 2.5.8), тож кружечок саме такий і на телефоні не меншає.
 	 */
+	/*
+	 * Кнопка відкриття — прозорий шар на всю коробку, ПІД стрілками.
+	 *
+	 * Саме шар, а не `role` на коробці: інакше стрілки опиняються всередині
+	 * кнопки. Порядок за `z-index`, а не за порядком у розмітці: кнопка стоїть
+	 * першою, щоб у табуляції «відкрити» йшло перед «гортати».
+	 */
+	.banner__open {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: none;
+		background: transparent;
+		cursor: zoom-in;
+	}
+	.banner__open:focus-visible {
+		outline: 2px solid var(--galaxy-accent, #8cc4ff);
+		outline-offset: -4px;
+		border-radius: 20px;
+	}
+
 	.banner__nav {
 		position: absolute;
+		z-index: 2;
 		top: 50%;
 		transform: translateY(-50%);
 		width: 44px;

@@ -12,6 +12,7 @@ import {
 import { getGroupsByMaster } from '$lib/data/groups';
 import { linkedGraduateId } from '$lib/data/dualRole';
 import { LINKED_GRADUATES } from '$lib/data/graduates';
+import { castIdsOf, loadPlayCast } from '$lib/data/playCast';
 import { localeFromPath } from '$lib/i18n/routing';
 import { RENAMED_MASTER_SLUGS } from '$lib/config/renamedAddresses';
 import type { PageLoad, EntryGenerator } from './$types';
@@ -96,6 +97,13 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 	return {
 		master: masterData,
 		seoDescription,
+		/*
+		 * Ключі людей на кожен показ — звідси, а не імпортом зрізу в компонент.
+		 * Зріз лежить у `static/galaxy/play-cast.json`: розбір і замір у докблоці
+		 * `data/playCast.ts`. Тут потрібні лише ключі — ряди облич під виставами
+		 * майстра; ролі й уривки читає сторінка самого показу.
+		 */
+		castIds: castIdsOf(await loadPlayCast(fetch)),
 		students,
 		graduates,
 		alsoGraduate,

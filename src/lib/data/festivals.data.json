@@ -220,5 +220,170 @@
 			"/news/2026-06-21/01.jpg"
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zymova-kazka-2007",
+		"name": "Зимова казка",
+		"nameEn": "Winter Fairy Tale",
+		"years": [
+			2007
+		],
+		"countries": [
+			"CZ"
+		],
+		"city": "Теплиці · Карлові Вари · Прага",
+		"memberIds": [
+			"myroslava-tkach",
+			"hanna-tkach",
+			"alona-pashel",
+			"oleksandra-pashel",
+			"viacheslav-todorovych",
+			"viktoriia-dolhozhyv",
+			"oleksandra-chuprina",
+			"andranik-davtian",
+			"kostiantyn-afanasev",
+			"daria-dias-valdes-isachkina",
+			"anna-ruseva",
+			"maksym-halias",
+			"iryna-zatulina"
+		],
+		"masterIds": [
+			"olena-tkach",
+			"fedir-tkach",
+			"tetiana-kyriichuk",
+			"svitlana-ryskina",
+			"yevheniia-bohdanova",
+			"nadiia-rybakova",
+			"halyna-kloss"
+		],
+		"playIds": [
+			"iak-kozaky-novyi-rik-zustrichaly-2007"
+		],
+		"bio": [
+			"Zimní pohádka — міжнародний фестиваль дитячих і юнацьких музичних колективів у Богемії.",
+			"Поїздка до Чехії 3–8 січня 2007 року: Теплиці, Карлові Вари, Прага.",
+			"Школа привезла звідти диплом лауреата I ступеня в номінації «DIVADLA»; у дипломі керівницею названо Олену Ткач."
+		],
+		"photos": [
+			"/festivals/zymova-kazka-2007.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odeskyi-tramvaichyk-2007",
+		"name": "Одеський Трамвайчик",
+		"nameEn": "Odesa Tramcar",
+		"years": [
+			2007
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"bio": [
+			"Міжнародний фестиваль мистецтв, одним із засновників якого була ДТШ разом із НТО «Дядя Федір»."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "karpatska-vesna-2008",
+		"name": "Карпатська весна",
+		"nameEn": "Carpathian Spring",
+		"years": [
+			2008
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Усть-Чорна",
+		"memberIds": [
+			"olena-mrost"
+		],
+		"masterIds": [],
+		"playIds": [],
+		"bio": [
+			"Селище Усть-Чорна Тячівського району Закарпатської області.",
+			"Міжнародний фестиваль мистецтв, одним із засновників якого була ДТШ разом із НТО «Дядя Федір»."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "druzhba-2008",
+		"name": "Дружба-2008",
+		"nameEn": "Druzhba-2008 International Festival",
+		"years": [
+			2008
+		],
+		"countries": [
+			"RO"
+		],
+		"city": "Васлуй",
+		"memberIds": [
+			"daria-dias-valdes-isachkina",
+			"maksym-halias",
+			"viacheslav-todorovych",
+			"kostiantyn-afanasev",
+			"oleksandra-pashel",
+			"yevheniia-hymmelfarb",
+			"oleksandra-chuprina",
+			"oleksandr-yatsenko",
+			"iryna-zatulina",
+			"andranik-davtian",
+			"viktoriia-kulbaba"
+		],
+		"masterIds": [],
+		"playIds": [
+			"roksolana-2008"
+		],
+		"bio": [
+			"XXIV Міжнародний фестиваль «Дружба-2008».",
+			"Румунія, місто Васлуй, 3–10 червня 2008 року."
+		],
+		"photos": [
+			"/festivals/druzhba-2008.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "pivdenni-masky-2009",
+		"name": "Південні маски",
+		"nameEn": "Southern Masks International Youth Theatre Festival",
+		"years": [
+			2009
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Миколаїв",
+		"memberIds": [
+			"iryna-zatulina",
+			"anhelina-zakharova",
+			"viktoriia-motruk",
+			"aryna-postolova",
+			"albina-tytova",
+			"alina-tkach",
+			"anna-khyzhniak",
+			"hanna-tkach",
+			"nadiia-rybakova",
+			"olha-poliakova",
+			"svitlana-nadopta",
+			"olena-liashenko",
+			"viktor-furdui",
+			"yevhenii-tyshchenko",
+			"oleksandr-komadovskyi"
+		],
+		"masterIds": [],
+		"playIds": [
+			"kimnata-narechenoi-new-2009",
+			"myna-mazailo-new-2009"
+		],
+		"bio": [
+			"V відкритий міжнародний фестиваль молодіжних театрів «Південні маски».",
+			"Школа привезла дві роботи: «Кімнату нареченої» театру «БулаФФки» — диплом учасника, і «Мину Мазайла-NEW» молодіжного театру випускників «Тітри» — диплом у номінації «Творче відкриття фестивалю»."
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]

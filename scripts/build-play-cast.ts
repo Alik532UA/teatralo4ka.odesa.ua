@@ -70,7 +70,15 @@ export interface CastEntry {
 }
 
 const PROFILES = path.join('static', 'graduates', 'profiles');
-const OUT = path.join('src', 'lib', 'data', 'play-cast.json');
+/*
+ * Зріз лежить у `static/`, а не в `src/lib/data/`, і це не косметика: усе, що
+ * лежить у другому, імпортується модулем і їде в КЛІЄНТСЬКИЙ БАНДЛ до кожного
+ * відвідувача сайту. Заміряно 7 вересня 2026: зріз важить 7 КБ brotli з 81 КБ
+ * усіх даних бандла при стелі 80 — тобто саме він її й пробив. Тепер його
+ * забирають `fetch`ем рівно ті три сторінки, яким він потрібен: показ, перелік
+ * показів і сторінка майстра. Так само давно зроблено з анкетами.
+ */
+const OUT = path.join('static', 'galaxy', 'play-cast.json');
 
 export function buildCast(): Record<string, CastEntry[]> {
 	const cast: Record<string, CastEntry[]> = {};

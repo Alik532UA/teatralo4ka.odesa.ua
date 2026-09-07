@@ -3,7 +3,6 @@
 	import { LayoutGrid, List, CalendarRange, Theater } from 'lucide-svelte';
 	import { matchesPlayQuery, type Play } from '$lib/data/plays';
 	import { playGroupCaption } from '$lib/data/groups';
-	import { PLAY_CAST } from '$lib/data/playCast';
 	import { earlyShows } from '$lib/services/earlyShows.svelte';
 	import {
 		productionsViewMode,
@@ -15,12 +14,21 @@
 	import MasterProductionsTimeline from './MasterProductionsTimeline.svelte';
 	import MasterViewToggle, { type ViewOption } from './MasterViewToggle.svelte';
 
+	/*
+	 * Ключі людей на кожен показ приходять ПРОПОМ, а не імпортом зрізу.
+	 *
+	 * Зріз складу лежить у `static/galaxy/play-cast.json` і забирається `fetch`ем
+	 * у `load` сторінки — розбір і замір у докблоці `data/playCast.ts`; коротко:
+	 * імпортом він їхав у бандл до кожного відвідувача сайту й важив 7 КБ із
+	 * 81 КБ усіх даних при стелі 80.
+	 */
 	interface Props {
 		productions: Play[];
+		castIds?: Record<string, string[]>;
 		isEn?: boolean;
 	}
 
-	let { productions = [], isEn = false }: Props = $props();
+	let { productions = [], castIds = {}, isEn = false }: Props = $props();
 
 	let activeFilter = $state<FilterType>('all');
 	let searchQuery = $state('');
@@ -64,7 +72,7 @@
 				 */
 				const назвиКурсів = playGroupCaption(
 					p.id,
-					(PLAY_CAST[p.id] ?? []).map((c) => c.graduateId),
+					castIds[p.id] ?? [],
 					p.theatreGroup,
 					isEn
 				).names;
@@ -168,13 +176,13 @@
 			чого не видно.
 		-->
 		{#if view === 'list'}
-			<MasterProductionsList productions={filteredProductions} {isEn} />
+			<MasterProductionsList productions={filteredProductions} {castIds} {isEn} />
 		{:else if view === 'timeline'}
-			<MasterProductionsTimeline productions={filteredProductions} {isEn} />
+			<MasterProductionsTimeline productions={filteredProductions} {castIds} {isEn} />
 		{:else}
 			<div class="productions-list" data-testid="master-productions-list">
 				{#each filteredProductions as prod, idx (prod.title + String(prod.year) + (prod.number ?? idx))}
-					<MasterProductionCard {prod} {isEn} />
+					<MasterProductionCard {prod} castIds={castIds[prod.id] ?? []} {isEn} />
 				{/each}
 			</div>
 		{/if}

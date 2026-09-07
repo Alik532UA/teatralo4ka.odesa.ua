@@ -3,7 +3,7 @@ import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { RENAMED_PLAY_IDS } from '$lib/config/renamedAddresses';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { PLAYS, getPlayById, playPath } from '$lib/data/plays';
-import { castOf } from '$lib/data/playCast';
+import { castOf, loadPlayCast } from '$lib/data/playCast';
 import { classifyPlayGroups, groupsOfPlay, namedGroupsOfPlay } from '$lib/data/groups';
 import { FESTIVALS } from '$lib/data/festivals';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -34,7 +34,7 @@ export function entries() {
 	];
 }
 
-export function load({ params, url }) {
+export async function load({ params, url, fetch }) {
 	const renamedTo = RENAMED_PLAY_IDS[params.id];
 	if (renamedTo) {
 		redirect(301, localizedPath(playPath(renamedTo), localeFromPath(url.pathname)));
@@ -50,7 +50,7 @@ export function load({ params, url }) {
 	 * більше імен і частину з них — хибних: людина могла прийти в групу вже
 	 * після цієї вистави. Заміри в докблоці `plays.ts`.
 	 */
-	const cast = castOf(play.id);
+	const cast = castOf(await loadPlayCast(fetch), play.id);
 
 	/*
 	 * Групи, у чиєму репертуарі вистава числиться.

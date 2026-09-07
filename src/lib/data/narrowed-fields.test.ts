@@ -45,6 +45,7 @@ const graduates = graduatesIndex as {
 	hasPhoto?: boolean;
 	kind?: string;
 	visibility?: string;
+	graduationYear?: number | null;
 }[];
 const masters = mastersIndex as {
 	id: string;
@@ -175,6 +176,29 @@ describe('поля, які компілятор не звужує', () => {
 			.filter((g) => g.kind === 'student' && (g.visibility ?? 'listed') === 'listed')
 			.map((g) => g.id);
 		expect(bad, `учень у галактиці — потрібен рівень linked або direct:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	/*
+	 * Друг школи — рішення автора 7 вересня 2026 (розбір у `GRADUATE_KINDS`):
+	 * людина грала зі школою на сцені, але учнем не була. Два інваріанти, і
+	 * обидва про те, щоб запис не почав видавати себе за випускника: у переліку
+	 * його немає, і року випуску в нього немає.
+	 */
+	it('друг школи не буває в переліку', () => {
+		const bad = graduates
+			.filter((g) => g.kind === 'friend' && (g.visibility ?? 'listed') === 'listed')
+			.map((g) => g.id);
+		expect(
+			bad,
+			`друг школи в переліку випускників — потрібен рівень linked або direct:\n  ${bad.join('\n  ')}`
+		).toEqual([]);
+	});
+
+	it('у друга школи немає року випуску', () => {
+		const bad = graduates
+			.filter((g) => g.kind === 'friend' && g.graduationYear != null)
+			.map((g) => `${g.id} → ${g.graduationYear}`);
+		expect(bad, `друг школи з роком випуску:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	/*

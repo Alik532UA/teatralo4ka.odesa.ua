@@ -7445,7 +7445,7 @@
 		],
 		"playCount": 8,
 		"code": "olena-mrost",
-		"profileSize": 2385,
+		"profileSize": 2346,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -10803,5 +10803,55 @@
 		"kind": "student",
 		"visibility": "linked",
 		"departments": []
+	},
+	{
+		"id": "anna-ruseva",
+		"slug": "anna-ruseva",
+		"name": "Анна Русева",
+		"graduationYear": 2009,
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "alona-pashel",
+		"slug": "alona-pashel",
+		"name": "Альона Пашель",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "attended",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "oleksandr-yatsenko",
+		"slug": "oleksandr-yatsenko",
+		"name": "Олександр Яценко",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "attended",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "oleksandr-komadovskyi",
+		"slug": "oleksandr-komadovskyi",
+		"name": "Олександр Комадовський",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "friend",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "viktor-furdui",
+		"slug": "viktor-furdui",
+		"name": "Віктор Фурдуй",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "friend",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	}
 ]

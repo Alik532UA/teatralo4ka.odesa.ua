@@ -4,7 +4,6 @@
 	import { playPath, type Play } from '$lib/data/plays';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { playGroupCaption } from '$lib/data/groups';
-	import { PLAY_CAST } from '$lib/data/playCast';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
@@ -31,12 +30,21 @@
 	 * рік тут не означує вистави, він їх ГРУПУЄ, і читалка з `<dl>` прочитала б
 	 * зв'язок, якого немає. Заголовок плюс список — те, що є насправді.
 	 */
+	/*
+	 * Ключі людей на кожен показ приходять ПРОПОМ, а не імпортом зрізу.
+	 *
+	 * Зріз складу лежить у `static/galaxy/play-cast.json` і забирається `fetch`ем
+	 * у `load` сторінки — розбір і замір у докблоці `data/playCast.ts`; коротко:
+	 * імпортом він їхав у бандл до кожного відвідувача сайту й важив 7 КБ із
+	 * 81 КБ усіх даних при стелі 80.
+	 */
 	interface Props {
 		productions: Play[];
+		castIds?: Record<string, string[]>;
 		isEn?: boolean;
 	}
 
-	let { productions, isEn = false }: Props = $props();
+	let { productions, castIds = {}, isEn = false }: Props = $props();
 
 	/*
 	 * Групування без `Map` — навмисно.
@@ -79,11 +87,11 @@
 					<!-- Назва курсу видима, номер — тихо. Чому так: `playGroupCaption`. -->
 					{@const caption = playGroupCaption(
 						prod.id,
-						(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+						castIds[prod.id] ?? [],
 						prod.theatreGroup,
 						isEn
 					)}
-					{@const castIds = (PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId)}
+					{@const ключі = castIds[prod.id] ?? []}
 					<li class="prod-year__item" data-testid="master-productions-year-item-{prod.id}">
 						<span class="prod-year__dot" aria-hidden="true"></span>
 						<span class="prod-year__body">
@@ -102,10 +110,10 @@
 							рядок удвічі. На вузькому контейнері колонка сама з'їжджає
 							вниз — так само, як позначки праворуч.
 						-->
-						{#if castIds.length}
+						{#if ключі.length}
 							<span class="prod-year__cast">
 								<GraduateAvatarRow
-									ids={castIds}
+									ids={ключі}
 									testIdPrefix="master-productions-year-cast-{prod.id}"
 									max={6}
 								/>

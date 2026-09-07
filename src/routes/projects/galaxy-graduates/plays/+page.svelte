@@ -10,7 +10,6 @@
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { PLAYS, playPath, type Play, matchesPlayQuery } from '$lib/data/plays';
-	import { PLAY_CAST } from '$lib/data/playCast';
 	import { playGroupNames } from '$lib/data/groups';
 	import { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
@@ -22,6 +21,10 @@
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
+
+	/* Склад приходить із `+page.ts` — зріз лежить у `static/`, див. `playCast.ts`. */
+	let { data }: { data: { castIds: Record<string, string[]> } } = $props();
+	const castIds = $derived(data.castIds);
 
 	const isEn = $derived($locale === 'en');
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
@@ -35,7 +38,7 @@
 	 * добуток «учасники групи × вистави групи» дав би більші числа й частину з
 	 * них хибних, бо людина могла прийти в групу вже після вистави.
 	 */
-	const castSize = (id: string) => PLAY_CAST[id]?.length ?? 0;
+	const castSize = (id: string) => castIds[id]?.length ?? 0;
 
 	/** Перше посилання на запис — власне або першої з частин. Порожньо: записів немає. */
 	const запис = (play: Play) => play.videoUrl ?? play.videoParts?.[0]?.url;
@@ -44,10 +47,10 @@
 		PLAYS.map((play) => ({
 			play,
 			cast: castSize(play.id),
-			castIds: (PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
+			castIds: castIds[play.id] ?? [],
 			groups: playGroupNames(
 				play.id,
-				(PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
+				castIds[play.id] ?? [],
 				play.theatreGroup,
 				isEn
 			)
@@ -121,7 +124,7 @@
 			year: play.year,
 			title: play.title,
 			subtitle: play.author,
-			memberIds: (PLAY_CAST[play.id] ?? []).map((c) => c.graduateId),
+			memberIds: castIds[play.id] ?? [],
 			/* Через `null` і `filter`, а не розкидами порожніх масивів: тих самих
 			   умов чотири, і `...(x ? [y] : [])` учетверте читається гірше, ніж
 			   сама умова. Нулі й порожні поля не показуються — вони повідомляли б

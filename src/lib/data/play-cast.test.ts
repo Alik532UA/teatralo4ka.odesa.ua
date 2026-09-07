@@ -2,7 +2,16 @@ import { describe, it, expect } from 'vitest';
 import fs, { readFileSync, readdirSync } from 'node:fs';
 import path, { join } from 'node:path';
 import { buildCast } from '../../../scripts/build-play-cast';
-import { PLAY_CAST as cast } from './playCast';
+import type { CastEntry } from './playCast';
+
+/*
+ * Зріз читається З ДИСКА, а не імпортом модуля: він переїхав у `static/` і
+ * модулем більше не приходить — розбір у докблоці `playCast.ts`. Перевірці це
+ * навіть ближче до правди: вона звіряє САМЕ ТОЙ ФАЙЛ, який поїде на сайт.
+ */
+const cast = JSON.parse(
+	readFileSync(join('static', 'galaxy', 'play-cast.json'), 'utf8')
+) as Record<string, CastEntry[]>;
 import { PLAYS } from './plays';
 import { WITH_PAGE } from './graduates';
 import { createNameMatcher } from '$lib/utils/participantMatch';
@@ -307,6 +316,6 @@ describe('склад вистав', () => {
 	});
 
 	it('файл зрізу лежить там, де його шукає скрипт', () => {
-		expect(fs.existsSync(path.join('src', 'lib', 'data', 'play-cast.json'))).toBe(true);
+		expect(fs.existsSync(path.join('static', 'galaxy', 'play-cast.json'))).toBe(true);
 	});
 });

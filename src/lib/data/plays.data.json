@@ -3243,12 +3243,6 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
-		"id": "karpatskaia-vesna-2008",
-		"title": "«Карпатська весна»",
-		"year": 2008,
-		"verificationStatus": "possible_errors"
-	},
-	{
 		"id": "kimnata-narechenoi-2008",
 		"title": "«Кімната нареченої»",
 		"year": 2008,
@@ -8604,6 +8598,28 @@
 			}
 		],
 		"dateNote": "22–24 грудня 2025",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "iak-kozaky-novyi-rik-zustrichaly-2007",
+		"title": "«Як козаки Новий рік зустрічали»",
+		"year": 2007,
+		"awards": [
+			"Лауреати I ступеня Міжнародного фестивалю «Зимова казка» (Чехія)"
+		],
+		"videoUrl": "https://youtu.be/wVGTQt_49k8",
+		"isDtsh": false,
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "roksolana-2008",
+		"title": "«Роксолана»",
+		"year": 2008,
+		"awards": [
+			"Лауреати I ступеня XXIV Міжнародного фестивалю «Дружба-2008» (м. Васлуй, Румунія)"
+		],
+		"videoUrl": "https://youtu.be/v-dMjlmzPxM",
+		"isDtsh": false,
 		"verificationStatus": "possible_errors"
 	}
 ]

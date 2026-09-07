@@ -286,6 +286,20 @@ test.describe('банер знімків групи', () => {
 		await gotoReady(page, ТВ_ПРОДАКШН);
 		await expect(page.locator('[data-testid="group-photo-banner"]')).toBeVisible();
 
+		/*
+		 * ПЕРЕХОДИ ГЛУШАТЬСЯ, і це не про швидкість.
+		 *
+		 * `getComputedStyle` під час переходу вертає ПРОМІЖНИЙ колір, а Chrome
+		 * інтерполює кольори в oklab. Без глушіння замір ловив саме такі кадри —
+		 * `oklab(0.80 … / 0.624)` у світлій і `oklab(0.79 … / 0.451)` у темній
+		 * проти сталого `color(srgb … / 0.45)` у решті чотирьох, — і перевірка
+		 * червоніла на кольорі, якого на екрані вже за півсекунди немає. Та сама
+		 * пастка описана в `galaxy-theme-colors.spec.ts`.
+		 */
+		await page.addStyleTag({
+			content: '*,*::before,*::after{transition:none!important;animation:none!important}'
+		});
+
 		const кольори = await page.evaluate(async () => {
 			const виміряти = () => {
 				const крапки = [...document.querySelectorAll('.banner__dot')];

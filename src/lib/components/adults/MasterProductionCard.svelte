@@ -2,7 +2,6 @@
 	import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { getAllMasters } from '$lib/data/masters';
 	import { playGroupCaption } from '$lib/data/groups';
-	import { PLAY_CAST } from '$lib/data/playCast';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import { createNameMatcher } from '$lib/utils/participantMatch';
 
@@ -38,6 +37,8 @@
 
 	interface Props {
 		prod: Play;
+		/* Ключі людей показу — пропом, бо зріз лежить у `static/`: див. `playCast.ts`. */
+		castIds?: string[];
 		isEn?: boolean;
 	}
 
@@ -45,7 +46,7 @@
 	 * поряд із `prod.number`, і саме ця пара давала дублікати — вистава з номером
 	 * 66 і вистава без номера на позиції 66 отримували однаковий ключ. Тепер
 	 * testid стоїть на `prod.id`, який унікальний за побудовою. */
-	let { prod, isEn = false }: Props = $props();
+	let { prod, castIds = [], isEn = false }: Props = $props();
 
 	type Participant =
 		| { kind: 'graduate'; graduate: GraduateIndexEntry }
@@ -63,8 +64,6 @@
 	 */
 	/* Склад — зі зрізу анкет: заява «я в цьому грав» робиться там і більше ніде
 	 * (див. докблок `plays.ts`). */
-	const castIds = $derived((PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId));
-
 	const groupCaption = $derived(
 		playGroupCaption(
 			prod.id,

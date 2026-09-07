@@ -1,4 +1,3 @@
-import castData from './play-cast.json';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from './graduates';
 import type { CastRole } from './castRoles';
 
@@ -13,14 +12,32 @@ import type { CastRole } from './castRoles';
  * `plays.ts`, і коротко воно таке: людина могла прийти в групу пізніше вистави,
  * а сама вистава могла зіграти двома групами разом.
  *
- * ## Чому окремий JSON, а не читання анкет
+ * ## Чому окремий файл, а не читання анкет
  *
  * Анкети лежать у `static/` і в бандл не потрапляють — разом 96 КБ. Зріз
  * рахує `scripts/build-play-cast.ts` на збірці, а свіжість тримає гейт
  * `play-cast.test.ts`, який перераховує його наново й звіряє.
  *
- * Цей модуль імпортує ЛИШЕ маршрут вистави, тож у критичний шлях головної
- * зріз не потрапляє.
+ * ## ЧОМУ `fetch`, А НЕ `import` — і що це коштувало
+ *
+ * Доти зріз лежав у `src/lib/data/play-cast.json` і приходив звичайним
+ * імпортом. Це означало, що він ЇДЕ В КЛІЄНТСЬКИЙ БАНДЛ — до кожного
+ * відвідувача сайту, включно з тими, хто ніколи не відкриє жодного показу.
+ *
+ * Заміряно 7 вересня 2026, коли `check-bundle-budget` почервонів на п'яти нових
+ * фестивалях: усі дані бандла важили 81 КБ brotli при стелі 80, і 7 КБ із них —
+ * саме цей зріз. Стеля не випадкова: у її докблоці записано наперед, що робити,
+ * дійшовши до неї, — «виносити реєстри у `static/` під запит, як це давно
+ * зроблено з профілями майстрів і випускників». Підняти число замість переносу
+ * означало б не виконати власну обіцянку.
+ *
+ * Тому зріз тепер лежить у `static/galaxy/play-cast.json`, а забирають його
+ * `fetch`ем рівно три сторінки, яким він потрібен: показ, перелік показів і
+ * сторінка майстра. Після переносу дані бандла — 74 КБ.
+ *
+ * `fetch` приходить із `load` SvelteKit: на пререндері він читає файл із диска
+ * (тобто зріз потрапляє в готовий HTML і мережею не їде), а при переході в
+ * браузері — з мережі, один раз на сеанс завдяки кешу нижче.
  */
 export interface CastEntry {
 	graduateId: string;
@@ -33,7 +50,47 @@ export interface CastEntry {
 	fromRegistry?: boolean;
 }
 
-export const PLAY_CAST = castData as Record<string, CastEntry[]>;
+export type PlayCast = Record<string, CastEntry[]>;
+
+/** Адреса зрізу в `static/`. Одна на проєкт — щоб не розійшлася з `OUT` скрипта. */
+export const PLAY_CAST_URL = '/galaxy/play-cast.json';
+
+/**
+ * Кеш на сеанс сторінки.
+ *
+ * Три різні `load` просять той самий файл, а при переходах між показами
+ * `load` виконується щоразу наново. Без кешу перелік із двохсот показів
+ * означав би двісті запитів за тим самим файлом; браузер більшість із них
+ * віддав би зі свого кешу, але розбір JSON робився б щоразу.
+ *
+ * Кешується САМА ОБІЦЯНКА, а не результат: два `load` можуть початися
+ * одночасно (перехід і попереднє завантаження посилання), і на результаті вони
+ * зробили б два запити.
+ */
+let кеш: Promise<PlayCast> | null = null;
+
+/**
+ * Зріз складу — з `static/`, через `fetch` із `load`.
+ *
+ * Помилка мережі не валить сторінку: показ без складу — це те саме, що показ,
+ * складу якого ми ще не знаємо, і сторінка вже вміє це показати («склад ще не
+ * зібрано»). Валитися тут означало б віддати 500 замість сторінки з афішею.
+ */
+export async function loadPlayCast(fetchFn: typeof fetch): Promise<PlayCast> {
+	кеш ??= fetchFn(PLAY_CAST_URL)
+		.then((response) => (response.ok ? (response.json() as Promise<PlayCast>) : {}))
+		.catch(() => ({}) as PlayCast);
+	return кеш;
+}
+
+/** Лише ключі людей на кожен показ — те, чого вистачає рядам облич. */
+export function castIdsOf(cast: PlayCast): Record<string, string[]> {
+	const map: Record<string, string[]> = {};
+	for (const [playId, entries] of Object.entries(cast)) {
+		map[playId] = entries.map((entry) => entry.graduateId);
+	}
+	return map;
+}
 
 /** Один рядок складу з уже знайденою людиною. */
 export interface CastMember {
@@ -54,9 +111,9 @@ export interface CastMember {
  * зріз будується з анкет, а кожна анкета належить запису реєстру. Фільтр тут
  * як запобіжник типів, а не як очікуваний випадок.
  */
-export function castOf(playId: string): CastMember[] {
+export function castOf(cast: PlayCast, playId: string): CastMember[] {
 	const members: CastMember[] = [];
-	for (const entry of PLAY_CAST[playId] ?? []) {
+	for (const entry of cast[playId] ?? []) {
 		const graduate = LINKED_GRADUATES.find((g) => g.id === entry.graduateId);
 		if (graduate)
 			members.push({

@@ -4,7 +4,6 @@
 	import { playPath, type Play } from '$lib/data/plays';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { playGroupCaption } from '$lib/data/groups';
-	import { PLAY_CAST } from '$lib/data/playCast';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	/**
@@ -27,12 +26,21 @@
 	 * посилань у ньому перетворює список назад на плитку. Показане число складу
 	 * веде до тієї самої вистави в режимі плитки, де імена натискаються.
 	 */
+	/*
+	 * Ключі людей на кожен показ приходять ПРОПОМ, а не імпортом зрізу.
+	 *
+	 * Зріз складу лежить у `static/galaxy/play-cast.json` і забирається `fetch`ем
+	 * у `load` сторінки — розбір і замір у докблоці `data/playCast.ts`; коротко:
+	 * імпортом він їхав у бандл до кожного відвідувача сайту й важив 7 КБ із
+	 * 81 КБ усіх даних при стелі 80.
+	 */
 	interface Props {
 		productions: Play[];
+		castIds?: Record<string, string[]>;
 		isEn?: boolean;
 	}
 
-	let { productions, isEn = false }: Props = $props();
+	let { productions, castIds = {}, isEn = false }: Props = $props();
 </script>
 
 <ol class="prod-rows" data-testid="master-productions-rows-list">
@@ -40,11 +48,11 @@
 		<!-- Назва курсу видима, номер — тихо. Чому так: `playGroupCaption`. -->
 		{@const caption = playGroupCaption(
 			prod.id,
-			(PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId),
+			castIds[prod.id] ?? [],
 			prod.theatreGroup,
 			isEn
 		)}
-		{@const castIds = (PLAY_CAST[prod.id] ?? []).map((c) => c.graduateId)}
+		{@const ключі = castIds[prod.id] ?? []}
 		<li class="prod-row" data-testid="master-productions-row-{prod.id}">
 			<span class="prod-row__year">
 				{#if prod.number}<span class="prod-row__num">#{prod.number}</span>{/if}
@@ -63,10 +71,10 @@
 			</span>
 
 			<!-- Склад — власна колонка сітки; чому не окремий рядок, див. хронологію. -->
-			{#if castIds.length}
+			{#if ключі.length}
 				<span class="prod-row__cast">
 					<GraduateAvatarRow
-						ids={castIds}
+						ids={ключі}
 						testIdPrefix="master-productions-row-cast-{prod.id}"
 						max={6}
 					/>

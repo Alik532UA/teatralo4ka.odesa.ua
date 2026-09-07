@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { readFileSync } from 'node:fs';
 import { gotoReady, openStageMenu, waitForAnimations } from './ready';
 import { groupPlayRows } from '../src/lib/data/playRowGroups';
 import type { GraduatePlay } from '../src/lib/data/graduates';
@@ -237,6 +238,22 @@ test.describe('картка в галактиці має власну адрес
 			'galaxy-roster-list-item-',
 			''
 		);
+
+		/*
+		 * АДРЕСА — це `code ?? slug`, а `data-testid` рядка несе саме другий.
+		 *
+		 * Доти перевірка звіряла URL зі слагом і трималася на тому, що перший
+		 * рядок без портрета належав людині БЕЗ коду. 7 вересня 2026 у реєстр
+		 * додалося семеро людей, перший такий рядок став іншим — ним виявилася
+		 * Віталіна Ларіонова, чия адреса `Vitalina`, — і перевірка почервоніла на
+		 * цілком правильній сторінці. Тепер адреса береться з тих самих даних,
+		 * які читає сама сторінка.
+		 */
+		const реєстр = JSON.parse(
+			readFileSync(new URL('../src/lib/data/graduates.index.json', import.meta.url), 'utf8')
+		) as { slug: string; code?: string }[];
+		const адреса = реєстр.find((г) => г.slug === slug)?.code ?? slug;
+
 		await plain.locator('button').click();
 
 		/*
@@ -246,11 +263,11 @@ test.describe('картка в галактиці має власну адрес
 		 */
 		const isMobile = (page.viewportSize()?.width ?? 1280) <= 768;
 		if (isMobile) {
-			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${slug}/?$`));
+			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${адреса}/?$`));
 			await expect(page.locator('[data-testid="graduate-profile-card"]')).toBeVisible();
 		} else {
 			await expect(page.locator(CARD)).toBeVisible();
-			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${slug}/?$`));
+			await expect(page).toHaveURL(new RegExp(`/projects/galaxy-graduates/${адреса}/?$`));
 		}
 
 		// Анкети немає — просимо її заповнити; олівця контактів немає, бо немає фото.

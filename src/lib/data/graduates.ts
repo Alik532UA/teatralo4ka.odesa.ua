@@ -57,13 +57,27 @@ export type Department = (typeof DEPARTMENTS)[number];
  *
  *   `graduate` (поля немає) — свідоцтво про закінчення є;
  *   `attended` — навчався й не закінчив («навчався до N»);
- *   `student` — ще вчиться; у `graduationYear` очікуваний рік випуску.
+ *   `student` — ще вчиться; у `graduationYear` очікуваний рік випуску;
+ *   `friend` — учнем школи НЕ БУВ, але грав із нею на сцені.
  *
  * Статус не залежить від видимості (`visibility`): той, хто не закінчив,
  * буває і в галактиці (Ігор Розводюк), і лише за зв'язками (Ірина Тимофієнко),
  * і лише за прямим посиланням (Володимир Захарченко).
+ *
+ * ## Звідки взявся `friend` — «друг школи»
+ *
+ * Рішення автора 7 вересня 2026, коли вносили фестиваль «Південні маски»
+ * 2009: у молодіжному театрі «Тітри» разом із випускниками грав Олександр
+ * Комадовський, якого немає в жодному переліку школи — і не має бути, бо він
+ * тут не вчився. Сховати його означало б збрехати про склад поїздки; назвати
+ * випускником — збрехати про нього самого.
+ *
+ * Тому окреме значення, а не рівень видимості: `linked` каже «не в переліку»,
+ * але не каже ЧОМУ, і за пів року причина була б утрачена. Рік випуску в
+ * такого запису порожній завжди — обидва інваріанти стереже
+ * `narrowed-fields.test.ts`.
  */
-export const GRADUATE_KINDS = ['graduate', 'attended', 'student'] as const;
+export const GRADUATE_KINDS = ['graduate', 'attended', 'student', 'friend'] as const;
 export type GraduateKind = (typeof GRADUATE_KINDS)[number];
 
 /**
@@ -405,12 +419,17 @@ export function graduateProfileJson(address: string): string {
  * його як факт означало б обіцяти випуск. Той, хто не закінчив, без року
  * лишається без підпису — форма «навчався до» ще й чоловіча, і борг жіночої
  * форми записаний у PROJECT-CONTEXT.
+ *
+ * Друг школи підписується САМЕ ТАК, а не порожнім рядком: він стоїть у складі
+ * поїздки поруч із випускниками, і без підпису читач вирішив би, що йому теж
+ * просто не вписали рік.
  */
 export function graduationCaption(
 	graduate: { graduationYear: number | null; kind?: GraduateKind },
 	translate: (key: string, options?: { values?: Record<string, string | number> }) => string
 ): string | null {
 	if (graduate.kind === 'student') return translate('galaxy.studying');
+	if (graduate.kind === 'friend') return translate('galaxy.friendOfSchool');
 	const year = graduate.graduationYear;
 	if (!year) return null;
 	return graduate.kind === 'attended'
