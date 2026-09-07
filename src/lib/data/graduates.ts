@@ -136,6 +136,18 @@ export interface GraduateIndexEntry {
 	 */
 	id: string;
 	slug: string;
+	/**
+	 * Адреси, які МУСЯТЬ вести на цю сторінку, окрім чинної.
+	 *
+	 * Потрібне рівно там, де адреса особиста, а стандартної в даних немає:
+	 * `margotcine`, `reverenciel`, `al_bryn`. У кого адреса — `code`, стандартну
+	 * виводить сам скрипт із `slug`, і поле тут зайве.
+	 *
+	 * Пишеться поруч зі `slug` навмисно: правка одна, а не дві в різних файлах.
+	 * Перелік заглушок збирає `npm run build:address-aliases`, а того, хто змінив
+	 * адресу й забув про це поле, називає гейт `src/address-aliases.test.ts`.
+	 */
+	aliases?: string[];
 	name: string;
 	/** `null` буває: у джерелі рік вказаний не завжди. */
 	graduationYear: number | null;

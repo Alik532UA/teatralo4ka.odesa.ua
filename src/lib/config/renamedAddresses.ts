@@ -60,6 +60,8 @@
  * механізм заради симетрії означало б чіпати те, що працює.
  */
 
+import ALIASES from '../data/address-aliases.data.json';
+
 /**
  * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
  * венок»), тоді як сама назва українська. Адреса прожила в проді менш ніж
@@ -216,6 +218,21 @@ export const RENAMED_GRADUATE_ADDRESSES: Record<string, string> = {
 };
 
 /**
+ * Стандартна адреса випускника → його особиста. ГЕНЕРУЄТЬСЯ.
+ *
+ * Це не перейменування: адреса `alik-zapolnov` ніколи не існувала, просто її
+ * очікують — бо в решти 506 випускників адреса саме така. Механіка ж потрібна
+ * та сама, що для перейменувань, тож аліаси й лежать у тому самому переліку
+ * `RENAMED_PATHS`: заглушка з `meta refresh`, запис у реєстрі, рядок у чеклисті.
+ *
+ * Виводяться скриптом `npm run build:address-aliases` — там і розбір, звідки
+ * береться пара й що робиться зі зіткненнями тезок. Двоє (`roman-arabadzhi`,
+ * `alla-brynza`) сюди НЕ потрапляють: у них адресу справді міняли, і вони
+ * лишаються перейменуваннями вище.
+ */
+export const GRADUATE_ALIASES: Record<string, string> = ALIASES;
+
+/**
  * Старі адреси повними шляхами — для реєстру заглушок і чеклиста.
  *
  * Пара «стара адреса → нова», обидві без мовного префікса й без кінцевої риски:
@@ -242,6 +259,9 @@ export const RENAMED_PATHS: readonly (readonly [старий: string, новий
 		([с, н]) => [`/residents/adults/${с}`, `residents/adults/${н}`] as const
 	),
 	...Object.entries(RENAMED_GRADUATE_ADDRESSES).map(
+		([с, н]) => [`/projects/galaxy-graduates/${с}`, `projects/galaxy-graduates/${н}`] as const
+	),
+	...Object.entries(GRADUATE_ALIASES).map(
 		([с, н]) => [`/projects/galaxy-graduates/${с}`, `projects/galaxy-graduates/${н}`] as const
 	)
 ];

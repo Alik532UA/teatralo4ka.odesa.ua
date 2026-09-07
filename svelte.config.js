@@ -132,6 +132,37 @@ const PUBLIC_ENTRIES = [
 	'/fest-odesa-teatr-pro',
 	'/fest-odessa-teatr-pro',
 	/*
+	 * Стандартні адреси випускників, чия сторінка живе на особистій.
+	 *
+	 * `alik-zapolnov` ніколи не існувала, але її очікують: у решти 506
+	 * випускників адреса саме така. Перелік ГЕНЕРУЄТЬСЯ
+	 * (`npm run build:address-aliases`) — тут він повторений із тієї ж причини,
+	 * що й нижче: конфіг збірки не читає TypeScript. Збіг тримає
+	 * `src/address-aliases.test.ts`.
+	 */
+	'/projects/galaxy-graduates/albina-abuladze',
+	'/projects/galaxy-graduates/alik-zapolnov',
+	'/projects/galaxy-graduates/bohdana-dymchenko',
+	'/projects/galaxy-graduates/daria-dovhan',
+	'/projects/galaxy-graduates/daria-yanovska',
+	'/projects/galaxy-graduates/erika-chichasova',
+	'/projects/galaxy-graduates/halaida-oleksandra',
+	'/projects/galaxy-graduates/ivan-pitel',
+	'/projects/galaxy-graduates/karyna-kaminieva',
+	'/projects/galaxy-graduates/kateryna-nesterenko',
+	'/projects/galaxy-graduates/khrystia-oslavska',
+	'/projects/galaxy-graduates/liubov-prepodobna',
+	'/projects/galaxy-graduates/mariia-kulish',
+	'/projects/galaxy-graduates/mariia-mandriesk',
+	'/projects/galaxy-graduates/oleksandra-karachevska',
+	'/projects/galaxy-graduates/olena-machtakova',
+	'/projects/galaxy-graduates/sofiia-skuratovych',
+	'/projects/galaxy-graduates/sofiya-rudenko',
+	'/projects/galaxy-graduates/valeriia-babenko',
+	'/projects/galaxy-graduates/valeriia-burian',
+	'/projects/galaxy-graduates/vitalina-larionova',
+	'/projects/galaxy-graduates/yan-slobodeniuk',
+	/*
 	 * Старі адреси перейменованих сторінок — заглушки з `meta refresh`.
 	 *
 	 * Тут вони потрібні заради АНГЛІЙСЬКОГО дзеркала: `entries()` маршруту дає

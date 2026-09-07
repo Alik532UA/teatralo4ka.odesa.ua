@@ -2489,6 +2489,9 @@
 	{
 		"id": "daria-kristiian",
 		"slug": "daria-kristiian",
+		"aliases": [
+			"daria-yanovska"
+		],
 		"name": "Дар’я Яновська (Крістіян)",
 		"graduationYear": 2025,
 		"enrollmentYears": [
@@ -2982,6 +2985,9 @@
 	{
 		"id": "dovhan-daria",
 		"slug": "dovhan-daria",
+		"aliases": [
+			"daria-dovhan"
+		],
 		"name": "Дар'я Довган",
 		"graduationYear": 2023,
 		"departments": [
@@ -4615,6 +4621,9 @@
 	{
 		"id": "kulish-mariia",
 		"slug": "kulish-mariia",
+		"aliases": [
+			"mariia-kulish"
+		],
 		"name": "Марія Куліш",
 		"graduationYear": 2020,
 		"departments": [

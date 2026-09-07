@@ -11,7 +11,7 @@ import {
 	type GraduateProfile
 } from '$lib/data/graduates';
 import { getMasterById } from '$lib/data/masters';
-import { RENAMED_GRADUATE_ADDRESSES } from '$lib/config/renamedAddresses';
+import { GRADUATE_ALIASES, RENAMED_GRADUATE_ADDRESSES } from '$lib/config/renamedAddresses';
 import { masterGender } from '$lib/utils/masterLabel';
 
 /**
@@ -76,12 +76,19 @@ const SEO: Record<
 export function entries() {
 	return [
 		...WITH_PAGE.map((graduate) => ({ address: graduateAddress(graduate) })),
-		...Object.keys(RENAMED_GRADUATE_ADDRESSES).map((address) => ({ address }))
+		...Object.keys(RENAMED_GRADUATE_ADDRESSES).map((address) => ({ address })),
+		...Object.keys(GRADUATE_ALIASES).map((address) => ({ address }))
 	];
 }
 
 export async function load({ params, fetch, url }) {
-	const renamedTo = RENAMED_GRADUATE_ADDRESSES[params.address];
+	/*
+	 * Перейменування й аліас поводяться однаково, а означають різне: перше — що
+	 * адреса БУЛА іншою, друге — що стандартної адреси в людини немає взагалі
+	 * (її сторінка живе на особистій, як `Alik` чи `margotcine`). Розбір — у
+	 * `config/renamedAddresses.ts`.
+	 */
+	const renamedTo = RENAMED_GRADUATE_ADDRESSES[params.address] ?? GRADUATE_ALIASES[params.address];
 	if (renamedTo) {
 		redirect(301, localizedPath(graduateProfilePath(renamedTo), localeFromPath(url.pathname)));
 	}

@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.539",
+	"version": "0.0.540",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -9,7 +9,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"prebuild": "npm run validate-content && npm run build:news-cards && npm run build:search-index",
+		"prebuild": "npm run validate-content && npm run build:address-aliases && npm run build:news-cards && npm run build:search-index",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync && husky || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -45,7 +45,8 @@
 		"parse:roster": "tsx scripts/parse-graduate-roster.ts",
 		"data:graduates": "tsx scripts/build-graduates-data.ts",
 		"build:stats": "tsx scripts/build-stats.ts",
-		"build:stats-history": "tsx scripts/build-stats-history.ts"
+		"build:stats-history": "tsx scripts/build-stats-history.ts",
+		"build:address-aliases": "tsx scripts/build-address-aliases.ts"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.12.1",
