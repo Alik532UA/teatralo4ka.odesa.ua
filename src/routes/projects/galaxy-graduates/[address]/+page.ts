@@ -12,7 +12,11 @@ import {
 	type GraduateProfile
 } from '$lib/data/graduates';
 import { getMasterById } from '$lib/data/masters';
-import { GRADUATE_ALIASES, RENAMED_GRADUATE_ADDRESSES } from '$lib/config/renamedAddresses';
+import {
+	GRADUATE_ALIASES,
+	GRADUATE_MOVED_TO_ADULT,
+	RENAMED_GRADUATE_ADDRESSES
+} from '$lib/config/renamedAddresses';
 import { masterGender } from '$lib/utils/masterLabel';
 
 /**
@@ -78,7 +82,8 @@ export function entries() {
 	return [
 		...WITH_PAGE.map((graduate) => ({ address: graduateAddress(graduate) })),
 		...Object.keys(RENAMED_GRADUATE_ADDRESSES).map((address) => ({ address })),
-		...Object.keys(GRADUATE_ALIASES).map((address) => ({ address }))
+		...Object.keys(GRADUATE_ALIASES).map((address) => ({ address })),
+		...Object.keys(GRADUATE_MOVED_TO_ADULT).map((address) => ({ address }))
 	];
 }
 
@@ -92,6 +97,16 @@ export async function load({ params, fetch, url }) {
 	const renamedTo = RENAMED_GRADUATE_ADDRESSES[params.address] ?? GRADUATE_ALIASES[params.address];
 	if (renamedTo) {
 		redirect(301, localizedPath(graduateProfilePath(renamedTo), localeFromPath(url.pathname)));
+	}
+
+	/*
+	 * Третій вид — переїзд у ІНШИЙ розділ: людину помилково завели випускницею,
+	 * а вона працівниця школи. Окремою гілкою, бо адреса будується не
+	 * `graduateProfilePath`, а прямо: ціль лежить поза цим маршрутом.
+	 */
+	const movedToAdult = GRADUATE_MOVED_TO_ADULT[params.address];
+	if (movedToAdult) {
+		redirect(301, localizedPath(`/residents/adults/${movedToAdult}/`, localeFromPath(url.pathname)));
 	}
 
 	const graduate = findByAddress(params.address);

@@ -90,6 +90,11 @@ const PUBLIC_ENTRIES = [
 	// × дві мови), хоч dev-сервер їх віддавав.
 	'/projects/galaxy-graduates/update',
 	'/projects/galaxy-graduates/form',
+	// 2026-09-08: адреса помилкового запису Анастасії Ніколаєвої. Вона побувала
+	// в `main`, тобто й у `sitemap.xml`, і тепер веде на сторінку викладачки в
+	// «Дорослих мешканцях» — розбір у `config/renamedAddresses.ts`
+	// (`GRADUATE_MOVED_TO_ADULT`).
+	'/projects/galaxy-graduates/anastasiia-nikolaieva',
 	// Новина, яка живе в коді. Тут вона обов'язкова з ДВОХ причин, і кожну
 	// заміряно на цій самій новині:
 	//

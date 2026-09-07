@@ -10927,17 +10927,5 @@
 		"kind": "student",
 		"visibility": "linked",
 		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "anastasiia-nikolaieva",
-		"slug": "anastasiia-nikolaieva",
-		"name": "Анастасія Ніколаєва",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
 	}
 ]

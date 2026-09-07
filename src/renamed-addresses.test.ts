@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import config from '../svelte.config.js';
 import {
 	RENAMED_FESTIVAL_SLUGS,
+	GRADUATE_MOVED_TO_ADULT,
 	RENAMED_GRADUATE_ADDRESSES,
 	RENAMED_GROUP_SLUGS,
 	RENAMED_MASTER_SLUGS,
@@ -56,7 +57,8 @@ const МАПИ = {
 	групи: RENAMED_GROUP_SLUGS,
 	вистави: RENAMED_PLAY_IDS,
 	майстри: RENAMED_MASTER_SLUGS,
-	випускники: RENAMED_GRADUATE_ADDRESSES
+	випускники: RENAMED_GRADUATE_ADDRESSES,
+	'випускник-у-дорослі': GRADUATE_MOVED_TO_ADULT
 } as const;
 
 /** Чинні адреси кожного роду — те, на що перейменування має право вести. */
@@ -65,7 +67,37 @@ const ЧИННІ: Record<keyof typeof МАПИ, string[]> = {
 	групи: GROUPS.map((g) => g.slug),
 	вистави: PLAYS.map((p) => p.id),
 	майстри: MASTERS.map((m) => m.slug),
-	випускники: WITH_PAGE.map((g) => graduateAddress(g))
+	випускники: WITH_PAGE.map((g) => graduateAddress(g)),
+	/* Ціль переїзду — сторінка ПРАЦІВНИКА, тому перелік той самий, що в майстрів. */
+	'випускник-у-дорослі': MASTERS.map((m) => m.slug)
+};
+
+/**
+ * Простір, у якому живе СТАРИЙ ключ, коли він не збігається з простором цілі.
+ *
+ * У решти мап обидва кінці в одному розділі, тож і перевіряти їх треба одним
+ * переліком. У переїзду через розділ це не так: стара адреса — випускницька,
+ * ціль — сторінка працівника, і в цьому єдиному записі вони ще й однакові на
+ * вигляд (`anastasiia-nikolaieva` в обох). Без цього поділу перевірка «стара
+ * адреса не забирає чинну сторінку» звіряла б випускницьку адресу з переліком
+ * майстрів і оголосила б живу сторінку викладачки старою адресою.
+ */
+const КЛЮЧІ: Partial<Record<keyof typeof МАПИ, string[]>> = {
+	'випускник-у-дорослі': WITH_PAGE.map((g) => graduateAddress(g))
+};
+
+/**
+ * Де шукати продовження ланцюжка, коли ціль лежить у чужому розділі.
+ *
+ * Ланцюжок — це «стара адреса → інша стара адреса»: браузер пройде обидва
+ * кроки, але `meta refresh` додає затримку на кожному, а пошуковик бачить
+ * другий крок окремою порожньою сторінкою. Шукати його треба в тій мапі, куди
+ * ціль ПРИЙШЛА: для переїзду в «Дорослі мешканці» це перейменування майстрів.
+ * Своя ж мапа тут не годиться — стара адреса й ціль у цьому записі однакові на
+ * вигляд, і будь-який переїзд «сам у себе» здавався б ланцюжком.
+ */
+const ЛАНЦЮГ: Partial<Record<keyof typeof МАПИ, Record<string, string>>> = {
+	'випускник-у-дорослі': RENAMED_MASTER_SLUGS
 };
 
 describe('перейменовані адреси', () => {
@@ -138,7 +170,8 @@ describe('перейменовані адреси', () => {
 		const bad: string[] = [];
 		for (const [рід, мапа] of Object.entries(МАПИ)) {
 			for (const старий of Object.keys(мапа)) {
-				if (ЧИННІ[рід as keyof typeof МАПИ].includes(старий)) {
+				const свої = КЛЮЧІ[рід as keyof typeof МАПИ] ?? ЧИННІ[рід as keyof typeof МАПИ];
+				if (свої.includes(старий)) {
 					bad.push(`${рід}: ${старий} — це чинна адреса, а не стара`);
 				}
 			}
@@ -152,8 +185,9 @@ describe('перейменовані адреси', () => {
 		// сторінкою.
 		const bad: string[] = [];
 		for (const [рід, мапа] of Object.entries(МАПИ)) {
+			const далі = ЛАНЦЮГ[рід as keyof typeof МАПИ] ?? мапа;
 			for (const [старий, новий] of Object.entries(мапа)) {
-				if (новий in мапа) bad.push(`${рід}: ${старий} → ${новий} → ${мапа[новий]}`);
+				if (новий in далі) bad.push(`${рід}: ${старий} → ${новий} → ${далі[новий]}`);
 			}
 		}
 		expect(bad).toEqual([]);
