@@ -240,12 +240,18 @@
 		color: var(--text-title);
 		line-height: 1.3;
 	}
+	/*
+	 * `--accent-text`, а не `--accent-primary`: другий — ТЛО акцентних кнопок
+	 * (докблок `themes/dark-blue.css`), і текстом його брати не можна. У
+	 * «жовтій» темі це блідо-блакитний #9adcff, а плашка картки там — блідо-жовта
+	 * #fff89a: заміряно 7 вересня 2026, контраст 1,36 у шести темах на найгіршій.
+	 */
 	.inst-card__people {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.25rem;
 		flex-shrink: 0;
-		color: var(--accent-primary);
+		color: var(--accent-text);
 		font-size: 0.85rem;
 		font-weight: 700;
 	}

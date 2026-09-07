@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Play, Pause, RotateCcw, History, Sparkles } from 'lucide-svelte';
-	import type { HistoryDailySnapshot } from '$lib/data/stats';
+	import { STATUS_GOOD, STATUS_MID, type HistoryDailySnapshot } from '$lib/data/stats';
 
 	interface Props {
 		snapshots: HistoryDailySnapshot[];
@@ -96,12 +96,12 @@
 					{isEn ? 'Archive History Timeline' : 'Хроніка наповнення архіву'}
 				</h2>
 				{#if isToday}
-					<span class="timeline-badge timeline-badge--live">
+					<span class="timeline-badge timeline-badge--live" style:color={STATUS_GOOD}>
 						<Sparkles size={13} aria-hidden="true" />
 						<span>{isEn ? 'Today (Live)' : 'Сьогодні (Актуальні дані)'}</span>
 					</span>
 				{:else}
-					<span class="timeline-badge timeline-badge--history">
+					<span class="timeline-badge timeline-badge--history" style:color={STATUS_MID}>
 						<span>{isEn ? 'Archive snapshot' : 'Архівний зріз на 00:00'}</span>
 					</span>
 				{/if}
@@ -200,14 +200,18 @@
 		font-weight: 600;
 		border-radius: 20px;
 	}
+	/*
+	 * Колір приходить розміткою з `STATUS_GOOD`/`STATUS_MID` — того самого
+	 * джерела, що фарбує відсотки в картках. Доти тут стояли жорсткі #10b981 і
+	 * #f59e0b, розраховані на темне тло: заміряно 7 вересня 2026, «Сьогодні
+	 * (Актуальні дані)» давало 2,03 у світлій темі й 1,85 у «світлій жовтій».
+	 */
 	.timeline-badge--live {
 		background: rgba(16, 185, 129, 0.15);
-		color: #10b981;
 		border: 1px solid rgba(16, 185, 129, 0.3);
 	}
 	.timeline-badge--history {
 		background: rgba(245, 158, 11, 0.15);
-		color: #f59e0b;
 		border: 1px solid rgba(245, 158, 11, 0.3);
 	}
 	.timeline-actions { display: flex; align-items: center; gap: 8px; }

@@ -584,6 +584,26 @@
 		pointer-events: none;
 	}
 
+	/*
+	 * КОЛІР РЯДУ — З ТОКЕНА `--accent-text`, А НЕ ЖОРСТКИЙ КОСМІЧНИЙ СИНІЙ.
+	 *
+	 * Доти тут стояли `rgb(140 180 255 / …)` і `#bfe0ff` — кольори ГАЛАКТИКИ,
+	 * тобто розраховані на майже чорне тло. Але цей рядок малюється не лише в
+	 * галактиці: він є в переліках фестивалів, театрів і закладів, на сторінках
+	 * майстрів у «Дорослих» і в картці учня — а всі вони живуть у ТЕМІ САЙТУ.
+	 * Заміряно 7 вересня 2026 у шести темах: літера в кружечку давала контраст
+	 * 1,13 у «світлій жовтій» і 1,16 у «жовтій» (#bfe0ff на #f1ee8f) — тобто її
+	 * не було видно взагалі, як і крапок банера до сусіднього виправлення.
+	 *
+	 * `--accent-text` годиться в обох світах саме тому, що його підміняють:
+	 * усередині `body.page-galaxy` він дорівнює `--galaxy-accent` (#8cc4ff), а
+	 * поза нею — акценту теми, який у кожній темі підібраний під її тло. Це той
+	 * самий токен, яким уже пофарбовані посилання в переліках поруч.
+	 *
+	 * Саме `--accent-text`, а НЕ `--accent-primary`: другий у цьому проєкті —
+	 * ТЛО акцентних кнопок (див. докблок `themes/dark-blue.css`), і в жовтій
+	 * темі це блідо-блакитний #9adcff, який на світлому тлі не читається.
+	 */
 	.mates__item {
 		display: grid;
 		flex-shrink: 0;
@@ -592,8 +612,10 @@
 		height: 26px;
 		border-radius: 50%;
 		overflow: hidden;
-		background: rgb(140 180 255 / 0.12);
-		border: 1px solid rgb(140 180 255 / 0.35);
+		/* 93 %, а не 88 %: при 12 % підмішування тло в темній темі виходило
+		   #00455b, і літера #00b5ec давала 4,38 замість 4,5 — заміряно гейтом. */
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 93%);
+		border: 1px solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
 		text-decoration: none;
 		transition:
 			transform 0.2s ease,
@@ -607,7 +629,7 @@
 		 * же відповідає на питання «на що я наведений» без руху вздовж рядка.
 		 */
 		transform: scale(1.25);
-		border-color: var(--accent-primary, #8cb4ff);
+		border-color: var(--accent-text, #8cb4ff);
 		/* Поверх сусідів: інакше збільшений кружечок ліз би ПІД наступний. */
 		z-index: 2;
 	}
@@ -629,14 +651,14 @@
 		padding: 0 0.35rem;
 		font-size: 0.68rem;
 		font-weight: 700;
-		color: #bfe0ff;
+		color: var(--accent-text, #8cb4ff);
 		flex-shrink: 0;
 	}
 
 	.mates__letter {
 		font-size: 0.72rem;
 		font-weight: 700;
-		color: #bfe0ff;
+		color: var(--accent-text, #8cb4ff);
 		line-height: 1;
 	}
 	.sr-only {

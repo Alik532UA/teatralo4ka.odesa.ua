@@ -1985,7 +1985,9 @@
 		font-weight: 600;
 		line-height: 1;
 		white-space: nowrap;
-		color: #cfe4ff;
+		/* Заміряно 7 вересня 2026: жорсткий #cfe4ff давав на сторінці учня
+		   контраст 1,10 у «жовтій» темі. Розбір — у докблоці `.master-name`. */
+		color: var(--galaxy-accent, #8cc4ff);
 	}
 
 	.dept-badge {
@@ -2002,9 +2004,11 @@
 		width: 32px;
 		height: 32px;
 		border-radius: 50%;
-		background: rgb(140 190 255 / 0.12);
-		border: 1px solid rgb(140 190 255 / 0.35);
-		color: #bfe0ff;
+		/* 93 %, а не 88 %: 12 % підмішування піднімали тло до #00455b, і назва
+		   відділення давала 4,38 замість 4,5 у темній темі — заміряно гейтом. */
+		background: color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 93%);
+		border: 1px solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
+		color: var(--galaxy-accent, #8cc4ff);
 		transition:
 			box-shadow 0.2s ease,
 			border-color 0.2s ease,
@@ -2024,10 +2028,10 @@
 	 * нічого не робить із координатами.
 	 */
 	.dept-badge:hover {
-		background: rgb(140 190 255 / 0.25);
-		border-color: rgb(140 190 255 / 0.6);
-		color: #fff;
-		box-shadow: 0 0 0 3px rgb(140 190 255 / 0.18);
+		background: color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 75%);
+		border-color: color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 40%);
+		color: var(--galaxy-text, #eaf2ff);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 82%);
 	}
 	/* Квітка учня: те саме коло, що й зірка, але з кольорами теми — сторінка
 	   учня живе в темі сайту, а не в палітрі галактики. */
@@ -2310,7 +2314,7 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		color: #8cb4ff;
+		color: var(--galaxy-accent, #8cc4ff);
 	}
 	.master-badge__photo {
 		width: 22px;
@@ -2318,18 +2322,33 @@
 		border-radius: 50%;
 		object-fit: cover;
 		display: block;
-		border: 1px solid rgb(140 180 255 / 0.35);
+		border: 1px solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
 	}
+	/*
+	 * ІМЕНА Й ЗНАКИ — З ПАЛІТРИ `--galaxy-*`, А НЕ ЖОРСТКИМИ КОСМІЧНИМИ ХЕКСАМИ.
+	 *
+	 * Тут стояло `color: #ffffff`. У галактиці це правильно, а картка
+	 * малюється ще у двох місцях, де тло НЕ космічне: сторінка учня
+	 * (`.profile-stage--themed`) і телефон, де клас `page-galaxy` не ставиться
+	 * зовсім. Заміряно 7 вересня 2026 на `/projects/galaxy-graduates/
+	 * maryna-cheban/` у шести темах: у світлій ім'я майстра виходило #ffffff на
+	 * #ffffff, тобто контраст 1,00 — напису не було видно взагалі.
+	 *
+	 * `--galaxy-text` і `--galaxy-accent` для цього й заведені: обидві «themed»
+	 * обгортки (`.profile-stage--themed` у маршруті та `.card__inner--themed` у
+	 * `GraduateCard`) перенаправляють їх на токени теми, тож картка фарбується
+	 * космосом у галактиці й темою на планеті — не міняючи жодного рядка тут.
+	 */
 	.master-name {
 		font-size: 0.92rem;
 		font-weight: 500;
-		color: #ffffff;
+		color: var(--galaxy-text, #eaf2ff);
 		text-decoration: none;
 		transition: color 0.2s ease;
 	}
 	.master-link-wrapper:hover .master-name,
 	.teacher-link-wrapper:hover .master-name {
-		color: #bfe0ff;
+		color: var(--galaxy-accent, #8cc4ff);
 	}
 	.teacher-subject {
 		font-size: 0.78rem;

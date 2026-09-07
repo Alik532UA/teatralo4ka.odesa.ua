@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ChevronDown, ChevronUp, ExternalLink, Search, CheckCircle2 } from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { getEntityHref, type StatMetric } from '$lib/data/stats';
+	import { getEntityHref, metricStatusColor, STATUS_GOOD, type StatMetric } from '$lib/data/stats';
 
 	interface Props {
 		metric: StatMetric;
@@ -48,11 +48,9 @@
 		visibleLimit += 36;
 	}
 
-	const statusColor = $derived.by(() => {
-		if (displayPercent >= 80) return '#10b981';
-		if (displayPercent >= 50) return '#f59e0b';
-		return '#f43f5e';
-	});
+	/* Пороги й кольори — спільні зі сторінкою статистики, щоб дві копії не
+	   розійшлися: розбір у `metricStatusColor`. */
+	const statusColor = $derived(metricStatusColor(displayPercent));
 
 	const filteredMissing = $derived.by(() => {
 		const q = searchQuery.toLowerCase().trim();
@@ -120,7 +118,7 @@
 				{/if}
 			</button>
 		{:else}
-			<div class="all-filled-badge">
+			<div class="all-filled-badge" style:color={STATUS_GOOD}>
 				<CheckCircle2 size={16} aria-hidden="true" />
 				<span>{isEn ? 'All entries complete' : 'Усі записи заповнено'}</span>
 			</div>
@@ -215,7 +213,8 @@
 		transition: background 0.15s ease, border-color 0.15s ease;
 	}
 	.toggle-missing-btn:hover { border-color: var(--accent-primary); color: var(--text-title); }
-	.all-filled-badge { display: inline-flex; align-items: center; gap: 0.4rem; color: #10b981; font-size: 0.82rem; font-weight: 600; }
+	/* Колір приходить розміткою з `STATUS_GOOD`; жорсткий #10b981 давав 2,03. */
+	.all-filled-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 600; }
 	.missing-items-container { margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid var(--border-main); display: flex; flex-direction: column; gap: 0.85rem; }
 	.missing-search { position: relative; display: flex; align-items: center; }
 	:global(.search-icon) { position: absolute; left: 0.75rem; color: var(--text-muted); pointer-events: none; }

@@ -15,7 +15,9 @@
 		generateTextReport,
 		type StatCategory,
 		type StatsData,
-		type HistoryDailySnapshot
+		type HistoryDailySnapshot,
+		METRIC_STATUS_INK,
+		metricStatusColor
 	} from '$lib/data/stats';
 	import StatsMetricCard from '$lib/components/galaxy/StatsMetricCard.svelte';
 	import StatsTimeline from '$lib/components/galaxy/StatsTimeline.svelte';
@@ -80,12 +82,6 @@
 		} catch {
 			// fallback
 		}
-	}
-
-	function getMetricStatusColor(percent: number): string {
-		if (percent >= 80) return '#10b981';
-		if (percent >= 50) return '#f59e0b';
-		return '#f43f5e';
 	}
 
 	function getCategoryIcon(id: string) {
@@ -193,7 +189,8 @@
 					<span class="tab-btn__title">{isEn ? category.titleEn : category.titleUk}</span>
 					<span
 						class="tab-btn__badge"
-						style:background-color={getMetricStatusColor(catPercent)}
+						style:background-color={metricStatusColor(catPercent)}
+						style:color={METRIC_STATUS_INK}
 					>
 						{catPercent}%
 					</span>
@@ -220,7 +217,7 @@
 					<span class="summary-meter-label">{isEn ? 'Average Completeness' : 'Середня повнота'}:</span>
 					<span
 						class="summary-meter-badge"
-						style:color={getMetricStatusColor(getActiveCategoryPercent(selectedCategory.id))}
+						style:color={metricStatusColor(getActiveCategoryPercent(selectedCategory.id))}
 					>
 						{getActiveCategoryPercent(selectedCategory.id)}%
 					</span>
@@ -254,7 +251,9 @@
 	}
 	.stats-badge {
 		display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.75rem; border-radius: var(--radius-full, 9999px);
-		background: rgba(96, 165, 250, 0.1); color: var(--accent-primary); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem;
+		/* `--accent-text`, а не `--accent-primary`: другий — тло кнопок. Заміряно
+		   7 вересня 2026: у світлій темі напис давав 2,19, у «жовтій» — 1,34. */
+		background: rgba(96, 165, 250, 0.1); color: var(--accent-text); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.75rem;
 	}
 	.stats-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; margin: 0 0 0.5rem; }
 	.stats-subtitle { font-size: 1rem; color: var(--text-muted); max-width: 600px; line-height: 1.5; margin: 0; }
@@ -283,7 +282,9 @@
 	}
 	.tab-btn:hover { background: var(--bg-surface); color: var(--text-title); }
 	.tab-btn--active { background: var(--bg-card); color: var(--text-title); border-color: var(--border-main); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
-	.tab-btn__badge { padding: 0.15rem 0.45rem; border-radius: var(--radius-full, 9999px); color: #ffffff; font-size: 0.75rem; font-weight: 700; line-height: 1; }
+	/* Напис на плашці перевертається разом зі схемою — розбір у `METRIC_STATUS_INK`. */
+	/* Колір напису приходить розміткою разом із тлом плашки — див. `METRIC_STATUS_INK`. */
+	.tab-btn__badge { padding: 0.15rem 0.45rem; border-radius: var(--radius-full, 9999px); font-size: 0.75rem; font-weight: 700; line-height: 1; }
 	.stats-panel__summary {
 		display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.75rem; padding: 1.25rem 1.5rem;
 		background: var(--bg-surface); border-radius: var(--radius-lg, 12px); border: 1px solid var(--border-main);
