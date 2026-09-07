@@ -4,10 +4,15 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { Flower2, Plus } from 'lucide-svelte';
+	import { CircleDot, LayoutGrid, Columns2, Plus } from 'lucide-svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
+	import PlanetOrbits from '$lib/components/planet/PlanetOrbits.svelte';
+	import PlanetGrid from '$lib/components/planet/PlanetGrid.svelte';
+	import PlanetSplit from '$lib/components/planet/PlanetSplit.svelte';
+	import { createViewState } from '$lib/services/galaxyViewMode.svelte';
 	import {
 		cachedGraduateProfile,
 		ensureGraduateProfile
@@ -17,8 +22,6 @@
 		STUDENTS,
 		graduateAddress,
 		graduateProfilePath,
-		graduatePhoto,
-		graduatePhotoSrcset,
 		hasProfile,
 		type GraduateIndexEntry
 	} from '$lib/data/graduates';
@@ -50,37 +53,41 @@
 	const мова_uk = $derived<'uk' | 'en'>($мова === 'en' ? 'en' : 'uk');
 
 	/**
-	 * Розкладка облич — спіраль за золотим кутом (137,5°).
+	 * ТРИ РОЗКЛАДКИ, між якими перемикається людина.
 	 *
-	 * Не випадкові координати: випадковість під час prerender дала б інший HTML,
-	 * ніж перший кадр у браузері (та сама пастка, що описана в `GraduateGalaxy`).
-	 * І не сітка: сітка на круглій планеті читається як таблиця поверх кола.
+	 * ## Чому три, а не одна найкраща
 	 *
-	 * Золотий кут дає рівномірне заповнення диска за будь-якої кількості — так
-	 * ростуть насінини соняшника. Радіус береться коренем від номера, інакше
-	 * центр був би густий, а край порожній.
+	 * Доти обличчя стояли спіраллю за золотим кутом, і 2026-09-08 автор надіслав
+	 * знімок: із одинадцяти імен читалися п'ять. Спіраль ідеальна для НАСІНИН —
+	 * однакових кружечків без підписів; наш «кружечок» має підпис завширшки як
+	 * три обличчя, і саме він накладався. З ростом числа учнів ставало б гірше.
+	 *
+	 * Але полагодити це «одним правильним способом» не виходить, бо в задачі два
+	 * бажання, які тягнуть у різні боки: щоб імена було видно ЗАВЖДИ і щоб
+	 * лишилася куля з обличчями. Тому варіантів три, і кожен чесно жертвує чимось
+	 * своїм:
+	 *
+	 *   `orbits` — куля лишається, імена приходять на наведення й фокус;
+	 *   `grid`   — імена завжди видно, куля стає знаком розділу;
+	 *   `split`  — і те, і те, ціною двох колонок замість однієї картини.
+	 *
+	 * Спільне в усіх трьох — розкладка `utils/planetLayout`: обличчя меншає з
+	 * ростом групи, тож перекриття не буває за побудовою, а не за домовленістю.
+	 *
+	 * ## Чому вибір запам'ятовується
+	 *
+	 * Той самий механізм, що на переліках галактики (`createViewState`): людина
+	 * обирає раз, і сторінка відкривається так, як вона звикла. Ключ сховища —
+	 * через підкреслення, як `galaxy_festivals_view` поруч.
 	 */
-	const ЗОЛОТИЙ_КУТ = 137.507;
-	/** Частка радіуса планети, у якій стоять обличчя: далі починається край. */
-	const МЕЖА = 0.66;
+	const PLANET_VIEWS = ['orbits', 'grid', 'split'] as const;
+	const вигляд = createViewState('planet_view', PLANET_VIEWS, 'orbits');
 
-	const місця = $derived(
-		STUDENTS.map((учень, номер) => {
-			const кут = (номер * ЗОЛОТИЙ_КУТ * Math.PI) / 180;
-			const радіус = МЕЖА * Math.sqrt((номер + 0.5) / Math.max(STUDENTS.length, 1));
-			/*
-			 * Множник 50, а не 100: `радіус` — частка РАДІУСА планети, а відсотки
-			 * тут відлічуються від СТОРОНИ квадрата, тобто від двох радіусів.
-			 * Перша редакція множила на 100, і крайні обличчя вилітали за коло:
-			 * Родоміра Долбишева стояла над планетою, поверх тексту.
-			 */
-			return {
-				учень,
-				x: 50 + радіус * 50 * Math.cos(кут),
-				y: 50 + радіус * 50 * Math.sin(кут)
-			};
-		})
-	);
+	const ВАРІАНТИ = $derived<ReadonlyArray<ViewOption>>([
+		{ value: 'orbits', label: $t('planet.viewOrbits'), icon: CircleDot },
+		{ value: 'grid', label: $t('planet.viewGrid'), icon: LayoutGrid },
+		{ value: 'split', label: $t('planet.viewSplit'), icon: Columns2 }
+	]);
 
 	const адреса = (учень: { code?: string; slug: string }) =>
 		localizedPath(graduateProfilePath(graduateAddress(учень)), мова_uk);
@@ -169,40 +176,24 @@
 			</button>
 		</div>
 
-		<div class="planet-wrap">
-			<div class="planet" data-testid="creativity-planet-list">
-				{#each місця as місце (місце.учень.id)}
-					<button
-						type="button"
-						class="pupil"
-						style="left: {місце.x}%; top: {місце.y}%;"
-						onclick={() => відкрити(місце.учень)}
-						data-testid="creativity-planet-{місце.учень.slug}-btn"
-					>
-						<span class="pupil__face">
-							{#if місце.учень.hasPhoto}
-								<img
-									src={graduatePhoto(місце.учень.slug, 192)}
-									srcset={graduatePhotoSrcset(місце.учень.slug)}
-									sizes="96px"
-									width="96"
-									height="96"
-									alt=""
-									loading="lazy"
-								/>
-							{:else}
-								<!-- Квітка замість порожнього кола: розбір у докблоці зверху. -->
-								<Flower2 size={30} aria-hidden="true" />
-							{/if}
-						</span>
-						<span class="pupil__name">{місце.учень.name}</span>
-					</button>
-				{/each}
+		<div class="planet-views">
+			<MasterViewToggle
+				viewMode={вигляд.current}
+				onchange={(m) => вигляд.set(m)}
+				options={ВАРІАНТИ}
+				label={$t('planet.viewLabel')}
+				testIdPrefix="creativity-planet-view"
+			/>
+		</div>
 
-				{#if STUDENTS.length === 0}
-					<p class="planet-empty">{$t('planet.empty')}</p>
-				{/if}
-			</div>
+		<div class="planet-wrap">
+			{#if вигляд.current === 'grid'}
+				<PlanetGrid students={STUDENTS} onopen={відкрити} />
+			{:else if вигляд.current === 'split'}
+				<PlanetSplit students={STUDENTS} onopen={відкрити} />
+			{:else}
+				<PlanetOrbits students={STUDENTS} onopen={відкрити} />
+			{/if}
 		</div>
 	</div>
 </section>
@@ -279,110 +270,17 @@
 	}
 
 	/*
-	 * САМА ПЛАНЕТА — куля з акцентів теми.
+	 * САМА ПЛАНЕТА ЖИВЕ В КОМПОНЕНТАХ, а не тут.
 	 *
-	 * Два світлові плями `radial-gradient` і нахилений `linear-gradient` під
-	 * ними: перше дає об'єм, друге — колір. Усі три беруть акценти теми, тож у
-	 * жовтій темі планета жовта, у морській — бірюзова, і жодного окремого
-	 * правила під тему для цього не потрібно.
-	 *
-	 * Розмір у `vmin`: планета мусить уміщатися у висоту так само, як у ширину,
-	 * інакше на широкому й низькому екрані вона поїхала б за край.
+	 * Куля, обличчя й підписи переїхали в `components/planet/*`: розкладок стало
+	 * три, і спільний стиль у сторінці означав би, що правка під одну мовчки
+	 * міняє дві інші. Тут лишилося те, що спільне для всіх трьох, — місце під
+	 * розкладку й перемикач над нею.
 	 */
-	.planet {
-		position: relative;
-		width: min(78vmin, 620px);
-		aspect-ratio: 1;
-		border-radius: 50%;
-		border: 1px solid var(--border-main);
-		background:
-			radial-gradient(
-				circle at 32% 28%,
-				color-mix(in srgb, var(--accent-primary) 45%, transparent),
-				transparent 58%
-			),
-			radial-gradient(
-				circle at 68% 78%,
-				color-mix(in srgb, var(--accent-secondary) 38%, transparent),
-				transparent 62%
-			),
-			linear-gradient(
-				160deg,
-				color-mix(in srgb, var(--accent-primary) 16%, var(--bg-surface)),
-				var(--bg-surface)
-			);
-		box-shadow:
-			inset 0 -30px 60px color-mix(in srgb, var(--text-title) 10%, transparent),
-			var(--shadow-main);
-	}
-
-	.pupil {
-		position: absolute;
-		translate: -50% -50%;
-		display: grid;
-		justify-items: center;
-		gap: 0.35rem;
-		padding: 0;
-		background: none;
-		border: 0;
-		color: inherit;
-		font: inherit;
-		cursor: pointer;
-		transition: transform var(--transition-base);
-	}
-	.pupil:hover,
-	.pupil:focus-visible {
-		transform: scale(1.08);
-		z-index: 2;
-	}
-
-	.pupil__face {
-		display: grid;
-		place-items: center;
-		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
-		width: clamp(64px, 13vmin, 96px);
-		height: clamp(64px, 13vmin, 96px);
-		border-radius: 50%;
-		overflow: hidden;
-		background: var(--bg-card);
-		border: 2px solid color-mix(in srgb, var(--accent-primary) 55%, var(--border-main));
-		color: var(--accent-text);
-		box-shadow: var(--shadow-main);
-	}
-	.pupil__face img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		display: block;
-	}
-
-	/*
-	 * Підпис лежить НА планеті, тобто на кольоровій поверхні, а не на тлі
-	 * сторінки. Тому під ним власна плашка кольору поверхні: без неї в темах із
-	 * насиченим акцентом ім'я читалося б через раз, і це саме той клас дефекту,
-	 * від якого сторінку рятує `theme-contrast`.
-	 */
-	.pupil__name {
-		max-width: 11rem;
-		padding: 0.1rem 0.45rem;
-		border-radius: var(--radius-sm, 6px);
-		background: color-mix(in srgb, var(--bg-surface) 82%, transparent);
-		color: var(--text-main);
-		font-size: 0.78rem;
-		font-weight: 600;
-		line-height: 1.25;
-		text-align: center;
-	}
-
-	.planet-empty {
-		position: absolute;
-		inset: 0;
-		display: grid;
-		place-items: center;
-		margin: 0;
-		padding: 2rem;
-		text-align: center;
-		color: var(--text-muted);
+	.planet-views {
+		display: flex;
+		justify-content: flex-end;
+		margin: 0 0 0.75rem;
 	}
 
 	/* Запрошення стоїть під заголовком, а не по центру сторінки: воно тепер

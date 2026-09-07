@@ -69,13 +69,45 @@ export function createGalaxyView(
 	storageKey: string,
 	defaultView: GalaxyView = 'timeline'
 ): GalaxyViewState {
-	let current = $state<GalaxyView>(defaultView);
+	return createViewState(storageKey, GALAXY_VIEWS, defaultView);
+}
+
+/** Те саме, але для будь-якого набору режимів. Читає `.current`, пише `.set()`. */
+export interface ViewState<T extends string> {
+	readonly current: T;
+	set(view: string): void;
+}
+
+/**
+ * Стан «який режим показу обрано» для БУДЬ-ЯКОГО набору режимів.
+ *
+ * `createGalaxyView` вище — окремий випадок із набором «хронологія / список /
+ * плитка». Узагальнення знадобилося, коли планета попросила свої три розкладки
+ * (орбіти / сітка / планета з переліком): набір там інший, а форма стану та
+ * сама — поле `$state`, читання зі сховища під `browser`, наскрізний запис у
+ * мутаторі. Копія цієї форми була б четвертою в проєкті, а докблок нагорі
+ * пояснює саме те, чому третьої вже було забагато.
+ *
+ * @param allowed Дозволені значення. Вони ж — охоронець типу для того, що
+ *   лежить у сховищі: чуже або застаріле значення мовчки відкидається, і
+ *   лишається типове. Мовчки — навмисно: сміття в сховищі не привід ламати
+ *   сторінку.
+ */
+export function createViewState<T extends string>(
+	storageKey: string,
+	allowed: readonly T[],
+	defaultView: T
+): ViewState<T> {
+	const відомий = (value: string | null): value is T =>
+		value !== null && (allowed as readonly string[]).includes(value);
+
+	let current = $state<T>(defaultView);
 
 	/* Читання в конструкторі під `browser`, а не в `onMount`: інакше перший кадр
 	 * малюється типовим режимом, і сторінка перемальовується вже після появи. */
 	if (browser) {
 		const saved = storage.get(storageKey);
-		if (isGalaxyView(saved)) current = saved;
+		if (відомий(saved)) current = saved;
 	}
 
 	return {
@@ -86,7 +118,7 @@ export function createGalaxyView(
 		 * писав би у сховище й на першому обчисленні, тобто зберігав би те, чого
 		 * людина не вибирала. */
 		set(view: string) {
-			if (!isGalaxyView(view)) return;
+			if (!відомий(view)) return;
 			current = view;
 			if (browser) storage.set(storageKey, view);
 		}

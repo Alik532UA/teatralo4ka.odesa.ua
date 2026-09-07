@@ -32,6 +32,13 @@
 		viewMode: string;
 		onchange: (mode: string) => void;
 		options?: ReadonlyArray<ViewOption>;
+		/**
+		 * Назва групи для читалки. Приходить ззовні, бо на сторінці може бути
+		 * ДВА таких перемикачі поспіль, і однакове «Режим відображення» в обох
+		 * не сказало б, що саме перемикається. Типове значення лишається для
+		 * переліку викладачів, де перемикач один.
+		 */
+		label?: string;
 		testIdPrefix?: string;
 	}
 
@@ -39,6 +46,7 @@
 		viewMode,
 		onchange,
 		options = undefined,
+		label = undefined,
 		testIdPrefix = 'residents-adults-view'
 	}: Props = $props();
 
@@ -52,7 +60,12 @@
 	const shown = $derived(options ?? MASTER_OPTIONS);
 </script>
 
-<div class="view-toggle" role="group" aria-label={$t('galaxy.viewModes.viewLabel', { default: 'Режим відображення' })} data-testid="{testIdPrefix}-toggle">
+<div
+	class="view-toggle"
+	role="group"
+	aria-label={label ?? $t('galaxy.viewModes.viewLabel', { default: 'Режим відображення' })}
+	data-testid="{testIdPrefix}-toggle"
+>
 	{#each shown as option (option.value)}
 		{@const Icon = option.icon}
 		<!--

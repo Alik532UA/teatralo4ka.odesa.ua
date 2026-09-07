@@ -45,6 +45,10 @@ const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
 		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
 		why: 'те саме для відступу під крапками: 2rem під шапкою сторінки й нуль усередині плашки'
 	},
+	'--face': {
+		declaredIn: 'src/lib/components/planet/PlanetGrid.svelte',
+		why: 'розмір обличчя учня задає РОЗКЛАДКА, а не саме обличчя: на кулі (`PlanetSphere`) він рахується з кількості учнів і заміряної ширини кулі (`fitFaceFraction`) і приходить інлайновим стилем у `cqw`, у сітці це `clamp` від ширини, у переліку імен — сталі 34 px. Оголошення в самому `PlanetFace` перебило б успадковане значення й зрівняло б усі три'
+	},
 	'--focus-card-width': {
 		declaredIn: 'src/lib/components/ContentWidget.svelte',
 		why: 'ширину картки задає віджет-обгортка, читає її ContentCard всередині'

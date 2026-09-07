@@ -213,6 +213,13 @@ const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
 			'займають усю картку, і кільце навколо кожної було б лінією всередині ' +
 			'рамки картки; рамку міняє сама картка — той самий приклад, що у полів'
 	},
+	'src/lib/components/planet/PlanetSplit.svelte': {
+		drawnBy: '.search:focus-within',
+		why:
+			'той самий випадок, що в SearchField: поле лежить у круглій плашці ' +
+			'разом з лупою, і кільце навколо самого input було б прямокутником ' +
+			'усередині кола. Межу підсвічує плашка'
+	},
 	'src/lib/styles/global.css': {
 		drawnBy: '.has-input-tools--framed:focus-within',
 		why:

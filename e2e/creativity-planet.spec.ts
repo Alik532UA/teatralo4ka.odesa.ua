@@ -135,6 +135,85 @@ test.describe('планета творчості', () => {
 		expect(опис ?? '', 'опис сторінки учня').toContain('навчається');
 	});
 
+	/**
+	 * ТРИ РОЗКЛАДКИ — і головне про кожну з них.
+	 *
+	 * Перевірка з'явилася 2026-09-08 за знімком автора: обличчя стояли спіраллю
+	 * й накладалися підписами, з одинадцяти імен читалися п'ять. Тому тут не
+	 * «перемикач перемикає», а те, заради чого його зробили: НІЧОГО НЕ
+	 * ПЕРЕКРИВАЄТЬСЯ, і ім'я кожного учня можна дістати в кожній розкладці.
+	 */
+	test('у кожній розкладці обличчя не перекриваються, а імена доступні', async ({ page }) => {
+		await gotoReady(page, ПЛАНЕТА);
+
+		for (const вигляд of ['orbits', 'grid', 'split'] as const) {
+			await page.getByTestId(`creativity-planet-view-btn-${вигляд}`).click();
+
+			/* Усі учні на місці — у будь-якій розкладці. */
+			for (const учень of УЧНІ) {
+				await expect(
+					page.getByTestId(`creativity-planet-${учень.slug}-btn`),
+					`${учень.name} зник у розкладці ${вигляд}`
+				).toBeVisible();
+			}
+
+			/*
+			 * Попарне порівняння КІЛ, а не прямокутників.
+			 *
+			 * Обличчя круглі, і в перших редакціях цієї перевірки стояло
+			 * перетинання рамок — воно дало хибну тривогу одразу: два кола по
+			 * діагоналі одне від одного не торкаються, а їхні рамки
+			 * перетинаються кутами. Тому міряється відстань між центрами, і
+			 * порівнюється вона з півсумою діаметрів — тобто рівно з тим, що
+			 * видно очима. Допуск 1 px — округлення розкладки.
+			 */
+			const накладки = await page.evaluate((учні: { slug: string; name: string }[]) => {
+				const кола = учні.map((у) => {
+					/* Перший span усередині кнопки — саме обличчя, у всіх трьох розкладках. */
+					const r = document
+						.querySelector(`[data-testid="creativity-planet-${у.slug}-btn"] span`)!
+						.getBoundingClientRect();
+					return { ім: у.name, x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
+				});
+				const знайдені: string[] = [];
+				for (let i = 0; i < кола.length; i++) {
+					for (let j = i + 1; j < кола.length; j++) {
+						const a = кола[i];
+						const b = кола[j];
+						const треба = (a.d + b.d) / 2 - 1;
+						const є = Math.hypot(a.x - b.x, a.y - b.y);
+						if (є < треба) знайдені.push(`${a.ім} ↔ ${b.ім}: ${Math.round(є)} < ${Math.round(треба)}`);
+					}
+				}
+				return знайдені;
+			}, УЧНІ.map((у) => ({ slug: у.slug, name: у.name })));
+			expect(накладки, `у розкладці ${вигляд} обличчя налазять одне на одне`).toEqual([]);
+		}
+	});
+
+	test('вибір розкладки переживає перезавантаження', async ({ page }) => {
+		await gotoReady(page, ПЛАНЕТА);
+		await page.getByTestId('creativity-planet-view-btn-grid').click();
+		await gotoReady(page, ПЛАНЕТА);
+		await expect(page.getByTestId('creativity-planet-view-btn-grid')).toHaveAttribute(
+			'aria-pressed',
+			'true'
+		);
+	});
+
+	test('у розкладці «планета й перелік» пошук звужує імена', async ({ page }) => {
+		await gotoReady(page, ПЛАНЕТА);
+		await page.getByTestId('creativity-planet-view-btn-split').click();
+
+		const перелік = page.getByTestId('creativity-planet-names-list');
+		await expect(перелік.locator('li')).toHaveCount(УЧНІ.length);
+
+		/* Перше слово імені: у реєстрі це прізвище, і воно точно одне. */
+		await page.getByTestId('creativity-planet-search-input').fill(УЧНІ[0].name.split(' ')[0]);
+		await expect(перелік.locator('li')).toHaveCount(1);
+		await expect(перелік).toContainText(УЧНІ[0].name);
+	});
+
 	test('натискання відкриває картку з власною адресою і без року випуску', async ({
 		page
 	}, testInfo) => {
