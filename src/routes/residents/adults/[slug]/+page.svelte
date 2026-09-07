@@ -36,6 +36,16 @@
 	// поряд, хоч означали те саме.
 	const isHonorary = $derived(data.master.status === 'honorary');
 	/*
+	 * Знімок — ПОРТРЕТ, а квадратний лише запасним.
+	 *
+	 * Те саме правило, що в плитці переліку (`adults/MasterPoster`): у теці
+	 * `masters/portraits/` лежить кадр 720×1080, а в корені `masters/` — його
+	 * обрізаний до квадрата центр (480×480). Обидві теки мають по 108 файлів,
+	 * тобто портрет є в кожного, у кого є квадрат; запасний варіант лишається
+	 * на випадок, коли з'явиться перший без пари.
+	 */
+	const знімок = $derived(data.master.portrait || data.master.photo);
+	/*
 	 * Рік читається тут, а не всередині `yearsOfService`: незакритий термін
 	 * міряється «до сьогодні», а сторінка пререндерена. Функція, яка сама дивиться
 	 * на годинник, дала б у зібраному HTML одне число, а після гідратації — інше.
@@ -98,16 +108,16 @@
 			<!-- ЛІВА КОЛОНКА: Інформація про майстра курсу -->
 			<article class="master-card" data-testid="master-profile-card">
 				<div class="master-header">
-					<!-- Аватар майстра / заглушка камера з кнопкою + якщо фото немає -->
+					<!-- Знімок майстра / заглушка камера з кнопкою + якщо фото немає -->
 					<div class="avatar-container">
-						{#if data.master.photo}
+						{#if знімок}
 							<img
-								src={data.master.photo}
+								src={знімок}
 								alt={masterName}
 								class="avatar-img"
 								class:avatar-img--honorary={isHonorary}
-								width="160"
-								height="160"
+								width="140"
+								height="210"
 								data-testid="master-profile-avatar-img"
 							/>
 						{:else}
@@ -371,18 +381,30 @@
 		}
 	}
 
-	/* Avatar Container & Button */
+	/*
+	 * Знімок ПРЯМОКУТНИЙ, 2:3 — як на плитці в переліку працівників.
+	 *
+	 * Доти тут стояло коло 140×140 з `object-fit: cover`, і воно різало знімок
+	 * двічі: спершу квадратний файл (480×480) сам є обрізаним центром портрета,
+	 * потім коло знімало кути. На прикладі, який прислав автор, у кадрі
+	 * лишалося обличчя без плечей, тоді як плитка того самого працівника в
+	 * переліку показувала весь портрет.
+	 *
+	 * Пропорція, заокруглення й `cover` — ті самі, що в `adults/MasterPoster`:
+	 * дві картки однієї людини на сусідніх сторінках мусять виглядати як одна
+	 * річ, а не як дві.
+	 */
 	.avatar-container {
 		position: relative;
 		width: 140px;
-		height: 140px;
+		height: 210px;
 		flex-shrink: 0;
 	}
 
 	.avatar-img {
 		width: 100%;
 		height: 100%;
-		border-radius: 50%;
+		border-radius: var(--radius-xl, 20px);
 		object-fit: cover;
 		border: 3px solid var(--accent-primary);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -401,7 +423,7 @@
 	.avatar-placeholder {
 		width: 100%;
 		height: 100%;
-		border-radius: 50%;
+		border-radius: var(--radius-xl, 20px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
