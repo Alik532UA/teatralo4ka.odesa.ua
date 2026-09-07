@@ -2976,6 +2976,17 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"id": "sobaky-yakudza-2010",
+		"title": "«Собаки Якудза»",
+		"year": 2010,
+		"institution": "Одеська дитяча театральна школа",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"isDtsh": true,
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"id": "try-sestry-2010",
 		"title": "«Три сестри»",
 		"year": 2010,
@@ -3042,6 +3053,17 @@
 			"Іван Волошин",
 			"Крістіна Співак"
 		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "8-zhinok-2009",
+		"title": "«8 жінок»",
+		"year": 2009,
+		"institution": "Одеська дитяча театральна школа",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"isDtsh": true,
 		"verificationStatus": "possible_errors"
 	},
 	{

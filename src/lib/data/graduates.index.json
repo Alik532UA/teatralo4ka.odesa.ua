@@ -5117,12 +5117,19 @@
 	},
 	{
 		"id": "marharyta-zhovnenko",
-		"slug": "marharyta-zhovnenko",
+		"slug": "margotcine",
+		"aliases": [
+			"marharyta-zhovnenko"
+		],
 		"name": "Маргарита Жовненко",
 		"graduationYear": 2010,
 		"departments": [
 			"theatre",
 			"music"
+		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2000
 		],
 		"teachers": [
 			{
@@ -5132,23 +5139,34 @@
 				]
 			},
 			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
 				"id": "mykola-baldin",
 				"subjects": [
 					"Сценічний рух"
 				]
 			},
 			{
-				"id": "iryna-kaplia",
+				"id": "iryna-ulianenko",
 				"subjects": [
-					"Вокал"
+					"Сценічна мова"
 				]
 			}
 		],
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
+			},
+			{
+				"id": "olena-prorok"
 			}
-		]
+		],
+		"playCount": 2,
+		"profileSize": 3067
 	},
 	{
 		"id": "mariana-zhohno",

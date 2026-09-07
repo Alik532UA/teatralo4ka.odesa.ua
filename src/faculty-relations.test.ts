@@ -65,6 +65,7 @@ interface TeacherLink {
 }
 
 interface GraduateRecord {
+	id?: string;
 	slug?: string;
 	code?: string;
 	teachers?: (string | TeacherLink)[];
@@ -246,10 +247,30 @@ function linkIds(list: (string | TeacherLink)[] | undefined): Set<string> {
 }
 
 describe('звʼязок видно з обох боків', () => {
+	/*
+	 * Парування анкети із записом реєстру — за `id`, і лише потім за адресою.
+	 *
+	 * Доти умова була `g.slug === p.data.slug || g.code === p.data.code`, і
+	 * друга половина вистрілювала в порожнечу: анкета БЕЗ `code` дає
+	 * `undefined === undefined` на першому ж записі реєстру без коду. Заміряно
+	 * 7 вересня 2026 на першій такій анкеті (`margotcine.json`): вона
+	 * спарувалася з Альбіною Титовою, і перевірка зажадала дописати Маргариті
+	 * її майстрів. Доти анкети без `code` просто не траплялося — усі 213 його
+	 * мали, тож хиба чекала свого дня.
+	 *
+	 * `id` для цього й існує: він НЕ МІНЯЄТЬСЯ, тоді як адреса законно
+	 * змінюється (`graduates.ts`, докблок `id`).
+	 */
 	const withRecord = profiles
 		.map((p) => ({
 			...p,
-			record: graduates.find((g) => g.slug === p.data.slug || g.code === p.data.code)
+			record:
+				graduates.find((g) => g.id !== undefined && g.id === p.data.id) ??
+				graduates.find(
+					(g) =>
+						(p.data.slug !== undefined && g.slug === p.data.slug) ||
+						(p.data.code !== undefined && g.code === p.data.code)
+				)
 		}))
 		.filter((p) => p.record);
 

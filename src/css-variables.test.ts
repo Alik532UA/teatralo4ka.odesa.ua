@@ -37,6 +37,14 @@ const GLOBAL_STYLE_DIRS = ['src/lib/styles', 'src/lib/styles/themes'];
  * впаде на перевірці самого списку.
  */
 const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
+	'--banner-gap': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'відступ під банером задає той, хто його ставить: сторінки груп, вистав і фестивалів лишають типовий 1rem, плашка випускника ставить нуль — там повітря дає сама плашка'
+	},
+	'--banner-dots-gap': {
+		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
+		why: 'те саме для відступу під крапками: 2rem під шапкою сторінки й нуль усередині плашки'
+	},
 	'--focus-card-width': {
 		declaredIn: 'src/lib/components/ContentWidget.svelte',
 		why: 'ширину картки задає віджет-обгортка, читає її ContentCard всередині'

@@ -58,6 +58,16 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-07: `GraduateProfileView.svelte` 1615 → 1635. Двадцять рядків —
+ *   плашка «Фотографії» на сторінці випускника: ключ блока, рядок у порядку
+ *   читання, умова показу, обчислення переліку й сама плашка. Показ у ній не
+ *   свій: усередині стоїть `GroupPhotoBanner`, той самий, що на сторінках
+ *   груп, вистав і фестивалів — окремий компонент був би другим місцем, де
+ *   ламається кадрування, і саме те кадрування ми лагодили двічі 6 вересня.
+ *   За годину стеля пішла 1635 → 1637: автор побачив завеликі відступи в
+ *   плашці, і два рядки — це `--banner-gap: 0` та `--banner-dots-gap: 0`.
+ *   Типові відступи банера розраховані на сторінку-шапку, де під ним іде ще
+ *   пів сторінки; у плашці повітря дає сама плашка.
  * 2026-09-07 (третя правка тієї ж доби): `data/betaChecklist.ts` 418 → 429.
  *   Одинадцять рядків — вісім адрес адмінки у вкладці «Адмінка» плюс дужки
  *   переліку, який через це перестав бути однорядковим. Причина не в чеклисті:
@@ -514,7 +524,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1615,
+	'src/lib/components/GraduateProfileView.svelte': 1637,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,

@@ -25,6 +25,7 @@
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
+	import GroupPhotoBanner from "$lib/components/GroupPhotoBanner.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
 	import GraduateInstitutions from "$lib/components/GraduateInstitutions.svelte";
 	import { groupPlayRows } from "$lib/data/playRowGroups";
@@ -301,6 +302,15 @@
 	// був би мертвим кодом, який мовчки показує порожньо.
 	const socials = $derived(profile?.socials ?? []);
 	const hasPlays = $derived(Boolean(profile && profile.plays.length > 0));
+	/*
+	 * Знімки галереї — з анкети, і ТІЛЬКИ звідти.
+	 *
+	 * Портрети (`photoCount`) сюди не домішуються навмисно: то квадратні кадри
+	 * однієї людини для зірки й аватарки, а тут кадри з вистав і курсу у своїх
+	 * пропорціях. Змішати їх означало б показати обличчя двічі — один раз
+	 * обрізаним у квадрат, другий цілим.
+	 */
+	const gallery = $derived(profile?.gallery ?? []);
 	const hasAnyPlayYear = $derived(
 		Boolean(profile?.plays.some((p) => Boolean(p.year))),
 	);
@@ -332,6 +342,7 @@
 	 */
 	type BlockKey =
 		| "main"
+		| "gallery"
 		| "masters"
 		| "teachers"
 		| "plays"
@@ -341,6 +352,7 @@
 	/** Порядок читання, коли колонка одна. Він же — черга для решти плашок. */
 	const SINGLE_ORDER: BlockKey[] = [
 		"main",
+		"gallery",
 		"masters",
 		"teachers",
 		"plays",
@@ -401,6 +413,12 @@
 	const presentBlocks = $derived(
 		SINGLE_ORDER.filter((key) => {
 			if (key === "main") return true;
+			/*
+			 * Галерея зникає порожньою — з тієї ж причини, що майстри й
+			 * фестивалі: порожня плашка тут просила б знімки, а їх дає не
+			 * людина зі своєї сторінки, а той, у кого вони збереглися.
+			 */
+			if (key === "gallery") return gallery.length > 0;
 			if (key === "masters") return normalizedMasters.length > 0;
 			if (key === "plays") return hasPlays || isTheatre;
 			if (key === "festivals") return hasFestivals;
@@ -1171,6 +1189,30 @@
 			</div>
 {/snippet}
 
+{#snippet galleryCard()}
+			<div
+				class="bento-card bento-card--gallery"
+				data-block="gallery"
+				data-testid="galaxy-card-gallery-card"
+			>
+				<!--
+					Заголовок стоїть у плашці НАПРЯМУ, без обгортки `.block`: та
+					додає `margin-top: 1.1rem`, і галерея починалася на 18 px нижче
+					за сусідні плашки. Так само зроблено в плашці вистав.
+				-->
+				<h3 class="block__title galaxy-block-title">
+					{$t("galaxy.gallery", { default: "Фотографії" })}:
+				</h3>
+				<!--
+					Той самий банер, що на сторінках груп, вистав і фестивалів:
+					жоден знімок не кадрується, коробка не стрибає, є стрілки,
+					крапки й повний екран. Свій компонент тут був би другим
+					способом робити те саме — і другим місцем, де це ламається.
+				-->
+				<GroupPhotoBanner photos={gallery} title={graduate.name} />
+			</div>
+{/snippet}
+
 {#snippet teachersCard()}
 			<div
 				class="bento-card bento-card--faculty"
@@ -1288,6 +1330,7 @@
 
 {#snippet blockOf(key: string)}
 	{#if key === "main"}{@render mainCard()}
+	{:else if key === "gallery"}{@render galleryCard()}
 	{:else if key === "plays"}{@render playsCard()}
 	{:else if key === "masters"}{@render mastersCard()}
 	{:else if key === "teachers"}{@render teachersCard()}
@@ -1449,6 +1492,16 @@
 	.bento-card {
 		width: 100%;
 		box-sizing: border-box;
+	}
+
+	/*
+	 * Банер у плашці не додає власного повітря: його дає сама плашка своїм
+	 * `padding`. Типові відступи банера розраховані на сторінку-шапку, де під
+	 * ним іде ще пів сторінки.
+	 */
+	.bento-card--gallery {
+		--banner-gap: 0;
+		--banner-dots-gap: 0;
 	}
 
 	@media (min-width: 768px) {
