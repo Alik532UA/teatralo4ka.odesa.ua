@@ -2634,5 +2634,34 @@
 			"Акторська майстерність"
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "ivan-voloshyn",
+		"slug": "ivan-voloshyn",
+		"displayName": "Іван ВОЛОШИН",
+		"fullName": "Волошин Іван",
+		"displayNameEn": "Ivan VOLOSHYN",
+		"fullNameEn": "Ivan Voloshyn",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"alsoGraduateId": "ivan-voloshyn"
+	},
+	{
+		"id": "viktoriia-patiuta",
+		"slug": "viktoriia-patiuta",
+		"displayName": "Вікторія ПАТЮТА",
+		"fullName": "Патюта Вікторія",
+		"displayNameEn": "Viktoriia PATIUTA",
+		"fullNameEn": "Viktoriia Patiuta",
+		"departments": [
+			"theatre"
+		],
+		"status": "active",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	}
 ]

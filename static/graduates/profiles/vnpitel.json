@@ -40,10 +40,13 @@
 	"sourceUrl": "",
 	"masters": [
 		{
-			"id": "svitlana-ryskina",
-			"subjects": [
-				"Акторська майстерність"
-			]
+			"id": "viktoriia-patiuta"
+		},
+		{
+			"id": "tereza-zaurbekova"
+		},
+		{
+			"id": "svitlana-ryskina"
 		}
 	],
 	"teachers": [

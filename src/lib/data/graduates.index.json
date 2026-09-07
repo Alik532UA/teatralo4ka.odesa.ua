@@ -13,12 +13,18 @@
 		],
 		"masters": [
 			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
+			{
 				"id": "svitlana-ryskina"
 			}
 		],
 		"playCount": 5,
 		"code": "albinaabuladze",
-		"profileSize": 2603,
+		"profileSize": 2676,
 		"teachers": [
 			{
 				"id": "svitlana-ryskina",
@@ -238,7 +244,12 @@
 			"theatre"
 		],
 		"profileSize": 394,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "alina-halach",
@@ -247,6 +258,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -277,6 +296,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -391,7 +415,18 @@
 			"theatre"
 		],
 		"profileSize": 452,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "ivan-voloshyn"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			}
+		]
 	},
 	{
 		"id": "alina-tkach",
@@ -419,6 +454,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -428,6 +468,17 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -439,7 +490,12 @@
 			"theatre"
 		],
 		"profileSize": 593,
-		"playCount": 2
+		"playCount": 2,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "alisa-semenova",
@@ -844,7 +900,12 @@
 			"theatre"
 		],
 		"profileSize": 373,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-ihnatovych",
@@ -908,7 +969,12 @@
 			"intensive"
 		],
 		"profileSize": 373,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-karaivan",
@@ -931,6 +997,17 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -1170,6 +1247,17 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "ivan-voloshyn"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			}
 		]
 	},
 	{
@@ -1179,6 +1267,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "oleh-shevchuk"
+			}
 		]
 	},
 	{
@@ -1188,6 +1281,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -1338,6 +1436,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1383,6 +1486,12 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
 			{
 				"id": "svitlana-ryskina"
 			}
@@ -1464,6 +1573,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "samuil-imas"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1570,6 +1687,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -1613,7 +1735,15 @@
 		"departments": [
 			"theatre"
 		],
-		"hasPhoto": true
+		"hasPhoto": true,
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "anna-moldavchuk",
@@ -1802,6 +1932,17 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			},
+			{
+				"id": "pavlo-koshka"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -1813,7 +1954,12 @@
 			"theatre"
 		],
 		"profileSize": 467,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "artem-husar",
@@ -1822,6 +1968,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2073,6 +2224,14 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "hanna-serebriannikova"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2176,7 +2335,12 @@
 			"theatre"
 		],
 		"profileSize": 368,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "daniil-prymachov",
@@ -2337,6 +2501,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-nadopta"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2517,6 +2689,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -2526,6 +2703,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2611,6 +2793,11 @@
 		"departments": [
 			"theatre",
 			"music"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2620,6 +2807,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "samuil-imas"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -2798,6 +2993,14 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-nadopta"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -2821,6 +3024,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3065,7 +3273,12 @@
 			"theatre"
 		],
 		"profileSize": 436,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "erika-chichasova",
@@ -3112,6 +3325,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3152,10 +3370,10 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina"
+				"id": "liubov-savina"
 			},
 			{
-				"id": "d-rybalchenko"
+				"id": "svitlana-ryskina"
 			}
 		],
 		"playCount": 3,
@@ -3169,6 +3387,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -3266,7 +3489,12 @@
 			"theatre"
 		],
 		"profileSize": 395,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "heorhii-topor",
@@ -3345,6 +3573,17 @@
 		"departments": [
 			"theatre",
 			"piano"
+		],
+		"masters": [
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "liubov-savina"
+			},
+			{
+				"id": "oksana-panchenko"
+			}
 		]
 	},
 	{
@@ -3359,6 +3598,9 @@
 		"masters": [
 			{
 				"id": "fedir-tkach"
+			},
+			{
+				"id": "pavlo-koshka"
 			}
 		],
 		"profileSize": 375,
@@ -3658,10 +3900,13 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"subjects": [
-					"Акторська майстерність"
-				]
+				"id": "viktoriia-patiuta"
+			},
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
@@ -3685,7 +3930,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1363
+		"profileSize": 1366
 	},
 	{
 		"id": "ivan-shevchenko",
@@ -3986,6 +4231,9 @@
 		"masters": [
 			{
 				"id": "fedir-tkach"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		],
 		"profileSize": 420,
@@ -4005,12 +4253,18 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
 				"id": "svitlana-ryskina"
 			}
 		],
 		"playCount": 10,
 		"code": "Kateryna-Muntian",
-		"profileSize": 1922,
+		"profileSize": 1996,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -4036,10 +4290,13 @@
 		"photoCount": 3,
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"subjects": [
-					"Акторська майстерність"
-				]
+				"id": "viktoriia-patiuta"
+			},
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
@@ -4076,7 +4333,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 2187
+		"profileSize": 2190
 	},
 	{
 		"id": "kateryna-petrenko",
@@ -4087,7 +4344,12 @@
 			"theatre"
 		],
 		"profileSize": 364,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "kateryna-pichuhina",
@@ -4096,6 +4358,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "hanna-tkach"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -4143,6 +4413,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -4152,6 +4427,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -4194,6 +4474,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -4203,6 +4488,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -4284,6 +4574,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -4609,6 +4904,12 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
 				"id": "fedir-tkach"
 			},
 			{
@@ -4718,6 +5019,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -4843,7 +5149,18 @@
 			"theatre"
 		],
 		"profileSize": 369,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "viktoriia-patiuta"
+			},
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "liubov-bernaus",
@@ -5113,6 +5430,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5175,6 +5497,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5198,6 +5525,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -5221,6 +5553,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -5315,7 +5652,7 @@
 				"id": "fedir-tkach"
 			},
 			{
-				"id": "pavlo-koshka"
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
@@ -5435,6 +5772,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -5532,6 +5874,14 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			},
+			{
+				"id": "pavlo-koshka"
+			}
 		]
 	},
 	{
@@ -5561,7 +5911,18 @@
 			"theatre"
 		],
 		"profileSize": 444,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "ivan-voloshyn"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			}
+		]
 	},
 	{
 		"id": "mark-mazur",
@@ -5763,6 +6124,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -5910,7 +6276,12 @@
 			"intensive"
 		],
 		"profileSize": 370,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "mykyta-chemerys",
@@ -5919,6 +6290,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -6157,6 +6533,9 @@
 		],
 		"masters": [
 			{
+				"id": "hanna-tkach"
+			},
+			{
 				"id": "fedir-tkach"
 			}
 		],
@@ -6202,6 +6581,17 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "ivan-voloshyn"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			}
 		]
 	},
 	{
@@ -6401,6 +6791,11 @@
 		"graduationYear": 2023,
 		"departments": [
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -6480,6 +6875,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -6519,10 +6922,13 @@
 		"photoCount": 2,
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"subjects": [
-					"Акторська майстерність"
-				]
+				"id": "viktoriia-patiuta"
+			},
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
@@ -6572,7 +6978,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 2677
+		"profileSize": 2680
 	},
 	{
 		"id": "oleksandra-khalfina",
@@ -6634,6 +7040,9 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "hanna-tkach"
+			},
 			{
 				"id": "fedir-tkach"
 			}
@@ -7343,6 +7752,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "oleh-shevchuk"
+			}
 		]
 	},
 	{
@@ -7467,6 +7881,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "oleh-shevchuk"
+			}
 		]
 	},
 	{
@@ -7543,6 +7962,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7573,6 +7997,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7611,6 +8040,11 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7634,6 +8068,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7734,6 +8173,14 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "liubov-savina"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -7751,6 +8198,12 @@
 		],
 		"masters": [
 			{
+				"id": "viktoriia-patiuta"
+			},
+			{
+				"id": "tereza-zaurbekova"
+			},
+			{
 				"id": "svitlana-ryskina"
 			},
 			{
@@ -7759,7 +8212,7 @@
 		],
 		"playCount": 2,
 		"code": "sonia-makhnovska",
-		"profileSize": 876
+		"profileSize": 952
 	},
 	{
 		"id": "stanislav-prakhov",
@@ -7837,6 +8290,14 @@
 		"departments": [
 			"theatre",
 			"intensive"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			},
+			{
+				"id": "pavlo-koshka"
+			}
 		]
 	},
 	{
@@ -8189,6 +8650,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "liubov-savina"
+			}
 		]
 	},
 	{
@@ -8250,12 +8716,18 @@
 		],
 		"masters": [
 			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
 				"id": "svitlana-ryskina"
 			}
 		],
 		"playCount": 10,
 		"code": "leraburian",
-		"profileSize": 1921,
+		"profileSize": 1995,
 		"teachers": [
 			{
 				"id": "iryna-kaplia",
@@ -8309,6 +8781,17 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -8318,6 +8801,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "oleh-shevchuk"
+			}
 		]
 	},
 	{
@@ -8377,6 +8868,20 @@
 					"Вокал"
 				]
 			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -8434,6 +8939,11 @@
 		"graduationYear": 2025,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -8513,6 +9023,14 @@
 		"graduationYear": 2021,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-nadopta"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -8730,10 +9248,16 @@
 		],
 		"masters": [
 			{
-				"id": "svitlana-ryskina",
-				"subjects": [
-					"Акторська майстерність"
-				]
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		],
 		"teachers": [
@@ -8800,7 +9324,7 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 3020
+		"profileSize": 3059
 	},
 	{
 		"id": "vlada-hryhorashchenko",
@@ -9040,6 +9564,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -9057,14 +9586,11 @@
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
-			},
-			{
-				"id": "tereza-zaurbekova"
 			}
 		],
 		"playCount": 4,
 		"code": "Yanslobodenyuk",
-		"profileSize": 1697
+		"profileSize": 1659
 	},
 	{
 		"id": "yana-kovina",
@@ -9223,6 +9749,11 @@
 		"graduationYear": 2026,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -9241,6 +9772,11 @@
 		"graduationYear": 2022,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -9257,6 +9793,20 @@
 				"subjects": [
 					"Вокал"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
+			{
+				"id": "svitlana-ryskina"
 			}
 		]
 	},
@@ -9278,6 +9828,15 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "fedir-tkach"
+			},
 			{
 				"id": "tetiana-isachkina"
 			}
@@ -9308,7 +9867,12 @@
 			"theatre"
 		],
 		"profileSize": 403,
-		"playCount": 1
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "yevhen-huriev",
@@ -9614,7 +10178,21 @@
 			}
 		],
 		"profileSize": 357,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "svitlana-myronenko"
+			},
+			{
+				"id": "elmir-hanbarov"
+			},
+			{
+				"id": "yevheniia-osadcha"
+			},
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "yuliia-buchatska",
@@ -9679,6 +10257,17 @@
 		"graduationYear": 2023,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "iryna-kulbaba"
+			},
+			{
+				"id": "hanna-serebriannikova"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -9883,6 +10472,11 @@
 		"graduationYear": 2024,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -9954,7 +10548,12 @@
 			"theatre"
 		],
 		"profileSize": 352,
-		"playCount": 0
+		"playCount": 0,
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "zlata-tverezovska",
@@ -10044,6 +10643,14 @@
 				"subjects": [
 					"Риторика та поетика"
 				]
+			}
+		],
+		"masters": [
+			{
+				"id": "hanna-tkach"
+			},
+			{
+				"id": "fedir-tkach"
 			}
 		]
 	},

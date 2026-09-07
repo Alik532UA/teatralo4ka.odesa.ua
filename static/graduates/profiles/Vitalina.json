@@ -13,10 +13,16 @@
 	"hasPhoto": false,
 	"masters": [
 		{
-			"id": "svitlana-ryskina",
-			"subjects": [
-				"Акторська майстерність"
-			]
+			"id": "svitlana-myronenko"
+		},
+		{
+			"id": "elmir-hanbarov"
+		},
+		{
+			"id": "yevheniia-osadcha"
+		},
+		{
+			"id": "svitlana-ryskina"
 		}
 	],
 	"teachers": [
