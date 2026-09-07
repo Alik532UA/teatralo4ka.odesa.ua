@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { зібрати, записи, адреса } from '../scripts/build-address-aliases';
-import ЗГЕНЕРОВАНО from './lib/data/address-aliases.data.json';
+import { GRADUATE_ALIASES_DATA as ЗГЕНЕРОВАНО } from './lib/data/addressAliases.data';
 import { GRADUATE_ALIASES, RENAMED_GRADUATE_ADDRESSES } from './lib/config/renamedAddresses';
 
 /**

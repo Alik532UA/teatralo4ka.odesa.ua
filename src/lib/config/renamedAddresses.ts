@@ -60,7 +60,7 @@
  * механізм заради симетрії означало б чіпати те, що працює.
  */
 
-import ALIASES from '../data/address-aliases.data.json';
+import { GRADUATE_ALIASES_DATA } from '../data/addressAliases.data';
 
 /**
  * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
@@ -230,7 +230,7 @@ export const RENAMED_GRADUATE_ADDRESSES: Record<string, string> = {
  * `alla-brynza`) сюди НЕ потрапляють: у них адресу справді міняли, і вони
  * лишаються перейменуваннями вище.
  */
-export const GRADUATE_ALIASES: Record<string, string> = ALIASES;
+export const GRADUATE_ALIASES: Record<string, string> = GRADUATE_ALIASES_DATA;
 
 /**
  * Старі адреси повними шляхами — для реєстру заглушок і чеклиста.

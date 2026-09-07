@@ -31,9 +31,21 @@
  * і `mariia-poliakova-2`). Такий аліас відкидається — інакше редирект забрав би
  * живу сторінку. Скрипт про це кричить, а не мовчить.
  *
- * Вихід: `src/lib/data/address-aliases.data.json`, який читають
- * `config/renamedAddresses.ts` (звідти — реєстр заглушок і чеклист) і
- * `svelte.config.js` (звідти — англійські дзеркала).
+ * ## Чому вихід — `.ts`, а не `.json`
+ *
+ * Спершу був JSON, як у покажчика карток новин. Заміряно того ж дня: він мовчки
+ * зламав `e2e/redirects.spec.ts` — Playwright виконує специфікації в Node, а
+ * там `import … from '….json'` без `with { type: 'json' }` це TypeError, і
+ * Playwright показує його як «No tests found». Тобто перевірка перенаправлень
+ * просто зникла б, лишившись у переліку файлів.
+ *
+ * Модуль TypeScript такої пастки не має: його однаково розуміють vite, vitest,
+ * tsx і esbuild під Playwright. Конфіг збірки TypeScript не читає, але й не
+ * мусить: 22 адреси стоять у `PUBLIC_ENTRIES` окремим переліком, а їхній збіг
+ * із цим файлом тримає `src/renamed-addresses.test.ts`.
+ *
+ * Вихід: `src/lib/data/addressAliases.data.ts`, який читає
+ * `config/renamedAddresses.ts` — а звідти реєстр заглушок і чеклист.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -48,7 +60,7 @@ interface Запис {
 }
 
 const РЕЄСТР = path.join('src', 'lib', 'data', 'graduates.index.json');
-const ВИХІД = path.join('src', 'lib', 'data', 'address-aliases.data.json');
+const ВИХІД = path.join('src', 'lib', 'data', 'addressAliases.data.ts');
 
 export function записи(): Запис[] {
 	return JSON.parse(fs.readFileSync(РЕЄСТР, 'utf8')) as Запис[];
@@ -127,7 +139,20 @@ export function зібрати(усі: Запис[] = записи()): Зібр�
 
 function головна(): void {
 	const { aliases, конфлікти, регістр } = зібрати();
-	fs.writeFileSync(ВИХІД, `${JSON.stringify(aliases, null, '\t')}\n`, 'utf8');
+	const рядки = Object.entries(aliases)
+		.map(([alias, куди]) => `\t'${alias}': '${куди}'`)
+		.join(',\n');
+	fs.writeFileSync(
+		ВИХІД,
+		'/* ЗГЕНЕРОВАНО: npm run build:address-aliases. Руками не правити.\n' +
+			' *\n' +
+			' * Стандартна адреса випускника → його чинна. Розбір, звідки береться пара\n' +
+			' * і що робиться зі зіткненнями, — у `scripts/build-address-aliases.ts`.\n' +
+			' */\n' +
+			'export const GRADUATE_ALIASES_DATA: Record<string, string> = {\n' +
+			`${рядки}\n};\n`,
+		'utf8'
+	);
 	console.log(`🔗 адреси-аліаси: ${Object.keys(aliases).length} у ${ВИХІД}`);
 	for (const рядок of конфлікти) console.log(`   ⚠ пропущено: ${рядок}`);
 	for (const рядок of регістр) console.log(`   ⏭ лише регістр, аліас не робиться: ${рядок}`);
