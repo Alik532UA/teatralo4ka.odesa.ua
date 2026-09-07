@@ -381,7 +381,22 @@ export const BETA_TABS: readonly BetaTab[] = [
 	{
 		id: 'admin',
 		title: { uk: 'Адмінка', en: 'Admin panel' },
-		routes: ['/admin', '/admin/login'],
+		/*
+		 * Усі сторінки адмінки — однією вкладкою: пункти нижче стосуються не
+		 * окремої адреси, а входу й роботи з формами, які в них спільні.
+		 */
+		routes: [
+			'/admin',
+			'/admin/login',
+			'/admin/articles',
+			'/admin/articles/new',
+			'/admin/content',
+			'/admin/content/new',
+			'/admin/pages',
+			'/admin/pages/new',
+			'/admin/settings',
+			'/admin/users'
+		],
 		checks: [
 			{
 				id: 'admin_1',

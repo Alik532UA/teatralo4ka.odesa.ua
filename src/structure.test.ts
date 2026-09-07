@@ -58,6 +58,15 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-07 (третя правка тієї ж доби): `data/betaChecklist.ts` 418 → 429.
+ *   Одинадцять рядків — вісім адрес адмінки у вкладці «Адмінка» плюс дужки
+ *   переліку, який через це перестав бути однорядковим. Причина не в чеклисті:
+ *   адмінка не переживала оновлення сторінки. У `build/` лежали тільки
+ *   `/admin/` і `/admin/login/`, бо решту prerender шукає за посиланнями, а
+ *   сторінка адмінки віддається порожньою оболонкою (`ssr = false`). Заміряно:
+ *   `/admin/settings/` віддавала 404. Щойно адреси стали пререндеритися, гейт
+ *   «кожен маршрут заявлений рівно однією вкладкою» зажадав їх тут — і це
+ *   правильно: сторінка є, отже комусь її перевіряти.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -510,7 +519,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 418,
+	'src/lib/data/betaChecklist.ts': 429,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
