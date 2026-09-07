@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
+import { RENAMED_PLAY_IDS } from '$lib/config/renamedAddresses';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { PLAYS, getPlayById, playPath } from '$lib/data/plays';
 import { castOf } from '$lib/data/playCast';
@@ -7,93 +8,6 @@ import { classifyPlayGroups, groupsOfPlay, namedGroupsOfPlay } from '$lib/data/g
 import { FESTIVALS } from '$lib/data/festivals';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
-
-/**
- * Стара адреса вистави → нова. Наслідок злиття двійників.
- *
- * ## Звідки взялися двійники
- *
- * Той самий показ приходив у реєстр двічі — з репертуару майстра й із розкладу,
- * — і назва в них написана по-різному: «Отрывки из «классики»» проти «Уривки з
- * класики», «Blondie» проти «Blondi». Дві назви ставали двома адресами.
- * Заміряно нечітким пошуком: 30 кластерів схожих назв в одному році, і лише в
- * одному з них це справді два різних покази («Показ етюдів» 2024, номери 57 і
- * 58).
- *
- * Розпізнати їх можна за тим, що номер показу школи є рівно в ОДНОГО запису
- * пари: номер веде реєстр, розклад його не знає.
- *
- * ## Чому редирект, а не просто зникла сторінка
- *
- * Причини й ціна ті самі, що для перейменованих адрес випускників — повний
- * розбір у докблоці `RENAMED_ADDRESSES` у
- * `projects/galaxy-graduates/[address]/+page.ts`. Коротко: стара адреса не
- * пререндериться, її віддає `fallback: '404.html'`, а клієнтський роутер
- * виконує цей `load` і веде на нову. Мовний префікс зберігається.
- */
-const RENAMED_PLAY_IDS: Record<string, string> = {
-	// Записи-уривки, згорнуті у свій вечір: уривок не вистава, а номер програми.
-	'chuchelo-2016': 'boikot-2016',
-	'divchynka-z-vedmedykom-2025': 'uryvky-z-klasyky-2025',
-	'hrikh-2012': 'uryvky-z-dramaturhii-20-stolittia-2012',
-	'romeo-i-dzhulietta-2025': 'uryvky-z-klasyky-2025',
-	'stekliannyi-zverynets-2016': 'uryvky-z-klasyky-2016-2',
-	'uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012': 'uryvky-z-dramaturhii-20-stolittia-2012',
-	'uryvky-z-klasyky-neznaiomka-o-bloka-2013': 'uryvky-z-klasyky-2013',
-	'uryvky-z-klasyky-asia-i-turhenev-2014': 'uryvky-z-klasyky-2014',
-	'uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015': 'uryvky-z-klasyky-2015-3',
-
-	// Двійники з двох джерел: репертуар майстра й розклад.
-	'balahanchyk-bratev-hrymm-2019': 'balahanchyk-brativ-hrym-2019',
-	'blondie-2020': 'blondi-2020',
-	'chapaiev-i-vasylisa-2021': 'chapaiev-ta-vasylisa-2021',
-	'hde-vse-2015': 'de-vsi-2015',
-	'do-svydania-ovrah-2014': 'do-svydanyia-ovrah-2014',
-	'feisbuchyk-2019': 'feis-bu-chik-2019',
-	'foto-toplies-2018': 'foto-toples-2018',
-	'iak-podruzhytysia-z-chakalkoiu-2023': 'iak-podruzhytys-z-chekalkoiu-2023',
-	'skazka-ardennskoho-lesa-2017': 'kazka-ardenskoho-lisu-2017',
-	'krestyky-nolyky-2008': 'khrestyky-nulyky-2008',
-	'komnata-nevest-2008': 'kimnata-narechenoi-2008',
-	'koralina-v-kriny-koshmariv-2020': 'koralina-v-kraini-koshmariv-2020',
-	'natashy-2013': 'natashi-2013',
-	'nikomu-ne-potribni-2023': 'nikomu-nepotribni-2023',
-	'yzumrudnyi-horod-2007': 'smarahdove-misto-2007',
-	'tin-2013': 'ten-2013',
-	'v-poshukakh-natkhnennia-2021': 'u-poshukakh-natkhnennia-2021',
-	'uryvky-z-klasyky-2023': 'uryvky-iz-klasyky-2023',
-	'otryvky-yz-klassyky-2013': 'uryvky-z-klasyky-2013',
-	'otryvky-yz-klassyky-2014': 'uryvky-z-klasyky-2014',
-	'otryvky-yz-klassyky-2015': 'uryvky-z-klasyky-2015',
-	'otryvky-yz-klassyky-2016': 'uryvky-z-klasyky-2016',
-	'vse-lito-v-odyn-den-2020': 'use-lito-v-odyn-den-2020',
-	'zona-turbulentnosty-2017': 'zona-turbulentnosti-2017',
-
-	/*
-	 * Заходи школи, які досі лежали як звичайні вистави курсу.
-	 *
-	 * Ключі змінилися з двох причин відразу. Перша — рік у двох із трьох був
-	 * НЕПРАВИЛЬНИЙ, а рік стоїть у самому ключі: «Шахи» — Посвята 2013-го, не
-	 * 2014-го; «Театральне королівство» — 2012-го, не 2013-го (обидві дати
-	 * названі в титрах записів). Друга — усі роки Посвяти тепер живуть під одним
-	 * префіксом, тобто адреса каже, що це за подія, ще до відкриття сторінки.
-	 */
-	'shakhy-2014': 'posviata-2013',
-	'teatralnie-korolevstvo-2013': 'posviata-teatralne-korolivstvo-2012',
-	'eneida-2022': 'posviata-2022',
-
-	// Двійники через помилки в роках або написанні в анкетах
-	'alysa-v-zazerkalyy-2012': 'alisa-v-zadzerkalli-2013',
-	'chypollyno-2010': 'tsybulino-2010',
-	'durochka-2011': 'durochka-2010',
-	'feis-bu-chik-2018': 'feis-bu-chik-2019',
-	'moia-voobrazylyia-2011': 'moia-voobrazylyia-2012',
-	'moia-voobraziliia-2012': 'moia-voobrazylyia-2012',
-	'rusalochka-2012': 'sestra-moia-rusalochka-2012',
-	'skazky-skvoz-kamny-2014': 'kazky-kriz-kaminnia-2015',
-	'tolpa-odynokykh-2016': 'natovp-samotnikh-2017',
-	'veselyi-rodzher-2013': 'veselyi-rodzher-2014',
-};
 
 export const prerender = true;
 
@@ -108,7 +22,16 @@ export const prerender = true;
  * порожня: назва, рік і те, у чиєму репертуарі вистава числиться, є завжди.
  */
 export function entries() {
-	return PLAYS.map((play) => ({ id: play.id }));
+	return [
+		...PLAYS.map((play) => ({ id: play.id })),
+		/*
+		 * Разом із чинними — СТАРІ адреси, перейменовані. Без них стара адреса не
+		 * пререндериться, і людина за посиланням із мережі бачить «Сторінку не
+		 * знайдено» замість перенаправлення. Замір — у
+		 * `config/renamedAddresses.ts`.
+		 */
+		...Object.keys(RENAMED_PLAY_IDS).map((id) => ({ id }))
+	];
 }
 
 export function load({ params, url }) {

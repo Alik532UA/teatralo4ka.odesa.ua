@@ -131,8 +131,76 @@ const PUBLIC_ENTRIES = [
 	'/projects/support-production',
 	'/fest-odesa-teatr-pro',
 	'/fest-odessa-teatr-pro',
-	/* Стара адреса злитої групи «Асорті» — заглушка з `meta refresh`. */
-	'/projects/galaxy-graduates/groups/assorti'
+	/*
+	 * Старі адреси перейменованих сторінок — заглушки з `meta refresh`.
+	 *
+	 * Тут вони потрібні заради АНГЛІЙСЬКОГО дзеркала: `entries()` маршруту дає
+	 * лише адресу без префікса, бо мову в шляху робить хук `reroute`. Заміряно на
+	 * сторінках майстрів — англійських у `build/` лише 29 зі 118: решта
+	 * зʼявляється обходом посилань, а на стару адресу не веде нічого.
+	 *
+	 * Перелік повторений тут удруге: конфіг збірки не читає TypeScript, тож
+	 * імпортувати `config/renamedAddresses.ts` нема як — так само, як із
+	 * `HIDDEN_ENTRIES` нижче. Збіг двох написань тримає
+	 * `src/renamed-addresses.test.ts`.
+	 */
+	'/projects/galaxy-graduates/festivals/slavianskyi-venok',
+	'/projects/galaxy-graduates/groups/assorti',
+	'/projects/galaxy-graduates/plays/chuchelo-2016',
+	'/projects/galaxy-graduates/plays/divchynka-z-vedmedykom-2025',
+	'/projects/galaxy-graduates/plays/hrikh-2012',
+	'/projects/galaxy-graduates/plays/romeo-i-dzhulietta-2025',
+	'/projects/galaxy-graduates/plays/stekliannyi-zverynets-2016',
+	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-toi-shcho-otrymuie-liapasa-2012',
+	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-neznaiomka-o-bloka-2013',
+	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-asia-i-turhenev-2014',
+	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015',
+	'/projects/galaxy-graduates/plays/balahanchyk-bratev-hrymm-2019',
+	'/projects/galaxy-graduates/plays/blondie-2020',
+	'/projects/galaxy-graduates/plays/chapaiev-i-vasylisa-2021',
+	'/projects/galaxy-graduates/plays/hde-vse-2015',
+	'/projects/galaxy-graduates/plays/do-svydania-ovrah-2014',
+	'/projects/galaxy-graduates/plays/feisbuchyk-2019',
+	'/projects/galaxy-graduates/plays/foto-toplies-2018',
+	'/projects/galaxy-graduates/plays/iak-podruzhytysia-z-chakalkoiu-2023',
+	'/projects/galaxy-graduates/plays/skazka-ardennskoho-lesa-2017',
+	'/projects/galaxy-graduates/plays/krestyky-nolyky-2008',
+	'/projects/galaxy-graduates/plays/komnata-nevest-2008',
+	'/projects/galaxy-graduates/plays/koralina-v-kriny-koshmariv-2020',
+	'/projects/galaxy-graduates/plays/natashy-2013',
+	'/projects/galaxy-graduates/plays/nikomu-ne-potribni-2023',
+	'/projects/galaxy-graduates/plays/yzumrudnyi-horod-2007',
+	'/projects/galaxy-graduates/plays/tin-2013',
+	'/projects/galaxy-graduates/plays/v-poshukakh-natkhnennia-2021',
+	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-2023',
+	'/projects/galaxy-graduates/plays/otryvky-yz-klassyky-2013',
+	'/projects/galaxy-graduates/plays/otryvky-yz-klassyky-2014',
+	'/projects/galaxy-graduates/plays/otryvky-yz-klassyky-2015',
+	'/projects/galaxy-graduates/plays/otryvky-yz-klassyky-2016',
+	'/projects/galaxy-graduates/plays/vse-lito-v-odyn-den-2020',
+	'/projects/galaxy-graduates/plays/zona-turbulentnosty-2017',
+	'/projects/galaxy-graduates/plays/shakhy-2014',
+	'/projects/galaxy-graduates/plays/teatralnie-korolevstvo-2013',
+	'/projects/galaxy-graduates/plays/eneida-2022',
+	'/projects/galaxy-graduates/plays/alysa-v-zazerkalyy-2012',
+	'/projects/galaxy-graduates/plays/chypollyno-2010',
+	'/projects/galaxy-graduates/plays/durochka-2011',
+	'/projects/galaxy-graduates/plays/feis-bu-chik-2018',
+	'/projects/galaxy-graduates/plays/moia-voobrazylyia-2011',
+	'/projects/galaxy-graduates/plays/moia-voobraziliia-2012',
+	'/projects/galaxy-graduates/plays/rusalochka-2012',
+	'/projects/galaxy-graduates/plays/skazky-skvoz-kamny-2014',
+	'/projects/galaxy-graduates/plays/tolpa-odynokykh-2016',
+	'/projects/galaxy-graduates/plays/veselyi-rodzher-2013',
+	'/residents/adults/romanko',
+	'/residents/adults/n-rybakova',
+	'/projects/galaxy-graduates/maryna-vishtaliuk-sukhanova',
+	'/projects/galaxy-graduates/tetiana-nikitenko-2',
+	'/projects/galaxy-graduates/kateryna-maktas',
+	'/projects/galaxy-graduates/yana-lunieva',
+	'/projects/galaxy-graduates/krystyna-nykolaieva',
+	'/projects/galaxy-graduates/roman-arabadzhi',
+	'/projects/galaxy-graduates/alla-brynza'
 ];
 
 /**

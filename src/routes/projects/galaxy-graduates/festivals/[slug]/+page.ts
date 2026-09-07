@@ -2,6 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
+import { RENAMED_FESTIVAL_SLUGS } from '$lib/config/renamedAddresses';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
 import mastersIndex from '$lib/data/masters.index.json';
@@ -9,28 +10,21 @@ import type { MasterIndexEntry } from '$lib/data/masters';
 
 export const prerender = true;
 
+/*
+ * Разом із чинними — СТАРІ адреси, перейменовані. Без них стара адреса не
+ * пререндериться, і людина за посиланням із мережі бачить «Сторінку не
+ * знайдено» замість перенаправлення. Розбір і замір — у
+ * `config/renamedAddresses.ts`.
+ */
 export function entries() {
-	return FESTIVALS.map((festival) => ({ slug: festival.slug }));
+	return [
+		...FESTIVALS.map((festival) => ({ slug: festival.slug })),
+		...Object.keys(RENAMED_FESTIVAL_SLUGS).map((slug) => ({ slug }))
+	];
 }
 
-/**
- * Адреси, які змінилися вже після виходу сторінки в прод.
- *
- * Той самий прийом, що в сторінок майстрів: стара адреса НЕ пререндериться —
- * її віддає `fallback: '404.html'`, клієнтський роутер виконує цей `load`,
- * бачить стару назву й веде на нову. Ціна відома й прийнята: у статиці стара
- * адреса лишається кодом 404, тобто краулер без JS редиректу не побачить.
- *
- * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
- * венок»), тоді як сама назва українська. Адреса прожила в проді менш ніж
- * добу, але вона встигла потрапити в sitemap, тож просто зникнути не може.
- */
-const RENAMED_SLUGS: Record<string, string> = {
-	'slavianskyi-venok': 'slovianskyi-vinok'
-};
-
 export async function load({ params, url }) {
-	const renamedTo = RENAMED_SLUGS[params.slug];
+	const renamedTo = RENAMED_FESTIVAL_SLUGS[params.slug];
 	if (renamedTo) {
 		redirect(301, localizedPath(festivalPath(renamedTo), localeFromPath(url.pathname)));
 	}

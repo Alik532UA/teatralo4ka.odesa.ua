@@ -1,5 +1,6 @@
 import { UKRAINIAN_HOLIDAYS } from '$lib/config/ukrainianHolidays';
 import { RENAMED_NEWS_IDS } from '$lib/config/newsAliases';
+import { RENAMED_PATHS } from '$lib/config/renamedAddresses';
 import { CODE_NEWS } from '$lib/config/codeNews';
 /**
  * Дані чеклиста бета-тестування (BETA-CHECKLIST-v8).
@@ -104,15 +105,13 @@ export const BETA_UNCOVERED_ROUTES: readonly string[] = [
 	 */
 	...Object.keys(RENAMED_NEWS_IDS).map((id) => `/news/${id}`),
 	/*
-	 * Стара адреса групи «Асорті»: курс мав дві картки, їх звели в одну
-	 * (`groups/asorti`). Перевіряти нічого — людина цієї сторінки не побачить,
-	 * браузер піде далі; що вона веде куди треба, стереже `e2e/redirects.spec.ts`.
+	 * Перейменовані адреси сторінок — так само виводяться, і з тієї ж причини.
 	 *
-	 * Рядком, а не виведенням: у `config/redirects.ts` поруч лежать заглушки
-	 * `/fest-*`, і в них у чеклисті СВОЇ пункти. Вивести звідти означало б
-	 * мовчки зняти з перевірки й ті дві.
+	 * Виводяться саме звідси, а не з `config/redirects.ts`: там поруч лежать
+	 * заглушки `/fest-*`, і в них у чеклисті СВОЇ пункти. Вивести звідти
+	 * означало б мовчки зняти з перевірки й ті дві.
 	 */
-	'/projects/galaxy-graduates/groups/assorti'
+	...RENAMED_PATHS.map(([старий]) => старий)
 ];
 
 export const BETA_TABS: readonly BetaTab[] = [

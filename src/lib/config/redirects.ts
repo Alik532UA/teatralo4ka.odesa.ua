@@ -2,6 +2,7 @@
 // який виконується в Node через tsx, де аліасів SvelteKit не існує.
 import { LOCALES, withLocale } from '../i18n/routing';
 import { RENAMED_NEWS_IDS } from './newsAliases';
+import { RENAMED_PATHS } from './renamedAddresses';
 
 /**
  * Сторінки, які нічого не показують, а відправляють далі (`meta http-equiv="refresh"`).
@@ -49,12 +50,20 @@ const BASE: Record<string, RedirectPage> = {
 	'/fest-odesa-teatr-pro': { target: 'projects/teatr-pro', external: false },
 	'/fest-odessa-teatr-pro': { target: 'projects/teatr-pro', external: false },
 
-	// Дві картки одного курсу «Асорті» звели в одну (2026-09-07): у першій був
-	// склад, у другій знімки. Стара адреса лишається живою — вона була в мапі сайту.
-	'/projects/galaxy-graduates/groups/assorti': {
-		target: 'projects/galaxy-graduates/groups/asorti',
-		external: false
-	},
+	/*
+	 * Перейменовані адреси сторінок — ВИВОДЯТЬСЯ з `config/renamedAddresses.ts`.
+	 *
+	 * Причина та сама, що нижче для новин: другий список поруч розійшовся б із
+	 * першим на наступному ж перейменуванні, і розходження було б тихим —
+	 * сторінка перенаправлення існує, а мапа сайту кладе її в індекс порожньою.
+	 *
+	 * П'ятдесят сім адрес: фестиваль, група, 46 вистав, двоє майстрів і семеро
+	 * випускників. Доти жодна з них не була заглушкою — усі віддавали 404, хоч
+	 * докблоки маршрутів обіцяли перенаправлення. Замір і розбір — там само.
+	 */
+	...Object.fromEntries(
+		RENAMED_PATHS.map(([старий, новий]) => [старий, { target: новий, external: false }])
+	),
 
 	/*
 	 * Перейменовані адреси новин — ВИВОДЯТЬСЯ з реєстру, а не перелічуються.

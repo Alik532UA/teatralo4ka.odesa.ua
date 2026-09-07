@@ -1,10 +1,11 @@
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 import { GROUPS, getGroupBySlug,
 	playIdsOfGroup
 } from '$lib/data/groups';
 import { lineageOf } from '$lib/data/groupLineage';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
-import { localeFromPath } from '$lib/i18n/routing';
+import { localeFromPath, localizedPath } from '$lib/i18n/routing';
+import { RENAMED_GROUP_SLUGS } from '$lib/config/renamedAddresses';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
 import mastersIndex from '$lib/data/masters.index.json';
 import { playsByIds } from '$lib/data/plays';
@@ -12,11 +13,31 @@ import type { MasterIndexEntry } from '$lib/data/masters';
 
 export const prerender = true;
 
+/*
+ * Разом із чинними — СТАРІ адреси, перейменовані. Без них стара адреса не
+ * пререндериться, і людина за посиланням із мережі бачить «Сторінку не
+ * знайдено» замість перенаправлення. Розбір і замір — у
+ * `config/renamedAddresses.ts`.
+ */
 export function entries() {
-	return GROUPS.map((group) => ({ slug: group.slug }));
+	return [
+		...GROUPS.map((group) => ({ slug: group.slug })),
+		...Object.keys(RENAMED_GROUP_SLUGS).map((slug) => ({ slug }))
+	];
 }
 
 export async function load({ params, url }) {
+	const перейменовано = RENAMED_GROUP_SLUGS[params.slug];
+	if (перейменовано) {
+		redirect(
+			301,
+			localizedPath(
+				`/projects/galaxy-graduates/groups/${перейменовано}`,
+				localeFromPath(url.pathname)
+			)
+		);
+	}
+
 	const group = getGroupBySlug(params.slug);
 	if (!group) {
 		error(404, `Групу не знайдено: ${params.slug}`);

@@ -51,6 +51,13 @@ import { describe, expect, it } from 'vitest';
  *   перевіряти на ній нема чого: людина її не побачить. Виведенням це не
  *   зробиш — поруч у тому ж реєстрі лежать заглушки `/fest-*`, у яких у
  *   чеклисті СВОЇ пункти.
+ * 2026-09-07 (та сама доба, пізніше): `data/betaChecklist.ts` 417 → 418. Рівно
+ *   один рядок, і попередній запис ним же скасовано: адреса «Асорті» більше не
+ *   стоїть рядком, замість неї `...RENAMED_PATHS.map(…)` — усі 57 старих адрес
+ *   разом. Виведення таки вийшло, бо джерело тепер інше: не `config/redirects.ts`
+ *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
+ *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
+ *   імпорт нового реєстру, а рядок з адресою пішов.
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -503,7 +510,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/data/betaChecklist.ts': 417,
+	'src/lib/data/betaChecklist.ts': 418,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
