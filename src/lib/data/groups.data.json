@@ -273,21 +273,6 @@
 		"abbr": null,
 		"masters": [
 			{
-				"id": "myroslava-derepa",
-				"name": "Дерепа Мирослава Ігорівна",
-				"department": "theatre"
-			},
-			{
-				"id": "iryna-kulbaba",
-				"name": "Кульбаба Ірина Борисівна",
-				"department": "theatre"
-			},
-			{
-				"id": "hanna-serebriannikova",
-				"name": "Серебряннікова Ганна Іванівна",
-				"department": "theatre"
-			},
-			{
 				"id": "tetiana-isachkina",
 				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
@@ -598,23 +583,13 @@
 		"abbr": null,
 		"masters": [
 			{
-				"id": "myroslava-derepa",
-				"name": "Дерепа Мирослава Ігорівна",
-				"department": "theatre"
-			},
-			{
-				"id": "iryna-kulbaba",
-				"name": "Кульбаба Ірина Борисівна",
+				"id": "tetiana-isachkina",
+				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			},
 			{
 				"id": "hanna-serebriannikova",
 				"name": "Серебряннікова Ганна Іванівна",
-				"department": "theatre"
-			},
-			{
-				"id": "tetiana-isachkina",
-				"name": "Ісачкіна Тетяна Валеріївна",
 				"department": "theatre"
 			}
 		],
