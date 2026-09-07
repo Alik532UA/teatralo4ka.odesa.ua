@@ -2471,9 +2471,17 @@
 			}
 		],
 		"graduationYears": [
-			2013
+			2015
 		],
-		"memberIds": [],
+		"memberIds": [
+			"mark-pavelchenko",
+			"maiia-isaiko",
+			"anastasiia-zubrytska",
+			"anna-pistryna",
+			"nataliia-karamysheva",
+			"oleksandra-chulanova",
+			"iryna-panchenko"
+		],
 		"playIds": [
 			"vodevyl-2013"
 		],
@@ -2497,7 +2505,20 @@
 		"graduationYears": [
 			2013
 		],
-		"memberIds": [],
+		"memberIds": [
+			"dana-broshkova",
+			"artem-starshov",
+			"vladyslav-chernov",
+			"dariia-kulish",
+			"mykyta-shevchenko",
+			"mariia-shadryna",
+			"diana-mashchenko",
+			"daryn-karbazh",
+			"kateryna-yakubovych",
+			"anastasiia-motulko",
+			"yuliia-stoiko",
+			"yelyzaveta-sekunda"
+		],
 		"playIds": [
 			"ten-2013"
 		],
