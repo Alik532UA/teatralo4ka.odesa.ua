@@ -217,7 +217,7 @@
 
 	.lightbox-close:hover {
 		background: rgba(255, 255, 255, 0.3);
-		/* Оберт і масштаб — спільне правило в global.css (UI-ELEMENTS-v8 § 1.1).
+		/* Оберт і масштаб — спільне правило в global.css (UI-ELEMENTS-v9 § 1.1).
 		   Власний `transform` тут переважував би його через scoping Svelte. */
 	}
 

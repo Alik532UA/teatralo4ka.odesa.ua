@@ -110,7 +110,7 @@
 		try {
 			let q;
 			if (isSuperAdmin) {
-				// Межа обов'язкова (CLOUD-DATABASE-v8 § 7.1): колекція `users`
+				// Межа обов'язкова (CLOUD-DATABASE-v9 § 7.1): колекція `users`
 				// спільна на всі сайти екосистеми, тож росте вона не від цього
 				// проєкту, а від сусідніх.
 				q = query(collection(db, 'users'), orderBy('email'), limit(ADMIN_USERS_LIMIT));

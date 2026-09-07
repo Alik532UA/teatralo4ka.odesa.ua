@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * Гола довжина першим аргументом `minmax()` (FLUID-SIZING-v8 § 1.1, CRITICAL).
+ * Гола довжина першим аргументом `minmax()` (FLUID-SIZING-v9 § 1.1, CRITICAL).
  *
  * `repeat(auto-fill, minmax(320px, 1fr))` читається як «колонка не вужча за
  * 320px, далі росте», і слово «мінімум» тут БУКВАЛЬНЕ: коли контейнер вужчий за
@@ -36,7 +36,7 @@ import { join } from 'node:path';
  * `min(N, 100%)` при контейнері ширшому за N дорівнює N — поріг переносу
  * лишається той самий.
  *
- * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): повернути
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): повернути
  * `minmax(320px, 1fr)` у `.masters-grid--cards` — перевірка мусить назвати файл,
  * рядок і саме цей запис. Зроблено, падає.
  */
@@ -60,7 +60,7 @@ function walk(dir: string, keep: (name: string) => boolean, out: string[] = []):
  * ВЛАСНІЙ документації: анти-патерн доводиться процитувати, щоб пояснити (так і
  * сталося — цей файл цитує `minmax(320px, 1fr)` тричі). А замінювати треба
  * пробілами, зберігаючи переводи рядків: інакше номер рядка у звіті вказує не
- * туди, і знахідку шукають руками (FLUID-SIZING-v8 § 9).
+ * туди, і знахідку шукають руками (FLUID-SIZING-v9 § 9).
  */
 function stripComments(text: string): string {
 	const blank = (m: string) => m.replace(/[^\n]/g, ' ');
@@ -139,7 +139,7 @@ function autoRepeats(source: string): { line: number; raw: string; first: string
 	return found;
 }
 
-describe('сітки: підлога колонки не буває голою довжиною (FLUID-SIZING-v8 § 1.1)', () => {
+describe('сітки: підлога колонки не буває голою довжиною (FLUID-SIZING-v9 § 1.1)', () => {
 	const files = walk(
 		ROOT,
 		(n) => n.endsWith('.svelte') || n.endsWith('.css') || n.endsWith('.html')
@@ -207,7 +207,7 @@ describe('сітки: підлога колонки не буває голою �
 });
 
 /**
- * `vh` там, де блок мусить вміститися у ВИДИМУ висоту (FLUID-SIZING-v8 § 2, § 4).
+ * `vh` там, де блок мусить вміститися у ВИДИМУ висоту (FLUID-SIZING-v9 § 2, § 4).
  *
  * `100vh` — це найбільший viewport, тобто екран із ЗГОРНУТОЮ панеллю браузера.
  * На телефоні з розгорнутою панеллю блок такої висоти на 10-15 % вищий за те,
@@ -233,7 +233,7 @@ describe('сітки: підлога колонки не буває голою �
  * thumbHeight`, що на телефоні ВИЩЕ за низ доріжки, і нижня смуга доріжки
  * лишалася мертвою — по ній не можна було перейти в кінець сторінки.
  *
- * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): повернути `100vh` у
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): повернути `100vh` у
  * `.page-scrollbar` — перевірка мусить назвати файл, рядок і властивість.
  * Зроблено, падає.
  */
@@ -281,7 +281,7 @@ function heightsInVh(source: string): { line: number; prop: string; value: numbe
 	return found;
 }
 
-describe('висота від екрана — dvh, а не vh (FLUID-SIZING-v8 § 2)', () => {
+describe('висота від екрана — dvh, а не vh (FLUID-SIZING-v9 § 2)', () => {
 	const files = walk(
 		ROOT,
 		(n) => n.endsWith('.svelte') || n.endsWith('.css') || n.endsWith('.html')

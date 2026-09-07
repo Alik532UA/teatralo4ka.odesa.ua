@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { getContentExcerpt, renderContent } from './renderContent';
 
 /**
- * Docblock `node` тут не для зручності, а і є перевіркою (SECURITY-v8 § 5).
+ * Docblock `node` тут не для зручності, а і є перевіркою (SECURITY-v9 § 5).
  *
  * Модуль довго імпортував звичайний `dompurify`. Без DOM у нього немає навіть
  * методу `sanitize`: виклик кидає «DOMPurify.sanitize is not a function».

@@ -16,7 +16,7 @@
 
 	// `$props.id()`, а не лічильник і не Math.random: два піаніно на сторінці
 	// дали б однаковий id і `aria-labelledby` вказував би на чужий заголовок
-	// (SVELTE-CORE-v8 § 1.7).
+	// (SVELTE-CORE-v9 § 1.7).
 	const hintId = $props.id();
 
 	// --- CONFIGURATION ---
@@ -194,7 +194,7 @@
 	 * призначені рівно `WHITE_KEY_CODES` і `BLACK_KEY_CODES` — двадцять одна
 	 * літера й дужка, — а `startNote('Escape')` не знаходить клавіші й виходить.
 	 * Тобто Escape не робив нічого взагалі, і накладка лишалася єдиною на сайті,
-	 * з якої немає виходу звичним жестом (ACCESSIBILITY-v8 § 4.4).
+	 * з якої немає виходу звичним жестом (ACCESSIBILITY-v9 § 4.4).
 	 */
 	function handleKeydown(e: KeyboardEvent) {
 		if (!isOpen) return;
@@ -429,7 +429,7 @@
 	}
 
 	.close-btn:hover {
-		/* Оберт і масштаб — спільне правило в global.css (UI-ELEMENTS-v8 § 1.1). */
+		/* Оберт і масштаб — спільне правило в global.css (UI-ELEMENTS-v9 § 1.1). */
 		opacity: 0.85;
 	}
 

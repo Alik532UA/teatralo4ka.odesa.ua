@@ -1,7 +1,7 @@
 import type { Attachment } from 'svelte/attachments';
 
 /**
- * Focus trap для модальних вікон (ACCESSIBILITY-v8, HIGH).
+ * Focus trap для модальних вікон (ACCESSIBILITY-v9, HIGH).
  *
  * `aria-modal="true"` — це обіцянка дикторові, що решта сторінки зараз
  * недосяжна. Саму досяжність атрибут не змінює: без пастки Tab виходить із
@@ -34,7 +34,7 @@ import type { Attachment } from 'svelte/attachments';
  *
  * `:not([disabled])` і `[tabindex]:not([tabindex="-1"])` обов'язкові: вимкнена
  * кнопка й елемент, свідомо вийнятий із порядку табуляції (кнопки поля вводу за
- * INPUT-TOOLS-v8 § 3.3), у циклі брати участь не повинні.
+ * INPUT-TOOLS-v1 § 3.3), у циклі брати участь не повинні.
  */
 const FOCUSABLE = [
 	'a[href]',
@@ -65,7 +65,7 @@ export function focusableWithin(container: HTMLElement): HTMLElement[] {
 		// `[tabindex]:not([tabindex="-1"])`: перелік селекторів ДОДАЄ елементи,
 		// а не звужує попередні. Практичний наслідок був би видимий одразу — Tab
 		// у формі адмінки почав би ходити по кнопках «вставити / скопіювати /
-		// стерти», які INPUT-TOOLS-v8 § 3.3 звідти навмисно прибрав.
+		// стерти», які INPUT-TOOLS-v1 § 3.3 звідти навмисно прибрав.
 		if (el.getAttribute('tabindex') === '-1') return false;
 		if (el.closest('[hidden]')) return false;
 		const style = getComputedStyle(el);

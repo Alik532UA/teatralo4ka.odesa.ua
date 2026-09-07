@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 /**
- * DEPENDENCIES-v8 § 6 — GATE-DEPS.
+ * DEPENDENCIES-v9 § 6 — GATE-DEPS.
  *
  * Єдиний гейт пакета, якого в проєкті не було зовсім. Він дешевий і ловить те,
  * що не видно ніде більше: `package.json` не читає ані `svelte-check`, ані

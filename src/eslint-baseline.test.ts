@@ -2,7 +2,7 @@ import { ESLint } from 'eslint';
 import { beforeAll, describe, expect, it } from 'vitest';
 
 /**
- * CODE-QUALITY-v8 § 6.4.2 — базовий набір ESLint увімкнений.
+ * CODE-QUALITY-v9 § 6.4.2 — базовий набір ESLint увімкнений.
  *
  * Чому цей тест існує. До 2026-08-14 `eslint.config.js` цього проєкту починався
  * блоком із семи `'off'`: `no-explicit-any`, `no-unused-vars`, `ban-ts-comment`,
@@ -25,7 +25,7 @@ const BASELINE = [
 	'no-new-func',
 	'no-script-url',
 	'no-restricted-syntax',
-	// DEBUGGING-v8: логування через errorLogger. Правило вимкнене окремим
+	// DEBUGGING-v9: логування через errorLogger. Правило вимкнене окремим
 	// файловим блоком для `scripts/` і конфігів — зразок сюди не входить, тож
 	// саме для коду застосунку тест лишається змістовним.
 	'no-console',
@@ -51,7 +51,7 @@ function levelOf(entry: unknown): string | number | undefined {
 	return Array.isArray(entry) ? (entry[0] as string | number) : (entry as string | number);
 }
 
-describe('базовий набір ESLint (CODE-QUALITY-v8 § 6.4.1)', () => {
+describe('базовий набір ESLint (CODE-QUALITY-v9 § 6.4.1)', () => {
 	// Node API замість `npx eslint --print-config`: з Node 22+ спроба запустити
 	// `.cmd` без `shell: true` падає з EINVAL, а `shell: true` дає DEP0190.
 	// Через API це той самий зібраний конфіг, тільки без підпроцесу й швидше.
@@ -80,7 +80,7 @@ describe('базовий набір ESLint (CODE-QUALITY-v8 § 6.4.1)', () => {
 });
 
 /**
- * Борг у режимі `warn` — число, яке ЛИШЕ спадає (CODE-QUALITY-v8 § 6.4.3).
+ * Борг у режимі `warn` — число, яке ЛИШЕ спадає (CODE-QUALITY-v9 § 6.4.3).
  *
  * ## Навіщо ще одна перевірка поруч із попередньою
  *
@@ -89,7 +89,7 @@ describe('базовий набір ESLint (CODE-QUALITY-v8 § 6.4.1)', () => {
  * за ним можна було стежити. Без гейта стежити нічим — і це не гіпотеза. У
  * `DigitalWorkshop`, єдиному проєкті, де цей ратчет уже стояв, числа перед тим
  * розійшлися з дійсністю двічі в одному файлі: 17 проти реальних 16 і 66 проти
- * 65. Клас, який AI-AGENT-PITFALLS-v8 § 5.5 називає прямо: «число зі звіту
+ * 65. Клас, який AI-AGENT-PITFALLS-v9 § 5.5 називає прямо: «число зі звіту
  * старіє саме тоді, коли робота йде добре».
  *
  * ## Стан на момент увімкнення
@@ -117,7 +117,7 @@ const DEBT: Readonly<Record<string, number>> = {
 	'@typescript-eslint/no-explicit-any': 0
 };
 
-describe('борг ESLint — число, що лише спадає (CODE-QUALITY-v8 § 6.4.3)', () => {
+describe('борг ESLint — число, що лише спадає (CODE-QUALITY-v9 § 6.4.3)', () => {
 	let counts: Record<string, number>;
 	let errors = 0;
 	let linted = 0;

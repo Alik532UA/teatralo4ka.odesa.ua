@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * Кнопка робить те, що на ній написано (UI-ELEMENTS-v8 § 1, WCAG 3.2.4).
+ * Кнопка робить те, що на ній написано (UI-ELEMENTS-v9 § 1, WCAG 3.2.4).
  *
  * ## Що сталося
  *
@@ -27,7 +27,7 @@ import { join } from 'node:path';
  * «навпаки». Тому перевірка дивиться лише на кнопки, названі `-on-btn` /
  * `-off-btn`, тобто на ті, що заявили себе половиною пари.
  *
- * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): повернути
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): повернути
  * `onclick={() => ui.toggleBlurEffect()}` на будь-яку з двох кнопок blur —
  * перевірка мусить назвати саме її.
  */

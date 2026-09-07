@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { SITE_ORIGIN, siteUrl } from '$lib/config/site';
 
 /**
- * CUSTOM-DOMAIN-v8 § 1 і § 5 — адреса сайту живе в одному місці.
+ * CUSTOM-DOMAIN-v9 § 1 і § 5 — адреса сайту живе в одному місці.
  *
  * Переїзд на інший домен атомарний: половина змін дає стан гірший за їх повну
  * відсутність — canonical веде на стару адресу, sitemap на нову, і в індексі

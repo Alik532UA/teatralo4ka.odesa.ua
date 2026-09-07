@@ -96,7 +96,7 @@
 прив'язку домену з налаштувань Pages. Префікс сховища `teatralo4ka_` лишається
 попри окремий origin: проєкт може переїхати, а дані мають пережити переїзд.
 
-Набір граблів такого переїзду — [CUSTOM-DOMAIN-v8.md](../sveltekit-canon/selection_criteria/v8/ops/CUSTOM-DOMAIN-v8.md).
+Набір граблів такого переїзду — [CUSTOM-DOMAIN-v9.md](../sveltekit-canon/selection_criteria/v9/ops/CUSTOM-DOMAIN-v9.md).
 
 ### Швидкий старт
 
@@ -141,7 +141,7 @@ npm run dev
 
 ### Стандарти
 
-Загальні правила — у пакеті [`sveltekit-canon/selection_criteria/v8`](../sveltekit-canon/selection_criteria/v8/README.md).
+Загальні правила — у пакеті [`sveltekit-canon/selection_criteria/v9`](../sveltekit-canon/selection_criteria/v9/README.md).
 Специфіка проєкту — в [PROJECT-CONTEXT.md](PROJECT-CONTEXT.md), інструкції для
 AI-асистентів — в [AGENTS.md](AGENTS.md).
 

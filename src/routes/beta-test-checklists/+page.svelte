@@ -22,7 +22,7 @@
 	} from '$lib/services/betaProgress';
 
 	/**
-	 * Службова сторінка для живих тестувальників (BETA-CHECKLIST-v8).
+	 * Службова сторінка для живих тестувальників (BETA-CHECKLIST-v9).
 	 *
 	 * Поза індексом і поза меню: `noindex` малює layout за переліком
 	 * `config/hiddenRoutes.ts`, у мапі сайту її немає, у `robots.txt` стоїть
@@ -37,7 +37,7 @@
 	const { data }: { data: { appVersion: string } } = $props();
 
 	// `$derived`, а не копія: копія пропа — знімок першого значення
-	// (SVELTE-CORE-v8 `SC-PROP-SNAPSHOT`; `svelte-check` про це попереджає).
+	// (SVELTE-CORE-v9 `SC-PROP-SNAPSHOT`; `svelte-check` про це попереджає).
 	const version = $derived(data.appVersion);
 	const lang = $derived(($locale as string) === 'en' ? 'en' : 'uk');
 	const say = (text: Localized) => text[lang as 'uk' | 'en'];
@@ -313,7 +313,7 @@
 	}
 
 	/*
-	 * Стан позначається НЕ лише кольором (ACCESSIBILITY-v8): вибраний варіант
+	 * Стан позначається НЕ лише кольором (ACCESSIBILITY-v9): вибраний варіант
 	 * отримує ще й товщу рамку та напівжирний напис. Інакше він недоступний тому,
 	 * хто кольори не розрізняє, — а це найчастіша вада зору серед чоловіків.
 	 */

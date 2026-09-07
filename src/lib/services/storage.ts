@@ -1,7 +1,7 @@
 import { STORAGE_PREFIX, getStorageKey } from '../config/storage';
 
 /**
- * Storage facade (STORAGE-NAMESPACE-v8).
+ * Storage facade (STORAGE-NAMESPACE-v9).
  *
  * The single entry point for localStorage. It:
  *  - prefixes every key with the project prefix (isolation on a shared origin),

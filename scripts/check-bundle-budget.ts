@@ -3,7 +3,7 @@ import path from 'path';
 import zlib from 'zlib';
 
 /**
- * Бюджет розміру клієнтського бандла (PERFORMANCE-v8).
+ * Бюджет розміру клієнтського бандла (PERFORMANCE-v9).
  *
  * До цього перевірки не було жодної, і розмір міг рости непомітно: жоден гейт
  * його не бачив, а оком приріст у 30 КБ на коміт не помічається взагалі. Саме
@@ -343,7 +343,7 @@ const DATA_CEILING_KB = 80;
 /**
  * Частка Firebase SDK у критичному шляху головної, brotli. Храповик, не бюджет.
  *
- * CLOUD-DATABASE-v8 § 10.2 (`CDB-LAZY-SDK`, HIGH) вимагає, щоб пакет бази
+ * CLOUD-DATABASE-v9 § 10.2 (`CDB-LAZY-SDK`, HIGH) вимагає, щоб пакет бази
  * імпортувався через `await import()` у тому шляху, де база справді потрібна, і
  * прямо каже, ЯК це перевіряти: не за кодом, а за `build/` — чанк із SDK не має
  * бути в початковому завантаженні сторінки.
@@ -495,7 +495,7 @@ function main() {
 	if (firebaseHomeKb > FIREBASE_IN_HOME_CEILING_KB) {
 		over.push(
 			`Firebase SDK у критичному шляху головної: ${fmt(firebaseHomeKb)} > ` +
-				`${FIREBASE_IN_HOME_CEILING_KB} КБ (CLOUD-DATABASE-v8 § 10.2)`
+				`${FIREBASE_IN_HOME_CEILING_KB} КБ (CLOUD-DATABASE-v9 § 10.2)`
 		);
 	}
 	if (firebaseHomeKb === 0) {
@@ -534,7 +534,7 @@ function main() {
 	}
 
 	if (over.length > 0) {
-		console.error('❌ бюджет розміру перевищено (PERFORMANCE-v8):');
+		console.error('❌ бюджет розміру перевищено (PERFORMANCE-v9):');
 		for (const line of over) console.error(`   ${line}`);
 		console.error('   Підняття порога — не виправлення. Спершу подивіться, ЩО саме виросло:');
 		console.error('   найбільші модулі критичного шляху видно командою');

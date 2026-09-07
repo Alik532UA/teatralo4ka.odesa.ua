@@ -28,7 +28,7 @@ export function emailFromHref(href: string | null | undefined): string | null {
 
 export interface MailtoClick {
 	email: string;
-	/** Саме посилання — до нього прив'яжеться тост (NOTIFICATIONS-v8 § 5). */
+	/** Саме посилання — до нього прив'яжеться тост (NOTIFICATIONS-v1 § 5). */
 	anchor: HTMLAnchorElement;
 }
 

@@ -110,7 +110,7 @@
 	{#if content}
 		<!-- `prose--zoomable`: знімки в тексті відкриває лайтбокс нижче, і клас саме про це. -->
 		<article class="prose prose--zoomable" style="margin-bottom: 2.5rem;" data-testid="about-page-article-section">
-			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
+			<!-- Виняток за SECURITY-v9 § 5.3: markdown зі сторінок репозиторію,
 			     пропущений через DOMPurify безпосередньо перед вставкою. -->
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html DOMPurify.sanitize(content.html, DOMPURIFY_HTML_CONFIG)}

@@ -2,7 +2,7 @@ import type { Handle } from '@sveltejs/kit';
 import { localeFromPath, DEFAULT_LOCALE } from '$lib/i18n/routing';
 
 /**
- * `<html lang>` у ЗІБРАНОМУ HTML (I18N-v8 § 5.2, ACCESSIBILITY-v8 — обидва HIGH).
+ * `<html lang>` у ЗІБРАНОМУ HTML (I18N-v9 § 5.2, ACCESSIBILITY-v9 — обидва HIGH).
  *
  * Атрибут зашитий в `app.html` як `lang="uk"`, і клієнтський код виправляє його
  * після гідрації. Для англійських сторінок цього недостатньо: у прередереному

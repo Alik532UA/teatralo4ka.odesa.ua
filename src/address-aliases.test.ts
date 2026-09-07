@@ -33,7 +33,7 @@ import { GRADUATE_ALIASES, RENAMED_GRADUATE_ADDRESSES } from './lib/config/renam
  * не одна (`anton-babich` проти `anton-babych`, `dar-ia-hurevych`), тож поріг
  * підібраний так, щоб різні написання проходили, а `al_bryn` — ні.
  *
- * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Проведено: з файлу прибрано один запис — упала перевірка збігу й назвала
  * адресу; слаг Маргарити Жовненко змінено на `margotcine` без `aliases` — упала

@@ -26,7 +26,7 @@
 	const visibleMasters = $derived(allMasters.filter((m) => matchesMasterQuery(m, query)));
 
 	// Стан і збереження — у контролері: ключ мусить нести префікс проєкту, бо
-	// origin спільний із рештою проєктів (STORAGE-NAMESPACE-v8).
+	// origin спільний із рештою проєктів (STORAGE-NAMESPACE-v9).
 	const viewMode = $derived(adultsViewMode.current);
 
 	/* Перемикач віддає рядок — звужуємо охоронцем типу з контролера. */
@@ -455,7 +455,7 @@
 
 	/*
 	 * min(), бо гола довжина в minmax — це ПІДЛОГА, а не поріг переносу
-	 * (FLUID-SIZING-v8 § 1.1). Заміряно: `.masters-container` має `padding: 0 1rem`,
+	 * (FLUID-SIZING-v9 § 1.1). Заміряно: `.masters-container` має `padding: 0 1rem`,
 	 * тож на екрані 320px сітці лишається 288px — колонка на 320px виходила за
 	 * екран на 32px разом із картками. Саме число 320 працює далі як поріг, після
 	 * якого зʼявляється друга колонка: при контейнері ширшому за 320px

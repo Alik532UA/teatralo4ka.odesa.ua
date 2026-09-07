@@ -82,7 +82,7 @@ export function createGalaxyView(
 		get current() {
 			return current;
 		},
-		/* Наскрізний запис у мутаторі, без `$effect` (SVELTE-CORE-v8 § 1.9): ефект
+		/* Наскрізний запис у мутаторі, без `$effect` (SVELTE-CORE-v9 § 1.9): ефект
 		 * писав би у сховище й на першому обчисленні, тобто зберігав би те, чого
 		 * людина не вибирала. */
 		set(view: string) {

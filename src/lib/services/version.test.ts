@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { storage } from './storage';
 
 /**
- * VERSIONING-v8 § 4.1–4.3 — дросель, офлайн і рівень логування.
+ * VERSIONING-v9 § 4.1–4.3 — дросель, офлайн і рівень логування.
  *
  * До 2026-08-19 у PROJECT-CONTEXT це стояло рядком боргу з формулюванням
  * «виклик один, тож подвійних запитів немає, але й захисту від них теж». Саме

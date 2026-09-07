@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * Інваріанти кнопки закриття (UI-ELEMENTS-v8 § 3).
+ * Інваріанти кнопки закриття (UI-ELEMENTS-v9 § 3).
  *
  * Кнопка закриття — найчастіший порушник серед дрібних елементів: вона
  * складається з одного значка, і про підпис для читача з екранного диктора
@@ -39,7 +39,7 @@ function closeButtonTags(): { file: string; tag: string }[] {
 	return found;
 }
 
-describe('кнопки закриття (UI-ELEMENTS-v8 § 3)', () => {
+describe('кнопки закриття (UI-ELEMENTS-v9 § 3)', () => {
 	const tags = closeButtonTags();
 
 	it('перевірка жива — кнопки знайдено', () => {
@@ -115,13 +115,13 @@ describe('кнопки закриття (UI-ELEMENTS-v8 § 3)', () => {
 });
 
 /**
- * Копіювання пароля не існує (INPUT-TOOLS-v8 § 3.1).
+ * Копіювання пароля не існує (INPUT-TOOLS-v1 § 3.1).
  *
  * Кнопка «скопіювати» кладе пароль у буфер обміну, звідки його прочитає
  * будь-яка сторінка з відповідним дозволом, і лежатиме він там, доки щось не
  * перезапише. Це не та помилка, яку хочеться ловити оком у код-рев'ю.
  */
-describe('поле пароля (INPUT-TOOLS-v8 § 3.1)', () => {
+describe('поле пароля (INPUT-TOOLS-v1 § 3.1)', () => {
 	const src = readFileSync('src/lib/components/ui/PasswordInput.svelte', 'utf8');
 
 	it('перевірка жива — компонент прочитано і кнопки в ньому є', () => {

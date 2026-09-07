@@ -22,7 +22,7 @@ import { storage } from './storage';
  * (сайт живе на спільному origin, і `no-restricted-globals` в `eslint.config.js`
  * ловить прямий `localStorage`), читання в конструкторі під `browser` замість
  * `onMount` (інакше перший кадр із типовим значенням і перемальовування),
- * наскрізний запис у мутаторі без `$effect` (SVELTE-CORE-v8 § 1.9).
+ * наскрізний запис у мутаторі без `$effect` (SVELTE-CORE-v9 § 1.9).
  */
 const STORAGE_KEY = 'master_productions_view';
 

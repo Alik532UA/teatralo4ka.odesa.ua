@@ -5,7 +5,7 @@ import { gotoReady, waitForAnimations } from './ready';
 import { baselineFor, knownFor } from './a11y-baseline';
 
 /**
- * Автоматичний аудит доступності (ACCESSIBILITY-v8 § 10).
+ * Автоматичний аудит доступності (ACCESSIBILITY-v9 § 10).
  *
  * axe ловить приблизно третину проблем WCAG — контраст, відсутні мітки,
  * порушену ієрархію заголовків, дублікати id. Решта (порядок фокуса, сенс

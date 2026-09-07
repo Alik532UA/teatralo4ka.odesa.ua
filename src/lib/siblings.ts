@@ -60,7 +60,7 @@ export interface Sibling {
 	 * `query` — the site has no language segment at all (MindStep, Slovko, as5 read
 	 * their language from storage and the browser). There `?lang=` is the only handle
 	 * that exists. It costs a frame of the default language before hydration, which is
-	 * why it is the exception and not the rule (I18N-v8 § 3.1).
+	 * why it is the exception and not the rule (I18N-v9 § 3.1).
 	 */
 	transport: 'path' | 'query';
 	/** Whether the site's URLs end in a slash. Only meaningful for `transport: 'path'`. */
@@ -257,7 +257,7 @@ export function resolveSiblingLocale(id: SiblingId, locale: string): string {
  * - the target's own default, or a site with no language segment at all → `?lang=`.
  *
  * The second case is not redundancy. The bare path means "no choice made" by canon
- * (I18N-v8 § 3.3), so a visitor who once set that site to English would get English
+ * (I18N-v9 § 3.3), so a visitor who once set that site to English would get English
  * even though they arrived from a Ukrainian page — the reason `?lang=` had to remain
  * readable on the bare path of every site here. Linking to `/VetCrewGames/uk/`
  * instead is not an option: prefixing the default language is exactly what these

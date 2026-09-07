@@ -4,7 +4,7 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * CLOUD-DATABASE-v8 § 7.1 (`CDB-QUERY-LIMIT`, HIGH): кожен запит колекції
+ * CLOUD-DATABASE-v9 § 7.1 (`CDB-QUERY-LIMIT`, HIGH): кожен запит колекції
  * Firestore має `limit()`.
  *
  * ЧОМУ ЦЕ ІНВАРІАНТ, А НЕ КОД-РЕВ'Ю. Запит без межі не виглядає дефектом і не
@@ -73,7 +73,7 @@ describe('запити до Firestore мають межу', () => {
 	it('знаходить запити — перевірка жива', () => {
 		// Без цього рядка перевірка зеленіє на порожньому списку: досить
 		// перейменувати `query` в імпорті або зламати розбір, і вона більше
-		// нічого не перевіряє, лишаючись зеленою (AI-AGENT-PITFALLS-v8 § 1).
+		// нічого не перевіряє, лишаючись зеленою (AI-AGENT-PITFALLS-v9 § 1).
 		expect(sources.length, 'жодного файла з імпортом firebase/firestore').toBeGreaterThan(3);
 		expect(calls.length, 'жодного виклику query() не розібрано').toBeGreaterThan(8);
 	});
@@ -104,7 +104,7 @@ describe('запити до Firestore мають межу', () => {
 			unbounded,
 			'запит колекції без limit() — Firestore тарифікує КОЖЕН прочитаний документ,\n' +
 				'тож ціна цих запитів росте разом із наповненням бази, а не зі змінами коду.\n' +
-				'Стелі живуть у src/lib/firebase/queryLimits.ts (CLOUD-DATABASE-v8 § 7.1):\n  ' +
+				'Стелі живуть у src/lib/firebase/queryLimits.ts (CLOUD-DATABASE-v9 § 7.1):\n  ' +
 				unbounded.join('\n  ')
 		).toEqual([]);
 	});

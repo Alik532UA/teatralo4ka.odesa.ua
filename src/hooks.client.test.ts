@@ -6,11 +6,11 @@ import { errorLogger } from '$lib/services/errorLogger';
  * `handleError` — остання сітка перед відвідувачем, і помилитися в ній можна
  * тихо: повернути `error.message` виглядає корисним («хай видно, що сталося»),
  * а насправді це витік нутрощів на публічну сторінку і англійський текст
- * рантайму посеред української (ERROR-HANDLING-v8, CRITICAL).
+ * рантайму посеред української (ERROR-HANDLING-v9, CRITICAL).
  *
  * Друга річ, яку тут перевіряють, — що гачок узагалі щось логує. До нього
  * `errorLogger` не був імпортований нізвідки: сервіс із дев'ятьма зеленими
- * тестами, недосяжний із застосунку (AI-AGENT-PITFALLS-v8 § 3).
+ * тестами, недосяжний із застосунку (AI-AGENT-PITFALLS-v9 § 3).
  */
 
 type HookInput = Parameters<NonNullable<typeof handleError>>[0];

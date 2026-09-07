@@ -6,7 +6,7 @@ import { storage } from '../services/storage';
 
 /**
  * Вимикач одиночних літерних скорочень — виконання WCAG SC 2.1.4
- * «Character Key Shortcuts», рівень A (HOTKEYS-v8 § 3, `HK-WCAG-CHARACTER-KEY`,
+ * «Character Key Shortcuts», рівень A (HOTKEYS-v9 § 3, `HK-WCAG-CHARACTER-KEY`,
  * CRITICAL).
  *
  * ## Що саме тут перевіряється, а що — ні
@@ -20,7 +20,7 @@ import { storage } from '../services/storage';
  *   3. ОБРОБНИК справді питає прапорець — інваріант по джерелах.
  *
  * Третій пункт головний. Без нього перемикач лишається полем, яке нічого не
- * робить: рівно та тест-заглушка, яку AI-AGENT-PITFALLS-v8 § 1 називає гіршою за
+ * робить: рівно та тест-заглушка, яку AI-AGENT-PITFALLS-v9 § 1 називає гіршою за
  * відсутню перевірку. Сам факт вимкнення скорочення в браузері лишається за
  * людиною й записаний у PROJECT-CONTEXT.md.
  */
@@ -28,12 +28,12 @@ import { storage } from '../services/storage';
 /**
  * Через фасад, а не через `localStorage` напряму: прямий доступ дозволений лише
  * самому фасадові, модулю міграції та їхнім власним тестам
- * (STORAGE-NAMESPACE-v8, правило `no-restricted-globals` у `eslint.config.js`).
+ * (STORAGE-NAMESPACE-v9, правило `no-restricted-globals` у `eslint.config.js`).
  * Тут перевіряється контролер, а не префікс, тож винятку немає й не треба.
  */
 const KEY = 'hotkeysEnabled';
 
-describe('UIState — вимикач гарячих клавіш (HOTKEYS-v8 § 3)', () => {
+describe('UIState — вимикач гарячих клавіш (HOTKEYS-v9 § 3)', () => {
 	beforeEach(() => {
 		storage.remove(KEY);
 	});

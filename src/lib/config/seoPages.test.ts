@@ -18,7 +18,7 @@ import { FALLBACK_LANG, SEO_FALLBACK, routeToSeoKey } from './seoPages';
  * зібраному HTML. Тому тепер вона під тестом: кожен провал у `home` — це
  * ТИХЕ запозичення чужого опису.
  *
- * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Прибрати `case '/projects/galaxy-graduates'` — падає перевірка нижче й
  * називає саме цей шлях.

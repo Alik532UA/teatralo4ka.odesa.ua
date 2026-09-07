@@ -109,7 +109,7 @@ describe('правила Firestore не розходяться зі схемою
 });
 
 /**
- * CLOUD-DATABASE-v8 § 4.2 (`CDB-DEFAULT-DENY`, CRITICAL) і § 5 (`CDB-GATE-FROM-CODE`,
+ * CLOUD-DATABASE-v9 § 4.2 (`CDB-DEFAULT-DENY`, CRITICAL) і § 5 (`CDB-GATE-FROM-CODE`,
  * HIGH): типове правило — заборона, а перелік випадків виводиться зі шляхів, у
  * які пише КОД, а не лише з файлу правил.
  *
@@ -184,7 +184,7 @@ describe('правила Firestore не розходяться з кодом', (
 	it('обидва боки прочитані — перевірка жива', () => {
 		// Порожній будь-який із двох списків робить решту перевірок зеленими ні
 		// про що: досить змінити написання виклику або формат `match`
-		// (AI-AGENT-PITFALLS-v8 § 1). Числа не точні, а «більше за очевидний мінімум».
+		// (AI-AGENT-PITFALLS-v9 § 1). Числа не точні, а «більше за очевидний мінімум».
 		expect(fromCode.size, 'жодного шляху до Firestore у джерелах не знайдено').toBeGreaterThan(2);
 		expect(fromRules.length, 'жодного match у правилах не розібрано').toBeGreaterThan(2);
 	});

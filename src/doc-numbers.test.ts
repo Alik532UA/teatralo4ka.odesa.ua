@@ -7,7 +7,7 @@ import { masterSection, type MasterIndexEntry } from './lib/data/masters';
 
 /**
  * Число, записане в документації, звіряється з тим, що воно описує
- * (AI-AGENT-PITFALLS-v8 § 5.5, `PIT-NUMBER-UNDER-GATE`, `GATE-DOC-NUMBERS`).
+ * (AI-AGENT-PITFALLS-v9 § 5.5, `PIT-NUMBER-UNDER-GATE`, `GATE-DOC-NUMBERS`).
  *
  * ## Чому це не педантизм
  *

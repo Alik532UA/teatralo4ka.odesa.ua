@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * Медіазапит там, де мав бути контейнерний (FLUID-SIZING-v8 § 7A, `FS-CONTAINER`,
+ * Медіазапит там, де мав бути контейнерний (FLUID-SIZING-v9 § 7A, `FS-CONTAINER`,
  * HIGH).
  *
  * Медіазапит міряє ВІКНО. Картка стоїть у сітці, у сайдбарі або в модалці — і на
@@ -49,10 +49,10 @@ import { join } from 'node:path';
  * сусідній борг («картка в режимі списку рендериться ДВІЧІ»), і розв'язувати їх
  * варто разом: обидва існують саме тому, що компонент не знає власної ширини.
  *
- * Число боргу звіряється на РІВНІСТЬ (CODE-QUALITY-v8 `CQ-ESLINT-DEBT-LEDGER`):
+ * Число боргу звіряється на РІВНІСТЬ (CODE-QUALITY-v9 `CQ-ESLINT-DEBT-LEDGER`):
  * борг не може ані вирости мовчки, ані «зникнути» без правки цього числа.
  *
- * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): дописати `@media
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): дописати `@media
  * (max-width: 700px)` у будь-який компонент без вердикту — гейт мусить назвати
  * саме його. Зроблено на `GraduateStar.svelte`, падає.
  */
@@ -279,7 +279,7 @@ function mediaConditions(source: string): string[] {
 	return [...text.matchAll(/@media([^{]*)\{/g)].map((m) => m[1].trim());
 }
 
-describe('вибір між @media і @container зроблений і записаний (FLUID-SIZING-v8 § 7A)', () => {
+describe('вибір між @media і @container зроблений і записаний (FLUID-SIZING-v9 § 7A)', () => {
 	const files = walk(COMPONENTS).map((f) => ({
 		key: f.replace(/\\/g, '/').slice(COMPONENTS.length + 1),
 		source: readFileSync(f, 'utf8')

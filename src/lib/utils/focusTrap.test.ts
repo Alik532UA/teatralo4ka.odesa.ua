@@ -30,7 +30,7 @@ describe('focusableWithin', () => {
 	});
 
 	it('не бере елемент, свідомо вийнятий із табуляції', () => {
-		// Кнопки поля вводу за INPUT-TOOLS-v8 § 3.3 мають саме tabindex="-1";
+		// Кнопки поля вводу за INPUT-TOOLS-v1 § 3.3 мають саме tabindex="-1";
 		// якби пастка їх рахувала, Tab у формі ходив би по них.
 		const c = mount('<button>ok</button><button tabindex="-1">tool</button>');
 		expect(focusableWithin(c)).toHaveLength(1);

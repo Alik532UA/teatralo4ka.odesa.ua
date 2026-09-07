@@ -10,7 +10,7 @@ describe('teatralo4ka analytics service (dev guard & measurement ID)', () => {
 		vi.resetModules();
 	});
 
-	it('мовчить у dev-режимі (ANALYTICS-v8 § 2.1, § 5)', async () => {
+	it('мовчить у dev-режимі (ANALYTICS-v9 § 2.1, § 5)', async () => {
 		const { track, trackPageView, initAnalytics } = await import('./analytics');
 		const gtag = vi.fn();
 		vi.stubGlobal('gtag', gtag);

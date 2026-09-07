@@ -40,7 +40,7 @@ import { WITH_PAGE, graduateAddress } from './lib/data/graduates';
  * нову адресу) перевіряє `e2e/redirects.spec.ts` на зібраній статиці, обома
  * мовами.
  *
- * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Проведено: з `PUBLIC_ENTRIES` прибрано один рядок — упала перевірка «адреса є
  * у prerender.entries обома мовами» й назвала обидві адреси; ціль однієї

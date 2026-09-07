@@ -11,7 +11,7 @@ import { RENAMED_PATHS } from './renamedAddresses';
  *
  * Досі він жив у `e2e/pages.ts` — тобто **тестовий шар знав про поведінку
  * продакшну те, чого не знала збірка**. Наслідок був видимий і мав рівень
- * CRITICAL за SEO-v8: E2E ці сторінки обходив, а `generate-sitemap.ts` про них
+ * CRITICAL за SEO-v9: E2E ці сторінки обходив, а `generate-sitemap.ts` про них
  * не чув і клав усі шість у `sitemap.xml`. Шість адрес у мапі сайту, кожна з
  * порожнім `<body>` — рівно те, що канон описує як «сторінка є в індексі, але
  * без контенту».
@@ -21,7 +21,7 @@ import { RENAMED_PATHS } from './renamedAddresses';
  * ## Чому `meta refresh`, а не 301
  *
  * GitHub Pages не дає віддати заголовок. Записано в PROJECT-CONTEXT як свідоме
- * відхилення від SEO-v8 — не як забуте.
+ * відхилення від SEO-v9 — не як забуте.
  */
 
 export interface RedirectPage {

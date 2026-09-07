@@ -66,7 +66,7 @@ export function validateGalleryImageArray(data: unknown[]): GalleryImage[] {
  * `coverUrl` раніше був простим `z.string()` — тобто в `<img src>` потрапляло
  * що завгодно, тоді як сусідній `externalUrl` уже мав `.url()`. Тепер обидва
  * медіа-поля проходять той самий allowlist схем, що й посилання меню
- * (SECURITY-v8 § 5.1): непридатне значення ЗНИКАЄ, а не підмінюється тут.
+ * (SECURITY-v9 § 5.1): непридатне значення ЗНИКАЄ, а не підмінюється тут.
  */
 const optionalSafeUrl = z
 	.string()

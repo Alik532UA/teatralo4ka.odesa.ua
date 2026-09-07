@@ -42,16 +42,33 @@ import { join } from 'node:path';
  * посилання. Зроблено, падає.
  */
 
-/** Версія пакета, на якій стоїть проєкт. Міняється разом із переїздом. */
-const CANON_VERSION = 8;
+/**
+ * ПАКЕТІВ ТЕПЕР ДВА, і кожен зі своєю версією.
+ *
+ * У v9 сім документів — `SCROLLBAR`, `MINIMAP`, `HOLD-SCROLL`, `NOTIFICATIONS`,
+ * `FORM-INPUTS`, `AUTH-FORM`, `INPUT-TOOLS` — переїхали з інженерного пакета в
+ * `product_criteria/v1` (CHANGELOG-v9, «Два пакети замість одного»). Критерій
+ * переносу: на жоден із них не посилалося жодне правило й жоден гейт — це не
+ * стандарт, а рішення автора про вигляд саме цих сайтів.
+ *
+ * Наслідок для посилань: «SCROLLBAR-v9» тепер веде в нікуди, бо в інженерному
+ * пакеті такого файлу немає. Тому перевірка знає обидва пакети й вимагає від
+ * кожної назви ВЛАСНОЇ версії — інакше застаріле посилання знову виглядало б
+ * робочим.
+ *
+ * Самі файли продуктового пакета версії в назві не мають (`SCROLLBAR.md`);
+ * версія тут — версія ПАКЕТА, і саме її називають посилання в коді.
+ */
 
-/** Документи пакета v8 — 37 файлів, як їх перелічує `canon.json`. */
+/** Версія інженерного пакета, на якій стоїть проєкт. Міняється з переїздом. */
+const CANON_VERSION = 9;
+
+/** Документи інженерного пакета v9 — 30 файлів, як їх перелічує `canon.json`. */
 const CANON_DOCS = new Set([
 	'ACCESSIBILITY',
 	'AI-AGENT-PITFALLS',
 	'AI-PROVIDERS',
 	'ANALYTICS',
-	'AUTH-FORM',
 	'BETA-CHECKLIST',
 	'CI-CD-AND-TOOLS',
 	'CLOUD-DATABASE',
@@ -63,17 +80,11 @@ const CANON_DOCS = new Set([
 	'DOCUMENTATION',
 	'ERROR-HANDLING',
 	'FLUID-SIZING',
-	'FORM-INPUTS',
-	'HOLD-SCROLL',
 	'HOTKEYS',
 	'I18N',
-	'INPUT-TOOLS',
-	'MINIMAP',
-	'NOTIFICATIONS',
 	'OBSERVABILITY',
 	'PERFORMANCE',
 	'PROJECT-STRUCTURE',
-	'SCROLLBAR',
 	'SECURITY',
 	'SEO',
 	'STORAGE-NAMESPACE',
@@ -85,6 +96,26 @@ const CANON_DOCS = new Set([
 	'UI-UX',
 	'VERSIONING'
 ]);
+
+/** Версія продуктового пакета. */
+const PRODUCT_VERSION = 1;
+
+/** Документи `product_criteria/v1` — сім, як їх перелічує його `canon.json`. */
+const PRODUCT_DOCS = new Set([
+	'AUTH-FORM',
+	'FORM-INPUTS',
+	'HOLD-SCROLL',
+	'INPUT-TOOLS',
+	'MINIMAP',
+	'NOTIFICATIONS',
+	'SCROLLBAR'
+]);
+
+/** Обидва пакети разом: назва документа сама каже, якої версії від неї чекати. */
+const PACKAGES: { version: number; docs: Set<string> }[] = [
+	{ version: CANON_VERSION, docs: CANON_DOCS },
+	{ version: PRODUCT_VERSION, docs: PRODUCT_DOCS }
+];
 
 /** Де шукаємо посилання: код, тести, скрипти й документи в корені. */
 const SCAN_DIRS = ['src', 'e2e', 'scripts'];
@@ -157,30 +188,42 @@ describe('посилання на канон', () => {
 		expect(long[0][1], 'складена назва береться цілком').toBe('TESTID-AND-NAMING');
 	});
 
-	it('жодне посилання не веде на попередню версію пакета', () => {
+	it('кожне посилання називає версію СВОГО пакета', () => {
 		const stale = found
-			.filter((r) => r.version !== CANON_VERSION)
-			.map((r) => `${r.file}:${r.line} — ${r.doc}-v${r.version}`)
+			.filter((r) => {
+				const пакет = PACKAGES.find((p) => p.docs.has(r.doc));
+				// Незнайому назву судить наступна перевірка, а не ця.
+				return пакет ? r.version !== пакет.version : false;
+			})
+			.map((r) => {
+				const пакет = PACKAGES.find((p) => p.docs.has(r.doc))!;
+				return (
+					`${r.file}:${r.line} — ${r.doc}-v${r.version}, ` +
+					`а документ живе в пакеті v${пакет.version}`
+				);
+			})
 			.sort();
 
 		expect(
 			stale,
-			`проєкт стоїть на v${CANON_VERSION}, а ці посилання ведуть у пакет, якого вже ` +
-				'немає. Застаріле посилання гірше за відсутнє: воно виглядає робочим ' +
-				`і мовчки веде в нікуди:\n  ${stale.join('\n  ')}`
+			'посилання веде в пакет, якого вже немає. Застаріле посилання гірше за ' +
+				'відсутнє: воно виглядає робочим і мовчки веде в нікуди:\n  ' +
+				stale.join('\n  ')
 		).toEqual([]);
 	});
 
-	it('жодне посилання не називає документа, якого в пакеті немає', () => {
+	it('жодне посилання не називає документа, якого немає в жодному пакеті', () => {
+		const відомі = new Set([...CANON_DOCS, ...PRODUCT_DOCS]);
 		const unknown = found
-			.filter((r) => r.version === CANON_VERSION && !CANON_DOCS.has(r.doc))
+			.filter((r) => !відомі.has(r.doc))
 			.map((r) => `${r.file}:${r.line} — ${r.doc}-v${r.version}`)
 			.sort();
 
 		expect(
 			unknown,
-			`у пакеті v${CANON_VERSION} таких файлів немає — або назву переплутано, або ` +
-				`перелік CANON_DOCS відстав від пакета:\n  ${unknown.join('\n  ')}`
+			'таких файлів немає ні в інженерному пакеті, ні в продуктовому — або назву ' +
+				'переплутано, або переліки відстали від пакетів:\n  ' +
+				unknown.join('\n  ')
 		).toEqual([]);
 	});
 });

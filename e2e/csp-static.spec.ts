@@ -61,7 +61,7 @@ test('кожен інлайн-скрипт дозволено хешем', () =>
 	 *   сирі байти (CRLF) → sha256-Wp/ZAinbEpIbGsGEg7zuPYm32MjBsZt51+586EIzjaM=
 	 *   після розбору (LF) → sha256-h4GKPmHQehhC3Jtw2z3/CbPPkTxB/rBd+oB0aQwGURw=
 	 *
-	 * Друге і є в політиці — `svelte.config.js` рахує саме так (SECURITY-v8
+	 * Друге і є в політиці — `svelte.config.js` рахує саме так (SECURITY-v9
 	 * § 6.3.1, `SEC-CSP-HASH-EOL`). Тобто перевірка звітувала «політика заблокує
 	 * цей скрипт мовчки» на цілком робочому сайті, і лише на Windows: у CI
 	 * (Linux, LF) вона зелена. Червоний гейт, причина якого не в коді, — це той

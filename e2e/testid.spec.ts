@@ -3,7 +3,7 @@ import { PUBLIC_PAGES } from './pages';
 import { gotoReady } from './ready';
 
 /**
- * Дублікати `data-testid` у рантаймі (TESTID-AND-NAMING-v8 § 4).
+ * Дублікати `data-testid` у рантаймі (TESTID-AND-NAMING-v9 § 4).
  *
  * Статично цього не видно: один і той самий шаблон у компоненті дає унікальні
  * значення, поки компонент на сторінці один. Другий екземпляр — і два різні

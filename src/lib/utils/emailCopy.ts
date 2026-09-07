@@ -4,7 +4,7 @@ import { toast } from '$lib/controllers/toast.svelte';
 import { resolveMailtoClick } from './mailtoLink';
 
 /**
- * Один патерн для БУДЬ-ЯКОГО email на сайті (NOTIFICATIONS-v8 § 4).
+ * Один патерн для БУДЬ-ЯКОГО email на сайті (NOTIFICATIONS-v1 § 4).
  *
  * Клік не відкриває `mailto:` одразу: адреса копіюється в буфер, а тост
  * пропонує дію «Відкрити поштовий клієнт». Причина не косметична — у більшості

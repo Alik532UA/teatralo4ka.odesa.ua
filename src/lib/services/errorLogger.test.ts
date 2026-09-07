@@ -76,7 +76,7 @@ describe('ErrorLogger', () => {
 	});
 
 	/**
-	 * SECURITY-v8 § 10: маскує ЛОГЕР, а не місця виклику — достатньо
+	 * SECURITY-v9 § 10: маскує ЛОГЕР, а не місця виклику — достатньо
 	 * одного забутого місця, щоб правило перестало діяти.
 	 */
 	describe('маскування чутливого', () => {
@@ -133,7 +133,7 @@ describe('ErrorLogger', () => {
 			expect(redact(plain)).toBe(plain);
 		});
 	});
-	describe('рівні (DEBUGGING-v8, ERROR-HANDLING-v8)', () => {
+	describe('рівні (DEBUGGING-v9, ERROR-HANDLING-v9)', () => {
 		it('logError лишається рівнем error', () => {
 			errorLogger.logError(new Error('boom'));
 			expect(errorLogger.getCache()[0].level).toBe('error');

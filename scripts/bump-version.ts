@@ -31,7 +31,7 @@ try {
     const staticVersionPath = path.resolve(staticDir, "app-version.json");
     // Лише `version`. Поле `updatedAt` тут було й не читалося ніким: єдиний
     // споживач файлу — `services/version.ts` — бере `.version`. Дані моменту в
-    // комітованому файлі VERSIONING-v8 § 1.4 забороняє окремо, і причина
+    // комітованому файлі VERSIONING-v9 § 1.4 забороняє окремо, і причина
     // практична: такий рядок змінюється сам собою й раз по раз їде в чужі
     // коміти як шум. Інваріант — `src/version.test.ts`.
     const staticVersionData = { version: newVersion };

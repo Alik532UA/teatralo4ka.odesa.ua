@@ -3,7 +3,7 @@ import { HIDDEN_ROUTES } from './pages';
 import { gotoReady } from './ready';
 
 /**
- * Службова сторінка чеклиста в РАНТАЙМІ (BETA-CHECKLIST-v8).
+ * Службова сторінка чеклиста в РАНТАЙМІ (BETA-CHECKLIST-v9).
  *
  * Окремий файл, а не рядок у `smoke.spec.ts`, бо ця сторінка перевіряється
  * ПРОТИЛЕЖНИМ до публічних: у неї немає canonical і hreflang, зате є `noindex`.

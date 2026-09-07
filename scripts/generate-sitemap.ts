@@ -29,7 +29,7 @@ import { SITE_ORIGIN } from '../src/lib/config/site';
  */
 
 // Origin ЧИТАЄТЬСЯ з джерела правди, а не дублюється тут.
-// CUSTOM-DOMAIN-v8 § 5 називає HIGH саме власну копію в гейті збірки: вона
+// CUSTOM-DOMAIN-v9 § 5 називає HIGH саме власну копію в гейті збірки: вона
 // розходиться з рештою рівно в момент переїзду — і тоді гейт оголошує чужою
 // кожну адресу сайту.
 const SITE_URL = SITE_ORIGIN;
@@ -39,7 +39,7 @@ const BUILD_DIR = 'build';
 const EXCLUDE = [/^admin(\/|$)/];
 
 /**
- * Сторінки-заглушки в мапу сайту не потрапляють — SEO-v8 називає це CRITICAL.
+ * Сторінки-заглушки в мапу сайту не потрапляють — SEO-v9 називає це CRITICAL.
  *
  * У них порожній `<body>` і `meta refresh`: пошуковику пропонувалася адреса, за
  * якою немає вмісту. Шість таких (три сторінки × дві мови) лежали в
@@ -64,7 +64,7 @@ function isExcluded(page: string): boolean {
 }
 
 /**
- * Службова сторінка — перевіряти ПРОТИЛЕЖНЕ (BETA-CHECKLIST-v8 § 5.5).
+ * Службова сторінка — перевіряти ПРОТИЛЕЖНЕ (BETA-CHECKLIST-v9 § 5.5).
  *
  * Публічна сторінка мусить мати canonical і не мати `noindex`; у службової рівно
  * навпаки. Обидві обіцянки перевіряються окремо, бо ламаються окремо: зникне
@@ -114,7 +114,7 @@ function checkHiddenPages(builtPaths: string[]) {
 		//
 		// Порівняння за кодом символу, а не регуляркою з діапазоном: діапазон із
 		// керівними символами вимагає inline-вимкнення правила поруч із перевіркою —
-		// саме те, проти чого написаний CODE-QUALITY-v8 § 6.4.1.
+		// саме те, проти чого написаний CODE-QUALITY-v9 § 6.4.1.
 		const nonAscii = [...route].filter((ch) => (ch.codePointAt(0) ?? 0) > 127);
 		if (nonAscii.length > 0) {
 			bad.push(`${route} — не-ASCII символи в назві маршруту: ${nonAscii.join(' ')}`);
@@ -122,7 +122,7 @@ function checkHiddenPages(builtPaths: string[]) {
 	}
 
 	if (bad.length > 0) {
-		console.error('❌ службова сторінка зібрана неправильно (BETA-CHECKLIST-v8 § 5.5):');
+		console.error('❌ службова сторінка зібрана неправильно (BETA-CHECKLIST-v9 § 5.5):');
 		for (const b of bad) console.error(`   ${b}`);
 		process.exit(1);
 	}
@@ -142,7 +142,7 @@ function checkPublicPagesIndexable(pages: string[]) {
 		if (/content=["'][^"']*noindex/i.test(html)) bad.push(`${pathname} — стоїть noindex`);
 	}
 	if (bad.length > 0) {
-		console.error('❌ публічні сторінки зібрані неправильно (SEO-v8):');
+		console.error('❌ публічні сторінки зібрані неправильно (SEO-v9):');
 		for (const b of bad) console.error(`   ${b}`);
 		process.exit(1);
 	}
@@ -207,7 +207,7 @@ function checkPrerenderEntries(builtPaths: string[]) {
  * Реєстр `redirects.ts` — це те, що МИ ЗАПАМ'ЯТАЛИ. Ця перевірка натомість
  * міряє сам `build/`, тобто ловить КЛАС, а не перелік: наступна заглушка,
  * яку забудуть внести в реєстр, завалить збірку замість того, щоб тихо поїхати
- * в індекс. SEO-v8 називає порожню сторінку в індексі CRITICAL, а такі речі не
+ * в індекс. SEO-v9 називає порожню сторінку в індексі CRITICAL, а такі речі не
  * видно ані в джерелах, ані оком — лише в зібраному виводі.
  *
  * Поріг 120 символів узятий із `e2e/smoke.spec.ts`, щоб дві перевірки не
@@ -241,7 +241,7 @@ function checkNoEmptyPages(pages: string[]) {
 	}
 
 	if (bad.length > 0) {
-		console.error('❌ у sitemap потрапили сторінки без вмісту (SEO-v8, CRITICAL):');
+		console.error('❌ у sitemap потрапили сторінки без вмісту (SEO-v9, CRITICAL):');
 		for (const b of bad) console.error(`   ${b}`);
 		console.error('   Заглушки перенаправлення вносяться в src/lib/config/redirects.ts.');
 		process.exit(1);

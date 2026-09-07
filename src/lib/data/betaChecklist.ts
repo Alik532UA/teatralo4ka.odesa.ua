@@ -3,7 +3,7 @@ import { RENAMED_NEWS_IDS } from '$lib/config/newsAliases';
 import { RENAMED_PATHS } from '$lib/config/renamedAddresses';
 import { CODE_NEWS } from '$lib/config/codeNews';
 /**
- * Дані чеклиста бета-тестування (BETA-CHECKLIST-v8).
+ * Дані чеклиста бета-тестування (BETA-CHECKLIST-v9).
  *
  * Це ДАНІ з інваріантами, а не текст. Різниця в тому, що текст ніхто не звіряє з
  * кодом: він застаріває мовчки й починає казати «перевірено» про те, чого вже
@@ -450,7 +450,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 			},
 			/*
 			 * Два пункти 2026-08-23, обидва про те, що з'явилося разом із
-			 * `light-dark()` у палітрі (UI-UX-v8 § 1.5.1).
+			 * `light-dark()` у палітрі (UI-UX-v9 § 1.5.1).
 			 *
 			 * Перший перевіряє ВИГРАШ: сторінка тепер бере системну тему без
 			 * жодного JS. Автотестом це не міряється чесно — Playwright ганяє

@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
  *
  * PNG тримає розмір у фіксованих байтах IHDR, JPEG — у сегменті SOFn, WebP — у
  * заголовку VP8/VP8X/VP8L, SVG — в атрибутах кореневого тега. Чотири формати,
- * десяток рядків, нуль нових залежностей (DEPENDENCIES-v8 § 1).
+ * десяток рядків, нуль нових залежностей (DEPENDENCIES-v9 § 1).
  */
 
 export type Розмір = [number, number];

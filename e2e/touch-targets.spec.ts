@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { gotoReady, waitForAnimations } from './ready';
 
 /**
- * Розмір цілей дотику (ACCESSIBILITY-v8 § 8, перевірка — § 10.3).
+ * Розмір цілей дотику (ACCESSIBILITY-v9 § 8, перевірка — § 10.3).
  *
  * Канон називає це правило найточнішим у файлі й водночас єдиним, якого ніхто
  * не перевіряв. axe його не бачить: `target-size` — правило WCAG 2.2, а прогін

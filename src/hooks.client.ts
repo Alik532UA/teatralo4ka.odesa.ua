@@ -4,7 +4,7 @@ import { migrateStorageKeys } from '$lib/utils/storageMigration';
 import { errorLogger } from '$lib/services/errorLogger';
 
 /**
- * Telemetry endpoint for CSP validation (OBSERVABILITY-v8 § 1.5):
+ * Telemetry endpoint for CSP validation (OBSERVABILITY-v9 § 1.5):
  * - https://*.sentry.io
  * - https://*.ingest.sentry.io
  */

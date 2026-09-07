@@ -37,7 +37,7 @@
 
 	let { children, data } = $props();
 
-	// Start RUM Core Web Vitals collection (OBSERVABILITY-v8 § 2.1)
+	// Start RUM Core Web Vitals collection (OBSERVABILITY-v9 § 2.1)
 	$effect(() => webVitals.start());
 
 	// Fires on the initial load too, so this covers the first view and every
@@ -81,7 +81,7 @@
 	});
 
 	/**
-	 * Патерн email — один на весь сайт (NOTIFICATIONS-v8 § 4).
+	 * Патерн email — один на весь сайт (NOTIFICATIONS-v1 § 4).
 	 *
 	 * Тут, а не в компонентах: до цього обробник був у `FooterSection` і
 	 * `HeroSection` двома копіями, а email у ТІЛІ сторінки (markdown
@@ -199,7 +199,7 @@
 	<link rel="icon" type="image/png" href={asset('/favicon.png')} />
 
 	<!-- Службова сторінка не отримує ні canonical, ні hreflang, зате отримує
-	     noindex (BETA-CHECKLIST-v8 § 4). Прапорець приходить із `+layout.ts` —
+	     noindex (BETA-CHECKLIST-v9 § 4). Прапорець приходить із `+layout.ts` —
 	     один перелік на всі чотири вимоги, див. `config/hiddenRoutes.ts`.
 
 	     Спокуса натомість прирівняти таку сторінку до 404-фолбека дешевша на два
@@ -209,7 +209,7 @@
 	{#if !data.hidden}
 		<link rel="canonical" href={canonicalUrl} />
 
-		<!-- hreflang (SEO-v8 § 2.1, I18N-v8 § 3.1).
+		<!-- hreflang (SEO-v9 § 2.1, I18N-v9 § 3.1).
 		     Набір альтернатив однаковий для обох мовних версій — це властивість,
 		     перевірена в `routing.test.ts`. Якби версії оголошували різні набори,
 		     Google вважав би розмітку суперечливою і не брав до уваги жодну.
@@ -241,7 +241,7 @@
 	     previous form shipped the literal text "{JSON.stringify(schemaOrg)}" as
 	     the structured data. It has to go through {@html}.
 
-	     Виняток за SECURITY-v8 § 5.3: дані сюди приходять лише зі словників
+	     Виняток за SECURITY-v9 § 5.3: дані сюди приходять лише зі словників
 	     перекладу в репозиторії, не від користувача. Але `<` усе одно
 	     екранується: JSON.stringify не чіпає косу риску, тож рядок "</script>"
 	     у перекладі закрив би тег і перетворив статичні дані на XSS. -->

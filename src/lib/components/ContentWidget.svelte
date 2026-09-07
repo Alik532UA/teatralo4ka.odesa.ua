@@ -272,7 +272,7 @@
 
 	// ── Keyboard ──────────────────────────────────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
-		// `isTypingTarget`, а не порівняння `tagName` (HOTKEYS-v8 § 2, HK-TEXT-ENTRY-GUARD).
+		// `isTypingTarget`, а не порівняння `tagName` (HOTKEYS-v9 § 2, HK-TEXT-ENTRY-GUARD).
 		// Обробник висить на `window`, тобто працює на кожній сторінці з віджетом, а
 		// перевірка за тегом пропускає `contenteditable`: там фокус стоїть на
 		// вкладеному вузлі, і його tagName — `SPAN`. Тобто в редакторі статей стрілки

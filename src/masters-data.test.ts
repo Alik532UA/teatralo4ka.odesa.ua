@@ -32,7 +32,7 @@ import { isMasterListed, isUnlistedMasterPath } from './lib/config/mastersVisibi
  * випускників такий гейт уже є (`faculty-relations.test.ts`), для майстрів не
  * було — а файлів тут 119.
  *
- * ## Зворотний експеримент проведено (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент проведено (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Перевірка осей червоніє, якщо повернути `"category": "needsClarification"` в
  * будь-який запис; перевірка дзеркала — якщо змінити `status` в індексі й не

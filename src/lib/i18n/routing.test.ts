@@ -31,7 +31,7 @@ describe('localeFromPath', () => {
 
 	it('uk у шляху НЕ вважається мовним префіксом — типова мова голого шляху', () => {
 		// Інакше з'явилося б дві адреси на той самий вміст: /about і /uk/about.
-		// Саме це SEO-v8 називає порушенням «одна canonical на мову».
+		// Саме це SEO-v9 називає порушенням «одна canonical на мову».
 		expect(localeFromPath('/uk/about')).toBe(DEFAULT_LOCALE);
 		expect(stripLocale('/uk/about')).toBe('/uk/about');
 	});

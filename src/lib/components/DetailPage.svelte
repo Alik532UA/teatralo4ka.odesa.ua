@@ -168,7 +168,7 @@
 		{testIdPrefix}
 	>
 		{#snippet prose()}
-			<!-- Виняток за SECURITY-v8 § 5.3: контент із Firestore, який пише
+			<!-- Виняток за SECURITY-v9 § 5.3: контент із Firestore, який пише
 			     редактор адмінки, тобто джерело недовірене. renderContent
 			     завжди проганяє його через DOMPurify — і для markdown, і для
 			     формату html (там ще й із конфігом, що дозволяє iframe). -->

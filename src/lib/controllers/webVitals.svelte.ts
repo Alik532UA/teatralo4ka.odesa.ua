@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 
 /**
- * Core Web Vitals collection (OBSERVABILITY-v8 § 2.1).
+ * Core Web Vitals collection (OBSERVABILITY-v9 § 2.1).
  *
  * Tracks LCP, CLS, and INP via PerformanceObserver.
  */

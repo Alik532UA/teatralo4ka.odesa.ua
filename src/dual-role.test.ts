@@ -48,7 +48,7 @@ import { MASTERS, getStudentsByMaster } from '$lib/data/masters';
  * майстриню. Захист `m.id === masterId` у `getStudentsByMaster` від цього не
  * рятував: він на іншій осі.
  *
- * ## Зворотний експеримент проведено на ТРЬОХ перевірках (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент проведено на ТРЬОХ перевірках (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  *  • перевірка 4 — прибрано `alsoGraduateId` у `hanna-tkach`: червоніє й називає
  *    саме її («є в обох реєстрах, але не висловлено»);

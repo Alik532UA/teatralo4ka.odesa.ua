@@ -118,7 +118,7 @@ class GraduateSlideshow {
 		this.filter = фільтрЗіСховища();
 	}
 
-	/* Наскрізний запис у мутаторах, без `$effect` (SVELTE-CORE-v8 § 1.9): ефект
+	/* Наскрізний запис у мутаторах, без `$effect` (SVELTE-CORE-v9 § 1.9): ефект
 	   зберігав би й перше обчислення, тобто те, чого людина не вибирала. */
 	setSeconds(value: number) {
 		this.seconds = Math.min(SLIDE_SECONDS.max, Math.max(SLIDE_SECONDS.min, Math.round(value)));

@@ -10,7 +10,7 @@ import { hiddenCodeNews, replacementFor, NO_NEWS_OVERRIDES } from './newsOverrid
  * `hiddenCodeNews` колись почне віддавати самі лише `hidden`, замінена новина
  * стане в перелік поруч зі своєю новою версією — тобто двічі, і мовчки.
  *
- * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Проведено: у `hiddenCodeNews` прибрано `Object.keys(overrides.replacedBy)` —
  * упала перевірка «замінена новина теж прихована»; `replacementFor` навчено

@@ -3,7 +3,7 @@ import { PUBLIC_PAGES } from './pages';
 import { clickInFooter, gotoReady } from './ready';
 
 /**
- * Порушення CSP у рантаймі (SECURITY-v8 § 3).
+ * Порушення CSP у рантаймі (SECURITY-v9 § 3).
  *
  * Політику можна перевірити статично — і цього замало. `mode: 'auto'` хешує
  * лише інлайн-скрипти, які SvelteKit генерує сам; вписані руками в `app.html`

@@ -83,7 +83,7 @@ class FullscreenState {
 	/**
    * Стежити за виходом ЗЗОВНІ — клавішею Esc або системною кнопкою. Повертає
    * прибирання: життєвий цикл веде компонент, бо тут `$effect` недоступний
-   * (module-level singleton, SVELTE-CORE-v8 § 2.6).
+   * (module-level singleton, SVELTE-CORE-v9 § 2.6).
    */
 	watch(): () => void {
 		if (!browser) return () => {};

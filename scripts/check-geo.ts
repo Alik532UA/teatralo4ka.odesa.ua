@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 /**
- * Артефакти AI-пошуку в зібраному сайті (SEO-v8 § 7.5).
+ * Артефакти AI-пошуку в зібраному сайті (SEO-v9 § 7.5).
  *
  * ## Чому це окрема перевірка, а не рядок у `check-links`
  *
@@ -29,7 +29,7 @@ import path from "path";
 
 const BUILD_DIR = "build";
 
-/** Агенти, від яких залежить видимість у відповідях AI (SEO-v8 § 7.2). */
+/** Агенти, від яких залежить видимість у відповідях AI (SEO-v9 § 7.2). */
 const SEARCH_AGENTS = [
   "OAI-SearchBot",
   "ChatGPT-User",

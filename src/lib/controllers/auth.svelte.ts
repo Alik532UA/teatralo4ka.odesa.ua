@@ -80,7 +80,7 @@ class AuthService {
             if (emailDocSnap.exists()) profile = normalizeProfile(emailDocSnap.data());
           } catch (e) {
             // Теж warn, і теж через логер. Тут це було найгірше місце в проєкті
-            // з погляду SECURITY-v8 § 10: `e` від Firestore містить адресу, за
+            // з погляду SECURITY-v9 § 10: `e` від Firestore містить адресу, за
             // якою шукали, і вона летіла в консоль у відкритому вигляді.
             errorLogger.logWarning('профіль за email недоступний', { component: 'auth' }, e);
           }
@@ -119,7 +119,7 @@ class AuthService {
   }
 
   /**
-   * Скидання у початковий стан (SVELTE-CORE-v8 § 1.4).
+   * Скидання у початковий стан (SVELTE-CORE-v9 § 1.4).
    *
    * `loading` НЕ повертається в `true`, хоч початкове значення саме таке, і це
    * свідоме відхилення. `loading: true` означає «ще не знаємо, хто це» — стан,

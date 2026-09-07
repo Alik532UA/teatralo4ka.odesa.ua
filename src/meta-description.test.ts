@@ -32,7 +32,7 @@ import { join } from 'node:path';
  * Правило точне й тому перевіряється однозначно: описом володіє layout, а
  * сторінка каже своє через `seoDescription` із `load`.
  *
- * ## Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1)
+ * ## Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1)
  *
  * Повернути мітку в `plays/[id]/+page.svelte` — перевірка падає й називає саме
  * цей файл.
@@ -77,7 +77,7 @@ function безКоментарів(text: string): string {
 		.replace(/^\s*\/\/.*$/gm, '');
 }
 
-describe('опис сторінки (SEO-v8)', () => {
+describe('опис сторінки (SEO-v9)', () => {
 	const усі = walk('src');
 
 	it('перевірка жива — сторінки знайдено, і в layout мітка є', () => {

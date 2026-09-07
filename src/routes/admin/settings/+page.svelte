@@ -272,7 +272,7 @@ async function loadArticles() {
   articlesLoading = true;
   try {
     const ref = collection(db, 'projects', VITE_PROJECT_ID, 'articles');
-    // Межа обов'язкова (CLOUD-DATABASE-v8 § 7.1): цей перелік потрібен лише
+    // Межа обов'язкова (CLOUD-DATABASE-v9 § 7.1): цей перелік потрібен лише
     // щоб зібрати адреси для гарячих новин, а платиться за кожен документ.
     const snap = await getDocs(query(ref, fsOrderBy('createdAt', 'desc'), limit(ADMIN_LIST_LIMIT)));
     const firebaseArticles = snap.docs.map(d => {
@@ -2302,7 +2302,7 @@ margin-left: auto;
 }
 
 /*
- * Кільце фокуса тут НЕ знімається (ACCESSIBILITY-v8 § 3).
+ * Кільце фокуса тут НЕ знімається (ACCESSIBILITY-v9 § 3).
  *
  * Повзунок працює саме стрілками, тобто з клавіатури — а `outline: none`
  * перекривало глобальне `:focus-visible` вагою скоупу, і `Tab` до нього не

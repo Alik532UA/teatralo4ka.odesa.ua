@@ -141,7 +141,7 @@ export async function getArticles(lang: string = "uk", publishedOnly: boolean = 
   if (publishedOnly) constraints.push(where("isPublished", "==", true));
   if (category) constraints.push(where("category", "==", category));
   constraints.push(orderBy("createdAt", "desc"));
-  // Межа стоїть ЗАВЖДИ (CLOUD-DATABASE-v8 § 7.1). Беремо з запасом на
+  // Межа стоїть ЗАВЖДИ (CLOUD-DATABASE-v9 § 7.1). Беремо з запасом на
   // клієнтський фільтр за мовою — нижче відсіюються статті без перекладу, тож
   // рівно `maxItems` документів дали б коротший список, ніж просив виклик.
   // Без `maxItems` (списки «усі новини») межа не зникає, а стає спільною:
@@ -189,7 +189,7 @@ export function mapArticleToWidgetItem(article: Article, lang: 'uk' | 'en', inde
   const customExcerpt = (tr.excerpt || '').trim();
   // Адреса приходить із Firestore і йде прямо в `href` картки на головній та
   // в списках. Непридатна схема (`javascript:`, `data:`) тут відкидається, і
-  // картка стає звичайним посиланням на статтю — SECURITY-v8 § 5.1.
+  // картка стає звичайним посиланням на статтю — SECURITY-v9 § 5.1.
   const externalUrl = isSafeUrl(tr.externalUrl?.trim()) ? tr.externalUrl.trim() : '';
   return {
     id: article.id ?? '',

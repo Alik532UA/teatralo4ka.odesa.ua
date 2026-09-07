@@ -5,7 +5,7 @@ import { join } from 'node:path';
 
 /**
  * Кожен slug, який запитує маршрут, мусить відповідати файлу — з тим самим
- * регістром (I18N-v8 § 4).
+ * регістром (I18N-v9 § 4).
  *
  * Реальний випадок із цього проєкту: `/projects/spring-odesa-theatre` просив
  * `spring-Odesa-theatre.md`, тоді як файл називається `spring-odesa-theatre.md`.

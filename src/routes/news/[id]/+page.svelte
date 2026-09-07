@@ -123,7 +123,7 @@
 		testIdPrefix="article"
 	>
 		{#snippet prose()}
-			<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
+			<!-- Виняток за SECURITY-v9 § 5.3: markdown зі сторінок репозиторію,
 			     пропущений через DOMPurify безпосередньо перед вставкою. -->
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html DOMPurify.sanitize(вміст.html, DOMPURIFY_HTML_CONFIG)}

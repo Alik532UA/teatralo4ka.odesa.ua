@@ -34,7 +34,7 @@
 	const mobileStyle = 'width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);';
 
 	/**
-	 * Виявність скорочень для читалки (HOTKEYS-v8 § 5, `HK-DISCOVERABILITY`).
+	 * Виявність скорочень для читалки (HOTKEYS-v9 § 5, `HK-DISCOVERABILITY`).
 	 *
 	 * `aria-keyshortcuts` означає «ця клавіша активує САМЕ цей елемент», тож
 	 * вішати `T` на всі чотири кнопки теми було б неправдою: клавіша не вмикає
@@ -207,7 +207,7 @@
 		</div>
 	</div>
 	<!--
-		WCAG SC 2.1.4 «Character Key Shortcuts», рівень A (HOTKEYS-v8 § 3).
+		WCAG SC 2.1.4 «Character Key Shortcuts», рівень A (HOTKEYS-v9 § 3).
 
 		ПОЗА блоком `debugPanel` навмисно: той блок адміністратор може сховати
 		налаштуванням, а разом із ним зник би єдиний спосіб вимкнути скорочення —

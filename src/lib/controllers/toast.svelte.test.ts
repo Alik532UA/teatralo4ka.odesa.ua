@@ -56,7 +56,7 @@ describe('ToastState', () => {
 		toast.resumeTimer(id);
 
 		// Лишалося 400 мс, не 1000: рестарт із повної тривалості — окремий
-		// анти-патерн у NOTIFICATIONS-v8, бо тост «залипає» тим довше, чим
+		// анти-патерн у NOTIFICATIONS-v1, бо тост «залипає» тим довше, чим
 		// частіше по ньому проводять мишею.
 		vi.advanceTimersByTime(399);
 		expect(toast.messages, 'таймер почався заново').toHaveLength(1);

@@ -22,7 +22,7 @@ export abstract class CanvasEngine {
 	 */
 	private active = true;
 
-	/** `prefers-reduced-motion` — ACCESSIBILITY-v8 § 7. */
+	/** `prefers-reduced-motion` — ACCESSIBILITY-v9 § 7. */
 	private reducedMotion = false;
 
 	constructor(initialTheme: "light" | "dark", initialColor: string = "#0071e3") {

@@ -6,7 +6,7 @@
 	let { children }: { children: Snippet } = $props();
 
 	/**
-	 * Помилка йде в логер, а не на екран (ERROR-HANDLING-v8, анти-патерн
+	 * Помилка йде в логер, а не на екран (ERROR-HANDLING-v9, анти-патерн
 	 * CRITICAL «показ raw error message користувачу»). Раніше сюди виводився
 	 * `error.message` — тобто відвідувач бачив англійський текст рантайму на
 	 * кшталт «Cannot read properties of undefined (reading 'blocks')» посеред

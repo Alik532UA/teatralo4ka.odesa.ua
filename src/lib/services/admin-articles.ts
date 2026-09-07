@@ -105,7 +105,7 @@ async function getProjectId(): Promise<string> {
 export async function fetchAllArticles() {
   const projectId = await getProjectId();
   const articlesRef = collection(db, "projects", projectId, "articles");
-  // Межа обов’язкова навіть в адмінці (CLOUD-DATABASE-v8 § 7.1): читання
+  // Межа обов’язкова навіть в адмінці (CLOUD-DATABASE-v9 § 7.1): читання
   // тарифікуються, а цей список відкривається на кожен вхід у розділ.
   const q = query(articlesRef, orderBy("createdAt", "desc"), limit(ADMIN_LIST_LIMIT));
   const snapshot = await getDocs(q);

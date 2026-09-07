@@ -16,14 +16,14 @@ import type { ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
  *    `no-restricted-globals` у `eslint.config.js` це й ловило — і саме через
  *    ці два рядки `npm run lint` падав, а разом із ним у CI не виконувалися
  *    кроки `Unit tests`, `Audit` і `Validate static content`
- *    (STORAGE-NAMESPACE-v8, CI-CD-AND-TOOLS-v8 § 1.8).
+ *    (STORAGE-NAMESPACE-v9, CI-CD-AND-TOOLS-v9 § 1.8).
  * 2. `onMount` для гідрації означає перший кадр із типовим значенням і
  *    перемальовування після нього. Конструктор під `browser` віддає правильне
  *    значення одразу.
  *
  * Форма взята з сусіднього [`adultsVisibility`](./adultsVisibility.svelte.ts) —
  * той самий розділ, той самий фасад, той самий спосіб гідрації. Наскрізний
- * запис у мутаторі, без `$effect`, що ганяється за станом (SVELTE-CORE-v8 § 1.9).
+ * запис у мутаторі, без `$effect`, що ганяється за станом (SVELTE-CORE-v9 § 1.9).
  */
 const STORAGE_KEY = 'adults_view_mode';
 

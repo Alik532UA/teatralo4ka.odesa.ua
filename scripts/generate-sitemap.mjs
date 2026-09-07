@@ -1,5 +1,5 @@
 /**
- * Генерація `build/sitemap.xml` (SEO-v8 § 5). Запускається ПІСЛЯ `vite build`.
+ * Генерація `build/sitemap.xml` (SEO-v9 § 5). Запускається ПІСЛЯ `vite build`.
  */
 import { readdirSync, readFileSync, statSync, writeFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';

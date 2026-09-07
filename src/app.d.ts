@@ -13,7 +13,7 @@ declare global {
 		 * Форма `page.error`. `message` — узагальнений безпечний текст, який
 		 * повертає `handleError` у `hooks.client.ts`; `errorId` дає змогу знайти
 		 * повний запис у `errorLogger.getCache()`, не показуючи його користувачу
-		 * (ERROR-HANDLING-v8 § 2.4).
+		 * (ERROR-HANDLING-v9 § 2.4).
 		 */
 		interface Error {
 			message: string;

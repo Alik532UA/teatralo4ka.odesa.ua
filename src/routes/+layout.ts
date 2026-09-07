@@ -11,7 +11,7 @@ export const ssr = true;
 export const trailingSlash = 'always';
 
 export async function load({ url }: { url: URL }) {
-	// Мова визначається АДРЕСОЮ, а не сховищем (I18N-v8 § 3.1).
+	// Мова визначається АДРЕСОЮ, а не сховищем (I18N-v9 § 3.1).
 	//
 	// Під час prerender це єдине джерело: `browser` там `false`, тож типова
 	// детекція в `$lib/i18n` завжди дала б `uk`, і всі сторінки `/en/…`
@@ -40,7 +40,7 @@ export async function load({ url }: { url: URL }) {
 
 	// Абсолютні адреси — від явної константи, а НЕ від `page.url.origin` (під
 	// час prerender це `sveltekit-prerender`) і не від `base` (він відносний).
-	// Обидві пастки описані в SEO-v8 § 1.2–1.3, і друга вже коштувала
+	// Обидві пастки описані в SEO-v9 § 1.2–1.3, і друга вже коштувала
 	// "https://teatralo4ka.odesa.ua../logo/…" у структурованих даних.
 	const canonicalUrl = `${SITE_ORIGIN}${url.pathname}`;
 
@@ -53,7 +53,7 @@ export async function load({ url }: { url: URL }) {
 	}));
 
 	/**
-	 * Службові сторінки поза індексом (BETA-CHECKLIST-v8 § 4.1).
+	 * Службові сторінки поза індексом (BETA-CHECKLIST-v9 § 4.1).
 	 *
 	 * Рішення ОДНЕ й ухвалюється тут, а не трьома окремими правками. Layout за
 	 * цим прапорцем не малює `canonical` і `hreflang`, зате малює `noindex`; той

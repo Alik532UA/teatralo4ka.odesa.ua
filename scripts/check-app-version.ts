@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 /**
- * Файл версії в ЗІБРАНОМУ сайті (VERSIONING-v8 § 6).
+ * Файл версії в ЗІБРАНОМУ сайті (VERSIONING-v9 § 6).
  *
  * Інваріант `src/version.test.ts` звіряє `static/app-version.json` із
  * `package.json` — тобто перевіряє РЕПОЗИТОРІЙ. Але `services/version.ts` тягне

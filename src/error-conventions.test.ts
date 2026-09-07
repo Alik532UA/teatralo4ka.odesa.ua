@@ -5,7 +5,7 @@ import { join } from 'node:path';
 
 /**
  * Три форми обробки помилок, кожна з яких ламає щось тихо
- * (ERROR-HANDLING-v8 § 7, CODE-QUALITY-v8 § 1).
+ * (ERROR-HANDLING-v9 § 7, CODE-QUALITY-v9 § 1).
  *
  * Спільна риса: жодну з них не бачить ані `svelte-check`, ані ESLint. Порожній
  * `catch` для компілятора — законний код; `throw 'рядок'` — теж; `catch (e: any)`

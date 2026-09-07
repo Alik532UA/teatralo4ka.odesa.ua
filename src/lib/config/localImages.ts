@@ -1,6 +1,6 @@
 /**
  * Власні розміри файлів зі `static/` — щоб кожен `<img>` міг заявити
- * `width`/`height` (PERFORMANCE-v8 § 3.2, § 10.2).
+ * `width`/`height` (PERFORMANCE-v9 § 3.2, § 10.2).
  *
  * ## Навіщо взагалі
  *

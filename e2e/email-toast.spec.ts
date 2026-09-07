@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { gotoReady, waitForAnimations } from './ready';
 
 /**
- * Патерн email (NOTIFICATIONS-v8 § 4 і § 7).
+ * Патерн email (NOTIFICATIONS-v1 § 4 і § 7).
  *
  * Перевіряється саме те, що не видно ні в коді, ні в юніт-тестах: що клік
  * СПРАВДІ не йде в `mailto:`, що тост з'являється БІЛЯ посилання, а не в кутку,

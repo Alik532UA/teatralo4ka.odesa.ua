@@ -71,7 +71,7 @@
 	{#if content}
 		<article class="statute-article" data-testid="statute-article-section">
 			<div class="prose statute-prose" data-testid="statute-prose-container">
-				<!-- Виняток за SECURITY-v8 § 5.3: markdown зі сторінок репозиторію,
+				<!-- Виняток за SECURITY-v9 § 5.3: markdown зі сторінок репозиторію,
 				     пропущений через DOMPurify безпосередньо перед вставкою. -->
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html DOMPurify.sanitize(content.html, DOMPURIFY_HTML_CONFIG)}

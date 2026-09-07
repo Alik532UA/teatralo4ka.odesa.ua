@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
- * `outline: none` без заміни (ACCESSIBILITY-v8 § 3, HIGH).
+ * `outline: none` без заміни (ACCESSIBILITY-v9 § 3, HIGH).
  *
  * `global.css` малює одне кільце на весь сайт:
  * `:focus-visible { outline: 2px solid var(--accent-primary) }`. Вага цього
@@ -37,7 +37,7 @@ import { join } from 'node:path';
  *   `.ProseMirror`, `.html-editor`, `.markdown-editor`);
  * - панель налаштувань → `.form-range`, повзунок, який працює саме стрілками.
  *
- * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): прибрати
+ * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): прибрати
  * `.rich-editor:focus-within` — перевірка мусить назвати всі чотири області
  * редактора. Зроблено, падає.
  */
@@ -221,7 +221,7 @@ const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
 	}
 };
 
-describe('фокус видно очима (ACCESSIBILITY-v8 § 3)', () => {
+describe('фокус видно очима (ACCESSIBILITY-v9 § 3)', () => {
 	const files = walk(ROOT, (n) => n.endsWith('.svelte') || n.endsWith('.css'));
 	const parsed = files.map((file) => ({
 		file: file.replace(/\\/g, '/'),
@@ -335,7 +335,7 @@ describe('фокус видно очима (ACCESSIBILITY-v8 § 3)', () => {
 	 * axe цього не бачить: у дереві доступності кнопка є, вона сфокусована й має
 	 * підпис. Невидима вона лише очима.
 	 *
-	 * Зворотний експеримент (AI-AGENT-PITFALLS-v8 § 1.1): прибрати
+	 * Зворотний експеримент (AI-AGENT-PITFALLS-v9 § 1.1): прибрати
 	 * `.gc-carousel:focus-within .gc-play-btn` — перевірка називає файл і клас.
 	 * Зроблено, падає.
 	 */
