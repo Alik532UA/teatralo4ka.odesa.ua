@@ -90,6 +90,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/slovianskyi-vinok-3.webp': { width: 960, height: 720 },
 	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 },
 	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
+	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
 	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },
 	// Програмка «Уривків з класики» 2015: обкладинка й розворот із ролями.
 	'/plays/uryvky-z-klasyky-2015.webp': { width: 1200, height: 896 },
@@ -148,6 +149,9 @@ export const LOCAL_IMAGE_SIZES = {
 	'/groups/tu-154-2.webp': { width: 1920, height: 1275 },
 	'/groups/tu-154.webp': { width: 1280, height: 850 },
 	'/groups/tv-prodakshn-2.webp': { width: 1280, height: 850 },
+	'/groups/tv-prodakshn-3.webp': { width: 960, height: 1280 },
+	'/groups/tv-prodakshn-4.webp': { width: 1280, height: 960 },
+	'/groups/tv-prodakshn-5.webp': { width: 1280, height: 960 },
 	'/groups/ukhtyshky.webp': { width: 1280, height: 914 },
 	'/groups/vertykultiapy.webp': { width: 1920, height: 1281 },
 	'/groups/veseli-cholovichky.webp': { width: 1920, height: 1281 },

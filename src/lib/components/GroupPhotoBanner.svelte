@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { asset } from '$app/paths';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
+	import { portraitBoxRatio } from '$lib/utils/bannerRatio';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -34,23 +35,13 @@
 	});
 
 	/**
-	 * CSS `aspect-ratio` першого портретного фото, або `undefined`.
+	 * Пропорція коробки, коли в стопці переважають ВЕРТИКАЛЬНІ знімки.
 	 *
-	 * Портретне фото у коробці 16:10 з `object-fit: cover` втрачає ≈60 %
-	 * висоти — обличчя зрізаються. Тому для портретного знімка коробка
-	 * отримує пропорцію самого зображення (`width / height`), і `cover`
-	 * заповнює її точно — рамка лягає по краю фото, а не по краю коробки.
+	 * Саме правило — у `utils/bannerRatio`: там воно перевіряється без браузера,
+	 * і там записано, чому «більшість», а не «хоч один» (одна вертикальна
+	 * фотографія з п'яти обрізала афішу групи навпіл).
 	 */
-	const portraitRatio = $derived.by(() => {
-		if (fit !== 'cover') return undefined;
-		const portrait = photos.find((p) => {
-			const s = imageSize(p as LocalImage);
-			return s.height > s.width;
-		});
-		if (!portrait) return undefined;
-		const { width, height } = imageSize(portrait as LocalImage);
-		return `${width} / ${height}`;
-	});
+	const portraitRatio = $derived(fit === 'cover' ? portraitBoxRatio(photos) : undefined);
 
 	/** Кожні стільки мілісекунд банер перегортається сам. */
 	const ROTATE_MS = 5000;
