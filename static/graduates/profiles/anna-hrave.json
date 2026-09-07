@@ -1,0 +1,24 @@
+{
+	"id": "anna-hrave",
+	"slug": "anna-hrave",
+	"name": "Анна Граве",
+	"graduationYear": 2021,
+	"enrollmentYears": [
+		2012
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/_anuta_gr"
+		}
+	]
+}

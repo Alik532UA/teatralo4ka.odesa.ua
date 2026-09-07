@@ -1692,7 +1692,12 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"enrollmentYears": [
+			2012
+		],
+		"hasPhoto": true,
+		"profileSize": 346
 	},
 	{
 		"id": "anna-khyzhniak",
