@@ -311,13 +311,23 @@
 		cursor: pointer;
 		user-select: none;
 		-webkit-user-select: none;
-		transition:
-			transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-			box-shadow 0.4s ease;
+		transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
+	/*
+	 * Наведення піднімає ЗНІМОК, а не коробку.
+	 *
+	 * Тінь висіла на коробці, а коробка ширша за вужчі кадри — виходив
+	 * прямокутник із тінню обабіч фотографії, який під курсором ще й
+	 * підсвічувався. Автор назвав це так: «має свій фон з тіню який дивно
+	 * виглядає при наведені курсора». Сама коробка лишається без жодного
+	 * вигляду: вона тільки тримає розмір і ловить клік.
+	 */
 	.banner:hover {
 		transform: scale(1.01);
+	}
+	.banner:hover .banner__img,
+	.banner:focus-visible .banner__img {
 		box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
 	}
 
@@ -357,7 +367,9 @@
 		outline-offset: -16px;
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
 		opacity: 0;
-		transition: opacity 0.6s ease;
+		transition:
+			opacity 0.6s ease,
+			box-shadow 0.4s ease;
 	}
 
 	.banner__img.is-active {
