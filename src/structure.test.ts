@@ -68,6 +68,15 @@ import { describe, expect, it } from 'vitest';
  *   плашці, і два рядки — це `--banner-gap: 0` та `--banner-dots-gap: 0`.
  *   Типові відступи банера розраховані на сторінку-шапку, де під ним іде ще
  *   пів сторінки; у плашці повітря дає сама плашка.
+ *   І ще 1637 → 1640: значки відділень стали окремим сніпетом і викликом після
+ *   розвилки «є знімок / зірка / квітка». Доти вони лежали ВСЕРЕДИНІ гілки зі
+ *   знімком і зникали разом із нею: заміряно, без знімка 411 людей із 533, і в
+ *   408 відділення в реєстрі є — значок не показувався трьом чвертям галактики
+ *   при живих даних.
+ * 2026-09-07: `config/codeNews.ts` 283 → 284. Один рядок — `mediaShape: 'square'`
+ *   новині про 30-й сезон. Типова плитка вертикальна (кадри зі сторіс), а там
+ *   тридцять два з тридцяти чотирьох знімків горизонтальні: у вертикальній
+ *   плитці від них лишалася смуга посередині.
  * 2026-09-07 (третя правка тієї ж доби): `data/betaChecklist.ts` 418 → 429.
  *   Одинадцять рядків — вісім адрес адмінки у вкладці «Адмінка» плюс дужки
  *   переліку, який через це перестав бути однорядковим. Причина не в чеклисті:
@@ -524,7 +533,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1637,
+	'src/lib/components/GraduateProfileView.svelte': 1640,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
@@ -536,7 +545,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/config/codeNews.ts': 283,
+	'src/lib/config/codeNews.ts': 284,
 	'src/lib/data/betaChecklist.ts': 429,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,

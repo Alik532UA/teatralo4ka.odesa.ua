@@ -921,54 +921,6 @@
 							data-testid="galaxy-card-img"
 						/>
 					{/if}
-					{#if departments.length > 0}
-						<!--
-							Одне відділення — знак І НАЗВА; кілька — самі знаки з
-							власною підказкою.
-
-							Причина в тому, що назви довгі («Театральне відділення»,
-							«Інструментальне відділення»), і три такі поспіль не
-							вміщаються в жодну колонку. Коли ж відділення одне,
-							ховати його назву за наведенням нема сенсу: місця
-							вистачає, а знак сам по собі мало кому щось каже.
-						-->
-						<div
-							class="dept-badges"
-							class:dept-badges--single={departments.length === 1}
-							data-testid="galaxy-card-dept-badges"
-						>
-							{#each departments as dept, index (dept)}
-								{@const label = $t(`galaxy.departments.${dept}`, {
-									default: dept,
-								})}
-								<span
-									class="dept-badge"
-									class:dept-badge--tip-left={departments.length > 1 &&
-										index < departments.length / 2}
-									role="img"
-									aria-label={label}
-									data-testid="galaxy-card-dept-badge-{dept}"
-								>
-									<DepartmentIcon
-										department={dept}
-										size={18}
-									/>
-									{#if departments.length === 1}
-										<span class="dept-badge__name">{label}</span>
-									{:else}
-										<!--
-											Підказка виїжджає НАЗОВНІ від ряду: знак із
-											лівої половини розкриває її ліворуч, із
-											правої — праворуч. Усередину не можна —
-											там сусідні знаки, і підказка лягала б
-											просто на них.
-										-->
-										<span class="dept-badge__tip" aria-hidden="true">{label}</span>
-									{/if}
-								</span>
-							{/each}
-						</div>
-					{/if}
 				</div>
 			{:else if graduate.kind === 'student'}
 				<!--
@@ -985,6 +937,18 @@
 				</div>
 			{:else}
 				<div class="star" aria-hidden="true"></div>
+			{/if}
+
+			<!--
+				Значки відділень — ПІСЛЯ розвилки, а не всередині гілки зі знімком.
+				Доти вони жили в `.photo-container`, тобто зникали разом із ним:
+				Олександра Войниченко має в реєстрі `theatre`, а сторінка про це
+				мовчала, бо в неї немає фотографії. Заміряно: без знімка 411 людей
+				із 533, і в 408 із них відділення в реєстрі Є — тобто значок
+				зникав у трьох чвертей галактики, хоч дані для нього лежали поруч.
+			-->
+			{#if departments.length > 0}
+				{@render deptBadges()}
 			{/if}
 
 			<svelte:element
@@ -1187,6 +1151,55 @@
 			>
 				{@render mastersContent()}
 			</div>
+{/snippet}
+
+{#snippet deptBadges()}
+		<!--
+			Одне відділення — знак І НАЗВА; кілька — самі знаки з
+			власною підказкою.
+
+			Причина в тому, що назви довгі («Театральне відділення»,
+			«Інструментальне відділення»), і три такі поспіль не
+			вміщаються в жодну колонку. Коли ж відділення одне,
+			ховати його назву за наведенням нема сенсу: місця
+			вистачає, а знак сам по собі мало кому щось каже.
+		-->
+		<div
+			class="dept-badges"
+			class:dept-badges--single={departments.length === 1}
+			data-testid="galaxy-card-dept-badges"
+		>
+			{#each departments as dept, index (dept)}
+				{@const label = $t(`galaxy.departments.${dept}`, {
+					default: dept,
+				})}
+				<span
+					class="dept-badge"
+					class:dept-badge--tip-left={departments.length > 1 &&
+						index < departments.length / 2}
+					role="img"
+					aria-label={label}
+					data-testid="galaxy-card-dept-badge-{dept}"
+				>
+					<DepartmentIcon
+						department={dept}
+						size={18}
+					/>
+					{#if departments.length === 1}
+						<span class="dept-badge__name">{label}</span>
+					{:else}
+						<!--
+							Підказка виїжджає НАЗОВНІ від ряду: знак із
+							лівої половини розкриває її ліворуч, із
+							правої — праворуч. Усередину не можна —
+							там сусідні знаки, і підказка лягала б
+							просто на них.
+						-->
+						<span class="dept-badge__tip" aria-hidden="true">{label}</span>
+					{/if}
+				</span>
+			{/each}
+		</div>
 {/snippet}
 
 {#snippet galleryCard()}
