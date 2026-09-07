@@ -55,7 +55,7 @@
 </script>
 
 <header class="play-header">
-	<GroupPhotoBanner photos={play.photos ?? []} title={play.title} fit="whole" />
+	<GroupPhotoBanner photos={play.photos ?? []} title={play.title} />
 
 	<div class="play-header__badges">
 		<span class="play-badge" data-testid="play-year-badge">

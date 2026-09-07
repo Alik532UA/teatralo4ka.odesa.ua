@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { asset } from '$app/paths';
+	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { t } from 'svelte-i18n';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
-	import { portraitBoxRatio } from '$lib/utils/bannerRatio';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -9,39 +10,39 @@
 		photos: readonly string[];
 		/** Назва групи: йде в `alt`, у підписи крапок і в заголовок лайтбокса. */
 		title: string;
-		/**
-		 * `cover` — знімок кадрується під коробку 16:10, як фото групи.
-		 * `whole` — показується цілком: для афіші, у якої по краях текст.
-		 */
-		fit?: 'cover' | 'whole';
 	}
 
-	let { photos, title, fit = 'cover' }: Props = $props();
+	let { photos, title }: Props = $props();
 
 	/**
-	 * Афіша показується ЦІЛКОМ, а не кадрується під 16:10.
+	 * КОЖЕН знімок показується у ВЛАСНІЙ пропорції — нічого не кадрується.
 	 *
-	 * Знімок групи можна обрізати без втрат — обличчя лишаються в кадрі. Афіша
-	 * — це текст по краях: назва школи згори, назви творів унизу; `object-fit:
-	 * cover` у коробці 16:10 зрізав би по вісім відсотків зверху й знизу, і
-	 * читач бачив би афішу без заголовка. Тому в режимі `whole` коробка бере
-	 * пропорцію самого зображення (першого — стопка з кількох афіш тут не
-	 * передбачена), а знімок вписується в неї без обрізання.
-	 */
-	const ownRatio = $derived.by(() => {
-		if (fit !== 'whole' || photos.length === 0) return undefined;
-		const { width, height } = imageSize(photos[0] as LocalImage);
-		return `${width} / ${height}`;
-	});
-
-	/**
-	 * Пропорція коробки, коли в стопці переважають ВЕРТИКАЛЬНІ знімки.
+	 * ## Дві попередні редакції, і чому обидві були неправильні
 	 *
-	 * Саме правило — у `utils/bannerRatio`: там воно перевіряється без браузера,
-	 * і там записано, чому «більшість», а не «хоч один» (одна вертикальна
-	 * фотографія з п'яти обрізала афішу групи навпіл).
+	 * Спершу коробка була 16:10 на всю стопку, а вертикальний знімок отримував
+	 * свою пропорцію — «є хоч один портрет, значить коробка вертикальна». На
+	 * стопці з самих портретів це працювало, а на змішаній ні: у «ТВ Продакшн»
+	 * один вертикальний знімок із п'яти зробив коробку вертикальною, і афіша
+	 * 1280×850 втратила половину ширини.
+	 *
+	 * Тоді правило стало «більшість або порівну» — і зламалося дзеркально:
+	 * коробка лишилася горизонтальною, а той самий вертикальний знімок у ній
+	 * зрізало згори й знизу. Автор побачив і це: «вертикальні фотографії сильно
+	 * відрізані».
+	 *
+	 * Спільна помилка обох редакцій — сама ідея ОДНІЄЇ пропорції на різні
+	 * знімки: при ній хтось завжди втрачає. Тому пропорцію задає той знімок,
+	 * який показується ЗАРАЗ, і жоден не кадрується взагалі.
+	 *
+	 * ## Чому сторінка від цього не стрибає
+	 *
+	 * Висота обмежена `МАКС_ВИСОТА`, а ширина рахується з неї та з пропорції.
+	 * Тобто вертикальний знімок стає ВУЖЧИМ, а не вищим: у горизонтального
+	 * 820×545, у вертикального 450×600. Різниця у висоті 55 px замість двох
+	 * різних форматів на всю ширину.
 	 */
-	const portraitRatio = $derived(fit === 'cover' ? portraitBoxRatio(photos) : undefined);
+	const МАКС_ШИРИНА = 820;
+	const МАКС_ВИСОТА = 600;
 
 	/** Кожні стільки мілісекунд банер перегортається сам. */
 	const ROTATE_MS = 5000;
@@ -112,6 +113,25 @@
 		return () => clearInterval(id);
 	});
 
+	/** Пропорція та гранична ширина коробки — з того знімка, що показується зараз. */
+	const розмір = $derived(imageSize(photos[активний] as LocalImage));
+	const пропорція = $derived(`${розмір.width} / ${розмір.height}`);
+	const ширина = $derived(
+		Math.round(Math.min(МАКС_ШИРИНА, (МАКС_ВИСОТА * розмір.width) / розмір.height))
+	);
+
+	/**
+	 * Гортання стрілками — по колу, як і автоперегортання.
+	 *
+	 * `stopPropagation` обов'язковий: стрілки лежать усередині коробки, а вона
+	 * сама відкриває лайтбокс. Без цього натискання на стрілку і гортало б, і
+	 * відкривало повний екран — тобто робило б дві дії замість однієї.
+	 */
+	function гортати(крок: number, подія: MouseEvent) {
+		подія.stopPropagation();
+		index = (активний + крок + photos.length) % photos.length;
+	}
+
 	const lightboxImages = $derived<LightboxImage[]>(
 		photos.map((photo) => ({ src: asset(photo), alt: title, title }))
 	);
@@ -130,9 +150,8 @@
 	-->
 	<div
 		class="banner"
-		class:banner--whole={fit === 'whole'}
-		class:banner--portrait={portraitRatio !== undefined}
-		style:aspect-ratio={ownRatio ?? portraitRatio}
+		style:aspect-ratio={пропорція}
+		style:max-width={`${ширина}px`}
 		role="button"
 		tabindex="0"
 		aria-label={title}
@@ -161,6 +180,27 @@
 			/>
 		{/each}
 		<div class="banner__border"></div>
+
+		{#if photos.length > 1}
+			<button
+				type="button"
+				class="banner__nav banner__nav--prev"
+				aria-label={$t('common.prev')}
+				onclick={(e) => гортати(-1, e)}
+				data-testid="group-photo-prev-btn"
+			>
+				<ChevronLeft size={28} aria-hidden="true" />
+			</button>
+			<button
+				type="button"
+				class="banner__nav banner__nav--next"
+				aria-label={$t('common.next')}
+				onclick={(e) => гортати(1, e)}
+				data-testid="group-photo-next-btn"
+			>
+				<ChevronRight size={28} aria-hidden="true" />
+			</button>
+		{/if}
 	</div>
 
 	{#if photos.length > 1}
@@ -193,9 +233,8 @@
 		position: relative;
 		max-width: 820px;
 		margin: 0 auto 1rem;
-		/* Пропорція на коробці, бо знімки різні: 1280×720 і два 768×576. Без неї
-		   стопка стрибала б у висоті при кожному перегортанні. */
-		aspect-ratio: 16 / 10;
+		/* Пропорція й гранична ширина приходять інлайном — від того знімка, що
+		   показується зараз. Розбір у докблоці властивостей. */
 		border-radius: 20px;
 		overflow: hidden;
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -236,7 +275,12 @@
 		width: 100%;
 		height: 100%;
 		display: block;
-		object-fit: cover;
+		/*
+		 * `contain`, а не `cover`: коробка вже має пропорцію АКТИВНОГО знімка, тож
+		 * для нього різниці немає — зате сусіди в стопці під час перетікання не
+		 * кадруються, а вписуються.
+		 */
+		object-fit: contain;
 		opacity: 0;
 		transition: opacity 0.6s ease;
 	}
@@ -245,15 +289,47 @@
 		opacity: 1;
 	}
 
-	/* Афіша: цілком, без кадрування — пропорцію коробці задає саме зображення. */
-	.banner--whole .banner__img {
-		object-fit: contain;
+	/*
+	 * Стрілки — поверх знімка, як у лайтбоксі. Ціль дотику 44×44 (WCAG 2.2
+	 * SC 2.5.8), тож кружечок саме такий і на телефоні не меншає.
+	 */
+	.banner__nav {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		border-radius: 50%;
+		background: rgba(15, 23, 42, 0.45);
+		backdrop-filter: blur(6px);
+		color: #ffffff;
+		cursor: pointer;
+		transition:
+			background 0.2s ease,
+			transform 0.2s ease;
 	}
 
-	/* Портретне фото: пропорцію коробці задає inline `aspect-ratio` з
-	   реальних розмірів знімка, `cover` заповнює точно — рамка по фото. */
-	.banner--portrait {
-		max-height: 600px;
+	.banner__nav--prev {
+		left: 12px;
+	}
+
+	.banner__nav--next {
+		right: 12px;
+	}
+
+	.banner__nav:hover {
+		background: rgba(15, 23, 42, 0.7);
+		transform: translateY(-50%) scale(1.08);
+	}
+
+	.banner__nav:focus-visible {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 3px;
 	}
 
 	.banner__dots {
