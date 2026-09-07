@@ -426,13 +426,28 @@
 		margin-bottom: var(--banner-dots-gap, 2rem);
 	}
 
+	/*
+	 * Колір крапок — із палітри ГАЛАКТИКИ, а не з теми сайту.
+	 *
+	 * Доти неактивні крапки малювалися через `light-dark()`, тобто залежали від
+	 * `color-scheme` сторінки. А банер живе тільки в галактиці, і там тло майже
+	 * чорне В БУДЬ-ЯКІЙ темі: `body.page-galaxy` перекриває змінні на
+	 * `--galaxy-*`. Виходило, що зі світлою темою сайту (жовтою чи блакитною)
+	 * крапки ставали чорними на чорному — автор надіслав знімок, де їх просто не
+	 * видно.
+	 *
+	 * `--galaxy-muted` і `--galaxy-accent` для цього й існують: у галактиці вони
+	 * сталі (#a8bfe0 і #8cc4ff), а на сторінці УЧНЯ, яка навмисно світла,
+	 * перевизначені на кольори теми — тож крапки лишаються видними й там. Саме
+	 * тому тут вони, а не жорсткі значення.
+	 */
 	.banner__dot {
 		width: 9px;
 		height: 9px;
 		padding: 0;
 		border: none;
 		border-radius: 50%;
-		background: light-dark(rgb(0 0 0 / 0.2), rgba(255, 255, 255, 0.3));
+		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 55%);
 		cursor: pointer;
 		transition:
 			background 0.25s ease,
@@ -440,16 +455,16 @@
 	}
 
 	.banner__dot:hover {
-		background: rgba(255, 255, 255, 0.6);
+		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 20%);
 	}
 
 	.banner__dot.is-active {
-		background: var(--accent-primary);
+		background: var(--galaxy-accent, #8cc4ff);
 		transform: scale(1.3);
 	}
 
 	.banner__dot:focus-visible {
-		outline: 2px solid var(--accent-primary);
+		outline: 2px solid var(--galaxy-accent, #8cc4ff);
 		outline-offset: 3px;
 	}
 

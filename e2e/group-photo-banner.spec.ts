@@ -274,6 +274,45 @@ test.describe('банер знімків групи', () => {
 	});
 
 	/**
+	 * Колір крапок НЕ залежить від теми сайту.
+	 *
+	 * Банер живе лише в галактиці, а там тло майже чорне в будь-якій темі:
+	 * `body.page-galaxy` перекриває змінні на `--galaxy-*`. Крапки ж малювалися
+	 * через `light-dark()`, тобто дивилися на `color-scheme` сторінки — і зі
+	 * світлою темою сайту ставали чорними на чорному. Автор надіслав знімок, де
+	 * їх не видно.
+	 */
+	test('крапки однакові в усіх темах', async ({ page }) => {
+		await gotoReady(page, ТВ_ПРОДАКШН);
+		await expect(page.locator('[data-testid="group-photo-banner"]')).toBeVisible();
+
+		const кольори = await page.evaluate(async () => {
+			const виміряти = () => {
+				const крапки = [...document.querySelectorAll('.banner__dot')];
+				const неактивна = крапки.find((d) => !d.classList.contains('is-active'));
+				return неактивна ? getComputedStyle(неактивна).backgroundColor : '';
+			};
+			const було = document.documentElement.dataset.theme;
+			const зібране: Record<string, string> = {};
+			for (const тема of ['light', 'dark', 'yellow', 'light-yellow', 'dark-cyan', 'dark-blue']) {
+				document.documentElement.dataset.theme = тема;
+				await new Promise((r) => setTimeout(r, 120));
+				зібране[тема] = виміряти();
+			}
+			if (було) document.documentElement.dataset.theme = було;
+			else delete document.documentElement.dataset.theme;
+			return зібране;
+		});
+
+		const різні = [...new Set(Object.values(кольори))];
+		expect(
+			різні,
+			`крапки міняють колір разом із темою: ${JSON.stringify(кольори)}`
+		).toHaveLength(1);
+		expect(різні[0], 'крапки не мають кольору').not.toBe('');
+	});
+
+	/**
 	 * Ручне перегортання СКИДАЄ таймер автоматичного.
 	 *
 	 * Автор описав ваду точно: «можна перемкнути вручну приблизно на 6 секунді і
