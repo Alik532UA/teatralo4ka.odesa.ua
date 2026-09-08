@@ -32,7 +32,10 @@ const ГРУПИ = '/projects/galaxy-graduates/groups/';
  * перелік не збіжиться, тож чекання виражене там, де воно й потрібне.
  */
 function крихти(page: Page): Locator {
-	return page.locator('nav[aria-label="Breadcrumb"] a');
+	/* Заміткою, а не за `aria-label`: назва орієнтира — текст для людини, і
+	   вона перекладається; чіплятися за неї означало б ламати перевірку від
+	   зміни формулювання. */
+	return page.getByTestId('galaxy-crumbs-nav').locator('a');
 }
 
 test.describe('крихта «звідки прийшов»', () => {

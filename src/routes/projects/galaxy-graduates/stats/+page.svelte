@@ -109,7 +109,6 @@
 <main class="stats-page" data-testid="stats-section">
 	<div class="container">
 				<GalaxyBreadcrumb
-			variant="plain"
 			backHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			backLabel={$t('galaxy.title', { default: 'Сузір’я випускників' })}
 			backTestId="stats-back-link"

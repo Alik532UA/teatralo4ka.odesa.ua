@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ArrowLeft, ArrowRight } from 'lucide-svelte';
+	import { t } from 'svelte-i18n';
 	import { page } from '$app/state';
 	import type { ResolvedPathname } from '$app/types';
 	import { samePage, trail } from '$lib/services/trail.svelte';
@@ -29,20 +30,6 @@
 		forwardLabel?: string;
 		forwardTestId?: string;
 		/**
-		 * ДВА ВИГЛЯДИ, і обидва вже були в проєкті.
-		 *
-		 * `pill` — плашка з фоном і рамкою; так виглядають вісім сторінок із
-		 * одинадцяти. `plain` — просто приглушений текст зі стрілкою, без фону;
-		 * так стояло на сторінці вистави й на сторінці наповнення архіву.
-		 *
-		 * Це не вибір оформлення заднім числом: коли одинадцять копій зводили в
-		 * один компонент, виявилося, що вони НЕ однакові, і `svelte-check`
-		 * показав це списком невживаних селекторів. Звести все до плашки
-		 * означало б тихо перемалювати дві сторінки — тому вигляд лишився
-		 * пропом, а не зник.
-		 */
-		variant?: 'pill' | 'plain';
-		/**
 		 * Показувати крихту «звідки прийшов» перед рештою.
 		 *
 		 * Вмикається на десяти сторінках галактики й НЕ вмикається на статистиці
@@ -61,7 +48,6 @@
 		forwardHref,
 		forwardLabel,
 		forwardTestId,
-		variant = 'pill',
 		withTrail = false,
 		trailTestId
 	}: Props = $props();
@@ -89,7 +75,20 @@
 	Рядок «назад у перелік / у галактику» — ОДИН на одинадцять сторінок.
 	Розбір, чому винесено й скільком це дорівнює, — у докблоці стилів нижче.
 -->
-<nav class="crumbs clears-logo" class:crumbs--plain={variant === 'plain'} aria-label="Breadcrumb">
+<!--
+	`aria-label` НЕ «Breadcrumb», і це виправлення, а не смак.
+
+	Хлібні крихти — це шлях від кореня до поточної сторінки. Тут же рядок
+	двобічний: остання крихта веде ВПЕРЕД, у галактику, а поточної сторінки в
+	переліку немає зовсім. Скрінрідер оголошував «навігація: хлібні крихти» й
+	обіцяв слухачеві структуру, якої всередині нема. Заодно зникла англійська
+	назва орієнтира на україномовному сайті.
+-->
+<nav
+	class="crumbs clears-logo"
+	aria-label={$t('galaxy.crumbsNav', { default: 'Навігація сторінкою' })}
+	data-testid="galaxy-crumbs-nav"
+>
 	{#if слід}
 		<!-- Адреса зі сліду — рядок з історії переходів, а не константа маршруту. -->
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -236,26 +235,5 @@
 	/* Стрілці стискатися нема куди: без цього вона віддає свої пікселі підпису. */
 	.crumbs__link--from :global(svg) {
 		flex: none;
-	}
-
-	/*
-	 * Простий вигляд: жодної плашки, лише приглушений текст. Скидання йде ПІСЛЯ
-	 * правил плашки — вага однакова (по одному класу), тож вирішує порядок у
-	 * файлі. Через `!important` було б коротше й гірше: медіазапити й теми вже
-	 * не змогли б це перебити.
-	 */
-	.crumbs--plain .crumbs__link {
-		padding: 0;
-		gap: 0.4rem;
-		background: none;
-		border: 0;
-		border-radius: 0;
-		color: var(--text-muted);
-		transition: color var(--transition-fast);
-	}
-	.crumbs--plain .crumbs__link:hover,
-	.crumbs--plain .crumbs__link:focus-visible {
-		color: var(--accent-primary);
-		transform: none;
 	}
 </style>
