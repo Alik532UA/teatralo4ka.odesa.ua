@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { ФАЙЛ_ПОКАЖЧИКА, зібратиПокажчик } from '../scripts/build-search-index';
+import { isLinked } from './lib/config/visibility';
 
 /**
  * Покажчик пошуку по анкетах — файл, який легко застаріває мовчки.
@@ -58,21 +59,28 @@ describe('покажчик пошуку по анкетах', () => {
 		).toEqual({ зайві: [], бракує: [], розійшлися: [] });
 	});
 
+	/**
+	 * Стережеться рівень `direct`, і тільки він.
+	 *
+	 * Доти тут стояла ВЛАСНА копія умови — «`listed`, і ще учні як виняток», —
+	 * тобто друге джерело правди поруч із `build-search-index`. 2026-09-08 автор
+	 * запитав, чому пошук не знаходить Віктора Фурдуя (`linked`, «друг школи»,
+	 * стоїть на публічній сторінці фестивалю), правило в коді змінилося, а копія
+	 * тут лишилася б старою й валила б збірку на людині, яку показувати можна.
+	 *
+	 * Тому перевірка кличе `isLinked` — ту саму функцію, що й код. Стерегти вона
+	 * від цього не перестала: `direct` — це «таємний агент», чий текст у
+	 * статичному файлі віддав би людину одним запитом.
+	 */
 	it('у покажчику немає жодного, кого приховали навмисно', () => {
 		const покажчик = JSON.parse(файл()) as Record<string, string>;
 		const люди = JSON.parse(readFileSync('src/lib/data/graduates.index.json', 'utf8')) as {
 			slug: string;
 			visibility?: string;
-			kind?: string;
 		}[];
 
 		const приховані = люди
-			.filter((g) => {
-				const рівень = g.visibility ?? 'listed';
-				if (рівень === 'listed') return false;
-				// Учні — `linked`, але в пошуку вони є навмисно.
-				return !(рівень === 'linked' && g.kind === 'student');
-			})
+			.filter((g) => !isLinked(g))
 			.map((g) => `person:${g.slug}`)
 			.filter((ключ) => ключ in покажчик);
 
@@ -88,7 +96,7 @@ describe('покажчик пошуку по анкетах', () => {
 		const люди = JSON.parse(readFileSync('src/lib/data/graduates.index.json', 'utf8')) as {
 			visibility?: string;
 		}[];
-		const прихованих = люди.filter((g) => (g.visibility ?? 'listed') !== 'listed').length;
+		const прихованих = люди.filter((g) => !isLinked(g)).length;
 		expect(прихованих, 'у реєстрі немає прихованих — перевірка нічого не стереже').toBeGreaterThan(
 			0
 		);

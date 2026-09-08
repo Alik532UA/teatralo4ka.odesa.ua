@@ -67,6 +67,7 @@
 		<label class="search">
 			<Search size={16} aria-hidden="true" />
 			<input
+				class="search__input"
 				type="search"
 				bind:value={запит}
 				placeholder={$t('galaxy.searchPlaceholder', { default: 'Пошук за іменем' })}
@@ -149,7 +150,7 @@
 		background: var(--bg-surface);
 		color: var(--text-muted);
 	}
-	.search input {
+	.search__input {
 		flex: 1;
 		min-width: 0;
 		border: 0;
@@ -161,8 +162,13 @@
 	 * Кільце знято з ПОЛЯ й намальоване на плашці навколо нього: візуально це
 	 * один контрол, і рамка по краю плашки читається краще за прямокутник
 	 * усередині. `:focus-within` — саме той селектор, який це вміє.
+	 *
+	 * Клас, а не селектор за тегом (`.search input`): BEM-lite із
+	 * TESTID-AND-NAMING-v9 § 2.1, і так само зроблено в накладці пошуку
+	 * (`SearchOverlay.__input`). Колір підказки задає `global.css` одним
+	 * правилом на всі поля проєкту — тут його немає навмисно.
 	 */
-	.search input:focus {
+	.search__input:focus {
 		outline: none;
 	}
 	.search:focus-within {
