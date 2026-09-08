@@ -146,7 +146,18 @@
 }
 
 p {
-  font-family: 'Roboto', sans-serif;
+  /*
+   * Шрифт САЙТУ, а не власний. Тут стояло `'Roboto', sans-serif` — а Roboto у
+   * проєкті ніде не підключений: жодного `@font-face`, жодного Google Fonts.
+   * Тобто рядок мовчки падав у системний sans-serif, і біжучий рядок був
+   * ЄДИНИМ місцем сайту не в e-Ukraine — на Android схожим, на Windows і Mac
+   * помітно чужим.
+   *
+   * Вага 600 лишається, хоч файлів у e-Ukraine два — 400 і 700. Це не
+   * синтетичне потовщення: за правилом добору ваг для запиту 600 браузер
+   * спершу шукає вагу ≥ 600 і бере справжній 700.
+   */
+  font-family: var(--font-main);
   color: #ffffff;
   text-transform: uppercase;
   margin: 0;
