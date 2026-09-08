@@ -41,19 +41,6 @@ import { session } from './storage';
  */
 export const TRAIL_KEY = 'trail';
 
-/**
- * Стеля довжини підпису.
- *
- * Заміряно на найдовшому реальному випадку — «Ніколаєва Анастасія Олексіївна»
- * (30 знаків): на екрані 360 px три крихти в один рядок не влазять, а перенос
- * на третій рядок зсуває заголовок сторінки. 28 знаків лишають перенос
- * щонайбільше на другий рядок.
- */
-export const TRAIL_LABEL_MAX = 28;
-
-/** Найкоротше слово, після якого обрізання рветься по пробілу, а не по літері. */
-const WORD_FLOOR = 18;
-
 export interface TrailStep {
 	/** Куди вести — з параметрами, щоб повернути людину туди, де вона була. */
 	href: string;
@@ -93,16 +80,19 @@ export function samePage(a: string | undefined, b: string | undefined): boolean 
  *
  * Тире беруться обидва (— і –): у даних трапляються обидва знаки, і різниця
  * між ними на око невидима, тобто помилку в даних ніхто не помітив би.
+ *
+ * ## ДОВЖИНА ТУТ НЕ ОБМЕЖУЄТЬСЯ
+ *
+ * Спочатку тут стояла стеля в 28 знаків — і вона різала «Осадча (Бур'ян)
+ * Євгенія Олександрівна» на широкому екрані, де порожнього місця лишалося
+ * півряда. Помилка типова: кількість знаків нічого не знає про ширину, якою
+ * розпоряджається сторінка. Обрізає тепер CSS — за наявним місцем, а не за
+ * лічильником, — і на телефоні три крапки з'являються рівно тоді, коли треба.
  */
 export function shortenTitle(raw: string): string {
 	const untilBrand = raw.split('|')[0] ?? '';
 	const untilSection = untilBrand.split(/\s[—–]\s/)[0] ?? '';
-	const clean = untilSection.replace(/\s+/g, ' ').trim();
-	if (clean.length <= TRAIL_LABEL_MAX) return clean;
-
-	const cut = clean.slice(0, TRAIL_LABEL_MAX);
-	const space = cut.lastIndexOf(' ');
-	return `${(space >= WORD_FLOOR ? cut.slice(0, space) : cut).trimEnd()}…`;
+	return untilSection.replace(/\s+/g, ' ').trim();
 }
 
 class Trail {
