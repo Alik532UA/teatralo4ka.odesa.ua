@@ -58,9 +58,17 @@ export async function load({ params, url }) {
 	 * готові дані, а не ходити в реєстр із розмітки. Ключ, якому нічого не
 	 * відповідає, мовчки відкидається — про саме́ розходження кричить гейт.
 	 */
-	const masters = festival.masterIds
-		.map((id) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id))
-		.filter((m) => m !== undefined);
+	const майстер = (id: string) => (mastersIndex as MasterIndexEntry[]).find((m) => m.id === id);
+
+	const masters = festival.masterIds.map(майстер).filter((m) => m !== undefined);
+
+	/*
+	 * Працівники, які поїхали УЧАСНИКАМИ, а не керівниками. Розділ сторінки в
+	 * них той самий, що у випускників, — різниться лише реєстр, з якого
+	 * розгортається картка. Чому окремим полем, а не ключами в `memberIds`, —
+	 * у докблоці `data/festivals`.
+	 */
+	const memberMasters = (festival.memberMasterIds ?? []).map(майстер).filter((m) => m !== undefined);
 
 	/*
 	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>` сторінки: у `og:description`
@@ -79,5 +87,5 @@ export async function load({ params, url }) {
 		words.festivalTail
 	]);
 
-	return { festival, members, masters, plays, seoDescription };
+	return { festival, members, memberMasters, masters, plays, seoDescription };
 }

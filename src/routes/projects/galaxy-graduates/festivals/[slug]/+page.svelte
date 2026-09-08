@@ -52,6 +52,9 @@
 	 * Викладачів це не стосується: їх у поїздці двоє-п'ятеро, і порядок там —
 	 * той, у якому їх назвали.
 	 */
+	/** Скільки людей у розділі «Учасники»: випускники плюс працівники-учасники. */
+	const учасників = $derived(data.members.length + data.memberMasters.length);
+
 	let shuffled = $state<typeof data.members | null>(null);
 
 	$effect(() => {
@@ -151,14 +154,14 @@
 			{/if}
 		</header>
 
-		{#if data.members.length > 0}
+		{#if учасників > 0}
 			<section class="fest-section" aria-labelledby="section-members-title">
 				<div class="section-heading">
 					<span class="icon-wrap icon-wrap--primary"><Users size={20} aria-hidden="true" /></span>
 					<h2 id="section-members-title" class="section-heading__title">
 						{$t('galaxy.festivalMembers')}
 					</h2>
-					<span class="section-heading__count">{data.members.length}</span>
+					<span class="section-heading__count">{учасників}</span>
 				</div>
 
 				<!--
@@ -177,6 +180,22 @@
 							splitName
 							index={idx}
 							testid="festival-member-card-{member.slug}"
+						/>
+					{/each}
+					<!--
+						Працівники, які поїхали УЧАСНИКАМИ. Картка веде на їхню сторінку
+						в «Дорослих», а не відкриває вікно випускника: вікна в них немає,
+						і робити його заради одного розділу означало б другий показ тієї
+						самої людини.
+					-->
+					{#each data.memberMasters as master, idx (master.id)}
+						<GroupPersonCard
+							name={isEn ? master.displayNameEn : master.displayName}
+							photo={master.photo ? asset(master.photo) : null}
+							href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
+							splitName
+							index={data.members.length + idx}
+							testid="festival-member-card-{master.slug}"
 						/>
 					{/each}
 				</div>
@@ -211,7 +230,7 @@
 							name={isEn ? master.displayNameEn : master.displayName}
 							photo={master.photo ? asset(master.photo) : null}
 							href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
-							index={data.members.length + idx}
+							index={учасників + idx}
 							testid="festival-teacher-card-{master.slug}"
 						/>
 					{/each}
