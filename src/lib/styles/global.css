@@ -127,6 +127,29 @@ html[data-theme='light-yellow'] {
 	--palette-navy-600: #004b63;
 	--palette-navy-500: #006c8d;
 	
+	/*
+	 * Steel Blue Palette — від 2026-09-08 це кольори ОСНОВНОЇ темної теми.
+	 *
+	 * Палітра автора з 2 вересня (#1B262C, #0F4C75, #3282B8, #BBE1FA) спершу
+	 * жила лише в тестовій `dev-test-dark-01`. Автор подивився обидві поруч і
+	 * попросив помінятися: синя стала основною темною, а колишня темно-синя
+	 * navy поїхала в тестову.
+	 *
+	 * Два тони — `steel-300` і `steel-200` — не з чотирьох авторських: вони
+	 * з'явилися ще в тестовій темі під контраст. #3282B8 на #1B262C дає 3.69
+	 * при потрібних 4.5, тобто текстом він бути не може, і для другорядного
+	 * тексту та акцентного напису потрібні проміжні відтінки. Замір і розбір —
+	 * у докблоці `themes/dark-blue.css`, який тоді це порахував.
+	 *
+	 * Номер зростає з темнотою — так само, як у navy й cyan нижче.
+	 */
+	--palette-steel-900: #1b262c;
+	--palette-steel-700: #0f4c75;
+	--palette-steel-500: #3282b8;
+	--palette-steel-300: #8fbedc;
+	--palette-steel-200: #a5cfea;
+	--palette-steel-100: #bbe1fa;
+
 	/* Light Blue / Cyan Palette */
 	--palette-cyan-50: #E5F7FD;
 	--palette-cyan-100: #d6eef5;
@@ -1088,10 +1111,10 @@ html.theme-shifting *:not(canvas) {
 }
 
 .theme-opt[data-theme-key='dark'] {
-	--sw-bg: #00242f;
-	--sw-fg: #e5f7fd;
-	--sw-accent: #00b5ec;
-	--sw-on: #00242f;
+	--sw-bg: #0f4c75;
+	--sw-fg: #bbe1fa;
+	--sw-accent: #bbe1fa;
+	--sw-on: #1b262c;
 }
 
 .theme-opt[data-theme-key='dark-cyan'] {
@@ -1102,10 +1125,10 @@ html.theme-shifting *:not(canvas) {
 }
 
 .theme-opt[data-theme-key='dark-blue'] {
-	--sw-bg: #0f4c75;
-	--sw-fg: #bbe1fa;
-	--sw-accent: #bbe1fa;
-	--sw-on: #1b262c;
+	--sw-bg: #00242f;
+	--sw-fg: #e5f7fd;
+	--sw-accent: #00b5ec;
+	--sw-on: #00242f;
 }
 
 .dropdown-opt-unified:hover {

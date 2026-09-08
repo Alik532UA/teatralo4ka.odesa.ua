@@ -90,9 +90,11 @@ describe('TokenResolver', () => {
 	});
 
 	it('тема переважує global.css, а не навпаки', () => {
-		// --bg-card у світлій темі білий, у темній — navy-page.
+		// --bg-card у світлій темі білий, у темній — steel-900 (#1B262C). До
+		// 2026-09-08 тут стояв navy-page: тоді автор поміняв кольори основної
+		// темної й тестової `dev-test-dark-01` місцями.
 		expect(r.resolve('--bg-card', 'light')).toEqual([255, 255, 255]);
-		expect(r.resolve('--bg-card', 'dark')).toEqual([0, 54, 70]);
+		expect(r.resolve('--bg-card', 'dark')).toEqual([27, 38, 44]);
 	});
 
 	it('фолбек у var() спрацьовує, коли токена немає', () => {

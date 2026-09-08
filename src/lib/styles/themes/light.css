@@ -1,30 +1,51 @@
+/*
+ * ДРУГИЙ АРГУМЕНТ КОЖНОЇ ПАРИ — ЦЕ ОСНОВНА ТЕМНА ТЕМА.
+ *
+ * Не окремий файл: `themes/dark.css` тільки пояснює, чому його немає. Значення
+ * темної живуть тут, бо `light-dark()` вибирає їх без жодного JS — тобто темний
+ * девайс отримує зв'язну тему навіть із заблокованим скриптом.
+ *
+ * 2026-09-08 темна сторона стала СТАЛЕВО-СИНЬОЮ (`--palette-steel-*`) замість
+ * navy: автор подивився основну темну поруч із тестовою `dev-test-dark-01` і
+ * попросив помінятися кольорами. Navy поїхала в `themes/dark-blue.css` — саме
+ * туди, звідки прийшла синя. Світла сторона пар при цьому не змінилася ЖОДНА.
+ */
 :root, .light-theme {
 	/* Semantic Backgrounds */
-	--bg-page: light-dark(var(--palette-white), var(--palette-navy-page));
-	--bg-surface: light-dark(var(--palette-cyan-50), var(--palette-navy-900));
-	--bg-card: light-dark(var(--palette-white), var(--palette-navy-page));
-	--bg-header: light-dark(var(--palette-cyan-50), color-mix(in srgb, var(--palette-navy-900), transparent 10%));
-	--bg-footer: light-dark(var(--palette-cyan-50), var(--palette-navy-900));
+	--bg-page: light-dark(var(--palette-white), var(--palette-steel-900));
+	--bg-surface: light-dark(var(--palette-cyan-50), var(--palette-steel-700));
+	--bg-card: light-dark(var(--palette-white), var(--palette-steel-900));
+	--bg-header: light-dark(var(--palette-cyan-50), color-mix(in srgb, var(--palette-steel-700), transparent 10%));
+	--bg-footer: light-dark(var(--palette-cyan-50), var(--palette-steel-700));
 	
 	/* Semantic Text */
-	--text-main: light-dark(var(--palette-navy-500), var(--palette-cyan-50));
-	--text-title: light-dark(var(--palette-navy-page), var(--palette-blue));
-	--text-muted: light-dark(var(--palette-navy-500), var(--palette-cyan-100));
-	/* navy-900, а не білий: білий на --palette-blue (#00b5ec) дає контраст
-	   2.38:1 при потрібних 4.5:1 — axe позначав це як serious на кожній
-	   картці й кнопці. Той самий синій із темним текстом дає 6.82:1, тож
-	   фірмовий колір лишається, змінюється лише текст на ньому. */
-	--text-on-accent: var(--palette-navy-900);
+	--text-main: light-dark(var(--palette-navy-500), var(--palette-steel-100));
+	--text-title: light-dark(var(--palette-navy-page), var(--palette-steel-100));
+	/* steel-300, а не steel-500: #3282B8 на піднятій поверхні #0F4C75 не
+	   дотягує до 4.5:1, тож другорядний текст бере проміжний тон — 7.77 на
+	   сторінці й 4.57 на поверхні. */
+	--text-muted: light-dark(var(--palette-navy-500), var(--palette-steel-300));
+	/* Обидві сторони темні, і кожна зі своєї причини.
+	   Світла: білий на --palette-blue (#00b5ec) дає 2.38:1 при потрібних 4.5:1 —
+	   axe позначав це як serious на кожній картці й кнопці; той самий синій із
+	   темним текстом дає 6.82:1.
+	   Темна: тлом акцентних кнопок там світлий steel-100, і темний текст на
+	   ньому дає 11.22:1. */
+	--text-on-accent: light-dark(var(--palette-navy-900), var(--palette-steel-900));
 	
 	/* Semantic Accents */
-	--accent-primary: var(--palette-blue);
-	--accent-secondary: var(--palette-yellow);
+	/* У темній акцент — НАЙСВІТЛІШИЙ тон, а не середній синій: --accent-primary
+	   тут ТЛО кнопок, а на #3282B8 не читається ні темний текст (3.69), ні
+	   світлий (4.18). Тому середній синій лишився другим акцентом і межами. */
+	--accent-primary: light-dark(var(--palette-blue), var(--palette-steel-100));
+	--accent-secondary: light-dark(var(--palette-yellow), var(--palette-steel-500));
 	/* Акцент, придатний як КОЛІР ТЕКСТУ, а не як тло.
 	   Фірмовий #00b5ec на білому дає 2.38:1, на --bg-surface (#E5F7FD) — 2.16:1,
 	   тобто напис майже зникає. navy-500 із тієї ж синьої родини дає 5.95:1 і
-	   5.4:1 відповідно. У решті тем тло під таким текстом темне, тому там
-	   --accent-text дорівнює самому акценту й нічого не змінює. */
-	--accent-text: light-dark(var(--palette-navy-500), var(--accent-primary));
+	   5.4:1 відповідно.
+	   У темній це steel-200 (9.35 і 5.50), а не сам акцент steel-100: інакше
+	   акцентний напис зливався б з основним текстом, який теж steel-100. */
+	--accent-text: light-dark(var(--palette-navy-500), var(--palette-steel-200));
 	
 	/* Component Specific */
 	--header-nav-link: var(--accent-primary);
@@ -36,12 +57,15 @@
 	   #00242F на #003646 — контраст 1.15:1, тобто текст зникав. Білий на
 	   #003646 дає 13:1. Оголошено в усіх чотирьох темах, бо в темній тло
 	   при наведенні майже біле, і світлий текст зник би там так само. */
-	--text-on-nav-active: light-dark(var(--palette-white), var(--palette-navy-900));
-	--btn-all-bg: light-dark(var(--palette-blue), var(--text-title));
+	--text-on-nav-active: light-dark(var(--palette-white), var(--palette-steel-900));
+	--btn-all-bg: light-dark(var(--palette-blue), var(--palette-steel-700));
 	--footer-text: light-dark(var(--palette-navy-page), var(--text-main));
 
 	/* Interactive */
-	--border-main: light-dark(var(--palette-cyan-200), var(--palette-navy-600));
+	/* Межа темної теми — напівпрозорий світлий тон, а не окремий колір: на
+	   сторінці й на піднятій поверхні вона має бути видна однаково, а сталий
+	   тон читався б лише на одній із двох. */
+	--border-main: light-dark(var(--palette-cyan-200), rgb(187 225 250 / 0.18));
 	/*
 	 * НЕ через `light-dark()`: у парі різна ГЕОМЕТРІЯ, а не лише колір
 	 * (UI-UX-v9 § 1.5.1.3, `UIUX-LIGHT-DARK-COLOR-ONLY`).
@@ -66,5 +90,5 @@
 	   amber-700, а не amber-500 (#f59e0b, що стояв фолбеком): #f59e0b на білому
 	   дає 2.1:1 при потрібних 4.5:1, і це текст 0.8rem — тобто саме той розмір,
 	   для якого поріг не пом'якшується. */
-	--warning-color: light-dark(#b45309, #fbbf24);
+	--warning-color: light-dark(#b45309, #f59e0b);
 }
