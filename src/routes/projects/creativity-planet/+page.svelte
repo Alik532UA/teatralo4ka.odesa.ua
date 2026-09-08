@@ -4,15 +4,11 @@
 	import { goto, pushState } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
-	import { CircleDot, LayoutGrid, Columns2, Plus } from 'lucide-svelte';
+	import { Plus } from 'lucide-svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
-	import MasterViewToggle, { type ViewOption } from '$lib/components/adults/MasterViewToggle.svelte';
-	import PlanetOrbits from '$lib/components/planet/PlanetOrbits.svelte';
-	import PlanetGrid from '$lib/components/planet/PlanetGrid.svelte';
 	import PlanetSplit from '$lib/components/planet/PlanetSplit.svelte';
-	import { createViewState } from '$lib/services/galaxyViewMode.svelte';
 	import {
 		cachedGraduateProfile,
 		ensureGraduateProfile
@@ -53,42 +49,23 @@
 	const мова_uk = $derived<'uk' | 'en'>($мова === 'en' ? 'en' : 'uk');
 
 	/**
-	 * ТРИ РОЗКЛАДКИ, між якими перемикається людина.
-	 *
-	 * ## Чому три, а не одна найкраща
+	 * РОЗКЛАДКА ОДНА, і це вибір автора.
 	 *
 	 * Доти обличчя стояли спіраллю за золотим кутом, і 2026-09-08 автор надіслав
 	 * знімок: із одинадцяти імен читалися п'ять. Спіраль ідеальна для НАСІНИН —
 	 * однакових кружечків без підписів; наш «кружечок» має підпис завширшки як
 	 * три обличчя, і саме він накладався. З ростом числа учнів ставало б гірше.
 	 *
-	 * Але полагодити це «одним правильним способом» не виходить, бо в задачі два
-	 * бажання, які тягнуть у різні боки: щоб імена було видно ЗАВЖДИ і щоб
-	 * лишилася куля з обличчями. Тому варіантів три, і кожен чесно жертвує чимось
-	 * своїм:
+	 * У відповідь ми зробили три розкладки з перемикачем — щоб автор подивився й
+	 * обрав. Того ж дня він обрав «Планету й перелік», і решту прибрано разом із
+	 * перемикачем: елемент керування з одним пунктом нічим не керує, а два
+	 * непоказувані компоненти й далі їхали б у бандл.
 	 *
-	 *   `orbits` — куля лишається, імена приходять на наведення й фокус;
-	 *   `grid`   — імена завжди видно, куля стає знаком розділу;
-	 *   `split`  — і те, і те, ціною двох колонок замість однієї картини.
+	 * Чому саме ця виграла — у докблоці `PlanetSplit`; коротко: імена видно
+	 * завжди, і куля лишається.
 	 *
-	 * Спільне в усіх трьох — розкладка `utils/planetLayout`: обличчя меншає з
-	 * ростом групи, тож перекриття не буває за побудовою, а не за домовленістю.
-	 *
-	 * ## Чому вибір запам'ятовується
-	 *
-	 * Той самий механізм, що на переліках галактики (`createViewState`): людина
-	 * обирає раз, і сторінка відкривається так, як вона звикла. Ключ сховища —
-	 * через підкреслення, як `galaxy_festivals_view` поруч.
+	 * @see components/planet/PlanetSplit.svelte
 	 */
-	const PLANET_VIEWS = ['orbits', 'grid', 'split'] as const;
-	const вигляд = createViewState('planet_view', PLANET_VIEWS, 'orbits');
-
-	const ВАРІАНТИ = $derived<ReadonlyArray<ViewOption>>([
-		{ value: 'orbits', label: $t('planet.viewOrbits'), icon: CircleDot },
-		{ value: 'grid', label: $t('planet.viewGrid'), icon: LayoutGrid },
-		{ value: 'split', label: $t('planet.viewSplit'), icon: Columns2 }
-	]);
-
 	const адреса = (учень: { code?: string; slug: string }) =>
 		localizedPath(graduateProfilePath(graduateAddress(учень)), мова_uk);
 
@@ -176,24 +153,8 @@
 			</button>
 		</div>
 
-		<div class="planet-views">
-			<MasterViewToggle
-				viewMode={вигляд.current}
-				onchange={(m) => вигляд.set(m)}
-				options={ВАРІАНТИ}
-				label={$t('planet.viewLabel')}
-				testIdPrefix="creativity-planet-view"
-			/>
-		</div>
-
 		<div class="planet-wrap">
-			{#if вигляд.current === 'grid'}
-				<PlanetGrid students={STUDENTS} onopen={відкрити} />
-			{:else if вигляд.current === 'split'}
-				<PlanetSplit students={STUDENTS} onopen={відкрити} />
-			{:else}
-				<PlanetOrbits students={STUDENTS} onopen={відкрити} />
-			{/if}
+			<PlanetSplit students={STUDENTS} onopen={відкрити} />
 		</div>
 	</div>
 </section>
@@ -270,19 +231,9 @@
 	}
 
 	/*
-	 * САМА ПЛАНЕТА ЖИВЕ В КОМПОНЕНТАХ, а не тут.
-	 *
-	 * Куля, обличчя й підписи переїхали в `components/planet/*`: розкладок стало
-	 * три, і спільний стиль у сторінці означав би, що правка під одну мовчки
-	 * міняє дві інші. Тут лишилося те, що спільне для всіх трьох, — місце під
-	 * розкладку й перемикач над нею.
+	 * САМА ПЛАНЕТА ЖИВЕ В КОМПОНЕНТАХ, а не тут: куля, обличчя й підписи — у
+	 * `components/planet/*`. Сторінці лишається місце під них.
 	 */
-	.planet-views {
-		display: flex;
-		justify-content: flex-end;
-		margin: 0 0 0.75rem;
-	}
-
 	/* Запрошення стоїть під заголовком, а не по центру сторінки: воно тепер
 	   вступ, а не післямова. Тому вирівнювання ліворуч, як у заголовка. */
 	.planet-invite {

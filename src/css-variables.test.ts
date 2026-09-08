@@ -46,8 +46,8 @@ const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
 		why: 'те саме для відступу під крапками: 2rem під шапкою сторінки й нуль усередині плашки'
 	},
 	'--face': {
-		declaredIn: 'src/lib/components/planet/PlanetGrid.svelte',
-		why: 'розмір обличчя учня задає РОЗКЛАДКА, а не саме обличчя: на кулі (`PlanetSphere`) він рахується з кількості учнів і заміряної ширини кулі (`fitFaceFraction`) і приходить інлайновим стилем у `cqw`, у сітці це `clamp` від ширини, у переліку імен — сталі 34 px. Оголошення в самому `PlanetFace` перебило б успадковане значення й зрівняло б усі три'
+		declaredIn: 'src/lib/components/planet/PlanetSplit.svelte',
+		why: 'розмір обличчя учня задає РОЗКЛАДКА, а не саме обличчя: на кулі (`PlanetSphere`) він рахується з кількості учнів і заміряної ширини кулі (`fitFaceFraction`) і приходить інлайновим стилем у `cqw`, а в переліку імен поруч це сталі 34 px. Оголошення в самому `PlanetFace` перебило б успадковане значення й зрівняло б обидва місця'
 	},
 	'--focus-card-width': {
 		declaredIn: 'src/lib/components/ContentWidget.svelte',

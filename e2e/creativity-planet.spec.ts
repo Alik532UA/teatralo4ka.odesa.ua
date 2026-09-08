@@ -136,74 +136,107 @@ test.describe('планета творчості', () => {
 	});
 
 	/**
-	 * ТРИ РОЗКЛАДКИ — і головне про кожну з них.
+	 * ГОЛОВНЕ ПРО РОЗКЛАДКУ: ніщо ні на кого не налазить.
 	 *
 	 * Перевірка з'явилася 2026-09-08 за знімком автора: обличчя стояли спіраллю
-	 * й накладалися підписами, з одинадцяти імен читалися п'ять. Тому тут не
-	 * «перемикач перемикає», а те, заради чого його зробили: НІЧОГО НЕ
-	 * ПЕРЕКРИВАЄТЬСЯ, і ім'я кожного учня можна дістати в кожній розкладці.
+	 * й накладалися підписами, з одинадцяти імен читалися п'ять. Тоді ми зробили
+	 * три розкладки на вибір; того ж дня автор обрав «Планету й перелік», і
+	 * решту прибрано. Перевірка лишилася тією самою по суті — вона про малюнок,
+	 * а не про перемикач.
 	 */
-	test('у кожній розкладці обличчя не перекриваються, а імена доступні', async ({ page }) => {
+	test('обличчя не перекриваються, і кожен учень на кулі', async ({ page }) => {
 		await gotoReady(page, ПЛАНЕТА);
 
-		for (const вигляд of ['orbits', 'grid', 'split'] as const) {
-			await page.getByTestId(`creativity-planet-view-btn-${вигляд}`).click();
-
-			/* Усі учні на місці — у будь-якій розкладці. */
-			for (const учень of УЧНІ) {
-				await expect(
-					page.getByTestId(`creativity-planet-${учень.slug}-btn`),
-					`${учень.name} зник у розкладці ${вигляд}`
-				).toBeVisible();
-			}
-
-			/*
-			 * Попарне порівняння КІЛ, а не прямокутників.
-			 *
-			 * Обличчя круглі, і в перших редакціях цієї перевірки стояло
-			 * перетинання рамок — воно дало хибну тривогу одразу: два кола по
-			 * діагоналі одне від одного не торкаються, а їхні рамки
-			 * перетинаються кутами. Тому міряється відстань між центрами, і
-			 * порівнюється вона з півсумою діаметрів — тобто рівно з тим, що
-			 * видно очима. Допуск 1 px — округлення розкладки.
-			 */
-			const накладки = await page.evaluate((учні: { slug: string; name: string }[]) => {
-				const кола = учні.map((у) => {
-					/* Перший span усередині кнопки — саме обличчя, у всіх трьох розкладках. */
-					const r = document
-						.querySelector(`[data-testid="creativity-planet-${у.slug}-btn"] span`)!
-						.getBoundingClientRect();
-					return { ім: у.name, x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
-				});
-				const знайдені: string[] = [];
-				for (let i = 0; i < кола.length; i++) {
-					for (let j = i + 1; j < кола.length; j++) {
-						const a = кола[i];
-						const b = кола[j];
-						const треба = (a.d + b.d) / 2 - 1;
-						const є = Math.hypot(a.x - b.x, a.y - b.y);
-						if (є < треба) знайдені.push(`${a.ім} ↔ ${b.ім}: ${Math.round(є)} < ${Math.round(треба)}`);
-					}
-				}
-				return знайдені;
-			}, УЧНІ.map((у) => ({ slug: у.slug, name: у.name })));
-			expect(накладки, `у розкладці ${вигляд} обличчя налазять одне на одне`).toEqual([]);
+		for (const учень of УЧНІ) {
+			await expect(
+				page.getByTestId(`creativity-planet-${учень.slug}-btn`),
+				`${учень.name} зник із кулі`
+			).toBeVisible();
 		}
+
+		/*
+		 * Попарне порівняння КІЛ, а не прямокутників.
+		 *
+		 * Обличчя круглі, і в перших редакціях цієї перевірки стояло перетинання
+		 * рамок — воно дало хибну тривогу одразу: два кола по діагоналі одне від
+		 * одного не торкаються, а їхні рамки перетинаються кутами. Тому міряється
+		 * відстань між центрами, і порівнюється вона з півсумою діаметрів — тобто
+		 * рівно з тим, що видно очима. Допуск 1 px — округлення розкладки.
+		 */
+		const накладки = await page.evaluate((учні: { slug: string; name: string }[]) => {
+			const кола = учні.map((у) => {
+				/* Перший span усередині кнопки — саме обличчя. */
+				const r = document
+					.querySelector(`[data-testid="creativity-planet-${у.slug}-btn"] span`)!
+					.getBoundingClientRect();
+				return { ім: у.name, x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
+			});
+			const знайдені: string[] = [];
+			for (let i = 0; i < кола.length; i++) {
+				for (let j = i + 1; j < кола.length; j++) {
+					const a = кола[i];
+					const b = кола[j];
+					const треба = (a.d + b.d) / 2 - 1;
+					const є = Math.hypot(a.x - b.x, a.y - b.y);
+					if (є < треба) знайдені.push(`${a.ім} ↔ ${b.ім}: ${Math.round(є)} < ${Math.round(треба)}`);
+				}
+			}
+			return знайдені;
+		}, УЧНІ.map((у) => ({ slug: у.slug, name: у.name })));
+		expect(накладки, 'обличчя налазять одне на одне').toEqual([]);
 	});
 
-	test('вибір розкладки переживає перезавантаження', async ({ page }) => {
+	/**
+	 * НАВЕДЕННЯ ПОКАЗУЄ ІМ'Я В ДВОХ МІСЦЯХ ОДРАЗУ.
+	 *
+	 * Прохання автора: підсвічувати учня в переліку — це вже працювало — і
+	 * ПОКАЗУВАТИ ім'я під самим обличчям, прізвищем з нового рядка. Другого не
+	 * було: плашка з іменем стояла лише в розкладці «Орбіти», яку прибрано.
+	 *
+	 * Два рядки перевіряються не текстом, а ГЕОМЕТРІЄЮ: два `span` з різним
+	 * `top` — це і є перенос. Порівнювати рядки марно, бо один `textContent`
+	 * однаковий і для «Марина Чебан», і для «Марина
+Чебан».
+	 */
+	test('наведення на обличчя показує ім’я двома рядками й підсвічує в переліку', async ({
+		page
+	}, testInfo) => {
+		test.skip(testInfo.project.name === 'mobile', 'на дотику наведення немає — там натиск');
 		await gotoReady(page, ПЛАНЕТА);
-		await page.getByTestId('creativity-planet-view-btn-grid').click();
-		await gotoReady(page, ПЛАНЕТА);
-		await expect(page.getByTestId('creativity-planet-view-btn-grid')).toHaveAttribute(
-			'aria-pressed',
-			'true'
-		);
+
+		const учень = УЧНІ.find((у) => у.name.includes(' ')) ?? УЧНІ[0];
+		await page.getByTestId(`creativity-planet-${учень.slug}-btn`).hover();
+
+		/*
+		 * Через локатор, а не одним `evaluate`: плашка проявляється переходом, і
+		 * зчитаний одразу після наведення `opacity` — це середина анімації, тобто
+		 * майже нуль. Перша редакція перевірки саме на цьому й почервоніла.
+		 * `toHaveCSS` перепитує, доки перехід не добіжить.
+		 */
+		const плашка = page.getByTestId(`creativity-planet-${учень.slug}-tooltip`);
+		await expect(плашка, 'плашки з іменем не видно').toHaveCSS('opacity', '1');
+
+		const стан = await плашка.evaluate((el) => {
+			const рядки = [...el.querySelectorAll('span')];
+			return {
+				рядків: рядки.length,
+				різнийРівень:
+					рядки.length === 2 &&
+					рядки[1].getBoundingClientRect().top > рядки[0].getBoundingClientRect().top
+			};
+		});
+
+		expect(стан.рядків, 'ім’я не розбите на два рядки').toBe(2);
+		expect(стан.різнийРівень, 'прізвище стоїть у тому самому рядку').toBe(true);
+
+		await expect(
+			page.getByTestId(`creativity-planet-name-${учень.slug}-btn`),
+			'у переліку учня не підсвічено'
+		).toHaveClass(/is-active/);
 	});
 
-	test('у розкладці «планета й перелік» пошук звужує імена', async ({ page }) => {
+	test('пошук звужує перелік імен', async ({ page }) => {
 		await gotoReady(page, ПЛАНЕТА);
-		await page.getByTestId('creativity-planet-view-btn-split').click();
 
 		const перелік = page.getByTestId('creativity-planet-names-list');
 		await expect(перелік.locator('li')).toHaveCount(УЧНІ.length);
@@ -212,6 +245,62 @@ test.describe('планета творчості', () => {
 		await page.getByTestId('creativity-planet-search-input').fill(УЧНІ[0].name.split(' ')[0]);
 		await expect(перелік.locator('li')).toHaveCount(1);
 		await expect(перелік).toContainText(УЧНІ[0].name);
+	});
+
+	/**
+	 * У КОГО НЕМАЄ ФОТО — КВІТКА БЕЗ КОЛА.
+	 *
+	 * Прохання автора, і концепція та сама, що в галактиці: «у кого є фото, буде
+	 * мати більше місця, ніж ті, хто фото немає». Доти квітка сиділа в такому
+	 * самому колі, як портрет, — тобто порожній запис важив на малюнку рівно
+	 * стільки ж, скільки заповнений.
+	 *
+	 * Місце під обличчя при цьому те саме — від нього залежить, що ніхто ні на
+	 * кого не налазить, і саме тому воно тут теж заміряне.
+	 */
+	test('без фото — квітка без кола, з фото — коло; місце в обох те саме', async ({ page }) => {
+		await gotoReady(page, ПЛАНЕТА);
+
+		/*
+		 * Наявність фото питається в DOM, а не в реєстрі: у самому
+		 * `graduates.index.json` цього поля немає — воно виводиться при читанні.
+		 * Заразом перевірка не застаріє, коли учні почнуть надсилати знімки:
+		 * правило звіряється для КОЖНОГО, і кожен потрапляє у свою гілку.
+		 */
+		const огляд = await page.evaluate((слаги: string[]) =>
+			слаги.map((слаг) => {
+				const face = document.querySelector(
+					`[data-testid="creativity-planet-${слаг}-btn"] span`
+				)!;
+				const с = getComputedStyle(face);
+				return {
+					слаг,
+					зФото: Boolean(face.querySelector('img')),
+					тло: с.backgroundColor,
+					рамка: parseFloat(с.borderTopWidth),
+					тінь: с.boxShadow,
+					ширина: Math.round(face.getBoundingClientRect().width)
+				};
+			}),
+		УЧНІ.map((у) => у.slug));
+
+		const прозоре = /rgba\(0, 0, 0, 0\)|transparent/;
+		const біди: string[] = [];
+		for (const о of огляд) {
+			if (о.зФото) {
+				if (о.рамка === 0) біди.push(`${о.слаг}: портрет без кола`);
+			} else {
+				if (!прозоре.test(о.тло)) біди.push(`${о.слаг}: під квіткою тло ${о.тло}`);
+				if (о.рамка !== 0) біди.push(`${о.слаг}: під квіткою рамка ${о.рамка}px`);
+				if (о.тінь !== 'none') біди.push(`${о.слаг}: під квіткою тінь`);
+			}
+			/* Місце те саме в обох випадках — на ньому тримається відсутність накладок. */
+			if (о.ширина < 30) біди.push(`${о.слаг}: місце під обличчя лише ${о.ширина}px`);
+		}
+		expect(біди, біди.join('\n')).toEqual([]);
+
+		/* Перевірка жива: хоч один учень без фото на сторінці таки є. */
+		expect(огляд.some((о) => !о.зФото), 'усі з фото — гілка квітки не перевірена').toBe(true);
 	});
 
 	test('натискання відкриває картку з власною адресою і без року випуску', async ({
