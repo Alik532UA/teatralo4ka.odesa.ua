@@ -58,6 +58,15 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-08: `GraduateProfileView.svelte` 1641 → 1639. Стелю ОПУЩЕНО, і сталося
+ *   це посеред правки, яка мала її підняти. Автор попросив дві речі: щоб знак
+ *   відділення стояв посередині між знімком і іменем, а підказка виїжджала від
+ *   СВОГО знака, а не від краю картки. Разом це давало +6 рядків.
+ *   Натомість виявилося, що після переносу точки відліку на сам знак ряду
+ *   більше не потрібні ні `position: relative`, ні `width: 100%` — вони
+ *   тримали саме стару прив'язку, — а проміжок до знака поміщається в
+ *   `calc(100% + 0.35rem)` замість окремої пари `margin`. Мінус вісім рядків
+ *   там, де їх тримала скасована ідея.
  * 2026-09-07: `GraduateProfileView.svelte` 1615 → 1635. Двадцять рядків —
  *   плашка «Фотографії» на сторінці випускника: ключ блока, рядок у порядку
  *   читання, умова показу, обчислення переліку й сама плашка. Показ у ній не
@@ -539,7 +548,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1641,
+	'src/lib/components/GraduateProfileView.svelte': 1639,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
