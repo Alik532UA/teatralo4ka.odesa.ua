@@ -90,11 +90,14 @@
 		{#each місця as місце (students[місце.index].id)}
 			{@const учень = students[місце.index]}
 			{@const частини = розбити(учень.name)}
+			{@const значок = частка > 0.12 ? 28 : 18}
 			<button
 				type="button"
 				class="pupil"
 				class:is-active={active === учень.id}
-				style="left: {місце.x}%; top: {місце.y}%;"
+				style="left: {місце.x}%; top: {місце.y}%; --tip-from: {учень.hasPhoto
+					? 'var(--face, 72px)'
+					: `${значок}px`};"
 				aria-label={учень.name}
 				onclick={() => onopen(учень)}
 				onpointerenter={() => onactive(учень.id)}
@@ -103,7 +106,7 @@
 				onblur={() => onactive(null)}
 				data-testid="{testIdPrefix}-{учень.slug}-btn"
 			>
-				<PlanetFace student={учень} icon={частка > 0.12 ? 28 : 18} />
+				<PlanetFace student={учень} icon={значок} />
 				<span class="pupil__tip" data-testid="{testIdPrefix}-{учень.slug}-tooltip">
 					<span>{частини.імʼя}</span>
 					{#if частини.прізвище}<span>{частини.прізвище}</span>{/if}
@@ -141,24 +144,51 @@
 		aspect-ratio: 1;
 		border-radius: 50%;
 		border: 1px solid var(--border-main);
+		/*
+		 * КУЛЯ ОДНОГО КОЛЬОРУ, а не суміш трьох.
+		 *
+		 * Доти вона малювалася так: 45 % `--accent-primary` плямою згори, 38 %
+		 * `--accent-secondary` плямою знизу, і все це поверх `--bg-surface`. У
+		 * синьо-блакитних темах виходило гарно — бо всі три кольори з однієї
+		 * родини. У решти — бруд, і автор назвав саме ці дві:
+		 *
+		 *   жовта: акцент #9ADCFF (блакитний) 45 % поверх жовтого #FFF89A —
+		 *     блакитний і жовтий доповняльні, а їхня суміш це болотяний;
+		 *   темно-бірюзова: #00ADB5 поверх сірого #393E46 — каламутна бірюза.
+		 *
+		 * Тобто дефект не в підборі відсотків: змішувати ДОВІЛЬНІ два кольори
+		 * теми й сподіватися на чистий результат не можна в принципі.
+		 *
+		 * Тому тепер тіло кулі — це `--bg-surface` і НІЩО ІНШЕ, а об'єм робить
+		 * світло: та сама поверхня, освітлена (домішка білого) і затінена
+		 * (домішка чорного). Біле й чорне не мають власного тону, тож
+		 * забруднити ними неможливо — вони лише світлішають і темнішають.
+		 *
+		 * Акцент лишився, але як ВІДБЛИСК: 20 % у точці, звідки падає світло.
+		 * Стільки видно як колірний характер теми й замало, щоб перефарбувати
+		 * кулю.
+		 *
+		 * `in oklab`, а не `in srgb`: змішування в sRGB темнішає через сірий
+		 * (жовтий + чорний у sRGB дає брудніший тон, ніж має бути), а oklab
+		 * міняє яскравість, лишаючи тон на місці. Різниця найпомітніша саме на
+		 * жовтому — тобто в тій темі, з якої все й почалося.
+		 */
 		background:
 			radial-gradient(
-				circle at 32% 28%,
-				color-mix(in srgb, var(--accent-primary) 45%, transparent),
-				transparent 58%
+				circle at 30% 24%,
+				color-mix(in oklab, var(--accent-primary) 20%, transparent),
+				transparent 52%
 			),
 			radial-gradient(
-				circle at 68% 78%,
-				color-mix(in srgb, var(--accent-secondary) 38%, transparent),
-				transparent 62%
-			),
-			linear-gradient(
-				160deg,
-				color-mix(in srgb, var(--accent-primary) 16%, var(--bg-surface)),
-				var(--bg-surface)
+				125% 125% at 30% 22%,
+				color-mix(in oklab, var(--bg-surface) 76%, #ffffff),
+				var(--bg-surface) 48%,
+				color-mix(in oklab, var(--bg-surface) 86%, #000000)
 			);
 		box-shadow:
-			inset 0 -30px 60px color-mix(in srgb, var(--text-title) 10%, transparent),
+			/* Нижній край підбирає тінь — тим самим чорним, а не кольором теми:
+			   `--text-title` тут додавав би третій тон до вже освітленої кулі. */
+			inset 0 -26px 52px rgb(0 0 0 / 0.14),
 			var(--shadow-main);
 	}
 
@@ -189,7 +219,21 @@
 	 */
 	.pupil__tip {
 		position: absolute;
-		top: calc(100% + 0.3rem);
+		/*
+		 * Відлік від ВИДИМОГО, а не від зайнятого місця.
+		 *
+		 * `100%` — це нижній край `--face`, тобто прямокутника, який розкладка
+		 * тримає під обличчя. У портрета він і є коло, тож усе збігається. А от
+		 * у квітки, відколи навколо неї немає кола, всередині цього прямокутника
+		 * лишається порожньо: при обличчі 93 px сама квітка 28, і плашка
+		 * від’їжджала від неї на три десятки пікселів — саме це й видно на
+		 * знімку автора.
+		 *
+		 * Тому відлік іде від ЦЕНТРУ плюс половина того, що справді намальовано:
+		 * `--tip-from` ставить кнопка, і воно дорівнює або `--face`, або розміру
+		 * значка.
+		 */
+		top: calc(50% + var(--tip-from, var(--face, 72px)) / 2 + 0.3rem);
 		left: 50%;
 		translate: -50% 0;
 		display: grid;

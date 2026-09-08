@@ -82,6 +82,47 @@ test.describe('лабораторія кольорів', () => {
 		await expect(page.getByTestId('theme-lab-panel')).toHaveCount(0);
 	});
 
+
+	/**
+	 * ЗГОРНУТА ПІЛЮЛЯ — теж інструмент, а не значок.
+	 *
+	 * Автор написав: «натискаєш кнопку закрити — розгортається вікно». На
+	 * зібраній статиці послідовність була правильна, тобто справа не в
+	 * обробнику, а в розмірі й сусідстві: хрестик мав 33 × 36 px і стояв упритул
+	 * до вдесятеро ширшої кнопки «Кольори». Промах на два пікселі відкривав
+	 * вікно. Тому тут міряється ЦІЛЬ ДОТИКУ, а не лише те, що клік працює.
+	 */
+	test('пілюля рухається, і її хрестик прибирає лабораторію', async ({ page }) => {
+		await gotoReady(page, `${СТОРІНКА}?theme-lab=1`);
+		await page.getByTestId('theme-lab-close-btn').click();
+
+		const пілюля = page.getByTestId('theme-lab-mini-panel');
+		await expect(пілюля).toBeVisible();
+
+		/* Кожна кнопка пілюлі — не менша за ціль дотику WCAG 2.2 SC 2.5.8. */
+		const дрібні = await пілюля.evaluate((el) =>
+			[...el.querySelectorAll('button')]
+				.map((b) => ({ id: b.dataset.testid, h: b.getBoundingClientRect().height, w: b.getBoundingClientRect().width }))
+				.filter((b) => b.h < 44 || b.w < 24)
+		);
+		expect(дрібні, 'кнопка пілюлі дрібніша за палець').toEqual([]);
+
+		/* Перетягування за ручку. */
+		const до = (await пілюля.boundingBox())!;
+		const ручка = (await page.getByTestId('theme-lab-mini-move-btn').boundingBox())!;
+		await page.mouse.move(ручка.x + ручка.width / 2, ручка.y + ручка.height / 2);
+		await page.mouse.down();
+		await page.mouse.move(ручка.x - 300, ручка.y + 300, { steps: 8 });
+		await page.mouse.up();
+		const після = (await пілюля.boundingBox())!;
+		expect(Math.abs(після.x - до.x) + Math.abs(після.y - до.y), 'пілюля не зрушила').toBeGreaterThan(100);
+
+		/* І хрестик прибирає саме лабораторію, а не розгортає вікно. */
+		await page.getByTestId('theme-lab-hide-btn').click();
+		await expect(page.getByTestId('theme-lab-mini-panel')).toHaveCount(0);
+		await expect(page.getByTestId('theme-lab-panel'), 'хрестик розгорнув вікно замість прибрати').toHaveCount(0);
+	});
+
 	test('звичайний відвідувач лабораторії не бачить', async ({ page }) => {
 		/*
 		 * Перевірка жива саме цим: панель ХОВАЄТЬСЯ за жестом і адресою, а не

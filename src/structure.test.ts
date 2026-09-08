@@ -73,6 +73,12 @@ import { describe, expect, it } from 'vitest';
  *   знімком і зникали разом із нею: заміряно, без знімка 411 людей із 533, і в
  *   408 відділення в реєстрі є — значок не показувався трьом чвертям галактики
  *   при живих даних.
+ *   2026-09-08: 1640 → 1641. Один рядок — `margin` у колонки блокової
+ *   розкладки. Колонка прокручується (`overflow-y: auto`), а вікно прокрутки
+ *   ОБРІЗАЄ тінь плашок: автор надіслав знімок, де на заокругленому куті вона
+ *   зрізана прямою й читається трикутником. Поле під тінь без від'ємного
+ *   відступу з'їхало б усі плашки на 40 px усередину, тож рядків саме два —
+ *   `padding` замість наявного `padding: 0` і `margin` під нього.
  * 2026-09-07: `config/codeNews.ts` 283 → 284. Один рядок — `mediaShape: 'square'`
  *   новині про 30-й сезон. Типова плитка вертикальна (кадри зі сторіс), а там
  *   тридцять два з тридцяти чотирьох знімків горизонтальні: у вертикальній
@@ -533,7 +539,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1640,
+	'src/lib/components/GraduateProfileView.svelte': 1641,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
