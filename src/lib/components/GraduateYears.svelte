@@ -15,7 +15,7 @@
 	interface Props {
 		enrollmentYears: number[];
 		graduationYear: number | null;
-		/** Хто це для школи — від цього підпис: «випуск», «навчався до», «навчається». */
+		/** Хто це для школи — від цього підпис: «випуск», «навчання до», «навчається». */
 		kind?: GraduateKind;
 		isEn: boolean;
 	}
