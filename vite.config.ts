@@ -11,7 +11,7 @@ const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 
  * `closeBundle` кликав `generate-sitemap` у `try`, а `catch` знижував падіння до
  * `console.warn`. Але `generate-sitemap.ts` — це не генератор, а ГЕЙТ: він валить
  * збірку на адресі з `prerender.entries`, якої немає в `build/`, і на сторінці
- * без вмісту (SEO-v8 CRITICAL). Загорнутий у цей `catch`, він друкував
+ * без вмісту (SEO-v9 CRITICAL). Загорнутий у цей `catch`, він друкував
  * попередження й лишав `vite build` із кодом 0 — рівно те, від чого застерігає
  * коментар у `svelte.config.js` про `handleHttpError: 'fail'`: «попередження в
  * лозі збірки не бачить ніхто».

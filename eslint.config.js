@@ -5,7 +5,7 @@ import ts from 'typescript-eslint';
 import svelteConfig from './svelte.config.js';
 
 /**
- * Правила зібрані за CODE-QUALITY-v8 § 6.4 та SVELTE-CORE-v8 § 6.
+ * Правила зібрані за CODE-QUALITY-v9 § 6.4 та SVELTE-CORE-v9 § 6.
  *
  * Ідея не в тому, щоб увімкнути якнайбільше, а в тому, щоб анти-патерни
  * зі стандарту перестали бути текстом і стали помилкою збірки.
@@ -32,7 +32,7 @@ export default ts.config(
 	},
 	{
 		rules: {
-			// Анти-патерни SVELTE-CORE-v8: застарілі ідіоми Svelte 4 та SvelteKit < 2.12.
+			// Анти-патерни SVELTE-CORE-v9: застарілі ідіоми Svelte 4 та SvelteKit < 2.12.
 			// Без цього правила заборона лишається текстом у документі.
 			'no-restricted-imports': [
 				'error',
@@ -41,7 +41,7 @@ export default ts.config(
 						{
 							name: 'svelte/store',
 							importNames: ['writable', 'readable', 'derived'],
-							message: 'Svelte 5: використовуйте $state/$derived (SVELTE-CORE-v8, анти-патерни).'
+							message: 'Svelte 5: використовуйте $state/$derived (SVELTE-CORE-v9, анти-патерни).'
 						},
 						{
 							name: '$app/stores',
@@ -51,13 +51,13 @@ export default ts.config(
 				}
 			],
 
-			// SECURITY-v8 § 13
+			// SECURITY-v9 § 13
 			'no-eval': 'error',
 			'no-implied-eval': 'error',
 			'no-new-func': 'error',
 			'no-script-url': 'error',
 
-			// DEBUGGING-v8: логування йде через errorLogger, а не console.
+			// DEBUGGING-v9: логування йде через errorLogger, а не console.
 			//
 			// Було `warn` із поясненням «є місця, які ще не мігровані». Заміряно
 			// 2026-08-16: у застосунку таких місць НУЛЬ. Усі 12 попереджень жили в
@@ -66,21 +66,21 @@ export default ts.config(
 			//
 			// Тобто число не зменшувалося не тому, що борг не платять, а тому, що
 			// це був не борг. Борг у режимі `warn` мусить лише спадати
-			// (CODE-QUALITY-v8 § 6.4.1); попередження, яке не може дійти до нуля,
+			// (CODE-QUALITY-v9 § 6.4.1); попередження, яке не може дійти до нуля,
 			// вчить не читати вивід lint — того самого класу, що `off`.
 			//
 			// Тому: скриптам правило вимкнене нижче окремим блоком із причиною, а
 			// для решти — `error`, бо порушень нуль.
 			'no-console': ['error', { allow: ['warn', 'error'] }],
 
-			// CODE-QUALITY-v8 § 1: any заборонений, але вимикати збірку на наявних
+			// CODE-QUALITY-v9 § 1: any заборонений, але вимикати збірку на наявних
 			// випадках не можна — тому warn, і список має скорочуватися.
 			//
 			// 31 на момент увімкнення правила, 39 на 2026-08-14. Число зросло, і
 			// це рівно те, заради чого `warn` стоїть замість `off`: борг видно.
 			'@typescript-eslint/no-explicit-any': 'warn',
 
-			// CODE-QUALITY-v8 § 1: `@ts-ignore` без записаної причини. Останнє
+			// CODE-QUALITY-v9 § 1: `@ts-ignore` без записаної причини. Останнє
 			// правило базового набору § 6.4.1, якого тут бракувало; знахідок нуль,
 			// тож одразу error.
 			'@typescript-eslint/ban-ts-comment': 'error',
@@ -95,10 +95,10 @@ export default ts.config(
 				}
 			],
 
-			// Компіляторні a11y-попередження Svelte (ACCESSIBILITY-v8 § 10.5).
+			// Компіляторні a11y-попередження Svelte (ACCESSIBILITY-v9 § 10.5).
 			'svelte/valid-compile': 'error',
 
-			// I18N-v8 § 4.3, HIGH: форматування без явної локалі.
+			// I18N-v9 § 4.3, HIGH: форматування без явної локалі.
 			//
 			// Без аргументу метод бере локаль СИСТЕМИ, а не мову сайту. Помилка
 			// невидима саме там, де її шукають: у розробника система українська,
@@ -118,22 +118,22 @@ export default ts.config(
 					selector:
 						"CallExpression[arguments.length=0][callee.property.name=/^toLocale(String|DateString|TimeString)$/]",
 					message:
-						'I18N-v8 § 4.3: передайте локаль явно — без неї береться локаль системи, а не мова сайту.'
+						'I18N-v9 § 4.3: передайте локаль явно — без неї береться локаль системи, а не мова сайту.'
 				}
 			],
 
-			// SVELTE-CORE-v8 § 1.5. Було 8 місць у режимі warn. Два з них були
+			// SVELTE-CORE-v9 § 1.5. Було 8 місць у режимі warn. Два з них були
 			// справжнім станом і переїхали на SvelteSet; решта шість — локальні
 			// тимчасові колекції, які взагалі не мали бути реактивними, і кожна
 			// має поруч записану причину. Тепер error.
 			'svelte/prefer-svelte-reactivity': 'error',
 
-			// SECURITY-v8 § 5.3. Кожен {@html} у проєкті — виняток із записаною
+			// SECURITY-v9 § 5.3. Кожен {@html} у проєкті — виняток із записаною
 			// причиною і `eslint-disable-next-line` поруч. Тепер error: новий
 			// {@html} без такого коментаря не пройде lint, а отже і CI.
 			'svelte/no-at-html-tags': 'error',
 
-			// SVELTE-UI-v8, HIGH. Було 60 місць у режимі warn — усі мігровані,
+			// SVELTE-UI-v9, HIGH. Було 60 місць у режимі warn — усі мігровані,
 			// тож правило підняте до error і назад воно вже не опуститься.
 			// Ціна ключа не нульова: дублікат кидає помилку в рантаймі, а не на
 			// збірці. Тому ключі взято з полів, які код і так вважає унікальними
@@ -208,7 +208,7 @@ export default ts.config(
 		 * розробником та логом CI рівно через stdout. `errorLogger` їм недосяжний
 		 * за визначенням: він частина клієнтського застосунку.
 		 *
-		 * Межа файлова, а не проєктна — саме як вимагає CODE-QUALITY-v8 § 6.4.1.
+		 * Межа файлова, а не проєктна — саме як вимагає CODE-QUALITY-v9 § 6.4.1.
 		 */
 		files: ['scripts/**', '*.config.ts', '*.config.js'],
 		rules: {
@@ -244,7 +244,7 @@ export default ts.config(
 	},
 
 	/**
-	 * STORAGE-NAMESPACE-v8, Крок 3: прямий доступ до Web Storage заборонений.
+	 * STORAGE-NAMESPACE-v9, Крок 3: прямий доступ до Web Storage заборонений.
 	 *
 	 * Origin спільний із сусідніми проєктами, тож ключ без префікса — це не
 	 * дрібниця, а чужі дані. Доти заборона трималася лише на рядку в AGENTS.md,
@@ -258,13 +258,13 @@ export default ts.config(
 		rules: {
 			'no-restricted-globals': [
 				'error',
-				{ name: 'localStorage', message: 'STORAGE-NAMESPACE-v8: лише через фасад storage.' },
-				{ name: 'sessionStorage', message: 'STORAGE-NAMESPACE-v8: лише через фасад storage.' }
+				{ name: 'localStorage', message: 'STORAGE-NAMESPACE-v9: лише через фасад storage.' },
+				{ name: 'sessionStorage', message: 'STORAGE-NAMESPACE-v9: лише через фасад storage.' }
 			],
 			'no-restricted-properties': [
 				'error',
-				{ object: 'window', property: 'localStorage', message: 'STORAGE-NAMESPACE-v8: лише через фасад storage.' },
-				{ object: 'window', property: 'sessionStorage', message: 'STORAGE-NAMESPACE-v8: лише через фасад storage.' }
+				{ object: 'window', property: 'localStorage', message: 'STORAGE-NAMESPACE-v9: лише через фасад storage.' },
+				{ object: 'window', property: 'sessionStorage', message: 'STORAGE-NAMESPACE-v9: лише через фасад storage.' }
 			]
 		}
 	},
