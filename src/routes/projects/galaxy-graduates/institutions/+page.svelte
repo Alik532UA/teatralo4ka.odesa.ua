@@ -90,9 +90,8 @@
 <main class="insts-page" data-testid="galaxy-institutions-panel">
 	<div class="container">
 				<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
-			backLabel={$t('galaxy.playsTitle')}
-			backTestId="galaxy-institutions-back-link"
+			withTrail
+			trailTestId="galaxy-institutions-from-link"
 			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			forwardLabel={$t('galaxy.title')}
 			forwardTestId="galaxy-institutions-galaxy-link"

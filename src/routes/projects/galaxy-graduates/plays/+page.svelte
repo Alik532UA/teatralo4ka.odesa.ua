@@ -201,9 +201,8 @@
 <main class="plays-page" data-testid="galaxy-plays-panel">
 	<div class="container">
 				<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
-			backLabel={$t('galaxy.backToGroups')}
-			backTestId="galaxy-plays-back-link"
+			withTrail
+			trailTestId="galaxy-plays-from-link"
 			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			forwardLabel={$t('galaxy.title')}
 			forwardTestId="galaxy-plays-galaxy-link"

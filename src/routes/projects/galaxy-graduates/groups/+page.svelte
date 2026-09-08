@@ -186,9 +186,8 @@
 <main class="groups-page" data-testid="graduate-groups-panel">
 	<div class="container">
 				<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
-			backLabel={$t('galaxy.backToFestivals')}
-			backTestId="galaxy-groups-back-link"
+			withTrail
+			trailTestId="galaxy-groups-from-link"
 			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			forwardLabel={$t('galaxy.title')}
 			forwardTestId="galaxy-groups-galaxy-link"

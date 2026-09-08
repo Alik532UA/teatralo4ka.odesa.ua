@@ -41,6 +41,8 @@
 	<div class="container">
 				<GalaxyBreadcrumb
 			variant="plain"
+			withTrail
+			trailTestId="play-from-link"
 			backHref={localizedPath('/projects/galaxy-graduates/plays/', currentLang)}
 			backLabel={$t('galaxy.backToPlays')}
 			backTestId="play-back-link"

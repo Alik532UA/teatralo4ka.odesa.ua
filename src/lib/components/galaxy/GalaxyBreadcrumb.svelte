@@ -1,12 +1,24 @@
 <script lang="ts">
 	import { ArrowLeft, ArrowRight } from 'lucide-svelte';
+	import { page } from '$app/state';
 	import type { ResolvedPathname } from '$app/types';
+	import { samePage, trail } from '$lib/services/trail.svelte';
 
 	interface Props {
-		/** Куди «назад» — уже з мовним префіксом (`localizedPath`). */
-		backHref: ResolvedPathname;
-		backLabel: string;
-		backTestId: string;
+		/**
+		 * Куди «назад» — уже з мовним префіксом (`localizedPath`).
+		 *
+		 * Необов'язкове: на п'яти переліках галактики статичного «назад» немає
+		 * взагалі. Доти кожен із них вів у ВИПАДКОВОГО сусіда — фестивалі в групи,
+		 * групи у фестивалі, вистави в групи, заклади у вистави, театри в заклади.
+		 * Ланцюга ніхто не проєктував: це п'ять незалежних копій, кожна вказала
+		 * туди, куди спало на думку авторові тієї сторінки. Вхід у всі п'ять
+		 * розділів і так є з самої галактики (`GalaxyStageControls`), тож нічого
+		 * не загубилося.
+		 */
+		backHref?: ResolvedPathname;
+		backLabel?: string;
+		backTestId?: string;
 		/**
 		 * Куди «вперед», зазвичай у саму галактику.
 		 *
@@ -30,6 +42,16 @@
 		 * пропом, а не зник.
 		 */
 		variant?: 'pill' | 'plain';
+		/**
+		 * Показувати крихту «звідки прийшов» перед рештою.
+		 *
+		 * Вмикається на десяти сторінках галактики й НЕ вмикається на статистиці
+		 * та планеті творчості: у тих двох «назад» веде у справжнього батька
+		 * («Галактика», «Усі проєкти»), тобто там нічого не бреше й доповнювати
+		 * нічого.
+		 */
+		withTrail?: boolean;
+		trailTestId?: string;
 	}
 
 	let {
@@ -39,8 +61,28 @@
 		forwardHref,
 		forwardLabel,
 		forwardTestId,
-		variant = 'pill'
+		variant = 'pill',
+		withTrail = false,
+		trailTestId
 	}: Props = $props();
+
+	/**
+	 * Крихта «звідки прийшов» — тільки та, що справді вела сюди (див. `trail`).
+	 *
+	 * Порожня до гідрації: у prerender-HTML сліду немає й бути не може.
+	 */
+	const крок = $derived(withTrail && trailTestId ? trail.forPath(page.url.pathname) : null);
+
+	/**
+	 * ДУБЛІ НЕ ПОКАЗУЮТЬСЯ.
+	 *
+	 * Прийшли на виставу з переліку вистав — і крихта сказала б «Вистави та
+	 * ролі» рівно там, де поруч уже стоїть «Всі вистави». Те саме з галактикою
+	 * праворуч. У цих випадках слід нічого не додає, тож його немає.
+	 */
+	const слід = $derived(
+		крок && !samePage(крок.path, backHref) && !samePage(крок.path, forwardHref) ? крок : null
+	);
 </script>
 
 <!--
@@ -48,11 +90,27 @@
 	Розбір, чому винесено й скільком це дорівнює, — у докблоці стилів нижче.
 -->
 <nav class="crumbs clears-logo" class:crumbs--plain={variant === 'plain'} aria-label="Breadcrumb">
-	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-	<a href={backHref} class="crumbs__link" data-testid={backTestId}>
-		<ArrowLeft size={18} aria-hidden="true" />
-		<span>{backLabel}</span>
-	</a>
+	{#if слід}
+		<!-- Адреса зі сліду — рядок з історії переходів, а не константа маршруту. -->
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a href={слід.href} class="crumbs__link" data-testid={trailTestId}>
+			<ArrowLeft size={18} aria-hidden="true" />
+			<span>{слід.label}</span>
+		</a>
+	{/if}
+
+	{#if backHref && backLabel && backTestId}
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a href={backHref} class="crumbs__link" data-testid={backTestId}>
+			<!-- Стрілка одна на рядок і належить ПЕРШІЙ крихті: коли перед «всіма
+			     виставами» став слід, друга стрілка ліворуч читалася б як другий
+			     «назад», хоча веде на крок ближче. -->
+			{#if !слід}
+				<ArrowLeft size={18} aria-hidden="true" />
+			{/if}
+			<span>{backLabel}</span>
+		</a>
+	{/if}
 
 	{#if forwardHref && forwardLabel && forwardTestId}
 		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -100,10 +158,15 @@
 	 * тож при зведенні прибрані: та сторінка тепер виглядає як інші. Це єдина
 	 * видима зміна від виносу.
 	 */
+	/*
+	 * Не `justify-content: space-between`: крихт буває одна, дві або три, і при
+	 * трьох «space-between» відкидало б середню на середину рядка, а при одній
+	 * ліпило б її ліворуч. Праву крихту тримає власний авто-відступ — тоді ліві
+	 * стоять поруч через `gap` незалежно від їхньої кількості.
+	 */
 	.crumbs {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
 		gap: 0.75rem;
 		margin-bottom: 1.5rem;
 	}
@@ -129,6 +192,9 @@
 	}
 	/* Уперед — і зсув під курсором теж уперед: та сама відповідь руху на бік,
 	   у який веде посилання. */
+	.crumbs__link--forward {
+		margin-left: auto;
+	}
 	.crumbs__link--forward:hover {
 		transform: translateX(3px);
 	}

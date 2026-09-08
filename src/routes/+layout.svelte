@@ -34,6 +34,7 @@
 	import { webVitals } from '$lib/controllers/webVitals.svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { installViewTransitions } from '$lib/utils/viewTransition';
+	import { installTrail } from '$lib/utils/installTrail';
 
 	let { children, data } = $props();
 
@@ -45,6 +46,10 @@
 	// analytics itself, so there is no separate onMount call to order against.
 	afterNavigate(() => trackPageView());
 	installViewTransitions();
+	// Запам'ятовує сторінку, з якої зроблено перехід, — для крихти «звідки прийшов».
+	// Тут, а не в службовому шарі: `beforeNavigate` реєструється лише під час
+	// ініціалізації компонента, і це той самий випадок, що `installViewTransitions`.
+	installTrail();
 
 	/**
 	 * Клас, що ховає нативну смугу, має рівно одного власника — цей ефект.

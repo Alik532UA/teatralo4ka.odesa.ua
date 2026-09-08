@@ -80,6 +80,8 @@
 	<div class="container">
 		<!-- Хлібні крихти та навігація -->
 				<GalaxyBreadcrumb
+			withTrail
+			trailTestId="group-from-link"
 			backHref={localizedPath('/projects/galaxy-graduates/groups/', currentLang)}
 			backLabel={$t('galaxy.backToGroups')}
 			backTestId="group-back-link"

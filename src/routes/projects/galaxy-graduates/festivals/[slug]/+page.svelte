@@ -81,6 +81,8 @@
 <main class="fest-page" data-testid="festival-panel">
 	<div class="container">
 				<GalaxyBreadcrumb
+			withTrail
+			trailTestId="festival-from-link"
 			backHref={localizedPath('/projects/galaxy-graduates/festivals/', currentLang)}
 			backLabel={$t('galaxy.backToFestivals')}
 			backTestId="festival-back-link"
