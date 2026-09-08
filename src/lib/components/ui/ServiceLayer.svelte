@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { dev } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { locale } from 'svelte-i18n';
 	import { get } from 'svelte/store';
 	import { ui } from '$lib/controllers/ui.svelte';
@@ -11,6 +11,7 @@
 	import { debugMode } from '$lib/services/debugMode.svelte';
 	import { earlyShows, EARLY_URL_PARAM } from '$lib/services/earlyShows.svelte';
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
+	import { themeLab, THEME_LAB_URL_PARAM } from '$lib/services/themeLab.svelte';
 	import { page } from '$app/state';
 	import {
 		adultsVisibility,
@@ -20,6 +21,7 @@
 	import { isLocale, localizedPath, DEFAULT_LOCALE, type Locale } from '$lib/i18n/routing';
 	import { nextTheme } from '$lib/config/themes';
 	import ServiceBadge from './ServiceBadge.svelte';
+	import ThemeLab from './ThemeLab.svelte';
 
 	/**
 	 * Поточна мова для службових переходів.
@@ -121,6 +123,31 @@
 	});
 
 	/**
+	 * Серія `D` (7 натискань) — лабораторія кольорів для дизайнера.
+	 *
+	 * `D` вільна: піаніно читає її як ноту, але тільки поки відкрите, і від цього
+	 * серії захищає `isKeyboardCaptured` — той самий захист, через який колись
+	 * сім однакових нот вели з піаніно в «Галактику випускників».
+	 *
+	 * Сім, а не п'ятдесят п'ять: жест нічого не знищує й нічого не публікує —
+	 * найгірше, що станеться від випадкового набору, це смуга праворуч, яку
+	 * закривають хрестиком.
+	 */
+	const themeLabSequence = createKeySequence({
+		code: 'KeyD',
+		threshold: 7,
+		onComplete: () => themeLab.toggle()
+	});
+
+	/*
+	 * Кольори з минулого разу лягають на документ одразу, ще до відкриття панелі.
+	 *
+	 * `onMount`, а не `$effect`: ефект читав би той самий стан, який `hydrate()`
+	 * записує, і Svelte падав із `effect_update_depth_exceeded` — заміряно.
+	 */
+	onMount(() => themeLab.hydrate());
+
+	/**
 	 * Той самий розділ, але адресою: `?adults=1` показує, `?adults=0` ховає.
 	 *
 	 * **Чому не лише на сторінці «Дорослих».** Тоді посилання довелося б диктувати
@@ -168,12 +195,32 @@
 		if (asked !== null) earlyShows.setVisible(asked);
 	});
 
+	/*
+	 * Лабораторія адресою: `?theme-lab=1` відкриває, `?theme-lab=0` закриває.
+	 *
+	 * Не «ще один спосіб про всяк випадок», а ЄДИНИЙ, який працює там, де
+	 * дизайнер сидить: на планшеті клавіатури немає, тобто сім натискань `D`
+	 * недосяжні в принципі. Те саме правило вже застосоване до `?adults` і
+	 * `?early` вище — жест не буває єдиним входом.
+	 */
+	let appliedLabParam: string | null = null;
+
+	$effect(() => {
+		const raw = page.url.searchParams.get(THEME_LAB_URL_PARAM);
+		if (raw === appliedLabParam) return;
+		appliedLabParam = raw;
+
+		const asked = visibilityFromUrl(raw);
+		if (asked !== null) themeLab.setMode(asked ? 'open' : 'hidden');
+	});
+
 	onDestroy(() => {
 		versionSequence.reset();
 		resetSequence.reset();
 		galaxySequence.reset();
 		adultsSequence.reset();
 		earlyShowsSequence.reset();
+		themeLabSequence.reset();
 	});
 
 	function handleKeydown(event: KeyboardEvent) {
@@ -193,6 +240,7 @@
 		galaxySequence.handle(event);
 		adultsSequence.handle(event);
 		earlyShowsSequence.handle(event);
+		themeLabSequence.handle(event);
 
 		/*
 		 * WCAG SC 2.1.4, рівень A (HOTKEYS-v9 § 3, `HK-WCAG-CHARACTER-KEY`).
@@ -225,3 +273,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <ServiceBadge />
+
+{#if themeLab.mode !== 'hidden'}
+	<ThemeLab />
+{/if}
