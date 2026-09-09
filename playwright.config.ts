@@ -60,9 +60,38 @@ export default defineConfig({
 	 * (основна аудиторія), mobile — англійською. Обидві розкладки проходять
 	 * повний набір, окремого прогону не потрібно.
 	 */
+	/**
+	 * Сетап-проєкт перед двома браузерними (CI-CD-AND-TOOLS-v9,
+	 * `CI-E2E-TARGET-IDENTITY`).
+	 *
+	 * Перевірка тотожності жила першим тестом у `smoke.spec.ts`, і цього
+	 * недостатньо: при `fullyParallel: true` «перший у файлі» не означає
+	 * «перший у прогоні» — решта файлів іде одночасно з ним. Тобто на чужому
+	 * або застарілому сервері встигали відпрацювати сотні перевірок, перш ніж
+	 * хтось помічав підміну. `dependencies` дає те, чого не дає порядок у
+	 * файлі: при червоному сетапі браузерні проєкти не стартують зовсім.
+	 *
+	 * `testIgnore` у них обов'язковий: без нього кожен браузерний проєкт
+	 * прогнав би сетап ще раз, уже як звичайний тест.
+	 */
 	projects: [
-		{ name: 'chromium', use: { ...devices['Desktop Chrome'], locale: 'uk-UA' } },
-		{ name: 'mobile', use: { ...devices['Pixel 7'], locale: 'en-US' } }
+		{
+			name: 'setup',
+			testMatch: /identity\.setup\.ts$/,
+			use: { ...devices['Desktop Chrome'], locale: 'uk-UA' }
+		},
+		{
+			name: 'chromium',
+			dependencies: ['setup'],
+			testIgnore: /\.setup\.ts$/,
+			use: { ...devices['Desktop Chrome'], locale: 'uk-UA' }
+		},
+		{
+			name: 'mobile',
+			dependencies: ['setup'],
+			testIgnore: /\.setup\.ts$/,
+			use: { ...devices['Pixel 7'], locale: 'en-US' }
+		}
 	],
 
 	webServer: {
