@@ -80,6 +80,22 @@ const гейти = МІСЦЯ.flatMap((місце) => {
 
 console.log(`🚦 швидкі гейти: ${гейти.length} файлів із ${МІСЦЯ.join(', ')}`);
 
+/**
+ * Спершу — чи всі файли перевірок узагалі в прогоні.
+ *
+ * `npm test` кличе це через `pretest`, але `test:gates` — це інший скрипт, і
+ * `pretest` до нього не застосовується. Без цього рядка звужена маска
+ * `include` проходила б крізь гачок перед комітом непоміченою, а помічалася б
+ * аж у CI (AI-AGENT-PITFALLS-v9, `PIT-TEST-DISCOVERY-PROCESS`).
+ *
+ * Окремим процесом, як і в `pretest`: перевірка правдивості маски не має
+ * права залежати від маски.
+ */
+const виявлення = spawnSync(process.execPath, ['scripts/check-test-discovery.mjs'], {
+	stdio: 'inherit'
+});
+if (виявлення.status !== 0) process.exit(виявлення.status ?? 1);
+
 const { status } = spawnSync('npx', ['vitest', 'run', ...гейти], {
 	stdio: 'inherit',
 	shell: process.platform === 'win32'

@@ -121,101 +121,47 @@ describe('файли перевірок', () => {
 });
 
 /**
- * Маска `include` раннера не викидає жодного файлу перевірки
- * (AI-AGENT-PITFALLS-v9 § 1.2).
+ * Проводка перевірки маски `include` (AI-AGENT-PITFALLS-v9, `PIT-TEST-DISCOVERY-PROCESS`).
  *
- * Це третій випадок, гірший за порожню заглушку й за перевірку, що дивиться
- * поруч: файл написаний правильно, ловить саму помилку — і НЕ ВХОДИТЬ У ПРОГІН.
- * У виводі немає ні падіння, ні згадки про нього, а підсумковий рядок звітує
- * успіх по тому, що лишилося.
+ * Сама перевірка «жоден файл не випав із маски» жила тут — і саме тут їй не
+ * місце. Вона доводила правдивість маски `include`, лежачи ПІД цією маскою:
+ * досить звузити `include` у `vitest.config.ts`, і зникає не лише десяток
+ * перевірок, а й та єдина, яка мала про це сказати. Прогін лишається зеленим,
+ * «N passed» просто менше. Тест «маска сама себе покриває», який тут стояв як
+ * пом'якшення, не рятує з тієї самої причини: щоб упасти, він мусить
+ * виконатися.
  *
- * `test-runners.test.ts` вище цього не бачить за побудовою: він перевіряє, що в
- * проєкті є раннер, чий API файл імпортує, — а не те, що раннер цей файл
- * ПІДХОПИТЬ. Різниця конкретна: маска цього проєкту — `src/**` плюс
- * `vitest/support/**\/*.test.ts`. Другий шаблон покриває лише ОДИН суфікс, тож
- * `vitest/support/tokens.spec.ts` зник би мовчки, і `npm test` лишився б зеленим.
+ * Тому логіка переїхала в `scripts/check-test-discovery.mjs` — окремий процес,
+ * який npm запускає через `pretest`, тобто ПЕРЕД vitest, а `scripts/gates.mjs`
+ * кличе перед гачком коміту.
  *
- * Зворотний експеримент (§ 1.1): звузити маску в `vitest.config.ts` до
- * `src/**\/*.spec.ts` — перевірка мусить перелічити всі `*.test.ts` проєкту.
+ * Лишилося стерегти зворотний бік: скрипт, якого ніхто не кличе, — той самий
+ * клас дефекту навпаки. Це й робить блок нижче. Два власники різних боків
+ * однієї гарантії, і жоден не може мовчки знищити другого.
  */
-describe('маска include', () => {
-	const CONFIG = 'vitest.config.ts';
+describe('перевірка виявлення підключена окремим процесом', () => {
+	const СКРИПТ = 'scripts/check-test-discovery.mjs';
+	const пакет = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')) as {
+		scripts?: Record<string, string>;
+	};
 
-	/** Літерали з `include: [...]` у конфігу раннера. */
-	function includeGlobs(): string[] {
-		const source = readFileSync(join(ROOT, CONFIG), 'utf8');
-		const list = /\binclude\s*:\s*\[([^\]]*)\]/.exec(source)?.[1] ?? '';
-		return [...list.matchAll(/['"`]([^'"`]+)['"`]/g)].map((m) => m[1]);
-	}
-
-	/** Літерал регексу з довільного тексту. */
-	function quote(text: string): string {
-		return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-	}
-
-	/**
-	 * Glob у регекс — одним проходом.
-	 *
-	 * Розкривати `{a,b}` окремим `replace` до екранування не можна: наступний
-	 * прохід екранує вже й дужки з `|` розкритої групи, і шаблон перестає
-	 * збігатися з чим завгодно. Перша редакція цієї перевірки саме так і впала
-	 * на власному файлі — тобто canary нижче зробив свою роботу.
-	 */
-	function globToRegExp(glob: string): RegExp {
-		let out = '';
-		let i = 0;
-		while (i < glob.length) {
-			const rest = glob.slice(i);
-			if (rest.startsWith('**/')) {
-				out += '(?:[^/]+/)*';
-				i += 3;
-			} else if (rest.startsWith('**')) {
-				out += '.*';
-				i += 2;
-			} else if (rest.startsWith('*')) {
-				out += '[^/]*';
-				i += 1;
-			} else if (rest.startsWith('{')) {
-				const close = rest.indexOf('}');
-				if (close === -1) {
-					out += quote('{');
-					i += 1;
-				} else {
-					out += `(?:${rest.slice(1, close).split(',').map(quote).join('|')})`;
-					i += close + 1;
-				}
-			} else {
-				out += quote(glob[i]);
-				i += 1;
-			}
-		}
-		return new RegExp(`^${out}$`);
-	}
-
-	const globs = includeGlobs();
-
-	it('перевірка жива: маску в конфігу знайдено', () => {
-		expect(globs.length, `у ${CONFIG} не знайдено include — перевіряти нема чим`).toBeGreaterThan(0);
+	it('файл перевірки виявлення лежить на диску', () => {
+		expect(existsSync(join(ROOT, СКРИПТ)), `${СКРИПТ} зник — маску не перевіряє ніхто`).toBe(true);
 	});
 
-	it('кожен файл перевірки Vitest потрапляє в маску', () => {
-		const patterns = globs.map(globToRegExp);
-		const playwrightDir = playwrightTestDir();
-
-		const missed = specFiles
-			// Файли Playwright має свій testDir — його перевіряє describe вище.
-			.filter((file) => !(playwrightDir && file.startsWith(`${playwrightDir}/`)))
-			.filter((file) => !patterns.some((pattern) => pattern.test(file)));
-
+	it('`pretest` кличе його, тобто він іде перед кожним `npm test`', () => {
+		const pretest = пакет.scripts?.pretest ?? '';
 		expect(
-			missed,
-			`ці файли не потрапляють у прогін — «N passed» їх не рахує:\n${missed.join('\n')}`
-		).toEqual([]);
+			pretest.includes(СКРИПТ),
+			`у package.json немає \`pretest\`, що кличе ${СКРИПТ} — зараз там: «${pretest}»`
+		).toBe(true);
 	});
 
-	it('маска сама себе покриває — інваріант у прогоні', () => {
-		const self = 'src/test-runners.test.ts';
-		expect(specFiles, 'сканер не знайшов сам себе — шлях змінився').toContain(self);
-		expect(globs.map(globToRegExp).some((pattern) => pattern.test(self))).toBe(true);
+	it('гачок перед комітом теж його кличе', () => {
+		// `pretest` не поширюється на `test:gates`: npm вішає pre-хук на ім'я
+		// скрипта, а не на все, що всередині. Без цього рядка звужена маска
+		// проходила б крізь гачок і помічалася б аж у CI.
+		const gates = readFileSync(join(ROOT, 'scripts/gates.mjs'), 'utf8');
+		expect(gates.includes(СКРИПТ), `scripts/gates.mjs не кличе ${СКРИПТ}`).toBe(true);
 	});
 });
