@@ -552,3 +552,161 @@ describe('install у CI не глушить перевірку peer-залежн
 		expect(files.length, 'у .github/workflows немає жодного yml').toBeGreaterThan(0);
 	});
 });
+
+/**
+ * Порядок кроків деплою (`CI-DEPLOY-ORDER`, HIGH).
+ *
+ * Питання одне: чи вивантажується той самий `build/`, який зібрав крок збірки.
+ * Між ними стоїть E2E, і саме там ховається дефект, якого не видно в дифі:
+ * досить комусь замінити `npx playwright test` на `npm run test:e2e` — а це
+ * природний рух, скрипт же для того й існує, — як перед тестами піде ДРУГА
+ * збірка. Друга збірка робиться без `env:` кроку `Build for school`, тобто без
+ * жодного `VITE_FIREBASE_*`, і саме її вивід поїде на хостинг. Сайт при цьому
+ * зібрався, розгорнувся, віддає сторінки — і не має доступу до бази.
+ *
+ * Перелік небезпечних команд НЕ вписаний рукою: він виводиться з
+ * `package.json` — які скрипти транзитивно кличуть `vite build`. Вписаний
+ * перелік застаріває мовчки, а виведений сам приймає новий скрипт, що збирає
+ * (`CDB-GATE-FROM-CODE` — той самий принцип: випадки гейта з коду, а не з
+ * уявлення про код).
+ */
+describe('порядок кроків деплою (CI-CD-AND-TOOLS-v9, CI-DEPLOY-ORDER)', () => {
+	/** Скрипти, що транзитивно доходять до `vite build`, тобто пишуть у `build/`. */
+	const збирають = (() => {
+		const прямі = new Set(
+			Object.keys(scripts).filter((s) => /(^|\s|&&\s*)vite build\b/.test(scripts[s] ?? ''))
+		);
+		// Транзитивність: `test:e2e` кличе `npm run build`, і це видно лише через
+		// другий прохід. Фіксована точка, а не один рівень — ланцюжок буває довшим.
+		let росте = true;
+		while (росте) {
+			росте = false;
+			for (const [ім, тіло] of Object.entries(scripts)) {
+				if (прямі.has(ім)) continue;
+				for (const відомий of прямі) {
+					if (new RegExp(`npm run ${відомий}(?![:\\w-])`).test(тіло)) {
+						прямі.add(ім);
+						росте = true;
+						break;
+					}
+				}
+			}
+		}
+		return прямі;
+	})();
+
+	/** Кроки job, у якому лежить вивантаження артефакту сторінок. */
+	const кроки = files
+		.flatMap((file) => stepsOf(byFile.get(file) ?? '').map((s) => ({ ...s, file })))
+		.filter((s) => s.file === 'deploy.yml');
+
+	const індексЗбірки = кроки.findIndex((s) => /run:[^\n]*npm run build(?![:\w-])/.test(s.body));
+	const індексВивантаження = кроки.findIndex((s) => /uses:[^\n]*upload-pages-artifact/.test(s.body));
+
+	it('перевірка жива: крок збірки й крок вивантаження знайдено', () => {
+		expect(збирають.size, 'із package.json не виведено жодного скрипта, що збирає').toBeGreaterThan(
+			0
+		);
+		expect(індексЗбірки, 'у deploy.yml не знайдено кроку з `npm run build`').toBeGreaterThanOrEqual(
+			0
+		);
+		expect(
+			індексВивантаження,
+			'у deploy.yml не знайдено кроку з `upload-pages-artifact`'
+		).toBeGreaterThan(індексЗбірки);
+	});
+
+	it('між збіркою й вивантаженням ніхто не перезбирає build/', () => {
+		const між = кроки.slice(індексЗбірки + 1, індексВивантаження);
+		const винні: string[] = [];
+		for (const крок of між) {
+			const run = /run:([\s\S]*?)(?:\n\s{6}[a-z-]+:|$)/.exec(крок.body)?.[1] ?? '';
+			for (const скрипт of збирають) {
+				if (new RegExp(`npm run ${скрипт}(?![:\\w-])`).test(run)) {
+					винні.push(`«${крок.name}» кличе \`npm run ${скрипт}\``);
+				}
+			}
+			if (/(^|\s)(vite build|rm -rf build|rimraf build)\b/.test(run)) {
+				винні.push(`«${крок.name}» пише в build/ напряму`);
+			}
+		}
+		expect(
+			винні,
+			'вивантажиться НЕ той build/, який зібрав крок збірки — зокрема без ' +
+				`env: із секретами Firebase:\n${винні.join('\n')}`
+		).toEqual([]);
+	});
+});
+
+/**
+ * Рантайм дій GitHub (`CI-ACTION-RUNTIME`, MEDIUM).
+ *
+ * Номер релізу дії НЕ говорить про її рантайм. `upload-artifact@v5` і
+ * `configure-pages@v5` стоять на `node20`, який вийшов з підтримки 2026-04-30;
+ * дізнатися це можна лише з `runs.using` у їхньому `action.yml`. Тобто «взяли
+ * найсвіжіший мажор» — не аргумент, і саме тому тут перелік, а не діапазон.
+ *
+ * Перелік — це домовленість «цей мажор я відкривав і бачив рантайм». Новий
+ * `uses:` або підняття мажора валить прогін доти, доки автор не подивиться в
+ * `action.yml` і не впише сюди рядок разом із датою перевірки. Дешевше за
+ * годину пошуку, чому деплой почав попереджати про EOL-рантайм.
+ *
+ * Записи нижче зроблено 2026-09-10 читанням `action.yml` за тегом мажора
+ * (`raw.githubusercontent.com/<дія>/<мажор>/action.yml`), а не з опису релізу.
+ */
+describe('рантайм дій CI (CI-CD-AND-TOOLS-v9, CI-ACTION-RUNTIME)', () => {
+	/** Дія → мажори, чий `action.yml` відкривали. Значення — що там побачили. */
+	const ПЕРЕВІРЕНІ: Record<string, Record<string, string>> = {
+		'actions/checkout': { v7: 'runs.using: node24 (перевірено 2026-09-10)' },
+		'actions/setup-node': { v7: 'runs.using: node24 (перевірено 2026-09-10)' },
+		'actions/setup-java': { v5: 'runs.using: node24 (перевірено 2026-09-10)' },
+		'actions/cache': { v6: 'runs.using: node24 (перевірено 2026-09-10)' },
+		'actions/upload-artifact': { v7: 'runs.using: node24 (перевірено 2026-09-10)' },
+		'actions/configure-pages': { v6: 'runs.using: node24 (перевірено 2026-09-10)' },
+		// Composite ховає рантайм у діях, які кличе сам: усередині
+		// `actions/upload-artifact` 7.0.0, тобто той самий node24.
+		'actions/upload-pages-artifact': { v5: 'composite → upload-artifact 7.0.0 (2026-09-10)' },
+		'actions/deploy-pages': { v5: 'runs.using: node24 (перевірено 2026-09-10)' }
+	};
+
+	const вжиті = files.flatMap((file) =>
+		[...(byFile.get(file) ?? '').matchAll(/uses:\s*([\w.-]+\/[\w.-]+)@(v\d+)/g)].map((m) => ({
+			file,
+			дія: m[1],
+			мажор: m[2]
+		}))
+	);
+
+	it('перевірка жива: `uses:` у workflow знайдено', () => {
+		expect(вжиті.length, 'у workflow немає жодного `uses:` — розбір зламався').toBeGreaterThan(5);
+	});
+
+	it('кожен мажор дії стоїть у переліку перевірених', () => {
+		const невідомі = [
+			...new Set(
+				вжиті
+					.filter(({ дія, мажор }) => !ПЕРЕВІРЕНІ[дія]?.[мажор])
+					.map(({ дія, мажор }) => `${дія}@${мажор}`)
+			)
+		].sort();
+		expect(
+			невідомі,
+			'номер релізу не говорить про рантайм — відкрити `action.yml` цього ' +
+				'мажора, подивитися `runs.using` і вписати рядок у перелік:\n' +
+				невідомі.join('\n')
+		).toEqual([]);
+	});
+
+	it('перелік перевірених не містить зайвого', () => {
+		// Той самий храповик, що й у стелях розміру: запис, який більше нікого не
+		// стосується, перетворює перелік на музей і ховає наступний невідомий мажор.
+		const у_вжитку = new Set(вжиті.map(({ дія, мажор }) => `${дія}@${мажор}`));
+		const зайві: string[] = [];
+		for (const [дія, мажори] of Object.entries(ПЕРЕВІРЕНІ)) {
+			for (const мажор of Object.keys(мажори)) {
+				if (!у_вжитку.has(`${дія}@${мажор}`)) зайві.push(`${дія}@${мажор}`);
+			}
+		}
+		expect(зайві, `у переліку є мажори, яких немає в workflow:\n${зайві.join('\n')}`).toEqual([]);
+	});
+});
