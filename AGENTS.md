@@ -272,7 +272,7 @@ npm run firebase:whoami # перевірити, під ким CLI
 ```
 npm run check          # svelte-check, має бути 0 помилок і 0 попереджень
 npm run lint           # eslint, має бути 0 помилок
-npm test               # юніт-інваріанти vitest (129 файлів; число під гейтом doc-numbers)
+npm test               # юніт-інваріанти vitest (130 файлів; число під гейтом doc-numbers)
 npm run build:masters  # збірка веб-аватарів та постерів із assets/masters-raw/
 npm run bump-version   # автоінкремент версії
 npm run build          # збірка сайту; postbuild перевіряє sitemap і бандл
