@@ -73,15 +73,6 @@ function parseRobots(text: string): RobotsGroup[] {
   return groups;
 }
 
-function htmlFiles(dir: string, out: string[] = []): string[] {
-  for (const entry of fs.readdirSync(dir)) {
-    const full = path.join(dir, entry);
-    if (fs.statSync(full).isDirectory()) htmlFiles(full, out);
-    else if (entry.endsWith(".html")) out.push(full);
-  }
-  return out;
-}
-
 const isFile = (p: string) => fs.existsSync(p) && fs.statSync(p).isFile();
 
 function main() {
@@ -92,21 +83,12 @@ function main() {
     process.exit(1);
   }
 
-  // --- рівно ОДИН <meta name="robots"> на сторінку (§ 7.3) ---
-  //
-  // `<svelte:head>` ДОПИСУЄ до `<head>`, а не заміщує в ньому: тег в
-  // `app.html` і тег зі сторінки співіснують. Два теги з протилежним змістом
-  // («index, follow» і «noindex») — це не помилка збірки й не попередження,
-  // а мовчазна суперечність, яку розв'язує краулер на власний розсуд.
-  for (const file of htmlFiles(BUILD_DIR)) {
-    const tags =
-      fs.readFileSync(file, "utf8").match(/<meta[^>]+name="robots"/g) ?? [];
-    if (tags.length > 1) {
-      problems.push(
-        `${file.split(path.sep).join("/")}: <meta name="robots"> знайдено ${tags.length} разів, очікується 1`,
-      );
-    }
-  }
+  // Дубль `<meta name="robots">` перевірявся тут, а тепер — у
+  // `check-head-owners.ts` разом із рештою тегів, у яких друге значення
+  // заперечує перше (canonical, description, og:*). Причина переїзду не в
+  // охайності: тутешня перевірка дивилася на ВЕСЬ файл, а не на `<head>`, і
+  // не знала про заглушки перенаправлення, тобто мала два різні сліпі місця
+  // від сусідньої. Одне правило — один власник, зокрема й серед гейтів.
 
   // --- llms.txt (§ 7.1) ---
   const llmsPath = path.join(BUILD_DIR, "llms.txt");
