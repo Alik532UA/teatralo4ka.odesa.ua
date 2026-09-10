@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — предикат дивиться на живий `<img>` і його предків.
 import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';

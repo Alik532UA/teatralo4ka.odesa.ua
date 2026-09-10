@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — дросель перевірки версії читає `navigator.onLine` і адресу вкладки.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { storage } from './storage';
 

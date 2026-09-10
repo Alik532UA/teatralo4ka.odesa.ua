@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — контролер підписується на `matchMedia` і пише в `documentElement`.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';

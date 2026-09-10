@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — повноекранний режим — це API самого документа.
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { fullscreen } from './fullscreen.svelte';
 

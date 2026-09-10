@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — розбирає справжню подію кліку та її ланцюжок предків.
 import { describe, expect, it, afterEach } from 'vitest';
 import { emailFromHref, resolveMailtoClick } from './mailtoLink';
 

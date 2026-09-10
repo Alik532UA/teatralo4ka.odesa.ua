@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — створює елементи оверлею смуги і знімає з них слухачів.
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { customScroll } from './customScroll';
 import { ui } from '$lib/controllers/ui.svelte';

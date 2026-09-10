@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — збирає фокусовані елементи в справжньому дереві, разом із рамкою чужого документа.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { focusableWithin, nextTrapTarget } from './focusTrap';
 

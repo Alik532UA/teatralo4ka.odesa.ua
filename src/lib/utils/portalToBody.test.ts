@@ -1,3 +1,4 @@
+// @vitest-environment jsdom — переносить вузол у `document.body` і прибирає його за собою.
 import { describe, it, expect } from 'vitest';
 import { portalToBody } from './portalToBody';
 
