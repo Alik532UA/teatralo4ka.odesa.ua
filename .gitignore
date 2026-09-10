@@ -54,3 +54,5 @@ pubsub-debug.log
 
 # Перелік адрес для Lighthouse: пише postbuild зі збірки, у репозиторії не потрібен
 .lighthouse-urls.json
+# Звіти LHCI: у CI їх забирає артефакт, локально це сміття після кожного прогону
+.lighthouseci/
