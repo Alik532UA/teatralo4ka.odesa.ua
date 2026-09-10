@@ -416,6 +416,7 @@
 			"itsYou": "IT'S YOU",
 			"accesses": "Accesses:",
 			"noProjects": "No assigned projects.",
+			"removeAccess": "Remove access to the project",
 			"save": "Save",
 			"unsavedChanges": "unsaved changes",
 			"confirmDeleteTitle": "Delete Confirmation",

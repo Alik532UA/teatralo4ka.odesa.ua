@@ -458,7 +458,7 @@
 		<div class="modal-content" style="max-width: 600px;" onclick={(e) => e.stopPropagation()} role="presentation">
 			<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
 				<h3 style="margin: 0;">{$t('admin.editor.uploadInstructionTitle')}</h3>
-				<button class="btn btn-sm btn-outline" onclick={() => showUploadInfo = false}><XCircle size={20} /></button>
+				<button class="btn btn-sm btn-outline" aria-label={$t('common.closeModal')} onclick={() => showUploadInfo = false}><XCircle size={20} /></button>
 			</div>
 			<div style="display: flex; flex-direction: column; gap: 1rem; font-size: 0.95rem; line-height: 1.6;">
 				<p>{$t('admin.editor.uploadInstructionText')}</p>

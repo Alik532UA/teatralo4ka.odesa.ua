@@ -658,7 +658,7 @@
 						<div class="v3-project-title">
 							<strong>{projectId}</strong>
 							{#if !isSelf(user.id) && canManageProject(projectId, pData.role)}
-								<button class="btn-icon" onclick={() => removeProjectAccess(user, projectId)}><X size={14} /></button>
+								<button class="btn-icon" aria-label={$t('admin.users.removeAccess')} onclick={() => removeProjectAccess(user, projectId)}><X size={14} /></button>
 							{/if}
 						</div>
 						<Select
