@@ -8,6 +8,7 @@
 		GraduationCap,
 		Calendar
 	} from 'lucide-svelte';
+	import { showsCountryName } from '$lib/data/festivals';
 	import type { PageData } from './$types';
 	import { graduationCaption } from '$lib/data/graduates';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
@@ -107,8 +108,19 @@
 				{/if}
 				{#each data.festival.countries as code (code)}
 					<span class="fest-badge" data-testid="festival-where-badge-{code}">
-						<CountryFlag {code} />
-						{$t(`galaxy.country.${code}`)}
+						<!--
+							Ані підпису, ані підказки для країн зі списку «лише прапор»:
+							`title` малюється браузером при наведенні, тобто це той самий
+							написаний текст, якого просили не писати. Без нього
+							`CountryFlag` озвучує сам код — «RU», а не назву.
+						-->
+						<CountryFlag
+							{code}
+							title={showsCountryName(code) ? $t(`galaxy.country.${code}`) : undefined}
+						/>
+						{#if showsCountryName(code)}
+							{$t(`galaxy.country.${code}`)}
+						{/if}
 					</span>
 				{/each}
 				<span class="fest-badge" data-testid="festival-years-badge">

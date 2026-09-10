@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { festivalPath, type Festival } from '$lib/data/festivals';
+	import { festivalPath, showsCountryName, type Festival } from '$lib/data/festivals';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 
@@ -61,8 +61,16 @@
 	const isEn = $derived($locale === 'en');
 	const lang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 
+	/*
+	 * Назва країни тут так само не пишеться там, де її просили не писати:
+	 * `showsCountryName` — одне правило на обидва місця, сторінку фестивалю й
+	 * цей перелік в анкеті. Прапор лишається: він і несе, де це було.
+	 */
 	function whereOf(city: string | undefined, countries: string[]): string {
-		const named = countries.map((c) => $t(`galaxy.country.${c}`)).join(' · ');
+		const named = countries
+			.filter((c) => showsCountryName(c))
+			.map((c) => $t(`galaxy.country.${c}`))
+			.join(' · ');
 		return [city, named].filter(Boolean).join(', ');
 	}
 </script>
@@ -74,7 +82,10 @@
 {#snippet flagsOf(festival: Festival)}
 	<span class="fests__flags">
 		{#each festival.countries as code (code)}
-			<CountryFlag {code} title={$t(`galaxy.country.${code}`)} />
+			<CountryFlag
+				{code}
+				title={showsCountryName(code) ? $t(`galaxy.country.${code}`) : undefined}
+			/>
 		{/each}
 	</span>
 {/snippet}

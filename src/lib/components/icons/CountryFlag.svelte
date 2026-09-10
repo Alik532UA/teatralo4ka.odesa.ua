@@ -70,6 +70,17 @@
 			<rect width="32" height="12" y="6" fill="#F1BF00" />
 			<rect width="32" height="6" y="18" fill="#AA151B" />
 		</svg>
+	{:else if upperCode === 'RU'}
+		<!--
+			БІЛО-СИНЬО-БІЛИЙ, а не триколор, і це рішення автора, а не помилка.
+			Кольори взято з файлу, який автор надіслав
+			(commons: White-blue-white_flag.svg): біле тло й смуга `#0083d6`
+			посередині, у пропорціях 900×600 → 32×24, тобто по 8 на смугу.
+		-->
+		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
+			<rect width="32" height="24" y="0" fill="#fff" />
+			<rect width="32" height="8" y="8" fill="#0083d6" />
+		</svg>
 	{:else if upperCode === 'RO'}
 		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
 			<rect width="10.66" height="24" x="0" fill="#002B7F" />

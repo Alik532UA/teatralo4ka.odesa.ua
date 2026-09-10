@@ -92,6 +92,30 @@ export interface Festival {
  */
 export const FESTIVALS: readonly Festival[] = festivalsData satisfies readonly Festival[];
 
+/**
+ * Країни, від яких на сторінці лишається ЛИШЕ ПРАПОР, без назви.
+ *
+ * Рішення автора, і воно точне: «країну не писати, хоча нехай в пошуку
+ * шукається». Дві половини цього прохання тягнуть у різні боки, бо назва
+ * країни живе в одному місці — `galaxy.country.<КОД>` — і звідти її бере і
+ * розмітка, і пошук (`matchesFestivalQuery` нижче). Прибрати назву зі словника
+ * означало б прибрати її й з пошуку; лишити в розмітці означало б написати те,
+ * чого писати не просили.
+ *
+ * Тому розділено не джерело, а ВЖИВАННЯ: назва лишається в словнику й далі
+ * шукається, а сторінка для цих кодів її не малює. Прапор при цьому свій —
+ * біло-синьо-білий, а не триколор (див. `CountryFlag.svelte`).
+ *
+ * Перелік, а не прапорець на записі фестивалю: правило стосується КРАЇНИ, а не
+ * поїздки, і другий фестиваль там само не мусив би повторювати рішення.
+ */
+export const FLAG_ONLY_COUNTRIES: readonly string[] = ['RU'];
+
+/** Чи показувати назву країни поруч із прапором. */
+export function showsCountryName(code: string): boolean {
+	return !FLAG_ONLY_COUNTRIES.includes(code.toUpperCase());
+}
+
 /** Фестиваль за адресою. */
 export function getFestivalBySlug(slug: string): Festival | undefined {
 	return FESTIVALS.find((f) => f.slug === slug);
