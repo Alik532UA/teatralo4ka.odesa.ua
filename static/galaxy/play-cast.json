@@ -1411,7 +1411,82 @@
 	],
 	"noch-na-yvana-kupala-2010": [
 		{
+			"graduateId": "anastasiia-hrydiushko"
+		},
+		{
+			"graduateId": "anastasiia-ihnatovych"
+		},
+		{
+			"graduateId": "anna-konysheva"
+		},
+		{
+			"graduateId": "anna-pistryna"
+		},
+		{
+			"graduateId": "artem-starshov"
+		},
+		{
+			"graduateId": "hryhorii-naumov"
+		},
+		{
+			"graduateId": "iryna-panchenko"
+		},
+		{
+			"graduateId": "kateryna-onopriienko"
+		},
+		{
+			"graduateId": "kostiantyn-furmanov"
+		},
+		{
+			"graduateId": "lika-aharycheva"
+		},
+		{
+			"graduateId": "maiia-isaiko"
+		},
+		{
+			"graduateId": "marharet-tsypynska"
+		},
+		{
+			"graduateId": "mykhailo-haniev"
+		},
+		{
+			"graduateId": "mykyta-shevchenko"
+		},
+		{
 			"graduateId": "myroslava-tkach"
+		},
+		{
+			"graduateId": "nataliia-karamysheva"
+		},
+		{
+			"graduateId": "oleksandr-chehlatonev"
+		},
+		{
+			"graduateId": "oleksandr-kochenko"
+		},
+		{
+			"graduateId": "oleksandr-onopriienko"
+		},
+		{
+			"graduateId": "oleksandr-yatsenko"
+		},
+		{
+			"graduateId": "oleksii-nahaiets"
+		},
+		{
+			"graduateId": "oleksii-salimovskyi"
+		},
+		{
+			"graduateId": "olena-pushkarova"
+		},
+		{
+			"graduateId": "olha-shuliak"
+		},
+		{
+			"graduateId": "polina-hedzenko"
+		},
+		{
+			"graduateId": "vladyslav-chernov"
 		}
 	],
 	"nove-vbrannia-dlia-korolia-2019": [
@@ -1904,6 +1979,108 @@
 	"ripka-2015": [
 		{
 			"graduateId": "valeriia-burian"
+		}
+	],
+	"roksolana-2010": [
+		{
+			"graduateId": "alik-zapolnov",
+			"role": "козак"
+		},
+		{
+			"graduateId": "alisiia-myronenko",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "anastasiia-chalchynska",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "anna-bais",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "anna-iatskova",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "dariia-kulish",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "dmytro-rozumenko",
+			"role": "козак"
+		},
+		{
+			"graduateId": "haiana-karapetian",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "ihor-rozvodiuk",
+			"role": "козак"
+		},
+		{
+			"graduateId": "illia-tryfonov",
+			"role": "козак"
+		},
+		{
+			"graduateId": "krystyna-manchenko",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "liliia-ternavska",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "maksym-ponomarenko",
+			"role": "султан"
+		},
+		{
+			"graduateId": "mariia-filippenko",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "mariia-shadryna",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "maryna-sukhanova",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "oleksandra-chuprina",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "oleksandra-indichanska-morozova",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "oleksandra-shchepynska",
+			"role": "Роксолана"
+		},
+		{
+			"graduateId": "olena-mrost",
+			"role": "наложниця"
+		},
+		{
+			"graduateId": "olena-nikolaienko",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "taras-opryshko",
+			"role": "козак"
+		},
+		{
+			"graduateId": "volodymyr-chalchynskyi",
+			"role": "козак"
+		},
+		{
+			"graduateId": "yelyzaveta-sekunda",
+			"role": "дівчина"
+		},
+		{
+			"graduateId": "yeva-isachkina",
+			"role": "наложниця з фруктами"
 		}
 	],
 	"rusalochka-2000": [

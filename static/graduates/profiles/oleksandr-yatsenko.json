@@ -1,0 +1,18 @@
+{
+	"id": "oleksandr-yatsenko",
+	"slug": "oleksandr-yatsenko",
+	"code": "oleksandr-yatsenko",
+	"name": "Олександр Яценко",
+	"graduationYear": null,
+	"departments": [],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Ніч на Івана Купала»",
+			"playId": "noch-na-yvana-kupala-2010"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

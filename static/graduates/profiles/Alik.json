@@ -171,6 +171,12 @@
 			"playId": "posviata-2023",
 			"role": "Режисер відеомонтажу",
 			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "«Роксолана», козак",
+			"playId": "roksolana-2010",
+			"role": "козак"
 		}
 	],
 	"bio": [

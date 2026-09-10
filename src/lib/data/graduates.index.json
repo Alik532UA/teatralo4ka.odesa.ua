@@ -191,9 +191,9 @@
 				]
 			}
 		],
-		"playCount": 25,
+		"playCount": 26,
 		"code": "Alik",
-		"profileSize": 6685
+		"profileSize": 6815
 	},
 	{
 		"id": "alina-burdeina",
@@ -728,9 +728,9 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"playCount": 10,
+		"playCount": 11,
 		"code": "anastasiia-chalchynska",
-		"profileSize": 3527,
+		"profileSize": 3665,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -937,9 +937,9 @@
 				"id": "anastasiia-nikolaieva"
 			}
 		],
-		"playCount": 11,
+		"playCount": 12,
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2708
+		"profileSize": 2829
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -1795,7 +1795,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 358,
+		"playCount": 1
 	},
 	{
 		"id": "anna-rodonaia",
@@ -2007,8 +2009,8 @@
 			}
 		],
 		"code": "artem-starshov",
-		"playCount": 1,
-		"profileSize": 1030,
+		"playCount": 2,
+		"profileSize": 1151,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -2897,9 +2899,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 11,
+		"playCount": 12,
 		"code": "dariia-kulish",
-		"profileSize": 2113
+		"profileSize": 2259
 	},
 	{
 		"id": "darya-maystrenko",
@@ -3177,9 +3179,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 6,
+		"playCount": 7,
 		"code": "dmytro-rozumenko",
-		"profileSize": 1318
+		"profileSize": 1448
 	},
 	{
 		"id": "dmytro-yatsenko",
@@ -3359,7 +3361,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 412,
+		"playCount": 1
 	},
 	{
 		"id": "halaida-oleksandra",
@@ -3689,8 +3693,8 @@
 				]
 			}
 		],
-		"profileSize": 1402,
-		"playCount": 5
+		"profileSize": 1523,
+		"playCount": 6
 	},
 	{
 		"id": "ihor-rozvodiuk",
@@ -3710,9 +3714,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 5,
+		"playCount": 6,
 		"code": "ihor-rozvodiuk",
-		"profileSize": 1402
+		"profileSize": 1532
 	},
 	{
 		"id": "ihor-vatsiuk",
@@ -3750,8 +3754,8 @@
 				]
 			}
 		],
-		"playCount": 2,
-		"profileSize": 941
+		"playCount": 3,
+		"profileSize": 1071
 	},
 	{
 		"id": "inna-shevchenko",
@@ -3806,7 +3810,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 366,
+		"playCount": 1
 	},
 	{
 		"id": "iryna-pecheniuk",
@@ -4709,8 +4715,8 @@
 			}
 		],
 		"code": "krystyna-manchenko",
-		"playCount": 6,
-		"profileSize": 1607
+		"playCount": 7,
+		"profileSize": 1745
 	},
 	{
 		"id": "krystyna-maslova",
@@ -5143,7 +5149,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 390,
+		"playCount": 1
 	},
 	{
 		"id": "liora-kazatsker",
@@ -5248,7 +5256,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 351,
+		"playCount": 1
 	},
 	{
 		"id": "maksym-halias",
@@ -5366,8 +5376,8 @@
 				]
 			}
 		],
-		"profileSize": 2823,
-		"playCount": 10
+		"profileSize": 2957,
+		"playCount": 11
 	},
 	{
 		"id": "marharet-tsypynska",
@@ -5408,8 +5418,8 @@
 				]
 			}
 		],
-		"profileSize": 918,
-		"playCount": 4
+		"profileSize": 1039,
+		"playCount": 5
 	},
 	{
 		"id": "marharyta-matvienko",
@@ -5828,7 +5838,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 381,
+		"playCount": 1
 	},
 	{
 		"id": "mariia-tkach-lysa",
@@ -6077,9 +6089,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 12,
+		"playCount": 13,
 		"code": "maryna-sukhanova",
-		"profileSize": 4311,
+		"profileSize": 4457,
 		"teachers": [
 			{
 				"id": "mykola-baldin",
@@ -6218,9 +6230,9 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"playCount": 8,
+		"playCount": 9,
 		"code": "mykhailo-haniev",
-		"profileSize": 2250,
+		"profileSize": 2371,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -6323,8 +6335,8 @@
 				]
 			}
 		],
-		"profileSize": 390,
-		"playCount": 1
+		"profileSize": 511,
+		"playCount": 2
 	},
 	{
 		"id": "mykyta-suraho",
@@ -6517,7 +6529,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 389,
+		"playCount": 1
 	},
 	{
 		"id": "nataliia-levenets",
@@ -6726,8 +6740,8 @@
 		],
 		"hasPhoto": true,
 		"code": "oleksandr-chehlatonev",
-		"playCount": 7,
-		"profileSize": 2029
+		"playCount": 8,
+		"profileSize": 2150
 	},
 	{
 		"id": "oleksandr-didyk",
@@ -6745,7 +6759,9 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
-		]
+		],
+		"profileSize": 381,
+		"playCount": 1
 	},
 	{
 		"id": "oleksandr-sydashov",
@@ -6835,8 +6851,8 @@
 			}
 		],
 		"code": "oleksandra-chuprina",
-		"playCount": 0,
-		"profileSize": 2008,
+		"playCount": 1,
+		"profileSize": 2155,
 		"photoCount": 2,
 		"teachers": [
 			{
@@ -6907,9 +6923,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 7,
+		"playCount": 8,
 		"code": "oleksandra-indichanska-morozova",
-		"profileSize": 2151
+		"profileSize": 2297
 	},
 	{
 		"id": "oleksandra-karachevska",
@@ -7127,7 +7143,9 @@
 					"Вокал"
 				]
 			}
-		]
+		],
+		"profileSize": 424,
+		"playCount": 1
 	},
 	{
 		"id": "oleksandra-sydorova",
@@ -7448,9 +7466,9 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"playCount": 8,
+		"playCount": 9,
 		"code": "olena-mrost",
-		"profileSize": 2346,
+		"profileSize": 2492,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -7484,7 +7502,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 373,
+		"playCount": 1
 	},
 	{
 		"id": "olena-rudenko",
@@ -7723,9 +7743,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 10,
+		"playCount": 11,
 		"code": "polina-hedzenko",
-		"profileSize": 2477
+		"profileSize": 2598
 	},
 	{
 		"id": "polina-kolomiiets",
@@ -8469,8 +8489,8 @@
 			}
 		],
 		"code": "taras-opryshko",
-		"playCount": 0,
-		"profileSize": 622
+		"playCount": 1,
+		"profileSize": 753
 	},
 	{
 		"id": "tetiana-borysova",
@@ -9381,8 +9401,8 @@
 				]
 			}
 		],
-		"profileSize": 531,
-		"playCount": 2
+		"profileSize": 652,
+		"playCount": 3
 	},
 	{
 		"id": "vladyslav-fylonenko",
@@ -9490,9 +9510,9 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"playCount": 8,
+		"playCount": 9,
 		"code": "volodymyr-chalchynskyi",
-		"profileSize": 3845,
+		"profileSize": 3975,
 		"teachers": [
 			{
 				"id": "fedir-tkach",
@@ -9736,7 +9756,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 398,
+		"playCount": 1
 	},
 	{
 		"id": "yelyzaveta-zikhrei",
@@ -9791,7 +9813,9 @@
 			{
 				"id": "svitlana-ryskina"
 			}
-		]
+		],
+		"profileSize": 424,
+		"playCount": 1
 	},
 	{
 		"id": "yeva-kosoy",
@@ -10846,7 +10870,9 @@
 		"departments": [],
 		"kind": "attended",
 		"visibility": "linked",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"profileSize": 365,
+		"playCount": 1
 	},
 	{
 		"id": "oleksandr-komadovskyi",
@@ -10927,5 +10953,201 @@
 		"kind": "student",
 		"visibility": "linked",
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "kostiantyn-furmanov",
+		"slug": "kostiantyn-furmanov",
+		"name": "Костянтин Фурманов",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 386,
+		"playCount": 1
+	},
+	{
+		"id": "oleksandr-onopriienko",
+		"slug": "oleksandr-onopriienko",
+		"name": "Олександр Онопрієнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 396,
+		"playCount": 1
+	},
+	{
+		"id": "oleksii-nahaiets",
+		"slug": "oleksii-nahaiets",
+		"name": "Олексій Нагаєць",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 371,
+		"playCount": 1
+	},
+	{
+		"id": "oleksii-salimovskyi",
+		"slug": "oleksii-salimovskyi",
+		"name": "Олексій Салімовський",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 390,
+		"playCount": 1
+	},
+	{
+		"id": "anna-konysheva",
+		"slug": "anna-konysheva",
+		"name": "Анна Конишева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 361,
+		"playCount": 1
+	},
+	{
+		"id": "anastasiia-hrydiushko",
+		"slug": "anastasiia-hrydiushko",
+		"name": "Анастасія Гридюшко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 392,
+		"playCount": 1
+	},
+	{
+		"id": "kateryna-onopriienko",
+		"slug": "kateryna-onopriienko",
+		"name": "Катерина Онопрієнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 391,
+		"playCount": 1
+	},
+	{
+		"id": "olha-shuliak",
+		"slug": "olha-shuliak",
+		"name": "Ольга Шуляк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 351,
+		"playCount": 1
+	},
+	{
+		"id": "lika-aharycheva",
+		"slug": "lika-aharycheva",
+		"name": "Ліка Агаричева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 366,
+		"playCount": 1
+	},
+	{
+		"id": "anna-bais",
+		"slug": "anna-bais",
+		"name": "Анна Баїс",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 363,
+		"playCount": 1
+	},
+	{
+		"id": "anna-iatskova",
+		"slug": "anna-iatskova",
+		"name": "Анна Яцкова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 379,
+		"playCount": 1
+	},
+	{
+		"id": "alisiia-myronenko",
+		"slug": "alisiia-myronenko",
+		"name": "Алісія Мироненко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
+	},
+	{
+		"id": "olena-nikolaienko",
+		"slug": "olena-nikolaienko",
+		"name": "Олена Ніколаєнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
+	},
+	{
+		"id": "mariia-filippenko",
+		"slug": "mariia-filippenko",
+		"name": "Марія Філіппенко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
 	}
 ]

@@ -24,7 +24,14 @@
 			"url": "https://instagram.com/emun_sona"
 		}
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», козак",
+			"playId": "roksolana-2010",
+			"role": "козак"
+		}
+	],
 	"bio": [],
 	"festivals": [],
 	"duringStudies": null,

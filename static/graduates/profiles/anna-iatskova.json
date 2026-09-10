@@ -1,0 +1,21 @@
+{
+	"id": "anna-iatskova",
+	"slug": "anna-iatskova",
+	"code": "anna-iatskova",
+	"name": "Анна Яцкова",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», наложниця",
+			"playId": "roksolana-2010",
+			"role": "наложниця"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

@@ -1,0 +1,22 @@
+{
+	"id": "haiana-karapetian",
+	"slug": "haiana-karapetian",
+	"code": "haiana-karapetian",
+	"name": "Гайана Карапетян",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre",
+		"music"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», наложниця",
+			"playId": "roksolana-2010",
+			"role": "наложниця"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

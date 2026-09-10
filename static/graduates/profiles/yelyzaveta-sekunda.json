@@ -1,0 +1,21 @@
+{
+	"id": "yelyzaveta-sekunda",
+	"slug": "yelyzaveta-sekunda",
+	"code": "yelyzaveta-sekunda",
+	"name": "Єлизавета Секунда",
+	"graduationYear": 2014,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», дівчина",
+			"playId": "roksolana-2010",
+			"role": "дівчина"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

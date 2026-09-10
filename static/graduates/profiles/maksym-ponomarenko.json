@@ -102,6 +102,12 @@
 			],
 			"role": "Режисер",
 			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "«Роксолана», султан",
+			"playId": "roksolana-2010",
+			"role": "султан"
 		}
 	],
 	"bio": [],

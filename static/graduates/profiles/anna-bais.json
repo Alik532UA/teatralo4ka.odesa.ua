@@ -1,0 +1,21 @@
+{
+	"id": "anna-bais",
+	"slug": "anna-bais",
+	"code": "anna-bais",
+	"name": "Анна Баїс",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», наложниця",
+			"playId": "roksolana-2010",
+			"role": "наложниця"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

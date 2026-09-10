@@ -1,0 +1,21 @@
+{
+	"id": "olena-nikolaienko",
+	"slug": "olena-nikolaienko",
+	"code": "olena-nikolaienko",
+	"name": "Олена Ніколаєнко",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», дівчина",
+			"playId": "roksolana-2010",
+			"role": "дівчина"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

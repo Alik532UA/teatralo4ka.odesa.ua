@@ -8660,5 +8660,14 @@
 		],
 		"note": "Постановка — Ткач Федір Федорович. Хореографія — Єршова Ірина Петрівна. Вокал — Овчаренко Ірина Григорівна. Концертмейстер — Черкасова Леся Володимирівна.",
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "roksolana-2010",
+		"title": "«Роксолана»",
+		"year": 2010,
+		"masters": [
+			"fedir-tkach"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]

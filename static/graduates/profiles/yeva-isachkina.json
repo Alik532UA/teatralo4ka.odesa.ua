@@ -1,0 +1,21 @@
+{
+	"id": "yeva-isachkina",
+	"slug": "yeva-isachkina",
+	"code": "yeva-isachkina",
+	"name": "Єва Ісачкіна",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», наложниця з фруктами",
+			"playId": "roksolana-2010",
+			"role": "наложниця з фруктами"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

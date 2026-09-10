@@ -1,0 +1,21 @@
+{
+	"id": "liliia-ternavska",
+	"slug": "liliia-ternavska",
+	"code": "liliia-ternavska",
+	"name": "Лілія Тернавська",
+	"graduationYear": 2013,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», дівчина",
+			"playId": "roksolana-2010",
+			"role": "дівчина"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

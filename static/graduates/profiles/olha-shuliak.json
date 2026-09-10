@@ -1,0 +1,20 @@
+{
+	"id": "olha-shuliak",
+	"slug": "olha-shuliak",
+	"code": "olha-shuliak",
+	"name": "Ольга Шуляк",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Ніч на Івана Купала»",
+			"playId": "noch-na-yvana-kupala-2010"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

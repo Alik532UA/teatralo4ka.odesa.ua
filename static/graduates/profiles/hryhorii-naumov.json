@@ -42,6 +42,11 @@
 			"text": "«Рецепти виживання»",
 			"playId": "retsepty-vyzhyvannia-2023",
 			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "«Ніч на Івана Купала»",
+			"playId": "noch-na-yvana-kupala-2010"
 		}
 	],
 	"bio": [

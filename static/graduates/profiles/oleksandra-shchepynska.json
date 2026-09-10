@@ -1,0 +1,21 @@
+{
+	"id": "oleksandra-shchepynska",
+	"slug": "oleksandra-shchepynska",
+	"code": "oleksandra-shchepynska",
+	"name": "Олександра Щепинська",
+	"graduationYear": 2011,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», Роксолана",
+			"playId": "roksolana-2010",
+			"role": "Роксолана"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}

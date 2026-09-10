@@ -1,0 +1,21 @@
+{
+	"id": "mariia-filippenko",
+	"slug": "mariia-filippenko",
+	"code": "mariia-filippenko",
+	"name": "Марія Філіппенко",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2010,
+			"text": "«Роксолана», дівчина",
+			"playId": "roksolana-2010",
+			"role": "дівчина"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": []
+}
