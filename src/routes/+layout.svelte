@@ -35,6 +35,7 @@
 	import { afterNavigate } from '$app/navigation';
 	import { installViewTransitions } from '$lib/utils/viewTransition';
 	import { installTrail } from '$lib/utils/installTrail';
+	import { installImageReveal } from '$lib/utils/installImageReveal';
 
 	let { children, data } = $props();
 
@@ -50,6 +51,11 @@
 	// Тут, а не в службовому шарі: `beforeNavigate` реєструється лише під час
 	// ініціалізації компонента, і це той самий випадок, що `installViewTransitions`.
 	installTrail();
+	// Плавна поява кожного зображення сайту, крім головного знімка сторінки.
+	// Одним механізмом на документ, а не атрибутом на 62 тегах: половина знімків
+	// приходить із Firestore уже в браузері, і тег, дописаний туди пізніше,
+	// атрибута не мав би ніколи. Подробиці — у шапці модуля.
+	installImageReveal();
 
 	/**
 	 * Клас, що ховає нативну смугу, має рівно одного власника — цей ефект.

@@ -2,6 +2,7 @@
 	import { graduatePhoto, graduatePhotoSrcset, allGraduatePhotos, type GraduateIndexEntry } from '$lib/data/graduates';
 	import { портретУЧерзі } from '$lib/services/imageQueue';
 	import { запуститиЦикл } from '$lib/utils/photoCycle';
+	import { untrack } from 'svelte';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -108,9 +109,40 @@
 	 * Для мультифото рахуються ВСІ кадри: показувати стопку, коли готовий один
 	 * шар із трьох, означало б віддати кадр, на якому WAAPI саме тримає інший,
 	 * ще порожній.
+	 *
+	 * ЛІЧИЛЬНИК НЕ РЕАКТИВНИЙ, і це не оптимізація, а виправлення дефекту.
+	 *
+	 * Перша редакція тримала `готових = $state(0)` і писала `готових += 1` із
+	 * callback'а показу. `+=` читає й пише той самий стан — а callback
+	 * викликається СИНХРОННО з тіла attachment, коли зображення вже в кеші
+	 * (`img.complete` на момент приєднання). Svelte бачив рівно те, про що
+	 * попереджає: `effect_update_depth_exceeded`, «effect reads and writes the
+	 * same piece of state». Зловила це не перевірка, а консоль браузера на
+	 * повторному заході в галактику — тобто дефект, який не видно з першого
+	 * завантаження.
+	 *
+	 * Тепер лічильник — звичайна змінна (реактивного читання немає зовсім), а
+	 * реактивний лише прапорець, який ЛИШЕ ВСТАНОВЛЮЄТЬСЯ в `true`. Повторне
+	 * присвоєння того самого значення Svelte не вважає зміною, тож цикл
+	 * неможливий за побудовою, хай би звідки прийшов виклик.
 	 */
-	let готових = $state(0);
-	const готово = $derived(готових >= Math.max(1, photos.length || 1));
+	/*
+	 * `untrack` — свідома чернетка, а не обхід попередження (SVELTE-CORE-v9,
+	 * `SC-PROP-SNAPSHOT`). Наслідок названий: якщо кількість кадрів у цієї
+	 * зірки колись зміниться за її життя, лічильник цього не побачить. Зміни не
+	 * буває: зірка в галактиці має ключ `kind + lane`, а в потоці майстра —
+	 * `kind + lane + key`, тож при іншому наборі знімків Svelte створює НОВИЙ
+	 * компонент, а не оновлює цей. Без `untrack` читання `photos` тут зробило б
+	 * лічильник залежним від руни — тобто повернуло б саму причину циклу, яку
+	 * цей блок і прибирає.
+	 */
+	let лишилося = untrack(() => photos.length || 1);
+	let готово = $state(false);
+
+	function кадрГотовий() {
+		лишилося -= 1;
+		if (лишилося <= 0) готово = true;
+	}
 
 	function updatePlacement() {
 		if (buttonEl) {
@@ -198,18 +230,20 @@
 				{#each photos as photo, i (i)}
 					<img
 						class="star__photo star__photo--layer"
+						data-reveal="own"
 						{sizes}
 						width="96"
 						height="96"
 						decoding="async"
 						alt={i === photos.length - 1 ? graduate.name : ''}
-						{@attach портретУЧерзі(photo.src, photo.srcset, () => (готових += 1))}
+						{@attach портретУЧерзі(photo.src, photo.srcset, кадрГотовий)}
 					/>
 				{/each}
 			</div>
 		{:else}
 			<img
 				class="star__photo"
+				data-reveal="own"
 				sizes={photo ? undefined : sizes}
 				width="96"
 				height="96"
@@ -218,7 +252,7 @@
 				{@attach портретУЧерзі(
 					photo ?? graduatePhoto(graduate.slug, 96),
 					photo ? undefined : graduatePhotoSrcset(graduate.slug),
-					() => (готових = 1)
+					кадрГотовий
 				)}
 			/>
 		{/if}
