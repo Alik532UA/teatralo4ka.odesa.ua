@@ -4,18 +4,21 @@
 	import { onMount } from "svelte";
 	import { MapPinned, Phone, Mail } from "lucide-svelte";
 	import { ui } from "$lib/controllers/ui.svelte";
+	import { HERO_PHOTOS, HERO_SIZES, heroSrcset } from '$lib/config/heroPhotos';
 	import { imageSize, type LocalImage } from "$lib/config/localImages";
 	import PhotoLightbox, { type LightboxImage } from "$lib/components/PhotoLightbox.svelte";
 	import { activateOnKey } from "$lib/utils/activateOnKey";
 
 	/**
-	 * Шлях і його ВЛАСНИЙ розмір разом (PERFORMANCE-v9 § 3.2).
+	 * Перелік знімків живе в `config/heroPhotos` — там і причини: чому два
+	 * розміри на дві роли, звідки взялися ширини й чому `srcset` виписаний
+	 * дослівно. Тут лишається псевдонім, щоб розмітка нижче читалася.
 	 *
-	 * Доти обидва знімки ділили один жорсткий `width="1200" height="900"`, хоч
-	 * мають 1280×804 і 4068×3070 — тобто одне число не могло бути правильним для
-	 * обох. Тут воно береться з мапи, яку звіряють із заголовками файлів.
+	 * `width`/`height` і далі беруться з мапи, яку звіряють із заголовками
+	 * файлів (PERFORMANCE-v9 § 3.2): доти обидва знімки ділили один жорсткий
+	 * `width="1200" height="900"`, хоч мали різні пропорції.
 	 */
-	const heroPhotos = ['/photo/DSC_1405.jpg', '/photo/DJI_0759 v02.jpg'] as const satisfies readonly LocalImage[];
+	const heroPhotos = HERO_PHOTOS;
 
 	const socialIcons = [
 		{ id: 'fb', label: 'Facebook', alt: 'FB', href: 'footer.facebook', file: '/social_media/facebook-se-512-50.png' },
@@ -31,7 +34,7 @@
 
 	const lightboxImages = $derived<LightboxImage[]>(
 		heroPhotos.map((photo) => ({
-			src: asset(photo),
+			src: asset(photo.full),
 			alt: $t('hero.title'),
 			title: $t('hero.title')
 		}))
@@ -93,10 +96,12 @@
 				onclick={() => openLightbox(currentImageIndex)}
 				onkeydown={activateOnKey(() => openLightbox(currentImageIndex))}
 			>
-				{#each heroPhotos as photo, i (photo)}
-					{@const size = imageSize(photo)}
+				{#each heroPhotos as photo, i (photo.thumb)}
+					{@const size = imageSize(photo.thumb)}
 					<img
-						src={asset(photo)}
+						src={asset(photo.thumb)}
+						srcset={heroSrcset(photo.srcset)}
+						sizes={HERO_SIZES}
 						alt=""
 						width={size.width}
 						height={size.height}
