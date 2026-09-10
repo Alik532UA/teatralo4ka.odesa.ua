@@ -1,32 +1,55 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv, type Plugin } from 'vite';
 import { readFileSync } from 'node:fs';
+import { відсутніСекрети } from './scripts/firebase-env';
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
 /**
- * Тут був плагін `smart-static-build-tools`, який робив те саме, що вже роблять
- * `prebuild` і `postbuild` — і робив це гірше.
+ * Збірка без секретів Firebase падає ГОЛОСНО і до деплою.
  *
- * `closeBundle` кликав `generate-sitemap` у `try`, а `catch` знижував падіння до
- * `console.warn`. Але `generate-sitemap.ts` — це не генератор, а ГЕЙТ: він валить
- * збірку на адресі з `prerender.entries`, якої немає в `build/`, і на сторінці
- * без вмісту (SEO-v9 CRITICAL). Загорнутий у цей `catch`, він друкував
- * попередження й лишав `vite build` із кодом 0 — рівно те, від чого застерігає
- * коментар у `svelte.config.js` про `handleHttpError: 'fail'`: «попередження в
- * лозі збірки не бачить ніхто».
+ * ## Навіщо явна перевірка, коли раніше обходилися без неї
  *
- * Гейт працював лише тому, що `postbuild` запускав той самий скрипт удруге, вже
- * поза `catch`. Тобто перевірка трималася на дублюванні, а не на задумі:
- * `validate-content` виконувався двічі (`prebuild` + `buildStart`), sitemap —
- * двічі (`closeBundle` + `postbuild`).
+ * Раніше цю роль виконував ПОБІЧНИЙ ЕФЕКТ: `firebase/config` статично
+ * імпортувався шапкою, тобто виконувався під час prerender, і `getAuth()` на
+ * порожньому ключі кидав `auth/invalid-api-key`. Збірка червоніла — але не
+ * тому, що хтось так задумав, а тому, що модуль випадково опинявся в
+ * серверному графі. Це записано в `vitest/stubs/firebase-config.ts` як
+ * властивість, на яку покладаються.
  *
- * Тепер кожен крок має рівно одне місце, і кожен із них падає:
- *   prebuild  → validate-content
- *   postbuild → generate-sitemap, check-bundle-budget, check-links, changelog
+ * Відколи SDK вантажиться `await import()` (CLOUD-DATABASE-v9 § 10.2,
+ * `CDB-LAZY-SDK`), під час prerender його ніхто не піднімає — і разом із
+ * побічним ефектом зникла б і перевірка. Тоді збірка проходила б зеленою, а на
+ * хостинг їхав сайт із порожнім ключем: Firestore і Auth мертві для всіх, і
+ * жоден гейт цього не бачить. Тому охорона стала явною й лишилася на тому
+ * самому місці життєвого циклу — на початку збірки.
+ *
+ * Значення НЕ друкуються: у лозі CI лишаються самі назви відсутніх ключів.
+ * Сам перелік і чиста функція «чого бракує» живуть у `scripts/firebase-env.ts`,
+ * щоб їх можна було перевірити без збірки.
  */
+function firebaseEnvGate(): Plugin {
+	return {
+		name: 'firebase-env-gate',
+		apply: 'build',
+		config(_config, { mode }) {
+			const env = { ...process.env, ...loadEnv(mode, process.cwd(), 'VITE_') };
+			const порожні = відсутніСекрети(env);
+			if (порожні.length > 0) {
+				throw new Error(
+					'збірка зупинена: немає секретів Firebase — ' +
+						порожні.join(', ') +
+						'. Локально вони лежать у `.env.local` (зразок — `.env.example`), ' +
+						'у CI приходять із `secrets`. Без них сайт збереться, ' +
+						'але Firestore і Auth будуть мертві для кожного відвідувача.'
+				);
+			}
+		}
+	};
+}
+
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [firebaseEnvGate(), sveltekit()],
 
 	/**
 	 * Номер збірки — константою на етапі збірки, а не читанням файла в рантаймі.
