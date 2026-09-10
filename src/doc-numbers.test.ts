@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import MASTERS from './lib/data/masters.index.json';
 import { masterSection, type MasterIndexEntry } from './lib/data/masters';
 
@@ -202,5 +202,122 @@ describe(`числа в ${AGENTS}`, () => {
 		const real = walk('src').length + walk(join('vitest', 'support')).length;
 
 		expect(written, `у ${AGENTS} записано ${written} файлів, а їх ${real}`).toBe(real);
+	});
+});
+
+/**
+ * ДРУГА ВІСЬ ТОГО САМОГО ГЕЙТА: не лише числа, а й ШЛЯХИ
+ * (AI-AGENT-PITFALLS-v9 § 5.5, `PIT-DOC-FACTS`, HIGH, since 9.0).
+ *
+ * Канон вимагає, щоб факти в `PROJECT-CONTEXT.md` і `AGENTS.md` звірялися
+ * двобічним резолвером із тим самим джерелом, яким користується гейт, — і
+ * прямо називає три види фактів: шляхи, мови, назви полів. Числа тут стояли
+ * під гейтом від серпня; шляхи — ні.
+ *
+ * ## Чому саме шляхи, і чому це не педантизм
+ *
+ * Ці два документи разом мають понад двісті посилань на файли, і читає їх
+ * перш за все НАСТУПНИЙ АГЕНТ — як факт про репозиторій. Посилання на файл,
+ * якого немає, гірше за відсутнє: відсутнє чесно каже «шукай сам», а
+ * застаріле веде в порожнечу й виглядає при цьому точно так само, як робоче.
+ * Той самий аргумент, що в `canon-references.test.ts`, лише про власні файли.
+ *
+ * ## Резолвер, а не порівняння рядків
+ *
+ * Документи навмисно пишуть коротко — `settings.ts`, `data/masters.ts`, —
+ * і вимагати повного шляху означало б переписати двісті рядків заради
+ * лічильника. Тому згадка вважається живою, коли в репозиторії є файл, чий
+ * шлях їй ДОРІВНЮЄ або закінчується на неї. Це той самий спосіб, яким її
+ * розв'язує людина.
+ *
+ * ## Що навмисно поза охопленням
+ *
+ * - `build/…` і те, що народжується збіркою: у чистому дереві його немає, і
+ *   перевірка була б червоною одразу після `git clone`;
+ * - документи канону (`*-v9.md`, `*.md` продуктового пакета): пакет лежить
+ *   поза репозиторієм, і за ними стежить `canon-references.test.ts` — своїм
+ *   способом, який не потребує диска;
+ * - `.private/`: тека навмисно поза версійним контролем;
+ * - ЗРАЗКИ назв, а не шляхи: `PascalCase.svelte`, `camelCase.ts` і подібні —
+ *   вони описують угоду, а не файл.
+ *
+ * Зворотний експеримент (§ 1.1): дописати в `AGENTS.md` згадку
+ * `` `services/nonexistent.ts` `` — перевірка називає документ і саме цю
+ * згадку. Зроблено.
+ */
+
+/** Документи, які читають як факт про репозиторій. */
+const ДОКУМЕНТИ = ['AGENTS.md', 'PROJECT-CONTEXT.md', 'README.md'];
+
+/** Теки, яких у чистому дереві немає або які під власним наглядом. */
+const ПОЗА_ОХОПЛЕННЯМ = [
+	'node_modules',
+	'.git',
+	'build',
+	'.svelte-kit',
+	'test-results',
+	'playwright-report',
+	'.private',
+	'.temp',
+	'coverage'
+];
+
+/**
+ * Зразки назв, а не шляхи.
+ *
+ * Перелік мусить лишатися коротким: щойно він почне рости, це означатиме, що
+ * перевірка ловить не те. Кожен рядок — угода про іменування, яку документи
+ * пояснюють на прикладі.
+ */
+const ЗРАЗКИ = new Set(['PascalCase.svelte', 'camelCase.ts', '.svelte.ts', 'kebab-case.ts']);
+
+/**
+ * Народжується збіркою, у джерелах не лежить.
+ *
+ * `404.html` кладе `adapter-static` (`fallback`), `index.html` — prerender
+ * кожної сторінки. Обидва згадуються в документах по суті справи, і обидвох
+ * немає у свіжому клоні.
+ */
+const ВИХІД_ЗБІРКИ = new Set(['404.html', 'index.html']);
+
+/** Файл канону: за ними стежить `canon-references.test.ts`. */
+const КАНОН = /(-v\d+\.md|^(AUTH-FORM|FORM-INPUTS|SCROLLBAR|MINIMAP|HOLD-SCROLL|NOTIFICATIONS|INPUT-TOOLS)\.md)$/;
+
+/** Згадка шляху в зворотних лапках. */
+const ЗГАДКА =
+	/`([A-Za-z0-9_.@][A-Za-z0-9_.@/[\]-]*\.(?:ts|js|mjs|cjs|svelte|json|css|html|yml|yaml))`/g;
+
+function усіФайли(dir: string, out: string[] = []): string[] {
+	for (const entry of readdirSync(dir)) {
+		if (ПОЗА_ОХОПЛЕННЯМ.includes(entry)) continue;
+		const full = join(dir, entry).split(sep).join('/').replace(/^\.\//, '');
+		if (statSync(full).isDirectory()) усіФайли(full, out);
+		else out.push(full);
+	}
+	return out;
+}
+
+describe('шляхи в документації резолвяться', () => {
+	const файли = усіФайли('.');
+
+	it('перевірка жива: дерево обійдено, згадки знайдено', () => {
+		expect(файли.length, 'дерево репозиторію порожнє — обхід зламався').toBeGreaterThan(500);
+		const усіЗгадки = ДОКУМЕНТИ.flatMap((d) => [...readFileSync(d, 'utf8').matchAll(ЗГАДКА)]);
+		expect(усіЗгадки.length, 'у документах не знайдено жодної згадки шляху').toBeGreaterThan(100);
+	});
+
+	it.each(ДОКУМЕНТИ)('%s не посилається на файли, яких немає', (документ) => {
+		const текст = readFileSync(документ, 'utf8');
+		const згадки = [...new Set([...текст.matchAll(ЗГАДКА)].map((m) => m[1]))];
+		const мертві = згадки
+			.filter((p) => !ЗРАЗКИ.has(p) && !ВИХІД_ЗБІРКИ.has(p) && !КАНОН.test(p))
+			.filter((p) => !p.startsWith('build/') && !p.startsWith('.private/'))
+			.filter((p) => !файли.some((f) => f === p || f.endsWith(`/${p}`)));
+
+		expect(
+			мертві,
+			`у ${документ} згадано файли, яких у репозиторії немає:\n${мертві.join('\n')}\n` +
+				'Або шлях застарів (виправити), або це зразок назви (внести у ЗРАЗКИ з поясненням)'
+		).toEqual([]);
 	});
 });
