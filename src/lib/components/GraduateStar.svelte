@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { graduatePhoto, graduatePhotoSrcset, allGraduatePhotos, type GraduateIndexEntry } from '$lib/data/graduates';
+	import { портретУЧерзі } from '$lib/services/imageQueue';
+	import { запуститиЦикл } from '$lib/utils/photoCycle';
 	import { browser } from '$app/environment';
 
 	interface Props {
@@ -43,6 +45,73 @@
 		photoCount > 1 ? allGraduatePhotos(graduate.slug, photoCount, 96) : []
 	);
 
+	/**
+	 * ГЕОМЕТРІЯ РАНГА ОДНИМ ПЕРЕЛІКОМ — і головна причина не в охайності.
+	 *
+	 * Ці ж числа стоять у стилях (`--photo-size` і множник `scale`), і рівно
+	 * розходження двох таких місць колись зробило з кола овал 44×52. Тут вони
+	 * потрібні ще й скрипту — щоб `sizes` описував справжній розмір, — тож
+	 * копія була б третьою. Інваріант `graduateStar.test.ts` звіряє цей перелік
+	 * зі стилями того самого файлу.
+	 */
+	const РАНГИ = {
+		colleague: { розмір: 52, наближення: 1.6 },
+		graduate: { розмір: 44, наближення: 1.9 },
+		student: { розмір: 38, наближення: 1.8 }
+	} as const;
+
+	/**
+	 * `sizes` описує РЕАЛЬНИЙ розмір зірки, а не запас на наведення.
+	 *
+	 * Доти тут стояло `(hover: hover) 176px, 96px`, і 176 — це 44 × 4, тобто
+	 * запас під наведену зірку на екрані з DPR 2. Платила за нього КОЖНА зірка й
+	 * ЗАВЖДИ: браузер обирав 192w на звичайному десктопі й 480w на ноутбуці з
+	 * DPR 2. Заміряно на 120 зірках: 816 КБ і 2766 КБ відповідно, замість 347 КБ
+	 * у 96w. Бюджет бандла цього не бачив — він міряє JS і реєстри, не картинки.
+	 *
+	 * Тепер `sizes` каже правду: 44 px у спокої (на DPR 1 і 2 це 96w) і
+	 * 84 px під курсором (44 × 1.9; на DPR 2 це 192w). Більший кандидат
+	 * підтягується лише для тієї зірки, на яку дивляться, і поки він їде,
+	 * видимим лишається попередній — тобто без блимання.
+	 *
+	 * Заміряно в браузері, бо на цьому тримається весь задум: зміна `sizes`
+	 * ПІСЛЯ завантаження справді змушує браузер переобрати кандидата (96w → 480w
+	 * при `sizes: 400px`). Заразом виявилося, що НАЗАД він не переобирає ніколи:
+	 * після повернення `sizes` до 44 px джерело лишилося 480w. Тобто зірка,
+	 * на яку раз навели, тримає більший кандидат до кінця сеансу — це один
+	 * зайвий запит на ту зірку, якою людина цікавилася, і ніякої видимої
+	 * різниці. Написано тут, щоб наступний читач не шукав, чому воно «не
+	 * зменшується назад».
+	 */
+	let zoomed = $state(false);
+	const sizes = $derived.by(() => {
+		const { розмір, наближення } = РАНГИ[tier];
+		return zoomed ? `${Math.round(розмір * наближення)}px` : `${розмір}px`;
+	});
+
+	/**
+	 * ПОКИ ПОРТРЕТ НЕ ПРИЙШОВ — зірка виглядає зіркою, а не порожньою рамкою.
+	 *
+	 * Рамку малювало `outline` на самому `<img>`: атрибути `width`/`height`
+	 * дають коробку 44×44 ще до першого байта вмісту, а `border-radius: 50%`
+	 * робить із обведення біле коло. Порожнього кільця ніхто не задумував — воно
+	 * побічний ефект обведення портрета, і разом із відсутністю переходу давало
+	 * саме те, що видно на екрані: коло-привид, потім різкий стрибок обличчя, а
+	 * інколи ще й обличчя, обрізане горизонтально посередині.
+	 *
+	 * Обидві половини лікуються одним прапорцем: до готовності портрет має
+	 * `opacity: 0` (а з ним і обведення), а на його місці світиться така сама
+	 * точка, як у людей без анкети. Коробка при цьому лишається 56 px — точка
+	 * підмінює лише вигляд, не ціль дотику, інакше розмір цілі стрибав би на
+	 * льоту й гейт `e2e/touch-targets` міряв би різне в різні секунди.
+	 *
+	 * Для мультифото рахуються ВСІ кадри: показувати стопку, коли готовий один
+	 * шар із трьох, означало б віддати кадр, на якому WAAPI саме тримає інший,
+	 * ще порожній.
+	 */
+	let готових = $state(0);
+	const готово = $derived(готових >= Math.max(1, photos.length || 1));
+
 	function updatePlacement() {
 		if (buttonEl) {
 			const rect = buttonEl.getBoundingClientRect();
@@ -51,80 +120,34 @@
 		}
 	}
 
+	function наблизити() {
+		zoomed = true;
+		updatePlacement();
+	}
+
 	/**
-	 * Web Animations API: crossfade між фото, синхронізований з drift.
+	 * Цикл мультифото: один проліт — одна послідовність знімків.
 	 *
-	 * Чому не CSS keyframes: CSS не підтримує динамічні відсотки.
-	 * Для N фото точки переходу — `1/N`, `2/N`, …, `(N-1)/N` — обчислюються
-	 * тільки в JS. WAAPI працює на GPU compositor як і CSS animations.
+	 * Обчислення кадрів живе в `$lib/utils/photoCycle` і має власні тести: воно
+	 * переїхало туди, коли цей файл переріс стелю розміру, і поділ виявився
+	 * природним — арифметика точок переходу нічого не знає ні про кнопку, ні про
+	 * ранги.
 	 *
-	 * `--duration` і `--delay` успадковуються від `.lane` в GraduateGalaxy,
-	 * тому кожен проліт = повний цикл від наймолодшого до поточного фото.
+	 * `--duration` і `--delay` успадковуються від `.lane` у `GraduateGalaxy`, тож
+	 * цикл рівно збігається з прольотом через екран.
 	 */
 	$effect(() => {
 		if (!browser || photoCount <= 1 || !buttonEl) return;
-
-		// Поважаємо prefers-reduced-motion
+		// Рух — саме те, що просили прибрати; статичний кадр лишає CSS нижче.
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-		const style = getComputedStyle(buttonEl);
-		const duration = parseFloat(style.getPropertyValue('--duration')) || 30;
-		const delay = parseFloat(style.getPropertyValue('--delay')) || 0;
-		const durationMs = duration * 1000;
-		const delayMs = delay * 1000;
-
-		// 4 секунди як частка тривалості, cap 12% для коротких прольотів
-		const fadeFrac = Math.min(4 / duration, 0.12);
-		const half = fadeFrac / 2;
-
-		const layers = buttonEl.querySelectorAll<HTMLElement>('.star__photo--layer');
-		const animations: Animation[] = [];
-
-		layers.forEach((img, i) => {
-			const n = photos.length;
-			const fadeIn = i / n;           // коли це фото з'являється
-			const fadeOut = (i + 1) / n;     // коли зникає
-
-			let keyframes: Keyframe[];
-
-			if (i === 0) {
-				// Перше (наймолодше): видиме з початку, зникає на fadeOut
-				keyframes = [
-					{ opacity: 1, offset: 0 },
-					{ opacity: 1, offset: Math.max(0, fadeOut - half) },
-					{ opacity: 0, offset: Math.min(1, fadeOut + half) },
-					{ opacity: 0, offset: 1 },
-				];
-			} else if (i === n - 1) {
-				// Останнє (поточне): приховане, з'являється на fadeIn
-				keyframes = [
-					{ opacity: 0, offset: 0 },
-					{ opacity: 0, offset: Math.max(0, fadeIn - half) },
-					{ opacity: 1, offset: Math.min(1, fadeIn + half) },
-					{ opacity: 1, offset: 1 },
-				];
-			} else {
-				// Середнє: з'являється на fadeIn, зникає на fadeOut
-				keyframes = [
-					{ opacity: 0, offset: 0 },
-					{ opacity: 0, offset: Math.max(0, fadeIn - half) },
-					{ opacity: 1, offset: Math.min(fadeIn + half, fadeOut - half) },
-					{ opacity: 1, offset: Math.max(fadeIn + half, fadeOut - half) },
-					{ opacity: 0, offset: Math.min(1, fadeOut + half) },
-					{ opacity: 0, offset: 1 },
-				];
-			}
-
-			const anim = img.animate(keyframes, {
-				duration: durationMs,
-				delay: delayMs,
-				iterations: Infinity,
-				easing: 'linear',
-			});
-			animations.push(anim);
-		});
-
-		return () => animations.forEach((a) => a.cancel());
+		const стиль = getComputedStyle(buttonEl);
+		return запуститиЦикл(
+			buttonEl,
+			'.star__photo--layer',
+			parseFloat(стиль.getPropertyValue('--duration')) || 30,
+			parseFloat(стиль.getPropertyValue('--delay')) || 0
+		);
 	});
 </script>
 
@@ -143,12 +166,24 @@
 	type="button"
 	class="star star--{kind} star--tier-{tier}"
 	class:star--multi={photoCount > 1}
-	onmouseenter={updatePlacement}
-	onfocus={updatePlacement}
+	class:star--ready={готово}
+	onmouseenter={наблизити}
+	onmouseleave={() => (zoomed = false)}
+	onfocus={наблизити}
+	onblur={() => (zoomed = false)}
 	onclick={onselect}
 	data-testid="galaxy-{graduate.slug}-btn"
 >
 	{#if kind === 'photo'}
+		<!--
+			Точка під портретом — та сама, що в людини без анкети, і саме тому
+			окремого вигляду для «вантажиться» тут немає: галактика має два стани,
+			а не три. Вона лежить у DOM і після появи обличчя, бо зникає
+			переходом; прибрати її блоком `{#if}` означало б обміняти різку появу
+			портрета на різке зникнення точки.
+		-->
+		<span class="star__face">
+			<span class="star__dot star__dot--waiting" aria-hidden="true"></span>
 		{#if photoCount > 1}
 			<!--
 				Мультифото: всі <img> накладені одна на одну. CSS-анімація
@@ -163,30 +198,31 @@
 				{#each photos as photo, i (i)}
 					<img
 						class="star__photo star__photo--layer"
-						src={photo.src}
-						srcset={photo.srcset}
-						sizes="(hover: hover) 176px, 96px"
+						{sizes}
 						width="96"
 						height="96"
-						loading="lazy"
 						decoding="async"
 						alt={i === photos.length - 1 ? graduate.name : ''}
+						{@attach портретУЧерзі(photo.src, photo.srcset, () => (готових += 1))}
 					/>
 				{/each}
 			</div>
 		{:else}
 			<img
 				class="star__photo"
-				src={photo ?? graduatePhoto(graduate.slug, 96)}
-				srcset={photo ? undefined : graduatePhotoSrcset(graduate.slug)}
-				sizes={photo ? undefined : '(hover: hover) 176px, 96px'}
+				sizes={photo ? undefined : sizes}
 				width="96"
 				height="96"
-				loading="lazy"
 				decoding="async"
 				alt={graduate.name}
+				{@attach портретУЧерзі(
+					photo ?? graduatePhoto(graduate.slug, 96),
+					photo ? undefined : graduatePhotoSrcset(graduate.slug),
+					() => (готових = 1)
+				)}
 			/>
 		{/if}
+		</span>
 	{:else}
 		<span class="star__dot" aria-hidden="true"></span>
 	{/if}
@@ -283,6 +319,22 @@
 		transform: scale(1.8);
 	}
 
+	/*
+	 * Спільне місце для точки-плейсхолдера й портрета: вони мусять стояти ОДНЕ
+	 * ПОВЕРХ ОДНОГО, щоб перехід був перетіканням, а не зміною розкладки.
+	 *
+	 * Розмір саме `--photo-size`, а не 100 %: коробка кнопки більша за обличчя
+	 * навмисно (прозорі поля, за які легше «схопити» зірку, що їде), і точка
+	 * мусить світитися там, де потім буде обличчя, а не по центру всієї цілі.
+	 */
+	.star__face {
+		position: relative;
+		display: grid;
+		place-items: center;
+		width: var(--photo-size);
+		height: var(--photo-size);
+	}
+
 	.star__photo {
 		width: var(--photo-size);
 		height: var(--photo-size);
@@ -294,6 +346,47 @@
 		outline: 1px solid rgb(255 255 255 / 0.4);
 		outline-offset: -1px;
 		transition: filter 280ms ease;
+	}
+
+	/*
+	 * ПОЯВА ОБЛИЧЧЯ — секунда, і не більше.
+	 *
+	 * Нуль тут не лише ховає незавантажене зображення, а й знімає з екрана
+	 * `outline`: прозорість діє на весь елемент разом з обведенням, і саме тому
+	 * порожнє біле кільце зникає без жодної правки самого обведення.
+	 *
+	 * Секунда — а не дві, як у сусідньому проєкті: там картка стоїть на місці, а
+	 * тут зірка летить. За секунду вона проходить близько півтора відсотка
+	 * ширини екрана; за дві перехід починає читатися як «підвантажується», а не
+	 * як «з'явилася».
+	 *
+	 * ДВА РІЗНІ НОСІЇ ПРОЗОРОСТІ, і плутати їх не можна. В одинокого портрета
+	 * переходом володіє сам `<img>`. У мультифото прозорість ШАРІВ належить Web
+	 * Animations API (див. `$effect` вище), а анімація WAAPI сильніша за будь-яке
+	 * авторське правило — тобто `opacity` на шарі просто не подіяв би. Там
+	 * переходом володіє обгортка, і множення двох прозоростей дає рівно те, що
+	 * потрібно: поява стопки плюс власний цикл усередині неї.
+	 */
+	.star:not(.star--multi) .star__photo,
+	.star--multi .star__photos {
+		opacity: 0;
+		transition: opacity 1s ease-out;
+	}
+
+	.star--ready:not(.star--multi) .star__photo,
+	.star--multi.star--ready .star__photos {
+		opacity: 1;
+	}
+
+	/* Точка стоїть рівно там, де з'явиться обличчя, і згасає тим самим тактом. */
+	.star__dot--waiting {
+		position: absolute;
+		opacity: 0.7;
+		transition: opacity 1s ease-out;
+	}
+
+	.star--ready .star__dot--waiting {
+		opacity: 0;
 	}
 
 	.star--tier-colleague {
@@ -414,6 +507,17 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		.star {
+			transition: none;
+		}
+
+		/*
+		 * Поява портрета лишається, але вмить: показ усе одно мусить чекати
+		 * декодування (інакше повертається обличчя, обрізане горизонтально), а
+		 * ось секунда перетікання — це рух, і саме її просили прибрати.
+		 */
+		.star:not(.star--multi) .star__photo,
+		.star--multi .star__photos,
+		.star__dot--waiting {
 			transition: none;
 		}
 
