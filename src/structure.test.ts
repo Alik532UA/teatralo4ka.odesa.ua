@@ -546,12 +546,18 @@ const LIMITS: Array<[RegExp, number]> = [
  *   тягне цей компонент на КОЖНІЙ сторінці, а реєстри важать сотні кілобайтів.
  *   Дешевший запис (імпорт угорі) коштував би ваги головної, а не рядків тут.
  *   Сама збірка записів живе окремим модулем `services/searchGalaxy`.
+ * 2026-09-10: `services/settings.ts` 980 → 975. Стелю ОПУЩЕНО, не піднято.
+ *   Лінивий SDK бази (`CDB-LAZY-SDK`) додав кожній функції рядок «дай базу», і
+ *   файл на мить переріс стелю на одиницю. Замість підняття числа шість
+ *   однакових читань згорнуто в `знімокНалаштувань(id)` — та сама четвірка
+ *   сегментів шляху була написана шість разів. Файл упав з 976 до 973, і число
+ *   знято одразу, щоб звільнене місце не заросло мовчки.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
 	'src/lib/components/HeaderSection.svelte': 1600,
-	'src/lib/services/settings.ts': 980,
+	'src/lib/services/settings.ts': 975,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,
 	'src/lib/components/ui/MenuEditor.svelte': 865,

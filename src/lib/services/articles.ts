@@ -1,17 +1,5 @@
-import { 
-  collection, 
-  doc, 
-  getDoc,
-  getDocs, 
-  query, 
-  orderBy, 
-  where,
-  limit,
-  type QueryConstraint,
-  type Timestamp,
-  type FieldValue,
-} from "firebase/firestore";
-import { db } from "../firebase/config";
+import type { QueryConstraint, Timestamp, FieldValue } from "firebase/firestore";
+import { firestore } from "../firebase/lazy";
 import { ArticleSchema } from "../schemas";
 import type { ArticleMediaItem, MediaLayout, MediaShape } from "$lib/utils/articleMedia";
 import type { ArticleCategory } from "../config/categories";
@@ -99,6 +87,7 @@ export async function getArticleById(id: string) {
   // Wrapped in try/catch because Firestore evaluates read rules even for
   // non-existent documents; resource.data.isPublished throws when resource is
   // null, so anonymous reads on missing doc IDs return permission-denied.
+  const { db, doc, getDoc, collection, query, where, limit, getDocs } = await firestore();
   try {
     const docRef = doc(db, "projects", projectId, "articles", id);
     const docSnap = await getDoc(docRef);
@@ -131,6 +120,7 @@ export async function getArticleById(id: string) {
 export async function getArticles(lang: string = "uk", publishedOnly: boolean = true, category?: string, maxItems?: number) {
   const _perf = (l: string) => { if (typeof window !== 'undefined' && window.__perf) window.__perf(l); };
   _perf('getArticles: start');
+  const { db, collection, query, where, orderBy, limit, getDocs } = await firestore();
   const articlesRef = collection(db, "projects", projectId, "articles");
   
   // Фільтр isPublished на рівні запиту обов'язковий для неавторизованих користувачів:
@@ -208,6 +198,7 @@ export function mapArticleToWidgetItem(article: Article, lang: 'uk' | 'en', inde
 }
 
 export async function getPageBySlug(slug: string): Promise<Article | null> {
+  const { db, collection, query, where, limit, getDocs } = await firestore();
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(
     articlesRef,
@@ -224,6 +215,7 @@ export async function getPageBySlug(slug: string): Promise<Article | null> {
 }
 
 export async function getAllPages(lang: string = "uk"): Promise<Article[]> {
+  const { db, collection, query, where, orderBy, limit, getDocs } = await firestore();
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(
     articlesRef,
@@ -242,6 +234,7 @@ export async function getAllPages(lang: string = "uk"): Promise<Article[]> {
 }
 
 export async function getProjectPageBySlug(slug: string): Promise<Article | null> {
+  const { db, collection, query, where, limit, getDocs } = await firestore();
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(
     articlesRef,
@@ -258,6 +251,7 @@ export async function getProjectPageBySlug(slug: string): Promise<Article | null
 }
 
 export async function getAllProjects(lang: string = "uk"): Promise<Article[]> {
+  const { db, collection, query, where, orderBy, limit, getDocs } = await firestore();
   const articlesRef = collection(db, "projects", projectId, "articles");
   const q = query(
     articlesRef,

@@ -1,14 +1,6 @@
 import type { ScrollbarMode } from '$lib/config/scrollbarModes';
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp,
-  type DocumentReference,
-  type FieldValue,
-  type Timestamp
-} from "firebase/firestore";
-import { auth, db } from "../firebase/config";
+import type { DocumentReference, FieldValue, Timestamp } from "firebase/firestore";
+import { firebaseAuth, firestore } from "../firebase/lazy";
 import { storage } from "./storage";
 import { rethrowFriendly } from "./firebaseErrors";
 import {
@@ -26,8 +18,23 @@ import {
 } from "../schemas/settings";
 import { DEFAULT_HOT_NEWS, type HotNewsConfig } from "../utils/hotNews";
 
+/**
+ * Знімок документа налаштувань — та сама четвірка сегментів у шести місцях.
+ *
+ * Читання ПУБЛІЧНЕ: правила дозволяють будь-кому взяти `settings/<id>` цього
+ * проєкту. Обгортка з'явилася разом із лінивим SDK: без неї кожна з шести
+ * функцій читання починалася б двома однаковими рядками — «дай базу» і «склади
+ * посилання», — і зростання файлу було б платою за спосіб завантаження, а не
+ * за нову поведінку.
+ */
+async function знімокНалаштувань(id: string) {
+  const { db, doc, getDoc } = await firestore();
+  return await getDoc(doc(db, "projects", SITE_PROJECT_ID, "settings", id));
+}
+
 /** Спільна обгортка запису налаштувань → дружні повідомлення про помилки. */
 async function saveSettingsDoc(ref: DocumentReference, payload: Record<string, unknown>) {
+  const { setDoc } = await firestore();
   try {
     return await setDoc(ref, payload);
   } catch (e) {
@@ -353,7 +360,7 @@ export function projectsToContentConfig(c: ProjectsWidgetConfig): ContentWidgetC
 const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
 
 async function getProjectId(): Promise<string> {
-  const user = auth.currentUser;
+  const user = (await firebaseAuth()).currentUser;
   if (!user) throw new Error("Not authenticated");
 
   const token = await user.getIdTokenResult();
@@ -378,9 +385,8 @@ function perf(label: string) {
 export async function getHomeSettings(): Promise<HomeSettings | null> {
   perf('getHomeSettings: start');
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "home");
-    perf('getHomeSettings: doc ref created, calling getDoc...');
-    const docSnap = await getDoc(docRef);
+    perf('getHomeSettings: calling getDoc...');
+    const docSnap = await знімокНалаштувань("home");
     perf('getHomeSettings: getDoc returned (exists=' + docSnap.exists() + ')');
     if (docSnap.exists()) {
       const raw = docSnap.data() as Partial<HomeSettings>;
@@ -439,6 +445,7 @@ export function getCachedHomeSettings(): Omit<HomeSettings, 'updatedAt'> | null 
 /** Auth-required write. */
 export async function updateHomeSettings(settings: Omit<HomeSettings, "updatedAt">) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "home");
   return await saveSettingsDoc(docRef, {
     ...settings,
@@ -975,8 +982,7 @@ export function resolveHeaderSettings(raw: HeaderSettingsRaw): HeaderSettings {
 /** Public read — no auth required (Firestore rules allow settingId == 'header'). */
 export async function getHeaderSettings(): Promise<HeaderSettings | null> {
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "header");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await знімокНалаштувань("header");
     if (!docSnap.exists()) return null;
 
     const raw = docSnap.data() as HeaderSettingsRaw;
@@ -1033,6 +1039,7 @@ function stripUndefined<T>(obj: T): T {
  */
 export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "header");
 
   // Diff CTA: only store fields that differ from default
@@ -1085,8 +1092,7 @@ export async function updateHeaderSettings(settings: Omit<HeaderSettings, 'updat
 /** Public read — no auth required (Firestore rules allow settingId == 'news'). */
 export async function getNewsPageSettings(): Promise<NewsPageSettings | null> {
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "news");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await знімокНалаштувань("news");
     if (!docSnap.exists()) return null;
       const raw = docSnap.data() as Partial<NewsPageSettings>;
     const data: NewsPageSettings = {
@@ -1118,6 +1124,7 @@ export function getCachedNewsPageSettings(): Omit<NewsPageSettings, 'updatedAt'>
 /** Auth-required write. */
 export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "news");
   return await saveSettingsDoc(docRef, {
     ...settings,
@@ -1130,8 +1137,7 @@ export async function updateNewsPageSettings(settings: Omit<NewsPageSettings, 'u
 /** Public read — no auth required. */
 export async function getProjectsPageSettings(): Promise<ProjectsPageSettings | null> {
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "projects");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await знімокНалаштувань("projects");
     if (!docSnap.exists()) return null;
       const raw = docSnap.data() as Partial<ProjectsPageSettings>;
     const data: ProjectsPageSettings = {
@@ -1163,6 +1169,7 @@ export function getCachedProjectsPageSettings(): Omit<ProjectsPageSettings, 'upd
 /** Auth-required write. */
 export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "projects");
   return await saveSettingsDoc(docRef, {
     ...settings,
@@ -1175,8 +1182,7 @@ export async function updateProjectsPageSettings(settings: Omit<ProjectsPageSett
 /** Public read — no auth required (Firestore rules allow settingId == 'about'). */
 export async function getAboutPageSettings(): Promise<AboutPageSettings | null> {
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "about");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await знімокНалаштувань("about");
     if (!docSnap.exists()) return null;
       const raw = docSnap.data() as Partial<AboutPageSettings>;
     const data: AboutPageSettings = {
@@ -1207,6 +1213,7 @@ export function getCachedAboutPageSettings(): Omit<AboutPageSettings, 'updatedAt
 /** Auth-required write. */
 export async function updateAboutPageSettings(settings: Omit<AboutPageSettings, 'updatedAt'>) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "about");
   return await saveSettingsDoc(docRef, {
     ...settings,
@@ -1229,8 +1236,7 @@ export async function updateAboutPageSettings(settings: Omit<AboutPageSettings, 
  */
 export async function getHotNewsSettings(): Promise<HotNewsConfig | null> {
   try {
-    const docRef = doc(db, "projects", SITE_PROJECT_ID, "settings", "hotNews");
-    const docSnap = await getDoc(docRef);
+    const docSnap = await знімокНалаштувань("hotNews");
     if (!docSnap.exists()) return null;
 
     // Схема лише відкидає непридатне; типові значення живуть в одному місці —
@@ -1267,6 +1273,7 @@ export function getCachedHotNewsSettings(): HotNewsConfig | null {
 /** Auth-required write. */
 export async function updateHotNewsSettings(settings: HotNewsConfig) {
   const projectId = await getProjectId();
+  const { db, doc, serverTimestamp } = await firestore();
   const docRef = doc(db, "projects", projectId, "settings", "hotNews");
   return await saveSettingsDoc(docRef, {
     ...settings,

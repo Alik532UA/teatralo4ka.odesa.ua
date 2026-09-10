@@ -1,10 +1,8 @@
-import { doc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { firestore } from '../firebase/lazy';
 import { storage } from './storage';
 import { rethrowFriendly } from './firebaseErrors';
 import { NewsOverridesSchema, parseOrUndefined } from '../schemas/settings';
 import { NO_NEWS_OVERRIDES, type NewsOverrides } from '../utils/newsOverrides';
-import { setDoc } from 'firebase/firestore';
 
 /**
  * Рішення адмінки про новини, які живуть у коді: приховати або замінити.
@@ -17,8 +15,9 @@ import { setDoc } from 'firebase/firestore';
  *
  * ## Чому окремий файл, а не `services/settings.ts`
  *
- * Той файл стоїть на своїй стелі розміру (976 із 980 рядків), і дописати сюди
- * ще один розділ означало б підняти її заради коду, який має власну
+ * Той файл стоїть на своїй стелі розміру (число тримає `CEILINGS` у
+ * `src/structure.test.ts` — тут воно не переписується), і дописати сюди ще
+ * один розділ означало б підняти її заради коду, який має власну
  * відповідальність. Читається він тим самим способом і тими самими правилами.
  *
  * ## Кеш
@@ -50,6 +49,7 @@ export function getCachedNewsOverrides(): NewsOverrides | null {
  */
 export async function getNewsOverrides(): Promise<NewsOverrides> {
 	try {
+		const { db, doc, getDoc } = await firestore();
 		const посилання = doc(db, 'projects', SITE_PROJECT_ID, 'settings', 'newsOverrides');
 		const знімок = await getDoc(посилання);
 		if (!знімок.exists()) return NO_NEWS_OVERRIDES;
@@ -75,6 +75,7 @@ export async function getNewsOverrides(): Promise<NewsOverrides> {
 
 /** Запис — лише для адміністратора (правила: `canManageSettings`). */
 export async function saveNewsOverrides(overrides: NewsOverrides): Promise<void> {
+	const { db, doc, setDoc, serverTimestamp } = await firestore();
 	const посилання = doc(db, 'projects', SITE_PROJECT_ID, 'settings', 'newsOverrides');
 	try {
 		await setDoc(посилання, { ...overrides, updatedAt: serverTimestamp() });

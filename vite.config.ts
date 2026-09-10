@@ -92,6 +92,19 @@ export default defineConfig({
 		rollupOptions: {
 			output: {
 				manualChunks: (id) => {
+					/*
+					 * SDK бази — ОДНИМ чанком, і це не косметика розкладки.
+					 *
+					 * Відколи публічні сторінки беруть його `await import()`, а сторінки
+					 * адмінки — звичайним імпортом, Rollup побачив два різні шляхи до
+					 * того самого пакета й зробив дві копії: заміряно 2026-09-10, увесь
+					 * клієнтський JS 723 → 753 КБ, тобто +30 КБ дублювання рівно там, де
+					 * ми щойно виграли 95 КБ на критичному шляху. Явний чанк лишає одну
+					 * копію; на те, що головна її не тягне, це не впливає — вона
+					 * приходить динамічним імпортом і після першого кадру.
+					 */
+					if (id.includes('node_modules/@firebase/') || id.includes('node_modules/firebase/'))
+						return 'firebase';
 					if (id.includes('node_modules/svelte/')) return 'svelte';
 					if (id.includes('node_modules/svelte-i18n/')) return 'i18n';
 					if (id.includes('node_modules/zod/')) return 'validation';
