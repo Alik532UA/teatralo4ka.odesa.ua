@@ -11,6 +11,9 @@
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import GraduateYears from "$lib/components/GraduateYears.svelte";
+	import PhotoLightbox, {
+		type LightboxImage,
+	} from "$lib/components/PhotoLightbox.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 	import { scrollFade } from "$lib/utils/scrollFade";
 	import {
@@ -68,13 +71,44 @@
 		}
 	});
 
-	function cyclePhoto() {
-		if (profilePhotos.length <= 1) return;
-		activePhotoIndex = (activePhotoIndex + 1) % profilePhotos.length;
-	}
-
 	function setPhoto(index: number) {
 		activePhotoIndex = index;
+	}
+
+	/**
+	 * Фото анкети відкривається на весь екран — і доти не відкривалося ніяк.
+	 *
+	 * В одиночного знімка не було ЖОДНОГО обробника: натиснути на портрет і не
+	 * отримати нічого — саме те, на що вказав автор. У стопки клік був, але
+	 * циклював кадри, тобто повнорозмірного перегляду не мав ніхто.
+	 *
+	 * Зроблено за зразком `GroupPhotoBanner`: той самий `PhotoLightbox`, той
+	 * самий вигляд виклику. Це перше місце в проєкті, де мініатюра й повний
+	 * розмір розходяться — у банері й галереї досі один `src` на обидві ролі.
+	 *
+	 * ЩО ЗМІНИЛОСЯ В ПОВЕДІНЦІ СТОПКИ, і це свідомо: клік більше не циклює
+	 * кадри, а відкриває їх на весь екран. Перемикання нікуди не зникло —
+	 * точки під фото робили це й раніше, а всередині лайтбокса є власні
+	 * стрілки й лічильник. Одна дія на один клік; вибирати між «переглянути» і
+	 * «наступне» цим самим натисканням неможливо.
+	 */
+	let lightboxOpen = $state(false);
+	let lightboxIndex = $state(0);
+
+	const lightboxImages = $derived<LightboxImage[]>(
+		(profilePhotos.length > 0
+			? profilePhotos.map((photo) => photo.src)
+			: [graduatePhoto(graduate.slug, 480)]
+		).map((src) => ({
+			src,
+			alt: graduate.name,
+			title: graduate.name,
+		})),
+	);
+
+	function openPhoto() {
+		lightboxIndex = profilePhotos.length > 0 ? activePhotoIndex : 0;
+		lightboxOpen = true;
 	}
 
 	function syncFormUrl(open: boolean) {
@@ -859,13 +893,24 @@
 		>
 			{#if graduate.hasPhoto}
 				<div class="photo-container">
+					<!--
+						Кнопка, а не `<div onclick>`: портрет відкривається на весь
+						екран, тобто це справжня дія, і вона мусить бути доступна з
+						клавіатури й озвучена читалкою. Разом із нею пішли два
+						`svelte-ignore`, якими глушилися саме ці попередження.
+					-->
+					<button
+						type="button"
+						class="photo-open"
+						onclick={openPhoto}
+						aria-label={$t('galaxy.openPhoto', {
+							default: `Відкрити фото: ${graduate.name}`,
+						})}
+						data-testid="galaxy-card-photo-open-btn"
+					>
 					{#if photoCount > 1}
-						<!-- Клік по стопці фото циклічно перемикає наступну світлину -->
-						<!-- svelte-ignore a11y_click_events_have_key_events -->
-						<!-- svelte-ignore a11y_no_static_element_interactions -->
-						<div
+						<span
 							class="photo-stack"
-							onclick={cyclePhoto}
 							data-testid="galaxy-card-photo-stack"
 						>
 							{#each profilePhotos as photo, i (i)}
@@ -889,7 +934,21 @@
 									data-testid="galaxy-card-img-{i}"
 								/>
 							{/each}
-						</div>
+						</span>
+					{:else}
+						<img
+							class="photo"
+							src={graduatePhoto(graduate.slug, 480)}
+							srcset={graduatePhotoSrcset(graduate.slug)}
+							sizes="(max-width: 520px) 40vw, 175px"
+							width="175"
+							height="175"
+							alt={graduate.name}
+							data-testid="galaxy-card-img"
+						/>
+					{/if}
+					</button>
+					{#if photoCount > 1}
 						<div
 							class="photo-dots"
 							data-testid="galaxy-card-photo-dots"
@@ -909,17 +968,6 @@
 								></button>
 							{/each}
 						</div>
-					{:else}
-						<img
-							class="photo"
-							src={graduatePhoto(graduate.slug, 480)}
-							srcset={graduatePhotoSrcset(graduate.slug)}
-							sizes="(max-width: 520px) 40vw, 175px"
-							width="175"
-							height="175"
-							alt={graduate.name}
-							data-testid="galaxy-card-img"
-						/>
 					{/if}
 				</div>
 			{:else if graduate.kind === 'student'}
@@ -1384,6 +1432,17 @@
 	variant={graduate.kind === 'student' ? 'student' : 'graduate'}
 />
 
+<!--
+	Повнорозмірний перегляд портрета. Стрілки й лічильник усередині —
+	власні, тож стопка з кількох кадрів гортається саме тут.
+-->
+<PhotoLightbox
+	images={lightboxImages}
+	currentIndex={lightboxIndex}
+	isOpen={lightboxOpen}
+	onclose={() => (lightboxOpen = false)}
+/>
+
 
 <style>
 	/*
@@ -1796,12 +1855,28 @@
 	}
 
 	/* Стопка фото: клікабельний контейнер із накладеними фото */
+	/*
+	 * Кнопка нічого не малює — вона лише робить портрет натискним.
+	 *
+	 * `display: contents` тут НЕ підходить: кнопка з таким значенням втрачає
+	 * власну коробку, а з нею й фокусне кільце та ціль дотику. Тому звичайний
+	 * `block` без жодного оздоблення: усі відступи, рамки й розміри лишаються
+	 * там, де були — на `.photo` і `.photo-stack`.
+	 */
+	.photo-open {
+		display: block;
+		padding: 0;
+		border: none;
+		background: none;
+		cursor: pointer;
+		border-radius: 50%;
+	}
 	.photo-stack {
 		position: relative;
 		width: clamp(100px, 40vw, 175px);
 		height: clamp(100px, 40vw, 175px);
 		margin: 0 0 0.65rem;
-		cursor: pointer;
+		display: block;
 	}
 	.photo--stacked {
 		position: absolute;

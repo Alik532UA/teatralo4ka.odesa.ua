@@ -58,6 +58,18 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-10: `GraduateProfileView.svelte` 1639 → 1679. Сорок рядків — портрет
+ *   анкети відкривається на весь екран, чого доти не робив ніяк: в одиночного
+ *   знімка не було ЖОДНОГО обробника, а в стопки клік циклював кадри. Автор
+ *   натиснув на фото й нічого не отримав.
+ *   Поділу тут немає навмисно, і причина не в ліні. Розкласти було б на що:
+ *   `photo-container` разом зі стопкою, точками й лайтбоксом виглядає окремим
+ *   компонентом. Але стопка живе на `--stack-offset`, які рахує `recalc*`
+ *   ЦЬОГО файлу й роздає через змінні картки, а точки читають
+ *   `activePhotoIndex`, від якого залежить і `alt` активного кадру. Виніс дав
+ *   би три пропси туди й одну подію назад — тобто ту саму логіку, розмазану на
+ *   два файли, і в сумі БІЛЬШЕ рядків. Стеля піднята саме тому, що поділ тут
+ *   зробив би гірше, а не тому, що його не пробували.
  * 2026-09-08: `GraduateProfileView.svelte` 1641 → 1639. Стелю ОПУЩЕНО, і сталося
  *   це посеред правки, яка мала її підняти. Автор попросив дві речі: щоб знак
  *   відділення стояв посередині між знімком і іменем, а підказка виїжджала від
@@ -548,7 +560,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 608,
-	'src/lib/components/GraduateProfileView.svelte': 1639,
+	'src/lib/components/GraduateProfileView.svelte': 1679,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
