@@ -52,11 +52,43 @@ const EVERY_PAGE = {
  */
 const ADMIN = '/admin(/|$)';
 
+/**
+ * Адреси беруться з ПЕРЕЛІКУ, складеного з маршрутів, а не з автовиявлення
+ * (OBSERVABILITY-v9 § 2.2.1, `OBS-LHCI-REAL-PAGES`).
+ *
+ * Перелік пише `scripts/lighthouse-urls.ts` у `postbuild` — там же розбір,
+ * що саме автовиявлення не бачило (галактику, анкети, вистави: усе, що
+ * глибше за два каталоги) і чому ключ `maxAutodiscoverIsolate`, який тут
+ * стояв, не робив нічого: такої опції в LHCI немає.
+ *
+ * Відсутній файл — це помилка, а не привід тихо повернутися до
+ * автовиявлення: мовчазний відкат означав би, що аудит знову міряє не те,
+ * і нічого про це не скаже.
+ *
+ * Разом зі `staticDistDir` це працює саме так, як тут використано: коли
+ * `url` не порожній, LHCI піднімає свій сервер над каталогом збірки й
+ * підставляє в кожну адресу його порт (перевірено у джерелі
+ * `@lhci/cli@0.15.1`, `src/collect/collect.js`).
+ */
+const URLS_FILE = './.lighthouse-urls.json';
+let urls;
+try {
+	urls = require(URLS_FILE);
+} catch {
+	throw new Error(
+		`Lighthouse: немає ${URLS_FILE} — його пише postbuild (scripts/lighthouse-urls.ts). ` +
+			'Спершу `npm run build`.'
+	);
+}
+if (!Array.isArray(urls) || urls.length < 10) {
+	throw new Error(`Lighthouse: у ${URLS_FILE} замало адрес (${urls && urls.length}) — перелік зламався`);
+}
+
 module.exports = {
 	ci: {
 		collect: {
 			staticDistDir: './build',
-			maxAutodiscoverIsolate: 1
+			url: urls
 		},
 		assert: {
 			assertMatrix: [

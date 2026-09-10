@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.593",
+	"version": "0.0.594",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -35,7 +35,7 @@
 		"firebase:login": "node scripts/firebase-cli.mjs login",
 		"firebase:whoami": "node scripts/firebase-cli.mjs login:list",
 		"emulators": "node scripts/firebase-cli.mjs emulators:start --project demo-teatralo4ka --only firestore,auth",
-		"postbuild": "tsx scripts/generate-sitemap.ts && tsx scripts/check-app-version.ts && tsx scripts/check-inline-handlers.ts && tsx scripts/check-head-owners.ts && tsx scripts/check-bundle-budget.ts && tsx scripts/check-links.ts && tsx scripts/check-geo.ts && tsx scripts/generate-changelog.ts",
+		"postbuild": "tsx scripts/generate-sitemap.ts && tsx scripts/check-app-version.ts && tsx scripts/check-inline-handlers.ts && tsx scripts/check-head-owners.ts && tsx scripts/check-bundle-budget.ts && tsx scripts/lighthouse-urls.ts && tsx scripts/check-links.ts && tsx scripts/check-geo.ts && tsx scripts/generate-changelog.ts",
 		"test:e2e": "npm run build && playwright test",
 		"test:e2e:ui": "playwright test --ui",
 		"crawl:ats": "tsx scripts/crawl-ats-ua.ts",
