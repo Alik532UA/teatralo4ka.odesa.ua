@@ -53,7 +53,19 @@
 	/** «2012, 2013» — роки списком, бо на фестиваль їздять не раз. */
 	const yearsOf = (years: number[]) => [...years].sort((x, y) => x - y).join(', ');
 
-	const view = createGalaxyView('galaxy_festivals_view');
+	/*
+	 * Типовий режим — СПИСОК, на прохання автора.
+	 *
+	 * Хронологія тут групує по роках, і в цьому переліку групування майже нічого
+	 * не групує: дванадцять фестивалів припадають на вісім різних років, тобто
+	 * більшість заголовків року несе один рядок. Список показує ті самі рядки
+	 * без порожніх заголовків між ними. Розбір того, чому типовий режим —
+	 * параметр, а не стала, — у докблоці `services/galaxyViewMode`.
+	 *
+	 * Збережений вибір людини й далі переважає: параметр діє лише доти, доки
+	 * вона не торкалася перемикача на цій сторінці.
+	 */
+	const view = createGalaxyView('galaxy_festivals_view', 'list');
 
 	const VIEW_OPTIONS: ReadonlyArray<ViewOption> = $derived([
 		{ value: 'timeline', label: $t('galaxy.viewModes.timeline'), icon: CalendarRange },
