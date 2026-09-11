@@ -97,9 +97,9 @@
 	const піпеткаЄ = typeof window !== 'undefined' && 'EyeDropper' in window;
 
 	async function зЕкрана(token: string) {
+		if (!window.EyeDropper) return;
 		try {
-			const EyeDropperCtor = (window as unknown as { EyeDropper: new () => { open(): Promise<{ sRGBHex: string }> } }).EyeDropper;
-			const { sRGBHex } = await new EyeDropperCtor().open();
+			const { sRGBHex } = await new window.EyeDropper().open();
 			if (sRGBHex) onchange(token, sRGBHex);
 		} catch {
 			/* Скасували вибір клавішею Esc — це не помилка. */

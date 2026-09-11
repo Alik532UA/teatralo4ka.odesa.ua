@@ -209,9 +209,14 @@ class ThemeLab {
 	 * Двадцять кроків — стільки, скільки людина пам'ятає про свій же сеанс.
 	 */
 	private історія: Array<Record<string, string>> = [];
+	private повтор: Array<Record<string, string>> = [];
 
 	get canUndo(): boolean {
 		return this.історія.length > 0;
+	}
+
+	get canRedo(): boolean {
+		return this.повтор.length > 0;
 	}
 
 	/** Скільки токенів переписано — для підпису на кнопці скидання. */
@@ -274,12 +279,25 @@ class ThemeLab {
 	private запам_ятати() {
 		this.історія.push({ ...this.colors });
 		if (this.історія.length > 20) this.історія.shift();
+		this.повтор = [];
 	}
 
 	undo() {
 		const попереднє = this.історія.pop();
 		if (!попереднє) return;
+		this.повтор.push({ ...this.colors });
+		if (this.повтор.length > 20) this.повтор.shift();
 		this.colors = попереднє;
+		this.applyAll();
+		this.зберегти();
+	}
+
+	redo() {
+		const наступне = this.повтор.pop();
+		if (!наступне) return;
+		this.історія.push({ ...this.colors });
+		if (this.історія.length > 20) this.історія.shift();
+		this.colors = наступне;
 		this.applyAll();
 		this.зберегти();
 	}
@@ -428,7 +446,7 @@ class ThemeLab {
 	readThemeTokens(): Record<string, Record<string, string>> {
 		if (!browser) return {};
 		const root = document.documentElement;
-		const буллиКласи = root.className;
+		const булиКласи = root.className;
 		const булаТема = root.getAttribute('data-theme');
 		const збережені: Record<string, string> = {};
 		for (const { name } of LAB_TOKENS) {
@@ -439,7 +457,7 @@ class ThemeLab {
 		const наслідок: Record<string, Record<string, string>> = {};
 		try {
 			for (const тема of THEME_CYCLE) {
-				root.className = буллиКласи
+				root.className = булиКласи
 					.split(/\s+/)
 					.filter((c) => c && !c.endsWith('-theme'))
 					.concat(`${тема}-theme`)
@@ -450,7 +468,7 @@ class ThemeLab {
 				наслідок[тема] = набір;
 			}
 		} finally {
-			root.className = буллиКласи;
+			root.className = булиКласи;
 			if (булаТема === null) root.removeAttribute('data-theme');
 			else root.setAttribute('data-theme', булаТема);
 			for (const [name, значення] of Object.entries(збережені)) {

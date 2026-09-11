@@ -28,7 +28,16 @@
 	let текст = $state('');
 	let взято = $state<number | null>(null);
 	let ім_я = $state('');
-	let таймер: ReturnType<typeof setTimeout>;
+	let таймер: ReturnType<typeof setTimeout> | undefined;
+	let доВидалення = $state<string | null>(null);
+	let таймерВидалення: ReturnType<typeof setTimeout> | undefined;
+
+	$effect(() => {
+		return () => {
+			clearTimeout(таймер);
+			clearTimeout(таймерВидалення);
+		};
+	});
 
 	function застосувати(css: string) {
 		const скільки = themeLab.fromCss(css);
@@ -61,7 +70,8 @@
 	}
 
 	function зберегти() {
-		if (labPresets.save(ім_я, themeLab.colors)) ім_я 	= '';
+		const кольори = themeLab.changedCount > 0 ? themeLab.colors : themeLab.baseline;
+		if (labPresets.save(ім_я, кольори)) ім_я = '';
 	}
 
 	function завантажити(name: string) {
@@ -69,6 +79,20 @@
 		if (!набір) return;
 		themeLab.replaceAll(набір.colors);
 		onapplied();
+	}
+
+	function початиВидалення(name: string) {
+		if (доВидалення === name) {
+			labPresets.remove(name);
+			доВидалення = null;
+			clearTimeout(таймерВидалення);
+		} else {
+			доВидалення = name;
+			clearTimeout(таймерВидалення);
+			таймерВидалення = setTimeout(() => {
+				if (доВидалення === name) доВидалення = null;
+			}, 3000);
+		}
 	}
 </script>
 
@@ -88,8 +112,8 @@
 			type="button"
 			class="presets__btn"
 			onclick={зберегти}
-			disabled={!ім_я.trim() || themeLab.changedCount === 0}
-			title={labPresets.full ? `Місць лише ${MAX_PRESETS} — звільніть одне` : 'Записати поточні кольори'}
+			disabled={!ім_я.trim() || labPresets.full}
+			title={labPresets.full ? `Місць лише ${MAX_PRESETS} — звільніть одне` : themeLab.changedCount > 0 ? 'Записати змінені кольори' : 'Записати поточні кольори теми'}
 			data-testid="theme-lab-preset-save-btn"
 		>
 			<Save size={14} aria-hidden="true" /> Зберегти
@@ -142,11 +166,17 @@
 					<button
 						type="button"
 						class="presets__drop"
-						onclick={() => labPresets.remove(набір.name)}
-						aria-label="Прибрати набір {набір.name}"
+						class:presets__drop--confirm={доВидалення === набір.name}
+						onclick={() => початиВидалення(набір.name)}
+						aria-label={доВидалення === набір.name ? `Підтвердити видалення ${набір.name}` : `Прибрати набір ${набір.name}`}
+						title={доВидалення === набір.name ? 'Натисніть ще раз для підтвердження' : 'Видалити набір'}
 						data-testid="theme-lab-preset-{набір.name}-remove-btn"
 					>
-						<Trash2 size={13} aria-hidden="true" />
+						{#if доВидалення === набір.name}
+							Видалити?
+						{:else}
+							<Trash2 size={13} aria-hidden="true" />
+						{/if}
 					</button>
 				</li>
 			{/each}
@@ -256,5 +286,12 @@
 	.presets__load:hover,
 	.presets__drop:hover {
 		border-color: var(--accent-primary);
+	}
+	.presets__drop--confirm {
+		color: #e53e3e;
+		border-color: #e53e3e;
+		font-size: 0.72rem;
+		font-weight: 600;
+		padding: 0.2rem 0.4rem;
 	}
 </style>

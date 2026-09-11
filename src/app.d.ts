@@ -88,7 +88,25 @@ declare global {
 	 *
 	 * Поля необов'язкові: у SSR і в тестах скрипт не виконується взагалі.
 	 */
+	interface EyeDropperOpenOptions {
+		signal?: AbortSignal;
+	}
+
+	interface EyeDropperColorSelectionResult {
+		sRGBHex: string;
+	}
+
+	interface EyeDropper {
+		open(options?: EyeDropperOpenOptions): Promise<EyeDropperColorSelectionResult>;
+	}
+
+	interface EyeDropperConstructor {
+		new (): EyeDropper;
+		prototype: EyeDropper;
+	}
+
 	interface Window {
+		EyeDropper?: EyeDropperConstructor;
 		__perf?: (label: string) => void;
 		__perfLog?: { t: number; label: string }[];
 		__perfT0?: number;

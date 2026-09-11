@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
-	import { Check, Copy, GripVertical, RotateCcw, Undo2, X } from 'lucide-svelte';
+	import { Check, Copy, GripVertical, Redo2, RotateCcw, Undo2, X } from 'lucide-svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { captureKeyboard } from '$lib/services/keyboard';
 	import { currentColor, LAB_TOKENS, themeLab } from '$lib/services/themeLab.svelte';
@@ -140,8 +140,13 @@
 		перечитати();
 	}
 
+	function повторити() {
+		themeLab.redo();
+		перечитати();
+	}
+
 	/**
-	 * Скасування КЛАВІШЕЮ — Ctrl+Z, поки фокус у панелі.
+	 * Скасування КЛАВІШЕЮ — Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y, поки фокус у панелі.
 	 *
 	 * ## Чому не просто на вікні
 	 *
@@ -160,11 +165,15 @@
 	 */
 	function наКлавішу(e: KeyboardEvent) {
 		if (!уФокусі) return;
-		if (!(e.ctrlKey || e.metaKey) || e.shiftKey || e.altKey) return;
-		if (e.code !== 'KeyZ') return;
+		if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
 		if ((e.target as HTMLElement | null)?.closest('input, textarea, [contenteditable]')) return;
-		e.preventDefault();
-		скасувати();
+		if ((e.code === 'KeyZ' && e.shiftKey) || (e.code === 'KeyY' && !e.shiftKey)) {
+			e.preventDefault();
+			повторити();
+		} else if (e.code === 'KeyZ' && !e.shiftKey) {
+			e.preventDefault();
+			скасувати();
+		}
 	}
 
 	async function копіювати() {
@@ -266,6 +275,16 @@
 			data-testid="theme-lab-undo-btn"
 		>
 			<Undo2 size={16} aria-hidden="true" /> Скасувати
+		</button>
+		<button
+			type="button"
+			class="lab__btn"
+			onclick={повторити}
+			disabled={!themeLab.canRedo}
+			title="Повторити скасовану зміну (Ctrl+Shift+Z / Ctrl+Y)"
+			data-testid="theme-lab-redo-btn"
+		>
+			<Redo2 size={16} aria-hidden="true" /> Повторити
 		</button>
 		<button
 			type="button"
