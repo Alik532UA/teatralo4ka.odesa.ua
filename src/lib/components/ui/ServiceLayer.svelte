@@ -21,7 +21,6 @@
 	import { isLocale, localizedPath, DEFAULT_LOCALE, type Locale } from '$lib/i18n/routing';
 	import { nextTheme } from '$lib/config/themes';
 	import ServiceBadge from './ServiceBadge.svelte';
-	import ThemeLab from './ThemeLab.svelte';
 
 	/**
 	 * Поточна мова для службових переходів.
@@ -275,5 +274,7 @@
 <ServiceBadge />
 
 {#if themeLab.mode !== 'hidden'}
-	<ThemeLab />
+	{#await import('./ThemeLab.svelte') then { default: ThemeLab }}
+		<ThemeLab />
+	{/await}
 {/if}
