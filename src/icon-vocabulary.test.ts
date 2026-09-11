@@ -43,6 +43,16 @@ const VOCABULARY = [
 			{
 				file: 'src/lib/components/adults/MasterProductionsList.svelte',
 				marker: 'master-productions-row-awards-mark'
+			},
+			/*
+			 * Диплом — документ НАГОРОДИ, а не окреме поняття. Спокуса завести
+			 * йому власну іконку («аркуш») була, і словник саме проти неї: два
+			 * значки на нагороду й папір про нагороду розійшлися б у сусідніх
+			 * розділах так само, як колись `Award` і `Trophy`.
+			 */
+			{
+				file: 'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte',
+				marker: 'section-diplomas-title'
 			}
 		]
 	},

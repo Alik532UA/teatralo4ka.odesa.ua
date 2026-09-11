@@ -4,6 +4,7 @@
  * Використання:
  *   npx tsx scripts/convert-group-photo.ts --slug=tv-prodakshn --src="C:\path\to\photo.jpg"
  *   npx tsx scripts/convert-group-photo.ts --slug=tv-prodakshn --index=2 --src=...
+ *   ... --max-height=1400   — для аркуша, який читають, а не розглядають
  *
  * ## Чому Chromium, а не бібліотека
  *
@@ -23,6 +24,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { chromium } from '@playwright/test';
 
+/**
+ * Межа банера. Для ДОКУМЕНТА вона замала, і це не та сама задача.
+ *
+ * 720 по висоті підібрано під груповий знімок: на нього дивляться, і обличчя в
+ * ряду розрізняються й на такій висоті. Диплом натомість ЧИТАЮТЬ — на ньому
+ * ім'я, місто й рік дрібним шрифтом, а портретний аркуш 2330×3316 при цій межі
+ * стискається до 506×720, тобто текст зникає разом із пікселями. Лайтбокс
+ * показує той самий файл, іншого розміру просто немає.
+ *
+ * Тому межа — прапорець, а не стала. Типове значення лишається банерним:
+ * знімків груп і фестивалів більшість, і роздавати їм зайві кілобайти нема за
+ * що.
+ */
 const MAX_WIDTH = 1280;
 const MAX_HEIGHT = 720;
 const QUALITY = 0.82;
@@ -36,11 +50,17 @@ function parseArgs() {
 	let index = 0;
 	let src = '';
 	let kind: Kind = 'groups';
+	let maxWidth = MAX_WIDTH;
+	let maxHeight = MAX_HEIGHT;
 
 	for (const arg of args) {
 		if (arg.startsWith('--slug=')) slug = arg.slice('--slug='.length);
 		if (arg.startsWith('--index=')) index = parseInt(arg.slice('--index='.length), 10);
 		if (arg.startsWith('--src=')) src = arg.slice('--src='.length);
+		if (arg.startsWith('--max-width=')) maxWidth = parseInt(arg.slice('--max-width='.length), 10);
+		if (arg.startsWith('--max-height=')) {
+			maxHeight = parseInt(arg.slice('--max-height='.length), 10);
+		}
 		if (arg.startsWith('--kind=')) {
 			const value = arg.slice('--kind='.length);
 			if (!(value in KINDS)) {
@@ -53,7 +73,8 @@ function parseArgs() {
 
 	if (!slug || !src) {
 		console.error(
-			'Usage: npx tsx scripts/convert-group-photo.ts --slug=<slug> [--index=N] [--kind=groups|festivals] --src=<path>'
+			'Usage: npx tsx scripts/convert-group-photo.ts --slug=<slug> [--index=N] ' +
+				'[--kind=groups|festivals] [--max-width=N] [--max-height=N] --src=<path>'
 		);
 		process.exit(1);
 	}
@@ -63,11 +84,11 @@ function parseArgs() {
 		process.exit(1);
 	}
 
-	return { slug, index, src, kind };
+	return { slug, index, src, kind, maxWidth, maxHeight };
 }
 
 async function main() {
-	const { slug, index, src, kind } = parseArgs();
+	const { slug, index, src, kind, maxWidth, maxHeight } = parseArgs();
 	const outDir = path.join('static', KINDS[kind]);
 
 	const ext = path.extname(src).toLowerCase();
@@ -111,7 +132,7 @@ async function main() {
 				}
 			);
 		},
-		{ dataUrl, maxWidth: MAX_WIDTH, maxHeight: MAX_HEIGHT, quality: QUALITY }
+		{ dataUrl, maxWidth, maxHeight, quality: QUALITY }
 	);
 
 	await browser.close();

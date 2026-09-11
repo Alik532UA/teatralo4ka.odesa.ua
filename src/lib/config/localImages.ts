@@ -99,6 +99,17 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/slovianskyi-vinok-2.webp': { width: 960, height: 720 },
 	'/festivals/slovianskyi-vinok-3.webp': { width: 960, height: 720 },
 	'/festivals/slovianskyi-vinok.webp': { width: 960, height: 720 },
+	// Дипломи «Слов'янського вінка» — не банер, а АРКУШ, який читають, і тому
+	// вища межа (1100 проти 720): при банерній текст на скані зникав разом із
+	// пікселями. Розбір — у докблоці `scripts/convert-group-photo.ts`.
+	//
+	// Оригіналів у репозиторії НЕМАЄ, і це відхилення від того, як зроблено з
+	// героєм: там два знімки на 1,1 МБ лежать у `design-source/`. Тут сканів на
+	// 11,5 МБ, тобто вдесятеро більше, і git не забуває нічого. Джерело —
+	// надіслані автором знімки дипломів із Болгарії; якщо колись знадобиться
+	// вища роздільність, брати треба в нього, а не з репозиторію.
+	'/festivals/slovianskyi-vinok-diploma.webp': { width: 773, height: 1100 },
+	'/festivals/slovianskyi-vinok-diploma-2.webp': { width: 785, height: 1100 },
 	'/festivals/zymova-kazka-2007.webp': { width: 1268, height: 889 },
 	'/festivals/druzhba-2008.webp': { width: 866, height: 1280 },
 	'/festivals/art-like-fest-2026-2.webp': { width: 720, height: 1280 },

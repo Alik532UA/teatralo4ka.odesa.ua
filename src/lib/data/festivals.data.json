@@ -9,6 +9,7 @@
 		"countries": [
 			"BG"
 		],
+		"city": "Кранево",
 		"memberIds": [
 			"ihor-rozvodiuk",
 			"taras-opryshko",
@@ -79,6 +80,11 @@
 			"/festivals/slovianskyi-vinok-2.webp",
 			"/festivals/slovianskyi-vinok-3.webp"
 		],
+		"diplomas": [
+			"/festivals/slovianskyi-vinok-diploma.webp",
+			"/festivals/slovianskyi-vinok-diploma-2.webp"
+		],
+		"videoUrl": "https://youtu.be/BXG1BCaM6PI",
 		"verificationStatus": "verified"
 	},
 	{

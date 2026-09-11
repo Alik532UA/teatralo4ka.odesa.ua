@@ -6,7 +6,8 @@
 		Theater,
 		Users,
 		GraduationCap,
-		Calendar
+		Calendar,
+		Trophy
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
 	import type { PageData } from './$types';
@@ -267,6 +268,42 @@
 		{/if}
 
 		<!--
+			ДИПЛОМИ — ОКРЕМИМ розділом, а не хвостом стопки знімків.
+
+			Прохання автора дослівне: «думаю основні зображення та дипломи мають
+			бути в різних блоках». Причина за ним змістовна: на знімок поїздки
+			дивляться, а диплом читають, і в одній стопці вони заважають одне
+			одному — гортаючи фотографії, впираєшся в документ, а шукаючи
+			документ, гортаєш крізь фотографії.
+
+			Той самий `GroupPhotoBanner`, що й угорі: у нього вже є лайтбокс і
+			власна пропорція на кожен аркуш — а саме пропорція тут і різна,
+			дипломи бувають і портретні, і альбомні. Другий компонент заради
+			тієї самої поведінки був би копією.
+
+			`Trophy` — іконка поняття «нагорода» зі словника
+			(`src/icon-vocabulary.test.ts`), і диплом — саме її документ.
+		-->
+		{#if data.festival.diplomas?.length}
+			<section class="fest-section" aria-labelledby="section-diplomas-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Trophy size={20} aria-hidden="true" /></span>
+					<h2 id="section-diplomas-title" class="section-heading__title">
+						{$t('galaxy.festivalDiplomas')}
+					</h2>
+					<span class="section-heading__count">{data.festival.diplomas.length}</span>
+				</div>
+
+				<div class="fest-diplomas" data-testid="festival-diplomas-section">
+					<GroupPhotoBanner
+						photos={data.festival.diplomas}
+						title={$t('galaxy.festivalDiplomas')}
+					/>
+				</div>
+			</section>
+		{/if}
+
+		<!--
 			Склад і показ вносять поступово, тож сторінка може лишитися без обох.
 			Порожня сторінка мовчки — гірше за сторінку, яка каже, чого на ній ще
 			немає: інакше читач вирішить, що зламалося.
@@ -288,6 +325,16 @@
 		min-height: 100dvh;
 		padding: 2rem 1rem 5rem;
 		color: var(--text-main, #f0f2f5);
+	}
+
+	/*
+	 * Банер дипломів центрується сам: угорі сторінки це робить `.fest-header`
+	 * своїм `text-align: center`, а тут розділ звичайний, і без цього рядка
+	 * аркуш притискався б до лівого краю.
+	 */
+	.fest-diplomas {
+		display: flex;
+		justify-content: center;
 	}
 
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
