@@ -3,12 +3,13 @@ import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { RENAMED_FESTIVAL_SLUGS } from '$lib/config/renamedAddresses';
-import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
+import { LINKED_GRADUATES, kindOrder, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
 
 export const prerender = true;
+
 
 /*
  * Разом із чинними — СТАРІ адреси, перейменовані. Без них стара адреса не
@@ -44,7 +45,8 @@ export async function load({ params, url }) {
 	 */
 	const members: GraduateIndexEntry[] = festival.memberIds
 		.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
-		.filter((g): g is GraduateIndexEntry => Boolean(g));
+		.filter((g): g is GraduateIndexEntry => Boolean(g))
+		.sort((a, b) => kindOrder(a) - kindOrder(b));
 
 	/*
 	 * Показ розгортається з ключів ТУТ, а не в розмітці: сторінка має дістати
