@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
-	import { Check, Copy, GripVertical, RotateCcw, X } from 'lucide-svelte';
+	import { Check, ClipboardPaste, Copy, GripVertical, RotateCcw, X } from 'lucide-svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { currentColor, LAB_TOKENS, themeLab } from '$lib/services/themeLab.svelte';
 	import ThemeLabFields from './ThemeLabFields.svelte';
@@ -108,6 +108,50 @@
 		перечитати();
 	}
 
+	/**
+	 * ВСТАВКА готового блоку — і запасне поле, коли буфер недоступний.
+	 *
+	 * Прохання автора: «скопіювати кольори можна, а ось знову їх вставити ні».
+	 * Розбір самого розбору — у `themeLab.fromCss`.
+	 *
+	 * Читання буфера, на відміну від запису, браузер питає дозволом і в частині
+	 * випадків відмовляє мовчки (інший контекст, Safari, налаштування). Тому
+	 * відмова не з'їдає дію: замість неї відкривається поле, куди блок
+	 * вставляють руками. Той самий прийом, що в звіті бета-тестування
+	 * (`BETA-REPORT-FALLBACK`): інструмент не має права зникати разом із
+	 * дозволом, якого він не контролює.
+	 */
+	let вставкаВручну = $state(false);
+	let текстВставки = $state('');
+	let взято = $state<number | null>(null);
+
+	function застосуватиБлок(css: string) {
+		const скільки = themeLab.fromCss(css);
+		взято = скільки;
+		clearTimeout(таймерВставки);
+		таймерВставки = setTimeout(() => (взято = null), 2600);
+		if (скільки > 0) {
+			перечитати();
+			вставкаВручну = false;
+			текстВставки = '';
+		}
+	}
+
+	let таймерВставки: ReturnType<typeof setTimeout>;
+
+	async function вставити() {
+		try {
+			const css = await navigator.clipboard.readText();
+			if (css.trim()) {
+				застосуватиБлок(css);
+				return;
+			}
+		} catch {
+			// Дозволу немає — нижче відкриється поле.
+		}
+		вставкаВручну = true;
+	}
+
 	async function копіювати() {
 		const css = themeLab.toCss(ui.theme);
 		try {
@@ -193,6 +237,15 @@
 		<button
 			type="button"
 			class="lab__btn"
+			onclick={вставити}
+			data-testid="theme-lab-paste-btn"
+		>
+			<ClipboardPaste size={16} aria-hidden="true" />
+			{взято === null ? 'Вставити CSS' : взято > 0 ? `Взято ${взято}` : 'Кольорів не знайдено'}
+		</button>
+		<button
+			type="button"
+			class="lab__btn"
 			onclick={скинути}
 			disabled={themeLab.changedCount === 0}
 			data-testid="theme-lab-reset-btn"
@@ -202,12 +255,57 @@
 		</button>
 	</footer>
 
+	{#if вставкаВручну}
+		<!--
+			Запасний шлях: буфер не дав прочитати себе, тож блок вставляють сюди.
+			Поле з'являється лише в цьому разі — постійне поруч із кнопкою було б
+			другим способом зробити те саме й питанням «а це для чого».
+		-->
+		<div class="lab__paste">
+			<textarea
+				class="lab__paste-area"
+				rows="4"
+				spellcheck="false"
+				placeholder="Вставте сюди блок теми"
+				bind:value={текстВставки}
+				aria-label="Блок CSS для вставки"
+				data-testid="theme-lab-paste-input"
+			></textarea>
+			<button
+				type="button"
+				class="lab__btn lab__btn--main"
+				onclick={() => застосуватиБлок(текстВставки)}
+				data-testid="theme-lab-paste-apply-btn"
+			>
+				Застосувати
+			</button>
+		</div>
+	{/if}
+
 	<pre class="lab__css" data-testid="theme-lab-css-text">{themeLab.toCss(ui.theme)}</pre>
 	</div>
 </aside>
 {/if}
 
 <style>
+	.lab__paste {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+		margin-bottom: 0.5rem;
+	}
+	.lab__paste-area {
+		width: 100%;
+		resize: vertical;
+		font-family: ui-monospace, monospace;
+		font-size: 0.78rem;
+		padding: 0.4rem 0.5rem;
+		border-radius: 8px;
+		border: 1px solid var(--border-main);
+		background: var(--bg-page);
+		color: var(--text-main);
+	}
+
 	/*
 	 * ВЛАСНІ КОЛЬОРИ, а не токени теми — єдиний випадок у проєкті, коли це
 	 * правильно. Панель показує, як виглядають токени; якби вона сама була ними
