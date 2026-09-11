@@ -9,7 +9,13 @@
 		LayoutGrid
 	} from 'lucide-svelte';
 	import { localizedPath } from '$lib/i18n/routing';
-	import { FESTIVALS, festivalPath, latestYear, matchesFestivalQuery } from '$lib/data/festivals';
+	import {
+		FESTIVALS,
+		festivalPath,
+		latestYear,
+		matchesFestivalQuery,
+		showsCountryName
+	} from '$lib/data/festivals';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
@@ -44,9 +50,28 @@
 		FESTIVALS.filter((f) => matchesFestivalQuery(f, query, назваКраїни))
 	);
 
+	/**
+	 * Порядок: рік униз, а всередині року поїздки до країни-агресора — останні.
+	 *
+	 * Прохання автора стосувалося пари 2010-го: «Слов'янський вінок» мусить
+	 * стояти перед «Брянцевським фестивалем», хоча за абеткою Б раніше за С. У
+	 * тому ж рядку він попросив і прибрати з підпису слово «росія». Обидві
+	 * половини — про одне: поїздка туди лишається в архіві (її не викреслюють),
+	 * але не має ані назви країни в рядку, ані першого місця у своєму році.
+	 *
+	 * Ознака береться з того самого `FLAG_ONLY_COUNTRIES`, що вже вирішує долю
+	 * назви, — інакше два правила про ту саму країну роз'їхалися б при
+	 * наступній правці.
+	 */
+	const донизу = (f: { countries: string[] }) =>
+		f.countries.some((c) => !showsCountryName(c)) ? 1 : 0;
+
 	const ordered = $derived(
 		[...знайдені].sort(
-			(a, b) => latestYear(b) - latestYear(a) || a.name.localeCompare(b.name, 'uk')
+			(a, b) =>
+				latestYear(b) - latestYear(a) ||
+				донизу(a) - донизу(b) ||
+				a.name.localeCompare(b.name, 'uk')
 		)
 	);
 
@@ -89,12 +114,25 @@
 			year: latestYear(f),
 			yearLabel: yearsOf(f.years),
 			title: isEn && f.nameEn ? f.nameEn : f.name,
-			subtitle: [f.city, ...f.countries.map((c) => $t(`galaxy.country.${c}`))]
+			/*
+			 * Назва країни — лише там, де її показують. Для країни-агресора в
+			 * рядку лишається місто й прапор; сам запис у реєстрі не чіпається,
+			 * і пошук за назвою далі працює (розбір — `FLAG_ONLY_COUNTRIES`).
+			 */
+			subtitle: [
+				f.city,
+				...f.countries.filter(showsCountryName).map((c) => $t(`galaxy.country.${c}`))
+			]
 				.filter(Boolean)
 				.join(' · '),
 			memberIds: f.memberIds,
 			/* Підпис — тут, бо словники знає сторінка, а не рядок. */
-			flags: f.countries.map((c) => ({ code: c, label: $t(`galaxy.country.${c}`) })),
+			flags: f.countries.map((c) => ({
+				code: c,
+				/* Без підпису для тих самих країн: `title` малює браузер при
+				   наведенні, тобто це той самий текст, якого просили не писати. */
+				label: showsCountryName(c) ? $t(`galaxy.country.${c}`) : undefined
+			})),
 			marks: [
 				...(f.memberIds.length ? [{ icon: Users, text: String(f.memberIds.length) }] : []),
 				...(f.playIds.length ? [{ icon: Theater, text: String(f.playIds.length) }] : [])
@@ -182,8 +220,13 @@
 							{#each festival.countries as code, i (code)}
 								{#if i > 0}<span class="fest-card__sep" aria-hidden="true">·</span>{/if}
 								<span class="fest-card__pair">
-									<CountryFlag {code} />
-									{$t(`galaxy.country.${code}`)}
+									<CountryFlag
+										{code}
+										title={showsCountryName(code) ? $t(`galaxy.country.${code}`) : undefined}
+									/>
+									{#if showsCountryName(code)}
+										{$t(`galaxy.country.${code}`)}
+									{/if}
 								</span>
 							{/each}
 						</span>

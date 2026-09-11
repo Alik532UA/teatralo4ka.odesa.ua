@@ -11,7 +11,7 @@
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
 	import type { PageData } from './$types';
-	import { graduationCaption, kindOrder } from '$lib/data/graduates';
+	import { graduationCaption, rosterOrder } from '$lib/data/graduates';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
 	import GraduateCard from '$lib/components/GraduateCard.svelte';
 	import {
@@ -22,10 +22,14 @@
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GroupPlaysTimeline from '$lib/components/GroupPlaysTimeline.svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
+	import PhotoLightbox from '$lib/components/PhotoLightbox.svelte';
+	import { imageSize, type LocalImage } from '$lib/config/localImages';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
+	import FestivalVideoPreview from '$lib/components/galaxy/FestivalVideoPreview.svelte';
+	import { parseVideoUrl } from '$lib/utils/videoEmbed';
 
 	let { data }: { data: PageData } = $props();
 
@@ -42,13 +46,12 @@
 	/**
 	 * Склад поїздки щоразу в новому порядку — але ВСЕРЕДИНІ своєї групи.
 	 *
-	 * Прохання автора: «спочатку випускники (випадковим чином), а потім ті, хто
-	 * не закінчив школу (випадковим чином)». Доти перемішувався весь список
-	 * разом, і той, хто пішов з півдороги, міг стояти першим серед тих, хто
-	 * дійшов до випуску.
+	 * Прохання автора — чотири групи, кожна перемішана всередині себе: у
+	 * галактиці з фотографією, у галактиці без неї, поза галактикою з
+	 * фотографією, поза галактикою без. Розбір самих груп — у `rosterOrder`.
 	 *
 	 * Тому два кроки, і порядок між ними значущий: спершу Фішер—Йейтс на всьому
-	 * списку, потім СТІЙКЕ сортування за `kindOrder`. Стійкість тут і є
+	 * списку, потім СТІЙКЕ сортування за `rosterOrder`. Стійкість тут і є
 	 * механізмом: вона зберігає вже перемішаний порядок усередині кожної групи,
 	 * тож випадковість лишається, а групи не змішуються. Сортувати перед
 	 * перемішуванням не можна — друге зруйнувало б перше.
@@ -59,7 +62,7 @@
 	 * іншу розмітку, ніж прийшла з мережі. Ефект виконується вже в браузері.
 	 *
 	 * Групи при цьому правильні ще ДО ефекту: `+page.ts` віддає список уже
-	 * посортованим тим самим `kindOrder`. Тобто перший кадр і прередерений HTML
+	 * посортованим тим самим `rosterOrder`. Тобто перший кадр і прередерений HTML
 	 * показують той самий поділ, а ефект лише тасує людей усередині нього.
 	 *
 	 * Фішер—Йейтс, а не `sort(() => Math.random() - 0.5)`: другий дає нерівний
@@ -80,10 +83,38 @@
 			const j = Math.floor(Math.random() * (i + 1));
 			[list[i], list[j]] = [list[j], list[i]];
 		}
-		shuffled = list.sort((a, b) => kindOrder(a) - kindOrder(b));
+		shuffled = list.sort((a, b) => rosterOrder(a) - rosterOrder(b));
 	});
 
 	const members = $derived(shuffled ?? data.members);
+
+	/**
+	 * Дипломи в лайтбоксі — свій стан, а не спільний із банером знімків.
+	 *
+	 * Банер угорі має власний лайтбокс усередині себе, і він знає лише свої
+	 * знімки. Спільний індекс на дві різні стопки давав би «наступний» із
+	 * фотографії поїздки на диплом — тобто гортання між речами, які саме тому
+	 * й розділені на два блоки.
+	 */
+	/**
+	 * Чи є з чого зробити прев'ю запису.
+	 *
+	 * Не «чи є посилання»: кадр дає лише YouTube статичною адресою, Vimeo без
+	 * свого API — ні. Порожній прямокутник ліворуч від каруселі був би гірший
+	 * за кнопку, тож без кадру шапка лишається старою.
+	 */
+	const videoPreview = $derived(Boolean(parseVideoUrl(data.festival.videoUrl)?.posterUrl));
+
+	let diplomaOpen = $state(false);
+	let diplomaIndex = $state(0);
+
+	const diplomaImages = $derived(
+		(data.festival.diplomas ?? []).map((src) => ({
+			src: asset(src),
+			alt: `${$t('galaxy.festivalDiplomas')} — ${festivalTitle}`,
+			title: festivalTitle
+		}))
+	);
 
 	const festivalTitle = $derived(
 		isEn && data.festival.nameEn ? data.festival.nameEn : data.festival.name
@@ -111,7 +142,37 @@
 		<VerificationNoticeBanner status={data.festival.verificationStatus} />
 
 		<header class="fest-header">
-			<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
+			<!--
+				ЗАПИС І ЗНІМКИ — ПОРУЧ, а не кнопкою під назвою.
+
+				Прохання автора: «там, де основна верхня карусель, ліворуч відео
+				прев'ю, а праворуч фотографії карусель». Доти кнопка «Дивитися
+				запис» стояла під заголовком — тобто головне, що є про поїздку
+				(її запис), виглядало як виноска, а місце над ним займали самі
+				знімки.
+
+				Пара показується лише тоді, коли запис СПРАВДІ розпізнався:
+				`videoPreview` віддає кадр лише для платформ, які дають його
+				статичною адресою (сьогодні YouTube). Без запису шапка лишається
+				такою, якою була, — банер на всю ширину, — і жодна сторінка без
+				відео від цієї зміни не поїхала.
+			-->
+			{#if videoPreview}
+				<div class="fest-media">
+					<div class="fest-media__video">
+						<FestivalVideoPreview
+							videoUrl={data.festival.videoUrl}
+							title={festivalTitle}
+							testid="festival-video-btn"
+						/>
+					</div>
+					<div class="fest-media__photos">
+						<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
+					</div>
+				</div>
+			{:else}
+				<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
+			{/if}
 
 			<div class="fest-header__badges">
 				<!--
@@ -166,14 +227,18 @@
 			{/if}
 
 			<!--
-				Запис ПОЇЗДКИ — одразу під назвою, а не в розділі показів унизу.
-				Розбір і прохання автора — у докблоці `Festival.videoUrl`.
+				Кнопки запису тут БІЛЬШЕ НЕМАЄ — вона переїхала в пару з
+				каруселлю вище (розбір там). Лишається вона лише для запису, з
+				якого не виходить кадру: тоді показувати ліворуч нічого, і
+				пілюля під назвою — єдиний спосіб не втратити посилання.
 			-->
-			<GraduateVideoButton
-				videoUrl={data.festival.videoUrl}
-				title={festivalTitle}
-				testid="festival-video-btn"
-			/>
+			{#if !videoPreview}
+				<GraduateVideoButton
+					videoUrl={data.festival.videoUrl}
+					title={festivalTitle}
+					testid="festival-video-btn"
+				/>
+			{/if}
 
 			{#if data.festival.bio?.length}
 				<div class="fest-header__bio">
@@ -283,21 +348,23 @@
 		{/if}
 
 		<!--
-			ДИПЛОМИ — ОКРЕМИМ розділом, а не хвостом стопки знімків.
+			ДИПЛОМИ — ОКРЕМИМ розділом, і ПІДРЯД, а не по черзі.
 
-			Прохання автора дослівне: «думаю основні зображення та дипломи мають
-			бути в різних блоках». Причина за ним змістовна: на знімок поїздки
-			дивляться, а диплом читають, і в одній стопці вони заважають одне
-			одному — гортаючи фотографії, впираєшся в документ, а шукаючи
-			документ, гортаєш крізь фотографії.
+			Два прохання автора, і друге виправляє моє ж перше рішення. Спершу:
+			«думаю основні зображення та дипломи мають бути в різних блоках» —
+			причина змістовна, бо на знімок поїздки дивляться, а диплом читають.
+			Потім, побачивши результат: «в два рази менше, і без каруселі, просто
+			підряд ідуть».
 
-			Той самий `GroupPhotoBanner`, що й угорі: у нього вже є лайтбокс і
-			власна пропорція на кожен аркуш — а саме пропорція тут і різна,
-			дипломи бувають і портретні, і альбомні. Другий компонент заради
-			тієї самої поведінки був би копією.
+			Карусель була помилкою саме тут. Вона створена для знімків, яких
+			БАГАТО й які рівноцінні: гортання економить висоту сторінки. Дипломів
+			двоє-троє, вони різні (різні номінації, різні люди), і сховати другий
+			за стрілкою означає сховати половину нагород поїздки. Підряд усі
+			видно одразу, і висоти це коштує менше, ніж здається: аркуш удвічі
+			нижчий за банер.
 
-			`Trophy` — іконка поняття «нагорода» зі словника
-			(`src/icon-vocabulary.test.ts`), і диплом — саме її документ.
+			Лайтбокс лишається — без нього диплом на 300 px нечитабельний, а
+			читають його саме заради тексту.
 		-->
 		{#if data.festival.diplomas?.length}
 			<section class="fest-section" aria-labelledby="section-diplomas-title">
@@ -309,12 +376,38 @@
 					<span class="section-heading__count">{data.festival.diplomas.length}</span>
 				</div>
 
-				<div class="fest-diplomas" data-testid="festival-diplomas-section">
-					<GroupPhotoBanner
-						photos={data.festival.diplomas}
-						title={$t('galaxy.festivalDiplomas')}
-					/>
-				</div>
+				<ul class="diplomas" data-testid="festival-diplomas-list">
+					{#each data.festival.diplomas as diploma, i (diploma)}
+						{@const size = imageSize(diploma as LocalImage)}
+						<li>
+							<button
+								type="button"
+								class="diplomas__btn"
+								onclick={() => {
+									diplomaIndex = i;
+									diplomaOpen = true;
+								}}
+								data-testid="festival-diploma-btn-{i}"
+							>
+								<img
+									src={asset(diploma)}
+									alt="{$t('galaxy.festivalDiplomas')} — {festivalTitle}"
+									width={size.width}
+									height={size.height}
+									loading="lazy"
+									decoding="async"
+								/>
+							</button>
+						</li>
+					{/each}
+				</ul>
+
+				<PhotoLightbox
+					images={diplomaImages}
+					currentIndex={diplomaIndex}
+					isOpen={diplomaOpen}
+					onclose={() => (diplomaOpen = false)}
+				/>
 			</section>
 		{/if}
 
@@ -363,8 +456,90 @@
 	 * величину, яка від ширини панелі не залежить, наприклад `offsetHeight`
 	 * коробки або видимість знімка.
 	 */
-	.fest-diplomas {
+	/**
+	 * Пара «запис — знімки»: дві колонки, що стають одна під одною.
+	 *
+	 * Частки 1fr на кадр і 1.2fr на карусель, а не порівну: у кадру YouTube
+	 * стала пропорція 16:9, а стопка знімків має свою на кожен кадр і серед
+	 * них бувають ВЕРТИКАЛЬНІ — при рівних колонках такий знімок ставав удвічі
+	 * нижчим за сусідній кадр. Трохи ширша права колонка вирівнює їх на око.
+	 *
+	 * Межа переходу в стовпчик — 860 px, а не типові 768: нижче цього кадр
+	 * стає надто дрібним, щоб на ньому щось розібрати, і два елементи один під
+	 * одним читаються краще, ніж два стиснуті поруч.
+	 */
+	.fest-media {
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 1.25rem;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+
+	@media (max-width: 860px) {
+		.fest-media {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* Банер усередині пари не тримає власної стелі 820 px: колонка вже вужча. */
+	.fest-media__photos :global(.banner) {
+		max-width: 100%;
+	}
+
+	/**
+	 * Аркуші підряд, а не стопкою з гортанням.
+	 *
+	 * `flex-wrap` замість сітки з фіксованим числом колонок: дипломів буває
+	 * один, два або п'ять, і колонка, задана наперед, у першому випадку лишає
+	 * порожнє місце, а в останньому ріже рядок навпіл. Обгортання розкладає
+	 * стільки, скільки влізло, і центрує залишок.
+	 *
+	 * 300 px — «удвічі менше», як просив автор: банер віддавав аркушу 600.
+	 */
+	.diplomas {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1.25rem;
+	}
+
+	.diplomas__btn {
 		display: block;
+		padding: 0;
+		border: none;
+		background: none;
+		cursor: zoom-in;
+		border-radius: 10px;
+	}
+
+	.diplomas__btn:focus-visible {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 4px;
+	}
+
+	.diplomas img {
+		display: block;
+		height: 300px;
+		width: auto;
+		max-width: 100%;
+		border-radius: 10px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+		transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.diplomas__btn:hover img,
+	.diplomas__btn:focus-visible img {
+		transform: scale(1.03);
+	}
+
+	@media (max-width: 560px) {
+		.diplomas img {
+			height: 220px;
+		}
 	}
 
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
