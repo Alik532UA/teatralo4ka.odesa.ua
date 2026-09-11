@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
-	import { Check, ClipboardPaste, Copy, GripVertical, RotateCcw, X } from 'lucide-svelte';
+	import { Check, Copy, GripVertical, RotateCcw, Undo2, X } from 'lucide-svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
+	import { captureKeyboard } from '$lib/services/keyboard';
 	import { currentColor, LAB_TOKENS, themeLab } from '$lib/services/themeLab.svelte';
 	import ThemeLabFields from './ThemeLabFields.svelte';
+	import ThemeLabPresets from './ThemeLabPresets.svelte';
+	import ThemeLabThemes from './ThemeLabThemes.svelte';
+	import { labPresets } from '$lib/services/themeLabPresets.svelte';
 	import ThemeLabMini from './ThemeLabMini.svelte';
 	import { createWindowDrag } from '$lib/utils/windowDrag.svelte';
 
@@ -48,6 +52,7 @@
 	 * елементом, а на сервері документа немає.
 	 */
 	onMount(() => {
+		labPresets.hydrate();
 		перечитати();
 		return () => clearTimeout(таймер);
 	});
@@ -109,47 +114,57 @@
 	}
 
 	/**
-	 * ВСТАВКА готового блоку — і запасне поле, коли буфер недоступний.
+	 * ПОКИ ФОКУС У ПАНЕЛІ — літери сайту мовчать (HOTKEYS-v9, `HK-HANDLER-GUARDS`).
 	 *
-	 * Прохання автора: «скопіювати кольори можна, а ось знову їх вставити ні».
-	 * Розбір самого розбору — у `themeLab.fromCss`.
+	 * Без цього натиск на кнопці панелі доходив би й до обробника сайту: `T`
+	 * перемкнув би тему просто під час підбору кольорів, `L` — мову разом зі
+	 * сторінкою. Поля вводу сайт пропускає сам, а кнопки — ні.
 	 *
-	 * Читання буфера, на відміну від запису, браузер питає дозволом і в частині
-	 * випадків відмовляє мовчки (інший контекст, Safari, налаштування). Тому
-	 * відмова не з'їдає дію: замість неї відкривається поле, куди блок
-	 * вставляють руками. Той самий прийом, що в звіті бета-тестування
-	 * (`BETA-REPORT-FALLBACK`): інструмент не має права зникати разом із
-	 * дозволом, якого він не контролює.
+	 * Захоплення саме за фокусом, а не за «панель відкрита»: уся суть вікна в
+	 * тому, щоб ходити сайтом, не закриваючи його, — і поки дивляться на сайт,
+	 * його скорочення мусять працювати.
 	 */
-	let вставкаВручну = $state(false);
-	let текстВставки = $state('');
-	let взято = $state<number | null>(null);
+	let уФокусі = $state(false);
 
-	function застосуватиБлок(css: string) {
-		const скільки = themeLab.fromCss(css);
-		взято = скільки;
-		clearTimeout(таймерВставки);
-		таймерВставки = setTimeout(() => (взято = null), 2600);
-		if (скільки > 0) {
-			перечитати();
-			вставкаВручну = false;
-			текстВставки = '';
-		}
+	$effect(() => {
+		if (!уФокусі) return;
+		return captureKeyboard();
+	});
+
+	function фокусВийшов(e: FocusEvent & { currentTarget: HTMLElement }) {
+		if (!e.currentTarget.contains(e.relatedTarget as Node | null)) уФокусі = false;
 	}
 
-	let таймерВставки: ReturnType<typeof setTimeout>;
+	function скасувати() {
+		themeLab.undo();
+		перечитати();
+	}
 
-	async function вставити() {
-		try {
-			const css = await navigator.clipboard.readText();
-			if (css.trim()) {
-				застосуватиБлок(css);
-				return;
-			}
-		} catch {
-			// Дозволу немає — нижче відкриється поле.
-		}
-		вставкаВручну = true;
+	/**
+	 * Скасування КЛАВІШЕЮ — Ctrl+Z, поки фокус у панелі.
+	 *
+	 * ## Чому не просто на вікні
+	 *
+	 * Без межі по фокусу Ctrl+Z спрацьовував би й тоді, коли людина читає
+	 * сторінку, — і забирав би звичне скасування в неї та в будь-якої накладки
+	 * поверх. Дія стосується правок у панелі, тож і слухається лише тоді, коли
+	 * руки в панелі.
+	 *
+	 * Сам слухач висить на вікні, а не на `<aside>`: клавіатурна подія на
+	 * неінтерактивному елементі — помилка доступності (обгортка не має фокуса,
+	 * тож і дії на ній для клавіатури не існує). `уФокусі` дає ту саму межу, не
+	 * вигадуючи обгортці ролі, якої в неї немає.
+	 *
+	 * У полі введення комбінація належить самому полю: забрати її означало б
+	 * зламати звичайне редагування тексту (HOTKEYS-v9, `HK-HANDLER-GUARDS`).
+	 */
+	function наКлавішу(e: KeyboardEvent) {
+		if (!уФокусі) return;
+		if (!(e.ctrlKey || e.metaKey) || e.shiftKey || e.altKey) return;
+		if (e.code !== 'KeyZ') return;
+		if ((e.target as HTMLElement | null)?.closest('input, textarea, [contenteditable]')) return;
+		e.preventDefault();
+		скасувати();
 	}
 
 	async function копіювати() {
@@ -166,6 +181,8 @@
 	}
 </script>
 
+<svelte:window onkeydown={наКлавішу} />
+
 {#if themeLab.mode === 'mini'}
 	<ThemeLabMini position={розташування} />
 {:else}
@@ -173,6 +190,8 @@
 	class="lab"
 	class:lab--dragging={тяга.dragging}
 	style={розташування}
+	onfocusin={() => (уФокусі = true)}
+	onfocusout={фокусВийшов}
 	aria-label="Лабораторія кольорів"
 	data-testid="theme-lab-panel"
 >
@@ -221,6 +240,10 @@
 
 	<ThemeLabFields shown={показані} onchange={змінити} />
 
+	<ThemeLabPresets onapplied={перечитати} />
+
+	<ThemeLabThemes />
+
 	<footer class="lab__foot">
 		<button
 			type="button"
@@ -237,11 +260,12 @@
 		<button
 			type="button"
 			class="lab__btn"
-			onclick={вставити}
-			data-testid="theme-lab-paste-btn"
+			onclick={скасувати}
+			disabled={!themeLab.canUndo}
+			title="Скасувати останню зміну (Ctrl+Z)"
+			data-testid="theme-lab-undo-btn"
 		>
-			<ClipboardPaste size={16} aria-hidden="true" />
-			{взято === null ? 'Вставити CSS' : взято > 0 ? `Взято ${взято}` : 'Кольорів не знайдено'}
+			<Undo2 size={16} aria-hidden="true" /> Скасувати
 		</button>
 		<button
 			type="button"
@@ -255,57 +279,12 @@
 		</button>
 	</footer>
 
-	{#if вставкаВручну}
-		<!--
-			Запасний шлях: буфер не дав прочитати себе, тож блок вставляють сюди.
-			Поле з'являється лише в цьому разі — постійне поруч із кнопкою було б
-			другим способом зробити те саме й питанням «а це для чого».
-		-->
-		<div class="lab__paste">
-			<textarea
-				class="lab__paste-area"
-				rows="4"
-				spellcheck="false"
-				placeholder="Вставте сюди блок теми"
-				bind:value={текстВставки}
-				aria-label="Блок CSS для вставки"
-				data-testid="theme-lab-paste-input"
-			></textarea>
-			<button
-				type="button"
-				class="lab__btn lab__btn--main"
-				onclick={() => застосуватиБлок(текстВставки)}
-				data-testid="theme-lab-paste-apply-btn"
-			>
-				Застосувати
-			</button>
-		</div>
-	{/if}
-
 	<pre class="lab__css" data-testid="theme-lab-css-text">{themeLab.toCss(ui.theme)}</pre>
 	</div>
 </aside>
 {/if}
 
 <style>
-	.lab__paste {
-		display: flex;
-		flex-direction: column;
-		gap: 0.4rem;
-		margin-bottom: 0.5rem;
-	}
-	.lab__paste-area {
-		width: 100%;
-		resize: vertical;
-		font-family: ui-monospace, monospace;
-		font-size: 0.78rem;
-		padding: 0.4rem 0.5rem;
-		border-radius: 8px;
-		border: 1px solid var(--border-main);
-		background: var(--bg-page);
-		color: var(--text-main);
-	}
-
 	/*
 	 * ВЛАСНІ КОЛЬОРИ, а не токени теми — єдиний випадок у проєкті, коли це
 	 * правильно. Панель показує, як виглядають токени; якби вона сама була ними

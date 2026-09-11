@@ -1,6 +1,7 @@
 import { browser } from '$app/environment';
 import { storage } from './storage';
 import { AA_NORMAL, contrast, parseColor, type Rgb } from '$lib/utils/contrast';
+import { THEME_CYCLE } from '$lib/config/themes';
 
 /**
  * ЛАБОРАТОРІЯ КОЛЬОРІВ — дизайнер вписує колір і одразу бачить сайт.
@@ -182,6 +183,37 @@ class ThemeLab {
 	/** Куди його перетягнули. `null` — ще не рухали, стане праворуч згори. */
 	spot = $state<LabSpot | null>(null);
 
+	/**
+	 * Якими токени були ДО правок — знімок теми на момент відкриття.
+	 *
+	 * Потрібен двом речам: підказці «було таке» біля зміненого поля й самому
+	 * поняттю «змінено». Доти панель знала лише, що значення переписане, але не
+	 * могла сказати, чим воно було, — а саме це питання й виникає першим, коли
+	 * колір не подобається.
+	 *
+	 * Знімок НЕ зберігається між заходами: тема могла змінитися, і вчорашній
+	 * знімок брехав би. Береться при гідрації, до застосування правок.
+	 */
+	baseline = $state<Record<string, string>>({});
+
+	/**
+	 * Історія для скасування — до двадцяти кроків.
+	 *
+	 * Доти відкотити невдалий колір можна було лише «Скинути все», тобто
+	 * втратити дванадцять вдалих рішень через одне невдале. Для інструмента, у
+	 * якому колір підбирають ітераціями, це робило кожен експеримент дорогим —
+	 * і тому експериментів не робили.
+	 *
+	 * Зберігаються ЗНІМКИ всієї мапи, а не окремі дії: мапа мала (тринадцять
+	 * рядків), а знімок не треба вміти обертати — його просто повертають.
+	 * Двадцять кроків — стільки, скільки людина пам'ятає про свій же сеанс.
+	 */
+	private історія: Array<Record<string, string>> = [];
+
+	get canUndo(): boolean {
+		return this.історія.length > 0;
+	}
+
 	/** Скільки токенів переписано — для підпису на кнопці скидання. */
 	get changedCount(): number {
 		return Object.keys(this.colors).length;
@@ -201,6 +233,12 @@ class ThemeLab {
 		if (!browser || this.гідровано) return;
 		this.гідровано = true;
 		const збережене = прочитати();
+		/* Знімок ДО застосування правок — інакше «було» показувало б те саме, що
+		   й «стало». */
+		const знімок: Record<string, string> = {};
+		for (const { name } of LAB_TOKENS) знімок[name] = currentColor(name);
+		this.baseline = знімок;
+
 		this.colors = збережене.colors;
 		this.mode = збережене.mode;
 		this.spot = збережене.spot;
@@ -232,7 +270,22 @@ class ThemeLab {
 		}
 	}
 
+	/** Запам'ятати поточний стан перед зміною. Порожній крок не пишеться. */
+	private запам_ятати() {
+		this.історія.push({ ...this.colors });
+		if (this.історія.length > 20) this.історія.shift();
+	}
+
+	undo() {
+		const попереднє = this.історія.pop();
+		if (!попереднє) return;
+		this.colors = попереднє;
+		this.applyAll();
+		this.зберегти();
+	}
+
 	setColor(token: string, value: string) {
+		this.запам_ятати();
 		const чисте = value.trim();
 		if (чисте && parseColor(чисте)) this.colors = { ...this.colors, [token]: чисте };
 		else {
@@ -245,6 +298,7 @@ class ThemeLab {
 	}
 
 	reset() {
+		this.запам_ятати();
 		this.colors = {};
 		this.applyAll();
 		this.зберегти();
@@ -323,10 +377,87 @@ class ThemeLab {
 		}
 		const скільки = Object.keys(нові).length;
 		if (скільки === 0) return 0;
+		this.запам_ятати();
 		this.colors = { ...this.colors, ...нові };
 		this.applyAll();
 		this.зберегти();
 		return скільки;
+	}
+
+	/**
+	 * ВЛАСНІ значення кожної теми — без правок дизайнера.
+	 *
+	 * Панель править одну тему, а гейт контрасту в CI міряє всі шість. Щоб
+	 * відповісти «а якщо ці кольори покласти в кожну», треба знати, ЩО в кожній
+	 * темі зараз, — і взяти це можна лише в рушія: значення складені з
+	 * `light-dark()` і кількох шарів селекторів.
+	 *
+	 * ## Чому тема перемикається просто на `html`
+	 *
+	 * Теми оголошені селекторами `html.dark-theme` і `html[data-theme='dark']`,
+	 * тож пробний елемент десь усередині сторінки їх не побачить у принципі:
+	 * до нього дійде тільки успадковане значення чинної теми.
+	 *
+	 * ## Чому цього не видно оком
+	 *
+	 * Увесь обхід синхронний: браузер малює кадр лише коли віддають керування, а
+	 * до того моменту все вже повернуто на місце. Інлайнові правки на час читання
+	 * знімаються — інакше кожна тема віддавала б їх замість свого.
+	 */
+	/**
+	 * Замінити ВЕСЬ набір кольорів одразу — завантаження збереженого варіанта.
+	 *
+	 * Не тринадцять викликів `setColor`: кожен писав би свій крок в історію, і
+	 * одне «скасувати» після завантаження відкочувало б лише останній токен.
+	 * Завантаження — одна дія, отже один крок.
+	 */
+	replaceAll(colors: Record<string, string>) {
+		this.запам_ятати();
+		const чисті: Record<string, string> = {};
+		for (const { name } of LAB_TOKENS) {
+			const значення = colors[name];
+			if (typeof значення === 'string' && значення && parseColor(значення)) {
+				чисті[name] = значення;
+			}
+		}
+		this.colors = чисті;
+		this.applyAll();
+		this.зберегти();
+	}
+
+	readThemeTokens(): Record<string, Record<string, string>> {
+		if (!browser) return {};
+		const root = document.documentElement;
+		const буллиКласи = root.className;
+		const булаТема = root.getAttribute('data-theme');
+		const збережені: Record<string, string> = {};
+		for (const { name } of LAB_TOKENS) {
+			збережені[name] = root.style.getPropertyValue(name);
+			root.style.removeProperty(name);
+		}
+
+		const наслідок: Record<string, Record<string, string>> = {};
+		try {
+			for (const тема of THEME_CYCLE) {
+				root.className = буллиКласи
+					.split(/\s+/)
+					.filter((c) => c && !c.endsWith('-theme'))
+					.concat(`${тема}-theme`)
+					.join(' ');
+				root.setAttribute('data-theme', тема);
+				const набір: Record<string, string> = {};
+				for (const { name } of LAB_TOKENS) набір[name] = currentColor(name);
+				наслідок[тема] = набір;
+			}
+		} finally {
+			root.className = буллиКласи;
+			if (булаТема === null) root.removeAttribute('data-theme');
+			else root.setAttribute('data-theme', булаТема);
+			for (const [name, значення] of Object.entries(збережені)) {
+				if (значення) root.style.setProperty(name, значення);
+			}
+		}
+		return наслідок;
 	}
 
 	toCss(theme: string): string {

@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { LAB_PAIRS, LAB_TOKENS, pairPasses, pairRatio } from '$lib/services/themeLab.svelte';
+	import { Pipette, Sparkles } from 'lucide-svelte';
+	import { LAB_PAIRS, LAB_TOKENS, pairPasses, pairRatio, themeLab } from '$lib/services/themeLab.svelte';
 	import { AA_NORMAL } from '$lib/utils/contrast';
+	import { suggestShade } from '$lib/utils/themeAudit';
 
 	/**
 	 * ЩО ПРАВЛЯТЬ і ЩО З ЦЬОГО ВИЙШЛО — тринадцять полів і вісім вердиктів.
@@ -71,6 +73,39 @@
 		return порядок.map((k) => зібране[k]);
 	});
 
+	/**
+	 * Чи переписаний токен — і чим він був.
+	 *
+	 * Лічильник на кнопці скидання казав «сім», але не казав, ЯКІ сім і чим вони
+	 * були, — а це перше питання, коли колір розлюбили. Знімок робиться при
+	 * відкритті панелі (`themeLab.baseline`), тож «було» тут — це тема, а не
+	 * попередній крок правки: історія кроків живе в скасуванні поруч.
+	 */
+	const змінено = (token: string) => Boolean(themeLab.colors[token]);
+	const було = (token: string) => themeLab.baseline[token] ?? '';
+
+	/**
+	 * Піпетка з ЕКРАНА, а не з поля вибору кольору.
+	 *
+	 * `EyeDropper` дає взяти колір із будь-чого на екрані — з макета, відкритого
+	 * поруч, зі скріншота, із сусідньої вкладки. Саме так дизайнер і приносить
+	 * колір, і доти це означало переписати код очима.
+	 *
+	 * API є не скрізь (сьогодні Chromium), тож кнопки просто немає там, де його
+	 * немає: обіцяна й неробоча кнопка гірша за відсутню.
+	 */
+	const піпеткаЄ = typeof window !== 'undefined' && 'EyeDropper' in window;
+
+	async function зЕкрана(token: string) {
+		try {
+			const EyeDropperCtor = (window as unknown as { EyeDropper: new () => { open(): Promise<{ sRGBHex: string }> } }).EyeDropper;
+			const { sRGBHex } = await new EyeDropperCtor().open();
+			if (sRGBHex) onchange(token, sRGBHex);
+		} catch {
+			/* Скасували вибір клавішею Esc — це не помилка. */
+		}
+	}
+
 	/** Палітра без власного кольору токена — інакше зразок нічого не змінював би. */
 	const інші = (token: string) =>
 		палітра.filter(
@@ -83,7 +118,17 @@
 		{@const чужі = інші(токен.name)}
 		<li class="token">
 			<label class="token__label" for="lab-{токен.name}">
-				<code>{токен.name}</code>
+				<code>
+					{токен.name}
+					{#if змінено(токен.name)}
+						<!-- Крапка каже «переписано», підказка — чим було. -->
+						<span
+							class="token__dot"
+							title="Було: {було(токен.name) || 'невідомо'}"
+							data-testid="theme-lab-{токен.name.slice(2)}-changed-badge">•</span
+						>
+					{/if}
+				</code>
 				<small>{токен.role}</small>
 			</label>
 			<span class="token__inputs">
@@ -105,6 +150,18 @@
 					aria-label="{токен.name}: код кольору"
 					data-testid="theme-lab-{токен.name.slice(2)}-hex-input"
 				/>
+				{#if піпеткаЄ}
+					<button
+						type="button"
+						class="token__eyedrop"
+						onclick={() => зЕкрана(токен.name)}
+						aria-label="{токен.name}: узяти колір з екрана"
+						title="Узяти колір з екрана"
+						data-testid="theme-lab-{токен.name.slice(2)}-eyedrop-btn"
+					>
+						<Pipette size={13} aria-hidden="true" />
+					</button>
+				{/if}
 			</span>
 
 			<!--
@@ -139,6 +196,7 @@
 		{#each LAB_PAIRS as пара (пара.fg + пара.bg)}
 			{@const відношення = pairRatio(пара, shown)}
 			{@const пройшло = pairPasses(пара, shown)}
+			{@const порада = пройшло === false ? suggestShade(shown[пара.fg] ?? '', shown[пара.bg] ?? '') : null}
 			<li class="pair" class:pair--bad={пройшло === false}>
 				<span class="pair__label">{пара.label}</span>
 				<span
@@ -147,12 +205,70 @@
 				>
 					{відношення === null ? '—' : відношення.toFixed(2)}
 				</span>
+				<!--
+					Коли пара не проходить, панель доти лише повідомляла про це й
+					замовкала — а дизайнер сидів і вгадував, наскільки темнішати.
+					Тут пропонується НАЙБЛИЖЧИЙ відтінок того самого кольору, який
+					уже проходить: рухається текст, а не тло (розбір — у
+					`utils/themeAudit`).
+				-->
+				{#if порада}
+					<button
+						type="button"
+						class="pair__fix"
+						style="--fix: {порада.value}"
+						onclick={() => onchange(пара.fg, порада.value)}
+						title="Зробити {порада.direction === 'darker' ? 'темнішим' : 'світлішим'}: {порада.value} — вийде {порада.ratio.toFixed(2)}"
+						data-testid="theme-lab-{пара.fg.slice(2)}-on-{пара.bg.slice(2)}-fix-btn"
+					>
+						<Sparkles size={12} aria-hidden="true" />
+						{порада.value}
+					</button>
+				{/if}
 			</li>
 		{/each}
 	</ul>
 </section>
 
 <style>
+	.token__dot {
+		color: var(--accent-text);
+		font-size: 1.1em;
+		line-height: 1;
+		cursor: help;
+	}
+	.token__eyedrop {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.15rem 0.25rem;
+		border-radius: 5px;
+		border: 1px solid var(--border-main);
+		background: none;
+		color: var(--text-muted);
+		cursor: pointer;
+	}
+	.token__eyedrop:hover {
+		color: var(--accent-text);
+		border-color: var(--accent-primary);
+	}
+	.pair__fix {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.2rem;
+		margin-left: 0.3rem;
+		padding: 0.05rem 0.3rem;
+		border-radius: 5px;
+		border: 1px solid var(--fix);
+		background: none;
+		color: var(--text-main);
+		font-family: ui-monospace, monospace;
+		font-size: 0.72rem;
+		cursor: pointer;
+	}
+	.pair__fix:hover {
+		background: var(--fix);
+	}
+
 	/*
 	 * Палітра стоїть ПІД полями, на всю ширину рядка: збоку вона з'їдала б
 	 * місце в текстового поля, а саме туди вписують код із макета.
