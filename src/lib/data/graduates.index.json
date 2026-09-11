@@ -11171,5 +11171,203 @@
 		"departments": [
 			"theatre"
 		]
+	},
+	{
+		"id": "mykyta-kurudzhy",
+		"slug": "mykyta-kurudzhy",
+		"name": "Микита Куруджи",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "karyna-kurudzhy",
+		"slug": "karyna-kurudzhy",
+		"name": "Карина Куруджи",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "anna-koltyniuk",
+		"slug": "anna-koltyniuk",
+		"name": "Анна Колтинюк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "karyna-losieva",
+		"slug": "karyna-losieva",
+		"name": "Карина Лосєва",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "arsen-arutiunian",
+		"slug": "arsen-arutiunian",
+		"name": "Арсен Арутюнян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "denys-klymov",
+		"slug": "denys-klymov",
+		"name": "Денис Климов",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "alisa-pomortseva",
+		"slug": "alisa-pomortseva",
+		"name": "Аліса Поморцева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "zlata-yarkova",
+		"slug": "zlata-yarkova",
+		"name": "Злата Яркова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "veronika-cheredniuk",
+		"slug": "veronika-cheredniuk",
+		"name": "Вероніка Череднюк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "oleksii-drui",
+		"slug": "oleksii-drui",
+		"name": "Олексій Друї",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "anastasiia-levytska",
+		"slug": "anastasiia-levytska",
+		"name": "Анастасія Левицька",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "daria-tryfonova",
+		"slug": "daria-tryfonova",
+		"name": "Дар’я Трифонова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "andrii-yuzefovych",
+		"slug": "andrii-yuzefovych",
+		"name": "Андрій Юзефович",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "oleksandra-berezutska",
+		"slug": "oleksandra-berezutska",
+		"name": "Олександра Березуцька",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "kateryna-yolkina",
+		"slug": "kateryna-yolkina",
+		"name": "Катерина Йолкіна",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "olesia-klymova",
+		"slug": "olesia-klymova",
+		"name": "Олеся Климова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "anush-pohosian",
+		"slug": "anush-pohosian",
+		"name": "Ануш Погосян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "iryna-novykova",
+		"slug": "iryna-novykova",
+		"name": "Ірина Новикова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
 	}
 ]

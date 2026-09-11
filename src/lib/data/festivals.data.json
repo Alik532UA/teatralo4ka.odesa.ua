@@ -100,37 +100,47 @@
 			"DE"
 		],
 		"memberIds": [
+			"myroslava-tkach",
 			"liliia-halosa",
-			"oleksandra-shchepynska",
-			"olena-mrost",
-			"tetiana-kamelevska",
-			"alik-zapolnov",
-			"alina-chernobai",
-			"volodymyr-chalchynskyi",
-			"dmytro-rozumenko",
-			"krystyna-manchenko",
-			"oleksandra-indichanska-morozova",
+			"kristina-slivka-spivak",
 			"anastasiia-ivanes",
-			"illia-tryfonov",
-			"maryna-sukhanova",
-			"anastasiia-chalchynska",
-			"artem-starshov",
+			"alina-chernobai",
+			"anastasiia-kuropatkyna",
+			"tetiana-kamelevska",
+			"olha-horbenko",
 			"vladyslav-chernov",
-			"haiana-karapetian",
-			"dana-broshkova",
+			"artem-starshov",
+			"yelyzaveta-sekunda",
+			"iryna-panchenko",
+			"olena-mrost",
+			"oleksandra-shchepynska",
 			"dariia-kulish",
-			"olena-pushkarova",
-			"mykyta-shevchenko",
-			"polina-hedzenko",
+			"anastasiia-zubrytska",
+			"yuliia-stoiko",
+			"kateryna-yakubovych",
+			"dana-broshkova",
+			"kateryna-onopriienko",
 			"marharet-tsypynska",
 			"mykhailo-haniev",
-			"liliia-ternavska",
-			"myroslava-tkach",
+			"olha-shuliak",
+			"oleksii-salimovskyi",
+			"anastasiia-homela",
 			"oleksandr-chehlatonev",
-			"anastasiia-zubrytska",
-			"iryna-panchenko",
+			"alik-zapolnov",
+			"olena-pushkarova",
+			"haiana-karapetian",
+			"oleksandra-indichanska-morozova",
+			"maryna-sukhanova",
+			"illia-tryfonov",
+			"dmytro-rozumenko",
+			"krystyna-manchenko",
+			"volodymyr-chalchynskyi",
+			"anastasiia-chalchynska",
+			"polina-hedzenko",
+			"liliia-ternavska",
 			"oleksandra-novykova",
-			"anastasiia-kuropatkyna"
+			"liubov-prysiazhna",
+			"anna-konysheva"
 		],
 		"masterIds": [
 			"olena-tkach",
@@ -175,7 +185,9 @@
 		],
 		"photos": [
 			"/festivals/mrii-dim-2012.webp",
-			"/festivals/mrii-dim-2012-2.webp"
+			"/festivals/mrii-dim-2012-2.webp",
+			"/festivals/mrii-dim-2012-3.webp",
+			"/festivals/mrii-dim-2012-4.webp"
 		],
 		"verificationStatus": "verified"
 	},
@@ -191,19 +203,20 @@
 		],
 		"city": "Прилуки",
 		"memberIds": [
-			"yevheniia-hymmelfarb",
+			"myroslava-tkach",
 			"alik-zapolnov",
-			"volodymyr-chalchynskyi",
-			"daniil-prymachov",
-			"ivan-voloshyn",
+			"yevheniia-hymmelfarb",
 			"illia-tryfonov",
-			"inna-shevchenko",
-			"maksym-ponomarenko",
+			"ivan-voloshyn",
+			"volodymyr-zakharchenko",
 			"olena-beluhina",
-			"viktoriia-kulbaba",
+			"inna-shevchenko",
 			"kseniia-zhvachkyna",
+			"viktoriia-kulbaba",
 			"yana-kovina",
-			"volodymyr-zakharchenko"
+			"daniil-prymachov",
+			"maksym-ponomarenko",
+			"alina-chernobai"
 		],
 		"masterIds": [
 			"olena-tkach",
@@ -213,7 +226,11 @@
 			"uryvky-z-klasyky-2013"
 		],
 		"photos": [
-			"/festivals/mrii-dim-2013.webp"
+			"/festivals/mrii-dim-2013.webp",
+			"/festivals/mrii-dim-2013-2.webp",
+			"/festivals/mrii-dim-2013-3.webp",
+			"/festivals/mrii-dim-2013-4.webp",
+			"/festivals/mrii-dim-2013-5.webp"
 		],
 		"verificationStatus": "verified"
 	},
@@ -532,6 +549,262 @@
 		"photos": [
 			"/festivals/briantsevskyi-2010.webp"
 		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "oblasnyi-festyval-2012",
+		"name": "Обласний фестиваль дитячих музичних театрів",
+		"nameEn": "Regional Festival of Children’s Musical Theatres",
+		"years": [
+			2012
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [
+			"vladyslav-chernov",
+			"iryna-kucheruk",
+			"sofiia-khersonska",
+			"ivanzhelin-popova",
+			"mykyta-kurudzhy",
+			"anastasiia-andrianova",
+			"anna-koltyniuk",
+			"karyna-losieva",
+			"yuliia-khlopotna",
+			"ivana-kasatkyna"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"oleksandr-kozoviakin",
+			"tetiana-stohul",
+			"iryna-ovcharenko"
+		],
+		"playIds": [
+			"infanta-new-2012"
+		],
+		"bio": [
+			"Обласний фестиваль дитячих музичних театрів — показ у Театрі юного глядача, Одеса.",
+			"Школа показала «Інфанту-NEW» за казками Оскара Вайльда: режисер Федір Ткач, композитор Олександр Козовякін, хореограф Тетяна Стогул, педагог з вокалу Ірина Овчаренко.",
+			"Нагороди записані в самій виставі: 2 місце фестивалю, диплом за музику Олександру Козовякіну і диплом Владиславу Чернову за роль Блазня."
+		],
+		"photos": [
+			"/festivals/oblasnyi-festyval-2012.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "oblasnyi-festyval-2009",
+		"name": "Обласний фестиваль дитячих музичних театрів",
+		"nameEn": "Regional Festival of Children’s Musical Theatres",
+		"years": [
+			2009
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [],
+		"masterIds": [
+			"fedir-tkach"
+		],
+		"playIds": [
+			"slon-khorton-2009"
+		],
+		"bio": [
+			"Обласний фестиваль дитячих музичних театрів, Одеса.",
+			"Школа показала «Слона Хортона» за віршем Доктора Сьюза — група «Особистості», режисер Федір Ткач."
+		],
+		"photos": [
+			"/festivals/oblasnyi-festyval-2009.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zhyvy-2011",
+		"name": "Живи!",
+		"nameEn": "Zhyvy! Theatre Festival",
+		"years": [
+			2011
+		],
+		"countries": [
+			"UA"
+		],
+		"memberIds": [
+			"hryhorii-naumov",
+			"mykhailo-haniev",
+			"anastasiia-lovkina",
+			"marharet-tsypynska",
+			"anastasiia-homela",
+			"olha-shuliak",
+			"arsen-arutiunian"
+		],
+		"masterIds": [
+			"nadiia-rybakova",
+			"yevheniia-voiutska"
+		],
+		"playIds": [],
+		"bio": [
+			"Міжнародний театральний фестиваль «Живи!» — Крим.",
+			"Показували «Незнайку»: режисер Надія Рибакова, концертмейстер Євгенія Воюцька."
+		],
+		"photos": [
+			"/festivals/zhyvy-2011.webp",
+			"/festivals/zhyvy-2011-2.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "artek-karpaty-bukovel-2014",
+		"name": "Артек-Карпати-Буковель",
+		"nameEn": "Artek–Carpathians–Bukovel",
+		"years": [
+			2014
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Буковель",
+		"memberIds": [
+			"denys-klymov",
+			"alina-klimova",
+			"alisa-pomortseva",
+			"nataliia-shynkarenko",
+			"yeva-imas",
+			"zlata-yarkova",
+			"daria-rybalchenko",
+			"daniela-rybalchenko",
+			"veronika-cheredniuk",
+			"zlata-malancheva",
+			"mariia-beluhina",
+			"amryta-chernyshova",
+			"diana-dorosheva",
+			"oleksii-drui",
+			"artem-zimner",
+			"danylo-kallio",
+			"danylo-klymenko",
+			"kseniia-korzhovska",
+			"kulish-mariia",
+			"anastasiia-levytska",
+			"khrystyna-pirko",
+			"myroslava-tkach",
+			"daria-tryfonova",
+			"andrii-yuzefovych",
+			"ivan-shevchenko",
+			"yuliia-khomiakova",
+			"mariia-mosolova",
+			"kseniia-holenkovska",
+			"karyna-bohdanova",
+			"oleksandra-balanska",
+			"iryna-serhieikina",
+			"hryhorii-naumov",
+			"mykhailo-haniev",
+			"marharet-tsypynska",
+			"oleksandra-berezutska",
+			"svitlana-smyrna",
+			"oleksandra-sydorova",
+			"anastasiia-kostina",
+			"olena-beluhina"
+		],
+		"memberMasterIds": [
+			"anhelina-pohosian"
+		],
+		"masterIds": [
+			"olena-tkach",
+			"fedir-tkach",
+			"hanna-tkach",
+			"svitlana-ryskina",
+			"tetiana-isachkina"
+		],
+		"playIds": [
+			"vrednye-sovety-2014",
+			"do-svydanyia-ovrah-2014",
+			"peppy-dlynnyi-chulok-2013"
+		],
+		"bio": [
+			"«Артек-Карпати-Буковель» — виїзд чотирьох навчальних театрів школи.",
+			"Показували уривки: «Маска» — з мюзиклу «Усміхаючись ДЮКу», «Театрашки» — «Шкідливі поради» за Григорієм Остером, «Смайлики» — «До побачення, яре!» за Костянтином Сергієнком, «Команда» — «Пеппі Довгапанчоха» за Астрід Ліндгрен."
+		],
+		"photos": [
+			"/festivals/artek-karpaty-bukovel-2014.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kyiv-slavutych-2015",
+		"name": "Гастролі Київ — Славутич",
+		"nameEn": "Kyiv–Slavutych Tour",
+		"years": [
+			2015
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Київ, Славутич",
+		"memberIds": [
+			"denys-klymov",
+			"heorhii-topor",
+			"alisa-pomortseva",
+			"nataliia-shynkarenko",
+			"yeva-imas",
+			"zlata-yarkova",
+			"daria-rybalchenko",
+			"daniela-rybalchenko",
+			"kateryna-pichuhina",
+			"mariia-ivashchenko",
+			"mariia-beluhina",
+			"amryta-chernyshova",
+			"diana-dorosheva",
+			"artem-zimner",
+			"danylo-kallio",
+			"danylo-klymenko",
+			"kseniia-korzhovska",
+			"kulish-mariia",
+			"anastasiia-levytska",
+			"myroslava-tkach",
+			"daria-tryfonova",
+			"andrii-yuzefovych",
+			"hryhorii-naumov",
+			"mykhailo-haniev",
+			"marharet-tsypynska",
+			"oleksandra-berezutska",
+			"svitlana-smyrna",
+			"yuliia-zaslavska",
+			"alina-nakonechna",
+			"anastasiia-chychkina",
+			"anastasiia-yevdokymova",
+			"kateryna-yolkina",
+			"daryna-zhuravel",
+			"kyrylo-karacheban",
+			"yuliana-klymenko",
+			"karyna-kurudzhy",
+			"elmira-mkheian",
+			"rodion-oborotov",
+			"olesia-klymova",
+			"anush-pohosian",
+			"iryna-novykova"
+		],
+		"memberMasterIds": [
+			"anhelina-pohosian"
+		],
+		"masterIds": [
+			"olena-tkach",
+			"fedir-tkach",
+			"svitlana-ryskina",
+			"tetiana-isachkina",
+			"hanna-tkach"
+		],
+		"playIds": [
+			"prykliuchenyia-olyvera-tvysta-2015",
+			"vse-malchyshky-duraky-2015",
+			"pliushevyi-krolyk-2015",
+			"de-vsi-2015"
+		],
+		"bio": [
+			"Фестивально-театральні гастролі школи: Київ — Славутич, 29 жовтня — 1 листопада 2015.",
+			"Чотири вистави: мюзикл «Пригоди Олівера Твіста» (режисер Ганна Комадовська), комедія «Усі хлопці — дурні» (Світлана Риськіна), «Плюшевий Кролик» (Тетяна Ісачкіна) і підліткова драма «Де всі…» (Федір Ткач)."
+		],
+		"photos": [],
 		"verificationStatus": "possible_errors"
 	}
 ]
