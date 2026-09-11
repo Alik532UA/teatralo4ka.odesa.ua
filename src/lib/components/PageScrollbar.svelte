@@ -4,7 +4,6 @@
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
-	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 
 	/**
@@ -66,16 +65,6 @@
 	 * відчувається як гальмування.
 	 */
 	let dragThumbTop = $state(0);
-
-	/**
-	 * Прокрутка від наведення. Логіка спільна з мінімапами — вона однакова для
-	 * усіх трьох, бо всі троє працюють за тією самою моделлю смужки й рамки.
-	 */
-	const hold = new HoldScroll(() => ({
-		markerTop: thumbTop,
-		markerHeight: thumbHeight,
-		pxPerScroll
-	}));
 
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
@@ -148,11 +137,6 @@
 	);
 	/** Те саме, але доїжджає плавно. */
 	const thumbHeight = $derived(springHeight.current);
-	/** Пікселів смужки на піксель прокрутки — спільна арифметика з мінімапами. */
-	const pxPerScroll = $derived(
-		Math.max(viewportHeight - thumbHeight, 0) / Math.max(pageHeight - viewportHeight, 1)
-	);
-
 	const thumbTop = $derived.by(() => {
 		if (dragging) return dragThumbTop;
 		const maxScroll = pageHeight - viewportHeight;
@@ -238,7 +222,6 @@
 		grabOffset = onThumb ? localY - thumbTop : thumbHeight / 2;
 		dragThumbTop = thumbTop;
 
-		hold.stop();
 		dragging = true;
 		// Перед захватом: виняток у ньому не має проглинути початковий стрибок.
 		requestScroll(e.clientY);
@@ -253,19 +236,7 @@
 	}
 
 	function onTrackPointerMove(e: PointerEvent) {
-		if (dragging) {
-			requestScroll(e.clientY);
-			return;
-		}
-
-		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-		hold.aim(e.clientY - rect.top);
-	}
-
-	function onTrackPointerEnter(e: PointerEvent) {
-		if (dragging) return;
-		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-		hold.aim(e.clientY - rect.top);
+		if (dragging) requestScroll(e.clientY);
 	}
 
 	/**
@@ -275,7 +246,6 @@
 	function endDrag() {
 		if (!dragging) return;
 		dragging = false;
-		hold.stop();
 		if (frame) {
 			cancelAnimationFrame(frame);
 			frame = 0;
@@ -323,18 +293,14 @@
 	<div
 		class="page-scrollbar"
 		class:dragging
-		class:holding={hold.holding}
 		class:page-scrollbar--hidden={ui.isMenuOpen || presence.current < 0.01}
 		style="width: {width}px; opacity: {presence.current};
 			transform: translateX({(1 - presence.current) * width}px);"
 		data-testid="page-scrollbar-container"
-		onpointerenter={onTrackPointerEnter}
-		onpointerleave={() => hold.stop()}
 		oncontextmenu={(e) => {
 			// Нативне меню тут ні до чого: копіювати чи зберігати нема чого,
 			// а перемкнути режим — саме те, чого хочеться на смузі.
 			e.preventDefault();
-			hold.stop();
 			scrollbar.openMenu(e.clientX, e.clientY);
 		}}
 		onpointerdown={onTrackPointerDown}
@@ -398,7 +364,6 @@
 	}
 
 	.page-scrollbar:hover .page-scrollbar__thumb,
-	.page-scrollbar.holding .page-scrollbar__thumb,
 	.page-scrollbar.dragging .page-scrollbar__thumb {
 		background: var(--accent-primary);
 	}

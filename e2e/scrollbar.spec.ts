@@ -15,25 +15,6 @@ import type { ScrollbarMode } from '$lib/controllers/ui.svelte';
  * наздоганяли одна одну — і перетягування смикалося.
  */
 
-/**
- * Бокс елемента, коли той перестав мінятися.
- *
- * Потрібен мінімапі в повному режимі: вона будує клон сторінки й доганяє його
- * розмір кількома кадрами. Перший замір там завжди застарілий.
- */
-async function settledBox(locator: ReturnType<Page['getByTestId']>) {
-	let previous = await locator.boundingBox();
-	for (let attempt = 0; attempt < 10; attempt += 1) {
-		await locator.page().waitForTimeout(120);
-		const next = await locator.boundingBox();
-		if (previous && next && Math.abs(next.height - previous.height) < 1 && Math.abs(next.y - previous.y) < 1) {
-			return next;
-		}
-		previous = next;
-	}
-	return (await locator.boundingBox())!;
-}
-
 /** Вмикає режим так само, як це робить кнопка в налаштуваннях. */
 async function setMode(page: Page, mode: ScrollbarMode) {
 	await page.evaluate((m) => {
@@ -311,76 +292,6 @@ test.describe('режими смуги прокрутки', () => {
 			.toBeLessThan(6);
 	});
 
-	test('наведення й утримання прокручує без натискання', async ({ page }) => {
-		await setMode(page, 'custom');
-		const bar = page.getByTestId('page-scrollbar-container');
-		await expect(bar).toBeVisible();
-
-		const box = (await bar.boundingBox())!;
-		const x = box.x + box.width / 2;
-		// Нижче за повзунок: сторінка на початку, тож повзунок угорі.
-		const below = box.y + box.height * 0.8;
-
-		// Позицію задаємо самі й даємо їй усістися. Браузер відновлює прокрутку
-		// після перезавантаження АСИНХРОННО, і без цього вона доїжджала вже
-		// посеред перевірки — виглядало як завчасний старт доводчика.
-		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-		await page.waitForTimeout(300);
-		const atStart = await page.evaluate(() => window.scrollY);
-
-		await page.mouse.move(x, below);
-		// Затримка навмисна: випадкове проходження курсора повз смугу не має
-		// нічого зрушити.
-		await page.waitForTimeout(600);
-		expect(await page.evaluate(() => window.scrollY), 'до затримки рух не починається')
-			.toBe(atStart);
-
-		await page.waitForTimeout(900);
-		const early = (await page.evaluate(() => window.scrollY)) - atStart;
-		expect(early, 'після затримки сторінка має поїхати').toBeGreaterThan(0);
-
-		// Розгін: за такий самий відрізок часу проходить помітно більше.
-		await page.waitForTimeout(900);
-		const late = (await page.evaluate(() => window.scrollY)) - atStart - early;
-		expect(late, 'рух має прискорюватися').toBeGreaterThan(early);
-
-		// Курсор геть — рух припиняється.
-		await page.mouse.move(box.x - 300, below);
-		await page.waitForTimeout(300);
-		const stopped = await page.evaluate(() => window.scrollY);
-		await page.waitForTimeout(500);
-		expect(await page.evaluate(() => window.scrollY), 'без курсора рух зупиняється')
-			.toBe(stopped);
-	});
-
-	test('доводчик ставить курсор у центр повзунка, а не на його верх', async ({ page }) => {
-		await setMode(page, 'custom');
-		const bar = page.getByTestId('page-scrollbar-container');
-		await expect(bar).toBeVisible();
-
-		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-		await page.waitForTimeout(300);
-
-		const box = (await bar.boundingBox())!;
-		// Мета в середині смуги: там повзунок точно не впирається в край, тож
-		// центрування можна перевірити чесно.
-		const aimY = box.y + box.height * 0.5;
-		await page.mouse.move(box.x + box.width / 2, aimY);
-
-		// Час на секунду затримки плюс на сам рух із гальмуванням.
-		await page.waitForTimeout(6000);
-
-		const thumb = (await page.getByTestId('page-scrollbar-thumb-status').boundingBox())!;
-		const center = thumb.y + thumb.height / 2;
-
-		// Раніше до курсора приїжджав ВЕРХ повзунка, тобто центр був нижче на
-		// піввисоти. Допуск свідомо менший за цю піввисоту — інакше перевірка
-		// пропустила б саму помилку, яку має ловити.
-		expect(thumb.height, 'повзунок мусить мати помітну висоту').toBeGreaterThan(20);
-		expect(Math.abs(center - aimY), 'курсор має бути в центрі повзунка')
-			.toBeLessThan(thumb.height / 2 - 4);
-	});
-
 	test('права кнопка відкриває меню вибору режиму', async ({ page }) => {
 		await setMode(page, 'custom');
 		const bar = page.getByTestId('page-scrollbar-container');
@@ -472,75 +383,6 @@ test.describe('режими смуги прокрутки', () => {
 			}));
 			expect(shown.map, `${mode}: мінімапи бути не має`).toBe(false);
 			expect(shown.bar, `${mode}: смуги бути не має`).toBe(false);
-		}
-	});
-
-	test('доводчик працює в усіх трьох режимах', async ({ page }) => {
-		for (const [mode, testId] of [
-			['custom', 'page-scrollbar-container'],
-			['minimap', 'minimap-container'],
-			['minimap-full', 'minimap-container']
-		] as const) {
-			await setMode(page, mode);
-			const control = page.getByTestId(testId);
-			await expect(control).toBeVisible();
-
-			const viewport = page.viewportSize()!;
-			/*
-			 * Курсор увесь час тримається ПРАВОГО КРАЮ вікна, і це не дрібниця.
-			 *
-			 * У спокої мінімапа схована за край — видно лише смужку. Наводитися
-			 * на її «середину» можна тільки поки вона піднята, тож перевірка, що
-			 * відводила курсор і поверталася в середину, промахувалася повз уже
-			 * сховану мінімапу. Правий край працює для обох варіантів: і
-			 * схематичного, і повного.
-			 */
-			const edge = viewport.width - 4;
-
-			// Підносимо мишу — мінімапа виїжджає.
-			await page.mouse.move(edge, viewport.height / 2);
-			await page.waitForTimeout(900);
-
-			/*
-			 * Розмір беремо УСТАЛЕНИЙ: `minimap-full` будує клон сторінки й
-			 * доганяє його кількома кадрами (заміряно: висота міняється з 564 на
-			 * 580 вже під час наведення).
-			 */
-			const box = await settledBox(control);
-
-			/*
-			 * Виходимо, скидаємо прокрутку, заходимо знову — ЩОЙНО ТУТ.
-			 *
-			 * Наведення саме по собі вже запускає доводчик, тож поки чекали на
-			 * розмір, він устигав довезти сторінку до низу. Далі рухати не було
-			 * куди, і перевірка бачила нуль — тим певніше, чим повільніша
-			 * машина, через що падала лише в паралельному прогоні.
-			 */
-			await page.mouse.move(box.x - 300, viewport.height / 2);
-			await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-			await page.waitForTimeout(250);
-			await page.mouse.move(edge, viewport.height / 2);
-			await page.waitForTimeout(400);
-
-			const atStart = await page.evaluate(() => window.scrollY);
-
-			// Нижче за рамку: сторінка на початку, тож рамка вгорі.
-			await page.mouse.move(edge, box.y + box.height * 0.8);
-
-			/*
-			 * Чекаємо на САМ РУХ, а не відміряний час: у доводчика власна
-			 * затримка перед стартом, і фіксована пауза міряла б швидкість
-			 * машини, а не його роботу.
-			 */
-			await expect
-				.poll(async () => (await page.evaluate(() => window.scrollY)) - atStart, {
-					timeout: 6000,
-					message: `${mode}: доводчик має прокручувати`
-				})
-				.toBeGreaterThan(0);
-
-			await page.mouse.move(box.x - 300, viewport.height / 2);
-			await page.waitForTimeout(300);
 		}
 	});
 

@@ -4,7 +4,6 @@
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
-	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { t } from 'svelte-i18n';
 
@@ -413,7 +412,6 @@
 	 * Мінімапа теж має рамку, яку можна «доводити» без натискання: працює для
 	 * обох варіантів, бо геометрія в них однакова.
 	 */
-	const hold = new HoldScroll(() => ({ markerTop, markerHeight, pxPerScroll }));
 
 	/**
 	 * Рамка рухається як повзунок смуги: за курсором, із поправкою на місце
@@ -424,7 +422,6 @@
 	 * плавну анімацію, і вони наздоганяли одна одну.
 	 */
 	// Таймер і кадр мусять зупинитися разом із компонентом.
-	$effect(() => () => hold.stop());
 
 	function applyScroll() {
 		frame = 0;
@@ -459,7 +456,6 @@
 		grabOffset = onMarker ? localY - current : markerHeight / 2;
 		dragMarkerTop = current;
 
-		hold.stop();
 		dragging = true;
 		// Перед захватом, щоб виняток у ньому — вказівник, якого браузер уже не
 		// вважає активним — не проглинув перший стрибок.
@@ -475,18 +471,7 @@
 	}
 
 	function onPointerMove(e: PointerEvent) {
-		if (dragging) {
-			requestScroll(e.clientY);
-			return;
-		}
-		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-		hold.aim(e.clientY - rect.top);
-	}
-
-	function onPointerEnter(e: PointerEvent) {
-		if (dragging) return;
-		const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-		hold.aim(e.clientY - rect.top);
+		if (dragging) requestScroll(e.clientY);
 	}
 
 	/**
@@ -496,7 +481,6 @@
 	function endDrag() {
 		if (!dragging) return;
 		dragging = false;
-		hold.stop();
 		if (frame) {
 			cancelAnimationFrame(frame);
 			frame = 0;
@@ -544,18 +528,14 @@
 		class="minimap"
 		class:minimap--full={isFull}
 		class:dragging
-		class:holding={hold.holding}
 		style="top: {headerOffset}px; width: {fullWidth}px; height: {mapHeight}px;
 			transform: translateX({hiddenPart}px);"
 		aria-label={$t('settings.scrollbarMinimap')}
 		data-testid="minimap-container"
-		onpointerenter={onPointerEnter}
-		onpointerleave={() => hold.stop()}
 		oncontextmenu={(e) => {
 			// Нативне меню тут ні до чого: копіювати чи зберігати нема чого,
 			// а перемкнути режим — саме те, чого хочеться на смузі.
 			e.preventDefault();
-			hold.stop();
 			scrollbar.openMenu(e.clientX, e.clientY);
 		}}
 		onpointerdown={onPointerDown}
@@ -620,7 +600,6 @@
 	}
 
 	.minimap:hover,
-	.minimap.holding,
 	.minimap.dragging {
 		background: color-mix(in srgb, var(--bg-surface), transparent 5%);
 	}
