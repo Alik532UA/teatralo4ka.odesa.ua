@@ -564,9 +564,14 @@ const LIMITS: Array<[RegExp, number]> = [
  *   банер знімків, лайтбокс, плеєр, хлібні крихти. Те, що лишилося, і є сама
  *   сторінка. Окремим компонентом поїхало лише прев'ю запису
  *   (`galaxy/FestivalVideoPreview`) — бо в нього свій вигляд і свій стан.
+ * 2026-09-11: там само 435 → 445. Сім рядків правила й пояснення до нього:
+ *   кадр запису й стопка знімків мусять бути однакові по висоті, а висоту
+ *   колонки задавали ще й крапки перемикання під банером. Пояснення тут
+ *   довше за саме правило навмисно — наступний читач інакше прибере
+ *   `grid-auto-rows: 0` як незрозумілий рядок і поверне розбіжність у 57 px.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 435,
+	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 445,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
 	'src/lib/components/HeaderSection.svelte': 1600,

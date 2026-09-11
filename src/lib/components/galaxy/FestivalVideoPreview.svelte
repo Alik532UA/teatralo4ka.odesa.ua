@@ -39,9 +39,20 @@
 		/** Назва поїздки: у `alt`, у підказці й у заголовку плеєра. */
 		title: string;
 		testid?: string;
+		/**
+		 * Тягнутися на всю висоту місця замість власних 16:9.
+		 *
+		 * Прохання автора: «відео та фото зробити рівні по висоті». Висоту в
+		 * парі задає стопка знімків — вона в кожного кадру своя, — тож кадр
+		 * запису не може мати сталої пропорції й мусить брати чужу.
+		 *
+		 * Прапорцем, а не завжди: поза парою (де компонент може опинитися
+		 * далі) висоти ззовні немає, і `height: 100%` дав би нуль.
+		 */
+		fill?: boolean;
 	}
 
-	let { videoUrl, title, testid = 'festival-video-btn' }: Props = $props();
+	let { videoUrl, title, testid = 'festival-video-btn', fill = false }: Props = $props();
 
 	const video = $derived(parseVideoUrl(videoUrl));
 	let open = $state(false);
@@ -51,6 +62,7 @@
 	<button
 		type="button"
 		class="preview"
+		class:preview--fill={fill}
 		onclick={() => (open = true)}
 		aria-label={`${$t('galaxy.watchRecording')} — ${title}`}
 		data-testid={testid}
@@ -93,6 +105,23 @@
 		border-radius: 14px;
 		overflow: hidden;
 		transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	/*
+	 * У парі зі стопкою знімків пропорція ЧУЖА, а не своя.
+	 *
+	 * Прохання автора — «відео та фото зробити рівні по висоті», а висоту там
+	 * задає банер: вона в кожного знімка своя. Тому власна пропорція
+	 * скасовується, і кадр бере висоту рядка сітки.
+	 *
+	 * `object-fit: cover` на знімку при цьому не спотворює його, а ЗРІЗАЄ — і
+	 * зрізає передусім чорні поля: `hqdefault` приходить 4:3 із вписаним у
+	 * нього кадром 16:9. Тобто перше, що втрачається при більшій висоті, —
+	 * саме порожнеча згори й знизу.
+	 */
+	.preview--fill {
+		aspect-ratio: auto;
+		height: 100%;
 	}
 
 	.preview img {
