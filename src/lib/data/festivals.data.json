@@ -460,6 +460,48 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"slug": "zhyvy-2010",
+		"name": "Живи!",
+		"nameEn": "Zhyvy! Theatre Festival",
+		"years": [
+			2010
+		],
+		"countries": [
+			"UA"
+		],
+		"memberIds": [
+			"ivan-voloshyn",
+			"liliia-halosa",
+			"yurii-huryn",
+			"olha-horbenko",
+			"alina-chernobai",
+			"tetiana-kamelevska",
+			"kristina-slivka-spivak",
+			"anisiia-stasevych",
+			"anastasiia-kuropatkyna",
+			"anastasiia-ivanes",
+			"myroslava-tkach"
+		],
+		"masterIds": [
+			"olena-tkach",
+			"svitlana-ryskina",
+			"fedir-tkach",
+			"iryna-ovcharenko"
+		],
+		"playIds": [
+			"tsybulino-new-2010"
+		],
+		"bio": [
+			"IV Міжнародний театральний фестиваль «Живи!» — Крим.",
+			"Від школи поїхала група «ФРЕШ» разом із Мирославою Ткач; показували «Цибуліно-NEW» за казкою Джанні Родарі.",
+			"Нагорода записана в самій виставі: диплом лауреата фестивалю."
+		],
+		"photos": [
+			"/festivals/zhyvy-2010.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"slug": "briantsevskyi-2010",
 		"name": "Брянцевський фестиваль",
 		"nameEn": "Briantsev Theatre Festival",

@@ -11149,5 +11149,27 @@
 		"verificationStatus": "possible_errors",
 		"profileSize": 393,
 		"playCount": 1
+	},
+	{
+		"id": "yurii-huryn",
+		"slug": "yurii-huryn",
+		"name": "Юрій Гурин",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "olha-horbenko",
+		"slug": "olha-horbenko",
+		"name": "Ольга Горбенко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
 	}
 ]

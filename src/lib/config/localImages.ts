@@ -90,6 +90,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/groups/mamarada.webp': { width: 1079, height: 720 },
 	'/festivals/briantsevskyi-2010.webp': { width: 513, height: 720 },
 	'/festivals/zhyvy-2009.webp': { width: 496, height: 720 },
+	'/festivals/zhyvy-2010.webp': { width: 503, height: 720 },
 	'/festivals/kvitucha-chekhiia-2.webp': { width: 1278, height: 720 },
 	'/festivals/kvitucha-chekhiia-3.webp': { width: 1278, height: 720 },
 	'/festivals/kvitucha-chekhiia.webp': { width: 1278, height: 720 },
