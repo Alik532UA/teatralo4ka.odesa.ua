@@ -11369,5 +11369,27 @@
 		"departments": [
 			"theatre"
 		]
+	},
+	{
+		"id": "anhelina-pohosian",
+		"slug": "anhelina-pohosian",
+		"name": "Ангеліна Погосян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "listed",
+		"departments": [
+			"music"
+		]
+	},
+	{
+		"id": "karyna-syvak",
+		"slug": "karyna-syvak",
+		"name": "Карина Сивак",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
 	}
 ]

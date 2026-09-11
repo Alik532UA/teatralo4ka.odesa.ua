@@ -96,6 +96,8 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/oblasnyi-festyval-2009.webp': { width: 473, height: 720 },
 	'/festivals/oblasnyi-festyval-2012.webp': { width: 523, height: 720 },
 	'/festivals/artek-karpaty-bukovel-2014.webp': { width: 513, height: 720 },
+	'/festivals/kyiv-slavutych-2015.webp': { width: 505, height: 720 },
+	'/festivals/ivano-frankivsk-2016.webp': { width: 995, height: 720 },
 	'/festivals/mrii-dim-2012-3.webp': { width: 523, height: 720 },
 	'/festivals/mrii-dim-2012-4.webp': { width: 502, height: 720 },
 	'/festivals/mrii-dim-2013-2.webp': { width: 523, height: 720 },

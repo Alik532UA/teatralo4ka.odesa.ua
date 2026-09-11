@@ -2225,7 +2225,8 @@
 			"Музика"
 		],
 		"category": "musicians",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"alsoGraduateId": "anhelina-pohosian"
 	},
 	{
 		"id": "mykhailo-yaksha",

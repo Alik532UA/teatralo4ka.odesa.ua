@@ -704,9 +704,7 @@
 			"svitlana-smyrna",
 			"oleksandra-sydorova",
 			"anastasiia-kostina",
-			"olena-beluhina"
-		],
-		"memberMasterIds": [
+			"olena-beluhina",
 			"anhelina-pohosian"
 		],
 		"masterIds": [
@@ -782,10 +780,9 @@
 			"rodion-oborotov",
 			"olesia-klymova",
 			"anush-pohosian",
-			"iryna-novykova"
-		],
-		"memberMasterIds": [
-			"anhelina-pohosian"
+			"iryna-novykova",
+			"anhelina-pohosian",
+			"karyna-syvak"
 		],
 		"masterIds": [
 			"olena-tkach",
@@ -804,7 +801,45 @@
 			"Фестивально-театральні гастролі школи: Київ — Славутич, 29 жовтня — 1 листопада 2015.",
 			"Чотири вистави: мюзикл «Пригоди Олівера Твіста» (режисер Ганна Комадовська), комедія «Усі хлопці — дурні» (Світлана Риськіна), «Плюшевий Кролик» (Тетяна Ісачкіна) і підліткова драма «Де всі…» (Федір Ткач)."
 		],
-		"photos": [],
+		"photos": [
+			"/festivals/kyiv-slavutych-2015.webp"
+		],
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://youtu.be/L9cDStIgpQs"
+	},
+	{
+		"slug": "ivano-frankivsk-2016",
+		"name": "Гастролі Івано-Франківськ — Коломия — Яремче",
+		"nameEn": "Ivano-Frankivsk–Kolomyia–Yaremche Tour",
+		"years": [
+			2016
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Івано-Франківськ, Коломия, Яремче",
+		"memberIds": [],
+		"masterIds": [
+			"svitlana-nadopta",
+			"hanna-tkach",
+			"svitlana-ryskina",
+			"fedir-tkach",
+			"tetiana-isachkina"
+		],
+		"playIds": [
+			"o-liubvy-y-vechnosty-2016",
+			"chaiky-2016",
+			"boikot-2016",
+			"uryvky-z-klasyky-2016"
+		],
+		"videoUrl": "https://youtu.be/giRaMcNGKJw",
+		"bio": [
+			"Фестивально-театральні гастролі школи: Івано-Франківськ — Коломия — Яремче, 24–28 жовтня 2016.",
+			"Чотири роботи: «Про любов і вічність» за новелами Рея Бредбері (режисер Світлана Надопта), «Чайки» — польоти за притчею Річарда Баха «Чайка на ім’я Джонатан Лівінгстон» (Ганна Комадовська), «Бойкот» за повістю Володимира Железнікова «Опудало» (Світлана Риськіна) та уривки з класичної драматургії (Федір Ткач, Тетяна Ісачкіна)."
+		],
+		"photos": [
+			"/festivals/ivano-frankivsk-2016.webp"
+		],
 		"verificationStatus": "possible_errors"
 	}
 ]
