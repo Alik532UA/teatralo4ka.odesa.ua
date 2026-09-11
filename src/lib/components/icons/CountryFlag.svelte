@@ -22,6 +22,20 @@
 			<rect width="32" height="8" y="8" fill="#00966E" />
 			<rect width="32" height="8" y="16" fill="#D62612" />
 		</svg>
+	{:else if upperCode === 'BY'}
+		<!--
+			БІЛО-ЧЕРВОНО-БІЛИЙ, а не державний червоно-зелений, і це ЗА ЗРАЗКОМ
+			рішення про сусідній прапор, а не самочинно: для `RU` автор так само
+			обрав не триколор. Обидва випадки про одне — прапор держави-агресора
+			на сторінці школи.
+
+			Пропорції 32×24: біла, червона й біла смуги по 8. Якщо автор захоче
+			державний — це один рядок, і він заміняється тут.
+		-->
+		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
+			<rect width="32" height="24" y="0" fill="#fff" />
+			<rect width="32" height="8" y="8" fill="#CE1720" />
+		</svg>
 	{:else if upperCode === 'CZ' || upperCode === 'CS'}
 		<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true" class="flag-svg">
 			<rect width="32" height="12" y="0" fill="#fff" />

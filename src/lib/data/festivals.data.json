@@ -841,5 +841,48 @@
 			"/festivals/ivano-frankivsk-2016.webp"
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kroky-2017",
+		"name": "Кроки",
+		"nameEn": "Kroky Children’s Theatre Forum",
+		"years": [
+			2017
+		],
+		"countries": [
+			"BY"
+		],
+		"city": "Мінськ",
+		"memberIds": [
+			"hryhorii-naumov",
+			"mykhailo-haniev",
+			"marharet-tsypynska",
+			"svitlana-smyrna",
+			"yuliia-zaslavska",
+			"anastasiia-chychkina",
+			"oleksandra-yavnyk",
+			"myroslava-tkach",
+			"artem-suvorov",
+			"alina-nakonechna"
+		],
+		"masterIds": [
+			"svitlana-ryskina",
+			"fedir-tkach",
+			"olena-tkach"
+		],
+		"playIds": [
+			"dyvni-dyva-2017"
+		],
+		"videoUrl": "https://youtu.be/TcNndMe23h0",
+		"bio": [
+			"Мінський міжнародний дитячий театральний форум «Кроки».",
+			"Школа показала «Дивні дива» за текстами Миколи Гоголя та Григорія Квітки-Основ’яненка — група «ТУ-154», режисер Федір Ткач.",
+			"Результат — Гран-Прі; нагорода записана і в самій виставі."
+		],
+		"photos": [
+			"/festivals/kroky-2017.webp",
+			"/festivals/kroky-2017-2.webp"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]
