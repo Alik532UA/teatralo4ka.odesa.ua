@@ -1249,5 +1249,8 @@
 		"possibleErrors": "The information on this page has not been verified by a human, but was compiled by AI from various data sources. There may be errors on this page. Found a mistake?",
 		"definiteErrors": "The information on this page has not been verified by a human, but was compiled by AI from various data sources. There are errors on this page. Found a mistake?",
 		"writeMe": "Write to me!"
+	},
+	"teatrPro": {
+		"editions": "Teatr.PRO festivals"
 	}
 }

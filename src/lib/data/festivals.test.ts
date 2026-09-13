@@ -5,7 +5,9 @@ import {
 	festivalPath,
 	getFestivalBySlug,
 	getFestivalsByMember,
-	matchesFestivalQuery
+	matchesFestivalQuery,
+	TEATR_PRO_FESTIVALS,
+	TEATR_PRO_NAME
 } from './festivals';
 import { parseVideoUrl } from '$lib/utils/videoEmbed';
 import uk from '$lib/i18n/locales/uk.json';
@@ -47,6 +49,27 @@ describe('реєстр фестивалів', () => {
 	it('перевірка жива: реєстр прочитано', () => {
 		expect(FESTIVALS.length).toBeGreaterThan(0);
 		expect(graduates.length).toBeGreaterThan(100);
+	});
+
+	/**
+	 * Загальна сторінка Театр.PRO бере свій перелік із назви, а не з окремого
+	 * поля (розбір — у `TEATR_PRO_FESTIVALS`). Отже перейменування назви в
+	 * даних прибрало б список зі сторінки МОВЧКИ: сторінка лишилася б живою,
+	 * просто без випусків. Це той самий клас дефекту, від якого тут стоять
+	 * решта перевірок, — сторінка рендериться, і нічого не падає.
+	 *
+	 * Зворотний дослід: перейменувати `Театр.PRO` на будь-що в
+	 * `festivals.data.json` — перевірка має почервоніти. Зроблено, падає.
+	 */
+	it('випуски власного фестивалю школи знаходяться за назвою', () => {
+		expect(
+			TEATR_PRO_FESTIVALS.length,
+			`жодного запису з назвою «${TEATR_PRO_NAME}» — назву в даних змінили, ` +
+				'і перелік на /projects/teatr-pro спорожнів'
+		).toBeGreaterThan(0);
+
+		const роки = TEATR_PRO_FESTIVALS.map((f) => Math.max(...f.years));
+		expect([...роки], 'найновіші мусять іти згори').toEqual([...роки].sort((a, b) => b - a));
 	});
 
 	it('адреса придатна для URL і не повторюється', () => {
