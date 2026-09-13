@@ -106,6 +106,14 @@ const declaresSize = (tag: string): boolean =>
  * для них є мапа розмірів.
  */
 const RESERVED_BY_CSS: Record<string, string> = {
+	/*
+	 * Прев'ю в стрічці лайтбокса: місце відводить `aspect-ratio: 1 / 1` самої
+	 * кнопки, а ширину — стрічка. Числа в атрибутах були б тут неправдиві:
+	 * знімки галереї приходять різних пропорцій, і кожен обрізається до
+	 * квадрата через `object-fit: cover`.
+	 */
+	'src/lib/components/GalleryThumbRail.svelte | src={img.src}':
+		'.lightbox-thumb — aspect-ratio 1/1, ширину задає стрічка (`--lightbox-rail`)',
 	'src/lib/components/ContentCard.svelte | class={imgClass}':
 		'.focus-card__img-wrap / .grid-card__img-wrap — flex-basis 40 % і 35 % від картки; ' +
 		'.list-item__img-wrap — 90px × aspect-ratio 9/16. Обкладинка приходить із Firestore',

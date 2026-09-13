@@ -37,6 +37,10 @@ const GLOBAL_STYLE_DIRS = ['src/lib/styles', 'src/lib/styles/themes'];
  * впаде на перевірці самого списку.
  */
 const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
+	'--lightbox-rail': {
+		declaredIn: 'src/lib/components/PhotoLightbox.svelte',
+		why: "ширину стрічки прев'ю читають троє: сама стрічка (`GalleryThumbRail`) плюс відступ стрілки «назад» і межа зображення — обидва в лайтбоксі. Проп замість успадкування дав би два написання того самого числа, і стрілка налізла б на стрічку від першої ж правки одного з них"
+	},
 	'--banner-gap': {
 		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
 		why: 'відступ під банером задає той, хто його ставить: сторінки груп, вистав і фестивалів лишають типовий 1rem, плашка випускника ставить нуль — там повітря дає сама плашка'

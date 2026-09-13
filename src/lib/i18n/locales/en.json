@@ -50,6 +50,7 @@
 		"pause": "Pause",
 		"view": "View",
 		"gallery": "Gallery",
+		"goToPhoto": "Photo {number}",
 		"errorTitle": "Oops! Something went wrong",
 		"errorDescription": "Something went wrong while loading this component.",
 		"tryAgain": "Try again",
