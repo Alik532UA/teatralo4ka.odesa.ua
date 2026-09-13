@@ -18,6 +18,22 @@
  *
  * Кодек — Chromium через Playwright, як у сусідніх скриптів: він уже стоїть, а
  * `sharp` тягнув би нативний бінарник у кожен `npm ci` заради теки на рік.
+ *
+ * ## Чорні поля зрізаються
+ *
+ * Половина знімків у теках — кадри з відео (`*.vob_snapshot_*`), і в них
+ * майже завжди letterbox: широкий кадр усередині 4:3 або навпаки. Лишити поля
+ * означає віддати чверть ваги файлу чорному прямокутнику й показати його в
+ * лайтбоксі на весь екран.
+ *
+ * Ряд вважається полем, коли ПОНАД 99% його пікселів темніші за поріг. Не
+ * 100%: у відео поле не буває ідеально чорним — компресія лишає крапки, і
+ * строга умова не зрізала б нічого. Не 90%: тоді під ніж пішов би перший
+ * темний ряд самого кадру.
+ *
+ * Зрізання обмежене третиною сторони з кожного боку. Кадр, у якого темні
+ * майже всі краї (нічна сцена, темні куліси), інакше з'їдався б до плями
+ * посередині — а це вже не обрізання полів, а псування знімка.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,6 +43,13 @@ const OUT_ROOT = path.join('static', 'graduates', 'gallery');
 const MAX_SIDE = 1280;
 const QUALITY = 0.82;
 const SOURCES = /\.(jpe?g|png|webp)$/i;
+
+/** Поріг «пікселя поля»: сума каналів. 36 — це середнє 12 із 255. */
+const DARK = 36;
+/** Частка темних пікселів, за якої ряд вважається полем. */
+const DARK_SHARE = 0.99;
+/** Скільки щонайбільше можна зрізати з КОЖНОГО боку. */
+const MAX_TRIM = 1 / 3;
 
 function parseArgs() {
 	let slug = '';
@@ -64,30 +87,88 @@ async function main() {
 		const dataUrl = `data:${mime};base64,${fs.readFileSync(src).toString('base64')}`;
 
 		const result = await page.evaluate(
-			async ({ dataUrl, maxSide, quality }) => {
+			async ({ dataUrl, maxSide, quality, dark, darkShare, maxTrim }) => {
 				const img = await new Promise<HTMLImageElement>((resolve, reject) => {
 					const el = new Image();
 					el.onload = () => resolve(el);
 					el.onerror = reject;
 					el.src = dataUrl;
 				});
-				const scale = Math.min(maxSide / Math.max(img.width, img.height), 1);
-				const width = Math.round(img.width * scale);
-				const height = Math.round(img.height * scale);
+
+				// Поля шукаються на ОРИГІНАЛІ: після зменшення межа поля
+				// розмивається інтерполяцією, і рядок перестає бути темним.
+				const probe = new OffscreenCanvas(img.width, img.height);
+				const pctx = probe.getContext('2d')!;
+				pctx.drawImage(img, 0, 0);
+				const { data } = pctx.getImageData(0, 0, img.width, img.height);
+
+				/*
+				 * Один прохід по всіх пікселях замість виклику на кожен ряд:
+				 * так само точно й на порядок швидше на 47 кадрах. Функцій тут
+				 * навмисно немає — `tsx` дописує іменованим хелпер `__name`,
+				 * якого в сторінці не існує, і `page.evaluate` падає.
+				 */
+				const темнихУРяду = new Uint32Array(img.height);
+				const темнихУСтовпці = new Uint32Array(img.width);
+				for (let y = 0; y < img.height; y++) {
+					for (let x = 0; x < img.width; x++) {
+						const i = (y * img.width + x) * 4;
+						if (data[i] + data[i + 1] + data[i + 2] <= dark) {
+							темнихУРяду[y]++;
+							темнихУСтовпці[x]++;
+						}
+					}
+				}
+
+				const порігРяду = img.width * darkShare;
+				const порігСтовпця = img.height * darkShare;
+				const межаY = Math.floor(img.height * maxTrim);
+				const межаX = Math.floor(img.width * maxTrim);
+
+				let top = 0;
+				while (top < межаY && темнихУРяду[top] >= порігРяду) top++;
+				let bottom = img.height - 1;
+				while (img.height - 1 - bottom < межаY && темнихУРяду[bottom] >= порігРяду) bottom--;
+				let left = 0;
+				while (left < межаX && темнихУСтовпці[left] >= порігСтовпця) left++;
+				let right = img.width - 1;
+				while (img.width - 1 - right < межаX && темнихУСтовпці[right] >= порігСтовпця) right--;
+
+				const cropW = right - left + 1;
+				const cropH = bottom - top + 1;
+				const зрізано = cropW !== img.width || cropH !== img.height;
+
+				const scale = Math.min(maxSide / Math.max(cropW, cropH), 1);
+				const width = Math.round(cropW * scale);
+				const height = Math.round(cropH * scale);
 				const canvas = new OffscreenCanvas(width, height);
-				canvas.getContext('2d')!.drawImage(img, 0, 0, width, height);
+				canvas.getContext('2d')!.drawImage(img, left, top, cropW, cropH, 0, 0, width, height);
 				const blob = await canvas.convertToBlob({ type: 'image/webp', quality });
 				const buffer = await blob.arrayBuffer();
 				let binary = '';
 				for (const byte of new Uint8Array(buffer)) binary += String.fromCharCode(byte);
-				return { base64: btoa(binary), width, height, from: `${img.width}×${img.height}` };
+				return {
+					base64: btoa(binary),
+					width,
+					height,
+					from: `${img.width}×${img.height}`,
+					зрізано: зрізано ? `${cropW}×${cropH}` : null
+				};
 			},
-			{ dataUrl, maxSide: MAX_SIDE, quality: QUALITY }
+			{
+				dataUrl,
+				maxSide: MAX_SIDE,
+				quality: QUALITY,
+				dark: DARK,
+				darkShare: DARK_SHARE,
+				maxTrim: MAX_TRIM
+			}
 		);
 
 		const outName = `${String(i + 1).padStart(2, '0')}.webp`;
 		fs.writeFileSync(path.join(outDir, outName), Buffer.from(result.base64, 'base64'));
-		console.log(`${outName}: ${result.from} → ${result.width}×${result.height}`);
+		const поля = result.зрізано ? ` (поля зрізано до ${result.зрізано})` : '';
+		console.log(`${outName}: ${result.from}${поля} → ${result.width}×${result.height}`);
 		рядки.push(
 			`\t'/graduates/gallery/${slug}/${outName}': { width: ${result.width}, height: ${result.height} },`
 		);

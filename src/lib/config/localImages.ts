@@ -42,6 +42,8 @@ export interface ImageSize {
  * і шлях поза мапою стає помилкою `svelte-check`, а не тихим `undefined` у
  * розмітці.
  */
+import { GRADUATE_GALLERY_SIZES } from './localGalleryImages';
+
 export const LOCAL_IMAGE_SIZES = {
 	// Герой головної. У мапі лише БАЗОВИЙ варіант кожного знімка (544 px): із
 	// нього беруться `width`/`height`, тобто пропорція, під яку відводиться
@@ -203,17 +205,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/groups/zrobleno-v-ukraini.webp': { width: 1280, height: 850 },
 	'/history/kolektyv-dtsh-2016.webp': { width: 1280, height: 913 },
 	'/history/muzychne-viddilennia-2016.webp': { width: 1280, height: 850 },
-	'/graduates/gallery/anastasiia-moldovanu/01.webp': { width: 869, height: 1280 },
-	'/graduates/gallery/anastasiia-moldovanu/02.webp': { width: 961, height: 1280 },
-	'/graduates/gallery/anastasiia-moldovanu/03.webp': { width: 1280, height: 960 },
-	'/graduates/gallery/anastasiia-moldovanu/04.webp': { width: 960, height: 1280 },
-	'/graduates/gallery/anastasiia-moldovanu/05.webp': { width: 959, height: 1280 },
-	'/graduates/gallery/margotcine/01.webp': { width: 1280, height: 960 },
-	'/graduates/gallery/margotcine/02.webp': { width: 960, height: 1280 },
-	'/graduates/gallery/margotcine/03.webp': { width: 1280, height: 960 },
-	'/graduates/gallery/margotcine/04.webp': { width: 1280, height: 904 },
-	'/graduates/gallery/margotcine/05.webp': { width: 1280, height: 960 },
-	'/graduates/gallery/margotcine/06.webp': { width: 604, height: 453 },
+	...GRADUATE_GALLERY_SIZES,
 	'/news/2026-09-04/01.webp': { width: 1280, height: 959 },
 	'/news/2026-09-04/02.webp': { width: 960, height: 1280 },
 	'/news/2026-09-04/03.webp': { width: 1280, height: 960 },
