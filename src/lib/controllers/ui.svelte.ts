@@ -49,6 +49,28 @@ export class UIState {
 	scrollbarMode = $state<ScrollbarMode>('custom');
 
 	/**
+	 * Прокрутка від наведення на край смуги — «доводка».
+	 *
+	 * **Типове значення `false`.** Це єдине на смузі, що рухає сторінку без
+	 * жодного вводу: курсор просто стоїть, і через секунду сторінка їде сама.
+	 * Людина, яка припаркувала мишу біля правого краю — звична рука тягнеться
+	 * туди до нативної смуги, — не має жодної підказки, що це було й де це
+	 * прибрати. Тому вмикає її відвідувач, чекбоксом у тому ж меню, де вибирає
+	 * режим (HOLD-SCROLL § 1).
+	 *
+	 * **Чому прапорець, коли 11.09.2026 механіку вирізали саме проти прапорця.**
+	 * Тодішній аргумент — вимкнений механізм є мертвим кодом, який читається як
+	 * зроблена робота (`PS-REACHABILITY`) — був правильний і лишається таким.
+	 * Знімає його рівно одне: видимий чекбокс, яким увімкнений шлях досяжний
+	 * відвідувачем. Без чекбокса правильним ходом було б не повертати нічого.
+	 *
+	 * У скрипт першого кадру НЕ йде, на відміну від `scrollbarMode`: нічого не
+	 * малює й не ховає, тож на перший кадр не впливає. Адміністратор типового
+	 * значення для нього не задає — воно завжди `false`.
+	 */
+	holdScroll = $state(false);
+
+	/**
 	 * Чи діють одиночні літерні скорочення сайту (`T` тема, `L` мова).
 	 *
 	 * **Це виконання WCAG SC 2.1.4 «Character Key Shortcuts», рівень A**
@@ -130,7 +152,16 @@ export class UIState {
 					this.scrollbarMode = fallback as ScrollbarMode;
 				}
 			}
-			
+			// Як і `hotkeysEnabled`: не 'true' і не 'false' означає «не сказано», і
+			// діє типове `false`. Порожній рядок чи сміття від сусіда по origin не
+			// має вмикати механіку через truthiness. Типового значення від
+			// адміністратора тут немає навмисно — див. поле `holdScroll`.
+			const held = storage.get('holdScroll');
+			if (held === 'true' || held === 'false') {
+				this.holdScroll = held === 'true';
+			}
+
+
 			// Listen to OS theme changes
 			window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
 				if (!storage.get('theme')) {
@@ -334,6 +365,11 @@ export class UIState {
 	setScrollbarMode = (mode: ScrollbarMode) => {
 		this.scrollbarMode = mode;
 		storage.set('scrollbarMode', mode);
+	};
+
+	setHoldScroll = (on: boolean) => {
+		this.holdScroll = on;
+		storage.set('holdScroll', on ? 'true' : 'false');
 	};
 
 	/**

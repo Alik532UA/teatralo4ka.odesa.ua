@@ -20,7 +20,19 @@
 	const ITEM_HEIGHT = 34;
 	const PADDING = 12;
 
-	const height = $derived(SCROLLBAR_MODES.length * ITEM_HEIGHT + PADDING * 2 + 24);
+	/**
+	 * Чекбокс доводки показується, лише поки малює НАША смуга.
+	 *
+	 * Умова на `active`, а не на `ui.scrollbarMode`, і різниця не косметична
+	 * (HOLD-SCROLL § 1.3): на сенсорному екрані й у вікні, вужчому за 1100 px
+	 * під мінімапу, режим лишається `custom`/`minimap`, а малює нативна смуга.
+	 * Написане на режимі показало б перемикач там, де наводити нема на що.
+	 */
+	const showHold = $derived(scrollbar.active !== 'native');
+
+	const height = $derived(
+		SCROLLBAR_MODES.length * ITEM_HEIGHT + PADDING * 2 + 24 + (showHold ? ITEM_HEIGHT + 9 : 0)
+	);
 
 	/** Меню відкривається біля курсора, але цілком у межах вікна. */
 	const position = $derived.by(() => {
@@ -104,6 +116,29 @@
 				{$t(mode.key)}
 			</button>
 		{/each}
+
+		{#if showHold}
+			<span class="scrollbar-menu__separator" role="separator"></span>
+			<!-- menuitemcheckbox, не menuitemradio: опція не належить до групи
+				 режимів і вибору серед них не скидає.
+
+				 Меню тут НЕ закривається, на відміну від вибору режиму. Вибір —
+				 ухвалене рішення; це перемикач, і єдиний зворотний зв'язок про
+				 його стан — галочка в цьому ж рядку. Меню, що закрилося раніше,
+				 ніж вона намалювалася, лишає без відповіді на «то ввімкнулося
+				 чи ні». -->
+			<button
+				type="button"
+				class="scrollbar-menu__item scrollbar-menu__item--check"
+				role="menuitemcheckbox"
+				aria-checked={ui.holdScroll}
+				onclick={() => ui.setHoldScroll(!ui.holdScroll)}
+				data-testid="scrollbar-menu-hold-btn"
+			>
+				<span class="scrollbar-menu__mark" aria-hidden="true">{ui.holdScroll ? '✓' : ''}</span>
+				{$t('settings.scrollbarHold')}
+			</button>
+		{/if}
 	</div>
 {/if}
 
@@ -157,5 +192,24 @@
 	.scrollbar-menu__item.active {
 		background: var(--accent-primary);
 		color: var(--text-on-accent);
+	}
+
+	.scrollbar-menu__separator {
+		height: 1px;
+		margin: 4px 6px;
+		background: var(--border-main);
+	}
+
+	.scrollbar-menu__item--check {
+		gap: 6px;
+	}
+
+	/* Ширина фіксована й не залежить від того, стоїть галочка чи ні: інакше
+	   підпис стрибав би вбік при кожному натисканні — просто в меню, яке саме
+	   на нього й дивиться. */
+	.scrollbar-menu__mark {
+		flex: 0 0 14px;
+		color: var(--accent-primary);
+		text-align: center;
 	}
 </style>

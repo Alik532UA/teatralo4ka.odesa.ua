@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ui } from '$lib/controllers/ui.svelte';
+	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
 	import { SCROLLBAR_MODES } from '$lib/config/scrollbarModes';
 	import { BACKGROUND_OPTIONS, type BackgroundType } from '$lib/config/backgroundOptions';
 	import { t } from 'svelte-i18n';
@@ -102,6 +103,27 @@
 						{$t(mode.key)}
 					</button>
 				{/each}
+				<!-- Доводка наведенням — той самий перемикач, що й у контекстному меню
+					 смуги. Він тут, а не лише там, бо два переліки, які розходяться, —
+					 рівно те, від чого застерігає SCROLLBAR § 2.2: відвідувач, який
+					 вибирає режим звідси, не має шукати опцію в іншому місці.
+
+					 Умова на `scrollbar.active`, не на `ui.scrollbarMode`: поки малює
+					 нативна смуга — сенсорний екран, вузьке вікно під мінімапу —
+					 наводити нема на що (HOLD-SCROLL § 1.3). -->
+				{#if scrollbar.active !== 'native'}
+					<button
+						class="dropdown-opt-unified"
+						class:active={ui.holdScroll}
+						role="menuitemcheckbox"
+						aria-checked={ui.holdScroll}
+						onclick={() => ui.setHoldScroll(!ui.holdScroll)}
+						style="text-align: left;"
+						data-testid="debug-scrollbar-hold-btn"
+					>
+						{ui.holdScroll ? '✓ ' : ''}{$t('settings.scrollbarHold')}
+					</button>
+				{/if}
 			</div>
 		</div>
 		{/if}

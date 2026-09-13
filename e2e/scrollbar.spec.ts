@@ -15,6 +15,52 @@ import type { ScrollbarMode } from '$lib/controllers/ui.svelte';
  * наздоганяли одна одну — і перетягування смикалося.
  */
 
+/**
+ * Бокс елемента, коли той перестав мінятися.
+ *
+ * Потрібен мінімапі в повному режимі: вона будує клон сторінки й доганяє його
+ * розмір кількома кадрами. Перший замір там завжди застарілий.
+ */
+async function settledBox(locator: ReturnType<Page['getByTestId']>) {
+	let previous = await locator.boundingBox();
+	for (let attempt = 0; attempt < 10; attempt += 1) {
+		await locator.page().waitForTimeout(120);
+		const next = await locator.boundingBox();
+		if (
+			previous &&
+			next &&
+			Math.abs(next.height - previous.height) < 1 &&
+			Math.abs(next.y - previous.y) < 1
+		) {
+			return next;
+		}
+		previous = next;
+	}
+	return (await locator.boundingBox())!;
+}
+
+/**
+ * Вмикає доводку ТАК САМО, як це робить відвідувач — чекбоксом у меню смуги.
+ *
+ * Не записом у `localStorage` повз контролер: тоді перевірка не доводила б, що
+ * чекбокс узагалі під'єднаний, і мовчала б про рівно той дефект, якого тут
+ * бояться найбільше — прапорець є, вмикати його нічим (HOLD-SCROLL § 5).
+ */
+async function enableHold(page: Page, testId: string) {
+	const control = page.getByTestId(testId);
+	const box = (await control.boundingBox())!;
+	await control.click({ button: 'right', position: { x: box.width / 2, y: 4 } });
+	await page.getByTestId('scrollbar-menu-hold-btn').click();
+	await expect(page.getByTestId('scrollbar-menu-hold-btn')).toHaveAttribute(
+		'aria-checked',
+		'true'
+	);
+	// Меню лишається відкритим навмисно (SCROLLBAR § 7.4) — закриваємо самі,
+	// інакше тло перехопить рухи миші, якими веде далі перевірка.
+	await page.keyboard.press('Escape');
+	await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
+}
+
 /** Вмикає режим так само, як це робить кнопка в налаштуваннях. */
 async function setMode(page: Page, mode: ScrollbarMode) {
 	await page.evaluate((m) => {
@@ -292,6 +338,131 @@ test.describe('режими смуги прокрутки', () => {
 			.toBeLessThan(6);
 	});
 
+	/*
+	 * Доводка наведенням: вимкнена типово, вмикається чекбоксом.
+	 *
+	 * 11.09.2026 механіку вирізали цілком, і разом із нею пішли три перевірки
+	 * звідси. Тепер вона повернулася опційною — і перевірки повернулися теж,
+	 * але переписані: кожна спершу ВМИКАЄ опцію. Без цього вони були б зелені
+	 * й на зламаній механіці, бо «сторінка не поїхала» — це водночас і успіх
+	 * типового стану, і повна відмова (HOLD-SCROLL § 5).
+	 */
+	test('типово доводка вимкнена: курсор стоїть, сторінка — теж', async ({ page }) => {
+		// Єдина перевірка групи, яка опцію НЕ вмикає. Вона й тримає типовий стан.
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		await expect(bar).toBeVisible();
+
+		const box = (await bar.boundingBox())!;
+		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+		await page.waitForTimeout(300);
+		const atStart = await page.evaluate(() => window.scrollY);
+
+		// Нижче за повзунок і помітно довше за секундну затримку.
+		await page.mouse.move(box.x + box.width / 2, box.y + box.height * 0.8);
+		await page.waitForTimeout(3000);
+
+		expect(
+			await page.evaluate(() => window.scrollY),
+			'сторінка поїхала сама, хоча галочки ніхто не ставив'
+		).toBe(atStart);
+		await expect(bar).not.toHaveClass(/holding/);
+	});
+
+	test('чекбокса немає, поки малює нативна смуга', async ({ page }) => {
+		// § 1.3. Режим `minimap` у вузькому вікні — той самий випадок, що ловить
+		// умову, написану на режимі замість `active`: режим лишається `minimap`,
+		// а малює нативна смуга, і наводити нема на що.
+		await setMode(page, 'minimap');
+		await expect(page.getByTestId('minimap-container')).toBeVisible();
+
+		await page.setViewportSize({ width: 900, height: 800 });
+		await expect(page.getByTestId('minimap-container')).toHaveCount(0);
+
+		// Права кнопка біля правого краю — так меню відкривається за нативної смуги.
+		await page.mouse.click(890, 400, { button: 'right' });
+		await expect(page.getByTestId('scrollbar-context-menu')).toBeVisible();
+		await expect(
+			page.getByTestId('scrollbar-menu-hold-btn'),
+			'чекбокс показано там, де власної смуги немає'
+		).toHaveCount(0);
+	});
+
+	test('наведення й утримання прокручує без натискання', async ({ page }) => {
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		await expect(bar).toBeVisible();
+		await enableHold(page, 'page-scrollbar-container');
+
+		const box = (await bar.boundingBox())!;
+		const x = box.x + box.width / 2;
+		// Нижче за повзунок: сторінка на початку, тож повзунок угорі.
+		const below = box.y + box.height * 0.8;
+
+		// Позицію задаємо самі й даємо їй усістися. Браузер відновлює прокрутку
+		// після перезавантаження АСИНХРОННО, і без цього вона доїжджала вже
+		// посеред перевірки — виглядало як завчасний старт доводчика.
+		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+		await page.waitForTimeout(300);
+		const atStart = await page.evaluate(() => window.scrollY);
+
+		await page.mouse.move(x, below);
+		// Затримка навмисна: випадкове проходження курсора повз смугу не має
+		// нічого зрушити.
+		await page.waitForTimeout(600);
+		expect(await page.evaluate(() => window.scrollY), 'до затримки рух не починається').toBe(
+			atStart
+		);
+
+		await page.waitForTimeout(900);
+		const early = (await page.evaluate(() => window.scrollY)) - atStart;
+		expect(early, 'після затримки сторінка має поїхати').toBeGreaterThan(0);
+
+		// Розгін: за такий самий відрізок часу проходить помітно більше.
+		await page.waitForTimeout(900);
+		const late = (await page.evaluate(() => window.scrollY)) - atStart - early;
+		expect(late, 'рух має прискорюватися').toBeGreaterThan(early);
+
+		// Курсор геть — рух припиняється.
+		await page.mouse.move(box.x - 300, below);
+		await page.waitForTimeout(300);
+		const stopped = await page.evaluate(() => window.scrollY);
+		await page.waitForTimeout(500);
+		expect(await page.evaluate(() => window.scrollY), 'без курсора рух зупиняється').toBe(
+			stopped
+		);
+	});
+
+	test('доводчик ставить курсор у центр повзунка, а не на його верх', async ({ page }) => {
+		await setMode(page, 'custom');
+		const bar = page.getByTestId('page-scrollbar-container');
+		await expect(bar).toBeVisible();
+		await enableHold(page, 'page-scrollbar-container');
+
+		await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+		await page.waitForTimeout(300);
+
+		const box = (await bar.boundingBox())!;
+		// Мета в середині смуги: там повзунок точно не впирається в край, тож
+		// центрування можна перевірити чесно.
+		const aimY = box.y + box.height * 0.5;
+		await page.mouse.move(box.x + box.width / 2, aimY);
+
+		// Час на секунду затримки плюс на сам рух із гальмуванням.
+		await page.waitForTimeout(6000);
+
+		const thumb = (await page.getByTestId('page-scrollbar-thumb-status').boundingBox())!;
+		const center = thumb.y + thumb.height / 2;
+
+		// Раніше до курсора приїжджав ВЕРХ повзунка, тобто центр був нижче на
+		// піввисоти. Допуск свідомо менший за цю піввисоту — інакше перевірка
+		// пропустила б саму помилку, яку має ловити.
+		expect(thumb.height, 'повзунок мусить мати помітну висоту').toBeGreaterThan(20);
+		expect(Math.abs(center - aimY), 'курсор має бути в центрі повзунка').toBeLessThan(
+			thumb.height / 2 - 4
+		);
+	});
+
 	test('права кнопка відкриває меню вибору режиму', async ({ page }) => {
 		await setMode(page, 'custom');
 		const bar = page.getByTestId('page-scrollbar-container');
@@ -383,6 +554,80 @@ test.describe('режими смуги прокрутки', () => {
 			}));
 			expect(shown.map, `${mode}: мінімапи бути не має`).toBe(false);
 			expect(shown.bar, `${mode}: смуги бути не має`).toBe(false);
+		}
+	});
+
+	test('доводчик працює в усіх трьох режимах', async ({ page }) => {
+		for (const [mode, testId] of [
+			['custom', 'page-scrollbar-container'],
+			['minimap', 'minimap-container'],
+			['minimap-full', 'minimap-container']
+		] as const) {
+			await setMode(page, mode);
+			const control = page.getByTestId(testId);
+			await expect(control).toBeVisible();
+			// Опція живе в `localStorage` і переживає `setMode`, який робить
+			// reload; ставимо її лише першого разу, коли галочки ще немає.
+			if (!(await page.evaluate(() => localStorage.getItem('teatralo4ka_holdScroll')))) {
+				await enableHold(page, testId);
+			}
+
+			const viewport = page.viewportSize()!;
+			/*
+			 * Курсор увесь час тримається ПРАВОГО КРАЮ вікна, і це не дрібниця.
+			 *
+			 * У спокої мінімапа схована за край — видно лише смужку. Наводитися
+			 * на її «середину» можна тільки поки вона піднята, тож перевірка, що
+			 * відводила курсор і поверталася в середину, промахувалася повз уже
+			 * сховану мінімапу. Правий край працює для обох варіантів: і
+			 * схематичного, і повного.
+			 */
+			const edge = viewport.width - 4;
+
+			// Підносимо мишу — мінімапа виїжджає.
+			await page.mouse.move(edge, viewport.height / 2);
+			await page.waitForTimeout(900);
+
+			/*
+			 * Розмір беремо УСТАЛЕНИЙ: `minimap-full` будує клон сторінки й
+			 * доганяє його кількома кадрами (заміряно: висота міняється з 564 на
+			 * 580 вже під час наведення).
+			 */
+			const box = await settledBox(control);
+
+			/*
+			 * Виходимо, скидаємо прокрутку, заходимо знову — ЩОЙНО ТУТ.
+			 *
+			 * Наведення саме по собі вже запускає доводчик, тож поки чекали на
+			 * розмір, він устигав довезти сторінку до низу. Далі рухати не було
+			 * куди, і перевірка бачила нуль — тим певніше, чим повільніша
+			 * машина, через що падала лише в паралельному прогоні.
+			 */
+			await page.mouse.move(box.x - 300, viewport.height / 2);
+			await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+			await page.waitForTimeout(250);
+			await page.mouse.move(edge, viewport.height / 2);
+			await page.waitForTimeout(400);
+
+			const atStart = await page.evaluate(() => window.scrollY);
+
+			// Нижче за рамку: сторінка на початку, тож рамка вгорі.
+			await page.mouse.move(edge, box.y + box.height * 0.8);
+
+			/*
+			 * Чекаємо на САМ РУХ, а не відміряний час: у доводчика власна
+			 * затримка перед стартом, і фіксована пауза міряла б швидкість
+			 * машини, а не його роботу.
+			 */
+			await expect
+				.poll(async () => (await page.evaluate(() => window.scrollY)) - atStart, {
+					timeout: 6000,
+					message: `${mode}: доводчик має прокручувати`
+				})
+				.toBeGreaterThan(0);
+
+			await page.mouse.move(box.x - 300, viewport.height / 2);
+			await page.waitForTimeout(300);
 		}
 	});
 
