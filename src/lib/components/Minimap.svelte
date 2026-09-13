@@ -439,7 +439,10 @@
 		const wanted = pendingY - dragTop - grabOffset;
 		const clamped = Math.min(Math.max(wanted, 0), Math.max(mapHeight - markerHeight, 0));
 		dragMarkerTop = clamped;
-		window.scrollTo({ top: endless.lapTop + clamped / pxPerScroll, behavior: 'instant' });
+		// Обрізається останнім екраном кола — з тієї самої причини, що у власної
+		// смуги: шкала покриває шов, а цілитися в нього немає сенсу.
+		const wantedTop = clamped / pxPerScroll;
+		window.scrollTo({ top: endless.lapTop + (endless.active ? Math.min(wantedTop, endless.lastScreen) : wantedTop), behavior: 'instant' });
 	}
 
 	/** Рухи миші йдуть частіше за кадри — зайві відкидаємо. */

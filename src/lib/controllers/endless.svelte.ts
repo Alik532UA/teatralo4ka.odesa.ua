@@ -128,19 +128,33 @@ class EndlessState {
 	 * `window.scrollY` — і поводяться так, ніби сторінка звичайна й одна.
 	 */
 	lapY(y: number): number {
-		return this.active ? y - this.bandTop : y;
+		return this.active ? Math.max(y - this.bandTop, 0) : y;
 	}
 
 	/**
-	 * Висота сторінки, яку бачать малювальники положення.
+	 * Глибина останнього екрана кола — туди веде «кінець сторінки».
 	 *
-	 * `H + висота вікна`, а не `H`: у звичайному режимі прокрутити можна
-	 * `висота − вікно`, а в колі — цілих `H` пікселів, бо кінця немає й остання
-	 * висота вікна теж проїжджає. Повзунок від цього трохи коротший за
-	 * звичайний, і це правда про сторінку, а не похибка.
+	 * Це НЕ кінець шкали (див. `pageHeight`), і різниця в одну висоту вікна тут
+	 * навмисна: за останнім екраном лежить шов, який читач проходить прокруткою,
+	 * але цілитися в який немає сенсу — там уже видно початок наступного кола.
+	 */
+	get lastScreen(): number {
+		return Math.max(this.bandHeight - this.viewportHeight, 0);
+	}
+
+	/**
+	 * Висота сторінки, яку бачать малювальники положення: смуга плюс вікно.
+	 *
+	 * Тобто шкала покриває ВСЕ коло, включно зі швом. Це вирішує дефект, який
+	 * було видно найкраще: при шкалі завдовжки рівно зі смугу повзунок на шві
+	 * ЗАМИРАВ — останню висоту вікна читач прокручував, а індикатор стояв
+	 * унизу, ніби сторінка скінчилася й нічого не відбувається.
+	 *
+	 * Тепер він проходить шов до кінця й з'являється згори — тобто показує те,
+	 * що насправді сталося: коло замкнулося.
 	 */
 	pageHeight(raw: number): number {
-		return this.active ? this.bandHeight + this.viewportHeight : raw;
+		return this.active ? this.bandHeight : raw;
 	}
 
 	/**
@@ -195,6 +209,7 @@ class EndlessState {
 
 		window.addEventListener('scroll', this.#onScroll, { passive: true });
 		window.addEventListener('resize', this.#onResize);
+		window.addEventListener('keydown', this.#onKey);
 
 		/*
 		 * Спостерігач за РОЗМІРОМ смуги, бо вона росте вже після вставки:
@@ -237,6 +252,7 @@ class EndlessState {
 
 		window.removeEventListener('scroll', this.#onScroll);
 		window.removeEventListener('resize', this.#onResize);
+		window.removeEventListener('keydown', this.#onKey);
 		this.#resize?.disconnect();
 		this.#mutations?.disconnect();
 		this.#resize = null;
@@ -328,7 +344,16 @@ class EndlessState {
 		if (!force && now - this.#refreshedAt < REFRESH_MS) return;
 		this.#refreshedAt = now;
 		for (const side of ['head', 'tail'] as Side[]) {
-			if (force || (this.#stale[side] && this.#offscreen(side))) this.#fill(side);
+			/*
+			 * Видимий розгін не перебудовуємо НІКОЛИ, навіть на `force`.
+			 *
+			 * Вставка копії запускає в ній CSS-анімації з нуля, тож перебудова
+			 * під рукою в читача — це видима поява героя посеред прокрутки.
+			 * Після перестановки ВГОРУ нижній розгін якраз лишається в кадрі, і
+			 * перша редакція оновлювала його саме там.
+			 */
+			if (!this.#offscreen(side)) continue;
+			if (force || this.#stale[side]) this.#fill(side);
 		}
 	}
 
@@ -362,6 +387,48 @@ class EndlessState {
 			return;
 		}
 		this.#refresh(false);
+	};
+
+	/**
+	 * `Home` і `End` мусять означати початок і кінець СТОРІНКИ, а не документа.
+	 *
+	 * Без цього обидві клавіші поводилися неправильно, і по-різному. `Home` веде
+	 * в нуль документа — а нуль лежить усередині верхнього розгону, тобто в
+	 * мертвій копії: читач опинявся в кінці смуги, який не можна ані прокрутити
+	 * вгору, ані натиснути. `End` веде в кінець документа, тобто за кінець
+	 * смуги, — і перестановка миттєво повертала його на початок кола. Тобто
+	 * `End` працював як `Home`.
+	 *
+	 * Тут вони отримують ті самі два місця, що й на звичайній сторінці: верх
+	 * смуги й останній екран смуги.
+	 *
+	 * Плавність — `smooth`, як у нативної поведінки з `scroll-behavior` у
+	 * `global.css`. Перестановки цей рух не запускає: обидві мети лежать
+	 * усередині кола.
+	 */
+	#onKey = (e: KeyboardEvent) => {
+		if (!this.active || this.bandHeight <= 0) return;
+		if (e.key !== 'Home' && e.key !== 'End') return;
+		if (e.altKey || e.shiftKey) return;
+
+		/*
+		 * Клавіатура належить тому, хто зараз на екрані. Поле вводу забирає
+		 * `Home`/`End` собі під курсор у тексті, а всередині власної зони
+		 * прокрутки — модалки, випадайки, списку — обидві клавіші мусять гортати
+		 * ЇЇ, а не сторінку під нею.
+		 */
+		const node = e.target instanceof Element ? e.target : document.activeElement;
+		if (node instanceof HTMLElement && (node.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(node.tagName))) return;
+		for (let el = node; el && el !== document.body; el = el.parentElement) {
+			const style = getComputedStyle(el);
+			if (el.scrollHeight > el.clientHeight + 1 && /auto|scroll/.test(style.overflowY)) return;
+		}
+
+		e.preventDefault();
+		window.scrollTo({
+			top: this.bandTop + (e.key === 'Home' ? 0 : this.lastScreen),
+			behavior: 'smooth'
+		});
 	};
 
 	/**
