@@ -255,7 +255,7 @@
 </script>
 
 <!-- ── Progressive page content ────────────────────────────────────────────── -->
-<div class="home-content">
+<div class="home-content" data-endless-band>
 	{#each visibleBlocks as block (block.id)}
 		{#if block.id === 'hero'}
 			<!-- Hero renders IMMEDIATELY — no Firebase dependency -->

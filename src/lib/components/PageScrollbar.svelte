@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { endless } from '$lib/controllers/endless.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
 	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
@@ -164,11 +165,21 @@
 		return (scrollY / maxScroll) * (viewportHeight - thumbHeight);
 	});
 
+	/**
+	 * Числа беруться в `controllers/endless`, а не з документа напряму.
+	 *
+	 * На зацикленій головній документ утричі довший за смугу вмісту, і повзунок,
+	 * порахований від нього, показував би не позицію, а стан буфера: третина
+	 * висоти, яка після кожної перестановки повертається на місце. Контролер
+	 * віддає геометрію ОДНОГО кола, тож повзунок означає рівно те, що й завжди —
+	 * наскільки читач просунувся сторінкою, від початку до кінця. Поза
+	 * зацикленням обидві функції віддають вхідне значення без змін.
+	 */
 	function measure() {
 		if (!browser) return;
-		pageHeight = Math.max(document.documentElement.scrollHeight, 1);
+		pageHeight = endless.pageHeight(Math.max(document.documentElement.scrollHeight, 1));
 		viewportHeight = window.innerHeight;
-		scrollY = window.scrollY;
+		scrollY = endless.lapY(window.scrollY);
 	}
 
 	/**
@@ -186,7 +197,7 @@
 		if (!enabled) return;
 		measure();
 
-		const onScroll = () => (scrollY = window.scrollY);
+		const onScroll = () => (scrollY = endless.lapY(window.scrollY));
 		window.addEventListener('scroll', onScroll, { passive: true });
 
 		// Висота сторінки змінюється не лише від resize: довантажуються
@@ -216,7 +227,10 @@
 		const wanted = pendingY - trackTop - grabOffset;
 		const clamped = Math.min(Math.max(wanted, 0), maxThumbTop);
 		dragThumbTop = clamped;
-		window.scrollTo({ top: (clamped / maxThumbTop) * (pageHeight - viewportHeight), behavior: 'instant' });
+		// `lapTop` — нуль СТОРІНКИ, а не документа: на зацикленій головній
+		// початок кола лежить нижче за нуль прокрутки, на висоту верхнього
+		// розгону. Поза зацикленням він нульовий, і вираз той самий, що був.
+		window.scrollTo({ top: endless.lapTop + (clamped / maxThumbTop) * (pageHeight - viewportHeight), behavior: 'instant' });
 	}
 
 	/** Рухи миші йдуть частіше за кадри — зайві просто відкидаємо. */

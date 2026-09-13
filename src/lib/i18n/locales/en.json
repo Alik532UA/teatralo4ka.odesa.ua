@@ -177,6 +177,7 @@
 		"scrollbarMinimap": "Minimal minimap",
 		"scrollbarMinimapFull": "Minimap",
 		"scrollbarHold": "Scroll on hover",
+		"scrollbarEndless": "Endless home page",
 		"blur": "Blur effect when changing language",
 		"hotkeys": "Keyboard shortcuts",
 		"hotkeysHint": "T — theme, L — language",

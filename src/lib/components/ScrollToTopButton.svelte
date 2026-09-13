@@ -2,6 +2,7 @@
 	import { t } from 'svelte-i18n';
 	import { ArrowUp } from 'lucide-svelte';
 	import { browser } from '$app/environment';
+	import { endless } from '$lib/controllers/endless.svelte';
 
 	/** Поріг появи: нижче нього кнопка зайва — до верху й так рукою подати. */
 	const SHOW_AFTER = 400;
@@ -23,7 +24,11 @@
 		if (!browser) return;
 
 		const apply = () => {
-			visible = window.scrollY > SHOW_AFTER;
+			// Глибина В КОЛІ (`controllers/endless`): на зацикленій головній
+			// `window.scrollY` після першої перестановки вже ніколи не буває
+			// малим, і кнопка висіла б навіть тоді, коли читач стоїть на самому
+			// верху. Поза зацикленням це те саме `window.scrollY`.
+			visible = endless.lapY(window.scrollY) > SHOW_AFTER;
 			const footer = document.querySelector('footer');
 			footerLift = footer
 				? Math.max(0, window.innerHeight - footer.getBoundingClientRect().top)
@@ -59,7 +64,9 @@
 	});
 
 	function toTop() {
-		window.scrollTo({ top: 0, behavior: 'smooth' });
+		// Верх КОЛА, а не нуль документа: нуль лежить усередині верхнього
+		// розгону, тобто в мертвій копії, і кнопка відвезла б читача туди.
+		window.scrollTo({ top: endless.lapTop, behavior: 'smooth' });
 	}
 </script>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { endless } from '$lib/controllers/endless.svelte';
 	import { ui, type ScrollbarMode } from '$lib/controllers/ui.svelte';
 	import { SCROLLBAR_MODES } from '$lib/config/scrollbarModes';
 	import { t } from 'svelte-i18n';
@@ -40,6 +41,18 @@
 	 * Написане на режимі показало б перемикач там, де наводити нема на що.
 	 */
 	const showHold = $derived(scrollbar.active !== 'native');
+
+	/**
+	 * Тумблер зациклення — за тим самим правилом, що чекбокс доводки вище:
+	 * показуємо лише там, де вмикати справді є що.
+	 *
+	 * `endless.supported` — це десктоп із мишею і вікно від 1025 px, тобто
+	 * ширина, з якої підвал стає `fixed` і перестає бути кінцем сторінки.
+	 * Умова навмисно не згадує, що ми на головній: настройка зберігається на
+	 * весь сайт, і перемикач, який зникає зі сторінки на сторінку, читався б як
+	 * збій. Що вона стосується головної, каже сам підпис.
+	 */
+	const showEndless = $derived(endless.supported);
 
 	/**
 	 * Висота ВСЬОГО стека — обох панелей разом із проміжком, — і вона МІРЯЄТЬСЯ.
@@ -144,7 +157,7 @@
 		{/each}
 	</div>
 
-	{#if showHold}
+	{#if showHold || showEndless}
 		<!-- Тумблер, а не галочка, і той самий, що в адмінці (`.switch-*` у
 			 global.css): у проєкті вже є один вигляд «увімк/вимк», і другий
 			 вигадувати нема підстав.
@@ -156,20 +169,35 @@
 			 зникла раніше, ніж він доїхав, лишає без відповіді на «то
 			 ввімкнулося чи ні». -->
 		<div class="scrollbar-menu scrollbar-menu--hold">
-			<!-- Пара назв `-label` + `-toggle` — та сама, що в рядках адмінки:
-				 сам `input` прихований (0×0, opacity 0), тож натискати треба
-				 підпис, а читати стан — з поля. -->
-			<label class="switch-label scrollbar-hold__label" data-testid="scrollbar-hold-label">
-				<span class="scrollbar-hold__text">{$t('settings.scrollbarHold')}</span>
-				<input
-					type="checkbox"
-					class="switch-input"
-					checked={ui.holdScroll}
-					onchange={() => ui.setHoldScroll(!ui.holdScroll)}
-					data-testid="scrollbar-hold-toggle"
-				/>
-				<span class="switch-slider"></span>
-			</label>
+			{#if showHold}
+				<!-- Пара назв `-label` + `-toggle` — та сама, що в рядках адмінки:
+					 сам `input` прихований (0×0, opacity 0), тож натискати треба
+					 підпис, а читати стан — з поля. -->
+				<label class="switch-label scrollbar-hold__label" data-testid="scrollbar-hold-label">
+					<span class="scrollbar-hold__text">{$t('settings.scrollbarHold')}</span>
+					<input
+						type="checkbox"
+						class="switch-input"
+						checked={ui.holdScroll}
+						onchange={() => ui.setHoldScroll(!ui.holdScroll)}
+						data-testid="scrollbar-hold-toggle"
+					/>
+					<span class="switch-slider"></span>
+				</label>
+			{/if}
+			{#if showEndless}
+				<label class="switch-label scrollbar-hold__label" data-testid="scrollbar-endless-label">
+					<span class="scrollbar-hold__text">{$t('settings.scrollbarEndless')}</span>
+					<input
+						type="checkbox"
+						class="switch-input"
+						checked={ui.endlessScroll}
+						onchange={() => ui.setEndlessScroll(!ui.endlessScroll)}
+						data-testid="scrollbar-endless-toggle"
+					/>
+					<span class="switch-slider"></span>
+				</label>
+			{/if}
 		</div>
 	{/if}
 	</div>

@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { afterNavigate } from '$app/navigation';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { endless } from '$lib/controllers/endless.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { Spring } from 'svelte/motion';
 	import { HoldScroll } from '$lib/utils/holdScroll.svelte';
@@ -150,9 +151,9 @@
 
 	function measure() {
 		if (!browser) return;
-		pageHeight = Math.max(document.documentElement.scrollHeight, 1);
+		pageHeight = endless.pageHeight(Math.max(document.documentElement.scrollHeight, 1));
 		viewportHeight = window.innerHeight;
-		scrollY = window.scrollY;
+		scrollY = endless.lapY(window.scrollY);
 
 		// Смужка починається під шапкою і кінчається над підвалом: інакше візуальний
 		// варіант завширшки 200px накриває органи керування в обох. Висоти саме
@@ -175,7 +176,7 @@
 
 	function measureBlocks() {
 		if (!browser || isFull) return;
-		const main = document.querySelector('main') ?? document.body;
+		const main = document.querySelector('[data-endless-band]') ?? document.querySelector('main') ?? document.body;
 		const seen: Element[] = [];
 		const found: Block[] = [];
 
@@ -195,7 +196,7 @@
 				: 0.35;
 
 			found.push({
-				top: (rect.top + window.scrollY) / pageHeight,
+				top: (rect.top + window.scrollY - endless.lapTop) / pageHeight,
 				height: rect.height / pageHeight,
 				weight
 			});
@@ -233,7 +234,7 @@
 		}
 
 		// Себе саму й власну смугу — геть, інакше мінімапа малювала б мінімапу.
-		for (const el of clone.querySelectorAll('.minimap, .page-scrollbar, #app-splash')) {
+		for (const el of clone.querySelectorAll('.minimap, .page-scrollbar, .endless-runway, #app-splash')) {
 			el.remove();
 		}
 
@@ -257,7 +258,7 @@
 		measure();
 		measureBlocks();
 
-		const onScroll = () => (scrollY = window.scrollY);
+		const onScroll = () => (scrollY = endless.lapY(window.scrollY));
 		window.addEventListener('scroll', onScroll, { passive: true });
 
 		// Висота змінюється не лише від resize: довантажуються зображення,
@@ -438,7 +439,7 @@
 		const wanted = pendingY - dragTop - grabOffset;
 		const clamped = Math.min(Math.max(wanted, 0), Math.max(mapHeight - markerHeight, 0));
 		dragMarkerTop = clamped;
-		window.scrollTo({ top: clamped / pxPerScroll, behavior: 'instant' });
+		window.scrollTo({ top: endless.lapTop + clamped / pxPerScroll, behavior: 'instant' });
 	}
 
 	/** Рухи миші йдуть частіше за кадри — зайві відкидаємо. */

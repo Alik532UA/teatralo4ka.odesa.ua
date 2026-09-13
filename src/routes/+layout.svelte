@@ -28,6 +28,7 @@
 	import ScrollbarContextMenu from '$lib/components/ScrollbarContextMenu.svelte';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import { scrollbar } from '$lib/controllers/scrollbar.svelte';
+	import { endless } from '$lib/controllers/endless.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { SITE_ORIGIN } from '$lib/config/site';
 	import { trackPageView } from '$lib/services/analytics';
@@ -83,13 +84,37 @@
 
 	let headerScrolled = $state(false);
 
+	/**
+	 * Глибина В КОЛІ, а не в документі (`controllers/endless`).
+	 *
+	 * На зацикленій головній `window.scrollY` більше не означає «наскільки
+	 * читач відійшов від верху»: після першої перестановки він ніколи не
+	 * повертається до нуля, і шапка застигла б у прокрученому стані назавжди.
+	 * Поза зацикленням `lapY` віддає те саме число, що й раніше.
+	 */
 	$effect(() => {
 		if (browser) {
-			const onScroll = () => { headerScrolled = window.scrollY > 20; };
+			const onScroll = () => { headerScrolled = endless.lapY(window.scrollY) > 20; };
 			window.addEventListener('scroll', onScroll, { passive: true });
 			return () => window.removeEventListener('scroll', onScroll);
 		}
 	});
+
+	/**
+	 * Смуги розгону зацикленої головної — порожні контейнери обабіч вмісту.
+	 *
+	 * Розмітку тримає Svelte, наповнення — контролер: усередині них Svelte
+	 * нічим не керує, а вміст є копією, яку шаблоном не виразити. Той самий
+	 * поділ, що в `cloneHost` мінімапи.
+	 *
+	 * Один виклик на обидва стани: усі умови (настройка, десктоп, головна)
+	 * читаються всередині `install`, тому ефект перезапускається і на
+	 * перемикачі в меню смуги, і на переході між сторінками.
+	 */
+	let endlessHead = $state<HTMLElement | null>(null);
+	let endlessTail = $state<HTMLElement | null>(null);
+
+	$effect(() => endless.install(endlessHead, endlessTail, page.route.id === '/'));
 
 	/**
 	 * Патерн email — один на весь сайт (NOTIFICATIONS-v1 § 4).
@@ -280,9 +305,16 @@
 	<HeaderSection />
 	<div class="header-blur-layer" class:scrolled={headerScrolled} aria-hidden="true"></div>
 	<main id="main-content">
+		<!-- Розгін зацикленої головної. Порожній і нульовий, доки зациклення
+		     вимкнене, тобто на всіх сторінках і для всіх, хто його не вмикав.
+		     `inert` — не косметика: копія всередині не інтерактивна, і краще
+		     сказати це браузеру прямо, ніж лишити знімки, які фокусуються й
+		     читаються читалкою, але нічого не роблять. -->
+		<div class="endless-runway" bind:this={endlessHead} data-testid="endless-head-container" aria-hidden="true" inert></div>
 		<ErrorBoundary>
 			{@render children()}
 		</ErrorBoundary>
+		<div class="endless-runway" bind:this={endlessTail} data-testid="endless-tail-container" aria-hidden="true" inert></div>
 	</main>
 	<FooterSection />
 </div>
@@ -383,6 +415,16 @@
 
 	:global(.app.with-dynamic-bg) .header-blur-layer {
 		background: color-mix(in srgb, var(--bg-header), transparent 20%);
+	}
+
+	/* Висоту дає контролер інлайном: у спокої контейнер нульовий і його немає
+	   ні в розкладці, ні в сумі прокрутки. `contain` тримає перемальовування
+	   копії всередині — сторінка від неї не перераховується. */
+	.endless-runway {
+		position: relative;
+		overflow: hidden;
+		height: 0;
+		contain: layout paint;
 	}
 
 	main {
