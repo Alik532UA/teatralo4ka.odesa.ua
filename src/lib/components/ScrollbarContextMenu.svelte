@@ -15,8 +15,19 @@
 	 * `config/scrollbarModes.ts`: дві копії розійшлися б при додаванні режиму.
 	 */
 
-	/** Ширина й висота потрібні, щоб меню не вилазило за край екрана. */
-	const WIDTH = 210;
+	/**
+	 * Ширина й висота потрібні, щоб меню не вилазило за край екрана.
+	 *
+	 * 260, а не 210: на 210 переносилися на два рядки і «Мінімапа мінімальна»,
+	 * і «Доводка наведенням» поруч із тумблером. Підпис, розірваний надвоє в
+	 * меню з чотирьох рядків, читається як два окремі пункти.
+	 *
+	 * Число заміряне, а не вгадане: обидва найдовші підписи беруть по 166 px
+	 * (`measureText` у 600 13.6px e-Ukraine). Рядок із тумблером лишає під текст
+	 * `WIDTH − 24` падінга панелі `− 44` тумблера `− 12` проміжку, тобто 180 px
+	 * при 260 — чотирнадцять запасу. На 240 виходило 158, і бракувало восьми.
+	 */
+	const WIDTH = 260;
 	const ITEM_HEIGHT = 34;
 	const PADDING = 12;
 
@@ -30,9 +41,16 @@
 	 */
 	const showHold = $derived(scrollbar.active !== 'native');
 
-	const height = $derived(
-		SCROLLBAR_MODES.length * ITEM_HEIGHT + PADDING * 2 + 24 + (showHold ? ITEM_HEIGHT + 9 : 0)
-	);
+	/**
+	 * Висота ВСЬОГО стека — обох панелей разом із проміжком, — і вона МІРЯЄТЬСЯ.
+	 *
+	 * Арифметика лишається тільки як значення до першого кадру: рядок — це
+	 * падінг плюс лінійний бокс, а лінійний бокс залежить від шрифта теми, від
+	 * того, чи переніс підпис, і від висоти тумблера. Поки панель була одна,
+	 * похибка була дрібною; з другою панеллю, її падінгом і проміжком угадувати
+	 * стало нічим. Помилка тут видно як меню, що звисає за нижній край екрана.
+	 */
+	let height = $state(SCROLLBAR_MODES.length * ITEM_HEIGHT + PADDING * 2 + 24);
 
 	/** Меню відкривається біля курсора, але цілком у межах вікна. */
 	const position = $derived.by(() => {
@@ -92,15 +110,23 @@
 		}}
 	></div>
 
+	<!-- Стек двох ПАНЕЛЕЙ, а не одна панель із роздільником.
+	     Перелік режимів — вибір одного з чотирьох; доводка — незалежна настройка.
+	     Окремий контейнер каже це саме собою, без пояснень (SCROLLBAR § 7.4). -->
 	<div
-		class="scrollbar-menu"
+		class="scrollbar-menu-stack"
+		bind:offsetHeight={height}
 		style="left: {position.left}px; top: {position.top}px; width: {WIDTH}px;"
-		role="menu"
-		tabindex="-1"
-		data-testid="scrollbar-context-menu"
 		onkeydown={(e) => {
 			if (e.key === 'Escape') scrollbar.closeMenu();
 		}}
+		role="presentation"
+	>
+	<div
+		class="scrollbar-menu"
+		role="menu"
+		tabindex="-1"
+		data-testid="scrollbar-context-menu"
 	>
 		<span class="scrollbar-menu__title">{$t('settings.scrollbar')}</span>
 		{#each SCROLLBAR_MODES as mode (mode.id)}
@@ -116,29 +142,36 @@
 				{$t(mode.key)}
 			</button>
 		{/each}
+	</div>
 
-		{#if showHold}
-			<span class="scrollbar-menu__separator" role="separator"></span>
-			<!-- menuitemcheckbox, не menuitemradio: опція не належить до групи
-				 режимів і вибору серед них не скидає.
+	{#if showHold}
+		<!-- Тумблер, а не галочка, і той самий, що в адмінці (`.switch-*` у
+			 global.css): у проєкті вже є один вигляд «увімк/вимк», і другий
+			 вигадувати нема підстав.
 
-				 Меню тут НЕ закривається, на відміну від вибору режиму. Вибір —
-				 ухвалене рішення; це перемикач, і єдиний зворотний зв'язок про
-				 його стан — галочка в цьому ж рядку. Меню, що закрилося раніше,
-				 ніж вона намалювалася, лишає без відповіді на «то ввімкнулося
-				 чи ні». -->
-			<button
-				type="button"
-				class="scrollbar-menu__item scrollbar-menu__item--check"
-				role="menuitemcheckbox"
-				aria-checked={ui.holdScroll}
-				onclick={() => ui.setHoldScroll(!ui.holdScroll)}
-				data-testid="scrollbar-menu-hold-btn"
-			>
-				<span class="scrollbar-menu__mark" aria-hidden="true">{ui.holdScroll ? '✓' : ''}</span>
-				{$t('settings.scrollbarHold')}
-			</button>
-		{/if}
+			 Нативний `<input type="checkbox">` під ним, а не кнопка з
+			 `aria-checked`: це справжній елемент форми — фокус, пробіл, читалка
+			 й `:disabled` дістаються задарма. Панель НЕ закривається на
+			 перемиканні: зворотний зв'язок про стан — сам тумблер, і панель, що
+			 зникла раніше, ніж він доїхав, лишає без відповіді на «то
+			 ввімкнулося чи ні». -->
+		<div class="scrollbar-menu scrollbar-menu--hold">
+			<!-- Пара назв `-label` + `-toggle` — та сама, що в рядках адмінки:
+				 сам `input` прихований (0×0, opacity 0), тож натискати треба
+				 підпис, а читати стан — з поля. -->
+			<label class="switch-label scrollbar-hold__label" data-testid="scrollbar-hold-label">
+				<span class="scrollbar-hold__text">{$t('settings.scrollbarHold')}</span>
+				<input
+					type="checkbox"
+					class="switch-input"
+					checked={ui.holdScroll}
+					onchange={() => ui.setHoldScroll(!ui.holdScroll)}
+					data-testid="scrollbar-hold-toggle"
+				/>
+				<span class="switch-slider"></span>
+			</label>
+		</div>
+	{/if}
 	</div>
 {/if}
 
@@ -150,9 +183,16 @@
 		z-index: 9500;
 	}
 
-	.scrollbar-menu {
+	/* Позиціонується стек; панелі всередині — звичайний потік. */
+	.scrollbar-menu-stack {
 		position: fixed;
 		z-index: 9501;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.scrollbar-menu {
 		display: flex;
 		flex-direction: column;
 		gap: 0.15rem;
@@ -194,22 +234,30 @@
 		color: var(--text-on-accent);
 	}
 
-	.scrollbar-menu__separator {
-		height: 1px;
-		margin: 4px 6px;
-		background: var(--border-main);
+	/* Друга панель: один рядок, тож вертикальний падінг менший за панель
+	   переліку — інакше вона виглядала б порожньою коробкою навколо тумблера. */
+	.scrollbar-menu--hold {
+		padding: 0.5rem 0.75rem;
 	}
 
-	.scrollbar-menu__item--check {
-		gap: 6px;
+	.scrollbar-hold__label {
+		/* Підпис ліворуч, тумблер праворуч — як у рядках адмінки. */
+		justify-content: space-between;
+		width: 100%;
+		gap: 0.75rem;
+		font-size: 0.85rem;
+		font-weight: 600;
 	}
 
-	/* Ширина фіксована й не залежить від того, стоїть галочка чи ні: інакше
-	   підпис стрибав би вбік при кожному натисканні — просто в меню, яке саме
-	   на нього й дивиться. */
-	.scrollbar-menu__mark {
-		flex: 0 0 14px;
-		color: var(--accent-primary);
-		text-align: center;
+	.scrollbar-hold__text {
+		/* Переносити нема куди: панель завширшки з меню, і два рядки біля
+		   тумблера читаються як два різні пункти. */
+		min-width: 0;
+	}
+
+	/* Обведення на тумблері, а не на прихованому `input` (той 0×0 і не видно). */
+	.scrollbar-hold__label:focus-within .switch-slider {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 2px;
 	}
 </style>

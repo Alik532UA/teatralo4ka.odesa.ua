@@ -50,12 +50,11 @@ async function enableHold(page: Page, testId: string) {
 	const control = page.getByTestId(testId);
 	const box = (await control.boundingBox())!;
 	await control.click({ button: 'right', position: { x: box.width / 2, y: 4 } });
-	await page.getByTestId('scrollbar-menu-hold-btn').click();
-	await expect(page.getByTestId('scrollbar-menu-hold-btn')).toHaveAttribute(
-		'aria-checked',
-		'true'
-	);
-	// Меню лишається відкритим навмисно (SCROLLBAR § 7.4) — закриваємо самі,
+	// Натискаємо ПІДПИС, а не поле: сам `input` прихований під тумблером
+	// (0×0, opacity 0), і клік по ньому Playwright не вважає дією.
+	await page.getByTestId('scrollbar-hold-label').click();
+	await expect(page.getByTestId('scrollbar-hold-toggle')).toBeChecked();
+	// Панель лишається відкритою навмисно (SCROLLBAR § 7.4) — закриваємо самі,
 	// інакше тло перехопить рухи миші, якими веде далі перевірка.
 	await page.keyboard.press('Escape');
 	await expect(page.getByTestId('scrollbar-context-menu')).toHaveCount(0);
@@ -383,8 +382,8 @@ test.describe('режими смуги прокрутки', () => {
 		await page.mouse.click(890, 400, { button: 'right' });
 		await expect(page.getByTestId('scrollbar-context-menu')).toBeVisible();
 		await expect(
-			page.getByTestId('scrollbar-menu-hold-btn'),
-			'чекбокс показано там, де власної смуги немає'
+			page.getByTestId('scrollbar-hold-toggle'),
+			'перемикач показано там, де власної смуги немає'
 		).toHaveCount(0);
 	});
 

@@ -103,36 +103,46 @@
 						{$t(mode.key)}
 					</button>
 				{/each}
-				<!-- Доводка наведенням — той самий перемикач, що й у контекстному меню
-					 смуги. Він тут, а не лише там, бо два переліки, які розходяться, —
-					 рівно те, від чого застерігає SCROLLBAR § 2.2: відвідувач, який
-					 вибирає режим звідси, не має шукати опцію в іншому місці.
-
-					 Умова на `scrollbar.active`, не на `ui.scrollbarMode`: поки малює
-					 нативна смуга — сенсорний екран, вузьке вікно під мінімапу —
-					 наводити нема на що (HOLD-SCROLL § 1.3). -->
-				{#if scrollbar.active !== 'native'}
-					<button
-						class="dropdown-opt-unified"
-						class:active={ui.holdScroll}
-						role="menuitemcheckbox"
-						aria-checked={ui.holdScroll}
-						onclick={() => ui.setHoldScroll(!ui.holdScroll)}
-						style="text-align: left;"
-						data-testid="debug-scrollbar-hold-btn"
-					>
-						{ui.holdScroll ? '✓ ' : ''}{$t('settings.scrollbarHold')}
-					</button>
-				{/if}
 			</div>
+		</div>
+		{/if}
+
+		<!-- Доводка наведенням — ОКРЕМА група, а не п'ятий рядок у переліку
+			 режимів: там вибір одного з чотирьох, тут незалежна настройка.
+			 Вона тут, а не лише в контекстному меню смуги, бо два переліки, які
+			 розходяться, — рівно те, від чого застерігає SCROLLBAR § 2.2.
+
+			 Умова на `scrollbar.active`, не на `ui.scrollbarMode`: поки малює
+			 нативна смуга — сенсорний екран, вузьке вікно під мінімапу —
+			 наводити нема на що (HOLD-SCROLL § 1.3). -->
+		{#if showScrollbar && scrollbar.active !== 'native'}
+		<div class="dropdown-group-unified" data-testid="debug-hold-fieldset">
+			<label class="switch-label debug-hold__label" data-testid="debug-hold-label">
+				<span>{$t('settings.scrollbarHold')}</span>
+				<input
+					type="checkbox"
+					class="switch-input"
+					checked={ui.holdScroll}
+					onchange={() => ui.setHoldScroll(!ui.holdScroll)}
+					data-testid="debug-hold-toggle"
+				/>
+				<span class="switch-slider"></span>
+			</label>
 		</div>
 		{/if}
 	</div>
 {/if}
 
 <style>
+	/*
+	 * 260, а не 220, і число заміряне: рядок тумблера бере 175 px під «Доводка
+	 * наведенням» плюс 44 на сам тумблер, 8 на проміжок і 32 на падінги — 259.
+	 * На 220 переносився і він, і «Мінімапа мінімальна» (163 px при 156
+	 * доступних). Стільки ж у контекстного меню смуги: те саме показане двічі
+	 * не має бути двох різних ширин.
+	 */
 	.debug-dropdown {
-		width: 220px;
+		width: 260px;
 		backdrop-filter: blur(16px);
 		-webkit-backdrop-filter: blur(16px);
 	}
@@ -152,5 +162,22 @@
 	.debug-dropdown.mobile .dropdown-label-unified {
 		font-size: 1rem;
 		margin-bottom: var(--space-xs);
+	}
+
+	/* Підпис ліворуч, тумблер праворуч — як у рядках адмінки. */
+	.debug-hold__label {
+		justify-content: space-between;
+		width: 100%;
+		gap: var(--space-sm);
+	}
+
+	.debug-dropdown.mobile .debug-hold__label {
+		font-size: 1.15rem;
+	}
+
+	/* Обведення на тумблері: сам `input` 0×0 і не видно, де фокус. */
+	.debug-hold__label:focus-within .switch-slider {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 2px;
 	}
 </style>
