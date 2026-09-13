@@ -23,6 +23,7 @@
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import { festivalRow } from '$lib/components/galaxy/festivalRow';
 	import { createGalaxyView } from '$lib/services/galaxyViewMode.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 	import GalaxyRegistryHeader from '$lib/components/galaxy/GalaxyRegistryHeader.svelte';
@@ -108,36 +109,7 @@
 	 * одній сторінці збивають сильніше, ніж будь-яка з двох вад поодинці.
 	 */
 	const rows = $derived<GalaxyRow[]>(
-		ordered.map((f) => ({
-			key: f.slug,
-			href: localizedPath(festivalPath(f.slug), currentLang),
-			year: latestYear(f),
-			yearLabel: yearsOf(f.years),
-			title: isEn && f.nameEn ? f.nameEn : f.name,
-			/*
-			 * Назва країни — лише там, де її показують. Для країни-агресора в
-			 * рядку лишається місто й прапор; сам запис у реєстрі не чіпається,
-			 * і пошук за назвою далі працює (розбір — `FLAG_ONLY_COUNTRIES`).
-			 */
-			subtitle: [
-				f.city,
-				...f.countries.filter(showsCountryName).map((c) => $t(`galaxy.country.${c}`))
-			]
-				.filter(Boolean)
-				.join(' · '),
-			memberIds: f.memberIds,
-			/* Підпис — тут, бо словники знає сторінка, а не рядок. */
-			flags: f.countries.map((c) => ({
-				code: c,
-				/* Без підпису для тих самих країн: `title` малює браузер при
-				   наведенні, тобто це той самий текст, якого просили не писати. */
-				label: showsCountryName(c) ? $t(`galaxy.country.${c}`) : undefined
-			})),
-			marks: [
-				...(f.memberIds.length ? [{ icon: Users, text: String(f.memberIds.length) }] : []),
-				...(f.playIds.length ? [{ icon: Theater, text: String(f.playIds.length) }] : [])
-			]
-		}))
+		ordered.map((f) => festivalRow(f, { isEn, lang: currentLang, t: $t }))
 	);
 </script>
 
