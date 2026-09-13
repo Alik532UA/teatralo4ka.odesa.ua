@@ -217,6 +217,10 @@
 				"since": 2005,
 				"role": "актриса",
 				"mention": "театру юного глядача"
+			},
+			{
+				"id": "anastasiia-moldovanu",
+				"mention": "Театр юного глядача"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -249,6 +253,21 @@
 				"id": "nataliia-voroniuk",
 				"role": "актриса",
 				"mention": "театру імені Олександра Грибоєдова"
+			}
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-na-chainii",
+		"name": "Театр на Чайній",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"members": [
+			{
+				"id": "anastasiia-moldovanu",
+				"mention": "Театр на Чайній"
 			}
 		],
 		"verificationStatus": "possible_errors"

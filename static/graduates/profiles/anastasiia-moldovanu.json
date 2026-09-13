@@ -1,0 +1,57 @@
+{
+	"id": "anastasiia-moldovanu",
+	"slug": "anastasiia-moldovanu",
+	"name": "Анастасія Молдовану",
+	"graduationYear": 2021,
+	"enrollmentYears": [
+		2012
+	],
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2020,
+			"text": "«Оркестр», Мадам Ортанс",
+			"playId": "orkestr-2020",
+			"role": "Мадам Ортанс"
+		},
+		{
+			"year": 2021,
+			"text": "«Служниці», Клер",
+			"playId": "sluzhnytsi-2021",
+			"role": "Клер"
+		}
+	],
+	"bio": [
+		"Після випуску продовжувала навчатись в Одеському [театральному коледжі](/projects/galaxy-graduates/institutions/otkhfk) на спеціальності акторки. Після випуску з коледжу влаштувалась в [Театр на Чайній](/projects/galaxy-graduates/theatres/teatr-na-chainii) та [Театр юного глядача](/projects/galaxy-graduates/theatres/odeskyi-tiuh-oleshi)."
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/anastasia.moldovanu.2025"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/_anasteziyaaaa_"
+		}
+	],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"unlinkedGroups": [
+		"«Мозгов.нет»"
+	],
+	"hasPhoto": true,
+	"photoCount": 2,
+	"gallery": [
+		"/graduates/gallery/anastasiia-moldovanu/01.webp",
+		"/graduates/gallery/anastasiia-moldovanu/02.webp",
+		"/graduates/gallery/anastasiia-moldovanu/03.webp",
+		"/graduates/gallery/anastasiia-moldovanu/04.webp",
+		"/graduates/gallery/anastasiia-moldovanu/05.webp"
+	]
+}

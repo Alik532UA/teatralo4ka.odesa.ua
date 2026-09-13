@@ -1286,7 +1286,14 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"enrollmentYears": [
+			2012
+		],
+		"hasPhoto": true,
+		"photoCount": 2,
+		"playCount": 2,
+		"profileSize": 1655
 	},
 	{
 		"id": "anastasiia-motulko",

@@ -3236,22 +3236,22 @@
     },
     "metrics": {
       "graduates_profiles": {
-        "completed": 227,
+        "completed": 228,
         "total": 520,
         "percent": 44
       },
       "graduates_photos": {
-        "completed": 125,
+        "completed": 126,
         "total": 520,
         "percent": 24
       },
       "graduates_plays": {
-        "completed": 205,
+        "completed": 206,
         "total": 401,
         "percent": 51
       },
       "graduates_bio": {
-        "completed": 88,
+        "completed": 89,
         "total": 520,
         "percent": 17
       },
@@ -3266,7 +3266,7 @@
         "percent": 19
       },
       "graduates_socials": {
-        "completed": 89,
+        "completed": 90,
         "total": 520,
         "percent": 17
       },
@@ -3326,7 +3326,7 @@
         "percent": 4
       },
       "plays_cast": {
-        "completed": 289,
+        "completed": 291,
         "total": 737,
         "percent": 39
       },
