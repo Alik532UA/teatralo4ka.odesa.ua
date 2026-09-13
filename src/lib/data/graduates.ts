@@ -58,7 +58,9 @@ export type Department = (typeof DEPARTMENTS)[number];
  *   `graduate` (поля немає) — свідоцтво про закінчення є;
  *   `attended` — навчався й не закінчив («навчання до N»);
  *   `student` — ще вчиться; у `graduationYear` очікуваний рік випуску;
- *   `friend` — учнем школи НЕ БУВ, але грав із нею на сцені.
+ *   `friend` — учнем школи НЕ БУВ, але грав із нею на сцені;
+ *   `intensiveCourse` — проходив інтенсивний курс, а не відділення;
+ *   `festivalGuest` — не наш, але грав на НАШОМУ фестивалі.
  *
  * Статус не залежить від видимості (`visibility`): той, хто не закінчив,
  * буває і в галактиці (Ігор Розводюк), і лише за зв'язками (Ірина Тимофієнко),
@@ -76,8 +78,36 @@ export type Department = (typeof DEPARTMENTS)[number];
  * але не каже ЧОМУ, і за пів року причина була б утрачена. Рік випуску в
  * такого запису порожній завжди — обидва інваріанти стереже
  * `narrowed-fields.test.ts`.
+ *
+ * ## `intensiveCourse` та `festivalGuest` — та сама причина, інші люди
+ *
+ * Рішення автора 13 вересня 2026. Обидва з'явилися з того, що `friend` став
+ * підписом для двох різних випадків одразу, і жоден із них не описував:
+ *
+ *   Віктор Фурдуй ішов як «друг школи», хоча вчився тут — просто не на
+ *   відділенні, а на ІНТЕНСИВНОМУ КУРСІ. Підпис заперечував факт;
+ *
+ *   Ірина Шеляг грала на «Театр.PRO» 2018 — нашому фестивалі, — не бувши ані
+ *   ученицею, ані випускницею. «Друг школи» тут не бреше, але й не каже
+ *   головного: звідки вона взялася в цьому переліку.
+ *
+ * Підпис для інтенсиву НЕ дублюється рядком: береться той самий ключ, що і в
+ * відділення (`galaxy.departments.intensive`). Це одне й те саме поняття, і
+ * два написання розійшлися б від першої ж правки одного з них.
+ *
+ * ЧОМУ `intensiveCourse`, А НЕ `intensive`. Відділення вже зветься
+ * `intensive` (`DEPARTMENTS`), і однакові значення в двох різних полях — це
+ * помилка, яку жоден тип не спіймає: обидва рядки, обидва дозволені, просто в
+ * різних місцях.
  */
-export const GRADUATE_KINDS = ['graduate', 'attended', 'student', 'friend'] as const;
+export const GRADUATE_KINDS = [
+	'graduate',
+	'attended',
+	'student',
+	'friend',
+	'intensiveCourse',
+	'festivalGuest'
+] as const;
 export type GraduateKind = (typeof GRADUATE_KINDS)[number];
 
 /**
@@ -510,6 +540,9 @@ export function graduationCaption(
 ): string | null {
 	if (graduate.kind === 'student') return translate('galaxy.studying');
 	if (graduate.kind === 'friend') return translate('galaxy.friendOfSchool');
+	// Той самий ключ, що й у відділення: поняття одне, написання теж має бути одне.
+	if (graduate.kind === 'intensiveCourse') return translate('galaxy.departments.intensive');
+	if (graduate.kind === 'festivalGuest') return translate('galaxy.festivalParticipant');
 	const year = graduate.graduationYear;
 	if (!year) return null;
 	return graduate.kind === 'attended'

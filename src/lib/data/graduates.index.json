@@ -10889,8 +10889,10 @@
 		"slug": "viktor-furdui",
 		"name": "Віктор Фурдуй",
 		"graduationYear": null,
-		"departments": [],
-		"kind": "friend",
+		"departments": [
+			"intensive"
+		],
+		"kind": "intensiveCourse",
 		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
