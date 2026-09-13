@@ -371,8 +371,8 @@
 	},
 	{
 		"slug": "druzhba-2008",
-		"name": "Дружба-2008",
-		"nameEn": "Druzhba-2008 International Festival",
+		"name": "Дружба",
+		"nameEn": "Druzhba International Festival",
 		"years": [
 			2008
 		],
@@ -516,7 +516,8 @@
 		"photos": [
 			"/festivals/zhyvy-2010.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"city": "Тарханкут, Крим"
 	},
 	{
 		"slug": "briantsevskyi-2010",
@@ -652,7 +653,8 @@
 			"/festivals/zhyvy-2011.webp",
 			"/festivals/zhyvy-2011-2.webp"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"city": "Тарханкут, Крим"
 	},
 	{
 		"slug": "artek-karpaty-bukovel-2014",
@@ -730,7 +732,7 @@
 	},
 	{
 		"slug": "kyiv-slavutych-2015",
-		"name": "Гастролі Київ — Славутич",
+		"name": "Гастролі",
 		"nameEn": "Kyiv–Slavutych Tour",
 		"years": [
 			2015
@@ -809,7 +811,7 @@
 	},
 	{
 		"slug": "ivano-frankivsk-2016",
-		"name": "Гастролі Івано-Франківськ — Коломия — Яремче",
+		"name": "Гастролі",
 		"nameEn": "Ivano-Frankivsk–Kolomyia–Yaremche Tour",
 		"years": [
 			2016

@@ -10925,12 +10925,11 @@
 		"id": "viktor-furdui",
 		"slug": "viktor-furdui",
 		"name": "Віктор Фурдуй",
-		"graduationYear": null,
+		"graduationYear": 2010,
 		"departments": [
 			"intensive"
 		],
 		"kind": "intensiveCourse",
-		"visibility": "linked",
 		"verificationStatus": "possible_errors"
 	},
 	{
