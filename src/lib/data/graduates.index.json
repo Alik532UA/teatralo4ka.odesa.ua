@@ -498,6 +498,17 @@
 		]
 	},
 	{
+		"id": "alisa-pomortseva",
+		"slug": "alisa-pomortseva",
+		"name": "Аліса Поморцева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "alisa-semenova",
 		"slug": "alisa-semenova",
 		"name": "Аліса Семенова",
@@ -534,6 +545,41 @@
 		]
 	},
 	{
+		"id": "alisa-stepanova",
+		"slug": "alisa-stepanova",
+		"name": "Аліса Степанова",
+		"graduationYear": 2018,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			},
+			{
+				"id": "mykola-baldin",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
+	},
+	{
 		"id": "alisa-tunkevych",
 		"slug": "alisa-tunkevych",
 		"name": "Аліса Тункевич",
@@ -550,6 +596,20 @@
 		],
 		"profileSize": 299,
 		"playCount": 0
+	},
+	{
+		"id": "alisiia-myronenko",
+		"slug": "alisiia-myronenko",
+		"name": "Алісія Мироненко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
 	},
 	{
 		"id": "alla-brynza",
@@ -658,6 +718,16 @@
 		"playCount": 7,
 		"code": "alona-kozlova",
 		"profileSize": 1909
+	},
+	{
+		"id": "alona-pashel",
+		"slug": "alona-pashel",
+		"name": "Альона Пашель",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "attended",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "amryta-chernyshova",
@@ -871,6 +941,20 @@
 		],
 		"profileSize": 798,
 		"playCount": 4
+	},
+	{
+		"id": "anastasiia-hrydiushko",
+		"slug": "anastasiia-hrydiushko",
+		"name": "Анастасія Гридюшко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 392,
+		"playCount": 1
 	},
 	{
 		"id": "anastasiia-huchok",
@@ -1184,6 +1268,17 @@
 		]
 	},
 	{
+		"id": "anastasiia-levytska",
+		"slug": "anastasiia-levytska",
+		"name": "Анастасія Левицька",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "anastasiia-lovkina",
 		"slug": "anastasiia-lovkina",
 		"name": "Анастасія Льовкіна",
@@ -1309,6 +1404,20 @@
 			},
 			{
 				"id": "svitlana-ryskina"
+			}
+		]
+	},
+	{
+		"id": "anastasiia-nakonechna",
+		"slug": "anastasiia-nakonechna",
+		"name": "Анастасія Наконечна",
+		"graduationYear": 2023,
+		"departments": [
+			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
 			}
 		]
 	},
@@ -1519,6 +1628,17 @@
 		]
 	},
 	{
+		"id": "andrii-yuzefovych",
+		"slug": "andrii-yuzefovych",
+		"name": "Андрій Юзефович",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "anfisa-lazebna",
 		"slug": "anfisa-lazebna",
 		"name": "Анфіса Лазебна",
@@ -1591,6 +1711,17 @@
 		]
 	},
 	{
+		"id": "anhelina-pohosian",
+		"slug": "anhelina-pohosian",
+		"name": "Ангеліна Погосян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "listed",
+		"departments": [
+			"music"
+		]
+	},
+	{
 		"id": "anhelina-zakharova",
 		"slug": "anhelina-zakharova",
 		"name": "Ангеліна Захарова",
@@ -1657,6 +1788,20 @@
 		"playCount": 3
 	},
 	{
+		"id": "anna-bais",
+		"slug": "anna-bais",
+		"name": "Анна Баїс",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 363,
+		"playCount": 1
+	},
+	{
 		"id": "anna-halchynska",
 		"slug": "anna-halchynska",
 		"name": "Анна Гальчинська",
@@ -1707,6 +1852,20 @@
 		"profileSize": 346
 	},
 	{
+		"id": "anna-iatskova",
+		"slug": "anna-iatskova",
+		"name": "Анна Яцкова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 379,
+		"playCount": 1
+	},
+	{
 		"id": "anna-khyzhniak",
 		"slug": "anna-khyzhniak",
 		"name": "Анна Хижняк",
@@ -1724,6 +1883,31 @@
 		],
 		"profileSize": 896,
 		"playCount": 5
+	},
+	{
+		"id": "anna-koltyniuk",
+		"slug": "anna-koltyniuk",
+		"name": "Анна Колтинюк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "anna-konysheva",
+		"slug": "anna-konysheva",
+		"name": "Анна Конишева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 361,
+		"playCount": 1
 	},
 	{
 		"id": "anna-lepynys",
@@ -1826,6 +2010,16 @@
 		"code": "anna-rodonaia",
 		"playCount": 5,
 		"profileSize": 1834
+	},
+	{
+		"id": "anna-ruseva",
+		"slug": "anna-ruseva",
+		"name": "Анна Русева",
+		"graduationYear": 2009,
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "anna-rusieva",
@@ -1939,6 +2133,27 @@
 		]
 	},
 	{
+		"id": "anton-dehtiar",
+		"slug": "anton-dehtiar",
+		"name": "Антон Дегтяр",
+		"graduationYear": 2007,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "anush-pohosian",
+		"slug": "anush-pohosian",
+		"name": "Ануш Погосян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "anzhelika-khachatrian",
 		"slug": "anzhelika-khachatrian",
 		"name": "Анжеліка Хачатрян",
@@ -1973,6 +2188,17 @@
 			{
 				"id": "tetiana-isachkina"
 			}
+		]
+	},
+	{
+		"id": "arsen-arutiunian",
+		"slug": "arsen-arutiunian",
+		"name": "Арсен Арутюнян",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
 		]
 	},
 	{
@@ -2086,6 +2312,16 @@
 		]
 	},
 	{
+		"id": "artur-lebediev",
+		"slug": "artur-lebediev",
+		"name": "Артур Лебедєв",
+		"graduationYear": 2007,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "aryna-postolova",
 		"slug": "aryna-postolova",
 		"name": "Арина Постолова",
@@ -2187,66 +2423,6 @@
 		],
 		"profileSize": 789,
 		"playCount": 4
-	},
-	{
-		"id": "iryna-tymofiienko",
-		"slug": "iryna-tymofiienko",
-		"name": "Ірина Тимофієнко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"profileSize": 1318,
-		"playCount": 4
-	},
-	{
-		"id": "mykyta-olenin",
-		"slug": "mykyta-olenin",
-		"name": "Микита Оленін",
-		"graduationYear": 2011,
-		"departments": [
-			"art"
-		],
-		"masters": [
-			{
-				"id": "vira-koval"
-			}
-		]
-	},
-	{
-		"id": "viktoriia-yefremova",
-		"slug": "viktoriia-yefremova",
-		"name": "Вікторія Єфремова",
-		"graduationYear": 2023,
-		"departments": [
-			"theatre"
-		],
-		"masters": [
-			{
-				"id": "fedir-tkach"
-			}
-		],
-		"profileSize": 426,
-		"playCount": 1
-	},
-	{
-		"id": "yulia-bulhakova",
-		"slug": "yulia-bulhakova",
-		"name": "Юля Булгакова",
-		"graduationYear": 2023,
-		"departments": [
-			"theatre"
-		],
-		"masters": [
-			{
-				"id": "hanna-serebriannikova"
-			},
-			{
-				"id": "tetiana-isachkina"
-			}
-		]
 	},
 	{
 		"id": "daiana-ponomarenko",
@@ -2853,6 +3029,17 @@
 		"profileSize": 797
 	},
 	{
+		"id": "daria-tryfonova",
+		"slug": "daria-tryfonova",
+		"name": "Дар’я Трифонова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "daria-zemka",
 		"slug": "daria-zemka",
 		"name": "Дар'я Земка",
@@ -2999,6 +3186,17 @@
 		],
 		"profileSize": 489,
 		"playCount": 2
+	},
+	{
+		"id": "denys-klymov",
+		"slug": "denys-klymov",
+		"name": "Денис Климов",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
 	},
 	{
 		"id": "diana-babenko",
@@ -3411,6 +3609,18 @@
 		]
 	},
 	{
+		"id": "hanna-dvoinykh",
+		"slug": "hanna-dvoinykh",
+		"name": "Ганна Двойних",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"id": "hanna-horbunova",
 		"slug": "hanna-horbunova",
 		"name": "Ганна Горбунова",
@@ -3422,6 +3632,16 @@
 			{
 				"id": "vira-koval"
 			}
+		]
+	},
+	{
+		"id": "hanna-lebedieva",
+		"slug": "hanna-lebedieva",
+		"name": "Ганна Лебедєва",
+		"graduationYear": 2007,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
 		]
 	},
 	{
@@ -3495,6 +3715,24 @@
 		],
 		"profileSize": 482,
 		"playCount": 2
+	},
+	{
+		"id": "hanna-voiutska",
+		"slug": "hanna-voiutska",
+		"name": "Ганна Воюцька",
+		"graduationYear": 2007,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
 	},
 	{
 		"id": "heorhii-slyvynskyi",
@@ -3806,6 +4044,17 @@
 		"playCount": 6
 	},
 	{
+		"id": "iryna-novykova",
+		"slug": "iryna-novykova",
+		"name": "Ірина Новикова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "iryna-panchenko",
 		"slug": "iryna-panchenko",
 		"name": "Ірина Панченко",
@@ -3850,6 +4099,16 @@
 		]
 	},
 	{
+		"id": "iryna-sheliah",
+		"slug": "iryna-sheliah",
+		"name": "Ірина Шеляг",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"id": "iryna-tsurkan",
 		"slug": "iryna-tsurkan",
 		"name": "Ірина Цуркан",
@@ -3881,7 +4140,9 @@
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"playCount": 4,
+		"profileSize": 1407
 	},
 	{
 		"id": "iryna-zatulina",
@@ -4103,6 +4364,28 @@
 		"profileSize": 1339
 	},
 	{
+		"id": "karyna-kurudzhy",
+		"slug": "karyna-kurudzhy",
+		"name": "Карина Куруджи",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "karyna-losieva",
+		"slug": "karyna-losieva",
+		"name": "Карина Лосєва",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "karyna-sharkova",
 		"slug": "karyna-sharkova",
 		"name": "Карина Шаркова",
@@ -4122,6 +4405,43 @@
 		"code": "karyna-sharkova",
 		"playCount": 0,
 		"profileSize": 725
+	},
+	{
+		"id": "karyna-syvak",
+		"slug": "karyna-syvak",
+		"name": "Карина Сивак",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "kateryna-haidei",
+		"slug": "kateryna-haidei",
+		"name": "Катерина Гайдей",
+		"graduationYear": 2021,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "samuil-imas",
+				"subjects": [
+					"Риторика та поетика"
+				]
+			}
+		],
+		"masters": [
+			{
+				"id": "hanna-tkach"
+			},
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "kateryna-kolisnychenko",
@@ -4354,6 +4674,20 @@
 		"profileSize": 2190
 	},
 	{
+		"id": "kateryna-onopriienko",
+		"slug": "kateryna-onopriienko",
+		"name": "Катерина Онопрієнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 391,
+		"playCount": 1
+	},
+	{
 		"id": "kateryna-petrenko",
 		"slug": "kateryna-petrenko",
 		"name": "Катерина Петренко",
@@ -4409,6 +4743,18 @@
 		"playCount": 3,
 		"code": "kateryna-poltavtseva",
 		"profileSize": 1073
+	},
+	{
+		"id": "kateryna-tiutiunnyk",
+		"slug": "kateryna-tiutiunnyk",
+		"name": "Катерина Тютюнник",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "kateryna-tkachenko",
@@ -4486,31 +4832,14 @@
 		"playCount": 2
 	},
 	{
-		"id": "yeva-kelembet",
-		"slug": "yeva-kelembet",
-		"name": "Єва Келембет",
-		"graduationYear": 2023,
+		"id": "kateryna-yolkina",
+		"slug": "kateryna-yolkina",
+		"name": "Катерина Йолкіна",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
 		"departments": [
 			"theatre"
-		],
-		"masters": [
-			{
-				"id": "tetiana-isachkina"
-			}
-		]
-	},
-	{
-		"id": "yurii-kelembet",
-		"slug": "yurii-kelembet",
-		"name": "Юрій Келембет",
-		"graduationYear": 2023,
-		"departments": [
-			"theatre"
-		],
-		"masters": [
-			{
-				"id": "tetiana-isachkina"
-			}
 		]
 	},
 	{
@@ -4650,6 +4979,20 @@
 		],
 		"profileSize": 305,
 		"playCount": 0
+	},
+	{
+		"id": "kostiantyn-furmanov",
+		"slug": "kostiantyn-furmanov",
+		"name": "Костянтин Фурманов",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 386,
+		"playCount": 1
 	},
 	{
 		"id": "kristina-slivka-spivak",
@@ -4822,6 +5165,15 @@
 				"id": "svitlana-ryskina"
 			}
 		]
+	},
+	{
+		"id": "kseniia-dovhal",
+		"slug": "kseniia-dovhal",
+		"name": "Ксенія Довгаль",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
 	},
 	{
 		"id": "kseniia-holenkovska",
@@ -5088,22 +5440,29 @@
 		"playCount": 2
 	},
 	{
-		"id": "polina-leonenko",
-		"slug": "polina-leonenko",
-		"name": "Поліна Леоненко",
-		"graduationYear": 2023,
+		"id": "lesia-bondareva",
+		"slug": "lesia-bondareva",
+		"name": "Леся Бондарева",
+		"graduationYear": null,
 		"departments": [
 			"theatre"
 		],
-		"masters": [
-			{
-				"id": "fedir-tkach"
-			},
-			{
-				"id": "tetiana-isachkina"
-			}
+		"kind": "attended",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "lika-aharycheva",
+		"slug": "lika-aharycheva",
+		"name": "Ліка Агаричева",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
 		],
-		"profileSize": 368,
+		"verificationStatus": "possible_errors",
+		"profileSize": 366,
 		"playCount": 1
 	},
 	{
@@ -5597,6 +5956,20 @@
 		]
 	},
 	{
+		"id": "mariia-filippenko",
+		"slug": "mariia-filippenko",
+		"name": "Марія Філіппенко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
+	},
+	{
 		"id": "mariia-hrytskova",
 		"slug": "mariia-hrytskova",
 		"name": "Марія Грицкова",
@@ -5777,6 +6150,18 @@
 		"playCount": 17,
 		"code": "mariia-mykhailova-didenko",
 		"profileSize": 3023
+	},
+	{
+		"id": "mariia-orlova",
+		"slug": "mariia-orlova",
+		"name": "Марія Орлова",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "mariia-poliakova",
@@ -6322,6 +6707,31 @@
 		]
 	},
 	{
+		"id": "mykyta-kurudzhy",
+		"slug": "mykyta-kurudzhy",
+		"name": "Микита Куруджи",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "mykyta-olenin",
+		"slug": "mykyta-olenin",
+		"name": "Микита Оленін",
+		"graduationYear": 2011,
+		"departments": [
+			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-koval"
+			}
+		]
+	},
+	{
 		"id": "mykyta-shevchenko",
 		"slug": "mykyta-shevchenko",
 		"name": "Микита Шевченко",
@@ -6511,20 +6921,6 @@
 		]
 	},
 	{
-		"id": "anastasiia-nakonechna",
-		"slug": "anastasiia-nakonechna",
-		"name": "Анастасія Наконечна",
-		"graduationYear": 2023,
-		"departments": [
-			"art"
-		],
-		"masters": [
-			{
-				"id": "vira-kurova"
-			}
-		]
-	},
-	{
 		"id": "nataliia-karamysheva",
 		"slug": "nataliia-karamysheva",
 		"name": "Наталія Карамишева",
@@ -6674,12 +7070,60 @@
 		]
 	},
 	{
+		"id": "nikol-vietieva",
+		"slug": "nikol-vietieva",
+		"name": "Ніколь Вєтєва",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "nina-chychykova",
+		"slug": "nina-chychykova",
+		"name": "Ніна Чичикова",
+		"graduationYear": 2005,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
 		"id": "oksana-ivanova",
 		"slug": "oksana-ivanova",
 		"name": "Оксана Іванова",
 		"graduationYear": 2006,
 		"departments": [
 			"theatre"
+		]
+	},
+	{
+		"id": "oksana-tyshchenko",
+		"slug": "oksana-tyshchenko",
+		"name": "Оксана Тищенко",
+		"graduationYear": 2005,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
 		]
 	},
 	{
@@ -6808,6 +7252,30 @@
 		"playCount": 1
 	},
 	{
+		"id": "oleksandr-komadovskyi",
+		"slug": "oleksandr-komadovskyi",
+		"name": "Олександр Комадовський",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "friend",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "oleksandr-onopriienko",
+		"slug": "oleksandr-onopriienko",
+		"name": "Олександр Онопрієнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 396,
+		"playCount": 1
+	},
+	{
 		"id": "oleksandr-sydashov",
 		"slug": "oleksandr-sydashov",
 		"name": "Олександр Сидашов",
@@ -6836,6 +7304,18 @@
 		]
 	},
 	{
+		"id": "oleksandr-yatsenko",
+		"slug": "oleksandr-yatsenko",
+		"name": "Олександр Яценко",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "attended",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"profileSize": 365,
+		"playCount": 1
+	},
+	{
 		"id": "oleksandra-balanska",
 		"slug": "oleksandra-balanska",
 		"name": "Олександра Баланська",
@@ -6861,6 +7341,17 @@
 			{
 				"id": "fedir-tkach"
 			}
+		]
+	},
+	{
+		"id": "oleksandra-berezutska",
+		"slug": "oleksandra-berezutska",
+		"name": "Олександра Березуцька",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
 		]
 	},
 	{
@@ -7313,6 +7804,31 @@
 		]
 	},
 	{
+		"id": "oleksii-drui",
+		"slug": "oleksii-drui",
+		"name": "Олексій Друї",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "oleksii-nahaiets",
+		"slug": "oleksii-nahaiets",
+		"name": "Олексій Нагаєць",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 371,
+		"playCount": 1
+	},
+	{
 		"id": "oleksii-rabadzhi",
 		"slug": "oleksii-rabadzhi",
 		"name": "Олексій Рабаджі",
@@ -7320,6 +7836,20 @@
 		"departments": [
 			"art"
 		]
+	},
+	{
+		"id": "oleksii-salimovskyi",
+		"slug": "oleksii-salimovskyi",
+		"name": "Олексій Салімовський",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 390,
+		"playCount": 1
 	},
 	{
 		"id": "oleksii-suraho",
@@ -7535,6 +8065,20 @@
 		]
 	},
 	{
+		"id": "olena-nikolaienko",
+		"slug": "olena-nikolaienko",
+		"name": "Олена Ніколаєнко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 393,
+		"playCount": 1
+	},
+	{
 		"id": "olena-pushkarova",
 		"slug": "olena-pushkarova",
 		"name": "Олена Пушкарьова",
@@ -7579,6 +8123,26 @@
 		]
 	},
 	{
+		"id": "olesia-hrynko",
+		"slug": "olesia-hrynko",
+		"name": "Олеся Гринько",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
+	},
+	{
+		"id": "olesia-klymova",
+		"slug": "olesia-klymova",
+		"name": "Олеся Климова",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "olha-davydiuk",
 		"slug": "olha-davydiuk",
 		"name": "Ольга Давидюк",
@@ -7590,6 +8154,17 @@
 			{
 				"id": "svitlana-ryskina"
 			}
+		]
+	},
+	{
+		"id": "olha-horbenko",
+		"slug": "olha-horbenko",
+		"name": "Ольга Горбенко",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
 		]
 	},
 	{
@@ -7659,6 +8234,20 @@
 				"id": "svitlana-ryskina"
 			}
 		]
+	},
+	{
+		"id": "olha-shuliak",
+		"slug": "olha-shuliak",
+		"name": "Ольга Шуляк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"verificationStatus": "possible_errors",
+		"profileSize": 351,
+		"playCount": 1
 	},
 	{
 		"id": "olha-sukhareva",
@@ -7815,6 +8404,25 @@
 		]
 	},
 	{
+		"id": "polina-leonenko",
+		"slug": "polina-leonenko",
+		"name": "Поліна Леоненко",
+		"graduationYear": 2023,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"profileSize": 368,
+		"playCount": 1
+	},
+	{
 		"id": "polina-volhina",
 		"slug": "polina-volhina",
 		"name": "Поліна Волгіна",
@@ -7847,6 +8455,15 @@
 		],
 		"profileSize": 286,
 		"playCount": 0
+	},
+	{
+		"id": "rodomira-dolbysheva",
+		"slug": "rodomira-dolbysheva",
+		"name": "Родоміра Долбишева",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": []
 	},
 	{
 		"id": "roman-arabadzhi",
@@ -8004,6 +8621,24 @@
 		]
 	},
 	{
+		"id": "serhii-chychykov",
+		"slug": "serhii-chychykov",
+		"name": "Сергій Чичиков",
+		"graduationYear": 2005,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
 		"id": "sofia-chernova",
 		"slug": "sofia-chernova",
 		"name": "Соф’я Чернова",
@@ -8023,6 +8658,16 @@
 		"playCount": 4,
 		"code": "Sofia-Chernova",
 		"profileSize": 1274
+	},
+	{
+		"id": "sofiia-alieksieieva",
+		"slug": "sofiia-alieksieieva",
+		"name": "Софія Алексєєва",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sofiia-chernata",
@@ -8164,6 +8809,18 @@
 		"playCount": 4,
 		"code": "Sofiya-Skuratovych",
 		"profileSize": 1029
+	},
+	{
+		"id": "sofiia-smolianska",
+		"slug": "sofiia-smolianska",
+		"name": "Софія Смолянська",
+		"graduationYear": null,
+		"departments": [
+			"vocal"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "sofiya-rudenko",
@@ -8623,23 +9280,19 @@
 		]
 	},
 	{
+		"id": "tetiana-mikhova",
+		"slug": "tetiana-mikhova",
+		"name": "Тетяна Міхова",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"id": "tetiana-nikitenko",
 		"slug": "tetiana-nikitenko",
 		"name": "Тетяна Нікітенко",
-		"graduationYear": 2018,
-		"departments": [
-			"art"
-		],
-		"masters": [
-			{
-				"id": "vira-kurova"
-			}
-		]
-	},
-	{
-		"id": "yelyzaveta-nikitenko",
-		"slug": "yelyzaveta-nikitenko",
-		"name": "Єлизавета Нікітенко",
 		"graduationYear": 2018,
 		"departments": [
 			"art"
@@ -8685,6 +9338,16 @@
 				"id": "pavlo-koshka"
 			}
 		]
+	},
+	{
+		"id": "uliana-strepetova",
+		"slug": "uliana-strepetova",
+		"name": "Уляна Стрепетова",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "vadym-krusser",
@@ -8881,6 +9544,17 @@
 		]
 	},
 	{
+		"id": "veronika-cheredniuk",
+		"slug": "veronika-cheredniuk",
+		"name": "Вероніка Череднюк",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
 		"id": "veronika-komarova",
 		"slug": "veronika-komarova",
 		"name": "Вероніка Комарова",
@@ -8986,6 +9660,35 @@
 				"id": "svitlana-ryskina"
 			}
 		]
+	},
+	{
+		"id": "viktor-chychykov",
+		"slug": "viktor-chychykov",
+		"name": "Віктор Чичиков",
+		"graduationYear": 2005,
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		]
+	},
+	{
+		"id": "viktor-furdui",
+		"slug": "viktor-furdui",
+		"name": "Віктор Фурдуй",
+		"graduationYear": 2010,
+		"departments": [
+			"intensive"
+		],
+		"kind": "intensiveCourse",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "viktor-voiutskyi",
@@ -9234,6 +9937,22 @@
 				"id": "vira-koval"
 			}
 		]
+	},
+	{
+		"id": "viktoriia-yefremova",
+		"slug": "viktoriia-yefremova",
+		"name": "Вікторія Єфремова",
+		"graduationYear": 2023,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"profileSize": 426,
+		"playCount": 1
 	},
 	{
 		"id": "violetta-kohut",
@@ -9627,6 +10346,27 @@
 		]
 	},
 	{
+		"id": "volodymyr-zakharchenko",
+		"slug": "volodymyr-zakharchenko",
+		"name": "Володимир Захарченко",
+		"graduationYear": 2013,
+		"kind": "attended",
+		"visibility": "direct",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "pavlo-koshka"
+			},
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"profileSize": 1096,
+		"playCount": 4
+	},
+	{
 		"id": "yan-okolskyy",
 		"slug": "yan-okolskyy",
 		"name": "Ян Окольський",
@@ -9690,6 +10430,16 @@
 				"id": "vira-koval"
 			}
 		]
+	},
+	{
+		"id": "yaroslav-dimov",
+		"slug": "yaroslav-dimov",
+		"name": "Ярослав Дімов",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yehor-pyasetskyy",
@@ -9789,6 +10539,30 @@
 		"playCount": 0
 	},
 	{
+		"id": "yelyzaveta-nikitenko",
+		"slug": "yelyzaveta-nikitenko",
+		"name": "Єлизавета Нікітенко",
+		"graduationYear": 2018,
+		"departments": [
+			"art"
+		],
+		"masters": [
+			{
+				"id": "vira-kurova"
+			}
+		]
+	},
+	{
+		"id": "yelyzaveta-podhaiko",
+		"slug": "yelyzaveta-podhaiko",
+		"name": "Єлизавета Подгайко",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
+	},
+	{
 		"id": "yelyzaveta-sekunda",
 		"slug": "yelyzaveta-sekunda",
 		"name": "Єлизавета Секунда",
@@ -9803,6 +10577,16 @@
 		],
 		"profileSize": 398,
 		"playCount": 1
+	},
+	{
+		"id": "yelyzaveta-soborova",
+		"slug": "yelyzaveta-soborova",
+		"name": "Єлизавета Соборова",
+		"graduationYear": null,
+		"departments": [],
+		"kind": "festivalGuest",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "yelyzaveta-zikhrei",
@@ -9860,6 +10644,20 @@
 		],
 		"profileSize": 424,
 		"playCount": 1
+	},
+	{
+		"id": "yeva-kelembet",
+		"slug": "yeva-kelembet",
+		"name": "Єва Келембет",
+		"graduationYear": 2023,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "yeva-kosoy",
@@ -10185,6 +10983,23 @@
 			"theatre"
 		],
 		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
+	},
+	{
+		"id": "yulia-bulhakova",
+		"slug": "yulia-bulhakova",
+		"name": "Юля Булгакова",
+		"graduationYear": 2023,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "hanna-serebriannikova"
+			},
 			{
 				"id": "tetiana-isachkina"
 			}
@@ -10548,6 +11363,31 @@
 		"playCount": 2
 	},
 	{
+		"id": "yurii-huryn",
+		"slug": "yurii-huryn",
+		"name": "Юрій Гурин",
+		"graduationYear": null,
+		"kind": "attended",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		]
+	},
+	{
+		"id": "yurii-kelembet",
+		"slug": "yurii-kelembet",
+		"name": "Юрій Келембет",
+		"graduationYear": 2023,
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
+	},
+	{
 		"id": "yurii-tkachenko",
 		"slug": "yurii-tkachenko",
 		"name": "Юрій Ткаченко",
@@ -10658,778 +11498,9 @@
 		]
 	},
 	{
-		"id": "hanna-voiutska",
-		"slug": "hanna-voiutska",
-		"name": "Ганна Воюцька",
-		"graduationYear": 2007,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		]
-	},
-	{
-		"id": "alisa-stepanova",
-		"slug": "alisa-stepanova",
-		"name": "Аліса Степанова",
-		"graduationYear": 2018,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "samuil-imas",
-				"subjects": [
-					"Риторика та поетика"
-				]
-			},
-			{
-				"id": "mykola-baldin",
-				"subjects": [
-					"Сценічний рух"
-				]
-			},
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		],
-		"masters": [
-			{
-				"id": "svitlana-ryskina"
-			}
-		]
-	},
-	{
-		"id": "kateryna-haidei",
-		"slug": "kateryna-haidei",
-		"name": "Катерина Гайдей",
-		"graduationYear": 2021,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "samuil-imas",
-				"subjects": [
-					"Риторика та поетика"
-				]
-			}
-		],
-		"masters": [
-			{
-				"id": "hanna-tkach"
-			},
-			{
-				"id": "fedir-tkach"
-			}
-		]
-	},
-	{
-		"id": "oksana-tyshchenko",
-		"slug": "oksana-tyshchenko",
-		"name": "Оксана Тищенко",
-		"graduationYear": 2005,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		]
-	},
-	{
-		"id": "nina-chychykova",
-		"slug": "nina-chychykova",
-		"name": "Ніна Чичикова",
-		"graduationYear": 2005,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		]
-	},
-	{
-		"id": "viktor-chychykov",
-		"slug": "viktor-chychykov",
-		"name": "Віктор Чичиков",
-		"graduationYear": 2005,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		]
-	},
-	{
-		"id": "serhii-chychykov",
-		"slug": "serhii-chychykov",
-		"name": "Сергій Чичиков",
-		"graduationYear": 2005,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"teachers": [
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
-			}
-		]
-	},
-	{
-		"id": "anton-dehtiar",
-		"slug": "anton-dehtiar",
-		"name": "Антон Дегтяр",
-		"graduationYear": 2007,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "hanna-lebedieva",
-		"slug": "hanna-lebedieva",
-		"name": "Ганна Лебедєва",
-		"graduationYear": 2007,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "artur-lebediev",
-		"slug": "artur-lebediev",
-		"name": "Артур Лебедєв",
-		"graduationYear": 2007,
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "volodymyr-zakharchenko",
-		"slug": "volodymyr-zakharchenko",
-		"name": "Володимир Захарченко",
-		"graduationYear": 2013,
-		"kind": "attended",
-		"visibility": "direct",
-		"departments": [
-			"theatre"
-		],
-		"masters": [
-			{
-				"id": "pavlo-koshka"
-			},
-			{
-				"id": "tetiana-isachkina"
-			}
-		],
-		"profileSize": 1096,
-		"playCount": 4
-	},
-	{
-		"id": "kseniia-dovhal",
-		"slug": "kseniia-dovhal",
-		"name": "Ксенія Довгаль",
-		"graduationYear": null,
-		"kind": "student",
-		"visibility": "linked",
-		"departments": []
-	},
-	{
-		"id": "olesia-hrynko",
-		"slug": "olesia-hrynko",
-		"name": "Олеся Гринько",
-		"graduationYear": null,
-		"kind": "student",
-		"visibility": "linked",
-		"departments": []
-	},
-	{
-		"id": "rodomira-dolbysheva",
-		"slug": "rodomira-dolbysheva",
-		"name": "Родоміра Долбишева",
-		"graduationYear": null,
-		"kind": "student",
-		"visibility": "linked",
-		"departments": []
-	},
-	{
-		"id": "anna-ruseva",
-		"slug": "anna-ruseva",
-		"name": "Анна Русева",
-		"graduationYear": 2009,
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "alona-pashel",
-		"slug": "alona-pashel",
-		"name": "Альона Пашель",
-		"graduationYear": null,
-		"departments": [],
-		"kind": "attended",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "oleksandr-yatsenko",
-		"slug": "oleksandr-yatsenko",
-		"name": "Олександр Яценко",
-		"graduationYear": null,
-		"departments": [],
-		"kind": "attended",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors",
-		"profileSize": 365,
-		"playCount": 1
-	},
-	{
-		"id": "oleksandr-komadovskyi",
-		"slug": "oleksandr-komadovskyi",
-		"name": "Олександр Комадовський",
-		"graduationYear": null,
-		"departments": [],
-		"kind": "friend",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "viktor-furdui",
-		"slug": "viktor-furdui",
-		"name": "Віктор Фурдуй",
-		"graduationYear": 2010,
-		"departments": [
-			"intensive"
-		],
-		"kind": "intensiveCourse",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "sofiia-smolianska",
-		"slug": "sofiia-smolianska",
-		"name": "Софія Смолянська",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "nikol-vietieva",
-		"slug": "nikol-vietieva",
-		"name": "Ніколь Вєтєва",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "mariia-orlova",
-		"slug": "mariia-orlova",
-		"name": "Марія Орлова",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "kateryna-tiutiunnyk",
-		"slug": "kateryna-tiutiunnyk",
-		"name": "Катерина Тютюнник",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "hanna-dvoinykh",
-		"slug": "hanna-dvoinykh",
-		"name": "Ганна Двойних",
-		"graduationYear": null,
-		"departments": [
-			"vocal"
-		],
-		"kind": "student",
-		"visibility": "linked",
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"id": "kostiantyn-furmanov",
-		"slug": "kostiantyn-furmanov",
-		"name": "Костянтин Фурманов",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 386,
-		"playCount": 1
-	},
-	{
-		"id": "oleksandr-onopriienko",
-		"slug": "oleksandr-onopriienko",
-		"name": "Олександр Онопрієнко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 396,
-		"playCount": 1
-	},
-	{
-		"id": "oleksii-nahaiets",
-		"slug": "oleksii-nahaiets",
-		"name": "Олексій Нагаєць",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 371,
-		"playCount": 1
-	},
-	{
-		"id": "oleksii-salimovskyi",
-		"slug": "oleksii-salimovskyi",
-		"name": "Олексій Салімовський",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 390,
-		"playCount": 1
-	},
-	{
-		"id": "anna-konysheva",
-		"slug": "anna-konysheva",
-		"name": "Анна Конишева",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 361,
-		"playCount": 1
-	},
-	{
-		"id": "anastasiia-hrydiushko",
-		"slug": "anastasiia-hrydiushko",
-		"name": "Анастасія Гридюшко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 392,
-		"playCount": 1
-	},
-	{
-		"id": "kateryna-onopriienko",
-		"slug": "kateryna-onopriienko",
-		"name": "Катерина Онопрієнко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 391,
-		"playCount": 1
-	},
-	{
-		"id": "olha-shuliak",
-		"slug": "olha-shuliak",
-		"name": "Ольга Шуляк",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 351,
-		"playCount": 1
-	},
-	{
-		"id": "lika-aharycheva",
-		"slug": "lika-aharycheva",
-		"name": "Ліка Агаричева",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 366,
-		"playCount": 1
-	},
-	{
-		"id": "anna-bais",
-		"slug": "anna-bais",
-		"name": "Анна Баїс",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 363,
-		"playCount": 1
-	},
-	{
-		"id": "anna-iatskova",
-		"slug": "anna-iatskova",
-		"name": "Анна Яцкова",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 379,
-		"playCount": 1
-	},
-	{
-		"id": "alisiia-myronenko",
-		"slug": "alisiia-myronenko",
-		"name": "Алісія Мироненко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 393,
-		"playCount": 1
-	},
-	{
-		"id": "olena-nikolaienko",
-		"slug": "olena-nikolaienko",
-		"name": "Олена Ніколаєнко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 393,
-		"playCount": 1
-	},
-	{
-		"id": "mariia-filippenko",
-		"slug": "mariia-filippenko",
-		"name": "Марія Філіппенко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		],
-		"verificationStatus": "possible_errors",
-		"profileSize": 393,
-		"playCount": 1
-	},
-	{
-		"id": "yurii-huryn",
-		"slug": "yurii-huryn",
-		"name": "Юрій Гурин",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "olha-horbenko",
-		"slug": "olha-horbenko",
-		"name": "Ольга Горбенко",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "mykyta-kurudzhy",
-		"slug": "mykyta-kurudzhy",
-		"name": "Микита Куруджи",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "karyna-kurudzhy",
-		"slug": "karyna-kurudzhy",
-		"name": "Карина Куруджи",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "anna-koltyniuk",
-		"slug": "anna-koltyniuk",
-		"name": "Анна Колтинюк",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "karyna-losieva",
-		"slug": "karyna-losieva",
-		"name": "Карина Лосєва",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "arsen-arutiunian",
-		"slug": "arsen-arutiunian",
-		"name": "Арсен Арутюнян",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "denys-klymov",
-		"slug": "denys-klymov",
-		"name": "Денис Климов",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "alisa-pomortseva",
-		"slug": "alisa-pomortseva",
-		"name": "Аліса Поморцева",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
 		"id": "zlata-yarkova",
 		"slug": "zlata-yarkova",
 		"name": "Злата Яркова",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "veronika-cheredniuk",
-		"slug": "veronika-cheredniuk",
-		"name": "Вероніка Череднюк",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "oleksii-drui",
-		"slug": "oleksii-drui",
-		"name": "Олексій Друї",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "anastasiia-levytska",
-		"slug": "anastasiia-levytska",
-		"name": "Анастасія Левицька",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "daria-tryfonova",
-		"slug": "daria-tryfonova",
-		"name": "Дар’я Трифонова",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "andrii-yuzefovych",
-		"slug": "andrii-yuzefovych",
-		"name": "Андрій Юзефович",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "oleksandra-berezutska",
-		"slug": "oleksandra-berezutska",
-		"name": "Олександра Березуцька",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "kateryna-yolkina",
-		"slug": "kateryna-yolkina",
-		"name": "Катерина Йолкіна",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "olesia-klymova",
-		"slug": "olesia-klymova",
-		"name": "Олеся Климова",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "anush-pohosian",
-		"slug": "anush-pohosian",
-		"name": "Ануш Погосян",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "iryna-novykova",
-		"slug": "iryna-novykova",
-		"name": "Ірина Новикова",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "linked",
-		"departments": [
-			"theatre"
-		]
-	},
-	{
-		"id": "anhelina-pohosian",
-		"slug": "anhelina-pohosian",
-		"name": "Ангеліна Погосян",
-		"graduationYear": null,
-		"kind": "attended",
-		"visibility": "listed",
-		"departments": [
-			"music"
-		]
-	},
-	{
-		"id": "karyna-syvak",
-		"slug": "karyna-syvak",
-		"name": "Карина Сивак",
 		"graduationYear": null,
 		"kind": "attended",
 		"visibility": "linked",

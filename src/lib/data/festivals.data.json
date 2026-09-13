@@ -886,5 +886,82 @@
 			"/festivals/kroky-2017-2.webp"
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2018",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2018
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [
+			"hryhorii-naumov",
+			"daryna-zhuravel",
+			"iryna-sheliah",
+			"vladyslav-tsobenko",
+			"svitlana-smyrna",
+			"yevheniia-burian",
+			"anastasiia-fishchenko",
+			"anastasiia-ihnatovych",
+			"yevhen-lysenko",
+			"anfisa-lazebna",
+			"yuliia-ivanytska",
+			"mariia-iskokova",
+			"myroslava-tkach",
+			"vira-spaska",
+			"anastasiia-yevdokymova",
+			"anastasiia-huchok",
+			"daria-pokhylo"
+		],
+		"masterIds": [],
+		"playIds": [],
+		"bio": [
+			"Фестиваль абітурієнтів закладів мистецької освіти України."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2019",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2019
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [
+			"tetiana-mikhova",
+			"yaroslav-dimov",
+			"uliana-strepetova",
+			"yelyzaveta-podhaiko",
+			"sofiia-alieksieieva",
+			"yelyzaveta-soborova",
+			"daiana-ponomarenko",
+			"alisa-sivanych",
+			"khrystyna-bila",
+			"alina-burdeina",
+			"vladyslav-volk",
+			"oleksandra-shapaieva",
+			"mykhailo-fedorov",
+			"veronika-birahova",
+			"lesia-bondareva",
+			"sofiia-holub",
+			"anna-hrave",
+			"anastasiia-moldovanu",
+			"daniela-rybalchenko",
+			"daria-rybalchenko"
+		],
+		"masterIds": [],
+		"playIds": [],
+		"bio": [
+			"Другий фестиваль абітурієнтів закладів мистецької освіти України."
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]

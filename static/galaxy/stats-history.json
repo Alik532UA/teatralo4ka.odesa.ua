@@ -3236,7 +3236,7 @@
     },
     "metrics": {
       "graduates_profiles": {
-        "completed": 228,
+        "completed": 229,
         "total": 520,
         "percent": 44
       },
@@ -3246,9 +3246,9 @@
         "percent": 24
       },
       "graduates_plays": {
-        "completed": 206,
+        "completed": 207,
         "total": 401,
-        "percent": 51
+        "percent": 52
       },
       "graduates_bio": {
         "completed": 89,
@@ -3361,18 +3361,18 @@
         "percent": 0
       },
       "festivals_city": {
-        "completed": 19,
-        "total": 20,
+        "completed": 21,
+        "total": 22,
         "percent": 95
       },
       "festivals_plays": {
         "completed": 0,
-        "total": 20,
+        "total": 22,
         "percent": 0
       },
       "festivals_awards": {
         "completed": 0,
-        "total": 20,
+        "total": 22,
         "percent": 0
       }
     }

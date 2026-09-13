@@ -1,9 +1,8 @@
 {
-	"id": "iryna-tymofiienko",
-	"slug": "iryna-tymofiienko",
-	"code": "iryna-tymofiienko",
-	"name": "Ірина Тимофієнко",
-	"graduationYear": null,
+	"id": "iryna-tymofeienko",
+	"slug": "iryna-tymofeienko",
+	"name": "Ірина Тимофеєнко",
+	"graduationYear": 2016,
 	"departments": [
 		"theatre"
 	],
@@ -47,5 +46,16 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "fedir-tkach"
+		},
+		{
+			"id": "tetiana-isachkina"
+		}
+	]
 }
