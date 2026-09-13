@@ -131,6 +131,16 @@ export const BETA_TABS: readonly BetaTab[] = [
 				testid: 'header-settings-btn'
 			},
 			{
+				id: 'common_7',
+				category: { uk: 'Теми', en: 'Themes' },
+				text: {
+					uk: 'На комп’ютері наведіть курсор на кнопку теми, якою ЗАРАЗ не користуєтесь, і не натискайте. Сторінка мусить показати цю тему цілком, а щойно ви заберете курсор — повернутися до попередньої. Самі кнопки тем мусять бути пофарбовані кожна під СВОЮ тему, а не всі під поточну.',
+					en: 'On a desktop, hover the button of a theme you are NOT using and do not click. The page must show that theme in full, and return to the previous one as soon as the pointer leaves. The theme buttons themselves must each be coloured in THEIR OWN theme, not all in the current one.'
+				},
+				coverage: 'manual',
+				testid: 'settings-theme-options-list'
+			},
+			{
 				id: 'common_2',
 				category: { uk: 'Теми', en: 'Themes' },
 				text: {
@@ -236,8 +246,8 @@ export const BETA_TABS: readonly BetaTab[] = [
 				id: 'pages_4',
 				category: { uk: 'Світлини', en: 'Photos' },
 				text: {
-					uk: 'Відкрийте «Про школу» й натисніть будь-яку світлину галереї. Мусить відкритися велике зображення з підписом; клавіша Esc мусить його закрити.',
-					en: 'Open “About” and press any gallery photo. A large image with a caption must open; Esc must close it.'
+					uk: 'Відкрийте «Про школу» й натисніть будь-яку світлину галереї. Мусить відкритися велике зображення, ліворуч — стрічка квадратних прев’ю з підсвіченою поточною; колесо миші гортає світлини, клавіша Esc закриває.',
+					en: 'Open “About” and press any gallery photo. A large image must open with a rail of square previews on the left, the current one highlighted; the mouse wheel pages through the photos and Esc closes it.'
 				},
 				coverage: 'manual',
 				testid: 'about-gallery-list'
