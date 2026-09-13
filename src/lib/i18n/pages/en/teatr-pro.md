@@ -70,3 +70,21 @@ You can become a participant or a listener of the festival and receive a corresp
 [<img src="/social_media/YouTube-se-512px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="youtube" /> youtube @odesateatrpro](https://www.youtube.com/@odesateatrpro)\
 \
 [<img src="/social_media/Telegram-se-320px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="telegram" /> telegram odesateatrpro](https://t.me/odesateatrpro)
+
+<!--
+Call for applications — removed from the page after the 5–6 June 2026
+festival, but kept here VERBATIM: the next edition is announced with the
+same text and most likely the same forms. To bring it back, take what is
+needed out of this comment and change the year, the number and the form URLs.
+
+## IV Open Festival
+
+## June 5-6, 2026
+
+### Fill out the application here!
+
+<div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
+  <a href="https://forms.gle/6yDCeujpkySSfE9p9" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Participant Application</a>
+  <a href="https://forms.gle/UCBsLYq43TuypGqu6" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Listener Application</a>
+</div>
+-->

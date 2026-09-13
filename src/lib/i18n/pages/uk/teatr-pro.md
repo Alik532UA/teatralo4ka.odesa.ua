@@ -68,3 +68,23 @@ coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 [<img src="/social_media/YouTube-se-512px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="youtube" /> youtube @odesateatrpro](https://www.youtube.com/@odesateatrpro)\
 \
 [<img src="/social_media/Telegram-se-320px-50q.png" style="width: 32px !important; height: 32px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 8px 0 0 !important;" alt="telegram" /> telegram odesateatrpro](https://t.me/odesateatrpro)
+
+<!--
+Оголошення набору — прибрано зі сторінки після фестивалю 5–6 червня 2026,
+але лишається тут ДОСЛІВНО: наступний випуск оголошується тим самим
+текстом і, найімовірніше, тими самими заявками. Щоб повернути — вийняти
+потрібне з цього коментаря й замінити рік, номер випуску та адреси форм.
+
+[<svg role="img" aria-label="Зателефонувати" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px; display: inline !important;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg> Положення фесту ОдесаТеатрPRO-2026](https://drive.google.com/file/d/1WbnasH0tSiDQpp-E8hMZQDd1B4A8svpi/view)
+
+## ІV-й відкритий фестиваль
+
+## 5-6 червня 2026
+
+### Заповнюй заявку тут!
+
+<div style="display: flex; flex-direction: column; gap: 1rem; margin: 1.5rem 0;">
+  <a href="https://forms.gle/6yDCeujpkySSfE9p9" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Заявка учасника</a>
+  <a href="https://forms.gle/UCBsLYq43TuypGqu6" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Заявка слухача</a>
+</div>
+-->

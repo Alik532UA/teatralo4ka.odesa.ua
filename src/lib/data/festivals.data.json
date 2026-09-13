@@ -984,5 +984,85 @@
 			"В Експертній раді — майстри з Києва, Львова, Харкова, Дніпра та Одеси, які цього року набирають перший курс. Учасники й слухачі отримують сертифікат про підвищення кваліфікації."
 		],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2021",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2021
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2022",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2022
+		],
+		"countries": [
+			"UA"
+		],
+		"note": "Онлайн",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2023",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2023
+		],
+		"countries": [
+			"UA"
+		],
+		"note": "Онлайн",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2024",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2024
+		],
+		"countries": [
+			"UA"
+		],
+		"note": "Онлайн",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-pro-2025",
+		"name": "Театр.PRO",
+		"nameEn": "Teatr.PRO Festival",
+		"years": [
+			2025
+		],
+		"countries": [
+			"UA"
+		],
+		"note": "Онлайн",
+		"memberIds": [],
+		"masterIds": [],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
 	}
 ]

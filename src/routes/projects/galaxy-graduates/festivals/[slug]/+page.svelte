@@ -184,6 +184,11 @@
 				{#if data.festival.city}
 					<span class="fest-badge" data-testid="festival-city-badge">{data.festival.city}</span>
 				{/if}
+				<!-- Примітка стоїть на місці міста, бо відповідає на те саме
+				     питання «де»: у записів з нею міста немає й бути не може. -->
+				{#if data.festival.note}
+					<span class="fest-badge" data-testid="festival-note-badge">{data.festival.note}</span>
+				{/if}
 				{#each data.festival.countries as code (code)}
 					<span class="fest-badge" data-testid="festival-where-badge-{code}">
 						<!--

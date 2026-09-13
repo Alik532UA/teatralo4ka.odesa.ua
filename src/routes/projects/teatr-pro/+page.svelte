@@ -57,6 +57,9 @@
 										<MapPinned size={14} aria-hidden="true" />
 										{fest.city}
 									</span>
+								{:else if fest.note}
+									<!-- Шпильки тут немає навмисно: онлайн — це не точка на мапі. -->
+									<span class="fests__place">{fest.note}</span>
 								{/if}
 								{#each fest.countries as code (code)}
 									<CountryFlag {code} />
