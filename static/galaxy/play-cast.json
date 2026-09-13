@@ -85,6 +85,10 @@
 	],
 	"alisa-v-zadzerkalli-2024": [
 		{
+			"graduateId": "nikol-onyshchenko",
+			"role": "Аліса 1"
+		},
+		{
 			"graduateId": "sofia-chernova"
 		},
 		{
@@ -2261,6 +2265,10 @@
 	],
 	"solovei-2025": [
 		{
+			"graduateId": "nikol-onyshchenko",
+			"role": "китаянка, привид, придворна"
+		},
+		{
 			"graduateId": "sofiia-skuratovych"
 		},
 		{
@@ -2298,6 +2306,12 @@
 		{
 			"graduateId": "kateryna-yevtushenko",
 			"fromRegistry": true
+		}
+	],
+	"stateve-vykhovannia-2026": [
+		{
+			"graduateId": "nikol-onyshchenko",
+			"role": "Ліза"
 		}
 	],
 	"subotyk-2020": [
@@ -3280,6 +3294,19 @@
 	],
 	"uryvky-z-klasyky-2025": [
 		{
+			"graduateId": "nikol-onyshchenko",
+			"role": "Марічка Гутенюк",
+			"items": [
+				"tini-zabutykh-predkiv"
+			],
+			"roles": [
+				{
+					"item": "tini-zabutykh-predkiv",
+					"role": "Марічка Гутенюк"
+				}
+			]
+		},
+		{
 			"graduateId": "sofia-chernova",
 			"items": [
 				"romeo-i-dzhulietta"
@@ -3536,6 +3563,10 @@
 		}
 	],
 	"zaruchyny-2026": [
+		{
+			"graduateId": "nikol-onyshchenko",
+			"role": "Розарель"
+		},
 		{
 			"graduateId": "sofiya-rudenko"
 		}

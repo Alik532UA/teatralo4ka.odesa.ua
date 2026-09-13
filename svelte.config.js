@@ -161,6 +161,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/yeva-horokhova',
 	'/projects/galaxy-graduates/mariia-kulish',
 	'/projects/galaxy-graduates/mariia-mandriesk',
+	'/projects/galaxy-graduates/nikol-onyshchenko',
 	'/projects/galaxy-graduates/oleksandra-karachevska',
 	'/projects/galaxy-graduates/olena-machtakova',
 	'/projects/galaxy-graduates/sofiia-skuratovych',

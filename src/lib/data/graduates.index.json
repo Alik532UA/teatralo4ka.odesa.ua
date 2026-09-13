@@ -6626,8 +6626,45 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 488,
-		"playCount": 1
+		"profileSize": 2192,
+		"playCount": 6,
+		"code": "nikolmett",
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2022
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-vitiuk",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "iryna-ovcharenko",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		]
 	},
 	{
 		"id": "oksana-ivanova",

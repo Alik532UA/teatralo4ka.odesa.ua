@@ -1,0 +1,105 @@
+{
+	"id": "nikol-onyshchenko",
+	"slug": "nikol-onyshchenko",
+	"code": "nikolmett",
+	"name": "Ніколь Онищенко",
+	"graduationYear": 2026,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2023,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2023",
+			"fromRegistry": true
+		},
+		{
+			"year": 2024,
+			"text": "«Аліса в Задзеркаллі», Аліса 1",
+			"playId": "alisa-v-zadzerkalli-2024",
+			"role": "Аліса 1"
+		},
+		{
+			"year": 2025,
+			"text": "«Соловей», китаянка, привид, придворна",
+			"playId": "solovei-2025",
+			"role": "китаянка, привид, придворна"
+		},
+		{
+			"year": 2025,
+			"text": "«Уривки з класики: Тіні забутих предків; М. Коцюбинський», Марічка Гутенюк",
+			"playId": "uryvky-z-klasyky-2025",
+			"items": [
+				"tini-zabutykh-predkiv"
+			],
+			"role": "Марічка Гутенюк"
+		},
+		{
+			"year": 2026,
+			"text": "«Заручини», Розарель",
+			"playId": "zaruchyny-2026",
+			"role": "Розарель"
+		},
+		{
+			"year": 2026,
+			"text": "«Статеве виховання», Ліза",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Ліза"
+		}
+	],
+	"bio": [],
+	"afterGraduation": "Вступ 2026: КНУТКіТ, акторський, курс Д. Богомазова",
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100068653732800"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/nikolmett"
+		}
+	],
+	"festivals": [],
+	"enrollmentYears": [
+		2022
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-vitiuk",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "iryna-ovcharenko",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}
