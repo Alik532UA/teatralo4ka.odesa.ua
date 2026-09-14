@@ -57,5 +57,10 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19A"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2019/19A",
+	"teachers": [
+		{
+			"id": "vira-yemtsova-datsiuk"
+		}
+	]
 }

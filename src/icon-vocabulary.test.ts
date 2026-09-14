@@ -52,7 +52,29 @@ const VOCABULARY = [
 			 */
 			{
 				file: 'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte',
-				marker: 'section-diplomas-title'
+				marker: 'galaxy.festivalDiplomas'
+			}
+		]
+	},
+	{
+		/*
+		 * Програмка — ОКРЕМЕ поняття, і це не суперечить абзацу вище про диплом.
+		 * Диплом відмовився від власного значка тому, що він і є нагорода, тільки
+		 * на папері. Програмка ж нікого не нагороджує: це розворот зі складом
+		 * учасників, їхніми педагогами й Експертною Радою. Один значок на обидва
+		 * означав би «нагорода» над списком імен.
+		 *
+		 * `ScrollText`, а не `BookOpen`: другий у проєкті вже зайнятий сторінкою
+		 * документів — «читати онлайн» і «освітній процес», — і словник саме
+		 * проти того, щоб одна картинка означала двоє. `ScrollText` до цієї
+		 * правки не траплявся в коді жодного разу.
+		 */
+		concept: 'програмка фестивалю',
+		icon: 'ScrollText',
+		sites: [
+			{
+				file: 'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte',
+				marker: 'galaxy.festivalBooklets'
 			}
 		]
 	},

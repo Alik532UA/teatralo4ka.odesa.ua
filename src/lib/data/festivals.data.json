@@ -919,7 +919,12 @@
 			"daiana-ponomarenko",
 			"kulish-mariia",
 			"anastasiia-skvortsova",
-			"sofiia-alieksieieva"
+			"sofiia-alieksieieva",
+			"alisa-sivanych",
+			"khrystyna-bila",
+			"dar-ia-hurevych",
+			"danylo-tomachynskyi",
+			"yelyzaveta-podhaiko"
 		],
 		"masterIds": [],
 		"playIds": [],
@@ -945,11 +950,6 @@
 				"school": "театр «Лелія»"
 			},
 			{
-				"name": "Єлізавета Подгайко",
-				"city": "Лисичанськ",
-				"school": "театр «Лімпопо»"
-			},
-			{
 				"name": "Віолетта Дерев’янко",
 				"city": "Лисичанськ",
 				"school": "театр «Лімпопо»"
@@ -968,27 +968,11 @@
 				"name": "Катерина Мещанова",
 				"city": "Одеса",
 				"school": "ОТХУ"
-			},
-			{
-				"name": "Аліса Сиванич",
-				"city": "Одеса",
-				"school": "ДТШ"
-			},
-			{
-				"name": "Крістіна Біла",
-				"city": "Одеса",
-				"school": "ДТШ"
-			},
-			{
-				"name": "Дар’я Гуревич",
-				"city": "Одеса",
-				"school": "ДТШ"
-			},
-			{
-				"name": "Даніїл Томачинський",
-				"city": "Одеса",
-				"school": "ДТШ"
 			}
+		],
+		"booklets": [
+			"/festivals/teatr-pro-2018-booklet.webp",
+			"/festivals/teatr-pro-2018-booklet-2.webp"
 		]
 	},
 	{
@@ -1029,7 +1013,22 @@
 		"bio": [
 			"Другий фестиваль абітурієнтів закладів мистецької освіти України."
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"stanislav-moiseiev",
+			"nina-husakova",
+			"oleh-drach",
+			"oksana-stetsenko",
+			"olena-basha",
+			"liliia-koltyrina"
+		],
+		"expertMasterIds": [
+			"oleh-shevchuk"
+		],
+		"booklets": [
+			"/festivals/teatr-pro-2019-booklet.webp",
+			"/festivals/teatr-pro-2019-booklet-2.webp"
+		]
 	},
 	{
 		"slug": "teatr-pro-2026",
@@ -1094,6 +1093,10 @@
 				"name": "Валерія Семенуха",
 				"city": "Хмельницький"
 			}
+		],
+		"booklets": [
+			"/festivals/teatr-pro-2026-booklet.webp",
+			"/festivals/teatr-pro-2026-booklet-2.webp"
 		]
 	},
 	{

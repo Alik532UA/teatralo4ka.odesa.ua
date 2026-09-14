@@ -214,7 +214,12 @@
 		],
 		"playCount": 4,
 		"code": "alina-burdeina",
-		"profileSize": 3035
+		"profileSize": 3095,
+		"teachers": [
+			{
+				"id": "vira-yemtsova-datsiuk"
+			}
+		]
 	},
 	{
 		"id": "alina-chernobai",
@@ -1393,7 +1398,12 @@
 		"hasPhoto": true,
 		"photoCount": 2,
 		"playCount": 2,
-		"profileSize": 1655
+		"profileSize": 1709,
+		"teachers": [
+			{
+				"id": "iryna-ulianenko"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-motulko",
@@ -2515,7 +2525,12 @@
 		],
 		"playCount": 13,
 		"code": "daniela-rybalchenko",
-		"profileSize": 2675
+		"profileSize": 2730,
+		"teachers": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "daniiel-adeiev",
@@ -2975,13 +2990,16 @@
 		],
 		"playCount": 16,
 		"code": "daria-rybalchenko",
-		"profileSize": 2976,
+		"profileSize": 3012,
 		"teachers": [
 			{
 				"id": "samuil-imas",
 				"subjects": [
 					"Риторика та поетика"
 				]
+			},
+			{
+				"id": "svitlana-vitiuk"
 			}
 		]
 	},

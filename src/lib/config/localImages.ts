@@ -134,6 +134,20 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/art-like-fest-2026-3.webp': { width: 1280, height: 960 },
 	'/festivals/art-like-fest-2026-4.webp': { width: 720, height: 1280 },
 	'/festivals/art-like-fest-2026-5.webp': { width: 720, height: 1280 },
+	// Розвороти програмок «Одеса.Театр.PRO» — теж АРКУШ, який читають, але
+	// АЛЬБОМНИЙ, і тому межа задана по ширині, а не по висоті: на розвороті А4
+	// два стовпці імен із педагогами, і банерні 1280×720 стиснули б його до
+	// 1045×720, тобто до нечитабельного. При 1800 по ширині імена читаються —
+	// перевірено очима на всіх шести.
+	//
+	// Оригіналів у репозиторії немає з тієї самої причини, що в дипломів вище:
+	// шість сканів важать 20 МБ. Джерело — надіслані автором знімки буклетів.
+	'/festivals/teatr-pro-2018-booklet.webp': { width: 1800, height: 1242 },
+	'/festivals/teatr-pro-2018-booklet-2.webp': { width: 1800, height: 1242 },
+	'/festivals/teatr-pro-2019-booklet.webp': { width: 1800, height: 1242 },
+	'/festivals/teatr-pro-2019-booklet-2.webp': { width: 1800, height: 1242 },
+	'/festivals/teatr-pro-2026-booklet.webp': { width: 1800, height: 1273 },
+	'/festivals/teatr-pro-2026-booklet-2.webp': { width: 1800, height: 1273 },
 	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
 	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
 	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },

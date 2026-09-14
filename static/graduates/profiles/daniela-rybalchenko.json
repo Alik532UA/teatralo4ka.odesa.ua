@@ -100,5 +100,10 @@
 	"hasPhoto": true,
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2020/20D",
+	"teachers": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

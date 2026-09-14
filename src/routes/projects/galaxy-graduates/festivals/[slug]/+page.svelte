@@ -10,7 +10,8 @@
 		Trophy,
 		Gavel,
 		Dumbbell,
-		Star
+		Star,
+		ScrollText
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
 	import { expertPath } from '$lib/data/experts';
@@ -109,13 +110,45 @@
 	 */
 	const videoPreview = $derived(Boolean(parseVideoUrl(data.festival.videoUrl)?.posterUrl));
 
-	let diplomaOpen = $state(false);
-	let diplomaIndex = $state(0);
+	/**
+	 * АРКУШІ — дипломи й розвороти програмки — одним переліком блоків.
+	 *
+	 * Розмітка в них однакова до літери: підряд, без каруселі, з лайтбоксом.
+	 * Другий екземпляр того самого коду розійшовся б із першим при першій же
+	 * правці — а правок тут уже було дві, обидві на прохання автора.
+	 *
+	 * ЛАЙТБОКС ОДИН, АЛЕ ЗНАЄ, ЧИЙ ВІН: перелік зображень береться з
+	 * ВІДКРИТОГО блоку, а не з обох одразу. Це не дрібниця — блоки на те й
+	 * розділені, щоб гортання не переносило з диплома на програмку; спільний
+	 * масив повернув би рівно ту ваду, від якої дипломи колись відділили від
+	 * фотографій.
+	 *
+	 * Порожній рядок означає «закрито»: ключ відкритого блоку і є станом, тож
+	 * окремого прапорця «відкрито» не треба, і вони не можуть розійтися.
+	 */
+	let sheetsOpen = $state('');
+	let sheetsIndex = $state(0);
 
-	const diplomaImages = $derived(
-		(data.festival.diplomas ?? []).map((src) => ({
+	/*
+	 * Значок приходить ПОЛЕМ ОПИСУВАЧА, а не `{#if}` у розмітці, і це не стиль.
+	 * За іконками стежить гейт `icon-vocabulary.test.ts`: він читає, яка іконка
+	 * стоїть біля мітки поняття. Умова в розмітці показувала йому дві іконки на
+	 * одну мітку — і він на цьому впав, справедливо. У полі ж поняття і його
+	 * значок лежать на одному рядку, тобто рівно так, як гейт і вміє читати.
+	 */
+	const sheetBlocks = $derived(
+		[
+			{ key: 'diplomas', icon: Trophy, label: 'galaxy.festivalDiplomas', items: data.festival.diplomas ?? [] },
+			{ key: 'booklets', icon: ScrollText, label: 'galaxy.festivalBooklets', items: data.festival.booklets ?? [] }
+		].filter((block) => block.items.length > 0)
+	);
+
+	const openBlock = $derived(sheetBlocks.find((block) => block.key === sheetsOpen));
+
+	const sheetImages = $derived(
+		(openBlock?.items ?? []).map((src) => ({
 			src: asset(src),
-			alt: `${$t('galaxy.festivalDiplomas')} — ${festivalTitle}`,
+			alt: `${openBlock ? $t(openBlock.label) : ''} — ${festivalTitle}`,
 			title: festivalTitle
 		}))
 	);
@@ -492,33 +525,41 @@
 
 			Лайтбокс лишається — без нього диплом на 300 px нечитабельний, а
 			читають його саме заради тексту.
+
+			ПРОГРАМКА ЙДЕ ТИМ САМИМ БЛОКОМ, але власним розділом. Розворот буклета
+			— теж аркуш, який читають, тож розкладка йому підходить дослівно; а от
+			підпис «Дипломи» сказав би неправду — програмка нікого не нагороджує.
+			Тому цикл, а не другий екземпляр коду: розкладка спільна, заголовок
+			свій.
+
+			Для Театр.PRO це ще й ПЕРШОДЖЕРЕЛО: склади 2018, 2019 і 2026 знято
+			саме з цих розворотів, і читач може звірити список власними очима.
 		-->
-		{#if data.festival.diplomas?.length}
-			<section class="fest-section" aria-labelledby="section-diplomas-title">
+		{#each sheetBlocks as block (block.key)}
+			{@const Значок = block.icon}
+			<section class="fest-section" aria-labelledby="section-{block.key}-title">
 				<div class="section-heading">
-					<span class="icon-wrap icon-wrap--primary"><Trophy size={20} aria-hidden="true" /></span>
-					<h2 id="section-diplomas-title" class="section-heading__title">
-						{$t('galaxy.festivalDiplomas')}
-					</h2>
-					<span class="section-heading__count">{data.festival.diplomas.length}</span>
+					<span class="icon-wrap icon-wrap--primary"><Значок size={20} aria-hidden="true" /></span>
+					<h2 id="section-{block.key}-title" class="section-heading__title">{$t(block.label)}</h2>
+					<span class="section-heading__count">{block.items.length}</span>
 				</div>
 
-				<ul class="diplomas" data-testid="festival-diplomas-list">
-					{#each data.festival.diplomas as diploma, i (diploma)}
-						{@const size = imageSize(diploma as LocalImage)}
+				<ul class="sheets" data-testid="festival-{block.key}-list">
+					{#each block.items as sheet, i (sheet)}
+						{@const size = imageSize(sheet as LocalImage)}
 						<li>
 							<button
 								type="button"
-								class="diplomas__btn"
+								class="sheets__btn"
 								onclick={() => {
-									diplomaIndex = i;
-									diplomaOpen = true;
+									sheetsIndex = i;
+									sheetsOpen = block.key;
 								}}
-								data-testid="festival-diploma-btn-{i}"
+								data-testid="festival-{block.key}-btn-{i}"
 							>
 								<img
-									src={asset(diploma)}
-									alt="{$t('galaxy.festivalDiplomas')} — {festivalTitle}"
+									src={asset(sheet)}
+									alt="{$t(block.label)} — {festivalTitle}"
 									width={size.width}
 									height={size.height}
 									loading="lazy"
@@ -528,15 +569,15 @@
 						</li>
 					{/each}
 				</ul>
-
-				<PhotoLightbox
-					images={diplomaImages}
-					currentIndex={diplomaIndex}
-					isOpen={diplomaOpen}
-					onclose={() => (diplomaOpen = false)}
-				/>
 			</section>
-		{/if}
+		{/each}
+
+		<PhotoLightbox
+			images={sheetImages}
+			currentIndex={sheetsIndex}
+			isOpen={sheetsOpen !== ''}
+			onclose={() => (sheetsOpen = '')}
+		/>
 
 		<!--
 			Склад і показ вносять поступово, тож сторінка може лишитися без обох.
@@ -666,7 +707,7 @@
 	 *
 	 * 300 px — «удвічі менше», як просив автор: банер віддавав аркушу 600.
 	 */
-	.diplomas {
+	.sheets {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -676,7 +717,7 @@
 		gap: 1.25rem;
 	}
 
-	.diplomas__btn {
+	.sheets__btn {
 		display: block;
 		padding: 0;
 		border: none;
@@ -685,12 +726,12 @@
 		border-radius: 10px;
 	}
 
-	.diplomas__btn:focus-visible {
+	.sheets__btn:focus-visible {
 		outline: 2px solid var(--accent-primary);
 		outline-offset: 4px;
 	}
 
-	.diplomas img {
+	.sheets img {
 		display: block;
 		height: 300px;
 		width: auto;
@@ -700,13 +741,13 @@
 		transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	.diplomas__btn:hover img,
-	.diplomas__btn:focus-visible img {
+	.sheets__btn:hover img,
+	.sheets__btn:focus-visible img {
 		transform: scale(1.03);
 	}
 
 	@media (max-width: 560px) {
-		.diplomas img {
+		.sheets img {
 			height: 220px;
 		}
 	}

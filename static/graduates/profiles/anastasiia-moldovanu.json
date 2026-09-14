@@ -53,5 +53,10 @@
 		"/graduates/gallery/anastasiia-moldovanu/03.webp",
 		"/graduates/gallery/anastasiia-moldovanu/04.webp",
 		"/graduates/gallery/anastasiia-moldovanu/05.webp"
+	],
+	"teachers": [
+		{
+			"id": "iryna-ulianenko"
+		}
 	]
 }
