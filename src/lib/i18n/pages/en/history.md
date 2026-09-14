@@ -7,11 +7,14 @@ lang: "en"
 seo:
   title: "History - Odesa Theatrical School"
   description: "The complete history of the foundation and development of the Odesa Theatrical School, its traditions, teachers, and student achievements."
+toc: true
 status: "published"
 version: "1.2.1"
 ---
 
 # History
+
+<h2 id="pochatok">The founding: 1992</h2>
 
 The school was established in March 1992 on the initiative of Eduard Gurvits, who at the time was the head of the Zhovtnevyi district of Odesa. He rightly believed that the building at 3 Sabaneiev Bridge — unique in its beauty, architecture, and history — should belong to the young generation of Odesans, who, together with their teachers, would turn it into a true Temple of Art.
 
@@ -19,20 +22,28 @@ Thus, the Center for Aesthetic Education of Children and Youth was born under th
 
 The glorious traditions of theatrical Odesa and the absence of theatrical educational institutions in the city prompted the school's teachers to focus the institution's development specifically in this direction.
 
+<h2 id="vid-tsentru-do-shkoly">From the Centre for Aesthetic Education to a theatre school</h2>
+
 As a result, in December 1996, under the leadership of director Vladyslava Mykolaivna Sosytska, a new "School of Arts No. 1 of Theatrical Profile" emerged, while still retaining its variety and art departments. This made it possible, alongside theatrical projects, to open exhibitions of young artists and renowned masters in the "Mist" (Bridge) art gallery for native Odesa (managed by Tamara Mykhailychenko), as well as to launch the highly popular TV program and festival "Zirochka" (Little Star), under the artistic direction of Oleksandr Stepanov.
 
 A new round in the creative history of this educational institution came in 2003, bringing the building on Sabaneiev Bridge a new status and a new name: "Children's Theatrical School of Odesa" (CTS).
 
 Since 2005, with the arrival of the new director Olena Borysivna Tkach, CTS has actively developed new projects — collaborating with the National Union of Theater Artists, the V. Vasylko Ukrainian Theater, the Odesa Puppet Theater, the O.V. Bleshunov Municipal Museum of Personal Collections, the Odesa branch of the "Intellectual Forum of Ukraine," and other creative organizations. CTS and the "Uncle Fedir" Scientific and Creative Organization founded the International Art Festivals "Odesa Tram" and "Carpathian Spring," providing methodological, creative, and practical assistance to a wide variety of art projects.
 
+<h2 id="sofiivska-24">The move to 24 Sofiivska Street</h2>
+
 In 2011, a very important event for all of us took place: the Children's Theatrical School (CTS) moved to a new address at 24 Sofiivska Street. Thanks to the efforts of caring people—the then Vice Mayor of Odesa, Olena Pavlova; the Deputy Head of the Department of Culture and Arts, Liudmyla Kryzhalko; and Odesa patron and businessman Dmytro Shpynarov—the school solved its most pressing issue: the "housing" problem. We are confident that in this new building, the CTS will reach new creative heights!\
 Our theatrical hall, which was created practically from scratch, deserves special mention. To ensure the students had a real stage, two separate classrooms were combined into one large space. This complex reconstruction was made possible only through the generous financial support of many friends of the school. Today, this dream space continues to evolve and is currently being additionally equipped with professional lighting fixtures.\
 Here is how the publications of that time covered this event:
 > In 2011, the Children's Theatrical School relocated to the premises on Sofiivska Street, and in a rather short period, it managed to almost completely settle in and establish the educational process. By the beginning of the school year, the institution's administration managed to utilize and carry out major renovation works in the building's previously unused premises. Now, additional classrooms and a costume room are located here.
 
+<h2 id="novi-statusy">New statuses and the present name</h2>
+
 In 2020, on the eve of its 25th anniversary, "Teatralo4ka" received a new status and name — Communal Institution of Primary Specialized Education "Art Theatrical School of Odesa". This was one of the conditions of the reform of art schools, according to changes in the Law on Education. To be honest, we were not very happy about this, because it seemed to us that cultural officials had "overdone" it and come up with a not entirely correct name. What else can a theatrical school be but an art school? It would be more correct to call it: "School of Theatrical Art."
 
 And in 2025, the city council approved our current name by its decision — **Odesa Theatrical School**. But our favorite chant: "A! A! DTShA!" — remains with us forever!
+
+<h2 id="seminary-i-teatr-pro">Workshops and “Odesa.Teatr.PRO”</h2>
 
 Since 2009, with the support of the State Methodological Center under the Ministry of Culture of Ukraine, our school has been holding All-Ukrainian theatrical seminars-workshops for teachers of theatrical schools, theatrical departments of specialized creative educational institutions, and heads and methodologists of cultural institutions. The programs of these seminars are diverse and highly necessary, as all participants receive an official certificate of professional development upon completion.
 
@@ -54,6 +65,8 @@ The main idea of this festival is for applicants who dream of becoming actors, d
 
 ...and many other highly professional experts in the field of theatrical pedagogy.
 
+<h2 id="nashi-pedahohy">Our teachers</h2>
+
 It is worth noting that all these years the school is proud of its wonderful teachers who have been working since the day of its foundation — professionals with a capital letter: **Svitlana Ryskina, Svitlana Kyselova, Olena Prorok.**
 
 For many years, the reliable pillar and soul of the school have been the teachers who work fruitfully and pass on their invaluable experience: **Iryna Ovcharenko, Tetiana Isachkina, Iryna Ulianenko, Vira Koval, Fedir Tkach, Natalia Stepanenko, Yevheniia Bohdanova.**
@@ -68,6 +81,8 @@ A special pride for us are the young teachers **Anastasiia Nikolaieva, Yaroslava
 
 Unfortunately, recent years have been overshadowed by the heavy losses of our wonderful colleagues and great teachers — **Samuil Imas, Mykola Baldin, Iryna Kaplia**. We always remember and keep in our hearts the memories of these beautiful people who raised hundreds of talented students.
 
+<h2 id="nashi-uchni">Our students and graduates</h2>
+
 The school is proud of its brilliant students who annually conquer the juries of festivals and competitions of all levels.
 
 Our children successfully prove themselves on the professional theatrical stage, participating in the plays "Cherry Wind," "Burnt by the Sun," "City of My Childhood," "Family Stories" (Ukrainian Theater), "Make it to Limpopo," and "Odesa-Mama" (Musical Comedy Theater). You will also find the names of young actors — school students — in the credits of the films "Hell's Banner, or Cossack Christmas," "Hero's Star," "Kruty 1918," "By the River," "Stronger Than Fire," "Island of Surprises," "Season of Discoveries," and Ukrainian TV series "To Catch the Kaidash," "Liquidation," "Servant of the People," "Papik," "Central Hospital," and others.
@@ -80,6 +95,8 @@ Performances and concerts of the school's students have become a long-awaited ho
 
 Our children, who so imperceptibly turn into graduates, into successful people, into colleagues from the creative guild, who do not forget their *alma mater* — the Odesa Theatrical School.
 
+<h2 id="navchalnyi-teatr">The “Study Theatre” and “Dedication to Art”</h2>
+
 A wonderful tradition of our school has become the **"Educational Theater,"** which unites graduates of different years and serves as a creative platform for students of the basic acting course and the "Acting School" for adults.
 
 In April 2009, the play "Myna Mazailo" participated in the International Theatrical Festival "Southern Mask" (Mykolaiv) and won a diploma in the nomination "Creative Discovery of the Festival."
@@ -89,6 +106,8 @@ And in September 2009, the play "Oblom-off" won first place at the International
 The plays "The Maids" and "Sleepy" received the first prizes of the Odesa festivals "Golden Mask of Shakespeare" and "No Tickets," respectively.
 
 A traditional event of the "Graduates' Theater" is the preparation of the "Initiation into Art" holiday, which takes place every year in October for new students of the school. Since 2005, the scriptwriter and director of this event has been the director and teacher Fedir Tkach. It is gratifying that in recent years, young directors and teachers **Svitlana Nadopta, Hanna Komadovska, and Pavlo Koshka** have actively joined in writing the script.
+
+<h2 id="shkola-sohodni">The school today</h2>
 
 Actively developing and accepting the challenges of recent years, since 2012 the school has created a completely new structure for the theatrical department, developed through years of collective creative experience. The success of this methodology is confirmed by our graduates, who after studying at the school, as we say, "go into the profession" and glorify their school, their "Teatralo4ka," their creative *alma mater*.
 

@@ -9,7 +9,7 @@ seo:
   description: "Open Festival «Odesa.Theatre.PRO» for applicants to creative universities. Held by the Odesa Theatre School."
 status: "published"
 version: "1.1.0"
-excerpt: "Practical project for stage practice and teamwork"
+excerpt: "A festival for applicants to Ukraine’s arts education institutions"
 coverUrl: "/2025-2026/teatr-pro-2026.jpg"
 ---
 

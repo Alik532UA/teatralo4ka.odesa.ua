@@ -33,6 +33,7 @@
 		"paste": "Paste from clipboard",
 		"copy": "Copy",
 		"clear": "Erase",
+		"tableOfContents": "Contents",
 		"backToTop": "Back to top",
 		"copied": "Copied",
 		"copyDenied": "The browser refused to copy",

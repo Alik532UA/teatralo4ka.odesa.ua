@@ -8,6 +8,7 @@
 
 	import { onMount, type Snippet } from 'svelte';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
+	import PageToc from '$lib/components/PageToc.svelte';
 
 	interface Props {
 		data: { uk: PageContent | null; en: PageContent | null };
@@ -57,6 +58,13 @@
 	});
 
 	let content = $derived($locale === 'en' ? data.en : data.uk);
+	/*
+	 * Зміст вмикає САМА СТОРІНКА полем `toc` у frontmatter — поле для цього вже
+	 * було в `i18n/schema.ts` і доти не використовувалося жодною сторінкою.
+	 * Умова на вміст, а не пропс компонента: сторінок на `StaticPage` два
+	 * десятки, і зміст потрібен лише довгим.
+	 */
+	let showToc = $derived(content?.metadata?.toc === true);
 	let coverUrl = $derived.by(() => {
 		const raw = content?.metadata?.coverUrl;
 		if (!raw) return '';
@@ -84,7 +92,16 @@
 	{/if}
 	{#if content}
 		<article data-testid="{testPrefix}-page-article-section">
-			<div class="page-body" class:has-cover={!!coverUrl}>
+			<div class="page-body" class:has-cover={!!coverUrl} class:has-toc={showToc}>
+				<!--
+					Зміст — ПЕРЕД текстом у розмітці, а не лише візуально ліворуч.
+					Порядок читання й порядок табуляції тоді збігаються з тим, що
+					видно, і на вузькому екрані перелік просто опиняється зверху без
+					жодного правила `order`.
+				-->
+				{#if showToc}
+					<PageToc />
+				{/if}
 				{#if coverUrl}
 					<aside class="page-cover" data-testid="{testPrefix}-page-cover-img">
 						<img src={coverUrl} alt={content.metadata.title} class="page-cover__img" />
@@ -160,6 +177,25 @@
 		gap: 2.5rem;
 		max-width: 1000px;
 		align-items: start;
+	}
+
+	/*
+	 * Колонка змісту вужча за колонку обкладинки (220 проти 280): у ній рядки
+	 * тексту, а не зображення, і зайва ширина лише відсунула б сам текст.
+	 */
+	.page-body.has-toc {
+		display: grid;
+		grid-template-columns: 220px 1fr;
+		gap: 3rem;
+		max-width: 1060px;
+		align-items: start;
+	}
+
+	@media (max-width: 900px) {
+		.page-body.has-toc {
+			grid-template-columns: 1fr;
+			gap: 0;
+		}
 	}
 	.page-cover {
 		border-radius: 20px;

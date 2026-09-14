@@ -248,6 +248,17 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	'ProjectsSection.svelte': { axis: 'window', why: 'відступи секції сторінки' },
 	'SearchOverlay.svelte': { axis: 'window', why: 'фіксована панель поверх сторінки' },
 	'StaticPage.svelte': { axis: 'window', why: 'розкладка самої сторінки й таблиць у тексті' },
+	'PageToc.svelte': {
+		axis: 'window',
+		why:
+			'зміст — це КОЛОНКА самої сторінки, а не блок усередині чужого місця. ' +
+			'Його запит на 900 px збігається з тим, на якому `.page-body.has-toc` ' +
+			'у `StaticPage` перестає бути двома колонками: там більше немає ширини ' +
+			'під бічний стовпець поруч із текстом. Тобто це рівно той випадок, який ' +
+			'§ 7A називає віконним — «кількість колонок самої сторінки». ' +
+			'Контейнерний запит тут дав би те саме число, але в двох місцях замість ' +
+			'одного, і розійтися вони могли б мовчки'
+	},
 	'admin/ArticleForm.svelte': { axis: 'window', why: 'форма займає сторінку адмінки цілком' },
 	'adults/MasterViewToggle.svelte': {
 		axis: 'window',

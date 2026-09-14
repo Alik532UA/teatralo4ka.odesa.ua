@@ -18,7 +18,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		color: '#FF6B6B',
 		coverUrl: asset('/2025-2026/teatr-pro-2026.jpg'),
 		titles: { uk: 'Театр.PRO', en: 'Theater.PRO' },
-		excerpts: { uk: 'Практичний проєкт для сценічної практики та командної роботи', en: 'Practical project for stage practice and teamwork' },
+		excerpts: { uk: 'Фестиваль абітурієнтів закладів мистецької освіти України', en: 'A festival for applicants to Ukraine’s arts education institutions' },
 	},
 	{
 		id: 'support-production',
