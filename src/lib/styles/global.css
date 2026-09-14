@@ -194,6 +194,31 @@ html[data-theme='light-yellow'] {
 	--palette-steel-200: #a5cfea;
 	--palette-steel-100: #bbe1fa;
 
+	/*
+	 * Graphite Palette — від 2026-09-14 це кольори ОСНОВНОЇ темної теми.
+	 *
+	 * Історія та сама, що в сталевої вище, і повторюється вона вже вдруге:
+	 * автор подивився основну темну поруч із `dark-cyan` і попросив помінятися
+	 * кольорами. Сталева поїхала в `themes/dark-cyan.css` — саме туди, звідки
+	 * прийшов графіт. Світла сторона пар при цьому знову не змінилася ЖОДНА.
+	 *
+	 * Два акценти названі окремо від графіту, бо вони не його відтінки, а
+	 * сигнальні кольори поверх нього: блакитний для заголовків і жовтий для
+	 * акцентів. Фірмовий `--palette-blue` (#00b5ec) у ролі заголовка не
+	 * підійшов — на піднятій поверхні #393e46 він дає 4.52:1 при потрібних 4.5,
+	 * тобто проходить упритул; #01b8ea дає 4.64 і не впаде від наступної правки
+	 * поверхні на один тон.
+	 *
+	 * Номер зростає з темнотою — так само, як у решти палітр.
+	 */
+	--palette-graphite-900: #1e232a;
+	--palette-graphite-800: #222831;
+	--palette-graphite-700: #393e46;
+	--palette-graphite-300: #b0b8c1;
+	--palette-graphite-100: #eeeeee;
+	--palette-accent-cyan: #01b8ea;
+	--palette-accent-yellow: #ffee38;
+
 	/* Light Blue / Cyan Palette */
 	--palette-cyan-50: #E5F7FD;
 	--palette-cyan-100: #d6eef5;
@@ -1155,19 +1180,19 @@ html.theme-shifting *:not(canvas) {
 }
 
 .theme-opt[data-theme-key='dark'] {
+	--sw-bg: #393e46;
+	--sw-fg: #eeeeee;
+	--sw-accent: #ffee38;
+	--sw-on: #222831;
+}
+
+/* Обидва набори помінялися місцями 2026-09-14 разом із самими темами; кожне
+   значення звіряє з токеном теми `theme-appearance.test.ts`. */
+.theme-opt[data-theme-key='dark-cyan'] {
 	--sw-bg: #0f4c75;
 	--sw-fg: #bbe1fa;
 	--sw-accent: #bbe1fa;
 	--sw-on: #1b262c;
-}
-
-.theme-opt[data-theme-key='dark-cyan'] {
-	--sw-bg: #393e46;
-	--sw-fg: #eeeeee;
-	/* Жовтий — разом зі зміною акценту теми 2026-09-14; звіряє
-	   `theme-appearance.test.ts`. */
-	--sw-accent: #ffee38;
-	--sw-on: #222831;
 }
 
 .theme-opt[data-theme-key='dark-blue'] {
