@@ -135,7 +135,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/art-like-fest-2026-4.webp': { width: 720, height: 1280 },
 	'/festivals/art-like-fest-2026-5.webp': { width: 720, height: 1280 },
 	// Розвороти програмок «Одеса.Театр.PRO» — теж АРКУШ, який читають, але
-	// АЛЬБОМНИЙ, і тому межа задана по ширині, а не по висоті: на розвороті А4
+	// АЛЬБОМНИЙ, і тому межа задана по ШИРИНІ, а не по висоті: на розвороті А4
 	// два стовпці імен із педагогами, і банерні 1280×720 стиснули б його до
 	// 1045×720, тобто до нечитабельного. При 1800 по ширині імена читаються —
 	// перевірено очима на всіх шести.
@@ -148,6 +148,20 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/teatr-pro-2019-booklet-2.webp': { width: 1800, height: 1242 },
 	'/festivals/teatr-pro-2026-booklet.webp': { width: 1800, height: 1273 },
 	'/festivals/teatr-pro-2026-booklet-2.webp': { width: 1800, height: 1273 },
+	// Мукачеве й Луцьк 2019: обидва аркуші ПОРТРЕТНІ, тому межа тут по висоті —
+	// 1400, як у дипломів, а не 1800 по ширині, як у розворотів вище. Правило одне
+	// («документ, а не банер»), а сторона, якою він упирається в межу, залежить від
+	// того, що саме сканували: розворот лежить упоперек, окрема сторінка — сторч.
+	//
+	// Сторінки 16–17 мукачівської програмки — не фотографії поїздки, хоча знімки в
+	// них є: це друковані сторінки зі складом театрів та їхніх педагогів, тобто те
+	// саме, що й `booklets` у Театр.PRO.
+	'/festivals/impreza-nad-latorytseiu-2019-diploma.webp': { width: 1018, height: 1400 },
+	'/festivals/impreza-nad-latorytseiu-2019-diploma-2.webp': { width: 1018, height: 1400 },
+	'/festivals/impreza-nad-latorytseiu-2019-booklet.webp': { width: 1018, height: 1400 },
+	'/festivals/impreza-nad-latorytseiu-2019-booklet-2.webp': { width: 1018, height: 1400 },
+	'/festivals/lutsk-junior-theatre-2019-diploma.webp': { width: 1018, height: 1400 },
+	'/festivals/lutsk-junior-theatre-2019-diploma-2.webp': { width: 1018, height: 1400 },
 	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
 	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
 	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },

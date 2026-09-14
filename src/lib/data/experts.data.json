@@ -278,5 +278,38 @@
 				"text": "Доцент кафедри театрознавства та майстерності актора ЛНУ, заслужена артистка України"
 			}
 		]
+	},
+	{
+		"slug": "volodymyr-yermolaiev",
+		"name": "Володимир Єрмолаєв",
+		"nameEn": "Volodymyr Yermolaiev",
+		"titles": [
+			{
+				"year": 2019,
+				"text": "Засновник «Universal Tap Dance Studio»"
+			}
+		]
+	},
+	{
+		"slug": "nadiia-aliunova",
+		"name": "Надія Алюнова",
+		"nameEn": "Nadiia Aliunova",
+		"titles": [
+			{
+				"year": 2019,
+				"text": "Педагог з вокалу та сценічної мови"
+			}
+		]
+	},
+	{
+		"slug": "yaroslav-illiashenko",
+		"name": "Ярослав Ілляшенко",
+		"nameEn": "Yaroslav Illiashenko",
+		"titles": [
+			{
+				"year": 2019,
+				"text": "Режисер Волинського обласного академічного українського музично-драматичного театру імені Тараса Григоровича Шевченка"
+			}
+		]
 	}
 ]

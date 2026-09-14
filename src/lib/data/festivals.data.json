@@ -1249,5 +1249,154 @@
 		"masterIds": [],
 		"playIds": [],
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "impreza-nad-latorytseiu-2019",
+		"name": "Імпреза над Латорицею",
+		"nameEn": "Impreza nad Latorytseiu Theatre Festival",
+		"years": [
+			2019
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Мукачеве",
+		"memberIds": [
+			"lada-bilak",
+			"kateryna-haidei",
+			"zlata-malancheva",
+			"david-oks",
+			"veronika-cheredniuk",
+			"oleksandra-polozova",
+			"daria-ekim",
+			"dar-ia-hurevych",
+			"vira-spaska",
+			"daria-rybalchenko",
+			"daniela-rybalchenko",
+			"amryta-chernyshova",
+			"heorhii-topor",
+			"stanislav-prakhov",
+			"kateryna-yevtushenko",
+			"maksym-korobchynskyi",
+			"nataliia-shynkarenko",
+			"diana-dorosheva",
+			"artem-zimner",
+			"myroslava-tkach",
+			"danylo-klymenko",
+			"kseniia-korzhovska",
+			"kulish-mariia",
+			"khrystyna-pirko",
+			"alisa-sivanych",
+			"olha-yefimchenko",
+			"viktoriia-lysak",
+			"yelyzaveta-klevets",
+			"alina-burdeina",
+			"taras-lushpa"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"svitlana-ryskina",
+			"oleh-shevchuk",
+			"tetiana-stohul"
+		],
+		"playIds": [
+			"a-mozhe-ni-new-2019",
+			"feis-bu-chik-2019"
+		],
+		"bio": [
+			"III Всеукраїнський відкритий фестиваль театрального мистецтва аматорських дитячих та молодіжних колективів, 12–17 квітня 2019 року. Організатори — Мукачівський драматичний театр і ГО «Яскрава Країна».",
+			"У конкурсі від школи виступив навчальний театр «Art-Kids» із виставою «А може ні…» за п’єсою-казкою польської драматургині Маліни Пшесьлюги (режисер-педагог Федір Ткач, педагог з танцю Тетяна Стогул) — і переміг у двох номінаціях: «Вдалий синтез театральних форм у режисерському вирішенні» та «Вибір сучасного дитячого драматургічного твору».",
+			"Поза конкурсом грали ще три навчальні театри школи: «Чєловєкі» — «Фейс-Бу-Чік» за текстами Наталії Блок (режисер-педагог Федір Ткач), а «Смайли» та «Кеди» разом — «Уривки з творів класичної драматургії» за Старицьким, Ірчаном, Франком, Уайлдером і Введенським (режисери-педагоги Світлана Риськіна й Олег Шевчук).",
+			"Школа отримала й подяку — за високий рівень театральної майстерності та активну участь у позаконкурсному житті фестивалю."
+		],
+		"diplomas": [
+			"/festivals/impreza-nad-latorytseiu-2019-diploma.webp",
+			"/festivals/impreza-nad-latorytseiu-2019-diploma-2.webp"
+		],
+		"booklets": [
+			"/festivals/impreza-nad-latorytseiu-2019-booklet.webp",
+			"/festivals/impreza-nad-latorytseiu-2019-booklet-2.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lutsk-junior-theatre-2019",
+		"name": "Lutsk Junior Theatre",
+		"nameEn": "Lutsk Junior Theatre",
+		"years": [
+			2019
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Луцьк",
+		"memberIds": [
+			"veronika-birahova",
+			"anastasiia-malneva",
+			"lesia-bondareva",
+			"mariia-kulbaba",
+			"alina-tatarova",
+			"mariia-zyhar",
+			"neonila-bilous",
+			"polina-volhina",
+			"sofiia-holub",
+			"sofiia-hrabko",
+			"anastasiia-marushchenko"
+		],
+		"masterIds": [
+			"iryna-kulbaba",
+			"oleh-shevchuk"
+		],
+		"coachIds": [
+			"volodymyr-yermolaiev",
+			"nadiia-aliunova",
+			"yaroslav-illiashenko"
+		],
+		"outsideMembers": [
+			{
+				"name": "Олександра Марталог"
+			},
+			{
+				"name": "Іван Котов"
+			},
+			{
+				"name": "Данило Домбровський"
+			},
+			{
+				"name": "Елізавета Стешенко"
+			},
+			{
+				"name": "Аріна Кошутська"
+			},
+			{
+				"name": "Аліна Романенко"
+			},
+			{
+				"name": "Станіслава Осадча"
+			},
+			{
+				"name": "Софія Сливінська"
+			},
+			{
+				"name": "Ярослава Устименко"
+			},
+			{
+				"name": "Поліна Шевченко"
+			}
+		],
+		"playIds": [
+			"bremens-ki-muzykanty-2019",
+			"kotyhoroshivka-2019"
+		],
+		"bio": [
+			"Культурний проєкт «Lutsk Junior Theatre», 6–9 листопада 2019 року. Організатор — благодійна організація «Творчість заради життя» (керівник Наталія Журавльова).",
+			"Від школи виступили два навчальні театри: «Зроблено в Україні» з «Бременськими музикантами» за мотивами братів Ґрімм і віршами Юрія Ентіна (режисер-педагог Ірина Кульбаба) та «Дівочі драми» з «Котигорошівкою» за казкою Надії Симчич (режисер-педагог Олег Шевчук).",
+			"У межах проєкту колективи відвідали три майстер-класи: «TAP-чечітка — від „А“ до „Я“. Перші кроки», «Голосотворення» і «Основи акторської майстерності»."
+		],
+		"diplomas": [
+			"/festivals/lutsk-junior-theatre-2019-diploma.webp",
+			"/festivals/lutsk-junior-theatre-2019-diploma-2.webp"
+		],
+		"verificationStatus": "possible_errors"
 	}
 ]
