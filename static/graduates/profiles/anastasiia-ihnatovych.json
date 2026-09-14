@@ -113,5 +113,10 @@
 	],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3"
+	"sourceUrl": "https://sites.google.com/view/ats-ua/GG/2018/18A_3",
+	"teachers": [
+		{
+			"id": "iryna-ulianenko"
+		}
+	]
 }

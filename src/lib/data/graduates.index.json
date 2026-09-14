@@ -1023,7 +1023,12 @@
 		],
 		"playCount": 12,
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2829
+		"profileSize": 2883,
+		"teachers": [
+			{
+				"id": "iryna-ulianenko"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-ivanes",
@@ -1483,8 +1488,13 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 508,
-		"playCount": 1
+		"profileSize": 562,
+		"playCount": 1,
+		"teachers": [
+			{
+				"id": "svitlana-vitiuk"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-strusevych",
@@ -3151,8 +3161,16 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 410,
-		"playCount": 0
+		"profileSize": 496,
+		"playCount": 0,
+		"teachers": [
+			{
+				"id": "svitlana-vitiuk"
+			},
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "david-oks",
@@ -3936,9 +3954,12 @@
 				"subjects": [
 					"Вокал"
 				]
+			},
+			{
+				"id": "svitlana-vitiuk"
 			}
 		],
-		"profileSize": 1619,
+		"profileSize": 1655,
 		"playCount": 6
 	},
 	{
@@ -6796,13 +6817,16 @@
 		],
 		"playCount": 21,
 		"code": "myroslava-tkach",
-		"profileSize": 3665,
+		"profileSize": 3701,
 		"teachers": [
 			{
 				"id": "samuil-imas",
 				"subjects": [
 					"Риторика та поетика"
 				]
+			},
+			{
+				"id": "svitlana-vitiuk"
 			}
 		]
 	},
@@ -9074,25 +9098,10 @@
 		],
 		"teachers": [
 			{
-				"id": "samuil-imas",
-				"subjects": [
-					"Риторика та поетика"
-				]
-			},
-			{
-				"id": "mykola-baldin",
-				"subjects": [
-					"Сценічний рух"
-				]
-			},
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
+				"id": "svitlana-vitiuk"
 			}
 		],
-		"profileSize": 578,
+		"profileSize": 632,
 		"playCount": 2
 	},
 	{
@@ -10197,31 +10206,10 @@
 		],
 		"teachers": [
 			{
-				"id": "fedir-tkach",
-				"subjects": [
-					"Участь у виставах"
-				]
-			},
-			{
-				"id": "samuil-imas",
-				"subjects": [
-					"Риторика та поетика"
-				]
-			},
-			{
-				"id": "mykola-baldin",
-				"subjects": [
-					"Сценічний рух"
-				]
-			},
-			{
-				"id": "iryna-kaplia",
-				"subjects": [
-					"Вокал"
-				]
+				"id": "vira-yemtsova-datsiuk"
 			}
 		],
-		"profileSize": 811,
+		"profileSize": 871,
 		"playCount": 3
 	},
 	{
@@ -10787,7 +10775,7 @@
 		],
 		"playCount": 7,
 		"code": "yevhen-lysenko",
-		"profileSize": 2323,
+		"profileSize": 2365,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -10806,6 +10794,9 @@
 				"subjects": [
 					"Вокал"
 				]
+			},
+			{
+				"id": "vira-yemtsova-datsiuk"
 			}
 		]
 	},
@@ -10885,8 +10876,13 @@
 				"id": "anastasiia-nikolaieva"
 			}
 		],
-		"profileSize": 1110,
-		"playCount": 3
+		"profileSize": 1165,
+		"playCount": 3,
+		"teachers": [
+			{
+				"id": "svitlana-ryskina"
+			}
+		]
 	},
 	{
 		"id": "yevheniia-futynets",

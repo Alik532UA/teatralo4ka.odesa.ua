@@ -7,9 +7,13 @@
 		Users,
 		GraduationCap,
 		Calendar,
-		Trophy
+		Trophy,
+		Gavel,
+		Dumbbell,
+		Star
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
+	import { expertPath } from '$lib/data/experts';
 	import type { PageData } from './$types';
 	import { graduationCaption, rosterOrder } from '$lib/data/graduates';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
@@ -300,6 +304,123 @@
 						/>
 					{/each}
 				</div>
+			</section>
+		{/if}
+
+		<!--
+			ВИПУСКНИКИ, що приїхали вже випускниками. Розділ окремий від складу, бо
+			це поділ автора: учень приїхав від школи, випускник — сам. Іконки в них
+			різні з тієї ж причини.
+		-->
+		{#if data.alumni.length > 0}
+			<section class="fest-section" aria-labelledby="section-alumni-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Trophy size={20} aria-hidden="true" /></span>
+					<h2 id="section-alumni-title" class="section-heading__title">
+						{$t('galaxy.festivalAlumni')}
+					</h2>
+					<span class="section-heading__count">{data.alumni.length}</span>
+				</div>
+				<div class="people-grid" data-testid="festival-alumni-list">
+					{#each data.alumni as person, idx (person.id)}
+						{@const photoSrc = person.hasPhoto ? asset(`/graduates/${person.slug}-192.webp`) : null}
+						<GroupPersonCard
+							name={person.name}
+							photo={photoSrc}
+							subtitle={graduationCaption(person, $t)}
+							onclick={() => openGraduateModal(person)}
+							splitName
+							index={idx}
+							testid="festival-alumni-card-{person.slug}"
+						/>
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<!--
+			ЗАПРОШЕНІ ФАХІВЦІ — три ролі поспіль однією розміткою.
+			Кожна малюється лише тоді, коли в ній хтось є: порожній заголовок
+			«Коучі» на фестивалі без коучів читався б як загублені дані.
+
+			Окремим компонентом це БУЛО зроблено й повернуто назад. Службові класи
+			розділу — `.fest-section`, `.section-heading`, `.icon-wrap`,
+			`.people-grid` — живуть у скоупі САМОЇ сторінки, тож компонент до них не
+			дістає (`component-styles.test.ts` це й сказав). Вихід був би або третьою
+			копією того самого CSS, або переїздом чотирьох класів у `global.css`
+			разом зі сторінкою груп, яка їх теж дублює. Перше гірше за дублювання
+			розмітки, друге — окрема робота, і робити її мимохідь, посеред внесення
+			даних про фестивалі, означало б зачепити чужу сторінку без потреби.
+		-->
+		{#each [{ key: 'experts', label: 'galaxy.festivalExperts', people: data.experts, masters: data.expertMasters }, { key: 'coaches', label: 'galaxy.festivalCoaches', people: data.coaches, masters: [] }, { key: 'guests', label: 'galaxy.festivalGuests', people: data.guests, masters: [] }] as role (role.key)}
+			{#if role.people.length + role.masters.length > 0}
+				<section class="fest-section" aria-labelledby="section-{role.key}-title">
+					<div class="section-heading">
+						<span class="icon-wrap icon-wrap--primary">
+							{#if role.key === 'experts'}<Gavel size={20} aria-hidden="true" />
+							{:else if role.key === 'coaches'}<Dumbbell size={20} aria-hidden="true" />
+							{:else}<Star size={20} aria-hidden="true" />{/if}
+						</span>
+						<h2 id="section-{role.key}-title" class="section-heading__title">{$t(role.label)}</h2>
+						<span class="section-heading__count">{role.people.length + role.masters.length}</span>
+					</div>
+					<div class="people-grid" data-testid="festival-{role.key}-list">
+						{#each role.people as person, idx (person.slug)}
+							<GroupPersonCard
+								name={isEn && person.nameEn ? person.nameEn : person.name}
+								photo={person.photo ? asset(person.photo) : null}
+								subtitle={person.city}
+								href={localizedPath(expertPath(person.slug), currentLang)}
+								splitName
+								index={idx}
+								testid="festival-{role.key}-card-{person.slug}"
+							/>
+						{/each}
+						<!--
+							Свої в тій самій раді — з реєстру працівників. Картка веде на їхню
+							сторінку в «Дорослих», як і в решті розділів цієї сторінки.
+						-->
+						{#each role.masters as master, idx (master.id)}
+							<GroupPersonCard
+								name={isEn ? master.displayNameEn : master.displayName}
+								photo={master.photo ? asset(master.photo) : null}
+								href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
+								splitName
+								index={role.people.length + idx}
+								testid="festival-{role.key}-card-{master.slug}"
+							/>
+						{/each}
+					</div>
+				</section>
+			{/if}
+		{/each}
+
+		<!--
+			УЧАСНИКИ БЕЗ КАРТКИ — рядками, а не плитками, і це не економія.
+			У цих людей немає ні фотографії, ні сторінки: плитка з самими
+			ініціалами виглядала б як картка, що не завантажилась.
+		-->
+		{#if (data.festival.outsideMembers ?? []).length > 0}
+			<section class="fest-section" aria-labelledby="section-outside-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Users size={20} aria-hidden="true" /></span>
+					<h2 id="section-outside-title" class="section-heading__title">
+						{$t('galaxy.festivalOutside')}
+					</h2>
+					<span class="section-heading__count">{(data.festival.outsideMembers ?? []).length}</span>
+				</div>
+				<ul class="outside-list" data-testid="festival-outside-list">
+					{#each data.festival.outsideMembers ?? [] as person (person.name)}
+						<li class="outside-list__item">
+							<span class="outside-list__name">{person.name}</span>
+							{#if person.city || person.school}
+								<span class="outside-list__where">
+									{[person.city, person.school].filter(Boolean).join(', ')}
+								</span>
+							{/if}
+						</li>
+					{/each}
+				</ul>
 			</section>
 		{/if}
 

@@ -12,5 +12,13 @@
 		"Акторка Київського драматичного [театру на Печерську](/projects/galaxy-graduates/theatres/kyiv-na-pecherskomu)."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"teachers": [
+		{
+			"id": "svitlana-vitiuk"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

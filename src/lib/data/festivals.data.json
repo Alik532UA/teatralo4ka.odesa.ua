@@ -915,14 +915,81 @@
 			"vira-spaska",
 			"anastasiia-yevdokymova",
 			"anastasiia-huchok",
-			"daria-pokhylo"
+			"daria-pokhylo",
+			"daiana-ponomarenko",
+			"kulish-mariia",
+			"anastasiia-skvortsova",
+			"sofiia-alieksieieva"
 		],
 		"masterIds": [],
 		"playIds": [],
 		"bio": [
 			"Фестиваль абітурієнтів закладів мистецької освіти України."
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"stanislav-zhyrkov",
+			"maryna-tatarenko",
+			"larysa-semyrozumenko",
+			"valerii-huivin",
+			"oleksandra-samokhvalova",
+			"dmytro-naumets"
+		],
+		"expertMasterIds": [
+			"oleh-shevchuk"
+		],
+		"outsideMembers": [
+			{
+				"name": "В’ячеслав Сузанський",
+				"city": "Коломия",
+				"school": "театр «Лелія»"
+			},
+			{
+				"name": "Єлізавета Подгайко",
+				"city": "Лисичанськ",
+				"school": "театр «Лімпопо»"
+			},
+			{
+				"name": "Віолетта Дерев’янко",
+				"city": "Лисичанськ",
+				"school": "театр «Лімпопо»"
+			},
+			{
+				"name": "Юлія Войнова",
+				"city": "Лисичанськ",
+				"school": "театр «Арлекін»"
+			},
+			{
+				"name": "Анна Ковальова",
+				"city": "Лисичанськ",
+				"school": "театр «Арлекін»"
+			},
+			{
+				"name": "Катерина Мещанова",
+				"city": "Одеса",
+				"school": "ОТХУ"
+			},
+			{
+				"name": "Аліса Сиванич",
+				"city": "Одеса",
+				"school": "ДТШ"
+			},
+			{
+				"name": "Крістіна Біла",
+				"city": "Одеса",
+				"school": "ДТШ"
+			},
+			{
+				"name": "Дар’я Гуревич",
+				"city": "Одеса",
+				"school": "ДТШ"
+			},
+			{
+				"name": "Даніїл Томачинський",
+				"city": "Одеса",
+				"school": "ДТШ"
+			}
+		]
 	},
 	{
 		"slug": "teatr-pro-2019",
@@ -975,7 +1042,23 @@
 			"UA"
 		],
 		"city": "Одеса",
-		"memberIds": [],
+		"memberIds": [
+			"yuliana-tymonova",
+			"pavlo-maksymov",
+			"anastasiia-ivanova",
+			"nikol-onyshchenko",
+			"mykhailo-zabozhanov",
+			"kateryna-petrenko",
+			"yeva-horokhova",
+			"kateryna-nesterenko",
+			"albina-abuladze",
+			"veronika-tarasenko",
+			"oleksandra-karachevska",
+			"ivan-pitel",
+			"zlata-stoyanova",
+			"diana-domanska",
+			"liora-kazatsker"
+		],
 		"masterIds": [],
 		"playIds": [],
 		"bio": [
@@ -983,7 +1066,35 @@
 			"Проводиться Одеською театральною школою за підтримки Департаменту культури, туризму та охорони культурної спадщини Одеської міської ради та Національної спілки театральних діячів України — для абітурієнтів творчих навчальних закладів.",
 			"В Експертній раді — майстри з Києва, Львова, Харкова, Дніпра та Одеси, які цього року набирають перший курс. Учасники й слухачі отримують сертифікат про підвищення кваліфікації."
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"alumniIds": [
+			"anna-mariia-vyskochyl",
+			"erika-chichasova",
+			"alina-demediuk"
+		],
+		"expertIds": [
+			"dmytro-bohomazov",
+			"tamara-antropova",
+			"nataliia-tsymbal",
+			"dmytro-zakhozhenko",
+			"tetiana-poliak",
+			"volodymyr-sahan",
+			"maryna-bryl"
+		],
+		"outsideMembers": [
+			{
+				"name": "Софія Неіщенко",
+				"city": "Одеса"
+			},
+			{
+				"name": "Анастасія Цвєтус",
+				"city": "Хмельницький"
+			},
+			{
+				"name": "Валерія Семенуха",
+				"city": "Хмельницький"
+			}
+		]
 	},
 	{
 		"slug": "teatr-pro-2021",
@@ -996,10 +1107,81 @@
 			"UA"
 		],
 		"city": "Одеса",
-		"memberIds": [],
+		"memberIds": [
+			"daria-terletska",
+			"mariia-zyhar",
+			"viktoriia-yefremova",
+			"kateryna-kurchenko",
+			"mariia-cherkashyna",
+			"nataliia-shynkarenko",
+			"anhelina-kravchenko",
+			"sofiia-holub",
+			"anastasiia-katok",
+			"varvara-tymakh",
+			"heorhii-slyvynskyi",
+			"maksym-korobchynskyi",
+			"polina-kolomiiets"
+		],
 		"masterIds": [],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"bohdan-strutynskyi",
+			"stanislav-zhyrkov",
+			"anatolii-lobanov",
+			"dmytro-zakhozhenko",
+			"liliia-koltyrina",
+			"volodymyr-sahan"
+		],
+		"guestIds": [
+			"liena-liahushonkova"
+		],
+		"outsideMembers": [
+			{
+				"name": "Дар’я Рибальченко",
+				"city": "Одеса",
+				"school": "МТШ"
+			},
+			{
+				"name": "Аліна Кравченко",
+				"city": "Херсон",
+				"school": "ДМШ №3"
+			},
+			{
+				"name": "Каріна Васильєва",
+				"city": "Херсон",
+				"school": "ДМШ №3"
+			},
+			{
+				"name": "Андрій Баландюк",
+				"city": "Хмельницький",
+				"school": "ДШМ"
+			},
+			{
+				"name": "Дар’я Папіж",
+				"city": "Одеса",
+				"school": "МТШ"
+			},
+			{
+				"name": "Аліна Князева",
+				"city": "Одеса",
+				"school": "МТШ"
+			},
+			{
+				"name": "Анастасія Боєва",
+				"city": "Одеса"
+			},
+			{
+				"name": "Ксенія Костюкова",
+				"city": "Одеса",
+				"school": "МТШ"
+			},
+			{
+				"name": "Аліса Кузнєцова",
+				"city": "Одеса",
+				"school": "МТШ"
+			}
+		]
 	},
 	{
 		"slug": "teatr-pro-2022",

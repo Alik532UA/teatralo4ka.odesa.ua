@@ -5,6 +5,7 @@ import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { RENAMED_FESTIVAL_SLUGS } from '$lib/config/renamedAddresses';
 import { LINKED_GRADUATES, rosterOrder, type GraduateIndexEntry } from '$lib/data/graduates';
 import { playsByIds } from '$lib/data/plays';
+import { EXPERTS, expertTitle } from '$lib/data/experts';
 import mastersIndex from '$lib/data/masters.index.json';
 import type { MasterIndexEntry } from '$lib/data/masters';
 
@@ -73,6 +74,45 @@ export async function load({ params, url }) {
 	const memberMasters = (festival.memberMasterIds ?? []).map(майстер).filter((m) => m !== undefined);
 
 	/*
+	 * Випускники, що приїхали вже випускниками, — той самий реєстр, що в складу,
+	 * і той самий порядок. Окремий розділ, бо це поділ самого автора; розбір — у
+	 * полі `alumniIds` в `data/festivals`.
+	 */
+	const alumni: GraduateIndexEntry[] = (festival.alumniIds ?? [])
+		.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
+		.filter((g): g is GraduateIndexEntry => Boolean(g))
+		.sort((a, b) => rosterOrder(a) - rosterOrder(b));
+
+	/*
+	 * ПОСАДА БЕРЕТЬСЯ ЗА РОКОМ ФЕСТИВАЛЮ, а не з реєстру як є.
+	 *
+	 * У запрошених фахівців посада змінюється, і в наших даних це видно прямо:
+	 * Станіслав Жирков 2018-го вів «Золоті ворота», а 2021-го — театр драми і
+	 * комедії на лівому березі Дніпра. Сторінка фестивалю мусить назвати ту
+	 * посаду, яка стояла в програмці ТОГО року, інакше вона перепише історію
+	 * теперішнім днем. Розбір — у докблоці `data/experts`.
+	 *
+	 * Рік беремо перший зі списку: у фестивалю їх майже завжди один, а коли два —
+	 * це той самий склад, і посада за ці два роки не встигає змінитися.
+	 */
+	const рік = festival.years[0];
+	const фахівці = (ids: string[] | undefined) =>
+		(ids ?? [])
+			.map((slug) => EXPERTS.find((e) => e.slug === slug))
+			.filter((e) => e !== undefined)
+			.map((e) => ({ slug: e.slug, name: e.name, nameEn: e.nameEn, city: e.city, photo: e.photo, title: expertTitle(e, рік) }));
+
+	const experts = фахівці(festival.expertIds);
+	const coaches = фахівці(festival.coachIds);
+	const guests = фахівці(festival.guestIds);
+
+	/*
+	 * Свої в Експертній Раді — з реєстру працівників, а не продубльовані серед
+	 * зовнішніх. У Раді 2018 сидів Олег Шевчук, наш колишній педагог.
+	 */
+	const expertMasters = (festival.expertMasterIds ?? []).map(майстер).filter((m) => m !== undefined);
+
+	/*
 	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>` сторінки: у `og:description`
 	 * доходить лише те, що завантажувач поклав у `seoDescription`. Подробиці й
 	 * замір — у докблоці `config/seoDetail.ts`.
@@ -89,5 +129,17 @@ export async function load({ params, url }) {
 		words.festivalTail
 	]);
 
-	return { festival, members, memberMasters, masters, plays, seoDescription };
+	return {
+		festival,
+		members,
+		memberMasters,
+		alumni,
+		masters,
+		experts,
+		expertMasters,
+		coaches,
+		guests,
+		plays,
+		seoDescription
+	};
 }
