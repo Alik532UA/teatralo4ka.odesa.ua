@@ -1164,7 +1164,9 @@ html.theme-shifting *:not(canvas) {
 .theme-opt[data-theme-key='dark-cyan'] {
 	--sw-bg: #393e46;
 	--sw-fg: #eeeeee;
-	--sw-accent: #00adb5;
+	/* Жовтий — разом зі зміною акценту теми 2026-09-14; звіряє
+	   `theme-appearance.test.ts`. */
+	--sw-accent: #ffee38;
 	--sw-on: #222831;
 }
 
