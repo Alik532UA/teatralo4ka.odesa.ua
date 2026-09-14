@@ -58,6 +58,17 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-14 (пізніше тієї ж доби): `data/betaChecklist.ts` 467 → 479. Дванадцять
+ *   рядків, і жоден не логіка. Дев'ять — пункт `projects_5` про зупинку показу
+ *   анкет: вкладка `projects` мала ОДИН пункт для людини проти двох покритих,
+ *   тобто контрольна група була більшою за роботу (BETA-CHECKLIST-v9 § 3.4,
+ *   `BETA-LEVEL-BALANCE`), і новий інваріант у `beta-checklist.test.ts` це
+ *   червонив. Пункт написаний після читання `stopSlideshow()`, а не вигаданий
+ *   під потрібне число: саме там автор одного разу вже побачив, що зупинка з
+ *   рядка налаштувань лишала відкритою анкету останнього. Решта три — підпис
+ *   «На головну» (§ 8.4: тестувальник приходить за прямим посиланням, ні
+ *   історії, ні пункта меню в нього немає). Ділити нема на що: це ДАНІ, і
+ *   перелік читають цілим.
  * 2026-09-14: `data/betaChecklist.ts` 439 → 467. Двадцять вісім рядків — три
  *   пункти про зациклену головну, і всі три `manual`. Механізм накритий
  *   `e2e/endless-scroll.spec.ts` щільно, тож у чеклист пішло рівно те, чого
@@ -618,7 +629,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 284,
-	'src/lib/data/betaChecklist.ts': 467,
+	'src/lib/data/betaChecklist.ts': 479,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { resolve } from '$app/paths';
 	import { locale } from 'svelte-i18n';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import {
@@ -13,6 +14,7 @@
 		buildReport,
 		clearMarks,
 		countFresh,
+		countFreshInTab,
 		isStale,
 		loadMarks,
 		saveMarks,
@@ -28,11 +30,13 @@
 	 * `config/hiddenRoutes.ts`, у мапі сайту її немає, у `robots.txt` стоїть
 	 * `Disallow`. Це не таємниця — просто вона не для відвідувачів.
 	 *
-	 * ЛОКАТОРИ ВІДРІЗНЯЮТЬСЯ ВІД ТАБЛИЦІ КАНОНУ, і це не недогляд. Канон радить
-	 * `beta-check-item` та `beta-vote-ok-btn` без ідентифікатора пункта — на цій
-	 * сторінці такі назви дали б по двадцять три елементи на один локатор, а
-	 * проєкт має гейт проти рантайм-дублікатів (`e2e/testid.spec.ts`). Тому
-	 * ідентифікатор пункта входить у назву.
+	 * ЛОКАТОР НЕСЕ ІДЕНТИФІКАТОР ПУНКТА, і це вибір ЗА правилом, а не
+	 * відхилення від нього. Тут донедавна лежав запис про відхилення: канон радив
+	 * `beta-check-item` та `beta-vote-ok-btn` без ідентифікатора, а на цій
+	 * сторінці такі назви давали по двадцять три елементи на один локатор — при
+	 * тому, що проєкт має гейт проти рантайм-дублікатів (`e2e/testid.spec.ts`).
+	 * Канон 9.3 § 5.6 (`BETA-LOCATOR-PER-CHECK`, HIGH) визнав ту пораду
+	 * помилковою й вимагає саме того, що зроблено тут.
 	 */
 	const { data }: { data: { appVersion: string } } = $props();
 
@@ -116,6 +120,14 @@
 </svelte:head>
 
 <section class="beta" data-testid="beta-page-section">
+	<!--
+		Вихід зі сторінки (§ 8.4): тестувальник приходить сюди за прямим
+		посиланням, тож ні історії, ні пункта меню в нього немає.
+		`resolve('/')` замість склеювання з `base`: адреса звіряється з реальним
+		переліком маршрутів на етапі компіляції.
+	-->
+	<a class="back" href={resolve('/')} data-testid="beta-back-link">← {say(UI_TEXT.backHome)}</a>
+
 	<h1 data-testid="beta-page-title">{say(UI_TEXT.pageTitle)}</h1>
 	<p class="intro" data-testid="beta-intro-text">{say(UI_TEXT.intro)}</p>
 
@@ -125,8 +137,15 @@
 		<span class="version">({version})</span>
 	</p>
 
+	<!--
+		Лічильник на КОЖНІЙ вкладці (§ 8.1). Загальне число не відповідає на
+		питання, яке тестувальник собі ставить: чи закінчена ця вкладка. Вкладок
+		п'ять, проходять їх по одній, і без лічильника позицію доводиться тримати
+		в голові.
+	-->
 	<nav class="tabs" aria-label={say(UI_TEXT.pageTitle)}>
 		{#each BETA_TABS as t (t.id)}
+			{@const tabDone = countFreshInTab(marks, version, t.checks)}
 			<button
 				type="button"
 				class="tab"
@@ -136,15 +155,32 @@
 				onclick={() => (activeTab = t.id)}
 			>
 				{say(t.title)}
+				<span class="tab-count" data-testid="beta-tab-{t.id}-progress-text">
+					{tabDone.done}/{tabDone.total}
+				</span>
 			</button>
 		{/each}
 	</nav>
 
-	{#each groups as group (group.level)}
+	{#each groups as group, levelIndex (group.level)}
 		<section class="level" data-testid="beta-level-{group.level}-section">
-			<h2 class="level-title">{say(UI_TEXT.levels[group.level])}</h2>
+			<h2 class="level-title">
+				{say(UI_TEXT.levels[group.level])}
+				<!-- Скільки пунктів у блоці — видно до того, як у нього заходити (§ 8.7). -->
+				<span class="level-count">{group.checks.length}</span>
+			</h2>
 
-			<ol class="checks">
+			<!--
+				Нумерація НАСКРІЗНА по вкладці (§ 2.2), а не з одиниці в кожному рівні.
+				Рівнів на екрані до трьох, і три пункти «1.» на одній сторінці роблять
+				номер марним саме тоді, коли він потрібен: людина каже «зламалося на
+				третьому», а не «зламалося на `common_7`». `start` на `<ol>` замість
+				окремого лічильника: список і так нумерує себе сам.
+			-->
+			<ol
+				class="checks"
+				start={groups.slice(0, levelIndex).reduce((n, g) => n + g.checks.length, 0) + 1}
+			>
 				{#each group.checks as check (check.id)}
 					{@const mark = marks[check.id]}
 					<li class="check" data-testid="beta-check-{check.id}-item">
@@ -259,6 +295,38 @@
 		background: var(--accent-primary);
 		color: var(--text-on-accent);
 		font-weight: 600;
+	}
+
+	/* Рівна ширина цифр: лічильники в ряду вкладок не мусять стрибати. */
+	.tab-count {
+		margin-inline-start: 0.4rem;
+		font-size: 0.8rem;
+		opacity: 0.8;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.level-count {
+		margin-inline-start: 0.4rem;
+		padding: 0.05rem 0.4rem;
+		border: 1px solid var(--border-main);
+		border-radius: 999px;
+		font-size: 0.75rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	/* 44px — власний стандарт проєкту для цілей дотику, і для посилання теж. */
+	.back {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		margin-bottom: 0.25rem;
+		color: var(--text-muted);
+		text-decoration: none;
+	}
+
+	.back:hover {
+		color: var(--text-main);
+		text-decoration: underline;
 	}
 
 	.level {

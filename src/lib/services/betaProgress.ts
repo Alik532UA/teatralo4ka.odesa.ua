@@ -43,6 +43,13 @@ function isMark(value: unknown): value is Mark {
  * Сховище може містити будь-що: інша версія формату, чужий скрипт, ручна правка
  * в DevTools. Зіпсований запис відкидається поштучно, а не разом з усіма —
  * інакше одна битий рядок стирає людині всю роботу.
+ *
+ * Відкидається й позначка пункта, ЯКОГО В ЧЕКЛИСТІ ВЖЕ НЕМАЄ (§ 8.6,
+ * `BETA-MARKS-UNTRUSTED`). Форму такий запис має правильну, тож попередня
+ * редакція його пропускала — і він рахувався в поступі: пункт прибрали зі
+ * списку, а число лишилося, тобто сторінка показувала «36 / 34». Виправити це
+ * зсередини не було як: у списку такого пункта вже немає, отже й зняти позначку
+ * нема на чому.
  */
 export function loadMarks(): Marks {
 	const raw = storage.get(MARKS_KEY);
@@ -50,9 +57,10 @@ export function loadMarks(): Marks {
 	try {
 		const parsed: unknown = JSON.parse(raw);
 		if (typeof parsed !== 'object' || parsed === null) return {};
+		const known = new Set(BETA_CHECKS.map((check) => check.id));
 		const out: Marks = {};
 		for (const [id, value] of Object.entries(parsed)) {
-			if (isMark(value)) out[id] = value;
+			if (known.has(id) && isMark(value)) out[id] = value;
 		}
 		return out;
 	} catch (e) {
@@ -84,6 +92,22 @@ export function isStale(mark: Mark | undefined, version: string): boolean {
 
 export function countFresh(marks: Marks, version: string): number {
 	return Object.values(marks).filter((m) => m.version === version).length;
+}
+
+/**
+ * Поступ ОКРЕМОЇ вкладки (§ 8.1, `BETA-TAB-PROGRESS`).
+ *
+ * Загальне «12 / 35» не відповідає на питання, яке тестувальник собі ставить:
+ * чи закінчена ця вкладка. Вкладок п'ять, і проходять їх по одній — тобто без
+ * лічильника позицію доводиться тримати в голові.
+ */
+export function countFreshInTab(
+	marks: Marks,
+	version: string,
+	checks: readonly { id: string }[]
+): { done: number; total: number } {
+	const done = checks.filter((check) => marks[check.id]?.version === version).length;
+	return { done, total: checks.length };
 }
 
 const VOTE_LABEL: Record<Vote, string> = {

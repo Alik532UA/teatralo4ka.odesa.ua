@@ -431,6 +431,25 @@ export const BETA_TABS: readonly BetaTab[] = [
 				},
 				coverage: 'covered',
 				test: 'e2e/redirects.spec.ts'
+			},
+			{
+				/*
+				 * Дописано при переході на канон 9.3 (§ 3.4): вкладка мала один
+				 * пункт для людини проти двох покритих, тобто контрольна група була
+				 * більшою за роботу. Пункт написаний після читання `stopSlideshow()`
+				 * у `routes/projects/galaxy-graduates/+page.svelte` — там же лежить
+				 * і причина: автор одного разу вже побачив, що зупинка з рядка
+				 * налаштувань гасила показ і ЛИШАЛА відкритою анкету останнього.
+				 */
+				id: 'projects_5',
+				category: { uk: 'Показ анкет', en: 'Slideshow' },
+				testid: 'galaxy-slideshow-stop-btn',
+				text: {
+					uk: 'Запустіть показ анкет у галактиці, дочекайтеся другої-третьої людини й натисніть «Спинити показ» у рядку налаштувань. На екрані мусить лишитися сама галактика: ні відкритої анкети, ні повноекранного режиму лишатися НЕ мусить.',
+					en: 'Start the graduate slideshow in the galaxy, wait for the second or third person and press “Stop the slideshow” in the settings row. Only the galaxy itself must remain: no open profile card and no full-screen mode may stay behind.'
+				},
+				coverage: 'manual',
+				negative: true
 			}
 		]
 	},
@@ -589,6 +608,11 @@ export const BETA_CHECKS: readonly BetaCheck[] = BETA_TABS.flatMap((tab) => tab.
  */
 export const UI_TEXT = {
 	pageTitle: { uk: 'Чеклист бета-тестування', en: 'Beta testing checklist' },
+	/**
+	 * Вихід зі сторінки (§ 8.4): тестувальник приходить за прямим посиланням, у
+	 * нього немає ні історії, ні пункта меню — сторінки немає в меню за § 4.
+	 */
+	backHome: { uk: 'На головну', en: 'Home' },
 	intro: {
 		uk: 'Список того, чого не вміє перевірити машина. Позначки зберігаються лише у вашому браузері й нікуди не надсилаються. Наприкінці натисніть «Скопіювати звіт» і надішліть текст автору.',
 		en: 'A list of what machines cannot check. Your marks stay in this browser only and are never sent anywhere. When done, press “Copy report” and send the text to the author.'
