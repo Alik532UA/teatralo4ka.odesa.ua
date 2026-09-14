@@ -219,7 +219,7 @@
 		/* Напівпрозоро в спокої, повністю під курсором — так само, як у рядках
 		   переліків галактики. Однаковий рядок мусить і поводитися однаково. */
 		background: color-mix(in srgb, var(--fest-surface, var(--bg-surface)), transparent 50%);
-		border: 1px solid var(--fest-border, var(--border-main));
+		border: var(--hairline-width) solid var(--fest-border, var(--border-main));
 		padding: 0.35rem 0.6rem;
 		transition:
 			background var(--transition-base),
@@ -247,7 +247,7 @@
 		padding: 0.35rem 0.6rem;
 		border-radius: var(--radius-md, 12px);
 		background: var(--fest-surface, var(--bg-surface));
-		border: 1px solid var(--fest-border, var(--border-main));
+		border: var(--hairline-width) solid var(--fest-border, var(--border-main));
 		color: var(--fest-text, var(--text-main));
 		text-decoration: none;
 		font-size: 0.88rem;

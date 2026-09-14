@@ -94,7 +94,7 @@
 		align-items: center;
 		gap: 0.5rem;
 		padding: 0.5rem 0.75rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 999px;
 		background: var(--bg-surface);
 		color: var(--text-muted);

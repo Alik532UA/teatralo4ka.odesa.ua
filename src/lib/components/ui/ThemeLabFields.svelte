@@ -242,7 +242,7 @@
 		align-items: center;
 		padding: 0.15rem 0.25rem;
 		border-radius: 5px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: none;
 		color: var(--text-muted);
 		cursor: pointer;
@@ -258,7 +258,7 @@
 		margin-left: 0.3rem;
 		padding: 0.05rem 0.3rem;
 		border-radius: 5px;
-		border: 1px solid var(--fix);
+		border: var(--hairline-width) solid var(--fix);
 		background: none;
 		color: var(--text-main);
 		font-family: ui-monospace, monospace;
@@ -285,7 +285,7 @@
 		height: 16px;
 		padding: 0;
 		border-radius: 4px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		cursor: pointer;
 		transition: transform 0.15s;
 	}
@@ -345,7 +345,7 @@
 		width: 30px;
 		height: 30px;
 		padding: 0;
-		border: 1px solid #33454e;
+		border: var(--hairline-width) solid #33454e;
 		border-radius: 6px;
 		background: none;
 		cursor: pointer;
@@ -356,7 +356,7 @@
 		   із ґраткою. Заміряно на знімку: у полі стояло «#2b0b2». */
 		width: 10ch;
 		padding: 0.2rem 0.35rem;
-		border: 1px solid #33454e;
+		border: var(--hairline-width) solid #33454e;
 		border-radius: 6px;
 		background: #050a0d;
 		color: #dfe9ee;

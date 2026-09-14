@@ -422,7 +422,7 @@
 		align-items: center;
 		justify-content: center;
 		padding: 0;
-		border: 1px solid rgba(255, 255, 255, 0.25);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.25);
 		border-radius: 50%;
 		background: rgba(15, 23, 42, 0.45);
 		backdrop-filter: blur(6px);

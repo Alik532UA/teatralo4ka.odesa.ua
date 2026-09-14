@@ -517,7 +517,7 @@
 		padding: 3px 7px;
 		border-radius: 6px;
 		background: rgb(5 10 31 / 0.9);
-		border: 1px solid rgb(255 255 255 / 0.15);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.15);
 		box-shadow: 0 4px 12px rgb(0 0 0 / 0.5);
 		color: var(--galaxy-text, #ffffff);
 		font-size: 0.7rem;

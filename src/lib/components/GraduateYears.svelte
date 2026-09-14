@@ -94,7 +94,7 @@
 		color: inherit;
 		text-decoration: none;
 		padding: 0.12rem 0.6rem;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		border-radius: var(--radius-full, 9999px);
 		background: rgb(140 190 255 / 0.08);
 		line-height: 1.3;

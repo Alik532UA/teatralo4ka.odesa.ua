@@ -730,7 +730,7 @@
 		width: 100%;
 		min-height: 44px;
 		padding: 0 0.9rem;
-		border: 1px solid rgb(255 255 255 / 0.18);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.18);
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.06);
 		color: inherit;
@@ -744,7 +744,7 @@
 		flex-shrink: 0;
 		width: 44px;
 		height: 44px;
-		border: 1px solid rgb(255 255 255 / 0.14);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.14);
 		border-radius: 50%;
 		background: rgb(255 255 255 / 0.08);
 		color: inherit;

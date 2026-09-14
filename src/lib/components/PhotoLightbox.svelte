@@ -238,7 +238,7 @@
 		right: 1.5rem;
 		z-index: 100001;
 		background: rgba(255, 255, 255, 0.15);
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.2);
 		color: #ffffff;
 		width: 48px;
 		height: 48px;
@@ -261,7 +261,7 @@
 		transform: translateY(-50%);
 		z-index: 100001;
 		background: rgba(255, 255, 255, 0.15);
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.2);
 		color: #ffffff;
 		width: 56px;
 		height: 56px;

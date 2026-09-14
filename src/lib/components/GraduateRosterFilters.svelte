@@ -441,7 +441,7 @@
 		border-radius: 999px !important;
 		min-height: 44px;
 		background: rgb(255 255 255 / 0.06) !important;
-		border: 1px solid rgb(255 255 255 / 0.18) !important;
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.18) !important;
 		color: var(--galaxy-text, #eaf2ff) !important;
 		font-size: 0.86rem;
 		padding: 0 0.85rem !important;

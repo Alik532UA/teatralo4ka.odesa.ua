@@ -482,7 +482,7 @@
 		/* 24px — мінімум WCAG 2.2 AA; кнопок буває під десяток у рядок. */
 		min-height: 28px;
 		padding: 0.2rem 0.7rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 999px;
 		background: var(--bg-card);
 		color: var(--text-main);

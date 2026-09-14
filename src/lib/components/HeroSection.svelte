@@ -351,7 +351,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: var(--shadow-main);
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 		cursor: pointer;

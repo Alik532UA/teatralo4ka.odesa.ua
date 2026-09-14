@@ -212,7 +212,7 @@
 		padding: 1rem 1.1rem;
 		border-radius: var(--radius-lg, 16px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: var(--shadow-sm);
 		color: inherit;
 		text-decoration: none;
@@ -272,7 +272,7 @@
 		padding: 0.12rem 0.45rem;
 		border-radius: var(--radius-sm, 6px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.74rem;
 		font-weight: 600;

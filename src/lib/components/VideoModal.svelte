@@ -175,7 +175,7 @@
 		flex-shrink: 0;
 		width: 40px;
 		height: 40px;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		border-radius: 50%;
 		background: rgb(3 6 20 / 0.75);
 		color: #cfe4ff;

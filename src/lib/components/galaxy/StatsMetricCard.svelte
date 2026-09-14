@@ -180,7 +180,7 @@
 <style>
 	.metric-card {
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-xl, 20px);
 		padding: 1.5rem;
 		display: flex;
@@ -203,7 +203,7 @@
 		align-items: center;
 		gap: 0.4rem;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-sm, 6px);
 		color: var(--text-main);
 		padding: 0.4rem 0.85rem;
@@ -223,7 +223,7 @@
 		padding: 0.5rem 0.75rem 0.5rem 2.25rem;
 		border-radius: var(--radius-sm, 6px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-main);
 		font-size: 0.82rem;
 		outline: none;
@@ -245,7 +245,7 @@
 		align-items: center;
 		padding: 0.45rem 0.75rem;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-sm, 6px);
 		color: var(--text-main);
 		text-decoration: none;
@@ -261,7 +261,7 @@
 	.load-more-container { display: flex; justify-content: center; margin-top: 0.25rem; }
 	.load-more-btn {
 		background: var(--bg-surface);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		border-radius: var(--radius-sm, 6px);
 		color: var(--text-title);
 		padding: 0.35rem 1rem;
@@ -270,6 +270,6 @@
 		cursor: pointer;
 		transition: all 0.15s ease;
 	}
-	.load-more-btn:hover { border: 1px solid var(--accent-primary); color: var(--text-title); }
+	.load-more-btn:hover { border: var(--hairline-width) solid var(--accent-primary); color: var(--text-title); }
 	.historical-hint { font-size: 0.8rem; color: var(--text-muted); font-style: italic; }
 </style>

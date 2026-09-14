@@ -78,7 +78,7 @@
 		border-radius: var(--radius-xl, 20px);
 		overflow: hidden;
 		background: #09131d;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 		text-decoration: none;
 		transition: transform 0.35s cubic-bezier(0.2, 0, 0.2, 1), border-color 0.35s ease, box-shadow 0.35s ease;
@@ -147,7 +147,7 @@
 		border-radius: var(--radius-full, 9999px);
 		background: rgba(0, 0, 0, 0.6);
 		backdrop-filter: blur(4px);
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.2);
 		color: #e2e8f0;
 		font-size: 0.72rem;
 		font-weight: 500;
@@ -187,7 +187,7 @@
 		height: 24px;
 		border-radius: 50%;
 		background: rgba(0, 0, 0, 0.55);
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.2);
 		color: #ffffff;
 	}
 </style>

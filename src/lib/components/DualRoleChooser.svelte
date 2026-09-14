@@ -173,7 +173,7 @@
 		padding: 1.4rem 1.2rem 1.2rem;
 		border-radius: var(--radius-lg, 16px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: var(--shadow-main);
 	}
 
@@ -187,7 +187,7 @@
 		height: 32px;
 		border-radius: 50%;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		cursor: pointer;
 	}
@@ -213,7 +213,7 @@
 		padding: 0.7rem 0.9rem;
 		border-radius: var(--radius-md, 12px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		text-align: left;
 		cursor: pointer;

@@ -572,7 +572,7 @@
 		padding: 0.3rem 0.55rem;
 		border-radius: var(--radius-sm, 6px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 8px 20px rgb(0 0 0 / 0.24);
 		color: var(--text-title);
 		font-size: 0.75rem;
@@ -615,7 +615,7 @@
 		/* 93 %, а не 88 %: при 12 % підмішування тло в темній темі виходило
 		   #00455b, і літера #00b5ec давала 4,38 замість 4,5 — заміряно гейтом. */
 		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 93%);
-		border: 1px solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
 		text-decoration: none;
 		transition:
 			transform 0.2s ease,

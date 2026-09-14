@@ -1481,7 +1481,7 @@
 		gap: 1.25rem;
 		width: 100%;
 		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(140 190 255 / 0.18);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.18);
 		border-radius: 1.75rem;
 		box-shadow: 0 18px 48px rgb(0 0 0 / 0.28);
 		padding: clamp(1.25rem, 3vh, 1.75rem);
@@ -1804,7 +1804,7 @@
 
 		.bento-card {
 			background: var(--galaxy-card-bg);
-			border: 1px solid rgb(140 190 255 / 0.2);
+			border: var(--hairline-width) solid rgb(140 190 255 / 0.2);
 			border-radius: 1.5rem;
 			box-shadow: 0 16px 48px rgb(0 0 0 / 0.4);
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
@@ -2055,7 +2055,7 @@
 		font-weight: 600;
 		color: #eaf2ff;
 		background: rgb(3 6 20 / 0.92);
-		border: 1px solid rgb(140 190 255 / 0.4);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.4);
 		border-radius: var(--radius-full, 9999px);
 		padding: 0.3rem 0;
 		opacity: 0;
@@ -2129,7 +2129,7 @@
 		/* 93 %, а не 88 %: 12 % підмішування піднімали тло до #00455b, і назва
 		   відділення давала 4,38 замість 4,5 у темній темі — заміряно гейтом. */
 		background: color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 93%);
-		border: 1px solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
 		color: var(--galaxy-accent, #8cc4ff);
 		transition:
 			box-shadow 0.2s ease,
@@ -2205,7 +2205,7 @@
 		padding: 0.45rem 1rem;
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.08);
-		border: 1px solid rgb(140 190 255 / 0.45);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.45);
 		color: #ffffff;
 		text-decoration: none;
 		font-size: 0.88rem;
@@ -2232,7 +2232,7 @@
 			rgb(140 190 255 / 0.22) 0%,
 			rgb(0 150 255 / 0.38) 100%
 		);
-		border: 1px solid rgb(140 190 255 / 0.55);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.55);
 		color: #ffffff;
 		font-size: 0.92rem;
 		font-weight: 600;
@@ -2283,7 +2283,7 @@
 		padding: 0;
 		background: rgb(255 255 255 / 0.06);
 		border-radius: 6px;
-		border: 1px solid rgb(255 255 255 / 0.1);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
 		transition:
 			background 0.2s ease,
 			border-color 0.2s ease,
@@ -2366,7 +2366,7 @@
 		padding: 0;
 		background: rgb(255 255 255 / 0.06);
 		border-radius: 6px;
-		border: 1px solid rgb(255 255 255 / 0.1);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
 		transition:
 			background 0.2s ease,
 			border-color 0.2s ease,
@@ -2396,7 +2396,7 @@
 		padding: 0;
 		border-radius: 8px;
 		background: rgb(255 255 255 / 0.04);
-		border: 1px solid rgb(255 255 255 / 0.07);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.07);
 		transition:
 			background 0.2s ease,
 			border-color 0.2s ease,
@@ -2443,7 +2443,7 @@
 		border-radius: 50%;
 		object-fit: cover;
 		display: block;
-		border: 1px solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
 	}
 	/*
 	 * ІМЕНА Й ЗНАКИ — З ПАЛІТРИ `--galaxy-*`, А НЕ ЖОРСТКИМИ КОСМІЧНИМИ ХЕКСАМИ.

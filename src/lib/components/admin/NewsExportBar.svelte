@@ -64,7 +64,7 @@
 	flex-wrap: wrap;
 	margin-bottom: 1rem;
 	padding: 0.75rem 1rem;
-	border: 1px dashed var(--color-border);
+	border: var(--hairline-width) dashed var(--color-border);
 	border-radius: 16px;
 	background: var(--bg-surface);
 }
@@ -85,7 +85,7 @@
 	/* Ціль дотику 44×44 — WCAG 2.2 SC 2.5.8. */
 	min-height: 44px;
 	padding: 0.5rem 0.9rem;
-	border: 1px solid var(--color-border);
+	border: var(--hairline-width) solid var(--color-border);
 	border-radius: 12px;
 	background: var(--bg-card);
 	color: inherit;

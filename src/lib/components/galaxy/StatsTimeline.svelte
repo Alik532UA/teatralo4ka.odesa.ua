@@ -176,7 +176,7 @@
 		margin-bottom: 24px;
 		padding: 18px 20px;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 16px;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 	}
@@ -208,11 +208,11 @@
 	 */
 	.timeline-badge--live {
 		background: rgba(16, 185, 129, 0.15);
-		border: 1px solid rgba(16, 185, 129, 0.3);
+		border: var(--hairline-width) solid rgba(16, 185, 129, 0.3);
 	}
 	.timeline-badge--history {
 		background: rgba(245, 158, 11, 0.15);
-		border: 1px solid rgba(245, 158, 11, 0.3);
+		border: var(--hairline-width) solid rgba(245, 158, 11, 0.3);
 	}
 	.timeline-actions { display: flex; align-items: center; gap: 8px; }
 	.timeline-btn {
@@ -229,13 +229,13 @@
 	.timeline-btn--play {
 		background: var(--accent-primary);
 		color: var(--text-on-accent);
-		border: 1px solid transparent;
+		border: var(--hairline-width) solid transparent;
 	}
 	.timeline-btn--play:hover { transform: translateY(-1px); filter: brightness(1.1); }
 	.timeline-btn--reset {
 		background: var(--bg-card);
 		color: var(--text-title);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 	}
 	.timeline-btn--reset:hover {
 		background: var(--bg-surface);
@@ -269,7 +269,7 @@
 		align-items: center;
 		gap: 8px;
 		background: rgba(245, 158, 11, 0.12);
-		border: 1px solid rgba(245, 158, 11, 0.25);
+		border: var(--hairline-width) solid rgba(245, 158, 11, 0.25);
 		padding: 3px 10px;
 		border-radius: 20px;
 	}

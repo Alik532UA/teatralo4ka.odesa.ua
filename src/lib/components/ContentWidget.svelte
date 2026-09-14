@@ -631,9 +631,14 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		background: var(--accent-primary);
+		/*
+		 * ОКРЕМИЙ токен, а не спільний акцент: у темній темі кнопки «усі …»
+		 * беруть колір заголовка, решта акцентних лишається жовтою. У світлих
+		 * темах обидва значення однакові, тож вигляд там не змінився.
+		 */
+		background: var(--accent-alt);
 		color: var(--text-on-accent);
-		border: none;
+		border: var(--btn-accent-border-width) solid var(--btn-accent-border);
 		padding: 0.8rem 2.5rem;
 		border-radius: var(--radius-full);
 		font-weight: 700;
@@ -656,7 +661,7 @@
 	}
 
 	.cw-all-link:hover {
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 60%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-alt), transparent 60%);
 		filter: brightness(1.05);
 		color: var(--text-on-accent);
 	}
@@ -702,7 +707,7 @@
 		background: color-mix(in srgb, var(--color-surface), transparent 20%);
 		border-radius: 30px;
 		padding: 0.3rem;
-		border: 1px solid color-mix(in srgb, var(--text-title), transparent 88%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--text-title), transparent 88%);
 		margin-left: auto;
 	}
 
@@ -966,9 +971,10 @@
 	}
 
 	.cw-show-all-btn {
-		background: var(--accent-primary);
+		/* Той самий токен, що в `.cw-all-link`: це теж кнопка «усі …». */
+		background: var(--accent-alt);
 		color: var(--text-on-accent);
-		border: none;
+		border: var(--btn-accent-border-width) solid var(--btn-accent-border);
 		padding: 0.8rem 2.5rem;
 		border-radius: var(--radius-full);
 		font-weight: 700;
@@ -978,7 +984,7 @@
 	}
 
 	.cw-show-all-btn:hover {
-		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-primary), transparent 60%);
+		box-shadow: 0 10px 20px color-mix(in srgb, var(--accent-alt), transparent 60%);
 		filter: brightness(1.05);
 	}
 

@@ -193,7 +193,7 @@
 
 	.years__all,
 	.years__btn {
-		border: 1px solid transparent;
+		border: var(--hairline-width) solid transparent;
 		border-radius: 999px;
 		background: none;
 		color: inherit;

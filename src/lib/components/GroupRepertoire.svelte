@@ -79,7 +79,7 @@
 		padding: 0 0.45rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.82rem;
 		font-weight: 700;
@@ -91,7 +91,7 @@
 		height: 2.2rem;
 		border-radius: var(--radius-md, 12px);
 		background: rgba(99, 102, 241, 0.15);
-		border: 1px solid rgba(99, 102, 241, 0.3);
+		border: var(--hairline-width) solid rgba(99, 102, 241, 0.3);
 		color: #a5b4fc;
 	}
 

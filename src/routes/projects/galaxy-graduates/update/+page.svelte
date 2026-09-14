@@ -77,7 +77,7 @@
 		gap: 0.5rem;
 		padding: 0.7rem 1.2rem;
 		border-radius: var(--radius-full, 9999px);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-card);
 		color: var(--text-main);
 		text-decoration: none;

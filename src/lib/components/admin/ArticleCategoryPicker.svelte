@@ -242,7 +242,7 @@
 		background: var(--color-ice-blue);
 		padding: 0.25rem;
 		border-radius: 12px;
-		border: 1px solid rgba(0, 95, 174, 0.08);
+		border: var(--hairline-width) solid rgba(0, 95, 174, 0.08);
 		align-self: flex-start;
 	}
 
@@ -321,7 +321,7 @@
 		background: var(--bg-card);
 		border-radius: 16px;
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		z-index: 9401;
 		padding: 0.35rem;
 		display: flex;

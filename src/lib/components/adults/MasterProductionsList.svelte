@@ -129,7 +129,7 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-lg, 16px);
 		overflow: hidden;
 		background: var(--bg-card);
@@ -209,7 +209,7 @@
 		padding: 0.15rem 0.55rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--text-muted);

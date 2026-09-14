@@ -210,7 +210,7 @@
 		display: flex;
 		flex-direction: column;
 		background: var(--galaxy-card-bg, #071324);
-		border: 1px solid rgb(140 190 255 / 0.28);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.28);
 		border-radius: 1.5rem;
 		box-shadow: 0 24px 64px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(140 190 255 / 0.1);
 		overflow: hidden;
@@ -255,7 +255,7 @@
 		height: 38px;
 		border-radius: 50%;
 		background: rgb(140 190 255 / 0.12);
-		border: 1px solid rgb(140 190 255 / 0.25);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.25);
 		color: #cfe4ff;
 		cursor: pointer;
 		text-decoration: none;

@@ -153,7 +153,7 @@
 		gap: 0.5rem;
 		padding: 0.5rem 0.9rem;
 		border-radius: 0.75rem;
-		border: 1px solid light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.14));
+		border: var(--hairline-width) solid light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.14));
 		background: light-dark(rgb(0 0 0 / 0.04), rgb(255 255 255 / 0.05));
 		color: var(--text-main);
 		text-decoration: none;

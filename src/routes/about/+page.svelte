@@ -164,7 +164,7 @@
 		gap: 1.5rem;
 		padding: 1.25rem 1.75rem;
 		background: var(--bg-surface, rgba(255, 255, 255, 0.05));
-		border: 1px solid color-mix(in srgb, var(--accent-primary) 35%, var(--border-main, rgba(255, 255, 255, 0.15)));
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-primary) 35%, var(--border-main, rgba(255, 255, 255, 0.15)));
 		border-radius: 20px;
 		margin-bottom: 3.5rem;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);

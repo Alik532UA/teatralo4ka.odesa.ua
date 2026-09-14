@@ -420,7 +420,7 @@
 		opacity: 0.3;
 		transform: scale(0.85);
 		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-		border: 1px solid rgba(0, 0, 0, 0.03);
+		border: var(--hairline-width) solid rgba(0, 0, 0, 0.03);
 		text-decoration: none;
 		color: inherit;
 	}
@@ -464,7 +464,9 @@
 	}
 
 	.tag {
-		background: var(--accent-primary);
+		/* Другий акцент теми, як і кнопки «усі …»: у темній темі плашка бере
+		   колір заголовка, а не жовтий акцент решти елементів. */
+		background: var(--accent-alt);
 		color: var(--text-on-accent);
 		padding: 0.4rem 1rem;
 		border-radius: var(--radius-full);
@@ -514,6 +516,10 @@
 	.btn-more {
 		background: var(--accent-primary);
 		color: var(--text-on-accent);
+		/* Обводка задається темою (`--btn-accent-border`), а не тут: у світлих
+		   темах вона прозора, у темній окреслює пігулку, що інакше зливалася б
+		   краями з графітом. */
+		border: var(--btn-accent-border-width) solid var(--btn-accent-border);
 		text-decoration: none;
 		padding: 0.8rem 1.8rem;
 		border-radius: var(--radius-full);
@@ -542,7 +548,7 @@
 		display: flex;
 		flex-direction: row;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-		border: 1px solid color-mix(in srgb, var(--text-title), transparent 92%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--text-title), transparent 92%);
 		transition: border-color 0.3s ease, box-shadow 0.3s ease;
 		min-height: 280px;
 		text-decoration: none;
@@ -614,7 +620,7 @@
 		border-radius: 24px;
 		overflow: hidden;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-		border: 1px solid color-mix(in srgb, var(--text-title), transparent 92%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--text-title), transparent 92%);
 		transition: border-color 0.2s ease, box-shadow 0.2s ease;
 		padding-left: 32px;
 		padding-right: 32px;

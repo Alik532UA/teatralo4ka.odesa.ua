@@ -57,7 +57,7 @@
 		align-items: center;
 		width: 100%;
 		min-width: 0;
-		border: 1px solid rgb(255 255 255 / 0.12);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.12);
 		border-radius: 999px;
 		background: color-mix(in srgb, var(--galaxy-card-bg, #0b1330) 50%, transparent);
 		color: inherit;

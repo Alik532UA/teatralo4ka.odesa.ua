@@ -93,7 +93,7 @@
 		gap: 0.25rem;
 		padding: 0.25rem 0.5rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-surface);
 		color: var(--text-main);
 		font-size: 0.78rem;

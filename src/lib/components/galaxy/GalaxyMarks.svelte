@@ -74,7 +74,7 @@
 		padding: 0.1rem 0.45rem;
 		border-radius: var(--radius-sm, 6px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.75rem;
 		font-weight: 600;

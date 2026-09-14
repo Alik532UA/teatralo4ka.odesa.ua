@@ -428,7 +428,7 @@
 		padding: 0.1rem 0.5rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.75rem;
 		font-weight: 700;
@@ -438,7 +438,7 @@
 		padding: 0.85rem 1rem;
 		border-radius: var(--radius-md, 8px);
 		background: var(--bg-surface);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.88rem;
 	}
@@ -446,7 +446,7 @@
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--radius-sm, 6px);
 		background: rgba(14, 165, 233, 0.12);
-		border: 1px solid rgba(14, 165, 233, 0.35);
+		border: var(--hairline-width) solid rgba(14, 165, 233, 0.35);
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--accent-primary);
@@ -455,7 +455,7 @@
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--radius-sm, 6px);
 		background: rgba(245, 158, 11, 0.12);
-		border: 1px solid rgba(245, 158, 11, 0.35);
+		border: var(--hairline-width) solid rgba(245, 158, 11, 0.35);
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--warning-color, #f59e0b);
@@ -478,7 +478,7 @@
 		padding: 1.1rem 1.25rem;
 		border-radius: var(--radius-xl, 20px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: var(--shadow-sm);
 		color: inherit;
 		text-decoration: none;
@@ -511,7 +511,7 @@
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--radius-sm, 6px);
 		background: rgba(99, 102, 241, 0.15);
-		border: 1px solid rgba(99, 102, 241, 0.3);
+		border: var(--hairline-width) solid rgba(99, 102, 241, 0.3);
 		color: #a5b4fc;
 		font-size: 0.75rem;
 		font-weight: 700;
@@ -528,7 +528,7 @@
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--radius-sm, 6px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.78rem;
 		font-weight: 600;

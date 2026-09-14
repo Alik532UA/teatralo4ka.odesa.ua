@@ -765,7 +765,7 @@
 		background: var(--bg-card);
 		border-radius: 28px;
 		padding: 0;
-		border: 1px solid var(--color-border);
+		border: var(--hairline-width) solid var(--color-border);
 		box-shadow: 0 10px 40px rgba(0,0,0,0.03);
 		display: flex;
 		flex-direction: column;
@@ -875,7 +875,7 @@
 	}
 	.delete-input:focus { border-color: #ef4444; }
 	.modal-footer { display: flex; gap: 1rem; margin-top: 1rem; }
-	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 600; }
+	.btn-cancel-modal { flex: 1; padding: 1rem; border-radius: 14px; border: var(--hairline-width) solid var(--color-border); background: var(--bg-card); color: var(--text-main); cursor: pointer; font-weight: 600; }
 	.btn-confirm-delete {
 		flex: 1; padding: 1rem; border-radius: 14px; border: none;
 		background: rgba(160, 174, 192, 0.2); color: #a0aec0; cursor: not-allowed;

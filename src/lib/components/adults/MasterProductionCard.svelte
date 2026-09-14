@@ -210,7 +210,7 @@
 <style>
 	.prod-card {
 		display: flex; flex-direction: column; background: var(--bg-card);
-		border: 1px solid var(--border-main); border-radius: var(--radius-xl, 20px);
+		border: var(--hairline-width) solid var(--border-main); border-radius: var(--radius-xl, 20px);
 		padding: 1.35rem; box-shadow: var(--shadow-sm);
 		transition: transform var(--transition-base, 0.25s ease), border-color var(--transition-base, 0.25s ease), box-shadow var(--transition-base, 0.25s ease);
 	}
@@ -221,28 +221,28 @@
 	}
 	.prod-card__header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.75rem; }
 	.prod-card__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
-	.num-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-title); font-size: 0.75rem; font-weight: 700; }
-	.year-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-main); font-size: 0.8rem; font-weight: 600; }
+	.num-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: var(--hairline-width) solid var(--border-main); color: var(--text-title); font-size: 0.75rem; font-weight: 700; }
+	.year-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: var(--hairline-width) solid var(--border-main); color: var(--text-main); font-size: 0.8rem; font-weight: 600; }
 	.group-number { font-size: 0.72rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; }
 
-	.group-badge { padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); color: #2563eb; font-size: 0.8rem; font-weight: 600; }
+	.group-badge { padding: 0.2rem 0.6rem; border-radius: var(--radius-sm, 6px); background: rgba(59, 130, 246, 0.1); border: var(--hairline-width) solid rgba(59, 130, 246, 0.25); color: #2563eb; font-size: 0.8rem; font-weight: 600; }
 	:global(.theme-dark) .group-badge, :global(.theme-dark-cyan) .group-badge { color: #60a5fa; background: rgba(37, 99, 235, 0.2); }
-	.institution-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); color: var(--text-muted); font-size: 0.75rem; }
+	.institution-badge { padding: 0.2rem 0.55rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: var(--hairline-width) solid var(--border-main); color: var(--text-muted); font-size: 0.75rem; }
 	.prod-card__title { margin: 0.2rem 0 0.4rem; font-size: 1.2rem; font-weight: 700; color: var(--text-title); line-height: 1.3; }
 	.prod-card__title-link { color: inherit; text-decoration: none; transition: color var(--transition-base, 0.2s ease); }
 	.prod-card__title-link:hover { color: var(--accent-primary); text-decoration: underline; text-underline-offset: 3px; }
 	.prod-card__author { margin: 0 0 0.85rem; font-size: 0.88rem; color: var(--text-muted); font-style: italic; line-height: 1.4; }
 	.prod-card__awards { margin-bottom: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
-	.award-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md, 10px); background: rgba(217, 119, 6, 0.08); border: 1px solid rgba(217, 119, 6, 0.25); color: #b45309; font-size: 0.84rem; font-weight: 600; line-height: 1.35; }
+	.award-item { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.5rem 0.75rem; border-radius: var(--radius-md, 10px); background: rgba(217, 119, 6, 0.08); border: var(--hairline-width) solid rgba(217, 119, 6, 0.25); color: #b45309; font-size: 0.84rem; font-weight: 600; line-height: 1.35; }
 	:global(.theme-dark) .award-item, :global(.theme-dark-cyan) .award-item { color: #fbbf24; background: rgba(217, 119, 6, 0.15); }
 	.prod-card__video-wrap { margin-bottom: 0.85rem; }
-	.video-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.8rem; border-radius: var(--radius-md, 8px); background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all var(--transition-base, 0.2s ease); }
+	.video-btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.4rem 0.8rem; border-radius: var(--radius-md, 8px); background: rgba(220, 38, 38, 0.08); border: var(--hairline-width) solid rgba(220, 38, 38, 0.25); color: #dc2626; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all var(--transition-base, 0.2s ease); }
 	.video-btn:hover { background: #dc2626; color: #ffffff; border-color: #dc2626; }
 	.prod-card__participants { margin-top: auto; padding-top: 0.85rem; border-top: 1px dashed var(--border-main); }
 	.participants-header { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.45rem; }
 	.participants-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 	/* `font-family` — бо частина плашок тепер <button>, а він шрифт не успадковує. */
-	.part-tag { display: inline-block; padding: 0.18rem 0.5rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: 1px solid var(--border-main); font-family: inherit; font-size: 0.78rem; color: var(--text-main); text-decoration: none; line-height: 1.3; }
+	.part-tag { display: inline-block; padding: 0.18rem 0.5rem; border-radius: var(--radius-sm, 6px); background: var(--bg-surface); border: var(--hairline-width) solid var(--border-main); font-family: inherit; font-size: 0.78rem; color: var(--text-main); text-decoration: none; line-height: 1.3; }
 	/*
 	 * Ім'я, якого немає в реєстрі, — приглушене.
 	 *

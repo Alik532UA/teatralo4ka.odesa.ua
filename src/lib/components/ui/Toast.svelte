@@ -524,7 +524,7 @@
 		box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 		min-width: 320px;
 		max-width: 450px;
-		border: 1px solid rgba(0, 0, 0, 0.05);
+		border: var(--hairline-width) solid rgba(0, 0, 0, 0.05);
 	}
 
 	.toast-msg:hover .toast-progress,
@@ -640,7 +640,7 @@
 	.toast-action {
 		background: var(--color-light-blue, #e0f2fe);
 		color: var(--text-title, #1a2a3a);
-		border: 1px solid rgba(0,0,0,0.05);
+		border: var(--hairline-width) solid rgba(0,0,0,0.05);
 		padding: 0.5rem 1rem;
 		border-radius: 8px;
 		font-size: 0.85rem;

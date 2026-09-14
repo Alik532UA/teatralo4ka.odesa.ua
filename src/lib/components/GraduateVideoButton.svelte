@@ -70,7 +70,7 @@
 		gap: 0.4rem;
 		margin: 0 0 0.75rem;
 		padding: 0.4rem 0.9rem;
-		border: 1px solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 65%);
 		border-radius: 999px;
 		background: color-mix(in srgb, var(--bg-surface), transparent 15%);
 		color: var(--accent-text, #8cb4ff);

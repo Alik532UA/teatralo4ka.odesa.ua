@@ -147,7 +147,7 @@
 		padding: 1.5rem 1rem 1.25rem;
 		border-radius: 16px;
 		background: light-dark(#ffffff, rgba(255, 255, 255, 0.025));
-		border: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.06));
+		border: var(--hairline-width) solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.06));
 		box-shadow: 0 2px 8px light-dark(rgb(0 0 0 / 0.04), transparent);
 		text-decoration: none;
 		color: inherit;

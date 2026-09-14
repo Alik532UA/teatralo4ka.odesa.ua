@@ -366,7 +366,7 @@
 		padding: 3rem 1rem;
 		text-align: center;
 		color: var(--text-muted);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		border-radius: var(--radius-xl, 20px);
 	}
 </style>

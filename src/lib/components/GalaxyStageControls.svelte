@@ -338,7 +338,7 @@
 		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
 		min-height: 44px;
 		padding: 0 1rem;
-		border: 1px solid rgb(255 255 255 / 0.22);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.22);
 		border-radius: 999px;
 		background: rgb(5 10 31 / 0.72);
 		color: var(--galaxy-text);
@@ -375,7 +375,7 @@
 		place-items: center;
 		width: 44px;
 		height: 44px;
-		border: 1px solid rgb(140 190 255 / 0.4);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.4);
 		border-radius: 50%;
 		background: rgb(5 10 31 / 0.72);
 		color: #cfe4ff;
@@ -417,7 +417,7 @@
 		/* 44px — власний стандарт цілі дотику; гейт e2e/touch-targets це міряє. */
 		width: 44px;
 		height: 44px;
-		border: 1px solid rgb(255 255 255 / 0.22);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.22);
 		border-radius: 999px;
 		background: rgb(5 10 31 / 0.72);
 		color: var(--galaxy-text);
@@ -568,7 +568,7 @@
 			place-items: center;
 			width: 44px;
 			height: 44px;
-			border: 1px solid rgb(255 255 255 / 0.22);
+			border: var(--hairline-width) solid rgb(255 255 255 / 0.22);
 			border-radius: 999px;
 			background: rgb(5 10 31 / 0.72);
 			color: var(--galaxy-text);

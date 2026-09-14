@@ -67,7 +67,7 @@
 		min-height: 44px;
 		max-width: 100%;
 		padding: 0.4rem 1.1rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
 		color: var(--text-main);

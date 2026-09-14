@@ -196,7 +196,7 @@
 		width: 230px;
 		padding: 0.85rem 1rem;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-md, 12px);
 		box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 		text-align: center;
@@ -212,7 +212,7 @@
 		padding: 0.15rem 0.5rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		margin-bottom: 0.35rem;
 	}

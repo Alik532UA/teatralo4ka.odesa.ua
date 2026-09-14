@@ -322,7 +322,7 @@
 		padding: 0.35rem 0.85rem;
 		border-radius: 9999px;
 		background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.25));
-		border: 1px solid rgba(168, 85, 247, 0.4);
+		border: var(--hairline-width) solid rgba(168, 85, 247, 0.4);
 		color: #e0e7ff;
 		font-weight: 700;
 		font-size: 0.9rem;
@@ -352,7 +352,7 @@
 		padding: 0.35rem 0.85rem;
 		border-radius: 9999px;
 		background: light-dark(rgb(0 0 0 / 0.04), rgba(255, 255, 255, 0.06));
-		border: 1px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.12));
+		border: var(--hairline-width) solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.12));
 		color: var(--text-muted, #94a3b8);
 		font-size: 0.85rem;
 		font-weight: 500;

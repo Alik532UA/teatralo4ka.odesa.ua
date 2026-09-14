@@ -81,7 +81,7 @@
 		align-items: center;
 		padding: 4px;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-full, 9999px);
 		box-shadow: var(--shadow-main);
 		gap: 4px;

@@ -128,7 +128,7 @@
 	.avatar {
 		border-radius: 50%;
 		object-fit: cover;
-		border: 1px solid rgb(140 190 255 / 0.4);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.4);
 		flex-shrink: 0;
 	}
 	.avatar--strip {

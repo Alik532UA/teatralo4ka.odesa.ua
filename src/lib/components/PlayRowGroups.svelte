@@ -166,7 +166,7 @@
 
 	.groups__link {
 		padding: 0.05rem 0.4rem;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		border-radius: 999px;
 		color: #cfe4ff;
 		font-size: 0.78rem;

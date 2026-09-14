@@ -170,7 +170,7 @@
 		gap: 0.45rem;
 		min-height: 34px;
 		padding: 0 0.85rem;
-		border: 1px solid rgba(140, 190, 255, 0.35);
+		border: var(--hairline-width) solid rgba(140, 190, 255, 0.35);
 		border-radius: 999px;
 		background: rgba(140, 190, 255, 0.12);
 		color: #eaf2ff;
@@ -208,7 +208,7 @@
 		gap: 0.5rem;
 		min-height: 40px;
 		padding: 0 1.2rem;
-		border: 1px solid rgba(255, 255, 255, 0.22);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.22);
 		border-radius: 999px;
 		background: rgba(255, 255, 255, 0.08);
 		color: #ffffff;

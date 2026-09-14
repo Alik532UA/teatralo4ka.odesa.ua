@@ -227,7 +227,7 @@
 		padding: 0.75rem;
 		border-radius: var(--radius-lg);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
 	}
 

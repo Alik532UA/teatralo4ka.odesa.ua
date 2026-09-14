@@ -96,7 +96,7 @@
 		width: 100%;
 		min-height: 44px;
 		padding: 0 0.9rem;
-		border: 1px solid rgb(140 190 255 / 0.3);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.3);
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.06);
 		color: var(--galaxy-text);
@@ -123,7 +123,7 @@
 		gap: 0.75rem;
 		width: 100%;
 		padding: 0.55rem 0.85rem;
-		border: 1px solid rgb(140 190 255 / 0.16);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.16);
 		border-radius: 0.75rem;
 		background: rgb(255 255 255 / 0.04);
 		color: inherit;

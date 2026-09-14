@@ -218,7 +218,7 @@
 		padding: 0 0.5rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.9rem;
 		font-weight: 700;
@@ -256,7 +256,7 @@
 		padding: 0 1.1rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--accent-primary);
-		border: 1px solid var(--accent-primary);
+		border: var(--hairline-width) solid var(--accent-primary);
 		color: var(--text-on-accent);
 		font: inherit;
 		font-weight: 700;

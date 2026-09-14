@@ -79,7 +79,7 @@
 		width: 100%;
 		max-width: 420px;
 		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-		border: 1px solid rgba(0, 0, 0, 0.05);
+		border: var(--hairline-width) solid rgba(0, 0, 0, 0.05);
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
@@ -154,7 +154,7 @@
 	.btn-cancel {
 		background: transparent;
 		color: var(--text-title, #1a2a3a);
-		border: 1px solid rgba(0,0,0,0.1);
+		border: var(--hairline-width) solid rgba(0,0,0,0.1);
 	}
 	.btn-cancel:hover {
 		background: rgba(0,0,0,0.05);

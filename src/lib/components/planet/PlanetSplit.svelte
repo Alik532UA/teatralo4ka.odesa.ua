@@ -145,7 +145,7 @@
 		gap: 0.5rem;
 		min-height: 44px;
 		padding: 0 0.85rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
 		color: var(--text-muted);
@@ -199,7 +199,7 @@
 		width: 100%;
 		min-height: 44px;
 		padding: 0.25rem 0.6rem;
-		border: 1px solid transparent;
+		border: var(--hairline-width) solid transparent;
 		border-radius: var(--radius-md, 8px);
 		background: none;
 		color: var(--text-main);

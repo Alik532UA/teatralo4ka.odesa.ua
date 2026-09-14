@@ -257,7 +257,7 @@
 	.stats-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; margin: 0 0 0.5rem; }
 	.stats-subtitle { font-size: 1rem; color: var(--text-muted); max-width: 600px; line-height: 1.5; margin: 0; }
 	.stats-overview { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
-	.stats-score-card { display: flex; align-items: center; gap: 0.85rem; background: var(--bg-card); border: 1px solid var(--border-main); border-radius: var(--radius-xl, 20px); padding: 0.75rem 1.25rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+	.stats-score-card { display: flex; align-items: center; gap: 0.85rem; background: var(--bg-card); border: var(--hairline-width) solid var(--border-main); border-radius: var(--radius-xl, 20px); padding: 0.75rem 1.25rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
 	.stats-score-circle {
 		--pct: 0%; width: 48px; height: 48px; border-radius: 50%;
 		background: conic-gradient(var(--accent-primary) var(--pct), rgba(255, 255, 255, 0.1) 0);
@@ -277,7 +277,7 @@
 	.stats-tabs { display: flex; overflow-x: auto; gap: 0.5rem; padding-bottom: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-main); scrollbar-width: thin; }
 	.tab-btn {
 		display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md, 8px);
-		background: transparent; color: var(--text-muted); border: 1px solid transparent; font-size: 0.95rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;
+		background: transparent; color: var(--text-muted); border: var(--hairline-width) solid transparent; font-size: 0.95rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;
 	}
 	.tab-btn:hover { background: var(--bg-surface); color: var(--text-title); }
 	.tab-btn--active { background: var(--bg-card); color: var(--text-title); border-color: var(--border-main); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
@@ -286,7 +286,7 @@
 	.tab-btn__badge { padding: 0.15rem 0.45rem; border-radius: var(--radius-full, 9999px); font-size: 0.75rem; font-weight: 700; line-height: 1; }
 	.stats-panel__summary {
 		display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.75rem; padding: 1.25rem 1.5rem;
-		background: var(--bg-surface); border-radius: var(--radius-lg, 12px); border: 1px solid var(--border-main);
+		background: var(--bg-surface); border-radius: var(--radius-lg, 12px); border: var(--hairline-width) solid var(--border-main);
 	}
 	@media (min-width: 640px) {
 		.stats-panel__summary { flex-direction: row; justify-content: space-between; align-items: center; }

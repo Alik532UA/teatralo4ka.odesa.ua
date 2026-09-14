@@ -207,7 +207,7 @@
 	/* Document Card */
 	.doc-card {
 		background: var(--bg-surface, rgba(255, 255, 255, 0.05));
-		border: 1px solid var(--border-main, rgba(255, 255, 255, 0.12));
+		border: var(--hairline-width) solid var(--border-main, rgba(255, 255, 255, 0.12));
 		border-radius: 24px;
 		padding: 24px;
 		display: flex;
@@ -332,7 +332,7 @@
 	/* Educational info card */
 	.info-card {
 		background: var(--bg-surface, rgba(255, 255, 255, 0.04));
-		border: 1px solid var(--border-main, rgba(255, 255, 255, 0.1));
+		border: var(--hairline-width) solid var(--border-main, rgba(255, 255, 255, 0.1));
 		border-radius: 20px;
 		padding: 20px;
 		display: flex;

@@ -209,7 +209,7 @@
 		min-width: 0;
 		padding: 0.25rem 0.4rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-page);
 		color: var(--text-main);
 		font-size: 0.8rem;
@@ -220,7 +220,7 @@
 		gap: 0.25rem;
 		padding: 0.25rem 0.5rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-surface);
 		color: var(--text-main);
 		font-size: 0.78rem;
@@ -242,7 +242,7 @@
 		font-size: 0.75rem;
 		padding: 0.35rem 0.45rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-page);
 		color: var(--text-main);
 	}
@@ -266,7 +266,7 @@
 		gap: 0.5rem;
 		padding: 0.25rem 0.45rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-surface);
 		color: var(--text-main);
 		font-size: 0.8rem;
@@ -278,7 +278,7 @@
 	.presets__drop {
 		padding: 0.25rem 0.35rem;
 		border-radius: 6px;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: none;
 		color: var(--text-muted);
 		cursor: pointer;

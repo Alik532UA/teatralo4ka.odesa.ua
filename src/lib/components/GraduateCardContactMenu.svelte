@@ -63,7 +63,7 @@
 		gap: 0.65rem;
 		padding: 0.35rem 0.65rem;
 		background: rgb(3 6 20 / 0.88);
-		border: 1px solid rgb(140 190 255 / 0.28);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.28);
 		border-radius: 999px;
 		box-shadow: 0 8px 28px rgb(0 0 0 / 0.55);
 		backdrop-filter: blur(14px);

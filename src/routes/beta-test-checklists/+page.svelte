@@ -308,7 +308,7 @@
 	.level-count {
 		margin-inline-start: 0.4rem;
 		padding: 0.05rem 0.4rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 999px;
 		font-size: 0.75rem;
 		font-variant-numeric: tabular-nums;
@@ -350,7 +350,7 @@
 
 	.check {
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 0.75rem;
 		padding: clamp(0.75rem, 2vw, 1.25rem);
 		box-shadow: var(--shadow-main);
@@ -457,7 +457,7 @@
 		width: 100%;
 		margin-top: 0.75rem;
 		padding: 0.75rem;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: 0.5rem;
 		background: var(--bg-surface);
 		color: var(--text-main);

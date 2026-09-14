@@ -67,7 +67,7 @@
 		height: 46px;
 		border-radius: var(--radius-lg, 16px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		/* `--text-title`, а не `--accent-primary`: акцент на `--bg-surface` дає
 		   1.96:1 у темі «yellow» і 2.16:1 у «light» — гейт `contrast.test.ts`
 		   назвав обидві. Та сама пара, що в `MasterGroups`, і проходить. */

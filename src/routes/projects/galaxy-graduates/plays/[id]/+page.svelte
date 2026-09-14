@@ -265,7 +265,7 @@
 		padding: 0 0.45rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.82rem;
 		font-weight: 700;
@@ -279,12 +279,12 @@
 	}
 	.play-heading__icon--gold {
 		background: rgb(249 179 29 / 0.15);
-		border: 1px solid rgb(249 179 29 / 0.3);
+		border: var(--hairline-width) solid rgb(249 179 29 / 0.3);
 		color: #f9b31d;
 	}
 	.play-heading__icon--primary {
 		background: rgb(0 181 236 / 0.15);
-		border: 1px solid rgb(0 181 236 / 0.3);
+		border: var(--hairline-width) solid rgb(0 181 236 / 0.3);
 		color: var(--accent-primary);
 	}
 	.play-section {
@@ -328,7 +328,7 @@
 		padding: 0.35rem 0.9rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-main);
 		text-decoration: none;
 		font-weight: 600;

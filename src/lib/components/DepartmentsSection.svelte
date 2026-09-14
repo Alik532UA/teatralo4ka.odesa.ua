@@ -337,7 +337,8 @@
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
 		background: var(--accent-primary);
-		border: none;
+		/* Обводку дає тема — див. `--btn-accent-border` у `themes/light.css`. */
+		border: var(--btn-accent-border-width) solid var(--btn-accent-border);
 		border-radius: var(--radius-full);
 		cursor: pointer;
 		transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);

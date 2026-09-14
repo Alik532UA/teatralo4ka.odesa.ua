@@ -2163,7 +2163,7 @@ color: var(--color-dark-text);
   background: var(--color-ice-blue);
   padding: 0.35rem 0.5rem;
   border-radius: 12px;
-  border: 1px solid rgba(0, 95, 174, 0.08);
+  border: var(--hairline-width) solid rgba(0, 95, 174, 0.08);
 }
 
 :global(.dark-theme) .time-picker-group {
@@ -2184,7 +2184,7 @@ color: var(--color-dark-text);
   background: var(--color-ice-blue);
   padding: 0.25rem;
   border-radius: 12px;
-  border: 1px solid rgba(0, 95, 174, 0.08);
+  border: var(--hairline-width) solid rgba(0, 95, 174, 0.08);
   margin-left: auto;
 }
 

@@ -496,7 +496,7 @@
 	background: var(--bg-card);
 	padding: 1.25rem;
 	border-radius: 24px;
-	border: 1px solid rgba(0,0,0,0.05);
+	border: var(--hairline-width) solid rgba(0,0,0,0.05);
 	box-shadow: 0 4px 20px rgba(0,0,0,0.02);
 }
 
@@ -557,7 +557,7 @@
 	align-items: center;
 	gap: 1.5rem;
 	background: var(--bg-card);
-	border: 1px solid var(--color-border);
+	border: var(--hairline-width) solid var(--color-border);
 	border-radius: 24px;
 	padding: 1.25rem;
 	transition: all 0.2s;
@@ -737,7 +737,7 @@
 	background: var(--color-ice-blue);
 	padding: 0.25rem;
 	border-radius: 12px;
-	border: 1px solid rgba(0, 95, 174, 0.08);
+	border: var(--hairline-width) solid rgba(0, 95, 174, 0.08);
 }
 :global(.dark-theme) .mode-toggle-group {
 	background: rgba(255, 255, 255, 0.03);

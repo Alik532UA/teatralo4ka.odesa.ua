@@ -214,7 +214,7 @@
 		padding: 0.2rem 0.6rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.8rem;
 		font-weight: 600;
@@ -248,7 +248,7 @@
 		padding: 0.45rem 0.9rem;
 		border-radius: var(--radius-full, 9999px);
 		background: color-mix(in srgb, var(--accent-primary) 14%, transparent);
-		border: 1px solid var(--accent-primary);
+		border: var(--hairline-width) solid var(--accent-primary);
 		color: var(--accent-text, var(--accent-primary));
 		font-size: 0.9rem;
 		font-weight: 700;

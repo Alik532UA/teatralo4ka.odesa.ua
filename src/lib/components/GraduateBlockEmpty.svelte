@@ -99,7 +99,7 @@
 		padding: 0 0.7rem;
 		border-radius: 999px;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		font-size: 0.82rem;
 		font-weight: 600;

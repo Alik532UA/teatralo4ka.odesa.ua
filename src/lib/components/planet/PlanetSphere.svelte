@@ -143,7 +143,7 @@
 		width: min(78vmin, var(--planet-max, 620px));
 		aspect-ratio: 1;
 		border-radius: 50%;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		/*
 		 * КУЛЯ ОДНОГО КОЛЬОРУ, а не суміш трьох.
 		 *
@@ -249,7 +249,7 @@
 		 * тло проступало коло — напис ставав нечитним саме тоді, коли потрібен.
 		 */
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 8px 20px rgb(0 0 0 / 0.24);
 		color: var(--text-title);
 		font-size: 0.78rem;

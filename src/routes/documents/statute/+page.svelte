@@ -117,7 +117,7 @@
 			var(--bg-surface, #ffffff) 0%,
 			color-mix(in srgb, var(--accent-primary) 8%, var(--bg-surface, #ffffff)) 100%
 		);
-		border: 1px solid color-mix(in srgb, var(--accent-primary) 35%, var(--border-main, rgba(255, 255, 255, 0.15)));
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-primary) 35%, var(--border-main, rgba(255, 255, 255, 0.15)));
 		border-radius: 20px;
 		display: flex;
 		align-items: center;

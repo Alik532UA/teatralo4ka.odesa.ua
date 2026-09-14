@@ -289,7 +289,7 @@
 		display: grid;
 		place-items: center;
 		background: rgb(140 190 255 / 0.12);
-		border: 1px solid rgb(140 190 255 / 0.3);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.3);
 	}
 	.row__badge img {
 		width: 100%;
@@ -331,7 +331,7 @@
 		padding: 0.5rem;
 		border-radius: 0.9rem;
 		background: var(--galaxy-card-bg);
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		box-shadow: 0 12px 30px rgb(0 0 0 / 0.45);
 		color: var(--galaxy-text);
 		text-align: left;
@@ -352,7 +352,7 @@
 		height: auto;
 		object-fit: cover;
 		border-radius: 0.65rem;
-		border: 1px solid rgb(140 190 255 / 0.25);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.25);
 	}
 	.tip__body {
 		display: grid;
@@ -382,7 +382,7 @@
 		padding: 0.4rem 0.45rem;
 		border-radius: 0.65rem;
 		background: rgb(140 190 255 / 0.1);
-		border: 1px solid rgb(140 190 255 / 0.22);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.22);
 	}
 	.tip__admin {
 		border-radius: 50%;

@@ -130,7 +130,7 @@
 		gap: 0.5rem;
 		min-height: 44px;
 		padding: 0 0.85rem;
-		border: 1px solid rgb(255 255 255 / 0.18);
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.18);
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.06);
 		color: var(--galaxy-text, #eaf2ff);
@@ -182,7 +182,7 @@
 		overflow-y: auto;
 		border-radius: 16px;
 		background: #0b1330;
-		border: 1px solid rgba(255, 255, 255, 0.18);
+		border: var(--hairline-width) solid rgba(255, 255, 255, 0.18);
 		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
 	}
 

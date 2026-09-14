@@ -81,7 +81,7 @@
 		gap: 1.25rem;
 		padding: 1.25rem 1.4rem;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-xl, 20px);
 		color: var(--text-main);
 		text-decoration: none;
@@ -163,7 +163,7 @@
 		padding: 0.15rem 0.55rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.78rem;
 		font-weight: 500;
@@ -191,7 +191,7 @@
 		height: 28px;
 		border-radius: 50%;
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 	}
 

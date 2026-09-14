@@ -276,7 +276,7 @@
 		gap: 0.4rem;
 		min-height: 36px;
 		padding: 0 0.8rem;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.06);
 		color: var(--galaxy-text);

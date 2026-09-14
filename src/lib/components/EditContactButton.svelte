@@ -261,7 +261,7 @@
 		width: 44px;
 		height: 44px;
 		background: rgb(3 6 20 / 0.75);
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		color: #cfe4ff;
 		box-shadow: none;
 		backdrop-filter: blur(8px);
@@ -294,7 +294,7 @@
 		padding: 0.45rem 0.7rem;
 		border-radius: 1.1rem;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
 	}
 	/*

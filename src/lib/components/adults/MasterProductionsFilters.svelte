@@ -133,7 +133,7 @@
 		padding: 0.45rem 0.9rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.85rem;
 		font-weight: 600;
@@ -170,7 +170,7 @@
 		padding: 0.5rem 1rem 0.5rem 2.4rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		font-size: 0.88rem;
 		outline: none;

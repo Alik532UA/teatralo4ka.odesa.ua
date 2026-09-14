@@ -57,7 +57,7 @@
 	button {
 		padding: var(--space-sm) var(--space-md);
 		border-radius: var(--radius-md);
-		border: 1px solid var(--accent-primary);
+		border: var(--hairline-width) solid var(--accent-primary);
 		background: var(--color-surface);
 		color: var(--accent-text);
 		cursor: pointer;

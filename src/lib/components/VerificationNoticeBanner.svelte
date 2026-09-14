@@ -118,13 +118,13 @@
 	 */
 	.verification-banner--possible {
 		background: light-dark(rgb(245 158 11 / 0.12), rgb(245 158 11 / 0.1));
-		border: 1px solid light-dark(rgb(217 119 6 / 0.4), rgb(245 158 11 / 0.35));
+		border: var(--hairline-width) solid light-dark(rgb(217 119 6 / 0.4), rgb(245 158 11 / 0.35));
 		color: light-dark(#78350f, #fef3c7);
 	}
 
 	.verification-banner--definite {
 		background: rgb(239 68 68 / 0.12);
-		border: 1px solid light-dark(rgb(220 38 38 / 0.45), rgb(239 68 68 / 0.4));
+		border: var(--hairline-width) solid light-dark(rgb(220 38 38 / 0.45), rgb(239 68 68 / 0.4));
 		color: light-dark(#7f1d1d, #fee2e2);
 	}
 

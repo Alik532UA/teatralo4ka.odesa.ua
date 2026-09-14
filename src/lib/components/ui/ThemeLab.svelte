@@ -325,7 +325,7 @@
 		   було б дві стрічки — зовнішня їхала б разом із заголовком. */
 		overflow: hidden;
 		background: #0d1418;
-		border: 1px solid #24343c;
+		border: var(--hairline-width) solid #24343c;
 		border-radius: 12px;
 		color: #dfe9ee;
 		font-family: ui-monospace, 'JetBrains Mono', monospace;
@@ -411,7 +411,7 @@
 		gap: 0.35rem;
 		min-height: 34px;
 		padding: 0 0.7rem;
-		border: 1px solid #33454e;
+		border: var(--hairline-width) solid #33454e;
 		border-radius: 8px;
 		background: #16232a;
 		color: #dfe9ee;
@@ -439,7 +439,7 @@
 		flex: none;
 		margin: 0;
 		padding: 0.5rem;
-		border: 1px solid #24343c;
+		border: var(--hairline-width) solid #24343c;
 		border-radius: 8px;
 		background: #050a0d;
 		color: #9fd7ee;

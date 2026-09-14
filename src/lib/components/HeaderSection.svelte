@@ -1479,7 +1479,7 @@
 		flex-direction: column;
 		gap: var(--space-sm);
 		background: var(--color-surface);
-		border: 1px solid var(--color-border);
+		border: var(--hairline-width) solid var(--color-border);
 		border-radius: var(--radius-xl);
 		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
 		backdrop-filter: blur(20px);

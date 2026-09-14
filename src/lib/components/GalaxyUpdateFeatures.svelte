@@ -107,7 +107,7 @@
 		padding: 0.7rem 0.9rem;
 		border-radius: 0.9rem;
 		background: rgb(255 255 255 / 0.05);
-		border: 1px solid rgb(140 190 255 / 0.14);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.14);
 	}
 	/* Пункт про галактику — коробка для зоряного шару під ним. */
 	/*

@@ -780,7 +780,7 @@
 		border-radius: 8px;
 	}
 	:global(.rich-editor .ProseMirror th, .rich-editor .ProseMirror td) {
-		border: 1px solid var(--color-border);
+		border: var(--hairline-width) solid var(--color-border);
 		padding: 0.5rem 0.75rem;
 		text-align: left;
 		vertical-align: top;

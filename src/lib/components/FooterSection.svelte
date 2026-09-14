@@ -250,7 +250,7 @@
 		max-width: 400px; width: 100%; box-shadow: 0 30px 60px rgba(0,0,0,0.2);
 		display: flex; flex-direction: column; gap: 1.5rem;
 		color: var(--text-main);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 	}
 	.modal-header {
 		display: flex; justify-content: space-between; align-items: center;
@@ -273,7 +273,7 @@
 		display: flex; align-items: center; gap: 1.2rem;
 		padding: 1rem; border-radius: 16px; background: rgba(0,0,0,0.02);
 		text-decoration: none; color: inherit; transition: all 0.2s;
-		border: 1px solid transparent;
+		border: var(--hairline-width) solid transparent;
 	}
 	.phone-item:hover {
 		background: var(--bg-page);

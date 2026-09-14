@@ -31,4 +31,10 @@
 	--shadow-main: 0 4px 20px rgba(0, 36, 47, 0.08);
 
 	--warning-color: #b45309;
+
+	/* Кнопки «усі …» й обводка акцентних — як у решти акцентних кнопок цієї
+	   теми. Перекриття обов'язкове: без нього пара `light-dark()` із
+	   `themes/light.css` віддала б цій темі чужий бік. */
+	--accent-alt: var(--accent-primary);
+	--btn-accent-border: transparent;
 }

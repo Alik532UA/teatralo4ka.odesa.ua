@@ -287,7 +287,7 @@
 		flex-direction: column;
 		border-radius: 18px;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
 		overflow: hidden;
 	}

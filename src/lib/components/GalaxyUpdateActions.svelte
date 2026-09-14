@@ -94,7 +94,7 @@
 		 */
 		white-space: normal;
 		padding: 0.4rem 1.1rem;
-		border: 1px solid rgb(140 190 255 / 0.35);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.35);
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.06);
 		color: var(--galaxy-text);

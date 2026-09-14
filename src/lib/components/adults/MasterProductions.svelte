@@ -215,7 +215,7 @@
 		height: 46px;
 		border-radius: var(--radius-lg, 16px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		flex-shrink: 0;
 	}
@@ -238,7 +238,7 @@
 		padding: 0.4rem 0.9rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		font-size: 0.88rem;
 		font-weight: 600;
 		color: var(--text-title);
@@ -272,7 +272,7 @@
 		padding: 3rem 1rem;
 		color: var(--text-muted);
 		background: var(--bg-card);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		border-radius: var(--radius-xl, 20px);
 	}
 </style>

@@ -110,7 +110,7 @@
 		width: 48px;
 		height: 48px;
 		border-radius: 50%;
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-surface);
 		color: var(--text-main);
 		cursor: pointer;

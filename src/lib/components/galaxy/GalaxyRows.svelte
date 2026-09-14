@@ -234,7 +234,7 @@
 		padding: 0 0.35rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.75rem;
 		font-weight: 700;
@@ -244,7 +244,7 @@
 		padding: 0.85rem 1rem;
 		border-radius: var(--radius-md, 8px);
 		background: var(--bg-surface);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.88rem;
 	}
@@ -268,7 +268,7 @@
 		gap: 0.5rem 0.75rem;
 		padding: 0.4rem 0.5rem;
 		border-radius: var(--radius-md, 12px);
-		border: 1px solid transparent;
+		border: var(--hairline-width) solid transparent;
 		/*
 		 * Фон є ЗАВЖДИ, тільки напівпрозорий. Доти рядок був прозорий, і межі в
 		 * нього не було видно, доки не наведеш курсор: перелік читався як

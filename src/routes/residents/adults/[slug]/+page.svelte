@@ -316,7 +316,7 @@
 		padding: 0.5rem 1.1rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		text-decoration: none;
 		font-size: 0.92rem;
@@ -357,7 +357,7 @@
 		position: relative;
 		z-index: 2;
 		background: var(--bg-card);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		border-radius: var(--radius-xl, 24px);
 		padding: clamp(1.5rem, 3vw, 2.5rem);
 		padding-bottom: 4.5rem;
@@ -472,7 +472,7 @@
 		padding: 0.25rem 0.75rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
 		font-size: 0.85rem;
 		font-weight: 500;
@@ -493,7 +493,7 @@
 		padding: 0.3rem 0.75rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
-		border: 1px solid var(--border-main);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-title);
 		font-size: 0.88rem;
 		font-weight: 500;
@@ -523,7 +523,7 @@
 		padding: 0.45rem 1rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-card);
-		border: 1px solid var(--accent-primary);
+		border: var(--hairline-width) solid var(--accent-primary);
 		color: var(--text-title);
 		text-decoration: none;
 		font-size: 0.9rem;

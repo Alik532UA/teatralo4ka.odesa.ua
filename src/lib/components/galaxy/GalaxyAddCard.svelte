@@ -85,7 +85,7 @@
 		display: flex;
 		border-radius: var(--radius-xl, 20px);
 		background: var(--bg-card);
-		border: 1px dashed var(--border-main);
+		border: var(--hairline-width) dashed var(--border-main);
 		box-shadow: var(--shadow-sm);
 		color: inherit;
 	}
@@ -108,7 +108,7 @@
 		height: 26px;
 		border-radius: 50%;
 		background: rgb(99 102 241 / 0.15);
-		border: 1px solid rgb(99 102 241 / 0.3);
+		border: var(--hairline-width) solid rgb(99 102 241 / 0.3);
 		color: #a5b4fc;
 	}
 
