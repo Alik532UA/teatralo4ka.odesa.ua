@@ -58,6 +58,13 @@ import { describe, expect, it } from 'vitest';
  *   (де поруч живуть `/fest-*` зі своїми пунктами), а `config/renamedAddresses.ts`,
  *   де лежать ЛИШЕ перейменування. Тобто приросту змісту нема — приріст це
  *   імпорт нового реєстру, а рядок з адресою пішов.
+ * 2026-09-14: `data/betaChecklist.ts` 439 → 467. Двадцять вісім рядків — три
+ *   пункти про зациклену головну, і всі три `manual`. Механізм накритий
+ *   `e2e/endless-scroll.spec.ts` щільно, тож у чеклист пішло рівно те, чого
+ *   Playwright не відтворює: інерція справжнього тачпада (перевірка стрибає
+ *   миттєвим `scrollTo`), свідома ціна рішення — копія на шві не інтерактивна —
+ *   і довгий сеанс на десять кіл. Логіки не додано жодного рядка: це ДАНІ, і
+ *   ділити їх нема на що — перелік читають цілим.
  * 2026-09-10: `GraduateProfileView.svelte` 1639 → 1679. Сорок рядків — портрет
  *   анкети відкривається на весь екран, чого доти не робив ніяк: в одиночного
  *   знімка не було ЖОДНОГО обробника, а в стопки клік циклював кадри. Автор
@@ -611,7 +618,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 284,
-	'src/lib/data/betaChecklist.ts': 439,
+	'src/lib/data/betaChecklist.ts': 467,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

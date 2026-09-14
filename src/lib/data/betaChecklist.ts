@@ -190,6 +190,52 @@ export const BETA_TABS: readonly BetaTab[] = [
 				coverage: 'covered',
 				test: 'e2e/email-toast.spec.ts',
 				testid: 'footer-email-link'
+			},
+			/*
+			 * ЗАЦИКЛЕНА ГОЛОВНА: три пункти, і всі три `manual` навмисно.
+			 *
+			 * Механізм накритий `e2e/endless-scroll.spec.ts` щільно — перестановка
+			 * в обидва боки, збіг шва за текстом і глибиною заголовка, відсутність
+			 * дублікатів, кільцевий повзунок, Home/End, зникнення кнопки «нагору».
+			 * Дублювати це пунктами означало б роздути чеклист контрольною групою.
+			 *
+			 * Лишилося рівно те, чого браузер під Playwright не відтворює:
+			 * ІНЕРЦІЯ справжнього тачпада (перевірка стрибає миттєвим `scrollTo`,
+			 * а людина котить колесо з розгоном), СВІДОМА ЦІНА рішення — копія в
+			 * переході не інтерактивна, — і ДОВГИЙ сеанс, якого автотест не живе.
+			 *
+			 * Другий пункт тут найцінніший, і не тому, що ловить дефект: він
+			 * ЗАПОБІГАЄ хибному звіту. Тестувальник, який клацне по знімку на шві
+			 * й нічого не дістане, напише «не працюють фото» — і матиме рацію в
+			 * описі й помилиться у висновку.
+			 */
+			{
+				id: 'common_8',
+				category: { uk: 'Нескінченна головна', en: 'Endless home page' },
+				text: {
+					uk: 'На комп’ютері гортайте головну колесом донизу, не зупиняючись. Після галереї сторінка мусить продовжитися власним початком і піти на нове коло — без стрибка вмісту, без миготіння й без паузи. Те саме вгору: від шапки мусить відкритися кінець сторінки.',
+					en: 'On a desktop, scroll the home page down with the wheel without stopping. After the gallery it must continue with its own beginning and start a new lap — with no content jump, no flicker and no pause. The same upwards: scrolling up from the header must reveal the end of the page.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'common_9',
+				category: { uk: 'Нескінченна головна', en: 'Endless home page' },
+				text: {
+					uk: 'Зупиніться на переході — коли вгорі екрана ще кінець сторінки, а внизу вже її початок. Знімки й посилання в НИЖНІЙ половині екрана там відкриватися НЕ мусять, і круглої стрілки «нагору» в кутку бути не мусить. Догорніть ще на один екран — усе нижнє мусить знову працювати.',
+					en: 'Stop at the joint — where the top of the screen still shows the end of the page and the bottom already shows its beginning. Photos and links in the LOWER half must NOT open there, and the round “back to top” arrow must be absent. Scroll one more screen — everything below must work again.'
+				},
+				coverage: 'manual',
+				negative: true
+			},
+			{
+				id: 'common_10',
+				category: { uk: 'Нескінченна головна', en: 'Endless home page' },
+				text: {
+					uk: 'Пройдіть головну десять кіл поспіль. Десяте коло мусить гортатися так само швидко, як перше, а вкладка браузера — не важчати й не сповільнюватися.',
+					en: 'Go through the home page for ten laps in a row. The tenth lap must scroll just as fast as the first, and the browser tab must not grow heavier or slow down.'
+				},
+				coverage: 'manual'
 			}
 		]
 	},
