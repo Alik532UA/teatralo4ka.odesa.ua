@@ -157,7 +157,19 @@ export interface ProjectsWidgetConfig {
 }
 
 export const DEFAULT_PROJECTS_WIDGET_HOME: ProjectsWidgetConfig = {
-  defaultView: 'grid',
+  /*
+   * Карусель, а не сітка — на прохання автора 2026-09-14.
+   *
+   * Так секція проєктів на головній стає такою самою, як секція новин над нею
+   * (`DEFAULT_NEWS_WIDGET_HOME`) і як та сама секція проєктів на телефоні
+   * (`DEFAULT_PROJECTS_WIDGET_HOME_MOBILE` нижче) — тобто `grid` тут був
+   * єдиним відхиленням із чотирьох, а не правилом.
+   *
+   * Це ТИПОВЕ значення, тобто діє для того, хто нічого не налаштовував. Якщо в
+   * базі лежить збережений із адмінки `projectsWidget`, він старший — там вибір
+   * зроблено руками, і код його не перебиває.
+   */
+  defaultView: 'carousel',
   showViewSwitcher: true,
   autoplay: true,
   autoplayInterval: 7,
