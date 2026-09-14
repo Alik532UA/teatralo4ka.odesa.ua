@@ -24,11 +24,20 @@
 		if (!browser) return;
 
 		const apply = () => {
-			// Глибина В КОЛІ (`controllers/endless`): на зацикленій головній
-			// `window.scrollY` після першої перестановки вже ніколи не буває
-			// малим, і кнопка висіла б навіть тоді, коли читач стоїть на самому
-			// верху. Поза зацикленням це те саме `window.scrollY`.
-			visible = endless.lapY(window.scrollY) > SHOW_AFTER;
+			/*
+			 * Глибина В КОЛІ (`controllers/endless`): на зацикленій головній
+			 * `window.scrollY` після першої перестановки вже ніколи не буває
+			 * малим, і кнопка висіла б навіть тоді, коли читач стоїть на самому
+			 * верху. Поза зацикленням це те саме `window.scrollY`.
+			 *
+			 * І окремо — ШОВ. За глибиною читач там найдальший від початку, тож
+			 * умова вище дає «показати». Але на екрані в нього вже герой
+			 * наступного кола: кнопка пропонує повернутися туди, де він і так
+			 * стоїть, і натиск по ній нічого видимого не змінює. Тому на шві її
+			 * немає.
+			 */
+			const lap = endless.lapY(window.scrollY);
+			visible = lap > SHOW_AFTER && !endless.inSeam(lap);
 			const footer = document.querySelector('footer');
 			footerLift = footer
 				? Math.max(0, window.innerHeight - footer.getBoundingClientRect().top)

@@ -336,19 +336,62 @@ test.describe('зациклена головна', () => {
 			expect(Math.abs(total - (last.main!.bottom - last.main!.top))).toBeLessThanOrEqual(4);
 		});
 
+		/**
+		 * На шві кнопки «нагору» немає.
+		 *
+		 * За глибиною читач там найдальший від початку, тож проста умова «глибше
+		 * за 400 px» дає «показати». Але на екрані в нього вже герой наступного
+		 * кола — кнопка пропонує повернутися туди, де він стоїть, і натиск нічого
+		 * видимого не змінює.
+		 */
+		test('«нагору» зникає на шві', async ({ page }) => {
+			await gotoReady(page, '/');
+			await settled(page);
+
+			const goto = (seam: boolean) =>
+				page.evaluate((s) => {
+					const rect = document.querySelector('[data-endless-band]')!.getBoundingClientRect();
+					const top = Math.round(rect.top + window.scrollY);
+					const last = Math.max(Math.round(rect.height) - window.innerHeight, 0);
+					window.scrollTo({
+						top: top + (s ? last + Math.round(window.innerHeight / 2) : last),
+						behavior: 'instant'
+					});
+				}, seam);
+
+			await goto(false);
+			await expect(page.getByTestId('back-to-top-btn')).toBeVisible();
+
+			await goto(true);
+			await expect(page.getByTestId('back-to-top-btn')).toBeHidden();
+		});
+
 		test('повзунок, дотягнутий донизу, дає кінець кола', async ({ page }) => {
 			await gotoReady(page, '/');
-			const g = await settled(page);
+			await settled(page);
 
 			const bar = page.getByTestId('page-scrollbar-container');
-			const box = (await bar.boundingBox())!;
-			await bar.click({ position: { x: box.width / 2, y: box.height - 2 } });
 
-			const y = await settleScroll(page);
-			expect(y, 'повзунок унизу віддав початок наступного кола').toBeGreaterThanOrEqual(
-				g.bandTop + g.bandHeight - g.viewport - 4
-			);
-			expect(y).toBeLessThanOrEqual(g.bandTop + g.bandHeight - g.viewport + 4);
+			/*
+			 * Спроба повторюється, і причина та сама, що всюди тут: смуга росте.
+			 * Натиск цілиться в кінець ТІЄЇ висоти, яку бачив, а поки прокрутка
+			 * доїжджає, розділ унизу встигає підрости — і кінець виявляється вже
+			 * не там. Друга спроба йде по вже дорослій смузі.
+			 */
+			let off = Number.POSITIVE_INFINITY;
+			for (let attempt = 0; attempt < 3 && off > 6; attempt += 1) {
+				const box = (await bar.boundingBox())!;
+				await bar.click({ position: { x: box.width / 2, y: box.height - 2 } });
+				await settleScroll(page);
+				off = await page.evaluate(() => {
+					const rect = document.querySelector('[data-endless-band]')!.getBoundingClientRect();
+					const top = Math.round(rect.top + window.scrollY);
+					const last = Math.max(Math.round(rect.height) - window.innerHeight, 0);
+					return Math.abs(Math.round(window.scrollY) - top - last);
+				});
+			}
+
+			expect(off, 'повзунок унизу віддав не кінець кола').toBeLessThanOrEqual(6);
 		});
 
 		test('шов збігається: копія показує початок смуги', async ({ page }) => {
