@@ -172,7 +172,10 @@
 	}
 
 	.tag {
-		background: var(--accent-primary);
+		/* Другий акцент теми — той самий, що в плашки на картці новини
+		   (`ContentCard`) і в кнопок «усі …»: у темній темі це колір заголовка,
+		   у світлих — той самий фірмовий синій, що й основний акцент. */
+		background: var(--accent-alt);
 		color: var(--text-on-accent);
 		padding: 0.4rem 1rem;
 		border-radius: var(--radius-full);
