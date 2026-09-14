@@ -113,6 +113,10 @@ const PUBLIC_ENTRIES = [
 	// `build/` не з'являлося (заміряно: `news/30th-season-opened-2026/` був,
 	// `en/news/30th-season-opened-2026/` — ні, мапа сайту 1543 проти 1424).
 	'/news/30th-season-opened-2026',
+	// Третя новина в коді — рядок потрібен із тієї самої причини, що й у двох
+	// попередніх: англійське дзеркало народжується з ЦЬОГО переліку, а не з
+	// `entries()` маршруту.
+	'/news/alumni-awards-venice-dziga-2026',
 	'/news/dedication-to-art-2022',
 	'/news/dedication-to-art-2024',
 	'/news/intensive-class-2025',

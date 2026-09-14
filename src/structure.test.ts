@@ -69,6 +69,11 @@ import { describe, expect, it } from 'vitest';
  *   «На головну» (§ 8.4: тестувальник приходить за прямим посиланням, ні
  *   історії, ні пункта меню в нього немає). Ділити нема на що: це ДАНІ, і
  *   перелік читають цілим.
+ * 2026-09-14 (пізніше): `config/codeNews.ts` 284 → 300. Шістнадцять рядків —
+ *   запис третьої новини в коді (успіхи випускників: «Золота Дзиґа», Венеція)
+ *   і вісім рядків її знімків, плюс другий запис у новині про відкриття сезону. Логіки не додано жодного рядка: файл із самого
+ *   початку є РЕЄСТРОМ, і кожна нова новина додає до нього рівно свій запис.
+ *   Ділити його нема на що, доки причина числа одна — «новин стало більше».
  * 2026-09-14: `data/betaChecklist.ts` 439 → 467. Двадцять вісім рядків — три
  *   пункти про зациклену головну, і всі три `manual`. Механізм накритий
  *   `e2e/endless-scroll.spec.ts` щільно, тож у чеклист пішло рівно те, чого
@@ -628,7 +633,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/config/codeNews.ts': 284,
+	'src/lib/config/codeNews.ts': 300,
 	'src/lib/data/betaChecklist.ts': 479,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,

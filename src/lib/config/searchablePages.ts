@@ -52,6 +52,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	 */
 	{ slug: 'news-2026-year-30th-season-18-students', href: () => resolve('/news/[id]', { id: '2026-year-30th-season-18-students' }) },
 	{ slug: 'news-30th-season-opened-2026', href: () => resolve('/news/[id]', { id: '30th-season-opened-2026' }) },
+	{ slug: 'news-alumni-awards-venice-dziga-2026', href: () => resolve('/news/[id]', { id: 'alumni-awards-venice-dziga-2026' }) },
 	{ slug: 'news-dedication-to-art-2022', href: () => resolve('/news/[id]', { id: 'dedication-to-art-2022' }) },
 	{ slug: 'news-dedication-to-art-2024', href: () => resolve('/news/[id]', { id: 'dedication-to-art-2024' }) },
 	{ slug: 'news-intensive-class-2025', href: () => resolve('/news/[id]', { id: 'intensive-class-2025' }) },

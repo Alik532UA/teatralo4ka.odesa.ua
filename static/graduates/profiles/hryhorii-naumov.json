@@ -52,7 +52,12 @@
 	"bio": [
 		"Знімається в кіно."
 	],
-	"socials": [],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/grigorij.naumov.200801"
+		}
+	],
 	"festivals": [],
 	"masters": [
 		{
