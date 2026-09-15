@@ -12,5 +12,10 @@
 		"Фотохудожник."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

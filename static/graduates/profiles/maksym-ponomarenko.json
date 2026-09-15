@@ -112,5 +112,16 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "pavlo-koshka"
+		},
+		{
+			"id": "tetiana-isachkina"
+		}
+	]
 }

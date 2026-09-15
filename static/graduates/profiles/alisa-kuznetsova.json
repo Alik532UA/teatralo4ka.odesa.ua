@@ -24,5 +24,10 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

@@ -12,5 +12,10 @@
 		"Акторка Тбіліського російського драматичного [театру імені Олександра Грибоєдова](/projects/galaxy-graduates/theatres/tbilisi-hryboiedova)."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

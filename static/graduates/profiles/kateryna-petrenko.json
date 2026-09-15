@@ -11,5 +11,10 @@
 	"bio": [],
 	"afterGraduation": "Вступ 2026: КНУТКіТ, акторський, курс О. Замятіна",
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	]
 }

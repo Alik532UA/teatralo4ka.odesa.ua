@@ -52,5 +52,10 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

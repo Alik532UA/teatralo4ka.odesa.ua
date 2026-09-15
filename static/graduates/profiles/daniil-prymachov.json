@@ -68,5 +68,13 @@
 		"Знімається в кіно."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

@@ -147,7 +147,11 @@
 			: (graduate.departments ?? []),
 	);
 
-	const rawMasters = $derived(profile?.masters ?? graduate.masters ?? []);
+	const rawMasters = $derived(
+		profile?.masters && profile.masters.length > 0
+			? profile.masters
+			: (graduate.masters ?? []),
+	);
 	const normalizedMasters = $derived(
 		rawMasters.map((m) => {
 			const id =

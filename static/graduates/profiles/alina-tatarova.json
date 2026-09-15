@@ -18,5 +18,16 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "iryna-kulbaba"
+		},
+		{
+			"id": "ivan-voloshyn"
+		},
+		{
+			"id": "hanna-serebriannikova"
+		}
+	]
 }

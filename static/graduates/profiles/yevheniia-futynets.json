@@ -12,5 +12,28 @@
 		"Акторка [театру імені Лесі Українки](/projects/galaxy-graduates/theatres/kamianske-lesi-ukrainky) в Кам’янському."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "svitlana-myronenko"
+		},
+		{
+			"id": "pavlo-koshka"
+		},
+		{
+			"id": "oleh-shevchuk"
+		},
+		{
+			"id": "iryna-ovcharenko"
+		},
+		{
+			"id": "olena-prorok"
+		},
+		{
+			"id": "anastasiia-nikolaieva"
+		}
+	]
 }

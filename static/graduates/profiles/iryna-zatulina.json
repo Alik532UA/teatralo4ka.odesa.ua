@@ -42,5 +42,13 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

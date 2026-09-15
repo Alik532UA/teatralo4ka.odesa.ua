@@ -39,5 +39,13 @@
 		"Акторка Одеського академічного музично-драматичного [театру імені Василя Василька](/projects/galaxy-graduates/theatres/vasylka)."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

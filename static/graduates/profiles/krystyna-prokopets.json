@@ -17,5 +17,13 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

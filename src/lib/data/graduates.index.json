@@ -237,7 +237,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1104,
+		"profileSize": 1185,
 		"playCount": 5
 	},
 	{
@@ -248,7 +248,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 394,
+		"profileSize": 449,
 		"playCount": 0,
 		"masters": [
 			{
@@ -291,7 +291,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1032,
+		"profileSize": 1113,
 		"playCount": 4
 	},
 	{
@@ -419,7 +419,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 452,
+		"profileSize": 579,
 		"playCount": 1,
 		"masters": [
 			{
@@ -449,7 +449,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 885,
+		"profileSize": 970,
 		"playCount": 5
 	},
 	{
@@ -494,7 +494,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 593,
+		"profileSize": 647,
 		"playCount": 2,
 		"masters": [
 			{
@@ -599,7 +599,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 299,
+		"profileSize": 353,
 		"playCount": 0
 	},
 	{
@@ -766,7 +766,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 869,
+		"profileSize": 918,
 		"playCount": 5
 	},
 	{
@@ -856,7 +856,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 682,
+		"profileSize": 768,
 		"playCount": 1
 	},
 	{
@@ -898,8 +898,13 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 1240,
-		"playCount": 5
+		"profileSize": 1289,
+		"playCount": 5,
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "anastasiia-fishchenko",
@@ -944,7 +949,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 798,
+		"profileSize": 847,
 		"playCount": 4
 	},
 	{
@@ -988,7 +993,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 373,
+		"profileSize": 427,
 		"playCount": 1,
 		"masters": [
 			{
@@ -1051,7 +1056,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1143,
+		"profileSize": 1224,
 		"playCount": 6
 	},
 	{
@@ -1062,7 +1067,7 @@
 		"departments": [
 			"intensive"
 		],
-		"profileSize": 373,
+		"profileSize": 422,
 		"playCount": 0,
 		"masters": [
 			{
@@ -1234,7 +1239,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 703,
+		"profileSize": 784,
 		"playCount": 3
 	},
 	{
@@ -1758,7 +1763,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 939,
+		"profileSize": 1024,
 		"playCount": 5
 	},
 	{
@@ -1804,7 +1809,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 915,
+		"profileSize": 1029,
 		"playCount": 3
 	},
 	{
@@ -1901,7 +1906,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 896,
+		"profileSize": 981,
 		"playCount": 5
 	},
 	{
@@ -1991,7 +1996,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 373,
+		"profileSize": 460,
 		"playCount": 1
 	},
 	{
@@ -2007,7 +2012,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 358,
+		"profileSize": 412,
 		"playCount": 1
 	},
 	{
@@ -2160,6 +2165,11 @@
 		"visibility": "direct",
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -2202,7 +2212,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 467,
+		"profileSize": 522,
 		"playCount": 1,
 		"masters": [
 			{
@@ -2339,6 +2349,11 @@
 		"visibility": "direct",
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -2358,7 +2373,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 877,
+		"profileSize": 958,
 		"playCount": 2
 	},
 	{
@@ -2441,7 +2456,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 789,
+		"profileSize": 870,
 		"playCount": 4
 	},
 	{
@@ -2549,7 +2564,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 368,
+		"profileSize": 422,
 		"playCount": 1,
 		"masters": [
 			{
@@ -2573,7 +2588,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1641,
+		"profileSize": 1722,
 		"playCount": 6
 	},
 	{
@@ -2786,7 +2801,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 845,
+		"profileSize": 926,
 		"playCount": 4
 	},
 	{
@@ -2813,7 +2828,7 @@
 				]
 			}
 		],
-		"profileSize": 493,
+		"profileSize": 574,
 		"playCount": 2
 	},
 	{
@@ -3179,7 +3194,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 496,
+		"profileSize": 615,
 		"playCount": 0,
 		"teachers": [
 			{
@@ -3220,7 +3235,7 @@
 				]
 			}
 		],
-		"profileSize": 489,
+		"profileSize": 575,
 		"playCount": 2
 	},
 	{
@@ -3520,7 +3535,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 436,
+		"profileSize": 491,
 		"playCount": 1,
 		"masters": [
 			{
@@ -3587,6 +3602,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -3603,7 +3623,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 412,
+		"profileSize": 467,
 		"playCount": 1
 	},
 	{
@@ -3678,6 +3698,11 @@
 		"visibility": "direct",
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3730,7 +3755,7 @@
 				]
 			}
 		],
-		"profileSize": 806,
+		"profileSize": 860,
 		"playCount": 2
 	},
 	{
@@ -3749,7 +3774,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 482,
+		"profileSize": 563,
 		"playCount": 2
 	},
 	{
@@ -3768,6 +3793,11 @@
 					"Вокал"
 				]
 			}
+		],
+		"masters": [
+			{
+				"id": "svitlana-ryskina"
+			}
 		]
 	},
 	{
@@ -3778,7 +3808,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 395,
+		"profileSize": 449,
 		"playCount": 1,
 		"masters": [
 			{
@@ -3893,7 +3923,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 375,
+		"profileSize": 457,
 		"playCount": 1
 	},
 	{
@@ -3930,7 +3960,7 @@
 				]
 			}
 		],
-		"profileSize": 745,
+		"profileSize": 799,
 		"playCount": 0
 	},
 	{
@@ -4079,7 +4109,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 969,
+		"profileSize": 1018,
 		"playCount": 6
 	},
 	{
@@ -4106,7 +4136,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 366,
+		"profileSize": 420,
 		"playCount": 1
 	},
 	{
@@ -4200,7 +4230,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 921,
+		"profileSize": 1006,
 		"playCount": 5
 	},
 	{
@@ -4284,7 +4314,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1418,
+		"profileSize": 1537,
 		"playCount": 8
 	},
 	{
@@ -4300,7 +4330,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 617,
+		"profileSize": 666,
 		"playCount": 3
 	},
 	{
@@ -4316,7 +4346,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 849,
+		"profileSize": 898,
 		"playCount": 5
 	},
 	{
@@ -4566,7 +4596,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 695,
+		"profileSize": 744,
 		"playCount": 3
 	},
 	{
@@ -4613,7 +4643,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 420,
+		"profileSize": 506,
 		"playCount": 1
 	},
 	{
@@ -4734,7 +4764,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 364,
+		"profileSize": 419,
 		"playCount": 0,
 		"masters": [
 			{
@@ -4980,7 +5010,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 355,
+		"profileSize": 404,
 		"playCount": 1
 	},
 	{
@@ -5016,7 +5046,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 305,
+		"profileSize": 359,
 		"playCount": 0
 	},
 	{
@@ -5151,7 +5181,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 398,
+		"profileSize": 485,
 		"playCount": 1
 	},
 	{
@@ -5300,7 +5330,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1357,
+		"profileSize": 1471,
 		"playCount": 5
 	},
 	{
@@ -5325,7 +5355,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 377,
+		"profileSize": 538,
 		"playCount": 1
 	},
 	{
@@ -5448,7 +5478,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 276,
+		"profileSize": 330,
 		"playCount": 0
 	},
 	{
@@ -5475,7 +5505,7 @@
 				]
 			}
 		],
-		"profileSize": 494,
+		"profileSize": 575,
 		"playCount": 2
 	},
 	{
@@ -5555,7 +5585,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 390,
+		"profileSize": 445,
 		"playCount": 1
 	},
 	{
@@ -5566,7 +5596,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 369,
+		"profileSize": 499,
 		"playCount": 0,
 		"masters": [
 			{
@@ -5599,7 +5629,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1400,
+		"profileSize": 1514,
 		"playCount": 5
 	},
 	{
@@ -5662,7 +5692,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 351,
+		"profileSize": 405,
 		"playCount": 1
 	},
 	{
@@ -5720,7 +5750,7 @@
 				]
 			}
 		],
-		"profileSize": 407,
+		"profileSize": 461,
 		"playCount": 1
 	},
 	{
@@ -5751,7 +5781,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 374,
+		"profileSize": 429,
 		"playCount": 0
 	},
 	{
@@ -5781,7 +5811,7 @@
 				]
 			}
 		],
-		"profileSize": 2957,
+		"profileSize": 3077,
 		"playCount": 11
 	},
 	{
@@ -6097,7 +6127,7 @@
 				]
 			}
 		],
-		"profileSize": 638,
+		"profileSize": 725,
 		"playCount": 3
 	},
 	{
@@ -6209,6 +6239,11 @@
 		"graduationYear": 2010,
 		"departments": [
 			"art"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -6270,7 +6305,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 381,
+		"profileSize": 435,
 		"playCount": 1
 	},
 	{
@@ -6349,6 +6384,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -6359,7 +6399,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 444,
+		"profileSize": 571,
 		"playCount": 1,
 		"masters": [
 			{
@@ -6428,7 +6468,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 867,
+		"profileSize": 948,
 		"playCount": 3
 	},
 	{
@@ -6724,7 +6764,7 @@
 		"departments": [
 			"intensive"
 		],
-		"profileSize": 370,
+		"profileSize": 419,
 		"playCount": 0,
 		"masters": [
 			{
@@ -6792,7 +6832,7 @@
 				]
 			}
 		],
-		"profileSize": 511,
+		"profileSize": 565,
 		"playCount": 2
 	},
 	{
@@ -6811,7 +6851,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 358,
+		"profileSize": 445,
 		"playCount": 1
 	},
 	{
@@ -6976,7 +7016,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 389,
+		"profileSize": 443,
 		"playCount": 1
 	},
 	{
@@ -7012,7 +7052,7 @@
 				]
 			}
 		],
-		"profileSize": 663,
+		"profileSize": 744,
 		"playCount": 3
 	},
 	{
@@ -7036,7 +7076,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 470,
+		"profileSize": 524,
 		"playCount": 0
 	},
 	{
@@ -7281,6 +7321,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -7291,8 +7336,13 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 381,
-		"playCount": 1
+		"profileSize": 436,
+		"playCount": 1,
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		]
 	},
 	{
 		"id": "oleksandr-komadovskyi",
@@ -7614,6 +7664,11 @@
 		"graduationYear": 2015,
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
 		]
 	},
 	{
@@ -7654,7 +7709,7 @@
 				]
 			}
 		],
-		"profileSize": 402,
+		"profileSize": 483,
 		"playCount": 1
 	},
 	{
@@ -7722,7 +7777,7 @@
 				]
 			}
 		],
-		"profileSize": 424,
+		"profileSize": 478,
 		"playCount": 1
 	},
 	{
@@ -7910,7 +7965,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 363,
+		"profileSize": 450,
 		"playCount": 1
 	},
 	{
@@ -8042,7 +8097,7 @@
 				]
 			}
 		],
-		"profileSize": 618,
+		"profileSize": 673,
 		"playCount": 2
 	},
 	{
@@ -8134,7 +8189,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 373,
+		"profileSize": 428,
 		"playCount": 1
 	},
 	{
@@ -8226,7 +8281,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 383,
+		"profileSize": 469,
 		"playCount": 1
 	},
 	{
@@ -8305,7 +8360,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 516,
+		"profileSize": 570,
 		"playCount": 0
 	},
 	{
@@ -8355,7 +8410,7 @@
 				]
 			}
 		],
-		"profileSize": 841,
+		"profileSize": 896,
 		"playCount": 2
 	},
 	{
@@ -8371,7 +8426,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 475,
+		"profileSize": 524,
 		"playCount": 1
 	},
 	{
@@ -8462,7 +8517,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 368,
+		"profileSize": 455,
 		"playCount": 1
 	},
 	{
@@ -8496,7 +8551,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 286,
+		"profileSize": 373,
 		"playCount": 0
 	},
 	{
@@ -8787,7 +8842,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1531,
+		"profileSize": 1613,
 		"playCount": 7
 	},
 	{
@@ -9096,7 +9151,7 @@
 				]
 			}
 		],
-		"profileSize": 501,
+		"profileSize": 556,
 		"playCount": 1
 	},
 	{
@@ -9237,7 +9292,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 386,
+		"profileSize": 472,
 		"playCount": 1
 	},
 	{
@@ -9347,7 +9402,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 516,
+		"profileSize": 598,
 		"playCount": 2
 	},
 	{
@@ -9852,7 +9907,7 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1480,
+		"profileSize": 1594,
 		"playCount": 6
 	},
 	{
@@ -9899,7 +9954,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 910,
+		"profileSize": 995,
 		"playCount": 5
 	},
 	{
@@ -9926,7 +9981,7 @@
 				]
 			}
 		],
-		"profileSize": 391,
+		"profileSize": 478,
 		"playCount": 1
 	},
 	{
@@ -9979,7 +10034,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 426,
+		"profileSize": 475,
 		"playCount": 1
 	},
 	{
@@ -10192,7 +10247,7 @@
 				]
 			}
 		],
-		"profileSize": 652,
+		"profileSize": 706,
 		"playCount": 3
 	},
 	{
@@ -10335,7 +10390,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 526,
+		"profileSize": 580,
 		"playCount": 2
 	},
 	{
@@ -10421,7 +10476,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1478,
+		"profileSize": 1527,
 		"playCount": 6
 	},
 	{
@@ -10525,7 +10580,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 711,
+		"profileSize": 760,
 		"playCount": 3
 	},
 	{
@@ -10542,7 +10597,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 384,
+		"profileSize": 439,
 		"playCount": 0
 	},
 	{
@@ -10582,7 +10637,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 398,
+		"profileSize": 452,
 		"playCount": 1
 	},
 	{
@@ -10649,7 +10704,7 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 424,
+		"profileSize": 478,
 		"playCount": 1
 	},
 	{
@@ -10742,7 +10797,7 @@
 				]
 			}
 		],
-		"profileSize": 346,
+		"profileSize": 507,
 		"playCount": 1
 	},
 	{
@@ -10753,7 +10808,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 403,
+		"profileSize": 457,
 		"playCount": 1,
 		"masters": [
 			{
@@ -10861,7 +10916,7 @@
 				]
 			}
 		],
-		"profileSize": 538,
+		"profileSize": 592,
 		"playCount": 2
 	},
 	{
@@ -10934,7 +10989,7 @@
 				"id": "anastasiia-nikolaieva"
 			}
 		],
-		"profileSize": 421,
+		"profileSize": 692,
 		"playCount": 0
 	},
 	{
@@ -11089,7 +11144,7 @@
 				]
 			}
 		],
-		"profileSize": 357,
+		"profileSize": 523,
 		"playCount": 0,
 		"masters": [
 			{
@@ -11219,7 +11274,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 956,
+		"profileSize": 1005,
 		"playCount": 6
 	},
 	{
@@ -11432,7 +11487,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 522,
+		"profileSize": 603,
 		"playCount": 2
 	},
 	{
@@ -11484,7 +11539,7 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 352,
+		"profileSize": 406,
 		"playCount": 0,
 		"masters": [
 			{

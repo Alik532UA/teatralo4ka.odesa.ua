@@ -23,5 +23,13 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-nadopta"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

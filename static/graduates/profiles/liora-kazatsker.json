@@ -11,5 +11,16 @@
 	"bio": [],
 	"afterGraduation": "Вступ 2026: ЛНУ ім. І. Франка, акторський, курс Д. Захоженко",
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "viktoriia-patiuta"
+		},
+		{
+			"id": "tereza-zaurbekova"
+		},
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

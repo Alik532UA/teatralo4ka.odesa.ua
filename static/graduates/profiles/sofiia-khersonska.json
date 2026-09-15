@@ -66,5 +66,13 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "pavlo-koshka"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

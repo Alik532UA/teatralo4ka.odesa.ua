@@ -18,5 +18,10 @@
 	],
 	"bio": [],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	]
 }

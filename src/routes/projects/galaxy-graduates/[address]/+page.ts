@@ -171,7 +171,10 @@ function describe(
 	 * щоб показати ті самі імена на екрані. Тож тут це не зайва вага, а той самий
 	 * модуль.
 	 */
-	const rawMasters = profile?.masters ?? graduate.masters ?? [];
+	const rawMasters =
+		profile?.masters && profile.masters.length > 0
+			? profile.masters
+			: (graduate.masters ?? []);
 	/* Записи реєстру — саме з них правило бере рід (по батькові, прізвище, посада). */
 	const masterKeys = rawMasters
 		.map((m) => (typeof m === 'string' ? m : m.id))

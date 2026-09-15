@@ -11,5 +11,10 @@
 	"bio": [],
 	"afterGraduation": "Вступ 2026: КНУТКіТ, акторський, курс С. Калантая",
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }

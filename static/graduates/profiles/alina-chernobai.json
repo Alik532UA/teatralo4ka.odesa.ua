@@ -46,5 +46,13 @@
 		"Працює в кіноіндустрії: режисура та сценарна майстерність."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "samuil-imas"
+		},
+		{
+			"id": "fedir-tkach"
+		}
+	]
 }

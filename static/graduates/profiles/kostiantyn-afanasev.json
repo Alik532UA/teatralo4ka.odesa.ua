@@ -12,5 +12,10 @@
 		"Знімається в кіно."
 	],
 	"socials": [],
-	"festivals": []
+	"festivals": [],
+	"masters": [
+		{
+			"id": "svitlana-ryskina"
+		}
+	]
 }
