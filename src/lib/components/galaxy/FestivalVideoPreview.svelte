@@ -173,6 +173,12 @@
 	 * Підпис унизу кадру, а не поруч: він потрібен тому, хто не впізнав
 	 * трикутник відтворення, і не мусить забирати місце в самого кадру.
 	 */
+	/*
+	 * Градієнт щільніший за початковий: `rgba(0,0,0,0.6) → transparent` залишав
+	 * верхню частину повністю прозорою, і в світлій темі білий текст лежав на
+	 * сірому тлі (~#b3b3b3, контраст 2.11 — заміряно `galaxy-theme-colors`
+	 * 2026-09-14). Нова крива тримає достатню щільність до 70 % висоти плашки.
+	 */
 	.preview__label {
 		position: absolute;
 		left: 0;
@@ -182,8 +188,8 @@
 		font-size: 0.85rem;
 		font-weight: 600;
 		color: #fff;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-		background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.35) 70%, transparent);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

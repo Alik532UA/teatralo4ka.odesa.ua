@@ -112,8 +112,10 @@ test.describe("перелік випускників", () => {
     expect(all).toBe(total);
 
     // По кнопці на кожен рік, який справді є в даних, плюс «усі роки».
+    // Заголовки `GraduateRosterHead` містять і групу з `year: null` (текст
+    // «Всі роки»), яка не має власної кнопки — її не рахуємо.
     const yearsInData = new Set(
-      yearsOf(await page.locator(HEAD).allInnerTexts()),
+      yearsOf(await page.locator(HEAD).allInnerTexts()).filter(y => /^\d{4}$/.test(y)),
     );
     await expect(page.locator(YEAR_BTN)).toHaveCount(yearsInData.size + 1);
 

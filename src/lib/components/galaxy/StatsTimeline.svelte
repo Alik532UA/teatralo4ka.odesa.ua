@@ -273,7 +273,12 @@
 		padding: 3px 10px;
 		border-radius: 20px;
 	}
-	.timeline-bubble-date { color: var(--text-title); font-size: 0.84rem; }
+	/*
+	 * `--text-main`, а не `--text-title`: у темній темі `--text-title` — акцент
+	 * (#01b8ea), і на бурштиновому тлі бульбашки (#50493e) контраст 3.81 <
+	 * 4.5 (заміряно `galaxy-theme-colors` 2026-09-14).
+	 */
+	.timeline-bubble-date { color: var(--text-main); font-size: 0.84rem; }
 	.timeline-bubble-score {
 		background: var(--accent-primary);
 		color: var(--text-on-accent);
