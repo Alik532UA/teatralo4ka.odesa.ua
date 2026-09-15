@@ -15,6 +15,7 @@ export const GRADUATE_ALIASES_DATA: Record<string, string> = {
 	'karyna-kaminieva': 'kamywek_',
 	'kateryna-nesterenko': 'deva144p',
 	'khrystia-oslavska': 'karakulya',
+	'liora-kazatsker': 'liorka',
 	'liubov-prepodobna': 'basha',
 	'marharyta-zhovnenko': 'margotcine',
 	'mariia-kulish': 'kulish-mariia',

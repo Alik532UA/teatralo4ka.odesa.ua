@@ -5596,17 +5596,58 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 499,
-		"playCount": 0,
+		"profileSize": 2517,
+		"playCount": 7,
 		"masters": [
-			{
-				"id": "viktoriia-patiuta"
-			},
 			{
 				"id": "tereza-zaurbekova"
 			},
 			{
 				"id": "svitlana-ryskina"
+			}
+		],
+		"code": "liorka",
+		"hasPhoto": true,
+		"photoCount": 2,
+		"enrollmentYears": [
+			2016
+		],
+		"teachers": [
+			{
+				"id": "pavlo-prymak",
+				"subjects": [
+					"Сценічний рух"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "yevheniia-osadcha",
+				"subjects": [
+					"Грим"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
 			}
 		]
 	},

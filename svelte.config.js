@@ -160,6 +160,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/karyna-kaminieva',
 	'/projects/galaxy-graduates/kateryna-nesterenko',
 	'/projects/galaxy-graduates/khrystia-oslavska',
+	'/projects/galaxy-graduates/liora-kazatsker',
 	'/projects/galaxy-graduates/liubov-prepodobna',
 	'/projects/galaxy-graduates/marharyta-zhovnenko',
 	'/projects/galaxy-graduates/yeva-horokhova',

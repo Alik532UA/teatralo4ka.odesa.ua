@@ -74,4 +74,11 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/margotcine/04.webp': { width: 1280, height: 904 },
 	'/graduates/gallery/margotcine/05.webp': { width: 1280, height: 960 },
 	'/graduates/gallery/margotcine/06.webp': { width: 604, height: 453 },
+	'/graduates/gallery/liora-kazatsker/01.webp': { width: 1280, height: 958 },
+	'/graduates/gallery/liora-kazatsker/02.webp': { width: 960, height: 1280 },
+	'/graduates/gallery/liora-kazatsker/03.webp': { width: 853, height: 1280 },
+	'/graduates/gallery/liora-kazatsker/04.webp': { width: 960, height: 1280 },
+	'/graduates/gallery/liora-kazatsker/05.webp': { width: 960, height: 1280 },
+	'/graduates/gallery/liora-kazatsker/06.webp': { width: 722, height: 1280 },
+	'/graduates/gallery/liora-kazatsker/07.webp': { width: 1280, height: 853 },
 } as const;

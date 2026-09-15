@@ -462,6 +462,9 @@
 			"graduateId": "dovhan-daria"
 		},
 		{
+			"graduateId": "liora-kazatsker"
+		},
+		{
 			"graduateId": "oleksandra-karachevska"
 		},
 		{
@@ -824,6 +827,9 @@
 		}
 	],
 	"kazkova-istoriia-2016": [
+		{
+			"graduateId": "liora-kazatsker"
+		},
 		{
 			"graduateId": "oleksandra-karachevska"
 		}
@@ -1404,6 +1410,9 @@
 			"graduateId": "kateryna-nesterenko"
 		},
 		{
+			"graduateId": "liora-kazatsker"
+		},
+		{
 			"graduateId": "liubov-prepodobna"
 		},
 		{
@@ -1583,6 +1592,9 @@
 		},
 		{
 			"graduateId": "kateryna-nesterenko"
+		},
+		{
+			"graduateId": "liora-kazatsker"
 		},
 		{
 			"graduateId": "liubov-prepodobna"
@@ -2113,6 +2125,9 @@
 			"graduateId": "kateryna-nesterenko"
 		},
 		{
+			"graduateId": "liora-kazatsker"
+		},
+		{
 			"graduateId": "oleksandra-karachevska"
 		}
 	],
@@ -2440,6 +2455,9 @@
 		},
 		{
 			"graduateId": "kateryna-nesterenko"
+		},
+		{
+			"graduateId": "liora-kazatsker"
 		},
 		{
 			"graduateId": "oleksandra-karachevska"
@@ -3302,6 +3320,11 @@
 		{
 			"graduateId": "vira-spaska",
 			"fromRegistry": true
+		}
+	],
+	"uryvky-z-klasyky-2024": [
+		{
+			"graduateId": "liora-kazatsker"
 		}
 	],
 	"uryvky-z-klasyky-2025": [

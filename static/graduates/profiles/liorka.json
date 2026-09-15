@@ -1,0 +1,117 @@
+{
+	"id": "liora-kazatsker",
+	"slug": "liora-kazatsker",
+	"code": "liorka",
+	"name": "Ліора Казацкер",
+	"graduationYear": 2026,
+	"enrollmentYears": [
+		2016
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"photoCount": 2,
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/_liorka_"
+		}
+	],
+	"afterGraduation": "Вступ 2026: ЛНУ ім. І. Франка, «Акторське мистецтво драматичного театру і кіно», майстерня Д. Захоженко",
+	"masters": [
+		{
+			"id": "tereza-zaurbekova"
+		},
+		{
+			"id": "svitlana-ryskina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "pavlo-prymak",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "yevheniia-osadcha",
+			"subjects": [
+				"Грим"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	],
+	"plays": [
+		{
+			"year": 2016,
+			"text": "«Казкова історія», білка",
+			"playId": "kazkova-istoriia-2016"
+		},
+		{
+			"year": 2019,
+			"text": "Етюди",
+			"playId": "etiudy-2019"
+		},
+		{
+			"year": 2021,
+			"text": "«Сентиментальна подорож», Коломбіна",
+			"playId": "sentymentalna-podorozh-2021"
+		},
+		{
+			"year": 2023,
+			"text": "«Нікому непотрібні», Плакса",
+			"playId": "nikomu-nepotribni-2023"
+		},
+		{
+			"year": 2024,
+			"text": "Уривки з класики: «Дурні баби», «451 градус за Фаренгейтом», «Голос тихої безодні»",
+			"playId": "uryvky-z-klasyky-2024"
+		},
+		{
+			"year": 2025,
+			"text": "«Перевізник», Електричний стовп, Смерть",
+			"playId": "pereviznyk-2025"
+		},
+		{
+			"year": 2026,
+			"text": "«Тінь», Лікар",
+			"playId": "tin-2026"
+		}
+	],
+	"gallery": [
+		"/graduates/gallery/liora-kazatsker/01.webp",
+		"/graduates/gallery/liora-kazatsker/02.webp",
+		"/graduates/gallery/liora-kazatsker/03.webp",
+		"/graduates/gallery/liora-kazatsker/04.webp",
+		"/graduates/gallery/liora-kazatsker/05.webp",
+		"/graduates/gallery/liora-kazatsker/06.webp",
+		"/graduates/gallery/liora-kazatsker/07.webp"
+	],
+	"bio": [],
+	"duringStudies": null,
+	"festivals": []
+}
