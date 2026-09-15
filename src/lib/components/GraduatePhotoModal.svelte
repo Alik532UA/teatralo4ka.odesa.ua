@@ -19,10 +19,16 @@
 		onclose,
 		_graduateName,
 		initialAction = null,
-		hasPhoto = true
+		hasPhoto = false
 	}: Props = $props();
 
 	let action = $state<'replace' | 'add' | null>(null);
+	let pulseKey = $state(0);
+
+	function selectAction(newAction: 'replace' | 'add') {
+		action = newAction;
+		pulseKey++;
+	}
 
 	$effect(() => {
 		if (isOpen) {
@@ -98,7 +104,7 @@
 						type="button"
 						class="action-choice-btn"
 						class:action-choice-btn--active={action === 'replace'}
-						onclick={() => (action = 'replace')}
+						onclick={() => selectAction('replace')}
 						data-testid="graduate-photo-replace-btn"
 					>
 						<Camera size={22} aria-hidden="true" />
@@ -110,7 +116,7 @@
 					type="button"
 					class="action-choice-btn"
 					class:action-choice-btn--active={action === 'add'}
-					onclick={() => (action = 'add')}
+					onclick={() => selectAction('add')}
 					data-testid="graduate-photo-add-btn"
 				>
 					<Plus size={22} aria-hidden="true" />
@@ -127,6 +133,7 @@
 							: 'Привіт!) Щоб додати фото\n— напиши мені'}
 						size="large"
 						greetingLayout="row"
+						{pulseKey}
 					/>
 				</div>
 			{/if}

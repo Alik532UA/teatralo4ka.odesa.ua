@@ -13,7 +13,7 @@
 		onadd: () => void;
 	}
 
-	let { isOpen, x, y, hasPhoto = true, onclose, onreplace, onadd }: Props = $props();
+	let { isOpen, x, y, hasPhoto = false, onclose, onreplace, onadd }: Props = $props();
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (!isOpen) return;

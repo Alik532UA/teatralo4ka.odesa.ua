@@ -213,7 +213,7 @@
 		isOpen={contextMenuOpen}
 		x={contextMenuPos.x}
 		y={contextMenuPos.y}
-		hasPhoto={graduate.hasPhoto}
+		hasPhoto={Boolean(graduate.hasPhoto)}
 		onclose={() => (contextMenuOpen = false)}
 		onreplace={() => openPhotoModal('replace')}
 		onadd={() => openPhotoModal('add')}
@@ -223,7 +223,7 @@
 <GraduatePhotoModal
 	isOpen={photoModalOpen}
 	initialAction={photoModalAction}
-	hasPhoto={graduate.hasPhoto}
+	hasPhoto={Boolean(graduate.hasPhoto)}
 	onclose={() => (photoModalOpen = false)}
 	_graduateName={graduate.name}
 />

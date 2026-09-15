@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { asset } from '$app/paths';
 
 	/**
@@ -68,6 +69,8 @@
 		 * чи 'row' (аватар ліворуч від тексту, підпис праворуч).
 		 */
 		greetingLayout?: 'column' | 'row';
+		/** Ключ для запуску хвилі почергової підсвітки соцмереж */
+		pulseKey?: number | string;
 	}
 
 	let {
@@ -76,8 +79,27 @@
 		hint,
 		size = 'strip',
 		showGreeting = true,
-		greetingLayout = 'column'
+		greetingLayout = 'column',
+		pulseKey
 	}: Props = $props();
+
+	let isPulsing = $state(false);
+	let pulseTimer: ReturnType<typeof setTimeout> | null = null;
+
+	$effect(() => {
+		if (pulseKey !== undefined && pulseKey !== null && pulseKey !== 0) {
+			untrack(() => {
+				isPulsing = false;
+				if (pulseTimer) clearTimeout(pulseTimer);
+				requestAnimationFrame(() => {
+					isPulsing = true;
+					pulseTimer = setTimeout(() => {
+						isPulsing = false;
+					}, 2800);
+				});
+			});
+		}
+	});
 
 	const ТИПОВИЙ_ПІДПИС = 'Привіт!)\nЩоб внести правки\n— напиши мені';
 	const БЕЗ_ФОТО = 'Привіт!)\nЩоб надати фото чи внести\nправки — напиши мені';
@@ -118,8 +140,8 @@
 	{/if}
 {/if}
 
-<div class="icons icons--{size}">
-	{#each contacts as contact (contact.name)}
+<div class="icons icons--{size}" class:is-pulsing={isPulsing}>
+	{#each contacts as contact, i (contact.name)}
 		<!--
 			rel="external" — за ним правило проєкту визнає посилання зовнішнім;
 			`stopPropagation` не дає натисканню закрити віконце раніше, ніж
@@ -130,6 +152,7 @@
 			target="_blank"
 			rel="external noopener noreferrer"
 			class="link link--{size}"
+			style="--order: {i}"
 			aria-label={contact.name}
 			title={contact.name}
 			onclick={(event) => event.stopPropagation()}
@@ -239,5 +262,35 @@
 		height: 28px;
 		object-fit: contain;
 		filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.3));
+	}
+
+	.icons.is-pulsing .link {
+		animation: social-pulse 1.4s ease-in-out 2;
+		animation-delay: calc(var(--order, 0) * 0.22s);
+	}
+
+	@keyframes social-pulse {
+		0%,
+		55%,
+		100% {
+			transform: scale(1);
+			box-shadow: none;
+			background: transparent;
+		}
+		25% {
+			transform: scale(1.18);
+			box-shadow: 0 0 16px rgb(140 190 255 / 0.65);
+			background: rgb(140 190 255 / 0.18);
+		}
+	}
+
+	.icons.is-pulsing .link:hover {
+		animation: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.icons.is-pulsing .link {
+			animation: none;
+		}
 	}
 </style>
