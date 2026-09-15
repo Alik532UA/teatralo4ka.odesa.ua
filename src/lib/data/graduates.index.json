@@ -6282,6 +6282,7 @@
 			"theatre"
 		],
 		"hasPhoto": true,
+		"photoCount": 2,
 		"enrollmentYears": [
 			2003
 		],
@@ -6292,7 +6293,7 @@
 		],
 		"code": "mariia-tkach-lysa",
 		"playCount": 0,
-		"profileSize": 974,
+		"profileSize": 992,
 		"teachers": [
 			{
 				"id": "samuil-imas",

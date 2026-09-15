@@ -63,6 +63,11 @@
 		 * вибирати, яка з них справжня.
 		 */
 		showGreeting?: boolean;
+		/**
+		 * Розташування аватара й підпису: 'column' (типово, без обгортки)
+		 * чи 'row' (аватар ліворуч від тексту, підпис праворуч).
+		 */
+		greetingLayout?: 'column' | 'row';
 	}
 
 	let {
@@ -70,7 +75,8 @@
 		hasPhoto = true,
 		hint,
 		size = 'strip',
-		showGreeting = true
+		showGreeting = true,
+		greetingLayout = 'column'
 	}: Props = $props();
 
 	const ТИПОВИЙ_ПІДПИС = 'Привіт!)\nЩоб внести правки\n— напиши мені';
@@ -86,20 +92,30 @@
 	];
 </script>
 
-{#if showGreeting}
-<img
-	src={asset('/graduates/alik-zapolnov-96.webp')}
-	alt="Алік Запольнов"
-	width="28"
-	height="28"
-	class="avatar avatar--{size}"
-	loading="eager"
-	data-testid="{testIdPrefix}-admin-img"
-/>
+{#snippet greetingContent()}
+	<img
+		src={asset('/graduates/alik-zapolnov-96.webp')}
+		alt="Алік Запольнов"
+		width="28"
+		height="28"
+		class="avatar avatar--{size}"
+		loading="eager"
+		data-testid="{testIdPrefix}-admin-img"
+	/>
 
-<p class="hint hint--{size}" data-testid="{testIdPrefix}-hint">
-	{#each текст.split('\n') as line, i (i)}{#if i > 0}<br />{/if}{line}{/each}
-</p>
+	<p class="hint hint--{size}" data-testid="{testIdPrefix}-hint">
+		{#each текст.split('\n') as line, i (i)}{#if i > 0}<br />{/if}{line}{/each}
+	</p>
+{/snippet}
+
+{#if showGreeting}
+	{#if greetingLayout === 'row'}
+		<div class="greeting greeting--row">
+			{@render greetingContent()}
+		</div>
+	{:else}
+		{@render greetingContent()}
+	{/if}
 {/if}
 
 <div class="icons icons--{size}">
@@ -176,6 +192,18 @@
 	.hint--large {
 		font-size: 0.9rem;
 		line-height: 1.4;
+	}
+
+	.greeting--row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.85rem;
+		text-align: left;
+	}
+	.greeting--row .hint {
+		text-align: left;
+		line-height: 1.35;
 	}
 
 	.icons {

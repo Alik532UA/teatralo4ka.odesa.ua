@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import { t, locale } from "svelte-i18n";
-	import { ArrowRight, FileText, Flower2 } from "lucide-svelte";
+	import { ArrowRight, FileText } from "lucide-svelte";
 	import { browser } from "$app/environment";
 	import { asset } from "$app/paths";
 	import { safeUrl } from "$lib/utils/safeUrl";
@@ -11,9 +11,7 @@
 	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
 	import GraduateVideoButton from "$lib/components/GraduateVideoButton.svelte";
 	import GraduateYears from "$lib/components/GraduateYears.svelte";
-	import PhotoLightbox, {
-		type LightboxImage,
-	} from "$lib/components/PhotoLightbox.svelte";
+	import GraduatePhotoSection from "$lib/components/GraduatePhotoSection.svelte";
 	import { customScroll } from "$lib/utils/customScroll";
 	import { scrollFade } from "$lib/utils/scrollFade";
 	import {
@@ -33,9 +31,6 @@
 	import GraduateInstitutions from "$lib/components/GraduateInstitutions.svelte";
 	import { groupPlayRows } from "$lib/data/playRowGroups";
 	import {
-		graduatePhoto,
-		graduatePhotoSrcset,
-		allGraduatePhotos,
 		type Department,
 		type GraduateIndexEntry,
 		type GraduateProfile,
@@ -56,60 +51,6 @@
 	let { graduate, profile, headingId, heading = "h2" }: Props = $props();
 
 	let formModalOpen = $state(false);
-
-	/** Мультифото: стопка на профілі з кліком для циклу. */
-	const photoCount = $derived(graduate.photoCount ?? 1);
-	const profilePhotos = $derived(
-		photoCount > 1 ? allGraduatePhotos(graduate.slug, photoCount, 480) : [],
-	);
-	let activePhotoIndex = $state(0);
-
-	// Починаємо з основного (поточного) фото — останнє в масиві
-	$effect(() => {
-		if (profilePhotos.length > 0) {
-			activePhotoIndex = profilePhotos.length - 1;
-		}
-	});
-
-	function setPhoto(index: number) {
-		activePhotoIndex = index;
-	}
-
-	/**
-	 * Фото анкети відкривається на весь екран — і доти не відкривалося ніяк.
-	 *
-	 * В одиночного знімка не було ЖОДНОГО обробника: натиснути на портрет і не
-	 * отримати нічого — саме те, на що вказав автор. У стопки клік був, але
-	 * циклював кадри, тобто повнорозмірного перегляду не мав ніхто.
-	 *
-	 * Зроблено за зразком `GroupPhotoBanner`: той самий `PhotoLightbox`, той
-	 * самий вигляд виклику. Це перше місце в проєкті, де мініатюра й повний
-	 * розмір розходяться — у банері й галереї досі один `src` на обидві ролі.
-	 *
-	 * ЩО ЗМІНИЛОСЯ В ПОВЕДІНЦІ СТОПКИ, і це свідомо: клік більше не циклює
-	 * кадри, а відкриває їх на весь екран. Перемикання нікуди не зникло —
-	 * точки під фото робили це й раніше, а всередині лайтбокса є власні
-	 * стрілки й лічильник. Одна дія на один клік; вибирати між «переглянути» і
-	 * «наступне» цим самим натисканням неможливо.
-	 */
-	let lightboxOpen = $state(false);
-	let lightboxIndex = $state(0);
-
-	const lightboxImages = $derived<LightboxImage[]>(
-		(profilePhotos.length > 0
-			? profilePhotos.map((photo) => photo.src)
-			: [graduatePhoto(graduate.slug, 480)]
-		).map((src) => ({
-			src,
-			alt: graduate.name,
-			title: graduate.name,
-		})),
-	);
-
-	function openPhoto() {
-		lightboxIndex = profilePhotos.length > 0 ? activePhotoIndex : 0;
-		lightboxOpen = true;
-	}
 
 	function syncFormUrl(open: boolean) {
 		if (!browser) return;
@@ -891,101 +832,7 @@
 			data-block="main"
 			data-testid="galaxy-card-main-info"
 		>
-			{#if graduate.hasPhoto}
-				<div class="photo-container">
-					<!--
-						Кнопка, а не `<div onclick>`: портрет відкривається на весь
-						екран, тобто це справжня дія, і вона мусить бути доступна з
-						клавіатури й озвучена читалкою. Разом із нею пішли два
-						`svelte-ignore`, якими глушилися саме ці попередження.
-					-->
-					<button
-						type="button"
-						class="photo-open"
-						onclick={openPhoto}
-						aria-label={$t('galaxy.openPhoto', {
-							default: `Відкрити фото: ${graduate.name}`,
-						})}
-						data-testid="galaxy-card-photo-open-btn"
-					>
-					{#if photoCount > 1}
-						<span
-							class="photo-stack"
-							data-testid="galaxy-card-photo-stack"
-						>
-							{#each profilePhotos as photo, i (i)}
-								<img
-									class="photo photo--stacked"
-									class:photo--active={i === activePhotoIndex}
-									class:photo--behind={i !== activePhotoIndex}
-									style="--stack-offset: {i -
-									activePhotoIndex}; --stack-depth: {Math.abs(
-									i - activePhotoIndex
-								)}"
-									src={photo.src}
-									srcset={photo.srcset}
-									sizes="(max-width: 520px) 40vw, 175px"
-									width="175"
-									height="175"
-									alt={i === activePhotoIndex
-										? graduate.name
-										: ""}
-									loading={i === 0 ? "eager" : "lazy"}
-									data-testid="galaxy-card-img-{i}"
-								/>
-							{/each}
-						</span>
-					{:else}
-						<img
-							class="photo"
-							src={graduatePhoto(graduate.slug, 480)}
-							srcset={graduatePhotoSrcset(graduate.slug)}
-							sizes="(max-width: 520px) 40vw, 175px"
-							width="175"
-							height="175"
-							alt={graduate.name}
-							data-testid="galaxy-card-img"
-						/>
-					{/if}
-					</button>
-					{#if photoCount > 1}
-						<div
-							class="photo-dots"
-							data-testid="galaxy-card-photo-dots"
-						>
-							{#each profilePhotos as _, i (i)}
-								<button
-									type="button"
-									class="photo-dot"
-									class:photo-dot--active={i ===
-										activePhotoIndex}
-									onclick={(e) => {
-										e.stopPropagation();
-										setPhoto(i);
-									}}
-									aria-label="Photo {i + 1}"
-									data-testid="galaxy-card-photo-btn-{i}"
-								></button>
-							{/each}
-						</div>
-					{/if}
-				</div>
-			{:else if graduate.kind === 'student'}
-				<!--
-					УЧНЕВІ без фотографії — КВІТКА, а не зірка.
-
-					Зірка належить галактиці: людина, яка випустилася, світить
-					звідкись іздалеку. Учень же стоїть на «Планеті творчості», і
-					там порожнє місце позначає квітка — «тут росте». Автор
-					побачив розходження одразу: на планеті квітка, а на власній
-					сторінці того самого учня — зірка.
-				-->
-				<div class="bloom" data-testid="galaxy-card-bloom">
-					<Flower2 size={44} aria-hidden="true" />
-				</div>
-			{:else}
-				<div class="star" aria-hidden="true"></div>
-			{/if}
+			<GraduatePhotoSection {graduate} />
 
 			<!--
 				Значки відділень — ПІСЛЯ розвилки, а не всередині гілки зі знімком.
@@ -1432,16 +1279,7 @@
 	variant={graduate.kind === 'student' ? 'student' : 'graduate'}
 />
 
-<!--
-	Повнорозмірний перегляд портрета. Стрілки й лічильник усередині —
-	власні, тож стопка з кількох кадрів гортається саме тут.
--->
-<PhotoLightbox
-	images={lightboxImages}
-	currentIndex={lightboxIndex}
-	isOpen={lightboxOpen}
-	onclose={() => (lightboxOpen = false)}
-/>
+
 
 
 <style>
@@ -1728,14 +1566,6 @@
 		.bento-card {
 			padding: clamp(1.1rem, 2.2vh, 1.6rem);
 		}
-		.bento-card--main .photo-container {
-			margin: 0 auto 1.1rem;
-		}
-		.bento-card--main .photo,
-		.bento-card--main .photo-stack {
-			width: clamp(100px, 40vw, 175px);
-			height: clamp(100px, 40vw, 175px);
-		}
 		.bento-card--main .name {
 			font-size: clamp(1.3rem, 3.5dvh, 1.7rem);
 			margin: 0 0 0.5rem;
@@ -1837,127 +1667,10 @@
 		}
 	}
 
-	.photo-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin: 0 auto 1.1rem;
-	}
-	.photo {
-		display: block;
-		width: clamp(100px, 40vw, 175px);
-		height: auto;
-		aspect-ratio: 1;
-		margin: 0 0 0.65rem;
-		border-radius: 50%;
-		object-fit: cover;
-		border: 2px solid rgb(140 190 255 / 0.55);
-	}
+
 
 	/* Стопка фото: клікабельний контейнер із накладеними фото */
-	/*
-	 * Кнопка нічого не малює — вона лише робить портрет натискним.
-	 *
-	 * `display: contents` тут НЕ підходить: кнопка з таким значенням втрачає
-	 * власну коробку, а з нею й фокусне кільце та ціль дотику. Тому звичайний
-	 * `block` без жодного оздоблення: усі відступи, рамки й розміри лишаються
-	 * там, де були — на `.photo` і `.photo-stack`.
-	 */
-	.photo-open {
-		display: block;
-		padding: 0;
-		border: none;
-		background: none;
-		cursor: pointer;
-		border-radius: 50%;
-	}
-	.photo-stack {
-		position: relative;
-		width: clamp(100px, 40vw, 175px);
-		height: clamp(100px, 40vw, 175px);
-		margin: 0 0 0.65rem;
-		display: block;
-	}
-	.photo--stacked {
-		position: absolute;
-		inset: 0;
-		width: 100%;
-		height: 100%;
-		margin: 0;
-		transition:
-			transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-			opacity 0.35s ease,
-			z-index 0s;
-	}
-	.photo--active {
-		z-index: 20;
-		opacity: 1;
-		transform: translate(0, 0) rotate(0deg) scale(1);
-	}
-	/*
-	 * Зсув ПРОПОРЦІЙНИЙ відстані до активного знімка, а не просто «ліворуч /
-	 * праворуч».
-	 *
-	 * Доти `--stack-offset` мав лише три значення — 0, −1 і +1, — тож усі знімки
-	 * з одного боку лягали точно один на одного. При трьох фото стопка виглядала
-	 * як дві, хоч перемикання й крапки працювали правильно: третій знімок був, але
-	 * рівно під другим.
-	 *
-	 * `--stack-depth` (модуль тієї самої відстані) дає порядок перекриття: ближчий
-	 * знімок лежить над дальшим. Без нього всі «за» мали однаковий `z-index`, і
-	 * хто з них видимий, вирішував порядок у розмітці.
-	 *
-	 * Розліт помірний навмисно: у реєстрі максимум три знімки (заміряно), тобто
-	 * крайній відходить на 36px і 8°. Ширшого віяла коробка 175px не витримає.
-	 */
-	.photo--behind {
-		z-index: calc(10 - var(--stack-depth));
-		opacity: 0.7;
-		transform: translate(
-				calc(var(--stack-offset) * 18px),
-				calc(var(--stack-offset) * 6px)
-			)
-			rotate(calc(var(--stack-offset) * 4deg)) scale(0.92);
-		filter: brightness(0.8);
-	}
-	.photo-stack:hover .photo--behind {
-		opacity: 0.85;
-		transform: translate(
-				calc(var(--stack-offset) * 22px),
-				calc(var(--stack-offset) * 8px)
-			)
-			rotate(calc(var(--stack-offset) * 5deg)) scale(0.94);
-	}
 
-	/* Точки-індикатори під стопкою фото */
-	.photo-dots {
-		display: flex;
-		justify-content: center;
-		gap: 0.4rem;
-		margin: 0 0 0.4rem;
-	}
-	.photo-dot {
-		width: 10px;
-		height: 10px;
-		border-radius: 50%;
-		border: 1.5px solid rgb(140 190 255 / 0.5);
-		background: transparent;
-		padding: 0;
-		cursor: pointer;
-		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.2s ease;
-	}
-	.photo-dot--active {
-		background: rgb(140 190 255 / 0.85);
-		border-color: rgb(140 190 255 / 0.9);
-		transform: scale(1.2);
-	}
-	.photo-dot:hover:not(.photo-dot--active) {
-		background: rgb(140 190 255 / 0.35);
-		border-color: rgb(140 190 255 / 0.7);
-	}
 
 	.dept-badges {
 		display: flex;
@@ -1984,11 +1697,7 @@
 	 * базові значення (1.1rem проти 0.5rem), тож одне від'ємне число дало б у
 	 * двох випадках із трьох не середину, а накладання.
 	 */
-	.photo-container:has(+ .dept-badges),
-	.bloom:has(+ .dept-badges),
-	.star:has(+ .dept-badges) {
-		margin-bottom: 0;
-	}
+
 
 	/*
 	 * ВЛАСНА підказка замість рідної.
@@ -2154,32 +1863,7 @@
 		color: var(--galaxy-text, #eaf2ff);
 		box-shadow: 0 0 0 3px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 82%);
 	}
-	/* Квітка учня: те саме коло, що й зірка, але з кольорами теми — сторінка
-	   учня живе в темі сайту, а не в палітрі галактики. */
-	.bloom {
-		display: grid;
-		place-items: center;
-		width: 96px;
-		height: 96px;
-		margin: 0 auto 0.5rem;
-		border-radius: 50%;
-		background: var(--bg-surface, rgb(255 255 255 / 0.06));
-		border: 2px solid color-mix(in srgb, var(--accent-primary, #38bdf8) 55%, transparent);
-		color: var(--accent-text, #7dd3fc);
-	}
 
-	.star {
-		width: 96px;
-		height: 96px;
-		margin: 0 auto 0.5rem;
-		border-radius: 50%;
-		background: radial-gradient(
-			circle,
-			rgb(234 242 255 / 0.95) 0 6px,
-			rgb(180 214 255 / 0.35) 12px,
-			transparent 70%
-		);
-	}
 	.name {
 		margin: 0 0 0.5rem;
 		font-size: clamp(1.3rem, 3.5dvh, 1.7rem);
@@ -2201,7 +1885,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		margin-top: 0.5rem;
+		margin: 0.5rem 0 0.85rem;
 		padding: 0.45rem 1rem;
 		border-radius: 999px;
 		background: rgb(255 255 255 / 0.08);
