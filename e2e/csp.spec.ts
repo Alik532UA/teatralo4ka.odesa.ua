@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { PUBLIC_PAGES } from './pages';
 import { clickInFooter, gotoReady } from './ready';
 

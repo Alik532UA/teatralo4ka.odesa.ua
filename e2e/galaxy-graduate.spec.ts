@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from './fixtures';
 import { readFileSync } from 'node:fs';
 import { gotoReady, openStageMenu, waitForAnimations } from './ready';
 import { groupPlayRows } from '../src/lib/data/playRowGroups';

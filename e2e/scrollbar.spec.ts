@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from './fixtures';
 import { waitForAnimations } from './ready';
 import type { ScrollbarMode } from '$lib/controllers/ui.svelte';
 

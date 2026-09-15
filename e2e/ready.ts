@@ -13,6 +13,10 @@ import { expect, type Page } from '@playwright/test';
  *
  * Сигнал готовності — заголовок сторінки. Він є на кожній публічній сторінці
  * і з'являється рівно тоді, коли компонент отримав свій текст.
+ *
+ * Глушилки аналітики тут НЕМАЄ і бути не повинно: вона висить на
+ * `BrowserContext` у `fixtures.ts` і діє на кожну сторінку, зокрема на ті 18
+ * прямих `page.goto`, що цей хелпер обходять (ANALYTICS-v9 § 5.2).
  */
 export async function gotoReady(page: Page, path: string) {
 	const response = await page.goto(path);

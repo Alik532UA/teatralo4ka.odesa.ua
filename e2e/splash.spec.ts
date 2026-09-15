@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page } from './fixtures';
 
 /**
  * Заставка мусить ЗАВЕРШУВАТИСЯ, а не зникати посеред анімації.

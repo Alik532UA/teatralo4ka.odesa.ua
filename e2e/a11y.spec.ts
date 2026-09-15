@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { PUBLIC_PAGES } from './pages';
 import { gotoReady, waitForAnimations } from './ready';
 import { baselineFor, knownFor } from './a11y-baseline';

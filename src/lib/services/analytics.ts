@@ -21,8 +21,20 @@ const GA_ID: string = 'G-W9XXERE0RJ';
 // X's: real measurement IDs can contain them — this one does.
 const isConfigured = /^G-[A-Z0-9]{6,}$/.test(GA_ID) && GA_ID !== GA_ID_PLACEHOLDER;
 
-// `dev` keeps local work from landing in the same property as real traffic.
-const enabled = () => browser && !dev && isConfigured;
+/**
+ * Локальне середовище або автоматизований тест (Playwright, Puppeteer тощо).
+ * Запобігає засміченню аналітики під час розробки, локального прев'ю та E2E-тестів.
+ */
+const isTestOrLocal = () => {
+	if (!browser || typeof window === 'undefined') return false;
+	const hostname = window.location?.hostname ?? '';
+	const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '[::1]';
+	const isWebDriver = typeof navigator !== 'undefined' && Boolean(navigator.webdriver);
+	return isLocal || isWebDriver;
+};
+
+// `dev`, `localhost` та автотести відключають аналітику, щоб тестовий трафік не потрапляв у продакшн.
+const enabled = () => browser && !dev && !isTestOrLocal() && isConfigured;
 
 export type AnalyticsEvent =
 	| 'section_view'
