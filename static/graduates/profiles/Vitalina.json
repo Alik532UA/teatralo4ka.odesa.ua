@@ -10,7 +10,7 @@
 	"departments": [
 		"theatre"
 	],
-	"hasPhoto": false,
+	"hasPhoto": true,
 	"masters": [
 		{
 			"id": "svitlana-myronenko"
@@ -153,5 +153,6 @@
 	"festivals": [],
 	"duringStudies": null,
 	"afterGraduation": null,
-	"sourceUrl": ""
+	"sourceUrl": "",
+	"photoCount": 3
 }

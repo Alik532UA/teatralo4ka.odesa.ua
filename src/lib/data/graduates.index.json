@@ -4740,7 +4740,7 @@
 			}
 		],
 		"playCount": 7,
-		"profileSize": 2190
+		"profileSize": 2831
 	},
 	{
 		"id": "kateryna-onopriienko",
@@ -10236,7 +10236,9 @@
 			}
 		],
 		"playCount": 10,
-		"profileSize": 3059
+		"profileSize": 3076,
+		"hasPhoto": true,
+		"photoCount": 3
 	},
 	{
 		"id": "vlada-hryhorashchenko",
