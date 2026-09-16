@@ -13,7 +13,7 @@ version: "1.0.0"
 
 The Open Festival of Applicants of Arts Education Institutions of Ukraine "Odesa.Theater.PRO" was held for the fourth time at the Odesa Theater School with the support of the Department of Culture, Tourism and Cultural Heritage Protection of the Odesa City Council and the National Union of Theater Artists of Ukraine.
 
-The organizing committee of the festival received more than 50 applications from Participants and Listeners. The creative programs of the applicants were evaluated by a professional Expert Council headed by the legendary Ukrainian director, People's Artist of Ukraine Dmytro Bohomazov.
+The organizing committee of the festival received more than 50 applications from Participants and Listeners. The creative programs of the applicants were evaluated by a professional Expert Council headed by the legendary Ukrainian director, People's Artist of Ukraine [Dmytro Bohomazov](/en/projects/galaxy-graduates/experts/dmytro-bohomazov).
 
 We are grateful to the festival partners: the Odesa hotel "Apartments No. 8", which perfectly accommodated all the guests, and the "Guide with a String Bag" Violetta Diduk, who conducted a wonderful tour for them.
 

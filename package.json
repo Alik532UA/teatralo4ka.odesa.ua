@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.669",
+	"version": "0.0.670",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -23,6 +23,7 @@
 		"validate-content": "tsx scripts/validate-content.ts",
 		"build:news-cards": "tsx scripts/build-news-cards.ts",
 		"build:news-backlinks": "tsx scripts/build-news-backlinks.ts",
+		"find:people-in-news": "tsx scripts/find-people-in-news.ts",
 		"build:search-index": "tsx scripts/build-search-index.ts",
 		"audit:play-naming": "tsx scripts/audit-play-naming.ts",
 		"news:from-firestore": "tsx scripts/news-from-firestore.ts",

@@ -14,7 +14,7 @@ excerpt: "On 5 September Teatralo4ka opened its jubilee 30th season: a magical T
 
 On 5 September the Odesa Theatre School opened its 30th, jubilee season! 😍
 
-This time all our theatre passengers were carried into the new school year by a magical Train to Art, under the creative control of the teachers — its conductors. The Teatralo4ka administration was, of course, the powerful locomotive of the whole journey, while the head of the school, Olena Tkach, asked everyone to watch the timetable at the theatre stations carefully, to stay on the rails during the breaks and to gather speed on the way to an unforgettable arrival at a dream of their own. 🚂🚈🚄
+This time all our theatre passengers were carried into the new school year by a magical Train to Art, under the creative control of the teachers — its conductors. The Teatralo4ka administration was, of course, the powerful locomotive of the whole journey, while the head of the school, [Olena Tkach](/en/residents/adults/olena-tkach), asked everyone to watch the timetable at the theatre stations carefully, to stay on the rails during the breaks and to gather speed on the way to an unforgettable arrival at a dream of their own. 🚂🚈🚄
 
 Have a good journey, our young theatre passengers! 🤩
 
