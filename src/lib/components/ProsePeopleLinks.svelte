@@ -8,6 +8,7 @@
 	} from '$lib/data/graduates';
 	import { asset } from '$app/paths';
 	import MASTERS_INDEX from '$lib/data/masters.index.json';
+	import EXPERTS_DATA from '$lib/data/experts.data.json';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import { stripLocale } from '$lib/i18n/routing';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
@@ -117,6 +118,7 @@
 	const РОЗМІР = 20;
 
 	type Майстер = { slug: string; displayName: string; photo?: string };
+	type Фахівець = { slug: string; name: string; photo?: string };
 
 	interface Особа {
 		name: string;
@@ -156,20 +158,24 @@
 		const шлях = stripLocale(href.split(/[?#]/)[0]).replace(/\/+$/, '');
 
 		/*
-		 * ЗАПРОШЕНИЙ ФАХІВЕЦЬ — кружечок із літерою, і реєстру для цього не
-		 * потрібно.
+		 * ЗАПРОШЕНИЙ ФАХІВЕЦЬ — з обличчям, відколи обличчя з'явилося.
 		 *
-		 * Сторінка в нього є, тож за домовленістю з автором обличчя йому
-		 * належить. Але заміряно 16 вересня 2026: у реєстрі `experts` знімка не
-		 * має ЖОДЕН із 25, а посилань на фахівців у текстах поки нуль. Тобто
-		 * імпорт реєстру купив би сьогодні рівно нічого — лише ім'я, яке й так
-		 * написане в самому посиланні, — і коштував би кілобайта в бандлі, де
-		 * вільно менше за нього.
+		 * Доти реєстр `experts` сюди не імпортувався зовсім, і причина була
+		 * заміряна: 16 вересня 2026 знімка не мав ЖОДЕН із 25 фахівців, тож
+		 * реєстр купив би лише ім'я, яке й так написане в самому посиланні, —
+		 * за кілобайт у бандлі. Там же було записано, за якої умови його
+		 * повертати: «коли у фахівців з'являться знімки».
 		 *
-		 * Тому ім'я береться з тексту посилання. Коли у фахівців з'являться
-		 * знімки, сюди повертається `EXPERTS` — і разом із ним причина.
+		 * Знімок з'явився того ж дня — портрет Дмитра Богомазова, — і в новині
+		 * про «Театр.PRO» він стояв літерою «Д», хоча на сусідній сторінці
+		 * випускника вже був обличчям. Реєстр повернуто; ціна тепер нульова, бо
+		 * той самий файл уже читає `ProsePersonTip` поруч.
 		 */
-		if (/^\/projects\/galaxy-graduates\/experts\/[^/]+$/.test(шлях)) return { name: '' };
+		const фахівець = /^\/projects\/galaxy-graduates\/experts\/([^/]+)$/.exec(шлях);
+		if (фахівець) {
+			const e = (EXPERTS_DATA as Фахівець[]).find((x) => x.slug === фахівець[1]);
+			return e ? { name: e.name, photo: e.photo ? asset(e.photo) : undefined } : { name: '' };
+		}
 
 		const випускник = /^\/projects\/galaxy-graduates\/([^/]+)$/.exec(шлях);
 		if (випускник) {
