@@ -255,6 +255,14 @@ describe('реєстр навчальних закладів', () => {
 		 */
 		// Анкети читаються ОДИН раз, а не по разу на заклад: інакше це 38 × 530
 		// відкриттів файлу, і перевірка не вкладається у свою межу часу.
+		/*
+		 * Написання зводиться до одного вигляду: в анкетах трапляється і
+		 * «КНУТКіТ», і «КНУТКиТ» — Катерина Кудлач написала через «и», і саме
+		 * тому її дворічний КНУТКиТ не бачив ніхто, поки я не звірив очима.
+		 * Порівняння без цього рядка пропускало б кожен такий варіант.
+		 */
+		const звести = (текст: string) => текст.replace(/и/g, 'і').toLowerCase();
+
 		const тексти = new Map<string, string>();
 		for (const graduate of graduatesIndex as GraduateIndexEntry[]) {
 			const файл = join('static', 'graduates', 'profiles', `${graduate.id}.json`);
@@ -275,7 +283,7 @@ describe('реєстр навчальних закладів', () => {
 			const має = new Set(institution.students.map((s) => s.id));
 			for (const [id, текст] of тексти) {
 				if (має.has(id)) continue;
-				if (текст.includes(institution.name))
+				if (звести(текст).includes(звести(institution.name)))
 					bad.push(`${id} → ${institution.slug}: анкета називає «${institution.name}»`);
 			}
 		}

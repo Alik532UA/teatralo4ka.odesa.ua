@@ -167,7 +167,8 @@
 			{
 				"id": "dar-ia-hurevych",
 				"year": 2020,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. А. Мойсеєва"
 			},
 			{
 				"id": "kateryna-moliboha",
@@ -225,6 +226,12 @@
 				"id": "mykhailo-haniev",
 				"master": "Є. О. Нулякіної",
 				"note": "випуск 2021"
+			},
+			{
+				"id": "kateryna-kudlach",
+				"year": 2015,
+				"programme": "театр ляльок",
+				"master": "Т. І. Сільченко"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -479,7 +486,8 @@
 			{
 				"id": "anastasiia-chalchynska",
 				"year": 2014,
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "А. Сеітаблаєва"
 			},
 			{
 				"id": "anastasiia-yevdokymova",
@@ -591,7 +599,8 @@
 			{
 				"id": "maryna-kravchuk",
 				"year": 2023,
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "І. С. Уривського"
 			},
 			{
 				"id": "yelyzaveta-maliuzhenko",
@@ -807,12 +816,14 @@
 			{
 				"id": "anfisa-lazebna",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. І. Жиркова"
 			},
 			{
 				"id": "yevhen-lysenko",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. І. Жиркова"
 			},
 			{
 				"id": "anna-mariia-vyskochyl",
@@ -840,8 +851,9 @@
 			},
 			{
 				"id": "kateryna-kudlach",
-				"year": 2015,
-				"programme": "акторський"
+				"year": 2017,
+				"programme": "акторський",
+				"master": "О. А. Кравчука"
 			},
 			{
 				"id": "khrystia-oslavska",
@@ -884,12 +896,14 @@
 			{
 				"id": "daiana-ponomarenko",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Олега Драча"
 			},
 			{
 				"id": "alina-burdeina",
 				"year": 2019,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Олега Драча"
 			}
 		],
 		"verificationStatus": "possible_errors"
