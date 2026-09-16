@@ -97,7 +97,9 @@ const ОБХІД = `(() => {
 
 test('розбір живий: непомітне посилання в реченні знаходиться', async ({ page }) => {
 	await page.goto('/');
-	const знайдено = await page.evaluate(`(() => {
+	/* `page.evaluate` з рядком-виразом типу НЕ знає й віддає `unknown`: без
+	   зведення нижче `.length` і `[0]` не збираються. */
+	const знайдено = (await page.evaluate(`(() => {
 		const host = document.createElement('div');
 		host.style.color = 'rgb(200, 200, 200)';
 		host.innerHTML =
@@ -107,7 +109,7 @@ test('розбір живий: непомітне посилання в рече
 		const bad = ${ОБХІД};
 		host.remove();
 		return bad;
-	})()`);
+	})()`)) as string[];
 
 	expect(
 		знайдено.length,
