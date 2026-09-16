@@ -146,7 +146,21 @@ jobs:
         id: build
         env:
           VITE_SCHOOL_ID: ${{ matrix.school }}
-          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          # НЕ секрет — і саме тому тут значення, а не `secrets.`.
+          #
+          # Це ключ РОЗДІЛУ ДАНИХ у спільній базі (`projects/<id>/articles`), а
+          # не доступ до неї: він їде відкритим у кожному запиті Firestore і вже
+          # стоїть текстом у шести місцях коду як запасне значення.
+          #
+          # Секрет тут коштував МОВЧАЗНОЇ поломки. Заміряно 17 вересня 2026 за
+          # трейсом прогону 35155407812: збірка питала
+          # `projects/teatralo4ka.odesa.ua/articles`, де опублікованих статей 0,
+          # тоді як усі новини з адмінки лежать у `projects/teatralo4ka/articles`,
+          # де їх 3. Тобто в секреті лежав домен сайту замість ключа розділу —
+          # і новини з адмінки не з'являлися ні в прогоні, ні на ЖИВОМУ сайті.
+          # Сторінка це ковтала: `Promise.allSettled` лишав перелік із самими
+          # новинами з коду, тобто несправність виглядала як «новин просто немає».
+          VITE_PROJECT_ID: teatralo4ka
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
