@@ -20,3 +20,5 @@ We are grateful to the festival partners: the Odesa hotel "Apartments No. 8", wh
 Following the results of the "Theater.PRO" festival, in addition to the creative satisfaction from the process, interesting master classes, trainings, and invaluable experience, the participants received Laureate Diplomas, and the Listeners received Certificates of Professional Development from the State Scientific and Methodological Center for the Content of Cultural and Arts Education.
 
 Furthermore, the festival participants Anastasiia Ivanova (Odesa), Anastasiia Tsvietus (Khmelnytskyi), Pavlo Maksymov (Odesa), and Alina Demediuk (Gotha, Germany) received cash prizes from the festival partners "Lviv Handmade Chocolate" and the NGO "PRO.TEATR".
+
+The festival has a page of its own — the full list of participants, the Expert Council, the teachers and the shared photographs: [Odesa.Teatr.PRO 2026](/en/projects/galaxy-graduates/festivals/teatr-pro-2026).

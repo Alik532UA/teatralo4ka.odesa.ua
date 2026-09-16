@@ -128,41 +128,48 @@
 	type Майстер = { slug: string; displayName: string; photo?: string };
 	type Заклад = { name: string; students: { id: string; year?: number }[] };
 
-	/**
-	 * Рядки підказки під курсором: випуск, майстер курсу, заклад.
-	 *
-	 * Рахуються НА НАВЕДЕННЯ, а не наперед для всіх посилань: на сторінці їх
-	 * буває півтора десятка, а розкриють одне-два.
-	 */
-	function рядки(g: GraduateIndexEntry): string[] {
-		const out: string[] = [];
-		if (g.graduationYear) out.push(`${$t('galaxy.graduated')} ${g.graduationYear}`);
+	interface Зміст {
+		/** «випуск 2018» — або нічого, коли року в реєстрі немає. */
+		випуск?: string;
+		/** Майстри курсу НАШОЇ школи, з обличчями. */
+		майстри: { name: string; photo?: string }[];
+		/** Куди вступив: «КНУТКіТ, вступ 2018». */
+		заклад?: string;
+	}
 
+	/**
+	 * Що показує підказка. Рахується НА НАВЕДЕННЯ, а не наперед для всіх
+	 * посилань: на сторінці їх буває півтора десятка, а розкриють одне-два.
+	 */
+	function зміст(g: GraduateIndexEntry): Зміст {
 		const майстри = (g.masters ?? [])
 			// Майстер в анкеті буває рядком-ключем або записом із `id` — реєстр
 			// зберігав обидві форми, і звужувати його заради підказки ні до чого.
 			.map((m) => (typeof m === 'string' ? m : m.id))
-			.map((id) => (MASTERS_INDEX as Майстер[]).find((x) => x.slug === id)?.displayName)
-			.filter(Boolean);
-		if (майстри.length)
-			out.push(`${майстри.length > 1 ? $t('galaxy.masters') : $t('galaxy.masterOne')}: ${майстри.join(', ')}`);
+			.map((id) => (MASTERS_INDEX as Майстер[]).find((x) => x.slug === id))
+			.filter((m) => m !== undefined)
+			.map((m) => ({ name: m.displayName, photo: m.photo ? asset(m.photo) : undefined }));
 
 		/*
 		 * Заклад шукається ЗА РЕБРОМ «людина + рік», а не полем в анкеті: у
 		 * реєстрі закладів саме там живе вступ, і розбір цього рішення — у
 		 * докблоці `data/institutions`.
 		 */
-		for (const заклад of INSTITUTIONS_DATA as Заклад[]) {
-			const студент = заклад.students.find((st) => st.id === g.id);
+		let заклад: string | undefined;
+		for (const з of INSTITUTIONS_DATA as Заклад[]) {
+			const студент = з.students.find((st) => st.id === g.id);
 			if (!студент) continue;
-			out.push(
-				студент.year
-					? `${заклад.name}, ${$t('galaxy.institutionEnrolled', { values: { year: студент.year } })}`
-					: заклад.name
-			);
+			заклад = студент.year
+				? `${з.name}, ${$t('galaxy.institutionEnrolled', { values: { year: студент.year } })}`
+				: з.name;
 			break;
 		}
-		return out;
+
+		return {
+			випуск: g.graduationYear ? `${$t('galaxy.graduated')} ${g.graduationYear}` : undefined,
+			майстри,
+			заклад
+		};
 	}
 
 	/** Що показує підказка зараз і де вона стоїть. */
@@ -171,7 +178,7 @@
 		y: number;
 		знизу: boolean;
 		особа: Особа;
-		рядки: string[];
+		зміст: Зміст;
 	} | null>(null);
 
 	/**
@@ -375,7 +382,7 @@
 				y: знизу ? r.bottom + 6 : r.top - 6,
 				знизу,
 				особа,
-				рядки: рядки(особа.випускник)
+				зміст: зміст(особа.випускник)
 			};
 		}
 
@@ -426,9 +433,42 @@
 		{/if}
 		<span class="tip__body">
 			<span class="tip__name">{підказка.особа.name}</span>
-			{#each підказка.рядки as рядок (рядок)}
-				<span class="tip__line">{рядок}</span>
+			{#if підказка.зміст.випуск}
+				<span class="tip__line">{підказка.зміст.випуск}</span>
+			{/if}
+
+			<!--
+				Майстри курсу — У СТОВПЕЦЬ і з обличчями, а не рядком через кому.
+				Кома зліплювала двох різних людей в один рядок, який ще й
+				переносився посередині прізвища; обличчя ж тут те саме, що й
+				скрізь на сайті, — воно впізнається швидше за підпис.
+			-->
+			{#each підказка.зміст.майстри as майстер (майстер.name)}
+				<span class="tip__master">
+					{#if майстер.photo}
+						<img class="tip__mini" src={майстер.photo} width="20" height="20" alt="" />
+					{:else}
+						<span class="tip__mini tip__mini--letter" aria-hidden="true">
+							{майстер.name.slice(0, 1)}
+						</span>
+					{/if}
+					<span class="tip__line">{майстер.name}</span>
+				</span>
 			{/each}
+
+			<!--
+				РОЗДІЛЬНИК перед закладом — не оформлення, а виправлення неправди.
+				Майстер курсу в НАШІЙ школі й заклад, куди людина вступила
+				ПОТІМ, — різні речі, а стоячи впритул вони читалися як «майстер
+				курсу в КНУТКіТ». У самого закладу свій майстер курсу є, і він у
+				даних поки не живе.
+			-->
+			{#if підказка.зміст.заклад}
+				{#if підказка.зміст.майстри.length}
+					<span class="tip__rule" aria-hidden="true"></span>
+				{/if}
+				<span class="tip__line">{підказка.зміст.заклад}</span>
+			{/if}
 		</span>
 	</div>
 {/if}
@@ -485,5 +525,32 @@
 		font-size: 0.82rem;
 		line-height: 1.35;
 		color: var(--text-muted);
+	}
+	.tip__master {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-top: 0.15rem;
+	}
+	.tip__mini {
+		flex: none;
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: var(--hairline-width) solid var(--border-main);
+		background: var(--bg-surface);
+	}
+	.tip__mini--letter {
+		display: grid;
+		place-items: center;
+		font-size: 0.7rem;
+		font-weight: 700;
+		color: var(--text-muted);
+	}
+	.tip__rule {
+		height: var(--hairline-width);
+		margin: 0.35rem 0 0.25rem;
+		background: var(--border-main);
 	}
 </style>

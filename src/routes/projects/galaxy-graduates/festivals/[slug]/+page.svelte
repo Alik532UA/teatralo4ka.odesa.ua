@@ -11,7 +11,8 @@
 		Gavel,
 		Dumbbell,
 		Star,
-		ScrollText
+		ScrollText,
+		Newspaper
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
 	import { expertPath } from '$lib/data/experts';
@@ -570,6 +571,37 @@
 			</section>
 		{/each}
 
+		<!--
+			НОВИНИ ПРО ПОЇЗДКУ — розділ, якого не існує в даних фестивалю.
+			Зріз приходить `fetch`ем і рахується з ПОСИЛАНЬ у самих новинах, тож
+			поля `newsIds` у реєстрі немає навмисно: розбір — у докблоці
+			`data/festivalNews`. Стоїть останнім, бо це погляд ЗВІДКИ-ІНДЕ на цю
+			поїздку, а не її власний склад.
+		-->
+		{#if data.news.length > 0}
+			<section class="fest-section" aria-labelledby="section-news-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Newspaper size={20} aria-hidden="true" /></span>
+					<h2 id="section-news-title" class="section-heading__title">{$t('nav.news')}</h2>
+					<span class="section-heading__count">{data.news.length}</span>
+				</div>
+				<ul class="fest-news" data-testid="festival-news-list">
+					{#each data.news as новина (новина.id)}
+						<li>
+							<a
+								class="fest-news__item"
+								href={localizedPath(`/news/${новина.id}`, currentLang)}
+								data-testid="festival-news-link-{новина.id}"
+							>
+								<span class="fest-news__title">{новина.title[currentLang]}</span>
+								<time class="fest-news__date" datetime={новина.date}>{новина.date}</time>
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
+
 		<PhotoLightbox
 			images={sheetImages}
 			currentIndex={sheetsIndex}
@@ -878,5 +910,48 @@
 		text-align: center;
 		color: var(--text-muted);
 		line-height: 1.6;
+	}
+
+	/*
+	 * Новини — рядками, а не плитками: у них немає обкладинки під рукою (зріз
+	 * возить лише назву й дату), і плитка з самим заголовком виглядала б як
+	 * картка, що не завантажилась. Те саме рішення й тими самими словами — на
+	 * розділі учасників без картки вище.
+	 */
+	.fest-news {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.5rem;
+	}
+	.fest-news__item {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.3rem 0.7rem;
+		padding: 0.7rem 0.9rem;
+		border-radius: 0.9rem;
+		background: rgb(255 255 255 / 0.05);
+		border: var(--hairline-width) solid rgb(140 190 255 / 0.14);
+		color: var(--galaxy-text);
+		text-decoration: none;
+		transition:
+			border-color var(--transition-base),
+			background var(--transition-base);
+	}
+	.fest-news__item:hover {
+		border-color: rgb(140 190 255 / 0.5);
+		background: rgb(140 190 255 / 0.09);
+	}
+	.fest-news__title {
+		flex: 1 1 14rem;
+		min-width: 0;
+		font-weight: 600;
+	}
+	.fest-news__date {
+		flex: none;
+		font-size: 0.86rem;
+		color: var(--galaxy-muted);
 	}
 </style>

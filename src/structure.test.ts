@@ -83,6 +83,18 @@ import { describe, expect, it } from 'vitest';
  *   груп, яка їх теж дублює. Друге — справжнє виправлення, але окреме: робити
  *   його мимохідь, посеред внесення даних про фестивалі, означало б зачепити
  *   чужу сторінку без потреби.
+ * 2026-09-16 (новини поїздки): `festivals/[slug]/+page.svelte` 552 → 608.
+ *   П'ятдесят шість рядків — розділ «Новини» плюс його стилі.
+ *
+ *   САМИХ ДАНИХ У СТОРІНЦІ НЕ ДОДАЛОСЯ: зріз рахується з посилань у текстах
+ *   новин і приходить `fetch`ем із `static/` (`data/festivalNews`), тобто сюди
+ *   потрапила рівно розмітка розділу — заголовок, цикл і чотири правила CSS.
+ *
+ *   Ділити нема на що з тієї самої причини, що й у двох записах вище:
+ *   службові класи розділу (`.fest-section`, `.section-heading`, `.icon-wrap`)
+ *   живуть у скоупі САМОЇ сторінки, і винесений компонент лишився б без них.
+ *   Винести їх у `global.css` — справжнє виправлення, але окреме: воно чіпає
+ *   ще й сторінку груп, яка ті самі класи дублює.
  * 2026-09-14 (буклети): `festivals/[slug]/+page.svelte` 535 → 552. Сімнадцять
  *   рядків — розділ «Програмка фестивалю» поруч із дипломами.
  *
@@ -639,7 +651,7 @@ const LIMITS: Array<[RegExp, number]> = [
  *   для складу з однією вставкою.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 552,
+	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 608,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
 	'src/lib/components/HeaderSection.svelte': 1600,
