@@ -220,6 +220,11 @@
 				"year": 2026,
 				"programme": "акторський",
 				"master": "С. Калантая"
+			},
+			{
+				"id": "mykhailo-haniev",
+				"master": "Є. О. Нулякіної",
+				"note": "випуск 2021"
 			}
 		],
 		"verificationStatus": "possible_errors"

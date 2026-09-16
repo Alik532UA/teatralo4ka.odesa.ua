@@ -233,6 +233,59 @@ describe('реєстр навчальних закладів', () => {
 		);
 	});
 
+	it('анкета називає заклад — у реєстрі є ребро (CRITICAL)', () => {
+		/*
+		 * ІНШИЙ БІК ПЕРЕВІРКИ ВИЩЕ, і саме він ловив реальний випадок.
+		 *
+		 * Та перевірка йде від рядка «Вступ 20…» в анкеті. Але людина пише про
+		 * заклад як завгодно: «Закінчив КНУТКіТ ім.Карпенка-Карого (20-7-2021)
+		 * майстерня Є.О.Нулякіної» — ані слова «вступ», ані року вступу. Такий
+		 * запис не бачив ніхто: сторінка закладу про людину не знала, а сама
+		 * людина мала заклад лише прозою в «про себе», без посилання.
+		 *
+		 * Заміряно 16 вересня 2026: з 24 згадок закладів в анкетах 23 мали
+		 * ребро, і саме одна — ні (`mykhailo-haniev` → `knutkit`).
+		 *
+		 * Ознака — КОРОТКА назва закладу («КНУТКіТ», «ОТХФК»), а не повна:
+		 * абревіатуру пишуть усі й однаково, а повну назву кожен по-своєму, і
+		 * пошук за нею дав би або промахи, або хибні спрацювання.
+		 *
+		 * Зворотний експеримент (`PIT-REVERSE-EXPERIMENT`): прибрати ребро
+		 * `mykhailo-haniev` із `knutkit` — перевірка називає саме його.
+		 */
+		// Анкети читаються ОДИН раз, а не по разу на заклад: інакше це 38 × 530
+		// відкриттів файлу, і перевірка не вкладається у свою межу часу.
+		const тексти = new Map<string, string>();
+		for (const graduate of graduatesIndex as GraduateIndexEntry[]) {
+			const файл = join('static', 'graduates', 'profiles', `${graduate.id}.json`);
+			if (!existsSync(файл)) continue;
+			const анкета = JSON.parse(readFileSync(файл, 'utf8')) as Record<string, unknown>;
+			тексти.set(
+				graduate.id,
+				[анкета.afterGraduation, анкета.duringStudies, анкета.bio]
+					.flat()
+					.filter((x): x is string => typeof x === 'string')
+					.join(' ')
+			);
+		}
+
+		const bad: string[] = [];
+		for (const institution of INSTITUTIONS) {
+			if (institution.name.length < 4) continue;
+			const має = new Set(institution.students.map((s) => s.id));
+			for (const [id, текст] of тексти) {
+				if (має.has(id)) continue;
+				if (текст.includes(institution.name))
+					bad.push(`${id} → ${institution.slug}: анкета називає «${institution.name}»`);
+			}
+		}
+		expect(
+			bad,
+			`анкета називає заклад, а ребра в реєстрі немає — сторінка закладу ` +
+				`про людину не знає:\n  ${bad.join('\n  ')}`
+		).toEqual([]);
+	});
+
 	it('стан верифікації — з відомого набору', () => {
 		const known = new Set(['verified', 'possible_errors', 'definite_errors']);
 		const bad = INSTITUTIONS.filter(

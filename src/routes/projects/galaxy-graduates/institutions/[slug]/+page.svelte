@@ -45,6 +45,52 @@
 	}
 
 	const картка = $derived(graduateFromPageState());
+
+	/**
+	 * ПОРЯДОК СТУДЕНТІВ: спершу ті, у кого є портрет, — і всередині кожної
+	 * частини випадково.
+	 *
+	 * Доти список ішов як у даних, тобто як його перелічила школа, і сітка
+	 * починалася з кількох плиток із самими ініціалами — сторінка виглядала
+	 * так, ніби вона не завантажилась. Обличчя попереду показують, що за
+	 * закладом стоять живі люди; випадковість у межах частини — щоб не
+	 * виходило, ніби перші троє чимось важливіші.
+	 *
+	 * Рівно той самий прийом і з тих самих причин уже стоїть у
+	 * `GraduateAvatarRow`; там же розбір, чому Фішер—Йейтс, а не
+	 * `sort(() => Math.random() - 0.5)`.
+	 */
+	function перемішати<T>(list: T[]): T[] {
+		const out = [...list];
+		for (let i = out.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[out[i], out[j]] = [out[j], out[i]];
+		}
+		return out;
+	}
+
+	/*
+	 * До гідратації — стабільний порядок: пререндерена розмітка мусить мати
+	 * ЯКИЙСЬ порядок, і осмислений кращий за довільний, якщо скрипт не дійде.
+	 * Перемішування живе в `$effect`, бо `$derived` рахувався б і на сервері —
+	 * і клієнт побачив би іншу розмітку, ніж приїхала з мережі.
+	 */
+	const зФото = $derived([
+		...data.students.filter((s) => s.graduate.hasPhoto),
+		...data.students.filter((s) => !s.graduate.hasPhoto)
+	]);
+
+	// eslint-disable-next-line svelte/prefer-writable-derived
+	let перемішані = $state<typeof зФото | null>(null);
+
+	$effect(() => {
+		перемішані = [
+			...перемішати(data.students.filter((s) => s.graduate.hasPhoto)),
+			...перемішати(data.students.filter((s) => !s.graduate.hasPhoto))
+		];
+	});
+
+	const ordered = $derived(перемішані ?? зФото);
 </script>
 
 <svelte:head>
@@ -114,7 +160,7 @@
 				</div>
 
 				<div class="people-grid" data-testid="institution-students-list">
-					{#each data.students as { graduate, student }, idx (graduate.id)}
+					{#each ordered as { graduate, student }, idx (graduate.id)}
 						{@const photo = graduate.hasPhoto ? asset(`/graduates/${graduate.slug}-192.webp`) : null}
 						<GroupPersonCard
 							name={graduate.name}
