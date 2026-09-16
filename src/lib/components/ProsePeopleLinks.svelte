@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { t } from 'svelte-i18n';
 	import {
 		WITH_PAGE,
 		findByAddress,
@@ -9,10 +8,10 @@
 	} from '$lib/data/graduates';
 	import { asset } from '$app/paths';
 	import MASTERS_INDEX from '$lib/data/masters.index.json';
-	import INSTITUTIONS_DATA from '$lib/data/institutions.data.json';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import { stripLocale } from '$lib/i18n/routing';
 	import GraduateCardOnPage from '$lib/components/GraduateCardOnPage.svelte';
+	import ProsePersonTip from '$lib/components/ProsePersonTip.svelte';
 
 	/**
 	 * Посилання на ЛЮДИНУ всередині тексту: обличчя перед іменем, а натискання
@@ -117,6 +116,8 @@
 	/** Сторона кружечка в пікселях — та сама, що в `width`/`height` знімка. */
 	const РОЗМІР = 20;
 
+	type Майстер = { slug: string; displayName: string; photo?: string };
+
 	interface Особа {
 		name: string;
 		/** Адреса знімка, або `undefined` — тоді малюється літера. */
@@ -125,52 +126,6 @@
 		випускник?: GraduateIndexEntry;
 	}
 
-	type Майстер = { slug: string; displayName: string; photo?: string };
-	type Заклад = { name: string; students: { id: string; year?: number }[] };
-
-	interface Зміст {
-		/** «випуск 2018» — або нічого, коли року в реєстрі немає. */
-		випуск?: string;
-		/** Майстри курсу НАШОЇ школи, з обличчями. */
-		майстри: { name: string; photo?: string }[];
-		/** Куди вступив: «КНУТКіТ, вступ 2018». */
-		заклад?: string;
-	}
-
-	/**
-	 * Що показує підказка. Рахується НА НАВЕДЕННЯ, а не наперед для всіх
-	 * посилань: на сторінці їх буває півтора десятка, а розкриють одне-два.
-	 */
-	function зміст(g: GraduateIndexEntry): Зміст {
-		const майстри = (g.masters ?? [])
-			// Майстер в анкеті буває рядком-ключем або записом із `id` — реєстр
-			// зберігав обидві форми, і звужувати його заради підказки ні до чого.
-			.map((m) => (typeof m === 'string' ? m : m.id))
-			.map((id) => (MASTERS_INDEX as Майстер[]).find((x) => x.slug === id))
-			.filter((m) => m !== undefined)
-			.map((m) => ({ name: m.displayName, photo: m.photo ? asset(m.photo) : undefined }));
-
-		/*
-		 * Заклад шукається ЗА РЕБРОМ «людина + рік», а не полем в анкеті: у
-		 * реєстрі закладів саме там живе вступ, і розбір цього рішення — у
-		 * докблоці `data/institutions`.
-		 */
-		let заклад: string | undefined;
-		for (const з of INSTITUTIONS_DATA as Заклад[]) {
-			const студент = з.students.find((st) => st.id === g.id);
-			if (!студент) continue;
-			заклад = студент.year
-				? `${з.name}, ${$t('galaxy.institutionEnrolled', { values: { year: студент.year } })}`
-				: з.name;
-			break;
-		}
-
-		return {
-			випуск: g.graduationYear ? `${$t('galaxy.graduated')} ${g.graduationYear}` : undefined,
-			майстри,
-			заклад
-		};
-	}
 
 	/** Що показує підказка зараз і де вона стоїть. */
 	let підказка = $state<{
@@ -178,7 +133,6 @@
 		y: number;
 		знизу: boolean;
 		особа: Особа;
-		зміст: Зміст;
 	} | null>(null);
 
 	/**
@@ -236,7 +190,7 @@
 			 * бандлі це коштувало пів кілобайта при вільних 0.33. Потрібні звідси
 			 * рівно два поля.
 			 */
-			const m = (MASTERS_INDEX as { slug: string; displayName: string; photo?: string }[]).find(
+			const m = (MASTERS_INDEX as Майстер[]).find(
 				(x) => x.slug === майстер[1]
 			);
 			return m ? { name: m.displayName, photo: m.photo ? asset(m.photo) : undefined } : null;
@@ -381,8 +335,7 @@
 				x: Math.min(Math.max(r.left, 8), window.innerWidth - 268),
 				y: знизу ? r.bottom + 6 : r.top - 6,
 				знизу,
-				особа,
-				зміст: зміст(особа.випускник)
+				особа
 			};
 		}
 
@@ -413,144 +366,10 @@
 <GraduateCardOnPage />
 
 {#if підказка}
-	<!--
-		Підказка стоїть у `body`-координатах (`position: fixed`), бо посилання
-		живе в тексті, а текст — у колонці з власною прокруткою й обрізанням.
-		Вкласти її поруч із посиланням нема куди: розмітку пише markdown.
-	-->
-	<div
-		class="tip"
-		class:tip--above={!підказка.знизу}
-		style="left: {підказка.x}px; top: {підказка.y}px"
-		data-testid="prose-person-tip-card"
-	>
-		{#if підказка.особа.photo}
-			<img class="tip__face" src={підказка.особа.photo} width="48" height="48" alt="" />
-		{:else}
-			<span class="tip__face tip__face--letter" aria-hidden="true">
-				{підказка.особа.name.slice(0, 1)}
-			</span>
-		{/if}
-		<span class="tip__body">
-			<span class="tip__name">{підказка.особа.name}</span>
-			{#if підказка.зміст.випуск}
-				<span class="tip__line">{підказка.зміст.випуск}</span>
-			{/if}
-
-			<!--
-				Майстри курсу — У СТОВПЕЦЬ і з обличчями, а не рядком через кому.
-				Кома зліплювала двох різних людей в один рядок, який ще й
-				переносився посередині прізвища; обличчя ж тут те саме, що й
-				скрізь на сайті, — воно впізнається швидше за підпис.
-			-->
-			{#each підказка.зміст.майстри as майстер (майстер.name)}
-				<span class="tip__master">
-					{#if майстер.photo}
-						<img class="tip__mini" src={майстер.photo} width="20" height="20" alt="" />
-					{:else}
-						<span class="tip__mini tip__mini--letter" aria-hidden="true">
-							{майстер.name.slice(0, 1)}
-						</span>
-					{/if}
-					<span class="tip__line">{майстер.name}</span>
-				</span>
-			{/each}
-
-			<!--
-				РОЗДІЛЬНИК перед закладом — не оформлення, а виправлення неправди.
-				Майстер курсу в НАШІЙ школі й заклад, куди людина вступила
-				ПОТІМ, — різні речі, а стоячи впритул вони читалися як «майстер
-				курсу в КНУТКіТ». У самого закладу свій майстер курсу є, і він у
-				даних поки не живе.
-			-->
-			{#if підказка.зміст.заклад}
-				{#if підказка.зміст.майстри.length}
-					<span class="tip__rule" aria-hidden="true"></span>
-				{/if}
-				<span class="tip__line">{підказка.зміст.заклад}</span>
-			{/if}
-		</span>
-	</div>
+	<ProsePersonTip
+		x={підказка.x}
+		y={підказка.y}
+		знизу={підказка.знизу}
+		особа={{ ...підказка.особа, випускник: підказка.особа.випускник! }}
+	/>
 {/if}
-
-<style>
-	.tip {
-		position: fixed;
-		/*
-		 * Під модалкою, але над усім іншим: підказка живе на сторінці, а не
-		 * поверх картки, яку відкриває натискання. Власної змінної для підказок
-		 * у палітрі немає, і заводити її заради одного місця ні до чого.
-		 */
-		z-index: calc(var(--z-modal) - 1);
-		display: flex;
-		gap: 0.6rem;
-		width: 260px;
-		padding: 0.6rem 0.7rem;
-		border-radius: 0.8rem;
-		background: var(--bg-card);
-		border: var(--hairline-width) solid var(--border-main);
-		box-shadow: 0 12px 30px rgb(0 0 0 / 0.35);
-		pointer-events: none;
-	}
-	/* Піднята підказка відраховується від СВОГО низу, а не від верху. */
-	.tip--above {
-		translate: 0 -100%;
-	}
-	.tip__face {
-		flex: none;
-		width: 48px;
-		height: 48px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: var(--hairline-width) solid var(--border-main);
-		background: var(--bg-surface);
-	}
-	.tip__face--letter {
-		display: grid;
-		place-items: center;
-		font-size: 1.1rem;
-		font-weight: 700;
-		color: var(--text-muted);
-	}
-	.tip__body {
-		display: grid;
-		gap: 0.1rem;
-		min-width: 0;
-	}
-	.tip__name {
-		font-weight: 700;
-		color: var(--text-title);
-	}
-	.tip__line {
-		font-size: 0.82rem;
-		line-height: 1.35;
-		color: var(--text-muted);
-	}
-	.tip__master {
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-		margin-top: 0.15rem;
-	}
-	.tip__mini {
-		flex: none;
-		width: 20px;
-		height: 20px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: var(--hairline-width) solid var(--border-main);
-		background: var(--bg-surface);
-	}
-	.tip__mini--letter {
-		display: grid;
-		place-items: center;
-		font-size: 0.7rem;
-		font-weight: 700;
-		color: var(--text-muted);
-	}
-	.tip__rule {
-		height: var(--hairline-width);
-		margin: 0.35rem 0 0.25rem;
-		background: var(--border-main);
-	}
-</style>

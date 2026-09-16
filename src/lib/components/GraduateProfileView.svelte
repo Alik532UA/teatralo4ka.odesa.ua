@@ -22,6 +22,7 @@
 	import { localizedPath } from "$lib/i18n/routing";
 	import { linkedMasterId } from "$lib/data/dualRole";
 	import { getGroupsByMember } from "$lib/data/groups";
+	import { loadPersonNews, type PersonNews } from "$lib/data/newsBacklinks";
 	import { masterLabelKey, dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
@@ -87,6 +88,7 @@
 	let playsListEl = $state<HTMLUListElement | null>(null);
 
 	const isEn = $derived($locale === "en");
+	const lang = $derived<"uk" | "en">(isEn ? "en" : "uk");
 	const enrollmentYears = $derived(
 		profile?.enrollmentYears ?? graduate.enrollmentYears ?? [],
 	);
@@ -290,6 +292,24 @@
 	 * обрізаним у квадрат, другий цілим.
 	 */
 	const gallery = $derived(profile?.gallery ?? []);
+
+	/**
+	 * Новини, у яких цю людину згадали, — зріз зі `static/`.
+	 *
+	 * Зв'язок живе В ТЕКСТІ НОВИНИ (посилання на сторінку людини), і другого
+	 * місця для нього немає: поле `newsIds` в анкеті розійшлося б із текстом
+	 * тихо. Скрипт `build-news-backlinks` повертає посилання другим боком;
+	 * повний розбір — у докблоці `data/newsBacklinks`.
+	 *
+	 * Читає САМА картка, а не `load`: вона відкривається і сторінкою, і вікном
+	 * поверх галактики, де жодного `load` немає.
+	 */
+	let усіНовини = $state<PersonNews>({});
+	$effect(() => {
+		if (!browser) return;
+		void loadPersonNews().then((зріз) => (усіНовини = зріз));
+	});
+	const news = $derived(усіНовини[graduate.id] ?? []);
 	const hasAnyPlayYear = $derived(
 		Boolean(profile?.plays.some((p) => Boolean(p.year))),
 	);
@@ -326,6 +346,7 @@
 		| "teachers"
 		| "plays"
 		| "festivals"
+		| "news"
 		| "bio";
 
 	/** Порядок читання, коли колонка одна. Він же — черга для решти плашок. */
@@ -336,6 +357,7 @@
 		"teachers",
 		"plays",
 		"festivals",
+		"news",
 		"bio",
 	];
 
@@ -401,6 +423,12 @@
 			if (key === "masters") return normalizedMasters.length > 0;
 			if (key === "plays") return hasPlays || isTheatre;
 			if (key === "festivals") return hasFestivals;
+			/*
+			 * Новини зникають порожніми — з тієї ж причини, що майстри й
+			 * фестивалі: порожня плашка тут просила б новину, а пишемо їх ми, а
+			 * не людина зі своєї сторінки.
+			 */
+			if (key === "news") return news.length > 0;
 			return true;
 		}),
 	);
@@ -1238,6 +1266,34 @@
 				</div>
 {/snippet}
 
+{#snippet newsCard()}
+	<div class="bento-card" data-block="news" data-testid="galaxy-card-news-card">
+		<div class="block">
+			<h3 class="block__title galaxy-block-title">{$t("nav.news")}</h3>
+			<!--
+				Рядками, а не плитками: зріз возить лише назву й дату, обкладинки
+				в нього немає, і плитка з самим заголовком виглядала б як картка,
+				що не завантажилась. Те саме рішення й тими самими словами — у
+				розділі новин на сторінці фестивалю.
+			-->
+			<ul class="news-list" data-testid="galaxy-card-news-list">
+				{#each news as новина (новина.id)}
+					<li>
+						<a
+							class="news-list__item"
+							href={localizedPath(`/news/${новина.id}`, lang)}
+							data-testid="galaxy-card-news-link-{новина.id}"
+						>
+							<span class="news-list__title">{новина.title[lang]}</span>
+							<time class="news-list__date" datetime={новина.date}>{новина.date}</time>
+						</a>
+					</li>
+				{/each}
+			</ul>
+		</div>
+	</div>
+{/snippet}
+
 {#snippet blockOf(key: string)}
 	{#if key === "main"}{@render mainCard()}
 	{:else if key === "gallery"}{@render galleryCard()}
@@ -1245,6 +1301,7 @@
 	{:else if key === "masters"}{@render mastersCard()}
 	{:else if key === "teachers"}{@render teachersCard()}
 	{:else if key === "festivals"}{@render festivalsCard()}
+	{:else if key === "news"}{@render newsCard()}
 	{:else if key === "bio"}{@render bioCard()}{/if}
 {/snippet}
 
@@ -1416,6 +1473,34 @@
 	 * «налізають на фотографії». Вісім пікселів — рівно та відстань, на якій
 	 * видно, що це підпис під знімком, а не частина його.
 	 */
+	.news-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.4rem;
+	}
+	.news-list__item {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.2rem 0.6rem;
+		color: inherit;
+		text-decoration: none;
+	}
+	.news-list__item:hover .news-list__title {
+		text-decoration: underline;
+	}
+	.news-list__title {
+		flex: 1 1 10rem;
+		min-width: 0;
+		font-weight: 600;
+	}
+	.news-list__date {
+		flex: none;
+		font-size: 0.82rem;
+		color: var(--galaxy-muted);
+	}
 	.bento-card--gallery {
 		--banner-gap: 0.5rem;
 		--banner-dots-gap: 0;

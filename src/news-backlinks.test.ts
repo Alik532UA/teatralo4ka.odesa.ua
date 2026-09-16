@@ -35,8 +35,25 @@ import { FESTIVALS } from './lib/data/festivals';
 
 const СТОРІНКИ = join('src', 'lib', 'i18n', 'pages');
 const ЗРІЗ = join('static', 'galaxy', 'festival-news.json');
+const ЗРІЗ_ЛЮДЕЙ = join('static', 'galaxy', 'person-news.json');
 
 const ПОСИЛАННЯ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/festivals\/([^)/\s]+)\/?\)/g;
+const ЛЮДИНА = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/([^)/\s]+)\/?\)/g;
+
+const РОЗДІЛИ = new Set(
+	readdirSync(join('src', 'routes', 'projects', 'galaxy-graduates'), { withFileTypes: true })
+		.filter((e) => e.isDirectory() && !e.name.startsWith('['))
+		.map((e) => e.name)
+);
+
+const випускники = JSON.parse(
+	readFileSync(join('src', 'lib', 'data', 'graduates.index.json'), 'utf8')
+) as { id: string; slug: string; code?: string }[];
+const заАдресою = new Map<string, string>();
+for (const g of випускники) {
+	заАдресою.set(g.code ?? g.slug, g.id);
+	if (!заАдресою.has(g.slug)) заАдресою.set(g.slug, g.id);
+}
 
 interface Картка {
 	title: string;
@@ -55,7 +72,7 @@ const картки = JSON.parse(
 ) as Record<string, Record<string, Картка>>;
 
 /** Та сама логіка, що в скрипті: зв'язок живе в посиланні, а не в реєстрі. */
-function перерахувати(): Record<string, Новина[]> {
+function перерахувати(кого: 'festivals' | 'people'): Record<string, Новина[]> {
 	const зріз: Record<string, Новина[]> = {};
 	const бачені = new Set<string>();
 	for (const мова of readdirSync(СТОРІНКИ)) {
@@ -63,13 +80,21 @@ function перерахувати(): Record<string, Новина[]> {
 		for (const файл of readdirSync(тека)) {
 			if (!файл.startsWith('news-') || !файл.endsWith('.md')) continue;
 			const id = файл.slice('news-'.length, -'.md'.length);
-			for (const m of readFileSync(join(тека, файл), 'utf8').matchAll(ПОСИЛАННЯ)) {
-				const ключ = `${m[1]}|${id}`;
+			const текст = readFileSync(join(тека, файл), 'utf8');
+			for (const m of текст.matchAll(кого === 'festivals' ? ПОСИЛАННЯ : ЛЮДИНА)) {
+				let ключ_ = m[1];
+				if (кого === 'people') {
+					if (РОЗДІЛИ.has(ключ_)) continue;
+					const хто = заАдресою.get(ключ_);
+					if (!хто) continue;
+					ключ_ = хто;
+				}
+				const ключ = `${ключ_}|${id}`;
 				if (бачені.has(ключ)) continue;
 				бачені.add(ключ);
 				const uk = картки.uk?.[id];
 				if (!uk || uk.published === false) continue;
-				(зріз[m[1]] ??= []).push({
+				(зріз[ключ_] ??= []).push({
 					id,
 					date: uk.date,
 					title: { uk: uk.title, en: картки.en?.[id]?.title ?? uk.title }
@@ -82,7 +107,9 @@ function перерахувати(): Record<string, Новина[]> {
 }
 
 const наДиску = JSON.parse(readFileSync(ЗРІЗ, 'utf8')) as Record<string, Новина[]>;
-const перерахований = перерахувати();
+const перерахований = перерахувати('festivals');
+const людиНаДиску = JSON.parse(readFileSync(ЗРІЗ_ЛЮДЕЙ, 'utf8')) as Record<string, Новина[]>;
+const людиПерераховані = перерахувати('people');
 
 describe('новини поїздок (зріз у static)', () => {
 	it('перевірка жива: зріз прочитано, і в ньому є що звіряти', () => {
@@ -106,5 +133,31 @@ describe('новини поїздок (зріз у static)', () => {
 			сироти,
 			`новина посилається на фестиваль, якого немає — і саме посилання веде на 404:\n${сироти.join('\n')}`
 		).toEqual([]);
+	});
+});
+
+describe('новини людей (зріз у static)', () => {
+	it('перевірка жива: зріз людей прочитано й у ньому є що звіряти', () => {
+		expect(
+			Object.keys(людиПерераховані).length,
+			'жодна новина не посилається на людину'
+		).toBeGreaterThan(0);
+	});
+
+	it('зріз на диску збігається з тим, що кажуть новини', () => {
+		expect(
+			людиНаДиску,
+			'зріз застарів — перезапустити `npm run build:news-backlinks`'
+		).toEqual(людиПерераховані);
+	});
+
+	it('кожен ключ зрізу — живий `id` випускника', () => {
+		// Ключ тут `id`, а не адреса: адресу законно виправляють, і зріз,
+		// ключований нею, тихо осиротів би на першому ж перейменуванні.
+		const id = new Set(випускники.map((g) => g.id));
+		const сироти = Object.keys(людиПерераховані).filter((k) => !id.has(k));
+		expect(сироти, `новина посилається на людину, якої немає:\n${сироти.join('\n')}`).toEqual(
+			[]
+		);
 	});
 });

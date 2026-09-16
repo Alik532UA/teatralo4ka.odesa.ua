@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
 import { loadFestivalDetails } from '$lib/data/festivalDetails';
-import { loadFestivalNews } from '$lib/data/festivalNews';
+import { loadFestivalNews } from '$lib/data/newsBacklinks';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { RENAMED_FESTIVAL_SLUGS } from '$lib/config/renamedAddresses';
 import { LINKED_GRADUATES, rosterOrder, type GraduateIndexEntry } from '$lib/data/graduates';
@@ -148,7 +148,7 @@ export async function load({ params, url, fetch }) {
 	 * Новини про поїздку — тим самим `fetch`ем із `static/`, і з тієї ж
 	 * причини: розділ читає лише ця сторінка. Зріз рахується з ПОСИЛАНЬ у
 	 * самих новинах, тож поля в реєстрі фестивалів для цього немає — розбір у
-	 * докблоці `data/festivalNews`.
+	 * докблоці `data/newsBacklinks`.
 	 */
 	const новини = (await loadFestivalNews(fetch))[festival.slug] ?? [];
 

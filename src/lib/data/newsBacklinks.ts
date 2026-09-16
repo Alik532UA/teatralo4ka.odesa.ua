@@ -1,5 +1,5 @@
 /**
- * Новини, що розповідають про поїздку, — зріз, який рахується з самих новин.
+ * Новини, що згадують поїздку або людину, — зрізи, які рахуються з самих новин.
  *
  * ## Звідки він береться
  *
@@ -24,10 +24,20 @@ export interface FestivalNewsItem {
 	title: { uk: string; en: string };
 }
 
+/** Ключ — адреса фестивалю. */
 export type FestivalNews = Record<string, FestivalNewsItem[]>;
+/**
+ * Ключ — стійкий `id` випускника, а НЕ його адреса.
+ *
+ * Адресу законно виправляють, `id` не міняється ніколи; зріз, ключований
+ * адресою, тихо осиротів би на першому ж перейменуванні. Перекладає адресу в
+ * `id` сам скрипт, поки читає тексти.
+ */
+export type PersonNews = Record<string, FestivalNewsItem[]>;
 
-/** Адреса зрізу в `static/`. Одна на проєкт — щоб не розійшлася з гейтом. */
+/** Адреси зрізів у `static/`. По одній на проєкт — щоб не розійшлися з гейтом. */
 export const FESTIVAL_NEWS_URL = '/galaxy/festival-news.json';
+export const PERSON_NEWS_URL = '/galaxy/person-news.json';
 
 /**
  * Кеш на сеанс сторінки.
@@ -38,6 +48,7 @@ export const FESTIVAL_NEWS_URL = '/galaxy/festival-news.json';
  * `festivalDetails`.
  */
 let кеш: Promise<FestivalNews> | null = null;
+let кешЛюдей: Promise<PersonNews> | null = null;
 
 /**
  * Зріз — із `static/`, через `fetch` із `load`.
@@ -50,4 +61,18 @@ export async function loadFestivalNews(fetchFn: typeof fetch): Promise<FestivalN
 		.then((response) => (response.ok ? (response.json() as Promise<FestivalNews>) : {}))
 		.catch(() => ({}) as FestivalNews);
 	return кеш;
+}
+
+/**
+ * Те саме для людей — і читає його не `load`, а САМА картка випускника.
+ *
+ * Причина в тому, що картка живе у двох місцях: як сторінка з `load` і як
+ * вікно поверх галактики, де жодного `load` немає. Проп із завантажувача був
+ * би порожній рівно в половині випадків, тож зріз бере той, кому він потрібен.
+ */
+export async function loadPersonNews(fetchFn: typeof fetch = fetch): Promise<PersonNews> {
+	кешЛюдей ??= fetchFn(PERSON_NEWS_URL)
+		.then((response) => (response.ok ? (response.json() as Promise<PersonNews>) : {}))
+		.catch(() => ({}) as PersonNews);
+	return кешЛюдей;
 }
