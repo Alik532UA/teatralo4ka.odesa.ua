@@ -23,13 +23,13 @@ excerpt: "Вісімнадцять наших випускників стали 
 3. [Юліана Тимонова](/projects/galaxy-graduates/yuliana-tymonova) — КНУТКіТ, акторський, курс О. Замятіна
 4. [Катерина Нестеренко](/projects/galaxy-graduates/deva144p) — КНУТКіТ, театр ляльок, курс Л. Попова
 5. [Альбіна Абуладзе](/projects/galaxy-graduates/albinaabuladze) — КНУКіМ, акторський, курс О. Печериці
-6. [Ніколь Онищенко](/projects/galaxy-graduates/nikol-onyshchenko) — КНУТКіТ, акторський, курс Д. Богомазова
+6. [Ніколь Онищенко](/projects/galaxy-graduates/nikolmett) — КНУТКіТ, акторський, курс Д. Богомазова
 7. [Злата Стоянова](/projects/galaxy-graduates/zlata-stoyanova) — КНУТКіТ, акторський, курс С. Калантая
 8. [Катерина Петренко](/projects/galaxy-graduates/kateryna-petrenko) — КНУТКіТ, акторський, курс О. Замятіна
 9. [Михайло Забожанов](/projects/galaxy-graduates/mykhailo-zabozhanov) — КНУКіМ, акторський, курс О. Печериці
 10. [Олександра Карачевська](/projects/galaxy-graduates/karachevskasasha) — КНУКіМ, акторський, курс О. Печериці
 11. [Іван Пітель](/projects/galaxy-graduates/vnpitel) — КМАЕЦМ, акторський, курс Д. Рибалевського
-12. [Ліора Казацкер](/projects/galaxy-graduates/liora-kazatsker) — ЛНУ, акторський, курс Д. Захоженко
+12. [Ліора Казацкер](/projects/galaxy-graduates/liorka) — ЛНУ, акторський, курс Д. Захоженко
 13. [Аліна Демедюк](/projects/galaxy-graduates/alina-demediuk) — КМАЕЦМ (філіал у Мюнхені, Німеччина), акторський, курс Т. Губрій
 14. [Карина Шаркова](/projects/galaxy-graduates/karyna-sharkova) — «École de culture générale» (Вале, Швейцарія), акторський
 15. [Анна-Марія Вискочил](/projects/galaxy-graduates/anna-mariia-vyskochyl) — Київський університет культури, акторський, курс В. Довженка

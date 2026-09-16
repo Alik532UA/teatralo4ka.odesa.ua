@@ -23,13 +23,13 @@ And on the eve of the new 2026–2027 (“six-seven” 😜) academic year we wa
 3. [Yuliana Tymonova](/en/projects/galaxy-graduates/yuliana-tymonova) — KNUTKiT (Kyiv), acting, course of O. Zamiatin
 4. [Kateryna Nesterenko](/en/projects/galaxy-graduates/deva144p) — KNUTKiT (Kyiv), puppet theatre, course of L. Popov
 5. [Albina Abuladze](/en/projects/galaxy-graduates/albinaabuladze) — KNUKiM (Kyiv), acting, course of O. Pecherytsia
-6. [Nikol Onyshchenko](/en/projects/galaxy-graduates/nikol-onyshchenko) — KNUTKiT (Kyiv), acting, course of D. Bohomazov
+6. [Nikol Onyshchenko](/en/projects/galaxy-graduates/nikolmett) — KNUTKiT (Kyiv), acting, course of D. Bohomazov
 7. [Zlata Stoianova](/en/projects/galaxy-graduates/zlata-stoyanova) — KNUTKiT (Kyiv), acting, course of S. Kalantai
 8. [Kateryna Petrenko](/en/projects/galaxy-graduates/kateryna-petrenko) — KNUTKiT (Kyiv), acting, course of O. Zamiatin
 9. [Mykhailo Zabozhanov](/en/projects/galaxy-graduates/mykhailo-zabozhanov) — KNUKiM (Kyiv), acting, course of O. Pecherytsia
 10. [Oleksandra Karachevska](/en/projects/galaxy-graduates/karachevskasasha) — KNUKiM (Kyiv), acting, course of O. Pecherytsia
 11. [Ivan Pitel](/en/projects/galaxy-graduates/vnpitel) — KMAECM (Kyiv), acting, course of D. Rybalevskyi
-12. [Liora Kazatsker](/en/projects/galaxy-graduates/liora-kazatsker) — LNU (Lviv), acting, course of D. Zakhozhenko
+12. [Liora Kazatsker](/en/projects/galaxy-graduates/liorka) — LNU (Lviv), acting, course of D. Zakhozhenko
 13. [Alina Demediuk](/en/projects/galaxy-graduates/alina-demediuk) — KMAECM, Munich branch (Germany), acting, course of T. Hubrii
 14. [Karyna Sharkova](/en/projects/galaxy-graduates/karyna-sharkova) — «École de culture générale» (Valais, Switzerland), acting
 15. [Anna-Mariia Vyskochyl](/en/projects/galaxy-graduates/anna-mariia-vyskochyl) — Kyiv University of Culture, acting, course of V. Dovzhenko

@@ -11,7 +11,7 @@
 	import type { ArticleMediaItem } from '$lib/utils/articleMedia';
 	import ArticleView from '$lib/components/ArticleView.svelte';
 	import DetailPage from '$lib/components/DetailPage.svelte';
-	import ProseGraduateLinks from '$lib/components/ProseGraduateLinks.svelte';
+	import ProsePeopleLinks from '$lib/components/ProsePeopleLinks.svelte';
 	import { browser } from '$app/environment';
 	import { getCachedNewsOverrides } from '$lib/services/newsOverrides';
 	import { replacementFor } from '$lib/utils/newsOverrides';
@@ -134,9 +134,9 @@
 		Імена в тексті ведуть на сторінки випускників, і натискання мусить
 		відкривати картку ТУТ — так само, як обличчя в складі вистави чи групи.
 		Інакше новина зникає, і після закриття картки читач опиняється в
-		галактиці. Розбір — у докблоці `ProseGraduateLinks`.
+		галактиці. Розбір — у докблоці `ProsePeopleLinks`.
 	-->
-	<ProseGraduateLinks />
+	<ProsePeopleLinks />
 {:else}
 	<!--
 		`param` — або адреса з бази, або `id` статті, яка ЗАМІНИЛА новину з коду.
