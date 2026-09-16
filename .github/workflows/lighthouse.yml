@@ -101,7 +101,8 @@ jobs:
         id: build
         env:
           VITE_SCHOOL_ID: teatralo4ka.odesa.ua
-          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          # Значення, а не секрет: чому саме так — у `deploy.yml`, там замір.
+          VITE_PROJECT_ID: teatralo4ka
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
           VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
           VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
