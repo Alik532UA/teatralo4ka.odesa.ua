@@ -335,6 +335,9 @@ test.describe('слайдшоу випускників', () => {
 	 * множиною тих, у кого є заклад освіти або театр.
 	 */
 	test('фільтр показу перебирає чергу', async ({ page }) => {
+		/* Саме чекання тут — 1.5 + 5 × 2.2 секунди, і це ще без завантаження
+		   сцени: типових тридцяти в CI лишається впритул. */
+		test.setTimeout(60_000);
 		const g = JSON.parse(readFileSync('src/lib/data/graduates.index.json', 'utf8')) as {
 			id: string; slug: string; code?: string;
 		}[];
@@ -351,6 +354,11 @@ test.describe('слайдшоу випускників', () => {
 		const заАдресою = new Map(g.map((x) => [x.code ?? x.slug, x]));
 
 		await gotoReady(page, '/projects/galaxy-graduates/');
+		/* На телефоні рядок кнопок сцени згорнутий у меню: без цього кроку кнопка
+		   показу в розмітці Є, але невидима, і натискання мовчки чекає до кінця
+		   відліку тесту. Заміряно в прогоні 35155407812: обидві перевірки падали
+		   лише на `mobile`, «element is not visible», 57 спроб за тридцять секунд. */
+		await openStageMenu(page);
 		await page.getByTestId('galaxy-slideshow-btn').click();
 		await page.getByTestId('galaxy-slideshow-filter-select').selectOption('artPath');
 		await page.getByTestId('galaxy-slideshow-seconds-input').fill('1').catch(() => {});
@@ -386,6 +394,11 @@ test.describe('слайдшоу випускників', () => {
 			if (r.status() === 404 && r.url().includes('/graduates/profiles/')) биті.push(r.url());
 		});
 		await gotoReady(page, '/projects/galaxy-graduates/');
+		/* На телефоні рядок кнопок сцени згорнутий у меню: без цього кроку кнопка
+		   показу в розмітці Є, але невидима, і натискання мовчки чекає до кінця
+		   відліку тесту. Заміряно в прогоні 35155407812: обидві перевірки падали
+		   лише на `mobile`, «element is not visible», 57 спроб за тридцять секунд. */
+		await openStageMenu(page);
 		await page.getByTestId('galaxy-slideshow-btn').click();
 		await page.getByTestId('galaxy-slideshow-seconds-input').fill('1').catch(() => {});
 		await page.waitForTimeout(12000);
