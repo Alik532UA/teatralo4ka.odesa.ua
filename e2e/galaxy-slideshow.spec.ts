@@ -368,4 +368,28 @@ test.describe('слайдшоу випускників', () => {
 		expect(поза, `під фільтром «творчий шлях» показані без нього: ${поза.join(', ')}`).toEqual([]);
 	});
 
+	/**
+	 * ПОКАЗ НЕ ПРОСИТЬ АНКЕТ, ЯКИХ НЕМАЄ.
+	 *
+	 * Анкета є у 245 із 586 людей, і ознака цього — `profileSize` в індексі.
+	 * Картка й маршрут її питають, а попереднє завантаження наступного слайда
+	 * спершу ні: воно тягнуло файл кожному, тобто на людину без анкети давало
+	 * 404. Автор побачив такі рядки просто під час показу.
+	 *
+	 * Перевірка слухає ВІДПОВІДІ, а не код: 404 на `/graduates/profiles/` під
+	 * час показу — це завжди помилка, звідки б запит не прийшов.
+	 */
+	test('показ не просить анкет, яких немає', async ({ page }) => {
+		test.setTimeout(60_000);
+		const биті: string[] = [];
+		page.on('response', (r) => {
+			if (r.status() === 404 && r.url().includes('/graduates/profiles/')) биті.push(r.url());
+		});
+		await gotoReady(page, '/projects/galaxy-graduates/');
+		await page.getByTestId('galaxy-slideshow-btn').click();
+		await page.getByTestId('galaxy-slideshow-seconds-input').fill('1').catch(() => {});
+		await page.waitForTimeout(12000);
+		expect(биті, `показ просив анкети, яких немає:\n${биті.join('\n')}`).toEqual([]);
+	});
+
 });

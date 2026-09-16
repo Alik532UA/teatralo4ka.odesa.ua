@@ -497,6 +497,13 @@
 	$effect(() => {
 		if (!slideshow.active || черга.length < 2) return;
 		const наступний = черга[(крок + 1) % черга.length];
+		/*
+		 * `hasProfile` — той самий захист, що в `GraduateCard`, і забути його
+		 * коштувало помітно: анкета є далеко не в кожного, і попереднє
+		 * завантаження без цієї умови сипало в консоль 404 на кожному слайді —
+		 * автор побачив їх просто під час показу.
+		 */
+		if (!hasProfile(наступний)) return;
 		void ensureGraduateProfile(graduateAddress(наступний), getAbortSignal());
 	});
 
