@@ -162,6 +162,7 @@ jobs:
       # `static/app-version.json` із моментом збірки: після кожного локального
       # білда дерево брудне, і ця зміна раз по раз їде в чужі коміти.
       - name: Збірка не змінює відстежувані файли
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: git diff --exit-code
 
       # Після build і ДО deploy: E2E перевіряє саме `build/`, тож запускати їх
@@ -178,6 +179,7 @@ jobs:
       # Playwright: наступний `playwright install` доганяє чого бракує, а зайве
       # просто лежить на диску раннера.
       - name: Cache Playwright browsers
+        if: ${{ !cancelled() }}
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
@@ -185,6 +187,7 @@ jobs:
           restore-keys: pw-${{ runner.os }}-
 
       - name: Install Playwright browsers
+        if: ${{ !cancelled() }}
         run: npx playwright install --with-deps chromium
 
       # КРИТИЧНИЙ набір, а не весь: повне E2E коштувало 13,4 хв (замір, прогін

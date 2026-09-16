@@ -147,6 +147,7 @@ jobs:
         run: npm run build
 
       - name: Cache Playwright browsers
+        if: ${{ !cancelled() }}
         uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
@@ -154,6 +155,7 @@ jobs:
           restore-keys: pw-${{ runner.os }}-
 
       - name: Install Playwright browsers
+        if: ${{ !cancelled() }}
         run: npx playwright install --with-deps chromium
 
       # ПОВНИЙ набір, обидва проєкти — те, що з деплою й забрали.
