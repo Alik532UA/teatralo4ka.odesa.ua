@@ -29,8 +29,6 @@ on:
   push:
     branches-ignore: [main]
 
-permissions:
-  contents: read
 
 # `cancel-in-progress: false` тут із тієї самої причини, що й у deploy.yml
 # (CI-CD-AND-TOOLS-v8 § 1.3): пуш пачкою комітів при `true` лишає лише останній
@@ -55,6 +53,9 @@ jobs:
   # себе до суперадміна.
   rules:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
@@ -96,6 +97,9 @@ jobs:
 
   gates:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 

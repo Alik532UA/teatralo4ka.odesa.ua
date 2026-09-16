@@ -74,8 +74,6 @@ on:
     workflows: ["Deploy All Schools"]
     types: [completed]
 
-permissions:
-  contents: read
 
 # Та сама причина, що в обох сусідніх файлах (CI-CD-AND-TOOLS-v8 § 1.3): пуш
 # пачкою комітів при `true` лишає лише останній прогін, і крок, доданий у
@@ -87,6 +85,9 @@ concurrency:
 jobs:
   deep:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 30
     # Впалий деплой означає, що на продакшн НІЧОГО не поїхало, а причина вже
     # названа в самому деплою (`check`, `lint`, `test` чи критичне E2E). Глибокий
     # прогін на тому самому коміті дав би друге червоне з тієї самої причини —
@@ -130,6 +131,7 @@ jobs:
         run: npm run audit:ci
 
       - name: Build for school
+        id: build
         if: ${{ !cancelled() }}
         env:
           VITE_SCHOOL_ID: teatralo4ka.odesa.ua
@@ -171,5 +173,5 @@ jobs:
           retention-days: 7
 
       - name: Lighthouse Audit
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: npx @lhci/cli@0.15.1 autorun --config=./lighthouserc.cjs

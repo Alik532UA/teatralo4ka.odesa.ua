@@ -26,6 +26,7 @@ jobs:
   # він ловить розходження до `main`, тут страхує пряме злиття.
   rules:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
     steps:
@@ -64,6 +65,7 @@ jobs:
 
   build-and-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       pages: write
@@ -141,6 +143,7 @@ jobs:
         run: npm run validate-content
 
       - name: Build for school
+        id: build
         env:
           VITE_SCHOOL_ID: ${{ matrix.school }}
           VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
@@ -195,6 +198,7 @@ jobs:
       # (цілі дотику, переповнення екрана), — саме подробиці, які тепер живуть у
       # глибокому прогоні.
       - name: E2E — критичний набір
+        if: ${{ !cancelled() }}
         run: npx playwright test smoke redirects csp-static --project=chromium
 
       # Звіт зберігається ЗАВЖДИ, а не лише на падінні, і причина конкретна.
