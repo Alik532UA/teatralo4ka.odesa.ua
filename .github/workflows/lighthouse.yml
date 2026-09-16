@@ -1,0 +1,136 @@
+name: Lighthouse
+
+# ЧЕТВЕРТИЙ WORKFLOW, І ЦЕ НЕ ДРОБЛЕННЯ ЗАРАДИ ДРОБЛЕННЯ
+#
+# Lighthouse жив кроком у `deep-checks.yml` і з'їдав його цілком. Заміри:
+#
+#   прогін 33772902182 (серпень) ... Lighthouse 22 хв 03 с, повне E2E 13 хв 14 с
+#   прогін 34992012176 (15.09) ..... Lighthouse 3 год 26 хв, повне E2E 24,8 хв
+#
+# Тобто за місяць аудит виріс у десять разів, а E2E — удвічі. Причина не в
+# зависанні: перелік адрес пише `scripts/lighthouse-urls.ts` із самих маршрутів,
+# і він дійшов до 47; `numberOfRuns` у `lighthouserc.cjs` типово 3. Разом —
+# 141 запуск Lighthouse на кожен деплой.
+#
+# Наслідок був не «повільно», а «немає результату»: глибокі прогони тривали
+# 200, 232, 233 і 413 хвилин і не були зеленими ЖОДНОГО разу щонайменше з
+# 14 вересня. E2E відпрацьовував за 25 хвилин і його висновок тонув у
+# чотиригодинному хвості — а коли ревізія 9.5 канону поставила стелю часу,
+# job почав гинути як `cancelled` ще посеред E2E, не лишаючи навіть звіту.
+#
+# ЧОМУ ЛАНЦЮЖКОМ, А НЕ ЗА РОЗКЛАДОМ
+#
+# Рішення автора: Lighthouse іде ПІСЛЯ глибокого прогону, а не раз на добу.
+# Розклад відв'язав би вимір від коміту — довелося б щоразу з'ясовувати, який
+# саме код міряли. `workflow_run` від `Deep Checks` тримає зв'язок: чекаут іде
+# по тому самому `head_sha`, що й деплой із глибоким прогоном.
+#
+# Ланцюжок виходить триланковий: `Deploy All Schools` (push) → `Deep Checks`
+# (workflow_run) → `Lighthouse` (workflow_run). GitHub дозволяє до трьох ланок,
+# тобто це межа — четвертої ланки тут бути не може.
+#
+# ЩО ЦЕ КОШТУЄ, І ЧОМУ ЦЕ ПРИЙНЯТО
+#
+# Приблизно 3,5 години раннера на кожен деплой. Ціна не зникла — вона винесена
+# туди, де нікого не блокує: деплой іде за ~7 хв, глибоке E2E дає висновок за
+# ~25 хв і зеленіє, а вимір продуктивності приходить окремим прогоном і
+# окремим кольором. Скоротити його — окреме рішення (`numberOfRuns: 1` дало б
+# 47 запусків замість 141), і воно тут НЕ прийняте.
+#
+# `workflow_run` бачить лише файл із ГІЛКИ ЗА ЗАМОВЧУВАННЯМ — правка в іншій
+# гілці не діє, доки не влита в `main`. Назва в `workflows:` мусить точно
+# збігатися з `name:` у `deep-checks.yml`; розходження не помітить ніщо, окрім
+# того, що прогін просто не запуститься — тож її тримає `src/ci.test.ts`.
+on:
+  workflow_run:
+    workflows: ["Deep Checks"]
+    types: [completed]
+
+# Та сама причина, що в трьох сусідніх файлах (CI-CD-AND-TOOLS-v9 § 1.12.1):
+# при `true` прогін, який УПЕРШЕ виконав би щойно доданий поріг, може не
+# завершитися жодного разу.
+concurrency:
+  group: lighthouse
+  cancel-in-progress: false
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    # Права рівня job, і тут потрібне лише читання коду (§ 1.14).
+    permissions:
+      contents: read
+    # 300 хвилин при заміряних 206 на сам аудит плюс ~10 на підготовку. Стеля
+    # GitHub за замовчуванням — 360, і мовчазне впирання в неї виглядає як
+    # «CI гальмує»; тут перевитрата назветься таймаутом (§ 1.13).
+    timeout-minutes: 300
+    # Глибокий прогін червоний означає, що E2E знайшов регресію — міряти
+    # продуктивність поверх неї немає сенсу, а друге червоне з тієї самої
+    # причини привчає не дивитися на червоне.
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      # `ref` обов'язковий: без нього `workflow_run` чекаутить голову `main`, а
+      # не той коміт, який щойно опублікували й перевірили.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      # Версія збігається з `engines.node`, `.nvmrc` і сусідніми воркфлоу —
+      # інваріант `src/dependencies.test.ts` тримає їх разом.
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Відпечаток залежностей
+        id: deps
+        run: echo "hash=$(node scripts/deps-hash.mjs)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache npm
+        uses: actions/cache@v6
+        with:
+          path: ~/.npm
+          key: npm-${{ runner.os }}-${{ steps.deps.outputs.hash }}
+          restore-keys: npm-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit --fund=false
+
+      # Збірка тут своя, і вона обов'язкова: `lighthouserc.cjs` читає
+      # `.lighthouse-urls.json`, який пише `postbuild`, а `staticDistDir`
+      # показує на `build/`. Без збірки конфіг падає з «немає переліку адрес».
+      - name: Build for school
+        id: build
+        env:
+          VITE_SCHOOL_ID: teatralo4ka.odesa.ua
+          VITE_PROJECT_ID: ${{ secrets.VITE_PROJECT_ID }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
+          VITE_APPCHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APPCHECK_RECAPTCHA_SITE_KEY }}
+        run: npm run build
+
+      # Післязбірковий гейт: власна умова на результат збірки, а не голе
+      # `!cancelled()` (§ 1.8). Без збірки міряти нема чого, і вторинне падіння
+      # «теки немає» сховало б справжню причину.
+      - name: Lighthouse Audit
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        # Стеля на КРОК, а не лише на job: перевитрату аудиту видно поіменно, а
+        # не як анонімну смерть усього прогону.
+        timeout-minutes: 240
+        run: npx @lhci/cli@0.15.1 autorun --config=./lighthouserc.cjs
+
+      # Звіт зберігається завжди, а не лише на падінні: пороги Lighthouse
+      # плавають від навантаження раннера, тож цифри потрібні й тоді, коли крок
+      # зелений — інакше просідання видно лише в мить, коли воно вже валить гейт
+      # (§ 1.7.1).
+      - name: Upload Lighthouse report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 7
