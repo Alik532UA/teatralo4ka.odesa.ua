@@ -141,12 +141,38 @@
 		hitLinks[activeIndex]?.focus();
 	}
 
+	/**
+	 * ENTER У ПОЛІ ВІДКРИВАЄ ПІДСВІЧЕНИЙ ПУНКТ.
+	 *
+	 * Без цього рядка підсвітка БРЕХАЛА. Перший результат позначений `active` з
+	 * першого ж набраного знака, тобто виглядає обраним, — а фокус при цьому
+	 * лишається в полі, і Enter не робив нічого. Автор описав і обхід, який
+	 * довелося вигадати: «натиснути кнопку вниз і потім вверх, і тоді спрацює
+	 * enter», бо стрілки переносять фокус по-справжньому.
+	 *
+	 * Коли фокус УЖЕ на посиланні, нічого не робимо: там Enter відкриває його
+	 * сам, і `click()` поверх цього дав би два переходи.
+	 *
+	 * Модифікатори не перехоплюються — Ctrl+Enter і Shift+Enter лишаються
+	 * браузерові: `click()` їх не переносить, тож «відкрити в новій вкладці»
+	 * перетворилося б на звичайний перехід, тобто на тихо інакшу дію.
+	 */
+	function enterВідкриває(e: KeyboardEvent): boolean {
+		if (e.key !== 'Enter' || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return false;
+		const посилання = hitLinks[activeIndex];
+		if (!посилання || hitLinks.includes(document.activeElement as HTMLAnchorElement)) return false;
+		e.preventDefault();
+		посилання.click();
+		return true;
+	}
+
 	function onKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape') {
 			e.preventDefault();
 			close();
 			return;
 		}
+		if (enterВідкриває(e)) return;
 		if (e.key === 'ArrowDown') {
 			e.preventDefault();
 			move(1);

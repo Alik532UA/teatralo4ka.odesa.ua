@@ -262,6 +262,16 @@
 
 		if (event.code === 'KeyT') cycleTheme();
 		else if (event.code === 'KeyL') void nextLanguage();
+		/*
+		 * «S» — пошук. Прохання автора: «відкривати пошук при натисканні кнопки
+		 * `s` (будь яка розкладка мови клавіатури)», і `event.code` — це саме
+		 * те, що не залежить від розкладки (`HK-EVENT-CODE`).
+		 *
+		 * Відкрите вікно не перевідкривається: інакше «S», набране в самому полі
+		 * пошуку, ганяло б накладку по колу. Поля вводу відсіює `acceptsShortcut`
+		 * вище, тож ця умова страхує лише від повторного виклику.
+		 */
+		else if (event.code === 'KeyS' && !ui.searchOpen) ui.searchOpen = true;
 		else return;
 
 		// `preventDefault` лише після того, як дія відбулася (HOTKEYS-v9 § 2.4).

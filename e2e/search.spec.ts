@@ -117,6 +117,58 @@ test.describe('пошук по сайту', () => {
 			.toMatch(/Запольнов/);
 	});
 
+	/**
+	 * ENTER ІЗ ПОЛЯ ВІДКРИВАЄ ПІДСВІЧЕНИЙ ПУНКТ — без обхідних шляхів.
+	 *
+	 * Перший результат позначений `active` з першого ж набраного знака, тобто
+	 * виглядає обраним. А фокус лишався в полі, і Enter не робив НІЧОГО: автор
+	 * описав обхід, який довелося вигадати самому — «натиснути кнопку вниз і
+	 * потім вверх, і тоді спрацює enter», бо стрілки переносять фокус
+	 * по-справжньому.
+	 *
+	 * Перевірка навмисно НЕ чіпає стрілок: вона робить рівно те, що робить
+	 * людина — набирає й тисне Enter.
+	 */
+	/**
+	 * «S» ВІДКРИВАЄ ПОШУК — і клавіша тут ФІЗИЧНА, а не літера.
+	 *
+	 * Playwright тисне `KeyS`, тобто саме `event.code`, — те, чим і мусить бути
+	 * ця дія: у кириличній розкладці та сама клавіша дає «і», у Dvorak — іншу
+	 * літеру. Перевірити чужу розкладку тут нема як, але механізм перевіряється:
+	 * обробник, написаний через `event.key`, від `KeyS` теж спрацював би, тому
+	 * поруч стоїть друга половина — «у полі це просто літера».
+	 *
+	 * Друга половина й важливіша: якби обробник не відсіював поля вводу, «s»
+	 * було б неможливо набрати ніде на сайті.
+	 */
+	test('клавіша «s» відкриває пошук, а в полі лишається літерою', async ({ page }) => {
+		await gotoReady(page, '/');
+		await page.keyboard.press('KeyS');
+		await expect(page.locator('.search__input')).toBeVisible();
+		await expect(page.locator('.search__input')).toBeFocused();
+
+		await page.keyboard.type('s');
+		await expect(page.locator('.search__input')).toHaveValue('s');
+	});
+
+	test('Enter із поля відкриває перший результат', async ({ page }) => {
+		await gotoReady(page, '/');
+		await відкритиПошук(page);
+		await page.locator('.search__input').fill('студії');
+
+		const перший = page.locator('.search__hit').first();
+		await expect(перший).toBeVisible({ timeout: 10_000 });
+		const адреса = await перший.getAttribute('href');
+		expect(адреса, 'у першого результату немає адреси').toBeTruthy();
+
+		// Фокус мусить лишатися в полі: саме в цьому й був дефект.
+		await expect(page.locator('.search__input')).toBeFocused();
+		await page.keyboard.press('Enter');
+
+		await page.waitForURL((url) => url.pathname === адреса, { timeout: 15_000 });
+		expect(new URL(page.url()).pathname, 'Enter не відкрив перший результат').toBe(адреса);
+	});
+
 	test('не знаходить того, кого приховали навмисно', async ({ page }) => {
 		await gotoReady(page, '/');
 		await відкритиПошук(page);

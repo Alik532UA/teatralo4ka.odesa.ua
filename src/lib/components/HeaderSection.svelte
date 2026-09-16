@@ -261,8 +261,17 @@
 
 	// Smart interaction state: ignore click for 1s after hover open
 	let lastNavHoverTime = 0;
-	/** Накладка пошуку. Стан тут, бо кнопки дві — настільна й мобільна. */
-	let searchOpen = $state(false);
+	/*
+	 * Накладка пошуку — стан у СПІЛЬНОМУ контролері, а не тут.
+	 *
+	 * Кнопок дві (настільна й мобільна), і доти цього вистачало для локального
+	 * прапорця. Але пошук тепер відкриває ще й клавіша «S», а літерні
+	 * скорочення сайту живуть в ОДНОМУ місці — `ui/ServiceLayer`, разом із
+	 * темою й мовою. Другий обробник на `window` тут означав би другу власність
+	 * над клавіатурою, і `keyboard-ownership.test.ts` на це й сварився —
+	 * справедливо: саме так і зникало піаніно від клавіші «L».
+	 */
+
 
 	let lastSettingsHoverTime = 0;
 	const CLICK_IGNORE_MS = 1000;
@@ -397,6 +406,7 @@
 		}
 	});
 </script>
+
 
 <a href="#main-content" class="skip-link" data-testid="skip-content-link">
 	{$t("nav.skipToContent")}
@@ -641,10 +651,10 @@
 									onclick={() => {
 										navOpen = false;
 										settingsOpen = false;
-										searchOpen = true;
+										ui.searchOpen = true;
 									}}
 									aria-label={$t("search.open")}
-									aria-expanded={searchOpen}
+									aria-expanded={ui.searchOpen}
 									data-testid="header-search-btn"
 								>
 									<Search size={24} />
@@ -700,10 +710,10 @@
 					onclick={() => {
 						settingsOpen = false;
 						ui.closeMenu();
-						searchOpen = true;
+						ui.searchOpen = true;
 					}}
 					aria-label={$t("search.open")}
-					aria-expanded={searchOpen}
+					aria-expanded={ui.searchOpen}
 					data-testid="header-search-mobile-btn"
 				>
 					<Search size={20} />
@@ -948,7 +958,7 @@
 	{/if}
 </header>
 
-<SearchOverlay bind:open={searchOpen} onclose={() => (searchOpen = false)} />
+<SearchOverlay bind:open={ui.searchOpen} onclose={() => (ui.searchOpen = false)} />
 
 <style>
 	/* Пошук на мобільному: та сама умова показу, що й у мобільного бургера —

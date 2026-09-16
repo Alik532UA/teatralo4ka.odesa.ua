@@ -83,6 +83,15 @@ import { describe, expect, it } from 'vitest';
  *   груп, яка їх теж дублює. Друге — справжнє виправлення, але окреме: робити
  *   його мимохідь, посеред внесення даних про фестивалі, означало б зачепити
  *   чужу сторінку без потреби.
+ * 2026-09-16 (Enter у пошуку): `SearchOverlay.svelte` 341 → 350. Девʼять рядків
+ *   — обробник, без якого підсвітка першого результату БРЕХАЛА: пункт виглядав
+ *   обраним, а Enter не робив нічого, і автор мусив вигадати обхід («вниз,
+ *   потім вверх»).
+ *
+ *   Ділити нема на що: це той самий `onKeydown`, що вже обробляє Escape і
+ *   стрілки. Винести з нього одну клавішу означало б розірвати клавіатуру
+ *   накладки на два місця — рівно те, від чого застерігає
+ *   `keyboard-ownership.test.ts`.
  * 2026-09-16 (новини поїздки): `festivals/[slug]/+page.svelte` 552 → 608.
  *   П'ятдесят шість рядків — розділ «Новини» плюс його стилі.
  *
@@ -684,7 +693,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
 	'src/routes/residents/adults/[slug]/+page.svelte': 417,
-	'src/lib/components/SearchOverlay.svelte': 341,
+	'src/lib/components/SearchOverlay.svelte': 350,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*
 	 * 2026-09-03: 291 → 335. Блок «Хто грав» навчився показувати ТРЕТІЙ різновид

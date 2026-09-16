@@ -132,6 +132,19 @@ export class UIState {
 	 */
 	hotkeysEnabled = $state(true);
 
+	/**
+	 * Чи відкрита накладка пошуку.
+	 *
+	 * Тут, а не в шапці, бо відкривають її з ТРЬОХ місць: настільна кнопка,
+	 * мобільна кнопка й клавіша «S» у `ui/ServiceLayer`. Локальний прапорець
+	 * означав би другий обробник клавіатури поруч із головним — рівно те, що
+	 * забороняє `keyboard-ownership.test.ts`.
+	 *
+	 * НЕ зберігається між сеансами навмисно: відкрите вікно пошуку — це стан
+	 * хвилини, а не налаштування.
+	 */
+	searchOpen = $state(false);
+
 	constructor() {
 		if (typeof window !== 'undefined') {
 			// Read theme from localStorage or OS settings

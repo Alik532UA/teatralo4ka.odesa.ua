@@ -112,6 +112,8 @@ const SCORE_PHRASE_TEXT = 100;
 const SCORE_WORDS_TITLE = 30;
 const SCORE_WORDS_TEXT = 10;
 const SCORE_TYPO_TITLE = 3;
+/** Одрук у ТЕКСТІ — найслабший шар: він працює, лише коли решта мовчить. */
+const SCORE_TYPO_TEXT = 1;
 
 /**
  * Зведення до вигляду, у якому порівнюємо.
@@ -197,6 +199,11 @@ interface Prepared {
 	display: string;
 	/** Слова назви, у яких є сенс шукати одруку. */
 	titleWords: string[];
+	/**
+	 * Те саме для тексту — рахується ЛІНИВО, бо потрібне лише останньому шару.
+	 * `null` означає «ще не рахували», а не «слів немає».
+	 */
+	textWords: string[] | null;
 }
 
 /**
@@ -222,7 +229,8 @@ function prepare(entry: SearchEntry): Prepared {
 		title,
 		text: foldLetters(display),
 		display,
-		titleWords: words(title).filter((w) => w.length >= MIN_TYPO_WORD)
+		titleWords: words(title).filter((w) => w.length >= MIN_TYPO_WORD),
+		textWords: null
 	};
 	prepared.set(entry, value);
 	return value;
@@ -329,18 +337,39 @@ function exactHit(entry: SearchEntry, q: string, qWords: string[], currentLang?:
  * міста, назви курсів; там «1985» збіглося б із «1984», а «Одеса» з «Одеси».
  * Назва ж — це те, чим запис зветься, і саме її людина набирає з пам'яті.
  */
-function typoHit(entry: SearchEntry, qWords: string[], currentLang?: string): SearchHit | null {
+function typoHit(
+	entry: SearchEntry,
+	qWords: string[],
+	currentLang?: string,
+	уТексті = false
+): SearchHit | null {
 	if (!qWords.length) return null;
-	const { title, titleWords } = prepare(entry);
+	const готове = prepare(entry);
+	const { title, titleWords } = готове;
+
+	/*
+	 * Слова ТЕКСТУ готуються ліниво й лише для цього шару.
+	 *
+	 * Записів 1397, і розібрати текст кожного наперед означало б платити за те,
+	 * чим користуються рідко: другий прохід по тексту вмикається, тільки коли
+	 * точного не знайшлося ЗОВСІМ.
+	 */
+	if (уТексті && готове.textWords === null)
+		готове.textWords = words(готове.text).filter((w) => w.length >= MIN_TYPO_WORD);
 
 	for (const w of qWords) {
-		// Слово, яке в назві є, виправляти не треба — помилка в іншому.
-		if (title.includes(w)) continue;
+		// Слово, яке вже є, виправляти не треба — помилка в іншому.
+		if (title.includes(w) || (уТексті && готове.text.includes(w))) continue;
 		if (w.length < MIN_TYPO_WORD) return null;
-		if (!titleWords.some((t) => oneLetterApart(t, w))) return null;
+		if (titleWords.some((t) => oneLetterApart(t, w))) continue;
+		if (!уТексті || !готове.textWords!.some((t) => oneLetterApart(t, w))) return null;
 	}
 
-	return { ...entry, score: SCORE_TYPO_TITLE + langBonus(entry, currentLang), snippet: '' };
+	return {
+		...entry,
+		score: (уТексті ? SCORE_TYPO_TEXT : SCORE_TYPO_TITLE) + langBonus(entry, currentLang),
+		snippet: ''
+	};
 }
 
 /**
@@ -372,6 +401,27 @@ export function searchEntries(entries: SearchEntry[], query: string, limit = 20,
 	if (hits.length < ENOUGH_EXACT) {
 		for (const entry of missed) {
 			const hit = typoHit(entry, qWords, currentLang);
+			if (hit) hits.push(hit);
+		}
+	}
+
+	/*
+	 * ДРУГИЙ ШАР ОДРУКІВ — ПО ТЕКСТУ, і вмикається лише тоді, коли не знайшлося
+	 * НІЧОГО.
+	 *
+	 * Причина конкретна. «ляпоси» замість «ляпаси» не знаходило вистави, хоч
+	 * слово в записі є: воно лежить не в назві («Уривки з драматургії 20
+	 * століття»), а в переліку номерів, тобто в тексті. Шар по назвах його
+	 * дістати не міг за визначенням.
+	 *
+	 * Чому не завжди по тексту: там роки, міста й назви курсів, де «1985»
+	 * збігається з «1984», а «Одеси» з «Одеса». Поки хоч щось знайшлося
+	 * точно — такі збіги були б чистим шумом. Коли не знайшлося нічого, шум
+	 * кращий за порожній екран: людина бачить, що саме сайт зрозумів.
+	 */
+	if (hits.length === 0) {
+		for (const entry of missed) {
+			const hit = typoHit(entry, qWords, currentLang, true);
 			if (hit) hits.push(hit);
 		}
 	}
