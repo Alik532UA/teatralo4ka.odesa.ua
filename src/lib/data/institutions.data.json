@@ -10,7 +10,10 @@
 		"students": [
 			{
 				"id": "daria-rybalchenko",
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. Калантая",
+				"masterSlug": "serhii-kalantai",
+				"note": "курс разом з І. Капінос"
 			},
 			{
 				"id": "kateryna-kurchenko",
@@ -168,7 +171,8 @@
 				"id": "dar-ia-hurevych",
 				"year": 2020,
 				"programme": "акторський",
-				"master": "С. А. Мойсеєва"
+				"master": "С. А. Мойсеєва",
+				"masterSlug": "stanislav-moiseiev"
 			},
 			{
 				"id": "kateryna-moliboha",
@@ -184,54 +188,63 @@
 				"id": "anastasiia-ivanova",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "Д. Богомазова"
+				"master": "Д. Богомазова",
+				"masterSlug": "dmytro-bohomazov"
 			},
 			{
 				"id": "kateryna-nesterenko",
 				"year": 2026,
 				"programme": "театр ляльок",
-				"master": "Л. Попова"
+				"master": "Л. Попова",
+				"masterSlug": "l-popov"
 			},
 			{
 				"id": "kateryna-petrenko",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Замятіна"
+				"master": "О. Замятіна",
+				"masterSlug": "o-zamiatin"
 			},
 			{
 				"id": "nikol-onyshchenko",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "Д. Богомазова"
+				"master": "Д. Богомазова",
+				"masterSlug": "dmytro-bohomazov"
 			},
 			{
 				"id": "pavlo-maksymov",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Замятіна"
+				"master": "О. Замятіна",
+				"masterSlug": "o-zamiatin"
 			},
 			{
 				"id": "yuliana-tymonova",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Замятіна"
+				"master": "О. Замятіна",
+				"masterSlug": "o-zamiatin"
 			},
 			{
 				"id": "zlata-stoyanova",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "С. Калантая"
+				"master": "С. Калантая",
+				"masterSlug": "serhii-kalantai"
 			},
 			{
 				"id": "mykhailo-haniev",
 				"master": "Є. О. Нулякіної",
-				"note": "випуск 2021"
+				"note": "випуск 2021",
+				"masterSlug": "ye-nuliakina"
 			},
 			{
 				"id": "kateryna-kudlach",
 				"year": 2015,
 				"programme": "театр ляльок",
-				"master": "Т. І. Сільченко"
+				"master": "Т. І. Сільченко",
+				"masterSlug": "t-silchenko"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -396,19 +409,22 @@
 				"id": "albina-abuladze",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Печериці"
+				"master": "О. Печериці",
+				"masterSlug": "o-pecherytsia"
 			},
 			{
 				"id": "mykhailo-zabozhanov",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Печериці"
+				"master": "О. Печериці",
+				"masterSlug": "o-pecherytsia"
 			},
 			{
 				"id": "oleksandra-karachevska",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "О. Печериці"
+				"master": "О. Печериці",
+				"masterSlug": "o-pecherytsia"
 			},
 			{
 				"id": "olha-poliakova",
@@ -485,9 +501,10 @@
 			},
 			{
 				"id": "anastasiia-chalchynska",
-				"year": 2014,
+				"year": 2017,
 				"programme": "режисура",
-				"master": "А. Сеітаблаєва"
+				"master": "А. Сеітаблаєва",
+				"masterSlug": "a-seitablaiev"
 			},
 			{
 				"id": "anastasiia-yevdokymova",
@@ -541,14 +558,16 @@
 				"id": "ivan-pitel",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "Д. Рибалевського"
+				"master": "Д. Рибалевського",
+				"masterSlug": "d-rybalevskyi"
 			},
 			{
 				"id": "alina-demediuk",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "Т. Губрій",
-				"note": "філіал у Мюнхені, Німеччина"
+				"note": "філіал у Мюнхені, Німеччина",
+				"masterSlug": "t-hubrii"
 			},
 			{
 				"id": "taras-lushpa",
@@ -561,7 +580,9 @@
 			},
 			{
 				"id": "myroslava-tkach",
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "С. І. Жиркова",
+				"masterSlug": "stanislav-zhyrkov"
 			},
 			{
 				"id": "daniela-rybalchenko",
@@ -600,7 +621,8 @@
 				"id": "maryna-kravchuk",
 				"year": 2023,
 				"programme": "режисура",
-				"master": "І. С. Уривського"
+				"master": "І. С. Уривського",
+				"masterSlug": "i-uryvskyi"
 			},
 			{
 				"id": "yelyzaveta-maliuzhenko",
@@ -817,19 +839,22 @@
 				"id": "anfisa-lazebna",
 				"year": 2018,
 				"programme": "акторський",
-				"master": "С. І. Жиркова"
+				"master": "С. І. Жиркова",
+				"masterSlug": "stanislav-zhyrkov"
 			},
 			{
 				"id": "yevhen-lysenko",
 				"year": 2018,
 				"programme": "акторський",
-				"master": "С. І. Жиркова"
+				"master": "С. І. Жиркова",
+				"masterSlug": "stanislav-zhyrkov"
 			},
 			{
 				"id": "anna-mariia-vyskochyl",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "В. Довженка"
+				"master": "В. Довженка",
+				"masterSlug": "v-dovzhenko"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -847,13 +872,15 @@
 				"id": "liora-kazatsker",
 				"year": 2026,
 				"programme": "акторський",
-				"master": "Д. Захоженко"
+				"master": "Д. Захоженко",
+				"masterSlug": "dmytro-zakhozhenko"
 			},
 			{
 				"id": "kateryna-kudlach",
 				"year": 2017,
 				"programme": "акторський",
-				"master": "О. А. Кравчука"
+				"master": "О. А. Кравчука",
+				"masterSlug": "o-kravchuk"
 			},
 			{
 				"id": "khrystia-oslavska",
@@ -897,13 +924,15 @@
 				"id": "daiana-ponomarenko",
 				"year": 2018,
 				"programme": "акторський",
-				"master": "Олега Драча"
+				"master": "Олега Драча",
+				"masterSlug": "oleh-drach"
 			},
 			{
 				"id": "alina-burdeina",
 				"year": 2019,
 				"programme": "акторський",
-				"master": "Олега Драча"
+				"master": "Олега Драча",
+				"masterSlug": "oleh-drach"
 			}
 		],
 		"verificationStatus": "possible_errors"

@@ -8,6 +8,7 @@ import {
 	institutionSize,
 	institutionsOfGraduate
 } from './institutions';
+import { EXPERTS } from '$lib/data/experts';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
@@ -292,6 +293,31 @@ describe('реєстр навчальних закладів', () => {
 			`анкета називає заклад, а ребра в реєстрі немає — сторінка закладу ` +
 				`про людину не знає:\n  ${bad.join('\n  ')}`
 		).toEqual([]);
+	});
+
+	it('майстер курсу — сутність, а не лише рядок (CRITICAL)', () => {
+		/*
+		 * `master` — це ТЕКСТ У РОДОВОМУ ВІДМІНКУ для речення «курс …», і сам по
+		 * собі він не дає ні обличчя, ні сторінки. Сутність дає `masterSlug` у
+		 * реєстрі `experts`.
+		 *
+		 * Перелік тримається храповиком у два боки: рядок без слуга — майстер, на
+		 * якого не можна натиснути; слуг без фахівця — посилання в нікуди.
+		 *
+		 * Зворотний експеримент (`PIT-REVERSE-EXPERIMENT`): прибрати `masterSlug`
+		 * у Катерини Петренко — перевірка називає саме це ребро; підмінити слуг на
+		 * вигаданий — називає його як невідомого фахівця.
+		 */
+		const відомі = new Set(EXPERTS.map((e) => e.slug));
+		const bad: string[] = [];
+		for (const institution of INSTITUTIONS)
+			for (const student of institution.students) {
+				if (student.master && !student.masterSlug)
+					bad.push(`${institution.slug}/${student.id}: «${student.master}» без masterSlug`);
+				if (student.masterSlug && !відомі.has(student.masterSlug))
+					bad.push(`${institution.slug}/${student.id}: фахівця «${student.masterSlug}» немає`);
+			}
+		expect(bad, `майстер курсу без сутності:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	it('стан верифікації — з відомого набору', () => {

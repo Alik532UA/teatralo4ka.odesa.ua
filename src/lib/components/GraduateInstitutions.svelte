@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
+	import { asset } from '$app/paths';
 	import { institutionPath, institutionsOfGraduate } from '$lib/data/institutions';
+	import { expertPath, getExpertBySlug } from '$lib/data/experts';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
 
 	interface Props {
@@ -39,6 +41,24 @@
 	const isEn = $derived($locale === 'en');
 	const lang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 	const вступи = $derived(institutionsOfGraduate(graduateId));
+
+	/**
+	 * «курс » і те, що стоїть після імені, — ОКРЕМО, щоб посиланням стало саме
+	 * ім'я майстра, а не весь рядок.
+	 *
+	 * Речення збирається зі словника (`курс {master}` / `course of {master}`), і
+	 * порядок слів у мовах різний: в англійській ім'я йде після «course of».
+	 * Тому шаблон розрізається по місцю підстановки, а не склеюється руками —
+	 * інакше англійський варіант довелося б писати вдруге тут.
+	 */
+	const МІТКА = '@@';
+	const шматки = $derived(
+		$t('galaxy.institutionCourse', { values: { master: МІТКА } }).split(МІТКА)
+	);
+
+	/** Перша літера імені для кружечка-заглушки: у фахівця, а не з відмінка. */
+	const літера = (slug: string | undefined, запасне: string) =>
+		((slug ? getExpertBySlug(slug)?.name : undefined) ?? запасне).replace(/[^\p{L}]/gu, '').slice(0, 1);
 </script>
 
 <!--
@@ -61,10 +81,23 @@
 					href={localizedPath(institutionPath(institution.slug), lang)}
 					data-testid="{testIdPrefix}-link-{institution.slug}"
 					>{isEn && institution.nameEn ? institution.nameEn : institution.name}</a
-				>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {$t(
-						'galaxy.institutionCourse',
-						{ values: { master: student.master } }
-					)}{/if}
+				>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}{#if student.masterSlug}<a
+						class="line__master"
+						href={localizedPath(expertPath(student.masterSlug), lang)}
+						data-testid="{testIdPrefix}-master-link-{student.masterSlug}"
+						>{#if getExpertBySlug(student.masterSlug)?.photo}<img
+								class="person-face"
+								src={asset(getExpertBySlug(student.masterSlug)?.photo ?? '')}
+								width="20"
+								height="20"
+								alt=""
+								loading="lazy"
+							/>{:else}<span
+								class="person-face person-face--letter"
+								aria-hidden="true"
+								data-letter={літера(student.masterSlug, student.master)}
+							></span>{/if}{student.master}</a
+					>{:else}{student.master}{/if}{шматки[1] ?? ''}{/if}
 			</p>
 		{/each}
 	</section>
@@ -76,6 +109,23 @@
 {/if}
 
 <style>
+	/*
+	 * Посилання на майстра курсу виглядає як решта посилань блоку — різниця
+	 * лише в кружечку перед іменем. Сам кружечок описаний ГЛОБАЛЬНО
+	 * (`.person-face` у `global.css`), бо те саме обличчя стоїть у тексті
+	 * новин: два описи одного кружечка розійшлися б на першій же правці.
+	 *
+	 * `nowrap` — щоб обличчя не лишилося на попередньому рядку без імені. Та
+	 * сама біда й те саме лікування, що в `.person-face-lead`.
+	 */
+	.line__master {
+		color: inherit;
+		white-space: nowrap;
+	}
+	.line__master:hover {
+		text-decoration: underline;
+	}
+
 	/*
 	 * `.block` і `.line` — власні, хоч у батька є такі самі.
 	 *
