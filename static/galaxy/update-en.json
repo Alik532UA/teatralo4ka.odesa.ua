@@ -20,6 +20,11 @@
 			"text": "A form can hold more than one photograph. They change right in flight, in chronological order — from a small child to a grown-up."
 		},
 		{
+			"id": "gallery",
+			"title": "Not just an avatar — a gallery as well",
+			"text": "Besides the photographs that change in flight, a page can hold a gallery: performances, trips, backstage, life after school. As many frames as you like, and each one opens full screen. A few galleries are there already — tap the picture beside this one to look."
+		},
+		{
 			"id": "teachers",
 			"title": "Teachers now have their own pages",
 			"text": "Tap the head of the course or a teacher inside a graduate's card and the teacher's page opens — with a surprise on the right-hand side!"
@@ -48,6 +53,16 @@
 			"id": "festivals",
 			"title": "Festival trips have their own pages too",
 			"text": "Each one lists who travelled, which productions were taken along, the teachers of the trip and the shared photographs. The lists of participants were restored without AI, simply by trying to recognize faces in old photos, so mistakes are inevitable: if you were on a trip and are missing, write to me and I will add you."
+		},
+		{
+			"id": "institutions",
+			"title": "The performing arts schools our graduates went on to",
+			"text": "A list of its own, and every school has a page: who of ours enrolled there, in which year, on which programme and with which head of course. It is assembled from your forms and from the school’s own list of graduates, so gaps are inevitable — if you enrolled somewhere and are missing, write to me and I will add you."
+		},
+		{
+			"id": "theatres",
+			"title": "The theatres where our graduates work",
+			"text": "The same kind of list: theatre, city, country — and our people in it. It grows only from your forms, which is why it is still short: if you work at a theatre that is missing here, write to me."
 		},
 		{
 			"id": "form",

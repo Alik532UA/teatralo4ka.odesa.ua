@@ -2,7 +2,9 @@
 	import { t } from 'svelte-i18n';
 	import { asset } from '$app/paths';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
+	import GalaxyUpdateGallery from './GalaxyUpdateGallery.svelte';
 	import GalaxyUpdatePhotoStack from './GalaxyUpdatePhotoStack.svelte';
+	import type { Pathname } from '$app/types';
 
 	/**
 	 * Живі ілюстрації до пунктів вітального вікна.
@@ -17,7 +19,12 @@
 	 * не повернеться — оголошення просто зникне.
 	 */
 	interface Props {
-		/** Який пункт ілюструємо: `photos`, `teachers`, `groups`, `form`. */
+		/**
+		 * Який пункт ілюструємо. Власну ілюстрацію мають `photos`, `gallery`,
+		 * `form` і кожен ключ із `CHIPS`; решта лишається без картинки — це не
+		 * помилка, а норма (`galaxy` малює зорі сам пункт, `teachers` —
+		 * карусель поверх нього).
+		 */
 		id: string;
 		lang: Locale;
 		/** Курсор на цьому пункті — тоді кнопки почергово пульсують. */
@@ -39,32 +46,84 @@
 	 */
 
 	/*
-	 * Одна конкретна група й вихід до ВСІХ, а не дві конкретні.
+	 * Пункти-переліки: одна конкретна сторінка й вихід до ВСІХ.
 	 *
 	 * Дві назви поспіль читалися як «ось ті дві, що є», і про решту ніхто не
-	 * здогадувався. Перша показує, який вигляд має сторінка групи, друга веде
-	 * туди, де їх усі, — а це і є те, що пункт пропонує зробити.
+	 * здогадувався. Перша показує, який вигляд має сторінка, друга веде туди,
+	 * де їх усі, — а це і є те, що пункт пропонує зробити.
+	 *
+	 * П'ять таких пунктів малюються ОДНИМ блоком розмітки, а не п'ятьма
+	 * однаковими: різниця між ними — лише адреса та підписи. Доти блоків було
+	 * три, слово в слово однакових, і кожен новий перелік коштував ще двадцяти
+	 * рядків копії; саме на четвертому й п'ятому це стало видно.
+	 *
+	 * `one` — однина для `data-testid`: список зветься `…-groups-list`, а
+	 * посилання в ньому `…-group-link-…`. Окремим полем, а не відрізанням «s»
+	 * від ключа: воно не вивелося б із `theatres` → `theatre` без винятків, а
+	 * ламати вже наявні id заради однорідності ні до чого.
 	 */
-	const GROUPS = [
-		{ slug: 'zakhysnyky-teatralnykh-kulis', label: 'ЗТК' },
-		{ slug: '', labelKey: 'galaxy.groupsTitle' }
-	];
-
-	/*
-	 * Та сама пара, що й у груп: одна конкретна поїздка й вихід до всіх.
-	 */
-	const FESTIVALS = [
-		{ slug: 'kvitucha-chekhiia', label: '«Квітуча Чехія»' },
-		{ slug: '', labelKey: 'galaxy.festivalsTitle' }
-	];
-
-	/*
-	 * Та сама пара, що й у груп та фестивалів: одна конкретна вистава й вихід до всіх.
-	 */
-	const PLAYS = [
-		{ id: 'mnymyi-bolnoi-2011', label: '«Уявно хворий»' },
-		{ id: '', labelKey: 'galaxy.playsTitle' }
-	];
+	const CHIPS: Record<
+		string,
+		{
+			one: string;
+			path: (key: string) => Pathname;
+			items: { key: string; label?: string; labelKey?: string }[];
+		}
+	> = {
+		groups: {
+			one: 'group',
+			path: (k) =>
+				k ? `/projects/galaxy-graduates/groups/${k}` : '/projects/galaxy-graduates/groups/',
+			items: [
+				{ key: 'zakhysnyky-teatralnykh-kulis', label: 'ЗТК' },
+				{ key: '', labelKey: 'galaxy.groupsTitle' }
+			]
+		},
+		plays: {
+			one: 'play',
+			path: (k) =>
+				k ? `/projects/galaxy-graduates/plays/${k}` : '/projects/galaxy-graduates/plays/',
+			items: [
+				{ key: 'mnymyi-bolnoi-2011', label: '«Уявно хворий»' },
+				{ key: '', labelKey: 'galaxy.playsTitle' }
+			]
+		},
+		festivals: {
+			one: 'festival',
+			path: (k) =>
+				k ? `/projects/galaxy-graduates/festivals/${k}` : '/projects/galaxy-graduates/festivals/',
+			items: [
+				{ key: 'kvitucha-chekhiia', label: '«Квітуча Чехія»' },
+				{ key: '', labelKey: 'galaxy.festivalsTitle' }
+			]
+		},
+		/*
+		 * Конкретний заклад — КНУТКіТ, і не тому, що він найвідоміший: туди
+		 * вступили 42 наші людини, більше ніж будь-куди. Пункт обіцяє «список
+		 * тих, хто вступив», тож вести він має на сторінку, де цей список
+		 * справді довгий, а не на зразок із одним прізвищем.
+		 */
+		institutions: {
+			one: 'institution',
+			path: (k) =>
+				k
+					? `/projects/galaxy-graduates/institutions/${k}`
+					: '/projects/galaxy-graduates/institutions/',
+			items: [
+				{ key: 'knutkit', label: 'КНУТКіТ' },
+				{ key: '', labelKey: 'galaxy.institutionsTitle' }
+			]
+		},
+		theatres: {
+			one: 'theatre',
+			path: (k) =>
+				k ? `/projects/galaxy-graduates/theatres/${k}` : '/projects/galaxy-graduates/theatres/',
+			items: [
+				{ key: 'odeska-opera', label: 'Одеська опера' },
+				{ key: '', labelKey: 'galaxy.theatresTitle' }
+			]
+		}
+	};
 
 	/** Володимир Чалчинський — єдина анкета, де YouTube уже стоїть. */
 	const YOUTUBE_URL = 'https://www.youtube.com/@DreamSchoolua';
@@ -72,6 +131,8 @@
 
 {#if id === 'photos'}
 	<GalaxyUpdatePhotoStack {active} />
+{:else if id === 'gallery'}
+	<GalaxyUpdateGallery />
 {:else if id === 'teachers'}
 	<!--
 		Тут порожньо навмисно: карусель викладачів малює не ілюстрація, а сам
@@ -115,63 +176,18 @@
 		{/each}
 	</ul>
 	-->
-{:else if id === 'groups'}
-	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-groups-list">
-		{#each GROUPS as group, i (group.slug || 'all')}
+{:else if CHIPS[id]}
+	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-{id}-list">
+		{#each CHIPS[id].items as item, i (item.key || 'all')}
 			<a
 				class="chip"
 				style="--order: {i}"
-				href={localizedPath(
-					group.slug
-						? `/projects/galaxy-graduates/groups/${group.slug}`
-						: '/projects/galaxy-graduates/groups/',
-					lang
-				)}
+				href={localizedPath(CHIPS[id].path(item.key), lang)}
 				target="_blank"
 				rel="noopener"
-				data-testid="galaxy-update-group-link-{group.slug || 'all'}"
+				data-testid="galaxy-update-{CHIPS[id].one}-link-{item.key || 'all'}"
 			>
-				{group.labelKey ? $t(group.labelKey) : group.label}
-			</a>
-		{/each}
-	</div>
-{:else if id === 'festivals'}
-	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-festivals-list">
-		{#each FESTIVALS as festival, i (festival.slug || 'all')}
-			<a
-				class="chip"
-				style="--order: {i}"
-				href={localizedPath(
-					festival.slug
-						? `/projects/galaxy-graduates/festivals/${festival.slug}`
-						: '/projects/galaxy-graduates/festivals/',
-					lang
-				)}
-				target="_blank"
-				rel="noopener"
-				data-testid="galaxy-update-festival-link-{festival.slug || 'all'}"
-			>
-				{festival.labelKey ? $t(festival.labelKey) : festival.label}
-			</a>
-		{/each}
-	</div>
-{:else if id === 'plays'}
-	<div class="chips" class:is-pulsing={active} data-testid="galaxy-update-plays-list">
-		{#each PLAYS as play, i (play.id || 'all')}
-			<a
-				class="chip"
-				style="--order: {i}"
-				href={localizedPath(
-					play.id
-						? `/projects/galaxy-graduates/plays/${play.id}`
-						: '/projects/galaxy-graduates/plays/',
-					lang
-				)}
-				target="_blank"
-				rel="noopener"
-				data-testid="galaxy-update-play-link-{play.id || 'all'}"
-			>
-				{play.labelKey ? $t(play.labelKey) : play.label}
+				{item.labelKey ? $t(item.labelKey) : item.label}
 			</a>
 		{/each}
 	</div>
