@@ -155,6 +155,10 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
           VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.VITE_FIREBASE_MEASUREMENT_ID }}
           VITE_APPCHECK_RECAPTCHA_SITE_KEY: ${{ secrets.VITE_APPCHECK_RECAPTCHA_SITE_KEY }}
+          # Бюджет розміру ЗВІТУЄ, але не валить випуск: розбір — у докблоці
+          # `scripts/check-bundle-budget.ts` біля `BUDGET_SOFT`. Жорстко те саме
+          # число перевіряє `deep-checks.yml` одразу після деплою.
+          BUDGET_SOFT: '1'
         run: npm run build
 
       # CI-CD-AND-TOOLS-v8 § 1.5 — єдина машинна перевірка правила «артефакт
