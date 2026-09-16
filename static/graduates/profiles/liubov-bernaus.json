@@ -43,15 +43,6 @@
 			],
 			"role": "Олена Андріївна",
 			"fromRegistry": true
-		},
-		{
-			"year": 2013,
-			"text": "«Уривки з класики: Сонети; В. Шекспір»",
-			"playId": "uryvky-z-klasyky-2013",
-			"items": [
-				"sonety"
-			],
-			"fromRegistry": true
 		}
 	],
 	"bio": [],

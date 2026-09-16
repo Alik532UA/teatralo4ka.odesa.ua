@@ -2720,8 +2720,7 @@
 			"items": [
 				"antihona",
 				"pryvydy",
-				"diadko-vania",
-				"sonety"
+				"diadko-vania"
 			],
 			"roles": [
 				{
@@ -2743,8 +2742,7 @@
 			"role": "Антігона",
 			"items": [
 				"antihona",
-				"bezprydannytsia",
-				"sonety"
+				"bezprydannytsia"
 			],
 			"roles": [
 				{
@@ -2764,8 +2762,7 @@
 				"antihona",
 				"neznaiomka",
 				"myna-mazailo",
-				"ukradene-shchastia",
-				"sonety"
+				"ukradene-shchastia"
 			],
 			"roles": [
 				{
@@ -2793,8 +2790,7 @@
 			"items": [
 				"antihona",
 				"neznaiomka",
-				"ukradene-shchastia",
-				"sonety"
+				"ukradene-shchastia"
 			],
 			"roles": [
 				{
@@ -2818,8 +2814,7 @@
 			"items": [
 				"antihona",
 				"natalka-poltavka",
-				"diadko-vania",
-				"sonety"
+				"diadko-vania"
 			],
 			"roles": [
 				{
@@ -2844,8 +2839,7 @@
 				"antihona",
 				"pryvydy",
 				"bezprydannytsia",
-				"ukradene-shchastia",
-				"sonety"
+				"ukradene-shchastia"
 			],
 			"roles": [
 				{
@@ -2873,8 +2867,7 @@
 			"items": [
 				"antihona",
 				"pryvydy",
-				"myna-mazailo",
-				"sonety"
+				"myna-mazailo"
 			],
 			"roles": [
 				{
@@ -2897,8 +2890,7 @@
 			"role": "Хор",
 			"items": [
 				"antihona",
-				"pryvydy",
-				"sonety"
+				"pryvydy"
 			],
 			"roles": [
 				{
@@ -2917,8 +2909,7 @@
 			"items": [
 				"antihona",
 				"natalka-poltavka",
-				"bezprydannytsia",
-				"sonety"
+				"bezprydannytsia"
 			],
 			"roles": [
 				{

@@ -898,8 +898,8 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 1289,
-		"playCount": 5,
+		"profileSize": 1110,
+		"playCount": 4,
 		"masters": [
 			{
 				"id": "fedir-tkach"
@@ -1809,8 +1809,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1029,
-		"playCount": 3
+		"profileSize": 850,
+		"playCount": 2
 	},
 	{
 		"id": "anna-bais",
@@ -2588,8 +2588,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1722,
-		"playCount": 6
+		"profileSize": 1518,
+		"playCount": 5
 	},
 	{
 		"id": "danylo-chupryn",
@@ -5330,8 +5330,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1471,
-		"playCount": 5
+		"profileSize": 1267,
+		"playCount": 4
 	},
 	{
 		"id": "ksiusha-kostiukova",
@@ -5670,8 +5670,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1514,
-		"playCount": 5
+		"profileSize": 1310,
+		"playCount": 4
 	},
 	{
 		"id": "liubov-prepodobna",
@@ -5852,8 +5852,8 @@
 				]
 			}
 		],
-		"profileSize": 3077,
-		"playCount": 11
+		"profileSize": 2873,
+		"playCount": 10
 	},
 	{
 		"id": "marharet-tsypynska",
@@ -9948,8 +9948,8 @@
 				"id": "pavlo-koshka"
 			}
 		],
-		"profileSize": 1594,
-		"playCount": 6
+		"profileSize": 1390,
+		"playCount": 5
 	},
 	{
 		"id": "viktoriia-lysak",
@@ -10468,8 +10468,8 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 1096,
-		"playCount": 4
+		"profileSize": 917,
+		"playCount": 3
 	},
 	{
 		"id": "yan-okolskyy",
@@ -10519,8 +10519,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 1527,
-		"playCount": 6
+		"profileSize": 1323,
+		"playCount": 5
 	},
 	{
 		"id": "yana-lunova",
