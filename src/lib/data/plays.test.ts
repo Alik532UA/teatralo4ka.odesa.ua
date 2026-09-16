@@ -100,10 +100,20 @@ describe('реєстр вистав', () => {
 	it('кожен знімок із реєстрів лежить у static і має розмір у localImages', () => {
 		const bad: string[] = [];
 		let перевірено = 0;
+		/*
+		 * Знімки фестивалів читаються зі зрізу в `static/`, а не з реєстру: вони
+		 * переїхали туди 16 вересня разом із рештою подробиць сторінки, бо їхали
+		 * в клієнтський бандл до кожного відвідувача (докблок `festivalDetails.ts`).
+		 * Перевірка від цього не послабилася — джерело те саме, лише інший файл.
+		 */
+		const деталіФестивалів = JSON.parse(
+			readFileSync(join('static', 'galaxy', 'festival-details.json'), 'utf8')
+		) as Record<string, { photos?: string[] }>;
+
 		const owners = [
 			...PLAYS.map((p) => ({ id: p.id, photos: p.photos })),
 			...GROUPS.map((g) => ({ id: g.slug, photos: g.photos })),
-			...FESTIVALS.map((f) => ({ id: f.slug, photos: f.photos }))
+			...FESTIVALS.map((f) => ({ id: f.slug, photos: деталіФестивалів[f.slug]?.photos }))
 		];
 		for (const { id, photos } of owners)
 			for (const photo of photos ?? []) {

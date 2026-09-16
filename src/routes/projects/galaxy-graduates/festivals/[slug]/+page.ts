@@ -1,6 +1,7 @@
 import { error, redirect } from '@sveltejs/kit';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { FESTIVALS, getFestivalBySlug, festivalPath } from '$lib/data/festivals';
+import { loadFestivalDetails } from '$lib/data/festivalDetails';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import { RENAMED_FESTIVAL_SLUGS } from '$lib/config/renamedAddresses';
 import { LINKED_GRADUATES, rosterOrder, type GraduateIndexEntry } from '$lib/data/graduates';
@@ -25,7 +26,7 @@ export function entries() {
 	];
 }
 
-export async function load({ params, url }) {
+export async function load({ params, url, fetch }) {
 	const renamedTo = RENAMED_FESTIVAL_SLUGS[params.slug];
 	if (renamedTo) {
 		redirect(301, localizedPath(festivalPath(renamedTo), localeFromPath(url.pathname)));
@@ -129,8 +130,21 @@ export async function load({ params, url }) {
 		words.festivalTail
 	]);
 
+	/*
+	 * Подробиці приходять `fetch`ем із `static/` і ЗЛИВАЮТЬСЯ у сам фестиваль.
+	 *
+	 * Злиття тут, а не окреме поле `details`, — щоб розмітка лишилася такою, як
+	 * була: `data.festival.bio`, `data.festival.photos` і решта читаються звідти
+	 * ж, звідки й читалися. Винос у `static/` — рішення про ВАГУ БАНДЛА, і воно
+	 * не мусить просочуватися в сторінку.
+	 *
+	 * Чому взагалі винесено — у докблоці `data/festivalDetails.ts`: п'ять полів
+	 * важили 5.3 КБ і їхали до кожного відвідувача сайту, хоч потрібні лише тут.
+	 */
+	const деталі = await loadFestivalDetails(fetch);
+
 	return {
-		festival,
+		festival: { ...festival, ...(деталі[festival.slug] ?? {}) },
 		members,
 		memberMasters,
 		alumni,
