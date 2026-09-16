@@ -236,6 +236,35 @@ export const BETA_TABS: readonly BetaTab[] = [
 					en: 'Go through the home page for ten laps in a row. The tenth lap must scroll just as fast as the first, and the browser tab must not grow heavier or slow down.'
 				},
 				coverage: 'manual'
+			},
+			{
+				id: 'common_11',
+				category: { uk: 'Пошук', en: 'Search' },
+				text: {
+					uk: 'Не відкриваючи нічого мишкою, натисніть на клавіатурі «S». Мусить відкритися пошук, і курсор мусить одразу стояти в його полі. Те саме мусить спрацювати й тоді, коли на клавіатурі зараз українська розкладка.',
+					en: 'Without opening anything with the mouse, press “S” on the keyboard. Search must open with the cursor already in its field. The same must work when the keyboard is currently in a non-Latin layout.'
+				},
+				coverage: 'manual',
+				testid: 'header-search-btn'
+			},
+			{
+				id: 'common_12',
+				category: { uk: 'Пошук', en: 'Search' },
+				text: {
+					uk: 'Наберіть у пошуку кілька літер і, не чіпаючи стрілок, натисніть Enter. Мусить відкритися той результат, який підсвічений першим.',
+					en: 'Type a few letters into search and, without touching the arrow keys, press Enter. The result highlighted first must open.'
+				},
+				coverage: 'manual',
+				testid: 'header-search-btn'
+			},
+			{
+				id: 'common_13',
+				category: { uk: 'Пошук', en: 'Search' },
+				text: {
+					uk: 'Наберіть у пошуку слово з ОДНІЄЮ помилковою літерою — наприклад «ляпоси» замість «ляпаси». Потрібне мусить знайтися попри помилку.',
+					en: 'Type a word with ONE wrong letter into search — for example “teatre” instead of “theatre”. What you were looking for must still be found.'
+				},
+				coverage: 'manual'
 			}
 		]
 	},
@@ -374,6 +403,25 @@ export const BETA_TABS: readonly BetaTab[] = [
 				},
 				coverage: 'manual',
 				testid: 'article-gallery-img-0'
+			},
+			{
+				id: 'content_7',
+				category: { uk: 'Люди в тексті', en: 'People in the text' },
+				text: {
+					uk: 'Відкрийте новину, де згадані наші випускники чи викладачі. Перед кожним таким іменем мусить стояти кружечок: знімок, а в кого його ще немає — перша літера імені. Ім’я з кружечком НЕ мусить розриватися на два рядки.',
+					en: 'Open a story that mentions our graduates or teachers. Every such name must be preceded by a circle: a photograph, or the first letter for those who have none yet. A name with its circle must NOT break across two lines.'
+				},
+				coverage: 'manual',
+				negative: true
+			},
+			{
+				id: 'content_8',
+				category: { uk: 'Люди в тексті', en: 'People in the text' },
+				text: {
+					uk: 'На комп’ютері наведіть курсор на таке ім’я. Поруч мусить з’явитися невелика картка: обличчя, ім’я, рік випуску, майстри курсу школи, а нижче — заклад освіти й окремо його майстер курсу.',
+					en: 'On a desktop, hover such a name. A small card must appear next to it: the face, the name, the graduation year, the school course masters, and below them the place of study with its own course master.'
+				},
+				coverage: 'manual'
 			}
 		]
 	},
@@ -450,6 +498,132 @@ export const BETA_TABS: readonly BetaTab[] = [
 				},
 				coverage: 'manual',
 				negative: true
+			},
+			{
+				id: 'projects_6',
+				category: { uk: 'Показ анкет', en: 'Profile slideshow' },
+				text: {
+					uk: 'Пустіть показ анкет і просто на ходу перемкніть «Кого показувати» на «З закладом освіти або театром». Наступні анкети мусять бути лише тих, у кого заклад або театр справді вказані.',
+					en: 'Start the profile slideshow and switch “Who to show” to “With a school or a theatre” while it runs. The profiles that follow must be only of people who really have a school or a theatre listed.'
+				},
+				coverage: 'manual',
+				testid: 'galaxy-slideshow-filter-select'
+			},
+			{
+				id: 'projects_7',
+				category: { uk: 'Показ анкет', en: 'Profile slideshow' },
+				text: {
+					uk: 'Подивіться показ хвилину поспіль. Анкета мусить з’являтися одразу цілою: змісту, який дописується за мить після появи й зсуває все вниз, бути НЕ мусить.',
+					en: 'Watch the slideshow for a minute. Each profile must appear complete at once: there must be NO content that arrives a moment later and pushes everything down.'
+				},
+				coverage: 'manual',
+				negative: true
+			},
+			{
+				id: 'projects_8',
+				category: { uk: 'Анкета', en: 'Profile' },
+				text: {
+					uk: 'Відкрийте анкету людини, у якої є розділ «Фотографії». Знімки мусять гортатися стрілками, а крапки під ними мусять лишатися круглими навіть тоді, коли знімків кілька десятків. Натисніть будь-який — мусить відкритися на весь екран.',
+					en: 'Open the profile of someone who has a “Photographs” section. The shots must be flipped with arrows, and the dots beneath them must stay round even when there are dozens of shots. Press any one — it must open full screen.'
+				},
+				coverage: 'manual',
+				testid: 'galaxy-card-gallery-card'
+			}
+		]
+	},
+	{
+		id: 'galaxy',
+		title: { uk: 'Розділи галактики', en: 'Galaxy sections' },
+		/*
+		 * П'ять окремих сторінок, і жодної з них доти в чеклисті не було.
+		 *
+		 * Не тому, що їх пропустили оком: перевірка «кожен маршрут заявлений
+		 * вкладкою» брала адреси зі списку, вписаного руками, а ці сторінки
+		 * пререндеряться власними переліками — тобто в тому списку їх немає й
+		 * не буде. Тепер адреси беруться ще й з файлової системи, і сторінка,
+		 * яку нема кому перевіряти, називає себе сама.
+		 */
+		routes: [
+			'/projects/galaxy-graduates/plays',
+			'/projects/galaxy-graduates/groups',
+			'/projects/galaxy-graduates/festivals',
+			'/projects/galaxy-graduates/institutions',
+			'/projects/galaxy-graduates/theatres'
+		],
+		checks: [
+			{
+				id: 'galaxy_1',
+				category: { uk: 'Переліки', en: 'Listings' },
+				text: {
+					uk: 'Відкрийте «Вистави та ролі», «Групи випускників», «Фестивалі», «Навчальні заклади» й «Театри». Кожен перелік мусить показати картки, а не порожнє місце й не напис про помилку.',
+					en: 'Open “Performances and roles”, “Graduate groups”, “Festivals”, “Schools and universities” and “Theatres”. Every listing must show cards, not an empty space and not an error message.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_2',
+				category: { uk: 'Переліки', en: 'Listings' },
+				text: {
+					uk: 'У полі пошуку кожного з цих переліків наберіть кілька літер назви. Список мусить звужуватися на кожну літеру, а коли не знайдено нічого — сказати про це словами, а не лишитися порожнім.',
+					en: 'In the search field of each listing type a few letters of a name. The list must narrow on every letter, and when nothing is found it must say so in words rather than just go empty.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_3',
+				category: { uk: 'Навчальні заклади', en: 'Schools' },
+				text: {
+					uk: 'Відкрийте будь-який навчальний заклад зі списку. Спершу мусять іти люди зі знімками, а вже за ними — ті, у кого знімка немає. Оновіть сторінку кілька разів: порядок усередині кожної з цих двох частин мусить мінятися.',
+					en: 'Open any school from the list. People with photographs must come first, and only then those without. Reload the page a few times: the order inside each of those two parts must change.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_4',
+				category: { uk: 'Навчальні заклади', en: 'Schools' },
+				text: {
+					uk: 'На сторінці закладу знайдіть людину, у якої вказано майстра курсу. Ім’я майстра мусить бути посиланням і відкривати його сторінку; якщо в нього є знімок — він мусить стояти поруч з ім’ям.',
+					en: 'On a school page find a person with a course master named. The master’s name must be a link opening their page; if they have a photograph, it must stand next to the name.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_5',
+				category: { uk: 'Фестивалі', en: 'Festivals' },
+				text: {
+					uk: 'Відкрийте фестиваль «Одеса.Театр.PRO» 2026. Унизу мусить бути розділ «Новини», а в ньому — новина про підсумки фестивалю з датою. Її заголовок мусить відкривати саму новину.',
+					en: 'Open the “Odesa.Teatr.PRO” 2026 festival. At the bottom there must be a “News” section holding the story about the festival results, with its date. Its heading must open the story itself.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_6',
+				category: { uk: 'Фестивалі', en: 'Festivals' },
+				text: {
+					uk: 'На сторінці фестивалю з програмкою натисніть скан програмки. Аркуш мусить відкритися на весь екран, і дрібні імена в ньому мусять читатися.',
+					en: 'On a festival page that has a programme, press the scan of the programme. The sheet must open full screen, and the small names on it must be readable.'
+				},
+				coverage: 'manual',
+				testid: 'festival-booklets-list'
+			},
+			{
+				id: 'galaxy_7',
+				category: { uk: 'Межа', en: 'Boundary' },
+				text: {
+					uk: 'Пройдіть переліки в кожній із чотирьох тем. Жоден напис — зокрема число поруч із назвою фільтра — НЕ мусить зливатися з тлом так, щоб його доводилося вгадувати.',
+					en: 'Go through the listings in each of the four themes. No label — the count next to a filter name included — may blend into its background so much that you have to guess it.'
+				},
+				coverage: 'manual',
+				negative: true
+			},
+			{
+				id: 'galaxy_8',
+				category: { uk: 'Театри', en: 'Theatres' },
+				text: {
+					uk: 'Відкрийте «Театри» й перейдіть до будь-якого театру. Мусить бути видно місто, країну й наших людей у ньому; посилання на сайт театру, якщо воно є, мусить відкриватися в новій вкладці.',
+					en: 'Open “Theatres” and go to any theatre. The city, the country and our people there must be visible; the link to the theatre’s own site, if present, must open in a new tab.'
+				},
+				coverage: 'manual'
 			}
 		]
 	},
