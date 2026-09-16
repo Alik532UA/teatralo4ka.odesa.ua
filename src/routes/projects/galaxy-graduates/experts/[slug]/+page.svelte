@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { asset } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { Gavel, Dumbbell, Star } from 'lucide-svelte';
@@ -43,6 +44,21 @@
 	<GalaxyBreadcrumb />
 
 	<header class="expert__header">
+		<!--
+			Портрет — коли він є, і не інакше. Фахівці приходять до нас на кілька
+			днів фестивалю, і знімок є далеко не в кожного; порожній кружечок з
+			ініціалом тут читався б як «ми не встигли», хоча насправді ми просто
+			не маємо права публікувати чуже фото без дозволу.
+		-->
+		{#if data.expert.photo}
+			<img
+				class="expert__photo"
+				src={asset(data.expert.photo)}
+				width="160"
+				height="160"
+				alt={name}
+			/>
+		{/if}
 		<h1 class="expert__name" data-testid="expert-name-title">{name}</h1>
 		{#if data.expert.city}
 			<p class="expert__city" data-testid="expert-city-text">{data.expert.city}</p>
@@ -97,6 +113,14 @@
 
 	.expert__header {
 		margin-bottom: 2rem;
+	}
+
+	.expert__photo {
+		width: 160px;
+		height: 160px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: var(--hairline-width) solid var(--border-main);
 	}
 
 	.expert__name {

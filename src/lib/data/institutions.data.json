@@ -140,7 +140,9 @@
 			{
 				"id": "hryhorii-naumov",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Д. Богомазова",
+				"masterSlug": "dmytro-bohomazov"
 			},
 			{
 				"id": "svitlana-smyrna",
