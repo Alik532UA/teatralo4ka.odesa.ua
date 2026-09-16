@@ -1,4 +1,5 @@
 import { expect, test } from './fixtures';
+import { readFileSync } from 'node:fs';
 import { gotoReady, openStageMenu } from './ready';
 
 /**
@@ -323,4 +324,48 @@ test.describe('слайдшоу випускників', () => {
 			expect(await повнийЕкран(page), 'повний екран мусить вимкнутися разом із показом').toBe(false);
 		}).toPass({ timeout: 5000 });
 	});
+	/**
+	 * ЗМІНА ФІЛЬТРА ПОСЕРЕД ПОКАЗУ ПЕРЕБИРАЄ ЧЕРГУ.
+	 *
+	 * Черга складалася один раз — при запуску, — і зміна фільтра її не чіпала:
+	 * людина обирала «З закладом освіти або театром», а далі бачила тих самих,
+	 * кого набрав попередній фільтр. Напис обіцяв одне, показ робив інше.
+	 *
+	 * Перевірка йде від ДАНИХ, а не від числа: кожну показану адресу звіряє з
+	 * множиною тих, у кого є заклад освіти або театр.
+	 */
+	test('фільтр показу перебирає чергу', async ({ page }) => {
+		const g = JSON.parse(readFileSync('src/lib/data/graduates.index.json', 'utf8')) as {
+			id: string; slug: string; code?: string;
+		}[];
+		const inst = JSON.parse(readFileSync('src/lib/data/institutions.data.json', 'utf8')) as {
+			students: { id: string }[];
+		}[];
+		const th = JSON.parse(readFileSync('src/lib/data/theatres.data.json', 'utf8')) as {
+			members?: { id: string }[];
+		}[];
+		const art = new Set([
+			...inst.flatMap((i) => i.students.map((s) => s.id)),
+			...th.flatMap((t) => (t.members ?? []).map((m) => m.id))
+		]);
+		const заАдресою = new Map(g.map((x) => [x.code ?? x.slug, x]));
+
+		await gotoReady(page, '/projects/galaxy-graduates/');
+		await page.getByTestId('galaxy-slideshow-btn').click();
+		await page.getByTestId('galaxy-slideshow-filter-select').selectOption('artPath');
+		await page.getByTestId('galaxy-slideshow-seconds-input').fill('1').catch(() => {});
+		await page.waitForTimeout(1500);
+
+		const адреси = new Set<string>();
+		for (let i = 0; i < 5; i++) {
+			адреси.add(decodeURIComponent(new URL(page.url()).pathname.split('/').filter(Boolean).pop() ?? ''));
+			await page.waitForTimeout(2200);
+		}
+		const поза = [...адреси].filter((a) => {
+			const x = заАдресою.get(a);
+			return x && !art.has(x.id);
+		});
+		expect(поза, `під фільтром «творчий шлях» показані без нього: ${поза.join(', ')}`).toEqual([]);
+	});
+
 });
