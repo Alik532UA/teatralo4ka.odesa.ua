@@ -44,6 +44,12 @@
 	}
 
 	let { title, hint, testIdPrefix, variant = 'tile' }: Props = $props();
+
+	let pulseKey = $state(0);
+
+	function triggerPulse() {
+		pulseKey++;
+	}
 </script>
 
 <div
@@ -52,10 +58,16 @@
 	class:add--row={variant === 'row'}
 	data-testid="{testIdPrefix}-card"
 >
-	<span class="add__head">
+	<button
+		type="button"
+		class="add__head-btn"
+		onclick={triggerPulse}
+		aria-label="{title}: показати контакти"
+		data-testid="{testIdPrefix}-head-btn"
+	>
 		<span class="add__badge" aria-hidden="true"><Plus size={13} /></span>
 		<span class="add__title">{title}</span>
-	</span>
+	</button>
 	<!--
 		Значки стоять МІЖ назвою і поясненням, а не після нього.
 
@@ -76,6 +88,7 @@
 		testIdPrefix="{testIdPrefix}-contact"
 		mode="inline"
 		showGreeting={false}
+		{pulseKey}
 	/>
 	<span class="add__hint">{hint}</span>
 </div>
@@ -90,11 +103,28 @@
 		color: inherit;
 	}
 
-	.add__head {
-		display: flex;
+	.add__head-btn {
+		display: inline-flex;
 		flex-wrap: wrap;
 		align-items: center;
 		gap: 0.5rem;
+		background: none;
+		border: none;
+		padding: 0;
+		font: inherit;
+		color: inherit;
+		cursor: pointer;
+		text-align: left;
+	}
+
+	.add__head-btn:hover .add__badge {
+		background: rgb(99 102 241 / 0.3);
+		border-color: rgb(99 102 241 / 0.6);
+		transform: scale(1.08);
+	}
+
+	.add__head-btn:hover .add__title {
+		color: var(--accent-primary);
 	}
 
 	/* Коло, а не прямокутник: у значку один символ «+», і фігура мусить бути
@@ -110,6 +140,7 @@
 		background: rgb(99 102 241 / 0.15);
 		border: var(--hairline-width) solid rgb(99 102 241 / 0.3);
 		color: #a5b4fc;
+		transition: transform var(--transition-base), background var(--transition-base), border-color var(--transition-base);
 	}
 
 	.add__title {
@@ -117,6 +148,7 @@
 		font-weight: 700;
 		color: var(--text-title);
 		line-height: 1.25;
+		transition: color var(--transition-base);
 	}
 
 	.add__hint {

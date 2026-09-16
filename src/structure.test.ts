@@ -176,6 +176,11 @@ import { describe, expect, it } from 'vitest';
  *   завантаженні). Виведення з теки я порахував і відкинув: воно дало б 262 —
  *   тобто однаково над межею, — зате завело б ДРУГИЙ спосіб оголошувати медіа
  *   поруч із тим, яким записані решта п'ятнадцяти новин.
+ * 2026-09-16: `config/localImages.ts` — 253 рядки при канонічній межі 250, НОВИЙ
+ *   запис. Реєстр розмірів локальних зображень для запобігання зсуву макета (CLS).
+ *   Файл є чистим словником даних (`LOCAL_IMAGE_SIZES`) без логіки; виріс через
+ *   реєстрацію розмірів дипломів та афіш фестивалів 2020 та 2021 років
+ *   («Вішак-online», «Казки України», «Театр.NET»).
  */
 
 /** Канонічні межі § 7. Перший збіг виграє, тож порядок значущий. */
@@ -660,6 +665,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
+	'src/lib/config/localImages.ts': 260,
 	'src/lib/data/betaChecklist.ts': 479,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,

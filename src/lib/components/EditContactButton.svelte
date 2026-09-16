@@ -108,6 +108,8 @@
 		 * читається як запрошення, а кружечок читався як службова кнопка.
 		 */
 		shape?: 'round' | 'text';
+		/** Ключ для запуску хвилі підсвітки соцмереж */
+		pulseKey?: number | string;
 	}
 
 	let {
@@ -121,7 +123,8 @@
 		openOnHover = false,
 		variant = 'accent',
 		shape = 'round',
-		showGreeting = true
+		showGreeting = true,
+		pulseKey
 	}: Props = $props();
 
 
@@ -227,6 +230,7 @@
 				{hasPhoto}
 				{showGreeting}
 				size={openTo === 'card' ? 'strip' : 'block'}
+				{pulseKey}
 			/>
 		</div>
 	{/if}

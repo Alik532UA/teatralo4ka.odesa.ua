@@ -11,6 +11,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import {
 		FESTIVALS,
+		type Festival,
 		festivalPath,
 		latestYear,
 		matchesFestivalQuery,
@@ -44,12 +45,40 @@
 	 */
 	let query = $state('');
 
+	type FestivalFormatFilter = 'all' | 'online' | 'offline';
+	let formatFilter = $state<FestivalFormatFilter>('all');
+
+	const isOnlineFestival = (f: Festival) => f.note === 'online' || f.note?.toLowerCase() === 'online';
+
+	/* Фільтрація за форматом (всі, онлайн, офлайн) */
+	const formatFiltered = $derived.by(() => {
+		if (formatFilter === 'online') return FESTIVALS.filter(isOnlineFestival);
+		if (formatFilter === 'offline') return FESTIVALS.filter((f) => !isOnlineFestival(f));
+		return FESTIVALS;
+	});
+
 	/* Назву країни знає лише сторінка: у даних лежить код, а слово залежить від
 	   мови інтерфейсу. Розбір — у докблоці `matchesFestivalQuery`. */
 	const назваКраїни = (code: string) => $t(`galaxy.country.${code}`);
 	const знайдені = $derived(
+		formatFiltered.filter((f) => matchesFestivalQuery(f, query, назваКраїни))
+	);
+
+	/* Лічильники для кнопок фільтра при поточному пошуковому запиті */
+	const пошукові = $derived(
 		FESTIVALS.filter((f) => matchesFestivalQuery(f, query, назваКраїни))
 	);
+	const countAll = $derived(пошукові.length);
+	const countOnline = $derived(пошукові.filter(isOnlineFestival).length);
+	const countOffline = $derived(пошукові.filter((f) => !isOnlineFestival(f)).length);
+
+	const FILTER_OPTIONS = $derived<
+		ReadonlyArray<{ value: FestivalFormatFilter; labelKey: string; count: number }>
+	>([
+		{ value: 'all', labelKey: 'galaxy.festivalsFilterAll', count: countAll },
+		{ value: 'online', labelKey: 'galaxy.festivalsFilterOnline', count: countOnline },
+		{ value: 'offline', labelKey: 'galaxy.festivalsFilterOffline', count: countOffline }
+	]);
 
 	/**
 	 * Порядок: рік униз, а всередині року поїздки до країни-агресора — останні.
@@ -141,7 +170,30 @@
 			onView={view.set}
 			viewOptions={VIEW_OPTIONS}
 			viewTestId="galaxy-festivals-view"
-		/>
+		>
+			{#snippet scope()}
+				<div
+					class="fest-filter-group"
+					role="group"
+					aria-label={$t('galaxy.festivalsFormatFilter', { default: 'Формат фестивалів' })}
+					data-testid="galaxy-festivals-format-toolbar"
+				>
+					{#each FILTER_OPTIONS as opt (opt.value)}
+						<button
+							type="button"
+							class="fest-filter-btn"
+							class:fest-filter-btn--active={formatFilter === opt.value}
+							aria-pressed={formatFilter === opt.value}
+							onclick={() => (formatFilter = opt.value)}
+							data-testid="galaxy-festivals-filter-{opt.value}-btn"
+						>
+							<span>{$t(opt.labelKey)}</span>
+							<span class="fest-filter-count">{opt.count}</span>
+						</button>
+					{/each}
+				</div>
+			{/snippet}
+		</GalaxyRegistryHeader>
 
 		<!--
 			Звернення СТОЇТЬ НАД переліком в обох режимах — як у виставах, і з тієї
@@ -181,6 +233,11 @@
 							<span class="fest-card__name">
 								{isEn && festival.nameEn ? festival.nameEn : festival.name}
 							</span>
+							{#if festival.note}
+								<span class="fest-card__badge fest-card__badge--note" data-testid="galaxy-festival-badge-{festival.slug}">
+									{festival.note}
+								</span>
+							{/if}
 						</span>
 
 						<!--
@@ -263,6 +320,65 @@
 		color: var(--text-main, #f0f2f5);
 	}
 
+	.fest-filter-group {
+		display: inline-flex;
+		align-items: center;
+		padding: 3px;
+		background: var(--bg-card);
+		border: var(--hairline-width) solid var(--border-main);
+		border-radius: var(--radius-full, 9999px);
+		box-shadow: var(--shadow-sm);
+		gap: 2px;
+		flex-wrap: wrap;
+	}
+
+	.fest-filter-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.35rem 0.85rem;
+		border-radius: var(--radius-full, 9999px);
+		border: none;
+		background: transparent;
+		color: var(--text-muted);
+		font-size: 0.84rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition:
+			background var(--transition-base),
+			color var(--transition-base),
+			box-shadow var(--transition-base);
+		white-space: nowrap;
+	}
+
+	.fest-filter-btn:hover {
+		color: var(--text-main);
+	}
+
+	.fest-filter-btn--active {
+		background: var(--bg-surface);
+		color: var(--text-title);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.fest-filter-count {
+		display: inline-grid;
+		place-items: center;
+		min-width: 1.25rem;
+		height: 1.25rem;
+		padding: 0 0.35rem;
+		border-radius: var(--radius-full, 9999px);
+		background: color-mix(in srgb, var(--border-main), transparent 40%);
+		font-size: 0.72rem;
+		font-weight: 700;
+		color: var(--text-muted);
+	}
+
+	.fest-filter-btn--active .fest-filter-count {
+		background: color-mix(in srgb, var(--accent-primary), transparent 82%);
+		color: var(--accent-primary);
+	}
+
 	/* Складений добір: сам модифікатор має ту саму вагу, що й правило вище. */
 	/* Перемикач до правого краю — там, де його шукають на сторінці майстра. */
 	.festivals-grid {
@@ -339,5 +455,15 @@
 		color: var(--text-muted);
 		font-size: 0.78rem;
 		font-weight: 600;
+	}
+	.fest-card__badge--note {
+		border-radius: var(--radius-full, 9999px);
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 88%);
+		border-color: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 55%);
+		color: var(--accent-text, #8cb4ff);
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-transform: lowercase;
+		padding: 0.08rem 0.45rem;
 	}
 </style>

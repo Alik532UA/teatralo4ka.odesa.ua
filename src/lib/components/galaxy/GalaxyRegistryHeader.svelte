@@ -100,18 +100,24 @@
 	<p class="reg-hint" data-testid={hintTestId}>{hint}</p>
 {/if}
 
-<div class="reg-search">
-	<SearchField
-		value={searchValue}
-		onchange={onSearch}
-		{found}
-		{placeholderKey}
-		{nothingKey}
-		testid={searchTestId}
-	/>
-</div>
+<div class="reg-search-row">
+	<div class="reg-search">
+		<SearchField
+			value={searchValue}
+			onchange={onSearch}
+			{found}
+			{placeholderKey}
+			{nothingKey}
+			testid={searchTestId}
+		/>
+	</div>
 
-{#if scope}{@render scope()}{/if}
+	{#if scope}
+		<div class="reg-search-extra">
+			{@render scope()}
+		</div>
+	{/if}
+</div>
 
 <style>
 	.reg-header {
@@ -158,10 +164,30 @@
 		line-height: 1.5;
 	}
 
+	.reg-search-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 2rem;
+	}
+
 	/* 460 px — те саме, що на трьох старших сторінках: поле шириною на весь
 	   контейнер читається як форма, а не як пошук у переліку. */
 	.reg-search {
-		margin-bottom: 2rem;
+		width: 100%;
 		max-width: 460px;
+	}
+
+	.reg-search-extra {
+		display: flex;
+		align-items: center;
+		margin-left: auto;
+	}
+
+	@media (max-width: 640px) {
+		.reg-search-extra {
+			margin-left: 0;
+		}
 	}
 </style>

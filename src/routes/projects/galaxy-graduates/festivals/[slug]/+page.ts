@@ -125,7 +125,7 @@ export async function load({ params, url }) {
 	const роки = [...festival.years].sort((a, b) => a - b).join(', ');
 	const seoDescription = joinDescription([
 		`«${назва}», ${роки}`,
-		festival.city,
+		festival.city ?? festival.note,
 		words.festivalTail
 	]);
 

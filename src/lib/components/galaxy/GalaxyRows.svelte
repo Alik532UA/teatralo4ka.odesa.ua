@@ -45,11 +45,7 @@
 		maxFaces?: number;
 		/** Верхні спеціальні секції (наприклад, «Поточні групи», «Потребують уточнення») */
 		topSections?: readonly {
-			id: string;
-			title: string;
-			rows: readonly GalaxyRow[];
-			emptyText?: string;
-			showIfEmpty?: boolean;
+			id: string; title: string; rows: readonly GalaxyRow[]; emptyText?: string; showIfEmpty?: boolean;
 		}[];
 		/** Рядки, що завжди йдуть першими (legacy fallback) */
 		topRows?: readonly GalaxyRow[];
@@ -82,7 +78,12 @@
 			<a class="grow__link" href={item.href} data-testid="{testIdPrefix}-row-link-{item.key}">
 				<span class="grow__title">{item.title}</span>
 			</a>
-			{#if item.subtitle}<span class="grow__subtitle">{item.subtitle}</span>{/if}
+			{#if item.subtitle}
+				<span class="grow__subtitle">{item.subtitle}</span>
+			{/if}
+			{#if item.badge}
+				<span class="grow__badge" data-testid="{testIdPrefix}-row-badge-{item.key}">{item.badge}</span>
+			{/if}
 		</span>
 
 		<!--
@@ -262,6 +263,7 @@
 	}
 
 	.grow {
+		position: relative;
 		display: grid;
 		grid-template-columns: auto 1fr auto auto;
 		align-items: center;
@@ -279,52 +281,52 @@
 		transition:
 			background var(--transition-base),
 			border-color var(--transition-base);
+		cursor: pointer;
 	}
 	.grow:hover {
 		background: var(--bg-surface);
 		border-color: var(--border-main);
 	}
+	.grow:hover .grow__title { color: var(--accent-primary); }
 
-	.grow__dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--accent-primary);
-		opacity: 0.55;
+	/* Тільки в основній темній темі («Темна») бордер з'являється жовтим кольором */
+	:global(html[data-theme='dark']) .grow:hover,
+	:global(html.dark-theme) .grow:hover {
+		border-color: var(--palette-accent-yellow);
 	}
-	.grow__year {
-		min-width: 3.2rem;
-		color: var(--text-muted);
-		font-size: 0.82rem;
+	@media (prefers-color-scheme: dark) {
+		:global(html:not([data-theme])) .grow:hover {
+			border-color: var(--palette-accent-yellow);
+		}
+	}
+
+	.grow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-primary); opacity: 0.55; }
+	.grow__year { min-width: 3.2rem; color: var(--text-muted); font-size: 0.82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+	.grow__main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; min-width: 0; }
+	.grow__link { color: inherit; text-decoration: none; min-width: 0; }
+	.grow__link::before { content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: 1; }
+	.grow__title { font-weight: 600; color: var(--text-title); }
+	.grow__badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.1rem 0.45rem;
+		border-radius: var(--radius-full, 9999px);
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 88%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 55%);
+		color: var(--accent-text, #8cb4ff);
+		font-size: 0.72rem;
 		font-weight: 700;
-		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.02em;
+		line-height: 1.25;
+		text-transform: lowercase;
+		white-space: nowrap;
+		align-self: center;
 	}
-
-	.grow__main {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0.25rem 0.5rem;
-		min-width: 0;
-	}
-	.grow__link {
-		color: inherit;
-		text-decoration: none;
-		min-width: 0;
-	}
-	.grow__title {
-		font-weight: 600;
-		color: var(--text-title);
-	}
-	.grow__link:hover .grow__title {
-		color: var(--accent-primary);
-	}
-	.grow__subtitle {
-		font-size: 0.82rem;
-		color: var(--text-muted);
-	}
+	.grow__subtitle { font-size: 0.82rem; color: var(--text-muted); }
 
 	.grow__cast {
+		position: relative;
+		z-index: 2;
 		min-width: 0;
 		/*
 		 * Обрізання ПОТРІБНЕ, і це заміряно: колонка оголошена `auto`, але сітка
@@ -345,6 +347,8 @@
 	}
 
 	.grow__marks {
+		position: relative;
+		z-index: 2;
 		display: flex;
 		align-items: center;
 		gap: 0.3rem;
@@ -362,19 +366,8 @@
 		 */
 		grid-column: -2 / -1;
 	}
-	.grow__flags {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-		flex-shrink: 0;
-	}
-	.grow__years {
-		color: var(--text-muted);
-		font-size: 0.75rem;
-		font-weight: 700;
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-	}
+	.grow__flags { display: inline-flex; align-items: center; gap: 0.25rem; flex-shrink: 0; }
+	.grow__years { color: var(--text-muted); font-size: 0.75rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 	/*
 	 * Вузько — обличчя й плашки на власні поверхи.

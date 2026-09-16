@@ -1196,7 +1196,8 @@
 		"countries": [
 			"UA"
 		],
-		"note": "Онлайн",
+		"city": "Одеса",
+		"note": "online",
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
@@ -1212,7 +1213,8 @@
 		"countries": [
 			"UA"
 		],
-		"note": "Онлайн",
+		"city": "Одеса",
+		"note": "online",
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
@@ -1228,7 +1230,8 @@
 		"countries": [
 			"UA"
 		],
-		"note": "Онлайн",
+		"city": "Одеса",
+		"note": "online",
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
@@ -1244,7 +1247,8 @@
 		"countries": [
 			"UA"
 		],
-		"note": "Онлайн",
+		"city": "Одеса",
+		"note": "online",
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
@@ -1396,6 +1400,231 @@
 		"diplomas": [
 			"/festivals/lutsk-junior-theatre-2019-diploma.webp",
 			"/festivals/lutsk-junior-theatre-2019-diploma-2.webp"
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "vishak-online-2020",
+		"name": "Вішак-online",
+		"nameEn": "Vishak-online",
+		"years": [
+			2020
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Луцьк",
+		"note": "online",
+		"memberIds": [
+			"dar-ia-hurevych",
+			"kateryna-yevtushenko",
+			"stanislav-prakhov",
+			"daria-rybalchenko",
+			"daniela-rybalchenko",
+			"vira-spaska",
+			"heorhii-topor",
+			"amryta-chernyshova",
+			"nataliia-shynkarenko",
+			"maksym-korobchynskyi"
+		],
+		"masterIds": [
+			"fedir-tkach"
+		],
+		"playIds": [
+			"feis-bu-chik-2019"
+		],
+		"diplomas": [
+			"/festivals/vishak-online-2020-diploma.webp"
+		],
+		"videoUrl": "https://youtu.be/Yf0fw98luX4",
+		"bio": [
+			"Театральний фестиваль «Вішак-online» (м. Луцьк, Україна), 20 березня — 3 квітня 2020 року. Організатор — громадська організація «Творче об’єднання „Гармидер“» (Гармидер анґар-stage).",
+			"Від школи виступив навчальний театр «Чєловєкі» з виставою «Фейс-Бу-Чік» за текстами Наталії Блок (режисер-педагог Федір Ткач) та здобув диплом переможця фестивалю. До складу також долучилися учні з іншої групи — Наталія Шинкаренко та Максим Коробчинський."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "kazky-ukrainy-2020",
+		"name": "Казки України",
+		"nameEn": "Kazky Ukrainy",
+		"years": [
+			2020
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Бердянськ",
+		"note": "online",
+		"memberIds": [
+			"zlata-malancheva",
+			"david-oks",
+			"veronika-cheredniuk",
+			"oleksandra-polozova",
+			"lada-bilak",
+			"kateryna-haidei",
+			"daria-ekim",
+			"nataliia-shynkarenko"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"tetiana-stohul"
+		],
+		"playIds": [
+			"a-mozhe-ni-new-2019"
+		],
+		"diplomas": [
+			"/festivals/kazky-ukrainy-2020-diploma.webp",
+			"/festivals/kazky-ukrainy-2020-diploma-2.webp",
+			"/festivals/kazky-ukrainy-2020-diploma-3.webp"
+		],
+		"videoUrl": "https://youtu.be/dNHNTMJC_o0",
+		"bio": [
+			"ІІІ Всеукраїнський відкритий театральний фестиваль дитячих та юнацьких колективів «Казки України», 28–30 серпня 2020 року (онлайн, Запоріжжя / Бердянськ). Засновник — ГО «ФОРУМ-АРТ» за підтримки Українського культурного фонду.",
+			"Від школи виступив навчальний театр «Art-Kids» із виставою «А може ні...» за казкою Маліни Пшесьлюги (режисер-педагог Федір Ткач, хореограф Тетяна Стогул). Колектив здобув диплом у номінації «Найкраща адаптація філософсько-абсурдистського твору», Злата Маланчева та Давид Окс — диплом «Найкращий дует», а Давид Окс — диплом у номінації «Найкраща чоловіча роль»."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-net-2020",
+		"name": "Театр.NET",
+		"nameEn": "Teatr.NET",
+		"years": [
+			2020
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Київ",
+		"note": "online",
+		"memberIds": [
+			"hryhorii-naumov",
+			"svitlana-smyrna",
+			"anastasiia-skvortsova",
+			"anastasiia-kovtunenko",
+			"alina-nakonechna",
+			"anastasiia-huchok",
+			"daryna-zhuravel"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"olena-tkach",
+			"iryna-kulbaba",
+			"tetiana-isachkina",
+			"elmir-hanbarov",
+			"tetiana-stohul",
+			"oleh-shevchuk",
+			"natalia-dombrovska",
+			"iryna-ovcharenko",
+			"svitlana-ryskina",
+			"hanna-serebriannikova"
+		],
+		"playIds": [
+			"shake-s-pr-party-2018",
+			"bremens-ki-muzykanty-2019",
+			"vir-ta-mrii-2018",
+			"nesportyvna-istoriia-2018",
+			"kotyhoroshivka-2019",
+			"boh-izdyt-na-velosypedi-2019",
+			"zaruchyny-2019"
+		],
+		"photos": [
+			"/festivals/teatr-net-2020.webp",
+			"/festivals/teatr-net-2020-2.webp"
+		],
+		"diplomas": [
+			"/festivals/teatr-net-2020-diploma.webp",
+			"/festivals/teatr-net-2020-diploma-2.webp",
+			"/festivals/teatr-net-2020-diploma-3.webp",
+			"/festivals/teatr-net-2020-diploma-4.webp",
+			"/festivals/teatr-net-2020-diploma-5.webp",
+			"/festivals/teatr-net-2020-diploma-6.webp",
+			"/festivals/teatr-net-2020-diploma-7.webp"
+		],
+		"videoUrl": "https://youtu.be/eWYwK4H1n7g",
+		"bio": [
+			"Перший міжнародний театральний інтернет-конкурс «Театр.NET» (м. Київ, травень 2020 року). Культурно-мистецький театральний проєкт «День Театру».",
+			"Від Одеської дитячої театральної школи виступило сім навчальних театрів:",
+			"• «Друге дихання» — вистава «Shake-S-PR-party» (режисер Федір Ткач, хореографія та костюми Наталя Домбровська) — І місце в номінації «Юнацький театр».",
+			"• «Art-Kids» — вистава «Заручини» за Морісом Метерлінком (режисер та хореограф Анна Серебряннікова, художній керівник Федір Ткач) — ІІІ місце в номінації «Дитячий театр».",
+			"• «Харизматики» — вистава «Неспортивна історія» за кіносценарієм І. Агєєва (режисер Тетяна Ісачкіна, помічник режисера Ельмір Ганбаров, хореографія Тетяна Стогул) — ІІІ місце в номінації «Юнацький театр».",
+			"• «Догори дригом» («Вверхтормашками») — вистава «Бог їздить на велосипеді» за І. Васьковською (режисер Світлана Риськіна, хореографія Тетяна Стогул) — диплом лауреата в номінації «Юнацький театр».",
+			"• «Зроблено в Україні» — вистава «Бременські музики» за мотивами братів Ґрімм і віршами Юрія Ентіна (режисер Ірина Кульбаба) — диплом номінанта в номінації «Дитячий театр».",
+			"• «Акуна-Матата» — вистава-інсценізація діснеєвських історій «Верь и мечтай» («Вірь та Мрій», режисер Тетяна Ісачкіна) — диплом номінанта в номінації «Дитячий театр».",
+			"• «Дівочі драми» — вистава «Котигорошівка» за п’єсою Надії Симчич (режисер Олег Шевчук, хореографія та костюми Наталя Домбровська, педагог з вокалу Ірина Овчаренко) — диплом номінанта в номінації «Юнацький театр»."
+		],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "teatr-net-2021",
+		"name": "Театр.NET",
+		"nameEn": "Teatr.NET",
+		"years": [
+			2021
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Київ",
+		"note": "online",
+		"memberIds": [
+			"dar-ia-hurevych",
+			"daria-ekim",
+			"daria-rybalchenko",
+			"heorhii-topor",
+			"kateryna-yevtushenko",
+			"lada-bilak",
+			"nataliia-shynkarenko",
+			"oleksandra-polozova",
+			"stanislav-prakhov",
+			"vira-spaska",
+			"zlata-malancheva"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"iryna-kulbaba",
+			"ivan-voloshyn",
+			"liubov-savina",
+			"olena-tkach",
+			"svitlana-ryskina",
+			"tereza-zaurbekova",
+			"tetiana-isachkina"
+		],
+		"playIds": [
+			"hraiemo-zoshchenka-2020",
+			"chapaiev-ta-vasylisa-2021",
+			"sentymentalna-podorozh-2021",
+			"parol-potsilunok-2021",
+			"avatary-2021",
+			"asta-2021",
+			"dusha-podushky-2021",
+			"pryhody-peppi-dovhapanchokha-2021"
+		],
+		"photos": [
+			"/festivals/teatr-net-2021.webp",
+			"/festivals/teatr-net-2021-2.webp"
+		],
+		"diplomas": [
+			"/festivals/teatr-net-2021-diploma.webp",
+			"/festivals/teatr-net-2021-diploma-2.webp",
+			"/festivals/teatr-net-2021-diploma-3.webp",
+			"/festivals/teatr-net-2021-diploma-4.webp",
+			"/festivals/teatr-net-2021-diploma-5.webp",
+			"/festivals/teatr-net-2021-diploma-6.webp",
+			"/festivals/teatr-net-2021-diploma-7.webp",
+			"/festivals/teatr-net-2021-diploma-8.webp"
+		],
+		"videoUrl": "https://youtu.be/Mite3C4MDnw",
+		"bio": [
+			"Другий міжнародний театральний інтернет-конкурс «Театр.NET» (м. Київ, липень 2021 року). Культурно-мистецький театральний проєкт «День Театру».",
+			"Від Одеської дитячої театральної школи виступило вісім навчальних театрів:",
+			"• «Чєловєкі» — вистава «Граємо Зощенка» за оповіданнями Михайла Зощенка (режисери Федір Ткач та Іван Волошин, художній керівник Олена Ткач) — І місце в номінації «Юнацький театр».",
+			"• «Art-Kids» — випускна вистава «Чапаєв і Василіса» за п’єсою Лєни Лягушонкової (режисер Федір Ткач, художній керівник Олена Ткач) — ІІ місце в номінації «Юнацький театр».",
+			"• «Мамарада» — вистава «Сентиментальна подорож» за Наталею Мароз і Геннадієм Шутуровим (режисер Тереза Заурбекова, художній керівник Олена Ткач) — ІІ місце в номінації «Дитячий театр».",
+			"• «паXXLава» — вистава «Пароль - поцілунок» за Русланом Герасимовим (режисер Ірина Кульбаба, художній керівник Олена Ткач) — диплом лауреата І-го ступеня в номінації «Юнацький театр».",
+			"• «Дівчата» — вистава «Аватари» за Владою Ольховською (режисер Світлана Риськіна, художній керівник Олена Ткач) — диплом лауреата ІІ-го ступеня в номінації «Дитячий театр».",
+			"• «Чумацький шлях» — вистава «Аста» за Серафімою Орловою (режисер Тетяна Ісачкіна, художній керівник Олена Ткач) — диплом дипломанта І-го ступеня в номінації «Дитячий театр».",
+			"• «Рост-Ок» — вистава «Душа подушки» за Олжасом Жанайдаровим (режисер Тетяна Ісачкіна, художній керівник Олена Ткач) — диплом дипломанта І-го ступеня в номінації «Дитячий театр».",
+			"• «Хом'яки» — вистава «Пеппі Довгапанчоха» за Н. Вібе (режисер Любов Савіна, художній керівник Олена Ткач) — диплом дипломанта ІІ-го ступеня в номінації «Дитячий театр»."
 		],
 		"verificationStatus": "possible_errors"
 	}

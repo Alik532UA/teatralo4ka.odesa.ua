@@ -66,12 +66,13 @@
 	 * `showsCountryName` — одне правило на обидва місця, сторінку фестивалю й
 	 * цей перелік в анкеті. Прапор лишається: він і несе, де це було.
 	 */
-	function whereOf(city: string | undefined, countries: string[]): string {
+	function whereOf(city: string | undefined, countries: string[], note?: string): string {
 		const named = countries
 			.filter((c) => showsCountryName(c))
 			.map((c) => $t(`galaxy.country.${c}`))
 			.join(' · ');
-		return [city, named].filter(Boolean).join(', ');
+		const place = [city, note ? `(${note})` : undefined].filter(Boolean).join(' ');
+		return [place || undefined, named].filter(Boolean).join(', ');
 	}
 </script>
 
@@ -102,7 +103,7 @@
 						class="fests__link"
 						class:fests__link--bare={showMembers}
 						href={localizedPath(festivalPath(festival.slug), lang)}
-						title={whereOf(festival.city, festival.countries)}
+						title={whereOf(festival.city, festival.countries, festival.note)}
 						data-testid="{testIdPrefix}-link-{festival.slug}"
 					>
 						<span class="fests__years">{festival.years.join(', ')}</span>

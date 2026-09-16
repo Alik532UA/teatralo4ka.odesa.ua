@@ -35,24 +35,12 @@ export function festivalRow(f: Festival, { isEn, lang, t }: FestivalRowOptions):
 		year: latestYear(f),
 		yearLabel: yearsOf(f.years),
 		title: isEn && f.nameEn ? f.nameEn : f.name,
+		badge: f.note,
 		/*
-		 * Місто, а коли його немає — примітка («Онлайн»).
-		 *
-		 * Порожнє місце тут читалося як «невідомо де», хоча відомо: чотири
-		 * випуски Театр.PRO 2022–2025 пройшли онлайн, і в рядку від них
-		 * лишався самий прапор країни. Примітка стоїть саме на місці міста, бо
-		 * відповідає на те саме питання.
-		 *
-		 * Назва країни — лише там, де її показують. Для країни-агресора в рядку
-		 * лишається місто й прапор; сам запис у реєстрі не чіпається, і пошук за
-		 * назвою далі працює (розбір — `FLAG_ONLY_COUNTRIES`).
+		 * Лише місто: назва країни в рядку не пишеться, щоб не дублювати прапор праворуч.
+		 * У режимі «Плитка» назва країни залишається поряд із прапором.
 		 */
-		subtitle: [
-			f.city ?? f.note,
-			...f.countries.filter(showsCountryName).map((c) => t(`galaxy.country.${c}`))
-		]
-			.filter(Boolean)
-			.join(' · '),
+		subtitle: f.city,
 		memberIds: f.memberIds,
 		flags: f.countries.map((c) => ({
 			code: c,

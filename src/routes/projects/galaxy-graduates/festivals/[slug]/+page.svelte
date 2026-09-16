@@ -221,10 +221,8 @@
 				{#if data.festival.city}
 					<span class="fest-badge" data-testid="festival-city-badge">{data.festival.city}</span>
 				{/if}
-				<!-- Примітка стоїть на місці міста, бо відповідає на те саме
-				     питання «де»: у записів з нею міста немає й бути не може. -->
 				{#if data.festival.note}
-					<span class="fest-badge" data-testid="festival-note-badge">{data.festival.note}</span>
+					<span class="fest-badge fest-badge--note" data-testid="festival-note-badge">{data.festival.note}</span>
 				{/if}
 				{#each data.festival.countries as code (code)}
 					<span class="fest-badge" data-testid="festival-where-badge-{code}">
@@ -779,6 +777,12 @@
 		color: var(--text-muted);
 		font-size: 0.85rem;
 		font-weight: 600;
+	}
+	.fest-badge--note {
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 88%);
+		border-color: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 55%);
+		color: var(--accent-text, #8cb4ff);
+		text-transform: lowercase;
 	}
 	.fest-header__title {
 		margin: 0;
