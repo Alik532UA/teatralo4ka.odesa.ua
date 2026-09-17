@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
+	import type { Attachment } from 'svelte/attachments';
 	import { allGraduatePhotos } from '$lib/data/graduates';
 
 	/**
@@ -54,9 +55,49 @@
 			shown = (shown + 1) % stack.length;
 		});
 	});
+
+	/**
+	 * Гортання стопки колесом миші під курсором.
+	 *
+	 * Запобігає прокручуванню всієї сторінки/модалки (`e.preventDefault()`)
+	 * і перемикає світлини: вниз — наступна, вгору — попередня.
+	 */
+	function wheelStack(): Attachment {
+		return (node) => {
+			const element = node as HTMLElement;
+			let wheelAcc = 0;
+			let wheelAt = 0;
+			const WHEEL_STEP = 40;
+			const WHEEL_GAP = 200;
+
+			function onWheel(e: WheelEvent) {
+				if (stack.length <= 1) return;
+				e.preventDefault();
+
+				const now = performance.now();
+				if (now - wheelAt > WHEEL_GAP) wheelAcc = 0;
+				wheelAt = now;
+				wheelAcc += Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+
+				if (wheelAcc >= WHEEL_STEP) {
+					shown = (shown + 1) % stack.length;
+					wheelAcc = 0;
+				} else if (wheelAcc <= -WHEEL_STEP) {
+					shown = (shown - 1 + stack.length) % stack.length;
+					wheelAcc = 0;
+				}
+			}
+
+			element.addEventListener('wheel', onWheel, { passive: false });
+
+			return () => {
+				element.removeEventListener('wheel', onWheel);
+			};
+		};
+	}
 </script>
 
-<div class="photo-block">
+<div class="photo-block" {@attach wheelStack()}>
 	<button
 		type="button"
 		class="photo-stack"

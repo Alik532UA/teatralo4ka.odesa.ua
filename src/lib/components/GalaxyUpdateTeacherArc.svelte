@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Attachment } from 'svelte/attachments';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { mastersByMentions } from '$lib/data/masters';
 
@@ -37,6 +38,88 @@
 
 	/** Скільки триває повний оберт. Довго навмисно: це тло, а не карусель новин. */
 	const CYCLE_S = 21;
+
+	let scrollOffset = $state(0);
+	let direction = $state(1); // 1 = униз, -1 = угору
+	let isHovered = $state(false);
+
+	/**
+	 * Гортання каруселі колесом миші або тачпадом під курсором.
+	 *
+	 * Коли курсор на каруселі:
+	 *   - колесо обертає саму карусель замість прокручувати сторінку/модалку (`e.preventDefault()`);
+	 *   - рух зупиняється на час наведення (щоб роздивитися фото);
+	 *   - після скролу рух продовжується в бік ОСТАННЬОГО скролу (вниз чи вгору).
+	 */
+	function scrollArc(): Attachment {
+		return (node) => {
+			const element = node as HTMLElement;
+			const SCROLL_SPEED = 0.006;
+			const prefersReducedMotion =
+				typeof window !== 'undefined'
+					? window.matchMedia('(prefers-reduced-motion: reduce)')
+					: { matches: false };
+
+			let rafId: number | null = null;
+			let lastTime: number | null = null;
+
+			function tick(now: number) {
+				if (lastTime !== null && !isHovered && !prefersReducedMotion.matches) {
+					const dt = (now - lastTime) / 1000;
+					const speed = active ? 1.5 : 1;
+					scrollOffset = (((scrollOffset + dt * speed * direction) % CYCLE_S) + CYCLE_S) % CYCLE_S;
+				}
+				lastTime = now;
+				rafId = requestAnimationFrame(tick);
+			}
+
+			if (typeof window !== 'undefined' && !prefersReducedMotion.matches) {
+				rafId = requestAnimationFrame(tick);
+			}
+
+			function onWheel(e: WheelEvent) {
+				e.preventDefault();
+				const delta = Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+				if (delta !== 0) {
+					direction = delta > 0 ? 1 : -1;
+					scrollOffset = (((scrollOffset + delta * SCROLL_SPEED) % CYCLE_S) + CYCLE_S) % CYCLE_S;
+				}
+			}
+
+			function onPointerEnter() {
+				isHovered = true;
+			}
+
+			function onPointerLeave() {
+				isHovered = false;
+				lastTime = performance.now();
+			}
+
+			function onFocusIn() {
+				isHovered = true;
+			}
+
+			function onFocusOut() {
+				isHovered = false;
+				lastTime = performance.now();
+			}
+
+			element.addEventListener('wheel', onWheel, { passive: false });
+			element.addEventListener('pointerenter', onPointerEnter);
+			element.addEventListener('pointerleave', onPointerLeave);
+			element.addEventListener('focusin', onFocusIn);
+			element.addEventListener('focusout', onFocusOut);
+
+			return () => {
+				if (rafId !== null) cancelAnimationFrame(rafId);
+				element.removeEventListener('wheel', onWheel);
+				element.removeEventListener('pointerenter', onPointerEnter);
+				element.removeEventListener('pointerleave', onPointerLeave);
+				element.removeEventListener('focusin', onFocusIn);
+				element.removeEventListener('focusout', onFocusOut);
+			};
+		};
+	}
 </script>
 
 <!--
@@ -47,7 +130,8 @@
 <div
 	class="arc"
 	class:is-active={active}
-	style="--cycle: {CYCLE_S}s; --count: {TEACHERS.length}"
+	style="--cycle: {CYCLE_S}s; --count: {TEACHERS.length}; --scroll-offset: {scrollOffset}s;"
+	{@attach scrollArc()}
 	data-testid="galaxy-update-teachers-arc-list"
 >
 	{#each TEACHERS as person, index (person.slug)}
@@ -89,7 +173,7 @@
 		width: 100px;
 		overflow: hidden;
 		border-radius: inherit;
-		pointer-events: none;
+		pointer-events: auto;
 	}
 	.arc__face {
 		position: absolute;
@@ -111,7 +195,8 @@
 		 * місці дуги.
 		 */
 		animation: arc-travel var(--cycle) linear infinite;
-		animation-delay: calc(var(--order) * (var(--cycle) / var(--count)) * -1);
+		animation-delay: calc((var(--order) * (var(--cycle) / var(--count)) + var(--scroll-offset, 0s)) * -1);
+		animation-play-state: paused;
 		transition: border-color var(--transition-fast);
 	}
 	.arc.is-active .arc__face {

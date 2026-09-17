@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
+	import type { Attachment } from 'svelte/attachments';
 	import { asset } from '$app/paths';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import GalaxyUpdateGallery from './GalaxyUpdateGallery.svelte';
@@ -125,8 +126,69 @@
 		}
 	};
 
-	/** Володимир Чалчинський — єдина анкета, де YouTube уже стоїть. */
-	const YOUTUBE_URL = 'https://www.youtube.com/@DreamSchoolua';
+	const SOCIAL_DEMOS = [
+		{
+			id: 'volodymyr-chalchynskyi',
+			name: 'Володимир Чалчинський',
+			face: '/graduates/volodymyr-chalchynskyi-96.webp',
+			url: 'https://www.youtube.com/@DreamSchoolua'
+		},
+		{
+			id: 'reverenciel',
+			name: 'Роман Арабаджі',
+			face: '/graduates/reverenciel-96.webp',
+			url: 'https://www.youtube.com/@romanarabadzhi'
+		},
+		{
+			id: 'odessitkavmonreale',
+			name: 'Олена Мачтакова',
+			face: '/graduates/olena-machtakova-96.webp',
+			url: 'https://www.youtube.com/@odessitkavmonreale2025'
+		}
+	];
+
+	/**
+	 * За замовчуванням при старті — або Чалчинський (0), або reverenciel (1) випадковим чином.
+	 * odessitkavmonreale (2) не може бути за замовчуванням — на неї потрапляють лише скролом.
+	 */
+	let socialIndex = $state(Math.random() < 0.5 ? 0 : 1);
+	const currentSocial = $derived(SOCIAL_DEMOS[socialIndex]);
+
+	/**
+	 * Гортання соцмережі колесом миші під курсором.
+	 * Перемикає між випускниками (всіма трьома) та блокує прокручування модалки.
+	 */
+	function wheelSocial(): Attachment {
+		return (node) => {
+			const element = node as HTMLElement;
+			let wheelAcc = 0;
+			let wheelAt = 0;
+			const WHEEL_STEP = 40;
+			const WHEEL_GAP = 200;
+
+			function onWheel(e: WheelEvent) {
+				e.preventDefault();
+				const now = performance.now();
+				if (now - wheelAt > WHEEL_GAP) wheelAcc = 0;
+				wheelAt = now;
+				wheelAcc += Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+
+				if (wheelAcc >= WHEEL_STEP) {
+					socialIndex = (socialIndex + 1) % SOCIAL_DEMOS.length;
+					wheelAcc = 0;
+				} else if (wheelAcc <= -WHEEL_STEP) {
+					socialIndex = (socialIndex - 1 + SOCIAL_DEMOS.length) % SOCIAL_DEMOS.length;
+					wheelAcc = 0;
+				}
+			}
+
+			element.addEventListener('wheel', onWheel, { passive: false });
+
+			return () => {
+				element.removeEventListener('wheel', onWheel);
+			};
+		};
+	}
 </script>
 
 {#if id === 'photos'}
@@ -197,24 +259,28 @@
 		посилання належить саме цій людині. Слово «YouTube» тут зайве — його
 		несе сама іконка, а підпис лише розтягував рядок.
 	-->
-	<div class="social-demo" data-testid="galaxy-update-social-demo-card">
+	<div
+		class="social-demo"
+		{@attach wheelSocial()}
+		data-testid="galaxy-update-social-demo-card"
+	>
 		<img
 			class="social-demo__face"
-			src={asset('/graduates/volodymyr-chalchynskyi-96.webp')}
+			src={asset(currentSocial.face)}
 			width="48"
 			height="48"
-			alt="Володимир Чалчинський"
+			alt={currentSocial.name}
 			loading="lazy"
 		/>
 		<a
 			class="social-demo__badge"
 			class:is-pulsing={active}
 			style="--order: 0"
-			href={YOUTUBE_URL}
+			href={currentSocial.url}
 			target="_blank"
 			rel="external noopener noreferrer"
 			aria-label="YouTube"
-			title="YouTube"
+			title="YouTube — {currentSocial.name}"
 			data-testid="galaxy-update-youtube-link"
 		>
 			<img

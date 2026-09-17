@@ -5,6 +5,7 @@
 	import { asset } from '$app/paths';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { GRADUATES } from '$lib/data/graduates';
+	import { galleryGestures } from '$lib/utils/galleryGestures';
 	import PhotoLightbox, { type LightboxImage } from './PhotoLightbox.svelte';
 
 	/**
@@ -167,6 +168,11 @@
 	onpointerleave={() => (наведено = false)}
 	onfocusin={() => (наведено = true)}
 	onfocusout={() => (наведено = false)}
+	{@attach galleryGestures({
+		count: () => КАДРИ.length,
+		next: () => крок(1),
+		prev: () => крок(-1)
+	})}
 >
 	<button
 		type="button"
