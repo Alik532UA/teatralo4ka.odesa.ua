@@ -1396,7 +1396,9 @@
 		"status": "former",
 		"roleTitle": "композитор, концертмейстер",
 		"category": "accompanists",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photo": "/masters/oleksandr-kozoviakin.webp",
+		"portrait": "/masters/portraits/oleksandr-kozoviakin.webp"
 	},
 	{
 		"id": "svitlana-vitiuk",

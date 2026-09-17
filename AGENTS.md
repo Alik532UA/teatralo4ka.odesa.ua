@@ -116,7 +116,7 @@
 | `category` — роль          | без поля 59 · `directors` 20 · `teachers` 14 · `support` 10 · `accompanists` 9 · `musicians` 7 · `vocalists` 7 · `administration` 6 · `choreographers` 5 · `heads` 4 · `speech` 4 · `artists` 3 · `production` 2 · `it` 1 |
 | `status` — цикл            | `active` 77 · `former` 68 · `honorary` 6                                                                                                                                                                      |
 | розділ — `masterSection()` | `history` 60 · `needsClarification` 27 · `support` 9 · `directors` 8 · `musicians` 7 · `vocalists` 7 · `accompanists` 6 · `honorary` 6 · `administration` 5 · `choreographers` 4 · `speech` 4 · `artists` 3 · `heads` 3 · `it` 1 · `production` 1 |
-| прогалини — скільки записів БЕЗ поля | `subjects` 67 · `roleTitle` 45 · `photo` 43 · `departments` 25 |
+| прогалини — скільки записів БЕЗ поля | `subjects` 67 · `roleTitle` 45 · `photo` 42 · `departments` 25 |
 | `visibility` — видимість | без поля 117 · `linked` 34 |
 
 > Дві верхні осі й нижня розходяться НАВМИСНО, і це не помилка даних: роль —
