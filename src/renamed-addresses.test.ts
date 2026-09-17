@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import config from '../svelte.config.js';
 import {
+	RENAMED_EXPERT_SLUGS,
 	RENAMED_FESTIVAL_SLUGS,
 	GRADUATE_MOVED_TO_ADULT,
 	RENAMED_GRADUATE_ADDRESSES,
@@ -12,6 +13,7 @@ import {
 } from './lib/config/renamedAddresses';
 import { REDIRECT_PAGES } from './lib/config/redirects';
 import { BETA_UNCOVERED_ROUTES } from './lib/data/betaChecklist';
+import { EXPERTS } from './lib/data/experts';
 import { FESTIVALS } from './lib/data/festivals';
 import { GROUPS } from './lib/data/groups';
 import { PLAYS } from './lib/data/plays';
@@ -58,7 +60,8 @@ const МАПИ = {
 	вистави: RENAMED_PLAY_IDS,
 	майстри: RENAMED_MASTER_SLUGS,
 	випускники: RENAMED_GRADUATE_ADDRESSES,
-	'випускник-у-дорослі': GRADUATE_MOVED_TO_ADULT
+	'випускник-у-дорослі': GRADUATE_MOVED_TO_ADULT,
+	'майстри-галактики': RENAMED_EXPERT_SLUGS
 } as const;
 
 /** Чинні адреси кожного роду — те, на що перейменування має право вести. */
@@ -69,7 +72,8 @@ const ЧИННІ: Record<keyof typeof МАПИ, string[]> = {
 	майстри: MASTERS.map((m) => m.slug),
 	випускники: WITH_PAGE.map((g) => graduateAddress(g)),
 	/* Ціль переїзду — сторінка ПРАЦІВНИКА, тому перелік той самий, що в майстрів. */
-	'випускник-у-дорослі': MASTERS.map((m) => m.slug)
+	'випускник-у-дорослі': MASTERS.map((m) => m.slug),
+	'майстри-галактики': EXPERTS.map((e) => e.slug)
 };
 
 /**

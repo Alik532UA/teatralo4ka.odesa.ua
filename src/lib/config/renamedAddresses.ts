@@ -355,6 +355,13 @@ export const RENAMED_PATHS: readonly (readonly [старий: string, новий
 				`projects/galaxy-graduates/masters/${новий}`
 			] as const
 	),
+	...Object.entries(RENAMED_EXPERT_SLUGS).map(
+		([с, н]) =>
+			[
+				`/projects/galaxy-graduates/masters/${с}`,
+				`projects/galaxy-graduates/masters/${н}`
+			] as const
+	),
 	...Object.entries(RENAMED_FESTIVAL_SLUGS).map(
 		([с, н]) =>
 			[

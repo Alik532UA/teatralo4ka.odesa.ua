@@ -40,7 +40,7 @@
 				"text": "Кандидат педагогічних наук, доцент, завідувач кафедри сценічного мистецтва КНУКіМ"
 			}
 		],
-		"hidden": true
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "larysa-semyrozumenko",
