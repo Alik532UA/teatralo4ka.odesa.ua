@@ -122,4 +122,13 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/albina-abuladze/27.webp': { width: 1280, height: 720 },
 	'/graduates/gallery/albina-abuladze/28.webp': { width: 1280, height: 720 },
 	'/graduates/gallery/albina-abuladze/29.webp': { width: 535, height: 720 },
+	'/graduates/gallery/dariia-kulish/01.webp': { width: 960, height: 1280 },
+	'/graduates/gallery/dariia-kulish/02.webp': { width: 959, height: 1280 },
+	'/graduates/gallery/dariia-kulish/03.webp': { width: 959, height: 1280 },
+	'/graduates/gallery/dariia-kulish/04.webp': { width: 807, height: 605 },
+	'/graduates/gallery/dariia-kulish/05.webp': { width: 828, height: 763 },
+	'/graduates/gallery/dariia-kulish/06.webp': { width: 807, height: 605 },
+	'/graduates/gallery/dariia-kulish/07.webp': { width: 807, height: 605 },
+	'/graduates/gallery/dariia-kulish/08.webp': { width: 604, height: 453 },
+	'/graduates/gallery/dariia-kulish/09.webp': { width: 1280, height: 960 },
 } as const;

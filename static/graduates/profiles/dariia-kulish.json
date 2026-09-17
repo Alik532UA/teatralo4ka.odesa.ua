@@ -12,6 +12,17 @@
 		"music"
 	],
 	"hasPhoto": true,
+	"gallery": [
+		"/graduates/gallery/dariia-kulish/01.webp",
+		"/graduates/gallery/dariia-kulish/02.webp",
+		"/graduates/gallery/dariia-kulish/03.webp",
+		"/graduates/gallery/dariia-kulish/04.webp",
+		"/graduates/gallery/dariia-kulish/05.webp",
+		"/graduates/gallery/dariia-kulish/06.webp",
+		"/graduates/gallery/dariia-kulish/07.webp",
+		"/graduates/gallery/dariia-kulish/08.webp",
+		"/graduates/gallery/dariia-kulish/09.webp"
+	],
 	"unlinkedGroups": [],
 	"masters": [
 		{
