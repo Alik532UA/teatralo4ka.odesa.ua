@@ -1,5 +1,11 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+/*
+ * Форма ключа береться звідти, де її читають, а не пишеться тут удруге:
+ * `newsBacklinks.ts` — чистий модуль без `node:`-залежностей, тож імпорт у
+ * скрипт безпечний, а розбіжність між боками стає неможливою.
+ */
+import { expertNewsKey, graduateNewsKey, masterNewsKey } from '../src/lib/data/newsBacklinks';
 
 /**
  * Зріз «які новини про це розповідають» — рахується з САМИХ НОВИН.
@@ -39,6 +45,8 @@ import { join } from 'node:path';
 const СТОРІНКИ = join('src', 'lib', 'i18n', 'pages');
 const КАРТКИ = join('src', 'lib', 'data', 'news-cards.data.json');
 const ІНДЕКС = join('src', 'lib', 'data', 'graduates.index.json');
+const ФАХІВЦІ = join('src', 'lib', 'data', 'experts.data.json');
+const ВИКЛАДАЧІ = join('src', 'lib', 'data', 'masters.index.json');
 const ФЕСТИВАЛІ = join('static', 'galaxy', 'festival-news.json');
 const ЛЮДИ = join('static', 'galaxy', 'person-news.json');
 
@@ -51,6 +59,18 @@ const ПОСИЛАННЯ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/festivals
  * само, як у `prose-people-links.test.ts`.
  */
 const ЛЮДИНА = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/([^)/\s]+)\/?\)/g;
+
+/**
+ * Фахівець і викладач — окремими виразами, бо їхні адреси інакші формою.
+ *
+ * Доти зріз знав ЛИШЕ випускників, і це була не забудькуватість, а межа самого
+ * розбору: у фахівця два сегменти після `galaxy-graduates`, у викладача взагалі
+ * інший корінь, тож вираз вище їх не бачив. Наслідок був тихий — у новинах уже
+ * стояли посилання на шістьох викладачів і на Дмитра Богомазова, а в зрізі не
+ * було жодного з них, і жодна перевірка про це не казала.
+ */
+const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/experts\/([^)/\s]+)\/?\)/g;
+const ВИКЛАДАЧ = /\]\(\/(?:en\/)?residents\/adults\/([^)/\s]+)\/?\)/g;
 
 const РОЗДІЛИ = new Set(
 	readdirSync(join('src', 'routes', 'projects', 'galaxy-graduates'), { withFileTypes: true })
@@ -75,6 +95,13 @@ for (const g of випускники) {
 	заАдресою.set(g.code ?? g.slug, g.id);
 	if (!заАдресою.has(g.slug)) заАдресою.set(g.slug, g.id);
 }
+
+const слугФахівця = new Set(
+	(JSON.parse(readFileSync(ФАХІВЦІ, 'utf8')) as { slug: string }[]).map((e) => e.slug)
+);
+const слугВикладача = new Set(
+	(JSON.parse(readFileSync(ВИКЛАДАЧІ, 'utf8')) as { slug: string }[]).map((m) => m.slug)
+);
 
 interface Картка {
 	title: string;
@@ -132,7 +159,23 @@ for (const мова of readdirSync(СТОРІНКИ)) {
 				console.error(`⚠️  новина «${id}» посилається на «${m[1]}», а такого випускника немає`);
 				continue;
 			}
-			додати(люди, кого, id);
+			додати(люди, graduateNewsKey(кого), id);
+		}
+
+		for (const m of текст.matchAll(ФАХІВЕЦЬ)) {
+			if (!слугФахівця.has(m[1])) {
+				console.error(`⚠️  новина «${id}» посилається на фахівця «${m[1]}», якого немає`);
+				continue;
+			}
+			додати(люди, expertNewsKey(m[1]), id);
+		}
+
+		for (const m of текст.matchAll(ВИКЛАДАЧ)) {
+			if (!слугВикладача.has(m[1])) {
+				console.error(`⚠️  новина «${id}» посилається на викладача «${m[1]}», якого немає`);
+				continue;
+			}
+			додати(люди, masterNewsKey(m[1]), id);
 		}
 	}
 }

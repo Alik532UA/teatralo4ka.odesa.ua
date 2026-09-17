@@ -1,5 +1,15 @@
 {
-	"albina-abuladze": [
+	"expert:dmytro-bohomazov": [
+		{
+			"id": "teatr-pro-2026-results",
+			"date": "2026-06-13",
+			"title": {
+				"uk": "Підсумки IV Всеукраїнського фестивалю абітурієнтів «Одеса.Teaтр.PRO» в Одеській театральній школі",
+				"en": "Results of the IV All-Ukrainian Festival of Applicants «Odesa.Theater.PRO» at the Odesa Theater School"
+			}
+		}
+	],
+	"graduate:albina-abuladze": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -9,7 +19,7 @@
 			}
 		}
 	],
-	"alina-demediuk": [
+	"graduate:alina-demediuk": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -27,7 +37,7 @@
 			}
 		}
 	],
-	"anastasiia-ivanova": [
+	"graduate:anastasiia-ivanova": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -45,7 +55,7 @@
 			}
 		}
 	],
-	"anna-mariia-vyskochyl": [
+	"graduate:anna-mariia-vyskochyl": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -55,7 +65,7 @@
 			}
 		}
 	],
-	"daryna-zhuravel": [
+	"graduate:daryna-zhuravel": [
 		{
 			"id": "alumni-awards-venice-dziga-2026",
 			"date": "2026-09-14",
@@ -65,7 +75,7 @@
 			}
 		}
 	],
-	"hryhorii-naumov": [
+	"graduate:hryhorii-naumov": [
 		{
 			"id": "alumni-awards-venice-dziga-2026",
 			"date": "2026-09-14",
@@ -75,7 +85,7 @@
 			}
 		}
 	],
-	"illia-tryfonov": [
+	"graduate:illia-tryfonov": [
 		{
 			"id": "alumni-awards-venice-dziga-2026",
 			"date": "2026-09-14",
@@ -85,7 +95,7 @@
 			}
 		}
 	],
-	"inna-shevchenko": [
+	"graduate:inna-shevchenko": [
 		{
 			"id": "alumni-awards-venice-dziga-2026",
 			"date": "2026-09-14",
@@ -95,7 +105,7 @@
 			}
 		}
 	],
-	"ivan-pitel": [
+	"graduate:ivan-pitel": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -105,7 +115,7 @@
 			}
 		}
 	],
-	"karyna-sharkova": [
+	"graduate:karyna-sharkova": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -115,7 +125,7 @@
 			}
 		}
 	],
-	"kateryna-nesterenko": [
+	"graduate:kateryna-nesterenko": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -125,7 +135,7 @@
 			}
 		}
 	],
-	"kateryna-petrenko": [
+	"graduate:kateryna-petrenko": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -135,7 +145,7 @@
 			}
 		}
 	],
-	"kseniia-dovhal": [
+	"graduate:kseniia-dovhal": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -145,7 +155,7 @@
 			}
 		}
 	],
-	"liora-kazatsker": [
+	"graduate:liora-kazatsker": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -155,7 +165,7 @@
 			}
 		}
 	],
-	"maryna-cheban": [
+	"graduate:maryna-cheban": [
 		{
 			"id": "art-like-fest-triumph-2026",
 			"date": "2026-06-21",
@@ -165,7 +175,7 @@
 			}
 		}
 	],
-	"mykhailo-haniev": [
+	"graduate:mykhailo-haniev": [
 		{
 			"id": "alumni-awards-venice-dziga-2026",
 			"date": "2026-09-14",
@@ -175,7 +185,7 @@
 			}
 		}
 	],
-	"mykhailo-zabozhanov": [
+	"graduate:mykhailo-zabozhanov": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -185,7 +195,7 @@
 			}
 		}
 	],
-	"nikol-onyshchenko": [
+	"graduate:nikol-onyshchenko": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -195,7 +205,7 @@
 			}
 		}
 	],
-	"oleksandra-karachevska": [
+	"graduate:oleksandra-karachevska": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -205,7 +215,7 @@
 			}
 		}
 	],
-	"olesia-hrynko": [
+	"graduate:olesia-hrynko": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -215,7 +225,7 @@
 			}
 		}
 	],
-	"pavlo-maksymov": [
+	"graduate:pavlo-maksymov": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -233,7 +243,7 @@
 			}
 		}
 	],
-	"rodomira-dolbysheva": [
+	"graduate:rodomira-dolbysheva": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -243,7 +253,7 @@
 			}
 		}
 	],
-	"valeriia-burian": [
+	"graduate:valeriia-burian": [
 		{
 			"id": "art-like-fest-triumph-2026",
 			"date": "2026-06-21",
@@ -253,7 +263,7 @@
 			}
 		}
 	],
-	"yuliana-tymonova": [
+	"graduate:yuliana-tymonova": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
@@ -263,13 +273,81 @@
 			}
 		}
 	],
-	"zlata-stoyanova": [
+	"graduate:zlata-stoyanova": [
 		{
 			"id": "2026-year-30th-season-18-students",
 			"date": "2026-09-04",
 			"title": {
 				"uk": "Ювілейний 30-й сезон і вісімнадцять наших студентів",
 				"en": "The 30th anniversary season and eighteen of our students"
+			}
+		}
+	],
+	"master:andrii-klymenko": [
+		{
+			"id": "li-te-ra-studio-2026",
+			"date": "2026-03-27",
+			"title": {
+				"uk": "Творча студія «Лі-Те-Ра»: від перших перемог до нових прем'єр",
+				"en": "Creative Studio «Li-Te-Ra»: From First Victories to New Premieres"
+			}
+		}
+	],
+	"master:fedir-tkach": [
+		{
+			"id": "li-te-ra-studio-2026",
+			"date": "2026-03-27",
+			"title": {
+				"uk": "Творча студія «Лі-Те-Ра»: від перших перемог до нових прем'єр",
+				"en": "Creative Studio «Li-Te-Ra»: From First Victories to New Premieres"
+			}
+		}
+	],
+	"master:hanna-nikolaieva": [
+		{
+			"id": "art-like-fest-triumph-2026",
+			"date": "2026-06-21",
+			"title": {
+				"uk": "Потрійний тріумф учнів «Театралочки» на фестивалі Art Like Fest 2026 в Яремче",
+				"en": "Triple Triumph for «Teatralochka» Students at the Art Like Fest 2026 in Yaremche"
+			}
+		}
+	],
+	"master:oksana-panchenko": [
+		{
+			"id": "art-like-fest-triumph-2026",
+			"date": "2026-06-21",
+			"title": {
+				"uk": "Потрійний тріумф учнів «Театралочки» на фестивалі Art Like Fest 2026 в Яремче",
+				"en": "Triple Triumph for «Teatralochka» Students at the Art Like Fest 2026 in Yaremche"
+			}
+		}
+	],
+	"master:olena-tkach": [
+		{
+			"id": "30th-season-opened-2026",
+			"date": "2026-09-05",
+			"title": {
+				"uk": "Ювілейний 30-й сезон розпочато!",
+				"en": "The jubilee 30th season is open!"
+			}
+		},
+		{
+			"id": "li-te-ra-studio-2026",
+			"date": "2026-03-27",
+			"title": {
+				"uk": "Творча студія «Лі-Те-Ра»: від перших перемог до нових прем'єр",
+				"en": "Creative Studio «Li-Te-Ra»: From First Victories to New Premieres"
+			}
+		}
+	],
+	"master:svitlana-ryskina": [
+		{
+			"id": "art-like-fest-triumph-2026",
+			"date": "2026-06-21",
+			"title": {
+				"uk": "Потрійний тріумф учнів «Театралочки» на фестивалі Art Like Fest 2026 в Яремче",
+				"en": "Triple Triumph for «Teatralochka» Students at the Art Like Fest 2026 in Yaremche"
 			}
 		}
 	]

@@ -22,7 +22,7 @@
 	import { localizedPath } from "$lib/i18n/routing";
 	import { linkedMasterId } from "$lib/data/dualRole";
 	import { getGroupsByMember } from "$lib/data/groups";
-	import { loadPersonNews, type PersonNews } from "$lib/data/newsBacklinks";
+	import { graduateNewsKey, loadPersonNews, type PersonNews } from "$lib/data/newsBacklinks";
 	import { masterLabelKey, dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
@@ -309,7 +309,7 @@
 		if (!browser) return;
 		void loadPersonNews().then((зріз) => (усіНовини = зріз));
 	});
-	const news = $derived(усіНовини[graduate.id] ?? []);
+	const news = $derived(усіНовини[graduateNewsKey(graduate.id)] ?? []);
 	const hasAnyPlayYear = $derived(
 		Boolean(profile?.plays.some((p) => Boolean(p.year))),
 	);

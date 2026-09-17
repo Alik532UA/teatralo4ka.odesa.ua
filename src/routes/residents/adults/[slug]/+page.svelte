@@ -7,6 +7,7 @@
 	import { graduateCardHref } from '$lib/data/graduates';
 	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
 	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
+	import MasterNews from '$lib/components/adults/MasterNews.svelte';
 	import MasterFestivals from '$lib/components/adults/MasterFestivals.svelte';
 	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
 	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
@@ -272,6 +273,11 @@
 		<!-- Порожній перелік секцію не малює — умова всередині компонента. -->
 		<div class="master-section-layer">
 			<MasterFestivals masterId={data.master.id} />
+		</div>
+
+		<!-- Так само: розділу немає, поки жодна новина його не згадала. -->
+		<div class="master-section-layer">
+			<MasterNews news={data.news} />
 		</div>
 
 		{#if masterPlays.length > 0}

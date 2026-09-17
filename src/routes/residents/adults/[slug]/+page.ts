@@ -13,6 +13,7 @@ import { getGroupsByMaster } from '$lib/data/groups';
 import { linkedGraduateId } from '$lib/data/dualRole';
 import { LINKED_GRADUATES } from '$lib/data/graduates';
 import { castIdsOf, loadPlayCast } from '$lib/data/playCast';
+import { loadPersonNews, masterNewsKey } from '$lib/data/newsBacklinks';
 import { localeFromPath } from '$lib/i18n/routing';
 import { RENAMED_MASTER_SLUGS } from '$lib/config/renamedAddresses';
 import type { PageLoad, EntryGenerator } from './$types';
@@ -110,6 +111,16 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 		// Групи виводяться з `GROUPS`, а не з реєстру майстрів: див. докблок
 		// `getGroupsByMaster`. Порожній масив — майстер груп не веде, і секція
 		// на сторінці просто не з'явиться.
-		groups: getGroupsByMaster(master.id)
+		groups: getGroupsByMaster(master.id),
+		/*
+		 * Новини, де викладача згадали. Зв'язок живе в ТЕКСТІ новини, як і в
+		 * поїздки з випускником; поля в реєстрі майстрів для цього немає
+		 * навмисно — воно розійшлося б із текстом тихо.
+		 *
+		 * Доти цього розділу не було взагалі, і не тому, що не дійшли руки:
+		 * генератор зрізу шукав лише адреси випускників, тож посилання на
+		 * шістьох викладачів у новинах просто нікуди не потрапляли.
+		 */
+		news: (await loadPersonNews(fetch))[masterNewsKey(master.slug)] ?? []
 	};
 };

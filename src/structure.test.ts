@@ -74,6 +74,11 @@ import { describe, expect, it } from 'vitest';
  *   випускниками, учасники без картки, Експертна Рада, коучі й почесні гості.
  *   Три останні йдуть одним `{#each}` по ролях, а не трьома копіями.
  *
+ * 2026-09-17: `data/betaChecklist.ts` 644 → 656. Пункт про Експертну Раду:
+ * розділ отримав власну сторінку-перелік, а разом із нею — зв'язки, яких у
+ * фахівця доти не було (студенти, заклад, новини). Пункт один, рядків
+ * одинадцять: обидві мови й адреса розділу в `routes` вкладки.
+ *
  *   ПОДІЛ ПРОБУВАВ І ПОВЕРНУВ. Винесені в `FestivalRoleSection.svelte`, ці
  *   розділи впали на `component-styles.test.ts`: службові класи розділу
  *   (`.fest-section`, `.section-heading`, `.icon-wrap`, `.people-grid`) живуть
@@ -465,6 +470,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-03: `galaxy-graduates/groups/+page.svelte` 490 → 495, і всередині дня
  *   це були два рухи в різні боки.
  *
+ * 2026-09-17: `residents/adults/[slug]/+page.svelte` 417 → 422. Розділ новин,
+ * де згадали викладача. П'ять рядків — імпорт, шар секції та коментар; сам
+ * перелік малює `adults/MasterNews.svelte`, як і решта розділів цієї
+ * сторінки (групи, фестивалі, вистави). Розділу доти не було не через
+ * недогляд: генератор зрізу шукав лише адреси випускників, тож посилання на
+ * викладачів у новинах нікуди не потрапляли.
+ *
  *   Спершу +12 на поле пошуку, якого в переліку груп не було (на сторінці вистав
  *   воно вже стояло). Копії не з'явилося: саме поле винесено в
  *   `components/SearchField.svelte` (з `adults/MasterSearch.svelte`, який був
@@ -696,12 +708,12 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 260,
-	'src/lib/data/betaChecklist.ts': 644,
+	'src/lib/data/betaChecklist.ts': 656,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
-	'src/routes/residents/adults/[slug]/+page.svelte': 417,
+	'src/routes/residents/adults/[slug]/+page.svelte': 422,
 	'src/lib/components/SearchOverlay.svelte': 350,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*

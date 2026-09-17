@@ -4,6 +4,9 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { Gavel, Dumbbell, Star } from 'lucide-svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
+import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
+import { graduationCaption } from '$lib/data/graduates';
+import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	import type { PageData } from './$types';
 
 	/**
@@ -41,7 +44,20 @@
 </script>
 
 <section class="expert container" data-testid="expert-page-section">
-	<GalaxyBreadcrumb />
+	<!--
+		Тепер звідси є куди «назад»: доти сторінка фахівця була глухим кутом —
+		зайти в неї можна було лише зі сторінки поїздки, а вийти нікуди.
+	-->
+	<GalaxyBreadcrumb
+		withTrail
+		trailTestId="expert-from-link"
+		backHref={localizedPath('/projects/galaxy-graduates/experts/', currentLang)}
+		backLabel={$t('galaxy.backToExperts')}
+		backTestId="expert-experts-link"
+		forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
+		forwardLabel={$t('galaxy.title')}
+		forwardTestId="expert-galaxy-link"
+	/>
 
 	<header class="expert__header">
 		<!--
@@ -76,6 +92,28 @@
 		</ul>
 	{/if}
 
+	<!--
+		ЗАКЛАД — рядком під посадами, а не карткою.
+
+		Це не окремий розділ сторінки, а уточнення до посади: «майстер курсу» без
+		назви закладу — половина факту. Розділ із заголовком і рамкою робив би з
+		одного рядка подію.
+	-->
+	{#if data.institutions.length > 0}
+		<p class="expert__institutions" data-testid="expert-institutions-row">
+			<span class="expert__institutions-label">{$t('galaxy.masterOne')}</span>
+			{#each data.institutions as заклад, i (заклад.slug)}
+				{#if i > 0}<span class="expert__institutions-sep" aria-hidden="true">·</span>{/if}
+				<a
+					href={localizedPath(заклад.href, currentLang)}
+					data-testid="expert-institution-link-{заклад.slug}"
+				>
+					{заклад.name}
+				</a>
+			{/each}
+		</p>
+	{/if}
+
 	{#if data.appearances.length > 0}
 		<h2 class="expert__section-title" data-testid="expert-festivals-title">
 			{$t('galaxy.festivals')}
@@ -98,6 +136,56 @@
 							<span class="expert__festival-year">{item.year}</span>
 						</span>
 						<span class="expert__festival-role">{$t(roleLabel[item.role])}</span>
+					</a>
+				</li>
+			{/each}
+		</ul>
+	{/if}
+
+	<!--
+		ВИПУСКНИКИ, ЧИЙ ВІН МАЙСТЕР КУРСУ — тією ж сіткою, що на сторінці поїздки.
+
+		Зв'язок доти був однобічний: зі сторінки випускника було видно майстра
+		курсу, а звідси — нікого. Сітка взята та сама навмисно: людина, що ходить
+		галактикою, бачить однакові картки людей у поїздці, у групі й тут, і не
+		мусить щоразу вгадувати, що перед нею.
+	-->
+	{#if data.students.length > 0}
+		<h2 class="expert__section-title" data-testid="expert-students-title">
+			{$t('galaxy.festivalAlumni')}
+		</h2>
+		<div class="people-grid" data-testid="expert-students-list">
+			{#each data.students as person, idx (person.id)}
+				<GroupPersonCard
+					name={person.name}
+					photo={person.hasPhoto ? asset(`/graduates/${person.slug}-192.webp`) : null}
+					subtitle={graduationCaption(person, $t)}
+					onclick={() => openGraduateModal(person)}
+					splitName
+					index={idx}
+					testid="expert-student-card-{person.slug}"
+				/>
+			{/each}
+		</div>
+	{/if}
+
+	<!--
+		Рядками, а не плитками: зріз возить лише назву й дату, обкладинки в ньому
+		немає, і плитка з самим заголовком читалася б як картка, що не
+		завантажилась. Те саме рішення — у поїздки й в анкеті випускника.
+	-->
+	{#if data.news.length > 0}
+		<h2 class="expert__section-title" data-testid="expert-news-title">{$t('nav.news')}</h2>
+		<ul class="expert__news" data-testid="expert-news-list">
+			{#each data.news as новина (новина.id)}
+				<li>
+					<a
+						class="expert__news-item"
+						href={localizedPath(`/news/${новина.id}`, currentLang)}
+						data-testid="expert-news-link-{новина.id}"
+					>
+						<span class="expert__news-title">{новина.title[currentLang]}</span>
+						<time class="expert__news-date" datetime={новина.date}>{новина.date}</time>
 					</a>
 				</li>
 			{/each}
@@ -230,5 +318,71 @@
 		.expert__festival-name {
 			flex-basis: calc(100% - 2rem);
 		}
+	}
+	/*
+	 * `.people-grid` — ТРЕТЯ копія тих самих восьми рядків (поїздка, група, тут).
+	 *
+	 * Копія свідома, і борг названий там, де його вперше зважили, — у докблоці
+	 * сторінки поїздки: класи розділу живуть у скоупі СТОРІНКИ, тож компонент до
+	 * них не дістає (`component-styles.test.ts` це й каже), а винести їх у
+	 * `global.css` означає зачепити заразом сторінку груп. Третя копія — привід
+	 * це нарешті зробити, але не посеред внесення зв'язків фахівця.
+	 */
+	.people-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr));
+		gap: 1rem;
+	}
+	/* На телефоні — рівно двоє в рядок. Чому не `auto-fill`: складені прізвища
+	   перекривають мінімум, і двадцять карток ставали двадцятьма рядками. */
+	@media (max-width: 767px) {
+		.people-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.75rem;
+		}
+	}
+
+	.expert__institutions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.5rem;
+		margin: -0.5rem 0 2rem;
+		font-size: 0.95rem;
+	}
+	.expert__institutions-label {
+		color: var(--text-muted);
+	}
+	.expert__institutions-sep {
+		color: var(--text-muted);
+	}
+
+	.expert__news {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.5rem;
+	}
+	.expert__news-item {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.5rem 1rem;
+		padding: 0.75rem 1rem;
+		border-radius: var(--radius-md, 12px);
+		background: var(--bg-surface);
+		border: var(--hairline-width) solid var(--border-main);
+		color: var(--text-main);
+		text-decoration: none;
+	}
+	.expert__news-item:hover {
+		border-color: var(--accent-primary);
+	}
+	.expert__news-date {
+		color: var(--text-muted);
+		font-size: 0.85rem;
+		font-variant-numeric: tabular-nums;
 	}
 </style>

@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { FESTIVALS } from './lib/data/festivals';
+import { expertNewsKey, graduateNewsKey, masterNewsKey } from './lib/data/newsBacklinks';
 
 /**
  * Зріз «новини про поїздку» не розійшовся ні з новинами, ні з реєстром.
@@ -39,6 +40,8 @@ const ЗРІЗ_ЛЮДЕЙ = join('static', 'galaxy', 'person-news.json');
 
 const ПОСИЛАННЯ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/festivals\/([^)/\s]+)\/?\)/g;
 const ЛЮДИНА = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/([^)/\s]+)\/?\)/g;
+const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/experts\/([^)/\s]+)\/?\)/g;
+const ВИКЛАДАЧ = /\]\(\/(?:en\/)?residents\/adults\/([^)/\s]+)\/?\)/g;
 
 const РОЗДІЛИ = new Set(
 	readdirSync(join('src', 'routes', 'projects', 'galaxy-graduates'), { withFileTypes: true })
@@ -54,6 +57,41 @@ for (const g of випускники) {
 	заАдресою.set(g.code ?? g.slug, g.id);
 	if (!заАдресою.has(g.slug)) заАдресою.set(g.slug, g.id);
 }
+
+const слугФахівця = new Set(
+	(
+		JSON.parse(readFileSync(join('src', 'lib', 'data', 'experts.data.json'), 'utf8')) as {
+			slug: string;
+		}[]
+	).map((e) => e.slug)
+);
+const слугВикладача = new Set(
+	(
+		JSON.parse(readFileSync(join('src', 'lib', 'data', 'masters.index.json'), 'utf8')) as {
+			slug: string;
+		}[]
+	).map((m) => m.slug)
+);
+
+/**
+ * Хто саме шукається в текстах — і як зветься його ключ.
+ *
+ * Три роди людей, три форми адреси. Перелік тут окремо від самого проходу, бо
+ * забути один рід — це рівно те, що вже сталося: зріз знав лише випускників,
+ * тоді як у новинах стояли посилання й на викладачів, і на фахівця.
+ */
+const РОДИ: { вираз: RegExp; ключ: (адреса: string) => string | null }[] = [
+	{
+		вираз: ЛЮДИНА,
+		ключ: (адреса) => {
+			if (РОЗДІЛИ.has(адреса)) return null;
+			const хто = заАдресою.get(адреса);
+			return хто ? graduateNewsKey(хто) : null;
+		}
+	},
+	{ вираз: ФАХІВЕЦЬ, ключ: (а) => (слугФахівця.has(а) ? expertNewsKey(а) : null) },
+	{ вираз: ВИКЛАДАЧ, ключ: (а) => (слугВикладача.has(а) ? masterNewsKey(а) : null) }
+];
 
 interface Картка {
 	title: string;
@@ -81,25 +119,25 @@ function перерахувати(кого: 'festivals' | 'people'): Record<stri
 			if (!файл.startsWith('news-') || !файл.endsWith('.md')) continue;
 			const id = файл.slice('news-'.length, -'.md'.length);
 			const текст = readFileSync(join(тека, файл), 'utf8');
-			for (const m of текст.matchAll(кого === 'festivals' ? ПОСИЛАННЯ : ЛЮДИНА)) {
-				let ключ_ = m[1];
-				if (кого === 'people') {
-					if (РОЗДІЛИ.has(ключ_)) continue;
-					const хто = заАдресою.get(ключ_);
-					if (!хто) continue;
-					ключ_ = хто;
+			const роди =
+				кого === 'festivals' ?
+					[{ вираз: ПОСИЛАННЯ, ключ: (а: string) => а as string | null }]
+				:	РОДИ;
+			for (const рід of роди)
+				for (const m of текст.matchAll(рід.вираз)) {
+					const ключ_ = рід.ключ(m[1]);
+					if (!ключ_) continue;
+					const ключ = `${ключ_}|${id}`;
+					if (бачені.has(ключ)) continue;
+					бачені.add(ключ);
+					const uk = картки.uk?.[id];
+					if (!uk || uk.published === false) continue;
+					(зріз[ключ_] ??= []).push({
+						id,
+						date: uk.date,
+						title: { uk: uk.title, en: картки.en?.[id]?.title ?? uk.title }
+					});
 				}
-				const ключ = `${ключ_}|${id}`;
-				if (бачені.has(ключ)) continue;
-				бачені.add(ключ);
-				const uk = картки.uk?.[id];
-				if (!uk || uk.published === false) continue;
-				(зріз[ключ_] ??= []).push({
-					id,
-					date: uk.date,
-					title: { uk: uk.title, en: картки.en?.[id]?.title ?? uk.title }
-				});
-			}
 		}
 	}
 	for (const список of Object.values(зріз)) список.sort((a, b) => b.date.localeCompare(a.date));
@@ -151,11 +189,23 @@ describe('новини людей (зріз у static)', () => {
 		).toEqual(людиПерераховані);
 	});
 
-	it('кожен ключ зрізу — живий `id` випускника', () => {
-		// Ключ тут `id`, а не адреса: адресу законно виправляють, і зріз,
-		// ключований нею, тихо осиротів би на першому ж перейменуванні.
-		const id = new Set(випускники.map((g) => g.id));
-		const сироти = Object.keys(людиПерераховані).filter((k) => !id.has(k));
+	it('кожен ключ зрізу — жива людина свого роду', () => {
+		/*
+		 * Ключ у випускника — `id`, а не адреса: адресу законно виправляють, і
+		 * зріз, ключований нею, тихо осиротів би на першому ж перейменуванні. У
+		 * фахівця й викладача стійкої мітки, окремої від адреси, немає, тому там
+		 * `slug` — і саме тому рід записаний у ключі: без нього три набори
+		 * звірялися б одним переліком, і сирота знайшовся б не всюди.
+		 */
+		const живі: Record<string, Set<string>> = {
+			graduate: new Set(випускники.map((g) => g.id)),
+			expert: слугФахівця,
+			master: слугВикладача
+		};
+		const сироти = Object.keys(людиПерераховані).filter((k) => {
+			const межа = k.indexOf(':');
+			return !живі[k.slice(0, межа)]?.has(k.slice(межа + 1));
+		});
 		expect(сироти, `новина посилається на людину, якої немає:\n${сироти.join('\n')}`).toEqual(
 			[]
 		);

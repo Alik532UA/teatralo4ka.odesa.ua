@@ -548,7 +548,8 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/projects/galaxy-graduates/groups',
 			'/projects/galaxy-graduates/festivals',
 			'/projects/galaxy-graduates/institutions',
-			'/projects/galaxy-graduates/theatres'
+			'/projects/galaxy-graduates/theatres',
+			'/projects/galaxy-graduates/experts'
 		],
 		checks: [
 			{
@@ -622,6 +623,15 @@ export const BETA_TABS: readonly BetaTab[] = [
 				text: {
 					uk: 'Відкрийте «Театри» й перейдіть до будь-якого театру. Мусить бути видно місто, країну й наших людей у ньому; посилання на сайт театру, якщо воно є, мусить відкриватися в новій вкладці.',
 					en: 'Open “Theatres” and go to any theatre. The city, the country and our people there must be visible; the link to the theatre’s own site, if present, must open in a new tab.'
+				},
+				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_9',
+				category: { uk: 'Експертна Рада', en: 'Expert council' },
+				text: {
+					uk: 'Відкрийте «Експертну Раду». Знайдіть у ній Дмитра Богомазова й зайдіть на його сторінку: там мусять бути наші випускники, чий він майстер курсу, навчальний заклад і новини, де його згадали. З кожного з них має бути перехід — і назад до переліку теж.',
+					en: 'Open the “Expert council”. Find Dmytro Bohomazov there and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
 				},
 				coverage: 'manual'
 			}
