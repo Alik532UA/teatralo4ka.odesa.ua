@@ -629,10 +629,10 @@ export const BETA_TABS: readonly BetaTab[] = [
 			},
 			{
 				id: 'galaxy_9',
-				category: { uk: 'Експертна Рада', en: 'Expert council' },
+				category: { uk: 'Майстри і фахівці', en: 'Masters and experts' },
 				text: {
-					uk: 'Відкрийте «Експертну Раду». Знайдіть у ній Дмитра Богомазова й зайдіть на його сторінку: там мусять бути наші випускники, чий він майстер курсу, навчальний заклад і новини, де його згадали. З кожного з них має бути перехід — і назад до переліку теж.',
-					en: 'Open the “Expert council”. Find Dmytro Bohomazov there and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
+					uk: 'Відкрийте «Майстри і фахівці». Спробуйте всі три кнопки над переліком — «Всі», «Експертна Рада», «Викладають у випускників»: число поруч із кнопкою мусить збігтися з тим, скільки карток лишилося. Далі знайдіть Дмитра Богомазова й зайдіть на його сторінку: там мусять бути наші випускники, чий він майстер курсу, навчальний заклад і новини, де його згадали. З кожного з них має бути перехід — і назад до переліку теж.',
+					en: 'Open “Masters and experts”. Try all three buttons above the listing — “All”, “Expert council”, “Teach our graduates”: the number next to a button must match how many cards remain. Then find Dmytro Bohomazov and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
 				},
 				coverage: 'manual'
 			},
