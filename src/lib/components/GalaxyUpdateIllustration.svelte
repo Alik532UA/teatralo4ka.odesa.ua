@@ -153,6 +153,16 @@
 	 */
 	let socialIndex = $state(Math.random() < 0.5 ? 0 : 1);
 	const currentSocial = $derived(SOCIAL_DEMOS[socialIndex]);
+	let isBadgePopping = $state(false);
+	let popTimer: ReturnType<typeof setTimeout> | undefined;
+
+	function triggerBadgePop() {
+		isBadgePopping = true;
+		if (popTimer) clearTimeout(popTimer);
+		popTimer = setTimeout(() => {
+			isBadgePopping = false;
+		}, 350);
+	}
 
 	/**
 	 * Гортання соцмережі колесом миші під курсором.
@@ -175,9 +185,11 @@
 
 				if (wheelAcc >= WHEEL_STEP) {
 					socialIndex = (socialIndex + 1) % SOCIAL_DEMOS.length;
+					triggerBadgePop();
 					wheelAcc = 0;
 				} else if (wheelAcc <= -WHEEL_STEP) {
 					socialIndex = (socialIndex - 1 + SOCIAL_DEMOS.length) % SOCIAL_DEMOS.length;
+					triggerBadgePop();
 					wheelAcc = 0;
 				}
 			}
@@ -186,6 +198,7 @@
 
 			return () => {
 				element.removeEventListener('wheel', onWheel);
+				if (popTimer) clearTimeout(popTimer);
 			};
 		};
 	}
@@ -264,17 +277,23 @@
 		{@attach wheelSocial()}
 		data-testid="galaxy-update-social-demo-card"
 	>
-		<img
-			class="social-demo__face"
-			src={asset(currentSocial.face)}
-			width="48"
-			height="48"
-			alt={currentSocial.name}
-			loading="lazy"
-		/>
+		<div class="social-demo__faces">
+			{#each SOCIAL_DEMOS as demo, i (demo.id)}
+				<img
+					class="social-demo__face"
+					class:social-demo__face--active={i === socialIndex}
+					src={asset(demo.face)}
+					width="48"
+					height="48"
+					alt={demo.name}
+					loading="eager"
+				/>
+			{/each}
+		</div>
 		<a
 			class="social-demo__badge"
 			class:is-pulsing={active}
+			class:social-demo__badge--pop={isBadgePopping}
 			style="--order: 0"
 			href={currentSocial.url}
 			target="_blank"
@@ -285,8 +304,8 @@
 		>
 			<img
 				src={asset('/social_media/YouTube-se-512px-50q.png')}
-				width="28"
-				height="28"
+				width="32"
+				height="32"
 				alt=""
 				loading="lazy"
 			/>
@@ -391,30 +410,66 @@
 		height: 76px;
 		flex-shrink: 0;
 	}
-	.social-demo__face {
+	.social-demo__faces {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 48px;
 		height: 48px;
 		border-radius: 50%;
-		object-fit: cover;
-		border: 2px solid rgb(140 190 255 / 0.35);
 	}
-	.social-demo__badge {
+	.social-demo__face {
 		position: absolute;
-		right: 0;
-		bottom: 0;
-		display: grid;
-		place-items: center;
+		inset: 0;
 		width: 48px;
 		height: 48px;
 		border-radius: 50%;
-		background: var(--galaxy-card-bg);
-		border: 2px solid var(--galaxy-card-bg);
+		object-fit: cover;
+		border: 2px solid rgb(140 190 255 / 0.35);
+		box-sizing: border-box;
+		opacity: 0;
+		transform: scale(0.82) rotate(-6deg);
+		transition:
+			opacity 0.35s ease,
+			transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+		pointer-events: none;
+	}
+	.social-demo__face--active {
+		opacity: 1;
+		transform: scale(1) rotate(0deg);
+		pointer-events: auto;
+		z-index: 1;
+	}
+	.social-demo__badge {
+		position: absolute;
+		right: 2px;
+		bottom: 2px;
+		display: grid;
+		place-items: center;
+		width: 34px;
+		height: 34px;
+		border-radius: 8px;
+		background: transparent;
+		border: none;
+		padding: 0;
+		transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+		cursor: pointer;
+		text-decoration: none;
+		z-index: 2;
+	}
+	.social-demo__badge:hover {
+		transform: scale(1.18);
+	}
+	.social-demo__badge--pop {
+		animation: badge-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
 	.social-demo__badge img {
+		display: block;
+		width: 32px;
+		height: 32px;
+		object-fit: contain;
 		border-radius: 7px;
+		filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.5));
 	}
 
 	/*
@@ -424,10 +479,34 @@
 	 * різними способами. Тут вона коротша й без пауз: пункт наводять на
 	 * секунду-дві, а не роздивляються хвилину.
 	 */
-	.is-pulsing .chip,
-	.social-demo__badge.is-pulsing {
+	.is-pulsing .chip {
 		animation: update-pulse 1.6s ease-in-out infinite;
 		animation-delay: calc(var(--order, 0) * 0.22s);
+	}
+	.social-demo__badge.is-pulsing:not(.social-demo__badge--pop) {
+		animation: badge-pulse 1.6s ease-in-out infinite;
+		animation-delay: calc(var(--order, 0) * 0.22s);
+	}
+	@keyframes badge-pulse {
+		0%,
+		55%,
+		100% {
+			transform: scale(1);
+		}
+		25% {
+			transform: scale(1.12);
+		}
+	}
+	@keyframes badge-pop {
+		0% {
+			transform: scale(0.85);
+		}
+		50% {
+			transform: scale(1.2);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 	@keyframes update-pulse {
 		0%,
@@ -448,8 +527,13 @@
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.is-pulsing .chip,
-		.social-demo__badge.is-pulsing {
+		.social-demo__badge.is-pulsing,
+		.social-demo__badge--pop {
 			animation: none;
+		}
+		.social-demo__face {
+			transition: opacity 0.15s ease;
+			transform: none;
 		}
 	}
 </style>

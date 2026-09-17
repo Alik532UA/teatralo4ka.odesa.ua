@@ -477,6 +477,7 @@
 		list-style: none;
 		margin: 0;
 		padding: 0 0.5rem 0.4rem;
+		box-sizing: border-box;
 		display: flex;
 		/* Один ряд — саме тут, а не лише обмеженням числа: у вузькому контейнері
 		   навіть обрізаний набір перенісся б, і блок знову став би двоповерховим. */
@@ -524,6 +525,7 @@
 	.mates--all {
 		width: max-content;
 		max-width: 100%;
+		box-sizing: border-box;
 		flex-wrap: wrap;
 		row-gap: 0.3rem;
 	}

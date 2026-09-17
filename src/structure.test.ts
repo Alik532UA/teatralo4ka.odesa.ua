@@ -741,7 +741,12 @@ const CEILINGS: Record<string, number> = {
 	 * розірвати `обраний` — один стан на двох компонентів, тобто складність
 	 * дорожча за 35 рядків.
 	 */
-	'src/lib/components/PlayCastSection.svelte': 335
+	'src/lib/components/PlayCastSection.svelte': 335,
+	/*
+	 * 2026-09-18: 300 → 355. Плавне перемикання трьох YouTube-профілів при скролі
+	 * (анімація стеку облич, прозорий бейдж без темного кола, пружинний відгук).
+	 */
+	'src/lib/components/GalaxyUpdateIllustration.svelte': 355
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

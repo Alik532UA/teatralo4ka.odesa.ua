@@ -2075,6 +2075,9 @@
 		margin: 0 0 1.1rem;
 		color: var(--galaxy-text);
 		text-align: center;
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
 
 	.groups-list {
@@ -2086,6 +2089,8 @@
 		padding: 0;
 		list-style: none;
 		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
 	/*
 	 * Колонкою, а не рядком: однокурсники стають ПІД назвою групи. Доти тут було
@@ -2104,6 +2109,9 @@
 			background 0.2s ease,
 			border-color 0.2s ease,
 			transform 0.15s ease;
+		width: max-content;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
 	.group-item:has(a:hover) {
 		background: rgb(255 255 255 / 0.12);
@@ -2119,6 +2127,7 @@
 		text-decoration: none;
 		border-radius: inherit;
 		width: 100%;
+		box-sizing: border-box;
 	}
 	.group-link-wrapper--static {
 		cursor: default;
