@@ -56,6 +56,7 @@
 
 	const roleLabel: Record<string, string> = {
 		experts: 'galaxy.festivalExperts',
+		jury: 'galaxy.festivalJury',
 		coaches: 'galaxy.festivalCoaches',
 		guests: 'galaxy.festivalGuests'
 	};
@@ -145,7 +146,7 @@
 						data-testid="expert-festival-link-{item.slug}"
 					>
 						<span class="expert__festival-icon" aria-hidden="true">
-							{#if item.role === 'experts'}<Gavel size={16} />
+							{#if item.role === 'experts' || item.role === 'jury'}<Gavel size={16} />
 							{:else if item.role === 'coaches'}<Dumbbell size={16} />
 							{:else}<Star size={16} />{/if}
 						</span>

@@ -20,14 +20,18 @@
 	"mrii-dim-2012": {
 		"photos": [
 			"/festivals/mrii-dim-2012.webp",
-			"/festivals/mrii-dim-2012-2.webp",
+			"/festivals/mrii-dim-2012-2.webp"
+		],
+		"diplomas": [
 			"/festivals/mrii-dim-2012-3.webp",
 			"/festivals/mrii-dim-2012-4.webp"
 		]
 	},
 	"mrii-dim-2013": {
 		"photos": [
-			"/festivals/mrii-dim-2013.webp",
+			"/festivals/mrii-dim-2013.webp"
+		],
+		"diplomas": [
 			"/festivals/mrii-dim-2013-2.webp",
 			"/festivals/mrii-dim-2013-3.webp",
 			"/festivals/mrii-dim-2013-4.webp",

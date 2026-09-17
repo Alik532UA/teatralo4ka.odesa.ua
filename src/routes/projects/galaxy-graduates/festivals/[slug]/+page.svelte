@@ -384,7 +384,7 @@
 			розмітки, друге — окрема робота, і робити її мимохідь, посеред внесення
 			даних про фестивалі, означало б зачепити чужу сторінку без потреби.
 		-->
-		{#each [{ key: 'experts', label: 'galaxy.festivalExperts', people: data.experts, masters: data.expertMasters, alumni: [] }, { key: 'coaches', label: 'galaxy.festivalCoaches', people: data.coaches, masters: data.coachMasters, alumni: data.coachAlumni }, { key: 'guests', label: 'galaxy.festivalGuests', people: data.guests, masters: [], alumni: [] }] as role (role.key)}
+		{#each [{ key: 'experts', label: data.festival.jury ? 'galaxy.festivalJury' : 'galaxy.festivalExperts', people: data.experts, masters: data.expertMasters, alumni: [] }, { key: 'coaches', label: 'galaxy.festivalCoaches', people: data.coaches, masters: data.coachMasters, alumni: data.coachAlumni }, { key: 'guests', label: 'galaxy.festivalGuests', people: data.guests, masters: [], alumni: [] }] as role (role.key)}
 			{#if role.people.length + role.masters.length + role.alumni.length > 0}
 				<section class="fest-section" aria-labelledby="section-{role.key}-title">
 					<div class="section-heading">

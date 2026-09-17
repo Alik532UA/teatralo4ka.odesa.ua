@@ -41,7 +41,7 @@ export const load: PageLoad = async ({ params, url, fetch }) => {
 	 */
 	const appearances = FESTIVALS.flatMap((festival) => {
 		const role =
-			festival.expertIds?.includes(expert.slug) ? 'experts'
+			festival.expertIds?.includes(expert.slug) ? (festival.jury ? 'jury' : 'experts')
 			: festival.coachIds?.includes(expert.slug) ? 'coaches'
 			: festival.guestIds?.includes(expert.slug) ? 'guests'
 			: null;

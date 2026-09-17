@@ -174,7 +174,8 @@
 			"stanislav-moiseiev",
 			"oleh-stefan",
 			"bohdan-beniuk"
-		]
+		],
+		"jury": true
 	},
 	{
 		"slug": "mrii-dim-2013",
@@ -214,7 +215,8 @@
 		"expertIds": [
 			"oleh-drach",
 			"oleh-stefan"
-		]
+		],
+		"jury": true
 	},
 	{
 		"slug": "art-like-fest-2026",

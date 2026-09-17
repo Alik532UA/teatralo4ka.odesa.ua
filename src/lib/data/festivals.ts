@@ -95,6 +95,8 @@ export interface Festival {
 	 */
 	expertIds?: string[];
 	expertMasterIds?: string[];
+	/** Чи називалася колегія «Журі» / «Члени журі», а не «Експертна Рада» */
+	jury?: boolean;
 	/** Коучі фестивалю — ті, хто ВІВ заняття, а не оцінював. Реєстр той самий. */
 	coachIds?: string[];
 	coachMasterIds?: string[];
