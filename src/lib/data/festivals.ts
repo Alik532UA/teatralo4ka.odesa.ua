@@ -97,6 +97,8 @@ export interface Festival {
 	expertMasterIds?: string[];
 	/** Коучі фестивалю — ті, хто ВІВ заняття, а не оцінював. Реєстр той самий. */
 	coachIds?: string[];
+	coachMasterIds?: string[];
+	coachAlumniIds?: string[];
 	/**
 	 * ПОЧЕСНІ ГОСТІ.
 	 *

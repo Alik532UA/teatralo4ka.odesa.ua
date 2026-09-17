@@ -113,6 +113,11 @@ export async function load({ params, url, fetch }) {
 	 * зовнішніх. У Раді 2018 сидів Олег Шевчук, наш колишній педагог.
 	 */
 	const expertMasters = (festival.expertMasterIds ?? []).map(майстер).filter((m) => m !== undefined);
+	const coachMasters = (festival.coachMasterIds ?? []).map(майстер).filter((m) => m !== undefined);
+	const coachAlumni: GraduateIndexEntry[] = (festival.coachAlumniIds ?? [])
+		.map((id) => LINKED_GRADUATES.find((g) => g.id === id))
+		.filter((g): g is GraduateIndexEntry => Boolean(g))
+		.sort((a, b) => rosterOrder(a) - rosterOrder(b));
 
 	/*
 	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>` сторінки: у `og:description`
@@ -162,6 +167,8 @@ export async function load({ params, url, fetch }) {
 		experts,
 		expertMasters,
 		coaches,
+		coachMasters,
+		coachAlumni,
 		guests,
 		plays,
 		seoDescription

@@ -6,9 +6,11 @@ import {
 	getTheatreBySlug,
 	theatrePath,
 	theatreSize,
-	theatresOfGraduate
+	theatresOfGraduate,
+	theatresOfMaster
 } from './theatres';
 import graduatesIndex from '$lib/data/graduates.index.json';
+import mastersIndex from '$lib/data/masters.index.json';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /**
@@ -42,6 +44,7 @@ import type { GraduateIndexEntry } from '$lib/data/graduates';
 const graduates = graduatesIndex as GraduateIndexEntry[];
 const byId = new Map(graduates.map((g) => [g.id, g]));
 const PROFILES = join(process.cwd(), 'static/graduates/profiles');
+const MASTER_PROFILES = join(process.cwd(), 'static/masters/profiles');
 
 /** Уся проза анкети одним рядком: `bio`, «під час навчання», «після випуску». */
 function proseOf(graduate: GraduateIndexEntry): string | null {
@@ -55,6 +58,13 @@ function proseOf(graduate: GraduateIndexEntry): string | null {
 	return [...(profile.bio ?? []), profile.duringStudies ?? '', profile.afterGraduation ?? ''].join(
 		' '
 	);
+}
+
+function proseOfMaster(masterId: string): string | null {
+	const file = join(MASTER_PROFILES, `${masterId}.json`);
+	if (!existsSync(file)) return null;
+	const profile = JSON.parse(readFileSync(file, 'utf8')) as { bio?: string };
+	return profile.bio ?? '';
 }
 
 describe('реєстр театрів', () => {
@@ -116,7 +126,7 @@ describe('реєстр театрів', () => {
 		const bad: string[] = [];
 		let зРоком = 0;
 		for (const t of THEATRES)
-			for (const m of [...t.members, ...(t.unlistedMembers ?? [])]) {
+			for (const m of [...t.members, ...(t.masterMembers ?? []), ...(t.unlistedMembers ?? [])]) {
 				for (const [поле, year] of [
 					['since', m.since],
 					['until', m.until]
@@ -139,11 +149,19 @@ describe('реєстр театрів', () => {
 		expect(bad, `людина веде в нікуди:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	it('кожен викладач, хто працює в театрі, існує в реєстрі masters.index.json', () => {
+		const mastersMap = new Map((mastersIndex as { id: string }[]).map((m) => [m.id, m]));
+		const bad: string[] = [];
+		for (const t of THEATRES)
+			for (const m of t.masterMembers ?? []) if (!mastersMap.has(m.id)) bad.push(`${t.slug} → ${m.id}`);
+		expect(bad, `викладач веде в нікуди:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
 	it('одна людина не стоїть у театрі двічі', () => {
 		const bad: string[] = [];
 		for (const t of THEATRES) {
 			const seen = new Set<string>();
-			for (const m of t.members) {
+			for (const m of [...t.members, ...(t.masterMembers ?? [])]) {
 				if (seen.has(m.id)) bad.push(`${t.slug} → ${m.id}`);
 				seen.add(m.id);
 			}
@@ -173,6 +191,22 @@ describe('реєстр театрів', () => {
 		expect(перевірено, 'жодної анкети не перевірено — реєстр порожній?').toBeGreaterThan(5);
 	});
 
+	it('фраза, якою викладач назвав театр, досі стоїть у його біографії', () => {
+		const bad: string[] = [];
+		for (const t of THEATRES)
+			for (const m of t.masterMembers ?? []) {
+				const проза = proseOfMaster(m.id);
+				if (проза === null) {
+					bad.push(`${m.id}: біографії немає, а ${t.slug} на неї спирається`);
+					continue;
+				}
+				const фраза = m.mention ?? t.name;
+				if (!проза.includes(фраза))
+					bad.push(`${m.id}: у біографії немає «${фраза}» (${t.slug})`);
+			}
+		expect(bad, `реєстр театрів і біографія викладача розійшлися:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
 	/*
 	 * Зворотний бік тієї самої пари: посилання з анкети мусить вести на сторінку
 	 * ТОГО САМОГО театру. Саме заради цього посилання розділ і з'явився («замість
@@ -193,6 +227,18 @@ describe('реєстр театрів', () => {
 		expect(bad, `анкета не веде на сторінку театру:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	it('біографія викладача посилається на сторінку свого театру', () => {
+		const bad: string[] = [];
+		for (const t of THEATRES)
+			for (const m of t.masterMembers ?? []) {
+				const проза = proseOfMaster(m.id);
+				if (проза === null) continue;
+				if (!проза.includes(theatrePath(t.slug)))
+					bad.push(`${m.id}: у біографії немає посилання на ${theatrePath(t.slug)}`);
+			}
+		expect(bad, `біографія викладача не веде на сторінку театру:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
 	it('стан верифікації — з відомого набору', () => {
 		const known = new Set(['verified', 'possible_errors', 'definite_errors']);
 		const bad = THEATRES.filter((t) => t.verificationStatus && !known.has(t.verificationStatus)).map(
@@ -207,12 +253,17 @@ describe('реєстр театрів', () => {
 		expect(getTheatreBySlug('такого-немає')).toBeUndefined();
 
 		expect(theatreSize(first)).toBe(
-			first.members.length + (first.unlistedMembers?.length ?? 0)
+			first.members.length + (first.masterMembers?.length ?? 0) + (first.unlistedMembers?.length ?? 0)
 		);
 		expect(theatrePath(first.slug)).toBe(`/projects/galaxy-graduates/theatres/${first.slug}`);
 
 		const member = first.members[0];
 		expect(theatresOfGraduate(member.id).map((x) => x.theatre.slug)).toContain(first.slug);
 		expect(theatresOfGraduate('нікого-такого')).toEqual([]);
+
+		expect(theatresOfMaster('tereza-zaurbekova').map((x) => x.theatre.slug)).toContain(
+			'odeskyi-tiuh-oleshi'
+		);
+		expect(theatresOfMaster('нікого-такого')).toEqual([]);
 	});
 });

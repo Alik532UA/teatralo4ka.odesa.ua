@@ -290,10 +290,10 @@ export const GRADUATE_ALIASES: Record<string, string> = GRADUATE_ALIASES_DATA;
  * тут немає навмисно — вона не встигла побувати в жодному випуску.
  */
 export const MOVED_EXPERT_SLUGS: Readonly<Record<string, string>> = {
-	'a-seitablaiev': 'a-seitablaiev',
+	'a-seitablaiev': 'akhtem-seitablaiev',
 	'anatolii-lobanov': 'anatolii-lobanov',
 	'bohdan-strutynskyi': 'bohdan-strutynskyi',
-	'd-rybalevskyi': 'd-rybalevskyi',
+	'd-rybalevskyi': 'dmytro-rybalevskyi',
 	'dmytro-bohomazov': 'dmytro-bohomazov',
 	'dmytro-naumets': 'dmytro-naumets',
 	'dmytro-zakhozhenko': 'dmytro-zakhozhenko',
@@ -307,7 +307,7 @@ export const MOVED_EXPERT_SLUGS: Readonly<Record<string, string>> = {
 	'nadiia-aliunova': 'nadiia-aliunova',
 	'nataliia-tsymbal': 'nataliia-tsymbal',
 	'nina-husakova': 'nina-husakova',
-	'o-kravchuk': 'o-kravchuk',
+	'o-kravchuk': 'oleksii-kravchuk',
 	/* перейменований: */ 'o-pecherytsia': 'oleksandr-pecherytsia',
 	/* перейменований: */ 'o-zamiatin': 'oleh-zamiatin',
 	'oksana-stetsenko': 'oksana-stetsenko',
@@ -317,16 +317,33 @@ export const MOVED_EXPERT_SLUGS: Readonly<Record<string, string>> = {
 	'serhii-kalantai': 'serhii-kalantai',
 	'stanislav-moiseiev': 'stanislav-moiseiev',
 	'stanislav-zhyrkov': 'stanislav-zhyrkov',
-	't-hubrii': 't-hubrii',
+	't-hubrii': 'tetiana-hubrii',
 	't-silchenko': 't-silchenko',
 	'tamara-antropova': 'tamara-antropova',
 	'tetiana-poliak': 'tetiana-poliak',
-	'v-dovzhenko': 'v-dovzhenko',
+	'v-dovzhenko': 'viacheslav-dovzhenko',
 	'valerii-huivin': 'valerii-huivin',
 	'volodymyr-sahan': 'volodymyr-sahan',
 	'volodymyr-yermolaiev': 'volodymyr-yermolaiev',
 	'yaroslav-illiashenko': 'yaroslav-illiashenko',
-	'ye-nuliakina': 'ye-nuliakina',
+	'ye-nuliakina': 'yevheniia-huliakina',
+};
+
+/**
+ * Перейменовані адреси сторінок фахівців усередині розділу `/masters/`.
+ * Використовується для 301 перенаправлення старих скорочених адрес.
+ */
+export const RENAMED_EXPERT_SLUGS: Readonly<Record<string, string>> = {
+	'a-seitablaiev': 'akhtem-seitablaiev',
+	'd-rybalevskyi': 'dmytro-rybalevskyi',
+	'i-uryvskyi': 'ivan-uryvskyi',
+	'l-popov': 'leonid-popov',
+	'o-kravchuk': 'oleksii-kravchuk',
+	'o-pecherytsia': 'oleksandr-pecherytsia',
+	'o-zamiatin': 'oleh-zamiatin',
+	't-hubrii': 'tetiana-hubrii',
+	'v-dovzhenko': 'viacheslav-dovzhenko',
+	'ye-nuliakina': 'yevheniia-huliakina',
 };
 
 export const RENAMED_PATHS: readonly (readonly [старий: string, новий: string])[] = [

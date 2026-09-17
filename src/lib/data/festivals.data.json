@@ -788,7 +788,6 @@
 		"verificationStatus": "possible_errors",
 		"expertIds": [
 			"stanislav-zhyrkov",
-			"maryna-tatarenko",
 			"larysa-semyrozumenko",
 			"valerii-huivin",
 			"oleksandra-samokhvalova",
@@ -888,7 +887,16 @@
 			"nataliia-tsymbal",
 			"dmytro-zakhozhenko",
 			"tetiana-poliak",
-			"volodymyr-sahan",
+			"volodymyr-sahan"
+		],
+		"coachIds": [
+			"vira-hanchar"
+		],
+		"coachAlumniIds": [
+			"daria-rybalchenko",
+			"hryhorii-naumov"
+		],
+		"guestIds": [
 			"maryna-bryl"
 		]
 	},
@@ -928,6 +936,9 @@
 			"dmytro-zakhozhenko",
 			"liliia-koltyrina",
 			"volodymyr-sahan"
+		],
+		"coachMasterIds": [
+			"serebriannikova-n"
 		],
 		"guestIds": [
 			"liena-liahushonkova"

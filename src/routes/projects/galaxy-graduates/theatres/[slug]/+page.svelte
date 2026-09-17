@@ -134,7 +134,7 @@
 			людина прийшла дивитися театр, і посилання забирало б її зі
 			сторінки, з якої вона щойно почала.
 		-->
-		{#if data.members.length > 0}
+		{#if data.members.length > 0 || (data.masterMembers?.length ?? 0) > 0}
 			<section class="th-section" aria-labelledby="th-members-title">
 				<div class="th-heading">
 					<span class="th-heading__icon"><Users size={20} aria-hidden="true" /></span>
@@ -155,6 +155,18 @@
 							splitName
 							index={idx}
 							testid="theatre-member-card-{graduate.slug}"
+						/>
+					{/each}
+					{#each data.masterMembers ?? [] as { master, member }, idx (master.id)}
+						{@const photo = master.photo ? asset(master.photo) : null}
+						<GroupPersonCard
+							name={isEn && master.displayNameEn ? master.displayNameEn : (master.displayName ?? master.fullName)}
+							{photo}
+							subtitle={підпис(member)}
+							href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
+							splitName
+							index={data.members.length + idx}
+							testid="theatre-master-card-{master.slug}"
 						/>
 					{/each}
 				</div>

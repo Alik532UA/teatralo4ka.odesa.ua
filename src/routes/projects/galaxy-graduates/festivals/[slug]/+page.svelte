@@ -384,8 +384,8 @@
 			розмітки, друге — окрема робота, і робити її мимохідь, посеред внесення
 			даних про фестивалі, означало б зачепити чужу сторінку без потреби.
 		-->
-		{#each [{ key: 'experts', label: 'galaxy.festivalExperts', people: data.experts, masters: data.expertMasters }, { key: 'coaches', label: 'galaxy.festivalCoaches', people: data.coaches, masters: [] }, { key: 'guests', label: 'galaxy.festivalGuests', people: data.guests, masters: [] }] as role (role.key)}
-			{#if role.people.length + role.masters.length > 0}
+		{#each [{ key: 'experts', label: 'galaxy.festivalExperts', people: data.experts, masters: data.expertMasters, alumni: [] }, { key: 'coaches', label: 'galaxy.festivalCoaches', people: data.coaches, masters: data.coachMasters, alumni: data.coachAlumni }, { key: 'guests', label: 'galaxy.festivalGuests', people: data.guests, masters: [], alumni: [] }] as role (role.key)}
+			{#if role.people.length + role.masters.length + role.alumni.length > 0}
 				<section class="fest-section" aria-labelledby="section-{role.key}-title">
 					<div class="section-heading">
 						<span class="icon-wrap icon-wrap--primary">
@@ -394,7 +394,7 @@
 							{:else}<Star size={20} aria-hidden="true" />{/if}
 						</span>
 						<h2 id="section-{role.key}-title" class="section-heading__title">{$t(role.label)}</h2>
-						<span class="section-heading__count">{role.people.length + role.masters.length}</span>
+						<span class="section-heading__count">{role.people.length + role.masters.length + role.alumni.length}</span>
 					</div>
 					<div class="people-grid" data-testid="festival-{role.key}-list">
 						{#each role.people as person, idx (person.slug)}
@@ -409,17 +409,32 @@
 							/>
 						{/each}
 						<!--
-							Свої в тій самій раді — з реєстру працівників. Картка веде на їхню
-							сторінку в «Дорослих», як і в решті розділів цієї сторінки.
+							Свої в тій самій раді чи серед коучів — з реєстру працівників.
 						-->
 						{#each role.masters as master, idx (master.id)}
 							<GroupPersonCard
 								name={isEn ? master.displayNameEn : master.displayName}
 								photo={master.photo ? asset(master.photo) : null}
+								subtitle={role.key === 'coaches' ? 'Одеса' : undefined}
 								href={localizedPath(`/residents/adults/${master.slug}`, currentLang)}
 								splitName
 								index={role.people.length + idx}
 								testid="festival-{role.key}-card-{master.slug}"
+							/>
+						{/each}
+						<!--
+							Випускники як коучі фестивалю.
+						-->
+						{#each role.alumni as person, idx (person.id)}
+							{@const photoSrc = person.hasPhoto ? asset(`/graduates/${person.slug}-192.webp`) : null}
+							<GroupPersonCard
+								name={person.name}
+								photo={photoSrc}
+								subtitle="Київ"
+								onclick={() => openGraduateModal(person)}
+								splitName
+								index={role.people.length + role.masters.length + idx}
+								testid="festival-{role.key}-card-{person.slug}"
 							/>
 						{/each}
 					</div>

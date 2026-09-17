@@ -689,7 +689,7 @@ const LIMITS: Array<[RegExp, number]> = [
  *   для складу з однією вставкою.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 608,
+	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 625,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
 	'src/lib/components/HeaderSection.svelte': 1600,

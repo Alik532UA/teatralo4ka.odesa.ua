@@ -39,7 +39,8 @@
 				"year": 2018,
 				"text": "Кандидат педагогічних наук, доцент, завідувач кафедри сценічного мистецтва КНУКіМ"
 			}
-		]
+		],
+		"hidden": true
 	},
 	{
 		"slug": "larysa-semyrozumenko",
@@ -212,7 +213,8 @@
 				"year": 2026,
 				"text": "Директор Державного науково-методичного центру змісту культурно-мистецької освіти, кандидат психологічних наук, заслужений працівник культури України"
 			}
-		]
+		],
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "liena-liahushonkova",
@@ -225,7 +227,8 @@
 				"text": "Драматургиня"
 			}
 		],
-		"photo": "/experts/liena-liahushonkova.webp"
+		"photo": "/experts/liena-liahushonkova.webp",
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "stanislav-moiseiev",
@@ -301,7 +304,8 @@
 				"year": 2019,
 				"text": "Засновник «Universal Tap Dance Studio»"
 			}
-		]
+		],
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "nadiia-aliunova",
@@ -312,7 +316,8 @@
 				"year": 2019,
 				"text": "Педагог з вокалу та сценічної мови"
 			}
-		]
+		],
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "yaroslav-illiashenko",
@@ -323,11 +328,14 @@
 				"year": 2019,
 				"text": "Режисер Волинського обласного академічного українського музично-драматичного театру імені Тараса Григоровича Шевченка"
 			}
-		]
+		],
+		"hiddenFromMasters": true
 	},
 	{
 		"slug": "leonid-popov",
 		"name": "Леонід Попов",
+		"nameEn": "Leonid Popov",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -338,6 +346,8 @@
 	{
 		"slug": "oleh-zamiatin",
 		"name": "Олег Замятін",
+		"nameEn": "Oleh Zamiatin",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -349,6 +359,8 @@
 	{
 		"slug": "serhii-kalantai",
 		"name": "Сергій Калантай",
+		"nameEn": "Serhii Kalantai",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -357,18 +369,23 @@
 		]
 	},
 	{
-		"slug": "ye-nuliakina",
-		"name": "Є. О. Нулякіна",
+		"slug": "yevheniia-huliakina",
+		"name": "Євгенія Гулякіна",
+		"nameEn": "Yevheniia Huliakina",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2021,
-				"text": "майстер курсу, КНУТКіТ"
+				"text": "майстриня курсу, КНУТКіТ"
 			}
 		]
 	},
 	{
 		"slug": "t-silchenko",
 		"name": "Т. І. Сільченко",
+		"nameEn": "T. Silchenko",
+		"city": "Київ",
+		"hiddenFromMasters": true,
 		"titles": [
 			{
 				"year": 2015,
@@ -379,6 +396,8 @@
 	{
 		"slug": "oleksandr-pecherytsia",
 		"name": "Олександр Печериця",
+		"nameEn": "Oleksandr Pecherytsia",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -388,8 +407,10 @@
 		"photo": "/experts/oleksandr-pecherytsia.webp"
 	},
 	{
-		"slug": "a-seitablaiev",
-		"name": "А. Сеітаблаєв",
+		"slug": "akhtem-seitablaiev",
+		"name": "Ахтем Сеітаблаєв",
+		"nameEn": "Akhtem Seitablaiev",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2014,
@@ -398,8 +419,10 @@
 		]
 	},
 	{
-		"slug": "d-rybalevskyi",
-		"name": "Д. Рибалевський",
+		"slug": "dmytro-rybalevskyi",
+		"name": "Дмитро Рибалевський",
+		"nameEn": "Dmytro Rybalevskyi",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -408,18 +431,22 @@
 		]
 	},
 	{
-		"slug": "t-hubrii",
-		"name": "Т. Губрій",
+		"slug": "tetiana-hubrii",
+		"name": "Тетяна Губрій",
+		"nameEn": "Tetiana Hubrii",
+		"city": "Київ, Мюнхен",
 		"titles": [
 			{
 				"year": 2026,
-				"text": "майстер курсу, КМАЕЦМ"
+				"text": "майстриня курсу, КМАЕЦМ"
 			}
 		]
 	},
 	{
 		"slug": "ivan-uryvskyi",
 		"name": "Іван Уривський",
+		"nameEn": "Ivan Uryvskyi",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2023,
@@ -429,8 +456,10 @@
 		"photo": "/experts/ivan-uryvskyi.webp"
 	},
 	{
-		"slug": "v-dovzhenko",
-		"name": "В. Довженко",
+		"slug": "viacheslav-dovzhenko",
+		"name": "В'ячеслав Довженко",
+		"nameEn": "Viacheslav Dovzhenko",
+		"city": "Київ",
 		"titles": [
 			{
 				"year": 2026,
@@ -439,18 +468,23 @@
 		]
 	},
 	{
-		"slug": "o-kravchuk",
-		"name": "О. А. Кравчук",
+		"slug": "oleksii-kravchuk",
+		"name": "Олексій Кравчук",
+		"nameEn": "Oleksii Kravchuk",
+		"city": "Львів",
 		"titles": [
 			{
 				"year": 2017,
 				"text": "майстер курсу, ЛНУ ім. І. Франка"
 			}
-		]
+		],
+		"photo": "/experts/oleksii-kravchuk.webp"
 	},
 	{
 		"slug": "oksana-dmitriieva",
 		"name": "Оксана Дмітрієва",
+		"nameEn": "Oksana Dmitriieva",
+		"city": "Харків",
 		"titles": [
 			{
 				"year": 2018,
@@ -458,5 +492,18 @@
 			}
 		],
 		"photo": "/experts/oksana-dmitriieva.webp"
+	},
+	{
+		"slug": "vira-hanchar",
+		"name": "Віра Ганчар",
+		"nameEn": "Vira Hanchar",
+		"city": "Львів",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "коуч фестивалю"
+			}
+		],
+		"photo": "/experts/vira-hanchar.webp"
 	}
 ]

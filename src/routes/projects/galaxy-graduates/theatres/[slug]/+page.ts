@@ -3,6 +3,7 @@ import { detailWords, joinDescription } from '$lib/config/seoDetail';
 import { THEATRES, getTheatreBySlug, theatreSize } from '$lib/data/theatres';
 import { localeFromPath } from '$lib/i18n/routing';
 import { LINKED_GRADUATES, type GraduateIndexEntry } from '$lib/data/graduates';
+import mastersIndex from '$lib/data/masters.index.json';
 import type { TheatreMember } from '$lib/data/theatres';
 
 export const prerender = true;
@@ -29,6 +30,12 @@ export function load({ params, url }) {
 		if (graduate) members.push({ graduate, member });
 	}
 
+	const masterMembers: { master: (typeof mastersIndex)[0]; member: TheatreMember }[] = [];
+	for (const member of theatre.masterMembers ?? []) {
+		const master = mastersIndex.find((m) => m.id === member.id);
+		if (master) masterMembers.push({ master, member });
+	}
+
 	/*
 	 * Опис для прев'ю — ТУТ, а не в `<svelte:head>`: у `og:description` доходить
 	 * лише те, що завантажувач поклав у `seoDescription`. Розбір — у докблоці
@@ -39,5 +46,5 @@ export function load({ params, url }) {
 		localeFromPath(url.pathname) === 'en' && theatre.nameEn ? theatre.nameEn : theatre.name;
 	const seoDescription = joinDescription([назва, theatre.city, words.theatreTail]);
 
-	return { theatre, members, seoDescription, total: theatreSize(theatre) };
+	return { theatre, members, masterMembers, seoDescription, total: theatreSize(theatre) };
 }

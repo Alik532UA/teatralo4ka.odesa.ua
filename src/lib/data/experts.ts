@@ -57,6 +57,10 @@ export interface Expert {
 	/** Портрет із `static/`. Немає — картка покаже ініціали. */
 	photo?: string;
 	titles: ExpertTitle[];
+	/** Чи приховувати фахівця з загального каталогу /projects/galaxy-graduates/masters/. */
+	hiddenFromMasters?: boolean;
+	/** Чи приховувати фахівця на всіх публічних сторінках. */
+	hidden?: boolean;
 }
 
 /*

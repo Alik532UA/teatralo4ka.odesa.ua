@@ -30,6 +30,12 @@
 				"id": "anfisa-lazebna",
 				"role": "білетерка, грає у виставах",
 				"mention": "театрі драми і комедії на лівому березі Дніпра"
+			},
+			{
+				"id": "hryhorii-naumov",
+				"role": "актор",
+				"note": "грав",
+				"mention": "театрі драми і комедії на лівому березі Дніпра"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -100,6 +106,11 @@
 				"since": 2021,
 				"role": "актор",
 				"mention": "Національного академічного театру російської драми ім.Лесі Українки"
+			},
+			{
+				"id": "hryhorii-naumov",
+				"role": "актор",
+				"mention": "Театру імені Лесі Українки"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -121,6 +132,11 @@
 				"id": "hryhorii-baklanov",
 				"role": "актор",
 				"mention": "театру на Печерську"
+			},
+			{
+				"id": "hryhorii-naumov",
+				"role": "актор",
+				"mention": "Київського драматичного театру на Печерську"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -197,12 +213,40 @@
 				"since": 2019,
 				"role": "актриса",
 				"mention": "Одеський обласний академічний драматичний театр"
+			},
+			{
+				"id": "olena-liashenko",
+				"role": "актриса",
+				"mention": "Одеському обласному академічному драматичному театрі"
+			},
+			{
+				"id": "sofiia-holub",
+				"role": "актриса",
+				"mention": "Одеському обласному академічному драматичному театрі"
 			}
 		],
 		"verificationStatus": "possible_errors",
 		"formerNames": [
 			"Одеський академічний російський драматичний театр"
 		]
+	},
+	{
+		"slug": "odeskyi-teatr-lialok",
+		"name": "Одеський обласний театр ляльок",
+		"fullName": "Одеський академічний обласний театр ляльок",
+		"city": "Одеса",
+		"countries": [
+			"UA"
+		],
+		"website": "https://puppet.od.ua/",
+		"members": [
+			{
+				"id": "anastasiia-ihnatovych",
+				"role": "актриса",
+				"mention": "Одеському обласному театрі ляльок"
+			}
+		],
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"slug": "odeskyi-tiuh-oleshi",
@@ -221,6 +265,28 @@
 			{
 				"id": "anastasiia-moldovanu",
 				"mention": "Театр юного глядача"
+			},
+			{
+				"id": "sofiia-holub",
+				"role": "актриса",
+				"mention": "Одеському театрі юного глядача імені Юрія Олеші"
+			},
+			{
+				"id": "rodion-oborotov",
+				"role": "актор",
+				"mention": "Одеського театру юного глядача імені Юрія Олеші"
+			},
+			{
+				"id": "anastasiia-marushchenko",
+				"role": "актриса",
+				"mention": "Одеського театру юного глядача імені Юрія Олеші"
+			}
+		],
+		"masterMembers": [
+			{
+				"id": "tereza-zaurbekova",
+				"role": "акторка, режисерка",
+				"mention": "Одеського театру юного глядача імені Юрія Олеші"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -297,6 +363,16 @@
 		"members": [
 			{
 				"id": "alina-ivanova",
+				"role": "актриса",
+				"mention": "театру імені Василя Василька"
+			},
+			{
+				"id": "vladyslav-tsobenko",
+				"role": "актор",
+				"mention": "театру імені Василя Василька"
+			},
+			{
+				"id": "myroslava-tkach",
 				"role": "актриса",
 				"mention": "театру імені Василя Василька"
 			}

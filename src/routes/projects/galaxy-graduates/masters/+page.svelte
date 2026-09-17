@@ -50,10 +50,12 @@
 		for (const s of заклад.students)
 			if (s.masterSlug) (студентиФахівця[s.masterSlug] ??= []).push(s.id);
 
+	const VISIBLE_EXPERTS = EXPERTS.filter((e) => !e.hidden && !e.hiddenFromMasters);
+
 	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
 
 	/** Найсвіжіша посада — за нею ж рядок і стає в хронологію. */
-	const рікПосади = (e: (typeof EXPERTS)[number]) =>
+	const рікПосади = (e: (typeof VISIBLE_EXPERTS)[number]) =>
 		e.titles.reduce((макс, t) => Math.max(макс, t.year), 0);
 
 	/**
@@ -98,7 +100,7 @@
 		: який === 'council' ? наФестивалі.has(slug)
 		: зв_язків(slug) > 0;
 
-	const скільки = (який: Фільтр) => EXPERTS.filter((e) => підходить(e.slug, який)).length;
+	const скільки = (який: Фільтр) => VISIBLE_EXPERTS.filter((e) => підходить(e.slug, який)).length;
 
 	const ПІДПИСИ: Record<Фільтр, string> = {
 		all: 'galaxy.mastersAll',
@@ -113,7 +115,7 @@
 	 * і клієнт побачив би іншу розмітку, ніж приїхала з мережі.
 	 */
 	const базовий = $derived(
-		[...EXPERTS].sort(
+		[...VISIBLE_EXPERTS].sort(
 			(a, b) =>
 				зв_язків(b.slug) - зв_язків(a.slug) ||
 				(isEn && a.nameEn ? a.nameEn : a.name).localeCompare(
@@ -133,13 +135,13 @@
 		return out;
 	}
 
-	let перемішані = $state<typeof EXPERTS | null>(null);
+	let перемішані = $state<typeof VISIBLE_EXPERTS | null>(null);
 
 	$effect(() => {
 		/* Звичайний об'єкт, а не `Map`: лінтер вимагає `SvelteMap` для мутабельної
 		   мапи в компоненті, а тут потрібне просто групування на один прохід. */
-		const групи: Record<number, (typeof EXPERTS)[number][]> = {};
-		for (const e of EXPERTS) (групи[зв_язків(e.slug)] ??= []).push(e);
+		const групи: Record<number, (typeof VISIBLE_EXPERTS)[number][]> = {};
+		for (const e of VISIBLE_EXPERTS) (групи[зв_язків(e.slug)] ??= []).push(e);
 		перемішані = Object.keys(групи)
 			.map(Number)
 			.sort((a, b) => b - a)
@@ -198,9 +200,9 @@
 			testIdPrefix="galaxy-masters"
 			title={$t('galaxy.mastersTitle')}
 			titleTestId="galaxy-masters-title"
-			count={EXPERTS.length}
+			count={VISIBLE_EXPERTS.length}
 			countTestId="galaxy-masters-total-count"
-			hint={$t('galaxy.mastersHint', { values: { people: EXPERTS.length } })}
+			hint={$t('galaxy.mastersHint', { values: { people: VISIBLE_EXPERTS.length } })}
 			hintTestId="galaxy-masters-hint-text"
 			matches={збіг}
 			placeholderKey="galaxy.expertsSearch"

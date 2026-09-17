@@ -1033,7 +1033,7 @@
 		],
 		"playCount": 12,
 		"code": "anastasiia-ihnatovych",
-		"profileSize": 2883,
+		"profileSize": 3029,
 		"teachers": [
 			{
 				"id": "iryna-ulianenko"
@@ -1382,7 +1382,9 @@
 			{
 				"id": "oleh-shevchuk"
 			}
-		]
+		],
+		"profileSize": 499,
+		"playCount": 0
 	},
 	{
 		"id": "anastasiia-moldovanu",
@@ -4007,7 +4009,7 @@
 				"id": "svitlana-vitiuk"
 			}
 		],
-		"profileSize": 1655,
+		"profileSize": 2094,
 		"playCount": 6
 	},
 	{
@@ -6917,7 +6919,7 @@
 		],
 		"playCount": 21,
 		"code": "myroslava-tkach",
-		"profileSize": 3701,
+		"profileSize": 3815,
 		"teachers": [
 			{
 				"id": "samuil-imas",
@@ -8138,7 +8140,7 @@
 				]
 			}
 		],
-		"profileSize": 673,
+		"profileSize": 865,
 		"playCount": 2
 	},
 	{
@@ -8592,7 +8594,7 @@
 				"id": "tetiana-isachkina"
 			}
 		],
-		"profileSize": 373,
+		"profileSize": 538,
 		"playCount": 0
 	},
 	{
@@ -8841,7 +8843,7 @@
 		],
 		"playCount": 3,
 		"code": "sofiia-holub",
-		"profileSize": 1351
+		"profileSize": 1687
 	},
 	{
 		"id": "sofiia-hrabilina",
@@ -10326,7 +10328,7 @@
 				"id": "vira-yemtsova-datsiuk"
 			}
 		],
-		"profileSize": 871,
+		"profileSize": 990,
 		"playCount": 3
 	},
 	{

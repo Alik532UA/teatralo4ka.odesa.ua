@@ -110,6 +110,7 @@ export interface Theatre {
 	 */
 	website?: string;
 	members: TheatreMember[];
+	masterMembers?: TheatreMember[];
 	unlistedMembers?: UnlistedMember[];
 	verificationStatus?: VerificationStatusProp;
 }
@@ -141,7 +142,11 @@ export function theatrePath(slug: string): Pathname {
 
 /** Скільком людям цей театр відомий — разом із тими, кого реєстр не знає. */
 export function theatreSize(theatre: Theatre): number {
-	return theatre.members.length + (theatre.unlistedMembers?.length ?? 0);
+	return (
+		theatre.members.length +
+		(theatre.masterMembers?.length ?? 0) +
+		(theatre.unlistedMembers?.length ?? 0)
+	);
 }
 
 /**
@@ -156,6 +161,20 @@ export function theatresOfGraduate(
 	const out: { theatre: Theatre; member: TheatreMember }[] = [];
 	for (const theatre of THEATRES) {
 		const member = theatre.members.find((m) => m.id === graduateId);
+		if (member) out.push({ theatre, member });
+	}
+	return out;
+}
+
+/**
+ * Театри, у яких працює цей викладач/режисер, — зворотний зріз реєстру.
+ */
+export function theatresOfMaster(
+	masterId: string
+): { theatre: Theatre; member: TheatreMember }[] {
+	const out: { theatre: Theatre; member: TheatreMember }[] = [];
+	for (const theatre of THEATRES) {
+		const member = theatre.masterMembers?.find((m) => m.id === masterId);
 		if (member) out.push({ theatre, member });
 	}
 	return out;

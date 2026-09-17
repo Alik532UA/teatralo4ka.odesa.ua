@@ -1,20 +1,30 @@
-import { error } from '@sveltejs/kit';
-import { EXPERTS, getExpertBySlug } from '$lib/data/experts';
+import { error, redirect } from '@sveltejs/kit';
+import { EXPERTS, getExpertBySlug, expertPath } from '$lib/data/experts';
 import { FESTIVALS, festivalPath } from '$lib/data/festivals';
 import { INSTITUTIONS, institutionPath } from '$lib/data/institutions';
 import { expertNewsKey, loadPersonNews } from '$lib/data/newsBacklinks';
 import { LINKED_GRADUATES, rosterOrder, type GraduateIndexEntry } from '$lib/data/graduates';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
+import { localeFromPath, localizedPath } from '$lib/i18n/routing';
+import { RENAMED_EXPERT_SLUGS } from '$lib/config/renamedAddresses';
 import type { Pathname } from '$app/types';
 import type { PageLoad, EntryGenerator } from './$types';
 
 export const prerender = true;
 
-export const entries: EntryGenerator = () => EXPERTS.map((e) => ({ slug: e.slug }));
+export const entries: EntryGenerator = () => [
+	...EXPERTS.filter((e) => !e.hidden).map((e) => ({ slug: e.slug })),
+	...Object.keys(RENAMED_EXPERT_SLUGS).map((slug) => ({ slug }))
+];
 
 export const load: PageLoad = async ({ params, url, fetch }) => {
+	const renamedTo = RENAMED_EXPERT_SLUGS[params.slug];
+	if (renamedTo) {
+		redirect(301, localizedPath(expertPath(renamedTo), localeFromPath(url.pathname)));
+	}
+
 	const expert = getExpertBySlug(params.slug);
-	if (!expert) {
+	if (!expert || expert.hidden) {
 		error(404, `Фахівця не знайдено: ${params.slug}`);
 	}
 

@@ -131,7 +131,9 @@
 			{
 				"id": "danylo-tomachynskyi",
 				"year": 2018,
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "С. А. Мойсеєва",
+				"masterSlug": "stanislav-moiseiev"
 			},
 			{
 				"id": "daryna-zhuravel",
@@ -248,9 +250,9 @@
 			},
 			{
 				"id": "mykhailo-haniev",
-				"master": "Є. О. Нулякіної",
+				"master": "Є. О. Гулякіної",
 				"note": "випуск 2021",
-				"masterSlug": "ye-nuliakina"
+				"masterSlug": "yevheniia-huliakina"
 			},
 			{
 				"id": "kateryna-kudlach",
@@ -517,7 +519,7 @@
 				"year": 2017,
 				"programme": "режисура",
 				"master": "А. Сеітаблаєва",
-				"masterSlug": "a-seitablaiev"
+				"masterSlug": "akhtem-seitablaiev"
 			},
 			{
 				"id": "anastasiia-yevdokymova",
@@ -572,7 +574,7 @@
 				"year": 2026,
 				"programme": "акторський",
 				"master": "Д. Рибалевського",
-				"masterSlug": "d-rybalevskyi"
+				"masterSlug": "dmytro-rybalevskyi"
 			},
 			{
 				"id": "alina-demediuk",
@@ -580,7 +582,7 @@
 				"programme": "акторський",
 				"master": "Т. Губрій",
 				"note": "філіал у Мюнхені, Німеччина",
-				"masterSlug": "t-hubrii"
+				"masterSlug": "tetiana-hubrii"
 			},
 			{
 				"id": "taras-lushpa",
@@ -871,7 +873,7 @@
 				"year": 2026,
 				"programme": "акторський",
 				"master": "В. Довженка",
-				"masterSlug": "v-dovzhenko"
+				"masterSlug": "viacheslav-dovzhenko"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -897,7 +899,7 @@
 				"year": 2017,
 				"programme": "акторський",
 				"master": "О. А. Кравчука",
-				"masterSlug": "o-kravchuk"
+				"masterSlug": "oleksii-kravchuk"
 			},
 			{
 				"id": "khrystia-oslavska",

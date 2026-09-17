@@ -1,0 +1,21 @@
+{
+	"id": "anastasiia-marushchenko",
+	"slug": "anastasiia-marushchenko",
+	"code": "anastasiia-marushchenko",
+	"name": "Анастасія Марущенко",
+	"graduationYear": 2022,
+	"departments": [
+		"theatre"
+	],
+	"plays": [],
+	"bio": [
+		"Акторка [Одеського театру юного глядача імені Юрія Олеші](/projects/galaxy-graduates/theatres/odeskyi-tiuh-oleshi)."
+	],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "oleh-shevchuk"
+		}
+	]
+}
