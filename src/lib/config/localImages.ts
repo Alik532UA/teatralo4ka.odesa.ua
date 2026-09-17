@@ -93,7 +93,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/briantsevskyi-2010.webp': { width: 513, height: 720 },
 	'/festivals/zhyvy-2009.webp': { width: 496, height: 720 },
 	'/festivals/zhyvy-2010.webp': { width: 503, height: 720 },
-	'/festivals/zhyvy-2011.webp': { width: 1026, height: 720 },
+	'/festivals/kvitucha-chekhiia-diploma.webp': { width: 1026, height: 720 },
 	'/festivals/zhyvy-2011-2.webp': { width: 523, height: 720 },
 	'/festivals/oblasnyi-festyval-2009.webp': { width: 473, height: 720 },
 	'/festivals/oblasnyi-festyval-2012.webp': { width: 523, height: 720 },

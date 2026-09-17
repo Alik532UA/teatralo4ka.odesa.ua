@@ -15,6 +15,9 @@
 			"/festivals/kvitucha-chekhiia.webp",
 			"/festivals/kvitucha-chekhiia-2.webp",
 			"/festivals/kvitucha-chekhiia-3.webp"
+		],
+		"diplomas": [
+			"/festivals/kvitucha-chekhiia-diploma.webp"
 		]
 	},
 	"mrii-dim-2012": {
@@ -144,7 +147,6 @@
 			"Показували «Незнайку»: режисер Надія Рибакова, концертмейстер Євгенія Воюцька."
 		],
 		"photos": [
-			"/festivals/zhyvy-2011.webp",
 			"/festivals/zhyvy-2011-2.webp"
 		]
 	},
