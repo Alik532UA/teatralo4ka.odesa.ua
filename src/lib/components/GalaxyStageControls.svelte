@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, School, Drama, Plus, Menu, X, Expand, Shrink, Play, Pause } from 'lucide-svelte';
+	import { Search, GraduationCap, Globe, Theater, School, Drama, Gavel, Heart, Plus, Menu, X, Expand, Shrink, Play, Pause } from 'lucide-svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { slideshow } from '$lib/services/graduateSlideshow.svelte';
@@ -118,14 +118,24 @@
 	 * Переліки галактики: значок, адреса й ключ підпису.
 	 *
 	 * Порядок тут і є порядком на екрані. Він не абетковий, а за тим, як розділи
-	 * з'являлися: групи, фестивалі, вистави, заклади освіти, театри.
+	 * з'являлися: групи, фестивалі, вистави, заклади освіти, театри, експертна
+	 * рада, друзі школи.
+	 *
+	 * Останні два стоять тут із простої причини: без рядка в цьому переліку
+	 * розділ НЕ ІСНУЄ для людини, яка прийшла на сайт. До експертної ради можна
+	 * було потрапити лише зі сторінки фестивалю, а до друзів — ніяк узагалі:
+	 * своїх сторінок-сутностей у картки немає, тобто й посилання на розділ
+	 * узятися не було звідки. `Gavel` — той самий молоток, яким експертна рада
+	 * підписана на сторінці поїздки.
 	 */
 	const ПЕРЕЛІКИ = [
 		{ icon: GraduationCap, href: `${БАЗА}groups/`, label: 'galaxy.groupsTitle', testid: 'galaxy-groups-link' },
 		{ icon: Globe, href: `${БАЗА}festivals/`, label: 'galaxy.festivalsTitle', testid: 'galaxy-festivals-link' },
 		{ icon: Theater, href: `${БАЗА}plays/`, label: 'galaxy.playsTitle', testid: 'galaxy-plays-link' },
 		{ icon: School, href: `${БАЗА}institutions/`, label: 'galaxy.institutionsTitle', testid: 'galaxy-institutions-link' },
-		{ icon: Drama, href: `${БАЗА}theatres/`, label: 'galaxy.theatresTitle', testid: 'galaxy-theatres-link' }
+		{ icon: Drama, href: `${БАЗА}theatres/`, label: 'galaxy.theatresTitle', testid: 'galaxy-theatres-link' },
+		{ icon: Gavel, href: `${БАЗА}experts/`, label: 'galaxy.festivalExperts', testid: 'galaxy-experts-link' },
+		{ icon: Heart, href: `${БАЗА}friends/`, label: 'galaxy.friendsTitle', testid: 'galaxy-friends-link' }
 	] as const;
 
 </script>

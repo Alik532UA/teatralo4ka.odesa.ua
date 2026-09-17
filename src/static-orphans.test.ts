@@ -55,7 +55,8 @@ const СПОЖИВАЧІ = ['src', 'scripts', 'e2e', 'vitest'];
 const ТЕКИ_ЗА_ШАБЛОНОМ = new Map([
 	['/graduates/', 'GraduateAvatarRow.svelte: asset(`/graduates/${slug}-96.webp`)'],
 	['/miniIcon/svg/', 'MiniIconsEngine.ts: asset(`/miniIcon/svg/${file}`)'],
-	['/galaxy/', 'GalaxyUpdateModal.svelte: asset(`/galaxy/update-${lang}.json`)']
+	['/galaxy/', 'GalaxyUpdateModal.svelte: asset(`/galaxy/update-${lang}.json`)'],
+	['/friends/', 'friends/+page.svelte: asset(`${FRIENDS_DIR}/${slug}-480.webp`)']
 ]);
 
 /**

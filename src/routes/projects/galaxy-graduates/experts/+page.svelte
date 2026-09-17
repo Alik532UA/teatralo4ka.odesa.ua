@@ -4,6 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { EXPERTS, expertPath } from '$lib/data/experts';
 	import { INSTITUTIONS } from '$lib/data/institutions';
+	import { FESTIVALS } from '$lib/data/festivals';
 	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
 	import GalaxyRegistry from '$lib/components/galaxy/GalaxyRegistry.svelte';
@@ -36,20 +37,6 @@
 	 */
 
 	const isEn = $derived($locale === 'en');
-	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
-
-	/** Найсвіжіша посада — за нею ж рядок і стає в хронологію. */
-	const рікПосади = (e: (typeof EXPERTS)[number]) =>
-		e.titles.reduce((макс, t) => Math.max(макс, t.year), 0);
-
-	const фахівці = $derived(
-		[...EXPERTS].sort((a, b) =>
-			(isEn && a.nameEn ? a.nameEn : a.name).localeCompare(isEn && b.nameEn ? b.nameEn : b.name, 'uk')
-		)
-	);
-
-	const заАдресою = $derived(new Map(фахівці.map((e) => [e.slug, e])));
-
 	/*
 	 * Обличчя в рядку — це СТУДЕНТИ фахівця, а не учасники поїздок.
 	 *
@@ -62,6 +49,106 @@
 	for (const заклад of INSTITUTIONS)
 		for (const s of заклад.students)
 			if (s.masterSlug) (студентиФахівця[s.masterSlug] ??= []).push(s.id);
+
+	const currentLang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
+
+	/** Найсвіжіша посада — за нею ж рядок і стає в хронологію. */
+	const рікПосади = (e: (typeof EXPERTS)[number]) =>
+		e.titles.reduce((макс, t) => Math.max(макс, t.year), 0);
+
+	/**
+	 * ПОРЯДОК: спершу ті, з ким у нас найбільше зв'язків, — і всередині рівних
+	 * випадково.
+	 *
+	 * Доти перелік ішов за абеткою, і це давало хибну картину розділу: людина,
+	 * яка вела в нас цілий курс, стояла після того, кого запросили одного разу
+	 * в журі, — бо в неї прізвище на «С». Кількість зв'язків — єдине, що тут
+	 * справді різне, і саме вона мусить вирішувати.
+	 *
+	 * Випадковість у межах рівних — щоб не виходило, ніби перші троє з нуля
+	 * зв'язків чимось важливіші за решту тридцяти. Той самий прийом і з тих
+	 * самих причин стоїть на сторінці навчального закладу.
+	 */
+	const зв_язків = (slug: string) => (студентиФахівця[slug] ?? []).length;
+
+	/**
+	 * ЧОМУ РОЗДІЛ БІЛЬШЕ НЕ ЗВЕТЬСЯ «ЕКСПЕРТНА РАДА».
+	 *
+	 * Заміряно на реєстрі: з тридцяти семи людей на фестивалі були 25, майстрами
+	 * курсу в наших випускників — 17, і ОБОМА водночас лише п'ятеро. Тобто
+	 * дванадцять людей у переліку в жодній експертній раді не сиділи — вони
+	 * ведуть курси, на яких учаться наші. Назва «Експертна Рада» казала про них
+	 * неправду, і автор помітив це на конкретних іменах.
+	 *
+	 * Назва-парасолька мусить бути правдивою для ВСІХ. «Майстри курсів» була б
+	 * не кращою за попередню, а гіршою: вона бреше про двадцятьох із тридцяти
+	 * семи замість дванадцятьох. Тому «Майстри і фахівці» — рівно два способи,
+	 * якими ці люди пов'язані зі школою, і фільтр нижче ділить їх за тим самим.
+	 */
+	const наФестивалі = new Set(
+		FESTIVALS.flatMap((f) => [...(f.expertIds ?? []), ...(f.coachIds ?? []), ...(f.guestIds ?? [])])
+	);
+
+	const ФІЛЬТРИ = ['all', 'council', 'teaching'] as const;
+	type Фільтр = (typeof ФІЛЬТРИ)[number];
+	let фільтр = $state<Фільтр>('all');
+
+	const підходить = (slug: string, який: Фільтр) =>
+		який === 'all' ? true
+		: який === 'council' ? наФестивалі.has(slug)
+		: зв_язків(slug) > 0;
+
+	const скільки = (який: Фільтр) => EXPERTS.filter((e) => підходить(e.slug, який)).length;
+
+	const ПІДПИСИ: Record<Фільтр, string> = {
+		all: 'galaxy.mastersAll',
+		council: 'galaxy.mastersCouncil',
+		teaching: 'galaxy.mastersTeaching'
+	};
+
+	/*
+	 * До гідратації — стабільний порядок: пререндерена розмітка мусить мати
+	 * ЯКИЙСЬ порядок, і осмислений кращий за довільний, якщо скрипт не дійде.
+	 * Перемішування живе в `$effect`, бо `$derived` рахувався б і на сервері —
+	 * і клієнт побачив би іншу розмітку, ніж приїхала з мережі.
+	 */
+	const базовий = $derived(
+		[...EXPERTS].sort(
+			(a, b) =>
+				зв_язків(b.slug) - зв_язків(a.slug) ||
+				(isEn && a.nameEn ? a.nameEn : a.name).localeCompare(
+					isEn && b.nameEn ? b.nameEn : b.name,
+					'uk'
+				)
+		)
+	);
+
+	/** Фішер—Йейтс. Чому не `sort(() => Math.random() - 0.5)` — у `GraduateAvatarRow`. */
+	function перемішати<T>(list: T[]): T[] {
+		const out = [...list];
+		for (let i = out.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[out[i], out[j]] = [out[j], out[i]];
+		}
+		return out;
+	}
+
+	let перемішані = $state<typeof EXPERTS | null>(null);
+
+	$effect(() => {
+		/* Звичайний об'єкт, а не `Map`: лінтер вимагає `SvelteMap` для мутабельної
+		   мапи в компоненті, а тут потрібне просто групування на один прохід. */
+		const групи: Record<number, (typeof EXPERTS)[number][]> = {};
+		for (const e of EXPERTS) (групи[зв_язків(e.slug)] ??= []).push(e);
+		перемішані = Object.keys(групи)
+			.map(Number)
+			.sort((a, b) => b - a)
+			.flatMap((n) => перемішати(групи[n]));
+	});
+
+	const фахівці = $derived((перемішані ?? базовий).filter((e) => підходить(e.slug, фільтр)));
+
+	const заАдресою = $derived(new Map(фахівці.map((e) => [e.slug, e])));
 
 	const рядки = $derived<GalaxyRow[]>(
 		фахівці.map((e) => ({
@@ -91,7 +178,7 @@
 </script>
 
 <svelte:head>
-	<title>{$t('galaxy.festivalExperts')} | {$t('hero.title')}</title>
+	<title>{$t('galaxy.mastersTitle')} | {$t('hero.title')}</title>
 </svelte:head>
 
 <main class="experts-page" data-testid="galaxy-experts-panel">
@@ -109,19 +196,44 @@
 			storageKey="experts"
 			defaultView="tiles"
 			testIdPrefix="galaxy-experts"
-			title={$t('galaxy.festivalExperts')}
+			title={$t('galaxy.mastersTitle')}
 			titleTestId="galaxy-experts-title"
-			count={фахівці.length}
+			count={EXPERTS.length}
 			countTestId="galaxy-experts-total-count"
-			hint={$t('galaxy.expertsHint', { values: { people: фахівці.length } })}
+			hint={$t('galaxy.mastersHint', { values: { people: EXPERTS.length } })}
 			hintTestId="galaxy-experts-hint-text"
 			matches={збіг}
 			placeholderKey="galaxy.expertsSearch"
 			nothingKey="galaxy.expertsSearchNothing"
 			tiles={плиткаФахівців}
+			scope={фільтри}
 		/>
 	</div>
 </main>
+
+<!--
+	ФІЛЬТР — між пошуком і переліком, у тому самому місці, де в груп і вистав
+	стоїть рядок «показано N з M». Три кнопки, а не список, бо їх завжди три й
+	вони не ростуть: це не довільна вибірка, а два способи бути пов'язаним зі
+	школою плюс «усі».
+-->
+{#snippet фільтри()}
+	<div class="masters-filter" role="group" aria-label={$t('galaxy.mastersTitle')}>
+		{#each ФІЛЬТРИ as який (який)}
+			<button
+				type="button"
+				class="masters-filter__btn"
+				class:masters-filter__btn--on={фільтр === який}
+				aria-pressed={фільтр === який}
+				onclick={() => (фільтр = який)}
+				data-testid="galaxy-experts-filter-btn-{який}"
+			>
+				{$t(ПІДПИСИ[який])}
+				<span class="masters-filter__count">{скільки(який)}</span>
+			</button>
+		{/each}
+	</div>
+{/snippet}
 
 <!--
 	Плитка — та сама картка людини, що на поїздці, у групі й на сторінці самого
@@ -164,5 +276,40 @@
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 0.75rem;
 		}
+	}
+	.masters-filter {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin: 0 0 1rem;
+	}
+	.masters-filter__btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.4rem 0.9rem;
+		border-radius: var(--radius-full, 9999px);
+		border: var(--hairline-width) solid var(--border-main);
+		background: var(--bg-surface);
+		color: var(--text-main);
+		font-size: 0.9rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: border-color var(--transition-base);
+	}
+	.masters-filter__btn:hover {
+		border-color: var(--accent-primary);
+	}
+	/* Обраний позначений РАМКОЮ й товщиною, а не заливкою акцентом: акцент як
+	   тло під текстом уже двічі валив `contrast.test.ts` у темах «yellow» і
+	   «light». */
+	.masters-filter__btn--on {
+		border-color: var(--accent-primary);
+		border-width: 2px;
+		color: var(--text-title);
+	}
+	.masters-filter__count {
+		color: var(--text-muted);
+		font-variant-numeric: tabular-nums;
 	}
 </style>

@@ -5,6 +5,7 @@ import mastersIndex from './masters.index.json';
 import groupsData from './groups.data.json';
 import playsData from './plays.data.json';
 import festivalsData from './festivals.data.json';
+import friendsData from './friends.data.json';
 import { DEPARTMENTS, GRADUATE_KINDS } from './graduates';
 import { MASTER_CATEGORIES, MASTER_STATUSES } from './masters';
 import { VISIBILITY_LEVELS } from '$lib/config/visibility';
@@ -217,4 +218,17 @@ describe('поля, які компілятор не звужує', () => {
 			if ('visible' in m) bad.push(`masters ${m.id}: visible → visibility`);
 		expect(bad, `старе поле повернулося:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
+	/*
+	 * Серія картки друга школи. Їх рівно дві, і вони не оформлення: у них різна
+	 * пропорція знімка, тобто помилка в цьому полі дає стрибок сторінки під час
+	 * завантаження, а не інший колір.
+	 */
+	it('серія картки друга школи — одна з двох (friends.data.json)', () => {
+		const СЕРІЇ = ['stars', 'heart'];
+		const чужі = (friendsData as { slug: string; series: string }[])
+			.filter((f) => !СЕРІЇ.includes(f.series))
+			.map((f) => `${f.slug}: ${f.series}`);
+		expect(чужі, `невідома серія картки:\n${чужі.join('\n')}`).toEqual([]);
+	});
+
 });

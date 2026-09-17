@@ -79,6 +79,14 @@ import { describe, expect, it } from 'vitest';
  * фахівця доти не було (студенти, заклад, новини). Пункт один, рядків
  * одинадцять: обидві мови й адреса розділу в `routes` вкладки.
  *
+ * 2026-09-17 (пізніше): 656 → 668. Те саме для «Друзів школи»: розділ
+ * з'явився, отже з'явився й пункт про нього.
+ *
+ * 2026-09-17: `GalaxyStageControls.svelte` 361 → 365. Два рядки в переліку
+ * розділів — експертна рада й друзі школи — плюс два значки в імпорті. Без
+ * цих рядків обидва розділи не існують для людини: до першого можна було
+ * дійти лише зі сторінки фестивалю, до другого — ніяк.
+ *
  *   ПОДІЛ ПРОБУВАВ І ПОВЕРНУВ. Винесені в `FestivalRoleSection.svelte`, ці
  *   розділи впали на `component-styles.test.ts`: службові класи розділу
  *   (`.fest-section`, `.section-heading`, `.icon-wrap`, `.people-grid`) живуть
@@ -699,7 +707,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,
 	'src/lib/components/GraduateRosterFilters.svelte': 390,
 	'src/lib/components/adults/MasterGroups.svelte': 350,
-	'src/lib/components/GalaxyStageControls.svelte': 361,
+	'src/lib/components/GalaxyStageControls.svelte': 365,
 	'src/lib/components/GraduateRoster.svelte': 770,
 	'src/lib/components/ui/Toast.svelte': 488,
 	'src/routes/+page.svelte': 436,
@@ -708,7 +716,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 260,
-	'src/lib/data/betaChecklist.ts': 656,
+	'src/lib/data/betaChecklist.ts': 668,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

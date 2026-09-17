@@ -1,0 +1,319 @@
+[
+	{
+		"slug": "oleksandr-irvanets",
+		"name": "Олександр Ірванець",
+		"nameEn": "Oleksandr Irvanets",
+		"role": {
+			"uk": "Поет, прозаїк, драматург і перекладач",
+			"en": "Poet, prose writer, playwright and translator"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "bohdan-beniuk",
+		"name": "Богдан Бенюк",
+		"nameEn": "Bohdan Beniuk",
+		"role": {
+			"uk": "Актор, педагог, народний артист України",
+			"en": "Actor, teacher, People’s Artist of Ukraine"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "oleh-stefan",
+		"name": "Олег Стефан",
+		"nameEn": "Oleh Stefan",
+		"role": {
+			"uk": "Актор, заслужений артист України",
+			"en": "Actor, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "borys-barskyi",
+		"name": "Борис Барський",
+		"nameEn": "Borys Barskyi",
+		"role": {
+			"uk": "Актор, драматург, поет, народний артист України",
+			"en": "Actor, playwright, poet, People’s Artist of Ukraine"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "rymma-ziubina",
+		"name": "Римма Зюбіна",
+		"nameEn": "Rymma Ziubina",
+		"role": {
+			"uk": "Акторка театру і кіно",
+			"en": "Stage and screen actress"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "stanislav-moiseiev",
+		"name": "Станіслав Мойсеєв",
+		"nameEn": "Stanislav Moiseiev",
+		"role": {
+			"uk": "Режисер, педагог, народний артист України",
+			"en": "Director, teacher, People’s Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "stanislav-moiseiev",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "serhii-kalantai",
+		"name": "Сергій Калантай",
+		"nameEn": "Serhii Kalantai",
+		"role": {
+			"uk": "Актор театру і кіно, педагог, заслужений артист України",
+			"en": "Stage and screen actor, teacher, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "serhii-kalantai",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "kalambur",
+		"name": "Комік-театр «Каламбур»",
+		"nameEn": "Kalambur comedy theatre",
+		"role": {
+			"uk": "Актори комік-театру",
+			"en": "The comedy theatre’s actors"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "oleh-drach",
+		"name": "Олег Драч",
+		"nameEn": "Oleh Drach",
+		"role": {
+			"uk": "Актор, режисер, педагог, заслужений артист України",
+			"en": "Actor, director, teacher, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "oleh-drach",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "petro-bohomazov",
+		"name": "Петро Богомазов",
+		"nameEn": "Petro Bohomazov",
+		"role": {
+			"uk": "Сценограф",
+			"en": "Set designer"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "oksana-stetsenko",
+		"name": "Оксана Стеценко",
+		"nameEn": "Oksana Stetsenko",
+		"role": {
+			"uk": "Акторка, педагог, заслужена артистка України",
+			"en": "Actress, teacher, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "oksana-stetsenko",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "ivan-uryvskyi",
+		"name": "Іван Уривський",
+		"nameEn": "Ivan Uryvskyi",
+		"role": {
+			"uk": "Режисер, заслужений артист України",
+			"en": "Director, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "i-uryvskyi",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "olena-basha",
+		"name": "Олена Баша",
+		"nameEn": "Olena Basha",
+		"role": {
+			"uk": "Акторка, педагог, доцент, заслужена артистка України",
+			"en": "Actress, teacher, associate professor, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "olena-basha",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "yakiv-kucherevskyi",
+		"name": "Яків Кучеревський",
+		"nameEn": "Yakiv Kucherevskyi",
+		"role": {
+			"uk": "Актор театру і кіно, заслужений артист України",
+			"en": "Stage and screen actor, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "stas-zhyrkov",
+		"name": "Стас Жирков",
+		"nameEn": "Stas Zhyrkov",
+		"role": {
+			"uk": "Режисер, педагог, заслужений артист України",
+			"en": "Director, teacher, Honoured Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "stanislav-zhyrkov",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "maryna-klimova",
+		"name": "Марина Клімова",
+		"nameEn": "Maryna Klimova",
+		"role": {
+			"uk": "Акторка театру і кіно",
+			"en": "Stage and screen actress"
+		},
+		"series": "stars",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "dmytro-zakhozhenko",
+		"name": "Дмитро Захоженко",
+		"nameEn": "Dmytro Zakhozhenko",
+		"role": {
+			"uk": "Режисер, педагог",
+			"en": "Director and teacher"
+		},
+		"series": "stars",
+		"expertSlug": "dmytro-zakhozhenko",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "bohdan-strutynskyi",
+		"name": "Богдан Струтинський",
+		"nameEn": "Bohdan Strutynskyi",
+		"role": {
+			"uk": "Голова НСТДУ, педагог, народний артист України",
+			"en": "Head of the National Union of Theatre Artists of Ukraine, teacher, People’s Artist of Ukraine"
+		},
+		"series": "stars",
+		"expertSlug": "bohdan-strutynskyi",
+		"thumb": {
+			"w": 480,
+			"h": 339
+		}
+	},
+	{
+		"slug": "raisa-nedashkivska",
+		"name": "Раїса Недашківська",
+		"nameEn": "Raisa Nedashkivska",
+		"role": {
+			"uk": "Легендарна акторка, кіношна Мавка з «Лісової пісні», народна артистка України",
+			"en": "Legendary actress, the Mavka of the film “The Forest Song”, People’s Artist of Ukraine"
+		},
+		"series": "heart",
+		"thumb": {
+			"w": 480,
+			"h": 300
+		}
+	},
+	{
+		"slug": "yorh-tsander",
+		"name": "Йорг Цандер",
+		"nameEn": "Jörg Sander",
+		"role": {
+			"uk": "Актор і режисер берлінського театру імпровізації «Frei Wild»",
+			"en": "Actor and director of the Impro-Theater Berlin “Frei Wild”"
+		},
+		"series": "heart",
+		"thumb": {
+			"w": 480,
+			"h": 300
+		}
+	},
+	{
+		"slug": "lili-zhozho",
+		"name": "Ілона та Євгеній Стур",
+		"nameEn": "Ilona and Yevhenii Stur",
+		"role": {
+			"uk": "Клоуни Лілі й Жожо з шоу-театру «То ли люди — то ли куклы»",
+			"en": "The clowns Lili and Zhozho of the “Either People or Puppets” show theatre"
+		},
+		"series": "heart",
+		"thumb": {
+			"w": 480,
+			"h": 300
+		}
+	},
+	{
+		"slug": "oleksandr-fedorenko",
+		"name": "Олександр Федоренко",
+		"nameEn": "Oleksandr Fedorenko",
+		"role": {
+			"uk": "Одеський телеведучий",
+			"en": "Odesa TV presenter"
+		},
+		"series": "heart",
+		"thumb": {
+			"w": 480,
+			"h": 300
+		}
+	}
+]

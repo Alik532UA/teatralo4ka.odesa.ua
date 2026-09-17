@@ -549,7 +549,8 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/projects/galaxy-graduates/festivals',
 			'/projects/galaxy-graduates/institutions',
 			'/projects/galaxy-graduates/theatres',
-			'/projects/galaxy-graduates/experts'
+			'/projects/galaxy-graduates/experts',
+			'/projects/galaxy-graduates/friends'
 		],
 		checks: [
 			{
@@ -634,6 +635,16 @@ export const BETA_TABS: readonly BetaTab[] = [
 					en: 'Open the “Expert council”. Find Dmytro Bohomazov there and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
 				},
 				coverage: 'manual'
+			},
+			{
+				id: 'galaxy_10',
+				category: { uk: 'Друзі школи', en: 'Friends of the school' },
+				text: {
+					uk: 'Відкрийте «Друзі школи». Натисніть будь-яку картку — вона мусить розгорнутися на весь екран так, щоб можна було прочитати рукописне побажання; стрілками мусять гортатися сусідні картки. Перемкніть показ на «Список» — знімки зникнуть, імена лишаться.',
+					en: 'Open “Friends of the school”. Press any card — it must open full screen so that the handwritten note is readable, and the arrows must move to the neighbouring cards. Switch the view to “List” — the images must go and the names must stay.'
+				},
+				coverage: 'manual',
+				testid: 'galaxy-friends-open-btn-raisa-nedashkivska'
 			}
 		]
 	},
