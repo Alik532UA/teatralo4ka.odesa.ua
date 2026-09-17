@@ -57,7 +57,7 @@ const люди: Людина[] = [
 	})),
 	...дані<{ slug: string; name: string; nameEn?: string }[]>('experts.data.json').map((e) => ({
 		вид: 'фахівець',
-		адреса: `/projects/galaxy-graduates/experts/${e.slug}`,
+		адреса: `/projects/galaxy-graduates/masters/${e.slug}`,
 		імена: [e.name, e.nameEn]
 	}))
 ];

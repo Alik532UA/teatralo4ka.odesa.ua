@@ -134,7 +134,7 @@
 		{ icon: Theater, href: `${БАЗА}plays/`, label: 'galaxy.playsTitle', testid: 'galaxy-plays-link' },
 		{ icon: School, href: `${БАЗА}institutions/`, label: 'galaxy.institutionsTitle', testid: 'galaxy-institutions-link' },
 		{ icon: Drama, href: `${БАЗА}theatres/`, label: 'galaxy.theatresTitle', testid: 'galaxy-theatres-link' },
-		{ icon: Gavel, href: `${БАЗА}experts/`, label: 'galaxy.festivalExperts', testid: 'galaxy-experts-link' },
+		{ icon: Gavel, href: `${БАЗА}masters/`, label: 'galaxy.festivalExperts', testid: 'galaxy-experts-link' },
 		{ icon: Heart, href: `${БАЗА}friends/`, label: 'galaxy.friendsTitle', testid: 'galaxy-friends-link' }
 	] as const;
 

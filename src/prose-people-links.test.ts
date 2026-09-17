@@ -83,7 +83,7 @@ function посиланняНаЛюдей(): Посилання[] {
 		for (const m of текст.matchAll(/\]\((\/[^)\s]*)\)/g)) {
 			const адреса = без(m[1]);
 			if (
-				/^\/projects\/galaxy-graduates\/experts\/[^/]+$/.test(адреса) ||
+				/^\/projects\/galaxy-graduates\/masters\/[^/]+$/.test(адреса) ||
 				/^\/residents\/adults\/[^/]+$/.test(адреса) ||
 				/^\/projects\/galaxy-graduates\/[^/]+$/.test(адреса)
 			)
@@ -120,7 +120,7 @@ describe('посилання на людей у тексті сторінок', 
 		for (const { файл, адреса } of посилання) {
 			if (РОЗДІЛИ.has(адреса)) continue;
 
-			const фахівець = /^\/projects\/galaxy-graduates\/experts\/([^/]+)$/.exec(адреса);
+			const фахівець = /^\/projects\/galaxy-graduates\/masters\/([^/]+)$/.exec(адреса);
 			if (фахівець) {
 				if (!слугФахівця.has(фахівець[1])) біда.push(`${файл}: ${адреса} — такого фахівця немає`);
 				continue;

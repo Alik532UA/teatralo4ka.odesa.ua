@@ -549,7 +549,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/projects/galaxy-graduates/festivals',
 			'/projects/galaxy-graduates/institutions',
 			'/projects/galaxy-graduates/theatres',
-			'/projects/galaxy-graduates/experts',
+			'/projects/galaxy-graduates/masters',
 			'/projects/galaxy-graduates/friends'
 		],
 		checks: [

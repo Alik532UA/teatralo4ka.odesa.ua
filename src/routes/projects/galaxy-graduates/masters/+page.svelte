@@ -181,27 +181,27 @@
 	<title>{$t('galaxy.mastersTitle')} | {$t('hero.title')}</title>
 </svelte:head>
 
-<main class="experts-page" data-testid="galaxy-experts-panel">
+<main class="experts-page" data-testid="galaxy-masters-panel">
 	<div class="container">
 		<GalaxyBreadcrumb
 			withTrail
-			trailTestId="galaxy-experts-from-link"
+			trailTestId="galaxy-masters-from-link"
 			forwardHref={localizedPath('/projects/galaxy-graduates/', currentLang)}
 			forwardLabel={$t('galaxy.title')}
-			forwardTestId="galaxy-experts-galaxy-link"
+			forwardTestId="galaxy-masters-galaxy-link"
 		/>
 
 		<GalaxyRegistry
 			rows={рядки}
-			storageKey="experts"
+			storageKey="masters"
 			defaultView="tiles"
-			testIdPrefix="galaxy-experts"
+			testIdPrefix="galaxy-masters"
 			title={$t('galaxy.mastersTitle')}
-			titleTestId="galaxy-experts-title"
+			titleTestId="galaxy-masters-title"
 			count={EXPERTS.length}
-			countTestId="galaxy-experts-total-count"
+			countTestId="galaxy-masters-total-count"
 			hint={$t('galaxy.mastersHint', { values: { people: EXPERTS.length } })}
-			hintTestId="galaxy-experts-hint-text"
+			hintTestId="galaxy-masters-hint-text"
 			matches={збіг}
 			placeholderKey="galaxy.expertsSearch"
 			nothingKey="galaxy.expertsSearchNothing"
@@ -226,7 +226,7 @@
 				class:masters-filter__btn--on={фільтр === який}
 				aria-pressed={фільтр === який}
 				onclick={() => (фільтр = який)}
-				data-testid="galaxy-experts-filter-btn-{який}"
+				data-testid="galaxy-masters-filter-btn-{який}"
 			>
 				{$t(ПІДПИСИ[який])}
 				<span class="masters-filter__count">{скільки(який)}</span>
@@ -240,7 +240,7 @@
 	фахівця. Своя картка тут означала б четвертий вигляд однієї сутності.
 -->
 {#snippet плиткаФахівців(рядкиПлитки: readonly GalaxyRow[])}
-	<div class="people-grid" data-testid="galaxy-experts-list">
+	<div class="people-grid" data-testid="galaxy-masters-list">
 		{#each рядкиПлитки.map((row) => заАдресою.get(row.key)!) as фахівець, idx (фахівець.slug)}
 			<GroupPersonCard
 				name={isEn && фахівець.nameEn ? фахівець.nameEn : фахівець.name}
@@ -249,7 +249,7 @@
 				href={localizedPath(expertPath(фахівець.slug), currentLang)}
 				splitName
 				index={idx}
-				testid="galaxy-experts-card-{фахівець.slug}"
+				testid="galaxy-masters-card-{фахівець.slug}"
 			/>
 		{/each}
 	</div>

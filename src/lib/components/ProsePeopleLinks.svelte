@@ -171,7 +171,7 @@
 		 * випускника вже був обличчям. Реєстр повернуто; ціна тепер нульова, бо
 		 * той самий файл уже читає `ProsePersonTip` поруч.
 		 */
-		const фахівець = /^\/projects\/galaxy-graduates\/experts\/([^/]+)$/.exec(шлях);
+		const фахівець = /^\/projects\/galaxy-graduates\/masters\/([^/]+)$/.exec(шлях);
 		if (фахівець) {
 			const e = (EXPERTS_DATA as Фахівець[]).find((x) => x.slug === фахівець[1]);
 			return e ? { name: e.name, photo: e.photo ? asset(e.photo) : undefined } : { name: '' };

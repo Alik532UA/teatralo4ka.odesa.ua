@@ -10,6 +10,7 @@
 		"students": [
 			{
 				"id": "daria-rybalchenko",
+				"year": 2022,
 				"programme": "акторський",
 				"master": "С. Калантая",
 				"masterSlug": "serhii-kalantai",
@@ -135,7 +136,9 @@
 			{
 				"id": "daryna-zhuravel",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Д. Богомазова",
+				"masterSlug": "dmytro-bohomazov"
 			},
 			{
 				"id": "hryhorii-naumov",
@@ -147,12 +150,16 @@
 			{
 				"id": "svitlana-smyrna",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "О. Замятіна",
+				"masterSlug": "o-zamiatin"
 			},
 			{
 				"id": "vladyslav-tsobenko",
 				"year": 2018,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "О. Замятіна",
+				"masterSlug": "o-zamiatin"
 			},
 			{
 				"id": "yevheniia-burian",
@@ -179,7 +186,9 @@
 			{
 				"id": "kateryna-moliboha",
 				"year": 2022,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. Калантая",
+				"masterSlug": "serhii-kalantai"
 			},
 			{
 				"id": "mariia-mandriesk",
@@ -684,7 +693,9 @@
 			{
 				"id": "khrystyna-bila",
 				"year": 2019,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "О. Стеценко",
+				"masterSlug": "oksana-stetsenko"
 			}
 		],
 		"verificationStatus": "possible_errors"

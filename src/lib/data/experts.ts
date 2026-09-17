@@ -72,7 +72,7 @@ export function getExpertBySlug(slug: string): Expert | undefined {
 
 /** Адреса сторінки фахівця. Типізована, як решта адрес проєкту. */
 export function expertPath(slug: string): Pathname {
-	return `/projects/galaxy-graduates/experts/${slug}` as Pathname;
+	return `/projects/galaxy-graduates/masters/${slug}` as Pathname;
 }
 
 /**

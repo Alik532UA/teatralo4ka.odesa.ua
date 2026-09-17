@@ -61,6 +61,7 @@
  */
 
 import { GRADUATE_ALIASES_DATA } from '../data/addressAliases.data';
+import { EXPERTS } from '../data/experts';
 
 /**
  * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
@@ -266,6 +267,26 @@ export const GRADUATE_ALIASES: Record<string, string> = GRADUATE_ALIASES_DATA;
  * `BETA_UNCOVERED_ROUTES`.
  */
 export const RENAMED_PATHS: readonly (readonly [старий: string, новий: string])[] = [
+	/*
+	 * РОЗДІЛ ПЕРЕЇХАВ: `/experts/` → `/masters/` (17 вересня 2026).
+	 *
+	 * Стара адреса брехала назвою. Заміряно на реєстрі: з тридцяти семи людей у
+	 * розділі на фестивалях були 25, а майстрами курсу в наших випускників — 17,
+	 * і обома водночас лише п'ятеро. Тобто дванадцятеро «експертів» у жодній
+	 * експертній раді не сиділи, і автор спіймав це на конкретних іменах.
+	 *
+	 * Виводиться з реєстру, а не перелічується: тридцять сім рядків руками
+	 * розійшлися б із ним на першому ж новому записі. Сторінки-переліку
+	 * (`/experts/` без хвоста) тут немає навмисно — вона не встигла побувати в
+	 * жодному випуску, тобто вести з неї нема звідки.
+	 */
+	...EXPERTS.map(
+		(e) =>
+			[
+				`/projects/galaxy-graduates/experts/${e.slug}`,
+				`projects/galaxy-graduates/masters/${e.slug}`
+			] as const
+	),
 	...Object.entries(RENAMED_FESTIVAL_SLUGS).map(
 		([с, н]) =>
 			[

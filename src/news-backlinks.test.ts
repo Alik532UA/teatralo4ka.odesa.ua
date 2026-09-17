@@ -40,7 +40,7 @@ const ЗРІЗ_ЛЮДЕЙ = join('static', 'galaxy', 'person-news.json');
 
 const ПОСИЛАННЯ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/festivals\/([^)/\s]+)\/?\)/g;
 const ЛЮДИНА = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/([^)/\s]+)\/?\)/g;
-const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/experts\/([^)/\s]+)\/?\)/g;
+const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/masters\/([^)/\s]+)\/?\)/g;
 const ВИКЛАДАЧ = /\]\(\/(?:en\/)?residents\/adults\/([^)/\s]+)\/?\)/g;
 
 const РОЗДІЛИ = new Set(

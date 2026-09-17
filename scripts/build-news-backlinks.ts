@@ -69,7 +69,7 @@ const ЛЮДИНА = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/([^)/\s]+)\/?\)
  * стояли посилання на шістьох викладачів і на Дмитра Богомазова, а в зрізі не
  * було жодного з них, і жодна перевірка про це не казала.
  */
-const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/experts\/([^)/\s]+)\/?\)/g;
+const ФАХІВЕЦЬ = /\]\(\/(?:en\/)?projects\/galaxy-graduates\/masters\/([^)/\s]+)\/?\)/g;
 const ВИКЛАДАЧ = /\]\(\/(?:en\/)?residents\/adults\/([^)/\s]+)\/?\)/g;
 
 const РОЗДІЛИ = new Set(
