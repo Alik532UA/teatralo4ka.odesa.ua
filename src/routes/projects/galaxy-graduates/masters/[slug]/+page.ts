@@ -5,6 +5,7 @@ import { INSTITUTIONS, institutionPath } from '$lib/data/institutions';
 import { expertNewsKey, loadPersonNews } from '$lib/data/newsBacklinks';
 import { LINKED_GRADUATES, rosterOrder, type GraduateIndexEntry } from '$lib/data/graduates';
 import { detailWords, joinDescription } from '$lib/config/seoDetail';
+import type { Pathname } from '$app/types';
 import type { PageLoad, EntryGenerator } from './$types';
 
 export const prerender = true;
@@ -61,7 +62,10 @@ export const load: PageLoad = async ({ params, url, fetch }) => {
 	 * яким можна пройти лише в один бік.
 	 */
 	const студенти: { institution: string; graduate: GraduateIndexEntry }[] = [];
-	const заклади: { slug: string; name: string; href: string }[] = [];
+	/* `href` саме `Pathname`, а не `string`: `localizedPath` приймає лише
+	   перевірений тип адреси, і широка анотація ламала збірку в `svelte-check`
+	   (юніт-гейти цього не бачать — вони не типізують розмітку). */
+	const заклади: { slug: string; name: string; href: Pathname }[] = [];
 	for (const заклад of INSTITUTIONS) {
 		let свій = false;
 		for (const s of заклад.students) {
