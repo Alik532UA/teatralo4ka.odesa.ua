@@ -241,7 +241,8 @@
 -->
 {#snippet плиткаФахівців(рядкиПлитки: readonly GalaxyRow[])}
 	<div class="people-grid" data-testid="galaxy-masters-list">
-		{#each рядкиПлитки.map((row) => заАдресою.get(row.key)!) as фахівець, idx (фахівець.slug)}
+		{#each рядкиПлитки as row, idx (row.key)}
+			{@const фахівець = заАдресою.get(row.key)!}
 			<GroupPersonCard
 				name={isEn && фахівець.nameEn ? фахівець.nameEn : фахівець.name}
 				photo={фахівець.photo ? asset(фахівець.photo) : null}
@@ -250,6 +251,8 @@
 				splitName
 				index={idx}
 				testid="galaxy-masters-card-{фахівець.slug}"
+				memberIds={row.memberIds}
+				memberTestIdPrefix="galaxy-masters-members-{фахівець.slug}"
 			/>
 		{/each}
 	</div>

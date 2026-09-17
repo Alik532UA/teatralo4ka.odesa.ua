@@ -320,6 +320,25 @@ describe('реєстр навчальних закладів', () => {
 		expect(bad, `майстер курсу без сутності:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	it('кожен student з masterSlug знаходить людину в graduatesIndex і фахівця в EXPERTS', () => {
+		const knownGrads = new Set(graduates.map((g) => g.id));
+		const knownExperts = new Set(EXPERTS.map((e) => e.slug));
+		const bad: string[] = [];
+		for (const institution of INSTITUTIONS) {
+			for (const student of institution.students) {
+				if (student.masterSlug) {
+					if (!knownExperts.has(student.masterSlug)) {
+						bad.push(`${student.id}: невідомий masterSlug «${student.masterSlug}»`);
+					}
+					if (!knownGrads.has(student.id)) {
+						bad.push(`${student.id}: студента немає в graduatesIndex`);
+					}
+				}
+			}
+		}
+		expect(bad).toEqual([]);
+	});
+
 	it('стан верифікації — з відомого набору', () => {
 		const known = new Set(['verified', 'possible_errors', 'definite_errors']);
 		const bad = INSTITUTIONS.filter(

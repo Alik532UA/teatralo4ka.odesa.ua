@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { User } from 'lucide-svelte';
 	import type { ResolvedPathname } from '$app/types';
+	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 
 	interface Props {
 		name: string;
@@ -35,6 +36,9 @@
 		 * можна.
 		 */
 		splitName?: boolean;
+		/** Мініатюри пов'язаних випускників (наприклад, учнів майстра) */
+		memberIds?: readonly string[];
+		memberTestIdPrefix?: string;
 	}
 
 	let {
@@ -45,7 +49,9 @@
 		onclick,
 		index = 0,
 		testid,
-		splitName = false
+		splitName = false,
+		memberIds = [],
+		memberTestIdPrefix
 	}: Props = $props();
 
 	/**
@@ -100,6 +106,17 @@
 			<span class="person-card__subtitle">{subtitle}</span>
 		{/if}
 	</span>
+	{#if memberIds && memberIds.length > 0}
+		<span class="person-card__members">
+			<GraduateAvatarRow
+				ids={memberIds}
+				linked={false}
+				testIdPrefix={memberTestIdPrefix ?? `${testid ?? 'person'}-members`}
+				max={5}
+				fitToWidth
+			/>
+		</span>
+	{/if}
 {/snippet}
 
 {#if href}
@@ -143,6 +160,7 @@
 		align-items: center;
 		text-align: center;
 		width: 100%;
+		height: 100%;
 		box-sizing: border-box;
 		padding: 1.5rem 1rem 1.25rem;
 		border-radius: 16px;
@@ -295,6 +313,13 @@
 	.person-card__subtitle {
 		font-size: 0.8rem;
 		color: var(--text-muted, #94a3b8);
+	}
+
+	.person-card__members {
+		display: block;
+		width: 100%;
+		margin-top: auto;
+		padding-top: 0.75rem;
 	}
 
 	/* Правил під одну тему тут більше немає: рамка на наведенні в них була та
