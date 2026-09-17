@@ -26,10 +26,12 @@
 	import { graduateNewsKey, loadPersonNews, type PersonNews } from "$lib/data/newsBacklinks";
 	import { masterLabelKey, dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
+	import GraduateTheatres from "$lib/components/GraduateTheatres.svelte";
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
 	import GroupPhotoBanner from "$lib/components/GroupPhotoBanner.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
+	import { theatresOfGraduate } from "$lib/data/theatres";
 	import GraduateInstitutions from "$lib/components/GraduateInstitutions.svelte";
 	import { groupPlayRows } from "$lib/data/playRowGroups";
 	import {
@@ -374,6 +376,7 @@
 		| "masters"
 		| "teachers"
 		| "plays"
+		| "theatres"
 		| "festivals"
 		| "news"
 		| "bio";
@@ -385,6 +388,7 @@
 		"masters",
 		"teachers",
 		"plays",
+		"theatres",
 		"festivals",
 		"news",
 		"bio",
@@ -451,6 +455,7 @@
 			if (key === "gallery") return gallery.length > 0;
 			if (key === "masters") return normalizedMasters.length > 0;
 			if (key === "plays") return hasPlays || isTheatre;
+			if (key === "theatres") return theatresOfGraduate(graduate.id).length > 0;
 			if (key === "festivals") return hasFestivals;
 			/*
 			 * Новини зникають порожніми — з тієї ж причини, що майстри й
@@ -734,6 +739,14 @@
 		-->
 		<div class="fests-galaxy">
 			<GraduateFestivals festivals={getFestivalsByMember(graduate.id)} />
+		</div>
+	</div>
+{/snippet}
+
+{#snippet theatresCard()}
+	<div class="bento-card bento-card--theatres" data-block="theatres" data-testid="galaxy-card-theatres-card">
+		<div class="fests-galaxy">
+			<GraduateTheatres theatres={theatresOfGraduate(graduate.id)} />
 		</div>
 	</div>
 {/snippet}
@@ -1329,6 +1342,7 @@
 	{:else if key === "plays"}{@render playsCard()}
 	{:else if key === "masters"}{@render mastersCard()}
 	{:else if key === "teachers"}{@render teachersCard()}
+	{:else if key === "theatres"}{@render theatresCard()}
 	{:else if key === "festivals"}{@render festivalsCard()}
 	{:else if key === "news"}{@render newsCard()}
 	{:else if key === "bio"}{@render bioCard()}{/if}

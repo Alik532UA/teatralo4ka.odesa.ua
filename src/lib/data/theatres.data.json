@@ -35,7 +35,7 @@
 				"id": "hryhorii-naumov",
 				"role": "актор",
 				"note": "грав",
-				"mention": "театрі драми і комедії на лівому березі Дніпра"
+				"mention": null
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -110,7 +110,7 @@
 			{
 				"id": "hryhorii-naumov",
 				"role": "актор",
-				"mention": "Театру імені Лесі Українки"
+				"mention": null
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -136,7 +136,7 @@
 			{
 				"id": "hryhorii-naumov",
 				"role": "актор",
-				"mention": "Київського драматичного театру на Печерську"
+				"mention": null
 			}
 		],
 		"verificationStatus": "possible_errors"

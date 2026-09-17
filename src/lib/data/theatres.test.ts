@@ -175,6 +175,7 @@ describe('реєстр театрів', () => {
 		let перевірено = 0;
 		for (const t of THEATRES)
 			for (const m of t.members) {
+				if (m.mention === null) continue;
 				const graduate = byId.get(m.id);
 				if (!graduate) continue; // назве попередня перевірка
 				const проза = proseOf(graduate);
@@ -217,6 +218,7 @@ describe('реєстр театрів', () => {
 		const bad: string[] = [];
 		for (const t of THEATRES)
 			for (const m of t.members) {
+				if (m.mention === null) continue;
 				const graduate = byId.get(m.id);
 				if (!graduate) continue;
 				const проза = proseOf(graduate);

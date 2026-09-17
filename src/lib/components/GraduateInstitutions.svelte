@@ -3,7 +3,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
 	import { institutionPath, institutionsOfGraduate } from '$lib/data/institutions';
-	import { expertPath, getExpertBySlug } from '$lib/data/experts';
+	import { expertPath, getExpertBySlug, type Expert } from '$lib/data/experts';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
 
 	interface Props {
@@ -59,6 +59,16 @@
 	/** Перша літера імені для кружечка-заглушки: у фахівця, а не з відмінка. */
 	const літера = (slug: string | undefined, запасне: string) =>
 		((slug ? getExpertBySlug(slug)?.name : undefined) ?? запасне).replace(/[^\p{L}]/gu, '').slice(0, 1);
+
+	/** Форматує ім'я майстра: без скорочення, прізвище ВЕЛИКИМИ літерами. */
+	function formatMasterName(expert: Expert | undefined, fallback: string): string {
+		const rawName = (isEn && expert?.nameEn ? expert.nameEn : expert?.name) ?? fallback;
+		const trimmed = rawName.trim();
+		const parts = trimmed.split(/\s+/);
+		if (parts.length === 1) return parts[0].toUpperCase();
+		const last = parts.pop()!;
+		return `${parts.join(' ')} ${last.toUpperCase()}`;
+	}
 </script>
 
 <!--
@@ -81,23 +91,28 @@
 					href={localizedPath(institutionPath(institution.slug), lang)}
 					data-testid="{testIdPrefix}-link-{institution.slug}"
 					>{isEn && institution.nameEn ? institution.nameEn : institution.name}</a
-				>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}{#if student.masterSlug}<a
-						class="line__master"
-						href={localizedPath(expertPath(student.masterSlug), lang)}
-						data-testid="{testIdPrefix}-master-link-{student.masterSlug}"
-						>{#if getExpertBySlug(student.masterSlug)?.photo}<img
-								class="person-face"
-								src={asset(getExpertBySlug(student.masterSlug)?.photo ?? '')}
-								width="20"
-								height="20"
-								alt=""
-								loading="lazy"
-							/>{:else}<span
+				>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}<span class="master-item">{#if student.masterSlug}{@const expert = getExpertBySlug(student.masterSlug)}<!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
+							class="master-link-wrapper"
+							href={localizedPath(expertPath(student.masterSlug), lang)}
+							title={expert ? (isEn && expert.nameEn ? expert.nameEn : expert.name) : student.master}
+							data-testid="{testIdPrefix}-master-link-{student.masterSlug}"
+						><span class="master-badge">{#if expert?.photo}<img
+									class="master-badge__photo"
+									src={asset(expert.photo)}
+									width="22"
+									height="22"
+									alt=""
+									loading="lazy"
+									decoding="async"
+								/>{:else}<span
+									class="person-face person-face--letter"
+									aria-hidden="true"
+									data-letter={літера(student.masterSlug, student.master)}
+								></span>{/if}</span><span class="master-name">{formatMasterName(expert, student.master)}</span></a>{:else}<span class="master-link-wrapper"><span class="master-badge"><span
 								class="person-face person-face--letter"
 								aria-hidden="true"
-								data-letter={літера(student.masterSlug, student.master)}
-							></span>{/if}{student.master}</a
-					>{:else}{student.master}{/if}{шматки[1] ?? ''}{/if}
+								data-letter={літера(undefined, student.master)}
+							></span></span><span class="master-name">{formatMasterName(undefined, student.master)}</span></span>{/if}</span>{шматки[1] ?? ''}{/if}
 			</p>
 		{/each}
 	</section>
@@ -110,20 +125,61 @@
 
 <style>
 	/*
-	 * Посилання на майстра курсу виглядає як решта посилань блоку — різниця
-	 * лише в кружечку перед іменем. Сам кружечок описаний ГЛОБАЛЬНО
-	 * (`.person-face` у `global.css`), бо те саме обличчя стоїть у тексті
-	 * новин: два описи одного кружечка розійшлися б на першій же правці.
-	 *
-	 * `nowrap` — щоб обличчя не лишилося на попередньому рядку без імені. Та
-	 * сама біда й те саме лікування, що в `.person-face-lead`.
+	 * Кнопка майстра курсу — за зразком плашок майстрів школи
+	 * (`data-testid="galaxy-card-master-link-*"` у `GraduateProfileView`).
+	 * `vertical-align: middle` вирівнює її всередині речення біля слова «курс».
 	 */
-	.line__master {
-		color: inherit;
-		white-space: nowrap;
+	.master-item {
+		display: inline-flex;
+		vertical-align: middle;
+		align-items: stretch;
+		padding: 0;
+		background: rgb(255 255 255 / 0.06);
+		border-radius: 6px;
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.15s ease;
 	}
-	.line__master:hover {
-		text-decoration: underline;
+	.master-item:has(a:hover) {
+		background: rgb(255 255 255 / 0.12);
+		border-color: rgb(140 190 255 / 0.4);
+		transform: translateY(-1px);
+	}
+	.master-link-wrapper {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.2rem 0.6rem;
+		color: inherit;
+		text-decoration: none;
+		border-radius: inherit;
+	}
+	.master-badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--galaxy-accent, #8cc4ff);
+		flex-shrink: 0;
+	}
+	.master-badge__photo {
+		width: 22px;
+		height: 22px;
+		border-radius: 50%;
+		object-fit: cover;
+		display: block;
+		border: var(--hairline-width) solid color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 65%);
+	}
+	.master-name {
+		font-size: 0.92rem;
+		font-weight: 500;
+		color: var(--galaxy-text, #eaf2ff);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+	.master-link-wrapper:hover .master-name {
+		color: var(--galaxy-accent, #8cc4ff);
 	}
 
 	/*
