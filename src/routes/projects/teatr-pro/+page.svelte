@@ -6,6 +6,8 @@
 	import { festivalRow } from '$lib/components/galaxy/festivalRow';
 	import GalaxyRows from '$lib/components/galaxy/GalaxyRows.svelte';
 	import type { GalaxyRow } from '$lib/components/galaxy/galaxyRow';
+	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import { closeGraduateModal, graduateFromPageState } from '$lib/services/graduateModal.svelte';
 
 	/**
 	 * Загальна сторінка фестивалю — про сам фестиваль, а не про його випуск.
@@ -33,6 +35,14 @@
 	const rows = $derived<GalaxyRow[]>(
 		TEATR_PRO_FESTIVALS.map((f) => festivalRow(f, { isEn, lang: currentLang, t: $t }))
 	);
+
+	/*
+	 * Обличчя в рядках відкривають картку випускника — а показати її нікому не
+	 * було. Знайшов це не автор, а новий гейт `graduate-modal.test.ts`, і
+	 * знайшов одразу: сторінка тягне `GalaxyRows` → `GraduateAvatarRow`, той
+	 * кличе `openGraduateModal`, адреса мінялася, на екрані не було нічого.
+	 */
+	const обраний = $derived(graduateFromPageState());
 </script>
 
 <StaticPage
@@ -56,6 +66,9 @@
 		<GalaxyRows {rows} grouped={false} testIdPrefix="teatr-pro-editions" maxFaces={10} />
 	</section>
 {/if}
+
+<!-- Та сама картка, що в галактиці й на сторінці поїздки. -->
+<GraduateCard showGalaxyLink graduate={обраний} onclose={closeGraduateModal} />
 
 <style>
 	.fests {

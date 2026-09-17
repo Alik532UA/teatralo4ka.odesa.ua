@@ -4,9 +4,14 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { Gavel, Dumbbell, Star } from 'lucide-svelte';
 	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
-import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
-import { graduationCaption } from '$lib/data/graduates';
-import { openGraduateModal } from '$lib/services/graduateModal.svelte';
+	import GroupPersonCard from '$lib/components/GroupPersonCard.svelte';
+	import { graduationCaption } from '$lib/data/graduates';
+	import GraduateCard from '$lib/components/GraduateCard.svelte';
+	import {
+		closeGraduateModal,
+		graduateFromPageState,
+		openGraduateModal
+	} from '$lib/services/graduateModal.svelte';
 	import type { PageData } from './$types';
 
 	/**
@@ -30,6 +35,19 @@ import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 	let { data }: { data: PageData } = $props();
 
 	const currentLang = $derived(($locale as string) === 'en' ? 'en' : 'uk');
+
+	/*
+	 * Картку відкриває стан сторінки, а МАЛЮЄ її сама сторінка.
+	 *
+	 * `openGraduateModal` лише кладе випускника в `page.state` і переписує
+	 * адресу — більше він не вміє нічого. Без рядка `<GraduateCard>` унизу
+	 * натискання по обличчю мовчки не робило нічого видимого: адреса мінялася,
+	 * картка не з'являлася. Рівно те, на що поскаржився автор.
+	 *
+	 * Те саме роблять сторінки поїздки, групи, закладу освіти й театру — і саме
+	 * тому, що це вже п'яте місце, поруч з'явився гейт `graduate-modal.test.ts`.
+	 */
+	const обраний = $derived(graduateFromPageState());
 	const isEn = $derived(currentLang === 'en');
 	const name = $derived(isEn && data.expert.nameEn ? data.expert.nameEn : data.expert.name);
 
@@ -192,6 +210,9 @@ import { openGraduateModal } from '$lib/services/graduateModal.svelte';
 		</ul>
 	{/if}
 </section>
+
+<!-- Та сама картка, що й у галактиці, на поїздці та в групі. -->
+<GraduateCard showGalaxyLink graduate={обраний} onclose={closeGraduateModal} />
 
 <style>
 	.expert {
