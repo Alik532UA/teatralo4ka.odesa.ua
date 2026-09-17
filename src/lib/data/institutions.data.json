@@ -164,7 +164,9 @@
 			{
 				"id": "yevheniia-burian",
 				"year": 2018,
-				"programme": "театр ляльок"
+				"programme": "театр ляльок",
+				"master": "Л. Попова",
+				"masterSlug": "l-popov"
 			},
 			{
 				"id": "taras-lushpa",
@@ -688,7 +690,9 @@
 			{
 				"id": "anastasiia-ihnatovych",
 				"year": 2018,
-				"programme": "театр ляльок"
+				"programme": "театр ляльок",
+				"master": "О. Дмітрієвої",
+				"masterSlug": "oksana-dmitriieva"
 			},
 			{
 				"id": "khrystyna-bila",

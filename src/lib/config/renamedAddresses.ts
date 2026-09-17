@@ -61,7 +61,6 @@
  */
 
 import { GRADUATE_ALIASES_DATA } from '../data/addressAliases.data';
-import { EXPERTS } from '../data/experts';
 
 /**
  * `slavianskyi-venok` була транслітерацією з РОСІЙСЬКОЇ назви («Славянский
@@ -275,16 +274,60 @@ export const RENAMED_PATHS: readonly (readonly [старий: string, новий
 	 * і обома водночас лише п'ятеро. Тобто дванадцятеро «експертів» у жодній
 	 * експертній раді не сиділи, і автор спіймав це на конкретних іменах.
 	 *
-	 * Виводиться з реєстру, а не перелічується: тридцять сім рядків руками
-	 * розійшлися б із ним на першому ж новому записі. Сторінки-переліку
-	 * (`/experts/` без хвоста) тут немає навмисно — вона не встигла побувати в
-	 * жодному випуску, тобто вести з неї нема звідки.
+	 * ПЕРЕЛІК ЗАМОРОЖЕНИЙ, А НЕ ВИВЕДЕНИЙ З РЕЄСТРУ — і це виправлення першої
+	 * редакції. Вона робила `EXPERTS.map(...)`, тобто нову заглушку на КОЖНОГО
+	 * доданого потім майстра. Спіймалося того ж дня: Оксана Дмітрієва з'явилася
+	 * через годину після переїзду, і гейт зажадав заглушку на
+	 * `/experts/oksana-dmitriieva` — адресу, якої ніколи не існувало.
+	 *
+	 * Тут історія, а не стан: перенаправляти треба рівно ті адреси, що встигли
+	 * побувати в мережі. Перелік не росте ніколи; коротшає — якщо колись
+	 * вирішимо, що заглушка віджила. Сторінки-переліку (`/experts/` без хвоста)
+	 * тут немає навмисно — вона не встигла побувати в жодному випуску.
 	 */
-	...EXPERTS.map(
-		(e) =>
+	...[
+		'a-seitablaiev',
+		'anatolii-lobanov',
+		'bohdan-strutynskyi',
+		'd-rybalevskyi',
+		'dmytro-bohomazov',
+		'dmytro-naumets',
+		'dmytro-zakhozhenko',
+		'i-uryvskyi',
+		'l-popov',
+		'larysa-semyrozumenko',
+		'liena-liahushonkova',
+		'liliia-koltyrina',
+		'maryna-bryl',
+		'maryna-tatarenko',
+		'nadiia-aliunova',
+		'nataliia-tsymbal',
+		'nina-husakova',
+		'o-kravchuk',
+		'o-pecherytsia',
+		'o-zamiatin',
+		'oksana-stetsenko',
+		'oleh-drach',
+		'oleksandra-samokhvalova',
+		'olena-basha',
+		'serhii-kalantai',
+		'stanislav-moiseiev',
+		'stanislav-zhyrkov',
+		't-hubrii',
+		't-silchenko',
+		'tamara-antropova',
+		'tetiana-poliak',
+		'v-dovzhenko',
+		'valerii-huivin',
+		'volodymyr-sahan',
+		'volodymyr-yermolaiev',
+		'yaroslav-illiashenko',
+		'ye-nuliakina',
+	].map(
+		(slug) =>
 			[
-				`/projects/galaxy-graduates/experts/${e.slug}`,
-				`projects/galaxy-graduates/masters/${e.slug}`
+				`/projects/galaxy-graduates/experts/${slug}`,
+				`projects/galaxy-graduates/masters/${slug}`
 			] as const
 	),
 	...Object.entries(RENAMED_FESTIVAL_SLUGS).map(
