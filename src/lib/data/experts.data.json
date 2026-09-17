@@ -326,7 +326,7 @@
 		]
 	},
 	{
-		"slug": "l-popov",
+		"slug": "leonid-popov",
 		"name": "Леонід Попов",
 		"titles": [
 			{
@@ -336,7 +336,7 @@
 		]
 	},
 	{
-		"slug": "o-zamiatin",
+		"slug": "oleh-zamiatin",
 		"name": "Олег Замятін",
 		"titles": [
 			{
@@ -344,7 +344,7 @@
 				"text": "майстер курсу, КНУТКіТ"
 			}
 		],
-		"photo": "/experts/o-zamiatin.webp"
+		"photo": "/experts/oleh-zamiatin.webp"
 	},
 	{
 		"slug": "serhii-kalantai",
@@ -377,7 +377,7 @@
 		]
 	},
 	{
-		"slug": "o-pecherytsia",
+		"slug": "oleksandr-pecherytsia",
 		"name": "Олександр Печериця",
 		"titles": [
 			{
@@ -385,7 +385,7 @@
 				"text": "майстер курсу, КНУКіМ"
 			}
 		],
-		"photo": "/experts/o-pecherytsia.webp"
+		"photo": "/experts/oleksandr-pecherytsia.webp"
 	},
 	{
 		"slug": "a-seitablaiev",
@@ -418,7 +418,7 @@
 		]
 	},
 	{
-		"slug": "i-uryvskyi",
+		"slug": "ivan-uryvskyi",
 		"name": "Іван Уривський",
 		"titles": [
 			{
@@ -426,7 +426,7 @@
 				"text": "майстер курсу, КМАЕЦМ"
 			}
 		],
-		"photo": "/experts/i-uryvskyi.webp"
+		"photo": "/experts/ivan-uryvskyi.webp"
 	},
 	{
 		"slug": "v-dovzhenko",

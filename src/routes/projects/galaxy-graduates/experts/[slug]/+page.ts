@@ -31,8 +31,11 @@ export const prerender = true;
  * потрапляла б у мапу сайту порожньою сторінкою. Саме так і сталося з Оксаною
  * Дмітрієвою через годину після переїзду.
  */
-export const entries: EntryGenerator = () => MOVED_EXPERT_SLUGS.map((slug) => ({ slug }));
+export const entries: EntryGenerator = () =>
+	Object.keys(MOVED_EXPERT_SLUGS).map((slug) => ({ slug }));
 
 export const load: PageLoad = ({ params, url }) => {
-	redirect(301, localizedPath(expertPath(params.slug), localeFromPath(url.pathname)));
+	/* Ціль — НОВА адреса: у чотирьох вона інакша, бо слуг став повним. */
+	const куди = MOVED_EXPERT_SLUGS[params.slug] ?? params.slug;
+	redirect(301, localizedPath(expertPath(куди), localeFromPath(url.pathname)));
 };

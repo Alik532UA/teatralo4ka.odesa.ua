@@ -152,21 +152,21 @@
 				"year": 2018,
 				"programme": "акторський",
 				"master": "О. Замятіна",
-				"masterSlug": "o-zamiatin"
+				"masterSlug": "oleh-zamiatin"
 			},
 			{
 				"id": "vladyslav-tsobenko",
 				"year": 2018,
 				"programme": "акторський",
 				"master": "О. Замятіна",
-				"masterSlug": "o-zamiatin"
+				"masterSlug": "oleh-zamiatin"
 			},
 			{
 				"id": "yevheniia-burian",
 				"year": 2018,
 				"programme": "театр ляльок",
 				"master": "Л. Попова",
-				"masterSlug": "l-popov"
+				"masterSlug": "leonid-popov"
 			},
 			{
 				"id": "taras-lushpa",
@@ -209,14 +209,14 @@
 				"year": 2026,
 				"programme": "театр ляльок",
 				"master": "Л. Попова",
-				"masterSlug": "l-popov"
+				"masterSlug": "leonid-popov"
 			},
 			{
 				"id": "kateryna-petrenko",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Замятіна",
-				"masterSlug": "o-zamiatin"
+				"masterSlug": "oleh-zamiatin"
 			},
 			{
 				"id": "nikol-onyshchenko",
@@ -230,14 +230,14 @@
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Замятіна",
-				"masterSlug": "o-zamiatin"
+				"masterSlug": "oleh-zamiatin"
 			},
 			{
 				"id": "yuliana-tymonova",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Замятіна",
-				"masterSlug": "o-zamiatin"
+				"masterSlug": "oleh-zamiatin"
 			},
 			{
 				"id": "zlata-stoyanova",
@@ -423,21 +423,21 @@
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Печериці",
-				"masterSlug": "o-pecherytsia"
+				"masterSlug": "oleksandr-pecherytsia"
 			},
 			{
 				"id": "mykhailo-zabozhanov",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Печериці",
-				"masterSlug": "o-pecherytsia"
+				"masterSlug": "oleksandr-pecherytsia"
 			},
 			{
 				"id": "oleksandra-karachevska",
 				"year": 2026,
 				"programme": "акторський",
 				"master": "О. Печериці",
-				"masterSlug": "o-pecherytsia"
+				"masterSlug": "oleksandr-pecherytsia"
 			},
 			{
 				"id": "olha-poliakova",
@@ -635,7 +635,7 @@
 				"year": 2023,
 				"programme": "режисура",
 				"master": "І. С. Уривського",
-				"masterSlug": "i-uryvskyi"
+				"masterSlug": "ivan-uryvskyi"
 			},
 			{
 				"id": "yelyzaveta-maliuzhenko",

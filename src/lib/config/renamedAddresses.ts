@@ -279,58 +279,63 @@ export const GRADUATE_ALIASES: Record<string, string> = GRADUATE_ALIASES_DATA;
  * через годину після переїзду, і гейт зажадав заглушку на
  * `/experts/oksana-dmitriieva` — адресу, якої ніколи не існувало.
  *
+ * ЗНАЧЕННЯ — НОВА адреса, і в чотирьох вона не дорівнює старій: коли стало
+ * відоме повне ім'я, `o-pecherytsia` став `oleksandr-pecherytsia`, і так само
+ * Замятін, Попов і Уривський. Пара «звідки → куди» тут обов'язкова саме тому:
+ * без неї стара адреса вела б на сторінку, якої вже немає.
+ *
  * Тут історія, а не стан: перенаправляти треба рівно ті адреси, що встигли
  * побувати в мережі. Перелік не росте ніколи; коротшає — якщо колись
  * вирішимо, що заглушка віджила. Сторінки-переліку (`/experts/` без хвоста)
  * тут немає навмисно — вона не встигла побувати в жодному випуску.
  */
-export const MOVED_EXPERT_SLUGS: readonly string[] = [
-	'a-seitablaiev',
-	'anatolii-lobanov',
-	'bohdan-strutynskyi',
-	'd-rybalevskyi',
-	'dmytro-bohomazov',
-	'dmytro-naumets',
-	'dmytro-zakhozhenko',
-	'i-uryvskyi',
-	'l-popov',
-	'larysa-semyrozumenko',
-	'liena-liahushonkova',
-	'liliia-koltyrina',
-	'maryna-bryl',
-	'maryna-tatarenko',
-	'nadiia-aliunova',
-	'nataliia-tsymbal',
-	'nina-husakova',
-	'o-kravchuk',
-	'o-pecherytsia',
-	'o-zamiatin',
-	'oksana-stetsenko',
-	'oleh-drach',
-	'oleksandra-samokhvalova',
-	'olena-basha',
-	'serhii-kalantai',
-	'stanislav-moiseiev',
-	'stanislav-zhyrkov',
-	't-hubrii',
-	't-silchenko',
-	'tamara-antropova',
-	'tetiana-poliak',
-	'v-dovzhenko',
-	'valerii-huivin',
-	'volodymyr-sahan',
-	'volodymyr-yermolaiev',
-	'yaroslav-illiashenko',
-	'ye-nuliakina',
-];
+export const MOVED_EXPERT_SLUGS: Readonly<Record<string, string>> = {
+	'a-seitablaiev': 'a-seitablaiev',
+	'anatolii-lobanov': 'anatolii-lobanov',
+	'bohdan-strutynskyi': 'bohdan-strutynskyi',
+	'd-rybalevskyi': 'd-rybalevskyi',
+	'dmytro-bohomazov': 'dmytro-bohomazov',
+	'dmytro-naumets': 'dmytro-naumets',
+	'dmytro-zakhozhenko': 'dmytro-zakhozhenko',
+	/* перейменований: */ 'i-uryvskyi': 'ivan-uryvskyi',
+	/* перейменований: */ 'l-popov': 'leonid-popov',
+	'larysa-semyrozumenko': 'larysa-semyrozumenko',
+	'liena-liahushonkova': 'liena-liahushonkova',
+	'liliia-koltyrina': 'liliia-koltyrina',
+	'maryna-bryl': 'maryna-bryl',
+	'maryna-tatarenko': 'maryna-tatarenko',
+	'nadiia-aliunova': 'nadiia-aliunova',
+	'nataliia-tsymbal': 'nataliia-tsymbal',
+	'nina-husakova': 'nina-husakova',
+	'o-kravchuk': 'o-kravchuk',
+	/* перейменований: */ 'o-pecherytsia': 'oleksandr-pecherytsia',
+	/* перейменований: */ 'o-zamiatin': 'oleh-zamiatin',
+	'oksana-stetsenko': 'oksana-stetsenko',
+	'oleh-drach': 'oleh-drach',
+	'oleksandra-samokhvalova': 'oleksandra-samokhvalova',
+	'olena-basha': 'olena-basha',
+	'serhii-kalantai': 'serhii-kalantai',
+	'stanislav-moiseiev': 'stanislav-moiseiev',
+	'stanislav-zhyrkov': 'stanislav-zhyrkov',
+	't-hubrii': 't-hubrii',
+	't-silchenko': 't-silchenko',
+	'tamara-antropova': 'tamara-antropova',
+	'tetiana-poliak': 'tetiana-poliak',
+	'v-dovzhenko': 'v-dovzhenko',
+	'valerii-huivin': 'valerii-huivin',
+	'volodymyr-sahan': 'volodymyr-sahan',
+	'volodymyr-yermolaiev': 'volodymyr-yermolaiev',
+	'yaroslav-illiashenko': 'yaroslav-illiashenko',
+	'ye-nuliakina': 'ye-nuliakina',
+};
 
 export const RENAMED_PATHS: readonly (readonly [старий: string, новий: string])[] = [
 	/* Розділ переїхав: `/experts/` → `/masters/`. Розбір — біля `MOVED_EXPERT_SLUGS`. */
-	...MOVED_EXPERT_SLUGS.map(
-		(slug) =>
+	...Object.entries(MOVED_EXPERT_SLUGS).map(
+		([старий, новий]) =>
 			[
-				`/projects/galaxy-graduates/experts/${slug}`,
-				`projects/galaxy-graduates/masters/${slug}`
+				`/projects/galaxy-graduates/experts/${старий}`,
+				`projects/galaxy-graduates/masters/${новий}`
 			] as const
 	),
 	...Object.entries(RENAMED_FESTIVAL_SLUGS).map(
