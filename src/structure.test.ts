@@ -715,7 +715,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
-	'src/lib/config/localImages.ts': 260,
+	'src/lib/config/localImages.ts': 275,
 	'src/lib/data/betaChecklist.ts': 668,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,

@@ -187,6 +187,19 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/teatr-net-2021-diploma-6.webp': { width: 1280, height: 904 },
 	'/festivals/teatr-net-2021-diploma-7.webp': { width: 1280, height: 904 },
 	'/festivals/teatr-net-2021-diploma-8.webp': { width: 1280, height: 904 },
+	// «Одного разу в Одесі» (2019)
+	'/festivals/odnoho-razu-v-odesi-2019-diploma.webp': { width: 1280, height: 912 },
+	// «Лимонад» (2021)
+	'/festivals/lymonad-2021-diploma.webp': { width: 1280, height: 930 },
+	'/festivals/lymonad-2021-diploma-2.webp': { width: 930, height: 1280 },
+	'/festivals/lymonad-2021-diploma-3.webp': { width: 930, height: 1280 },
+	// «День Театру» (2023)
+	'/festivals/den-teatru-2023-diploma.webp': { width: 990, height: 1400 },
+	// «BRAVO» та «Зіркова зима» (2026)
+	'/festivals/bravo-2026.webp': { width: 1190, height: 850 },
+	'/festivals/bravo-2026-diploma.webp': { width: 978, height: 1400 },
+	'/festivals/zirkova-zyma-2026.webp': { width: 1190, height: 850 },
+	'/festivals/zirkova-zyma-2026-diploma.webp': { width: 1005, height: 1400 },
 	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
 	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
 	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },

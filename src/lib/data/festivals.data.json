@@ -1253,5 +1253,139 @@
 		],
 		"videoUrl": "https://youtu.be/Mite3C4MDnw",
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "odnoho-razu-v-odesi-2019",
+		"name": "«Одного разу в Одесі»",
+		"nameEn": "Once Upon a Time in Odesa",
+		"years": [
+			2019
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"note": "online",
+		"memberIds": [
+			"bohdana-dymchenko",
+			"erika-chichasova",
+			"ivan-pitel",
+			"kateryna-muntian"
+		],
+		"memberMasterIds": [
+			"anastasiia-nikolaieva",
+			"iryna-kulbaba",
+			"svitlana-pruba",
+			"tetiana-isachkina"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"hanna-tkach"
+		],
+		"playIds": [],
+		"videoUrl": "https://youtu.be/6n4l3MWGu1g",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "lymonad-2021",
+		"name": "«Лимонад»",
+		"nameEn": "Lymonad",
+		"years": [
+			2021
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Харків",
+		"note": "online",
+		"memberIds": [
+			"heorhii-slyvynskyi",
+			"maksym-korobchynskyi"
+		],
+		"masterIds": [
+			"svitlana-ryskina",
+			"olena-tkach"
+		],
+		"playIds": [],
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "den-teatru-2023",
+		"name": "«День Театру»",
+		"nameEn": "Den Teatru",
+		"years": [
+			2023
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Київ",
+		"note": "online",
+		"memberIds": [
+			"anzhelika-khachatrian",
+			"kateryna-kurchenko",
+			"maryna-kravchuk",
+			"yan-okolskyy",
+			"yelyzaveta-maliuzhenko"
+		],
+		"alumniIds": [
+			"daniela-rybalchenko",
+			"hryhorii-naumov"
+		],
+		"masterIds": [
+			"fedir-tkach",
+			"olena-tkach"
+		],
+		"playIds": [],
+		"videoUrl": "https://youtu.be/3LRspliQhoM",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "bravo-2026",
+		"name": "«BRAVO»",
+		"nameEn": "BRAVO",
+		"years": [
+			2026
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Одеса",
+		"note": "online",
+		"memberIds": [
+			"sofiia-smolianska",
+			"yuliana-tymonova"
+		],
+		"masterIds": [
+			"andrii-klymenko",
+			"fedir-tkach"
+		],
+		"playIds": [],
+		"videoUrl": "https://youtu.be/CkKof9_gy6w",
+		"verificationStatus": "possible_errors"
+	},
+	{
+		"slug": "zirkova-zyma-2026",
+		"name": "«Зіркова зима»",
+		"nameEn": "Zirkova Zyma",
+		"years": [
+			2026
+		],
+		"countries": [
+			"UA"
+		],
+		"city": "Київ",
+		"note": "online",
+		"memberIds": [
+			"sofiia-smolianska",
+			"yuliana-tymonova"
+		],
+		"masterIds": [
+			"andrii-klymenko",
+			"fedir-tkach"
+		],
+		"playIds": [],
+		"videoUrl": "https://youtu.be/CkKof9_gy6w",
+		"verificationStatus": "possible_errors"
 	}
 ]
