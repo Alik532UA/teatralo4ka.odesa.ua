@@ -169,7 +169,12 @@
 		"playIds": [
 			"uryvky-z-dramaturhii-20-stolittia-2012"
 		],
-		"verificationStatus": "verified"
+		"verificationStatus": "verified",
+		"expertIds": [
+			"stanislav-moiseiev",
+			"oleh-stefan",
+			"bohdan-beniuk"
+		]
 	},
 	{
 		"slug": "mrii-dim-2013",
@@ -205,7 +210,11 @@
 		"playIds": [
 			"uryvky-z-klasyky-2013"
 		],
-		"verificationStatus": "verified"
+		"verificationStatus": "verified",
+		"expertIds": [
+			"oleh-drach",
+			"oleh-stefan"
+		]
 	},
 	{
 		"slug": "art-like-fest-2026",

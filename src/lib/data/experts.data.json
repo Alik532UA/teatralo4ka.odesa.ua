@@ -505,5 +505,29 @@
 			}
 		],
 		"photo": "/experts/vira-hanchar.webp"
+	},
+	{
+		"slug": "bohdan-beniuk",
+		"name": "Богдан Бенюк",
+		"nameEn": "Bohdan Beniuk",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2012,
+				"text": "Актор, педагог, народний артист України"
+			}
+		]
+	},
+	{
+		"slug": "oleh-stefan",
+		"name": "Олег Стефан",
+		"nameEn": "Oleh Stefan",
+		"city": "Львів",
+		"titles": [
+			{
+				"year": 2012,
+				"text": "Актор, заслужений артист України"
+			}
+		]
 	}
 ]

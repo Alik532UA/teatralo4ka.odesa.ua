@@ -14,6 +14,7 @@ import uk from '$lib/i18n/locales/uk.json';
 import graduatesIndex from '$lib/data/graduates.index.json';
 import playsData from '$lib/data/plays.data.json';
 import mastersIndex from '$lib/data/masters.index.json';
+import { EXPERTS } from '$lib/data/experts';
 import type { GraduateIndexEntry } from '$lib/data/graduates';
 
 /**
@@ -158,6 +159,14 @@ describe('реєстр фестивалів', () => {
 		for (const f of FESTIVALS)
 			for (const id of f.memberMasterIds ?? []) if (!known.has(id)) bad.push(`${f.slug} → ${id}`);
 		expect(bad, `працівника-учасника немає в реєстрі:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('кожен експерт існує в реєстрі фахівців', () => {
+		const known = new Set(EXPERTS.map((e) => e.slug));
+		const bad: string[] = [];
+		for (const f of FESTIVALS)
+			for (const id of f.expertIds ?? []) if (!known.has(id)) bad.push(`${f.slug} → ${id}`);
+		expect(bad, `експерта немає в реєстрі:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
 	/**
