@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from "svelte-i18n";
 	import { Flower2, Plus } from "lucide-svelte";
+	import type { Attachment } from "svelte/attachments";
 	import GraduatePhotoModal from "$lib/components/GraduatePhotoModal.svelte";
 	import GraduatePhotoContextMenu from "$lib/components/GraduatePhotoContextMenu.svelte";
 	import {
@@ -67,9 +68,49 @@
 		}
 		contextMenuOpen = true;
 	}
+
+	/**
+	 * Гортання стопки світлин колесом миші під курсором на сторінці/картці випускника.
+	 * Запобігає прокручуванню всієї сторінки/модалки (`e.preventDefault()`)
+	 * і перемикає світлини: вниз — наступна, вгору — попередня.
+	 */
+	function wheelStack(): Attachment {
+		return (node) => {
+			const element = node as HTMLElement;
+			let wheelAcc = 0;
+			let wheelAt = 0;
+			const WHEEL_STEP = 40;
+			const WHEEL_GAP = 200;
+
+			function onWheel(e: WheelEvent) {
+				const total = photoCount > 1 ? profilePhotos.length : (graduate.hasPhoto ? 2 : 0);
+				if (total <= 1) return;
+				e.preventDefault();
+
+				const now = performance.now();
+				if (now - wheelAt > WHEEL_GAP) wheelAcc = 0;
+				wheelAt = now;
+				wheelAcc += Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+
+				if (wheelAcc >= WHEEL_STEP) {
+					activePhotoIndex = (activePhotoIndex + 1) % total;
+					wheelAcc = 0;
+				} else if (wheelAcc <= -WHEEL_STEP) {
+					activePhotoIndex = (activePhotoIndex - 1 + total) % total;
+					wheelAcc = 0;
+				}
+			}
+
+			element.addEventListener('wheel', onWheel, { passive: false });
+
+			return () => {
+				element.removeEventListener('wheel', onWheel);
+			};
+		};
+	}
 </script>
 
-<div class="photo-container" bind:this={containerEl}>
+<div class="photo-container" bind:this={containerEl} {@attach wheelStack()}>
 	{#if graduate.hasPhoto}
 		<span class="photo-stack" data-testid="galaxy-card-photo-stack">
 			{#if photoCount > 1}

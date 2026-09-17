@@ -3,6 +3,7 @@
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { t } from 'svelte-i18n';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
+	import { galleryGestures } from '$lib/utils/galleryGestures';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -186,6 +187,18 @@
 		photos.map((photo) => ({ src: asset(photo), alt: title, title }))
 	);
 
+	const gestures = $derived({
+		count: () => photos.length,
+		next: () => {
+			index = (активний + 1) % photos.length;
+			ручних += 1;
+		},
+		prev: () => {
+			index = (активний - 1 + photos.length) % photos.length;
+			ручних += 1;
+		}
+	});
+
 	function open() {
 		lightboxIndex = активний;
 		lightboxOpen = true;
@@ -211,6 +224,7 @@
 		class="banner"
 		style:aspect-ratio={пропорція}
 		style:max-width={`${ширина}px`}
+		{@attach galleryGestures(gestures)}
 		data-testid="group-photo-banner"
 	>
 		{#each photos as photo, i (photo)}
@@ -261,7 +275,12 @@
 	</div>
 
 	{#if photos.length > 1}
-		<div class="banner__dots" role="tablist" aria-label={title}>
+		<div
+			class="banner__dots"
+			role="tablist"
+			aria-label={title}
+			{@attach galleryGestures(gestures)}
+		>
 			{#each photos as photo, i (photo)}
 				<button
 					type="button"
