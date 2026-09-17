@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { EXPERTS, expertPath } from '$lib/data/experts';
+import { expertPath } from '$lib/data/experts';
+import { MOVED_EXPERT_SLUGS } from '$lib/config/renamedAddresses';
 import { localeFromPath, localizedPath } from '$lib/i18n/routing';
 import type { PageLoad, EntryGenerator } from './$types';
 
@@ -24,7 +25,13 @@ import type { PageLoad, EntryGenerator } from './$types';
  */
 export const prerender = true;
 
-export const entries: EntryGenerator = () => EXPERTS.map((e) => ({ slug: e.slug }));
+/*
+ * Перелік ЗАМОРОЖЕНИЙ, а не взятий із реєстру: інакше кожен доданий потім
+ * майстер діставав би заглушку на адресу, якої ніколи не було, — і вона
+ * потрапляла б у мапу сайту порожньою сторінкою. Саме так і сталося з Оксаною
+ * Дмітрієвою через годину після переїзду.
+ */
+export const entries: EntryGenerator = () => MOVED_EXPERT_SLUGS.map((slug) => ({ slug }));
 
 export const load: PageLoad = ({ params, url }) => {
 	redirect(301, localizedPath(expertPath(params.slug), localeFromPath(url.pathname)));

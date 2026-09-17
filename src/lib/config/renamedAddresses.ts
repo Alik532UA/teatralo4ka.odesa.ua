@@ -265,65 +265,68 @@ export const GRADUATE_ALIASES: Record<string, string> = GRADUATE_ALIASES_DATA;
  * саме такої форми чекають `config/redirects.ts` (де ціль іде «хвостом») і
  * `BETA_UNCOVERED_ROUTES`.
  */
+/*
+ * РОЗДІЛ ПЕРЕЇХАВ: `/experts/` → `/masters/` (17 вересня 2026).
+ *
+ * Стара адреса брехала назвою. Заміряно на реєстрі: з тридцяти семи людей у
+ * розділі на фестивалях були 25, а майстрами курсу в наших випускників — 17,
+ * і обома водночас лише п'ятеро. Тобто дванадцятеро «експертів» у жодній
+ * експертній раді не сиділи, і автор спіймав це на конкретних іменах.
+ *
+ * ПЕРЕЛІК ЗАМОРОЖЕНИЙ, А НЕ ВИВЕДЕНИЙ З РЕЄСТРУ — і це виправлення першої
+ * редакції. Вона робила `EXPERTS.map(...)`, тобто нову заглушку на КОЖНОГО
+ * доданого потім майстра. Спіймалося того ж дня: Оксана Дмітрієва з'явилася
+ * через годину після переїзду, і гейт зажадав заглушку на
+ * `/experts/oksana-dmitriieva` — адресу, якої ніколи не існувало.
+ *
+ * Тут історія, а не стан: перенаправляти треба рівно ті адреси, що встигли
+ * побувати в мережі. Перелік не росте ніколи; коротшає — якщо колись
+ * вирішимо, що заглушка віджила. Сторінки-переліку (`/experts/` без хвоста)
+ * тут немає навмисно — вона не встигла побувати в жодному випуску.
+ */
+export const MOVED_EXPERT_SLUGS: readonly string[] = [
+	'a-seitablaiev',
+	'anatolii-lobanov',
+	'bohdan-strutynskyi',
+	'd-rybalevskyi',
+	'dmytro-bohomazov',
+	'dmytro-naumets',
+	'dmytro-zakhozhenko',
+	'i-uryvskyi',
+	'l-popov',
+	'larysa-semyrozumenko',
+	'liena-liahushonkova',
+	'liliia-koltyrina',
+	'maryna-bryl',
+	'maryna-tatarenko',
+	'nadiia-aliunova',
+	'nataliia-tsymbal',
+	'nina-husakova',
+	'o-kravchuk',
+	'o-pecherytsia',
+	'o-zamiatin',
+	'oksana-stetsenko',
+	'oleh-drach',
+	'oleksandra-samokhvalova',
+	'olena-basha',
+	'serhii-kalantai',
+	'stanislav-moiseiev',
+	'stanislav-zhyrkov',
+	't-hubrii',
+	't-silchenko',
+	'tamara-antropova',
+	'tetiana-poliak',
+	'v-dovzhenko',
+	'valerii-huivin',
+	'volodymyr-sahan',
+	'volodymyr-yermolaiev',
+	'yaroslav-illiashenko',
+	'ye-nuliakina',
+];
+
 export const RENAMED_PATHS: readonly (readonly [старий: string, новий: string])[] = [
-	/*
-	 * РОЗДІЛ ПЕРЕЇХАВ: `/experts/` → `/masters/` (17 вересня 2026).
-	 *
-	 * Стара адреса брехала назвою. Заміряно на реєстрі: з тридцяти семи людей у
-	 * розділі на фестивалях були 25, а майстрами курсу в наших випускників — 17,
-	 * і обома водночас лише п'ятеро. Тобто дванадцятеро «експертів» у жодній
-	 * експертній раді не сиділи, і автор спіймав це на конкретних іменах.
-	 *
-	 * ПЕРЕЛІК ЗАМОРОЖЕНИЙ, А НЕ ВИВЕДЕНИЙ З РЕЄСТРУ — і це виправлення першої
-	 * редакції. Вона робила `EXPERTS.map(...)`, тобто нову заглушку на КОЖНОГО
-	 * доданого потім майстра. Спіймалося того ж дня: Оксана Дмітрієва з'явилася
-	 * через годину після переїзду, і гейт зажадав заглушку на
-	 * `/experts/oksana-dmitriieva` — адресу, якої ніколи не існувало.
-	 *
-	 * Тут історія, а не стан: перенаправляти треба рівно ті адреси, що встигли
-	 * побувати в мережі. Перелік не росте ніколи; коротшає — якщо колись
-	 * вирішимо, що заглушка віджила. Сторінки-переліку (`/experts/` без хвоста)
-	 * тут немає навмисно — вона не встигла побувати в жодному випуску.
-	 */
-	...[
-		'a-seitablaiev',
-		'anatolii-lobanov',
-		'bohdan-strutynskyi',
-		'd-rybalevskyi',
-		'dmytro-bohomazov',
-		'dmytro-naumets',
-		'dmytro-zakhozhenko',
-		'i-uryvskyi',
-		'l-popov',
-		'larysa-semyrozumenko',
-		'liena-liahushonkova',
-		'liliia-koltyrina',
-		'maryna-bryl',
-		'maryna-tatarenko',
-		'nadiia-aliunova',
-		'nataliia-tsymbal',
-		'nina-husakova',
-		'o-kravchuk',
-		'o-pecherytsia',
-		'o-zamiatin',
-		'oksana-stetsenko',
-		'oleh-drach',
-		'oleksandra-samokhvalova',
-		'olena-basha',
-		'serhii-kalantai',
-		'stanislav-moiseiev',
-		'stanislav-zhyrkov',
-		't-hubrii',
-		't-silchenko',
-		'tamara-antropova',
-		'tetiana-poliak',
-		'v-dovzhenko',
-		'valerii-huivin',
-		'volodymyr-sahan',
-		'volodymyr-yermolaiev',
-		'yaroslav-illiashenko',
-		'ye-nuliakina',
-	].map(
+	/* Розділ переїхав: `/experts/` → `/masters/`. Розбір — біля `MOVED_EXPERT_SLUGS`. */
+	...MOVED_EXPERT_SLUGS.map(
 		(slug) =>
 			[
 				`/projects/galaxy-graduates/experts/${slug}`,
