@@ -47,6 +47,35 @@ describe('GROUPS data integrity', () => {
 		expect(bad, `склад посилається в нікуди:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 
+	it('анкети випускників не мають unlinkedGroups, які вже прив’язані в GROUPS', () => {
+		const profilesDir = join(process.cwd(), 'static/graduates/profiles');
+		const files = readdirSync(profilesDir).filter((f) => f.endsWith('.json'));
+		const conflicts: string[] = [];
+
+		for (const file of files) {
+			const data = JSON.parse(readFileSync(join(profilesDir, file), 'utf8'));
+			const id = data.id ?? file.replace('.json', '');
+			const linked = getGroupsByMember(id);
+			const linkedNames = new Set(
+				linked.flatMap((g) => [
+					cleanGroupLabel(g.name).toLowerCase(),
+					g.abbr ? cleanGroupLabel(g.abbr).toLowerCase() : '',
+					g.nameEn ? cleanGroupLabel(g.nameEn).toLowerCase() : ''
+				]).filter(Boolean)
+			);
+
+			for (const raw of data.unlinkedGroups ?? []) {
+				const cleaned = cleanGroupLabel(raw).toLowerCase();
+				if (linkedNames.has(cleaned)) {
+					conflicts.push(`${file} містить дублікат групи "${raw}"`);
+				}
+			}
+		}
+
+		expect(conflicts).toEqual([]);
+	});
+
+
 	it('кожен master.id у групі існує в masters.index.json', () => {
 		const allMasterIds = new Set((mastersIndex as MasterIndexEntry[]).map((m) => m.id));
 		for (const group of GROUPS) {

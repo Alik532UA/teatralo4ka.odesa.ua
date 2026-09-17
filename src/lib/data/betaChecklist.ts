@@ -557,8 +557,8 @@ export const BETA_TABS: readonly BetaTab[] = [
 				id: 'galaxy_1',
 				category: { uk: 'Переліки', en: 'Listings' },
 				text: {
-					uk: 'Відкрийте «Вистави та ролі», «Групи випускників», «Фестивалі», «Навчальні заклади» й «Театри». Кожен перелік мусить показати картки, а не порожнє місце й не напис про помилку.',
-					en: 'Open “Performances and roles”, “Graduate groups”, “Festivals”, “Schools and universities” and “Theatres”. Every listing must show cards, not an empty space and not an error message.'
+					uk: 'Відкрийте «Вистави», «Групи», «Фестивалі», «Навчальні заклади» й «Театри». Кожен перелік мусить показати картки, а не порожнє місце й не напис про помилку.',
+					en: 'Open “Plays”, “Groups”, “Festivals”, “Schools and universities” and “Theatres”. Every listing must show cards, not an empty space and not an error message.'
 				},
 				coverage: 'manual'
 			},
@@ -629,19 +629,19 @@ export const BETA_TABS: readonly BetaTab[] = [
 			},
 			{
 				id: 'galaxy_9',
-				category: { uk: 'Майстри і фахівці', en: 'Masters and experts' },
+				category: { uk: 'Зіркові митці', en: 'Star artists' },
 				text: {
-					uk: 'Відкрийте «Майстри і фахівці». Спробуйте всі три кнопки над переліком — «Всі», «Експертна Рада», «Викладають у випускників»: число поруч із кнопкою мусить збігтися з тим, скільки карток лишилося. Далі знайдіть Дмитра Богомазова й зайдіть на його сторінку: там мусять бути наші випускники, чий він майстер курсу, навчальний заклад і новини, де його згадали. З кожного з них має бути перехід — і назад до переліку теж.',
-					en: 'Open “Masters and experts”. Try all three buttons above the listing — “All”, “Expert council”, “Teach our graduates”: the number next to a button must match how many cards remain. Then find Dmytro Bohomazov and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
+					uk: 'Відкрийте «Зіркові митці». Спробуйте всі три кнопки над переліком — «Всі», «Експертна Рада», «Викладають у випускників»: число поруч із кнопкою мусить збігтися з тим, скільки карток лишилося. Далі знайдіть Дмитра Богомазова й зайдіть на його сторінку: там мусять бути наші випускники, чий він майстер курсу, навчальний заклад і новини, де його згадали. З кожного з них має бути перехід — і назад до переліку теж.',
+					en: 'Open “Star artists”. Try all three buttons above the listing — “All”, “Expert council”, “Teach our graduates”: the number next to a button must match how many cards remain. Then find Dmytro Bohomazov and open his page: it must show our graduates whose course master he is, the school, and the news that mention him. Each of those must be clickable — and there must be a way back to the listing.'
 				},
 				coverage: 'manual'
 			},
 			{
 				id: 'galaxy_10',
-				category: { uk: 'Друзі школи', en: 'Friends of the school' },
+				category: { uk: 'Зіркові друзі', en: 'Star friends' },
 				text: {
-					uk: 'Відкрийте «Друзі школи». Натисніть будь-яку картку — вона мусить розгорнутися на весь екран так, щоб можна було прочитати рукописне побажання; стрілками мусять гортатися сусідні картки. Перемкніть показ на «Список» — знімки зникнуть, імена лишаться.',
-					en: 'Open “Friends of the school”. Press any card — it must open full screen so that the handwritten note is readable, and the arrows must move to the neighbouring cards. Switch the view to “List” — the images must go and the names must stay.'
+					uk: 'Відкрийте «Зіркові друзі». Натисніть будь-яку картку — вона мусить розгорнутися на весь екран так, щоб можна було прочитати рукописне побажання; стрілками мусять гортатися сусідні картки. Перемкніть показ на «Список» — знімки зникнуть, імена лишаться.',
+					en: 'Open “Star friends”. Press any card — it must open full screen so that the handwritten note is readable, and the arrows must move to the neighbouring cards. Switch the view to “List” — the images must go and the names must stay.'
 				},
 				coverage: 'manual',
 				testid: 'galaxy-friends-open-btn-raisa-nedashkivska'

@@ -74,12 +74,12 @@ export const SEO_FALLBACK = {
 					'Фестивалі, на які їздила Одеська театральна школа: роки, країни, учасники та показані вистави.'
 			},
 			galaxyGroups: {
-				title: 'Групи випускників',
+				title: 'Групи',
 				description:
 					'Навчальні групи «Галактики випускників»: склад, майстри курсу та репертуар вистав.'
 			},
 			galaxyPlays: {
-				title: 'Вистави та ролі',
+				title: 'Вистави',
 				description:
 					'Усі вистави, покази та етюди Одеської театральної школи: рік, автор, група і хто грав.'
 			},
@@ -156,12 +156,12 @@ export const SEO_FALLBACK = {
 					'Festivals the Odesa Theatre School travelled to: years, countries, participants and the productions shown.'
 			},
 			galaxyGroups: {
-				title: 'Graduate groups',
+				title: 'Groups',
 				description:
 					'Study groups of the graduates galaxy: roster, course masters and the repertoire of plays.'
 			},
 			galaxyPlays: {
-				title: 'Plays and roles',
+				title: 'Plays',
 				description:
 					'Every play, showing and study of the Odesa Theatre School: year, author, group and cast.'
 			},

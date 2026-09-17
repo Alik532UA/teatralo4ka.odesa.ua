@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import graduatesIndex from './graduates.index.json';
 import type { GraduateIndexEntry } from './graduates';
 import mastersIndex from './masters.index.json';
+import { cleanGroupLabel, getGroupsByMember } from './groups';
 
 /**
  * Цілісність реєстру випускників.
@@ -230,5 +231,131 @@ describe('реєстр випускників', () => {
 			'індекс розійшовся з анкетами. Перезібрати: npm run data:graduates:' +
 				bad.map((b) => `\n  ${b}`).join('')
 		).toEqual([]);
+	});
+
+	/*
+	 * Унікальність значень у масивах анкет — захист від each_key_duplicate у Svelte 5.
+	 *
+	 * Повтори в масивах ламають рендеринг сторінки випускника:
+	 * 1. unlinkedGroups не має містити внутрішніх повторів і не має повторювати
+	 *    групи з GROUPS, у яких людина вже є в memberIds.
+	 * 2. departments, socials, enrollmentYears, masters, teachers не мають дублікатів.
+	 */
+	it('анкети не мають внутрішніх повторів у масивах (unlinkedGroups, departments, socials, enrollmentYears, masters, teachers)', () => {
+		const bad: string[] = [];
+
+		for (const { file, data } of profiles) {
+			const raw = data as Record<string, unknown>;
+			const id = (raw.id as string) ?? file.replace('.json', '');
+
+			// unlinkedGroups
+			if (Array.isArray(raw.unlinkedGroups)) {
+				const seenUg = new Set<string>();
+				const linkedGroups = getGroupsByMember(id);
+				const linkedNames = new Set(
+					linkedGroups.flatMap((g) => [
+						cleanGroupLabel(g.name).toLowerCase(),
+						g.abbr ? cleanGroupLabel(g.abbr).toLowerCase() : '',
+						g.nameEn ? cleanGroupLabel(g.nameEn).toLowerCase() : ''
+					]).filter(Boolean)
+				);
+
+				for (const ug of raw.unlinkedGroups as string[]) {
+					const cleaned = cleanGroupLabel(ug).toLowerCase();
+					if (seenUg.has(cleaned)) {
+						bad.push(`${file}: дублікат у unlinkedGroups «${ug}»`);
+					}
+					seenUg.add(cleaned);
+
+					if (linkedNames.has(cleaned)) {
+						bad.push(`${file}: unlinkedGroups «${ug}» вже є в офіційному складі групи`);
+					}
+				}
+			}
+
+			// departments
+			if (Array.isArray(raw.departments)) {
+				const seen = new Set<string>();
+				for (const d of raw.departments as string[]) {
+					if (seen.has(d)) bad.push(`${file}: дублікат у departments «${d}»`);
+					seen.add(d);
+				}
+			}
+
+			// socials
+			if (Array.isArray(raw.socials)) {
+				const seen = new Set<string>();
+				for (const s of raw.socials as { network?: string; url?: string }[]) {
+					const key = `${s.network || ''}::${s.url || ''}`;
+					if (seen.has(key)) bad.push(`${file}: дублікат у socials «${key}»`);
+					seen.add(key);
+				}
+			}
+
+			// enrollmentYears
+			if (Array.isArray(raw.enrollmentYears)) {
+				const seen = new Set<number>();
+				for (const y of raw.enrollmentYears as number[]) {
+					if (seen.has(y)) bad.push(`${file}: дублікат у enrollmentYears «${y}»`);
+					seen.add(y);
+				}
+			}
+
+			// masters
+			if (Array.isArray(raw.masters)) {
+				const seen = new Set<string>();
+				for (const m of raw.masters as ({ id?: string } | string)[]) {
+					const mId = typeof m === 'string' ? m : m.id;
+					if (mId && seen.has(mId)) bad.push(`${file}: дублікат у masters «${mId}»`);
+					if (mId) seen.add(mId);
+				}
+			}
+
+			// teachers
+			if (Array.isArray(raw.teachers)) {
+				const seen = new Set<string>();
+				for (const t of raw.teachers as ({ id?: string } | string)[]) {
+					const tId = typeof t === 'string' ? t : t.id;
+					if (tId && seen.has(tId)) bad.push(`${file}: дублікат у teachers «${tId}»`);
+					if (tId) seen.add(tId);
+				}
+			}
+		}
+
+		expect(bad, `знайдено дублікати в анкетах:\n  ${bad.join('\n  ')}`).toEqual([]);
+	});
+
+	it('записи в індексі graduates.index.json не містять дублікатів у полях departments, masters, teachers', () => {
+		const bad: string[] = [];
+
+		for (const g of index) {
+			if (Array.isArray(g.departments)) {
+				const seen = new Set<string>();
+				for (const d of g.departments) {
+					if (seen.has(d)) bad.push(`${g.id}: дублікат у departments «${d}»`);
+					seen.add(d);
+				}
+			}
+
+			if (Array.isArray(g.masters)) {
+				const seen = new Set<string>();
+				for (const m of g.masters) {
+					const mId = typeof m === 'string' ? m : m.id;
+					if (mId && seen.has(mId)) bad.push(`${g.id}: дублікат у masters «${mId}»`);
+					if (mId) seen.add(mId);
+				}
+			}
+
+			if (Array.isArray(g.teachers)) {
+				const seen = new Set<string>();
+				for (const t of g.teachers) {
+					const tId = typeof t === 'string' ? t : t.id;
+					if (tId && seen.has(tId)) bad.push(`${g.id}: дублікат у teachers «${tId}»`);
+					if (tId) seen.add(tId);
+				}
+			}
+		}
+
+		expect(bad, `знайдено дублікати в індексі:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 });

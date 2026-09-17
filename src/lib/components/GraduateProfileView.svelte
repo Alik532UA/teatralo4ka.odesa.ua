@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
+	import { SvelteSet } from "svelte/reactivity";
 	import { t, locale } from "svelte-i18n";
 	import { ArrowRight, FileText } from "lucide-svelte";
 	import { browser } from "$app/environment";
@@ -21,7 +22,7 @@
 	} from "$lib/data/masters";
 	import { localizedPath } from "$lib/i18n/routing";
 	import { linkedMasterId } from "$lib/data/dualRole";
-	import { getGroupsByMember } from "$lib/data/groups";
+	import { cleanGroupLabel, getGroupsByMember } from "$lib/data/groups";
 	import { graduateNewsKey, loadPersonNews, type PersonNews } from "$lib/data/newsBacklinks";
 	import { masterLabelKey, dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
 	import GraduateFestivals from "$lib/components/GraduateFestivals.svelte";
@@ -129,24 +130,43 @@
 	 * втрачається.
 	 */
 	const LONG_NAME = 18;
-	const groupLinks = $derived<
+	const groupLinks = $derived.by<
 		{ name: string; full: string; slug?: string; long: boolean }[]
-	>([
-		...getGroupsByMember(graduate.id).map((g) => {
+	>(() => {
+		const linked = getGroupsByMember(graduate.id);
+		const seenNames = new SvelteSet<string>();
+		const items: { name: string; full: string; slug?: string; long: boolean }[] = [];
+
+		for (const g of linked) {
 			const full = isEn && g.nameEn ? g.nameEn : g.name;
 			const name = full.length > LONG_NAME && g.abbr ? g.abbr : full;
-			return { name, full, slug: g.slug, long: name.length > LONG_NAME };
-		}),
-		...(profile?.unlinkedGroups ?? []).map((name) => ({
-			name,
-			full: name,
-			long: name.length > LONG_NAME,
-		})),
-	]);
+			seenNames.add(cleanGroupLabel(g.name).toLowerCase());
+			if (g.abbr) seenNames.add(cleanGroupLabel(g.abbr).toLowerCase());
+			if (g.nameEn) seenNames.add(cleanGroupLabel(g.nameEn).toLowerCase());
+			items.push({ name, full, slug: g.slug, long: name.length > LONG_NAME });
+		}
+
+		for (const rawName of profile?.unlinkedGroups ?? []) {
+			const cleaned = cleanGroupLabel(rawName);
+			const lower = cleaned.toLowerCase();
+			if (!cleaned || seenNames.has(lower)) continue;
+			seenNames.add(lower);
+			const trimmed = rawName.trim();
+			items.push({
+				name: trimmed,
+				full: trimmed,
+				long: trimmed.length > LONG_NAME,
+			});
+		}
+
+		return items;
+	});
 	const departments = $derived<Department[]>(
-		profile?.departments && profile.departments.length > 0
-			? profile.departments
-			: (graduate.departments ?? []),
+		[...new Set(
+			profile?.departments && profile.departments.length > 0
+				? profile.departments
+				: (graduate.departments ?? [])
+		)]
 	);
 
 	const rawMasters = $derived(
@@ -281,7 +301,16 @@
 
 	// Лише з профілю: в індексі посилань більше немає, і запасний шлях звідти
 	// був би мертвим кодом, який мовчки показує порожньо.
-	const socials = $derived(profile?.socials ?? []);
+	const socials = $derived.by(() => {
+		const list = profile?.socials ?? [];
+		const seen = new SvelteSet<string>();
+		return list.filter((s) => {
+			const k = `${s.network || ''}::${s.url || ''}`;
+			if (seen.has(k)) return false;
+			seen.add(k);
+			return true;
+		});
+	});
 	const hasPlays = $derived(Boolean(profile && profile.plays.length > 0));
 	/*
 	 * Знімки галереї — з анкети, і ТІЛЬКИ звідти.
@@ -989,7 +1018,7 @@
 				<div class="groups-container" data-testid="galaxy-card-group-text">
 					<span class="galaxy-block-title">{$t("galaxy.group")}:</span>
 					<ul class="groups-list">
-						{#each groupLinks as item (item.full)}
+						{#each groupLinks as item (item.slug ? `slug:${item.slug}` : `name:${item.full}`)}
 							{@const groupName = item.name}
 							<li class="group-item">
 								{#if item.slug}

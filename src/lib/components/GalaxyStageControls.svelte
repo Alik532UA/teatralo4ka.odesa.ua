@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
-	import { Search, GraduationCap, Globe, Theater, School, Drama, Gavel, Heart, Plus, Menu, X, Expand, Shrink, Play, Pause } from 'lucide-svelte';
+	import { Search, Spotlight, Theater, School, Drama, GraduationCap, BookHeart, Plus, Menu, X, Expand, Shrink, Play, Pause } from 'lucide-svelte';
+	import UserRoundGroup from '$lib/components/icons/UserRoundGroup.svelte';
 	import { localizedPath, type Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import { slideshow } from '$lib/services/graduateSlideshow.svelte';
@@ -129,13 +130,13 @@
 	 * підписана на сторінці поїздки.
 	 */
 	const ПЕРЕЛІКИ = [
-		{ icon: GraduationCap, href: `${БАЗА}groups/`, label: 'galaxy.groupsTitle', testid: 'galaxy-groups-link' },
-		{ icon: Globe, href: `${БАЗА}festivals/`, label: 'galaxy.festivalsTitle', testid: 'galaxy-festivals-link' },
+		{ icon: UserRoundGroup, href: `${БАЗА}groups/`, label: 'galaxy.groupsTitle', testid: 'galaxy-groups-link' },
+		{ icon: Spotlight, href: `${БАЗА}festivals/`, label: 'galaxy.festivalsTitle', testid: 'galaxy-festivals-link' },
 		{ icon: Theater, href: `${БАЗА}plays/`, label: 'galaxy.playsTitle', testid: 'galaxy-plays-link' },
 		{ icon: School, href: `${БАЗА}institutions/`, label: 'galaxy.institutionsTitle', testid: 'galaxy-institutions-link' },
 		{ icon: Drama, href: `${БАЗА}theatres/`, label: 'galaxy.theatresTitle', testid: 'galaxy-theatres-link' },
-		{ icon: Gavel, href: `${БАЗА}masters/`, label: 'galaxy.festivalExperts', testid: 'galaxy-experts-link' },
-		{ icon: Heart, href: `${БАЗА}friends/`, label: 'galaxy.friendsTitle', testid: 'galaxy-friends-link' }
+		{ icon: GraduationCap, href: `${БАЗА}masters/`, label: 'galaxy.mastersTitle', testid: 'galaxy-masters-link' },
+		{ icon: BookHeart, href: `${БАЗА}friends/`, label: 'galaxy.friendsTitle', testid: 'galaxy-friends-link' }
 	] as const;
 
 </script>

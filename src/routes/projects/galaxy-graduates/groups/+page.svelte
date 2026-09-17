@@ -180,7 +180,7 @@
 </script>
 
 <svelte:head>
-	<title>{$t('galaxy.groupsTitle', { default: 'Групи випускників' })} | {$t('hero.title')}</title>
+	<title>{$t('galaxy.groupsTitle', { default: 'Групи' })} | {$t('hero.title')}</title>
 </svelte:head>
 
 <main class="groups-page" data-testid="graduate-groups-panel">
@@ -194,7 +194,7 @@
 		/>
 
 		<GalaxyRegistryHeader
-			title={$t('galaxy.groupsTitle', { default: 'Групи випускників' })}
+			title={$t('galaxy.groupsTitle', { default: 'Групи' })}
 			titleTestId="galaxy-groups-title"
 			count={GROUPS.length}
 			searchValue={query}
