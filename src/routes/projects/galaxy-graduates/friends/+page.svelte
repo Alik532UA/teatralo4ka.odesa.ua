@@ -300,6 +300,8 @@
 		color: var(--accent-primary);
 	}
 	.friend__link:hover .friend__expert-btn {
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
 		border-color: var(--accent-primary);
 		transform: translateY(-1px);
 	}
@@ -318,6 +320,8 @@
 		color: var(--text-main);
 		align-self: start;
 		transition:
+			background var(--transition-base),
+			color var(--transition-base),
 			border-color var(--transition-base),
 			transform var(--transition-base);
 	}
