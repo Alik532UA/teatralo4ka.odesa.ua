@@ -761,7 +761,7 @@
 			неправильною в трьох випадках із чотирьох. Правило — у `masterLabel`.
 		-->
 		<span class="galaxy-block-title"
-			>{$t(masterLabel, { default: "Майстри курсу" })}:</span
+			>{$t(masterLabel, { default: "Майстри курсу" })}</span
 		>
 		<ul class="masters-list">
 			{#each normalizedMasters as master, index (index)}
@@ -800,7 +800,7 @@
 		data-testid="galaxy-card-teachers-text"
 	>
 		<span class="galaxy-block-title"
-			>{$t("galaxy.teachers", { default: "Викладачі" })}:</span
+			>{$t("galaxy.teachers", { default: "Викладачі" })}</span
 		>
 		<ul class="masters-list teachers-list">
 			{#each normalizedTeachers as teacher, index (index)}
@@ -865,19 +865,16 @@
 				data-block="plays"
 				data-testid="galaxy-card-plays-section"
 			>
-				{#if !hasPlays}
-					<!-- Заголовок, а під ним «інформація відсутня» і «+ додати». -->
-					<div class="block">
-						<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
-						<GraduateBlockEmpty
-							base="galaxy-card-plays"
-							{askForForm}
-							hasPhoto={!!graduate.hasPhoto}
-							onform={openForm}
-						/>
-					</div>
-				{:else}
 				<h3 class="block__title galaxy-block-title">{$t("galaxy.playsTitle")}</h3>
+				{#if !hasPlays}
+					<!-- «інформація відсутня» і «+ додати». -->
+					<GraduateBlockEmpty
+						base="galaxy-card-plays"
+						{askForForm}
+						hasPhoto={!!graduate.hasPhoto}
+						onform={openForm}
+					/>
+				{:else}
 				<ul
 					class="plays"
 					bind:this={playsListEl}
@@ -1030,7 +1027,7 @@
 
 			{#if groupLinks.length}
 				<div class="groups-container" data-testid="galaxy-card-group-text">
-					<span class="galaxy-block-title">{$t("galaxy.group")}:</span>
+					<span class="galaxy-block-title">{$t("galaxy.group")}</span>
 					<ul class="groups-list">
 						{#each groupLinks as item (item.slug ? `slug:${item.slug}` : `name:${item.full}`)}
 							{@const groupName = item.name}
@@ -1182,7 +1179,7 @@
 					за сусідні плашки. Так само зроблено в плашці вистав.
 				-->
 				<h3 class="block__title galaxy-block-title">
-					{$t("galaxy.gallery", { default: "Фотографії" })}:
+					{$t("galaxy.gallery", { default: "Фотографії" })}
 				</h3>
 				<!--
 					Той самий банер, що на сторінках груп, вистав і фестивалів:
@@ -1203,17 +1200,15 @@
 				{#if normalizedTeachers.length > 0}
 					{@render teachersContent()}
 				{:else}
-					<div class="block">
-						<h3 class="block__title galaxy-block-title">
-							{$t("galaxy.teachers", { default: "Викладачі" })}:
-						</h3>
-						<GraduateBlockEmpty
-							base="galaxy-card-teachers"
-							{askForForm}
-							hasPhoto={!!graduate.hasPhoto}
-							onform={openForm}
-						/>
-					</div>
+					<h3 class="block__title galaxy-block-title">
+						{$t("galaxy.teachers", { default: "Викладачі" })}
+					</h3>
+					<GraduateBlockEmpty
+						base="galaxy-card-teachers"
+						{askForForm}
+						hasPhoto={!!graduate.hasPhoto}
+						onform={openForm}
+					/>
 				{/if}
 			</div>
 {/snippet}
@@ -1651,7 +1646,7 @@
 			container-type: inline-size;
 		}
 		.bento-card {
-			padding: clamp(1.1rem, 2.2vh, 1.6rem);
+			padding: 0.85rem clamp(1.1rem, 2.2vh, 1.6rem) clamp(1.1rem, 2.2vh, 1.6rem);
 		}
 		.bento-card--main .name {
 			font-size: clamp(1.3rem, 3.5dvh, 1.7rem);
@@ -1701,11 +1696,14 @@
 			font-size: 0.95rem;
 		}
 		.bento-card--bio {
-			padding: clamp(1.1rem, 2.2vh, 1.6rem);
+			padding: 0.85rem clamp(1.1rem, 2.2vh, 1.6rem) clamp(1.1rem, 2.2vh, 1.6rem);
 		}
 		.bento-card--bio .block {
 			margin-top: 0;
 			margin-bottom: 1.25rem;
+		}
+		.bento-card--bio > :first-child {
+			margin-top: 0;
 		}
 		.bento-card--bio .block__title {
 			margin: 0 0 0.5rem;
@@ -1724,7 +1722,7 @@
 			border: var(--hairline-width) solid rgb(140 190 255 / 0.2);
 			border-radius: 1.5rem;
 			box-shadow: 0 16px 48px rgb(0 0 0 / 0.4);
-			padding: clamp(1.1rem, 2.2vh, 1.6rem);
+			padding: 0.85rem clamp(1.1rem, 2.2vh, 1.6rem) clamp(1.1rem, 2.2vh, 1.6rem);
 		}
 		/*
 		 * Останнє магічне число, що лишалося після зняття стель у колонках:

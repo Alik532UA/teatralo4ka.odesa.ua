@@ -94,7 +94,7 @@
 {#if festivals.length}
 	<div class="fests" data-testid="{testIdPrefix}-list">
 		{#if showTitle}
-			<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}:</span>
+			<span class="galaxy-block-title">{$t('galaxy.festivalsTitle')}</span>
 		{/if}
 		<ul class="fests__list">
 			{#each festivals as festival (festival.slug)}

@@ -49,7 +49,7 @@
 {#if theatres.length}
 	<div class="fests" data-testid="{testIdPrefix}-list">
 		{#if showTitle}
-			<span class="galaxy-block-title">{$t('galaxy.theatresTitle', { default: 'Театри' })}:</span>
+			<span class="galaxy-block-title">{$t('galaxy.theatresTitle', { default: 'Театри' })}</span>
 		{/if}
 		<ul class="fests__list">
 			{#each theatres as { theatre, member } (theatre.slug)}

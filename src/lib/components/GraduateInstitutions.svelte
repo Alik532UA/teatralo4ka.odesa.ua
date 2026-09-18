@@ -205,7 +205,8 @@
 	 * (`GraduateFestivals`). Тут використовується той самий спільний клас.
 	 */
 	.inst-block {
-		margin-top: 1.1rem;
+		margin-top: 0;
+		margin-bottom: 1.25rem;
 		text-align: left;
 	}
 	.line {
