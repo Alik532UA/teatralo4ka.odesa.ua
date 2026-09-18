@@ -1,5 +1,6 @@
 import { error, redirect } from '@sveltejs/kit';
 import { EXPERTS, getExpertBySlug, expertPath } from '$lib/data/experts';
+import { getFriendByExpertSlug } from '$lib/data/friends';
 import { FESTIVALS, festivalPath } from '$lib/data/festivals';
 import { INSTITUTIONS, institutionPath } from '$lib/data/institutions';
 import { expertNewsKey, loadPersonNews } from '$lib/data/newsBacklinks';
@@ -104,8 +105,11 @@ export const load: PageLoad = async ({ params, url, fetch }) => {
 		appearances.length ? `${appearances.length} × ${words.festivalTail}` : undefined
 	]);
 
+	const friend = getFriendByExpertSlug(expert.slug) ?? null;
+
 	return {
 		expert,
+		friend,
 		appearances,
 		students: студенти.map((x) => x.graduate),
 		news: новини,

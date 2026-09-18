@@ -308,3 +308,34 @@ describe('шар одруків вмикається не завжди', () => {
 		expect(searchEntries(короткі, 'радок').map((h) => h.id)).toEqual(['x:sadok']);
 	});
 });
+
+describe('galaxyEntries: митці та друзі', () => {
+	it('індексує фахівців (Олег Стефан) з правильним посиланням на сторінку митця', async () => {
+		const { galaxyEntries } = await import('$lib/services/searchGalaxy');
+		const entries = galaxyEntries();
+		const stefan = entries.find((e) => e.title === 'Олег Стефан');
+		expect(stefan).toBeDefined();
+		expect(stefan?.href).toBe('/projects/galaxy-graduates/masters/oleh-stefan/');
+		expect(stefan?.kind).toBe('galaxy');
+		expect(stefan?.text).toContain('Львів');
+		expect(stefan?.text).toContain('Мрій-Дім');
+
+		const hits = searchEntries(entries, 'Олег Стефан');
+		expect(hits.length).toBeGreaterThan(0);
+		expect(hits[0].id).toBe('expert:oleh-stefan');
+	});
+
+	it('індексує друзів без власної сторінки з посиланням на /friends/', async () => {
+		const { galaxyEntries } = await import('$lib/services/searchGalaxy');
+		const entries = galaxyEntries();
+		const barskyi = entries.find((e) => e.title === 'Борис Барський');
+		expect(barskyi).toBeDefined();
+		expect(barskyi?.href).toBe('/projects/galaxy-graduates/friends/');
+		expect(barskyi?.kind).toBe('galaxy');
+
+		const hits = searchEntries(entries, 'Борис Барський');
+		expect(hits.length).toBeGreaterThan(0);
+		expect(hits[0].id).toBe('friend:borys-barskyi');
+	});
+});
+

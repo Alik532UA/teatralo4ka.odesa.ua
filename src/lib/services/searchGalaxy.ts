@@ -5,6 +5,8 @@ import { FESTIVALS, festivalPath } from '$lib/data/festivals';
 import { INSTITUTIONS, institutionPath } from '$lib/data/institutions';
 import { THEATRES, theatrePath } from '$lib/data/theatres';
 import { MASTERS, masterProfilePath } from '$lib/data/masters';
+import { EXPERTS, expertPath } from '$lib/data/experts';
+import { FRIENDS } from '$lib/data/friends';
 import { isMasterListed } from '$lib/config/mastersVisibility';
 import type { SearchEntry } from '$lib/utils/siteSearch';
 
@@ -192,6 +194,46 @@ export function galaxyEntries(
 				.join(' ')
 		});
 	}
+
+	/*
+	 * Запрошені фахівці та зіркові митці фестивалів.
+	 *
+	 * Живуть у `/projects/galaxy-graduates/masters/<slug>/`. Шукаються за
+	 * іменем, містом, посадами, фестивалями та картками зіркових друзів.
+	 */
+	for (const e of EXPERTS) {
+		if (e.hidden) continue;
+		const titles = e.titles.map((t) => t.text);
+		const fests = FESTIVALS.filter(
+			(f) => f.expertIds?.includes(e.slug) || f.coachIds?.includes(e.slug) || f.guestIds?.includes(e.slug)
+		).map((f) => f.name);
+		const friend = FRIENDS.find((f) => f.expertSlug === e.slug);
+		const friendText = friend ? [friend.role.uk, friend.role.en, 'зіркові друзі', 'друг школи'] : [];
+		out.push({
+			id: `expert:${e.slug}`,
+			title: e.name,
+			href: `${expertPath(e.slug)}/`,
+			kind: 'galaxy',
+			text: [e.name, e.nameEn, e.city, ...titles, ...fests, ...friendText].filter(Boolean).join(' ')
+		});
+	}
+
+	/*
+	 * Зіркові друзі школи без власної сторінки фахівця.
+	 *
+	 * Ведуть у загальний розділ карток `/projects/galaxy-graduates/friends/`.
+	 */
+	for (const f of FRIENDS) {
+		if (f.expertSlug) continue;
+		out.push({
+			id: `friend:${f.slug}`,
+			title: f.name,
+			href: '/projects/galaxy-graduates/friends/',
+			kind: 'galaxy',
+			text: [f.name, f.nameEn, f.role.uk, f.role.en, 'зіркові друзі', 'друг школи'].filter(Boolean).join(' ')
+		});
+	}
+
 
 	/*
 	 * Текст анкет — накладкою поверх готових записів.

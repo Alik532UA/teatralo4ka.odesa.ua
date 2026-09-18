@@ -62,3 +62,9 @@ export function matchesFriendQuery(friend: Friend, query: string): boolean {
 		.toLowerCase()
 		.includes(q);
 }
+
+/** Знайти картку друга школи за ключем фахівця/майстра. */
+export function getFriendByExpertSlug(expertSlug: string): Friend | undefined {
+	return FRIENDS.find((f) => f.expertSlug === expertSlug);
+}
+

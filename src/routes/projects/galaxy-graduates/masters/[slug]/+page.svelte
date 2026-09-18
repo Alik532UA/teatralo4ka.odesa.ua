@@ -12,6 +12,7 @@
 		graduateFromPageState,
 		openGraduateModal
 	} from '$lib/services/graduateModal.svelte';
+	import ExpertFriendCard from '$lib/components/galaxy/ExpertFriendCard.svelte';
 	import type { PageData } from './$types';
 
 	/**
@@ -131,6 +132,10 @@
 				</a>
 			{/each}
 		</p>
+	{/if}
+
+	{#if data.friend}
+		<ExpertFriendCard friend={data.friend} {name} {currentLang} />
 	{/if}
 
 	{#if data.appearances.length > 0}

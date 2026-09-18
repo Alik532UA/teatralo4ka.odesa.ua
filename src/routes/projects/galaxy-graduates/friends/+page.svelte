@@ -144,46 +144,64 @@
 		<ul class="friends-grid" class:friends-grid--list={вигляд.current === 'list'} data-testid="galaxy-friends-list">
 			{#each знайдені as друг, i (друг.slug)}
 				<li class="friend" data-testid="galaxy-friends-card-{друг.slug}">
-					<!--
-						Кнопка, а не посилання: картка нікуди не веде, вона
-						розгортається на місці. Посилання пообіцяло б сторінку,
-						якої немає.
-					-->
-					{#if вигляд.current === 'tiles'}
-					<button
-						type="button"
-						class="friend__shot"
-						onclick={() => відкрити(i)}
-						aria-label={`${імя(друг)} — ${$t('galaxy.friendOpenCard')}`}
-						data-testid="galaxy-friends-open-btn-{друг.slug}"
-					>
-						<img
-							src={asset(`${FRIENDS_DIR}/${друг.slug}-480.webp`)}
-							width={друг.thumb.w}
-							height={друг.thumb.h}
-							alt={імя(друг)}
-							loading="lazy"
-						/>
-					</button>
-					{/if}
-					<div class="friend__text">
-						<span class="friend__name">{імя(друг)}</span>
-						<span class="friend__role">{друг.role[lang]}</span>
-						{#if друг.expertSlug}
-							<!--
-								Дев'ятеро з двадцяти двох приїздили до нас у журі чи
-								на майстер-клас — у них є ще й сторінка фахівця, і
-								мовчати про неї означало б лишити картку глухим кутом.
-							-->
-							<a
-								class="friend__expert"
-								href={localizedPath(expertPath(друг.expertSlug), lang)}
-								data-testid="galaxy-friends-expert-link-{друг.slug}"
+					{#if друг.expertSlug}
+						<!--
+							Для митців із власною сторінкою вся картка (зображення, ім'я,
+							опис, кнопка) веде на сторінку митця, а повний знімок
+							розгортається вже на ній.
+						-->
+						<a
+							class="friend__link"
+							href={localizedPath(expertPath(друг.expertSlug), lang)}
+							data-testid="galaxy-friends-expert-link-{друг.slug}"
+							aria-label={`${імя(друг)} — ${$t('galaxy.friendExpertLink')}`}
+						>
+							{#if вигляд.current === 'tiles'}
+								<div class="friend__shot">
+									<img
+										src={asset(`${FRIENDS_DIR}/${друг.slug}-480.webp`)}
+										width={друг.thumb.w}
+										height={друг.thumb.h}
+										alt={імя(друг)}
+										loading="lazy"
+									/>
+								</div>
+							{/if}
+							<div class="friend__text">
+								<span class="friend__name">{імя(друг)}</span>
+								<span class="friend__role">{друг.role[lang]}</span>
+								<span class="friend__expert-btn">
+									{$t('galaxy.friendExpertLink')}
+								</span>
+							</div>
+						</a>
+					{:else}
+						<!--
+							Картка без власної сторінки: розгортається на весь екран
+							на місці у фотолайтбоксі.
+						-->
+						{#if вигляд.current === 'tiles'}
+							<button
+								type="button"
+								class="friend__shot"
+								onclick={() => відкрити(i)}
+								aria-label={`${імя(друг)} — ${$t('galaxy.friendOpenCard')}`}
+								data-testid="galaxy-friends-open-btn-{друг.slug}"
 							>
-								{$t('galaxy.friendExpertLink')}
-							</a>
+								<img
+									src={asset(`${FRIENDS_DIR}/${друг.slug}-480.webp`)}
+									width={друг.thumb.w}
+									height={друг.thumb.h}
+									alt={імя(друг)}
+									loading="lazy"
+								/>
+							</button>
 						{/if}
-					</div>
+						<div class="friend__text">
+							<span class="friend__name">{імя(друг)}</span>
+							<span class="friend__role">{друг.role[lang]}</span>
+						</div>
+					{/if}
 				</li>
 			{/each}
 		</ul>
@@ -267,10 +285,40 @@
 		font-size: 0.85rem;
 		color: var(--text-muted);
 	}
-	.friend__expert {
-		margin-top: 0.25rem;
+	.friend__link {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		text-decoration: none;
+		color: inherit;
+	}
+	.friend__link:hover .friend__shot {
+		border-color: var(--accent-primary);
+		transform: translateY(-2px);
+	}
+	.friend__link:hover .friend__name {
+		color: var(--accent-primary);
+	}
+	.friend__link:hover .friend__expert-btn {
+		border-color: var(--accent-primary);
+		transform: translateY(-1px);
+	}
+
+	.friend__expert-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 0.35rem;
+		padding: 0.35rem 0.85rem;
 		font-size: 0.85rem;
+		font-weight: 600;
+		border-radius: var(--radius-full, 9999px);
+		border: var(--hairline-width) solid var(--border-main);
+		background: var(--bg-surface);
 		color: var(--text-main);
 		align-self: start;
+		transition:
+			border-color var(--transition-base),
+			transform var(--transition-base);
 	}
 </style>
