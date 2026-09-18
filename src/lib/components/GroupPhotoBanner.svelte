@@ -227,22 +227,34 @@
 		{@attach galleryGestures(gestures)}
 		data-testid="group-photo-banner"
 	>
-		{#each photos as photo, i (photo)}
-			{@const size = imageSize(photo as LocalImage)}
-			<img
-				src={asset(photo)}
-				alt={title}
-				class="banner__img"
-				class:is-active={активний === i}
-				loading="eager"
-				fetchpriority={i === 0 ? 'high' : 'low'}
-				decoding="async"
-				width={size.width}
-				height={size.height}
-				data-testid="group-photo-img-{i}"
-			/>
-		{/each}
-
+		<div class="banner__viewport">
+			<div
+				class="banner__track"
+				style="transform: translateX(-{активний * 100}%);"
+			>
+				{#each photos as photo, i (photo)}
+					{@const size = imageSize(photo as LocalImage)}
+					<div
+						class="banner__slide"
+						class:is-active={активний === i}
+						aria-hidden={активний !== i}
+					>
+						<img
+							src={asset(photo)}
+							alt={title}
+							class="banner__img"
+							class:is-active={активний === i}
+							loading="eager"
+							fetchpriority={i === 0 ? 'high' : 'low'}
+							decoding="async"
+							width={size.width}
+							height={size.height}
+							data-testid="group-photo-img-{i}"
+						/>
+					</div>
+				{/each}
+			</div>
+		</div>
 
 		<button
 			type="button"
@@ -366,7 +378,48 @@
 	   ПОВЕРХ знімка й не займає місця, тож не змінює його пропорцій. */
 
 
-	/* Стопка: усі знімки один на одному, видно лише активний. */
+	.banner__viewport {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		border-radius: 20px;
+	}
+
+	.banner__track {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		width: 100%;
+		height: 100%;
+		transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: transform;
+	}
+
+	.banner__slide {
+		flex: 0 0 100%;
+		width: 100%;
+		height: 100%;
+		min-width: 100%;
+		max-width: 100%;
+		position: relative;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition:
+			opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+			transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+		opacity: 0.35;
+		transform: scale(0.97);
+	}
+
+	.banner__slide.is-active {
+		opacity: 1;
+		transform: scale(1);
+	}
+
 	/*
 	 * Знімок займає РІВНО свій прямокутник, а не всю коробку.
 	 *
@@ -392,9 +445,9 @@
 		outline: 16px solid light-dark(rgb(0 0 0 / 0.08), rgba(255, 255, 255, 0.15));
 		outline-offset: -16px;
 		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-		opacity: 0;
+		opacity: 0.35;
 		transition:
-			opacity 0.6s ease,
+			opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
 			box-shadow 0.4s ease;
 	}
 

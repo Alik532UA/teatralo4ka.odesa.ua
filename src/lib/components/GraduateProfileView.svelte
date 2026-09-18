@@ -30,6 +30,7 @@
 	import GroupMatesRow from "$lib/components/GroupMatesRow.svelte";
 	import GraduateBlockEmpty from "$lib/components/GraduateBlockEmpty.svelte";
 	import GroupPhotoBanner from "$lib/components/GroupPhotoBanner.svelte";
+	import GraduateNewsBanner from "$lib/components/GraduateNewsBanner.svelte";
 	import { getFestivalsByMember } from "$lib/data/festivals";
 	import { theatresOfGraduate } from "$lib/data/theatres";
 	import GraduateInstitutions from "$lib/components/GraduateInstitutions.svelte";
@@ -1309,30 +1310,9 @@
 {/snippet}
 
 {#snippet newsCard()}
-	<div class="bento-card" data-block="news" data-testid="galaxy-card-news-card">
-		<div class="block">
-			<h3 class="block__title galaxy-block-title">{$t("nav.news")}</h3>
-			<!--
-				Рядками, а не плитками: зріз возить лише назву й дату, обкладинки
-				в нього немає, і плитка з самим заголовком виглядала б як картка,
-				що не завантажилась. Те саме рішення й тими самими словами — у
-				розділі новин на сторінці фестивалю.
-			-->
-			<ul class="news-list" data-testid="galaxy-card-news-list">
-				{#each news as новина (новина.id)}
-					<li>
-						<a
-							class="news-list__item"
-							href={localizedPath(`/news/${новина.id}`, lang)}
-							data-testid="galaxy-card-news-link-{новина.id}"
-						>
-							<span class="news-list__title">{новина.title[lang]}</span>
-							<time class="news-list__date" datetime={новина.date}>{новина.date}</time>
-						</a>
-					</li>
-				{/each}
-			</ul>
-		</div>
+	<div class="bento-card bento-card--news" data-block="news" data-testid="galaxy-card-news-card">
+		<h3 class="block__title galaxy-block-title">{$t("nav.news")}</h3>
+		<GraduateNewsBanner {news} {lang} />
 	</div>
 {/snippet}
 
@@ -1516,33 +1496,8 @@
 	 * «налізають на фотографії». Вісім пікселів — рівно та відстань, на якій
 	 * видно, що це підпис під знімком, а не частина його.
 	 */
-	.news-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		gap: 0.4rem;
-	}
-	.news-list__item {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0.2rem 0.6rem;
-		color: inherit;
-		text-decoration: none;
-	}
-	.news-list__item:hover .news-list__title {
-		text-decoration: underline;
-	}
-	.news-list__title {
-		flex: 1 1 10rem;
-		min-width: 0;
-		font-weight: 600;
-	}
-	.news-list__date {
-		flex: none;
-		font-size: 0.82rem;
-		color: var(--galaxy-muted);
+	.bento-card--news {
+		position: relative;
 	}
 	.bento-card--gallery {
 		--banner-gap: 0.5rem;

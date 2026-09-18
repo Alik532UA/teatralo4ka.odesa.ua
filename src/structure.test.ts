@@ -746,7 +746,15 @@ const CEILINGS: Record<string, number> = {
 	 * 2026-09-18: 300 → 355. Плавне перемикання трьох YouTube-профілів при скролі
 	 * (анімація стеку облич, прозорий бейдж без темного кола, пружинний відгук).
 	 */
-	'src/lib/components/GalaxyUpdateIllustration.svelte': 355
+	'src/lib/components/GalaxyUpdateIllustration.svelte': 355,
+	/*
+	 * 2026-09-18: 300 → 340. Плавна анімація гортання фото з горизонтальним треком та м'яким масштабуванням.
+	 */
+	'src/lib/components/GroupPhotoBanner.svelte': 340,
+	/*
+	 * 2026-09-18: банер новин у галактичній темі для сторінки випускника: вертикальні обкладинки 9:16, слайд-трек, адаптивна картка.
+	 */
+	'src/lib/components/GraduateNewsBanner.svelte': 440
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {
