@@ -7,14 +7,69 @@
 	"departments": [
 		"intensive"
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Заручини», Розель",
+			"playId": "zaruchyny-2026",
+			"role": "Розель"
+		}
+	],
 	"bio": [],
 	"afterGraduation": "Вступ 2026: КНУТКіТ, акторський, курс Д. Богомазова",
-	"socials": [],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/nastiiiaivanova"
+		}
+	],
 	"festivals": [],
+	"enrollmentYears": [
+		2024
+	],
+	"hasPhoto": true,
 	"masters": [
 		{
 			"id": "fedir-tkach"
 		}
+	],
+	"teachers": [
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Історія театру",
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічний рух"
+			]
+		}
+	],
+	"gallery": [
+		"/graduates/gallery/anastasiia-ivanova/01.webp",
+		"/graduates/gallery/anastasiia-ivanova/02.webp"
 	]
 }

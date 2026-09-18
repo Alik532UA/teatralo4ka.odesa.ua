@@ -131,4 +131,6 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/dariia-kulish/07.webp': { width: 807, height: 605 },
 	'/graduates/gallery/dariia-kulish/08.webp': { width: 604, height: 453 },
 	'/graduates/gallery/dariia-kulish/09.webp': { width: 1280, height: 960 },
+	'/graduates/gallery/anastasiia-ivanova/01.webp': { width: 696, height: 821 },
+	'/graduates/gallery/anastasiia-ivanova/02.webp': { width: 1280, height: 720 },
 } as const;

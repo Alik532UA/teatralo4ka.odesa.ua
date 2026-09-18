@@ -1706,10 +1706,10 @@
 		]
 	},
 	{
-		"slug": "kaktus-pasha",
-		"name": "Кактус+Паша",
+		"slug": "kaktus",
+		"name": "Кактус",
 		"abbr": null,
-		"nameEn": "Kaktus + Pasha",
+		"nameEn": "Kaktus",
 		"verificationStatus": "possible_errors",
 		"isCurrent": false,
 		"masters": [
@@ -1722,11 +1722,14 @@
 		"graduationYears": [
 			2026
 		],
-		"memberIds": [],
+		"memberIds": [
+			"anastasiia-ivanova"
+		],
 		"playIds": [
 			"zaruchyny-2026"
 		]
 	},
+
 	{
 		"slug": "kuvyrkom",
 		"name": "«Кувирком»",

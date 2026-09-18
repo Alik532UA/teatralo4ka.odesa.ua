@@ -83,6 +83,7 @@
 	const КАДРИ = [
 		{ slug: 'albina-abuladze', file: '01.webp' },
 		{ slug: 'alik-zapolnov', file: '20.webp' },
+		{ slug: 'anastasiia-ivanova', file: '01.webp' },
 		{ slug: 'anastasiia-moldovanu', file: '02.webp' },
 		{ slug: 'dariia-kulish', file: '01.webp' },
 		{ slug: 'kateryna-nesterenko', file: '05.webp' },
@@ -91,6 +92,7 @@
 		{ slug: 'nikol-onyshchenko', file: '01.webp' },
 		{ slug: 'albina-abuladze', file: '02.webp' },
 		{ slug: 'alik-zapolnov', file: '02.webp' },
+		{ slug: 'anastasiia-ivanova', file: '02.webp' },
 		{ slug: 'anastasiia-moldovanu', file: '04.webp' },
 		{ slug: 'dariia-kulish', file: '04.webp' },
 		{ slug: 'kateryna-nesterenko', file: '03.webp' },
