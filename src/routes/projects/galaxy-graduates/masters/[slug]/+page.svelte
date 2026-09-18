@@ -56,9 +56,9 @@
 
 	const roleLabel: Record<string, string> = {
 		experts: 'galaxy.festivalExperts',
-		jury: 'galaxy.festivalJury',
-		coaches: 'galaxy.festivalCoaches',
-		guests: 'galaxy.festivalGuests'
+		jury: 'galaxy.festivalJuryMember',
+		coaches: 'galaxy.festivalCoach',
+		guests: 'galaxy.festivalGuest'
 	};
 </script>
 
