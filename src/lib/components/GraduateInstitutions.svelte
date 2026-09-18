@@ -2,6 +2,7 @@
 	import { t, locale } from 'svelte-i18n';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { asset } from '$app/paths';
+	import { School } from 'lucide-svelte';
 	import { institutionPath, institutionsOfGraduate } from '$lib/data/institutions';
 	import { expertPath, getExpertBySlug, type Expert } from '$lib/data/experts';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
@@ -87,11 +88,11 @@
 			<p class="line" data-testid="{testIdPrefix}-item-{institution.slug}">
 				{#if student.year}<span class="line__year">{student.year}</span>{/if}
 				<a
-					class="line__link"
+					class="inst-button"
 					href={localizedPath(institutionPath(institution.slug), lang)}
+					title={institution.fullName || (isEn && institution.nameEn ? institution.nameEn : institution.name)}
 					data-testid="{testIdPrefix}-link-{institution.slug}"
-					>{isEn && institution.nameEn ? institution.nameEn : institution.name}</a
-				>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}<span class="master-item">{#if student.masterSlug}{@const expert = getExpertBySlug(student.masterSlug)}<!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
+				><span class="inst-badge" aria-hidden="true"><School size={15} /></span><span class="inst-name">{isEn && institution.nameEn ? institution.nameEn : institution.name}</span></a>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}<span class="master-item">{#if student.masterSlug}{@const expert = getExpertBySlug(student.masterSlug)}<!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
 							class="master-link-wrapper"
 							href={localizedPath(expertPath(student.masterSlug), lang)}
 							title={expert ? (isEn && expert.nameEn ? expert.nameEn : expert.name) : student.master}
@@ -219,19 +220,47 @@
 		font-variant-numeric: tabular-nums;
 		color: var(--galaxy-muted, var(--text-muted));
 	}
-	/*
-	 * Підкреслення — не косметика, а вимога WCAG 2.2 SC 1.4.1: посилання
-	 * всередині речення не має права відрізнятися від сусідніх слів ЛИШЕ
-	 * кольором. Той самий дефект уже знайдено в новині 4 вересня 2026, і його
-	 * стереже `e2e/link-affordance.spec.ts`.
-	 */
-	.line__link {
-		color: var(--galaxy-accent, var(--accent-primary));
-		font-weight: 600;
-		text-decoration: underline;
-		text-underline-offset: 0.2em;
+	.inst-button {
+		display: inline-flex;
+		vertical-align: middle;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.2rem 0.6rem;
+		background: rgb(255 255 255 / 0.06);
+		border-radius: 6px;
+		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		color: var(--galaxy-accent, #8cc4ff);
+		text-decoration: none;
+		transition:
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease,
+			transform 0.15s ease;
 	}
-	.line__link:hover {
-		text-decoration-thickness: 2px;
+	.inst-button:hover {
+		background: rgb(255 255 255 / 0.12);
+		border-color: rgb(140 190 255 / 0.4);
+		color: #ffffff;
+		transform: translateY(-1px);
+	}
+	.inst-button:focus-visible {
+		outline: 2px solid var(--galaxy-accent, #8cc4ff);
+		outline-offset: 2px;
+	}
+	.inst-badge {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--galaxy-accent, #8cc4ff);
+		flex-shrink: 0;
+	}
+	.inst-button:hover .inst-badge {
+		color: #ffffff;
+	}
+	.inst-name {
+		font-size: 0.92rem;
+		font-weight: 600;
+		color: inherit;
+		text-decoration: none;
 	}
 </style>
