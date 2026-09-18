@@ -1691,7 +1691,7 @@
 		}
 		.bento-card--main .master-link-wrapper,
 		.bento-card--faculty .master-link-wrapper {
-			padding: 0.25rem 0.75rem;
+			padding: 0.35rem 0.75rem;
 		}
 		.bento-card--main .master-name,
 		.bento-card--faculty .master-name {
@@ -2057,27 +2057,28 @@
 		flex-direction: column;
 		align-items: stretch;
 		padding: 0;
-		background: rgb(255 255 255 / 0.06);
-		border-radius: 6px;
-		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		background: var(--fest-surface, rgb(255 255 255 / 0.07));
+		border-radius: var(--radius-md, 12px);
+		border: var(--hairline-width) solid var(--fest-border, rgb(140 190 255 / 0.25));
+		color: var(--fest-text, var(--galaxy-text));
 		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.15s ease;
+			background var(--transition-base, 0.2s ease),
+			border-color var(--transition-base, 0.2s ease),
+			transform var(--transition-base, 0.2s ease);
 		width: max-content;
 		max-width: 100%;
 		box-sizing: border-box;
 	}
 	.group-item:has(a:hover) {
 		background: rgb(255 255 255 / 0.12);
-		border-color: rgb(140 190 255 / 0.4);
-		transform: translateY(-1px);
+		border-color: var(--galaxy-accent, #8cc4ff);
+		transform: translateX(3px);
 	}
 	.group-link-wrapper {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.25rem 0.75rem;
+		padding: 0.35rem 0.75rem;
 		color: inherit;
 		text-decoration: none;
 		border-radius: inherit;
@@ -2144,24 +2145,25 @@
 		display: inline-flex;
 		align-items: stretch;
 		padding: 0;
-		background: rgb(255 255 255 / 0.06);
-		border-radius: 6px;
-		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		background: var(--fest-surface, rgb(255 255 255 / 0.07));
+		border-radius: var(--radius-md, 12px);
+		border: var(--hairline-width) solid var(--fest-border, rgb(140 190 255 / 0.25));
+		color: var(--fest-text, var(--galaxy-text));
 		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.15s ease;
+			background var(--transition-base, 0.2s ease),
+			border-color var(--transition-base, 0.2s ease),
+			transform var(--transition-base, 0.2s ease);
 	}
 	.master-item:has(a:hover) {
 		background: rgb(255 255 255 / 0.12);
-		border-color: rgb(140 190 255 / 0.4);
-		transform: translateY(-1px);
+		border-color: var(--galaxy-accent, #8cc4ff);
+		transform: translateX(3px);
 	}
 	.master-link-wrapper {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		padding: 0.25rem 0.75rem;
+		padding: 0.35rem 0.75rem;
 		color: inherit;
 		text-decoration: none;
 		border-radius: inherit;
@@ -2174,24 +2176,25 @@
 		box-sizing: border-box;
 		text-align: left;
 		padding: 0;
-		border-radius: 8px;
-		background: rgb(255 255 255 / 0.04);
-		border: var(--hairline-width) solid rgb(255 255 255 / 0.07);
+		border-radius: var(--radius-md, 12px);
+		background: var(--fest-surface, rgb(255 255 255 / 0.07));
+		border: var(--hairline-width) solid var(--fest-border, rgb(140 190 255 / 0.25));
+		color: var(--fest-text, var(--galaxy-text));
 		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.15s ease;
+			background var(--transition-base, 0.2s ease),
+			border-color var(--transition-base, 0.2s ease),
+			transform var(--transition-base, 0.2s ease);
 	}
 	.teacher-item:has(a:hover) {
-		background: rgb(255 255 255 / 0.08);
-		border-color: rgb(140 190 255 / 0.3);
-		transform: translateY(-1px);
+		background: rgb(255 255 255 / 0.12);
+		border-color: var(--galaxy-accent, #8cc4ff);
+		transform: translateX(3px);
 	}
 	.teacher-link-wrapper {
 		display: flex;
 		align-items: flex-start;
 		gap: 0.5rem;
-		padding: 0.35rem 0.6rem;
+		padding: 0.4rem 0.75rem;
 		width: 100%;
 		box-sizing: border-box;
 		text-align: left;

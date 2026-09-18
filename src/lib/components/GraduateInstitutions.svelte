@@ -135,24 +135,25 @@
 		vertical-align: middle;
 		align-items: stretch;
 		padding: 0;
-		background: rgb(255 255 255 / 0.06);
-		border-radius: 6px;
-		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		background: var(--fest-surface, rgb(255 255 255 / 0.07));
+		border-radius: var(--radius-md, 12px);
+		border: var(--hairline-width) solid var(--fest-border, rgb(140 190 255 / 0.25));
+		color: var(--fest-text, var(--galaxy-text));
 		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.15s ease;
+			background var(--transition-base, 0.2s ease),
+			border-color var(--transition-base, 0.2s ease),
+			transform var(--transition-base, 0.2s ease);
 	}
 	.master-item:has(a:hover) {
 		background: rgb(255 255 255 / 0.12);
-		border-color: rgb(140 190 255 / 0.4);
-		transform: translateY(-1px);
+		border-color: var(--galaxy-accent, #8cc4ff);
+		transform: translateX(3px);
 	}
 	.master-link-wrapper {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.45rem;
-		padding: 0.2rem 0.6rem;
+		padding: 0.35rem 0.7rem;
 		color: inherit;
 		text-decoration: none;
 		border-radius: inherit;
@@ -224,24 +225,24 @@
 		display: inline-flex;
 		vertical-align: middle;
 		align-items: center;
-		gap: 0.4rem;
-		padding: 0.2rem 0.6rem;
-		background: rgb(255 255 255 / 0.06);
-		border-radius: 6px;
-		border: var(--hairline-width) solid rgb(255 255 255 / 0.1);
+		gap: 0.45rem;
+		padding: 0.35rem 0.7rem;
+		border-radius: var(--radius-md, 12px);
+		background: var(--fest-surface, rgb(255 255 255 / 0.07));
+		border: var(--hairline-width) solid var(--fest-border, rgb(140 190 255 / 0.25));
 		color: var(--galaxy-accent, #8cc4ff);
 		text-decoration: none;
 		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease,
-			transform 0.15s ease;
+			background var(--transition-base, 0.2s ease),
+			border-color var(--transition-base, 0.2s ease),
+			color var(--transition-base, 0.2s ease),
+			transform var(--transition-base, 0.2s ease);
 	}
 	.inst-button:hover {
 		background: rgb(255 255 255 / 0.12);
-		border-color: rgb(140 190 255 / 0.4);
+		border-color: var(--galaxy-accent, #8cc4ff);
 		color: #ffffff;
-		transform: translateY(-1px);
+		transform: translateX(3px);
 	}
 	.inst-button:focus-visible {
 		outline: 2px solid var(--galaxy-accent, #8cc4ff);
