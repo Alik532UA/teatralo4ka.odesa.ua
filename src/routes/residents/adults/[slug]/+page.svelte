@@ -14,6 +14,7 @@
 	import { playsByIds } from '$lib/data/plays';
 	import { yearsOfService, pluralKey } from '$lib/data/masters';
 	import { bioParagraphs } from '$lib/utils/bioParagraphs';
+	import { graduatePageLabelKey, graduatePageDefaultText } from '$lib/utils/masterLabel';
 	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
 	import type { PageData } from './$types';
 
@@ -208,7 +209,7 @@
 								class="graduate-link"
 								data-testid="master-profile-graduate-link"
 							>
-								<span>{$t('galaxy.graduatePageLink', { default: 'Сторінка випускника' })}</span>
+								<span>{$t(graduatePageLabelKey(data.master), { default: graduatePageDefaultText(data.master) })}</span>
 								{#if data.alsoGraduate.graduationYear}
 									<span class="graduate-link__year">{data.alsoGraduate.graduationYear}</span>
 								{/if}

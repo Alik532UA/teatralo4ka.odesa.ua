@@ -9,7 +9,7 @@
 	import { masterProfilePath, type Master } from '$lib/data/masters';
 	import type { GraduateIndexEntry } from '$lib/data/graduates';
 	import { openGraduateModal } from '$lib/services/graduateModal.svelte';
-	import { dualRoleMasterLabelKey } from '$lib/utils/masterLabel';
+	import { dualRoleMasterLabelKey, graduatePageLabelKey, graduatePageDefaultText } from '$lib/utils/masterLabel';
 
 	/**
 	 * Вибір, яку зі ДВОХ сторінок відкрити, коли людина є і випускником, і
@@ -139,7 +139,7 @@
 		<button type="button" class="choice" onclick={onGraduate} data-testid="dual-role-graduate-btn">
 			<GraduationCap size={20} aria-hidden="true" />
 			<span class="choice__body">
-				<span class="choice__name">{$t('galaxy.graduatePageLink', { default: 'Сторінка випускника' })}</span>
+				<span class="choice__name">{$t(graduatePageLabelKey(master), { default: graduatePageDefaultText(master) })}</span>
 				{#if graduateCaption}<span class="choice__meta">{graduateCaption}</span>{/if}
 			</span>
 		</button>

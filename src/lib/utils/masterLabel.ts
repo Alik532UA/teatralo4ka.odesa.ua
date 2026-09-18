@@ -44,11 +44,10 @@ export function masterGender(master: Pick<MasterIndexEntry, 'fullName' | 'roleTi
 	 * навмисно: «Кореньок» і «Стельмах» не мають закінчення, за яким їх можна
 	 * відрізнити від жіночих, і вгадувати означало б помилятися тихо.
 	 */
-	const surname = words[0] ?? '';
-	if (/(ова|єва|ева|іна|ина|ська|цька|зька)$/.test(surname)) return 'f';
+	if (words.some((w) => /(ова|єва|ева|іна|ина|ська|цька|зька)$/.test(w.replace(/[(),]/g, '')))) return 'f';
 
 	const role = (master.roleTitle ?? '').toLowerCase();
-	if (/(викладачка|майстриня|концертмейстерка|керівниця|акомпаніаторка)/.test(role)) return 'f';
+	if (/(викладачка|майстриня|концертмейстерка|керівниця|акомпаніаторка|фотографиня)/.test(role)) return 'f';
 	return 'm';
 }
 
@@ -82,3 +81,26 @@ export function dualRoleMasterLabelKey(
 		? 'galaxy.teamPageLink'
 		: 'galaxy.teacherPageLink';
 }
+
+/**
+ * Ключ підпису посилання на сторінку випускника:
+ * «Сторінка випускника» (`galaxy.graduatePageLink`) або «Сторінка випускниці» (`galaxy.graduatePageLinkF`).
+ */
+export function graduatePageLabelKey(
+	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null
+): 'galaxy.graduatePageLink' | 'galaxy.graduatePageLinkF' {
+	if (!person) return 'galaxy.graduatePageLink';
+	return masterGender(person) === 'f' ? 'galaxy.graduatePageLinkF' : 'galaxy.graduatePageLink';
+}
+
+/**
+ * Типовий текст підпису посилання на сторінку випускника (fallback без локалі).
+ */
+export function graduatePageDefaultText(
+	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null
+): 'Сторінка випускниці' | 'Сторінка випускника' {
+	return graduatePageLabelKey(person) === 'galaxy.graduatePageLinkF'
+		? 'Сторінка випускниці'
+		: 'Сторінка випускника';
+}
+

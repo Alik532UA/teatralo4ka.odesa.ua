@@ -1,5 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { masterGender, masterLabelKey, dualRoleMasterLabelKey } from './masterLabel';
+import {
+	masterGender,
+	masterLabelKey,
+	dualRoleMasterLabelKey,
+	graduatePageLabelKey,
+	graduatePageDefaultText
+} from './masterLabel';
 import { MASTERS, getMasterById } from '$lib/data/masters';
 import { GRADUATES } from '$lib/data/graduates';
 
@@ -90,5 +96,40 @@ describe('підпис сторінки дорослого у подвійній
 
 		const alik = getMasterById('alik-zapolnov');
 		expect(dualRoleMasterLabelKey(alik)).toBe('galaxy.teamPageLink');
+	});
+});
+
+describe('підпис кнопки сторінки випускника / випускниці залежно від статі', () => {
+	it('повертає жіночий підпис galaxy.graduatePageLinkF для випускниць', () => {
+		const dias = getMasterById('daria-dias-valdis');
+		expect(graduatePageLabelKey(dias)).toBe('galaxy.graduatePageLinkF');
+		expect(graduatePageDefaultText(dias)).toBe('Сторінка випускниці');
+
+		const tkach = getMasterById('hanna-tkach');
+		expect(graduatePageLabelKey(tkach)).toBe('galaxy.graduatePageLinkF');
+		expect(graduatePageDefaultText(tkach)).toBe('Сторінка випускниці');
+
+		const rybakova = getMasterById('nadiia-rybakova');
+		expect(graduatePageLabelKey(rybakova)).toBe('galaxy.graduatePageLinkF');
+		expect(graduatePageDefaultText(rybakova)).toBe('Сторінка випускниці');
+	});
+
+	it('повертає чоловічий підпис galaxy.graduatePageLink для випускників', () => {
+		const koshka = getMasterById('pavlo-koshka');
+		expect(graduatePageLabelKey(koshka)).toBe('galaxy.graduatePageLink');
+		expect(graduatePageDefaultText(koshka)).toBe('Сторінка випускника');
+
+		const alik = getMasterById('alik-zapolnov');
+		expect(graduatePageLabelKey(alik)).toBe('galaxy.graduatePageLink');
+		expect(graduatePageDefaultText(alik)).toBe('Сторінка випускника');
+
+		const tsobenko = getMasterById('vladyslav-tsobenko');
+		expect(graduatePageLabelKey(tsobenko)).toBe('galaxy.graduatePageLink');
+		expect(graduatePageDefaultText(tsobenko)).toBe('Сторінка випускника');
+	});
+
+	it('безпечно обробляє відсутність запису', () => {
+		expect(graduatePageLabelKey(null)).toBe('galaxy.graduatePageLink');
+		expect(graduatePageDefaultText(null)).toBe('Сторінка випускника');
 	});
 });
