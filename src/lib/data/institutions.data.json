@@ -1223,6 +1223,7 @@
 	{
 		"slug": "lakim",
 		"name": "ЛАКіМ",
+		"fullName": "Луганська академія культури і мистецтв (м.Київ)",
 		"city": "Київ",
 		"countries": [
 			"UA"
@@ -1230,6 +1231,11 @@
 		"students": [
 			{
 				"id": "yeva-reznik",
+				"year": 2024,
+				"programme": "акторський"
+			},
+			{
+				"id": "anna-mariia-vyskochyl",
 				"year": 2024,
 				"programme": "акторський"
 			}
