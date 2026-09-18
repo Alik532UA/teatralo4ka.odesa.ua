@@ -344,6 +344,7 @@
 	 */
 	.banner {
 		position: relative;
+		width: 100%;
 		max-width: 820px;
 		margin: 0 auto var(--banner-gap, 1rem);
 		cursor: pointer;
@@ -437,8 +438,9 @@
 		inset: 0;
 		margin: auto;
 		width: auto;
-		height: 100%;
+		height: auto;
 		max-width: 100%;
+		max-height: 100%;
 		display: block;
 		object-fit: contain;
 		border-radius: 20px;

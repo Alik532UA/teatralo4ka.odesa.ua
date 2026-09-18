@@ -1,0 +1,77 @@
+{
+	"id": "yelyzaveta-maliuzhenko",
+	"slug": "lizkashyrokova",
+	"code": "lizkashyrokova",
+	"name": "Єлизавета Широкова (Малюженко)",
+	"graduationYear": 2023,
+	"enrollmentYears": [
+		2020
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"plays": [
+		{
+			"year": 2021,
+			"text": "Показ етюдів та вербатімів",
+			"playId": "pokaz-etiudiv-ta-verbatimiv-2021",
+			"fromRegistry": true
+		},
+		{
+			"year": 2022,
+			"text": "«Піду до зірок»",
+			"playId": "pidu-do-zirok-2022",
+			"fromRegistry": true
+		},
+		{
+			"year": 2023,
+			"text": "«Рецепти виживання»",
+			"playId": "retsepty-vyzhyvannia-2023",
+			"fromRegistry": true
+		},
+		{
+			"year": 2026,
+			"text": "«Я так хочу стати леді баг», Леді Баг (реж. Марина Кравчук)",
+			"role": "Леді Баг"
+		}
+	],
+	"bio": [
+		"Та от вчуся в майстерні Лесі Самаєвої та Олександра Яреми 👻, потроху освоюю професію, співпрацюю з режисерами (студентами майстерень Івана Уривського та Давида Петросяна).",
+		"Ютуб та інстаграм нашої майстерні:\nhttps://www.instagram.com/mstrn.ya.sm\nhttps://youtube.com/channel/UCVYjH9fZA7EvcD3gQb-Q_pA",
+		"Поки все ;)"
+	],
+	"socials": [
+		{
+			"network": "facebook",
+			"url": "https://www.facebook.com/profile.php?id=100024036922302"
+		},
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/shyrokovaaa"
+		}
+	],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "pavlo-prymak",
+			"subjects": [
+				"Сценічний рух"
+			]
+		}
+	],
+	"gallery": [
+		"/graduates/gallery/lizkashyrokova/01.webp"
+	]
+}

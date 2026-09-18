@@ -175,6 +175,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/valeriia-burian',
 	'/projects/galaxy-graduates/vitalina-larionova',
 	'/projects/galaxy-graduates/yan-slobodeniuk',
+	'/projects/galaxy-graduates/yelyzaveta-maliuzhenko',
 	/*
 	 * Старі адреси перейменованих сторінок — заглушки з `meta refresh`.
 	 *
