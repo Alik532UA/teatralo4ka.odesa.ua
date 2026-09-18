@@ -145,6 +145,18 @@ export interface FestivalDetail {
 	 * може перевірити список власними очима.
 	 */
 	booklets?: string[];
+	/**
+	 * Відеозаписи фестивалю (зум-консультації, трансляції, круглі столи).
+	 *
+	 * Коли записів кілька, вони винесені сюди з назвами, щоб не перевантажувати
+	 * реєстр `festivals.data.json` і показувати повноцінний перелік на сторінці.
+	 */
+	videos?: FestivalVideo[];
+}
+
+export interface FestivalVideo {
+	url: string;
+	title?: string;
 }
 
 export type FestivalDetails = Record<string, FestivalDetail>;

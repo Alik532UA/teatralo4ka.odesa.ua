@@ -686,10 +686,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   шов — «бібліотека готових кольорів» проти «поведінка вікна», — і обидва
  *   поїхали в `ThemeLabPresets`. Файл став 268: у межах 300 без жодного
  *   послаблення. Попереднє рішення не було помилкою — воно було правильним
- *   для складу з однією вставкою.
+ * 2026-09-19: `festivals/[slug]/+page.svelte` 625 -> 700: розділ «Відеозаписи»
+ *   для поїздок з кількома записами (зум-консультації Театр.PRO 2025 тощо),
+ *   сітка карток із підписами та центрування поодинокого відео без фотографій.
  */
 const CEILINGS: Record<string, number> = {
-	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 625,
+	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
 	'src/lib/components/HeaderSection.svelte': 1600,

@@ -970,24 +970,15 @@
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
-	},
-	{
-		"slug": "teatr-pro-2023",
-		"name": "Театр.PRO",
-		"nameEn": "Teatr.PRO Festival",
-		"years": [
-			2023
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"serhii-kalantai",
+			"inna-kapinos",
+			"valerii-fialko",
+			"maryna-kotelenets",
+			"serhii-vasyliev"
 		],
-		"countries": [
-			"UA"
-		],
-		"city": "Одеса",
-		"note": "online",
-		"memberIds": [],
-		"masterIds": [],
-		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"videoUrl": "https://www.youtube.com/live/pUxIFZUwsN4"
 	},
 	{
 		"slug": "teatr-pro-2024",
@@ -1004,7 +995,20 @@
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"myroslav-hrynyshyn",
+			"oleh-drach",
+			"nataliia-vladymyrova",
+			"serhii-vasyliev",
+			"maryna-kotelenets",
+			"viktoriia-bubnova",
+			"vitalii-kino",
+			"liudmyla-ardelian",
+			"hio-pachkoriia",
+			"davyd-petrosian",
+			"ivan-sharan"
+		]
 	},
 	{
 		"slug": "teatr-pro-2025",
@@ -1021,7 +1025,16 @@
 		"memberIds": [],
 		"masterIds": [],
 		"playIds": [],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"expertIds": [
+			"vitalii-azhnov",
+			"mykhailo-urytskyi",
+			"nataliia-vladymyrova",
+			"maryna-kotelenets",
+			"viktoriia-bubnova",
+			"larysa-semyrozumenko",
+			"mykola-naboka"
+		]
 	},
 	{
 		"slug": "impreza-nad-latorytseiu-2019",

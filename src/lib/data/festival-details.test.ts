@@ -5,6 +5,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import zlib from 'node:zlib';
 import { FESTIVALS } from './festivals';
+import { parseVideoUrl } from '../utils/videoEmbed';
 
 /**
  * Зріз подробиць не розійшовся з реєстром фестивалів.
@@ -83,5 +84,19 @@ describe('подробиці фестивалів (винос у static)', () =>
 				params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 }
 			}).length / 1024;
 		expect(kb, `реєстр фестивалів ${kb.toFixed(2)} КБ — більше за стелю 6`).toBeLessThan(6);
+	});
+
+	it('кожен запис у подробицях розпізнається як відео', () => {
+		const bad: string[] = [];
+		for (const [slug, item] of Object.entries(details)) {
+			const videos = (item.videos as (string | { url: string; title?: string })[] | undefined) ?? [];
+			for (const v of videos) {
+				const url = typeof v === 'string' ? v : v?.url;
+				if (!url || !parseVideoUrl(url)) {
+					bad.push(`${slug}: ${JSON.stringify(v)}`);
+				}
+			}
+		}
+		expect(bad, `посилання не розпізналося:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
 });

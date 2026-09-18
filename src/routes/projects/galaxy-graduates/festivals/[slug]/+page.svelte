@@ -12,7 +12,8 @@
 		Dumbbell,
 		Star,
 		ScrollText,
-		Newspaper
+		Newspaper,
+		Video
 	} from 'lucide-svelte';
 	import { showsCountryName } from '$lib/data/festivals';
 	import { expertPath } from '$lib/data/experts';
@@ -102,14 +103,36 @@
 	 * фотографії поїздки на диплом — тобто гортання між речами, які саме тому
 	 * й розділені на два блоки.
 	 */
+	interface FestivalVideoItem {
+		url: string;
+		title: string;
+	}
+
+	const hasPhotos = $derived((data.festival.photos ?? []).length > 0);
+
+	const allVideos = $derived.by<FestivalVideoItem[]>(() => {
+		const raw = data.festival.videos ?? [];
+		if (raw.length > 0) {
+			return raw.map((v) => {
+				if (typeof v === 'string') {
+					return { url: v, title: festivalTitle };
+				}
+				return { url: v.url, title: v.title || festivalTitle };
+			});
+		}
+		if (data.festival.videoUrl) {
+			return [{ url: data.festival.videoUrl, title: festivalTitle }];
+		}
+		return [];
+	});
+
 	/**
-	 * Чи є з чого зробити прев'ю запису.
-	 *
-	 * Не «чи є посилання»: кадр дає лише YouTube статичною адресою, Vimeo без
-	 * свого API — ні. Порожній прямокутник ліворуч від каруселі був би гірший
-	 * за кнопку, тож без кадру шапка лишається старою.
+	 * Відео для шапки — лише коли є ОДИН запис і він має прев'ю.
+	 * Коли записів кілька, вони йдуть окремим розділом «Відеозаписи» з назвами,
+	 * щоб не вивищувати один ролик над іншими.
 	 */
-	const videoPreview = $derived(Boolean(parseVideoUrl(data.festival.videoUrl)?.posterUrl));
+	const headerVideo = $derived(allVideos.length === 1 ? allVideos[0] : null);
+	const headerVideoPreview = $derived(Boolean(parseVideoUrl(headerVideo?.url)?.posterUrl));
 
 	/**
 	 * АРКУШІ — дипломи й розвороти програмки — одним переліком блоків.
@@ -195,21 +218,23 @@
 				такою, якою була, — банер на всю ширину, — і жодна сторінка без
 				відео від цієї зміни не поїхала.
 			-->
-			{#if videoPreview}
-				<div class="fest-media">
+			{#if headerVideo && headerVideoPreview}
+				<div class="fest-media" class:fest-media--video-only={!hasPhotos}>
 					<div class="fest-media__video">
 						<FestivalVideoPreview
-							fill
-							videoUrl={data.festival.videoUrl}
-							title={festivalTitle}
+							fill={hasPhotos}
+							videoUrl={headerVideo.url}
+							title={headerVideo.title}
 							testid="festival-video-btn"
 						/>
 					</div>
-					<div class="fest-media__photos">
-						<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
-					</div>
+					{#if hasPhotos}
+						<div class="fest-media__photos">
+							<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
+						</div>
+					{/if}
 				</div>
-			{:else}
+			{:else if hasPhotos}
 				<GroupPhotoBanner photos={data.festival.photos ?? []} title={festivalTitle} />
 			{/if}
 
@@ -274,10 +299,10 @@
 				якого не виходить кадру: тоді показувати ліворуч нічого, і
 				пілюля під назвою — єдиний спосіб не втратити посилання.
 			-->
-			{#if !videoPreview}
+			{#if headerVideo && !headerVideoPreview}
 				<GraduateVideoButton
-					videoUrl={data.festival.videoUrl}
-					title={festivalTitle}
+					videoUrl={headerVideo.url}
+					title={headerVideo.title}
 					testid="festival-video-btn"
 				/>
 			{/if}
@@ -522,6 +547,38 @@
 		{/if}
 
 		<!--
+			ВІДЕОЗАПИСИ ФЕСТИВАЛЮ — зум-консультації, трансляції, зустрічі.
+			Показуються окремим розділом, коли записів більше одного, щоб кожен
+			мав свій підпис і плеєр.
+		-->
+		{#if allVideos.length > 1}
+			<section class="fest-section" aria-labelledby="section-videos-title">
+				<div class="section-heading">
+					<span class="icon-wrap icon-wrap--primary"><Video size={20} aria-hidden="true" /></span>
+					<h2 id="section-videos-title" class="section-heading__title">
+						{$t('galaxy.festivalVideos')}
+					</h2>
+					<span class="section-heading__count">{allVideos.length}</span>
+				</div>
+
+				<div class="fest-videos-grid" data-testid="festival-videos-list">
+					{#each allVideos as vid, idx (vid.url)}
+						<div class="fest-video-card" data-testid="festival-video-card-{idx}">
+							<FestivalVideoPreview
+								videoUrl={vid.url}
+								title={vid.title}
+								testid="festival-video-btn-{idx}"
+							/>
+							{#if vid.title && vid.title !== festivalTitle}
+								<p class="fest-video-card__title">{vid.title}</p>
+							{/if}
+						</div>
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<!--
 			ДИПЛОМИ — ОКРЕМИМ розділом, і ПІДРЯД, а не по черзі.
 
 			Два прохання автора, і друге виправляє моє ж перше рішення. Спершу:
@@ -629,7 +686,7 @@
 			Порожня сторінка мовчки — гірше за сторінку, яка каже, чого на ній ще
 			немає: інакше читач вирішить, що зламалося.
 		-->
-		{#if data.members.length === 0 && data.masters.length === 0 && data.plays.length === 0}
+		{#if data.members.length === 0 && data.masters.length === 0 && data.plays.length === 0 && data.experts.length === 0 && data.coaches.length === 0 && data.guests.length === 0 && allVideos.length === 0}
 			<p class="fest-empty" data-testid="festival-empty-text">
 				{$t('galaxy.festivalEmpty')}
 			</p>
@@ -692,6 +749,32 @@
 		 */
 		align-items: stretch;
 		margin-bottom: 1rem;
+	}
+
+	.fest-media--video-only {
+		grid-template-columns: 1fr;
+		max-width: 720px;
+		margin: 0 auto 1.5rem;
+	}
+
+	.fest-videos-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+		gap: 1.25rem;
+	}
+
+	.fest-video-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+	}
+
+	.fest-video-card__title {
+		margin: 0;
+		font-size: 0.92rem;
+		line-height: 1.4;
+		color: var(--text-muted, #94a3b8);
+		font-weight: 500;
 	}
 
 	/*
