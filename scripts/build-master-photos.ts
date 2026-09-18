@@ -61,6 +61,9 @@ const AVATAR_OVERRIDES: Record<string, CropOverride> = {
 		size: 600,
 		sx: 260,
 		sy: 360
+	},
+	'olena-kondratska': {
+		sy: 0
 	}
 };
 
@@ -89,6 +92,9 @@ const PORTRAIT_OVERRIDES: Record<string, { sx?: number; sy?: number; sw?: number
 		sy: 0,
 		sw: 542,
 		sh: 813
+	},
+	'olena-kondratska': {
+		sy: 0
 	}
 };
 
@@ -104,7 +110,14 @@ async function main() {
 	if (!fs.existsSync(avatarDir)) fs.mkdirSync(avatarDir, { recursive: true });
 	if (!fs.existsSync(portraitDir)) fs.mkdirSync(portraitDir, { recursive: true });
 
-	const files = fs.readdirSync(rawDir).filter((f) => f.endsWith('.webp'));
+	const targetIds = process.argv.slice(2);
+	const files = fs.readdirSync(rawDir).filter((f) => {
+		if (!f.endsWith('.webp')) return false;
+		if (targetIds.length > 0) {
+			return targetIds.includes(path.basename(f, '.webp'));
+		}
+		return true;
+	});
 	console.log(`🔨 Building web assets (480x480 avatars & 720x1080 portraits) from ${files.length} raw sources...`);
 
 	const browser = await chromium.launch({ headless: true });
@@ -235,6 +248,7 @@ async function main() {
 	);
 
 	for (const m of indexList) {
+		if (targetIds.length > 0 && !targetIds.includes(m.id)) continue;
 		const portraitFile = path.join(portraitDir, `${m.id}.webp`);
 		if (fs.existsSync(portraitFile)) {
 			m.portrait = `/masters/portraits/${m.id}.webp`;
