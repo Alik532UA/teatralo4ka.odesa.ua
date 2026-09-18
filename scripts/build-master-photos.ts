@@ -253,10 +253,15 @@ async function main() {
 		if (fs.existsSync(portraitFile)) {
 			m.portrait = `/masters/portraits/${m.id}.webp`;
 		}
+		const avatarFile = path.join(avatarDir, `${m.id}.webp`);
+		if (fs.existsSync(avatarFile)) {
+			m.photo = `/masters/${m.id}.webp`;
+		}
 		const profilePath = path.join('static', 'masters', 'profiles', `${m.id}.json`);
 		if (fs.existsSync(profilePath)) {
 			const prof: Record<string, unknown> = JSON.parse(fs.readFileSync(profilePath, 'utf8'));
 			if (m.portrait) prof.portrait = m.portrait;
+			if (m.photo) prof.photo = m.photo;
 			fs.writeFileSync(profilePath, JSON.stringify(prof, null, '\t') + '\n', 'utf8');
 		}
 	}

@@ -378,7 +378,8 @@
 		"category": "accompanists",
 		"roleTitle": "концертмейстерка",
 		"verificationStatus": "possible_errors",
-		"portrait": "/masters/portraits/liudmyla-baranova.webp"
+		"portrait": "/masters/portraits/liudmyla-baranova.webp",
+		"photo": "/masters/liudmyla-baranova.webp"
 	},
 	{
 		"id": "yevheniia-bohdanova",
@@ -658,7 +659,8 @@
 			"Гітара"
 		],
 		"verificationStatus": "possible_errors",
-		"portrait": "/masters/portraits/olena-kondratska.webp"
+		"portrait": "/masters/portraits/olena-kondratska.webp",
+		"photo": "/masters/olena-kondratska.webp"
 	},
 	{
 		"id": "olena-konnikova",
