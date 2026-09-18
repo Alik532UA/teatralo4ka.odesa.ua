@@ -18,15 +18,21 @@
 			},
 			{
 				"id": "kateryna-kurchenko",
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. Мойсеєва",
+				"masterSlug": "stanislav-moiseiev"
 			},
 			{
 				"id": "myroslava-tkach",
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "Л. Остропольського",
+				"masterSlug": "leonid-ostropolskyi"
 			},
 			{
 				"id": "pavlo-koshka",
-				"programme": "режисура"
+				"programme": "режисура",
+				"master": "К. Дубініна",
+				"masterSlug": "kostiantyn-dubinyn"
 			},
 			{
 				"id": "nataliia-voroniuk",
@@ -61,12 +67,16 @@
 			{
 				"id": "anisiia-stasevych",
 				"year": 2011,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Т. Денисенка",
+				"masterSlug": "taras-denysenko"
 			},
 			{
 				"id": "hryhorii-baklanov",
 				"year": 2011,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Ю. Висоцького",
+				"masterSlug": "yurii-vysotskyi"
 			},
 			{
 				"id": "oleksandra-chuprina",
@@ -86,7 +96,9 @@
 			{
 				"id": "volodymyr-chalchynskyi",
 				"year": 2012,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "С. Мойсеєва",
+				"masterSlug": "stanislav-moiseiev"
 			},
 			{
 				"id": "daniil-prymachov",
@@ -178,7 +190,9 @@
 			{
 				"id": "vladyslav-volk",
 				"year": 2019,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Н. Долі",
+				"masterSlug": "nataliia-dolia"
 			},
 			{
 				"id": "dar-ia-hurevych",
@@ -197,7 +211,9 @@
 			{
 				"id": "mariia-mandriesk",
 				"year": 2025,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Л. Семирозуменко",
+				"masterSlug": "larysa-semyrozumenko"
 			},
 			{
 				"id": "anastasiia-ivanova",

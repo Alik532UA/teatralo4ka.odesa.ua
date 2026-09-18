@@ -542,5 +542,65 @@
 				"text": "Акторка театру і кіно, громадська діячка"
 			}
 		]
+	},
+	{
+		"slug": "kostiantyn-dubinyn",
+		"name": "Костянтин Дубінін",
+		"nameEn": "Kostiantyn Dubinyn",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "майстер курсу, КНУТКіТ"
+			}
+		]
+	},
+	{
+		"slug": "leonid-ostropolskyi",
+		"name": "Леонід Остропольський",
+		"nameEn": "Leonid Ostropolskyi",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "майстер курсу, КНУТКіТ"
+			}
+		]
+	},
+	{
+		"slug": "taras-denysenko",
+		"name": "Тарас Денисенко",
+		"nameEn": "Taras Denysenko",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "майстер курсу, КНУТКіТ"
+			}
+		]
+	},
+	{
+		"slug": "yurii-vysotskyi",
+		"name": "Юрій Висоцький",
+		"nameEn": "Yurii Vysotskyi",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "майстер курсу, КНУТКіТ"
+			}
+		]
+	},
+	{
+		"slug": "nataliia-dolia",
+		"name": "Наталія Доля",
+		"nameEn": "Nataliia Dolia",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "майстриня курсу, КНУТКіТ"
+			}
+		]
 	}
 ]
