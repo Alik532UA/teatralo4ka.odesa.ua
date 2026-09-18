@@ -530,5 +530,17 @@
 			}
 		],
 		"photo": "/experts/oleh-stefan.webp"
+	},
+	{
+		"slug": "rymma-ziubina",
+		"name": "Римма Зюбіна",
+		"nameEn": "Rymma Ziubina",
+		"city": "Київ",
+		"titles": [
+			{
+				"year": 2026,
+				"text": "Акторка театру і кіно, громадська діячка"
+			}
+		]
 	}
 ]

@@ -325,6 +325,21 @@ describe('galaxyEntries: митці та друзі', () => {
 		expect(hits[0].id).toBe('expert:oleh-stefan');
 	});
 
+	it('індексує фахівців (Римма Зюбіна) з правильним посиланням на сторінку митця', async () => {
+		const { galaxyEntries } = await import('$lib/services/searchGalaxy');
+		const entries = galaxyEntries();
+		const ziubina = entries.find((e) => e.title === 'Римма Зюбіна');
+		expect(ziubina).toBeDefined();
+		expect(ziubina?.href).toBe('/projects/galaxy-graduates/masters/rymma-ziubina/');
+		expect(ziubina?.kind).toBe('galaxy');
+		expect(ziubina?.text).toContain('Київ');
+		expect(ziubina?.text).toContain('Акторка театру і кіно');
+
+		const hits = searchEntries(entries, 'Римма Зюбіна');
+		expect(hits.length).toBeGreaterThan(0);
+		expect(hits[0].id).toBe('expert:rymma-ziubina');
+	});
+
 	it('індексує друзів без власної сторінки з посиланням на /friends/', async () => {
 		const { galaxyEntries } = await import('$lib/services/searchGalaxy');
 		const entries = galaxyEntries();

@@ -15,4 +15,4 @@ On February 14, Valentine's Day, "Teatralo4ka" (@teatralo4ka_official\_) invited
 
 We thank everyone who responded and attended in person, as well as those who sent their video greetings!
 
-A truly pleasant surprise for everyone was the participation in the concert of the beloved Ukrainian actress **Rimma Ziubina** (@rimma_ziubina).
+A truly pleasant surprise for everyone was the participation in the concert of the beloved Ukrainian actress [Rimma Ziubina](/en/projects/galaxy-graduates/masters/rymma-ziubina) (@rimma_ziubina).
