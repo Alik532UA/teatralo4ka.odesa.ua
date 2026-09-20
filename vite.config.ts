@@ -1,55 +1,11 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig, loadEnv, type Plugin } from 'vite';
+import { defineConfig } from 'vite';
 import { readFileSync } from 'node:fs';
-import { відсутніСекрети } from './scripts/firebase-env';
 
 const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
 
-/**
- * Збірка без секретів Firebase падає ГОЛОСНО і до деплою.
- *
- * ## Навіщо явна перевірка, коли раніше обходилися без неї
- *
- * Раніше цю роль виконував ПОБІЧНИЙ ЕФЕКТ: `firebase/config` статично
- * імпортувався шапкою, тобто виконувався під час prerender, і `getAuth()` на
- * порожньому ключі кидав `auth/invalid-api-key`. Збірка червоніла — але не
- * тому, що хтось так задумав, а тому, що модуль випадково опинявся в
- * серверному графі. Це записано в `vitest/stubs/firebase-config.ts` як
- * властивість, на яку покладаються.
- *
- * Відколи SDK вантажиться `await import()` (CLOUD-DATABASE-v9 § 10.2,
- * `CDB-LAZY-SDK`), під час prerender його ніхто не піднімає — і разом із
- * побічним ефектом зникла б і перевірка. Тоді збірка проходила б зеленою, а на
- * хостинг їхав сайт із порожнім ключем: Firestore і Auth мертві для всіх, і
- * жоден гейт цього не бачить. Тому охорона стала явною й лишилася на тому
- * самому місці життєвого циклу — на початку збірки.
- *
- * Значення НЕ друкуються: у лозі CI лишаються самі назви відсутніх ключів.
- * Сам перелік і чиста функція «чого бракує» живуть у `scripts/firebase-env.ts`,
- * щоб їх можна було перевірити без збірки.
- */
-function firebaseEnvGate(): Plugin {
-	return {
-		name: 'firebase-env-gate',
-		apply: 'build',
-		config(_config, { mode }) {
-			const env = { ...process.env, ...loadEnv(mode, process.cwd(), 'VITE_') };
-			const порожні = відсутніСекрети(env);
-			if (порожні.length > 0) {
-				throw new Error(
-					'збірка зупинена: немає секретів Firebase — ' +
-						порожні.join(', ') +
-						'. Локально вони лежать у `.env.local` (зразок — `.env.example`), ' +
-						'у CI приходять із `secrets`. Без них сайт збереться, ' +
-						'але Firestore і Auth будуть мертві для кожного відвідувача.'
-				);
-			}
-		}
-	};
-}
-
 export default defineConfig({
-	plugins: [firebaseEnvGate(), sveltekit()],
+	plugins: [sveltekit()],
 
 	/**
 	 * Номер збірки — константою на етапі збірки, а не читанням файла в рантаймі.

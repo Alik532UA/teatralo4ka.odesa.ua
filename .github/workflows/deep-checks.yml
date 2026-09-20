@@ -24,10 +24,12 @@ name: Deep Checks
 # щонайменше з 14 вересня: E2E відпрацьовував за 25 хв, а його результат тонув
 # у чотиригодинному хвості. Тепер тут лишилося те, заради чого файл і робився.
 #
-# `gates.yml` для них не годиться, і це записано в ньому самому: він ходить по
-# `pull_request`, зокрема від Dependabot, а той не отримує репозиторних
-# секретів. Збірка й Playwright без `VITE_FIREBASE_*` падають — тобто червоний
-# PR не з вини залежності, гейт, який доводиться вимикати.
+# `gates.yml` для них не годиться, і це записано в ньому самому. Доти причиною
+# були секрети: він ходить по `pull_request`, зокрема від Dependabot, а той
+# репозиторних секретів не отримує. Відколи конфіг Firebase лежить у джерелі,
+# ця причина відпала — збірці не потрібен жоден секрет. Лишилася друга: повна
+# збірка плюс Playwright на кожному Dependabot-PR змагалися б за раннери з
+# деплоєм (SECURITY-v9 § 4.2.1, `SEC-CONFIG-IN-SOURCE`).
 #
 # Тому глибокі перевірки живуть тут — окремим прогоном ПІСЛЯ деплою.
 #
@@ -153,14 +155,6 @@ jobs:
           VITE_SCHOOL_ID: teatralo4ka.odesa.ua
           # Значення, а не секрет: чому саме так — у `deploy.yml`, там замір.
           VITE_PROJECT_ID: teatralo4ka
-          VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
-          VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
-          VITE_FIREBASE_PROJECT_ID: ${{ vars.VITE_FIREBASE_PROJECT_ID }}
-          VITE_FIREBASE_STORAGE_BUCKET: ${{ vars.VITE_FIREBASE_STORAGE_BUCKET }}
-          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_FIREBASE_MESSAGING_SENDER_ID }}
-          VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
-          VITE_FIREBASE_MEASUREMENT_ID: ${{ vars.VITE_FIREBASE_MEASUREMENT_ID }}
-          VITE_APPCHECK_RECAPTCHA_SITE_KEY: ${{ vars.VITE_APPCHECK_RECAPTCHA_SITE_KEY }}
         run: npm run build
 
       - name: Cache Playwright browsers

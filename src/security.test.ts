@@ -68,26 +68,91 @@ describe('безпека — інваріанти по джерелах', () => 
 	});
 
 	/**
-	 * Ключі Firebase публічні за визначенням і живуть в `import.meta.env`.
-	 * Тут ловиться інше: справжній ключ, вписаний у код замість змінної
-	 * оточення. Шаблони — за формою, а не за назвою: назву легко перейменувати.
+	 * Тут ловиться справжній секрет, вписаний у код. Шаблони — за формою, а не
+	 * за назвою: назву легко перейменувати.
+	 *
+	 * ОДИН файл має право містити ключ `AIza…`, і рівно один. Веб-ключ Firebase
+	 * не є секретом: він приїжджає в кожну сторінку разом із бандлом, і сховати
+	 * його неможливо в принципі (SECURITY-v9 § 4.1, § 4.2.1
+	 * `SEC-CONFIG-IN-SOURCE`).
+	 *
+	 * Виняток прив'язаний до ШЛЯХУ, а не знятий загалом, бо той самий префікс
+	 * мають ключі, які секретом Є: серверний ключ Google Cloud без обмеження за
+	 * доменом робить платні запити від імені власника. Решта форм — приватний
+	 * ключ, службовий акаунт, токен, JWT — винятків не має ніде.
 	 */
+	const PUBLIC_CONFIG = 'src/lib/firebase/config.ts';
+	/** `walk` повертає шляхи в розділювачах ОС — на Windows це `\`. */
+	const isPublicConfig = (file: string) => file.replace(/\\/g, '/').endsWith(PUBLIC_CONFIG);
+
 	it('у джерелах немає вписаних секретів', () => {
 		const patterns: [string, RegExp][] = [
-			['Google API key', /\bAIza[0-9A-Za-z_-]{35}\b/],
 			['приватний ключ', /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/],
 			['службовий акаунт', /"type"\s*:\s*"service_account"/],
 			['токен OpenAI', /\bsk-[A-Za-z0-9]{32,}\b/],
 			['JWT', /\beyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\./]
 		];
+		const GOOGLE_KEY = /\bAIza[0-9A-Za-z_-]{35}\b/;
 		const bad: string[] = [];
 		for (const file of sources) {
 			const text = read(file);
 			for (const [name, re] of patterns) {
 				if (re.test(text)) bad.push(`${file}: схоже на ${name}`);
 			}
+			if (!isPublicConfig(file) && GOOGLE_KEY.test(text)) {
+				bad.push(`${file}: схоже на Google API key`);
+			}
 		}
 		expect(bad, bad.join('\n')).toEqual([]);
+	});
+
+	/*
+	 * Виняток вище мусить лишатися вузьким. Якщо файл переїде, `PUBLIC_CONFIG`
+	 * почне вказувати в порожнечу — і перевірка мовчки перетвориться на
+	 * заборону без винятку, а наступний, хто її побачить, просто зніме її.
+	 */
+	it('виняток для публічного конфігу вказує на наявний файл', () => {
+		expect(
+			sources.filter(isPublicConfig).length,
+			`${PUBLIC_CONFIG} не знайдено серед джерел — виняток застарів`
+		).toBe(1);
+	});
+
+	/**
+	 * ЩО ЗАМІНИЛО ПЛАГІН `firebase-env-gate`.
+	 *
+	 * Доти збірку валила відсутність змінних: конфіг приїжджав з оточення, і
+	 * порожнє значення означало мертвий Firestore для кожного відвідувача.
+	 * Відколи конфіг лежить літералами в git, такого стану не існує — але
+	 * зʼявився інший, тихіший: значення на місці, а веде в ЧУЖИЙ проєкт.
+	 *
+	 * `.firebaserc` існує окремо, бо його читає `firebase-tools`, а той не вміє
+	 * в TypeScript. Тож не «одне джерело», а «два, звірені тут».
+	 */
+	it('конфіг Firebase повний і веде в той самий проєкт, що й .firebaserc', () => {
+		const config = read(sources.find(isPublicConfig)!);
+
+		expect(
+			config,
+			'значення повернулися в `import.meta.env` — тоді воно знову живе у двох місцях, ' +
+				'а `git clone && npm run dev` знову не працює'
+		).not.toMatch(/import\.meta\.env\.VITE_FIREBASE/);
+
+		const block = /const firebaseConfig\s*=\s*\{([\s\S]*?)\n\}/.exec(config);
+		expect(block, 'обʼєкт firebaseConfig не знайдено — його переписали').toBeTruthy();
+		for (const field of ['apiKey', 'authDomain', 'projectId', 'appId']) {
+			expect(block![1], `у firebaseConfig немає непорожнього ${field}`).toMatch(
+				new RegExp(`${field}:\\s*["'][^"']+["']`)
+			);
+		}
+
+		const inSource = /projectId:\s*["']([^"']+)["']/.exec(block![1])?.[1];
+		const rc = JSON.parse(readFileSync('.firebaserc', 'utf8'));
+		expect(
+			rc.projects?.default,
+			'`.firebaserc` і config.ts називають РІЗНІ проєкти: правила поїдуть не в ту базу, ' +
+				'у яку пише застосунок, і обидві дії будуть «успішні»'
+		).toBe(inSource);
 	});
 
 	/**
