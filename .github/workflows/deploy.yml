@@ -63,7 +63,81 @@ jobs:
       - name: Перевірка правил доступу
         run: npm run check:rules
 
+  # ПРАВИЛА ВИКЛАДАЮТЬСЯ В БОЙОВУ БАЗУ — доти це був ручний крок.
+  #
+  # Job `rules` вище лише ПЕРЕВІРЯЄ їх на емуляторі: 29 випадків, і всі зелені
+  # незалежно від того, що приймає `promo-web-hub`. Тобто «гейт зелений» і
+  # «база захищена» — два різні твердження, і між ними стояла тільки людина,
+  # яка не забуде запустити `npm run deploy:rules`
+  # (CLOUD-DATABASE-v9 § 2.3, `CDB-RULES-IN-REPO`).
+  #
+  # Ризик тут вищий за середній, і саме тому автоматизація доречна: правила
+  # цього репозиторію описують шляхи ВСІХ шкіл проєкту, бо проєкт Firebase
+  # один на всі сайти. Розходження файлу з базою означає не «одна сторінка
+  # зламалась», а «межа доступу не та, яку читали в рев'ю».
+  #
+  # Індекси їдуть тим самим кроком: емулятор їх не перевіряє взагалі, а
+  # Firestore без індексу відмовляє лише в продакшні — тобто запит, зелений
+  # локально, падає в людей (§ 2.4, `CDB-INDEXES-IN-REPO`).
+  #
+  # Без секрету `FIREBASE_SERVICE_ACCOUNT` крок ПРОПУСКАЄТЬСЯ з попередженням,
+  # а не валить деплой: сайт має лишатися розгортаним і тому, хто форкнув
+  # репозиторій без доступу до бази.
+  publish-rules:
+    needs: rules
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    # Секрет читається В ENV, а не в `if` кроку: так умову видно однаково й у
+    # форку, де секрету немає зовсім.
+    env:
+      SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Секрета немає — правила лишаються як є
+        if: ${{ env.SERVICE_ACCOUNT == '' }}
+        run: |
+          echo "::warning title=Правила не викладені::Немає секрету FIREBASE_SERVICE_ACCOUNT, тож у базі лишилися старі правила. Викладіть їх руками: npm run deploy:rules."
+
+      # КЛЮЧ СЕРВІСНОГО АКАУНТА ЖИВЕ РІВНО ОДИН КРОК.
+      #
+      # Прибирає його `trap … EXIT`, а не `rm` наприкінці, і різниця не
+      # стилістична: `deploy` падає саме тоді, коли правила не приймаються, —
+      # тобто найімовірніше, — і рядок із `rm` тоді не виконається взагалі
+      # (CI-CD-AND-TOOLS-v9 § 2, `CI-SECRET-EPHEMERAL`).
+      #
+      # `umask 077` перед записом: типові права на файл у раннері дають
+      # читання всім.
+      - name: Викласти правила й індекси
+        if: ${{ env.SERVICE_ACCOUNT != '' }}
+        run: |
+          trap 'rm -f "$RUNNER_TEMP/sa.json"' EXIT
+          (umask 077; printf '%s' "$SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json")
+          GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json" npx --yes firebase-tools@15 deploy \
+            --only firestore:rules,firestore:indexes --non-interactive
+
+      # ЩО ЗЕЛЕНИЙ КРОК ВИЩЕ НЕ ДОВОДИТЬ: лише те, що команда не впала. Чи
+      # лежить у базі файл із git — відповідає тільки читання з бази
+      # (CLOUD-DATABASE-v9 § 2.3, `CDB-RULES-READBACK`).
+      - name: У базі справді те, що в git
+        if: ${{ env.SERVICE_ACCOUNT != '' }}
+        run: |
+          trap 'rm -f "$RUNNER_TEMP/sa.json"' EXIT
+          (umask 077; printf '%s' "$SERVICE_ACCOUNT" > "$RUNNER_TEMP/sa.json")
+          GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json" \
+            node scripts/verify-deployed-rules.mjs
+
   build-and-deploy:
+    # ПРАВИЛА ПЕРШІ, сайт другий. Нові правила сумісні зі старим кодом, старі з
+    # новим — ні: зворотний порядок дає вікно, у якому свіжий код уже пише
+    # поле, про яке правило ще не знає, і запис відкидається цілком.
+    needs: publish-rules
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
