@@ -6,6 +6,15 @@
 	import { SvelteSet } from "svelte/reactivity";
 	import { captureKeyboard } from "$lib/services/keyboard";
 	import { focusTrap } from "$lib/utils/focusTrap";
+	import {
+		TOTAL_ANTHEM_STEPS,
+		SCHOOL_ANTHEM_SEQUENCE,
+		ANTHEM_PAUSES,
+		getAnthemStep,
+		getAnthemStepY,
+		getAnthemPauseY,
+		type AnthemStep
+	} from "$lib/data/pianoAnthem";
 
 	interface Props {
 		isOpen: boolean;
@@ -22,7 +31,7 @@
 	// --- CONFIGURATION ---
 	// You can easily change the range here
 	const START_NOTE = "A3";
-	const END_NOTE = "C5";
+	const END_NOTE = "D5";
 	const AUDIO_BASE_URL = "https://carolinegabriel.com/demo/js-keyboard/sounds/";
 	const AUDIO_FILE_OFFSET = 20; // If C4 (MIDI 60) is "040.wav", offset is 60 - 40 = 20
 
@@ -110,6 +119,36 @@
 	// eslint-disable-next-line svelte/prefer-svelte-reactivity
 	const audioFadeIntervals = new Map<string, ReturnType<typeof setInterval>>();
 
+	let anthemActive = $state(false);
+	let anthemStepIndex = $state(0);
+	let anthemCompleted = $state(false);
+	let anthemCompleteTimer: ReturnType<typeof setTimeout> | null = null;
+
+	const currentAnthemStep = $derived<AnthemStep | null>(
+		anthemActive ? getAnthemStep(anthemStepIndex) : null
+	);
+
+	function startAnthem() {
+		if (anthemCompleteTimer) clearTimeout(anthemCompleteTimer);
+		viewMode = 'keyboard';
+		anthemCompleted = false;
+		anthemStepIndex = 0;
+		anthemActive = true;
+	}
+
+	function stopAnthem() {
+		if (anthemCompleteTimer) clearTimeout(anthemCompleteTimer);
+		anthemActive = false;
+		anthemStepIndex = 0;
+		anthemCompleted = false;
+	}
+
+	$effect(() => {
+		if (!isOpen && anthemActive) {
+			stopAnthem();
+		}
+	});
+
 	function getAudioSrc(midi: number) {
 		// The server has samples from 040 (C4) to 056 (E5)
 		// For A3 (57), A#3 (58), B3 (59) we will use C4 (60) and change playbackRate
@@ -147,6 +186,23 @@
 		if (!isPartOfChord) nowPlaying = keyInfo.note;
 		
 		activeCodes.add(code);
+
+		if (anthemActive && !isPartOfChord) {
+			const target = getAnthemStep(anthemStepIndex);
+			if (target && target.note === keyInfo.fullNote) {
+				const nextIndex = anthemStepIndex + 1;
+				if (nextIndex >= TOTAL_ANTHEM_STEPS) {
+					anthemCompleted = true;
+					anthemStepIndex = nextIndex;
+					if (anthemCompleteTimer) clearTimeout(anthemCompleteTimer);
+					anthemCompleteTimer = setTimeout(() => {
+						stopAnthem();
+					}, 2500);
+				} else {
+					anthemStepIndex = nextIndex;
+				}
+			}
+		}
 
 		audio.volume = 1;
 		audio.currentTime = 0;
@@ -222,6 +278,7 @@
 			window.removeEventListener("keydown", handleKeydown);
 			window.removeEventListener("keyup", handleKeyup);
 			audioFadeIntervals.forEach((interval) => clearInterval(interval));
+			if (anthemCompleteTimer) clearTimeout(anthemCompleteTimer);
 		};
 	});
 
@@ -361,9 +418,83 @@
 							   data-testid={`piano-key-${i}-btn`}
 						   >
 							   <span class="hints">{key.hint}</span>
+							   <span 
+								   class="indicator-barrel" 
+								   class:sharp={key.sharp}
+								   class:lit={anthemActive && currentAnthemStep?.note === key.fullNote}
+								   class:completed={anthemCompleted}
+								   aria-hidden="true"
+								   data-testid={`piano-bulb-badge-${key.code}`}
+							   ></span>
 						   </div>
 					   {/each}
 				   </div>
+
+				   {#if anthemActive}
+					   <div class="anthem-timeline" data-testid="piano-anthem-timeline-container">
+						   {#if anthemCompleted}
+							   <div class="anthem-completed-msg" transition:fade={{ duration: 200 }}>
+								   ✨ {$t('piano.anthem.completed')}
+							   </div>
+						   {:else}
+							   <div class="anthem-cascade" aria-label="Послідовність нот гімну">
+								   {#each ANTHEM_PAUSES as pause, pIdx (pause.id)}
+									   {@const pauseY = getAnthemPauseY(pIdx, anthemStepIndex)}
+									   {#if pause.afterStepId >= anthemStepIndex - 1}
+										   <div
+											   class="anthem-pause-marker"
+											   class:passed={pause.afterStepId < anthemStepIndex}
+											   style="top: {pauseY}px;"
+											   aria-label="пауза"
+										   >
+											   <span class="pause-line"></span>
+											   <span class="pause-text">⏸ {$t('common.pause')}</span>
+											   <span class="pause-line"></span>
+										   </div>
+									   {/if}
+								   {/each}
+
+								   {#each SCHOOL_ANTHEM_SEQUENCE as step (step.id)}
+									   {@const stepY = getAnthemStepY(step.id, anthemStepIndex)}
+									   {#if step.id >= anthemStepIndex - 1}
+										   <span 
+											   class="future-step-barrel" 
+											   class:sharp={step.sharp}
+											   class:lit={step.id === anthemStepIndex}
+											   class:passed={step.id < anthemStepIndex}
+											   style="left: {(step.sharp ? step.whiteIndex + 1 : step.whiteIndex + 0.5) * whiteKeyWidth}%; top: {stepY}px;" 
+											   data-note={step.note}
+											   data-step-id={step.id}
+											   aria-hidden="true"
+										   ></span>
+									   {/if}
+								   {/each}
+							   </div>
+						   {/if}
+
+						   <button 
+							   type="button" 
+							   class="anthem-exit-btn" 
+							   onclick={stopAnthem} 
+							   aria-label={$t('piano.anthem.reset')} 
+							   title={$t('piano.anthem.reset')} 
+							   data-testid="piano-anthem-exit-btn"
+						   >
+							   <X size={16} aria-hidden="true" />
+						   </button>
+					   </div>
+				   {:else}
+					   <div class="anthem-controls" data-testid="piano-anthem-controls-container">
+						   <button 
+							   type="button" 
+							   class="anthem-btn" 
+							   onclick={startAnthem} 
+							   data-testid="piano-anthem-btn"
+						   >
+							   🎵 {$t('piano.anthem.button')}
+						   </button>
+					   </div>
+				   {/if}
 			   {:else}
 				   <div class="chords-grid" data-testid="piano-chords-menu">
 					   {#each chordsData as chord (chord.name)}
@@ -582,12 +713,219 @@
 		width: 100%;
 		opacity: 0;
 		position: absolute;
-		bottom: 7px;
+		bottom: 8px;
 		transition: opacity .3s ease-out;
 		font-size: 20px;
 		pointer-events: none;
 		color: #000;
 		font-weight: 700;
+	}
+
+	.indicator-barrel {
+		position: absolute;
+		top: calc(100% + 8px);
+		left: 50%;
+		transform: translateX(-50%);
+		width: 32px;
+		height: 8px;
+		border-radius: 9999px;
+		background: rgba(255, 255, 255, 0.2);
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		pointer-events: none;
+		transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		z-index: 5;
+	}
+
+	.indicator-barrel.sharp {
+		top: calc(100% + 4px);
+		width: 22px;
+		height: 6px;
+	}
+
+	.indicator-barrel.lit {
+		background: #ffcc00;
+		border-color: #fff;
+		box-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
+		animation: barrelPulse 0.8s ease-in-out infinite alternate;
+	}
+
+	.indicator-barrel.completed {
+		background: #00ff88;
+		border-color: #fff;
+		box-shadow: 0 0 10px #00ff88, 0 0 20px #00cc66;
+	}
+
+	@keyframes barrelPulse {
+		from {
+			transform: translateX(-50%) scale(1);
+			box-shadow: 0 0 8px #ffcc00, 0 0 16px #ff9900;
+		}
+		to {
+			transform: translateX(-50%) scale(1.15);
+			box-shadow: 0 0 14px #ffdd33, 0 0 26px #ff8800;
+		}
+	}
+
+	.anthem-controls {
+		margin: 32px auto 0;
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		max-width: 880px;
+	}
+
+	.anthem-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 22px;
+		font-size: 15px;
+		font-weight: 600;
+		font-family: inherit;
+		color: #fff;
+		background: rgba(255, 255, 255, 0.12);
+		border: 2px solid rgba(255, 255, 255, 0.28);
+		border-radius: 9999px;
+		cursor: pointer;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+	}
+
+	.anthem-btn:hover {
+		background: rgba(255, 255, 255, 0.22);
+		border-color: rgba(255, 255, 255, 0.5);
+		transform: translateY(-1px);
+	}
+
+	.anthem-timeline {
+		position: relative;
+		width: 100%;
+		max-width: 880px;
+		height: 180px;
+		margin: 8px auto 0;
+		overflow: hidden;
+		-webkit-mask-image: linear-gradient(to bottom, black 0%, black 140px, transparent 180px);
+		mask-image: linear-gradient(to bottom, black 0%, black 140px, transparent 180px);
+	}
+
+	.anthem-cascade {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	.future-step-barrel {
+		position: absolute;
+		transform: translateX(-50%);
+		width: 32px;
+		height: 8px;
+		border-radius: 9999px;
+		background: rgba(255, 255, 255, 0.45);
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+		pointer-events: none;
+		transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+		            opacity 0.4s ease-out,
+		            background-color 0.4s ease-out,
+		            border-color 0.4s ease-out,
+		            box-shadow 0.4s ease-out,
+		            transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+		z-index: 4;
+	}
+
+	.future-step-barrel.lit {
+		background: #ffcc00;
+		border-color: #fff;
+		box-shadow: 0 0 10px #ffcc00, 0 0 20px #ff9900;
+		animation: barrelPulse 0.8s ease-in-out infinite alternate;
+		z-index: 6;
+	}
+
+	.future-step-barrel.passed {
+		opacity: 0;
+		transform: translateX(-50%) scale(0.85);
+		pointer-events: none;
+	}
+
+	.future-step-barrel.sharp {
+		width: 22px;
+		height: 6px;
+	}
+
+	.anthem-pause-marker {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 85%;
+		max-width: 500px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		pointer-events: none;
+		transition: top 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease-out;
+		z-index: 3;
+	}
+
+	.anthem-pause-marker.passed {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.pause-line {
+		flex: 1;
+		height: 1px;
+		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+	}
+
+	.pause-text {
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.55);
+		background: rgba(0, 0, 0, 0.5);
+		padding: 2px 10px;
+		border-radius: 9999px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		backdrop-filter: blur(4px);
+	}
+
+	.anthem-completed-msg {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: #00ff88;
+		text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+	}
+
+	.anthem-exit-btn {
+		position: absolute;
+		right: 4px;
+		top: 0;
+		width: 28px;
+		height: 28px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(255, 255, 255, 0.1);
+		border: 1px solid rgba(255, 255, 255, 0.2);
+		border-radius: 50%;
+		color: rgba(255, 255, 255, 0.6);
+		cursor: pointer;
+		transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+		z-index: 10;
+	}
+
+	.anthem-exit-btn:hover {
+		background: rgba(255, 255, 255, 0.25);
+		color: #fff;
+		transform: scale(1.08);
 	}
 
 	.key.sharp .hints {
@@ -687,6 +1025,18 @@
 				flex: 1;
 				margin-top: 10px;
 			}
+			.anthem-timeline {
+				height: 120px;
+				margin-top: 4px;
+			}
+			.future-step-barrel {
+				width: 22px;
+				height: 6px;
+			}
+			.pause-text {
+				font-size: 9px;
+				padding: 1px 6px;
+			}
 			.chords-grid {
 				width: 100%;
 				max-width: none;
@@ -725,6 +1075,18 @@
 			}
 			.keys {
 				height: 200px;
+			}
+			.anthem-timeline {
+				height: 110px;
+				margin-top: 4px;
+			}
+			.future-step-barrel {
+				width: 22px;
+				height: 6px;
+			}
+			.pause-text {
+				font-size: 9px;
+				padding: 1px 6px;
 			}
 			.chords-grid {
 				width: 100%;

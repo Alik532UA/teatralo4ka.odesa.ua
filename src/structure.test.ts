@@ -689,6 +689,9 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-19: `festivals/[slug]/+page.svelte` 625 -> 700: розділ «Відеозаписи»
  *   для поїздок з кількома записами (зум-консультації Театр.PRO 2025 тощо),
  *   сітка карток із підписами та центрування поодинокого відео без фотографій.
+ * 2026-09-21: `ui/PianoModal.svelte` 608 -> 940: інтерактивний тренажер
+ *   «Гімн школи» з візуальними паузами між фразами мелодії, плавним підйомом
+ *   нот у ліхтарик (0.5s без телепортації), адаптивною розміткою та кнопкою виходу.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
@@ -703,7 +706,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/admin/articles/+page.svelte': 718,
 	'src/lib/components/ContentWidget.svelte': 700,
 	'src/lib/components/ContentCard.svelte': 610,
-	'src/lib/components/ui/PianoModal.svelte': 608,
+	'src/lib/components/ui/PianoModal.svelte': 940,
 	'src/lib/components/GraduateProfileView.svelte': 1679,
 	'src/lib/components/FooterSection.svelte': 510,
 	'src/routes/projects/galaxy-graduates/groups/+page.svelte': 515,

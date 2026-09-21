@@ -10,8 +10,57 @@
 	import { focusTrap } from '$lib/utils/focusTrap';
 	import { ui } from "$lib/controllers/ui.svelte";
 	import { siblingUrl } from "$lib/siblings";
+	import { browser } from '$app/environment';
+	import { page } from '$app/state';
+	import { replaceState, afterNavigate } from '$app/navigation';
+	import { onMount, untrack } from 'svelte';
 
 	let isPianoOpen = $state(false);
+
+	function syncPianoUrl(open: boolean) {
+		if (!browser) return;
+		const url = new URL(page.url);
+		const current = url.searchParams.get("piano");
+		const target = open ? "open" : null;
+		if (current !== target) {
+			if (target) {
+				url.searchParams.set("piano", target);
+			} else {
+				url.searchParams.delete("piano");
+			}
+			replaceState(url.pathname + url.search + url.hash, {});
+		}
+	}
+
+	function readPianoFromUrl(): boolean {
+		if (!browser) return false;
+		const param = page.url.searchParams.get("piano");
+		return param !== null && param !== "0" && param !== "false";
+	}
+
+	onMount(() => {
+		const syncFromUrl = () => {
+			isPianoOpen = readPianoFromUrl();
+		};
+		syncFromUrl();
+		window.addEventListener("popstate", syncFromUrl);
+		return () => {
+			window.removeEventListener("popstate", syncFromUrl);
+		};
+	});
+
+	afterNavigate(() => {
+		isPianoOpen = readPianoFromUrl();
+	});
+
+	$effect(() => {
+		const open = isPianoOpen;
+		untrack(() => {
+			if (browser) {
+				syncPianoUrl(open);
+			}
+		});
+	});
 
 	/**
 	 * «Замовити сайт» — у DigitalWorkshop, і мовою, якою читають тут.

@@ -205,6 +205,12 @@
 			"A": "A",
 			"A#": "A#",
 			"B": "B"
+		},
+		"anthem": {
+			"button": "School Anthem",
+			"reset": "Reset Anthem",
+			"step": "Note {current} of {total}",
+			"completed": "Great! School Anthem played!"
 		}
 	},
 	"gallery": {
