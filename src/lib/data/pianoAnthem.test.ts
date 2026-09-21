@@ -28,14 +28,22 @@ describe('pianoAnthem', () => {
 		expect(SCHOOL_ANTHEM_SEQUENCE[5].hasPauseAfter).toBe(true);
 	});
 
-	it('містить ноти малої октави ля(мо) та си-бемоль(мо)', () => {
+	it('містить ноти малої октави ля(мо) та си(мо)', () => {
 		const lowLa = SCHOOL_ANTHEM_SEQUENCE.find((s) => s.solfeggio === 'ля(мо)');
 		expect(lowLa?.note).toBe('A3');
 		expect(lowLa?.whiteIndex).toBe(0);
 
-		const lowSiFlat = SCHOOL_ANTHEM_SEQUENCE.find((s) => s.solfeggio === 'си-бемоль(мо)');
-		expect(lowSiFlat?.note).toBe('A#3');
-		expect(lowSiFlat?.sharp).toBe(true);
+		const lowSi = SCHOOL_ANTHEM_SEQUENCE.find((s) => s.solfeggio === 'си(мо)');
+		expect(lowSi?.note).toBe('B3');
+		expect(lowSi?.whiteIndex).toBe(1);
+		expect(lowSi?.sharp).toBe(false);
+	});
+
+	it('містить ноту першої октави си (B4)', () => {
+		const si = SCHOOL_ANTHEM_SEQUENCE.find((s) => s.solfeggio === 'си');
+		expect(si?.note).toBe('B4');
+		expect(si?.whiteIndex).toBe(8);
+		expect(si?.sharp).toBe(false);
 	});
 
 	it('містить ноти другої октави до(2о) та ре(2о)', () => {
@@ -50,7 +58,7 @@ describe('pianoAnthem', () => {
 
 	it('getAnthemStep повертає крок або null за межами', () => {
 		expect(getAnthemStep(0)?.note).toBe('C4');
-		expect(getAnthemStep(231)?.solfeggio).toBe('си-бемоль');
+		expect(getAnthemStep(231)?.solfeggio).toBe('си');
 		expect(getAnthemStep(-1)).toBeNull();
 		expect(getAnthemStep(232)).toBeNull();
 	});
