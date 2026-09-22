@@ -21,6 +21,14 @@ import { HIDDEN_ROUTES } from './lib/config/hiddenRoutes';
  * `QA.md` анти-патерном рівня HIGH: не за формат, а за відсутність цих перевірок.
  */
 
+/**
+ * Джерело САМОЇ сторінки — окремо від решти проєкту.
+ *
+ * Правила § 8 говорять про те, що є на ЦІЙ сторінці: локатор, знайдений у
+ * чужому компоненті, нічого не довів би.
+ */
+const PAGE_SOURCE = readFileSync('src/routes/beta-test-checklists/+page.svelte', 'utf8');
+
 const walk = (dir: string, out: string[] = []): string[] => {
 	for (const entry of readdirSync(dir)) {
 		const full = join(dir, entry).replace(/[\\/]/g, '/');
@@ -308,12 +316,30 @@ describe('чеклист бета-тестування: сторінка поз�
 		expect(parsed).toEqual([...HIDDEN_ROUTES]);
 	});
 
-	it('robots.txt закриває кожну мовну адресу', () => {
+	/**
+	 * § 4.0 `BETA-NOINDEX-OVER-DISALLOW` — перевіряється ПРОТИЛЕЖНЕ.
+	 *
+	 * Доти цей інваріант вимагав `Disallow` на кожну мовну адресу, і це було
+	 * неправильно рівно навпаки. `Disallow` забороняє ЗАВАНТАЖЕННЯ: краулер,
+	 * який його виконав, сторінку не читає — отже й `noindex` у ній не читає
+	 * ніколи, а адреса, на яку хтось послався ззовні, лягає в індекс голим URL.
+	 * Прибрати його потім нічим: прибирає рівно той тег, до якого краулер не
+	 * дійшов. Дві вимоги стояли поруч як набір, а складалися в гірший результат,
+	 * ніж кожна окремо.
+	 *
+	 * Сторож лишається, бо повернути рядок «для надійності» легко й непомітно.
+	 */
+	it('robots.txt НЕ закриває сторінку з noindex (§ 4.0)', () => {
 		const robots = readFileSync('static/robots.txt', 'utf8');
-		const missing = HIDDEN_ROUTES.flatMap((route) => [`${route}/`, `/en${route}/`]).filter(
-			(route) => !robots.includes(`Disallow: ${route}`)
+		const disallowed = [...robots.matchAll(/^Disallow:\s*(\S+)/gm)].map((m) => m[1]);
+
+		const wrong = HIDDEN_ROUTES.filter((route) =>
+			disallowed.some((rule) => rule !== '/' && rule.includes(route.replace(/^\//, '')))
 		);
-		expect(missing, 'адреса не закрита в robots.txt').toEqual([]);
+		expect(
+			wrong,
+			'Disallow забирає в краулера саме той запит, у відповіді на який лежить noindex'
+		).toEqual([]);
 	});
 
 	it('сторінка не з’являється в меню й у пошуку сайту', () => {
@@ -347,5 +373,45 @@ describe('чеклист бета-тестування: сторінка поз�
 			linked,
 			'посилання на службову сторінку з коду сайту — окрім переліку у config/hiddenRoutes.ts'
 		).toEqual([]);
+	});
+
+	/**
+	 * § 5.6 `BETA-LOCATOR-PER-CHECK` + TESTID-AND-NAMING § 1.2.
+	 *
+	 * Обидва правила стояли в каноні, і не падало жодне: за форму `id`
+	 * (`{вкладка}_{номер}`) і за форму локатора (без підкреслень) відповідали
+	 * різні перевірки, а місце, де одне переходить у друге, не дивився ніхто.
+	 */
+	it('локатор пункта виходить із id чистим, без підкреслень (§ 5.6)', () => {
+		const inPage = [...PAGE_SOURCE.matchAll(/data-testid="(beta-[^"]*)"/g)].map((m) => m[1]);
+		expect(inPage.length, 'перевірка мертва: локаторів не знайдено').toBeGreaterThan(0);
+
+		expect(
+			inPage.filter((id) => /\{\s*check\.id\s*\}/.test(id)),
+			'локатор бере check.id без переведення в kebab-case'
+		).toEqual([]);
+		expect(
+			inPage.filter((id) => id.includes('_')),
+			'підкреслення в локаторі'
+		).toEqual([]);
+	});
+
+	/**
+	 * § 8.5.1 `BETA-VERSION-VISIBLE`, § 8.4 `BETA-SCREEN-LINKS`, § 6.2.1
+	 * `BETA-REPORT-HINT-SPLIT`.
+	 *
+	 * Версія й вихід на сторінці були — перший без локатора, другий під власною
+	 * назвою `beta-back-link`. Перелік маршрутів вкладки лежав у даних
+	 * невикористаним. А спільна підказка робила сценарій «підказка видима»
+	 * зеленим саме тоді, коли копіювання НЕ спрацювало.
+	 */
+	it('на сторінці є версія, екрани, вихід і дві різні підказки звіту', () => {
+		expect(PAGE_SOURCE).toContain('data-testid="beta-version-text"');
+		expect(PAGE_SOURCE).toContain('data-testid="beta-home-link"');
+		expect(PAGE_SOURCE, 'перелік екранів лишився лише для перевірок').toContain(
+			'data-testid="beta-screen-'
+		);
+		expect(PAGE_SOURCE).toContain('data-testid="beta-report-hint"');
+		expect(PAGE_SOURCE).toContain('data-testid="beta-report-failed-hint"');
 	});
 });

@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
 	import { resolve } from '$app/paths';
+	import type { Pathname, ResolvedPathname } from '$app/types';
+	import { localizedPath } from '$lib/i18n/routing';
 	import { locale } from 'svelte-i18n';
 	import { ui } from '$lib/controllers/ui.svelte';
 	import {
@@ -59,6 +62,46 @@
 	const tab = $derived(BETA_TABS.find((t) => t.id === activeTab) ?? BETA_TABS[0]);
 
 	/**
+	 * Локатор бере `id` пункта в kebab-case (§ 5.6, `BETA-LOCATOR-PER-CHECK`).
+	 *
+	 * Доти `check.id` підставлявся ЯК Є, і `common_1` давав
+	 * `beta-check-common_1-item` — назву, яку TESTID-AND-NAMING § 1.2 забороняє.
+	 * Обидва правила стояли в каноні, і не падало жодне: за форму `id` і за
+	 * форму локатора відповідали різні перевірки, а перехід одного в друге не
+	 * дивився ніхто.
+	 */
+	const tid = (id: string) => id.replace(/_/g, '-');
+
+	/**
+	 * Маршрути вкладки, які МОЖНА відкрити посиланням (§ 8.4).
+	 *
+	 * Перелік лежав у даних невикористаним: його читав лише інваріант § 5.1.
+	 * Динамічні сегменти відкинуто — конкретного запису тут нема з чого взяти,
+	 * а посилання в 404 гірше за його відсутність.
+	 */
+	const screens = $derived(tab.routes.filter((route) => !route.includes('[')));
+
+	/**
+	 * Адреса екрана — типом `ResolvedPathname`, а не викликом `resolve()`.
+	 *
+	 * Правило `svelte/no-navigation-without-resolve` тут стоїть ПОМИЛКОЮ, і
+	 * задовольняє його саме тип значення: так у цьому проєкті вже зроблені всі
+	 * обчислені адреси (`GalaxyUpdateActions`, `GraduateYears`). Викликом
+	 * `resolve()` не вийде: він типізований переліком ID маршрутів, а
+	 * `tab.routes` оголошені як `readonly string[]` — інакше вкладка не могла б
+	 * називати маршрут із параметром, який інваріант § 5.1 звіряє з деревом
+	 * `src/routes`.
+	 *
+	 * Кінцевий слеш додається тут: у проєкті `trailingSlash: 'always'`, і без
+	 * нього кожне посилання було б зайвим редиректом.
+	 */
+	const screenHref = (route: string): ResolvedPathname =>
+		localizedPath((route.endsWith('/') ? route : `${route}/`) as Pathname, lang);
+
+	/** Адреса → дискримінатор локатора: `/news` → `news`, корінь → `root`. */
+	const screenTid = (route: string) => route.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'root';
+
+	/**
 	 * Порядок рівнів — `manual → testable → covered`, а всередині рівня
 	 * зберігається порядок оголошення: він тематичний, і сортування «як
 	 * зручніше» розсипало б розділи.
@@ -102,11 +145,29 @@
 		}
 	}
 
+	/**
+	 * Зведення знімається САМО через п'ять секунд (§ 6.3.1, `BETA-CLEAR-DISARM`).
+	 *
+	 * Доти кнопка лишалася зведеною до перезавантаження, тобто наступний прихід
+	 * на сторінку починався з того, що між усією роботою і порожнім списком
+	 * стоїть ОДНЕ натискання — і вигляд кнопки про це вже не кричав, бо людина
+	 * не бачила, як вона зводилася.
+	 *
+	 * Таймер прибирається в `onDestroy`: піти з чеклиста одразу після натискання
+	 * — звичайний шлях, і стріляти в стан розмонтованого компонента він не має
+	 * (§ 7.5).
+	 */
+	let armTimer: ReturnType<typeof setTimeout> | undefined;
+	onDestroy(() => clearTimeout(armTimer));
+
 	function doClear() {
 		if (!clearArmed) {
 			clearArmed = true;
+			clearTimeout(armTimer);
+			armTimer = setTimeout(() => (clearArmed = false), 5000);
 			return;
 		}
+		clearTimeout(armTimer);
 		clearMarks();
 		marks = {};
 		clearArmed = false;
@@ -126,7 +187,16 @@
 		`resolve('/')` замість склеювання з `base`: адреса звіряється з реальним
 		переліком маршрутів на етапі компіляції.
 	-->
-	<a class="back" href={resolve('/')} data-testid="beta-back-link">← {say(UI_TEXT.backHome)}</a>
+	<!--
+		ВИХІД ЗІ СТОРІНКИ ПІД КАНОНІЧНИМ ІМЕНЕМ (§ 8.4, `BETA-SCREEN-LINKS`).
+
+		Посилання було й доти, під власною назвою `beta-back-link`. Канон 9.15
+		дав цьому елементу ім'я `beta-home-link`, і два імені на той самий
+		елемент у десяти реалізаціях коштують дорожче, ніж одне перейменування:
+		перейменування локатора не чіпає `id` пункта й тому нікому не стирає
+		прогрес (§ 2.2).
+	-->
+	<a class="back" href={resolve('/')} data-testid="beta-home-link">← {say(UI_TEXT.backHome)}</a>
 
 	<h1 data-testid="beta-page-title">{say(UI_TEXT.pageTitle)}</h1>
 	<p class="intro" data-testid="beta-intro-text">{say(UI_TEXT.intro)}</p>
@@ -134,7 +204,13 @@
 	<p class="progress">
 		{say(UI_TEXT.progress)}:
 		<strong data-testid="beta-progress-value">{fresh} / {total}</strong>
-		<span class="version">({version})</span>
+		<!--
+			Версія була видима й доти — не було ЛОКАТОРА (§ 8.5.1,
+			`BETA-VERSION-VISIBLE`). Підказка «позначено на іншій версії: 1.2.7»
+			на пункті має сенс лише поряд із числом ПОТОЧНОЇ збірки, а довести,
+			що воно нікуди не поділося, без імені неможливо.
+		-->
+		<span class="version" data-testid="beta-version-text">({version})</span>
 	</p>
 
 	<!--
@@ -162,6 +238,28 @@
 		{/each}
 	</nav>
 
+	<!--
+		КУДИ ЙТИ ПО ЦЮ ВКЛАДКУ (§ 8.4, `BETA-SCREEN-LINKS`).
+
+		Показаний той САМИЙ перелік, що читає інваріант § 5.1, тож розійтися з
+		дійсністю непоміченим він не може — на відміну від окремого списку
+		«корисних посилань», який поповнити забувають.
+	-->
+	{#if screens.length > 0}
+		<p class="screens">
+			<span>{say(UI_TEXT.screens)}</span>
+			{#each screens as route (route)}
+				<a
+					class="screen"
+					href={screenHref(route)}
+					data-testid="beta-screen-{screenTid(route)}-link"
+				>
+					{route}
+				</a>
+			{/each}
+		</p>
+	{/if}
+
 	{#each groups as group, levelIndex (group.level)}
 		<section class="level" data-testid="beta-level-{group.level}-section">
 			<h2 class="level-title">
@@ -183,11 +281,11 @@
 			>
 				{#each group.checks as check (check.id)}
 					{@const mark = marks[check.id]}
-					<li class="check" data-testid="beta-check-{check.id}-item">
-						<p class="category" data-testid="beta-check-{check.id}-category-text">
+					<li class="check" data-testid="beta-check-{tid(check.id)}-item">
+						<p class="category" data-testid="beta-check-{tid(check.id)}-category-text">
 							{say(check.category)}
 						</p>
-						<p class="text" data-testid="beta-check-{check.id}-text">{say(check.text)}</p>
+						<p class="text" data-testid="beta-check-{tid(check.id)}-text">{say(check.text)}</p>
 
 						{#if check.coverage === 'covered'}
 							<p class="covered-by">{say(UI_TEXT.coveredBy)}: <code>{check.test}</code></p>
@@ -200,7 +298,7 @@
 									class="vote vote-{value}"
 									class:picked={mark?.vote === value}
 									aria-pressed={mark?.vote === value}
-									data-testid="beta-vote-{check.id}-{value}-btn"
+									data-testid="beta-vote-{tid(check.id)}-{value}-btn"
 									onclick={() => vote(check.id, value)}
 								>
 									{say(UI_TEXT.votes[value])}
@@ -209,7 +307,7 @@
 						</div>
 
 						{#if isStale(mark, version)}
-							<p class="stale" data-testid="beta-check-{check.id}-stale-hint">
+							<p class="stale" data-testid="beta-check-{tid(check.id)}-stale-hint">
 								{say(UI_TEXT.stale)}: {mark.version}
 							</p>
 						{/if}
@@ -228,8 +326,18 @@
 		</button>
 	</div>
 
-	{#if reportHint}
+	<!--
+		ДВІ ПІДКАЗКИ, А НЕ ОДНА (§ 6.2.1, `BETA-REPORT-HINT-SPLIT`).
+
+		Доти `beta-report-hint` показував і «скопійовано», і «буфер недоступний»,
+		тож сценарій «підказка видима» зеленів однаково в обох випадках — тобто
+		перевірка запасного шляху не перевіряла запасного шляху.
+	-->
+	{#if reportHint && !reportFallback}
 		<p class="report-hint" data-testid="beta-report-hint">{reportHint}</p>
+	{/if}
+	{#if reportHint && reportFallback}
+		<p class="report-hint" data-testid="beta-report-failed-hint">{reportHint}</p>
 	{/if}
 
 	{#if reportFallback}

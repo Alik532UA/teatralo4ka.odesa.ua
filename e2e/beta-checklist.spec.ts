@@ -89,17 +89,65 @@ test.describe('чеклист бета-тестування', () => {
 			.click();
 		await page.getByTestId('beta-report-btn').click();
 
-		// Підказка з'являється в обох випадках — і коли буфер спрацював, і коли
-		// ні. Другий випадок мусить ще й показати текст у полі поруч: інакше вся
-		// робота тестувальника зникає на останньому кроці (§ 6.2).
+		// Підказка УСПІХУ має власний локатор (§ 6.2.1,
+		// `BETA-REPORT-HINT-SPLIT`). Доти локатор був один на обидва випадки, і
+		// цей рядок зеленів однаково — що буфер спрацював, що ні; сценарій
+		// нижче через це не міг сказати, який саме шлях він щойно перевірив.
 		await expect(page.getByTestId('beta-report-hint')).toBeVisible();
 
-		const fallback = page.getByTestId('beta-report-input');
-		if (await fallback.count()) {
-			await expect(fallback).toContainText('НЕ ПРАЦЮЄ');
-		} else {
-			const text = await page.evaluate(() => navigator.clipboard.readText());
-			expect(text).toContain('НЕ ПРАЦЮЄ');
-		}
+		const text = await page.evaluate(() => navigator.clipboard.readText());
+		expect(text).toContain('НЕ ПРАЦЮЄ');
+	});
+
+	/**
+	 * ЗАПАСНИЙ ШЛЯХ — окремим сценарієм із НАВМИСНО зламаним буфером (§ 6.2).
+	 *
+	 * Просто «не давати дозволу» не досить: у headless Chromium `writeText`
+	 * після цього однаково спрацьовує, і сторінка йде гілкою успіху. Тобто
+	 * перевірка запасного шляху перевіряла б не його, а те, що кнопка є.
+	 */
+	test('звіт доходить до людини навіть без буфера обміну', async ({ page }) => {
+		await page.addInitScript(() => {
+			Object.defineProperty(navigator, 'clipboard', {
+				configurable: true,
+				value: { writeText: () => Promise.reject(new Error('clipboard blocked in test')) }
+			});
+		});
+		await gotoReady(page, ROUTE);
+
+		await page
+			.getByTestId('beta-level-manual-section')
+			.locator('[data-testid$="-fail-btn"]')
+			.first()
+			.click();
+		await page.getByTestId('beta-report-btn').click();
+
+		await expect(page.getByTestId('beta-report-failed-hint')).toBeVisible();
+
+		// `toHaveValue`, а не `toContainText`: текст приходить у `value`, а не
+		// вмістом вузла, і `toContainText` бачить порожній рядок. Стара редакція
+		// цього сценарію мала саме `toContainText` — і не падала лише тому, що
+		// гілка запасного шляху не виконувалася жодного разу.
+		await expect(page.getByTestId('beta-report-input')).toHaveValue(/НЕ ПРАЦЮЄ/);
+	});
+
+	/**
+	 * § 8.5.1 `BETA-VERSION-VISIBLE` і § 8.4 `BETA-SCREEN-LINKS`: версія
+	 * відповідає на «чи рахується моя позначка» (підказка про чужу позначку
+	 * несе число, і без поточного їй нема з чим порівнятися), а перелік екранів
+	 * знімає найдовший крок у роботі — прочитав пункт, шукає, де це на сайті.
+	 */
+	test('на сторінці видно версію, екрани вкладки й вихід', async ({ page }) => {
+		await gotoReady(page, ROUTE);
+
+		await expect(page.getByTestId('beta-version-text')).toHaveText(/\d/);
+		await expect(
+			page.getByTestId('beta-home-link'),
+			'зі службової сторінки нема куди піти'
+		).toHaveAttribute('href', /.+/);
+
+		const links = page.locator('[data-testid^="beta-screen-"]');
+		expect(await links.count(), 'вкладка не показала жодного екрана').toBeGreaterThan(0);
+		await expect(links.first()).toHaveAttribute('href', /.+/);
 	});
 });

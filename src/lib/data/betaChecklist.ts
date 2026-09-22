@@ -844,5 +844,6 @@ export const UI_TEXT = {
 		uk: 'Стерти всі позначки цього чеклиста?',
 		en: 'Clear every mark in this checklist?'
 	},
-	coveredBy: { uk: 'Покрито', en: 'Covered by' }
+	coveredBy: { uk: 'Покрито', en: 'Covered by' },
+	screens: { uk: 'Де це дивитися:', en: 'Where to look:' }
 } as const;

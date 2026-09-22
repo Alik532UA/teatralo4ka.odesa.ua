@@ -1,3 +1,21 @@
+# СТОРІНКИ З `noindex` ТУТ НЕМАЄ, і це рішення (BETA-CHECKLIST § 4.0,
+# `BETA-NOINDEX-OVER-DISALLOW`).
+#
+# `/beta-test-checklists/` разом із англійською адресою донедавна стояла в
+# кожній групі нижче — і водночас віддавала `noindex` у власному HTML. Разом це
+# гірше за кожне окремо: `Disallow` забороняє ЗАВАНТАЖЕННЯ, тож краулер
+# сторінку не читає й `noindex` у ній не бачить ніколи, а адреса, на яку хтось
+# послався ззовні, лягає в індекс голим URL — прибрати його нічим, бо прибирає
+# рівно той тег, до якого краулер не дійшов.
+#
+# Те саме стосується `/projects/galaxy-graduates/stats/` — вона теж у
+# `HIDDEN_ROUTES`, тобто теж несе `noindex`, і рядок так само працював проти
+# нього. Лишилася нижче тільки адмінка: їй `noindex` не потрібен, бо там метою є
+# сам обхід, а не індексація.
+#
+# Відсутність рядка стереже інваріант у `src/beta-checklist.test.ts`: повернути
+# його «для надійності» легко й непомітно.
+#
 # Групи в robots.txt НЕ успадковуються: краулер обирає одну — найточніший
 # збіг за User-agent — і виконує тільки її, ігноруючи `*` цілком. Тому кожен
 # блок нижче повторює той самий перелік Disallow. Це не дублювання: рядок,
@@ -7,10 +25,6 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 # --- Пошукові AI-агенти: від них залежить видимість у відповідях ---
 
@@ -18,37 +32,21 @@ Disallow: /en/projects/galaxy-graduates/stats/
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 # перехід за посиланням на запит користувача
 User-agent: ChatGPT-User
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 # індексатор Perplexity
 User-agent: PerplexityBot
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 # краулер Anthropic
 User-agent: ClaudeBot
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 # --- Тренувальні краулери: на видимість у пошуку не впливають ---
 # Дозволені свідомо; рішення записане в PROJECT-CONTEXT.md.
@@ -58,10 +56,6 @@ Disallow: /en/projects/galaxy-graduates/stats/
 User-agent: GPTBot
 Allow: /
 Disallow: /admin/
-Disallow: /beta-test-checklists/
-Disallow: /en/beta-test-checklists/
-Disallow: /projects/galaxy-graduates/stats/
-Disallow: /en/projects/galaxy-graduates/stats/
 
 Host: https://teatralo4ka.odesa.ua
 Sitemap: https://teatralo4ka.odesa.ua/sitemap.xml
