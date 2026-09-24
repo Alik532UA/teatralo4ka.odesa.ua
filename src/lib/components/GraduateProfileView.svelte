@@ -2362,5 +2362,6 @@
 		line-height: 1.55;
 		color: var(--galaxy-text);
 		overflow-wrap: anywhere;
+		white-space: pre-line;
 	}
 </style>
