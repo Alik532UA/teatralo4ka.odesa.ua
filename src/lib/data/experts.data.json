@@ -378,7 +378,8 @@
 				"year": 2022,
 				"text": "актор театру та кіно, заслужений артист України"
 			}
-		]
+		],
+		"photo": "/experts/serhii-kalantai.webp"
 	},
 	{
 		"slug": "yevheniia-huliakina",
@@ -625,7 +626,8 @@
 				"year": 2022,
 				"text": "акторка театру, кіно та дубляжу, заслужена артистка України"
 			}
-		]
+		],
+		"photo": "/experts/inna-kapinos.webp"
 	},
 	{
 		"slug": "valerii-fialko",
