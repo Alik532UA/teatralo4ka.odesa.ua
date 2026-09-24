@@ -57,7 +57,51 @@ import { foldLetters } from './searchQuery';
  * сайту (`/residents/adults/`), і підписати їх «Галактикою» означало б послати
  * читача не туди, куди веде рядок.
  */
-export type SearchKind = 'page' | 'news' | 'galaxy' | 'master';
+export type SearchKind =
+	| 'page'
+	| 'news'
+	| 'festival'
+	| 'play'
+	| 'group'
+	| 'institution'
+	| 'theatre'
+	| 'graduate'
+	| 'student'
+	| 'master'
+	| 'expert'
+	| 'friend'
+	| 'galaxy';
+
+export function searchKindKey(kind: SearchKind): string {
+	switch (kind) {
+		case 'news':
+			return 'search.kindNews';
+		case 'page':
+			return 'search.kindPage';
+		case 'festival':
+			return 'search.kindFestival';
+		case 'play':
+			return 'search.kindPlay';
+		case 'group':
+			return 'search.kindGroup';
+		case 'institution':
+			return 'search.kindInstitution';
+		case 'theatre':
+			return 'search.kindTheatre';
+		case 'graduate':
+			return 'search.kindGraduate';
+		case 'student':
+			return 'search.kindStudent';
+		case 'master':
+			return 'search.kindMaster';
+		case 'expert':
+			return 'search.kindExpert';
+		case 'friend':
+			return 'search.kindFriend';
+		default:
+			return 'search.kindGalaxy';
+	}
+}
 
 export interface SearchEntry {
 	/** Унікальний ключ для `{#each}`. */

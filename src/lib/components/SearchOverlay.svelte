@@ -2,7 +2,7 @@
 	import { locale, t } from 'svelte-i18n';
 	import { Search, X, FileText, Newspaper, Sparkles, Users } from 'lucide-svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
-	import { MIN_QUERY_LENGTH, searchEntries, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
+	import { MIN_QUERY_LENGTH, searchEntries, searchKindKey, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
 	import { focusTrap } from '$lib/utils/focusTrap';
 
 	/**
@@ -256,22 +256,16 @@
 						data-testid="search-hit-{hit.kind}-link"
 					>
 						<span class="search__hit-icon" aria-hidden="true">
-							{#if hit.kind === 'news'}<Newspaper size={15} />{:else if hit.kind === 'galaxy'}<Sparkles
+							{#if hit.kind === 'news'}<Newspaper size={15} />{:else if hit.kind === 'master' || hit.kind === 'expert' || hit.kind === 'friend'}<Users
 									size={15}
-								/>{:else if hit.kind === 'master'}<Users size={15} />{:else}<FileText size={15} />{/if}
+								/>{:else if hit.kind === 'page'}<FileText size={15} />{:else}<Sparkles size={15} />{/if}
 						</span>
 						<span class="search__hit-body">
 							<span class="search__hit-title">{hit.title}</span>
 							{#if hit.snippet}<span class="search__hit-snippet">{hit.snippet}</span>{/if}
 						</span>
 						<span class="search__hit-kind">
-							{hit.kind === 'news'
-								? $t('search.kindNews')
-								: hit.kind === 'galaxy'
-									? $t('search.kindGalaxy')
-									: hit.kind === 'master'
-										? $t('search.kindMaster')
-										: $t('search.kindPage')}
+							{$t(searchKindKey(hit.kind))}
 						</span>
 					</a>
 				{/each}

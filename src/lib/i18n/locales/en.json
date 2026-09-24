@@ -966,7 +966,16 @@
 		"kindNews": "News",
 		"open": "Search",
 		"kindGalaxy": "Galaxy",
-		"kindMaster": "Teacher"
+		"kindMaster": "Teacher",
+		"kindFestival": "Festival",
+		"kindPlay": "Play",
+		"kindGroup": "Group",
+		"kindInstitution": "Institution",
+		"kindTheatre": "Theatre",
+		"kindGraduate": "Graduate",
+		"kindStudent": "Student",
+		"kindExpert": "Expert",
+		"kindFriend": "Friend of school"
 	},
 	"galaxy": {
 		"title": "Galaxy of Graduates",

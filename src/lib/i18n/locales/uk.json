@@ -966,7 +966,16 @@
 		"kindNews": "Новина",
 		"open": "Пошук",
 		"kindGalaxy": "Галактика",
-		"kindMaster": "Викладач"
+		"kindMaster": "Викладач",
+		"kindFestival": "Фестиваль",
+		"kindPlay": "Вистава",
+		"kindGroup": "Група",
+		"kindInstitution": "Заклад освіти",
+		"kindTheatre": "Театр",
+		"kindGraduate": "Випускник",
+		"kindStudent": "Учень",
+		"kindExpert": "Фахівець",
+		"kindFriend": "Друг школи"
 	},
 	"galaxy": {
 		"title": "Галактика випускників",

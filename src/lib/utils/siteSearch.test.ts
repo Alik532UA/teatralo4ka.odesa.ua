@@ -316,7 +316,7 @@ describe('galaxyEntries: митці та друзі', () => {
 		const stefan = entries.find((e) => e.title === 'Олег Стефан');
 		expect(stefan).toBeDefined();
 		expect(stefan?.href).toBe('/projects/galaxy-graduates/masters/oleh-stefan/');
-		expect(stefan?.kind).toBe('galaxy');
+		expect(stefan?.kind).toBe('expert');
 		expect(stefan?.text).toContain('Львів');
 		expect(stefan?.text).toContain('Мрій-Дім');
 
@@ -331,7 +331,7 @@ describe('galaxyEntries: митці та друзі', () => {
 		const ziubina = entries.find((e) => e.title === 'Римма Зюбіна');
 		expect(ziubina).toBeDefined();
 		expect(ziubina?.href).toBe('/projects/galaxy-graduates/masters/rymma-ziubina/');
-		expect(ziubina?.kind).toBe('galaxy');
+		expect(ziubina?.kind).toBe('expert');
 		expect(ziubina?.text).toContain('Київ');
 		expect(ziubina?.text).toContain('Акторка театру і кіно');
 
@@ -346,11 +346,25 @@ describe('galaxyEntries: митці та друзі', () => {
 		const barskyi = entries.find((e) => e.title === 'Борис Барський');
 		expect(barskyi).toBeDefined();
 		expect(barskyi?.href).toBe('/projects/galaxy-graduates/friends/');
-		expect(barskyi?.kind).toBe('galaxy');
+		expect(barskyi?.kind).toBe('friend');
 
 		const hits = searchEntries(entries, 'Борис Барський');
 		expect(hits.length).toBeGreaterThan(0);
 		expect(hits[0].id).toBe('friend:borys-barskyi');
+	});
+
+	it('індексує фестивалі з роком у назві та точною категорією festival', async () => {
+		const { galaxyEntries } = await import('$lib/services/searchGalaxy');
+		const entries = galaxyEntries();
+		const mriiDim2012 = entries.find((e) => e.id === 'festival:mrii-dim-2012');
+		expect(mriiDim2012).toBeDefined();
+		expect(mriiDim2012?.title).toBe('Мрій-Дім (2012)');
+		expect(mriiDim2012?.kind).toBe('festival');
+
+		const mriiDim2013 = entries.find((e) => e.id === 'festival:mrii-dim-2013');
+		expect(mriiDim2013).toBeDefined();
+		expect(mriiDim2013?.title).toBe('Мрій-Дім (2013)');
+		expect(mriiDim2013?.kind).toBe('festival');
 	});
 });
 

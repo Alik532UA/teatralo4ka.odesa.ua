@@ -84,7 +84,7 @@ function людина(
 		id: `person:${запис.slug}`,
 		title: запис.name,
 		href: `${graduateProfilePath(graduateAddress(запис))}/`,
-		kind: 'galaxy',
+		kind: запис.kind === 'student' ? 'student' : 'graduate',
 		text: `${запис.name} ${рік}`
 	};
 }
@@ -120,7 +120,7 @@ export function galaxyEntries(
 			id: `play:${p.id}`,
 			title: p.title,
 			href: `${playPath(p.id)}/`,
-			kind: 'galaxy',
+			kind: 'play',
 			/* Автор і курс тут не прикраса: виставу шукають і за п'єсою, і за
 			   курсом, який її грав. */
 			text: [p.title, p.year, p.author, p.theatreGroup, p.theatreGroupAlt].filter(Boolean).join(' ')
@@ -132,18 +132,19 @@ export function galaxyEntries(
 			id: `group:${g.slug}`,
 			title: g.name,
 			href: `${groupProfilePath(g.slug)}/`,
-			kind: 'galaxy',
+			kind: 'group',
 			text: [g.name, g.abbr, ...(g.graduationYears ?? [])].filter(Boolean).join(' ')
 		});
 	}
 
 	for (const f of FESTIVALS) {
+		const роки = [...f.years].sort((a, b) => a - b).join(', ');
 		out.push({
 			id: `festival:${f.slug}`,
-			title: f.name,
+			title: роки ? `${f.name} (${роки})` : f.name,
 			href: `${festivalPath(f.slug)}/`,
-			kind: 'galaxy',
-			text: [f.name, f.nameEn, f.city, ...країни(f.countries)].filter(Boolean).join(' ')
+			kind: 'festival',
+			text: [f.name, f.nameEn, роки, f.city, ...країни(f.countries)].filter(Boolean).join(' ')
 		});
 	}
 
@@ -152,7 +153,7 @@ export function galaxyEntries(
 			id: `institution:${i.slug}`,
 			title: i.name,
 			href: `${institutionPath(i.slug)}/`,
-			kind: 'galaxy',
+			kind: 'institution',
 			text: [i.name, i.fullName, i.city, ...країни(i.countries)].filter(Boolean).join(' ')
 		});
 	}
@@ -162,7 +163,7 @@ export function galaxyEntries(
 			id: `theatre:${t.slug}`,
 			title: t.name,
 			href: `${theatrePath(t.slug)}/`,
-			kind: 'galaxy',
+			kind: 'theatre',
 			/* Колишня назва теж у тексті: у шкільних архівах театр згаданий саме
 			   нею, і шукати його будуть так само. */
 			text: [t.name, t.fullName, ...(t.formerNames ?? []), t.city, ...країни(t.countries)]
@@ -213,7 +214,7 @@ export function galaxyEntries(
 			id: `expert:${e.slug}`,
 			title: e.name,
 			href: `${expertPath(e.slug)}/`,
-			kind: 'galaxy',
+			kind: 'expert',
 			text: [e.name, e.nameEn, e.city, ...titles, ...fests, ...friendText].filter(Boolean).join(' ')
 		});
 	}
@@ -229,7 +230,7 @@ export function galaxyEntries(
 			id: `friend:${f.slug}`,
 			title: f.name,
 			href: '/projects/galaxy-graduates/friends/',
-			kind: 'galaxy',
+			kind: 'friend',
 			text: [f.name, f.nameEn, f.role.uk, f.role.en, 'зіркові друзі', 'друг школи'].filter(Boolean).join(' ')
 		});
 	}
