@@ -211,6 +211,58 @@ describe('searchEntries', () => {
 		const hitsUk = searchEntries(entries, 'School', 20, 'uk');
 		expect(hitsUk[0].id).toBe('page:uk:about');
 	});
+
+	it('знаходить контакти за прихованими ключами «Адреса», «Факс» та видимим «email»', () => {
+		const rawMd = `
+# Контакти
+
+## **Одеська театральна школа**
+
+<span class="sr-only">Адреса, факс, email (address, fax)</span>
+
+**[м. Одеса, вул. Софіївська, 24](https://maps.app.goo.gl/ya4gki6tuZv36Tjz8)**
+
+### Телефони
++380 48 723 63 04 — директор
+
+### Email
+teatr_school@i.ua
+`;
+		const contactsEntry: SearchEntry = {
+			id: 'page:uk:contacts',
+			title: 'Контакти',
+			href: '/contacts/',
+			kind: 'page',
+			text: plainTextFromMarkdown(rawMd)
+		};
+
+		for (const query of ['Адреса', 'адреса', 'Факс', 'факс', 'email', 'Email']) {
+			const hits = searchEntries([contactsEntry], query);
+			expect(hits, `Пошук не знайшов сторінку за запитом "${query}"`).toHaveLength(1);
+			expect(hits[0].id).toBe('page:uk:contacts');
+		}
+	});
+
+	it('індексує сторінку контактів з файлів на диску та знаходить її за ключами', async () => {
+		const { pageEntries } = await import('$lib/services/searchIndex');
+		const pages = pageEntries('uk');
+		const contacts = pages.find((p) => p.id === 'page:uk:contacts');
+		expect(contacts).toBeDefined();
+
+		for (const query of ['Адреса', 'адреса', 'Факс', 'факс', 'email', 'Email']) {
+			const hits = searchEntries(pages, query, 10, 'uk');
+			expect(hits.some((h) => h.id === 'page:uk:contacts'), `Пошук не знайшов контакти за запитом "${query}"`).toBe(true);
+		}
+
+		const pagesEn = pageEntries('en');
+		const contactsEn = pagesEn.find((p) => p.id === 'page:en:contacts');
+		expect(contactsEn).toBeDefined();
+
+		for (const query of ['Address', 'address', 'Fax', 'fax', 'email', 'Email']) {
+			const hits = searchEntries(pagesEn, query, 10, 'en');
+			expect(hits.some((h) => h.id === 'page:en:contacts'), `EN search didn't find contacts for "${query}"`).toBe(true);
+		}
+	});
 });
 
 /**

@@ -1711,6 +1711,42 @@ textarea::placeholder {
 }
 
 /*
+ * СІТКА СТОРІНКИ КОНТАКТІВ (2 КОЛОНКИ: ДАНІ ТА МАПА)
+ */
+.page-content[data-testid='contacts-page-section'] .page-body {
+	max-width: 1060px;
+}
+
+.contacts-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2.5rem;
+	align-items: start;
+	margin-top: 1.5rem;
+}
+
+@media (max-width: 860px) {
+	.contacts-grid {
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+}
+
+.contacts-grid__info {
+	min-width: 0;
+}
+
+.contacts-grid__map iframe {
+	width: 100%;
+	max-width: 100%;
+	height: 450px;
+	border: 0;
+	border-radius: 16px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	display: block;
+}
+
+/*
  * ОБЛИЧЧЯ ПЕРЕД ІМЕНЕМ У ТЕКСТІ.
  *
  * Кружечок вставляє `ProsePeopleLinks` — ВРУЧНУ в DOM, бо текст приходить із
