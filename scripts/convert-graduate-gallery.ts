@@ -54,19 +54,25 @@ const MAX_TRIM = 1 / 3;
 function parseArgs() {
 	let slug = '';
 	let dir = '';
+	let start = 0;
+	let append = false;
 	for (const arg of process.argv.slice(2)) {
 		if (arg.startsWith('--slug=')) slug = arg.slice('--slug='.length);
 		if (arg.startsWith('--dir=')) dir = arg.slice('--dir='.length);
+		if (arg.startsWith('--start=')) start = parseInt(arg.slice('--start='.length), 10);
+		if (arg === '--append') append = true;
 	}
 	if (!slug || !dir) {
-		console.error('Usage: npx tsx scripts/convert-graduate-gallery.ts --slug=<адреса> --dir=<тека>');
+		console.error(
+			'Usage: npx tsx scripts/convert-graduate-gallery.ts --slug=<адреса> --dir=<тека> [--start=<число>] [--append]'
+		);
 		process.exit(1);
 	}
-	return { slug, dir };
+	return { slug, dir, start, append };
 }
 
 async function main() {
-	const { slug, dir } = parseArgs();
+	const { slug, dir, start, append } = parseArgs();
 	const files = fs.readdirSync(dir).filter((f) => SOURCES.test(f)).sort();
 	if (files.length === 0) {
 		console.error(`У ${dir} немає знімків`);
@@ -75,6 +81,19 @@ async function main() {
 
 	const outDir = path.join(OUT_ROOT, slug);
 	fs.mkdirSync(outDir, { recursive: true });
+
+	let startIndex = 1;
+	if (start > 0) {
+		startIndex = start;
+	} else if (append) {
+		const existing = fs
+			.readdirSync(outDir)
+			.filter((f) => /^\d+\.webp$/i.test(f))
+			.map((f) => parseInt(f, 10));
+		if (existing.length > 0) {
+			startIndex = Math.max(...existing) + 1;
+		}
+	}
 
 	const browser = await chromium.launch();
 	const page = await browser.newPage();
@@ -88,12 +107,9 @@ async function main() {
 
 		const result = await page.evaluate(
 			async ({ dataUrl, maxSide, quality, dark, darkShare, maxTrim }) => {
-				const img = await new Promise<HTMLImageElement>((resolve, reject) => {
-					const el = new Image();
-					el.onload = () => resolve(el);
-					el.onerror = reject;
-					el.src = dataUrl;
-				});
+				const res = await fetch(dataUrl);
+				const blob = await res.blob();
+				const img = await createImageBitmap(blob, { imageOrientation: 'from-image' });
 
 				// Поля шукаються на ОРИГІНАЛІ: після зменшення межа поля
 				// розмивається інтерполяцією, і рядок перестає бути темним.
@@ -143,8 +159,8 @@ async function main() {
 				const height = Math.round(cropH * scale);
 				const canvas = new OffscreenCanvas(width, height);
 				canvas.getContext('2d')!.drawImage(img, left, top, cropW, cropH, 0, 0, width, height);
-				const blob = await canvas.convertToBlob({ type: 'image/webp', quality });
-				const buffer = await blob.arrayBuffer();
+				const outBlob = await canvas.convertToBlob({ type: 'image/webp', quality });
+				const buffer = await outBlob.arrayBuffer();
 				let binary = '';
 				for (const byte of new Uint8Array(buffer)) binary += String.fromCharCode(byte);
 				return {
@@ -165,10 +181,11 @@ async function main() {
 			}
 		);
 
-		const outName = `${String(i + 1).padStart(2, '0')}.webp`;
+		const outIndex = startIndex + i;
+		const outName = `${String(outIndex).padStart(2, '0')}.webp`;
 		fs.writeFileSync(path.join(outDir, outName), Buffer.from(result.base64, 'base64'));
 		const поля = result.зрізано ? ` (поля зрізано до ${result.зрізано})` : '';
-		console.log(`${outName}: ${result.from}${поля} → ${result.width}×${result.height}`);
+		console.log(`${outName} (${file}): ${result.from}${поля} → ${result.width}×${result.height}`);
 		рядки.push(
 			`\t'/graduates/gallery/${slug}/${outName}': { width: ${result.width}, height: ${result.height} },`
 		);
@@ -178,7 +195,7 @@ async function main() {
 
 	// Без цього запису сторінка віддає 500, а не просто губить розмір:
 	// `imageSize()` розкладає `LOCAL_IMAGE_SIZES[path]` і падає на `undefined`.
-	console.log('\nДодати в `src/lib/config/localImages.ts`:');
+	console.log('\nДодати в `src/lib/config/localGalleryImages.ts`:');
 	console.log(рядки.join('\n'));
 }
 

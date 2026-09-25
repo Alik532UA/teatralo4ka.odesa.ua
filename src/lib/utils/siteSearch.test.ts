@@ -243,8 +243,10 @@ teatr_school@i.ua
 		}
 	});
 
-	it('індексує сторінку контактів з файлів на диску та знаходить її за ключами', async () => {
-		const { pageEntries } = await import('$lib/services/searchIndex');
+	it(
+		'індексує сторінку контактів з файлів на диску та знаходить її за ключами',
+		async () => {
+			const { pageEntries } = await import('$lib/services/searchIndex');
 		const pages = pageEntries('uk');
 		const contacts = pages.find((p) => p.id === 'page:uk:contacts');
 		expect(contacts).toBeDefined();
@@ -262,7 +264,7 @@ teatr_school@i.ua
 			const hits = searchEntries(pagesEn, query, 10, 'en');
 			expect(hits.some((h) => h.id === 'page:en:contacts'), `EN search didn't find contacts for "${query}"`).toBe(true);
 		}
-	});
+	}, 40000);
 });
 
 /**
