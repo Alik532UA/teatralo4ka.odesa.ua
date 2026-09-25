@@ -312,10 +312,13 @@ describe('реєстр навчальних закладів', () => {
 		const bad: string[] = [];
 		for (const institution of INSTITUTIONS)
 			for (const student of institution.students) {
-				if (student.master && !student.masterSlug)
+				const slugs = student.masterSlugs ?? (student.masterSlug ? [student.masterSlug] : []);
+				if (student.master && slugs.length === 0)
 					bad.push(`${institution.slug}/${student.id}: «${student.master}» без masterSlug`);
-				if (student.masterSlug && !відомі.has(student.masterSlug))
-					bad.push(`${institution.slug}/${student.id}: фахівця «${student.masterSlug}» немає`);
+				for (const slug of slugs) {
+					if (!відомі.has(slug))
+						bad.push(`${institution.slug}/${student.id}: фахівця «${slug}» немає`);
+				}
 			}
 		expect(bad, `майстер курсу без сутності:\n  ${bad.join('\n  ')}`).toEqual([]);
 	});
@@ -326,9 +329,10 @@ describe('реєстр навчальних закладів', () => {
 		const bad: string[] = [];
 		for (const institution of INSTITUTIONS) {
 			for (const student of institution.students) {
-				if (student.masterSlug) {
-					if (!knownExperts.has(student.masterSlug)) {
-						bad.push(`${student.id}: невідомий masterSlug «${student.masterSlug}»`);
+				const slugs = student.masterSlugs ?? (student.masterSlug ? [student.masterSlug] : []);
+				for (const slug of slugs) {
+					if (!knownExperts.has(slug)) {
+						bad.push(`${student.id}: невідомий masterSlug «${slug}»`);
 					}
 					if (!knownGrads.has(student.id)) {
 						bad.push(`${student.id}: студента немає в graduatesIndex`);

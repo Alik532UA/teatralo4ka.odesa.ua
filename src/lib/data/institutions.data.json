@@ -18,6 +18,7 @@
 			},
 			{
 				"id": "kateryna-kurchenko",
+				"year": 2024,
 				"programme": "акторський",
 				"master": "С. Мойсеєва",
 				"masterSlug": "stanislav-moiseiev"
@@ -212,8 +213,12 @@
 				"id": "mariia-mandriesk",
 				"year": 2025,
 				"programme": "акторський",
-				"master": "Л. Семирозуменко",
-				"masterSlug": "larysa-semyrozumenko"
+				"master": "В. та Л. Семирозуменків",
+				"masterSlug": "larysa-semyrozumenko",
+				"masterSlugs": [
+					"viktor-semyrozumenko",
+					"larysa-semyrozumenko"
+				]
 			},
 			{
 				"id": "anastasiia-ivanova",
@@ -397,21 +402,34 @@
 			{
 				"id": "kyrylo-karazeiskyi",
 				"year": 2025,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "В. Сагана",
+				"masterSlug": "volodymyr-sahan"
 			},
 			{
 				"id": "yeva-horokhova",
 				"year": 2026,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "В. Сагана",
+				"masterSlug": "volodymyr-sahan"
 			},
 			{
 				"id": "kateryna-petrenko",
 				"year": 2026,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "В. Сагана",
+				"masterSlug": "volodymyr-sahan"
+			},
+			{
+				"id": "oleksandra-karachevska",
+				"year": 2024,
+				"programme": "акторський",
+				"master": "В. Сагана",
+				"masterSlug": "volodymyr-sahan"
 			},
 			{
 				"id": "alina-halach",
-				"year": 2026,
+				"year": 2025,
 				"programme": "акторський"
 			},
 			{
@@ -570,7 +588,9 @@
 			{
 				"id": "valeriia-babenko",
 				"year": 2025,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "І. Калашнікової",
+				"masterSlug": "iryna-kalashnikova"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -617,7 +637,14 @@
 			},
 			{
 				"id": "daniela-rybalchenko",
-				"programme": "акторський"
+				"year": 2024,
+				"programme": "акторський",
+				"master": "Л. Самаєвої та О. Яреми",
+				"masterSlug": "lesia-samaieva",
+				"masterSlugs": [
+					"lesia-samaieva",
+					"oleksandr-yarema"
+				]
 			},
 			{
 				"id": "diana-kucherenko",
@@ -657,23 +684,38 @@
 			},
 			{
 				"id": "yelyzaveta-maliuzhenko",
-				"year": 2023,
-				"programme": "акторський"
+				"year": 2024,
+				"programme": "акторський",
+				"master": "Л. Самаєвої та О. Яреми",
+				"masterSlug": "lesia-samaieva",
+				"masterSlugs": [
+					"lesia-samaieva",
+					"oleksandr-yarema"
+				]
 			},
 			{
 				"id": "mariia-mahdalina-matvieieva",
 				"year": 2024,
-				"programme": "естрадний"
+				"programme": "артистів розмовного жанру",
+				"master": "О. Педана",
+				"masterSlug": "oleksandr-pedan"
 			},
 			{
 				"id": "taisiia-ruseskul",
 				"year": 2024,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Л. Самаєвої та О. Яреми",
+				"masterSlug": "lesia-samaieva",
+				"masterSlugs": [
+					"lesia-samaieva",
+					"oleksandr-yarema"
+				]
 			},
 			{
 				"id": "sofiia-hrabilina",
 				"year": 2024,
-				"programme": "акторський"
+				"programme": "акторський",
+				"note": "фаховий коледж"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -920,7 +962,16 @@
 			{
 				"id": "khrystia-oslavska",
 				"year": 2025,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "М. Набоки",
+				"masterSlug": "mykola-naboka"
+			},
+			{
+				"id": "mariia-poliakova-2",
+				"year": 2025,
+				"programme": "акторський",
+				"master": "Є. Чистоклетова",
+				"masterSlug": "yevhen-chystokletov"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -1090,7 +1141,7 @@
 		"students": [
 			{
 				"id": "mariia-zyhar",
-				"year": 2022,
+				"year": 2024,
 				"programme": "акторський"
 			},
 			{
@@ -1153,7 +1204,8 @@
 		"students": [
 			{
 				"id": "sofia-chernova",
-				"year": 2025
+				"year": 2025,
+				"programme": "акторський"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -1198,7 +1250,8 @@
 		"students": [
 			{
 				"id": "daria-kristiian",
-				"year": 2025
+				"year": 2025,
+				"programme": "акторський"
 			}
 		],
 		"verificationStatus": "possible_errors"
@@ -1232,12 +1285,16 @@
 			{
 				"id": "yeva-reznik",
 				"year": 2024,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Гіо Пачкорія",
+				"masterSlug": "hio-pachkoriia"
 			},
 			{
 				"id": "anna-mariia-vyskochyl",
 				"year": 2024,
-				"programme": "акторський"
+				"programme": "акторський",
+				"master": "Гіо Пачкорія",
+				"masterSlug": "hio-pachkoriia"
 			}
 		],
 		"verificationStatus": "possible_errors"

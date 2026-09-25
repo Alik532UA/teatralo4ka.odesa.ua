@@ -21,7 +21,7 @@
 	type Майстер = { slug: string; displayName: string; photo?: string };
 	type Заклад = {
 		name: string;
-		students: { id: string; year?: number; masterSlug?: string }[];
+		students: { id: string; year?: number; masterSlug?: string; masterSlugs?: string[] }[];
 	};
 	type Фахівець = { slug: string; name: string; photo?: string };
 
@@ -85,8 +85,9 @@
 			 * відмінку («О. Замятіна»), бо підставляється в «курс …». Окремим
 			 * рядком це читалося б як помилка.
 			 */
-			const ф = студент.masterSlug
-				? (EXPERTS_DATA as Фахівець[]).find((x) => x.slug === студент.masterSlug)
+			const targetSlug = студент.masterSlug ?? студент.masterSlugs?.[0];
+			const ф = targetSlug
+				? (EXPERTS_DATA as Фахівець[]).find((x) => x.slug === targetSlug)
 				: undefined;
 			if (ф) майстерВНЗ = { name: ф.name, photo: ф.photo ? asset(ф.photo) : undefined };
 			break;

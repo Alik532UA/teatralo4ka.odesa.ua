@@ -80,7 +80,8 @@ export const load: PageLoad = async ({ params, url, fetch }) => {
 	for (const заклад of INSTITUTIONS) {
 		let свій = false;
 		for (const s of заклад.students) {
-			if (s.masterSlug !== expert.slug) continue;
+			const hasSlug = s.masterSlugs ? s.masterSlugs.includes(expert.slug) : s.masterSlug === expert.slug;
+			if (!hasSlug) continue;
 			свій = true;
 			const g = LINKED_GRADUATES.find((x) => x.id === s.id);
 			if (g) студенти.push({ institution: заклад.slug, graduate: g });

@@ -47,8 +47,12 @@
 	 */
 	const студентиФахівця: Record<string, string[]> = {};
 	for (const заклад of INSTITUTIONS)
-		for (const s of заклад.students)
-			if (s.masterSlug) (студентиФахівця[s.masterSlug] ??= []).push(s.id);
+		for (const s of заклад.students) {
+			const slugs = s.masterSlugs ?? (s.masterSlug ? [s.masterSlug] : []);
+			for (const slug of slugs) {
+				(студентиФахівця[slug] ??= []).push(s.id);
+			}
+		}
 
 	const VISIBLE_EXPERTS = EXPERTS.filter((e) => !e.hidden && !e.hiddenFromMasters);
 

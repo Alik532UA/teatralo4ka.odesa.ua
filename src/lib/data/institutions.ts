@@ -119,6 +119,8 @@ export interface InstitutionStudent {
 	 * жоден гейт.
 	 */
 	masterSlug?: string;
+	/** Кілька майстрів курсу, коли їх двоє («Л. Самаєвої та О. Яреми»). */
+	masterSlugs?: string[];
 	/** Те, чого не скажеш попередніми полями: «філіал у Мюнхені, Німеччина». */
 	note?: string;
 }

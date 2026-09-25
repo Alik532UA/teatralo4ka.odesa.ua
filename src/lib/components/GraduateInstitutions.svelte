@@ -92,7 +92,24 @@
 					href={localizedPath(institutionPath(institution.slug), lang)}
 					title={institution.fullName || (isEn && institution.nameEn ? institution.nameEn : institution.name)}
 					data-testid="{testIdPrefix}-link-{institution.slug}"
-				><span class="inst-badge" aria-hidden="true"><School size={15} /></span><span class="inst-name">{isEn && institution.nameEn ? institution.nameEn : institution.name}</span></a>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}<span class="master-item">{#if student.masterSlug}{@const expert = getExpertBySlug(student.masterSlug)}<!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
+				><span class="inst-badge" aria-hidden="true"><School size={15} /></span><span class="inst-name">{isEn && institution.nameEn ? institution.nameEn : institution.name}</span></a>{#if student.note}&nbsp;({student.note}){/if}{#if student.programme}, {student.programme}{/if}{#if student.master}, {шматки[0]}{#if (student.masterSlugs?.length ?? 0) > 1}{#each student.masterSlugs ?? [] as slug, idx (slug)}{#if idx > 0} {isEn ? 'and' : 'та'} {/if}{@const expert = getExpertBySlug(slug)}<span class="master-item"><!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
+							class="master-link-wrapper"
+							href={localizedPath(expertPath(slug), lang)}
+							title={expert ? (isEn && expert.nameEn ? expert.nameEn : expert.name) : slug}
+							data-testid="{testIdPrefix}-master-link-{slug}"
+						><span class="master-badge">{#if expert?.photo}<img
+									class="master-badge__photo"
+									src={asset(expert.photo)}
+									width="22"
+									height="22"
+									alt=""
+									loading="lazy"
+									decoding="async"
+								/>{:else}<span
+									class="person-face person-face--letter"
+									aria-hidden="true"
+									data-letter={літера(slug, expert?.name ?? slug)}
+								></span>{/if}</span><span class="master-name">{formatMasterName(expert, expert?.name ?? slug)}</span></a></span>{/each}{:else if student.masterSlug}{@const expert = getExpertBySlug(student.masterSlug)}<span class="master-item"><!-- eslint-disable-next-line svelte/no-navigation-without-resolve --><a
 							class="master-link-wrapper"
 							href={localizedPath(expertPath(student.masterSlug), lang)}
 							title={expert ? (isEn && expert.nameEn ? expert.nameEn : expert.name) : student.master}
@@ -109,11 +126,11 @@
 									class="person-face person-face--letter"
 									aria-hidden="true"
 									data-letter={літера(student.masterSlug, student.master)}
-								></span>{/if}</span><span class="master-name">{formatMasterName(expert, student.master)}</span></a>{:else}<span class="master-link-wrapper"><span class="master-badge"><span
+								></span>{/if}</span><span class="master-name">{formatMasterName(expert, student.master)}</span></a></span>{:else}<span class="master-item"><span class="master-link-wrapper"><span class="master-badge"><span
 								class="person-face person-face--letter"
 								aria-hidden="true"
 								data-letter={літера(undefined, student.master)}
-							></span></span><span class="master-name">{formatMasterName(undefined, student.master)}</span></span>{/if}</span>{шматки[1] ?? ''}{/if}
+							></span></span><span class="master-name">{formatMasterName(undefined, student.master)}</span></span></span>{/if}{шматки[1] ?? ''}{/if}
 			</p>
 		{/each}
 	</section>
@@ -178,6 +195,7 @@
 		font-weight: 500;
 		color: var(--galaxy-text, #eaf2ff);
 		text-decoration: none;
+		white-space: nowrap;
 		transition: color 0.2s ease;
 	}
 	.master-link-wrapper:hover .master-name {
