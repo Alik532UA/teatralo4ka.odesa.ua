@@ -1736,6 +1736,16 @@ textarea::placeholder {
 	min-width: 0;
 }
 
+.contacts-grid__info h3:first-child {
+	margin-top: 0;
+}
+
+.contacts-grid__map {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
 .contacts-grid__map iframe {
 	width: 100%;
 	max-width: 100%;
