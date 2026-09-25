@@ -19,14 +19,15 @@ version: "1.0.1"
 
 Ми пишаємося тим, що наші випускники створюють нове, сміливе молоде мистецтво: чи то режисерська або акторська робота, чи то телевізійні проєкти, реклама або театральні перформенси, чи то документальні фільми або короткий метр – це завжди талановито, що підтверджують і кінокритики, і преса, і міжнародні ЗМІ і, врешті-решт, глядачі.
 
-1 грудня 2021 року на честь 25-річчя театральної школи зусиллями нашого випускника Аліка Запольнова з’явився подкаст «Галактика випускників».
+1 грудня 2021 року на честь 25-річчя театральної школи зусиллями нашого випускника [Аліка Запольнова](/projects/galaxy-graduates/Alik) з’явився подкаст «Галактика випускників».
 
-<div style="margin: 1.5rem 0;">
-  <a href="/projects/galaxy-graduates/" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;">Галактика випускників</a>
+<div style="display: flex; justify-content: center; margin: 2.5rem 0;">
+  <a href="/projects/galaxy-graduates/" class="btn-galaxy-cta">Галактика випускників</a>
 </div>
 
 ---
 
-<div style="margin: 1.5rem 0;">
-  <a href="https://sites.google.com/view/ats-ua/Actor-business-cards" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Акторські візитівки</a>
+<div style="display: flex; justify-content: center; margin: 2rem 0;">
+  <a href="https://sites.google.com/view/ats-ua/Actor-business-cards" class="btn btn-outline" style="text-transform: none; text-decoration: none; width: fit-content;" target="_blank" rel="noopener noreferrer">Акторські візитівки</a>
 </div>
+
