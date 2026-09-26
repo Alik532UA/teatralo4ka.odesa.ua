@@ -53,6 +53,34 @@ const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
 		declaredIn: 'src/lib/components/planet/PlanetSplit.svelte',
 		why: 'розмір обличчя учня задає РОЗКЛАДКА, а не саме обличчя: на кулі (`PlanetSphere`) він рахується з кількості учнів і заміряної ширини кулі (`fitFaceFraction`) і приходить інлайновим стилем у `cqw`, а в переліку імен поруч це сталі 34 px. Оголошення в самому `PlanetFace` перебило б успадковане значення й зрівняло б обидва місця'
 	},
+	'--poster-card-bg': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'одна палітра на всі контейнери плаката — шапку, картки місяців, панель канікул і нижні картки. Доти кожен компонент оголошував свою, і темний варіант мав лише місяць: у темній темі сайту темнішали самі місяці (скарга автора 2026-09-26). Оголошення в кожному компоненті повернуло б рівно той розбіг'
+	},
+	'--poster-card-border': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'та сама палітра плаката, що й `--poster-card-bg`: обводка карток'
+	},
+	'--poster-text': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'та сама палітра плаката, що й `--poster-card-bg`: текст на картках'
+	},
+	'--poster-text-muted': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'та сама палітра плаката: блідий колір хвостів сусідніх місяців'
+	},
+	'--poster-text-summer': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'та сама палітра плаката: сірий колір днів літніх канікул'
+	},
+	'--calendar-weekday-bg': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'колір смуги днів тижня залежить від ФОНУ плаката, який вибирають у панелі: плакат ставить його з теми, а читають тринадцять карток місяців усередині. Проп замість успадкування протягував би той самий колір у кожну картку окремо'
+	},
+	'--calendar-weekday-text': {
+		declaredIn: 'src/lib/components/calendar/CalendarPoster.svelte',
+		why: 'пара до `--calendar-weekday-bg`: текст на смузі днів тижня, підібраний до того самого фону'
+	},
 	'--focus-card-width': {
 		declaredIn: 'src/lib/components/ContentWidget.svelte',
 		why: 'ширину картки задає віджет-обгортка, читає її ContentCard всередині'

@@ -43,6 +43,7 @@ export interface ImageSize {
  * розмітці.
  */
 import { GRADUATE_GALLERY_SIZES } from './localGalleryImages';
+import { CALENDAR_IMAGE_SIZES } from './localCalendarImages';
 
 export const LOCAL_IMAGE_SIZES = {
 	// Герой головної. У мапі лише БАЗОВИЙ варіант кожного знімка (544 px): із
@@ -272,6 +273,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/history/kolektyv-dtsh-2016.webp': { width: 1280, height: 913 },
 	'/history/muzychne-viddilennia-2016.webp': { width: 1280, height: 850 },
 	...GRADUATE_GALLERY_SIZES,
+	...CALENDAR_IMAGE_SIZES,
 	'/news/2026-09-04/01.webp': { width: 1280, height: 959 },
 	'/news/2026-09-04/02.webp': { width: 960, height: 1280 },
 	'/news/2026-09-04/03.webp': { width: 1280, height: 960 },

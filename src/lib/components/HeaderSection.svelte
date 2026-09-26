@@ -3,7 +3,7 @@
 	import TickerBanner from "./TickerBanner.svelte";
 	import HeaderSettingsPanel from "./HeaderSettingsPanel.svelte";
 	import SettingsIcon from "./icons/SettingsIcon.svelte";
-	import { Menu, X, Search, Expand, Shrink } from "lucide-svelte";
+	import { Menu, X, Search } from "lucide-svelte";
 	import { focusTrap } from "$lib/utils/focusTrap";
 	import { customScroll } from "$lib/utils/customScroll";
 	import SearchOverlay from "./SearchOverlay.svelte";
@@ -43,17 +43,6 @@
 	let mobileNavClientHeight = $state(0);
 	let mobileNavScrollHeight = $state(0);
 	let mobileNavEl = $state<HTMLElement | null>(null);
-	let isFullscreen = $state(false);
-
-	const isCalendarPage = $derived(page.url.pathname.includes('/calendar/'));
-
-	if (browser) {
-		$effect(() => {
-			const fn = () => { isFullscreen = !!document.fullscreenElement; document.body.classList.toggle('calendar-fullscreen', isFullscreen); };
-			document.addEventListener('fullscreenchange', fn);
-			return () => { document.removeEventListener('fullscreenchange', fn); document.body.classList.remove('calendar-fullscreen'); };
-		});
-	}
 
 	const canScrollUp = $derived(mobileNavScrollY > 10);
 	const canScrollDown = $derived(
@@ -430,33 +419,17 @@
 	id="main-header"
 	data-testid="header-container"
 >
-	{#if isFullscreen && isCalendarPage}
-		<button
-			type="button"
-			class="header__burger header__fullscreen-exit-btn"
-			aria-label={$locale === "en" ? "Exit fullscreen" : "Згорнути"}
-			title={$locale === "en" ? "Exit fullscreen" : "Згорнути"}
-			onclick={() => {
-				if (document.fullscreenElement) {
-					document.exitFullscreen().catch(() => {});
-				}
-			}}
-			data-testid="header-fullscreen-exit-btn"
-		>
-			<Shrink size={24} />
-		</button>
-	{:else}
-		{#if headerReady}
-			<TickerBanner
-				visible={headerSettings.ticker?.visible ?? true}
-				mode={headerSettings.ticker?.mode ?? "time"}
-				startTime={headerSettings.ticker?.startTime ?? "09:00"}
-				endTime={headerSettings.ticker?.endTime ?? "09:03"}
-				preview={headerSettings.ticker?.preview ?? false}
-				enableSound={headerSettings.ticker?.enableSound ?? false}
-				bind:show={showTicker}
-			/>
-		{/if}
+	{#if headerReady}
+		<TickerBanner
+			visible={headerSettings.ticker?.visible ?? true}
+			mode={headerSettings.ticker?.mode ?? "time"}
+			startTime={headerSettings.ticker?.startTime ?? "09:00"}
+			endTime={headerSettings.ticker?.endTime ?? "09:03"}
+			preview={headerSettings.ticker?.preview ?? false}
+			enableSound={headerSettings.ticker?.enableSound ?? false}
+			bind:show={showTicker}
+		/>
+	{/if}
 	<div class="header__inner">
 		<div class="header__logo-area" data-testid="logo-area-container">
 			<a
@@ -732,7 +705,6 @@
 
 				<!-- На мобільному окремої кнопки налаштувань у шапці немає — вони всередині
 		     оверлея меню. Тому пошук стоїть поруч із бургером. -->
-
 				<button
 					class="header__burger header__search-mobile"
 					onclick={() => {
@@ -761,21 +733,6 @@
 					<span class="header__burger-text">{$t("nav.menu")}</span>
 					<Menu size={20} />
 				</button>
-
-				{#if isCalendarPage}
-					<button
-						type="button"
-						class="header__burger"
-						aria-label={$locale === 'en' ? 'Fullscreen' : 'На весь екран'}
-						title={$locale === 'en' ? 'Fullscreen' : 'На весь екран'}
-						onclick={() => {
-							if (!document.fullscreenElement) {
-								document.documentElement.requestFullscreen().catch(() => {});
-							}
-						}}
-						data-testid="header-fullscreen-btn"
-					><Expand size={24} /></button>
-				{/if}
 			{/if}
 		</div>
 	</div>
@@ -999,7 +956,6 @@
 			</div>
 		</div>
 	{/if}
-	{/if}
 </header>
 
 <SearchOverlay bind:open={ui.searchOpen} onclose={() => (ui.searchOpen = false)} />
@@ -1014,15 +970,6 @@
 	   допоможе, бо базове оголошення в HeaderSection.svelte:1022. */
 	.header__burger.header__search-mobile {
 		display: none;
-	}
-
-	.header__fullscreen-exit-btn {
-		position: fixed;
-		top: 1rem;
-		right: clamp(1rem, 2vw, 1.5rem);
-		z-index: 10000;
-		pointer-events: auto;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 	}
 
 	@media (max-width: 1024px) {

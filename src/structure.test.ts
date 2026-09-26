@@ -82,6 +82,11 @@ import { describe, expect, it } from 'vitest';
  * 2026-09-17 (пізніше): 656 → 668. Те саме для «Друзів школи»: розділ
  * з'явився, отже з'явився й пункт про нього.
  *
+ * 2026-09-26: 668 → 714. Вкладка «Навчальний календар», чотири пункти двома
+ * мовами. Доти адреса `/calendar` стояла в `BETA_UNCOVERED_ROUTES` без причини,
+ * якої той перелік вимагає, — а перевіряти людині там є що: iPhone у повному
+ * екрані, читабельність тексту на кожному з восьми фонів і вигляд аркуша друку.
+ *
  * 2026-09-17: `GalaxyStageControls.svelte` 361 → 365. Два рядки в переліку
  * розділів — експертна рада й друзі школи — плюс два значки в імпорті. Без
  * цих рядків обидва розділи не існують для людини: до першого можна було
@@ -692,15 +697,12 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-21: `ui/PianoModal.svelte` 608 -> 940: інтерактивний тренажер
  *   «Гімн школи» з візуальними паузами між фразами мелодії, плавним підйомом
  *   нот у ліхтарик (0.5s без телепортації), адаптивною розміткою та кнопкою виходу.
- * 2026-09-26: `HeaderSection.svelte` 1600 -> 1645: кнопка повноекранного режиму
- *   для сторінки календаря (іконки Expand/Shrink з VetCrewGames) та плаваюча кнопка
- *   виходу з повного екрана.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
-	'src/lib/components/HeaderSection.svelte': 1645,
+	'src/lib/components/HeaderSection.svelte': 1600,
 	'src/lib/services/settings.ts': 975,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,
@@ -724,7 +726,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 275,
-	'src/lib/data/betaChecklist.ts': 668,
+	'src/lib/data/betaChecklist.ts': 714,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

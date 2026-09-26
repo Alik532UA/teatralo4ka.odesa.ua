@@ -1,138 +1,226 @@
 <script lang="ts">
+	import { asset } from '$app/paths';
+	import { getCalendarThemeById } from '$lib/config/calendarThemes';
+	import { imageSize, type LocalImage } from '$lib/config/localImages';
+	import { ACADEMIC_YEARS } from '$lib/data/academicYears';
 	import type { CalendarDay, CalendarMonth } from '$lib/data/academicCalendar';
+	import { academicYearLabel, pick, rangeText } from '$lib/data/calendarText';
+	import type { CalendarView } from '$lib/data/calendarView';
+	import type { Locale } from '$lib/i18n/routing';
 	import CalendarMonthCard from './CalendarMonthCard.svelte';
+	import CalendarVacationsPanel from './CalendarVacationsPanel.svelte';
 
+	/**
+	 * Плакат навчального року у форматі A4 альбомом.
+	 *
+	 * Усі дати й підписи виводяться з `ACADEMIC_YEARS` — у розмітці немає жодного
+	 * числа. Перша редакція вписувала «з 27 жовтня», «Навчальний рік 2025-2026» і
+	 * семестри текстом прямо сюди, тож плакат не міг показати інший рік.
+	 *
+	 * Рік, фон і його налаштування приходять одним `view` — тим самим, що лежить
+	 * в адресі сторінки (`data/calendarView.ts`).
+	 */
 	interface Props {
 		months: CalendarMonth[];
-		locale?: string;
+		view: CalendarView;
+		locale?: Locale;
 		selectedDate?: string | null;
 		onSelectDay?: (day: CalendarDay) => void;
 	}
 
-	let { months, locale = 'uk', selectedDate = null, onSelectDay }: Props = $props();
+	let { months, view, locale = 'uk', selectedDate = null, onSelectDay }: Props = $props();
+
 	const isEn = $derived(locale === 'en');
+	const year = $derived(ACADEMIC_YEARS[view.year]);
+	const theme = $derived(getCalendarThemeById(view.bg));
+	/** Шар поверх фону лишається в розмітці й без фільтра — прозорим. */
+	const filterAlpha = $derived(view.filter === 'none' ? 0 : view.density / 100);
 
 	const firstRowMonths = $derived(months.slice(0, 4));
 	const remainingMonths = $derived(months.slice(4, 12));
 	const previewMonth = $derived(months[12] ?? null);
+
+	const MASKS: LocalImage = '/calendar/calendar-masks-logo.png';
+	const masksSize = imageSize(MASKS);
+
+	const SEMESTER_NAMES = [
+		{ uk: '1-й семестр', en: '1st semester' },
+		{ uk: '2-й семестр', en: '2nd semester' }
+	];
 </script>
 
-<div class="calendar-poster" data-testid="calendar-poster-container">
-	<header class="poster-header" data-testid="calendar-poster-header">
-		<div class="header-pill">
-			<h2 class="header-title">
-				{isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}
-			</h2>
+<!--
+	Шлях фону — без `asset()`, і це свідомо. Під prerender `asset()` віддає
+	ВІДНОСНИЙ шлях, а `url()` у CSS-змінній браузер може розвʼязати від таблиці
+	стилів, де змінну прочитано, а не від сторінки. Сайт живе в корені домену
+	(`base = ''`), тож абсолютний шлях правильний завжди.
+-->
+<div class="poster-frame">
+	<div
+		class="calendar-poster"
+		data-testid="calendar-poster-container"
+		style:--poster-bg="url('{theme.bgUrl}')"
+		style:--poster-blur="{view.blur}px"
+		style:--calendar-weekday-bg={theme.weekdayBg}
+		style:--calendar-weekday-text={theme.weekdayText}
+	>
+		<div class="poster-bg-layer" aria-hidden="true"></div>
+		<div
+			class="poster-overlay-layer"
+			class:overlay-dark={view.filter === 'dark'}
+			style:opacity={filterAlpha}
+			aria-hidden="true"
+		></div>
+
+		<header class="poster-header" data-testid="calendar-poster-header">
+			<div class="header-pill">
+				<h2 class="header-title">{isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}</h2>
+			</div>
+			<div class="header-masks-wrap">
+				<img
+					src={asset(MASKS)}
+					alt={isEn ? 'Theatrical masks' : 'Театральні маски'}
+					class="header-masks"
+					width={masksSize.width}
+					height={masksSize.height}
+				/>
+			</div>
+		</header>
+
+		<div class="poster-grid" data-testid="calendar-poster-list">
+			{#each firstRowMonths as m (m.year + '-' + m.month)}
+				<div class="grid-slot">
+					<CalendarMonthCard month={m} {locale} {selectedDate} {onSelectDay} />
+				</div>
+			{/each}
+
+			<CalendarVacationsPanel {year} {locale} />
+
+			{#each remainingMonths as m (m.year + '-' + m.month)}
+				<div class="grid-slot">
+					<CalendarMonthCard month={m} {locale} {selectedDate} {onSelectDay} />
+				</div>
+			{/each}
+
+			{#if previewMonth}
+				<div class="grid-slot">
+					<CalendarMonthCard month={previewMonth} {locale} {selectedDate} {onSelectDay} />
+				</div>
+			{/if}
 		</div>
-		<div class="header-masks-wrap">
-			<img
-				src="/calendar/calendar-masks-logo.png"
-				alt={isEn ? 'Theatrical Masks' : 'Театральні маски'}
-				class="header-masks"
-				width="145"
-				height="100"
-			/>
-		</div>
-	</header>
 
-	<div class="poster-grid" data-testid="calendar-poster-list">
-		{#each firstRowMonths as m (m.year + '-' + m.month)}
-			<div class="grid-slot">
-				<CalendarMonthCard month={m} {locale} {selectedDate} {onSelectDay} />
-			</div>
-		{/each}
-
-		<aside class="poster-vacations-panel" data-testid="calendar-poster-panel">
-			<h3 class="vacations-title">{isEn ? 'Vacations' : 'Канікули'}</h3>
-
-			<div class="vacation-block block-autumn">
-				<img src="/calendar/dec-maple-orange.svg" alt="" class="dec-icon dec-maple-orange" width="62" height="62" />
-				<img src="/calendar/dec-leaf-yellow.svg" alt="" class="dec-icon dec-leaf-yellow" width="54" height="42" />
-				<img src="/calendar/dec-maple-red.svg" alt="" class="dec-icon dec-maple-red" width="60" height="58" />
-				<img src="/calendar/dec-leaf-lime.svg" alt="" class="dec-icon dec-leaf-lime" width="46" height="38" />
-				<img src="/calendar/dec-leaf-drop.svg" alt="" class="dec-icon dec-leaf-drop" width="20" height="18" />
-				<div class="vac-text-wrap">
-					<span class="vac-type-name">{isEn ? 'autumn' : 'осінні'}</span>
-					<span class="vac-date-line">{isEn ? 'from Oct 27' : 'з 27 жовтня'}</span>
-					<span class="vac-date-line">{isEn ? 'to Nov 2' : 'по 2 листопада'}</span>
-				</div>
+		<footer class="poster-footer" data-testid="calendar-poster-footer">
+			<div class="bottom-card year-card">
+				<h3 class="year-card-title" data-testid="calendar-year-title">
+					{academicYearLabel(view.year, locale)}
+				</h3>
 			</div>
 
-			<div class="vacation-block block-winter">
-				<img src="/calendar/dec-snow-top.svg" alt="" class="dec-icon dec-snow-top" width="44" height="38" />
-				<img src="/calendar/dec-snow-mid.svg" alt="" class="dec-icon dec-snow-mid" width="44" height="38" />
-				<img src="/calendar/dec-snow-bot.svg" alt="" class="dec-icon dec-snow-bot" width="44" height="38" />
-				<div class="vac-text-wrap">
-					<span class="vac-type-name">{isEn ? 'winter' : 'зимові'}</span>
-					<span class="vac-date-line">{isEn ? 'from Dec 27' : 'з 27 грудня'}</span>
-					<span class="vac-date-line">{isEn ? 'to Jan 11' : 'по 11 січня'}</span>
-				</div>
+			<div class="bottom-card semesters-card" data-testid="calendar-semesters-panel">
+				{#each year.semesters as semester, i (i)}
+					{@const name = SEMESTER_NAMES[i]}
+					<p class="semester-line">
+						<strong>{pick(name, locale)}</strong> — {rangeText(semester, locale)}
+					</p>
+				{/each}
 			</div>
-
-			<div class="vacation-block block-spring">
-				<img src="/calendar/dec-leaf-green.svg" alt="" class="dec-icon dec-green-top" width="46" height="46" />
-				<img src="/calendar/dec-green-mid.svg" alt="" class="dec-icon dec-green-mid" width="42" height="58" />
-				<img src="/calendar/dec-green-bot.svg" alt="" class="dec-icon dec-green-bot" width="44" height="50" />
-				<div class="vac-text-wrap">
-					<span class="vac-type-name">{isEn ? 'spring' : 'весняні'}</span>
-					<span class="vac-date-line">{isEn ? 'from Mar 23' : 'з 23 березня'}</span>
-					<span class="vac-date-line">{isEn ? 'to Mar 29' : 'по 29 березня'}</span>
-				</div>
-			</div>
-		</aside>
-
-		{#each remainingMonths as m (m.year + '-' + m.month)}
-			<div class="grid-slot">
-				<CalendarMonthCard month={m} {locale} {selectedDate} {onSelectDay} />
-			</div>
-		{/each}
-
-		{#if previewMonth}
-			<div class="grid-slot">
-				<CalendarMonthCard month={previewMonth} {locale} {selectedDate} {onSelectDay} />
-			</div>
-		{/if}
+		</footer>
 	</div>
-
-	<footer class="poster-footer" data-testid="calendar-poster-footer">
-		<div class="bottom-card year-card">
-			<h3 class="year-card-title">
-				{isEn ? 'Academic Year 2025–2026' : 'Навчальний рік 2025-2026'}
-			</h3>
-		</div>
-
-		<div class="bottom-card semesters-card">
-			<p class="semester-line">
-				<strong>{isEn ? '1st semester' : '1-й семестр'}</strong> — {isEn ? 'from Sep 1 to Dec 26, 2025' : 'з 1 вересня по 26 грудня 2025 р.'}
-			</p>
-			<p class="semester-line">
-				<strong>{isEn ? '2nd semester' : '2-й семестр'}</strong> — {isEn ? 'from Jan 12 to May 31, 2026' : 'з 12 січня по 31 травня 2026 р.'}
-			</p>
-		</div>
-	</footer>
 </div>
 
 <style>
-	.calendar-poster {
+	/*
+	 * Контейнер — обгортка, а не сам плакат: контейнерний запит не стилізує
+	 * елемент, що його задає, а на вузькому екрані плакат мусить позбутися
+	 * пропорції A4. Доти з нею на телефоні тринадцять місяців стискалися в
+	 * смужки заввишки кілька пікселів (заміряно знімком E2E на Pixel 7).
+	 * `cqi` при цьому рахуються від тієї самої ширини, що й раніше.
+	 */
+	.poster-frame {
 		container-type: inline-size;
-		--card-bg: rgba(217, 217, 217, 0.77);
-		--card-border: rgba(255, 255, 255, 0.45);
-		--text-dark: #000000;
-
 		width: 100%;
 		max-width: 1600px;
-		aspect-ratio: 297 / 210;
 		margin: 0 auto;
+	}
+
+	.calendar-poster {
+		position: relative;
+		overflow: hidden;
+		/*
+		 * ОДНА палітра на всі контейнери плаката — шапку, місяці, канікули, підпис
+		 * року й семестри. Доти темний варіант мали лише картки місяців, і в
+		 * темній темі сайту темнішали тільки вони (скарга автора 2026-09-26).
+		 * `light-dark()` іде за темою сайту: `global.css` ставить `color-scheme`
+		 * кожній темі, як і для решти токенів.
+		 */
+		--poster-card-bg: light-dark(rgba(217, 217, 217, 0.77), rgba(26, 38, 62, 0.85));
+		--poster-card-border: light-dark(rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.16));
+		--poster-text: light-dark(#000000, #ffffff);
+		--poster-text-muted: light-dark(#a0a0a0, #6b7f9d);
+		--poster-text-summer: light-dark(#4b5563, #b6c2d4);
+		/* Типові значення; справжні ставить інлайновий стиль із сервісу вигляду. */
+		--poster-bg: url('/calendar/calendar-bg-geometry.webp');
+		--poster-blur: 4px;
+		--calendar-weekday-bg: #1d4ed8;
+		--calendar-weekday-text: #ffffff;
+
+		width: 100%;
+		aspect-ratio: 297 / 210;
 		padding: clamp(14px, 2.8cqi, 48px);
 		border-radius: clamp(24px, 3vw, 40px);
 		border: 3px solid #141414;
-		background: #8bc5ff url('/calendar/calendar-poster-bg.jpg') center / cover no-repeat;
 		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.15);
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		gap: clamp(4px, 0.7cqi, 10px);
 		box-sizing: border-box;
+	}
+
+	/*
+	 * Розмите зображення — у ПСЕВДОЕЛЕМЕНТІ, а шар рівно з плакат.
+	 *
+	 * `blur()` робить край прозорим, тому зображення мусить виступати за плакат
+	 * (той його й обрізає). Доки виступав сам шар, він був ширшим за екран
+	 * телефона на 50 px, і `e2e/viewport-overflow.spec.ts` чесно називав його:
+	 * гейт міряє ширину кожного ЕЛЕМЕНТА й обрізання не прощає — обрізаний текст
+	 * і є той дефект, який він ловить. Прикраса ж елементом не є, як і значки
+	 * днів у `::before` карток місяців.
+	 */
+	.poster-bg-layer {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+	}
+
+	.poster-bg-layer::before {
+		content: '';
+		position: absolute;
+		inset: -24px;
+		background: #8bc5ff var(--poster-bg) center / cover no-repeat;
+		filter: blur(var(--poster-blur));
+		transform: scale(1.06);
+		will-change: filter;
+	}
+
+	.poster-overlay-layer {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		z-index: 0;
+		background: #ffffff;
+	}
+
+	.poster-overlay-layer.overlay-dark {
+		background: #000000;
+	}
+
+	.poster-header,
+	.poster-grid,
+	.poster-footer {
+		position: relative;
+		z-index: 1;
 	}
 
 	.poster-header {
@@ -147,8 +235,8 @@
 		grid-column: 1 / span 4;
 		width: 100%;
 		box-sizing: border-box;
-		background: var(--card-bg);
-		border: 1px solid var(--card-border);
+		background: var(--poster-card-bg);
+		border: 1px solid var(--poster-card-border);
 		border-radius: clamp(16px, 2.5cqi, 48px);
 		padding: clamp(0.35rem, 0.7cqi, 0.85rem) 1.5rem;
 		backdrop-filter: blur(12px);
@@ -162,7 +250,7 @@
 		margin: 0;
 		font-size: clamp(1.6rem, 4.2cqi, 5rem);
 		font-weight: 700;
-		color: var(--text-dark);
+		color: var(--poster-text);
 		letter-spacing: -0.01em;
 		line-height: 1.2;
 		text-align: center;
@@ -207,79 +295,6 @@
 		min-height: 0;
 	}
 
-	.poster-vacations-panel {
-		grid-column: 5;
-		grid-row: 1 / span 2;
-		align-self: end;
-		height: calc(100% - clamp(16px, 3.2cqi, 48px));
-		background: var(--card-bg);
-		border: 1px solid var(--card-border);
-		border-radius: clamp(14px, 2cqi, 28px);
-		padding: clamp(0.35rem, 0.8cqi, 0.75rem);
-		backdrop-filter: blur(16px);
-		box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.vacations-title {
-		margin: 0 0 0.35rem;
-		font-size: clamp(1.2rem, 2.2cqi, 2.8rem);
-		font-weight: 400;
-		color: var(--text-dark);
-		text-align: center;
-	}
-
-	.vacation-block {
-		position: relative;
-		padding: 0.5rem 0.5rem;
-	}
-
-	.dec-icon {
-		position: absolute;
-		pointer-events: none;
-		z-index: 1;
-		object-fit: contain;
-	}
-
-	.dec-maple-orange { top: -8px; left: 4px; width: clamp(26px, 3.2cqi, 44px); height: clamp(26px, 3.2cqi, 44px); }
-	.dec-leaf-lime { top: 36px; left: 2px; width: clamp(18px, 2.3cqi, 30px); height: clamp(15px, 1.9cqi, 25px); }
-	.dec-leaf-yellow { top: -4px; right: 20px; width: clamp(20px, 2.5cqi, 34px); height: clamp(16px, 2cqi, 26px); }
-	.dec-maple-red { top: 26px; right: 4px; width: clamp(26px, 3.2cqi, 42px); height: clamp(26px, 3.2cqi, 42px); }
-	.dec-leaf-drop { bottom: -6px; left: 50%; transform: translateX(-50%); width: clamp(10px, 1.2cqi, 16px); height: clamp(9px, 1.1cqi, 14px); }
-
-	.dec-snow-top { top: 2px; right: 24px; width: clamp(20px, 2.4cqi, 32px); height: clamp(18px, 2.1cqi, 28px); }
-	.dec-snow-mid { top: 22px; left: 10px; width: clamp(20px, 2.4cqi, 32px); height: clamp(18px, 2.1cqi, 28px); }
-	.dec-snow-bot { bottom: 2px; right: 16px; width: clamp(20px, 2.4cqi, 32px); height: clamp(18px, 2.1cqi, 28px); }
-
-	.dec-green-top { top: 2px; right: 22px; width: clamp(22px, 2.6cqi, 34px); height: clamp(22px, 2.6cqi, 34px); }
-	.dec-green-mid { top: 22px; left: 10px; width: clamp(20px, 2.4cqi, 30px); height: clamp(26px, 3.2cqi, 40px); }
-	.dec-green-bot { bottom: 0px; right: 14px; width: clamp(22px, 2.6cqi, 34px); height: clamp(24px, 3cqi, 38px); }
-
-	.vac-text-wrap {
-		position: relative; z-index: 2;
-		display: flex; flex-direction: column; align-items: center;
-		gap: 0.15rem; text-align: center;
-		max-width: 250px; margin: 0 auto;
-	}
-
-	.vac-type-name {
-		font-size: clamp(1.05rem, 1.95cqi, 2.4rem);
-		font-weight: 400;
-		color: var(--text-dark);
-		line-height: 1.2;
-	}
-
-	.vac-date-line {
-		font-size: clamp(0.9rem, 1.55cqi, 1.9rem);
-		font-weight: 400;
-		color: var(--text-dark);
-		line-height: 1.25;
-	}
-
 	.poster-footer {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
@@ -287,8 +302,8 @@
 	}
 
 	.bottom-card {
-		background: var(--card-bg);
-		border: 1px solid var(--card-border);
+		background: var(--poster-card-bg);
+		border: 1px solid var(--poster-card-border);
 		border-radius: 28px;
 		padding: 0.5rem 1.25rem;
 		backdrop-filter: blur(12px);
@@ -298,37 +313,68 @@
 		justify-content: center;
 	}
 
-	.year-card { align-items: center; text-align: center; padding: 0.4rem 0.75rem; }
+	.year-card {
+		align-items: center;
+		text-align: center;
+		padding: 0.4rem 0.75rem;
+	}
 
 	.year-card-title {
 		margin: 0;
 		font-size: clamp(1.2rem, 2.7cqi, 3.4rem);
 		font-weight: 700;
-		color: var(--text-dark);
+		color: var(--poster-text);
 		text-align: center;
 		white-space: nowrap;
 	}
 
-	.semesters-card { justify-content: center; gap: 0.25rem; padding: 0.75rem 1.5rem; }
+	.semesters-card {
+		justify-content: center;
+		gap: 0.25rem;
+		padding: 0.75rem 1.5rem;
+	}
 
 	.semester-line {
 		margin: 0;
 		font-size: clamp(0.85rem, 1.35cqi, 1.55rem);
-		color: var(--text-dark);
+		color: var(--poster-text);
 		line-height: 1.35;
 	}
 
 	@container (max-width: 900px) {
-		.poster-header, .poster-footer { grid-template-columns: 1fr; }
-		.header-pill, .header-masks-wrap { grid-column: 1; }
-		.header-masks-wrap { height: auto; }
-		.header-masks { position: static; transform: none; max-height: 90px; }
-		.poster-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-		.poster-vacations-panel { grid-column: span 2; grid-row: auto; height: auto; align-self: stretch; }
+		/* Висоту дає вміст: місяці стоять стовпчиком, а не в аркуші A4. */
+		.calendar-poster {
+			aspect-ratio: auto;
+		}
+		.poster-header,
+		.poster-footer {
+			grid-template-columns: 1fr;
+		}
+		.header-pill,
+		.header-masks-wrap {
+			grid-column: 1;
+		}
+		.header-masks-wrap {
+			height: auto;
+		}
+		.header-masks {
+			position: static;
+			transform: none;
+			max-height: 90px;
+		}
+		.poster-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: none;
+		}
+		/* Картка місяця тягнеться на всю висоту клітинки — висоту дає пропорція. */
+		.grid-slot {
+			aspect-ratio: 1 / 1;
+		}
 	}
 
 	@container (max-width: 520px) {
-		.poster-grid { grid-template-columns: 1fr; }
-		.poster-vacations-panel { grid-column: span 1; }
+		.poster-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

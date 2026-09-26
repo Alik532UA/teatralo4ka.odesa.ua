@@ -41,7 +41,12 @@ export async function changeLanguage(lang: string): Promise<void> {
 
 	// `invalidateAll`, бо `load` кореневого layout читає саме `url`: без нього
 	// SvelteKit вважав би дані незмінними й не перевиконав його.
-	await goto(withLocale(here, lang), { invalidateAll: true });
+	//
+	// Параметри й якір їдуть разом зі шляхом: на `/calendar/?year=2024-2025&bg=…`
+	// увесь вигляд плаката живе в адресі, і без них зміна мови повертала б
+	// плакат до типового року й фону.
+	const { search, hash } = window.location;
+	await goto(`${withLocale(here, lang)}${search}${hash}`, { invalidateAll: true });
 
 	if (ui.enableBlurEffect) {
 		setTimeout(() => {

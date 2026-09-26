@@ -1,6 +1,6 @@
 import { waitLocale, locale } from 'svelte-i18n';
 import '$lib/i18n';
-import { localeFromPath, localeAlternates } from '$lib/i18n/routing';
+import { DEFAULT_LOCALE, localeFromPath, localeAlternates } from '$lib/i18n/routing';
 import { SITE_ORIGIN } from '$lib/config/site';
 import { isHiddenRoute } from '$lib/config/hiddenRoutes';
 import { isUnlistedMasterPath } from '$lib/config/mastersVisibility';
@@ -29,7 +29,18 @@ export async function load({ url }: { url: URL }) {
 	//
 	// `waitLocale(lang)` завантажує словник, не перемикаючи мови, тож після нього
 	// перемикання вже нічого не ламає.
-	await waitLocale(lang);
+	//
+	// І ТИПОВИЙ словник теж — це друга гонка того самого механізму. `init()` у
+	// `$lib/i18n` ставить `uk` відкладено: `set` мови з незавантаженим словником
+	// перемикає лише в `flush(...).then(...)`. Коли український словник
+	// доїжджав ПІСЛЯ англійського, це відкладене `set('uk')` лягало поверх
+	// нашого `set('en')`, і англійська сторінка після гідрації ставала
+	// українською. Заміряно 2026-09-26 у зібраному сайті: `/en/about/`
+	// лишалася англійською, а `/en/about/?x=1` — ні; чий словник першим, вирішували
+	// дрібниці. Проміс `flush` однієї мови спільний (`activeFlushes` у
+	// svelte-i18n), і відкладене `set('uk')` підписане на нього раніше за нас,
+	// тож після цього очікування воно вже виконане, а наше `set` — останнє.
+	await Promise.all([waitLocale(lang), waitLocale(DEFAULT_LOCALE)]);
 	locale.set(lang);
 
 	// svelte-i18n loads dictionaries lazily, and the layout used to wrap the

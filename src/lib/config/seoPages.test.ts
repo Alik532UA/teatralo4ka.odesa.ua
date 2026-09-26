@@ -28,6 +28,8 @@ describe('маршрут → ключ SEO', () => {
 		expect(routeToSeoKey('/')).toBe('home');
 		expect(routeToSeoKey('/about/')).toBe('about');
 		expect(routeToSeoKey('/projects/galaxy-graduates/')).toBe('galaxy');
+		expect(routeToSeoKey('/calendar/')).toBe('calendar');
+		expect(routeToSeoKey('/en/calendar/')).toBe('calendar');
 	});
 
 	/*

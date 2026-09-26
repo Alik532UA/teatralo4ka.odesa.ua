@@ -94,10 +94,12 @@ export const SEO_FALLBACK = {
 				description:
 					'Театри, у яких працюють випускники Одеської театральної школи: хто саме, на якій посаді та з якого року.'
 			},
+			// Запасні, без року: сторінка віддає власні `seoTitle` і `seoDescription`
+			// (`calendarPageSeo` у `data/academicCalendar.ts`).
 			calendar: {
-				title: 'Навчальний календар 2025–2026',
+				title: 'Навчальний календар',
 				description:
-					'Навчальний календар Одеської театральної школи на 2025–2026 рік: семестри, канікули, вихідні та святкові дні.'
+					'Навчальний календар Одеської театральної школи: семестри, канікули й державні свята навчального року.'
 			},
 			about: {
 				title: 'Про школу',
@@ -182,9 +184,9 @@ export const SEO_FALLBACK = {
 					'Theatres where graduates of the Odesa Theatre School work: who exactly, in which role and since when.'
 			},
 			calendar: {
-				title: 'Academic Calendar 2025–2026',
+				title: 'Academic Calendar',
 				description:
-					'Academic calendar of Odesa Theatre School for 2025–2026: semesters, vacations, holidays, and theatre events.'
+					'Academic calendar of Odesa Theatre School: semesters, breaks and state holidays of the school year.'
 			},
 			about: {
 				title: 'About School',
@@ -266,7 +268,6 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 		case '/projects/galaxy-graduates/theatres':
 			return 'galaxyTheatres';
 		case '/calendar':
-		case '/calendar/2025-2026':
 			return 'calendar';
 		/*
 		 * Галактика доти провалювалася в `default` і брала опис ГОЛОВНОЇ. Видно

@@ -1,24 +1,44 @@
 <script lang="ts">
 	import type { CalendarDay } from '$lib/data/academicCalendar';
+	import { dayLabel, pick, VACATION_NAMES } from '$lib/data/calendarText';
+	import type { Locale } from '$lib/i18n/routing';
 	import { Calendar as CalendarIcon, Sparkles, X } from 'lucide-svelte';
 
 	interface Props {
 		day: CalendarDay | null;
-		locale?: string;
+		locale?: Locale;
 		onClose: () => void;
 	}
 
 	let { day, locale = 'uk', onClose }: Props = $props();
 	const isEn = $derived(locale === 'en');
+
+	/**
+	 * Рядок для дня, про який більше нічого не сказано.
+	 *
+	 * Перша редакція називала «звичайним навчальним днем» будь-який будній без
+	 * подій — тобто й 10 липня. Тепер статус береться з дат року: літо має
+	 * власну позначку вище, а рік, якого ще немає в реєстрі, так і названо.
+	 */
+	const neutral = $derived.by(() => {
+		if (!day || day.isFlagDay || day.vacation || day.status === 'summer' || day.events.length) {
+			return null;
+		}
+		if (day.isWeekend) return isEn ? 'Weekend' : 'Вихідний день';
+		if (day.status === 'school') return isEn ? 'School day' : 'Навчальний день';
+		return isEn
+			? 'Dates of this academic year are not announced yet'
+			: 'Дати цього навчального року ще не оголошені';
+	});
 </script>
 
 {#if day}
-	<div class="day-details-overlay" role="region" aria-label={isEn ? 'Day Details' : 'Деталі дня'}>
+	<div class="day-details-overlay" role="region" aria-label={isEn ? 'Day details' : 'Деталі дня'}>
 		<div class="day-details-card" data-testid="calendar-day-card">
 			<div class="day-details-card__header">
 				<div class="day-details-date">
 					<CalendarIcon size={20} aria-hidden="true" />
-					<strong>{day.day}.{String(day.month).padStart(2, '0')}.{day.year}</strong>
+					<strong data-testid="calendar-day-card-title">{dayLabel(day.date, locale)}</strong>
 				</div>
 				<button
 					type="button"
@@ -32,29 +52,30 @@
 			</div>
 
 			<div class="day-details-content">
-				{#if day.isUaHoliday}
+				{#if day.isFlagDay}
 					<div class="detail-badge badge-ua">
 						<span>{isEn ? 'State Holiday of Ukraine 🇺🇦' : 'Державне свято України 🇺🇦'}</span>
 					</div>
 				{/if}
 
 				{#if day.vacation}
-					<div class="detail-badge badge-{day.vacation.season}">
+					<div class="detail-badge badge-{day.vacation}">
 						<Sparkles size={16} aria-hidden="true" />
-						<span>{isEn ? day.vacation.nameEn : day.vacation.nameUk}</span>
+						<span>{pick(VACATION_NAMES[day.vacation], locale)}</span>
+					</div>
+				{:else if day.status === 'summer'}
+					<div class="detail-badge badge-summer">
+						<Sparkles size={16} aria-hidden="true" />
+						<span>{isEn ? 'Summer holidays' : 'Літні канікули'}</span>
 					</div>
 				{/if}
 
-				{#if day.specialEvent}
-					<p class="detail-event-title">
-						{isEn ? day.specialEvent.titleEn : day.specialEvent.titleUk}
-					</p>
-				{:else if !day.vacation && !day.isUaHoliday}
-					<p class="detail-neutral">
-						{day.isWeekend
-							? (isEn ? 'Weekend' : 'Вихідний день')
-							: (isEn ? 'Regular school day' : 'Звичайний навчальний день')}
-					</p>
+				{#each day.events as event (event.uk)}
+					<p class="detail-event-title">{pick(event, locale)}</p>
+				{/each}
+
+				{#if neutral}
+					<p class="detail-neutral">{neutral}</p>
 				{/if}
 			</div>
 		</div>
@@ -63,27 +84,17 @@
 
 <style>
 	.day-details-overlay {
-		--card-bg: rgba(255, 255, 255, 0.85);
-		--card-border: rgba(0, 0, 0, 0.1);
-		--card-text: #111827;
-		--card-muted: #6b7280;
+		/* За темою сайту — тим самим `light-dark()`, що й плакат. */
+		--card-bg: light-dark(rgba(255, 255, 255, 0.85), rgba(17, 24, 39, 0.88));
+		--card-border: light-dark(rgba(0, 0, 0, 0.1), rgba(255, 255, 255, 0.15));
+		--card-text: light-dark(#111827, #f9fafb);
+		--card-muted: light-dark(#6b7280, #9ca3af);
 
 		position: fixed;
 		bottom: 1.5rem;
 		right: 1.5rem;
-		z-index: 10001;
-	}
-
-	:global(html.dark-theme) .day-details-overlay,
-	:global(html[data-theme='dark']) .day-details-overlay,
-	:global(html.dark-cyan-theme) .day-details-overlay,
-	:global(html[data-theme='dark-cyan']) .day-details-overlay,
-	:global(html.dark-blue-theme) .day-details-overlay,
-	:global(html[data-theme='dark-blue']) .day-details-overlay {
-		--card-bg: rgba(17, 24, 39, 0.88);
-		--card-border: rgba(255, 255, 255, 0.15);
-		--card-text: #f9fafb;
-		--card-muted: #9ca3af;
+		/* Як панель фону: над підвалом, але під мобільним меню й модалками. */
+		z-index: calc(var(--z-footer) + 1);
 	}
 
 	.day-details-card {
@@ -134,6 +145,13 @@
 		outline: 2px solid #4472e1;
 	}
 
+	.day-details-content {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+	}
+
 	.detail-badge {
 		display: inline-flex;
 		align-items: center;
@@ -143,14 +161,26 @@
 		font-size: 0.85rem;
 		font-weight: 700;
 		color: #ffffff;
-		margin-bottom: 0.35rem;
 	}
 
-	.badge-autumn { background: #f7941e; }
-	.badge-winter { background: #4472e1; }
-	.badge-spring { background: #2e8739; }
-	.badge-summer { background: #eb9900; }
-	.badge-ua { background: linear-gradient(180deg, #0066cc 49%, #ffcc00 50%); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+	/* Темніші за кольори плаката: білий текст на #f7941e і #eb9900 першої
+	   редакції мав контраст 2.3 : 1 при потрібних 4.5. */
+	.badge-autumn {
+		background: #b45309;
+	}
+	.badge-winter {
+		background: #2f5bc4;
+	}
+	.badge-spring {
+		background: #2e8739;
+	}
+	.badge-summer {
+		background: #a16207;
+	}
+	.badge-ua {
+		background: linear-gradient(180deg, #0066cc 49%, #ffcc00 50%);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+	}
 
 	.detail-event-title {
 		font-size: 0.95rem;
@@ -163,5 +193,11 @@
 		font-size: 0.88rem;
 		color: var(--card-muted);
 		margin: 0;
+	}
+
+	@media print {
+		.day-details-overlay {
+			display: none;
+		}
 	}
 </style>

@@ -92,8 +92,6 @@ export interface BetaTab {
 export const BETA_UNCOVERED_ROUTES: readonly string[] = [
 	'/projects/galaxy-graduates/update',
 	'/projects/galaxy-graduates/form',
-	'/calendar',
-	'/calendar/2025-2026',
 	/*
 	 * Старі адреси перейменованих новин — ВИВОДЯТЬСЯ, а не перелічуються.
 	 *
@@ -792,6 +790,59 @@ export const BETA_TABS: readonly BetaTab[] = [
 					en: 'Open an inner page DIRECTLY (for example /contacts/) in a private window. The splash must play through to the end — the curtains part to the sides — instead of vanishing abruptly mid-animation.'
 				},
 				coverage: 'testable'
+			}
+		]
+	},
+	/*
+	 * Навчальний календар. Автотест (`e2e/calendar.spec.ts`) міряє адресу, клавіатуру
+	 * й кількість аркушів друку; людині лишається те, чого він не бачить: iPhone,
+	 * читабельність тексту на кожному фоні й сам вигляд аркуша.
+	 */
+	{
+		id: 'calendar',
+		title: { uk: 'Навчальний календар', en: 'Academic calendar' },
+		routes: ['/calendar'],
+		checks: [
+			{
+				id: 'calendar_1',
+				category: { uk: 'Роки', en: 'Years' },
+				text: {
+					uk: 'Відкрийте /calendar/ і натисніть рік 2024–2025 праворуч від плаката (на телефоні — над ним). Плакат мусить показати семестри й канікули саме цього року, а в адресі — з’явитися ?year=2024-2025. Скопіюйте адресу й відкрийте в новій вкладці: має відкритися той самий рік.',
+					en: 'Open /calendar/ and press the year 2024–2025 to the right of the poster (above it on a phone). The poster must show the semesters and breaks of that very year, and ?year=2024-2025 must appear in the address. Copy the address and open it in a new tab: the same year must open.'
+				},
+				coverage: 'covered',
+				test: 'e2e/calendar.spec.ts',
+				testid: 'calendar-year-2024-2025-link'
+			},
+			{
+				id: 'calendar_2',
+				category: { uk: 'Фон', en: 'Background' },
+				text: {
+					uk: 'Натисніть круглу кнопку з палітрою збоку сторінки й виберіть інший фон, потім зсуньте повзунок розмиття. Фон плаката мусить змінюватися одразу, а назви місяців і числа — лишатися читабельними на кожному з фонів.',
+					en: 'Press the round palette button at the side of the page and pick another background, then move the blur slider. The poster background must change at once, and the month names and numbers must stay readable on every background.'
+				},
+				coverage: 'manual',
+				testid: 'calendar-theme-open-btn'
+			},
+			{
+				id: 'calendar_3',
+				category: { uk: 'Повний екран', en: 'Fullscreen' },
+				text: {
+					uk: 'Натисніть кнопку повного екрана під перемикачем років — на комп’ютері й окремо на iPhone. Лишитися мусить сам плакат на весь екран і кругла кнопка фону збоку, без шапки й підвалу сайту, а кнопка «Згорнути» в правому верхньому куті мусить повернути сторінку як була.',
+					en: 'Press the fullscreen button under the year switcher — on a computer and separately on an iPhone. Only the poster and the round background button at the side must remain, filling the screen without the site header and footer, and the “Exit fullscreen” button in the top right corner must bring the page back as it was.'
+				},
+				coverage: 'manual',
+				testid: 'calendar-fullscreen-btn'
+			},
+			{
+				id: 'calendar_4',
+				category: { uk: 'Друк', en: 'Printing' },
+				text: {
+					uk: 'Надрукуйте сторінку (Ctrl+P або «Друк» у меню браузера) і подивіться попередній перегляд. Плакат мусить уміститися на ОДИН аркуш A4 альбомом; на аркуші не мусить бути ні шапки й підвалу сайту, ні кнопок років, ні панелі фону.',
+					en: 'Print the page (Ctrl+P or “Print” in the browser menu) and look at the preview. The poster must fit on ONE landscape A4 sheet; the sheet must not show the site header and footer, the year buttons or the background panel.'
+				},
+				coverage: 'manual',
+				negative: true
 			}
 		]
 	}
