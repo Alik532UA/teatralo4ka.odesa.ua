@@ -92,6 +92,8 @@ export interface BetaTab {
 export const BETA_UNCOVERED_ROUTES: readonly string[] = [
 	'/projects/galaxy-graduates/update',
 	'/projects/galaxy-graduates/form',
+	'/calendar',
+	'/calendar/2025-2026',
 	/*
 	 * Старі адреси перейменованих новин — ВИВОДЯТЬСЯ, а не перелічуються.
 	 *

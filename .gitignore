@@ -56,3 +56,6 @@ pubsub-debug.log
 .lighthouse-urls.json
 # Звіти LHCI: у CI їх забирає артефакт, локально це сміття після кожного прогону
 .lighthouseci/
+
+# Локальні довідкові файли в корені
+/*.pdf

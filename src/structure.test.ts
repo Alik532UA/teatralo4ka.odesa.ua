@@ -692,12 +692,15 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-21: `ui/PianoModal.svelte` 608 -> 940: інтерактивний тренажер
  *   «Гімн школи» з візуальними паузами між фразами мелодії, плавним підйомом
  *   нот у ліхтарик (0.5s без телепортації), адаптивною розміткою та кнопкою виходу.
+ * 2026-09-26: `HeaderSection.svelte` 1600 -> 1645: кнопка повноекранного режиму
+ *   для сторінки календаря (іконки Expand/Shrink з VetCrewGames) та плаваюча кнопка
+ *   виходу з повного екрана.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
-	'src/lib/components/HeaderSection.svelte': 1600,
+	'src/lib/components/HeaderSection.svelte': 1645,
 	'src/lib/services/settings.ts': 975,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,

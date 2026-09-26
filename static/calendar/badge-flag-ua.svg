@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44" fill="none">
+  <defs>
+    <linearGradient id="ua_flag_gradient" x1="22" y1="0" x2="22" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0.49" stop-color="#0066CC" />
+      <stop offset="0.5" stop-color="#FFCC00" />
+    </linearGradient>
+  </defs>
+  <rect width="44" height="44" rx="14" fill="url(#ua_flag_gradient)" />
+</svg>
