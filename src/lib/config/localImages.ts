@@ -82,6 +82,7 @@ export const LOCAL_IMAGE_SIZES = {
 	'/png/AdmissionForm.png': { width: 1000, height: 1000 },
 	'/png/Contacts2.png': { width: 1000, height: 1000 },
 	'/png/History3.png': { width: 1200, height: 1200 },
+	'/png/stage-speech.webp': { width: 768, height: 1376 },
 	'/groups/zakhysnyky-teatralnykh-kulis.webp': { width: 1280, height: 720 },
 	'/groups/zakhysnyky-teatralnykh-kulis-2.webp': { width: 768, height: 576 },
 	'/groups/zakhysnyky-teatralnykh-kulis-3.webp': { width: 787, height: 576 },

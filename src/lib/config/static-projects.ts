@@ -71,7 +71,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		id: 'stage-speech',
 		slug: 'stage-speech',
 		color: '#F9B31D',
-		coverUrl: asset('/png/TheaterDepartment.png'),
+		coverUrl: asset('/png/stage-speech.webp'),
 		titles: { uk: 'Вправи зі сценічної мови', en: 'Stage Speech Exercises' },
 		excerpts: {
 			uk: 'Практичні вправи для дикції та дихання: гекзаметр і довгомовка «Ярмарок» Остапа Вишні',
