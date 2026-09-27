@@ -127,7 +127,7 @@
 	let departmentsRef: HTMLElement | null = $state(null);
 
 	const NEWS_LIMIT_HOME = 12;
-	const PROJECTS_LIMIT_HOME = 12;
+	const PROJECTS_LIMIT_HOME = 20;
 
 	function perf(label: string) {
 		if (browser && window.__perf) window.__perf(label);
