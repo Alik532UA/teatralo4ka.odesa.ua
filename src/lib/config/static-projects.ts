@@ -55,6 +55,40 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 			en: 'The journey starts here: first the planet, then the galaxy of graduates'
 		},
 	},
+	{
+		id: 'tkach-perekladach',
+		slug: 'tkach-perekladach',
+		color: '#E1306C',
+		coverUrl: asset('/png/tkach-perekladach.webp'),
+		externalUrl: 'https://www.instagram.com/tkach_perekladach/',
+		titles: { uk: '«Ткач Перекладач»', en: '«Tkach Translator»' },
+		excerpts: {
+			uk: 'Переклади сучасної світової драматургії та театральних пʼєс українською мовою',
+			en: 'Ukrainian translations of contemporary world drama and theatre plays'
+		},
+	},
+	{
+		id: 'stage-speech',
+		slug: 'stage-speech',
+		color: '#F9B31D',
+		coverUrl: asset('/png/TheaterDepartment.png'),
+		titles: { uk: 'Вправи зі сценічної мови', en: 'Stage Speech Exercises' },
+		excerpts: {
+			uk: 'Практичні вправи для дикції та дихання: гекзаметр і довгомовка «Ярмарок» Остапа Вишні',
+			en: 'Practical diction and breathing exercises: hexameter and the "Fair" tongue-twister by Ostap Vyshnya'
+		},
+	},
+	{
+		id: 'brandbook',
+		slug: 'brandbook',
+		color: '#FFED00',
+		coverUrl: asset('/logo/png/logo-800px484px.png'),
+		titles: { uk: 'BrandBook', en: 'BrandBook' },
+		excerpts: {
+			uk: 'Фірмовий стиль школи: кольори (#ffed00, #00b5ec, #e20413, #f9b31d, #1d1d1d), шрифт e-Ukraine, логотипи',
+			en: 'School brand identity: colors (#ffed00, #00b5ec, #e20413, #f9b31d, #1d1d1d), e-Ukraine font, logos'
+		},
+	},
 ];
 
 /**
@@ -87,7 +121,7 @@ export function getStaticProjects(
 export function getStaticProjectEntries(): { slug: string; path: string; titleUk: string; titleEn: string }[] {
 	return STATIC_PROJECT_DEFS.map(def => ({
 		slug: def.slug,
-		path: `/projects/${def.slug}`,
+		path: def.externalUrl || `/projects/${def.slug}`,
 		titleUk: def.titles.uk,
 		titleEn: def.titles.en,
 	}));

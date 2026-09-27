@@ -22,6 +22,9 @@ import { describe, expect, it } from 'vitest';
  *
  * Стеля НЕ звужується на кожен знятий рядок навмисно: гейт, який червоніє від
  * будь-якої правки в бік покращення, вимикають першим.
+ * 2026-09-27: `data/betaChecklist.ts` 716 → 719. Три рядки: адреси підсторінок
+ *   вправ зі сценічної мови (/projects/stage-speech/hexameter, /projects/stage-speech/yarmarok,
+ *   /projects/stage-speech/rhythm-trainer) у перелік вкладки «Проєкти».
  * 2026-09-06: `routes/+page.svelte` 432 → 436. Чотири рядки — головна навчилася
  *   читати перевизначення новин (`settings/newsOverrides`): імпорт служби,
  *   імпорт типу, стан із кешу і передача його в `newsFeed`. Без них приховану
@@ -86,6 +89,9 @@ import { describe, expect, it } from 'vitest';
  * мовами. Доти адреса `/calendar` стояла в `BETA_UNCOVERED_ROUTES` без причини,
  * якої той перелік вимагає, — а перевіряти людині там є що: iPhone у повному
  * екрані, читабельність тексту на кожному з восьми фонів і вигляд аркуша друку.
+ *
+ * 2026-09-27: 714 → 716. Два рядки: нові проєкти /projects/stage-speech та
+ * /projects/brandbook у переліку routes вкладки projects.
  *
  * 2026-09-17: `GalaxyStageControls.svelte` 361 → 365. Два рядки в переліку
  * розділів — експертна рада й друзі школи — плюс два значки в імпорті. Без
@@ -726,7 +732,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 275,
-	'src/lib/data/betaChecklist.ts': 714,
+	'src/lib/data/betaChecklist.ts': 719,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

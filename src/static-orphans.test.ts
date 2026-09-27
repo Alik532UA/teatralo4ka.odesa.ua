@@ -76,8 +76,6 @@ const ВІДОМІ_СИРОТИ = new Set([
 		{ length: 11 },
 		(_, i) => `static/miniIcon/png/MTS-miniIcon-${String(i + 1).padStart(2, '0')}.png`
 	),
-	// Варіант логотипа з часів добору анімації часток; у макеті лишився інший.
-	'static/logo/svg/t4_logo_IndividualParticles_MasksTwo_2026.svg',
 	// Три знімки, завантажені разом із рештою галереї й не вставлені в жодну
 	// сторінку; решта того ж заходу перелічена в `config/localImages.ts`.
 	'static/photo/IMG_7270.jpg',

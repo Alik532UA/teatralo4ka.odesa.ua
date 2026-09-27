@@ -141,6 +141,11 @@ const PUBLIC_ENTRIES = [
 	'/projects/photo-archive',
 	'/projects/spring-odesa-theatre',
 	'/projects/support-production',
+	'/projects/stage-speech',
+	'/projects/stage-speech/hexameter',
+	'/projects/stage-speech/yarmarok',
+	'/projects/stage-speech/rhythm-trainer',
+	'/projects/brandbook',
 	'/fest-odesa-teatr-pro',
 	'/fest-odessa-teatr-pro',
 	/*
