@@ -363,7 +363,8 @@
 			}
 		],
 		"graduationYears": [
-			2025
+			2025,
+			2026
 		],
 		"memberIds": [
 			"daria-kristiian",
@@ -371,7 +372,14 @@
 			"sofia-chernova",
 			"sofiia-skuratovych",
 			"valeriia-babenko",
-			"violetta-nezvinska"
+			"violetta-nezvinska",
+			"pavlo-maksymov",
+			"kira-husyeva",
+			"viktoriia-babii",
+			"hanna-belchytska",
+			"oleksandra-bebeshko",
+			"kateryna-tsysar",
+			"oleksandr-yanovskyi"
 		],
 		"playIds": [
 			"pokaz-etiudiv-2023",
@@ -381,7 +389,48 @@
 			"uryvky-z-klasyky-2025"
 		],
 		"verificationStatus": "possible_errors",
-		"isCurrent": false
+		"isCurrent": false,
+		"teachers": [
+			{
+				"id": "yevheniia-bondar",
+				"name": "Бондар Євгенія Миколаївна",
+				"subject": "Вокал"
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"name": "Ніколаєва Ганна Станіславівна",
+				"subject": "Вокал"
+			},
+			{
+				"id": "andrii-klymenko",
+				"name": "Клименко Андрій Дмитрович",
+				"subject": "Музичний керівник"
+			},
+			{
+				"id": "tetiana-stohul",
+				"name": "Стогул Тетяна Володимирівна",
+				"subject": "Хореографія"
+			},
+			{
+				"id": "yevheniia-osadcha",
+				"name": "Осадча (Бур'ян) Євгенія Іванівна",
+				"subject": "Грим"
+			},
+			{
+				"id": "pavlo-prymak",
+				"name": "Примак Павло Андрійович",
+				"subject": "Сценічний рух"
+			},
+			{
+				"id": "olena-tkach",
+				"name": "Ткач Олена Борисівна",
+				"subject": "Аудіотеатр"
+			}
+		],
+		"photos": [
+			"/groups/khlopaffky-1.webp",
+			"/groups/khlopaffky-2.webp"
+		]
 	},
 	{
 		"slug": "shevchushky",
@@ -632,11 +681,6 @@
 		"abbr": null,
 		"masters": [
 			{
-				"id": "hanna-tkach",
-				"name": "Ткач Ганна Федорівна",
-				"department": "theatre"
-			},
-			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
@@ -654,12 +698,22 @@
 		],
 		"graduationYears": [
 			2021,
-			2023
+			2022,
+			2023,
+			2024
 		],
 		"memberIds": [
 			"daria-rybalchenko",
 			"maryna-kravchuk",
-			"yelyzaveta-maliuzhenko"
+			"yelyzaveta-maliuzhenko",
+			"viktoriia-yefremova",
+			"kateryna-moliboha",
+			"kateryna-kurchenko",
+			"kimiia-mirshafiiei",
+			"sofiia-uhrinovska",
+			"svitlana-makedon",
+			"anzhelika-khachatrian",
+			"hlib-yeromin"
 		],
 		"playIds": [
 			"pokaz-etiudiv-ta-verbatimiv-2021",
@@ -668,7 +722,10 @@
 			"retsepty-vyzhyvannia-2023"
 		],
 		"photos": [
-			"/groups/alter-ego.webp"
+			"/groups/alter-ego.webp",
+			"/groups/alter-ego-1.webp",
+			"/groups/alter-ego-2.webp",
+			"/groups/alter-ego-3.webp"
 		],
 		"verificationStatus": "possible_errors",
 		"isCurrent": false
@@ -1482,15 +1539,35 @@
 		"isCurrent": false,
 		"masters": [
 			{
+				"id": "hanna-tkach",
+				"name": "Ткач (Комадовська) Ганна Федорівна",
+				"department": "theatre"
+			},
+			{
 				"id": "fedir-tkach",
 				"name": "Ткач Федір Федорович",
 				"department": "theatre"
 			}
 		],
 		"graduationYears": [
+			2018,
+			2020,
 			2021
 		],
-		"memberIds": [],
+		"memberIds": [
+			"lada-bilak",
+			"zlata-malancheva",
+			"david-oks",
+			"oleksandra-polozova",
+			"nataliia-shynkarenko",
+			"daria-ekim",
+			"veronika-cheredniuk",
+			"ksiusha-kolesnykova",
+			"oleksandr-skoropad",
+			"kateryna-haidei",
+			"kateryna-yevtushenko",
+			"andrii-kruchkovskyi"
+		],
 		"playIds": [
 			"a-mozhe-ni-2018",
 			"sorok-pershyi-2018",
@@ -1499,7 +1576,8 @@
 			"chapaiev-ta-vasylisa-2021"
 		],
 		"photos": [
-			"/groups/art-kids.webp"
+			"/groups/art-kids.webp",
+			"/groups/art-kids-2.webp"
 		]
 	},
 	{
@@ -1724,13 +1802,20 @@
 			2026
 		],
 		"memberIds": [
-			"anastasiia-ivanova"
+			"anastasiia-ivanova",
+			"zoia-stoianova",
+			"anastasiia-zahorodnia",
+			"mykhailo-zabozhanov",
+			"kateryna-tiutiunnyk",
+			"lesia-doskoch",
+			"alina-halach",
+			"sofiya-rudenko"
 		],
 		"playIds": [
+			"pokaz-etiudiv-2025",
 			"zaruchyny-2026"
 		]
 	},
-
 	{
 		"slug": "kuvyrkom",
 		"name": "«Кувирком»",

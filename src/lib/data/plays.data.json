@@ -66,10 +66,27 @@
 		],
 		"number": 71,
 		"institution": "Одеська дитяча театральна школа",
-		"theatreGroup": "гр. «Яктус+Паша» («Інтенсив-Насті+Паша»)",
+		"theatreGroup": "гр. «Кактус»",
 		"isDtsh": true,
 		"dateNote": "23 травня субота, 14.30 (ауд. 7); 25 травня понеділок, 18.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photos": [
+			"/plays/zaruchyny-2026.webp"
+		],
+		"participants": [
+			"Михайло Забожанов",
+			"Катерина Тютюнник",
+			"Аліна Галач",
+			"Софія Руденко"
+		],
+		"extraParticipants": [
+			"Олександр Яновський",
+			"Дар'я Крістіян",
+			"Аріна Сиворіг",
+			"Марія Атаманюк",
+			"Аріна Захарія",
+			"Давид Грубий"
+		]
 	},
 	{
 		"id": "stateve-vykhovannia-2026",
@@ -222,16 +239,56 @@
 	},
 	{
 		"id": "pokaz-etiudiv-2025",
-		"title": "Показ етюдів",
+		"title": "«Етюди та вербатім»",
 		"year": 2025,
 		"masters": [
 			"fedir-tkach"
 		],
 		"number": 64,
 		"institution": "Одеська дитяча театральна школа",
-		"theatreGroup": "гр. «Інтенсив-Насті»",
+		"theatreGroup": "гр. «Кактус»",
 		"isDtsh": true,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"programme": [
+			{
+				"id": "huli-huli",
+				"title": "Етюд «Гулі-гулі»"
+			},
+			{
+				"id": "verbatim-lida-saltanenko",
+				"title": "Вербатім «Ліда з телефоном», «Салтаненко»"
+			},
+			{
+				"id": "robot-pylosos",
+				"title": "Етюд «Робот-пилосос»"
+			},
+			{
+				"id": "nime-kino",
+				"title": "Етюд «Німе кіно»"
+			},
+			{
+				"id": "ispyt",
+				"title": "Етюд «Іспит»"
+			},
+			{
+				"id": "synkhron-solovei",
+				"title": "Синхрон «Соловей (пісня)»"
+			},
+			{
+				"id": "tsyrk",
+				"title": "Етюд «Цирк»"
+			}
+		],
+		"participants": [
+			"Зоя Стоянова",
+			"Анастасія Іванова",
+			"Анастасія Загородня",
+			"Михайло Забожанов",
+			"Катерина Тютюнник",
+			"Леся Доскоч",
+			"Аліна Галач",
+			"Софія Руденко"
+		]
 	},
 	{
 		"id": "uryvky-z-klasyky-2025",
@@ -1324,7 +1381,8 @@
 		"year": 2018,
 		"author": "уривок за мотивами повісті Бориса Лавреньова",
 		"masters": [
-			"fedir-tkach"
+			"fedir-tkach",
+			"hanna-tkach"
 		],
 		"number": 41,
 		"institution": "Одеська дитяча театральна школа",
@@ -1334,7 +1392,8 @@
 			"Катерина Євтушенко",
 			"Андрій Кручковський"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://youtu.be/TsiVfPgJHzg"
 	},
 	{
 		"id": "tot-kto-otkryvaet-dvery-2018",
@@ -5159,12 +5218,28 @@
 		"title": "«А може ні»",
 		"year": 2018,
 		"author": "За мотивами сучасних польських казок",
-		"theatreGroup": "гр. 4Т-14",
+		"theatreGroup": "гр. «Art-Kids»",
 		"dateNote": "18.05. п’ятниця, 18.00 (ауд. 7); 20.05. неділя, 15.00 (ауд. 7)",
 		"masters": [
-			"fedir-tkach"
+			"fedir-tkach",
+			"hanna-tkach"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://youtu.be/9kf_c159XmA",
+		"participants": [
+			"Лада Білак",
+			"Катерина Гайдей",
+			"Дар'я Екім",
+			"Катерина Євтушенко",
+			"Ксюша Колесникова",
+			"Андрій Кручковський",
+			"Злата Маланчева",
+			"Давід Окс",
+			"Олександра Полозова",
+			"Олександр Скоропад",
+			"Вероніка Череднюк",
+			"Наталія Шинкаренко"
+		]
 	},
 	{
 		"id": "uryvky-z-klasychnykh-tvoriv-2018",
