@@ -69,9 +69,9 @@
 				</div>
 			</aside>
 
-			<main class="hexameter-page__main">
+			<div class="hexameter-page__main">
 				<SpeechHexameter testIdPrefix="hexameter-exercise" />
-			</main>
+			</div>
 		</div>
 	</div>
 </div>

@@ -52,7 +52,7 @@
 			</div>
 		</header>
 
-		<main class="brandbook-sections">
+		<div class="brandbook-sections">
 			<section id="logos" class="brand-section">
 				<BrandLogos testIdPrefix="brandbook-logos" />
 			</section>
@@ -68,7 +68,7 @@
 			<section id="particles" class="brand-section">
 				<BrandParticles testIdPrefix="brandbook-particles" />
 			</section>
-		</main>
+		</div>
 	</div>
 </div>
 

@@ -112,7 +112,7 @@
 			</div>
 		</header>
 
-		<main class="exercises-grid">
+		<div class="exercises-grid">
 			{#each EXERCISES as item (item.id)}
 				<article class="exercise-card" data-testid={`stage-speech-card-${item.id}`}>
 					<div class="card-top">
@@ -142,7 +142,7 @@
 					</div>
 				</article>
 			{/each}
-		</main>
+		</div>
 
 		<footer class="hub-footer">
 			<div class="footer-card">

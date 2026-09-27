@@ -49,9 +49,9 @@
 			</div>
 		</header>
 
-		<main class="yarmarok-page__main">
+		<div class="yarmarok-page__main">
 			<SpeechYarmarok testIdPrefix="yarmarok-exercise" />
-		</main>
+		</div>
 	</div>
 </div>
 
