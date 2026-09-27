@@ -82,7 +82,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		id: 'brandbook',
 		slug: 'brandbook',
 		color: '#FFED00',
-		coverUrl: asset('/logo/png/logo-800px484px.png'),
+		coverUrl: asset('/png/brandbook.webp'),
 		titles: { uk: 'BrandBook', en: 'BrandBook' },
 		excerpts: {
 			uk: 'Фірмовий стиль школи: кольори (#ffed00, #00b5ec, #e20413, #f9b31d, #1d1d1d), шрифт e-Ukraine, логотипи',
