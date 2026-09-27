@@ -10,7 +10,7 @@ seo:
 status: "published"
 version: "1.0.0"
 excerpt: "The journey starts here: first the planet, then the galaxy of graduates"
-coverUrl: "/png/creativity-planet.png"
+coverUrl: "/png/creativity-planet.webp"
 ---
 
 # Planet of Creativity

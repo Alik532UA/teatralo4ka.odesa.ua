@@ -10,7 +10,7 @@ seo:
 status: "published"
 version: "1.0.0"
 excerpt: "Шлях починається тут: спершу планета, потім — галактика випускників"
-coverUrl: "/png/creativity-planet.png"
+coverUrl: "/png/creativity-planet.webp"
 ---
 
 # Планета творчості

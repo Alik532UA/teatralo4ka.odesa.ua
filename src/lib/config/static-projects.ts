@@ -48,7 +48,7 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		id: 'creativity-planet',
 		slug: 'creativity-planet',
 		color: '#5EEAD4',
-		coverUrl: asset('/png/creativity-planet.png'),
+		coverUrl: asset('/png/creativity-planet.webp'),
 		titles: { uk: 'Планета творчості', en: 'Planet of Creativity' },
 		excerpts: {
 			uk: 'Шлях починається тут: спершу планета, потім — галактика випускників',
