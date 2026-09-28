@@ -436,6 +436,7 @@
 		"slug": "shevchushky",
 		"name": "Шевчушки",
 		"abbr": null,
+		"nameEn": "Shevchushky",
 		"masters": [
 			{
 				"id": "oleh-shevchuk",
@@ -1009,6 +1010,7 @@
 		"slug": "tu-154",
 		"name": "ТУ-154",
 		"abbr": null,
+		"nameEn": "TU-154",
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -1025,10 +1027,12 @@
 			"mykhailo-haniev",
 			"marharet-tsypynska",
 			"svitlana-smyrna",
-			"oleksandra-yavnyk",
+			"alina-nakonechna",
 			"anastasiia-kovtunenko",
 			"yuliia-zaslavska",
-			"alina-nakonechna"
+			"anastasiia-chychkina",
+			"oleksandra-yavnyk",
+			"oleksandra-berezutska"
 		],
 		"playIds": [
 			"de-vsi-2015",
@@ -1473,7 +1477,10 @@
 		"memberIds": [
 			"hryhorii-naumov",
 			"mykhailo-haniev",
-			"marharet-tsypynska"
+			"marharet-tsypynska",
+			"anna-halchynska",
+			"anastasiia-lovkina",
+			"sofiia-khersonska"
 		],
 		"playIds": [
 			"taiemnytsi-zamku-oilenshtain-2013",
@@ -2534,7 +2541,16 @@
 		"graduationYears": [
 			2013
 		],
-		"memberIds": [],
+		"memberIds": [
+			"svitlana-smyrna",
+			"alina-nakonechna",
+			"anastasiia-kovtunenko",
+			"yuliia-zaslavska",
+			"anastasiia-chychkina",
+			"oleksandra-yavnyk",
+			"oleksandra-berezutska",
+			"alona-kozlova"
+		],
 		"playIds": [
 			"otkrytyi-pokaz-po-akterskomu-masterstvu-2013"
 		],

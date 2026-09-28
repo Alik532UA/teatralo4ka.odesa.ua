@@ -2,8 +2,23 @@
 	{
 		"from": "freestyle",
 		"to": "tu-154",
-		"note": "групу перформатували",
-		"noteEn": "the group was reformed"
+		"note": "частина курсу увійшла до ТУ-154",
+		"noteEn": "part of the course joined TU-154",
+		"omitFromTimeline": true
+	},
+	{
+		"from": "kofeiny4ky",
+		"to": "tu-154",
+		"note": "частина курсу увійшла до ТУ-154",
+		"noteEn": "part of the course joined TU-154",
+		"omitFromTimeline": true
+	},
+	{
+		"from": "kofeiny4ky",
+		"to": "shevchushky",
+		"note": "частина курсу увійшла до Шевчушок",
+		"noteEn": "part of the course joined Shevchushky",
+		"omitFromTimeline": true
 	},
 	{
 		"from": "chainyky-2013",

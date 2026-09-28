@@ -60,9 +60,32 @@ export interface GroupLineageEdge {
 	 */
 	note?: string;
 	noteEn?: string;
+	/**
+	 * Приховати групу-попередницю з окремого рядка хронології на користь
+	 * комбінованого блоку наступниці (Варіант B у хронології).
+	 */
+	omitFromTimeline?: boolean;
 }
 
 export const LINEAGE: readonly GroupLineageEdge[] = lineageData satisfies readonly GroupLineageEdge[];
+
+/** Чи прихована група з окремого блоку хронології */
+export function isOmittedFromTimeline(slug: string): boolean {
+	return LINEAGE.some((edge) => edge.from === slug && edge.omitFromTimeline);
+}
+
+/** Очистити назву групи від лапок для компактного показу в бейджах і деревах */
+export function cleanGroupName(name: string): string {
+	return name.replace(/^[«"“]|["”»]$/g, '').trim();
+}
+
+/** Роки випуску одним рядком: «2013» або «2017–2018» */
+export function formatGroupYears(years: readonly number[]): string {
+	if (years.length === 0) return '';
+	const min = Math.min(...years);
+	const max = Math.max(...years);
+	return min === max ? `${min}` : `${min}–${max}`;
+}
 
 /** Один бік родоводу: сама група плюс пояснення з ребра, яким вона прийшла. */
 export interface LineageLink {
@@ -129,4 +152,135 @@ export function lineageOf(slug: string): {
 		beforeKey: predecessors.length > 1 ? 'galaxy.lineageMergedFrom' : 'galaxy.lineageWas',
 		afterKey: successors.length > 1 ? 'galaxy.lineageSplitInto' : 'galaxy.lineageBecame'
 	};
+}
+
+/** Короткий бейдж родоводу для плитки: «FreeStyle + Кофейни4ки ➔» або «➔ ТУ-154 + Шевчушки» */
+export function getGroupLineageBadge(slug: string, isEn: boolean): string | null {
+	const preds = predecessorsOf(slug);
+	if (preds.length > 0) {
+		const names = preds.map((p) => cleanGroupName(isEn ? (p.group.nameEn ?? p.group.name) : p.group.name));
+		return `${names.join(' + ')} ➔`;
+	}
+	const succs = successorsOf(slug);
+	if (succs.length > 0) {
+		const names = succs.map((s) => cleanGroupName(isEn ? (s.group.nameEn ?? s.group.name) : s.group.name));
+		return `➔ ${names.join(' + ')}`;
+	}
+	return null;
+}
+
+/** Підзаголовок курсу для простого списку */
+export function getGroupLineageSubtitle(slug: string, isEn: boolean): string | null {
+	const preds = predecessorsOf(slug);
+	const succs = successorsOf(slug);
+	const current = GROUPS.find((g) => g.slug === slug);
+	if (!current) return null;
+
+	const curName = cleanGroupName(isEn ? (current.nameEn ?? current.name) : current.name);
+
+	if (preds.length > 0) {
+		const predParts = preds.map((p) => {
+			const n = cleanGroupName(isEn ? (p.group.nameEn ?? p.group.name) : p.group.name);
+			const y = formatGroupYears(p.group.graduationYears);
+			return y ? `${n} (${y})` : n;
+		});
+		return `${predParts.join(' + ')} ➔ ${curName}`;
+	}
+	if (succs.length > 0) {
+		const succParts = succs.map((s) => {
+			const n = cleanGroupName(isEn ? (s.group.nameEn ?? s.group.name) : s.group.name);
+			const y = formatGroupYears(s.group.graduationYears);
+			return y ? `${n} (${y})` : n;
+		});
+		const curYears = formatGroupYears(current.graduationYears);
+		const curPart = curYears ? `${curName} (${curYears})` : curName;
+		return `${curPart} ➔ ${succParts.join(' + ')}`;
+	}
+	return null;
+}
+
+/** Вузол графічного ланцюжка родоводу */
+export interface GalaxyRowLineageNode {
+	slug: string;
+	name: string;
+	yearLabel: string;
+	memberCount: number;
+	memberIds?: readonly string[];
+	relatedMemberIds?: readonly string[];
+}
+
+/** Дані для графічного таймлайн-ланцюжка або дерева родоводу */
+export interface GalaxyRowLineageTree {
+	type: 'merger' | 'split' | 'fork';
+	predecessors: GalaxyRowLineageNode[];
+	successors: GalaxyRowLineageNode[];
+	siblings?: GalaxyRowLineageNode[];
+	current: GalaxyRowLineageNode;
+}
+
+/** Отримати дерево родоводу для групи (якщо це злиття або розгалуження) */
+export function getGroupLineageTree(slug: string, isEn: boolean): GalaxyRowLineageTree | null {
+	const current = GROUPS.find((g) => g.slug === slug);
+	if (!current) return null;
+
+	const preds = predecessorsOf(slug);
+	const succs = successorsOf(slug);
+
+	const toNode = (g: GraduateGroup, relatedGroup?: GraduateGroup): GalaxyRowLineageNode => {
+		const relatedIds = relatedGroup
+			? g.memberIds.filter((id) => relatedGroup.memberIds.includes(id))
+			: g.memberIds;
+		return {
+			slug: g.slug,
+			name: cleanGroupName(isEn ? (g.nameEn ?? g.name) : g.name),
+			yearLabel: formatGroupYears(g.graduationYears),
+			memberCount: g.memberIds.length,
+			memberIds: g.memberIds,
+			relatedMemberIds: relatedIds.length > 0 ? relatedIds : g.memberIds
+		};
+	};
+
+	// 1. Декілька груп зливаються в одну (наприклад, FreeStyle + Кофейни4ки ➔ ТУ-154)
+	if (preds.length > 1) {
+		return {
+			type: 'merger',
+			predecessors: preds.map((p) => toNode(p.group, current)),
+			successors: [],
+			current: toNode(current)
+		};
+	}
+
+	// 2. Попередниця розгалужується на поточну групу ТА іншу (наприклад, Кофейни4ки ➔ Шевчушки та ТУ-154)
+	if (preds.length === 1) {
+		const pred = preds[0];
+		const otherSuccessors = successorsOf(pred.group.slug).filter((s) => s.group.slug !== current.slug);
+		if (otherSuccessors.length > 0) {
+			return {
+				type: 'fork',
+				predecessors: [toNode(pred.group, current)],
+				successors: [],
+				siblings: otherSuccessors.map((s) => toNode(s.group, pred.group)),
+				current: toNode(current)
+			};
+		}
+		// Простий перетік 1-в-1 без паралельних гілок
+		return {
+			type: 'merger',
+			predecessors: [toNode(pred.group, current)],
+			successors: [],
+			current: toNode(current)
+		};
+	}
+
+	// 3. Група сама розгалужується на кілька наступниць
+	if (succs.length > 0) {
+		return {
+			type: 'split',
+			predecessors: [],
+			successors: succs.map((s) => toNode(s.group, current)),
+			current: toNode(current)
+		};
+	}
+
+	return null;
 }

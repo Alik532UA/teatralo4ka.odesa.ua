@@ -2,6 +2,7 @@
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
 	import GalaxyMarks from './GalaxyMarks.svelte';
 	import CountryFlag from '$lib/components/icons/CountryFlag.svelte';
+	import GalaxyLineageBranch from './GalaxyLineageBranch.svelte';
 	import { groupByYear, type GalaxyRow } from './galaxyRow';
 
 	/**
@@ -75,14 +76,25 @@
 		{/if}
 
 		<span class="grow__main">
-			<a class="grow__link" href={item.href} data-testid="{testIdPrefix}-row-link-{item.key}">
-				<span class="grow__title">{item.title}</span>
-			</a>
-			{#if item.subtitle}
-				<span class="grow__subtitle">{item.subtitle}</span>
-			{/if}
-			{#if item.badge}
-				<span class="grow__badge" data-testid="{testIdPrefix}-row-badge-{item.key}">{item.badge}</span>
+			{#if grouped && item.lineageTree?.type === 'fork'}
+				<GalaxyLineageBranch tree={item.lineageTree} mode="fork" testIdPrefix="{testIdPrefix}-row-{item.key}">
+					{#snippet primary()}
+						<a class="grow__link" href={item.href} data-testid="{testIdPrefix}-row-link-{item.key}"><span class="grow__title">{item.title}</span></a>
+						{#if item.badge}<span class="grow__badge" data-testid="{testIdPrefix}-row-badge-{item.key}">{item.badge}</span>{/if}
+					{/snippet}
+				</GalaxyLineageBranch>
+				{#if item.subtitle}<span class="grow__subtitle">{item.subtitle}</span>{/if}
+			{:else}
+				{#if grouped && item.lineageTree?.type === 'merger'}
+					<GalaxyLineageBranch tree={item.lineageTree} mode="merger" testIdPrefix="{testIdPrefix}-row-{item.key}" />
+				{/if}
+				<a class="grow__link" href={item.href} data-testid="{testIdPrefix}-row-link-{item.key}"><span class="grow__title">{item.title}</span></a>
+				{#if item.subtitle}<span class="grow__subtitle">{item.subtitle}</span>{/if}
+				{#if !grouped && item.lineageSubtitle}<span class="grow__lineage-sub" data-testid="{testIdPrefix}-row-lineage-sub-{item.key}">{item.lineageSubtitle}</span>{/if}
+				{#if item.badge}<span class="grow__badge" data-testid="{testIdPrefix}-row-badge-{item.key}">{item.badge}</span>{/if}
+				{#if grouped && item.lineageTree?.type === 'split'}
+					<GalaxyLineageBranch tree={item.lineageTree} mode="split" testIdPrefix="{testIdPrefix}-row-{item.key}" />
+				{/if}
 			{/if}
 		</span>
 
@@ -302,7 +314,7 @@
 
 	.grow__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-primary); opacity: 0.55; }
 	.grow__year { min-width: 3.2rem; color: var(--text-muted); font-size: 0.82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-	.grow__main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 0.5rem; min-width: 0; }
+	.grow__main { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; min-width: 0; }
 	.grow__link { color: inherit; text-decoration: none; min-width: 0; }
 	.grow__link::before { content: ''; position: absolute; inset: 0; border-radius: inherit; z-index: 1; }
 	.grow__title { font-weight: 600; color: var(--text-title); }
@@ -323,6 +335,11 @@
 		align-self: center;
 	}
 	.grow__subtitle { font-size: 0.82rem; color: var(--text-muted); }
+	.grow__lineage-sub {
+		font-size: 0.78rem;
+		color: var(--accent-text, #8cb4ff);
+		font-weight: 500;
+	}
 
 	.grow__cast {
 		position: relative;

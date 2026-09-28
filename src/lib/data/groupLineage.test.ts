@@ -1,6 +1,15 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { LINEAGE, lineageOf, predecessorsOf, successorsOf } from './groupLineage';
+import {
+	LINEAGE,
+	lineageOf,
+	predecessorsOf,
+	successorsOf,
+	isOmittedFromTimeline,
+	getGroupLineageBadge,
+	getGroupLineageSubtitle,
+	getGroupLineageTree
+} from './groupLineage';
 import { GROUPS } from './groups';
 
 /**
@@ -122,10 +131,66 @@ describe('родовід груп', () => {
 		}
 	});
 
-	it('FreeStyle і ТУ-154 — одна лінія', () => {
+	it('FreeStyle, Кофейни4ки, ТУ-154 та Шевчушки мають узгоджені зв’язки', () => {
 		expect(successorsOf('freestyle').map((l) => l.group.slug)).toEqual(['tu-154']);
-		expect(predecessorsOf('tu-154').map((l) => l.group.slug)).toEqual(['freestyle']);
+		expect(predecessorsOf('tu-154').map((l) => l.group.slug)).toEqual(['freestyle', 'kofeiny4ky']);
+		expect(successorsOf('kofeiny4ky').map((l) => l.group.slug)).toEqual(['tu-154', 'shevchushky']);
+		expect(predecessorsOf('shevchushky').map((l) => l.group.slug)).toEqual(['kofeiny4ky']);
 		expect(predecessorsOf('freestyle')).toEqual([]);
 		expect(successorsOf('tu-154')).toEqual([]);
+	});
+
+	it('хелпери родоводу формують правильні бейджі, підзаголовки та дерева', () => {
+		expect(isOmittedFromTimeline('freestyle')).toBe(true);
+		expect(isOmittedFromTimeline('kofeiny4ky')).toBe(true);
+
+		expect(getGroupLineageBadge('tu-154', false)).toBe('FreeStyle + Кофейни4ки ➔');
+		expect(getGroupLineageBadge('kofeiny4ky', false)).toBe('➔ ТУ-154 + Шевчушки');
+		expect(getGroupLineageBadge('shevchushky', false)).toBe('Кофейни4ки ➔');
+
+		const tuSubUk = getGroupLineageSubtitle('tu-154', false);
+		expect(tuSubUk).toContain('FreeStyle');
+		expect(tuSubUk).toContain('Кофейни4ки');
+		expect(tuSubUk).toContain('ТУ-154');
+
+		const shevSubUk = getGroupLineageSubtitle('shevchushky', false);
+		expect(shevSubUk).toContain('Кофейни4ки');
+		expect(shevSubUk).toContain('Шевчушки');
+
+		const kofSubUk = getGroupLineageSubtitle('kofeiny4ky', false);
+		expect(kofSubUk).toContain('Кофейни4ки');
+		expect(kofSubUk).toContain('ТУ-154');
+		expect(kofSubUk).toContain('Шевчушки');
+
+		const tuTree = getGroupLineageTree('tu-154', false);
+		expect(tuTree?.type).toBe('merger');
+		expect(tuTree?.predecessors.map((p) => p.slug)).toEqual(['freestyle', 'kofeiny4ky']);
+		expect(tuTree?.current.slug).toBe('tu-154');
+
+		const kofNodeInTu = tuTree?.predecessors.find((p) => p.slug === 'kofeiny4ky');
+		expect(kofNodeInTu?.relatedMemberIds).toHaveLength(7);
+		expect(kofNodeInTu?.relatedMemberIds).not.toContain('alona-kozlova');
+
+		const freeNodeInTu = tuTree?.predecessors.find((p) => p.slug === 'freestyle');
+		expect(freeNodeInTu?.relatedMemberIds).toHaveLength(3);
+
+		const kofTree = getGroupLineageTree('kofeiny4ky', false);
+		expect(kofTree?.type).toBe('split');
+		expect(kofTree?.successors.map((s) => s.slug)).toEqual(['tu-154', 'shevchushky']);
+		expect(kofTree?.current.slug).toBe('kofeiny4ky');
+
+		const tuNodeInKof = kofTree?.successors.find((s) => s.slug === 'tu-154');
+		expect(tuNodeInKof?.relatedMemberIds).toHaveLength(7);
+		expect(tuNodeInKof?.relatedMemberIds).not.toContain('hryhorii-naumov');
+
+		const shevNodeInKof = kofTree?.successors.find((s) => s.slug === 'shevchushky');
+		expect(shevNodeInKof?.relatedMemberIds).toEqual(['alona-kozlova']);
+
+		const shevTree = getGroupLineageTree('shevchushky', false);
+		expect(shevTree?.type).toBe('fork');
+		expect(shevTree?.predecessors.map((p) => p.slug)).toEqual(['kofeiny4ky']);
+		expect(shevTree?.predecessors[0].relatedMemberIds).toEqual(['alona-kozlova']);
+		expect(shevTree?.siblings?.map((s) => s.slug)).toEqual(['tu-154']);
+		expect(shevTree?.siblings?.[0].relatedMemberIds).toHaveLength(7);
 	});
 });

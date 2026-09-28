@@ -8,8 +8,10 @@
 		GraduationCap,
 		CalendarRange,
 		List,
-		LayoutGrid
+		LayoutGrid,
+		GitBranch
 	} from 'lucide-svelte';
+	import { isOmittedFromTimeline, getGroupLineageBadge, getGroupLineageSubtitle, getGroupLineageTree } from '$lib/data/groupLineage';
 	import GalaxyAddCard from '$lib/components/galaxy/GalaxyAddCard.svelte';
 	import GroupMatesRow from '$lib/components/GroupMatesRow.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
@@ -145,6 +147,8 @@
 			yearLabel: statusLabel ?? g.graduationYears.join(', '),
 			title: isEn && g.nameEn ? g.nameEn : g.name,
 			subtitle: g.masters.map((m) => masterName(m.id, m.name)).join(' · '),
+			lineageSubtitle: getGroupLineageSubtitle(g.slug, isEn) ?? undefined,
+			lineageTree: getGroupLineageTree(g.slug, isEn) ?? undefined,
 			memberIds: g.memberIds,
 			marks: [
 				...(statusLabel ? [{ icon: null, text: statusLabel, tone: 'group' as const }] : []),
@@ -175,7 +179,10 @@
 	]);
 
 	const rows = $derived<GalaxyRow[]>(
-		graduatedByYear.map((g) => mapGroupToRow(g))
+		(view.current === 'timeline' && !q
+			? graduatedByYear.filter((g) => !isOmittedFromTimeline(g.slug))
+			: graduatedByYear
+		).map((g) => mapGroupToRow(g))
 	);
 </script>
 
@@ -240,6 +247,7 @@
 		{/if}
 
 		{#snippet groupCard(group: (typeof GROUPS)[number])}
+			{@const lineageBadge = getGroupLineageBadge(group.slug, isEn)}
 			<a
 				class="group-card"
 				href={localizedPath(groupProfilePath(group.slug), currentLang)}
@@ -259,6 +267,12 @@
 						<span class="group-card__current-badge">{$t('galaxy.currentGroupBadge', { default: 'Поточна' })}</span>
 					{:else if group.memberIds.length === 0}
 						<span class="group-card__clarification-badge">{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}</span>
+					{/if}
+					{#if lineageBadge}
+						<span class="group-card__lineage-badge" data-testid="galaxy-group-lineage-badge-{group.slug}">
+							<GitBranch size={12} aria-hidden="true" />
+							{lineageBadge}
+						</span>
 					{/if}
 				</span>
 
@@ -459,6 +473,18 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--warning-color, #f59e0b);
+	}
+	.group-card__lineage-badge {
+		padding: 0.15rem 0.5rem;
+		border-radius: var(--radius-sm, 6px);
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 88%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 55%);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--accent-text, #8cb4ff);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
 	}
 
 	.groups-grid {

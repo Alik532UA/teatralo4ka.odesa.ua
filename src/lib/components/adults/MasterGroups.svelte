@@ -8,8 +8,10 @@
 		Sparkles,
 		CalendarRange,
 		List,
-		LayoutGrid
+		LayoutGrid,
+		GitBranch
 	} from 'lucide-svelte';
+	import { isOmittedFromTimeline, getGroupLineageBadge, getGroupLineageSubtitle, getGroupLineageTree } from '$lib/data/groupLineage';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { groupProfilePath, type GraduateGroup, playIdsOfGroup } from '$lib/data/groups';
 	import GraduateAvatarRow from '$lib/components/GraduateAvatarRow.svelte';
@@ -78,6 +80,8 @@
 			year: Math.max(...g.graduationYears),
 			yearLabel: statusLabel ?? yearsLabel(g.graduationYears),
 			title: isEn ? (g.nameEn ?? g.name) : g.name,
+			lineageSubtitle: getGroupLineageSubtitle(g.slug, isEn) ?? undefined,
+			lineageTree: getGroupLineageTree(g.slug, isEn) ?? undefined,
 			memberIds: g.memberIds,
 			marks: [
 				...(statusLabel ? [{ icon: null, text: statusLabel, tone: 'group' as const }] : []),
@@ -107,7 +111,10 @@
 	]);
 
 	const rows = $derived<GalaxyRow[]>(
-		graduatedGroups.map((g) => mapGroupToRow(g))
+		(view.current === 'timeline'
+			? graduatedGroups.filter((g) => !isOmittedFromTimeline(g.slug))
+			: graduatedGroups
+		).map((g) => mapGroupToRow(g))
 	);
 </script>
 
@@ -131,6 +138,7 @@
 	</div>
 
 	{#snippet groupCard(group: GraduateGroup)}
+		{@const lineageBadge = getGroupLineageBadge(group.slug, isEn)}
 		<a
 			class="group-card"
 			href={localizedPath(groupProfilePath(group.slug), lang)}
@@ -146,6 +154,12 @@
 						<span class="group-card__current-badge">{$t('galaxy.currentGroupBadge', { default: 'Поточна' })}</span>
 					{:else if group.memberIds.length === 0}
 						<span class="group-card__clarification-badge">{$t('galaxy.needsClarificationBadge', { default: 'Потребує уточнення' })}</span>
+					{/if}
+					{#if lineageBadge}
+						<span class="group-card__lineage-badge" data-testid="master-group-lineage-badge-{group.slug}">
+							<GitBranch size={12} aria-hidden="true" />
+							{lineageBadge}
+						</span>
 					{/if}
 				</span>
 				<span class="group-card__meta">
@@ -186,48 +200,32 @@
 			maxFaces={8}
 		/>
 	{:else}
-	<div class="groups-tiles-container" data-testid="master-groups-tiles-panel">
-		<section class="groups-category" data-testid="master-groups-current-section">
+	{#snippet categorySection(title: string, list: GraduateGroup[], testId: string, emptyText?: string, listTestId?: string)}
+		<section class="groups-category" data-testid="{testId}-section">
 			<div class="groups-category__head">
-				<h3 class="groups-category__title">{$t('galaxy.currentGroups', { default: 'Поточні групи' })}</h3>
-				<span class="groups-category__count">{currentGroups.length}</span>
+				<h3 class="groups-category__title">{title}</h3>
+				<span class="groups-category__count">{list.length}</span>
 			</div>
-			{#if currentGroups.length === 0}
-				<p class="groups-category__empty">{$t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' })}</p>
+			{#if list.length === 0 && emptyText}
+				<p class="groups-category__empty">{emptyText}</p>
 			{:else}
-				<ul class="groups-list">
-					{#each currentGroups as group (group.slug)}
+				<ul class="groups-list" data-testid={listTestId ?? `${testId}-list`}>
+					{#each list as group (group.slug)}
 						<li>{@render groupCard(group)}</li>
 					{/each}
 				</ul>
 			{/if}
 		</section>
+	{/snippet}
+
+	<div class="groups-tiles-container" data-testid="master-groups-tiles-panel">
+		{@render categorySection($t('galaxy.currentGroups', { default: 'Поточні групи' }), currentGroups, 'master-groups-current', $t('galaxy.noCurrentGroups', { default: 'Наразі немає груп у цьому статусі' }))}
 
 		{#if needsClarificationGroups.length > 0}
-			<section class="groups-category" data-testid="master-groups-clarification-section">
-				<div class="groups-category__head">
-					<h3 class="groups-category__title">{$t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' })}</h3>
-					<span class="groups-category__count">{needsClarificationGroups.length}</span>
-				</div>
-				<ul class="groups-list">
-					{#each needsClarificationGroups as group (group.slug)}
-						<li>{@render groupCard(group)}</li>
-					{/each}
-				</ul>
-			</section>
+			{@render categorySection($t('galaxy.needsClarificationGroups', { default: 'Потребують уточнення' }), needsClarificationGroups, 'master-groups-clarification')}
 		{/if}
 
-		<section class="groups-category" data-testid="master-groups-graduated-section">
-			<div class="groups-category__head">
-				<h3 class="groups-category__title">{$t('galaxy.graduatedGroups', { default: 'Випущені групи' })}</h3>
-				<span class="groups-category__count">{graduatedGroups.length}</span>
-			</div>
-			<ul class="groups-list" data-testid="master-groups-list">
-				{#each graduatedGroups as group (group.slug)}
-					<li>{@render groupCard(group)}</li>
-				{/each}
-			</ul>
-		</section>
+		{@render categorySection($t('galaxy.graduatedGroups', { default: 'Випущені групи' }), graduatedGroups, 'master-groups-graduated', undefined, 'master-groups-list')}
 	</div>
 	{/if}
 </section>
@@ -357,23 +355,31 @@
 		font-weight: 600;
 		color: var(--text-muted);
 	}
-	.group-card__current-badge {
+	.group-card__current-badge,
+	.group-card__clarification-badge,
+	.group-card__lineage-badge {
 		padding: 0.1rem 0.45rem;
 		border-radius: var(--radius-full, 9999px);
-		background: rgba(14, 165, 233, 0.12);
-		border: var(--hairline-width) solid rgba(14, 165, 233, 0.35);
 		font-size: 0.75rem;
 		font-weight: 600;
+	}
+	.group-card__current-badge {
+		background: rgba(14, 165, 233, 0.12);
+		border: var(--hairline-width) solid rgba(14, 165, 233, 0.35);
 		color: var(--accent-primary);
 	}
 	.group-card__clarification-badge {
-		padding: 0.1rem 0.45rem;
-		border-radius: var(--radius-full, 9999px);
 		background: rgba(245, 158, 11, 0.12);
 		border: var(--hairline-width) solid rgba(245, 158, 11, 0.35);
-		font-size: 0.75rem;
-		font-weight: 600;
 		color: var(--warning-color, #f59e0b);
+	}
+	.group-card__lineage-badge {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3rem;
+		background: color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 88%);
+		border: var(--hairline-width) solid color-mix(in srgb, var(--accent-text, #8cb4ff), transparent 55%);
+		color: var(--accent-text, #8cb4ff);
 	}
 	.group-card__meta {
 		font-size: 0.88rem;
