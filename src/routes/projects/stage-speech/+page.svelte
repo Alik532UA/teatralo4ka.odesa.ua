@@ -19,7 +19,14 @@
 
 	interface ExerciseCard {
 		id: string;
-		path: '/projects/stage-speech/hexameter' | '/projects/stage-speech/yarmarok' | '/projects/stage-speech/rhythm-trainer';
+		path:
+			| '/projects/stage-speech/hexameter'
+			| '/projects/stage-speech/yarmarok'
+			| '/projects/stage-speech/diction-norm'
+			| '/projects/stage-speech/skoromovky'
+			| '/projects/stage-speech/cumulative-tales'
+			| '/projects/stage-speech/voice-power'
+			| '/projects/stage-speech/rhythm-trainer';
 		badge: string;
 		badgeEn: string;
 		badgeColor: string;
@@ -61,6 +68,66 @@
 			subtitleEn: 'Ostap Vyshnya',
 			desc: 'Швидкомовка-довгомовка на тривалий безперервний видих, рухливість артикуляційного апарату, точні акцентовані наголоси та словничок рідковживаних слів.',
 			descEn: 'Sustained-breath diction exercise with authentic Ukrainian accents, dynamic tempo shifts, and vocabulary reference.',
+			cta: 'Відкрити вправу',
+			ctaEn: 'Open exercise'
+		},
+		{
+			id: 'diction-norm',
+			path: '/projects/stage-speech/diction-norm',
+			badge: 'Вправа 3',
+			badgeEn: 'Exercise 3',
+			badgeColor: 'orange',
+			title: 'Дикційна нормативність',
+			titleEn: 'Diction Normative Practice',
+			subtitle: 'А. Гладишева / «Ткач-перекладач»',
+			subtitleEn: 'A. Gladysheva / Tkach Translator',
+			desc: '15 комплексних вправ для точного звукоутворення приголосних звуків (Б-П, Д-Т, З-С, Р, Л тощо) з артикуляційними правилами та ритмічними складовими рядочками.',
+			descEn: '15 systematic consonant articulation exercises with clear physical rules and rhythmic drill rhymes.',
+			cta: 'Відкрити вправу',
+			ctaEn: 'Open exercise'
+		},
+		{
+			id: 'skoromovky',
+			path: '/projects/stage-speech/skoromovky',
+			badge: 'Вправа 4',
+			badgeEn: 'Exercise 4',
+			badgeColor: 'blue',
+			title: 'Антологія скоромовок',
+			titleEn: 'Tongue-Twisters Anthology',
+			subtitle: 'Понад 100 скоромовок для розминки',
+			subtitleEn: '100+ theatrical tongue-twisters',
+			desc: 'Велика база класичних та сценічних скоромовок для щоденного тренування дикції з фільтром за літерами, живим пошуком та режимом випадкового вибору.',
+			descEn: 'Large collection of speech warm-up drills with sound filtering, live text search, and random selection mode.',
+			cta: 'Переглянути скоромовки',
+			ctaEn: 'Browse twisters'
+		},
+		{
+			id: 'cumulative-tales',
+			path: '/projects/stage-speech/cumulative-tales',
+			badge: 'Вправа 5',
+			badgeEn: 'Exercise 5',
+			badgeColor: 'red',
+			title: 'Довгомовки на дихання',
+			titleEn: 'Cumulative Breath Tales',
+			subtitle: '«Хатка Джека» та «Японське ім’я»',
+			subtitleEn: 'Jack’s House & Japanese Name',
+			desc: 'Тренування об’єму мовленнєвого видиху та координації артикуляційного апарату на матеріалі кумулятивних віршованих казок та скоромовок Неходи.',
+			descEn: 'Breath endurance training through cumulative rhyming stanzas and fast rhythmic consonant clustering.',
+			cta: 'Відкрити вправу',
+			ctaEn: 'Open exercise'
+		},
+		{
+			id: 'voice-power',
+			path: '/projects/stage-speech/voice-power',
+			badge: 'Вправа 6',
+			badgeEn: 'Exercise 6',
+			badgeColor: 'yellow',
+			title: 'Сила голосу та регістри',
+			titleEn: 'Voice Power & Registers',
+			subtitle: '«Іванко» та «Скакалка»',
+			subtitleEn: 'Ivanko & Jump Rope',
+			desc: 'Вправа-діалог на польотність звуку та перехід між регістрами («Іванко») плюс координація стабільного дихання під час фізичного навантаження («Скакалка»).',
+			descEn: 'Vocal projection and register switching dialogue plus speech-breathing coordination under jump-rope motion.',
 			cta: 'Відкрити вправу',
 			ctaEn: 'Open exercise'
 		},
@@ -211,6 +278,7 @@
 	.card-badge--blue { background: var(--palette-blue); color: var(--palette-black); }
 	.card-badge--red { background: var(--palette-red); color: #ffffff; }
 	.card-badge--orange { background: var(--palette-orange); color: var(--palette-black); }
+	.card-badge--yellow { background: var(--palette-yellow); color: var(--palette-black); }
 	.card-title { margin: 0; font-size: 1.35rem; font-weight: 800; color: var(--text-title); line-height: 1.3; }
 	.card-subtitle { font-size: 0.88rem; color: var(--text-muted); font-style: italic; }
 	.card-desc { margin: 0 0 1.5rem; font-size: 0.95rem; line-height: 1.6; color: var(--text-main); flex: 1; }

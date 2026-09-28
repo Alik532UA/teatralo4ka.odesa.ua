@@ -1,0 +1,71 @@
+{
+  "ivanko": {
+    "id": "ivanko",
+    "title": "На силу голосу та регістри («Іванко»)",
+    "titleEn": "Voice Power and Registers (\"Ivanko\")",
+    "subtitle": "Український текст — «Ткач-перекладач»",
+    "subtitleEn": "Ukrainian text adapted by Tkach Translator",
+    "desc": "Вправа-діалог на польотність голосу, перемикання регістрів (головний — грудний) та відчуття акустичної відстані (близько / далеко) без перевантаження зв'язок.",
+    "descEn": "Dialogue exercise for vocal carry, switching between chest and head registers, and sounding across acoustic distance without vocal strain.",
+    "dialogue": [
+      {
+        "speaker": "Гукач (здалеку, верхній регістр)",
+        "speakerEn": "Caller (distant, head register)",
+        "line": "І-ван-ко-о-о-о-о-о! І-ван-ко-о-о-о-о-о! І-ван-ко-о-о-о-о-о!"
+      },
+      {
+        "speaker": "Іванко (зблизька, спокійний грудний тон)",
+        "speakerEn": "Ivanko (close, calm chest tone)",
+        "line": "Чо-го то-бі-і-і-і-і?"
+      },
+      {
+        "speaker": "Гукач (гучний заклик)",
+        "speakerEn": "Caller (urgent call)",
+        "line": "І-ди сю-ди-и-и-и-и!"
+      },
+      {
+        "speaker": "Іванко (запитання)",
+        "speakerEn": "Ivanko (inquiry)",
+        "line": "За чи-и-и-и-им?"
+      },
+      {
+        "speaker": "Гукач (тривожно, з посилом у простір)",
+        "speakerEn": "Caller (warning, projection)",
+        "line": "Те-бе та-то ви-сі-че-е-е-е!"
+      },
+      {
+        "speaker": "Іванко (рішуча відмова)",
+        "speakerEn": "Ivanko (firm refusal)",
+        "line": "Не пі-ду-у-у-у!"
+      },
+      {
+        "speaker": "Гукач (прощальний відголос)",
+        "speakerEn": "Caller (fading echo)",
+        "line": "І-ван-ко-о-о-о-о-о! І-ван-ко-о-о-о-о-о! І-ван-ко-о-о-о-о-о!"
+      }
+    ]
+  },
+  "skakalka": {
+    "id": "skakalka",
+    "title": "Вправа «Скакалка»",
+    "titleEn": "Exercise \"Jump Rope\"",
+    "subtitle": "Вірш-тренажер для дихання в русі",
+    "subtitleEn": "Speech rhythm exercise with physical action",
+    "desc": "Розвиток стабільного діафрагмального дихання під час фізичного навантаження (стрибків зі скакалкою, бігу на місці або пружних кроків). Голос повинен звучати вільно, без задишки та тремтіння.",
+    "descEn": "Developing stable diaphragmatic breathing under physical exertion (jumping rope, running in place). Voice must remain free and steady without shortness of breath.",
+    "lines": [
+      "Зі скакалкою стрибаю.",
+      "Я навчитися бажаю",
+      "З подихом своїм ладнати",
+      "Так, щоб звук він міг тримати,",
+      "щоб глибоким був, ритмічним,",
+      "не підводив стан фізичний.",
+      "Я стрибаю без упину,",
+      "Без задишки подих лине.",
+      "Голос звучний, рівно ллється,",
+      "Легко це мені вдається.",
+      "Раз-два, раз-два, раз-два, раз!",
+      "Я стрибаю довгий час."
+    ]
+  }
+}

@@ -22,6 +22,10 @@ import { describe, expect, it } from 'vitest';
  *
  * Стеля НЕ звужується на кожен знятий рядок навмисно: гейт, який червоніє від
  * будь-якої правки в бік покращення, вимикають першим.
+ * 2026-09-28: `data/betaChecklist.ts` 720 → 724. Чотири рядки: нові адреси
+ *   підсторінок вправ зі сценічної мови (/projects/stage-speech/diction-norm,
+ *   /projects/stage-speech/skoromovky, /projects/stage-speech/cumulative-tales,
+ *   /projects/stage-speech/voice-power) у перелік вкладки «Проєкти».
  * 2026-09-27: `data/betaChecklist.ts` 716 → 719. Три рядки: адреси підсторінок
  *   вправ зі сценічної мови (/projects/stage-speech/hexameter, /projects/stage-speech/yarmarok,
  *   /projects/stage-speech/rhythm-trainer) у перелік вкладки «Проєкти».
@@ -735,7 +739,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 275,
-	'src/lib/data/betaChecklist.ts': 720,
+	'src/lib/data/betaChecklist.ts': 724,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
