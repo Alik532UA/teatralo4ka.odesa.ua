@@ -496,7 +496,7 @@
 	},
 	{
 		"slug": "cheloveky",
-		"name": "Человеки",
+		"name": "Чєловєкі",
 		"abbr": null,
 		"masters": [
 			{
@@ -511,13 +511,13 @@
 			}
 		],
 		"graduationYears": [
-			2020,
-			2021
+			2020
 		],
 		"memberIds": [
 			"dar-ia-hurevych",
 			"daria-rybalchenko",
-			"heorhii-topor"
+			"heorhii-topor",
+			"vira-spaska"
 		],
 		"playIds": [
 			"pokaz-etiudiv-2016",

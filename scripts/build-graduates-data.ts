@@ -305,6 +305,18 @@ if (before.length !== after.length || before.some((row, i) => row !== after[i]))
 	throw new Error('slug / ім’я / рік / адреса змінилися — цього робити не можна');
 }
 
+// Освіжаємо playCount і profileSize для ВСІХ анкет, що існують на диску
+for (const entry of index) {
+	const address = entry.code ?? entry.slug;
+	const file = path.join(PROFILES_DIR, `${address}.json`);
+	if (fs.existsSync(file)) {
+		const raw = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
+		const data = JSON.parse(raw);
+		entry.playCount = (data.plays ?? []).length;
+		entry.profileSize = Buffer.byteLength(raw, 'utf8');
+	}
+}
+
 fs.writeFileSync(INDEX_FILE, JSON.stringify(index, null, '\t') + '\n', 'utf8');
 
 /*
