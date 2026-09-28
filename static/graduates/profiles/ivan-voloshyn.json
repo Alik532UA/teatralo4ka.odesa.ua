@@ -56,9 +56,10 @@
 		},
 		{
 			"year": 2020,
-			"text": "«Безіменна зірка»",
+			"text": "«Безіменна зірка», Вчитель Удря",
 			"playId": "bezimenna-zirka-2020",
-			"fromRegistry": true
+			"fromRegistry": true,
+			"role": "Вчитель Удря"
 		}
 	],
 	"bio": [],

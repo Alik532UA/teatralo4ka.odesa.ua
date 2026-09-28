@@ -10,9 +10,10 @@
 	"plays": [
 		{
 			"year": 2020,
-			"text": "«Безіменна зірка»",
+			"text": "«Безіменна зірка», Вчитель Мірою",
 			"playId": "bezimenna-zirka-2020",
-			"fromRegistry": true
+			"fromRegistry": true,
+			"role": "Вчитель Мірою"
 		}
 	],
 	"bio": [],

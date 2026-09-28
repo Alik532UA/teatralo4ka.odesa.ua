@@ -15,15 +15,29 @@
 			"fromRegistry": true
 		},
 		{
-			"year": 2020,
-			"text": "«Безіменна зірка»",
-			"playId": "bezimenna-zirka-2020",
+			"year": 2019,
+			"text": "«Заручини»",
+			"playId": "zaruchyny-2019",
 			"fromRegistry": true
+		},
+		{
+			"year": 2020,
+			"text": "«Безіменна зірка», Мона, Мадам Паску",
+			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true,
+			"role": "Мона, Мадам Паску"
 		},
 		{
 			"year": 2020,
 			"text": "«Граємо Зощенка!»",
 			"playId": "hraiemo-zoshchenka-2020",
+			"fromRegistry": true
+		},
+		{
+			"year": 2021,
+			"text": "«Чапаєв та Василіса», Елєоноркова Шуба, історичка, за сумісництвом класнуха і троль",
+			"role": "Елєоноркова Шуба, історичка, за сумісництвом класнуха і троль",
+			"playId": "chapaiev-ta-vasylisa-2021",
 			"fromRegistry": true
 		}
 	],

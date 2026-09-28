@@ -133,38 +133,47 @@
 	"bezimenna-zirka-2020": [
 		{
 			"graduateId": "daria-ekim",
+			"role": "Мадмуазель Куку, Мадам Грігореску",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "daria-rybalchenko",
+			"role": "Учениця Замфіреску, Мадам Іспас",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "david-oks",
+			"role": "Вчитель Мірою",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "ivan-voloshyn",
+			"role": "Вчитель Удря",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "lada-bilak",
+			"role": "Мона, Мадам Паску",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "maksym-korobchynskyi",
+			"role": "Вчитель Мірою",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "nataliia-shynkarenko",
+			"role": "Мона, Мадам Паску",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "oleksandra-polozova",
+			"role": "Учениця Замфіреску, Мадам Іспас",
 			"fromRegistry": true
 		},
 		{
 			"graduateId": "zlata-malancheva",
+			"role": "Мадмуазель Куку, Мадам Грігореску",
 			"fromRegistry": true
 		}
 	],
@@ -214,10 +223,37 @@
 	],
 	"chapaiev-ta-vasylisa-2021": [
 		{
-			"graduateId": "daria-rybalchenko"
+			"graduateId": "daria-ekim",
+			"role": "Тато — Слов’янський психолог",
+			"fromRegistry": true
 		},
 		{
-			"graduateId": "heorhii-topor"
+			"graduateId": "daria-rybalchenko",
+			"role": "Чапаєв Василь Іванович, нечервоний герой"
+		},
+		{
+			"graduateId": "heorhii-topor",
+			"role": "Даніліще-Овочехраніліще, то любов"
+		},
+		{
+			"graduateId": "lada-bilak",
+			"role": "Жукова — Запрошена зірка",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "nataliia-shynkarenko",
+			"role": "Елєоноркова Шуба, історичка, за сумісництвом класнуха і троль",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-polozova",
+			"role": "Вася, Василіса, зірка ютьюбу",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "zlata-malancheva",
+			"role": "Мама — Ведучий",
+			"fromRegistry": true
 		}
 	],
 	"chernaia-kurytsa-2007": [
@@ -3586,6 +3622,32 @@
 		},
 		{
 			"graduateId": "anastasiia-ihnatovych"
+		}
+	],
+	"zaruchyny-2019": [
+		{
+			"graduateId": "daria-ekim",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "david-oks",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "lada-bilak",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "nataliia-shynkarenko",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-polozova",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "zlata-malancheva",
+			"fromRegistry": true
 		}
 	],
 	"zaruchyny-2026": [

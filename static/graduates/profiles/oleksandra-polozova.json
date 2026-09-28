@@ -9,9 +9,23 @@
 	],
 	"plays": [
 		{
+			"year": 2019,
+			"text": "«Заручини»",
+			"playId": "zaruchyny-2019",
+			"fromRegistry": true
+		},
+		{
 			"year": 2020,
-			"text": "«Безіменна зірка»",
+			"text": "«Безіменна зірка», Учениця Замфіреску, Мадам Іспас",
 			"playId": "bezimenna-zirka-2020",
+			"fromRegistry": true,
+			"role": "Учениця Замфіреску, Мадам Іспас"
+		},
+		{
+			"year": 2021,
+			"text": "«Чапаєв та Василіса», Вася, Василіса, зірка ютьюбу",
+			"role": "Вася, Василіса, зірка ютьюбу",
+			"playId": "chapaiev-ta-vasylisa-2021",
 			"fromRegistry": true
 		}
 	],

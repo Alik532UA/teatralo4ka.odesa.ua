@@ -1549,6 +1549,28 @@
 				"department": "theatre"
 			}
 		],
+		"teachers": [
+			{
+				"id": "hanna-serebriannikova",
+				"name": "Серебряннікова Ганна Іванівна",
+				"subject": "Сценічний рух та хореографія"
+			},
+			{
+				"id": "serebriannikova-n",
+				"name": "Серебряннікова Наталія Іванівна",
+				"subject": "Риторика"
+			},
+			{
+				"id": "azarenko",
+				"name": "Азаренко Оксана",
+				"subject": "Грим"
+			},
+			{
+				"id": "samuil-imas",
+				"name": "Імас Самуїл Михайлович",
+				"subject": "Риторика та поетика театру"
+			}
+		],
 		"graduationYears": [
 			2018,
 			2020,
@@ -1572,6 +1594,7 @@
 			"a-mozhe-ni-2018",
 			"sorok-pershyi-2018",
 			"a-mozhe-ni-new-2019",
+			"zaruchyny-2019",
 			"bezimenna-zirka-2020",
 			"chapaiev-ta-vasylisa-2021"
 		],
