@@ -77,10 +77,6 @@
 	 */
 </script>
 
-<svelte:head>
-	<title>{masterName} — {$t('nav.residents', { default: 'Резиденти' })} — Одеська театральна школа</title>
-</svelte:head>
-
 <div class="master-page" data-testid="master-profile-section">
 	<div class="container master-page__container">
 		<!-- Хлібні крихти / Навігація назад -->

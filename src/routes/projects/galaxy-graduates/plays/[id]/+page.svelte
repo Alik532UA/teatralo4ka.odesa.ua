@@ -33,10 +33,6 @@
 	 */
 </script>
 
-<svelte:head>
-	<title>{data.play.title} — {$t('galaxy.title')}</title>
-</svelte:head>
-
 <main class="play-page" data-testid="play-page-section">
 	<div class="container">
 				<GalaxyBreadcrumb

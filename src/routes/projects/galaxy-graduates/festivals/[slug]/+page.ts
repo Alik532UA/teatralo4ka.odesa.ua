@@ -171,6 +171,8 @@ export async function load({ params, url, fetch }) {
 		coachAlumni,
 		guests,
 		plays,
-		seoDescription
+		seoTitle: назва,
+		seoDescription,
+		ogImageUrl: (деталі[festival.slug]?.photos?.[0] as string | undefined) ?? '/og/og-gg-1200x630.jpg'
 	};
 }

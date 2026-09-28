@@ -46,5 +46,13 @@ export function load({ params, url }) {
 		localeFromPath(url.pathname) === 'en' && theatre.nameEn ? theatre.nameEn : theatre.name;
 	const seoDescription = joinDescription([назва, theatre.city, words.theatreTail]);
 
-	return { theatre, members, masterMembers, seoDescription, total: theatreSize(theatre) };
+	return {
+		theatre,
+		members,
+		masterMembers,
+		seoTitle: назва,
+		seoDescription,
+		ogImageUrl: '/og/og-gg-1200x630.jpg',
+		total: theatreSize(theatre)
+	};
 }

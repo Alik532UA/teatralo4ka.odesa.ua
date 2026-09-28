@@ -20,12 +20,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Exercise 3: Diction Normative Practice' : 'Вправа 3: Дикційна нормативність'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="exercise-page" data-testid="diction-norm-page-section">
 	<div class="container exercise-page__container">
 		<header class="exercise-page__header">

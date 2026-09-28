@@ -19,12 +19,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Exercise 2: Yarmarok Tongue-Twister' : 'Вправа 2: Довгомовка «Ярмарок»'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="exercise-page" data-testid="yarmarok-page-section">
 	<div class="container exercise-page__container">
 		<header class="exercise-page__header">

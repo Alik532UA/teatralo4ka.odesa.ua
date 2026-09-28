@@ -98,10 +98,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{$t('news.title')} | {$t('seo.brandTitle')}</title>
-</svelte:head>
-
 <!-- News Section -->
 <section class="news news--page" id="news-section" aria-labelledby="news-title" data-testid="news-page-section">
 	<div class="container" data-testid="news-page-container">

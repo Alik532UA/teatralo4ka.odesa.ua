@@ -93,10 +93,6 @@
 	const ordered = $derived(перемішані ?? зФото);
 </script>
 
-<svelte:head>
-	<title>{назва} — {$t('galaxy.title')}</title>
-</svelte:head>
-
 <main class="inst-page" data-testid="institution-page-section">
 	<div class="container">
 				<GalaxyBreadcrumb

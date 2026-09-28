@@ -59,7 +59,14 @@ export function load({ params, url }) {
 		words.institutionTail
 	]);
 
-	return { institution, students, seoDescription, total: institutionSize(institution) };
+	return {
+		institution,
+		students,
+		seoTitle: назва,
+		seoDescription,
+		ogImageUrl: '/og/og-gg-1200x630.jpg',
+		total: institutionSize(institution)
+	};
 }
 
 /** «, вступ 2026» або «, вступ 2024–2026». Порожньо — років ще немає. */

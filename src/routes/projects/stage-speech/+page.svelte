@@ -149,12 +149,6 @@
 	];
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Stage Speech Exercises' : 'Вправи зі сценічної мови'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="speech-hub-page" data-testid="stage-speech-hub-section">
 	<div class="container speech-hub-page__container">
 		<header class="speech-hub-page__header">

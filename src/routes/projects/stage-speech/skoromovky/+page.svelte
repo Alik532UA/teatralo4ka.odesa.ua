@@ -19,12 +19,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Exercise 4: Tongue-Twisters Anthology' : 'Вправа 4: Антологія скоромовок'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="exercise-page" data-testid="skoromovky-page-section">
 	<div class="container exercise-page__container">
 		<header class="exercise-page__header">

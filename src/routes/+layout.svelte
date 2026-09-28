@@ -199,8 +199,11 @@
 	// resolved to ".." and produced "https://teatralo4ka.odesa.ua../og/...".
 	// This site is served from the domain root, so there is no prefix to add.
 	const ogImageUrl = $derived(
-		page.data.ogImageUrl ||
-			`${SITE_ORIGIN}/og/${stripLocale(page.url.pathname).startsWith('/projects/galaxy-graduates') ? 'og-gg-1200x630.jpg' : 'og-default-1200x630.jpg'}`
+		page.data.ogImageUrl
+			? (page.data.ogImageUrl.startsWith('http://') || page.data.ogImageUrl.startsWith('https://')
+				? page.data.ogImageUrl
+				: `${SITE_ORIGIN}/${page.data.ogImageUrl.replace(/^(\.\.\/)+/, '').replace(/^\/+/, '')}`)
+			: `${SITE_ORIGIN}/og/${stripLocale(page.url.pathname).startsWith('/projects/galaxy-graduates') ? 'og-gg-1200x630.jpg' : 'og-default-1200x630.jpg'}`
 	);
 	// The home page's own title is already the brand, so appending it produced
 	// "Одеська театральна школа | Одеська театральна школа".

@@ -22,12 +22,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'BrandBook' : 'Брендбук школи'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="brandbook-page" data-testid="brandbook-section">
 	<div class="container brandbook-page__container">
 		<header class="brandbook-page__header">

@@ -19,12 +19,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Rhythm Trainer' : 'Ритм-тренажер для дикції'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="trainer-page" data-testid="rhythm-trainer-page-section">
 	<div class="container trainer-page__container">
 		<header class="trainer-page__header">

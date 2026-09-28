@@ -183,10 +183,6 @@
 	const yearsStr = $derived([...data.festival.years].sort((a, b) => a - b).join(', '));
 </script>
 
-<svelte:head>
-	<title>{festivalTitle} — {$t('galaxy.festivalsTitle')} | {$t('hero.title')}</title>
-</svelte:head>
-
 <main class="fest-page" data-testid="festival-panel">
 	<div class="container">
 				<GalaxyBreadcrumb

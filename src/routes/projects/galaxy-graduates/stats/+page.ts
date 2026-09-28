@@ -1,3 +1,4 @@
+import { localeFromPath } from '$lib/i18n/routing';
 import {
 	statsJsonUrl,
 	statsHistoryJsonUrl,
@@ -7,7 +8,7 @@ import {
 
 export const prerender = true;
 
-export async function load({ fetch }) {
+export async function load({ fetch, url }) {
 	const [statsRes, historyRes] = await Promise.all([
 		fetch(statsJsonUrl()),
 		fetch(statsHistoryJsonUrl())
@@ -23,5 +24,14 @@ export async function load({ fetch }) {
 		history = (await historyRes.json()) as HistoryDailySnapshot[];
 	}
 
-	return { stats, history };
+	const isEn = localeFromPath(url.pathname) === 'en';
+	return {
+		stats,
+		history,
+		seoTitle: isEn ? 'Archival Completeness Statistics' : 'Статистика наповнення архіву',
+		seoDescription: isEn
+			? 'Completeness statistics of the Galaxy of Graduates archive: count of profiles, plays, festivals, and photos.'
+			: 'Статистика наповнення архіву «Галактики випускників»: кількість анкет, вистав, фестивалів та фотоматеріалів.',
+		ogImageUrl: '/og/og-gg-1200x630.jpg'
+	};
 }

@@ -162,6 +162,8 @@ export async function load({ params, url }) {
 		teachers,
 		members,
 		plays,
-		lineage
+		lineage,
+		seoTitle: назва,
+		ogImageUrl: '/og/og-gg-1200x630.jpg'
 	};
 }

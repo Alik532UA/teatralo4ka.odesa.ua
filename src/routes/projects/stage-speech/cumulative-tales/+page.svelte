@@ -19,12 +19,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Exercise 5: Cumulative Breath Tales' : 'Вправа 5: Довгомовки на дихання'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="exercise-page" data-testid="cumulative-tales-page-section">
 	<div class="container exercise-page__container">
 		<header class="exercise-page__header">

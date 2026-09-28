@@ -7,6 +7,7 @@ import {
 	completeProfile,
 	graduateProfileJson,
 	graduateProfilePath,
+	graduatePhoto,
 	hasProfile,
 	type GraduateIndexEntry,
 	type GraduateProfile
@@ -133,7 +134,19 @@ export async function load({ params, fetch, url }) {
 		profile = completeProfile(await response.json());
 	}
 
-	return { graduate, profile, seoDescription: describe(graduate, profile, url.pathname) };
+	const isEn = localeFromPath(url.pathname) === 'en';
+	const section = graduate.kind === 'student'
+		? (isEn ? 'Planet of Creativity' : 'Планета творчості')
+		: (isEn ? 'Galaxy of Graduates' : 'Галактика випускників');
+	const photoUrl = graduate.hasPhoto ? graduatePhoto(graduate.slug, 480) : '/og/og-gg-1200x630.jpg';
+
+	return {
+		graduate,
+		profile,
+		seoTitle: `${graduate.name} — ${section}`,
+		seoDescription: describe(graduate, profile, url.pathname),
+		ogImageUrl: photoUrl
+	};
 }
 
 /**

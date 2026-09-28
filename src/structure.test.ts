@@ -713,8 +713,13 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-21: `ui/PianoModal.svelte` 608 -> 940: інтерактивний тренажер
  *   «Гімн школи» з візуальними паузами між фразами мелодії, плавним підйомом
  *   нот у ліхтарик (0.5s без телепортації), адаптивною розміткою та кнопкою виходу.
+ * 2026-09-28: `src/lib/config/seoPages.ts` — 590 рядків SLOC при канонічній межі 250, НОВИЙ
+ *   запис. Реєстр SEO метаданих (двомовні заголовки, описи та карта маршрутів для соцмереж)
+ *   для всіх сторінок та проєктів сайту. Файл є чистим словником даних (`SEO_FALLBACK`, `routeToSeoKey`)
+ *   з нулем логіки; виріс через наповнення унікальних OG/SEO прев'ю.
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/config/seoPages.ts': 590,
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,

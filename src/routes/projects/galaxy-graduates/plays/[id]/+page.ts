@@ -170,6 +170,8 @@ export async function load({ params, url, fetch }) {
 		supportingGroups: репертуарГруп ? supportingGroups : [],
 		festivals,
 		masters,
-		seoDescription
+		seoTitle: `${play.title} (${play.year})`,
+		seoDescription,
+		ogImageUrl: '/og/og-gg-1200x630.jpg'
 	};
 }

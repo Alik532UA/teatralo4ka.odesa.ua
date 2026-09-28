@@ -99,10 +99,6 @@
 	let анкетаВідкрита = $state(false);
 </script>
 
-<svelte:head>
-	<title>{$t('planet.title')} | {$t('hero.title')}</title>
-</svelte:head>
-
 <!--
 	Тег `section`, а НЕ `main`: `main` уже малює layout (`#main-content`), і
 	другий такий тег на сторінці — і поламаний орієнтир для читалки (їх мусить

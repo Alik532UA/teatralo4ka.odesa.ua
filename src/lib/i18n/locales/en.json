@@ -881,6 +881,134 @@
 			"galaxyPlays": {
 				"title": "Plays",
 				"description": "Every play, showing and study of the Odesa Theatre School: year, author, group and cast."
+			},
+			"galaxyInstitutions": {
+				"title": "Schools and universities",
+				"description": "Performing arts schools in Ukraine and Europe that graduates of the Odesa Theatre School went on to: who exactly and in which year."
+			},
+			"galaxyTheatres": {
+				"title": "Theatres",
+				"description": "Theatres where graduates of the Odesa Theatre School work: who exactly, in which role and since when."
+			},
+			"galaxyFriends": {
+				"title": "Friends of School",
+				"description": "Creative friends and partners of Odesa Theatre School: artists, cultural figures, teams, and organizations."
+			},
+			"galaxyMasters": {
+				"title": "Teachers and Masters",
+				"description": "Course masters and teachers of the Galaxy of Graduates: theatre educators, directors, mentors of generations."
+			},
+			"galaxyStats": {
+				"title": "Archival Completeness Statistics",
+				"description": "Completeness statistics of the Galaxy of Graduates archive: count of profiles, plays, festivals, and photos."
+			},
+			"calendar": {
+				"title": "Academic Calendar",
+				"description": "Academic calendar of Odesa Theatre School: semesters, breaks and state holidays of the school year."
+			},
+			"statute": {
+				"title": "School Statute",
+				"description": "Official text of the Statute of Odesa Theater School (2025 edition)."
+			},
+			"projects": {
+				"title": "Projects",
+				"description": "Creative, educational, and partner projects of Odesa Theatre School: media, festivals, translations, and archives."
+			},
+			"tkachPerekladach": {
+				"title": "«Tkach Translator»",
+				"description": "Fedir Tkach’s project on adaptation, staging, translation of literary works and popularization of the Ukrainian Word."
+			},
+			"stageSpeech": {
+				"title": "Stage Speech Exercises",
+				"description": "Practical materials and trainers for acting diction, breathing, and tempo-rhythm: hexameter, the \"Fair\" tongue-twister, and rhythm trainer."
+			},
+			"stageSpeechHexameter": {
+				"title": "Exercise 1: Hexameter",
+				"description": "Ancient Homeric hexameter exercise with breathing and caesura practice, accompanied by a rhythm metronome."
+			},
+			"stageSpeechYarmarok": {
+				"title": "Exercise 2: Yarmarok Tongue-Twister",
+				"description": "Ukrainian diction exercise based on Ostap Vyshnya’s \"Fair\" tongue-twister with accurate orthoepic accents and glossary."
+			},
+			"stageSpeechDictionNorm": {
+				"title": "Exercise 3: Diction Normative Practice",
+				"description": "15 systematic speech exercises based on A. Gladysheva with text adaptation by Tkach Translator for precise consonant articulation."
+			},
+			"stageSpeechSkoromovky": {
+				"title": "Exercise 4: Tongue-Twisters Anthology",
+				"description": "Comprehensive collection of classic and theatrical Ukrainian tongue-twisters with live search, sound filters, and warmup mode."
+			},
+			"stageSpeechCumulativeTales": {
+				"title": "Exercise 5: Cumulative Breath Tales",
+				"description": "Cumulative breath training exercises: \"The House That Jack Built\" and \"Japanese Name\" by Ivan Nekhoda."
+			},
+			"stageSpeechVoicePower": {
+				"title": "Exercise 6: Voice Power & Registers",
+				"description": "Voice projection and register exercises: \"Ivanko\" calling dialogue by Tkach Translator and \"Jump Rope\" breath rhythm drill."
+			},
+			"stageSpeechRhythmTrainer": {
+				"title": "Rhythm Trainer",
+				"description": "Interactive speech metronome (40-180 BPM) for diction, tempo-rhythm control, and stage speech practice."
+			},
+			"brandbook": {
+				"title": "BrandBook",
+				"description": "Official brand identity guidelines of Odesa Children’s Theatre School: colors, e-Ukraine font, logo usage, and graphic assets."
+			},
+			"teatrPro": {
+				"title": "Theater.PRO",
+				"description": "A festival for applicants to Ukraine’s arts education institutions. Creative platform for teenagers and youth."
+			},
+			"supportProduction": {
+				"title": "DTSH-production",
+				"description": "Our own media center: video projects, short films, and creative collaborations of students and teachers."
+			},
+			"photoArchive": {
+				"title": "Photo Archive",
+				"description": "The history of Odesa Theatre School in photographs: from first performances to modern events."
+			},
+			"creativityPlanet": {
+				"title": "Planet of Creativity",
+				"description": "Planet of Creativity of Odesa Theatre School: current students, profiles, future stars, and creative growth."
+			},
+			"springOdesaTheatre": {
+				"title": "«Theatre Spring of Odesa»",
+				"description": "Children’s open theatre festival-competition \"Theatre Spring of Odesa\": nominations, participants, and awards."
+			},
+			"festival": {
+				"title": "Festival",
+				"description": "Festival life of Odesa Theatre School: tours across Ukraine and Europe, awards, and performances."
+			},
+			"theatreDept": {
+				"title": "Theatre Department",
+				"description": "Theatre Department of Odesa Theatre School: acting, stage speech, movement, and theatre productions."
+			},
+			"musicDept": {
+				"title": "Music Department",
+				"description": "Music Department of Odesa Theatre School: vocals, piano, music theory, and musical development."
+			},
+			"artDept": {
+				"title": "Art Department",
+				"description": "Art Department of Odesa Theatre School: fine arts, painting, stage design, and composition."
+			},
+			"aestheticDept": {
+				"title": "Aesthetic Department",
+				"description": "Aesthetic Education Department of Odesa Theatre School: comprehensive creative development for children."
+			},
+			"adultsResidents": {
+				"title": "Teaching Faculty",
+				"description": "Teachers, masters, and leaders of Odesa Theatre School: biographies, experience, and artistic achievements."
+			},
+			"graduatesResidents": {
+				"title": "School Graduates",
+				"description": "Graduates of Odesa Theatre School over the years: their creative paths, roles, admissions, and achievements."
+			},
+			"kidsResidents": {
+				"title": "School Students",
+				"description": "Students of Odesa Theatre School: young talents, debut performances, creative discoveries, and inspiration."
+			},
+			"news": {
+				"title": "News",
+				"description": "Latest news, events, performances, and achievements of students and teachers of Odesa Theatre School."
 			}
 		}
 	},

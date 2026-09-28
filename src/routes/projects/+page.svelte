@@ -65,10 +65,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>{$t("nav.projects")} | {$t("seo.brandTitle")}</title>
-</svelte:head>
-
 <section class="projects-page" data-testid="projects-page-section">
 	<div class="container" data-testid="projects-page-container">
 		{#if loading}

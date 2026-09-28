@@ -67,10 +67,6 @@
 
 </script>
 
-<svelte:head>
-	<title>{groupTitle} — {$t('galaxy.groupsTitle')} | {$t('hero.title')}</title>
-</svelte:head>
-
 <main class="group-page" data-testid="graduate-group-panel">
 	<div class="group-page__ambient" aria-hidden="true">
 		<div class="ambient-glow ambient-glow--1"></div>

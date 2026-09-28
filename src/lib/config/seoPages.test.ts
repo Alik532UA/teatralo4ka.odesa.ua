@@ -30,6 +30,20 @@ describe('маршрут → ключ SEO', () => {
 		expect(routeToSeoKey('/projects/galaxy-graduates/')).toBe('galaxy');
 		expect(routeToSeoKey('/calendar/')).toBe('calendar');
 		expect(routeToSeoKey('/en/calendar/')).toBe('calendar');
+		expect(routeToSeoKey('/projects/')).toBe('projects');
+		expect(routeToSeoKey('/projects/tkach-perekladach/')).toBe('tkachPerekladach');
+		expect(routeToSeoKey('/projects/stage-speech/')).toBe('stageSpeech');
+		expect(routeToSeoKey('/projects/stage-speech/hexameter/')).toBe('stageSpeechHexameter');
+		expect(routeToSeoKey('/projects/brandbook/')).toBe('brandbook');
+		expect(routeToSeoKey('/projects/teatr-pro/')).toBe('teatrPro');
+		expect(routeToSeoKey('/projects/support-production/')).toBe('supportProduction');
+		expect(routeToSeoKey('/projects/photo-archive/')).toBe('photoArchive');
+		expect(routeToSeoKey('/projects/creativity-planet/')).toBe('creativityPlanet');
+		expect(routeToSeoKey('/projects/spring-odesa-theatre/')).toBe('springOdesaTheatre');
+		expect(routeToSeoKey('/projects/festival/')).toBe('festival');
+		expect(routeToSeoKey('/news/')).toBe('news');
+		expect(routeToSeoKey('/departments/theatre/')).toBe('theatreDept');
+		expect(routeToSeoKey('/residents/adults/')).toBe('adultsResidents');
 	});
 
 	/*

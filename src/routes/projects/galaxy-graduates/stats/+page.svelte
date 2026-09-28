@@ -102,10 +102,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{isEn ? 'Archival Completeness Statistics' : 'Статистика наповнення архіву'} | {$t('hero.title')}</title>
-</svelte:head>
-
 <main class="stats-page" data-testid="stats-section">
 	<div class="container">
 				<GalaxyBreadcrumb

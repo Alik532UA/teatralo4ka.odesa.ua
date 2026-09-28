@@ -45,10 +45,6 @@
 	const картка = $derived(graduateFromPageState());
 </script>
 
-<svelte:head>
-	<title>{назва} — {$t('galaxy.title')}</title>
-</svelte:head>
-
 <main class="th-page" data-testid="theatre-page-section">
 	<div class="container">
 				<GalaxyBreadcrumb

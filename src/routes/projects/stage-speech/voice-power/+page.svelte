@@ -19,12 +19,6 @@
 	});
 </script>
 
-<svelte:head>
-	<title>
-		{isEn ? 'Exercise 6: Voice Power & Registers' : 'Вправа 6: Сила голосу та регістри'} | {$t('seo.brandTitle')}
-	</title>
-</svelte:head>
-
 <div class="exercise-page" data-testid="voice-power-page-section">
 	<div class="container exercise-page__container">
 		<header class="exercise-page__header">

@@ -1,11 +1,19 @@
 import { loadPageWithMetadata } from '$lib/i18n/loader';
+import { localeFromPath } from '$lib/i18n/routing';
 import type { PageLoad } from './$types';
 
 export const prerender = true;
 
-export const load: PageLoad = async () => {
+export const load: PageLoad = async ({ url }) => {
 	const uk = loadPageWithMetadata('uk', 'art');
 	const en = loadPageWithMetadata('en', 'art');
+	const current = localeFromPath(url.pathname) === 'en' ? (en ?? uk) : uk;
 
-	return { uk, en };
+	return {
+		uk,
+		en,
+		seoTitle: current?.metadata?.title,
+		seoDescription: current?.metadata?.seo?.description,
+		ogImageUrl: current?.metadata?.coverUrl
+	};
 };

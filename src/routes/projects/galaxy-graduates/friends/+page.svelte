@@ -108,10 +108,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>{$t('galaxy.friendsTitle')} | {$t('hero.title')}</title>
-</svelte:head>
-
 <main class="friends-page" data-testid="galaxy-friends-panel">
 	<div class="container">
 		<GalaxyBreadcrumb

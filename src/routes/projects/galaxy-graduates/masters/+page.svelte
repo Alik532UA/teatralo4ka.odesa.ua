@@ -183,10 +183,6 @@
 	};
 </script>
 
-<svelte:head>
-	<title>{$t('galaxy.mastersTitle')} | {$t('hero.title')}</title>
-</svelte:head>
-
 <main class="experts-page" data-testid="galaxy-masters-panel">
 	<div class="container">
 		<GalaxyBreadcrumb

@@ -96,9 +96,15 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 		? `${masterData.displayName} — ${masterData.roleTitle}`
 		: masterData.displayName;
 
+	const isEn = localeFromPath(url.pathname) === 'en';
+	const masterName = isEn && masterData.displayNameEn ? masterData.displayNameEn : masterData.displayName;
+	const residentsLabel = isEn ? 'Residents' : 'Резиденти';
+
 	return {
 		master: masterData,
+		seoTitle: `${masterName} — ${residentsLabel}`,
 		seoDescription,
+		ogImageUrl: masterData.photo,
 		/*
 		 * Ключі людей на кожен показ — звідси, а не імпортом зрізу в компонент.
 		 * Зріз лежить у `static/galaxy/play-cast.json`: розбір і замір у докблоці
