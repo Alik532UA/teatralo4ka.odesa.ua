@@ -22,7 +22,7 @@ coverUrl: "/png/tkach-perekladach.webp"
   </a>
 </div>
 
-**[Fedir Tkach](/en/residents/adults/fedir-tkach)** is a director, screenwriter, theatre pedagogue, and member of the National Union of Theatre Artists of Ukraine. Born in Odesa into a family of philologists, he received theatre directing education in both Odesa and Kyiv. In the late 1990s and early 2000s, he was a well-known showman, KVN performer, and director of Odesa Humoryna festivals, children's festivals, and television programs.
+**[Fedir Tkach](/en/residents/adults/fedir-tkach/)** is a director, screenwriter, theatre pedagogue, and member of the National Union of Theatre Artists of Ukraine. Born in Odesa into a family of philologists, he received theatre directing education in both Odesa and Kyiv. In the late 1990s and early 2000s, he was a well-known showman, KVN performer, and director of Odesa Humoryna festivals, children's festivals, and television programs.
 
 He has dedicated his life to pedagogical work and holds the title "Excellence in Education of Ukraine." For over 20 years, he has been teaching acting at the Odesa Theatre School, nurturing talented masters across various media professions and promoting patriotic initiatives with children and youth. Invariably with Ukraine in his heart! He was the host of the Odesa Orange Maidan, co-author of the lyrics and director of the "Odesa Euromaidan Anthem", and actively volunteers in support of the Armed Forces of Ukraine.
 

@@ -22,6 +22,9 @@ import { describe, expect, it } from 'vitest';
  *
  * Стеля НЕ звужується на кожен знятий рядок навмисно: гейт, який червоніє від
  * будь-якої правки в бік покращення, вимикають першим.
+ * 2026-09-28: `src/routes/residents/adults/[slug]/+page.svelte` 422 → 432. Десять
+ *   рядків: посилання на авторські проєкти викладача (наприклад, «Ткач-перекладач»)
+ *   у картку майстра поруч із посиланням на сторінку випускника.
  * 2026-09-28: `data/betaChecklist.ts` 720 → 724. Чотири рядки: нові адреси
  *   підсторінок вправ зі сценічної мови (/projects/stage-speech/diction-norm,
  *   /projects/stage-speech/skoromovky, /projects/stage-speech/cumulative-tales,
@@ -744,7 +747,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
 	'src/lib/components/admin/ArticleCategoryPicker.svelte': 328,
-	'src/routes/residents/adults/[slug]/+page.svelte': 422,
+	'src/routes/residents/adults/[slug]/+page.svelte': 432,
 	'src/lib/components/SearchOverlay.svelte': 350,
 	'src/lib/components/MasterGraduateFlow.svelte': 305,
 	/*

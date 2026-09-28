@@ -7,6 +7,7 @@ interface StaticProjectDef {
 	color: string;
 	coverUrl?: string;
 	externalUrl?: string;
+	authorMasterSlug?: string;
 	titles: { uk: string; en: string };
 	excerpts: { uk: string; en: string };
 }
@@ -60,7 +61,8 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		slug: 'tkach-perekladach',
 		color: '#E1306C',
 		coverUrl: asset('/png/tkach-perekladach.webp'),
-		titles: { uk: '«Ткач Перекладач»', en: '«Tkach Translator»' },
+		authorMasterSlug: 'fedir-tkach',
+		titles: { uk: '«Ткач-перекладач»', en: '«Tkach Translator»' },
 		excerpts: {
 			uk: 'Переклади сучасної світової драматургії та театральних пʼєс українською мовою',
 			en: 'Ukrainian translations of contemporary world drama and theatre plays'
@@ -124,4 +126,11 @@ export function getStaticProjectEntries(): { slug: string; path: string; titleUk
 		titleUk: def.titles.uk,
 		titleEn: def.titles.en,
 	}));
+}
+
+/**
+ * Returns author projects associated with a master's slug.
+ */
+export function getProjectsByMaster(masterSlug: string): StaticProjectDef[] {
+	return STATIC_PROJECT_DEFS.filter(def => def.authorMasterSlug === masterSlug);
 }

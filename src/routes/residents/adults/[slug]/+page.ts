@@ -16,6 +16,7 @@ import { castIdsOf, loadPlayCast } from '$lib/data/playCast';
 import { loadPersonNews, masterNewsKey } from '$lib/data/newsBacklinks';
 import { localeFromPath } from '$lib/i18n/routing';
 import { RENAMED_MASTER_SLUGS } from '$lib/config/renamedAddresses';
+import { getProjectsByMaster } from '$lib/config/static-projects';
 import type { PageLoad, EntryGenerator } from './$types';
 
 export const prerender = true;
@@ -121,6 +122,7 @@ export const load: PageLoad = async ({ params, fetch, url }) => {
 		 * генератор зрізу шукав лише адреси випускників, тож посилання на
 		 * шістьох викладачів у новинах просто нікуди не потрапляли.
 		 */
-		news: (await loadPersonNews(fetch))[masterNewsKey(master.slug)] ?? []
+		news: (await loadPersonNews(fetch))[masterNewsKey(master.slug)] ?? [],
+		projects: getProjectsByMaster(master.slug)
 	};
 };

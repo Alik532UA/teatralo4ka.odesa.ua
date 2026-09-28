@@ -216,6 +216,17 @@
 								<ArrowRight size={16} aria-hidden="true" />
 							</a>
 						{/if}
+
+						{#each data.projects as project (project.id)}
+							<a
+								href={localizedPath(`/projects/${project.slug}/`, isEn ? 'en' : 'uk')}
+								class="graduate-link"
+								data-testid="master-profile-project-{project.slug}-link"
+							>
+								<span>{isEn ? `Author project ${project.titles.en}` : `Авторський проєкт ${project.titles.uk}`}</span>
+								<ArrowRight size={16} aria-hidden="true" />
+							</a>
+						{/each}
 					</div>
 				</div>
 
