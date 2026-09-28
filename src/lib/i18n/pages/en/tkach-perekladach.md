@@ -30,9 +30,10 @@ In 2025, he launched the new project **«Tkach-Perekladach» (Tkach-Translator)*
 
 For children's theatre troupes, drama clubs, and studios, the project offers ready-made, adapted stage adaptations of famous fairy tales in Ukrainian:
 
----
+<details class="prose-details">
+<summary>1. The Ballad of the King's Breakfast</summary>
+<div class="prose-details__body">
 
-## 1. The Ballad of the King's Breakfast
 *(based on A. A. Milne, preview excerpt in Ukrainian)*
 
 Король,\
@@ -64,9 +65,13 @@ For children's theatre troupes, drama clubs, and studios, the project offers rea
 Бо я до чаю так люблю\
 Смачнючий бутерброд!»
 
----
+</div>
+</details>
 
-## 2. «The Wonderful Wizard of Oz»
+<details class="prose-details">
+<summary>2. «The Wonderful Wizard of Oz»</summary>
+<div class="prose-details__body">
+
 *(based on L. Frank Baum, preview excerpts in Ukrainian)*
 
 **DOROTHY:** Uncle was also all grey — it seemed as though from head to toe, from grey locks and long grey beard down to worn-out boots, he was covered in grey dust. Always sullen, always reserved…\
@@ -98,9 +103,13 @@ For children's theatre troupes, drama clubs, and studios, the project offers rea
 
 *(The Munchkins gratefully chattered and shook their bells-ringed hats)*
 
----
+</div>
+</details>
 
-## 3. «The Wonderful Adventures of Nils»
+<details class="prose-details">
+<summary>3. «The Wonderful Adventures of Nils»</summary>
+<div class="prose-details__body">
+
 *(based on Selma Lagerlöf, preview excerpts in Ukrainian)*
 
 ### Chorus of Swedish children
@@ -151,9 +160,13 @@ For children's theatre troupes, drama clubs, and studios, the project offers rea
 **Nils:** Help, help!\
 **Cat:** *(releases him)* Alright, that's enough for the first time. If your mother weren't such a kind mistress who fed me milk morning and evening, you'd be in serious trouble. For her sake, I'll spare your life.
 
----
+</div>
+</details>
 
-## 4. «The Birthday of the Infanta»
+<details class="prose-details">
+<summary>4. «The Birthday of the Infanta»</summary>
+<div class="prose-details__body">
+
 *(based on Oscar Wilde, preview excerpts in Ukrainian)*
 
 **Harlequin:** Señores and señoritas! We begin the ball celebrating the Birthday of the Princess of Spain, heiress of the Crown of Aragon, the sixth generation of Habsburgs on the Spanish throne, the Infanta Sofia Victoria of the Algarve!
@@ -222,9 +235,12 @@ Princess Infanta Sofia Victoria of the Algarve!
 > Проступає споконвічний\
 > Задум Світлого Творця…
 
----
+</div>
+</details>
 
-## Repertoire of Stage Plays for Children's Theatre
+<details class="prose-details">
+<summary>5. Repertoire List of Adaptations for Children's Theatre</summary>
+<div class="prose-details__body">
 
 5. **«The Nightingale»** based on Hans Christian Andersen
 6. **«Alice in Wonderland»** based on Lewis Carroll
@@ -236,6 +252,9 @@ Princess Infanta Sofia Victoria of the Algarve!
 Furthermore, the project includes numerous adapted texts for poetic drama, adolescent theatre, and classical playwriting.
 
 Exclusive materials also include Ukrainian translations of Hanna Yablonska's play "The Concierge" and Boris Barsky's comedy "Mozart and Salieri".
+
+</div>
+</details>
 
 ---
 
