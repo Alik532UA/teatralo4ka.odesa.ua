@@ -1769,7 +1769,7 @@ textarea::placeholder {
 	background: color-mix(in srgb, var(--bg-surface) 20%, var(--bg-page) 80%);
 	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 	transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-	scroll-margin-top: calc(var(--header-height, 72px) + 1rem);
+	scroll-margin-top: calc(var(--header-height, 72px) + var(--ticker-height, 0px) + 8px);
 }
 
 .prose details[open] {
@@ -1779,7 +1779,7 @@ textarea::placeholder {
 
 .prose details > summary {
 	position: sticky;
-	top: calc(var(--header-height, 72px) + 10px);
+	top: calc(var(--header-height, 72px) + var(--ticker-height, 0px) - 1px);
 	z-index: 10;
 	display: flex;
 	align-items: center;
@@ -1821,6 +1821,8 @@ textarea::placeholder {
 }
 
 .prose details[open] > summary {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 	border-bottom: 1px solid var(--color-border, rgba(255, 255, 255, 0.15));

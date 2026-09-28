@@ -17,7 +17,7 @@
 			// Якщо користувач згортає відкритий контейнер:
 			if (details.open) {
 				const rect = details.getBoundingClientRect();
-				const headerOffset = 90;
+				const headerOffset = 72;
 				// Якщо верх контейнера піднявся вище зони видимості під шапкою:
 				if (rect.top < headerOffset) {
 					e.preventDefault();

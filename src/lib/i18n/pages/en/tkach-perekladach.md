@@ -238,9 +238,9 @@ Princess Infanta Sofia Victoria of the Algarve!
 </div>
 </details>
 
-<details class="prose-details">
-<summary>5. Repertoire List of Adaptations for Children's Theatre</summary>
-<div class="prose-details__body">
+---
+
+## Repertoire List of Adaptations for Children's Theatre
 
 5. **«The Nightingale»** based on Hans Christian Andersen
 6. **«Alice in Wonderland»** based on Lewis Carroll
@@ -252,9 +252,6 @@ Princess Infanta Sofia Victoria of the Algarve!
 Furthermore, the project includes numerous adapted texts for poetic drama, adolescent theatre, and classical playwriting.
 
 Exclusive materials also include Ukrainian translations of Hanna Yablonska's play "The Concierge" and Boris Barsky's comedy "Mozart and Salieri".
-
-</div>
-</details>
 
 ---
 
