@@ -93,6 +93,9 @@ import { describe, expect, it } from 'vitest';
  * 2026-09-27: 714 → 716. Два рядки: нові проєкти /projects/stage-speech та
  * /projects/brandbook у переліку routes вкладки projects.
  *
+ * 2026-09-28: 719 → 720. Один рядок: новий проєкт /projects/tkach-perekladach
+ * у переліку routes вкладки projects.
+ *
  * 2026-09-17: `GalaxyStageControls.svelte` 361 → 365. Два рядки в переліку
  * розділів — експертна рада й друзі школи — плюс два значки в імпорті. Без
  * цих рядків обидва розділи не існують для людини: до першого можна було
@@ -732,7 +735,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 275,
-	'src/lib/data/betaChecklist.ts': 719,
+	'src/lib/data/betaChecklist.ts': 720,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,

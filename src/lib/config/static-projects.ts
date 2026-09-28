@@ -60,7 +60,6 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		slug: 'tkach-perekladach',
 		color: '#E1306C',
 		coverUrl: asset('/png/tkach-perekladach.webp'),
-		externalUrl: 'https://www.instagram.com/tkach_perekladach/',
 		titles: { uk: '«Ткач Перекладач»', en: '«Tkach Translator»' },
 		excerpts: {
 			uk: 'Переклади сучасної світової драматургії та театральних пʼєс українською мовою',

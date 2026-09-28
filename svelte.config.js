@@ -146,6 +146,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/stage-speech/yarmarok',
 	'/projects/stage-speech/rhythm-trainer',
 	'/projects/brandbook',
+	'/projects/tkach-perekladach',
 	'/fest-odesa-teatr-pro',
 	'/fest-odessa-teatr-pro',
 	/*

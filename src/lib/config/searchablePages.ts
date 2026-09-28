@@ -38,6 +38,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'spring-odesa-theatre', href: () => resolve('/projects/spring-odesa-theatre') },
 	{ slug: 'support-production', href: () => resolve('/projects/support-production') },
 	{ slug: 'teatr-pro', href: () => resolve('/projects/teatr-pro') },
+	{ slug: 'tkach-perekladach', href: () => resolve('/projects/tkach-perekladach') },
 	{ slug: 'residents-adults', href: () => resolve('/residents/adults') },
 	{ slug: 'residents-graduates', href: () => resolve('/residents/graduates') },
 	{ slug: 'residents-kids', href: () => resolve('/residents/kids') },
