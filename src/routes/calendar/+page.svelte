@@ -11,11 +11,13 @@
 		DEFAULT_VIEW,
 		calendarHref,
 		parseCalendarView,
+		type CalendarTab,
 		type CalendarView
 	} from '$lib/data/calendarView';
 	import type { Locale } from '$lib/i18n/routing';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import CalendarPoster from '$lib/components/calendar/CalendarPoster.svelte';
+	import CalendarGradingTablesPoster from '$lib/components/calendar/CalendarGradingTablesPoster.svelte';
 	import CalendarDayCard from '$lib/components/calendar/CalendarDayCard.svelte';
 	import CalendarThemePicker from '$lib/components/calendar/CalendarThemePicker.svelte';
 
@@ -57,7 +59,17 @@
 			return;
 		}
 		event.preventDefault();
-		update({ year });
+		update({ year, tab: 'calendar' });
+	}
+
+	/** Посилання вкладки розрахункових таблиць. */
+	function selectTab(event: MouseEvent, tab: CalendarTab) {
+		if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+			return;
+		}
+		event.preventDefault();
+		selectedDate = null;
+		update({ tab });
 	}
 
 	const months = $derived(buildAcademicCalendar(view.year));
@@ -165,17 +177,17 @@
 				{/if}
 			</div>
 
-			<!-- Список, а не посилання підряд: так читалка каже «3 пункти», а посилання
+			<!-- Список, а не посилання підряд: так читалка каже «4 пункти», а посилання
 			     не стоїть «у реченні» з сусідами (`e2e/link-affordance.spec.ts`). -->
 			<nav aria-label={isEn ? 'Academic year' : 'Навчальний рік'} data-testid="calendar-years-nav">
 				<ul class="calendar-years">
 					{#each ACADEMIC_YEAR_IDS as id (id)}
 						<li>
 							<a
-								href={calendarHref({ ...view, year: id }, lang)}
+								href={calendarHref({ ...view, year: id, tab: 'calendar' }, lang)}
 								class="calendar-years__link"
-								class:calendar-years__link--active={id === view.year}
-								aria-current={id === view.year ? 'page' : undefined}
+								class:calendar-years__link--active={view.tab !== 'tables' && id === view.year}
+								aria-current={view.tab !== 'tables' && id === view.year ? 'page' : undefined}
 								onclick={(event) => selectYear(event, id)}
 								data-testid="calendar-year-{id}-link"
 							>
@@ -183,18 +195,34 @@
 							</a>
 						</li>
 					{/each}
+					<li>
+						<a
+							href={calendarHref({ ...view, tab: 'tables' }, lang)}
+							class="calendar-years__link"
+							class:calendar-years__link--active={view.tab === 'tables'}
+							aria-current={view.tab === 'tables' ? 'page' : undefined}
+							onclick={(event) => selectTab(event, 'tables')}
+							data-testid="calendar-tab-tables-link"
+						>
+							{isEn ? 'Tables' : 'Таблиці'}
+						</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 
 		<div class="calendar-poster-slot">
-			<CalendarPoster
-				{months}
-				{view}
-				locale={lang}
-				{selectedDate}
-				onSelectDay={(day) => (selectedDate = day.date)}
-			/>
+			{#if view.tab === 'tables'}
+				<CalendarGradingTablesPoster {view} locale={lang} />
+			{:else}
+				<CalendarPoster
+					{months}
+					{view}
+					locale={lang}
+					{selectedDate}
+					onSelectDay={(day) => (selectedDate = day.date)}
+				/>
+			{/if}
 		</div>
 	</div>
 
@@ -433,6 +461,26 @@
 	:global(body.calendar-fullscreen) .calendar-page-content :global(.poster-footer) {
 		grid-template-columns: 1fr 1fr !important;
 		display: grid !important;
+	}
+
+	:global(body.calendar-fullscreen) .calendar-page-content :global(.grading-poster) {
+		aspect-ratio: 297 / 210 !important;
+		border: none !important;
+		border-radius: 0 !important;
+		box-shadow: none !important;
+		padding: clamp(14px, 2.2cqi, 36px) clamp(16px, 2.5cqi, 40px) !important;
+	}
+
+	:global(body.calendar-fullscreen) .calendar-page-content :global(.grading-canvas) {
+		display: grid !important;
+		grid-template-columns: repeat(4, 1fr) !important;
+		gap: clamp(10px, 1.4cqi, 26px) !important;
+	}
+
+	:global(body.calendar-fullscreen) .calendar-page-content :global(.canvas-top-title-pill) {
+		position: absolute !important;
+		width: 48% !important;
+		order: unset !important;
 	}
 
 	/*

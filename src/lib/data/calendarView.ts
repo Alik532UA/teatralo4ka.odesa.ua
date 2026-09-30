@@ -34,8 +34,12 @@ export const FILTER_DENSITY = { min: 5, max: 80, step: 5, default: 25 } as const
 export const FILTER_MODES = ['none', 'light', 'dark'] as const;
 export type FilterMode = (typeof FILTER_MODES)[number];
 
+export const CALENDAR_TABS = ['calendar', 'tables'] as const;
+export type CalendarTab = (typeof CALENDAR_TABS)[number];
+
 export interface CalendarView {
 	year: AcademicYearId;
+	tab: CalendarTab;
 	/** `id` теми фону з `config/calendarThemes.ts`. */
 	bg: string;
 	blur: number;
@@ -46,6 +50,7 @@ export interface CalendarView {
 
 export const DEFAULT_VIEW: Readonly<CalendarView> = {
 	year: LATEST_ACADEMIC_YEAR_ID,
+	tab: 'calendar',
 	bg: DEFAULT_CALENDAR_THEME_ID,
 	blur: BLUR_PX.default,
 	filter: 'none',
@@ -53,7 +58,7 @@ export const DEFAULT_VIEW: Readonly<CalendarView> = {
 };
 
 /** Імена параметрів — саме в цьому порядку вони стоять в адресі. */
-const PARAMS = ['year', 'bg', 'blur', 'filter', 'density'] as const;
+const PARAMS = ['tab', 'year', 'bg', 'blur', 'filter', 'density'] as const;
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -71,10 +76,12 @@ function intParam(raw: string | null, min: number, max: number, fallback: number
 
 export function parseCalendarView(params: URLSearchParams): CalendarView {
 	const year = params.get('year') ?? '';
+	const tab = params.get('tab') ?? '';
 	const bg = params.get('bg') ?? '';
 	const filter = params.get('filter') ?? '';
 	return {
 		year: isAcademicYearId(year) ? year : DEFAULT_VIEW.year,
+		tab: tab === 'tables' ? 'tables' : DEFAULT_VIEW.tab,
 		bg: CALENDAR_THEMES.some((t) => t.id === bg) ? bg : DEFAULT_VIEW.bg,
 		blur: intParam(params.get('blur'), BLUR_PX.min, BLUR_PX.max, BLUR_PX.default),
 		filter: (FILTER_MODES as readonly string[]).includes(filter)
@@ -99,6 +106,7 @@ export function parseCalendarView(params: URLSearchParams): CalendarView {
 export function calendarViewParams(view: CalendarView, keep?: URLSearchParams): URLSearchParams {
 	const params = new URLSearchParams(keep);
 	for (const name of PARAMS) params.delete(name);
+	if (view.tab === 'tables') params.set('tab', 'tables');
 	if (view.year !== DEFAULT_VIEW.year) params.set('year', view.year);
 	if (view.bg !== DEFAULT_VIEW.bg) params.set('bg', view.bg);
 	if (view.blur !== DEFAULT_VIEW.blur) params.set('blur', String(view.blur));

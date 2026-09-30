@@ -21,13 +21,21 @@ describe('вигляд календаря з адреси', () => {
 
 	it('кожен параметр читається', () => {
 		const other = CALENDAR_THEMES.find((t) => t.id !== DEFAULT_VIEW.bg)!.id;
-		expect(parse(`year=${ACADEMIC_YEAR_IDS[0]}&bg=${other}&blur=9&filter=dark&density=40`)).toEqual({
+		expect(parse(`year=${ACADEMIC_YEAR_IDS[0]}&tab=tables&bg=${other}&blur=9&filter=dark&density=40`)).toEqual({
 			year: ACADEMIC_YEAR_IDS[0],
+			tab: 'tables',
 			bg: other,
 			blur: 9,
 			filter: 'dark',
 			density: 40
 		});
+	});
+
+	it('параметр tab=tables читається та пишеться', () => {
+		expect(parse('tab=tables').tab).toBe('tables');
+		expect(parse('tab=invalid').tab).toBe('calendar');
+		const params = calendarViewParams({ ...DEFAULT_VIEW, tab: 'tables' });
+		expect(params.get('tab')).toBe('tables');
 	});
 
 	it('описка чи рік, якого ще немає, — типове значення, а не зламана сторінка', () => {
@@ -55,6 +63,7 @@ describe('вигляд календаря в адресу', () => {
 	it('туди й назад — той самий вигляд', () => {
 		const view: CalendarView = {
 			year: ACADEMIC_YEAR_IDS[0],
+			tab: 'tables',
 			bg: CALENDAR_THEMES.at(-1)!.id,
 			blur: 12,
 			filter: 'light',

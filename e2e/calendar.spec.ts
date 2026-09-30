@@ -271,4 +271,20 @@ test.describe('навчальний календар', () => {
 		const pages = pdf.toString('latin1').match(/\/Type\s*\/Page(?!s)/g) ?? [];
 		expect(pages.length).toBe(1);
 	});
+
+	test('вкладка «Таблиці» показує плакат розрахунків і пише ?tab=tables в адресу', async ({ page }) => {
+		await gotoReady(page, '/calendar/');
+		await page.getByTestId('calendar-tab-tables-link').click();
+		await expect(page.getByTestId('calendar-tab-tables-link')).toHaveAttribute('aria-current', 'page');
+		await expect(page.getByTestId('calendar-grading-poster-container')).toBeVisible();
+		await expect(page.getByTestId('calendar-grading-tables-list')).toBeVisible();
+		expect(page.url()).toContain('tab=tables');
+
+		// Клік назад на рік повертає календарний плакат
+		const [перший] = ACADEMIC_YEAR_IDS;
+		await page.getByTestId(`calendar-year-${перший}-link`).click();
+		await expect(page.getByTestId('calendar-poster-container')).toBeVisible();
+		await expect(page.getByTestId('calendar-grading-poster-container')).toBeHidden();
+		expect(page.url()).not.toContain('tab=tables');
+	});
 });
