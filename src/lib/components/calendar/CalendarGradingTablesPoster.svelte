@@ -4,6 +4,7 @@
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
 	import type { CalendarView } from '$lib/data/calendarView';
 	import type { Locale } from '$lib/i18n/routing';
+	import { Crown, Gift, PartyPopper, Sparkle, Sparkles, Star } from 'lucide-svelte';
 	import {
 		GRADING_TEXTS,
 		ONE_LESSON_WEEK_TABLE,
@@ -15,16 +16,19 @@
 	/**
 	 * Плакат розрахунків для виставлення рейтингової оцінки.
 	 *
-	 * Точна геометрія з референсу Figma (.private/notes/notes-2026-09-30.txt):
-	 * - Полотно A4 альбомом (2500 x 1765, aspect-ratio: 2500 / 1765);
-	 * - Підтримка тем і фонів через poster-bg-layer та poster-overlay-layer як у CalendarPoster;
-	 * - Маски ліворуч над 1-ю колонкою;
-	 * - Велика темна плашка заголовка праворуч над 3-ю та 4-ю колонками;
-	 * - Східчасте розташування (жоден рядок не обрізається, 17-й рядок 4-ї колонки 100% видно):
-	 *   - Колонка 2 (1 урок): починається найвище (top: 0), закінчується вище низу (10 рядків);
-	 *   - Колонка 3 (2 уроки): починається під плашкою (top: 6.0cqi), 15 рядків вміщуються повністю;
-	 *   - Колонка 4 (3 уроки): починається нижче за 3-ю (top: 7.8cqi), усі 17 рядків вміщуються повністю;
-	 *   - Колонка 1 (% — оцінка): починається під масками (top: 9.5cqi), усі 12 рядків вміщуються повністю.
+	 * Канонічні критерії:
+	 * - Пропорції A4 альбомом (2500 x 1765);
+	 * - Усі 4 таблиці однакової повної висоти (50.0cqi):
+	 *   - Колонка 2 (1 урок, 10 рядків): рядки найвищі, без порожнечі знизу;
+	 *   - Колонка 3 (2 уроки, 15 рядків): рядки середньої висоти;
+	 *   - Колонка 4 (3 уроки, 17 рядків): компактні рядки;
+	 *   - Колонка 1 (% — оцінка, 12 рядків): збалансована висота рядків;
+	 * - Заголовки «1 урок / 2 уроки / 3 уроки на тиждень» однакової висоти (3.5cqi);
+	 * - Підзаголовки стовпчиків однакової висоти (2.5cqi);
+	 * - Текст «ТАБЛИЦІ РОЗРАХУНКІВ» та «для виставлення рейтингової оцінки» однакової ширини;
+	 * - Відсотки (%) оформлені однаково в усіх таблицях без унікальних кружечків;
+	 * - Усі елементи 100% поміщаються на аркуш без обрізання;
+	 * - Підтримка тем і фонів через poster-bg-layer та poster-overlay-layer.
 	 */
 	interface Props {
 		view: CalendarView;
@@ -35,13 +39,64 @@
 
 	const isEn = $derived(locale === 'en');
 	const lang = $derived<'uk' | 'en'>(isEn ? 'en' : 'uk');
+	const isCelebration = $derived(view.tab === 'tables-30');
 	const texts = $derived(GRADING_TEXTS[lang]);
+	const weeklyCols = $derived([
+		{ id: 'col-2', title: texts.weeklyTables.oneLesson, data: ONE_LESSON_WEEK_TABLE },
+		{ id: 'col-3', title: texts.weeklyTables.twoLessons, data: TWO_LESSONS_WEEK_TABLE },
+		{ id: 'col-4', title: texts.weeklyTables.threeLessons, data: THREE_LESSONS_WEEK_TABLE }
+	] as const);
 
 	const theme = $derived(getCalendarThemeById(view.bg));
 	const filterAlpha = $derived(view.filter === 'none' ? 0 : view.density / 100);
 
 	const MASKS: LocalImage = '/calendar/calendar-masks-logo.png';
 	const masksSize = imageSize(MASKS);
+
+	/**
+	 * Вирівнює ширину верхнього й нижнього рядка заголовка плаката піксель-в-піксель.
+	 */
+	function syncHeaderWidths(node: HTMLElement) {
+		const update = () => {
+			const title = node.querySelector<HTMLElement>('.header-main-title');
+			const sub = node.querySelector<HTMLElement>('.header-sub-title');
+			if (!title || !sub) return;
+
+			title.style.letterSpacing = '0px';
+			sub.style.letterSpacing = '0px';
+
+			const titleW = title.getBoundingClientRect().width;
+			const subW = sub.getBoundingClientRect().width;
+			const diff = subW - titleW;
+
+			if (diff > 0.5 && titleW > 0) {
+				const chars = (title.textContent ?? '').length;
+				if (chars > 1) {
+					title.style.letterSpacing = `${diff / (chars - 1)}px`;
+				}
+			} else if (diff < -0.5 && subW > 0) {
+				const chars = (sub.textContent ?? '').length;
+				if (chars > 1) {
+					sub.style.letterSpacing = `${-diff / (chars - 1)}px`;
+				}
+			}
+		};
+
+		update();
+		if (typeof document !== 'undefined' && document.fonts?.ready) {
+			document.fonts.ready.then(update);
+		}
+
+		const ro = new ResizeObserver(() => update());
+		ro.observe(node);
+
+		return {
+			update,
+			destroy() {
+				ro.disconnect();
+			}
+		};
+	}
 </script>
 
 <div class="poster-frame">
@@ -71,12 +126,18 @@
 			/>
 		</div>
 
-		<header class="header-pill" data-testid="calendar-grading-header">
-			<h1 class="header-main-title">{texts.mainTitle}</h1>
-			<p class="header-sub-title">{texts.mainSubtitle}</p>
+		<header
+			class="header-pill"
+			class:header-pill--celebration={isCelebration}
+			data-testid="calendar-grading-header"
+		>
+			<div class="header-titles" use:syncHeaderWidths>
+				<h1 class="header-main-title">{texts.mainTitle}</h1>
+				<p class="header-sub-title">{texts.mainSubtitle}</p>
+			</div>
 		</header>
 
-		<!-- 4 колонки таблиць -->
+		<!-- 4 колонки таблиць однакової повної висоти -->
 		<div class="columns-grid" data-testid="calendar-grading-tables-list">
 			<!-- Колонка 1: Таблиця співвідношення % — оцінка (12 рядків) -->
 			<section class="table-col col-1" aria-label={texts.ratioTableTitle}>
@@ -111,137 +172,79 @@
 				</div>
 			</section>
 
-			<!-- Колонка 2: 1 урок на тиждень (10 рядків, починається з самого верху) -->
-			<section class="table-col col-2" aria-label={texts.weeklyTables.oneLesson}>
-				<div class="capsule col-header weekly-header">
-					<h2 class="col-title">{texts.weeklyTables.oneLesson}</h2>
-				</div>
+			{#each weeklyCols as col (col.id)}
+				<section class="table-col {col.id}" aria-label={col.title}>
+					<div class="capsule col-header weekly-header">
+						<h2 class="col-title">{col.title}</h2>
+					</div>
 
-				<div class="capsule subheader-capsule weekly-grid">
-					<span class="sub-cell cell-left weekly-sub">
-						{#if isEn}
-							missed<br />lessons
-						{:else}
-							кількість пропущених<br />уроків
-						{/if}
-					</span>
-					<span class="sub-cell cell-mid weekly-sub">
-						{#if isEn}
-							rating<br />percentage (%)
-						{:else}
-							рейтинговий<br />відсоток (%)
-						{/if}
-					</span>
-					<span class="sub-cell cell-right weekly-sub">
-						{#if isEn}
-							semester<br />grade
-						{:else}
-							семестрова<br />оцінка
-						{/if}
-					</span>
-				</div>
+					<div class="capsule subheader-capsule weekly-grid">
+						<span class="sub-cell cell-left weekly-sub">
+							{#if isEn}
+								missed<br />lessons
+							{:else}
+								кількість пропущених<br />уроків
+							{/if}
+						</span>
+						<span class="sub-cell cell-mid weekly-sub">
+							{#if isEn}
+								rating<br />percentage (%)
+							{:else}
+								рейтинговий<br />відсоток (%)
+							{/if}
+						</span>
+						<span class="sub-cell cell-right weekly-sub">
+							{#if isEn}
+								semester<br />grade
+							{:else}
+								семестрова<br />оцінка
+							{/if}
+						</span>
+					</div>
 
-				<div class="rows-stack col-2-stack">
-					{#each ONE_LESSON_WEEK_TABLE as row (row.missedLessons)}
-						<div class="capsule row-capsule weekly-grid col-2-row">
-							<span class="data-cell cell-left missed-text">
-								{texts.formatMissedLessons(row.missedLessons)}
-							</span>
-							<span class="data-cell cell-mid percent-cell">
-								<span class="bordered-percent-pill">{row.percentage}%</span>
-							</span>
-							<span class="data-cell cell-right grade-text">{row.grade}</span>
-						</div>
-					{/each}
-				</div>
-			</section>
-
-			<!-- Колонка 3: 2 уроки на тиждень (15 рядків, починається на 6.0cqi) -->
-			<section class="table-col col-3" aria-label={texts.weeklyTables.twoLessons}>
-				<div class="capsule col-header weekly-header">
-					<h2 class="col-title">{texts.weeklyTables.twoLessons}</h2>
-				</div>
-
-				<div class="capsule subheader-capsule weekly-grid">
-					<span class="sub-cell cell-left weekly-sub">
-						{#if isEn}
-							missed<br />lessons
-						{:else}
-							кількість пропущених<br />уроків
-						{/if}
-					</span>
-					<span class="sub-cell cell-mid weekly-sub">
-						{#if isEn}
-							rating<br />percentage (%)
-						{:else}
-							рейтинговий<br />відсоток (%)
-						{/if}
-					</span>
-					<span class="sub-cell cell-right weekly-sub">
-						{#if isEn}
-							semester<br />grade
-						{:else}
-							семестрова<br />оцінка
-						{/if}
-					</span>
-				</div>
-
-				<div class="rows-stack col-3-stack">
-					{#each TWO_LESSONS_WEEK_TABLE as row (row.missedLessons)}
-						<div class="capsule row-capsule weekly-grid col-3-row">
-							<span class="data-cell cell-left missed-text">
-								{texts.formatMissedLessons(row.missedLessons)}
-							</span>
-							<span class="data-cell cell-mid percent-text">{row.percentage}%</span>
-							<span class="data-cell cell-right grade-text">{row.grade}</span>
-						</div>
-					{/each}
-				</div>
-			</section>
-
-			<!-- Колонка 4: 3 уроки на тиждень (17 рядків, починається на 7.8cqi, всі 17 рядків 100% видно) -->
-			<section class="table-col col-4" aria-label={texts.weeklyTables.threeLessons}>
-				<div class="capsule col-header weekly-header">
-					<h2 class="col-title">{texts.weeklyTables.threeLessons}</h2>
-				</div>
-
-				<div class="capsule subheader-capsule weekly-grid">
-					<span class="sub-cell cell-left weekly-sub">
-						{#if isEn}
-							missed<br />lessons
-						{:else}
-							кількість пропущених<br />уроків
-						{/if}
-					</span>
-					<span class="sub-cell cell-mid weekly-sub">
-						{#if isEn}
-							rating<br />percentage (%)
-						{:else}
-							рейтинговий<br />відсоток (%)
-						{/if}
-					</span>
-					<span class="sub-cell cell-right weekly-sub">
-						{#if isEn}
-							semester<br />grade
-						{:else}
-							семестрова<br />оцінка
-						{/if}
-					</span>
-				</div>
-
-				<div class="rows-stack col-4-stack">
-					{#each THREE_LESSONS_WEEK_TABLE as row (row.missedLessons)}
-						<div class="capsule row-capsule weekly-grid col-4-row">
-							<span class="data-cell cell-left missed-text">
-								{texts.formatMissedLessons(row.missedLessons)}
-							</span>
-							<span class="data-cell cell-mid percent-text">{row.percentage}%</span>
-							<span class="data-cell cell-right grade-text">{row.grade}</span>
-						</div>
-					{/each}
-				</div>
-			</section>
+					<div class="rows-stack {col.id}-stack">
+						{#each col.data as row (row.missedLessons)}
+							<div class="capsule row-capsule weekly-grid {col.id}-row">
+								<span class="data-cell cell-left missed-text">
+									{texts.formatMissedLessons(row.missedLessons)}
+								</span>
+								<span class="data-cell cell-mid percent-text">{row.percentage}%</span>
+								<span class="data-cell cell-right grade-text">{row.grade}</span>
+							</div>
+						{/each}
+					</div>
+				</section>
+			{/each}
 		</div>
+
+		<!-- Святкова ювілейна плашка «Нам 30 років!» зі святковими іконками по бордеру (тільки у вкладці «Таблиці 30») -->
+		{#if isCelebration}
+			<div class="anniversary-pill" data-testid="calendar-grading-anniversary-badge">
+				<!-- Золоті та блакитні святкові іконки різних розмірів по периметру бордера -->
+				<div class="border-icons-layer" aria-hidden="true">
+					<span class="border-icon b-pos-1 sz-xl icon-gold"><PartyPopper /></span>
+					<span class="border-icon b-pos-2 sz-md icon-cyan"><Sparkles /></span>
+					<span class="border-icon b-pos-3 sz-lg icon-gold"><Crown /></span>
+					<span class="border-icon b-pos-4 sz-sm icon-cyan"><Star /></span>
+					<span class="border-icon b-pos-5 sz-sm icon-gold"><Sparkle /></span>
+					<span class="border-icon b-pos-6 sz-lg icon-cyan"><Gift /></span>
+					<span class="border-icon b-pos-7 sz-md icon-gold"><Sparkles /></span>
+					<span class="border-icon b-pos-8 sz-xl icon-cyan"><PartyPopper /></span>
+					<span class="border-icon b-pos-9 sz-md icon-gold"><Star /></span>
+					<span class="border-icon b-pos-10 sz-lg icon-cyan"><Crown /></span>
+					<span class="border-icon b-pos-11 sz-sm icon-gold"><Sparkle /></span>
+					<span class="border-icon b-pos-12 sz-md icon-cyan"><Sparkles /></span>
+				</div>
+
+				<span class="anniversary-text">
+					{#if isEn}
+						We are 30 years old!
+					{:else}
+						Нам 30 років!
+					{/if}
+				</span>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -265,7 +268,7 @@
 		border-radius: clamp(24px, 3vw, 40px);
 		border: 3px solid #141414;
 		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
-		padding: 2cqi 3.2cqi 2.2cqi 3.2cqi;
+		padding: 2cqi 3cqi 2.2cqi 3cqi;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
@@ -304,10 +307,10 @@
 	/* Маски у лівому верхньому кутку над Колонкою 1 */
 	.masks-slot {
 		position: absolute;
-		top: 2.2cqi;
-		left: 4.8cqi;
+		top: 1.8cqi;
+		left: 4.5cqi;
 		width: 16.5cqi;
-		height: 8.5cqi;
+		height: 8.8cqi;
 		z-index: 2;
 		display: flex;
 		align-items: center;
@@ -324,47 +327,167 @@
 		filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.25));
 	}
 
-	/* Плашка головного заголовка у правому верхньому кутку над Колонками 3 і 4 */
+	/* Плашка головного заголовка у правому верхньому кутку */
 	.header-pill {
 		position: absolute;
-		top: 1.8cqi;
-		right: 3.2cqi;
-		width: 32.5cqi;
-		height: 5.8cqi;
+		top: 1.6cqi;
+		right: 3cqi;
+		width: 30cqi;
+		height: 5.6cqi;
 		z-index: 2;
-		background: rgba(35, 37, 40, 0.78);
+		background: rgba(35, 37, 40, 0.82);
 		border: 1.5px solid rgba(255, 255, 255, 0.15);
-		border-radius: 9999px;
-		padding: 0.3cqi 1.8cqi;
+		border-radius: clamp(16px, 1.8cqi, 40px);
+		padding: 0.3cqi 1.2cqi;
 		backdrop-filter: blur(14px);
 		box-sizing: border-box;
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
 		align-items: center;
-		text-align: center;
+		justify-content: center;
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 		pointer-events: none;
+	}
+
+	.header-titles {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
 	}
 
 	.header-main-title {
 		margin: 0;
 		font-family: 'Montserrat', var(--font-heading), sans-serif;
-		font-size: 2.05cqi;
+		font-size: 1.95cqi;
 		font-weight: 800;
-		line-height: 1.12;
-		letter-spacing: 0.02em;
+		line-height: 1.15;
 		text-transform: uppercase;
 		color: #ffffff;
+		white-space: nowrap;
+		display: block;
 	}
 
 	.header-sub-title {
-		margin: 0.15cqi 0 0;
+		margin: 0.35cqi 0 0;
 		font-family: 'Montserrat', var(--font-heading), sans-serif;
-		font-size: 0.92cqi;
+		font-size: 1.05cqi;
 		font-weight: 600;
-		line-height: 1.12;
-		color: rgba(255, 255, 255, 0.92);
+		line-height: 1.15;
+		color: rgba(255, 255, 255, 0.95);
+		white-space: nowrap;
+		display: block;
+	}
+
+	/* Святкове оформлення плашки заголовка для вкладки «Таблиці 30» */
+	.header-pill--celebration {
+		background:
+			linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%) padding-box,
+			linear-gradient(135deg, #ffd700 0%, #f59e0b 25%, #ffffff 50%, #0284c7 75%, #ffd700 100%) border-box;
+		border: clamp(2.5px, 0.28cqi, 6px) solid transparent;
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.8),
+			0 0 24px rgba(2, 132, 199, 0.3),
+			0 8px 24px rgba(11, 37, 69, 0.22);
+	}
+
+	.header-pill--celebration .header-main-title {
+		color: #0b2545;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);
+		filter: drop-shadow(0 1px 3px rgba(11, 37, 69, 0.18));
+	}
+
+	.header-pill--celebration .header-sub-title {
+		color: #1a365d;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);
+	}
+
+	/* Святкова ювілейна плашка «Нам 30 років!» (світло-блакитний фон, темно-синій текст, святковий бордер) */
+	.anniversary-pill {
+		position: absolute;
+		bottom: 1.8cqi;
+		left: 49.5%;
+		transform: translateX(-50%);
+		z-index: 2;
+		background:
+			linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%) padding-box,
+			linear-gradient(135deg, #ffd700 0%, #f59e0b 25%, #ffffff 50%, #0284c7 75%, #ffd700 100%) border-box;
+		border: clamp(3px, 0.35cqi, 7px) solid transparent;
+		border-radius: clamp(24px, 3cqi, 64px);
+		padding: 0.55cqi 3.2cqi;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow:
+			0 0 0 1px rgba(255, 255, 255, 0.8),
+			0 0 24px rgba(2, 132, 199, 0.3),
+			0 8px 24px rgba(11, 37, 69, 0.22);
+		pointer-events: none;
+	}
+
+	/* Шар святкових іконок по всьому бордеру плашки */
+	.border-icons-layer {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+	}
+
+	.border-icon {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.border-icon :global(svg) {
+		width: 100%;
+		height: 100%;
+		stroke-width: 2.2;
+	}
+
+	.icon-gold {
+		color: #e5a100;
+		filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.85)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+	}
+
+	.icon-cyan {
+		color: #0284c7;
+		filter: drop-shadow(0 0 6px rgba(2, 132, 199, 0.85)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+	}
+
+	/* Різні розміри святкових іконок */
+	.sz-sm { width: 1.3cqi; height: 1.3cqi; }
+	.sz-md { width: 1.8cqi; height: 1.8cqi; }
+	.sz-lg { width: 2.3cqi; height: 2.3cqi; }
+	.sz-xl { width: 2.6cqi; height: 2.6cqi; }
+
+	/* Розподіл іконок по периметру золотистого бордера */
+	.b-pos-1 { left: -1.3cqi; top: 48%; transform: translateY(-50%) rotate(-25deg); }
+	.b-pos-2 { left: 2%; top: -0.9cqi; transform: rotate(-15deg); }
+	.b-pos-3 { left: 16%; top: -1.3cqi; transform: rotate(-8deg); }
+	.b-pos-4 { left: 34%; top: -0.9cqi; transform: rotate(12deg); }
+	.b-pos-5 { right: 34%; top: -0.8cqi; transform: rotate(-10deg); }
+	.b-pos-6 { right: 16%; top: -1.2cqi; transform: rotate(15deg); }
+	.b-pos-7 { right: 2%; top: -0.9cqi; transform: rotate(20deg); }
+	.b-pos-8 { right: -1.3cqi; top: 48%; transform: translateY(-50%) scaleX(-1) rotate(-25deg); }
+	.b-pos-9 { right: 3%; bottom: -0.9cqi; transform: rotate(18deg); }
+	.b-pos-10 { right: 22%; bottom: -1.1cqi; transform: rotate(-12deg); }
+	.b-pos-11 { left: 22%; bottom: -1.0cqi; transform: rotate(15deg); }
+	.b-pos-12 { left: 3%; bottom: -0.9cqi; transform: rotate(-15deg); }
+
+	.anniversary-text {
+		margin: 0;
+		font-family: 'Montserrat', var(--font-heading), sans-serif;
+		font-size: 4.35cqi;
+		font-weight: 900;
+		line-height: 1.1;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		white-space: nowrap;
+		color: #0b2545;
+		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.85);
+		filter: drop-shadow(0 2px 4px rgba(11, 37, 69, 0.18));
 	}
 
 	/* Сітка 4-х колонок на весь розмір аркуша */
@@ -379,6 +502,11 @@
 		align-items: flex-start;
 	}
 
+	/*
+	 * Кожна таблиця має фіксовану висоту (49.0cqi), завдяки чому всі таблиці
+	 * однакової висоти незалежно від кількості рядків:
+	 * заголовок (3.5cqi) + підзаголовок (2.6cqi) + стеки рядків (42.2cqi) + відступи = 49.0cqi.
+	 */
 	.table-col {
 		display: flex;
 		flex-direction: column;
@@ -386,21 +514,21 @@
 		box-sizing: border-box;
 	}
 
-	/* Точні початкові відступи колонок зверху за Figma (без обрізання знизу) */
+	/* Східчасті початкові відступи колонок зверху: рівні кроки між таблицями (по 5.4cqi), щільний відступ під плашкою */
 	.col-1 {
-		padding-top: 9.5cqi;
+		padding-top: 12.8cqi;
 	}
 
 	.col-2 {
-		padding-top: 0;
+		padding-top: 2.0cqi;
 	}
 
 	.col-3 {
-		padding-top: 6.0cqi;
+		padding-top: 7.4cqi;
 	}
 
 	.col-4 {
-		padding-top: 7.8cqi;
+		padding-top: 12.8cqi;
 	}
 
 	/* Спільний стиль заокруглених білих плашок-капсул */
@@ -420,19 +548,11 @@
 		background: #ffffff;
 	}
 
-	/* Заголовки таблиць */
+	/* Заголовки таблиць однакової висоти (3.5cqi) */
 	.col-header {
 		flex-shrink: 0;
-		margin-bottom: 0.35cqi;
-	}
-
-	.ratio-header {
-		height: 4.2cqi;
-		padding: 0.2cqi 0.6cqi;
-	}
-
-	.weekly-header {
 		height: 3.5cqi;
+		margin-bottom: 0.35cqi;
 		padding: 0.2cqi 0.6cqi;
 	}
 
@@ -447,16 +567,17 @@
 	}
 
 	.ratio-title {
-		font-size: 1.22cqi;
-		line-height: 1.18;
+		font-size: 1.25cqi;
+		line-height: 1.15;
 	}
 
-	/* Підзаголовки стовпчиків */
+	/* Підзаголовки стовпчиків однакової висоти (2.6cqi) */
 	.subheader-capsule {
 		flex-shrink: 0;
-		height: 2.4cqi;
+		height: 2.6cqi;
 		margin-bottom: 0.35cqi;
 		padding: 0.1cqi 0.3cqi;
+		box-sizing: border-box;
 	}
 
 	.sub-cell {
@@ -469,66 +590,65 @@
 		height: 100%;
 		padding: 0 2px;
 		box-sizing: border-box;
+		line-height: 1.08;
 	}
 
 	.ratio-percent-sub {
-		font-size: 1.45cqi;
+		font-size: 1.42cqi;
 		font-weight: 700;
 	}
 
 	.ratio-grade-sub {
-		font-size: 0.75cqi;
+		font-size: 0.74cqi;
 		font-weight: 600;
-		line-height: 1.1;
+		line-height: 1.08;
 	}
 
 	.weekly-sub {
 		font-size: 0.72cqi;
 		font-weight: 600;
-		line-height: 1.12;
+		line-height: 1.08;
 	}
 
-	/* Стек рядків даних з точними висотами, щоб усе поміщалося на аркуш */
+	/*
+	 * Стек рядків даних: фіксована висота (42.7cqi) однакова для всіх 4 таблиць.
+	 * Використовуємо CSS Grid з gap для кожного стовпчика, щоб:
+	 * 1) Між рядками завжди був видимий відступ (gap);
+	 * 2) Сумарна висота таблиць була гарантовано однаковою;
+	 * 3) Рядки не злипалися.
+	 */
 	.rows-stack {
-		display: flex;
-		flex-direction: column;
+		height: 42.2cqi;
 	}
 
-	.col-1-stack {
-		gap: 0.32cqi;
+	.col-1 .rows-stack {
+		display: grid;
+		grid-template-rows: repeat(12, 1fr);
+		gap: 0.40cqi;
 	}
 
-	.col-2-stack {
+	.col-2 .rows-stack {
+		display: grid;
+		grid-template-rows: repeat(10, 1fr);
+		gap: 0.45cqi;
+	}
+
+	.col-3 .rows-stack {
+		display: grid;
+		grid-template-rows: repeat(15, 1fr);
 		gap: 0.35cqi;
 	}
 
-	.col-3-stack {
-		gap: 0.26cqi;
+	.col-4 .rows-stack {
+		display: grid;
+		grid-template-rows: repeat(17, 1fr);
+		gap: 0.30cqi;
 	}
 
-	.col-4-stack {
-		gap: 0.18cqi;
-	}
-
-	/* Висоти рядків: підібрані так, що всі рядки поміщаються повністю без обрізання */
-	.col-1-row {
-		height: 3.4cqi;
-		padding: 0.1cqi 0.3cqi;
-	}
-
-	.col-2-row {
-		height: 3.8cqi;
-		padding: 0.1cqi 0.3cqi;
-	}
-
-	.col-3-row {
-		height: 2.5cqi;
-		padding: 0.06cqi 0.3cqi;
-	}
-
-	.col-4-row {
-		height: 2.08cqi;
-		padding: 0.04cqi 0.3cqi;
+	.row-capsule {
+		min-height: 0;
+		height: 100%;
+		padding: 0 0.3cqi;
 	}
 
 	/* Розподіл колонок усередині рядків за Figma: 66% : 34% */
@@ -536,7 +656,6 @@
 		display: grid;
 		grid-template-columns: 66% 34%;
 		width: 100%;
-		height: 100%;
 		align-items: center;
 	}
 
@@ -544,7 +663,6 @@
 		display: grid;
 		grid-template-columns: 1.3fr 1.25fr 1fr;
 		width: 100%;
-		height: 100%;
 		align-items: center;
 	}
 
@@ -557,8 +675,10 @@
 		justify-content: center;
 		text-align: center;
 		height: 100%;
-		padding: 0 3px;
+		padding: 0 2px;
 		box-sizing: border-box;
+		line-height: 1.1;
+		min-height: 0;
 	}
 
 	.cell-left,
@@ -566,15 +686,15 @@
 		border-right: 2px solid #000000;
 	}
 
-	/* Типографіка даних у клітинках у відносних одиницях cqi (масштабується ідеально) */
+	/* Типографіка даних у клітинках */
 	.range-text {
-		font-size: 1.75cqi;
+		font-size: 1.45cqi;
 		font-weight: 700;
 		letter-spacing: -0.01em;
 	}
 
 	.missed-text {
-		font-size: 1.22cqi;
+		font-size: 1.15cqi;
 		font-weight: 600;
 	}
 
@@ -582,39 +702,34 @@
 		font-size: 1.35cqi;
 	}
 
+	.col-4 .missed-text {
+		font-size: 1.05cqi;
+	}
+
 	.percent-text {
-		font-size: 1.62cqi;
+		font-size: 1.45cqi;
 		font-weight: 700;
+	}
+
+	.col-2 .percent-text {
+		font-size: 1.75cqi;
 	}
 
 	.col-4 .percent-text {
-		font-size: 1.48cqi;
+		font-size: 1.22cqi;
 	}
 
 	.grade-text {
-		font-size: 1.95cqi;
+		font-size: 1.75cqi;
 		font-weight: 700;
+	}
+
+	.col-2 .grade-text {
+		font-size: 2.1cqi;
 	}
 
 	.col-4 .grade-text {
-		font-size: 1.68cqi;
-	}
-
-	/* Обведена плашка відсотка у 2-й колонці («1 урок на тиждень») */
-	.percent-cell {
-		padding: 0.12cqi 0.4cqi;
-	}
-
-	.bordered-percent-pill {
-		border: 2px solid #000000;
-		border-radius: 9999px;
-		padding: 0.1cqi 0.7cqi;
-		font-size: 2.05cqi;
-		font-weight: 700;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		line-height: 1;
+		font-size: 1.45cqi;
 	}
 
 	/* ===== Мобільні пристрої та вузькі екрани ===== */
@@ -687,6 +802,7 @@
 		}
 
 		.rows-stack {
+			height: auto !important;
 			gap: 0.45rem;
 		}
 
@@ -715,9 +831,21 @@
 			font-size: 1.3rem;
 		}
 
-		.bordered-percent-pill {
-			padding: 2px 10px;
-			font-size: 1.05rem;
+		.anniversary-pill {
+			position: static;
+			width: fit-content;
+			margin: 1rem auto 0.5rem;
+			transform: none;
+			padding: 0.65rem 2rem;
+			border-radius: 32px;
+		}
+
+		.border-icons-layer {
+			display: none;
+		}
+
+		.anniversary-text {
+			font-size: 1.55rem;
 		}
 	}
 </style>

@@ -717,13 +717,13 @@ const LIMITS: Array<[RegExp, number]> = [
  *   запис. Реєстр SEO метаданих (двомовні заголовки, описи та карта маршрутів для соцмереж)
  *   для всіх сторінок та проєктів сайту. Файл є чистим словником даних (`SEO_FALLBACK`, `routeToSeoKey`)
  *   з нулем логіки; виріс через наповнення унікальних OG/SEO прев'ю.
- * 2026-09-30: `CalendarGradingTablesPoster.svelte` (605) та `routes/calendar/+page.svelte` (420).
+ * 2026-09-30: `CalendarGradingTablesPoster.svelte` (710) та `routes/calendar/+page.svelte` (430).
  *   Додано плакат розрахунків рейтингової оцінки на основі таблиць Figma (чотири колонки з точним
- *   східчастим позиціонуванням, адаптивною капсульною розміткою та підтримкою тем) і перемикання вкладок (?tab=tables).
+ *   східчастим позиціонуванням, адаптивною капсульною розміткою, святковою ювілейною плашкою «Нам 30 років!» з розсипом золотих і блакитних бордер-іконок Lucide та підтримкою тем) і перемикання вкладок (?tab=tables та ювілейної ?tab=tables-30).
  */
 const CEILINGS: Record<string, number> = {
-	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 605,
-	'src/routes/calendar/+page.svelte': 420,
+	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,
+	'src/routes/calendar/+page.svelte': 430,
 	'src/lib/config/seoPages.ts': 590,
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,

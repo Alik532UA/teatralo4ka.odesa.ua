@@ -278,6 +278,7 @@ test.describe('навчальний календар', () => {
 		await expect(page.getByTestId('calendar-tab-tables-link')).toHaveAttribute('aria-current', 'page');
 		await expect(page.getByTestId('calendar-grading-poster-container')).toBeVisible();
 		await expect(page.getByTestId('calendar-grading-tables-list')).toBeVisible();
+		await expect(page.getByTestId('calendar-grading-anniversary-badge')).toBeHidden();
 		expect(page.url()).toContain('tab=tables');
 
 		// Клік назад на рік повертає календарний плакат
@@ -286,5 +287,15 @@ test.describe('навчальний календар', () => {
 		await expect(page.getByTestId('calendar-poster-container')).toBeVisible();
 		await expect(page.getByTestId('calendar-grading-poster-container')).toBeHidden();
 		expect(page.url()).not.toContain('tab=tables');
+	});
+
+	test('вкладка «Таблиці 30» показує ювілейну плашку «Нам 30 років!» і пише ?tab=tables-30 в адресу', async ({ page }) => {
+		await gotoReady(page, '/calendar/');
+		await page.getByTestId('calendar-tab-tables-30-link').click();
+		await expect(page.getByTestId('calendar-tab-tables-30-link')).toHaveAttribute('aria-current', 'page');
+		await expect(page.getByTestId('calendar-grading-poster-container')).toBeVisible();
+		await expect(page.getByTestId('calendar-grading-tables-list')).toBeVisible();
+		await expect(page.getByTestId('calendar-grading-anniversary-badge')).toBeVisible();
+		expect(page.url()).toContain('tab=tables-30');
 	});
 });

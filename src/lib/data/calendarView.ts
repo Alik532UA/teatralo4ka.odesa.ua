@@ -34,7 +34,7 @@ export const FILTER_DENSITY = { min: 5, max: 80, step: 5, default: 25 } as const
 export const FILTER_MODES = ['none', 'light', 'dark'] as const;
 export type FilterMode = (typeof FILTER_MODES)[number];
 
-export const CALENDAR_TABS = ['calendar', 'tables'] as const;
+export const CALENDAR_TABS = ['calendar', 'tables', 'tables-30'] as const;
 export type CalendarTab = (typeof CALENDAR_TABS)[number];
 
 export interface CalendarView {
@@ -81,7 +81,7 @@ export function parseCalendarView(params: URLSearchParams): CalendarView {
 	const filter = params.get('filter') ?? '';
 	return {
 		year: isAcademicYearId(year) ? year : DEFAULT_VIEW.year,
-		tab: tab === 'tables' ? 'tables' : DEFAULT_VIEW.tab,
+		tab: tab === 'tables' || tab === 'tables-30' ? tab : DEFAULT_VIEW.tab,
 		bg: CALENDAR_THEMES.some((t) => t.id === bg) ? bg : DEFAULT_VIEW.bg,
 		blur: intParam(params.get('blur'), BLUR_PX.min, BLUR_PX.max, BLUR_PX.default),
 		filter: (FILTER_MODES as readonly string[]).includes(filter)
@@ -106,7 +106,7 @@ export function parseCalendarView(params: URLSearchParams): CalendarView {
 export function calendarViewParams(view: CalendarView, keep?: URLSearchParams): URLSearchParams {
 	const params = new URLSearchParams(keep);
 	for (const name of PARAMS) params.delete(name);
-	if (view.tab === 'tables') params.set('tab', 'tables');
+	if (view.tab === 'tables' || view.tab === 'tables-30') params.set('tab', view.tab);
 	if (view.year !== DEFAULT_VIEW.year) params.set('year', view.year);
 	if (view.bg !== DEFAULT_VIEW.bg) params.set('bg', view.bg);
 	if (view.blur !== DEFAULT_VIEW.blur) params.set('blur', String(view.blur));

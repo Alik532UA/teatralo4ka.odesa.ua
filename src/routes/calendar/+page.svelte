@@ -186,8 +186,8 @@
 							<a
 								href={calendarHref({ ...view, year: id, tab: 'calendar' }, lang)}
 								class="calendar-years__link"
-								class:calendar-years__link--active={view.tab !== 'tables' && id === view.year}
-								aria-current={view.tab !== 'tables' && id === view.year ? 'page' : undefined}
+								class:calendar-years__link--active={view.tab === 'calendar' && id === view.year}
+								aria-current={view.tab === 'calendar' && id === view.year ? 'page' : undefined}
 								onclick={(event) => selectYear(event, id)}
 								data-testid="calendar-year-{id}-link"
 							>
@@ -207,12 +207,24 @@
 							{isEn ? 'Tables' : 'Таблиці'}
 						</a>
 					</li>
+					<li>
+						<a
+							href={calendarHref({ ...view, tab: 'tables-30' }, lang)}
+							class="calendar-years__link"
+							class:calendar-years__link--active={view.tab === 'tables-30'}
+							aria-current={view.tab === 'tables-30' ? 'page' : undefined}
+							onclick={(event) => selectTab(event, 'tables-30')}
+							data-testid="calendar-tab-tables-30-link"
+						>
+							{isEn ? 'Tables 30' : 'Таблиці 30'}
+						</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 
 		<div class="calendar-poster-slot">
-			{#if view.tab === 'tables'}
+			{#if view.tab === 'tables' || view.tab === 'tables-30'}
 				<CalendarGradingTablesPoster {view} locale={lang} />
 			{:else}
 				<CalendarPoster

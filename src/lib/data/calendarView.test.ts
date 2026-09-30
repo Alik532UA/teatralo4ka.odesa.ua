@@ -31,11 +31,12 @@ describe('вигляд календаря з адреси', () => {
 		});
 	});
 
-	it('параметр tab=tables читається та пишеться', () => {
+	it('параметри tab=tables та tab=tables-30 читаються та пишуться', () => {
 		expect(parse('tab=tables').tab).toBe('tables');
+		expect(parse('tab=tables-30').tab).toBe('tables-30');
 		expect(parse('tab=invalid').tab).toBe('calendar');
-		const params = calendarViewParams({ ...DEFAULT_VIEW, tab: 'tables' });
-		expect(params.get('tab')).toBe('tables');
+		expect(calendarViewParams({ ...DEFAULT_VIEW, tab: 'tables' }).get('tab')).toBe('tables');
+		expect(calendarViewParams({ ...DEFAULT_VIEW, tab: 'tables-30' }).get('tab')).toBe('tables-30');
 	});
 
 	it('описка чи рік, якого ще немає, — типове значення, а не зламана сторінка', () => {
