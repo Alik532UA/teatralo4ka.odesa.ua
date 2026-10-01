@@ -1600,10 +1600,15 @@
 		"slug": "anastasiia-zahorodnia",
 		"name": "Анастасія Загородня (Загородна)",
 		"graduationYear": null,
-		"kind": "attended",
+		"kind": "student",
 		"visibility": "linked",
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -3003,6 +3008,17 @@
 		]
 	},
 	{
+		"id": "daria-ovsiannikova",
+		"slug": "daria-ovsiannikova",
+		"name": "Дар’я Овсяннікова",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"music"
+		]
+	},
+	{
 		"id": "daria-pakhomova",
 		"slug": "daria-pakhomova",
 		"name": "Дар’я Пахомова",
@@ -4301,7 +4317,8 @@
 		"name": "Іван Пітель",
 		"graduationYear": 2026,
 		"departments": [
-			"theatre"
+			"theatre",
+			"music"
 		],
 		"hasPhoto": true,
 		"code": "vnpitel",
@@ -4881,11 +4898,17 @@
 		"name": "Катерина Тютюнник",
 		"graduationYear": null,
 		"departments": [
-			"vocal"
+			"vocal",
+			"theatre"
 		],
 		"kind": "student",
 		"visibility": "linked",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "kateryna-tkachenko",
@@ -5046,6 +5069,22 @@
 		]
 	},
 	{
+		"id": "khrystyna-sadoieva",
+		"slug": "khrystyna-sadoieva",
+		"name": "Христина Садоєва",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
+	},
+	{
 		"id": "kimiia-mirshafiiei",
 		"slug": "kimiia-mirshafiiei",
 		"name": "Кімія Міршафієї",
@@ -5074,6 +5113,22 @@
 		],
 		"profileSize": 404,
 		"playCount": 1
+	},
+	{
+		"id": "kira-liubynska",
+		"slug": "kira-liubynska",
+		"name": "Кіра Любинська",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "kostiantyn-afanasev",
@@ -5360,6 +5415,22 @@
 		]
 	},
 	{
+		"id": "kseniia-prylypko",
+		"slug": "kseniia-prylypko",
+		"name": "Ксенія Прилипко",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
+	},
+	{
 		"id": "kseniia-zalevska",
 		"slug": "kseniia-zalevska",
 		"name": "Ксенія Залевська",
@@ -5598,10 +5669,15 @@
 		"slug": "lesia-doskoch",
 		"name": "Леся Доскоч",
 		"graduationYear": null,
-		"kind": "attended",
+		"kind": "student",
 		"visibility": "linked",
 		"departments": [
 			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
 		]
 	},
 	{
@@ -6146,6 +6222,22 @@
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
+			}
+		]
+	},
+	{
+		"id": "mariia-datsiuk",
+		"slug": "mariia-datsiuk",
+		"name": "Марія Дацюк",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -7240,7 +7332,7 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 2409,
+		"profileSize": 2412,
 		"playCount": 6,
 		"code": "nikolmett",
 		"hasPhoto": true,
@@ -8629,6 +8721,22 @@
 		"profileSize": 2598
 	},
 	{
+		"id": "polina-koicheva",
+		"slug": "polina-koicheva",
+		"name": "Поліна Койчева",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
+	},
+	{
 		"id": "polina-kolomiiets",
 		"slug": "polina-kolomiiets",
 		"name": "Поліна Коломієць",
@@ -8649,6 +8757,17 @@
 			{
 				"id": "tetiana-isachkina"
 			}
+		]
+	},
+	{
+		"id": "polina-kovalenko",
+		"slug": "polina-kovalenko",
+		"name": "Поліна Коваленко",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
 		]
 	},
 	{
@@ -9034,6 +9153,22 @@
 		"masters": [
 			{
 				"id": "svitlana-ryskina"
+			}
+		]
+	},
+	{
+		"id": "sofiia-podiakova",
+		"slug": "sofiia-podiakova",
+		"name": "Софія Подьякова",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
 			}
 		]
 	},
@@ -9455,6 +9590,22 @@
 		],
 		"profileSize": 472,
 		"playCount": 1
+	},
+	{
+		"id": "tetiana-chuprovska",
+		"slug": "tetiana-chuprovska",
+		"name": "Тетяна Чупровська",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		]
 	},
 	{
 		"id": "tetiana-dudush-polishchuk",

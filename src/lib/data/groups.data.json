@@ -1705,7 +1705,7 @@
 		"abbr": null,
 		"nameEn": "RePeTe",
 		"verificationStatus": "possible_errors",
-		"isCurrent": false,
+		"isCurrent": true,
 		"masters": [
 			{
 				"id": "fedir-tkach",
@@ -1716,8 +1716,20 @@
 		"graduationYears": [
 			2026
 		],
-		"memberIds": [],
+		"memberIds": [
+			"anastasiia-zahorodnia",
+			"kateryna-tiutiunnyk",
+			"khrystyna-sadoieva",
+			"kira-liubynska",
+			"kseniia-prylypko",
+			"lesia-doskoch",
+			"mariia-datsiuk",
+			"polina-koicheva",
+			"sofiia-podiakova",
+			"tetiana-chuprovska"
+		],
 		"playIds": [
+			"pokaz-etiudiv-2024",
 			"ia-pishov-na-viinu-2024",
 			"charivnyk-krainy-oz-2025",
 			"dumky-vholos-2026",

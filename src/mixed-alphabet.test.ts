@@ -39,7 +39,7 @@ const ЗМІШАНЕ = (слово: string) => /[\p{Script=Cyrillic}]/u.test(с�
  * його ім'я, а не збій копіювання. Виняток названий тут, щоб наступний, хто
  * побачить це слово, не «виправив» його мовчки.
  */
-const НАВМИСНО = new Set(['ПаХLава']);
+const НАВМИСНО = new Set(['ПаХLава', 'SEкретів']);
 
 const читати = (шлях: string): unknown => JSON.parse(readFileSync(шлях, 'utf8'));
 const масив = <T>(дані: unknown, ключ: string): T[] =>

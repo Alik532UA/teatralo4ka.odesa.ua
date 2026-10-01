@@ -44,6 +44,7 @@ export interface ImageSize {
  */
 import { GRADUATE_GALLERY_SIZES } from './localGalleryImages';
 import { CALENDAR_IMAGE_SIZES } from './localCalendarImages';
+import { PLAY_IMAGE_SIZES } from './localPlayImages';
 
 export const LOCAL_IMAGE_SIZES = {
 	// Герой головної. У мапі лише БАЗОВИЙ варіант кожного знімка (544 px): із
@@ -207,13 +208,8 @@ export const LOCAL_IMAGE_SIZES = {
 	'/festivals/bravo-2026-diploma.webp': { width: 978, height: 1400 },
 	'/festivals/zirkova-zyma-2026.webp': { width: 1190, height: 850 },
 	'/festivals/zirkova-zyma-2026-diploma.webp': { width: 1005, height: 1400 },
-	// Афіша вистави: показується цілком, тож пропорція банера — це пропорція файлу.
-	'/plays/zaruchyny-2026.webp': { width: 904, height: 1280 },
-	'/plays/tryvozhni-liudy-2024.webp': { width: 1280, height: 859 },
-	'/plays/uryvky-z-klasyky-2013.webp': { width: 1200, height: 896 },
-	// Програмка «Уривків з класики» 2015: обкладинка й розворот із ролями.
-	'/plays/uryvky-z-klasyky-2015.webp': { width: 1200, height: 896 },
-	'/plays/uryvky-z-klasyky-2015-2.webp': { width: 1200, height: 896 },
+	// Афіші та знімки вистав — див. `localPlayImages.ts`.
+	...PLAY_IMAGE_SIZES,
 	'/groups/akuna-matata-2.webp': { width: 1920, height: 1281 },
 	'/groups/akuna-matata.webp': { width: 1280, height: 850 },
 	'/groups/akvarel.webp': { width: 1280, height: 850 },

@@ -85,6 +85,10 @@
 		<p class="play-header__author" data-testid="play-author-text">{play.author}</p>
 	{/if}
 
+	{#if play.note}
+		<p class="play-header__note" data-testid="play-note-text">{play.note}</p>
+	{/if}
+
 	{#if play.videoUrl || clips.length > 0}
 		<div class="play-header__video" data-testid="play-recordings-list">
 			<GraduateVideoButton videoUrl={play.videoUrl} title={play.title} />
@@ -180,6 +184,13 @@
 		margin: 0.4rem 0 0;
 		color: var(--text-muted);
 		font-size: 0.95rem;
+	}
+	.play-header__note {
+		margin: 0.4rem 0 0;
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		font-style: italic;
+		line-height: 1.45;
 	}
 	/* Записів буває кілька — вечір і окремі уривки: рядком із переносом, а не стовпчиком. */
 	.play-header__video {
