@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest';
 import {
 	ACADEMIC_YEARS,
 	ACADEMIC_YEAR_IDS,
+	DEFAULT_ACADEMIC_YEAR_ID,
 	LATEST_ACADEMIC_YEAR_ID,
 	academicYearIdOf,
+	defaultAcademicYearId,
 	isAcademicYearId,
 	yearBounds,
 	type AcademicYear,
@@ -48,7 +50,7 @@ describe('реєстр навчальних років', () => {
 		}
 	});
 
-	it('останній рік — типовий для сторінки без параметра', () => {
+	it('останній рік реєстру — найпізніший', () => {
 		expect(LATEST_ACADEMIC_YEAR_ID).toBe(ACADEMIC_YEAR_IDS.at(-1));
 	});
 
@@ -119,9 +121,28 @@ describe('навчальний рік за датою', () => {
 	});
 
 	it('рік поза реєстром називається, але не вважається відомим', () => {
-		expect(academicYearIdOf('2030-10-01')).toBe('2030-2031');
-		expect(isAcademicYearId('2030-2031')).toBe(false);
+		expect(academicYearIdOf('2035-10-01')).toBe('2035-2036');
+		expect(isAcademicYearId('2035-2036')).toBe(false);
 		expect(isAcademicYearId('2025-2026')).toBe(true);
 		expect(isAcademicYearId('toString')).toBe(false);
+	});
+});
+
+describe('типовий навчальний рік (перемикання з 1 серпня)', () => {
+	it('до 1 серпня триває попередній навчальний рік, з 1 серпня — новий', () => {
+		expect(defaultAcademicYearId(new Date('2026-07-31T23:59:59'))).toBe('2025-2026');
+		expect(defaultAcademicYearId(new Date('2026-08-01T00:00:00'))).toBe('2026-2027');
+		expect(defaultAcademicYearId(new Date('2026-10-01T12:00:00'))).toBe('2026-2027');
+		expect(defaultAcademicYearId(new Date('2027-07-31T23:59:59'))).toBe('2026-2027');
+		expect(defaultAcademicYearId(new Date('2027-08-01T00:00:00'))).toBe('2027-2028');
+	});
+
+	it('рік поза реєстром обмежується наявними межами реєстру', () => {
+		expect(defaultAcademicYearId(new Date('2020-09-01T00:00:00'))).toBe('2024-2025');
+		expect(defaultAcademicYearId(new Date('2040-09-01T00:00:00'))).toBe('2031-2032');
+	});
+
+	it('DEFAULT_ACADEMIC_YEAR_ID збігається з викликом defaultAcademicYearId()', () => {
+		expect(DEFAULT_ACADEMIC_YEAR_ID).toBe(defaultAcademicYearId());
 	});
 });

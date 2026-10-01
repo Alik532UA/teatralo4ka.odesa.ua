@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CALENDAR_THEMES } from '$lib/config/calendarThemes';
-import { ACADEMIC_YEAR_IDS, LATEST_ACADEMIC_YEAR_ID } from './academicYears';
+import { ACADEMIC_YEAR_IDS, DEFAULT_ACADEMIC_YEAR_ID } from './academicYears';
 import {
 	BLUR_PX,
 	DEFAULT_VIEW,
@@ -14,9 +14,9 @@ import {
 const parse = (query: string) => parseCalendarView(new URLSearchParams(query));
 
 describe('вигляд календаря з адреси', () => {
-	it('без параметрів — останній рік на типовому фоні', () => {
+	it('без параметрів — актуальний рік на типовому фоні', () => {
 		expect(parse('')).toEqual(DEFAULT_VIEW);
-		expect(DEFAULT_VIEW.year).toBe(LATEST_ACADEMIC_YEAR_ID);
+		expect(DEFAULT_VIEW.year).toBe(DEFAULT_ACADEMIC_YEAR_ID);
 	});
 
 	it('кожен параметр читається', () => {

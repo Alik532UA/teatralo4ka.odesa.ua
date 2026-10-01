@@ -1,7 +1,7 @@
 import type { Locale } from '$lib/i18n/routing';
 import {
 	ACADEMIC_YEARS,
-	LATEST_ACADEMIC_YEAR_ID,
+	DEFAULT_ACADEMIC_YEAR_ID,
 	type AcademicYearId,
 	type DateRange,
 	type VacationId
@@ -153,11 +153,11 @@ export function academicYearLabel(id: AcademicYearId, locale: Locale): string {
  * сторінці, бо назва зі сторінки старша за словник.
  *
  * Року в НАЗВІ немає: сторінка одна на всі роки. Опис — про той, що
- * показується без параметра, тобто останній.
+ * показується без параметра, тобто актуальний на поточний момент.
  */
 export function calendarPageSeo(locale: Locale): { seoTitle: string; seoDescription: string } {
-	const [first, second] = ACADEMIC_YEARS[LATEST_ACADEMIC_YEAR_ID].semesters;
-	const years = yearRangeLabel(LATEST_ACADEMIC_YEAR_ID);
+	const [first, second] = ACADEMIC_YEARS[DEFAULT_ACADEMIC_YEAR_ID].semesters;
+	const years = yearRangeLabel(DEFAULT_ACADEMIC_YEAR_ID);
 	if (locale === 'en') {
 		return {
 			seoTitle: 'Academic Calendar',

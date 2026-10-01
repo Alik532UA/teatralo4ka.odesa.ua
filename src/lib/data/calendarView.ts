@@ -1,22 +1,21 @@
 import type { ResolvedPathname } from '$app/types';
 import { CALENDAR_THEMES, DEFAULT_CALENDAR_THEME_ID } from '$lib/config/calendarThemes';
 import { localizedPath, type Locale } from '$lib/i18n/routing';
-import { LATEST_ACADEMIC_YEAR_ID, isAcademicYearId, type AcademicYearId } from './academicYears';
+import { DEFAULT_ACADEMIC_YEAR_ID, isAcademicYearId, type AcademicYearId } from './academicYears';
 
 /**
  * Що показує сторінка `/calendar/` — ЦІЛКОМ з адреси.
  *
  * `?year=2024-2025&bg=nature-winter&blur=8&filter=dark&density=40` відкриває
- * рівно той плакат, який бачив той, хто посилання надіслав. Рішення автора
- * 2026-09-26: «всі календарі в одному», рік параметром, типово — останній рік,
- * і фон з налаштуваннями — теж параметрами.
+ * рівно той плакат, який бачив той, хто посилання надіслав. Рік параметром,
+ * типово — поточний навчальний рік (з 1 серпня), і фон з налаштуваннями — теж параметрами.
  *
  * Доти рік жив у шляху (`/calendar/2025-2026/`), а фон — у `localStorage`: та
  * сама адреса в двох людей показувала різне.
  *
  * ## Типові значення в адресу не пишуться
  *
- * Без жодного параметра `/calendar/` — це останній рік на фоні «Геометрія».
+ * Без жодного параметра `/calendar/` — це актуальний рік на фоні «Геометрія».
  * Параметр з'являється лише тоді, коли значення відрізняється від типового, і
  * зникає, щойно його повернули назад. Незнайоме значення (описка, рік, якого
  * ще немає) тихо стає типовим, а не ламає сторінку.
@@ -49,7 +48,7 @@ export interface CalendarView {
 }
 
 export const DEFAULT_VIEW: Readonly<CalendarView> = {
-	year: LATEST_ACADEMIC_YEAR_ID,
+	year: DEFAULT_ACADEMIC_YEAR_ID,
 	tab: 'calendar',
 	bg: DEFAULT_CALENDAR_THEME_ID,
 	blur: BLUR_PX.default,

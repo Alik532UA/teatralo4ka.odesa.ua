@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ACADEMIC_YEARS, LATEST_ACADEMIC_YEAR_ID } from './academicYears';
+import { ACADEMIC_YEARS, DEFAULT_ACADEMIC_YEAR_ID } from './academicYears';
 import {
 	academicYearLabel,
 	calendarPageSeo,
@@ -42,11 +42,11 @@ describe('назва й опис сторінки', () => {
 	it('мовою адреси й про рік, що відкривається типово', () => {
 		const ua = calendarPageSeo('uk');
 		const en = calendarPageSeo('en');
-		const latest = yearRangeLabel(LATEST_ACADEMIC_YEAR_ID);
+		const current = yearRangeLabel(DEFAULT_ACADEMIC_YEAR_ID);
 		expect(ua.seoTitle).toBe('Навчальний календар');
 		expect(en.seoTitle).toBe('Academic Calendar');
-		expect(ua.seoDescription).toContain(latest);
-		expect(en.seoDescription).toContain(latest);
+		expect(ua.seoDescription).toContain(current);
+		expect(en.seoDescription).toContain(current);
 		expect(en.seoDescription).not.toMatch(/[а-яїієґ]/i);
 	});
 });

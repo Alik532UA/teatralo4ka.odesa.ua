@@ -1,6 +1,6 @@
 import { expect, test, type Page } from './fixtures';
 import { gotoReady } from './ready';
-import { ACADEMIC_YEAR_IDS, LATEST_ACADEMIC_YEAR_ID } from '../src/lib/data/academicYears';
+import { ACADEMIC_YEAR_IDS, DEFAULT_ACADEMIC_YEAR_ID } from '../src/lib/data/academicYears';
 
 /**
  * Навчальний календар — `/calendar/`.
@@ -41,12 +41,12 @@ async function відкритиПанель(page: Page) {
 }
 
 test.describe('навчальний календар', () => {
-	test('без параметрів — останній рік реєстру', async ({ page }) => {
+	test('без параметрів — актуальний рік', async ({ page }) => {
 		await gotoReady(page, '/calendar/');
 		await expect(page.getByTestId('calendar-year-title')).toHaveText(
-			`Навчальний рік ${LATEST_ACADEMIC_YEAR_ID}`
+			`Навчальний рік ${DEFAULT_ACADEMIC_YEAR_ID}`
 		);
-		await expect(page.getByTestId(`calendar-year-${LATEST_ACADEMIC_YEAR_ID}-link`)).toHaveAttribute(
+		await expect(page.getByTestId(`calendar-year-${DEFAULT_ACADEMIC_YEAR_ID}-link`)).toHaveAttribute(
 			'aria-current',
 			'page'
 		);
@@ -64,7 +64,7 @@ test.describe('навчальний календар', () => {
 		await expect(page).toHaveURL(new RegExp(`/calendar/\\?year=${перший}$`));
 
 		// Типовий рік адреси не має: повернення до нього прибирає параметр.
-		await page.getByTestId(`calendar-year-${LATEST_ACADEMIC_YEAR_ID}-link`).click();
+		await page.getByTestId(`calendar-year-${DEFAULT_ACADEMIC_YEAR_ID}-link`).click();
 		await expect(page).toHaveURL(/\/calendar\/$/);
 	});
 

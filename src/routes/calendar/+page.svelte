@@ -295,6 +295,10 @@
 		box-shadow: var(--shadow-main);
 	}
 
+	.calendar-years li {
+		flex-shrink: 0;
+	}
+
 	.calendar-years__link {
 		display: flex;
 		align-items: center;
@@ -359,6 +363,8 @@
 		.calendar-controls {
 			position: static;
 			align-items: stretch;
+			max-width: 100%;
+			min-width: 0;
 		}
 		.calendar-controls__row {
 			justify-content: flex-end;
@@ -366,6 +372,13 @@
 		.calendar-years {
 			flex-direction: row;
 			border-radius: var(--radius-full, 9999px);
+			overflow-x: auto;
+			max-width: 100%;
+			scrollbar-width: none;
+			-webkit-overflow-scrolling: touch;
+		}
+		.calendar-years::-webkit-scrollbar {
+			display: none;
 		}
 	}
 

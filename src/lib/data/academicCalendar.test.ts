@@ -59,7 +59,8 @@ describe('день', () => {
 		expect(describeDay('2026-07-10', true).status).toBe('summer');
 		// Між 1 вересня й початком семестру — ще літо (2024: семестр з 2-го).
 		expect(describeDay('2024-09-01', true).status).toBe('summer');
-		expect(describeDay('2027-09-15', true).status).toBe('unknown');
+		expect(describeDay('2027-09-15', true).status).toBe('school');
+		expect(describeDay('2032-09-15', true).status).toBe('unknown');
 	});
 
 	it('прапор — на чотирьох свят, і кожне з них є серед державних', () => {
