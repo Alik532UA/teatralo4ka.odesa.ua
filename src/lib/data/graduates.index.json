@@ -4127,6 +4127,7 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -4147,7 +4148,7 @@
 			}
 		],
 		"playCount": 3,
-		"profileSize": 1071
+		"profileSize": 1090
 	},
 	{
 		"id": "inna-shevchenko",
