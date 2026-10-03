@@ -42,7 +42,7 @@ version: "1.0.0"
 <a href="https://maps.app.goo.gl/ya4gki6tuZv36Tjz8" class="btn btn-primary" style="text-transform: none; text-decoration: none; width: fit-content; max-width: 100%; white-space: normal; padding: 0.75rem 1.25rem; text-align: left; min-height: 44px;" target="_blank" rel="noopener noreferrer" data-testid="contacts-address-link">м. Одеса, вул. Софіївська, 24</a>
 </div>
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2746.9222727354922!2d30.7314487!3d46.4898515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c631bdb77187a9%3A0xb41789e752c1fa47!2z0JTQmNCi0K_Qp9CQINCi0JXQkNCi0KDQkNCb0KzQndCQINCo0JrQntCb0JA!5e0!3m2!1suk!2sua!4v1790339590201!5m2!1suk!2sua" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2746.9222727354922!2d30.7314487!3d46.4898515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c631bdb77187a9%3A0xb41789e752c1fa47!2z0JTQmNCi0K_Qp9CQINCi0JXQkNCi0KDQkNCb0KzQndCQINCo0JrQntCb0JA!5e0!3m2!1suk!2sua!4v1790339590201!5m2!1suk!2sua" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Карта розташування Одеської театральної школи"></iframe>
 
 </div>
 </div>

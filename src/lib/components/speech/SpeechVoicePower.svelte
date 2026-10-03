@@ -130,9 +130,9 @@
 	.header-titles { display: flex; flex-direction: column; gap: 0.35rem; }
 	.badge {
 		display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem;
-		font-weight: 800; text-transform: uppercase; color: var(--palette-orange);
+		font-weight: 800; text-transform: uppercase; color: var(--warning-color);
 	}
-	.badge--activity { color: var(--palette-blue); }
+	.badge--activity { color: var(--accent-text); }
 	.title { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--text-title); }
 	.subtitle { font-size: 0.95rem; color: var(--text-muted); font-style: italic; }
 	.advice-box {

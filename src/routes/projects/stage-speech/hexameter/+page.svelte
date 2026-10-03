@@ -85,7 +85,7 @@
 	.hexameter-page__content { display: flex; flex-direction: column; gap: 0.5rem; max-width: 820px; }
 	.header-badge {
 		display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700;
-		text-transform: uppercase; letter-spacing: 0.05em; color: var(--palette-blue);
+		text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-text);
 	}
 	.header-title { margin: 0; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; }
 	.header-lead { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }

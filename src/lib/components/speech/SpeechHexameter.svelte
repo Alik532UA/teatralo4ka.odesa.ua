@@ -233,7 +233,7 @@
 		min-width: 24px;
 		font-size: 0.9rem;
 		font-weight: 700;
-		color: var(--palette-blue);
+		color: var(--accent-text);
 		text-align: right;
 		user-select: none;
 	}

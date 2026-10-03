@@ -165,7 +165,7 @@
 	.tale-titles { display: flex; flex-direction: column; gap: 0.35rem; }
 	.tale-badge {
 		display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem;
-		font-weight: 800; text-transform: uppercase; color: var(--palette-orange);
+		font-weight: 800; text-transform: uppercase; color: var(--warning-color);
 	}
 	.tale-title { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--text-title); }
 	.tale-subtitle { font-size: 0.95rem; color: var(--text-muted); font-style: italic; }
@@ -195,7 +195,7 @@
 		display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
 		min-width: 3rem; padding-right: 1rem; border-right: 1px solid var(--color-border);
 	}
-	.st-num { font-size: 0.95rem; font-weight: 800; color: var(--palette-orange); }
+	.st-num { font-size: 0.95rem; font-weight: 800; color: var(--warning-color); }
 	.st-breath { font-size: 0.8rem; letter-spacing: -2px; }
 	.stanza-lines { display: flex; flex-direction: column; gap: 0.25rem; }
 	.stanza-line { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--text-title); }

@@ -102,7 +102,7 @@
 				<span class="bpm-value" data-testid={`${testIdPrefix}-bpm-value`}>{bpm}</span>
 				<span class="bpm-unit">BPM</span>
 			</div>
-			<div class="beats-row" aria-label="Пульс частки">
+			<div class="beats-row" role="group" aria-label="Пульс частки">
 				{#each [0, 1, 2, 3] as i (i)}
 					<span
 						class="beat-dot"

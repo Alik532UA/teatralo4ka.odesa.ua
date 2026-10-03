@@ -105,7 +105,7 @@
 	.rhythm-page__content { display: flex; flex-direction: column; gap: 0.5rem; }
 	.header-badge {
 		display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700;
-		text-transform: uppercase; letter-spacing: 0.05em; color: var(--palette-orange);
+		text-transform: uppercase; letter-spacing: 0.05em; color: var(--warning-color);
 	}
 	.header-title { margin: 0; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; }
 	.header-lead { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }

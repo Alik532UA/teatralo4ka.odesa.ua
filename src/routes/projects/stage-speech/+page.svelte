@@ -238,7 +238,7 @@
 	.speech-hub-page__content { display: flex; flex-direction: column; gap: 0.5rem; max-width: 800px; }
 	.header-badge {
 		display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700;
-		text-transform: uppercase; letter-spacing: 0.05em; color: var(--palette-orange);
+		text-transform: uppercase; letter-spacing: 0.05em; color: var(--warning-color);
 	}
 	.header-title { margin: 0; font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; color: var(--text-title); line-height: 1.15; }
 	.header-lead { margin: 0; font-size: 1.1rem; line-height: 1.6; color: var(--text-muted); }

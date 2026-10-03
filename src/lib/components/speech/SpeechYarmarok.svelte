@@ -187,7 +187,7 @@
 		height: 17px;
 	}
 	.sample-stress {
-		color: var(--palette-red);
+		color: light-dark(#b91c1c, #fca5a5);
 		font-weight: 800;
 	}
 	.content-box {
@@ -215,7 +215,7 @@
 		margin-bottom: 0;
 	}
 	.stress {
-		color: var(--palette-red);
+		color: light-dark(#b91c1c, #fca5a5);
 		font-weight: 800;
 	}
 	.rule-container {

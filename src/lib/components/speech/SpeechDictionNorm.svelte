@@ -144,7 +144,7 @@
 	.header-main { display: flex; flex-direction: column; gap: 0.4rem; }
 	.exercise-badge {
 		display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.75rem;
-		font-weight: 800; text-transform: uppercase; color: var(--palette-orange);
+		font-weight: 800; text-transform: uppercase; color: var(--warning-color);
 	}
 	.exercise-title { margin: 0; font-size: 1.6rem; font-weight: 800; color: var(--text-title); }
 	.exercise-stepper { display: flex; align-items: center; gap: 0.75rem; }
