@@ -891,8 +891,9 @@ export const UI_TEXT = {
 	},
 	votes: {
 		fail: { uk: 'Не працює', en: 'Broken' },
-		weird: { uk: 'Працює, але дивно', en: 'Works, but odd' },
-		ok: { uk: 'Працює', en: 'Works' }
+		unclear: { uk: 'Не зрозуміло', en: 'Unclear' },
+		ok: { uk: 'Працює', en: 'Works' },
+		skip: { uk: 'Пропустити', en: 'Skip' }
 	},
 	progress: { uk: 'Позначено на цій версії', en: 'Marked on this version' },
 	stale: { uk: 'позначено на іншій версії', en: 'marked on another version' },

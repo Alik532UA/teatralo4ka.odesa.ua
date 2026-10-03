@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
+	import { replaceState } from '$app/navigation';
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import type { Pathname, ResolvedPathname } from '$app/types';
 	import { localizedPath } from '$lib/i18n/routing';
@@ -54,7 +56,34 @@
 	// декоративна: Node 25 має власний `localStorage`, тож під prerender читання
 	// спрацювало б і запекло в HTML позначки з МАШИНИ ЗБІРКИ.
 	let marks = $state<Marks>(browser ? loadMarks() : {});
-	let activeTab = $state(BETA_TABS[0].id);
+	const validTabIds = new Set(BETA_TABS.map((t) => t.id));
+	function initialTab(): string {
+		if (browser) {
+			const raw = page.url.searchParams.get('tab');
+			if (raw && validTabIds.has(raw)) return raw;
+		}
+		return BETA_TABS[0].id;
+	}
+
+	let activeTab = $state(initialTab());
+
+	function selectTab(id: string) {
+		activeTab = id;
+		if (browser) {
+			const url = new URL(page.url);
+			url.searchParams.set('tab', id);
+			// eslint-disable-next-line svelte/no-navigation-without-resolve
+			replaceState(url.href, page.state);
+		}
+	}
+
+	$effect(() => {
+		const raw = page.url.searchParams.get('tab');
+		if (raw && validTabIds.has(raw) && raw !== activeTab) {
+			activeTab = raw;
+		}
+	});
+
 	let reportFallback = $state('');
 	let reportHint = $state('');
 	let clearArmed = $state(false);
@@ -228,7 +257,7 @@
 				class:active={t.id === activeTab}
 				aria-current={t.id === activeTab ? 'true' : undefined}
 				data-testid="beta-tab-{t.id}-btn"
-				onclick={() => (activeTab = t.id)}
+				onclick={() => selectTab(t.id)}
 			>
 				{say(t.title)}
 				<span class="tab-count" data-testid="beta-tab-{t.id}-progress-text">
@@ -246,18 +275,20 @@
 		«корисних посилань», який поповнити забувають.
 	-->
 	{#if screens.length > 0}
-		<p class="screens">
-			<span>{say(UI_TEXT.screens)}</span>
-			{#each screens as route (route)}
-				<a
-					class="screen"
-					href={screenHref(route)}
-					data-testid="beta-screen-{screenTid(route)}-link"
-				>
-					{route}
-				</a>
-			{/each}
-		</p>
+		<div class="screens" data-sveltekit-preload-data="off">
+			<span class="screens-title">{say(UI_TEXT.screens)}</span>
+			<div class="screens-list">
+				{#each screens as route (route)}
+					<a
+						class="screen"
+						href={screenHref(route)}
+						data-testid="beta-screen-{screenTid(route)}-link"
+					>
+						{route}
+					</a>
+				{/each}
+			</div>
+		</div>
 	{/if}
 
 	{#each groups as group, levelIndex (group.level)}
@@ -281,7 +312,14 @@
 			>
 				{#each group.checks as check (check.id)}
 					{@const mark = marks[check.id]}
-					<li class="check" data-testid="beta-check-{tid(check.id)}-item">
+					<li
+						class="check"
+						class:vote-fail={mark?.vote === 'fail'}
+						class:vote-unclear={mark?.vote === 'unclear'}
+						class:vote-ok={mark?.vote === 'ok'}
+						class:vote-skip={mark?.vote === 'skip'}
+						data-testid="beta-check-{tid(check.id)}-item"
+					>
 						<p class="category" data-testid="beta-check-{tid(check.id)}-category-text">
 							{say(check.category)}
 						</p>
@@ -292,7 +330,7 @@
 						{/if}
 
 						<div class="votes">
-							{#each ['fail', 'weird', 'ok'] as const as value (value)}
+							{#each ['ok', 'fail', 'unclear', 'skip'] as const as value (value)}
 								<button
 									type="button"
 									class="vote vote-{value}"
@@ -353,6 +391,11 @@
 
 <style>
 	.beta {
+		--vote-fail: light-dark(#dc2626, #ef4444);
+		--vote-unclear: light-dark(#b45309, #fbbf24);
+		--vote-ok: light-dark(#15803d, #22c55e);
+		--vote-skip: light-dark(#0284c7, #38bdf8);
+
 		max-width: min(72rem, 100%);
 		margin: 0 auto;
 		padding: clamp(1rem, 3vw, 2.5rem);
@@ -413,6 +456,56 @@
 		font-variant-numeric: tabular-nums;
 	}
 
+	.screens {
+		margin-bottom: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.screens-title {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+	}
+
+	.screens-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	/*
+	 * Посилання на екран виглядає кнопкою й тримає 44 px на дотик (ACCESSIBILITY).
+	 * `min-width: 44px` та `min-height: 44px` гарантують тач-таргет навіть для коротких адрес на кшталт `/`.
+	 */
+	.screen {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 44px;
+		min-height: 44px;
+		padding: 0.4rem 0.85rem;
+		border: 1px solid var(--border-main);
+		border-radius: 0.5rem;
+		background: var(--bg-surface);
+		color: var(--text-main);
+		text-decoration: none;
+		font-family: monospace;
+		font-size: 0.85rem;
+		cursor: pointer;
+		transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.screen:hover {
+		border-color: var(--accent-primary);
+		background: color-mix(in srgb, var(--bg-surface), var(--accent-primary) 12%);
+		color: var(--accent-text, var(--text-main));
+	}
+
+	.screen:active {
+		transform: scale(0.98);
+	}
+
 	.level-count {
 		margin-inline-start: 0.4rem;
 		padding: 0.05rem 0.4rem;
@@ -458,11 +551,17 @@
 
 	.check {
 		background: var(--bg-card);
-		border: var(--hairline-width) solid var(--border-main);
+		border: 1px solid var(--border-main);
 		border-radius: 0.75rem;
 		padding: clamp(0.75rem, 2vw, 1.25rem);
 		box-shadow: var(--shadow-main);
+		transition: border-color 0.15s ease, border-width 0.15s ease;
 	}
+
+	.check.vote-fail { border: 2px solid var(--vote-fail); }
+	.check.vote-unclear { border: 2px solid var(--vote-unclear); }
+	.check.vote-ok { border: 2px solid var(--vote-ok); }
+	.check.vote-skip { border: 2px solid var(--vote-skip); }
 
 	.category {
 		margin: 0 0 0.25rem;
@@ -502,24 +601,30 @@
 		color: var(--text-main);
 		cursor: pointer;
 		font: inherit;
+		transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
 	}
+
+	.vote-ok { background: color-mix(in srgb, var(--bg-surface), var(--vote-ok) 8%); border-color: color-mix(in srgb, var(--border-main), var(--vote-ok) 35%); }
+	.vote-ok:hover { background: color-mix(in srgb, var(--bg-surface), var(--vote-ok) 14%); border-color: var(--vote-ok); }
+
+	.vote-fail { background: color-mix(in srgb, var(--bg-surface), var(--vote-fail) 8%); border-color: color-mix(in srgb, var(--border-main), var(--vote-fail) 35%); }
+	.vote-fail:hover { background: color-mix(in srgb, var(--bg-surface), var(--vote-fail) 14%); border-color: var(--vote-fail); }
+
+	.vote-unclear { background: color-mix(in srgb, var(--bg-surface), var(--vote-unclear) 8%); border-color: color-mix(in srgb, var(--border-main), var(--vote-unclear) 35%); }
+	.vote-unclear:hover { background: color-mix(in srgb, var(--bg-surface), var(--vote-unclear) 14%); border-color: var(--vote-unclear); }
+
+	.vote-skip { background: color-mix(in srgb, var(--bg-surface), var(--vote-skip) 8%); border-color: color-mix(in srgb, var(--border-main), var(--vote-skip) 35%); }
+	.vote-skip:hover { background: color-mix(in srgb, var(--bg-surface), var(--vote-skip) 14%); border-color: var(--vote-skip); }
 
 	.vote.picked {
 		border-width: 4px;
 		font-weight: 700;
 	}
 
-	.vote-fail.picked {
-		border-color: var(--warning-color);
-	}
-
-	.vote-weird.picked {
-		border-color: var(--accent-text);
-	}
-
-	.vote-ok.picked {
-		border-color: var(--accent-primary);
-	}
+	.vote-ok.picked { border-color: var(--vote-ok); color: var(--vote-ok); background: color-mix(in srgb, var(--bg-surface), var(--vote-ok) 18%); }
+	.vote-fail.picked { border-color: var(--vote-fail); color: var(--vote-fail); background: color-mix(in srgb, var(--bg-surface), var(--vote-fail) 18%); }
+	.vote-unclear.picked { border-color: var(--vote-unclear); color: var(--vote-unclear); background: color-mix(in srgb, var(--bg-surface), var(--vote-unclear) 18%); }
+	.vote-skip.picked { border-color: var(--vote-skip); color: var(--vote-skip); background: color-mix(in srgb, var(--bg-surface), var(--vote-skip) 18%); }
 
 	.stale {
 		margin: 0.5rem 0 0;

@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { goto } from "$app/navigation";
+import { redirect } from "@sveltejs/kit";
 import { resolve } from '$app/paths';
 import { authService } from "$lib/controllers/auth.svelte";
 
@@ -18,7 +18,7 @@ export async function load({ url }) {
 
   if (!authService.isAuthenticated) {
     if (!isLoginPage) {
-      goto(resolve('/admin/login'));
+      throw redirect(307, resolve('/admin/login'));
     }
     return { user: null, profile: null };
   }

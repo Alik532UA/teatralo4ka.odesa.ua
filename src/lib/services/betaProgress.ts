@@ -20,7 +20,7 @@ import { BETA_CHECKS, BETA_TABS, type BetaCheck } from '../data/betaChecklist';
 
 const MARKS_KEY = 'beta_checklist_marks';
 
-export type Vote = 'fail' | 'weird' | 'ok';
+export type Vote = 'fail' | 'unclear' | 'ok' | 'skip';
 
 export interface Mark {
 	vote: Vote;
@@ -30,13 +30,18 @@ export interface Mark {
 
 export type Marks = Record<string, Mark>;
 
-const VOTES: readonly Vote[] = ['fail', 'weird', 'ok'];
+const VOTES: readonly Vote[] = ['fail', 'unclear', 'ok', 'skip'];
 
-/** Чи це справді позначка, а не будь-що зі сховища. */
-function isMark(value: unknown): value is Mark {
-	if (typeof value !== 'object' || value === null) return false;
-	const m = value as Partial<Mark>;
-	return VOTES.includes(m.vote as Vote) && typeof m.version === 'string';
+/** Перевіряє та нормалізує позначку зі сховища (зокрема переводить weird у unclear). */
+function normalizeMark(value: unknown): Mark | null {
+	if (typeof value !== 'object' || value === null) return null;
+	const m = value as { vote?: unknown; version?: unknown };
+	let v = m.vote;
+	if (v === 'weird') v = 'unclear';
+	if (VOTES.includes(v as Vote) && typeof m.version === 'string') {
+		return { vote: v as Vote, version: m.version };
+	}
+	return null;
 }
 
 /**
@@ -60,7 +65,9 @@ export function loadMarks(): Marks {
 		const known = new Set(BETA_CHECKS.map((check) => check.id));
 		const out: Marks = {};
 		for (const [id, value] of Object.entries(parsed)) {
-			if (known.has(id) && isMark(value)) out[id] = value;
+			if (!known.has(id)) continue;
+			const mark = normalizeMark(value);
+			if (mark) out[id] = mark;
 		}
 		return out;
 	} catch (e) {
@@ -112,12 +119,13 @@ export function countFreshInTab(
 
 const VOTE_LABEL: Record<Vote, string> = {
 	fail: 'НЕ ПРАЦЮЄ',
-	weird: 'ПРАЦЮЄ, АЛЕ ДИВНО',
+	unclear: 'НЕ ЗРОЗУМІЛО',
+	skip: 'ПРОПУЩЕНО',
 	ok: 'працює'
 };
 
 /** Поламане — вгорі: звіт читають зверху, і читає його людина. */
-const VOTE_WEIGHT: Record<Vote, number> = { fail: 0, weird: 1, ok: 2 };
+const VOTE_WEIGHT: Record<Vote, number> = { fail: 0, unclear: 1, skip: 2, ok: 3 };
 
 export interface ReportContext {
 	version: string;
@@ -166,7 +174,7 @@ export function buildReport(marks: Marks, ctx: ReportContext): string {
 		if (isStale(mark, ctx.version)) {
 			lines.push(`    (позначено на версії ${mark.version}, зараз ${ctx.version})`);
 		}
-		if (check.coverage === 'covered' && mark.vote !== 'ok') {
+		if (check.coverage === 'covered' && (mark.vote === 'fail' || mark.vote === 'unclear')) {
 			lines.push(
 				`    !!! ПУНКТ ПОКРИТО АВТОТЕСТОМ ${check.test} —`,
 				`        тест не побачив цієї помилки`

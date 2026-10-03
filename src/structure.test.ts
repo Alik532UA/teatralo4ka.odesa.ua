@@ -720,8 +720,15 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-09-30: `CalendarGradingTablesPoster.svelte` (710) та `routes/calendar/+page.svelte` (440).
  *   Додано плакат розрахунків рейтингової оцінки на основі таблиць Figma (чотири колонки з точним
  *   східчастим позиціонуванням, адаптивною капсульною розміткою, святковою ювілейною плашкою «Нам 30 років!» з розсипом золотих і блакитних бордер-іконок Lucide та підтримкою тем) і перемикання вкладок (?tab=tables та ювілейної ?tab=tables-30). Адаптивний горизонтальний скрол перемикача років для 8 років та таблиць рейтингу.
+ * 2026-10-03: `routes/beta-test-checklists/+page.svelte` 400 -> 470. Додано стилі
+ *   блока маршрутів (.screens та .screen) з 44px цілями дотику (BETA-SCREEN-LINKS),
+ *   4 стани відповіді (fail, unclear, ok, skip), колірну обводку картки питання
+ *   та синхронізацію активної вкладки з URL параметром ?tab=... (replaceState).
+ * 2026-10-03: `data/betaChecklist.ts` 724 -> 730: словник відповідей UI_TEXT.votes
+ *   розширено станами unclear («Не зрозуміло») та skip («Пропустити»).
  */
 const CEILINGS: Record<string, number> = {
+	'src/routes/beta-test-checklists/+page.svelte': 470,
 	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,
 	'src/routes/calendar/+page.svelte': 440,
 	'src/lib/config/seoPages.ts': 590,
@@ -752,7 +759,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 300,
 	'src/lib/config/localImages.ts': 275,
-	'src/lib/data/betaChecklist.ts': 724,
+	'src/lib/data/betaChecklist.ts': 730,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,
 	'src/lib/components/HeroSection.svelte': 370,
