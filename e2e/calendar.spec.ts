@@ -237,10 +237,8 @@ test.describe('навчальний календар', () => {
 
 	test('повний екран вмикається й вимикається кнопками сторінки', async ({ page }) => {
 		await gotoReady(page, '/calendar/');
-		await expect(async () => {
-			await page.getByTestId('calendar-fullscreen-btn').click({ timeout: 1000 });
-			await expect(page.getByTestId('calendar-fullscreen-exit-btn')).toBeVisible({ timeout: 1000 });
-		}).toPass();
+		await page.getByTestId('calendar-fullscreen-btn').click();
+		await expect(page.getByTestId('calendar-fullscreen-exit-btn')).toBeVisible();
 		await expect(page.locator('body')).toHaveClass(/calendar-fullscreen/);
 		await expect(page.locator('#main-header')).toBeHidden();
 		// У повному екрані палітра — ПІД кнопкою «згорнути».

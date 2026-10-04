@@ -389,17 +389,24 @@ class EndlessState {
 		const y = window.scrollY;
 		const top = this.bandTop;
 
-		if (y >= top + this.bandHeight) {
-			this.#go(y - this.bandHeight);
-			// Одразу після стрибка ОБИДВА розгони за межами вікна — найкраща
-			// мить, щоб забрати в копії свіжий стан живої смуги.
-			this.#refresh(true);
-			return;
-		}
-		if (y < top) {
-			this.#go(y + this.bandHeight);
-			this.#refresh(true);
-			return;
+		if (y >= top + this.bandHeight || y < top) {
+			this.#measure();
+			const freshTop = this.bandTop;
+			const freshHeight = this.bandHeight;
+			if (freshHeight > 0) {
+				if (y >= freshTop + freshHeight) {
+					this.#go(y - freshHeight);
+					// Одразу після стрибка ОБИДВА розгони за межами вікна — найкраща
+					// мить, щоб забрати в копії свіжий стан живої смуги.
+					this.#refresh(true);
+					return;
+				}
+				if (y < freshTop) {
+					this.#go(y + freshHeight);
+					this.#refresh(true);
+					return;
+				}
+			}
 		}
 		this.#refresh(false);
 	};

@@ -112,9 +112,15 @@ async function settleScroll(page: Page) {
 	 * тобто звинувачувало механізм у чужій повільності.
 	 */
 	let previous = -1;
-	for (let attempt = 0; attempt < 20; attempt += 1) {
+	let stable = 0;
+	for (let attempt = 0; attempt < 30; attempt += 1) {
 		const y = await page.evaluate(() => Math.round(window.scrollY));
-		if (y === previous) return y;
+		if (y === previous) {
+			stable += 1;
+			if (stable >= 2) return y;
+		} else {
+			stable = 0;
+		}
 		previous = y;
 		await page.waitForTimeout(100);
 	}
@@ -235,6 +241,7 @@ test.describe('зациклена головна', () => {
 			for (let lap = 1; lap <= 3; lap += 1) {
 				const wrapped = await probe(page, 'end', 10);
 				expect(wrapped.lap, `коло ${lap}: перестановки не сталося`).toBe(10);
+				await page.waitForTimeout(100);
 			}
 		});
 
