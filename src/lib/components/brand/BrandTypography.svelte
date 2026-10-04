@@ -1,10 +1,14 @@
 <script lang="ts">
+	import { Download, ExternalLink } from 'lucide-svelte';
+	import { locale } from 'svelte-i18n';
+
 	interface Props {
 		testIdPrefix?: string;
 	}
 
 	let { testIdPrefix = 'brand-typography' }: Props = $props();
 
+	const isEn = $derived($locale === 'en');
 	let sampleText = $state('Театр починається з любові');
 	let fontSize = $state(28);
 
@@ -35,8 +39,23 @@
 
 <div class="brand-type-card" data-testid={`${testIdPrefix}-card`}>
 	<div class="section-heading">
-		<span class="badge">Шрифт</span>
-		<h2 class="section-title">Типографіка — e-Ukraine</h2>
+		<div class="heading-row">
+			<div>
+				<span class="badge">Шрифт</span>
+				<h2 class="section-title">Типографіка — e-Ukraine</h2>
+			</div>
+			<a
+				href="https://thedigital.gov.ua/fonts"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="font-download-btn"
+				data-testid={`${testIdPrefix}-download-btn`}
+			>
+				<Download size={16} aria-hidden="true" />
+				<span>{isEn ? 'Download e-Ukraine' : 'Завантажити шрифт e-Ukraine'}</span>
+				<ExternalLink size={14} aria-hidden="true" />
+			</a>
+		</div>
 		<p class="section-desc">
 			Офіційною гарнітурою сайту та фірмового стилю є <strong>e-Ukraine</strong> — сучасний, виразний та відкритий український геометричний гротеск.
 		</p>
@@ -108,6 +127,31 @@
 	.section-heading {
 		margin-bottom: 2rem;
 	}
+	.heading-row {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+	.font-download-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.55rem 1rem;
+		border-radius: 10px;
+		background: var(--accent-primary);
+		color: var(--text-on-accent);
+		font-size: 0.88rem;
+		font-weight: 700;
+		text-decoration: none;
+		transition: opacity 0.2s ease, transform 0.15s ease;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	}
+	.font-download-btn:hover {
+		opacity: 0.92;
+		transform: translateY(-1px);
+	}
 	.badge {
 		background: var(--palette-blue);
 		color: var(--palette-black);
@@ -125,7 +169,7 @@
 		color: var(--text-title);
 	}
 	.section-desc {
-		margin: 0;
+		margin: 0.5rem 0 0;
 		font-size: 1rem;
 		line-height: 1.6;
 		color: var(--text-muted);

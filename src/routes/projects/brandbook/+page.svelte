@@ -28,7 +28,7 @@
 		<header class="brandbook-page__header">
 			<a href={resolve('/projects')} class="back-link" data-testid="brandbook-back-link">
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('projects.backToProjects')}</span>
+				<span>{$t('projects.allProjects')}</span>
 			</a>
 
 			<div class="brandbook-page__content">

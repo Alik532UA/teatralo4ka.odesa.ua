@@ -154,7 +154,7 @@
 		<header class="speech-hub-page__header">
 			<a href={resolve('/projects')} class="back-link" data-testid="stage-speech-back-link">
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('projects.backToProjects')}</span>
+				<span>{$t('projects.allProjects')}</span>
 			</a>
 
 			<div class="speech-hub-page__content">
