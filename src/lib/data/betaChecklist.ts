@@ -385,21 +385,11 @@ export const BETA_TABS: readonly BetaTab[] = [
 				negative: true
 			},
 			{
-				id: 'content_5',
-				category: { uk: 'Новина з коду', en: 'News from the code' },
-				text: {
-					uk: 'Відкрийте новину «Знімки початку навчального року» й вимкніть JavaScript (або подивіться вихідний код сторінки). Текст новини й одинадцять знімків мусять бути ВЖЕ в ньому — це новина з репозиторію, а не з бази.',
-					en: 'Open the story “Photos from the start of the school year” and disable JavaScript (or view the page source). The text and all eleven photos must already be there — this story lives in the repository, not in the database.'
-				},
-				coverage: 'testable',
-				testid: 'article-gallery-list'
-			},
-			{
 				id: 'content_6',
-				category: { uk: 'Новина з коду', en: 'News from the code' },
+				category: { uk: 'Новини', en: 'News' },
 				text: {
-					uk: 'На тій самій новині натисніть будь-який знімок — має відкритися велике фото зі стрілками. Далі надішліть посилання на новину собі в Telegram: у прев’ю мусить бути назва саме цієї новини, а не «Одеська театральна школа».',
-					en: 'On the same story click any photo — a large image with arrows must open. Then send the story link to yourself in Telegram: the preview must show this story’s own title, not “Odesa Theatre School”.'
+					uk: 'Відкрийте новину «Ювілейний 30-й сезон і вісімнадцять наших студентів» і натисніть будь-який знімок — має відкритися велике фото зі стрілками. Далі надішліть посилання на новину собі в Telegram: у прев’ю мусить бути назва саме цієї новини, а не «Одеська театральна школа».',
+					en: 'Open the story “30th season and eighteen students” and click any photo — a large image with arrows must open. Then send the story link to yourself in Telegram: the preview must show this story’s own title, not “Odesa Theatre School”.'
 				},
 				coverage: 'manual',
 				testid: 'article-gallery-img-0'
@@ -471,10 +461,10 @@ export const BETA_TABS: readonly BetaTab[] = [
 			},
 			{
 				id: 'projects_3',
-				category: { uk: 'Перелік випускників', en: 'Graduates list' },
+				category: { uk: 'Усі випускники', en: 'All graduates' },
 				text: {
-					uk: 'Натисніть «Повний перелік» і почніть друкувати прізвище. Список мусить звужуватися на кожну літеру, а роки — лишатися підписами розділів.',
-					en: 'Press “Full list” and start typing a surname. The list must narrow with every letter, while the years stay as section headings.'
+					uk: 'На сторінці «Галактика випускників» натисніть кнопку «Усі випускники» (з лупою) і почніть друкувати прізвище. Список мусить звужуватися на кожну літеру, а роки — лишатися підписами розділів.',
+					en: 'On the “Graduates galaxy” page, press the “All graduates” button (with a magnifier) and start typing a surname. The list must narrow with every letter, while the years stay as section headings.'
 				},
 				coverage: 'covered',
 				test: 'e2e/galaxy-roster.spec.ts',
