@@ -17,7 +17,7 @@ coverUrl: "/png/tkach-perekladach.webp"
 
 <div class="project-actions" style="margin: 1.5rem 0;">
   <a href="https://www.instagram.com/tkach_perekladach/" class="btn btn-primary" style="text-transform: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; width: fit-content;" target="_blank" rel="noopener noreferrer">
-    <img src="/social_media/instagram-se-512-50.png" style="width: 24px !important; height: 24px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 !important;" alt="Instagram" />
+    <img src="/social_media/social_media_instagram_se512.svg" style="width: 24px !important; height: 24px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 !important;" alt="Instagram" />
     <span>Слідкувати за проєктом в Instagram: @tkach_perekladach</span>
   </a>
 </div>
@@ -257,7 +257,7 @@ coverUrl: "/png/tkach-perekladach.webp"
 
 <div class="project-actions" style="margin: 2rem 0;">
   <a href="https://www.instagram.com/tkach_perekladach/" class="btn btn-primary" style="text-transform: none; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; width: fit-content;" target="_blank" rel="noopener noreferrer">
-    <img src="/social_media/instagram-se-512-50.png" style="width: 24px !important; height: 24px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 !important;" alt="Instagram" />
+    <img src="/social_media/social_media_instagram_se512.svg" style="width: 24px !important; height: 24px !important; display: inline !important; border-radius: 0 !important; vertical-align: middle; margin: 0 !important;" alt="Instagram" />
     <span>Слідкувати за проєктом в Instagram: @tkach_perekladach</span>
   </a>
 </div>

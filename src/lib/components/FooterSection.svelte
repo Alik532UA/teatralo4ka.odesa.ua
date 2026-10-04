@@ -153,7 +153,7 @@
 					rel="noopener noreferrer"
 					data-testid="footer-facebook-link"
 				>
-					<img src={asset('/social_media/facebook-se-512-50.png')} alt="Facebook" width="24" height="24" />
+					<img src={asset('/social_media/social_media_facebook_se512.svg')} alt="Facebook" width="24" height="24" />
 				</a>
 				<a
 					href={$t("footer.instagram")}
@@ -163,7 +163,7 @@
 					rel="noopener noreferrer"
 					data-testid="footer-instagram-link"
 				>
-					<img src={asset('/social_media/instagram-se-512-50.png')} alt="Instagram" width="24" height="24" />
+					<img src={asset('/social_media/social_media_instagram_se512.svg')} alt="Instagram" width="24" height="24" />
 				</a>
 				{#if $t('footer.telegram')}
 					   <a
@@ -174,7 +174,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-telegram-link"
 					   >
-						   <img src={asset('/social_media/Telegram-se-320px-50q.png')} alt="Telegram" width="24" height="24" />
+						   <img src={asset('/social_media/social_media_telegram_se512.svg')} alt="Telegram" width="24" height="24" />
 					   </a>
 				{/if}
 				{#if $t('footer.youtube')}
@@ -186,7 +186,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-youtube-link"
 					   >
-						   <img src={asset('/social_media/YouTube-se-512px-50q.png')} alt="YouTube" width="24" height="24" />
+						   <img src={asset('/social_media/social_media_youtube_se512.svg')} alt="YouTube" width="24" height="24" />
 					   </a>
 				{/if}
 				{#if $t('footer.tiktok')}
@@ -198,7 +198,7 @@
 						   rel="noopener noreferrer"
 						   data-testid="footer-tiktok-link"
 					   >
-						   <img src={asset('/social_media/TikTok-se-512-50.png')} alt="TikTok" width="24" height="24" />
+						   <img src={asset('/social_media/social_media_tiktok_se512.svg')} alt="TikTok" width="24" height="24" />
 					   </a>
 				{/if}
 			</div>

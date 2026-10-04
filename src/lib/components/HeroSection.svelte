@@ -21,11 +21,11 @@
 	const heroPhotos = HERO_PHOTOS;
 
 	const socialIcons = [
-		{ id: 'fb', label: 'Facebook', alt: 'FB', href: 'footer.facebook', file: '/social_media/facebook-se-512-50.png' },
-		{ id: 'ig', label: 'Instagram', alt: 'IG', href: 'footer.instagram', file: '/social_media/instagram-se-512-50.png' },
-		{ id: 'tg', label: 'Telegram', alt: 'TG', href: 'footer.telegram', file: '/social_media/Telegram-se-320px-50q.png' },
-		{ id: 'yt', label: 'YouTube', alt: 'YT', href: 'footer.youtube', file: '/social_media/YouTube-se-512px-50q.png' },
-		{ id: 'tt', label: 'TikTok', alt: 'TT', href: 'footer.tiktok', file: '/social_media/TikTok-se-512-50.png' }
+		{ id: 'fb', label: 'Facebook', alt: 'FB', href: 'footer.facebook', file: '/social_media/social_media_facebook_se512.svg' },
+		{ id: 'ig', label: 'Instagram', alt: 'IG', href: 'footer.instagram', file: '/social_media/social_media_instagram_se512.svg' },
+		{ id: 'tg', label: 'Telegram', alt: 'TG', href: 'footer.telegram', file: '/social_media/social_media_telegram_se512.svg' },
+		{ id: 'yt', label: 'YouTube', alt: 'YT', href: 'footer.youtube', file: '/social_media/social_media_youtube_se512.svg' },
+		{ id: 'tt', label: 'TikTok', alt: 'TT', href: 'footer.tiktok', file: '/social_media/social_media_tiktok_se512.svg' }
 	] as const satisfies readonly { id: string; label: string; alt: string; href: string; file: LocalImage }[];
 
 	let currentImageIndex = $state(0);

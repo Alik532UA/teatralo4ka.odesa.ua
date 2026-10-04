@@ -40,15 +40,15 @@
 	function getSocialIcon(network: string): string | null {
 		const lower = network.toLowerCase();
 		if (lower.includes('facebook') || lower === 'fb')
-			return asset('/social_media/facebook-se-512-50.png');
+			return asset('/social_media/social_media_facebook_se512.svg');
 		if (lower.includes('instagram') || lower === 'ig')
-			return asset('/social_media/instagram-se-512-50.png');
+			return asset('/social_media/social_media_instagram_se512.svg');
 		if (lower.includes('telegram') || lower === 'tg')
-			return asset('/social_media/Telegram-se-320px-50q.png');
+			return asset('/social_media/social_media_telegram_se512.svg');
 		if (lower.includes('youtube') || lower === 'yt')
-			return asset('/social_media/YouTube-se-512px-50q.png');
+			return asset('/social_media/social_media_youtube_se512.svg');
 		if (lower.includes('tiktok') || lower === 'tt')
-			return asset('/social_media/TikTok-se-512-50.png');
+			return asset('/social_media/social_media_tiktok_se512.svg');
 		return null;
 	}
 </script>

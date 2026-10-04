@@ -64,7 +64,7 @@
 					data-testid="group-play-video-btn-{play.year}"
 				>
 					<img
-						src={asset('/social_media/YouTube-se-512px-50q.png')}
+						src={asset('/social_media/social_media_youtube_se512.svg')}
 						alt=""
 						width="24"
 						height="24"
