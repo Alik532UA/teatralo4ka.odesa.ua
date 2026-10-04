@@ -44,14 +44,47 @@ test.describe('планета творчості', () => {
 
 		await expect(page.getByTestId('creativity-planet-count')).toHaveText(String(УЧНІ.length));
 
-		for (const учень of УЧНІ) {
-			const кнопка = page.getByTestId(`creativity-planet-${учень.slug}-btn`);
+		/* Дочекатися, поки клієнтський розрахунок розкладки кулі встоїться після гідрації */
+		if (page.viewportSize() && page.viewportSize()!.width < 600) {
+			await expect(page.getByTestId('creativity-planet-overflow-count')).toBeVisible();
+		}
+
+		/* На кулі стоять учні: на вузькому екрані діє обмеження faceFloor (44px)
+		   і фізична ємність кулі менша за 21 учень, тож частина учнів іде в переповнення
+		   («...і ще N»), а в списку імен присутні абсолютно всі. */
+		const наКулі = await page.evaluate(() => {
+			const btns = Array.from(
+				document.querySelectorAll('[data-testid="creativity-planet-list"] > button.pupil')
+			);
+			return btns.map((b) =>
+				b.getAttribute('data-testid')!.replace('creativity-planet-', '').replace('-btn', '')
+			);
+		});
+
+		expect(наКулі.length, 'на кулі має бути хоча б частина учнів').toBeGreaterThanOrEqual(10);
+
+		for (const слаг of наКулі) {
+			const учень = УЧНІ.find((у) => у.slug === слаг)!;
+			const кнопка = page.getByTestId(`creativity-planet-${слаг}-btn`);
 			await expect(кнопка, `${учень.name} не потрапив на планету`).toBeVisible();
 			await expect(кнопка).toContainText(учень.name);
 		}
 
-		/* Обличчя стоять НА планеті, а не поруч: перша редакція сторінки
-		   виносила крайніх за коло, і одна учениця висіла над текстом. */
+		if (наКулі.length < УЧНІ.length) {
+			const зайві = УЧНІ.length - наКулі.length;
+			const оверфлоу = page.getByTestId('creativity-planet-overflow-count');
+			await expect(оверфлоу).toBeVisible();
+			await expect(оверфлоу).toContainText(String(зайві));
+		}
+
+		for (const учень of УЧНІ) {
+			const рядок = page.getByTestId(`creativity-planet-name-${учень.slug}-btn`);
+			await expect(рядок, `${учень.name} відсутній у списку імен`).toBeVisible();
+			await expect(рядок).toContainText(учень.name);
+		}
+
+		/* Обличчя стоять НА планеті, а не поруч */
+		const крайнєСлаг = наКулі[наКулі.length - 1];
 		const межі = await page.evaluate((слаг) => {
 			const коло = document.querySelector('[data-testid="creativity-planet-list"]')!.getBoundingClientRect();
 			const обличчя = document
@@ -62,7 +95,7 @@ test.describe('планета творчості', () => {
 			const dx = обличчя.left + обличчя.width / 2 - cx;
 			const dy = обличчя.top + обличчя.height / 2 - cy;
 			return { відстань: Math.hypot(dx, dy) + обличчя.width / 2, радіус: коло.width / 2 };
-		}, УЧНІ[УЧНІ.length - 1].slug);
+		}, крайнєСлаг);
 		expect(
 			межі.відстань,
 			`крайнє обличчя відходить на ${Math.round(межі.відстань)} px від центру, а планета має радіус ${Math.round(межі.радіус)}`
@@ -146,8 +179,24 @@ test.describe('планета творчості', () => {
 	 */
 	test('обличчя не перекриваються, і кожен учень на кулі', async ({ page }) => {
 		await gotoReady(page, ПЛАНЕТА);
+		await expect(page.getByTestId('creativity-planet-count')).toHaveText(String(УЧНІ.length));
 
-		for (const учень of УЧНІ) {
+		/* Дочекатися, поки клієнтський розрахунок розкладки кулі встоїться після гідрації */
+		if (page.viewportSize() && page.viewportSize()!.width < 600) {
+			await expect(page.getByTestId('creativity-planet-overflow-count')).toBeVisible();
+		}
+
+		const наКулі = await page.evaluate(() => {
+			const btns = Array.from(
+				document.querySelectorAll('[data-testid="creativity-planet-list"] > button.pupil')
+			);
+			return btns.map((b) =>
+				b.getAttribute('data-testid')!.replace('creativity-planet-', '').replace('-btn', '')
+			);
+		});
+
+		for (const слаг of наКулі) {
+			const учень = УЧНІ.find((у) => у.slug === слаг)!;
 			await expect(
 				page.getByTestId(`creativity-planet-${учень.slug}-btn`),
 				`${учень.name} зник із кулі`
@@ -163,13 +212,15 @@ test.describe('планета творчості', () => {
 		 * відстань між центрами, і порівнюється вона з півсумою діаметрів — тобто
 		 * рівно з тим, що видно очима. Допуск 1 px — округлення розкладки.
 		 */
-		const накладки = await page.evaluate((учні: { slug: string; name: string }[]) => {
-			const кола = учні.map((у) => {
-				/* Перший span усередині кнопки — саме обличчя. */
-				const r = document
-					.querySelector(`[data-testid="creativity-planet-${у.slug}-btn"] span`)!
-					.getBoundingClientRect();
-				return { ім: у.name, x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
+		const накладки = await page.evaluate(() => {
+			const btns = Array.from(
+				document.querySelectorAll('[data-testid="creativity-planet-list"] > button.pupil')
+			);
+			const кола = btns.map((btn) => {
+				const face = btn.querySelector('span.face') || btn.querySelector('span') || btn;
+				const r = face.getBoundingClientRect();
+				const ім = btn.getAttribute('aria-label') || '';
+				return { ім, x: r.left + r.width / 2, y: r.top + r.height / 2, d: r.width };
 			});
 			const знайдені: string[] = [];
 			for (let i = 0; i < кола.length; i++) {
@@ -182,7 +233,7 @@ test.describe('планета творчості', () => {
 				}
 			}
 			return знайдені;
-		}, УЧНІ.map((у) => ({ slug: у.slug, name: у.name })));
+		});
 		expect(накладки, 'обличчя налазять одне на одне').toEqual([]);
 	});
 
@@ -260,6 +311,12 @@ test.describe('планета творчості', () => {
 	 */
 	test('без фото — квітка без кола, з фото — коло; місце в обох те саме', async ({ page }) => {
 		await gotoReady(page, ПЛАНЕТА);
+		await expect(page.getByTestId('creativity-planet-count')).toHaveText(String(УЧНІ.length));
+
+		/* Дочекатися, поки клієнтський розрахунок розкладки кулі встоїться після гідрації */
+		if (page.viewportSize() && page.viewportSize()!.width < 600) {
+			await expect(page.getByTestId('creativity-planet-overflow-count')).toBeVisible();
+		}
 
 		/*
 		 * Наявність фото питається в DOM, а не в реєстрі: у самому
@@ -267,6 +324,15 @@ test.describe('планета творчості', () => {
 		 * Заразом перевірка не застаріє, коли учні почнуть надсилати знімки:
 		 * правило звіряється для КОЖНОГО, і кожен потрапляє у свою гілку.
 		 */
+		const наКулі = await page.evaluate(() => {
+			const btns = Array.from(
+				document.querySelectorAll('[data-testid="creativity-planet-list"] > button.pupil')
+			);
+			return btns.map((b) =>
+				b.getAttribute('data-testid')!.replace('creativity-planet-', '').replace('-btn', '')
+			);
+		});
+
 		const огляд = await page.evaluate((слаги: string[]) =>
 			слаги.map((слаг) => {
 				const face = document.querySelector(
@@ -282,7 +348,7 @@ test.describe('планета творчості', () => {
 					ширина: Math.round(face.getBoundingClientRect().width)
 				};
 			}),
-		УЧНІ.map((у) => у.slug));
+		наКулі);
 
 		const прозоре = /rgba\(0, 0, 0, 0\)|transparent/;
 		const біди: string[] = [];

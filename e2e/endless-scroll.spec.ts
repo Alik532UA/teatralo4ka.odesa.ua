@@ -309,12 +309,20 @@ test.describe('зациклена головна', () => {
 					});
 				}, where);
 
-				let previous = JSON.stringify(await pieces());
-				for (let attempt = 0; attempt < 25; attempt += 1) {
-					await page.waitForTimeout(200);
+				let previous = '';
+				let stableCount = 0;
+				for (let attempt = 0; attempt < 30; attempt += 1) {
+					await page.waitForTimeout(150);
 					const next = await pieces();
-					if (JSON.stringify(next) === previous) return next;
-					previous = JSON.stringify(next);
+					const serialized = JSON.stringify(next);
+					const moved = next.main !== null && next.main.bottom > next.track / 2;
+					if (moved && serialized === previous) {
+						stableCount += 1;
+						if (stableCount >= 2) return next;
+					} else {
+						stableCount = 0;
+					}
+					previous = serialized;
 				}
 				return pieces();
 			};

@@ -113,14 +113,16 @@
 </div>
 
 <style>
-	.diction-hub { display: flex; flex-direction: column; gap: 1.5rem; }
+	.diction-hub { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; max-width: 100%; }
 	.exercise-nav {
 		background: var(--bg-card); border: 1px solid var(--color-border);
 		border-radius: 16px; padding: 0.6rem; overflow: hidden;
+		min-width: 0; max-width: 100%;
 	}
 	.chips-scroll {
 		display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.2rem;
 		scrollbar-width: thin;
+		max-width: 100%;
 	}
 	.nav-chip {
 		display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 0.85rem;
@@ -135,7 +137,8 @@
 	.chip-num { font-size: 0.75rem; opacity: 0.8; }
 	.exercise-card {
 		background: var(--bg-card); border: 1px solid var(--color-border);
-		border-radius: 20px; padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem;
+		border-radius: 20px; padding: clamp(1rem, 3vw, 2rem); display: flex; flex-direction: column; gap: 1.5rem;
+		min-width: 0; max-width: 100%;
 	}
 	.exercise-header {
 		display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
@@ -174,11 +177,11 @@
 		background: var(--color-surface); border: 1px solid var(--color-border);
 		border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;
 	}
-	.rhyme-row { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.98rem; }
+	.rhyme-row { display: flex; align-items: baseline; gap: 0.5rem; font-size: 0.98rem; flex-wrap: wrap; }
 	.rhyme-pattern {
 		font-family: var(--font-heading, monospace); font-weight: 800;
 		color: var(--accent-text, var(--palette-orange)); white-space: nowrap;
 	}
 	.rhyme-divider { color: var(--text-muted); opacity: 0.5; }
-	.rhyme-phrase { color: var(--text-title); font-weight: 600; }
+	.rhyme-phrase { color: var(--text-title); font-weight: 600; word-break: break-word; }
 </style>

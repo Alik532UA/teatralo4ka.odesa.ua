@@ -90,11 +90,11 @@
 	.header-title { margin: 0; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; }
 	.header-lead { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }
 	.exercise-layout {
-		display: grid; grid-template-columns: minmax(280px, 320px) 1fr;
+		display: grid; grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
 		gap: 2rem; align-items: start;
 	}
 	@media (max-width: 900px) {
-		.exercise-layout { grid-template-columns: 1fr; }
+		.exercise-layout { grid-template-columns: minmax(0, 1fr); }
 	}
 	.sidebar-sticky { position: sticky; top: calc(var(--header-height, 72px) + 20px); display: flex; flex-direction: column; gap: 1.5rem; }
 	.advice-card {
@@ -104,5 +104,5 @@
 	.advice-header { display: flex; align-items: center; gap: 0.5rem; color: var(--palette-orange); }
 	.advice-title { font-weight: 700; font-size: 0.92rem; color: var(--text-title); }
 	.advice-list { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.88rem; color: var(--text-muted); line-height: 1.45; }
-	.exercise-main { display: flex; flex-direction: column; }
+	.exercise-main { display: flex; flex-direction: column; min-width: 0; max-width: 100%; }
 </style>

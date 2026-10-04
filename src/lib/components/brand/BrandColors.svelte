@@ -26,7 +26,7 @@
 			nameUk: 'Театральний блакитний',
 			nameEn: 'Theatrical Cyan',
 			roleUk: 'Простір уяви, чорноморська свіжість, колір маски та польоту думок.',
-			textColor: '#ffffff'
+			textColor: '#1d1d1d'
 		},
 		{
 			hex: '#e20413',

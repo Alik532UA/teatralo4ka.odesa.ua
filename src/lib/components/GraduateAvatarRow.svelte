@@ -653,14 +653,14 @@
 		padding: 0 0.35rem;
 		font-size: 0.68rem;
 		font-weight: 700;
-		color: var(--accent-text, #8cb4ff);
+		color: var(--text-main);
 		flex-shrink: 0;
 	}
 
 	.mates__letter {
 		font-size: 0.72rem;
 		font-weight: 700;
-		color: var(--accent-text, #8cb4ff);
+		color: var(--text-main);
 		line-height: 1;
 	}
 	.sr-only {

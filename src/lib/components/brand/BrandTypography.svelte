@@ -152,7 +152,7 @@
 		gap: 0.2rem;
 	}
 	.weight-name {
-		color: var(--palette-blue);
+		color: var(--accent-text);
 		font-size: 0.95rem;
 	}
 	.weight-role {

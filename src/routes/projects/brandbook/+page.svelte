@@ -110,7 +110,7 @@
 		align-items: center;
 		gap: 0.4rem;
 		background: rgba(0, 181, 236, 0.12);
-		color: #007ba1;
+		color: var(--accent-text);
 		border: 1px solid rgba(0, 181, 236, 0.25);
 		padding: 0.3rem 0.8rem;
 		border-radius: 20px;

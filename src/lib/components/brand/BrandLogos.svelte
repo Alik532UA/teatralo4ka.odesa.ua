@@ -217,7 +217,7 @@
 		gap: 0.25rem;
 		font-size: 0.8rem;
 		font-weight: 700;
-		color: var(--palette-blue);
+		color: var(--accent-text);
 		text-decoration: none;
 	}
 	.dl-link:hover { text-decoration: underline; }
