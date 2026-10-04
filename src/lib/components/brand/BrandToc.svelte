@@ -19,53 +19,13 @@
 	}
 
 	const sections: TocSection[] = [
-		{
-			id: 'crest',
-			nameUk: 'Герб',
-			nameEn: 'Crest',
-			type: 'img',
-			src: '/brand/emblem/preview/emblem-color.webp'
-		},
-		{
-			id: 'crest-in-hands',
-			nameUk: 'Герб у долоньках',
-			nameEn: 'Crest in Hands',
-			type: 'img',
-			src: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-yellow-bg-text.webp'
-		},
-		{
-			id: 'elements',
-			nameUk: 'Окремі елементи',
-			nameEn: 'Isolated Elements',
-			type: 'img',
-			src: '/brand/elements/preview/element-mask-happy-white.webp'
-		},
-		{
-			id: 'avatars',
-			nameUk: 'Аватарки',
-			nameEn: 'Avatars',
-			type: 'img',
-			src: '/brand/avatar/preview/avatar-round.webp'
-		},
-		{
-			id: 'colors',
-			nameUk: 'Палітра кольорів',
-			nameEn: 'Color Palette',
-			type: 'palette'
-		},
-		{
-			id: 'typography',
-			nameUk: 'Шрифт e-Ukraine',
-			nameEn: 'e-Ukraine Font',
-			type: 'type'
-		},
-		{
-			id: 'particles',
-			nameUk: 'Мікро-частки',
-			nameEn: 'Mini-Icons',
-			type: 'img',
-			src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg'
-		}
+		{ id: 'crest', nameUk: 'Герб', nameEn: 'Crest', type: 'img', src: '/brand/emblem/preview/emblem-color.webp' },
+		{ id: 'crest-in-hands', nameUk: 'Герб у долоньках', nameEn: 'Crest in Hands', type: 'img', src: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-yellow-bg-text.webp' },
+		{ id: 'elements', nameUk: 'Окремі елементи', nameEn: 'Isolated Elements', type: 'img', src: '/brand/elements/preview/element-mask-happy-white.webp' },
+		{ id: 'avatars', nameUk: 'Аватарки', nameEn: 'Avatars', type: 'img', src: '/brand/avatar/preview/avatar-round.webp' },
+		{ id: 'colors', nameUk: 'Палітра кольорів', nameEn: 'Color Palette', type: 'palette' },
+		{ id: 'typography', nameUk: 'Шрифт e-Ukraine', nameEn: 'e-Ukraine Font', type: 'type' },
+		{ id: 'particles', nameUk: 'Мікро-частки', nameEn: 'Mini-Icons', type: 'img', src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg' }
 	];
 
 	let activeId = $state<string>('crest');
@@ -138,6 +98,7 @@
 							height="40"
 							class="toc-img"
 							class:toc-img--crest={item.id === 'crest' || item.id === 'crest-in-hands'}
+							class:toc-img--particle={item.id === 'particles'}
 							loading="lazy"
 						/>
 					{:else if item.type === 'palette'}
@@ -230,6 +191,28 @@
 		width: 100%;
 		height: 100%;
 		object-fit: contain;
+	}
+
+	.toc-img--particle {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		transition: filter 0.15s ease;
+	}
+
+	:global(html[data-theme='dark']) .toc-img--particle,
+	:global(html[data-theme='dark-cyan']) .toc-img--particle,
+	:global(html[data-theme='dark-blue']) .toc-img--particle,
+	:global(html.dark-theme) .toc-img--particle,
+	:global(html.dark-cyan-theme) .toc-img--particle,
+	:global(html.dark-blue-theme) .toc-img--particle {
+		filter: brightness(0) invert(0.92);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(html:not([data-theme])) .toc-img--particle {
+			filter: brightness(0) invert(0.92);
+		}
 	}
 
 	.toc-palette {
