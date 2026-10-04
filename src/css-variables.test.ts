@@ -108,6 +108,14 @@ const CROSS_COMPONENT: Record<string, { declaredIn: string; why: string }> = {
 	'--fest-accent': {
 		declaredIn: 'src/lib/components/GraduateProfileView.svelte',
 		why: 'палітру плашки фестивалів задає та сторінка, де вона стоїть: у картці випускника — стала палітра галактики, на сторінці викладача нічого не ставиться й лишається тема сайту'
+	},
+	'--checker-c1': {
+		declaredIn: 'src/lib/components/brand/BrandLogos.svelte',
+		why: 'динамічний колір клітинок фону брендбуку'
+	},
+	'--checker-c2': {
+		declaredIn: 'src/lib/components/brand/BrandLogos.svelte',
+		why: 'динамічний колір клітинок фону брендбуку'
 	}
 };
 

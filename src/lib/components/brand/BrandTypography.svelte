@@ -5,7 +5,7 @@
 
 	let { testIdPrefix = 'brand-typography' }: Props = $props();
 
-	let sampleText = $state('Театр починається з дитинства та натхнення');
+	let sampleText = $state('Театр починається з любові');
 	let fontSize = $state(28);
 
 	const weights = [

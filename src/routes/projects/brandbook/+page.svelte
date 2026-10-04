@@ -7,6 +7,7 @@
 	import BrandTypography from '$lib/components/brand/BrandTypography.svelte';
 	import BrandLogos from '$lib/components/brand/BrandLogos.svelte';
 	import BrandParticles from '$lib/components/brand/BrandParticles.svelte';
+	import BrandToc from '$lib/components/brand/BrandToc.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -46,22 +47,26 @@
 			</div>
 		</header>
 
-		<div class="brandbook-sections">
-			<section id="logos" class="brand-section">
-				<BrandLogos testIdPrefix="brandbook-logos" />
-			</section>
+		<div class="brandbook-layout">
+			<BrandToc testIdPrefix="brandbook-toc" />
 
-			<section id="colors" class="brand-section">
-				<BrandColors testIdPrefix="brandbook-colors" />
-			</section>
+			<div class="brandbook-sections">
+				<section id="logos" class="brand-section">
+					<BrandLogos testIdPrefix="brandbook-logos" />
+				</section>
 
-			<section id="typography" class="brand-section">
-				<BrandTypography testIdPrefix="brandbook-type" />
-			</section>
+				<section id="colors" class="brand-section">
+					<BrandColors testIdPrefix="brandbook-colors" />
+				</section>
 
-			<section id="particles" class="brand-section">
-				<BrandParticles testIdPrefix="brandbook-particles" />
-			</section>
+				<section id="typography" class="brand-section">
+					<BrandTypography testIdPrefix="brandbook-type" />
+				</section>
+
+				<section id="particles" class="brand-section">
+					<BrandParticles testIdPrefix="brandbook-particles" />
+				</section>
+			</div>
 		</div>
 	</div>
 </div>
@@ -137,13 +142,28 @@
 		max-width: 760px;
 	}
 
+	.brandbook-layout {
+		display: grid;
+		grid-template-columns: 64px 1fr;
+		gap: 2.5rem;
+		align-items: start;
+	}
+
 	.brandbook-sections {
 		display: flex;
 		flex-direction: column;
 		gap: 3rem;
+		min-width: 0;
 	}
 
 	.brand-section {
 		width: 100%;
+	}
+
+	@media (max-width: 900px) {
+		.brandbook-layout {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+		}
 	}
 </style>

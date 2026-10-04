@@ -2,6 +2,8 @@
 import { describe, expect, it } from 'vitest';
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
+// @ts-expect-error jsdom does not include bundled type declarations
+import { JSDOM } from 'jsdom';
 
 /**
  * Сироти в `static/` — борг із числом, що лише скорочується
@@ -68,14 +70,6 @@ const ТЕКИ_ЗА_ШАБЛОНОМ = new Map([
  * автором:
  */
 const ВІДОМІ_СИРОТИ = new Set([
-	// Растрова копія набору значків, зроблена до переходу на svg. Двигун
-	// (`MiniIconsEngine.ts`) бере лише `/miniIcon/svg/`, і `/miniIcon/png/` не
-	// згадується в джерелах жодного разу. Тека спершу стояла в переліку
-	// «за шаблоном» — і перевірка нижче цю здогадку відкинула.
-	...Array.from(
-		{ length: 11 },
-		(_, i) => `static/miniIcon/png/MTS-miniIcon-${String(i + 1).padStart(2, '0')}.png`
-	),
 	// Три знімки, завантажені разом із рештою галереї й не вставлені в жодну
 	// сторінку; решта того ж заходу перелічена в `config/localImages.ts`.
 	'static/photo/IMG_7270.jpg',
@@ -173,6 +167,29 @@ describe('сироти в static/ (PROJECT-STRUCTURE-v9, PS-STATIC-ORPHANS)', ()
 			зниклі,
 			'ці записи більше не сироти — прибрати з переліку тим самим комітом, ' +
 				`інакше борг перестане скорочуватися:\n${зниклі.join('\n')}`
+		).toEqual([]);
+	});
+
+	it('кожен SVG у static/ розбирається без помилок синтаксису XML', () => {
+		const dom = new JSDOM();
+		const parser = new dom.window.DOMParser();
+		const svgs = файлиStatic.filter((f) => f.endsWith('.svg'));
+		expect(svgs.length).toBeGreaterThanOrEqual(50);
+		const errors: { file: string; error: string }[] = [];
+		for (const file of svgs) {
+			const content = readFileSync(file, 'utf8');
+			const doc = parser.parseFromString(content, 'image/svg+xml');
+			const parserError = doc.querySelector('parsererror');
+			if (parserError) {
+				errors.push({
+					file,
+					error: parserError.textContent?.trim() || 'XML parse error'
+				});
+			}
+		}
+		expect(
+			errors,
+			`Знайдено SVG із помилками синтаксису XML:\n${errors.map((e) => `${e.file}: ${e.error}`).join('\n')}`
 		).toEqual([]);
 	});
 });

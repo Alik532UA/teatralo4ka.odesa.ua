@@ -1,0 +1,207 @@
+import type { BigEmblemVariant } from './types';
+
+export const BIG_EMBLEM_VARIANTS: BigEmblemVariant[] = [
+	// ВЕРХНІЙ РЯД: Контурні руки з кольоровими та білими масками
+	{
+		id: '2022-color-outline-nobg',
+		year: '2022',
+		colorScheme: 'color',
+		handsType: 'outline',
+		hasBg: false,
+		nameUk: 'Кольорові маски з контурними руками',
+		nameEn: 'Color Masks with Outline Hands',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-color-outline-hands.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-color-outline-hands-7938x3651.png',
+		downloadName: 'big-emblem-2022-color-outline-hands.png',
+		resolution: '7938×3651',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-color-outline-hands.svg'
+	},
+	{
+		id: '2022-white-outline-nobg',
+		year: '2022',
+		colorScheme: 'white',
+		handsType: 'outline',
+		hasBg: false,
+		nameUk: 'Білі маски з контурними руками',
+		nameEn: 'White Masks with Outline Hands',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-white-outline-hands.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-white-outline-hands-7938x3651.png',
+		downloadName: 'big-emblem-2022-white-outline-hands.png',
+		resolution: '7938×3651',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-white-outline-hands.svg'
+	},
+
+	// РЯД 1: Жовті руки / Кольорові маски (4 варіанти: без напису -> з написом -> з написом на овалі -> без напису на овалі)
+	{
+		id: '2022-color-color-nobg',
+		year: '2022',
+		colorScheme: 'color',
+		handsType: 'color',
+		hasBg: false,
+		nameUk: 'Кольоровий з жовтими руками (2022)',
+		nameEn: 'Color with Yellow Hands (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-color-color-hands.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-color-color-hands-7938x3651.png',
+		downloadName: 'big-emblem-2022-color-color-hands.png',
+		resolution: '7938×3651',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-color-color-hands.svg'
+	},
+	{
+		id: '2025-color-color-nobg',
+		year: '2025',
+		colorScheme: 'color',
+		handsType: 'color',
+		hasBg: false,
+		nameUk: 'Кольоровий з написом сайту',
+		nameEn: 'Color with Website URL',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-color-color-hands-text-7938x4593.png',
+		downloadName: 'big-emblem-2025-color-with-text.png',
+		resolution: '7938×4593',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2025-color-color-hands-text.svg'
+	},
+	{
+		id: '2025-color-color-yellowbg',
+		year: '2025',
+		colorScheme: 'color',
+		handsType: 'color',
+		hasBg: true,
+		nameUk: 'Кольоровий з написом на жовтому овалі (Основний)',
+		nameEn: 'Color with URL on Yellow Oval (Master Logo)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-yellow-bg-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-color-color-hands-yellow-bg-text-8855x5697.png',
+		downloadName: 'big-emblem-2025-color-yellow-bg-text.png',
+		resolution: '8855×5697',
+		svgFile: '/logo/svg/t4_logo_2026.svg'
+	},
+	{
+		id: '2022-color-color-yellowbg',
+		year: '2022',
+		colorScheme: 'color',
+		handsType: 'color',
+		hasBg: true,
+		nameUk: 'Кольоровий на жовтому овалі (2022)',
+		nameEn: 'Color on Yellow Oval Background (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-color-color-hands-yellow-bg.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-color-color-hands-yellow-bg-8855x5697.png',
+		downloadName: 'big-emblem-2022-color-yellow-bg.png',
+		resolution: '8855×5697',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-color-yellow-bg.svg'
+	},
+
+	// РЯД 2: Білі руки / Білі маски (4 варіанти)
+	{
+		id: '2022-white-white-nobg',
+		year: '2022',
+		colorScheme: 'white',
+		handsType: 'white',
+		hasBg: false,
+		nameUk: 'Білий герб з білими руками (2022)',
+		nameEn: 'White Emblem with White Hands (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-white-white-hands.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-white-white-hands-7938x3651.png',
+		downloadName: 'big-emblem-2022-white-white-hands.png',
+		resolution: '7938×3651',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-white-white-hands.svg'
+	},
+	{
+		id: '2025-white-white-nobg',
+		year: '2025',
+		colorScheme: 'white',
+		handsType: 'white',
+		hasBg: false,
+		nameUk: 'Білий з білими руками та написом',
+		nameEn: 'White with White Hands and URL',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-white-white-hands-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-white-white-hands-text-7938x4593.png',
+		downloadName: 'big-emblem-2025-white-with-text.png',
+		resolution: '7938×4593',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2025-white-white-hands-text.svg'
+	},
+	{
+		id: '2025-white-white-whitebg',
+		year: '2025',
+		colorScheme: 'white',
+		handsType: 'white',
+		hasBg: true,
+		nameUk: 'Білий з написом на білому овалі',
+		nameEn: 'White with URL on White Oval',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-white-white-hands-white-bg-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-white-white-hands-white-bg-text-8893x5734.png',
+		downloadName: 'big-emblem-2025-white-white-bg-text.png',
+		resolution: '8893×5734',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2025-white-white-bg-text.svg'
+	},
+	{
+		id: '2022-white-white-whitebg',
+		year: '2022',
+		colorScheme: 'white',
+		handsType: 'white',
+		hasBg: true,
+		nameUk: 'Білий герб на білому овалі (2022)',
+		nameEn: 'White Emblem on White Oval Background (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-white-white-hands-white-bg.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-white-white-hands-white-bg-8893x5734.png',
+		downloadName: 'big-emblem-2022-white-white-bg.png',
+		resolution: '8893×5734',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-white-white-bg.svg'
+	},
+
+	// РЯД 3: Контурні руки / Прозорий-контурний (4 варіанти)
+	{
+		id: '2022-outline-outline-nobg',
+		year: '2022',
+		colorScheme: 'outline',
+		handsType: 'outline',
+		hasBg: false,
+		nameUk: 'Контурний герб прозорий (2022)',
+		nameEn: 'Outline Transparent Crest (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-outline-outline-hands.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-outline-outline-hands-7938x3651.png',
+		downloadName: 'big-emblem-2022-outline-hands.png',
+		resolution: '7938×3651',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-outline-hands.svg'
+	},
+	{
+		id: '2025-outline-outline-nobg',
+		year: '2025',
+		colorScheme: 'outline',
+		handsType: 'outline',
+		hasBg: false,
+		nameUk: 'Контурний з написом сайту',
+		nameEn: 'Outline Crest with URL',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-outline-outline-hands-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-outline-outline-hands-text-7938x4593.png',
+		downloadName: 'big-emblem-2025-outline-text.png',
+		resolution: '7938×4593',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2025-outline-text.svg'
+	},
+	{
+		id: '2025-outline-outline-outlinebg',
+		year: '2025',
+		colorScheme: 'outline',
+		handsType: 'outline',
+		hasBg: true,
+		nameUk: 'Контурний з написом та контурним овалом',
+		nameEn: 'Outline Crest with URL and Oval Stroke',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2025-outline-outline-hands-outline-bg-text.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2025-outline-outline-hands-outline-bg-text-8892x5734.png',
+		downloadName: 'big-emblem-2025-outline-oval-text.png',
+		resolution: '8892×5734',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2025-outline-oval-text.svg'
+	},
+	{
+		id: '2022-outline-outline-outlinebg',
+		year: '2022',
+		colorScheme: 'outline',
+		handsType: 'outline',
+		hasBg: true,
+		nameUk: 'Контурний герб з контурним овалом (2022)',
+		nameEn: 'Outline Crest with Oval Stroke (2022)',
+		previewUrl: '/brand/big-emblem/preview/big-emblem-2022-outline-outline-hands-outline-bg.webp',
+		fullFile: '/brand/big-emblem/big-emblem-2022-outline-outline-hands-outline-bg-8892x5734.png',
+		downloadName: 'big-emblem-2022-outline-with-bg.png',
+		resolution: '8892×5734',
+		svgFile: '/brand/big-emblem/svg/big-emblem-2022-outline-with-bg.svg'
+	}
+];
