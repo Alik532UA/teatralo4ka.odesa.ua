@@ -25,7 +25,8 @@
 		{ id: 'avatars', nameUk: 'Аватарки', nameEn: 'Avatars', type: 'img', src: '/brand/avatar/preview/avatar-round.webp' },
 		{ id: 'colors', nameUk: 'Палітра кольорів', nameEn: 'Color Palette', type: 'palette' },
 		{ id: 'typography', nameUk: 'Шрифт e-Ukraine', nameEn: 'e-Ukraine Font', type: 'type' },
-		{ id: 'particles', nameUk: 'Мікро-частки', nameEn: 'Mini-Icons', type: 'img', src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg' }
+		{ id: 'particles', nameUk: 'Мікро-частки', nameEn: 'Mini-Icons', type: 'img', src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg' },
+		{ id: 'ai-styles', nameUk: 'AI-стилізації', nameEn: 'AI Stylizations', type: 'img', src: '/brand/ai-remake/romanesque-stone.webp' }
 	];
 
 	let activeId = $state<string>('crest');

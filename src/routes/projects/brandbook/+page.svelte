@@ -7,6 +7,7 @@
 	import BrandTypography from '$lib/components/brand/BrandTypography.svelte';
 	import BrandLogos from '$lib/components/brand/BrandLogos.svelte';
 	import BrandParticles from '$lib/components/brand/BrandParticles.svelte';
+	import BrandAiRemakes from '$lib/components/brand/BrandAiRemakes.svelte';
 	import BrandToc from '$lib/components/brand/BrandToc.svelte';
 
 	const isEn = $derived($locale === 'en');
@@ -65,6 +66,10 @@
 
 				<section id="particles" class="brand-section">
 					<BrandParticles testIdPrefix="brandbook-particles" />
+				</section>
+
+				<section id="ai-styles" class="brand-section">
+					<BrandAiRemakes testIdPrefix="brandbook-ai" />
 				</section>
 			</div>
 		</div>
