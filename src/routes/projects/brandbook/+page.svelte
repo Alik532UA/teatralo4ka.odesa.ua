@@ -95,6 +95,7 @@
 		flex-direction: column;
 		gap: 1.5rem;
 		min-width: 0;
+		padding-left: calc(64px + 2.5rem);
 	}
 
 	.brandbook-page__content {
@@ -185,6 +186,10 @@
 			gap: 1.25rem;
 			padding-left: clamp(0.5rem, 2vw, 0.75rem);
 			padding-right: clamp(0.5rem, 2vw, 0.75rem);
+		}
+
+		.brandbook-page__header {
+			padding-left: 0;
 		}
 
 		.brandbook-layout {

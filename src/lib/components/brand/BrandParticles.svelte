@@ -181,11 +181,23 @@
 
 	.particles-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(130px, 100%), 1fr));
+		grid-template-columns: repeat(2, 1fr);
 		gap: 0.9rem;
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 480px) {
+		.particles-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	@media (min-width: 768px) {
+		.particles-grid {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	@media (min-width: 1100px) {
 		.particles-grid {
 			grid-template-columns: repeat(6, 1fr);
 		}
@@ -200,6 +212,8 @@
 		align-items: center;
 		background: var(--color-surface, #ffffff);
 		transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+		min-width: 0;
+		box-sizing: border-box;
 	}
 
 	.particle-card:hover {
@@ -220,13 +234,14 @@
 		background-size: 10px 10px;
 		border-radius: 10px;
 		margin-bottom: 0.5rem;
-		padding: 2.5%;
+		padding: 8%;
 		box-sizing: border-box;
+		overflow: hidden;
 	}
 
 	.particle-img {
-		width: 95%;
-		height: 95%;
+		width: 100%;
+		height: 100%;
 		object-fit: contain;
 		filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
 	}
@@ -251,10 +266,14 @@
 		font-size: 0.75rem;
 		font-weight: 600;
 		color: var(--text-title);
-		white-space: nowrap;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		max-width: 100%;
+		min-height: 2.3em;
+		line-height: 1.15;
 	}
 
 	.particle-actions {
@@ -270,14 +289,15 @@
 		align-items: center;
 		justify-content: center;
 		gap: 0.2rem;
-		padding: 0.22rem 0.45rem;
+		padding: 0.22rem 0.35rem;
 		border-radius: 6px;
-		font-size: 0.72rem;
+		font-size: 0.7rem;
 		font-weight: 700;
 		text-decoration: none;
 		transition: background-color 0.15s ease, color 0.15s ease;
 		flex: 1;
 		min-width: 0;
+		white-space: nowrap;
 	}
 
 	.pill-btn--svg {
