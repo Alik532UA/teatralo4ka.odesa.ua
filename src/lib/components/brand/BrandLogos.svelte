@@ -136,8 +136,21 @@
 		background: var(--bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: 20px;
-		padding: clamp(1.25rem, 3vw, 2.25rem);
+		padding: clamp(1rem, 3vw, 2.25rem);
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	@media (max-width: 768px) {
+		.brand-logos-card {
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			box-shadow: none;
+		}
 	}
 
 	.brand-logos-card.theme--dark-grid {
@@ -252,13 +265,16 @@
 	/* Rules Row */
 	.rules-row {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-		gap: 1.5rem;
+		grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+		gap: 1.25rem;
+		min-width: 0;
 	}
 
 	.rule-card {
 		border-radius: 14px;
-		padding: 1.25rem;
+		padding: 1.1rem;
+		min-width: 0;
+		box-sizing: border-box;
 	}
 
 	.rule-card--good {

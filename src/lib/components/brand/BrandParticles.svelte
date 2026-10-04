@@ -101,8 +101,21 @@
 		background: var(--bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: 20px;
-		padding: clamp(1.25rem, 3vw, 2rem);
+		padding: clamp(1rem, 3vw, 2rem);
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+
+	@media (max-width: 768px) {
+		.brand-particles-card {
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			box-shadow: none;
+		}
 	}
 
 	.brand-particles-card.theme--dark-grid {
@@ -241,7 +254,7 @@
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		max-width: 110px;
+		max-width: 100%;
 	}
 
 	.particle-actions {

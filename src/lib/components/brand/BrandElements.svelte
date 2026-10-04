@@ -147,12 +147,25 @@
 	@media (max-width: 992px) {
 		.elements-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
 		}
-	}
 
-	@media (max-width: 520px) {
-		.elements-grid {
-			grid-template-columns: 1fr;
+		.element-preview {
+			padding: 0.75rem;
+			min-height: 100px;
+		}
+
+		.element-meta {
+			padding: 0.6rem;
+		}
+
+		.element-name {
+			font-size: 0.82rem;
+		}
+
+		.dl-btn {
+			padding: 0.3rem 0.5rem;
+			font-size: 0.72rem;
 		}
 	}
 

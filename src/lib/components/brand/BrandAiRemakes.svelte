@@ -165,8 +165,20 @@
 		background: var(--bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: 20px;
-		padding: clamp(1.25rem, 3vw, 2rem);
+		padding: clamp(1rem, 3vw, 2rem);
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
+	}
+	@media (max-width: 768px) {
+		.brand-ai-card {
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			box-shadow: none;
+		}
 	}
 	.section-heading { margin-bottom: 1.5rem; }
 	.heading-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
@@ -174,18 +186,19 @@
 	.section-title { margin: 0.5rem 0 0.25rem; font-size: clamp(1.4rem, 2.5vw, 1.8rem); font-weight: 800; color: var(--text-title); display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 	.count-badge { font-size: 0.95rem; font-weight: 700; background: var(--color-surface); border: 1px solid var(--color-border); padding: 0.15rem 0.55rem; border-radius: 12px; color: var(--accent-text); }
 	.section-desc { margin: 0.5rem 0 0; font-size: 1rem; line-height: 1.6; color: var(--text-muted); max-width: 760px; }
-	.controls-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
-	.filter-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+	.controls-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--color-border); min-width: 0; }
+	.filter-pills { display: flex; gap: 0.35rem; flex-wrap: wrap; min-width: 0; }
 	.filter-pill { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.35rem 0.75rem; border-radius: 8px; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--text-main); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s ease; }
 	.filter-pill:hover { border-color: var(--accent-text); color: var(--accent-text); }
 	.filter-pill.active { background: var(--accent-primary); color: var(--text-on-accent); border-color: var(--accent-primary); }
 	.pill-count { font-size: 0.72rem; opacity: 0.8; }
-	.search-box { position: relative; display: flex; align-items: center; min-width: 180px; max-width: 240px; flex: 1; }
+	.search-box { position: relative; display: flex; align-items: center; min-width: 160px; max-width: 240px; flex: 1; }
+	@media (max-width: 480px) { .search-box { min-width: 100%; max-width: 100%; } }
 	:global(.search-box .search-icon) { position: absolute; left: 0.65rem; color: var(--text-muted); pointer-events: none; }
 	.search-input { width: 100%; padding: 0.4rem 1.8rem 0.4rem 2rem; border-radius: 8px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--text-main); font-size: 0.82rem; }
 	.search-clear { position: absolute; right: 0.5rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; padding: 0.2rem; }
-	.ai-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(96px, 100%), 1fr)); gap: 0.65rem; }
-	.ai-thumb-btn { position: relative; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border); background: var(--color-surface); padding: 0; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; }
+	.ai-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(84px, 100%), 1fr)); gap: 0.55rem; min-width: 0; }
+	.ai-thumb-btn { position: relative; aspect-ratio: 1 / 1; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border); background: var(--color-surface); padding: 0; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease; min-width: 0; }
 	.ai-thumb-btn:hover, .ai-thumb-btn:focus-visible { transform: translateY(-2px) scale(1.03); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); border-color: var(--accent-text); z-index: 1; }
 	.ai-thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 	.ai-thumb-overlay { position: absolute; inset: auto 0 0 0; background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%); padding: 0.7rem 0.35rem 0.3rem; pointer-events: none; opacity: 0.9; transition: opacity 0.15s ease; }

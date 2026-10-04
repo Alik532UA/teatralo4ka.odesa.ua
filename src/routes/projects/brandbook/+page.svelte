@@ -86,17 +86,21 @@
 		display: flex;
 		flex-direction: column;
 		gap: 2.5rem;
+		min-width: 0;
+		max-width: 100%;
 	}
 
 	.brandbook-page__header {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
+		min-width: 0;
 	}
 
 	.brandbook-page__content {
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 	}
 
 	.back-link {
@@ -129,6 +133,7 @@
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
 		margin-bottom: 0.75rem;
+		width: fit-content;
 	}
 
 	.header-title {
@@ -137,6 +142,7 @@
 		font-weight: 800;
 		color: var(--text-title);
 		line-height: 1.15;
+		word-break: break-word;
 	}
 
 	.header-lead {
@@ -149,9 +155,11 @@
 
 	.brandbook-layout {
 		display: grid;
-		grid-template-columns: 64px 1fr;
+		grid-template-columns: 64px minmax(0, 1fr);
 		gap: 2.5rem;
 		align-items: start;
+		min-width: 0;
+		max-width: 100%;
 	}
 
 	.brandbook-sections {
@@ -159,16 +167,41 @@
 		flex-direction: column;
 		gap: 3rem;
 		min-width: 0;
+		max-width: 100%;
 	}
 
 	.brand-section {
 		width: 100%;
+		min-width: 0;
+		max-width: 100%;
 	}
 
 	@media (max-width: 900px) {
+		.brandbook-page {
+			padding: calc(var(--header-height, 72px) + 0.5rem) 0 var(--page-pad-bottom, 40px);
+		}
+
+		.brandbook-page__container {
+			gap: 1.25rem;
+			padding-left: clamp(0.5rem, 2vw, 0.75rem);
+			padding-right: clamp(0.5rem, 2vw, 0.75rem);
+		}
+
 		.brandbook-layout {
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
+			gap: 1rem;
+		}
+
+		.brandbook-sections {
 			gap: 1.5rem;
+		}
+
+		.header-title {
+			font-size: clamp(1.5rem, 5vw, 2rem);
+		}
+
+		.header-lead {
+			font-size: 0.95rem;
 		}
 	}
 </style>

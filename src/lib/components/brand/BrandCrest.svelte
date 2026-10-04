@@ -105,6 +105,49 @@
 		gap: 1.25rem;
 	}
 
+	@media (max-width: 768px) {
+		.sub-section {
+			margin-bottom: 1.5rem;
+			padding-bottom: 1.5rem;
+		}
+
+		.emblems-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.emblem-card:first-child {
+			grid-column: 1 / -1;
+		}
+
+		.preview-stage {
+			padding: 0.75rem;
+			min-height: 110px;
+		}
+
+		.card-meta {
+			padding: 0.6rem;
+			gap: 0.5rem;
+		}
+
+		.meta-title {
+			font-size: 0.85rem;
+		}
+
+		.meta-subtitle {
+			font-size: 0.75rem;
+		}
+
+		.dl-buttons-row {
+			gap: 0.3rem;
+		}
+
+		.dl-btn {
+			padding: 0.3rem 0.5rem;
+			font-size: 0.72rem;
+		}
+	}
+
 	.emblem-card {
 		border: 1px solid var(--color-border);
 		border-radius: 16px;
@@ -112,6 +155,7 @@
 		background: var(--color-surface);
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 	}
 
 	.preview-stage {

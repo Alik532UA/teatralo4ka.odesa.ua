@@ -59,13 +59,14 @@
 <style>
 	.big-grid {
 		display: grid;
-		grid-template-columns: 1fr;
-		gap: 1.25rem;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.55rem;
 	}
 
 	@media (min-width: 640px) {
 		.big-grid {
 			grid-template-columns: repeat(2, 1fr);
+			gap: 1.25rem;
 		}
 	}
 
@@ -96,6 +97,28 @@
 		background: var(--color-surface);
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
+	}
+
+	@media (max-width: 640px) {
+		.big-grid-preview {
+			padding: 0.75rem;
+			min-height: 110px;
+		}
+
+		.big-grid-meta {
+			padding: 0.6rem;
+			gap: 0.4rem;
+		}
+
+		.grid-name {
+			font-size: 0.82rem;
+		}
+
+		.dl-btn {
+			padding: 0.3rem 0.5rem;
+			font-size: 0.72rem;
+		}
 	}
 
 	.big-grid-preview {

@@ -117,11 +117,54 @@
 		background: var(--bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: 20px;
-		padding: clamp(1.25rem, 3vw, 2rem);
+		padding: clamp(1rem, 3vw, 2rem);
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+		min-width: 0;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
+
+	@media (max-width: 768px) {
+		.brand-colors-card {
+			background: transparent;
+			border: none;
+			border-radius: 0;
+			padding: 0;
+			box-shadow: none;
+		}
+
+		.colors-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.swatch {
+			height: 72px;
+			padding: 0.5rem 0.65rem;
+		}
+
+		.swatch-text {
+			font-size: 0.72rem;
+			padding: 0.15rem 0.35rem;
+		}
+
+		.color-info {
+			padding: 0.65rem;
+		}
+
+		.code-btn,
+		.css-var-pill {
+			padding: 0.25rem 0.4rem;
+			font-size: 0.72rem;
+		}
+
+		.code-label {
+			font-size: 0.68rem;
+		}
+	}
+
 	.section-heading {
-		margin-bottom: 2rem;
+		margin-bottom: 1.5rem;
 	}
 	.badge {
 		background: var(--palette-yellow);
@@ -141,8 +184,9 @@
 	}
 	.colors-list {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
 		gap: 1.25rem;
+		min-width: 0;
 	}
 	.color-item {
 		border: 1px solid var(--color-border);
@@ -151,6 +195,8 @@
 		background: var(--color-surface);
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
+		max-width: 100%;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
 	}
 	.color-item:hover {
@@ -158,11 +204,13 @@
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 	}
 	.swatch {
-		height: 100px;
+		height: 90px;
 		display: flex;
 		align-items: flex-end;
 		justify-content: flex-end;
 		padding: 0.75rem 1rem;
+		min-width: 0;
+		box-sizing: border-box;
 	}
 	.swatch-text {
 		font-size: 0.85rem;
@@ -172,17 +220,20 @@
 		padding: 0.2rem 0.5rem;
 		border-radius: 6px;
 		backdrop-filter: blur(4px);
+		white-space: nowrap;
 	}
 	.color-info {
 		padding: 1rem;
 		display: flex;
 		flex-direction: column;
 		flex: 1;
+		min-width: 0;
 	}
 	.codes-list {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
+		min-width: 0;
 	}
 	.code-btn {
 		display: flex;
@@ -195,6 +246,7 @@
 		color: var(--text-main);
 		font-size: 0.82rem;
 		cursor: pointer;
+		min-width: 0;
 		transition: all 0.15s ease;
 	}
 	.code-btn:hover {
@@ -206,9 +258,16 @@
 		color: var(--text-muted);
 		font-size: 0.75rem;
 		font-weight: 700;
+		flex-shrink: 0;
+	}
+	.code-btn code {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	.copied-icon {
 		color: #10b981;
+		flex-shrink: 0;
 	}
 	.css-var-pill {
 		display: flex;
@@ -219,5 +278,14 @@
 		background: rgba(0, 0, 0, 0.03);
 		font-size: 0.78rem;
 		color: var(--text-muted);
+		min-width: 0;
+	}
+	.css-var-pill span {
+		flex-shrink: 0;
+	}
+	.css-var-pill code {
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>

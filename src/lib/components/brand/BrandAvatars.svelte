@@ -92,6 +92,40 @@
 		gap: 1.25rem;
 	}
 
+	@media (max-width: 768px) {
+		.avatars-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.55rem;
+		}
+
+		.avatar-preview {
+			padding: 0.75rem;
+			min-height: 100px;
+		}
+
+		.avatar-img {
+			max-width: 65px;
+		}
+
+		.avatar-meta {
+			padding: 0.6rem;
+			gap: 0.3rem;
+		}
+
+		.avatar-title {
+			font-size: 0.82rem;
+		}
+
+		.avatar-desc {
+			font-size: 0.72rem;
+		}
+
+		.dl-btn {
+			padding: 0.3rem 0.5rem;
+			font-size: 0.72rem;
+		}
+	}
+
 	.avatar-card {
 		border: 1px solid var(--color-border);
 		border-radius: 14px;
@@ -99,6 +133,7 @@
 		background: var(--color-surface);
 		display: flex;
 		flex-direction: column;
+		min-width: 0;
 	}
 
 	.avatar-preview {
