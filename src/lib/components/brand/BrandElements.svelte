@@ -54,7 +54,12 @@
 								data-testid={`${testIdPrefix}-dl-${elem.id}-${dl.format}-btn`}
 							>
 								<Download size={12} aria-hidden="true" />
-								<span>{dl.label}</span>
+								{#if dl.label.includes('(')}
+									{@const parts = dl.label.split('(')}
+									<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
+								{:else}
+									<span>{dl.label}</span>
+								{/if}
 							</a>
 						{/each}
 					</div>
@@ -99,7 +104,12 @@
 							data-testid={`${testIdPrefix}-dl-${urlElement.id}-${dl.format}-btn`}
 						>
 							<Download size={13} aria-hidden="true" />
-							<span>{dl.label}</span>
+							{#if dl.label.includes('(')}
+								{@const parts = dl.label.split('(')}
+								<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
+							{:else}
+								<span>{dl.label}</span>
+							{/if}
 						</a>
 					{/each}
 				</div>
@@ -156,7 +166,7 @@
 		}
 
 		.element-meta {
-			padding: 0.6rem;
+			padding: 0.5rem 0.4rem;
 		}
 
 		.element-name {
@@ -164,8 +174,14 @@
 		}
 
 		.dl-btn {
-			padding: 0.3rem 0.5rem;
+			padding: 0.28rem 0.4rem;
 			font-size: 0.72rem;
+			gap: 0.2rem;
+		}
+
+		.btn-res {
+			font-size: 0.56rem;
+			letter-spacing: -0.02em;
 		}
 	}
 
@@ -208,9 +224,8 @@
 		font-size: 0.82rem;
 		font-weight: 700;
 		color: var(--text-title);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		line-height: 1.35;
+		word-break: break-word;
 	}
 
 	.dl-buttons-row {
@@ -231,6 +246,12 @@
 		text-decoration: none;
 		transition: filter 0.15s ease, transform 0.15s ease;
 		white-space: nowrap;
+	}
+
+	.btn-res {
+		font-size: 0.72rem;
+		font-weight: 500;
+		opacity: 0.9;
 	}
 
 	.dl-btn:hover {

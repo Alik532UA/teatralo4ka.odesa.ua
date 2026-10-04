@@ -148,11 +148,6 @@
 			<strong class="meta-title">
 				{isEn ? activeBigEmblem.nameEn : activeBigEmblem.nameUk}
 			</strong>
-			<span class="meta-specs">
-				{isEn ? 'Master Resolution:' : 'Оригінальний растровий майстер:'}
-				<strong>{activeBigEmblem.resolution} px</strong>
-				({activeBigEmblem.year})
-			</span>
 		</div>
 
 		<div class="dl-buttons-row">
@@ -174,7 +169,7 @@
 				data-testid={`${testIdPrefix}-dl-png-${activeBigEmblem.id}-btn`}
 			>
 				<Download size={14} aria-hidden="true" />
-				<span>PNG ({activeBigEmblem.resolution})</span>
+				<span>PNG <span class="btn-res">({activeBigEmblem.resolution})</span></span>
 			</a>
 		</div>
 	</div>
@@ -231,11 +226,6 @@
 		color: var(--text-title);
 	}
 
-	.meta-specs {
-		font-size: 0.88rem;
-		color: var(--text-muted);
-	}
-
 	.dl-btn {
 		display: inline-flex;
 		align-items: center;
@@ -247,6 +237,12 @@
 		text-decoration: none;
 		transition: filter 0.15s ease, transform 0.15s ease;
 		white-space: nowrap;
+	}
+
+	.btn-res {
+		font-size: 0.72rem;
+		font-weight: 500;
+		opacity: 0.9;
 	}
 
 	.dl-btn:hover {

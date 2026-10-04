@@ -28,7 +28,6 @@
 			</div>
 			<div class="big-grid-meta">
 				<strong class="grid-name">{isEn ? item.nameEn : item.nameUk}</strong>
-				<span class="grid-res">{item.resolution} px • {item.year}</span>
 				<div class="dl-buttons-row">
 					{#if item.svgFile}
 						<a
@@ -37,7 +36,7 @@
 							class="dl-btn dl-btn--svg"
 							data-testid={`${testIdPrefix}-dl-svg-${item.id}-btn`}
 						>
-							<Download size={13} aria-hidden="true" />
+							<Download size={12} aria-hidden="true" />
 							<span>SVG</span>
 						</a>
 					{/if}
@@ -47,8 +46,8 @@
 						class="dl-btn dl-btn--png"
 						data-testid={`${testIdPrefix}-dl-png-${item.id}-btn`}
 					>
-						<Download size={13} aria-hidden="true" />
-						<span>PNG ({item.resolution})</span>
+						<Download size={12} aria-hidden="true" />
+						<span>PNG <span class="btn-res">({item.resolution})</span></span>
 					</a>
 				</div>
 			</div>
@@ -100,24 +99,37 @@
 		min-width: 0;
 	}
 
-	@media (max-width: 640px) {
+	@media (max-width: 900px) {
 		.big-grid-preview {
 			padding: 0.75rem;
-			min-height: 110px;
+			min-height: 100px;
 		}
 
 		.big-grid-meta {
-			padding: 0.6rem;
-			gap: 0.4rem;
+			padding: 0.5rem 0.4rem;
+			gap: 0.35rem;
 		}
 
 		.grid-name {
 			font-size: 0.82rem;
+			line-height: 1.35;
+			word-break: break-word;
+		}
+
+		.dl-buttons-row {
+			gap: 0.25rem;
 		}
 
 		.dl-btn {
-			padding: 0.3rem 0.5rem;
-			font-size: 0.72rem;
+			padding: 0.24rem 0.36rem;
+			font-size: 0.7rem;
+			gap: 0.18rem;
+			border-radius: 7px;
+		}
+
+		.btn-res {
+			font-size: 0.5rem;
+			letter-spacing: -0.03em;
 		}
 	}
 
@@ -152,11 +164,6 @@
 		color: var(--text-title);
 	}
 
-	.grid-res {
-		font-size: 0.8rem;
-		color: var(--text-muted);
-	}
-
 	.dl-btn {
 		display: inline-flex;
 		align-items: center;
@@ -169,6 +176,12 @@
 		transition: filter 0.15s ease, transform 0.15s ease;
 		white-space: nowrap;
 		width: fit-content;
+	}
+
+	.btn-res {
+		font-size: 0.72rem;
+		font-weight: 500;
+		opacity: 0.9;
 	}
 
 	.dl-btn:hover {

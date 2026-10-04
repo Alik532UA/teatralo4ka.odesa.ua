@@ -47,8 +47,13 @@
 							class="dl-btn dl-btn--png"
 							data-testid={`${testIdPrefix}-dl-${av.id}-btn`}
 						>
-							<Download size={13} aria-hidden="true" />
-							<span>{dl.label}</span>
+							<Download size={12} aria-hidden="true" />
+							{#if dl.label.includes('(')}
+								{@const parts = dl.label.split('(')}
+								<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
+							{:else}
+								<span>{dl.label}</span>
+							{/if}
 						</a>
 					{/each}
 				</div>
@@ -92,7 +97,7 @@
 		gap: 1.25rem;
 	}
 
-	@media (max-width: 768px) {
+	@media (max-width: 900px) {
 		.avatars-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 0.55rem;
@@ -108,21 +113,30 @@
 		}
 
 		.avatar-meta {
-			padding: 0.6rem;
-			gap: 0.3rem;
+			padding: 0.5rem 0.4rem;
+			gap: 0.35rem;
 		}
 
 		.avatar-title {
-			font-size: 0.82rem;
+			font-size: 0.78rem;
+			line-height: 1.35;
+			word-break: break-word;
 		}
 
 		.avatar-desc {
-			font-size: 0.72rem;
+			display: none;
 		}
 
 		.dl-btn {
-			padding: 0.3rem 0.5rem;
-			font-size: 0.72rem;
+			padding: 0.24rem 0.36rem;
+			font-size: 0.7rem;
+			gap: 0.18rem;
+			border-radius: 7px;
+		}
+
+		.btn-res {
+			font-size: 0.5rem;
+			letter-spacing: -0.03em;
 		}
 	}
 
@@ -191,6 +205,12 @@
 		transition: filter 0.15s ease, transform 0.15s ease;
 		white-space: nowrap;
 		width: fit-content;
+	}
+
+	.btn-res {
+		font-size: 0.72rem;
+		font-weight: 500;
+		opacity: 0.9;
 	}
 
 	.dl-btn:hover {

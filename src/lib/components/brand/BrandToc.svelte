@@ -126,7 +126,8 @@
 <style>
 	.brand-toc {
 		position: sticky;
-		top: calc(var(--header-height, 72px) + 2rem);
+		top: 50%;
+		transform: translateY(-50%);
 		align-self: start;
 		z-index: 25;
 	}
@@ -264,12 +265,14 @@
 
 	@media (max-width: 900px) {
 		.brand-toc {
-			position: sticky;
-			top: calc(var(--header-height, 72px) + 0.35rem);
-			width: 100%;
-			max-width: 100%;
-			min-width: 0;
-			z-index: 35;
+			position: fixed;
+			top: auto;
+			bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+			left: 50%;
+			transform: translateX(-50%);
+			width: calc(100% - 1rem);
+			max-width: 480px;
+			z-index: 45;
 		}
 
 		.toc-list {
@@ -282,10 +285,12 @@
 			max-width: 100%;
 			box-sizing: border-box;
 			gap: clamp(2px, 1.2vw, 6px);
-			padding: 0.3rem 0.4rem;
-			border-radius: 12px;
-			background: var(--bg-card, rgba(255, 255, 255, 0.92));
-			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+			padding: 0.35rem 0.45rem;
+			border-radius: 14px;
+			background: var(--bg-card, rgba(255, 255, 255, 0.94));
+			backdrop-filter: blur(16px);
+			-webkit-backdrop-filter: blur(16px);
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.16);
 		}
 
 		.toc-list::-webkit-scrollbar {

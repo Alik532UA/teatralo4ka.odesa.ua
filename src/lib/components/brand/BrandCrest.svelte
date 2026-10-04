@@ -60,7 +60,12 @@
 								data-testid={`${testIdPrefix}-dl-${dl.downloadName}-btn`}
 							>
 								<Download size={13} aria-hidden="true" />
-								<span>{dl.label}</span>
+								{#if dl.label.includes('(')}
+									{@const parts = dl.label.split('(')}
+									<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
+								{:else}
+									<span>{dl.label}</span>
+								{/if}
 							</a>
 						{/each}
 					</div>
@@ -126,8 +131,8 @@
 		}
 
 		.card-meta {
-			padding: 0.6rem;
-			gap: 0.5rem;
+			padding: 0.5rem 0.4rem;
+			gap: 0.35rem;
 		}
 
 		.meta-title {
@@ -139,12 +144,18 @@
 		}
 
 		.dl-buttons-row {
-			gap: 0.3rem;
+			gap: 0.25rem;
 		}
 
 		.dl-btn {
-			padding: 0.3rem 0.5rem;
+			padding: 0.28rem 0.4rem;
 			font-size: 0.72rem;
+			gap: 0.2rem;
+		}
+
+		.btn-res {
+			font-size: 0.56rem;
+			letter-spacing: -0.02em;
 		}
 	}
 
@@ -225,6 +236,12 @@
 		text-decoration: none;
 		transition: filter 0.15s ease, transform 0.15s ease;
 		white-space: nowrap;
+	}
+
+	.btn-res {
+		font-size: 0.72rem;
+		font-weight: 500;
+		opacity: 0.9;
 	}
 
 	.dl-btn:hover {

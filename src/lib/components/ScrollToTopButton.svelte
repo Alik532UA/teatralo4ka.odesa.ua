@@ -144,6 +144,12 @@
 		outline-offset: 3px;
 	}
 
+	@media (max-width: 900px) {
+		:global(body:has(.brand-toc)) .to-top {
+			bottom: calc(max(0.5rem, env(safe-area-inset-bottom, 0.5rem)) + 58px + var(--footer-lift, 0px));
+		}
+	}
+
 	@media (max-width: 768px) {
 		.to-top {
 			right: 1rem;
