@@ -1,6 +1,6 @@
 <script lang="ts">
 	import cumulativeData from '$lib/data/stage-speech/cumulative-tales.data.json';
-	import { Wind, BookOpen, Layers, Zap } from 'lucide-svelte';
+	import { Wind, BookOpen, Layers, Zap, ArrowLeft, ArrowRight } from 'lucide-svelte';
 
 	interface Props {
 		testIdPrefix?: string;
@@ -109,6 +109,30 @@
 					</div>
 				{/each}
 			</div>
+
+			<footer class="tale-bottom-nav">
+				{#if jackStep < cumulativeData.jack.stanzas.length}
+					<button
+						type="button"
+						class="tale-action-btn"
+						onclick={() => { jackStep += 1; }}
+						data-testid={`${testIdPrefix}-next-stanza-btn`}
+					>
+						<span>Додати строфу #{jackStep + 1} (збільшити видих)</span>
+						<ArrowRight size={16} aria-hidden="true" />
+					</button>
+				{:else}
+					<button
+						type="button"
+						class="tale-action-btn tale-action-btn--accent"
+						onclick={() => { activeTab = 'japanese'; }}
+						data-testid={`${testIdPrefix}-to-japanese-btn`}
+					>
+						<span>Перейти до другої вправи: «Японське ім’я»</span>
+						<ArrowRight size={16} aria-hidden="true" />
+					</button>
+				{/if}
+			</footer>
 		</article>
 	{:else}
 		<article class="tale-card" data-testid={`${testIdPrefix}-japanese-section`}>
@@ -137,6 +161,18 @@
 					{/each}
 				</div>
 			</div>
+
+			<footer class="tale-bottom-nav">
+				<button
+					type="button"
+					class="tale-action-btn"
+					onclick={() => { activeTab = 'jack'; }}
+					data-testid={`${testIdPrefix}-to-jack-btn`}
+				>
+					<ArrowLeft size={16} aria-hidden="true" />
+					<span>Повернутися до вправи «Хатка Джека»</span>
+				</button>
+			</footer>
 		</article>
 	{/if}
 </div>
@@ -207,4 +243,36 @@
 		display: flex; flex-direction: column; gap: 0.4rem;
 	}
 	.japanese-line { margin: 0; font-size: 1.15rem; font-weight: 700; line-height: 1.6; color: var(--text-title); }
+
+	.tale-bottom-nav {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 1.5rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--color-border);
+	}
+	.tale-action-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.75rem 1.25rem;
+		border-radius: 12px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		color: var(--text-title);
+		font-weight: 700;
+		font-size: 0.95rem;
+		cursor: pointer;
+		transition: all 0.18s ease;
+	}
+	.tale-action-btn:hover {
+		border-color: var(--accent-text);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+	}
+	.tale-action-btn--accent {
+		background: var(--palette-yellow);
+		color: var(--palette-black);
+		border-color: transparent;
+	}
 </style>

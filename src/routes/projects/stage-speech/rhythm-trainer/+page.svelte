@@ -4,6 +4,7 @@
 	import { seo } from '$lib/services/seo.svelte';
 	import { ArrowLeft, Activity, Volume2, Sparkles } from 'lucide-svelte';
 	import SpeechMetronome from '$lib/components/speech/SpeechMetronome.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -87,6 +88,8 @@
 				</div>
 			</div>
 		</div>
+
+		<SpeechStageNav current="rhythm-trainer" testIdPrefix="rhythm-trainer-stage-nav" />
 	</div>
 </div>
 

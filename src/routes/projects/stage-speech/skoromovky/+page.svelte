@@ -4,6 +4,7 @@
 	import { seo } from '$lib/services/seo.svelte';
 	import { ArrowLeft, BookOpen } from 'lucide-svelte';
 	import SpeechSkoromovky from '$lib/components/speech/SpeechSkoromovky.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -46,6 +47,8 @@
 		<div class="exercise-main">
 			<SpeechSkoromovky testIdPrefix="skoromovky-exercise" />
 		</div>
+
+		<SpeechStageNav current="skoromovky" testIdPrefix="skoromovky-stage-nav" />
 	</div>
 </div>
 

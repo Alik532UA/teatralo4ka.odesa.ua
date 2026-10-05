@@ -1,6 +1,6 @@
 <script lang="ts">
 	import voicePowerData from '$lib/data/stage-speech/voice-power.data.json';
-	import { Activity, Mic, Volume2, Sparkles } from 'lucide-svelte';
+	import { Activity, Mic, Volume2, Sparkles, ArrowLeft, ArrowRight } from 'lucide-svelte';
 
 	interface Props {
 		testIdPrefix?: string;
@@ -74,6 +74,18 @@
 					</div>
 				{/each}
 			</div>
+
+			<footer class="tab-bottom-nav">
+				<button
+					type="button"
+					class="tab-action-btn tab-action-btn--accent"
+					onclick={() => { activeTab = 'skakalka'; }}
+					data-testid={`${testIdPrefix}-to-skakalka-btn`}
+				>
+					<span>Перейти до вправи «Скакалка» (дихання в русі)</span>
+					<ArrowRight size={16} aria-hidden="true" />
+				</button>
+			</footer>
 		</article>
 	{:else}
 		<article class="content-card" data-testid={`${testIdPrefix}-skakalka-card`}>
@@ -105,6 +117,18 @@
 					{/each}
 				</div>
 			</div>
+
+			<footer class="tab-bottom-nav">
+				<button
+					type="button"
+					class="tab-action-btn"
+					onclick={() => { activeTab = 'ivanko'; }}
+					data-testid={`${testIdPrefix}-to-ivanko-btn`}
+				>
+					<ArrowLeft size={16} aria-hidden="true" />
+					<span>Повернутися до вправи «Іванко» (сила та регістри)</span>
+				</button>
+			</footer>
 		</article>
 	{/if}
 </div>
@@ -162,4 +186,36 @@
 	}
 	.poem-line { margin: 0; font-size: 1.1rem; font-weight: 600; line-height: 1.6; color: var(--text-title); }
 	.poem-line--count { font-weight: 800; color: var(--palette-orange); margin-top: 0.5rem; }
+
+	.tab-bottom-nav {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 1.5rem;
+		padding-top: 1.25rem;
+		border-top: 1px solid var(--color-border);
+	}
+	.tab-action-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.75rem 1.25rem;
+		border-radius: 12px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		color: var(--text-title);
+		font-weight: 700;
+		font-size: 0.95rem;
+		cursor: pointer;
+		transition: all 0.18s ease;
+	}
+	.tab-action-btn:hover {
+		border-color: var(--accent-text);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+	}
+	.tab-action-btn--accent {
+		background: var(--palette-yellow);
+		color: var(--palette-black);
+		border-color: transparent;
+	}
 </style>

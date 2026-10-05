@@ -4,6 +4,7 @@
 	import { seo } from '$lib/services/seo.svelte';
 	import { ArrowLeft, BookOpen } from 'lucide-svelte';
 	import SpeechYarmarok from '$lib/components/speech/SpeechYarmarok.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -46,6 +47,8 @@
 		<div class="yarmarok-page__main">
 			<SpeechYarmarok testIdPrefix="yarmarok-exercise" />
 		</div>
+
+		<SpeechStageNav current="yarmarok" testIdPrefix="yarmarok-stage-nav" />
 	</div>
 </div>
 

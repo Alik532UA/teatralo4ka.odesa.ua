@@ -5,6 +5,7 @@
 	import { ArrowLeft, BookOpen, Volume2 } from 'lucide-svelte';
 	import SpeechHexameter from '$lib/components/speech/SpeechHexameter.svelte';
 	import SpeechMetronome from '$lib/components/speech/SpeechMetronome.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -67,6 +68,8 @@
 				<SpeechHexameter testIdPrefix="hexameter-exercise" />
 			</div>
 		</div>
+
+		<SpeechStageNav current="hexameter" testIdPrefix="hexameter-stage-nav" />
 	</div>
 </div>
 

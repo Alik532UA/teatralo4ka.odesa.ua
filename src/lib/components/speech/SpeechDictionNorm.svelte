@@ -17,17 +17,27 @@
 
 	interface Props {
 		testIdPrefix?: string;
+		currentIdx?: number;
 	}
 
-	let { testIdPrefix = 'diction-norm' }: Props = $props();
+	let { testIdPrefix = 'diction-norm', currentIdx = $bindable(0) }: Props = $props();
 
 	const exercises = rawExercises as Exercise[];
-	let currentIdx = $state(0);
+	let cardEl = $state<HTMLElement | null>(null);
 
 	const current = $derived(exercises[currentIdx]);
+	const prevExercise = $derived(currentIdx > 0 ? exercises[currentIdx - 1] : null);
+	const nextExercise = $derived(currentIdx < exercises.length - 1 ? exercises[currentIdx + 1] : null);
 
-	function setIdx(i: number) {
+	function setIdx(i: number, scroll = false) {
 		currentIdx = Math.max(0, Math.min(exercises.length - 1, i));
+		if (scroll && cardEl && typeof window !== 'undefined') {
+			const rect = cardEl.getBoundingClientRect();
+			if (rect.top < 80) {
+				const top = rect.top + window.scrollY - 90;
+				window.scrollTo({ top, behavior: 'smooth' });
+			}
+		}
 	}
 </script>
 
@@ -39,7 +49,7 @@
 					type="button"
 					class="nav-chip"
 					class:nav-chip--active={i === currentIdx}
-					onclick={() => setIdx(i)}
+					onclick={() => setIdx(i, true)}
 					data-testid={`${testIdPrefix}-chip-btn-${ex.id}`}
 				>
 					<span class="chip-num">#{ex.id}</span>
@@ -49,7 +59,7 @@
 		</div>
 	</nav>
 
-	<article class="exercise-card" data-testid={`${testIdPrefix}-panel`}>
+	<article class="exercise-card" bind:this={cardEl} data-testid={`${testIdPrefix}-panel`}>
 		<header class="exercise-header">
 			<div class="header-main">
 				<span class="exercise-badge">
@@ -64,7 +74,7 @@
 					type="button"
 					class="step-btn"
 					disabled={currentIdx === 0}
-					onclick={() => setIdx(currentIdx - 1)}
+					onclick={() => setIdx(currentIdx - 1, true)}
 					title="Попередня вправа"
 					data-testid={`${testIdPrefix}-prev-btn`}
 				>
@@ -76,7 +86,7 @@
 					type="button"
 					class="step-btn"
 					disabled={currentIdx === exercises.length - 1}
-					onclick={() => setIdx(currentIdx + 1)}
+					onclick={() => setIdx(currentIdx + 1, true)}
 					title="Наступна вправа"
 					data-testid={`${testIdPrefix}-next-btn`}
 				>
@@ -109,6 +119,45 @@
 				</div>
 			{/each}
 		</div>
+
+		<footer class="exercise-footer" data-testid={`${testIdPrefix}-footer-stepper`}>
+			<button
+				type="button"
+				class="footer-step-btn footer-step-btn--prev"
+				disabled={!prevExercise}
+				onclick={() => setIdx(currentIdx - 1, true)}
+				data-testid={`${testIdPrefix}-bottom-prev-btn`}
+			>
+				<span class="footer-step-arrow" aria-hidden="true"><ArrowLeft size={16} /></span>
+				<div class="footer-step-meta">
+					<span class="footer-step-label">Попередня вправа</span>
+					{#if prevExercise}
+						<span class="footer-step-target">#{prevExercise.id} {prevExercise.sounds}</span>
+					{/if}
+				</div>
+			</button>
+
+			<div class="footer-step-center">
+				<span class="footer-step-count">{currentIdx + 1} з {exercises.length}</span>
+				<span class="footer-step-name">{current.sounds}</span>
+			</div>
+
+			<button
+				type="button"
+				class="footer-step-btn footer-step-btn--next"
+				disabled={!nextExercise}
+				onclick={() => setIdx(currentIdx + 1, true)}
+				data-testid={`${testIdPrefix}-bottom-next-btn`}
+			>
+				<div class="footer-step-meta footer-step-meta--right">
+					<span class="footer-step-label">Наступна вправа</span>
+					{#if nextExercise}
+						<span class="footer-step-target">#{nextExercise.id} {nextExercise.sounds}</span>
+					{/if}
+				</div>
+				<span class="footer-step-arrow footer-step-arrow--accent" aria-hidden="true"><ArrowRight size={16} /></span>
+			</button>
+		</footer>
 	</article>
 </div>
 
@@ -183,4 +232,43 @@
 	}
 	.rhyme-divider { color: var(--text-muted); opacity: 0.5; }
 	.rhyme-phrase { color: var(--text-title); font-weight: 600; word-break: break-word; }
+
+	/* ─── Bottom Footer Stepper ─── */
+	.exercise-footer {
+		display: flex; align-items: center; justify-content: space-between;
+		gap: 1rem; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);
+	}
+	.footer-step-btn {
+		display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1.1rem;
+		border-radius: 12px; background: var(--color-surface); border: 1px solid var(--color-border);
+		color: var(--text-title); cursor: pointer; transition: all 0.18s ease;
+	}
+	.footer-step-btn:hover:not(:disabled) {
+		border-color: var(--accent-text); transform: translateY(-2px);
+		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+	}
+	.footer-step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+	.footer-step-btn--next {
+		background: var(--palette-yellow); color: var(--palette-black);
+		border-color: transparent; font-weight: 700;
+	}
+	.footer-step-btn--next:hover:not(:disabled) { filter: brightness(1.05); }
+	.footer-step-arrow { display: inline-flex; align-items: center; justify-content: center; }
+	.footer-step-meta { display: flex; flex-direction: column; gap: 0.15rem; text-align: left; }
+	.footer-step-meta--right { text-align: right; }
+	.footer-step-label {
+		font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; opacity: 0.8;
+	}
+	.footer-step-target { font-size: 0.92rem; font-weight: 800; }
+	.footer-step-center { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+	.footer-step-count { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
+	.footer-step-name { font-size: 0.95rem; font-weight: 800; color: var(--text-title); }
+
+	@media (max-width: 600px) {
+		.exercise-footer { flex-direction: column; align-items: stretch; }
+		.footer-step-btn { justify-content: center; width: 100%; }
+		.footer-step-btn--prev { order: 2; }
+		.footer-step-center { order: 1; margin-bottom: 0.5rem; }
+		.footer-step-btn--next { order: 3; }
+	}
 </style>

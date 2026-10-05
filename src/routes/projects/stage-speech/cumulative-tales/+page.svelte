@@ -4,6 +4,7 @@
 	import { seo } from '$lib/services/seo.svelte';
 	import { ArrowLeft, BookOpen } from 'lucide-svelte';
 	import SpeechCumulativeTales from '$lib/components/speech/SpeechCumulativeTales.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
 
 	const isEn = $derived($locale === 'en');
 
@@ -46,6 +47,8 @@
 		<div class="exercise-main">
 			<SpeechCumulativeTales testIdPrefix="cumulative-tales-exercise" />
 		</div>
+
+		<SpeechStageNav current="cumulative-tales" testIdPrefix="cumulative-tales-stage-nav" />
 	</div>
 </div>
 

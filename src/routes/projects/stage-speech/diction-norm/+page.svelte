@@ -2,9 +2,11 @@
 	import { resolve } from '$app/paths';
 	import { t, locale } from 'svelte-i18n';
 	import { seo } from '$lib/services/seo.svelte';
-	import { ArrowLeft, BookOpen, Volume2 } from 'lucide-svelte';
+	import { ArrowLeft, BookOpen, Volume2, ListOrdered } from 'lucide-svelte';
 	import SpeechDictionNorm from '$lib/components/speech/SpeechDictionNorm.svelte';
 	import SpeechMetronome from '$lib/components/speech/SpeechMetronome.svelte';
+	import SpeechStageNav from '$lib/components/speech/SpeechStageNav.svelte';
+	import dictionData from '$lib/data/stage-speech/diction-norm.data.json';
 
 	const isEn = $derived($locale === 'en');
 
@@ -18,6 +20,19 @@
 				: '15 нормативних дикційних вправ за книгою А. Гладишевої в адаптації «Ткач-перекладач» для постановки приголосних звуків.'
 		});
 	});
+
+	let currentSoundIdx = $state(0);
+
+	function selectSound(idx: number) {
+		currentSoundIdx = idx;
+		if (typeof window !== 'undefined') {
+			const target = document.querySelector('[data-testid="diction-norm-exercise-panel"]');
+			if (target) {
+				const top = target.getBoundingClientRect().top + window.scrollY - 90;
+				window.scrollTo({ top, behavior: 'smooth' });
+			}
+		}
+	}
 </script>
 
 <div class="exercise-page" data-testid="diction-norm-page-section">
@@ -45,8 +60,31 @@
 		</header>
 
 		<div class="exercise-layout">
-			<aside class="exercise-sidebar">
+			<aside class="exercise-sidebar" aria-label={isEn ? 'Exercise sidebar' : 'Бічна панель вправи'}>
 				<div class="sidebar-sticky">
+					<!-- Бічний зміст (TOC) усіх 15 вправ за звуками: завжди поруч під час прокрутки -->
+					<nav class="sidebar-toc" aria-label={isEn ? 'Sound exercises index' : 'Зміст 15 вправ за звуками'}>
+						<div class="sidebar-toc__header">
+							<ListOrdered size={15} aria-hidden="true" />
+							<span class="sidebar-toc__title">{isEn ? 'Sound Index (15)' : 'Зміст 15 вправ'}</span>
+						</div>
+						<div class="sidebar-toc__grid">
+							{#each dictionData as ex, idx (ex.id)}
+								<button
+									type="button"
+									class="toc-chip"
+									class:toc-chip--active={idx === currentSoundIdx}
+									onclick={() => selectSound(idx)}
+									title={`${ex.title}: ${ex.sounds}`}
+									data-testid={`diction-norm-toc-btn-${ex.id}`}
+								>
+									<span class="toc-chip__id">#{ex.id}</span>
+									<span class="toc-chip__sound">{ex.sounds}</span>
+								</button>
+							{/each}
+						</div>
+					</nav>
+
 					<SpeechMetronome defaultBpm={84} testIdPrefix="diction-norm-metronome" />
 
 					<div class="advice-card">
@@ -64,9 +102,15 @@
 			</aside>
 
 			<div class="exercise-main">
-				<SpeechDictionNorm testIdPrefix="diction-norm-exercise" />
+				<SpeechDictionNorm
+					bind:currentIdx={currentSoundIdx}
+					testIdPrefix="diction-norm-exercise"
+				/>
 			</div>
 		</div>
+
+		<!-- Навігація циклом: перехід до наступної / попередньої вправи курсу -->
+		<SpeechStageNav current="diction-norm" testIdPrefix="diction-norm-stage-nav" />
 	</div>
 </div>
 
@@ -90,13 +134,88 @@
 	.header-title { margin: 0; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; color: var(--text-title); line-height: 1.2; }
 	.header-lead { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }
 	.exercise-layout {
-		display: grid; grid-template-columns: minmax(280px, 320px) minmax(0, 1fr);
+		display: grid; grid-template-columns: minmax(290px, 330px) minmax(0, 1fr);
 		gap: 2rem; align-items: start;
 	}
 	@media (max-width: 900px) {
 		.exercise-layout { grid-template-columns: minmax(0, 1fr); }
 	}
-	.sidebar-sticky { position: sticky; top: calc(var(--header-height, 72px) + 20px); display: flex; flex-direction: column; gap: 1.5rem; }
+	.sidebar-sticky {
+		position: sticky;
+		top: calc(var(--header-height, 72px) + 20px);
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		max-height: calc(100dvh - var(--header-height, 72px) - 2rem);
+		overflow-y: auto;
+		scrollbar-width: thin;
+		padding-right: 0.2rem;
+	}
+
+	/* ─── Sidebar Table of Contents ─── */
+	.sidebar-toc {
+		background: var(--bg-card);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+	}
+	.sidebar-toc__header {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		color: var(--accent-text);
+	}
+	.sidebar-toc__title {
+		font-size: 0.82rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-title);
+	}
+	.sidebar-toc__grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.35rem;
+	}
+	.toc-chip {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+		padding: 0.4rem 0.2rem;
+		border-radius: 8px;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		color: var(--text-muted);
+		font-size: 0.75rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		white-space: nowrap;
+	}
+	.toc-chip:hover {
+		border-color: var(--accent-text);
+		color: var(--text-title);
+		transform: translateY(-1px);
+	}
+	.toc-chip--active {
+		background: var(--palette-yellow);
+		color: var(--palette-black);
+		border-color: transparent;
+		box-shadow: 0 2px 8px rgba(255, 237, 0, 0.35);
+	}
+	.toc-chip__id {
+		opacity: 0.75;
+		font-size: 0.7rem;
+	}
+	.toc-chip__sound {
+		font-weight: 800;
+	}
+
 	.advice-card {
 		background: var(--bg-card); border: 1px solid var(--color-border);
 		border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem;
