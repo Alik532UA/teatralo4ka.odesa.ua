@@ -726,6 +726,8 @@ const LIMITS: Array<[RegExp, number]> = [
  *   та синхронізацію активної вкладки з URL параметром ?tab=... (replaceState).
  * 2026-10-03: `data/betaChecklist.ts` 724 -> 730: словник відповідей UI_TEXT.votes
  *   розширено станами unclear («Не зрозуміло») та skip («Пропустити»).
+ * 2026-10-05: `HeaderSection.svelte` 1600 -> 1655. Додано кастомний тултіп до
+ *   кнопки пошуку з підказкою гарячої клавіші S.
  */
 const CEILINGS: Record<string, number> = {
 	'src/routes/beta-test-checklists/+page.svelte': 470,
@@ -735,7 +737,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,
-	'src/lib/components/HeaderSection.svelte': 1600,
+	'src/lib/components/HeaderSection.svelte': 1655,
 	'src/lib/services/settings.ts': 975,
 	'src/routes/admin/content/+page.svelte': 895,
 	'src/routes/admin/users/+page.svelte': 890,

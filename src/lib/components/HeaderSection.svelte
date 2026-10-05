@@ -658,6 +658,13 @@
 									data-testid="header-search-btn"
 								>
 									<Search size={24} />
+									<span
+										class="header__search-tooltip"
+										role="tooltip"
+										data-testid="header-search-tooltip"
+									>
+										{$t("search.tooltip", { default: "Пошук\nгаряча клавіша S" })}
+									</span>
 								</button>
 							</li>
 
@@ -978,6 +985,65 @@
 			align-items: center;
 			justify-content: center;
 		}
+		.header__search-tooltip {
+			display: none;
+		}
+	}
+
+	.header__burger.header__burger--desktop {
+		position: relative;
+	}
+
+	.header__search-tooltip {
+		position: absolute;
+		top: calc(100% + 10px);
+		left: 50%;
+		transform: translateX(-50%) translateY(-4px);
+		width: max-content;
+		padding: 0.35rem 0.7rem;
+		border-radius: var(--radius-sm, 8px);
+		background: var(--bg-card);
+		border: var(--hairline-width, 1px) solid var(--border-main);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+		color: var(--text-title);
+		font-family: var(--font-body);
+		font-size: 0.78rem;
+		font-weight: 600;
+		line-height: 1.35;
+		white-space: pre;
+		text-align: center;
+		pointer-events: none;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+		z-index: 70;
+	}
+
+	.header__search-tooltip::before {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 5px solid transparent;
+		border-bottom-color: var(--border-main);
+	}
+
+	.header__search-tooltip::after {
+		content: '';
+		position: absolute;
+		bottom: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		border: 4px solid transparent;
+		border-bottom-color: var(--bg-card);
+	}
+
+	.header__burger--desktop:hover .header__search-tooltip,
+	.header__burger--desktop:focus-visible .header__search-tooltip {
+		opacity: 1;
+		visibility: visible;
+		transform: translateX(-50%) translateY(0);
 	}
 
 	.skip-link {

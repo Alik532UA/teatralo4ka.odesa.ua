@@ -49,6 +49,14 @@
 				current = t;
 			}
 			activeId = current.id;
+
+			if (window.innerWidth <= 900 && host) {
+				const footer = document.getElementById('main-footer') ?? document.querySelector('footer');
+				const overlap = footer ? Math.max(0, window.innerHeight - footer.getBoundingClientRect().top) : 0;
+				host.style.setProperty('--toc-bottom-offset', `${overlap}px`);
+			} else if (host) {
+				host.style.setProperty('--toc-bottom-offset', '0px');
+			}
 		};
 
 		let queued = false;
@@ -267,15 +275,17 @@
 		.brand-toc {
 			position: fixed;
 			top: auto;
-			bottom: max(0.5rem, env(safe-area-inset-bottom, 0.5rem));
+			bottom: calc(max(0.5rem, env(safe-area-inset-bottom, 0.5rem)) + var(--toc-bottom-offset, 0px));
 			left: 50%;
 			transform: translateX(-50%);
 			width: calc(100% - 1rem);
 			max-width: 480px;
 			z-index: 45;
+			pointer-events: none;
 		}
 
 		.toc-list {
+			pointer-events: auto;
 			flex-direction: row;
 			flex-wrap: nowrap;
 			justify-content: space-between;

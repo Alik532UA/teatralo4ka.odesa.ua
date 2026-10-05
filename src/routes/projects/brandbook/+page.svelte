@@ -179,7 +179,7 @@
 
 	@media (max-width: 900px) {
 		.brandbook-page {
-			padding: calc(var(--header-height, 72px) + 0.5rem) 0 calc(var(--page-pad-bottom, 40px) + 64px);
+			padding: 0.75rem 0 calc(var(--page-pad-bottom, 40px) + 64px);
 		}
 
 		.brandbook-page__container {

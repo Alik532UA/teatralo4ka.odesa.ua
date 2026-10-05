@@ -181,7 +181,7 @@
 		"scrollbarEndless": "Endless home page",
 		"blur": "Blur effect when changing language",
 		"hotkeys": "Keyboard shortcuts",
-		"hotkeysHint": "T — theme, L — language",
+		"hotkeysHint": "S — search, T — theme, L — language",
 		"on": "On",
 		"off": "Off",
 		"debugNote": "This is a temporary menu for configuration. We will choose and approve the option we like and hide this menu."
@@ -1093,6 +1093,7 @@
 		"kindPage": "Page",
 		"kindNews": "News",
 		"open": "Search",
+		"tooltip": "Search\nhotkey S",
 		"kindGalaxy": "Galaxy",
 		"kindMaster": "Teacher",
 		"kindFestival": "Festival",
