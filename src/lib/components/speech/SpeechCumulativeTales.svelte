@@ -95,9 +95,6 @@
 					<div class="stanza-card" data-testid={`${testIdPrefix}-card-stanza-${sIdx + 1}`}>
 						<div class="stanza-number">
 							<span class="st-num">#{sIdx + 1}</span>
-							<span class="st-breath" title="Рівень довжини видиху">
-								{'🫁'.repeat(Math.min(sIdx + 1, 5))}
-							</span>
 						</div>
 						<div class="stanza-lines">
 							{#each stanza as line, lIdx (lIdx)}
@@ -228,11 +225,10 @@
 		border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; gap: 1.25rem;
 	}
 	.stanza-number {
-		display: flex; flex-direction: column; align-items: center; gap: 0.35rem;
-		min-width: 3rem; padding-right: 1rem; border-right: 1px solid var(--color-border);
+		display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+		min-width: 2.2rem; padding-right: 0.75rem; border-right: 1px solid var(--color-border);
 	}
 	.st-num { font-size: 0.95rem; font-weight: 800; color: var(--warning-color); }
-	.st-breath { font-size: 0.8rem; letter-spacing: -2px; }
 	.stanza-lines { display: flex; flex-direction: column; gap: 0.25rem; }
 	.stanza-line { margin: 0; font-size: 1.05rem; line-height: 1.5; color: var(--text-title); }
 	.stanza-line--new { font-weight: 700; color: var(--accent-text, var(--palette-orange)); }

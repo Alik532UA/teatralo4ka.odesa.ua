@@ -6,12 +6,18 @@ category: "departments"
 lang: "en"
 seo:
   title: "Art Department - Odesa Theater School"
-  description: "Curriculum of our Art Department, which includes drawing, painting, composition, sculpture, and art history."
+  description: "Curriculum of our Art Department, which includes drawing, painting, composition, sculpture, and art history. Head of Department — Vira Koval."
 status: "published"
 version: "1.0.0"
 ---
 
 # Art Department
+
+## Head of Department
+
+**[Vira Koval](/en/residents/adults/vira-koval)** — head of the art department, fine arts teacher of the highest category, methodologist.
+
+## Curriculum
 
 The curriculum includes the following disciplines:
 * Drawing

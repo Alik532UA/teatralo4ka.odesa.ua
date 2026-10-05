@@ -151,7 +151,7 @@ describe('глобальні хуки window.__*', () => {
 		walk('src')
 			.filter((f) => f !== 'src/app.d.ts')
 			.flatMap((f) => [
-				...readFileSync(f, 'utf8').matchAll(/window\s*(?:as\s+\w+\s*)?\)?\s*[.?]*\.?(__\w+)/g)
+				...readFileSync(f, 'utf8').matchAll(/(?<![-\w$])window\s*(?:as\s+\w+\s*)?\)?\s*(?:\?\.|\.)(__\w+)/g)
 			])
 			.map((m) => m[1])
 	);

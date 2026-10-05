@@ -5,13 +5,17 @@
 	interface Props {
 		defaultBpm?: number;
 		testIdPrefix?: string;
+		isRunning?: boolean;
 	}
 
-	let { defaultBpm = 80, testIdPrefix = 'metronome' }: Props = $props();
+	let {
+		defaultBpm = 80,
+		testIdPrefix = 'metronome',
+		isRunning = $bindable(false)
+	}: Props = $props();
 
 	// svelte-ignore state_referenced_locally
 	let bpm = $state(defaultBpm);
-	let isRunning = $state(false);
 	let isMuted = $state(false);
 	let beat = $state(0);
 	let audioCtx: AudioContext | null = null;

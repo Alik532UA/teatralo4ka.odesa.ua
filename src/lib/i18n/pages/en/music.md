@@ -6,12 +6,16 @@ category: "departments"
 lang: "en"
 seo:
   title: "Music Department - Odesa Theater School"
-  description: "Curriculum of the Music Department: from solo singing to playing the piano or guitar. We welcome you to study."
+  description: "Curriculum of the Music Department: from solo singing to playing the piano or guitar. Head of Department — Hanna Nikolaieva."
 status: "published"
 version: "1.0.0"
 ---
 
 # Music Department
+
+## Head of Department
+
+**[Hanna Nikolaieva](/en/residents/adults/hanna-nikolaieva)** — head of the music department, vocal teacher of the first category.
 
 ## Solo Singing Department:
 * Solo singing
