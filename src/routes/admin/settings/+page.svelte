@@ -1964,12 +1964,9 @@ async function handleAboutPageSubmit() {
 /* ─── Tab bar ──────────────────────────────────────────── */
 .tab-bar {
   display: flex;
-  gap: 0.25rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
+  flex-wrap: wrap;
+  gap: 0.35rem;
   margin-bottom: 2rem;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
 }
 
 .tab-btn {

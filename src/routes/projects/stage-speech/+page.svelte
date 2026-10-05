@@ -248,6 +248,7 @@
 		gap: 1.5rem;
 	}
 	.exercise-card {
+		position: relative;
 		background: var(--bg-card);
 		border: 1px solid var(--color-border);
 		border-radius: 20px;
@@ -257,11 +258,18 @@
 		justify-content: space-between;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 		transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+		cursor: pointer;
 	}
 	.exercise-card:hover {
 		transform: translateY(-3px);
 		border-color: var(--accent-text);
 		box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+	}
+	.exercise-card:hover .action-btn,
+	.exercise-card:has(.action-btn:focus-visible) .action-btn {
+		background: var(--palette-yellow);
+		border-color: transparent;
+		color: var(--palette-black);
 	}
 	.card-top { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
 	.card-badge {
@@ -282,6 +290,13 @@
 		padding: 0.8rem 1.25rem; border-radius: 12px; background: var(--color-surface);
 		border: 1px solid var(--color-border); color: var(--text-title); font-size: 0.95rem; font-weight: 700;
 		text-decoration: none; transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	}
+	.action-btn::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 20px;
+		z-index: 1;
 	}
 	.action-btn:hover { background: var(--palette-yellow); border-color: transparent; color: var(--palette-black); }
 	.hub-footer { margin-top: 1rem; }

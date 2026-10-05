@@ -371,14 +371,10 @@
 		}
 		.calendar-years {
 			flex-direction: row;
-			border-radius: var(--radius-full, 9999px);
-			overflow-x: auto;
+			flex-wrap: wrap;
+			gap: 0.35rem;
+			border-radius: var(--radius-lg, 12px);
 			max-width: 100%;
-			scrollbar-width: none;
-			-webkit-overflow-scrolling: touch;
-		}
-		.calendar-years::-webkit-scrollbar {
-			display: none;
 		}
 	}
 

@@ -144,7 +144,7 @@
 <style>
 	.tales-hub { display: flex; flex-direction: column; gap: 1.5rem; }
 	.tales-tabs {
-		display: flex; gap: 0.75rem; background: var(--bg-card);
+		display: flex; flex-wrap: wrap; gap: 0.75rem; background: var(--bg-card);
 		border: 1px solid var(--color-border); border-radius: 16px; padding: 0.5rem;
 	}
 	.tab-btn {

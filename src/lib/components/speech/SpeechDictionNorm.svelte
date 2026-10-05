@@ -116,12 +116,11 @@
 	.diction-hub { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; max-width: 100%; }
 	.exercise-nav {
 		background: var(--bg-card); border: 1px solid var(--color-border);
-		border-radius: 16px; padding: 0.6rem; overflow: hidden;
+		border-radius: 16px; padding: 0.75rem;
 		min-width: 0; max-width: 100%;
 	}
 	.chips-scroll {
-		display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.2rem;
-		scrollbar-width: thin;
+		display: flex; flex-wrap: wrap; gap: 0.5rem;
 		max-width: 100%;
 	}
 	.nav-chip {

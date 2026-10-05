@@ -269,8 +269,7 @@
 		background: var(--accent-primary); color: var(--text-on-accent); border: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 	}
 	.copy-report-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
-	.copy-report-btn--success { background: #047857; color: #ffffff; box-shadow: 0 2px 8px rgba(4, 120, 87, 0.3); }
-	.stats-tabs { display: flex; overflow-x: auto; gap: 0.5rem; padding-bottom: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-main); scrollbar-width: thin; }
+	.stats-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-bottom: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-main); }
 	.tab-btn {
 		display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md, 8px);
 		background: transparent; color: var(--text-muted); border: var(--hairline-width) solid transparent; font-size: 0.95rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.18s ease;
