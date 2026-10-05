@@ -35,11 +35,18 @@
 	onMount(() => {
 		function handleClick(e: MouseEvent) {
 			const target = e.target as HTMLElement;
-			if (target && target.tagName === 'IMG' && target.closest('.prose, .page-cover')) {
+			if (
+				target &&
+				target.tagName === 'IMG' &&
+				target.closest('.prose, .page-cover') &&
+				!target.closest('.department-head-card, .person-face')
+			) {
 				const article = target.closest('article, section, .page-content');
 				if (!article) return;
 
-				const allImgs = Array.from(article.querySelectorAll('.prose img, img.page-cover__img')) as HTMLImageElement[];
+				const allImgs = Array.from(
+					article.querySelectorAll('.prose img:not(.department-head-card__avatar):not(.person-face), img.page-cover__img')
+				) as HTMLImageElement[];
 				if (allImgs.length === 0) return;
 
 				const list: LightboxImage[] = allImgs.map(i => ({

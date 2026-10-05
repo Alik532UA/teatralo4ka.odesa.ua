@@ -14,8 +14,15 @@ version: "1.0.0"
 # Художнє відділення
 
 ## Завідувачка відділення
-
-**[Віра Коваль](/residents/adults/vira-koval)** — завідувачка художнім відділенням, викладачка образотворчого мистецтва вищої категорії, методистка.
+<div class="department-head-card">
+	<a href="/residents/adults/vira-koval" class="department-head-card__avatar-link" data-person-face="card" title="Віра Коваль">
+		<img src="/masters/vira-koval.webp" alt="Віра Коваль" class="department-head-card__avatar" width="80" height="80" loading="lazy" />
+	</a>
+	<div class="department-head-card__info">
+		<a href="/residents/adults/vira-koval" class="department-head-card__name" data-person-face="card">Віра Коваль</a>
+		<p class="department-head-card__role">завідувачка художнім відділенням, викладачка образотворчого мистецтва вищої категорії, методистка</p>
+	</div>
+</div>
 
 ## Навчальна програма
 

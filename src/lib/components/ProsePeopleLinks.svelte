@@ -303,6 +303,7 @@
 				for (const контейнер of document.querySelectorAll(within))
 					for (const anchor of контейнер.querySelectorAll<HTMLAnchorElement>('a[href]')) {
 						if (anchor.dataset.personFace) continue;
+						if (anchor.closest('.department-head-card')) continue;
 						const особа = особаЗПосилання(anchor.getAttribute('href') ?? '');
 						if (!особа) continue;
 						anchor.dataset.personFace = особа.photo ? 'photo' : 'letter';

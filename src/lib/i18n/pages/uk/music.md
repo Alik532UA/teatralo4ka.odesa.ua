@@ -15,7 +15,15 @@ version: "1.0.0"
 
 ## Завідувачка відділення
 
-**[Ганна Ніколаєва](/residents/adults/hanna-nikolaieva)** — завідувачка музичним відділенням, викладачка вокалу першої категорії.
+<div class="department-head-card">
+	<a href="/residents/adults/hanna-nikolaieva" class="department-head-card__avatar-link" data-person-face="card" title="Ганна Ніколаєва">
+		<img src="/masters/hanna-nikolaieva.webp" alt="Ганна Ніколаєва" class="department-head-card__avatar" width="80" height="80" loading="lazy" />
+	</a>
+	<div class="department-head-card__info">
+		<a href="/residents/adults/hanna-nikolaieva" class="department-head-card__name" data-person-face="card">Ганна Ніколаєва</a>
+		<p class="department-head-card__role">завідувачка музичним відділенням, викладачка вокалу першої категорії</p>
+	</div>
+</div>
 
 ## Відділення сольного співу:
 * Сольний спів

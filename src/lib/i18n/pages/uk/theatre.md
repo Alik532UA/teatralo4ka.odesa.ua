@@ -15,7 +15,15 @@ version: "1.0.0"
 
 ## Завідувачка відділення
 
-**[Світлана Риськіна](/residents/adults/svitlana-ryskina)** — завідувачка театральним відділенням, викладачка акторської майстерності та сценічного мовлення вищої категорії, методистка.
+<div class="department-head-card">
+	<a href="/residents/adults/svitlana-ryskina" class="department-head-card__avatar-link" data-person-face="card" title="Світлана Риськіна">
+		<img src="/masters/svitlana-ryskina.webp" alt="Світлана Риськіна" class="department-head-card__avatar" width="80" height="80" loading="lazy" />
+	</a>
+	<div class="department-head-card__info">
+		<a href="/residents/adults/svitlana-ryskina" class="department-head-card__name" data-person-face="card">Світлана Риськіна</a>
+		<p class="department-head-card__role">завідувачка театральним відділенням, викладачка акторської майстерності та сценічного мовлення вищої категорії, методистка</p>
+	</div>
+</div>
 
 ## Навчальна програма
 
