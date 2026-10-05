@@ -137,5 +137,8 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/dariia-kulish/09.webp': { width: 1280, height: 960 },
 	'/graduates/gallery/anastasiia-ivanova/01.webp': { width: 696, height: 821 },
 	'/graduates/gallery/anastasiia-ivanova/02.webp': { width: 1280, height: 720 },
-	'/graduates/gallery/lizkashyrokova/01.webp': { width: 721, height: 1280 }
+	'/graduates/gallery/lizkashyrokova/01.webp': { width: 721, height: 1280 },
+	'/graduates/gallery/kolomiiets/01.webp': { width: 1280, height: 800 },
+	'/graduates/gallery/kolomiiets/02.webp': { width: 1280, height: 800 },
+	'/graduates/gallery/kolomiiets/03.webp': { width: 1280, height: 853 }
 } as const;
