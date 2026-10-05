@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { t } from 'svelte-i18n';
 	import { onMount, getAbortSignal, untrack } from 'svelte';
-	import { goto, pushState, replaceState } from '$app/navigation';
+	import { goto, pushState, replaceState, afterNavigate } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { page } from '$app/state';
 	import GalaxyStageControls from '$lib/components/GalaxyStageControls.svelte';
@@ -526,70 +526,82 @@
 	 *
 	 * Знімається при виході зі сторінки: без цього шапка зникла б і на наступній.
 	 */
+	/**
+	 * Читання параметрів адреси.
+	 *
+	 * Викликається у трьох випадках:
+	 * 1. Перше монтування сторінки (`onMount`).
+	 * 2. Будь-яка навігація SvelteKit (`afterNavigate`) — наприклад, коли в картці
+	 *    випускника клацнули по року випуску `?roster=open&year=2025` або перейшли
+	 *    за посиланням `?update=open` / `?form=open`, доки сторінка вже змонтована.
+	 * 3. Кнопки «назад» / «вперед» у браузері (`popstate`).
+	 */
+	function readUrlParams() {
+		if (!browser) return;
+		const url = new URL(window.location.href);
+		const formParam = url.searchParams.get('form');
+		formModalOpen = formParam === 'open' || formParam === 'true';
+
+		const updateParam = url.searchParams.get('update');
+		updateOpen = updateParam === 'open' || updateParam === 'true';
+
+		const gParam = url.searchParams.get('g');
+		/* Приймає і `slug`, і `code`: посилання ходять по руках, і людині
+		   різниці між ними не видно. */
+		paramGraduate = gParam
+			? (data.graduates.find((g) => g.slug === gParam || g.code === gParam) ?? null)
+			: null;
+
+		const rosterParam = url.searchParams.get('roster');
+		rosterOpen = rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1';
+
+		if (rosterOpen) {
+			const yearParam = url.searchParams.get('year');
+			if (yearParam) {
+				rosterYears = yearParam
+					.split(',')
+					.map((y) => parseInt(y.trim(), 10))
+					.filter((y) => !isNaN(y));
+			} else {
+				rosterYears = [];
+			}
+
+			const deptParam = url.searchParams.get('dept');
+			if (deptParam) {
+				rosterDepartments = deptParam.split(',').filter(Boolean) as Department[];
+			} else {
+				rosterDepartments = [];
+			}
+
+			const masterParam = url.searchParams.get('master');
+			rosterMasters = masterParam ? masterParam.split(',').filter(Boolean) : [];
+
+			const photoParam = url.searchParams.get('photo');
+			if (photoParam === 'with' || photoParam === 'without') {
+				rosterPhoto = photoParam;
+			} else {
+				rosterPhoto = 'all';
+			}
+
+			const qParam = url.searchParams.get('q');
+			if (qParam) {
+				rosterQuery = qParam;
+			} else {
+				rosterQuery = '';
+			}
+
+			const atParam = url.searchParams.get('at');
+			const atYear = atParam ? Number.parseInt(atParam, 10) : NaN;
+			rosterScrolledYear = Number.isNaN(atYear) ? null : atYear;
+		}
+	}
+
+	afterNavigate(() => {
+		readUrlParams();
+	});
+
 	onMount(() => {
 		document.body.classList.add('page-galaxy');
-
-		function readUrlParams() {
-			const url = new URL(window.location.href);
-			const formParam = url.searchParams.get('form');
-			formModalOpen = formParam === 'open' || formParam === 'true';
-
-			const updateParam = url.searchParams.get('update');
-			updateOpen = updateParam === 'open' || updateParam === 'true';
-
-			const gParam = url.searchParams.get('g');
-			/* Приймає і `slug`, і `code`: посилання ходять по руках, і людині
-			   різниці між ними не видно. */
-			paramGraduate = gParam
-				? (data.graduates.find((g) => g.slug === gParam || g.code === gParam) ?? null)
-				: null;
-
-			const rosterParam = url.searchParams.get('roster');
-			rosterOpen = rosterParam === 'open' || rosterParam === 'true' || rosterParam === '1';
-
-			if (rosterOpen) {
-				const yearParam = url.searchParams.get('year');
-				if (yearParam) {
-					rosterYears = yearParam
-						.split(',')
-						.map((y) => parseInt(y.trim(), 10))
-						.filter((y) => !isNaN(y));
-				} else {
-					rosterYears = [];
-				}
-
-				const deptParam = url.searchParams.get('dept');
-				if (deptParam) {
-					rosterDepartments = deptParam.split(',').filter(Boolean) as Department[];
-				} else {
-					rosterDepartments = [];
-				}
-
-				const masterParam = url.searchParams.get('master');
-				rosterMasters = masterParam ? masterParam.split(',').filter(Boolean) : [];
-
-				const photoParam = url.searchParams.get('photo');
-				if (photoParam === 'with' || photoParam === 'without') {
-					rosterPhoto = photoParam;
-				} else {
-					rosterPhoto = 'all';
-				}
-
-				const qParam = url.searchParams.get('q');
-				if (qParam) {
-					rosterQuery = qParam;
-				} else {
-					rosterQuery = '';
-				}
-
-					const atParam = url.searchParams.get('at');
-				const atYear = atParam ? Number.parseInt(atParam, 10) : NaN;
-				rosterScrolledYear = Number.isNaN(atYear) ? null : atYear;
-			}
-		}
-
-
-
 		readUrlParams();
 		window.addEventListener('popstate', readUrlParams);
 
