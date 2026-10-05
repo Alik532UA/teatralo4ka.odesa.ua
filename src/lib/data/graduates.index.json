@@ -4612,13 +4612,18 @@
 	},
 	{
 		"id": "kateryna-kolomiets",
-		"slug": "kateryna-kolomiets",
-		"name": "Катерина Коломіець",
+		"slug": "kolomiiets",
+		"name": "Катерина Коломієць",
 		"graduationYear": 2013,
+		"enrollmentYears": [
+			2006
+		],
 		"departments": [
 			"music",
 			"art"
 		],
+		"hasPhoto": true,
+		"photoCount": 2,
 		"masters": [
 			{
 				"id": "vira-koval"
@@ -4626,7 +4631,13 @@
 			{
 				"id": "olena-prorok"
 			}
-		]
+		],
+		"aliases": [
+			"kateryna-kolomiets"
+		],
+		"code": "kolomiiets",
+		"profileSize": 993,
+		"playCount": 0
 	},
 	{
 		"id": "kateryna-kudlach",

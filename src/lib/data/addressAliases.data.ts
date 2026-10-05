@@ -13,6 +13,7 @@ export const GRADUATE_ALIASES_DATA: Record<string, string> = {
 	'halaida-oleksandra': 'sjsjduxuh',
 	'ivan-pitel': 'vnpitel',
 	'karyna-kaminieva': 'kamywek_',
+	'kateryna-kolomiets': 'kolomiiets',
 	'kateryna-nesterenko': 'deva144p',
 	'khrystia-oslavska': 'karakulya',
 	'liora-kazatsker': 'liorka',

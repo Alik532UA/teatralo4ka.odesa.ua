@@ -1,0 +1,38 @@
+{
+	"id": "kateryna-kolomiets",
+	"code": "kolomiiets",
+	"slug": "kolomiiets",
+	"name": "Катерина Коломієць",
+	"graduationYear": 2013,
+	"enrollmentYears": [
+		2006
+	],
+	"departments": [
+		"music",
+		"art"
+	],
+	"hasPhoto": true,
+	"photoCount": 2,
+	"masters": [
+		{
+			"id": "vira-koval"
+		},
+		{
+			"id": "olena-prorok"
+		}
+	],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/sane_unicorn"
+		}
+	],
+	"bio": [
+		"Декілька років професійно займаюсь музикою: пишу пісні для авторського проєкту, виступаю на сцені, маю декілька кавер-проектів, які наразі і є моїм основним видом діяльності.",
+		"Моє головне дітище — музичний гурт Deviant Blaze:\nhttps://www.instagram.com/deviant_blaze"
+	],
+	"plays": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null
+}

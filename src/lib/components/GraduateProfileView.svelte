@@ -464,6 +464,20 @@
 			 * не людина зі своєї сторінки.
 			 */
 			if (key === "news") return news.length > 0;
+			/*
+			 * Викладачі показуються типово завжди, крім винятків на прохання
+			 * автора (наприклад, для Катерини Коломієць, де блок порожній і його попросили сховати).
+			 */
+			if (key === "teachers") {
+				if (
+					graduate.slug === "kolomiiets" ||
+					graduate.id === "kateryna-kolomiets" ||
+					(profile as Record<string, unknown> | null | undefined)?.hideTeachers === true
+				) {
+					return false;
+				}
+				return true;
+			}
 			return true;
 		}),
 	);
