@@ -87,6 +87,10 @@ export const DANCE_STUDIO_POSTER = {
 	location: {
 		roomUk: 'Записуватись у 6 класі',
 		roomEn: 'Sign up in Classroom 6',
+		buildingUk: 'Приміщення Одеської театральної школи',
+		buildingEn: 'Odesa Theatre School premises',
+		addressUk: 'вул. Софіївська, 24',
+		addressEn: '24 Sofiivska St.',
 		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)',
 		detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
 	},

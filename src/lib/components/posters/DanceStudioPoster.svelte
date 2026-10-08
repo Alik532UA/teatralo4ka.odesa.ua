@@ -177,9 +177,14 @@
 							<strong class="location-highlight">
 								{isEn ? poster.location.roomEn : poster.location.roomUk}
 							</strong>
-							<span class="location-address">
-								{isEn ? poster.location.detailsEn : poster.location.detailsUk}
-							</span>
+							<div class="location-address">
+								<span class="location-building">
+									{isEn ? poster.location.buildingEn : poster.location.buildingUk}
+								</span>
+								<span class="location-street">
+									{isEn ? poster.location.addressEn : poster.location.addressUk}
+								</span>
+							</div>
 						</div>
 					</div>
 				</section>
@@ -556,9 +561,19 @@
 	}
 
 	.location-address {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
 		font-size: clamp(12px, 1.8cqi, 18px);
 		font-weight: 600;
 		color: #64748b;
+		line-height: 1.25;
+	}
+
+	.location-street {
+		font-weight: 700;
+		color: #334155;
+		white-space: nowrap;
 	}
 
 	/* Підвал афіші */
