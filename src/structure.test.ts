@@ -728,12 +728,18 @@ const LIMITS: Array<[RegExp, number]> = [
  *   розширено станами unclear («Не зрозуміло») та skip («Пропустити»).
  * 2026-10-05: `HeaderSection.svelte` 1600 -> 1655. Додано кастомний тултіп до
  *   кнопки пошуку з підказкою гарячої клавіші S.
+ * 2026-10-08: `DanceStudioPoster.svelte` (610 -> 650), `DigitalAnniversaryPoster.svelte` (375),
+ *   `seoPages.ts` (590 -> 605). Цифрові плакати формату A4 (хореографічний набір дітей
+ *   до танцювального колективу з розкладом, вчителем Т. Стогул, логотипом «СВОЇ» та Telegram QR-кодом викладача,
+ *   святкова афіша 28-річчя школи) з адаптивною версткою, декоративними мікро-частками та стилями друку на одному аркуші.
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
+	'src/lib/components/posters/DigitalAnniversaryPoster.svelte': 375,
 	'src/routes/beta-test-checklists/+page.svelte': 470,
 	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,
 	'src/routes/calendar/+page.svelte': 440,
-	'src/lib/config/seoPages.ts': 590,
+	'src/lib/config/seoPages.ts': 605,
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,

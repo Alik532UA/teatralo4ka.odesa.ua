@@ -40,6 +40,7 @@ export type SeoPageKey =
 	| 'galaxyFriends'
 	| 'galaxyMasters'
 	| 'calendar'
+	| 'posters'
 	| 'projects'
 	| 'tkachPerekladach'
 	| 'stageSpeech'
@@ -164,6 +165,11 @@ export const SEO_FALLBACK = {
 				title: 'Статут закладу',
 				description:
 					'Офіційний повний текст Статуту Одеської театральної школи (нова редакція 2025 року).'
+			},
+			posters: {
+				title: 'Афіші школи',
+				description:
+					'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, цифровий перегляд та роздруківка у форматі A4.'
 			},
 			projects: {
 				title: 'Проєкти',
@@ -387,6 +393,11 @@ export const SEO_FALLBACK = {
 				description:
 					'Official text of the Statute of Odesa Theater School (2025 edition).'
 			},
+			posters: {
+				title: 'School Posters',
+				description:
+					'Official digital posters and playbills of Odesa Children’s Theatre School: dance collective enrollment, interactive view, and A4 print.'
+			},
 			projects: {
 				title: 'Projects',
 				description:
@@ -548,6 +559,8 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'statute';
 		case '/calendar':
 			return 'calendar';
+		case '/posters':
+			return 'posters';
 		case '/news':
 			return 'news';
 		case '/projects':

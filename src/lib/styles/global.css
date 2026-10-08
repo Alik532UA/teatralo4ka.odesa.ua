@@ -162,7 +162,9 @@ html[data-theme='light-yellow'] {
 	--palette-blue: #00b5ec;
 	--palette-red: #e20413;
 	--palette-orange: #f9b31d;
+	--palette-sky: #cfe2f3;
 	--palette-black: #1d1d1d;
+	--poster-bg: #ffed00;
 	
 	/*
 	 * Галактика випускників — свідомо ТЕМНА в усіх чотирьох темах.

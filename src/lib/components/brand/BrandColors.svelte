@@ -35,6 +35,12 @@
 			textColor: '#1d1d1d'
 		},
 		{
+			hex: '#cfe2f3',
+			rgb: '207, 226, 243',
+			cssVar: '--palette-sky',
+			textColor: '#1d1d1d'
+		},
+		{
 			hex: '#1d1d1d',
 			rgb: '29, 29, 29',
 			cssVar: '--palette-black',
