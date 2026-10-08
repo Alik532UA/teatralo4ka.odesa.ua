@@ -173,13 +173,13 @@
 		</header>
 
 		<!-- Основний слот плаката -->
-		<main class="poster-viewport" data-testid="poster-active-container">
+		<section class="poster-viewport" data-testid="poster-active-container">
 			{#if activePoster === 'dance-studio'}
 				<DanceStudioPoster {isEn} themeId={selectedTheme} />
 			{:else}
 				<DigitalAnniversaryPoster {isEn} />
 			{/if}
-		</main>
+		</section>
 	</div>
 </div>
 
