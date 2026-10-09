@@ -360,5 +360,15 @@
 				"en": "Triple Triumph for «Teatralochka» Students at the Art Like Fest 2026 in Yaremche"
 			}
 		}
+	],
+	"master:tetiana-stohul": [
+		{
+			"id": "dance-studio-enrollment-2026",
+			"date": "2026-10-09",
+			"title": {
+				"uk": "Набір дітей у хореографічну студію «СВОЇ»",
+				"en": "Children's Enrollment in «SVOI» Choreography Studio"
+			}
+		}
 	]
 }

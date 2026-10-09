@@ -136,6 +136,7 @@ const PUBLIC_ENTRIES = [
 	'/news/art-supports-army-2026',
 	'/news/teatr-pro-2026-results',
 	'/news/art-like-fest-triumph-2026',
+	'/news/dance-studio-enrollment-2026',
 	/* Перенесені новини дописує `npm run news:from-firestore`. */
 	// Стара адреса тієї самої новини: сторінка перенаправлення. Розбір — у
 	// `src/lib/config/newsAliases.ts`.

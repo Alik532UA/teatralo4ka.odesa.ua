@@ -732,6 +732,8 @@ const LIMITS: Array<[RegExp, number]> = [
  *   `seoPages.ts` (590 -> 605). Цифрові плакати формату A4 (хореографічний набір дітей
  *   до танцювального колективу з розкладом, вчителем Т. Стогул, логотипом «СВОЇ» та Telegram QR-кодом викладача,
  *   святкова афіша 28-річчя школи) з адаптивною версткою, декоративними мікро-частками та стилями друку на одному аркуші.
+ * 2026-10-09: `config/codeNews.ts` 300 -> 325. Додано кодову новину dance-studio-enrollment-2026
+ *   (набір дітей до хореографічної студії «SVOI Dance Collective» під керівництвом Т. Стогул з розкладом занять та медіа-карткою).
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
@@ -765,7 +767,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/Select.svelte': 390,
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
-	'src/lib/config/codeNews.ts': 300,
+	'src/lib/config/codeNews.ts': 325,
 	'src/lib/config/localImages.ts': 275,
 	'src/lib/data/betaChecklist.ts': 730,
 	'src/lib/data/groups.ts': 256,

@@ -68,6 +68,7 @@ export const SEARCHABLE_PAGES: { slug: string; href: () => string }[] = [
 	{ slug: 'news-art-supports-army-2026', href: () => resolve('/news/[id]', { id: 'art-supports-army-2026' }) },
 	{ slug: 'news-teatr-pro-2026-results', href: () => resolve('/news/[id]', { id: 'teatr-pro-2026-results' }) },
 	{ slug: 'news-art-like-fest-triumph-2026', href: () => resolve('/news/[id]', { id: 'art-like-fest-triumph-2026' }) },
+	{ slug: 'news-dance-studio-enrollment-2026', href: () => resolve('/news/[id]', { id: 'dance-studio-enrollment-2026' }) },
 	/* Перенесені новини дописує `npm run news:from-firestore`. */
 ];
 

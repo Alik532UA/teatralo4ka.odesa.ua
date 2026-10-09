@@ -2520,3 +2520,183 @@ body.page-galaxy main {
 :root[data-fake-fullscreen='true'] .header-blur-layer {
 	display: none;
 }
+
+/* ==========================================================================
+   News Enrollment & Schedule Cards (e.g. SVOI Dance Studio news)
+   ========================================================================== */
+
+.news-schedule-card {
+	background: var(--bg-card);
+	border: 1px solid var(--border-main);
+	border-left: 6px solid #00b5ec;
+	border-radius: 20px;
+	padding: 1.5rem;
+	margin: 1.75rem 0;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.news-schedule-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 1.25rem;
+}
+
+.news-schedule-icon {
+	color: light-dark(#0284c7, #38bdf8);
+	flex-shrink: 0;
+}
+
+.news-schedule-title {
+	margin: 0 !important;
+	font-size: 1.25rem !important;
+	font-weight: 800 !important;
+	color: var(--text-title) !important;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.news-schedule-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+}
+
+@media (max-width: 640px) {
+	.news-schedule-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+.news-schedule-pill {
+	background: var(--bg-surface);
+	border: 1px solid var(--border-main);
+	border-radius: 16px;
+	padding: 1.25rem 0.75rem;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	transition: transform var(--transition-base, 0.2s ease), box-shadow var(--transition-base, 0.2s ease);
+}
+
+.news-schedule-pill:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.news-pill-day {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--text-muted);
+}
+
+.news-pill-day-icon {
+	color: light-dark(#0284c7, #38bdf8);
+	flex-shrink: 0;
+}
+
+.news-pill-time {
+	font-size: 2.25rem;
+	font-weight: 900;
+	color: light-dark(#0284c7, #38bdf8);
+	letter-spacing: -0.01em;
+	line-height: 1.1;
+}
+
+/* Картка локації та запису */
+.news-location-card {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+	background: var(--bg-card);
+	border: 1px solid var(--border-main);
+	border-radius: 20px;
+	padding: 1.25rem 1.5rem;
+	margin: 1.25rem 0;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.news-location-pin {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 14px;
+	background: color-mix(in srgb, #00b5ec 18%, transparent);
+	color: light-dark(#0284c7, #38bdf8);
+	flex-shrink: 0;
+}
+
+.news-location-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.news-location-room {
+	font-size: 1.25rem;
+	font-weight: 900;
+	color: var(--text-title);
+	line-height: 1.2;
+}
+
+.news-location-desc {
+	font-size: 0.95rem;
+	color: var(--text-muted);
+	line-height: 1.4;
+	margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+	.news-location-card {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.85rem;
+		padding: 1.1rem;
+	}
+}
+
+/* Кнопка запису в Telegram */
+.news-telegram-cta-wrap {
+	margin: 1.5rem 0 2rem;
+}
+
+.news-telegram-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	background-color: #0077b5;
+	color: #ffffff !important;
+	font-size: 1.05rem;
+	font-weight: 700;
+	padding: 12px 24px;
+	border-radius: 999px;
+	text-decoration: none !important;
+	box-shadow: 0 4px 16px rgba(0, 119, 181, 0.35);
+	transition: background-color var(--transition-base, 0.2s ease), transform var(--transition-base, 0.2s ease), box-shadow var(--transition-base, 0.2s ease);
+}
+
+.news-telegram-cta:hover {
+	background-color: #006295;
+	color: #ffffff !important;
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(0, 119, 181, 0.45);
+}
+
+.news-telegram-icon {
+	width: 26px !important;
+	height: 26px !important;
+	margin: 0 !important;
+	display: block !important;
+	flex-shrink: 0;
+	border-radius: 50% !important;
+}
+
