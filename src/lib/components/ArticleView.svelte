@@ -56,6 +56,8 @@
 		shape?: MediaShape;
 		/** Стовпець плиток (типово) або все одне за одним. */
 		layout?: MediaLayout;
+		/** Режим показу відео обкладинки: інлайн чи модальне вікно. */
+		coverVideoMode?: 'embed' | 'modal';
 		/**
 		 * Плеєр пари «фото + відео» відкритий. Двостороннє навмисно: приходять і з
 		 * кнопки в сповіщенні про гарячу новину (`?video=1`), тобто рішення
@@ -78,6 +80,7 @@
 		media = [],
 		shape = DEFAULT_MEDIA_SHAPE,
 		layout = 'column',
+		coverVideoMode = 'embed',
 		videoOpen = $bindable(false),
 		backHref,
 		backLabel,
@@ -117,6 +120,7 @@
 					{media}
 					{shape}
 					{layout}
+					{coverVideoMode}
 					textHeight={висотаТексту}
 					{title}
 					bind:videoOpen

@@ -79,6 +79,6 @@ export function load({ params, url }) {
 		en,
 		seoDescription: своя?.metadata.seo.description,
 		seoTitle: своя?.metadata.title,
-		ogImageUrl: своя?.metadata.coverUrl
+		ogImageUrl: своя?.metadata.seo.ogImage ?? своя?.metadata.coverUrl
 	};
 }

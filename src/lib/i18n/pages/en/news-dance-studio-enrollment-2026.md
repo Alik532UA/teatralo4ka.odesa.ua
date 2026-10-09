@@ -8,6 +8,7 @@ lang: "en"
 seo:
   title: "Children's Enrollment in «SVOI» Choreography Studio — Odesa Theatre School"
   description: "Odesa Theatre School announces enrollment for boys and girls in the «SVOI» choreography studio led by Tetiana Stohul."
+  ogImage: "/og/og-svoi-1200x630.jpg"
 status: "published"
 version: "1.0.0"
 excerpt: "Odesa Theatre School announces enrollment for boys and girls in the «SVOI» choreography studio led by Tetiana Stohul."

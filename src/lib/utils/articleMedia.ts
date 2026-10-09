@@ -53,6 +53,8 @@ export interface ArticleMediaItem {
 	/** Справжні розміри знімка — щоб під нього відвели місце до завантаження. */
 	width?: number;
 	height?: number;
+	/** Скільки колонок займає плитка в сітці (наприклад, 2 для об'єднання двох квадратів). */
+	span?: 1 | 2;
 }
 
 export const MEDIA_SHAPES: readonly MediaShape[] = ['square', 'portrait', 'landscape'];

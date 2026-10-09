@@ -734,8 +734,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   святкова афіша 28-річчя школи) з адаптивною версткою, декоративними мікро-частками та стилями друку на одному аркуші.
  * 2026-10-09: `config/codeNews.ts` 300 -> 325. Додано кодову новину dance-studio-enrollment-2026
  *   (набір дітей до хореографічної студії «SVOI Dance Collective» під керівництвом Т. Стогул з розкладом занять та медіа-карткою).
+ * 2026-10-09: `ArticleMedia.svelte` (300 -> 355). Підтримка модального відкриття
+ *   горизонтального 16:9 відео (`coverVideoMode: 'modal'`) без заміни фото у вертикальній рамці
+ *   та об'єднання сусідніх квадратів (`span: 2`, 2:1) для гармонійного збереження сітки галереї.
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DigitalAnniversaryPoster.svelte': 375,
 	'src/routes/beta-test-checklists/+page.svelte': 470,

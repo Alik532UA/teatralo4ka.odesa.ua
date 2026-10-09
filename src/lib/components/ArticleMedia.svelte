@@ -61,6 +61,8 @@
 		shape?: MediaShape;
 		/** Стовпець (типово) або все одне за одним. */
 		layout?: MediaLayout;
+		/** Режим показу відео обкладинки: інлайн чи модальне вікно. */
+		coverVideoMode?: 'embed' | 'modal';
 		/** Заміряна висота колонки тексту — від неї залежить, скільком плиткам стати збоку. */
 		textHeight?: number;
 		/** Назва статті: іде в `alt`, у заголовок плеєра й у підпис плитки. */
@@ -74,6 +76,7 @@
 		media,
 		shape = DEFAULT_MEDIA_SHAPE,
 		layout = 'column',
+		coverVideoMode = 'embed',
 		textHeight = 0,
 		title,
 		videoOpen = $bindable(false),
@@ -84,15 +87,25 @@
 	const ПРОМІЖОК = 12;
 
 	const пропорція = $derived(shapeRatio(shape));
+	const модальнеВідео = $derived(coverVideoMode === 'modal');
+
 	/*
-	 * ПАРА — це перші два елементи, а не «весь перелік із двох».
+	 * ПАРА — це знімок і запис у блоці обкладинки.
 	 *
-	 * Розбір і замір — у докблоці `coverPairSize`. Коротко: новина може мати
-	 * обкладинку, запис І галерею, і автор просив, щоб перші двоє лишалися одним
-	 * контейнером із перемиканням, а не двома плитками.
+	 * У режимі 'embed' це перші два елементи (якщо один знімок, а другий запис).
+	 * У режимі 'modal' обкладинка бере перше фото, а кнопка під нею відкриває
+	 * перше відео у VideoModal, не видаляючи його з галереї.
 	 */
 	const парних = $derived(layout === 'column' ? coverPairSize(media) : 0);
-	const пара = $derived(парних === 2);
+	const пара = $derived(
+		модальнеВідео
+			? Boolean(
+					layout === 'column' &&
+					media.some((m) => m.kind === 'photo') &&
+					media.some((m) => m.kind === 'video')
+				)
+			: парних === 2
+	);
 
 	/**
 	 * Заміряна ширина стовпця: висоту плитки дає пропорція, а не ще один замір.
@@ -109,11 +122,39 @@
 			: fitCount(textHeight, ширина * shapeFactor(shape), ПРОМІЖОК)
 	);
 
-	const уСтовпці = $derived(
-		layout === 'sequence' ? [] : пара ? media.slice(0, парних) : media.slice(0, плиток)
+	const фотоПари = $derived(
+		пара
+			? (модальнеВідео
+					? media.find((m) => m.kind === 'photo')
+					: media.slice(0, парних).find((m) => m.kind === 'photo'))
+			: undefined
 	);
+
+	const відеоПари = $derived(
+		пара
+			? parseVideoUrl(
+					(модальнеВідео
+						? media.find((m) => m.kind === 'video')
+						: media.slice(0, парних).find((m) => m.kind === 'video')
+					)?.url
+				)
+			: null
+	);
+
+	const уСтовпці = $derived(
+		layout === 'sequence'
+			? []
+			: пара
+				? (модальнеВідео ? (фотоПари ? [фотоПари] : []) : media.slice(0, парних))
+				: media.slice(0, плиток)
+	);
+
 	const решта = $derived(
-		layout === 'sequence' ? [...media] : пара ? media.slice(парних) : media.slice(плиток)
+		layout === 'sequence'
+			? [...media]
+			: пара
+				? (модальнеВідео ? media.filter((m) => m !== фотоПари) : media.slice(парних))
+				: media.slice(плиток)
 	);
 
 	/** Знімки — усі й у порядку показу: лайтбокс гортає галерею, а не один кадр. */
@@ -126,16 +167,11 @@
 	let лайтбокс = $state(false);
 	let плеєр = $state<VideoInfo | null>(null);
 
-	/*
-	 * Відео й фото пари шукаються СЕРЕД ПЕРШИХ ДВОХ, а не в усьому переліку:
-	 * інакше в новині з галереєю кнопка брала б запис, якого в парі немає.
-	 */
-	const пароване = $derived(media.slice(0, парних));
-	/** Відео пари — розібране заздалегідь: від нього залежить сама наявність кнопки. */
-	const відеоПари = $derived(
-		пара ? parseVideoUrl(пароване.find((m) => m.kind === 'video')?.url) : null
-	);
-	const фотоПари = $derived(пара ? пароване.find((m) => m.kind === 'photo') : undefined);
+	$effect(() => {
+		if (videoOpen && модальнеВідео && відеоПари && !плеєр) {
+			плеєр = відеоПари;
+		}
+	});
 
 	function вибрати(item: ArticleMediaItem) {
 		if (item.kind === 'video') {
@@ -151,10 +187,11 @@
 	{@const відео = item.kind === 'video' ? parseVideoUrl(item.url) : null}
 	<div
 		class="media-tile"
-		style="aspect-ratio: {пропорція}"
+		class:media-tile--span-2={item.span === 2}
+		style={item.span === 2 ? undefined : `aspect-ratio: ${пропорція}`}
 		role="button"
 		tabindex="0"
-		aria-label={item.kind === 'video' ? $t('common.watchVideo') : (item.alt ?? title)}
+		aria-label={item.kind === 'video' ? (item.alt ?? $t('common.watchVideo')) : (item.alt ?? title)}
 		onclick={() => вибрати(item)}
 		onkeydown={activateOnKey(() => вибрати(item))}
 		data-testid="{testIdPrefix}-media-{item.kind}-btn-{ключ}"
@@ -203,7 +240,7 @@
 				стосуються різних речей.
 			-->
 			<div class="media-frame" style="aspect-ratio: {shapeRatio('portrait')}">
-				{#if videoOpen && відеоПари?.embeddable}
+				{#if !модальнеВідео && videoOpen && відеоПари?.embeddable}
 					<iframe
 						src="{відеоПари.embedUrl}?autoplay=1"
 						{title}
@@ -243,20 +280,32 @@
 			</div>
 
 			{#if відеоПари?.embeddable}
-				<button
-					type="button"
-					class="btn btn-outline article-media__btn"
-					onclick={() => (videoOpen = !videoOpen)}
-					data-testid="{testIdPrefix}-cover-video-btn"
-				>
-					{#if videoOpen}
-						<ImageIcon size={16} aria-hidden="true" />
-						{$t('common.showCover')}
-					{:else}
+				{#if модальнеВідео}
+					<button
+						type="button"
+						class="btn btn-outline article-media__btn"
+						onclick={() => (плеєр = відеоПари)}
+						data-testid="{testIdPrefix}-cover-video-btn"
+					>
 						<Play size={16} aria-hidden="true" />
 						{$t('common.watchVideo')}
-					{/if}
-				</button>
+					</button>
+				{:else}
+					<button
+						type="button"
+						class="btn btn-outline article-media__btn"
+						onclick={() => (videoOpen = !videoOpen)}
+						data-testid="{testIdPrefix}-cover-video-btn"
+					>
+						{#if videoOpen}
+							<ImageIcon size={16} aria-hidden="true" />
+							{$t('common.showCover')}
+						{:else}
+							<Play size={16} aria-hidden="true" />
+							{$t('common.watchVideo')}
+						{/if}
+					</button>
+				{/if}
 			{:else if відеоПари}
 				<!-- Instagram/Facebook вбудувати не можемо, тож честніше відкрити там,
 				     де воно справді працює. -->
@@ -300,7 +349,14 @@
 	onclose={() => (лайтбокс = false)}
 />
 
-<VideoModal video={плеєр} {title} onclose={() => (плеєр = null)} />
+<VideoModal
+	video={плеєр}
+	{title}
+	onclose={() => {
+		плеєр = null;
+		if (модальнеВідео) videoOpen = false;
+	}}
+/>
 
 <style>
 	/*
@@ -383,6 +439,17 @@
 	.media-tile {
 		cursor: pointer;
 		transition: transform 0.25s ease;
+	}
+
+	.media-tile--span-2 {
+		aspect-ratio: 16 / 9;
+	}
+
+	@media (min-width: 480px) {
+		.media-tile--span-2 {
+			grid-column: span 2;
+			aspect-ratio: 2 / 1;
+		}
 	}
 
 	.media-tile:hover,

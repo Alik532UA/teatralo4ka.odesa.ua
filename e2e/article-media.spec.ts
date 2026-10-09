@@ -198,17 +198,20 @@ test.describe('медіа новини', () => {
 
 		const заміряне = await page.evaluate(() => {
 			const рамка = document.querySelector('.media-frame');
-			const плитка = document.querySelector('.media-tile');
+			const плитка = document.querySelector('.media-tile:not(.media-tile--span-2)');
+			const плиткаВідео = document.querySelector('.media-tile--span-2');
 			return {
 				рамок: document.querySelectorAll('.media-frame').length,
 				пропорціяПари: рамка ? getComputedStyle(рамка).aspectRatio : '',
-				пропорціяПлитки: плитка ? getComputedStyle(плитка).aspectRatio : ''
+				пропорціяПлитки: плитка ? getComputedStyle(плитка).aspectRatio : '',
+				пропорціяВідео: плиткаВідео ? getComputedStyle(плиткаВідео).aspectRatio : ''
 			};
 		});
 
 		expect(заміряне.рамок, 'пара розсипалася або задвоїлася').toBe(1);
 		expect(заміряне.пропорціяПари, 'контейнер пари не вертикальний').toBe('9 / 16');
 		expect(заміряне.пропорціяПлитки, 'плитка галереї не квадратна').toBe('1 / 1');
+		expect(заміряне.пропорціяВідео, 'відео-плитка не об’єднує два квадрати').toBe('2 / 1');
 		await expect(page.getByTestId('article-cover-img'), 'обкладинки немає').toBeVisible();
 		await expect(
 			page.getByTestId('article-cover-video-btn'),

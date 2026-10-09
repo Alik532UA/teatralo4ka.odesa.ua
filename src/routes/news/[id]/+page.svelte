@@ -117,6 +117,7 @@
 		media={медіа}
 		shape={код.mediaShape}
 		layout={код.mediaLayout}
+		coverVideoMode={код.coverVideoMode}
 		bind:videoOpen={відеоВідкрито}
 		backHref={resolve('/news')}
 		backLabel={$t('news.backToNews')}
