@@ -619,7 +619,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=WONL3-11LVM"
 	},
 	{
 		"id": "zviriachi-istorii-2023",
@@ -650,7 +651,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=3bo-EExlLAo"
 	},
 	{
 		"id": "pryhody-mortiny-ta-ii-druziv-2023",
@@ -706,7 +708,8 @@
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Yv56G_y4fsw"
 	},
 	{
 		"id": "son-zabrokhy-2023",
@@ -777,7 +780,13 @@
 		"theatreGroup": "гр. «Alter Ego»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
-		"videoUrl": "https://www.youtube.com/watch?v=Vjx-yv6Keeo"
+		"videoUrl": "https://www.youtube.com/watch?v=Vjx-yv6Keeo",
+		"videoParts": [
+			{
+				"label": "Ніна Захоженко «Я норм» (Театральний букет-2023)",
+				"url": "https://www.youtube.com/watch?v=3LRspliQhoM"
+			}
+		]
 	},
 	{
 		"id": "8-liubiachykh-zhinok-2022",
@@ -1174,7 +1183,13 @@
 			"Владислав Дьяченко"
 		],
 		"dateNote": "липень-жовтень 2020",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "Випускний показ",
+				"url": "https://www.youtube.com/watch?v=Ko6FuwwCNDU"
+			}
+		]
 	},
 	{
 		"id": "dyvovyzhni-pryhody-krolyka-edvarda-2020",
@@ -1186,7 +1201,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=8n9M6ynRkj0"
 	},
 	{
 		"id": "etiudy-2020",
@@ -1256,7 +1272,8 @@
 		"masters": [
 			"oleh-shevchuk"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=QNNnO6lG1jM"
 	},
 	{
 		"id": "shorokh-ukhodiashchykh-shahov-2020",
@@ -1659,7 +1676,8 @@
 		"author": "Фантазії за мотивами казки братів Ґрімм",
 		"theatreGroup": "гр. 4Т-13",
 		"dateNote": "29 травня понеділок, 19.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=j1xsm-vuN5I"
 	},
 	{
 		"id": "dyvni-dyva-2017",
@@ -1983,7 +2001,8 @@
 		"masters": [
 			"fedir-tkach"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=XeLKdpOcIzA"
 	},
 	{
 		"id": "zhenskyi-vopros-2015",
@@ -3106,7 +3125,8 @@
 			"Лілія Гальоса",
 			"Анастасія Іванес"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=H1ttFxACTzQ"
 	},
 	{
 		"id": "revyzor-2011",
@@ -3660,7 +3680,8 @@
 		"masters": [
 			"fedir-tkach"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=xzeyKytN21E"
 	},
 	{
 		"id": "chernaia-kurytsa-2008",
@@ -3723,7 +3744,13 @@
 		"id": "zhenskyi-stol-v-okhotnychem-zale-2007",
 		"title": "«Жіночий стіл у Охотничому залі»",
 		"year": 2007,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=rwomXhmIRlQ",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"theatreGroup": "випускна група",
+		"author": "Віктор Мережко"
 	},
 	{
 		"id": "koty-2007",
@@ -4539,7 +4566,8 @@
 		"author": "за мотивами казок Дж. Родарі",
 		"theatreGroup": "гр. 1Т-4",
 		"dateNote": "22 травня п’ятниця, 18.30 (ауд. 11)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=4-ZpQ_I3bD0"
 	},
 	{
 		"id": "kot-v-sapohakh-2015",
@@ -5527,7 +5555,13 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "Театральний букет-2018",
+				"url": "https://www.youtube.com/watch?v=r-gFpcZzl0E"
+			}
+		]
 	},
 	{
 		"id": "rafaman-2018",
@@ -5920,7 +5954,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=gMxtUu85eDQ"
 	},
 	{
 		"id": "visim-zakokhanykh-zhinok-2020",
@@ -5973,7 +6008,8 @@
 			"tereza-zaurbekova",
 			"elmir-hanbarov"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=JB3PsE7RPwI"
 	},
 	{
 		"id": "etiudnyi-pokaz-2020",
@@ -5994,7 +6030,8 @@
 		"author": "Віктор Євтушенко",
 		"theatreGroup": "гр. 1Т-3 (4е7)",
 		"dateNote": "липень-жовтень 2020",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=OobI6LGjTxE"
 	},
 	{
 		"id": "sim-subot-na-tyzhni-i-v-subotu-subotyk-povernuvsia-2020",
@@ -6171,7 +6208,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=SESN9FONuOM"
 	},
 	{
 		"id": "uryvky-z-klasyky-2020",
@@ -6968,7 +7006,8 @@
 		"masters": [
 			"tereza-zaurbekova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=RF1Lo0HYtkg"
 	},
 	{
 		"id": "uryvky-iz-klasyky-2023",
@@ -7103,7 +7142,8 @@
 			"fedir-tkach",
 			"svitlana-vitiuk"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=yVEKcPnnaVg"
 	},
 	{
 		"id": "etiudy-2024",
@@ -7854,7 +7894,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=a7SfI0VYJds"
 	},
 	{
 		"id": "samyi-malen-kyi-hnom-2007",
@@ -8145,7 +8186,11 @@
 		"author": "Р. Тома",
 		"theatreGroup": "гр. 16",
 		"dateNote": "27.05 вівторок, 17.30",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=RnTLtRyrFNw",
+		"masters": [
+			"svitlana-ryskina"
+		]
 	},
 	{
 		"id": "polet-kuznechyka-2008",
@@ -8856,6 +8901,18 @@
 		"verificationStatus": "possible_errors"
 	},
 	{
+		"id": "mukha-2005",
+		"title": "«Муха»",
+		"year": 2005,
+		"author": "за К. Чуковським",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"theatreGroup": "гр. Театр випускників",
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=n_aEKxSQ7UI"
+	},
+	{
 		"id": "novyi-rik-2006",
 		"title": "Новорічна вистава",
 		"year": 2006,
@@ -8896,6 +8953,18 @@
 		"year": 2011,
 		"kind": "new-year",
 		"verificationStatus": "possible_errors"
+	},
+	{
+		"id": "neznaika-2011",
+		"title": "«Незнайка»",
+		"year": 2011,
+		"author": "за М. Носовим",
+		"masters": [
+			"nadiia-rybakova"
+		],
+		"theatreGroup": "гр. №12",
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=pHmZISrg8BA"
 	},
 	{
 		"id": "novyi-rik-2012",
@@ -9028,14 +9097,46 @@
 		"verificationStatus": "possible_errors",
 		"videoParts": [
 			{
+				"label": "1 серія",
+				"url": "https://www.youtube.com/watch?v=bptFSwCc8zE"
+			},
+			{
+				"label": "2 серія",
+				"url": "https://www.youtube.com/watch?v=xI-f0mR3-JE"
+			},
+			{
+				"label": "3 серія",
+				"url": "https://www.youtube.com/watch?v=2aH1fx4sWxA"
+			},
+			{
+				"label": "4 серія",
+				"url": "https://www.youtube.com/watch?v=a5ce6gCZpG8"
+			},
+			{
 				"label": "5 серія",
 				"url": "https://www.youtube.com/watch?v=9FfuXvnJPf0"
+			},
+			{
+				"label": "6 серія",
+				"url": "https://www.youtube.com/watch?v=eNNivT_nzmg"
 			},
 			{
 				"label": "7 серія",
 				"url": "https://www.youtube.com/watch?v=9M0_MUswcT4"
 			}
 		]
+	},
+	{
+		"id": "uryvky-z-klasychnoi-dramaturhii-2023",
+		"title": "Уривки з класичної драматургії",
+		"year": 2023,
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"theatreGroup": "гр. 6Т-16",
+		"note": "Фестиваль навчальних показів «Театральний букет-2023»",
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=hRod_HOqvs8"
 	},
 	{
 		"id": "novyi-rik-2024",
@@ -9055,6 +9156,19 @@
 		"dateNote": "22 грудня 2023",
 		"verificationStatus": "possible_errors",
 		"videoUrl": "https://www.youtube.com/watch?v=3zvfCsn_a1g"
+	},
+	{
+		"id": "hanchirkova-lialka-2024",
+		"title": "«Ганчіркова лялька»",
+		"year": 2024,
+		"author": "за п’єсою Вільяма Гібсона",
+		"masters": [
+			"svitlana-ryskina"
+		],
+		"theatreGroup": "гр. 5Т-17",
+		"note": "Фестиваль навчальних показів «Театральний букет-2024»",
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=-l2NBHhSStg"
 	},
 	{
 		"id": "novyi-rik-2025",
