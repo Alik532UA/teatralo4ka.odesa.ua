@@ -151,7 +151,8 @@
 		"theatreGroup": "гр. «Інтенсив-Тихон»",
 		"isDtsh": true,
 		"dateNote": "30 квітня четвер, 18.00 (ауд. 17); 1 травня п’ятниця, 18.00 (ауд. 17); 2 травня субота, 14.00 (ауд. 17)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=3IpKizhthrQ"
 	},
 	{
 		"id": "alisa-new-2025",
@@ -400,13 +401,15 @@
 			"Катерина"
 		],
 		"dateNote": "23.05 четвер, 18.00 (ауд. 7); 24.05 п’ятниця, 18.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=f5QXY5qbFAc"
 	},
 	{
 		"id": "holos-tykhoi-bezodni-2024",
 		"title": "«Голос тихої безодні»",
 		"year": 2024,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=z9h-Co-03uE"
 	},
 	{
 		"id": "zhaivoronok-2024",
@@ -472,7 +475,18 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=rj5I8UzVQ7E",
+		"videoParts": [
+			{
+				"label": "Показ 1",
+				"url": "https://www.youtube.com/watch?v=rj5I8UzVQ7E"
+			},
+			{
+				"label": "Показ 2",
+				"url": "https://www.youtube.com/watch?v=yHGzOBsn2ys"
+			}
+		]
 	},
 	{
 		"id": "ia-pishov-na-viinu-2024",
@@ -504,7 +518,8 @@
 			"Марина Чебан",
 			"Дар’я Овсяннікова"
 		],
-		"note": "Педагоги: А. Д. Клименко — гітара, музика до віршів; О. К. Панченко — фортепіано; Н. Г. Бакіна, Г. Я. Подзігун — вокал; Т. С. Мініна — хореографія; Т. В. Ісачкіна, І. О. Тільняк, Н. А. Афанасьєва — сценічна мова."
+		"note": "Педагоги: А. Д. Клименко — гітара, музика до віршів; О. К. Панченко — фортепіано; Н. Г. Бакіна, Г. Я. Подзігун — вокал; Т. С. Мініна — хореографія; Т. В. Ісачкіна, І. О. Тільняк, Н. А. Афанасьєва — сценічна мова.",
+		"videoUrl": "https://www.youtube.com/watch?v=LGlh3VMNThk"
 	},
 	{
 		"id": "ia-usikh-vas-liubliu-2024",
@@ -610,7 +625,8 @@
 		"id": "zviriachi-istorii-2023",
 		"title": "«звірячі історії»",
 		"year": 2023,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=u-ytFm4HTWY"
 	},
 	{
 		"id": "kassandra-2023",
@@ -676,7 +692,8 @@
 			"Дар'я Рибальченко"
 		],
 		"dateNote": "30.05 вівторок, 18.00 (ауд. УКР.театр); 06.06 вівторок, 18.00 (ауд. УКР.театр)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=DuEmmTPnCFs"
 	},
 	{
 		"id": "simia-hraty-2023",
@@ -789,7 +806,22 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=1WvNoaX92Ms",
+		"videoParts": [
+			{
+				"label": "Читка уривка",
+				"url": "https://www.youtube.com/watch?v=1WvNoaX92Ms"
+			},
+			{
+				"label": "Вистава «Все літо в один день»",
+				"url": "https://www.youtube.com/watch?v=7eJYtNMDD7I"
+			},
+			{
+				"label": "Вистава «Аватари»",
+				"url": "https://www.youtube.com/watch?v=rD5CzT_rpZQ"
+			}
+		]
 	},
 	{
 		"id": "instsenizatsiia-za-kazkamy-ivana-franka-2022",
@@ -813,7 +845,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=wi3L7qvRkdY"
 	},
 	{
 		"id": "pidu-do-zirok-2022",
@@ -838,7 +871,26 @@
 			"Гліб Єрьомін"
 		],
 		"dateNote": "2022 (Відео-показ)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=0dl69foSASc",
+		"videoParts": [
+			{
+				"label": "Випускна вистава (запис 1)",
+				"url": "https://www.youtube.com/watch?v=0dl69foSASc"
+			},
+			{
+				"label": "Випускна вистава (запис 2)",
+				"url": "https://www.youtube.com/watch?v=JV8KT4N92Vc"
+			},
+			{
+				"label": "Тизер",
+				"url": "https://www.youtube.com/watch?v=qWHQSyvZfKo"
+			},
+			{
+				"label": "Анонс показу",
+				"url": "https://www.youtube.com/watch?v=rllBplVHZno"
+			}
+		]
 	},
 	{
 		"id": "geist-2022",
@@ -896,7 +948,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=kDek5bAgZOw"
 	},
 	{
 		"id": "vsi-myshi-liubliat-syr-2021",
@@ -1068,7 +1121,17 @@
 			"Володимир Романко (актор Українського театру ім. Василька — Григ)"
 		],
 		"dateNote": "липень-жовтень 2020",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "1-а версія (19.10)",
+				"url": "https://www.youtube.com/watch?v=8wiBvh24Jmg"
+			},
+			{
+				"label": "2-а версія (20.10)",
+				"url": "https://www.youtube.com/watch?v=Pz0XVa_eCwk"
+			}
+		]
 	},
 	{
 		"id": "vir-u-sebe-2020",
@@ -1173,7 +1236,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"isDtsh": true,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=k3LtiRjpmpo"
 	},
 	{
 		"id": "subotyk-2020",
@@ -1585,7 +1649,8 @@
 		"id": "vdova-polkovnyka-2017",
 		"title": "«Вдова полковника»",
 		"year": 2017,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=UnFQ7HTElSQ"
 	},
 	{
 		"id": "henzel-ta-hretel-2017",
@@ -1942,7 +2007,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=XGcLjs3HwuI"
 	},
 	{
 		"id": "kolobonia-2015",
@@ -2317,7 +2383,18 @@
 			"Ганна Вацик"
 		],
 		"dateNote": "22 травня (четвер), 18.30 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=5hgu1sQjOJ8",
+		"videoParts": [
+			{
+				"label": "Монологи «ClickBait»",
+				"url": "https://www.youtube.com/watch?v=5hgu1sQjOJ8"
+			},
+			{
+				"label": "Сценмовлення. Монологи",
+				"url": "https://www.youtube.com/watch?v=G1kijtA44Fg"
+			}
+		]
 	},
 	{
 		"id": "obshchezhytye-2014",
@@ -2851,7 +2928,18 @@
 		"id": "telefon-2012",
 		"title": "«Телефон»",
 		"year": 2012,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=HK1OElJn1n8",
+		"videoParts": [
+			{
+				"label": "За казкою І. Багряного",
+				"url": "https://www.youtube.com/watch?v=HK1OElJn1n8"
+			},
+			{
+				"label": "За К. Чуковським",
+				"url": "https://www.youtube.com/watch?v=Zyt8WQ9rmik"
+			}
+		]
 	},
 	{
 		"id": "trynadtsataia-zvezda-2012",
@@ -3042,7 +3130,18 @@
 		"id": "tanho-2011",
 		"title": "«Танго»",
 		"year": 2011,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=g1qRoPZIds8",
+		"videoParts": [
+			{
+				"label": "Уривок",
+				"url": "https://www.youtube.com/watch?v=g1qRoPZIds8"
+			},
+			{
+				"label": "Повна вистава (гр. «Йорики»)",
+				"url": "https://www.youtube.com/watch?v=hT5YX6X0Lnc"
+			}
+		]
 	},
 	{
 		"id": "tsarevna-liahushka-2011",
@@ -3202,7 +3301,18 @@
 			"svitlana-ryskina"
 		],
 		"isDtsh": true,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=0mXWLsQLZi8",
+		"videoParts": [
+			{
+				"label": "Повна вистава (гр. «Фантазія»)",
+				"url": "https://www.youtube.com/watch?v=0mXWLsQLZi8"
+			},
+			{
+				"label": "Уривок",
+				"url": "https://www.youtube.com/watch?v=1anZasJy0lI"
+			}
+		]
 	},
 	{
 		"id": "try-sestry-2010",
@@ -3842,7 +3952,8 @@
 		"id": "peppy-dlynnyi-chulok-2000",
 		"title": "«Пеппі Довгапанчоха»",
 		"year": 2000,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=gkBMDPVZWuA"
 	},
 	{
 		"id": "rusalochka-2000",
@@ -4791,7 +4902,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=QoK31Mo-Mpc"
 	},
 	{
 		"id": "rafaman-2016",
@@ -4809,7 +4921,18 @@
 		"author": ". Польоти за притчею Ричарда Баха",
 		"theatreGroup": "гр. 1Т-4",
 		"dateNote": "30 травня понеділок, 16.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=_Pg9B2JJpdg",
+		"videoParts": [
+			{
+				"label": "Гастролі у Прикарпатті",
+				"url": "https://www.youtube.com/watch?v=_Pg9B2JJpdg"
+			},
+			{
+				"label": "Уривок з вистави",
+				"url": "https://www.youtube.com/watch?v=mniE-QkhbDQ"
+			}
+		]
 	},
 	{
 		"id": "ytohovyi-prazdnyk-uchenykov-hrupp-1e-1-1e-2-2e-3-2-2016",
@@ -5823,7 +5946,8 @@
 			"tereza-zaurbekova",
 			"elmir-hanbarov"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=U8CU3JdFI1w"
 	},
 	{
 		"id": "lyshe-bud-soboiu-2020",
@@ -5928,7 +6052,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=RKv_9eb8-9Q"
 	},
 	{
 		"id": "kola-bez-tsukru-2020",
@@ -5961,7 +6086,8 @@
 		"masters": [
 			"iryna-kulbaba"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=kQPtuF5deLY"
 	},
 	{
 		"id": "tantsy-plius-2020",
@@ -5973,7 +6099,8 @@
 		"masters": [
 			"iryna-kulbaba"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=2-VVXPF4soU"
 	},
 	{
 		"id": "klaptyky-po-zakutkakh-2020",
@@ -6009,7 +6136,18 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=C7syT5VVYl0",
+		"videoParts": [
+			{
+				"label": "Версія 2",
+				"url": "https://www.youtube.com/watch?v=C7syT5VVYl0"
+			},
+			{
+				"label": "Версія 1",
+				"url": "https://www.youtube.com/watch?v=GUIlx5bJoQo"
+			}
+		]
 	},
 	{
 		"id": "use-lito-v-odyn-den-2020",
@@ -6730,7 +6868,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Z580uqp3x6g"
 	},
 	{
 		"id": "kozeniata-stara-kazka-na-novyi-lad-2023",
@@ -6769,7 +6908,8 @@
 			"fedir-tkach",
 			"tereza-zaurbekova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=YINMwzbjHsY"
 	},
 	{
 		"id": "sobaky-2023",
@@ -6781,7 +6921,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=12w3M98-Q-k"
 	},
 	{
 		"id": "vovk-ta-semero-kozeniat-2023",
@@ -6794,7 +6935,8 @@
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=-98VyQuxJos"
 	},
 	{
 		"id": "pokaz-v-pryvatnii-shkoli-2023",
@@ -6871,7 +7013,8 @@
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=7IaJyS1XpuQ"
 	},
 	{
 		"id": "taiemnytsi-zamku-oilenshtain-2023",
@@ -7057,7 +7200,8 @@
 		"masters": [
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=oM2AOKJu0dI"
 	},
 	{
 		"id": "treninh-etiudy-2024",
@@ -7080,7 +7224,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=6sW7vDy0NdM"
 	},
 	{
 		"id": "kazky-kriz-kaminnia-2024",
@@ -7104,7 +7249,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Rc9PSbkgp5o"
 	},
 	{
 		"id": "lisova-pisnia-2024",
@@ -7177,7 +7323,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=rMNZjqWI4iI"
 	},
 	{
 		"id": "pidsumkovi-dlia-estetychnoho-viddilennia-2024",
@@ -7444,7 +7591,8 @@
 		"masters": [
 			"elmir-hanbarov"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=3b4PquZYUeQ"
 	},
 	{
 		"id": "pryhody-mysheniat-i-hrufaliat-2025",
@@ -7788,7 +7936,22 @@
 		"masters": [
 			"nadiia-rybakova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=1B83xoFRkeE",
+		"videoParts": [
+			{
+				"label": "Суботній ранок 1B83xoFRkeE",
+				"url": "https://www.youtube.com/watch?v=1B83xoFRkeE"
+			},
+			{
+				"label": "Суботній ранок 19 11 SsU_5EIE-Iw",
+				"url": "https://www.youtube.com/watch?v=SsU_5EIE-Iw"
+			},
+			{
+				"label": "- Суботній ранок 26 11 c4uq8kzVUS8",
+				"url": "https://www.youtube.com/watch?v=c4uq8kzVUS8"
+			}
+		]
 	},
 	{
 		"id": "try-tsarstva-try-hosudarstv-2007",
