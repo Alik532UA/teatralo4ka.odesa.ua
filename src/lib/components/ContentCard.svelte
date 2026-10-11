@@ -449,18 +449,17 @@
 
 	/* ─── Shared card content (carousel + grid) ─────────── */
 	.focus-card__content {
-		padding: 3rem;
+		padding: 1.5rem 2.25rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		flex: 1;
+		flex: 1; min-width: 0;
 	}
 
 	.focus-card__meta {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-bottom: 1.5rem;
+		display: flex; align-items: center;
+		gap: 0.75rem; margin-bottom: 0.65rem;
+		flex-wrap: wrap;
 	}
 
 	.tag {
@@ -468,7 +467,7 @@
 		   колір заголовка, а не жовтий акцент решти елементів. */
 		background: var(--accent-alt);
 		color: var(--text-on-accent);
-		padding: 0.4rem 1rem;
+		padding: 0.35rem 0.9rem;
 		border-radius: var(--radius-full);
 		font-size: 0.75rem;
 		font-weight: 700;
@@ -477,24 +476,25 @@
 	}
 
 	.date {
-		font-size: 0.9rem;
+		font-size: 0.88rem;
 		color: var(--color-muted-text);
 		font-weight: 500;
+		white-space: nowrap; flex-shrink: 0;
 	}
 
 	.focus-card__title {
 		font-family: var(--font-heading);
-		font-size: 1.8rem;
+		font-size: 1.35rem;
 		font-weight: 800;
 		color: var(--text-title);
-		line-height: 1.5;
-		margin-bottom: 1rem;
+		line-height: 1.3;
+		margin-bottom: 0.65rem;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
 		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3; line-clamp: 3;
 		overflow: hidden;
-		padding-bottom: 0.1em;
+		word-break: normal; overflow-wrap: break-word;
+		padding-bottom: 0.05em;
 	}
 
 	.focus-card__excerpt {
@@ -502,15 +502,14 @@
 		/* `pre-line`: абзаци статті лишаються окремими рядками, як на її
 		   сторінці. Без цього браузер стискає переноси в пробіли, і опис
 		   читається суцільною стрічкою. */
-		white-space: pre-line;
-		line-height: 1.6;
-		margin-bottom: 2rem;
+		white-space: pre-line; font-size: 0.92rem;
+		line-height: 1.45;
+		margin-bottom: 1.15rem;
 		opacity: 0.8;
 		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		line-clamp: 2;
 		-webkit-box-orient: vertical;
-		overflow: hidden;
+		-webkit-line-clamp: 6; line-clamp: 6;
+		overflow: hidden; flex-shrink: 0;
 	}
 
 	.btn-more {
@@ -521,9 +520,9 @@
 		   краями з графітом. */
 		border: var(--btn-accent-border-width) solid var(--btn-accent-border);
 		text-decoration: none;
-		padding: 0.8rem 1.8rem;
+		padding: 0.6rem 1.4rem;
 		border-radius: var(--radius-full);
-		font-weight: 700;
+		font-weight: 700; font-size: 0.88rem;
 		width: fit-content;
 		transition: box-shadow 0.3s ease, filter 0.3s ease;
 		display: inline-flex;

@@ -270,11 +270,7 @@
 		min-height: 190px;
 		backdrop-filter: blur(12px);
 		box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
-		transition:
-			background 0.25s ease,
-			border-color 0.25s ease,
-			box-shadow 0.25s ease,
-			transform 0.25s ease;
+		transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 	}
 
 	.news-card:hover {
@@ -312,53 +308,63 @@
 	.news-card__content {
 		flex: 1 1 auto;
 		min-width: 0;
-		padding: 0.9rem 1.05rem;
+		padding: 0.75rem 0.9rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: 0.45rem;
+		gap: 0.35rem;
 		text-align: left;
 	}
 
 	.news-card__meta {
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.45rem 0.65rem;
+		justify-content: space-between;
+		gap: 0.35rem;
+		min-width: 0;
 	}
 
 	.news-card__tag {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.18rem 0.55rem;
+		padding: 0.16rem 0.5rem;
 		border-radius: 999px;
 		background: #00b4d8;
 		color: #030614;
-		font-size: 0.68rem;
+		font-size: 0.65rem;
 		font-weight: 800;
 		letter-spacing: 0.04em;
 		text-transform: uppercase;
 		line-height: 1.2;
+		flex-shrink: 0;
+		max-width: 60%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.news-card__date {
-		font-size: 0.78rem;
+		font-size: 0.74rem;
 		color: var(--galaxy-muted, #a8bfe0);
 		font-variant-numeric: tabular-nums;
 		line-height: 1.2;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.news-card__title {
 		margin: 0;
-		font-size: 0.95rem;
+		font-size: 0.88rem;
 		font-weight: 700;
-		line-height: 1.35;
+		line-height: 1.28;
 		color: #ffffff;
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		word-break: normal;
+		overflow-wrap: break-word;
 		transition: color 0.2s ease;
 	}
 
@@ -368,40 +374,38 @@
 
 	.news-card__excerpt {
 		margin: 0;
-		font-size: 0.77rem;
-		line-height: 1.42;
+		font-size: 0.74rem;
+		line-height: 1.35;
 		color: color-mix(in srgb, var(--galaxy-text, #ffffff), transparent 30%);
 		display: -webkit-box;
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		flex-shrink: 0;
 	}
 
 	.news-card__btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.4rem 1.05rem;
+		padding: 0.26rem 0.85rem;
 		border-radius: 999px;
 		background: var(--galaxy-accent, #8cc4ff);
 		color: #030614;
-		font-size: 0.82rem;
+		font-size: 0.74rem;
 		font-weight: 700;
 		border: none;
-		margin-top: 0.2rem;
+		margin-top: 0.1rem;
 		width: fit-content;
-		box-shadow: 0 4px 14px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 60%);
-		transition:
-			transform 0.2s ease,
-			filter 0.2s ease,
-			box-shadow 0.2s ease;
+		box-shadow: 0 3px 10px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 60%);
+		transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
 	}
 
 	.news-card:hover .news-card__btn {
 		filter: brightness(1.1);
 		transform: translateY(-1px);
-		box-shadow: 0 6px 18px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 45%);
+		box-shadow: 0 4px 14px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 45%);
 	}
 
 	/* ─── Navigation Arrows ──────────────────────────── */
