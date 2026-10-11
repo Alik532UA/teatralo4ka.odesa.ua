@@ -445,7 +445,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=pMExP1HHcbM"
 	},
 	{
 		"id": "uryvky-z-klasyky-2024",
@@ -515,7 +516,18 @@
 		"masters": [
 			"tereza-zaurbekova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=lEos35JvxeY",
+		"videoParts": [
+			{
+				"label": "Частина 2",
+				"url": "https://www.youtube.com/watch?v=lEos35JvxeY"
+			},
+			{
+				"label": "Частина 1",
+				"url": "https://www.youtube.com/watch?v=m-74inVCvmM"
+			}
+		]
 	},
 	{
 		"id": "pokaz-etiudiv-2024",
@@ -703,7 +715,18 @@
 			"svitlana-ryskina",
 			"vladyslav-mykhailiuk"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=EujdZrMMUDs",
+		"videoParts": [
+			{
+				"label": "Запис 1",
+				"url": "https://www.youtube.com/watch?v=EujdZrMMUDs"
+			},
+			{
+				"label": "Запис 2",
+				"url": "https://www.youtube.com/watch?v=Hfvz-Sioem4"
+			}
+		]
 	},
 	{
 		"id": "pokaz-etiudiv-2023",
@@ -736,7 +759,8 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Alter Ego»",
 		"isDtsh": true,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Vjx-yv6Keeo"
 	},
 	{
 		"id": "8-liubiachykh-zhinok-2022",
@@ -856,7 +880,8 @@
 		"theatreGroup": "гр. «Явища природи»",
 		"isDtsh": true,
 		"dateNote": "25 травня вівторок, 18.00 (ауд. 7); 30 травня неділя, 16.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=G9u1yvuGAe8"
 	},
 	{
 		"id": "asta-2021",
@@ -1154,7 +1179,8 @@
 		"id": "subotyk-2020",
 		"title": "«Суботик»",
 		"year": 2020,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=pjvXlWE54xQ"
 	},
 	{
 		"id": "tak-buvaie-2020",
@@ -1184,7 +1210,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=cJWksOygU0w"
 	},
 	{
 		"id": "pokaz-etiudiv-2020",
@@ -1364,7 +1391,8 @@
 			"Катерина Євтушенко",
 			"Амрита Чернишова"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=_hJ_n0ZMLpQ"
 	},
 	{
 		"id": "zamarashka-2018",
@@ -1488,7 +1516,22 @@
 		"masters": [
 			"fedir-tkach"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=02hEhX60eek",
+		"videoParts": [
+			{
+				"label": "Фестиваль «Схід-Захід-2019»",
+				"url": "https://www.youtube.com/watch?v=02hEhX60eek"
+			},
+			{
+				"label": "Показ 2018",
+				"url": "https://www.youtube.com/watch?v=eNhwmzObaeo"
+			},
+			{
+				"label": "Фестиваль «Театральний букет-2018»",
+				"url": "https://www.youtube.com/watch?v=qiKS0EkxFjA"
+			}
+		]
 	},
 	{
 		"id": "shake-s-pr-party-2018",
@@ -1506,7 +1549,13 @@
 		"institution": "Одеська дитяча театральна школа",
 		"theatreGroup": "гр. «Друге дихання»",
 		"isDtsh": true,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "Випускна вистава-2018 \"Shake-S-PR-p",
+				"url": "https://www.youtube.com/watch?v=hHp8Evi3vVU"
+			}
+		]
 	},
 	{
 		"id": "zolotaia-lavyna-2017",
@@ -1655,7 +1704,22 @@
 		"id": "kroki-2017",
 		"title": "«Крокі»",
 		"year": 2017,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=63K_EqSyzPo",
+		"videoParts": [
+			{
+				"label": "Форум «Крокі-2016»",
+				"url": "https://www.youtube.com/watch?v=63K_EqSyzPo"
+			},
+			{
+				"label": "Форум «Крокі-2017»",
+				"url": "https://www.youtube.com/watch?v=78bYa4ClR0M"
+			},
+			{
+				"label": "Форум «Крокі-2017» (3)",
+				"url": "https://www.youtube.com/watch?v=IHUHdWMmm-0"
+			}
+		]
 	},
 	{
 		"id": "natovp-samotnikh-2017",
@@ -2865,7 +2929,8 @@
 		"id": "hnom-vasia-2011",
 		"title": "«Гном Вася»",
 		"year": 2011,
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=7SYbJmvkkhw"
 	},
 	{
 		"id": "horod-monstrov-2011",
@@ -3666,7 +3731,8 @@
 			"Євгеній Тищенко",
 			"Вадим Круссер"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=rrQkB1tdAN4"
 	},
 	{
 		"id": "obruchenye-2006",
@@ -5008,7 +5074,8 @@
 		"author": "Фантазії за мотивами казки С. Екзюпері",
 		"theatreGroup": "гр. 3Т-10",
 		"dateNote": "29 травня понеділок, 17.00 (ауд. 7)",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Qa1Nc46_W_w"
 	},
 	{
 		"id": "na-solnechnoi-poliane-2017",
@@ -5742,7 +5809,8 @@
 		"masters": [
 			"svitlana-ryskina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=peRTeEJwwHQ"
 	},
 	{
 		"id": "ne-101-a-14-dolmatyntsiv-2020",
@@ -5847,7 +5915,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=BxQUD6xS6uo"
 	},
 	{
 		"id": "pryhody-karlsona-2020",
@@ -6192,7 +6261,8 @@
 			"olha-imas",
 			"samuil-imas"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=YCsIj9nePUI"
 	},
 	{
 		"id": "dusha-podushky-2021",
@@ -6207,7 +6277,8 @@
 		"masters": [
 			"tetiana-isachkina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=JKtggDv9rhk"
 	},
 	{
 		"id": "usi-khlopchyky-duraky-2021",
@@ -6670,7 +6741,8 @@
 		"masters": [
 			"tereza-zaurbekova"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=E6S_bN2j5EI"
 	},
 	{
 		"id": "my-na-misiats-letymo-2023",
@@ -6683,7 +6755,8 @@
 			"elmir-hanbarov",
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=O-8DbwCai-o"
 	},
 	{
 		"id": "balada-pro-korolivs-kyi-buterbrod-2023",
@@ -6830,7 +6903,8 @@
 		"masters": [
 			"hanna-nikolaieva"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=Ss73mkER-8E"
 	},
 	{
 		"id": "pidsumkovi-dlia-molodshykh-uchniv-1e-1-2e-2-3e-3-4-2023",
@@ -6970,7 +7044,8 @@
 		"masters": [
 			"yevheniia-osadcha"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=0LLtdBnllhs"
 	},
 	{
 		"id": "zubata-vtrata-2024",
@@ -7077,7 +7152,8 @@
 		"masters": [
 			"liubov-savina"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=wuCPFHbUEfs"
 	},
 	{
 		"id": "henzel-i-hretel-2024",
@@ -7275,7 +7351,8 @@
 		"masters": [
 			"vladyslav-mykhailiuk"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=1g6HCi_RNO0"
 	},
 	{
 		"id": "treninh-etiudy-2025",
@@ -8403,14 +8480,16 @@
 		"title": "Посвята в Мистецтво",
 		"year": 2014,
 		"kind": "posviata",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=2iLKuuime8Q"
 	},
 	{
 		"id": "posviata-2015",
 		"title": "Посвята в Мистецтво",
 		"year": 2015,
 		"kind": "posviata",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=rnAMUiGugIY"
 	},
 	{
 		"id": "posviata-2016",
@@ -8443,7 +8522,17 @@
 		"kind": "posviata",
 		"videoUrl": "https://youtu.be/GuU4OZD5eZY",
 		"dateNote": "13 жовтня",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "Backstage",
+				"url": "https://www.youtube.com/watch?v=X9u5Ub0zKEY"
+			},
+			{
+				"label": "Відділення «РАФАМАН»",
+				"url": "https://www.youtube.com/watch?v=dATvnun1NTI"
+			}
+		]
 	},
 	{
 		"id": "posviata-2020",
@@ -8581,7 +8670,13 @@
 			"hanna-tkach",
 			"fedir-tkach"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "Посвята 2025 - ролік 4FqbWz0_tpQ",
+				"url": "https://www.youtube.com/watch?v=4FqbWz0_tpQ"
+			}
+		]
 	},
 	{
 		"id": "novyi-rik-2004",
@@ -8685,7 +8780,13 @@
 		"kind": "new-year",
 		"videoUrl": "https://youtu.be/DtALXjGv2I0",
 		"dateNote": "23–24 грудня 2016",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "г. Одессы Новогодний \"капустник\"-20",
+				"url": "https://www.youtube.com/watch?v=_JpbiwAT3Nc"
+			}
+		]
 	},
 	{
 		"id": "novyi-rik-2018",
@@ -8715,15 +8816,24 @@
 		"kind": "new-year",
 		"videoParts": [
 			{
-				"label": "перший запис",
-				"url": "https://youtu.be/jDBXQl4GWM4"
+				"label": "День 3",
+				"url": "https://www.youtube.com/watch?v=9U93BBcsS_U"
 			},
 			{
-				"label": "другий запис",
-				"url": "https://youtu.be/fmVpsLhS7Js"
+				"label": "День 1",
+				"url": "https://www.youtube.com/watch?v=GI-iW1qgo1s"
+			},
+			{
+				"label": "День 4 (Фінал)",
+				"url": "https://www.youtube.com/watch?v=TED8ZpUwQ4A"
+			},
+			{
+				"label": "День 2",
+				"url": "https://www.youtube.com/watch?v=i21GeFwljpE"
 			}
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=9U93BBcsS_U"
 	},
 	{
 		"id": "novyi-rik-2022",
@@ -8752,7 +8862,17 @@
 		"kind": "new-year",
 		"videoUrl": "https://youtu.be/tuK95xoR7CY",
 		"dateNote": "23 грудня 2022",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoParts": [
+			{
+				"label": "5 серія",
+				"url": "https://www.youtube.com/watch?v=9FfuXvnJPf0"
+			},
+			{
+				"label": "7 серія",
+				"url": "https://www.youtube.com/watch?v=9M0_MUswcT4"
+			}
+		]
 	},
 	{
 		"id": "novyi-rik-2024",
@@ -8761,16 +8881,17 @@
 		"kind": "new-year",
 		"videoParts": [
 			{
-				"label": "перший запис",
-				"url": "https://youtu.be/M2EfC8PSmwg"
+				"label": "2 частина",
+				"url": "https://www.youtube.com/watch?v=3zvfCsn_a1g"
 			},
 			{
-				"label": "другий запис",
-				"url": "https://youtu.be/PcA0fPNqcFo"
+				"label": "1 частина",
+				"url": "https://www.youtube.com/watch?v=6etOTTOxPx8"
 			}
 		],
 		"dateNote": "22 грудня 2023",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"videoUrl": "https://www.youtube.com/watch?v=3zvfCsn_a1g"
 	},
 	{
 		"id": "novyi-rik-2025",
