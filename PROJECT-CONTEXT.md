@@ -553,3 +553,8 @@ DigitalWorkshop. `src/lib/siblings.ts` описує всі вісім (origin, �
 Відповідність тримає `npm run build` (крок `postbuild` → `check-geo.ts`,
 SEO-v9 § 7.5): він розбирає `robots.txt` по групах, звіряє кожну власну адресу
 з `llms.txt` зі вмістом `build/` і рахує теги `<meta name="robots">`.
+
+
+## 4. Модель версіонування (VERSIONING-v10 § 1 & § 2)
+- **Модель бампа**: `npm version <patch|minor|major> --no-git-tag-version` (Версія на реліз).
+- **Впровадження версії**: `__APP_VERSION__` через Vite define.
