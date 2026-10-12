@@ -75,7 +75,9 @@ export function redact(text: string): string {
 	return out;
 }
 
-const SESSION_STORAGE_KEY = 'teatralo4ka_logs_history';
+import { session } from './storage';
+
+const SESSION_STORAGE_KEY = 'logs_history';
 
 class ErrorLogger {
 	private cache: ErrorEvent[] = [];
@@ -83,23 +85,22 @@ class ErrorLogger {
 	private mirrorEnabled = true;
 
 	constructor() {
-		if (typeof window !== 'undefined') {
-			try {
-				const saved = window.sessionStorage?.getItem(SESSION_STORAGE_KEY);
-				if (saved) {
-					const parsed = JSON.parse(saved);
-					if (Array.isArray(parsed)) this.cache = parsed;
-				}
-			} catch {
-				// Ignore storage failure on init
+		try {
+			const saved = session.get(SESSION_STORAGE_KEY);
+			if (saved) {
+				const parsed = JSON.parse(saved);
+				if (Array.isArray(parsed)) this.cache = parsed;
 			}
+		} catch {
+			// Ignore storage failure on init
 		}
 	}
 
 	private mirror(): void {
-		if (typeof window === 'undefined' || !this.mirrorEnabled) return;
+		if (!this.mirrorEnabled) return;
 		try {
-			window.sessionStorage?.setItem(SESSION_STORAGE_KEY, JSON.stringify(this.cache));
+			const ok = session.set(SESSION_STORAGE_KEY, JSON.stringify(this.cache));
+			if (!ok) this.mirrorEnabled = false;
 		} catch {
 			this.mirrorEnabled = false;
 		}
