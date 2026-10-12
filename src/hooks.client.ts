@@ -1,7 +1,8 @@
 import { dev } from '$app/environment';
 import type { HandleClientError } from '@sveltejs/kit';
 import { migrateStorageKeys } from '$lib/utils/storageMigration';
-import { errorLogger } from '$lib/services/errorLogger';
+import { errorLogger, logService } from '$lib/services/errorLogger';
+import { errorToMessageKey } from '$lib/errors';
 
 /**
  * Telemetry endpoint for CSP validation (OBSERVABILITY-v9 § 1.5):
@@ -50,7 +51,9 @@ export function init() {
 export const handleError: HandleClientError = async ({ error, event, status, message }) => {
 	if (status === 404) return;
 
+	const _key = errorToMessageKey(error);
 	const normalized = error instanceof Error ? error : new Error(String(error));
+	// logService.error: errorLogger.logError handles writing to cache
 	const errorId = errorLogger.logError(normalized, {
 		component: 'client-unhandled',
 		page: event?.url?.pathname

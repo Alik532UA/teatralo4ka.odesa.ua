@@ -31,17 +31,33 @@
 	import { endless } from '$lib/controllers/endless.svelte';
 	import { checkForUpdates } from '$lib/services/version';
 	import { SITE_ORIGIN } from '$lib/config/site';
+	import { onMount } from 'svelte';
 	import { trackPageView } from '$lib/services/analytics';
 	import { webVitals } from '$lib/controllers/webVitals.svelte';
 	import { afterNavigate } from '$app/navigation';
 	import { installViewTransitions } from '$lib/utils/viewTransition';
 	import { installTrail } from '$lib/utils/installTrail';
 	import { installImageReveal } from '$lib/utils/installImageReveal';
+	import { logService } from '$lib/services/errorLogger';
 
 	let { children, data } = $props();
 
 	// Start RUM Core Web Vitals collection (OBSERVABILITY-v9 § 2.1)
 	$effect(() => webVitals.start());
+
+	onMount(() => {
+		const onRejection = (e: PromiseRejectionEvent) =>
+			logService.error('app', `Unhandled rejection: ${String(e.reason)}`);
+		const onWindowError = (e: ErrorEvent) =>
+			logService.error('app', `${e.message} at ${e.filename}:${e.lineno}`);
+		window.addEventListener('unhandledrejection', onRejection);
+		window.addEventListener('error', onWindowError);
+
+		return () => {
+			window.removeEventListener('unhandledrejection', onRejection);
+			window.removeEventListener('error', onWindowError);
+		};
+	});
 
 	// Fires on the initial load too, so this covers the first view and every
 	// client-side move between the site's pages. trackPageView initialises
