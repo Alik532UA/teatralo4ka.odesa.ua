@@ -1,7 +1,7 @@
 import { dev } from '$app/environment';
 import type { HandleClientError } from '@sveltejs/kit';
 import { migrateStorageKeys } from '$lib/utils/storageMigration';
-import { errorLogger, logService } from '$lib/services/errorLogger';
+import { errorLogger } from '$lib/services/errorLogger';
 import { errorToMessageKey } from '$lib/errors';
 
 /**
