@@ -75,9 +75,35 @@ export function redact(text: string): string {
 	return out;
 }
 
+const SESSION_STORAGE_KEY = 'teatralo4ka_logs_history';
+
 class ErrorLogger {
 	private cache: ErrorEvent[] = [];
-	private readonly MAX_CACHE = 50;
+	private readonly MAX_CACHE = 1000;
+	private mirrorEnabled = true;
+
+	constructor() {
+		if (typeof window !== 'undefined') {
+			try {
+				const saved = window.sessionStorage?.getItem(SESSION_STORAGE_KEY);
+				if (saved) {
+					const parsed = JSON.parse(saved);
+					if (Array.isArray(parsed)) this.cache = parsed;
+				}
+			} catch {
+				// Ignore storage failure on init
+			}
+		}
+	}
+
+	private mirror(): void {
+		if (typeof window === 'undefined' || !this.mirrorEnabled) return;
+		try {
+			window.sessionStorage?.setItem(SESSION_STORAGE_KEY, JSON.stringify(this.cache));
+		} catch {
+			this.mirrorEnabled = false;
+		}
+	}
 
 	/**
 	 * Кого сповістити, коли записів побільшало.
@@ -182,6 +208,7 @@ class ErrorLogger {
 		if (this.cache.length > this.MAX_CACHE) {
 			this.cache.shift();
 		}
+		this.mirror();
 
 		const prefix = `[${level}] ${event.context.component ?? 'app'}:`;
 		if (level === 'error') {
@@ -221,6 +248,7 @@ class ErrorLogger {
 
 	clearCache(): void {
 		this.cache = [];
+		this.mirror();
 		this.notify();
 	}
 
@@ -242,6 +270,48 @@ class ErrorLogger {
 	get errorCount(): number {
 		return this.getErrors().length;
 	}
+
+	getReport(): string {
+		const inBrowser = typeof window !== 'undefined';
+		const header = [
+			'--- LOG REPORT ---',
+			`DATE: ${new Date().toISOString()}`,
+			`VERSION: ${this.appVersion}`,
+			`URL: ${inBrowser ? window.location.href : 'SSR'}`,
+			`DEVICE: ${inBrowser ? navigator.userAgent : 'SSR'}`,
+			`ONLINE: ${inBrowser ? navigator.onLine : 'n/a'}`,
+			`ERRORS: ${this.errorCount} / ${this.cache.length}`,
+			'---'
+		].join('\n');
+
+		const body = this.cache
+			.map((e) => `[${e.context.timestamp}] [${e.level.toUpperCase()}] [${e.context.component ?? 'app'}] ${e.message}`)
+			.join('\n');
+
+		return `${header}\n--- RECENT LOGS ---\n${body}`;
+	}
 }
 
 export const errorLogger = new ErrorLogger();
+
+export const logService = {
+	get errorCount(): number {
+		return errorLogger.errorCount;
+	},
+	get appVersion(): string {
+		return errorLogger.appVersion;
+	},
+	info(category: string, message: string, ...args: unknown[]): string {
+		return errorLogger.logInfo(args.length ? `${message} ${args.map(String).join(' ')}` : message, { component: category });
+	},
+	warn(category: string, message: string, ...args: unknown[]): string {
+		return errorLogger.logWarning(message, { component: category }, args[0]);
+	},
+	error(category: string, message: string, ...args: unknown[]): string {
+		const err = args[0] instanceof Error ? args[0] : new Error(message);
+		return errorLogger.logError(err, { component: category });
+	},
+	getReport(): string {
+		return errorLogger.getReport();
+	}
+};

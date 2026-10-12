@@ -31,6 +31,7 @@
 	 * `errorLogger.subscribe`.
 	 */
 	let copied = $state(false);
+	let fallbackReport = $state<string | null>(null);
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;
 
 	let errorCount = $state(errorLogger.errorCount);
@@ -54,28 +55,29 @@
 	});
 
 	async function copyReport() {
+		const report = buildLogReport();
 		try {
-			await navigator.clipboard.writeText(buildLogReport());
+			await navigator.clipboard.writeText(report);
+			fallbackReport = null;
 			copied = true;
 			copyTimer = setTimeout(() => (copied = false), 1500);
 		} catch (error) {
-			/*
-			 * `logWarning`, а не `logError`: рівень «помилка» крутив би рівно той
-			 * лічильник, який малює ця кнопка — невдала спроба скопіювати звіт створювала
-			 * б привід показати кнопку копіювання звіту. Та й відмова буфера обміну не
-			 * збій застосунку: поза HTTPS і без дозволу вона очікувана.
-			 */
 			errorLogger.logWarning('не вдалося скопіювати звіт', { component: 'ServiceBadge' }, error);
-			/*
-			 * Але звіт не має зникати разом із відмовою (DEBUGGING-v9 § 2.3): текст
-			 * показується в полі поруч, звідки його можна виділити руками. Доти
-			 * лишалося тільке попередження в консолі — тобто саме там, куди людина з
-			 * телефоном подивитися не може.
-			 */
-			showReportFallback(buildLogReport());
+			fallbackReport = report;
+			showReportFallback(report);
 		}
 	}
 </script>
+
+{#if fallbackReport}
+	<textarea
+		class="log-fallback"
+		readonly
+		value={fallbackReport}
+		aria-label="Debug report fallback"
+		data-testid="service-badge-report-textarea"
+	></textarea>
+{/if}
 
 {#if isVisible}
 	<button
@@ -101,6 +103,23 @@
 {/if}
 
 <style>
+	.log-fallback {
+		position: fixed;
+		bottom: 60px;
+		left: 16px;
+		right: 16px;
+		height: 40dvh;
+		z-index: 9999;
+		padding: 8px;
+		font-family: monospace;
+		font-size: 0.75rem;
+		background: #1e1e1e;
+		color: #ffffff;
+		border: 2px solid #ef4444;
+		border-radius: 8px;
+		resize: none;
+	}
+
 	.badge {
 		position: fixed;
 		bottom: 16px;
