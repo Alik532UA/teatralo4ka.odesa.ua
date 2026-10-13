@@ -191,6 +191,7 @@
 
 		if (!fromAuto) autoplayOverride = false;
 		isAutoAdvancing = fromAuto;
+		currentProgress = 0;
 		currentIndex++;
 	}
 
@@ -200,6 +201,7 @@
 
 		autoplayOverride = false;
 		isAutoAdvancing = false;
+		currentProgress = 0;
 		currentIndex--;
 	}
 
@@ -213,6 +215,7 @@
 
 		autoplayOverride = false;
 		isAutoAdvancing = false;
+		currentProgress = 0;
 
 		// Find the shortest path (forward or backward) to the target dot
 		let diff = i - currentMod;
@@ -232,30 +235,45 @@
 
 	function autoNext() { next(true); }
 
-	// ── Autoplay interval ─────────────────────────────────────────────────────
-	let lastIndex = -1;
-	let lastAutoplay = false;
-	let remainingMs = 0;
-	let timerStartTime = 0;
+	// ── Autoplay progress & rewind loop ───────────────────────────────────────
+	let currentProgress = $state(0);
 
 	$effect(() => {
-		if (!mounted || !autoplay || isEngaged || view !== 'carousel' || infiniteItems.length <= 1) return;
-		const totalMs = (config.autoplayInterval || 7) * 1000;
-		if (currentIndex !== lastIndex || autoplay !== lastAutoplay) {
-			lastIndex = currentIndex;
-			lastAutoplay = autoplay;
-			remainingMs = totalMs;
+		if (!mounted || !autoplay || view !== 'carousel' || infiniteItems.length <= 1) {
+			currentProgress = 0;
+			return;
 		}
-		const duration = remainingMs > 50 ? remainingMs : totalMs;
-		timerStartTime = Date.now();
-		const id = setTimeout(() => {
-			remainingMs = totalMs;
-			autoNext();
-		}, duration);
+
+		let rafId: number;
+		let lastTime = performance.now();
+		const totalMs = (config.autoplayInterval || 7) * 1000;
+
+		function tick(now: number) {
+			const dt = Math.min(now - lastTime, 100);
+			lastTime = now;
+
+			if (isEngaged) {
+				// Rewind when engaged (hover or focus), smoothly decelerating down to 3%
+				if (currentProgress > 0.03) {
+					const normalized = (currentProgress - 0.03) / 0.97;
+					const factor = Math.max(0, Math.pow(normalized, 1.6));
+					currentProgress = Math.max(0.03, currentProgress - (dt / totalMs) * factor);
+				}
+			} else {
+				// Advance forward at normal speed
+				currentProgress += dt / totalMs;
+				if (currentProgress >= 1) {
+					currentProgress = 0;
+					autoNext();
+				}
+			}
+
+			rafId = requestAnimationFrame(tick);
+		}
+
+		rafId = requestAnimationFrame(tick);
 		return () => {
-			clearTimeout(id);
-			const elapsed = Date.now() - timerStartTime;
-			remainingMs = Math.max(0, duration - elapsed);
+			cancelAnimationFrame(rafId);
 		};
 	});
 
@@ -469,7 +487,6 @@
 			<!-- svelte-ignore a11y_no_static_element_interactions -->
 			<div
 				class="focus-dots"
-				style="--autoplay-interval: {(config.autoplayInterval || 7)}s;"
 				data-testid="{testIdPrefix}-pagination-list"
 				onmouseenter={() => isHovered = true}
 				onmouseleave={() => isHovered = false}
@@ -484,13 +501,10 @@
 					>
 						<span class="f-dot-track">
 							{#if activeDotIndex === i}
-								{#key currentIndex}
-									<span
-										class="f-dot-progress"
-										class:animate={autoplay}
-										class:paused={isEngaged}
-									></span>
-								{/key}
+								<span
+									class="f-dot-progress"
+									style="width: {autoplay ? (currentProgress * 100).toFixed(2) : 100}%;"
+								></span>
 							{/if}
 						</span>
 					</button>
@@ -875,7 +889,6 @@
 		 */
 		--dot-pad-block: 9px;
 		--dot-pad-inline: 0px;
-		--autoplay-interval: 7s;
 
 		display: flex;
 		justify-content: center;
@@ -909,9 +922,10 @@
 	 * дотику 24px (WCAG 2.2 SC 2.5.8) при видимій висоті 6px та радіусі 3px.
 	 *
 	 * Активна кнопка розширюється до 60px (40px на мобільному) і містить
-	 * `.f-dot-progress`, який під час автоперемикання заповнюється зліва направо
-	 * за час `autoplayInterval`. На наведенні та фокусі анімація ставиться на
-	 * паузу, синхронізуючись із таймером автопрокрутки.
+	 * `.f-dot-progress`, який під час автоперемикання плавно заповнюється
+	 * зліва направо за час `autoplayInterval`. На наведенні та фокусі таймер
+	 * плавно відмотується назад з нелінійним уповільненням (до мінімуму 3%),
+	 * ніколи не перемикаючи на попередню новину.
 	 */
 	.f-dot {
 		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку. */
@@ -949,30 +963,14 @@
 	.f-dot-progress {
 		display: block;
 		height: 100%;
-		width: 100%;
+		width: 0%;
 		border-radius: 3px;
 		background-color: var(--text-title);
-		transform-origin: left center;
-	}
-
-	.f-dot-progress.animate {
-		width: 0%;
-		animation: dot-progress var(--autoplay-interval, 7s) linear forwards;
-	}
-
-	.f-dot-progress.paused {
-		animation-play-state: paused;
-	}
-
-	@keyframes dot-progress {
-		from { width: 0%; }
-		to { width: 100%; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.f-dot-progress.animate {
-			animation: none;
-			width: 100%;
+		.f-dot-progress {
+			width: 100% !important;
 		}
 	}
 
