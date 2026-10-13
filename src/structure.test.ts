@@ -740,10 +740,15 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-10-13: `ContentWidget.svelte` (700 -> 765). Прогрес-бар автоперемикання
  *   на активній точці пагінації: точне відлічування часу до наступного слайда,
  *   анімація заповнення, пауза на наведенні/фокусі та безшовна синхронізація з таймером.
+ * 2026-10-13: `DefendersPoetryPoster.svelte` (650). Цифровий плакат формату A4
+ *   до Дня захисників та захисниць України (поетична композиція «Серця, які не втратили здатність любити»
+ *   за віршами Ірини Фотуйми з розкладом показів, підтримкою повнорозмірного художнього фону
+ *   з прапором і захисниками `defenders-hearts-bg.webp` та динамічним перемиканням тем).
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
+	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,
 	'src/lib/components/posters/DigitalAnniversaryPoster.svelte': 375,
 	'src/routes/beta-test-checklists/+page.svelte': 470,
 	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,

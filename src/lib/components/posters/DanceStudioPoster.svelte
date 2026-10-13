@@ -204,7 +204,7 @@
 	.poster-frame {
 		container-type: inline-size;
 		width: 100%;
-		max-width: 960px;
+		max-width: 900px;
 		margin: 0 auto;
 		display: flex;
 		justify-content: center;
@@ -595,8 +595,7 @@
 	/* Адаптивність для вузьких мобільних екранів */
 	@container (max-width: 580px) {
 		.dance-poster {
-			aspect-ratio: auto;
-			padding: 24px 14px;
+			padding: 20px 12px;
 		}
 
 		.corner-icons-layer {

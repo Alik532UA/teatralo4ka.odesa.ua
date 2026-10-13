@@ -349,6 +349,9 @@ export const LOCAL_IMAGE_SIZES = {
 	'/news/2026-06-13/01.jpg': { width: 640, height: 1136 },
 	'/news/2026-06-21/01.jpg': { width: 720, height: 1280 },
 	'/news/2026-10-09/01.webp': { width: 720, height: 1080 },
+	'/posters/defenders-hearts-art.webp': { width: 1200, height: 805 },
+	'/posters/defenders-hearts-bg.webp': { width: 768, height: 1376 },
+	'/posters/defenders-hearts-sky-bg.webp': { width: 768, height: 1376 },
 	/* Знімки перенесених новин дописує `npm run news:from-firestore`. Місце значуще: запис
 	   мусить лишитися всередині мапи, і саме тому мітка стоїть тут, а не
 	   вгорі — інакше вставка потрапила б у чужий рядок. */

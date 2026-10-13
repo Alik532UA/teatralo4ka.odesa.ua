@@ -220,4 +220,11 @@
 			font-size: 12px;
 		}
 	}
+
+	@media print {
+		.badge,
+		.log-fallback {
+			display: none !important;
+		}
+	}
 </style>

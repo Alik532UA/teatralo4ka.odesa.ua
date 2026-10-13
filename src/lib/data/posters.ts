@@ -1,4 +1,4 @@
-export type PosterId = 'dance-studio' | 'anniversary-28';
+export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -28,7 +28,27 @@ export interface PosterMeta {
 	dateBadgeEn?: string;
 }
 
+export interface PosterEventItem {
+	dateUk: string;
+	dateEn: string;
+	time: string;
+	roomUk?: string;
+	roomEn?: string;
+	dayUk: string;
+	dayEn: string;
+}
+
 export const POSTERS_LIST: PosterMeta[] = [
+	{
+		id: 'defenders-hearts',
+		slug: 'defenders-hearts',
+		titleUk: 'Серця, які не втратили здатність любити',
+		titleEn: 'Hearts That Kept the Ability to Love',
+		subtitleUk: 'До Дня захисників · вірші Ірини Фотуйми',
+		subtitleEn: 'Day of Defenders · Poems by Iryna Fotuyma',
+		dateBadgeUk: '14 та 17 жовтня',
+		dateBadgeEn: 'Oct 14 & 17'
+	},
 	{
 		id: 'dance-studio',
 		slug: 'dance-studio',
@@ -50,6 +70,51 @@ export const POSTERS_LIST: PosterMeta[] = [
 		dateBadgeEn: 'Nov 29–30'
 	}
 ];
+
+export const DEFENDERS_HEARTS_POSTER = {
+	id: 'defenders-hearts',
+	occasionUk: 'До Дня захисників та захисниць України',
+	occasionEn: 'Dedicated to the Day of Defenders of Ukraine',
+	genreUk: 'Поетична композиція',
+	genreEn: 'Poetic Composition',
+	authorUk: 'За віршами Ірини Фотуйми',
+	authorEn: 'Based on poems by Iryna Fotuyma',
+	titleUk: 'Серця, які не втратили здатність любити',
+	titleEn: 'Hearts That Kept the Ability to Love',
+	heroImage: '/posters/defenders-hearts-art.webp',
+	events: [
+		{
+			dateUk: '14 жовтня',
+			dateEn: 'October 14',
+			time: '17:00',
+			roomUk: '17 ауд.',
+			roomEn: 'Classroom 17',
+			dayUk: 'Середа',
+			dayEn: 'Wednesday'
+		},
+		{
+			dateUk: '17 жовтня',
+			dateEn: 'October 17',
+			time: '12:50',
+			roomUk: '17 ауд.',
+			roomEn: 'Classroom 17',
+			dayUk: 'Субота',
+			dayEn: 'Saturday'
+		}
+	] satisfies PosterEventItem[],
+	location: {
+		institutionUk: 'Одеська дитяча театральна школа',
+		institutionEn: 'Odesa Children’s Theatre School',
+		addressUk: 'вул. Софіївська, 24',
+		addressEn: '24 Sofiivska St.',
+		detailsUk: 'Приміщення Одеської дитячої театральної школи (вул. Софіївська, 24)',
+		detailsEn: 'Odesa Children’s Theatre School premises (24 Sofiivska St.)'
+	},
+	quoteUk: '«Любов сильніша за війну, бо вона оберігає серця й дарує життя»',
+	quoteEn: '“Love is stronger than war, because it protects hearts and gives life”',
+	schoolUk: 'Одеська дитяча театральна школа · Сезон 2026–2027',
+	schoolEn: 'Odesa Children’s Theatre School · Season 2026–2027'
+};
 
 export const DANCE_STUDIO_POSTER = {
 	id: 'dance-studio',
@@ -105,11 +170,30 @@ export interface PosterTheme {
 	nameUk: string;
 	nameEn: string;
 	color: string;
+	bgImage?: string;
+	forPosters?: readonly PosterId[];
 }
 
 export const DEFAULT_POSTER_THEME = 'yellow-brand';
+export const DEFAULT_DEFENDERS_THEME = 'defenders-sky';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
+	{
+		id: 'defenders-sky',
+		nameUk: 'Синьо-жовте небо (Захід сонця)',
+		nameEn: 'Blue & Yellow Sky (Sunset)',
+		color: 'linear-gradient(180deg, #162a45 40%, #f59e0b 60%)',
+		bgImage: '/posters/defenders-hearts-sky-bg.webp',
+		forPosters: ['defenders-hearts']
+	},
+	{
+		id: 'defenders-art',
+		nameUk: 'Художній арт (Захисники та діти)',
+		nameEn: 'Artistic Canvas (Defenders & Children)',
+		color: 'linear-gradient(180deg, #00b5ec 50%, #ffd600 50%)',
+		bgImage: '/posters/defenders-hearts-bg.webp',
+		forPosters: ['defenders-hearts']
+	},
 	{
 		id: 'yellow-brand',
 		nameUk: 'Фірмовий жовтий',

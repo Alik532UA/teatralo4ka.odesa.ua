@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 170" preserveAspectRatio="none">
+	<defs>
+		<linearGradient id="defenders-brush-grad" x1="0%" y1="20%" x2="100%" y2="80%">
+			<stop offset="0%" stop-color="#fff1a6" />
+			<stop offset="50%" stop-color="#fffbe8" />
+			<stop offset="100%" stop-color="#ffefa0" />
+		</linearGradient>
+	</defs>
+	<path
+		d="M 44,22 C 85,14 140,20 210,16 C 285,11 360,17 435,13 C 495,10 540,17 564,26 C 576,32 588,46 578,60 C 570,70 590,84 582,100 C 572,114 586,132 558,150 C 520,162 450,158 380,164 C 300,170 215,162 145,168 C 92,170 52,160 28,144 C 14,130 26,110 14,92 C 6,74 20,54 26,42 C 30,30 36,22 44,22 Z"
+		fill="url(#defenders-brush-grad)"
+	/>
+	<path d="M 552,24 C 574,28 594,38 600,48 C 586,52 572,49 560,46 Z" fill="#fff1a6" opacity="0.9" />
+	<path d="M 568,62 C 590,68 604,80 596,88 C 582,89 568,82 560,76 Z" fill="#fffbe8" opacity="0.9" />
+	<path d="M 552,114 C 574,122 594,130 588,140 C 572,142 556,134 544,130 Z" fill="#ffefa0" opacity="0.85" />
+	<path d="M 38,30 C 20,34 6,44 2,54 C 14,56 28,50 40,44 Z" fill="#fff1a6" opacity="0.9" />
+	<path d="M 30,70 C 12,76 0,88 6,96 C 18,96 30,88 38,82 Z" fill="#fffbe8" opacity="0.9" />
+	<path d="M 42,122 C 24,132 8,144 14,152 C 28,150 42,140 52,134 Z" fill="#ffefa0" opacity="0.85" />
+	<path
+		d="M 58,26 C 150,20 320,16 485,20 C 535,26 550,52 544,82 C 534,118 470,140 350,146 C 220,150 120,144 72,134 C 45,122 38,86 46,58 C 50,40 54,30 58,26 Z"
+		fill="#ffffff"
+		opacity="0.5"
+	/>
+</svg>

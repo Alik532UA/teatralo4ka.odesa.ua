@@ -6,8 +6,14 @@
 	import { replaceState } from '$app/navigation';
 	import { seo } from '$lib/services/seo.svelte';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
-	import { POSTERS_LIST, DEFAULT_POSTER_THEME, type PosterId } from '$lib/data/posters';
+	import {
+		POSTERS_LIST,
+		DEFAULT_POSTER_THEME,
+		DEFAULT_DEFENDERS_THEME,
+		type PosterId
+	} from '$lib/data/posters';
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
+	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
@@ -15,18 +21,22 @@
 	const lang = $derived($locale === 'en' ? 'en' : 'uk');
 	const isEn = $derived(lang === 'en');
 
-	let activePoster = $state<PosterId>('dance-studio');
-	let selectedTheme = $state<string>(DEFAULT_POSTER_THEME);
+	let activePoster = $state<PosterId>(POSTERS_LIST[0].id);
+	let selectedTheme = $state<string>(
+		POSTERS_LIST[0].id === 'defenders-hearts' ? DEFAULT_DEFENDERS_THEME : DEFAULT_POSTER_THEME
+	);
 	let fullscreenButton = $state<HTMLButtonElement | null>(null);
 
 	onMount(() => {
 		const param = page.url.searchParams.get('poster') as PosterId | null;
-		if (param && (param === 'dance-studio' || param === 'anniversary-28')) {
+		if (param && POSTERS_LIST.some((p) => p.id === param)) {
 			activePoster = param;
 		}
 		const themeParam = page.url.searchParams.get('theme');
 		if (themeParam) {
 			selectedTheme = themeParam;
+		} else if (activePoster === 'defenders-hearts') {
+			selectedTheme = DEFAULT_DEFENDERS_THEME;
 		}
 	});
 
@@ -34,6 +44,13 @@
 		activePoster = id;
 		const nextUrl = new URL(window.location.href);
 		nextUrl.searchParams.set('poster', id);
+		if (id === 'defenders-hearts' && selectedTheme === DEFAULT_POSTER_THEME) {
+			selectedTheme = DEFAULT_DEFENDERS_THEME;
+			nextUrl.searchParams.set('theme', DEFAULT_DEFENDERS_THEME);
+		} else if (id === 'dance-studio' && selectedTheme.startsWith('defenders-')) {
+			selectedTheme = DEFAULT_POSTER_THEME;
+			nextUrl.searchParams.set('theme', DEFAULT_POSTER_THEME);
+		}
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		replaceState(resolve('/posters') + nextUrl.search + nextUrl.hash, page.state);
 	}
@@ -81,8 +98,8 @@
 				? `School Posters - ${$t('seo.brandTitle')}`
 				: `Афіші школи - Цифрові плакати та роздруківка - ${$t('seo.brandTitle')}`,
 			description: isEn
-				? 'Official digital posters and playbills of Odesa Children’s Theatre School: dance collective enrollment, interactive view, and A4 print.'
-				: 'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, цифровий перегляд та роздруківка у форматі A4.'
+				? 'Official digital posters and playbills of Odesa Children’s Theatre School: dance collective enrollment, Defenders Day poetry playbill, interactive view, and A4 print.'
+				: 'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та роздруківка у форматі A4.'
 		});
 	});
 </script>
@@ -131,9 +148,10 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts'}
 						<PosterThemePicker
 							{selectedTheme}
+							posterId={activePoster}
 							{isEn}
 							onSelect={selectTheme}
 						/>
@@ -174,7 +192,9 @@
 
 		<!-- Основний слот плаката -->
 		<section class="poster-viewport" data-testid="poster-active-container">
-			{#if activePoster === 'dance-studio'}
+			{#if activePoster === 'defenders-hearts'}
+				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'dance-studio'}
 				<DanceStudioPoster {isEn} themeId={selectedTheme} />
 			{:else}
 				<DigitalAnniversaryPoster {isEn} />
@@ -390,6 +410,18 @@
 		:global(.skip-link),
 		:global(.page-scrollbar),
 		:global(.minimap),
+		:global(.dynamic-bg),
+		:global(.bg-container),
+		:global(.app__base-bg),
+		:global(.service-layer),
+		:global(.service-badge),
+		:global(.badge),
+		:global([data-testid="app-version-value"]),
+		:global(.hot-news-bar),
+		:global(#ambient-canvas),
+		:global(.theme-transition-overlay),
+		:global(.scroll-to-top),
+		:global(.endless-runway),
 		.posters-header {
 			display: none !important;
 		}

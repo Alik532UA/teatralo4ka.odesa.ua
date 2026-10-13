@@ -1,16 +1,21 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { Palette, X, Check } from 'lucide-svelte';
-	import { POSTER_THEMES } from '$lib/data/posters';
+	import { POSTER_THEMES, type PosterId } from '$lib/data/posters';
 
 	interface Props {
 		selectedTheme: string;
+		posterId?: PosterId;
 		isEn?: boolean;
 		compact?: boolean;
 		onSelect: (themeId: string) => void;
 	}
 
-	let { selectedTheme, isEn = false, compact = false, onSelect }: Props = $props();
+	let { selectedTheme, posterId, isEn = false, compact = false, onSelect }: Props = $props();
+
+	const availableThemes = $derived(
+		POSTER_THEMES.filter((t) => !t.forPosters || (posterId && t.forPosters.includes(posterId)))
+	);
 
 	let open = $state(false);
 	let toggleButton = $state<HTMLButtonElement | null>(null);
@@ -58,7 +63,7 @@
 			<div class="panel-header">
 				<div class="panel-title-wrap">
 					<span class="panel-title">{isEn ? 'Poster Background' : 'Фон афіші'}</span>
-					<span class="panel-subtitle">{isEn ? 'Solid color (no gradient)' : 'Однотонний колір (без градієнта)'}</span>
+					<span class="panel-subtitle">{isEn ? 'Choose style or color' : 'Оберіть стиль або колір'}</span>
 				</div>
 				<button
 					type="button"
@@ -72,7 +77,7 @@
 			</div>
 
 			<div class="theme-grid">
-				{#each POSTER_THEMES as theme (theme.id)}
+				{#each availableThemes as theme (theme.id)}
 					{@const isSelected = selectedTheme === theme.id}
 					<button
 						type="button"
@@ -83,7 +88,7 @@
 					>
 						<span
 							class="color-chip"
-							style:background-color={theme.color}
+							style:background={theme.color}
 							aria-hidden="true"
 						>
 							{#if isSelected}
