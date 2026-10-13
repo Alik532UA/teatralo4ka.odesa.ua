@@ -33,4 +33,14 @@ describe('teatralo4ka errorLogger and logService', () => {
 		}
 		expect(errorLogger.getCache().length).toBe(20);
 	});
+
+	it('ignores benign browser noise like ResizeObserver loop notifications', () => {
+		logService.error('app', 'ResizeObserver loop completed with undelivered notifications.');
+		expect(errorLogger.errorCount).toBe(0);
+		expect(errorLogger.getCache().length).toBe(0);
+
+		errorLogger.logError(new Error('ResizeObserver loop limit exceeded'));
+		expect(errorLogger.errorCount).toBe(0);
+		expect(errorLogger.getCache().length).toBe(0);
+	});
 });

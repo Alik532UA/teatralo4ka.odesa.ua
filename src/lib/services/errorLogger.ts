@@ -173,6 +173,10 @@ class ErrorLogger {
 		context: Partial<ErrorEvent['context']>,
 		rawStack?: string
 	): string {
+		if (rawMessage && rawMessage.includes('ResizeObserver loop')) {
+			return '';
+		}
+
 		// Перевіряється саме `randomUUID`, а не сам `crypto`: поза secure context
 		// об'єкт існує, а методу в ньому немає. Логер викликається з `handleError`,
 		// тобто вже посеред обробки помилки — виняток тут перетворив би одну
@@ -309,6 +313,9 @@ export const logService = {
 		return errorLogger.logWarning(message, { component: category }, args[0]);
 	},
 	error(category: string, message: string, ...args: unknown[]): string {
+		if (message && message.includes('ResizeObserver loop')) {
+			return '';
+		}
 		const err = args[0] instanceof Error ? args[0] : new Error(message);
 		return errorLogger.logError(err, { component: category });
 	},

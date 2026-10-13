@@ -226,14 +226,37 @@
 		sharedTransitionEnd(e, handlers, (v) => { isTransitioning = v; });
 	}
 
+	const activeDotIndex = $derived(
+		items.length > 0 ? ((currentIndex % items.length) + items.length) % items.length : 0
+	);
+
 	function autoNext() { next(true); }
 
 	// ── Autoplay interval ─────────────────────────────────────────────────────
+	let lastIndex = -1;
+	let lastAutoplay = false;
+	let remainingMs = 0;
+	let timerStartTime = 0;
+
 	$effect(() => {
 		if (!mounted || !autoplay || isEngaged || view !== 'carousel' || infiniteItems.length <= 1) return;
-		const ms = (config.autoplayInterval || 7) * 1000;
-		const id = setInterval(autoNext, ms);
-		return () => clearInterval(id);
+		const totalMs = (config.autoplayInterval || 7) * 1000;
+		if (currentIndex !== lastIndex || autoplay !== lastAutoplay) {
+			lastIndex = currentIndex;
+			lastAutoplay = autoplay;
+			remainingMs = totalMs;
+		}
+		const duration = remainingMs > 50 ? remainingMs : totalMs;
+		timerStartTime = Date.now();
+		const id = setTimeout(() => {
+			remainingMs = totalMs;
+			autoNext();
+		}, duration);
+		return () => {
+			clearTimeout(id);
+			const elapsed = Date.now() - timerStartTime;
+			remainingMs = Math.max(0, duration - elapsed);
+		};
 	});
 
 	// ── Swipe & Scroll (shared) ──────────────────────────────────────────────
@@ -439,15 +462,38 @@
 		</section>
 
 		{#if items.length > 1}
-			<div class="focus-dots" data-testid="{testIdPrefix}-pagination-list">
+			<!--
+				Контейнер точок пагінації слухає мишу виключно для призупинення автопрокрутки,
+				самі ж точки є повноцінними кнопками з повною клавіатурною доступністю.
+			-->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				class="focus-dots"
+				style="--autoplay-interval: {(config.autoplayInterval || 7)}s;"
+				data-testid="{testIdPrefix}-pagination-list"
+				onmouseenter={() => isHovered = true}
+				onmouseleave={() => isHovered = false}
+			>
 				{#each items as item, i (item.id)}
 					<button
 						class="f-dot"
-						class:active={(currentIndex % items.length) === i}
+						class:active={activeDotIndex === i}
 						onclick={() => goTo(i)}
 						aria-label="{$t('common.slide')} {i + 1}"
 						data-testid="{testIdPrefix}-pagination-btn-{i}"
-					></button>
+					>
+						<span class="f-dot-track">
+							{#if activeDotIndex === i}
+								{#key currentIndex}
+									<span
+										class="f-dot-progress"
+										class:animate={autoplay}
+										class:paused={isEngaged}
+									></span>
+								{/key}
+							{/if}
+						</span>
+					</button>
 				{/each}
 			</div>
 		{/if}
@@ -829,6 +875,7 @@
 		 */
 		--dot-pad-block: 9px;
 		--dot-pad-inline: 0px;
+		--autoplay-interval: 7s;
 
 		display: flex;
 		justify-content: center;
@@ -858,27 +905,13 @@
 	}
 
 	/*
-	 * Смужку малює `::before`, а не тло самої кнопки — і це третя спроба, тож
-	 * причина записана.
+	 * Смужку малює `.f-dot-track`, а не тло самої кнопки — це зберігає зону
+	 * дотику 24px (WCAG 2.2 SC 2.5.8) при видимій висоті 6px та радіусі 3px.
 	 *
-	 * Кнопка мусить бути ціллю дотику 24px (WCAG 2.2 SC 2.5.8), а смужка —
-	 * лишатися 6px. Спершу різницю набирав паддінг разом із
-	 * `background-clip: content-box`: тло фарбувалося лише по вмісту, тобто
-	 * смужка виглядала правильно. Але скруглення при такому clip зменшується на
-	 * паддінг ОКРЕМО ПО КОЖНІЙ ОСІ:
-	 *
-	 *   `border-radius: 3px`   → 3−0 по горизонталі, 3−9 по вертикалі = 0 →
-	 *                            смужка малювалася прямокутною, хоч скруглення
-	 *                            й було оголошене;
-	 *   `border-radius: 999px` → 999−0 по горизонталі (обрізається половиною
-	 *                            ШИРИНИ), 999−9 по вертикалі (половиною висоти)
-	 *                            → різні радіуси по осях, тобто еліпс. Саме це
-	 *                            й виглядало «дивною формою».
-	 *
-	 * Окремий бокс під смужку знімає всю цю арифметику: у нього власні межі й
-	 * власний радіус, який ні на що не зменшується. Паддінг і відступи смужки
-	 * зв'язані однією змінною, тож змінити ціль дотику можна в одному місці й
-	 * форма за нею піде сама.
+	 * Активна кнопка розширюється до 60px (40px на мобільному) і містить
+	 * `.f-dot-progress`, який під час автоперемикання заповнюється зліва направо
+	 * за час `autoplayInterval`. На наведенні та фокусі анімація ставиться на
+	 * паузу, синхронізуючись із таймером автопрокрутки.
 	 */
 	.f-dot {
 		/* content-box навмисно: `width`/`height` описують ВИДИМУ смужку. */
@@ -898,13 +931,14 @@
 		transition: width 0.3s ease;
 	}
 
-	.f-dot::before {
-		content: '';
+	.f-dot-track {
 		position: absolute;
 		inset-block: var(--dot-pad-block);
 		inset-inline: var(--dot-pad-inline);
 		border-radius: 3px;
 		background-color: var(--border-main, var(--color-border, #d0d5dd));
+		overflow: hidden;
+		pointer-events: none;
 		transition: background-color 0.3s ease, opacity 0.3s ease;
 	}
 
@@ -912,8 +946,34 @@
 		width: 60px;
 	}
 
-	.f-dot.active::before {
+	.f-dot-progress {
+		display: block;
+		height: 100%;
+		width: 100%;
+		border-radius: 3px;
 		background-color: var(--text-title);
+		transform-origin: left center;
+	}
+
+	.f-dot-progress.animate {
+		width: 0%;
+		animation: dot-progress var(--autoplay-interval, 7s) linear forwards;
+	}
+
+	.f-dot-progress.paused {
+		animation-play-state: paused;
+	}
+
+	@keyframes dot-progress {
+		from { width: 0%; }
+		to { width: 100%; }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.f-dot-progress.animate {
+			animation: none;
+			width: 100%;
+		}
 	}
 
 	@media (max-width: 480px) {

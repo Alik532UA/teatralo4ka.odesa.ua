@@ -232,7 +232,7 @@ class EndlessState {
 		 * новини й проєкти — з Firestore. Довжина кола мусить іти за нею, інакше
 		 * перестановка почала б промахуватися рівно на приріст.
 		 */
-		this.#resize = new ResizeObserver(this.#onResize);
+		this.#resize = new ResizeObserver(() => requestAnimationFrame(this.#onResize));
 		this.#resize.observe(band);
 		/*
 		 * І за ДОКУМЕНТОМ окремо. Смуга може не змінити власної висоти, а

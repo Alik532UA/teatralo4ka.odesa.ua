@@ -151,11 +151,7 @@
 	$effect(() => {
 		if (browser && navParentRef) {
 			const observer = new ResizeObserver((entries) => {
-				for (const entry of entries) {
-					// Measure the parent container which represents
-					// the total available area between logo and right edge
-					availableWidth = entry.contentRect.width;
-				}
+				requestAnimationFrame(() => entries[0] && (availableWidth = entries[0].contentRect.width));
 			});
 			observer.observe(navParentRef);
 			return () => observer.disconnect();

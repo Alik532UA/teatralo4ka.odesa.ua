@@ -258,7 +258,7 @@ export function customScroll(options: CustomScrollOptions = {}): Attachment {
 
 		let observer: ResizeObserver | null = null;
 		if (typeof ResizeObserver !== 'undefined') {
-			observer = new ResizeObserver(() => updateGeometry());
+			observer = new ResizeObserver(() => requestAnimationFrame(updateGeometry));
 			observer.observe(node);
 			if (node.firstElementChild) observer.observe(node.firstElementChild);
 			if (isMountedToParent && mountTarget) observer.observe(mountTarget);

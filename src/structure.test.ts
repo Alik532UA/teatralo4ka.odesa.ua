@@ -737,6 +737,9 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-10-09: `ArticleMedia.svelte` (300 -> 355). Підтримка модального відкриття
  *   горизонтального 16:9 відео (`coverVideoMode: 'modal'`) без заміни фото у вертикальній рамці
  *   та об'єднання сусідніх квадратів (`span: 2`, 2:1) для гармонійного збереження сітки галереї.
+ * 2026-10-13: `ContentWidget.svelte` (700 -> 765). Прогрес-бар автоперемикання
+ *   на активній точці пагінації: точне відлічування часу до наступного слайда,
+ *   анімація заповнення, пауза на наведенні/фокусі та безшовна синхронізація з таймером.
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/ArticleMedia.svelte': 355,
@@ -756,7 +759,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/MenuEditor.svelte': 865,
 	'src/lib/components/ui/RichTextEditor.svelte': 760,
 	'src/routes/admin/articles/+page.svelte': 718,
-	'src/lib/components/ContentWidget.svelte': 700,
+	'src/lib/components/ContentWidget.svelte': 765,
 	'src/lib/components/ContentCard.svelte': 610,
 	'src/lib/components/ui/PianoModal.svelte': 940,
 	'src/lib/components/GraduateProfileView.svelte': 1679,

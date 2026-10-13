@@ -267,9 +267,9 @@
 		// (ліниві зображення, липка шапка) інакше перемірювала б усі блоки й
 		// перебудовувала клон просто посеред руху миші.
 		const observer = new ResizeObserver(() => {
-			if (dragging) return;
-			measure();
-			measureBlocks();
+			if (!dragging && typeof window !== 'undefined') {
+				window.requestAnimationFrame(() => !dragging && (measure(), measureBlocks()));
+			}
 		});
 		observer.observe(document.documentElement);
 		// Шапку й підвал спостерігаємо ОКРЕМО: обидва fixed, тобто поза потоком, і

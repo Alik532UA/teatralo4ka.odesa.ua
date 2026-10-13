@@ -29,7 +29,7 @@ const tracker: Promise<SentryClient | null> | null =
 						replaysSessionSampleRate: 0.0,
 						replaysOnErrorSampleRate: 1.0,
 						environment: import.meta.env.MODE,
-						ignoreErrors: ['AbortError', 'Failed to fetch', 'ResizeObserver loop limit exceeded'],
+						ignoreErrors: ['AbortError', 'Failed to fetch', 'ResizeObserver loop'],
 						beforeSend(event: Record<string, unknown>) {
 							const req = event.request as Record<string, Record<string, unknown>> | undefined;
 							if (req?.headers) {

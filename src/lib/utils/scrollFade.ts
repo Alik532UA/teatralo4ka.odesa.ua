@@ -43,7 +43,10 @@ export function scrollFade(): Attachment {
 
 		node.addEventListener('scroll', update, { passive: true });
 
-		const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+		const observer =
+			typeof ResizeObserver === 'undefined'
+				? null
+				: new ResizeObserver(() => requestAnimationFrame(update));
 		observer?.observe(node);
 
 		const settle = setTimeout(update, 60);

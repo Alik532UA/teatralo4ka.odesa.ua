@@ -126,7 +126,10 @@ export function floatBottom(): Attachment {
 
 		place();
 
-		const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(onResize);
+		const observer =
+			typeof ResizeObserver === 'undefined'
+				? null
+				: new ResizeObserver(() => requestAnimationFrame(onResize));
 		observer?.observe(body);
 		/* Вміст приїжджає пізніше за розмітку — шрифти й картинки міняють висоту. */
 		const settle = setTimeout(place, 60);

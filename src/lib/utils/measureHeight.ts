@@ -39,7 +39,7 @@ export function measureHeight(set: (value: number) => void) {
 		const оновити = () => set(node.getBoundingClientRect().height);
 		оновити();
 
-		const спостерігач = new ResizeObserver(оновити);
+		const спостерігач = new ResizeObserver(() => requestAnimationFrame(оновити));
 		спостерігач.observe(node);
 
 		/* Шрифти доїжджають після першого кадру, і саме тоді висота тексту
@@ -57,7 +57,7 @@ export function measureWidth(set: (value: number) => void) {
 		const оновити = () => set(node.getBoundingClientRect().width);
 		оновити();
 
-		const спостерігач = new ResizeObserver(оновити);
+		const спостерігач = new ResizeObserver(() => requestAnimationFrame(оновити));
 		спостерігач.observe(node);
 
 		return () => спостерігач.disconnect();
