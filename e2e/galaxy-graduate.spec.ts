@@ -288,4 +288,32 @@ test.describe('картка в галактиці має власну адрес
 		expect(new Set(hrefs).size, 'адреси мусять бути унікальні').toBe(count);
 		for (const href of hrefs) expect(href).toMatch(/^\/projects\/galaxy-graduates\/.+/);
 	});
+
+	/*
+	 * Жодне ім'я викладача не виступає за межі своєї плашки (CSS overflow).
+	 *
+	 * Коли список викладачів розбивається на дві колонки, довгі імена на кшталт
+	 * «Дарія МАЙСТРЕНКО» чи «Тетяна СТЕПАНЧУК» при `white-space: nowrap` вилазили
+	 * за правий край картки й накладалися на сусіднього викладача.
+	 */
+	test('імена викладачів не виступають за межі своїх карток', async ({ page }) => {
+		await gotoReady(page, '/projects/galaxy-graduates/sofiia-podiakova/');
+		await waitForAnimations(page);
+
+		const overflows = await page.evaluate(() => {
+			const names = Array.from(document.querySelectorAll('.teacher-item .master-name'));
+			return names
+				.map((n) => {
+					const item = n.closest('.teacher-item');
+					if (!item) return null;
+					const itemRect = item.getBoundingClientRect();
+					const nameRect = n.getBoundingClientRect();
+					const overflow = Math.round(nameRect.right - itemRect.right);
+					return overflow > 1 ? { name: n.textContent?.trim(), overflow } : null;
+				})
+				.filter(Boolean);
+		});
+
+		expect(overflows, 'жодне імʼя викладача не виступає за межі картки').toEqual([]);
+	});
 });

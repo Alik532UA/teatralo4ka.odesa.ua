@@ -2214,6 +2214,7 @@
 		display: flex;
 		align-items: stretch;
 		width: 100%;
+		min-width: 0;
 		box-sizing: border-box;
 		text-align: left;
 		padding: 0;
@@ -2237,6 +2238,7 @@
 		gap: 0.5rem;
 		padding: 0.4rem 0.75rem;
 		width: 100%;
+		min-width: 0;
 		box-sizing: border-box;
 		text-align: left;
 		color: inherit;
@@ -2291,8 +2293,14 @@
 		text-decoration: none;
 		transition: color 0.2s ease;
 	}
-	.master-item .master-name {
+	.master-item:not(.teacher-item) .master-name {
 		white-space: nowrap;
+	}
+	.teacher-item .master-name {
+		white-space: normal;
+		line-height: 1.22;
+		word-break: normal;
+		overflow-wrap: break-word;
 	}
 	.master-name--long {
 		font-size: 0.75rem;
