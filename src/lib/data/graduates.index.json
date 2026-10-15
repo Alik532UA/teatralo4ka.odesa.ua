@@ -251,7 +251,8 @@
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 1162,
+		"hasPhoto": true,
+		"profileSize": 1292,
 		"playCount": 4,
 		"masters": [
 			{
@@ -6116,7 +6117,7 @@
 				]
 			}
 		],
-		"profileSize": 2380,
+		"profileSize": 2447,
 		"playCount": 5
 	},
 	{

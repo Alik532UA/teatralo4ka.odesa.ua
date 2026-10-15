@@ -11,6 +11,9 @@
 		"theatre"
 	],
 	"hasPhoto": true,
+	"gallery": [
+		"/graduates/gallery/blackwhite_maggie/01.webp"
+	],
 	"plays": [
 		{
 			"year": 2016,

@@ -140,5 +140,8 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/lizkashyrokova/01.webp': { width: 721, height: 1280 },
 	'/graduates/gallery/kolomiiets/01.webp': { width: 1280, height: 800 },
 	'/graduates/gallery/kolomiiets/02.webp': { width: 1280, height: 800 },
-	'/graduates/gallery/kolomiiets/03.webp': { width: 1280, height: 853 }
+	'/graduates/gallery/kolomiiets/03.webp': { width: 1280, height: 853 },
+	'/graduates/gallery/alina-demediuk/01.webp': { width: 1280, height: 960 },
+	'/graduates/gallery/alina-demediuk/02.webp': { width: 591, height: 969 },
+	'/graduates/gallery/blackwhite_maggie/01.webp': { width: 1018, height: 555 }
 } as const;

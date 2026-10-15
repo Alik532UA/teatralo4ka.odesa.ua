@@ -10,6 +10,11 @@
 	"departments": [
 		"theatre"
 	],
+	"hasPhoto": true,
+	"gallery": [
+		"/graduates/gallery/alina-demediuk/01.webp",
+		"/graduates/gallery/alina-demediuk/02.webp"
+	],
 	"plays": [
 		{
 			"year": 2024,
