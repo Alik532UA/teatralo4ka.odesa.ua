@@ -1,0 +1,99 @@
+{
+	"id": "sofiia-podiakova",
+	"slug": "sofiia-podiakova",
+	"code": "sofiia-podiakova",
+	"name": "Софія Подьякова",
+	"graduationYear": null,
+	"enrollmentYears": [
+		2023
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"gallery": [
+		"/graduates/gallery/sofiia-podiakova/01.webp",
+		"/graduates/gallery/sofiia-podiakova/02.webp"
+	],
+	"plays": [
+		{
+			"year": 2024,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2024"
+		},
+		{
+			"year": 2024,
+			"text": "«Я пішов на війну»",
+			"playId": "ia-pishov-na-viinu-2024"
+		},
+		{
+			"year": 2025,
+			"text": "«Чарівник Країни ОЗ», тітонька Ем, Жвакун-3, Лелека, Вартовий",
+			"playId": "charivnyk-krainy-oz-2025",
+			"role": "тітонька Ем, Жвакун-3, Лелека, Вартовий"
+		},
+		{
+			"year": 2025,
+			"text": "«Думки вголос»",
+			"playId": "dumky-vholos-2026"
+		},
+		{
+			"year": 2026,
+			"text": "«Дуже багато SEкретів», Ніна",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Ніна"
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "iryna-tilniak",
+			"subjects": [
+				"Індивідуальна сценічна мова"
+			]
+		},
+		{
+			"id": "dariia-maistrenko",
+			"subjects": [
+				"Хореографія"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stepanchuk",
+			"subjects": [
+				"Грим"
+			]
+		},
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "natalia-bakina",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
+}

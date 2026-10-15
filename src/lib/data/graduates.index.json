@@ -9229,11 +9229,61 @@
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
+		"enrollmentYears": [
+			2023
+		],
 		"masters": [
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "iryna-tilniak",
+				"subjects": [
+					"Індивідуальна сценічна мова"
+				]
+			},
+			{
+				"id": "dariia-maistrenko",
+				"subjects": [
+					"Хореографія"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stepanchuk",
+				"subjects": [
+					"Грим"
+				]
+			},
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"profileSize": 1862,
+		"playCount": 5
 	},
 	{
 		"id": "sofiia-skuratovych",

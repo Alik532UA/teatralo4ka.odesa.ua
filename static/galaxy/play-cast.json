@@ -256,6 +256,12 @@
 			"fromRegistry": true
 		}
 	],
+	"charivnyk-krainy-oz-2025": [
+		{
+			"graduateId": "sofiia-podiakova",
+			"role": "тітонька Ем, Жвакун-3, Лелека, Вартовий"
+		}
+	],
 	"chernaia-kurytsa-2007": [
 		{
 			"graduateId": "ihor-rozvodiuk"
@@ -409,6 +415,11 @@
 		{
 			"graduateId": "polina-hedzenko",
 			"role": "Марія"
+		}
+	],
+	"dumky-vholos-2026": [
+		{
+			"graduateId": "sofiia-podiakova"
 		}
 	],
 	"durochka-2010": [
@@ -744,6 +755,11 @@
 	"ia-2015": [
 		{
 			"graduateId": "kateryna-kudlach"
+		}
+	],
+	"ia-pishov-na-viinu-2024": [
+		{
+			"graduateId": "sofiia-podiakova"
 		}
 	],
 	"ia-usikh-vas-liubliu-2024": [
@@ -1771,6 +1787,11 @@
 			"fromRegistry": true
 		}
 	],
+	"pokaz-etiudiv-2024": [
+		{
+			"graduateId": "sofiia-podiakova"
+		}
+	],
 	"pokaz-etiudiv-2024-2": [
 		{
 			"graduateId": "kira-husyeva",
@@ -2387,6 +2408,10 @@
 		{
 			"graduateId": "nikol-onyshchenko",
 			"role": "Ліза"
+		},
+		{
+			"graduateId": "sofiia-podiakova",
+			"role": "Ніна"
 		}
 	],
 	"subotyk-2020": [
