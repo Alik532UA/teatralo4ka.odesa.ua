@@ -260,6 +260,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/masters/ye-nuliakina',
 	'/projects/galaxy-graduates/festivals/slavianskyi-venok',
 	'/projects/galaxy-graduates/groups/assorti',
+	'/projects/galaxy-graduates/groups/intensyv-tykhon',
 	'/projects/galaxy-graduates/plays/chuchelo-2016',
 	'/projects/galaxy-graduates/plays/divchynka-z-vedmedykom-2025',
 	'/projects/galaxy-graduates/plays/hrikh-2012',

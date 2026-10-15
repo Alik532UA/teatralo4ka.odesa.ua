@@ -1866,28 +1866,6 @@
 		]
 	},
 	{
-		"slug": "intensyv-tykhon",
-		"name": "Інтенсив-Тихон",
-		"abbr": null,
-		"nameEn": "Intensyv Tykhon",
-		"verificationStatus": "possible_errors",
-		"isCurrent": false,
-		"masters": [
-			{
-				"id": "fedir-tkach",
-				"name": "Ткач Федір Федорович",
-				"department": "theatre"
-			}
-		],
-		"graduationYears": [
-			2026
-		],
-		"memberIds": [],
-		"playIds": [
-			"pokaz-etiudiv-2026"
-		]
-	},
-	{
 		"slug": "kaktus",
 		"name": "Кактус",
 		"abbr": null,
