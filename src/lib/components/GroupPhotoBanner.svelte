@@ -127,17 +127,31 @@
 	 * випадковий перший кадр, тобто стрілка стрибала б на будь-який знімок
 	 * замість наступного.
 	 */
+	let currentProgress = $state(0);
+
 	$effect(() => {
 		// Читаємо лічильник навмисно: саме він і перезапускає таймер.
 		const _ = ручних;
 		const total = photos.length;
+		currentProgress = 0;
 		if (total < 2) return;
 
-		const id = setInterval(() => {
-			if (!lightboxOpen) index = (index + 1) % total;
-		}, ROTATE_MS);
-
-		return () => clearInterval(id);
+		let rafId: number;
+		let last = performance.now();
+		function tick(now: number) {
+			const dt = Math.min(now - last, 100);
+			last = now;
+			if (!lightboxOpen) {
+				currentProgress += dt / ROTATE_MS;
+				if (currentProgress >= 1) {
+					currentProgress = 0;
+					index = (index + 1) % total;
+				}
+			}
+			rafId = requestAnimationFrame(tick);
+		}
+		rafId = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(rafId);
 	});
 
 	/**
@@ -301,12 +315,13 @@
 					role="tab"
 					aria-selected={активний === i}
 					aria-label={`${title} — ${i + 1}`}
-					onclick={() => {
-						index = i;
-						ручних += 1;
-					}}
+					onclick={() => { index = i; ручних += 1; }}
 					data-testid="group-photo-item-{i}"
-				></button>
+				>
+					<span class="banner__dot-track">
+						{#if активний === i}<span class="banner__dot-progress" style="width: {(currentProgress * 100).toFixed(2)}%;"></span>{/if}
+					</span>
+				</button>
 			{/each}
 		</div>
 	{/if}
@@ -537,57 +552,15 @@
 	 * Банер задумувався під кілька знімків групи, і доти цього не траплялося;
 	 * галерея анкети підключила його до списку на порядок довшого.
 	 */
-	.banner__dots {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.5rem;
-		margin-bottom: var(--banner-dots-gap, 2rem);
-	}
+	.banner__dots { --dot-pad-block: 9px; --dot-pad-inline: 0px; display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0.5rem; row-gap: calc(2 * var(--dot-pad-block) + 0.5rem); margin-bottom: var(--banner-dots-gap, 2rem); }
+	.banner__dot { box-sizing: content-box; position: relative; flex: none; width: 22px; height: 5px; padding-block: var(--dot-pad-block); padding-inline: var(--dot-pad-inline); margin-block: calc(-1 * var(--dot-pad-block)); margin-inline: calc(-1 * var(--dot-pad-inline)); border: none; background: none; cursor: pointer; transition: width 0.3s ease; }
+	.banner__dot-track { position: absolute; inset-block: var(--dot-pad-block); inset-inline: var(--dot-pad-inline); border-radius: 3px; background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 55%); overflow: hidden; pointer-events: none; transition: background-color 0.25s ease; }
+	.banner__dot:hover .banner__dot-track { background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 20%); }
+	.banner__dot.is-active { width: 44px; }
+	.banner__dot-progress { display: block; height: 100%; width: 0%; border-radius: 3px; background: var(--galaxy-accent, #8cc4ff); box-shadow: 0 0 8px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 50%); }
+	.banner__dot:focus-visible { outline: 2px solid var(--galaxy-accent, #8cc4ff); outline-offset: 3px; }
+	@media (prefers-reduced-motion: reduce) { .banner__dot-progress { width: 100% !important; } }
 
-	/*
-	 * Колір крапок — із палітри ГАЛАКТИКИ, а не з теми сайту.
-	 *
-	 * Доти неактивні крапки малювалися через `light-dark()`, тобто залежали від
-	 * `color-scheme` сторінки. А банер живе тільки в галактиці, і там тло майже
-	 * чорне В БУДЬ-ЯКІЙ темі: `body.page-galaxy` перекриває змінні на
-	 * `--galaxy-*`. Виходило, що зі світлою темою сайту (жовтою чи блакитною)
-	 * крапки ставали чорними на чорному — автор надіслав знімок, де їх просто не
-	 * видно.
-	 *
-	 * `--galaxy-muted` і `--galaxy-accent` для цього й існують: у галактиці вони
-	 * сталі (#a8bfe0 і #8cc4ff), а на сторінці УЧНЯ, яка навмисно світла,
-	 * перевизначені на кольори теми — тож крапки лишаються видними й там. Саме
-	 * тому тут вони, а не жорсткі значення.
-	 */
-	.banner__dot {
-		/* Не худне: саме це й робило з крапки риску. */
-		flex: none;
-		width: 9px;
-		height: 9px;
-		padding: 0;
-		border: none;
-		border-radius: 50%;
-		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 55%);
-		cursor: pointer;
-		transition:
-			background 0.25s ease,
-			transform 0.25s ease;
-	}
-
-	.banner__dot:hover {
-		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 20%);
-	}
-
-	.banner__dot.is-active {
-		background: var(--galaxy-accent, #8cc4ff);
-		transform: scale(1.3);
-	}
-
-	.banner__dot:focus-visible {
-		outline: 2px solid var(--galaxy-accent, #8cc4ff);
-		outline-offset: 3px;
-	}
 
 	/*
 	 * Світле й темне значення — парою в самій властивості.

@@ -66,18 +66,30 @@
 		}
 	});
 
+	let currentProgress = $state(0);
+
 	$effect(() => {
 		const _ = manualCount;
 		const total = cards.length;
+		currentProgress = 0;
 		if (total < 2) return;
 
-		const intervalId = setInterval(() => {
+		let rafId: number;
+		let last = performance.now();
+		function tick(now: number) {
+			const dt = Math.min(now - last, 100);
+			last = now;
 			if (!isHovered) {
-				index = (index + 1) % total;
+				currentProgress += dt / ROTATE_MS;
+				if (currentProgress >= 1) {
+					currentProgress = 0;
+					index = (index + 1) % total;
+				}
 			}
-		}, ROTATE_MS);
-
-		return () => clearInterval(intervalId);
+			rafId = requestAnimationFrame(tick);
+		}
+		rafId = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(rafId);
 	});
 
 	function step(direction: number, e?: MouseEvent) {
@@ -212,7 +224,11 @@
 						aria-label={card.title}
 						onclick={(e) => select(i, e)}
 						data-testid="galaxy-card-news-item-{i}"
-					></button>
+					>
+						<span class="news-banner__dot-track">
+							{#if activeIndex === i}<span class="news-banner__dot-progress" style="width: {(currentProgress * 100).toFixed(2)}%;"></span>{/if}
+						</span>
+					</button>
 				{/each}
 			</div>
 		{/if}
@@ -450,39 +466,13 @@
 	}
 
 	/* ─── Dots ───────────────────────────────────────── */
-	.news-banner__dots {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 0.45rem;
-		margin-top: 0.65rem;
-	}
+	.news-banner__dots { --dot-pad-block: 8px; --dot-pad-inline: 0px; display: flex; flex-wrap: wrap; justify-content: center; column-gap: 0.45rem; row-gap: calc(2 * var(--dot-pad-block) + 0.45rem); margin-top: 0.65rem; }
+	.news-banner__dot { box-sizing: content-box; position: relative; flex: none; width: 20px; height: 5px; padding-block: var(--dot-pad-block); padding-inline: var(--dot-pad-inline); margin-block: calc(-1 * var(--dot-pad-block)); margin-inline: calc(-1 * var(--dot-pad-inline)); border: none; background: none; cursor: pointer; transition: width 0.3s ease; }
+	.news-banner__dot-track { position: absolute; inset-block: var(--dot-pad-block); inset-inline: var(--dot-pad-inline); border-radius: 3px; background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 60%); overflow: hidden; pointer-events: none; transition: background-color 0.3s ease; }
+	.news-banner__dot:hover .news-banner__dot-track { background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 25%); }
+	.news-banner__dot.is-active { width: 42px; }
+	.news-banner__dot-progress { display: block; height: 100%; width: 0%; border-radius: 3px; background: var(--galaxy-accent, #8cc4ff); box-shadow: 0 0 8px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 50%); }
+	.news-banner__dot:focus-visible { outline: 2px solid var(--galaxy-accent, #8cc4ff); outline-offset: 2px; }
+	@media (prefers-reduced-motion: reduce) { .news-banner__dot-progress { width: 100% !important; } }
 
-	.news-banner__dot {
-		flex: none;
-		width: 7px;
-		height: 7px;
-		padding: 0;
-		border: none;
-		border-radius: 50%;
-		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 60%);
-		cursor: pointer;
-		transition:
-			background 0.3s ease,
-			transform 0.3s ease;
-	}
-
-	.news-banner__dot:hover {
-		background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 25%);
-	}
-
-	.news-banner__dot.is-active {
-		background: var(--galaxy-accent, #8cc4ff);
-		transform: scale(1.35);
-	}
-
-	.news-banner__dot:focus-visible {
-		outline: 2px solid var(--galaxy-accent, #8cc4ff);
-		outline-offset: 2px;
-	}
 </style>

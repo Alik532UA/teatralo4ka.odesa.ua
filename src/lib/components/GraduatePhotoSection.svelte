@@ -195,37 +195,40 @@
 						type="button"
 						class="photo-dot"
 						class:photo-dot--active={i === activePhotoIndex}
-						onclick={(e) => {
-							e.stopPropagation();
-							setPhoto(i);
-						}}
+						onclick={(e) => { e.stopPropagation(); setPhoto(i); }}
 						aria-label="Photo {i + 1}"
 						data-testid="galaxy-card-photo-btn-{i}"
-					></button>
+					>
+						<span class="photo-dot__track">
+							{#if i === activePhotoIndex}<span class="photo-dot__progress"></span>{/if}
+						</span>
+					</button>
 				{/each}
 			{:else}
 				<button
 					type="button"
 					class="photo-dot"
 					class:photo-dot--active={activePhotoIndex === 0}
-					onclick={(e) => {
-						e.stopPropagation();
-						setPhoto(0);
-					}}
+					onclick={(e) => { e.stopPropagation(); setPhoto(0); }}
 					aria-label="Photo 1"
 					data-testid="galaxy-card-photo-btn-0"
-				></button>
+				>
+					<span class="photo-dot__track">
+						{#if activePhotoIndex === 0}<span class="photo-dot__progress"></span>{/if}
+					</span>
+				</button>
 				<button
 					type="button"
 					class="photo-dot"
 					class:photo-dot--active={activePhotoIndex === 1}
-					onclick={(e) => {
-						e.stopPropagation();
-						setPhoto(1);
-					}}
+					onclick={(e) => { e.stopPropagation(); setPhoto(1); }}
 					aria-label="Photo 2"
 					data-testid="galaxy-card-photo-btn-1"
-				></button>
+				>
+					<span class="photo-dot__track">
+						{#if activePhotoIndex === 1}<span class="photo-dot__progress"></span>{/if}
+					</span>
+				</button>
 			{/if}
 		</div>
 	{:else if graduate.kind === 'student'}
@@ -282,10 +285,12 @@
 	.photo-placeholder { display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgb(20 40 75 / 0.8) 0%, rgb(7 19 36 / 0.95) 75%); border: 2px dashed rgb(140 190 255 / 0.45); border-radius: 50%; box-sizing: border-box; cursor: pointer; }
 	.placeholder-add-btn { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid rgb(140 190 255 / 0.5); background: rgb(140 190 255 / 0.15); color: rgb(180 215 255 / 0.95); cursor: pointer; padding: 0; transition: all 0.2s ease; }
 	.placeholder-add-btn:hover { background: rgb(140 190 255 / 0.35); color: #fff; border-color: rgb(140 190 255 / 0.9); transform: scale(1.1); box-shadow: 0 0 16px rgb(140 190 255 / 0.45); }
-	.photo-dots { display: flex; justify-content: center; gap: 0.4rem; margin: 0 0 0.4rem; }
-	.photo-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgb(140 190 255 / 0.5); background: transparent; padding: 0; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
-	.photo-dot--active { background: rgb(140 190 255 / 0.85); border-color: rgb(140 190 255 / 0.9); transform: scale(1.2); }
-	.photo-dot:hover:not(.photo-dot--active) { background: rgb(140 190 255 / 0.35); border-color: rgb(140 190 255 / 0.7); }
+	.photo-dots { --dot-pad-block: 9px; --dot-pad-inline: 0px; display: flex; justify-content: center; column-gap: 0.4rem; row-gap: calc(2 * var(--dot-pad-block) + 0.4rem); margin: 0 0 0.4rem; flex-wrap: wrap; }
+	.photo-dot { box-sizing: content-box; position: relative; width: 20px; height: 5px; padding-block: var(--dot-pad-block); padding-inline: var(--dot-pad-inline); margin-block: calc(-1 * var(--dot-pad-block)); margin-inline: calc(-1 * var(--dot-pad-inline)); border: none; background: none; cursor: pointer; transition: width 0.3s ease; }
+	.photo-dot__track { position: absolute; inset-block: var(--dot-pad-block); inset-inline: var(--dot-pad-inline); border-radius: 3px; background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 65%); overflow: hidden; pointer-events: none; transition: background-color 0.3s ease; }
+	.photo-dot:hover .photo-dot__track { background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 35%); }
+	.photo-dot--active { width: 42px; }
+	.photo-dot__progress { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--galaxy-accent, #8cc4ff); box-shadow: 0 0 8px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 50%); }
 	.bloom, .star { cursor: pointer; padding: 0; }
 	.bloom { display: grid; place-items: center; width: 96px; height: 96px; margin: 0 auto 0.5rem; border-radius: 50%; background: var(--bg-surface, rgb(255 255 255 / 0.06)); border: 2px solid color-mix(in srgb, var(--accent-primary, #38bdf8) 55%, transparent); color: var(--accent-text, #7dd3fc); }
 	.star { display: block; width: 96px; height: 96px; margin: 0 auto 0.5rem; border-radius: 50%; border: none; background: radial-gradient(circle, rgb(234 242 255 / 0.95) 0 6px, rgb(180 214 255 / 0.35) 12px, transparent 70%); }

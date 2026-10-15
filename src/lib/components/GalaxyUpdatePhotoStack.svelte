@@ -131,7 +131,11 @@
 				onclick={() => (shown = i)}
 				aria-label={`${i + 1}`}
 				data-testid="galaxy-update-photo-dot-btn-{i}"
-			></button>
+			>
+				<span class="photo-dot__track">
+					{#if i === shown}<span class="photo-dot__progress"></span>{/if}
+				</span>
+			</button>
 		{/each}
 	</div>
 </div>
@@ -194,31 +198,10 @@
 			)
 			rotate(calc(var(--stack-offset) * 5deg)) scale(0.94);
 	}
-	.photo-dots {
-		display: flex;
-		justify-content: center;
-		gap: 0.35rem;
-	}
-	.photo-dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		border: 1.5px solid rgb(140 190 255 / 0.5);
-		background: transparent;
-		padding: 0;
-		cursor: pointer;
-		transition:
-			background 0.2s ease,
-			border-color 0.2s ease,
-			transform 0.2s ease;
-	}
-	.photo-dot--active {
-		background: rgb(140 190 255 / 0.85);
-		border-color: rgb(140 190 255 / 0.9);
-		transform: scale(1.2);
-	}
-	.photo-dot:hover:not(.photo-dot--active) {
-		background: rgb(140 190 255 / 0.35);
-		border-color: rgb(140 190 255 / 0.7);
-	}
+	.photo-dots { --dot-pad-block: 8px; --dot-pad-inline: 0px; display: flex; justify-content: center; column-gap: 0.35rem; row-gap: calc(2 * var(--dot-pad-block) + 0.35rem); flex-wrap: wrap; }
+	.photo-dot { box-sizing: content-box; position: relative; width: 18px; height: 5px; padding-block: var(--dot-pad-block); padding-inline: var(--dot-pad-inline); margin-block: calc(-1 * var(--dot-pad-block)); margin-inline: calc(-1 * var(--dot-pad-inline)); border: none; background: none; cursor: pointer; transition: width 0.3s ease; }
+	.photo-dot__track { position: absolute; inset-block: var(--dot-pad-block); inset-inline: var(--dot-pad-inline); border-radius: 3px; background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 65%); overflow: hidden; pointer-events: none; transition: background-color 0.3s ease; }
+	.photo-dot:hover .photo-dot__track { background: color-mix(in srgb, var(--galaxy-muted, #a8bfe0), transparent 35%); }
+	.photo-dot--active { width: 36px; }
+	.photo-dot__progress { display: block; height: 100%; width: 100%; border-radius: 3px; background: var(--galaxy-accent, #8cc4ff); box-shadow: 0 0 6px color-mix(in srgb, var(--galaxy-accent, #8cc4ff), transparent 50%); }
 </style>

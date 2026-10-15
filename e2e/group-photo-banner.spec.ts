@@ -304,7 +304,8 @@ test.describe('банер знімків групи', () => {
 			const виміряти = () => {
 				const крапки = [...document.querySelectorAll('.banner__dot')];
 				const неактивна = крапки.find((d) => !d.classList.contains('is-active'));
-				return неактивна ? getComputedStyle(неактивна).backgroundColor : '';
+				const ціль = неактивна?.querySelector('.banner__dot-track') ?? неактивна;
+				return ціль ? getComputedStyle(ціль).backgroundColor : '';
 			};
 			const було = document.documentElement.dataset.theme;
 			const зібране: Record<string, string> = {};
