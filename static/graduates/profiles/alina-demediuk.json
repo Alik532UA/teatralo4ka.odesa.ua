@@ -4,10 +4,37 @@
 	"code": "alina-demediuk",
 	"name": "Аліна Демедюк",
 	"graduationYear": 2025,
+	"enrollmentYears": [
+		2015
+	],
 	"departments": [
 		"theatre"
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2024,
+			"text": "«Тривожні люди», Кролик",
+			"playId": "tryvozhni-liudy-2024",
+			"role": "Кролик"
+		},
+		{
+			"year": 2023,
+			"text": "«Уривки з класики», «Покоївки» (Соландж і Клер), «Трамвай Бажання» (Стелла)",
+			"playId": "uryvky-iz-klasyky-2023"
+		},
+		{
+			"year": 2023,
+			"text": "«Пісочниця з WI-FI у космосі», Наташа",
+			"playId": "pisochnytsia-z-wi-fi-u-kosmosi-2022",
+			"role": "Наташа"
+		},
+		{
+			"year": 2021,
+			"text": "«Душа подушки», Емма",
+			"playId": "dusha-podushky-2021",
+			"role": "Емма"
+		}
+	],
 	"bio": [],
 	"afterGraduation": "Вступ 2026: КМАЕЦМ (філіал у Мюнхені, Німеччина), акторський, курс Т. Губрій",
 	"socials": [],

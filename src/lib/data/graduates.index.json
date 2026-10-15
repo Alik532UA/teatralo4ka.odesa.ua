@@ -245,11 +245,14 @@
 		"slug": "alina-demediuk",
 		"name": "Аліна Демедюк",
 		"graduationYear": 2025,
+		"enrollmentYears": [
+			2015
+		],
 		"departments": [
 			"theatre"
 		],
-		"profileSize": 449,
-		"playCount": 0,
+		"profileSize": 1162,
+		"playCount": 4,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
@@ -3098,18 +3101,27 @@
 	},
 	{
 		"id": "daria-sonhorova",
-		"slug": "daria-sonhorova",
+		"slug": "behideki",
+		"aliases": [
+			"daria-sonhorova"
+		],
 		"name": "Дар’я Сонгорова",
 		"graduationYear": 2024,
+		"enrollmentYears": [
+			2012
+		],
 		"departments": [
 			"theatre",
 			"music"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "tetiana-isachkina"
 			}
-		]
+		],
+		"profileSize": 936,
+		"playCount": 3
 	},
 	{
 		"id": "daria-terletska",
@@ -6029,12 +6041,19 @@
 	},
 	{
 		"id": "marharet-tsypynska",
-		"slug": "marharet-tsypynska",
+		"slug": "blackwhite_maggie",
+		"aliases": [
+			"marharet-tsypynska"
+		],
 		"name": "Маргарет Ципинська",
 		"graduationYear": 2017,
+		"enrollmentYears": [
+			2006
+		],
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "fedir-tkach"
@@ -6060,13 +6079,44 @@
 				]
 			},
 			{
+				"id": "iryna-ovcharenko",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "liliia-velychko",
+				"subjects": [
+					"Хор",
+					"Вокал"
+				]
+			},
+			{
 				"id": "iryna-kaplia",
 				"subjects": [
 					"Вокал"
 				]
+			},
+			{
+				"id": "olha-buinytska",
+				"subjects": [
+					"Гітара"
+				]
+			},
+			{
+				"id": "kyrylo-mazur",
+				"subjects": [
+					"Гітара"
+				]
+			},
+			{
+				"id": "iryna-ulianenko",
+				"subjects": [
+					"Сценічна мова"
+				]
 			}
 		],
-		"profileSize": 1039,
+		"profileSize": 2380,
 		"playCount": 5
 	},
 	{
@@ -11114,9 +11164,13 @@
 		"slug": "yeva-reznik",
 		"name": "Єва Резнік",
 		"graduationYear": 2024,
+		"enrollmentYears": [
+			2010
+		],
 		"departments": [
 			"theatre"
 		],
+		"hasPhoto": true,
 		"masters": [
 			{
 				"id": "svitlana-myronenko"
@@ -11145,8 +11199,8 @@
 				]
 			}
 		],
-		"profileSize": 507,
-		"playCount": 1
+		"profileSize": 1697,
+		"playCount": 4
 	},
 	{
 		"id": "yevanhelina-zubynska",

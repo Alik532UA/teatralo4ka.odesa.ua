@@ -4,19 +4,48 @@
 	"code": "yeva-reznik",
 	"name": "Єва Резнік",
 	"graduationYear": 2024,
+	"enrollmentYears": [
+		2010
+	],
 	"departments": [
 		"theatre"
 	],
+	"hasPhoto": true,
 	"plays": [
+		{
+			"year": 2024,
+			"text": "«Тривожні люди», Джимі (Інспектор Бо)",
+			"playId": "tryvozhni-liudy-2024",
+			"role": "Джимі (Інспектор Бо)"
+		},
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Явдоха Зубиха",
+			"playId": "son-zabrokhy-2023",
+			"role": "Явдоха Зубиха"
+		},
+		{
+			"year": 2022,
+			"text": "«Вісім люблячих жінок», Пʼєретта",
+			"playId": "visim-liubliachykh-zhinok-2022",
+			"role": "Пʼєретта"
+		},
 		{
 			"year": 2019,
 			"text": "«Синій птах»",
-			"playId": "synii-ptakh-2019",
-			"fromRegistry": true
+			"playId": "synii-ptakh-2019"
 		}
 	],
-	"bio": [],
-	"socials": [],
+	"bio": [
+		"Живу насичене життя в столиці, працюю, навчаюсь та дуже сумую за ДТШ 🫶🏻"
+	],
+	"afterGraduation": "Вступ 2024: ЛАКіМ (Луганська академія культури і мистецтв, м. Київ), акторський, майстерність Гіо Пачкорія",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/palach_eva"
+		}
+	],
 	"festivals": [],
 	"masters": [
 		{
@@ -30,6 +59,20 @@
 		},
 		{
 			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Участь у виставах"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
 		}
 	]
 }

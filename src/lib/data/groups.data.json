@@ -294,7 +294,8 @@
 			"mariia-mahdalina-matvieieva",
 			"oleh-vizitiei",
 			"anna-mariia-vyskochyl",
-			"yeva-reznik"
+			"yeva-reznik",
+			"daria-sonhorova"
 		],
 		"playIds": [
 			"tryvozhni-liudy-2024",
@@ -2212,7 +2213,9 @@
 		"graduationYears": [
 			2016
 		],
-		"memberIds": [],
+		"memberIds": [
+			"yeva-reznik"
+		],
 		"playIds": [
 			"repka-2016"
 		],
@@ -2308,7 +2311,9 @@
 		"graduationYears": [
 			2016
 		],
-		"memberIds": [],
+		"memberIds": [
+			"alina-demediuk"
+		],
 		"playIds": [
 			"nebylytsy-2016"
 		],

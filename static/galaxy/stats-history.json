@@ -3871,13 +3871,14 @@
   },
   {
     "date": "2026-09-18",
-    "overallPercent": 39,
+    "commitHash": "65a77365",
+    "overallPercent": 23,
     "categoryPercents": {
       "graduates": 39,
-      "groups": 37,
-      "plays": 37,
-      "masters": 50,
-      "festivals": 32
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
     },
     "metrics": {
       "graduates_profiles": {
@@ -3896,9 +3897,9 @@
         "percent": 52
       },
       "graduates_bio": {
-        "completed": 91,
+        "completed": 106,
         "total": 520,
-        "percent": 18
+        "percent": 20
       },
       "graduates_masters": {
         "completed": 479,
@@ -3915,6 +3916,2714 @@
         "total": 520,
         "percent": 18
       },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 110,
+        "total": 151,
+        "percent": 73
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 39,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 39,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 39,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-19",
+    "commitHash": "b20a2960",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 94,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 112,
+        "total": 151,
+        "percent": 74
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-21",
+    "commitHash": "1dd4f47a",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 94,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 112,
+        "total": 151,
+        "percent": 74
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-22",
+    "commitHash": "ce63ab04",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 94,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 112,
+        "total": 151,
+        "percent": 74
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-24",
+    "commitHash": "5ebf20bd",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-25",
+    "commitHash": "b65eff82",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-26",
+    "commitHash": "021b6564",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 1,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 3,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_video": {
+        "completed": 38,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-27",
+    "commitHash": "79c86745",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 4,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 40,
+        "total": 737,
+        "percent": 5
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-28",
+    "commitHash": "147a24db",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 5,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-09-30",
+    "commitHash": "85eacd1c",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 5,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-01",
+    "commitHash": "6ec5595f",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 130,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-02",
+    "commitHash": "92860087",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 131,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-03",
+    "commitHash": "a3942673",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 131,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-04",
+    "commitHash": "1294ed22",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 230,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 131,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 107,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-05",
+    "commitHash": "f26380e5",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-06",
+    "commitHash": "75b1e97d",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-08",
+    "commitHash": "0deac347",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-09",
+    "commitHash": "b628c6d4",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 2,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 737,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 41,
+        "total": 737,
+        "percent": 6
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 737,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-11",
+    "commitHash": "ecb0a3d1",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 5,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 741,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 128,
+        "total": 741,
+        "percent": 17
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-12",
+    "commitHash": "47145ef0",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 5,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 741,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 128,
+        "total": 741,
+        "percent": 17
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-13",
+    "commitHash": "1a1453b6",
+    "overallPercent": 23,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 20,
+      "plays": 5,
+      "masters": 53,
+      "festivals": 0
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 231,
+        "total": 520,
+        "percent": 44
+      },
+      "graduates_photos": {
+        "completed": 132,
+        "total": 520,
+        "percent": 25
+      },
+      "graduates_plays": {
+        "completed": 208,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 108,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 96,
+        "total": 520,
+        "percent": 18
+      },
+      "groups_description": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_photos": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_verified": {
+        "completed": 86,
+        "total": 86,
+        "percent": 100
+      },
+      "groups_curator": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "groups_productions": {
+        "completed": 0,
+        "total": 86,
+        "percent": 0
+      },
+      "plays_poster": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "plays_photos": {
+        "completed": 7,
+        "total": 741,
+        "percent": 1
+      },
+      "plays_video": {
+        "completed": 128,
+        "total": 741,
+        "percent": 17
+      },
+      "plays_description": {
+        "completed": 0,
+        "total": 741,
+        "percent": 0
+      },
+      "masters_photos": {
+        "completed": 113,
+        "total": 151,
+        "percent": 75
+      },
+      "masters_roles": {
+        "completed": 123,
+        "total": 151,
+        "percent": 81
+      },
+      "masters_bio": {
+        "completed": 0,
+        "total": 151,
+        "percent": 0
+      },
+      "masters_subjects": {
+        "completed": 84,
+        "total": 151,
+        "percent": 56
+      },
+      "festivals_posters": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_photos": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      },
+      "festivals_plays": {
+        "completed": 0,
+        "total": 38,
+        "percent": 0
+      }
+    }
+  },
+  {
+    "date": "2026-10-15",
+    "overallPercent": 40,
+    "categoryPercents": {
+      "graduates": 39,
+      "groups": 39,
+      "plays": 40,
+      "masters": 50,
+      "festivals": 32
+    },
+    "metrics": {
+      "graduates_profiles": {
+        "completed": 232,
+        "total": 520,
+        "percent": 45
+      },
+      "graduates_photos": {
+        "completed": 135,
+        "total": 520,
+        "percent": 26
+      },
+      "graduates_plays": {
+        "completed": 210,
+        "total": 401,
+        "percent": 52
+      },
+      "graduates_bio": {
+        "completed": 95,
+        "total": 520,
+        "percent": 18
+      },
+      "graduates_masters": {
+        "completed": 479,
+        "total": 520,
+        "percent": 92
+      },
+      "graduates_teachers": {
+        "completed": 110,
+        "total": 520,
+        "percent": 21
+      },
+      "graduates_socials": {
+        "completed": 99,
+        "total": 520,
+        "percent": 19
+      },
       "groups_verified": {
         "completed": 1,
         "total": 86,
@@ -3926,14 +6635,14 @@
         "percent": 0
       },
       "groups_roster": {
-        "completed": 18,
+        "completed": 24,
         "total": 86,
-        "percent": 21
+        "percent": 28
       },
       "groups_teachers": {
-        "completed": 10,
+        "completed": 12,
         "total": 86,
-        "percent": 12
+        "percent": 14
       },
       "groups_masters": {
         "completed": 85,
@@ -3947,38 +6656,38 @@
       },
       "plays_verified": {
         "completed": 5,
-        "total": 737,
+        "total": 741,
         "percent": 1
       },
       "plays_author": {
-        "completed": 373,
-        "total": 737,
+        "completed": 377,
+        "total": 741,
         "percent": 51
       },
       "plays_group": {
-        "completed": 441,
-        "total": 737,
+        "completed": 446,
+        "total": 741,
         "percent": 60
       },
       "plays_masters": {
-        "completed": 488,
-        "total": 737,
-        "percent": 66
+        "completed": 494,
+        "total": 741,
+        "percent": 67
       },
       "plays_video": {
-        "completed": 38,
-        "total": 737,
-        "percent": 5
+        "completed": 128,
+        "total": 741,
+        "percent": 17
       },
       "plays_cast": {
-        "completed": 292,
-        "total": 737,
-        "percent": 40
+        "completed": 301,
+        "total": 741,
+        "percent": 41
       },
       "masters_photo": {
-        "completed": 110,
+        "completed": 113,
         "total": 151,
-        "percent": 73
+        "percent": 75
       },
       "masters_role": {
         "completed": 106,
@@ -3996,9 +6705,9 @@
         "percent": 93
       },
       "masters_bio": {
-        "completed": 3,
+        "completed": 5,
         "total": 151,
-        "percent": 2
+        "percent": 3
       },
       "masters_periods": {
         "completed": 0,
@@ -4006,18 +6715,18 @@
         "percent": 0
       },
       "festivals_city": {
-        "completed": 38,
-        "total": 39,
+        "completed": 37,
+        "total": 38,
         "percent": 97
       },
       "festivals_plays": {
         "completed": 0,
-        "total": 39,
+        "total": 38,
         "percent": 0
       },
       "festivals_awards": {
         "completed": 0,
-        "total": 39,
+        "total": 38,
         "percent": 0
       }
     }

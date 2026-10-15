@@ -1,0 +1,48 @@
+{
+	"id": "daria-sonhorova",
+	"slug": "behideki",
+	"code": "behideki",
+	"name": "Дар’я Сонгорова",
+	"graduationYear": 2024,
+	"enrollmentYears": [
+		2012
+	],
+	"departments": [
+		"theatre",
+		"music"
+	],
+	"hasPhoto": true,
+	"plays": [
+		{
+			"year": 2024,
+			"text": "«Тривожні люди», Грабіжник",
+			"playId": "tryvozhni-liudy-2024",
+			"role": "Грабіжник"
+		},
+		{
+			"year": 2023,
+			"text": "«Сон Забрьохи», Забрьоха уві сні",
+			"playId": "son-zabrokhy-2023",
+			"role": "Забрьоха уві сні"
+		},
+		{
+			"year": 2022,
+			"text": "«Вісім люблячих жінок», Габі",
+			"playId": "visim-liubliachykh-zhinok-2022",
+			"role": "Габі"
+		}
+	],
+	"bio": [],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/behideki/"
+		}
+	],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	]
+}

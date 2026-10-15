@@ -422,6 +422,12 @@
 			"graduateId": "volodymyr-chalchynskyi"
 		}
 	],
+	"dusha-podushky-2021": [
+		{
+			"graduateId": "alina-demediuk",
+			"role": "Емма"
+		}
+	],
 	"dve-strely-2012": [
 		{
 			"graduateId": "dariia-kulish"
@@ -1672,6 +1678,12 @@
 			"fromRegistry": true
 		}
 	],
+	"pisochnytsia-z-wi-fi-u-kosmosi-2022": [
+		{
+			"graduateId": "alina-demediuk",
+			"role": "Наташа"
+		}
+	],
 	"pliushevyi-krolyk-2013": [
 		{
 			"graduateId": "kyrylo-karacheban"
@@ -2348,6 +2360,10 @@
 			"graduateId": "alik-zapolnov"
 		},
 		{
+			"graduateId": "daria-sonhorova",
+			"role": "Забрьоха уві сні"
+		},
+		{
 			"graduateId": "daria-terzi"
 		},
 		{
@@ -2355,6 +2371,10 @@
 		},
 		{
 			"graduateId": "oleh-vizitiei"
+		},
+		{
+			"graduateId": "yeva-reznik",
+			"role": "Явдоха Зубиха"
 		}
 	],
 	"sorok-pershyi-2018": [
@@ -2408,8 +2428,7 @@
 			"fromRegistry": true
 		},
 		{
-			"graduateId": "yeva-reznik",
-			"fromRegistry": true
+			"graduateId": "yeva-reznik"
 		}
 	],
 	"taiemnytsi-zamku-oilenshtain-2013": [
@@ -2547,13 +2566,25 @@
 	],
 	"tryvozhni-liudy-2024": [
 		{
+			"graduateId": "alina-demediuk",
+			"role": "Кролик"
+		},
+		{
 			"graduateId": "bohdana-dymchenko"
+		},
+		{
+			"graduateId": "daria-sonhorova",
+			"role": "Грабіжник"
 		},
 		{
 			"graduateId": "mariia-mahdalina-matvieieva"
 		},
 		{
 			"graduateId": "nadiia-hasynets"
+		},
+		{
+			"graduateId": "yeva-reznik",
+			"role": "Джимі (Інспектор Бо)"
 		}
 	],
 	"tsarevna-liahushka-2011": [
@@ -2605,6 +2636,11 @@
 	"u-poshukakh-natkhnennia-2021": [
 		{
 			"graduateId": "yan-slobodeniuk"
+		}
+	],
+	"uryvky-iz-klasyky-2023": [
+		{
+			"graduateId": "alina-demediuk"
 		}
 	],
 	"uryvky-z-dramaturhii-20-stolittia-2012": [
@@ -3273,7 +3309,7 @@
 		},
 		{
 			"graduateId": "marharet-tsypynska",
-			"fromRegistry": true
+			"role": "чорт, Нора"
 		},
 		{
 			"graduateId": "mykhailo-haniev",
@@ -3465,10 +3501,18 @@
 	],
 	"visim-liubliachykh-zhinok-2022": [
 		{
+			"graduateId": "daria-sonhorova",
+			"role": "Габі"
+		},
+		{
 			"graduateId": "daria-terzi"
 		},
 		{
 			"graduateId": "mariia-mahdalina-matvieieva"
+		},
+		{
+			"graduateId": "yeva-reznik",
+			"role": "Пʼєретта"
 		}
 	],
 	"visim-zakokhanykh-zhinok-2020": [

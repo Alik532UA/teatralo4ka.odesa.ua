@@ -1,0 +1,118 @@
+{
+	"id": "marharet-tsypynska",
+	"slug": "blackwhite_maggie",
+	"code": "blackwhite_maggie",
+	"name": "Маргарет Ципинська",
+	"graduationYear": 2017,
+	"enrollmentYears": [
+		2006
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"plays": [
+		{
+			"year": 2016,
+			"text": "«Уривки з класики»: «Вечори на хуторі біля Диканьки» (чорт), «Ляльковий дім» (Нора)",
+			"playId": "uryvky-z-klasyky-2016",
+			"role": "чорт, Нора"
+		},
+		{
+			"year": 2015,
+			"text": "«Де всі…»",
+			"playId": "de-vsi-2015",
+			"fromRegistry": true
+		},
+		{
+			"year": 2014,
+			"text": "Показ етюдів",
+			"playId": "pokaz-etiudiv-2014",
+			"fromRegistry": true
+		},
+		{
+			"year": 2013,
+			"text": "«Таємниці замку Ойленштайн»",
+			"playId": "taiemnytsi-zamku-oilenshtain-2013",
+			"fromRegistry": true
+		},
+		{
+			"year": 2010,
+			"text": "«Ніч на Івана Купала»",
+			"playId": "noch-na-yvana-kupala-2010"
+		}
+	],
+	"bio": [
+		"Шлях до творчості йде довго, зараз навчаюсь на другому вищі — МГУ м. Одеси, 3 курс, режисер (факультет аудіовізуального мистецтва)"
+	],
+	"afterGraduation": "МГУ м. Одеси, 3 курс, режисер (факультет аудіовізуального мистецтва)",
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/blackie__maggie/"
+		}
+	],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		},
+		{
+			"id": "nadiia-rybakova"
+		},
+		{
+			"id": "pavlo-koshka"
+		}
+	],
+	"teachers": [
+		{
+			"id": "samuil-imas",
+			"subjects": [
+				"Риторика та поетика"
+			]
+		},
+		{
+			"id": "mykola-baldin",
+			"subjects": [
+				"Сценічний рух"
+			]
+		},
+		{
+			"id": "iryna-ovcharenko",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "liliia-velychko",
+			"subjects": [
+				"Хор",
+				"Вокал"
+			]
+		},
+		{
+			"id": "iryna-kaplia",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olha-buinytska",
+			"subjects": [
+				"Гітара"
+			]
+		},
+		{
+			"id": "kyrylo-mazur",
+			"subjects": [
+				"Гітара"
+			]
+		},
+		{
+			"id": "iryna-ulianenko",
+			"subjects": [
+				"Сценічна мова"
+			]
+		}
+	]
+}
