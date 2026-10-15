@@ -341,7 +341,47 @@
 	],
 	"den-narodzhennia-infanty-2026": [
 		{
+			"graduateId": "hryhorii-bakhor",
+			"role": "Хор (гурт «Крапки над «і»)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-nikulin",
+			"role": "Граф Тьєрра-Нуова – Вогняний Фонтан – Доктор",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liza-horetska",
+			"role": "Герцогиня – Римська Свічка – Жабка – Жінка",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mykola-dimov",
+			"role": "Король – Бенгальський Вогонь – Великий Ґью",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-smolianska",
+			"role": "Інфанта – Надзвичайна Ракета",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tykhon-vyrodov",
+			"role": "Арлекін – Маленький Ганс",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yelyzaveta-doroshenko",
+			"role": "Дівчинка – Петарда – Качка",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "yuliana-tymonova",
+			"role": "Хор (гурт «Крапки над «і»)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yuliia-tverdokhlib",
 			"role": "Хор (гурт «Крапки над «і»)",
 			"fromRegistry": true
 		}
@@ -1806,6 +1846,78 @@
 		},
 		{
 			"graduateId": "pavlo-maksymov",
+			"fromRegistry": true
+		}
+	],
+	"pokaz-etiudiv-2026": [
+		{
+			"graduateId": "alina-denysova",
+			"role": "співачка (синхрон), офіціантка (синхрон Ніколь), ліфт (фінал)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "anna-solodovnikova",
+			"role": "мʼясо, клоун, дівчина (в етюді «Ліфт»), режисер (етюд «Приймальна комісія»)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "iryna-kurhuzova",
+			"role": "бабуся (ліфт), математик, донька (колискова), глядач екскурсії",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "ivan-nikulin",
+			"role": "батько (перший день війни), чоловік (ліфт), працівник (ліфт), лялька (колискова), клоун, математик",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kira-shepotynnyk",
+			"role": "ворожка, офіціантка (синхрон Ніколь), ліфт (фінал), підтанцьовка (Рожева Пантера), манекен",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kristina-ovsepian",
+			"role": "жінка (картина), мама (перший день війни), офіціантка (синхрон Ніколь), манекен, підтанцьовка (Рожева Пантера), мʼясорубка, клоун",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharyta-kovtun",
+			"role": "співачка (синхрон «Рожева Пантера»), ліфт жінка, Жанна дʼАрк, мама (колискова)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "nikol-vietieva",
+			"role": "дитина (картина), співачка (синхрон), клоун, генератор, дівчинка, що грає на піаніно",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "oleksandra-budarina",
+			"role": "глядач екскурсії, запускальщик ліфту «мемчики»",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-hrushko",
+			"role": "екскурсовод, лялька (колискова), ліфт (фінал)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "sofiia-smolianska",
+			"role": "дитина (ліфт), співачка (фінал), працівник (етюд «Рожева пантера»), циркуль, піаніно, підтанцьовка (Рожева Пантера)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tykhon-vyrodov",
+			"role": "син (етюд «Перший день війни»), диспетчер, манекен, лялька (колискова), людина (етюд «Генератор»), клоун",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yelyzaveta-doroshenko",
+			"role": "клоун, манекен, підтанцьовка (Рожева Пантера), оператор (етюд «Приймальна комісія»), годинник, ліфт (мемчики)",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "yeva-braslavska",
+			"role": "клієнт ворожки, дівчинка (ліфт мемчики), офіціантка (синхрон Ніколь), глядач екскурсії",
 			"fromRegistry": true
 		}
 	],

@@ -1,0 +1,66 @@
+{
+	"id": "ivan-nikulin",
+	"slug": "ivan-nikulin",
+	"code": "ivan-nikulin",
+	"name": "Іван Нікулін",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«День народження Інфанти», Граф Тьєрра-Нуова – Вогняний Фонтан – Доктор",
+			"playId": "den-narodzhennia-infanty-2026",
+			"role": "Граф Тьєрра-Нуова – Вогняний Фонтан – Доктор",
+			"fromRegistry": true
+		},
+		{
+			"year": 2026,
+			"text": "Показ етюдів, батько (перший день війни), чоловік (ліфт), працівник (ліфт), лялька (колискова), клоун, математик",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "батько (перший день війни), чоловік (ліфт), працівник (ліфт), лялька (колискова), клоун, математик",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

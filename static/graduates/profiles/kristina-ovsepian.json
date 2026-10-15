@@ -1,0 +1,59 @@
+{
+	"id": "kristina-ovsepian",
+	"slug": "kristina-ovsepian",
+	"code": "kristina-ovsepian",
+	"name": "Крістіна Овсепян",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, жінка (картина), мама (перший день війни), офіціантка (синхрон Ніколь), манекен, підтанцьовка (Рожева Пантера), мʼясорубка, клоун",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "жінка (картина), мама (перший день війни), офіціантка (синхрон Ніколь), манекен, підтанцьовка (Рожева Пантера), мʼясорубка, клоун",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

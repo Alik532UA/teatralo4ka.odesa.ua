@@ -1,0 +1,59 @@
+{
+	"id": "kira-shepotynnyk",
+	"slug": "kira-shepotynnyk",
+	"code": "kira-shepotynnyk",
+	"name": "Кіра Шепотинник",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, ворожка, офіціантка (синхрон Ніколь), ліфт (фінал), підтанцьовка (Рожева Пантера), манекен",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "ворожка, офіціантка (синхрон Ніколь), ліфт (фінал), підтанцьовка (Рожева Пантера), манекен",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

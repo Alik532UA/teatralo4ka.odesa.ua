@@ -1,0 +1,59 @@
+{
+	"id": "yeva-braslavska",
+	"slug": "yeva-braslavska",
+	"code": "yeva-braslavska",
+	"name": "Єва Браславська",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, клієнт ворожки, дівчинка (ліфт мемчики), офіціантка (синхрон Ніколь), глядач екскурсії",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "клієнт ворожки, дівчинка (ліфт мемчики), офіціантка (синхрон Ніколь), глядач екскурсії",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

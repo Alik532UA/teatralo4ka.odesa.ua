@@ -320,6 +320,12 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 		axis: 'window',
 		why: 'плашка на всю ширину контейнера сторінки під навігацією'
 	},
+	'PlayHeader.svelte': {
+		axis: 'window',
+		why:
+			'шапка сторінки вистави займає всю ширину контейнера; запит на 860px ' +
+			'складає пару «відеозапис — афіша» в одну колонку на вузькому екрані'
+	},
 	'galaxy/GalaxyAddCard.svelte': {
 		axis: 'window',
 		why:

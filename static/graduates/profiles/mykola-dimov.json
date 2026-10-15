@@ -1,0 +1,59 @@
+{
+	"id": "mykola-dimov",
+	"slug": "mykola-dimov",
+	"code": "mykola-dimov",
+	"name": "Микола Дімов",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«День народження Інфанти», Король – Бенгальський Вогонь – Великий Ґью",
+			"playId": "den-narodzhennia-infanty-2026",
+			"role": "Король – Бенгальський Вогонь – Великий Ґью",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

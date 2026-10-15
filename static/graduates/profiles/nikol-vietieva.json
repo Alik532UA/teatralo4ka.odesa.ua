@@ -1,0 +1,60 @@
+{
+	"id": "nikol-vietieva",
+	"slug": "nikol-vietieva",
+	"code": "nikol-vietieva",
+	"name": "Ніколь Вєтєва",
+	"graduationYear": null,
+	"departments": [
+		"theatre",
+		"vocal"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, дитина (картина), співачка (синхрон), клоун, генератор, дівчинка, що грає на піаніно",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "дитина (картина), співачка (синхрон), клоун, генератор, дівчинка, що грає на піаніно",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

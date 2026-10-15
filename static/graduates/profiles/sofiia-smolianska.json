@@ -1,0 +1,67 @@
+{
+	"id": "sofiia-smolianska",
+	"slug": "sofiia-smolianska",
+	"code": "sofiia-smolianska",
+	"name": "Софія Смолянська",
+	"graduationYear": null,
+	"departments": [
+		"theatre",
+		"vocal"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«День народження Інфанти», Інфанта – Надзвичайна Ракета",
+			"playId": "den-narodzhennia-infanty-2026",
+			"role": "Інфанта – Надзвичайна Ракета",
+			"fromRegistry": true
+		},
+		{
+			"year": 2026,
+			"text": "Показ етюдів, дитина (ліфт), співачка (фінал), працівник (етюд «Рожева пантера»), циркуль, піаніно, підтанцьовка (Рожева Пантера)",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "дитина (ліфт), співачка (фінал), працівник (етюд «Рожева пантера»), циркуль, піаніно, підтанцьовка (Рожева Пантера)",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

@@ -1,0 +1,66 @@
+{
+	"id": "tykhon-vyrodov",
+	"slug": "tykhon-vyrodov",
+	"code": "tykhon-vyrodov",
+	"name": "Тихон Виродов",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«День народження Інфанти», Арлекін – Маленький Ганс",
+			"playId": "den-narodzhennia-infanty-2026",
+			"role": "Арлекін – Маленький Ганс",
+			"fromRegistry": true
+		},
+		{
+			"year": 2026,
+			"text": "Показ етюдів, син (етюд «Перший день війни»), диспетчер, манекен, лялька (колискова), людина (етюд «Генератор»), клоун",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "син (етюд «Перший день війни»), диспетчер, манекен, лялька (колискова), людина (етюд «Генератор»), клоун",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

@@ -2,7 +2,9 @@
 	import { Calendar } from 'lucide-svelte';
 	import GroupPhotoBanner from '$lib/components/GroupPhotoBanner.svelte';
 	import GraduateVideoButton from '$lib/components/GraduateVideoButton.svelte';
+	import FestivalVideoPreview from '$lib/components/galaxy/FestivalVideoPreview.svelte';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import { parseVideoUrl } from '$lib/utils/videoEmbed';
 	import type { Play } from '$lib/data/plays';
 
 	/**
@@ -16,30 +18,11 @@
 	 * виноситься цілком, зі своїми стилями: Svelte скоупить їх по компоненту
 	 * (гейт `component-styles`).
 	 *
-	 * ## Афіша — тим самим банером, що знімки групи
+	 * ## Запис і знімки / афіша — поруч, як на сторінці фестивалю
 	 *
-	 * `GroupPhotoBanner` уже вміє стопку знімків і лайтбокс, і сторінки групи й
-	 * фестивалю ставлять його першим у шапці — тут так само. Різниця одна:
-	 * афішу не можна кадрувати, по краях у неї текст, — тому банер у режимі
-	 * `whole` і бере пропорцію самого зображення.
-	 *
-	 * ## Запис вечора й записи уривків — поруч, але це різні кнопки
-	 *
-	 * Вечір буває записаний цілком (`Play.videoUrl`), а буває — окремими
-	 * уривками (`PlayProgrammeItem.videoUrl`), і трапляється обидва разом. Тому
-	 * кнопок може бути кілька: перша — «Дивитися запис» усього вечора, решта
-	 * підписані назвою уривка. Той самий запис уривка стоїть і в анкеті
-	 * учасника, у рядку цього уривка (`PlayRowVideoButton`).
-	 *
-	 * Третій випадок — `Play.videoParts`: кілька записів ТІЄЇ САМОЇ події. Підпис
-	 * приходить із даних, і це не дрібниця: «Greatest Show» — два вечори, 24
-	 * грудня 18:00 і 25 грудня 13:00, а Посвята 2021 — чотири серії одного файлу.
-	 * Одним шаблоном ці два випадки не підписати.
-	 *
-	 * Малюються ПЕРЕЛІКОМ, а не рядком кнопок, бо в частини записів є `note` —
-	 * у «Підкові на щастя» це десять-одинадцять курсів на кожен вечір. У рядок
-	 * кнопок такий текст не влазить, а викидати його означало б лишити на
-	 * сторінці найцінніше з того, що про цей показ узагалі відомо.
+	 * Коли запис має статичний кадр (YouTube), він ділить верхній рядок із
+	 * банером афіші/знімків (приклад — `slovianskyi-vinok`), а не ховається
+	 * маленькою кнопкою внизу.
 	 */
 	interface Props {
 		play: Play;
@@ -52,10 +35,43 @@
 
 	/** Серії того самого запису, у порядку викладення. */
 	const parts = $derived(play.videoParts ?? []);
+
+	const hasPhotos = $derived((play.photos ?? []).length > 0);
+
+	/**
+	 * Відео для шапки — основний запис показу.
+	 */
+	const headerVideo = $derived(
+		play.videoUrl
+			? { url: play.videoUrl, title: play.title }
+			: parts.length === 1 && !clips.length
+				? { url: parts[0].url, title: `${play.title}: ${parts[0].label}` }
+				: null
+	);
+
+	const headerVideoPreview = $derived(Boolean(parseVideoUrl(headerVideo?.url)?.posterUrl));
 </script>
 
 <header class="play-header">
-	<GroupPhotoBanner photos={play.photos ?? []} title={play.title} />
+	{#if headerVideo && headerVideoPreview}
+		<div class="play-media" class:play-media--video-only={!hasPhotos}>
+			<div class="play-media__video">
+				<FestivalVideoPreview
+					fill={hasPhotos}
+					videoUrl={headerVideo.url}
+					title={headerVideo.title}
+					testid="play-header-video-btn"
+				/>
+			</div>
+			{#if hasPhotos}
+				<div class="play-media__photos">
+					<GroupPhotoBanner photos={play.photos ?? []} title={play.title} />
+				</div>
+			{/if}
+		</div>
+	{:else if hasPhotos}
+		<GroupPhotoBanner photos={play.photos ?? []} title={play.title} />
+	{/if}
 
 	<div class="play-header__badges">
 		<span class="play-badge" data-testid="play-year-badge">
@@ -89,9 +105,11 @@
 		<p class="play-header__note" data-testid="play-note-text">{play.note}</p>
 	{/if}
 
-	{#if play.videoUrl || clips.length > 0}
+	{#if (!headerVideoPreview && play.videoUrl) || clips.length > 0}
 		<div class="play-header__video" data-testid="play-recordings-list">
-			<GraduateVideoButton videoUrl={play.videoUrl} title={play.title} />
+			{#if !headerVideoPreview && play.videoUrl}
+				<GraduateVideoButton videoUrl={play.videoUrl} title={play.title} />
+			{/if}
 			{#each clips as item (item.id)}
 				<GraduateVideoButton
 					videoUrl={item.videoUrl}
@@ -103,7 +121,7 @@
 		</div>
 	{/if}
 
-	{#if parts.length > 0}
+	{#if parts.length > 0 && !(parts.length === 1 && !clips.length && headerVideoPreview)}
 		<ul class="play-header__parts" data-testid="play-recording-parts-list">
 			{#each parts as part, i (part.url)}
 				<li class="play-part">
@@ -198,5 +216,42 @@
 		flex-wrap: wrap;
 		gap: 0.5rem;
 		margin-top: 0.9rem;
+	}
+
+	.play-media {
+		display: grid;
+		grid-template-columns: 1fr 1.2fr;
+		gap: 1.25rem;
+		align-items: stretch;
+		margin-bottom: 1rem;
+	}
+
+	.play-media--video-only {
+		grid-template-columns: 1fr;
+		max-width: 720px;
+		margin: 0 auto 1.5rem;
+	}
+
+	.play-media__video {
+		display: grid;
+	}
+
+	.play-media__photos {
+		display: grid;
+		grid-template-rows: auto;
+		grid-auto-rows: 0;
+		--banner-gap: 0;
+		--banner-dots-gap: 0;
+	}
+
+	@media (max-width: 860px) {
+		.play-media {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.play-media__photos :global(.banner) {
+		max-width: 100%;
+		margin: 0;
 	}
 </style>

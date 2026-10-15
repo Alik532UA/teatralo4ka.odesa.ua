@@ -1844,7 +1844,22 @@
 		"graduationYears": [
 			2026
 		],
-		"memberIds": [],
+		"memberIds": [
+			"yelyzaveta-doroshenko",
+			"oleksandra-budarina",
+			"nikol-vietieva",
+			"anna-solodovnikova",
+			"tykhon-vyrodov",
+			"sofiia-smolianska",
+			"alina-denysova",
+			"sofiia-hrushko",
+			"kristina-ovsepian",
+			"kira-shepotynnyk",
+			"yeva-braslavska",
+			"marharyta-kovtun",
+			"iryna-kurhuzova",
+			"ivan-nikulin"
+		],
 		"playIds": [
 			"den-narodzhennia-infanty-2026",
 			"pokaz-etiudiv-2026"

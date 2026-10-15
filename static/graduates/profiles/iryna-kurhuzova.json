@@ -1,0 +1,59 @@
+{
+	"id": "iryna-kurhuzova",
+	"slug": "iryna-kurhuzova",
+	"code": "iryna-kurhuzova",
+	"name": "Ірина Кургузова",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, бабуся (ліфт), математик, донька (колискова), глядач екскурсії",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "бабуся (ліфт), математик, донька (колискова), глядач екскурсії",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

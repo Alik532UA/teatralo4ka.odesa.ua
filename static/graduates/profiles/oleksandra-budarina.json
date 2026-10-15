@@ -1,0 +1,59 @@
+{
+	"id": "oleksandra-budarina",
+	"slug": "oleksandra-budarina",
+	"code": "oleksandra-budarina",
+	"name": "Олександра Бударіна",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "Показ етюдів, глядач екскурсії, запускальщик ліфту «мемчики»",
+			"playId": "pokaz-etiudiv-2026",
+			"role": "глядач екскурсії, запускальщик ліфту «мемчики»",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	],
+	"teachers": [
+		{
+			"id": "fedir-tkach",
+			"subjects": [
+				"Акторська майстерність"
+			]
+		},
+		{
+			"id": "svitlana-ryskina",
+			"subjects": [
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "hanna-nikolaieva",
+			"subjects": [
+				"Вокал"
+			]
+		},
+		{
+			"id": "olena-konnikova",
+			"subjects": [
+				"Історія театру"
+			]
+		}
+	]
+}

@@ -7441,11 +7441,51 @@
 		"name": "Ніколь Вєтєва",
 		"graduationYear": null,
 		"departments": [
+			"theatre",
 			"vocal"
 		],
 		"kind": "student",
 		"visibility": "linked",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1200,
+		"playCount": 1
 	},
 	{
 		"id": "nina-chychykova",
@@ -9312,11 +9352,51 @@
 		"name": "Софія Смолянська",
 		"graduationYear": null,
 		"departments": [
+			"theatre",
 			"vocal"
 		],
 		"kind": "student",
 		"visibility": "linked",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1611,
+		"playCount": 2
 	},
 	{
 		"id": "sofiia-uhrinovska",
@@ -12041,5 +12121,821 @@
 		"departments": [
 			"theatre"
 		]
+	},
+	{
+		"id": "yelyzaveta-doroshenko",
+		"slug": "yelyzaveta-doroshenko",
+		"name": "Єлизавета Дорошенко",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1592,
+		"playCount": 2
+	},
+	{
+		"id": "oleksandra-budarina",
+		"slug": "oleksandra-budarina",
+		"name": "Олександра Бударіна",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1092,
+		"playCount": 1
+	},
+	{
+		"id": "anna-solodovnikova",
+		"slug": "anna-solodovnikova",
+		"name": "Анна Солодовнікова",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1181,
+		"playCount": 1
+	},
+	{
+		"id": "tykhon-vyrodov",
+		"slug": "tykhon-vyrodov",
+		"name": "Тихон Виродов",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1529,
+		"playCount": 2
+	},
+	{
+		"id": "alina-denysova",
+		"slug": "alina-denysova",
+		"name": "Аліна Денисова",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1109,
+		"playCount": 1
+	},
+	{
+		"id": "sofiia-hrushko",
+		"slug": "sofiia-hrushko",
+		"name": "Софія Грушко",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1049,
+		"playCount": 1
+	},
+	{
+		"id": "kristina-ovsepian",
+		"slug": "kristina-ovsepian",
+		"name": "Крістіна Овсепян",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1366,
+		"playCount": 1
+	},
+	{
+		"id": "kira-shepotynnyk",
+		"slug": "kira-shepotynnyk",
+		"name": "Кіра Шепотинник",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1223,
+		"playCount": 1
+	},
+	{
+		"id": "yeva-braslavska",
+		"slug": "yeva-braslavska",
+		"name": "Єва Браславська",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1210,
+		"playCount": 1
+	},
+	{
+		"id": "marharyta-kovtun",
+		"slug": "marharyta-kovtun",
+		"name": "Маргарита Ковтун",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1183,
+		"playCount": 1
+	},
+	{
+		"id": "iryna-kurhuzova",
+		"slug": "iryna-kurhuzova",
+		"name": "Ірина Кургузова",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1120,
+		"playCount": 1
+	},
+	{
+		"id": "ivan-nikulin",
+		"slug": "ivan-nikulin",
+		"name": "Іван Нікулін",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1569,
+		"playCount": 2
+	},
+	{
+		"id": "mykola-dimov",
+		"slug": "mykola-dimov",
+		"name": "Микола Дімов",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1079,
+		"playCount": 1
+	},
+	{
+		"id": "liza-horetska",
+		"slug": "liza-horetska",
+		"name": "Ліза Горецька",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1084,
+		"playCount": 1
+	},
+	{
+		"id": "hryhorii-bakhor",
+		"slug": "hryhorii-bakhor",
+		"name": "Григорій Бакгор",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1026,
+		"playCount": 1
+	},
+	{
+		"id": "yuliia-tverdokhlib",
+		"slug": "yuliia-tverdokhlib",
+		"name": "Юлія Твердохліб",
+		"graduationYear": null,
+		"departments": [
+			"theatre"
+		],
+		"kind": "student",
+		"visibility": "linked",
+		"verificationStatus": "possible_errors",
+		"masters": [
+			{
+				"id": "fedir-tkach"
+			}
+		],
+		"teachers": [
+			{
+				"id": "fedir-tkach",
+				"subjects": [
+					"Акторська майстерність"
+				]
+			},
+			{
+				"id": "svitlana-ryskina",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "olena-konnikova",
+				"subjects": [
+					"Історія театру"
+				]
+			}
+		],
+		"profileSize": 1035,
+		"playCount": 1
 	}
 ]
