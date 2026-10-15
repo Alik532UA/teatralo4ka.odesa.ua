@@ -1806,6 +1806,28 @@
 		]
 	},
 	{
+		"slug": "te-ki-la",
+		"name": "Те-Кі-Ла",
+		"abbr": null,
+		"nameEn": "Te-Ki-La",
+		"verificationStatus": "possible_errors",
+		"isCurrent": false,
+		"masters": [
+			{
+				"id": "fedir-tkach",
+				"name": "Ткач Федір Федорович",
+				"department": "theatre"
+			}
+		],
+		"graduationYears": [
+			2026
+		],
+		"memberIds": [],
+		"playIds": [
+			"den-narodzhennia-infanty-2026"
+		]
+	},
+	{
 		"slug": "intensyv-tykhon",
 		"name": "Інтенсив-Тихон",
 		"abbr": null,

@@ -109,6 +109,7 @@ export const RENAMED_PLAY_IDS: Record<string, string> = {
 	'uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015': 'uryvky-z-klasyky-2015-3',
 
 	// Двійники з двох джерел: репертуар майстра й розклад.
+	'den-narodzhennia-infanty-infanta-2026': 'den-narodzhennia-infanty-2026',
 	'balahanchyk-bratev-hrymm-2019': 'balahanchyk-brativ-hrym-2019',
 	'blondie-2020': 'blondi-2020',
 	'chapaiev-i-vasylisa-2021': 'chapaiev-ta-vasylisa-2021',

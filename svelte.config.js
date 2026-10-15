@@ -269,6 +269,7 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-neznaiomka-o-bloka-2013',
 	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-asia-i-turhenev-2014',
 	'/projects/galaxy-graduates/plays/uryvky-z-klasyky-unyzhennye-y-oskorblennye-2015',
+	'/projects/galaxy-graduates/plays/den-narodzhennia-infanty-infanta-2026',
 	'/projects/galaxy-graduates/plays/balahanchyk-bratev-hrymm-2019',
 	'/projects/galaxy-graduates/plays/blondie-2020',
 	'/projects/galaxy-graduates/plays/chapaiev-i-vasylisa-2021',

@@ -7,7 +7,15 @@
 	"departments": [
 		"theatre"
 	],
-	"plays": [],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«День народження Інфанти», Хор (гурт «Крапки над «і»)",
+			"playId": "den-narodzhennia-infanty-2026",
+			"role": "Хор (гурт «Крапки над «і»)",
+			"fromRegistry": true
+		}
+	],
 	"bio": [],
 	"afterGraduation": "Вступ 2026: КНУТКіТ, акторський, курс О. Замятіна",
 	"socials": [],

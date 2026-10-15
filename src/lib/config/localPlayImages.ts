@@ -12,5 +12,6 @@ export const PLAY_IMAGE_SIZES = {
 	'/plays/uryvky-z-klasyky-2015.webp': { width: 1200, height: 896 },
 	'/plays/uryvky-z-klasyky-2015-2.webp': { width: 1200, height: 896 },
 	'/plays/ia-pishov-na-viinu.webp': { width: 768, height: 1024 },
-	'/plays/dumky-vholos.webp': { width: 1200, height: 675 }
+	'/plays/dumky-vholos.webp': { width: 1200, height: 675 },
+	'/plays/den-narodzhennia-infanty-2026.webp': { width: 1240, height: 1754 }
 } as const;
