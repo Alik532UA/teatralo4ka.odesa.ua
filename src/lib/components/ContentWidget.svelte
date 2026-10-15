@@ -17,6 +17,7 @@
 		handleClickCapture as sharedClickCapture,
 		handleWheel as sharedWheel,
 		handleTransitionEnd as sharedTransitionEnd,
+		tickCarouselProgress,
 		type DragState,
 	} from '$lib/utils/carouselInteraction';
 
@@ -252,20 +253,10 @@
 			const dt = Math.min(now - lastTime, 100);
 			lastTime = now;
 
-			if (isEngaged) {
-				// Rewind when engaged (hover or focus), smoothly decelerating down to 3%
-				if (currentProgress > 0.03) {
-					const normalized = (currentProgress - 0.03) / 0.97;
-					const factor = Math.max(0, Math.pow(normalized, 1.6));
-					currentProgress = Math.max(0.03, currentProgress - (dt / totalMs) * factor);
-				}
-			} else {
-				// Advance forward at normal speed
-				currentProgress += dt / totalMs;
-				if (currentProgress >= 1) {
-					currentProgress = 0;
-					autoNext();
-				}
+			const res = tickCarouselProgress(currentProgress, dt, totalMs, isEngaged);
+			currentProgress = res.progress;
+			if (res.advanced) {
+				autoNext();
 			}
 
 			rafId = requestAnimationFrame(tick);

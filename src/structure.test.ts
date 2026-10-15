@@ -819,7 +819,11 @@ const CEILINGS: Record<string, number> = {
 	/*
 	 * 2026-09-18: банер новин у галактичній темі для сторінки випускника: вертикальні обкладинки 9:16, слайд-трек, адаптивна картка.
 	 */
-	'src/lib/components/GraduateNewsBanner.svelte': 440
+	'src/lib/components/GraduateNewsBanner.svelte': 440,
+	/*
+	 * 2026-10-15: 300 → 340. Автоперегортання додаткових світлин випускника (photoCount > 1) з динамічним прогрес-баром і плавним реверсом при наведенні.
+	 */
+	'src/lib/components/GraduatePhotoSection.svelte': 340
 };
 
 const walk = (dir: string, out: string[] = []): string[] => {

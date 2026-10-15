@@ -4,6 +4,7 @@
 	import { t } from 'svelte-i18n';
 	import { imageSize, type LocalImage } from '$lib/config/localImages';
 	import { galleryGestures } from '$lib/utils/galleryGestures';
+	import { tickCarouselProgress } from '$lib/utils/carouselInteraction';
 	import PhotoLightbox, { type LightboxImage } from '$lib/components/PhotoLightbox.svelte';
 
 	interface Props {
@@ -128,6 +129,9 @@
 	 * замість наступного.
 	 */
 	let currentProgress = $state(0);
+	let isHovered = $state(false);
+	let isFocusWithin = $state(false);
+	const isEngaged = $derived(lightboxOpen || isHovered || isFocusWithin);
 
 	$effect(() => {
 		// Читаємо лічильник навмисно: саме він і перезапускає таймер.
@@ -141,12 +145,10 @@
 		function tick(now: number) {
 			const dt = Math.min(now - last, 100);
 			last = now;
-			if (!lightboxOpen) {
-				currentProgress += dt / ROTATE_MS;
-				if (currentProgress >= 1) {
-					currentProgress = 0;
-					index = (index + 1) % total;
-				}
+			const res = tickCarouselProgress(currentProgress, dt, ROTATE_MS, isEngaged);
+			currentProgress = res.progress;
+			if (res.advanced) {
+				index = (index + 1) % total;
 			}
 			rafId = requestAnimationFrame(tick);
 		}
@@ -234,12 +236,17 @@
 		`stopPropagation` у стрілках більше нічого не рятує: він лишається лише
 		для випадку, коли клік летить крізь `backdrop-filter`.
 	-->
+	<!-- svelte-ignore a11y_no_static_element_interactions -->
 	<div
 		class="banner"
 		style:aspect-ratio={пропорція}
 		style:max-width={`${ширина}px`}
 		{@attach galleryGestures(gestures)}
 		data-testid="group-photo-banner"
+		onmouseenter={() => (isHovered = true)}
+		onmouseleave={() => (isHovered = false)}
+		onfocusin={() => (isFocusWithin = true)}
+		onfocusout={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) isFocusWithin = false; }}
 	>
 		<div class="banner__viewport">
 			<div
@@ -301,11 +308,17 @@
 	</div>
 
 	{#if photos.length > 1}
+		<!--
+			Рядок точок пагінації слухає наведення курсора для реверсу автопрокрутки, самі точки є доступними кнопками.
+		-->
+		<!-- svelte-ignore a11y_interactive_supports_focus -->
 		<div
 			class="banner__dots"
 			role="tablist"
 			aria-label={title}
 			{@attach galleryGestures(gestures)}
+			onmouseenter={() => (isHovered = true)}
+			onmouseleave={() => (isHovered = false)}
 		>
 			{#each photos as photo, i (photo)}
 				<button

@@ -140,3 +140,29 @@ export function handleTransitionEnd(
 		setTimeout(() => { setTransitioning(true); }, 30);
 	}
 }
+
+/**
+ * Updates autoplay progress with smooth deceleration rewind when engaged (hovered or focused),
+ * down to a minimum of 3% without switching backwards.
+ */
+export function tickCarouselProgress(
+	current: number,
+	dt: number,
+	totalMs: number,
+	isEngaged: boolean,
+): { progress: number; advanced: boolean } {
+	if (isEngaged) {
+		if (current > 0.03) {
+			const normalized = (current - 0.03) / 0.97;
+			const factor = Math.max(0, Math.pow(normalized, 1.6));
+			return { progress: Math.max(0.03, current - (dt / totalMs) * factor), advanced: false };
+		}
+		return { progress: 0.03, advanced: false };
+	}
+	const next = current + dt / totalMs;
+	if (next >= 1) {
+		return { progress: 0, advanced: true };
+	}
+	return { progress: next, advanced: false };
+}
+

@@ -10,6 +10,7 @@
 		allGraduatePhotos,
 		type GraduateIndexEntry,
 	} from "$lib/data/graduates";
+	import { tickCarouselProgress } from '$lib/utils/carouselInteraction';
 
 	interface Props {
 		graduate: GraduateIndexEntry;
@@ -28,13 +29,45 @@
 		else activePhotoIndex = 0;
 	});
 
-	function setPhoto(index: number) { activePhotoIndex = index; }
-
 	let photoModalOpen = $state(false);
 	let photoModalAction = $state<'replace' | 'add' | null>(null);
 	let contextMenuOpen = $state(false);
 	let contextMenuPos = $state({ x: 0, y: 0 });
 	let containerEl = $state<HTMLElement | null>(null);
+
+	const ROTATE_MS = 6000;
+	let manualCount = $state(0);
+	let currentProgress = $state(0);
+	let isHovered = $state(false);
+	let isFocusWithin = $state(false);
+	const isEngaged = $derived(isHovered || isFocusWithin || photoModalOpen || contextMenuOpen);
+
+	$effect(() => {
+		const _ = manualCount;
+		const total = profilePhotos.length;
+		currentProgress = 0;
+		if (photoCount <= 1 || total <= 1) return;
+
+		let rafId: number;
+		let last = performance.now();
+		function tick(now: number) {
+			const dt = Math.min(now - last, 100);
+			last = now;
+			const res = tickCarouselProgress(currentProgress, dt, ROTATE_MS, isEngaged);
+			currentProgress = res.progress;
+			if (res.advanced) {
+				activePhotoIndex = (activePhotoIndex + 1) % total;
+			}
+			rafId = requestAnimationFrame(tick);
+		}
+		rafId = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(rafId);
+	});
+
+	function setPhoto(index: number) {
+		activePhotoIndex = index;
+		manualCount++;
+	}
 
 	function openPhotoModal(action: 'replace' | 'add' | null = null) {
 		photoModalAction = action;
@@ -42,6 +75,7 @@
 	}
 
 	function handlePhotoClick() {
+		manualCount++;
 		if (photoCount > 1 && profilePhotos.length > 1) {
 			activePhotoIndex = (activePhotoIndex + 1) % profilePhotos.length;
 		} else {
@@ -50,6 +84,7 @@
 	}
 
 	function handlePlaceholderClick() {
+		manualCount++;
 		activePhotoIndex = activePhotoIndex === 1 ? 0 : 1;
 	}
 
@@ -93,9 +128,11 @@
 				wheelAcc += Math.abs(e.deltaY) >= Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
 
 				if (wheelAcc >= WHEEL_STEP) {
+					manualCount++;
 					activePhotoIndex = (activePhotoIndex + 1) % total;
 					wheelAcc = 0;
 				} else if (wheelAcc <= -WHEEL_STEP) {
+					manualCount++;
 					activePhotoIndex = (activePhotoIndex - 1 + total) % total;
 					wheelAcc = 0;
 				}
@@ -110,7 +147,19 @@
 	}
 </script>
 
-<div class="photo-container" bind:this={containerEl} {@attach wheelStack()}>
+<!--
+	Контейнер фотографій ловить наведення миші та фокус для призупинення та зворотного перемотування таймера.
+-->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div
+	class="photo-container"
+	bind:this={containerEl}
+	{@attach wheelStack()}
+	onmouseenter={() => (isHovered = true)}
+	onmouseleave={() => (isHovered = false)}
+	onfocusin={() => (isFocusWithin = true)}
+	onfocusout={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) isFocusWithin = false; }}
+>
 	{#if graduate.hasPhoto}
 		<span class="photo-stack" data-testid="galaxy-card-photo-stack">
 			{#if photoCount > 1}
@@ -200,7 +249,7 @@
 						data-testid="galaxy-card-photo-btn-{i}"
 					>
 						<span class="photo-dot__track">
-							{#if i === activePhotoIndex}<span class="photo-dot__progress"></span>{/if}
+							{#if i === activePhotoIndex}<span class="photo-dot__progress" style="width: {(currentProgress * 100).toFixed(2)}%;"></span>{/if}
 						</span>
 					</button>
 				{/each}
@@ -214,7 +263,7 @@
 					data-testid="galaxy-card-photo-btn-0"
 				>
 					<span class="photo-dot__track">
-						{#if activePhotoIndex === 0}<span class="photo-dot__progress"></span>{/if}
+						{#if activePhotoIndex === 0}<span class="photo-dot__progress" style="width: 100%;"></span>{/if}
 					</span>
 				</button>
 				<button
@@ -226,7 +275,7 @@
 					data-testid="galaxy-card-photo-btn-1"
 				>
 					<span class="photo-dot__track">
-						{#if activePhotoIndex === 1}<span class="photo-dot__progress"></span>{/if}
+						{#if activePhotoIndex === 1}<span class="photo-dot__progress" style="width: 100%;"></span>{/if}
 					</span>
 				</button>
 			{/if}

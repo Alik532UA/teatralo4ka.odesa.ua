@@ -4,6 +4,7 @@
 	import { localizedPath } from '$lib/i18n/routing';
 	import { codeNewsCards } from '$lib/config/codeNews';
 	import { galleryGestures } from '$lib/utils/galleryGestures';
+	import { tickCarouselProgress } from '$lib/utils/carouselInteraction';
 	import type { FestivalNewsItem } from '$lib/data/newsBacklinks';
 
 	interface Props {
@@ -18,6 +19,8 @@
 	let index = $state(0);
 	let manualCount = $state(0);
 	let isHovered = $state(false);
+	let isFocusWithin = $state(false);
+	const isEngaged = $derived(isHovered || isFocusWithin);
 
 	interface NewsCardData {
 		id: string;
@@ -79,12 +82,10 @@
 		function tick(now: number) {
 			const dt = Math.min(now - last, 100);
 			last = now;
-			if (!isHovered) {
-				currentProgress += dt / ROTATE_MS;
-				if (currentProgress >= 1) {
-					currentProgress = 0;
-					index = (index + 1) % total;
-				}
+			const res = tickCarouselProgress(currentProgress, dt, ROTATE_MS, isEngaged);
+			currentProgress = res.progress;
+			if (res.advanced) {
+				index = (index + 1) % total;
 			}
 			rafId = requestAnimationFrame(tick);
 		}
@@ -120,6 +121,8 @@
 		aria-label={$t('nav.news', { default: 'Новини' })}
 		onmouseenter={() => (isHovered = true)}
 		onmouseleave={() => (isHovered = false)}
+		onfocusin={() => (isFocusWithin = true)}
+		onfocusout={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) isFocusWithin = false; }}
 		data-testid="galaxy-card-news-banner"
 		{@attach galleryGestures({
 			count: () => cards.length,
