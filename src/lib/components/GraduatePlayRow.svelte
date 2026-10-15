@@ -195,7 +195,7 @@
 		display: flex;
 		gap: 0.6rem;
 		padding: 0.35rem 0;
-		border-top: 1px solid rgb(255 255 255 / 0.08);
+		border-top: var(--hairline-width) solid var(--border-main);
 	}
 	.play:first-child {
 		border-top: none;
@@ -289,7 +289,7 @@
 		color: inherit;
 		text-decoration: underline dotted;
 		text-underline-offset: 0.18em;
-		text-decoration-color: rgb(140 190 255 / 0.45);
+		text-decoration-color: color-mix(in srgb, var(--galaxy-accent) 45%, transparent);
 		transition:
 			color var(--transition-fast),
 			text-decoration-color var(--transition-fast);
@@ -304,7 +304,7 @@
 		display: inline-flex;
 		align-items: center;
 		flex-shrink: 0;
-		color: rgb(140 190 255 / 0.55);
+		color: color-mix(in srgb, var(--galaxy-accent) 65%, transparent);
 		transition: color var(--transition-fast);
 	}
 	.play__page-link:hover,
@@ -321,7 +321,7 @@
 		margin: 0.15rem 0 0;
 		padding: 0 0 0 0.75rem;
 		list-style: none;
-		border-left: 2px solid rgb(140 190 255 / 0.2);
+		border-left: 2px solid color-mix(in srgb, var(--galaxy-accent) 30%, transparent);
 	}
 	/* Уривок — той самий шматок «текст + кнопка запису», що й назва рядка. */
 	.play__part {

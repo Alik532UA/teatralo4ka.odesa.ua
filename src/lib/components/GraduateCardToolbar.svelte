@@ -221,6 +221,19 @@
 		cursor: pointer;
 		backdrop-filter: blur(8px);
 	}
+	:global(.card__inner--themed) .card__action,
+	:global(body:not(.page-galaxy)) .card__action {
+		border-color: var(--border-main);
+		background: var(--bg-surface);
+		color: var(--text-main);
+		backdrop-filter: none;
+	}
+	:global(.card__inner--themed) .card__action:hover,
+	:global(body:not(.page-galaxy)) .card__action:hover {
+		background: var(--bg-card);
+		border-color: var(--accent-primary);
+		color: var(--text-title);
+	}
 	/*
 	 * Перехід оголошується на модифікаторах, а НЕ на `.card__action`:
 	 * `close-button-conventions.test.ts` забороняє власний `transition` на

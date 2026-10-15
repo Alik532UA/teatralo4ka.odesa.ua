@@ -103,12 +103,33 @@
 		cursor: pointer;
 		transition:
 			background var(--transition-fast),
-			border-color var(--transition-fast);
+			border-color var(--transition-fast),
+			color var(--transition-fast);
 	}
 
 	.video-btn:hover,
 	.video-btn:focus-visible {
 		background: rgb(12 22 56 / 0.85);
 		border-color: rgb(140 190 255 / 0.6);
+		color: #fff;
+	}
+
+	:global(.profile-stage--themed) .video-btn,
+	:global(.card__inner--themed) .video-btn,
+	:global(body:not(.page-galaxy)) .video-btn {
+		border-color: var(--border-main);
+		background: var(--bg-surface);
+		color: var(--text-main);
+	}
+
+	:global(.profile-stage--themed) .video-btn:hover,
+	:global(.profile-stage--themed) .video-btn:focus-visible,
+	:global(.card__inner--themed) .video-btn:hover,
+	:global(.card__inner--themed) .video-btn:focus-visible,
+	:global(body:not(.page-galaxy)) .video-btn:hover,
+	:global(body:not(.page-galaxy)) .video-btn:focus-visible {
+		background: var(--bg-card);
+		border-color: var(--accent-primary);
+		color: var(--text-title);
 	}
 </style>

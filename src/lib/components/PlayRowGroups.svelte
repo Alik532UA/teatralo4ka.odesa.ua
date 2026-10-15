@@ -174,12 +174,32 @@
 		white-space: nowrap;
 		transition:
 			background var(--transition-fast),
-			border-color var(--transition-fast);
+			border-color var(--transition-fast),
+			color var(--transition-fast);
 	}
 
 	.groups__link:hover,
 	.groups__link:focus-visible {
 		background: rgb(12 22 56 / 0.85);
 		border-color: rgb(140 190 255 / 0.6);
+		color: #fff;
+	}
+
+	:global(.profile-stage--themed) .groups__link,
+	:global(.card__inner--themed) .groups__link,
+	:global(body:not(.page-galaxy)) .groups__link {
+		border-color: var(--border-main);
+		color: var(--text-main);
+	}
+
+	:global(.profile-stage--themed) .groups__link:hover,
+	:global(.profile-stage--themed) .groups__link:focus-visible,
+	:global(.card__inner--themed) .groups__link:hover,
+	:global(.card__inner--themed) .groups__link:focus-visible,
+	:global(body:not(.page-galaxy)) .groups__link:hover,
+	:global(body:not(.page-galaxy)) .groups__link:focus-visible {
+		background: var(--bg-surface);
+		border-color: var(--accent-primary);
+		color: var(--text-title);
 	}
 </style>

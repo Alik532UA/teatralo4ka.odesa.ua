@@ -70,8 +70,10 @@ const МІНІМУМ_ВЕЛИКИЙ = 3;
 
 const ЛЮДИ = JSON.parse(
 	readFileSync(new URL('../src/lib/data/graduates.index.json', import.meta.url), 'utf8')
-) as { slug: string; code?: string; kind?: string }[];
-const УЧЕНЬ = ЛЮДИ.find((г) => г.kind === 'student');
+) as { slug: string; code?: string; kind?: string; visibility?: string }[];
+const УЧЕНЬ =
+	ЛЮДИ.find((г) => г.kind === 'student' && г.visibility !== 'linked') ??
+	ЛЮДИ.find((г) => г.kind === 'student');
 
 /**
  * Сторінки взято так, щоб кожна принесла СВОЇ компоненти:

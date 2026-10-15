@@ -258,9 +258,9 @@
 			transform var(--transition-base, 0.2s ease);
 	}
 	.inst-button:hover {
-		background: rgb(255 255 255 / 0.12);
+		background: color-mix(in srgb, var(--galaxy-accent, #8cc4ff) 12%, transparent);
 		border-color: var(--galaxy-accent, #8cc4ff);
-		color: #ffffff;
+		color: var(--galaxy-accent, #8cc4ff);
 		transform: translateX(3px);
 	}
 	.inst-button:focus-visible {

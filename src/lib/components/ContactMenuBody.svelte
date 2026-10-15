@@ -167,7 +167,7 @@
 	.avatar {
 		border-radius: 50%;
 		object-fit: cover;
-		border: var(--hairline-width) solid rgb(140 190 255 / 0.4);
+		border: var(--hairline-width) solid var(--border-main);
 		flex-shrink: 0;
 	}
 	.avatar--strip {
@@ -185,7 +185,7 @@
 
 	.hint {
 		margin: 0;
-		color: rgb(180 210 255 / 0.85);
+		color: var(--text-muted);
 	}
 	.hint--strip {
 		font-size: 0.84rem;

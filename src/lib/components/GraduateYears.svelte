@@ -109,6 +109,24 @@
 		background: rgb(140 190 255 / 0.18);
 		border-color: rgb(140 190 255 / 0.6);
 	}
+
+	:global(.profile-stage--themed) .years__item--link,
+	:global(.card__inner--themed) .years__item--link,
+	:global(body:not(.page-galaxy)) .years__item--link {
+		border-color: var(--border-main);
+		background: var(--bg-surface);
+		color: var(--text-main);
+	}
+	:global(.profile-stage--themed) .years__item--link:hover,
+	:global(.profile-stage--themed) .years__item--link:focus-visible,
+	:global(.card__inner--themed) .years__item--link:hover,
+	:global(.card__inner--themed) .years__item--link:focus-visible,
+	:global(body:not(.page-galaxy)) .years__item--link:hover,
+	:global(body:not(.page-galaxy)) .years__item--link:focus-visible {
+		background: var(--bg-card);
+		border-color: var(--accent-primary);
+		color: var(--text-title);
+	}
 	.years__sep {
 		opacity: 0.5;
 	}

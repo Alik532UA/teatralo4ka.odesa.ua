@@ -269,6 +269,10 @@
 		color: #cfe4ff;
 		box-shadow: none;
 		backdrop-filter: blur(8px);
+		transition:
+			background var(--transition-fast),
+			border-color var(--transition-fast),
+			color var(--transition-fast);
 	}
 	.edit-btn--ghost:hover,
 	.edit-btn--ghost:focus-visible {
@@ -277,6 +281,25 @@
 		background: rgb(140 190 255 / 0.25);
 		border-color: rgb(140 190 255 / 0.7);
 		color: #fff;
+	}
+
+	:global(.profile-stage--themed) .edit-btn--ghost,
+	:global(.card__inner--themed) .edit-btn--ghost,
+	:global(body:not(.page-galaxy)) .edit-btn--ghost {
+		border-color: var(--border-main);
+		background: var(--bg-surface);
+		color: var(--text-main);
+		backdrop-filter: none;
+	}
+	:global(.profile-stage--themed) .edit-btn--ghost:hover,
+	:global(.profile-stage--themed) .edit-btn--ghost:focus-visible,
+	:global(.card__inner--themed) .edit-btn--ghost:hover,
+	:global(.card__inner--themed) .edit-btn--ghost:focus-visible,
+	:global(body:not(.page-galaxy)) .edit-btn--ghost:hover,
+	:global(body:not(.page-galaxy)) .edit-btn--ghost:focus-visible {
+		background: var(--bg-card);
+		border-color: var(--accent-primary);
+		color: var(--text-title);
 	}
 	/*
 	 * Меню розкривається ВГОРУ й до правого краю кнопки: кнопка стоїть у
