@@ -133,6 +133,13 @@
 	 * втрачається.
 	 */
 	const LONG_NAME = 18;
+	/*
+	 * Довге ім'я майстра («Світлана МИРОНЕНКО (ПЕТРОВСЬКА)», 31 символ) не
+	 * вміщується в один рядок плашки й ламає акуратний вигляд переліку. Для
+	 * більшості майстрів кегль лишається стандартним, а для тих, хто не
+	 * поміщається, зменшується, щоб ім'я лишалося в один рядок.
+	 */
+	const LONG_MASTER_NAME = 24;
 	const groupLinks = $derived.by<
 		{ name: string; full: string; slug?: string; long: boolean }[]
 	>(() => {
@@ -790,14 +797,20 @@
 								index}"
 						>
 							{@render personBadge(master.photo, master.department)}
-							<span class="master-name">
+							<span
+								class="master-name"
+								class:master-name--long={(master.displayName?.length ?? 0) > LONG_MASTER_NAME}
+							>
 								{master.displayName}
 							</span>
 						</a>
 					{:else}
 						<div class="master-link-wrapper">
 							{@render personBadge(master.photo, master.department)}
-							<span class="master-name" title={master.fullName}
+							<span
+								class="master-name"
+								class:master-name--long={(master.displayName?.length ?? 0) > LONG_MASTER_NAME}
+								title={master.fullName}
 								>{master.displayName}</span
 							>
 						</div>
@@ -1718,6 +1731,10 @@
 		.bento-card--faculty .master-name {
 			font-size: 0.92rem;
 		}
+		.bento-card--main .master-name--long,
+		.bento-card--faculty .master-name--long {
+			font-size: 0.75rem;
+		}
 		.bento-card--bio {
 			font-size: 0.95rem;
 		}
@@ -2273,6 +2290,13 @@
 		color: var(--galaxy-text, #eaf2ff);
 		text-decoration: none;
 		transition: color 0.2s ease;
+	}
+	.master-item .master-name {
+		white-space: nowrap;
+	}
+	.master-name--long {
+		font-size: 0.75rem;
+		letter-spacing: -0.01em;
 	}
 	.master-link-wrapper:hover .master-name,
 	.teacher-link-wrapper:hover .master-name {
