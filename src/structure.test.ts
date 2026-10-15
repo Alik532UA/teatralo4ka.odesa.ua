@@ -743,7 +743,8 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-10-13: `DefendersPoetryPoster.svelte` (650). Цифровий плакат формату A4
  *   до Дня захисників та захисниць України (поетична композиція «Серця, які не втратили здатність любити»
  *   за віршами Ірини Фотуйми з розкладом показів, підтримкою повнорозмірного художнього фону
- *   з прапором і захисниками `defenders-hearts-bg.webp` та динамічним перемиканням тем).
+ * 2026-10-15: `seoPages.ts` (605 -> 615). Додано SEO-метадані та фолбеки для нового проєкту
+ *   Навчального театру «UArt» (/projects/UArt).
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/ArticleMedia.svelte': 355,
@@ -753,7 +754,7 @@ const CEILINGS: Record<string, number> = {
 	'src/routes/beta-test-checklists/+page.svelte': 470,
 	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,
 	'src/routes/calendar/+page.svelte': 440,
-	'src/lib/config/seoPages.ts': 605,
+	'src/lib/config/seoPages.ts': 615,
 	'src/routes/projects/galaxy-graduates/festivals/[slug]/+page.svelte': 700,
 	'src/routes/admin/settings/+page.svelte': 2185,
 	'src/lib/components/admin/ArticleForm.svelte': 1245,

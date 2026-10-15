@@ -57,6 +57,18 @@ const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 		},
 	},
 	{
+		id: 'uart',
+		slug: 'UArt',
+		color: '#0057B7',
+		coverUrl: asset('/png/uart-cover.webp'),
+		authorMasterSlug: 'fedir-tkach',
+		titles: { uk: 'Навчальний театр «UArt»', en: '«UArt» Educational Theatre' },
+		excerpts: {
+			uk: 'You&Art — Ти і Мистецтво! UA — наше коріння. Дуже Юний, але вже Репертуарний Театр',
+			en: 'You&Art — You & Art! UA — our Ukrainian roots. A very Young, but already Repertoire Theatre'
+		}
+	},
+	{
 		id: 'tkach-perekladach',
 		slug: 'tkach-perekladach',
 		color: '#E1306C',

@@ -52,6 +52,7 @@ export type SeoPageKey =
 	| 'stageSpeechVoicePower'
 	| 'stageSpeechRhythmTrainer'
 	| 'brandbook'
+	| 'uart'
 	| 'teatrPro'
 	| 'supportProduction'
 	| 'photoArchive'
@@ -225,6 +226,11 @@ export const SEO_FALLBACK = {
 				title: 'Брендбук школи',
 				description:
 					'Офіційний брендбук та гайдлайн візуального стилю Одеської дитячої театральної школи: кольори, шрифт e-Ukraine та логотипи.'
+			},
+			uart: {
+				title: 'Навчальний театр «UArt»',
+				description:
+					'Навчальний театр «UArt» Одеської театральної школи: You&Art — Ти і Мистецтво! UA — наше коріння. Юний Репертуарний Театр.'
 			},
 			teatrPro: {
 				title: 'Театр.PRO',
@@ -453,6 +459,11 @@ export const SEO_FALLBACK = {
 				description:
 					'Official brand identity guidelines of Odesa Children’s Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
 			},
+			uart: {
+				title: '«UArt» Educational Theatre',
+				description:
+					'«UArt» Educational Theatre of Odesa Theatre School: You&Art — You and Art! UA — our Ukrainian roots. Young Repertoire Theatre.'
+			},
 			teatrPro: {
 				title: 'Theater.PRO',
 				description:
@@ -567,6 +578,9 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'projects';
 		case '/projects/tkach-perekladach':
 			return 'tkachPerekladach';
+		case '/projects/UArt':
+		case '/projects/uart':
+			return 'uart';
 		case '/projects/stage-speech':
 			return 'stageSpeech';
 		case '/projects/stage-speech/hexameter':
