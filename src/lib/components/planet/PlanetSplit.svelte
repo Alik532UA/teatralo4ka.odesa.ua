@@ -46,7 +46,52 @@
 	let запит = $state('');
 	let активний = $state<string | null>(null);
 
-	const знайдені = $derived(students.filter((с) => matchesQuery([с.name], запит)));
+	/**
+	 * Перемішування Фішера—Йейтса.
+	 *
+	 * Окремий випадковий порядок для планети й окремий для списку:
+	 * на планеті — довільні місця серед усіх учнів, а у списку —
+	 * спершу ті, хто має фото (у випадковому порядку), потім ті,
+	 * хто без фото (також у випадковому порядку).
+	 */
+	function shuffle<T>(list: readonly T[]): T[] {
+		const out = [...list];
+		for (let i = out.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[out[i], out[j]] = [out[j], out[i]];
+		}
+		return out;
+	}
+
+	/*
+	 * До гідратації (пререндер) — детермінований порядок: на планеті як у даних,
+	 * а в списку спершу ті, що з фото, далі без фото.
+	 *
+	 * Після гідратації в клієнтському ефекті обидва переліки перемішуються:
+	 * на планеті — випадкові місця для всіх учнів;
+	 * у списку — спершу учні з фото у випадковому порядку, потім учні без фото
+	 * також у випадковому порядку.
+	 */
+	const defaultList = $derived([
+		...students.filter((s) => s.hasPhoto),
+		...students.filter((s) => !s.hasPhoto)
+	]);
+
+	let shuffledPlanet = $state<readonly GraduateIndexEntry[] | null>(null);
+	let shuffledList = $state<readonly GraduateIndexEntry[] | null>(null);
+
+	$effect(() => {
+		shuffledPlanet = shuffle(students);
+		shuffledList = [
+			...shuffle(students.filter((s) => s.hasPhoto)),
+			...shuffle(students.filter((s) => !s.hasPhoto))
+		];
+	});
+
+	const planetStudents = $derived(shuffledPlanet ?? students);
+	const listStudents = $derived(shuffledList ?? defaultList);
+
+	const знайдені = $derived(listStudents.filter((с) => matchesQuery([с.name], запит)));
 </script>
 
 <div class="split">
@@ -54,7 +99,7 @@
 		<!-- Планета показує ВСІХ, а не знайдених: вона не фільтр, а картина класу.
 		     Куля вужча за повну ширину — поруч із нею стоїть перелік. -->
 		<PlanetSphere
-			{students}
+			students={planetStudents}
 			{onopen}
 			{testIdPrefix}
 			maxWidth={460}
