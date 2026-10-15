@@ -1819,12 +1819,35 @@
 				"department": "theatre"
 			}
 		],
+		"teachers": [
+			{
+				"id": "svitlana-ryskina",
+				"name": "Риськіна Світлана Миколаївна",
+				"subject": "Сценічне мовлення"
+			},
+			{
+				"id": "tetiana-stohul",
+				"name": "Стогул Тетяна Володимирівна",
+				"subject": "Танець"
+			},
+			{
+				"id": "hanna-nikolaieva",
+				"name": "Ніколаєва Ганна Станіславівна",
+				"subject": "Вокал"
+			},
+			{
+				"id": "olena-konnikova",
+				"name": "Коннікова Олена Костянтинівна",
+				"subject": "Історія театру"
+			}
+		],
 		"graduationYears": [
 			2026
 		],
 		"memberIds": [],
 		"playIds": [
-			"den-narodzhennia-infanty-2026"
+			"den-narodzhennia-infanty-2026",
+			"pokaz-etiudiv-2026"
 		]
 	},
 	{

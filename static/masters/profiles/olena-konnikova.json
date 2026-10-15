@@ -17,5 +17,8 @@
 	"photo": "/masters/olena-konnikova.webp",
 	"category": "speech",
 	"roleTitle": "викладачка історії театру",
-	"portrait": "/masters/portraits/olena-konnikova.webp"
+	"portrait": "/masters/portraits/olena-konnikova.webp",
+	"playIds": [
+		"pokaz-etiudiv-2026"
+	]
 }
