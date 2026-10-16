@@ -202,7 +202,7 @@
 		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
 		container-type: inline-size;
 		container-name: award;
-		padding: 3.5cqi;
+		padding: 5.2cqi 4.76cqi 4.2cqi 4.76cqi;
 	}
 
 	.award-poster--light {
@@ -219,7 +219,7 @@
 	/* Орнаментальна рамка */
 	.ornate-border {
 		position: absolute;
-		inset: 1.8cqi;
+		inset: 2.38cqi;
 		border: 1.5px solid #d4af37;
 		pointer-events: none;
 		z-index: 2;
@@ -228,7 +228,7 @@
 	.ornate-border::before {
 		content: '';
 		position: absolute;
-		inset: 0.8cqi;
+		inset: 0.95cqi;
 		border: 1px dashed rgba(212, 175, 55, 0.55);
 	}
 
@@ -242,7 +242,7 @@
 		transform: translate(-50%, -50%);
 		filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));
 	}
-	.corner-star :global(svg) { width: clamp(14px, 2.6cqi, 22px); height: clamp(14px, 2.6cqi, 22px); }
+	.corner-star :global(svg) { width: 2.86cqi; height: 2.86cqi; }
 	.corner-tl { top: 0; left: 0; }
 	.corner-tr { top: 0; left: 100%; }
 	.corner-bl { top: 100%; left: 0; }
@@ -280,7 +280,7 @@
 		height: 100%;
 		justify-content: space-between;
 		text-align: center;
-		padding: 0.2cqi 2cqi 0.8cqi;
+		padding: 0;
 	}
 
 	/* Шапка */
@@ -288,21 +288,21 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.8cqi;
-		margin-top: -0.6cqi;
+		gap: 0.6cqi;
+		margin-top: 0;
 	}
 
 	.award-emblem {
 		display: block;
 		max-width: 46cqi;
 		height: auto;
-		max-height: 14cqi;
+		max-height: 12.38cqi;
 		object-fit: contain;
-		margin-bottom: 2.2cqi;
+		margin-bottom: 2.38cqi;
 	}
 
 	.institution-name {
-		font-size: 2.2cqi;
+		font-size: 2.38cqi;
 		font-weight: 700;
 		letter-spacing: 0.16em;
 		color: #ffd700;
@@ -314,7 +314,7 @@
 	}
 
 	.project-tag {
-		font-size: 1.45cqi;
+		font-size: 1.62cqi;
 		font-weight: 600;
 		letter-spacing: 0.18em;
 		opacity: 0.85;
@@ -337,9 +337,9 @@
 		gap: 1.2cqi;
 		background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.4), rgba(212, 175, 55, 0.15));
 		border: 1px solid rgba(212, 175, 55, 0.8);
-		padding: 0.5cqi 2.4cqi;
+		padding: 0.71cqi 2.86cqi;
 		border-radius: 999px;
-		font-size: 1.65cqi;
+		font-size: 1.81cqi;
 		font-weight: 700;
 		letter-spacing: 0.22em;
 		line-height: 1;
@@ -362,8 +362,8 @@
 
 	.ribbon-star :global(svg) {
 		display: block;
-		width: 1.5cqi;
-		height: 1.5cqi;
+		width: 1.67cqi;
+		height: 1.67cqi;
 	}
 
 	.award-poster--light .award-ribbon {
@@ -374,7 +374,7 @@
 
 	.award-main-title {
 		margin: 0;
-		font-size: 4.6cqi;
+		font-size: 4.52cqi;
 		font-weight: 700;
 		letter-spacing: 0.04em;
 		line-height: 1.15;
@@ -393,7 +393,7 @@
 	}
 
 	.award-cert-badge {
-		font-size: 1.4cqi;
+		font-size: 1.52cqi;
 		font-weight: 600;
 		letter-spacing: 0.22em;
 		opacity: 0.8;
@@ -409,8 +409,8 @@
 
 	.honoree-aura {
 		position: relative;
-		width: 31cqi;
-		height: 31cqi;
+		width: 24.76cqi;
+		height: 24.76cqi;
 		margin-bottom: 1.2cqi;
 	}
 
@@ -435,7 +435,7 @@
 	}
 
 	.honoree-intro {
-		font-size: 1.65cqi;
+		font-size: 1.81cqi;
 		font-weight: 500;
 		opacity: 0.85;
 		font-style: italic;
@@ -443,7 +443,7 @@
 
 	.honoree-name {
 		margin: 0.3cqi 0 0.5cqi 0;
-		font-size: 5.2cqi;
+		font-size: 5.24cqi;
 		font-weight: 800;
 		letter-spacing: 0.05em;
 		color: #ffffff;
@@ -456,7 +456,7 @@
 	}
 
 	.honoree-subtitle {
-		font-size: 1.8cqi;
+		font-size: 2cqi;
 		display: inline-flex;
 		align-items: center;
 		gap: 0.8cqi;
@@ -473,14 +473,13 @@
 	}
 
 	/* Текст подяки */
-	/* Текст подяки */
 	.citation-block {
-		max-width: 86cqi;
+		max-width: 81.9cqi;
 		margin: 0 auto;
 		background: rgba(255, 255, 255, 0.04);
 		border-top: 1px solid rgba(212, 175, 55, 0.35);
 		border-bottom: 1px solid rgba(212, 175, 55, 0.35);
-		padding: 1.8cqi 2.5cqi;
+		padding: 1.9cqi 2.86cqi;
 		box-sizing: border-box;
 	}
 
@@ -491,7 +490,7 @@
 
 	.citation-lead {
 		margin: 0 0 0.6cqi 0;
-		font-size: 1.9cqi;
+		font-size: 2cqi;
 		line-height: 1.4;
 		font-weight: 600;
 		color: #fef08a;
@@ -503,7 +502,7 @@
 
 	.citation-sub {
 		margin: 0;
-		font-size: 1.55cqi;
+		font-size: 1.71cqi;
 		line-height: 1.4;
 		opacity: 0.9;
 	}
@@ -511,13 +510,13 @@
 	/* Інтерактивна картка з QR */
 	.interactive-card {
 		display: grid;
-		grid-template-columns: 36cqi 1fr;
+		grid-template-columns: 37.14cqi 1fr;
 		align-items: center;
-		gap: 2.2cqi;
+		gap: 2.38cqi;
 		background: rgba(0, 0, 0, 0.3);
 		border: 1px solid rgba(212, 175, 55, 0.4);
 		border-radius: 12px;
-		padding: 1.8cqi 2.2cqi;
+		padding: 1.9cqi 2.86cqi;
 		text-align: left;
 		box-sizing: border-box;
 	}
@@ -534,8 +533,8 @@
 	}
 
 	.qr-wrap {
-		width: 12cqi;
-		height: 12cqi;
+		width: 11.9cqi;
+		height: 11.9cqi;
 		background: #ffffff;
 		border: 1.5px solid #d4af37;
 		border-radius: 8px;
@@ -557,7 +556,7 @@
 	}
 
 	.qr-title {
-		font-size: 1.4cqi;
+		font-size: 1.62cqi;
 		font-weight: 700;
 		color: #ffd700;
 	}
@@ -567,14 +566,14 @@
 	}
 
 	.qr-url {
-		font-size: 1.1cqi;
+		font-size: 1.14cqi;
 		color: var(--accent-text, #38bdf8);
 		word-break: break-all;
 		font-family: monospace;
 	}
 
 	.qr-hint {
-		font-size: 1.1cqi;
+		font-size: 1.14cqi;
 		opacity: 0.75;
 	}
 
@@ -585,7 +584,7 @@
 	}
 
 	.plays-title {
-		font-size: 1.35cqi;
+		font-size: 1.52cqi;
 		font-weight: 700;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
@@ -599,7 +598,7 @@
 	}
 
 	.play-chip {
-		font-size: 1.3cqi;
+		font-size: 1.33cqi;
 		background: rgba(255, 255, 255, 0.08);
 		padding: 0.3cqi 0.7cqi;
 		border-radius: 5px;
@@ -611,18 +610,18 @@
 	}
 
 	.play-title { font-weight: 700; }
-	.play-role { opacity: 0.8; font-size: 1.18cqi; }
+	.play-role { opacity: 0.8; font-size: 1.19cqi; }
 
 	/* Підвал: просто текстом знизу */
 	.award-footer {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		padding: 1cqi 0 0.4cqi;
+		padding: 1.43cqi 0 0.48cqi;
 	}
 
 	.award-footer-text {
-		font-size: 1.75cqi;
+		font-size: 1.9cqi;
 		font-weight: 700;
 		letter-spacing: 0.22em;
 		color: #ffd700;
@@ -654,8 +653,6 @@
 			max-width: none !important;
 			border-radius: 0 !important;
 			box-shadow: none !important;
-			padding: 8mm 10mm !important;
-			box-sizing: border-box !important;
 			page-break-after: avoid !important;
 			break-after: avoid !important;
 			page-break-inside: avoid !important;
@@ -664,44 +661,7 @@
 			print-color-adjust: exact !important;
 		}
 
-		.ornate-border { inset: 5mm !important; border-width: 0.6mm !important; }
-		.ornate-border::before { inset: 2mm !important; border-width: 0.3mm !important; }
-		.corner-star { width: 6mm !important; height: 6mm !important; }
-		.corner-star :global(svg) { width: 100% !important; height: 100% !important; }
-		.ribbon-star { width: 3.5mm !important; height: 3.5mm !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
-		.ribbon-star :global(svg) { width: 3.5mm !important; height: 3.5mm !important; }
-
-		.award-header { margin-top: -1.5mm !important; }
-		.award-emblem { max-height: 26mm !important; margin-bottom: 5mm !important; }
-		.institution-name { font-size: 5mm !important; }
-		.project-tag { font-size: 3.4mm !important; }
-		.award-ribbon { font-size: 3.8mm !important; padding: 1.5mm 6mm !important; }
-		.award-main-title { font-size: 9.5mm !important; }
-		.award-cert-badge { font-size: 3.2mm !important; }
-
-		.honoree-aura { width: 52mm !important; height: 52mm !important; }
-		.honoree-intro { font-size: 3.8mm !important; }
-		.honoree-name { font-size: 11mm !important; }
-		.honoree-subtitle { font-size: 4.2mm !important; }
-
-		.citation-block { max-width: 172mm !important; padding: 4mm 6mm !important; }
-		.citation-lead { font-size: 4.2mm !important; }
-		.citation-sub { font-size: 3.6mm !important; }
-
-		.interactive-card {
-			grid-template-columns: 78mm 1fr !important;
-			gap: 5mm !important;
-			padding: 4mm 6mm !important;
-		}
-		.qr-wrap { width: 25mm !important; height: 25mm !important; }
-		.qr-title { font-size: 3.4mm !important; }
-		.qr-url { font-size: 2.4mm !important; }
-		.qr-hint { font-size: 2.4mm !important; }
-		.plays-title { font-size: 3.2mm !important; }
-		.play-chip { font-size: 2.8mm !important; }
-		.play-role { font-size: 2.5mm !important; }
-
-		.award-footer { padding: 3mm 0 1mm !important; }
-		.award-footer-text { font-size: 4mm !important; }
+		.ornate-border { border-width: 0.6mm !important; }
+		.ornate-border::before { border-width: 0.3mm !important; }
 	}
 </style>
