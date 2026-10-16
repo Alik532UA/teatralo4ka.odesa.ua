@@ -30,6 +30,18 @@
 		style:background={activeTheme.color}
 		data-testid="galaxy-award-poster-card"
 	>
+		<!-- Повнорозмірне гіперпосилання на персональну сторінку випускниці (працює і на сайті, і в збереженому PDF) -->
+		<a
+			href="https://teatralo4ka.odesa.ua/projects/galaxy-graduates/sofiia-podiakova/"
+			class="poster-click-overlay"
+			data-testid="galaxy-award-click-overlay"
+			target="_blank"
+			rel="noopener noreferrer"
+			aria-label={isEn
+				? "Open Sofiia Podiakova's profile on Galaxy of Graduates"
+				: 'Відкрити персональну сторінку Софії Подьякової на Планеті Творчості'}
+		></a>
+
 		<!-- Зоряний пил та фонові промені -->
 		<div class="space-particles" aria-hidden="true">
 			<span class="star-sparkle star-1"><StarEight size={22} /></span>
@@ -205,10 +217,45 @@
 		padding: 5.2cqi 4.76cqi 4.2cqi 4.76cqi;
 	}
 
+	.poster-click-overlay {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+		display: block;
+		text-decoration: none;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.poster-click-overlay:focus-visible {
+		outline: 3px solid #ffd700;
+		outline-offset: -3px;
+	}
+
+	.award-poster--light .poster-click-overlay:focus-visible {
+		outline-color: #1e3a8a !important;
+	}
+
 	.award-poster--light {
 		background: #ffffff !important;
 		color: #0f172a !important;
 		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08) !important;
+	}
+
+	.award-poster--light .institution-name,
+	.award-poster--light .project-tag,
+	.award-poster--light .ribbon-star,
+	.award-poster--light .award-cert-badge,
+	.award-poster--light .master-highlight,
+	.award-poster--light .citation-lead,
+	.award-poster--light .qr-title,
+	.award-poster--light .qr-url,
+	.award-poster--light .plays-title,
+	.award-poster--light .play-title,
+	.award-poster--light .award-footer-text {
+		color: #1e3a8a !important;
 	}
 
 	.award-poster--gold {
@@ -225,11 +272,19 @@
 		z-index: 2;
 	}
 
+	.award-poster--light .ornate-border {
+		border-color: #1e3a8a !important;
+	}
+
 	.ornate-border::before {
 		content: '';
 		position: absolute;
 		inset: 0.95cqi;
 		border: 1px dashed rgba(212, 175, 55, 0.55);
+	}
+
+	.award-poster--light .ornate-border::before {
+		border-color: rgba(30, 58, 138, 0.45) !important;
 	}
 
 	.corner-star {
@@ -247,6 +302,11 @@
 	.corner-tr { top: 0; left: 100%; }
 	.corner-bl { top: 100%; left: 0; }
 	.corner-br { top: 100%; left: 100%; }
+
+	.award-poster--light .corner-star {
+		color: #1e3a8a !important;
+		filter: none !important;
+	}
 
 	/* Зоряні спалахи */
 	.space-particles {
@@ -271,6 +331,12 @@
 	.star-4 { top: 58%; right: 7%; }
 	.star-5 { top: 82%; left: 8%; }
 	.star-6 { top: 86%; right: 10%; }
+
+	.award-poster--light .star-sparkle {
+		color: #1e3a8a !important;
+		opacity: 0.28 !important;
+		filter: none !important;
+	}
 
 	.award-content {
 		position: relative;
@@ -307,10 +373,6 @@
 		letter-spacing: 0.16em;
 		color: #ffd700;
 		text-transform: uppercase;
-	}
-
-	.award-poster--light .institution-name {
-		color: #92400e !important;
 	}
 
 	.project-tag {
@@ -367,9 +429,8 @@
 	}
 
 	.award-poster--light .award-ribbon {
-		background: #fef3c7 !important;
-		color: #78350f !important;
-		border-color: #d97706 !important;
+		background: rgba(30, 58, 138, 0.08) !important;
+		border-color: #1e3a8a !important;
 	}
 
 	.award-main-title {
@@ -426,6 +487,12 @@
 		background: #111827;
 	}
 
+	.award-poster--light .honoree-photo-frame {
+		border-color: #1e3a8a !important;
+		box-shadow: 0 4px 18px rgba(30, 58, 138, 0.22) !important;
+		background: #f8fafc !important;
+	}
+
 	.honoree-avatar {
 		width: 100%;
 		height: 100%;
@@ -468,10 +535,6 @@
 		font-weight: 700;
 	}
 
-	.award-poster--light .master-highlight {
-		color: #b45309 !important;
-	}
-
 	/* Текст подяки */
 	.citation-block {
 		max-width: 81.9cqi;
@@ -484,8 +547,8 @@
 	}
 
 	.award-poster--light .citation-block {
-		background: #f8fafc !important;
-		border-color: rgba(212, 175, 55, 0.5) !important;
+		background: rgba(30, 58, 138, 0.04) !important;
+		border-color: rgba(30, 58, 138, 0.3) !important;
 	}
 
 	.citation-lead {
@@ -494,10 +557,6 @@
 		line-height: 1.4;
 		font-weight: 600;
 		color: #fef08a;
-	}
-
-	.award-poster--light .citation-lead {
-		color: #1e293b !important;
 	}
 
 	.citation-sub {
@@ -522,8 +581,8 @@
 	}
 
 	.award-poster--light .interactive-card {
-		background: #f1f5f9 !important;
-		border-color: #cbd5e1 !important;
+		background: #f8fafc !important;
+		border-color: rgba(30, 58, 138, 0.25) !important;
 	}
 
 	.qr-col {
@@ -541,6 +600,10 @@
 		padding: 0.4cqi;
 		box-sizing: border-box;
 		flex-shrink: 0;
+	}
+
+	.award-poster--light .qr-wrap {
+		border-color: #1e3a8a !important;
 	}
 
 	.award-qr {
@@ -561,10 +624,6 @@
 		color: #ffd700;
 	}
 
-	.award-poster--light .qr-title {
-		color: #0f172a !important;
-	}
-
 	.qr-url {
 		font-size: 1.14cqi;
 		color: var(--accent-text, #38bdf8);
@@ -572,9 +631,18 @@
 		font-family: monospace;
 	}
 
+	.award-poster--light .qr-url {
+		font-weight: 700 !important;
+	}
+
 	.qr-hint {
 		font-size: 1.14cqi;
 		opacity: 0.75;
+	}
+
+	.award-poster--light .qr-hint {
+		color: #334155 !important;
+		opacity: 0.9 !important;
 	}
 
 	.plays-col {
@@ -606,7 +674,7 @@
 
 	.award-poster--light .play-chip {
 		background: #ffffff !important;
-		border: 1px solid #e2e8f0;
+		border: 1px solid rgba(30, 58, 138, 0.25) !important;
 	}
 
 	.play-title { font-weight: 700; }
@@ -627,10 +695,6 @@
 		color: #ffd700;
 		opacity: 0.9;
 		text-transform: uppercase;
-	}
-
-	.award-poster--light .award-footer-text {
-		color: #92400e !important;
 	}
 
 	/* ДРУК A4 PORTRAIT */
