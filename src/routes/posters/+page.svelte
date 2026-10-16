@@ -15,6 +15,7 @@
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
 	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
+	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
 
@@ -102,7 +103,21 @@
 				: 'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та роздруківка у форматі A4.'
 		});
 	});
+
+	const isLandscape = $derived(activePoster === 'posviata-invitation');
 </script>
+
+<svelte:head>
+	{#if isLandscape}
+		<style>
+			@page { size: A4 landscape; margin: 0; }
+		</style>
+	{:else}
+		<style>
+			@page { size: A4 portrait; margin: 0; }
+		</style>
+	{/if}
+</svelte:head>
 
 <div class="posters-page" data-testid="posters-page-section">
 	<div class="container posters-container">
@@ -194,6 +209,8 @@
 		<section class="poster-viewport" data-testid="poster-active-container">
 			{#if activePoster === 'defenders-hearts'}
 				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'posviata-invitation'}
+				<PosviataInvitationPoster {isEn} />
 			{:else if activePoster === 'dance-studio'}
 				<DanceStudioPoster {isEn} themeId={selectedTheme} />
 			{:else}
@@ -390,38 +407,15 @@
 		align-items: center !important;
 	}
 
-	/* Друк: на одному аркуші A4 */
-	@page {
-		size: A4 portrait;
-		margin: 0;
-	}
-
 	@media print {
-		:global(body) {
-			-webkit-print-color-adjust: exact !important;
-			print-color-adjust: exact !important;
-			background: transparent !important;
-		}
-
-		:global(#main-header),
-		:global(.header-blur-layer),
-		:global(#main-footer),
-		:global(.footer-spacer),
-		:global(.skip-link),
-		:global(.page-scrollbar),
-		:global(.minimap),
-		:global(.dynamic-bg),
-		:global(.bg-container),
-		:global(.app__base-bg),
-		:global(.service-layer),
-		:global(.service-badge),
-		:global(.badge),
-		:global([data-testid="app-version-value"]),
-		:global(.hot-news-bar),
-		:global(#ambient-canvas),
-		:global(.theme-transition-overlay),
-		:global(.scroll-to-top),
-		:global(.endless-runway),
+		:global(#main-header), :global(.header-blur-layer), :global(#main-footer),
+		:global(.footer-spacer), :global(.skip-link), :global(.page-scrollbar),
+		:global(.minimap), :global(.dynamic-bg), :global(.bg-container),
+		:global(.app__base-bg), :global(.service-layer), :global(.service-badge),
+		:global(.badge), :global([data-testid="app-version-value"]),
+		:global(.hot-news-bar), :global(#ambient-canvas),
+		:global(.theme-transition-overlay), :global(.scroll-to-top),
+		:global(.endless-runway), :global(#app-splash), :global(#app-splash-curtains),
 		.posters-header {
 			display: none !important;
 		}

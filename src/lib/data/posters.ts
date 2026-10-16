@@ -1,4 +1,4 @@
-export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28';
+export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -48,6 +48,16 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleEn: 'Day of Defenders · Poems by Iryna Fotuyma',
 		dateBadgeUk: '14 та 17 жовтня',
 		dateBadgeEn: 'Oct 14 & 17'
+	},
+	{
+		id: 'posviata-invitation',
+		slug: 'posviata-invitation',
+		titleUk: 'Посвята у Мистецтво (Запрошення)',
+		titleEn: 'Initiation into Art (Invitations)',
+		subtitleUk: 'A4 горизонтально · 6 карток на аркуш',
+		subtitleEn: 'A4 Landscape · 6 cards per sheet',
+		dateBadgeUk: '24 жовтня',
+		dateBadgeEn: 'Oct 24'
 	},
 	{
 		id: 'dance-studio',
