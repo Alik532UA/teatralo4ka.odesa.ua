@@ -745,11 +745,16 @@ const LIMITS: Array<[RegExp, number]> = [
  *   за віршами Ірини Фотуйми з розкладом показів, підтримкою повнорозмірного художнього фону
  * 2026-10-15: `seoPages.ts` (605 -> 615). Додано SEO-метадані та фолбеки для нового проєкту
  *   Навчального театру «UArt» (/projects/UArt).
+ * 2026-10-16: `GalaxyAwardPoster.svelte` (640). Символічна пам'ятна відзнака формату A4
+ *   «Першовідкривачка Планети Творчості» для Софії Подьякової (перша анкета проєкту)
+ *   у космічному стилі Галактики з орнаментальними золотими рамками, медальйоном-портретом,
+ *   QR-кодом профілю та темами для фотодруку та ощадного принтера.
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,
+	'src/lib/components/posters/GalaxyAwardPoster.svelte': 640,
 	'src/lib/components/posters/DigitalAnniversaryPoster.svelte': 375,
 	'src/routes/beta-test-checklists/+page.svelte': 470,
 	'src/lib/components/calendar/CalendarGradingTablesPoster.svelte': 710,

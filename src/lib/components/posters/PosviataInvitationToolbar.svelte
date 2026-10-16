@@ -1,24 +1,28 @@
 <script lang="ts">
 	import type { PosviataSlotTime } from '$lib/data/posviataInvitations';
-	import { Clock, Layers, FileText, Image, Palette, Printer } from 'lucide-svelte';
+	import { Clock, Layers, FileText, Image, Palette, Printer, Calendar } from 'lucide-svelte';
 
 	export type InvitationMode = 'named' | 'template' | 'cover-color' | 'cover-bw' | 'duplex';
 
 	interface Props {
+		selectedYear?: string;
 		selectedTime: PosviataSlotTime;
 		selectedMode: InvitationMode;
 		duplexCoverType: 'color' | 'bw';
 		isEn?: boolean;
+		onSelectYear?: (year: string) => void;
 		onSelectTime: (time: PosviataSlotTime) => void;
 		onSelectMode: (mode: InvitationMode) => void;
 		onSelectDuplexCover: (type: 'color' | 'bw') => void;
 	}
 
 	let {
+		selectedYear = '2026',
 		selectedTime,
 		selectedMode,
 		duplexCoverType,
 		isEn = false,
+		onSelectYear,
 		onSelectTime,
 		onSelectMode,
 		onSelectDuplexCover
@@ -26,6 +30,25 @@
 </script>
 
 <div class="posviata-toolbar" data-testid="posviata-controls-toolbar">
+	<!-- Рік заходу -->
+	<div class="control-group">
+		<span class="group-label">
+			<Calendar size={14} aria-hidden="true" />
+			<span>{isEn ? 'Year' : 'Рік'}</span>
+		</span>
+		<div class="pill-toggle">
+			<button
+				type="button"
+				class="pill-btn"
+				class:pill-btn--active={selectedYear === '2026'}
+				onclick={() => onSelectYear?.('2026')}
+				data-testid="posviata-year-2026-btn"
+			>
+				2026 <small>({isEn ? 'Oct 24' : '24.10'})</small>
+			</button>
+		</div>
+	</div>
+
 	<!-- Час показу -->
 	<div class="control-group">
 		<span class="group-label">

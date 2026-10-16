@@ -15,6 +15,7 @@
 
 	let { isEn = false }: Props = $props();
 
+	let selectedYear = $state<string>('2026');
 	let selectedTime = $state<PosviataSlotTime>('10:00');
 	let selectedMode = $state<InvitationMode>('named');
 	let duplexCoverType = $state<'color' | 'bw'>('color');
@@ -112,10 +113,12 @@
 <section class="posviata-container" data-testid="posviata-invitation-container">
 	<!-- Внутрішня панель управління варіантами запрошень -->
 	<PosviataInvitationToolbar
+		{selectedYear}
 		{selectedTime}
 		{selectedMode}
 		{duplexCoverType}
 		{isEn}
+		onSelectYear={(year) => (selectedYear = year)}
 		onSelectTime={(time) => (selectedTime = time)}
 		onSelectMode={(mode) => (selectedMode = mode)}
 		onSelectDuplexCover={(type) => (duplexCoverType = type)}

@@ -1,4 +1,4 @@
-export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation';
+export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -50,6 +50,16 @@ export const POSTERS_LIST: PosterMeta[] = [
 		dateBadgeEn: 'Oct 14 & 17'
 	},
 	{
+		id: 'galaxy-award-podiakova',
+		slug: 'galaxy-award-podiakova',
+		titleUk: 'Відзнака «Першовідкривачка Планети Творчості»',
+		titleEn: 'Award “Pioneer of the Galaxy of Graduates”',
+		subtitleUk: 'Софія ПОДЬЯКОВА · Перша анкета · A4',
+		subtitleEn: 'Sofiia PODIAKOVA · First Questionnaire · A4',
+		dateBadgeUk: 'Спеціальна відзнака',
+		dateBadgeEn: 'Special Award'
+	},
+	{
 		id: 'posviata-invitation',
 		slug: 'posviata-invitation',
 		titleUk: 'Посвята у Мистецтво (Запрошення)',
@@ -81,6 +91,34 @@ export const POSTERS_LIST: PosterMeta[] = [
 	}
 ];
 
+export interface PosterGroup {
+	id: string;
+	titleUk: string;
+	titleEn: string;
+	ids: PosterId[];
+}
+
+export const POSTER_GROUPS: PosterGroup[] = [
+	{
+		id: '2026-2027',
+		titleUk: '2026–2027',
+		titleEn: '2026–2027',
+		ids: ['dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
+	},
+	{
+		id: '2024-2025',
+		titleUk: '2024–2025',
+		titleEn: '2024–2025',
+		ids: ['anniversary-28']
+	},
+	{
+		id: 'posviata-invitation',
+		titleUk: 'Запрошення на Посвяту',
+		titleEn: 'Initiation Invitations',
+		ids: ['posviata-invitation']
+	}
+];
+
 export const DEFENDERS_HEARTS_POSTER = {
 	id: 'defenders-hearts',
 	occasionUk: 'До Дня захисників та захисниць України',
@@ -93,24 +131,8 @@ export const DEFENDERS_HEARTS_POSTER = {
 	titleEn: 'Hearts That Kept the Ability to Love',
 	heroImage: '/posters/defenders-hearts-art.webp',
 	events: [
-		{
-			dateUk: '14 жовтня',
-			dateEn: 'October 14',
-			time: '17:00',
-			roomUk: '17 ауд.',
-			roomEn: 'Classroom 17',
-			dayUk: 'Середа',
-			dayEn: 'Wednesday'
-		},
-		{
-			dateUk: '17 жовтня',
-			dateEn: 'October 17',
-			time: '12:50',
-			roomUk: '17 ауд.',
-			roomEn: 'Classroom 17',
-			dayUk: 'Субота',
-			dayEn: 'Saturday'
-		}
+		{ dateUk: '14 жовтня', dateEn: 'October 14', time: '17:00', roomUk: '17 ауд.', roomEn: 'Classroom 17', dayUk: 'Середа', dayEn: 'Wednesday' },
+		{ dateUk: '17 жовтня', dateEn: 'October 17', time: '12:50', roomUk: '17 ауд.', roomEn: 'Classroom 17', dayUk: 'Субота', dayEn: 'Saturday' }
 	] satisfies PosterEventItem[],
 	location: {
 		institutionUk: 'Одеська дитяча театральна школа',
@@ -186,8 +208,30 @@ export interface PosterTheme {
 
 export const DEFAULT_POSTER_THEME = 'yellow-brand';
 export const DEFAULT_DEFENDERS_THEME = 'defenders-sky';
+export const DEFAULT_GALAXY_AWARD_THEME = 'galaxy-space';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
+	{
+		id: 'galaxy-space',
+		nameUk: 'Космічна ніч (Глибокий космос)',
+		nameEn: 'Deep Space (Cosmic Night)',
+		color: 'radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c122c 45%, #030712 100%)',
+		forPosters: ['galaxy-award-podiakova']
+	},
+	{
+		id: 'galaxy-print-light',
+		nameUk: 'Білий пергамент (Ощадний друк)',
+		nameEn: 'White Parchment (Ink-saver Print)',
+		color: '#ffffff',
+		forPosters: ['galaxy-award-podiakova']
+	},
+	{
+		id: 'galaxy-gold',
+		nameUk: 'Золота Галактика',
+		nameEn: 'Golden Galaxy',
+		color: 'radial-gradient(circle at 50% 20%, #2e2107 0%, #171103 50%, #070501 100%)',
+		forPosters: ['galaxy-award-podiakova']
+	},
 	{
 		id: 'defenders-sky',
 		nameUk: 'Синьо-жовте небо (Захід сонця)',
@@ -204,53 +248,13 @@ export const POSTER_THEMES: readonly PosterTheme[] = [
 		bgImage: '/posters/defenders-hearts-bg.webp',
 		forPosters: ['defenders-hearts']
 	},
-	{
-		id: 'yellow-brand',
-		nameUk: 'Фірмовий жовтий',
-		nameEn: 'Brand Yellow',
-		color: '#ffed00'
-	},
-	{
-		id: 'yellow-sun',
-		nameUk: 'Тепле сонце',
-		nameEn: 'Warm Sun',
-		color: '#ffd600'
-	},
-	{
-		id: 'paper-white',
-		nameUk: 'Білий аркуш',
-		nameEn: 'Paper White',
-		color: '#ffffff'
-	},
-	{
-		id: 'warm-cream',
-		nameUk: 'Ніжний крем',
-		nameEn: 'Soft Cream',
-		color: '#fffbeb'
-	},
-	{
-		id: 'mint-fresh',
-		nameUk: 'Мʼятний',
-		nameEn: 'Fresh Mint',
-		color: '#ecfdf5'
-	},
-	{
-		id: 'sky-light',
-		nameUk: 'Небесний',
-		nameEn: 'Light Sky',
-		color: '#cfe2f3'
-	},
-	{
-		id: 'theatre-gold',
-		nameUk: 'Золота охра',
-		nameEn: 'Theatre Gold',
-		color: '#fef08a'
-	},
-	{
-		id: 'peach-blush',
-		nameUk: 'Персиковий',
-		nameEn: 'Peach',
-		color: '#ffedd5'
-	}
+	{ id: 'yellow-brand', nameUk: 'Фірмовий жовтий', nameEn: 'Brand Yellow', color: '#ffed00' },
+	{ id: 'yellow-sun', nameUk: 'Тепле сонце', nameEn: 'Warm Sun', color: '#ffd600' },
+	{ id: 'paper-white', nameUk: 'Білий аркуш', nameEn: 'Paper White', color: '#ffffff' },
+	{ id: 'warm-cream', nameUk: 'Ніжний крем', nameEn: 'Soft Cream', color: '#fffbeb' },
+	{ id: 'mint-fresh', nameUk: 'Мʼятний', nameEn: 'Fresh Mint', color: '#ecfdf5' },
+	{ id: 'sky-light', nameUk: 'Небесний', nameEn: 'Light Sky', color: '#cfe2f3' },
+	{ id: 'theatre-gold', nameUk: 'Золота охра', nameEn: 'Theatre Gold', color: '#fef08a' },
+	{ id: 'peach-blush', nameUk: 'Персиковий', nameEn: 'Peach', color: '#ffedd5' }
 ];
 

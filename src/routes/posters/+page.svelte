@@ -8,14 +8,17 @@
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
 	import {
 		POSTERS_LIST,
+		POSTER_GROUPS,
 		DEFAULT_POSTER_THEME,
 		DEFAULT_DEFENDERS_THEME,
+		DEFAULT_GALAXY_AWARD_THEME,
 		type PosterId
 	} from '$lib/data/posters';
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
 	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
+	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
@@ -40,6 +43,8 @@
 			selectedTheme = themeParam;
 		} else if (activePoster === 'defenders-hearts') {
 			selectedTheme = DEFAULT_DEFENDERS_THEME;
+		} else if (activePoster === 'galaxy-award-podiakova') {
+			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 		}
 	});
 
@@ -50,7 +55,10 @@
 		if (id === 'defenders-hearts' && selectedTheme === DEFAULT_POSTER_THEME) {
 			selectedTheme = DEFAULT_DEFENDERS_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_DEFENDERS_THEME);
-		} else if (id === 'dance-studio' && selectedTheme.startsWith('defenders-')) {
+		} else if (id === 'galaxy-award-podiakova') {
+			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
+			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
+		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-'))) {
 			selectedTheme = DEFAULT_POSTER_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_POSTER_THEME);
 		}
@@ -118,15 +126,7 @@
 </script>
 
 <svelte:head>
-	{#if isLandscape}
-		<style>
-			@page { size: A4 landscape; margin: 0; }
-		</style>
-	{:else}
-		<style>
-			@page { size: A4 portrait; margin: 0; }
-		</style>
-	{/if}
+	{#if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} />
 
@@ -151,30 +151,40 @@
 
 			<!-- Панель дій та вкладок -->
 			<div class="posters-toolbar" data-testid="posters-toolbar">
-				<!-- Перемикач афіш -->
-				<div class="poster-tabs" role="tablist" aria-label={isEn ? 'Choose poster' : 'Оберіть афішу'}>
-					{#each POSTERS_LIST as item (item.id)}
-						<button
-							type="button"
-							role="tab"
-							aria-selected={activePoster === item.id}
-							class="tab-btn"
-							class:tab-btn--active={activePoster === item.id}
-							onclick={() => selectPoster(item.id)}
-							data-testid={`poster-tab-${item.id}-btn`}
-						>
-							<LayoutList size={16} aria-hidden="true" />
-							<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
-							{#if item.dateBadgeUk}
-								<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
-							{/if}
-						</button>
+				<!-- Перемикач афіш по роках та категоріях -->
+				<div class="poster-groups-container" role="tablist" aria-label={isEn ? 'Choose poster' : 'Оберіть афішу'}>
+					{#each POSTER_GROUPS as group (group.id)}
+						<div class="poster-group-cluster">
+							<span class="poster-group-label">{isEn ? group.titleEn : group.titleUk}</span>
+							<div class="poster-group-tabs">
+								{#each group.ids as pid (pid)}
+									{@const item = POSTERS_LIST.find((p) => p.id === pid)}
+									{#if item}
+										<button
+											type="button"
+											role="tab"
+											aria-selected={activePoster === item.id}
+											class="tab-btn"
+											class:tab-btn--active={activePoster === item.id}
+											onclick={() => selectPoster(item.id)}
+											data-testid={`poster-tab-${item.id}-btn`}
+										>
+											<LayoutList size={14} aria-hidden="true" />
+											<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
+											{#if item.dateBadgeUk}
+												<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
+											{/if}
+										</button>
+									{/if}
+								{/each}
+							</div>
+						</div>
 					{/each}
 				</div>
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -220,6 +230,8 @@
 		<section class="poster-viewport" data-testid="poster-active-container">
 			{#if activePoster === 'defenders-hearts'}
 				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'galaxy-award-podiakova'}
+				<GalaxyAwardPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'posviata-invitation'}
 				<PosviataInvitationPoster {isEn} />
 			{:else if activePoster === 'dance-studio'}
@@ -310,11 +322,20 @@
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 	}
 
-	.poster-tabs {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
+	.poster-groups-container { display: flex; flex-direction: column; gap: 8px; flex: 1 1 580px; }
+	.poster-group-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+	.poster-group-label {
+		font-size: 0.74rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--accent-text, #b45309);
+		background: rgba(0, 0, 0, 0.04);
+		padding: 3px 8px;
+		border-radius: 6px;
+		white-space: nowrap;
 	}
+	.poster-group-tabs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 
 	.tab-btn {
 		display: inline-flex;
@@ -402,21 +423,9 @@
 	}
 
 	/* Повноекранний режим */
-	:global(body.posters-fullscreen) .posters-header {
-		display: none !important;
-	}
-
-	:global(body.posters-fullscreen) .posters-page {
-		padding: 0 !important;
-		min-height: 100dvh !important;
-		background: #111827 !important;
-	}
-
-	:global(body.posters-fullscreen) .poster-viewport {
-		height: 100dvh !important;
-		padding: 0 !important;
-		align-items: center !important;
-	}
+	:global(body.posters-fullscreen) .posters-header { display: none !important; }
+	:global(body.posters-fullscreen) .posters-page { padding: 0 !important; min-height: 100dvh !important; background: #111827 !important; }
+	:global(body.posters-fullscreen) .poster-viewport { height: 100dvh !important; padding: 0 !important; align-items: center !important; }
 
 	@media print {
 		:global(#main-header), :global(.header-blur-layer), :global(#main-footer),
@@ -427,21 +436,10 @@
 		:global(.hot-news-bar), :global(#ambient-canvas),
 		:global(.theme-transition-overlay), :global(.scroll-to-top),
 		:global(.endless-runway), :global(#app-splash), :global(#app-splash-curtains),
-		.posters-header {
-			display: none !important;
-		}
+		.posters-header { display: none !important; }
 
-		:global(.app),
-		:global(main#main-content),
-		.posters-page,
-		.posters-container,
-		.poster-viewport {
-			min-height: 0 !important;
-			padding: 0 !important;
-			margin: 0 !important;
-			width: 100% !important;
-			max-width: none !important;
-			box-shadow: none !important;
+		:global(.app), :global(main#main-content), .posters-page, .posters-container, .poster-viewport {
+			min-height: 0 !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: none !important; box-shadow: none !important;
 		}
 	}
 </style>
