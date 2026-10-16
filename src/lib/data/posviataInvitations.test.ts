@@ -19,22 +19,24 @@ describe('posviata invitations data', () => {
 		expect(POSVIATA_EVENT_META.hallUk).toBe('Велика зала');
 	});
 
-	it('список 10:00 містить рівно 36 учнів для 6 повних аркушів по 6 карток', () => {
-		expect(POSVIATA_STUDENTS_10_00).toHaveLength(36);
+	it('список 10:00 містить 38 учнів (7 аркушів)', () => {
+		expect(POSVIATA_STUDENTS_10_00).toHaveLength(38);
 		const chunks = chunkStudents(POSVIATA_STUDENTS_10_00, 6);
-		expect(chunks).toHaveLength(6);
-		for (const chunk of chunks) {
+		expect(chunks).toHaveLength(7);
+		for (const chunk of chunks.slice(0, 6)) {
 			expect(chunk).toHaveLength(6);
 		}
+		expect(chunks[6]).toHaveLength(2);
 	});
 
-	it('список 12:00 містить рівно 42 учні для 7 повних аркушів по 6 карток', () => {
-		expect(POSVIATA_STUDENTS_12_00).toHaveLength(42);
+	it('список 12:00 містить 47 учнів (8 аркушів)', () => {
+		expect(POSVIATA_STUDENTS_12_00).toHaveLength(47);
 		const chunks = chunkStudents(POSVIATA_STUDENTS_12_00, 6);
-		expect(chunks).toHaveLength(7);
-		for (const chunk of chunks) {
+		expect(chunks).toHaveLength(8);
+		for (const chunk of chunks.slice(0, 7)) {
 			expect(chunk).toHaveLength(6);
 		}
+		expect(chunks[7]).toHaveLength(5);
 	});
 
 	it('getStudentsForSlot повертає правильні списки', () => {

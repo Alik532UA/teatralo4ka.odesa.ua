@@ -88,7 +88,9 @@ export const POSVIATA_STUDENTS_10_00: InvitationStudent[] = [
 	{ firstName: 'Софія', lastName: 'Михайленко', gender: 'f' },
 	{ firstName: 'Валерія', lastName: 'Мосузенко', gender: 'f' },
 	{ firstName: 'Софія', lastName: 'Москаленко', gender: 'f' },
-	{ firstName: 'Емілій', lastName: 'Ястребов', gender: 'm' }
+	{ firstName: 'Емілій', lastName: 'Ястребов', gender: 'm' },
+	{ firstName: 'Анна', lastName: 'Бекчіу', gender: 'f' },
+	{ firstName: 'Софія', lastName: 'Яковчук', gender: 'f' }
 ];
 
 export const POSVIATA_STUDENTS_12_00: InvitationStudent[] = [
@@ -133,5 +135,10 @@ export const POSVIATA_STUDENTS_12_00: InvitationStudent[] = [
 	{ firstName: 'Поліна', lastName: 'Лукащук', gender: 'f' },
 	{ firstName: 'Джаміла', lastName: 'Кучер', gender: 'f' },
 	{ firstName: 'Шахерізада', lastName: 'Кучер', gender: 'f' },
-	{ firstName: 'Максим', lastName: 'Стоянов', gender: 'm' }
+	{ firstName: 'Максим', lastName: 'Стоянов', gender: 'm' },
+	{ firstName: 'Матвій', lastName: 'Перепелиця', gender: 'm' },
+	{ firstName: 'Софія', lastName: 'Федосєєва', gender: 'f' },
+	{ firstName: 'Аделіна', lastName: 'Кондратович', gender: 'f' },
+	{ firstName: 'Віталіна', lastName: 'Стружевська', gender: 'f' },
+	{ firstName: 'Володимир', lastName: 'Кобиляцький', gender: 'm' }
 ];
