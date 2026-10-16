@@ -49,6 +49,12 @@ describe('renderContent — формат html', () => {
 		const out = renderContent('<iframe src="https://www.youtube.com/embed/x"></iframe>', 'html');
 		expect(out).toContain('<iframe');
 	});
+
+	it('автоматично додає rel="noopener noreferrer" для посилань з target="_blank"', () => {
+		const out = renderContent('<a href="https://example.com" target="_blank">зовнішнє</a>', 'html');
+		expect(out).toContain('target="_blank"');
+		expect(out).toContain('rel="noopener noreferrer"');
+	});
 });
 
 describe('getContentExcerpt', () => {

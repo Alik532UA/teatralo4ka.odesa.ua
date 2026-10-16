@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import DOMPurify from 'isomorphic-dompurify';
 
 /**
  * DOMPurify configuration for HTML content sanitization.
@@ -9,6 +10,20 @@ export const DOMPURIFY_HTML_CONFIG = {
 	ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'loading', 'referrerpolicy', 'style', 'target', 'rel'],
 	ALLOWED_URI_REGEXP: /^(?:(?:https?|mailto|tel):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
 };
+
+// Захист від reverse tabnabbing: кожне target="_blank" отримує rel="noopener noreferrer"
+if (typeof DOMPurify?.addHook === 'function') {
+	DOMPurify.addHook('afterSanitizeAttributes', (node) => {
+		if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {
+			const rel = node.getAttribute('rel');
+			if (!rel) {
+				node.setAttribute('rel', 'noopener noreferrer');
+			} else if (!rel.includes('noopener')) {
+				node.setAttribute('rel', `${rel} noopener noreferrer`);
+			}
+		}
+	});
+}
 
 /**
  * Configures the shared marked renderer for link handling.
