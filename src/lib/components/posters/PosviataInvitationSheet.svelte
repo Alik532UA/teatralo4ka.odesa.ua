@@ -61,6 +61,7 @@
 		box-sizing: border-box;
 		background: #ffffff;
 		color: #111827;
+		font-family: 'e-Ukraine', var(--font-body), sans-serif;
 		margin: 0 auto 24px;
 		width: 100%;
 		max-width: 1120px;
@@ -108,6 +109,11 @@
 	}
 
 	@media print {
+		.posviata-sheet,
+		.posviata-sheet * {
+			font-family: 'e-Ukraine', var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		}
+
 		.posviata-sheet {
 			width: 297mm !important;
 			height: 210mm !important;

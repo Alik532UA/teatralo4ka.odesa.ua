@@ -115,7 +115,7 @@
 		box-sizing: border-box;
 		background: #ffffff;
 		color: #000000;
-		font-family: inherit;
+		font-family: 'e-Ukraine', var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 		padding: 4.06cqi 0 3.47cqi 0;
 		overflow: hidden;
 		container-type: inline-size;
@@ -147,7 +147,7 @@
 
 	.cover-label {
 		font-size: 3.2cqi;
-		font-weight: 900;
+		font-weight: 700;
 		letter-spacing: 0.22em;
 		color: #000000;
 		text-transform: uppercase;
@@ -209,7 +209,7 @@
 	.title-main {
 		margin: 0;
 		font-size: 4.63cqi;
-		font-weight: 800;
+		font-weight: 700;
 		letter-spacing: 0.02em;
 		line-height: 1.22;
 		color: #000000;
@@ -231,11 +231,15 @@
 		color: #000000;
 	}
 
-	.highlight-date { font-weight: 800; font-size: 3.86cqi; }
-	.highlight-time { font-weight: 800; }
-	.hall-row { margin: 0.6cqi 0 0 0; font-size: 4.37cqi; font-weight: 800; line-height: 1.22; color: #000000; }
+	.highlight-date { font-weight: 700; font-size: 3.86cqi; }
+	.highlight-time { font-weight: 700; }
+	.hall-row { margin: 0.6cqi 0 0 0; font-size: 4.37cqi; font-weight: 700; line-height: 1.22; color: #000000; }
 
 	@media print {
+		.posviata-card,
+		.posviata-card * {
+			font-family: 'e-Ukraine', var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		}
 		.posviata-card {
 			width: 100% !important;
 			height: 100% !important;

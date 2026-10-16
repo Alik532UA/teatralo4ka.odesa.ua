@@ -17,6 +17,7 @@
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
+	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
 
 	const lang = $derived($locale === 'en' ? 'en' : 'uk');
@@ -29,6 +30,7 @@
 	let fullscreenButton = $state<HTMLButtonElement | null>(null);
 
 	onMount(() => {
+		void ensureFontsReady();
 		const param = page.url.searchParams.get('poster') as PosterId | null;
 		if (param && POSTERS_LIST.some((p) => p.id === param)) {
 			activePoster = param;
@@ -64,8 +66,16 @@
 		replaceState(resolve('/posters') + nextUrl.search + nextUrl.hash, page.state);
 	}
 
-	function handlePrint() {
+	async function handlePrint() {
+		await ensureFontsReady();
 		window.print();
+	}
+
+	function handleKeydown(event: KeyboardEvent) {
+		if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'p') {
+			event.preventDefault();
+			void handlePrint();
+		}
 	}
 
 	// Повний екран через сервіс fullscreen
@@ -118,6 +128,7 @@
 		</style>
 	{/if}
 </svelte:head>
+<svelte:window onkeydown={handleKeydown} />
 
 <div class="posters-page" data-testid="posters-page-section">
 	<div class="container posters-container">
