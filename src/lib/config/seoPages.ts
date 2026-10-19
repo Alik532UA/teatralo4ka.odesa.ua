@@ -170,7 +170,7 @@ export const SEO_FALLBACK = {
 			posters: {
 				title: 'Афіші школи',
 				description:
-					'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, цифровий перегляд та роздруківка у форматі A4.'
+					'Офіційні цифрові афіші Одеської театральної школи: набір у танцювальний колектив, цифровий перегляд та роздруківка у форматі A4.'
 			},
 			projects: {
 				title: 'Проєкти',
@@ -225,7 +225,7 @@ export const SEO_FALLBACK = {
 			brandbook: {
 				title: 'Брендбук школи',
 				description:
-					'Офіційний брендбук та гайдлайн візуального стилю Одеської дитячої театральної школи: кольори, шрифт e-Ukraine та логотипи.'
+					'Офіційний брендбук та гайдлайн візуального стилю Одеської театральної школи: кольори, шрифт e-Ukraine та логотипи.'
 			},
 			uart: {
 				title: 'Навчальний театр «UArt»',
@@ -402,7 +402,7 @@ export const SEO_FALLBACK = {
 			posters: {
 				title: 'School Posters',
 				description:
-					'Official digital posters and playbills of Odesa Children’s Theatre School: dance collective enrollment, interactive view, and A4 print.'
+					'Official digital posters and playbills of Odesa Theatre School: dance collective enrollment, interactive view, and A4 print.'
 			},
 			projects: {
 				title: 'Projects',
@@ -457,7 +457,7 @@ export const SEO_FALLBACK = {
 			brandbook: {
 				title: 'BrandBook',
 				description:
-					'Official brand identity guidelines of Odesa Children’s Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
+					'Official brand identity guidelines of Odesa Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
 			},
 			uart: {
 				title: '«UArt» Educational Theatre',

@@ -135,17 +135,17 @@ export const DEFENDERS_HEARTS_POSTER = {
 		{ dateUk: '17 жовтня', dateEn: 'October 17', time: '12:50', roomUk: '17 ауд.', roomEn: 'Classroom 17', dayUk: 'Субота', dayEn: 'Saturday' }
 	] satisfies PosterEventItem[],
 	location: {
-		institutionUk: 'Одеська дитяча театральна школа',
-		institutionEn: 'Odesa Children’s Theatre School',
+		institutionUk: 'Одеська театральна школа',
+		institutionEn: 'Odesa Theatre School',
 		addressUk: 'вул. Софіївська, 24',
 		addressEn: '24 Sofiivska St.',
-		detailsUk: 'Приміщення Одеської дитячої театральної школи (вул. Софіївська, 24)',
-		detailsEn: 'Odesa Children’s Theatre School premises (24 Sofiivska St.)'
+		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)',
+		detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
 	},
 	quoteUk: '«Любов сильніша за війну, бо вона оберігає серця й дарує життя»',
 	quoteEn: '“Love is stronger than war, because it protects hearts and gives life”',
-	schoolUk: 'Одеська дитяча театральна школа · Сезон 2026–2027',
-	schoolEn: 'Odesa Children’s Theatre School · Season 2026–2027'
+	schoolUk: 'Одеська театральна школа · Сезон 2026–2027',
+	schoolEn: 'Odesa Theatre School · Season 2026–2027'
 };
 
 export const DANCE_STUDIO_POSTER = {

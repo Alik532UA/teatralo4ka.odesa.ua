@@ -117,8 +117,8 @@
 				? `School Posters - ${$t('seo.brandTitle')}`
 				: `Афіші школи - Цифрові плакати та роздруківка - ${$t('seo.brandTitle')}`,
 			description: isEn
-				? 'Official digital posters and playbills of Odesa Children’s Theatre School: dance collective enrollment, Defenders Day poetry playbill, interactive view, and A4 print.'
-				: 'Офіційні цифрові афіші Одеської дитячої театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та роздруківка у форматі A4.'
+				? 'Official digital posters and playbills of Odesa Theatre School: dance collective enrollment, Defenders Day poetry playbill, interactive view, and A4 print.'
+				: 'Офіційні цифрові афіші Одеської театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та роздруківка у форматі A4.'
 		});
 	});
 
@@ -145,7 +145,7 @@
 				<p class="header-lead">
 					{isEn
 						? 'Interactive vector posters with high-quality A4 printing support.'
-						: 'Цифрові фірмові афіші Одеської дитячої театральної школи з підтримкою якісного друку формату A4.'}
+						: 'Цифрові фірмові афіші Одеської театральної школи з підтримкою якісного друку формату A4.'}
 				</p>
 			</div>
 

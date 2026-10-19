@@ -8,7 +8,7 @@ export const load: PageLoad = ({ url }) => {
 	return {
 		seoTitle: isEn ? 'School Posters' : 'Афіші школи',
 		seoDescription: isEn
-			? 'Official digital posters of Odesa Children’s Theatre School: dance collective enrollment, Defenders Day poetry playbill, interactive view, and A4 print.'
-			: 'Офіційні цифрові афіші та оголошення Одеської дитячої театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та друк у форматі A4.'
+			? 'Official digital posters of Odesa Theatre School: dance collective enrollment, Defenders Day poetry playbill, interactive view, and A4 print.'
+			: 'Офіційні цифрові афіші та оголошення Одеської театральної школи: набір у танцювальний колектив, поетична композиція до Дня захисників, цифровий перегляд та друк у форматі A4.'
 	};
 };

@@ -66,7 +66,7 @@
 				<div class="emblem-wrap">
 					<img
 						src={asset('/logo/svg/t4_logo_IndividualParticles_MasksTwo_2026.svg')}
-						alt={isEn ? 'Theatre School Crest' : 'Герб Одеської дитячої театральної школи'}
+						alt={isEn ? 'Theatre School Crest' : 'Герб Одеської театральної школи'}
 						width="160"
 						height="97"
 						class="emblem-img"
@@ -154,7 +154,7 @@
 					{isEn ? 'Intelligence is artificial, but Art is eternal! Confucius 😜' : 'Інтелект - штучний, а Мистецтво - вічне! Конфуцій 😜'}
 				</p>
 				<p class="poster-season">
-					{isEn ? 'November-December 2024 · Odesa Children’s Theatre School' : 'листопад-грудень 2024 р · Одеська дитяча театральна школа'}
+					{isEn ? 'November-December 2024 · Odesa Theatre School' : 'листопад-грудень 2024 р · Одеська театральна школа'}
 				</p>
 			</footer>
 		</div>

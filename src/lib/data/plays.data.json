@@ -8,7 +8,7 @@
 			"fedir-tkach"
 		],
 		"number": 68,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ЛІ-Те-Ра»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -23,7 +23,7 @@
 			"andrii-klymenko"
 		],
 		"number": 69,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Те-Кі-Ла»",
 		"theatreGroupAlt": "гр. «Лі-Те-Ра»",
 		"dateNote": "25 квітня субота, 14.00 (ауд. 7); 27 квітня понеділок, 17.00 (ауд. 7)",
@@ -68,7 +68,7 @@
 			"fedir-tkach"
 		],
 		"number": 67,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -93,7 +93,7 @@
 			"fedir-tkach"
 		],
 		"number": 71,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Кактус»",
 		"isDtsh": true,
 		"dateNote": "23 травня субота, 14.30 (ауд. 7); 25 травня понеділок, 18.00 (ауд. 7)",
@@ -125,7 +125,7 @@
 			"fedir-tkach"
 		],
 		"number": 72,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
 		"dateNote": "18 травня понеділок, 17.30 (ауд. 7); 19 травня вівторок, 17.30 (ауд. 7)",
@@ -168,7 +168,7 @@
 			"olena-konnikova"
 		],
 		"number": 70,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Те-Кі-Ла»",
 		"dateNote": "30 квітня 2026 року (четвер, 18.00, ауд. 17); 1 травня п’ятниця, 18.00; 2 травня субота, 14.00",
 		"isDtsh": true,
@@ -201,7 +201,7 @@
 			"fedir-tkach"
 		],
 		"number": 61,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -258,7 +258,7 @@
 		],
 		"number": 62,
 		"dateNote": "лютий",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -279,7 +279,7 @@
 			"liubov-savina"
 		],
 		"number": 65,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Музичний театр»",
 		"isDtsh": true,
 		"dateNote": "16.05 п’ятниця, 17.00 (ауд. 7); 17.05 субота, 12.30 (ауд. 7)",
@@ -294,7 +294,7 @@
 			"fedir-tkach"
 		],
 		"number": 63,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
 		"dateNote": "23.05 п’ятниця, 18.00 (ауд. 7); 24.05 субота, 15.00 (ауд. 7)",
@@ -309,7 +309,7 @@
 			"fedir-tkach"
 		],
 		"number": 64,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Кактус»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -398,7 +398,7 @@
 			"svitlana-ryskina"
 		],
 		"number": 66,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
 		"isDtsh": true,
 		"dateNote": "28.05 середа, 18.00 (ауд. 7); 29.05 четвер, 17.30 (ауд. 7); 02.06 понеділок, 18.00 (ауд. 7); 03.06 вівторок, 18.00 (ауд. 7)",
@@ -431,7 +431,7 @@
 			"fedir-tkach"
 		],
 		"number": 59,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ХлопаФФки»",
 		"isDtsh": true,
 		"participants": [
@@ -535,7 +535,7 @@
 			"fedir-tkach"
 		],
 		"number": 60,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -591,7 +591,7 @@
 			"fedir-tkach"
 		],
 		"number": 57,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «RePeTe»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -610,7 +610,7 @@
 		"title": "Показ етюдів",
 		"year": 2024,
 		"number": 58,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Інтенсив-ст» («Паша Максимов»)",
 		"isDtsh": true,
 		"participants": [
@@ -719,7 +719,7 @@
 			"fedir-tkach"
 		],
 		"number": 56,
-		"institution": "Одеська дитяча театральна школа / Український театр",
+		"institution": "Одеська театральна школа / Український театр",
 		"theatreGroup": "гр. «Alter Ego»",
 		"isDtsh": true,
 		"participants": [
@@ -795,7 +795,7 @@
 			"fedir-tkach"
 		],
 		"number": 55,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Інтенсив» – «ХлопаФФки»",
 		"isDtsh": true,
 		"participants": [
@@ -814,7 +814,7 @@
 			"fedir-tkach"
 		],
 		"number": 54,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Alter Ego»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -904,7 +904,7 @@
 			"fedir-tkach"
 		],
 		"number": 53,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Alter Ego»",
 		"isDtsh": true,
 		"participants": [
@@ -975,7 +975,7 @@
 			"fedir-tkach"
 		],
 		"number": 51,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Явища природи»",
 		"isDtsh": true,
 		"dateNote": "25 травня вівторок, 18.00 (ауд. 7); 30 травня неділя, 16.00 (ауд. 7)",
@@ -1081,7 +1081,7 @@
 			"Диплом (2 місце) у номінації «Юнацький театр» Міжнародного театрального інтернет-конкурсу «Театр.net» (м. Київ)"
 		],
 		"videoUrl": "https://youtu.be/cNlzDvfmFtE",
-		"institution": "Одеська дитяча театральна школа / Український театр",
+		"institution": "Одеська театральна школа / Український театр",
 		"theatreGroup": "гр. «Art-Kids»",
 		"theatreGroupAlt": "гр. 7Т-24",
 		"number": 50,
@@ -1116,7 +1116,7 @@
 			"fedir-tkach"
 		],
 		"number": 52,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ІнтенсиФФ» – «Alter Ego»",
 		"isDtsh": true,
 		"participants": [
@@ -1147,7 +1147,7 @@
 			"fedir-tkach"
 		],
 		"number": 48,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
 		"isDtsh": true,
 		"participants": [
@@ -1200,7 +1200,7 @@
 			"ivan-voloshyn"
 		],
 		"number": 47,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"isDtsh": true,
 		"participants": [
@@ -1287,7 +1287,7 @@
 			"fedir-tkach"
 		],
 		"number": 46,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -1340,7 +1340,7 @@
 			"fedir-tkach"
 		],
 		"number": 49,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Явища природи»",
 		"theatreGroupAlt": "гр. 4Т-11",
 		"dateNote": "8 жовтня 2020",
@@ -1362,7 +1362,7 @@
 			"fedir-tkach"
 		],
 		"number": 43,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -1430,7 +1430,7 @@
 			"fedir-tkach"
 		],
 		"number": 42,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ПреСтиЖ»",
 		"isDtsh": true,
 		"participants": [
@@ -1477,7 +1477,7 @@
 			"Диплом Переможця театрального фестивалю «Вішак-online» (м. Луцьк)"
 		],
 		"videoUrl": "https://youtu.be/Yf0fw98luX4",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"number": 44,
 		"isDtsh": true,
@@ -1501,7 +1501,7 @@
 			"fedir-tkach"
 		],
 		"number": 45,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"isDtsh": true,
 		"participants": [
@@ -1537,7 +1537,7 @@
 			"fedir-tkach"
 		],
 		"number": 40,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -1594,7 +1594,7 @@
 			"hanna-tkach"
 		],
 		"number": 41,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Art-Kids»",
 		"isDtsh": true,
 		"participants": [
@@ -1615,7 +1615,7 @@
 		"title": "«Фото-топлес»",
 		"year": 2018,
 		"author": "за текстами Наталії Блок",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"theatreGroupAlt": "гр. 5Т-17",
 		"number": 39,
@@ -1668,7 +1668,7 @@
 			"fedir-tkach"
 		],
 		"number": 38,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Друге дихання»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors",
@@ -1732,7 +1732,7 @@
 			"fedir-tkach"
 		],
 		"number": 35,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ТУ-154»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -1742,7 +1742,7 @@
 		"title": "«Зона турбулентності»",
 		"year": 2017,
 		"author": "Авторські монологи (показ у просторі «Термінал-42»)",
-		"institution": "Одеська дитяча театральна школа / Термінал-42",
+		"institution": "Одеська театральна школа / Термінал-42",
 		"theatreGroup": "гр. «ТУ-154»",
 		"theatreGroupAlt": "гр. 8Т-24",
 		"number": 36,
@@ -1779,7 +1779,7 @@
 		"title": "«Казка Арденського лісу»",
 		"year": 2017,
 		"author": "за п'єсою Ю. Кіма",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"theatreGroupAlt": "гр. 4Т-12 6Т-18",
 		"number": 37,
@@ -1922,7 +1922,7 @@
 			"fedir-tkach"
 		],
 		"number": 34,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Люди» («Человеки»)",
 		"isDtsh": true,
 		"participants": [
@@ -1940,7 +1940,7 @@
 		"title": "«Уривки з класики»",
 		"year": 2016,
 		"author": "М. Гоголь «Ніч проти Різдва», Л. Толстой «Живий труп», Г. Ібсен «Ляльковий дім», Е. Ростан «Сірано де Бержерак», Дж. Селінджер «Чудовий день для бананориб», Г. Квітка-Основ’яненко «Конотопська відьма»",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ТУ-154»",
 		"theatreGroupAlt": "гр. 7Т-17",
 		"number": 33,
@@ -2020,7 +2020,7 @@
 		"title": "«Де всі…»",
 		"year": 2015,
 		"author": "за п’єсами шведських драматургів «Тепер ти знову Бог», «Відзнач мене», «День, коли Ден дав дуба»",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ТУ-154»",
 		"theatreGroupAlt": "гр. 6Т-16",
 		"number": 31,
@@ -2143,7 +2143,7 @@
 			"fedir-tkach"
 		],
 		"number": 32,
-		"institution": "Одеська дитяча театральна школа / ТЮГ",
+		"institution": "Одеська театральна школа / ТЮГ",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"isDtsh": true,
 		"participants": [
@@ -2253,7 +2253,7 @@
 			"/plays/uryvky-z-klasyky-2015.webp",
 			"/plays/uryvky-z-klasyky-2015-2.webp"
 		],
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ГруФФиш»",
 		"theatreGroupAlt": "гр. 7Т-17",
 		"number": 30,
@@ -2328,7 +2328,7 @@
 				"title": "Ф. Достоєвський «Принижені та зневажені»"
 			}
 		],
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. 7Т-18",
 		"dateNote": "2 червня (вівторок), 17.00 (ауд. 7)",
 		"isDtsh": true,
@@ -2427,7 +2427,7 @@
 			"fedir-tkach"
 		],
 		"number": 27,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"isDtsh": true,
 		"participants": [
@@ -2514,7 +2514,7 @@
 			"fedir-tkach"
 		],
 		"number": 29,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ГруФФиш»",
 		"isDtsh": true,
 		"participants": [
@@ -2537,7 +2537,7 @@
 			"fedir-tkach"
 		],
 		"number": 28,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «FreeStyle»",
 		"isDtsh": true,
 		"participants": [
@@ -2593,7 +2593,7 @@
 				"title": "Арістофан «Жінки в народних зборах»"
 			}
 		],
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"number": 26,
 		"isDtsh": true,
@@ -2677,7 +2677,7 @@
 		"title": "«Наташі»",
 		"year": 2013,
 		"author": "за п’єсою Ярослави Пулінович",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"theatreGroupAlt": "гр. 13-Т",
 		"number": 23,
@@ -2710,7 +2710,7 @@
 			"fedir-tkach"
 		],
 		"number": 25,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «FreeStyle»",
 		"isDtsh": true,
 		"participants": [
@@ -2841,7 +2841,7 @@
 		"awards": [
 			"Дипломанти театрального фестивалю «Мрій-Дім» (м. Прилуки)"
 		],
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Freedom»",
 		"theatreGroupAlt": "гр. 14-Т",
 		"number": 24,
@@ -2900,7 +2900,7 @@
 			"fedir-tkach"
 		],
 		"number": 21,
-		"institution": "Одеська дитяча театральна школа / ТЮГ",
+		"institution": "Одеська театральна школа / ТЮГ",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"isDtsh": true,
 		"participants": [
@@ -2922,7 +2922,7 @@
 			"fedir-tkach"
 		],
 		"number": 20,
-		"institution": "Одеська дитяча театральна школа / ТЮГ",
+		"institution": "Одеська театральна школа / ТЮГ",
 		"theatreGroup": "гр. «ФРЕШ» (+ хлопці-легіонери)",
 		"isDtsh": true,
 		"participants": [
@@ -2946,7 +2946,7 @@
 			"fedir-tkach"
 		],
 		"number": 22,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Freedom»",
 		"isDtsh": true,
 		"participants": [
@@ -2963,7 +2963,7 @@
 		"id": "moia-voobrazylyia-2012",
 		"title": "«Моя Уявляндія»",
 		"year": 2012,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Асорті»",
 		"masters": [
 			"svitlana-ryskina"
@@ -2976,7 +2976,7 @@
 		"title": "«Сестра моя, Русалонька»",
 		"year": 2012,
 		"author": "Людмила Разумовська",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Шут»",
 		"masters": [
 			"tetiana-isachkina"
@@ -3051,7 +3051,7 @@
 			"fedir-tkach"
 		],
 		"number": 19,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ФРЕШ» (+ хлопці-легіонери)",
 		"isDtsh": true,
 		"participants": [
@@ -3125,7 +3125,7 @@
 			"fedir-tkach"
 		],
 		"number": 16,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ЩаслиФФчики»",
 		"isDtsh": true,
 		"participants": [
@@ -3153,7 +3153,7 @@
 			"fedir-tkach"
 		],
 		"number": 18,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ФРЕШ»",
 		"isDtsh": true,
 		"participants": [
@@ -3231,7 +3231,7 @@
 			"fedir-tkach"
 		],
 		"number": 17,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ФРЕШ»",
 		"isDtsh": true,
 		"participants": [
@@ -3262,7 +3262,7 @@
 		"id": "durochka-2010",
 		"title": "«Дурочка»",
 		"year": 2010,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Рост-Ок»",
 		"masters": [
 			"tetiana-isachkina"
@@ -3338,7 +3338,7 @@
 			"fedir-tkach"
 		],
 		"number": 12,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Особистості» («Личности»)",
 		"isDtsh": true,
 		"participants": [
@@ -3357,7 +3357,7 @@
 		"id": "sobaky-yakudza-2010",
 		"title": "«Собаки Якудза»",
 		"year": 2010,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"masters": [
 			"svitlana-ryskina"
 		],
@@ -3393,7 +3393,7 @@
 			"fedir-tkach"
 		],
 		"number": 15,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ФРЕШ»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -3407,7 +3407,7 @@
 			"fedir-tkach"
 		],
 		"number": 14,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «ФРЕШ»",
 		"isDtsh": true,
 		"participants": [
@@ -3431,7 +3431,7 @@
 			"fedir-tkach"
 		],
 		"number": 13,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Особистості» («Личности»)",
 		"isDtsh": true,
 		"participants": [
@@ -3448,7 +3448,7 @@
 		"id": "8-zhinok-2009",
 		"title": "«8 жінок»",
 		"year": 2009,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"masters": [
 			"svitlana-ryskina"
 		],
@@ -3477,7 +3477,7 @@
 			"fedir-tkach"
 		],
 		"number": 9,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"isDtsh": true,
 		"participants": [
@@ -3514,7 +3514,7 @@
 			"fedir-tkach"
 		],
 		"number": 8,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"isDtsh": true,
 		"verificationStatus": "possible_errors"
@@ -3537,7 +3537,7 @@
 			"fedir-tkach"
 		],
 		"number": 7,
-		"institution": "Одеська дитяча театральна школа / ТЮГ",
+		"institution": "Одеська театральна школа / ТЮГ",
 		"theatreGroup": "гр. Молодіжний театр «Тітри» (Театр випускників)",
 		"isDtsh": true,
 		"participants": [
@@ -3583,7 +3583,7 @@
 			"fedir-tkach"
 		],
 		"number": 10,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Особистості» («Личности»)",
 		"isDtsh": true,
 		"participants": [
@@ -3603,7 +3603,7 @@
 			"fedir-tkach"
 		],
 		"number": 11,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «Особистості» («Личности»)",
 		"isDtsh": true,
 		"participants": [
@@ -3636,7 +3636,7 @@
 		"title": "«Кімната нареченої»",
 		"year": 2008,
 		"author": "за п’єсою Валентина Красногорова",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"theatreGroupAlt": "гр. 13",
 		"number": 5,
@@ -3700,7 +3700,7 @@
 		"title": "«Хрестики-нулики»",
 		"year": 2008,
 		"author": "за п’єсою Олександра Червінського",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БЮСТ»",
 		"theatreGroupAlt": "гр. 18",
 		"number": 6,
@@ -3752,7 +3752,7 @@
 		],
 		"number": 4,
 		"dateNote": "березень",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"isDtsh": true,
 		"participants": [
@@ -3810,7 +3810,7 @@
 		"title": "«Смарагдове місто»",
 		"year": 2007,
 		"author": "за казкою Френка Баума",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"theatreGroupAlt": "гр. 6",
 		"number": 3,
@@ -3850,7 +3850,7 @@
 		],
 		"number": 2,
 		"dateNote": "лютий",
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. «БулаФФки»",
 		"isDtsh": true,
 		"participants": [
@@ -3896,7 +3896,7 @@
 			"fedir-tkach"
 		],
 		"number": 1,
-		"institution": "Одеська дитяча театральна школа",
+		"institution": "Одеська театральна школа",
 		"theatreGroup": "гр. Театр випускників",
 		"isDtsh": true,
 		"participants": [

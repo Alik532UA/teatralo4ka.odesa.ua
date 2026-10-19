@@ -81,7 +81,7 @@
 				<div class="emblem-wrap">
 					<img
 						src={asset(isArtBg ? '/brand/big-emblem/svg/big-emblem-2025-color-white-text.svg' : '/brand/big-emblem/svg/big-emblem-2025-color-color-hands-text.svg')}
-						alt={isEn ? 'Odesa Theatre School Official Crest' : 'Офіційний герб Одеської дитячої театральної школи'}
+						alt={isEn ? 'Odesa Theatre School Official Crest' : 'Офіційний герб Одеської театральної школи'}
 						width="450"
 						height="260"
 						class="emblem-img"
@@ -126,8 +126,8 @@
 
 						<div class="school-caption">
 							{isEn
-								? "Odesa Children's Theatre School · 24 Sofiivska St."
-								: 'Одеська дитяча театральна школа · вул. Софіївська, 24'}
+								? 'Odesa Theatre School · 24 Sofiivska St.'
+								: 'Одеська театральна школа · вул. Софіївська, 24'}
 						</div>
 					</div>
 				</div>

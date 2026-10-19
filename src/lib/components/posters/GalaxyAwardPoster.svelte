@@ -69,14 +69,14 @@
 							? '/brand/big-emblem/svg/big-emblem-2025-color-color-hands-text.svg'
 							: '/brand/big-emblem/svg/big-emblem-2025-color-white-text.svg'
 					)}
-					alt={isEn ? 'Odesa Theatre School Emblem' : 'Герб Одеської дитячої театральної школи'}
+					alt={isEn ? 'Odesa Theatre School Emblem' : 'Герб Одеської театральної школи'}
 					width="380"
 					height="160"
 					class="award-emblem"
 					loading="eager"
 				/>
 				<div class="institution-name">
-					{isEn ? 'ODESA CHILDREN’S THEATRE SCHOOL' : 'ОДЕСЬКА ДИТЯЧА ТЕАТРАЛЬНА ШКОЛА'}
+					{isEn ? 'ODESA THEATRE SCHOOL' : 'ОДЕСЬКА ТЕАТРАЛЬНА ШКОЛА'}
 				</div>
 				<div class="project-tag">
 					{isEn ? 'PROJECT “GALAXY OF GRADUATES” · OFFICIAL CHRONICLE' : 'ПРОЄКТ «ПЛАНЕТА ТВОРЧОСТІ» · ОФІЦІЙНИЙ ЛІТОПИС'}

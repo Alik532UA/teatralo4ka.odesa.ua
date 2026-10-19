@@ -57,9 +57,9 @@ export const SOFIIA_PODIAKOVA_AWARD: GalaxyAwardData = {
 	citationLeadEn:
 		'Awarded for the courage to take the very first step into the boundless space of the school universe, open heart, and the historic contribution to launching the Galaxy of Graduates project.',
 	citationBodyUk:
-		'Перша учениця Одеської дитячої театральної школи, чия персональна зірка засяяла в офіційному цифровому літописі нашої великої шкільної родини.',
+		'Перша учениця Одеської театральної школи, чия персональна зірка засяяла в офіційному цифровому літописі нашої великої шкільної родини.',
 	citationBodyEn:
-		'The first student of Odesa Children’s Theatre School whose personal star shone in the official digital chronicle of our big school family.',
+		'The first student of Odesa Theatre School whose personal star shone in the official digital chronicle of our big school family.',
 	photo: '/graduates/sofiia-podiakova-480.webp',
 	qrCode: '/qr/sofiia-podiakova-galaxy-qr.svg',
 	pageUrl: 'teatralo4ka.odesa.ua/projects/galaxy-graduates/sofiia-podiakova/',

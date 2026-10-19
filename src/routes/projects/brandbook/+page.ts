@@ -8,8 +8,8 @@ export const load: PageLoad = ({ url }) => {
 	return {
 		seoTitle: isEn ? 'BrandBook' : 'Брендбук школи',
 		seoDescription: isEn
-			? 'Official brand identity guidelines of Odesa Children’s Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
-			: 'Офіційний брендбук та гайдлайн візуального стилю Одеської дитячої театральної школи: кольори, шрифт e-Ukraine та логотипи.',
+			? 'Official brand identity guidelines of Odesa Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
+			: 'Офіційний брендбук та гайдлайн візуального стилю Одеської театральної школи: кольори, шрифт e-Ukraine та логотипи.',
 		ogImageUrl: '/png/brandbook.webp'
 	};
 };
