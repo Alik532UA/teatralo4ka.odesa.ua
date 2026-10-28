@@ -214,7 +214,7 @@
 		],
 		"playCount": 4,
 		"code": "alina-burdeina",
-		"profileSize": 3095,
+		"profileSize": 2802,
 		"teachers": [
 			{
 				"id": "vira-yemtsova-datsiuk"
@@ -275,7 +275,14 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"code": "alina-halach",
+		"enrollmentYears": [
+			2018
+		],
+		"playCount": 0,
+		"profileSize": 452,
+		"hasPhoto": true
 	},
 	{
 		"id": "alina-ivanova",
@@ -5647,8 +5654,34 @@
 				"id": "svitlana-ryskina"
 			}
 		],
-		"profileSize": 330,
-		"playCount": 0
+		"profileSize": 3103,
+		"playCount": 0,
+		"hasPhoto": true,
+		"photoCount": 2,
+		"code": "kyrylo-stoianov",
+		"enrollmentYears": [
+			1993
+		],
+		"teachers": [
+			{
+				"id": "iryna-kaplia",
+				"subjects": [
+					"Вокал"
+				]
+			},
+			{
+				"id": "iryna-ulianenko",
+				"subjects": [
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "poliakova-starsha",
+				"subjects": [
+					"Хореографія"
+				]
+			}
+		]
 	},
 	{
 		"id": "lada-bilak",
