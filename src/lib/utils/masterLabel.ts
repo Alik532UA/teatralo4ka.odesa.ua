@@ -83,24 +83,46 @@ export function dualRoleMasterLabelKey(
 }
 
 /**
- * Ключ підпису посилання на сторінку випускника:
- * «Сторінка випускника» (`galaxy.graduatePageLink`) або «Сторінка випускниці» (`galaxy.graduatePageLinkF`).
+ * Ключ підпису посилання на сторінку випускника або учня:
+ * Якщо людина навчалася й не випустилася або ще вчиться (`attended` або `student`),
+ * підпис «Сторінка учня» (`galaxy.studentPageLink`) або «Сторінка учениці» (`galaxy.studentPageLinkF`).
+ * Для випускників — «Сторінка випускника» (`galaxy.graduatePageLink`) або «Сторінка випускниці» (`galaxy.graduatePageLinkF`).
  */
 export function graduatePageLabelKey(
-	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null
-): 'galaxy.graduatePageLink' | 'galaxy.graduatePageLinkF' {
-	if (!person) return 'galaxy.graduatePageLink';
-	return masterGender(person) === 'f' ? 'galaxy.graduatePageLinkF' : 'galaxy.graduatePageLink';
+	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null,
+	graduate?: { kind?: string } | null
+):
+	| 'galaxy.graduatePageLink'
+	| 'galaxy.graduatePageLinkF'
+	| 'galaxy.studentPageLink'
+	| 'galaxy.studentPageLinkF' {
+	const isFemale = person ? masterGender(person) === 'f' : false;
+	const isStudent = graduate?.kind === 'attended' || graduate?.kind === 'student';
+
+	if (isStudent) {
+		return isFemale ? 'galaxy.studentPageLinkF' : 'galaxy.studentPageLink';
+	}
+	return isFemale ? 'galaxy.graduatePageLinkF' : 'galaxy.graduatePageLink';
 }
 
 /**
- * Типовий текст підпису посилання на сторінку випускника (fallback без локалі).
+ * Типовий текст підпису посилання на сторінку випускника або учня (fallback без локалі).
  */
 export function graduatePageDefaultText(
-	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null
-): 'Сторінка випускниці' | 'Сторінка випускника' {
-	return graduatePageLabelKey(person) === 'galaxy.graduatePageLinkF'
-		? 'Сторінка випускниці'
-		: 'Сторінка випускника';
+	person?: Pick<MasterIndexEntry, 'fullName' | 'roleTitle'> | null,
+	graduate?: { kind?: string } | null
+): 'Сторінка випускниці' | 'Сторінка випускника' | 'Сторінка учениці' | 'Сторінка учня' {
+	const key = graduatePageLabelKey(person, graduate);
+	switch (key) {
+		case 'galaxy.studentPageLinkF':
+			return 'Сторінка учениці';
+		case 'galaxy.studentPageLink':
+			return 'Сторінка учня';
+		case 'galaxy.graduatePageLinkF':
+			return 'Сторінка випускниці';
+		case 'galaxy.graduatePageLink':
+		default:
+			return 'Сторінка випускника';
+	}
 }
 

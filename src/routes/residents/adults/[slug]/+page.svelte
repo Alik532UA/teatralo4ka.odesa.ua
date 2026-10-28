@@ -205,7 +205,7 @@
 								class="graduate-link"
 								data-testid="master-profile-graduate-link"
 							>
-								<span>{$t(graduatePageLabelKey(data.master), { default: graduatePageDefaultText(data.master) })}</span>
+								<span>{$t(graduatePageLabelKey(data.master, data.alsoGraduate), { default: graduatePageDefaultText(data.master, data.alsoGraduate) })}</span>
 								{#if data.alsoGraduate.graduationYear}
 									<span class="graduate-link__year">{data.alsoGraduate.graduationYear}</span>
 								{/if}

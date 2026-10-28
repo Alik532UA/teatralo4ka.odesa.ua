@@ -139,7 +139,7 @@
 		<button type="button" class="choice" onclick={onGraduate} data-testid="dual-role-graduate-btn">
 			<GraduationCap size={20} aria-hidden="true" />
 			<span class="choice__body">
-				<span class="choice__name">{$t(graduatePageLabelKey(master), { default: graduatePageDefaultText(master) })}</span>
+				<span class="choice__name">{$t(graduatePageLabelKey(master, graduate), { default: graduatePageDefaultText(master, graduate) })}</span>
 				{#if graduateCaption}<span class="choice__meta">{graduateCaption}</span>{/if}
 			</span>
 		</button>

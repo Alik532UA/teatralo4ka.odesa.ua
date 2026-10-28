@@ -132,4 +132,22 @@ describe('підпис кнопки сторінки випускника / ви
 		expect(graduatePageLabelKey(null)).toBe('galaxy.graduatePageLink');
 		expect(graduatePageDefaultText(null)).toBe('Сторінка випускника');
 	});
+
+	it('повертає підпис «Сторінка учениці» для тих, хто вчився й не випустився або ще вчиться (f)', () => {
+		const pohosian = getMasterById('anhelina-pohosian');
+		expect(graduatePageLabelKey(pohosian, { kind: 'attended' })).toBe('galaxy.studentPageLinkF');
+		expect(graduatePageDefaultText(pohosian, { kind: 'attended' })).toBe('Сторінка учениці');
+
+		expect(graduatePageLabelKey(pohosian, { kind: 'student' })).toBe('galaxy.studentPageLinkF');
+		expect(graduatePageDefaultText(pohosian, { kind: 'student' })).toBe('Сторінка учениці');
+	});
+
+	it('повертає підпис «Сторінка учня» для тих, хто вчився й не випустився або ще вчиться (m)', () => {
+		const koshka = getMasterById('pavlo-koshka');
+		expect(graduatePageLabelKey(koshka, { kind: 'attended' })).toBe('galaxy.studentPageLink');
+		expect(graduatePageDefaultText(koshka, { kind: 'attended' })).toBe('Сторінка учня');
+
+		expect(graduatePageLabelKey(koshka, { kind: 'student' })).toBe('galaxy.studentPageLink');
+		expect(graduatePageDefaultText(koshka, { kind: 'student' })).toBe('Сторінка учня');
+	});
 });
