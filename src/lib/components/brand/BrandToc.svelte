@@ -23,6 +23,7 @@
 		{ id: 'crest-in-hands', nameUk: 'Герб у долоньках', nameEn: 'Crest in Hands', type: 'img', src: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-yellow-bg-text.webp' },
 		{ id: 'elements', nameUk: 'Окремі елементи', nameEn: 'Isolated Elements', type: 'img', src: '/brand/elements/preview/element-mask-happy-white.webp' },
 		{ id: 'avatars', nameUk: 'Аватарки', nameEn: 'Avatars', type: 'img', src: '/brand/avatar/preview/avatar-round.webp' },
+		{ id: 'theatre-projects', nameUk: 'UArt та PRO.ТЕАТР', nameEn: 'UArt & PRO.THEATRE', type: 'img', src: '/brand/theatre-projects/preview/uart-logo-square-light.webp' },
 		{ id: 'colors', nameUk: 'Палітра кольорів', nameEn: 'Color Palette', type: 'palette' },
 		{ id: 'typography', nameUk: 'Шрифт e-Ukraine', nameEn: 'e-Ukraine Font', type: 'type' },
 		{ id: 'particles', nameUk: 'Мікро-частки', nameEn: 'Mini-Icons', type: 'img', src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg' },

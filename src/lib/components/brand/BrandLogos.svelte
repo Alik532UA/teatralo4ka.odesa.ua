@@ -6,6 +6,7 @@
 	import BrandBigCrest from './BrandBigCrest.svelte';
 	import BrandElements from './BrandElements.svelte';
 	import BrandAvatars from './BrandAvatars.svelte';
+	import BrandTheatreProjects from './BrandTheatreProjects.svelte';
 
 	interface Props {
 		testIdPrefix?: string;
@@ -77,7 +78,10 @@
 	<!-- 5. Social Avatars (Аватарки) -->
 	<BrandAvatars {testIdPrefix} />
 
-	<!-- 6. Usage Rules -->
+	<!-- 6. Theatre Projects (Театральні проєкти) -->
+	<BrandTheatreProjects {testIdPrefix} />
+
+	<!-- 7. Usage Rules -->
 	<div class="rules-row">
 		<div class="rule-card rule-card--good">
 			<div class="rule-header">

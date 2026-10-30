@@ -1,5 +1,5 @@
 export interface DownloadOption {
-	format: 'PNG' | 'SVG';
+	format: 'PNG' | 'SVG' | 'WEBP' | 'JPG';
 	file: string;
 	label: string;
 	downloadName: string;

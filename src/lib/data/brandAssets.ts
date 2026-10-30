@@ -3,3 +3,4 @@ export * from './brandAssets/emblems';
 export * from './brandAssets/bigEmblems';
 export * from './brandAssets/elements';
 export * from './brandAssets/miniIcons';
+export * from './brandAssets/theatreProjects';
