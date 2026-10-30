@@ -70,7 +70,7 @@
 			<!-- Шапка: офіційні організатори вистави -->
 			<header class="cover-presenters" aria-label={isEn ? 'Presenters' : 'Організатори'}>
 				{#each (isEn ? data.presentersEn : data.presentersUk) as presenter, i (i)}
-					<p class="presenter-line">{presenter}</p>
+					<p class="presenter-line" class:presenter-line--lead={i === 0}>{presenter}</p>
 				{/each}
 			</header>
 
@@ -80,7 +80,13 @@
 			<!-- Блок під назвою: авторка пʼєси, віковий рейтинг та режисер -->
 			<div class="cover-info-block">
 				<p class="cover-author">
-					{isEn ? data.authorEn : data.authorUk}
+					{#if isEn}
+						<span class="author-primary">Based on the play by Nina Zakhozhenko</span>
+						<span class="author-secondary">and co-authors <span class="play-title">“Sex Education”</span></span>
+					{:else}
+						<span class="author-primary">за п’єсою Ніни Захоженко</span>
+						<span class="author-secondary">та співавторок <span class="play-title">«Статеве виховання»</span></span>
+					{/if}
 				</p>
 
 				<div class="cover-badge-row">
@@ -150,135 +156,63 @@
 	.sheet-half { position: relative; height: 100%; overflow: hidden; }
 	.image-wrapper { position: absolute; inset: 0; width: 100%; height: 100%; }
 	.sheet-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-	.cover-title-gap { height: 32%; min-height: 50px; }
+	.cover-title-gap { height: 26%; min-height: 40px; }
 	.cover-badge-row { display: flex; justify-content: center; }
 	.sheet-fold-line {
-		position: absolute;
-		left: 50%;
-		top: 0;
-		bottom: 0;
-		width: 1px;
+		position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
 		background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0, rgba(255, 255, 255, 0.3) 6px, transparent 6px, transparent 12px);
-		z-index: 10;
-		pointer-events: none;
-		transform: translateX(-50%);
+		z-index: 10; pointer-events: none; transform: translateX(-50%);
 	}
-
 	.fold-badge {
-		position: absolute;
-		top: 6px;
-		left: 50%;
-		transform: translateX(-50%);
-		background: rgba(0, 0, 0, 0.7);
-		color: #cbd5e1;
-		font-size: 8px;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		padding: 1px 6px;
-		border-radius: 4px;
-		white-space: nowrap;
-		border: 1px solid rgba(255, 255, 255, 0.2);
+		position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+		background: rgba(0, 0, 0, 0.7); color: #cbd5e1; font-size: 8px; text-transform: uppercase;
+		letter-spacing: 0.08em; padding: 1px 6px; border-radius: 4px; white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.2);
 	}
 
 	/* Шар типографіки лицьової частини */
 	.front-cover-overlay {
-		position: absolute;
-		inset: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding: 5.2% 5% 6.5%;
-		box-sizing: border-box;
-		z-index: 5;
-		text-align: center;
-		pointer-events: none;
+		position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between;
+		padding: 5.2% 5% 6.5%; box-sizing: border-box; z-index: 5; text-align: center; pointer-events: none;
 	}
-
 	.cover-presenters { display: flex; flex-direction: column; gap: 3px; }
-
 	.presenter-line {
-		margin: 0;
-		font-family: 'e-Ukraine', var(--font-body), sans-serif;
-		font-size: clamp(7.5px, 1.05cqi, 11px);
-		line-height: 1.35;
-		color: #f1f5f9;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		font-weight: 500;
+		margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif;
+		font-size: clamp(7.5px, 1.05cqi, 11px); line-height: 1.35; color: #f1f5f9;
+		text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500;
 		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 	}
-
-	.cover-title-gap { height: 26%; min-height: 40px; }
+	.presenter-line--lead { margin-bottom: clamp(4px, 0.65cqi, 8px); }
 
 	.cover-info-block {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: clamp(6px, 1.2cqi, 12px);
-		margin-top: 0;
-		margin-bottom: clamp(14px, 2.6cqi, 26px);
+		display: flex; flex-direction: column; align-items: center;
+		gap: clamp(6px, 1.2cqi, 12px); margin-top: 0; margin-bottom: clamp(14px, 2.6cqi, 26px);
 	}
-
 	.cover-author {
-		margin: 0;
-		font-family: 'e-Ukraine', var(--font-body), sans-serif;
-		font-size: clamp(9px, 1.35cqi, 13.5px);
-		line-height: 1.35;
-		color: #ffffff;
-		font-weight: 500;
-		max-width: 90%;
-		text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+		margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif;
+		color: #ffffff; max-width: 92%; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+		display: flex; flex-direction: column; align-items: center; gap: 2px;
 	}
-
-	.cover-badge-row { display: flex; justify-content: center; }
+	.author-primary { font-size: clamp(10px, 1.45cqi, 14.5px); font-weight: 600; line-height: 1.3; }
+	.author-secondary { font-size: clamp(8.5px, 1.25cqi, 12.5px); font-weight: 500; line-height: 1.3; opacity: 0.95; }
+	.play-title { white-space: nowrap; }
 
 	.age-badge {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		font-family: 'e-Ukraine', var(--font-body), sans-serif;
-		font-weight: 700;
-		font-size: clamp(9.5px, 1.25cqi, 13px);
-		line-height: 1;
-		padding: 3px 12px;
-		border-radius: 9999px;
-		color: #ffed00;
-		border: 1.5px solid #ffed00;
-		background: rgba(22, 18, 23, 0.85);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+		display: inline-flex; align-items: center; justify-content: center;
+		font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700;
+		font-size: clamp(9.5px, 1.25cqi, 13px); line-height: 1; padding: 3px 12px;
+		border-radius: 9999px; color: #ffed00; border: 1.5px solid #ffed00;
+		background: rgba(22, 18, 23, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 	}
-
 	.cover-director {
-		margin: 0;
-		font-family: 'e-Ukraine', var(--font-body), sans-serif;
-		font-weight: 700;
-		font-size: clamp(9px, 1.35cqi, 13px);
-		letter-spacing: 0.08em;
-		color: #ffed00;
-		text-transform: uppercase;
-		text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+		margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700;
+		font-size: clamp(9px, 1.35cqi, 13px); letter-spacing: 0.08em; color: #ffed00;
+		text-transform: uppercase; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
 	}
-
 	.cover-logos {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: clamp(10px, 1.6cqi, 16px);
-		padding: 0;
-		width: 100%;
-		max-width: 90%;
-		margin: 0 auto;
+		display: flex; flex-direction: column; align-items: center; justify-content: center;
+		gap: clamp(10px, 1.6cqi, 16px); padding: 0; width: 100%; max-width: 90%; margin: 0 auto;
 	}
-
-	.logos-upper-row {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: clamp(24px, 4.6cqi, 48px);
-		width: 100%;
-	}
-
+	.logos-upper-row { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4.6cqi, 48px); width: 100%; }
 	.logos-lower-row { display: flex; align-items: center; justify-content: center; width: 100%; }
 	.logo-box { display: flex; align-items: center; justify-content: center; }
 	.logo-box--uart, .logo-box--school { height: clamp(34px, 5.2cqi, 52px); }
@@ -289,27 +223,14 @@
 
 	/* Стилі друку */
 	@media print {
-		.booklet-sheet {
-			width: 297mm !important;
-			height: 210mm !important;
-			max-width: none !important;
-			margin: 0 !important;
-			border-radius: 0 !important;
-			box-shadow: none !important;
-			border: none !important;
-			page-break-inside: avoid !important;
-			break-inside: avoid !important;
-			-webkit-print-color-adjust: exact !important;
-			print-color-adjust: exact !important;
-		}
-
-		.sheet-fold-line {
-			background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0, rgba(255, 255, 255, 0.25) 4mm, transparent 4mm, transparent 8mm) !important;
-		}
-
+		.booklet-sheet { width: 297mm !important; height: 210mm !important; max-width: none !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; border: none !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+		.sheet-fold-line { background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0, rgba(255, 255, 255, 0.25) 4mm, transparent 4mm, transparent 8mm) !important; }
 		.fold-badge { display: none !important; }
 		.presenter-line { font-size: 7.2pt !important; line-height: 1.25 !important; }
-		.cover-author { font-size: 9.5pt !important; line-height: 1.35 !important; }
+		.presenter-line--lead { margin-bottom: 2mm !important; }
+		.author-primary { font-size: 10.5pt !important; }
+		.author-secondary { font-size: 9pt !important; }
+		.play-title { white-space: nowrap !important; }
 		.age-badge { font-size: 9pt !important; padding: 1.5mm 4.5mm !important; }
 		.cover-director { font-size: 9.5pt !important; }
 		.cover-info-block { margin-bottom: 5mm !important; }
