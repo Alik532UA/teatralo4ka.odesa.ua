@@ -100,19 +100,19 @@ export const UART_SECRETS_BOOKLET = {
 	logos: [
 		{
 			id: 'uart',
-			src: '/posters/uart-logo-square.webp',
+			src: '/posters/uart-logo-dark.webp',
 			altUk: 'Навчальний театр «UArt»',
 			altEn: 'Educational Theatre UArt'
 		},
 		{
 			id: 'school',
-			src: '/brand/big-emblem/svg/big-emblem-2022-color-outline-hands.svg',
+			src: '/posters/teatralo4ka-crest-dark.svg',
 			altUk: 'Одеська театральна школа',
 			altEn: 'Odesa Theatre School'
 		},
 		{
 			id: 'pro-teatr',
-			src: '/posters/pro-teatr-logo-square.webp',
+			src: '/posters/pro-teatr-logo-dark.webp',
 			altUk: 'ГО «PRO.ТЕАТР»',
 			altEn: 'NGO PRO.THEATRE'
 		}

@@ -94,21 +94,36 @@
 				</p>
 			</div>
 
-			<!-- Три логотипи внизу обкладинки -->
+			<!-- Блок логотипів партнерів внизу обкладинки (2-ярусна гармонійна композиція) -->
 			<footer class="cover-logos" aria-label={isEn ? 'Logos' : 'Логотипи партнерів'}>
-				{#each data.logos as logo (logo.id)}
-					<div class="logo-box logo-box--{logo.id}">
+				<div class="logos-upper-row">
+					<div class="logo-box logo-box--uart">
 						<img
-							src={asset(logo.src)}
-							alt={isEn ? logo.altEn : logo.altUk}
-							class="partner-logo partner-logo--{logo.id}"
-							width="48"
-							height="48"
-							loading="eager"
-							decoding="async"
+							src={asset('/posters/uart-logo-dark.webp')}
+							alt={isEn ? 'Educational Theatre UArt' : 'Навчальний театр «UArt»'}
+							class="partner-logo partner-logo--uart"
+							width="600" height="493" loading="eager" decoding="async"
 						/>
 					</div>
-				{/each}
+					<div class="logo-box logo-box--school">
+						<img
+							src={asset('/posters/teatralo4ka-crest-dark.svg')}
+							alt={isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}
+							class="partner-logo partner-logo--school"
+							width="1905" height="1105" loading="eager" decoding="async"
+						/>
+					</div>
+				</div>
+				<div class="logos-lower-row">
+					<div class="logo-box logo-box--pro-teatr">
+						<img
+							src={asset('/posters/pro-teatr-logo-dark.webp')}
+							alt={isEn ? 'NGO PRO.THEATRE' : 'ГО «PRO.ТЕАТР»'}
+							class="partner-logo partner-logo--pro-teatr"
+							width="800" height="89" loading="eager" decoding="async"
+						/>
+					</div>
+				</div>
 			</footer>
 		</div>
 	</section>
@@ -135,8 +150,8 @@
 	.sheet-half { position: relative; height: 100%; overflow: hidden; }
 	.image-wrapper { position: absolute; inset: 0; width: 100%; height: 100%; }
 	.sheet-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-	/* Центральна лінія згину */
+	.cover-title-gap { height: 32%; min-height: 50px; }
+	.cover-badge-row { display: flex; justify-content: center; }
 	.sheet-fold-line {
 		position: absolute;
 		left: 50%;
@@ -172,14 +187,14 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: 4.5% 5% 4%;
+		padding: 5.2% 5% 6.5%;
 		box-sizing: border-box;
 		z-index: 5;
 		text-align: center;
 		pointer-events: none;
 	}
 
-	.cover-presenters { display: flex; flex-direction: column; gap: 2.5px; }
+	.cover-presenters { display: flex; flex-direction: column; gap: 3px; }
 
 	.presenter-line {
 		margin: 0;
@@ -193,15 +208,15 @@
 		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
 	}
 
-	.cover-title-gap { height: 32%; min-height: 50px; }
+	.cover-title-gap { height: 26%; min-height: 40px; }
 
 	.cover-info-block {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: clamp(5px, 1.1cqi, 12px);
-		margin-top: auto;
-		margin-bottom: clamp(6px, 1.3cqi, 14px);
+		gap: clamp(6px, 1.2cqi, 12px);
+		margin-top: 0;
+		margin-bottom: clamp(14px, 2.6cqi, 26px);
 	}
 
 	.cover-author {
@@ -246,16 +261,31 @@
 
 	.cover-logos {
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: clamp(14px, 3cqi, 28px);
-		padding: 0 0 4px;
+		gap: clamp(10px, 1.6cqi, 16px);
+		padding: 0;
+		width: 100%;
+		max-width: 90%;
+		margin: 0 auto;
 	}
 
-	.logo-box { display: flex; align-items: center; justify-content: center; height: clamp(32px, 4.4cqi, 46px); }
+	.logos-upper-row {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(24px, 4.6cqi, 48px);
+		width: 100%;
+	}
 
-	.partner-logo { max-height: 100%; width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
-	.partner-logo--school { height: 100%; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7)); }
+	.logos-lower-row { display: flex; align-items: center; justify-content: center; width: 100%; }
+	.logo-box { display: flex; align-items: center; justify-content: center; }
+	.logo-box--uart, .logo-box--school { height: clamp(34px, 5.2cqi, 52px); }
+	.logo-box--pro-teatr { width: clamp(210px, 32cqi, 300px); max-width: 95%; }
+	.partner-logo { width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
+	.partner-logo--uart, .partner-logo--school { max-height: 100%; max-width: 100%; }
+	.partner-logo--pro-teatr { width: 100%; height: auto; }
 
 	/* Стилі друку */
 	@media print {
@@ -282,6 +312,10 @@
 		.cover-author { font-size: 9.5pt !important; line-height: 1.35 !important; }
 		.age-badge { font-size: 9pt !important; padding: 1.5mm 4.5mm !important; }
 		.cover-director { font-size: 9.5pt !important; }
-		.logo-box { height: 12.5mm !important; }
+		.cover-info-block { margin-bottom: 5mm !important; }
+		.cover-logos { gap: 3.5mm !important; }
+		.logos-upper-row { gap: 10mm !important; }
+		.logo-box--uart, .logo-box--school { height: 12mm !important; }
+		.logo-box--pro-teatr { width: 62mm !important; }
 	}
 </style>
