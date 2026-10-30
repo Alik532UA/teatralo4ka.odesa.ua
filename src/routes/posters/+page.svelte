@@ -12,6 +12,7 @@
 		DEFAULT_POSTER_THEME,
 		DEFAULT_DEFENDERS_THEME,
 		DEFAULT_GALAXY_AWARD_THEME,
+		DEFAULT_UART_BOOKLET_THEME,
 		type PosterId
 	} from '$lib/data/posters';
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
@@ -19,6 +20,7 @@
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
+	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
@@ -39,13 +41,10 @@
 			activePoster = param;
 		}
 		const themeParam = page.url.searchParams.get('theme');
-		if (themeParam) {
-			selectedTheme = themeParam;
-		} else if (activePoster === 'defenders-hearts') {
-			selectedTheme = DEFAULT_DEFENDERS_THEME;
-		} else if (activePoster === 'galaxy-award-podiakova') {
-			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		}
+		if (themeParam) selectedTheme = themeParam;
+		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
+		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
+		else if (activePoster === 'uart-secrets-booklet') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 	});
 
 	function selectPoster(id: PosterId) {
@@ -58,7 +57,10 @@
 		} else if (id === 'galaxy-award-podiakova') {
 			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
-		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-'))) {
+		} else if (id === 'uart-secrets-booklet') {
+			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
+		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-') || selectedTheme.startsWith('uart-'))) {
 			selectedTheme = DEFAULT_POSTER_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_POSTER_THEME);
 		}
@@ -122,7 +124,7 @@
 		});
 	});
 
-	const isLandscape = $derived(activePoster === 'posviata-invitation');
+	const isLandscape = $derived(activePoster === 'posviata-invitation' || activePoster === 'uart-secrets-booklet');
 </script>
 
 <svelte:head>
@@ -184,7 +186,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -228,7 +230,9 @@
 
 		<!-- Основний слот плаката -->
 		<section class="poster-viewport" data-testid="poster-active-container">
-			{#if activePoster === 'defenders-hearts'}
+			{#if activePoster === 'uart-secrets-booklet'}
+				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'defenders-hearts'}
 				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'galaxy-award-podiakova'}
 				<GalaxyAwardPoster {isEn} themeId={selectedTheme} />
