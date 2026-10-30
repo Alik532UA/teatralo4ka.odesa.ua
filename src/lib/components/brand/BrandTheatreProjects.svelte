@@ -21,8 +21,8 @@
 			</h3>
 			<p class="sub-desc">
 				{isEn
-					? 'Official logos of the Educational Theatre "UArt" and NGO "PRO.THEATRE" in light and dark editions.'
-					: 'Офіційні квадратні логотипи Навчального театру «UArt» та ГО «PRO.ТЕАТР» у світлій та темній версіях.'}
+					? 'Official square and transparent cut-out logos of the Educational Theatre "UArt" and NGO "PRO.THEATRE" in light and dark editions.'
+					: 'Офіційні квадратні та прозорі векторні логотипи Навчального театру «UArt» та ГО «PRO.ТЕАТР» у світлій та темній версіях.'}
 			</p>
 		</div>
 	</div>
@@ -37,6 +37,7 @@
 						width="200"
 						height="200"
 						class="project-img"
+						class:project-img--transparent={item.id.includes('transparent')}
 						loading="lazy"
 						data-testid={`${testIdPrefix}-img-${item.id}`}
 					/>
@@ -150,6 +151,13 @@
 		object-fit: contain;
 		border-radius: 10px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+	}
+
+	.project-img--transparent {
+		border-radius: 0;
+		box-shadow: none;
+		filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+		max-width: 210px;
 	}
 
 	.project-meta {
