@@ -57,23 +57,46 @@ export const EMBLEM_VARIANTS: BrandAsset[] = [
 	},
 	{
 		id: 'emblem-transparent',
-		nameUk: 'Герб (Прозорий / Контурний)',
-		nameEn: 'Crest (Outline / Transparent)',
-		descUk: 'Прозора контурна версія для тиснення, гравіювання та накладання.',
-		descEn: 'Transparent outline version for stamping, engraving, and overlays.',
+		nameUk: 'Герб (Контурний темний)',
+		nameEn: 'Crest (Dark Outline)',
+		descUk: 'Темна контурна версія для світлих фонів, тиснення та гравіювання.',
+		descEn: 'Dark outline version for light backgrounds, stamping, and engraving.',
 		previewUrl: '/brand/emblem/preview/emblem-transparent.webp',
 		downloads: [
 			{
 				format: 'SVG',
 				file: '/logo/svg/t4_logo_IndividualParticles_MasksTwo_Transparent_2026.svg',
 				label: 'SVG',
-				downloadName: 'teatralo4ka-crest-outline.svg'
+				downloadName: 'teatralo4ka-crest-outline-dark.svg'
 			},
 			{
 				format: 'PNG',
 				file: '/brand/emblem/emblem-transparent-2008x1216.png',
 				label: 'PNG (2008×1216)',
-				downloadName: 'teatralo4ka-crest-outline-2008x1216.png',
+				downloadName: 'teatralo4ka-crest-outline-dark-2008x1216.png',
+				sizeSpec: '2008×1216 px'
+			}
+		]
+	},
+	{
+		id: 'emblem-transparent-white',
+		nameUk: 'Герб (Контурний світлий)',
+		nameEn: 'Crest (Light Outline)',
+		descUk: 'Світла контурна версія для темних фонів, тиснення та накладання.',
+		descEn: 'Light outline version for dark backgrounds, stamping, and overlays.',
+		previewUrl: '/brand/emblem/preview/emblem-transparent-white.webp',
+		downloads: [
+			{
+				format: 'SVG',
+				file: '/logo/svg/t4_logo_IndividualParticles_MasksTwo_Transparent_White_2026.svg',
+				label: 'SVG',
+				downloadName: 'teatralo4ka-crest-outline-white.svg'
+			},
+			{
+				format: 'PNG',
+				file: '/brand/emblem/emblem-transparent-white-2008x1216.png',
+				label: 'PNG (2008×1216)',
+				downloadName: 'teatralo4ka-crest-outline-white-2008x1216.png',
 				sizeSpec: '2008×1216 px'
 			}
 		]

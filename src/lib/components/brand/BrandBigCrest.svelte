@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { locale } from 'svelte-i18n';
 	import { SlidersHorizontal, Grid } from 'lucide-svelte';
-	import BrandBigCrestCreator from './BrandBigCrestCreator.svelte';
+	import BrandBigCrestCustomizer from './BrandBigCrestCustomizer.svelte';
 	import BrandBigCrestGrid from './BrandBigCrestGrid.svelte';
 
 	interface Props {
@@ -31,7 +31,7 @@
 		>
 			{#if showAllBigGrid}
 				<SlidersHorizontal size={14} aria-hidden="true" />
-				<span>{isEn ? 'Interactive View' : 'Режим селектора'}</span>
+				<span>{isEn ? 'Crest Builder' : 'Конструктор герба'}</span>
 			{:else}
 				<Grid size={14} aria-hidden="true" />
 				<span>{isEn ? 'Show All 14' : 'Показати всі 14'}</span>
@@ -40,7 +40,7 @@
 	</div>
 
 	{#if !showAllBigGrid}
-		<BrandBigCrestCreator {testIdPrefix} />
+		<BrandBigCrestCustomizer {testIdPrefix} />
 	{:else}
 		<BrandBigCrestGrid {testIdPrefix} />
 	{/if}
