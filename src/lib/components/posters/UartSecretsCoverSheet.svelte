@@ -240,7 +240,7 @@
 	.logos-upper-row { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4.6cqi, 48px); width: 100%; }
 	.logos-lower-row { display: flex; align-items: center; justify-content: center; width: 100%; }
 	.logo-box { display: flex; align-items: center; justify-content: center; }
-	.logo-box--uart, .logo-box--school { height: clamp(34px, 5.2cqi, 52px); }
+	.logo-box--uart, .logo-box--school { height: clamp(48px, 7.5cqi, 76px); }
 	.logo-box--interactive {
 		background: transparent;
 		border: none;
@@ -259,7 +259,7 @@
 		outline-offset: 4px;
 		border-radius: 4px;
 	}
-	.logo-box--pro-teatr { width: clamp(210px, 32cqi, 300px); max-width: 95%; }
+	.logo-box--pro-teatr { width: clamp(280px, 44cqi, 400px); max-width: 95%; }
 	.partner-logo { width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
 	.partner-logo--uart, .partner-logo--school { height: 100%; width: auto; max-height: 100%; max-width: 100%; }
 	.partner-logo--pro-teatr { width: 100%; height: auto; }
@@ -276,9 +276,9 @@
 		.age-badge { font-size: 9pt !important; padding: 1.5mm 4.5mm !important; }
 		.cover-director { font-size: 9.5pt !important; }
 		.cover-info-block { margin-bottom: 5mm !important; }
-		.cover-logos { gap: 3.5mm !important; }
-		.logos-upper-row { gap: 10mm !important; }
-		.logo-box--uart, .logo-box--school { height: 12mm !important; }
-		.logo-box--pro-teatr { width: 62mm !important; }
+		.cover-logos { gap: 4.5mm !important; }
+		.logos-upper-row { gap: 12mm !important; }
+		.logo-box--uart, .logo-box--school { height: 17.5mm !important; }
+		.logo-box--pro-teatr { width: 90mm !important; }
 	}
 </style>
