@@ -74,8 +74,8 @@
 				<li class="credit-row">
 					<span class="credit-role">{role} –</span>
 					<span class="credit-names">
-						{#each names.split(', ') as name, nIdx}
-							{#if nIdx > 0}{', '}{/if}<span class="credit-name">{name}</span>
+						{#each names.split(', ') as name, nIdx (name)}
+							{#if nIdx > 0}<span>, </span>{/if}<span class="credit-name">{name}</span>
 						{/each}
 					</span>
 				</li>
@@ -178,7 +178,7 @@
 	.half-header { margin-bottom: clamp(6px, 1cqi, 12px); }
 	.tagline { margin: 0 0 4px; font-size: clamp(8.5px, 1.12cqi, 11.5px); text-transform: uppercase; letter-spacing: 0.06em; color: var(--sheet-muted, #cbd5e1); font-weight: 600; white-space: nowrap; }
 	.section-title { margin: 0 0 clamp(8px, 1.2cqi, 14px); font-size: clamp(15px, 2.1cqi, 21px); font-weight: 800; letter-spacing: 0.02em; color: var(--sheet-accent, #ffed00); border-bottom: 2px solid var(--sheet-border, rgba(255, 237, 0, 0.3)); padding-bottom: 5px; }
-	.subsection-title { margin: 0 0 4px; font-size: clamp(11.5px, 1.55cqi, 15px); font-weight: 800; color: var(--sheet-accent, #ffed00); border-bottom: 1px dashed var(--sheet-border, rgba(255, 237, 0, 0.2)); padding-bottom: 3px; }
+	.subsection-title { margin: 0 0 clamp(4px, 0.6cqi, 7px); font-size: clamp(11.5px, 1.55cqi, 15px); font-weight: 800; color: var(--sheet-accent, #ffed00); border-bottom: 1px dashed var(--sheet-border, rgba(255, 237, 0, 0.2)); padding-bottom: 3px; }
 
 	.cast-list {
 		list-style: none;
@@ -197,9 +197,9 @@
 	.multi-char-box { max-width: 58%; line-height: 1.3; }
 	.cast-row--multi .cast-character { white-space: normal; font-size: clamp(11px, 1.45cqi, 14.5px); font-style: italic; }
 
-	.credits-block { display: flex; flex-direction: column; gap: 3px; margin-bottom: clamp(6px, 1cqi, 12px); }
-	.credits-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(3px, 0.55cqi, 6px); }
-	.credit-row { font-size: clamp(11px, 1.5cqi, 14.5px); line-height: 1.35; }
+	.credits-block { display: flex; flex-direction: column; gap: clamp(4px, 0.6cqi, 7px); margin-bottom: clamp(10px, 1.6cqi, 18px); }
+	.credits-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(4.5px, 0.75cqi, 8.5px); }
+	.credit-row { font-size: clamp(11px, 1.5cqi, 14.5px); line-height: 1.42; }
 	.credit-role { font-weight: 600; color: var(--sheet-muted, #cbd5e1); }
 	.credit-names { font-weight: 700; color: var(--sheet-text, #ffffff); }
 	.credit-name { white-space: nowrap; }
@@ -208,8 +208,9 @@
 	.meta-widgets-grid {
 		display: grid;
 		grid-template-columns: 1fr 1.4fr 0.6fr;
-		gap: clamp(6px, 0.9cqi, 10px);
+		gap: clamp(8px, 1.2cqi, 13px);
 		margin-top: auto;
+		padding-top: clamp(6px, 1cqi, 12px);
 	}
 	.meta-widget {
 		display: flex;

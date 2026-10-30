@@ -12,6 +12,13 @@
 
 	type SheetViewMode = 'side1' | 'side2' | 'both';
 	let viewMode = $state<SheetViewMode>('side1');
+
+	type SchoolLogoVariant = 'crest' | 'logo2026';
+	let schoolLogoVariant = $state<SchoolLogoVariant>('crest');
+
+	function toggleSchoolLogo() {
+		schoolLogoVariant = schoolLogoVariant === 'crest' ? 'logo2026' : 'crest';
+	}
 </script>
 
 <div class="booklet-container" data-testid="uart-booklet-container">
@@ -58,13 +65,43 @@
 			</button>
 		</div>
 
-		<div class="booklet-hint">
-			<Printer size={13} aria-hidden="true" />
-			<span>
-				{isEn
-					? 'A4 Landscape · folds in half into A5 program booklet'
-					: 'Формат A4 альбомний · згинається навпіл у програмку A5'}
-			</span>
+		<div class="toolbar-extras">
+			{#if viewMode === 'side1' || viewMode === 'both'}
+				<div class="logo-picker" role="group" aria-label={isEn ? 'School logo' : 'Логотип школи'}>
+					<span class="logo-picker-label">{isEn ? 'Logo:' : 'Лого школи:'}</span>
+					<div class="logo-toggle-group">
+						<button
+							type="button"
+							class="logo-sub-tab"
+							class:logo-sub-tab--active={schoolLogoVariant === 'crest'}
+							onclick={() => (schoolLogoVariant = 'crest')}
+							data-testid="uart-logo-crest-btn"
+							title={isEn ? 'Traditional crest emblem' : 'Традиційний герб школи'}
+						>
+							{isEn ? 'Crest' : 'Герб'}
+						</button>
+						<button
+							type="button"
+							class="logo-sub-tab"
+							class:logo-sub-tab--active={schoolLogoVariant === 'logo2026'}
+							onclick={() => (schoolLogoVariant = 'logo2026')}
+							data-testid="uart-logo-2026-btn"
+							title={isEn ? 'Master logo 2026 on yellow oval' : 'Основний логотип 2026 на жовтому овалі'}
+						>
+							{isEn ? 'Logo 2026' : 'Логотип 2026'}
+						</button>
+					</div>
+				</div>
+			{/if}
+
+			<div class="booklet-hint">
+				<Printer size={13} aria-hidden="true" />
+				<span>
+					{isEn
+						? 'A4 Landscape · folds in half into A5 program booklet'
+						: 'Формат A4 альбомний · згинається навпіл у програмку A5'}
+				</span>
+			</div>
 		</div>
 	</div>
 
@@ -72,7 +109,7 @@
 	<div class="sheets-wrapper sheets-wrapper--{viewMode}">
 		{#if viewMode === 'side1' || viewMode === 'both'}
 			<div class="sheet-entry sheet-entry--side1">
-				<UartSecretsCoverSheet {isEn} {themeId} />
+				<UartSecretsCoverSheet {isEn} {themeId} {schoolLogoVariant} onToggleLogo={toggleSchoolLogo} />
 			</div>
 		{/if}
 
@@ -144,6 +181,59 @@
 		box-shadow: 0 2px 8px rgba(255, 237, 0, 0.25);
 	}
 
+	.toolbar-extras {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.logo-picker {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.logo-picker-label {
+		font-size: 12px;
+		color: #94a3b8;
+		font-weight: 500;
+	}
+
+	.logo-toggle-group {
+		display: inline-flex;
+		align-items: center;
+		gap: 2px;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.15);
+		border-radius: 6px;
+		padding: 2px;
+	}
+
+	.logo-sub-tab {
+		border: none;
+		background: transparent;
+		color: #cbd5e1;
+		font-size: 12px;
+		font-weight: 600;
+		padding: 4px 9px;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: all 0.15s ease;
+		font-family: inherit;
+	}
+
+	.logo-sub-tab:hover {
+		color: #ffffff;
+		background: rgba(255, 255, 255, 0.08);
+	}
+
+	.logo-sub-tab--active {
+		background: #ffed00;
+		color: #161217;
+		font-weight: 700;
+	}
+
 	.booklet-hint {
 		display: inline-flex;
 		align-items: center;
@@ -188,4 +278,3 @@
 		}
 	}
 </style>
-

@@ -5,9 +5,16 @@
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
+		schoolLogoVariant?: 'crest' | 'logo2026';
+		onToggleLogo?: () => void;
 	}
 
-	let { isEn = false, themeId = 'uart-dark' }: Props = $props();
+	let {
+		isEn = false,
+		themeId = 'uart-dark',
+		schoolLogoVariant = 'crest',
+		onToggleLogo
+	}: Props = $props();
 
 	const data = UART_SECRETS_BOOKLET;
 	const isLight = $derived(themeId === 'uart-light');
@@ -111,14 +118,32 @@
 							width="600" height="493" loading="eager" decoding="async"
 						/>
 					</div>
-					<div class="logo-box logo-box--school">
+					<button
+						type="button"
+						class="logo-box logo-box--school"
+						class:logo-box--interactive={!!onToggleLogo}
+						onclick={onToggleLogo}
+						disabled={!onToggleLogo}
+						data-testid="uart-school-logo-toggle-btn"
+						title={onToggleLogo ? (isEn ? 'School logo (click to switch)' : 'Лого школи (клікніть для зміни)') : undefined}
+						aria-label={onToggleLogo ? (isEn ? 'Switch school logo variant' : 'Змінити варіант логотипу школи') : undefined}
+					>
 						<img
-							src={asset('/posters/teatralo4ka-crest-dark.svg')}
-							alt={isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}
+							src={asset(
+								schoolLogoVariant === 'logo2026'
+									? '/logo/svg/t4_logo_2026.svg'
+									: '/posters/teatralo4ka-crest-dark.svg'
+							)}
+							alt={isEn
+								? (schoolLogoVariant === 'logo2026' ? 'Odesa Theatre School Logo 2026' : 'Odesa Theatre School Crest')
+								: (schoolLogoVariant === 'logo2026' ? 'Одеська театральна школа (Логотип 2026)' : 'Одеська театральна школа (Герб)')}
 							class="partner-logo partner-logo--school"
-							width="1905" height="1105" loading="eager" decoding="async"
+							width={schoolLogoVariant === 'logo2026' ? 2125 : 1905}
+							height={schoolLogoVariant === 'logo2026' ? 1367 : 1105}
+							loading="eager"
+							decoding="async"
 						/>
-					</div>
+					</button>
 				</div>
 				<div class="logos-lower-row">
 					<div class="logo-box logo-box--pro-teatr">
@@ -216,16 +241,33 @@
 	.logos-lower-row { display: flex; align-items: center; justify-content: center; width: 100%; }
 	.logo-box { display: flex; align-items: center; justify-content: center; }
 	.logo-box--uart, .logo-box--school { height: clamp(34px, 5.2cqi, 52px); }
+	.logo-box--interactive {
+		background: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.18s ease, filter 0.18s ease;
+	}
+	.logo-box--interactive:hover {
+		transform: scale(1.05);
+	}
+	.logo-box--interactive:focus-visible {
+		outline: 2px solid #ffed00;
+		outline-offset: 4px;
+		border-radius: 4px;
+	}
 	.logo-box--pro-teatr { width: clamp(210px, 32cqi, 300px); max-width: 95%; }
 	.partner-logo { width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
-	.partner-logo--uart, .partner-logo--school { max-height: 100%; max-width: 100%; }
+	.partner-logo--uart, .partner-logo--school { height: 100%; width: auto; max-height: 100%; max-width: 100%; }
 	.partner-logo--pro-teatr { width: 100%; height: auto; }
 
 	/* Стилі друку */
 	@media print {
 		.booklet-sheet { width: 297mm !important; height: 210mm !important; max-width: none !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; border: none !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-		.sheet-fold-line { background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0, rgba(255, 255, 255, 0.25) 4mm, transparent 4mm, transparent 8mm) !important; }
-		.fold-badge { display: none !important; }
+		.sheet-fold-line { display: none !important; }
 		.presenter-line { font-size: 7.2pt !important; line-height: 1.25 !important; }
 		.presenter-line--lead { margin-bottom: 2mm !important; }
 		.author-primary { font-size: 10.5pt !important; }
