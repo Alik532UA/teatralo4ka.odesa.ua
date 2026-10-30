@@ -8,9 +8,11 @@ export interface CrestConfig {
 	ovalColor: string;
 	hasText: boolean;
 	textColor: string;
-	handsType: 'fill' | 'outline';
+	hasHandsFill: boolean;
 	handsColor: string;
+	hasHandsContour: boolean;
 	handsContourColor: string;
+	hasMasksFill: boolean;
 	maskRedColor: string;
 	maskRedOutlineColor: string;
 	maskBlueColor: string;
@@ -37,7 +39,9 @@ export const BRAND_PALETTE = [
 function makeConfig(
 	hasOval: boolean,
 	hasText: boolean,
-	handsType: 'fill' | 'outline',
+	hasHandsFill: boolean,
+	hasHandsContour: boolean,
+	hasMasksFill: boolean,
 	ovalColor: string,
 	handsColor: string,
 	maskRedColor: string,
@@ -50,9 +54,11 @@ function makeConfig(
 		ovalColor,
 		hasText,
 		textColor,
-		handsType,
+		hasHandsFill,
 		handsColor,
+		hasHandsContour,
 		handsContourColor: outlineColor,
+		hasMasksFill,
 		maskRedColor,
 		maskRedOutlineColor: outlineColor,
 		maskBlueColor,
@@ -63,7 +69,9 @@ function makeConfig(
 export const DEFAULT_CREST_CONFIG: CrestConfig = makeConfig(
 	true,
 	true,
-	'fill',
+	true,
+	true,
+	true,
 	'#ffed00',
 	'#ffed00',
 	'#e20413',
@@ -77,37 +85,37 @@ export const CREST_PRESETS: CrestPreset[] = [
 		id: 'master-2025',
 		nameUk: 'з url',
 		nameEn: 'With URL',
-		config: makeConfig(true, true, 'fill', '#ffed00', '#ffed00', '#e20413', '#00b5ec')
+		config: makeConfig(true, true, true, true, true, '#ffed00', '#ffed00', '#e20413', '#00b5ec')
 	},
 	{
 		id: 'classic-2022',
 		nameUk: 'без url',
 		nameEn: 'Without URL',
-		config: makeConfig(false, false, 'fill', '#ffed00', '#ffed00', '#e20413', '#00b5ec')
+		config: makeConfig(false, false, true, true, true, '#ffed00', '#ffed00', '#e20413', '#00b5ec')
 	},
 	{
 		id: 'outline-hands',
 		nameUk: 'Контурні руки',
 		nameEn: 'Outline Hands',
-		config: makeConfig(false, false, 'outline', '#ffed00', '#ffed00', '#e20413', '#00b5ec')
+		config: makeConfig(false, false, false, true, true, '#ffed00', '#ffed00', '#e20413', '#00b5ec')
 	},
 	{
 		id: 'mono-white',
 		nameUk: 'Монохром білий',
 		nameEn: 'Monochrome White',
-		config: makeConfig(false, true, 'fill', '#ffed00', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff')
+		config: makeConfig(false, true, true, true, true, '#ffed00', '#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ffffff')
 	},
 	{
 		id: 'mono-dark',
 		nameUk: 'Монохром темний',
 		nameEn: 'Monochrome Dark',
-		config: makeConfig(false, true, 'fill', '#ffed00', '#1d1d1d', '#1d1d1d', '#1d1d1d', '#1d1d1d', '#1d1d1d')
+		config: makeConfig(false, true, true, true, true, '#ffed00', '#1d1d1d', '#1d1d1d', '#1d1d1d', '#1d1d1d', '#1d1d1d')
 	},
 	{
 		id: 'golden-anniversary',
 		nameUk: 'Золотий ювілей',
 		nameEn: 'Golden Anniversary',
-		config: makeConfig(true, true, 'fill', '#1d1d1d', '#f9b31d', '#ffed00', '#f9b31d', '#f9b31d', '#1d1d1d')
+		config: makeConfig(true, true, true, true, true, '#1d1d1d', '#f9b31d', '#ffed00', '#f9b31d', '#f9b31d', '#1d1d1d')
 	}
 ];
 
@@ -127,14 +135,16 @@ export function isPresetActive(config: CrestConfig, preset: CrestPreset): boolea
 	return (
 		c.hasOval === p.hasOval &&
 		c.hasText === p.hasText &&
-		c.handsType === p.handsType &&
+		c.hasHandsFill === p.hasHandsFill &&
+		c.hasHandsContour === p.hasHandsContour &&
+		c.hasMasksFill === p.hasMasksFill &&
 		(!c.hasOval || c.ovalColor.toLowerCase() === p.ovalColor.toLowerCase()) &&
 		(!c.hasText || c.textColor.toLowerCase() === p.textColor.toLowerCase()) &&
-		(c.handsType !== 'fill' || c.handsColor.toLowerCase() === p.handsColor.toLowerCase()) &&
-		c.handsContourColor.toLowerCase() === p.handsContourColor.toLowerCase() &&
-		c.maskRedColor.toLowerCase() === p.maskRedColor.toLowerCase() &&
+		(!c.hasHandsFill || c.handsColor.toLowerCase() === p.handsColor.toLowerCase()) &&
+		(!c.hasHandsContour || c.handsContourColor.toLowerCase() === p.handsContourColor.toLowerCase()) &&
+		(!c.hasMasksFill || c.maskRedColor.toLowerCase() === p.maskRedColor.toLowerCase()) &&
 		c.maskRedOutlineColor.toLowerCase() === p.maskRedOutlineColor.toLowerCase() &&
-		c.maskBlueColor.toLowerCase() === p.maskBlueColor.toLowerCase() &&
+		(!c.hasMasksFill || c.maskBlueColor.toLowerCase() === p.maskBlueColor.toLowerCase()) &&
 		c.maskBlueOutlineColor.toLowerCase() === p.maskBlueOutlineColor.toLowerCase()
 	);
 }
@@ -170,7 +180,7 @@ export function getCrestSvgString(config: CrestConfig): string {
 		svg += `  </g>\n`;
 	}
 
-	if (config.handsType === 'fill') {
+	if (config.hasHandsFill) {
 		svg += `  <g id="HandsFill" fill="${config.handsColor}" fill-rule="evenodd">\n`;
 		for (const p of crestPaths.handsFill) {
 			svg += `    <path d="${p}"/>\n`;
@@ -178,19 +188,25 @@ export function getCrestSvgString(config: CrestConfig): string {
 		svg += `  </g>\n`;
 	}
 
-	svg += `  <g id="HandsContour" fill="${config.handsContourColor}" fill-rule="evenodd">\n`;
-	svg += `    <path d="${crestPaths.handsContour}"/>\n`;
-	svg += `  </g>\n`;
+	if (config.hasHandsContour) {
+		svg += `  <g id="HandsContour" fill="${config.handsContourColor}" fill-rule="evenodd">\n`;
+		svg += `    <path d="${crestPaths.handsContour}"/>\n`;
+		svg += `  </g>\n`;
+	}
 
 	svg += `  <g id="logo-mini">\n`;
 	svg += `    <g id="MaskRed">\n`;
 	svg += `      <path fill="${config.maskRedOutlineColor}" d="${crestPaths.maskRed.shadow}"/>\n`;
-	svg += `      <path fill="${config.maskRedColor}" d="${crestPaths.maskRed.fill}"/>\n`;
+	if (config.hasMasksFill) {
+		svg += `      <path fill="${config.maskRedColor}" d="${crestPaths.maskRed.fill}"/>\n`;
+	}
 	svg += `      <path fill="${config.maskRedOutlineColor}" d="${crestPaths.maskRed.details}"/>\n`;
 	svg += `    </g>\n`;
 	svg += `    <g id="MaskBlue">\n`;
 	svg += `      <path fill="${config.maskBlueOutlineColor}" d="${crestPaths.maskBlue.shadow}"/>\n`;
-	svg += `      <path fill="${config.maskBlueColor}" d="${crestPaths.maskBlue.fill}"/>\n`;
+	if (config.hasMasksFill) {
+		svg += `      <path fill="${config.maskBlueColor}" d="${crestPaths.maskBlue.fill}"/>\n`;
+	}
 	svg += `      <path fill="${config.maskBlueOutlineColor}" d="${crestPaths.maskBlue.details}"/>\n`;
 	svg += `    </g>\n`;
 	svg += `  </g>\n`;

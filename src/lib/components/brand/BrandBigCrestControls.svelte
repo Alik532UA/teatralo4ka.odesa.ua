@@ -19,181 +19,186 @@
 	let { config, onApplyPreset, testIdPrefix = 'brand-logos' }: Props = $props();
 
 	const isEn = $derived($locale === 'en');
-	let activeElement = $state<CrestElement>('maskRed');
+	let activeElement = $state<CrestElement>('hands');
 	let activeSubPart = $state<CrestSubPart>('fill');
 
-	$effect(() => {
-		if (activeElement === 'bgOval' && !config.hasOval) {
-			activeElement = 'maskRed';
-		} else if (activeElement === 'text' && !config.hasText) {
-			activeElement = 'maskRed';
+	const isCurrentTransparent = $derived.by(() => {
+		if (activeElement === 'bgOval') return !config.hasOval;
+		if (activeElement === 'text') return !config.hasText;
+		if (activeElement === 'hands') {
+			return activeSubPart === 'fill' ? !config.hasHandsFill : !config.hasHandsContour;
 		}
+		return activeSubPart === 'fill' ? !config.hasMasksFill : false;
 	});
 
-	const hasOutlineOption = $derived(
-		activeElement === 'maskRed' ||
-		activeElement === 'maskBlue' ||
-		(activeElement === 'hands' && config.handsType === 'fill')
+	const canCurrentBeTransparent = $derived(
+		!(activeElement !== 'bgOval' && activeElement !== 'text' && activeElement !== 'hands' && activeSubPart === 'outline')
 	);
 
 	const currentColor = $derived.by(() => {
 		if (activeElement === 'bgOval') return config.ovalColor;
 		if (activeElement === 'text') return config.textColor;
 		if (activeElement === 'hands') {
-			return activeSubPart === 'outline' || config.handsType !== 'fill'
-				? config.handsContourColor
-				: config.handsColor;
+			return activeSubPart === 'fill' ? config.handsColor : config.handsContourColor;
 		}
 		if (activeElement === 'maskRed') {
-			return activeSubPart === 'outline' ? config.maskRedOutlineColor : config.maskRedColor;
+			return activeSubPart === 'fill' ? config.maskRedColor : config.maskRedOutlineColor;
 		}
-		return activeSubPart === 'outline' ? config.maskBlueOutlineColor : config.maskBlueColor;
+		return activeSubPart === 'fill' ? config.maskBlueColor : config.maskBlueOutlineColor;
 	});
+
+	function toggleTransparent() {
+		if (activeElement === 'bgOval') config.hasOval = !config.hasOval;
+		else if (activeElement === 'text') config.hasText = !config.hasText;
+		else if (activeElement === 'hands') {
+			if (activeSubPart === 'fill') config.hasHandsFill = !config.hasHandsFill;
+			else config.hasHandsContour = !config.hasHandsContour;
+		} else if (activeSubPart === 'fill') config.hasMasksFill = !config.hasMasksFill;
+	}
 
 	function setColor(hex: string) {
 		if (activeElement === 'bgOval') {
+			config.hasOval = true;
 			config.ovalColor = hex;
 		} else if (activeElement === 'text') {
+			config.hasText = true;
 			config.textColor = hex;
 		} else if (activeElement === 'hands') {
-			if (activeSubPart === 'outline' || config.handsType !== 'fill') {
-				config.handsContourColor = hex;
-			} else {
+			if (activeSubPart === 'fill') {
+				config.hasHandsFill = true;
 				config.handsColor = hex;
-			}
-		} else if (activeElement === 'maskRed') {
-			if (activeSubPart === 'outline') {
-				config.maskRedOutlineColor = hex;
 			} else {
-				config.maskRedColor = hex;
-				if (isColorDark(hex) && config.maskRedOutlineColor.toLowerCase() === '#1d1d1d') {
-					config.maskRedOutlineColor = '#ffffff';
-				} else if (!isColorDark(hex) && config.maskRedOutlineColor.toLowerCase() === '#ffffff') {
-					config.maskRedOutlineColor = '#1d1d1d';
-				}
+				config.hasHandsContour = true;
+				config.handsContourColor = hex;
 			}
-		} else if (activeElement === 'maskBlue') {
-			if (activeSubPart === 'outline') {
-				config.maskBlueOutlineColor = hex;
+		} else {
+			const isRed = activeElement === 'maskRed';
+			if (activeSubPart === 'fill') {
+				config.hasMasksFill = true;
+				if (isRed) config.maskRedColor = hex;
+				else config.maskBlueColor = hex;
+				const outProp = isRed ? 'maskRedOutlineColor' : 'maskBlueOutlineColor';
+				if (isColorDark(hex) && config[outProp].toLowerCase() === '#1d1d1d') config[outProp] = '#ffffff';
+				else if (!isColorDark(hex) && config[outProp].toLowerCase() === '#ffffff') config[outProp] = '#1d1d1d';
 			} else {
-				config.maskBlueColor = hex;
-				if (isColorDark(hex) && config.maskBlueOutlineColor.toLowerCase() === '#1d1d1d') {
-					config.maskBlueOutlineColor = '#ffffff';
-				} else if (!isColorDark(hex) && config.maskBlueOutlineColor.toLowerCase() === '#ffffff') {
-					config.maskBlueOutlineColor = '#1d1d1d';
-				}
+				if (isRed) config.maskRedOutlineColor = hex;
+				else config.maskBlueOutlineColor = hex;
 			}
 		}
 	}
+
+	const tabs = $derived([
+		{
+			id: 'bgOval' as CrestElement,
+			label: isEn ? 'Oval' : 'Овал',
+			isTrans: !config.hasOval,
+			color: config.ovalColor,
+			testId: `${testIdPrefix}-oval-tab`
+		},
+		{
+			id: 'hands' as CrestElement,
+			label: isEn ? 'Hands' : 'Долоні',
+			isTrans: !config.hasHandsFill && !config.hasHandsContour,
+			color: config.hasHandsFill ? config.handsColor : config.handsContourColor,
+			testId: `${testIdPrefix}-hands-tab`
+		},
+		{
+			id: 'maskRed' as CrestElement,
+			label: isEn ? 'Left Mask' : 'Ліва маска',
+			isTrans: !config.hasMasksFill,
+			color: config.maskRedColor,
+			testId: `${testIdPrefix}-mask-red-tab`
+		},
+		{
+			id: 'maskBlue' as CrestElement,
+			label: isEn ? 'Right Mask' : 'Права маска',
+			isTrans: !config.hasMasksFill,
+			color: config.maskBlueColor,
+			testId: `${testIdPrefix}-mask-blue-tab`
+		},
+		{
+			id: 'text' as CrestElement,
+			label: isEn ? 'URL Text' : 'Текст',
+			isTrans: !config.hasText,
+			color: config.textColor,
+			testId: `${testIdPrefix}-text-tab`
+		}
+	]);
+
+	const subparts = $derived([
+		{
+			id: 'fill' as CrestSubPart,
+			label: isEn ? 'Fill' : 'Заливка',
+			isTrans: activeElement === 'hands' ? !config.hasHandsFill : !config.hasMasksFill,
+			color: activeElement === 'hands' ? config.handsColor : activeElement === 'maskRed' ? config.maskRedColor : config.maskBlueColor,
+			testId: `${testIdPrefix}-subpart-fill-btn`
+		},
+		{
+			id: 'outline' as CrestSubPart,
+			label: activeElement === 'hands' ? (isEn ? 'Contour' : 'Контур') : (isEn ? 'Outline' : 'Обводка'),
+			isTrans: activeElement === 'hands' ? !config.hasHandsContour : false,
+			color: activeElement === 'hands' ? config.handsContourColor : activeElement === 'maskRed' ? config.maskRedOutlineColor : config.maskBlueOutlineColor,
+			testId: `${testIdPrefix}-subpart-outline-btn`
+		}
+	]);
 </script>
 
 <div class="controls-panel" data-testid={`${testIdPrefix}-controls-panel`}>
-	<!-- 1 & 2. Presets and Structure Toggles -->
 	<BrandBigCrestPresets {config} {onApplyPreset} {testIdPrefix} />
 
-	<!-- 3. Target Element Selector Tabs -->
 	<div class="control-block">
 		<span class="block-label">{isEn ? 'Select Element:' : 'Оберіть елемент:'}</span>
 		<div class="element-tabs" role="tablist">
-			{#if config.hasOval}
+			{#each tabs as tab (tab.id)}
 				<button
 					type="button"
 					role="tab"
 					class="element-tab"
-					class:active={activeElement === 'bgOval'}
-					aria-selected={activeElement === 'bgOval'}
-					onclick={() => { activeElement = 'bgOval'; activeSubPart = 'fill'; }}
-					data-testid={`${testIdPrefix}-tab-oval`}
+					class:active={activeElement === tab.id}
+					aria-selected={activeElement === tab.id}
+					onclick={() => { activeElement = tab.id; if (tab.id === 'bgOval' || tab.id === 'text') activeSubPart = 'fill'; }}
+					data-testid={tab.testId}
 				>
-					<span class="color-dot" style="background-color: {config.ovalColor};"></span>
-					<span>{isEn ? 'Oval' : 'Овал'}</span>
+					<span
+						class="color-dot"
+						class:color-dot--transparent={tab.isTrans}
+						style="background-color: {tab.isTrans ? 'transparent' : tab.color};"
+					></span>
+					<span>{tab.label}</span>
 				</button>
-			{/if}
-
-			<button
-				type="button"
-				role="tab"
-				class="element-tab"
-				class:active={activeElement === 'hands'}
-				aria-selected={activeElement === 'hands'}
-				onclick={() => (activeElement = 'hands')}
-				data-testid={`${testIdPrefix}-tab-hands`}
-			>
-				<span class="color-dot" style="background-color: {config.handsType === 'fill' ? config.handsColor : config.handsContourColor};"></span>
-				<span>{isEn ? 'Hands' : 'Долоні'}</span>
-			</button>
-
-			<button
-				type="button"
-				role="tab"
-				class="element-tab"
-				class:active={activeElement === 'maskRed'}
-				aria-selected={activeElement === 'maskRed'}
-				onclick={() => (activeElement = 'maskRed')}
-				data-testid={`${testIdPrefix}-tab-mask-red`}
-			>
-				<span class="color-dot" style="background-color: {config.maskRedColor};"></span>
-				<span>{isEn ? 'Left Mask' : 'Ліва маска'}</span>
-			</button>
-
-			<button
-				type="button"
-				role="tab"
-				class="element-tab"
-				class:active={activeElement === 'maskBlue'}
-				aria-selected={activeElement === 'maskBlue'}
-				onclick={() => (activeElement = 'maskBlue')}
-				data-testid={`${testIdPrefix}-tab-mask-blue`}
-			>
-				<span class="color-dot" style="background-color: {config.maskBlueColor};"></span>
-				<span>{isEn ? 'Right Mask' : 'Права маска'}</span>
-			</button>
-
-			{#if config.hasText}
-				<button
-					type="button"
-					role="tab"
-					class="element-tab"
-					class:active={activeElement === 'text'}
-					aria-selected={activeElement === 'text'}
-					onclick={() => { activeElement = 'text'; activeSubPart = 'fill'; }}
-					data-testid={`${testIdPrefix}-tab-text`}
-				>
-					<span class="color-dot" style="background-color: {config.textColor};"></span>
-					<span>{isEn ? 'URL Text' : 'Текст'}</span>
-				</button>
-			{/if}
+			{/each}
 		</div>
 
-		<!-- Sub-part Selector: Fill vs Outline/Contour -->
-		{#if hasOutlineOption}
+		{#if activeElement === 'hands' || activeElement === 'maskRed' || activeElement === 'maskBlue'}
 			<div class="subpart-row" role="radiogroup" aria-label={isEn ? 'Part' : 'Частина елемента'}>
-				<button
-					type="button"
-					class="subpart-btn"
-					class:active={activeSubPart === 'fill'}
-					onclick={() => (activeSubPart = 'fill')}
-					data-testid={`${testIdPrefix}-subpart-fill-btn`}
-				>
-					<span class="color-dot" style="background-color: {activeElement === 'hands' ? config.handsColor : activeElement === 'maskRed' ? config.maskRedColor : config.maskBlueColor};"></span>
-					<span>{isEn ? 'Element Fill' : 'Заливка елемента'}</span>
-				</button>
-				<button
-					type="button"
-					class="subpart-btn"
-					class:active={activeSubPart === 'outline'}
-					onclick={() => (activeSubPart = 'outline')}
-					data-testid={`${testIdPrefix}-subpart-outline-btn`}
-				>
-					<span class="color-dot" style="background-color: {activeElement === 'hands' ? config.handsContourColor : activeElement === 'maskRed' ? config.maskRedOutlineColor : config.maskBlueOutlineColor};"></span>
-					<span>{isEn ? 'Outline / Contour' : 'Обводка / Контур'}</span>
-				</button>
+				{#each subparts as sp (sp.id)}
+					<button
+						type="button"
+						class="subpart-btn"
+						class:active={activeSubPart === sp.id}
+						onclick={() => (activeSubPart = sp.id)}
+						data-testid={sp.testId}
+					>
+						<span
+							class="color-dot"
+							class:color-dot--transparent={sp.isTrans}
+							style="background-color: {sp.isTrans ? 'transparent' : sp.color};"
+						></span>
+						<span>{sp.label}</span>
+					</button>
+				{/each}
 			</div>
 		{/if}
 	</div>
 
-	<!-- 4. Palette & Custom Color Picker Component -->
-	<BrandBigCrestPalette {currentColor} onColorChange={setColor} {testIdPrefix} />
+	<BrandBigCrestPalette
+		{currentColor}
+		isTransparent={isCurrentTransparent}
+		canBeTransparent={canCurrentBeTransparent}
+		onColorChange={setColor}
+		onToggleTransparent={toggleTransparent}
+		{testIdPrefix}
+	/>
 </div>
 
 <style>
@@ -279,5 +284,22 @@
 		border-radius: 50%;
 		border: 1px solid rgba(0, 0, 0, 0.2);
 		flex-shrink: 0;
+	}
+
+	.color-dot--transparent {
+		background-image: repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%) !important;
+		background-size: 6px 6px !important;
+		position: relative;
+	}
+
+	.color-dot--transparent::after {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		right: 0;
+		height: 1.5px;
+		background: #e20413;
+		transform: rotate(-45deg);
 	}
 </style>

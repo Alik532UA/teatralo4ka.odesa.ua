@@ -4,11 +4,21 @@
 
 	interface Props {
 		currentColor: string;
+		isTransparent?: boolean;
+		canBeTransparent?: boolean;
 		onColorChange: (hex: string) => void;
+		onToggleTransparent?: () => void;
 		testIdPrefix?: string;
 	}
 
-	let { currentColor, onColorChange, testIdPrefix = 'brand-logos' }: Props = $props();
+	let {
+		currentColor,
+		isTransparent = false,
+		canBeTransparent = true,
+		onColorChange,
+		onToggleTransparent,
+		testIdPrefix = 'brand-logos'
+	}: Props = $props();
 
 	const isEn = $derived($locale === 'en');
 
@@ -23,18 +33,32 @@
 <div class="palette-section" data-testid={`${testIdPrefix}-palette-section`}>
 	<span class="block-label">{isEn ? 'Color Palette:' : 'Палітра кольорів:'}</span>
 	<div class="palette-grid">
+		{#if canBeTransparent}
+			<button
+				type="button"
+				class="swatch-btn swatch-transparent"
+				class:active={isTransparent}
+				onclick={() => onToggleTransparent?.()}
+				title={isEn ? 'Transparent (Disabled)' : 'Прозорий (Вимкнено)'}
+				aria-label={isEn ? 'Transparent' : 'Прозорий'}
+				data-testid={`${testIdPrefix}-swatch-transparent-btn`}
+			>
+				<span class="transparent-icon">⊘</span>
+			</button>
+		{/if}
+
 		{#each BRAND_PALETTE as col (col.hex)}
 			<button
 				type="button"
 				class="swatch-btn"
-				class:active={currentColor.toLowerCase() === col.hex.toLowerCase()}
+				class:active={!isTransparent && currentColor.toLowerCase() === col.hex.toLowerCase()}
 				style="background-color: {col.hex};"
 				onclick={() => onColorChange(col.hex)}
 				title={`${isEn ? col.nameEn : col.nameUk} (${col.hex})`}
 				aria-label={`${isEn ? col.nameEn : col.nameUk} ${col.hex}`}
 				data-testid={`${testIdPrefix}-swatch-${col.hex.replace('#', '')}-btn`}
 			>
-				{#if currentColor.toLowerCase() === col.hex.toLowerCase()}
+				{#if !isTransparent && currentColor.toLowerCase() === col.hex.toLowerCase()}
 					<span class="swatch-check" style="color: {col.textColor};">✓</span>
 				{/if}
 			</button>
@@ -111,6 +135,19 @@
 		box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--accent-text);
 	}
 
+	.swatch-transparent {
+		background-image: repeating-conic-gradient(#bbb 0% 25%, #fff 0% 50%);
+		background-size: 8px 8px;
+		color: #e20413;
+	}
+
+	.transparent-icon {
+		font-size: 1.15rem;
+		font-weight: 800;
+		line-height: 1;
+		color: #e20413;
+	}
+
 	.swatch-check {
 		font-size: 0.9rem;
 		font-weight: 800;
@@ -159,17 +196,17 @@
 		border-radius: 6px;
 		border: 1px solid var(--color-border);
 		background: var(--bg-card);
-		color: var(--text-title);
-		font-size: 0.8rem;
-		font-weight: 700;
+		color: var(--text-main);
 		font-family: monospace;
+		font-size: 0.78rem;
+		font-weight: 600;
 		text-transform: uppercase;
-		transition: border-color 0.15s ease;
+		letter-spacing: 0.05em;
 	}
 
 	.hex-text-input:focus {
 		outline: none;
 		border-color: var(--accent-text);
-		box-shadow: 0 0 0 1px var(--accent-text);
+		box-shadow: 0 0 0 2px rgba(0, 181, 236, 0.2);
 	}
 </style>

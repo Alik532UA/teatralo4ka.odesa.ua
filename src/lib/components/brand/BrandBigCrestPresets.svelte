@@ -47,7 +47,7 @@
 				class:active={config.hasOval}
 				onclick={() => (config.hasOval = !config.hasOval)}
 				aria-pressed={config.hasOval}
-				data-testid={`${testIdPrefix}-toggle-oval`}
+				data-testid={`${testIdPrefix}-oval-toggle`}
 			>
 				<span class="toggle-indicator"></span>
 				<span>{isEn ? 'Oval Background' : 'Овальний фон'}</span>
@@ -59,7 +59,7 @@
 				class:active={config.hasText}
 				onclick={() => (config.hasText = !config.hasText)}
 				aria-pressed={config.hasText}
-				data-testid={`${testIdPrefix}-toggle-text`}
+				data-testid={`${testIdPrefix}-text-toggle`}
 			>
 				<span class="toggle-indicator"></span>
 				<span>{isEn ? 'Website URL Text' : 'Адреса сайту'}</span>
@@ -68,21 +68,37 @@
 			<button
 				type="button"
 				class="toggle-chip"
-				class:active={config.handsType === 'fill'}
-				onclick={() => (config.handsType = config.handsType === 'fill' ? 'outline' : 'fill')}
-				aria-pressed={config.handsType === 'fill'}
-				data-testid={`${testIdPrefix}-toggle-hands-fill`}
+				class:active={config.hasHandsFill}
+				onclick={() => (config.hasHandsFill = !config.hasHandsFill)}
+				aria-pressed={config.hasHandsFill}
+				data-testid={`${testIdPrefix}-hands-fill-toggle`}
 			>
 				<span class="toggle-indicator"></span>
-				<span>
-					{config.handsType === 'fill'
-						? isEn
-							? 'Hands: Color Fill'
-							: 'Руки: Заливка'
-						: isEn
-							? 'Hands: Outline Only'
-							: 'Руки: Контур'}
-				</span>
+				<span>{isEn ? 'Hands: Fill' : 'Заливка долонь'}</span>
+			</button>
+
+			<button
+				type="button"
+				class="toggle-chip"
+				class:active={config.hasHandsContour}
+				onclick={() => (config.hasHandsContour = !config.hasHandsContour)}
+				aria-pressed={config.hasHandsContour}
+				data-testid={`${testIdPrefix}-hands-contour-toggle`}
+			>
+				<span class="toggle-indicator"></span>
+				<span>{isEn ? 'Hands: Contour' : 'Контур долонь'}</span>
+			</button>
+
+			<button
+				type="button"
+				class="toggle-chip"
+				class:active={config.hasMasksFill}
+				onclick={() => (config.hasMasksFill = !config.hasMasksFill)}
+				aria-pressed={config.hasMasksFill}
+				data-testid={`${testIdPrefix}-masks-fill-toggle`}
+			>
+				<span class="toggle-indicator"></span>
+				<span>{isEn ? 'Masks: Fill' : 'Заливка масок'}</span>
 			</button>
 		</div>
 	</div>
@@ -174,4 +190,3 @@
 		box-shadow: 0 0 6px var(--accent-text);
 	}
 </style>
-
