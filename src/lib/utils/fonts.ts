@@ -14,7 +14,10 @@
  */
 
 export const E_UKRAINE_FONT_TARGETS = [
+	'900 16px "e-Ukraine"',
+	'800 16px "e-Ukraine"',
 	'700 16px "e-Ukraine"',
+	'600 16px "e-Ukraine"',
 	'500 16px "e-Ukraine"',
 	'400 16px "e-Ukraine"'
 ] as const;

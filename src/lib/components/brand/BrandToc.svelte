@@ -23,7 +23,8 @@
 		{ id: 'crest-in-hands', nameUk: 'Герб у долоньках', nameEn: 'Crest in Hands', type: 'img', src: '/brand/big-emblem/preview/big-emblem-2025-color-color-hands-yellow-bg-text.webp' },
 		{ id: 'elements', nameUk: 'Окремі елементи', nameEn: 'Isolated Elements', type: 'img', src: '/brand/elements/preview/element-mask-happy-white.webp' },
 		{ id: 'avatars', nameUk: 'Аватарки', nameEn: 'Avatars', type: 'img', src: '/brand/avatar/preview/avatar-round.webp' },
-		{ id: 'theatre-projects', nameUk: 'UArt та PRO.ТЕАТР', nameEn: 'UArt & PRO.THEATRE', type: 'img', src: '/brand/theatre-projects/preview/uart-logo-square-light.webp' },
+		{ id: 'uart-theatre', nameUk: 'Театр «UArt»', nameEn: 'Theatre "UArt"', type: 'img', src: '/brand/theatre-projects/preview/uart-logo-square-light.webp' },
+		{ id: 'pro-teatr', nameUk: 'ГО «PRO.ТЕАТР»', nameEn: 'NGO "PRO.THEATRE"', type: 'img', src: '/brand/theatre-projects/preview/pro-teatr-logo-square-light.webp' },
 		{ id: 'colors', nameUk: 'Палітра кольорів', nameEn: 'Color Palette', type: 'palette' },
 		{ id: 'typography', nameUk: 'Шрифт e-Ukraine', nameEn: 'e-Ukraine Font', type: 'type' },
 		{ id: 'particles', nameUk: 'Мікро-частки', nameEn: 'Mini-Icons', type: 'img', src: '/miniIcon/svg/t4_logo_IndividualParticles_MiniIcon08_2026.svg' },
@@ -157,11 +158,8 @@
 
 	.toc-btn {
 		position: relative;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 52px;
-		height: 52px;
+		display: flex; align-items: center; justify-content: center;
+		width: 52px; height: 52px;
 		border-radius: 12px;
 		background: var(--color-surface, #ffffff);
 		border: 2px solid transparent;
@@ -182,34 +180,15 @@
 	}
 
 	.toc-badge {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.35rem;
-		box-sizing: border-box;
+		width: 100%; height: 100%;
+		display: flex; align-items: center; justify-content: center;
+		padding: 0.35rem; box-sizing: border-box;
 	}
 
-	.toc-img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		display: block;
+	.toc-img, .toc-img--crest, .toc-img--particle {
+		width: 100%; height: 100%; object-fit: contain; display: block;
 	}
-
-	.toc-img--crest {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-
-	.toc-img--particle {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-		transition: filter 0.15s ease;
-	}
+	.toc-img--particle { transition: filter 0.15s ease; }
 
 	:global(html[data-theme='dark']) .toc-img--particle, :global(html[data-theme='dark-cyan']) .toc-img--particle,
 	:global(html[data-theme='dark-blue']) .toc-img--particle, :global(html.dark-theme) .toc-img--particle,

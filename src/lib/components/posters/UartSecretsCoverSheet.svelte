@@ -176,12 +176,13 @@
 		overflow: hidden;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 		border: 1px solid rgba(255, 237, 0, 0.2);
+		container-type: inline-size;
 	}
 
 	.sheet-half { position: relative; height: 100%; overflow: hidden; }
 	.image-wrapper { position: absolute; inset: 0; width: 100%; height: 100%; }
 	.sheet-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-	.cover-title-gap { height: 26%; min-height: 40px; }
+	.cover-title-gap { height: 29.5%; min-height: 45px; }
 	.cover-badge-row { display: flex; justify-content: center; }
 	.sheet-fold-line {
 		position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
@@ -202,15 +203,15 @@
 	.cover-presenters { display: flex; flex-direction: column; gap: 3px; }
 	.presenter-line {
 		margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif;
-		font-size: clamp(7.5px, 1.05cqi, 11px); line-height: 1.35; color: #f1f5f9;
+		font-size: clamp(7.5px, 0.95cqi, 10px); line-height: 1.35; color: #f1f5f9;
 		text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); white-space: pre-line;
 	}
-	.presenter-line--lead { margin-bottom: clamp(4px, 0.65cqi, 8px); }
+	.presenter-line--lead { margin-bottom: clamp(5px, 0.75cqi, 9px); }
 
 	.cover-info-block {
 		display: flex; flex-direction: column; align-items: center;
-		gap: clamp(6px, 1.2cqi, 12px); margin-top: 0; margin-bottom: clamp(14px, 2.6cqi, 26px);
+		gap: clamp(6px, 1.2cqi, 12px); margin-top: 0; margin-bottom: clamp(10px, 1.8cqi, 18px);
 	}
 	.cover-author {
 		margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif;
@@ -266,19 +267,18 @@
 
 	/* Стилі друку */
 	@media print {
-		.booklet-sheet { width: 297mm !important; height: 210mm !important; max-width: none !important; margin: 0 !important; border-radius: 0 !important; box-shadow: none !important; border: none !important; page-break-inside: avoid !important; break-inside: avoid !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-		.sheet-fold-line { display: none !important; }
-		.presenter-line { font-size: 7.2pt !important; line-height: 1.25 !important; }
-		.presenter-line--lead { margin-bottom: 2mm !important; }
-		.author-primary { font-size: 10.5pt !important; }
-		.author-secondary { font-size: 9pt !important; }
-		.play-title { white-space: nowrap !important; }
-		.age-badge { font-size: 9pt !important; padding: 1.5mm 4.5mm !important; }
-		.cover-director { font-size: 9.5pt !important; }
-		.cover-info-block { margin-bottom: 5mm !important; }
-		.cover-logos { gap: 4.5mm !important; }
-		.logos-upper-row { gap: 12mm !important; }
-		.logo-box--uart, .logo-box--school { height: 17.5mm !important; }
-		.logo-box--pro-teatr { width: 90mm !important; }
+		.booklet-sheet,
+		.booklet-sheet * {
+			font-family: 'e-Ukraine', var(--font-body), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+		}
+
+		.booklet-sheet {
+			width: 297mm !important; height: 210mm !important; max-width: none !important; margin: 0 !important;
+			border-radius: 0 !important; box-shadow: none !important; border: none !important;
+			page-break-inside: avoid !important; break-inside: avoid !important;
+			-webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
+		}
+
+		.sheet-fold-line, .fold-badge { display: none !important; }
 	}
 </style>

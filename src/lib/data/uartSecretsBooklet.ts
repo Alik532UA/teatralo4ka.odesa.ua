@@ -84,13 +84,13 @@ export const UART_SECRETS_BOOKLET = {
 	theatreUk: 'Навчальний театр «UArt»',
 	theatreEn: 'Educational Theatre “UArt”',
 	presentersUk: [
-		'Департамент культури, туризму та охорони культурної спадщини Одеської міської ради',
+		'Департамент культури, туризму та охорони культурної спадщини\nОдеської міської ради',
 		'Громадська організація «PRO.ТЕАТР»',
 		'Одеська театральна школа',
 		'Навчальний театр «UArt»'
 	],
 	presentersEn: [
-		'Department of Culture, Tourism and Cultural Heritage Protection of Odesa City Council',
+		'Department of Culture, Tourism and Cultural Heritage Protection\nof Odesa City Council',
 		'NGO “PRO.THEATRE”',
 		'Odesa Theatre School',
 		'Educational Theatre “UArt”'
@@ -127,8 +127,8 @@ export const UART_SECRETS_BOOKLET = {
 		{ characterUk: 'Віра', characterEn: 'Vira', actorUk: 'Крістіна Садоєва', actorEn: 'Kristina Sadoieva' },
 		{ characterUk: 'Олюня', characterEn: 'Oliunia', actorUk: 'Тетяна Чупровська', actorEn: 'Tetiana Chuprovska' },
 		{
-			characterUk: 'Вчителька, Макс, батько, хлопець, мама, лікар',
-			characterEn: 'Teacher, Max, father, boyfriend, mother, doctor',
+			characterUk: 'Вчителька, Макс, батько,\nхлопець, мама, лікар',
+			characterEn: 'Teacher, Max, father,\nboyfriend, mother, doctor',
 			actorUk: 'Павло Примак',
 			actorEn: 'Pavlo Prymak',
 			slug: 'pavlo-prymak'
@@ -137,10 +137,26 @@ export const UART_SECRETS_BOOKLET = {
 	crew: [
 		{ roleUk: 'Режисери', roleEn: 'Directors', namesUk: 'Федір Ткач, Павло Примак', namesEn: 'Fedir Tkach, Pavlo Prymak' },
 		{ roleUk: 'Хореограф', roleEn: 'Choreographer', namesUk: 'Тетяна Стогул', namesEn: 'Tetiana Stohul' },
-		{ roleUk: 'Художнє оформлення', roleEn: 'Stage Design & Art', namesUk: 'Ольга Майорова, Олександр Шалашний, Наталія Литвинова', namesEn: 'Olha Maiorova, Oleksandr Shalashnyi, Nataliia Lytvynova' },
+		{
+			roleUk: 'Художнє оформлення',
+			roleEn: 'Stage Design & Art',
+			namesUk: 'Ольга Майорова,\nОлександр Шалашний, Наталія Литвинова',
+			namesEn: 'Olha Maiorova,\nOleksandr Shalashnyi, Nataliia Lytvynova'
+		},
 		{ roleUk: 'Звук', roleEn: 'Sound', namesUk: 'Валентин Пінчук', namesEn: 'Valentyn Pinchuk' },
 		{ roleUk: 'Світло', roleEn: 'Lighting', namesUk: 'Єлизавета Онойченко', namesEn: 'Yelyzaveta Onoichenko' },
-		{ roleUk: 'Відео, робота з AI, IT-підтримка', roleEn: 'Video, AI & IT Support', namesUk: 'Ганна Комадовська, Алік Запольнов', namesEn: 'Hanna Komadovska, Alik Zapolnov' },
+		{
+			roleUk: 'Відео, робота з AI',
+			roleEn: 'Video & AI',
+			namesUk: 'Ганна Комадовська',
+			namesEn: 'Hanna Komadovska'
+		},
+		{
+			roleUk: 'IT-підтримка, типографіка',
+			roleEn: 'IT Support & Typography',
+			namesUk: 'Алік Запольнов',
+			namesEn: 'Alik Zapolnov'
+		},
 		{ roleUk: 'Афіша', roleEn: 'Poster & Graphic Design', namesUk: 'Анастасія Загородна', namesEn: 'Anastasiia Zahorodna' }
 	] satisfies UartCreditItem[],
 	teachers: [
@@ -148,9 +164,15 @@ export const UART_SECRETS_BOOKLET = {
 		{ roleUk: 'Сценрух', roleEn: 'Stage Movement', namesUk: 'Павло Примак', namesEn: 'Pavlo Prymak' },
 		{ roleUk: 'Сценмовлення', roleEn: 'Speech & Diction', namesUk: 'Тетяна Ісачкіна, Ірина Тільняк', namesEn: 'Tetiana Isachkina, Iryna Tilniak' }
 	] satisfies UartCreditItem[],
+	administrationNamesUk: 'Олена Ткач, Оксана Панченко, Наталія Шалашна',
+	administrationNamesEn: 'Olena Tkach, Oksana Panchenko, Nataliia Shalashna',
 	administration: [
-		{ roleUk: 'Адміністрація', roleEn: 'Administration', namesUk: 'Оксана Панченко, Наталія Шалашна', namesEn: 'Oksana Panchenko, Nataliia Shalashna' },
-		{ roleUk: 'Директор', roleEn: 'Director', namesUk: 'Олена Ткач', namesEn: 'Olena Tkach' }
+		{
+			roleUk: 'Адміністрація',
+			roleEn: 'Administration',
+			namesUk: 'Олена Ткач, Оксана Панченко, Наталія Шалашна',
+			namesEn: 'Olena Tkach, Oksana Panchenko, Nataliia Shalashna'
+		}
 	] satisfies UartCreditItem[]
 };
 

@@ -272,6 +272,11 @@
 			break-after: page !important;
 		}
 
+		:global(.sheet-fold-line),
+		:global(.fold-badge) {
+			display: none !important;
+		}
+
 		.sheets-wrapper--side1 .sheet-entry--side1 {
 			page-break-after: auto !important;
 			break-after: auto !important;

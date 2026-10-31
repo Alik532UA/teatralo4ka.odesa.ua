@@ -1,6 +1,6 @@
 import type { BrandAsset } from './types';
 
-export const THEATRE_PROJECT_ASSETS: BrandAsset[] = [
+export const UART_THEATRE_ASSETS: BrandAsset[] = [
 	{
 		id: 'uart-logo-light',
 		nameUk: 'Навчальний театр «UArt» (Світлий, квадрат)',
@@ -68,7 +68,10 @@ export const THEATRE_PROJECT_ASSETS: BrandAsset[] = [
 				sizeSpec: '1200×974 px'
 			}
 		]
-	},
+	}
+];
+
+export const PRO_TEATR_ASSETS: BrandAsset[] = [
 	{
 		id: 'pro-teatr-logo-light',
 		nameUk: 'ГО «PRO.ТЕАТР» (Світлий, квадрат)',
@@ -137,4 +140,9 @@ export const THEATRE_PROJECT_ASSETS: BrandAsset[] = [
 			}
 		]
 	}
+];
+
+export const THEATRE_PROJECT_ASSETS: BrandAsset[] = [
+	...UART_THEATRE_ASSETS,
+	...PRO_TEATR_ASSETS
 ];

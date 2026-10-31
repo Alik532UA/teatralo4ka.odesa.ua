@@ -128,9 +128,10 @@
 </script>
 
 <svelte:head>
+	<link rel="preload" href="/fonts/e-Ukraine-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
 	{#if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
 </svelte:head>
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={handleKeydown} onbeforeprint={() => void ensureFontsReady()} />
 
 <div class="posters-page" data-testid="posters-page-section">
 	<div class="container posters-container">

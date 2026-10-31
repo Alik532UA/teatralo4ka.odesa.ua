@@ -2,7 +2,8 @@
 	import { asset } from '$app/paths';
 	import { locale } from 'svelte-i18n';
 	import { Download } from 'lucide-svelte';
-	import { THEATRE_PROJECT_ASSETS } from '$lib/data/brandAssets';
+	import { UART_THEATRE_ASSETS, PRO_TEATR_ASSETS } from '$lib/data/brandAssets';
+	import type { BrandAsset } from '$lib/data/brandAssets';
 
 	interface Props {
 		testIdPrefix?: string;
@@ -13,64 +14,91 @@
 	const isEn = $derived($locale === 'en');
 </script>
 
-<div id="theatre-projects" class="sub-section" data-testid={`${testIdPrefix}-theatre-projects-section`}>
+{#snippet projectCard(item: BrandAsset)}
+	<div class="project-card" data-testid={`${testIdPrefix}-project-${item.id}-card`}>
+		<div class="project-preview" data-testid={`${testIdPrefix}-preview-${item.id}-panel`}>
+			<img
+				src={asset(item.previewUrl)}
+				alt={isEn ? item.nameEn : item.nameUk}
+				width="200"
+				height="200"
+				class="project-img"
+				class:project-img--transparent={item.id.includes('transparent')}
+				loading="lazy"
+				data-testid={`${testIdPrefix}-img-${item.id}`}
+			/>
+		</div>
+
+		<div class="project-meta">
+			<div class="meta-desc">
+				<strong class="project-title">{isEn ? item.nameEn : item.nameUk}</strong>
+				{#if item.descUk}
+					<span class="project-desc">{isEn ? item.descEn : item.descUk}</span>
+				{/if}
+			</div>
+
+			<div class="dl-buttons-row">
+				{#each item.downloads as dl (dl.file)}
+					<a
+						href={asset(dl.file)}
+						download={dl.downloadName}
+						class="dl-btn"
+						data-testid={`${testIdPrefix}-dl-${item.id}-btn`}
+					>
+						<Download size={13} aria-hidden="true" />
+						{#if dl.label.includes('(')}
+							{@const parts = dl.label.split('(')}
+							<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
+						{:else}
+							<span>{dl.label}</span>
+						{/if}
+					</a>
+				{/each}
+			</div>
+		</div>
+	</div>
+{/snippet}
+
+<!-- Проєкт 1: Навчальний театр «UArt» -->
+<div id="uart-theatre" class="sub-section" data-testid={`${testIdPrefix}-uart-theatre-section`}>
 	<div class="sub-header">
 		<div class="sub-title-group">
 			<h3 class="sub-title">
-				{isEn ? 'Theatre Projects: UArt & PRO.THEATRE' : 'Театральні проєкти: UArt та PRO.ТЕАТР'}
+				{isEn ? 'Educational Theatre "UArt"' : 'Навчальний театр «UArt»'}
 			</h3>
 			<p class="sub-desc">
 				{isEn
-					? 'Official square and transparent cut-out logos of the Educational Theatre "UArt" and NGO "PRO.THEATRE" in light and dark editions.'
-					: 'Офіційні квадратні та прозорі векторні логотипи Навчального театру «UArt» та ГО «PRO.ТЕАТР» у світлій та темній версіях.'}
+					? 'Official square and transparent cut-out logos of the Educational Theatre "UArt" in light and dark editions.'
+					: 'Офіційні квадратні та прозорі векторні логотипи Навчального театру «UArt» у світлій та темній версіях.'}
 			</p>
 		</div>
 	</div>
 
-	<div class="projects-grid" data-testid={`${testIdPrefix}-theatre-projects-list`}>
-		{#each THEATRE_PROJECT_ASSETS as item (item.id)}
-			<div class="project-card" data-testid={`${testIdPrefix}-project-${item.id}-card`}>
-				<div class="project-preview" data-testid={`${testIdPrefix}-preview-${item.id}-panel`}>
-					<img
-						src={asset(item.previewUrl)}
-						alt={isEn ? item.nameEn : item.nameUk}
-						width="200"
-						height="200"
-						class="project-img"
-						class:project-img--transparent={item.id.includes('transparent')}
-						loading="lazy"
-						data-testid={`${testIdPrefix}-img-${item.id}`}
-					/>
-				</div>
+	<div class="projects-grid" data-testid={`${testIdPrefix}-uart-theatre-list`}>
+		{#each UART_THEATRE_ASSETS as item (item.id)}
+			{@render projectCard(item)}
+		{/each}
+	</div>
+</div>
 
-				<div class="project-meta">
-					<div class="meta-desc">
-						<strong class="project-title">{isEn ? item.nameEn : item.nameUk}</strong>
-						{#if item.descUk}
-							<span class="project-desc">{isEn ? item.descEn : item.descUk}</span>
-						{/if}
-					</div>
+<!-- Проєкт 2: Громадська організація «PRO.ТЕАТР» -->
+<div id="pro-teatr" class="sub-section" data-testid={`${testIdPrefix}-pro-teatr-section`}>
+	<div class="sub-header">
+		<div class="sub-title-group">
+			<h3 class="sub-title">
+				{isEn ? 'NGO "PRO.THEATRE"' : 'Громадська організація «PRO.ТЕАТР»'}
+			</h3>
+			<p class="sub-desc">
+				{isEn
+					? 'Official square and transparent horizontal brandmarks of the NGO "PRO.THEATRE" in light and dark editions.'
+					: 'Офіційні квадратні та прозорі горизонтальні логотипи ГО «PRO.ТЕАТР» у світлій та темній версіях.'}
+			</p>
+		</div>
+	</div>
 
-					<div class="dl-buttons-row">
-						{#each item.downloads as dl (dl.file)}
-							<a
-								href={asset(dl.file)}
-								download={dl.downloadName}
-								class="dl-btn"
-								data-testid={`${testIdPrefix}-dl-${item.id}-btn`}
-							>
-								<Download size={13} aria-hidden="true" />
-								{#if dl.label.includes('(')}
-									{@const parts = dl.label.split('(')}
-									<span>{parts[0]}<span class="btn-res">({parts[1]}</span></span>
-								{:else}
-									<span>{dl.label}</span>
-								{/if}
-							</a>
-						{/each}
-					</div>
-				</div>
-			</div>
+	<div class="projects-grid" data-testid={`${testIdPrefix}-pro-teatr-list`}>
+		{#each PRO_TEATR_ASSETS as item (item.id)}
+			{@render projectCard(item)}
 		{/each}
 	</div>
 </div>
