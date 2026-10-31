@@ -232,7 +232,8 @@ export const DEFAULT_GALAXY_AWARD_THEME = 'galaxy-space';
 export const DEFAULT_UART_BOOKLET_THEME = 'uart-dark';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
-	{ id: 'uart-dark', nameUk: 'Темний театральний (Оригінал)', nameEn: 'Theatrical Dark (Original)', color: '#161217', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1'] },
+	{ id: 'uart-dark', nameUk: 'Темний театральний (#171118)', nameEn: 'Theatrical Dark (#171118)', color: '#171118', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1'] },
+	{ id: 'uart-black', nameUk: 'Глибокий чорний (#000000)', nameEn: 'Deep Black (#000000)', color: '#000000', forPosters: ['uart-secrets-a1'] },
 	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1'] },
 	{ id: 'galaxy-space', nameUk: 'Космічна ніч (Глибокий космос)', nameEn: 'Deep Space (Cosmic Night)', color: 'radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c122c 45%, #030712 100%)', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'galaxy-print-light', nameUk: 'Білий пергамент (Ощадний друк)', nameEn: 'White Parchment (Ink-saver Print)', color: '#ffffff', forPosters: ['galaxy-award-podiakova'] },

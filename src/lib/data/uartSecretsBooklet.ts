@@ -99,6 +99,10 @@ export const UART_SECRETS_BOOKLET = {
 	coverLeftImage: '/posters/stateve-vykhovannia-cover-left.webp',
 	coverRightImage: '/posters/stateve-vykhovannia-cover-right.webp',
 	a1ArtImage: '/posters/uart-secrets-a1-art.webp',
+	a1TitleImage: '/posters/uart-secrets-a1-title.webp',
+	a1LineupImage: '/posters/uart-secrets-a1-lineup.webp',
+	a1BottomImage: '/posters/uart-secrets-a1-bottom.webp',
+	concertUaQr: '/posters/concert-ua-qr.svg',
 	logos: [
 		{
 			id: 'uart',

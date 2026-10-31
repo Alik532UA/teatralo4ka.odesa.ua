@@ -749,8 +749,16 @@ const LIMITS: Array<[RegExp, number]> = [
  *   «Першовідкривачка Планети Творчості» для Софії Подьякової (перша анкета проєкту)
  *   у космічному стилі Галактики з орнаментальними золотими рамками, медальйоном-портретом,
  *   QR-кодом профілю та темами для фотодруку та ощадного принтера.
+ * 2026-10-31: Афіша A1 для вистави «Дуже багато SEкретів» навчального театру «UArt»
+ *   (модульні варіанти UartA1Variant1-3 по 475 SLOC, контейнер UartSecretsA1Poster 325 SLOC
+ *   та дворівневий перемикач сезонів/афіш у routes/posters/+page.svelte 480 SLOC).
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/uart-a1/UartA1Variant1.svelte': 475,
+	'src/lib/components/posters/uart-a1/UartA1Variant2.svelte': 475,
+	'src/lib/components/posters/uart-a1/UartA1Variant3.svelte': 475,
+	'src/lib/components/posters/UartSecretsA1Poster.svelte': 325,
+	'src/routes/posters/+page.svelte': 480,
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,

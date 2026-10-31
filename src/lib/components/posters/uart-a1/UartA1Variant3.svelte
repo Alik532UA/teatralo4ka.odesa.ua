@@ -5,6 +5,7 @@
 	interface Props {
 		isEn?: boolean;
 		isLight?: boolean;
+		bgVariant?: 'black' | 'theatre';
 		schoolLogoVariant?: 'crest' | 'logo2026';
 		onToggleLogo?: () => void;
 	}
@@ -12,6 +13,7 @@
 	let {
 		isEn = false,
 		isLight = false,
+		bgVariant = 'black',
 		schoolLogoVariant = 'crest',
 		onToggleLogo
 	}: Props = $props();
@@ -20,168 +22,158 @@
 </script>
 
 <article
-	class="a1-sheet variant-3"
+	class="a1-sheet variant-3 theme-red"
+	class:a1-sheet--theatre={bgVariant === 'theatre'}
 	class:a1-sheet--light={isLight}
 	data-testid="uart-a1-variant3-card"
-	aria-label={isEn ? 'A1 Poster Variant 3: Avant-Garde Construct' : 'Афіша A1 Варіант 3: Авангардний модерн'}
+	aria-label={isEn ? 'A1 Poster: Red (Modern)' : 'Афіша A1: Авангардний модерн (червоний)'}
 >
-	<!-- Зображення на 100% площі всієї афіші A1 -->
-	<img
-		src={asset(data.a1ArtImage)}
-		alt={isEn ? 'Too Many Secrets title artwork' : 'Художня афіша «Дуже багато SEкретів»'}
-		class="full-bleed-art"
-		width="1792"
-		height="2400"
-		loading="eager"
-		decoding="async"
-	/>
-	<div class="art-scrim" aria-hidden="true"></div>
+	<div class="sheet-canvas">
+		<!-- 1. ВЕРХНЯ ШАПКА: по центру -->
+		<header class="top-header-center">
+			<p class="dept-line">{isEn ? data.presentersEn[0] : data.presentersUk[0]}</p>
 
-	<div class="sheet-frame">
-		<!-- Шапка: асиметричний лого-блок та велика плашка дати і часу премʼєри -->
-		<header class="avant-top">
-			<div class="brand-side">
-				<div class="brand-logos">
+			<!-- Три логотипи по центру: 1) Театральна школа, 2) PRO.ТЕАТР, 3) UArt -->
+			<div class="partner-logos-center">
+				<button
+					type="button"
+					class="logo-switch-btn"
+					onclick={onToggleLogo}
+					disabled={!onToggleLogo}
+					data-testid="uart-a1-v3-logo-toggle-btn"
+					title={onToggleLogo ? (isEn ? 'Switch logo' : 'Змінити логотип школи') : undefined}
+				>
 					<img
-						src={asset('/posters/uart-logo-dark.webp')}
-						alt={isEn ? 'Educational Theatre UArt' : 'Навчальний театр «UArt»'}
-						class="av-logo"
-						width="600" height="493" loading="eager" decoding="async"
+						src={asset(schoolLogoVariant === 'logo2026' ? '/logo/svg/t4_logo_2026.svg' : '/posters/teatralo4ka-crest-dark.svg')}
+						alt={isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}
+						class="p-logo"
+						width="450"
+						height="450"
+						loading="eager"
+						decoding="async"
 					/>
-					<button
-						type="button"
-						class="logo-action-btn"
-						onclick={onToggleLogo}
-						disabled={!onToggleLogo}
-						data-testid="uart-a1-v3-logo-toggle-btn"
-						title={onToggleLogo ? (isEn ? 'Switch logo' : 'Змінити логотип') : undefined}
-					>
-						<img
-							src={asset(schoolLogoVariant === 'logo2026' ? '/logo/svg/t4_logo_2026.svg' : '/posters/teatralo4ka-crest-dark.svg')}
-							alt={isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}
-							class="av-logo"
-							width="450" height="450" loading="eager" decoding="async"
-						/>
-					</button>
-					<img
-						src={asset('/posters/pro-teatr-logo-dark.webp')}
-						alt={isEn ? 'NGO PRO.THEATRE' : 'ГО «PRO.ТЕАТР»'}
-						class="av-logo av-logo--pro"
-						width="800" height="89" loading="eager" decoding="async"
-					/>
-				</div>
-				<div class="pres-lines">
-					<p class="pres-l1">{isEn ? data.presentersEn[0] : data.presentersUk[0]}</p>
-					<p class="pres-l2">
-						{isEn
-							? `${data.presentersEn[1]} · ${data.presentersEn[2]} · ${data.presentersEn[3]}`
-							: `${data.presentersUk[1]} · ${data.presentersUk[2]} · ${data.presentersUk[3]}`}
-					</p>
-				</div>
+				</button>
+
+				<img
+					src={asset('/posters/pro-teatr-logo-dark.webp')}
+					alt={isEn ? 'NGO PRO.THEATRE' : 'ГО «PRO.ТЕАТР»'}
+					class="p-logo p-logo--pro"
+					width="800"
+					height="89"
+					loading="eager"
+					decoding="async"
+				/>
+
+				<img
+					src={asset('/posters/uart-logo-dark.webp')}
+					alt={isEn ? 'Educational Theatre UArt' : 'Навчальний театр «UArt»'}
+					class="p-logo"
+					width="600"
+					height="493"
+					loading="eager"
+					decoding="async"
+				/>
 			</div>
 
-			<div class="avant-date-chip">
-				<span class="chip-kicker">{isEn ? 'PREMIERE' : 'ПРЕМ’ЄРА'}</span>
-				<span class="chip-main-date">{isEn ? `7 NOV · ${data.premiereTime}` : `7 ЛИСТОПАДА · ${data.premiereTime}`}</span>
-				<div class="chip-tags">
-					<span class="tag-y">2026</span>
-					<span class="tag-a">{data.ageBadge}</span>
-					<span class="tag-d">{data.durationUk}</span>
-				</div>
-			</div>
+			<p class="theatre-headline">{isEn ? data.theatreEn : data.theatreUk}</p>
 		</header>
 
-		<!-- Простір для назви та 8 портретів з зображення -->
-		<div class="art-hero-spacer" aria-hidden="true"></div>
-
-		<!-- Титр режисера та автора в модерному стилі -->
-		<section class="avant-director-strip">
-			<div class="dir-accent-box">
-				<h1 class="dir-heading">{isEn ? data.directorEn : data.directorUk}</h1>
-				<p class="dir-subheading">
-					{#if isEn}
-						Based on the play by Nina Zakhozhenko and co-authors <span class="txt-hl">“Sex Education”</span>
-					{:else}
-						за п’єсою Ніни Захоженко та співавторок <span class="txt-hl">«Статеве виховання»</span>
-					{/if}
-				</p>
-			</div>
+		<!-- 2. НАЗВА ВИСТАВИ: по центру на ~55% ширини з повітрям -->
+		<section class="title-section-center">
+			<img
+				src={asset(data.a1TitleImage)}
+				alt={isEn ? 'Too Many Secrets title' : 'Назва: «Дуже багато SEкретів»'}
+				class="title-img-50"
+				width="1136"
+				height="698"
+				loading="eager"
+				decoding="async"
+			/>
 		</section>
 
-		<!-- Конструктивистська сітка карток -->
-		<main class="cards-grid">
-			<section class="grid-card cast-panel">
-				<h2 class="panel-header">{isEn ? 'Cast & Performers:' : 'Дійові особи та виконавці:'}</h2>
-				<ul class="clean-ul" role="list">
-					{#each data.cast as item, idx (idx)}
-						{#if item.characterUk.includes('\n')}
-							{@const lines = (isEn ? item.characterEn : item.characterUk).split('\n')}
-							<li class="c-line c-line--two">
-								<div class="c-sub1"><span class="role-t">{lines[0]}</span></div>
-								<div class="c-sub2">
-									<span class="role-t">{lines[1]}</span>
-									<span class="dot-spacer" aria-hidden="true"></span>
-									<span class="actor-t">{isEn ? item.actorEn : item.actorUk}</span>
-								</div>
-							</li>
-						{:else}
-							<li class="c-line">
-								<span class="role-t">{isEn ? item.characterEn : item.characterUk}</span>
-								<span class="dot-spacer" aria-hidden="true"></span>
-								<span class="actor-t">{isEn ? item.actorEn : item.actorUk}</span>
-							</li>
-						{/if}
-					{/each}
-				</ul>
-			</section>
-
-			<section class="grid-card team-panel">
-				<div class="sec-unit">
-					<h2 class="panel-header">{isEn ? 'Production Team:' : 'Постановники та команда:'}</h2>
-					<ul class="clean-ul" role="list">
-						{#each data.crew as item, idx (idx)}
-							{@const names = (isEn ? item.namesEn : item.namesUk).split('\n')}
-							<li class="team-bullet">
-								<span class="role-lead">{isEn ? item.roleEn : item.roleUk} –</span>
-								<span class="name-lead">{names.join(', ')}</span>
-							</li>
-						{/each}
-					</ul>
-				</div>
-
-				<div class="sec-unit">
-					<h3 class="panel-sub-header">{isEn ? 'Pedagogical Faculty:' : 'Педагоги:'}</h3>
-					<ul class="clean-ul" role="list">
-						{#each data.teachers as item, idx (idx)}
-							<li class="team-bullet">
-								<span class="role-lead">{isEn ? item.roleEn : item.roleUk} –</span>
-								<span class="name-lead">{isEn ? item.namesEn : item.namesUk}</span>
-							</li>
-						{/each}
-					</ul>
-				</div>
-
-				<div class="sec-unit">
-					<h3 class="panel-sub-header">{isEn ? 'Administration:' : 'Адміністрація:'}</h3>
-					<p class="admin-txt">{isEn ? data.administrationNamesEn : data.administrationNamesUk}</p>
-				</div>
-			</section>
-		</main>
-
-		<!-- Підвал з художнім керівником -->
-		<footer class="avant-footer">
-			<div class="theatre-badge-btm">
-				<span class="badge-theatre-name">{isEn ? data.theatreEn : data.theatreUk}</span>
-			</div>
-			<p class="dir-sign-off">
-				{isEn ? data.artisticDirectorEn : data.artisticDirectorUk}
+		<!-- 3. КРЕДИТИ: над обличчями, під назвою (пʼєса, а під нею режисер) -->
+		<section class="credits-strip-center">
+			<p class="author-line">
+				{#if isEn}
+					Based on the play by Nina Zakhozhenko and co-authors <span class="play-hl">“Sex Education”</span>
+				{:else}
+					за п’єсою Ніни Захоженко та співавторок <span class="play-hl">«Статеве виховання»</span>
+				{/if}
 			</p>
+			<h1 class="director-line">{isEn ? data.directorEn : data.directorUk}</h1>
+		</section>
+
+		<!-- 4. ПОРТРЕТИ: по центру на 95% ширини афіші (опущені нижче для балансу композиції) -->
+		<section class="lineup-section-center">
+			<img
+				src={asset(data.a1LineupImage)}
+				alt={isEn ? 'Cast portraits lineup' : 'Портрети акторського складу вистави'}
+				class="lineup-img-95"
+				width="1674"
+				height="841"
+				loading="eager"
+				decoding="async"
+			/>
+		</section>
+
+		<!-- Віковий ценз: по центру під обличчями -->
+		<div class="age-badge-center">
+			<span class="ev-pill-age">{data.ageBadge}</span>
+		</div>
+
+		<!-- 5. НИЖНЯ ЧАСТИНА: QR та дата/час у вільному просторі під обличчями, M на нижньому краї -->
+		<footer class="bottom-container">
+			<!-- Нижня ліва частина: Concert.ua QR у вільному просторі (не в самому куті) -->
+			<div class="bottom-left-qr">
+				<div class="qr-box">
+					<img
+						src={asset(data.concertUaQr)}
+						alt={isEn ? 'Tickets on Concert.ua' : 'Квитки на Concert.ua'}
+						class="qr-code-img"
+						width="1000"
+						height="1000"
+						loading="eager"
+						decoding="async"
+					/>
+					<span class="qr-caption">{isEn ? 'TICKETS ON CONCERT.UA' : 'КВИТКИ НА CONCERT.UA'}</span>
+				</div>
+			</div>
+
+			<!-- В самому низу афіші: силует M впритул до нижнього краю без відступу -->
+			<div class="bottom-center-graphic">
+				<img
+					src={asset(data.a1BottomImage)}
+					alt=""
+					class="bottom-img-m"
+					width="575"
+					height="627"
+					loading="eager"
+					decoding="async"
+				/>
+			</div>
+
+			<!-- Нижня права частина: дата, час, тривалість у вільному просторі -->
+			<div class="bottom-right-details">
+				<div class="ev-date-card">
+					<span class="ev-date-text">7.11</span>
+				</div>
+				<div class="ev-time-card">
+					<span class="ev-time-text">{data.premiereTime}</span>
+				</div>
+				<div class="ev-dur-card">
+					<span class="ev-pill-dur">{isEn ? data.durationEn : data.durationUk}</span>
+				</div>
+			</div>
 		</footer>
 	</div>
 </article>
 
 <style>
 	.a1-sheet {
+		--accent-color: #ef4444;
+		--accent-border: rgba(239, 68, 68, 0.65);
+		--accent-glow: rgba(239, 68, 68, 0.16);
+
 		box-sizing: border-box;
 		position: relative;
 		width: 100%;
@@ -192,124 +184,364 @@
 		font-family: 'e-Ukraine', var(--font-body), sans-serif;
 		container-type: inline-size;
 		overflow: hidden;
+		transition: background-color 0.25s ease;
+		-webkit-print-color-adjust: exact !important;
+		print-color-adjust: exact !important;
 	}
-	.a1-sheet--light { color: #111827; }
 
-	.full-bleed-art {
-		position: absolute;
-		inset: 0;
+	.a1-sheet.a1-sheet--theatre {
+		background: #171118;
+	}
+
+	@media print {
+		.a1-sheet,
+		.a1-sheet * {
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
+			box-shadow: none !important;
+			text-shadow: none !important;
+			filter: none !important;
+		}
+
+		.a1-sheet {
+			background: #000000 !important;
+			color: #ffffff !important;
+			height: 100% !important;
+			max-height: 100dvh !important;
+			width: auto !important;
+			max-width: 100vw !important;
+			aspect-ratio: 594 / 841 !important;
+			margin: 0 auto !important;
+			border: none !important;
+			overflow: hidden !important;
+			page-break-inside: avoid !important;
+			break-inside: avoid !important;
+			page-break-after: avoid !important;
+			break-after: avoid !important;
+		}
+
+		.a1-sheet.a1-sheet--theatre {
+			background: #171118 !important;
+		}
+
+		.qr-box,
+		.ev-date-card,
+		.ev-time-card,
+		.ev-dur-card,
+		.ev-pill-age,
+		.ev-pill-dur {
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
+			box-shadow: none !important;
+		}
+	}
+
+	.a1-sheet--light {
+		background: #09090e;
+		color: #ffffff;
+	}
+
+	.sheet-canvas {
+		box-sizing: border-box;
+		position: relative;
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
-		object-position: top center;
-		z-index: 0;
+		padding: 3.2cqi 3cqi 0;
+		text-align: center;
+	}
+
+	/* 1. Верхня шапка: по центру */
+	.top-header-center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.9cqi;
+		width: 100%;
+		margin-bottom: 0.8cqi;
+	}
+
+	.dept-line {
+		margin: 0;
+		font-size: 1.12cqi;
+		color: #e2e8f0;
+		font-weight: 500;
+		line-height: 1.35;
+		max-width: 85cqi;
+	}
+
+	.partner-logos-center {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 2.6cqi;
+		height: 4.4cqi;
+		margin: 0.3cqi 0;
+	}
+
+	.p-logo {
+		height: 100%;
+		width: auto;
+		object-fit: contain;
+	}
+
+	.p-logo--pro {
+		max-width: 15.5cqi;
+	}
+
+	.logo-switch-btn {
+		background: none;
+		border: none;
+		padding: 0;
+		height: 100%;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		transition: opacity 0.15s ease;
+	}
+	.logo-switch-btn:hover {
+		opacity: 0.8;
+	}
+
+	.theatre-headline {
+		margin: 0;
+		font-size: 1.5cqi;
+		font-weight: 800;
+		color: var(--accent-color);
+		letter-spacing: 0.04em;
+	}
+
+	/* 2. Назва вистави: по центру на ~55% ширини з повітрям перед кредитами */
+	.title-section-center {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 2.2cqi 0 1.8cqi;
+	}
+
+	.title-img-50 {
+		width: 55cqi;
+		max-width: 55%;
+		height: auto;
+		object-fit: contain;
 		display: block;
 	}
 
-	.art-scrim {
+	/* 3. Кредити: над обличчями, під назвою (автор, під ним режисер) */
+	.credits-strip-center {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.8cqi;
+		width: 100%;
+		max-width: 90cqi;
+		margin: 1.4cqi auto 3.8cqi;
+	}
+
+	.author-line {
+		margin: 0;
+		font-size: 1.45cqi;
+		color: #ffffff;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+	}
+
+	.play-hl {
+		font-weight: 700;
+		color: var(--accent-color);
+	}
+
+	.director-line {
+		margin: 0;
+		font-size: 2.35cqi;
+		font-weight: 900;
+		letter-spacing: 0.06em;
+		color: var(--accent-color);
+		text-transform: uppercase;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+	}
+
+	/* 4. Портрети: по центру на 95% ширини афіші (опущені нижче) */
+	.lineup-section-center {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin: 0 0 1.2cqi;
+	}
+
+	.lineup-img-95 {
+		width: 95cqi;
+		max-width: 95%;
+		height: auto;
+		object-fit: contain;
+		display: block;
+		border-radius: 0.7cqi;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+	}
+
+	/* Віковий ценз: по центру прямо під обличчями (з комфортним відступом) */
+	.age-badge-center {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		margin: 1.6cqi 0 0.8cqi;
+		z-index: 2;
+	}
+
+	.ev-pill-age {
+		background: #dc2626;
+		color: #ffffff;
+		padding: 0.55cqi 1.95cqi;
+		border-radius: 1.2cqi;
+		font-weight: 900;
+		font-size: 2.1cqi;
+		letter-spacing: 0.04em;
+		box-shadow: 0 4px 14px rgba(220, 38, 38, 0.45);
+	}
+
+	/* 5. Нижня частина: вільний простір під обличчями */
+	.bottom-container {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		flex: 1;
+		margin: 0;
+		padding: 0 6cqi 1cqi;
+		box-sizing: border-box;
+	}
+
+	/* Нижня ліва частина: Concert.ua QR у вільному просторі (не в самому куті) */
+	.bottom-left-qr {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		margin-bottom: 1.5cqi;
+	}
+
+	.qr-box {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75cqi;
+		background: rgba(18, 14, 22, 0.92);
+		border: 0.3cqi solid var(--accent-border);
+		border-radius: 1.7cqi;
+		padding: 0.95cqi;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75), 0 0 16px var(--accent-glow);
+	}
+
+	.qr-code-img {
+		width: 16.5cqi;
+		height: 16.5cqi;
+		border-radius: 1cqi;
+		display: block;
+	}
+
+	.qr-caption {
+		font-size: 1.1cqi;
+		font-weight: 800;
+		color: var(--accent-color);
+		letter-spacing: 0.04em;
+		text-align: center;
+		white-space: nowrap;
+	}
+
+	/* В самому низу афіші: M впритул до нижнього краю без проміжку */
+	.bottom-center-graphic {
 		position: absolute;
-		inset: 0;
-		background: linear-gradient(
-			180deg,
-			rgba(0, 0, 0, 0.72) 0%,
-			transparent 14%,
-			transparent 45%,
-			rgba(0, 0, 0, 0.85) 58%,
-			rgba(0, 0, 0, 0.98) 100%
-		);
+		bottom: 0;
+		left: 50%;
+		transform: translateX(-50%);
 		z-index: 1;
+		display: block;
+		line-height: 0;
+		margin: 0;
+		padding: 0;
 		pointer-events: none;
 	}
 
-	.sheet-frame {
+	.bottom-img-m {
+		height: 24cqi;
+		width: auto;
+		max-height: 25cqi;
+		object-fit: contain;
+		display: block;
+		margin: 0;
+		padding: 0;
+		filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.9));
+	}
+
+	/* Нижня права частина: дата, час, вік, тривалість у вільному просторі (не в самому куті) */
+	.bottom-right-details {
 		position: relative;
 		z-index: 2;
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		height: 100%;
+		align-items: flex-end;
+		gap: 0.95cqi;
+		margin-bottom: 1.5cqi;
+	}
+
+	.ev-date-card {
+		background: rgba(16, 12, 20, 0.92);
+		border: 0.3cqi solid var(--accent-border);
+		border-radius: 1.7cqi;
+		padding: 0.65cqi 3.3cqi;
+		min-width: 17cqi;
 		box-sizing: border-box;
-		padding: 2.2cqi 3cqi 2cqi;
-	}
-
-	.avant-top {
 		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		gap: 2cqi;
-		background: rgba(0, 0, 0, 0.8);
-		backdrop-filter: blur(8px);
-		border: 1.5px solid rgba(255, 237, 0, 0.4);
-		border-radius: 12px;
-		padding: 0.8cqi 1.6cqi;
-	}
-	.brand-side { display: flex; flex-direction: column; gap: 0.4cqi; }
-	.brand-logos { display: flex; align-items: center; gap: 2.4cqi; height: 3.2cqi; }
-	.av-logo { height: 100%; width: auto; object-fit: contain; }
-	.av-logo--pro { max-width: 16cqi; }
-	.logo-action-btn { background: none; border: none; padding: 0; height: 100%; cursor: pointer; display: flex; align-items: center; }
-
-	.pres-lines { line-height: 1.25; }
-	.pres-l1 { margin: 0; font-size: 1.05cqi; color: #cbd5e1; }
-	.pres-l2 { margin: 0.15cqi 0 0; font-size: 1.05cqi; font-weight: 700; color: #ffed00; }
-
-	.avant-date-chip {
-		display: flex; flex-direction: column; align-items: flex-end; justify-content: center;
-		background: #dc2626; color: #ffffff; padding: 0.6cqi 1.4cqi; border-radius: 8px; text-align: right;
-	}
-	.chip-kicker { font-size: 1.1cqi; font-weight: 800; color: #fef08a; letter-spacing: 0.08em; }
-	.chip-main-date { font-size: 1.85cqi; font-weight: 900; letter-spacing: 0.04em; white-space: nowrap; }
-	.chip-tags { display: flex; align-items: center; gap: 0.5cqi; margin-top: 0.2cqi; font-size: 1.15cqi; font-weight: 700; }
-	.tag-a { background: #000000; color: #ffffff; padding: 0.1cqi 0.5cqi; border-radius: 4px; font-weight: 900; }
-
-	.art-hero-spacer { height: 44cqi; flex-shrink: 0; }
-
-	.avant-director-strip { margin-bottom: 0.6cqi; }
-	.dir-accent-box {
-		text-align: center; padding: 0.8cqi 1cqi;
-		background: rgba(0, 0, 0, 0.72); backdrop-filter: blur(8px);
-		border-radius: 8px; border-left: 4px solid #ffed00;
-	}
-	.dir-heading { margin: 0; font-size: 2.25cqi; font-weight: 900; letter-spacing: 0.06em; color: #ffed00; text-transform: uppercase; }
-	.dir-subheading { margin: 0.3cqi 0 0; font-size: 1.5cqi; color: #ffffff; font-weight: 500; }
-	.txt-hl { font-weight: 700; color: #ffed00; }
-
-	.cards-grid {
-		display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 2.6cqi;
-		background: rgba(5, 3, 6, 0.8); backdrop-filter: blur(14px);
-		border: 1.5px solid rgba(255, 237, 0, 0.35); border-radius: 12px;
-		padding: 1.5cqi 1.8cqi; margin: 0.4cqi 0; flex: 1 1 auto; align-items: start;
-	}
-	.grid-card { display: flex; flex-direction: column; gap: 1cqi; }
-	.panel-header {
-		margin: 0 0 0.35cqi; font-size: 1.6cqi; font-weight: 800; letter-spacing: 0.04em; color: #ffed00; text-transform: uppercase;
-		border-bottom: 2px solid rgba(255, 237, 0, 0.3); padding-bottom: 0.3cqi;
-	}
-	.panel-sub-header {
-		margin: 0.6cqi 0 0.25cqi; font-size: 1.4cqi; font-weight: 800; color: #ffed00; text-transform: uppercase;
-		border-bottom: 1.5px solid rgba(255, 237, 0, 0.2); padding-bottom: 0.2cqi;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 16px var(--accent-glow);
 	}
 
-	.clean-ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6cqi; }
-	.c-line { display: flex; align-items: baseline; font-size: 1.45cqi; line-height: 1.35; }
-	.role-t { font-style: italic; color: #cbd5e1; white-space: nowrap; }
-	.dot-spacer { flex: 1; border-bottom: 1.5px dotted rgba(255, 255, 255, 0.35); margin: 0 0.6cqi; transform: translateY(-0.3em); }
-	.actor-t { font-weight: 700; color: #ffffff; white-space: nowrap; }
-	.c-line--two { flex-direction: column; gap: 0.15cqi; }
-	.c-sub2 { display: flex; align-items: baseline; width: 100%; }
-
-	.sec-unit { display: flex; flex-direction: column; }
-	.team-bullet { font-size: 1.4cqi; line-height: 1.35; margin-bottom: 0.35cqi; }
-	.role-lead { font-weight: 700; color: #e2e8f0; }
-	.name-lead { font-weight: 500; color: #ffffff; }
-	.admin-txt { margin: 0; font-size: 1.4cqi; }
-
-	.avant-footer {
-		display: flex; align-items: center; justify-content: space-between;
-		background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
-		border-radius: 10px; border: 1.5px solid rgba(255, 237, 0, 0.3);
-		padding: 0.7cqi 1.4cqi; margin-top: 0.4cqi;
+	.ev-date-text {
+		font-size: 3.45cqi;
+		font-weight: 900;
+		letter-spacing: 0.04em;
+		color: #ffffff;
+		white-space: nowrap;
 	}
-	.badge-theatre-name { font-weight: 800; font-size: 1.35cqi; color: #ffed00; letter-spacing: 0.04em; }
-	.dir-sign-off { margin: 0; font-size: 1.35cqi; font-weight: 700; color: #e2e8f0; }
+
+	.ev-time-card {
+		background: rgba(16, 12, 20, 0.92);
+		border: 0.3cqi solid var(--accent-border);
+		border-radius: 1.7cqi;
+		padding: 0.65cqi 3.3cqi;
+		min-width: 17cqi;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 16px var(--accent-glow);
+	}
+
+	.ev-time-text {
+		font-size: 3.45cqi;
+		font-weight: 900;
+		color: var(--accent-color);
+		letter-spacing: 0.03em;
+		white-space: nowrap;
+	}
+
+	.ev-dur-card {
+		display: flex;
+		align-items: center;
+	}
+
+	.ev-pill-dur {
+		background: rgba(28, 24, 34, 0.9);
+		color: #cbd5e1;
+		border: 0.25cqi solid var(--accent-border);
+		padding: 0.55cqi 1.95cqi;
+		border-radius: 1.05cqi;
+		font-weight: 800;
+		font-size: 1.7cqi;
+		white-space: nowrap;
+	}
 </style>

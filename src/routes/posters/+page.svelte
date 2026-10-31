@@ -24,12 +24,18 @@
 	import UartSecretsA1Poster from '$lib/components/posters/UartSecretsA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
-	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
+	import { Printer, Expand, Shrink, Sparkles, LayoutList, Calendar } from 'lucide-svelte';
 
 	const lang = $derived($locale === 'en' ? 'en' : 'uk');
 	const isEn = $derived(lang === 'en');
 
 	let activePoster = $state<PosterId>(POSTERS_LIST[0].id);
+	let activeSeasonId = $state<string>(
+		POSTER_GROUPS.find((g) => g.ids.includes(POSTERS_LIST[0].id))?.id ?? POSTER_GROUPS[0].id
+	);
+	const activeGroup = $derived(
+		POSTER_GROUPS.find((g) => g.id === activeSeasonId) ?? POSTER_GROUPS[0]
+	);
 	let selectedTheme = $state<string>(
 		POSTERS_LIST[0].id === 'defenders-hearts' ? DEFAULT_DEFENDERS_THEME : DEFAULT_POSTER_THEME
 	);
@@ -40,6 +46,8 @@
 		const param = page.url.searchParams.get('poster') as PosterId | null;
 		if (param && POSTERS_LIST.some((p) => p.id === param)) {
 			activePoster = param;
+			const group = POSTER_GROUPS.find((g) => g.ids.includes(param));
+			if (group) activeSeasonId = group.id;
 		}
 		const themeParam = page.url.searchParams.get('theme');
 		if (themeParam) selectedTheme = themeParam;
@@ -48,8 +56,22 @@
 		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 	});
 
+	function selectSeason(groupId: string) {
+		activeSeasonId = groupId;
+		const group = POSTER_GROUPS.find((g) => g.id === groupId);
+		if (group && group.ids.length > 0) {
+			if (!group.ids.includes(activePoster)) {
+				selectPoster(group.ids[0]);
+			}
+		}
+	}
+
 	function selectPoster(id: PosterId) {
 		activePoster = id;
+		const foundGroup = POSTER_GROUPS.find((g) => g.ids.includes(id));
+		if (foundGroup && foundGroup.id !== activeSeasonId) {
+			activeSeasonId = foundGroup.id;
+		}
 		const nextUrl = new URL(window.location.href);
 		nextUrl.searchParams.set('poster', id);
 		if (id === 'defenders-hearts' && selectedTheme === DEFAULT_POSTER_THEME) {
@@ -130,7 +152,7 @@
 
 <svelte:head>
 	<link rel="preload" href="/fonts/e-Ukraine-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-	{#if activePoster === 'uart-secrets-a1'}<style>@page { size: A1 portrait; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
+	{#if activePoster === 'uart-secrets-a1'}<style>@page { size: auto; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} onbeforeprint={() => void ensureFontsReady()} />
 
@@ -155,35 +177,55 @@
 
 			<!-- Панель дій та вкладок -->
 			<div class="posters-toolbar" data-testid="posters-toolbar">
-				<!-- Перемикач афіш по роках та категоріях -->
-				<div class="poster-groups-container" role="tablist" aria-label={isEn ? 'Choose poster' : 'Оберіть афішу'}>
-					{#each POSTER_GROUPS as group (group.id)}
-						<div class="poster-group-cluster">
-							<span class="poster-group-label">{isEn ? group.titleEn : group.titleUk}</span>
-							<div class="poster-group-tabs">
-								{#each group.ids as pid (pid)}
-									{@const item = POSTERS_LIST.find((p) => p.id === pid)}
-									{#if item}
-										<button
-											type="button"
-											role="tab"
-											aria-selected={activePoster === item.id}
-											class="tab-btn"
-											class:tab-btn--active={activePoster === item.id}
-											onclick={() => selectPoster(item.id)}
-											data-testid={`poster-tab-${item.id}-btn`}
-										>
-											<LayoutList size={14} aria-hidden="true" />
-											<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
-											{#if item.dateBadgeUk}
-												<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
-											{/if}
-										</button>
-									{/if}
-								{/each}
-							</div>
+				<!-- Дворівнева панель перемикання: 1) Сезони/Категорії, 2) Афіші активного сезону -->
+				<div class="poster-nav-wrapper">
+					<!-- Рівень 1: Вибір сезону / року -->
+					<div class="season-row" role="tablist" aria-label={isEn ? 'Choose season' : 'Оберіть навчальний рік або категорію'}>
+						<span class="nav-section-title">{isEn ? 'Season:' : 'Сезон:'}</span>
+						<div class="season-tabs">
+							{#each POSTER_GROUPS as group (group.id)}
+								<button
+									type="button"
+									role="tab"
+									aria-selected={activeSeasonId === group.id}
+									class="season-tab-btn"
+									class:season-tab-btn--active={activeSeasonId === group.id}
+									onclick={() => selectSeason(group.id)}
+									data-testid={`season-tab-${group.id}-btn`}
+								>
+									<Calendar size={13} aria-hidden="true" />
+									<span class="season-label">{isEn ? group.titleEn : group.titleUk}</span>
+									<span class="season-count">{group.ids.length}</span>
+								</button>
+							{/each}
 						</div>
-					{/each}
+					</div>
+
+					<!-- Рівень 2: Афіші обраного сезону -->
+					{#if activeGroup}
+						<div class="poster-subtabs" role="tablist" aria-label={isEn ? 'Posters in active season' : 'Афіші обраного сезону'}>
+							{#each activeGroup.ids as pid (pid)}
+								{@const item = POSTERS_LIST.find((p) => p.id === pid)}
+								{#if item}
+									<button
+										type="button"
+										role="tab"
+										aria-selected={activePoster === item.id}
+										class="tab-btn"
+										class:tab-btn--active={activePoster === item.id}
+										onclick={() => selectPoster(item.id)}
+										data-testid={`poster-tab-${item.id}-btn`}
+									>
+										<LayoutList size={14} aria-hidden="true" />
+										<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
+										{#if item.dateBadgeUk}
+											<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
+										{/if}
+									</button>
+								{/if}
+							{/each}
+						</div>
+					{/if}
 				</div>
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
@@ -332,10 +374,106 @@
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 	}
 
-	.poster-groups-container { display: flex; flex-direction: column; gap: 8px; flex: 1 1 580px; }
-	.poster-group-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-	.poster-group-label { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-text, #b45309); background: rgba(0, 0, 0, 0.04); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
-	.poster-group-tabs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+	.poster-nav-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1 1 580px;
+		min-width: 0;
+	}
+
+	.season-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	.nav-section-title {
+		font-size: 0.74rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-muted);
+		padding: 2px 0;
+	}
+
+	.season-tabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		align-items: center;
+	}
+
+	.season-tab-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 4px 10px;
+		border-radius: 9px;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--text-muted);
+		background: var(--bg-surface);
+		border: 1px solid var(--color-border);
+		cursor: pointer;
+		transition: all 0.15s ease;
+	}
+
+	.season-tab-btn:hover {
+		color: var(--text-title);
+		background: color-mix(in srgb, var(--bg-surface), var(--text-main) 8%);
+		border-color: var(--color-border);
+	}
+
+	.season-tab-btn--active {
+		color: var(--text-title);
+		background: var(--bg-card);
+		border-color: var(--accent-text, #00b5ec);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+	}
+
+	.season-label {
+		white-space: nowrap;
+	}
+
+	.season-count {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 17px;
+		height: 17px;
+		padding: 0 4px;
+		border-radius: 9px;
+		font-size: 0.7rem;
+		font-weight: 800;
+		background: rgba(0, 0, 0, 0.08);
+		color: var(--text-muted);
+	}
+
+	.season-tab-btn--active .season-count {
+		background: #111827;
+		color: #ffffff;
+	}
+
+	:global(.theme-dark) .season-count,
+	:global(.theme-dim) .season-count {
+		background: rgba(255, 255, 255, 0.12);
+		color: var(--text-main);
+	}
+
+	:global(.theme-dark) .season-tab-btn--active .season-count,
+	:global(.theme-dim) .season-tab-btn--active .season-count {
+		background: #ffed00;
+		color: #111827;
+	}
+
+	.poster-subtabs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		align-items: center;
+	}
 
 	.tab-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); background: transparent; border: 1px solid transparent; cursor: pointer; transition: all 0.18s ease; }
 	.tab-btn:hover { background: color-mix(in srgb, var(--bg-surface), var(--text-main) 8%); }
@@ -374,8 +512,29 @@
 		:global(.endless-runway), :global(#app-splash), :global(#app-splash-curtains),
 		.posters-header { display: none !important; }
 
+		:global(body),
+		:global(html) {
+			height: 100% !important;
+			max-height: 100% !important;
+			overflow: hidden !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
+		}
+
 		:global(.app), :global(main#main-content), .posters-page, .posters-container, .poster-viewport {
-			min-height: 0 !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: none !important; box-shadow: none !important;
+			min-height: 0 !important;
+			height: 100% !important;
+			max-height: 100dvh !important;
+			overflow: hidden !important;
+			padding: 0 !important;
+			margin: 0 !important;
+			width: 100% !important;
+			max-width: none !important;
+			box-shadow: none !important;
+			-webkit-print-color-adjust: exact !important;
+			print-color-adjust: exact !important;
 		}
 	}
 </style>

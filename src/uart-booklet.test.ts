@@ -85,6 +85,10 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 			UART_SECRETS_BOOKLET.coverLeftImage,
 			UART_SECRETS_BOOKLET.coverRightImage,
 			UART_SECRETS_BOOKLET.a1ArtImage,
+			UART_SECRETS_BOOKLET.a1TitleImage,
+			UART_SECRETS_BOOKLET.a1LineupImage,
+			UART_SECRETS_BOOKLET.a1BottomImage,
+			UART_SECRETS_BOOKLET.concertUaQr,
 			...UART_SECRETS_BOOKLET.logos.map((l) => l.src)
 		];
 
