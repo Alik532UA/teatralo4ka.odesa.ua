@@ -75,6 +75,7 @@ export const UART_SECRETS_BOOKLET = {
 	durationEn: '80 minutes',
 	premiereUk: '7 листопада 2026 р.',
 	premiereEn: 'November 7, 2026',
+	premiereTime: '18:00',
 	authorUk: 'за п’єсою Ніни Захоженко та співавторок «Статеве виховання»',
 	authorEn: 'Based on the play by Nina Zakhozhenko and co-authors “Sex Education”',
 	directorUk: 'РЕЖИСЕР-ПОСТАНОВНИК: ФЕДІР ТКАЧ',
@@ -97,6 +98,7 @@ export const UART_SECRETS_BOOKLET = {
 	],
 	coverLeftImage: '/posters/stateve-vykhovannia-cover-left.webp',
 	coverRightImage: '/posters/stateve-vykhovannia-cover-right.webp',
+	a1ArtImage: '/posters/uart-secrets-a1-art.webp',
 	logos: [
 		{
 			id: 'uart',

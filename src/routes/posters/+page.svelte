@@ -21,6 +21,7 @@
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
+	import UartSecretsA1Poster from '$lib/components/posters/UartSecretsA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList } from 'lucide-svelte';
@@ -44,7 +45,7 @@
 		if (themeParam) selectedTheme = themeParam;
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		else if (activePoster === 'uart-secrets-booklet') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 	});
 
 	function selectPoster(id: PosterId) {
@@ -57,7 +58,7 @@
 		} else if (id === 'galaxy-award-podiakova') {
 			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
-		} else if (id === 'uart-secrets-booklet') {
+		} else if (id === 'uart-secrets-booklet' || id === 'uart-secrets-a1') {
 			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
 		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-') || selectedTheme.startsWith('uart-'))) {
@@ -129,7 +130,7 @@
 
 <svelte:head>
 	<link rel="preload" href="/fonts/e-Ukraine-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-	{#if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
+	{#if activePoster === 'uart-secrets-a1'}<style>@page { size: A1 portrait; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} onbeforeprint={() => void ensureFontsReady()} />
 
@@ -187,7 +188,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -200,11 +201,13 @@
 						type="button"
 						class="action-btn action-btn--print"
 						onclick={handlePrint}
-						title={isEn ? 'Print A4 poster or save as PDF' : 'Роздрукувати афішу A4 або зберегти у PDF'}
+						title={isEn
+							? (activePoster === 'uart-secrets-a1' ? 'Print A1 poster or save as PDF' : 'Print A4 poster or save as PDF')
+							: (activePoster === 'uart-secrets-a1' ? 'Роздрукувати афішу A1 або зберегти у PDF' : 'Роздрукувати афішу A4 або зберегти у PDF')}
 						data-testid="posters-print-btn"
 					>
 						<Printer size={16} aria-hidden="true" />
-						<span>{isEn ? 'Print A4' : 'Роздрукувати A4'}</span>
+						<span>{isEn ? (activePoster === 'uart-secrets-a1' ? 'Print A1' : 'Print A4') : (activePoster === 'uart-secrets-a1' ? 'Роздрукувати A1' : 'Роздрукувати A4')}</span>
 					</button>
 
 					<button
@@ -233,6 +236,8 @@
 		<section class="poster-viewport" data-testid="poster-active-container">
 			{#if activePoster === 'uart-secrets-booklet'}
 				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'uart-secrets-a1'}
+				<UartSecretsA1Poster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'defenders-hearts'}
 				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'galaxy-award-podiakova'}
@@ -329,93 +334,19 @@
 
 	.poster-groups-container { display: flex; flex-direction: column; gap: 8px; flex: 1 1 580px; }
 	.poster-group-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
-	.poster-group-label {
-		font-size: 0.74rem;
-		font-weight: 800;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--accent-text, #b45309);
-		background: rgba(0, 0, 0, 0.04);
-		padding: 3px 8px;
-		border-radius: 6px;
-		white-space: nowrap;
-	}
+	.poster-group-label { font-size: 0.74rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent-text, #b45309); background: rgba(0, 0, 0, 0.04); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
 	.poster-group-tabs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 
-	.tab-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		padding: 8px 14px;
-		border-radius: 12px;
-		font-size: 0.9rem;
-		font-weight: 600;
-		color: var(--text-main);
-		background: transparent;
-		border: 1px solid transparent;
-		cursor: pointer;
-		transition: all 0.18s ease;
-	}
+	.tab-btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; color: var(--text-main); background: transparent; border: 1px solid transparent; cursor: pointer; transition: all 0.18s ease; }
+	.tab-btn:hover { background: color-mix(in srgb, var(--bg-surface), var(--text-main) 8%); }
+	.tab-btn--active { background: #ffed00 !important; color: #111827 !important; border-color: rgba(0, 0, 0, 0.12) !important; font-weight: 700; box-shadow: 0 2px 8px rgba(255, 237, 0, 0.4); }
+	.tab-badge { font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; background: rgba(0, 0, 0, 0.08); color: inherit; font-weight: 700; }
 
-	.tab-btn:hover {
-		background: color-mix(in srgb, var(--bg-surface), var(--text-main) 8%);
-	}
-
-	.tab-btn--active {
-		background: #ffed00 !important;
-		color: #111827 !important;
-		border-color: rgba(0, 0, 0, 0.12) !important;
-		font-weight: 700;
-		box-shadow: 0 2px 8px rgba(255, 237, 0, 0.4);
-	}
-
-	.tab-badge {
-		font-size: 0.72rem;
-		padding: 2px 6px;
-		border-radius: 6px;
-		background: rgba(0, 0, 0, 0.08);
-		color: inherit;
-		font-weight: 700;
-	}
-
-	.poster-actions {
-		display: flex;
-		align-items: center;
-		gap: 8px;
-	}
-
-	.action-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		padding: 8px 14px;
-		border-radius: 12px;
-		font-size: 0.88rem;
-		font-weight: 600;
-		cursor: pointer;
-		border: 1px solid var(--color-border);
-		background: var(--bg-card);
-		color: var(--text-main);
-		transition: all 0.18s ease;
-	}
-
-	.action-btn:hover {
-		border-color: var(--accent-primary, #00b5ec);
-		color: var(--accent-text, #0077c8);
-		transform: translateY(-1px);
-	}
-
-	.action-btn--print {
-		background: var(--accent-primary, #00b5ec);
-		color: var(--text-on-accent, #0f172a);
-		border-color: var(--accent-primary, #00b5ec);
-		font-weight: 700;
-	}
-
-	.action-btn--print:hover {
-		filter: brightness(1.06);
-		color: var(--text-on-accent, #0f172a);
-	}
+	.poster-actions { display: flex; align-items: center; gap: 8px; }
+	.action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); transition: all 0.18s ease; }
+	.action-btn:hover { border-color: var(--accent-primary, #00b5ec); color: var(--accent-text, #0077c8); transform: translateY(-1px); }
+	.action-btn--print { background: var(--accent-primary, #00b5ec); color: var(--text-on-accent, #0f172a); border-color: var(--accent-primary, #00b5ec); font-weight: 700; }
+	.action-btn--print:hover { filter: brightness(1.06); color: var(--text-on-accent, #0f172a); }
 
 	/* Слот відображення */
 	.poster-viewport {

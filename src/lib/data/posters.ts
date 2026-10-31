@@ -1,4 +1,4 @@
-export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet';
+export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet' | 'uart-secrets-a1';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -46,6 +46,16 @@ export const POSTERS_LIST: PosterMeta[] = [
 		titleEn: '“Too Many Secrets” (A4 Booklet)',
 		subtitleUk: 'Навчальний театр «UArt» · Буклет-програмка (згин навпіл)',
 		subtitleEn: 'UArt Educational Theatre · Program Booklet (half-fold)',
+		dateBadgeUk: '7 листопада · Прем’єра',
+		dateBadgeEn: 'Nov 7 · Premiere'
+	},
+	{
+		id: 'uart-secrets-a1',
+		slug: 'uart-secrets-a1',
+		titleUk: '«Дуже багато SEкретів» (Афіша A1)',
+		titleEn: '“Too Many Secrets” (A1 Poster)',
+		subtitleUk: 'Навчальний театр «UArt» · Прем’єрна афіша A1 (одностороння)',
+		subtitleEn: 'UArt Educational Theatre · Premiere Poster A1 (single-sided)',
 		dateBadgeUk: '7 листопада · Прем’єра',
 		dateBadgeEn: 'Nov 7 · Premiere'
 	},
@@ -113,7 +123,7 @@ export const POSTER_GROUPS: PosterGroup[] = [
 		id: '2026-2027',
 		titleUk: '2026–2027',
 		titleEn: '2026–2027',
-		ids: ['uart-secrets-booklet', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
+		ids: ['uart-secrets-booklet', 'uart-secrets-a1', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
 	},
 	{
 		id: '2024-2025',
@@ -222,8 +232,8 @@ export const DEFAULT_GALAXY_AWARD_THEME = 'galaxy-space';
 export const DEFAULT_UART_BOOKLET_THEME = 'uart-dark';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
-	{ id: 'uart-dark', nameUk: 'Темний театральний (Оригінал)', nameEn: 'Theatrical Dark (Original)', color: '#161217', forPosters: ['uart-secrets-booklet'] },
-	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet'] },
+	{ id: 'uart-dark', nameUk: 'Темний театральний (Оригінал)', nameEn: 'Theatrical Dark (Original)', color: '#161217', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1'] },
+	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1'] },
 	{ id: 'galaxy-space', nameUk: 'Космічна ніч (Глибокий космос)', nameEn: 'Deep Space (Cosmic Night)', color: 'radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c122c 45%, #030712 100%)', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'galaxy-print-light', nameUk: 'Білий пергамент (Ощадний друк)', nameEn: 'White Parchment (Ink-saver Print)', color: '#ffffff', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'galaxy-gold', nameUk: 'Золота Галактика', nameEn: 'Golden Galaxy', color: 'radial-gradient(circle at 50% 20%, #2e2107 0%, #171103 50%, #070501 100%)', forPosters: ['galaxy-award-podiakova'] },

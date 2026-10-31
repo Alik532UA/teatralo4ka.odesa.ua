@@ -84,6 +84,7 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 		const files = [
 			UART_SECRETS_BOOKLET.coverLeftImage,
 			UART_SECRETS_BOOKLET.coverRightImage,
+			UART_SECRETS_BOOKLET.a1ArtImage,
 			...UART_SECRETS_BOOKLET.logos.map((l) => l.src)
 		];
 
@@ -91,6 +92,42 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 			const diskPath = join(process.cwd(), 'static', file.replace(/^\//, ''));
 			expect(existsSync(diskPath), `Файл ${file} має існувати на диску`).toBe(true);
 		}
+	});
+
+	describe('Афіша A1 (вертикальна, одностороння з 3 варіантами)', () => {
+		it('зареєстрована у POSTERS_LIST з назвою A1 та відзнакою премʼєри', () => {
+			const meta = POSTERS_LIST.find((p) => p.id === 'uart-secrets-a1');
+			expect(meta).toBeDefined();
+			expect(meta?.titleUk).toContain('Дуже багато SEкретів');
+			expect(meta?.titleUk).toContain('Афіша A1');
+			expect(meta?.subtitleUk).toContain('A1');
+			expect(meta?.dateBadgeUk).toContain('7 листопада');
+		});
+
+		it('входить до групи 2026–2027 років у POSTER_GROUPS', () => {
+			const group = POSTER_GROUPS.find((g) => g.id === '2026-2027');
+			expect(group?.ids).toContain('uart-secrets-a1');
+		});
+
+		it('має фірмові теми оформлення (темну театральну та білу ощадну)', () => {
+			const dark = POSTER_THEMES.find((t) => t.id === 'uart-dark');
+			const light = POSTER_THEMES.find((t) => t.id === 'uart-light');
+			expect(dark?.forPosters).toContain('uart-secrets-a1');
+			expect(light?.forPosters).toContain('uart-secrets-a1');
+		});
+
+		it('усі 3 компоненти варіантів та головний компонент існують на диску', () => {
+			const components = [
+				'src/lib/components/posters/UartSecretsA1Poster.svelte',
+				'src/lib/components/posters/uart-a1/UartA1Variant1.svelte',
+				'src/lib/components/posters/uart-a1/UartA1Variant2.svelte',
+				'src/lib/components/posters/uart-a1/UartA1Variant3.svelte'
+			];
+			for (const file of components) {
+				const diskPath = join(process.cwd(), file);
+				expect(existsSync(diskPath), `Файл ${file} має існувати`).toBe(true);
+			}
+		});
 	});
 });
 
