@@ -1,17 +1,16 @@
 ---
-title: "Children's Enrollment in «SVOI» Choreography Studio"
+title: "Children's Enrollment in Choreography Studio"
 date: "2026-10-09"
 author: "Alik"
 category: "news"
 newsCategory: "enrollment"
 lang: "en"
 seo:
-  title: "Children's Enrollment in «SVOI» Choreography Studio — Odesa Theatre School"
-  description: "Odesa Theatre School announces enrollment for boys and girls in the «SVOI» choreography studio led by Tetiana Stohul."
-  ogImage: "/og/og-svoi-1200x630.jpg"
+  title: "Children's Enrollment in Choreography Studio — Odesa Theatre School"
+  description: "Odesa Theatre School announces enrollment for boys and girls in the choreography studio led by Tetiana Stohul."
 status: "published"
 version: "1.0.0"
-excerpt: "Odesa Theatre School announces enrollment for boys and girls in the «SVOI» choreography studio led by Tetiana Stohul."
+excerpt: "Odesa Theatre School announces enrollment for boys and girls in the choreography studio led by Tetiana Stohul."
 ---
 
 <div class="news-telegram-cta-wrap">
@@ -21,7 +20,7 @@ excerpt: "Odesa Theatre School announces enrollment for boys and girls in the «
 	</a>
 </div>
 
-Odesa Theatre School announces enrollment for boys and girls in the **«SVOI»** choreography studio!
+Odesa Theatre School announces enrollment for boys and girls in the choreography studio!
 
 Classes are led by First Category Choreography Teacher [Tetiana Stohul](/en/residents/adults/tetiana-stohul).
 

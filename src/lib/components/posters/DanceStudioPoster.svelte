@@ -60,7 +60,7 @@
 
 		<!-- Основний контент афіші -->
 		<div class="poster-content">
-			<!-- Шапка: герб (дві маски), великі заголовки та лого СВОЇ -->
+			<!-- Шапка: герб (дві маски) та великі заголовки -->
 			<header class="poster-header">
 				<div class="emblem-wrap">
 					<img
@@ -81,18 +81,6 @@
 				<h2 class="sub-headline">
 					{isEn ? poster.subheadlineEn : poster.subheadlineUk}
 				</h2>
-
-				<div class="svoi-logo-wrap">
-					<img
-						src={asset('/logo/svg/svoi_dance_collective.svg')}
-						alt={isEn ? 'Dance Collective SVOI' : 'Танцювальний колектив СВОЇ'}
-						width="2330"
-						height="925"
-						class="svoi-logo-img"
-						loading="eager"
-						decoding="async"
-					/>
-				</div>
 			</header>
 
 			<!-- Картки вмісту -->
@@ -321,18 +309,6 @@
 		line-height: 1.15;
 		color: #0a2e52;
 		text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
-	}
-
-	.svoi-logo-wrap {
-		display: flex;
-		justify-content: center;
-		margin-top: clamp(4px, 0.8cqi, 12px);
-	}
-
-	.svoi-logo-img {
-		width: clamp(240px, 36cqi, 400px);
-		height: auto;
-		filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.16));
 	}
 
 	/* Тіло афіші - збалансоване вертикально */
