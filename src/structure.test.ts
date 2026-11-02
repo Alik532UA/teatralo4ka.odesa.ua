@@ -752,13 +752,20 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-10-31: Афіша A1 для вистави «Дуже багато SEкретів» навчального театру «UArt»
  *   (модульні варіанти UartA1Variant1-3 по 475 SLOC, контейнер UartSecretsA1Poster 325 SLOC
  *   та дворівневий перемикач сезонів/афіш у routes/posters/+page.svelte 480 SLOC).
+ * 2026-11-02: `RepertoireA1Sheet.svelte` (580 SLOC), `RepertoireNovemberA1Poster.svelte` (425 SLOC),
+ *   `repertoireNovember2026.ts` (295 SLOC), `routes/posters/+page.svelte` (480 -> 485).
+ *   Афіша A1 репертуару на листопад 2026 (5 вистав та концертів школи, варіант об'єднаного Сирника,
+ *   5 кольорів фону, 3 акценти, QR-код concert.ua, чисті світлі/темні логотипи та 2 телефони в підвалі).
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
+	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,
+	'src/lib/data/repertoireNovember2026.ts': 295,
 	'src/lib/components/posters/uart-a1/UartA1Variant1.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant2.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant3.svelte': 475,
 	'src/lib/components/posters/UartSecretsA1Poster.svelte': 325,
-	'src/routes/posters/+page.svelte': 480,
+	'src/routes/posters/+page.svelte': 485,
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,

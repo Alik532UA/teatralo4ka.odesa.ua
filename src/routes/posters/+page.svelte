@@ -22,6 +22,7 @@
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
 	import UartSecretsA1Poster from '$lib/components/posters/UartSecretsA1Poster.svelte';
+	import RepertoireNovemberA1Poster from '$lib/components/posters/RepertoireNovemberA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList, Calendar } from 'lucide-svelte';
@@ -53,7 +54,7 @@
 		if (themeParam) selectedTheme = themeParam;
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 	});
 
 	function selectSeason(groupId: string) {
@@ -80,7 +81,7 @@
 		} else if (id === 'galaxy-award-podiakova') {
 			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
-		} else if (id === 'uart-secrets-booklet' || id === 'uart-secrets-a1') {
+		} else if (id === 'uart-secrets-booklet' || id === 'uart-secrets-a1' || id === 'repertoire-november-a1') {
 			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
 		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-') || selectedTheme.startsWith('uart-'))) {
@@ -148,11 +149,12 @@
 	});
 
 	const isLandscape = $derived(activePoster === 'posviata-invitation' || activePoster === 'uart-secrets-booklet');
+	const isA1 = $derived(activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1');
 </script>
 
 <svelte:head>
 	<link rel="preload" href="/fonts/e-Ukraine-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-	{#if activePoster === 'uart-secrets-a1'}<style>@page { size: auto; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
+	{#if isA1}<style>@page { size: auto; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
 </svelte:head>
 <svelte:window onkeydown={handleKeydown} onbeforeprint={() => void ensureFontsReady()} />
 
@@ -230,7 +232,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -244,12 +246,12 @@
 						class="action-btn action-btn--print"
 						onclick={handlePrint}
 						title={isEn
-							? (activePoster === 'uart-secrets-a1' ? 'Print A1 poster or save as PDF' : 'Print A4 poster or save as PDF')
-							: (activePoster === 'uart-secrets-a1' ? 'Роздрукувати афішу A1 або зберегти у PDF' : 'Роздрукувати афішу A4 або зберегти у PDF')}
+							? (isA1 ? 'Print A1 poster or save as PDF' : 'Print A4 poster or save as PDF')
+							: (isA1 ? 'Роздрукувати афішу A1 або зберегти у PDF' : 'Роздрукувати афішу A4 або зберегти у PDF')}
 						data-testid="posters-print-btn"
 					>
 						<Printer size={16} aria-hidden="true" />
-						<span>{isEn ? (activePoster === 'uart-secrets-a1' ? 'Print A1' : 'Print A4') : (activePoster === 'uart-secrets-a1' ? 'Роздрукувати A1' : 'Роздрукувати A4')}</span>
+						<span>{isEn ? (isA1 ? 'Print A1' : 'Print A4') : (isA1 ? 'Роздрукувати A1' : 'Роздрукувати A4')}</span>
 					</button>
 
 					<button
@@ -276,7 +278,9 @@
 
 		<!-- Основний слот плаката -->
 		<section class="poster-viewport" data-testid="poster-active-container">
-			{#if activePoster === 'uart-secrets-booklet'}
+			{#if activePoster === 'repertoire-november-a1'}
+				<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
+			{:else if activePoster === 'uart-secrets-booklet'}
 				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'uart-secrets-a1'}
 				<UartSecretsA1Poster {isEn} themeId={selectedTheme} />
