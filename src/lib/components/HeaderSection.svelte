@@ -559,7 +559,7 @@
 									class="header__nav-manager"
 									bind:this={navRef}
 									data-testid="header-nav-manager-section"
-									onmouseenter={handleNavMouseEnter}
+									onmouseenter={handleNavMouseEnter} oncontextmenu={(e) => { e.preventDefault(); closeNav(); ui.siteMapOpen = true; }}
 									role="group"
 								>
 									<button
@@ -571,6 +571,7 @@
 										data-testid="burger-menu-btn"
 									>
 										<Menu size={24} />
+										<span class="header__search-tooltip" role="tooltip" data-testid="header-burger-tooltip">{$t("nav.burgerContextMenuHint")}</span>
 									</button>
 
 									{#if navOpen}
@@ -634,6 +635,11 @@
 													></div>
 												{/if}
 											{/each}
+											<div class="header__nav-dropdown-divider"></div>
+											<button type="button" class="header__nav-dropdown-link" style="justify-content: space-between;" onclick={() => { closeNav(); ui.siteMapOpen = true; }} data-testid="nav-dropdown-extended-menu-btn">
+												<span>{$t("nav.extendedMenu")}</span>
+												<span style="font-size: 0.72rem; padding: 1px 5px; border-radius: 3px; border: 1px solid currentColor; opacity: 0.75;">E</span>
+											</button>
 										</div>
 									{/if}
 								</div>

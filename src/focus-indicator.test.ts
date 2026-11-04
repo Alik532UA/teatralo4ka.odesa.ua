@@ -220,6 +220,12 @@ const DRAWN_BY_ANCESTOR: Record<string, { drawnBy: string; why: string }> = {
 			'разом з лупою, і кільце навколо самого input було б прямокутником ' +
 			'усередині кола. Межу підсвічує плашка'
 	},
+	'src/lib/components/navigation/SiteMapOverlay.svelte': {
+		drawnBy: '.sitemap-search:focus-within',
+		why:
+			'поле пошуку лежить усередині круглої плашки разом із лупою та кнопкою очищення; ' +
+			'кільце навколо самого input було б прямокутником усередині кола. Межу підсвічує обгортка'
+	},
 	'src/lib/styles/global.css': {
 		drawnBy: '.has-input-tools--framed:focus-within',
 		why:

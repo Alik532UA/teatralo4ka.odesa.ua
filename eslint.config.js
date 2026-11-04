@@ -184,6 +184,13 @@ export default ts.config(
 			// воно приймає лише прямий виклик resolve() або змінну, у чиєму
 			// оголошенні цей виклик стоїть.
 			'src/lib/components/SearchOverlay.svelte',
+			// Карта сайту (розширене меню): адреси посилань уже сформовані через
+			// resolve() у `config/siteMapStructure.ts` і приходять викликом `item.href()`,
+			// що правило статично не аналізує (аналогічно до SearchOverlay.svelte).
+			'src/lib/components/navigation/SiteMapOverlay.svelte',
+			'src/lib/components/navigation/SiteMapNewsCarousel.svelte',
+			'src/lib/components/navigation/SiteMapTeachersBar.svelte',
+			'src/lib/components/navigation/SiteMapGraduatesBar.svelte',
 			// Дві адреси заради прев'ю в месенджері. Ціль в обох — галактика з
 			// QUERY-параметром (`?update=open` / `?form=open`), а `resolve()`
 			// приймає ідентифікатор маршруту й параметра дописати не вміє: адреса

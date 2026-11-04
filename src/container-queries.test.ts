@@ -295,6 +295,10 @@ const VERDICT: Record<string, { axis: Axis; why: string }> = {
 	},
 	'ProjectsSection.svelte': { axis: 'window', why: 'відступи секції сторінки' },
 	'SearchOverlay.svelte': { axis: 'window', why: 'фіксована панель поверх сторінки' },
+	'navigation/SiteMapOverlay.svelte': {
+		axis: 'window',
+		why: '`position: fixed` — повноекранна карта сайту поверх сторінки на десктопі, схована на мобільних'
+	},
 	'StaticPage.svelte': { axis: 'window', why: 'розкладка самої сторінки й таблиць у тексті' },
 	'PageToc.svelte': {
 		axis: 'window',

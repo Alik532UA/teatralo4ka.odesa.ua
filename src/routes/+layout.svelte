@@ -360,6 +360,13 @@
 <Toast />
 <ConfirmModal />
 
+<!-- Повноформатна карта сайту (десктопний оверлей) — завантажується динамічно лише при відкритті -->
+{#if ui.siteMapOpen}
+	{#await import('$lib/components/navigation/SiteMapOverlay.svelte') then { default: SiteMapOverlay }}
+		<SiteMapOverlay bind:open={ui.siteMapOpen} onclose={() => (ui.siteMapOpen = false)} />
+	{/await}
+{/if}
+
 <!-- Нічого не малює: лише вирішує, які новини показати тостами (лівий низ). -->
 <HotNews />
 

@@ -145,6 +145,18 @@ export class UIState {
 	 */
 	searchOpen = $state(false);
 
+	/**
+	 * Чи відкрита накладка розширеного меню (повноформатна карта сайту на десктопі).
+	 *
+	 * Відкривається:
+	 * 1. Гарячою клавішею «E» (KeyE) у `ui/ServiceLayer`.
+	 * 2. Пунктом «Розширене меню» внизу десктопного меню `nav-dropdown-menu`.
+	 * 3. Правим кліком миші (contextmenu) на `header-nav-manager-section`.
+	 *
+	 * НЕ зберігається між сеансами — це миттєвий стан навігаційного оверлею.
+	 */
+	siteMapOpen = $state(false);
+
 	constructor() {
 		if (typeof window !== 'undefined') {
 			// Read theme from localStorage or OS settings

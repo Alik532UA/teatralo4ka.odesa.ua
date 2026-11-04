@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { locale, t } from 'svelte-i18n';
-	import { Search, X, FileText, Newspaper, Sparkles, Users } from 'lucide-svelte';
+	import { Search, X, FileText, Newspaper, Sparkles, Users, Compass } from 'lucide-svelte';
+	import { ui } from '$lib/controllers/ui.svelte';
 	import InputTools from '$lib/components/ui/InputTools.svelte';
 	import { MIN_QUERY_LENGTH, searchEntries, searchKindKey, type SearchEntry, type SearchHit } from '$lib/utils/siteSearch';
 	import { focusTrap } from '$lib/utils/focusTrap';
@@ -167,11 +168,8 @@
 	}
 
 	function onKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape') {
-			e.preventDefault();
-			close();
-			return;
-		}
+		if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+		if (!query.trim() && e.key === 'ArrowUp') { e.preventDefault(); close(); ui.siteMapOpen = true; return; }
 		if (enterВідкриває(e)) return;
 		if (e.key === 'ArrowDown') {
 			e.preventDefault();
@@ -237,7 +235,19 @@
 					{$t('search.tooShort', { values: { min: MIN_QUERY_LENGTH } })}
 				</p>
 			{:else if !query.trim()}
-				<p class="search__note" data-testid="search-empty-status">{$t('search.hint')}</p>
+				<div class="search__empty-box">
+					<p class="search__note" data-testid="search-empty-status">{$t('search.hint')}</p>
+					<button
+						type="button"
+						class="search__sitemap-btn"
+						onclick={() => { close(); ui.siteMapOpen = true; }}
+						data-testid="search-open-sitemap-btn"
+					>
+						<Compass size={16} aria-hidden="true" />
+						<span>{$t('nav.siteMap')}</span>
+						<kbd class="search__kbd">↑</kbd>
+					</button>
+				</div>
 			{:else if hits.length === 0}
 				<p class="search__note" data-testid="search-no-results-status">
 					{$t('search.nothing', { values: { query: query.trim() } })}
@@ -358,38 +368,27 @@
 		 * `outline: none` тут узагалі дозволений — бо межу підсвічує рядок вище;
 		 * без нього гейт `focus-indicator` червоніє, і правильно.
 		 */
-		font-family: inherit;
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--text-main);
+		font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--text-main);
 	}
 
 	.search__input::-webkit-search-cancel-button,
 	.search__input::-webkit-search-decoration,
 	.search__input::-webkit-search-results-button,
 	.search__input::-webkit-search-results-decoration {
-		-webkit-appearance: none;
-		appearance: none;
-		display: none;
+		-webkit-appearance: none; appearance: none; display: none;
 	}
 
-	.search__input::placeholder {
-		color: var(--color-muted-text);
-		font-weight: 500;
-	}
+	.search__input::placeholder { color: var(--color-muted-text); font-weight: 500; }
+
+	.search__empty-box { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+	.search__sitemap-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid var(--border-main); background: rgba(255, 255, 255, 0.05); color: var(--text-main); cursor: pointer; font-size: 0.82rem; }
+	.search__sitemap-btn:hover { background: color-mix(in srgb, var(--accent-primary), transparent 90%); color: var(--accent-primary); }
+	.search__kbd { font-size: 0.68rem; padding: 1px 5px; border-radius: 3px; border: 1px solid currentColor; opacity: 0.75; }
 
 	.search__close {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 32px;
-		height: 32px;
-		border: none;
-		border-radius: 50%;
-		background: none;
-		color: var(--color-muted-text);
-		cursor: pointer;
-		flex-shrink: 0;
+		display: inline-flex; align-items: center; justify-content: center;
+		width: 32px; height: 32px; border: none; border-radius: 50%;
+		background: none; color: var(--color-muted-text); cursor: pointer; flex-shrink: 0;
 	}
 
 	.search__close:hover {

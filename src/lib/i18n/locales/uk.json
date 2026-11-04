@@ -134,7 +134,16 @@
 		"mainMenu": "Головне меню",
 		"mobileMenu": "Мобільне меню",
 		"more": "Більше",
-		"skipToContent": "Перейти до основного контенту"
+		"skipToContent": "Перейти до основного контенту",
+		"extendedMenu": "Розширене меню",
+		"siteMap": "Карта сайту",
+		"burgerContextMenuHint": "Правий клік або E — розширене меню",
+		"schoolTeachers": "Викладачі школи",
+		"schoolGraduates": "Випускники школи",
+		"latestNews": "Останні новини",
+		"pauseCarousel": "Призупинити карусель",
+		"playCarousel": "Запустити карусель",
+		"closeSiteMap": "Закрити карту сайту"
 	},
 	"footer": {
 		"address": "вул. Софіївська, 24, Одеса",

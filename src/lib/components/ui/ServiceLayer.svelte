@@ -272,6 +272,11 @@
 		 * вище, тож ця умова страхує лише від повторного виклику.
 		 */
 		else if (event.code === 'KeyS' && !ui.searchOpen) ui.searchOpen = true;
+		/*
+		 * «E» — розширене меню (карта сайту на десктопі). Відкриває або закриває
+		 * повноформатний навігаційний оверлей (toggle).
+		 */
+		else if (event.code === 'KeyE') ui.siteMapOpen = !ui.siteMapOpen;
 		else return;
 
 		// `preventDefault` лише після того, як дія відбулася (HOTKEYS-v9 § 2.4).

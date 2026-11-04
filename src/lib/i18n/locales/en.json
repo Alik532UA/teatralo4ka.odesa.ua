@@ -134,7 +134,16 @@
 		"mainMenu": "Main menu",
 		"mobileMenu": "Mobile menu",
 		"more": "More",
-		"skipToContent": "Skip to main content"
+		"skipToContent": "Skip to main content",
+		"extendedMenu": "Extended menu",
+		"siteMap": "Site map",
+		"burgerContextMenuHint": "Right click or E — extended menu",
+		"schoolTeachers": "School teachers",
+		"schoolGraduates": "School graduates",
+		"latestNews": "Latest news",
+		"pauseCarousel": "Pause carousel",
+		"playCarousel": "Play carousel",
+		"closeSiteMap": "Close site map"
 	},
 	"footer": {
 		"address": "24 Sofiivska St, Odesa",
