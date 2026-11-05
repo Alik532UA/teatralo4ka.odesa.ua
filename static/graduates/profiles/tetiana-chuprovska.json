@@ -1,0 +1,27 @@
+{
+	"id": "tetiana-chuprovska",
+	"slug": "tetiana-chuprovska",
+	"name": "Тетяна Чупровська",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Дуже багато SEкретів», Олюня",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Олюня",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	]
+}
+

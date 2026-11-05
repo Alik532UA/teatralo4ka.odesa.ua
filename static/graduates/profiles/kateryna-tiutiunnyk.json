@@ -1,0 +1,28 @@
+{
+	"id": "kateryna-tiutiunnyk",
+	"slug": "kateryna-tiutiunnyk",
+	"name": "Катерина Тютюнник",
+	"graduationYear": null,
+	"departments": [
+		"vocal",
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Дуже багато SEкретів», Настя",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Настя",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	]
+}
+

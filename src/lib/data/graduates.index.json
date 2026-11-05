@@ -1620,7 +1620,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 489
 	},
 	{
 		"id": "anastasiia-zubrytska",
@@ -4940,7 +4942,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 475
 	},
 	{
 		"id": "kateryna-tkachenko",
@@ -5114,7 +5118,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 456
 	},
 	{
 		"id": "kimiia-mirshafiiei",
@@ -5160,7 +5166,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 448
 	},
 	{
 		"id": "kostiantyn-afanasev",
@@ -7428,8 +7436,8 @@
 				"id": "fedir-tkach"
 			}
 		],
-		"profileSize": 2412,
-		"playCount": 6,
+		"profileSize": 2258,
+		"playCount": 5,
 		"code": "nikolmett",
 		"hasPhoto": true,
 		"enrollmentYears": [
@@ -8870,7 +8878,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 454
 	},
 	{
 		"id": "polina-kolomiiets",
@@ -9355,7 +9365,7 @@
 				]
 			}
 		],
-		"profileSize": 1862,
+		"profileSize": 1887,
 		"playCount": 5
 	},
 	{
@@ -9831,7 +9841,9 @@
 			{
 				"id": "fedir-tkach"
 			}
-		]
+		],
+		"playCount": 1,
+		"profileSize": 462
 	},
 	{
 		"id": "tetiana-dudush-polishchuk",
@@ -12662,8 +12674,8 @@
 				]
 			}
 		],
-		"profileSize": 1183,
-		"playCount": 1
+		"profileSize": 1358,
+		"playCount": 2
 	},
 	{
 		"id": "iryna-kurhuzova",

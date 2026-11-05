@@ -1,0 +1,27 @@
+{
+	"id": "kira-liubynska",
+	"slug": "kira-liubynska",
+	"name": "Кіра Любинська",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Дуже багато SEкретів», Аліна",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Аліна",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	]
+}
+

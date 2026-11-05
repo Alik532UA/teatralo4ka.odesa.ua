@@ -41,7 +41,8 @@
 			"year": 2026,
 			"text": "«Дуже багато SEкретів», Ніна",
 			"playId": "stateve-vykhovannia-2026",
-			"role": "Ніна"
+			"role": "Ніна",
+			"fromRegistry": true
 		}
 	],
 	"bio": [],

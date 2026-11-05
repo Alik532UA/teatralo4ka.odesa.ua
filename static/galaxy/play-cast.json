@@ -2525,12 +2525,44 @@
 	],
 	"stateve-vykhovannia-2026": [
 		{
-			"graduateId": "nikol-onyshchenko",
-			"role": "Ліза"
+			"graduateId": "anastasiia-zahorodnia",
+			"role": "Ліза",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kateryna-tiutiunnyk",
+			"role": "Настя",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "khrystyna-sadoieva",
+			"role": "Віра",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "kira-liubynska",
+			"role": "Аліна",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "marharyta-kovtun",
+			"role": "Яна",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "polina-koicheva",
+			"role": "Іванка",
+			"fromRegistry": true
 		},
 		{
 			"graduateId": "sofiia-podiakova",
-			"role": "Ніна"
+			"role": "Ніна",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "tetiana-chuprovska",
+			"role": "Олюня",
+			"fromRegistry": true
 		}
 	],
 	"subotyk-2020": [

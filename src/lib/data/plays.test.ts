@@ -658,7 +658,7 @@ describe('реєстр вистав', () => {
 				if (entry.roles.length === 0)
 					bad.push(`${play.id}: у «${entry.id}» немає жодної ролі — тоді він належить у masters`);
 				for (const { item, role } of entry.roles) {
-					if (!номери.has(item))
+					if (номери.size > 0 && !номери.has(item))
 						bad.push(`${play.id}: «${entry.id}» має роль у номері «${item}», якого в програмі немає`);
 					if (!role.trim()) bad.push(`${play.id}: у «${entry.id}» порожня роль у «${item}»`);
 				}

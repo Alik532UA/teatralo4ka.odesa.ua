@@ -1,0 +1,27 @@
+{
+	"id": "khrystyna-sadoieva",
+	"slug": "khrystyna-sadoieva",
+	"name": "Христина Садоєва",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Дуже багато SEкретів», Віра",
+			"playId": "stateve-vykhovannia-2026",
+			"role": "Віра",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "fedir-tkach"
+		}
+	]
+}
+
