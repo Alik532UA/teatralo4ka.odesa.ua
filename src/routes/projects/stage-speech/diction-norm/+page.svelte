@@ -305,7 +305,7 @@
 		letter-spacing: 0.02em;
 	}
 	.toc-row-btn--active .toc-row__sounds {
-		color: var(--accent-text);
+		color: var(--palette-orange);
 		font-weight: 900;
 	}
 

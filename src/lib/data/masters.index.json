@@ -698,7 +698,9 @@
 		"subjects": [
 			"Вокал"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/alisa-kocheva.webp",
+		"photo": "/masters/alisa-kocheva.webp"
 	},
 	{
 		"id": "vira-kurova",
@@ -1037,7 +1039,9 @@
 		"status": "active",
 		"category": "accompanists",
 		"roleTitle": "концертмейстерка",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/oleksandra-sklifosovska.webp",
+		"photo": "/masters/oleksandra-sklifosovska.webp"
 	},
 	{
 		"id": "tetiana-stohul",
@@ -1125,7 +1129,9 @@
 		"subjects": [
 			"Вокал"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/olha-chervoniak.webp",
+		"photo": "/masters/olha-chervoniak.webp"
 	},
 	{
 		"id": "svitlana-shvets",
@@ -2166,7 +2172,9 @@
 		],
 		"category": "choreographers",
 		"alsoGraduateId": "darya-maystrenko",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/dariia-maistrenko.webp",
+		"photo": "/masters/dariia-maistrenko.webp"
 	},
 	{
 		"id": "iryna-pak",
@@ -2219,7 +2227,9 @@
 			"Музика"
 		],
 		"category": "accompanists",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"portrait": "/masters/portraits/les-selianinov.webp",
+		"photo": "/masters/les-selianinov.webp"
 	},
 	{
 		"id": "anhelina-pohosian",
@@ -2237,7 +2247,9 @@
 		],
 		"category": "musicians",
 		"verificationStatus": "possible_errors",
-		"alsoGraduateId": "anhelina-pohosian"
+		"alsoGraduateId": "anhelina-pohosian",
+		"portrait": "/masters/portraits/anhelina-pohosian.webp",
+		"photo": "/masters/anhelina-pohosian.webp"
 	},
 	{
 		"id": "mykhailo-yaksha",
