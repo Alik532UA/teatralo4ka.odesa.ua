@@ -120,7 +120,7 @@
 | `status` — цикл            | `active` 77 · `former` 68 · `honorary` 6                                                                                                                                                                      |
 | розділ — `masterSection()` | `history` 60 · `needsClarification` 27 · `support` 9 · `directors` 8 · `musicians` 7 · `vocalists` 7 · `accompanists` 6 · `honorary` 6 · `administration` 5 · `choreographers` 4 · `speech` 4 · `artists` 3 · `heads` 3 · `it` 1 · `production` 1 |
 | прогалини — скільки записів БЕЗ поля | `subjects` 67 · `roleTitle` 45 · `photo` 32 · `departments` 25 |
-| `visibility` — видимість | без поля 117 · `linked` 34 |
+| `visibility` — видимість | без поля 113 · `linked` 38 |
 
 > Дві верхні осі й нижня розходяться НАВМИСНО, і це не помилка даних: роль —
 > факт про людину, розділ — місце на сторінці. Франковська лишається

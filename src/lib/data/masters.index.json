@@ -533,7 +533,8 @@
 		"status": "active",
 		"category": "support",
 		"roleTitle": "психологиня",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "viktor-danilesku",
@@ -1503,7 +1504,8 @@
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/yurii-drankov.webp",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "alik-zapolnov",
@@ -1938,7 +1940,8 @@
 		"portrait": "/masters/portraits/burlak.webp",
 		"category": "support",
 		"roleTitle": "художник-декоратор",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "vereshchahina",
@@ -2191,7 +2194,8 @@
 			"Хореографія"
 		],
 		"category": "choreographers",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "hanna-shpak",

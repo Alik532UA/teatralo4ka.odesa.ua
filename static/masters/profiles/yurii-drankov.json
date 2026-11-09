@@ -15,5 +15,6 @@
 	"socials": [],
 	"category": "support",
 	"roleTitle": "менеджер з охорони",
-	"portrait": "/masters/portraits/yurii-drankov.webp"
+	"portrait": "/masters/portraits/yurii-drankov.webp",
+	"visibility": "linked"
 }
