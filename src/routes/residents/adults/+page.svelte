@@ -1,5 +1,23 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
+	import {
+		Landmark,
+		GraduationCap,
+		Clapperboard,
+		Speech,
+		Palette,
+		Footprints,
+		MicVocal,
+		Music,
+		Piano,
+		Drama,
+		SlidersHorizontal,
+		Laptop,
+		Coffee,
+		ScrollText,
+		CircleQuestionMark
+	} from 'lucide-svelte';
+	import CandleIcon from '$lib/components/icons/CandleIcon.svelte';
 	import StaticPage from '$lib/components/StaticPage.svelte';
 	import MasterCard from '$lib/components/adults/MasterCard.svelte';
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
@@ -36,7 +54,7 @@
 
 	interface CategoryConfig {
 		key: MasterSection;
-		icon: string;
+		icon: typeof Landmark | typeof CandleIcon;
 		title: string;
 		subtitle: string;
 	}
@@ -44,7 +62,7 @@
 	const categoryConfigs: CategoryConfig[] = [
 		{
 			key: 'administration',
-			icon: '🏛️',
+			icon: Landmark,
 			title: 'Керівництво та адміністрація',
 			subtitle: 'Команда, яка спрямовує розвиток та організовує життя школи'
 		},
@@ -53,13 +71,13 @@
 		// й стоїть.
 		{
 			key: 'heads',
-			icon: '🎓',
+			icon: GraduationCap,
 			title: 'Завідувачі відділення',
 			subtitle: 'Педагоги, які ведуть відділення школи та власні предмети'
 		},
 		{
 			key: 'directors',
-			icon: '🎬',
+			icon: Clapperboard,
 			title: 'Режисери',
 			subtitle: 'Режисери-постановники та майстри курсів Одеської театральної школи'
 		},
@@ -67,37 +85,37 @@
 		// «Викладачі», хоча в переліку складу школи вони завжди були окремими.
 		{
 			key: 'speech',
-			icon: '🗣️',
+			icon: Speech,
 			title: 'Сценічна мова та історія театру',
 			subtitle: 'Викладачі сценічного мовлення, риторики та історії театру'
 		},
 		{
 			key: 'artists',
-			icon: '🎨',
+			icon: Palette,
 			title: 'Художники',
 			subtitle: 'Викладачі образотворчого мистецтва, сценографії та гриму'
 		},
 		{
 			key: 'choreographers',
-			icon: '💃',
+			icon: Footprints,
 			title: 'Хореографи',
 			subtitle: 'Викладачі танцю, сценічного руху та пластики'
 		},
 		{
 			key: 'vocalists',
-			icon: '🎤',
+			icon: MicVocal,
 			title: 'Вокалісти',
 			subtitle: 'Викладачі вокалу та сольного співу'
 		},
 		{
 			key: 'musicians',
-			icon: '🎼',
+			icon: Music,
 			title: 'Музиканти',
 			subtitle: 'Викладачі фортепіано, гітари та музично-теоретичних дисциплін'
 		},
 		{
 			key: 'accompanists',
-			icon: '🎹',
+			icon: Piano,
 			title: 'Концертмейстери',
 			subtitle: 'Майстри музичного супроводу, які створюють неповторну атмосферу занять та вистав'
 		},
@@ -106,37 +124,37 @@
 		// перевірка «кожен обчислюваний розділ має свій блок» червоніє.
 		{
 			key: 'teachers',
-			icon: '🎭',
+			icon: Drama,
 			title: 'Викладачі',
 			subtitle: 'Викладачі фахових дисциплін'
 		},
 		{
 			key: 'production',
-			icon: '🎛️',
+			icon: SlidersHorizontal,
 			title: 'Художньо-технічна служба',
 			subtitle: 'Майстри звуку, художнього світла та сцени'
 		},
 		{
 			key: 'it',
-			icon: '💻',
+			icon: Laptop,
 			title: 'IT та цифрові технології',
 			subtitle: 'Цифрова інфраструктура, розробка та технологічний супровід школи'
 		},
 		{
 			key: 'support',
-			icon: '☕',
+			icon: Coffee,
 			title: 'Служба турботи та затишку',
 			subtitle: 'Люди, які щодня дбають про безпеку, чистоту та домашній затишок у школі'
 		},
 		{
 			key: 'honorary',
-			icon: '🕯️',
+			icon: CandleIcon,
 			title: "Світла пам'ять",
 			subtitle: 'Викладачі та майстри, які назавжди залишаються в серці нашої школи'
 		},
 		{
 			key: 'history',
-			icon: '📜',
+			icon: ScrollText,
 			title: 'Історія школи',
 			subtitle: 'Педагоги та наставники, які творили історію Одеської театральної школи'
 		},
@@ -144,7 +162,7 @@
 		// про людей, і не мусить відтісняти змістові розділи вгору.
 		{
 			key: 'needsClarification',
-			icon: '❓',
+			icon: CircleQuestionMark,
 			title: 'Потребують уточнення',
 			subtitle: 'Записи з нез’ясованою роллю та ті, що чекають на підтвердження'
 		}
@@ -313,10 +331,13 @@
 
 				<div class="masters-groups" data-testid="residents-adults-masters-container">
 					{#each groups as group (group.key)}
+						{@const GroupIcon = group.icon}
 						<div class="masters-group" data-testid="residents-adults-group-section-{group.key}">
 							<div class="masters-group__header">
 								<h3 class="masters-group__title" data-testid="residents-adults-group-title-{group.key}">
-									<span class="masters-group__icon" aria-hidden="true">{group.icon}</span>
+									<span class="masters-group__icon" aria-hidden="true">
+										<GroupIcon size={24} />
+									</span>
 									<span>{group.title}</span>
 								</h3>
 								{#if group.subtitle}
@@ -453,7 +474,11 @@
 	}
 
 	.masters-group__icon {
-		font-size: 1.4rem;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		color: var(--accent-text);
 	}
 
 	.masters-group__subtitle {
