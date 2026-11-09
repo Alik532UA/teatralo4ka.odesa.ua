@@ -5,9 +5,10 @@
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
+		showArtisticDirector?: boolean;
 	}
 
-	let { isEn = false, themeId = 'uart-dark' }: Props = $props();
+	let { isEn = false, themeId = 'uart-dark', showArtisticDirector = false }: Props = $props();
 
 	const data = UART_DOSVID_BOOKLET;
 	const theme = $derived(
@@ -123,11 +124,13 @@
 				</div>
 			</div>
 
-			<!-- Рядок художнього керівника внизу -->
-			<p class="artistic-director-footer">
-				<span class="art-dir-role">{isEn ? 'Artistic Director of UArt Educational Theatre –' : 'Художній керівник навчального театру «UArt» –'}</span>
-				<span class="art-dir-name">{isEn ? 'Fedir Tkach' : 'Федір Ткач'}</span>
-			</p>
+			<!-- Рядок художнього керівника внизу (приховано за замовчуванням, можна відновити через showArtisticDirector={true}) -->
+			{#if showArtisticDirector}
+				<p class="artistic-director-footer">
+					<span class="art-dir-role">{isEn ? 'Artistic Director of UArt Educational Theatre –' : 'Художній керівник навчального театру «UArt» –'}</span>
+					<span class="art-dir-name">{isEn ? 'Fedir Tkach' : 'Федір Ткач'}</span>
+				</p>
+			{/if}
 		</div>
 	</section>
 </div>
