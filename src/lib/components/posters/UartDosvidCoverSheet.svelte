@@ -90,18 +90,17 @@
 			<div class="cover-title-block">
 				<h1 class="cover-title-main">{isEn ? data.titleEn : data.titleUk}</h1>
 				<p class="cover-title-genre">{isEn ? data.genreEn : data.genreUk}</p>
+				<div class="cover-badge-row">
+					<span class="age-badge" aria-label={isEn ? 'Age 14 plus' : 'Вікове обмеження 14+'}>
+						{data.ageBadge}
+					</span>
+				</div>
 			</div>
 
 			<div class="cover-info-block">
 				<p class="cover-author">
 					<span class="author-primary">{isEn ? data.authorEn : data.authorUk}</span>
 				</p>
-
-				<div class="cover-badge-row">
-					<span class="age-badge" aria-label={isEn ? 'Age 14 plus' : 'Вікове обмеження 14+'}>
-						{data.ageBadge}
-					</span>
-				</div>
 			</div>
 
 			<footer class="cover-logos" aria-label={isEn ? 'Partners and Organizer Logos' : 'Логотипи партнерів та організаторів'}>
@@ -191,7 +190,8 @@
 	.presenter-line { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(7.5px, 0.95cqi, 10px); line-height: 1.35; color: #f1f5f9; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); white-space: pre-line; }
 	.presenter-line--lead { margin-bottom: clamp(5px, 0.75cqi, 9px); }
 
-	.cover-title-block { display: flex; flex-direction: column; align-items: center; gap: clamp(2px, 0.6cqi, 6px); margin: auto 0; }
+	.cover-title-block { display: flex; flex-direction: column; align-items: center; gap: clamp(2px, 0.5cqi, 5px); margin: auto 0; transform: translateY(clamp(-48px, -6cqi, -24px)); }
+	.cover-badge-row { display: flex; justify-content: center; margin-top: clamp(2px, 0.4cqi, 4px); }
 	.cover-title-main { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(24px, 4.5cqi, 44px); font-weight: 900; letter-spacing: 0.06em; color: #ffed00; text-transform: uppercase; text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 0 20px rgba(255, 237, 0, 0.35); }
 	.cover-title-genre { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(10px, 1.4cqi, 14px); font-weight: 600; letter-spacing: 0.12em; color: #ffffff; text-transform: uppercase; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9); }
 
