@@ -204,6 +204,8 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 			expect(data.crew.some((c) => c.namesUk.includes('Ольга Майорова') && c.roleUk.includes('Художнє оформлення'))).toBe(true);
 			// Світло Онойченко
 			expect(data.crew.some((c) => c.namesUk.includes('Єлизавета Онойченко'))).toBe(true);
+			// IT-підтримка, типографіка Запольнов
+			expect(data.crew.some((c) => c.namesUk.includes('Алік Запольнов') && c.roleUk.includes('IT-підтримка, типографіка'))).toBe(true);
 			// Вокал Бакіна, Подзігун
 			expect(data.teachers.some((t) => t.namesUk.includes('Наталія Бакіна') && t.namesUk.includes('Ганна Подзігун'))).toBe(true);
 		});

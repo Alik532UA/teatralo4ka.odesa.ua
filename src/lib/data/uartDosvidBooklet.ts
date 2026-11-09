@@ -98,7 +98,13 @@ export const UART_DOSVID_BOOKLET = {
 			namesUk: 'Ольга Майорова',
 			namesEn: 'Olha Maiorova'
 		},
-		{ roleUk: 'Світло', roleEn: 'Lighting', namesUk: 'Єлизавета Онойченко', namesEn: 'Yelyzaveta Onoichenko' }
+		{ roleUk: 'Світло', roleEn: 'Lighting', namesUk: 'Єлизавета Онойченко', namesEn: 'Yelyzaveta Onoichenko' },
+		{
+			roleUk: 'IT-підтримка, типографіка',
+			roleEn: 'IT Support, Typography',
+			namesUk: 'Алік Запольнов',
+			namesEn: 'Alik Zapolnov'
+		}
 	] satisfies UartCreditItem[],
 	teachers: [
 		{
