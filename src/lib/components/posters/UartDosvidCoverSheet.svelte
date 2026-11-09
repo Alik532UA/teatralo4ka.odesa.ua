@@ -72,6 +72,7 @@
 					? 'Front cover artwork with teenagers and bread'
 					: 'Художня афіша вистави «Досвід» (підлітки та хлібина)'}
 				class="sheet-image"
+				style:object-position="55% center"
 				width="744"
 				height="1051"
 				loading="eager"
@@ -199,7 +200,7 @@
 	.cover-title-genre { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(10px, 1.4cqi, 14px); font-weight: 600; letter-spacing: 0.12em; color: #ffffff; text-transform: uppercase; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9); }
 
 	.cover-info-block { display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.2cqi, 12px); margin-bottom: clamp(10px, 1.8cqi, 18px); }
-	.cover-author { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; color: #ffffff; max-width: 92%; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9); }
+	.cover-author { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; color: #ffffff; max-width: 92%; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9); white-space: pre-line; }
 	.author-primary { font-size: clamp(10px, 1.45cqi, 14.5px); font-weight: 600; line-height: 1.3; }
 
 	.age-badge { display: inline-flex; align-items: center; justify-content: center; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700; font-size: clamp(9.5px, 1.25cqi, 13px); line-height: 1; padding: 3px 12px; border-radius: 9999px; color: #ffed00; border: 1.5px solid #ffed00; background: rgba(22, 18, 23, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }

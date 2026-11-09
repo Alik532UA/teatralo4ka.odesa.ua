@@ -14,8 +14,8 @@ export const UART_DOSVID_BOOKLET = {
 	premiereUk: '21 листопада 2026 р.',
 	premiereEn: 'November 21, 2026',
 	premiereTime: '18:00',
-	authorUk: 'авторка тексту та режисерка-постановниця Тетяна Ісачкіна',
-	authorEn: 'author of the text and stage director Tetiana Isachkina',
+	authorUk: 'авторка тексту та режисерка-постановниця\nТетяна\u00A0Ісачкіна',
+	authorEn: 'author of the text and stage director\nTetiana\u00A0Isachkina',
 	directorUk: 'РЕЖИСЕРКА-ПОСТАНОВНИЦЯ: ТЕТЯНА ІСАЧКІНА',
 	directorEn: 'STAGE DIRECTOR: TETIANA ISACHKINA',
 	synopsisUk:
