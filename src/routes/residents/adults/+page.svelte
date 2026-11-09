@@ -225,6 +225,20 @@
 	}
 
 	/*
+	 * В «Історії школи» люди без фотографії йдуть у кінець списку,
+	 * а всередині кожної групи (з фото / без фото) сортуються за учнями та абеткою.
+	 */
+	function byPhotoThenStudentsThenName(a: (typeof allMasters)[number], b: (typeof allMasters)[number]) {
+		const photoA = a.photo ? 0 : 1;
+		const photoB = b.photo ? 0 : 1;
+		if (photoA !== photoB) return photoA - photoB;
+		const countA = a.graduatesCount ?? 0;
+		const countB = b.graduatesCount ?? 0;
+		if (countB !== countA) return countB - countA;
+		return a.fullName.localeCompare(b.fullName, 'uk');
+	}
+
+	/*
 	 * Фіксований порядок — ЛИШЕ в керівництві, решта розділів рахує учнів.
 	 *
 	 * До 2026-08-24 фіксованими були ще два: завідувачі (театральне → художнє →
@@ -236,6 +250,7 @@
 	function sortCategoryItems(category: MasterSection, items: typeof allMasters) {
 		if (category === 'administration') return byFixedOrder(ADMIN_ORDER, items);
 		if (category === 'support') return byFixedOrder(SUPPORT_ORDER, items);
+		if (category === 'history') return [...items].sort(byPhotoThenStudentsThenName);
 		return [...items].sort(byStudentsThenPhotoThenName);
 	}
 
