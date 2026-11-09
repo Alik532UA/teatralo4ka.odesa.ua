@@ -60,8 +60,8 @@
 		aria-label={isEn ? 'Production Team and Details' : 'Постановники та відомості про виставу'}
 	>
 		<div class="half-content">
-			{#snippet creditRow(role: string, names: string)}
-				<li class="credit-row">
+			{#snippet creditRow(role: string, names: string, isLead = false)}
+				<li class="credit-row" class:credit-row--lead={isLead}>
 					<div class="credit-line">
 						<span class="credit-role">{role} –</span>
 						<span class="credit-names">{names}</span>
@@ -74,7 +74,7 @@
 				<h2 class="section-title">{isEn ? 'Production Team:' : 'Над виставою працювали:'}</h2>
 				<ul class="credits-list" role="list">
 					{#each data.crew as item, idx (idx)}
-						{@render creditRow(isEn ? item.roleEn : item.roleUk, isEn ? item.namesEn : item.namesUk)}
+						{@render creditRow(isEn ? item.roleEn : item.roleUk, isEn ? item.namesEn : item.namesUk, idx === 0)}
 					{/each}
 				</ul>
 			</div>
@@ -104,7 +104,10 @@
 						<Clock size={15} strokeWidth={2.3} class="widget-icon" />
 						<span class="widget-label">{isEn ? 'Duration' : 'Тривалість'}</span>
 					</div>
-					<strong class="widget-val">{isEn ? data.durationEn : data.durationUk}</strong>
+					<strong class="widget-val widget-val--duration">
+						<span class="val-duration-main">{isEn ? (data.durationMainEn ?? '70 minutes') : (data.durationMainUk ?? '70 хвилин')}</span>
+						<span class="val-duration-sub">{isEn ? (data.durationSubEn ?? 'without intermission') : (data.durationSubUk ?? 'без антракту')}</span>
+					</strong>
 				</div>
 
 				<div class="meta-widget">
@@ -193,6 +196,9 @@
 	.credits-block { display: flex; flex-direction: column; gap: clamp(4px, 0.65cqi, 7px); }
 	.credits-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(4px, 0.65cqi, 7px); }
 	.credit-row { font-size: clamp(11px, 1.5cqi, 14.5px); line-height: 1.4; min-width: 0; }
+	.credit-row--lead { margin-bottom: clamp(6px, 0.9cqi, 10px); }
+	.credit-row--lead .credit-role { display: block; }
+	.credit-row--lead .credit-names { display: block; }
 	.credit-line { line-height: 1.4; word-break: break-word; }
 	.credit-role { font-weight: 600; color: var(--sheet-muted, #cbd5e1); }
 	.credit-names { font-weight: 700; color: var(--sheet-text, #ffffff); }
@@ -207,6 +213,9 @@
 	.inside-sheet--light :global(.widget-icon) { color: #0f172a; }
 	.widget-label { color: var(--sheet-muted, #94a3b8); }
 	.widget-val { font-size: clamp(10.5px, 1.4cqi, 13.5px); font-weight: 700; color: var(--sheet-text, #ffffff); line-height: 1.25; margin-top: 2px; }
+	.widget-val--duration { display: flex; flex-direction: column; gap: 1px; }
+	.val-duration-main { white-space: nowrap; }
+	.val-duration-sub { font-size: clamp(9px, 1.15cqi, 11px); font-weight: 600; color: var(--sheet-muted, #cbd5e1); white-space: nowrap; }
 	.widget-val--premiere { display: flex; flex-direction: column; gap: 1px; }
 	.val-date { white-space: nowrap; }
 	.val-time { font-size: clamp(9.5px, 1.25cqi, 12px); color: var(--sheet-accent, #ffed00); font-weight: 600; }

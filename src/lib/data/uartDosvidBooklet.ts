@@ -11,6 +11,10 @@ export const UART_DOSVID_BOOKLET = {
 	ageBadge: '14+',
 	durationUk: '70 хвилин без антракту',
 	durationEn: '70 minutes, without intermission',
+	durationMainUk: '70 хвилин',
+	durationMainEn: '70 minutes',
+	durationSubUk: 'без антракту',
+	durationSubEn: 'without intermission',
 	premiereUk: '21 листопада 2026 р.',
 	premiereEn: 'November 21, 2026',
 	premiereTime: '18:00',
@@ -88,8 +92,8 @@ export const UART_DOSVID_BOOKLET = {
 		{
 			roleUk: 'Режисерка-постановниця, авторка тексту',
 			roleEn: 'Stage Director & Author',
-			namesUk: 'Тетяна Ісачкіна',
-			namesEn: 'Tetiana Isachkina'
+			namesUk: 'Тетяна\u00A0Ісачкіна',
+			namesEn: 'Tetiana\u00A0Isachkina'
 		},
 		{ roleUk: 'Хореограф', roleEn: 'Choreographer', namesUk: 'Тетяна Стогул', namesEn: 'Tetiana Stohul' },
 		{
