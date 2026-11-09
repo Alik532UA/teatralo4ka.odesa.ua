@@ -139,7 +139,7 @@
 							/>
 						{:else}
 							<img
-								src={asset(isLight ? '/posters/teatralo4ka-logo-2026-light.webp' : '/posters/teatralo4ka-logo-2026-dark.webp')}
+								src={asset('/logo/svg/t4_logo_2026.svg')}
 								alt={isEn ? 'Odesa Theatre School 2026 Emblem' : 'Емблема 2026 Одеської театральної школи'}
 								class="partner-logo partner-logo--school"
 								width="88"
@@ -149,6 +149,18 @@
 							/>
 						{/if}
 					</button>
+
+					<div class="logo-box logo-box--krendel">
+						<img
+							src={asset('/posters/krendel-logo.svg')}
+							alt={isEn ? 'Krendel Bakery Logo' : 'Логотип булочної «Крендель»'}
+							class="partner-logo partner-logo--krendel"
+							width="85"
+							height="50"
+							loading="eager"
+							decoding="async"
+						/>
+					</div>
 				</div>
 
 				<div class="logos-lower-row">
@@ -201,17 +213,18 @@
 
 	.age-badge { display: inline-flex; align-items: center; justify-content: center; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700; font-size: clamp(9.5px, 1.25cqi, 13px); line-height: 1; padding: 3px 12px; border-radius: 9999px; color: #ffed00; border: 1.5px solid #ffed00; background: rgba(32, 21, 14, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
 
-	.cover-logos { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 1.6cqi, 16px); padding: 0; width: 100%; max-width: 90%; margin: 0 auto; }
-	.logos-upper-row { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4.6cqi, 48px); width: 100%; }
+	.cover-logos { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(8px, 1.4cqi, 14px); padding: 0; width: 100%; max-width: 90%; margin: 0 auto; }
+	.logos-upper-row { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 3.2cqi, 36px); width: 100%; }
 	.logos-lower-row { display: flex; align-items: center; justify-content: center; width: 100%; }
 	.logo-box { display: flex; align-items: center; justify-content: center; }
-	.logo-box--uart, .logo-box--school { height: clamp(48px, 7.5cqi, 76px); }
+	.logo-box--uart, .logo-box--school { height: clamp(44px, 6.8cqi, 70px); }
+	.logo-box--krendel { height: clamp(36px, 5.5cqi, 56px); }
 	.logo-box--interactive { background: transparent; border: none; padding: 0; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: transform 0.18s ease, filter 0.18s ease; }
 	.logo-box--interactive:hover { transform: scale(1.05); }
 	.logo-box--interactive:focus-visible { outline: 2px solid #ffed00; outline-offset: 4px; border-radius: 4px; }
-	.logo-box--pro-teatr { width: clamp(280px, 44cqi, 400px); max-width: 95%; }
+	.logo-box--pro-teatr { width: clamp(260px, 42cqi, 380px); max-width: 95%; }
 	.partner-logo { width: auto; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6)); }
-	.partner-logo--uart, .partner-logo--school { height: 100%; width: auto; max-height: 100%; max-width: 100%; }
+	.partner-logo--uart, .partner-logo--school, .partner-logo--krendel { height: 100%; width: auto; max-height: 100%; max-width: 100%; }
 	.partner-logo--pro-teatr { width: 100%; height: auto; }
 
 	/* Друк */

@@ -60,6 +60,12 @@ export const UART_DOSVID_BOOKLET = {
 			altEn: 'Odesa Theatre School'
 		},
 		{
+			id: 'krendel',
+			src: '/posters/krendel-logo.svg',
+			altUk: 'Булочна «Крендель»',
+			altEn: 'Krendel Bakery'
+		},
+		{
 			id: 'pro-teatr',
 			src: '/posters/pro-teatr-logo-dark.webp',
 			altUk: 'ГО «PRO.ТЕАТР»',
