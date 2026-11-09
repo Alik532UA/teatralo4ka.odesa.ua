@@ -200,6 +200,8 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 
 			// Хореограф Стогул
 			expect(data.crew.some((c) => c.namesUk.includes('Тетяна Стогул'))).toBe(true);
+			// Художнє оформлення Майорова
+			expect(data.crew.some((c) => c.namesUk.includes('Ольга Майорова') && c.roleUk.includes('Художнє оформлення'))).toBe(true);
 			// Світло Онойченко
 			expect(data.crew.some((c) => c.namesUk.includes('Єлизавета Онойченко'))).toBe(true);
 			// Вокал Бакіна, Подзігун

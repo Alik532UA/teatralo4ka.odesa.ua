@@ -293,10 +293,10 @@
 				<GalaxyAwardPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'posviata-invitation'}
 				<PosviataInvitationPoster {isEn} />
-			{:else if activePoster === 'dance-studio'}
-				<DanceStudioPoster {isEn} themeId={selectedTheme} />
-			{:else}
+			{:else if activePoster === 'anniversary-28'}
 				<DigitalAnniversaryPoster {isEn} />
+			{:else}
+				<DanceStudioPoster {isEn} themeId={selectedTheme} />
 			{/if}
 		</section>
 	</div>

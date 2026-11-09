@@ -52,26 +52,6 @@
 					{isEn ? data.synopsisEn : data.synopsisUk}
 				</p>
 			</div>
-
-			<div class="back-footer-row">
-				<div class="back-qr-box">
-					<img
-						src={asset(data.concertUaQr)}
-						alt="QR-code concert.ua"
-						class="back-qr-img"
-						width="60"
-						height="60"
-						loading="lazy"
-						decoding="async"
-					/>
-					<span class="back-qr-label">concert.ua</span>
-				</div>
-				<div class="back-meta-text">
-					<p class="back-school-name">{isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}</p>
-					<p class="back-theatre-name">{isEn ? data.theatreEn : data.theatreUk}</p>
-					<p class="back-prem-date">{isEn ? `Premiere: ${data.premiereEn}` : `Прем’єра: ${data.premiereUk}`}</p>
-				</div>
-			</div>
 		</div>
 	</section>
 
@@ -204,17 +184,9 @@
 	.fold-badge { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); background: rgba(0, 0, 0, 0.7); color: #cbd5e1; font-size: 8px; text-transform: uppercase; letter-spacing: 0.08em; padding: 1px 6px; border-radius: 4px; white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.2); }
 
 	/* Задня обкладинка */
-	.back-cover-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 7% 7% 6%; box-sizing: border-box; z-index: 5; background: linear-gradient(to bottom, rgba(22, 18, 23, 0.5) 0%, rgba(22, 18, 23, 0.2) 40%, rgba(22, 18, 23, 0.85) 100%); }
+	.back-cover-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 7% 7% 6%; box-sizing: border-box; z-index: 5; background: linear-gradient(to bottom, rgba(22, 18, 23, 0.5) 0%, rgba(22, 18, 23, 0.2) 40%, rgba(22, 18, 23, 0.85) 100%); }
 	.back-quote-card { background: rgba(22, 18, 23, 0.82); border: 1px solid rgba(255, 237, 0, 0.35); border-radius: 8px; padding: clamp(10px, 2cqi, 18px); backdrop-filter: blur(6px); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6); }
 	.back-quote-text { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(8.5px, 1.25cqi, 13px); line-height: 1.5; color: #ffffff; font-style: italic; text-align: center; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8); }
-	.back-footer-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; background: rgba(22, 18, 23, 0.85); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: clamp(6px, 1.2cqi, 12px) clamp(10px, 1.8cqi, 16px); backdrop-filter: blur(6px); }
-	.back-qr-box { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-	.back-qr-img { width: clamp(40px, 6.5cqi, 60px); height: clamp(40px, 6.5cqi, 60px); background: #ffffff; padding: 3px; border-radius: 4px; }
-	.back-qr-label { font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(6.5px, 0.85cqi, 9px); color: #ffed00; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
-	.back-meta-text { text-align: right; display: flex; flex-direction: column; gap: 2px; }
-	.back-school-name { margin: 0; font-size: clamp(8px, 1.1cqi, 11px); font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 0.04em; }
-	.back-theatre-name { margin: 0; font-size: clamp(7.5px, 1cqi, 10px); color: #ffed00; font-weight: 600; }
-	.back-prem-date { margin: 0; font-size: clamp(7px, 0.9cqi, 9.5px); color: #cbd5e1; }
 
 	/* Лицьова частина */
 	.front-cover-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 5.2% 5% 6.5%; box-sizing: border-box; z-index: 5; text-align: center; pointer-events: none; background: linear-gradient(to bottom, rgba(22, 18, 23, 0.6) 0%, rgba(22, 18, 23, 0.15) 30%, rgba(22, 18, 23, 0.75) 100%); }

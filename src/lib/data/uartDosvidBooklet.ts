@@ -92,6 +92,12 @@ export const UART_DOSVID_BOOKLET = {
 			namesEn: 'Tetiana Isachkina'
 		},
 		{ roleUk: 'Хореограф', roleEn: 'Choreographer', namesUk: 'Тетяна Стогул', namesEn: 'Tetiana Stohul' },
+		{
+			roleUk: 'Художнє оформлення',
+			roleEn: 'Artistic Design',
+			namesUk: 'Ольга Майорова',
+			namesEn: 'Olha Maiorova'
+		},
 		{ roleUk: 'Світло', roleEn: 'Lighting', namesUk: 'Єлизавета Онойченко', namesEn: 'Yelyzaveta Onoichenko' }
 	] satisfies UartCreditItem[],
 	teachers: [
