@@ -1,4 +1,4 @@
-export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet' | 'uart-secrets-a1' | 'repertoire-november-a1';
+export type PosterId = 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet' | 'uart-dosvid-booklet' | 'uart-secrets-a1' | 'repertoire-november-a1';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -58,6 +58,16 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleEn: 'UArt Educational Theatre · Program Booklet (half-fold)',
 		dateBadgeUk: '7 листопада · Прем’єра',
 		dateBadgeEn: 'Nov 7 · Premiere'
+	},
+	{
+		id: 'uart-dosvid-booklet',
+		slug: 'uart-dosvid-booklet',
+		titleUk: '«Досвід» (Буклет A4)',
+		titleEn: '“Experience” (A4 Booklet)',
+		subtitleUk: 'Навчальний театр «UArt» · Буклет-програмка (згин навпіл)',
+		subtitleEn: 'UArt Educational Theatre · Program Booklet (half-fold)',
+		dateBadgeUk: '21 листопада · Прем’єра',
+		dateBadgeEn: 'Nov 21 · Premiere'
 	},
 	{
 		id: 'uart-secrets-a1',
@@ -133,7 +143,7 @@ export const POSTER_GROUPS: PosterGroup[] = [
 		id: '2026-2027',
 		titleUk: '2026–2027',
 		titleEn: '2026–2027',
-		ids: ['repertoire-november-a1', 'uart-secrets-booklet', 'uart-secrets-a1', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
+		ids: ['repertoire-november-a1', 'uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
 	},
 	{
 		id: '2024-2025',
@@ -165,17 +175,12 @@ export const DEFENDERS_HEARTS_POSTER = {
 		{ dateUk: '17 жовтня', dateEn: 'October 17', time: '12:50', roomUk: '17 ауд.', roomEn: 'Classroom 17', dayUk: 'Субота', dayEn: 'Saturday' }
 	] satisfies PosterEventItem[],
 	location: {
-		institutionUk: 'Одеська театральна школа',
-		institutionEn: 'Odesa Theatre School',
-		addressUk: 'вул. Софіївська, 24',
-		addressEn: '24 Sofiivska St.',
-		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)',
-		detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
+		institutionUk: 'Одеська театральна школа', institutionEn: 'Odesa Theatre School',
+		addressUk: 'вул. Софіївська, 24', addressEn: '24 Sofiivska St.',
+		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)', detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
 	},
-	quoteUk: '«Любов сильніша за війну, бо вона оберігає серця й дарує життя»',
-	quoteEn: '“Love is stronger than war, because it protects hearts and gives life”',
-	schoolUk: 'Одеська театральна школа · Сезон 2026–2027',
-	schoolEn: 'Odesa Theatre School · Season 2026–2027'
+	quoteUk: '«Любов сильніша за війну, бо вона оберігає серця й дарує життя»', quoteEn: '“Love is stronger than war, because it protects hearts and gives life”',
+	schoolUk: 'Одеська театральна школа · Сезон 2026–2027', schoolEn: 'Odesa Theatre School · Season 2026–2027'
 };
 
 export const DANCE_STUDIO_POSTER = {
@@ -212,19 +217,13 @@ export const DANCE_STUDIO_POSTER = {
 		{ dayUk: 'Субота', dayEn: 'Saturday', time: '15:30' }
 	] satisfies ScheduleItem[],
 	location: {
-		roomUk: 'Записуватись у 6 класі',
-		roomEn: 'Sign up in Classroom 6',
-		buildingUk: 'Приміщення Одеської театральної школи',
-		buildingEn: 'Odesa Theatre School premises',
-		addressUk: 'вул. Софіївська, 24',
-		addressEn: '24 Sofiivska St.',
-		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)',
-		detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
+		roomUk: 'Записуватись у 6 класі', roomEn: 'Sign up in Classroom 6',
+		buildingUk: 'Приміщення Одеської театральної школи', buildingEn: 'Odesa Theatre School premises',
+		addressUk: 'вул. Софіївська, 24', addressEn: '24 Sofiivska St.',
+		detailsUk: 'Приміщення Одеської театральної школи (вул. Софіївська, 24)', detailsEn: 'Odesa Theatre School premises (24 Sofiivska St.)'
 	},
-	quoteUk: 'Інтелект - штучний, а Мистецтво - вічне! Конфуцій 😜',
-	quoteEn: 'Intelligence is artificial, but Art is eternal! Confucius 😜',
-	schoolUk: 'Одеська театральна школа · Сезон 2026–2027',
-	schoolEn: 'Odesa Theatre School · Season 2026–2027'
+	quoteUk: 'Інтелект - штучний, а Мистецтво - вічне! Конфуцій 😜', quoteEn: 'Intelligence is artificial, but Art is eternal! Confucius 😜',
+	schoolUk: 'Одеська театральна школа · Сезон 2026–2027', schoolEn: 'Odesa Theatre School · Season 2026–2027'
 };
 
 export interface PosterTheme {
@@ -242,9 +241,9 @@ export const DEFAULT_GALAXY_AWARD_THEME = 'galaxy-space';
 export const DEFAULT_UART_BOOKLET_THEME = 'uart-dark';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
-	{ id: 'uart-dark', nameUk: 'Темний театральний (#171118)', nameEn: 'Theatrical Dark (#171118)', color: '#171118', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1', 'repertoire-november-a1'] },
+	{ id: 'uart-dark', nameUk: 'Темний театральний (#171118)', nameEn: 'Theatrical Dark (#171118)', color: '#171118', forPosters: ['uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'repertoire-november-a1'] },
 	{ id: 'uart-black', nameUk: 'Глибокий чорний (#000000)', nameEn: 'Deep Black (#000000)', color: '#000000', forPosters: ['uart-secrets-a1', 'repertoire-november-a1'] },
-	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet', 'uart-secrets-a1', 'repertoire-november-a1'] },
+	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'repertoire-november-a1'] },
 	{ id: 'galaxy-space', nameUk: 'Космічна ніч (Глибокий космос)', nameEn: 'Deep Space (Cosmic Night)', color: 'radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c122c 45%, #030712 100%)', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'galaxy-print-light', nameUk: 'Білий пергамент (Ощадний друк)', nameEn: 'White Parchment (Ink-saver Print)', color: '#ffffff', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'galaxy-gold', nameUk: 'Золота Галактика', nameEn: 'Golden Galaxy', color: 'radial-gradient(circle at 50% 20%, #2e2107 0%, #171103 50%, #070501 100%)', forPosters: ['galaxy-award-podiakova'] },

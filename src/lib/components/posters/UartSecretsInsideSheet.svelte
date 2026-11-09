@@ -235,6 +235,7 @@
 	.widget-val { font-size: clamp(12px, 1.6cqi, 15.5px); font-weight: 700; color: var(--sheet-text, #ffffff); line-height: 1.25; margin-top: 3px; white-space: nowrap; }
 	.meta-widget--age { align-items: center; justify-content: center; background: rgba(255, 237, 0, 0.08); border-color: var(--sheet-accent, #ffed00); gap: 2px; }
 	.inside-sheet--light .meta-widget--age { background: #f1f5f9; border-color: #0f172a; }
+	.widget-label { color: var(--sheet-muted, #94a3b8); }
 	.widget-label--age { color: var(--sheet-muted, #94a3b8); font-size: clamp(8px, 1.05cqi, 10px); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
 	.widget-val--age { font-size: clamp(15px, 2cqi, 20px); font-weight: 700; color: var(--sheet-accent, #ffed00); margin-top: 0; }
 	.inside-sheet--light .widget-val--age { color: #0f172a; }

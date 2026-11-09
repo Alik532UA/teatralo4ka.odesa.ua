@@ -21,6 +21,7 @@
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
+	import UartDosvidBookletPoster from '$lib/components/posters/UartDosvidBookletPoster.svelte';
 	import UartSecretsA1Poster from '$lib/components/posters/UartSecretsA1Poster.svelte';
 	import RepertoireNovemberA1Poster from '$lib/components/posters/RepertoireNovemberA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
@@ -54,7 +55,7 @@
 		if (themeParam) selectedTheme = themeParam;
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 	});
 
 	function selectSeason(groupId: string) {
@@ -81,7 +82,7 @@
 		} else if (id === 'galaxy-award-podiakova') {
 			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
-		} else if (id === 'uart-secrets-booklet' || id === 'uart-secrets-a1' || id === 'repertoire-november-a1') {
+		} else if (id === 'uart-secrets-booklet' || id === 'uart-dosvid-booklet' || id === 'uart-secrets-a1' || id === 'repertoire-november-a1') {
 			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
 		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-') || selectedTheme.startsWith('uart-'))) {
@@ -148,7 +149,7 @@
 		});
 	});
 
-	const isLandscape = $derived(activePoster === 'posviata-invitation' || activePoster === 'uart-secrets-booklet');
+	const isLandscape = $derived(activePoster === 'posviata-invitation' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet');
 	const isA1 = $derived(activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1');
 </script>
 
@@ -232,7 +233,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -282,6 +283,8 @@
 				<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
 			{:else if activePoster === 'uart-secrets-booklet'}
 				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'uart-dosvid-booklet'}
+				<UartDosvidBookletPoster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'uart-secrets-a1'}
 				<UartSecretsA1Poster {isEn} themeId={selectedTheme} />
 			{:else if activePoster === 'defenders-hearts'}

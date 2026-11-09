@@ -3,6 +3,7 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { POSTERS_LIST, POSTER_GROUPS, POSTER_THEMES } from '$lib/data/posters';
 import { UART_SECRETS_BOOKLET, UART_BOOKLET_THEMES } from '$lib/data/uartSecretsBooklet';
+import { UART_DOSVID_BOOKLET } from '$lib/data/uartDosvidBooklet';
 
 describe('UArt «Дуже багато SEкретів» буклет A4', () => {
 	it('зареєстрований у загальному реєстрі афіш школи POSTERS_LIST', () => {
@@ -126,6 +127,104 @@ describe('UArt «Дуже багато SEкретів» буклет A4', () => 
 				'src/lib/components/posters/uart-a1/UartA1Variant1.svelte',
 				'src/lib/components/posters/uart-a1/UartA1Variant2.svelte',
 				'src/lib/components/posters/uart-a1/UartA1Variant3.svelte'
+			];
+			for (const file of components) {
+				const diskPath = join(process.cwd(), file);
+				expect(existsSync(diskPath), `Файл ${file} має існувати`).toBe(true);
+			}
+		});
+	});
+
+	describe('UArt «Досвід» буклет A4', () => {
+		it('зареєстрований у загальному реєстрі афіш школи POSTERS_LIST', () => {
+			const meta = POSTERS_LIST.find((p) => p.id === 'uart-dosvid-booklet');
+			expect(meta).toBeDefined();
+			expect(meta?.titleUk).toContain('Досвід');
+			expect(meta?.dateBadgeUk).toContain('21 листопада');
+		});
+
+		it('входить до групи 2026–2027 років у POSTER_GROUPS', () => {
+			const group = POSTER_GROUPS.find((g) => g.id === '2026-2027');
+			expect(group?.ids).toContain('uart-dosvid-booklet');
+		});
+
+		it('має фірмові теми оформлення (темну та білу ощадну)', () => {
+			const dark = POSTER_THEMES.find((t) => t.id === 'uart-dark');
+			const light = POSTER_THEMES.find((t) => t.id === 'uart-light');
+			expect(dark?.forPosters).toContain('uart-dosvid-booklet');
+			expect(light?.forPosters).toContain('uart-dosvid-booklet');
+		});
+
+		it('містить 4 офіційні організації-презентери у шапці', () => {
+			const presenters = UART_DOSVID_BOOKLET.presentersUk;
+			expect(presenters).toHaveLength(4);
+			expect(presenters[0]).toContain('Департамент культури');
+			expect(presenters[1]).toContain('PRO.ТЕАТР');
+			expect(presenters[2]).toContain('Одеська театральна школа');
+			expect(presenters[3]).toContain('UArt');
+		});
+
+		it('містить повний склад дійових осіб та виконавців (10 записів)', () => {
+			const cast = UART_DOSVID_BOOKLET.cast;
+			expect(cast).toHaveLength(10);
+
+			const expectedNames = [
+				'Віра Васильєва',
+				'Єлизавета Горецька',
+				'Майя Чернова',
+				'Єва Шестака',
+				'Марія Єнькова',
+				'Євгенія Іващенко',
+				'Марія Орлова',
+				'Дар’я Овсянникова',
+				'Алісія Лазаренко',
+				'Федір Ткач',
+				'Дем’ян Лівітчук',
+				'Артем Дейсадзе'
+			];
+
+			for (const name of expectedNames) {
+				const found = cast.some((c) => c.actorUk.includes(name));
+				expect(found, `Актор/ка ${name} має бути у складі`).toBe(true);
+			}
+		});
+
+		it('містить постановочну команду, авторів, педагогів та синопсис', () => {
+			const data = UART_DOSVID_BOOKLET;
+			expect(data.directorUk).toContain('ТЕТЯНА ІСАЧКІНА');
+			expect(data.artisticDirectorUk).toContain('Федір Ткач');
+			expect(data.durationUk).toContain('70');
+			expect(data.premiereUk).toContain('21 листопада 2026');
+			expect(data.ageBadge).toBe('14+');
+			expect(data.synopsisUk).toContain('сповідь підлітків');
+
+			// Хореограф Стогул
+			expect(data.crew.some((c) => c.namesUk.includes('Тетяна Стогул'))).toBe(true);
+			// Світло Онойченко
+			expect(data.crew.some((c) => c.namesUk.includes('Єлизавета Онойченко'))).toBe(true);
+			// Вокал Бакіна, Подзігун
+			expect(data.teachers.some((t) => t.namesUk.includes('Наталія Бакіна') && t.namesUk.includes('Ганна Подзігун'))).toBe(true);
+		});
+
+		it('усі файли зображень та логотипів існують у static/', () => {
+			const files = [
+				UART_DOSVID_BOOKLET.coverLeftImage,
+				UART_DOSVID_BOOKLET.coverRightImage,
+				UART_DOSVID_BOOKLET.concertUaQr,
+				...UART_DOSVID_BOOKLET.logos.map((l) => l.src)
+			];
+
+			for (const file of files) {
+				const diskPath = join(process.cwd(), 'static', file.replace(/^\//, ''));
+				expect(existsSync(diskPath), `Файл ${file} має існувати на диску`).toBe(true);
+			}
+		});
+
+		it('усі svelte-компоненти буклету існують на диску', () => {
+			const components = [
+				'src/lib/components/posters/UartDosvidBookletPoster.svelte',
+				'src/lib/components/posters/UartDosvidCoverSheet.svelte',
+				'src/lib/components/posters/UartDosvidInsideSheet.svelte'
 			];
 			for (const file of components) {
 				const diskPath = join(process.cwd(), file);
