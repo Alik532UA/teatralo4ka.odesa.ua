@@ -33,7 +33,7 @@
 		class="sheet-half sheet-half--left cast-half"
 		aria-label={isEn ? 'Cast and Characters' : 'Дійові особи та виконавці'}
 	>
-		<div class="half-content half-content--left">
+		<div class="half-content">
 			<h2 class="section-title">{isEn ? 'Cast & Performers:' : 'Дійові особи та виконавці:'}</h2>
 
 			<ul class="cast-list" role="list">
@@ -58,7 +58,7 @@
 		class="sheet-half sheet-half--right credits-half"
 		aria-label={isEn ? 'Production Team and Details' : 'Постановники та відомості про виставу'}
 	>
-		<div class="half-content half-content--right">
+		<div class="half-content">
 			{#snippet creditRow(role: string, names: string)}
 				<li class="credit-row">
 					<div class="credit-line">
@@ -111,7 +111,10 @@
 						<Calendar size={15} strokeWidth={2.3} class="widget-icon" />
 						<span class="widget-label">{isEn ? 'Premiere' : 'Прем’єра'}</span>
 					</div>
-					<strong class="widget-val">{isEn ? `${data.premiereEn}, ${data.premiereTime}` : `${data.premiereUk}, ${data.premiereTime}`}</strong>
+					<strong class="widget-val widget-val--premiere">
+						<span class="val-date">{isEn ? data.premiereEn : data.premiereUk}</span>
+						<span class="val-time">{data.premiereTime}</span>
+					</strong>
 				</div>
 
 				<div class="meta-widget meta-widget--age">
@@ -154,8 +157,8 @@
 		container-type: inline-size;
 	}
 	.inside-sheet--light { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); }
-	.sheet-half { position: relative; height: 100%; overflow: hidden; padding: 6.5% 8.5%; box-sizing: border-box; }
-	.half-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+	.sheet-half { position: relative; height: 100%; overflow: hidden; padding: clamp(16px, 2.8cqi, 28px) clamp(20px, 4cqi, 40px); box-sizing: border-box; }
+	.half-content { height: 100%; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
 	.sheet-fold-line {
 		position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
 		background: repeating-linear-gradient(to bottom, var(--sheet-border, rgba(255, 255, 255, 0.25)) 0, var(--sheet-border, rgba(255, 255, 255, 0.25)) 6px, transparent 6px, transparent 12px);
@@ -167,48 +170,50 @@
 		letter-spacing: 0.08em; padding: 1px 6px; border-radius: 4px; white-space: nowrap; border: 1px solid rgba(255, 255, 255, 0.2);
 	}
 	.inside-sheet--light .fold-badge { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
-	.section-title { margin: 0 0 clamp(8px, 1.2cqi, 14px); font-size: clamp(15px, 2.1cqi, 21px); font-weight: 700; letter-spacing: 0.02em; color: var(--sheet-accent, #ffed00); border-bottom: 2px solid var(--sheet-border, rgba(255, 237, 0, 0.3)); padding-bottom: 5px; }
-	.subsection-title { margin: 0 0 clamp(4px, 0.6cqi, 7px); font-size: clamp(11.5px, 1.55cqi, 15px); font-weight: 700; color: var(--sheet-accent, #ffed00); border-bottom: 1px dashed var(--sheet-border, rgba(255, 237, 0, 0.2)); padding-bottom: 3px; }
+	.section-title { margin: 0 0 clamp(8px, 1.2cqi, 14px); font-size: clamp(14px, 2cqi, 20px); font-weight: 700; letter-spacing: 0.02em; color: var(--sheet-accent, #ffed00); border-bottom: 2px solid var(--sheet-border, rgba(255, 237, 0, 0.3)); padding-bottom: 5px; }
+	.subsection-title { margin: 0 0 clamp(4px, 0.6cqi, 7px); font-size: clamp(11px, 1.5cqi, 14.5px); font-weight: 700; color: var(--sheet-accent, #ffed00); border-bottom: 1px dashed var(--sheet-border, rgba(255, 237, 0, 0.2)); padding-bottom: 3px; }
 
 	.cast-list {
 		list-style: none;
-		margin: clamp(10px, 1.4cqi, 18px) 0 0;
+		margin: clamp(8px, 1.2cqi, 14px) 0 0;
 		padding: 0;
 		flex: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 	}
-	.cast-row { display: flex; align-items: baseline; font-size: clamp(13px, 1.85cqi, 18px); line-height: 1.35; }
-	.cast-character { font-weight: 600; color: var(--sheet-muted, #cbd5e1); white-space: nowrap; }
-	.cast-leader { flex: 1; min-width: 8px; margin: 0 10px 4px; border-bottom: 1.5px dotted var(--sheet-border, rgba(255, 255, 255, 0.35)); align-self: flex-end; }
-	.cast-actor { font-weight: 700; color: var(--sheet-text, #ffffff); white-space: nowrap; }
+	.cast-row { display: flex; align-items: baseline; font-size: clamp(12.5px, 1.75cqi, 17px); line-height: 1.35; min-width: 0; }
+	.cast-character { font-weight: 600; color: var(--sheet-muted, #cbd5e1); white-space: nowrap; flex-shrink: 0; }
+	.cast-leader { flex: 1; min-width: 8px; margin: 0 8px 4px; border-bottom: 1.5px dotted var(--sheet-border, rgba(255, 255, 255, 0.35)); align-self: flex-end; }
+	.cast-actor { font-weight: 700; color: var(--sheet-text, #ffffff); white-space: nowrap; flex-shrink: 0; }
 
-	.credits-block { display: flex; flex-direction: column; gap: clamp(5px, 0.75cqi, 8px); margin-bottom: clamp(6px, 1cqi, 12px); }
-	.credits-block:last-of-type { margin-bottom: 0; }
-	.credits-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(5px, 0.8cqi, 9px); }
-	.credit-row { font-size: clamp(11.5px, 1.55cqi, 15px); line-height: 1.42; }
-	.credit-line { line-height: 1.42; }
+	.credits-block { display: flex; flex-direction: column; gap: clamp(4px, 0.65cqi, 7px); }
+	.credits-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: clamp(4px, 0.65cqi, 7px); }
+	.credit-row { font-size: clamp(11px, 1.5cqi, 14.5px); line-height: 1.4; min-width: 0; }
+	.credit-line { line-height: 1.4; word-break: break-word; }
 	.credit-role { font-weight: 600; color: var(--sheet-muted, #cbd5e1); }
 	.credit-names { font-weight: 700; color: var(--sheet-text, #ffffff); }
-	.admin-names { font-size: clamp(11.5px, 1.55cqi, 15px); line-height: 1.42; font-weight: 700; color: var(--sheet-text, #ffffff); }
+	.admin-names { font-size: clamp(11px, 1.5cqi, 14.5px); line-height: 1.4; font-weight: 700; color: var(--sheet-text, #ffffff); word-break: break-word; }
 
 	/* 3 окремих дворівневих контейнери метаданих */
-	.meta-widgets-grid { display: grid; grid-template-columns: 1fr 1.4fr 0.6fr; gap: clamp(8px, 1.2cqi, 13px); margin-top: auto; margin-bottom: auto; }
-	.meta-widget { display: flex; flex-direction: column; justify-content: space-between; padding: clamp(8px, 1.2cqi, 12px) clamp(10px, 1.35cqi, 14px); border-radius: 8px; background: rgba(255, 237, 0, 0.04); border: 1.5px solid var(--sheet-border, rgba(255, 237, 0, 0.25)); }
+	.meta-widgets-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.35fr) auto; gap: clamp(6px, 1cqi, 10px); width: 100%; box-sizing: border-box; }
+	.meta-widget { display: flex; flex-direction: column; justify-content: center; min-width: 0; overflow: hidden; padding: clamp(6px, 1cqi, 10px) clamp(8px, 1.2cqi, 12px); border-radius: 8px; background: rgba(255, 237, 0, 0.04); border: 1.5px solid var(--sheet-border, rgba(255, 237, 0, 0.25)); box-sizing: border-box; }
 	.inside-sheet--light .meta-widget { background: #f8fafc; border-color: rgba(0, 0, 0, 0.12); }
-	.widget-head { display: flex; align-items: center; gap: 6px; font-size: clamp(8.5px, 1.15cqi, 11px); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: var(--sheet-muted, #94a3b8); }
+	.widget-head { display: flex; align-items: center; gap: 5px; font-size: clamp(8px, 1.1cqi, 10.5px); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; color: var(--sheet-muted, #94a3b8); }
 	:global(.widget-icon) { color: var(--sheet-accent, #ffed00); flex-shrink: 0; }
 	.inside-sheet--light :global(.widget-icon) { color: #0f172a; }
-	.widget-val { font-size: clamp(11.5px, 1.55cqi, 15px); font-weight: 700; color: var(--sheet-text, #ffffff); line-height: 1.25; margin-top: 3px; white-space: nowrap; }
-	.meta-widget--age { align-items: center; justify-content: center; background: rgba(255, 237, 0, 0.08); border-color: var(--sheet-accent, #ffed00); gap: 2px; }
-	.inside-sheet--light .meta-widget--age { background: #f1f5f9; border-color: #0f172a; }
 	.widget-label { color: var(--sheet-muted, #94a3b8); }
+	.widget-val { font-size: clamp(10.5px, 1.4cqi, 13.5px); font-weight: 700; color: var(--sheet-text, #ffffff); line-height: 1.25; margin-top: 2px; }
+	.widget-val--premiere { display: flex; flex-direction: column; gap: 1px; }
+	.val-date { white-space: nowrap; }
+	.val-time { font-size: clamp(9.5px, 1.25cqi, 12px); color: var(--sheet-accent, #ffed00); font-weight: 600; }
+	.meta-widget--age { align-items: center; justify-content: center; min-width: clamp(40px, 6cqi, 54px); background: rgba(255, 237, 0, 0.08); border-color: var(--sheet-accent, #ffed00); gap: 2px; flex-shrink: 0; }
+	.inside-sheet--light .meta-widget--age { background: #f1f5f9; border-color: #0f172a; }
 	.widget-label--age { color: var(--sheet-muted, #94a3b8); font-size: clamp(8px, 1.05cqi, 10px); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
 	.widget-val--age { font-size: clamp(15px, 2cqi, 20px); font-weight: 700; color: var(--sheet-accent, #ffed00); margin-top: 0; }
 	.inside-sheet--light .widget-val--age { color: #0f172a; }
 
-	.artistic-director-footer { margin: 0; font-size: clamp(10px, 1.35cqi, 13px); line-height: 1.35; text-align: center; }
+	.artistic-director-footer { margin: 0; font-size: clamp(9.5px, 1.3cqi, 12.5px); line-height: 1.35; text-align: center; }
 	.art-dir-role { font-weight: 600; color: var(--sheet-muted, #cbd5e1); }
 	.art-dir-name { font-weight: 700; color: var(--sheet-text, #ffffff); }
 
