@@ -20,7 +20,7 @@
 <div
 	class="booklet-sheet inside-sheet"
 	class:inside-sheet--light={isLight}
-	style:--sheet-bg={theme.sheet2Bg}
+	style:--sheet-bg={isLight ? theme.sheet2Bg : '#20150e'}
 	style:--sheet-text={theme.sheet2Text}
 	style:--sheet-muted={theme.sheet2Muted}
 	style:--sheet-accent={theme.sheet2Accent}
@@ -140,7 +140,7 @@
 
 <style>
 	.booklet-sheet {
-		--sheet-bg: #161217;
+		--sheet-bg: #20150e;
 		--sheet-text: #ffffff;
 		--sheet-muted: #cbd5e1;
 		--sheet-accent: #ffed00;
@@ -153,7 +153,7 @@
 		max-width: 1120px;
 		aspect-ratio: 297 / 210;
 		margin: 0 auto;
-		background: var(--sheet-bg, #161217);
+		background: var(--sheet-bg, #20150e);
 		color: var(--sheet-text, #ffffff);
 		border-radius: 6px;
 		overflow: hidden;

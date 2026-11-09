@@ -138,7 +138,7 @@
 		justify-content: space-between;
 		gap: 12px;
 		padding: 10px 16px;
-		background: rgba(22, 18, 23, 0.7);
+		background: rgba(32, 21, 14, 0.7);
 		backdrop-filter: blur(8px);
 		border: 1px solid rgba(255, 237, 0, 0.2);
 		border-radius: 12px;
@@ -175,7 +175,7 @@
 
 	.mode-tab-btn--active {
 		background: #ffed00;
-		color: #161217;
+		color: #20150e;
 		font-weight: 700;
 		border-color: #ffed00;
 		box-shadow: 0 2px 8px rgba(255, 237, 0, 0.25);
@@ -230,7 +230,7 @@
 
 	.logo-sub-tab--active {
 		background: #ffed00;
-		color: #161217;
+		color: #20150e;
 		font-weight: 700;
 	}
 
