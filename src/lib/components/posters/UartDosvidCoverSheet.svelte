@@ -102,10 +102,6 @@
 						{data.ageBadge}
 					</span>
 				</div>
-
-				<p class="cover-director">
-					{isEn ? data.directorEn : data.directorUk}
-				</p>
 			</div>
 
 			<footer class="cover-logos" aria-label={isEn ? 'Partners and Organizer Logos' : 'Логотипи партнерів та організаторів'}>
@@ -204,7 +200,6 @@
 	.author-primary { font-size: clamp(10px, 1.45cqi, 14.5px); font-weight: 600; line-height: 1.3; }
 
 	.age-badge { display: inline-flex; align-items: center; justify-content: center; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700; font-size: clamp(9.5px, 1.25cqi, 13px); line-height: 1; padding: 3px 12px; border-radius: 9999px; color: #ffed00; border: 1.5px solid #ffed00; background: rgba(22, 18, 23, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); }
-	.cover-director { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-weight: 700; font-size: clamp(9px, 1.35cqi, 13px); letter-spacing: 0.08em; color: #ffed00; text-transform: uppercase; text-shadow: 0 2px 5px rgba(0, 0, 0, 0.9); }
 
 	.cover-logos { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(10px, 1.6cqi, 16px); padding: 0; width: 100%; max-width: 90%; margin: 0 auto; }
 	.logos-upper-row { display: flex; align-items: center; justify-content: center; gap: clamp(24px, 4.6cqi, 48px); width: 100%; }
