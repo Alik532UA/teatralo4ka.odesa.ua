@@ -187,7 +187,7 @@
 	/* Лицьова частина */
 	.front-cover-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 5.2% 5% 6.5%; box-sizing: border-box; z-index: 5; text-align: center; pointer-events: none; background: linear-gradient(to bottom, rgba(22, 18, 23, 0.6) 0%, rgba(22, 18, 23, 0.15) 30%, rgba(22, 18, 23, 0.75) 100%); }
 	.cover-presenters { display: flex; flex-direction: column; gap: 3px; }
-	.presenter-line { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(7.5px, 0.95cqi, 10px); line-height: 1.35; color: #f1f5f9; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); white-space: pre-line; }
+	.presenter-line { margin: 0; font-family: 'e-Ukraine', var(--font-body), sans-serif; font-size: clamp(7.5px, 0.95cqi, 10px); line-height: 1.35; color: #f1f5f9; letter-spacing: 0.02em; font-weight: 500; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9); white-space: pre-line; }
 	.presenter-line--lead { margin-bottom: clamp(5px, 0.75cqi, 9px); }
 
 	.cover-title-block { display: flex; flex-direction: column; align-items: center; gap: clamp(2px, 0.5cqi, 5px); margin: auto 0; transform: translateY(clamp(-48px, -6cqi, -24px)); }
