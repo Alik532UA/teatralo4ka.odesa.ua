@@ -300,12 +300,12 @@
 		font-family: var(--font-heading, monospace);
 		font-size: 0.84rem;
 		font-weight: 800;
-		color: var(--accent-text, var(--palette-orange));
+		color: var(--accent-text);
 		white-space: nowrap;
 		letter-spacing: 0.02em;
 	}
 	.toc-row-btn--active .toc-row__sounds {
-		color: var(--palette-orange);
+		color: var(--accent-text);
 		font-weight: 900;
 	}
 
