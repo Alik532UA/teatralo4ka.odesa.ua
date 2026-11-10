@@ -11,23 +11,57 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    open-pull-requests-limit: 5
-    # Патчі й мінори — одним PR: поодинці вони створюють шум, а ризик однаковий.
-    # Мажори — окремими, бо кожен вимагає читання changelog
-    # (DEPENDENCIES-v8 § 3.2: мажор не їде разом з іншими змінами).
+    open-pull-requests-limit: 10
+    # Групування залежностей за доменними зонами (2026-11-10).
+    #
+    # Раніше всі мінори й патчі йшли одним спільним PR (`patterns: ['*']`).
+    # Це створювало дві критичні проблеми:
+    # 1) Назва workflow-рану Dependabot Updates в Actions роздувалася до 400+
+    #    символів («npm_and_yarn in / for @opentelemetry/api, @tiptap/core, ...»);
+    # 2) Об'єднання 27 гетерогенних пакетів робило PR крихким: будь-яка дрібниця
+    #    (як-от несумісність svelte-check чи одне застаріле правило eslint-disable)
+    #    блокувала оновлення всіх інших 26 цілком стабільних бібліотек (Tiptap, Playwright тощо).
+    #
+    # Доменні групи ізолюють ризики:
     groups:
-      minor-and-patch:
-        patterns: ['*']
-        update-types: ['minor', 'patch']
-      # `vitest` і `@vitest/coverage-v8` поодинці не їдуть НІКОЛИ: coverage
-      # тримає peer на точну версію vitest. Заміряно 2026-09-01: PR #8 (vitest
-      # 3.2.7 → 4.1.11) упав чотири рази з чотирьох, і всі — на `npm ci`:
-      #     npm error Conflicting peer dependency: vitest@3.2.7
-      # Мажор для них має сенс лише спільним PR, тому окрема група саме на
-      # мажори — мінори й патчі й далі їдуть у великій.
+      # 15 пакетів редактора Tiptap: їх слід оновлювати суворо разом між собою,
+      # але окремо від компілятора та лінтерів.
+      tiptap:
+        patterns:
+          - '@tiptap/*'
+          - 'tiptap-markdown'
+
+      # Ядро Svelte та плагіни: вимагають окремої перевірки компіляції та типів.
+      svelte:
+        patterns:
+          - 'svelte'
+          - 'svelte-check'
+          - '@sveltejs/*'
+
+      # Інструменти якості коду: оновлення лінтерів часто змінює діагностику
+      # і потребує точкового коригування src/eslint-baseline.test.ts.
+      lint:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@typescript-eslint/*'
+          - 'typescript-eslint'
+          - 'svelte-eslint-parser'
+          - 'globals'
+
+      # E2E та accessibility тестування.
+      testing:
+        patterns:
+          - '@playwright/*'
+          - '@axe-core/*'
+
+      # `vitest` і `@vitest/coverage-v8` тримають peer на точну версію vitest.
+      # Мають завжди оновлюватися сумісно (і мажори, і мінори/патчі).
       vitest:
-        patterns: ['vitest', '@vitest/*']
-        update-types: ['major']
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+
     # Чого НЕ пропонувати, доки проєкт не переїде.
     #
     # `@sveltejs/vite-plugin-svelte@7` вимагає `vite@^8`, а тут `vite@^7.3.1`.
