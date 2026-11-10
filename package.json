@@ -52,9 +52,9 @@
 		"build:address-aliases": "tsx scripts/build-address-aliases.ts"
 	},
 	"devDependencies": {
-		"@axe-core/playwright": "^4.12.1",
+		"@axe-core/playwright": "^4.14.0",
 		"@eslint/js": "^10.0.1",
-		"@playwright/test": "^1.62.1",
+		"@playwright/test": "^1.65.0",
 		"@sveltejs/adapter-auto": "^7.0.0",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.50.2",
