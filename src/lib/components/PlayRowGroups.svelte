@@ -187,7 +187,7 @@
 
 	:global(.profile-stage--themed) .groups__link,
 	:global(.card__inner--themed) .groups__link,
-	:global(body:not(.page-galaxy)) .groups__link {
+	:global(.profile-layout--bloom) .groups__link {
 		border-color: var(--border-main);
 		color: var(--text-main);
 	}
@@ -196,8 +196,8 @@
 	:global(.profile-stage--themed) .groups__link:focus-visible,
 	:global(.card__inner--themed) .groups__link:hover,
 	:global(.card__inner--themed) .groups__link:focus-visible,
-	:global(body:not(.page-galaxy)) .groups__link:hover,
-	:global(body:not(.page-galaxy)) .groups__link:focus-visible {
+	:global(.profile-layout--bloom) .groups__link:hover,
+	:global(.profile-layout--bloom) .groups__link:focus-visible {
 		background: var(--bg-surface);
 		border-color: var(--accent-primary);
 		color: var(--text-title);

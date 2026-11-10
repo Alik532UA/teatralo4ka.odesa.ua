@@ -314,7 +314,7 @@
 
 	.pill-btn--png {
 		background: rgba(249, 179, 29, 0.15);
-		color: var(--palette-orange, #f9b31d);
+		color: light-dark(#92400e, var(--palette-orange, #f9b31d));
 		border: 1px solid rgba(249, 179, 29, 0.3);
 	}
 

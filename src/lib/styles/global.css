@@ -2084,13 +2084,15 @@ textarea::placeholder {
 .department-head-card__name {
 	font-size: 1.25rem;
 	font-weight: 800;
-	color: var(--text-title);
-	text-decoration: none !important;
+	color: var(--accent-text);
+	text-decoration: underline;
+	text-decoration-thickness: 1.5px;
+	text-underline-offset: 0.2em;
 	line-height: 1.3;
 	transition: color 0.15s ease;
 }
 .department-head-card__name:hover {
-	color: var(--accent-text);
+	color: var(--text-title);
 }
 .department-head-card__role {
 	margin: 0 !important;
