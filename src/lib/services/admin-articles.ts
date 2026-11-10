@@ -20,7 +20,7 @@ import { t } from 'svelte-i18n';
 import { friendlyError, rethrowFriendly } from "./firebaseErrors";
 import { ADMIN_LIST_LIMIT } from "../firebase/queryLimits";
 
-const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
 // Ліміти мають збігатися з firestore.rules (isValidArticle / isValidTranslationBlock).
 const MAX_CONTENT_CHARS = 50000;

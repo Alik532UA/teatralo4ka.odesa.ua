@@ -63,7 +63,7 @@ export interface Article {
   };
 }
 
-const projectId = import.meta.env.VITE_PROJECT_ID;
+const projectId = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
 /**
  * Стаття, прочитана з Firestore: id у неї є завжди, бо це id документа.

@@ -175,7 +175,8 @@
 	{@attach galleryGestures({
 		count: () => КАДРИ.length,
 		next: () => крок(1),
-		prev: () => крок(-1)
+		prev: () => крок(-1),
+		wheelMode: 'horizontal' as const
 	})}
 >
 	<button

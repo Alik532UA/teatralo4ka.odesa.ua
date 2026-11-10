@@ -408,7 +408,7 @@
 		></div>
 		<!-- Частина, що перетекла через нижній край доріжки й вийшла згори.
 		     Поза зацикленням її висота нульова, і елемента просто немає. -->
-		{#if thumbWrapped > 0}
+		{#if thumbWrapped >= 1}
 			<div
 				class="page-scrollbar__thumb"
 				style="top: 0; height: {thumbWrapped}px;"

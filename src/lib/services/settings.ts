@@ -364,7 +364,7 @@ export function projectsToContentConfig(c: ProjectsWidgetConfig): ContentWidgetC
   return { ...rest, pinnedItemId };
 }
 
-const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+const SITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
 async function getProjectId(): Promise<string> {
   const user = (await firebaseAuth()).currentUser;

@@ -346,6 +346,7 @@ test.describe('банер знімків групи', () => {
 
 		await page.getByTestId('group-photo-next-btn').click();
 		await page.mouse.move(5, 5);
+		await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
 
 		const чекав = await page.evaluate(async () => {
 			const банер = document.querySelector('[data-testid="group-photo-banner"]')!;

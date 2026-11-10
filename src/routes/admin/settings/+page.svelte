@@ -158,7 +158,7 @@ function updateTimeValue(isStart: boolean, type: 'h' | 'm', val: string) {
 }
 
 // ── Header settings ──────────────────────────────────────────────────────────
-const VITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID;
+const VITE_PROJECT_ID = import.meta.env.VITE_PROJECT_ID || 'teatralo4ka';
 
 function getLocaleString(data: unknown, key: string): string {
   const res = key

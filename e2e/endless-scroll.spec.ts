@@ -288,6 +288,7 @@ test.describe('зациклена головна', () => {
 						const el = document.querySelector(`[data-testid="${id}"]`);
 						if (!el) return null;
 						const r = el.getBoundingClientRect();
+						if (Math.round(r.bottom) - Math.round(r.top) <= 0) return null;
 						return { top: Math.round(r.top), bottom: Math.round(r.bottom) };
 					};
 					return {

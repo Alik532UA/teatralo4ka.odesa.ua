@@ -127,7 +127,8 @@
 		{@attach galleryGestures({
 			count: () => cards.length,
 			next: () => step(1),
-			prev: () => step(-1)
+			prev: () => step(-1),
+			wheelMode: 'horizontal' as const
 		})}
 	>
 		<div class="news-banner__viewport">

@@ -32,6 +32,13 @@ export interface GalleryGestureOptions {
 	 * стрічка прев'ю має прокручуватися, а не перегортати світлини.
 	 */
 	ignore?: string;
+	/**
+	 * Режим обробки колеса миші:
+	 * • 'all' (типово) — вертикальне колесо перегортає світлини (для модального лайтбокса).
+	 * • 'horizontal' — лише горизонтальне колесо або Shift+колесо (для інлайнових банерів, щоб не блокувати вертикальний скрол сторінки).
+	 * • 'none' — колесо не обробляється взагалі (лише touch-жести).
+	 */
+	wheelMode?: 'all' | 'horizontal' | 'none';
 }
 
 /**
@@ -59,13 +66,23 @@ export function galleryGestures(options: GalleryGestureOptions): Attachment {
 
 		function onWheel(e: WheelEvent) {
 			if (options.count() <= 1) return;
+			if (options.wheelMode === 'none') return;
 			if (options.ignore && (e.target as Element | null)?.closest(options.ignore)) return;
+
+			let delta = e.deltaY;
+			if (options.wheelMode === 'horizontal') {
+				const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 0;
+				const isShift = e.shiftKey && Math.abs(e.deltaY) > Math.abs(e.deltaX) && Math.abs(e.deltaY) > 0;
+				if (!isHorizontal && !isShift) return;
+				delta = isShift ? e.deltaY : e.deltaX;
+			}
+
 			e.preventDefault();
 
 			const now = performance.now();
 			if (now - wheelAt > WHEEL_GAP) wheelAcc = 0;
 			wheelAt = now;
-			wheelAcc += e.deltaY;
+			wheelAcc += delta;
 
 			if (wheelAcc >= WHEEL_STEP) {
 				options.next();
@@ -93,13 +110,17 @@ export function galleryGestures(options: GalleryGestureOptions): Attachment {
 		}
 
 		// `passive: false` лише для колеса: воно єдине знімає типову поведінку.
-		element.addEventListener('wheel', onWheel, { passive: false });
+		if (options.wheelMode !== 'none') {
+			element.addEventListener('wheel', onWheel, { passive: false });
+		}
 		element.addEventListener('touchstart', onTouchStart, { passive: true });
 		element.addEventListener('touchmove', onTouchMove, { passive: true });
 		element.addEventListener('touchend', onTouchEnd, { passive: true });
 
 		return () => {
-			element.removeEventListener('wheel', onWheel);
+			if (options.wheelMode !== 'none') {
+				element.removeEventListener('wheel', onWheel);
+			}
 			element.removeEventListener('touchstart', onTouchStart);
 			element.removeEventListener('touchmove', onTouchMove);
 			element.removeEventListener('touchend', onTouchEnd);

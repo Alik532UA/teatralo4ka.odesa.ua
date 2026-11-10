@@ -212,7 +212,8 @@
 		prev: () => {
 			index = (активний - 1 + photos.length) % photos.length;
 			ручних += 1;
-		}
+		},
+		wheelMode: 'horizontal' as const
 	});
 
 	function open() {
