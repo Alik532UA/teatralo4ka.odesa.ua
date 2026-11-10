@@ -88,7 +88,10 @@ module.exports = {
 	ci: {
 		collect: {
 			staticDistDir: './build',
-			url: urls
+			url: urls,
+			settings: {
+				chromeFlags: '--no-sandbox --disable-dev-shm-usage --disable-gpu'
+			}
 		},
 		assert: {
 			assertMatrix: [
