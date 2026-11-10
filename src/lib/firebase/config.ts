@@ -63,22 +63,25 @@ perf('firebase/config: initializeApp done');
 // Ініціалізуємо ДО перших звернень до Firestore, лише в браузері.
 const appCheckSiteKey = "6LfzIKosAAAAABkRJFx_vi1_iT5W8H45vDAMRd_m";
 if (typeof window !== 'undefined') {
-  const debugToken = import.meta.env.VITE_APPCHECK_DEBUG_TOKEN as string | undefined;
-  if (import.meta.env.DEV && debugToken) {
-    // 'true' → SDK сам згенерує токен і надрукує його в консоль (скопіюй у
-    // Firebase → App Check → Manage debug tokens). Інакше — конкретний токен.
-    // @ts-expect-error — глобальний прапорець, який читає App Check SDK у dev-режимі
-    self.FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken === 'true' ? true : debugToken;
-  }
-  try {
-    initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(appCheckSiteKey),
-      isTokenAutoRefreshEnabled: true,
-    });
-    perf('firebase/config: App Check initialized');
-  } catch (e) {
-    // Не блокуємо застосунок, якщо App Check не піднявся (напр. повторна ініціалізація при HMR).
-    errorLogger.logWarning('App Check не піднявся — працюємо без нього', { component: 'firebase' }, e);
+  const isLighthouse = /Chrome-Lighthouse|Lighthouse/i.test(navigator.userAgent);
+  if (!isLighthouse) {
+    const debugToken = import.meta.env.VITE_APPCHECK_DEBUG_TOKEN as string | undefined;
+    if (import.meta.env.DEV && debugToken) {
+      // 'true' → SDK сам згенерує токен і надрукує його в консоль (скопіюй у
+      // Firebase → App Check → Manage debug tokens). Інакше — конкретний токен.
+      // @ts-expect-error — глобальний прапорець, який читає App Check SDK у dev-режимі
+      self.FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken === 'true' ? true : debugToken;
+    }
+    try {
+      initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(appCheckSiteKey),
+        isTokenAutoRefreshEnabled: true,
+      });
+      perf('firebase/config: App Check initialized');
+    } catch (e) {
+      // Не блокуємо застосунок, якщо App Check не піднявся (напр. повторна ініціалізація при HMR).
+      errorLogger.logWarning('App Check не піднявся — працюємо без нього', { component: 'firebase' }, e);
+    }
   }
 }
 

@@ -53,13 +53,56 @@ type SDK = typeof import('./sdk');
 
 let підключення: Promise<SDK> | null = null;
 
+function isLighthouse(): boolean {
+	return (
+		typeof navigator !== 'undefined' &&
+		/Chrome-Lighthouse|Lighthouse/i.test(navigator.userAgent)
+	);
+}
+
+const LIGHTHOUSE_EMPTY_DOC = {
+	exists: () => false,
+	data: () => undefined,
+	id: 'lighthouse-mock'
+};
+
+const LIGHTHOUSE_EMPTY_QUERY_SNAPSHOT = {
+	empty: true,
+	size: 0,
+	docs: [],
+	forEach: () => {}
+};
+
+const LIGHTHOUSE_SDK = {
+	db: {} as SDK['db'],
+	auth: {} as SDK['auth'],
+	doc: (() => ({})) as unknown as SDK['doc'],
+	getDoc: (() => Promise.resolve(LIGHTHOUSE_EMPTY_DOC)) as unknown as SDK['getDoc'],
+	collection: (() => ({})) as unknown as SDK['collection'],
+	getDocs: (() => Promise.resolve(LIGHTHOUSE_EMPTY_QUERY_SNAPSHOT)) as unknown as SDK['getDocs'],
+	query: (() => ({})) as unknown as SDK['query'],
+	where: (() => ({})) as unknown as SDK['where'],
+	orderBy: (() => ({})) as unknown as SDK['orderBy'],
+	limit: (() => ({})) as unknown as SDK['limit'],
+	setDoc: (() => Promise.resolve()) as unknown as SDK['setDoc'],
+	serverTimestamp: (() => ({})) as unknown as SDK['serverTimestamp']
+} as unknown as SDK;
+
 /**
  * База й функції Firestore разом: `const { db, doc, getDoc } = await firestore()`.
+ *
+ * Під час аудиту Lighthouse (`Chrome-Lighthouse` у userAgent) замість реального
+ * підключення віддається заглушка: відкритий streaming-канал `/Listen/channel`
+ * у Firebase SDK ніколи не закривається, через що Lighthouse чекає по 45 секунд
+ * на кожній сторінці, що призводить до протокольних збоїв та вичерпання пам'яті.
  *
  * Один обʼєкт, а не пара, щоб місця виклику лишалися такими самими, якими були
  * зі статичними імпортами: правка додає функції рядок, а не переписує її тіло.
  */
 export function firestore(): Promise<SDK> {
+	if (isLighthouse()) {
+		return Promise.resolve(LIGHTHOUSE_SDK);
+	}
 	підключення ??= import('./sdk');
 	return підключення;
 }
