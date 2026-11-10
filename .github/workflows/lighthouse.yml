@@ -113,7 +113,7 @@ jobs:
         # Стеля на КРОК, а не лише на job: перевитрату аудиту видно поіменно, а
         # не як анонімну смерть усього прогону.
         timeout-minutes: 240
-        run: npx @lhci/cli@0.15.1 autorun --config=./lighthouserc.cjs
+        run: npx @lhci/cli@0.16.0 autorun --config=./lighthouserc.cjs
 
       # Звіт зберігається завжди, а не лише на падінні: пороги Lighthouse
       # плавають від навантаження раннера, тож цифри потрібні й тоді, коли крок

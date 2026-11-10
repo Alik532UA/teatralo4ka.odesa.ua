@@ -11,7 +11,7 @@ import { isPreviewHop } from '../src/lib/config/previewHops';
  * ## Що було не так
  *
  * `lighthouserc.cjs` мав `staticDistDir` і жодного `url`, тобто працювало
- * автовиявлення. Прочитано у джерелі `@lhci/cli@0.15.1`
+ * автовиявлення. Прочитано у джерелі `@lhci/cli@0.16.0`
  * (`src/collect/fallback-server.js`): воно бере HTML-файли на глибині **до
  * двох** каталогів від кореня збірки. Заміряно на цій збірці: 62 адреси.
  *

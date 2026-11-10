@@ -68,7 +68,7 @@ const ADMIN = '/admin(/|$)';
  * Разом зі `staticDistDir` це працює саме так, як тут використано: коли
  * `url` не порожній, LHCI піднімає свій сервер над каталогом збірки й
  * підставляє в кожну адресу його порт (перевірено у джерелі
- * `@lhci/cli@0.15.1`, `src/collect/collect.js`).
+ * `@lhci/cli@0.16.0`, `src/collect/collect.js`).
  */
 const URLS_FILE = './.lighthouse-urls.json';
 let urls;
@@ -90,7 +90,7 @@ module.exports = {
 			staticDistDir: './build',
 			url: urls,
 			settings: {
-				chromeFlags: '--no-sandbox --disable-dev-shm-usage --disable-gpu'
+				chromeFlags: '--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage --disable-gpu'
 			}
 		},
 		assert: {
