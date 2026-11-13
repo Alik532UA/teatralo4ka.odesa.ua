@@ -38,6 +38,8 @@
 		videoUrl?: string;
 		/** Назва поїздки: у `alt`, у підказці й у заголовку плеєра. */
 		title: string;
+		/** Власний напис замість типового «Дивитися запис». */
+		label?: string;
 		testid?: string;
 		/**
 		 * Тягнутися на всю висоту місця замість власних 16:9.
@@ -52,7 +54,7 @@
 		fill?: boolean;
 	}
 
-	let { videoUrl, title, testid = 'festival-video-btn', fill = false }: Props = $props();
+	let { videoUrl, title, label, testid = 'festival-video-btn', fill = false }: Props = $props();
 
 	const video = $derived(parseVideoUrl(videoUrl));
 	let open = $state(false);
@@ -64,7 +66,7 @@
 		class="preview"
 		class:preview--fill={fill}
 		onclick={() => (open = true)}
-		aria-label={`${$t('galaxy.watchRecording')} — ${title}`}
+		aria-label={`${label ?? $t('galaxy.watchRecording')} — ${title}`}
 		data-testid={testid}
 	>
 		<!--
@@ -79,7 +81,7 @@
 			<Play size={26} />
 		</span>
 
-		<span class="preview__label">{$t('galaxy.watchRecording')}</span>
+		<span class="preview__label">{label ?? $t('galaxy.watchRecording')}</span>
 	</button>
 
 	<VideoModal video={open ? video : null} {title} onclose={() => (open = false)} />

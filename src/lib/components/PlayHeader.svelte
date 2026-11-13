@@ -43,9 +43,13 @@
 	 */
 	const headerVideo = $derived(
 		play.videoUrl
-			? { url: play.videoUrl, title: play.title }
+			? {
+					url: play.videoUrl,
+					title: play.videoTitle ?? play.title,
+					label: play.videoLabel
+				}
 			: parts.length === 1 && !clips.length
-				? { url: parts[0].url, title: `${play.title}: ${parts[0].label}` }
+				? { url: parts[0].url, title: `${play.title}: ${parts[0].label}`, label: parts[0].label }
 				: null
 	);
 
@@ -60,6 +64,7 @@
 					fill={hasPhotos}
 					videoUrl={headerVideo.url}
 					title={headerVideo.title}
+					label={headerVideo.label}
 					testid="play-header-video-btn"
 				/>
 			</div>
@@ -69,6 +74,14 @@
 				</div>
 			{/if}
 		</div>
+		{#if play.videoDescription}
+			<div class="play-media__video-desc" data-testid="play-header-video-text">
+				{#if play.videoTitle && play.videoTitle !== play.title}
+					<strong class="play-media__video-title">{play.videoTitle}</strong>
+				{/if}
+				<p class="play-media__video-text">{play.videoDescription}</p>
+			</div>
+		{/if}
 	{:else if hasPhotos}
 		<GroupPhotoBanner photos={play.photos ?? []} title={play.title} />
 	{/if}
@@ -230,6 +243,35 @@
 		grid-template-columns: 1fr;
 		max-width: 720px;
 		margin: 0 auto 1.5rem;
+	}
+
+	.play-media__video-desc {
+		margin: 0 0 1.5rem;
+		padding: 0.85rem 1.15rem;
+		background: var(--bg-surface);
+		border: 1px solid var(--border-main);
+		border-radius: var(--radius-md, 12px);
+		box-sizing: border-box;
+	}
+
+	.play-media--video-only + .play-media__video-desc {
+		max-width: 720px;
+		margin: -0.5rem auto 1.5rem;
+	}
+
+	.play-media__video-title {
+		display: block;
+		font-weight: 700;
+		font-size: 0.95rem;
+		color: var(--text-title);
+		margin-bottom: 0.35rem;
+	}
+
+	.play-media__video-text {
+		margin: 0;
+		color: var(--text-muted);
+		font-size: 0.875rem;
+		line-height: 1.5;
 	}
 
 	.play-media__video {

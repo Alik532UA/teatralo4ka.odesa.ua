@@ -29,7 +29,9 @@
 				type="button"
 				class="production-card__poster-box production-card__poster-btn"
 				onclick={() => (videoModalOpen = true)}
-				aria-label={isEn ? `Watch video: ${event.titleEn}` : `Дивитися запис вистави: ${event.titleUk}`}
+				aria-label={isEn
+					? (event.videoLabelEn ? `${event.videoLabelEn} — ${event.videoTitleEn ?? event.titleEn}` : `Watch video: ${event.titleEn}`)
+					: (event.videoLabelUk ? `${event.videoLabelUk} — ${event.videoTitleUk ?? event.titleUk}` : `Дивитися запис: ${event.titleUk}`)}
 				data-testid={`uart-poster-video-${event.id}-btn`}
 			>
 				<img
@@ -86,15 +88,22 @@
 			</a>
 
 			{#if video}
-				<button
-					type="button"
-					class="btn-video"
-					onclick={() => (videoModalOpen = true)}
-					data-testid={`uart-${event.id}-video-btn`}
-				>
-					<Play size={17} aria-hidden="true" />
-					<span>{isEn ? 'Watch Play Recording' : 'Дивитися запис вистави'}</span>
-				</button>
+				<div class="video-action-group">
+					<button
+						type="button"
+						class="btn-video"
+						onclick={() => (videoModalOpen = true)}
+						data-testid={`uart-${event.id}-video-btn`}
+					>
+						<Play size={17} aria-hidden="true" />
+						<span>{isEn ? (event.videoLabelEn ?? 'Watch Interview') : (event.videoLabelUk ?? "Інтерв'ю про виставу")}</span>
+					</button>
+					{#if isEn ? event.videoDescriptionEn : event.videoDescriptionUk}
+						<p class="video-action-caption" data-testid={`uart-${event.id}-video-text`}>
+							{isEn ? event.videoDescriptionEn : event.videoDescriptionUk}
+						</p>
+					{/if}
+				</div>
 			{/if}
 
 			{#if event.id === 'secrets'}
@@ -213,7 +222,7 @@
 {#if video}
 	<VideoModal
 		video={videoModalOpen ? video : null}
-		title={isEn ? event.titleEn : event.titleUk}
+		title={isEn ? (event.videoTitleEn ?? event.titleEn) : (event.videoTitleUk ?? event.titleUk)}
 		onclose={() => (videoModalOpen = false)}
 	/>
 {/if}
@@ -239,6 +248,8 @@
 	.btn-ticket:hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); }
 	.btn-video { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; background: color-mix(in srgb, var(--accent-primary) 14%, transparent); border: 1px solid color-mix(in srgb, var(--accent-primary) 36%, transparent); color: var(--accent-text); padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 700; font-size: 0.95rem; font-family: inherit; cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease; width: 100%; box-sizing: border-box; }
 	.btn-video:hover { background: color-mix(in srgb, var(--accent-primary) 24%, transparent); border-color: var(--accent-text); transform: translateY(-1px); }
+	.video-action-group { display: flex; flex-direction: column; gap: 0.45rem; width: 100%; }
+	.video-action-caption { margin: 0; padding: 0.6rem 0.85rem; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border-main); font-size: 0.8rem; line-height: 1.45; color: var(--text-muted); }
 	.btn-galaxy-play { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: var(--bg-card); border: 1px solid var(--border-main); color: var(--text-title); padding: 0.75rem 1.25rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; width: 100%; box-sizing: border-box; }
 	.btn-galaxy-play:hover { background: color-mix(in srgb, var(--accent-primary) 12%, transparent); border-color: var(--accent-text); color: var(--accent-text); transform: translateY(-1px); }
 	.production-card__details { display: flex; flex-direction: column; }

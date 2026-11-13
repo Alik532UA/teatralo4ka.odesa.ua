@@ -27,6 +27,12 @@ export interface UartRepertoireEvent {
 	galaxyPlayHref?: string;
 	ticketUrl: string;
 	videoUrl?: string;
+	videoLabelUk?: string;
+	videoLabelEn?: string;
+	videoTitleUk?: string;
+	videoTitleEn?: string;
+	videoDescriptionUk?: string;
+	videoDescriptionEn?: string;
 	posterUrl: string;
 	posterAltUk: string;
 	posterAltEn: string;
@@ -60,6 +66,14 @@ export const UART_REPERTOIRE_EVENTS: UartRepertoireEvent[] = [
 		galaxyPlayHref: '/projects/galaxy-graduates/plays/stateve-vykhovannia-2026',
 		ticketUrl: 'https://concert.ua/uk/event/duzhe-bagato-sekretiv-odesa',
 		videoUrl: 'https://www.youtube.com/watch?v=ugtir0Z_4Gw',
+		videoLabelUk: "Інтерв'ю про виставу (ефір УСІ)",
+		videoLabelEn: 'Interview about the play (USI broadcast)',
+		videoTitleUk: '«Дуже багато SEKретів»: нова вистава в Одеській театральній школі',
+		videoTitleEn: '“Too Many Secrets”: new play at Odesa Theatre School',
+		videoDescriptionUk:
+			'«Дуже багато секретів» – вистава про підлітковий досвід, статеве виховання та довіру між дітьми й дорослими. Про документальну основу постановки, особисті історії юних акторок і відкриття навчального театру UArt в Одесі розповіли художній керівник Федір Ткач та акторка Тетяна Чупровська в ефірі УСІ.',
+		videoDescriptionEn:
+			'“Too Many Secrets” is a play about teenage experience, sex education, and trust between children and adults. Artistic director Fedir Tkach and actress Tetiana Chuprovska spoke on USI broadcast about the documentary basis, personal stories of the young actresses, and the launch of the UArt educational theatre in Odesa.',
 		posterUrl: '/posters/nov-secrets-2026.jpg',
 		posterAltUk: 'Афіша вистави: «Дуже багато SEкретів»',
 		posterAltEn: 'Play poster: "Too Many Secrets"'
