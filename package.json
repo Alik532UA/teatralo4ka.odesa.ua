@@ -99,7 +99,7 @@
 		"@tiptap/pm": "^3.22.2",
 		"@tiptap/starter-kit": "^3.22.2",
 		"dompurify": "^3.3.3",
-		"firebase": "^12.11.0",
+		"firebase": "^13.2.0",
 		"isomorphic-dompurify": "^3.8.0",
 		"lowlight": "^3.3.0",
 		"svelte-i18n": "^4.0.1",
