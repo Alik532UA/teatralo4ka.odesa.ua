@@ -26,6 +26,7 @@ export interface UartRepertoireEvent {
 	courseNameEn?: string;
 	galaxyPlayHref?: string;
 	ticketUrl: string;
+	videoUrl?: string;
 	posterUrl: string;
 	posterAltUk: string;
 	posterAltEn: string;
@@ -58,6 +59,7 @@ export const UART_REPERTOIRE_EVENTS: UartRepertoireEvent[] = [
 		courseNameEn: 'Course "RePeTe"',
 		galaxyPlayHref: '/projects/galaxy-graduates/plays/stateve-vykhovannia-2026',
 		ticketUrl: 'https://concert.ua/uk/event/duzhe-bagato-sekretiv-odesa',
+		videoUrl: 'https://www.youtube.com/watch?v=ugtir0Z_4Gw',
 		posterUrl: '/posters/nov-secrets-2026.jpg',
 		posterAltUk: 'Афіша вистави: «Дуже багато SEкретів»',
 		posterAltEn: 'Play poster: "Too Many Secrets"'
