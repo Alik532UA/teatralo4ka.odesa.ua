@@ -64,14 +64,14 @@
 
 	@media (min-width: 640px) {
 		.big-grid {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 1.25rem;
 		}
 	}
 
 	@media (min-width: 1024px) {
 		.big-grid {
-			grid-template-columns: repeat(4, 1fr);
+			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 
 		.big-grid-card:nth-child(1) {

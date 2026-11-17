@@ -633,7 +633,7 @@
 
 	h2 {
 		color: #fff;
-		font-size: clamp(16px, 3vw, 24px);
+		font-size: clamp(1rem, 0.85rem + 0.8vw, 1.5rem);
 		font-style: italic;
 		font-weight: 400;
 		margin: 0;
@@ -641,7 +641,7 @@
 	}
 
 	.nowplaying {
-		font-size: clamp(60px, 10vw, 120px);
+		font-size: clamp(3.75rem, 2.5rem + 5vw, 7.5rem);
 		line-height: 1;
 		color: #eee;
 		transition: all .07s ease;
@@ -939,7 +939,7 @@
 	/* --- Chords Grid --- */
 	.chords-grid {
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 20px;
 		width: 100%;
 		max-width: 880px;
@@ -1044,7 +1044,7 @@
 				flex: 1;
 				margin-top: 10px;
 				gap: 12px;
-				grid-template-columns: repeat(4, 1fr);
+				grid-template-columns: repeat(4, minmax(0, 1fr));
 				overflow-y: auto;
 				padding: 5px;
 			}
@@ -1095,7 +1095,7 @@
 				max-height: 50vh;
 				gap: 12px;
 				margin-top: 10px;
-				grid-template-columns: repeat(4, 1fr);
+				grid-template-columns: repeat(4, minmax(0, 1fr));
 				overflow-y: auto;
 				padding: 5px;
 			}

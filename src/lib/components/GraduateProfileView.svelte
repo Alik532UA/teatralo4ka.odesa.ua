@@ -660,8 +660,8 @@
 		columns
 			.map((keys, index) =>
 				densePlays && index === 0 && keys[0] === "plays"
-					? "minmax(280px, 1.5fr)"
-					: "minmax(280px, 1fr)",
+					? "minmax(min(280px, 100%), 1.5fr)"
+					: "minmax(min(280px, 100%), 1fr)",
 			)
 			.join(" "),
 	);
@@ -1557,7 +1557,7 @@
 	@media (min-width: 768px) {
 		.profile-layout {
 			display: grid;
-			grid-template-columns: minmax(280px, 420px);
+			grid-template-columns: minmax(min(280px, 100%), 420px);
 			justify-content: center;
 			align-items: start;
 			gap: clamp(1rem, 2vw, 1.75rem);
@@ -1595,7 +1595,7 @@
 		 * було видно — там мінімальний вміст сам по собі широкий.
 		 */
 		.profile-layout {
-			grid-template-columns: var(--grid-cols, repeat(var(--cols, 3), minmax(280px, 1fr)));
+			grid-template-columns: var(--grid-cols, repeat(var(--cols, 3), minmax(min(280px, 100%), 1fr)));
 			width: 100%;
 			/*
 			 * `stretch`, а не `start`: інакше кожна колонка має висоту свого

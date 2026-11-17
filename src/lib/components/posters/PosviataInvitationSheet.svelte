@@ -74,7 +74,7 @@
 
 	.sheet-grid {
 		display: grid;
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		grid-template-rows: repeat(3, 1fr);
 		width: 100%;
 		height: 100%;

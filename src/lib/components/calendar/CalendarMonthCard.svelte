@@ -170,7 +170,7 @@
 
 	.month-card__weekdays {
 		display: grid;
-		grid-template-columns: repeat(7, 1fr);
+		grid-template-columns: repeat(7, minmax(0, 1fr));
 		background: var(--weekday-bg);
 		border-radius: 8px;
 		padding: clamp(0.12rem, 0.25cqi, 0.3rem) 0.1rem;
@@ -192,7 +192,7 @@
 
 	.month-card__week {
 		display: grid;
-		grid-template-columns: repeat(7, 1fr);
+		grid-template-columns: repeat(7, minmax(0, 1fr));
 		column-gap: 2px;
 		flex: 1 1 0;
 		min-height: 0;

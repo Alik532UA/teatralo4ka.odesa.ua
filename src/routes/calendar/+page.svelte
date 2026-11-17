@@ -494,7 +494,7 @@
 
 	:global(body.calendar-fullscreen) .calendar-page-content :global(.grading-canvas) {
 		display: grid !important;
-		grid-template-columns: repeat(4, 1fr) !important;
+		grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 		gap: clamp(10px, 1.4cqi, 26px) !important;
 	}
 

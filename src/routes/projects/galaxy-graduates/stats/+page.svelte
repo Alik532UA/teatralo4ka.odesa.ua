@@ -293,6 +293,6 @@
 	.summary-meter-badge { font-size: 1.2rem; font-weight: 800; }
 	.metrics-grid { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
 	@media (min-width: 900px) {
-		.metrics-grid { grid-template-columns: repeat(2, 1fr); }
+		.metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	}
 </style>

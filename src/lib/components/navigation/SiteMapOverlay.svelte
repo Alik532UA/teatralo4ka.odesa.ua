@@ -195,7 +195,7 @@
 		padding: clamp(0.4rem, 1.2vh, 1.2rem) clamp(1rem, 2.5vw, 3rem);
 	}
 	.sitemap-columns {
-		width: 100%; display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1rem, 1.8vw, 2.8rem);
+		width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(1rem, 1.8vw, 2.8rem);
 	}
 	.sitemap-col { display: flex; flex-direction: column; justify-content: flex-start; }
 	.sitemap-col__title {

@@ -94,7 +94,7 @@
 	.header-lead { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text-muted); }
 	.exercise-layout {
 		display: grid;
-		grid-template-columns: minmax(280px, 320px) 1fr;
+		grid-template-columns: minmax(min(280px, 100%), 320px) 1fr;
 		gap: 2rem;
 		align-items: start;
 	}

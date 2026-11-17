@@ -136,7 +136,7 @@
 	}
 	.prod-row {
 		display: grid;
-		grid-template-columns: minmax(5.5rem, auto) 1fr auto auto;
+		grid-template-columns: minmax(min(5.5rem, 100%), auto) 1fr auto auto;
 		align-items: center;
 		gap: 1rem;
 		padding: 0.7rem 1rem;
@@ -251,7 +251,7 @@
 	 */
 	@container (max-width: 640px) {
 		.prod-row {
-			grid-template-columns: minmax(4.5rem, auto) 1fr;
+			grid-template-columns: minmax(min(4.5rem, 100%), auto) 1fr;
 			row-gap: 0.4rem;
 		}
 		.prod-row__cast,

@@ -228,7 +228,7 @@
 {/if}
 
 <style>
-	.production-card { display: grid; grid-template-columns: minmax(320px, 1fr) 1.2fr; gap: 2.5rem; align-items: start; padding-bottom: 2.75rem; border-bottom: 1px solid var(--border-main); }
+	.production-card { display: grid; grid-template-columns: minmax(min(320px, 100%), 1fr) 1.2fr; gap: 2.5rem; align-items: start; padding-bottom: 2.75rem; border-bottom: 1px solid var(--border-main); }
 	.production-card:last-child { padding-bottom: 0; border-bottom: none; }
 	.production-card__media { display: flex; flex-direction: column; gap: 0.75rem; }
 	.production-card__poster-box { position: relative; border-radius: 18px; overflow: hidden; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.15); background: #000; }
