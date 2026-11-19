@@ -81,4 +81,9 @@ describe('Афіша «30-річчя Одеської театральної ш�
 	it('містить реквізити 30-го сезону', () => {
 		expect(ANNIVERSARY_30_POSTER.schoolUk).toContain('30-й ювілейний сезон');
 	});
+
+	it('окрема веб-сторінка /anniversary-30 існує та зареєстрована в пререндері й чеклисті', () => {
+		expect(existsSync(join(process.cwd(), 'src/routes/anniversary-30/+page.svelte'))).toBe(true);
+		expect(existsSync(join(process.cwd(), 'src/routes/anniversary-30/+page.ts'))).toBe(true);
+	});
 });

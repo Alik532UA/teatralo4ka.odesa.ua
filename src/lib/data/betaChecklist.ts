@@ -439,7 +439,8 @@ export const BETA_TABS: readonly BetaTab[] = [
 			'/projects/UArt',
 			'/fest-odesa-teatr-pro',
 			'/fest-odessa-teatr-pro',
-			'/posters'
+			'/posters',
+			'/anniversary-30'
 		],
 		checks: [
 			{

@@ -21,9 +21,10 @@
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
+		printMode?: 'digital' | 'paper';
 	}
 
-	let { isEn = false, themeId = 'yellow-brand' }: Props = $props();
+	let { isEn = false, themeId = 'yellow-brand', printMode = 'digital' }: Props = $props();
 
 	const poster = ANNIVERSARY_30_POSTER;
 
@@ -148,7 +149,11 @@
 									<h2 class="event-title">{isEn ? item.titleEn : item.titleUk}</h2>
 
 									<div class="event-channel-row">
-										{#if item.id === 'graduates-interview'}
+										{#if printMode === 'paper'}
+											<span class="channel-text channel-text--paper">
+												{isEn ? item.noteEn : item.noteUk}
+											</span>
+										{:else if item.id === 'graduates-interview'}
 											<a href={resolve('/projects/galaxy-graduates')} class="channel-link channel-link--site" data-testid="event-graduates-link">
 												<ExternalLink size={12} aria-hidden="true" />
 												<span>{isEn ? item.noteEn : item.noteUk}</span>
@@ -201,7 +206,7 @@
 
 			<!-- Блок благодійного збору на ЗСУ для 14 ОРБ -->
 			<div class="charity-wrapper">
-				<Anniversary30CharityCard {isEn} {themeId} />
+				<Anniversary30CharityCard {isEn} {themeId} {printMode} />
 			</div>
 
 			<!-- Нижній колонтитул -->
@@ -524,6 +529,14 @@
 	}
 
 	.anniversary-poster--dark .channel-text { color: #94a3b8; }
+
+	.event-card--highlight .channel-text--paper {
+		color: #1e3a8a;
+		font-weight: 700;
+	}
+	.anniversary-poster--dark .event-card--highlight .channel-text--paper {
+		color: #93c5fd;
+	}
 
 	.channel-link {
 		display: inline-flex;

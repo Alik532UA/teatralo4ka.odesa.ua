@@ -42,6 +42,7 @@
 	let selectedTheme = $state<string>(
 		POSTERS_LIST[0].id === 'defenders-hearts' ? DEFAULT_DEFENDERS_THEME : DEFAULT_POSTER_THEME
 	);
+	let printMode = $state<'digital' | 'paper'>('digital');
 	let fullscreenButton = $state<HTMLButtonElement | null>(null);
 
 	onMount(() => {
@@ -57,6 +58,11 @@
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+
+		const modeParam = page.url.searchParams.get('mode');
+		if (modeParam === 'paper' || modeParam === 'digital') {
+			printMode = modeParam;
+		}
 	});
 
 	function selectSeason(groupId: string) {
@@ -98,6 +104,18 @@
 		selectedTheme = themeId;
 		const nextUrl = new URL(window.location.href);
 		nextUrl.searchParams.set('theme', themeId);
+		// eslint-disable-next-line svelte/no-navigation-without-resolve
+		replaceState(resolve('/posters') + nextUrl.search + nextUrl.hash, page.state);
+	}
+
+	function selectPrintMode(mode: 'digital' | 'paper') {
+		printMode = mode;
+		const nextUrl = new URL(window.location.href);
+		if (mode === 'paper') {
+			nextUrl.searchParams.set('mode', 'paper');
+		} else {
+			nextUrl.searchParams.delete('mode');
+		}
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		replaceState(resolve('/posters') + nextUrl.search + nextUrl.hash, page.state);
 	}
@@ -234,6 +252,33 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
+					{#if activePoster === 'anniversary-30'}
+						<div class="print-mode-toggle" role="group" aria-label={isEn ? 'Poster format' : 'Формат афіші'}>
+							<button
+								type="button"
+								class="mode-toggle-btn"
+								class:mode-toggle-btn--active={printMode === 'digital'}
+								onclick={() => selectPrintMode('digital')}
+								title={isEn ? 'Interactive digital version with clickable buttons and links' : 'Інтерактивна цифрова версія з кнопками копіювання та посиланнями'}
+								data-testid="print-mode-digital-btn"
+							>
+								<Sparkles size={13} aria-hidden="true" />
+								<span>{isEn ? 'Digital' : 'Електронна'}</span>
+							</button>
+							<button
+								type="button"
+								class="mode-toggle-btn"
+								class:mode-toggle-btn--active={printMode === 'paper'}
+								onclick={() => selectPrintMode('paper')}
+								title={isEn ? 'Clean paper print version without screen buttons' : 'Версія для друку на папері без екранних кнопок'}
+								data-testid="print-mode-paper-btn"
+							>
+								<Printer size={13} aria-hidden="true" />
+								<span>{isEn ? 'For print' : 'Для друку'}</span>
+							</button>
+						</div>
+					{/if}
+
 					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30'}
 						<PosterThemePicker
 							{selectedTheme}
@@ -281,7 +326,7 @@
 		<!-- Основний слот плаката -->
 		<section class="poster-viewport" data-testid="poster-active-container">
 			{#if activePoster === 'anniversary-30'}
-				<Anniversary30Poster {isEn} themeId={selectedTheme} />
+				<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
 			{:else if activePoster === 'repertoire-november-a1'}
 				<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
 			{:else if activePoster === 'uart-secrets-booklet'}
@@ -490,7 +535,37 @@
 	.tab-btn--active { background: #ffed00 !important; color: #111827 !important; border-color: rgba(0, 0, 0, 0.12) !important; font-weight: 700; box-shadow: 0 2px 8px rgba(255, 237, 0, 0.4); }
 	.tab-badge { font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; background: rgba(0, 0, 0, 0.08); color: inherit; font-weight: 700; }
 
-	.poster-actions { display: flex; align-items: center; gap: 8px; }
+	.poster-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+	.print-mode-toggle {
+		display: inline-flex;
+		align-items: center;
+		background: var(--bg-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+		padding: 3px;
+		gap: 3px;
+	}
+	.mode-toggle-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		padding: 5px 10px;
+		border-radius: 9px;
+		border: none;
+		background: transparent;
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		cursor: pointer;
+		transition: all 0.15s ease;
+	}
+	.mode-toggle-btn:hover { color: var(--text-title); }
+	.mode-toggle-btn--active {
+		background: var(--bg-card);
+		color: var(--text-title);
+		font-weight: 700;
+		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+	}
 	.action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); transition: all 0.18s ease; }
 	.action-btn:hover { border-color: var(--accent-primary, #00b5ec); color: var(--accent-text, #0077c8); transform: translateY(-1px); }
 	.action-btn--print { background: var(--accent-primary, #00b5ec); color: var(--text-on-accent, #0f172a); border-color: var(--accent-primary, #00b5ec); font-weight: 700; }

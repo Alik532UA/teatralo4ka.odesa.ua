@@ -8,9 +8,10 @@
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
+		printMode?: 'digital' | 'paper';
 	}
 
-	let { isEn = false, themeId = 'yellow-brand' }: Props = $props();
+	let { isEn = false, themeId = 'yellow-brand', printMode = 'digital' }: Props = $props();
 
 	const charity = ANNIVERSARY_30_CHARITY;
 	let copied = $state(false);
@@ -62,39 +63,48 @@
 
 			<p class="charity-desc">{isEn ? charity.descriptionEn : charity.descriptionUk}</p>
 
-			<div class="charity-actions">
-				<a
-					href="https://send.monobank.ua/jar/4FvXthaHVH"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="btn-jar"
-					data-testid="monobank-jar-link"
-				>
-					<ExternalLink size={15} aria-hidden="true" />
-					<span>{isEn ? 'Donate via Monobank Jar' : 'Посилання на Банку'}</span>
-				</a>
+			<div class="charity-actions" class:charity-actions--paper={printMode === 'paper'}>
+				{#if printMode === 'paper'}
+					<div class="paper-jar-ref" data-testid="paper-jar-badge">
+						<span class="card-label">{isEn ? 'Monobank Jar:' : 'Банка Монобанк:'}</span>
+						<span class="paper-jar-url">send.monobank.ua/jar/4FvXthaHVH</span>
+					</div>
+				{:else}
+					<a
+						href="https://send.monobank.ua/jar/4FvXthaHVH"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn-jar"
+						data-testid="monobank-jar-link"
+					>
+						<ExternalLink size={15} aria-hidden="true" />
+						<span>{isEn ? 'Donate via Monobank Jar' : 'Посилання на Банку'}</span>
+					</a>
+				{/if}
 
-				<div class="card-copy-box">
+				<div class="card-copy-box" class:card-copy-box--paper={printMode === 'paper'}>
 					<div class="card-number-wrap">
 						<span class="card-label">{isEn ? 'Card number:' : 'Номер картки Банки:'}</span>
 						<code class="card-number">{charity.cardNumber}</code>
 					</div>
-					<button
-						type="button"
-						class="btn-copy"
-						class:btn-copy--copied={copied}
-						onclick={copyCardNumber}
-						aria-label={isEn ? 'Copy card number' : 'Скопіювати номер картки'}
-						data-testid="copy-card-btn"
-					>
-						{#if copied}
-							<Check size={14} aria-hidden="true" />
-							<span>{isEn ? 'Copied!' : 'Скопійовано!'}</span>
-						{:else}
-							<Copy size={14} aria-hidden="true" />
-							<span>{isEn ? 'Copy' : 'Скопіювати'}</span>
-						{/if}
-					</button>
+					{#if printMode !== 'paper'}
+						<button
+							type="button"
+							class="btn-copy"
+							class:btn-copy--copied={copied}
+							onclick={copyCardNumber}
+							aria-label={isEn ? 'Copy card number' : 'Скопіювати номер картки'}
+							data-testid="copy-card-btn"
+						>
+							{#if copied}
+								<Check size={14} aria-hidden="true" />
+								<span>{isEn ? 'Copied!' : 'Скопійовано!'}</span>
+							{:else}
+								<Copy size={14} aria-hidden="true" />
+								<span>{isEn ? 'Copy' : 'Скопіювати'}</span>
+							{/if}
+						</button>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -315,6 +325,36 @@
 	}
 	.btn-copy:hover { background: #e2e8f0; }
 	.btn-copy--copied { background: #dcfce7; color: #166534; border-color: #86efac; }
+	.paper-jar-ref {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		background: #f1f5f9;
+		border: 1px solid #cbd5e1;
+		border-radius: 6px;
+		padding: 3px 8px;
+		font-size: 11px;
+	}
+	.charity-card--dark .paper-jar-ref {
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(255, 255, 255, 0.16);
+	}
+	.paper-jar-url {
+		font-weight: 700;
+		color: #047857;
+		font-family: monospace;
+	}
+	.charity-card--dark .paper-jar-url {
+		color: #34d399;
+	}
+	.card-copy-box--paper {
+		background: #f8fafc;
+		border-color: #cbd5e1;
+	}
+	.charity-card--dark .card-copy-box--paper {
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(255, 255, 255, 0.16);
+	}
 	.charity-qr-preview {
 		flex: 0 0 auto;
 		display: flex;
@@ -407,6 +447,7 @@
 		}
 	}
 	@media print {
+		.btn-copy { display: none !important; }
 		.charity-card {
 			box-shadow: none !important;
 			border: 1px solid #cbd5e1 !important;
