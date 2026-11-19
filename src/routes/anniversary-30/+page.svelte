@@ -230,14 +230,14 @@
 	.back-link:hover { color: var(--text-title); }
 	.nav-actions { display: flex; align-items: center; gap: 8px; }
 	.nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; text-decoration: none; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); }
-	.nav-btn--charity { color: #e11d48; border-color: rgba(225, 29, 72, 0.25); }
+	.nav-btn--charity { color: var(--accent-text, #0369a1); border-color: rgba(3, 105, 161, 0.3); }
 	.nav-btn:hover { background: var(--bg-surface); }
 	.anniversary-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px); background: linear-gradient(135deg, #ffed00 0%, #ffd000 100%); border-radius: clamp(20px, 3vw, 32px); box-shadow: 0 16px 36px -10px rgba(255, 218, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08); color: #111827; }
 	.hero-emblem { height: auto; width: clamp(120px, 20vw, 160px); margin-bottom: 6px; }
 	.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #0077c8; color: #fff; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 8px; }
 	.hero-subtitle { margin: 0 0 4px; font-size: clamp(0.85rem, 1.8vw, 1rem); font-weight: 700; color: #0077c8; text-transform: uppercase; }
-	.hero-title { margin: 0 0 10px; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.15; color: #b91c1c; }
-	.title-highlight { color: #b91c1c; white-space: nowrap; }
+	.hero-title { margin: 0 0 10px; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.15; color: #00242f; }
+	.title-highlight { color: #00242f; white-space: nowrap; }
 	.dates-pill { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: #1e293b; padding: 6px 14px; border-radius: 999px; font-size: 0.9rem; font-weight: 800; margin-bottom: 10px; }
 	.hero-desc { margin: 0; max-width: 600px; font-size: clamp(0.9rem, 1.8vw, 1rem); font-weight: 500; color: #1e293b; line-height: 1.45; }
 	.schedule-section, .charity-section, .poster-cta-section { display: flex; flex-direction: column; gap: 16px; }
@@ -302,7 +302,7 @@
 		}
 	}
 	.event-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-	.event-date { font-size: 0.82rem; font-weight: 800; color: #b91c1c; white-space: nowrap; flex-shrink: 0; }
+	.event-date { font-size: 0.82rem; font-weight: 800; color: #0369a1; white-space: nowrap; flex-shrink: 0; }
 	:global(.dark-theme) .event-date,
 	:global(.dark-cyan-theme) .event-date,
 	:global(.dark-blue-theme) .event-date,

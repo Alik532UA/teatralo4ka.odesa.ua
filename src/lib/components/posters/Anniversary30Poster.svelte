@@ -374,7 +374,7 @@
 		font-size: clamp(20px, 3.8cqi, 40px);
 		font-weight: 900;
 		line-height: 1.15;
-		color: #b91c1c;
+		color: #00242f;
 		text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 	}
 
@@ -383,7 +383,7 @@
 	}
 
 	.anniversary-poster--dark .anniversary-title {
-		color: #f87171;
+		color: #f8fafc;
 		text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 	}
 
@@ -472,12 +472,12 @@
 	.event-date {
 		font-size: clamp(10.5px, 1.35cqi, 13px);
 		font-weight: 800;
-		color: #b91c1c;
+		color: #0369a1;
 		white-space: nowrap;
 		flex-shrink: 0;
 	}
 
-	.anniversary-poster--dark .event-date { color: #fca5a5; }
+	.anniversary-poster--dark .event-date { color: #fbbf24; }
 
 	.event-badge {
 		font-size: 9.5px;
@@ -579,11 +579,11 @@
 	.anniversary-poster--dark .channel-link { color: #38bdf8; }
 
 	.channel-link--concert {
-		color: #b91c1c;
+		color: #0369a1;
 		font-weight: 800;
 	}
 
-	.anniversary-poster--dark .channel-link--concert { color: #fca5a5; }
+	.anniversary-poster--dark .channel-link--concert { color: #38bdf8; }
 
 	.charity-wrapper {
 		width: 100%;

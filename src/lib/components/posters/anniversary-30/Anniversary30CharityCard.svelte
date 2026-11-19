@@ -214,23 +214,23 @@
 		width: clamp(34px, 4cqi, 40px);
 		height: clamp(34px, 4cqi, 40px);
 		border-radius: 50%;
-		background: #fee2e2;
-		color: #991b1b;
+		background: #e0f2fe;
+		color: #0369a1;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		flex-shrink: 0;
 	}
-	.charity-card--dark .charity-badge { background: #7f1d1d; color: #fecaca; }
+	.charity-card--dark .charity-badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
 	.charity-headline { display: flex; flex-direction: column; gap: 2px; }
 	.charity-title {
 		margin: 0;
 		font-size: clamp(13px, 1.8cqi, 18px);
 		font-weight: 900;
-		color: #991b1b;
+		color: #0369a1;
 		line-height: 1.2;
 	}
-	.charity-card--dark .charity-title { color: #f87171; }
+	.charity-card--dark .charity-title { color: #38bdf8; }
 	.charity-lead {
 		margin: 0;
 		font-size: clamp(10.5px, 1.35cqi, 13px);
