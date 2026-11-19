@@ -756,8 +756,15 @@ const LIMITS: Array<[RegExp, number]> = [
  *   `repertoireNovember2026.ts` (295 SLOC), `routes/posters/+page.svelte` (480 -> 485).
  *   Афіша A1 репертуару на листопад 2026 (5 вистав та концертів школи, варіант об'єднаного Сирника,
  *   5 кольорів фону, 3 акценти, QR-код concert.ua, чисті світлі/темні логотипи та 2 телефони в підвалі).
+ * 2026-11-19: `Anniversary30Poster.svelte` (540 SLOC), `Anniversary30CharityCard.svelte` (425 SLOC),
+ *   `data/posters.ts` (265 SLOC), `config/localImages.ts` (278 SLOC), `routes/posters/+page.svelte` (495 SLOC).
+ *   Святкова афіша до 30-річчя Одеської театральної школи (25 листопада – 5 грудня 2026),
+ *   9 ювілейних подій (з акцентом на головний святковий концерт), генератор 56 бічних мікро-іконок айдентики та благодійний збір на пікапи для 14 ОРБ (Банка Monobank).
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/Anniversary30Poster.svelte': 540,
+	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 425,
+	'src/lib/data/posters.ts': 265,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
 	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,
 	'src/lib/data/repertoireNovember2026.ts': 295,
@@ -765,7 +772,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/posters/uart-a1/UartA1Variant2.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant3.svelte': 475,
 	'src/lib/components/posters/UartSecretsA1Poster.svelte': 325,
-	'src/routes/posters/+page.svelte': 485,
+	'src/routes/posters/+page.svelte': 495,
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,
@@ -801,7 +808,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/Minimap.svelte': 375,
 	'src/lib/components/GalleryCarousel.svelte': 368,
 	'src/lib/config/codeNews.ts': 325,
-	'src/lib/config/localImages.ts': 275,
+	'src/lib/config/localImages.ts': 278,
 	'src/lib/data/betaChecklist.ts': 730,
 	'src/lib/data/groups.ts': 256,
 	'src/lib/components/DepartmentsSection.svelte': 353,

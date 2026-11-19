@@ -18,6 +18,7 @@
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
 	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
+	import Anniversary30Poster from '$lib/components/posters/Anniversary30Poster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
@@ -85,7 +86,7 @@
 		} else if (id === 'uart-secrets-booklet' || id === 'uart-dosvid-booklet' || id === 'uart-secrets-a1' || id === 'repertoire-november-a1') {
 			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
-		} else if (id === 'dance-studio' && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-') || selectedTheme.startsWith('uart-'))) {
+		} else if ((id === 'dance-studio' || id === 'anniversary-30') && (selectedTheme.startsWith('defenders-') || selectedTheme.startsWith('galaxy-'))) {
 			selectedTheme = DEFAULT_POSTER_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_POSTER_THEME);
 		}
@@ -233,7 +234,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -279,7 +280,9 @@
 
 		<!-- Основний слот плаката -->
 		<section class="poster-viewport" data-testid="poster-active-container">
-			{#if activePoster === 'repertoire-november-a1'}
+			{#if activePoster === 'anniversary-30'}
+				<Anniversary30Poster {isEn} themeId={selectedTheme} />
+			{:else if activePoster === 'repertoire-november-a1'}
 				<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
 			{:else if activePoster === 'uart-secrets-booklet'}
 				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
