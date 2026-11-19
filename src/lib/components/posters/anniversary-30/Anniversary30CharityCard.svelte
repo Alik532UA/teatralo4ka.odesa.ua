@@ -43,17 +43,17 @@
 	class:charity-card--light={themeId === 'paper-white'}
 	data-testid="anniversary-30-charity-card"
 >
-	<div class="charity-header">
-		<div class="charity-badge" aria-hidden="true">
-			<Heart size={20} class="charity-heart-icon" />
+	<div class="charity-main-col">
+		<div class="charity-header">
+			<div class="charity-badge" aria-hidden="true">
+				<Heart size={20} class="charity-heart-icon" />
+			</div>
+			<div class="charity-headline">
+				<h2 class="charity-title">{isEn ? charity.titleEn : charity.titleUk}</h2>
+				<p class="charity-lead">{isEn ? charity.leadEn : charity.leadUk}</p>
+			</div>
 		</div>
-		<div class="charity-headline">
-			<h2 class="charity-title">{isEn ? charity.titleEn : charity.titleUk}</h2>
-			<p class="charity-lead">{isEn ? charity.leadEn : charity.leadUk}</p>
-		</div>
-	</div>
 
-	<div class="charity-content">
 		<div class="charity-details">
 			<div class="charity-target-badge">
 				<CountryFlag code="UA" title="Україна" />
@@ -98,26 +98,26 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<div class="charity-qr-preview">
-			<button
-				type="button"
-				class="qr-thumb-btn"
-				onclick={() => (showQrModal = true)}
-				aria-label={isEn ? 'Enlarge Monobank QR code' : 'Збільшити QR-код Монобанку'}
-				data-testid="enlarge-qr-btn"
-			>
-				<img
-					src={asset(charity.qrImage)}
-					alt={isEn ? 'Monobank Jar QR code for 14th ORB' : 'QR-код для поповнення Банки на пікапи для 14 ОРБ'}
-					width="2109"
-					height="2109"
-					class="qr-thumb-img"
-					loading="eager"
-					decoding="async"
-				/>
-			</button>
-		</div>
+	<div class="charity-qr-preview">
+		<button
+			type="button"
+			class="qr-thumb-btn"
+			onclick={() => (showQrModal = true)}
+			aria-label={isEn ? 'Enlarge Monobank QR code' : 'Збільшити QR-код Монобанку'}
+			data-testid="enlarge-qr-btn"
+		>
+			<img
+				src={asset(charity.qrImage)}
+				alt={isEn ? 'Monobank Jar QR code for 14th ORB' : 'QR-код для поповнення Банки на пікапи для 14 ОРБ'}
+				width="2109"
+				height="2109"
+				class="qr-thumb-img"
+				loading="eager"
+				decoding="async"
+			/>
+		</button>
 	</div>
 </div>
 
@@ -172,8 +172,10 @@
 		padding: clamp(10px, 1.8cqi, 18px) clamp(12px, 2.2cqi, 22px);
 		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
 		display: flex;
-		flex-direction: column;
-		gap: clamp(8px, 1.4cqi, 14px);
+		flex-direction: row;
+		align-items: stretch;
+		justify-content: space-between;
+		gap: clamp(12px, 2cqi, 24px);
 		text-align: left;
 	}
 	.charity-card--dark {
@@ -184,6 +186,14 @@
 	.charity-card--light {
 		background: #ffffff;
 		border: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	.charity-main-col {
+		flex: 1 1 auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: clamp(8px, 1.2cqi, 12px);
+		min-width: 0;
 	}
 	.charity-header {
 		display: flex;
@@ -219,14 +229,7 @@
 		white-space: pre-line;
 	}
 	.charity-card--dark .charity-lead { color: #cbd5e1; }
-	.charity-content {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: clamp(10px, 1.8cqi, 18px);
-	}
 	.charity-details {
-		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
 		gap: clamp(6px, 1cqi, 10px);
@@ -312,7 +315,13 @@
 	}
 	.btn-copy:hover { background: #e2e8f0; }
 	.btn-copy--copied { background: #dcfce7; color: #166534; border-color: #86efac; }
-	.charity-qr-preview { flex: 0 0 auto; }
+	.charity-qr-preview {
+		flex: 0 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		align-self: stretch;
+	}
 	.qr-thumb-btn {
 		background: transparent;
 		border: none;
@@ -322,6 +331,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		height: 100%;
 		transition: transform 0.15s ease;
 		box-shadow: none;
 	}
@@ -329,8 +339,10 @@
 		transform: scale(1.03);
 	}
 	.qr-thumb-img {
-		width: clamp(120px, 16cqi, 155px);
-		height: auto;
+		height: 100%;
+		min-height: clamp(150px, 20cqi, 200px);
+		max-height: clamp(180px, 25cqi, 230px);
+		width: auto;
 		display: block;
 		aspect-ratio: 1 / 1;
 		object-fit: contain;
@@ -376,10 +388,23 @@
 	}
 	.qr-modal-img { width: 100%; height: auto; border-radius: 12px; }
 	.qr-modal-footer { width: 100%; }
-	@container (max-width: 600px) {
-		.charity-content { flex-direction: column-reverse; align-items: stretch; }
-		.charity-qr-preview { display: flex; justify-content: center; }
-		.qr-thumb-img { width: clamp(140px, 35cqi, 180px); }
+	@container (max-width: 620px) {
+		.charity-card {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 12px;
+		}
+		.charity-qr-preview {
+			display: flex;
+			justify-content: center;
+			align-self: center;
+		}
+		.qr-thumb-img {
+			width: clamp(160px, 45cqi, 220px);
+			height: auto;
+			min-height: 0;
+			max-height: none;
+		}
 	}
 	@media print {
 		.charity-card {
