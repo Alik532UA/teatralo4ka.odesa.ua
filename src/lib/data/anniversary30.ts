@@ -108,8 +108,8 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		noteEn: 'on the website',
 		channelUk: 'Сайт школи',
 		channelEn: 'School Website',
-		badgeUk: 'Галактика випускників',
-		badgeEn: 'Galaxy of Graduates',
+		badgeUk: 'Галактика',
+		badgeEn: 'Galaxy',
 		url: '/projects/galaxy-graduates',
 		isInternalUrl: true
 	},

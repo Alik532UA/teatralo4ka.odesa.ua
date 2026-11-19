@@ -117,6 +117,7 @@
 					<article
 						class="event-card"
 						class:event-card--highlight={item.id === 'festive-concert'}
+						class:event-card--interactive={Boolean(item.url)}
 						data-testid={`event-card-${item.id}`}
 					>
 						<div class="event-header">
@@ -138,8 +139,8 @@
 											class="btn-ticket"
 											data-testid="event-concert-link"
 										>
-											<ExternalLink size={13} aria-hidden="true" />
-											<span>{isEn ? item.noteEn : item.noteUk}</span>
+											<ExternalLink size={14} aria-hidden="true" />
+											<span>{isEn ? 'Tickets on Concert.ua' : 'Квитки на concert.ua'}</span>
 										</a>
 									{:else if item.id === 'graduates-interview'}
 										<a href={resolve('/projects/galaxy-graduates')} class="channel-link" data-testid="event-graduates-link">
@@ -157,7 +158,7 @@
 											<span>{isEn ? item.noteEn : item.noteUk}</span>
 										</a>
 									{:else}
-										<span class="channel-text">{isEn ? item.noteEn : item.noteUk}</span>
+										<span class="channel-chip">{isEn ? item.noteEn : item.noteUk}</span>
 									{/if}
 								</div>
 							</div>
@@ -239,23 +240,106 @@
 	@media (min-width: 860px) {
 		.events-grid { grid-template-columns: repeat(3, 1fr); }
 	}
-	.event-card { background: var(--bg-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; transition: transform 0.18s ease; }
+	.event-card {
+		position: relative;
+		background: var(--bg-card);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		padding: 14px 16px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 10px;
+		transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+	}
 	.event-card:hover { transform: translateY(-2px); }
-	.event-card--highlight { background: linear-gradient(135deg, rgba(254, 240, 138, 0.4) 0%, rgba(191, 219, 254, 0.3) 100%); border: 2px solid #0369a1; }
+	.event-card--interactive { cursor: pointer; }
+	.event-card--interactive:hover {
+		border-color: var(--accent-text, #0369a1);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	}
+	.event-card--interactive:hover .channel-link {
+		color: var(--accent-text, #0369a1);
+	}
+	.event-card--interactive .channel-link::after,
+	.event-card--interactive .btn-ticket::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: 16px;
+		z-index: 1;
+	}
+	.event-card--highlight {
+		background: linear-gradient(135deg, rgba(254, 240, 138, 0.4) 0%, rgba(191, 219, 254, 0.3) 100%);
+		border: 2px solid #0369a1;
+	}
+	:global(.theme-dark) .event-card--highlight,
+	:global(.theme-dim) .event-card--highlight {
+		background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(15, 23, 42, 0.75) 100%);
+		border-color: #38bdf8;
+	}
 	.event-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-	.event-date { font-size: 0.82rem; font-weight: 800; color: #b91c1c; }
+	.event-date { font-size: 0.82rem; font-weight: 800; color: #b91c1c; white-space: nowrap; flex-shrink: 0; }
+	:global(.theme-dark) .event-date,
+	:global(.theme-dim) .event-date {
+		color: #f87171;
+	}
 	.event-card--highlight .event-date { font-size: 0.92rem; font-weight: 900; }
+	:global(.theme-dark) .event-card--highlight .event-date,
+	:global(.theme-dim) .event-card--highlight .event-date {
+		color: #fde047;
+	}
 	.event-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--bg-surface); color: var(--text-muted); }
 	.event-card--highlight .event-badge { background: #0369a1; color: #fff; }
+	:global(.theme-dark) .event-badge,
+	:global(.theme-dim) .event-badge {
+		background: rgba(255, 255, 255, 0.08);
+	}
 	.event-body { display: flex; gap: 12px; align-items: flex-start; flex: 1 1 auto; }
 	.event-icon-box { flex: 0 0 auto; color: var(--accent-text, #0369a1); background: var(--bg-surface); border-radius: 10px; padding: 7px; display: flex; }
 	.event-card--highlight .event-icon-box { background: #0369a1; color: #fff; }
 	.event-content { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; height: 100%; }
-	.event-title { margin: 0; font-size: 0.95rem; font-weight: 700; line-height: 1.35; color: var(--text-title); }
-	.event-channel { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
-	.btn-ticket { display: inline-flex; align-items: center; gap: 6px; background: #0369a1; color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+	.event-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.35; color: var(--text-title); }
+	.event-channel { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; width: 100%; margin-top: auto; padding-top: 4px; }
+	.btn-ticket {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		box-sizing: border-box;
+		gap: 6px;
+		background: #0369a1;
+		color: #fff;
+		padding: 7px 12px;
+		border-radius: 8px;
+		font-size: 0.85rem;
+		font-weight: 700;
+		text-decoration: none;
+		transition: background 0.15s ease;
+	}
+	.btn-ticket:hover { background: #075985; color: #fff; }
+	:global(.theme-dark) .btn-ticket,
+	:global(.theme-dim) .btn-ticket {
+		background: #0369a1;
+		color: #fff;
+	}
+	:global(.theme-dark) .btn-ticket:hover,
+	:global(.theme-dim) .btn-ticket:hover {
+		background: #075985;
+		color: #fff;
+	}
 	.channel-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; font-weight: 700; color: var(--accent-text, #0369a1); text-decoration: underline; text-underline-offset: 2px; }
-	.channel-text { font-size: 0.82rem; font-weight: 600; color: var(--text-muted); }
+	.channel-chip {
+		display: inline-flex;
+		align-items: center;
+		font-size: 0.78rem;
+		font-weight: 600;
+		color: var(--text-muted);
+		background: var(--bg-surface);
+		padding: 2px 8px;
+		border-radius: 6px;
+		border: 1px solid var(--color-border);
+	}
 	.charity-wrapper { container-type: inline-size; width: 100%; }
 	.poster-cta-card { background: var(--bg-surface); border: 1px dashed var(--color-border); border-radius: 18px; padding: clamp(16px, 3vw, 24px); display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 	.cta-icon { color: var(--accent-text, #0284c7); flex: 0 0 auto; }

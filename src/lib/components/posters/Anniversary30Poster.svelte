@@ -457,6 +457,8 @@
 		font-size: clamp(10.5px, 1.35cqi, 13px);
 		font-weight: 800;
 		color: #b91c1c;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 
 	.anniversary-poster--dark .event-date { color: #fca5a5; }
