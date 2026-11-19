@@ -761,9 +761,13 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Святкова афіша до 30-річчя Одеської театральної школи (25 листопада – 5 грудня 2026),
  *   перемикач режимів [Електронна версія] / [Для друку на папері] без кнопок копіювання для друку,
  *   9 ювілейних подій (з акцентом на головний святковий концерт), генератор 56 бічних мікро-іконок айдентики та благодійний збір на пікапи для 14 ОРБ (Банка Monobank).
+ * 2026-11-20: `Anniversary30Poster.svelte` (540 -> 565 SLOC), `routes/anniversary-30/+page.svelte` (425 SLOC).
+ *   Додано посилання TikTok, структуровано підзаголовок конференції (картка 9),
+ *   впроваджено охайні пігулки-посилання та адаптовано кольори темних тем (позбавлення від болотного фону).
  */
 const CEILINGS: Record<string, number> = {
-	'src/lib/components/posters/Anniversary30Poster.svelte': 540,
+	'src/lib/components/posters/Anniversary30Poster.svelte': 565,
+	'src/routes/anniversary-30/+page.svelte': 425,
 	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 465,
 	'src/lib/data/posters.ts': 265,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,

@@ -4,6 +4,8 @@ export interface AnniversaryEventItem {
 	dateEn: string;
 	titleUk: string;
 	titleEn: string;
+	subtitleUk?: string;
+	subtitleEn?: string;
 	noteUk: string;
 	noteEn: string;
 	channelUk: string;
@@ -96,7 +98,8 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		channelUk: 'Тік-Ток',
 		channelEn: 'TikTok',
 		badgeUk: 'Премʼєра',
-		badgeEn: 'Premiere'
+		badgeEn: 'Premiere',
+		url: 'https://www.tiktok.com/@teatralo4ka_official/'
 	},
 	{
 		id: 'graduates-interview',
@@ -143,8 +146,10 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		id: 'admission-conference',
 		dateUk: '5 грудня',
 		dateEn: 'Dec 5',
-		titleUk: 'Он-лайн конференція щодо вступної кампанії-2027 з театральним режисером Мирославом Гринишиним, та акторами Київського театру Франка',
-		titleEn: 'Online conference on Admissions 2027 with theatre director Myroslav Hrynyshyn & actors of the Ivan Franko National Theatre',
+		titleUk: 'Он-лайн конференція щодо вступної кампанії-2027',
+		titleEn: 'Online Conference: Admissions 2027',
+		subtitleUk: 'З режисером Мирославом Гринишиним та акторами театру Франка',
+		subtitleEn: 'With director Myroslav Hrynyshyn & Ivan Franko Theatre actors',
 		noteUk: 'дивись у Zoom',
 		noteEn: 'join on Zoom',
 		channelUk: 'Zoom',

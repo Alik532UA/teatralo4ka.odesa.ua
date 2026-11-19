@@ -146,7 +146,12 @@
 									<IconComponent size={item.id === 'festive-concert' ? 20 : 16} class="event-icon" />
 								</div>
 								<div class="event-info">
-									<h2 class="event-title">{isEn ? item.titleEn : item.titleUk}</h2>
+									<h2 class="event-title">
+										{isEn ? item.titleEn : item.titleUk}
+										{#if item.subtitleUk}
+											<span class="event-subtitle">{isEn ? item.subtitleEn : item.subtitleUk}</span>
+										{/if}
+									</h2>
 
 									<div class="event-channel-row">
 										{#if printMode === 'paper'}
@@ -187,6 +192,17 @@
 												rel="noopener noreferrer"
 												class="channel-link"
 												data-testid="event-youtube-link"
+											>
+												<ExternalLink size={12} aria-hidden="true" />
+												<span>{isEn ? item.noteEn : item.noteUk}</span>
+											</a>
+										{:else if item.id === 'tiktok-video'}
+											<a
+												href="https://www.tiktok.com/@teatralo4ka_official/"
+												target="_blank"
+												rel="noopener noreferrer"
+												class="channel-link"
+												data-testid="event-tiktok-link"
 											>
 												<ExternalLink size={12} aria-hidden="true" />
 												<span>{isEn ? item.noteEn : item.noteUk}</span>
@@ -516,7 +532,16 @@
 		line-height: 1.3;
 	}
 
+	.event-subtitle {
+		display: block;
+		font-size: 0.85em;
+		font-weight: 500;
+		color: #475569;
+		margin-top: 1px;
+	}
+
 	.anniversary-poster--dark .event-title { color: #f8fafc; }
+	.anniversary-poster--dark .event-subtitle { color: #94a3b8; }
 
 	.event-channel-row {
 		display: flex;

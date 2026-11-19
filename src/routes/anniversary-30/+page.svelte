@@ -130,6 +130,9 @@
 							</div>
 							<div class="event-content">
 								<h3 class="event-title">{isEn ? item.titleEn : item.titleUk}</h3>
+								{#if item.subtitleUk}
+									<p class="event-subtitle">{isEn ? item.subtitleEn : item.subtitleUk}</p>
+								{/if}
 								<div class="event-channel">
 									{#if item.id === 'festive-concert'}
 										<a
@@ -154,6 +157,11 @@
 										</a>
 									{:else if item.id === 'cinema-zoom'}
 										<a href="https://www.youtube.com/@teatralo4ka_odesa" target="_blank" rel="noopener noreferrer" class="channel-link" data-testid="event-youtube-link">
+											<ExternalLink size={13} aria-hidden="true" />
+											<span>{isEn ? item.noteEn : item.noteUk}</span>
+										</a>
+									{:else if item.id === 'tiktok-video'}
+										<a href="https://www.tiktok.com/@teatralo4ka_official/" target="_blank" rel="noopener noreferrer" class="channel-link" data-testid="event-tiktok-link">
 											<ExternalLink size={13} aria-hidden="true" />
 											<span>{isEn ? item.noteEn : item.noteUk}</span>
 										</a>
@@ -242,14 +250,15 @@
 	}
 	.event-card {
 		position: relative;
-		background: var(--bg-card);
+		background: var(--bg-surface);
 		border: 1px solid var(--color-border);
-		border-radius: 16px;
+		border-radius: 18px;
 		padding: 14px 16px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 10px;
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 		transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 	}
 	.event-card:hover { transform: translateY(-2px); }
@@ -259,47 +268,92 @@
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 	}
 	.event-card--interactive:hover .channel-link {
-		color: var(--accent-text, #0369a1);
+		border-color: var(--accent-text, #0369a1);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 	}
 	.event-card--interactive .channel-link::after,
 	.event-card--interactive .btn-ticket::after {
 		content: '';
 		position: absolute;
 		inset: 0;
-		border-radius: 16px;
+		border-radius: 18px;
 		z-index: 1;
 	}
 	.event-card--highlight {
-		background: linear-gradient(135deg, rgba(254, 240, 138, 0.4) 0%, rgba(191, 219, 254, 0.3) 100%);
+		background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
 		border: 2px solid #0369a1;
+		box-shadow: 0 6px 20px rgba(3, 105, 161, 0.12);
 	}
-	:global(.theme-dark) .event-card--highlight,
-	:global(.theme-dim) .event-card--highlight {
-		background: linear-gradient(135deg, rgba(30, 58, 138, 0.45) 0%, rgba(15, 23, 42, 0.75) 100%);
+	:global(.dark-theme) .event-card--highlight,
+	:global(.dark-cyan-theme) .event-card--highlight,
+	:global(.dark-blue-theme) .event-card--highlight,
+	:global([data-theme='dark']) .event-card--highlight,
+	:global([data-theme='dark-cyan']) .event-card--highlight,
+	:global([data-theme='dark-blue']) .event-card--highlight {
+		background: linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%);
 		border-color: #38bdf8;
+		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+	}
+	@media (prefers-color-scheme: dark) {
+		:global(html:not(.light-theme):not(.yellow-theme):not(.light-yellow-theme):not([data-theme='light']):not([data-theme='yellow']):not([data-theme='light-yellow'])) .event-card--highlight {
+			background: linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%);
+			border-color: #38bdf8;
+			box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+		}
 	}
 	.event-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 	.event-date { font-size: 0.82rem; font-weight: 800; color: #b91c1c; white-space: nowrap; flex-shrink: 0; }
-	:global(.theme-dark) .event-date,
-	:global(.theme-dim) .event-date {
-		color: #f87171;
+	:global(.dark-theme) .event-date,
+	:global(.dark-cyan-theme) .event-date,
+	:global(.dark-blue-theme) .event-date,
+	:global([data-theme='dark']) .event-date,
+	:global([data-theme='dark-cyan']) .event-date,
+	:global([data-theme='dark-blue']) .event-date {
+		color: #fbbf24;
 	}
 	.event-card--highlight .event-date { font-size: 0.92rem; font-weight: 900; }
-	:global(.theme-dark) .event-card--highlight .event-date,
-	:global(.theme-dim) .event-card--highlight .event-date {
+	:global(.dark-theme) .event-card--highlight .event-date,
+	:global(.dark-cyan-theme) .event-card--highlight .event-date,
+	:global(.dark-blue-theme) .event-card--highlight .event-date,
+	:global([data-theme='dark']) .event-card--highlight .event-date,
+	:global([data-theme='dark-cyan']) .event-card--highlight .event-date,
+	:global([data-theme='dark-blue']) .event-card--highlight .event-date {
 		color: #fde047;
 	}
-	.event-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--bg-surface); color: var(--text-muted); }
+	@media (prefers-color-scheme: dark) {
+		:global(html:not(.light-theme):not(.yellow-theme):not(.light-yellow-theme):not([data-theme='light']):not([data-theme='yellow']):not([data-theme='light-yellow'])) .event-date {
+			color: #fbbf24;
+		}
+		:global(html:not(.light-theme):not(.yellow-theme):not(.light-yellow-theme):not([data-theme='light']):not([data-theme='yellow']):not([data-theme='light-yellow'])) .event-card--highlight .event-date {
+			color: #fde047;
+		}
+	}
+	.event-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--bg-card); color: var(--text-muted); }
 	.event-card--highlight .event-badge { background: #0369a1; color: #fff; }
-	:global(.theme-dark) .event-badge,
-	:global(.theme-dim) .event-badge {
-		background: rgba(255, 255, 255, 0.08);
+	:global(.dark-theme) .event-card--highlight .event-badge,
+	:global(.dark-cyan-theme) .event-card--highlight .event-badge,
+	:global(.dark-blue-theme) .event-card--highlight .event-badge,
+	:global([data-theme='dark']) .event-card--highlight .event-badge,
+	:global([data-theme='dark-cyan']) .event-card--highlight .event-badge,
+	:global([data-theme='dark-blue']) .event-card--highlight .event-badge {
+		background: #0369a1;
+		color: #fff;
 	}
 	.event-body { display: flex; gap: 12px; align-items: flex-start; flex: 1 1 auto; }
-	.event-icon-box { flex: 0 0 auto; color: var(--accent-text, #0369a1); background: var(--bg-surface); border-radius: 10px; padding: 7px; display: flex; }
+	.event-icon-box { flex: 0 0 auto; color: var(--accent-text, #0369a1); background: var(--bg-card); border-radius: 10px; padding: 7px; display: flex; }
 	.event-card--highlight .event-icon-box { background: #0369a1; color: #fff; }
+	:global(.dark-theme) .event-card--highlight .event-icon-box,
+	:global(.dark-cyan-theme) .event-card--highlight .event-icon-box,
+	:global(.dark-blue-theme) .event-card--highlight .event-icon-box,
+	:global([data-theme='dark']) .event-card--highlight .event-icon-box,
+	:global([data-theme='dark-cyan']) .event-card--highlight .event-icon-box,
+	:global([data-theme='dark-blue']) .event-card--highlight .event-icon-box {
+		background: #0369a1;
+		color: #fff;
+	}
 	.event-content { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; height: 100%; }
 	.event-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.35; color: var(--text-title); }
+	.event-subtitle { margin: 2px 0 0; font-size: 0.8rem; line-height: 1.35; color: var(--text-muted); font-weight: 500; }
 	.event-channel { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; width: 100%; margin-top: auto; padding-top: 4px; }
 	.btn-ticket {
 		display: inline-flex;
@@ -318,26 +372,47 @@
 		transition: background 0.15s ease;
 	}
 	.btn-ticket:hover { background: #075985; color: #fff; }
-	:global(.theme-dark) .btn-ticket,
-	:global(.theme-dim) .btn-ticket {
+	:global(.dark-theme) .btn-ticket,
+	:global(.dark-cyan-theme) .btn-ticket,
+	:global(.dark-blue-theme) .btn-ticket,
+	:global([data-theme='dark']) .btn-ticket,
+	:global([data-theme='dark-cyan']) .btn-ticket,
+	:global([data-theme='dark-blue']) .btn-ticket {
 		background: #0369a1;
 		color: #fff;
 	}
-	:global(.theme-dark) .btn-ticket:hover,
-	:global(.theme-dim) .btn-ticket:hover {
+	:global(.dark-theme) .btn-ticket:hover,
+	:global(.dark-cyan-theme) .btn-ticket:hover,
+	:global(.dark-blue-theme) .btn-ticket:hover,
+	:global([data-theme='dark']) .btn-ticket:hover,
+	:global([data-theme='dark-cyan']) .btn-ticket:hover,
+	:global([data-theme='dark-blue']) .btn-ticket:hover {
 		background: #075985;
 		color: #fff;
 	}
-	.channel-link { display: inline-flex; align-items: center; gap: 4px; font-size: 0.82rem; font-weight: 700; color: var(--accent-text, #0369a1); text-decoration: underline; text-underline-offset: 2px; }
+	.channel-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--accent-text, #0369a1);
+		background: var(--bg-card);
+		border: 1px solid var(--color-border);
+		padding: 3px 10px;
+		border-radius: 999px;
+		text-decoration: none;
+		transition: all 0.15s ease;
+	}
 	.channel-chip {
 		display: inline-flex;
 		align-items: center;
 		font-size: 0.78rem;
 		font-weight: 600;
 		color: var(--text-muted);
-		background: var(--bg-surface);
-		padding: 2px 8px;
-		border-radius: 6px;
+		background: var(--bg-card);
+		padding: 3px 10px;
+		border-radius: 999px;
 		border: 1px solid var(--color-border);
 	}
 	.charity-wrapper { container-type: inline-size; width: 100%; }

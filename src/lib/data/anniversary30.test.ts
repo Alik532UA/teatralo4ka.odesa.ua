@@ -36,7 +36,7 @@ describe('Афіша «30-річчя Одеської театральної ш�
 	it('містить 9 обовʼязкових святкових подій', () => {
 		expect(ANNIVERSARY_30_EVENTS).toHaveLength(9);
 
-		const titles = ANNIVERSARY_30_EVENTS.map((e) => e.titleUk);
+		const titles = ANNIVERSARY_30_EVENTS.map((e) => e.titleUk + ' ' + (e.subtitleUk ?? ''));
 		expect(titles.some((t) => t.includes('Відео-дайджест'))).toBe(true);
 		expect(titles.some((t) => t.includes('Квіти для іменинниці'))).toBe(true);
 		expect(titles.some((t) => t.includes('Святковий концерт'))).toBe(true);
