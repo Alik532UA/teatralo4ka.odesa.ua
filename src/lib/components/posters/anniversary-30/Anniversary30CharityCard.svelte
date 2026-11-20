@@ -181,13 +181,10 @@
 		background: rgba(255, 255, 255, 0.98);
 		border-radius: clamp(16px, 2.4cqi, 24px);
 		padding: clamp(12px, 2cqi, 20px) clamp(14px, 2.4cqi, 24px);
-		border: 3px solid transparent;
-		background-image:
-			linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
-			linear-gradient(135deg, #0077c8 0%, #0284c7 46%, #ffd000 54%, #ffed00 100%);
-		background-origin: padding-box, border-box;
-		background-clip: padding-box, border-box;
-		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 14px rgba(2, 132, 199, 0.16);
+		border: 2.5px solid #0077c8;
+		box-shadow:
+			0 0 0 2.5px #ffd000,
+			0 12px 30px -6px rgba(0, 0, 0, 0.14);
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
@@ -197,22 +194,19 @@
 	}
 	.charity-card--dark {
 		background: rgba(23, 17, 24, 0.95);
-		background-image:
-			linear-gradient(rgba(23, 17, 24, 0.95), rgba(23, 17, 24, 0.95)),
-			linear-gradient(135deg, #38bdf8 0%, #0284c7 46%, #fbbf24 54%, #fde047 100%);
-		background-origin: padding-box, border-box;
-		background-clip: padding-box, border-box;
 		color: #f8fafc;
-		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 16px rgba(56, 189, 248, 0.22);
+		border-color: #38bdf8;
+		box-shadow:
+			0 0 0 2.5px #fbbf24,
+			0 12px 30px -6px rgba(0, 0, 0, 0.4),
+			0 0 16px rgba(56, 189, 248, 0.2);
 	}
 	.charity-card--light {
 		background: #ffffff;
-		background-image:
-			linear-gradient(#ffffff, #ffffff),
-			linear-gradient(135deg, #0077c8 0%, #0284c7 46%, #ffd000 54%, #ffed00 100%);
-		background-origin: padding-box, border-box;
-		background-clip: padding-box, border-box;
-		border: 3px solid transparent;
+		border: 2.5px solid #0077c8;
+		box-shadow:
+			0 0 0 2.5px #ffd000,
+			0 10px 25px -5px rgba(0, 0, 0, 0.08);
 	}
 	.charity-main-col {
 		flex: 1 1 auto;
