@@ -85,8 +85,11 @@ test.describe('вкладені інтерактивні елементи', () =
 				const ДОЗВОЛЕНО = /-(video-btn|video-link)-\d+$/;
 				const out: string[] = [];
 				for (const el of document.querySelectorAll(SELECTOR)) {
+					// Елементи всередині [inert] (як-от мертві копії розгону в зацикленій головній)
+					// за стандартом HTML позбавлені інтерактивності.
+					if (el.closest('[inert]')) continue;
 					const parent = el.parentElement?.closest(SELECTOR);
-					if (!parent) continue;
+					if (!parent || parent.closest('[inert]')) continue;
 					const дозволений =
 						el.tagName === 'BUTTON' &&
 						parent.tagName === 'A' &&

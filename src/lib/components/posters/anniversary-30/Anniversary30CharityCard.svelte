@@ -314,7 +314,8 @@
 	}
 	.charity-card--dark .card-copy-box { background: #27202b; border-color: #475569; }
 	.card-number-wrap { display: flex; flex-direction: column; line-height: 1.15; }
-	.card-label { font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 0.03em; }
+	.card-label { font-size: 9px; text-transform: uppercase; color: #334155; font-weight: 700; letter-spacing: 0.03em; }
+	.charity-card--dark .card-label { color: #cbd5e1; }
 	.card-number {
 		font-family: monospace;
 		font-size: clamp(12px, 1.55cqi, 14px);

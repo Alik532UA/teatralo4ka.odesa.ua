@@ -83,6 +83,9 @@ test.describe('жоден елемент не ширший за екран', () 
 
 					if (rect.width <= viewport + tolerance) continue;
 					if (insideScroller(el)) continue;
+					// Бігуща строка (декоративний трек плейсхолдера в полі пошуку) навмисно розгортається
+					// ширше за екран усередині обрізаного overflow: hidden контейнера з aria-hidden="true".
+					if (el.closest('.search-field__ticker')) continue;
 
 					const name =
 						el.getAttribute('data-testid') ??
