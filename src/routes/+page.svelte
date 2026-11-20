@@ -264,7 +264,7 @@
 			</ErrorBoundary>
 
 		{:else if block.id === 'news'}
-			{#if newsReady}
+			{#if newsReady || newsItems.length > 0}
 				<ErrorBoundary>
 					<NewsSection items={newsItems} config={newsWidgetConfig} error={newsError} />
 				</ErrorBoundary>
@@ -306,7 +306,7 @@
 			</div>
 
 		{:else if block.id === 'projects'}
-			{#if projectsReady}
+			{#if projectsReady || projectItems.length > 0}
 				<ErrorBoundary>
 					<ProjectsSection items={projectItems} config={projectsWidgetConfig} error={projectsError} />
 				</ErrorBoundary>
