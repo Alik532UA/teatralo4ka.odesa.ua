@@ -1,23 +1,26 @@
 <script lang="ts">
-	import { t, locale } from 'svelte-i18n';
-	import EditContactButton from '$lib/components/EditContactButton.svelte';
-	import GraduatePhotoModal from '$lib/components/GraduatePhotoModal.svelte';
-	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
-	import { localizedPath } from '$lib/i18n/routing';
-	import { ArrowLeft, ArrowRight, Camera } from 'lucide-svelte';
-	import { graduateCardHref } from '$lib/data/graduates';
-	import DepartmentIcon from '$lib/components/icons/DepartmentIcon.svelte';
-	import MasterGraduateFlow from '$lib/components/MasterGraduateFlow.svelte';
-	import MasterNews from '$lib/components/adults/MasterNews.svelte';
-	import MasterFestivals from '$lib/components/adults/MasterFestivals.svelte';
-	import MasterGroups from '$lib/components/adults/MasterGroups.svelte';
-	import MasterProductions from '$lib/components/adults/MasterProductions.svelte';
-	import { playsByIds } from '$lib/data/plays';
-	import { yearsOfService, pluralKey } from '$lib/data/masters';
-	import { bioParagraphs } from '$lib/utils/bioParagraphs';
-	import { graduatePageLabelKey, graduatePageDefaultText } from '$lib/utils/masterLabel';
-	import RichTextWithFlags from '$lib/components/RichTextWithFlags.svelte';
-	import type { PageData } from './$types';
+	import { t, locale } from "svelte-i18n";
+	import EditContactButton from "$lib/components/EditContactButton.svelte";
+	import GraduatePhotoModal from "$lib/components/GraduatePhotoModal.svelte";
+	import VerificationNoticeBanner from "$lib/components/VerificationNoticeBanner.svelte";
+	import { localizedPath } from "$lib/i18n/routing";
+	import { ArrowLeft, ArrowRight, Camera } from "lucide-svelte";
+	import { graduateCardHref } from "$lib/data/graduates";
+	import DepartmentIcon from "$lib/components/icons/DepartmentIcon.svelte";
+	import MasterGraduateFlow from "$lib/components/MasterGraduateFlow.svelte";
+	import MasterNews from "$lib/components/adults/MasterNews.svelte";
+	import MasterFestivals from "$lib/components/adults/MasterFestivals.svelte";
+	import MasterGroups from "$lib/components/adults/MasterGroups.svelte";
+	import MasterProductions from "$lib/components/adults/MasterProductions.svelte";
+	import { playsByIds } from "$lib/data/plays";
+	import { yearsOfService, pluralKey } from "$lib/data/masters";
+	import { bioParagraphs } from "$lib/utils/bioParagraphs";
+	import {
+		graduatePageLabelKey,
+		graduatePageDefaultText,
+	} from "$lib/utils/masterLabel";
+	import RichTextWithFlags from "$lib/components/RichTextWithFlags.svelte";
+	import type { PageData } from "./$types";
 
 	let { data }: { data: PageData } = $props();
 
@@ -40,14 +43,18 @@
 	 */
 	const masterPlays = $derived(playsByIds(data.master.playIds ?? []));
 
-	const isEn = $derived($locale === 'en');
-	const masterName = $derived(isEn ? data.master.fullNameEn : data.master.fullName);
+	const isEn = $derived($locale === "en");
+	const masterName = $derived(
+		isEn ? data.master.fullNameEn : data.master.fullName,
+	);
 
 	const paragraphs = $derived(bioParagraphs(data.master.bio));
-	const displayName = $derived(isEn ? data.master.displayNameEn : data.master.displayName);
+	const displayName = $derived(
+		isEn ? data.master.displayNameEn : data.master.displayName,
+	);
 	// Одна перевірка одного факту: доти `isHonorary` і `status` перевірялися
 	// поряд, хоч означали те саме.
-	const isHonorary = $derived(data.master.status === 'honorary');
+	const isHonorary = $derived(data.master.status === "honorary");
 	/*
 	 * Знімок — ПОРТРЕТ, а квадратний лише запасним.
 	 *
@@ -63,7 +70,9 @@
 	 * міряється «до сьогодні», а сторінка пререндерена. Функція, яка сама дивиться
 	 * на годинник, дала б у зібраному HTML одне число, а після гідратації — інше.
 	 */
-	const yearsInSchool = $derived(yearsOfService(data.master.periods, new Date().getFullYear()));
+	const yearsInSchool = $derived(
+		yearsOfService(data.master.periods, new Date().getFullYear()),
+	);
 
 	/*
 	 * Кнопка на СВОЮ сторінку випускника — у того, хто цю школу закінчував.
@@ -76,7 +85,9 @@
 	 * людей власної сторінки немає, і адресу картки в галактиці дає лише він.
 	 */
 	const graduateHref = $derived(
-		data.alsoGraduate ? graduateCardHref(data.alsoGraduate, isEn ? 'en' : 'uk') : null
+		data.alsoGraduate
+			? graduateCardHref(data.alsoGraduate, isEn ? "en" : "uk")
+			: null,
 	);
 
 	/*
@@ -93,20 +104,27 @@
 		<!-- Хлібні крихти / Навігація назад -->
 		<div class="master-page__nav clears-logo">
 			<a
-				href={localizedPath('/residents/adults/', isEn ? 'en' : 'uk')}
+				href={localizedPath("/residents/adults/", isEn ? "en" : "uk")}
 				class="back-btn"
 				data-testid="master-profile-back-link"
 			>
 				<ArrowLeft size={18} aria-hidden="true" />
-				<span>{$t('galaxy.allTeachers', { default: 'Всі дорослі' })}</span>
+				<span
+					>{$t("galaxy.allTeachers", {
+						default: "Всі дорослі",
+					})}</span
+				>
 			</a>
 
 			<a
-				href={localizedPath('/projects/galaxy-graduates/', isEn ? 'en' : 'uk')}
+				href={localizedPath(
+					"/projects/galaxy-graduates/",
+					isEn ? "en" : "uk",
+				)}
 				class="back-btn back-btn--forward"
 				data-testid="master-profile-galaxy-link"
 			>
-				<span>{$t('galaxy.title')}</span>
+				<span>{$t("galaxy.title")}</span>
 				<ArrowRight size={18} aria-hidden="true" />
 			</a>
 		</div>
@@ -133,7 +151,9 @@
 							{:else}
 								<div
 									class="avatar-placeholder"
-									aria-label={$t('galaxy.noPhoto', { default: 'Фото очікується' })}
+									aria-label={$t("galaxy.noPhoto", {
+										default: "Фото очікується",
+									})}
 									data-testid="master-profile-avatar-icon"
 								>
 									<Camera size={48} aria-hidden="true" />
@@ -150,8 +170,9 @@
 										icon="plus"
 										openTo="down"
 										hasPhoto={false}
-										label={$t('common.contact', {
-											default: "Додати фото або зв'язатися з адміністратором"
+										label={$t("common.contact", {
+											default:
+												"Додати фото або зв'язатися з адміністратором",
 										})}
 									/>
 								</span>
@@ -166,40 +187,72 @@
 								data-testid="master-profile-replace-photo-btn"
 							>
 								<Camera size={14} aria-hidden="true" />
-								<span>{$t('galaxy.replacePhotoFull', { default: 'Замінити фотографію' })}</span>
+								<span
+									>{$t("galaxy.replacePhotoFull", {
+										default: "Замінити фотографію",
+									})}</span
+								>
 							</button>
 						{/if}
 					</div>
 
 					<div class="master-title-wrap">
-						<h1 class="master-name" data-testid="master-profile-title">{displayName}</h1>
+						<h1
+							class="master-name"
+							data-testid="master-profile-title"
+						>
+							{displayName}
+						</h1>
 
 						{#if data.master.roleTitle}
-							<p class="master-role-title" data-testid="master-profile-role-title">
+							<p
+								class="master-role-title"
+								data-testid="master-profile-role-title"
+							>
 								{data.master.roleTitle}
 							</p>
 						{/if}
 
 						{#if isHonorary}
-							<span class="honorary-badge" data-testid="master-profile-honorary-badge">
-								<span>{$t('galaxy.honoraryMaster', { default: "Світлої пам'яті викладача" })}</span>
+							<span
+								class="honorary-badge"
+								data-testid="master-profile-honorary-badge"
+							>
+								<span
+									>{$t("galaxy.honoraryMaster", {
+										default: "Світлої пам'яті викладача",
+									})}</span
+								>
 							</span>
 						{/if}
 
 						{#if data.master.departments.length > 0}
-							<div class="dept-list" data-testid="master-profile-dept-list">
+							<div
+								class="dept-list"
+								data-testid="master-profile-dept-list"
+							>
 								{#each data.master.departments as dept (dept)}
 									<span class="dept-pill">
-										<DepartmentIcon department={dept} size={16} />
-										<span>{$t(`galaxy.departments.${dept}`, { default: dept })}</span>
+										<DepartmentIcon
+											department={dept}
+											size={16}
+										/>
+										<span
+											>{$t(`galaxy.departments.${dept}`, {
+												default: dept,
+											})}</span
+										>
 									</span>
 								{/each}
 							</div>
 						{/if}
 
 						{#if data.master.subjects && data.master.subjects.length > 0}
-							<p class="master-subjects" data-testid="master-profile-subjects-text">
-								{data.master.subjects.join(' · ')}
+							<p
+								class="master-subjects"
+								data-testid="master-profile-subjects-text"
+							>
+								{data.master.subjects.join(" · ")}
 							</p>
 						{/if}
 
@@ -210,11 +263,17 @@
 							«термінів не записано» — тоді рядка немає взагалі, а не «0».
 						-->
 						{#if yearsInSchool !== null}
-							<p class="master-years" data-testid="master-profile-years-text">
-								{$t(`galaxy.yearsInSchool${pluralKey(yearsInSchool)}`, {
-									values: { count: yearsInSchool },
-									default: `${yearsInSchool} р. у школі`
-								})}
+							<p
+								class="master-years"
+								data-testid="master-profile-years-text"
+							>
+								{$t(
+									`galaxy.yearsInSchool${pluralKey(yearsInSchool)}`,
+									{
+										values: { count: yearsInSchool },
+										default: `${yearsInSchool} р. у школі`,
+									},
+								)}
 							</p>
 						{/if}
 
@@ -230,9 +289,25 @@
 								class="graduate-link"
 								data-testid="master-profile-graduate-link"
 							>
-								<span>{$t(graduatePageLabelKey(data.master, data.alsoGraduate), { default: graduatePageDefaultText(data.master, data.alsoGraduate) })}</span>
+								<span
+									>{$t(
+										graduatePageLabelKey(
+											data.master,
+											data.alsoGraduate,
+										),
+										{
+											default: graduatePageDefaultText(
+												data.master,
+												data.alsoGraduate,
+											),
+										},
+									)}</span
+								>
 								{#if data.alsoGraduate.graduationYear}
-									<span class="graduate-link__year">{data.alsoGraduate.graduationYear}</span>
+									<span class="graduate-link__year"
+										>{data.alsoGraduate
+											.graduationYear}</span
+									>
 								{/if}
 								<ArrowRight size={16} aria-hidden="true" />
 							</a>
@@ -240,11 +315,18 @@
 
 						{#each data.projects as project (project.id)}
 							<a
-								href={localizedPath(`/projects/${project.slug}/`, isEn ? 'en' : 'uk')}
+								href={localizedPath(
+									`/projects/${project.slug}/`,
+									isEn ? "en" : "uk",
+								)}
 								class="graduate-link"
 								data-testid="master-profile-project-{project.slug}-link"
 							>
-								<span>{isEn ? `Author project ${project.titles.en}` : `Авторський проєкт ${project.titles.uk}`}</span>
+								<span
+									>{isEn
+										? `Author project ${project.titles.en}`
+										: `Авторський проєкт ${project.titles.uk}`}</span
+								>
 								<ArrowRight size={16} aria-hidden="true" />
 							</a>
 						{/each}
@@ -252,8 +334,15 @@
 				</div>
 
 				{#if paragraphs.length}
-					<div class="master-bio" data-testid="master-profile-bio-section">
-						<h2 class="master-bio__title">{$t('galaxy.bioTitle', { default: 'Про викладача' })}</h2>
+					<div
+						class="master-bio"
+						data-testid="master-profile-bio-section"
+					>
+						<h2 class="master-bio__title">
+							{$t("galaxy.bioTitle", {
+								default: "Про викладача",
+							})}
+						</h2>
 						<!--
 							Ключ — індекс, і це свідомо: абзаци не додаються, не зникають і не
 							міняються місцями, бо весь перелік перечитується з одного рядка
@@ -270,7 +359,10 @@
 							розбір розмітки в проєкті один.
 						-->
 						{#each paragraphs as paragraph, index (index)}
-							<p class="master-bio__text" data-testid="master-profile-bio-item-{index}">
+							<p
+								class="master-bio__text"
+								data-testid="master-profile-bio-item-{index}"
+							>
 								<RichTextWithFlags
 									text={paragraph}
 									linkTestIdPrefix="master-profile-bio-item-{index}"
@@ -315,7 +407,11 @@
 
 		{#if masterPlays.length > 0}
 			<div class="master-section-layer">
-				<MasterProductions productions={masterPlays} castIds={data.castIds} {isEn} />
+				<MasterProductions
+					productions={masterPlays}
+					castIds={data.castIds}
+					{isEn}
+				/>
 			</div>
 		{/if}
 	</div>
@@ -369,7 +465,10 @@
 		font-size: 0.92rem;
 		font-weight: 600;
 		box-shadow: var(--shadow-main);
-		transition: background var(--transition-base, 0.25s ease), transform var(--transition-base, 0.25s ease), border-color var(--transition-base, 0.25s ease);
+		transition:
+			background var(--transition-base, 0.25s ease),
+			transform var(--transition-base, 0.25s ease),
+			border-color var(--transition-base, 0.25s ease);
 	}
 
 	.back-btn:hover {
@@ -450,7 +549,10 @@
 		font-weight: 500;
 		cursor: pointer;
 		white-space: nowrap;
-		transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+		transition:
+			background var(--transition-fast),
+			border-color var(--transition-fast),
+			color var(--transition-fast);
 	}
 
 	.avatar-replace-btn:hover,
@@ -607,7 +709,9 @@
 		text-decoration: none;
 		font-size: 0.9rem;
 		font-weight: 600;
-		transition: background var(--transition-base, 0.25s ease), transform var(--transition-base, 0.25s ease);
+		transition:
+			background var(--transition-base, 0.25s ease),
+			transform var(--transition-base, 0.25s ease);
 	}
 
 	.graduate-link:hover {
