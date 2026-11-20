@@ -18,13 +18,12 @@
 		CircleQuestionMark
 	} from 'lucide-svelte';
 	import CandleIcon from '$lib/components/icons/CandleIcon.svelte';
-	import StaticPage from '$lib/components/StaticPage.svelte';
+	import { seo } from '$lib/services/seo.svelte';
 	import MasterCard from '$lib/components/adults/MasterCard.svelte';
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle from '$lib/components/adults/MasterViewToggle.svelte';
 	import SearchField from '$lib/components/SearchField.svelte';
-	import AdultsCallToAction from '$lib/components/adults/AdultsCallToAction.svelte';
 	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
 	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
 	import { adultsViewMode, isMode } from '$lib/services/adultsViewMode.svelte';
@@ -34,6 +33,17 @@
 
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
+	const content = $derived(isEn ? data.en : data.uk);
+
+	$effect(() => {
+		if (content?.metadata?.seo) {
+			seo.update({
+				title: content.metadata.seo.title,
+				description: content.metadata.seo.description,
+				ogImage: content.metadata.seo.ogImage
+			});
+		}
+	});
 
 	/**
 	 * Пошук фільтрує ЛЮДЕЙ, а розділи вже складаються з того, що лишилося:
@@ -296,21 +306,15 @@
 	);
 </script>
 
-<div class="adults-page">
-	<StaticPage {data} testPrefix="residents-adults">
-		{#snippet actions()}
-			<AdultsCallToAction />
-		{/snippet}
-	</StaticPage>
-
+<div class="adults-page" data-testid="residents-adults-page-section">
 	{#if adultsVisibility.isVisible && allMasters.length > 0}
 		<section class="masters-section" aria-labelledby="masters-title" data-testid="residents-adults-masters-section">
 			<div class="container masters-container">
 				<header class="masters-header">
 					<div class="masters-header__text">
-						<h2 id="masters-title" class="masters-title" data-testid="residents-adults-masters-title">
+						<h1 id="masters-title" class="masters-title" data-testid="residents-adults-masters-title">
 							{$t('galaxy.mastersSectionTitle', { default: 'Наша команда' })}
-						</h2>
+						</h1>
 						<p class="masters-subtitle" data-testid="residents-adults-masters-text">
 							{$t('galaxy.mastersSectionSubtitle', { default: 'Педагоги, майстри та команда однодумців Одеської театральної школи' })}
 						</p>
@@ -381,8 +385,7 @@
 	}
 
 	.masters-section {
-		padding: 2.5rem 0 3.5rem;
-		border-top: 1px solid var(--border-main);
+		padding: clamp(1.5rem, 3.5vw, 3rem) 0 3.5rem;
 	}
 
 	.masters-container {

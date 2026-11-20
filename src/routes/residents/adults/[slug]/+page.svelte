@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { t, locale } from 'svelte-i18n';
 	import EditContactButton from '$lib/components/EditContactButton.svelte';
+	import GraduatePhotoModal from '$lib/components/GraduatePhotoModal.svelte';
 	import VerificationNoticeBanner from '$lib/components/VerificationNoticeBanner.svelte';
 	import { localizedPath } from '$lib/i18n/routing';
 	import { ArrowLeft, ArrowRight, Camera } from 'lucide-svelte';
@@ -19,6 +20,8 @@
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	let photoModalOpen = $state(false);
 
 	/**
 	 * ВАЖЛИВА ДИСТИНКЦІЯ РОЗДІЛІВ (НЕ ПЛУТАТИ!):
@@ -115,42 +118,56 @@
 			<article class="master-card" data-testid="master-profile-card">
 				<div class="master-header">
 					<!-- Знімок майстра / заглушка камера з кнопкою + якщо фото немає -->
-					<div class="avatar-container">
-						{#if знімок}
-							<img
-								src={знімок}
-								alt={masterName}
-								class="avatar-img"
-								class:avatar-img--honorary={isHonorary}
-								width="140"
-								height="210"
-								data-testid="master-profile-avatar-img"
-							/>
-						{:else}
-							<div
-								class="avatar-placeholder"
-								aria-label={$t('galaxy.noPhoto', { default: 'Фото очікується' })}
-								data-testid="master-profile-avatar-icon"
-							>
-								<Camera size={48} aria-hidden="true" />
-							</div>
-
-							<!--
-								Кнопка «+» біля фото: її показують лише там, де фото
-								немає, і просить вона саме фото, а не правки.
-							-->
-							<span class="avatar-add">
-								<EditContactButton
-									testIdPrefix="master-profile-contact"
-									buttonTestId="master-profile-add-btn"
-									icon="plus"
-									openTo="down"
-									hasPhoto={false}
-									label={$t('common.contact', {
-										default: "Додати фото або зв'язатися з адміністратором"
-									})}
+					<div class="avatar-wrap">
+						<div class="avatar-container">
+							{#if знімок}
+								<img
+									src={знімок}
+									alt={masterName}
+									class="avatar-img"
+									class:avatar-img--honorary={isHonorary}
+									width="140"
+									height="210"
+									data-testid="master-profile-avatar-img"
 								/>
-							</span>
+							{:else}
+								<div
+									class="avatar-placeholder"
+									aria-label={$t('galaxy.noPhoto', { default: 'Фото очікується' })}
+									data-testid="master-profile-avatar-icon"
+								>
+									<Camera size={48} aria-hidden="true" />
+								</div>
+
+								<!--
+									Кнопка «+» біля фото: її показують лише там, де фото
+									немає, і просить вона саме фото, а не правки.
+								-->
+								<span class="avatar-add">
+									<EditContactButton
+										testIdPrefix="master-profile-contact"
+										buttonTestId="master-profile-add-btn"
+										icon="plus"
+										openTo="down"
+										hasPhoto={false}
+										label={$t('common.contact', {
+											default: "Додати фото або зв'язатися з адміністратором"
+										})}
+									/>
+								</span>
+							{/if}
+						</div>
+
+						{#if знімок}
+							<button
+								type="button"
+								class="avatar-replace-btn"
+								onclick={() => (photoModalOpen = true)}
+								data-testid="master-profile-replace-photo-btn"
+							>
+								<Camera size={14} aria-hidden="true" />
+								<span>{$t('galaxy.replacePhotoFull', { default: 'Замінити фотографію' })}</span>
+							</button>
 						{/if}
 					</div>
 
@@ -304,6 +321,14 @@
 	</div>
 </div>
 
+<GraduatePhotoModal
+	isOpen={photoModalOpen}
+	initialAction="replace"
+	hasPhoto={Boolean(знімок)}
+	onclose={() => (photoModalOpen = false)}
+	_graduateName={displayName}
+/>
+
 <style>
 	.master-page {
 		padding: clamp(1.5rem, 3.5vw, 3rem) 0 4rem;
@@ -401,6 +426,38 @@
 			align-items: center;
 			text-align: left;
 		}
+	}
+
+	.avatar-wrap {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		flex-shrink: 0;
+		gap: 0.5rem;
+	}
+
+	.avatar-replace-btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		padding: 0.35rem 0.75rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: var(--hairline-width) solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.8rem;
+		font-weight: 500;
+		cursor: pointer;
+		white-space: nowrap;
+		transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+	}
+
+	.avatar-replace-btn:hover,
+	.avatar-replace-btn:focus-visible {
+		border-color: var(--accent-primary);
+		color: var(--accent-text);
+		background: var(--bg-card);
 	}
 
 	/*

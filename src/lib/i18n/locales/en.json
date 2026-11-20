@@ -1143,6 +1143,7 @@
 		"formModalTitle": "Graduate questionnaire",
 		"photoModalTitle": "Photo",
 		"replacePhoto": "Replace photo",
+		"replacePhotoFull": "Replace photo",
 		"addPhoto": "Add photo",
 		"switchPhoto": "Switch photo: {name}",
 		"openInNewTab": "Open in new tab",

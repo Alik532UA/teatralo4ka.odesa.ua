@@ -1143,6 +1143,7 @@
 		"formModalTitle": "Анкета випускника",
 		"photoModalTitle": "Фотографія",
 		"replacePhoto": "Замінити фото",
+		"replacePhotoFull": "Замінити фотографію",
 		"addPhoto": "Додати фото",
 		"switchPhoto": "Змінити фото: {name}",
 		"openInNewTab": "Відкрити в новій вкладці",

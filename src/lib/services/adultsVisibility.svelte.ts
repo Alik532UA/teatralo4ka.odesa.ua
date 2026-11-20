@@ -1,4 +1,4 @@
-import { browser, dev } from '$app/environment';
+import { browser } from '$app/environment';
 import { storage } from './storage';
 
 const STORAGE_KEY = 'adults_section_revealed';
@@ -28,7 +28,7 @@ class AdultsVisibilityState {
 
 	/** Чи видимий розділ майстрів на сторінці /residents/adults */
 	get isVisible(): boolean {
-		return this.override ?? dev;
+		return this.override ?? true;
 	}
 
 	/**
