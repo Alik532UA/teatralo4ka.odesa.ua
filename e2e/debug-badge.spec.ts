@@ -56,3 +56,39 @@ test('у debug-режимі службова кнопка одна', async ({ pa
 	).toHaveLength(1);
 	expect(fixed[0].testid, 'єдиний плаваючий контрол — не службове табло').toBe('app-version-value');
 });
+
+test('контекстне меню табло відкривається і містить опції', async ({ page }) => {
+	await gotoReady(page, '/?debug=1');
+
+	const badge = page.getByTestId('app-version-value');
+	await expect(badge).toBeVisible({ timeout: 15_000 });
+
+	// Перевірка лівого кліку для відкриття меню
+	await badge.click();
+	const menu = page.getByTestId('service-badge-context-menu');
+	await expect(menu).toBeVisible();
+
+	await expect(page.getByTestId('service-badge-copy-report-btn')).toBeVisible();
+	await expect(page.getByTestId('service-badge-view-errors-btn')).toBeVisible();
+	await expect(page.getByTestId('service-badge-clear-btn')).toBeVisible();
+	await expect(page.getByTestId('service-badge-hide-btn')).toBeVisible();
+
+	// Клік на «Переглянути помилки» відкриває модальне вікно
+	await page.getByTestId('service-badge-view-errors-btn').click();
+	await expect(menu).not.toBeVisible();
+
+	const modal = page.getByTestId('error-log-modal-container');
+	await expect(modal).toBeVisible();
+
+	// Закриття модального вікна
+	await page.getByTestId('error-log-modal-close-btn').click();
+	await expect(modal).not.toBeVisible();
+
+	// Перевірка правого кліку для відкриття меню
+	await badge.click({ button: 'right' });
+	await expect(menu).toBeVisible();
+
+	// Перевірка кнопки приховування табла
+	await page.getByTestId('service-badge-hide-btn').click();
+	await expect(badge).not.toBeVisible();
+});

@@ -771,8 +771,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   Закрито борг `data/repertoireNovember2026.ts` (прибрано 29 лист. для Сирника, вкладається у 250 рядків).
  *   Додано секретну ізоляцію перегляду афіш (показ усіх афіш лише за 3x натисканням 'h'),
  *   додано синьо-жовту обводку та збільшено типографіку картки збору ЗСУ.
+ * 2026-11-20 (пізніше): `src/lib/components/ui/ErrorLogModal.svelte` (560 SLOC).
+ *   Повнофункціональне модальне вікно журналу діагностики та помилок з фільтрами за рівнем,
+ *   очищенням кешу, копіюванням діагностичного звіту, collapsible stack trace та фокус-пасткою.
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/ui/ErrorLogModal.svelte': 560,
 	'src/lib/components/posters/Anniversary30Poster.svelte': 565,
 	'src/routes/anniversary-30/+page.svelte': 425,
 	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 485,
