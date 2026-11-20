@@ -177,42 +177,59 @@
 
 <style>
 	.charity-card {
-		background: rgba(255, 255, 255, 0.94);
-		border-radius: clamp(14px, 2.2cqi, 22px);
-		padding: clamp(10px, 1.8cqi, 18px) clamp(12px, 2.2cqi, 22px);
-		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+		position: relative;
+		background: rgba(255, 255, 255, 0.98);
+		border-radius: clamp(16px, 2.4cqi, 24px);
+		padding: clamp(12px, 2cqi, 20px) clamp(14px, 2.4cqi, 24px);
+		border: 3px solid transparent;
+		background-image:
+			linear-gradient(rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.98)),
+			linear-gradient(135deg, #0077c8 0%, #0284c7 46%, #ffd000 54%, #ffed00 100%);
+		background-origin: padding-box, border-box;
+		background-clip: padding-box, border-box;
+		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 0 14px rgba(2, 132, 199, 0.16);
 		display: flex;
 		flex-direction: row;
 		align-items: stretch;
 		justify-content: space-between;
-		gap: clamp(12px, 2cqi, 24px);
+		gap: clamp(14px, 2.4cqi, 26px);
 		text-align: left;
 	}
 	.charity-card--dark {
-		background: rgba(23, 17, 24, 0.92);
+		background: rgba(23, 17, 24, 0.95);
+		background-image:
+			linear-gradient(rgba(23, 17, 24, 0.95), rgba(23, 17, 24, 0.95)),
+			linear-gradient(135deg, #38bdf8 0%, #0284c7 46%, #fbbf24 54%, #fde047 100%);
+		background-origin: padding-box, border-box;
+		background-clip: padding-box, border-box;
 		color: #f8fafc;
-		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+		box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 16px rgba(56, 189, 248, 0.22);
 	}
 	.charity-card--light {
 		background: #ffffff;
-		border: 1px solid rgba(0, 0, 0, 0.1);
+		background-image:
+			linear-gradient(#ffffff, #ffffff),
+			linear-gradient(135deg, #0077c8 0%, #0284c7 46%, #ffd000 54%, #ffed00 100%);
+		background-origin: padding-box, border-box;
+		background-clip: padding-box, border-box;
+		border: 3px solid transparent;
 	}
 	.charity-main-col {
 		flex: 1 1 auto;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: clamp(8px, 1.2cqi, 12px);
+		gap: clamp(10px, 1.5cqi, 16px);
 		min-width: 0;
 	}
 	.charity-header {
 		display: flex;
 		align-items: center;
-		gap: 10px;
+		gap: 12px;
 	}
 	.charity-badge {
-		width: clamp(34px, 4cqi, 40px);
-		height: clamp(34px, 4cqi, 40px);
+		width: clamp(38px, 4.6cqi, 48px);
+		height: clamp(38px, 4.6cqi, 48px);
 		border-radius: 50%;
 		background: #e0f2fe;
 		color: #0369a1;
@@ -222,27 +239,27 @@
 		flex-shrink: 0;
 	}
 	.charity-card--dark .charity-badge { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-	.charity-headline { display: flex; flex-direction: column; gap: 2px; }
+	.charity-headline { display: flex; flex-direction: column; gap: 3px; }
 	.charity-title {
 		margin: 0;
-		font-size: clamp(13px, 1.8cqi, 18px);
+		font-size: clamp(15px, 2.1cqi, 21px);
 		font-weight: 900;
 		color: #0369a1;
-		line-height: 1.2;
+		line-height: 1.25;
 	}
 	.charity-card--dark .charity-title { color: #38bdf8; }
 	.charity-lead {
 		margin: 0;
-		font-size: clamp(10.5px, 1.35cqi, 13px);
+		font-size: clamp(12px, 1.6cqi, 14.5px);
 		color: #475569;
-		line-height: 1.35;
+		line-height: 1.4;
 		white-space: pre-line;
 	}
 	.charity-card--dark .charity-lead { color: #cbd5e1; }
 	.charity-details {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(6px, 1cqi, 10px);
+		gap: clamp(8px, 1.3cqi, 12px);
 		min-width: 0;
 	}
 	.charity-target-badge {
@@ -252,10 +269,11 @@
 		background: #eff6ff;
 		color: #1d4ed8;
 		border: 1px solid #bfdbfe;
-		padding: 3px 10px;
+		padding: 4px 12px;
 		border-radius: 999px;
 		width: fit-content;
-		font-size: clamp(10.5px, 1.35cqi, 13px);
+		font-size: clamp(12px, 1.55cqi, 14px);
+		font-weight: 700;
 	}
 	.charity-card--dark .charity-target-badge {
 		background: #1e3a8a;
@@ -264,28 +282,28 @@
 	}
 	.charity-desc {
 		margin: 0;
-		font-size: clamp(10.5px, 1.3cqi, 12.5px);
+		font-size: clamp(12px, 1.55cqi, 14px);
 		color: #334155;
-		line-height: 1.35;
+		line-height: 1.42;
 	}
 	.charity-card--dark .charity-desc { color: #e2e8f0; }
 	.charity-actions {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 6px 10px;
+		gap: 8px 12px;
 	}
 	.btn-jar {
 		display: inline-flex;
 		align-items: center;
-		gap: 5px;
+		gap: 6px;
 		background: #047857;
 		color: #ffffff;
 		text-decoration: none;
-		font-size: clamp(10.5px, 1.3cqi, 12.5px);
+		font-size: clamp(12px, 1.55cqi, 14px);
 		font-weight: 800;
-		padding: 5px 12px;
-		border-radius: 7px;
+		padding: 7px 15px;
+		border-radius: 8px;
 		box-shadow: 0 2px 6px rgba(4, 120, 87, 0.35);
 		transition: background-color 0.15s ease, transform 0.1s ease;
 	}
@@ -294,18 +312,18 @@
 	.card-copy-box {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
+		gap: 8px;
 		background: #f1f5f9;
 		border: 1px solid #cbd5e1;
-		border-radius: 7px;
-		padding: 3px 8px;
+		border-radius: 8px;
+		padding: 4px 10px;
 	}
 	.charity-card--dark .card-copy-box { background: #27202b; border-color: #475569; }
-	.card-number-wrap { display: flex; flex-direction: column; line-height: 1.1; }
-	.card-label { font-size: 8.5px; text-transform: uppercase; color: #64748b; font-weight: 700; }
+	.card-number-wrap { display: flex; flex-direction: column; line-height: 1.15; }
+	.card-label { font-size: 9px; text-transform: uppercase; color: #64748b; font-weight: 700; letter-spacing: 0.03em; }
 	.card-number {
 		font-family: monospace;
-		font-size: clamp(10.5px, 1.3cqi, 12.5px);
+		font-size: clamp(12px, 1.55cqi, 14px);
 		font-weight: 800;
 		color: #0f172a;
 	}
@@ -317,9 +335,9 @@
 		background: #ffffff;
 		color: #0f172a;
 		border: 1px solid #cbd5e1;
-		border-radius: 5px;
-		padding: 3px 7px;
-		font-size: 10.5px;
+		border-radius: 6px;
+		padding: 4px 8px;
+		font-size: 11.5px;
 		font-weight: 700;
 		cursor: pointer;
 	}
@@ -331,9 +349,9 @@
 		gap: 6px;
 		background: #f1f5f9;
 		border: 1px solid #cbd5e1;
-		border-radius: 6px;
-		padding: 3px 8px;
-		font-size: 11px;
+		border-radius: 8px;
+		padding: 4px 10px;
+		font-size: 12px;
 	}
 	.charity-card--dark .paper-jar-ref {
 		background: rgba(255, 255, 255, 0.08);

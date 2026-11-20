@@ -54,8 +54,8 @@ export const POSTERS_LIST: PosterMeta[] = [
 		slug: 'repertoire-november-a1',
 		titleUk: 'Репертуар на листопад (Афіша A1)',
 		titleEn: 'November Repertoire (A1 Poster)',
-		subtitleUk: 'Листопад 2026 · 5 вистав та концертів · Афіша A1',
-		subtitleEn: 'November 2026 · 5 performances & concerts · A1 Poster',
+		subtitleUk: 'Листопад 2026 · 4 вистави та концерти · Афіша A1',
+		subtitleEn: 'November 2026 · 4 performances & concerts · A1 Poster',
 		dateBadgeUk: 'Листопад 2026',
 		dateBadgeEn: 'Nov 2026'
 	},

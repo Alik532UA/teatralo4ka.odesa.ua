@@ -15,8 +15,7 @@
 		Music,
 		Video,
 		Globe,
-		PartyPopper,
-		ArrowLeft
+		PartyPopper
 	} from 'lucide-svelte';
 
 	const isEn = $derived($locale === 'en');
@@ -52,10 +51,6 @@
 <div class="anniversary-page" data-testid="anniversary-page-section">
 	<div class="container anniversary-container">
 		<nav class="anniversary-nav" aria-label={isEn ? 'Page navigation' : 'Навігація'}>
-			<a href={resolve('/posters')} class="back-link" data-testid="anniversary-back-link">
-				<ArrowLeft size={16} aria-hidden="true" />
-				<span>{isEn ? 'All Playbills & Posters' : 'Всі афіші школи'}</span>
-			</a>
 			<div class="nav-actions">
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a href="#charity" class="nav-btn nav-btn--charity" data-testid="nav-charity-link">
@@ -225,9 +220,7 @@
 <style>
 	.anniversary-page { padding: var(--page-pad-top) 0 var(--page-pad-bottom); min-height: 85dvh; }
 	.anniversary-container { max-width: 960px; margin: 0 auto; padding: 0 16px; display: flex; flex-direction: column; gap: clamp(24px, 4vw, 36px); }
-	.anniversary-nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-	.back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem; font-weight: 600; color: var(--text-muted); text-decoration: none; }
-	.back-link:hover { color: var(--text-title); }
+	.anniversary-nav { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 10px; }
 	.nav-actions { display: flex; align-items: center; gap: 8px; }
 	.nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; text-decoration: none; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); }
 	.nav-btn--charity { color: var(--accent-text, #0369a1); border-color: rgba(3, 105, 161, 0.3); }

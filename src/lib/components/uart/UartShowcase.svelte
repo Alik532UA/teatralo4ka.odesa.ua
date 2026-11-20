@@ -16,11 +16,8 @@
 				<Calendar size={14} aria-hidden="true" />
 				<span>{isEn ? 'Active Repertoire · November 2026' : 'Актуальний репертуар · Листопад 2026'}</span>
 			</div>
-			<a
-				href={resolve('/posters')}
-				class="repertoire-poster-link"
-				data-testid="uart-repertoire-poster-link"
-			>
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={resolve('/posters') + '?poster=repertoire-november-a1'} class="repertoire-poster-link" data-testid="uart-repertoire-poster-link">
 				<span>{isEn ? 'Repertoire A1 Poster' : 'Афіша репертуару A1'}</span>
 				<ChevronRight size={15} aria-hidden="true" />
 			</a>

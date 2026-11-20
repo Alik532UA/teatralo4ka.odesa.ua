@@ -764,20 +764,23 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-11-20: `Anniversary30Poster.svelte` (540 -> 565 SLOC), `routes/anniversary-30/+page.svelte` (425 SLOC).
  *   Додано посилання TikTok, структуровано підзаголовок конференції (картка 9),
  *   впроваджено охайні пігулки-посилання та адаптовано кольори темних тем (позбавлення від болотного фону).
+ * 2026-11-20: `Anniversary30CharityCard.svelte` (465 -> 485 SLOC), `routes/posters/+page.svelte` (570 -> 615 SLOC).
+ *   Закрито борг `data/repertoireNovember2026.ts` (прибрано 29 лист. для Сирника, вкладається у 250 рядків).
+ *   Додано секретну ізоляцію перегляду афіш (показ усіх афіш лише за 3x натисканням 'h'),
+ *   додано синьо-жовту обводку та збільшено типографіку картки збору ЗСУ.
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/posters/Anniversary30Poster.svelte': 565,
 	'src/routes/anniversary-30/+page.svelte': 425,
-	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 465,
+	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 485,
 	'src/lib/data/posters.ts': 265,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
 	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,
-	'src/lib/data/repertoireNovember2026.ts': 295,
 	'src/lib/components/posters/uart-a1/UartA1Variant1.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant2.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant3.svelte': 475,
 	'src/lib/components/posters/UartSecretsA1Poster.svelte': 325,
-	'src/routes/posters/+page.svelte': 570,
+	'src/routes/posters/+page.svelte': 615,
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,

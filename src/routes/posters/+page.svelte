@@ -6,6 +6,7 @@
 	import { replaceState } from '$app/navigation';
 	import { seo } from '$lib/services/seo.svelte';
 	import { fullscreen } from '$lib/services/fullscreen.svelte';
+	import { session } from '$lib/services/storage';
 	import {
 		POSTERS_LIST,
 		POSTER_GROUPS,
@@ -44,9 +45,16 @@
 	);
 	let printMode = $state<'digital' | 'paper'>('digital');
 	let fullscreenButton = $state<HTMLButtonElement | null>(null);
+	let isUnlocked = $state(false);
+	let hPressCount = 0;
+	let hTimer: ReturnType<typeof setTimeout> | null = null;
 
 	onMount(() => {
 		void ensureFontsReady();
+		if (session.get('posters_unlocked') === 'true' || page.url.searchParams.get('unlocked') === '1') {
+			isUnlocked = true;
+		}
+
 		const param = page.url.searchParams.get('poster') as PosterId | null;
 		if (param && POSTERS_LIST.some((p) => p.id === param)) {
 			activePoster = param;
@@ -129,6 +137,27 @@
 		if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'p') {
 			event.preventDefault();
 			void handlePrint();
+			return;
+		}
+
+		const target = event.target as HTMLElement | null;
+		if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+			return;
+		}
+
+		const k = event.key.toLowerCase();
+		if (k === 'h' || k === 'р') {
+			hPressCount += 1;
+			if (hTimer) clearTimeout(hTimer);
+			if (hPressCount >= 3) {
+				isUnlocked = !isUnlocked;
+				hPressCount = 0;
+				session.set('posters_unlocked', String(isUnlocked));
+			} else {
+				hTimer = setTimeout(() => {
+					hPressCount = 0;
+				}, 1500);
+			}
 		}
 	}
 
@@ -199,56 +228,67 @@
 
 			<!-- Панель дій та вкладок -->
 			<div class="posters-toolbar" data-testid="posters-toolbar">
-				<!-- Дворівнева панель перемикання: 1) Сезони/Категорії, 2) Афіші активного сезону -->
-				<div class="poster-nav-wrapper">
-					<!-- Рівень 1: Вибір сезону / року -->
-					<div class="season-row" role="tablist" aria-label={isEn ? 'Choose season' : 'Оберіть навчальний рік або категорію'}>
-						<span class="nav-section-title">{isEn ? 'Season:' : 'Сезон:'}</span>
-						<div class="season-tabs">
-							{#each POSTER_GROUPS as group (group.id)}
-								<button
-									type="button"
-									role="tab"
-									aria-selected={activeSeasonId === group.id}
-									class="season-tab-btn"
-									class:season-tab-btn--active={activeSeasonId === group.id}
-									onclick={() => selectSeason(group.id)}
-									data-testid={`season-tab-${group.id}-btn`}
-								>
-									<Calendar size={13} aria-hidden="true" />
-									<span class="season-label">{isEn ? group.titleEn : group.titleUk}</span>
-									<span class="season-count">{group.ids.length}</span>
-								</button>
-							{/each}
-						</div>
-					</div>
-
-					<!-- Рівень 2: Афіші обраного сезону -->
-					{#if activeGroup}
-						<div class="poster-subtabs" role="tablist" aria-label={isEn ? 'Posters in active season' : 'Афіші обраного сезону'}>
-							{#each activeGroup.ids as pid (pid)}
-								{@const item = POSTERS_LIST.find((p) => p.id === pid)}
-								{#if item}
+				{#if isUnlocked}
+					<!-- Дворівнева панель перемикання: 1) Сезони/Категорії, 2) Афіші активного сезону -->
+					<div class="poster-nav-wrapper">
+						<!-- Рівень 1: Вибір сезону / року -->
+						<div class="season-row" role="tablist" aria-label={isEn ? 'Choose season' : 'Оберіть навчальний рік або категорію'}>
+							<span class="nav-section-title">{isEn ? 'Season:' : 'Сезон:'}</span>
+							<div class="season-tabs">
+								{#each POSTER_GROUPS as group (group.id)}
 									<button
 										type="button"
 										role="tab"
-										aria-selected={activePoster === item.id}
-										class="tab-btn"
-										class:tab-btn--active={activePoster === item.id}
-										onclick={() => selectPoster(item.id)}
-										data-testid={`poster-tab-${item.id}-btn`}
+										aria-selected={activeSeasonId === group.id}
+										class="season-tab-btn"
+										class:season-tab-btn--active={activeSeasonId === group.id}
+										onclick={() => selectSeason(group.id)}
+										data-testid={`season-tab-${group.id}-btn`}
 									>
-										<LayoutList size={14} aria-hidden="true" />
-										<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
-										{#if item.dateBadgeUk}
-											<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
-										{/if}
+										<Calendar size={13} aria-hidden="true" />
+										<span class="season-label">{isEn ? group.titleEn : group.titleUk}</span>
+										<span class="season-count">{group.ids.length}</span>
 									</button>
-								{/if}
-							{/each}
+								{/each}
+							</div>
 						</div>
-					{/if}
-				</div>
+
+						<!-- Рівень 2: Афіші обраного сезону -->
+						{#if activeGroup}
+							<div class="poster-subtabs" role="tablist" aria-label={isEn ? 'Posters in active season' : 'Афіші обраного сезону'}>
+								{#each activeGroup.ids as pid (pid)}
+									{@const item = POSTERS_LIST.find((p) => p.id === pid)}
+									{#if item}
+										<button
+											type="button"
+											role="tab"
+											aria-selected={activePoster === item.id}
+											class="tab-btn"
+											class:tab-btn--active={activePoster === item.id}
+											onclick={() => selectPoster(item.id)}
+											data-testid={`poster-tab-${item.id}-btn`}
+										>
+											<LayoutList size={14} aria-hidden="true" />
+											<span class="tab-label">{isEn ? item.titleEn : item.titleUk}</span>
+											{#if item.dateBadgeUk}
+												<span class="tab-badge">{isEn ? item.dateBadgeEn : item.dateBadgeUk}</span>
+											{/if}
+										</button>
+									{/if}
+								{/each}
+							</div>
+						{/if}
+					</div>
+				{:else}
+					{@const currentItem = POSTERS_LIST.find((p) => p.id === activePoster)}
+					<div class="poster-single-meta">
+						<LayoutList size={15} aria-hidden="true" />
+						<span class="single-meta-title">{isEn ? currentItem?.titleEn : currentItem?.titleUk}</span>
+						{#if currentItem?.dateBadgeUk}
+							<span class="tab-badge">{isEn ? currentItem.dateBadgeEn : currentItem.dateBadgeUk}</span>
+						{/if}
+					</div>
+				{/if}
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
@@ -428,6 +468,9 @@
 		padding: 8px 12px;
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 	}
+
+	.poster-single-meta { display: inline-flex; align-items: center; gap: 8px; font-size: 0.88rem; font-weight: 700; color: var(--text-title); padding: 4px 8px; }
+	.single-meta-title { white-space: nowrap; }
 
 	.poster-nav-wrapper {
 		display: flex;
