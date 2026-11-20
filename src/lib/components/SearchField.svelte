@@ -23,6 +23,12 @@
 	 *
 	 * `galaxy.searchFound` («Знайдено») лишився зашитим — він однаковий для
 	 * будь-якої сутності, і параметр на нього був би параметром заради симетрії.
+	 *
+	 * ## Плейсхолдер як бігуща строка
+	 *
+	 * Довгі підказки («Пошук за іменем або предметом») в компактному інпуті
+	 * обрізалися. Замість статичного зрізаного тексту підказка плавно й повільно
+	 * рухається бігущою строкою (з паузою при hover/focus), поки поле порожнє.
 	 */
 	interface Props {
 		value: string;
@@ -45,15 +51,26 @@
 	<label class="search-field__field" for="{id}-input">
 		<Search size={18} aria-hidden="true" class="search-field__icon" />
 		<span class="visually-hidden">{$t(placeholderKey)}</span>
-		<input
-			id="{id}-input"
-			type="search"
-			class="search-field__input"
-			placeholder={$t(placeholderKey)}
-			{value}
-			oninput={(e) => onchange((e.currentTarget as HTMLInputElement).value)}
-			data-testid="{testid}-input"
-		/>
+		<div class="search-field__input-wrap">
+			<input
+				id="{id}-input"
+				type="search"
+				class="search-field__input"
+				placeholder={$t(placeholderKey)}
+				aria-label={$t(placeholderKey)}
+				{value}
+				oninput={(e) => onchange((e.currentTarget as HTMLInputElement).value)}
+				data-testid="{testid}-input"
+			/>
+			{#if !value}
+				<div class="search-field__ticker" aria-hidden="true">
+					<div class="search-field__ticker-track">
+						<span class="search-field__ticker-item">{$t(placeholderKey)}</span>
+						<span class="search-field__ticker-item" aria-hidden="true">{$t(placeholderKey)}</span>
+					</div>
+				</div>
+			{/if}
+		</div>
 		{#if value}
 			<button
 				type="button"
@@ -108,14 +125,29 @@
 		background: var(--bg-card);
 	}
 
-	.search-field__input {
+	.search-field__input-wrap {
+		position: relative;
 		flex: 1;
 		min-width: 0;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+	}
+
+	.search-field__input {
+		width: 100%;
+		min-width: 0;
 		border: none;
-		background: none;
+		background: transparent;
 		color: var(--text-main);
 		font: inherit;
 		font-size: 0.95rem;
+		position: relative;
+		z-index: 2;
+	}
+
+	.search-field__input::placeholder {
+		color: transparent;
 	}
 
 	.search-field__input:focus {
@@ -126,6 +158,72 @@
 	   цього кнопка очищення була б лише в частині браузерів. */
 	.search-field__input::-webkit-search-cancel-button {
 		display: none;
+	}
+
+	.search-field__ticker {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: 1;
+		mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 6px,
+			black calc(100% - 10px),
+			transparent 100%
+		);
+		-webkit-mask-image: linear-gradient(
+			to right,
+			transparent 0%,
+			black 6px,
+			black calc(100% - 10px),
+			transparent 100%
+		);
+	}
+
+	.search-field__ticker-track {
+		display: flex;
+		white-space: nowrap;
+		width: max-content;
+		will-change: transform;
+		animation: search-ticker 18s linear infinite;
+	}
+
+	.search-field__field:hover .search-field__ticker-track,
+	.search-field__field:focus-within .search-field__ticker-track {
+		animation-play-state: paused;
+	}
+
+	.search-field__field:focus-within .search-field__ticker {
+		opacity: 0.45;
+	}
+
+	.search-field__ticker-item {
+		display: inline-block;
+		padding-right: 3.5rem;
+		color: var(--text-muted);
+		font: inherit;
+		font-size: 0.95rem;
+		line-height: 1;
+		white-space: nowrap;
+	}
+
+	@keyframes search-ticker {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.search-field__ticker-track {
+			animation: none;
+		}
 	}
 
 	.search-field__clear {
