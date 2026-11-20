@@ -28,6 +28,7 @@
 	import RepertoireNovemberA1Poster from '$lib/components/posters/RepertoireNovemberA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
+	import { isTypingTarget } from '$lib/services/keyboard';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList, Calendar } from 'lucide-svelte';
 
 	const lang = $derived($locale === 'en' ? 'en' : 'uk');
@@ -140,8 +141,7 @@
 			return;
 		}
 
-		const target = event.target as HTMLElement | null;
-		if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+		if (isTypingTarget(event.target)) {
 			return;
 		}
 

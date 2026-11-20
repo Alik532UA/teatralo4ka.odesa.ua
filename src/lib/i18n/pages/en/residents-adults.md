@@ -11,3 +11,6 @@ status: "published"
 version: "1.0.0"
 ---
 
+# Our Team
+
+Teachers, masters and team of Odesa Theater School.
