@@ -24,8 +24,8 @@
 	$effect(() => {
 		seo.update({
 			title: isEn
-				? `30 Years of Odesa Theatre School - Anniversary Playbill - ${$t('seo.brandTitle')}`
-				: `30 років Одеській театральній школі - Афіша святкових заходів - ${$t('seo.brandTitle')}`,
+				? `30th Anniversary Playbill - ${$t('seo.brandTitle')}`
+				: `30-річчя школи - Афіша святкових заходів - ${$t('seo.brandTitle')}`,
 			description: isEn
 				? 'Celebratory playbill for the 30th anniversary of Odesa Theatre School: concert, exhibitions, zoom sessions, and charity fundraiser for the 14th ORB of AFU.'
 				: 'Програма святкових заходів до 30-річчя Одеської театральної школи: святковий концерт, виставка, кіно-зум та збір на пікапи для 14 ОРБ ЗСУ.'
