@@ -23,13 +23,18 @@
 	import MasterPoster from '$lib/components/adults/MasterPoster.svelte';
 	import MasterCompact from '$lib/components/adults/MasterCompact.svelte';
 	import MasterViewToggle from '$lib/components/adults/MasterViewToggle.svelte';
+	import { onMount } from 'svelte';
 	import SearchField from '$lib/components/SearchField.svelte';
 	import { masterSection, matchesMasterQuery, type MasterSection } from '$lib/data/masters';
-	import { adultsVisibility } from '$lib/services/adultsVisibility.svelte';
+	import { storage } from '$lib/services/storage';
 	import { adultsViewMode, isMode } from '$lib/services/adultsViewMode.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
+
+	onMount(() => {
+		storage.remove('adults_section_revealed');
+	});
 
 	const isEn = $derived($locale === 'en');
 	const allMasters = $derived(data.masters ?? []);
@@ -307,7 +312,7 @@
 </script>
 
 <div class="adults-page" data-testid="residents-adults-page-section">
-	{#if adultsVisibility.isVisible && allMasters.length > 0}
+	{#if allMasters.length > 0}
 		<section class="masters-section" aria-labelledby="masters-title" data-testid="residents-adults-masters-section">
 			<div class="container masters-container">
 				<header class="masters-header">

@@ -21,9 +21,7 @@ import type { ViewMode } from '$lib/components/adults/MasterViewToggle.svelte';
  *    перемальовування після нього. Конструктор під `browser` віддає правильне
  *    значення одразу.
  *
- * Форма взята з сусіднього [`adultsVisibility`](./adultsVisibility.svelte.ts) —
- * той самий розділ, той самий фасад, той самий спосіб гідрації. Наскрізний
- * запис у мутаторі, без `$effect`, що ганяється за станом (SVELTE-CORE-v9 § 1.9).
+ * Наскрізний запис у мутаторі, без `$effect`, що ганяється за станом (SVELTE-CORE-v9 § 1.9).
  */
 const STORAGE_KEY = 'adults_view_mode';
 

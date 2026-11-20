@@ -13,11 +13,7 @@
 	import { hardReset, RESET_PRESSES_DEV, RESET_PRESSES_PROD } from '$lib/services/resetService';
 	import { themeLab, THEME_LAB_URL_PARAM } from '$lib/services/themeLab.svelte';
 	import { page } from '$app/state';
-	import {
-		adultsVisibility,
-		visibilityFromUrl,
-		ADULTS_URL_PARAM
-	} from '$lib/services/adultsVisibility.svelte';
+	import { visibilityFromUrl } from '$lib/services/urlParams';
 	import { isLocale, localizedPath, DEFAULT_LOCALE, type Locale } from '$lib/i18n/routing';
 	import { nextTheme } from '$lib/config/themes';
 	import ServiceBadge from './ServiceBadge.svelte';
@@ -92,25 +88,6 @@
 	});
 
 	/**
-	 * Серія `H` (7 натискань) — службовий перехід до «Дорослих викладачів»
-	 * або перемикання (показати/сховати) прихованого розділу, якщо вже на цій сторінці.
-	 */
-	const adultsSequence = createKeySequence({
-		code: 'KeyH',
-		threshold: 7,
-		onComplete: () => {
-			const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
-			const isAlreadyOnAdults = pathname === '/residents/adults' || pathname === '/en/residents/adults';
-
-			if (isAlreadyOnAdults) {
-				adultsVisibility.toggle();
-			} else {
-				adultsVisibility.reveal();
-				void goto(localizedPath('/residents/adults/', currentLocale()));
-			}
-		}
-	});
-
 	/**
 	 * Серія `J` (7 натискань) — показати чи сховати «Ранні покази» в переліку
 	 * вистав майстра. Що це за покази й чому вони сховані — у `earlyShows`.
@@ -145,35 +122,6 @@
 	 * записує, і Svelte падав із `effect_update_depth_exceeded` — заміряно.
 	 */
 	onMount(() => themeLab.hydrate());
-
-	/**
-	 * Той самий розділ, але адресою: `?adults=1` показує, `?adults=0` ховає.
-	 *
-	 * **Чому не лише на сторінці «Дорослих».** Тоді посилання довелося б диктувати
-	 * цілим (`…/residents/adults/?adults=1`), а з будь-якої адреси працює й
-	 * коротке `сайт/?adults=1` — далі людина просто йде меню. Серія `H` теж
-	 * слухає всюди; це один вхід у ту саму річ, а не два різні.
-	 *
-	 * **Чому стан ЗАПИСУЄТЬСЯ, а не діє «поки параметр в адресі».** У `?debug=1`
-	 * другий шлях: там параметр діє поверх збереженого й нічого не пише. Тут це
-	 * зламало б саму задачу — з телефона людина відкриває список, торкається
-	 * картки, повертається назад уже без параметра, і список знову схований.
-	 *
-	 * **Ефект слухає лише АДРЕСУ, а не стан.** Якби він читав `isVisible`, то
-	 * після серії `H` на сторінці з `?adults=1` сам би її й скасував: стан
-	 * змінився, ефект перезапустився, параметр знову наполіг. Тому порівнюється
-	 * попереднє ЗНАЧЕННЯ параметра, і на ту саму адресу він діє один раз.
-	 */
-	let appliedParam: string | null = null;
-
-	$effect(() => {
-		const raw = page.url.searchParams.get(ADULTS_URL_PARAM);
-		if (raw === appliedParam) return;
-		appliedParam = raw;
-
-		const asked = visibilityFromUrl(raw);
-		if (asked !== null) adultsVisibility.setVisible(asked);
-	});
 
 	/*
 	 * «Ранні покази» адресою: `?early=1` показує, `?early=0` ховає.
@@ -217,7 +165,6 @@
 		versionSequence.reset();
 		resetSequence.reset();
 		galaxySequence.reset();
-		adultsSequence.reset();
 		earlyShowsSequence.reset();
 		themeLabSequence.reset();
 	});
@@ -237,7 +184,6 @@
 		versionSequence.handle(event);
 		resetSequence.handle(event);
 		galaxySequence.handle(event);
-		adultsSequence.handle(event);
 		earlyShowsSequence.handle(event);
 		themeLabSequence.handle(event);
 

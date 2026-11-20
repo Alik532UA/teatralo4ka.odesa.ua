@@ -1,6 +1,7 @@
 import { dev } from '$app/environment';
 import type { HandleClientError } from '@sveltejs/kit';
 import { migrateStorageKeys } from '$lib/utils/storageMigration';
+import { storage } from '$lib/services/storage';
 import { errorLogger } from '$lib/services/errorLogger';
 import { errorToMessageKey } from '$lib/errors';
 
@@ -46,6 +47,7 @@ const tracker: Promise<SentryClient | null> | null =
 
 export function init() {
 	migrateStorageKeys();
+	storage.remove('adults_section_revealed');
 }
 
 export const handleError: HandleClientError = async ({ error, event, status, message }) => {
