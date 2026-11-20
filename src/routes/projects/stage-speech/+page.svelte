@@ -205,7 +205,7 @@
 			{/each}
 		</div>
 
-		<footer class="hub-footer">
+		<div class="hub-footer">
 			<div class="footer-card">
 				<div class="footer-icon" aria-hidden="true">
 					<Sparkles size={20} />
@@ -219,7 +219,7 @@
 					</span>
 				</div>
 			</div>
-		</footer>
+		</div>
 	</div>
 </div>
 

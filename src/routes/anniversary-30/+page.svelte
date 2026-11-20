@@ -211,9 +211,9 @@
 			</div>
 		</section>
 
-		<footer class="anniversary-footer">
+		<div class="anniversary-footer">
 			<p class="footer-season">{isEn ? poster.schoolEn : poster.schoolUk}</p>
-		</footer>
+		</div>
 	</div>
 </div>
 

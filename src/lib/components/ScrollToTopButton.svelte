@@ -38,7 +38,7 @@
 			 */
 			const lap = endless.lapY(window.scrollY);
 			visible = lap > SHOW_AFTER && !endless.inSeam(lap);
-			const footer = document.querySelector('footer');
+			const footer = document.getElementById('main-footer') ?? document.querySelector('footer');
 			footerLift = footer
 				? Math.max(0, window.innerHeight - footer.getBoundingClientRect().top)
 				: 0;
@@ -61,13 +61,17 @@
 
 		apply();
 		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onScroll, { passive: true });
 		// Висота сторінки міняється не лише від зміни розміру вікна: приходять
 		// зображення, фільтр спорожнює список, розгортається секція.
 		const observer = new ResizeObserver(onScroll);
 		observer.observe(document.documentElement);
+		const mainFooter = document.getElementById('main-footer');
+		if (mainFooter) observer.observe(mainFooter);
 
 		return () => {
 			window.removeEventListener('scroll', onScroll);
+			window.removeEventListener('resize', onScroll);
 			observer.disconnect();
 		};
 	});

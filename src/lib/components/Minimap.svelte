@@ -166,7 +166,7 @@
 		// Підвал у потоці входить у вікно тільки в кінці сторінки, тож відступ від
 		// нього залежав би від прокрутки — а `mapHeight`, що змінюється під час
 		// перетягування, ламає жест так само, як пружина на висоті рамки (§ 9.10).
-		const footer = document.querySelector('footer');
+		const footer = document.getElementById('main-footer') ?? document.querySelector('footer');
 		const footerFixed = footer ? getComputedStyle(footer).position === 'fixed' : false;
 		footerOffset =
 			footer && footerFixed
@@ -277,7 +277,7 @@
 		// документом про них не дізнається ніколи.
 		const header = document.querySelector('header');
 		if (header) observer.observe(header);
-		const footer = document.querySelector('footer');
+		const footer = document.getElementById('main-footer') ?? document.querySelector('footer');
 		if (footer) observer.observe(footer);
 
 		// І цього все одно замало. ResizeObserver за специфікацією бачить лише
