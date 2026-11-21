@@ -1,26 +1,25 @@
 <script lang="ts">
-	import { t, locale as мова } from 'svelte-i18n';
-	import { getAbortSignal } from 'svelte';
-	import { goto, pushState } from '$app/navigation';
-	import { browser } from '$app/environment';
-	import { page } from '$app/state';
-	import { Plus } from 'lucide-svelte';
-	import GraduateCard from '$lib/components/GraduateCard.svelte';
-	import GraduateFormModal from '$lib/components/GraduateFormModal.svelte';
-	import GalaxyBreadcrumb from '$lib/components/galaxy/GalaxyBreadcrumb.svelte';
-	import PlanetSplit from '$lib/components/planet/PlanetSplit.svelte';
+	import { t, locale as мова } from "svelte-i18n";
+	import { getAbortSignal } from "svelte";
+	import { goto, pushState } from "$app/navigation";
+	import { browser } from "$app/environment";
+	import { page } from "$app/state";
+	import { Plus, ArrowLeft, ArrowRight } from "lucide-svelte";
+	import GraduateCard from "$lib/components/GraduateCard.svelte";
+	import GraduateFormModal from "$lib/components/GraduateFormModal.svelte";
+	import PlanetSplit from "$lib/components/planet/PlanetSplit.svelte";
 	import {
 		cachedGraduateProfile,
-		ensureGraduateProfile
-	} from '$lib/services/graduateProfiles.svelte';
-	import { localizedPath } from '$lib/i18n/routing';
+		ensureGraduateProfile,
+	} from "$lib/services/graduateProfiles.svelte";
+	import { localizedPath } from "$lib/i18n/routing";
 	import {
 		STUDENTS,
 		graduateAddress,
 		graduateProfilePath,
 		hasProfile,
-		type GraduateIndexEntry
-	} from '$lib/data/graduates';
+		type GraduateIndexEntry,
+	} from "$lib/data/graduates";
 
 	/**
 	 * ПЛАНЕТА ТВОРЧОСТІ — ті, хто вчиться зараз.
@@ -46,7 +45,7 @@
 	 * круглі, як у галактиці; у кого фотографії ще немає — квітка, а не порожнє
 	 * коло: квітка каже «тут росте», а порожнеча казала б «тут нікого».
 	 */
-	const мова_uk = $derived<'uk' | 'en'>($мова === 'en' ? 'en' : 'uk');
+	const мова_uk = $derived<"uk" | "en">($мова === "en" ? "en" : "uk");
 
 	/**
 	 * РОЗКЛАДКА ОДНА, і це вибір автора.
@@ -73,14 +72,18 @@
 	   адреса, і «назад» закриває її без окремого обробника історії. */
 	const відкритий = $derived(
 		page.state.graduateAddress
-			? STUDENTS.find((с) => graduateAddress(с) === page.state.graduateAddress)
-			: undefined
+			? STUDENTS.find(
+					(с) => graduateAddress(с) === page.state.graduateAddress,
+				)
+			: undefined,
 	);
 	const анкета = $derived(cachedGraduateProfile(page.state.graduateAddress));
 
 	$effect(() => {
 		const адр = page.state.graduateAddress;
-		const запис = адр ? STUDENTS.find((с) => graduateAddress(с) === адр) : undefined;
+		const запис = адр
+			? STUDENTS.find((с) => graduateAddress(с) === адр)
+			: undefined;
 		if (адр && запис && hasProfile(запис) && browser) {
 			ensureGraduateProfile(адр, getAbortSignal());
 		}
@@ -89,7 +92,7 @@
 	async function відкрити(учень: GraduateIndexEntry) {
 		/* На вузькому екрані картка займає майже все — там простіше піти на саму
 		   сторінку, як це робить галактика. */
-		if (browser && window.matchMedia('(max-width: 768px)').matches) {
+		if (browser && window.matchMedia("(max-width: 768px)").matches) {
 			await goto(адреса(учень));
 			return;
 		}
@@ -108,54 +111,72 @@
 -->
 <section class="planet-page" data-testid="creativity-planet-panel">
 	<div class="container">
-		<!--
-			Ліворуч — НАЗАД У ПРОЄКТИ, праворуч — далі в галактику. Так само
-			влаштовані решта сторінок розділу: ліва кнопка веде на рівень вище,
-			права — на сусідній розділ. Доти тут стояла сама галактика ліворуч,
-			тобто «нагору» вело вбік.
-		-->
-		<GalaxyBreadcrumb
-			backHref={localizedPath('/projects/', мова_uk)}
-			backLabel={$t('planet.allProjects')}
-			backTestId="creativity-planet-back-link"
-			forwardHref={localizedPath('/projects/galaxy-graduates/', мова_uk)}
-			forwardLabel={$t('galaxy.title')}
-			forwardTestId="creativity-planet-galaxy-link"
-		/>
+		<PlanetSplit students={STUDENTS} onopen={відкрити}>
+			{#snippet header()}
+				<div class="panel-header">
+					<nav class="panel-nav">
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={localizedPath("/projects/", мова_uk)}
+							class="panel-link"
+							data-testid="creativity-planet-back-link"
+						>
+							<ArrowLeft size={15} aria-hidden="true" />
+							<span>{$t("planet.allProjects")}</span>
+						</a>
 
-		<header class="planet-header">
-			<h1 class="planet-header__title" data-testid="creativity-planet-title">
-				{$t('planet.title')}
-			</h1>
-			<p class="planet-header__count" data-testid="creativity-planet-count">{STUDENTS.length}</p>
-		</header>
-		<!--
-			ЗАПРОШЕННЯ СТОЇТЬ ЗГОРИ, одразу під заголовком, і воно ж єдине —
-			рішення автора. Доти під заголовком було пояснення, що таке планета
-			(«…переїдуть у галактику з тією самою сторінкою й адресою»), а
-			запрошення з кнопкою висіло аж під планетою. Пояснення читалося як
-			технічний опис, а кнопку внизу бачив лише той, хто догортав.
-		-->
-		<div class="planet-invite">
-			<p>{$t('planet.invite')}</p>
-			<button
-				type="button"
-				class="planet-invite__btn"
-				onclick={() => (анкетаВідкрита = true)}
-				data-testid="creativity-planet-form-btn"
-			>
-				<Plus size={18} aria-hidden="true" />
-				<span>{$t('galaxy.fillProfile')}</span>
-			</button>
-		</div>
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a
+							href={localizedPath(
+								"/projects/galaxy-graduates/",
+								мова_uk,
+							)}
+							class="panel-link panel-link--galaxy"
+							data-testid="creativity-planet-galaxy-link"
+						>
+							<span>{$t("galaxy.title")}</span>
+							<ArrowRight size={15} aria-hidden="true" />
+						</a>
+					</nav>
 
-		<div class="planet-wrap">
-			<PlanetSplit students={STUDENTS} onopen={відкрити} />
-		</div>
+					<div class="panel-title-row">
+						<div class="panel-title-group">
+							<h1
+								class="panel-title"
+								data-testid="creativity-planet-title"
+							>
+								{$t("planet.title")}
+							</h1>
+							<span
+								class="panel-count"
+								data-testid="creativity-planet-count"
+								>{STUDENTS.length}</span
+							>
+						</div>
+
+						<button
+							type="button"
+							class="panel-cta-btn"
+							onclick={() => (анкетаВідкрита = true)}
+							data-testid="creativity-planet-form-btn"
+						>
+							<Plus size={15} aria-hidden="true" />
+							<span>{$t("galaxy.fillProfile")}</span>
+						</button>
+					</div>
+
+					<p class="panel-invite">{$t("planet.invite")}</p>
+				</div>
+			{/snippet}
+		</PlanetSplit>
 	</div>
 </section>
 
-<GraduateCard graduate={відкритий ?? null} profile={анкета} onclose={() => history.back()} />
+<GraduateCard
+	graduate={відкритий ?? null}
+	profile={анкета}
+	onclose={() => history.back()}
+/>
 
 <GraduateFormModal
 	isOpen={анкетаВідкрита}
@@ -167,99 +188,140 @@
 	/*
 	 * КОЛЬОРИ — ТОКЕНАМИ ТЕМИ, а не власною космічною палітрою.
 	 *
-	 * Перша редакція фарбувала сторінку так само, як галактику: темне тло
-	 * `--galaxy-bg`, світлий текст, сині кола. Автор попросив інакше: «дизайн
-	 * кольори кожної нашої теми з сайту». І він має рацію не лише за смаком —
-	 * галактика темна тому, що вона ЗОРЯНЕ НЕБО й займає весь екран; планета ж
-	 * лишається звичайною сторінкою сайту, і чужа палітра на ній означала б, що
-	 * перемикач тем на неї не діє.
-	 *
-	 * Тому тут немає жодного літерала кольору: тло — `--bg-page`, поверхні —
-	 * `--bg-surface`/`--bg-card`, написи — `--text-*`, а сама планета зібрана з
-	 * акцентів теми через `color-mix`. У шести темах проєкту це дає шість різних
-	 * планет із того самого коду; що написи на них лишаються читними, перевіряє
-	 * `theme-contrast.spec.ts`.
+	 * Тло — `--bg-page`, поверхні — `--bg-surface`/`--bg-card`, написи — `--text-*`,
+	 * а сама планета зібрана з акцентів теми через `color-mix`.
 	 */
 	.planet-page {
-		min-height: 100dvh;
-		padding: 2rem 1rem 5rem;
+		min-height: calc(
+			100dvh - var(--header-height, 72px) - 16px -
+				var(--footer-height, 80px)
+		);
+		padding: 2.25rem 1.5rem 3rem;
 		background: var(--bg-page);
 		color: var(--text-main);
+		box-sizing: border-box;
 	}
 
 	.container {
-		max-width: 1100px;
+		max-width: min(1800px, 94vw);
 		margin: 0 auto;
+		width: 100%;
 	}
 
-	.planet-header {
+	.panel-header {
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
+		gap: 0.5rem;
+		width: 100%;
+		margin-top: 0;
+		margin-bottom: 0.35rem;
+	}
+
+	.panel-nav {
+		display: flex;
 		align-items: center;
-		gap: 0.75rem;
-		margin-bottom: 0.5rem;
+		justify-content: space-between;
+		gap: 0.5rem;
+		margin-bottom: 0.35rem;
 	}
-	.planet-header__title {
-		margin: 0;
-		font-size: clamp(1.6rem, 4vw, 2.4rem);
-		font-weight: 800;
-		color: var(--text-title);
-	}
-	.planet-header__count {
-		margin: 0;
-		display: grid;
-		place-items: center;
-		min-width: 2rem;
-		height: 2rem;
-		padding: 0 0.5rem;
+
+	.panel-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.35rem 0.8rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--bg-surface);
 		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
-		font-size: 0.9rem;
-		font-weight: 700;
+		font-size: 0.82rem;
+		font-weight: 600;
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			border-color var(--transition-base),
+			transform var(--transition-base),
+			color var(--transition-base);
+	}
+	.panel-link:hover {
+		border-color: var(--accent-primary);
+		transform: translateX(-2px);
+		color: var(--accent-text);
+	}
+	.panel-link--galaxy:hover {
+		transform: translateX(2px);
 	}
 
-	.planet-wrap {
-		display: grid;
-		place-items: center;
-		padding: 1rem 0 2.5rem;
-	}
-
-	/*
-	 * САМА ПЛАНЕТА ЖИВЕ В КОМПОНЕНТАХ, а не тут: куля, обличчя й підписи — у
-	 * `components/planet/*`. Сторінці лишається місце під них.
-	 */
-	/* Запрошення стоїть під заголовком, а не по центру сторінки: воно тепер
-	   вступ, а не післямова. Тому вирівнювання ліворуч, як у заголовка. */
-	.planet-invite {
+	.panel-title-row {
 		display: flex;
-		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.75rem 1rem;
-		max-width: 62ch;
-		margin: 0 0 1.5rem;
-		color: var(--text-muted);
+		justify-content: space-between;
+		gap: 0.75rem;
+		flex-wrap: wrap;
 	}
-	.planet-invite p {
-		margin: 0;
-	}
-	.planet-invite__btn {
+
+	.panel-title-group {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		min-height: 44px;
-		padding: 0 1.1rem;
+	}
+
+	.panel-title {
+		margin: 0;
+		font-size: clamp(1.35rem, 2.5vw, 1.7rem);
+		font-weight: 800;
+		color: var(--text-title);
+		line-height: 1.15;
+		white-space: nowrap;
+	}
+
+	.panel-count {
+		margin: 0;
+		display: grid;
+		place-items: center;
+		min-width: 1.75rem;
+		height: 1.75rem;
+		padding: 0 0.45rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: var(--hairline-width) solid var(--border-main);
+		color: var(--text-muted);
+		font-size: 0.82rem;
+		font-weight: 700;
+	}
+
+	.panel-cta-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		min-height: 38px;
+		padding: 0 1rem;
 		border-radius: var(--radius-full, 9999px);
 		background: var(--accent-primary);
 		border: var(--hairline-width) solid var(--accent-primary);
 		color: var(--text-on-accent);
 		font: inherit;
+		font-size: 0.84rem;
 		font-weight: 700;
 		cursor: pointer;
+		white-space: nowrap;
 		transition: filter var(--transition-base);
 	}
-	.planet-invite__btn:hover {
+	.panel-cta-btn:hover {
 		filter: brightness(1.08);
+	}
+
+	.panel-invite {
+		margin: 0;
+		font-size: 0.84rem;
+		color: var(--text-muted);
+		line-height: 1.35;
+	}
+
+	@media (max-width: 860px) {
+		.planet-page {
+			padding: 0.5rem 0.75rem 1.5rem;
+			display: block;
+		}
 	}
 </style>

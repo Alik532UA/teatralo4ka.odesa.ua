@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { t } from 'svelte-i18n';
-	import PlanetFace from './PlanetFace.svelte';
-	import { faceFloor, fitFaceFraction, planetSpots } from '$lib/utils/planetLayout';
-	import type { GraduateIndexEntry } from '$lib/data/graduates';
+	import { t } from "svelte-i18n";
+	import PlanetFace from "./PlanetFace.svelte";
+	import {
+		faceFloor,
+		fitFaceFraction,
+		planetSpots,
+	} from "$lib/utils/planetLayout";
+	import type { GraduateIndexEntry, Department } from "$lib/data/graduates";
 
 	/**
 	 * САМА КУЛЯ з обличчями на кільцях.
@@ -40,6 +44,8 @@
 		/** Стеля ширини кулі в пікселях; вона ж — здогад до першого заміру. */
 		maxWidth?: number;
 		testIdPrefix?: string;
+		/** Активний фільтр за відділенням — приглушує решту учнів. */
+		departmentFilter?: string | null;
 	}
 
 	let {
@@ -47,8 +53,9 @@
 		onopen,
 		active = null,
 		onactive = () => {},
-		maxWidth = 620,
-		testIdPrefix = 'creativity-planet'
+		maxWidth = 1600,
+		testIdPrefix = "creativity-planet",
+		departmentFilter = null,
 	}: Props = $props();
 
 	/*
@@ -60,7 +67,10 @@
 	let заміряна = $state<number | null>(null);
 	const ширина = $derived(заміряна ?? maxWidth);
 
-	const частка = $derived(fitFaceFraction(students.length, 0.16, faceFloor(ширина)));
+	const floor = $derived(
+		ширина >= 420 ? Math.min(faceFloor(ширина), 0.074) : faceFloor(ширина),
+	);
+	const частка = $derived(fitFaceFraction(students.length, 0.16, floor));
 	const місця = $derived(planetSpots(students.length, частка));
 	const зайві = $derived(students.length - місця.length);
 
@@ -73,9 +83,9 @@
 	 * «Ім'я Прізвище» — подвійне прізвище лишається цілим у другому рядку.
 	 */
 	const розбити = (ім: string) => {
-		const пробіл = ім.indexOf(' ');
+		const пробіл = ім.indexOf(" ");
 		return пробіл === -1
-			? { імʼя: ім, прізвище: '' }
+			? { імʼя: ім, прізвище: "" }
 			: { імʼя: ім.slice(0, пробіл), прізвище: ім.slice(пробіл + 1) };
 	};
 </script>
@@ -84,17 +94,24 @@
 	<div
 		class="planet"
 		bind:clientWidth={заміряна}
-		style="--face: {(частка * 100).toFixed(2)}cqw; --planet-max: {maxWidth}px"
+		style="--face: {(частка * 100).toFixed(
+			2,
+		)}cqw; --planet-max: {maxWidth}px"
 		data-testid="{testIdPrefix}-list"
 	>
 		{#each місця as місце (students[місце.index].id)}
 			{@const учень = students[місце.index]}
 			{@const частини = розбити(учень.name)}
-			{@const значок = частка > 0.12 ? 28 : 18}
+			{@const значок = ширина >= 1200 ? 32 : (ширина >= 700 ? 24 : 18)}
+			{@const isDimmed = Boolean(
+				departmentFilter &&
+					!учень.departments.includes(departmentFilter as Department),
+			)}
 			<button
 				type="button"
 				class="pupil"
 				class:is-active={active === учень.id}
+				class:is-dimmed={isDimmed}
 				style="left: {місце.x}%; top: {місце.y}%; --tip-from: {учень.hasPhoto
 					? 'var(--face, 72px)'
 					: `${значок}px`};"
@@ -107,7 +124,10 @@
 				data-testid="{testIdPrefix}-{учень.slug}-btn"
 			>
 				<PlanetFace student={учень} icon={значок} />
-				<span class="pupil__tip" data-testid="{testIdPrefix}-{учень.slug}-tooltip">
+				<span
+					class="pupil__tip"
+					data-testid="{testIdPrefix}-{учень.slug}-tooltip"
+				>
 					<span>{частини.імʼя}</span>
 					{#if частини.прізвище}<span>{частини.прізвище}</span>{/if}
 				</span>
@@ -115,21 +135,28 @@
 		{/each}
 
 		{#if students.length === 0}
-			<p class="planet-empty">{$t('planet.empty')}</p>
+			<p class="planet-empty">{$t("planet.empty")}</p>
 		{/if}
 	</div>
 
 	{#if зайві > 0}
 		<p class="overflow" data-testid="{testIdPrefix}-overflow-count">
-			{$t('planet.overflow', { values: { count: зайві }, default: `…і ще ${зайві}` })}
+			{$t("planet.overflow", {
+				values: { count: зайві },
+				default: `…і ще ${зайві} учнів у переліку нижче`,
+			})}
 		</p>
 	{/if}
 </div>
 
 <style>
 	.sphere {
-		display: grid;
-		justify-items: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
 	}
 
 	/*
@@ -140,7 +167,13 @@
 	.planet {
 		container-type: inline-size;
 		position: relative;
-		width: min(78vmin, var(--planet-max, 620px));
+		width: min(
+			calc(100dvh - var(--header-height, 72px) - var(--footer-height, 80px) - 48px),
+			100%,
+			720px
+		);
+		max-width: 100%;
+		max-height: calc(100dvh - var(--header-height, 72px) - var(--footer-height, 80px) - 48px);
 		aspect-ratio: 1;
 		border-radius: 50%;
 		border: var(--hairline-width) solid var(--border-main);
@@ -173,8 +206,7 @@
 		 * міняє яскравість, лишаючи тон на місці. Різниця найпомітніша саме на
 		 * жовтому — тобто в тій темі, з якої все й почалося.
 		 */
-		background:
-			radial-gradient(
+		background: radial-gradient(
 				circle at 30% 24%,
 				color-mix(in oklab, var(--accent-primary) 20%, transparent),
 				transparent 52%
@@ -186,9 +218,8 @@
 				color-mix(in oklab, var(--bg-surface) 86%, #000000)
 			);
 		box-shadow:
-			/* Нижній край підбирає тінь — тим самим чорним, а не кольором теми:
-			   `--text-title` тут додавав би третій тон до вже освітленої кулі. */
-			inset 0 -26px 52px rgb(0 0 0 / 0.14),
+			0 0 54px color-mix(in srgb, var(--accent-primary) 18%, transparent),
+			inset 0 -26px 52px rgb(0 0 0 / 0.16),
 			var(--shadow-main);
 	}
 
@@ -196,20 +227,31 @@
 		position: absolute;
 		translate: -50% -50%;
 		display: grid;
-		justify-items: center;
+		place-items: center;
+		min-width: 44px;
+		min-height: 44px;
 		padding: 0;
 		background: none;
 		border: 0;
 		color: inherit;
 		font: inherit;
 		cursor: pointer;
-		transition: transform var(--transition-base);
+		transition:
+			transform var(--transition-base),
+			opacity var(--transition-base),
+			filter var(--transition-base);
+	}
+	.pupil.is-dimmed {
+		opacity: 0.22;
+		filter: grayscale(70%);
 	}
 	.pupil:hover,
 	.pupil:focus-visible,
 	.pupil.is-active {
-		transform: scale(1.12);
-		z-index: 3;
+		transform: scale(1.18);
+		opacity: 1;
+		filter: none;
+		z-index: 5;
 	}
 
 	/*
@@ -233,13 +275,13 @@
 		 * `--tip-from` ставить кнопка, і воно дорівнює або `--face`, або розміру
 		 * значка.
 		 */
-		top: calc(50% + var(--tip-from, var(--face, 72px)) / 2 + 0.3rem);
+		top: calc(50% + var(--tip-from, var(--face, 72px)) / 2 + 0.35rem);
 		left: 50%;
 		translate: -50% 0;
 		display: grid;
 		justify-items: center;
-		padding: 0.3rem 0.55rem;
-		border-radius: var(--radius-sm, 6px);
+		padding: 0.32rem 0.65rem;
+		border-radius: var(--radius-md, 8px);
 		/*
 		 * Стиль — той самий, що в підказки однокурсників (`GraduateAvatarRow`):
 		 * тло картки, рамка, тінь. Не «щось схоже», а буквально те саме, бо це
@@ -250,29 +292,43 @@
 		 */
 		background: var(--bg-card);
 		border: var(--hairline-width) solid var(--border-main);
-		box-shadow: 0 8px 20px rgb(0 0 0 / 0.24);
+		box-shadow: 0 10px 24px rgb(0 0 0 / 0.28);
 		color: var(--text-title);
-		font-size: 0.78rem;
-		font-weight: 600;
+		font-size: 0.8rem;
+		font-weight: 700;
 		line-height: 1.25;
 		text-align: center;
 		/* Рядок не переноситься САМ: перенос лише там, де його поставили ми. */
 		white-space: nowrap;
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity var(--transition-base);
+		backdrop-filter: blur(8px);
+		transition:
+			opacity var(--transition-base),
+			transform var(--transition-base);
+		transform: translateY(2px);
 	}
 	.pupil:hover .pupil__tip,
 	.pupil:focus-visible .pupil__tip,
 	.pupil.is-active .pupil__tip {
 		opacity: 1;
+		transform: translateY(0);
 	}
 
 	.overflow {
-		margin: 0.5rem 0 0;
+		margin: 0.85rem 0 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.35rem 0.9rem;
+		border-radius: var(--radius-full, 9999px);
+		background: var(--bg-surface);
+		border: var(--hairline-width) solid var(--border-main);
 		color: var(--text-muted);
-		font-size: 0.9rem;
+		font-size: 0.85rem;
+		font-weight: 600;
 		text-align: center;
+		box-shadow: var(--shadow-sm, 0 1px 3px rgb(0 0 0 / 0.08));
 	}
 
 	.planet-empty {

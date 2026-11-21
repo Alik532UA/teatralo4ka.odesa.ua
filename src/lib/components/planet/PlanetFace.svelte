@@ -35,10 +35,12 @@
 	}
 
 	let { student, icon = 28 }: Props = $props();
+
+	const dept = $derived(student.departments[0] ?? 'theatre');
 </script>
 
 {#if student.hasPhoto}
-	<span class="face">
+	<span class="face face--photo">
 		<img
 			src={graduatePhoto(student.slug, 192)}
 			srcset={graduatePhotoSrcset(student.slug)}
@@ -50,7 +52,7 @@
 		/>
 	</span>
 {:else}
-	<span class="face face--bloom">
+	<span class="face face--bloom dept-{dept}">
 		<Flower2 size={icon} aria-hidden="true" />
 	</span>
 {/if}
@@ -74,13 +76,20 @@
 		border: 2px solid color-mix(in srgb, var(--accent-primary) 55%, var(--border-main));
 		color: var(--accent-text);
 		box-shadow: var(--shadow-main);
-		transition: border-color var(--transition-base);
+		transition:
+			border-color var(--transition-base),
+			box-shadow var(--transition-base);
 	}
 	.face img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		display: block;
+	}
+
+	.face--photo {
+		border-color: color-mix(in srgb, var(--accent-primary) 70%, var(--border-main));
+		box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-primary) 25%, transparent);
 	}
 
 	/*
@@ -92,5 +101,21 @@
 		background: none;
 		border: 0;
 		box-shadow: none;
+		color: var(--accent-text);
+	}
+
+	.dept-theatre {
+		color: #f59e0b;
+	}
+	.dept-music,
+	.dept-piano,
+	.dept-guitar {
+		color: #38bdf8;
+	}
+	.dept-vocal {
+		color: #f472b6;
+	}
+	.dept-art {
+		color: #34d399;
 	}
 </style>
