@@ -790,7 +790,6 @@
 			height: 297mm !important;
 			max-width: 210mm !important;
 			max-height: 297mm !important;
-			aspect-ratio: 210 / 297 !important;
 			border-radius: 0 !important;
 			box-shadow: none !important;
 			border: none !important;

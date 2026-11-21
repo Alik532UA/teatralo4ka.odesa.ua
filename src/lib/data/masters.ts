@@ -181,7 +181,7 @@ export interface MasterIndexEntry {
 	 *   `yevheniia-osadcha` → `yevheniia-burian` — прізвище змінилося;
 	 *   `d-rybalchenko` → `daniela-rybalchenko` — інший ключ на ту саму людину;
 	 *   `daria-dias-valdis` → `daria-dias-valdes-isachkina` — Валдіс/Валдес;
-	 *   `dariia-maistrenko` → `darya-maystrenko` — Дарія/Дар'я.
+	 *   `daria-maistrenko` → `daria-maistrenko` — Дар'я (синхронізовано 2026-11).
 	 *
 	 * Тобто зв'язок «за однаковим ключем» знайшов би 7 із 11 і мовчав про решту.
 	 * Гірше зворотне: неспоріднений збіг ключів (а прізвищ-двійників у даних

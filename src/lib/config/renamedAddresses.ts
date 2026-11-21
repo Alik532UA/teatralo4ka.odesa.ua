@@ -177,7 +177,10 @@ export const RENAMED_MASTER_SLUGS: Record<string, string> = {
 	// ТРИ випускники (`masters[].id` у `graduates.index.json` і в профілях
 	// `17M`, `20M`, `20M_1`), і без цього вона втратила б усіх трьох учнів —
 	// сторінка лишилася б цілою, просто порожньою.
-	'n-rybakova': 'nadiia-rybakova'
+	'n-rybakova': 'nadiia-rybakova',
+	// 2026-11-21: зміна відображуваного імені на Дар'я та приведення слага
+	// з dariia-maistrenko до daria-maistrenko на прохання користувача.
+	'dariia-maistrenko': 'daria-maistrenko'
 };
 
 /**
@@ -187,6 +190,8 @@ export const RENAMED_MASTER_SLUGS: Record<string, string> = {
  * «людина перейменувалася».
  */
 export const RENAMED_GRADUATE_ADDRESSES: Record<string, string> = {
+	// 2026-11-21: синхронізація адреси випускниці darya-maystrenko до daria-maistrenko.
+	'darya-maystrenko': 'daria-maistrenko',
 	// 2026-09-01: на прохання самої людини з адреси й з ключа зв'язків прибрано
 	// дівоче прізвище. Показне ім'я не змінювалося — у реєстрі вже стояло
 	// «Марина Суханова», старе прізвище лишалося тільки в ідентифікаторах.

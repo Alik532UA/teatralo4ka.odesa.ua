@@ -223,6 +223,17 @@
 	const sheetHeightMm = $derived(isLandscape ? 210 : isA1 ? 841 : 297);
 
 	function updatePrintScale() {
+		if (typeof document !== 'undefined') {
+			let styleEl = document.getElementById('poster-print-page') as HTMLStyleElement | null;
+			if (!styleEl) {
+				styleEl = document.createElement('style');
+				styleEl.id = 'poster-print-page';
+				document.head.appendChild(styleEl);
+			}
+			const sizeRule = isA1 ? 'auto' : isLandscape ? 'A4 landscape' : 'A4 portrait';
+			styleEl.textContent = `@page { size: ${sizeRule}; margin: 0; }`;
+		}
+
 		if (!posterContentEl || typeof window === 'undefined') return;
 
 		if (activeMeta.isMultiSheet) {
@@ -740,6 +751,11 @@
 	:global(body.posters-fullscreen) .posters-page { padding: 0 !important; min-height: 100dvh !important; background: #111827 !important; }
 	:global(body.posters-fullscreen) .poster-viewport { height: 100dvh !important; padding: 0 !important; align-items: center !important; }
 
+	@page {
+		size: A4 portrait;
+		margin: 0;
+	}
+
 	@media print {
 		:global(#main-header), :global(.header-blur-layer), :global(#main-footer),
 		:global(.footer-spacer), :global(.skip-link), :global(.page-scrollbar),
@@ -774,7 +790,7 @@
 			width: 100% !important;
 			height: 100% !important;
 			max-width: none !important;
-			max-height: 100dvh !important;
+			max-height: none !important;
 			display: flex !important;
 			align-items: center !important;
 			justify-content: center !important;

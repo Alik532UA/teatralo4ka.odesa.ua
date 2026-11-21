@@ -33,5 +33,6 @@ export const GRADUATE_ALIASES_DATA: Record<string, string> = {
 	'vitalina-larionova': 'Vitalina',
 	'yan-slobodeniuk': 'Yanslobodenyuk',
 	'yelyzaveta-maliuzhenko': 'lizkashyrokova',
-	'yeva-horokhova': 'gorohova'
+	'yeva-horokhova': 'gorohova',
+	'yeva-shestaka': 'yevachkey'
 };

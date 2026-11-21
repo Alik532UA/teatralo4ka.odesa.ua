@@ -1,0 +1,69 @@
+{
+	"id": "yevachkey",
+	"slug": "yevachkey",
+	"name": "Єва Шестака",
+	"graduationYear": null,
+	"enrollmentYears": [
+		2023
+	],
+	"departments": [
+		"theatre"
+	],
+	"hasPhoto": true,
+	"gallery": [
+		"/graduates/gallery/yevachkey/01.webp"
+	],
+	"plays": [
+		{
+			"year": 2024,
+			"text": "«Тренінг, етюди»",
+			"playId": "treninh-etiudy-2024"
+		},
+		{
+			"year": 2025,
+			"text": "«Чому заєць спить з розплющеними очима», Хамелеон, Гієна",
+			"playId": "chomu-zaiets-spyt-z-rozpliushchenymy-ochyma-2025",
+			"role": "Хамелеон, Гієна"
+		},
+		{
+			"year": 2026,
+			"text": "«Досвід», Ніка",
+			"playId": "dosvid-2026",
+			"role": "Ніка"
+		}
+	],
+	"bio": [],
+	"socials": [
+		{
+			"network": "instagram",
+			"url": "https://www.instagram.com/yevachkey"
+		}
+	],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		}
+	]
+}

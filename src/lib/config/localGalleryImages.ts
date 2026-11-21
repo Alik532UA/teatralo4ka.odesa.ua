@@ -146,5 +146,6 @@ export const GRADUATE_GALLERY_SIZES = {
 	'/graduates/gallery/blackwhite_maggie/01.webp': { width: 1018, height: 555 },
 	'/graduates/gallery/sofiia-podiakova/01.webp': { width: 854, height: 1280 },
 	'/graduates/gallery/sofiia-podiakova/02.webp': { width: 720, height: 1280 },
-	'/graduates/gallery/alina-burdeina/01.webp': { width: 847, height: 1280 }
+	'/graduates/gallery/alina-burdeina/01.webp': { width: 847, height: 1280 },
+	'/graduates/gallery/yevachkey/01.webp': { width: 720, height: 1280 }
 } as const;

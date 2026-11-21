@@ -1,0 +1,20 @@
+{
+	"id": "daria-maistrenko",
+	"slug": "daria-maistrenko",
+	"displayName": "Дар'я МАЙСТРЕНКО",
+	"fullName": "Майстренко Дар'я Петрівна",
+	"displayNameEn": "Daria MAISTRENKO",
+	"fullNameEn": "Daria Maistrenko",
+	"departments": [
+		"theatre"
+	],
+	"status": "active",
+	"subjects": [
+		"Хореографія"
+	],
+	"category": "choreographers",
+	"bio": "",
+	"socials": [],
+	"portrait": "/masters/portraits/daria-maistrenko.webp",
+	"photo": "/masters/daria-maistrenko.webp"
+}

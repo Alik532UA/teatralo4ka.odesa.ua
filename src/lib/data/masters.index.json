@@ -1120,7 +1120,8 @@
 		"displayNameEn": "Olha CHERVONIAK",
 		"fullNameEn": "Olha Chervoniak",
 		"departments": [
-			"music"
+			"music",
+			"theatre"
 		],
 		"status": "active",
 		"category": "vocalists",
@@ -2158,12 +2159,12 @@
 		"portrait": "/masters/portraits/tetiana-stepanchuk.webp"
 	},
 	{
-		"id": "dariia-maistrenko",
-		"slug": "dariia-maistrenko",
-		"displayName": "Дарія МАЙСТРЕНКО",
-		"fullName": "Майстренко Дарія Петрівна",
-		"displayNameEn": "Dariia MAISTRENKO",
-		"fullNameEn": "Dariia Maistrenko",
+		"id": "daria-maistrenko",
+		"slug": "daria-maistrenko",
+		"displayName": "Дар'я МАЙСТРЕНКО",
+		"fullName": "Майстренко Дар'я Петрівна",
+		"displayNameEn": "Daria MAISTRENKO",
+		"fullNameEn": "Daria Maistrenko",
 		"departments": [
 			"theatre"
 		],
@@ -2172,10 +2173,10 @@
 			"Хореографія"
 		],
 		"category": "choreographers",
-		"alsoGraduateId": "darya-maystrenko",
+		"alsoGraduateId": "daria-maistrenko",
 		"verificationStatus": "possible_errors",
-		"portrait": "/masters/portraits/dariia-maistrenko.webp",
-		"photo": "/masters/dariia-maistrenko.webp"
+		"portrait": "/masters/portraits/daria-maistrenko.webp",
+		"photo": "/masters/daria-maistrenko.webp"
 	},
 	{
 		"id": "iryna-pak",
@@ -2226,7 +2227,8 @@
 		],
 		"status": "active",
 		"subjects": [
-			"Музика"
+			"Концертмейстер",
+			"Фортепіано"
 		],
 		"category": "accompanists",
 		"verificationStatus": "possible_errors",
@@ -2245,7 +2247,8 @@
 		],
 		"status": "active",
 		"subjects": [
-			"Музика"
+			"Концертмейстер",
+			"Фортепіано"
 		],
 		"category": "musicians",
 		"verificationStatus": "possible_errors",

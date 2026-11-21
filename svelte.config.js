@@ -312,13 +312,16 @@ const PUBLIC_ENTRIES = [
 	'/projects/galaxy-graduates/plays/veselyi-rodzher-2013',
 	'/residents/adults/romanko',
 	'/residents/adults/n-rybakova',
+	'/residents/adults/dariia-maistrenko',
+	'/projects/galaxy-graduates/darya-maystrenko',
 	'/projects/galaxy-graduates/maryna-vishtaliuk-sukhanova',
 	'/projects/galaxy-graduates/tetiana-nikitenko-2',
 	'/projects/galaxy-graduates/kateryna-maktas',
 	'/projects/galaxy-graduates/yana-lunieva',
 	'/projects/galaxy-graduates/krystyna-nykolaieva',
 	'/projects/galaxy-graduates/roman-arabadzhi',
-	'/projects/galaxy-graduates/alla-brynza'
+	'/projects/galaxy-graduates/alla-brynza',
+	'/projects/galaxy-graduates/yeva-shestaka'
 ];
 
 /**
