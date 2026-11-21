@@ -139,10 +139,14 @@
 				<div class="events-grid">
 					{#each poster.events as item (item.id)}
 						{@const IconComponent = getEventIcon(item.id)}
+						{@const isHighlight = item.id === "festive-concert"}
+						{@const isWide =
+							item.id === "festive-concert" ||
+							item.id === "admission-conference"}
 						<article
 							class="event-card"
-							class:event-card--highlight={item.id ===
-								"festive-concert"}
+							class:event-card--highlight={isHighlight}
+							class:event-card--wide={isWide}
 							data-testid={`event-card-${item.id}`}
 						>
 							<div class="event-meta">
@@ -157,9 +161,7 @@
 							<div class="event-main">
 								<div class="event-icon-col" aria-hidden="true">
 									<IconComponent
-										size={item.id === "festive-concert"
-											? 20
-											: 16}
+										size={isHighlight ? 20 : 16}
 										class="event-icon"
 									/>
 								</div>
@@ -442,7 +444,7 @@
 
 	.anniversary-title {
 		margin: 0;
-		font-size: clamp(16px, 2.7cqi, 27px);
+		font-size: clamp(18px, 3.4cqi, 34px);
 		font-weight: 900;
 		line-height: 1.2;
 		color: #00242f;
@@ -490,6 +492,10 @@
 		background: rgba(30, 24, 32, 0.85);
 		color: #f1f5f9;
 		border-color: rgba(255, 255, 255, 0.08);
+	}
+
+	.event-card--wide {
+		grid-column: span 2;
 	}
 
 	.event-card--highlight {
@@ -673,13 +679,16 @@
 
 	.poster-season {
 		margin: 0;
-		font-size: clamp(9px, 1.2cqi, 12px);
-		font-weight: 600;
-		color: #475569;
+		font-size: clamp(14px, 2.3cqi, 22px);
+		font-weight: 900;
+		color: #00242f;
+		letter-spacing: 0.02em;
+		text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
 	}
 
 	.anniversary-poster--dark .poster-season {
-		color: #94a3b8;
+		color: #f8fafc;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 	}
 
 	@container (max-width: 580px) {
@@ -692,7 +701,8 @@
 		.events-grid {
 			grid-template-columns: 1fr;
 		}
-		.event-card--highlight {
+		.event-card--highlight,
+		.event-card--wide {
 			grid-column: span 1;
 		}
 	}
@@ -749,14 +759,20 @@
 			box-shadow: none !important;
 		}
 
+		.event-card--wide,
 		.event-card--highlight {
 			grid-column: span 2 !important;
-			padding: 7px 14px !important;
 		}
 
 		.poster-footer {
 			margin-top: auto !important;
 			padding-top: 2px !important;
+		}
+
+		.poster-season {
+			font-size: 15px !important;
+			font-weight: 900 !important;
+			letter-spacing: 0.02em !important;
 		}
 	}
 </style>

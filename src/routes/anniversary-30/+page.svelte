@@ -29,7 +29,7 @@
 				: `30-річчя школи - Афіша святкових заходів - ${$t('seo.brandTitle')}`,
 			description: isEn
 				? 'Celebratory playbill for the 30th anniversary of Odesa Theatre School: concert, exhibitions, zoom sessions, and charity fundraiser for the 14th ORB of AFU.'
-				: 'Програма святкових заходів до 30-річчя Одеської театральної школи: святковий концерт, виставка, кіно-зум та збір на пікапи для 14 ОРБ ЗСУ.'
+				: 'Програма святкових заходів до 30-річчя Одеської театральної школи: святковий concert, виставка, кіно-зум та збір на пікапи для 14 ОРБ ЗСУ.'
 		});
 	});
 
@@ -99,9 +99,12 @@
 			<div class="events-grid">
 				{#each poster.events as item (item.id)}
 					{@const IconComponent = getEventIcon(item.id)}
+					{@const isHighlight = item.id === 'festive-concert'}
+					{@const isWide = item.id === 'festive-concert' || item.id === 'admission-conference'}
 					<article
 						class="event-card"
-						class:event-card--highlight={item.id === 'festive-concert'}
+						class:event-card--highlight={isHighlight}
+						class:event-card--wide={isWide}
 						class:event-card--interactive={Boolean(item.url)}
 						data-testid={`event-card-${item.id}`}
 					>
@@ -111,7 +114,7 @@
 						</div>
 						<div class="event-body">
 							<div class="event-icon-box" aria-hidden="true">
-								<IconComponent size={item.id === 'festive-concert' ? 22 : 18} />
+								<IconComponent size={isHighlight ? 22 : 18} />
 							</div>
 							<div class="event-content">
 								<h3 class="event-title">{isEn ? item.titleEn : item.titleUk}</h3>
@@ -177,7 +180,9 @@
 
 		<section class="poster-cta-section">
 			<div class="poster-cta-card">
-				<div class="cta-icon" aria-hidden="true"><Printer size={28} /></div>
+				<div class="cta-icon" aria-hidden="true">
+					<Printer size={28} />
+				</div>
 				<div class="cta-text">
 					<h2 class="cta-title">{isEn ? 'Official A4 Poster & Printout' : 'Офіційна афіша A4 для друку'}</h2>
 					<p class="cta-desc">
@@ -202,7 +207,9 @@
 		</section>
 
 		<div class="anniversary-footer">
-			<p class="footer-season">{isEn ? poster.schoolEn : poster.schoolUk}</p>
+			<p class="footer-season">
+				{isEn ? poster.schoolEn : poster.schoolUk}
+			</p>
 		</div>
 	</div>
 </div>
@@ -218,15 +225,16 @@
 	.nav-btn:hover { background: var(--bg-surface); }
 	.anniversary-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px); background: linear-gradient(135deg, #ffed00 0%, #ffd000 100%); border-radius: clamp(20px, 3vw, 32px); box-shadow: 0 16px 36px -10px rgba(255, 218, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08); color: #111827; }
 	.hero-emblem { height: auto; width: clamp(120px, 20vw, 160px); margin-bottom: 8px; }
-	.hero-title { margin: 8px 0 12px; font-size: clamp(1.4rem, 3.8vw, 2.5rem); font-weight: 900; line-height: 1.2; color: #00242f; }
+	.hero-title { margin: 8px 0 12px; font-size: clamp(1.6rem, 4.4vw, 3rem); font-weight: 900; line-height: 1.2; color: #00242f; }
 	.hero-desc { margin: 0; max-width: 600px; font-size: clamp(0.9rem, 1.8vw, 1rem); font-weight: 500; color: #1e293b; line-height: 1.45; }
 	.schedule-section, .charity-section, .poster-cta-section { display: flex; flex-direction: column; gap: 16px; }
 	.section-heading { text-align: center; }
 	.section-title { margin: 0 0 6px; font-size: clamp(1.35rem, 3.2vw, 1.9rem); font-weight: 900; color: var(--text-title); }
 	.section-lead { margin: 0; font-size: clamp(0.88rem, 1.8vw, 1rem); color: var(--text-muted); }
-	.events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); gap: 14px; }
-	@media (min-width: 860px) {
-		.events-grid { grid-template-columns: repeat(3, 1fr); }
+	.events-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+	@media (min-width: 640px) {
+		.events-grid { grid-template-columns: repeat(2, 1fr); }
+		.event-card--wide { grid-column: span 2; }
 	}
 	.event-card {
 		position: relative;
@@ -264,12 +272,7 @@
 		border: 2px solid #0369a1;
 		box-shadow: 0 6px 20px rgba(3, 105, 161, 0.12);
 	}
-	:global(.dark-theme) .event-card--highlight,
-	:global(.dark-cyan-theme) .event-card--highlight,
-	:global(.dark-blue-theme) .event-card--highlight,
-	:global([data-theme='dark']) .event-card--highlight,
-	:global([data-theme='dark-cyan']) .event-card--highlight,
-	:global([data-theme='dark-blue']) .event-card--highlight {
+	:global(.dark-theme) .event-card--highlight, :global(.dark-cyan-theme) .event-card--highlight, :global(.dark-blue-theme) .event-card--highlight, :global([data-theme='dark']) .event-card--highlight, :global([data-theme='dark-cyan']) .event-card--highlight, :global([data-theme='dark-blue']) .event-card--highlight {
 		background: linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%);
 		border-color: #38bdf8;
 		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
@@ -283,21 +286,11 @@
 	}
 	.event-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 	.event-date { font-size: 0.82rem; font-weight: 800; color: #0369a1; white-space: nowrap; flex-shrink: 0; }
-	:global(.dark-theme) .event-date,
-	:global(.dark-cyan-theme) .event-date,
-	:global(.dark-blue-theme) .event-date,
-	:global([data-theme='dark']) .event-date,
-	:global([data-theme='dark-cyan']) .event-date,
-	:global([data-theme='dark-blue']) .event-date {
+	:global(.dark-theme) .event-date, :global(.dark-cyan-theme) .event-date, :global(.dark-blue-theme) .event-date, :global([data-theme='dark']) .event-date, :global([data-theme='dark-cyan']) .event-date, :global([data-theme='dark-blue']) .event-date {
 		color: #fbbf24;
 	}
 	.event-card--highlight .event-date { font-size: 0.92rem; font-weight: 900; }
-	:global(.dark-theme) .event-card--highlight .event-date,
-	:global(.dark-cyan-theme) .event-card--highlight .event-date,
-	:global(.dark-blue-theme) .event-card--highlight .event-date,
-	:global([data-theme='dark']) .event-card--highlight .event-date,
-	:global([data-theme='dark-cyan']) .event-card--highlight .event-date,
-	:global([data-theme='dark-blue']) .event-card--highlight .event-date {
+	:global(.dark-theme) .event-card--highlight .event-date, :global(.dark-cyan-theme) .event-card--highlight .event-date, :global(.dark-blue-theme) .event-card--highlight .event-date, :global([data-theme='dark']) .event-card--highlight .event-date, :global([data-theme='dark-cyan']) .event-card--highlight .event-date, :global([data-theme='dark-blue']) .event-card--highlight .event-date {
 		color: #fde047;
 	}
 	@media (prefers-color-scheme: dark) {
@@ -310,24 +303,14 @@
 	}
 	.event-badge { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 6px; background: var(--bg-card); color: var(--text-muted); }
 	.event-card--highlight .event-badge { background: #0369a1; color: #fff; }
-	:global(.dark-theme) .event-card--highlight .event-badge,
-	:global(.dark-cyan-theme) .event-card--highlight .event-badge,
-	:global(.dark-blue-theme) .event-card--highlight .event-badge,
-	:global([data-theme='dark']) .event-card--highlight .event-badge,
-	:global([data-theme='dark-cyan']) .event-card--highlight .event-badge,
-	:global([data-theme='dark-blue']) .event-card--highlight .event-badge {
+	:global(.dark-theme) .event-card--highlight .event-badge, :global(.dark-cyan-theme) .event-card--highlight .event-badge, :global(.dark-blue-theme) .event-card--highlight .event-badge, :global([data-theme='dark']) .event-card--highlight .event-badge, :global([data-theme='dark-cyan']) .event-card--highlight .event-badge, :global([data-theme='dark-blue']) .event-card--highlight .event-badge {
 		background: #0369a1;
 		color: #fff;
 	}
 	.event-body { display: flex; gap: 12px; align-items: flex-start; flex: 1 1 auto; }
 	.event-icon-box { flex: 0 0 auto; color: var(--accent-text, #0369a1); background: var(--bg-card); border-radius: 10px; padding: 7px; display: flex; }
 	.event-card--highlight .event-icon-box { background: #0369a1; color: #fff; }
-	:global(.dark-theme) .event-card--highlight .event-icon-box,
-	:global(.dark-cyan-theme) .event-card--highlight .event-icon-box,
-	:global(.dark-blue-theme) .event-card--highlight .event-icon-box,
-	:global([data-theme='dark']) .event-card--highlight .event-icon-box,
-	:global([data-theme='dark-cyan']) .event-card--highlight .event-icon-box,
-	:global([data-theme='dark-blue']) .event-card--highlight .event-icon-box {
+	:global(.dark-theme) .event-card--highlight .event-icon-box, :global(.dark-cyan-theme) .event-card--highlight .event-icon-box, :global(.dark-blue-theme) .event-card--highlight .event-icon-box, :global([data-theme='dark']) .event-card--highlight .event-icon-box, :global([data-theme='dark-cyan']) .event-card--highlight .event-icon-box, :global([data-theme='dark-blue']) .event-card--highlight .event-icon-box {
 		background: #0369a1;
 		color: #fff;
 	}
@@ -351,22 +334,13 @@
 		text-decoration: none;
 		transition: background 0.15s ease;
 	}
+	.event-card--highlight .btn-ticket { width: fit-content; padding: 7px 16px; }
 	.btn-ticket:hover { background: #075985; color: #fff; }
-	:global(.dark-theme) .btn-ticket,
-	:global(.dark-cyan-theme) .btn-ticket,
-	:global(.dark-blue-theme) .btn-ticket,
-	:global([data-theme='dark']) .btn-ticket,
-	:global([data-theme='dark-cyan']) .btn-ticket,
-	:global([data-theme='dark-blue']) .btn-ticket {
+	:global(.dark-theme) .btn-ticket, :global(.dark-cyan-theme) .btn-ticket, :global(.dark-blue-theme) .btn-ticket, :global([data-theme='dark']) .btn-ticket, :global([data-theme='dark-cyan']) .btn-ticket, :global([data-theme='dark-blue']) .btn-ticket {
 		background: #0369a1;
 		color: #fff;
 	}
-	:global(.dark-theme) .btn-ticket:hover,
-	:global(.dark-cyan-theme) .btn-ticket:hover,
-	:global(.dark-blue-theme) .btn-ticket:hover,
-	:global([data-theme='dark']) .btn-ticket:hover,
-	:global([data-theme='dark-cyan']) .btn-ticket:hover,
-	:global([data-theme='dark-blue']) .btn-ticket:hover {
+	:global(.dark-theme) .btn-ticket:hover, :global(.dark-cyan-theme) .btn-ticket:hover, :global(.dark-blue-theme) .btn-ticket:hover, :global([data-theme='dark']) .btn-ticket:hover, :global([data-theme='dark-cyan']) .btn-ticket:hover, :global([data-theme='dark-blue']) .btn-ticket:hover {
 		background: #075985;
 		color: #fff;
 	}
@@ -405,6 +379,6 @@
 	.btn-cta { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
 	.btn-cta--primary { background: #ffed00; color: #111827; border: 1px solid rgba(0, 0, 0, 0.12); }
 	.btn-cta--secondary { background: var(--bg-card); color: var(--text-main); border: 1px solid var(--color-border); }
-	.anniversary-footer { text-align: center; padding-top: 8px; border-top: 1px solid var(--color-border); }
-	.footer-season { margin: 0; font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+	.anniversary-footer { text-align: center; padding-top: 14px; border-top: 1px solid var(--color-border); }
+	.footer-season { margin: 0; font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 900; color: var(--text-title); letter-spacing: 0.02em; }
 </style>

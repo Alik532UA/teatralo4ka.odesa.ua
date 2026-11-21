@@ -50,11 +50,11 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(titles.some((t) => t.includes('Мирославом Гринишиним'))).toBe(true);
 	});
 
-	it('святковий концерт містить пряме посилання на квитки concert.ua та бейдж Концерт', () => {
+	it('святковий концерт містить пряме посилання на квитки concert.ua та бейдж concert.ua', () => {
 		const concert = ANNIVERSARY_30_EVENTS.find((e) => e.id === 'festive-concert');
 		expect(concert).toBeDefined();
 		expect(concert?.url).toBe('https://concert.ua/uk/event/muzichnii-koncert');
-		expect(concert?.badgeUk).toBe('Концерт');
+		expect(concert?.badgeUk).toBe('concert.ua');
 	});
 
 	it('інтервʼю з випускниками веде на внутрішній розділ галактики', () => {

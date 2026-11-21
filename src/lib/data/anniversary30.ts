@@ -69,8 +69,8 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		noteEn: 'tickets on concert.ua',
 		channelUk: 'Concert.ua',
 		channelEn: 'Concert.ua',
-		badgeUk: 'Концерт',
-		badgeEn: 'Concert',
+		badgeUk: 'concert.ua',
+		badgeEn: 'concert.ua',
 		url: 'https://concert.ua/uk/event/muzichnii-koncert'
 	},
 	{
@@ -133,7 +133,7 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		id: 'admission-conference',
 		dateUk: '5 грудня',
 		dateEn: 'Dec 5',
-		titleUk: 'Он-лайн конференція щодо вступної кампанії-2027',
+		titleUk: 'Online конференція щодо вступної кампанії-2027',
 		titleEn: 'Online Conference: Admissions 2027',
 		subtitleUk: 'з театральним режисером Мирославом Гринишиним та акторами Київського театру Франка',
 		subtitleEn: 'with theatre director Myroslav Hrynyshyn & Kyiv Ivan Franko Theatre actors',

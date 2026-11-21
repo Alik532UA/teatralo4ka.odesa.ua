@@ -385,16 +385,17 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
+		align-self: stretch;
 		transition: transform 0.15s ease;
 		box-shadow: none;
 	}
 	.qr-thumb-btn:hover {
-		transform: scale(1.03);
+		transform: scale(1.02);
 	}
 	.qr-thumb-img {
 		height: 100%;
-		min-height: clamp(150px, 20cqi, 200px);
-		max-height: clamp(180px, 25cqi, 230px);
+		min-height: clamp(200px, 30cqi, 280px);
+		max-height: clamp(260px, 38cqi, 330px);
 		width: auto;
 		display: block;
 		aspect-ratio: 1 / 1;
