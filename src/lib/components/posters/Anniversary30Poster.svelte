@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { asset, resolve } from '$app/paths';
+	import { asset, resolve } from "$app/paths";
 	import {
 		ANNIVERSARY_30_POSTER,
 		ANNIVERSARY_30_LEFT_PARTICLES,
-		ANNIVERSARY_30_RIGHT_PARTICLES
-	} from '$lib/data/anniversary30';
-	import Anniversary30CharityCard from './anniversary-30/Anniversary30CharityCard.svelte';
+		ANNIVERSARY_30_RIGHT_PARTICLES,
+	} from "$lib/data/anniversary30";
+	import Anniversary30CharityCard from "./anniversary-30/Anniversary30CharityCard.svelte";
 	import {
 		Calendar,
 		ExternalLink,
@@ -15,31 +15,45 @@
 		Sparkles,
 		Globe,
 		PartyPopper,
-		Tv
-	} from 'lucide-svelte';
+		Tv,
+	} from "lucide-svelte";
 
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
-		printMode?: 'digital' | 'paper';
+		printMode?: "digital" | "paper";
 	}
 
-	let { isEn = false, themeId = 'yellow-brand', printMode = 'digital' }: Props = $props();
+	let {
+		isEn = false,
+		themeId = "yellow-brand",
+		printMode = "digital",
+	}: Props = $props();
 
 	const poster = ANNIVERSARY_30_POSTER;
 
 	function getEventIcon(id: string) {
 		switch (id) {
-			case 'video-digest': return Tv;
-			case 'art-exhibition': return Palette;
-			case 'festive-concert': return Music;
-			case 'cinema-zoom': return Video;
-			case 'tiktok-video': return Sparkles;
-			case 'graduates-interview': return Globe;
-			case 'children-holiday': return PartyPopper;
-			case 'anniversary-show': return Sparkles;
-			case 'admission-conference': return Video;
-			default: return Calendar;
+			case "video-digest":
+				return Tv;
+			case "art-exhibition":
+				return Palette;
+			case "festive-concert":
+				return Music;
+			case "cinema-zoom":
+				return Video;
+			case "tiktok-video":
+				return Sparkles;
+			case "graduates-interview":
+				return Globe;
+			case "children-holiday":
+				return PartyPopper;
+			case "anniversary-show":
+				return Sparkles;
+			case "admission-conference":
+				return Video;
+			default:
+				return Calendar;
 		}
 	}
 </script>
@@ -47,10 +61,10 @@
 <div class="poster-frame" data-testid="anniversary-30-poster-container">
 	<article
 		class="anniversary-poster"
-		class:anniversary-poster--dark={themeId === 'uart-dark'}
-		class:anniversary-poster--white={themeId === 'paper-white'}
-		class:anniversary-poster--cream={themeId === 'warm-cream'}
-		class:anniversary-poster--gold={themeId === 'theatre-gold'}
+		class:anniversary-poster--dark={themeId === "uart-dark"}
+		class:anniversary-poster--white={themeId === "paper-white"}
+		class:anniversary-poster--cream={themeId === "warm-cream"}
+		class:anniversary-poster--gold={themeId === "theatre-gold"}
 		data-testid="anniversary-30-poster-card"
 	>
 		<!-- Бічні іконки айдентики ліворуч -->
@@ -91,8 +105,12 @@
 			<header class="poster-header">
 				<div class="emblem-wrap">
 					<img
-						src={asset('/logo/svg/t4_logo_IndividualParticles_MasksTwo_2026.svg')}
-						alt={isEn ? 'Odesa Theatre School Crest' : 'Герб Одеської театральної школи'}
+						src={asset(
+							"/logo/svg/t4_logo_IndividualParticles_MasksTwo_2026.svg",
+						)}
+						alt={isEn
+							? "Odesa Theatre School Crest"
+							: "Герб Одеської театральної школи"}
 						width="160"
 						height="97"
 						class="emblem-img"
@@ -103,7 +121,11 @@
 
 				<div class="header-jubilee-badge">
 					<Sparkles size={13} aria-hidden="true" />
-					<span>{isEn ? poster.headerBadgeEn : poster.headerBadgeUk}</span>
+					<span
+						>{isEn
+							? poster.headerBadgeEn
+							: poster.headerBadgeUk}</span
+					>
 				</div>
 
 				<p class="anniversary-subtitle">
@@ -113,57 +135,103 @@
 				<h1 class="anniversary-title">
 					<span class="anniversary-title-text">
 						{#if isEn}
-							Odesa Theatre School<br /><span class="anniversary-title-highlight">is 30 Years Old!</span>
+							Odesa Theatre School<br /><span
+								class="anniversary-title-highlight"
+								>is 30 Years Old!</span
+							>
 						{:else}
-							Одеській театральній школі&nbsp;–<br /><span class="anniversary-title-highlight">30&nbsp;років!!!</span>
+							Одеській театральній школі&nbsp;–<br /><span
+								class="anniversary-title-highlight"
+								>30&nbsp;років!!!</span
+							>
 						{/if}
 					</span>
 				</h1>
 
 				<div class="dates-range-pill">
 					<Calendar size={14} aria-hidden="true" />
-					<span>{isEn ? poster.datesRangeEn : poster.datesRangeUk}</span>
+					<span
+						>{isEn
+							? poster.datesRangeEn
+							: poster.datesRangeUk}</span
+					>
 				</div>
 			</header>
 
 			<!-- Список святкових заходів -->
-			<section class="events-section" aria-label={isEn ? 'Anniversary Events Schedule' : 'Програма святкових заходів'}>
+			<section
+				class="events-section"
+				aria-label={isEn
+					? "Anniversary Events Schedule"
+					: "Програма святкових заходів"}
+			>
 				<div class="events-grid">
 					{#each poster.events as item (item.id)}
 						{@const IconComponent = getEventIcon(item.id)}
 						<article
 							class="event-card"
-							class:event-card--highlight={item.id === 'festive-concert'}
+							class:event-card--highlight={item.id ===
+								"festive-concert"}
 							data-testid={`event-card-${item.id}`}
 						>
 							<div class="event-meta">
-								<span class="event-date">{isEn ? item.dateEn : item.dateUk}</span>
-								<span class="event-badge">{isEn ? item.badgeEn : item.badgeUk}</span>
+								<span class="event-date"
+									>{isEn ? item.dateEn : item.dateUk}</span
+								>
+								<span class="event-badge"
+									>{isEn ? item.badgeEn : item.badgeUk}</span
+								>
 							</div>
 
 							<div class="event-main">
 								<div class="event-icon-col" aria-hidden="true">
-									<IconComponent size={item.id === 'festive-concert' ? 20 : 16} class="event-icon" />
+									<IconComponent
+										size={item.id === "festive-concert"
+											? 20
+											: 16}
+										class="event-icon"
+									/>
 								</div>
 								<div class="event-info">
 									<h2 class="event-title">
 										{isEn ? item.titleEn : item.titleUk}
 										{#if item.subtitleUk}
-											<span class="event-subtitle">{isEn ? item.subtitleEn : item.subtitleUk}</span>
+											<span class="event-subtitle"
+												>{isEn
+													? item.subtitleEn
+													: item.subtitleUk}</span
+											>
 										{/if}
 									</h2>
 
 									<div class="event-channel-row">
-										{#if printMode === 'paper'}
-											<span class="channel-text channel-text--paper">
-												{isEn ? item.noteEn : item.noteUk}
+										{#if printMode === "paper"}
+											<span
+												class="channel-text channel-text--paper"
+											>
+												{isEn
+													? item.noteEn
+													: item.noteUk}
 											</span>
-										{:else if item.id === 'graduates-interview'}
-											<a href={resolve('/projects/galaxy-graduates')} class="channel-link channel-link--site" data-testid="event-graduates-link">
-												<ExternalLink size={12} aria-hidden="true" />
-												<span>{isEn ? item.noteEn : item.noteUk}</span>
+										{:else if item.id === "graduates-interview"}
+											<a
+												href={resolve(
+													"/projects/galaxy-graduates",
+												)}
+												class="channel-link channel-link--site"
+												data-testid="event-graduates-link"
+											>
+												<ExternalLink
+													size={12}
+													aria-hidden="true"
+												/>
+												<span
+													>{isEn
+														? item.noteEn
+														: item.noteUk}</span
+												>
 											</a>
-										{:else if item.id === 'festive-concert'}
+										{:else if item.id === "festive-concert"}
 											<a
 												href="https://concert.ua/uk/event/muzichnii-koncert"
 												target="_blank"
@@ -171,10 +239,17 @@
 												class="channel-link channel-link--concert"
 												data-testid="event-concert-link"
 											>
-												<ExternalLink size={12} aria-hidden="true" />
-												<span>{isEn ? item.noteEn : item.noteUk}</span>
+												<ExternalLink
+													size={12}
+													aria-hidden="true"
+												/>
+												<span
+													>{isEn
+														? item.noteEn
+														: item.noteUk}</span
+												>
 											</a>
-										{:else if item.id === 'video-digest'}
+										{:else if item.id === "video-digest"}
 											<a
 												href="https://www.instagram.com/teatralo4ka_official_/"
 												target="_blank"
@@ -182,10 +257,17 @@
 												class="channel-link"
 												data-testid="event-instagram-link"
 											>
-												<ExternalLink size={12} aria-hidden="true" />
-												<span>{isEn ? item.noteEn : item.noteUk}</span>
+												<ExternalLink
+													size={12}
+													aria-hidden="true"
+												/>
+												<span
+													>{isEn
+														? item.noteEn
+														: item.noteUk}</span
+												>
 											</a>
-										{:else if item.id === 'cinema-zoom'}
+										{:else if item.id === "cinema-zoom"}
 											<a
 												href="https://www.youtube.com/@teatralo4ka_odesa"
 												target="_blank"
@@ -193,10 +275,17 @@
 												class="channel-link"
 												data-testid="event-youtube-link"
 											>
-												<ExternalLink size={12} aria-hidden="true" />
-												<span>{isEn ? item.noteEn : item.noteUk}</span>
+												<ExternalLink
+													size={12}
+													aria-hidden="true"
+												/>
+												<span
+													>{isEn
+														? item.noteEn
+														: item.noteUk}</span
+												>
 											</a>
-										{:else if item.id === 'tiktok-video'}
+										{:else if item.id === "tiktok-video"}
 											<a
 												href="https://www.tiktok.com/@teatralo4ka_official/"
 												target="_blank"
@@ -204,12 +293,21 @@
 												class="channel-link"
 												data-testid="event-tiktok-link"
 											>
-												<ExternalLink size={12} aria-hidden="true" />
-												<span>{isEn ? item.noteEn : item.noteUk}</span>
+												<ExternalLink
+													size={12}
+													aria-hidden="true"
+												/>
+												<span
+													>{isEn
+														? item.noteEn
+														: item.noteUk}</span
+												>
 											</a>
 										{:else}
 											<span class="channel-text">
-												{isEn ? item.noteEn : item.noteUk}
+												{isEn
+													? item.noteEn
+													: item.noteUk}
 											</span>
 										{/if}
 									</div>
@@ -249,9 +347,16 @@
 		position: relative;
 		width: 100%;
 		background-color: #ffed00;
-		background-image:
-			radial-gradient(circle at 10% 15%, rgba(255, 255, 255, 0.45) 0%, transparent 40%),
-			radial-gradient(circle at 90% 85%, rgba(254, 218, 0, 0.6) 0%, transparent 45%);
+		background-image: radial-gradient(
+				circle at 10% 15%,
+				rgba(255, 255, 255, 0.45) 0%,
+				transparent 40%
+			),
+			radial-gradient(
+				circle at 90% 85%,
+				rgba(254, 218, 0, 0.6) 0%,
+				transparent 45%
+			);
 		border-radius: clamp(14px, 2.2cqi, 28px);
 		box-shadow:
 			0 20px 45px -10px rgba(0, 0, 0, 0.22),
@@ -264,14 +369,23 @@
 		justify-content: space-between;
 		padding: clamp(14px, 2.5cqi, 30px) clamp(16px, 3cqi, 36px);
 		user-select: text;
-		transition: background-color 0.2s ease, color 0.2s ease;
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
 	}
 
 	.anniversary-poster--dark {
 		background-color: #171118;
-		background-image:
-			radial-gradient(circle at 15% 15%, rgba(120, 53, 15, 0.35) 0%, transparent 45%),
-			radial-gradient(circle at 85% 85%, rgba(180, 83, 9, 0.2) 0%, transparent 50%);
+		background-image: radial-gradient(
+				circle at 15% 15%,
+				rgba(120, 53, 15, 0.35) 0%,
+				transparent 45%
+			),
+			radial-gradient(
+				circle at 85% 85%,
+				rgba(180, 83, 9, 0.2) 0%,
+				transparent 50%
+			);
 		color: #f8fafc;
 	}
 
@@ -283,12 +397,20 @@
 
 	.anniversary-poster--cream {
 		background-color: #fffbeb;
-		background-image: radial-gradient(circle at 50% 50%, rgba(254, 243, 199, 0.5) 0%, transparent 60%);
+		background-image: radial-gradient(
+			circle at 50% 50%,
+			rgba(254, 243, 199, 0.5) 0%,
+			transparent 60%
+		);
 	}
 
 	.anniversary-poster--gold {
 		background-color: #fef08a;
-		background-image: radial-gradient(circle at 50% 20%, rgba(253, 224, 71, 0.6) 0%, transparent 50%);
+		background-image: radial-gradient(
+			circle at 50% 20%,
+			rgba(253, 224, 71, 0.6) 0%,
+			transparent 50%
+		);
 	}
 
 	.side-icons {
@@ -301,8 +423,12 @@
 		overflow: hidden;
 	}
 
-	.side-icons--left { left: 0; }
-	.side-icons--right { right: 0; }
+	.side-icons--left {
+		left: 0;
+	}
+	.side-icons--right {
+		right: 0;
+	}
 
 	.side-particle {
 		position: absolute;
@@ -332,7 +458,10 @@
 		gap: clamp(3px, 0.7cqi, 6px);
 	}
 
-	.emblem-wrap { display: flex; justify-content: center; }
+	.emblem-wrap {
+		display: flex;
+		justify-content: center;
+	}
 
 	.emblem-img {
 		width: clamp(88px, 14cqi, 140px);
@@ -425,7 +554,9 @@
 		gap: 6px;
 		text-align: left;
 		border: 1px solid rgba(0, 0, 0, 0.05);
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		transition:
+			transform 0.15s ease,
+			box-shadow 0.15s ease;
 	}
 
 	.event-card:hover {
@@ -442,13 +573,21 @@
 	.event-card--highlight {
 		grid-column: span 2;
 		border: 2px solid #0284c7;
-		background: linear-gradient(135deg, rgba(240, 249, 255, 0.98) 0%, rgba(224, 242, 254, 0.95) 100%);
+		background: linear-gradient(
+			135deg,
+			rgba(240, 249, 255, 0.98) 0%,
+			rgba(224, 242, 254, 0.95) 100%
+		);
 		padding: clamp(10px, 1.6cqi, 16px) clamp(12px, 2cqi, 20px);
 		box-shadow: 0 6px 16px rgba(2, 132, 199, 0.12);
 	}
 
 	.anniversary-poster--dark .event-card--highlight {
-		background: linear-gradient(135deg, rgba(12, 74, 110, 0.45) 0%, rgba(3, 105, 161, 0.25) 100%);
+		background: linear-gradient(
+			135deg,
+			rgba(12, 74, 110, 0.45) 0%,
+			rgba(3, 105, 161, 0.25) 100%
+		);
 		border-color: #38bdf8;
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 	}
@@ -477,7 +616,9 @@
 		flex-shrink: 0;
 	}
 
-	.anniversary-poster--dark .event-date { color: #fbbf24; }
+	.anniversary-poster--dark .event-date {
+		color: #fbbf24;
+	}
 
 	.event-badge {
 		font-size: 9.5px;
@@ -540,8 +681,12 @@
 		margin-top: 1px;
 	}
 
-	.anniversary-poster--dark .event-title { color: #f8fafc; }
-	.anniversary-poster--dark .event-subtitle { color: #94a3b8; }
+	.anniversary-poster--dark .event-title {
+		color: #f8fafc;
+	}
+	.anniversary-poster--dark .event-subtitle {
+		color: #94a3b8;
+	}
 
 	.event-channel-row {
 		display: flex;
@@ -555,7 +700,9 @@
 		color: #64748b;
 	}
 
-	.anniversary-poster--dark .channel-text { color: #94a3b8; }
+	.anniversary-poster--dark .channel-text {
+		color: #94a3b8;
+	}
 
 	.event-card--highlight .channel-text--paper {
 		color: #1e3a8a;
@@ -576,14 +723,18 @@
 		text-underline-offset: 2px;
 	}
 
-	.anniversary-poster--dark .channel-link { color: #38bdf8; }
+	.anniversary-poster--dark .channel-link {
+		color: #38bdf8;
+	}
 
 	.channel-link--concert {
 		color: #0369a1;
 		font-weight: 800;
 	}
 
-	.anniversary-poster--dark .channel-link--concert { color: #38bdf8; }
+	.anniversary-poster--dark .channel-link--concert {
+		color: #38bdf8;
+	}
 
 	.charity-wrapper {
 		width: 100%;
@@ -605,32 +756,86 @@
 		color: #475569;
 	}
 
-	.anniversary-poster--dark .poster-season { color: #94a3b8; }
+	.anniversary-poster--dark .poster-season {
+		color: #94a3b8;
+	}
 
 	@container (max-width: 580px) {
-		.side-icons { display: none; }
-		.poster-content { max-width: 100%; }
-		.events-grid { grid-template-columns: 1fr; }
-		.event-card--highlight { grid-column: span 1; }
+		.side-icons {
+			display: none;
+		}
+		.poster-content {
+			max-width: 100%;
+		}
+		.events-grid {
+			grid-template-columns: 1fr;
+		}
+		.event-card--highlight {
+			grid-column: span 1;
+		}
 	}
 
 	@media print {
 		.poster-frame {
-			width: 100% !important;
-			max-width: none !important;
+			width: 210mm !important;
+			height: 297mm !important;
+			max-width: 210mm !important;
+			max-height: 297mm !important;
 			margin: 0 !important;
+			padding: 0 !important;
 		}
 
 		.anniversary-poster {
 			width: 210mm !important;
-			min-height: 297mm !important;
+			height: 297mm !important;
+			max-width: 210mm !important;
+			max-height: 297mm !important;
+			aspect-ratio: 210 / 297 !important;
 			border-radius: 0 !important;
 			box-shadow: none !important;
-			padding: 12mm 14mm !important;
+			border: none !important;
+			margin: 0 !important;
+			padding: 7mm 10mm 5mm !important;
+			box-sizing: border-box !important;
+			display: flex !important;
+			flex-direction: column !important;
+			justify-content: space-between !important;
 			-webkit-print-color-adjust: exact !important;
 			print-color-adjust: exact !important;
 			page-break-inside: avoid !important;
 			break-inside: avoid !important;
+			overflow: hidden !important;
+		}
+
+		.poster-content {
+			height: 100% !important;
+			max-width: 86% !important;
+			margin: 0 auto !important;
+			display: flex !important;
+			flex-direction: column !important;
+			justify-content: space-between !important;
+			gap: 6px !important;
+		}
+
+		.events-grid {
+			grid-template-columns: 1fr 1fr !important;
+			gap: 6px 10px !important;
+		}
+
+		.event-card {
+			padding: 6px 12px !important;
+			border-radius: 12px !important;
+			box-shadow: none !important;
+		}
+
+		.event-card--highlight {
+			grid-column: span 2 !important;
+			padding: 7px 14px !important;
+		}
+
+		.poster-footer {
+			margin-top: auto !important;
+			padding-top: 2px !important;
 		}
 	}
 </style>

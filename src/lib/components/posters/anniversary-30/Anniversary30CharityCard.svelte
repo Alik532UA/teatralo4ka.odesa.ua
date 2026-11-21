@@ -461,19 +461,48 @@
 	}
 	@media print {
 		.btn-copy { display: none !important; }
+		.qr-modal-backdrop { display: none !important; }
 		.charity-card {
+			flex-direction: row !important;
+			align-items: stretch !important;
+			justify-content: space-between !important;
+			gap: 14px !important;
+			padding: 8px 16px !important;
+			border-radius: 16px !important;
 			box-shadow: none !important;
-			border: 1px solid #cbd5e1 !important;
-			background: #ffffff !important;
-			color: #000000 !important;
-			padding: 6px 10px !important;
 			break-inside: avoid !important;
 		}
-		.qr-modal-backdrop { display: none !important; }
-		.btn-jar, .btn-copy {
-			border: 1px solid #000000 !important;
-			box-shadow: none !important;
-			color: #000000 !important;
+		.charity-main-col {
+			flex: 1 1 auto !important;
+			min-width: 0 !important;
+			display: flex !important;
+			flex-direction: column !important;
+			justify-content: space-between !important;
+			gap: 4px !important;
+		}
+		.charity-title {
+			white-space: nowrap !important;
+		}
+		.charity-qr-preview {
+			display: flex !important;
+			flex: 0 0 auto !important;
+			align-self: stretch !important;
+			align-items: center !important;
+			justify-content: center !important;
+		}
+		.qr-thumb-btn {
+			height: 100% !important;
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+		}
+		.qr-thumb-img {
+			width: auto !important;
+			height: 100% !important;
+			min-height: 175px !important;
+			max-height: 190px !important;
+			aspect-ratio: 1 / 1 !important;
+			object-fit: contain !important;
 		}
 	}
 </style>

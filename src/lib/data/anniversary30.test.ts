@@ -16,6 +16,7 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(meta?.titleUk).toContain('30-річчя');
 		expect(meta?.dateBadgeUk).toBe('25 лист – 5 груд');
 		expect(POSTERS_LIST[0].id).toBe('anniversary-30');
+		expect(meta?.format).toBe('a4-portrait');
 	});
 
 	it('входить до групи 2026–2027 років у POSTER_GROUPS', () => {

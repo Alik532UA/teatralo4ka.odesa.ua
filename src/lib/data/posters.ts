@@ -17,6 +17,8 @@ export interface TeacherInfo {
 	subjectsEn: string[];
 }
 
+export type PosterFormat = 'a4-portrait' | 'a4-landscape' | 'a1-portrait';
+
 export interface PosterMeta {
 	id: PosterId;
 	slug: string;
@@ -26,6 +28,9 @@ export interface PosterMeta {
 	subtitleEn: string;
 	dateBadgeUk?: string;
 	dateBadgeEn?: string;
+	format: PosterFormat;
+	isMultiSheet?: boolean;
+	canvasWidth?: number;
 }
 
 export interface PosterEventItem {
@@ -47,7 +52,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Афіша святкових заходів · 25 листопада – 5 грудня 2026',
 		subtitleEn: 'Festive Events Playbill · Nov 25 – Dec 5, 2026',
 		dateBadgeUk: '25 лист – 5 груд',
-		dateBadgeEn: 'Nov 25 – Dec 5'
+		dateBadgeEn: 'Nov 25 – Dec 5',
+		format: 'a4-portrait',
+		canvasWidth: 960
 	},
 	{
 		id: 'repertoire-november-a1',
@@ -57,7 +64,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Листопад 2026 · 4 вистави та концерти · Афіша A1',
 		subtitleEn: 'November 2026 · 4 performances & concerts · A1 Poster',
 		dateBadgeUk: 'Листопад 2026',
-		dateBadgeEn: 'Nov 2026'
+		dateBadgeEn: 'Nov 2026',
+		format: 'a1-portrait',
+		canvasWidth: 1200
 	},
 	{
 		id: 'uart-secrets-booklet',
@@ -67,7 +76,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Навчальний театр «UArt» · Буклет-програмка (згин навпіл)',
 		subtitleEn: 'UArt Educational Theatre · Program Booklet (half-fold)',
 		dateBadgeUk: '7 листопада · Прем’єра',
-		dateBadgeEn: 'Nov 7 · Premiere'
+		dateBadgeEn: 'Nov 7 · Premiere',
+		format: 'a4-landscape',
+		isMultiSheet: true
 	},
 	{
 		id: 'uart-dosvid-booklet',
@@ -77,7 +88,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Навчальний театр «UArt» · Буклет-програмка (згин навпіл)',
 		subtitleEn: 'UArt Educational Theatre · Program Booklet (half-fold)',
 		dateBadgeUk: '21 листопада · Прем’єра',
-		dateBadgeEn: 'Nov 21 · Premiere'
+		dateBadgeEn: 'Nov 21 · Premiere',
+		format: 'a4-landscape',
+		isMultiSheet: true
 	},
 	{
 		id: 'uart-secrets-a1',
@@ -87,7 +100,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Навчальний театр «UArt» · Прем’єрна афіша A1 (одностороння)',
 		subtitleEn: 'UArt Educational Theatre · Premiere Poster A1 (single-sided)',
 		dateBadgeUk: '7 листопада · Прем’єра',
-		dateBadgeEn: 'Nov 7 · Premiere'
+		dateBadgeEn: 'Nov 7 · Premiere',
+		format: 'a1-portrait',
+		canvasWidth: 1200
 	},
 	{
 		id: 'defenders-hearts',
@@ -97,7 +112,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'До Дня захисників · вірші Ірини Фотуйми',
 		subtitleEn: 'Day of Defenders · Poems by Iryna Fotuyma',
 		dateBadgeUk: '14 та 17 жовтня',
-		dateBadgeEn: 'Oct 14 & 17'
+		dateBadgeEn: 'Oct 14 & 17',
+		format: 'a4-portrait',
+		canvasWidth: 960
 	},
 	{
 		id: 'galaxy-award-podiakova',
@@ -107,7 +124,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Софія ПОДЬЯКОВА · Перша анкета · A4',
 		subtitleEn: 'Sofiia PODIAKOVA · First Questionnaire · A4',
 		dateBadgeUk: 'Спеціальна відзнака',
-		dateBadgeEn: 'Special Award'
+		dateBadgeEn: 'Special Award',
+		format: 'a4-portrait',
+		canvasWidth: 960
 	},
 	{
 		id: 'posviata-invitation',
@@ -117,7 +136,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'A4 горизонтально · 6 карток на аркуш',
 		subtitleEn: 'A4 Landscape · 6 cards per sheet',
 		dateBadgeUk: '24 жовтня',
-		dateBadgeEn: 'Oct 24'
+		dateBadgeEn: 'Oct 24',
+		format: 'a4-landscape',
+		isMultiSheet: true
 	},
 	{
 		id: 'dance-studio',
@@ -127,7 +148,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Тетяна СТОГУЛ · 6 клас',
 		subtitleEn: 'Tetiana STOHUL · Room 6',
 		dateBadgeUk: 'Набір 2026–2027',
-		dateBadgeEn: 'Enrollment 2026–2027'
+		dateBadgeEn: 'Enrollment 2026–2027',
+		format: 'a4-portrait',
+		canvasWidth: 960
 	},
 	{
 		id: 'anniversary-28',
@@ -137,7 +160,9 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleUk: 'Святкові заходи (референс)',
 		subtitleEn: 'Festive Events (Reference)',
 		dateBadgeUk: '29–30 листопада',
-		dateBadgeEn: 'Nov 29–30'
+		dateBadgeEn: 'Nov 29–30',
+		format: 'a4-portrait',
+		canvasWidth: 960
 	}
 ];
 

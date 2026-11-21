@@ -52,6 +52,8 @@
 
 	onMount(() => {
 		void ensureFontsReady();
+		updatePrintScale();
+		window.addEventListener('resize', updatePrintScale);
 		if (session.get('posters_unlocked') === 'true' || page.url.searchParams.get('unlocked') === '1') {
 			isUnlocked = true;
 		}
@@ -72,6 +74,10 @@
 		if (modeParam === 'paper' || modeParam === 'digital') {
 			printMode = modeParam;
 		}
+
+		return () => {
+			window.removeEventListener('resize', updatePrintScale);
+		};
 	});
 
 	function selectSeason(groupId: string) {
@@ -131,6 +137,7 @@
 
 	async function handlePrint() {
 		await ensureFontsReady();
+		updatePrintScale();
 		window.print();
 	}
 
@@ -197,15 +204,106 @@
 		});
 	});
 
-	const isLandscape = $derived(activePoster === 'posviata-invitation' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet');
-	const isA1 = $derived(activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1');
+	const activeMeta = $derived(
+		POSTERS_LIST.find((p) => p.id === activePoster) ?? POSTERS_LIST[0]
+	);
+	const isLandscape = $derived(activeMeta.format === 'a4-landscape');
+	const isA1 = $derived(activeMeta.format === 'a1-portrait');
+
+	let posterContentEl = $state<HTMLElement | null>(null);
+	let printScale = $state(1);
+	let canvasWidthComputed = $state(985);
+	let canvasHeightComputed = $state(1393);
+
+	const canvasWidth = $derived(
+		activeMeta.canvasWidth ?? (isLandscape ? 1120 : isA1 ? 1200 : 960)
+	);
+
+	const sheetWidthMm = $derived(isLandscape ? 297 : isA1 ? 594 : 210);
+	const sheetHeightMm = $derived(isLandscape ? 210 : isA1 ? 841 : 297);
+
+	function updatePrintScale() {
+		if (!posterContentEl || typeof window === 'undefined') return;
+
+		if (activeMeta.isMultiSheet) {
+			printScale = 1;
+			return;
+		}
+
+		const mmToPx = 96 / 25.4;
+		const sheetWidthPx = sheetWidthMm * mmToPx;
+
+		const targetEl = (posterContentEl.firstElementChild as HTMLElement) || posterContentEl;
+
+		const prevWidth = targetEl.style.width;
+		const prevMaxWidth = targetEl.style.maxWidth;
+		targetEl.style.width = `${canvasWidth}px`;
+		targetEl.style.maxWidth = `${canvasWidth}px`;
+		const naturalHeight = targetEl.scrollHeight || targetEl.offsetHeight || 1;
+		targetEl.style.width = prevWidth;
+		targetEl.style.maxWidth = prevMaxWidth;
+
+		// Exact aspect ratio of paper sheet
+		const sheetRatio = sheetWidthMm / sheetHeightMm;
+		const targetCanvasHeight = naturalHeight;
+		const targetCanvasWidth = targetCanvasHeight * sheetRatio;
+
+		canvasWidthComputed = Math.round(targetCanvasWidth);
+		canvasHeightComputed = Math.round(targetCanvasHeight);
+
+		printScale = Math.round((sheetWidthPx / canvasWidthComputed) * 10000) / 10000;
+	}
+
+	$effect(() => {
+		void activePoster;
+		void selectedTheme;
+		void printMode;
+		if (typeof window !== 'undefined') {
+			requestAnimationFrame(() => {
+				updatePrintScale();
+			});
+		}
+	});
 </script>
 
 <svelte:head>
 	<link rel="preload" href="/fonts/e-Ukraine-Medium.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-	{#if isA1}<style>@page { size: auto; margin: 0; }</style>{:else if isLandscape}<style>@page { size: A4 landscape; margin: 0; }</style>{:else}<style>@page { size: A4 portrait; margin: 0; }</style>{/if}
+	{#if isA1}
+		<style>@page { size: auto; margin: 0; }</style>
+	{:else if isLandscape}
+		<style>@page { size: A4 landscape; margin: 0; }</style>
+	{:else}
+		<style>@page { size: A4 portrait; margin: 0; }</style>
+	{/if}
+	{#if !activeMeta.isMultiSheet}
+		<style>
+			@media print {
+				html, body {
+					height: 100% !important;
+					max-height: 100% !important;
+					overflow: hidden !important;
+				}
+			}
+		</style>
+	{:else}
+		<style>
+			@media print {
+				html, body {
+					height: auto !important;
+					max-height: none !important;
+					overflow: visible !important;
+				}
+			}
+		</style>
+	{/if}
 </svelte:head>
-<svelte:window onkeydown={handleKeydown} onbeforeprint={() => void ensureFontsReady()} />
+<svelte:window
+	onkeydown={handleKeydown}
+	onbeforeprint={() => {
+		void ensureFontsReady();
+		updatePrintScale();
+	}}
+/>
 
 <div class="posters-page" data-testid="posters-page-section">
 	<div class="container posters-container">
@@ -364,28 +462,35 @@
 		</header>
 
 		<!-- Основний слот плаката -->
-		<section class="poster-viewport" data-testid="poster-active-container">
-			{#if activePoster === 'anniversary-30'}
-				<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
-			{:else if activePoster === 'repertoire-november-a1'}
-				<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
-			{:else if activePoster === 'uart-secrets-booklet'}
-				<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
-			{:else if activePoster === 'uart-dosvid-booklet'}
-				<UartDosvidBookletPoster {isEn} themeId={selectedTheme} />
-			{:else if activePoster === 'uart-secrets-a1'}
-				<UartSecretsA1Poster {isEn} themeId={selectedTheme} />
-			{:else if activePoster === 'defenders-hearts'}
-				<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
-			{:else if activePoster === 'galaxy-award-podiakova'}
-				<GalaxyAwardPoster {isEn} themeId={selectedTheme} />
-			{:else if activePoster === 'posviata-invitation'}
-				<PosviataInvitationPoster {isEn} />
-			{:else if activePoster === 'anniversary-28'}
-				<DigitalAnniversaryPoster {isEn} />
-			{:else}
-				<DanceStudioPoster {isEn} themeId={selectedTheme} />
-			{/if}
+		<section
+			class="poster-viewport"
+			class:poster-viewport--multi-sheet={activeMeta.isMultiSheet}
+			style="--print-scale: {printScale}; --print-canvas-width: {canvasWidthComputed}px; --print-canvas-height: {canvasHeightComputed}px; --sheet-width: {sheetWidthMm}mm; --sheet-height: {sheetHeightMm}mm;"
+			data-testid="poster-active-container"
+		>
+			<div class="poster-scaler" bind:this={posterContentEl}>
+				{#if activePoster === 'anniversary-30'}
+					<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
+				{:else if activePoster === 'repertoire-november-a1'}
+					<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
+				{:else if activePoster === 'uart-secrets-booklet'}
+					<UartSecretsBookletPoster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'uart-dosvid-booklet'}
+					<UartDosvidBookletPoster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'uart-secrets-a1'}
+					<UartSecretsA1Poster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'defenders-hearts'}
+					<DefendersPoetryPoster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'galaxy-award-podiakova'}
+					<GalaxyAwardPoster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'posviata-invitation'}
+					<PosviataInvitationPoster {isEn} />
+				{:else if activePoster === 'anniversary-28'}
+					<DigitalAnniversaryPoster {isEn} />
+				{:else}
+					<DanceStudioPoster {isEn} themeId={selectedTheme} />
+				{/if}
+			</div>
 		</section>
 	</div>
 </div>
@@ -624,6 +729,12 @@
 		padding: clamp(8px, 2cqi, 20px) 0;
 	}
 
+	.poster-scaler {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
 	/* Повноекранний режим */
 	:global(body.posters-fullscreen) .posters-header { display: none !important; }
 	:global(body.posters-fullscreen) .posters-page { padding: 0 !important; min-height: 100dvh !important; background: #111827 !important; }
@@ -641,28 +752,61 @@
 		.posters-header { display: none !important; }
 
 		:global(body),
-		:global(html) {
-			height: 100% !important;
-			max-height: 100% !important;
-			overflow: hidden !important;
+		:global(html),
+		:global(.app),
+		:global(main#main-content),
+		.posters-page,
+		.posters-container {
+			background: #ffffff !important;
+			color: #000000 !important;
 			margin: 0 !important;
 			padding: 0 !important;
-			-webkit-print-color-adjust: exact !important;
-			print-color-adjust: exact !important;
-		}
-
-		:global(.app), :global(main#main-content), .posters-page, .posters-container, .poster-viewport {
-			min-height: 0 !important;
-			height: 100% !important;
-			max-height: 100dvh !important;
-			overflow: hidden !important;
-			padding: 0 !important;
-			margin: 0 !important;
 			width: 100% !important;
 			max-width: none !important;
 			box-shadow: none !important;
 			-webkit-print-color-adjust: exact !important;
 			print-color-adjust: exact !important;
+		}
+
+		/* Односторінковий друкований аркуш */
+		.poster-viewport:not(.poster-viewport--multi-sheet),
+		.poster-viewport:not(.poster-viewport--multi-sheet) .poster-scaler {
+			width: 100% !important;
+			height: 100% !important;
+			max-width: none !important;
+			max-height: 100dvh !important;
+			display: flex !important;
+			align-items: center !important;
+			justify-content: center !important;
+			overflow: hidden !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			background: transparent !important;
+			page-break-inside: avoid !important;
+			break-inside: avoid !important;
+			page-break-after: avoid !important;
+			break-after: avoid !important;
+			box-sizing: border-box !important;
+			transform: none !important;
+		}
+
+		/* Багатосторінкові постери (буклети, запрошення) */
+		.poster-viewport--multi-sheet {
+			width: 100% !important;
+			max-width: none !important;
+			height: auto !important;
+			max-height: none !important;
+			overflow: visible !important;
+			display: block !important;
+			padding: 0 !important;
+			margin: 0 !important;
+		}
+
+		.poster-viewport--multi-sheet .poster-scaler {
+			width: 100% !important;
+			max-width: none !important;
+			display: block !important;
+			transform: none !important;
 		}
 	}
 </style>

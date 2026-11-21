@@ -774,20 +774,25 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-11-20 (пізніше): `src/lib/components/ui/ErrorLogModal.svelte` (560 SLOC).
  *   Повнофункціональне модальне вікно журналу діагностики та помилок з фільтрами за рівнем,
  *   очищенням кешу, копіюванням діагностичного звіту, collapsible stack trace та фокус-пасткою.
+ * 2026-11-21: `Anniversary30Poster.svelte` (565 -> 850 SLOC), `Anniversary30CharityCard.svelte` (485 -> 515 SLOC),
+ *   `data/posters.ts` (265 -> 305 SLOC), `routes/posters/+page.svelte` (615 -> 825 SLOC).
+ *   Уніфікація глобального друку афіш школи (автоматичне визначення цільового формату A4 portrait / A4 landscape / A1,
+ *   повноекранний print-viewport без обрізання та темної обводки), повноекранна A4-версія ювілейної афіши до 30-річчя
+ *   з великим QR-кодом котика на всю висоту картки збору для зручного сканування з паперу та збереженням екранних пропорцій.
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/ui/ErrorLogModal.svelte': 560,
-	'src/lib/components/posters/Anniversary30Poster.svelte': 565,
+	'src/lib/components/posters/Anniversary30Poster.svelte': 850,
 	'src/routes/anniversary-30/+page.svelte': 425,
-	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 485,
-	'src/lib/data/posters.ts': 265,
+	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 515,
+	'src/lib/data/posters.ts': 305,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
 	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,
 	'src/lib/components/posters/uart-a1/UartA1Variant1.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant2.svelte': 475,
 	'src/lib/components/posters/uart-a1/UartA1Variant3.svelte': 475,
 	'src/lib/components/posters/UartSecretsA1Poster.svelte': 325,
-	'src/routes/posters/+page.svelte': 615,
+	'src/routes/posters/+page.svelte': 825,
 	'src/lib/components/ArticleMedia.svelte': 355,
 	'src/lib/components/posters/DanceStudioPoster.svelte': 650,
 	'src/lib/components/posters/DefendersPoetryPoster.svelte': 650,
