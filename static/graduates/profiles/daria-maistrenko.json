@@ -1,0 +1,29 @@
+{
+	"id": "daria-maistrenko",
+	"slug": "daria-maistrenko",
+	"name": "Дар'я Майстренко",
+	"graduationYear": 2026,
+	"departments": [
+		"piano"
+	],
+	"hasPhoto": true,
+	"masters": [
+		{
+			"id": "oksana-panchenko"
+		}
+	],
+	"teachers": [
+		{
+			"id": "yevheniia-bondar",
+			"subjects": [
+				"Сольфеджіо"
+			]
+		}
+	],
+	"plays": [],
+	"socials": [],
+	"bio": [],
+	"festivals": [],
+	"duringStudies": null,
+	"afterGraduation": null
+}

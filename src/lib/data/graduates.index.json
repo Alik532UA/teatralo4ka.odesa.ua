@@ -3247,7 +3247,23 @@
 		"graduationYear": 2026,
 		"departments": [
 			"piano"
-		]
+		],
+		"hasPhoto": true,
+		"masters": [
+			{
+				"id": "oksana-panchenko"
+			}
+		],
+		"teachers": [
+			{
+				"id": "yevheniia-bondar",
+				"subjects": [
+					"Сольфеджіо"
+				]
+			}
+		],
+		"playCount": 0,
+		"profileSize": 447
 	},
 	{
 		"id": "daryn-karbazh",
