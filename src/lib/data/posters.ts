@@ -1,4 +1,4 @@
-export type PosterId = 'anniversary-30' | 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet' | 'uart-dosvid-booklet' | 'uart-secrets-a1' | 'repertoire-november-a1';
+export type PosterId = 'anniversary-30' | 'anniversary-30-charity' | 'dance-studio' | 'defenders-hearts' | 'anniversary-28' | 'posviata-invitation' | 'galaxy-award-podiakova' | 'uart-secrets-booklet' | 'uart-dosvid-booklet' | 'uart-secrets-a1' | 'repertoire-november-a1';
 
 export interface ScheduleItem {
 	dayUk: string;
@@ -53,6 +53,18 @@ export const POSTERS_LIST: PosterMeta[] = [
 		subtitleEn: 'Festive Events Playbill · Nov 25 – Dec 5, 2026',
 		dateBadgeUk: '25 лист – 5 груд',
 		dateBadgeEn: 'Nov 25 – Dec 5',
+		format: 'a4-portrait',
+		canvasWidth: 960
+	},
+	{
+		id: 'anniversary-30-charity',
+		slug: 'anniversary-30-charity',
+		titleUk: 'Збір для ЗСУ (Афіша A4)',
+		titleEn: 'AFU Charity Fundraiser (A4 Poster)',
+		subtitleUk: 'Збір для ЗСУ на честь 30-річчя · Пікапи для 14 ОРБ · Афіша з QR-кодом',
+		subtitleEn: 'AFU Fundraiser for 30th Anniversary · 14th ORB pick-ups · Poster with QR code',
+		dateBadgeUk: 'Збір на ЗСУ',
+		dateBadgeEn: 'AFU Charity',
 		format: 'a4-portrait',
 		canvasWidth: 960
 	},
@@ -178,7 +190,7 @@ export const POSTER_GROUPS: PosterGroup[] = [
 		id: '2026-2027',
 		titleUk: '2026–2027',
 		titleEn: '2026–2027',
-		ids: ['anniversary-30', 'repertoire-november-a1', 'uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
+		ids: ['anniversary-30', 'anniversary-30-charity', 'repertoire-november-a1', 'uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'dance-studio', 'defenders-hearts', 'galaxy-award-podiakova']
 	},
 	{
 		id: '2024-2025',
@@ -276,7 +288,7 @@ export const DEFAULT_GALAXY_AWARD_THEME = 'galaxy-space';
 export const DEFAULT_UART_BOOKLET_THEME = 'uart-dark';
 
 export const POSTER_THEMES: readonly PosterTheme[] = [
-	{ id: 'uart-dark', nameUk: 'Темний театральний (#171118)', nameEn: 'Theatrical Dark (#171118)', color: '#171118', forPosters: ['uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'repertoire-november-a1', 'anniversary-30'] },
+	{ id: 'uart-dark', nameUk: 'Темний театральний (#171118)', nameEn: 'Theatrical Dark (#171118)', color: '#171118', forPosters: ['uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'repertoire-november-a1', 'anniversary-30', 'anniversary-30-charity'] },
 	{ id: 'uart-black', nameUk: 'Глибокий чорний (#000000)', nameEn: 'Deep Black (#000000)', color: '#000000', forPosters: ['uart-secrets-a1', 'repertoire-november-a1'] },
 	{ id: 'uart-light', nameUk: 'Білий ощадний (Економний друк)', nameEn: 'Ink-saver White (Economic Print)', color: '#ffffff', forPosters: ['uart-secrets-booklet', 'uart-dosvid-booklet', 'uart-secrets-a1', 'repertoire-november-a1'] },
 	{ id: 'galaxy-space', nameUk: 'Космічна ніч (Глибокий космос)', nameEn: 'Deep Space (Cosmic Night)', color: 'radial-gradient(circle at 50% 20%, #1e1b4b 0%, #0c122c 45%, #030712 100%)', forPosters: ['galaxy-award-podiakova'] },
@@ -284,13 +296,13 @@ export const POSTER_THEMES: readonly PosterTheme[] = [
 	{ id: 'galaxy-gold', nameUk: 'Золота Галактика', nameEn: 'Golden Galaxy', color: 'radial-gradient(circle at 50% 20%, #2e2107 0%, #171103 50%, #070501 100%)', forPosters: ['galaxy-award-podiakova'] },
 	{ id: 'defenders-sky', nameUk: 'Синьо-жовте небо (Захід сонця)', nameEn: 'Blue & Yellow Sky (Sunset)', color: 'linear-gradient(180deg, #162a45 40%, #f59e0b 60%)', bgImage: '/posters/defenders-hearts-sky-bg.webp', forPosters: ['defenders-hearts'] },
 	{ id: 'defenders-art', nameUk: 'Художній арт (Захисники та діти)', nameEn: 'Artistic Canvas (Defenders & Children)', color: 'linear-gradient(180deg, #00b5ec 50%, #ffd600 50%)', bgImage: '/posters/defenders-hearts-bg.webp', forPosters: ['defenders-hearts'] },
-	{ id: 'yellow-brand', nameUk: 'Фірмовий жовтий', nameEn: 'Brand Yellow', color: '#ffed00', forPosters: ['dance-studio', 'repertoire-november-a1', 'anniversary-30'] },
+	{ id: 'yellow-brand', nameUk: 'Фірмовий жовтий', nameEn: 'Brand Yellow', color: '#ffed00', forPosters: ['dance-studio', 'repertoire-november-a1', 'anniversary-30', 'anniversary-30-charity'] },
 	{ id: 'yellow-sun', nameUk: 'Тепле сонце', nameEn: 'Warm Sun', color: '#ffd600', forPosters: ['dance-studio'] },
-	{ id: 'paper-white', nameUk: 'Білий аркуш', nameEn: 'Paper White', color: '#ffffff', forPosters: ['dance-studio', 'anniversary-30'] },
-	{ id: 'warm-cream', nameUk: 'Ніжний крем', nameEn: 'Soft Cream', color: '#fffbeb', forPosters: ['dance-studio', 'anniversary-30'] },
+	{ id: 'paper-white', nameUk: 'Білий аркуш', nameEn: 'Paper White', color: '#ffffff', forPosters: ['dance-studio', 'anniversary-30', 'anniversary-30-charity'] },
+	{ id: 'warm-cream', nameUk: 'Ніжний крем', nameEn: 'Soft Cream', color: '#fffbeb', forPosters: ['dance-studio', 'anniversary-30', 'anniversary-30-charity'] },
 	{ id: 'mint-fresh', nameUk: 'Мʼятний', nameEn: 'Fresh Mint', color: '#ecfdf5', forPosters: ['dance-studio'] },
 	{ id: 'sky-light', nameUk: 'Небесний', nameEn: 'Light Sky', color: '#cfe2f3', forPosters: ['dance-studio', 'repertoire-november-a1'] },
-	{ id: 'theatre-gold', nameUk: 'Золота охра', nameEn: 'Theatre Gold', color: '#fef08a', forPosters: ['dance-studio', 'anniversary-30'] },
+	{ id: 'theatre-gold', nameUk: 'Золота охра', nameEn: 'Theatre Gold', color: '#fef08a', forPosters: ['dance-studio', 'anniversary-30', 'anniversary-30-charity'] },
 	{ id: 'peach-blush', nameUk: 'Персиковий', nameEn: 'Peach', color: '#ffedd5', forPosters: ['dance-studio'] }
 ];
 

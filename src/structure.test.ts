@@ -784,8 +784,12 @@ const LIMITS: Array<[RegExp, number]> = [
  *   лічильниками, кастомним скролбаром та картками учнів із мітками відділень, роками та шевронами переходу,
  *   заміна емодзі на SVG-іконки, підтримка слоту заголовка у правій панелі та розкладка 55%+ екрана для самої планети ліворуч,
  *   адаптивне фіксоване позиціонування планети без скролу сторінки на десктопі.
+ * 2026-11-21: `Anniversary30CharityPoster.svelte` (820 SLOC).
+ *   Окремий постер A4 благодійного збору для ЗСУ на честь 30-річчя (Банка Monobank, пікапи для 14 ОРБ,
+ *   великий QR-код котика, реквізити, адаптивне заповнення понад 85% простору аркуша та print A4 portrait).
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/Anniversary30CharityPoster.svelte': 820,
 	'src/lib/data/anniversary30.ts': 275,
 	'src/lib/components/planet/PlanetSplit.svelte': 670,
 	'src/lib/components/ui/ErrorLogModal.svelte': 560,

@@ -63,4 +63,51 @@ test.describe('Друк афіш школи (формат, роздруківк�
 			fullPage: true
 		});
 	});
+
+	test('anniversary-30-charity: повноекранний A4 portrait друк постера збору для ЗСУ', async ({ page }) => {
+		await page.setViewportSize({ width: 794, height: 1123 });
+		await page.goto('/posters?poster=anniversary-30-charity&mode=paper');
+		await page.waitForSelector('[data-testid="poster-active-container"]');
+		await page.waitForTimeout(300);
+
+		await page.emulateMedia({ media: 'print' });
+
+		const metrics = await page.evaluate(() => {
+			const viewport = document.querySelector('[data-testid="poster-active-container"]') as HTMLElement;
+			const poster = document.querySelector('[data-testid="anniversary-30-charity-poster-card"]') as HTMLElement;
+			const footer = document.querySelector('.poster-footer') as HTMLElement;
+			const qrImg = document.querySelector('.qr-img') as HTMLElement;
+
+			const vpRect = viewport.getBoundingClientRect();
+			const pRect = poster ? poster.getBoundingClientRect() : null;
+			const footerRect = footer ? footer.getBoundingClientRect() : null;
+			const qrRect = qrImg ? qrImg.getBoundingClientRect() : null;
+
+			return {
+				viewport: {
+					width: vpRect.width,
+					height: vpRect.height,
+					scrollHeight: viewport.scrollHeight,
+					clientHeight: viewport.clientHeight
+				},
+				poster: pRect ? { width: pRect.width, height: pRect.height } : null,
+				footer: footerRect ? { bottom: footerRect.bottom } : null,
+				qr: qrRect ? { width: qrRect.width, height: qrRect.height } : null
+			};
+		});
+
+		expect(metrics.viewport.width).toBeGreaterThanOrEqual(790);
+		expect(metrics.viewport.width).toBeLessThanOrEqual(800);
+		expect(metrics.viewport.height).toBeGreaterThanOrEqual(1120);
+		expect(metrics.viewport.height).toBeLessThanOrEqual(1125);
+		expect(metrics.viewport.scrollHeight).toBeLessThanOrEqual(metrics.viewport.clientHeight + 2);
+
+		expect(metrics.poster).not.toBeNull();
+		expect(metrics.poster!.width).toBeGreaterThanOrEqual(790);
+		expect(metrics.poster!.height).toBeGreaterThanOrEqual(1120);
+
+		expect(metrics.footer!.bottom).toBeLessThanOrEqual(metrics.viewport.height + 2);
+		expect(metrics.qr!.width).toBeGreaterThanOrEqual(200);
+		expect(metrics.qr!.height).toBeGreaterThanOrEqual(200);
+	});
 });

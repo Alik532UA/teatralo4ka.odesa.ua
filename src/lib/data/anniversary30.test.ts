@@ -24,6 +24,16 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(group?.ids).toContain('anniversary-30');
 	});
 
+	it('окремий постер збору для ЗСУ зареєстрований у POSTERS_LIST та POSTER_GROUPS', () => {
+		const charityPoster = POSTERS_LIST.find((p) => p.id === 'anniversary-30-charity');
+		expect(charityPoster).toBeDefined();
+		expect(charityPoster?.format).toBe('a4-portrait');
+		expect(POSTERS_LIST[1].id).toBe('anniversary-30-charity');
+
+		const group = POSTER_GROUPS.find((g) => g.id === '2026-2027');
+		expect(group?.ids).toContain('anniversary-30-charity');
+	});
+
 	it('має фірмові теми оформлення (жовту, темну, ощадну білу, крем, золото)', () => {
 		const brandYellow = POSTER_THEMES.find((t) => t.id === 'yellow-brand');
 		const dark = POSTER_THEMES.find((t) => t.id === 'uart-dark');

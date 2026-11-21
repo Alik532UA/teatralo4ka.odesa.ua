@@ -20,6 +20,7 @@
 	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
 	import Anniversary30Poster from '$lib/components/posters/Anniversary30Poster.svelte';
+	import Anniversary30CharityPoster from '$lib/components/posters/Anniversary30CharityPoster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
 	import GalaxyAwardPoster from '$lib/components/posters/GalaxyAwardPoster.svelte';
 	import UartSecretsBookletPoster from '$lib/components/posters/UartSecretsBookletPoster.svelte';
@@ -401,7 +402,7 @@
 
 				<!-- Дії: Вибір фону, Друк та Повний екран -->
 				<div class="poster-actions">
-					{#if activePoster === 'anniversary-30'}
+					{#if activePoster === 'anniversary-30' || activePoster === 'anniversary-30-charity'}
 						<div class="print-mode-toggle" role="group" aria-label={isEn ? 'Poster format' : 'Формат афіші'}>
 							<button
 								type="button"
@@ -428,7 +429,7 @@
 						</div>
 					{/if}
 
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30'}
+					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30' || activePoster === 'anniversary-30-charity'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -482,6 +483,8 @@
 			<div class="poster-scaler" bind:this={posterContentEl}>
 				{#if activePoster === 'anniversary-30'}
 					<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
+				{:else if activePoster === 'anniversary-30-charity'}
+					<Anniversary30CharityPoster {isEn} themeId={selectedTheme} {printMode} />
 				{:else if activePoster === 'repertoire-november-a1'}
 					<RepertoireNovemberA1Poster {isEn} themeId={selectedTheme} onSelectTheme={selectTheme} />
 				{:else if activePoster === 'uart-secrets-booklet'}
