@@ -4,13 +4,14 @@
 		Search,
 		ChevronRight,
 		X,
-		Users,
 		Drama,
 		Music,
 		Mic,
 		Palette,
 		Calendar,
 		Sparkles,
+		Piano,
+		Guitar,
 	} from "lucide-svelte";
 	import PlanetFace from "./PlanetFace.svelte";
 	import PlanetSphere from "./PlanetSphere.svelte";
@@ -150,7 +151,11 @@
 {#snippet deptIcon(id: string, size = 12)}
 	{#if id === "theatre"}
 		<Drama {size} aria-hidden="true" />
-	{:else if id === "music" || id === "piano" || id === "guitar"}
+	{:else if id === "piano"}
+		<Piano {size} aria-hidden="true" />
+	{:else if id === "guitar"}
+		<Guitar {size} aria-hidden="true" />
+	{:else if id === "music"}
 		<Music {size} aria-hidden="true" />
 	{:else if id === "vocal"}
 		<Mic {size} aria-hidden="true" />
@@ -184,20 +189,6 @@
 		{/if}
 
 		<div class="card">
-			<div class="card__header">
-				<div class="card__title-wrap">
-					<span class="card__icon"
-						><Users size={17} aria-hidden="true" /></span
-					>
-					<h2 class="card__title">
-						{$t("planet.studentsList", { default: "Список учнів" })}
-					</h2>
-				</div>
-				<span class="card__counter"
-					>{знайдені.length} / {students.length}</span
-				>
-			</div>
-
 			<label class="search">
 				<Search size={15} aria-hidden="true" />
 				<input
@@ -241,16 +232,17 @@
 						class:is-active={обранеВідділення === null}
 						onclick={() => (обранеВідділення = null)}
 						data-testid="{testIdPrefix}-dept-all-btn"
+						title={$t("planet.allStudents", { default: "Усі учні" })}
+						aria-label={$t("planet.allStudents", { default: "Усі учні" })}
 					>
 						<span class="dept-tab__icon"
 							><Sparkles size={13} aria-hidden="true" /></span
 						>
-						<span
-							>{$t("planet.allStudents", {
-								default: "Усі учні",
+						<span class="dept-tab__label"
+							>{$t("planet.all", {
+								default: "Усі",
 							})}</span
 						>
-						<span class="dept-tab__count">{students.length}</span>
 					</button>
 					{#each наявніВідділення as d (d.id)}
 						<button
@@ -263,11 +255,11 @@
 								(обранеВідділення =
 									обранеВідділення === d.id ? null : d.id)}
 							data-testid="{testIdPrefix}-dept-{d.id}-btn"
+							title="{$t(d.meta.labelKey, { default: d.id })}: {d.count}"
+							aria-label="{$t(d.meta.labelKey, { default: d.id })}: {d.count}"
 						>
 							<span class="dept-tab__icon"
-								>{@render deptIcon(d.id, 13)}</span
-							>
-							<span>{$t(d.meta.labelKey, { default: d.id })}</span
+								>{@render deptIcon(d.id, 14)}</span
 							>
 							<span class="dept-tab__count">{d.count}</span>
 						</button>
@@ -434,43 +426,6 @@
 		box-shadow: var(--shadow-sm, 0 2px 8px rgb(0 0 0 / 0.08));
 	}
 
-	.card__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.65rem;
-	}
-
-	.card__title-wrap {
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-		color: var(--text-title);
-	}
-
-	.card__icon {
-		display: inline-flex;
-		align-items: center;
-		color: var(--accent-text);
-	}
-
-	.card__title {
-		margin: 0;
-		font-size: 1rem;
-		font-weight: 700;
-	}
-
-	.card__counter {
-		display: inline-block;
-		padding: 0.12rem 0.55rem;
-		border-radius: var(--radius-full, 9999px);
-		background: color-mix(in srgb, var(--bg-card) 85%, transparent);
-		border: var(--hairline-width) solid var(--border-main);
-		color: var(--text-muted);
-		font-size: 0.78rem;
-		font-weight: 600;
-	}
-
 	.search {
 		display: flex;
 		align-items: center;
@@ -519,29 +474,32 @@
 
 	.dept-tabs {
 		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		padding: 0.1rem 0;
 		flex-wrap: wrap;
-		gap: 0.3rem;
-		padding: 0.05rem 0;
 	}
 
 	.dept-tab {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.35rem;
-		min-height: 28px;
-		padding: 0.15rem 0.55rem;
+		gap: 0.32rem;
+		min-height: 30px;
+		padding: 0.2rem 0.6rem;
 		border-radius: var(--radius-full, 9999px);
 		border: var(--hairline-width) solid var(--border-main);
 		background: var(--bg-card);
 		color: var(--text-muted);
 		font: inherit;
-		font-size: 0.78rem;
+		font-size: 0.8rem;
 		font-weight: 600;
 		cursor: pointer;
+		white-space: nowrap;
 		transition:
 			background var(--transition-base),
 			border-color var(--transition-base),
-			color var(--transition-base);
+			color var(--transition-base),
+			transform var(--transition-base);
 	}
 	.dept-tab:hover {
 		color: var(--text-title);
@@ -550,6 +508,7 @@
 			var(--accent-primary) 40%,
 			var(--border-main)
 		);
+		transform: translateY(-1px);
 	}
 	.dept-tab.is-active {
 		background: color-mix(

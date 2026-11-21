@@ -16,6 +16,7 @@
 		Globe,
 		PartyPopper,
 		Tv,
+		BookOpen,
 	} from "lucide-svelte";
 
 	interface Props {
@@ -42,6 +43,8 @@
 				return Music;
 			case "cinema-zoom":
 				return Video;
+			case "anniversary-booklet":
+				return BookOpen;
 			case "tiktok-video":
 				return Sparkles;
 			case "graduates-interview":
@@ -119,43 +122,11 @@
 					/>
 				</div>
 
-				<div class="header-jubilee-badge">
-					<Sparkles size={13} aria-hidden="true" />
-					<span
-						>{isEn
-							? poster.headerBadgeEn
-							: poster.headerBadgeUk}</span
-					>
-				</div>
-
-				<p class="anniversary-subtitle">
-					{isEn ? poster.subtitleEn : poster.subtitleUk}
-				</p>
-
 				<h1 class="anniversary-title">
 					<span class="anniversary-title-text">
-						{#if isEn}
-							Odesa Theatre School<br /><span
-								class="anniversary-title-highlight"
-								>is 30 Years Old!</span
-							>
-						{:else}
-							Одеській театральній школі&nbsp;–<br /><span
-								class="anniversary-title-highlight"
-								>30&nbsp;років!!!</span
-							>
-						{/if}
+						{isEn ? poster.titleEn : poster.titleUk}
 					</span>
 				</h1>
-
-				<div class="dates-range-pill">
-					<Calendar size={14} aria-hidden="true" />
-					<span
-						>{isEn
-							? poster.datesRangeEn
-							: poster.datesRangeUk}</span
-					>
-				</div>
 			</header>
 
 			<!-- Список святкових заходів -->
@@ -469,68 +440,19 @@
 		filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 	}
 
-	.header-jubilee-badge {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		background: #0369a1;
-		color: #ffffff;
-		padding: 3px 10px;
-		border-radius: 999px;
-		font-size: clamp(10px, 1.3cqi, 12.5px);
-		font-weight: 800;
-		letter-spacing: 0.05em;
-		box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
-	}
-
-	.anniversary-poster--dark .header-jubilee-badge {
-		background: #0369a1;
-	}
-
-	.anniversary-subtitle {
-		margin: 0;
-		font-size: clamp(13px, 1.8cqi, 20px);
-		font-weight: 800;
-		color: #0369a1;
-	}
-
-	.anniversary-poster--dark .anniversary-subtitle {
-		color: #38bdf8;
-	}
-
 	.anniversary-title {
 		margin: 0;
-		font-size: clamp(20px, 3.8cqi, 40px);
+		font-size: clamp(16px, 2.7cqi, 27px);
 		font-weight: 900;
-		line-height: 1.15;
+		line-height: 1.2;
 		color: #00242f;
 		text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
-	}
-
-	.anniversary-title-highlight {
 		white-space: nowrap;
 	}
 
 	.anniversary-poster--dark .anniversary-title {
 		color: #f8fafc;
 		text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-	}
-
-	.dates-range-pill {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		background: rgba(0, 0, 0, 0.06);
-		color: #1e293b;
-		padding: 3px 10px;
-		border-radius: 999px;
-		font-size: clamp(11px, 1.4cqi, 13px);
-		font-weight: 700;
-	}
-
-	.anniversary-poster--dark .dates-range-pill {
-		background: rgba(255, 255, 255, 0.1);
-		color: #e2e8f0;
 	}
 
 	/* Сітка подій */

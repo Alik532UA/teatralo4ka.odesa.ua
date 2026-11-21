@@ -69,8 +69,8 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		noteEn: 'tickets on concert.ua',
 		channelUk: 'Concert.ua',
 		channelEn: 'Concert.ua',
-		badgeUk: 'Головна подія',
-		badgeEn: 'Main Event',
+		badgeUk: 'Концерт',
+		badgeEn: 'Concert',
 		url: 'https://concert.ua/uk/event/muzichnii-koncert'
 	},
 	{
@@ -88,10 +88,23 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		url: 'https://www.youtube.com/@teatralo4ka_odesa'
 	},
 	{
+		id: 'anniversary-booklet',
+		dateUk: '1 грудня',
+		dateEn: 'Dec 1',
+		titleUk: 'Презентація ювілейного буклету «Тепер тобі тридцять»',
+		titleEn: 'Presentation of the Anniversary Booklet “Now You Are Thirty”',
+		noteUk: 'дивись історичні фоточки',
+		noteEn: 'view historical photos',
+		channelUk: 'Ювілейний буклет',
+		channelEn: 'Anniversary Booklet',
+		badgeUk: 'Буклет',
+		badgeEn: 'Booklet'
+	},
+	{
 		id: 'tiktok-video',
 		dateUk: '1 грудня',
 		dateEn: 'Dec 1',
-		titleUk: 'Прем’єра відео «The coolfest people in theatre school»',
+		titleUk: 'Прем’єра відео-роліку «The coolfest people in theatre school»',
 		titleEn: 'Video Premiere “The coolfest people in theatre school”',
 		noteUk: 'дивись у Тік-Ток',
 		noteEn: 'watch on TikTok',
@@ -117,13 +130,28 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		isInternalUrl: true
 	},
 	{
+		id: 'admission-conference',
+		dateUk: '5 грудня',
+		dateEn: 'Dec 5',
+		titleUk: 'Он-лайн конференція щодо вступної кампанії-2027',
+		titleEn: 'Online Conference: Admissions 2027',
+		subtitleUk: 'з театральним режисером Мирославом Гринишиним та акторами Київського театру Франка',
+		subtitleEn: 'with theatre director Myroslav Hrynyshyn & Kyiv Ivan Franko Theatre actors',
+		noteUk: 'дивись у Zoom',
+		noteEn: 'join on Zoom',
+		channelUk: 'Zoom',
+		channelEn: 'Zoom',
+		badgeUk: 'Конференція',
+		badgeEn: 'Conference'
+	},
+	{
 		id: 'children-holiday',
 		dateUk: '1 – 4 грудня',
 		dateEn: 'Dec 1 – 4',
-		titleUk: 'Дитяче свято з дискотекою',
-		titleEn: 'Children’s Holiday Party & Disco',
-		noteUk: 'дивись у 37-й ауд.',
-		noteEn: 'Classroom 37',
+		titleUk: 'Дитяче свято з дискотекою «Навколо Театралки за 30 років»',
+		titleEn: 'Children’s Holiday Party & Disco “Around Teatralo4ka in 30 Years”',
+		noteUk: 'танцюй у 37-й ауд',
+		noteEn: 'dance in Classroom 37',
 		channelUk: '37-ма аудиторія',
 		channelEn: 'Classroom 37',
 		badgeUk: 'Свято',
@@ -133,37 +161,22 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		id: 'anniversary-show',
 		dateUk: '1 – 4 грудня',
 		dateEn: 'Dec 1 – 4',
-		titleUk: 'Ювілейне шоу',
-		titleEn: 'Anniversary Show',
-		noteUk: 'дивись у 7-й ауд.',
-		noteEn: 'Classroom 7',
-		channelUk: '7-ма аудиторія',
-		channelEn: 'Classroom 7',
+		titleUk: 'Ювілейне шоу з дискотекою «30 років ДТШ - Дізнайся Таємниці Школи»',
+		titleEn: 'Anniversary Show & Disco “30 Years of DTH - Discover School Secrets”',
+		noteUk: 'дивись у 7-й ауд, а танцюй у 37-й ауд',
+		noteEn: 'watch in Room 7, dance in Room 37',
+		channelUk: '7-ма та 37-ма ауд.',
+		channelEn: 'Rooms 7 & 37',
 		badgeUk: 'Шоу',
 		badgeEn: 'Show'
-	},
-	{
-		id: 'admission-conference',
-		dateUk: '5 грудня',
-		dateEn: 'Dec 5',
-		titleUk: 'Он-лайн конференція щодо вступної кампанії-2027',
-		titleEn: 'Online Conference: Admissions 2027',
-		subtitleUk: 'З режисером Мирославом Гринишиним та акторами театру Франка',
-		subtitleEn: 'With director Myroslav Hrynyshyn & Ivan Franko Theatre actors',
-		noteUk: 'дивись у Zoom',
-		noteEn: 'join on Zoom',
-		channelUk: 'Zoom',
-		channelEn: 'Zoom',
-		badgeUk: 'Конференція',
-		badgeEn: 'Conference'
 	}
 ];
 
 export const ANNIVERSARY_30_CHARITY: AnniversaryCharityData = {
 	titleUk: 'Збір для ЗСУ на честь 30-річчя',
 	titleEn: 'AFU Charity Fundraiser for the 30th Anniversary',
-	leadUk: 'Протягом усіх святкових днів ми традиційно оголошуємо збір для ЗСУ. Хочеш привітати іменинницю – донать сюди!',
-	leadEn: 'Throughout all festive days, we traditionally announce a fundraiser for the AFU. Want to congratulate the birthday school? Donate here!',
+	leadUk: 'Протягом усіх святкових днів ми традиційно збираємо кошти для ЗСУ. Хочеш привітати іменинницю – донать сюди!',
+	leadEn: 'Throughout all festive days, we traditionally collect funds for the AFU. Want to congratulate the birthday school? Donate here!',
 	targetUk: 'На пікапи для 14 ОРБ',
 	targetEn: 'Pickups for the 14th Separate Reconnaissance Battalion',
 	descriptionUk: 'Одеська театральна школа на честь свого 30-річчя доєдналась до збору на пікапи для 14-го окремого розвідувального батальйону ЗСУ спільно з благодійним фондом "Я Лю Україну"',
@@ -181,13 +194,13 @@ export const ANNIVERSARY_30_POSTER = {
 	subtitleUk: 'Афіша святкових заходів',
 	subtitleEn: 'Festive Events Playbill',
 	titleUk: 'Одеській театральній школі – 30 років!!!',
-	titleEn: 'Odesa Theatre School is 30 Years Old!',
+	titleEn: 'Odesa Theatre School – 30 Years Old!',
 	datesRangeUk: '25 листопада – 5 грудня 2026',
 	datesRangeEn: 'Nov 25 – Dec 5, 2026',
 	events: ANNIVERSARY_30_EVENTS,
 	charity: ANNIVERSARY_30_CHARITY,
-	schoolUk: 'Одеська театральна школа · 30-й ювілейний сезон 2026–2027',
-	schoolEn: 'Odesa Theatre School · 30th Anniversary Season 2026–2027'
+	schoolUk: '«Театрало4ка» – 30 сезонів: Гра триває!',
+	schoolEn: '“Teatralo4ka” – 30 seasons: The play goes on!'
 };
 
 export interface PosterParticle {

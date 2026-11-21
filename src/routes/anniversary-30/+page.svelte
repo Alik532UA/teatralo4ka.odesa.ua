@@ -14,6 +14,7 @@
 		Palette,
 		Music,
 		Video,
+		BookOpen,
 		Globe,
 		PartyPopper
 	} from 'lucide-svelte';
@@ -38,6 +39,7 @@
 			case 'art-exhibition': return Palette;
 			case 'festive-concert': return Music;
 			case 'cinema-zoom': return Video;
+			case 'anniversary-booklet': return BookOpen;
 			case 'tiktok-video': return Sparkles;
 			case 'graduates-interview': return Globe;
 			case 'children-holiday': return PartyPopper;
@@ -51,6 +53,7 @@
 <div class="anniversary-page" data-testid="anniversary-page-section">
 	<div class="container anniversary-container">
 		<nav class="anniversary-nav" aria-label={isEn ? 'Page navigation' : 'Навігація'}>
+			<span class="nav-playbill-badge">{isEn ? poster.subtitleEn : poster.subtitleUk}</span>
 			<div class="nav-actions">
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 				<a href="#charity" class="nav-btn nav-btn--charity" data-testid="nav-charity-link">
@@ -74,22 +77,9 @@
 				class="hero-emblem"
 				loading="eager"
 			/>
-			<div class="hero-badge">
-				<Sparkles size={14} aria-hidden="true" />
-				<span>{isEn ? poster.headerBadgeEn : poster.headerBadgeUk}</span>
-			</div>
-			<p class="hero-subtitle">{isEn ? poster.subtitleEn : poster.subtitleUk}</p>
 			<h1 class="hero-title" data-testid="anniversary-main-title">
-				{#if isEn}
-					Odesa Theatre School<br /><span class="title-highlight">is 30 Years Old!</span>
-				{:else}
-					Одеській театральній школі&nbsp;–<br /><span class="title-highlight">30&nbsp;років!!!</span>
-				{/if}
+				{isEn ? poster.titleEn : poster.titleUk}
 			</h1>
-			<div class="dates-pill">
-				<Calendar size={15} aria-hidden="true" />
-				<span>{isEn ? poster.datesRangeEn : poster.datesRangeUk}</span>
-			</div>
 			<p class="hero-desc">
 				{isEn
 					? 'We warmly invite students, graduates, teachers, parents, and friends to celebrate our 30th season together!'
@@ -176,8 +166,8 @@
 				<h2 class="section-title">{isEn ? 'Charity Fundraiser for AFU' : 'Збір для ЗСУ на честь 30-річчя'}</h2>
 				<p class="section-lead">
 					{isEn
-						? 'During all festive days we traditionally raise funds for our defenders. Celebrate with us by donating!'
-						: 'Протягом усіх святкових днів ми традиційно оголошуємо збір для ЗСУ. Хочеш привітати іменинницю – донать сюди!'}
+						? 'During all festive days we traditionally collect funds for our defenders. Celebrate with us by donating!'
+						: 'Протягом усіх святкових днів ми традиційно збираємо кошти для ЗСУ. Хочеш привітати іменинницю – донать сюди!'}
 				</p>
 			</div>
 			<div class="charity-wrapper">
@@ -220,18 +210,15 @@
 <style>
 	.anniversary-page { padding: var(--page-pad-top) 0 var(--page-pad-bottom); min-height: 85dvh; }
 	.anniversary-container { max-width: 960px; margin: 0 auto; padding: 0 16px; display: flex; flex-direction: column; gap: clamp(24px, 4vw, 36px); }
-	.anniversary-nav { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 10px; }
+	.anniversary-nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+	.nav-playbill-badge { font-size: 0.88rem; font-weight: 800; color: var(--accent-text, #0369a1); text-transform: uppercase; letter-spacing: 0.04em; }
 	.nav-actions { display: flex; align-items: center; gap: 8px; }
 	.nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; font-size: 0.82rem; font-weight: 700; text-decoration: none; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); }
 	.nav-btn--charity { color: var(--accent-text, #0369a1); border-color: rgba(3, 105, 161, 0.3); }
 	.nav-btn:hover { background: var(--bg-surface); }
 	.anniversary-hero { display: flex; flex-direction: column; align-items: center; text-align: center; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px); background: linear-gradient(135deg, #ffed00 0%, #ffd000 100%); border-radius: clamp(20px, 3vw, 32px); box-shadow: 0 16px 36px -10px rgba(255, 218, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08); color: #111827; }
-	.hero-emblem { height: auto; width: clamp(120px, 20vw, 160px); margin-bottom: 6px; }
-	.hero-badge { display: inline-flex; align-items: center; gap: 6px; background: #0077c8; color: #fff; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 8px; }
-	.hero-subtitle { margin: 0 0 4px; font-size: clamp(0.85rem, 1.8vw, 1rem); font-weight: 700; color: #0077c8; text-transform: uppercase; }
-	.hero-title { margin: 0 0 10px; font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 900; line-height: 1.15; color: #00242f; }
-	.title-highlight { color: #00242f; white-space: nowrap; }
-	.dates-pill { display: inline-flex; align-items: center; gap: 6px; background: #fff; color: #1e293b; padding: 6px 14px; border-radius: 999px; font-size: 0.9rem; font-weight: 800; margin-bottom: 10px; }
+	.hero-emblem { height: auto; width: clamp(120px, 20vw, 160px); margin-bottom: 8px; }
+	.hero-title { margin: 8px 0 12px; font-size: clamp(1.4rem, 3.8vw, 2.5rem); font-weight: 900; line-height: 1.2; color: #00242f; }
 	.hero-desc { margin: 0; max-width: 600px; font-size: clamp(0.9rem, 1.8vw, 1rem); font-weight: 500; color: #1e293b; line-height: 1.45; }
 	.schedule-section, .charity-section, .poster-cta-section { display: flex; flex-direction: column; gap: 16px; }
 	.section-heading { text-align: center; }

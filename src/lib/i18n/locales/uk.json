@@ -1436,6 +1436,15 @@
 		"overflow": "…і ще {count} учнів у переліку нижче",
 		"studentsList": "Список учнів",
 		"allStudents": "Усі учні",
+		"all": "Усі",
+		"departmentsShort": {
+			"theatre": "Театр",
+			"music": "Музика",
+			"vocal": "Вокал",
+			"piano": "Фортепіано",
+			"guitar": "Гітара",
+			"art": "Художнє"
+		},
 		"formModalTitle": "Анкета учня",
 		"allProjects": "Усі проєкти",
 		"backToPlanet": "Повернутися на планету творчості",

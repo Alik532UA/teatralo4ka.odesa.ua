@@ -34,14 +34,15 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(paperWhite?.forPosters).toContain('anniversary-30');
 	});
 
-	it('містить 9 обовʼязкових святкових подій', () => {
-		expect(ANNIVERSARY_30_EVENTS).toHaveLength(9);
+	it('містить 10 обовʼязкових святкових подій', () => {
+		expect(ANNIVERSARY_30_EVENTS).toHaveLength(10);
 
 		const titles = ANNIVERSARY_30_EVENTS.map((e) => e.titleUk + ' ' + (e.subtitleUk ?? ''));
 		expect(titles.some((t) => t.includes('Відео-дайджест'))).toBe(true);
 		expect(titles.some((t) => t.includes('Квіти для іменинниці'))).toBe(true);
 		expect(titles.some((t) => t.includes('Святковий концерт'))).toBe(true);
 		expect(titles.some((t) => t.includes('Кіно-Зум'))).toBe(true);
+		expect(titles.some((t) => t.includes('Тепер тобі тридцять'))).toBe(true);
 		expect(titles.some((t) => t.includes('The coolfest people'))).toBe(true);
 		expect(titles.some((t) => t.includes('Інтерв’ю з випускниками'))).toBe(true);
 		expect(titles.some((t) => t.includes('Дитяче свято з дискотекою'))).toBe(true);
@@ -49,10 +50,11 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(titles.some((t) => t.includes('Мирославом Гринишиним'))).toBe(true);
 	});
 
-	it('святковий концерт містить пряме посилання на квитки concert.ua', () => {
+	it('святковий концерт містить пряме посилання на квитки concert.ua та бейдж Концерт', () => {
 		const concert = ANNIVERSARY_30_EVENTS.find((e) => e.id === 'festive-concert');
 		expect(concert).toBeDefined();
 		expect(concert?.url).toBe('https://concert.ua/uk/event/muzichnii-koncert');
+		expect(concert?.badgeUk).toBe('Концерт');
 	});
 
 	it('інтервʼю з випускниками веде на внутрішній розділ галактики', () => {
@@ -80,7 +82,7 @@ describe('Афіша «30-річчя Одеської театральної ш�
 	});
 
 	it('містить реквізити 30-го сезону', () => {
-		expect(ANNIVERSARY_30_POSTER.schoolUk).toContain('30-й ювілейний сезон');
+		expect(ANNIVERSARY_30_POSTER.schoolUk).toContain('30 сезонів: Гра триває!');
 	});
 
 	it('окрема веб-сторінка /anniversary-30 існує та зареєстрована в пререндері й чеклисті', () => {

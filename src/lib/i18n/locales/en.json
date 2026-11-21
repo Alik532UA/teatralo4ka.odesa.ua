@@ -1436,6 +1436,15 @@
 		"overflow": "…and {count} more students in the list below",
 		"studentsList": "Students list",
 		"allStudents": "All students",
+		"all": "All",
+		"departmentsShort": {
+			"theatre": "Theatre",
+			"music": "Music",
+			"vocal": "Vocal",
+			"piano": "Piano",
+			"guitar": "Guitar",
+			"art": "Art"
+		},
 		"formModalTitle": "Pupil questionnaire",
 		"allProjects": "All projects",
 		"backToPlanet": "Back to the Planet of Creativity",

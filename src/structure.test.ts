@@ -786,10 +786,10 @@ const LIMITS: Array<[RegExp, number]> = [
  *   адаптивне фіксоване позиціонування планети без скролу сторінки на десктопі.
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/data/anniversary30.ts': 275,
 	'src/lib/components/planet/PlanetSplit.svelte': 670,
 	'src/lib/components/ui/ErrorLogModal.svelte': 560,
 	'src/lib/components/posters/Anniversary30Poster.svelte': 850,
-	'src/routes/anniversary-30/+page.svelte': 425,
 	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 515,
 	'src/lib/data/posters.ts': 305,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
