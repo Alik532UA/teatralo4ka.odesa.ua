@@ -73,19 +73,19 @@ export const UART_DOSVID_BOOKLET = {
 		}
 	],
 	cast: [
-		{ characterUk: 'Аліса', characterEn: 'Alisa', actorUk: 'Віра Васильєва', actorEn: 'Vira Vasylieva' },
-		{ characterUk: 'Марта', characterEn: 'Marta', actorUk: 'Єлизавета Горецька', actorEn: 'Yelyzaveta Horetska' },
-		{ characterUk: 'Діана', characterEn: 'Diana', actorUk: 'Майя Чернова', actorEn: 'Maiia Chernova' },
-		{ characterUk: 'Ніка', characterEn: 'Nika', actorUk: 'Єва Шестака', actorEn: 'Yeva Shestaka' },
-		{ characterUk: 'Лера', characterEn: 'Lera', actorUk: 'Марія Єнькова', actorEn: 'Mariia Yenkova' },
-		{ characterUk: 'Іра', characterEn: 'Ira', actorUk: 'Євгенія Іващенко', actorEn: 'Yevheniia Ivashchenko' },
+		{ characterUk: 'Аліса', characterEn: 'Alisa', actorUk: 'Віра Васильєва', actorEn: 'Vira Vasylieva', slug: 'vira-vasylieva' },
+		{ characterUk: 'Марта', characterEn: 'Marta', actorUk: 'Єлизавета Горецька', actorEn: 'Yelyzaveta Horetska', slug: 'liza-horetska' },
+		{ characterUk: 'Діана', characterEn: 'Diana', actorUk: 'Майя Чернова', actorEn: 'Maiia Chernova', slug: 'maiia-chernova' },
+		{ characterUk: 'Ніка', characterEn: 'Nika', actorUk: 'Єва Шестака', actorEn: 'Yeva Shestaka', slug: 'yevachkey' },
+		{ characterUk: 'Лера', characterEn: 'Lera', actorUk: 'Марія Єнькова', actorEn: 'Mariia Yenkova', slug: 'mariia-yenkova' },
+		{ characterUk: 'Іра', characterEn: 'Ira', actorUk: 'Євгенія Іващенко', actorEn: 'Yevheniia Ivashchenko', slug: 'yevheniia-ivashchenko' },
 		{
 			characterUk: 'Софія',
 			characterEn: 'Sofiia',
 			actorUk: 'Марія Орлова, Дар’я Овсянникова',
 			actorEn: 'Mariia Orlova, Daria Ovsiannykova'
 		},
-		{ characterUk: 'Поліна', characterEn: 'Polina', actorUk: 'Алісія Лазаренко', actorEn: 'Alisiia Lazarenko' },
+		{ characterUk: 'Поліна', characterEn: 'Polina', actorUk: 'Алісія Лазаренко', actorEn: 'Alisiia Lazarenko', slug: 'alisiia-lazarenko' },
 		{ characterUk: 'Господь', characterEn: 'The Lord', actorUk: 'Федір Ткач', actorEn: 'Fedir Tkach', slug: 'fedir-tkach' },
 		{
 			characterUk: 'Пацюк',

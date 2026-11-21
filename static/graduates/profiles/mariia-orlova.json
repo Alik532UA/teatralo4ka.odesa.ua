@@ -1,0 +1,54 @@
+{
+	"id": "mariia-orlova",
+	"slug": "mariia-orlova",
+	"name": "Марія Орлова",
+	"graduationYear": null,
+	"departments": [
+		"vocal",
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Досвід», Софія",
+			"playId": "dosvid-2026",
+			"role": "Софія",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "natalia-bakina",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
+}

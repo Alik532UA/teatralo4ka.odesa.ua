@@ -1,0 +1,53 @@
+{
+	"id": "vira-vasylieva",
+	"slug": "vira-vasylieva",
+	"name": "Віра Васильєва",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Досвід», Аліса",
+			"playId": "dosvid-2026",
+			"role": "Аліса",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "natalia-bakina",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
+}

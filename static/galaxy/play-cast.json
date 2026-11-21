@@ -454,8 +454,58 @@
 	],
 	"dosvid-2026": [
 		{
+			"graduateId": "alisiia-lazarenko",
+			"role": "Поліна",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "artem-deisadze",
+			"role": "Пацюк",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "daria-ovsiannikova",
+			"role": "Софія",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "demian-livitchuk",
+			"role": "Пацюк",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "liza-horetska",
+			"role": "Марта",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "maiia-chernova",
+			"role": "Діана",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mariia-orlova",
+			"role": "Софія",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "mariia-yenkova",
+			"role": "Лера",
+			"fromRegistry": true
+		},
+		{
+			"graduateId": "vira-vasylieva",
+			"role": "Аліса",
+			"fromRegistry": true
+		},
+		{
 			"graduateId": "yevachkey",
 			"role": "Ніка"
+		},
+		{
+			"graduateId": "yevheniia-ivashchenko",
+			"role": "Іра",
+			"fromRegistry": true
 		}
 	],
 	"duenia-2006": [

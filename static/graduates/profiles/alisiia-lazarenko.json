@@ -1,0 +1,53 @@
+{
+	"id": "alisiia-lazarenko",
+	"slug": "alisiia-lazarenko",
+	"name": "Алісія Лазаренко",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Досвід», Поліна",
+			"playId": "dosvid-2026",
+			"role": "Поліна",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "natalia-bakina",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
+}

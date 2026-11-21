@@ -1,0 +1,53 @@
+{
+	"id": "mariia-yenkova",
+	"slug": "mariia-yenkova",
+	"name": "Марія Єнькова",
+	"graduationYear": null,
+	"departments": [
+		"theatre"
+	],
+	"plays": [
+		{
+			"year": 2026,
+			"text": "«Досвід», Лера",
+			"playId": "dosvid-2026",
+			"role": "Лера",
+			"fromRegistry": true
+		}
+	],
+	"bio": [],
+	"socials": [],
+	"festivals": [],
+	"masters": [
+		{
+			"id": "tetiana-isachkina"
+		}
+	],
+	"teachers": [
+		{
+			"id": "tetiana-isachkina",
+			"subjects": [
+				"Акторська майстерність",
+				"Сценічна мова"
+			]
+		},
+		{
+			"id": "olena-tkach",
+			"subjects": [
+				"Аудіотеатр"
+			]
+		},
+		{
+			"id": "tetiana-stohul",
+			"subjects": [
+				"Танець"
+			]
+		},
+		{
+			"id": "natalia-bakina",
+			"subjects": [
+				"Вокал"
+			]
+		}
+	]
+}

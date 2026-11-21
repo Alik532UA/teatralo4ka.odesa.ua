@@ -3028,8 +3028,46 @@
 		"kind": "student",
 		"visibility": "linked",
 		"departments": [
-			"music"
-		]
+			"music",
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 838
 	},
 	{
 		"id": "daria-pakhomova",
@@ -6563,11 +6601,49 @@
 		"name": "Марія Орлова",
 		"graduationYear": null,
 		"departments": [
-			"vocal"
+			"vocal",
+			"theatre"
 		],
 		"kind": "student",
 		"visibility": "linked",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 817
 	},
 	{
 		"id": "mariia-poliakova",
@@ -12906,6 +12982,9 @@
 		"masters": [
 			{
 				"id": "fedir-tkach"
+			},
+			{
+				"id": "tetiana-isachkina"
 			}
 		],
 		"teachers": [
@@ -12940,8 +13019,8 @@
 				]
 			}
 		],
-		"profileSize": 1084,
-		"playCount": 1
+		"profileSize": 1268,
+		"playCount": 2
 	},
 	{
 		"id": "hryhorii-bakhor",
@@ -13044,5 +13123,341 @@
 		],
 		"profileSize": 1035,
 		"playCount": 1
+	},
+	{
+		"id": "vira-vasylieva",
+		"slug": "vira-vasylieva",
+		"name": "Віра Васильєва",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 812
+	},
+	{
+		"id": "maiia-chernova",
+		"slug": "maiia-chernova",
+		"name": "Майя Чернова",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 808
+	},
+	{
+		"id": "mariia-yenkova",
+		"slug": "mariia-yenkova",
+		"name": "Марія Єнькова",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 806
+	},
+	{
+		"id": "yevheniia-ivashchenko",
+		"slug": "yevheniia-ivashchenko",
+		"name": "Євгенія Іващенко",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 822
+	},
+	{
+		"id": "alisiia-lazarenko",
+		"slug": "alisiia-lazarenko",
+		"name": "Алісія Лазаренко",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 826
+	},
+	{
+		"id": "demian-livitchuk",
+		"slug": "demian-livitchuk",
+		"name": "Дем’ян Лівітчук",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 819
+	},
+	{
+		"id": "artem-deisadze",
+		"slug": "artem-deisadze",
+		"name": "Артем Дейсадзе",
+		"graduationYear": null,
+		"kind": "student",
+		"visibility": "linked",
+		"departments": [
+			"theatre"
+		],
+		"enrollmentYears": [
+			2023
+		],
+		"masters": [
+			{
+				"id": "tetiana-isachkina"
+			}
+		],
+		"teachers": [
+			{
+				"id": "tetiana-isachkina",
+				"subjects": [
+					"Акторська майстерність",
+					"Сценічна мова"
+				]
+			},
+			{
+				"id": "olena-tkach",
+				"subjects": [
+					"Аудіотеатр"
+				]
+			},
+			{
+				"id": "tetiana-stohul",
+				"subjects": [
+					"Танець"
+				]
+			},
+			{
+				"id": "natalia-bakina",
+				"subjects": [
+					"Вокал"
+				]
+			}
+		],
+		"playCount": 1,
+		"profileSize": 812
 	}
 ]
