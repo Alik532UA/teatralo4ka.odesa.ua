@@ -28,6 +28,7 @@
 	import UartSecretsA1Poster from '$lib/components/posters/UartSecretsA1Poster.svelte';
 	import RepertoireNovemberA1Poster from '$lib/components/posters/RepertoireNovemberA1Poster.svelte';
 	import PosterThemePicker from '$lib/components/posters/PosterThemePicker.svelte';
+	import PosterExportMenu from '$lib/components/posters/PosterExportMenu.svelte';
 	import { ensureFontsReady } from '$lib/utils/fonts';
 	import { isTypingTarget } from '$lib/services/keyboard';
 	import { Printer, Expand, Shrink, Sparkles, LayoutList, Calendar } from 'lucide-svelte';
@@ -438,18 +439,14 @@
 						/>
 					{/if}
 
-					<button
-						type="button"
-						class="action-btn action-btn--print"
-						onclick={handlePrint}
-						title={isEn
-							? (isA1 ? 'Print A1 poster or save as PDF' : 'Print A4 poster or save as PDF')
-							: (isA1 ? 'Роздрукувати афішу A1 або зберегти у PDF' : 'Роздрукувати афішу A4 або зберегти у PDF')}
-						data-testid="posters-print-btn"
-					>
-						<Printer size={16} aria-hidden="true" />
-						<span>{isEn ? (isA1 ? 'Print A1' : 'Print A4') : (isA1 ? 'Роздрукувати A1' : 'Роздрукувати A4')}</span>
-					</button>
+					<PosterExportMenu
+						posterContainer={posterContentEl}
+						posterId={activePoster}
+						themeId={selectedTheme}
+						{isEn}
+						{isA1}
+						onPrint={handlePrint}
+					/>
 
 					<button
 						type="button"
@@ -730,8 +727,6 @@
 	}
 	.action-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 12px; font-size: 0.88rem; font-weight: 600; cursor: pointer; border: 1px solid var(--color-border); background: var(--bg-card); color: var(--text-main); transition: all 0.18s ease; }
 	.action-btn:hover { border-color: var(--accent-primary, #00b5ec); color: var(--accent-text, #0077c8); transform: translateY(-1px); }
-	.action-btn--print { background: var(--accent-primary, #00b5ec); color: var(--text-on-accent, #0f172a); border-color: var(--accent-primary, #00b5ec); font-weight: 700; }
-	.action-btn--print:hover { filter: brightness(1.06); color: var(--text-on-accent, #0f172a); }
 
 	/* Слот відображення */
 	.poster-viewport {

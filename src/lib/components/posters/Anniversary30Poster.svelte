@@ -321,16 +321,7 @@
 		width: 100%;
 		aspect-ratio: 210 / 297;
 		background-color: #ffed00;
-		background-image: radial-gradient(
-				circle at 10% 15%,
-				rgba(255, 255, 255, 0.45) 0%,
-				transparent 40%
-			),
-			radial-gradient(
-				circle at 90% 85%,
-				rgba(254, 218, 0, 0.6) 0%,
-				transparent 45%
-			);
+		background-image: none;
 		border-radius: clamp(14px, 2.2cqi, 28px);
 		box-shadow:
 			0 20px 45px -10px rgba(0, 0, 0, 0.22),
@@ -350,16 +341,7 @@
 
 	.anniversary-poster--dark {
 		background-color: #171118;
-		background-image: radial-gradient(
-				circle at 15% 15%,
-				rgba(120, 53, 15, 0.35) 0%,
-				transparent 45%
-			),
-			radial-gradient(
-				circle at 85% 85%,
-				rgba(180, 83, 9, 0.2) 0%,
-				transparent 50%
-			);
+		background-image: none;
 		color: #f8fafc;
 	}
 
@@ -371,20 +353,12 @@
 
 	.anniversary-poster--cream {
 		background-color: #fffbeb;
-		background-image: radial-gradient(
-			circle at 50% 50%,
-			rgba(254, 243, 199, 0.5) 0%,
-			transparent 60%
-		);
+		background-image: none;
 	}
 
 	.anniversary-poster--gold {
 		background-color: #fef08a;
-		background-image: radial-gradient(
-			circle at 50% 20%,
-			rgba(253, 224, 71, 0.6) 0%,
-			transparent 50%
-		);
+		background-image: none;
 	}
 
 	.side-icons {
@@ -732,6 +706,9 @@
 			border-radius: 0 !important;
 			box-shadow: none !important;
 			border: none !important;
+			background-image: none !important;
+			background-color: #ffed00 !important;
+			filter: none !important;
 			margin: 0 !important;
 			padding: 5mm 10mm 4mm !important;
 			box-sizing: border-box !important;
@@ -743,6 +720,18 @@
 			page-break-inside: avoid !important;
 			break-inside: avoid !important;
 			overflow: hidden !important;
+		}
+
+		.anniversary-title {
+			text-shadow: none !important;
+		}
+
+		.emblem-img {
+			filter: none !important;
+		}
+
+		.side-particle {
+			filter: none !important;
 		}
 
 		.poster-header {

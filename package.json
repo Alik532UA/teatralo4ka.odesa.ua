@@ -1,7 +1,7 @@
 {
 	"name": "teatralo4ka.odesa.ua",
 	"private": true,
-	"version": "0.0.933",
+	"version": "0.0.934",
 	"type": "module",
 	"engines": {
 		"node": ">=22.12.0"
@@ -100,6 +100,7 @@
 		"@tiptap/starter-kit": "^3.22.2",
 		"dompurify": "^3.3.3",
 		"firebase": "^12.11.0",
+		"html-to-image": "^1.11.13",
 		"isomorphic-dompurify": "^3.8.0",
 		"lowlight": "^3.3.0",
 		"svelte-i18n": "^4.0.1",
