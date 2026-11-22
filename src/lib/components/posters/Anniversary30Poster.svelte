@@ -319,6 +319,7 @@
 	.anniversary-poster {
 		position: relative;
 		width: 100%;
+		aspect-ratio: 210 / 297;
 		background-color: #ffed00;
 		background-image: radial-gradient(
 				circle at 10% 15%,
@@ -340,7 +341,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: clamp(14px, 2.5cqi, 30px) clamp(16px, 3cqi, 36px);
+		padding: clamp(12px, 2cqi, 20px) clamp(16px, 2.5cqi, 30px) clamp(12px, 1.8cqi, 20px);
 		user-select: text;
 		transition:
 			background-color 0.2s ease,
@@ -418,8 +419,9 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: clamp(12px, 2cqi, 20px);
-		max-width: 81%;
+		justify-content: space-between;
+		gap: clamp(6px, 1.2cqi, 10px);
+		max-width: 86%;
 		margin: 0 auto;
 		text-align: center;
 	}
@@ -428,7 +430,9 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: clamp(3px, 0.7cqi, 6px);
+		gap: clamp(14px, 2.2cqi, 24px);
+		padding-top: clamp(14px, 2.4cqi, 28px);
+		padding-bottom: clamp(4px, 0.8cqi, 10px);
 	}
 
 	.emblem-wrap {
@@ -465,13 +469,13 @@
 	.events-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(min(280px, 100%), 1fr));
-		gap: clamp(8px, 1.3cqi, 12px);
+		gap: clamp(8px, 1.3cqi, 13px);
 	}
 
 	.event-card {
 		background: rgba(255, 255, 255, 0.92);
 		border-radius: clamp(10px, 1.6cqi, 16px);
-		padding: clamp(8px, 1.3cqi, 14px) clamp(10px, 1.6cqi, 16px);
+		padding: clamp(6px, 1.1cqi, 12px) clamp(8px, 1.4cqi, 14px);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 		display: flex;
 		flex-direction: column;
@@ -673,13 +677,12 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 2px;
-		margin-top: auto;
-		padding-top: 4px;
+		padding: clamp(2px, 0.4cqi, 4px) 0;
 	}
 
 	.poster-season {
 		margin: 0;
-		font-size: clamp(14px, 2.3cqi, 22px);
+		font-size: clamp(16px, 2.2cqi, 20px);
 		font-weight: 900;
 		color: #00242f;
 		letter-spacing: 0.02em;
@@ -726,7 +729,7 @@
 			box-shadow: none !important;
 			border: none !important;
 			margin: 0 !important;
-			padding: 7mm 10mm 5mm !important;
+			padding: 5mm 10mm 4mm !important;
 			box-sizing: border-box !important;
 			display: flex !important;
 			flex-direction: column !important;
@@ -736,6 +739,12 @@
 			page-break-inside: avoid !important;
 			break-inside: avoid !important;
 			overflow: hidden !important;
+		}
+
+		.poster-header {
+			gap: 16px !important;
+			padding-top: 5mm !important;
+			padding-bottom: 2mm !important;
 		}
 
 		.poster-content {
@@ -750,7 +759,7 @@
 
 		.events-grid {
 			grid-template-columns: 1fr 1fr !important;
-			gap: 6px 10px !important;
+			gap: 8px 10px !important;
 		}
 
 		.event-card {
@@ -765,12 +774,14 @@
 		}
 
 		.poster-footer {
-			margin-top: auto !important;
-			padding-top: 2px !important;
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: center !important;
+			padding: 1.5mm 0 1mm !important;
 		}
 
 		.poster-season {
-			font-size: 15px !important;
+			font-size: 20px !important;
 			font-weight: 900 !important;
 			letter-spacing: 0.02em !important;
 		}

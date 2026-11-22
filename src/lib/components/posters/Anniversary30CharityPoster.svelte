@@ -528,8 +528,8 @@
 		justify-content: center;
 	}
 	.qr-img {
-		width: clamp(440px, 72cqi, 640px);
-		max-height: clamp(440px, 72cqi, 640px);
+		width: clamp(380px, 58cqi, 450px);
+		max-height: clamp(380px, 58cqi, 450px);
 		height: auto;
 		display: block;
 		aspect-ratio: 1 / 1;
@@ -540,11 +540,11 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		font-size: clamp(15px, 2.2cqi, 20px);
+		font-size: clamp(14px, 2cqi, 18px);
 		font-weight: 800;
 		color: #0369a1;
 		background: #e0f2fe;
-		padding: 7px 22px;
+		padding: 6px 18px;
 		border-radius: 999px;
 		box-shadow: 0 2px 8px rgba(3, 105, 161, 0.1);
 	}
@@ -593,6 +593,11 @@
 		border: 1px solid #bae6fd;
 		text-align: center;
 		word-break: break-all;
+		min-height: 44px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.btn-jar {
 		display: inline-flex;
@@ -608,6 +613,7 @@
 		text-decoration: none;
 		transition: background 0.15s ease;
 		width: 100%;
+		min-height: 44px;
 		box-sizing: border-box;
 		text-align: center;
 		word-break: break-all;
@@ -633,6 +639,11 @@
 		border-radius: 10px;
 		text-align: center;
 		font-family: monospace;
+		min-height: 44px;
+		box-sizing: border-box;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.anniversary-poster--dark .card-code {
 		background: #1e293b;
@@ -654,6 +665,8 @@
 		color: #1e293b;
 		cursor: pointer;
 		transition: all 0.15s ease;
+		min-height: 44px;
+		box-sizing: border-box;
 	}
 	.btn-copy:hover {
 		background: #f1f5f9;
@@ -688,11 +701,11 @@
 
 	.poster-footer {
 		text-align: center;
-		padding: clamp(4px, 0.8cqi, 8px) 0;
+		padding: clamp(6px, 1cqi, 12px) 0;
 	}
 	.poster-season {
 		margin: 0;
-		font-size: clamp(18px, 2.8cqi, 28px);
+		font-size: clamp(16px, 2.2cqi, 20px);
 		font-weight: 900;
 		color: #00242f;
 		letter-spacing: 0.02em;
@@ -776,16 +789,16 @@
 			justify-content: space-between !important;
 		}
 		.charity-title {
-			font-size: 19pt !important;
+			font-size: 21pt !important;
 			line-height: 1.15 !important;
 			white-space: nowrap !important;
 		}
 		.charity-lead {
-			font-size: 12pt !important;
+			font-size: 13pt !important;
 			line-height: 1.3 !important;
 		}
 		.charity-desc {
-			font-size: 10pt !important;
+			font-size: 11pt !important;
 			line-height: 1.35 !important;
 		}
 		.qr-center-section {
@@ -794,44 +807,50 @@
 			align-items: center !important;
 		}
 		.qr-img {
-			width: 330px !important;
-			height: 330px !important;
-			max-width: 330px !important;
-			max-height: 330px !important;
+			width: 420px !important;
+			height: 420px !important;
+			max-width: 420px !important;
+			max-height: 420px !important;
 		}
 		.qr-hint {
-			font-size: 9.5pt !important;
-			padding: 2px 8px !important;
+			font-size: 11pt !important;
+			padding: 4px 14px !important;
 		}
 		.details-bottom {
-			gap: 3mm !important;
+			gap: 3.5mm !important;
 		}
 		.details-grid {
 			display: grid !important;
 			grid-template-columns: 1fr 1fr !important;
-			gap: 4mm !important;
+			gap: 4.5mm !important;
 		}
 		.detail-label {
-			font-size: 9pt !important;
+			font-size: 10pt !important;
 		}
 		.paper-val {
-			font-size: 9.5pt !important;
-			padding: 3px 6px !important;
+			font-size: 10.5pt !important;
+			padding: 6px 10px !important;
 		}
 		.card-code {
-			font-size: 12pt !important;
-			padding: 3px 6px !important;
+			font-size: 13pt !important;
+			padding: 5px 10px !important;
 		}
 		.support-box {
 			padding: 3mm 4mm !important;
-			border-radius: 8px !important;
+			border-radius: 10px !important;
 		}
 		.support-text {
-			font-size: 9pt !important;
-			line-height: 1.3 !important;
+			font-size: 10pt !important;
+			line-height: 1.35 !important;
+		}
+		.poster-footer {
+			display: flex !important;
+			flex-direction: column !important;
+			align-items: center !important;
+			padding: clamp(6px, 1cqi, 12px) 0 !important;
 		}
 		.poster-season {
-			font-size: 16px !important;
+			font-size: 20px !important;
 			font-weight: 900 !important;
 		}
 	}

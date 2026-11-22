@@ -787,6 +787,8 @@ const LIMITS: Array<[RegExp, number]> = [
  * 2026-11-21: `Anniversary30CharityPoster.svelte` (820 SLOC).
  *   Окремий постер A4 благодійного збору для ЗСУ на честь 30-річчя (Банка Monobank, пікапи для 14 ОРБ,
  *   великий QR-код котика, реквізити, адаптивне заповнення понад 85% простору аркуша та print A4 portrait).
+ * 2026-11-22: `Anniversary30CharityCard.svelte` (515 -> 555 SLOC).
+ *   Збільшено QR-код на 50%, збалансовано верстку реквізитів збору для однакових відступів у веб та версії для друку.
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/posters/Anniversary30CharityPoster.svelte': 820,
@@ -794,7 +796,7 @@ const CEILINGS: Record<string, number> = {
 	'src/lib/components/planet/PlanetSplit.svelte': 670,
 	'src/lib/components/ui/ErrorLogModal.svelte': 560,
 	'src/lib/components/posters/Anniversary30Poster.svelte': 850,
-	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 515,
+	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 555,
 	'src/lib/data/posters.ts': 305,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
 	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,

@@ -66,8 +66,10 @@
 			<div class="charity-actions" class:charity-actions--paper={printMode === 'paper'}>
 				{#if printMode === 'paper'}
 					<div class="paper-jar-ref" data-testid="paper-jar-badge">
-						<span class="card-label">{isEn ? 'Monobank Jar:' : 'Банка Монобанк:'}</span>
-						<span class="paper-jar-url">send.monobank.ua/jar/4FvXthaHVH</span>
+						<div class="paper-jar-wrap">
+							<span class="card-label">{isEn ? 'Monobank Jar:' : 'Банка Монобанк:'}</span>
+							<span class="paper-jar-url">send.monobank.ua/jar/4FvXthaHVH</span>
+						</div>
 					</div>
 				{:else}
 					<a
@@ -180,7 +182,7 @@
 		position: relative;
 		background: rgba(255, 255, 255, 0.98);
 		border-radius: clamp(16px, 2.4cqi, 24px);
-		padding: clamp(12px, 2cqi, 20px) clamp(14px, 2.4cqi, 24px);
+		padding: clamp(8px, 1.4cqi, 12px) clamp(12px, 2cqi, 18px);
 		border: 2.5px solid #0077c8;
 		box-shadow:
 			0 0 0 2.5px #ffd000,
@@ -189,7 +191,7 @@
 		flex-direction: row;
 		align-items: stretch;
 		justify-content: space-between;
-		gap: clamp(14px, 2.4cqi, 26px);
+		gap: clamp(12px, 1.8cqi, 16px);
 		text-align: left;
 	}
 	.charity-card--dark {
@@ -213,7 +215,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: clamp(10px, 1.5cqi, 16px);
+		gap: clamp(4px, 0.8cqi, 8px);
 		min-width: 0;
 	}
 	.charity-header {
@@ -236,10 +238,11 @@
 	.charity-headline { display: flex; flex-direction: column; gap: 3px; }
 	.charity-title {
 		margin: 0;
-		font-size: clamp(15px, 2.1cqi, 21px);
+		font-size: clamp(15px, 2.1cqi, 20px);
 		font-weight: 900;
 		color: #0369a1;
 		line-height: 1.25;
+		white-space: nowrap;
 	}
 	.charity-card--dark .charity-title { color: #38bdf8; }
 	.charity-lead {
@@ -253,7 +256,7 @@
 	.charity-details {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(8px, 1.3cqi, 12px);
+		gap: clamp(6px, 1cqi, 9px);
 		min-width: 0;
 	}
 	.charity-target-badge {
@@ -283,9 +286,9 @@
 	.charity-card--dark .charity-desc { color: #e2e8f0; }
 	.charity-actions {
 		display: flex;
-		flex-wrap: wrap;
+		flex-wrap: nowrap;
 		align-items: center;
-		gap: 8px 12px;
+		gap: 8px 10px;
 	}
 	.btn-jar {
 		display: inline-flex;
@@ -294,11 +297,15 @@
 		background: #047857;
 		color: #ffffff;
 		text-decoration: none;
-		font-size: clamp(12px, 1.55cqi, 14px);
+		font-size: 12px;
 		font-weight: 800;
-		padding: 7px 15px;
+		padding: 4px 10px;
 		border-radius: 8px;
+		min-height: 32px;
+		box-sizing: border-box;
 		box-shadow: 0 2px 6px rgba(4, 120, 87, 0.35);
+		white-space: nowrap;
+		flex-shrink: 0;
 		transition: background-color 0.15s ease, transform 0.1s ease;
 	}
 	.btn-jar:hover { background: #064e3b; transform: translateY(-1px); }
@@ -310,17 +317,22 @@
 		background: #f1f5f9;
 		border: 1px solid #cbd5e1;
 		border-radius: 8px;
-		padding: 4px 10px;
+		padding: 3px 10px;
+		min-height: 32px;
+		box-sizing: border-box;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 	.charity-card--dark .card-copy-box { background: #27202b; border-color: #475569; }
-	.card-number-wrap { display: flex; flex-direction: column; line-height: 1.15; }
-	.card-label { font-size: 9px; text-transform: uppercase; color: #334155; font-weight: 700; letter-spacing: 0.03em; }
+	.card-number-wrap { display: flex; flex-direction: column; line-height: 1.15; white-space: nowrap; }
+	.card-label { font-size: 9px; text-transform: uppercase; color: #334155; font-weight: 700; letter-spacing: 0.03em; white-space: nowrap; }
 	.charity-card--dark .card-label { color: #cbd5e1; }
 	.card-number {
 		font-family: monospace;
-		font-size: clamp(12px, 1.55cqi, 14px);
+		font-size: clamp(11.5px, 1.45cqi, 13px);
 		font-weight: 800;
 		color: #0f172a;
+		white-space: nowrap;
 	}
 	.charity-card--dark .card-number { color: #f1f5f9; }
 	.btn-copy {
@@ -335,27 +347,39 @@
 		font-size: 11.5px;
 		font-weight: 700;
 		cursor: pointer;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 	.btn-copy:hover { background: #e2e8f0; }
 	.btn-copy--copied { background: #dcfce7; color: #166534; border-color: #86efac; }
 	.paper-jar-ref {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
 		background: #f1f5f9;
 		border: 1px solid #cbd5e1;
 		border-radius: 8px;
-		padding: 4px 10px;
-		font-size: 12px;
+		padding: 3px 10px;
+		min-height: 32px;
+		box-sizing: border-box;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 	.charity-card--dark .paper-jar-ref {
 		background: rgba(255, 255, 255, 0.08);
 		border-color: rgba(255, 255, 255, 0.16);
 	}
+	.paper-jar-wrap {
+		display: flex;
+		flex-direction: column;
+		line-height: 1.15;
+		white-space: nowrap;
+	}
 	.paper-jar-url {
 		font-weight: 700;
 		color: #047857;
 		font-family: monospace;
+		font-size: clamp(11.5px, 1.45cqi, 13px);
+		white-space: nowrap;
 	}
 	.charity-card--dark .paper-jar-url {
 		color: #34d399;
@@ -394,8 +418,8 @@
 	}
 	.qr-thumb-img {
 		height: 100%;
-		min-height: clamp(200px, 30cqi, 280px);
-		max-height: clamp(260px, 38cqi, 330px);
+		min-height: clamp(240px, 34cqi, 275px);
+		max-height: clamp(260px, 38cqi, 285px);
 		width: auto;
 		display: block;
 		aspect-ratio: 1 / 1;
@@ -484,6 +508,30 @@
 		.charity-title {
 			white-space: nowrap !important;
 		}
+		.charity-actions {
+			display: flex !important;
+			flex-wrap: nowrap !important;
+			align-items: center !important;
+			gap: 8px !important;
+		}
+		.paper-jar-ref {
+			padding: 3px 8px !important;
+			white-space: nowrap !important;
+			flex-shrink: 0 !important;
+		}
+		.paper-jar-url {
+			font-size: 11px !important;
+			white-space: nowrap !important;
+		}
+		.card-copy-box {
+			padding: 3px 8px !important;
+			white-space: nowrap !important;
+			flex-shrink: 0 !important;
+		}
+		.card-number {
+			font-size: 11px !important;
+			white-space: nowrap !important;
+		}
 		.charity-qr-preview {
 			display: flex !important;
 			flex: 0 0 auto !important;
@@ -500,8 +548,8 @@
 		.qr-thumb-img {
 			width: auto !important;
 			height: 100% !important;
-			min-height: 175px !important;
-			max-height: 190px !important;
+			min-height: 255px !important;
+			max-height: 280px !important;
 			aspect-ratio: 1 / 1 !important;
 			object-fit: contain !important;
 		}
