@@ -577,6 +577,7 @@
 		font-weight: 800;
 		color: #0f172a;
 		line-height: 1.3;
+		white-space: pre-line;
 	}
 
 	.event-subtitle {

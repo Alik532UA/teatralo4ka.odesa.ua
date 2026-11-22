@@ -315,7 +315,7 @@
 		color: #fff;
 	}
 	.event-content { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; height: 100%; }
-	.event-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.35; color: var(--text-title); }
+	.event-title { margin: 0; font-size: 0.92rem; font-weight: 700; line-height: 1.35; color: var(--text-title); white-space: pre-line; }
 	.event-subtitle { margin: 2px 0 0; font-size: 0.8rem; line-height: 1.35; color: var(--text-muted); font-weight: 500; }
 	.event-channel { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; width: 100%; margin-top: auto; padding-top: 4px; }
 	.btn-ticket {
