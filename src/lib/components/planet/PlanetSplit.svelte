@@ -517,7 +517,7 @@
 			var(--bg-card)
 		);
 		border-color: var(--accent-primary);
-		color: var(--accent-text);
+		color: var(--text-title);
 		font-weight: 700;
 	}
 	.dept-tab__icon {

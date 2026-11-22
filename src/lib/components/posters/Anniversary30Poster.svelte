@@ -701,6 +701,10 @@
 		.poster-content {
 			max-width: 100%;
 		}
+		.anniversary-title {
+			white-space: normal;
+			font-size: clamp(16px, 4.5cqi, 22px);
+		}
 		.events-grid {
 			grid-template-columns: 1fr;
 		}
