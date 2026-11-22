@@ -52,7 +52,7 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(titles.some((t) => t.includes('Квіти для іменинниці'))).toBe(true);
 		expect(titles.some((t) => t.includes('Святковий концерт'))).toBe(true);
 		expect(titles.some((t) => t.includes('Кіно-Зум'))).toBe(true);
-		expect(titles.some((t) => t.includes('Тепер тобі тридцять'))).toBe(true);
+		expect(titles.some((t) => t.includes('ДНК — ДТШ'))).toBe(true);
 		expect(titles.some((t) => t.includes('The coolfest people'))).toBe(true);
 		expect(titles.some((t) => t.includes('Інтерв’ю з випускниками'))).toBe(true);
 		expect(titles.some((t) => t.includes('Дитяче свято з дискотекою'))).toBe(true);
