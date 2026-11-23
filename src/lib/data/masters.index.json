@@ -554,7 +554,8 @@
 		"subjects": [
 			"Фортепіано"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "daria-dias-valdis",
@@ -914,7 +915,9 @@
 		"subjects": [
 			"Акторська майстерність"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photo": "/masters/kristina-petrova.webp",
+		"portrait": "/masters/portraits/kristina-petrova.webp"
 	},
 	{
 		"id": "hanna-podzihun",
@@ -1165,7 +1168,9 @@
 		"subjects": [
 			"Англійська мова"
 		],
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photo": "/masters/oksana-shchenk.webp",
+		"portrait": "/masters/portraits/oksana-shchenk.webp"
 	},
 	{
 		"id": "tetiana-shcherbyna",
@@ -1358,7 +1363,9 @@
 			"Акторська майстерність"
 		],
 		"roleTitle": "викладачка акторської майстерності, майстриня курсу",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photo": "/masters/myroslava-derepa.webp",
+		"portrait": "/masters/portraits/myroslava-derepa.webp"
 	},
 	{
 		"id": "nadiia-rybakova",
@@ -1397,7 +1404,9 @@
 		],
 		"roleTitle": "викладачка акторської майстерності та історії театру",
 		"alsoGraduateId": "daniela-rybalchenko",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"photo": "/masters/d-rybalchenko.webp",
+		"portrait": "/masters/portraits/d-rybalchenko.webp"
 	},
 	{
 		"id": "oleksandr-kozoviakin",
@@ -1506,8 +1515,7 @@
 		"category": "support",
 		"roleTitle": "менеджер з охорони",
 		"portrait": "/masters/portraits/yurii-drankov.webp",
-		"verificationStatus": "possible_errors",
-		"visibility": "linked"
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "alik-zapolnov",
@@ -2570,7 +2578,8 @@
 		],
 		"category": "heads",
 		"roleTitle": "завідувач естрадного відділення, художній керівник фестивалю «Зірочка»",
-		"verificationStatus": "possible_errors"
+		"verificationStatus": "possible_errors",
+		"visibility": "linked"
 	},
 	{
 		"id": "volodymyr-tumanov",
