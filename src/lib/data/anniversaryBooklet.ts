@@ -62,7 +62,7 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/photo/hero-dsc-1405-1088.webp',
+					src: '/posters/anniversary-booklet/p01-school-building.webp',
 					altUk: 'Історична будівля Одеської театральної школи на Софіївській, 24',
 					altEn: 'Historic building of Odesa Theatre School on Sofiivska, 24'
 				}
