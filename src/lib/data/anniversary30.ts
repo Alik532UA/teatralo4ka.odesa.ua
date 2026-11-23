@@ -98,7 +98,9 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		channelUk: 'Ювілейний буклет',
 		channelEn: 'Anniversary Booklet',
 		badgeUk: 'Буклет',
-		badgeEn: 'Booklet'
+		badgeEn: 'Booklet',
+		url: '/posters?poster=anniversary-booklet',
+		isInternalUrl: true
 	},
 	{
 		id: 'tiktok-video',

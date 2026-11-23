@@ -19,6 +19,7 @@
 	import DanceStudioPoster from '$lib/components/posters/DanceStudioPoster.svelte';
 	import DefendersPoetryPoster from '$lib/components/posters/DefendersPoetryPoster.svelte';
 	import DigitalAnniversaryPoster from '$lib/components/posters/DigitalAnniversaryPoster.svelte';
+	import AnniversaryBookletPoster from '$lib/components/posters/AnniversaryBookletPoster.svelte';
 	import Anniversary30Poster from '$lib/components/posters/Anniversary30Poster.svelte';
 	import Anniversary30CharityPoster from '$lib/components/posters/Anniversary30CharityPoster.svelte';
 	import PosviataInvitationPoster from '$lib/components/posters/PosviataInvitationPoster.svelte';
@@ -70,7 +71,7 @@
 		if (themeParam) selectedTheme = themeParam;
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+		else if (activePoster === 'anniversary-booklet' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 
 		const modeParam = page.url.searchParams.get('mode');
 		if (modeParam === 'paper' || modeParam === 'digital') {
@@ -478,7 +479,9 @@
 			data-testid="poster-active-container"
 		>
 			<div class="poster-scaler" bind:this={posterContentEl}>
-				{#if activePoster === 'anniversary-30'}
+				{#if activePoster === 'anniversary-booklet'}
+					<AnniversaryBookletPoster {isEn} themeId={selectedTheme} />
+				{:else if activePoster === 'anniversary-30'}
 					<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
 				{:else if activePoster === 'anniversary-30-charity'}
 					<Anniversary30CharityPoster {isEn} themeId={selectedTheme} {printMode} />

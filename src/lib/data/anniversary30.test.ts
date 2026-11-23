@@ -74,6 +74,13 @@ describe('Афіша «30-річчя Одеської театральної ш�
 		expect(interview?.url).toBe('/projects/galaxy-graduates');
 	});
 
+	it('презентація ювілейного буклету веде на /posters?poster=anniversary-booklet', () => {
+		const booklet = ANNIVERSARY_30_EVENTS.find((e) => e.id === 'anniversary-booklet');
+		expect(booklet).toBeDefined();
+		expect(booklet?.isInternalUrl).toBe(true);
+		expect(booklet?.url).toBe('/posters?poster=anniversary-booklet');
+	});
+
 	it('містить повні дані благодійного збору на пікапи для 14 ОРБ', () => {
 		const charity = ANNIVERSARY_30_CHARITY;
 		expect(charity.targetUk).toContain('14 ОРБ');

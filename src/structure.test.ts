@@ -789,15 +789,21 @@ const LIMITS: Array<[RegExp, number]> = [
  *   великий QR-код котика, реквізити, адаптивне заповнення понад 85% простору аркуша та print A4 portrait).
  * 2026-11-22: `Anniversary30CharityCard.svelte` (515 -> 555 SLOC).
  *   Збільшено QR-код на 50%, збалансовано верстку реквізитів збору для однакових відступів у веб та версії для друку.
+ * 2026-11-23: `AnniversaryBookletPoster.svelte` (1250 SLOC), `anniversaryBooklet.ts` (550 SLOC), `data/posters.ts` (305 -> 310 SLOC).
+ *   Ювілейний 12-сторінковий буклет «ДНК — ДТШ» до 30-річчя школи (режим перегляду розворотами,
+ *   спуск смуг для двостороннього друку A4, центральний панорамний розворот колективу викладачів,
+ *   тексти 6 п'ятирічок та 3 гімни школи).
  */
 const CEILINGS: Record<string, number> = {
+	'src/lib/components/posters/AnniversaryBookletPoster.svelte': 1250,
+	'src/lib/data/anniversaryBooklet.ts': 550,
 	'src/lib/components/posters/Anniversary30CharityPoster.svelte': 820,
 	'src/lib/data/anniversary30.ts': 275,
 	'src/lib/components/planet/PlanetSplit.svelte': 670,
 	'src/lib/components/ui/ErrorLogModal.svelte': 560,
 	'src/lib/components/posters/Anniversary30Poster.svelte': 850,
 	'src/lib/components/posters/anniversary-30/Anniversary30CharityCard.svelte': 555,
-	'src/lib/data/posters.ts': 305,
+	'src/lib/data/posters.ts': 310,
 	'src/lib/components/posters/repertoire-a1/RepertoireA1Sheet.svelte': 580,
 	'src/lib/components/posters/RepertoireNovemberA1Poster.svelte': 425,
 	'src/lib/components/posters/uart-a1/UartA1Variant1.svelte': 475,
