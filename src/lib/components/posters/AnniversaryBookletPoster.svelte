@@ -19,7 +19,7 @@
 		themeId?: string;
 	}
 
-	let { isEn = false, themeId = 'uart-dark' }: Props = $props();
+	let { isEn = false, themeId = 'yellow-brand' }: Props = $props();
 
 	type ViewMode = 'reader' | 'print';
 	let viewMode = $state<ViewMode>('reader');
@@ -32,8 +32,10 @@
 	let printSheet = $state<PrintSheetSelection>('all');
 
 	const data = ANNIVERSARY_BOOKLET_DATA;
-	const isLight = $derived(themeId === 'uart-light' || themeId === 'paper-white');
-	const isGold = $derived(themeId === 'theatre-gold');
+	const isDark = $derived(themeId === 'uart-dark');
+	const isWhite = $derived(themeId === 'uart-light' || themeId === 'paper-white');
+	const isGold = $derived(themeId === 'theatre-gold' || themeId === 'warm-cream');
+	const isYellow = $derived(themeId === 'yellow-brand' || (!isDark && !isWhite && !isGold));
 
 	// Зручний доступ до сторінок за їхнім номером 1..12
 	function getPage(num: number): BookletPageData {
@@ -207,7 +209,13 @@
 	</header>
 
 	<!-- Основне полотно буклету -->
-	<main class="booklet-viewport" class:booklet-viewport--light={isLight} class:booklet-viewport--gold={isGold}>
+	<main
+		class="booklet-viewport"
+		class:booklet-viewport--dark={isDark}
+		class:booklet-viewport--white={isWhite}
+		class:booklet-viewport--gold={isGold}
+		class:booklet-viewport--yellow={isYellow}
+	>
 		{#if viewMode === 'reader'}
 			<!-- Режим читання: один розворот (A4 landscape) -->
 			{@const currentSpread = SPREADS[currentSpreadIndex]}
@@ -435,8 +443,8 @@
 									src={asset(photo.src)}
 									alt={isEn ? photo.altEn : photo.altUk}
 									class="strip-img"
-									width="400"
-									height="260"
+									width="540"
+									height="960"
 									loading="lazy"
 									decoding="async"
 								/>
@@ -481,8 +489,8 @@
 									src={asset(photo.src)}
 									alt={isEn ? photo.altEn : photo.altUk}
 									class="hymn-thumb"
-									width="300"
-									height="200"
+									width="540"
+									height="960"
 									loading="lazy"
 									decoding="async"
 								/>
@@ -743,17 +751,24 @@
 		width: 100%;
 		max-width: 1120px;
 		aspect-ratio: 297 / 210;
-		background: #171118;
-		color: #f8fafc;
+		background: #ffed00;
+		color: #111827;
 		border-radius: 8px;
-		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
-		border: 1px solid rgba(255, 255, 255, 0.12);
+		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+		border: 1px solid rgba(0, 0, 0, 0.12);
 		position: relative;
 		overflow: hidden;
 		container-type: inline-size;
 	}
 
-	.booklet-viewport--light .booklet-sheet {
+	.booklet-viewport--dark .booklet-sheet {
+		background: #171118;
+		color: #f8fafc;
+		border-color: rgba(255, 255, 255, 0.12);
+		box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+	}
+
+	.booklet-viewport--white .booklet-sheet {
 		background: #ffffff;
 		color: #0f172a;
 		border-color: #cbd5e1;
@@ -772,10 +787,14 @@
 		bottom: 0;
 		left: 50%;
 		width: 2px;
-		background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0, rgba(255, 255, 255, 0.3) 8px, transparent 8px, transparent 16px);
+		background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.22) 0, rgba(0, 0, 0, 0.22) 8px, transparent 8px, transparent 16px);
 		transform: translateX(-50%);
 		z-index: 10;
 		pointer-events: none;
+	}
+
+	.booklet-viewport--dark .sheet-fold-line {
+		background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0, rgba(255, 255, 255, 0.3) 8px, transparent 8px, transparent 16px);
 	}
 
 	.fold-badge {
@@ -787,9 +806,14 @@
 		font-size: 0.65rem;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
+		background: rgba(0, 0, 0, 0.65);
+		color: #ffed00;
+		border-radius: 4px;
+	}
+
+	.booklet-viewport--dark .fold-badge {
 		background: rgba(0, 0, 0, 0.6);
 		color: rgba(255, 255, 255, 0.7);
-		border-radius: 4px;
 	}
 
 	/* Половинка аркуша (сторінка A5) */
@@ -805,10 +829,14 @@
 	}
 
 	.page-half--empty {
-		background: rgba(0, 0, 0, 0.15);
+		background: rgba(0, 0, 0, 0.05);
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.booklet-viewport--dark .page-half--empty {
+		background: rgba(0, 0, 0, 0.15);
 	}
 
 	.cover-intro-back {
@@ -852,11 +880,11 @@
 	.page-badge {
 		font-size: clamp(9px, 1.2cqi, 12px);
 		font-weight: 700;
-		color: rgba(255, 255, 255, 0.45);
+		color: rgba(0, 0, 0, 0.5);
 	}
 
-	.booklet-viewport--light .page-badge {
-		color: rgba(0, 0, 0, 0.45);
+	.booklet-viewport--dark .page-badge {
+		color: rgba(255, 255, 255, 0.45);
 	}
 
 	/* 1. Обкладинка (Cover Layout) */
@@ -874,14 +902,20 @@
 		gap: 8px;
 		padding: 4px 14px;
 		border-radius: 20px;
-		background: rgba(254, 240, 138, 0.15);
-		border: 1px solid rgba(254, 240, 138, 0.4);
-		color: #fef08a;
+		background: rgba(0, 0, 0, 0.08);
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		color: #111827;
 		font-size: clamp(9px, 1.1cqi, 11px);
 		font-weight: 700;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		margin-bottom: 6px;
+	}
+
+	.booklet-viewport--dark .school-emblem-pill {
+		background: rgba(254, 240, 138, 0.15);
+		border-color: rgba(254, 240, 138, 0.4);
+		color: #fef08a;
 	}
 
 	.cover-main-title {
@@ -894,29 +928,32 @@
 	.title-sub {
 		font-size: clamp(12px, 1.8cqi, 16px);
 		font-weight: 600;
-		color: #e2e8f0;
+		color: #1f2937;
 		letter-spacing: 0.02em;
 	}
 
-	.booklet-viewport--light .title-sub { color: #334155; }
+	.booklet-viewport--dark .title-sub { color: #e2e8f0; }
 
 	.title-huge {
 		font-size: clamp(24px, 4.2cqi, 40px);
 		font-weight: 900;
-		color: #ffed00;
+		color: #111827;
 		letter-spacing: -0.01em;
-		text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 	}
 
-	.booklet-viewport--light .title-huge {
-		color: #854d0e;
-		text-shadow: none;
+	.booklet-viewport--dark .title-huge {
+		color: #ffed00;
+		text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 	}
 
 	.cover-anniversary-badge {
 		margin: 4px 0 0;
 		font-size: clamp(11px, 1.4cqi, 14px);
 		font-weight: 600;
+		color: #374151;
+	}
+
+	.booklet-viewport--dark .cover-anniversary-badge {
 		color: #cbd5e1;
 	}
 
@@ -928,7 +965,13 @@
 		margin: 8px 0;
 		border-radius: 8px;
 		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.15);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	}
+
+	.booklet-viewport--dark .cover-photo-frame {
+		border-color: rgba(255, 255, 255, 0.15);
+		box-shadow: none;
 	}
 
 	.cover-photo {
@@ -964,11 +1007,14 @@
 	.cover-tagline {
 		margin: 0;
 		font-size: clamp(10px, 1.2cqi, 12px);
-		font-weight: 600;
-		color: #fef08a;
+		font-weight: 700;
+		color: #111827;
 	}
 
-	.booklet-viewport--light .cover-tagline { color: #854d0e; }
+	.booklet-viewport--dark .cover-tagline {
+		color: #fef08a;
+		font-weight: 600;
+	}
 
 	.cover-meta-row {
 		display: flex;
@@ -1003,17 +1049,26 @@
 	.years-badge {
 		display: inline-block;
 		padding: 2px 8px;
-		background: #ffed00;
-		color: #171118;
+		background: #111827;
+		color: #ffed00;
 		font-size: clamp(10px, 1.2cqi, 12px);
 		font-weight: 800;
 		border-radius: 4px;
 		letter-spacing: 0.03em;
 	}
 
+	.booklet-viewport--dark .years-badge {
+		background: #ffed00;
+		color: #171118;
+	}
+
 	.school-micro-badge {
 		font-size: 0.7rem;
 		font-weight: 700;
+		color: #4b5563;
+	}
+
+	.booklet-viewport--dark .school-micro-badge {
 		color: #94a3b8;
 	}
 
@@ -1021,66 +1076,95 @@
 		margin: 3px 0 0;
 		font-size: clamp(13px, 1.8cqi, 17px);
 		font-weight: 800;
-		color: #ffffff;
+		color: #111827;
 		line-height: 1.25;
 	}
 
-	.booklet-viewport--light .page-title { color: #0f172a; }
+	.booklet-viewport--dark .page-title { color: #ffffff; }
 
 	.page-subtitle {
 		margin: 0;
 		font-size: clamp(9px, 1.2cqi, 11px);
 		font-weight: 500;
-		color: #cbd5e1;
+		color: #374151;
 		font-style: italic;
 	}
 
-	.booklet-viewport--light .page-subtitle { color: #475569; }
+	.booklet-viewport--dark .page-subtitle { color: #cbd5e1; }
 
 	/* Двоколонковий журнальний текст */
 	.two-column-text {
 		column-count: 2;
 		column-gap: 14px;
-		flex: 1;
-		margin: 4px 0;
+		flex: 0 0 auto;
+		margin: 4px 0 6px;
 	}
 
 	.history-para {
-		margin: 0 0 6px 0;
-		font-size: clamp(8.5px, 1.15cqi, 10.5px);
-		line-height: 1.4;
+		margin: 0 0 5px 0;
+		font-size: clamp(8px, 1.1cqi, 9.8px);
+		line-height: 1.35;
 		text-align: justify;
 		text-justify: inter-word;
-		color: #e2e8f0;
+		color: #1f2937;
+		font-weight: 500;
 	}
 
-	.booklet-viewport--light .history-para { color: #1e293b; }
+	.booklet-viewport--dark .history-para {
+		color: #e2e8f0;
+		font-weight: 400;
+	}
 
-	/* Стрічка фотографій */
+	/* Галерея вертикальних фотографій та колажів */
 	.photos-strip {
-		display: grid;
-		gap: 6px;
+		display: flex;
+		gap: 8px;
 		width: 100%;
-		height: clamp(65px, 11cqi, 95px);
+		flex: 1;
+		min-height: 0;
+		justify-content: center;
+		align-items: stretch;
 		margin-top: 4px;
 	}
 
-	.photos-strip--2 { grid-template-columns: 1fr 1fr; }
-	.photos-strip--3 { grid-template-columns: 1fr 1fr 1fr; }
+	.photos-strip--1 .photo-cell {
+		flex: 1;
+		max-width: 60%;
+	}
+
+	.photos-strip--2 .photo-cell {
+		flex: 1;
+		max-width: 49%;
+	}
+
+	.photos-strip--3 .photo-cell {
+		flex: 1;
+		max-width: 32.5%;
+	}
 
 	.photo-cell {
 		margin: 0;
 		height: 100%;
-		border-radius: 6px;
+		border-radius: 8px;
 		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.15);
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+		background: rgba(0, 0, 0, 0.04);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.booklet-viewport--dark .photo-cell {
+		border-color: rgba(255, 255, 255, 0.15);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+		background: rgba(0, 0, 0, 0.25);
 	}
 
 	.strip-img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	/* 3. Центральний розворот (Centerfold) */
@@ -1109,7 +1193,7 @@
 		position: relative;
 		z-index: 5;
 		padding: clamp(14px, 2.5cqi, 24px);
-		background: linear-gradient(to bottom, rgba(23, 17, 24, 0.9) 0%, rgba(23, 17, 24, 0.6) 65%, transparent 100%);
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.45) 65%, transparent 100%);
 		text-align: center;
 	}
 
@@ -1143,7 +1227,7 @@
 		position: relative;
 		z-index: 5;
 		padding: 10px 16px;
-		background: linear-gradient(to top, rgba(23, 17, 24, 0.92) 0%, rgba(23, 17, 24, 0.5) 75%, transparent 100%);
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.45) 75%, transparent 100%);
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -1162,6 +1246,10 @@
 	.page-corner {
 		font-size: 0.9rem;
 		font-weight: 800;
+		color: rgba(0, 0, 0, 0.55);
+	}
+
+	.booklet-viewport--dark .page-corner {
 		color: rgba(255, 255, 255, 0.7);
 	}
 
@@ -1177,43 +1265,47 @@
 	.hymn-musical-badge {
 		font-size: 0.68rem;
 		font-weight: 800;
-		color: #ffed00;
+		color: #111827;
 		letter-spacing: 0.05em;
 	}
 
-	.booklet-viewport--light .hymn-musical-badge { color: #854d0e; }
+	.booklet-viewport--dark .hymn-musical-badge { color: #ffed00; }
 
 	.hymn-title {
 		margin: 2px 0;
 		font-size: clamp(14px, 2cqi, 19px);
 		font-weight: 800;
-		color: #ffffff;
+		color: #111827;
 	}
 
-	.booklet-viewport--light .hymn-title { color: #0f172a; }
+	.booklet-viewport--dark .hymn-title { color: #ffffff; }
 
 	.hymn-subtitle {
 		margin: 0;
 		font-size: clamp(9px, 1.2cqi, 11px);
-		color: #cbd5e1;
+		color: #374151;
 		font-style: italic;
 	}
 
+	.booklet-viewport--dark .hymn-subtitle { color: #cbd5e1; }
+
 	.lyrics-card {
-		background: rgba(255, 255, 255, 0.04);
-		border: 1px solid rgba(255, 255, 255, 0.1);
+		background: rgba(255, 255, 255, 0.65);
+		border: 1px solid rgba(0, 0, 0, 0.12);
 		border-radius: 8px;
 		padding: clamp(8px, 1.5cqi, 12px);
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-		flex: 1;
+		flex: 0 0 auto;
 		justify-content: center;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 	}
 
-	.booklet-viewport--light .lyrics-card {
-		background: rgba(0, 0, 0, 0.02);
-		border-color: rgba(0, 0, 0, 0.08);
+	.booklet-viewport--dark .lyrics-card {
+		background: rgba(255, 255, 255, 0.04);
+		border-color: rgba(255, 255, 255, 0.1);
+		box-shadow: none;
 	}
 
 	.verse-block {
@@ -1224,53 +1316,81 @@
 
 	.verse-block--chorus {
 		padding-left: 10px;
-		border-left: 2px solid #ffed00;
+		border-left: 3px solid #111827;
 		font-weight: 600;
+	}
+
+	.booklet-viewport--dark .verse-block--chorus {
+		border-left: 2px solid #ffed00;
 	}
 
 	.verse-block--coda {
 		padding: 4px 8px;
-		background: rgba(254, 240, 138, 0.1);
+		background: rgba(0, 0, 0, 0.06);
 		border-radius: 4px;
 		font-weight: 600;
 	}
 
+	.booklet-viewport--dark .verse-block--coda {
+		background: rgba(254, 240, 138, 0.1);
+	}
+
 	.verse-type-tag {
 		font-size: 0.68rem;
-		font-weight: 700;
-		color: #ffed00;
+		font-weight: 800;
+		color: #111827;
 		text-transform: uppercase;
 		margin-bottom: 2px;
 	}
 
-	.booklet-viewport--light .verse-type-tag { color: #854d0e; }
+	.booklet-viewport--dark .verse-type-tag {
+		color: #ffed00;
+		font-weight: 700;
+	}
 
 	.verse-line {
 		margin: 0;
-		font-size: clamp(8.5px, 1.15cqi, 10.5px);
+		font-size: clamp(8px, 1.1cqi, 10px);
 		line-height: 1.35;
-		color: #f1f5f9;
+		color: #111827;
 	}
 
-	.booklet-viewport--light .verse-line { color: #1e293b; }
+	.booklet-viewport--dark .verse-line { color: #f1f5f9; }
 
 	.hymn-photos-row {
 		display: flex;
-		gap: 6px;
-		height: clamp(55px, 9cqi, 75px);
+		gap: 8px;
+		flex: 1;
+		min-height: 0;
+		justify-content: center;
+		align-items: stretch;
+		margin-top: 6px;
 	}
 
 	.hymn-photo-item {
 		flex: 1;
-		border-radius: 6px;
+		max-width: 48%;
+		height: 100%;
+		border-radius: 8px;
 		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.15);
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+		background: rgba(0, 0, 0, 0.04);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.booklet-viewport--dark .hymn-photo-item {
+		border-color: rgba(255, 255, 255, 0.15);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+		background: rgba(0, 0, 0, 0.25);
 	}
 
 	.hymn-thumb {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	/* 5. Задня обкладинка (Back Cover Layout) */
@@ -1285,26 +1405,28 @@
 	.modern-badge {
 		font-size: 0.68rem;
 		font-weight: 800;
-		color: #ffed00;
+		color: #111827;
 		letter-spacing: 0.05em;
 	}
 
-	.booklet-viewport--light .modern-badge { color: #854d0e; }
+	.booklet-viewport--dark .modern-badge { color: #ffed00; }
 
 	.back-cover-title {
 		margin: 2px 0;
 		font-size: clamp(14px, 2cqi, 19px);
 		font-weight: 900;
-		color: #ffed00;
+		color: #111827;
 	}
 
-	.booklet-viewport--light .back-cover-title { color: #854d0e; }
+	.booklet-viewport--dark .back-cover-title { color: #ffed00; }
 
 	.back-cover-sub {
 		margin: 0;
 		font-size: clamp(9px, 1.2cqi, 11px);
-		color: #cbd5e1;
+		color: #374151;
 	}
+
+	.booklet-viewport--dark .back-cover-sub { color: #cbd5e1; }
 
 	.lyrics-card--compact {
 		padding: 8px;
@@ -1316,7 +1438,11 @@
 		align-items: center;
 		justify-content: space-between;
 		padding-top: 6px;
-		border-top: 1px solid rgba(255, 255, 255, 0.15);
+		border-top: 1px solid rgba(0, 0, 0, 0.15);
+	}
+
+	.booklet-viewport--dark .back-cover-footer {
+		border-top-color: rgba(255, 255, 255, 0.15);
 	}
 
 	.footer-contacts {
@@ -1328,10 +1454,17 @@
 	.school-footer-name {
 		font-size: clamp(9px, 1.2cqi, 11px);
 		font-weight: 700;
-		color: #ffffff;
+		color: #111827;
 	}
 
-	.booklet-viewport--light .school-footer-name { color: #0f172a; }
+	.booklet-viewport--dark .school-footer-name { color: #ffffff; }
+
+	.school-footer-sub {
+		font-size: clamp(8px, 1cqi, 10px);
+		color: #4b5563;
+	}
+
+	.booklet-viewport--dark .school-footer-sub { color: #94a3b8; }
 
 	.school-footer-sub {
 		font-size: clamp(7.5px, 0.95cqi, 9.5px);

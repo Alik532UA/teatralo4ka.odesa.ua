@@ -94,14 +94,14 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 					altEn: 'Founding decree of the school, Dec 1, 1996'
 				},
 				{
-					src: '/posters/anniversary-booklet/p02-photo1.webp',
-					altUk: 'Перші кроки та перші учні школи (1996–2001)',
-					altEn: 'First steps and students (1996–2001)'
+					src: '/posters/anniversary-booklet/p02-collage1.webp',
+					altUk: 'Колаж першої 5-річки «Точка відліку» (1996–2001)',
+					altEn: 'Collage of the first 5 years (1996–2001)'
 				},
 				{
-					src: '/posters/anniversary-booklet/p02-photo2.webp',
-					altUk: 'Перші вистави на Сабанєєвому мосту',
-					altEn: 'Early performances on Sabaneev Bridge'
+					src: '/posters/anniversary-booklet/p02-collage2.webp',
+					altUk: 'Перші кроки, діти та маски на Сабанєєвому мосту',
+					altEn: 'Early performances and children on Sabaneev Bridge'
 				}
 			]
 		},
@@ -126,19 +126,19 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p03-photo1.webp',
-					altUk: '10-річчя школи та святковий виступ',
-					altEn: '10th Anniversary festive performance'
+					src: '/posters/anniversary-booklet/p03-collage1.webp',
+					altUk: 'Вихід на велику сцену Українського театру до 10-річчя',
+					altEn: '10th Anniversary performance at Ukrainian Theatre'
 				},
 				{
-					src: '/posters/anniversary-booklet/p03-photo2.webp',
-					altUk: 'Юні актори на сцені Українського театру',
-					altEn: 'Young actors on Ukrainian Theatre stage'
+					src: '/posters/anniversary-booklet/p03-collage2.webp',
+					altUk: 'Вистави та фольклорні постановки школи',
+					altEn: 'School plays and folkloric performances'
 				},
 				{
-					src: '/posters/anniversary-booklet/p03-photo3.webp',
-					altUk: 'Святковий ретро-колаж до 10-річчя',
-					altEn: 'Festive retro collage for 10th anniversary'
+					src: '/posters/anniversary-booklet/p03-collage3.webp',
+					altUk: 'Театральна родина та перші великі перемоги',
+					altEn: 'Theatre family and early major victories'
 				}
 			]
 		},
@@ -163,19 +163,19 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p04-photo1.webp',
-					altUk: 'Затишний дворик та вистави на Сабанєєвому мосту',
-					altEn: 'Cosy courtyard and plays on Sabaneev Bridge'
-				},
-				{
 					src: '/posters/anniversary-booklet/p04-chequia-2007.webp',
 					altUk: 'Гастролі у Чехії, 2007 рік',
 					altEn: 'Tour in the Czech Republic, 2007'
 				},
 				{
-					src: '/posters/anniversary-booklet/p04-photo2.webp',
-					altUk: 'Легендарний випуск на сходах школи',
-					altEn: 'Legendary graduation on school stairs'
+					src: '/posters/anniversary-booklet/p04-balloons.webp',
+					altUk: 'Флешмоб кульок та прощання з Сабанєєвим мостом',
+					altEn: 'Farewell flashmob on Sabaneev Bridge'
+				},
+				{
+					src: '/posters/anniversary-booklet/p04-gallery-mist.webp',
+					altUk: 'Музичні та художні вечори у галереї «Міст»',
+					altEn: 'Musical and art evenings at “Mist” Gallery'
 				}
 			]
 		},
@@ -188,22 +188,18 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			titleEn: 'The First School Anthem',
 			subtitleUk: '«Сабанєєв міст» · Історичний гімн школи',
 			subtitleEn: '“Sabaneev Bridge” · Historic Anthem',
-			paragraphsUk: [
-				'Перший гімн школи народився в стінах старої будівлі на Сабанєєвому мосту. Ці теплі й щирі рядки назавжди стали камертоном нашого дитинства, запаху куліс, скрипу паркету під рояль та перших кроків на сцені.'
-			],
-			paragraphsEn: [
-				'The first school anthem was born within the walls of the old building on Sabaneev Bridge, capturing the timeless spirit of theatrical childhood.'
-			],
+			paragraphsUk: [],
+			paragraphsEn: [],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p05-sabaneev-hall.webp',
-					altUk: 'Історична зала з роялем на Сабанєєвому мосту',
-					altEn: 'Historic hall with piano on Sabaneev Bridge'
+					src: '/posters/anniversary-booklet/p05-vintage-poster.webp',
+					altUk: 'Вінтажний плакат школи на Сабанєєвому мосту',
+					altEn: 'Vintage school poster on Sabaneev Bridge'
 				},
 				{
-					src: '/posters/anniversary-booklet/p05-galereya-mist.webp',
-					altUk: 'Музичні та художні вечори у галереї «Міст»',
-					altEn: 'Musical and art evenings at “Mist” Gallery'
+					src: '/posters/anniversary-booklet/p05-microphone-sabaneev.webp',
+					altUk: 'Музична атмосфера перших сезонів ДТШ',
+					altEn: 'Musical atmosphere of early DTS seasons'
 				}
 			],
 			hymnLyrics: {
@@ -289,19 +285,19 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p08-photo1.webp',
-					altUk: 'Урочисте відкриття сцени на Софіївській, 24',
-					altEn: 'Ceremonial opening of the main stage on Sofiivska, 24'
-				},
-				{
-					src: '/posters/anniversary-booklet/p08-photo2.webp',
-					altUk: 'Легендарна вистава «Театральна поліція»',
-					altEn: 'Legendary performance “Theatre Police”'
+					src: '/posters/anniversary-booklet/p08-building-stage.webp',
+					altUk: 'Час великих змін: будівництво сцени на Софіївській, 24',
+					altEn: 'Construction of the main stage on Sofiivska, 24'
 				},
 				{
 					src: '/posters/anniversary-booklet/p08-priluki.webp',
-					altUk: 'Гастролі у Прилуках та знайомство з майстрами',
-					altEn: 'Pryluky festival and meeting masters'
+					altUk: 'Гастролі у Прилуках та знайомство з майстрами сцени',
+					altEn: 'Pryluky festival and masterclasses'
+				},
+				{
+					src: '/posters/anniversary-booklet/p08-cinema-agenda.webp',
+					altUk: 'Нові простори, висадка лип та творчий злет',
+					altEn: 'New spaces, planting lindens and creative growth'
 				}
 			]
 		},
@@ -326,19 +322,19 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p09-photo1.webp',
-					altUk: '20-річчя школи та літній кінотабір',
-					altEn: '20th Anniversary & summer cinema camp'
-				},
-				{
 					src: '/posters/anniversary-booklet/p09-anniversary-25.webp',
-					altUk: 'Свято 25-річчя школи у фірмовому дворику',
+					altUk: 'Свято 25-річчя школи та відкриття 25-го сезону',
 					altEn: '25th Anniversary celebration in the courtyard'
 				},
 				{
-					src: '/posters/anniversary-booklet/p09-photo2.webp',
-					altUk: 'Зустріч з Іваном Уривським та майстер-класи',
-					altEn: 'Meeting Ivan Uryvskyi & masterclasses'
+					src: '/posters/anniversary-booklet/p09-stesha-cat.webp',
+					altUk: 'Наша пухнаста зірка — врятована кицька Стєша',
+					altEn: 'Rescued cat Stesha — the school mascot'
+				},
+				{
+					src: '/posters/anniversary-booklet/p09-stars-meeting.webp',
+					altUk: 'Зустріч з театральними зірками (Іван Уривський, Марина Клімова)',
+					altEn: 'Meeting theatre stars (Ivan Uryvskyi, Maryna Klimova)'
 				}
 			]
 		},
@@ -359,9 +355,9 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p10-hymn2-art.webp',
-					altUk: 'Арт-плакат до 25-річчя та гімну «Світло ДТШ»',
-					altEn: 'Art poster for 25th Anniversary and DTS Anthem'
+					src: '/posters/anniversary-booklet/p10-spotlight-anthem.webp',
+					altUk: 'Світло софітів ДТШ — театральний колаж з масками',
+					altEn: 'The Light of DTS — theatrical collage with spotlights'
 				}
 			],
 			hymnLyrics: {
@@ -442,19 +438,19 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 			],
 			photos: [
 				{
-					src: '/posters/anniversary-booklet/p11-front-podjaka.webp',
-					altUk: 'Подяки з фронту від воїнів ЗСУ',
-					altEn: 'Gratitude awards from the front line'
-				},
-				{
-					src: '/posters/anniversary-booklet/p11-donat-avto.webp',
-					altUk: 'Збір на авто для 639-ї бригади ППО',
-					altEn: 'Car fundraiser for 639th Air Defence Brigade'
-				},
-				{
 					src: '/posters/anniversary-booklet/p11-uart.webp',
 					altUk: 'Відкриття навчального театру «UArt»',
 					altEn: 'Launch of UArt Educational Theatre'
+				},
+				{
+					src: '/posters/anniversary-booklet/p11-front-podjaka.webp',
+					altUk: 'Подяки з фронту від захисників України',
+					altEn: 'Gratitude awards from Ukrainian front line'
+				},
+				{
+					src: '/posters/anniversary-booklet/p11-yaremche.webp',
+					altUk: 'Три перших місця на фестивалі в Яремче',
+					altEn: 'Three 1st place prizes at Yaremche festival'
 				}
 			]
 		},

@@ -71,7 +71,8 @@
 		if (themeParam) selectedTheme = themeParam;
 		else if (activePoster === 'defenders-hearts') selectedTheme = DEFAULT_DEFENDERS_THEME;
 		else if (activePoster === 'galaxy-award-podiakova') selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
-		else if (activePoster === 'anniversary-booklet' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
+		else if (activePoster === 'anniversary-booklet') selectedTheme = 'yellow-brand';
+		else if (activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1') selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 
 		const modeParam = page.url.searchParams.get('mode');
 		if (modeParam === 'paper' || modeParam === 'digital') {
@@ -107,6 +108,9 @@
 		} else if (id === 'galaxy-award-podiakova') {
 			selectedTheme = DEFAULT_GALAXY_AWARD_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_GALAXY_AWARD_THEME);
+		} else if (id === 'anniversary-booklet') {
+			selectedTheme = 'yellow-brand';
+			nextUrl.searchParams.set('theme', 'yellow-brand');
 		} else if (id === 'uart-secrets-booklet' || id === 'uart-dosvid-booklet' || id === 'uart-secrets-a1' || id === 'repertoire-november-a1') {
 			selectedTheme = DEFAULT_UART_BOOKLET_THEME;
 			nextUrl.searchParams.set('theme', DEFAULT_UART_BOOKLET_THEME);
