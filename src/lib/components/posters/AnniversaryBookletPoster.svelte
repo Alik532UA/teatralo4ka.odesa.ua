@@ -234,16 +234,6 @@
 								decoding="async"
 							/>
 						</div>
-						<div class="centerfold-header-overlay">
-							<span class="centerfold-tag">1996 — 2026 · 30 РОКІВ ДТШ</span>
-							<h2 class="centerfold-title">{isEn ? 'Creators and Mentors of Teatralo4ka' : 'Творці та наставники «Театрало4ки»'}</h2>
-							<p class="centerfold-sub">{isEn ? 'The pedagogical collective and masters of courses' : 'Педагогічний колектив та майстри курсів Одеської театральної школи'}</p>
-						</div>
-						<div class="centerfold-footer-row">
-							<span class="page-corner page-corner--left">6</span>
-							<span class="centerfold-quote">«Мистецтво починається з любові та віри у кожне дитяче серце»</span>
-							<span class="page-corner page-corner--right">7</span>
-						</div>
 						<div class="sheet-fold-line" aria-hidden="true">
 							<span class="fold-badge">{isEn ? 'center fold' : 'центральний згин'}</span>
 						</div>
@@ -329,16 +319,6 @@
 												loading="eager"
 												decoding="async"
 											/>
-										</div>
-										<div class="centerfold-header-overlay">
-											<span class="centerfold-tag">1996 — 2026 · 30 РОКІВ ДТШ</span>
-											<h2 class="centerfold-title">{isEn ? 'Creators and Mentors of Teatralo4ka' : 'Творці та наставники «Театрало4ки»'}</h2>
-											<p class="centerfold-sub">{isEn ? 'The pedagogical collective and masters of courses' : 'Педагогічний колектив та майстри курсів Одеської театральної школи'}</p>
-										</div>
-										<div class="centerfold-footer-row">
-											<span class="page-corner page-corner--left">6</span>
-											<span class="centerfold-quote">«Мистецтво починається з любові та віри у кожне дитяче серце»</span>
-											<span class="page-corner page-corner--right">7</span>
 										</div>
 										<div class="sheet-fold-line" aria-hidden="true">
 											<span class="fold-badge">{isEn ? 'center fold' : 'центральний згин'}</span>
@@ -1187,60 +1167,6 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-	}
-
-	.centerfold-header-overlay {
-		position: relative;
-		z-index: 5;
-		padding: clamp(14px, 2.5cqi, 24px);
-		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.45) 65%, transparent 100%);
-		text-align: center;
-	}
-
-	.centerfold-tag {
-		display: inline-block;
-		padding: 2px 10px;
-		border-radius: 4px;
-		background: #ffed00;
-		color: #171118;
-		font-size: 0.72rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
-	}
-
-	.centerfold-title {
-		margin: 4px 0 0;
-		font-size: clamp(18px, 3cqi, 28px);
-		font-weight: 900;
-		color: #ffffff;
-		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
-	}
-
-	.centerfold-sub {
-		margin: 2px 0 0;
-		font-size: clamp(11px, 1.4cqi, 14px);
-		color: #fef08a;
-		font-weight: 600;
-	}
-
-	.centerfold-footer-row {
-		position: relative;
-		z-index: 5;
-		padding: 10px 16px;
-		background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.45) 75%, transparent 100%);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-
-	.centerfold-quote {
-		font-size: clamp(10px, 1.25cqi, 13px);
-		font-style: italic;
-		font-weight: 600;
-		color: #fef08a;
-		text-align: center;
-		flex: 1;
-		padding: 0 16px;
 	}
 
 	.page-corner {
