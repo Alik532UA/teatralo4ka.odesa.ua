@@ -1010,14 +1010,15 @@
 		display: flex;
 		flex-direction: column;
 		height: 100%;
-		justify-content: space-between;
-		gap: 6px;
+		justify-content: flex-start;
+		gap: 4px;
 	}
 
 	.page-header {
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
+		flex: 0 0 auto;
 	}
 
 	.years-badge-row {
@@ -1028,10 +1029,10 @@
 
 	.years-badge {
 		display: inline-block;
-		padding: 2px 8px;
+		padding: 3px 9px;
 		background: #111827;
 		color: #ffed00;
-		font-size: clamp(10px, 1.2cqi, 12px);
+		font-size: clamp(10.5px, 1.35cqi, 13px);
 		font-weight: 800;
 		border-radius: 4px;
 		letter-spacing: 0.03em;
@@ -1043,7 +1044,7 @@
 	}
 
 	.school-micro-badge {
-		font-size: 0.7rem;
+		font-size: 0.72rem;
 		font-weight: 700;
 		color: #4b5563;
 	}
@@ -1053,8 +1054,8 @@
 	}
 
 	.page-title {
-		margin: 3px 0 0;
-		font-size: clamp(13px, 1.8cqi, 17px);
+		margin: 4px 0 0;
+		font-size: clamp(14px, 2.1cqi, 19px);
 		font-weight: 800;
 		color: #111827;
 		line-height: 1.25;
@@ -1063,8 +1064,8 @@
 	.booklet-viewport--dark .page-title { color: #ffffff; }
 
 	.page-subtitle {
-		margin: 0;
-		font-size: clamp(9px, 1.2cqi, 11px);
+		margin: 2px 0 0;
+		font-size: clamp(9.5px, 1.3cqi, 12px);
 		font-weight: 500;
 		color: #374151;
 		font-style: italic;
@@ -1076,14 +1077,15 @@
 	.two-column-text {
 		column-count: 2;
 		column-gap: 14px;
-		flex: 0 0 auto;
-		margin: 4px 0 6px;
+		flex: 1;
+		min-height: 0;
+		margin: 8px 0 10px;
 	}
 
 	.history-para {
-		margin: 0 0 5px 0;
-		font-size: clamp(8px, 1.1cqi, 9.8px);
-		line-height: 1.35;
+		margin: 0 0 6px 0;
+		font-size: clamp(9.5px, 1.35cqi, 12px);
+		line-height: 1.48;
 		text-align: justify;
 		text-justify: inter-word;
 		color: #1f2937;
@@ -1100,39 +1102,36 @@
 		display: flex;
 		gap: 8px;
 		width: 100%;
-		flex: 1;
-		min-height: 0;
+		flex: 0 0 auto;
 		justify-content: center;
-		align-items: stretch;
-		margin-top: 4px;
+		align-items: flex-end;
+		margin-top: auto;
 	}
 
 	.photos-strip--1 .photo-cell {
-		flex: 1;
-		max-width: 60%;
+		width: 38%;
+		max-width: 155px;
 	}
 
 	.photos-strip--2 .photo-cell {
-		flex: 1;
-		max-width: 49%;
+		width: 44%;
+		max-width: 165px;
 	}
 
 	.photos-strip--3 .photo-cell {
-		flex: 1;
-		max-width: 32.5%;
+		width: 31%;
+		max-width: 122px;
 	}
 
 	.photo-cell {
 		margin: 0;
-		height: 100%;
-		border-radius: 8px;
+		aspect-ratio: 9 / 16;
+		border-radius: 6px;
 		overflow: hidden;
 		border: 1px solid rgba(0, 0, 0, 0.15);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 		background: rgba(0, 0, 0, 0.04);
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		display: block;
 	}
 
 	.booklet-viewport--dark .photo-cell {
@@ -1144,7 +1143,8 @@
 	.strip-img {
 		width: 100%;
 		height: 100%;
-		object-fit: contain;
+		object-fit: cover;
+		display: block;
 	}
 
 	/* 3. Центральний розворот (Centerfold) */
@@ -1219,13 +1219,14 @@
 		background: rgba(255, 255, 255, 0.65);
 		border: 1px solid rgba(0, 0, 0, 0.12);
 		border-radius: 8px;
-		padding: clamp(8px, 1.5cqi, 12px);
+		padding: clamp(10px, 1.8cqi, 14px);
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-		flex: 0 0 auto;
+		flex: 1;
 		justify-content: center;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+		margin: 4px 0 8px;
 	}
 
 	.booklet-viewport--dark .lyrics-card {
@@ -1276,8 +1277,8 @@
 
 	.verse-line {
 		margin: 0;
-		font-size: clamp(8px, 1.1cqi, 10px);
-		line-height: 1.35;
+		font-size: clamp(9px, 1.3cqi, 11.5px);
+		line-height: 1.45;
 		color: #111827;
 	}
 
@@ -1286,25 +1287,22 @@
 	.hymn-photos-row {
 		display: flex;
 		gap: 8px;
-		flex: 1;
-		min-height: 0;
+		flex: 0 0 auto;
 		justify-content: center;
-		align-items: stretch;
-		margin-top: 6px;
+		align-items: flex-end;
+		margin-top: auto;
 	}
 
 	.hymn-photo-item {
-		flex: 1;
-		max-width: 48%;
-		height: 100%;
-		border-radius: 8px;
+		width: 38%;
+		max-width: 150px;
+		aspect-ratio: 9 / 16;
+		border-radius: 6px;
 		overflow: hidden;
 		border: 1px solid rgba(0, 0, 0, 0.15);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 		background: rgba(0, 0, 0, 0.04);
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		display: block;
 	}
 
 	.booklet-viewport--dark .hymn-photo-item {
@@ -1316,7 +1314,8 @@
 	.hymn-thumb {
 		width: 100%;
 		height: 100%;
-		object-fit: contain;
+		object-fit: cover;
+		display: block;
 	}
 
 	/* 5. Задня обкладинка (Back Cover Layout) */
