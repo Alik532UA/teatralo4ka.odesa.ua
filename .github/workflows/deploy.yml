@@ -328,6 +328,13 @@ jobs:
         with:
           path: './build'
 
+      # Після вивантаження великого архіву (180+ МБ) API GitHub Actions потребує
+      # кількох секунд для індексації артефакту в переліку runs/artifacts.
+      # Без затримки deploy-pages звертається до API через 300 мс і кидає
+      # помилку «No artifacts named "github-pages" were found».
+      - name: Затримка для індексації артефакту Pages
+        run: sleep 15
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
