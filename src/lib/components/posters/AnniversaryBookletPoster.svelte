@@ -1100,7 +1100,7 @@
 	/* Галерея вертикальних фотографій та колажів */
 	.photos-strip {
 		display: flex;
-		gap: 8px;
+		gap: clamp(6px, 1.2cqi, 10px);
 		width: 100%;
 		flex: 0 0 auto;
 		justify-content: center;
@@ -1109,18 +1109,18 @@
 	}
 
 	.photos-strip--1 .photo-cell {
-		width: 38%;
-		max-width: 155px;
+		width: 48%;
+		max-width: 195px;
 	}
 
 	.photos-strip--2 .photo-cell {
-		width: 44%;
-		max-width: 165px;
+		width: 46%;
+		max-width: 195px;
 	}
 
 	.photos-strip--3 .photo-cell {
-		width: 31%;
-		max-width: 122px;
+		flex: 1;
+		max-width: 148px;
 	}
 
 	.photo-cell {
