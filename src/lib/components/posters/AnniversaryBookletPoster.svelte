@@ -1219,14 +1219,15 @@
 		background: rgba(255, 255, 255, 0.65);
 		border: 1px solid rgba(0, 0, 0, 0.12);
 		border-radius: 8px;
-		padding: clamp(10px, 1.8cqi, 14px);
+		padding: clamp(8px, 1.4cqi, 12px);
 		display: flex;
 		flex-direction: column;
-		gap: 6px;
+		gap: clamp(4px, 0.8cqi, 6px);
 		flex: 1;
-		justify-content: center;
+		min-height: 0;
+		justify-content: space-evenly;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-		margin: 4px 0 8px;
+		margin: 4px 0 6px;
 	}
 
 	.booklet-viewport--dark .lyrics-card {
@@ -1277,8 +1278,8 @@
 
 	.verse-line {
 		margin: 0;
-		font-size: clamp(9px, 1.3cqi, 11.5px);
-		line-height: 1.45;
+		font-size: clamp(8px, 1.15cqi, 10.5px);
+		line-height: 1.35;
 		color: #111827;
 	}
 
@@ -1294,9 +1295,9 @@
 	}
 
 	.hymn-photo-item {
-		width: 38%;
-		max-width: 150px;
+		max-height: clamp(100px, 18cqi, 140px);
 		aspect-ratio: 9 / 16;
+		width: auto;
 		border-radius: 6px;
 		overflow: hidden;
 		border: 1px solid rgba(0, 0, 0, 0.15);

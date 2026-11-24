@@ -70,7 +70,9 @@ describe('Ювілейний буклет «ДНК — ДТШ» до 30-річч
 		const hymn = p5.hymnLyrics;
 		expect(hymn).toBeDefined();
 		const allLines = hymn!.verses.flatMap((v) => v.linesUk).join(' ');
-		expect(allLines).toContain('Сабонеев мост');
+		expect(allLines).toContain('Сабанеев мост');
+		expect(allLines).toContain('Чудесный дом, в котором мы живём');
+		expect(allLines).toContain('Любимых окон негасимый свет');
 	});
 
 	it('6 і 7 сторінки формують панорамний центральний розворот колективу викладачів', () => {
