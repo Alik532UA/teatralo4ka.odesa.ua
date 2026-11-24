@@ -13,7 +13,9 @@
 		"Хореографія"
 	],
 	"category": "choreographers",
+	"roleTitle": "викладачка хореографії",
+	"photo": "/masters/iryna-pak.webp",
+	"portrait": "/masters/portraits/iryna-pak.webp",
 	"bio": "",
-	"socials": [],
-	"visibility": "linked"
+	"socials": []
 }

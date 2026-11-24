@@ -2200,12 +2200,14 @@
 			"theatre"
 		],
 		"status": "active",
+		"category": "choreographers",
+		"roleTitle": "викладачка хореографії",
 		"subjects": [
 			"Хореографія"
 		],
-		"category": "choreographers",
-		"verificationStatus": "possible_errors",
-		"visibility": "linked"
+		"photo": "/masters/iryna-pak.webp",
+		"portrait": "/masters/portraits/iryna-pak.webp",
+		"verificationStatus": "possible_errors"
 	},
 	{
 		"id": "hanna-shpak",
