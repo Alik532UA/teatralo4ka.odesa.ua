@@ -33,6 +33,7 @@ describe('маршрут → ключ SEO', () => {
 		expect(routeToSeoKey('/posters/')).toBe('posters');
 		expect(routeToSeoKey('/en/posters/')).toBe('posters');
 		expect(routeToSeoKey('/projects/')).toBe('projects');
+		expect(routeToSeoKey('/projects/anniversary-digest/')).toBe('anniversaryDigest');
 		expect(routeToSeoKey('/projects/tkach-perekladach/')).toBe('tkachPerekladach');
 		expect(routeToSeoKey('/projects/UArt/')).toBe('uart');
 		expect(routeToSeoKey('/projects/stage-speech/')).toBe('stageSpeech');

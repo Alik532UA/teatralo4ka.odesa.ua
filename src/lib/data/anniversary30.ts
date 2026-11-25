@@ -38,13 +38,14 @@ export const ANNIVERSARY_30_EVENTS: readonly AnniversaryEventItem[] = [
 		dateEn: 'Nov 25 – 30',
 		titleUk: 'Відео-дайджест історичних подій\n«Театрало4ки»',
 		titleEn: 'Historical Video Digest\nof Teatralo4ka',
-		noteUk: 'дивись в Інстаграм',
-		noteEn: 'watch on Instagram',
-		channelUk: 'Інстаграм',
-		channelEn: 'Instagram',
+		noteUk: 'дивись на сайті та в Інстаграм',
+		noteEn: 'watch on site & Instagram',
+		channelUk: 'Відео-дайджест',
+		channelEn: 'Video Digest',
 		badgeUk: 'Онлайн',
 		badgeEn: 'Online',
-		url: 'https://www.instagram.com/teatralo4ka_official_/'
+		url: '/projects/anniversary-digest',
+		isInternalUrl: true
 	},
 	{
 		id: 'art-exhibition',

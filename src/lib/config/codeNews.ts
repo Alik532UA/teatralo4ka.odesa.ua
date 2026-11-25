@@ -697,6 +697,16 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 				'Тетяна Стогул — викладачка хореографії першої категорії, керівниця хореографічної студії'
 			)
 		]
+	},
+	{
+		id: '30-years-digest-2026',
+		slug: 'news-30-years-digest-2026',
+		media: [
+			відео(
+				'https://youtube.com/shorts/Yiy00zpYZU0',
+				'Серія 1 ювілейного відео-дайджесту до 30-річчя Одеської театральної школи'
+			)
+		]
 	}
 ];
 

@@ -118,6 +118,7 @@ export const SITE_MAP_COLUMNS: SiteMapColumn[] = [
 				titleEn: '',
 				items: [
 					{ id: 'projects-hub', icon: 'compass', labelUk: 'Всі проєкти (хаб)', labelEn: 'All Projects (Hub)', href: () => resolve('/projects') },
+					{ id: 'anniversary-digest', icon: 'sparkles', labelUk: 'Ювілейний відео-дайджест (30 років)', labelEn: '30th Anniversary Video Digest', href: () => resolve('/projects/anniversary-digest') },
 					{ id: 'creativity-planet', icon: 'globe', labelUk: 'Планета творчості', labelEn: 'Creativity Planet', href: () => resolve('/projects/creativity-planet') },
 					{ id: 'teatr-pro', icon: 'flame', labelUk: 'Театр PRO', labelEn: 'Theatre PRO', href: () => resolve('/projects/teatr-pro') },
 					{ id: 'festival', icon: 'spotlight', labelUk: 'Фестиваль', labelEn: 'Festival', href: () => resolve('/projects/festival') },

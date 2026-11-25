@@ -14,6 +14,20 @@ interface StaticProjectDef {
 
 const STATIC_PROJECT_DEFS: StaticProjectDef[] = [
 	{
+		id: 'anniversary-digest',
+		slug: 'anniversary-digest',
+		color: '#FFED00',
+		coverUrl: asset('/posters/anniversary-booklet/p12-teatralo4ka-30.webp'),
+		titles: {
+			uk: 'Ювілейний відео-дайджест: 30 років ДТШ',
+			en: '30th Anniversary Video Digest of DTS'
+		},
+		excerpts: {
+			uk: '5-серійний дайджест до 30-річчя школи: відео, вікторина з підказками та призами, збір на 14 ОРБ ЗСУ',
+			en: '5-episode digest for the 30th anniversary: videos, history quiz with prizes, and fundraiser for the 14th ORB'
+		}
+	},
+	{
 		id: 'teatr-pro',
 		slug: 'teatr-pro',
 		color: '#FF6B6B',

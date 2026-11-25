@@ -42,6 +42,7 @@ export type SeoPageKey =
 	| 'calendar'
 	| 'posters'
 	| 'projects'
+	| 'anniversaryDigest'
 	| 'tkachPerekladach'
 	| 'stageSpeech'
 	| 'stageSpeechHexameter'
@@ -176,6 +177,11 @@ export const SEO_FALLBACK = {
 				title: 'Проєкти',
 				description:
 					'Творчі, освітні та партнерські проєкти Одеської театральної школи: медіа, фестивалі, переклади та архів.'
+			},
+			anniversaryDigest: {
+				title: 'Ювілейний відео-дайджест: 30 років «Театрало4ки»',
+				description:
+					'5-серійний відео-дайджест до 30-річчя Одеської театральної школи: серії, вікторина з підказками та призами, а також збір на пікапи для 14 ОРБ ЗСУ.'
 			},
 			tkachPerekladach: {
 				title: '«Ткач Перекладач»',
@@ -409,6 +415,11 @@ export const SEO_FALLBACK = {
 				description:
 					'Creative, educational, and partner projects of Odesa Theatre School: media, festivals, translations, and archives.'
 			},
+			anniversaryDigest: {
+				title: '30th Anniversary Video Digest of Teatralo4ka',
+				description:
+					'5-episode historical video digest for the 30th anniversary of Odesa Theatre School: watch episodes, answer quiz questions for prizes, and support the 14th ORB fundraiser.'
+			},
 			tkachPerekladach: {
 				title: '«Tkach Translator»',
 				description:
@@ -576,6 +587,8 @@ export function routeToSeoKey(pathname: string): SeoPageKey {
 			return 'news';
 		case '/projects':
 			return 'projects';
+		case '/projects/anniversary-digest':
+			return 'anniversaryDigest';
 		case '/projects/tkach-perekladach':
 			return 'tkachPerekladach';
 		case '/projects/UArt':

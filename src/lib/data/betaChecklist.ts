@@ -420,6 +420,7 @@ export const BETA_TABS: readonly BetaTab[] = [
 		title: { uk: 'Проєкти й галактика випускників', en: 'Projects and the graduates galaxy' },
 		routes: [
 			'/projects/teatr-pro',
+			'/projects/anniversary-digest',
 			'/projects/festival',
 			'/projects/galaxy-graduates',
 			'/projects/creativity-planet',
