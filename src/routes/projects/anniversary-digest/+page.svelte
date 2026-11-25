@@ -34,7 +34,7 @@
 		<nav class="digest-topbar" aria-label={isEn ? 'Navigation' : 'Навігація'}>
 			<a href={resolve('/projects')} class="back-link" data-testid="digest-back-link">
 				<ArrowLeft size={16} aria-hidden="true" />
-				<span>{$t('projects.backToProjects')}</span>
+				<span>{$t('projects.allProjects')}</span>
 			</a>
 			<a href={resolve('/anniversary-30')} class="playbill-link" data-testid="digest-playbill-link">
 				<Calendar size={15} aria-hidden="true" />
