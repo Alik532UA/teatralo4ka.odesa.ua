@@ -200,6 +200,11 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 					src: '/posters/anniversary-booklet/p05-microphone-sabaneev.webp',
 					altUk: 'Музична атмосфера перших сезонів ДТШ',
 					altEn: 'Musical atmosphere of early DTS seasons'
+				},
+				{
+					src: '/posters/anniversary-booklet/p05-school-vintage.webp',
+					altUk: 'Перші роки театральної школи на Сабанєєвому мосту',
+					altEn: 'Early years of the theatre school on Sabaneev Bridge'
 				}
 			],
 			hymnLyrics: {
@@ -395,6 +400,16 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 					src: '/posters/anniversary-booklet/p10-spotlight-anthem.webp',
 					altUk: 'Світло софітів ДТШ — театральний колаж з масками',
 					altEn: 'The Light of DTS — theatrical collage with spotlights'
+				},
+				{
+					src: '/posters/anniversary-booklet/p10-courtyard-starts.webp',
+					altUk: 'Затишок одеського дворика на Софіївській та творчі старти',
+					altEn: 'Cozy Odesa courtyard on Sofiivska and creative starts'
+				},
+				{
+					src: '/posters/anniversary-booklet/p10-25-celebration.webp',
+					altUk: 'Святкування 25-річчя школи у дворі на Софіївській',
+					altEn: '25th anniversary celebration in the Sofiivska courtyard'
 				}
 			],
 			hymnLyrics: {
@@ -511,6 +526,16 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 					src: '/posters/anniversary-booklet/p12-teatralo4ka-30.webp',
 					altUk: 'Святкова емблема «30 років Театралочці»',
 					altEn: '30th Anniversary festive emblem'
+				},
+				{
+					src: '/posters/anniversary-booklet/p12-30-years.webp',
+					altUk: '30 років «Театралочці» — сучасне покоління школи',
+					altEn: '30 years of Teatralo4ka — modern generation of the school'
+				},
+				{
+					src: '/posters/anniversary-booklet/p12-unity-digest.webp',
+					altUk: 'Театральна єдність: дайджест 2021–2026 років',
+					altEn: 'Theatre unity: 2021–2026 digest'
 				}
 			],
 			hymnLyrics: {

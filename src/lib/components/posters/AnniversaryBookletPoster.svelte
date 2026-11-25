@@ -392,8 +392,8 @@
 				</footer>
 			</div>
 		{:else if page.type === 'history'}
-			<!-- 2, 3, 4, 8, 9, 11 ст. Історичні дайджести за 5-річчями -->
-			<div class="history-layout">
+			<!-- 2, 3, 4, 8, 9, 11 ст. Історичні дайджести за 5-річчями (чергування: парні — текст зверху, непарні — фото зверху) -->
+			<div class="history-layout" class:history-layout--media-top={page.pageNumber % 2 === 1}>
 				<header class="page-header">
 					{#if page.yearsBadge}
 						<div class="years-badge-row">
@@ -500,6 +500,24 @@
 								{#each verse.linesUk as line, li (li)}
 									<p class="verse-line">{line}</p>
 								{/each}
+							</div>
+						{/each}
+					</div>
+				{/if}
+
+				{#if page.photos && page.photos.length > 0}
+					<div class="hymn-photos-row hymn-photos-row--inline">
+						{#each page.photos as photo, idx (idx)}
+							<div class="hymn-photo-item">
+								<img
+									src={asset(photo.src)}
+									alt={isEn ? photo.altEn : photo.altUk}
+									class="hymn-thumb"
+									width="540"
+									height="960"
+									loading="lazy"
+									decoding="async"
+								/>
 							</div>
 						{/each}
 					</div>
@@ -835,9 +853,10 @@
 
 	/* Внутрішній вміст сторінки A5 */
 	.booklet-page {
+		--page-pad: clamp(14px, 2.5cqi, 24px);
 		width: 100%;
 		height: 100%;
-		padding: clamp(14px, 2.5cqi, 24px);
+		padding: var(--page-pad);
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
@@ -847,24 +866,36 @@
 
 	.page-num-corner {
 		position: absolute;
-		bottom: 10px;
-		right: 14px;
-		z-index: 5;
+		bottom: 8px;
+		right: 10px;
+		z-index: 10;
 	}
 
 	.page-half--left .page-num-corner {
 		right: auto;
-		left: 14px;
+		left: 10px;
 	}
 
 	.page-badge {
-		font-size: clamp(9px, 1.2cqi, 12px);
-		font-weight: 700;
-		color: rgba(0, 0, 0, 0.5);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		border-radius: 50%;
+		background: #171118;
+		color: #ffed00;
+		border: 1.5px solid rgba(255, 237, 0, 0.75);
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+		font-size: clamp(9.5px, 1.15cqi, 11.5px);
+		font-weight: 800;
+		line-height: 1;
 	}
 
 	.booklet-viewport--dark .page-badge {
-		color: rgba(255, 255, 255, 0.45);
+		background: #ffed00;
+		color: #171118;
+		border-color: rgba(23, 17, 24, 0.45);
 	}
 
 	/* 1. Обкладинка (Cover Layout) */
@@ -1097,38 +1128,42 @@
 		font-weight: 400;
 	}
 
-	/* Галерея вертикальних фотографій та колажів */
+	/* Галерея вертикальних фотографій та колажів (100% ширини сторінки від краю до краю) */
 	.photos-strip {
 		display: flex;
-		gap: clamp(6px, 1.2cqi, 10px);
-		width: 100%;
+		gap: clamp(3px, 0.6cqi, 6px);
+		width: calc(100% + var(--page-pad) * 2);
+		margin-inline: calc(var(--page-pad) * -1);
+		margin-bottom: calc(var(--page-pad) * -1);
 		flex: 0 0 auto;
 		justify-content: center;
 		align-items: flex-end;
 		margin-top: auto;
 	}
 
+	.history-layout--media-top .photos-strip {
+		order: -1;
+		margin-top: calc(var(--page-pad) * -1);
+		margin-bottom: 8px;
+		align-items: flex-start;
+	}
+
 	.photos-strip--1 .photo-cell {
-		width: 48%;
-		max-width: 195px;
+		width: 50%;
 	}
 
-	.photos-strip--2 .photo-cell {
-		width: 46%;
-		max-width: 195px;
-	}
-
+	.photos-strip--2 .photo-cell,
 	.photos-strip--3 .photo-cell {
 		flex: 1;
-		max-width: 148px;
+		min-width: 0;
 	}
 
 	.photo-cell {
 		margin: 0;
 		aspect-ratio: 9 / 16;
-		border-radius: 6px;
+		border-radius: 0;
 		overflow: hidden;
-		border: 1px solid rgba(0, 0, 0, 0.15);
+		border: 0;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 		background: rgba(0, 0, 0, 0.04);
 		display: block;
@@ -1219,15 +1254,14 @@
 		background: rgba(255, 255, 255, 0.65);
 		border: 1px solid rgba(0, 0, 0, 0.12);
 		border-radius: 8px;
-		padding: clamp(8px, 1.4cqi, 12px);
-		display: flex;
-		flex-direction: column;
-		gap: clamp(4px, 0.8cqi, 6px);
-		flex: 1;
-		min-height: 0;
-		justify-content: space-evenly;
+		padding: clamp(10px, 1.6cqi, 14px);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+		gap: clamp(8px, 1.2cqi, 12px) clamp(10px, 1.6cqi, 16px);
+		flex: 0 1 auto;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-		margin: 4px 0 6px;
+		margin: 4px 0;
 	}
 
 	.booklet-viewport--dark .lyrics-card {
@@ -1287,20 +1321,29 @@
 
 	.hymn-photos-row {
 		display: flex;
-		gap: 8px;
+		gap: clamp(3px, 0.6cqi, 6px);
+		width: calc(100% + var(--page-pad) * 2);
+		margin-inline: calc(var(--page-pad) * -1);
+		margin-bottom: calc(var(--page-pad) * -1);
 		flex: 0 0 auto;
 		justify-content: center;
 		align-items: flex-end;
 		margin-top: auto;
 	}
 
+	.hymn-photos-row--inline {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+
 	.hymn-photo-item {
-		max-height: clamp(100px, 18cqi, 140px);
+		flex: 1;
+		min-width: 0;
+		max-height: clamp(160px, 28cqi, 250px);
 		aspect-ratio: 9 / 16;
-		width: auto;
-		border-radius: 6px;
+		border-radius: 0;
 		overflow: hidden;
-		border: 1px solid rgba(0, 0, 0, 0.15);
+		border: 0;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 		background: rgba(0, 0, 0, 0.04);
 		display: block;

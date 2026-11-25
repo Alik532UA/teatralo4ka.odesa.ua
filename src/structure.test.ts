@@ -796,7 +796,7 @@ const LIMITS: Array<[RegExp, number]> = [
  */
 const CEILINGS: Record<string, number> = {
 	'src/lib/components/posters/AnniversaryBookletPoster.svelte': 1350,
-	'src/lib/data/anniversaryBooklet.ts': 550,
+	'src/lib/data/anniversaryBooklet.ts': 575,
 	'src/lib/components/posters/Anniversary30CharityPoster.svelte': 820,
 	'src/lib/data/anniversary30.ts': 275,
 	'src/lib/components/planet/PlanetSplit.svelte': 670,
