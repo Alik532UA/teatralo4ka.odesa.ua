@@ -13,7 +13,9 @@
 	const meta = ANNIVERSARY_DIGEST_META;
 	const episodes = ANNIVERSARY_DIGEST_EPISODES;
 
-	let activeEpisodeNumber = $state(1);
+	let activeEpisodeNumber = $state(
+		[...episodes].reverse().find((e) => e.published)?.number ?? 1
+	);
 	let loadedVideos = $state<Record<number, boolean>>({});
 
 	const activeEpisode = $derived(

@@ -703,6 +703,10 @@ export const CODE_NEWS: readonly CodeNewsItem[] = [
 		slug: 'news-30-years-digest-2026',
 		media: [
 			відео(
+				'https://youtube.com/shorts/3eFGcjIoO9A',
+				'Серія 2 ювілейного відео-дайджесту (2016–2021 рр.) до 30-річчя Одеської театральної школи'
+			),
+			відео(
 				'https://youtube.com/shorts/Yiy00zpYZU0',
 				'Серія 1 ювілейного відео-дайджесту до 30-річчя Одеської театральної школи'
 			)

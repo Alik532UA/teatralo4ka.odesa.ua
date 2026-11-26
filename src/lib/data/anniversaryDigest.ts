@@ -85,15 +85,45 @@ export const ANNIVERSARY_DIGEST_EPISODES: readonly DigestEpisode[] = [
 	},
 	{
 		number: 2,
-		published: false,
-		dateUk: 'Скоро',
-		dateEn: 'Coming soon',
-		titleUk: 'Серія 2',
-		titleEn: 'Episode 2',
-		subtitleUk: 'Наступна серія вже готується до виходу',
-		subtitleEn: 'The next episode is coming soon',
-		youtubeUrl: '',
-		questions: []
+		published: true,
+		dateUk: '26 листопада 2026',
+		dateEn: 'November 26, 2026',
+		titleUk: 'Серія 2 · 2016–2021 рр.',
+		titleEn: 'Episode 2 · 2016–2021',
+		subtitleUk: 'Хто пам’ятає цю яскраву 5-річку? 20-річчя ДТШ, «Театр.PRO» та перемоги',
+		subtitleEn: 'Who remembers this bright 5-year era? 20th anniversary, Teatr.PRO & victories',
+		youtubeUrl: 'https://youtube.com/shorts/3eFGcjIoO9A',
+		questions: [
+			{
+				id: 'ep2-q1',
+				questionUk: 'Згадайте головний музичний трек 20-річчя ДТШ.',
+				questionEn: 'Name the main musical track of the 20th anniversary of DTS.',
+				hintLabelUk: 'Підказка — у відео на YouTube',
+				hintLabelEn: 'Hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/I15G9sMiqb4'
+			},
+			{
+				id: 'ep2-q2',
+				questionUk:
+					'Назвіть хоч одного київського представника Експертної ради нашого фестивалю «Театр.PRO».',
+				questionEn:
+					'Name at least one Kyiv representative of the Expert Council of our Teatr.PRO festival.',
+				hintLabelUk: 'Підказка — на сторінці історії школи',
+				hintLabelEn: 'Hint — on the school history page',
+				hintUrl: '/history',
+				isInternalHint: true
+			},
+			{
+				id: 'ep2-q3',
+				questionUk:
+					'Яка вистава ДТШ перемогла на 1-му Всеукраїнському інтернет-конкурсі «Театр.net»-2020?',
+				questionEn:
+					'Which DTS performance won the 1st All-Ukrainian Online Contest “Teatr.net”-2020?',
+				hintLabelUk: 'Підказка — у відео на YouTube',
+				hintLabelEn: 'Hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/hHp8Evi3vVU'
+			}
+		]
 	},
 	{
 		number: 3,
