@@ -205,6 +205,11 @@ export const ANNIVERSARY_BOOKLET_DATA: {
 					src: '/posters/anniversary-booklet/p05-school-vintage.webp',
 					altUk: 'Перші роки театральної школи на Сабанєєвому мосту',
 					altEn: 'Early years of the theatre school on Sabaneev Bridge'
+				},
+				{
+					src: '/posters/anniversary-booklet/p05-sepia-anniversary.webp',
+					altUk: 'Святковий вінтажний колаж перших років ДТШ',
+					altEn: 'Vintage anniversary collage of early DTS years'
 				}
 			],
 			hymnLyrics: {

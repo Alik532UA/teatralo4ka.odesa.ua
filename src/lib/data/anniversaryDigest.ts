@@ -127,27 +127,81 @@ export const ANNIVERSARY_DIGEST_EPISODES: readonly DigestEpisode[] = [
 	},
 	{
 		number: 3,
-		published: false,
-		dateUk: 'Скоро',
-		dateEn: 'Coming soon',
-		titleUk: 'Серія 3',
-		titleEn: 'Episode 3',
-		subtitleUk: 'Наступна серія вже готується до виходу',
-		subtitleEn: 'The next episode is coming soon',
-		youtubeUrl: '',
-		questions: []
+		published: true,
+		dateUk: '27 листопада 2026',
+		dateEn: 'November 27, 2026',
+		titleUk: 'Серія 3 · 2011–2016 рр.',
+		titleEn: 'Episode 3 · 2011–2016',
+		subtitleUk: 'Хто пам’ятає, як починався історичний етап «Театрало4ки» на Софіївській?',
+		subtitleEn: 'Who remembers how Teatralo4ka’s historic chapter on Sofiivska began?',
+		youtubeUrl: 'https://vimeo.com/reviews/9ec9ad69-d0f3-497f-9c8c-55329cabac24/videos/1250797003',
+		questions: [
+			{
+				id: 'ep3-q1',
+				questionUk: 'В якому році у 7 аудиторії з’явилась справжня сцена?',
+				questionEn: 'In what year did Room 7 get a real stage?',
+				hintLabelUk: 'Підказка — у відео на YouTube',
+				hintLabelEn: 'Hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/wnoOpWxBcgs'
+			},
+			{
+				id: 'ep3-q2',
+				questionUk: 'Який танець виконували викладачі ДТШ на відкриття 17-го сезону?',
+				questionEn: 'What dance did DTS teachers perform at the opening of the 17th season?',
+				hintLabelUk: 'Підказка — у відео на YouTube',
+				hintLabelEn: 'Hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/rDl9cAkoe7Q'
+			},
+			{
+				id: 'ep3-q3',
+				questionUk: 'Якого року випуску «зірка» ДТШ тієї п’ятирічки Павло Кошка?',
+				questionEn: 'What graduation year is Pavlo Koshka, the DTS star of that five-year period?',
+				hintLabelUk: 'Підказка — на сторінці випускника',
+				hintLabelEn: 'Hint — on the graduate profile page',
+				hintUrl: '/projects/galaxy-graduates/pavlo-koshka',
+				isInternalHint: true
+			}
+		]
 	},
 	{
 		number: 4,
-		published: false,
-		dateUk: 'Скоро',
-		dateEn: 'Coming soon',
-		titleUk: 'Серія 4',
-		titleEn: 'Episode 4',
-		subtitleUk: 'Наступна серія вже готується до виходу',
-		subtitleEn: 'The next episode is coming soon',
-		youtubeUrl: '',
-		questions: []
+		published: true,
+		dateUk: '28 листопада 2026',
+		dateEn: 'November 28, 2026',
+		titleUk: 'Серія 4 · 2006–2011 рр.',
+		titleEn: 'Episode 4 · 2006–2011',
+		subtitleUk: 'Теплий «ламповий» дайджест про ДТШ на Сабанєєвому мосту, 3 ❤️',
+		subtitleEn: 'A warm “cozy” digest about DTS on Sabaneev Bridge, 3 ❤️',
+		youtubeUrl: 'https://youtube.com/shorts/C3OyemW8wXw',
+		questions: [
+			{
+				id: 'ep4-q1',
+				questionUk: 'В якому році Олена Борисівна стала директором театральної школи?',
+				questionEn: 'In what year did Olena Borysivna become director of the theatre school?',
+				hintLabelUk: 'Підказка — на сторінці історії школи',
+				hintLabelEn: 'Hint — on the school history page',
+				hintUrl: '/history',
+				isInternalHint: true
+			},
+			{
+				id: 'ep4-q2',
+				questionUk:
+					'Як називалася улюблена група С.Н.? (в неї усі улюблені, але ця — окреме кохання 😍)',
+				questionEn:
+					'What was S.N.’s favorite group called? (she loves them all, but this one is a special love 😍)',
+				hintLabelUk: 'Підказка — у відео на YouTube',
+				hintLabelEn: 'Hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/0mXWLsQLZi8'
+			},
+			{
+				id: 'ep4-q3',
+				questionUk: 'Скільки важив Ф.Ф. у 2007 році?',
+				questionEn: 'How much did F.F. weigh in 2007?',
+				hintLabelUk: 'Приблизна підказка — у відео на YouTube',
+				hintLabelEn: 'Approximate hint — in the YouTube video',
+				hintUrl: 'https://youtu.be/99Rslmmful8a'
+			}
+		]
 	},
 	{
 		number: 5,

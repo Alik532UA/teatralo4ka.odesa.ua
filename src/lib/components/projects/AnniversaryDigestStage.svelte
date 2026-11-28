@@ -52,7 +52,7 @@
 								<span class="shorts-play-btn" aria-hidden="true">
 									<Play size={28} />
 								</span>
-								<span class="shorts-badge">YouTube Shorts</span>
+								<span class="shorts-badge">{videoInfo.platform === 'vimeo' ? 'Vimeo' : 'YouTube Shorts'}</span>
 							</button>
 						{/if}
 					{/if}
@@ -64,9 +64,13 @@
 						<a href={episode.youtubeUrl} target="_blank" rel="noopener noreferrer" class="external-video-link" data-testid={`digest-yt-${episode.number}-link`}>
 							<ExternalLink size={14} aria-hidden="true" />
 							<span>
-								{isEn
-									? 'Open on YouTube & leave a comment'
-									: 'Відкрити на YouTube і написати коментар'}
+								{videoInfo?.platform === 'vimeo'
+									? isEn
+										? 'Open on Vimeo'
+										: 'Відкрити на Vimeo'
+									: isEn
+										? 'Open on YouTube & leave a comment'
+										: 'Відкрити на YouTube і написати коментар'}
 							</span>
 						</a>
 					</div>
@@ -96,7 +100,11 @@
 									</p>
 									{#if q.isInternalHint}
 										<a
-											href={resolve('/history')}
+											href={q.hintUrl.startsWith('/projects/galaxy-graduates/')
+												? resolve('/projects/galaxy-graduates/[address]', {
+														address: q.hintUrl.slice('/projects/galaxy-graduates/'.length)
+													})
+												: resolve('/history')}
 											class="quiz-hint"
 											data-testid={`quiz-hint-${q.id}-link`}
 										>

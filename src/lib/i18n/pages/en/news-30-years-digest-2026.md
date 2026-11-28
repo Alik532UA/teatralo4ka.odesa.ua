@@ -1,22 +1,22 @@
 ---
-title: "30 Years of DTS: 5-Episode Anniversary Video Digest (Episode 2 Is Out!)"
-date: "2026-11-26"
+title: "30 Years of DTS: 5-Episode Anniversary Video Digest (Episodes 1–4 Are Live!)"
+date: "2026-11-28"
 author: "Alik"
 category: "news"
 lang: "en"
 seo:
   title: "30th Anniversary Video Digest of DTS — Odesa Theatre School"
-  description: "Watch the 5-episode video digest celebrating the 30th anniversary of Odesa Theatre School (Episode 2 covering 2016–2021 is now live), join our history quiz for prizes, and support the 14th ORB fundraiser."
+  description: "Watch the 5-episode video digest celebrating the 30th anniversary of Odesa Theatre School (Episodes 1–4 including 2011–2016 and 2006–2011 are now live), join our history quiz for prizes, and support the 14th ORB fundraiser."
 status: "published"
-version: "1.1.0"
-excerpt: "Episode 2 (2016–2021) of our 5-episode 30th anniversary video digest is now live: watch the episodes, join the history quiz for prizes, and support the AFU fundraiser."
+version: "1.2.0"
+excerpt: "Episodes 3 (2011–2016) and 4 (2006–2011, Sabaneev Bridge, 3) of our 5-episode 30th anniversary video digest are now live!"
 ---
 
 #30роківДТШ · #ДізнайсяТаємниціШколи
 
 Greetings to everyone on Planet DTS — our staff, teachers, students, parents, graduates, and audiences — everyone celebrating the 30th anniversary of Odesa Theatre School! 😍
 
-We invite you to watch our **5-episode video digest** dedicated to the history of our birthday school. **Episode 2 (2016–2021) is now live** — who remembers this bright 5-year chapter? ❤️
+We invite you to watch our **5-episode video digest** dedicated to the history of our birthday school. **Episodes 1–4 are now live** — from the warm memories at Sabaneev Bridge, 3 (2006–2011) and the move to Sofiivska (2011–2016) to 2016–2021! ❤️
 
 All released episodes and history quiz questions with hints are available on the dedicated project page. Write your answers in the comments under the video — prizes await the most active participants! Happy Birthday to us! 🥳🤩🍾
 

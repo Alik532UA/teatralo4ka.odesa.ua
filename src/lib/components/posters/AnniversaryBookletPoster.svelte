@@ -17,9 +17,10 @@
 	interface Props {
 		isEn?: boolean;
 		themeId?: string;
+		printScope?: 'current' | 'all-book';
 	}
 
-	let { isEn = false, themeId = 'yellow-brand' }: Props = $props();
+	let { isEn = false, themeId = 'yellow-brand', printScope = 'current' }: Props = $props();
 
 	type ViewMode = 'reader' | 'print';
 	let viewMode = $state<ViewMode>('reader');
@@ -35,7 +36,8 @@
 	const isDark = $derived(themeId === 'uart-dark');
 	const isWhite = $derived(themeId === 'uart-light' || themeId === 'paper-white');
 	const isGold = $derived(themeId === 'theatre-gold' || themeId === 'warm-cream');
-	const isYellow = $derived(themeId === 'yellow-brand' || (!isDark && !isWhite && !isGold));
+	const isSky = $derived(themeId === 'sky-brand');
+	const isYellow = $derived(themeId === 'yellow-brand' || (!isDark && !isWhite && !isGold && !isSky));
 
 	// Зручний доступ до сторінок за їхнім номером 1..12
 	function getPage(num: number): BookletPageData {
@@ -214,70 +216,26 @@
 		class:booklet-viewport--dark={isDark}
 		class:booklet-viewport--white={isWhite}
 		class:booklet-viewport--gold={isGold}
+		class:booklet-viewport--sky={isSky}
 		class:booklet-viewport--yellow={isYellow}
 	>
 		{#if viewMode === 'reader'}
-			<!-- Режим читання: один розворот (A4 landscape) -->
-			{@const currentSpread = SPREADS[currentSpreadIndex]}
-			<article class="booklet-sheet spread-card" class:spread-card--centerfold={currentSpread.isCenterfold}>
-				{#if currentSpread.isCenterfold}
-					<!-- Центральний розворот на обидві сторінки 6 і 7 -->
-					<div class="centerfold-full">
-						<div class="centerfold-image-box">
-							<img
-								src={asset('/posters/anniversary-booklet/teachers-centerfold.webp')}
-								alt={isEn ? 'Faculty and masters collective portrait' : 'Спільне фото колективу викладачів та майстрів'}
-								class="centerfold-img"
-								width="2400"
-								height="1600"
-								loading="eager"
-								decoding="async"
-							/>
+			{#if printScope === 'all-book'}
+				<div class="print-sheets-stack">
+					{#each SPREADS as spread (spread.id)}
+						<div class="print-sheet-wrapper">
+							{@render renderSpread(spread)}
 						</div>
-						<div class="sheet-fold-line" aria-hidden="true">
-							<span class="fold-badge">{isEn ? 'center fold' : 'центральний згин'}</span>
-						</div>
-					</div>
-				{:else}
-					<!-- Звичайний подвійний розворот: ліва сторінка + центральний згин + права сторінка -->
-					<!-- Ліва сторінка розвороту -->
-					<section class="page-half page-half--left" class:page-half--empty={currentSpread.leftPage === null}>
-						{#if currentSpread.leftPage !== null}
-							{@const pLeft = getPage(currentSpread.leftPage)}
-							{@render renderPageContent(pLeft)}
-						{:else}
-							<div class="cover-intro-back">
-								<span class="cover-back-logo">🎭</span>
-								<p class="cover-back-school">{isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}</p>
-								<p class="cover-back-note">{isEn ? 'Open cover to begin reading' : 'Розгорніть буклет для читання'}</p>
-							</div>
-						{/if}
-					</section>
-
-					<div class="sheet-fold-line" aria-hidden="true">
-						<span class="fold-badge">{isEn ? 'fold' : 'згин'}</span>
-					</div>
-
-					<!-- Права сторінка розвороту -->
-					<section class="page-half page-half--right" class:page-half--empty={currentSpread.rightPage === null}>
-						{#if currentSpread.rightPage !== null}
-							{@const pRight = getPage(currentSpread.rightPage)}
-							{@render renderPageContent(pRight)}
-						{:else}
-							<div class="cover-intro-back">
-								<span class="cover-back-logo">🌟</span>
-								<p class="cover-back-school">«Театралка — це життя!»</p>
-								<p class="cover-back-note">30 років натхнення</p>
-							</div>
-						{/if}
-					</section>
-				{/if}
-			</article>
+					{/each}
+				</div>
+			{:else}
+				{@render renderSpread(SPREADS[currentSpreadIndex])}
+			{/if}
 		{:else}
 			<!-- Режим друку: аркуші зі спуском смуг -->
 			<div class="print-sheets-stack">
 				{#each PRINT_SHEETS as sheet (sheet.sheetNum)}
-					{#if printSheet === 'all' || printSheet === sheet.sheetNum}
+					{#if printSheet === 'all' || printScope === 'all-book' || printSheet === sheet.sheetNum}
 						<!-- Сторона 1 аркуша -->
 						<div class="print-sheet-wrapper">
 							<div class="sheet-print-header">
@@ -344,13 +302,69 @@
 	</main>
 </div>
 
+<!-- Рендеринг одного розвороту (для екрану і друку всієї книги) -->
+{#snippet renderSpread(spread: (typeof SPREADS)[number])}
+	<article class="booklet-sheet spread-card" class:spread-card--centerfold={spread.isCenterfold}>
+		{#if spread.isCenterfold}
+			<div class="centerfold-full">
+				<div class="centerfold-image-box">
+					<img
+						src={asset('/posters/anniversary-booklet/teachers-centerfold.webp')}
+						alt={isEn ? 'Faculty and masters collective portrait' : 'Спільне фото колективу викладачів та майстрів'}
+						class="centerfold-img"
+						width="2400"
+						height="1600"
+						loading="eager"
+						decoding="async"
+					/>
+				</div>
+				<div class="sheet-fold-line" aria-hidden="true">
+					<span class="fold-badge">{isEn ? 'center fold' : 'центральний згин'}</span>
+				</div>
+			</div>
+		{:else}
+			<section class="page-half page-half--left" class:page-half--empty={spread.leftPage === null}>
+				{#if spread.leftPage !== null}
+					{@const pLeft = getPage(spread.leftPage)}
+					{@render renderPageContent(pLeft)}
+				{:else}
+					<div class="cover-intro-back">
+						<span class="cover-back-logo">🎭</span>
+						<p class="cover-back-school">{isEn ? 'Odesa Theatre School' : 'Одеська театральна школа'}</p>
+						<p class="cover-back-note">{isEn ? 'Open cover to begin reading' : 'Розгорніть буклет для читання'}</p>
+					</div>
+				{/if}
+			</section>
+
+			<div class="sheet-fold-line" aria-hidden="true">
+				<span class="fold-badge">{isEn ? 'fold' : 'згин'}</span>
+			</div>
+
+			<section class="page-half page-half--right" class:page-half--empty={spread.rightPage === null}>
+				{#if spread.rightPage !== null}
+					{@const pRight = getPage(spread.rightPage)}
+					{@render renderPageContent(pRight)}
+				{:else}
+					<div class="cover-intro-back">
+						<span class="cover-back-logo">🌟</span>
+						<p class="cover-back-school">«Театралка — це життя!»</p>
+						<p class="cover-back-note">30 років натхнення</p>
+					</div>
+				{/if}
+			</section>
+		{/if}
+	</article>
+{/snippet}
+
 <!-- Рендеринг контенту однієї сторінки A5 -->
 {#snippet renderPageContent(page: BookletPageData)}
 	<div class="booklet-page booklet-page--{page.type}" data-page={page.pageNumber}>
-		<!-- Номер сторінки у кутку -->
-		<div class="page-num-corner">
-			<span class="page-badge">{page.pageNumber}</span>
-		</div>
+		<!-- Номер сторінки у кутку (крім титульної обкладинки) -->
+		{#if page.type !== 'cover'}
+			<div class="page-num-corner">
+				<span class="page-badge">{page.pageNumber}</span>
+			</div>
+		{/if}
 
 		{#if page.type === 'cover'}
 			<!-- 1 ст. Титульна обкладинка -->
@@ -366,6 +380,7 @@
 						<span class="title-huge">«ДНК — ДТШ»</span>
 					</h1>
 					<p class="cover-anniversary-badge">{isEn ? 'for the 30th Anniversary' : 'до 30-річчя школи'}</p>
+					<span class="cover-years">1996 — 2026</span>
 				</header>
 
 				<div class="cover-photo-frame">
@@ -378,9 +393,6 @@
 						loading="eager"
 						decoding="async"
 					/>
-					<div class="cover-photo-overlay">
-						<span class="cover-years">1996 — 2026</span>
-					</div>
 				</div>
 
 				<footer class="cover-footer">
@@ -398,7 +410,6 @@
 					{#if page.yearsBadge}
 						<div class="years-badge-row">
 							<span class="years-badge">{page.yearsBadge}</span>
-							<span class="school-micro-badge">ДТШ</span>
 						</div>
 					{/if}
 					<h2 class="page-title">{isEn ? page.titleEn : page.titleUk}</h2>
@@ -425,7 +436,7 @@
 									class="strip-img"
 									width="540"
 									height="960"
-									loading="lazy"
+									loading="eager"
 									decoding="async"
 								/>
 							</figure>
@@ -471,7 +482,7 @@
 									class="hymn-thumb"
 									width="540"
 									height="960"
-									loading="lazy"
+									loading="eager"
 									decoding="async"
 								/>
 							</div>
@@ -515,7 +526,7 @@
 									class="hymn-thumb"
 									width="540"
 									height="960"
-									loading="lazy"
+									loading="eager"
 									decoding="async"
 								/>
 							</div>
@@ -527,17 +538,6 @@
 					<div class="footer-contacts">
 						<span class="school-footer-name">Одеська театральна школа</span>
 						<span class="school-footer-sub">teatralo4ka.odesa.ua · Одеса, вул. Софіївська, 24</span>
-					</div>
-					<div class="footer-emblem-box">
-						<img
-							src={asset('/posters/anniversary-booklet/p12-teatralo4ka-30.webp')}
-							alt="30 років Театралочці"
-							class="footer-30-emblem"
-							width="64"
-							height="64"
-							loading="lazy"
-							decoding="async"
-						/>
 					</div>
 				</footer>
 			</div>
@@ -778,6 +778,12 @@
 		border-color: #fde047;
 	}
 
+	.booklet-viewport--sky .booklet-sheet {
+		background: #cfe2f3;
+		color: #111827;
+		border-color: #93c5fd;
+	}
+
 	/* Лінія згину по центру */
 	.sheet-fold-line {
 		position: absolute;
@@ -991,22 +997,21 @@
 		object-fit: cover;
 	}
 
-	.cover-photo-overlay {
-		position: absolute;
-		bottom: 8px;
-		right: 8px;
-		background: rgba(0, 0, 0, 0.7);
-		backdrop-filter: blur(4px);
-		padding: 3px 8px;
-		border-radius: 4px;
-		border: 1px solid rgba(255, 255, 255, 0.2);
-	}
-
 	.cover-years {
-		font-size: 0.85rem;
+		display: inline-block;
+		margin-top: 4px;
+		padding: 2px 10px;
+		border-radius: 999px;
+		background: #111827;
+		font-size: clamp(10px, 1.25cqi, 12.5px);
 		font-weight: 800;
 		color: #ffed00;
-		letter-spacing: 0.05em;
+		letter-spacing: 0.06em;
+	}
+
+	.booklet-viewport--dark .cover-years {
+		background: #ffed00;
+		color: #171118;
 	}
 
 	.cover-footer {
@@ -1336,10 +1341,13 @@
 		margin-bottom: 0;
 	}
 
+	.hymn-photos-row--inline .hymn-photo-item {
+		max-height: none;
+	}
+
 	.hymn-photo-item {
 		flex: 1;
 		min-width: 0;
-		max-height: clamp(160px, 28cqi, 250px);
 		aspect-ratio: 9 / 16;
 		border-radius: 0;
 		overflow: hidden;
@@ -1405,7 +1413,8 @@
 	.back-cover-footer {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
+		text-align: center;
 		padding-top: 6px;
 		border-top: 1px solid rgba(0, 0, 0, 0.15);
 	}
@@ -1417,6 +1426,7 @@
 	.footer-contacts {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 		gap: 1px;
 	}
 

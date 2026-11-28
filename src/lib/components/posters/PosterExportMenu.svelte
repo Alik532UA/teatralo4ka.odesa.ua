@@ -10,6 +10,7 @@
 		themeId,
 		isEn = false,
 		isA1 = false,
+		isMultiSheet = false,
 		onPrint
 	}: {
 		posterContainer: HTMLElement | null;
@@ -17,7 +18,8 @@
 		themeId: string;
 		isEn?: boolean;
 		isA1?: boolean;
-		onPrint: () => void;
+		isMultiSheet?: boolean;
+		onPrint: (scope?: 'current' | 'all-book') => void;
 	} = $props();
 
 	let isOpen = $state(false);
@@ -33,9 +35,9 @@
 		isOpen = false;
 	}
 
-	function handlePrintClick() {
+	function handlePrintClick(scope: 'current' | 'all-book' = 'current') {
 		closeMenu();
-		onPrint();
+		onPrint(scope);
 	}
 
 	async function handleExport(format: 'png' | 'jpg' | 'webp') {
@@ -110,17 +112,41 @@
 				type="button"
 				role="menuitem"
 				class="menu-item"
-				onclick={handlePrintClick}
+				onclick={() => handlePrintClick('current')}
 				data-testid="export-format-pdf-btn"
 			>
 				<div class="item-icon-box item-icon-box--pdf">
 					<Printer size={18} aria-hidden="true" />
 				</div>
 				<div class="item-text">
-					<span class="item-title">PDF {isA1 ? '(A1)' : '(A4)'}</span>
-					<span class="item-desc">{isEn ? 'Print or save vector PDF' : 'Друк або векторний PDF'}</span>
+					<span class="item-title">
+						PDF {isA1 ? '(A1)' : '(A4)'}{isMultiSheet ? (isEn ? ' · Current sheet' : ' · Поточний аркуш') : ''}
+					</span>
+					<span class="item-desc">
+						{isMultiSheet
+							? (isEn ? 'Print or save visible spread/sheet' : 'Лише відкритий зараз аркуш')
+							: (isEn ? 'Print or save vector PDF' : 'Друк або векторний PDF')}
+					</span>
 				</div>
 			</button>
+
+			{#if isMultiSheet}
+				<button
+					type="button"
+					role="menuitem"
+					class="menu-item"
+					onclick={() => handlePrintClick('all-book')}
+					data-testid="export-format-pdf-book-btn"
+				>
+					<div class="item-icon-box item-icon-box--pdf">
+						<Printer size={18} aria-hidden="true" />
+					</div>
+					<div class="item-text">
+						<span class="item-title">PDF {isA1 ? '(A1)' : '(A4)'} · {isEn ? 'Entire book' : 'Вся книга'}</span>
+						<span class="item-desc">{isEn ? 'All spreads / sheets in one PDF' : 'Усі розвороти / аркуші в одному PDF'}</span>
+					</div>
+				</button>
+			{/if}
 
 			<div class="menu-divider" role="separator"></div>
 

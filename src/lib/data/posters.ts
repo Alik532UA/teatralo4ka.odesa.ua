@@ -309,6 +309,7 @@ export const POSTER_THEMES: readonly PosterTheme[] = [
 	{ id: 'defenders-sky', nameUk: 'Синьо-жовте небо (Захід сонця)', nameEn: 'Blue & Yellow Sky (Sunset)', color: 'linear-gradient(180deg, #162a45 40%, #f59e0b 60%)', bgImage: '/posters/defenders-hearts-sky-bg.webp', forPosters: ['defenders-hearts'] },
 	{ id: 'defenders-art', nameUk: 'Художній арт (Захисники та діти)', nameEn: 'Artistic Canvas (Defenders & Children)', color: 'linear-gradient(180deg, #00b5ec 50%, #ffd600 50%)', bgImage: '/posters/defenders-hearts-bg.webp', forPosters: ['defenders-hearts'] },
 	{ id: 'yellow-brand', nameUk: 'Фірмовий жовтий', nameEn: 'Brand Yellow', color: '#ffed00', forPosters: ['anniversary-booklet', 'dance-studio', 'repertoire-november-a1', 'anniversary-30', 'anniversary-30-charity'] },
+	{ id: 'sky-brand', nameUk: 'Фірмовий блакитний (#cfe2f3)', nameEn: 'Brand Sky Blue (#cfe2f3)', color: '#cfe2f3', forPosters: ['anniversary-booklet'] },
 	{ id: 'yellow-sun', nameUk: 'Тепле сонце', nameEn: 'Warm Sun', color: '#ffd600', forPosters: ['dance-studio'] },
 	{ id: 'paper-white', nameUk: 'Білий аркуш', nameEn: 'Paper White', color: '#ffffff', forPosters: ['anniversary-booklet', 'dance-studio', 'anniversary-30', 'anniversary-30-charity'] },
 	{ id: 'warm-cream', nameUk: 'Ніжний крем', nameEn: 'Soft Cream', color: '#fffbeb', forPosters: ['anniversary-booklet', 'dance-studio', 'anniversary-30', 'anniversary-30-charity'] },

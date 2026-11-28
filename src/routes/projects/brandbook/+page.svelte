@@ -19,7 +19,7 @@
 				: `Брендбук - Фірмовий стиль школи - ${$t('seo.brandTitle')}`,
 			description: isEn
 				? 'Official brand identity guidelines of Odesa Theatre School: colors, e-Ukraine font, logo usage, and graphic assets.'
-				: 'Офіційний брендбук та гайдлайн візуального стилю Одеської театральної школи: кольори (#ffed00, #00b5ec, #e20413, #f9b31d, #1d1d1d), шрифт e-Ukraine та логотипи.'
+				: 'Офіційний брендбук та гайдлайн візуального стилю Одеської театральної школи: кольори (#ffed00, #00b5ec, #e20413, #f9b31d, #cfe2f3, #1d1d1d), шрифт e-Ukraine та логотипи.'
 		});
 	});
 </script>

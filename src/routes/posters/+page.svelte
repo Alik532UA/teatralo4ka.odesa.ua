@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { locale, t } from 'svelte-i18n';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
@@ -142,8 +142,31 @@
 		replaceState(resolve('/posters') + nextUrl.search + nextUrl.hash, page.state);
 	}
 
-	async function handlePrint() {
+	let printScope = $state<'current' | 'all-book'>('current');
+
+	async function waitForImages(root: HTMLElement | null) {
+		if (!root) return;
+		const imgs = [...root.querySelectorAll('img')];
+		await Promise.all(
+			imgs.map(async (img) => {
+				if (!img.complete) {
+					await new Promise<void>((res) => {
+						img.addEventListener('load', () => res(), { once: true });
+						img.addEventListener('error', () => res(), { once: true });
+					});
+				}
+				if (typeof img.decode === 'function') {
+					await img.decode().catch(() => {});
+				}
+			})
+		);
+	}
+
+	async function handlePrint(scope: 'current' | 'all-book' = 'current') {
+		printScope = scope;
 		await ensureFontsReady();
+		await tick();
+		await waitForImages(posterContentEl);
 		updatePrintScale();
 		window.print();
 	}
@@ -321,6 +344,9 @@
 		void ensureFontsReady();
 		updatePrintScale();
 	}}
+	onafterprint={() => {
+		printScope = 'current';
+	}}
 />
 
 <div class="posters-page" data-testid="posters-page-section">
@@ -435,7 +461,7 @@
 						</div>
 					{/if}
 
-					{#if activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30' || activePoster === 'anniversary-30-charity'}
+					{#if activePoster === 'anniversary-booklet' || activePoster === 'dance-studio' || activePoster === 'defenders-hearts' || activePoster === 'galaxy-award-podiakova' || activePoster === 'uart-secrets-booklet' || activePoster === 'uart-dosvid-booklet' || activePoster === 'uart-secrets-a1' || activePoster === 'repertoire-november-a1' || activePoster === 'anniversary-30' || activePoster === 'anniversary-30-charity'}
 						<PosterThemePicker
 							{selectedTheme}
 							posterId={activePoster}
@@ -450,6 +476,7 @@
 						themeId={selectedTheme}
 						{isEn}
 						{isA1}
+						isMultiSheet={activeMeta.isMultiSheet}
 						onPrint={handlePrint}
 					/>
 
@@ -484,7 +511,7 @@
 		>
 			<div class="poster-scaler" bind:this={posterContentEl}>
 				{#if activePoster === 'anniversary-booklet'}
-					<AnniversaryBookletPoster {isEn} themeId={selectedTheme} />
+					<AnniversaryBookletPoster {isEn} themeId={selectedTheme} {printScope} />
 				{:else if activePoster === 'anniversary-30'}
 					<Anniversary30Poster {isEn} themeId={selectedTheme} {printMode} />
 				{:else if activePoster === 'anniversary-30-charity'}
